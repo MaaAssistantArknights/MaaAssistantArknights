@@ -82,7 +82,7 @@ public:
         const Point& p1,
         const Point& p2,
         int duration = 0,
-        int extra_swipe = 0,
+        SwipeExtraDirection extra_swipe = SwipeExtraDirection::None,
         double slope_in = 1,
         double slope_out = 1,
         bool with_pause = false);
@@ -90,7 +90,7 @@ public:
         const Rect& r1,
         const Rect& r2,
         int duration = 0,
-        int extra_swipe = 0,
+        SwipeExtraDirection extra_swipe = SwipeExtraDirection::None,
         double slope_in = 1,
         double slope_out = 1,
         bool with_pause = false,

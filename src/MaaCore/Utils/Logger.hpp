@@ -494,7 +494,7 @@ public:
 
                 s << std::format("[{}][{}][Px{}][Tx{}]", MAA_NS::format_now(), v.str, pid, tid);
             }
-            else if constexpr (std::is_enum_v<T> && enum_could_to_string<T>) {
+            else if constexpr (std::is_enum_v<remove_cvref_t<T>> && enum_could_to_string<remove_cvref_t<T>>) {
                 s << asst::enum_to_string(std::forward<T>(v));
             }
             else if constexpr (has_stream_insertion_operator<Stream, T>) {

@@ -154,7 +154,7 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
             auto swipe_begin = Point { WindowWidthDefault - 240, 632 };
 
             const int swipe_dist = 200;
-            ctrler()->swipe(swipe_begin, swipe_begin + swipe_dist * Point::left(), 500, true, 2, 0);
+            ctrler()->swipe(swipe_begin, swipe_begin + swipe_dist * Point::left(), 500, SwipeExtraDirection::Up, 2, 0);
             sleep(Config.get_options().task_delay * 3);
 
             auto new_img = ctrler()->get_image();

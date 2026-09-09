@@ -480,7 +480,7 @@ bool asst::AdbController::swipe(
     const Point& p1,
     const Point& p2,
     int duration,
-    int extra_swipe,
+    SwipeExtraDirection extra_swipe,
     [[maybe_unused]] double slope_in,
     [[maybe_unused]] double slope_out,
     [[maybe_unused]] bool with_pause)
@@ -511,7 +511,7 @@ bool asst::AdbController::swipe(
     bool ret = call_command(cur_cmd).has_value();
 
     // 额外的滑动：adb有bug，同样的参数，偶尔会划得非常远。额外做一个指定方向的短程滑动，把之前的停下来
-    if (extra_swipe && opt.adb_extra_swipe_duration > 0) {
+    if (extra_swipe != SwipeExtraDirection::None && opt.adb_extra_swipe_duration > 0) {
         const auto offset = extra_swipe_offset(extra_swipe, opt.adb_extra_swipe_dist);
         std::string extra_cmd = utils::string_replace_all(
             m_adb.swipe,

@@ -8,17 +8,17 @@
 namespace asst
 {
 
-// extra swipe 的方向（Swipe 任务 specialParams 的第 2 个元素）：0 不启用，1/2/3/4 为上/下/左/右
-inline Point extra_swipe_offset(int direction, int dist)
+// extra swipe 的额外位移方向
+inline Point extra_swipe_offset(SwipeExtraDirection direction, int dist)
 {
     switch (direction) {
-    case 1:
+    case SwipeExtraDirection::Up:
         return Point(0, -dist);
-    case 2:
+    case SwipeExtraDirection::Down:
         return Point(0, dist);
-    case 3:
+    case SwipeExtraDirection::Left:
         return Point(-dist, 0);
-    case 4:
+    case SwipeExtraDirection::Right:
         return Point(dist, 0);
     default:
         return Point(0, 0);
