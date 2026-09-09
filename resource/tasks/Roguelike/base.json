@@ -235,8 +235,8 @@
     },
     "RoguelikeRecruitSwipeMaxTime": {
         "algorithm": "JustReturn",
-        "maxTimes_Doc": "这个参数是肉鸽招募时，向右划动的最大次数",
-        "maxTimes": 5
+        "maxTimes_Doc": "这个参数是肉鸽招募时，向右划动的最大次数（招募列表较长时 5 次翻不到底，提到 10；两处调用都有到底即停的提前退出，调大只在确有更多列时生效）",
+        "maxTimes": 10
     },
     "RoguelikeRefreshSupportBtnOcr": {
         "algorithm": "OcrDetect",

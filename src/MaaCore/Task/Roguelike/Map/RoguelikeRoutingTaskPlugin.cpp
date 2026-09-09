@@ -13,6 +13,7 @@
 #include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/PixelAnalyzer.h"
 #include "Vision/MultiMatcher.h"
+#include "Vision/OCRer.h"
 
 bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::value& params)
 {
@@ -49,6 +50,11 @@ bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::
     }
 
     if (theme == RoguelikeTheme::JieGarden) {
+        // 商贾分队 + 刷源石锭：重投通宝刷出诡意行商存款（两条件缺一不可，由游戏机制决定）
+        if (mode == RoguelikeMode::Investment && squad == "商贾分队") {
+            m_routing_strategy = RoutingStrategy::JieGarden_MerchantRecast;
+            return true;
+        }
         if (((mode == RoguelikeMode::Investment && squad == "指挥分队") ||
              (mode == RoguelikeMode::Collectible && params.get("collectible_mode_squad", squad) == "指挥分队")) &&
             m_config->get_difficulty() >= 3) {
@@ -66,6 +72,8 @@ void asst::RoguelikeRoutingTaskPlugin::reset_in_run_variables()
     m_need_generate_map = true;
     m_selected_column = 0;
     m_selected_x = 0;
+    m_token_cast_at_start = false;
+    m_start_auto_cast_checked = false;
 }
 
 bool asst::RoguelikeRoutingTaskPlugin::verify(const AsstMsg msg, const json::value& details) const
@@ -82,6 +90,15 @@ bool asst::RoguelikeRoutingTaskPlugin::verify(const AsstMsg msg, const json::val
     }
 
     if (task_name == m_config->get_theme() + "@Roguelike@Routing") {
+        m_verify_start_auto_cast = false;
+        return true;
+    }
+
+    // 商贾分队：进图后游戏自动投钱，结果弹窗由 RandomPickAfterNextLevel 点确定关闭。
+    // 在它点掉之前拦一次（每局仅一次），OCR 判断开局是否已投出「触锁代币」。
+    if (m_routing_strategy == RoutingStrategy::JieGarden_MerchantRecast && !m_start_auto_cast_checked &&
+        task_name == m_config->get_theme() + "@Roguelike@RandomPickAfterNextLevel") {
+        m_verify_start_auto_cast = true;
         return true;
     }
 
@@ -91,6 +108,12 @@ bool asst::RoguelikeRoutingTaskPlugin::verify(const AsstMsg msg, const json::val
 bool asst::RoguelikeRoutingTaskPlugin::_run()
 {
     LogTraceFunction;
+
+    // 商贾分队：本次由开局自投结果弹窗触发，先 OCR 判断再放行其点确定（见 detect_start_auto_cast）
+    if (m_verify_start_auto_cast) {
+        detect_start_auto_cast();
+        return true;
+    }
 
     switch (m_routing_strategy) {
     case RoutingStrategy::Sarkaz_FastInvestment:
@@ -247,6 +270,43 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
 
         refresh_following_combat_nodes();
         navigate_route();
+        break;
+
+    case RoutingStrategy::JieGarden_MerchantRecast:
+        if (m_need_generate_map) {
+            // 1. 循环重投通宝，直到“衡-触锁代币”已投出（票券耗尽则回退）
+            if (recast_until_token_cast()) {
+                // 开局自投路径跳过了开盒，地图未被复位到初始位置（重投路径靠开/关钱盒复位到最左）。
+                // 先手动把地图滑到最左，使下面 MoveRightToPeek 的起点与重投路径一致，否则 update_map
+                // 测到的第一列横坐标整体左偏（实测 321→121），update_selected_x 仍按 m_origin_x
+                // 选点会点空、刷新键点不到。
+                if (m_token_cast_at_start) {
+                    ProcessTask(*this, { "RoguelikeRouting-MoveToLeftmost" }).run();
+                }
+                // 2. 解析地图并选中战斗节点后刷新：refresh_following_combat_nodes 会先 click 选中节点、
+                //    再点刷新键并确认；触锁代币使被刷新节点变为诡意行商，且刷新后该节点仍处于选中态
+                ProcessTask(*this, { "RoguelikeRouting-MoveRightToPeek" }).run();
+                {
+                    const cv::Mat map_image = ctrler()->get_image();
+                    update_map(map_image, RoguelikeMap::INIT_INDEX + 1);
+                }
+                m_selected_column = m_map.get_node_column(m_map.get_curr_pos());
+                update_selected_x();
+                refresh_following_combat_nodes(/*only_first=*/true);
+                // 3. 节点仍选中，直接进入诡意行商（不再寻路另选节点）；存款由 InvestPlugin 自动完成，之后走 else 退出
+                Task.set_task_base("RoguelikeRoutingAction", "JieGarden@RoguelikeRoutingAction-StageTraderEnter");
+            }
+            else {
+                // 票券耗尽仍未投出：放弃本轮、退出重开下一轮
+                // （若想“正常打完本轮”，可在此改为回退通用投资/避战策略）
+                Task.set_task_base("RoguelikeRoutingAction", "JieGarden@RoguelikeRoutingAction-ExitThenAbandon");
+            }
+            m_need_generate_map = false;
+        }
+        else {
+            // 存款完成 -> 退出放弃，进入下一轮
+            Task.set_task_base("RoguelikeRoutingAction", "JieGarden@RoguelikeRoutingAction-ExitThenAbandon");
+        }
         break;
 
     default:
@@ -471,7 +531,7 @@ void asst::RoguelikeRoutingTaskPlugin::generate_edges(
     }
 }
 
-void asst::RoguelikeRoutingTaskPlugin::refresh_following_combat_nodes()
+void asst::RoguelikeRoutingTaskPlugin::refresh_following_combat_nodes(bool only_first)
 {
     LogTraceFunction;
 
@@ -520,7 +580,77 @@ void asst::RoguelikeRoutingTaskPlugin::refresh_following_combat_nodes()
             const Matcher::Result& match_results = node_analyzer.get_result();
             m_map.set_node_type(next_node, RoguelikeMapInfo.templ2type(theme, match_results.templ_name));
         }
+
+        // 商贾分队：触锁代币只够刷 1 次，刷完第一个战斗节点即停，保持该节点选中以便直接进店
+        if (only_first) {
+            break;
+        }
     }
+}
+
+void asst::RoguelikeRoutingTaskPlugin::detect_start_auto_cast()
+{
+    LogTraceFunction;
+    // 每局只检测一次（RandomPickAfterNextLevel 会点 #self 多次匹配，避免重复 OCR/等待）
+    m_start_auto_cast_checked = true;
+
+    // 自投结果弹窗与重投结果页同一 UI（对号同在 [1033,462] 处）。
+    // 等通宝名字渲染完再 OCR，否则会扫到空白漏判（复用重投结果页的等待时长）。
+    sleep(Task.get("JieGarden@Roguelike@CoppersRecastResultAppear")->post_delay);
+
+    OCRer token_ocr(ctrler()->get_image());
+    token_ocr.set_task_info("JieGarden@Roguelike@CoppersRecastResultTokenOCR");
+    if (token_ocr.analyze().has_value()) {
+        m_token_cast_at_start = true;
+        LogInfo << __FUNCTION__ << "| 开局自动投已投出「触锁代币」，将跳过开盒重投";
+    }
+    else {
+        LogInfo << __FUNCTION__ << "| 开局自动投未投出「触锁代币」，进图后照常开盒重投";
+    }
+}
+
+bool asst::RoguelikeRoutingTaskPlugin::recast_until_token_cast()
+{
+    LogTraceFunction;
+
+    // 开局自动投已投出「触锁代币」：无需开盒重投，直接沿用（省票券、避免重投覆盖掉它）
+    if (m_token_cast_at_start) {
+        LogInfo << __FUNCTION__ << "| 开局已投出「触锁代币」，跳过开盒重投";
+        return true;
+    }
+
+    // 游戏内重投最多 4 次（票券上限），+1 作为 OCR 失败时的安全兜底，避免死循环
+    constexpr int max_recast_times = 5;
+
+    // 打开钱盒
+    if (!ProcessTask(*this, { "JieGarden@Roguelike@CoppersOpenBox" }).run()) {
+        LogWarn << __FUNCTION__ << "| 无法打开钱盒，放弃重投";
+        return false;
+    }
+
+    bool cast = false;
+    for (int i = 0; i < max_recast_times; ++i) {
+        // 重投并停在投钱结果页（不点对号）；票券耗尽/重投键不可用时 run() 返回 false
+        if (!ProcessTask(*this, { "JieGarden@Roguelike@CoppersRecastToResult" }).run()) {
+            LogWarn << __FUNCTION__ << "| 重投不可用（票券耗尽?），停止重投";
+            break;
+        }
+        // 一次性 OCR 投钱结果页是否投出了「触锁代币」（结果页含三个名字，任一命中即可）
+        OCRer token_ocr(ctrler()->get_image());
+        token_ocr.set_task_info("JieGarden@Roguelike@CoppersRecastResultTokenOCR");
+        const bool found = token_ocr.analyze().has_value();
+        // 点对号确认/关闭结果页（不接掉落交换尾链）
+        ProcessTask(*this, { "JieGarden@Roguelike@CoppersRecastResultConfirm" }).run();
+        if (found) {
+            LogInfo << __FUNCTION__ << "| 第 " << (i + 1) << " 次重投已投出「触锁代币」";
+            cast = true;
+            break;
+        }
+    }
+
+    // 无论是否投出，都退出钱盒回到地图（刷新节点/进商店等后续操作需在地图界面进行）
+    ProcessTask(*this, { "JieGarden@Roguelike@CoppersCloseBox" }).run();
+    return cast;
 }
 
 void asst::RoguelikeRoutingTaskPlugin::navigate_route()
