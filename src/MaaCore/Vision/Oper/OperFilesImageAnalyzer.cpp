@@ -59,6 +59,11 @@ std::optional<int> asst::OperFilesImageAnalyzer::mastery_level(int skill)
     const std::string task_name = "AutoRaise@CurrentSkill" + std::to_string(skill) + "MasterLevel";
     BestMatcher locator(m_image);
     locator.set_task_info(task_name);
+    // BestMatcher 只遍历 append_templ 显式加入的模板,任务 json 声明的 template 列表不会自动参与匹配,
+    // 漏加时 analyze() 会静默返回空结果。
+    for (int level = 0; level <= 3; ++level) {
+        locator.append_templ("OperFilesSkillMaster" + std::to_string(level) + ".png");
+    }
     const auto locate_opt = locator.analyze();
     if (!locate_opt) {
         Log.warn(__FUNCTION__, "| mastery icon not found, task", task_name);
