@@ -871,8 +871,11 @@ C:\leidian\LDPlayer9
     <system:String x:Key="AutoRaiseMasteryTarget">스킬 {0}, 마스터리 {1}</system:String>
     <system:String x:Key="AutoRaiseEliteTarget">정예화 {0}</system:String>
     <system:String x:Key="AutoRaiseUnsupportedClient">오퍼레이터 육성 첫 버전은 중국 공식 및 Bilibili 클라이언트만 지원합니다</system:String>
-    <system:String x:Key="AutoRaiseTargetStartLog">육성 계획 {0}: {1}, {2} 목표 {3}</system:String>
-    <system:String x:Key="AutoRaiseTargetResultLog">육성 계획 {0}: {1}, 결과 {2}</system:String>
+    <system:String x:Key="AutoRaiseTargetStartLog">육성 계획 {0}: {1}, {2}</system:String>
+    <system:String x:Key="AutoRaiseTargetResultLog">육성 계획 {0}: {1}, {2}, 결과 {3}</system:String>
+    <system:String x:Key="AutoRaiseRecognizedElite">(현재 정예화 {0})</system:String>
+    <system:String x:Key="AutoRaiseRecognizedSkillLevel">(현재 스킬 레벨 {0})</system:String>
+    <system:String x:Key="AutoRaiseRecognizedMastery">(현재 마스터리 {0})</system:String>
     <system:String x:Key="AutoRaiseSummaryLog">오퍼레이터 육성 완료: 성공 {0}, 이미 달성 {1}, 실패 {2}, 건너뜀 {3}</system:String>
     <system:String x:Key="AutoRaiseSelectOperator">오퍼레이터 선택</system:String>
     <system:String x:Key="AutoRaiseAddTarget">육성</system:String>

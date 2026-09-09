@@ -869,8 +869,11 @@ C:\leidian\LDPlayer9
     <system:String x:Key="AutoRaiseMasteryTarget">技能 {0} 专精 {1}</system:String>
     <system:String x:Key="AutoRaiseEliteTarget">精英化 {0}</system:String>
     <system:String x:Key="AutoRaiseUnsupportedClient">干员培养首版仅支持国服官服和 B 服</system:String>
-    <system:String x:Key="AutoRaiseTargetStartLog">培养计划第 {0} 项：{1}，{2} 目标 {3}</system:String>
-    <system:String x:Key="AutoRaiseTargetResultLog">培养计划第 {0} 项：{1}，结果 {2}</system:String>
+    <system:String x:Key="AutoRaiseTargetStartLog">培养计划第 {0} 项：{1}，{2}</system:String>
+    <system:String x:Key="AutoRaiseTargetResultLog">培养计划第 {0} 项：{1}，{2}，结果 {3}</system:String>
+    <system:String x:Key="AutoRaiseRecognizedElite">（当前精英化 {0}）</system:String>
+    <system:String x:Key="AutoRaiseRecognizedSkillLevel">（当前技能等级 {0}）</system:String>
+    <system:String x:Key="AutoRaiseRecognizedMastery">（当前专精 {0}）</system:String>
     <system:String x:Key="AutoRaiseSummaryLog">干员培养完成：成功 {0}，已满足 {1}，失败 {2}，跳过 {3}</system:String>
     <system:String x:Key="AutoRaiseSelectOperator">选择干员</system:String>
     <system:String x:Key="AutoRaiseAddTarget">添加</system:String>
