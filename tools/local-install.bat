@@ -8,7 +8,7 @@ if exist ".\global.json" (
 	move /y ".\global.json" ".\global.json.local-install.bak" >nul || goto :error
 )
 
-> ".\global.json" echo {"sdk":{"version":"10.0.302","rollForward":"disable"}} || goto :error
+:: > ".\global.json" echo {"sdk":{"version":"10.0.302","rollForward":"disable"}} || goto :error
 
 set "netbeauty_bin=%NUGET_PACKAGES%\nulastudio.netbeauty\2.1.5\tools\win-x86\nbeauty2.exe"
 if "%NUGET_PACKAGES%"=="" set "netbeauty_bin=%USERPROFILE%\.nuget\packages\nulastudio.netbeauty\2.1.5\tools\win-x86\nbeauty2.exe"
