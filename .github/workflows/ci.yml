@@ -513,6 +513,7 @@ jobs:
 
       - name: Copy ControlUnits
         run: |
+          cp MaaFramework-temp/bin/*LinuxControlUnit* install/
           cp MaaFramework-temp/bin/*AdbControlUnit* install/
 
       - name: Upload MAA to GitHub
