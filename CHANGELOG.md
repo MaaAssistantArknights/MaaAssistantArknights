@@ -52,6 +52,22 @@ A new "Switch Theme" task switches in-game themes by name; multiple candidate th
 以下是详细内容：
 
 <details open>
+<summary><b>v6.17.4 (2026-09-08)</b></summary>
+
+### 修复 | Fix
+
+* 沃日弱智 AI 把更换主题入口隐藏了 @ABA2396
+* 修复如果第一次点击“探索冰原”没有生效只识别下一层和密文板界面，无法再次点击仍然显示的入口的问题 @Koileo
+
+### MaaMacGui
+
+#### 改进 | Improved
+
+* MacSCK 线程同步优化 @hguandl
+
+</details>
+
+<details>
 <summary><b>v6.17.3 (2026-09-08)</b></summary>
 
 ### 新增 | New
