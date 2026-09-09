@@ -275,7 +275,7 @@
         "baseTask": "Sami@Roguelike@DropsFlag_default"
     },
     "Sami@Roguelike@EnterAfterRecruit": {
-        "next": ["Sami@Roguelike@NextLevel", "Sami@Roguelike@FoldartalGainNextLevel"]
+        "next": ["#self", "Sami@Roguelike@NextLevel", "Sami@Roguelike@FoldartalGainNextLevel"]
     },
     "Sami@Roguelike@ExitThenAbandon": {
         "template": "Roguelike@ExitThenAbandon.png",
