@@ -122,6 +122,7 @@ bool asst::ProcessTask::override_next(const std::string& name, const std::vector
         }
     }
     m_next_override.insert_or_assign(name, next_tasks);
+    LogInfo << __FUNCTION__ << "override next for task" << name << "to" << next_tasks;
     return true;
 }
 
