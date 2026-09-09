@@ -113,6 +113,18 @@ ProcessTask& ProcessTask::set_reusable_image(const cv::Mat& reusable)
     return *this;
 }
 
+bool asst::ProcessTask::override_next(const std::string& name, const std::vector<std::string>& next_tasks)
+{
+    for (const auto& task_name : next_tasks) {
+        if (Task.get(task_name) == nullptr) {
+            LogError << __FUNCTION__ << "task not found:" << task_name;
+            return false;
+        }
+    }
+    m_next_override.insert_or_assign(name, next_tasks);
+    return true;
+}
+
 bool ProcessTask::run()
 {
     LogTraceFunction;
@@ -150,7 +162,13 @@ bool ProcessTask::run()
             break;
         case NodeStatus::Success:
             // 成功匹配且执行成功，下一个匹配列表是 next
-            to_be_recognized = next_task_ptr->next;
+            if (auto it = m_next_override.find(next_task_ptr->name); it != m_next_override.end()) {
+                LogTrace << "found in override" << next_task_ptr->name << ", next:" << it->second;
+                to_be_recognized = it->second;
+            }
+            else {
+                to_be_recognized = next_task_ptr->next;
+            }
             break;
         case NodeStatus::Interrupted:
             // need_exit() or Stop action

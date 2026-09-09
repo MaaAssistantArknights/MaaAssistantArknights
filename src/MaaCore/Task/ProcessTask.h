@@ -36,6 +36,7 @@ public:
     ProcessTask& set_times_limit(std::string name, int limit, TimesLimitType type = TimesLimitType::Pre);
     ProcessTask& set_post_delay(std::string name, int delay);
     ProcessTask& set_reusable_image(const cv::Mat& reusable);
+    bool override_next(const std::string& name, const std::vector<std::string>& next_tasks);
 
     const std::string& get_last_task_name() const noexcept { return m_last_task_name; }
 
@@ -92,5 +93,6 @@ protected:
     int m_task_delay = TaskDelayUnsetted;
     cv::Mat m_reusable;
     std::shared_ptr<HitDetail> m_last_hit_detail = nullptr;
+    std::unordered_map<std::string, TaskList> m_next_override;
 };
 }
