@@ -4,6 +4,7 @@
 #include "Config/TemplResource.h"
 #include "MaaUtils/NoWarningCV.hpp"
 #include "Utils/Logger.hpp"
+#include "Utils/StringMisc.hpp"
 #include "Vision/BestMatcher.h"
 
 namespace asst
@@ -16,6 +17,9 @@ constexpr int kDotWhiteVThreshold = 200;
 constexpr int kDotSampleRadius = 1;
 // 圆点连通域最小面积，过滤模板暗角噪点。
 constexpr int kDotMinArea = 5;
+// 精英化阶段标志模板名前缀与阶段数上限（0-2）。
+constexpr std::string_view kEliteTemplPrefix = "OperFilesElite";
+constexpr int kMaxEliteStage = 2;
 
 // 圆点在图标内的相对位置从 3 级模板（三点全亮）提取，模板更新后无需改代码。
 std::vector<cv::Point> mastery_dot_centers()
@@ -86,5 +90,40 @@ std::optional<int> asst::OperFilesImageAnalyzer::mastery_level(int skill)
         }
     }
     return lit_dots;
+}
+
+std::optional<int> asst::OperFilesImageAnalyzer::elite_level()
+{
+    LogTraceFunction;
+
+    // 精英化阶段标志（空心/半填充/全填充徽记）形状互异，模板匹配取最高分即可判级；
+    // roi 与阈值取自任务，模板在代码侧补齐（参照 InfrastTrainingLevel 的用法）。
+    // 注意 Matcher 按 templ_thres[i] 取阈值，追加的每个模板都要有对应阈值。
+    const auto task_ptr = Task.get<MatchTaskInfo>("AutoRaise@CurrentElite0");
+    if (!task_ptr || task_ptr->templ_thresholds.empty()) {
+        Log.error(__FUNCTION__, "| task AutoRaise@CurrentElite0 not found");
+        return std::nullopt;
+    }
+
+    BestMatcher analyzer(m_image, task_ptr->roi);
+    analyzer.set_threshold(std::vector<double>(kMaxEliteStage + 1, task_ptr->templ_thresholds.front()));
+    for (int elite = 0; elite <= kMaxEliteStage; ++elite) {
+        analyzer.append_templ(std::string(kEliteTemplPrefix) + std::to_string(elite) + ".png");
+    }
+
+    const auto result_opt = analyzer.analyze();
+    if (!result_opt) {
+        Log.warn(__FUNCTION__, "| elite flag not matched");
+        return std::nullopt;
+    }
+
+    int elite = 0;
+    const std::string& templ_name = result_opt->templ_info.name;
+    if (!templ_name.starts_with(kEliteTemplPrefix) ||
+        !utils::chars_to_number(templ_name.substr(kEliteTemplPrefix.size(), 1), elite)) {
+        Log.error(__FUNCTION__, "| unexpected elite template name", templ_name);
+        return std::nullopt;
+    }
+    return elite;
 }
 } // namespace asst

@@ -62,7 +62,6 @@ private:
     static std::string_view result_name(Result result);
 
     AutoRaisePlan m_plan;
-    int m_operator_elite = 0;
     bool m_mastery_busy = false;
     size_t m_completed = 0;
     size_t m_satisfied = 0;
