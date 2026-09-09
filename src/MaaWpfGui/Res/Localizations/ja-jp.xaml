@@ -870,6 +870,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="AutoRaiseFieldRange">プラン {0} の「{1}」は {2}～{3} の範囲で指定してください</system:String>
     <system:String x:Key="AutoRaiseSkillLevelTarget">スキルレベル {0}</system:String>
     <system:String x:Key="AutoRaiseMasteryTarget">スキル {0} 特化 {1}</system:String>
+    <system:String x:Key="AutoRaiseEliteTarget">エリート化 {0}</system:String>
     <system:String x:Key="AutoRaiseUnsupportedClient">オペレーター育成の初版は中国版公式および Bilibili のみ対応します</system:String>
     <system:String x:Key="AutoRaiseTargetStartLog">育成プラン {0}：{1}、{2} 目標 {3}</system:String>
     <system:String x:Key="AutoRaiseTargetResultLog">育成プラン {0}：{1}、結果 {2}</system:String>

@@ -555,7 +555,7 @@ public class AutoRaiseSettingsUserControlModel : TaskSettingsViewModel, AutoRais
 
     private static string DescribeAction(JObject plan) =>
         plan.ContainsKey("elite")
-            ? $"E{plan.Value<int>("elite")}"
+            ? LocalizationHelper.GetStringFormat("AutoRaiseEliteTarget", plan.Value<int>("elite"))
             : plan.ContainsKey("skills")
                 ? LocalizationHelper.GetStringFormat("AutoRaiseSkillLevelTarget", plan.Value<int>("skills"))
                 : LocalizationHelper.GetStringFormat("AutoRaiseMasteryTarget", plan.Value<int>("skill"), plan.Value<int>("skill_master"));

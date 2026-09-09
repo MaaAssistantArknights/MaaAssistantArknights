@@ -869,6 +869,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="AutoRaiseFieldRange">계획 항목 {0}의 "{1}"은 {2}~{3} 범위여야 합니다</system:String>
     <system:String x:Key="AutoRaiseSkillLevelTarget">스킬 레벨 {0}</system:String>
     <system:String x:Key="AutoRaiseMasteryTarget">스킬 {0}, 마스터리 {1}</system:String>
+    <system:String x:Key="AutoRaiseEliteTarget">정예화 {0}</system:String>
     <system:String x:Key="AutoRaiseUnsupportedClient">오퍼레이터 육성 첫 버전은 중국 공식 및 Bilibili 클라이언트만 지원합니다</system:String>
     <system:String x:Key="AutoRaiseTargetStartLog">육성 계획 {0}: {1}, {2} 목표 {3}</system:String>
     <system:String x:Key="AutoRaiseTargetResultLog">육성 계획 {0}: {1}, 결과 {2}</system:String>
