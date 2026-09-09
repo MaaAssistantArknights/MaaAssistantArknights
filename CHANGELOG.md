@@ -1,4 +1,64 @@
+## v6.17.5
+
+### Highlights
+
+#### 信用商店与借助战刷信用
+
+Mac 端新增信用商店及借助战刷信用功能支持。
+
+#### PlayCover 分辨率指南
+
+Mac 端新增 PlayCover 分辨率指南，帮助玩家正确配置分辨率以获得最佳体验。
+
+#### 额外滑动方向类型安全增强
+
+Swipe 的额外滑动方向参数改为强类型枚举，域外值自动收敛为 None，防止无效方向触发零位移空滑动。
+
+<details>
+<summary><b>English</b></summary>
+
+#### Credit Shop & Assist Battle Credit Farming
+
+Mac client now supports credit shop and assist battle credit farming.
+
+#### PlayCover Resolution Guide
+
+Added a PlayCover resolution guide in the Mac client to help users configure resolution for optimal experience.
+
+#### Swipe Extra Direction Type Safety
+
+Extra swipe direction parameter now uses a typed enum; out-of-range values are safely clamped to None, preventing zero-displacement empty swipes from invalid inputs.
+
+</details>
+
+----
+
+以下是详细内容：
+
+<details open>
+<summary><b>v6.17.5 (2026-09-10)</b></summary>
+
+### 改进 | Improved
+
+* Swipe 的额外滑动方向参数改用强类型枚举，域外值自动收敛为 None，防止无效方向触发零位移空滑动，保留不滑动试点，并调整肉鸽招募等任务滑动参数 ([#18136](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18136)) @ABA2396 @status102
+
+### MaaMacGui
+
+#### 新增 | New
+
+* 信用商店与借助战刷信用支持 @hguandl
+* PlayCover 分辨率指南 @hguandl
+
+#### 修复 | Fix
+
+* 更安全的 copilot 内容更新方式 @hguandl
+* 任务栏按钮样式修复 @hguandl
+
+</details>
+
+
 ## v6.17.4
+
 
 ### Highlights
 
@@ -51,7 +111,7 @@ A new "Switch Theme" task switches in-game themes by name; multiple candidate th
 
 以下是详细内容：
 
-<details open>
+<details>
 <summary><b>v6.17.4 (2026-09-08)</b></summary>
 
 ### 修复 | Fix
