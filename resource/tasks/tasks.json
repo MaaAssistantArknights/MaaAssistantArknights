@@ -6308,7 +6308,17 @@
         "rectMove": [314, 4, 84, 23],
         "postDelay": 1000,
         "doc": "干员精英化芯片位置调转至制造站",
-        "next": ["AutoRaise@MfgPage"]
+        "next": ["AutoRaise@MfgPage", "AutoRaise@DualchipJumpMfgSwipe"]
+    },
+    "AutoRaise@DualchipJumpMfgSwipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [683, 654, 1, 1],
+        "rectMove": [683, 445, 1, 1],
+        "specialParams": [400, 3, 10, 10],
+        "postDelay": 1000,
+        "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
+        "next": ["AutoRaise@DualchipJumpMfg", "AutoRaise@MfgPage"]
     },
     "AutoRaise@MfgPage": {
         "baseTask": "InfrastFacilityListTabMfg",
@@ -6371,13 +6381,35 @@
         "roi": [570, 327, 519, 313],
         "rectMove": [314, 4, 84, 23],
         "postDelay": 1000,
-        "doc": "干员精英化第一个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击"
+        "doc": "干员精英化第一个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
+        "next": ["MiniGame@MaterialSynthesis@Workshop", "AutoRaise@EliteUpMaterial1JumpProcessingSwipe"]
+    },
+    "AutoRaise@EliteUpMaterial1JumpProcessingSwipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [829, 640, 1, 1],
+        "rectMove": [829, 431, 1, 1],
+        "specialParams": [400, 3, 10, 10],
+        "postDelay": 1000,
+        "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
+        "next": ["AutoRaise@EliteUpMaterial1JumpProcessing", "MiniGame@MaterialSynthesis@Workshop"]
     },
     "AutoRaise@EliteUpMaterial2JumpProcessing": {
         "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
         "template": "QuickJumpProcessing.png",
         "roi": [76, 328, 519, 313],
-        "doc": "干员精英化第二个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击"
+        "doc": "干员精英化第二个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
+        "next": ["MiniGame@MaterialSynthesis@Workshop", "AutoRaise@EliteUpMaterial2JumpProcessingSwipe"]
+    },
+    "AutoRaise@EliteUpMaterial2JumpProcessingSwipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [335, 641, 1, 1],
+        "rectMove": [335, 432, 1, 1],
+        "specialParams": [400, 3, 10, 10],
+        "postDelay": 1000,
+        "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
+        "next": ["AutoRaise@EliteUpMaterial2JumpProcessing", "MiniGame@MaterialSynthesis@Workshop"]
     },
     "AutoRaise@RecordFactoryState": {
         "algorithm": "MatchTemplate",
@@ -6438,19 +6470,52 @@
         "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
         "template": "QuickJumpProcessing.png",
         "roi": [279, 376, 539, 271],
-        "doc": "干员技能升级的技能书跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击"
+        "doc": "干员技能升级的技能书跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
+        "next": ["MiniGame@MaterialSynthesis@Workshop", "AutoRaise@SkillUpMaterial0JumpProcessingSwipe"]
+    },
+    "AutoRaise@SkillUpMaterial0JumpProcessingSwipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [548, 647, 1, 1],
+        "rectMove": [548, 466, 1, 1],
+        "specialParams": [400, 3, 10, 10],
+        "postDelay": 1000,
+        "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
+        "next": ["AutoRaise@SkillUpMaterial0JumpProcessing", "MiniGame@MaterialSynthesis@Workshop"]
     },
     "AutoRaise@SkillUpMaterial1JumpProcessing": {
         "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
         "template": "QuickJumpProcessing.png",
         "roi": [417, 331, 539, 300],
-        "doc": "干员技能升级第一个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击"
+        "doc": "干员技能升级第一个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
+        "next": ["MiniGame@MaterialSynthesis@Workshop", "AutoRaise@SkillUpMaterial1JumpProcessingSwipe"]
+    },
+    "AutoRaise@SkillUpMaterial1JumpProcessingSwipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [686, 631, 1, 1],
+        "rectMove": [686, 431, 1, 1],
+        "specialParams": [400, 3, 10, 10],
+        "postDelay": 1000,
+        "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
+        "next": ["AutoRaise@SkillUpMaterial1JumpProcessing", "MiniGame@MaterialSynthesis@Workshop"]
     },
     "AutoRaise@SkillUpMaterial2JumpProcessing": {
         "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
         "template": "QuickJumpProcessing.png",
         "roi": [555, 324, 539, 317],
-        "doc": "干员技能升级第二个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击"
+        "doc": "干员技能升级第二个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
+        "next": ["MiniGame@MaterialSynthesis@Workshop", "AutoRaise@SkillUpMaterial2JumpProcessingSwipe"]
+    },
+    "AutoRaise@SkillUpMaterial2JumpProcessingSwipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [824, 641, 1, 1],
+        "rectMove": [824, 430, 1, 1],
+        "specialParams": [400, 3, 10, 10],
+        "postDelay": 1000,
+        "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
+        "next": ["AutoRaise@SkillUpMaterial2JumpProcessing", "MiniGame@MaterialSynthesis@Workshop"]
     },
     "AutoRaise@SkillUpConfirm": {
         "baseTask": "AutoRaise@EliteUpPageConfirm",
@@ -6508,19 +6573,52 @@
         "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
         "template": "QuickJumpProcessing.png",
         "roi": [415, 381, 539, 264],
-        "doc": "干员技能专精的技能书跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击"
+        "doc": "干员技能专精的技能书跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
+        "next": ["MiniGame@MaterialSynthesis@Workshop", "AutoRaise@MasteryMaterial0JumpProcessingSwipe"]
+    },
+    "AutoRaise@MasteryMaterial0JumpProcessingSwipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [684, 645, 1, 1],
+        "rectMove": [684, 469, 1, 1],
+        "specialParams": [400, 3, 10, 10],
+        "postDelay": 1000,
+        "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
+        "next": ["AutoRaise@MasteryMaterial0JumpProcessing", "MiniGame@MaterialSynthesis@Workshop"]
     },
     "AutoRaise@MasteryMaterial1JumpProcessing": {
         "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
         "template": "QuickJumpProcessing.png",
         "roi": [559, 326, 539, 312],
-        "doc": "干员技能专精第一个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击"
+        "doc": "干员技能专精第一个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
+        "next": ["MiniGame@MaterialSynthesis@Workshop", "AutoRaise@MasteryMaterial1JumpProcessingSwipe"]
+    },
+    "AutoRaise@MasteryMaterial1JumpProcessingSwipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [828, 638, 1, 1],
+        "rectMove": [828, 430, 1, 1],
+        "specialParams": [400, 3, 10, 10],
+        "postDelay": 1000,
+        "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
+        "next": ["AutoRaise@MasteryMaterial1JumpProcessing", "MiniGame@MaterialSynthesis@Workshop"]
     },
     "AutoRaise@MasteryMaterial2JumpProcessing": {
         "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
         "template": "QuickJumpProcessing.png",
         "roi": [68, 325, 539, 312],
-        "doc": "干员技能专精第二个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击"
+        "doc": "干员技能专精第二个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
+        "next": ["MiniGame@MaterialSynthesis@Workshop", "AutoRaise@MasteryMaterial2JumpProcessingSwipe"]
+    },
+    "AutoRaise@MasteryMaterial2JumpProcessingSwipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [337, 637, 1, 1],
+        "rectMove": [337, 429, 1, 1],
+        "specialParams": [400, 3, 10, 10],
+        "postDelay": 1000,
+        "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
+        "next": ["AutoRaise@MasteryMaterial2JumpProcessing", "MiniGame@MaterialSynthesis@Workshop"]
     },
     "AutoRaise@MasterySelectSkill1": {
         "baseTask": "InfrastTrainingContinue1",
