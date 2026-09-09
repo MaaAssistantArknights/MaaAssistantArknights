@@ -381,7 +381,7 @@ asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
     }
     // 现有训练完成任务已经负责点击领取并关闭奖励弹窗,避免重复点击占位任务；
     // 领取会使当前专精等级 +1,本次实际启动的专精等级随之再 +1。
-    if (run_task("InfrastTrainingCompleted", 10)) {
+    if (run_task("InfrastTrainingCompleted2", 10)) {
         ++training_level;
         if (training_level > target.target) {
             // 领取后专精等级已达到计划目标,不再启动下一级。

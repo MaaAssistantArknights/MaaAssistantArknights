@@ -4011,6 +4011,12 @@
         "postDelay": 1000,
         "next": ["CloseTaskAward"]
     },
+    "InfrastTrainingCompleted2": {
+        "action": "ClickSelf",
+        "roi": [1087, 779, 226, 174],
+        "postDelay": 600,
+        "next": ["InfrastTrainingMasteryPage", "InfrastTrainingCompleted2"]
+    },
     "InfrastTrainingOperatorAndSkill": {
         "algorithm": "OcrDetect",
         "text": [],
