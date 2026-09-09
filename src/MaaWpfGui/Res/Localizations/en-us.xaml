@@ -868,8 +868,11 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="AutoRaiseMasteryTarget">Skill {0}, mastery {1}</system:String>
     <system:String x:Key="AutoRaiseEliteTarget">Elite {0}</system:String>
     <system:String x:Key="AutoRaiseUnsupportedClient">Operator development currently supports only the CN Official and Bilibili clients</system:String>
-    <system:String x:Key="AutoRaiseTargetStartLog">Development plan entry {0}: {1}, {2} target {3}</system:String>
-    <system:String x:Key="AutoRaiseTargetResultLog">Development plan entry {0}: {1}, result: {2}</system:String>
+    <system:String x:Key="AutoRaiseTargetStartLog">Development plan entry {0}: {1}, {2}</system:String>
+    <system:String x:Key="AutoRaiseTargetResultLog">Development plan entry {0}: {1}, {2}, result: {3}</system:String>
+    <system:String x:Key="AutoRaiseRecognizedElite"> (current elite {0})</system:String>
+    <system:String x:Key="AutoRaiseRecognizedSkillLevel"> (current skill level {0})</system:String>
+    <system:String x:Key="AutoRaiseRecognizedMastery"> (current mastery {0})</system:String>
     <system:String x:Key="AutoRaiseSummaryLog">Operator development finished: {0} completed, {1} already satisfied, {2} failed, {3} skipped</system:String>
     <system:String x:Key="AutoRaiseSelectOperator">Select operator</system:String>
     <system:String x:Key="AutoRaiseAddTarget">Add</system:String>

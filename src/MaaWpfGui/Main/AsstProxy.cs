@@ -2713,20 +2713,32 @@ public class AsstProxy
                         "AutoRaiseTargetStartLog",
                         (int)(details?["index"] ?? 0) + 1,
                         details?["name"] ?? string.Empty,
-                        details?["action"] ?? string.Empty,
-                        details?["target"] ?? 0),
+                        ProcAutoRaiseTargetDescription(details)),
                     UiLogColor.Info,
                     splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
                 break;
 
             case "AutoRaiseTargetResult":
+                string action = details?["action"]?.ToString() ?? string.Empty;
                 string result = details?["result"]?.ToString() ?? "unsupported";
+                int? recognized = details?["recognized"]?.Value<int?>();
+                string recognizedKey = action switch
+                {
+                    "elite" => "AutoRaiseRecognizedElite",
+                    "skills" => "AutoRaiseRecognizedSkillLevel",
+                    "mastery" => "AutoRaiseRecognizedMastery",
+                    _ => string.Empty,
+                };
+                string recognizedText = recognized is null || recognizedKey.Length == 0
+                    ? string.Empty
+                    : LocalizationHelper.GetStringFormat(recognizedKey, recognized.Value);
                 Instances.TaskQueueViewModel.AddLog(
                     LocalizationHelper.GetStringFormat(
                         "AutoRaiseTargetResultLog",
                         (int)(details?["index"] ?? 0) + 1,
                         details?["name"] ?? string.Empty,
-                        result),
+                        ProcAutoRaiseTargetDescription(details),
+                        result) + recognizedText,
                     result is "completed" or "already_satisfied" ? UiLogColor.Success :
                     result == "skipped" ? UiLogColor.Warning : UiLogColor.Error);
                 break;
@@ -2742,6 +2754,20 @@ public class AsstProxy
                     (int)(details?["failed"] ?? 0) == 0 ? UiLogColor.Success : UiLogColor.Warning);
                 break;
         }
+    }
+
+    // 与干员培养设置页的预览行（AutoRaiseSettingsUserControlModel.DescribeAction）保持同一格式。
+    private static string ProcAutoRaiseTargetDescription(JToken? details)
+    {
+        string action = details?["action"]?.ToString() ?? string.Empty;
+        int target = details?["target"]?.Value<int>() ?? 0;
+        return action switch
+        {
+            "elite" => LocalizationHelper.GetStringFormat("AutoRaiseEliteTarget", target),
+            "skills" => LocalizationHelper.GetStringFormat("AutoRaiseSkillLevelTarget", target),
+            "mastery" => LocalizationHelper.GetStringFormat("AutoRaiseMasteryTarget", details?["skill"]?.Value<int>() ?? 0, target),
+            _ => action,
+        };
     }
 
     private static void ProcRecruitCalcMsg(JObject details)

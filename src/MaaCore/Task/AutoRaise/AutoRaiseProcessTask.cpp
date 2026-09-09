@@ -141,6 +141,7 @@ bool asst::AutoRaiseProcessTask::_run()
     for (size_t index = 0; index < m_plan.size() && !need_exit(); ++index) {
         const auto& target = m_plan[index];
         report_target("AutoRaiseTargetStart", index, target, Result::Skipped);
+        m_recognized_level.reset();
 
         Result result = Result::Unsupported;
         if (target.action == AutoRaiseAction::Mastery && m_mastery_busy) {
@@ -165,7 +166,7 @@ bool asst::AutoRaiseProcessTask::_run()
             save_img(utils::path("debug") / utils::path("auto_raise"), false);
             break;
         }
-        report_target("AutoRaiseTargetResult", index, target, result);
+        report_target("AutoRaiseTargetResult", index, target, result, m_recognized_level);
     }
     report_summary();
     return !need_exit();
@@ -293,6 +294,7 @@ asst::AutoRaiseProcessTask::execute_elite(const AutoRaiseTarget& target)
     if (!current_elite_opt) {
         return Result::RecognitionFailed;
     }
+    m_recognized_level = current_elite_opt;
     const int current_elite = *current_elite_opt;
     if (current_elite >= target.target) {
         return Result::AlreadySatisfied;
@@ -348,7 +350,9 @@ asst::AutoRaiseProcessTask::execute_skills(const AutoRaiseTarget& target)
     const cv::Mat image = ctrler()->get_image();
 
     // 当前技能等级以档案页 RANK 数字 OCR 为准（AutoRaise@CurrentSkillLevel）,识别失败按 1 级处理。
-    const int current = ocr_number(image, "AutoRaise@CurrentSkillLevel").value_or(1);
+    const auto current_opt = ocr_number(image, "AutoRaise@CurrentSkillLevel");
+    m_recognized_level = current_opt;
+    const int current = current_opt.value_or(1);
     if (current >= target.target) {
         return Result::AlreadySatisfied;
     }
@@ -416,7 +420,9 @@ asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
     // 专精等级是图标而不是可靠的 OCR 文本,而 0 级（全灰）与 3 级（全白）图标仅亮度不同,
     // 模板匹配分不出来,判级交给 OperFilesImageAnalyzer 按点亮圆点数统计。
     // 识别失败按 0 级处理,与历史行为一致。
-    const int master_current = OperFilesImageAnalyzer(image).mastery_level(target.skill).value_or(0);
+    const auto master_current_opt = OperFilesImageAnalyzer(image).mastery_level(target.skill);
+    m_recognized_level = master_current_opt;
+    const int master_current = master_current_opt.value_or(0);
     if (master_current >= target.target) {
         return Result::AlreadySatisfied;
     }
@@ -1088,13 +1094,18 @@ void asst::AutoRaiseProcessTask::report_target(
     std::string what,
     size_t index,
     const AutoRaiseTarget& target,
-    Result result)
+    Result result,
+    std::optional<int> recognized)
 {
     auto info = basic_info_with_what(std::move(what));
-    info["details"] = json::object{
+    json::object details {
         { "index", index },          { "name", target.name },   { "action", std::string(action_name(target.action)) },
         { "target", target.target }, { "skill", target.skill }, { "result", std::string(result_name(result)) },
     };
+    if (recognized) {
+        details["recognized"] = *recognized;
+    }
+    info["details"] = std::move(details);
     callback(AsstMsg::SubTaskExtraInfo, info);
 }
 
