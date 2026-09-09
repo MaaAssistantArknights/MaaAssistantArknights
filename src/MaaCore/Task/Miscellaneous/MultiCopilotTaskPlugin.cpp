@@ -119,8 +119,8 @@ bool asst::MultiCopilotTaskPlugin::navigate_to_stage(const std::string& stage_na
         return false;
     }
     if (plot_touched && !plot_ret) {
-        // 剧情被点开但还没播完（如跳过按钮尚未出现）：继续把剧情流程走完，别急着在地图上滑动
-        ProcessTask finish_plot_task(*this, { "SkipBattlePlot", "SkipBattlePlotConfirm", "EndOfPlot" });
+        // 剧情被点开但还没播完（如跳过按钮尚未出现，或为无跳过按钮的对话场景 BattleAvatarDialog）：继续把剧情流程走完，别急着在地图上滑动
+        ProcessTask finish_plot_task(*this, { "SkipBattlePlot", "SkipBattlePlotConfirm", "EndOfPlot", "BattleAvatarDialog" });
         finish_plot_task.set_retry_times(2 * RetryTimesDefault);
         if (finish_plot_task.run()) {
             plot_ret = true;
