@@ -280,8 +280,7 @@ ProcessTask::NodeStatus ProcessTask::run_action(const HitDetail& hits) const
             task->specific_rect,
             task->rect_move,
             (param_size > 0) ? task->special_params.at(0) : 0,
-            (param_size > 1) ? static_cast<SwipeExtraDirection>(task->special_params.at(1)) :
-                               SwipeExtraDirection::None,
+            (param_size > 1) ? to_swipe_extra_direction(task->special_params.at(1)) : SwipeExtraDirection::None,
             (param_size > 2) ? task->special_params.at(2) / 10.0 : 1,
             (param_size > 3) ? task->special_params.at(3) / 10.0 : 1,
             task->high_resolution_swipe_fix);

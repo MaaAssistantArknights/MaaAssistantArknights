@@ -71,6 +71,23 @@ enum class SwipeExtraDirection : int
     Right = 4,
 };
 
+// 域外值（如 json 里误写的 5/-1）一律收敛为 None，避免零位移的空 extra 滑动
+inline SwipeExtraDirection to_swipe_extra_direction(int direction)
+{
+    switch (direction) {
+    case 1:
+        return SwipeExtraDirection::Up;
+    case 2:
+        return SwipeExtraDirection::Down;
+    case 3:
+        return SwipeExtraDirection::Left;
+    case 4:
+        return SwipeExtraDirection::Right;
+    default:
+        return SwipeExtraDirection::None;
+    }
+}
+
 inline std::string enum_to_string(SwipeExtraDirection direction)
 {
     switch (direction) {
