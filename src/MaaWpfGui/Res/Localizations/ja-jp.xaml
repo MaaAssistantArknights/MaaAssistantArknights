@@ -875,14 +875,13 @@ C:\leidian\LDPlayer9
     <system:String x:Key="AutoRaiseTargetResultLog">育成プラン {0}：{1}、結果 {2}</system:String>
     <system:String x:Key="AutoRaiseSummaryLog">オペレーター育成完了：成功 {0}、達成済み {1}、失敗 {2}、スキップ {3}</system:String>
     <system:String x:Key="AutoRaiseSelectOperator">オペレーターを選択</system:String>
-    <system:String x:Key="AutoRaiseAddTarget">育成目標を追加</system:String>
+    <system:String x:Key="AutoRaiseAddTarget">追加</system:String>
     <system:String x:Key="AutoRaiseTargetTitle">{0} · 育成目標</system:String>
     <system:String x:Key="AutoRaiseElite">エリート化</system:String>
     <system:String x:Key="AutoRaiseSkillUpgrade">スキルレベルアップ</system:String>
     <system:String x:Key="AutoRaiseMastery">スキル特化</system:String>
-    <system:String x:Key="AutoRaiseSkillIndex">スキル</system:String>
-    <system:String x:Key="AutoRaiseTarget">目標</system:String>
-    <system:String x:Key="AutoRaiseTargetSeparator">、</system:String>
+    <system:String x:Key="AutoRaiseSkillNumber">スキル{0}</system:String>
+    <system:String x:Key="AutoRaiseInvalidOperatorInput">入力したオペレーター名が無効です。リストから選択してください</system:String>
     <system:String x:Key="AutoRaiseOperatorLimit">選択できるオペレーターは最大 5 人です</system:String>
     <system:String x:Key="AutoRaiseEdit">変更</system:String>
     <system:String x:Key="AutoRaiseOnlineEditor">アークナイツツールボックスでオンライン編集</system:String>
