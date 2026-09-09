@@ -22,6 +22,7 @@
 #include "Vision/Hasher.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 #include "Vision/Oper/OperBoxImageAnalyzer.h"
+#include "Vision/Oper/OperFilesImageAnalyzer.h"
 #include "Vision/Oper/OperNameAnalyzer.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
@@ -353,30 +354,20 @@ asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
         return Result::PrerequisiteNotMet;
     }
 
+    // 档案页技能等级 OCR 与专精图标识别共用一张截图
+    const cv::Mat image = ctrler()->get_image();
+
     // 专精任务前置要求通用等级7级,不满足的情况下直接返回
-    const auto rank = ocr_number("AutoRaise@CurrentSkillLevel");
+    const auto rank = ocr_number(image, "AutoRaise@CurrentSkillLevel");
     if (rank && *rank < 7) {
         return Result::PrerequisiteNotMet;
     }
 
-    // 档案页先匹配目标技能槽的当前专精等级（AutoRaise@CurrentSkill{skill}MasterLevel）：
-    // 专精等级是图标而不是可靠的 OCR 文本,使用 0-3 级模板中得分最高的结果。
-    const std::string master_task_name =
-        "AutoRaise@CurrentSkill" + std::to_string(target.skill) + "MasterLevel";
-    BestMatcher master_analyzer(ctrler()->get_image());
-    master_analyzer.set_task_info(master_task_name);
-    for (int level = 0; level <= 3; ++level) {
-        master_analyzer.append_templ("OperFilesSkillMaster" + std::to_string(level) + ".png");
-    }
-
-    int master_current = 0;
-    if (master_analyzer.analyze()) {
-        const auto& template_name = master_analyzer.get_result().templ_info.name;
-        const std::string prefix = "OperFilesSkillMaster";
-        if (template_name.starts_with(prefix)) {
-            utils::chars_to_number(template_name.substr(prefix.size(), 1), master_current);
-        }
-    }
+    // 档案页识别目标技能槽的当前专精等级（AutoRaise@CurrentSkill{skill}MasterLevel）：
+    // 专精等级是图标而不是可靠的 OCR 文本,而 0 级（全灰）与 3 级（全白）图标仅亮度不同,
+    // 模板匹配分不出来,判级交给 OperFilesImageAnalyzer 按点亮圆点数统计。
+    // 识别失败按 0 级处理,与历史行为一致。
+    const int master_current = OperFilesImageAnalyzer(image).mastery_level(target.skill).value_or(0);
     if (master_current >= target.target) {
         return Result::AlreadySatisfied;
     }
@@ -863,7 +854,12 @@ bool asst::AutoRaiseProcessTask::record_factory_state()
 
 std::optional<int> asst::AutoRaiseProcessTask::ocr_number(const std::string& task_name)
 {
-    RegionOCRer analyzer(ctrler()->get_image());
+    return ocr_number(ctrler()->get_image(), task_name);
+}
+
+std::optional<int> asst::AutoRaiseProcessTask::ocr_number(const cv::Mat& image, const std::string& task_name)
+{
+    RegionOCRer analyzer(image);
     analyzer.set_task_info(task_name);
     analyzer.set_use_raw(true);
     if (!analyzer.analyze()) {
