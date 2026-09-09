@@ -741,7 +741,7 @@ void asst::RoguelikeRecruitTaskPlugin::slowly_swipe(bool to_left, int swipe_dist
         swipe_task->special_params.empty() ? 0 : swipe_task->special_params.at(0),
         (swipe_task->special_params.size() < 2) ? SwipeExtraDirection::None :
                                                   static_cast<SwipeExtraDirection>(swipe_task->special_params.at(1)),
-        (swipe_task->special_params.size() < 3) ? 1 : swipe_task->special_params.at(2),
-        (swipe_task->special_params.size() < 4) ? 1 : swipe_task->special_params.at(3));
+(swipe_task->special_params.size() < 3) ? 1 : swipe_task->special_params.at(2) / 10.0,
+(swipe_task->special_params.size() < 4) ? 1 : swipe_task->special_params.at(3) / 10.0);
     sleep(swipe_task->post_delay);
 }
