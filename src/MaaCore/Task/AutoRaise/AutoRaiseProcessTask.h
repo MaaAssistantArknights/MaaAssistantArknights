@@ -56,12 +56,17 @@ private:
     bool buy_catalyst(int count);
     std::optional<int> ocr_number(const std::string& task_name);
     std::optional<int> ocr_number(const cv::Mat& image, const std::string& task_name);
-    void report_target(std::string what, size_t index, const AutoRaiseTarget& target, Result result);
+    // recognized 非空时随 AutoRaiseTargetResult 回调附带：本次任务现场识别到的当前等级
+    // （elite 为当前精英化阶段，skills 为当前 RANK 等级，mastery 为目标技能的当前专精等级）。
+    void report_target(std::string what, size_t index, const AutoRaiseTarget& target, Result result,
+                       std::optional<int> recognized = std::nullopt);
     void report_summary();
     static std::string_view action_name(AutoRaiseAction action);
     static std::string_view result_name(Result result);
 
     AutoRaisePlan m_plan;
+    // 本次任务现场识别到的当前等级，含义随 action 而异，随 AutoRaiseTargetResult 回调给 UI。
+    std::optional<int> m_recognized_level;
     // 首条目标已定位:任务开始时可能停在主页走完整入口链,之后换干员保证不去主页。
     bool m_entry_completed = false;
     // 当前停留在档案页的干员名；计划中连续两条同干员时直接复用档案页,为空表示上下文已失效。
