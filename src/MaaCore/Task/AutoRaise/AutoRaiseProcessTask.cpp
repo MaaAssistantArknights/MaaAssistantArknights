@@ -269,8 +269,7 @@ asst::AutoRaiseProcessTask::find_and_open_operator(const AutoRaiseTarget& target
 
 bool asst::AutoRaiseProcessTask::select_operator_role(const std::string& operator_name)
 {
-    // 使用 BattleData 职业信息缩小 OCR 查找范围。现有快速编队任务负责展开职业栏并点击识别到的职业图标,
-    // 同时将列表回到该职业的第一页,不使用固定的干员卡片坐标。
+    // 使用 BattleData 职业信息缩小 OCR 查找范围,不使用固定的干员卡片坐标。
     const std::string role_task = role_task_name(BattleData.get_first_role(operator_name));
     if (role_task.empty()) {
         return true;
@@ -282,7 +281,13 @@ bool asst::AutoRaiseProcessTask::select_operator_role(const std::string& operato
         Log.error("AutoRaise | failed to expand role bar on oper box page");
         return false;
     }
-    return run_task(role_task);
+    // 先选 ALL 再切换目标职业,避免同职业列表保留上次的滚动位置。
+    // 筛选后收起职业栏,并复用职业名 OCR 确认收起,避免遮挡最右侧干员卡片。
+    return ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" })
+               .set_retry_times(3)
+               .run() &&
+           run_task(role_task) && run_task("InfrastCloseQuickFormationExpandRole", 3) &&
+           run_task("AutoRaise@OperBoxRoleFiltered", 3);
 }
 
 asst::AutoRaiseProcessTask::Result
