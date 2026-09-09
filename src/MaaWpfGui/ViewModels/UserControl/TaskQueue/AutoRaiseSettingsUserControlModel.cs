@@ -24,6 +24,7 @@ using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Stylet;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -148,46 +149,14 @@ public class AutoRaiseSettingsUserControlModel : TaskSettingsViewModel, AutoRais
         }
     } = 7;
 
-    public bool PopupSelectMastery
-    {
-        get => field;
-        set {
-            if (SetAndNotify(ref field, value))
-            {
-                UpdatePopupHasSelection();
-            }
-        }
-    }
-
-    public int PopupMasterySkillIndex
-    {
-        get => field;
-        set {
-            if (SetAndNotify(ref field, value))
-            {
-                PopupSelectMastery = true;
-            }
-        }
-    } = 1;
-
-    public int PopupMasteryTarget
-    {
-        get => field;
-        set {
-            if (SetAndNotify(ref field, value))
-            {
-                PopupSelectMastery = true;
-            }
-        }
-    } = 3;
-
     public IReadOnlyList<int> EliteOptions { get; } = [1, 2];
 
     public IReadOnlyList<int> SkillLevelOptions { get; } = [2, 3, 4, 5, 6, 7];
 
     public IReadOnlyList<int> MasteryTargetOptions { get; } = [1, 2, 3];
 
-    public IReadOnlyList<int> MasterySkillOptions { get => field; private set => SetAndNotify(ref field, value); } = [1, 2, 3];
+    /// <summary>技能专精行，每个技能独立勾选，按干员稀有度与已有条目动态生成</summary>
+    public ObservableCollection<AutoRaiseMasterySkillRow> MasteryRows { get; } = [];
 
     private string _popupOperatorName = string.Empty;
 
@@ -241,6 +210,12 @@ public class AutoRaiseSettingsUserControlModel : TaskSettingsViewModel, AutoRais
             return;
         }
 
+        if (!DataHelper.Operators.Values.Any(character => character.Name == name))
+        {
+            ValidationMessage = LocalizationHelper.GetString("AutoRaiseInvalidOperatorInput");
+            return;
+        }
+
         JArray plans = GetValidatedPlans();
         int editIndex = FindOperator(plans, name);
         if (editIndex < 0 && DistinctOperatorCount(plans) >= MaxOperators)
@@ -259,7 +234,11 @@ public class AutoRaiseSettingsUserControlModel : TaskSettingsViewModel, AutoRais
         }
 
         JArray plans = GetValidatedPlans();
-        BeginTargetPopup(item.Name, plans, FindOperator(plans, item.Name));
+
+        // 延迟到本次点击结束后再弹窗，避免 StaysOpen=False 的弹窗被随后的松开操作立即关闭
+        System.Windows.Application.Current.Dispatcher.InvokeAsync(
+            () => BeginTargetPopup(item.Name, plans, FindOperator(plans, item.Name)),
+            System.Windows.Threading.DispatcherPriority.Background);
     }
 
     public void RemoveOperator(PlanPreview item)
@@ -354,13 +333,22 @@ public class AutoRaiseSettingsUserControlModel : TaskSettingsViewModel, AutoRais
         _editOperatorIndex = editIndex;
         PopupTitle = LocalizationHelper.GetStringFormat("AutoRaiseTargetTitle", name);
         PopupConfirmText = LocalizationHelper.GetString(editIndex >= 0 ? "AutoRaiseEdit" : "Confirm");
-        MasterySkillOptions = GetMasterySkillOptions(name);
 
+        int maxSkill = GetMaxMasterySkill(name);
+        if (editIndex >= 0)
+        {
+            // 已有超出稀有度规则的专精条目时扩展可选行，避免编辑时被静默丢弃
+            maxSkill = Math.Max(maxSkill, plans.Cast<JObject>()
+                .Where(plan => plan.Value<string>("name") == name && plan.ContainsKey("skill"))
+                .Select(plan => plan.Value<int>("skill"))
+                .DefaultIfEmpty(0)
+                .Max());
+        }
+
+        ResetMasteryRows(Math.Clamp(maxSkill, 1, 3));
         PopupEliteTarget = 2;
         PopupSkillTarget = 7;
-        PopupMasterySkillIndex = MasterySkillOptions[0];
-        PopupMasteryTarget = 3;
-        PopupSelectElite = PopupSelectSkill = PopupSelectMastery = false;
+        PopupSelectElite = PopupSelectSkill = false;
         if (editIndex >= 0)
         {
             foreach (JObject plan in plans.Cast<JObject>().Where(plan => plan.Value<string>("name") == name))
@@ -377,10 +365,12 @@ public class AutoRaiseSettingsUserControlModel : TaskSettingsViewModel, AutoRais
                 }
                 else
                 {
-                    int skillIndex = plan.Value<int>("skill");
-                    PopupMasterySkillIndex = MasterySkillOptions.Contains(skillIndex) ? skillIndex : MasterySkillOptions[0];
-                    PopupMasteryTarget = plan.Value<int>("skill_master");
-                    PopupSelectMastery = true;
+                    var row = MasteryRows.FirstOrDefault(row => row.SkillIndex == plan.Value<int>("skill"));
+                    if (row is not null)
+                    {
+                        row.Target = plan.Value<int>("skill_master");
+                        row.IsSelected = true;
+                    }
                 }
             }
         }
@@ -401,21 +391,31 @@ public class AutoRaiseSettingsUserControlModel : TaskSettingsViewModel, AutoRais
             yield return new JObject { ["name"] = name, ["skills"] = PopupSkillTarget };
         }
 
-        if (PopupSelectMastery)
+        foreach (var row in MasteryRows.Where(row => row.IsSelected))
         {
-            yield return new JObject { ["name"] = name, ["skill"] = PopupMasterySkillIndex, ["skill_master"] = PopupMasteryTarget };
+            yield return new JObject { ["name"] = name, ["skill"] = row.SkillIndex, ["skill_master"] = row.Target };
         }
     }
 
-    private void UpdatePopupHasSelection() => PopupHasSelection = PopupSelectElite || PopupSelectSkill || PopupSelectMastery;
+    private void UpdatePopupHasSelection() => PopupHasSelection = PopupSelectElite || PopupSelectSkill || MasteryRows.Any(row => row.IsSelected);
 
-    /// <summary>专精可选技能序号按稀有度过滤，规则与 CopilotViewModel 一致：3 技能需 6 星（或阿米娅），2 技能需 4 星</summary>
-    private static IReadOnlyList<int> GetMasterySkillOptions(string name)
+    private void ResetMasteryRows(int maxSkill)
+    {
+        MasteryRows.Clear();
+        for (int skillIndex = 1; skillIndex <= maxSkill; ++skillIndex)
+        {
+            var row = new AutoRaiseMasterySkillRow(skillIndex);
+            row.PropertyChanged += (_, _) => UpdatePopupHasSelection();
+            MasteryRows.Add(row);
+        }
+    }
+
+    /// <summary>专精可选技能数按稀有度过滤，规则与 CopilotViewModel 一致：3 技能需 6 星（或阿米娅），2 技能需 4 星</summary>
+    private static int GetMaxMasterySkill(string name)
     {
         var character = DataHelper.GetCharacterByNameOrAlias(name);
         int rarity = character?.Rarity ?? -1;
-        int maxSkill = rarity >= 6 || character?.Id == "char_002_amiya" ? 3 : rarity >= 4 ? 2 : 1;
-        return Enumerable.Range(1, Math.Clamp(maxSkill, 1, 3)).ToList();
+        return rarity >= 6 || character?.Id == "char_002_amiya" ? 3 : rarity >= 4 ? 2 : 1;
     }
 
     private static int FindOperator(JArray plans, string name)
@@ -545,11 +545,10 @@ public class AutoRaiseSettingsUserControlModel : TaskSettingsViewModel, AutoRais
     private void LoadPreview(JArray plans)
     {
         PlanPreviewItems.Clear();
-        int index = 0;
-        foreach (var group in plans.Cast<JObject>().GroupBy(plan => plan.Value<string>("name")!))
+        for (int index = 0; index < plans.Count; ++index)
         {
-            string target = string.Join(LocalizationHelper.GetString("AutoRaiseTargetSeparator"), group.Select(DescribeAction));
-            PlanPreviewItems.Add(new(++index, group.Key, target));
+            var plan = (JObject)plans[index]!;
+            PlanPreviewItems.Add(new(index + 1, plan.Value<string>("name")!, DescribeAction(plan)));
         }
         NotifyOfPropertyChange(nameof(CanAddOperator));
     }
