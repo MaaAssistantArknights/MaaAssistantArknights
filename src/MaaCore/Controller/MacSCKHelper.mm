@@ -8,8 +8,7 @@
 
 #include "Utils/Logger.hpp"
 
-@interface MacSCKOutput : NSObject <SCStreamDelegate, SCStreamOutput> {
-}
+@interface MacSCKOutput : NSObject <SCStreamDelegate, SCStreamOutput>
 
 @property (nonatomic, readonly) CVImageBufferRef buffer;
 
@@ -17,7 +16,18 @@
 
 @end
 
-@implementation MacSCKOutput
+@implementation MacSCKOutput {
+    std::atomic_bool _initialized;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _initialized.store(false, std::memory_order_relaxed);
+    }
+    return self;
+}
 
 - (void)stream:(SCStream*)stream didStopWithError:(NSError*)error
 {
@@ -27,11 +37,37 @@
         Log.trace(__FUNCTION__, "| Stream stopped without error");
     }
     self.running = NO;
+    _initialized.store(true, std::memory_order_release);
+    _initialized.notify_all();
 }
 
 - (void)stream:(SCStream*)stream didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer ofType:(SCStreamOutputType)type
 {
-    if (type != SCStreamOutputTypeScreen) {
+    if (type != SCStreamOutputTypeScreen || !CMSampleBufferIsValid(sampleBuffer)) {
+        return;
+    }
+
+    auto attachments = CMSampleBufferGetSampleAttachmentsArray(sampleBuffer, NO);
+    if (!attachments || CFArrayGetCount(attachments) == 0) {
+        return;
+    }
+    bool complete = false;
+    if (auto frameInfo = CFArrayGetValueAtIndex(attachments, 0)) {
+        if (auto value = CFDictionaryGetValue((CFDictionaryRef)frameInfo, SCStreamFrameInfoStatus)) {
+            SCFrameStatus status;
+            if (CFNumberGetValue((CFNumberRef)value, kCFNumberNSIntegerType, &status)) {
+                switch (status) {
+                case SCFrameStatusComplete:
+                case SCFrameStatusStarted:
+                    complete = true;
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+    }
+    if (!complete) {
         return;
     }
 
@@ -43,7 +79,17 @@
             CFRelease(_buffer);
         }
         _buffer = newBuffer;
+
+        if (!_initialized.load(std::memory_order::relaxed)) {
+            _initialized.store(true, std::memory_order_release);
+            _initialized.notify_all();
+        }
     }
+}
+
+- (void)waitForInitialized
+{
+    _initialized.wait(false, std::memory_order_acquire);
 }
 
 - (void)dealloc
@@ -81,29 +127,31 @@ struct asst::MacSCKHelper::Impl {
 
 asst::MacSCKHelper::Impl::~Impl()
 {
-    if (m_stream) {
-        auto sem = dispatch_semaphore_create(0);
-        [m_stream stopCaptureWithCompletionHandler:^(NSError* _Nullable error) {
+    const auto stream = m_stream;
+    const auto output = m_output;
+    const auto queue = m_queue;
+
+    m_stream = nil;
+    m_output = nil;
+    m_queue = nil;
+
+    const auto cleanup = ^{
+        [stream release];
+        [output release];
+        if (queue) {
+            dispatch_release(queue);
+        }
+    };
+
+    if (stream) {
+        [stream stopCaptureWithCompletionHandler:^(NSError* _Nullable error) {
             if (error) {
                 Log.error("Error stopping capture:", error.localizedDescription.UTF8String);
             }
-            dispatch_semaphore_signal(sem);
+            cleanup();
         }];
-
-        dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC);
-        dispatch_semaphore_wait(sem, timeout);
-        dispatch_release(sem);
-
-        [m_stream release];
-        m_stream = nil;
-    }
-
-    [m_output release];
-    m_output = nil;
-
-    if (m_queue) {
-        dispatch_release(m_queue);
-        m_queue = nil;
+    } else {
+        cleanup();
     }
 }
 
@@ -226,6 +274,8 @@ bool asst::MacSCKHelper::Impl::capture(std::vector<uint8_t>& bgrData) const
         Log.error("Stream output is not initialized");
         return false;
     }
+
+    [m_output waitForInitialized];
 
     __block CVImageBufferRef buffer = nullptr;
     dispatch_sync(m_queue, ^{
