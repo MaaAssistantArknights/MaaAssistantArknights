@@ -4070,7 +4070,7 @@
         "action": "ClickSelf",
         "roi": [1000, 550, 280, 150],
         "postDelay": 1000,
-        "next": ["InfrastTrainingLocked"]
+        "next": ["InfrastTrainingLocked", "InfrastTrainingMasterybusy"]
     },
     "InfrastTrainingLocked": {
         "roi": [890, 10, 200, 200]
@@ -6112,7 +6112,7 @@
         "template": "CreditShop-Bought.png",
         "maxTimes": 10,
         "next": ["RedTicket@Store@ChooseTicketTypeSelected", "RedTicket@Store@PurchasedConfirm"]
-    },    
+    },
     "AutoRaise@OperFiles": {
         "baseTask": "OperOpenInformationMenu",
         "template": "OperInformationMenu.png",
