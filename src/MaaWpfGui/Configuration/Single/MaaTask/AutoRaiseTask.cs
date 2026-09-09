@@ -33,4 +33,10 @@ public class AutoRaiseTask : BaseTask
     /// Editing <see cref="PlanJson"/> does not change the plan used by a run until validation succeeds again.
     /// </summary>
     public string ValidatedPlanJson { get; set; } = "[]";
+
+    /// <summary>
+    /// Gets or sets a value indicating whether entries reported as completed or already satisfied
+    /// are removed from the plan when the whole development task chain finishes.
+    /// </summary>
+    public bool DeleteCompletedEntries { get; set; }
 }
