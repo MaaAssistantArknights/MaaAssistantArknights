@@ -6455,6 +6455,11 @@
         "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
         "next": ["AutoRaise@EliteUpMaterial1JumpProcessing", "MiniGame@MaterialSynthesis@Workshop"]
     },
+    "AutoRaise@EliteUpMaterial1JumpProcessingUnable": {
+        "template": "QuickJumpProcessingUnable.png",
+        "roi": [570, 327, 519, 313],
+        "doc": "干员精英化第一个材料的加工站配方未解锁检测，roi 同 JumpProcessing"
+    },
     "AutoRaise@EliteUpMaterial2JumpProcessing": {
         "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
         "template": "QuickJumpProcessing.png",
@@ -6471,6 +6476,11 @@
         "postDelay": 1000,
         "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
         "next": ["AutoRaise@EliteUpMaterial2JumpProcessing", "MiniGame@MaterialSynthesis@Workshop"]
+    },
+    "AutoRaise@EliteUpMaterial2JumpProcessingUnable": {
+        "template": "QuickJumpProcessingUnable.png",
+        "roi": [76, 328, 519, 313],
+        "doc": "干员精英化第二个材料的加工站配方未解锁检测，roi 同 JumpProcessing"
     },
     "AutoRaise@RecordFactoryState": {
         "algorithm": "MatchTemplate",
@@ -6544,6 +6554,11 @@
         "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
         "next": ["AutoRaise@SkillUpMaterial0JumpProcessing", "MiniGame@MaterialSynthesis@Workshop"]
     },
+    "AutoRaise@SkillUpMaterial0JumpProcessingUnable": {
+        "template": "QuickJumpProcessingUnable.png",
+        "roi": [279, 376, 539, 271],
+        "doc": "干员技能升级的技能书加工站配方未解锁检测，roi 同 JumpProcessing"
+    },
     "AutoRaise@SkillUpMaterial1JumpProcessing": {
         "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
         "template": "QuickJumpProcessing.png",
@@ -6561,6 +6576,11 @@
         "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
         "next": ["AutoRaise@SkillUpMaterial1JumpProcessing", "MiniGame@MaterialSynthesis@Workshop"]
     },
+    "AutoRaise@SkillUpMaterial1JumpProcessingUnable": {
+        "template": "QuickJumpProcessingUnable.png",
+        "roi": [417, 331, 539, 300],
+        "doc": "干员技能升级第一个材料的加工站配方未解锁检测，roi 同 JumpProcessing"
+    },
     "AutoRaise@SkillUpMaterial2JumpProcessing": {
         "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
         "template": "QuickJumpProcessing.png",
@@ -6577,6 +6597,11 @@
         "postDelay": 1000,
         "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
         "next": ["AutoRaise@SkillUpMaterial2JumpProcessing", "MiniGame@MaterialSynthesis@Workshop"]
+    },
+    "AutoRaise@SkillUpMaterial2JumpProcessingUnable": {
+        "template": "QuickJumpProcessingUnable.png",
+        "roi": [555, 324, 539, 317],
+        "doc": "干员技能升级第二个材料的加工站配方未解锁检测，roi 同 JumpProcessing"
     },
     "AutoRaise@SkillUpConfirm": {
         "baseTask": "AutoRaise@EliteUpPageConfirm",
@@ -6647,6 +6672,11 @@
         "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
         "next": ["AutoRaise@MasteryMaterial0JumpProcessing", "MiniGame@MaterialSynthesis@Workshop"]
     },
+    "AutoRaise@MasteryMaterial0JumpProcessingUnable": {
+        "template": "QuickJumpProcessingUnable.png",
+        "roi": [415, 381, 539, 264],
+        "doc": "干员技能专精的技能书加工站配方未解锁检测，roi 同 JumpProcessing"
+    },
     "AutoRaise@MasteryMaterial1JumpProcessing": {
         "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
         "template": "QuickJumpProcessing.png",
@@ -6664,6 +6694,11 @@
         "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
         "next": ["AutoRaise@MasteryMaterial1JumpProcessing", "MiniGame@MaterialSynthesis@Workshop"]
     },
+    "AutoRaise@MasteryMaterial1JumpProcessingUnable": {
+        "template": "QuickJumpProcessingUnable.png",
+        "roi": [559, 326, 539, 312],
+        "doc": "干员技能专精第一个材料的加工站配方未解锁检测，roi 同 JumpProcessing"
+    },
     "AutoRaise@MasteryMaterial2JumpProcessing": {
         "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
         "template": "QuickJumpProcessing.png",
@@ -6680,6 +6715,11 @@
         "postDelay": 1000,
         "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
         "next": ["AutoRaise@MasteryMaterial2JumpProcessing", "MiniGame@MaterialSynthesis@Workshop"]
+    },
+    "AutoRaise@MasteryMaterial2JumpProcessingUnable": {
+        "template": "QuickJumpProcessingUnable.png",
+        "roi": [68, 325, 539, 312],
+        "doc": "干员技能专精第二个材料的加工站配方未解锁检测，roi 同 JumpProcessing"
     },
     "AutoRaise@MasterySelectSkill1": {
         "baseTask": "InfrastTrainingContinue1",

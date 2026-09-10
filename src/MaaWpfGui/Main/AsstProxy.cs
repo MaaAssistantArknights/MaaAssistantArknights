@@ -2756,7 +2756,7 @@ public class AsstProxy
                         ProcAutoRaiseTargetDescription(details),
                         result) + recognizedText,
                     result is "completed" or "already_satisfied" ? UiLogColor.Success :
-                    result == "skipped" ? UiLogColor.Warning : UiLogColor.Error);
+                    result is "skipped" or "formula_locked" ? UiLogColor.Warning : UiLogColor.Error);
                 ViewModels.UserControl.TaskQueue.AutoRaiseSettingsUserControlModel.Instance.OnTargetResult(
                     (int)(details?["index"] ?? -1),
                     details?["name"]?.ToString() ?? string.Empty,

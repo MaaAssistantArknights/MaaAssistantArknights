@@ -159,6 +159,7 @@ bool asst::AutoRaiseProcessTask::_run()
             ++m_satisfied;
             break;
         case Result::Skipped:
+        case Result::FormulaLocked:
             ++m_skipped;
             break;
         default:
@@ -199,8 +200,7 @@ asst::AutoRaiseProcessTask::execute_target(const AutoRaiseTarget& target)
 asst::AutoRaiseProcessTask::Result
 asst::AutoRaiseProcessTask::find_and_open_operator(const AutoRaiseTarget& target)
 {
-    // 计划中连续两条属于同一干员且档案页仍停留时直接复用当前页面,不回干员列表重复定位
-    // （参照 ArkLightsPlus raise.auto_raise：上一条同名且 findOne("干员档案") 则跳过 char_choose）；
+    // 计划中连续两条属于同一干员且档案页仍停留时直接复用当前页面,不回干员列表重复定位    
     // 精英化等培养状态由 execute_xxx 在档案页现场识别,复用页面不影响状态判断。
     if (m_current_operator == target.name && run_task("AutoRaise@OperFiles", 1)) {
         return Result::Completed;
@@ -329,13 +329,17 @@ asst::AutoRaiseProcessTask::execute_elite(const AutoRaiseTarget& target)
                 }
             }
             // 材料 1/2 依次跳转加工站复用小游戏自动合成；当前槽位修复后再处理下一槽。
-            if (run_task("AutoRaise@EliteUpMaterial1Required", 2) &&
-                !synthesize_missing_material(AutoRaiseAction::Elite, 1)) {
-                return Result::ResourceInsufficient;
+            if (run_task("AutoRaise@EliteUpMaterial1Required", 2)) {
+                const Result synth_result = synthesize_missing_material(AutoRaiseAction::Elite, 1);
+                if (synth_result != Result::Completed) {
+                    return synth_result;
+                }
             }
-            if (run_task("AutoRaise@EliteUpMaterial2Required", 2) &&
-                !synthesize_missing_material(AutoRaiseAction::Elite, 2)) {
-                return Result::ResourceInsufficient;
+            if (run_task("AutoRaise@EliteUpMaterial2Required", 2)) {
+                const Result synth_result = synthesize_missing_material(AutoRaiseAction::Elite, 2);
+                if (synth_result != Result::Completed) {
+                    return synth_result;
+                }
             }
         }
         // 复核仍缺料则不点击晋升；材料齐备则点击晋升确认,再以新阶段标志确认晋升成功。
@@ -376,18 +380,26 @@ asst::AutoRaiseProcessTask::execute_skills(const AutoRaiseTarget& target)
         // 技能书/材料1/材料2 均跳加工站走自动合成,当前槽位修复后再检测下一槽；
         // 2-3 级的技能书不可合成,缺料时合成步骤失败即终止本轮培养。
         if (run_task("AutoRaise@SkillUpSkillSummaryRequired", 1)) {
-            if (level <= 3 || !synthesize_missing_material(AutoRaiseAction::Skills, 0)) {
+            if (level <= 3) {
                 return Result::ResourceInsufficient;
             }
+            const Result synth_result = synthesize_missing_material(AutoRaiseAction::Skills, 0);
+            if (synth_result != Result::Completed) {
+                return synth_result;
+            }
         }
-        if (run_task("AutoRaise@SkillUpMaterial1Required", 1) &&
-            !synthesize_missing_material(AutoRaiseAction::Skills, 1)) {
-            return Result::ResourceInsufficient;
+        if (run_task("AutoRaise@SkillUpMaterial1Required", 1)) {
+            const Result synth_result = synthesize_missing_material(AutoRaiseAction::Skills, 1);
+            if (synth_result != Result::Completed) {
+                return synth_result;
+            }
         }
 
-        if (level == 7 && run_task("AutoRaise@SkillUpMaterial2Required", 1) &&
-            !synthesize_missing_material(AutoRaiseAction::Skills, 2)) {
-            return Result::ResourceInsufficient;
+        if (level == 7 && run_task("AutoRaise@SkillUpMaterial2Required", 1)) {
+            const Result synth_result = synthesize_missing_material(AutoRaiseAction::Skills, 2);
+            if (synth_result != Result::Completed) {
+                return synth_result;
+            }
         }
         if (!run_task("AutoRaise@SkillUpConfirm")) {
             return Result::RecognitionFailed;
@@ -482,17 +494,23 @@ asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
     }
     // 选定受训干员与技能后确认面板展示材料行；逐槽检测（同 execute_elite 槽位分派）：
     // 技能书/材料1/材料2 依次跳加工站走自动合成,全部修复后复核仍缺料则不启动专精。
-    if (run_task("AutoRaise@MasterySkillSummaryRequired", 2) &&
-        !synthesize_missing_material(AutoRaiseAction::Mastery, 0)) {
-        return Result::ResourceInsufficient;
+    if (run_task("AutoRaise@MasterySkillSummaryRequired", 2)) {
+        const Result synth_result = synthesize_missing_material(AutoRaiseAction::Mastery, 0);
+        if (synth_result != Result::Completed) {
+            return synth_result;
+        }
     }
-    if (run_task("AutoRaise@MasteryMaterial1Required", 2) &&
-        !synthesize_missing_material(AutoRaiseAction::Mastery, 1)) {
-        return Result::ResourceInsufficient;
+    if (run_task("AutoRaise@MasteryMaterial1Required", 2)) {
+        const Result synth_result = synthesize_missing_material(AutoRaiseAction::Mastery, 1);
+        if (synth_result != Result::Completed) {
+            return synth_result;
+        }
     }
-    if (run_task("AutoRaise@MasteryMaterial2Required", 2) &&
-        !synthesize_missing_material(AutoRaiseAction::Mastery, 2)) {
-        return Result::ResourceInsufficient;
+    if (run_task("AutoRaise@MasteryMaterial2Required", 2)) {
+        const Result synth_result = synthesize_missing_material(AutoRaiseAction::Mastery, 2);
+        if (synth_result != Result::Completed) {
+            return synth_result;
+        }
     }
     if (run_task("AutoRaise@MasteryMaterialMissing", 2)) {
         return Result::ResourceInsufficient;
@@ -842,11 +860,12 @@ bool asst::AutoRaiseProcessTask::reset_trainer_list_page()
     return false;
 }
 
-bool asst::AutoRaiseProcessTask::synthesize_missing_material(AutoRaiseAction task_type, int material_index)
+asst::AutoRaiseProcessTask::Result
+asst::AutoRaiseProcessTask::synthesize_missing_material(AutoRaiseAction task_type, int material_index)
 {
     if (material_index < 0 || material_index > 2) {
         Log.error("AutoRaise | invalid material index", material_index);
-        return false;
+        return Result::ResourceInsufficient;
     }
 
     std::string_view task_type_name;
@@ -862,21 +881,30 @@ bool asst::AutoRaiseProcessTask::synthesize_missing_material(AutoRaiseAction tas
         break;
     default:
         Log.error("AutoRaise | unsupported material task type", static_cast<int>(task_type));
-        return false;
+        return Result::ResourceInsufficient;
     }
 
     const std::string material_task =
         "AutoRaise@" + std::string(task_type_name) + "Material" + std::to_string(material_index);
-    if (!run_task(material_task) || !run_task(material_task + "JumpProcessing")) {
-        return false;
+    if (!run_task(material_task)) {
+        return Result::ResourceInsufficient;
+    }
+    // 快速跳转弹窗内与跳转按钮同 roi 识别到不可用态,说明该材料配方尚未解锁,无法在加工站合成。
+    if (run_task(material_task + "JumpProcessingUnable", 2)) {
+        Log.info("AutoRaise | formula locked, skip synthesizing", material_task);
+        return Result::FormulaLocked;
+    }
+    if (!run_task(material_task + "JumpProcessing")) {
+        return Result::ResourceInsufficient;
     }
     // 加工站递归合成复用小游戏自动合成逻辑：插件入口校验加工站标志并驱动当前配方。
     MaterialSynthesisTaskPlugin synthesis(m_callback, m_inst, m_task_chain);
     synthesis.set_task_id(m_task_id).set_retry_times(0);
     if (!synthesis.run()) {
-        return false;
+        return Result::ResourceInsufficient;
     }
-    return run_task("AutoRaise@ReturnTo" + std::string(task_type_name) + "Page");
+    return run_task("AutoRaise@ReturnTo" + std::string(task_type_name) + "Page") ? Result::Completed
+                                                                                 : Result::ResourceInsufficient;
 }
 
 bool asst::AutoRaiseProcessTask::record_factory_state()
@@ -1154,6 +1182,8 @@ std::string_view asst::AutoRaiseProcessTask::result_name(Result result)
         return "prerequisite_not_met";
     case Result::ChipNotCraftable:
         return "chip_not_craftable";
+    case Result::FormulaLocked:
+        return "formula_locked";
     case Result::Unsupported:
         return "unsupported";
     case Result::RecognitionFailed:

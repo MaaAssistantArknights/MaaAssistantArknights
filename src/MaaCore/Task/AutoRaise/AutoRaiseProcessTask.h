@@ -28,6 +28,7 @@ private:
         OperatorNotFound,
         PrerequisiteNotMet,
         ChipNotCraftable,
+        FormulaLocked,
         Unsupported,
         RecognitionFailed,
         Skipped,
@@ -49,7 +50,8 @@ private:
     // 页面过场动画未完成时一次性验证必然失败。
     bool run_task(const std::string& task_name, int retry_times = RetryTimesDefault);
     // task_type 区分精英化、技能升级与技能专精页面；material_index 对应页面上的材料槽 0-2。
-    bool synthesize_missing_material(AutoRaiseAction task_type, int material_index);
+    // 返回 FormulaLocked 表示该材料在快速跳转弹窗中的配方尚未解锁,调用方应据此跳过当前任务。
+    Result synthesize_missing_material(AutoRaiseAction task_type, int material_index);
     bool record_factory_state();
     bool manufacture_dual_chip(const AutoRaiseTarget& target);
     bool restore_factory_state();
