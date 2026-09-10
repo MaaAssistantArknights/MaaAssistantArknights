@@ -44,6 +44,12 @@ public partial class ConnectSettings : NotifyPropertyChangedWithValue, IJsonOnDe
         {
             TouchMode = TouchMode.MiniTouch;
         }
+
+        // MaaFwAdb 现已完全被 MaaFw 触控模式取代，迁移旧的设置
+        if (TouchMode == TouchMode.MaaFwAdb)
+        {
+            TouchMode = TouchMode.MaaFw;
+        }
     }
 
     public bool AutoDetect { get; set; } = true;

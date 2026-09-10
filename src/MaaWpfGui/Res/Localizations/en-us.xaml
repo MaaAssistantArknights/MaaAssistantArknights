@@ -585,7 +585,7 @@ If you choose ｢{key=ManualRestart}｣ and start MAA manually later, ｢{key=Ru
     <system:String x:Key="MiniTouchMode">Minitouch (Default)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (Experimental)</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input (Deprecated)</system:String>
-    <system:String x:Key="MaaFwAdbTouchMode">MaaFwAdb (Experimental)</system:String>
+    <system:String x:Key="MaaFwTouchMode">MaaFw (Experimental)</system:String>
     <system:String x:Key="MumuExtrasTouchMode">MuMu Touch (Experimental)</system:String>
     <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input is only for physical devices running an older OS version. Do not use it if other modes work.&#10;ADB Input swipes tend to drift, so swipe speed is set very slow and swipe distances differ from other modes; it cannot be used in scenarios requiring precise coordinate control.&#10;&#10;MaaFwAdb does not support extra swipe, so pages that rely on extra swipe to prevent overshooting will overshoot in this mode.&#10;An extra swipe is a short "brake" swipe appended perpendicular to the end of the main swipe (tracing an L-shaped 90° turn) to counteract list inertia.</system:String>
     <system:String x:Key="AdditionCommand">Additional command arguments</system:String>

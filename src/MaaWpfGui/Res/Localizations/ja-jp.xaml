@@ -585,7 +585,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="MiniTouchMode">Minitouch (標準)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (実験機能)</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input (非推奨)</system:String>
-    <system:String x:Key="MaaFwAdbTouchMode">MaaFwAdb (実験機能)</system:String>
+    <system:String x:Key="MaaFwTouchMode">MaaFw (実験機能)</system:String>
     <system:String x:Key="MumuExtrasTouchMode">MuMu タッチ (実験機能)</system:String>
     <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input は、OS バージョンが古い物理デバイスのみに使用します。他のモードが使える場合は、ADB Input を選択しないでください。&#10;ADB Input のスワイプはズレやすいため、スワイプ速度が非常に遅く設定され、スワイプ距離も他のモードと異なります。正確な座標制御が必要な場面では使用できません。&#10;&#10;MaaFwAdb は追加スワイプに非対応のため、追加スワイプでドラッグの暴走を防いでいるページはこのモードで暴走します。&#10;追加スワイプとは、メインスワイプの終了後に垂直方向へ少し追加分の｢ブレーキ｣スワイプを行うもので（軌跡は 90° に曲がる L 字型）、リストの慣性を打ち消すために使用します。</system:String>
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>

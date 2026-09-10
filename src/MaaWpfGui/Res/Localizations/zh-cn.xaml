@@ -584,7 +584,7 @@ D:\
     <system:String x:Key="MiniTouchMode">Minitouch（默认）</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch（实验功能）</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input（不推荐使用）</system:String>
-    <system:String x:Key="MaaFwAdbTouchMode">MaaFwAdb（实验功能）</system:String>
+    <system:String x:Key="MaaFwTouchMode">MaaFw（实验功能）</system:String>
     <system:String x:Key="MumuExtrasTouchMode">MuMu 触控增强（实验功能）</system:String>
     <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input 仅用于兼容系统版本过低的实体机设备，能用其他模式时不要选择。&#10;ADB Input 的滑动容易拖飞，为此滑动速度会设置得非常慢，且滑动距离与其他模式不同，需要精确控制坐标的场景下无法使用。&#10;&#10;MaaFwAdb 不支持额外滑动，依赖额外滑动防止拖飞的页面在该模式下会拖飞。&#10;额外滑动是主滑动结束后沿垂直方向追加一小段的 ｢刹车｣ 滑动（轨迹类似拐 90° 的 L 形），用于抵消列表惯性。</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
