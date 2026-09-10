@@ -763,8 +763,16 @@ bool update_raise_demand_data(const fs::path& input_dir, const fs::path& output_
 
     auto output_json_path = output_dir / "raise_demand_index.json";
     std::ofstream ofs(output_json_path, std::ios::out);
+    if (!ofs.is_open()) {
+        std::cerr << output_json_path << " open error" << '\n';
+        return false;
+    }
     ofs << output_json.format();
     ofs.close();
+    if (!ofs.good()) {
+        std::cerr << output_json_path << " write error" << '\n';
+        return false;
+    }
 
     return true;
 }
