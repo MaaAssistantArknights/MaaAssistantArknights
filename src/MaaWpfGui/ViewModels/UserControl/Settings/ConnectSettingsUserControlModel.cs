@@ -811,7 +811,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         (TouchMode.MiniTouch, "MiniTouchMode"),
         (TouchMode.MaaTouch, "MaaTouchMode"),
         (TouchMode.Adb, "AdbTouchMode"),
-        (TouchMode.MaaFwAdb, "MaaFwAdbTouchMode"));
+        (TouchMode.MaaFw, "MaaFwTouchMode"));
 
     public bool IsAdbTouchMode() => TouchMode == TouchMode.Adb;
 
