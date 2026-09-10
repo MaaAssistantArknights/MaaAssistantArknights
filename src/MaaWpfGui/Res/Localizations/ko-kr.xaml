@@ -870,15 +870,15 @@ C:\leidian\LDPlayer9
     <system:String x:Key="AutoRaiseSkillLevelTarget">스킬 레벨 {0}</system:String>
     <system:String x:Key="AutoRaiseMasteryTarget">스킬 {0}, 마스터리 {1}</system:String>
     <system:String x:Key="AutoRaiseEliteTarget">정예화 {0}</system:String>
-    <system:String x:Key="AutoRaiseDeleteCompletedEntries">육성 체인 종료 후 완료된 항목 삭제</system:String>
-    <system:String x:Key="AutoRaiseDeleteCompletedEntriesTip">육성 체인 종료 후 "완료" 또는 "이미 달성" 항목은 자동으로 삭제되며, 실패 및 건너뜀 항목은 유지됩니다</system:String>
+    <system:String x:Key="AutoRaiseDeleteCompletedEntries">육성 작업 종료 후 완료된 항목 삭제</system:String>
+    <system:String x:Key="AutoRaiseDeleteCompletedEntriesTip">육성 작업 종료 후 "완료" 또는 "이미 달성" 항목은 자동으로 삭제되며, 실패 및 스킵 항목은 유지됩니다</system:String>
     <system:String x:Key="AutoRaiseTargetStartLog">육성 계획 {0}: {1}, {2}</system:String>
     <system:String x:Key="AutoRaiseTargetResultLog">육성 계획 {0}: {1}, {2}, 결과 {3}</system:String>
     <system:String x:Key="AutoRaiseRecognizedElite">(현재 정예화 {0})</system:String>
     <system:String x:Key="AutoRaiseRecognizedSkillLevel">(현재 스킬 레벨 {0})</system:String>
     <system:String x:Key="AutoRaiseRecognizedMastery">(현재 마스터리 {0})</system:String>
-    <system:String x:Key="AutoRaiseSummaryLog">오퍼레이터 육성 완료: 성공 {0}, 이미 달성 {1}, 실패 {2}, 건너뜀 {3}</system:String>
-    <system:String x:Key="AutoRaiseSelectOperator">오퍼레이터 선택</system:String>
+    <system:String x:Key="AutoRaiseSummaryLog">오퍼레이터 육성 완료: 성공 {0}, 이미 달성 {1}, 실패 {2}, 스킵 {3}</system:String>
+    <system:String x:Key="AutoRaiseSelectOperator">선택</system:String>
     <system:String x:Key="AutoRaiseAddTarget">육성</system:String>
     <system:String x:Key="AutoRaiseTargetTitle">{0} · 육성 목표</system:String>
     <system:String x:Key="AutoRaiseElite">정예화</system:String>
@@ -888,7 +888,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="AutoRaiseInvalidOperatorInput">잘못된 오퍼레이터 이름입니다. 목록에서 선택해 주세요</system:String>
     <system:String x:Key="AutoRaiseOperatorLimit">오퍼레이터는 최대 5명까지 선택할 수 있습니다</system:String>
     <system:String x:Key="AutoRaiseEdit">수정</system:String>
-    <system:String x:Key="AutoRaiseOnlineEditor">명일방주 툴박스에서 온라인 편집</system:String>
+    <system:String x:Key="AutoRaiseOnlineEditor">명일방주 공구 상자에서 온라인 편집</system:String>
     <system:String x:Key="Visiting">친구 방문</system:String>
     <system:String x:Key="Mall">크레딧 수급 및 상점</system:String>
     <system:String x:Key="Mission">보상 수령</system:String>
@@ -1006,7 +1006,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPlanNoStage">#{0}: 스테이지 미지정 또는 \"현재/이전\"</system:String>
     <system:String x:Key="DepotPlanInventoryEnough">#{0}: {1} 충분 {2}/{3}</system:String>
     <system:String x:Key="DepotPlanInventoryInsufficient">#{0}: {1} 부족 {2}/{3}, {4}개 필요</system:String>
-    <system:String x:Key="DepotPlanSanityInsufficient">#{0}: 이성 부족(현재 {1}, 소모 {2} 미달), 건너뜀</system:String>
+    <system:String x:Key="DepotPlanSanityInsufficient">#{0}: 이성 부족(현재 {1}, 소모 {2} 미달), 스킵</system:String>
     <system:String x:Key="DepotPlanStageNotOpen">#{0}: 스테이지 '{1}' 가 열려 있지 않습니다</system:String>
     <system:String x:Key="DepotPlanAddTaskFailed">#{0}: 작업 추가 실패</system:String>
     <system:String x:Key="DepotSkipDuringActivity">이벤트 기간 중 건너뛰기</system:String>
@@ -1030,7 +1030,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="SwitchThemeTip" xml:space="preserve">게임 내 테마 목록에 표시되는 테마 이름을 입력하세요.&#10;여러 개 입력 시 실행마다 무작위로 하나가 선택되며, 하나만 입력 시 항상 해당 테마로 전환됩니다.&#10;일부 글자가 모양이 비슷한 다른 글자로 잘못 인식되어 테마를 찾지 못할 수 있습니다. 이 경우 ｢문제 보고｣로 로그 압축 파일을 제출해 주세요.</system:String>
     <system:String x:Key="SwitchThemeAdd">테마 추가</system:String>
     <system:String x:Key="SwitchThemePlaceholder">테마 이름</system:String>
-    <system:String x:Key="SwitchThemeSkipped">테마 이름 없음, 변경 건너뜀</system:String>
+    <system:String x:Key="SwitchThemeSkipped">테마 이름 없음, 변경 스킵</system:String>
     <system:String x:Key="SwitchThemeSucceeded">테마 전환 완료: {0}</system:String>
     <system:String x:Key="SwitchThemeAlreadySet">이미 사용 중인 테마: {0}</system:String>
     <system:String x:Key="SwitchThemeLocked">테마 미해금, 전환 불가: {0}</system:String>
@@ -1248,7 +1248,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationTitle">기상 순회전: 미수록 기상 발견</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationContent">MAA가 자동 탐색을 중지했습니다. 게임으로 돌아가 전투를 수동으로 완료하세요.</system:String>
     <system:String x:Key="MiniGame@PixelPaint">픽셀 아트 자동 그리기</system:String>
-    <system:String x:Key="MiniGame@PixelPaintTip">게임 내 24×24 픽셀 아트 편집 페이지에 직접 들어간 뒤 시작하세요.&#10;미리보기는 드래그/휠로 구도 조정. 기본적으로 흰색은 건너뜀.&#10;시작 후 파라미터는 고정. 진행 상황은 오른쪽 로그 참조.</system:String>
+    <system:String x:Key="MiniGame@PixelPaintTip">게임 내 24×24 픽셀 아트 편집 페이지에 직접 들어간 뒤 시작하세요.&#10;미리보기는 드래그/휠로 구도 조정. 기본적으로 흰색은 스킵.&#10;시작 후 파라미터는 고정. 진행 상황은 오른쪽 로그 참조.</system:String>
     <system:String x:Key="MiniGame@PixelPaint@DropHint">이미지를 드래그하거나 이미지/텍스트를 붙여넣거나 아래 버튼으로 선택</system:String>
     <system:String x:Key="MiniGame@PixelPaint@PickImage">이미지 선택</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ResetView">구도 초기화</system:String>
