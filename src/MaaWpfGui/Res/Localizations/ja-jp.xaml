@@ -1805,6 +1805,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="LinuxUInputScreenWidth">uinput 画面幅</system:String>
     <system:String x:Key="LinuxUInputScreenHeight">高さ</system:String>
     <system:String x:Key="LinuxEisSocketPath">EIS socket パス</system:String>
+    <system:String x:Key="LinuxConnectFailed">接続に失敗しました。スクリーンキャプチャ/入力方式の設定を確認してください</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">スクリーンキャプチャ方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">マウス入力方式</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">キーボード入力方式</system:String>

@@ -1804,6 +1804,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="LinuxUInputScreenWidth">uinput 화면 너비</system:String>
     <system:String x:Key="LinuxUInputScreenHeight">높이</system:String>
     <system:String x:Key="LinuxEisSocketPath">EIS socket 경로</system:String>
+    <system:String x:Key="LinuxConnectFailed">연결에 실패했습니다. 스크린샷/입력 방식 설정을 확인하세요</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">스크린샷 방식</system:String>
     <system:String x:Key="AttachWindowMouseMethod">마우스 입력 방식</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">키보드 입력 방식</system:String>

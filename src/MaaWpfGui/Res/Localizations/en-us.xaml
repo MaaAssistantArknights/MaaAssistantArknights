@@ -1802,6 +1802,7 @@ Checked: Treat the target as Arknights PC client. See notes in Arknights PC Clie
     <system:String x:Key="LinuxUInputScreenWidth">uinput Screen Width</system:String>
     <system:String x:Key="LinuxUInputScreenHeight">Height</system:String>
     <system:String x:Key="LinuxEisSocketPath">EIS Socket Path</system:String>
+    <system:String x:Key="LinuxConnectFailed">Connection failed. Please check screencap/input method settings</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">Screencap Method</system:String>
     <system:String x:Key="AttachWindowMouseMethod">Mouse Input Method</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">Keyboard Input Method</system:String>
