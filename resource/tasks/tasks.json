@@ -5825,7 +5825,7 @@
         "algorithm": "JustReturn",
         "doc": "base_task"
     },
-    "Store@Increse": {
+    "Store@Increase": {
         "roi": [955, 400, 77, 66],
         "action": "ClickSelf",
         "postDelay": 200
@@ -6525,7 +6525,7 @@
     },
     "AutoRaise@SkillUpMaterial2": {
         "baseTask": "AutoRaise@Dualchip",
-        "specificRect": [520, 862, 75, 70],
+        "specificRect": [721, 862, 75, 70],
         "doc": "干员技能升级的第二个材料位置,用于开启和关闭跳转弹窗"
     },
     "AutoRaise@SkillUpMaterial0JumpProcessing": {
