@@ -470,7 +470,7 @@ public class TaskQueueViewModel : Screen
     /// <summary>
     /// Checks after completion.
     /// </summary>
-    /// <param name="runEndsWithScript">是否执行结束脚本；为 false 时等待 SetStopped 中已启动的结束脚本执行完毕</param>
+    /// <param name="runEndsWithScript">是否执行结束脚本；为 false 时等待本次停止中 SetStopped 启动的结束脚本执行完毕</param>
     /// <returns>Task</returns>
     public async Task CheckAfterCompleted(bool runEndsWithScript = true)
     {
@@ -483,7 +483,7 @@ public class TaskQueueViewModel : Screen
             }
             else
             {
-                await _stopScriptTask;
+                await (Volatile.Read(ref _stopHandling)?.Task ?? Task.CompletedTask);
             }
 
             var actions = PostActionSetting;
@@ -654,6 +654,12 @@ public class TaskQueueViewModel : Screen
             if (!e.NewState.Idle)
             {
                 Instances.Data.ClearCache();
+            }
+
+            // 进入运行或停止中时重置停止处理权
+            if ((e.OldState.Idle && !e.NewState.Idle) || (!e.OldState.Stopping && e.NewState.Stopping))
+            {
+                Interlocked.Exchange(ref _stopHandling, null);
             }
 
             if (e.NewState.Idle && _runDurationLimitOnce)
@@ -2369,8 +2375,8 @@ public class TaskQueueViewModel : Screen
 
     public bool RoguelikeInCombatAndShowWait { get => field; set => SetAndNotify(ref field, value); }
 
-    // SetStopped 中启动的结束脚本，供完成后动作等待其执行完毕
-    private Task _stopScriptTask = Task.CompletedTask;
+    // 本次停止的处理权，进入运行或停止中时重置为 null；其 Task 在 SetStopped 启动的结束脚本执行完毕后完成
+    private TaskCompletionSource? _stopHandling;
 
     /// <summary>
     /// 重置 UI 状态为已停止。
@@ -2386,10 +2392,30 @@ public class TaskQueueViewModel : Screen
             return false;
         }
 
+        // 回调与到点停止等可能并发调用，CAS 抢占处理权，保证只处理一次
+        var handling = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        if (Interlocked.CompareExchange(ref _stopHandling, handling, null) is not null)
+        {
+            return false;
+        }
+
         SleepManagement.AllowSleep();
         if (runStopScript && SettingsViewModel.GameSettings.ManualStopWithScript)
         {
-            _stopScriptTask = Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
+            Task.Run(() => {
+                try
+                {
+                    SettingsViewModel.GameSettings.RunScript("EndsWithScript");
+                }
+                finally
+                {
+                    handling.TrySetResult();
+                }
+            });
+        }
+        else
+        {
+            handling.TrySetResult();
         }
 
         if (!_runningState.GetIdle() || _runningState.GetStopping())
