@@ -104,7 +104,7 @@
                             <TextBlock
                                 Grid.Column="1"
                                 Margin="4,0"
-                                Text="{Binding Name}"
+                                Text="{Binding DisplayName}"
                                 TextTrimming="CharacterEllipsis" />
                             <TextBlock Grid.Column="2" Text="{Binding Target}" />
                             <Button

@@ -18,7 +18,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
-using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.ViewModels.UI;
@@ -68,9 +67,10 @@ public class AutoRaiseSettingsUserControlModel : TaskSettingsViewModel, AutoRais
     public IReadOnlyList<string> OperatorNames => DataHelper.Operators.Values
         .GroupBy(character => character.Name)
         .Select(group => group.OrderByDescending(character => character.Rarity).First())
-        .OrderByDescending(character => character.Rarity)
-        .ThenBy(character => character.Name)
-        .Select(character => character.Name!)
+        .Select(character => (character.Rarity, Name: DataHelper.GetLocalizedCharacterName(character) ?? character.Name!))
+        .OrderByDescending(entry => entry.Rarity)
+        .ThenBy(entry => entry.Name, StringComparer.CurrentCulture)
+        .Select(entry => entry.Name)
         .ToList();
 
     private string _selectedOperator = string.Empty;
@@ -214,13 +214,14 @@ public class AutoRaiseSettingsUserControlModel : TaskSettingsViewModel, AutoRais
 
     public void OpenTargetPopup()
     {
-        string name = SelectedOperator.Trim();
-        if (name.Length == 0)
+        string input = SelectedOperator.Trim();
+        if (input.Length == 0)
         {
             return;
         }
 
-        if (!DataHelper.Operators.Values.Any(character => character.Name == name))
+        var character = DataHelper.GetCharacterByNameOrAlias(input);
+        if (character?.Name is not { } name || !DataHelper.Operators.ContainsKey(character.Id))
         {
             ValidationMessage = LocalizationHelper.GetString("AutoRaiseInvalidOperatorInput");
             return;
@@ -383,7 +384,7 @@ public class AutoRaiseSettingsUserControlModel : TaskSettingsViewModel, AutoRais
     {
         _popupOperatorName = name;
         _editOperatorIndex = editIndex;
-        PopupTitle = LocalizationHelper.GetStringFormat("AutoRaiseTargetTitle", name);
+        PopupTitle = LocalizationHelper.GetStringFormat("AutoRaiseTargetTitle", DataHelper.GetLocalizedCharacterName(name) ?? name);
         PopupConfirmText = LocalizationHelper.GetString(editIndex >= 0 ? "AutoRaiseEdit" : "Confirm");
 
         int maxSkill = GetMaxMasterySkill(name);
@@ -600,7 +601,8 @@ public class AutoRaiseSettingsUserControlModel : TaskSettingsViewModel, AutoRais
         for (int index = 0; index < plans.Count; ++index)
         {
             var plan = (JObject)plans[index]!;
-            PlanPreviewItems.Add(new(index + 1, plan.Value<string>("name")!, DescribeAction(plan)));
+            var name = plan.Value<string>("name")!;
+            PlanPreviewItems.Add(new(index + 1, name, DataHelper.GetLocalizedCharacterName(name) ?? name, DescribeAction(plan)));
         }
         NotifyOfPropertyChange(nameof(CanAddOperator));
     }
@@ -612,7 +614,7 @@ public class AutoRaiseSettingsUserControlModel : TaskSettingsViewModel, AutoRais
                 ? LocalizationHelper.GetStringFormat("AutoRaiseSkillLevelTarget", plan.Value<int>("skills"))
                 : LocalizationHelper.GetStringFormat("AutoRaiseMasteryTarget", plan.Value<int>("skill"), plan.Value<int>("skill_master"));
 
-    public sealed record PlanPreview(int Index, string Name, string Target);
+    public sealed record PlanPreview(int Index, string Name, string DisplayName, string Target);
 
     private interface ISerialize : ITaskQueueModelSerialize
     {
@@ -621,12 +623,6 @@ public class AutoRaiseSettingsUserControlModel : TaskSettingsViewModel, AutoRais
             if (baseTask is not AutoRaiseTask development)
             {
                 return (null, []);
-            }
-
-            if (SettingsViewModel.GameSettings.ClientType is not ClientType.Official and not ClientType.Bilibili)
-            {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AutoRaiseUnsupportedClient"), UiLogColor.Error);
-                return (false, []);
             }
 
             JArray plans;
