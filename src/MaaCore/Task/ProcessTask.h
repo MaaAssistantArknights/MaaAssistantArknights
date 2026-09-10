@@ -3,6 +3,7 @@
 #include "AbstractTask.h"
 #include "Common/AsstTypes.h"
 #include "MaaUtils/NoWarningCVMat.hpp"
+#include <unordered_map>
 
 namespace asst
 {
@@ -36,7 +37,9 @@ public:
     ProcessTask& set_times_limit(std::string name, int limit, TimesLimitType type = TimesLimitType::Pre);
     ProcessTask& set_post_delay(std::string name, int delay);
     ProcessTask& set_reusable_image(const cv::Mat& reusable);
-    bool override_next(const std::string& name, const std::vector<std::string>& next_tasks);
+    ProcessTask& set_override_next(std::unordered_map<std::string, TaskList> next_override);
+    bool override_next(std::string_view name, std::vector<std::string> next_tasks);
+    bool reset_override_next(std::string_view name);
 
     const std::string& get_last_task_name() const noexcept { return m_last_task_name; }
 
