@@ -154,6 +154,52 @@ public class RunningState
         _taskStartTime = DateTime.Now;
     }
 
+    // 运行时长上限相关字段，仅由主任务队列开始时设置，空闲时清除
+    private readonly Lock _runDeadlineLock = new();
+    private DateTime? _runDeadline;
+    private int _runDurationLimitMinutes;
+    private bool _runDurationLimitExecutePostActions;
+
+    public void SetRunDeadline(int limitMinutes, bool executePostActions)
+    {
+        lock (_runDeadlineLock)
+        {
+            _runDurationLimitMinutes = limitMinutes;
+            _runDurationLimitExecutePostActions = executePostActions;
+            _runDeadline = DateTime.UtcNow.AddMinutes(limitMinutes);
+        }
+    }
+
+    public void ClearRunDeadline()
+    {
+        lock (_runDeadlineLock)
+        {
+            _runDeadline = null;
+        }
+    }
+
+    /// <summary>
+    /// 若已到达运行截止时间，则清除截止时间并返回 true，保证每轮运行只触发一次。
+    /// </summary>
+    /// <param name="limitMinutes">设置的运行时长上限（分钟）。</param>
+    /// <param name="executePostActions">停止后是否执行完成后动作。</param>
+    /// <returns>是否已到达截止时间。</returns>
+    public bool TryConsumeRunDeadline(out int limitMinutes, out bool executePostActions)
+    {
+        lock (_runDeadlineLock)
+        {
+            limitMinutes = _runDurationLimitMinutes;
+            executePostActions = _runDurationLimitExecutePostActions;
+            if (_runDeadline is not { } deadline || DateTime.UtcNow < deadline)
+            {
+                return false;
+            }
+
+            _runDeadline = null;
+            return true;
+        }
+    }
+
     // 超时计时器回调
     private void TimeoutReminderTimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs? e)
     {
@@ -208,6 +254,7 @@ public class RunningState
             if (value)
             {
                 StopTimeoutTimer();
+                ClearRunDeadline();
                 SleepManagement.AllowSleep();
             }
             else

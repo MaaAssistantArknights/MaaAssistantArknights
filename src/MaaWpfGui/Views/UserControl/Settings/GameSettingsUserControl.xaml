@@ -237,5 +237,38 @@
                 Minimum="1"
                 Value="{Binding ReminderIntervalMinutes}" />
         </StackPanel>
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <CheckBox
+                Margin="20,10,0,10"
+                VerticalAlignment="Center"
+                Content="{DynamicResource RunDurationLimitEnabled}"
+                IsChecked="{Binding EnableRunDurationLimit}" />
+            <controls:TooltipBlock
+                Margin="0,10"
+                VerticalAlignment="Center"
+                TooltipText="{DynamicResource RunDurationLimitTip}" />
+        </StackPanel>
+        <StackPanel
+            HorizontalAlignment="Center"
+            Orientation="Horizontal"
+            Visibility="{c:Binding EnableRunDurationLimit}">
+            <hc:NumericUpDown
+                Margin="5"
+                hc:InfoElement.Title="{DynamicResource RunDurationLimitMinutes}"
+                hc:TitleElement.TitlePlacement="Left"
+                InputMethod.IsInputMethodEnabled="False"
+                Maximum="11451"
+                Minimum="1"
+                Value="{Binding RunDurationLimitMinutes}" />
+        </StackPanel>
+        <CheckBox
+            Margin="10"
+            HorizontalAlignment="Center"
+            Content="{DynamicResource RunDurationLimitExecutePostActions}"
+            IsChecked="{Binding RunDurationLimitExecutePostActions}"
+            Visibility="{c:Binding EnableRunDurationLimit}" />
     </StackPanel>
 </UserControl>

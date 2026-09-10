@@ -58,9 +58,19 @@ public partial class RuntimeSettings : NotifyPropertyChangedWithValue, IJsonOnDe
 
     public int StallTimeoutMinutes { get; set; } = 30;
 
+    /// <summary>
+    /// 运行时长上限，从开始任务起计时，到时停止任务
+    /// </summary>
+    public bool EnableRunDurationLimit { get; set; }
+
+    public int RunDurationLimitMinutes { get; set; } = 240;
+
+    public bool RunDurationLimitExecutePostActions { get; set; } = true;
+
     public void OnDeserialized()
     {
         StallTimeoutMinutes = Math.Clamp(StallTimeoutMinutes, 0, GameSettingsUserControlModel.TimeoutMaxMinutes);
         StallTimeoutReminderIntervalMinutes = Math.Clamp(StallTimeoutReminderIntervalMinutes, 1, GameSettingsUserControlModel.TimeoutMaxMinutes);
+        RunDurationLimitMinutes = Math.Clamp(RunDurationLimitMinutes, 1, GameSettingsUserControlModel.TimeoutMaxMinutes);
     }
 }
