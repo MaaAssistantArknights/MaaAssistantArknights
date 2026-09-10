@@ -651,6 +651,12 @@ public class TaskQueueViewModel : Screen
             {
                 Instances.Data.ClearCache();
             }
+
+            if (e.NewState.Idle && _runDurationLimitOnce)
+            {
+                _runDurationLimitOnce = false;
+                SettingsViewModel.GameSettings.EnableRunDurationLimit ??= false;
+            }
         };
         _runningState.StallOccurred += RunningState_Stalled;
 
@@ -889,6 +895,9 @@ public class TaskQueueViewModel : Screen
         }
     }
 
+    // 本轮时长上限来自右键半选（仅生效一次），本轮结束后恢复为未勾选
+    private bool _runDurationLimitOnce;
+
     /// <summary>
     /// 按当前设置设置运行时长截止时间，各启动路径在 <c>AsstStart</c> 成功后调用。
     /// </summary>
@@ -898,9 +907,7 @@ public class TaskQueueViewModel : Screen
         if (runtimeSettings.EnableRunDurationLimit != false)
         {
             _runningState.SetRunDeadline(runtimeSettings.RunDurationLimitMinutes, runtimeSettings.RunDurationLimitExecutePostActions);
-
-            // 右键半选仅生效一次，本轮开始计时后恢复为未勾选
-            SettingsViewModel.GameSettings.EnableRunDurationLimit ??= false;
+            _runDurationLimitOnce = runtimeSettings.EnableRunDurationLimit == null;
         }
     }
 

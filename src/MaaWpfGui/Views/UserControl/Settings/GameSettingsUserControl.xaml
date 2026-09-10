@@ -247,6 +247,7 @@
                 VerticalAlignment="Center"
                 Content="{DynamicResource RunDurationLimitEnabled}"
                 IsChecked="{Binding EnableRunDurationLimit}"
+                IsEnabled="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
                 MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                               Target={x:Type helper:CheckBoxHelper}}"
                 ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
@@ -264,6 +265,7 @@
                 hc:InfoElement.Title="{DynamicResource RunDurationLimitMinutes}"
                 hc:TitleElement.TitlePlacement="Left"
                 InputMethod.IsInputMethodEnabled="False"
+                IsEnabled="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
                 Maximum="11451"
                 Minimum="1"
                 Value="{Binding RunDurationLimitMinutes}" />
@@ -273,6 +275,7 @@
             HorizontalAlignment="Center"
             Content="{DynamicResource RunDurationLimitExecutePostActions}"
             IsChecked="{Binding RunDurationLimitExecutePostActions}"
+            IsEnabled="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
             Visibility="{c:Binding RunDurationLimitActive}" />
     </StackPanel>
 </UserControl>
