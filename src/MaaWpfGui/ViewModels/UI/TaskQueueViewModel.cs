@@ -470,7 +470,7 @@ public class TaskQueueViewModel : Screen
     /// <summary>
     /// Checks after completion.
     /// </summary>
-    /// <param name="runEndsWithScript">是否执行结束脚本，调用方已执行过时传 false 避免重复执行</param>
+    /// <param name="runEndsWithScript">是否执行结束脚本；为 false 时等待 SetStopped 中已启动的结束脚本执行完毕</param>
     /// <returns>Task</returns>
     public async Task CheckAfterCompleted(bool runEndsWithScript = true)
     {
@@ -480,6 +480,10 @@ public class TaskQueueViewModel : Screen
             if (runEndsWithScript)
             {
                 await Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
+            }
+            else
+            {
+                await _stopScriptTask;
             }
 
             var actions = PostActionSetting;
@@ -2365,6 +2369,9 @@ public class TaskQueueViewModel : Screen
 
     public bool RoguelikeInCombatAndShowWait { get => field; set => SetAndNotify(ref field, value); }
 
+    // SetStopped 中启动的结束脚本，供完成后动作等待其执行完毕
+    private Task _stopScriptTask = Task.CompletedTask;
+
     /// <summary>
     /// 重置 UI 状态为已停止。
     /// </summary>
@@ -2382,7 +2389,7 @@ public class TaskQueueViewModel : Screen
         SleepManagement.AllowSleep();
         if (runStopScript && SettingsViewModel.GameSettings.ManualStopWithScript)
         {
-            Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
+            _stopScriptTask = Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
         }
 
         if (!_runningState.GetIdle() || _runningState.GetStopping())
