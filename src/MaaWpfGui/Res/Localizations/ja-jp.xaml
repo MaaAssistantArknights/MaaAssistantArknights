@@ -873,7 +873,6 @@ C:\leidian\LDPlayer9
     <system:String x:Key="AutoRaiseEliteTarget">エリート化 {0}</system:String>
     <system:String x:Key="AutoRaiseDeleteCompletedEntries">育成チェーン終了後に完了した項目を削除</system:String>
     <system:String x:Key="AutoRaiseDeleteCompletedEntriesTip">育成チェーン終了後、「成功」または「達成済み」の項目を自動的に削除します。失敗とスキップの項目は残ります</system:String>
-    <system:String x:Key="AutoRaiseUnsupportedClient">オペレーター育成の初版は中国版公式および Bilibili のみ対応します</system:String>
     <system:String x:Key="AutoRaiseTargetStartLog">育成プラン {0}：{1}、{2}</system:String>
     <system:String x:Key="AutoRaiseTargetResultLog">育成プラン {0}：{1}、{2}、結果 {3}</system:String>
     <system:String x:Key="AutoRaiseRecognizedElite">（現在のエリート化 {0}）</system:String>

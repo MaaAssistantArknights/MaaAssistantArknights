@@ -2728,7 +2728,7 @@ public class AsstProxy
                     LocalizationHelper.GetStringFormat(
                         "AutoRaiseTargetStartLog",
                         (int)(details?["index"] ?? 0) + 1,
-                        details?["name"] ?? string.Empty,
+                        ProcAutoRaiseTargetName(details),
                         ProcAutoRaiseTargetDescription(details)),
                     UiLogColor.Info,
                     splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
@@ -2752,7 +2752,7 @@ public class AsstProxy
                     LocalizationHelper.GetStringFormat(
                         "AutoRaiseTargetResultLog",
                         (int)(details?["index"] ?? 0) + 1,
-                        details?["name"] ?? string.Empty,
+                        ProcAutoRaiseTargetName(details),
                         ProcAutoRaiseTargetDescription(details),
                         result) + recognizedText,
                     result is "completed" or "already_satisfied" ? UiLogColor.Success :
@@ -2775,6 +2775,12 @@ public class AsstProxy
                 ViewModels.UserControl.TaskQueue.AutoRaiseSettingsUserControlModel.Instance.OnSummary();
                 break;
         }
+    }
+
+    private static string ProcAutoRaiseTargetName(JToken? details)
+    {
+        var name = details?["name"]?.ToString() ?? string.Empty;
+        return DataHelper.GetLocalizedCharacterName(name) ?? name;
     }
 
     // 与干员培养设置页的预览行（AutoRaiseSettingsUserControlModel.DescribeAction）保持同一格式。

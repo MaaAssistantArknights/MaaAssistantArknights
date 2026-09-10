@@ -871,7 +871,6 @@ C:\leidian\LDPlayer9
     <system:String x:Key="AutoRaiseEliteTarget">精英化 {0}</system:String>
     <system:String x:Key="AutoRaiseDeleteCompletedEntries">任務鏈結束後刪除已完成條目</system:String>
     <system:String x:Key="AutoRaiseDeleteCompletedEntriesTip">培養任務鏈結束後，自動刪除結果為「成功」或「已滿足」的條目；失敗與略過的條目會保留</system:String>
-    <system:String x:Key="AutoRaiseUnsupportedClient">幹員培養首版僅支援國服官服和 B 服</system:String>
     <system:String x:Key="AutoRaiseTargetStartLog">培養計畫第 {0} 項：{1}，{2}</system:String>
     <system:String x:Key="AutoRaiseTargetResultLog">培養計畫第 {0} 項：{1}，{2}，結果 {3}</system:String>
     <system:String x:Key="AutoRaiseRecognizedElite">（當前精英化 {0}）</system:String>
