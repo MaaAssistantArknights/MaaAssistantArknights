@@ -25,6 +25,18 @@ struct CombinationScore
     std::unordered_set<std::string> only_need;
 };
 
+// 按心情阈值过滤干员
+std::vector<size_t> eligible_indices(const std::vector<ScoreOper>& opers, const ScoreContext& context)
+{
+    std::vector<size_t> result;
+    for (size_t index = 0; index < opers.size(); ++index) {
+        if (opers[index].mood_ratio >= context.mood_threshold) {
+            result.emplace_back(index);
+        }
+    }
+    return result;
+}
+
 bool has_skill(const ScoreOper& oper, std::string_view skill)
 {
     return oper.skills.contains(std::string(skill));
@@ -225,7 +237,7 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
             else if (icon == "bskill_tra_ord_spd_ext1") { // 对陆接洽代表·β：深巡
                 base += 0.3;
                 if (is_selected(context, "char_4145_ulpia")) {
-                    base += 0.1;
+                    base += 0.101; // 手动定义，使之高于0.4（空巡、伺夜），能够优先上
                 }
             }
             else if (icon == "bskill_tra_spd&meet") { // 天生的顾问：渡桥
@@ -268,7 +280,7 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
                 storage += 2;
                 // 麒麟R夜刀与火龙S黑角同时在控制中枢时启用完整调查团加成。
                 if (is_selected(context, "char_1029_yato2") && is_selected(context, "char_1030_noirc2")) {
-                    base += 0.361; // 手动定义，使之shiao高于0.36
+                    base += 0.361; // 手动定义，使之高于0.36，总体高于0.4（空巡、伺夜）
                 }
             }
             else if (icon == "bskill_tra_spd&dorm2") { // 虔诚筹款·β：空弦
@@ -676,6 +688,9 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
             else if (icon == "bskill_man_spd_veen") {   // 手艺人：维伊
                 base += 0.299;                          // 认为训练室三级
             }
+            else if (icon == "bskill_man_spd_veen") {   // 社群的意义：维伊
+                base += 0.25;                           // 暂不考虑其他SEES干员挂件
+            }
             else if (icon == "bskill_man_spd_reduce") { // 模糊视线：铅踝
                 base += 0.22;
             }
@@ -879,17 +894,6 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
     return result;
 }
 
-std::vector<size_t> eligible_indices(const std::vector<ScoreOper>& opers, const ScoreContext& context)
-{
-    std::vector<size_t> result;
-    for (size_t index = 0; index < opers.size(); ++index) {
-        if (opers[index].mood_ratio >= context.mood_threshold) {
-            result.emplace_back(index);
-        }
-    }
-    return result;
-}
-
 ScoreResult select_combinations(const std::vector<ScoreOper>& opers, const ScoreContext& context)
 {
     const auto eligible = eligible_indices(opers, context);
@@ -974,10 +978,10 @@ double office_score(const ScoreOper& oper)
             score += 0.2;
         }
         else if (icon == "bskill_hire_spd_memento") { // 追忆：絮雨
-            score += 0.31;                            // + 0.01 使之高于0.5
+            score += 0.31;                            // + 0.01 使之高于0.5（斥罪）
         }
         else if (icon == "bskill_hire_spd_bd_n2") {   // 救援队·灾后普查：桑葚
-            score += 0.301;                           // + 0.001 使之高于0.5
+            score += 0.301;                           // + 0.001 使之高于0.5（斥罪）
         }
         // 内幕：山；巡游：絮雨；救援队·资源清点：桑葚；语言学：闪击；人事管理·α：巡林者。
         else if (
@@ -1077,6 +1081,9 @@ double power_score(const ScoreOper& oper, const ScoreContext& context)
         }
         else if (icon == "bskill_pow_drone") { // 巡线框架：承曦格雷伊，按无人机上限折算
             score += 0.22;
+        }
+        else if (icon == "bskill_pow_spd_p3r") { // 机械工学：埃癸斯
+            score += 0.151; 
         }
         else if (icon == "bskill_pow_spd3") { // 各类 20% 充能技能：多人共用
             score += 0.2;
@@ -1212,6 +1219,7 @@ double processing_score(const ScoreOper& oper, const ScoreContext& context)
     return score;
 }
 
+// 选择一名干员，适用于单干员设施，如发电站、办公室、加工站等。
 ScoreResult select_single(const std::vector<ScoreOper>& opers, const ScoreContext& context)
 {
     ScoreResult result;
@@ -1242,7 +1250,7 @@ ScoreResult select_single(const std::vector<ScoreOper>& opers, const ScoreContex
     return result;
 }
 
-// 会客室评分
+// 会客室选择干员
 ScoreResult select_reception(const std::vector<ScoreOper>& opers, const ScoreContext& context)
 {
     // 会客室先选专属高收益技能，其余候选保持原识别顺序。
@@ -1280,7 +1288,7 @@ ScoreResult select_reception(const std::vector<ScoreOper>& opers, const ScoreCon
 // 控制中枢选择干员
 ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreContext& context)
 {
-    // 控制中枢按固定优先级选择；同类制造加速、贸易加速、其他设施心情减免、办公室加速不重复占位。
+    // 按固定优先级选择；同类制造加速、贸易加速、办公室加速、其他设施心情减免顺序，每种效果进驻1人。
     auto eligible = eligible_indices(opers, context);
     if (!context.use_pinus_sylvestris) {
         std::erase_if(eligible, [&](size_t index) {
@@ -1405,10 +1413,13 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
         office_acc = true;
     }
     if (best.size() < ControlSlotCount && !office_acc &&
-        add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_hire_tmoris"); })) {
         // 可靠伙伴：八幡海铃；同时影响后续叙拉古干员的效率计算。
+        add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_hire_tmoris"); }) ||
+        // 办公室年度人物：焰狐龙梓兰
+        add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_orchd2"); })) {        
         office_acc = true;
     }
+
     if (best.size() < ControlSlotCount && !manu_acc &&
         add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_p_spd"); })) {
         // 最高权限：凯尔希；同类制造加速只选择一次。
@@ -1509,6 +1520,7 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
     return { std::move(best), score };
 }
 
+// 宿舍选择宿管
 ScoreResult select_dorm(const std::vector<ScoreOper>& opers, const ScoreContext& context)
 {
     const auto eligible = eligible_indices(opers, context);
@@ -1703,7 +1715,7 @@ ScoreResult select_dorm(const std::vector<ScoreOper>& opers, const ScoreContext&
     }
     return { std::move(result), 0 };
 }
-} // namespace
+}
 
 const std::array<AbyssalHunterCandidate, 4>& get_abyssal_hunter_candidates()
 {
