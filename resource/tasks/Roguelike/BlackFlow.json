@@ -704,7 +704,6 @@
         "roi": [578, 610, 128, 85]
     },
     "BlackFlow@Roguelike@InventoryCapacityConfirm": {
-        "template": "BlackFlow@Roguelike@InventoryCapacityConfirm.png",
         "roi": [751, 409, 483, 157],
         "action": "ClickSelf",
         "postDelay": 500,
@@ -785,8 +784,7 @@
         "exceededNext": []
     },
     "BlackFlow@Roguelike@InventoryCleanupDiscardWait": {
-        "algorithm": "OcrDetect",
-        "text": ["正在提交", "反馈至神经"],
+        "baseTask": "LoadingText",
         "roi": [700, 640, 300, 80],
         "postDelay": 500,
         "next": [
@@ -834,14 +832,14 @@
         "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [1213, 381, 1, 1],
         "rectMove": [753, 381, 1, 1],
-        "specialParams": [250, 1, 2, 0],
+        "specialParams": [250, 1, 37, 1],
         "postDelay": 500
     },
     "BlackFlow@Roguelike@InventoryCleanupSwipeBack": {
         "baseTask": "SlowlySwipeToTheLeft",
         "specificRect": [748, 381, 1, 1],
         "rectMove": [1213, 381, 1, 1],
-        "specialParams": [250, 1, 2, 0],
+        "specialParams": [250, 1, 37, 1],
         "postDelay": 500
     },
     "BlackFlow@Roguelike@InventoryCleanupWait": {
@@ -852,7 +850,6 @@
         "exceededNext": ["BlackFlow@Roguelike@InventoryCleanupFailed"]
     },
     "BlackFlow@Roguelike@InventoryFullFlag": {
-        "template": "BlackFlow@Roguelike@InventoryFullFlag.png",
         "roi": [569, 65, 253, 82]
     },
     "BlackFlow@Roguelike@LastReward": {

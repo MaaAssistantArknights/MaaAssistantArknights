@@ -164,9 +164,9 @@ public:
             start,
             end,
             params.empty() ? 0 : params.at(0),
-            params.size() < 2 ? false : params.at(1) != 0,
-            params.size() < 3 ? 1 : params.at(2),
-            params.size() < 4 ? 1 : params.at(3));
+            params.size() < 2 ? SwipeExtraDirection::None : to_swipe_extra_direction(params.at(1)),
+            params.size() < 3 ? 1 : params.at(2) / 10.0,
+            params.size() < 4 ? 1 : params.at(3) / 10.0);
         if (!swiped) {
             set_error(error, "swipe failed: " + std::string(task_name));
             return false;
