@@ -69,6 +69,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
         InfrastRoomType.Dorm,
         InfrastRoomType.Processing,
         InfrastRoomType.Training,
+        InfrastRoomType.AssistantChange,
     ];
 
     private static readonly (string Value, string LocalizationKey)[] _fiammettaTargetEntries =
@@ -92,6 +93,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
     {
         var preList = GetTaskConfig<InfrastTask>().RoomList;
         var set = new HashSet<InfrastRoomType>(preList.Select(i => i.Room));
+        bool assistantChangeMissing = !set.Contains(InfrastRoomType.AssistantChange);
 
         // 房间列表不完整，补全
         if (set.Count != Enum.GetValues<InfrastRoomType>().Length || set.Count != preList.Count)
@@ -101,13 +103,13 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
             {
                 if (!set.Contains(room))
                 {
-                    list.Add(new InfrastTask.RoomInfo(room, false));
+                    list.Add(new InfrastTask.RoomInfo(room, room == InfrastRoomType.AssistantChange));
                 }
             }
             SetTaskConfig<InfrastTask>(t => t.RoomList.SequenceEqual(list), t => t.RoomList = list);
             preList = GetTaskConfig<InfrastTask>().RoomList;
         }
-        if (GetTaskConfig<InfrastTask>().Mode == Mode.Normal)
+        if (!assistantChangeMissing && GetTaskConfig<InfrastTask>().Mode == Mode.Normal)
         {
             var list = new List<InfrastTask.RoomInfo>();
             foreach (var room in _normalFacilityOrder)

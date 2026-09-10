@@ -149,6 +149,7 @@
     <system:String x:Key="Mfg">제조소</system:String>
     <system:String x:Key="Processing">가공소</system:String>
     <system:String x:Key="Training">훈련실</system:String>
+    <system:String x:Key="AssistantChange">보조 인원 교체</system:String>
     <system:String x:Key="Trade">무역소</system:String>
     <system:String x:Key="Power">발전소</system:String>
     <system:String x:Key="Reception">응접실</system:String>

@@ -149,6 +149,7 @@
     <system:String x:Key="Mfg">製造所</system:String>
     <system:String x:Key="Processing">加工所</system:String>
     <system:String x:Key="Training">訓練室</system:String>
+    <system:String x:Key="AssistantChange">副手交代替え</system:String>
     <system:String x:Key="Trade">貿易所</system:String>
     <system:String x:Key="Power">発電所</system:String>
     <system:String x:Key="Reception">応接室</system:String>
