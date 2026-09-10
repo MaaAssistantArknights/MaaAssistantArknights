@@ -164,6 +164,7 @@ bool run_parallel_tasks(
     const std::unordered_map<std::string, std::string>& global_dirs);
 
 bool update_items_data(const fs::path& input_dir, const fs::path& output_dir, bool with_imgs = true);
+bool update_raise_demand_data(const fs::path& input_dir, const fs::path& output_dir);
 bool cvt_single_item_template(const fs::path& input, const fs::path& output);
 bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir);
 bool update_stages_data(const fs::path& input_dir, const fs::path& output_dir);
@@ -189,6 +190,9 @@ int main([[maybe_unused]] int argc, char** argv)
     }
     if (argc == 4 && std::string_view(argv[1]) == "--items-data") {
         return update_items_data(fs::path(argv[2]), fs::path(argv[3]), false) ? 0 : 1;
+    }
+    if (argc == 4 && std::string_view(argv[1]) == "--raise-demand-data") {
+        return update_raise_demand_data(fs::path(argv[2]), fs::path(argv[3])) ? 0 : 1;
     }
 
     // ---- PATH DECLARATION ----
@@ -459,6 +463,20 @@ bool run_parallel_tasks(
         }
     });
 
+    std::thread raise_demand_thread([&]() {
+        if (error_occurred.load()) {
+            return;
+        }
+        std::cout << "------- Update raise demand data for Official -------" << '\n';
+        if (!update_raise_demand_data(official_data_dir, resource_dir)) {
+            std::cerr << "update_raise_demand_data failed" << '\n';
+            error_occurred.store(true);
+        }
+        else {
+            std::cout << ">Done raise demand for Official" << '\n';
+        }
+    });
+
     stages_thread.join();
     levels_thread.join();
     infrast_data_thread.join();
@@ -468,6 +486,7 @@ bool run_parallel_tasks(
     check_roguelike_thread.join();
     recruit_thread.join();
     items_data_thread.join();
+    raise_demand_thread.join();
 
     if (!error_occurred.load() &&
         !validate_infrast_resources(resource_dir, official_data_dir / "gamedata" / "excel" / "building_data.json")) {
@@ -631,6 +650,118 @@ bool update_items_data(const fs::path& input_dir, const fs::path& output_dir, bo
         }
     }
     auto output_json_path = output_dir / "item_index.json";
+    std::ofstream ofs(output_json_path, std::ios::out);
+    ofs << output_json.format();
+    ofs.close();
+
+    return true;
+}
+
+bool update_raise_demand_data(const fs::path& input_dir, const fs::path& output_dir)
+{
+    const auto input_json_path = input_dir / "gamedata" / "excel" / "character_table.json";
+
+    auto parse_ret = json::open(input_json_path);
+    if (!parse_ret) {
+        std::cerr << input_json_path << " parse error" << '\n';
+        return false;
+    }
+
+    auto& input_json = parse_ret.value();
+
+    // Consumption entries of one cost field -> [[item_id, count], ...].
+    // A cost field that is absent, null or empty yields an empty array, nullopt means the data is invalid.
+    const auto collect_costs = [](const json::value& owner, const std::string& cost_key) -> std::optional<json::value> {
+        json::array costs;
+        if (const auto cost_list_opt = owner.find<json::array>(cost_key)) {
+            for (const auto& cost : cost_list_opt.value()) {
+                const std::string item_id = cost.get("id", std::string());
+                const int count = cost.get("count", 0);
+                if (item_id.empty() || count <= 0) {
+                    std::cerr << "Invalid raise demand cost: " << cost_key << ' ' << item_id << '\n';
+                    return std::nullopt;
+                }
+                costs.emplace_back(json::array { item_id, count });
+            }
+        }
+        return json::value(std::move(costs));
+    };
+
+    // A dimension that never consumes any material is null, so that consumers can tell it from an empty cost list
+    const auto has_any_costs = [](const json::array& costs) {
+        return std::ranges::any_of(costs, [](const json::value& cost) { return !cost.as_array().empty(); });
+    };
+
+    json::value output_json;
+    for (const auto& [char_id, char_data] : input_json.as_object()) {
+        if (!char_id.starts_with("char_") || char_data.get("isNotObtainable", false)) {
+            continue;
+        }
+
+        const auto name_opt = char_data.find<std::string>("name");
+        if (!name_opt) {
+            std::cerr << "Character without name: " << char_id << '\n';
+            return false;
+        }
+
+        // Elite promotion: phases[1..].evolveCost, index i is the (i + 1)-th promotion.
+        // Phase 0 is the initial phase, so it is skipped.
+        json::array elite_costs;
+        if (const auto phases_opt = char_data.find<json::array>("phases")) {
+            for (size_t phase_index = 1; phase_index < phases_opt->size(); ++phase_index) {
+                auto costs_opt = collect_costs(phases_opt->at(phase_index), "evolveCost");
+                if (!costs_opt) {
+                    return false;
+                }
+                elite_costs.emplace_back(std::move(costs_opt).value());
+            }
+        }
+
+        // Skill level up: allSkillLvlup[j].lvlUpCost, index j is the skill level j + 1 -> j + 2.
+        json::array skill_level_costs;
+        if (const auto lvlup_opt = char_data.find<json::array>("allSkillLvlup")) {
+            for (const auto& lvlup : lvlup_opt.value()) {
+                auto costs_opt = collect_costs(lvlup, "lvlUpCost");
+                if (!costs_opt) {
+                    return false;
+                }
+                skill_level_costs.emplace_back(std::move(costs_opt).value());
+            }
+        }
+
+        // Mastery: skills[k].levelUpCostCond[m].levelUpCost, index k is the k-th skill, m is its m-th mastery.
+        // A skill without any mastery condition stays null while the other skills keep their own index.
+        json::value mastery_costs;
+        if (const auto skills_opt = char_data.find<json::array>("skills"); skills_opt && !skills_opt->empty()) {
+            json::array mastery_by_skill;
+            for (const auto& skill : skills_opt.value()) {
+                const auto condition_opt = skill.find<json::array>("levelUpCostCond");
+                if (!condition_opt || condition_opt->empty()) {
+                    mastery_by_skill.emplace_back(nullptr);
+                    continue;
+                }
+                json::array mastery_by_level;
+                for (const auto& condition : condition_opt.value()) {
+                    auto costs_opt = collect_costs(condition, "levelUpCost");
+                    if (!costs_opt) {
+                        return false;
+                    }
+                    mastery_by_level.emplace_back(std::move(costs_opt).value());
+                }
+                mastery_by_skill.emplace_back(std::move(mastery_by_level));
+            }
+            mastery_costs = std::move(mastery_by_skill);
+        }
+
+        auto& output = output_json[char_id];
+        output["name"] = name_opt.value();
+        output["elite"] = has_any_costs(elite_costs) ? json::value(std::move(elite_costs)) : json::value(nullptr);
+        output["skills"] =
+            has_any_costs(skill_level_costs) ? json::value(std::move(skill_level_costs)) : json::value(nullptr);
+        output["mastery"] = std::move(mastery_costs);
+    }
+
+    auto output_json_path = output_dir / "raise_demand_index.json";
     std::ofstream ofs(output_json_path, std::ios::out);
     ofs << output_json.format();
     ofs.close();
