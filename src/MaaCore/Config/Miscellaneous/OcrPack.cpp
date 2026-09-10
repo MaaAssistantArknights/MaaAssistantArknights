@@ -9,7 +9,7 @@
 #include "MaaUtils/NoWarningCV.hpp"
 MAA_SUPPRESS_CV_WARNINGS_BEGIN
 #include "fastdeploy/vision/ocr/ppocr/dbdetector.h"
-#include "fastdeploy/vision/ocr/ppocr/ppocr_v3.h"
+#include "fastdeploy/vision/ocr/ppocr/ppocr_v6.h"
 #include "fastdeploy/vision/ocr/ppocr/recognizer.h"
 MAA_SUPPRESS_CV_WARNINGS_END
 
@@ -26,7 +26,7 @@ struct OcrPack::Impl
 {
     std::unique_ptr<fastdeploy::vision::ocr::DBDetector> det;
     std::unique_ptr<fastdeploy::vision::ocr::Recognizer> rec;
-    std::unique_ptr<fastdeploy::pipeline::PPOCRv3> ocr;
+    std::unique_ptr<fastdeploy::pipeline::PPOCRv6> ocr;
 
     std::filesystem::path det_model_path;
     std::filesystem::path rec_model_path;
@@ -62,6 +62,13 @@ bool OcrPack::load(const std::filesystem::path& path)
         m_impl->det_model_path = det_model_file;
         m_impl->det = nullptr;
     }
+    else if (m_impl->det_model_path.empty()) {
+        const auto fallback_det_file = path.parent_path() / "PaddleOCR" / "det" / "inference.onnx"_p;
+        if (std::filesystem::exists(fallback_det_file)) {
+            m_impl->det_model_path = fallback_det_file;
+            m_impl->det = nullptr;
+        }
+    }
 
     const auto rec_dir = path / "rec"_p;
     const auto rec_model_file = rec_dir / "inference.onnx"_p;
@@ -77,7 +84,7 @@ bool OcrPack::load(const std::filesystem::path& path)
     }
 
     if (m_impl->det && m_impl->rec) {
-        m_impl->ocr = std::make_unique<fastdeploy::pipeline::PPOCRv3>(m_impl->det.get(), m_impl->rec.get());
+        m_impl->ocr = std::make_unique<fastdeploy::pipeline::PPOCRv6>(m_impl->det.get(), m_impl->rec.get());
     }
 
     return !m_impl->det_model_path.empty() && !m_impl->rec_model_path.empty() && !m_impl->rec_label_path.empty();
@@ -237,6 +244,12 @@ bool OcrPack::check_and_load()
         det_option,
         fastdeploy::ModelFormat::ONNX);
 
+    // 针对 PP-OCRv6 检测模型调优后处理参数
+    m_impl->det->GetPostprocessor().SetDetDBThresh(0.2);
+    m_impl->det->GetPostprocessor().SetDetDBBoxThresh(0.45);
+    m_impl->det->GetPostprocessor().SetDetDBUnclipRatio(1.4);
+    m_impl->det->GetPostprocessor().SetDetDBMaxCandidates(3000);
+
     m_impl->rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>(
         platform::path_to_utf8_string(m_impl->rec_model_path),
         std::string(),
@@ -245,7 +258,7 @@ bool OcrPack::check_and_load()
         fastdeploy::ModelFormat::ONNX);
 
     if (m_impl->det && m_impl->rec) {
-        m_impl->ocr = std::make_unique<fastdeploy::pipeline::PPOCRv3>(m_impl->det.get(), m_impl->rec.get());
+        m_impl->ocr = std::make_unique<fastdeploy::pipeline::PPOCRv6>(m_impl->det.get(), m_impl->rec.get());
     }
 
     bool det_inited = m_impl->det && m_impl->det->Initialized();
