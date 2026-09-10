@@ -147,7 +147,7 @@ public class PostActionSetting : PropertyChangedBase
     /// <summary>
     /// Gets a value indicating whether PC 端（窗口绑定）无模拟器进程，完成后不可选择 ｢退出模拟器｣。
     /// </summary>
-    public bool ExitEmulatorOptionEnabled => !ConnectSettingsUserControlModel.Instance.IsPCConnectConfig;
+    public bool ExitEmulatorOptionEnabled => ConnectSettingsUserControlModel.Instance.IsADBConnectConfig;
 
     public bool ExitEmulator
     {
