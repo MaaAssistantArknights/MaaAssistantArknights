@@ -235,6 +235,7 @@
     <system:String x:Key="XYAZ">MEmu</system:String>
     <system:String x:Key="WSA">古いバージョンのWSA</system:String>
     <system:String x:Key="PC">アークナイツ PC クライアント（コミュニティ保守）</system:String>
+    <system:String x:Key="Linux">Linux</system:String>
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">互換モード</system:String>
     <system:String x:Key="SecondResolution">2番目の決議</system:String>
@@ -1788,6 +1789,19 @@ C:\leidian\LDPlayer9
 5. アークナイツ設定で マウスカーソルサイズ を小さくし、認識領域の隠れを軽減してください
 6. ゲーム解像度は 16:9 である必要があります。推奨設定：1280x720 または 1920x1080</system:String>
     <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. マウス入力方式には SendMsg-WindowPos の使用を推奨します。この方式により、PC クライアントでの認識エラーやフリーズの問題を大幅に軽減できます</system:String>
+    <system:String x:Key="LinuxScreencapMethod">スクリーンキャプチャ方式</system:String>
+    <system:String x:Key="LinuxInputMethod">入力方式</system:String>
+    <system:String x:Key="LinuxScreencapWlr">wlroots</system:String>
+    <system:String x:Key="LinuxScreencapPipeWire">PipeWire</system:String>
+    <system:String x:Key="LinuxInputWlr">wlroots</system:String>
+    <system:String x:Key="LinuxInputUInput">uinput</system:String>
+    <system:String x:Key="LinuxInputLibei">libei</system:String>
+    <system:String x:Key="LinuxWlrSocketPath">Wayland socket パス</system:String>
+    <system:String x:Key="LinuxPipeWireNodeId">PipeWire node ID</system:String>
+    <system:String x:Key="LinuxUInputPath">uinput デバイスパス</system:String>
+    <system:String x:Key="LinuxUInputScreenWidth">uinput 画面幅</system:String>
+    <system:String x:Key="LinuxUInputScreenHeight">高さ</system:String>
+    <system:String x:Key="LinuxEisSocketPath">EIS socket パス</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">スクリーンキャプチャ方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">マウス入力方式</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">キーボード入力方式</system:String>

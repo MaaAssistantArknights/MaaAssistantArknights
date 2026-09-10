@@ -235,6 +235,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="XYAZ">MEmu</system:String>
     <system:String x:Key="WSA">Old version of WSA</system:String>
     <system:String x:Key="PC">Arknights PC Client (Community-maintained)</system:String>
+    <system:String x:Key="Linux">Linux</system:String>
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">Compatible Mode</system:String>
     <system:String x:Key="SecondResolution">2nd Resolution</system:String>
@@ -1785,6 +1786,19 @@ If you do need to use it, please ensure:
 5. Lower the mouse pointer scale in Arknights settings to reduce obstruction of recognition areas
 6. Game resolution must be 16:9; recommended settings: 1280x720 or 1920x1080</system:String>
     <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. We recommend using SendMsg-WindowPos as the mouse input method; it can greatly reduce recognition errors and freezing issues on the PC client</system:String>
+    <system:String x:Key="LinuxScreencapMethod">Screencap Method</system:String>
+    <system:String x:Key="LinuxInputMethod">Input Method</system:String>
+    <system:String x:Key="LinuxScreencapWlr">wlroots</system:String>
+    <system:String x:Key="LinuxScreencapPipeWire">PipeWire</system:String>
+    <system:String x:Key="LinuxInputWlr">wlroots</system:String>
+    <system:String x:Key="LinuxInputUInput">uinput</system:String>
+    <system:String x:Key="LinuxInputLibei">libei</system:String>
+    <system:String x:Key="LinuxWlrSocketPath">Wayland Socket Path</system:String>
+    <system:String x:Key="LinuxPipeWireNodeId">PipeWire Node ID</system:String>
+    <system:String x:Key="LinuxUInputPath">uinput Device Path</system:String>
+    <system:String x:Key="LinuxUInputScreenWidth">uinput Screen Width</system:String>
+    <system:String x:Key="LinuxUInputScreenHeight">Height</system:String>
+    <system:String x:Key="LinuxEisSocketPath">EIS Socket Path</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">Screencap Method</system:String>
     <system:String x:Key="AttachWindowMouseMethod">Mouse Input Method</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">Keyboard Input Method</system:String>

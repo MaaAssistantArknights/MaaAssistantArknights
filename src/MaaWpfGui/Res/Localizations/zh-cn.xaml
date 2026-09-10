@@ -235,6 +235,7 @@
     <system:String x:Key="XYAZ">逍遥模拟器</system:String>
     <system:String x:Key="WSA">WSA 旧版本</system:String>
     <system:String x:Key="PC">明日方舟 PC 端（社区维护）</system:String>
+    <system:String x:Key="Linux">Linux</system:String>
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">兼容模式</system:String>
     <system:String x:Key="SecondResolution">第二分辨率</system:String>
@@ -1784,6 +1785,19 @@ C:\leidian\LDPlayer9
 5. 在明日方舟设置中调小鼠标指针比例，以减少对识别区域的遮挡
 6. 游戏分辨率需为 16:9，推荐设置 1280x720 或 1920x1080</system:String>
     <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. 推荐鼠标输入方式使用 SendMsg-WindowPos，使用此方式可以很大程度解决 PC 端识别错误和卡住的问题</system:String>
+    <system:String x:Key="LinuxScreencapMethod">Linux 截图方式</system:String>
+    <system:String x:Key="LinuxInputMethod">Linux 输入方式</system:String>
+    <system:String x:Key="LinuxScreencapWlr">wlroots</system:String>
+    <system:String x:Key="LinuxScreencapPipeWire">PipeWire</system:String>
+    <system:String x:Key="LinuxInputWlr">wlroots</system:String>
+    <system:String x:Key="LinuxInputUInput">uinput</system:String>
+    <system:String x:Key="LinuxInputLibei">libei</system:String>
+    <system:String x:Key="LinuxWlrSocketPath">Wayland socket 路径</system:String>
+    <system:String x:Key="LinuxPipeWireNodeId">PipeWire node ID</system:String>
+    <system:String x:Key="LinuxUInputPath">uinput 设备路径</system:String>
+    <system:String x:Key="LinuxUInputScreenWidth">uinput 屏幕宽度</system:String>
+    <system:String x:Key="LinuxUInputScreenHeight">高度</system:String>
+    <system:String x:Key="LinuxEisSocketPath">EIS socket 路径</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">截图方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">鼠标输入</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">键盘输入</system:String>

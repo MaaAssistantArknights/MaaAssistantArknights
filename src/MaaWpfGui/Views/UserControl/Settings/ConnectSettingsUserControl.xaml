@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:coreEnums="clr-namespace:MaaWpfGui.Constants.Enums.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:enums="clr-namespace:MaaWpfGui.Constants.Enums"
@@ -37,7 +38,7 @@
             VerticalAlignment="Center"
             d:Visibility="Visible"
             Orientation="Horizontal"
-            Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC'}">
+            Visibility="{c:Binding IsADBConnectConfig}">
             <StackPanel Margin="5" Orientation="Horizontal">
                 <CheckBox
                     HorizontalAlignment="Center"
@@ -92,7 +93,7 @@
             </StackPanel>
 
             <!--  ADB 连接配置区域  -->
-            <StackPanel d:Visibility="Visible" Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC'}">
+            <StackPanel d:Visibility="Visible" Visibility="{c:Binding IsADBConnectConfig}">
                 <StackPanel
                     Margin="5"
                     HorizontalAlignment="Center"
@@ -321,6 +322,102 @@
                                 </StackPanel>
                             </StackPanel>
                         </DataTemplate>
+                        <DataTemplate DataType="{x:Type extra:LinuxExtra}">
+                            <StackPanel d:DataContext="{d:DesignInstance {x:Type extra:LinuxExtra}}">
+                                <hc:ComboBox
+                                    Width="300"
+                                    Height="30"
+                                    Margin="5"
+                                    hc:TitleElement.Title="{DynamicResource LinuxScreencapMethod}"
+                                    hc:TitleElement.TitlePlacement="Left"
+                                    DisplayMemberPath="Display"
+                                    ItemsSource="{Binding ScreencapMethodList}"
+                                    SelectedValue="{Binding ScreencapMethod}"
+                                    SelectedValuePath="Value" />
+                                <hc:ComboBox
+                                    Width="300"
+                                    Height="30"
+                                    Margin="5"
+                                    hc:TitleElement.Title="{DynamicResource LinuxInputMethod}"
+                                    hc:TitleElement.TitlePlacement="Left"
+                                    DisplayMemberPath="Display"
+                                    ItemsSource="{Binding InputMethodList}"
+                                    SelectedValue="{Binding InputMethod}"
+                                    SelectedValuePath="Value" />
+                                <hc:TextBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="5"
+                                    hc:TitleElement.Title="{DynamicResource LinuxWlrSocketPath}"
+                                    hc:TitleElement.TitlePlacement="Left"
+                                    Text="{Binding WlrSocketPath}">
+                                    <hc:TextBox.Style>
+                                        <Style BasedOn="{StaticResource {x:Type hc:TextBox}}" TargetType="{x:Type hc:TextBox}">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ScreencapMethod}" Value="{x:Static coreEnums:AsstLinuxScreencapMethod.Wlr}">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding InputMethod}" Value="{x:Static coreEnums:AsstLinuxInputMethod.Wlr}">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </hc:TextBox.Style>
+                                </hc:TextBox>
+                                <hc:TextBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="5"
+                                    hc:TitleElement.Title="{DynamicResource LinuxPipeWireNodeId}"
+                                    hc:TitleElement.TitlePlacement="Left"
+                                    Text="{Binding PipeWireNodeId}">
+                                    <hc:TextBox.Style>
+                                        <Style BasedOn="{StaticResource {x:Type hc:TextBox}}" TargetType="{x:Type hc:TextBox}">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ScreencapMethod}" Value="{x:Static coreEnums:AsstLinuxScreencapMethod.PipeWire}">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </hc:TextBox.Style>
+                                </hc:TextBox>
+                                <StackPanel Visibility="{c:Binding 'InputMethod == coreEnums:AsstLinuxInputMethod.UInput'}">
+                                    <hc:TextBox
+                                        Width="400"
+                                        Height="30"
+                                        Margin="5"
+                                        hc:TitleElement.Title="{DynamicResource LinuxUInputPath}"
+                                        hc:TitleElement.TitlePlacement="Left"
+                                        Text="{Binding UInputPath}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <hc:TextBox
+                                            Width="180"
+                                            Height="30"
+                                            Margin="5"
+                                            hc:TitleElement.Title="{DynamicResource LinuxUInputScreenWidth}"
+                                            hc:TitleElement.TitlePlacement="Left"
+                                            Text="{Binding UInputScreenWidth}" />
+                                        <hc:TextBox
+                                            Width="100"
+                                            Height="30"
+                                            Margin="5"
+                                            hc:TitleElement.Title="{DynamicResource LinuxUInputScreenHeight}"
+                                            hc:TitleElement.TitlePlacement="Left"
+                                            Text="{Binding UInputScreenHeight}" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <hc:TextBox
+                                    Width="400"
+                                    Height="30"
+                                    Margin="5"
+                                    hc:TitleElement.Title="{DynamicResource LinuxEisSocketPath}"
+                                    hc:TitleElement.TitlePlacement="Left"
+                                    Text="{Binding EisSocketPath}"
+                                    Visibility="{c:Binding 'InputMethod == coreEnums:AsstLinuxInputMethod.Libei'}" />
+                            </StackPanel>
+                        </DataTemplate>
                     </ContentControl.Resources>
                 </ContentControl>
             </StackPanel>
@@ -366,7 +463,7 @@
             Grid.Row="5"
             HorizontalAlignment="Center"
             d:Visibility="Visible"
-            Visibility="{c:Binding ShowAdvancedConnectSettings and !DataContext.IsPCConnectConfig, ElementName=Root}">
+            Visibility="{c:Binding ShowAdvancedConnectSettings and DataContext.IsADBConnectConfig, ElementName=Root}">
             <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                 <CheckBox
                     Margin="5"
@@ -391,7 +488,7 @@
             HorizontalAlignment="Center"
             d:Visibility="Visible"
             Orientation="Horizontal"
-            Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC'}">
+            Visibility="{c:Binding IsADBConnectConfig}">
             <hc:ComboBox
                 Height="30"
                 Margin="5,5,0,5"
@@ -436,7 +533,7 @@
         <StackPanel
             Grid.Row="7"
             d:Visibility="Visible"
-            Visibility="{c:Binding ShowAdvancedConnectSettings and !DataContext.IsPCConnectConfig, ElementName=Root}">
+            Visibility="{c:Binding ShowAdvancedConnectSettings and DataContext.IsADBConnectConfig, ElementName=Root}">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <CheckBox
                     Margin="5"
