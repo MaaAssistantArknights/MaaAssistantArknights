@@ -93,11 +93,19 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
     /// 启动时的完整性检查与更新检查。
     /// 对照 filelist.txt 检查安装文件是否缺失，缺失时弹窗询问是否修复（重新下载完整包）；
     /// 未缺失、用户选择忽略、或修复未完成（失败/用户取消）时回退常规更新检查。
-    /// Core 资源损坏时本检查只记日志，修复入口由资源损坏弹窗统一提供，不再叠加缺失弹窗。
+    /// 资源已标记损坏时本检查整体跳过（扫描前后各检测一次标志），修复入口由资源损坏弹窗统一提供，
+    /// 不再叠加缺失弹窗或常规更新弹窗。前检测拦 OnStart 已置位的更新失败标志（时序有同步保证），
+    /// 后检测拦扫描期间 Init 才置位的资源损坏（两者并发赛跑）。
     /// 必须在主窗口显示之后执行，否则弹窗会成为唯一窗口，关闭时触发 WPF 退出。
     /// </summary>
     private static async Task StartupIntegrityCheckAndUpdateAsync()
     {
+        if (Bootstrapper.IsResourceBroken)
+        {
+            _logger.Information("Skip startup integrity check, resource-broken dialog takes over");
+            return;
+        }
+
         var missingFiles = await Task.Run(ResourceIntegrityChecker.GetMissingFiles);
         if (missingFiles.Count > 0)
         {

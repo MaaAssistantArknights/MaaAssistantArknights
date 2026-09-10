@@ -510,12 +510,12 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             _logger.Information("Delegated pending update completed successfully");
         }
 
-        if (PendingUpdateApplier.TryConsumeDelegatedUpdateFailure(out string delegatedUpdateFailureReason))
+        if (PendingUpdateApplier.TryReadDelegatedUpdateFailure(out string delegatedUpdateFailureReason))
         {
+            // 上次委托更新失败：标志文件保留供后续启动检测，此处仅置资源损坏标志并放行启动，
+            // 修复弹窗须等主窗口显示后（AsstProxy.Init）再弹，避免成为唯一窗口导致进程意外退出
             _logger.Error("Delegated pending update failed. Reason: {Reason}", delegatedUpdateFailureReason);
-            ShowPendingUpdateRecoveryDialog();
-            FlushLogAndExit();
-            return;
+            MarkResourceBroken();
         }
 
         if (TryGetUnsupportedInstallLocation(out string unsupportedLocation))
@@ -561,10 +561,11 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
             if (pendingUpdateResult.RequiresManualRecovery)
             {
+                // 进程内应用失败且安装已变动：写入失败标志持久化，与委托更新失败共用
+                // 主窗口显示后的修复弹窗路径，此处不退出
                 _logger.Error("Pending update package left the installation in an incomplete state. Reason: {Reason}", pendingUpdateResult.FailureReason);
-                ShowPendingUpdateRecoveryDialog();
-                FlushLogAndExit();
-                return;
+                PendingUpdateApplier.MarkDelegatedUpdateFailure(pendingUpdateResult.FailureReason ?? string.Empty);
+                MarkResourceBroken();
             }
 
             _logger.Warning("Pending update package could not be applied, continuing with normal startup");
@@ -1079,14 +1080,6 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         return ConfigFactory.CurrentConfig.Gui.StartUpSettings.SkipStartupAutoRunAfterUpdate
             ? [SkipStartupAutoRunArg]
             : [];
-    }
-
-    private static void ShowPendingUpdateRecoveryDialog()
-    {
-        MessageBoxHelper.Show(
-            LocalizationHelper.GetString("UpdateApplyFailed"),
-            LocalizationHelper.GetString("Error"),
-            icon: MessageBoxImage.Error);
     }
 
     private static void ShowPendingUpdateMissingUpdaterDialog()
