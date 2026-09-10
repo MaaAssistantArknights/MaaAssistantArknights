@@ -3453,10 +3453,8 @@ public class AsstProxy
             }
             else
             {
-                error = LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("CheckSettings");
+                error = LocalizationHelper.GetString("LinuxConnectFailed");
             }
-
-            Instances.TaskQueueViewModel.AddLog(error, UiLogColor.Error);
         }
 
         return ret;
