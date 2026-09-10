@@ -27,6 +27,7 @@ public enum ConnectConfig
     Nox,
     XYAZ,
     PC,
+    Linux,
     WSA,
     Compatible,
     SecondResolution,

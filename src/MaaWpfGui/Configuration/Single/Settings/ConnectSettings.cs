@@ -34,6 +34,7 @@ public partial class ConnectSettings : NotifyPropertyChangedWithValue, IJsonOnDe
         Extras.Mumu12.PropertyChanged += Handler.OnPropertyChangedFactory(_bindingPrefix + nameof(ConnectSettings) + "." + nameof(ExtraConfigs) + "." + nameof(Extras.Mumu12) + ".");
         Extras.LDPlayer.PropertyChanged += Handler.OnPropertyChangedFactory(_bindingPrefix + nameof(ConnectSettings) + "." + nameof(ExtraConfigs) + "." + nameof(Extras.LDPlayer) + ".");
         Extras.Win32Extra.PropertyChanged += Handler.OnPropertyChangedFactory(_bindingPrefix + nameof(ConnectSettings) + "." + nameof(ExtraConfigs) + "." + nameof(Extras.Win32Extra) + ".");
+        Extras.LinuxExtra.PropertyChanged += Handler.OnPropertyChangedFactory(_bindingPrefix + nameof(ConnectSettings) + "." + nameof(ExtraConfigs) + "." + nameof(Extras.LinuxExtra) + ".");
     }
 
     public void OnDeserialized()
@@ -79,6 +80,8 @@ public partial class ConnectSettings : NotifyPropertyChangedWithValue, IJsonOnDe
         public Mumu12Extra Mumu12 { get; set; } = new();
 
         public Win32Extra Win32Extra { get; set; } = new();
+
+        public LinuxExtra LinuxExtra { get; set; } = new();
 
         public Bluestacks BluestacksExtra { get; set; } = new();
 
