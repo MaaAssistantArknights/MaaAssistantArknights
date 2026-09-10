@@ -1413,10 +1413,10 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
         office_acc = true;
     }
     if (best.size() < ControlSlotCount && !office_acc &&
-        // 可靠伙伴：八幡海铃；同时影响后续叙拉古干员的效率计算。
-        add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_hire_tmoris"); }) ||
-        // 办公室年度人物：焰狐龙梓兰
-        add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_orchd2"); })) {        
+        (// 可靠伙伴：八幡海铃；同时影响后续叙拉古干员的效率计算。
+         add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_hire_tmoris"); }) ||
+         // 办公室年度人物：焰狐龙梓兰
+         add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_orchd2"); }))) {
         office_acc = true;
     }
 
