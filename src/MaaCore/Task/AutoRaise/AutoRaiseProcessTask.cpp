@@ -376,10 +376,9 @@ asst::AutoRaiseProcessTask::execute_skills(const AutoRaiseTarget& target)
         // 技能书/材料1/材料2 均跳加工站走自动合成,当前槽位修复后再检测下一槽；
         // 2-3 级的技能书不可合成,缺料时合成步骤失败即终止本轮培养。
         if (run_task("AutoRaise@SkillUpSkillSummaryRequired", 1)) {
-            if (level > 3 && !synthesize_missing_material(AutoRaiseAction::Skills, 0)) {
+            if (level <= 3 || !synthesize_missing_material(AutoRaiseAction::Skills, 0)) {
                 return Result::ResourceInsufficient;
             }
-            return Result::ResourceInsufficient;
         }
         if (run_task("AutoRaise@SkillUpMaterial1Required", 1) &&
             !synthesize_missing_material(AutoRaiseAction::Skills, 1)) {
@@ -1070,7 +1069,7 @@ bool asst::AutoRaiseProcessTask::buy_catalyst(int count)
 
     // 购买数量设为缺口：默认 1 件 + 商品加 ×(count-1)
     for (int i = 1; i < count && !need_exit(); ++i) {
-        if (!run_task("Store@Increse")) {
+        if (!run_task("Store@Increase")) {
             return false;
         }
     }
