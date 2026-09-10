@@ -1461,6 +1461,12 @@
         "text": ["미사용중"],
         "roi": [380, 645, 135, 35]
     },
+    "InfrastTrainingMasteryPage": {
+        "text": ["트레이너"]
+    },
+    "InfrastTrainingMasterybusy": {
+        "text": ["훈련중"]
+    },
     "InfrastTrainingProcessing": {
         "text": ["진행도"]
     },
@@ -1975,22 +1981,6 @@
     "YellowTicket@Store@Purchase": {
         "text": ["물품", "구매"]
     },
-    "AutoRaise@OperBoxRoleFiltered": {
-        "doc": "오퍼레이터 목록 페이지 우상단의 직업 필터 잔류 표시",
-        "text": ["뱅가드", "가드", "디펜더", "스나이퍼", "캐스터", "메딕", "서포터", "스페셜리스트"]
-    },
-    "AutoRaise@OperBoxRoleFilteredOpen": {
-        "text": ["뱅가드", "가드", "디펜더", "스나이퍼", "캐스터", "메딕", "서포터", "스페셜리스트"]
-    },
-    "AutoRaise@OperBoxSortTabs": {
-        "text": ["레벨", "레어도", "획득 시간"]
-    },
-    "InfrastTrainingMasteryPage": {
-        "text": ["트레이너"]
-    },
-    "InfrastTrainingMasterybusy": {
-        "text": ["훈련중"]
-    },
     "RedTicket@Store@ChooseTicketType": {
         "text": ["구매증명서"]
     },
@@ -1999,5 +1989,14 @@
     },
     "RedTicket@Store@Purchase": {
         "text": ["물품", "구매"]
+    },
+    "AutoRaise@OperBoxRoleFiltered": {
+        "text": ["뱅가드", "가드", "디펜더", "스나이퍼", "캐스터", "메딕", "서포터", "스페셜리스트"]
+    },
+    "AutoRaise@OperBoxRoleFilteredOpen": {
+        "text": ["뱅가드", "가드", "디펜더", "스나이퍼", "캐스터", "메딕", "서포터", "스페셜리스트"]
+    },
+    "AutoRaise@OperBoxSortTabs": {
+        "text": ["레벨", "레어도", "획득 시간"]
     }
 }
