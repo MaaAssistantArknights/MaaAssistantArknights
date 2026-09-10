@@ -1083,7 +1083,7 @@ double power_score(const ScoreOper& oper, const ScoreContext& context)
             score += 0.22;
         }
         else if (icon == "bskill_pow_spd_p3r") { // 机械工学：埃癸斯
-            score += 0.151; 
+            score += 0.151;
         }
         else if (icon == "bskill_pow_spd3") { // 各类 20% 充能技能：多人共用
             score += 0.2;
@@ -1413,10 +1413,10 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
         office_acc = true;
     }
     if (best.size() < ControlSlotCount && !office_acc &&
-        (// 可靠伙伴：八幡海铃；同时影响后续叙拉古干员的效率计算。
-         add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_hire_tmoris"); }) ||
-         // 办公室年度人物：焰狐龙梓兰
-         add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_orchd2"); }))) {
+        ( // 可靠伙伴：八幡海铃；同时影响后续叙拉古干员的效率计算。
+            add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_hire_tmoris"); }) ||
+            // 办公室年度人物：焰狐龙梓兰
+            add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_orchd2"); }))) {
         office_acc = true;
     }
 
@@ -1715,7 +1715,7 @@ ScoreResult select_dorm(const std::vector<ScoreOper>& opers, const ScoreContext&
     }
     return { std::move(result), 0 };
 }
-}
+} // namespace
 
 const std::array<AbyssalHunterCandidate, 4>& get_abyssal_hunter_candidates()
 {
