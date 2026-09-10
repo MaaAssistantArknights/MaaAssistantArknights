@@ -114,6 +114,15 @@ public class LinuxExtra : ExtraConfig
         }
     } = ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.LinuxExtra.EisSocketPath;
 
+    public bool TargetIsPC
+    {
+        get; set {
+            Instances.AsstProxy.Connected = false;
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.LinuxExtra.TargetIsPC = value;
+        }
+    } = ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.LinuxExtra.TargetIsPC;
+
     public string Config
     {
         get {
