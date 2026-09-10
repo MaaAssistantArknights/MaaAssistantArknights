@@ -14,6 +14,17 @@
         "src/MaaCore/Utils/Algorithm.hpp",
         "unit_test/MaaCore/AlgorithmTest.cpp"
       ]
+    },
+    {
+      "id": "maa-ocr-equivalence-regex-test",
+      "name": "OCR Equivalence Regex",
+      "buildTarget": "maa-ocr-equivalence-regex-test",
+      "ctestRegex": "^ocr-equivalence-regex::",
+      "paths": [
+        "src/MaaCore/Vision/Config/OCREquivalenceRegex.hpp",
+        "src/MaaCore/Vision/Config/OCRerConfig.cpp",
+        "unit_test/MaaCore/EquivalenceRegexTest.cpp"
+      ]
     }
   ]
 }
