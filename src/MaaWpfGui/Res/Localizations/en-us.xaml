@@ -2033,7 +2033,8 @@ These directories are not suitable places to keep MAA; files there can be easily
     <system:String x:Key="TaskStallWarning">Task log output has not been updated for {0} minutes (currently stalled for {1} minutes). Please check whether the task is still running; if so, you can ignore this warning. If the task is unresponsive, manual intervention may be required.</system:String>
     <system:String x:Key="RunDurationLimitEnabled">Limit run duration</system:String>
     <system:String x:Key="RunDurationLimitMinutes">Run duration limit (min)</system:String>
-    <system:String x:Key="RunDurationLimitTip">Timed from ｢{key=LinkStart}｣. Tasks are stopped automatically once the limit is reached; the option below controls whether actions in ｢{key=PostActionsSettings}｣ (e.g. exiting the game, closing the emulator, shutting down) are executed afterwards.</system:String>
+    <system:String x:Key="RunDurationLimitTip" xml:space="preserve">Timed from ｢{key=LinkStart}｣. Tasks are stopped automatically once the limit is reached; the option below controls whether actions in ｢{key=PostActionsSettings}｣ (e.g. exiting the game, closing the emulator, shutting down) are executed afterwards.
+{key=CheckBoxesNotSavedAsNull}.</system:String>
     <system:String x:Key="RunDurationLimitExecutePostActions">Run actions in ｢{key=PostActionsSettings}｣ after stopping</system:String>
     <system:String x:Key="RunDurationLimitReached">Run duration limit ({0} min) reached, stopping tasks</system:String>
     <!--  !TimeOutTimer  -->

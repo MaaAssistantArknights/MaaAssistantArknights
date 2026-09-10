@@ -2034,7 +2034,8 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskStallWarning">任務日誌輸出已超過 {0} 分鐘無更新（當前已停滯 {1} 分鐘）。請確認任務是否正常運行，若任務正常可忽略此提示，若無回應則可能需要手動干預。</system:String>
     <system:String x:Key="RunDurationLimitEnabled">限制單次運行時長</system:String>
     <system:String x:Key="RunDurationLimitMinutes">運行時長上限（分鐘）</system:String>
-    <system:String x:Key="RunDurationLimitTip">從點擊 ｢{key=LinkStart}｣ 開始計時，到達上限後自動停止任務，並依下方選項決定是否執行 ｢{key=PostActionsSettings}｣ 中的動作（如退出遊戲、關閉模擬器、關機）。</system:String>
+    <system:String x:Key="RunDurationLimitTip" xml:space="preserve">從點擊 ｢{key=LinkStart}｣ 開始計時，到達上限後自動停止任務，並依下方選項決定是否執行 ｢{key=PostActionsSettings}｣ 中的動作（如退出遊戲、關閉模擬器、關機）。
+{key=CheckBoxesNotSavedAsNull}。</system:String>
     <system:String x:Key="RunDurationLimitExecutePostActions">停止後執行 ｢{key=PostActionsSettings}｣ 中的動作</system:String>
     <system:String x:Key="RunDurationLimitReached">已達到運行時長上限（{0} 分鐘），停止任務</system:String>
     <!--  !TimeOutTimer  -->

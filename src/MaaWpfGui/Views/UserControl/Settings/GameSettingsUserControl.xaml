@@ -249,8 +249,7 @@
                 IsChecked="{Binding EnableRunDurationLimit}"
                 IsEnabled="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
                 MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
-                                              Target={x:Type helper:CheckBoxHelper}}"
-                ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
+                                              Target={x:Type helper:CheckBoxHelper}}" />
             <controls:TooltipBlock
                 Margin="0,10"
                 VerticalAlignment="Center"
