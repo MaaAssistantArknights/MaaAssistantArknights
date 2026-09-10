@@ -34,4 +34,6 @@ public class LinuxExtra : BaseExtra
     public string UInputPath { get; set; } = string.Empty;
 
     public string EisSocketPath { get; set; } = string.Empty;
+
+    public bool TargetIsPC { get; set; }
 }
