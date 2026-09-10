@@ -808,9 +808,9 @@ public class TaskQueueViewModel : Screen
 
             InfrastTask.RefreshInfrastTimeRotationDisplay();
 
-            HandleRunDurationLimit();
-
             await HandleTimerLogic(currentTime);
+
+            await HandleRunDurationLimit();
         }
         catch
         {
@@ -818,15 +818,14 @@ public class TaskQueueViewModel : Screen
         }
     }
 
-    private void HandleRunDurationLimit()
+    private async Task HandleRunDurationLimit()
     {
         if (!_runningState.TryConsumeRunDeadline(out var limitMinutes, out var executePostActions))
         {
             return;
         }
 
-        // 不在定时器里等待停止完成，避免错过同一时刻的定时启动
-        _ = StopByRunDurationLimitAsync(limitMinutes, executePostActions);
+        await StopByRunDurationLimitAsync(limitMinutes, executePostActions);
     }
 
     private async Task StopByRunDurationLimitAsync(int limitMinutes, bool executePostActions)
@@ -846,21 +845,30 @@ public class TaskQueueViewModel : Screen
             AddLog(message, UiLogColor.Warning);
             ToastNotification.ShowDirect(message);
 
+            var waited = false;
             if (RoguelikeTask.RoguelikeDelayAbortUntilCombatComplete && RoguelikeInCombatAndShowWait)
             {
                 Waiting = true;
+                waited = true;
                 AddLog(LocalizationHelper.GetString("Waiting"));
                 await WaitUntilRoguelikeCombatComplete();
             }
 
-            if (Instances.AsstProxy.StartTaskTime != startTaskTime)
+            // 等待期间本轮已自然结束或定时执行已开始新一轮时不再停止，交由原流程处理完成后动作；
+            // 这两种情况不会经过 SetStopped，需自行恢复等待状态
+            if (Instances.AsstProxy.StartTaskTime != startTaskTime || !Instances.AsstProxy.AsstRunning())
             {
-                _logger.Information("A new run started while waiting, skip stopping by run duration limit");
+                if (waited)
+                {
+                    Waiting = false;
+                }
+
+                _logger.Information("Run already ended or a new run started, skip stopping by run duration limit");
                 return;
             }
 
-            // 本轮已自然结束或已在停止中时交由原流程处理，避免重复执行完成后动作
-            if (!Instances.AsstProxy.AsstRunning() || _runningState.GetStopping())
+            // 已在停止中时交由原流程处理，避免重复执行完成后动作
+            if (_runningState.GetStopping())
             {
                 return;
             }
@@ -868,11 +876,12 @@ public class TaskQueueViewModel : Screen
             await Stop();
             SetStopped();
 
-            if (executePostActions)
+            if (!executePostActions)
             {
-                // 开启手动停止执行脚本时，SetStopped 已执行过结束脚本
-                await CheckAfterCompleted(runEndsWithScript: !SettingsViewModel.GameSettings.ManualStopWithScript);
+                return;
             }
+
+            await CheckAfterCompleted(runEndsWithScript: !SettingsViewModel.GameSettings.ManualStopWithScript);
         }
         catch (Exception ex)
         {
