@@ -161,7 +161,7 @@
                                     Foreground="{DynamicResource InfoBrush}"
                                     Text="{DynamicResource GuideStepClarification}"
                                     TextWrapping="Wrap"
-                                    Visibility="{c:Binding !IsPCConnectConfig}" />
+                                    Visibility="{c:Binding IsADBConnectConfig}" />
 
                                 <settings:ConnectSettingsUserControl ShowAdvancedConnectSettings="False" />
                             </StackPanel>

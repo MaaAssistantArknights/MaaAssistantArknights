@@ -122,7 +122,7 @@ public class PostActionSetting : PropertyChangedBase
     /// <summary>
     /// Gets a value indicating whether AttachWindow 模式支持 Android 侧后处理动作。
     /// </summary>
-    public bool AndroidControlPostActionsEnabled => !_exitEmulator && !ConnectSettingsUserControlModel.Instance.IsPCConnectConfig;
+    public bool AndroidControlPostActionsEnabled => !_exitEmulator && ConnectSettingsUserControlModel.Instance.IsADBConnectConfig;
 
     public bool BackToAndroidHome
     {
