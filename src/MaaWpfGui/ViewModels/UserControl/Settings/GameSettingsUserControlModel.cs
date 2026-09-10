@@ -341,15 +341,21 @@ public class GameSettingsUserControlModel : PropertyChangedBase
     } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutReminderIntervalMinutes;
 
     /// <summary>
-    /// Gets or sets a value indicating whether 是否启用运行时长上限
+    /// Gets or sets a value indicating whether 是否启用运行时长上限，null 为右键半选，仅生效一次
     /// </summary>
-    public bool EnableRunDurationLimit
+    public bool? EnableRunDurationLimit
     {
         get; set {
             SetAndNotify(ref field, value);
+            NotifyOfPropertyChange(nameof(RunDurationLimitActive));
             ConfigFactory.CurrentConfig.Gui.RuntimeSettings.EnableRunDurationLimit = value;
         }
     } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.EnableRunDurationLimit;
+
+    /// <summary>
+    /// Gets a value indicating whether 运行时长上限生效（勾选或右键半选）
+    /// </summary>
+    public bool RunDurationLimitActive => EnableRunDurationLimit != false;
 
     public int RunDurationLimitMinutes
     {

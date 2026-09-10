@@ -2208,9 +2208,12 @@ public class TaskQueueViewModel : Screen
             Instances.AsstProxy.StartTaskTime = DateTimeOffset.Now;
 
             var runtimeSettings = ConfigFactory.CurrentConfig.Gui.RuntimeSettings;
-            if (runtimeSettings.EnableRunDurationLimit)
+            if (runtimeSettings.EnableRunDurationLimit != false)
             {
                 _runningState.SetRunDeadline(runtimeSettings.RunDurationLimitMinutes, runtimeSettings.RunDurationLimitExecutePostActions);
+
+                // 右键半选仅生效一次，本轮开始计时后恢复为未勾选
+                SettingsViewModel.GameSettings.EnableRunDurationLimit ??= false;
             }
         }
         else

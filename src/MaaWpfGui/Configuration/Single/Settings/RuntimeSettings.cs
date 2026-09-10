@@ -59,9 +59,9 @@ public partial class RuntimeSettings : NotifyPropertyChangedWithValue, IJsonOnDe
     public int StallTimeoutMinutes { get; set; } = 30;
 
     /// <summary>
-    /// 运行时长上限，从开始任务起计时，到时停止任务
+    /// 运行时长上限，从开始任务起计时，到时停止任务；null 为右键半选，仅生效一次
     /// </summary>
-    public bool EnableRunDurationLimit { get; set; }
+    public bool? EnableRunDurationLimit { get; set; } = false;
 
     public int RunDurationLimitMinutes { get; set; } = 240;
 
