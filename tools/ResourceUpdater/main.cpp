@@ -468,7 +468,7 @@ bool run_parallel_tasks(
             return;
         }
         std::cout << "------- Update raise demand data for Official -------" << '\n';
-        if (!update_raise_demand_data(official_data_dir, resource_dir)) {
+        if (!update_raise_demand_data(official_data_dir / "gamedata" / "excel", resource_dir)) {
             std::cerr << "update_raise_demand_data failed" << '\n';
             error_occurred.store(true);
         }
@@ -659,7 +659,7 @@ bool update_items_data(const fs::path& input_dir, const fs::path& output_dir, bo
 
 bool update_raise_demand_data(const fs::path& input_dir, const fs::path& output_dir)
 {
-    const auto input_json_path = input_dir / "gamedata" / "excel" / "character_table.json";
+    const auto input_json_path = input_dir / "character_table.json";
 
     auto parse_ret = json::open(input_json_path);
     if (!parse_ret) {
@@ -671,14 +671,16 @@ bool update_raise_demand_data(const fs::path& input_dir, const fs::path& output_
 
     // Consumption entries of one cost field -> [[item_id, count], ...].
     // A cost field that is absent, null or empty yields an empty array, nullopt means the data is invalid.
-    const auto collect_costs = [](const json::value& owner, const std::string& cost_key) -> std::optional<json::value> {
+    const auto collect_costs = [](const json::value& owner,
+                                  const std::string& char_id,
+                                  const std::string& cost_key) -> std::optional<json::value> {
         json::array costs;
         if (const auto cost_list_opt = owner.find<json::array>(cost_key)) {
             for (const auto& cost : cost_list_opt.value()) {
                 const std::string item_id = cost.get("id", std::string());
                 const int count = cost.get("count", 0);
                 if (item_id.empty() || count <= 0) {
-                    std::cerr << "Invalid raise demand cost: " << cost_key << ' ' << item_id << '\n';
+                    std::cerr << "Invalid raise demand cost: " << char_id << ' ' << cost_key << ' ' << item_id << '\n';
                     return std::nullopt;
                 }
                 costs.emplace_back(json::array { item_id, count });
@@ -709,7 +711,7 @@ bool update_raise_demand_data(const fs::path& input_dir, const fs::path& output_
         json::array elite_costs;
         if (const auto phases_opt = char_data.find<json::array>("phases")) {
             for (size_t phase_index = 1; phase_index < phases_opt->size(); ++phase_index) {
-                auto costs_opt = collect_costs(phases_opt->at(phase_index), "evolveCost");
+                auto costs_opt = collect_costs(phases_opt->at(phase_index), char_id, "evolveCost");
                 if (!costs_opt) {
                     return false;
                 }
@@ -721,7 +723,7 @@ bool update_raise_demand_data(const fs::path& input_dir, const fs::path& output_
         json::array skill_level_costs;
         if (const auto lvlup_opt = char_data.find<json::array>("allSkillLvlup")) {
             for (const auto& lvlup : lvlup_opt.value()) {
-                auto costs_opt = collect_costs(lvlup, "lvlUpCost");
+                auto costs_opt = collect_costs(lvlup, char_id, "lvlUpCost");
                 if (!costs_opt) {
                     return false;
                 }
@@ -742,7 +744,7 @@ bool update_raise_demand_data(const fs::path& input_dir, const fs::path& output_
                 }
                 json::array mastery_by_level;
                 for (const auto& condition : condition_opt.value()) {
-                    auto costs_opt = collect_costs(condition, "levelUpCost");
+                    auto costs_opt = collect_costs(condition, char_id, "levelUpCost");
                     if (!costs_opt) {
                         return false;
                     }
