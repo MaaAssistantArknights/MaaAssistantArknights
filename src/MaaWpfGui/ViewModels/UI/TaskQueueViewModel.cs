@@ -889,6 +889,21 @@ public class TaskQueueViewModel : Screen
         }
     }
 
+    /// <summary>
+    /// 按当前设置设置运行时长截止时间，各启动路径在 <c>AsstStart</c> 成功后调用。
+    /// </summary>
+    public void SetRunDeadlineFromSettings()
+    {
+        var runtimeSettings = ConfigFactory.CurrentConfig.Gui.RuntimeSettings;
+        if (runtimeSettings.EnableRunDurationLimit != false)
+        {
+            _runningState.SetRunDeadline(runtimeSettings.RunDurationLimitMinutes, runtimeSettings.RunDurationLimitExecutePostActions);
+
+            // 右键半选仅生效一次，本轮开始计时后恢复为未勾选
+            SettingsViewModel.GameSettings.EnableRunDurationLimit ??= false;
+        }
+    }
+
     private static int CalculateRandomDelay()
     {
         Random random = new Random();
@@ -2215,15 +2230,7 @@ public class TaskQueueViewModel : Screen
         {
             AddLog(LocalizationHelper.GetString("Running"));
             Instances.AsstProxy.StartTaskTime = DateTimeOffset.Now;
-
-            var runtimeSettings = ConfigFactory.CurrentConfig.Gui.RuntimeSettings;
-            if (runtimeSettings.EnableRunDurationLimit != false)
-            {
-                _runningState.SetRunDeadline(runtimeSettings.RunDurationLimitMinutes, runtimeSettings.RunDurationLimitExecutePostActions);
-
-                // 右键半选仅生效一次，本轮开始计时后恢复为未勾选
-                SettingsViewModel.GameSettings.EnableRunDurationLimit ??= false;
-            }
+            SetRunDeadlineFromSettings();
         }
         else
         {
