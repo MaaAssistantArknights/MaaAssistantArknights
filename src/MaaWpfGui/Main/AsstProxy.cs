@@ -498,8 +498,9 @@ public class AsstProxy
             loaded &= LoadResIfExists(globalRes) && LoadResIfExists(globalCacheRes);
         }
 
-        // 使用窗口绑定模式时，额外加载 PC 平台差异资源
-        if (SettingsViewModel.ConnectSettings.IsPCConnectConfig)
+        // 连接目标为 PC 端时，额外加载 PC 平台差异资源
+        if (SettingsViewModel.ConnectSettings.IsPCConnectConfig ||
+            SettingsViewModel.ConnectSettings.ExtraConfig is LinuxExtra { TargetIsPC: true })
         {
             string pcPlatformRes = Path.Combine(mainRes, "platform_diff", "PC", "resource");
             loaded &= LoadResIfExists(pcPlatformRes);
@@ -3053,7 +3054,7 @@ public class AsstProxy
         AsstSetConnectionExtras("MaaFw", linuxExtra.Config);
 
         // adbPath 参数会被 Wine Bridge 转换，传入空字符串会转出 NULL，最终导致段错误
-        bool ret = AsstConnect(_handle, "unused parameter", "", "");
+        bool ret = AsstConnect(_handle, "unused parameter", string.Empty, linuxExtra.TargetIsPC ? "PC" : "General");
         if (!ret)
         {
             // 等待回调完成以获取详细错误信息

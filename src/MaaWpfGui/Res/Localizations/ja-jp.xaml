@@ -1791,6 +1791,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. マウス入力方式には SendMsg-WindowPos の使用を推奨します。この方式により、PC クライアントでの認識エラーやフリーズの問題を大幅に軽減できます</system:String>
     <system:String x:Key="LinuxScreencapMethod">スクリーンキャプチャ方式</system:String>
     <system:String x:Key="LinuxInputMethod">入力方式</system:String>
+    <system:String x:Key="LinuxTargetIsPC">対象は PC クライアント</system:String>
+    <system:String x:Key="LinuxTargetIsPCTip" xml:space="preserve">未選択：対象を Android エミュレーターとして扱います。
+選択：対象をアークナイツ PC クライアントとして扱います。接続構成「アークナイツ PC クライアント」の注意事項を読み、サポート状況やゲーム設定に関する内容も確認してください。</system:String>
     <system:String x:Key="LinuxScreencapWlr">wlroots</system:String>
     <system:String x:Key="LinuxScreencapPipeWire">PipeWire</system:String>
     <system:String x:Key="LinuxInputWlr">wlroots</system:String>

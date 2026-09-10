@@ -1790,6 +1790,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. 마우스 입력 방식으로 SendMsg-WindowPos 사용을 권장합니다. 이 방식을 사용하면 PC 클라이언트의 인식 오류 및 멈춤 문제를 크게 줄일 수 있습니다</system:String>
     <system:String x:Key="LinuxScreencapMethod">스크린샷 방식</system:String>
     <system:String x:Key="LinuxInputMethod">입력 방식</system:String>
+    <system:String x:Key="LinuxTargetIsPC">대상은 PC 클라이언트</system:String>
+    <system:String x:Key="LinuxTargetIsPCTip" xml:space="preserve">선택 안 함: 대상을 Android 에뮬레이터로 처리합니다.
+선택: 대상을 명일방주 PC 클라이언트로 처리합니다. '명일방주 PC 클라이언트' 연결 프리셋의 주의사항을 읽고, 지원 현황 및 게임 설정 관련 내용도 확인해 주세요.</system:String>
     <system:String x:Key="LinuxScreencapWlr">wlroots</system:String>
     <system:String x:Key="LinuxScreencapPipeWire">PipeWire</system:String>
     <system:String x:Key="LinuxInputWlr">wlroots</system:String>

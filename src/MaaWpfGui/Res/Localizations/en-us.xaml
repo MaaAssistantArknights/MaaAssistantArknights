@@ -1788,6 +1788,9 @@ If you do need to use it, please ensure:
     <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. We recommend using SendMsg-WindowPos as the mouse input method; it can greatly reduce recognition errors and freezing issues on the PC client</system:String>
     <system:String x:Key="LinuxScreencapMethod">Screencap Method</system:String>
     <system:String x:Key="LinuxInputMethod">Input Method</system:String>
+    <system:String x:Key="LinuxTargetIsPC">Target is PC Client</system:String>
+    <system:String x:Key="LinuxTargetIsPCTip" xml:space="preserve">Unchecked: Treat the target as an Android emulator.
+Checked: Treat the target as Arknights PC client. See notes in Arknights PC Client connection preset, where the parts on support status and game settings also apply.</system:String>
     <system:String x:Key="LinuxScreencapWlr">wlroots</system:String>
     <system:String x:Key="LinuxScreencapPipeWire">PipeWire</system:String>
     <system:String x:Key="LinuxInputWlr">wlroots</system:String>

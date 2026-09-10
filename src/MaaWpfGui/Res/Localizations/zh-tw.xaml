@@ -1789,6 +1789,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. 推薦滑鼠輸入方式使用 SendMsg-WindowPos，使用此方式可以很大程度解決 PC 端辨識錯誤和卡住的問題</system:String>
     <system:String x:Key="LinuxScreencapMethod">截圖方式</system:String>
     <system:String x:Key="LinuxInputMethod">輸入方式</system:String>
+    <system:String x:Key="LinuxTargetIsPC">目標為 PC 端</system:String>
+    <system:String x:Key="LinuxTargetIsPCTip" xml:space="preserve">未勾選：將目標視為 Android 模擬器。
+勾選：將目標視為明日方舟 PC 端。請閱讀 PC 端連線注意事項，其中關於支援程度、遊戲設定的部分同樣適用。</system:String>
     <system:String x:Key="LinuxScreencapWlr">wlroots</system:String>
     <system:String x:Key="LinuxScreencapPipeWire">PipeWire</system:String>
     <system:String x:Key="LinuxInputWlr">wlroots</system:String>

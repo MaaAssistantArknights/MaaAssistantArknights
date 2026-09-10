@@ -416,6 +416,13 @@
                                     hc:TitleElement.TitlePlacement="Left"
                                     Text="{Binding EisSocketPath}"
                                     Visibility="{c:Binding 'InputMethod == coreEnums:AsstLinuxInputMethod.Libei'}" />
+                                <StackPanel Margin="5" HorizontalAlignment="Center" Orientation="Horizontal">
+                                    <CheckBox
+                                        VerticalAlignment="Center"
+                                        Content="{DynamicResource LinuxTargetIsPC}"
+                                        IsChecked="{Binding TargetIsPC}" />
+                                    <controls:TooltipBlock TooltipText="{DynamicResource LinuxTargetIsPCTip}" />
+                                </StackPanel>
                             </StackPanel>
                         </DataTemplate>
                     </ContentControl.Resources>
