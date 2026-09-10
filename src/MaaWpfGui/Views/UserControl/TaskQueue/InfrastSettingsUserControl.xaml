@@ -253,9 +253,6 @@
             <CheckBox Margin="0,10" IsChecked="{Binding ContinueTraining}">
                 <controls:TextBlock Text="{DynamicResource ContinueTraining}" TextWrapping="Wrap" />
             </CheckBox>
-            <CheckBox Margin="0,10" IsChecked="{Binding AssistantChangeMondayOnly}">
-                <controls:TextBlock Text="{DynamicResource AssistantChangeMondayOnly}" TextWrapping="Wrap" />
-            </CheckBox>
             <StackPanel HorizontalAlignment="Left" Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Normal', Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
                 <StackPanel.Resources>
                     <DataTemplate x:Key="FiammettaTargetTemplate">

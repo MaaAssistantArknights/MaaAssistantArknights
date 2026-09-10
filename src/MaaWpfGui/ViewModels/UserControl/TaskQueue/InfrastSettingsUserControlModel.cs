@@ -281,15 +281,6 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
         set => SetTaskConfig<InfrastTask>(t => t.ContinueTraining == value, t => t.ContinueTraining = value);
     }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether assistant replacement only runs on Monday.
-    /// </summary>
-    public bool AssistantChangeMondayOnly
-    {
-        get => GetTaskConfig<InfrastTask>().AssistantChangeMondayOnly;
-        set => SetTaskConfig<InfrastTask>(t => t.AssistantChangeMondayOnly == value, t => t.AssistantChangeMondayOnly = value);
-    }
-
     public string FiammettaTarget1
     {
         get => GetTaskConfig<InfrastTask>().FiammettaTarget1;
@@ -682,7 +673,6 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
                 Facilitys = [.. rooms.Where(i => i.IsEnabled).Select(i => i.Room.ToString())],
                 UsesOfDrones = infrast.UsesOfDrones,
                 ContinueTraining = infrast.ContinueTraining,
-                AssistantChangeMondayOnly = infrast.AssistantChangeMondayOnly,
                 DormThreshold = infrast.DormThreshold / 100.0,
                 DormFilterNotStationedEnabled = infrast.DormFilterNotStationed,
                 DormTrustEnabled = infrast.DormTrustEnabled,

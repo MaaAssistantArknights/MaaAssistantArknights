@@ -1,8 +1,5 @@
 #include "InfrastTask.h"
 
-#include <chrono>
-#include <ctime>
-
 #include "Utils/Logger.hpp"
 
 #include "Task/Infrast/DronesForShamareTaskPlugin.h"
@@ -188,18 +185,6 @@ bool asst::InfrastTask::set_params(const json::value& params)
             append_infrast_begin();
             return false;
         }
-        bool assistant_change_enabled = true;
-        if (params.get("assistant_change_monday_only", false)) {
-            const auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-            std::tm local { };
-#ifdef _WIN32
-            assistant_change_enabled = localtime_s(&local, &now) == 0 && local.tm_wday == 1;
-#else
-            assistant_change_enabled = localtime_r(&now, &local) && local.tm_wday == 1;
-#endif
-        }
-        m_assistant_change_task_ptr->set_enable(assistant_change_enabled);
-
         for (const auto step : *plan) {
             if (step == infrast::FacilityStep::DormPrepare && mode == Mode::Default && !fiammetta_recovery_enabled) {
                 continue;
