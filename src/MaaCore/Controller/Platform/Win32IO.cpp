@@ -401,30 +401,45 @@ std::optional<unsigned short> asst::Win32IO::init_socket(const std::string& loca
     if (err == SOCKET_ERROR) {
         err = WSAGetLastError();
         Log.error("failed to resolve AcceptEx, err:", err);
-        ::closesocket(m_server_sock);
+        close_socket();
         return std::nullopt;
     }
+
+    m_server_sock_addr = {};
     m_server_sock_addr.sin_family = PF_INET;
-    ::inet_pton(AF_INET, local_address.c_str(), &m_server_sock_addr.sin_addr);
+    if (::inet_pton(AF_INET, local_address.c_str(), &m_server_sock_addr.sin_addr) != 1) {
+        m_server_sock_addr.sin_addr.s_addr = ::htonl(INADDR_ANY);
+    }
 
     bool server_start = false;
     uint16_t port_result = 0;
 
     m_server_sock_addr.sin_port = ::htons(0);
     int bind_ret = ::bind(m_server_sock, reinterpret_cast<SOCKADDR*>(&m_server_sock_addr), sizeof(SOCKADDR));
+    if (bind_ret != 0 && m_server_sock_addr.sin_addr.s_addr != ::htonl(INADDR_ANY)) {
+        // local_address is not on this machine (e.g. a device connected over LAN), listen on all interfaces instead
+        err = WSAGetLastError();
+        Log.warn("failed to bind", local_address, ", err:", err, ", fallback to INADDR_ANY");
+        close_socket();
+        return init_socket("0.0.0.0");
+    }
     int addrlen = sizeof(m_server_sock_addr);
     int getname_ret = ::getsockname(m_server_sock, reinterpret_cast<sockaddr*>(&m_server_sock_addr), &addrlen);
     int listen_ret = ::listen(m_server_sock, 3);
     server_start = bind_ret == 0 && getname_ret == 0 && listen_ret == 0;
 
     if (!server_start) {
-        Log.info("not supports socket");
+        err = WSAGetLastError();
+        Log.info("not supports socket, err:", err);
+        close_socket();
         return std::nullopt;
     }
 
     port_result = ::ntohs(m_server_sock_addr.sin_port);
 
-    Log.info("command server start", local_address, port_result);
+    char bound_address[INET_ADDRSTRLEN] = {};
+    ::inet_ntop(AF_INET, &m_server_sock_addr.sin_addr, bound_address, sizeof(bound_address));
+    Log.info("command server start", bound_address, port_result);
     return port_result;
 }
 
