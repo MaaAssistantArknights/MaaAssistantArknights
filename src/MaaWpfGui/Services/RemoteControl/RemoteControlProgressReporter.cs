@@ -31,7 +31,7 @@ namespace MaaWpfGui.Services.RemoteControl;
 /// <para>中间汇报复用现有报文 {user, device, task, status, payload}，status 固定为 "RUNNING"，payload 为 UTF-8 JSON 文本，</para>
 /// <para>事件依次为 QUEUED（计划）、TASK_START / TASK_END（逐任务）、ALL_COMPLETED（收尾汇总）。</para>
 /// </summary>
-public static class RemoteControlProgressReporter
+public class RemoteControlProgressReporter
 {
     private sealed class ItemResult
     {
@@ -46,9 +46,40 @@ public static class RemoteControlProgressReporter
 
         public bool Started { get; set; }
 
+        /// <summary>
+        /// Gets or sets 该任务项已结束的 core 任务链数量。
+        /// </summary>
+        public int ChainsDone { get; set; }
+
+        /// <summary>
+        /// Gets or sets 该任务项预期要执行的 core 任务链数量（下发时确认的 id 数量）。
+        /// 库存保持等任务项会展开成多条链，需全部结束才可收尾。
+        /// </summary>
+        public int ChainsExpected { get; set; }
+
         public bool Ended { get; set; }
 
-        public List<DropItem> Drops { get; } = [];
+        /// <summary>
+        /// Gets or sets a value indicating whether 是否已发送过 TASK_END，避免多链任务项重复上报。
+        /// </summary>
+        public bool HasSentEnd { get; set; }
+
+        /// <summary>
+        /// Gets or sets 按关卡聚合的战斗统计（按首次结算顺序）。
+        /// 一次任务项可能对应多条战斗链（如库存保持的多个计划），各链统计按关卡合并。
+        /// </summary>
+        public List<StageResult> StageResults { get; } = [];
+
+        /// <summary>
+        /// Gets or sets 最近一次公招识别的各标签组合保底星级（键由 <see cref="BuildTagKey"/> 规范化），
+        /// 待该槽位实际选中标签后按选中集合取出对应值。
+        /// </summary>
+        public Dictionary<string, int> PendingCombinations { get; set; } = new(StringComparer.Ordinal);
+
+        /// <summary>
+        /// Gets or sets 各公招槽位最终选中标签组合的保底星级（按槽位顺序）。
+        /// </summary>
+        public List<int> MinLevels { get; } = [];
     }
 
     private sealed class DropItem
@@ -60,33 +91,77 @@ public static class RemoteControlProgressReporter
         public string Name { get; set; } = string.Empty;
 
         /// <summary>
-        /// Gets or sets 累计数量（回调里 stats.quantity 的最新值）
+        /// Gets or sets 本次新增数量（同一关卡多次结算累加）
         /// </summary>
         [Newtonsoft.Json.JsonProperty("count")]
         public int Count { get; set; }
-
-        /// <summary>
-        /// Gets or sets 本次新增数量（多次关卡结算累加）
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("add")]
-        public int Add { get; set; }
     }
 
-    private static readonly object Gate = new();
+    /// <summary>
+    /// 单个关卡的战斗统计。
+    /// </summary>
+    private sealed class StageResult
+    {
+        /// <summary>
+        /// Gets or sets 关卡编号。
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("stage")]
+        public string Stage { get; set; } = string.Empty;
 
-    private static readonly Dictionary<int, ItemResult> Items = new();
+        /// <summary>
+        /// Gets or sets 该关卡完成的战斗次数。
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("times")]
+        public int Times { get; set; }
 
-    private static string _remoteTaskId = string.Empty;
+        /// <summary>
+        /// Gets or sets 该关卡刷到的掉落（按物品 id 合并、跨链累加）。
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("drops")]
+        public List<DropItem> Drops { get; } = [];
+    }
 
-    private static long _seq;
+    /// <summary>
+    /// 单条战斗链的临时统计：一次任务项可能下发多条战斗链（如库存保持的多个计划），
+    /// 每条链独立累计，链结束时并入任务项的 <see cref="ItemResult.StageResults"/>。
+    /// </summary>
+    private sealed class ChainStat
+    {
+        public string Stage { get; set; } = string.Empty;
 
-    private static bool _progressReportEnabled;
+        /// <summary>
+        /// Gets or sets 各次结算界面报出的连战次数之和。
+        /// </summary>
+        public int CurTimesSum { get; set; }
+
+        /// <summary>
+        /// Gets or sets FightTimes 回调报出的累计完成次数。
+        /// </summary>
+        public int FightTimes { get; set; }
+
+        public Dictionary<string, DropItem> Drops { get; } = new(StringComparer.Ordinal);
+    }
+
+    private readonly object Gate = new();
+
+    private readonly Dictionary<int, ItemResult> Items = new();
+
+    /// <summary>
+    /// 按 core 任务链 id 索引的在途战斗链统计。
+    /// </summary>
+    private readonly Dictionary<int, ChainStat> Chains = new();
+
+    private string _remoteTaskId = string.Empty;
+
+    private long _seq;
+
+    private bool _progressReportEnabled;
 
     /// <summary>
     /// 由获取任务端点的响应驱动（<c>progressReport</c> 字段，每轮轮询刷新）：
     /// 仅当服务端声明支持后才会发送中间汇报，缺省关闭，与未升级的服务端完全兼容。
     /// </summary>
-    public static void SetEnabled(bool enabled)
+    public void SetEnabled(bool enabled)
     {
         lock (Gate)
         {
@@ -105,7 +180,7 @@ public static class RemoteControlProgressReporter
     /// </summary>
     /// <param name="remoteTaskId">远程下发的任务 id。</param>
     /// <param name="typeFilter">单模块执行（LinkStart-XXX）时的配置任务类型名；全量 LinkStart 传 null。</param>
-    public static void BeginRun(string remoteTaskId, string? typeFilter = null)
+    public void BeginRun(string remoteTaskId, string? typeFilter = null)
     {
         lock (Gate)
         {
@@ -145,7 +220,7 @@ public static class RemoteControlProgressReporter
     /// </summary>
     /// <param name="taskId">Core 任务链 id。</param>
     /// <param name="status">链状态。</param>
-    public static void OnTaskStatusChanged(int taskId, TaskItemStatus status)
+    public void OnTaskStatusChanged(int taskId, TaskItemStatus status)
     {
         var index = FindIndexByTaskId(taskId);
         if (index < 0)
@@ -162,6 +237,14 @@ public static class RemoteControlProgressReporter
                     lock (Gate)
                     {
                         item = EnsureItem(index);
+                        if (item.ChainsExpected == 0)
+                        {
+                            // 下发时确认的 core 任务链数量：库存保持等任务项会展开成多条链（仓库识别 + 每个计划）
+                            var expected = Instances.TaskQueueViewModel.TaskItemViewModels
+                                .ElementAtOrDefault(index)?.TaskIds.Count(id => id > 0) ?? 0;
+                            item.ChainsExpected = Math.Max(expected, 1);
+                        }
+
                         firstStart = !item.Started;
                         item.Started = true;
                         if (item.Result == "SKIPPED")
@@ -187,14 +270,31 @@ public static class RemoteControlProgressReporter
                     lock (Gate)
                     {
                         item = EnsureItem(index);
-                        item.Started = true;
 
-                        // 首次终态必发；Error 一旦出现，后续 Completed 不再重复发送
-                        shouldSendEnd = !item.Ended || (item.Result != "FAILED" && result == "FAILED");
-                        item.Ended = true;
+                        // 该链结束：先把链内统计并入任务项，再判断是否整体收尾
+                        MergeChain(taskId, item);
+
+                        item.Started = true;
+                        if (item.ChainsExpected == 0)
+                        {
+                            item.ChainsExpected = 1;
+                        }
+
+                        ++item.ChainsDone;
+
+                        // Error 一旦出现则不被后续 Completed 覆盖
                         if (result == "FAILED" || item.Result != "FAILED")
                         {
                             item.Result = result;
+                        }
+
+                        // 多链任务项（如库存保持）需等全部链结束才收尾，避免用部分数据提前上报
+                        var complete = item.ChainsDone >= item.ChainsExpected;
+                        shouldSendEnd = complete && !item.HasSentEnd;
+                        if (complete)
+                        {
+                            item.Ended = true;
+                            item.HasSentEnd = true;
                         }
                     }
 
@@ -209,13 +309,63 @@ public static class RemoteControlProgressReporter
     }
 
     /// <summary>
-    /// 归集关卡结算掉落明细（来自 StageDrops 回调），附加到对应任务项的 TASK_END 汇报里。
+    /// 归集战斗链的关卡结算信息（来自 StageDrops 回调），链结束时并入任务项。
     /// </summary>
-    /// <param name="taskId">当前任务链 id。</param>
-    /// <param name="drops">回调解析出的掉落列表。</param>
-    public static void AppendDrops(int taskId, IReadOnlyList<(string ItemId, string ItemName, int Total, int Add)> drops)
+    /// <param name="taskId">当前战斗链 id。</param>
+    /// <param name="stageCode">本次结算的关卡编号。</param>
+    /// <param name="curTimes">结算界面识别到的连战次数；未识别到时为负值。</param>
+    /// <param name="drops">回调解析出的掉落列表（<c>Add</c> 为本次结算新增数量）。</param>
+    public void AppendDrops(int taskId, string? stageCode, int curTimes, IReadOnlyList<(string ItemId, string ItemName, int Total, int Add)> drops)
     {
-        if (drops.Count == 0)
+        var index = FindIndexByTaskId(taskId);
+        if (index < 0)
+        {
+            // 该链不属于任何被跟踪的任务项（如库存保持的仓库识别链）
+            return;
+        }
+
+        lock (Gate)
+        {
+            var chain = EnsureChain(taskId);
+
+            if (!string.IsNullOrWhiteSpace(stageCode))
+            {
+                chain.Stage = stageCode.Trim();
+            }
+
+            if (curTimes > 0)
+            {
+                chain.CurTimesSum += curTimes;
+            }
+
+            foreach (var (itemId, itemName, _, add) in drops)
+            {
+                if (string.IsNullOrEmpty(itemId))
+                {
+                    continue;
+                }
+
+                if (chain.Drops.TryGetValue(itemId, out var existing))
+                {
+                    // addQuantity 是本次结算新增量，跨结算累加即为该关卡本次刷取的总量
+                    existing.Count += add;
+                }
+                else
+                {
+                    chain.Drops[itemId] = new DropItem { Id = itemId, Name = itemName, Count = add };
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 归集战斗次数（来自 FightTimes 回调的 <c>times_finished</c>）。
+    /// </summary>
+    /// <param name="taskId">当前战斗链 id。</param>
+    /// <param name="timesFinished">该链已完成的战斗次数。</param>
+    public void NoteFightTimes(int taskId, int timesFinished)
+    {
+        if (timesFinished <= 0)
         {
             return;
         }
@@ -228,33 +378,188 @@ public static class RemoteControlProgressReporter
 
         lock (Gate)
         {
-            var item = EnsureItem(index);
-            foreach (var (itemId, itemName, total, add) in drops)
-            {
-                if (string.IsNullOrEmpty(itemId))
-                {
-                    continue;
-                }
+            var chain = EnsureChain(taskId);
 
-                var existing = item.Drops.FirstOrDefault(d => d.Id == itemId);
-                if (existing is null)
-                {
-                    item.Drops.Add(new DropItem { Id = itemId, Name = itemName, Count = total, Add = add });
-                }
-                else
-                {
-                    // stats.quantity 是累计值，直接刷新；add 逐次累加
-                    existing.Count = total;
-                    existing.Add += add;
-                }
+            // 回调随每次战斗推进重复到达，取链内最大值
+            chain.FightTimes = Math.Max(chain.FightTimes, timesFinished);
+        }
+    }
+
+    private ChainStat EnsureChain(int taskId)
+    {
+        if (!Chains.TryGetValue(taskId, out var chain))
+        {
+            chain = new ChainStat();
+            Chains[taskId] = chain;
+        }
+
+        return chain;
+    }
+
+    /// <summary>
+    /// 把已结束的战斗链并入任务项（按关卡合并次数与掉落），并移除在途统计。
+    /// </summary>
+    private void MergeChain(int taskId, ItemResult item)
+    {
+        if (!Chains.Remove(taskId, out var chain) || string.IsNullOrEmpty(chain.Stage))
+        {
+            return;
+        }
+
+        // 两个来源择其大者：连战次数按结算累加，FightTimes 为链内累计
+        var times = Math.Max(chain.CurTimesSum, chain.FightTimes);
+
+        var entry = item.StageResults.FirstOrDefault(s => string.Equals(s.Stage, chain.Stage, StringComparison.Ordinal));
+        if (entry is null)
+        {
+            entry = new StageResult { Stage = chain.Stage };
+            item.StageResults.Add(entry);
+        }
+
+        // 同一关卡可能由多条链刷取（如库存保持的不同计划），次数累加、掉落按物品合并
+        entry.Times += times;
+        foreach (var (itemId, drop) in chain.Drops)
+        {
+            var existing = entry.Drops.FirstOrDefault(d => string.Equals(d.Id, itemId, StringComparison.Ordinal));
+            if (existing is null)
+            {
+                entry.Drops.Add(new DropItem { Id = drop.Id, Name = drop.Name, Count = drop.Count });
             }
+            else
+            {
+                existing.Count += drop.Count;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 记录公招识别结果中各标签组合的保底星级（<c>RecruitResult.result[].level</c>），
+    /// 暂存到对应任务项，待该槽位实际选中标签后由 <see cref="CommitRecruitSelection"/> 取出选中集合对应的值。
+    /// </summary>
+    /// <param name="taskId">当前任务链 id。</param>
+    /// <param name="combinations">识别结果中的组合数组，每项含 <c>tags</c> 与 <c>level</c>。</param>
+    public void NoteRecruitResult(int taskId, JArray? combinations)
+    {
+        if (combinations is null || combinations.Count == 0)
+        {
+            return;
+        }
+
+        var index = FindIndexByTaskId(taskId);
+        if (index < 0)
+        {
+            return;
+        }
+
+        var map = new Dictionary<string, int>(StringComparer.Ordinal);
+        foreach (var combination in combinations.OfType<JObject>())
+        {
+            if (combination["tags"] is not JArray tags || tags.Count == 0)
+            {
+                continue;
+            }
+
+            var level = combination["level"]?.Value<int>() ?? 0;
+            if (level > 0)
+            {
+                map[BuildTagKey(tags)] = level;
+            }
+        }
+
+        if (map.Count == 0)
+        {
+            return;
+        }
+
+        lock (Gate)
+        {
+            EnsureItem(index).PendingCombinations = map;
+        }
+    }
+
+    /// <summary>
+    /// 公招槽位实际选中标签后调用：按选中标签集合取出对应保底星级；
+    /// 跳过、刷新或选中集合无对应组合的槽位不会计入。
+    /// </summary>
+    /// <param name="taskId">当前任务链 id。</param>
+    /// <param name="selectedTags">本次实际选中的标签。</param>
+    public void CommitRecruitSelection(int taskId, JArray? selectedTags)
+    {
+        if (selectedTags is null || selectedTags.Count == 0)
+        {
+            return;
+        }
+
+        var index = FindIndexByTaskId(taskId);
+        if (index < 0)
+        {
+            return;
+        }
+
+        var key = BuildTagKey(selectedTags);
+        lock (Gate)
+        {
+            if (!Items.TryGetValue(index, out var item))
+            {
+                return;
+            }
+
+            if (item.PendingCombinations.TryGetValue(key, out var minLevel) && minLevel > 0)
+            {
+                item.MinLevels.Add(minLevel);
+            }
+
+            // 一个槽位只对应一次选择，消费后清空，避免影响后续槽位
+            item.PendingCombinations = new Dictionary<string, int>(StringComparer.Ordinal);
+        }
+    }
+
+    /// <summary>
+    /// 把标签数组规范化为与顺序无关的查找键。
+    /// </summary>
+    private string BuildTagKey(JArray tags)
+    {
+        var names = tags.Select(token => token?.ToString() ?? string.Empty)
+            .Where(name => name.Length > 0)
+            .OrderBy(name => name, StringComparer.Ordinal);
+        return string.Join('\n', names);
+    }
+
+    /// <summary>
+    /// 无标签招募的保底星级：不选任何标签时不会出现 1/2 星，保底 3 星。
+    /// </summary>
+    private const int NoTagMinLevel = 3;
+
+    /// <summary>
+    /// 公招槽位开始确认招募时调用：若该槽位到确认时仍未选中任何标签，
+    /// 说明走的是"无标签直接招募"，按无标签保底口径记入 <see cref="NoTagMinLevel"/>。
+    /// </summary>
+    /// <param name="taskId">当前任务链 id。</param>
+    public void NoteRecruitConfirmed(int taskId)
+    {
+        var index = FindIndexByTaskId(taskId);
+        if (index < 0)
+        {
+            return;
+        }
+
+        lock (Gate)
+        {
+            // 选中标签时 CommitRecruitSelection 已消费并清空缓存；仍有缓存即表示本槽位未选标签
+            if (!Items.TryGetValue(index, out var item) || item.PendingCombinations.Count == 0)
+            {
+                return;
+            }
+
+            item.MinLevels.Add(NoTagMinLevel);
+            item.PendingCombinations = new Dictionary<string, int>(StringComparer.Ordinal);
         }
     }
 
     /// <summary>
     /// 运行收尾时调用：未正常结束的项标记 STOPPED，发送 ALL_COMPLETED 汇总并复位状态。
     /// </summary>
-    public static void CompleteRun()
+    public void CompleteRun()
     {
         string remoteTaskId;
         List<object> summary;
@@ -300,19 +605,26 @@ public static class RemoteControlProgressReporter
         }, remoteTaskId);
     }
 
-    private static void SendTaskEnd(int index, ItemResult item)
+    private void SendTaskEnd(int index, ItemResult item)
     {
         var payload = ItemPayload(index, item);
         payload["result"] = item.Result;
-        if (item.Drops.Count > 0)
+
+        // 战斗类：按关卡给出「次数 + 该关卡掉落」，一次运行涉及多个关卡时逐项列出
+        if (item.StageResults.Count > 0)
         {
-            payload["drops"] = JToken.FromObject(item.Drops);
+            payload["stages"] = JToken.FromObject(item.StageResults);
+        }
+
+        if (item.MinLevels.Count > 0)
+        {
+            payload["minLevel"] = JToken.FromObject(item.MinLevels);
         }
 
         Send("TASK_END", payload);
     }
 
-    private static JObject ItemPayload(int index, ItemResult item)
+    private JObject ItemPayload(int index, ItemResult item)
     {
         return new JObject
         {
@@ -322,7 +634,7 @@ public static class RemoteControlProgressReporter
         };
     }
 
-    private static List<object> Snapshot()
+    private List<object> Snapshot()
     {
         return Items.OrderBy(p => p.Key)
             .Select(p =>
@@ -334,9 +646,9 @@ public static class RemoteControlProgressReporter
                     ["type"] = p.Value.Type,
                     ["result"] = p.Value.Result,
                 };
-                if (p.Value.Drops.Count > 0)
+                if (p.Value.StageResults.Count > 0)
                 {
-                    entry["drops"] = JToken.FromObject(p.Value.Drops);
+                    entry["stages"] = JToken.FromObject(p.Value.StageResults);
                 }
 
                 return (object)entry;
@@ -344,13 +656,13 @@ public static class RemoteControlProgressReporter
             .ToList();
     }
 
-    private static int FindIndexByTaskId(int taskId)
+    private int FindIndexByTaskId(int taskId)
     {
         return Instances.TaskQueueViewModel.TaskItemViewModels
             .FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index ?? -1;
     }
 
-    private static ItemResult EnsureItem(int index)
+    private ItemResult EnsureItem(int index)
     {
         if (Items.TryGetValue(index, out var item))
         {
@@ -366,7 +678,7 @@ public static class RemoteControlProgressReporter
     /// <summary>
     /// seq 在锁内按调用顺序分配后再异步发送，保证服务端可按 seq 恢复时序。
     /// </summary>
-    private static void Send(string eventName, JObject? extra = null, string? explicitTaskId = null)
+    private void Send(string eventName, JObject? extra = null, string? explicitTaskId = null)
     {
         long seq;
         string remoteTaskId;
@@ -403,7 +715,7 @@ public static class RemoteControlProgressReporter
         _ = DispatchAsync(remoteTaskId, payload);
     }
 
-    private static async Task DispatchAsync(string remoteTaskId, string payload)
+    private async Task DispatchAsync(string remoteTaskId, string payload)
     {
         try
         {

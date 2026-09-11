@@ -127,14 +127,20 @@ When dispatching `LinkStart` series tasks via remote control, MAA also sends int
 - `payload` is a UTF-8 encoded JSON text containing the following fields:
   - `seq`: monotonically increasing message sequence number. HTTP requests do not guarantee arrival order; servers should restore ordering by `seq` and handle messages idempotently.
   - `event`: event type, one of the following
-    - `QUEUED`: tasks accepted, execution about to start. Includes a `plan` array (snapshot of the task list); each entry contains `index` / `name` / `type` / `result` (`PENDING` or `SKIPPED`), and may include `drops`.
+    - `QUEUED`: tasks accepted, execution about to start. Includes a `plan` array (snapshot of the task list); each entry contains `index` / `name` / `type` / `result` (`PENDING` or `SKIPPED`).
     - `TASK_START`: a task in the task list started executing. Includes `index` / `name` / `type`.
-    - `TASK_END`: a task in the task list finished executing. Includes `index` / `name` / `type` / `result` (`SUCCESS` or `FAILED`); combat tasks may also include a `drops` array, each entry containing `id` (item ID, matching in-game item IDs) / `name` / `count` (cumulative quantity) / `add` (quantity gained this time).
-    - `ALL_COMPLETED`: closing summary of the run. Includes a `summary` array (same structure as `plan`), where `result` is `SUCCESS` / `FAILED` / `SKIPPED` / `STOPPED`. Treat the final report as authoritative; `ALL_COMPLETED` is for quick display only.
+    - `TASK_END`: a task in the task list finished executing. Includes `index` / `name` / `type` / `result` (`SUCCESS` or `FAILED`); combat tasks may also include a `stages` array describing per-stage battle and drop statistics for this run:
+      - `stage` (string): stage code (e.g. `1-7`).
+      - `times` (number): number of battles completed on that stage.
+      - `drops` array: drops obtained on that stage, each entry containing `id` (item ID) / `name` (item name) / `count` (cumulative quantity for that stage). `id` usually matches in-game item IDs, with the exception of lucky drops — see the note below.
+      - One task item may clear multiple stages (e.g. multiple plans in the Depot Maintain task); in that case `stages` lists each stage separately. When the same stage is farmed by several plans, `times` and `count` accumulate.
+    - Auto recruit tasks may also include a `minLevel` array (number[]): for each slot that successfully started recruiting in this run, the guarantee actually in effect, ordered by slot execution. When tags were selected, it is the lowest star level among operators matching that combination (1–6, consistent with the value MAA uses to decide whether a combination is worth recruiting); when recruiting with no tags selected, it is recorded as `3` per the no-tag guarantee. Slots that are skipped or refreshed are not included.
+    - `ALL_COMPLETED`: closing summary of the run. Includes a `summary` array (same structure as `plan`, and may include each entry's `drops`), where `result` is `SUCCESS` / `FAILED` / `SKIPPED` / `STOPPED`. Treat the final report as authoritative; `ALL_COMPLETED` is for quick display only.
 
 ::: note
 
 - Intermediate reports are only produced by `LinkStart` series tasks; screenshot, heartbeat and other tasks never produce them.
+- Lucky drops have no corresponding item template image, so MAA cannot identify the original item. Such entries are normalized to furniture parts for display (`id` is `3401`) with a name in the current UI language (e.g. `家具` / `Furniture`); that entry's `id` differs from the actual in-game item ID.
 - Servers that do not declare `progressReport` in the task retrieval response never receive any intermediate report (true for both old and new MAA versions).
 - Servers that declared `progressReport` should treat `"RUNNING"` as an intermediate state and use the final report with `SUCCESS`/`FAILED` as the task closing message.
 

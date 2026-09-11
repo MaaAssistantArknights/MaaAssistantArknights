@@ -127,14 +127,20 @@ MAA 会以固定间隔持续轮询这个端点（默认 1 秒，可在设置中�
 - `payload` 为 UTF-8 编码的 JSON 文本，包含以下字段：
   - `seq`：单调递增的消息序号。HTTP 请求不保证到达顺序，服务端应按 `seq` 恢复时序并做幂等处理。
   - `event`：事件类型，取值如下
-    - `QUEUED`：任务已接受，即将开始执行。附 `plan` 数组，为任务列表快照，每项含 `index` / `name` / `type` / `result`（`PENDING` 或 `SKIPPED`），并可能附 `drops`。
+    - `QUEUED`：任务已接受，即将开始执行。附 `plan` 数组，为任务列表快照，每项含 `index` / `name` / `type` / `result`（`PENDING` 或 `SKIPPED`）。
     - `TASK_START`：任务列表中某一项开始执行。附 `index` / `name` / `type`。
-    - `TASK_END`：任务列表中某一项执行结束。附 `index` / `name` / `type` / `result`（`SUCCESS` 或 `FAILED`），战斗类任务还可能附 `drops` 数组，每项含 `id`（物品 ID，与游戏内物品 id 一致）/ `name` / `count`（累计数量）/ `add`（本次新增数量）。
-    - `ALL_COMPLETED`：本次运行收尾。附 `summary` 数组（结构与 `plan` 一致），`result` 取值为 `SUCCESS` / `FAILED` / `SKIPPED` / `STOPPED`。以最终汇报为准，`ALL_COMPLETED` 仅用于快速展示。
+    - `TASK_END`：任务列表中某一项执行结束。附 `index` / `name` / `type` / `result`（`SUCCESS` 或 `FAILED`），战斗类任务还可能附 `stages` 数组，按关卡给出本次运行的战斗与掉落统计：
+      - `stage`（string）：关卡编号（如 `1-7`）。
+      - `times`（number）：该关卡完成的战斗次数。
+      - `drops` 数组：该关卡刷到的掉落，每项含 `id`（物品 ID）/ `name`（物品名称）/ `count`（该关卡累计数量）。`id` 通常与游戏内物品 ID 一致，幸运掉落例外，详见下述说明。
+      - 一个任务项可能刷多个关卡（如库存保持的多个计划），此时 `stages` 会逐关卡列出；同一关卡由多个计划刷取时，`times` 与 `count` 累加。
+    - 自动公招任务还可能附 `minLevel` 数组（number[]）：本次运行中每个成功开始招募的槽位，其最终实际生效的保底星级，按槽位执行顺序排列。选中了标签时取该组合能匹配到的干员中最低的星级（取值范围 1~6，与 MAA 判定是否值得招募所用口径一致）；未选中任何标签直接招募时按无标签口径记为 `3`。跳过或刷新的槽位不计入。
+    - `ALL_COMPLETED`：本次运行收尾。附 `summary` 数组（结构与 `plan` 一致，且可能附各项的 `drops`），`result` 取值为 `SUCCESS` / `FAILED` / `SKIPPED` / `STOPPED`。以最终汇报为准，`ALL_COMPLETED` 仅用于快速展示。
 
 ::: note
 
 - 中间汇报仅由 `LinkStart` 系列任务产生；截图、心跳等任务不会产生中间汇报。
+- 幸运掉落没有对应的物品模板图，MAA 无法识别其原始物品，会按界面展示口径归一化为家具零件（`id` 为 `3401`）并附界面语言对应的名称（如 `家具` / `Furniture`）；该条目的 `id` 与游戏内实际物品 ID 不同。
 - 未在获取任务响应中声明 `progressReport` 的服务端不会收到任何中间汇报（旧版 MAA 与新版 MAA 均如此）。
 - 已声明 `progressReport` 的服务端应把 `"RUNNING"` 视为中间态，以 `SUCCESS`/`FAILED` 的最终汇报作为任务收口。
   :::
