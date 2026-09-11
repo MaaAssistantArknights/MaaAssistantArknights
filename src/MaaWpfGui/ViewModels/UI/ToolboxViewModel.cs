@@ -1707,23 +1707,20 @@ public class ToolboxViewModel : Screen
     }
 
     /// <summary>
-    /// 判断干员识别是否配置为从一图流 OpenAPI 获取（开关开启且已填写 Token）。
-    /// </summary>
-    /// <returns>是否启用</returns>
-    public static bool IsOperBoxYituliuApiEnabled()
-    {
-        var thirdParty = ConfigFactory.CurrentConfig.Gui.ThirdParty;
-        return thirdParty.OperBoxUseYituliuApi && !string.IsNullOrWhiteSpace(SimpleEncryptionHelper.Decrypt(thirdParty.YituliuOpenApiToken));
-    }
-
-    /// <summary>
     /// 从一图流 OpenAPI 拉取干员练度数据并按识别结果填充，不依赖模拟器连接。
     /// </summary>
     /// <returns>是否成功。</returns>
     public async Task<bool> StartOperBoxFromYituliuApiAsync()
     {
         ResetOperBoxRecognitionState();
-        var token = SimpleEncryptionHelper.Decrypt(ConfigFactory.CurrentConfig.Gui.ThirdParty.YituliuOpenApiToken).Trim();
+        var token = SettingsViewModel.ThirdPartyServiceSettings.YituliuOpenApiToken.Trim();
+        if (string.IsNullOrEmpty(token))
+        {
+            OperBoxInfo = LocalizationHelper.GetString("YituliuTokenEmpty");
+            Instances.TaskQueueViewModel.AddLog(OperBoxInfo, UiLogColor.Error);
+            return false;
+        }
+
         OperBoxInfo = LocalizationHelper.GetString("OperBoxFetchingFromYituliu");
 
         try
@@ -1807,7 +1804,7 @@ public class ToolboxViewModel : Screen
     {
         ResetOperBoxRecognitionState();
         _runningState.SetIdle(false);
-        if (IsOperBoxYituliuApiEnabled())
+        if (SettingsViewModel.ThirdPartyServiceSettings.EnableOperBoxYituliuApi)
         {
             await StartOperBoxFromYituliuApiAsync();
             _runningState.SetIdle(true);

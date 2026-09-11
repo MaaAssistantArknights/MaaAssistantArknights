@@ -105,7 +105,7 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
             bool operBoxSyncedWithoutTask = false;
             if (operBoxTriggerDue)
             {
-                if (ToolboxViewModel.IsOperBoxYituliuApiEnabled())
+                if (SettingsViewModel.ThirdPartyServiceSettings.EnableOperBoxYituliuApi)
                 {
                     // 一图流 OpenAPI 模式：不进 core 队列，后台直接拉取，不依赖模拟器连接，也没有 core 任务 id
                     _ = Instances.ToolboxViewModel.StartOperBoxFromYituliuApiAsync();
