@@ -37,9 +37,10 @@ public:
     ProcessTask& set_times_limit(std::string name, int limit, TimesLimitType type = TimesLimitType::Pre);
     ProcessTask& set_post_delay(std::string name, int delay);
     ProcessTask& set_reusable_image(const cv::Mat& reusable);
-    ProcessTask& set_override_next(std::unordered_map<std::string, TaskList> next_override);
+    // 设定某个任务的 next 列表, 返回值表示是否成功覆盖; 任务名需要为实际执行任务名, 不支持@, #next 等语法
     bool override_next(std::string_view name, std::vector<std::string> next_tasks);
-    bool reset_override_next(std::string_view name);
+    // 移除某个任务的 next 列表覆盖, 返回值表示是否成功移除; 任务名需要为实际执行任务名, 不支持@, #next 等语法
+    bool remove_override_next(std::string_view name);
 
     const std::string& get_last_task_name() const noexcept { return m_last_task_name; }
 
@@ -70,6 +71,8 @@ protected:
     NodeStatus run_action(const HitDetail& hits) const;
     NodeStatus run_task(const HitDetail& hits);
     std::pair<NodeStatus, TaskConstPtr> find_and_run_task(const TaskList& list);
+    // for fast init only, not for runtime use
+    ProcessTask& set_override_next(std::unordered_map<std::string, TaskList> next_override);
 
     TimesLimitData calc_time_limit(TaskConstPtr task) const;
     int calc_post_delay(TaskConstPtr task) const;

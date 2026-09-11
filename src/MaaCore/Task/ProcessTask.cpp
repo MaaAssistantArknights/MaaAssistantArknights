@@ -121,9 +121,8 @@ ProcessTask& asst::ProcessTask::set_override_next(std::unordered_map<std::string
 
 bool asst::ProcessTask::override_next(std::string_view name, std::vector<std::string> next_tasks)
 {
-    std::string parent_task(name);
-    if (Task.get(parent_task) == nullptr) {
-        LogError << __FUNCTION__ << "task not found:" << parent_task;
+    if (Task.get(name) == nullptr) {
+        LogError << __FUNCTION__ << "task not found:" << name;
         return false;
     }
     for (const auto& task_name : next_tasks) {
@@ -132,19 +131,18 @@ bool asst::ProcessTask::override_next(std::string_view name, std::vector<std::st
             return false;
         }
     }
-    LogInfo << __FUNCTION__ << "override next for task" << parent_task << "to" << next_tasks;
-    m_next_override.insert_or_assign(std::move(parent_task), std::move(next_tasks));
+    LogInfo << __FUNCTION__ << "override next for task" << name << "to" << next_tasks;
+    m_next_override.insert_or_assign(std::string(name), std::move(next_tasks));
     return true;
 }
 
-bool asst::ProcessTask::reset_override_next(std::string_view name)
+bool asst::ProcessTask::remove_override_next(std::string_view name)
 {
-    std::string parent_task(name);
-    if (Task.get(parent_task) == nullptr) {
-        LogError << __FUNCTION__ << "task not found:" << parent_task;
+    if (Task.get(name) == nullptr) {
+        LogError << __FUNCTION__ << "task not found:" << name;
         return false;
     }
-    m_next_override.erase(parent_task);
+    m_next_override.erase(std::string(name));
     return true;
 }
 
