@@ -54,12 +54,28 @@ public class RemoteControlService
 
     private string _currentSequentialTaskId = string.Empty;
 
+    /// <summary>
+    /// LinkStart-XXX 后缀到配置任务类型名（<see cref="Configuration.Single.MaaTask.TaskType"/>）的映射。
+    /// </summary>
+    private static readonly Dictionary<string, string> LinkStartModuleTypes = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ["Base"] = "Infrast",
+        ["WakeUp"] = "StartUp",
+        ["Combat"] = "Fight",
+        ["Recruiting"] = "Recruit",
+        ["Mall"] = "Mall",
+        ["Mission"] = "Award",
+        ["AutoRoguelike"] = "Roguelike",
+        ["Reclamation"] = "Reclamation",
+    };
+
     private static RemoteControlUserControlModel RemoteSettings => SettingsViewModel.RemoteControlSettings;
 
     public RemoteControlService()
     {
         InitializePollJobTask();
         _runningState = RunningState.Instance;
+        Instances.AsstProxy.OnTaskStatusChanged += RemoteControlProgressReporter.OnTaskStatusChanged;
     }
 
     public void InitializePollJobTask()
@@ -261,9 +277,17 @@ public class RemoteControlService
         }
 
         var jsonObject = JsonConvert.DeserializeObject<JObject>(response);
+        if (jsonObject is null)
+        {
+            return;
+        }
+
+        // 服务端可在响应中声明是否支持逐任务进度汇报（可选字段，缺省视为不支持），
+        // 每轮轮询刷新一次，服务端可动态开关
+        RemoteControlProgressReporter.SetEnabled(jsonObject.Value<bool>("progressReport") == true);
 
         // A list of task
-        if (jsonObject?.GetValue("tasks") is JArray tasks)
+        if (jsonObject.GetValue("tasks") is JArray tasks)
         {
             foreach (var task in tasks.OfType<JObject>())
             {
@@ -334,10 +358,12 @@ public class RemoteControlService
                         var startLogStr = LocalizationHelper.GetStringFormat("RemoteControlReceivedTask", type, id);
 
                         Instances.TaskQueueViewModel.AddLog(startLogStr);
+                        RemoteControlProgressReporter.BeginRun(id);
                         await Execute.OnUIThreadAsync(() => {
                             _ = Instances.TaskQueueViewModel.LinkStart();
                         });
                         await _runningState.UntilIdleAsync();
+                        RemoteControlProgressReporter.CompleteRun();
 
                         var stopLogStr = LocalizationHelper.GetStringFormat("RemoteControlCompletedTask", type, id);
                         Instances.TaskQueueViewModel.AddLog(stopLogStr);
@@ -353,7 +379,9 @@ public class RemoteControlService
                 case "LinkStart-AutoRoguelike":
                 case "LinkStart-Reclamation":
                     {
+                        RemoteControlProgressReporter.BeginRun(id, LinkStartModuleTypes[type.Split('-')[1]]);
                         await LinkStart([type.Split('-')[1]]);
+                        RemoteControlProgressReporter.CompleteRun();
                         break;
                     }
 

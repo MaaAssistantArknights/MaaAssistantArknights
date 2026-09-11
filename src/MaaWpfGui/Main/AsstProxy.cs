@@ -43,6 +43,7 @@ using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Models.EmulatorConnectionExtra;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.ExternalNotification;
+using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
@@ -2148,6 +2149,8 @@ public class AsstProxy
 
                     // 先按新增数量降序，再按总数量降序
                     drops = [.. drops.OrderByDescending(x => x.Add).ThenByDescending(x => x.Total)];
+
+                    RemoteControlProgressReporter.AppendDrops(taskId, drops);
 
                     foreach (var (_, itemName, totalQuantity, addQuantity) in drops)
                     {

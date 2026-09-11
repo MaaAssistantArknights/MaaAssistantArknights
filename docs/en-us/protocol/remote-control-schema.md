@@ -75,7 +75,8 @@ This endpoint must return a JSON-formatted response that meets at least the foll
             "type": "HeartBeat",                            // Heartbeat task, returns immediately with currently executing sequential task's ID as payload, or empty string if no task executing
         }
     ],
-    ...     // If your endpoint has other uses, you can add optional return values, but MAA only reads tasks
+    "progressReport": true,             // Optional. Declares that this server supports per-task progress reporting (see the extension section under "Task Reporting Endpoint" below). When absent or false, MAA follows the legacy protocol and only sends the final report — behavior is identical to not declaring it.
+    ...     // If your endpoint has other uses, you can add optional return values, but MAA only reads tasks and progressReport
 }
 ```
 
@@ -113,6 +114,31 @@ This endpoint must accept a POST request with `Content-Type=application/json` an
 ```
 
 The response content of this endpoint is arbitrary; MAA does not read it and does not check the status code. When a report request fails, MAA only logs the error.
+
+### Per-Task Progress Reporting (Extension)
+
+::: warning
+MAA only sends the intermediate reports described in this section when the server declares `"progressReport": true` in the task retrieval endpoint response. This field is refreshed on every poll, so the server can toggle it at any time. Servers that do not declare it will never receive any intermediate report — behavior is fully identical to the legacy protocol.
+:::
+
+When dispatching `LinkStart` series tasks via remote control, MAA also sends intermediate reports during execution to reflect the start/end of each task in the task list in real time. Intermediate reports use the same message structure as the final report, with these differences:
+
+- `status` is `"RUNNING"`, indicating an intermediate state; after the run finishes, a final report with `SUCCESS`/`FAILED` is still sent as the closing message.
+- `payload` is a UTF-8 encoded JSON text containing the following fields:
+  - `seq`: monotonically increasing message sequence number. HTTP requests do not guarantee arrival order; servers should restore ordering by `seq` and handle messages idempotently.
+  - `event`: event type, one of the following
+    - `QUEUED`: tasks accepted, execution about to start. Includes a `plan` array (snapshot of the task list); each entry contains `index` / `name` / `type` / `result` (`PENDING` or `SKIPPED`), and may include `drops`.
+    - `TASK_START`: a task in the task list started executing. Includes `index` / `name` / `type`.
+    - `TASK_END`: a task in the task list finished executing. Includes `index` / `name` / `type` / `result` (`SUCCESS` or `FAILED`); combat tasks may also include a `drops` array, each entry containing `id` (item ID, matching in-game item IDs) / `name` / `count` (cumulative quantity) / `add` (quantity gained this time).
+    - `ALL_COMPLETED`: closing summary of the run. Includes a `summary` array (same structure as `plan`), where `result` is `SUCCESS` / `FAILED` / `SKIPPED` / `STOPPED`. Treat the final report as authoritative; `ALL_COMPLETED` is for quick display only.
+
+::: note
+
+- Intermediate reports are only produced by `LinkStart` series tasks; screenshot, heartbeat and other tasks never produce them.
+- Servers that do not declare `progressReport` in the task retrieval response never receive any intermediate report (true for both old and new MAA versions).
+- Servers that declared `progressReport` should treat `"RUNNING"` as an intermediate state and use the final report with `SUCCESS`/`FAILED` as the task closing message.
+
+:::
 
 ## Example Workflow - Controlling MAA with QQ Bot
 
