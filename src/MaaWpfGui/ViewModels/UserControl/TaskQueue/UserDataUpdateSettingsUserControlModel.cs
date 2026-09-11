@@ -189,7 +189,7 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
         var success = await Instances.ToolboxViewModel.StartOperBoxFromYituliuApiAsync();
         if (success)
         {
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("YituliuOperBoxCompleted"), UiLogColor.Info);
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("YituliuOperBoxCompleted"), UiLogColor.Info, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
         }
 
         var index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(baseTask);
