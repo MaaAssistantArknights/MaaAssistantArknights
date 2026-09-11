@@ -46,7 +46,7 @@ MaterialCraftPlanner::MaterialCraftPlanner(std::vector<MaterialFormula> formulas
 {
     for (auto& formula : formulas) {
         if (formula.item_id.empty() || formula.count <= 0 || formula.costs.empty() || formula.gold_cost < 0 ||
-            formula.ap_cost < 0 ||
+            formula.ap_cost < 0 || (formula.facility != "Processing" && formula.facility != "Mfg") ||
             std::ranges::any_of(
                 formula.costs,
                 [](const auto& cost) { return cost.item_id.empty() || cost.count <= 0; })) {
@@ -134,7 +134,8 @@ bool MaterialCraftPlanner::craft(
             static_cast<int64_t>(candidate.inventory[item_id]) + static_cast<int64_t>(formula.count) * batches);
         add_cost(candidate.gold_cost, formula.gold_cost, batches);
         add_cost(candidate.ap_cost, formula.ap_cost, batches);
-        if (!candidate.operations.empty() && candidate.operations.back().formula.formula_id == formula.formula_id) {
+        if (!candidate.operations.empty() && candidate.operations.back().formula.formula_id == formula.formula_id &&
+            candidate.operations.back().formula.facility == formula.facility) {
             candidate.operations.back().batches =
                 checked_count(static_cast<int64_t>(candidate.operations.back().batches) + batches);
         }

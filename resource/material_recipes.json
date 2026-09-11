@@ -827,5 +827,165 @@
                 "type": "MATERIAL"
             }
         ]
+    },
+    "Mfg@5": {
+        "formulaId": "Mfg@5",
+        "facility": "Mfg",
+        "itemId": "3213",
+        "count": 1,
+        "goldCost": 0,
+        "apCost": 0,
+        "costs": [
+            {
+                "id": "3212",
+                "count": 2,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "32001",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "Mfg@6": {
+        "formulaId": "Mfg@6",
+        "facility": "Mfg",
+        "itemId": "3223",
+        "count": 1,
+        "goldCost": 0,
+        "apCost": 0,
+        "costs": [
+            {
+                "id": "3222",
+                "count": 2,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "32001",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "Mfg@7": {
+        "formulaId": "Mfg@7",
+        "facility": "Mfg",
+        "itemId": "3233",
+        "count": 1,
+        "goldCost": 0,
+        "apCost": 0,
+        "costs": [
+            {
+                "id": "3232",
+                "count": 2,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "32001",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "Mfg@8": {
+        "formulaId": "Mfg@8",
+        "facility": "Mfg",
+        "itemId": "3243",
+        "count": 1,
+        "goldCost": 0,
+        "apCost": 0,
+        "costs": [
+            {
+                "id": "3242",
+                "count": 2,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "32001",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "Mfg@9": {
+        "formulaId": "Mfg@9",
+        "facility": "Mfg",
+        "itemId": "3253",
+        "count": 1,
+        "goldCost": 0,
+        "apCost": 0,
+        "costs": [
+            {
+                "id": "3252",
+                "count": 2,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "32001",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "Mfg@10": {
+        "formulaId": "Mfg@10",
+        "facility": "Mfg",
+        "itemId": "3263",
+        "count": 1,
+        "goldCost": 0,
+        "apCost": 0,
+        "costs": [
+            {
+                "id": "3262",
+                "count": 2,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "32001",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "Mfg@11": {
+        "formulaId": "Mfg@11",
+        "facility": "Mfg",
+        "itemId": "3273",
+        "count": 1,
+        "goldCost": 0,
+        "apCost": 0,
+        "costs": [
+            {
+                "id": "3272",
+                "count": 2,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "32001",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
+    },
+    "Mfg@12": {
+        "formulaId": "Mfg@12",
+        "facility": "Mfg",
+        "itemId": "3283",
+        "count": 1,
+        "goldCost": 0,
+        "apCost": 0,
+        "costs": [
+            {
+                "id": "3282",
+                "count": 2,
+                "type": "MATERIAL"
+            },
+            {
+                "id": "32001",
+                "count": 1,
+                "type": "MATERIAL"
+            }
+        ]
     }
 }

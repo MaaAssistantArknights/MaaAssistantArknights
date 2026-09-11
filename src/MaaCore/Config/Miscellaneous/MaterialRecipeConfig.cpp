@@ -41,6 +41,7 @@ bool MaterialRecipeConfig::parse(const json::value& json)
         formula.count = quantity(entry.at("count"));
         formula.gold_cost = quantity(entry.at("goldCost"));
         formula.ap_cost = quantity(entry.at("apCost"));
+        formula.facility = entry.get("facility", std::string("Processing"));
         for (const auto& cost : entry.at("costs").as_array()) {
             formula.costs.push_back({ cost.at("id").as_string(), quantity(cost.at("count")) });
         }
@@ -129,6 +130,7 @@ json::value material_craft_plan_json(const MaterialCraftPlan& plan)
         operations.emplace_back(
             json::object {
                 { "formula_id", op.formula.formula_id },
+                { "facility", op.formula.facility },
                 { "item_id", op.formula.item_id },
                 { "batches", op.batches },
                 { "count", static_cast<int64_t>(op.formula.count) * op.batches },
@@ -148,7 +150,7 @@ json::value material_craft_plan_json(const MaterialCraftPlan& plan)
         { "inventory", std::move(inventory) },
         { "gold_cost", plan.gold_cost },
         { "ap_cost", plan.ap_cost },
-        { "mood_cost", static_cast<double>(plan.ap_cost) / 360000 },
+        { "mood_cost", static_cast<double>(plan.ap_cost) / 360'000 },
     };
 }
 }

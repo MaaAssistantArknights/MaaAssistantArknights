@@ -10,6 +10,7 @@
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/MaterialImageAnalyzer.h"
+#include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
 
 using namespace asst;
@@ -33,9 +34,21 @@ bool MaterialRequirementImageAnalyzer::analyze()
     LogTraceFunction;
     m_result.clear();
     m_complete = false;
+    m_other_slots_complete = false;
+    m_pending_chip.reset();
     m_candidates = MaterialRecipes.item_ids();
     if (m_image.empty() || m_candidates.empty()) {
         return false;
+    }
+    const bool promotion = is_promotion_page(m_image);
+    if (!promotion) {
+        Matcher mastery(m_image);
+        mastery.set_task_info("MaterialRequirement-MasteryPage");
+        if (!mastery.analyze()) {
+            // A popup or an unrelated screen must not appear to have no
+            // shortages merely because two visible quantity labels are full.
+            return false;
+        }
     }
     int recognized = 0;
     const auto slots = requirement_slots();
@@ -52,8 +65,96 @@ bool MaterialRequirementImageAnalyzer::analyze()
             }
         }
     }
-    m_complete = recognized == static_cast<int>(slots.size());
-    return recognized > 0;
+    m_other_slots_complete = recognized == static_cast<int>(slots.size());
+    m_complete = m_other_slots_complete;
+    if (promotion) {
+        MaterialRequirementInfo chip;
+        if (!parse_quantity("MaterialRequirement-ChipQuantity", chip.owned, chip.required)) {
+            m_complete = false;
+        }
+        else if (chip.required > chip.owned) {
+            m_complete = false;
+            // Three/four dualchips are needed for five/six-star E2. Lower
+            // rarities use other chips; do not reinterpret their requirements.
+            if (chip.required == 3 || chip.required == 4) {
+                chip.shortage = chip.required - chip.owned;
+                const auto icon = Task.get("MaterialRequirement-ChipIcon")->roi;
+                // Controller clicks are randomized within a rectangle. Keep
+                // the click inside the icon, away from its quantity label.
+                chip.item_rect = { icon.x + icon.width / 2 - 20, icon.y + icon.height / 2 - 20, 40, 40 };
+                chip.quantity_rect = Task.get("MaterialRequirement-ChipQuantity")->roi;
+                m_pending_chip = std::move(chip);
+            }
+        }
+    }
+    return recognized > 0 || m_pending_chip.has_value();
+}
+
+bool MaterialRequirementImageAnalyzer::is_promotion_page(const cv::Mat& image)
+{
+    Matcher promotion(image);
+    promotion.set_task_info("MaterialRequirement-PromotionPage");
+    return promotion.analyze().has_value();
+}
+
+std::optional<std::string> MaterialRequirementImageAnalyzer::read_chip_popup_name(const cv::Mat& image)
+{
+    OCRer title(image);
+    title.set_task_info("MaterialRequirement-ChipPopupName");
+    const auto results = title.analyze();
+    if (!results) {
+        return std::nullopt;
+    }
+    std::optional<std::string> name;
+    for (const auto& result : *results) {
+        if (!std::isfinite(result.score)) {
+            continue;
+        }
+        for (int profession = 1; profession <= 8; ++profession) {
+            const auto& expected = ItemData.get_item_name("32" + std::to_string(profession) + "3");
+            if (!expected.empty() && result.text == expected) {
+                // Detection locates a title of variable height. Re-read the
+                // isolated line; the surrounding description reduces the
+                // detector's recognition confidence even on pristine images.
+                if (result.score < 0.95) {
+                    RegionOCRer line(image);
+                    line.set_task_info("MaterialRequirement-ChipPopupTitle");
+                    line.set_roi(
+                        { result.rect.x - 3, result.rect.y - 3, result.rect.width + 6, result.rect.height + 6 });
+                    const auto confirmed = line.analyze();
+                    if (!confirmed || !std::isfinite(confirmed->score) || confirmed->score < 0.95 ||
+                        confirmed->text != expected) {
+                        continue;
+                    }
+                }
+                if (name && *name != expected) {
+                    return std::nullopt;
+                }
+                name = expected;
+            }
+        }
+    }
+    return name;
+}
+
+bool MaterialRequirementImageAnalyzer::confirm_chip_name(const std::string& name)
+{
+    if (!m_pending_chip || name.empty() || (m_cancel_check && m_cancel_check())) {
+        return false;
+    }
+    for (int profession = 1; profession <= 8; ++profession) {
+        const std::string id = "32" + std::to_string(profession) + "3";
+        if (name != ItemData.get_item_name(id)) {
+            continue;
+        }
+        m_pending_chip->item_id = id;
+        m_pending_chip->item_name = name;
+        m_result.insert(m_result.begin(), *m_pending_chip);
+        m_pending_chip.reset();
+        m_complete = m_other_slots_complete;
+        return true;
+    }
+    return false;
 }
 
 std::vector<MaterialRequirementImageAnalyzer::RequirementSlot>

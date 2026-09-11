@@ -101,6 +101,7 @@ class Vm {
     CancellationTokenSource? _materialCraftCancellation;
     int _requirementTaskId;
     bool _materialCraftStopRequested;
+    string _manufacturingFailure = string.Empty;
     public Vm() => _runningState = new(this);
     public bool CanEditMaterialCraftPlan => _materialCraftExecution is null && _materialCraftCancellation is null;
     bool CheckMaterialCraftPlanCore(bool updatePreview) => true;

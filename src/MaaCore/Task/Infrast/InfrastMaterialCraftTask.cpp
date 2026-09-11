@@ -78,6 +78,7 @@ bool InfrastMaterialCraftTask::set_params(const json::value& params)
         if (request.targets.empty()) {
             return false;
         }
+        m_replenish_originium_shards = params.get("replenish", false);
         m_request = std::move(request);
         m_plan = {};
         return true;
@@ -119,18 +120,27 @@ bool InfrastMaterialCraftTask::_run()
         return false;
     }
 
-    if (!ensure_processing_room()) {
-        return false;
-    }
-
-    if (!ensure_craft_page()) {
-        return false;
-    }
-
+    bool processing_ready = false;
     for (const CraftOperation& operation : m_plan.operations) {
         if (need_exit()) {
             return false;
         }
+        if (operation.formula.is_manufacturing()) {
+            m_facility = "Mfg";
+            processing_ready = false;
+            if (!execute_manufacturing_operation(operation)) {
+                return false;
+            }
+            if (!leave_manufacturing_page()) {
+                return false;
+            }
+            continue;
+        }
+        m_facility = "Processing";
+        if (!processing_ready && (!ensure_processing_room() || !ensure_craft_page())) {
+            return false;
+        }
+        processing_ready = true;
         if (!execute_operation(operation)) {
             return false;
         }
@@ -872,7 +882,7 @@ bool InfrastMaterialCraftTask::swipe_formula_list(bool forward)
         task->specific_rect,
         task->rect_move,
         params.size() > 0 ? params[0] : 0,
-        params.size() > 1 ? params[1] != 0 : false,
+        to_swipe_extra_direction(params.size() > 1 ? params[1] : 0),
         params.size() > 2 ? params[2] : 1,
         params.size() > 3 ? params[3] : 1,
         false,

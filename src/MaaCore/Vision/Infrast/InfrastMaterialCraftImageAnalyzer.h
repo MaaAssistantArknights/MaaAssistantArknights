@@ -19,6 +19,10 @@ public:
     using MaterialImageAnalyzer::MaterialImageAnalyzer;
     bool analyze();
 
+    // Require the full name on the same card; similar profession icons alone
+    // cannot establish which dualchip recipe is visible.
+    bool analyze_with_name(const std::string& task_name, const std::string& expected_name, double minimum_score);
+
     const std::vector<FormulaMatch>& get_result() const noexcept { return m_formulas; }
 
 private:
