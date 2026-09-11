@@ -2757,7 +2757,7 @@ public class AsstProxy
                         result) + recognizedText,
                     result is "completed" or "already_satisfied" ? UiLogColor.Success :
                     result is "skipped" or "formula_locked" ? UiLogColor.Warning : UiLogColor.Error);
-                ViewModels.UserControl.TaskQueue.AutoRaiseSettingsUserControlModel.Instance.OnTargetResult(
+                ViewModels.UserControl.TaskQueue.AutoRaiseTaskUserControlModel.Instance.OnTargetResult(
                     (int)(details?["index"] ?? -1),
                     details?["name"]?.ToString() ?? string.Empty,
                     result is "completed" or "already_satisfied");
@@ -2772,7 +2772,7 @@ public class AsstProxy
                         details?["failed"] ?? 0,
                         details?["skipped"] ?? 0),
                     (int)(details?["failed"] ?? 0) == 0 ? UiLogColor.Success : UiLogColor.Warning);
-                ViewModels.UserControl.TaskQueue.AutoRaiseSettingsUserControlModel.Instance.OnSummary();
+                ViewModels.UserControl.TaskQueue.AutoRaiseTaskUserControlModel.Instance.OnSummary();
                 break;
         }
     }
@@ -2783,7 +2783,7 @@ public class AsstProxy
         return DataHelper.GetLocalizedCharacterName(name) ?? name;
     }
 
-    // 与干员培养设置页的预览行（AutoRaiseSettingsUserControlModel.DescribeAction）保持同一格式。
+    // 与干员培养设置页的预览行（AutoRaiseTaskUserControlModel.DescribeAction）保持同一格式。
     private static string ProcAutoRaiseTargetDescription(JToken? details)
     {
         string action = details?["action"]?.ToString() ?? string.Empty;

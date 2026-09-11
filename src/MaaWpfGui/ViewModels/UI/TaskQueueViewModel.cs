@@ -100,7 +100,7 @@ public class TaskQueueViewModel : Screen
     /// <summary>
     /// Gets 干员培养任务Model
     /// </summary>
-    public static AutoRaiseSettingsUserControlModel AutoRaiseTask => AutoRaiseSettingsUserControlModel.Instance;
+    public static AutoRaiseTaskUserControlModel AutoRaiseTask => AutoRaiseTaskUserControlModel.Instance;
 
     /// <summary>
     /// Gets 招募任务Model
