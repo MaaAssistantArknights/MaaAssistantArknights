@@ -70,7 +70,7 @@
         </StackPanel>
         <controls:TextBlock
             MaxWidth="400"
-            Margin="10"
+            Margin="0"
             HorizontalAlignment="Center"
             Text="{Binding YituliuTokenValidationText}"
             TextWrapping="Wrap"
