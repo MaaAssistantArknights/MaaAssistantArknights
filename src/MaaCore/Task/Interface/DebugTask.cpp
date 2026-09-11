@@ -124,6 +124,15 @@ bool asst::DebugTask::set_params(const json::value& params)
         return true; // 无 mode 的 Debug 任务保持 run() 空跑的旧行为
     }
 
+    // AsstSetTaskParams 会对同一任务重复调用 set_params，先清空上次状态避免累积
+    m_eval_images.clear();
+    m_eval_tasks.clear();
+    m_eval_templates.clear();
+    m_eval_templ_task.clear();
+    m_eval_roi = Rect();
+    m_eval_threshold = 0.7;
+    m_eval_resize.reset();
+
     auto images_opt = params.find<json::array>("images");
     if (!images_opt || images_opt->empty()) {
         Log.error("set_params failed, images not found");
@@ -192,7 +201,13 @@ bool asst::DebugTask::set_params(const json::value& params)
                 m_eval_threshold = params.get("threshold", 0.7);
             }
             if (auto resize_opt = params.find<json::array>("resize"); resize_opt && resize_opt->size() == 2) {
-                m_eval_resize = std::make_pair((*resize_opt)[0].as_integer(), (*resize_opt)[1].as_integer());
+                int resize_w = (*resize_opt)[0].as_integer();
+                int resize_h = (*resize_opt)[1].as_integer();
+                if (resize_w <= 0 || resize_h <= 0) {
+                    Log.error("set_params failed, invalid resize:", resize_w, resize_h);
+                    return false;
+                }
+                m_eval_resize = std::make_pair(resize_w, resize_h);
             }
         }
     }
@@ -204,6 +219,15 @@ bool asst::DebugTask::set_params(const json::value& params)
     return true;
 }
 
+void asst::DebugTask::emit_eval_error(const std::string& mode, const std::string& image_path, const std::string& error)
+{
+    Log.error("image_test |", image_path, error);
+    callback(
+        AsstMsg::SubTaskExtraInfo,
+        json::object { { "what", "DebugImageTest" },
+                       { "details", json::object { { "mode", mode }, { "image", image_path }, { "error", error } } } });
+}
+
 bool asst::DebugTask::image_test_report()
 {
     bool all_ok = true;
@@ -211,6 +235,7 @@ bool asst::DebugTask::image_test_report()
         auto image_opt = load_eval_image(image_path, true);
         if (!image_opt) {
             all_ok = false;
+            emit_eval_error("report", image_path, "failed to load image");
             continue;
         }
 
@@ -247,6 +272,7 @@ bool asst::DebugTask::image_test_pipeline()
         auto image_opt = load_eval_image(image_path, true);
         if (!image_opt) {
             all_ok = false;
+            emit_eval_error("pipeline", image_path, "failed to load image");
             continue;
         }
 
@@ -286,6 +312,7 @@ bool asst::DebugTask::image_test_ocr()
         auto image_opt = load_eval_image(image_path, true);
         if (!image_opt) {
             all_ok = false;
+            emit_eval_error("ocr", image_path, "failed to load image");
             continue;
         }
 
@@ -324,6 +351,7 @@ bool asst::DebugTask::image_test_templ()
         }
         if (!image_opt) {
             all_ok = false;
+            emit_eval_error("templ", image_path, "failed to load image");
             continue;
         }
 
@@ -332,12 +360,16 @@ bool asst::DebugTask::image_test_templ()
             // 模板名与 core 各处 get_templ 一致：物品 ID（如 "2001"）或相对
             // resource/template 的路径（如 "items/2001.png"）；也接受绝对路径的
             // 图片文件（调用方自行预处理过的模板）
-            Matcher analyzer(*image_opt, m_eval_roi.empty() ? Rect(0, 0, image_opt->cols, image_opt->rows) : m_eval_roi, nullptr);
+            Matcher analyzer(*image_opt, Rect(0, 0, image_opt->cols, image_opt->rows), nullptr);
 
             if (!m_eval_templ_task.empty()) {
                 // mask/method 等 Matcher 配置取自该任务；须在 set_templ 之前调用，
                 // 否则 set_task_info 会把模板重置为任务自带的
                 analyzer.set_task_info(m_eval_templ_task);
+            }
+            if (!m_eval_roi.empty()) {
+                // set_task_info 会用任务自身的 roi 覆盖构造时的 roi，显式传入的 roi 在其后重设
+                analyzer.set_roi(m_eval_roi);
             }
 
             std::filesystem::path templ_file = asst::utils::path(templ_name);

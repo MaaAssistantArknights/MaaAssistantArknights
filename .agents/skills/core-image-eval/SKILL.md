@@ -10,7 +10,8 @@ description: 用 MaaCore 本体对本地图片（用户日志反馈包截图、�
 ## 前置条件
 
 - MaaCore Debug 构建：默认取 `build/bin/Debug/MaaCore.dll`，没有则 `cmake --build build --target MaaCore --config Debug`。
-- 资源根默认仓库根（`AsstLoadResource` 语义：其下找 `resource/`）；国际服 `--global YoStarJP`（分服 OCR 模型随之加载）。
+- 资源根默认仓库根（`AsstLoadResource` 语义：其下找 `resource/`）；外服加 `--global YoStarJP` / `YoStarEN` / `YoStarKR` / `txwy` —— 分服的 OCR 模型、模板与任务定义随资源叠加切换，识别即切到对应服。
+- `depot` 模式的模板涂黑处理依赖 Pillow（`pip install pillow`）。
 - Debug 构建日志会镜像 stdout，过滤干扰行用 `grep -v "^\[2026"`；完整日志在 user_dir 的 `debug/asst.log`。
 
 ## CLI 用法（人工快速验证）
@@ -36,7 +37,7 @@ python tools/maa_core_eval.py --mode depot [--templates "2001,..."] 图.png
 import sys; sys.path.insert(0, "tools")
 from maa_core_eval import CoreEval
 
-ev = CoreEval(global_client="YoStarJP")   # 国服默认 CoreEval()
+ev = CoreEval(global_client="YoStarJP")   # 默认国服用 CoreEval()，本例为日服
 ev.report(images=["1.png"], tasks=["TaskA"])
 ev.pipeline(images=["1.png"], tasks=["A", "B"])   # 返回含 next，可自行驱动链
 ev.ocr(images=["1.png"], roi=[100, 200, 300, 50])

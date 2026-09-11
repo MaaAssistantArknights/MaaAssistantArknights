@@ -37,5 +37,8 @@ private:
     Rect m_eval_roi;
     double m_eval_threshold = 0.7;
     std::optional<std::pair<int, int>> m_eval_resize; // 评估前把图缩放到该尺寸（templ 模式）
+
+    // 读图失败等单图错误也要发对应的结果条目，否则调用方按图取结果会缺项
+    void emit_eval_error(const std::string& mode, const std::string& image_path, const std::string& error);
 };
 }
