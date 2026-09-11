@@ -189,14 +189,19 @@ bool asst::TaskData::lazy_parse(const json::value& json)
             // 用于解决 a8d68dd72df6eef1d2f8feed3883299922ec1a17 类似的潜在regex非法问题
             if (auto ocr_task = std::dynamic_pointer_cast<OcrTaskInfo>(task);
                 task->algorithm == AlgorithmType::OcrDetect) {
-                for (const auto& [regex, new_str] : ocr_task->replace_map) {
-                    try {
-                        boost::regex _(regex);
-                    }
-                    catch (const boost::regex_error& e) {
-                        Log.error("Task", name, "has invalid regex:", regex, ":", e.what());
-                        validity = false;
-                        break;
+                static boost::regex regex_valid;
+                for (const auto& [pattern, new_str] : ocr_task->replace_map) {
+                    regex_valid.assign(pattern, boost::regex::no_except);
+                    if (regex_valid.status() != boost::regex_constants::error_ok) {
+                        try {
+                            boost::regex _(pattern);
+                        }
+                        catch (const boost::regex_error& e) {
+                            LogError << __FUNCTION__ << "Task" << name << "has invalid regex:" << pattern << ":"
+                                     << e.what();
+                            validity = false;
+                            break;
+                        }
                     }
                 }
             }
