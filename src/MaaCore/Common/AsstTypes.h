@@ -437,6 +437,28 @@ struct FeatureMatchRect : public AnalyzerResult
 };
 } // namespace asst
 
+namespace json::ext
+{
+template <>
+class jsonization<asst::Rect>
+{
+public:
+    json::value to_json(const asst::Rect& t) const { return json::array { t.x, t.y, t.width, t.height }; }
+
+    bool check_json(const json::value& j) const { return j.is<std::array<int, 4>>(); }
+
+    bool from_json(const json::value& j, asst::Rect& out) const
+    {
+        const auto& arr = j.as<std::array<int, 4>>();
+        out.x = arr[0];
+        out.y = arr[1];
+        out.width = arr[2];
+        out.height = arr[3];
+        return true;
+    }
+};
+}
+
 namespace std
 {
 template <>

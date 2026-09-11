@@ -192,7 +192,8 @@ bool asst::DebugTask::set_params_impl(const json::value& params)
     }
     else if (m_image_test_mode == "ocr" || m_image_test_mode == "templ") {
         if (auto roi_opt = params.find<json::array>("roi"); roi_opt) {
-            if (roi_opt->size() != 4 || std::ranges::any_of(*roi_opt, [](const json::value& v) { return !v.is_number(); })) {
+            if (roi_opt->size() != 4 ||
+                std::ranges::any_of(*roi_opt, [](const json::value& v) { return !v.is_number(); })) {
                 LogError << "set_params failed, roi must be 4 numbers";
                 return false;
             }
@@ -224,7 +225,8 @@ bool asst::DebugTask::set_params_impl(const json::value& params)
                     return false;
                 }
                 m_eval_templ_task = *task_opt;
-                double default_threshold = !match_ptr->templ_thresholds.empty() ? match_ptr->templ_thresholds.front() : 0.7;
+                double default_threshold =
+                    !match_ptr->templ_thresholds.empty() ? match_ptr->templ_thresholds.front() : 0.7;
                 m_eval_threshold = params.get("threshold", default_threshold);
             }
             else {
@@ -283,23 +285,23 @@ bool asst::DebugTask::image_test_report()
 
                 json::object result = to_result_json(task_name, result_opt);
                 LogInfo << __FUNCTION__ << image_path << task_name << (result_opt ? "hit" : "miss")
-                        << json::value(result).dumps();
+                        << result.dumps();
                 results.emplace_back(std::move(result));
             }
 
             callback(
                 AsstMsg::SubTaskExtraInfo,
                 json::object { { "what", "DebugImageTest" },
-                               { "details", json::object { { "mode", "report" },
-                                                            { "image", image_path },
-                                                            { "results", std::move(results) } } } });
+                               { "details",
+                                 json::object { { "mode", "report" },
+                                                { "image", image_path },
+                                                { "results", std::move(results) } } } });
         }
         catch (const std::exception& e) {
             // ASST_DEBUG 下模板缺失/为空等会 throw，逐图兜住避免后续图静默缺结果
             all_ok = false;
             emit_eval_error("report", image_path, e.what());
         }
-
     }
     return all_ok;
 }
@@ -330,7 +332,7 @@ bool asst::DebugTask::image_test_pipeline()
                 for (const auto& next_task : result_opt->task_ptr->next) {
                     next.emplace_back(next_task);
                 }
-                LogInfo << __FUNCTION__ << image_path << "hit" << json::value(hit).dumps();
+                LogInfo << __FUNCTION__ << image_path << "hit" << hit.dumps();
             }
             else {
                 detail["hit"] = false;
@@ -346,7 +348,6 @@ bool asst::DebugTask::image_test_pipeline()
             all_ok = false;
             emit_eval_error("pipeline", image_path, e.what());
         }
-
     }
     return all_ok;
 }
@@ -373,17 +374,20 @@ bool asst::DebugTask::image_test_ocr()
             if (results_opt) {
                 for (const auto& res : *results_opt) {
                     results.emplace_back(
-                        json::object { { "text", res.text }, { "score", res.score }, { "rect", to_json_rect(res.rect) } });
+                        json::object { { "text", res.text },
+                                       { "score", res.score },
+                                       { "rect", to_json_rect(res.rect) } });
                 }
             }
-            LogInfo << __FUNCTION__ << image_path << "ocr" << json::value(results).dumps();
+            LogInfo << __FUNCTION__ << image_path << "ocr" << results.dumps();
 
             callback(
                 AsstMsg::SubTaskExtraInfo,
                 json::object { { "what", "DebugImageTest" },
-                               { "details", json::object { { "mode", "ocr" },
-                                                            { "image", image_path },
-                                                            { "results", std::move(results) } } } });
+                               { "details",
+                                 json::object { { "mode", "ocr" },
+                                                { "image", image_path },
+                                                { "results", std::move(results) } } } });
         }
         catch (const std::exception& e) {
             all_ok = false;
@@ -408,73 +412,74 @@ bool asst::DebugTask::image_test_templ()
                 continue;
             }
 
-        json::array results;
-        for (const auto& templ_name : m_eval_templates) {
-            // 模板名与 core 各处 get_templ 一致：物品 ID（如 "2001"）或相对
-            // resource/template 的路径（如 "items/2001.png"）；也接受绝对路径的
-            // 图片文件（调用方自行预处理过的模板）
-            Matcher analyzer(*image_opt, Rect(0, 0, image_opt->cols, image_opt->rows), nullptr);
+            json::array results;
+            for (const auto& templ_name : m_eval_templates) {
+                // 模板名与 core 各处 get_templ 一致：物品 ID（如 "2001"）或相对
+                // resource/template 的路径（如 "items/2001.png"）；也接受绝对路径的
+                // 图片文件（调用方自行预处理过的模板）
+                Matcher analyzer(*image_opt, Rect(0, 0, image_opt->cols, image_opt->rows), nullptr);
 
-            if (!m_eval_templ_task.empty()) {
-                // mask/method 等 Matcher 配置取自该任务；须在 set_templ 之前调用，
-                // 否则 set_task_info 会把模板重置为任务自带的
-                analyzer.set_task_info(m_eval_templ_task);
-            }
-            if (!m_eval_roi.empty()) {
-                // set_task_info 会用任务自身的 roi 覆盖构造时的 roi，显式传入的 roi 在其后重设
-                analyzer.set_roi(m_eval_roi);
-            }
-
-            json::object result { { "template", templ_name } };
-            std::filesystem::path templ_file = asst::utils::path(templ_name);
-            if (templ_file.is_absolute() && std::filesystem::exists(templ_file)) {
-                cv::Mat templ = MAA_NS::imread(templ_file);
-                if (templ.empty()) {
-                    result["hit"] = false;
-                    result["error"] = "failed to load templ file";
-                    LogError << __FUNCTION__ << "failed to load templ:" << templ_name;
-                    all_ok = false;
-                    results.emplace_back(std::move(result));
-                    continue;
+                if (!m_eval_templ_task.empty()) {
+                    // mask/method 等 Matcher 配置取自该任务；须在 set_templ 之前调用，
+                    // 否则 set_task_info 会把模板重置为任务自带的
+                    analyzer.set_task_info(m_eval_templ_task);
                 }
-                analyzer.set_templ(std::move(templ));
-            }
-            else {
-                analyzer.set_templ(templ_name);
-            }
-            analyzer.set_threshold(-1.0); // 放开阈值恒报最佳得分，hit 由 threshold 字段判定
+                if (!m_eval_roi.empty()) {
+                    // set_task_info 会用任务自身的 roi 覆盖构造时的 roi，显式传入的 roi 在其后重设
+                    analyzer.set_roi(m_eval_roi);
+                }
 
-            try {
-                auto result_opt = analyzer.analyze();
-                if (result_opt) {
-                    result["score"] = result_opt->score;
-                    result["rect"] = to_json_rect(result_opt->rect);
-                    result["hit"] = result_opt->score >= m_eval_threshold;
+                json::object result { { "template", templ_name } };
+                std::filesystem::path templ_file = asst::utils::path(templ_name);
+                if (templ_file.is_absolute() && std::filesystem::exists(templ_file)) {
+                    cv::Mat templ = MAA_NS::imread(templ_file);
+                    if (templ.empty()) {
+                        result["hit"] = false;
+                        result["error"] = "failed to load templ file";
+                        LogError << __FUNCTION__ << "failed to load templ:" << templ_name;
+                        all_ok = false;
+                        results.emplace_back(std::move(result));
+                        continue;
+                    }
+                    analyzer.set_templ(std::move(templ));
                 }
                 else {
-                    // 阈值已放开仍无结果，只剩 roi 为空或模板大于 roi 等输入问题，不存在正常 miss
+                    analyzer.set_templ(templ_name);
+                }
+                analyzer.set_threshold(-1.0); // 放开阈值恒报最佳得分，hit 由 threshold 字段判定
+
+                try {
+                    auto result_opt = analyzer.analyze();
+                    if (result_opt) {
+                        result["score"] = result_opt->score;
+                        result["rect"] = to_json_rect(result_opt->rect);
+                        result["hit"] = result_opt->score >= m_eval_threshold;
+                    }
+                    else {
+                        // 阈值已放开仍无结果，只剩 roi 为空或模板大于 roi 等输入问题，不存在正常 miss
+                        result["hit"] = false;
+                        result["error"] = "no match result (check roi / template size)";
+                        all_ok = false;
+                    }
+                }
+                catch (const std::exception& e) {
+                    // ASST_DEBUG 下模板不存在/加载失败会 throw，报错后继续评估其余模板
                     result["hit"] = false;
-                    result["error"] = "no match result (check roi / template size)";
+                    result["error"] = e.what();
                     all_ok = false;
                 }
+                LogInfo << __FUNCTION__ << image_path << templ_name << (result["hit"].as_boolean() ? "hit" : "miss")
+                        << result.dumps();
+                results.emplace_back(std::move(result));
             }
-            catch (const std::exception& e) {
-                // ASST_DEBUG 下模板不存在/加载失败会 throw，报错后继续评估其余模板
-                result["hit"] = false;
-                result["error"] = e.what();
-                all_ok = false;
-            }
-            LogInfo << __FUNCTION__ << image_path << templ_name << (result["hit"].as_boolean() ? "hit" : "miss")
-                    << json::value(result).dumps();
-            results.emplace_back(std::move(result));
-        }
 
-        callback(
-            AsstMsg::SubTaskExtraInfo,
-            json::object { { "what", "DebugImageTest" },
-                           { "details", json::object { { "mode", "templ" },
-                                                        { "image", image_path },
-                                                        { "results", std::move(results) } } } });
+            callback(
+                AsstMsg::SubTaskExtraInfo,
+                json::object { { "what", "DebugImageTest" },
+                               { "details",
+                                 json::object { { "mode", "templ" },
+                                                { "image", image_path },
+                                                { "results", std::move(results) } } } });
         }
         catch (const std::exception& e) {
             all_ok = false;
