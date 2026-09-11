@@ -1709,7 +1709,7 @@ public class ToolboxViewModel : Screen
     /// <summary>
     /// 从一图流 OpenAPI 拉取干员练度数据并按识别结果填充，不依赖模拟器连接。
     /// 拉取失败只报错不回退 core 本地识别：开关开着是用户显式选择，静默回退会突然要求连接模拟器，无人值守队列下不可预期。
-    /// 拉取成功后才重置旧识别数据，失败时保留。
+    /// 拉取成功后才重置旧识别数据，失败时保留；运行状态（Idle）由调用方负责收尾。
     /// </summary>
     /// <returns>是否成功。</returns>
     public async Task<bool> StartOperBoxFromYituliuApiAsync()
@@ -1806,7 +1806,7 @@ public class ToolboxViewModel : Screen
     }
 
     /// <summary>
-    /// 开始识别干员
+    /// 开始识别干员，按设置分派到一图流 OpenAPI 拉取或 core 本地识别。
     /// UI 绑定的方法
     /// </summary>
     /// <returns>Task</returns>
@@ -1816,12 +1816,22 @@ public class ToolboxViewModel : Screen
         _runningState.SetIdle(false);
         if (SettingsViewModel.ThirdPartyServiceSettings.EnableOperBoxYituliuApi)
         {
-            // API 路径的重置由 StartOperBoxFromYituliuApiAsync 在拉取成功后进行，失败时保留旧识别数据
             await StartOperBoxFromYituliuApiAsync();
             _runningState.SetIdle(true);
-            return;
         }
+        else
+        {
+            await StartOperBoxFromCoreAsync();
+        }
+    }
 
+    /// <summary>
+    /// 连接模拟器并开始 core 本地识别。点击即清空旧识别数据；
+    /// 运行状态只在连接失败时于此复位，识别完成由 core 回调收尾。
+    /// </summary>
+    /// <returns>Task</returns>
+    private async Task StartOperBoxFromCoreAsync()
+    {
         ResetOperBoxRecognitionState();
         string errMsg = string.Empty;
         OperBoxInfo = LocalizationHelper.GetString("ConnectingToEmulator");
