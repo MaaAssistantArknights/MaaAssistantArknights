@@ -3,6 +3,7 @@
 #include <meojson/json.hpp>
 
 #include "Utils/Logger.hpp"
+#include "Vision/Config/OCREquivalenceRegex.hpp"
 
 std::string asst::OcrConfig::process_equivalence_class(const std::string& str) const
 {
@@ -19,14 +20,19 @@ bool asst::OcrConfig::parse(const json::value& json)
 {
     LogTraceFunction;
 
-    m_eq_classes.clear();
-
+    std::vector<equivalence_class> eq_classes;
     for (const json::value& eq_class : json.at("equivalence_classes").as_array()) {
         equivalence_class eq_class_tmp;
         for (const json::value& eq_element : eq_class.as_array()) {
-            eq_class_tmp.emplace_back(eq_element.as_string());
+            std::string member = eq_element.as_string();
+            if (!equivalence_regex_detail::is_single_unicode_scalar(member)) {
+                Log.error("equivalence class member must be a single Unicode scalar", member);
+                return false;
+            }
+            eq_class_tmp.emplace_back(std::move(member));
         }
-        m_eq_classes.emplace_back(std::move(eq_class_tmp));
+        eq_classes.emplace_back(std::move(eq_class_tmp));
     }
+    m_eq_classes = std::move(eq_classes);
     return true;
 }
