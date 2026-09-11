@@ -698,7 +698,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="YituliuTokenInvalid">토큰이 유효하지 않거나 만료되었습니다. 다시 생성해 주세요</system:String>
     <system:String x:Key="YituliuTokenNetworkError">네트워크 오류가 발생했습니다. 나중에 다시 시도해 주세요</system:String>
     <system:String x:Key="EnableOperBoxYituliuApi">오퍼레이터 식별을 Yituliu에서 가져오기</system:String>
-    <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">활성화하면 ｢{key=Toolbox}｣와 ｢{key=UserDataUpdate}｣의 오퍼레이터 식별이 에뮬레이터에 연결해 스크린샷으로 식별하지 않고, 토큰에 해당하는 Yituliu 육성 데이터를 직접 불러옵니다.&#10;Yituliu에 저장되는 것은 육성 데이터 스냅샷이므로 먼저 Yituliu 사이트에 오퍼레이터 데이터를 업로드해야 합니다.&#10;토큰은 Yituliu 계정 페이지의 ｢서드파티 API Token｣에서 생성할 수 있습니다. 계정 데이터 보호를 위해 읽기 전용 토큰만 사용해 주세요.</system:String>
+    <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">활성화하면 ｢{key=Toolbox}｣와 ｢{key=UserDataUpdate}｣의 오퍼레이터 식별이 에뮬레이터에 연결해 스크린샷으로 식별하지 않고, 토큰에 해당하는 Yituliu 육성 데이터를 직접 불러옵니다.&#10;｢{key=UserDataUpdate}｣ 트리거 시 ｢{key=LinkStart}｣을(를) 누르면 즉시 다른 작업과 병렬로 가져오기를 시작합니다.&#10;Yituliu에 저장되는 것은 육성 데이터 스냅샷이므로 먼저 Yituliu 사이트에 오퍼레이터 데이터를 업로드해야 합니다.&#10;토큰은 Yituliu 계정 페이지의 ｢서드파티 API Token｣에서 생성할 수 있습니다. 계정 데이터 보호를 위해 읽기 전용 토큰만 사용해 주세요.</system:String>
     <system:String x:Key="OperBoxFetchingFromYituliu">Yituliu에서 오퍼레이터 데이터를 가져오는 중…</system:String>
     <system:String x:Key="YituliuFetchFailed">Yituliu에서 가져오기 실패: {0}</system:String>
     <system:String x:Key="OperBoxExportHeaderSkills">스킬 전문화</system:String>

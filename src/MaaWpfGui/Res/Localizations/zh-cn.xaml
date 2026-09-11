@@ -696,7 +696,7 @@ D:\
     <system:String x:Key="YituliuTokenInvalid">Token 无效或已失效，请重新生成</system:String>
     <system:String x:Key="YituliuTokenNetworkError">网络错误，请稍后重试</system:String>
     <system:String x:Key="EnableOperBoxYituliuApi">干员识别从一图流获取</system:String>
-    <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">开启后 ｢{key=Toolbox}｣ 与 ｢{key=UserDataUpdate}｣ 的干员识别不再连接模拟器截图识别，改为直接读取 Token 对应的一图流练度数据。&#10;Token 在一图流 ｢个人中心｣ 的 ｢第三方 API Token｣ 中生成，为保护账号数据请仅使用只读 Token。</system:String>
+    <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">开启后 ｢{key=Toolbox}｣ 与 ｢{key=UserDataUpdate}｣ 的干员识别不再连接模拟器截图识别，改为直接读取 Token 对应的一图流练度数据。&#10;更新数据触发时在点下 ｢{key=LinkStart}｣ 后立即并行拉取，不等待其他任务完成。&#10;一图流保存的是练度快照，需先在一图流网站上传过干员数据。&#10;Token 在一图流 ｢个人中心｣ 的 ｢第三方 API Token｣ 中生成，为保护账号数据请仅使用只读 Token。</system:String>
     <system:String x:Key="OperBoxFetchingFromYituliu">正在从一图流获取干员数据…</system:String>
     <system:String x:Key="YituliuFetchFailed">从一图流获取失败：{0}</system:String>
     <system:String x:Key="OperBoxExportHeaderSkills">技能专精</system:String>

@@ -2189,6 +2189,7 @@ public class TaskQueueViewModel : Screen
 
         // 直接遍历TaskItemViewModels里面的内容，是排序后的
         int count = 0;
+        List<int> coreTaskIds = [];
         foreach (var item in tasks)
         {
             var index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(item);
@@ -2210,6 +2211,7 @@ public class TaskQueueViewModel : Screen
                 {
                     case true:
                         ++count;
+                        coreTaskIds.AddRange(taskIds);
                         Instances.TaskQueueViewModel.TaskItemViewModels.ElementAtOrDefault(index)?.SetTaskIds(taskIds);
                         break;
                     case false:
@@ -2233,6 +2235,15 @@ public class TaskQueueViewModel : Screen
         if (count == 0)
         {
             AddLog(LocalizationHelper.GetString("UnselectedTask"));
+            _runningState.SetIdle(true);
+            Instances.AsstProxy.AsstStop();
+            SetStopped();
+            return;
+        }
+
+        if (coreTaskIds.Count == 0)
+        {
+            // 本轮所有任务都不需要 core 执行（例如更新数据仅勾选干员识别且从一图流 OpenAPI 获取），直接收尾
             _runningState.SetIdle(true);
             Instances.AsstProxy.AsstStop();
             SetStopped();
