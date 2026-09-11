@@ -103,6 +103,8 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
                 return (null, []);
             }
 
+            Instances.TaskQueueViewModel.AddLogSection(baseTask.NameOrTaskType);
+
             List<int> ids = [];
             bool operBoxSyncedWithoutTask = false;
             if (operBoxTriggerDue)
@@ -177,17 +179,17 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
     }
 
     /// <summary>
-    /// 从一图流拉取干员数据并写任务日志、更新任务条目状态；失败原因的日志由拉取方法自身记录。
+    /// 从一图流拉取干员数据并在完成后写任务日志、更新任务条目状态。
+    /// 拉取是后台并行的，只在结束时输出一条日志，避免与队列启动日志交错。
     /// </summary>
     /// <param name="baseTask">发起拉取的任务，用于定位任务条目</param>
     /// <returns>Task</returns>
     private static async Task SyncOperBoxFromYituliuApiAsync(BaseTask baseTask)
     {
-        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("OperBoxFetchingFromYituliu"), UiLogColor.Info);
         var success = await Instances.ToolboxViewModel.StartOperBoxFromYituliuApiAsync();
         if (success)
         {
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("IdentificationCompleted"), UiLogColor.Info);
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("YituliuOperBoxCompleted"), UiLogColor.Info);
         }
 
         var index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(baseTask);

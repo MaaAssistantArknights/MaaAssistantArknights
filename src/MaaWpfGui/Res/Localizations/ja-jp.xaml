@@ -705,6 +705,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="OperBoxFetchingFromYituliu">Yituliuからオペレーターデータを取得中…</system:String>
     <system:String x:Key="YituliuFetchFailed">Yituliuからの取得に失敗しました：{0}</system:String>
     <system:String x:Key="YituliuNoOperBoxData">トークンに対応するYituliuアカウントにオペレーターデータがなく、ローカルの識別結果を保持しました</system:String>
+    <system:String x:Key="YituliuOperBoxCompleted">{key=OperBoxRecognition}の取得が完了しました（Yituliu）</system:String>
     <system:String x:Key="OperBoxExportHeaderSkills">スキル特化</system:String>
     <system:String x:Key="OperBoxExportHeaderEquips">モジュール</system:String>
     <system:String x:Key="DrGrandet">Dr.グランデモード</system:String>

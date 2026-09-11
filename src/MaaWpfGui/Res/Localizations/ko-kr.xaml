@@ -705,6 +705,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="OperBoxFetchingFromYituliu">Yituliu에서 오퍼레이터 데이터를 가져오는 중…</system:String>
     <system:String x:Key="YituliuFetchFailed">Yituliu에서 가져오기 실패: {0}</system:String>
     <system:String x:Key="YituliuNoOperBoxData">토큰에 해당하는 Yituliu 계정에 오퍼레이터 데이터가 없어 로컬 인식 결과를 유지합니다</system:String>
+    <system:String x:Key="YituliuOperBoxCompleted">{key=OperBoxRecognition} 완료(Yituliu)</system:String>
     <system:String x:Key="OperBoxExportHeaderSkills">스킬 전문화</system:String>
     <system:String x:Key="OperBoxExportHeaderEquips">모듈</system:String>
     <system:String x:Key="DrGrandet">그랑데 영감 모드</system:String>

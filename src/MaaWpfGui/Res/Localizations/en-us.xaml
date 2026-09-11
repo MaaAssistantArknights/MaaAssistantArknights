@@ -705,6 +705,7 @@ To enable this mechanism, make sure the selected difficulty is N3 or higher (exc
     <system:String x:Key="OperBoxFetchingFromYituliu">Fetching operator data from Yituliu...</system:String>
     <system:String x:Key="YituliuFetchFailed">Failed to fetch from Yituliu: {0}</system:String>
     <system:String x:Key="YituliuNoOperBoxData">The Yituliu account linked to the token has no operator data yet. Local recognition results are kept</system:String>
+    <system:String x:Key="YituliuOperBoxCompleted">{key=OperBoxRecognition} sync completed (Yituliu)</system:String>
     <system:String x:Key="OperBoxExportHeaderSkills">Skill masteries</system:String>
     <system:String x:Key="OperBoxExportHeaderEquips">Modules</system:String>
     <system:String x:Key="DrGrandet">Dr. Grandet Mode</system:String>

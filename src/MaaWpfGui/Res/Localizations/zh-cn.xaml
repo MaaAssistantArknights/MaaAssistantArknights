@@ -703,6 +703,7 @@ D:\
     <system:String x:Key="OperBoxFetchingFromYituliu">正在从一图流获取干员数据…</system:String>
     <system:String x:Key="YituliuFetchFailed">从一图流获取失败：{0}</system:String>
     <system:String x:Key="YituliuNoOperBoxData">Token 对应的一图流账号暂无干员练度数据，已保留本地识别结果</system:String>
+    <system:String x:Key="YituliuOperBoxCompleted">{key=OperBoxRecognition}完成（一图流）</system:String>
     <system:String x:Key="OperBoxExportHeaderSkills">技能专精</system:String>
     <system:String x:Key="OperBoxExportHeaderEquips">模组</system:String>
     <system:String x:Key="DrGrandet">博朗台模式</system:String>
