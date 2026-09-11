@@ -103,8 +103,6 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
                 return (null, []);
             }
 
-            Instances.TaskQueueViewModel.AddLogSection(baseTask.NameOrTaskType);
-
             List<int> ids = [];
             bool operBoxSyncedWithoutTask = false;
             if (operBoxTriggerDue)
@@ -113,6 +111,8 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
                 {
                     if (string.IsNullOrWhiteSpace(SettingsViewModel.ThirdPartyServiceSettings.YituliuOpenApiToken))
                     {
+                        // 错误才打任务分区标题提供上下文，正常执行不需要
+                        Instances.TaskQueueViewModel.AddLogSection(baseTask.NameOrTaskType);
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("YituliuTokenEmpty"), UiLogColor.Error);
                         return (false, []);
                     }
