@@ -47,7 +47,7 @@
     },
     "SR-OpenOcr": {
         "baseTask": "SS-OpenOcr",
-        "text": ["月行水上", "月行", "水上"],
+        "text": ["月行水上", "月行", "水上", "殡仪堂"],
         "postDelay": 5000,
         "next": ["SRChapterToSR"]
     },
