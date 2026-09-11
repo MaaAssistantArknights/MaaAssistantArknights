@@ -1995,7 +1995,14 @@ public partial class CopilotViewModel : Screen
             op.Skill = Math.Clamp(op.Skill, 0, 3);
         }
 
-        return UserAdditional.Where(op => !string.IsNullOrWhiteSpace(op.Name));
+        return UserAdditional
+            .Where(op => !string.IsNullOrWhiteSpace(op.Name))
+            .Select(op => new UserAdditional
+            {
+                Name = DataHelper.GetCharacterByNameOrAlias(op.Name)?.Name ?? op.Name,
+                Skill = op.Skill,
+                Module = op.Module,
+            });
     }
 
     private async Task<bool> AppendAndStartCopilotAsync(IEnumerable<UserAdditional> userAdditional)
