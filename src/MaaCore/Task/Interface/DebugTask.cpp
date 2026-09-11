@@ -153,17 +153,13 @@ bool asst::DebugTask::set_params_impl(const json::value& params)
     m_eval_threshold = 0.8;
     m_eval_resize.reset();
 
-    auto images_opt = params.find<json::array>("images");
+    auto images_opt = params.find<std::vector<std::string>>("images");
     if (!images_opt || images_opt->empty()) {
         LogError << "set_params failed, images not found";
         return false;
     }
-    for (const auto& image : *images_opt) {
-        if (!image.is_string()) {
-            LogError << "set_params failed, image is not string";
-            return false;
-        }
-        m_eval_images.emplace_back(image.as_string());
+    for (auto& image : *images_opt) {
+        m_eval_images.emplace_back(std::move(image));
     }
 
     if (m_image_test_mode == "report" || m_image_test_mode == "pipeline") {
