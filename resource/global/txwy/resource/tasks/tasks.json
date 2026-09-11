@@ -1058,10 +1058,15 @@
     "InfrastReward": {
         "text": ["可收穫", "訂單交付", "幹員信賴"]
     },
+    "InfrastAssistantButtonWait": {
+        "text": ["正在提交", "反饋至神經"]
+    },
     "InfrastStationedInfo": {
-        "text": ["進駐資訊", "焦駐資訊"]
+        "ocrReplace": [["焦駐資訊", "進駐資訊"]],
+        "text": ["進駐資訊"]
     },
     "InfrastEnterOperList": {
+        "ocrReplace": [["焦駐", "進駐"]],
         "text": ["心情", "休息中", "工作中", "進駐"]
     },
     "InfrastConfirmButtonWait": {
