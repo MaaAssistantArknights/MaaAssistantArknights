@@ -1,9 +1,10 @@
 #pragma once
 
+#include <unordered_map>
+
 #include "AbstractTask.h"
 #include "Common/AsstTypes.h"
 #include "MaaUtils/NoWarningCVMat.hpp"
-#include <unordered_map>
 
 namespace asst
 {
