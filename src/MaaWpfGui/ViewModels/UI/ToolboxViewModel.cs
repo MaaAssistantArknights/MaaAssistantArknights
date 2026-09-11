@@ -1708,6 +1708,7 @@ public class ToolboxViewModel : Screen
 
     /// <summary>
     /// 从一图流 OpenAPI 拉取干员练度数据并按识别结果填充，不依赖模拟器连接。
+    /// 拉取失败只报错不回退 core 本地识别：开关开着是用户显式选择，静默回退会突然要求连接模拟器，无人值守队列下不可预期。
     /// </summary>
     /// <returns>是否成功。</returns>
     public async Task<bool> StartOperBoxFromYituliuApiAsync()

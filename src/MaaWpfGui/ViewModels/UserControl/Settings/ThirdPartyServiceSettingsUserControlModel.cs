@@ -116,6 +116,7 @@ public class ThirdPartyServiceSettingsUserControlModel : PropertyChangedBase
 
     /// <summary>
     /// 验证一图流 OpenAPI Token 是否具备干员数据读取权限。
+    /// 验证成功不自动打开 EnableOperBoxYituliuApi：自动改开关属隐藏行为，须由用户显式开启。
     /// UI 绑定的方法
     /// </summary>
     [UsedImplicitly]
