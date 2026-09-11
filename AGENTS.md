@@ -1,6 +1,6 @@
 # MAA 开发约定
 
-格式由 `.pre-commit-config.yaml` 钩子机器强制；不本地跑 `pre-commit`（prek）的话 GitHub CI 会定时代跑并生成额外的机器修复 commit，改完文件后须本地处理好格式。
+格式由 `.pre-commit-config.yaml` 钩子机器强制，各钩子有 files 范围；本地不处理好的话 GitHub CI 会定时代跑并生成额外的机器修复 commit，为避免此副作用，改完文件后须本地跑对应格式化（如 C++ 的 clang-formatter）。
 
 ## C++（MaaCore）
 
