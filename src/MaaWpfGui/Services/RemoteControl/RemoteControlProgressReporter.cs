@@ -80,6 +80,23 @@ public class RemoteControlProgressReporter
         /// Gets or sets 各公招槽位最终选中标签组合的保底星级（按槽位顺序）。
         /// </summary>
         public List<int> MinLevels { get; } = [];
+
+        /// <summary>
+        /// Gets or sets 进图前识别的最后一次理智快照，随每轮战斗刷新；仅战斗链会产生。
+        /// </summary>
+        public SanitySnapshot? Sanity { get; set; }
+    }
+
+    /// <summary>
+    /// 进图前识别的理智快照（<c>SanityBeforeStage</c>），战斗链每轮进图前刷新，收尾时取最后一次。
+    /// </summary>
+    private sealed class SanitySnapshot
+    {
+        public int Current { get; set; }
+
+        public int Max { get; set; }
+
+        public DateTimeOffset ReportTime { get; set; }
     }
 
     private sealed class DropItem
@@ -385,6 +402,32 @@ public class RemoteControlProgressReporter
         }
     }
 
+    /// <summary>
+    /// 记录进图前识别的理智快照（<c>SanityBeforeStage</c>），随每轮战斗刷新，任务项收尾时取最后一次。
+    /// </summary>
+    /// <param name="taskId">当前任务链 id。</param>
+    /// <param name="sanityCurrent">识别到的当前理智。</param>
+    /// <param name="sanityMax">理智上限。</param>
+    /// <param name="reportTime">识别时刻。</param>
+    public void NoteSanity(int taskId, int sanityCurrent, int sanityMax, DateTimeOffset reportTime)
+    {
+        if (sanityMax <= 0)
+        {
+            return;
+        }
+
+        var index = FindIndexByTaskId(taskId);
+        if (index < 0)
+        {
+            return;
+        }
+
+        lock (Gate)
+        {
+            EnsureItem(index).Sanity = new SanitySnapshot { Current = sanityCurrent, Max = sanityMax, ReportTime = reportTime };
+        }
+    }
+
     private ChainStat EnsureChain(int taskId)
     {
         if (!Chains.TryGetValue(taskId, out var chain))
@@ -616,12 +659,38 @@ public class RemoteControlProgressReporter
             payload["stages"] = JToken.FromObject(item.StageResults);
         }
 
+        // 战斗类：附上进图前识别的最后一次理智快照与回满预估
+        if (item.Sanity is { Max: > 0 } sanity)
+        {
+            payload["sanity"] = BuildSanityPayload(sanity);
+        }
+
         if (item.MinLevels.Count > 0)
         {
             payload["minLevel"] = JToken.FromObject(item.MinLevels);
         }
 
         Send("TASK_END", payload);
+    }
+
+    /// <summary>
+    /// 按自然回复速率（6 分钟 1 点）由识别时刻推算回满时刻；<c>recoverMinutes</c> 在发送时计算，避免长任务中途的推算漂移。
+    /// </summary>
+    private static JObject BuildSanityPayload(SanitySnapshot sanity)
+    {
+        var fullAt = sanity.Current < sanity.Max
+            ? sanity.ReportTime.AddMinutes((sanity.Max - sanity.Current) * 6)
+            : sanity.ReportTime;
+        var minutesLeft = sanity.Current < sanity.Max
+            ? Math.Max(0, (int)Math.Ceiling((fullAt - DateTimeOffset.Now).TotalMinutes))
+            : 0;
+        return new JObject
+        {
+            ["current"] = sanity.Current,
+            ["max"] = sanity.Max,
+            ["recoverFullAt"] = fullAt.ToString("yyyy-MM-dd'T'HH:mm:sszzz"),
+            ["recoverMinutes"] = minutesLeft,
+        };
     }
 
     private JObject ItemPayload(int index, ItemResult item)

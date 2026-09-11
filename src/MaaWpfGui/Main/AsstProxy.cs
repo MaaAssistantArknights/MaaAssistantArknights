@@ -2561,6 +2561,7 @@ public class AsstProxy
                     if (subTaskDetails?.ToObject<FightSettingsUserControlModel.SanityInfo>() is { SanityMax: > 0 } report)
                     {
                         FightSetting.SanityReport = report;
+                        OnSanityReport?.Invoke(taskId, report.SanityCurrent, report.SanityMax, report.ReportTime);
                     }
 
                     break;
@@ -3359,6 +3360,14 @@ public class AsstProxy
     public delegate void RecruitConfirmedDelegate(int taskId);
 
     public event RecruitConfirmedDelegate? OnRecruitConfirmed;
+
+    /// <summary>
+    /// 进图前识别的理智余量（<c>SanityBeforeStage</c>），参数为 core 任务链 id、当前理智、理智上限与识别时刻。
+    /// OCR 失败时不会触发（此时上限为 0）。
+    /// </summary>
+    public delegate void SanityReportDelegate(int taskId, int sanityCurrent, int sanityMax, DateTimeOffset reportTime);
+
+    public event SanityReportDelegate? OnSanityReport;
 
     private bool UpdateTaskStatus(AsstTaskId id, TaskStatus status)
     {

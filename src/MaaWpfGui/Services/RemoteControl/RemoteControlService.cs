@@ -89,6 +89,7 @@ public class RemoteControlService
         proxy.OnRecruitResult += _progressReporter.NoteRecruitResult;
         proxy.OnRecruitTagsSelected += _progressReporter.CommitRecruitSelection;
         proxy.OnRecruitConfirmed += _progressReporter.NoteRecruitConfirmed;
+        proxy.OnSanityReport += _progressReporter.NoteSanity;
     }
 
     public void InitializePollJobTask()
