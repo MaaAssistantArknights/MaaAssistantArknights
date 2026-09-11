@@ -387,8 +387,9 @@ internal static partial class PendingUpdateApplier
     }
 
     /// <summary>
-    /// 读取外部更新器写入的失败状态。只读不删：失败标志须跨启动持久保留
+    /// 读取外部更新器写入的失败状态。标志文件只读不删：须跨启动持久保留
     /// （避免用户忽略提示后重启导致半更新状态无人提醒），直至完整包安装时随根目录清场移除。
+    /// 读取同时会清空待应用更新包配置（沿用旧消费语义：失败后不再自动重试该包）。
     /// </summary>
     /// <param name="failureReason">更新器写入的 UTF-8 失败原因，读取失败时为 <c>null</c>。</param>
     /// <returns>失败标志文件存在（上次更新失败）时为 <c>true</c>。</returns>

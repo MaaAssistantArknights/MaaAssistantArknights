@@ -107,14 +107,16 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         }
 
         var missingFiles = await Task.Run(ResourceIntegrityChecker.GetMissingFiles);
+
+        // 后检测：资源在扫描期间才标记损坏（与 Init 并发）时也不再叠任何弹窗，缺失数与是否缺失无关
+        if (Bootstrapper.IsResourceBroken)
+        {
+            _logger.Information("Skip integrity and update check, resource-broken dialog takes over, {Count} file(s) missing", missingFiles.Count);
+            return;
+        }
+
         if (missingFiles.Count > 0)
         {
-            if (Bootstrapper.IsResourceBroken)
-            {
-                _logger.Information("Skip integrity dialog, resource-broken dialog takes over, {Count} file(s) missing", missingFiles.Count);
-                return;
-            }
-
             var shownFiles = string.Join(", ", missingFiles.Take(5));
             if (missingFiles.Count > 5)
             {
