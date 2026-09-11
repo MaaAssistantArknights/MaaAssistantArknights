@@ -657,7 +657,7 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
 
     private static void ProcAutoRaiseMsg(AsstMsg type, AsstSubTaskMsg? msg)
     {
-        if (type == AsstMsg.SubTaskExtraInfo || msg?.TaskChain != nameof(TaskType.AutoRaise))
+        if (type != AsstMsg.SubTaskExtraInfo || msg?.TaskChain != nameof(TaskType.AutoRaise))
         {
             return;
         }
