@@ -685,19 +685,21 @@ D:\
     <system:String x:Key="RoguelikeStartWithIdea">構想</system:String>
     <system:String x:Key="RoguelikeStartWithTicket">票券</system:String>
     <system:String x:Key="RefreshTraderWithDice">刷新商店（指路鱗）</system:String>
-    <system:String x:Key="PenguinId">企鵝物流回報 ID（僅數字部分）</system:String>
-    <system:String x:Key="EnablePenguin">回報企鵝物流</system:String>
-    <system:String x:Key="EnableYituliu">回報一圖流</system:String>
+    <system:String x:Key="PenguinId">回報 ID（僅數字部分）</system:String>
+    <system:String x:Key="EnablePenguin">掉落與公招資料回報</system:String>
+    <system:String x:Key="EnableYituliu">{key=EnablePenguin}</system:String>
     <system:String x:Key="ThirdPartyServiceSettings">三方服務</system:String>
-    <system:String x:Key="YituliuOpenApiToken">一圖流 OpenAPI Token</system:String>
+    <system:String x:Key="ThirdPartyGroupPenguin">企鵝物流</system:String>
+    <system:String x:Key="ThirdPartyGroupYituliu">一圖流</system:String>
+    <system:String x:Key="YituliuOpenApiToken">OpenAPI Token</system:String>
     <system:String x:Key="YituliuTokenVerify">驗證</system:String>
     <system:String x:Key="YituliuTokenEmpty">請先填寫 Token</system:String>
     <system:String x:Key="YituliuTokenValid">Token 有效，共 {0} 名幹員</system:String>
     <system:String x:Key="YituliuTokenWriteOnly">Token 不具備讀取權限，請使用唯讀或讀寫權限的 Token</system:String>
     <system:String x:Key="YituliuTokenInvalid">Token 無效或已失效，請重新生成</system:String>
     <system:String x:Key="YituliuTokenNetworkError">網路錯誤，請稍後重試</system:String>
-    <system:String x:Key="EnableOperBoxYituliuApi">幹員識別從一圖流獲取</system:String>
-    <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">開啟後 ｢{key=Toolbox}｣ 與 ｢{key=UserDataUpdate}｣ 的幹員識別不再連接模擬器截圖識別，改為直接讀取 Token 對應的一圖流練度資料。&#10;更新資料觸發時在點下 ｢{key=LinkStart}｣ 後立即並行取得，不等待其他任務完成。&#10;一圖流保存的是練度快照，需先在一圖流網站上傳過幹員資料。&#10;Token 在一圖流 ｢个人中心｣ 的 ｢第三方 API Token｣ 中生成，為保護帳號資料請僅使用唯讀 Token。</system:String>
+    <system:String x:Key="EnableOperBoxYituliuApi">{key=OperBoxRecognition}從一圖流獲取</system:String>
+    <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">開啟後 ｢{key=Toolbox}｣ 與 ｢{key=UserDataUpdate}｣ 的{key=OperBoxRecognition}不再連接模擬器截圖識別，改為直接讀取 Token 對應的一圖流練度資料。&#10;更新資料觸發時在點下 ｢{key=LinkStart}｣ 後立即並行取得，不等待其他任務完成。&#10;一圖流保存的是練度快照，需先在一圖流網站上傳過幹員資料。&#10;Token 在一圖流 ｢个人中心｣ 的 ｢第三方 API Token｣ 中生成，為保護帳號資料請僅使用唯讀 Token。</system:String>
     <system:String x:Key="OperBoxFetchingFromYituliu">正在從一圖流獲取幹員資料…</system:String>
     <system:String x:Key="YituliuFetchFailed">從一圖流獲取失敗：{0}</system:String>
     <system:String x:Key="OperBoxExportHeaderSkills">技能專精</system:String>

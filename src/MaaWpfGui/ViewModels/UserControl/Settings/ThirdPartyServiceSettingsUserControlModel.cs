@@ -79,9 +79,8 @@ public class ThirdPartyServiceSettingsUserControlModel : PropertyChangedBase
             if (SetAndNotify(ref field, value))
             {
                 YituliuTokenValidationText = string.Empty;
+                ConfigFactory.CurrentConfig.Gui.ThirdParty.YituliuOpenApiToken = SimpleEncryptionHelper.Encrypt(value);
             }
-
-            ConfigFactory.CurrentConfig.Gui.ThirdParty.YituliuOpenApiToken = SimpleEncryptionHelper.Encrypt(value);
         }
     } = SimpleEncryptionHelper.Decrypt(ConfigFactory.CurrentConfig.Gui.ThirdParty.YituliuOpenApiToken);
 

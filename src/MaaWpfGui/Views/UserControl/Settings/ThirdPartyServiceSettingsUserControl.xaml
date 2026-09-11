@@ -17,19 +17,12 @@
         HorizontalAlignment="Center"
         VerticalAlignment="Center"
         Orientation="Vertical">
-        <StackPanel
+        <hc:Divider Content="{DynamicResource ThirdPartyGroupPenguin}" />
+        <CheckBox
+            Margin="10"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Orientation="Horizontal">
-            <CheckBox
-                Margin="10"
-                Content="{DynamicResource EnablePenguin}"
-                IsChecked="{Binding EnablePenguin}" />
-            <CheckBox
-                Margin="10"
-                Content="{DynamicResource EnableYituliu}"
-                IsChecked="{Binding EnableYituliu}" />
-        </StackPanel>
+            Content="{DynamicResource EnablePenguin}"
+            IsChecked="{Binding EnablePenguin}" />
         <StackPanel
             Margin="10,5"
             HorizontalAlignment="Center"
@@ -42,6 +35,12 @@
                 InputMethod.IsInputMethodEnabled="False"
                 Text="{Binding PenguinId}" />
         </StackPanel>
+        <hc:Divider Margin="0,12,0,0" Content="{DynamicResource ThirdPartyGroupYituliu}" />
+        <CheckBox
+            Margin="10"
+            HorizontalAlignment="Center"
+            Content="{DynamicResource EnableYituliu}"
+            IsChecked="{Binding EnableYituliu}" />
         <StackPanel
             Margin="10"
             HorizontalAlignment="Center"
@@ -80,13 +79,8 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <CheckBox MaxWidth="{c:Binding '220 - ActualWidth', ElementName=EnableOperBoxYituliuApiTipTooltipBlock}" IsChecked="{Binding EnableOperBoxYituliuApi}">
-                <TextBlock
-                    Block.TextAlignment="Left"
-                    Text="{DynamicResource EnableOperBoxYituliuApi}"
-                    TextWrapping="Wrap" />
-            </CheckBox>
-            <controls:TooltipBlock x:Name="EnableOperBoxYituliuApiTipTooltipBlock" TooltipText="{DynamicResource EnableOperBoxYituliuApiTip}" />
+            <CheckBox Content="{DynamicResource EnableOperBoxYituliuApi}" IsChecked="{Binding EnableOperBoxYituliuApi}" />
+            <controls:TooltipBlock TooltipText="{DynamicResource EnableOperBoxYituliuApiTip}" />
         </StackPanel>
     </StackPanel>
 </UserControl>
