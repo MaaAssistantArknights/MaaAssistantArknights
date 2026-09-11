@@ -31,6 +31,11 @@ asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) :
 
 bool asst::DebugTask::run()
 {
+    std::string test = "[1,2,3,4]";
+    json::value test_json = json::parse(test);
+    LogInfo << "DebugTask run() called, test_json:" << test_json;
+    LogInfo << "DebugTask run() called, test_json:" << test_json.is<asst::Rect>();
+
     if (m_image_test_mode == "report") {
         return image_test_report();
     }
@@ -123,7 +128,7 @@ bool asst::DebugTask::set_params(const json::value& params)
 
     // AsstSetTaskParams 在任务运行中调用会与 run() 遍历 m_eval_* 产生数据竞争，运行中拒绝更新
     if (m_running) {
-        LogError << "set_params failed, task is running";
+        LogError << __FUNCTION__ << "failed, task is running";
         return false;
     }
 
@@ -132,7 +137,7 @@ bool asst::DebugTask::set_params(const json::value& params)
         return set_params_impl(params);
     }
     catch (const std::exception& e) {
-        LogError << "set_params failed, invalid params:" << e.what();
+        LogError << __FUNCTION__ << "failed, invalid params:" << e.what();
         return false;
     }
 }
@@ -155,7 +160,7 @@ bool asst::DebugTask::set_params_impl(const json::value& params)
 
     auto images_opt = params.find<std::vector<std::string>>("images");
     if (!images_opt || images_opt->empty()) {
-        LogError << "set_params failed, images not found";
+        LogError << __FUNCTION__ << "failed, images not found";
         return false;
     }
     for (auto& image : *images_opt) {
@@ -165,42 +170,29 @@ bool asst::DebugTask::set_params_impl(const json::value& params)
     if (m_image_test_mode == "report" || m_image_test_mode == "pipeline") {
         auto tasks_opt = params.find<std::vector<std::string>>("tasks");
         if (!tasks_opt || tasks_opt->empty()) {
-            LogError << "set_params failed, tasks not found";
+            LogError << __FUNCTION__ << "failed, tasks not found";
             return false;
         }
         for (auto& task : *tasks_opt) {
             if (Task.get(task) == nullptr) {
-                LogError << "set_params failed, task not found:" << task;
+                LogError << __FUNCTION__ << "failed, task not found:" << task;
                 return false;
             }
             m_eval_tasks.emplace_back(std::move(task));
         }
     }
     else if (m_image_test_mode == "ocr" || m_image_test_mode == "templ") {
-        if (auto roi_opt = params.find<json::array>("roi"); roi_opt) {
-            if (roi_opt->size() != 4 ||
-                std::ranges::any_of(*roi_opt, [](const json::value& v) { return !v.is_number(); })) {
-                LogError << "set_params failed, roi must be 4 numbers";
-                return false;
-            }
-            m_eval_roi = Rect(
-                (*roi_opt)[0].as_integer(),
-                (*roi_opt)[1].as_integer(),
-                (*roi_opt)[2].as_integer(),
-                (*roi_opt)[3].as_integer());
+        if (auto roi_opt = params.find<asst::Rect>("roi"); roi_opt) {
+            m_eval_roi = *roi_opt;
         }
         if (m_image_test_mode == "templ") {
-            auto templates_opt = params.find<json::array>("templates");
+            auto templates_opt = params.find<std::vector<std::string>>("templates");
             if (!templates_opt || templates_opt->empty()) {
-                LogError << "set_params failed, templates not found";
+                LogError << __FUNCTION__ << "failed, templates not found";
                 return false;
             }
             for (const auto& templ : *templates_opt) {
-                if (!templ.is_string()) {
-                    LogError << "set_params failed, template is not string";
-                    return false;
-                }
-                m_eval_templates.emplace_back(templ.as_string());
+                m_eval_templates.emplace_back(templ);
             }
             if (auto task_opt = params.find<std::string>("task"); task_opt) {
                 // Matcher 配置只能取自模板类任务；Task.get<MatchTaskInfo> 对非 MatchTaskInfo
@@ -361,7 +353,7 @@ bool asst::DebugTask::image_test_ocr()
                     results.emplace_back(
                         json::object { { "text", res.text },
                                        { "score", res.score },
-                                       { "rect", to_json_rect(res.rect) } });
+                                       { "rect", (json::value)(res.rect) } });
                 }
             }
             LogInfo << __FUNCTION__ << image_path << "ocr" << results.dumps();
@@ -437,7 +429,7 @@ bool asst::DebugTask::image_test_templ()
                     auto result_opt = analyzer.analyze();
                     if (result_opt) {
                         result["score"] = result_opt->score;
-                        result["rect"] = to_json_rect(result_opt->rect);
+                        result["rect"] = (json::value)(result_opt->rect);
                         result["hit"] = result_opt->score >= m_eval_threshold;
                     }
                     else {
