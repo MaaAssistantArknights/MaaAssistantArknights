@@ -1,4 +1,4 @@
-// <copyright file="AutoRaiseSettingsUserControlModel.cs" company="MaaAssistantArknights">
+// <copyright file="AutoRaiseTaskUserControlModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -28,15 +28,15 @@ using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class AutoRaiseSettingsUserControlModel : TaskSettingsViewModel, AutoRaiseSettingsUserControlModel.ISerialize
+public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTaskUserControlModel.ISerialize
 {
     private const int MaxOperators = 5;
 
     private static readonly HashSet<string> AllowedFields = ["name", "elite", "skills", "skill", "skill_master"];
 
-    static AutoRaiseSettingsUserControlModel() => Instance = new();
+    static AutoRaiseTaskUserControlModel() => Instance = new();
 
-    public static AutoRaiseSettingsUserControlModel Instance { get; }
+    public static AutoRaiseTaskUserControlModel Instance { get; }
 
     private string _planJson = "[]";
 
