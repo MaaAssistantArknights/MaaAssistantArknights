@@ -20,7 +20,6 @@ using System.IO;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using System.Text.Unicode;
@@ -257,7 +256,7 @@ public static class ConfigFactory
                     newValue = detailArgs.NewValue;
                 }
 
-                OnPropertyChanged(key + "." + args.PropertyName, oldValue, newValue);
+                OnPropertyChanged(key + args.PropertyName, oldValue, newValue);
             };
         }
 
