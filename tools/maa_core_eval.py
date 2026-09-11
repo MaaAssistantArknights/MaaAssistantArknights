@@ -13,8 +13,8 @@
     import sys; sys.path.insert(0, "tools")
     from maa_core_eval import CoreEval
 
-    ev = CoreEval()                                   # 默认 build/bin/Debug + 仓库 resource
-    ev = CoreEval(global_client="YoStarJP")           # 国际服资源与 OCR 模型
+    ev = CoreEval()                                   # 默认国服资源
+    ev = CoreEval(global_client="YoStarJP")           # 日服等分服资源与 OCR 模型（YoStarEN/YoStarKR/txwy 同理）
     ev.report(images=["1.png"], tasks=["xxx@Roguelike@StageEnter"])
     ev.pipeline(images=["1.png"], tasks=["A", "B"])   # 首命中 + 命中任务的 next 列表
     ev.ocr(images=["1.png"], roi=[100, 200, 300, 50]) # OCR 原始识别文本
@@ -61,7 +61,11 @@ class CoreEval:
     ):
         self._verbose = verbose
         self._resource = pathlib.Path(resource)
-        self._user_dir = pathlib.Path(user_dir) if user_dir else pathlib.Path(tempfile.mkdtemp(prefix="maa-eval-"))
+        self._user_dir = (
+            pathlib.Path(user_dir)
+            if user_dir
+            else pathlib.Path(tempfile.mkdtemp(prefix="maa-eval-"))
+        )
         self._user_dir.mkdir(parents=True, exist_ok=True)
 
         dll_dir = pathlib.Path(dll_dir)
@@ -73,17 +77,23 @@ class CoreEval:
             self._on_callback(msg, details)
 
         # 持有回调引用，实例存活期间不被 GC
-        self._callback = ctypes.CFUNCTYPE(None, ctypes.c_int, ctypes.c_char_p, ctypes.c_void_p)(on_callback)
+        self._callback = ctypes.CFUNCTYPE(
+            None, ctypes.c_int, ctypes.c_char_p, ctypes.c_void_p
+        )(on_callback)
         self._completed = threading.Event()
         self._results = []
 
         self._lib.AsstSetUserDir(str(self._user_dir).encode("utf-8"))
         if not self._lib.AsstLoadResource(str(self._resource).encode("utf-8")):
             raise RuntimeError(f"load resource failed: {resource}")
+        self._global_resource = None
         if global_client:
-            global_path = self._resource / "resource" / "global" / global_client
-            if not self._lib.AsstLoadResource(str(global_path).encode("utf-8")):
-                raise RuntimeError(f"load global resource failed: {global_path}")
+            global_path = (
+                self._resource / "resource" / "global" / global_client / "resource"
+            )
+            if not self._lib.AsstLoadResource(str(global_path.parent).encode("utf-8")):
+                raise RuntimeError(f"load global resource failed: {global_path.parent}")
+            self._global_resource = global_path
 
         self._handle = self._lib.AsstCreateEx(self._callback, None)
         if not self._handle:
@@ -98,9 +108,14 @@ class CoreEval:
         lib.AsstDestroy.argtypes = [ctypes.c_void_p]
         lib.AsstDestroy.restype = None
         lib.AsstAppendTask.argtypes = [ctypes.c_void_p, c, c]
-        lib.AsstAppendTask.restype = ctypes.c_int  # AsstTaskId 为 int32，与 AsstCaller.h 一致
+        lib.AsstAppendTask.restype = (
+            ctypes.c_int
+        )  # AsstTaskId 为 int32，与 AsstCaller.h 一致
         lib.AsstStart.argtypes, lib.AsstStart.restype = [ctypes.c_void_p], ctypes.c_bool
-        lib.AsstRunning.argtypes, lib.AsstRunning.restype = [ctypes.c_void_p], ctypes.c_bool
+        lib.AsstRunning.argtypes, lib.AsstRunning.restype = (
+            [ctypes.c_void_p],
+            ctypes.c_bool,
+        )
 
     def _on_callback(self, msg, details):
         try:
@@ -119,10 +134,14 @@ class CoreEval:
         self._results.clear()
         self._completed.clear()
         task_id = self._lib.AsstAppendTask(
-            self._handle, b"Debug", json.dumps(params, ensure_ascii=False).encode("utf-8")
+            self._handle,
+            b"Debug",
+            json.dumps(params, ensure_ascii=False).encode("utf-8"),
         )
         if not task_id:
-            raise RuntimeError(f'append Debug task failed: {json.dumps(params, ensure_ascii=False)}')
+            raise RuntimeError(
+                f"append Debug task failed: {json.dumps(params, ensure_ascii=False)}"
+            )
         if not self._lib.AsstStart(self._handle):
             raise RuntimeError("AsstStart failed")
         if not self._completed.wait(timeout):
@@ -153,7 +172,11 @@ class CoreEval:
         返回的 next 是命中任务的 next 任务列表，可用于自行驱动任务链回放。
         """
         return self._run_task(
-            {"mode": "pipeline", "images": self._abs_images(images), "tasks": list(tasks)}
+            {
+                "mode": "pipeline",
+                "images": self._abs_images(images),
+                "tasks": list(tasks),
+            }
         )
 
     def ocr(self, images, roi=None):
@@ -166,13 +189,16 @@ class CoreEval:
             params["roi"] = list(roi)
         return self._run_task(params)
 
-    def templ(self, images, templates, threshold=0.7, roi=None, resize=None, task=None):
+    def templ(
+        self, images, templates, threshold=None, roi=None, resize=None, task=None
+    ):
         """每张图 × 裸模板文件匹配（物品图标等非任务模板）。
 
         :param templates: 模板名列表，与 core 的 get_templ 一致：物品 ID（如 "2001"）、
                           相对 resource/template 的路径（如 "items/2001.png"）、
                           或 resource/template 下的目录（自动展开其中全部模板）
-        :param threshold: hit 判定阈值；匹配恒报最佳得分，排查 ｢为什么没认出｣ 时可调低
+        :param threshold: hit 判定阈值，缺省取 task 任务的阈值（无 task 时 0.7）；
+                          匹配恒报最佳得分，排查 ｢为什么没认出｣ 时可调低
         :param resize:    评估前把图 INTER_AREA 缩放到 [w, h]（core 侧执行），
                           复刻线上各识别器的尺度预处理时使用
         :param task:      Matcher 配置来源任务名（maskRange / colorScales / method 等取自
@@ -185,10 +211,19 @@ class CoreEval:
         for name in templates:
             path = templ_root / name
             if path.is_dir():
-                names.extend(sorted(str(p.relative_to(templ_root)).replace("\\", "/") for p in path.rglob("*.png")))
+                names.extend(
+                    sorted(
+                        str(p.relative_to(templ_root)).replace("\\", "/")
+                        for p in path.rglob("*.png")
+                    )
+                )
             else:
                 names.append(name)
-        params = {"mode": "templ", "images": self._abs_images(images), "templates": names}
+        params = {
+            "mode": "templ",
+            "images": self._abs_images(images),
+            "templates": names,
+        }
         if threshold is not None:
             params["threshold"] = threshold
         if roi:
@@ -222,7 +257,7 @@ class CoreEval:
         names = []
         tmpdir = pathlib.Path(tempfile.mkdtemp(prefix="maa-eval-templ-"))
         try:
-            for name in (item_ids or self._default_depot_candidates()):
+            for name in item_ids or self._default_depot_candidates():
                 path = templ_root / name
                 # 纯物品 ID（如 "2001"）落到 items/<id>.png，与 core get_templ 的查找一致
                 if not path.exists() and not pathlib.Path(name).suffix:
@@ -230,14 +265,16 @@ class CoreEval:
                     if candidate.exists():
                         path = candidate
                 if not path.is_dir() and not path.exists():
-                    continue # 候选缺模板（如分服活动进度差异），跳过
+                    continue  # 候选缺模板（如分服活动进度差异），跳过
                 files = sorted(path.rglob("*.png")) if path.is_dir() else [path]
                 for src in files:
                     templ = Image.open(src).convert("RGB")
                     w, h = templ.size
                     if w > 80 and h > 50:
                         templ.paste((0, 0, 0), (w - 80, h - 50, w, h))
-                    dst = tmpdir / src.name
+                    # 保留相对 template 根的目录结构，展开带子目录的目录时同名文件不会互相覆盖
+                    dst = tmpdir / src.relative_to(templ_root)
+                    dst.parent.mkdir(parents=True, exist_ok=True)
                     templ.save(dst)
                     names.append(str(dst))
             return self.templ(
@@ -252,9 +289,17 @@ class CoreEval:
 
             shutil.rmtree(tmpdir, ignore_errors=True)
 
+    def _resource_overridden(self, *relative):
+        """按 resource 目录内的相对路径取配置文件，分服存在覆盖文件时优先（与叠加加载后生效的一致）。"""
+        if self._global_resource:
+            overridden = self._global_resource.joinpath(*relative)
+            if overridden.exists():
+                return overridden
+        return self._resource.joinpath("resource", *relative)
+
     def _default_depot_candidates(self):
         # 与线上 ItemData.get_ordered_material_item_id 对齐：classifyType 为 MATERIAL 的物品
-        items_file = self._resource / "resource" / "item_index.json"
+        items_file = self._resource_overridden("item_index.json")
         with open(items_file, encoding="utf-8") as f:
             items = json.load(f)
         return sorted(
@@ -263,7 +308,7 @@ class CoreEval:
         )
 
     def _read_task_def(self, task_name):
-        tasks_file = self._resource / "resource" / "tasks" / "tasks.json"
+        tasks_file = self._resource_overridden("tasks", "tasks.json")
         with open(tasks_file, encoding="utf-8") as f:
             return json.load(f).get(task_name, {})
 
@@ -297,29 +342,60 @@ class CoreEval:
             pass
 
 
+def _print_entry_error(entry):
+    """逐图错误条目（读图失败/识别抛异常等）统一打印，避免静默缺行。"""
+    if "error" in entry:
+        print(f"{pathlib.Path(entry['image']).name}: ERROR {entry['error']}")
+        return True
+    return False
+
+
 def _print_report(result):
     for entry in result:
-        name = pathlib.Path(entry["image"]).name
-        if "error" in entry:
-            print(f"{name}: ERROR {entry['error']}")
+        if _print_entry_error(entry):
             continue
+        name = pathlib.Path(entry["image"]).name
         print(f"{name}:")
         for r in entry["results"]:
-            fields = " ".join(f"{k}={r[k]}" for k in ("score", "count", "templ", "text", "rect") if k in r)
+            fields = " ".join(
+                f"{k}={r[k]}"
+                for k in ("score", "count", "templ", "text", "rect", "algorithm")
+                if k in r
+            )
             print(f"  {'hit ' if r['hit'] else 'MISS'} {r['task']} {fields}")
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     parser.add_argument("images", nargs="+", help="图片路径（可多张）")
-    parser.add_argument("--mode", choices=["report", "pipeline", "ocr", "templ", "depot", "replay"], default="report")
+    parser.add_argument(
+        "--mode",
+        choices=["report", "pipeline", "ocr", "templ", "depot", "replay"],
+        default="report",
+    )
     parser.add_argument("--tasks", help="逗号分隔的任务名列表")
-    parser.add_argument("--templates", help="逗号分隔的模板名（物品 ID / items/xxx.png / 目录），templ 模式用")
-    parser.add_argument("--task", help="templ 模式的 Matcher 配置来源任务名（maskRange/method 等）")
-    parser.add_argument("--threshold", type=float, default=None, help="templ/depot 模式的 hit 判定阈值，默认取任务阈值或 0.7")
+    parser.add_argument(
+        "--templates",
+        help="逗号分隔的模板名（物品 ID / items/xxx.png / 目录），templ 模式用",
+    )
+    parser.add_argument(
+        "--task", help="templ 模式的 Matcher 配置来源任务名（maskRange/method 等）"
+    )
+    parser.add_argument(
+        "--threshold",
+        type=float,
+        default=None,
+        help="templ/depot 模式的 hit 判定阈值，默认取任务阈值或 0.7",
+    )
     parser.add_argument("--roi", help="ocr/templ 模式的识别区域 x,y,w,h")
     parser.add_argument("--dll-dir", default=str(REPO_ROOT / "build" / "bin" / "Debug"))
-    parser.add_argument("--resource", default=str(REPO_ROOT), help="资源根目录（其下应有 resource/ 子目录）")
+    parser.add_argument(
+        "--resource",
+        default=str(REPO_ROOT),
+        help="资源根目录（其下应有 resource/ 子目录）",
+    )
     parser.add_argument("--global", dest="global_client", help="国际服名，如 YoStarJP")
     parser.add_argument("--user-dir", help="core 日志写入目录")
     parser.add_argument("--verbose", action="store_true", help="打印 core 其余回调消息")
@@ -337,53 +413,89 @@ def main():
         verbose=args.verbose,
     )
     try:
-        if args.mode == "report":
-            tasks = [t.strip() for t in args.tasks.split(",") if t.strip()]
-            _print_report(ev.report(args.images, tasks))
-        elif args.mode == "pipeline":
-            tasks = [t.strip() for t in args.tasks.split(",") if t.strip()]
-            for r in ev.pipeline(args.images, tasks):
-                hit = "hit " if r.get("hit") else "MISS"
-                extras = " ".join(f"{k}={r[k]}" for k in ("score", "count", "text", "rect") if k in r)
-                print(f"{pathlib.Path(r['image']).name}: {hit} {r.get('task', '')} {extras} next={r.get('next', [])}")
-        elif args.mode == "ocr":
-            roi = [int(v) for v in args.roi.split(",")] if args.roi else None
-            for entry in ev.ocr(args.images, roi):
-                print(f"{pathlib.Path(entry['image']).name}:")
-                for r in entry["results"]:
-                    print(f"  {r['score']:.4f} {r['text']} {r['rect']}")
-        elif args.mode == "templ":
-            roi = [int(v) for v in args.roi.split(",")] if args.roi else None
-            templates = [t.strip() for t in args.templates.split(",") if t.strip()]
-            for entry in ev.templ(args.images, templates, threshold=args.threshold, roi=roi, task=args.task):
-                print(f"{pathlib.Path(entry['image']).name}:")
-                for r in entry.get("results", []):
-                    if "error" in r:
-                        print(f"  ERR  {r['template']} {r['error']}")
-                    else:
-                        mark = "hit " if r["hit"] else "MISS"
-                        print(f"  {mark} {r['template']} score={r.get('score', 0):.4f} {r.get('rect', '')}")
-        elif args.mode == "depot":
-            item_ids = [t.strip() for t in args.templates.split(",")] if args.templates else None
-            for entry in ev.depot_items(args.images, item_ids=item_ids, threshold=args.threshold):
-                print(f"{pathlib.Path(entry['image']).name}:")
-                for r in sorted(entry.get("results", []), key=lambda x: -x.get("score", 0)):
-                    name = pathlib.Path(r["template"]).stem
-                    if "error" in r:
-                        print(f"  ERR  {name} {r['error']}")
-                    elif r["hit"]:
-                        print(f"  hit  {name} score={r.get('score', 0):.4f} {r.get('rect', '')}")
-        else:
-            tasks = [t.strip() for t in args.tasks.split(",") if t.strip()]
-            for s in ev.replay(args.images, tasks):
-                if "error" in s:
-                    print(f"step{s['step']} {pathlib.Path(s['image']).name}: ERROR {s['error']}")
-                    continue
-                hit = "hit " if s.get("hit") else "MISS"
-                extras = " ".join(f"{k}={s[k]}" for k in ("score", "count", "text", "rect") if k in s)
-                print(f"step{s['step']} {pathlib.Path(s['image']).name}: {hit} {s.get('task', '')} {extras} next={s.get('next', [])}")
+        _run_cli(ev, args)
+    except (RuntimeError, TimeoutError, ValueError) as e:
+        print(f"ERROR: {e}", file=sys.stderr)
+        sys.exit(1)
     finally:
         ev.close()
+
+
+def _run_cli(ev, args):
+    if args.mode == "report":
+        tasks = [t.strip() for t in args.tasks.split(",") if t.strip()]
+        _print_report(ev.report(args.images, tasks))
+    elif args.mode == "pipeline":
+        tasks = [t.strip() for t in args.tasks.split(",") if t.strip()]
+        for r in ev.pipeline(args.images, tasks):
+            if _print_entry_error(r):
+                continue
+            hit = "hit " if r.get("hit") else "MISS"
+            extras = " ".join(
+                f"{k}={r[k]}" for k in ("score", "count", "text", "rect") if k in r
+            )
+            print(
+                f"{pathlib.Path(r['image']).name}: {hit} {r.get('task', '')} {extras} next={r.get('next', [])}"
+            )
+    elif args.mode == "ocr":
+        roi = [int(v) for v in args.roi.split(",")] if args.roi else None
+        for entry in ev.ocr(args.images, roi):
+            if _print_entry_error(entry):
+                continue
+            print(f"{pathlib.Path(entry['image']).name}:")
+            for r in entry["results"]:
+                print(f"  {r['score']:.4f} {r['text']} {r['rect']}")
+    elif args.mode == "templ":
+        roi = [int(v) for v in args.roi.split(",")] if args.roi else None
+        templates = [t.strip() for t in args.templates.split(",") if t.strip()]
+        for entry in ev.templ(
+            args.images,
+            templates,
+            threshold=args.threshold,
+            roi=roi,
+            task=args.task,
+        ):
+            if _print_entry_error(entry):
+                continue
+            print(f"{pathlib.Path(entry['image']).name}:")
+            for r in entry.get("results", []):
+                if "error" in r:
+                    print(f"  ERR  {r['template']} {r['error']}")
+                else:
+                    mark = "hit " if r["hit"] else "MISS"
+                    print(
+                        f"  {mark} {r['template']} score={r.get('score', 0):.4f} {r.get('rect', '')}"
+                    )
+    elif args.mode == "depot":
+        item_ids = (
+            [t.strip() for t in args.templates.split(",")] if args.templates else None
+        )
+        for entry in ev.depot_items(
+            args.images, item_ids=item_ids, threshold=args.threshold
+        ):
+            if _print_entry_error(entry):
+                continue
+            print(f"{pathlib.Path(entry['image']).name}:")
+            for r in sorted(entry.get("results", []), key=lambda x: -x.get("score", 0)):
+                name = pathlib.Path(r["template"]).stem
+                if "error" in r:
+                    print(f"  ERR  {name} {r['error']}")
+                elif r["hit"]:
+                    print(
+                        f"  hit  {name} score={r.get('score', 0):.4f} {r.get('rect', '')}"
+                    )
+    else:
+        tasks = [t.strip() for t in args.tasks.split(",") if t.strip()]
+        for s in ev.replay(args.images, tasks):
+            if _print_entry_error(s):
+                continue
+            hit = "hit " if s.get("hit") else "MISS"
+            extras = " ".join(
+                f"{k}={s[k]}" for k in ("score", "count", "text", "rect") if k in s
+            )
+            print(
+                f"step{s['step']} {pathlib.Path(s['image']).name}: {hit} {s.get('task', '')} {extras} next={s.get('next', [])}"
+            )
 
 
 if __name__ == "__main__":

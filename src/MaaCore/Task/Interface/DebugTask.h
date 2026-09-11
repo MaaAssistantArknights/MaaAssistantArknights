@@ -16,6 +16,7 @@ public:
     virtual bool set_params(const json::value& params) override;
 
 private:
+    bool set_params_impl(const json::value& params);
     void test_drops();
     void test_skill_ready();
     void test_battle_image();

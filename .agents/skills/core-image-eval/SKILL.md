@@ -12,7 +12,7 @@ description: 用 MaaCore 本体对本地图片（用户日志反馈包截图、�
 - MaaCore Debug 构建：默认取 `build/bin/Debug/MaaCore.dll`，没有则 `cmake --build build --target MaaCore --config Debug`。
 - 资源根默认仓库根（`AsstLoadResource` 语义：其下找 `resource/`）；外服加 `--global YoStarJP` / `YoStarEN` / `YoStarKR` / `txwy` —— 分服的 OCR 模型、模板与任务定义随资源叠加切换，识别即切到对应服。
 - `depot` 模式的模板涂黑处理依赖 Pillow（`pip install pillow`）。
-- Debug 构建日志会镜像 stdout，过滤干扰行用 `grep -v "^\[2026"`；完整日志在 user_dir 的 `debug/asst.log`。
+- Debug 构建日志会镜像 stdout，过滤干扰行用 `grep -v '^\[[0-9]\{4\}-'`；完整日志在 user_dir 的 `debug/asst.log`。
 
 ## CLI 用法（人工快速验证）
 
@@ -50,11 +50,13 @@ ev.close()
 
 ## 关键语义
 
-- **report**：JustReturn 任务恒命中（`score=0`、`rect=[0,0,0,0]` 是其特征不是 bug）；未命中的任务只报 miss，最高分等细节看 `asst.log` 的 `match_templ` trace。
-- **templ**：内部阈值放开，恒报最佳得分，hit 由 `threshold` 判定；`task` 参数让 Matcher 的 maskRange/colorScales/method 取自该任务（复刻线上自定义识别器的关键），`resize` 在 core 侧 INTER_AREA 缩放（数值敏感预处理别在 python 做）。
-- **depot**：`depot_items` 的复刻要点是模板右下 80x50 涂黑 + `resize` 到 `DepotMatchData` 的 roi + `task="DepotMatchData"`（其 maskRange 排除数量角标）；数量识别不在复刻内。
-- 图片自动 INTER_AREA 归一到 1280x720（与线上截图缩放一致），识别不受历史 rect 缓存污染。
+- **report**：JustReturn 任务恒命中，结果的 `algorithm` 字段标注了任务算法（JustReturn 时 score=0、rect=[0,0,0,0]，不是 bug）；未命中的任务只报 miss，最高分等细节看 `asst.log` 的 `match_templ` trace。
+- **templ**：内部阈值放开，恒报最佳得分，hit 由 `threshold` 判定（缺省取 `task` 任务的阈值）；`task` 参数让 Matcher 的 maskRange/colorScales/method 取自该任务（复刻线上自定义识别器的关键），`resize` 在 core 侧 INTER_AREA 缩放（数值敏感预处理别在 python 做）；返回 error 表示输入问题（模板缺失/模板大于 roi 等），不存在正常的 ｢无结果｣。
+- **depot**：`depot_items` 复刻的是｢单个模板的匹配行为｣，不是线上完整的选物逻辑 —— 线上 DepotImageAnalyzer 逐格匹配、按颜色筛候选并受材料顺序约束，本工具是整张图对全部 MATERIAL 候选各取全图最佳；所以它适合验证 ｢某模板在某图上的分数｣，不能直接等同线上会认出的物品清单。复刻要点：模板右下 80x50 涂黑 + `resize` 到 `DepotMatchData` 的 roi + `task="DepotMatchData"`（其 maskRange 排除数量角标）；数量识别不在复刻内。
+- 评估不带实例，`cache: true` 的任务不会命中 rect 缓存，结果相当于线上 ｢第一次识别｣；线上后续识别被限制在缓存 rect 内，若怀疑缓存导致的线上偏差，注意这一差异。
+- 图片自动 INTER_AREA 归一到 1280x720（与线上截图缩放一致；非 16:9 的图会被拉伸并打 warn，结果与该分辨率的线上行为不可比），识别不受历史 rect 缓存污染。
 - 连着模拟器要在线验证任务流（含点击 action）用 Custom 任务，本工具只做离线图片评估。
+- 仅支持 Windows（`ctypes.WinDLL` + `MaaCore.dll`）；`AsstLoadResource` 是进程级的 —— 同一进程先建日服 `CoreEval` 再建国服的，日服资源叠加不会撤掉，需要分服独立评估请分开进程跑。
 
 ## 排查套路
 
