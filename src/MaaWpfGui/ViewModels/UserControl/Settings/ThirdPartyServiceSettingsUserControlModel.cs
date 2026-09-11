@@ -95,6 +95,9 @@ public class ThirdPartyServiceSettingsUserControlModel : PropertyChangedBase
         }
     } = ConfigFactory.CurrentConfig.Gui.ThirdParty.OperBoxUseYituliuApi;
 
+    /// <summary>
+    /// Gets or sets a value indicating whether token 验证进行中。
+    /// </summary>
     public bool IsVerifyingYituliuToken
     {
         get; set {
@@ -105,10 +108,16 @@ public class ThirdPartyServiceSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    /// <summary>
+    /// Gets a value indicating whether 当前可发起验证（非验证中）。
+    /// </summary>
     public bool CanVerifyYituliuToken => !IsVerifyingYituliuToken;
 
     private (YituliuApiService.TokenValidationResult Result, int OperatorCount)? _lastYituliuTokenValidation;
 
+    /// <summary>
+    /// Gets or sets 最近一次 token 验证的结果文本，随语言切换刷新。
+    /// </summary>
     public string YituliuTokenValidationText
     {
         get; set => SetAndNotify(ref field, value);
@@ -119,6 +128,7 @@ public class ThirdPartyServiceSettingsUserControlModel : PropertyChangedBase
     /// 验证成功不自动打开 EnableOperBoxYituliuApi：自动改开关属隐藏行为，须由用户显式开启。
     /// UI 绑定的方法
     /// </summary>
+    /// <returns>Task</returns>
     [UsedImplicitly]
     public async Task VerifyYituliuToken()
     {

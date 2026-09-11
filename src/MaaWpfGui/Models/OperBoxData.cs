@@ -73,17 +73,32 @@ public class OperBoxData
         public List<EquipData>? Equips { get; set; }
     }
 
+    /// <summary>
+    /// 技能专精数据。
+    /// </summary>
     public class SkillData
     {
+        /// <summary>
+        /// Gets or sets 技能 ID。
+        /// </summary>
         [JsonProperty("id")]
         public string Id { get; set; } = null!;
 
+        /// <summary>
+        /// Gets or sets 专精等级（0~3）。
+        /// </summary>
         [JsonProperty("level")]
         public int Level { get; set; }
     }
 
+    /// <summary>
+    /// 模组数据。
+    /// </summary>
     public class EquipData
     {
+        /// <summary>
+        /// Gets or sets 模组 ID。
+        /// </summary>
         [JsonProperty("id")]
         public string Id { get; set; } = null!;
 
@@ -93,6 +108,9 @@ public class OperBoxData
         [JsonProperty("type")]
         public string Type { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Gets or sets 模组等级。
+        /// </summary>
         [JsonProperty("level")]
         public int Level { get; set; }
     }

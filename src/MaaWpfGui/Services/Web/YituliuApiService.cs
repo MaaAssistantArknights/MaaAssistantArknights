@@ -49,38 +49,74 @@ public static class YituliuApiService
         NetworkError,
     }
 
+    /// <summary>
+    /// 干员练度数据响应，业务结果看 <see cref="Code"/> 而非 HTTP 状态码。
+    /// </summary>
     public class OperatorInfoResponse
     {
+        /// <summary>
+        /// Gets or sets 业务码：200 成功、20010 权限不足、20027 token 无效。
+        /// </summary>
         [JsonProperty("code")]
         public int Code { get; set; }
 
+        /// <summary>
+        /// Gets or sets 业务提示信息。
+        /// </summary>
         [JsonProperty("msg")]
         public string Msg { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Gets or sets 干员练度数据，仅业务码为 200 时有值。
+        /// </summary>
         [JsonProperty("data")]
         public List<OperatorInfo>? Data { get; set; }
     }
 
+    /// <summary>
+    /// 干员练度数据（一图流 V2 格式）。
+    /// </summary>
     public class OperatorInfo
     {
+        /// <summary>
+        /// Gets or sets 干员 ID（如 char_002_amiya）。
+        /// </summary>
         [JsonProperty("id")]
-        public string Id { get; set; } = null!; // char_002_amiya
+        public string Id { get; set; } = null!;
 
+        /// <summary>
+        /// Gets or sets 等级。
+        /// </summary>
         [JsonProperty("level")]
         public int Level { get; set; }
 
+        /// <summary>
+        /// Gets or sets 精英化阶段（0~2）。
+        /// </summary>
         [JsonProperty("evolvePhase")]
         public int EvolvePhase { get; set; }
 
+        /// <summary>
+        /// Gets or sets 主技能等级。
+        /// </summary>
         [JsonProperty("mainSkillLevel")]
         public int MainSkillLevel { get; set; }
 
+        /// <summary>
+        /// Gets or sets 潜能等级（1~6）。
+        /// </summary>
         [JsonProperty("potentialRank")]
         public int PotentialRank { get; set; }
 
+        /// <summary>
+        /// Gets or sets 技能专精。
+        /// </summary>
         [JsonProperty("skills")]
         public List<OperBoxData.SkillData>? Skills { get; set; }
 
+        /// <summary>
+        /// Gets or sets 模组。
+        /// </summary>
         [JsonProperty("equips")]
         public List<OperBoxData.EquipData>? Equips { get; set; }
     }
