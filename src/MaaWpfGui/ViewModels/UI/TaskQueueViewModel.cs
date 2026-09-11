@@ -470,13 +470,22 @@ public class TaskQueueViewModel : Screen
     /// <summary>
     /// Checks after completion.
     /// </summary>
+    /// <param name="runEndsWithScript">是否执行结束脚本；为 false 时等待本次停止中 SetStopped 启动的结束脚本执行完毕</param>
     /// <returns>Task</returns>
-    public async Task CheckAfterCompleted()
+    public async Task CheckAfterCompleted(bool runEndsWithScript = true)
     {
         RunningState.Instance.LockInterrupt();
         try
         {
-            await Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
+            if (runEndsWithScript)
+            {
+                await Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
+            }
+            else
+            {
+                await (Volatile.Read(ref _stopHandling)?.Task ?? Task.CompletedTask);
+            }
+
             var actions = PostActionSetting;
             _logger.Information("Post actions: " + actions.ActionDescription);
 
@@ -646,6 +655,18 @@ public class TaskQueueViewModel : Screen
             {
                 Instances.Data.ClearCache();
             }
+
+            // 进入运行或停止中时重置停止处理权
+            if ((e.OldState.Idle && !e.NewState.Idle) || (!e.OldState.Stopping && e.NewState.Stopping))
+            {
+                Interlocked.Exchange(ref _stopHandling, null);
+            }
+
+            if (e.NewState.Idle && _runDurationLimitOnce)
+            {
+                _runDurationLimitOnce = false;
+                SettingsViewModel.GameSettings.EnableRunDurationLimit ??= false;
+            }
         };
         _runningState.StallOccurred += RunningState_Stalled;
 
@@ -804,10 +825,99 @@ public class TaskQueueViewModel : Screen
             InfrastTask.RefreshInfrastTimeRotationDisplay();
 
             await HandleTimerLogic(currentTime);
+
+            await HandleRunDurationLimit();
         }
         catch
         {
             // ignored
+        }
+    }
+
+    private async Task HandleRunDurationLimit()
+    {
+        if (!_runningState.TryConsumeRunDeadline(out var limitMinutes, out var executePostActions))
+        {
+            return;
+        }
+
+        await StopByRunDurationLimitAsync(limitMinutes, executePostActions);
+    }
+
+    private async Task StopByRunDurationLimitAsync(int limitMinutes, bool executePostActions)
+    {
+        try
+        {
+            if (Stopping || _runningState.GetIdle())
+            {
+                return;
+            }
+
+            // 用于识别等待期间本轮是否已结束，并由定时执行开始了新一轮
+            var startTaskTime = Instances.AsstProxy.StartTaskTime;
+
+            _logger.Information("Run duration limit reached: {LimitMinutes} min, stopping", limitMinutes);
+            var message = LocalizationHelper.GetStringFormat("RunDurationLimitReached", limitMinutes);
+            AddLog(message, UiLogColor.Warning);
+            ToastNotification.ShowDirect(message);
+
+            var waited = false;
+            if (RoguelikeTask.RoguelikeDelayAbortUntilCombatComplete && RoguelikeInCombatAndShowWait)
+            {
+                Waiting = true;
+                waited = true;
+                AddLog(LocalizationHelper.GetString("Waiting"));
+                await WaitUntilRoguelikeCombatComplete();
+            }
+
+            // 等待期间本轮已自然结束或定时执行已开始新一轮时不再停止，交由原流程处理完成后动作；
+            // 这两种情况不会经过 SetStopped，需自行恢复等待状态
+            if (Instances.AsstProxy.StartTaskTime != startTaskTime || !Instances.AsstProxy.AsstRunning())
+            {
+                if (waited)
+                {
+                    Waiting = false;
+                }
+
+                _logger.Information("Run already ended or a new run started, skip stopping by run duration limit");
+                return;
+            }
+
+            // 已在停止中时交由原流程处理，避免重复执行完成后动作
+            if (_runningState.GetStopping())
+            {
+                return;
+            }
+
+            await Stop();
+            SetStopped();
+
+            if (!executePostActions)
+            {
+                return;
+            }
+
+            await CheckAfterCompleted(runEndsWithScript: !SettingsViewModel.GameSettings.ManualStopWithScript);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "Failed to stop by run duration limit");
+        }
+    }
+
+    // 本轮时长上限来自右键半选（仅生效一次），本轮结束后恢复为未勾选
+    private bool _runDurationLimitOnce;
+
+    /// <summary>
+    /// 按当前设置设置运行时长截止时间，各启动路径在 <c>AsstStart</c> 成功后调用。
+    /// </summary>
+    public void SetRunDeadlineFromSettings()
+    {
+        var runtimeSettings = ConfigFactory.CurrentConfig.Gui.RuntimeSettings;
+        if (runtimeSettings.EnableRunDurationLimit != false)
+        {
+            _runningState.SetRunDeadline(runtimeSettings.RunDurationLimitMinutes, runtimeSettings.RunDurationLimitExecutePostActions);
+            _runDurationLimitOnce = runtimeSettings.EnableRunDurationLimit == null;
         }
     }
 
@@ -2137,6 +2247,7 @@ public class TaskQueueViewModel : Screen
         {
             AddLog(LocalizationHelper.GetString("Running"));
             Instances.AsstProxy.StartTaskTime = DateTimeOffset.Now;
+            SetRunDeadlineFromSettings();
         }
         else
         {
@@ -2264,6 +2375,9 @@ public class TaskQueueViewModel : Screen
 
     public bool RoguelikeInCombatAndShowWait { get => field; set => SetAndNotify(ref field, value); }
 
+    // 本次停止的处理权，进入运行或停止中时重置为 null；其 Task 在 SetStopped 启动的结束脚本执行完毕后完成
+    private TaskCompletionSource? _stopHandling;
+
     /// <summary>
     /// 重置 UI 状态为已停止。
     /// </summary>
@@ -2278,10 +2392,30 @@ public class TaskQueueViewModel : Screen
             return false;
         }
 
+        // 回调与到点停止等可能并发调用，CAS 抢占处理权，保证只处理一次
+        var handling = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        if (Interlocked.CompareExchange(ref _stopHandling, handling, null) is not null)
+        {
+            return false;
+        }
+
         SleepManagement.AllowSleep();
         if (runStopScript && SettingsViewModel.GameSettings.ManualStopWithScript)
         {
-            Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
+            Task.Run(() => {
+                try
+                {
+                    SettingsViewModel.GameSettings.RunScript("EndsWithScript");
+                }
+                finally
+                {
+                    handling.TrySetResult();
+                }
+            });
+        }
+        else
+        {
+            handling.TrySetResult();
         }
 
         if (!_runningState.GetIdle() || _runningState.GetStopping())

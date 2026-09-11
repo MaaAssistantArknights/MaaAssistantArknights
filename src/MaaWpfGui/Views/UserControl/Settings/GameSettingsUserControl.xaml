@@ -9,6 +9,7 @@
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:enums="clr-namespace:MaaWpfGui.Constants.Enums"
     xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
@@ -237,5 +238,43 @@
                 Minimum="1"
                 Value="{Binding ReminderIntervalMinutes}" />
         </StackPanel>
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <CheckBox
+                Margin="20,10,0,10"
+                VerticalAlignment="Center"
+                Content="{DynamicResource RunDurationLimitEnabled}"
+                IsChecked="{Binding EnableRunDurationLimit}"
+                IsEnabled="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                              Target={x:Type helper:CheckBoxHelper}}" />
+            <controls:TooltipBlock
+                Margin="0,10"
+                VerticalAlignment="Center"
+                TooltipText="{DynamicResource RunDurationLimitTip}" />
+        </StackPanel>
+        <StackPanel
+            HorizontalAlignment="Center"
+            Orientation="Horizontal"
+            Visibility="{c:Binding RunDurationLimitActive}">
+            <hc:NumericUpDown
+                Margin="5"
+                hc:InfoElement.Title="{DynamicResource RunDurationLimitMinutes}"
+                hc:TitleElement.TitlePlacement="Left"
+                InputMethod.IsInputMethodEnabled="False"
+                IsEnabled="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                Maximum="11451"
+                Minimum="1"
+                Value="{Binding RunDurationLimitMinutes}" />
+        </StackPanel>
+        <CheckBox
+            Margin="10"
+            HorizontalAlignment="Center"
+            Content="{DynamicResource RunDurationLimitExecutePostActions}"
+            IsChecked="{Binding RunDurationLimitExecutePostActions}"
+            IsEnabled="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+            Visibility="{c:Binding RunDurationLimitActive}" />
     </StackPanel>
 </UserControl>
