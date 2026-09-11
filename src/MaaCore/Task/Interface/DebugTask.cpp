@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <shared_mutex>
 
+#include "Common/AsstMsg.h"
 #include "Common/AsstTypes.h"
 #include "Config/TaskData.h"
 #include "Config/TemplResource.h"
@@ -17,10 +18,71 @@
 #include "Vision/FeatureMatcher.h"
 #include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/DepotImageAnalyzer.h"
+#include "Vision/Miscellaneous/PipelineAnalyzer.h"
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
+
+namespace
+{
+// 读取本地图片；normalize 为 true 时缩放到 1280x720（INTER_AREA），
+// 与线上 Controller::get_resized_image_cache 一致，调用方已自行预处理尺寸时传 false
+std::optional<cv::Mat> load_eval_image(const std::string& utf8_path, bool normalize)
+{
+    cv::Mat image = MAA_NS::imread(asst::utils::path(utf8_path));
+    if (image.empty()) {
+        Log.error("image_test | failed to load image:", utf8_path);
+        return std::nullopt;
+    }
+    if (normalize && (image.cols != 1280 || image.rows != 720)) {
+        cv::resize(image, image, { 1280, 720 }, 0, 0, cv::INTER_AREA);
+    }
+    return image;
+}
+
+// 可选的评估前缩放（INTER_AREA），供调用方复刻线上各识别器的尺度预处理
+std::optional<cv::Mat> resize_eval_image(cv::Mat image, int width, int height)
+{
+    if (image.cols != width || image.rows != height) {
+        cv::resize(image, image, { width, height }, 0, 0, cv::INTER_AREA);
+    }
+    return image;
+}
+
+json::array to_json_rect(const asst::Rect& rect)
+{
+    return json::array { rect.x, rect.y, rect.width, rect.height };
+}
+
+json::object to_result_json(const std::string& task_name, const asst::PipelineAnalyzer::ResultOpt& result_opt)
+{
+    json::object result { { "task", task_name } };
+    if (!result_opt) {
+        result["hit"] = false;
+        return result;
+    }
+    result["hit"] = true;
+    const auto& result_var = result_opt->result;
+    if (std::holds_alternative<asst::Matcher::Result>(result_var)) {
+        const auto& r = std::get<asst::Matcher::Result>(result_var);
+        result["score"] = r.score;
+        result["templ"] = r.templ_name;
+    }
+    else if (std::holds_alternative<asst::OCRer::Result>(result_var)) {
+        const auto& r = std::get<asst::OCRer::Result>(result_var);
+        result["score"] = r.score;
+        result["text"] = r.text;
+    }
+    else if (std::holds_alternative<asst::FeatureMatcher::Result>(result_var)) {
+        // FeatureMatch 的判据是特征点数而非相似度分数
+        const auto& r = std::get<asst::FeatureMatcher::Result>(result_var);
+        result["count"] = r.count;
+    }
+    result["rect"] = to_json_rect(result_opt->rect);
+    return result;
+}
+}
 
 asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) :
     InterfaceTask(callback, inst, TaskType)
@@ -29,7 +91,305 @@ asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) :
 
 bool asst::DebugTask::run()
 {
+    if (m_image_test_mode == "report") {
+        return image_test_report();
+    }
+    if (m_image_test_mode == "pipeline") {
+        return image_test_pipeline();
+    }
+    if (m_image_test_mode == "ocr") {
+        return image_test_ocr();
+    }
+    if (m_image_test_mode == "templ") {
+        return image_test_templ();
+    }
     return true;
+}
+
+// 离线图片评估的参数协议（AsstAppendTask 的 params，type 固定为 "Debug"）。
+// 日常用配套的 python 驱动 tools/maa_core_eval.py 调用，无需手拼 json：
+// { "mode": "report" | "pipeline" | "ocr" | "templ", "images": [图片路径], "tasks": [任务名],
+//   "templates": [模板名], "task": "任务名", "roi": [x, y, w, h], "threshold": 0.7, "resize": [w, h] }
+// images/tasks/templates 为 UTF-8 路径与名字（模板名也接受绝对路径图片文件）；roi 仅 ocr/templ
+// 模式使用，缺省全图；task 仅 templ 模式使用（mask/method 等 Matcher 配置取自该任务，复刻线上
+// 自定义识别器的用法，未显式给 threshold 时 hit 判定也取该任务阈值）；threshold/resize 仅 templ
+// 模式使用（内部匹配放开阈值恒报最佳得分；resize 为评估前 INTER_AREA 缩放尺寸，替代默认的
+// 1280x720 归一）
+bool asst::DebugTask::set_params(const json::value& params)
+{
+    LogTraceFunction;
+
+    m_image_test_mode = params.get("mode", "");
+    if (m_image_test_mode.empty()) {
+        return true; // 无 mode 的 Debug 任务保持 run() 空跑的旧行为
+    }
+
+    auto images_opt = params.find<json::array>("images");
+    if (!images_opt || images_opt->empty()) {
+        Log.error("set_params failed, images not found");
+        return false;
+    }
+    for (const auto& image : *images_opt) {
+        if (!image.is_string()) {
+            Log.error("set_params failed, image is not string");
+            return false;
+        }
+        m_eval_images.emplace_back(image.as_string());
+    }
+
+    if (m_image_test_mode == "report" || m_image_test_mode == "pipeline") {
+        auto tasks_opt = params.find<json::array>("tasks");
+        if (!tasks_opt || tasks_opt->empty()) {
+            Log.error("set_params failed, tasks not found");
+            return false;
+        }
+        for (const auto& task : *tasks_opt) {
+            if (!task.is_string()) {
+                Log.error("set_params failed, task is not string");
+                return false;
+            }
+            if (Task.get(task.as_string()) == nullptr) {
+                Log.error("set_params failed, task not found:", task.as_string());
+                return false;
+            }
+            m_eval_tasks.emplace_back(task.as_string());
+        }
+    }
+    else if (m_image_test_mode == "ocr" || m_image_test_mode == "templ") {
+        if (auto roi_opt = params.find<json::array>("roi"); roi_opt && roi_opt->size() == 4) {
+            m_eval_roi = Rect(
+                (*roi_opt)[0].as_integer(),
+                (*roi_opt)[1].as_integer(),
+                (*roi_opt)[2].as_integer(),
+                (*roi_opt)[3].as_integer());
+        }
+        if (m_image_test_mode == "templ") {
+            auto templates_opt = params.find<json::array>("templates");
+            if (!templates_opt || templates_opt->empty()) {
+                Log.error("set_params failed, templates not found");
+                return false;
+            }
+            for (const auto& templ : *templates_opt) {
+                if (!templ.is_string()) {
+                    Log.error("set_params failed, template is not string");
+                    return false;
+                }
+                m_eval_templates.emplace_back(templ.as_string());
+            }
+            if (auto task_opt = params.find<std::string>("task"); task_opt) {
+                auto task_ptr = Task.get(*task_opt);
+                if (task_ptr == nullptr) {
+                    Log.error("set_params failed, task not found:", *task_opt);
+                    return false;
+                }
+                m_eval_templ_task = *task_opt;
+                auto match_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(task_ptr);
+                double default_threshold =
+                    match_ptr && !match_ptr->templ_thresholds.empty() ? match_ptr->templ_thresholds.front() : 0.7;
+                m_eval_threshold = params.get("threshold", default_threshold);
+            }
+            else {
+                m_eval_threshold = params.get("threshold", 0.7);
+            }
+            if (auto resize_opt = params.find<json::array>("resize"); resize_opt && resize_opt->size() == 2) {
+                m_eval_resize = std::make_pair((*resize_opt)[0].as_integer(), (*resize_opt)[1].as_integer());
+            }
+        }
+    }
+    else {
+        Log.error("set_params failed, unknown mode:", m_image_test_mode);
+        return false;
+    }
+
+    return true;
+}
+
+bool asst::DebugTask::image_test_report()
+{
+    bool all_ok = true;
+    for (const auto& image_path : m_eval_images) {
+        auto image_opt = load_eval_image(image_path, true);
+        if (!image_opt) {
+            all_ok = false;
+            continue;
+        }
+
+        json::array results;
+        for (const auto& task_name : m_eval_tasks) {
+            PipelineAnalyzer analyzer(*image_opt, Rect(0, 0, 1280, 720), nullptr);
+            analyzer.set_tasks({ task_name });
+            auto result_opt = analyzer.analyze();
+
+            json::object result = to_result_json(task_name, result_opt);
+            Log.info(
+                "image_test |",
+                image_path,
+                task_name,
+                result_opt ? "hit" : "miss",
+                json::value(result).dumps());
+            results.emplace_back(std::move(result));
+        }
+
+        callback(
+            AsstMsg::SubTaskExtraInfo,
+            json::object { { "what", "DebugImageTest" },
+                           { "details", json::object { { "mode", "report" },
+                                                        { "image", image_path },
+                                                        { "results", std::move(results) } } } });
+    }
+    return all_ok;
+}
+
+bool asst::DebugTask::image_test_pipeline()
+{
+    bool all_ok = true;
+    for (const auto& image_path : m_eval_images) {
+        auto image_opt = load_eval_image(image_path, true);
+        if (!image_opt) {
+            all_ok = false;
+            continue;
+        }
+
+        PipelineAnalyzer analyzer(*image_opt, Rect(0, 0, 1280, 720), nullptr);
+        analyzer.set_tasks(m_eval_tasks);
+        auto result_opt = analyzer.analyze();
+
+        json::object detail { { "mode", "pipeline" }, { "image", image_path } };
+        json::array next;
+        if (result_opt) {
+            const auto hit = to_result_json(result_opt->task_ptr->name, result_opt);
+            for (const auto& [key, value] : hit) {
+                detail[key] = value;
+            }
+            for (const auto& next_task : result_opt->task_ptr->next) {
+                next.emplace_back(next_task);
+            }
+            Log.info("image_test |", image_path, "hit", json::value(hit).dumps());
+        }
+        else {
+            detail["hit"] = false;
+            Log.info("image_test |", image_path, "miss");
+        }
+        detail["next"] = std::move(next);
+
+        callback(
+            AsstMsg::SubTaskExtraInfo,
+            json::object { { "what", "DebugImageTest" }, { "details", std::move(detail) } });
+    }
+    return all_ok;
+}
+
+bool asst::DebugTask::image_test_ocr()
+{
+    bool all_ok = true;
+    for (const auto& image_path : m_eval_images) {
+        auto image_opt = load_eval_image(image_path, true);
+        if (!image_opt) {
+            all_ok = false;
+            continue;
+        }
+
+        // 不 set_task_info：默认参数下 required 为空即不做 expected 过滤、不做 ocrReplace，
+        // 返回 OCR 引擎的原始识别结果；带任务配置的评估用 report 模式
+        Rect roi = m_eval_roi.empty() ? Rect(0, 0, 1280, 720) : m_eval_roi;
+        OCRer analyzer(*image_opt, roi);
+        auto results_opt = analyzer.analyze();
+
+        json::array results;
+        if (results_opt) {
+            for (const auto& res : *results_opt) {
+                results.emplace_back(
+                    json::object { { "text", res.text }, { "score", res.score }, { "rect", to_json_rect(res.rect) } });
+            }
+        }
+        Log.info("image_test |", image_path, "ocr", json::value(results).dumps());
+
+        callback(
+            AsstMsg::SubTaskExtraInfo,
+            json::object { { "what", "DebugImageTest" },
+                           { "details", json::object { { "mode", "ocr" },
+                                                        { "image", image_path },
+                                                        { "results", std::move(results) } } } });
+    }
+    return all_ok;
+}
+
+bool asst::DebugTask::image_test_templ()
+{
+    bool all_ok = true;
+    for (const auto& image_path : m_eval_images) {
+        auto image_opt = load_eval_image(image_path, !m_eval_resize.has_value());
+        if (image_opt && m_eval_resize) {
+            image_opt = resize_eval_image(std::move(*image_opt), m_eval_resize->first, m_eval_resize->second);
+        }
+        if (!image_opt) {
+            all_ok = false;
+            continue;
+        }
+
+        json::array results;
+        for (const auto& templ_name : m_eval_templates) {
+            // 模板名与 core 各处 get_templ 一致：物品 ID（如 "2001"）或相对
+            // resource/template 的路径（如 "items/2001.png"）；也接受绝对路径的
+            // 图片文件（调用方自行预处理过的模板）
+            Matcher analyzer(*image_opt, m_eval_roi.empty() ? Rect(0, 0, image_opt->cols, image_opt->rows) : m_eval_roi, nullptr);
+
+            if (!m_eval_templ_task.empty()) {
+                // mask/method 等 Matcher 配置取自该任务；须在 set_templ 之前调用，
+                // 否则 set_task_info 会把模板重置为任务自带的
+                analyzer.set_task_info(m_eval_templ_task);
+            }
+
+            std::filesystem::path templ_file = asst::utils::path(templ_name);
+            if (templ_file.is_absolute() && std::filesystem::exists(templ_file)) {
+                cv::Mat templ = MAA_NS::imread(templ_file);
+                if (templ.empty()) {
+                    Log.error("image_test | failed to load templ:", templ_name);
+                    all_ok = false;
+                    continue;
+                }
+                analyzer.set_templ(std::move(templ));
+            }
+            else {
+                analyzer.set_templ(templ_name);
+            }
+            analyzer.set_threshold(-1.0); // 放开阈值恒报最佳得分，hit 由 threshold 字段判定
+
+            json::object result { { "template", templ_name } };
+            try {
+                auto result_opt = analyzer.analyze();
+                if (result_opt) {
+                    result["score"] = result_opt->score;
+                    result["rect"] = to_json_rect(result_opt->rect);
+                    result["hit"] = result_opt->score >= m_eval_threshold;
+                }
+                else {
+                    result["hit"] = false;
+                }
+            }
+            catch (const std::exception& e) {
+                // ASST_DEBUG 下模板不存在/加载失败会 throw，报错后继续评估其余模板
+                result["hit"] = false;
+                result["error"] = e.what();
+                all_ok = false;
+            }
+            Log.info(
+                "image_test |",
+                image_path,
+                templ_name,
+                result["hit"].as_boolean() ? "hit" : "miss",
+                json::value(result).dumps());
+            results.emplace_back(std::move(result));
+        }
+
+        callback(
+            AsstMsg::SubTaskExtraInfo,
+            json::object { { "what", "DebugImageTest" },
+                           { "details", json::object { { "mode", "templ" },
+                                                        { "image", image_path },
+                                                        { "results", std::move(results) } } } });
+    }
+    return all_ok;
 }
 
 void asst::DebugTask::test_drops()
