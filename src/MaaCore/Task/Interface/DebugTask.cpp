@@ -77,11 +77,6 @@ std::optional<cv::Mat> resize_eval_image(cv::Mat image, int width, int height)
     return image;
 }
 
-json::array to_json_rect(const asst::Rect& rect)
-{
-    return json::array { rect.x, rect.y, rect.width, rect.height };
-}
-
 json::object to_result_json(const std::string& task_name, const asst::PipelineAnalyzer::ResultOpt& result_opt)
 {
     json::object result { { "task", task_name } };
@@ -108,8 +103,7 @@ json::object to_result_json(const std::string& task_name, const asst::PipelineAn
         const auto& r = std::get<asst::FeatureMatcher::Result>(result_var);
         result["count"] = r.count;
     }
-    // Rect 没有 json 转换（AnalyzerResult 上的 operator 不覆盖独立的 Rect），用辅助函数展开
-    result["rect"] = to_json_rect(result_opt->rect);
+    result["rect"] = (json::value)result_opt->rect;
     return result;
 }
 }
@@ -284,7 +278,7 @@ bool asst::DebugTask::image_test_report()
                 auto result_opt = analyzer.analyze();
 
                 json::object result = to_result_json(task_name, result_opt);
-                LogInfo << __FUNCTION__ << image_path << task_name << (result_opt ? "hit" : "miss")
+                LogInfo << __FUNCTION__ << image_path << task_name << (result_opt ? "hit" : "miss") << result.dumps();
                         << result.dumps();
                 results.emplace_back(std::move(result));
             }
