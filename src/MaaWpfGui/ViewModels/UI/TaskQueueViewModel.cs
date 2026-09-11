@@ -2244,7 +2244,6 @@ public class TaskQueueViewModel : Screen
         if (coreTaskIds.Count == 0)
         {
             // 本轮所有任务都不需要 core 执行（例如更新数据仅勾选干员识别且从一图流 OpenAPI 获取），直接收尾
-            _runningState.SetIdle(true);
             Instances.AsstProxy.AsstStop();
             SetStopped();
             return;

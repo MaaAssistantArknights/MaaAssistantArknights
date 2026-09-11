@@ -17,6 +17,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
@@ -107,8 +109,14 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
             {
                 if (SettingsViewModel.ThirdPartyServiceSettings.EnableOperBoxYituliuApi)
                 {
-                    // 一图流 OpenAPI 模式：不进 core 队列，后台直接拉取，不依赖模拟器连接，也没有 core 任务 id
-                    _ = Instances.ToolboxViewModel.StartOperBoxFromYituliuApiAsync();
+                    if (string.IsNullOrWhiteSpace(SettingsViewModel.ThirdPartyServiceSettings.YituliuOpenApiToken))
+                    {
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("YituliuTokenEmpty"), UiLogColor.Error);
+                        return (false, []);
+                    }
+
+                    // 一图流 OpenAPI 模式：不进 core 队列，后台直接拉取，没有 core 任务 id，完成后自行更新条目状态
+                    _ = SyncOperBoxFromYituliuApiAsync(baseTask);
                     operBoxSyncedWithoutTask = true;
                 }
                 else
@@ -165,6 +173,27 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
                 UserDataUpdateTriggerInterval.Weekly => ISOWeek.GetYear(now) != ISOWeek.GetYear(lastDate) || ISOWeek.GetWeekOfYear(now) != ISOWeek.GetWeekOfYear(lastDate),
                 _ => true,
             };
+        }
+    }
+
+    /// <summary>
+    /// 从一图流拉取干员数据并写任务日志、更新任务条目状态；失败原因的日志由拉取方法自身记录。
+    /// </summary>
+    /// <param name="baseTask">发起拉取的任务，用于定位任务条目</param>
+    /// <returns>Task</returns>
+    private static async Task SyncOperBoxFromYituliuApiAsync(BaseTask baseTask)
+    {
+        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("OperBoxFetchingFromYituliu"), UiLogColor.Info);
+        var success = await Instances.ToolboxViewModel.StartOperBoxFromYituliuApiAsync();
+        if (success)
+        {
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("IdentificationCompleted"), UiLogColor.Info);
+        }
+
+        var index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(baseTask);
+        if (index >= 0)
+        {
+            Instances.TaskQueueViewModel.TaskItemViewModels.ElementAtOrDefault(index)?.StatusDisplay = success ? TaskItemStatus.Completed : TaskItemStatus.Error;
         }
     }
 
