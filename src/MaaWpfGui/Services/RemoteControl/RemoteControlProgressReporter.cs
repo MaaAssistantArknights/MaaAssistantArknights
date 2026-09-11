@@ -258,6 +258,7 @@ public static class RemoteControlProgressReporter
     {
         string remoteTaskId;
         List<object> summary;
+        bool enabled;
         lock (Gate)
         {
             if (string.IsNullOrEmpty(_remoteTaskId))
@@ -278,13 +279,16 @@ public static class RemoteControlProgressReporter
             }
 
             remoteTaskId = _remoteTaskId;
+            enabled = _progressReportEnabled;
             summary = Snapshot();
             _remoteTaskId = string.Empty;
             Items.Clear();
         }
 
-        // 服务端中途关闭进度汇报时不再补发汇总，仅复位状态
-        if (!_progressReportEnabled)
+        // 服务端中途关闭进度汇报时不再补发汇总，仅复位状态。
+        // 开关在锁内随任务 id 一并捕获：轮询线程可能在复位后切换声明，
+        // 收尾决策必须基于本次运行期间最后观察到的状态，而非锁外实时值
+        if (!enabled)
         {
             return;
         }
