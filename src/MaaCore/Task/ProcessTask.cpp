@@ -20,15 +20,15 @@ using namespace asst;
 
 namespace
 {
-// 需要在主界面进行识别的任务，用于PC端
-constexpr std::array<std::string_view, 9> MainScreenEntryPrefixes = {
-    "Friends", "Task", "Terminal", "Mall", "Infrast", "Recruit", "Depot", "OperBox", "Gacha",
-};
-
 // 主界面入口按钮，用于提取当前主题
 // 资源重载后 ResourceLoader 会生成新的 uuid，这里通过比对 uuid 判断是否需要重新缓存
 const std::unordered_set<std::string>& get_main_screen_entry_tasks()
 {
+    // 需要在主界面进行识别的任务，用于PC端
+    constexpr std::array<std::string_view, 9> MainScreenEntryPrefixes = {
+        "Friends", "Task", "Terminal", "Mall", "Infrast", "Recruit", "Depot", "OperBox", "Gacha",
+    };
+
     static std::unordered_set<std::string> tasks;
     static std::string cached_uuid;
 
@@ -113,6 +113,39 @@ ProcessTask& ProcessTask::set_reusable_image(const cv::Mat& reusable)
     return *this;
 }
 
+ProcessTask& asst::ProcessTask::set_override_next(std::unordered_map<std::string, TaskList> next_override)
+{
+    m_next_override = std::move(next_override);
+    return *this;
+}
+
+bool asst::ProcessTask::override_next(std::string_view name, std::vector<std::string> next_tasks)
+{
+    if (Task.get(name) == nullptr) {
+        LogError << __FUNCTION__ << "task not found:" << name;
+        return false;
+    }
+    for (const auto& task_name : next_tasks) {
+        if (Task.get(task_name) == nullptr) {
+            LogError << __FUNCTION__ << "task not found:" << task_name;
+            return false;
+        }
+    }
+    LogInfo << __FUNCTION__ << "override next for task" << name << "to" << next_tasks;
+    m_next_override.insert_or_assign(std::string(name), std::move(next_tasks));
+    return true;
+}
+
+bool asst::ProcessTask::remove_override_next(std::string_view name)
+{
+    if (Task.get(name) == nullptr) {
+        LogError << __FUNCTION__ << "task not found:" << name;
+        return false;
+    }
+    m_next_override.erase(std::string(name));
+    return true;
+}
+
 bool ProcessTask::run()
 {
     LogTraceFunction;
@@ -150,7 +183,13 @@ bool ProcessTask::run()
             break;
         case NodeStatus::Success:
             // 成功匹配且执行成功，下一个匹配列表是 next
-            to_be_recognized = next_task_ptr->next;
+            if (auto it = m_next_override.find(next_task_ptr->name); it != m_next_override.end()) {
+                LogTrace << "found in override" << next_task_ptr->name << ", next:" << it->second;
+                to_be_recognized = it->second;
+            }
+            else {
+                to_be_recognized = next_task_ptr->next;
+            }
             break;
         case NodeStatus::Interrupted:
             // need_exit() or Stop action
@@ -363,7 +402,7 @@ ProcessTask::NodeStatus ProcessTask::run_task(const HitDetail& hits)
 
     for (const std::string& sub : task->sub) {
         LogTraceScope("Sub: " + sub);
-        bool sub_ret = ProcessTask(*this, { sub }).run();
+        bool sub_ret = ProcessTask(*this, { sub }).set_override_next(m_next_override).run();
         if (!sub_ret && !task->sub_error_ignored) {
             Log.error("Sub error and not ignored", sub);
             // 感觉应该把 run 改成 NodeStatus 类型，这样可以知道 sub 的具体执行结果
