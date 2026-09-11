@@ -121,6 +121,11 @@ public class SettingsViewModel : Screen
     /// </summary>
     public static AchievementSettingsUserControlModel AchievementSettings { get; } = AchievementSettingsUserControlModel.Instance;
 
+    /// <summary>
+    /// Gets 三方服务 model
+    /// </summary>
+    public static ThirdPartyServiceSettingsUserControlModel ThirdPartyServiceSettings { get; } = ThirdPartyServiceSettingsUserControlModel.Instance;
+
     #endregion 设置界面 Model
 
     /// <summary>
@@ -201,6 +206,8 @@ public class SettingsViewModel : Screen
     public SettingItemViewModel BackgroundSettingsSetting => GetSettingItemByKey("BackgroundSettings");
 
     public SettingItemViewModel ExternalNotificationSettingsSetting => GetSettingItemByKey("ExternalNotificationSettings");
+
+    public SettingItemViewModel ThirdPartyServiceSettingsSetting => GetSettingItemByKey("ThirdPartyServiceSettings");
 
     public SettingItemViewModel HotKeySettingsSetting => GetSettingItemByKey("HotKeySettings");
 
@@ -1145,6 +1152,12 @@ public class SettingsViewModel : Screen
     {
         get => GetExpanderState(SettingKey.ExternalNotificationSettings);
         set => SetExpanderState(SettingKey.ExternalNotificationSettings, value);
+    }
+
+    public bool IsThirdPartyServiceSettingsExpanded
+    {
+        get => GetExpanderState(SettingKey.ThirdPartyServiceSettings);
+        set => SetExpanderState(SettingKey.ThirdPartyServiceSettings, value);
     }
 
     public bool IsHotKeySettingsExpanded

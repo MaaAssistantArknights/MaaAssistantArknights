@@ -46,12 +46,6 @@ public partial class RuntimeSettings : NotifyPropertyChangedWithValue, IJsonOnDe
 
     public bool BlockSleepWithScreenOn { get; set; } = true;
 
-    public bool ReportToPenguin { get; set; } = true;
-
-    public string PenguinId { get; set; } = string.Empty;
-
-    public bool ReportToYituliu { get; set; } = true;
-
     public bool EnableStallTimeout { get; set; } = true;
 
     public int StallTimeoutReminderIntervalMinutes { get; set; } = 30;

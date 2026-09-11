@@ -2786,9 +2786,9 @@ public class AsstProxy
         try
         {
             success = await GameDataReportService.PostWithRetryAsync(url, content, headers, subTask, penguinId => {
-                if (string.IsNullOrWhiteSpace(SettingsViewModel.GameSettings.PenguinId))
+                if (string.IsNullOrWhiteSpace(SettingsViewModel.ThirdPartyServiceSettings.PenguinId))
                 {
-                    SettingsViewModel.GameSettings.PenguinId = penguinId;
+                    SettingsViewModel.ThirdPartyServiceSettings.PenguinId = penguinId;
                 }
 
                 _logger.Information("New PenguinId got: {PenguinId}", penguinId);

@@ -298,10 +298,10 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
                 PreserveTags = preserveTags,
                 ChooseLevel3Time = recruit.Level3Time,
                 ChooseLevel4Time = recruit.Level4Time,
-                ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
-                ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
-                PenguinId = SettingsViewModel.GameSettings.PenguinId,
-                YituliuId = SettingsViewModel.GameSettings.PenguinId,
+                ReportToPenguin = SettingsViewModel.ThirdPartyServiceSettings.EnablePenguin,
+                ReportToYituliu = SettingsViewModel.ThirdPartyServiceSettings.EnableYituliu,
+                PenguinId = SettingsViewModel.ThirdPartyServiceSettings.PenguinId,
+                YituliuId = SettingsViewModel.ThirdPartyServiceSettings.PenguinId,
                 ServerType = Instances.SettingsViewModel.ServerType,
             };
 
