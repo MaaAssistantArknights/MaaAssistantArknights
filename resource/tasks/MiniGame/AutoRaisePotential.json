@@ -61,16 +61,14 @@
         "next": ["MiniGame@AutoRaisePotential@PotentialScreen"]
     },    
     "MiniGame@AutoRaisePotential@PotentialScreen": {
+        "doc": "等待潜能提升确认弹窗出现。",
         "template": "RaisePotentialConfirm.png",
-        "roi": [987, 584, 243, 133],        
-        "action": "DoNothing"
-    },
-    "MiniGame@AutoRaisePotential@RaiseUseCoreTrustToken": {
-        "doc": "使用中坚信物",
-        "algorithm": "JustReturn",
-        "action": "DoNothing"
+        "roi": [987, 584, 243, 133],
+        "action": "DoNothing",
+        "next": ["MiniGame@AutoRaisePotential@ConfirmRaise"]
     },
     "MiniGame@AutoRaisePotential@ConfirmRaise": {
+        "doc": "点击确定完成本次潜能提升，回到干员档案后继续检查。",
         "template": "RaisePotentialConfirm.png",
         "action": "ClickSelf",
         "roi": [987, 584, 243, 133],
@@ -88,20 +86,13 @@
         ]
     },
     "MiniGame@AutoRaisePotential@SwipeToNextOperator": {
-        "doc": "在干员档案中横向切换下一名干员。滑动次数由顶部 OCR 数量动态设置；这是流程中唯一的固定点位动作。",
+        "doc": "在干员档案中横向切换下一名干员，回到档案检查后继续提升或切换。滑动次数由顶部 OCR 数量动态设置；这是流程中唯一的固定点位动作。",
         "algorithm": "JustReturn",
         "action": "Swipe",
         "specificRect": [735, 580, 1, 1],
         "rectMove": [545, 580, 1, 1],
         "specialParams": [300, 0, 1, 0],
         "postDelay": 1600,
-        "next": [
-            "MiniGame@AutoRaisePotential@PotentialAvailable",
-            "MiniGame@AutoRaisePotential@FinishAfterSwipe"
-        ]
-    },
-    "MiniGame@AutoRaisePotential@FinishAfterSwipe": {
-        "algorithm": "JustReturn",
-        "action": "Stop"
+        "next": ["MiniGame@AutoRaisePotential@OperatorProfile"]
     }
 }

@@ -68,11 +68,10 @@ bool asst::AutoRaisePotentialTaskPlugin::read_operator_count()
     // Keep the OCR-derived limit on this ProcessTask instance. TaskData is shared
     // by assistants, so changing the global TaskInfo would leak state between runs.
     process_task->set_times_limit(std::string(SwipeTask), count);
-    // Each operator can have at most six potential levels. Keep both profile-entry
-    // paths bounded without putting a process-wide maxTimes in the resource file.
+    // Each operator can have at most six potential levels. Bound the profile
+    // entry without putting a process-wide maxTimes in the resource file.
     const int potential_limit = count * MaxPotentialLevels;
     process_task->set_times_limit(std::string(PotentialTask), potential_limit);
-    process_task->set_times_limit(std::string(PotentialAfterSwipeTask), potential_limit);
     Log.info("AutoRaisePotential | OCR operator count: ", count);
     return true;
 }
