@@ -3,7 +3,7 @@ order: 3
 icon: teenyicons:linux-alt-solid
 ---
 
-# Linux 지원
+# Linux 에뮬레이터 및 컨테이너
 
 ## 준비 작업
 
@@ -30,7 +30,7 @@ MAA WPF GUI는 현재 Wine을 통해 실행할 수 있습니다. MAA는 .NET 런
    ```
 
    ::: tip
-   `DependencySetup_依赖库安装.bat`는 winget 및 Windows 권한 상승 메커니즘에 의존하므로 Wine에서 정상적으로 작동하지 않습니다. 따라서 런타임 라이브러리를 수동으로 설치해야 합니다.
+   `DependencySetup_依赖库安装.bat`는 winget에 의존하므로 Wine에서 정상적으로 작동하지 않습니다. 따라서 런타임 라이브러리를 수동으로 설치해야 합니다.
    :::
 
 2. MAA 다운로드
@@ -75,18 +75,18 @@ MAA Wine Bridge에서 생성된 `MaaDesktopIntegration.so`를 `MAA.exe`와 같�
 :::: steps
 
 1. MAA 동적 라이브러리 설치
-   1. [MAA 공식 웹사이트](https://maa.plus/)에서 Linux 동적 라이브러리를 다운로드하고 압축을 풀거나 소프트웨어 저장소에서 설치합니다:
-      - AUR：[maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)을 설치한 후에 설치 지침에 따라 파일을 편집합니다.
-      - Nixpkgs: [maa-assistant-arknights](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
-   2. 압축을 해제한 디렉터리의 `Python/` 디렉토리로 이동하여 `sample.py` 파일을 엽니다.
+
+   다음 방법 중 하나를 선택하세요:
+   - [MAA 공식 웹사이트](https://maa.plus/)에서 사전 컴파일된 Linux 동적 라이브러리 압축 파일을 다운로드하고 압축을 푼 후 `Python/sample.py` 파일을 편집합니다.
+   - AUR: [maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights), 설치 후 안내되는 "Alternative usage" 설명에 따라 파일을 편집합니다.
+   - Nixpkgs: [maa-assistant-arknights](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
 
    ::: tip
-   사전 컴파일된 버전은 상대적으로 최신 버전의 Linux 배포판 (Ubuntu 22.04)에서 컴파일된 동적 라이브러리를 포함하고 있습니다. 시스템의 libstdc++ 버전이 오래되면 ABI 호환성 문제가 발생할 수 있습니다.
-   [Linux 컴파일 가이드](../../develop/linux-tutorial.md)를 참조하여 다시 컴파일하거나 컨테이너를 사용할 수 있습니다.
+   사전 컴파일된 동적 라이브러리는 [MaaLinuxToolchain](https://github.com/MaaXYZ/MaaLinuxToolchain) 툴체인을 기반으로 크로스 컴파일되었으며, glibc 2.31(Ubuntu 20.04)만 필요합니다. 여전히 ABI 호환성 문제(예: glibc를 사용하지 않는 배포판)가 발생하는 경우 컨테이너에서 실행하거나 [Linux 컴파일 가이드](../../develop/linux-tutorial.md)를 참고하여 다시 컴파일할 수 있습니다.
    :::
 
 2. ADB 구성
-   1. [`if asst.connect("adb.exe", "127.0.0.1:5555"):`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Python/sample.py#L71) 줄을 찾습니다.
+   1. 이전 단계에서 연 `sample.py` 파일에서 [`if asst.connect("adb.exe", "127.0.0.1:5555"):`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Python/sample.py#L71) 줄을 찾습니다.
    2. ADB 도구 호출
       - 에뮬레이터가 `Android Studio`의 `avd`를 사용하는 경우 ADB가 내장되어 있습니다. `adb.exe` 필드에 ADB 경로를 입력합니다. 일반적으로 `$HOME/Android/Sdk/platform-tools/` 폴더에서 찾을 수 있습니다. 예시:
 
@@ -99,7 +99,7 @@ MAA Wine Bridge에서 생성된 `MaaDesktopIntegration.so`를 `MAA.exe`와 같�
    3. 에뮬레이터 ADB 경로 가져오기
       - ADB 도구를 직접 사용할 수 있습니다: `$ adb경로 devices`, 예시:
 
-      ```shell
+      ```console
       $ /home/foo/Android/Sdk/platform-tools/adb devices
       List of devices attached
       emulator-5554 device
@@ -111,15 +111,15 @@ MAA Wine Bridge에서 생성된 `MaaDesktopIntegration.so`를 `MAA.exe`와 같�
       if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "emulator-5554"):
       ```
 
-   4. 이제 테스트할 수 있습니다: `$ python3 sample.py`를 실행하고 `연결 성공`이 반환되면 대부분 성공한 것입니다.
+   4. 이제 테스트할 수 있습니다: `$ python3 sample.py`를 실행하고 `连接成功`이 반환되면 대부분 성공한 것입니다.
 
 3. 작업 구성
 
-사용자 정의 작업: 필요에 따라 [통합 문서](../../protocol/integration.md)를 참조하여 `sample.py`의 [`# 작업 및 매개변수는 docs/zh-cn/protocol/integration.md 참조`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Python/sample.py#L77) 부분을 수정합니다.
+   [통합 문서 - 작업 유형 목록](../../protocol/integration.md#작업-유형-목록)을 참고하여 필요에 따라 `sample.py`의 `asst.append_task(…)` 함수 호출을 수정합니다.
 
 ::::
 
-## 모바일 에뮬레이터 지원
+## 에뮬레이터 지원
 
 ### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 
@@ -153,6 +153,10 @@ waydroid prop set persist.waydroid.height 720
 ```
 
 adb의 IP 주소 설정: `설정` - `정보` - `IP 주소`를 열고 첫 번째 `IP`를 기록하여 `${기록된IP}:5555`를 `sample.py`의 adb IP에 입력하세요.
+
+게임은 ARM 아키텍처만 지원하므로 x64 아키텍처에서는 libhoudini 또는 libndk 같은 arm64 변환 레이어를 설치해야 합니다. [waydroid_script](https://github.com/casualsnek/waydroid_script) 및 [Waydroid Helper](https://github.com/waydroid-helper/waydroid-helper)를 참고하세요.
+
+Waydroid에는 Minitouch에 필수적인 `/dev/input/eventN`이 없으므로 Minitouch를 사용할 수 없습니다. 다른 터치 모드로 전환하세요.
 
 ### ✅ [redroid](https://github.com/remote-android/redroid-doc)
 
