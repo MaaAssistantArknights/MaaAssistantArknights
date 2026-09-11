@@ -565,6 +565,7 @@ If you choose ｢{key=ManualRestart}｣ and start MAA manually later, ｢{key=Ru
     <system:String x:Key="StartGameLaunchClient">Launch Client on Start</system:String>
     <system:String x:Key="UseWeeklySchedule">Enable Weekly Schedule</system:String>
     <system:String x:Key="UseWeeklyScheduleTip">The day of week here is based on in-game time, not real-world time. For example, if the game resets at 4:00, then 3:59 is still counted as the previous day.</system:String>
+    <system:String x:Key="FightSkippedWeeklySchedule">Weekly schedule is not enabled for today</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">The adaptation for Overseas clients is very difficult and we need your help! No programming knowledge is required.</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunchTip">The emulator is only started once when MAA launches, not every time you click ｢{key=LinkStart}｣.\nIf you need that, check ｢{key=RetryOnDisconnected}｣ instead</system:String>
@@ -975,8 +976,8 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="DepotSkipDuringResourceCollection">Skip during resource collection limited-time all-day open</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlan">Only execute the first insufficient plan</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlanTip" xml:space="preserve">Only the first insufficient plan that is open today will be queued.&#10;The log stops there; plans after it are not evaluated this run.&#10;Once it is stocked up, the next run continues with the rest.</system:String>
-    <system:String x:Key="DepotPlanSkippedActivity">An event is in progress, depot maintain skipped.</system:String>
-    <system:String x:Key="DepotPlanSkippedResourceCollection">Resource collection limited-time all-day open is in progress, depot maintain skipped.</system:String>
+    <system:String x:Key="DepotPlanSkippedActivity">An event is in progress</system:String>
+    <system:String x:Key="DepotPlanSkippedResourceCollection">Resource collection limited-time all-day open is in progress</system:String>
     <system:String x:Key="DepotPlanUpdateDepotFailed">Failed to update inventory data.</system:String>
     <system:String x:Key="DepotUseAutoSeries">Auto Series</system:String>
     <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">When unchecked, runs at 1×; when checked, runs at the highest series multiplier allowed by current sanity, so drops from a single run may exceed the target inventory limit.</system:String>

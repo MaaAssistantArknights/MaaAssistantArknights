@@ -1624,6 +1624,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
             if (fight.UseWeeklySchedule && fight.WeeklySchedule.TryGetValue(Instances.TaskQueueViewModel.CurDayOfWeek, out var isEnabled) && !isEnabled)
             {
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightSkippedWeeklySchedule"), UiLogColor.Info);
                 return (null, []);
             }
 

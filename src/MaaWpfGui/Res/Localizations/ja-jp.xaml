@@ -565,6 +565,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="StartGameLaunchClient">起動時にクライアントを開始する</system:String>
     <system:String x:Key="UseWeeklySchedule">週次スケジュールを有効にする</system:String>
     <system:String x:Key="UseWeeklyScheduleTip">ここでの曜日はゲーム内時間に基づいており、現実時間ではありません。例えば、ゲームが4:00にリセットされる場合、3:59は前日としてカウントされます。</system:String>
+    <system:String x:Key="FightSkippedWeeklySchedule">週次スケジュールで今日が未選択</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">グローバルサーバーの対応は非常に大変で、皆様の協力が必要です！プログラミングの知識は必要ありません。</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">起動時にエミュレータ自動起動</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunchTip">エミュレータは MAA 起動時に一度だけ起動され、｢{key=LinkStart}｣ をクリックするたびに起動されるわけではありません。\nそのような動作が必要な場合は ｢{key=RetryOnDisconnected}｣ を有効にしてください</system:String>
@@ -977,8 +978,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotSkipDuringResourceCollection">資源收集限時全日開放期間中はスキップ</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlan">在庫不足の最初のプランのみ実行</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlanTip" xml:space="preserve">在庫不足かつ当日実行可能な最初のプランのみ実行します。&#10;ログはそのプランまでの表示で、以降のプランは今回実行されません。&#10;補充完了後は次回実行で後続のプランへ進みます。</system:String>
-    <system:String x:Key="DepotPlanSkippedActivity">イベント開催中のため、在庫維持をスキップしました。</system:String>
-    <system:String x:Key="DepotPlanSkippedResourceCollection">資源收集限時全日開放期間中のため、在庫維持をスキップしました。</system:String>
+    <system:String x:Key="DepotPlanSkippedActivity">イベント開催中</system:String>
+    <system:String x:Key="DepotPlanSkippedResourceCollection">資源收集限時全日開放期間中</system:String>
     <system:String x:Key="DepotPlanUpdateDepotFailed">在庫データの更新に失敗しました。</system:String>
     <system:String x:Key="DepotUseAutoSeries">AUTO 代理倍率</system:String>
     <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">未チェック時は 1 倍で代理；チェック後は現在の理性で可能な最大倍率で代理し、1回の周回で目標在庫上限を超える場合があります。</system:String>

@@ -565,6 +565,7 @@ D:\
     <system:String x:Key="StartGameLaunchClient">是否啟動用戶端</system:String>
     <system:String x:Key="UseWeeklySchedule">使用週計畫</system:String>
     <system:String x:Key="UseWeeklyScheduleTip">此處的星期是根據遊戲時間計算的，並非現實時間。例如遊戲在 4:00 刷新，則 3:59 仍算作前一天。</system:String>
+    <system:String x:Key="FightSkippedWeeklySchedule">週計畫今日未勾選</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">外服支援人力吃緊，幫幫我們！不會寫程式也可以參與。</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">啟動 MAA 後自動開啟模擬器</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunchTip">僅在啟動 MAA 時開啟一次模擬器，點擊 ｢{key=LinkStart}｣ 時不會自動開啟；\n如有此需求，請勾選 ｢{key=RetryOnDisconnected}｣</system:String>
@@ -975,8 +976,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotSkipDuringResourceCollection">資源收集限時全天開放期間跳過</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlan">僅執行第一個庫存不足的計劃</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlanTip" xml:space="preserve">僅執行第一個庫存不足且當日可執行的計劃，日誌也只顯示到該計劃為止。&#10;該計劃補滿後，下次執行會自動接續後續計劃，當日無法執行的會被跳過。</system:String>
-    <system:String x:Key="DepotPlanSkippedActivity">目前有活動進行中，已跳過庫存保持。</system:String>
-    <system:String x:Key="DepotPlanSkippedResourceCollection">目前處於資源收集限時全天開放期間，已跳過庫存保持。</system:String>
+    <system:String x:Key="DepotPlanSkippedActivity">目前有活動進行中</system:String>
+    <system:String x:Key="DepotPlanSkippedResourceCollection">目前處於資源收集限時全天開放期間</system:String>
     <system:String x:Key="DepotPlanUpdateDepotFailed">更新庫存資料失敗。</system:String>
     <system:String x:Key="DepotUseAutoSeries">AUTO 代理倍率</system:String>
     <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">未勾選時按單倍代理；勾選後按目前理智可刷的最大倍率代理，單次刷取可能超過目標庫存上限。</system:String>
