@@ -24,6 +24,28 @@
 #include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
 
+asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) :
+    InterfaceTask(callback, inst, TaskType)
+{
+}
+
+bool asst::DebugTask::run()
+{
+    if (m_image_test_mode == "report") {
+        return image_test_report();
+    }
+    if (m_image_test_mode == "pipeline") {
+        return image_test_pipeline();
+    }
+    if (m_image_test_mode == "ocr") {
+        return image_test_ocr();
+    }
+    if (m_image_test_mode == "templ") {
+        return image_test_templ();
+    }
+    return true;
+}
+
 namespace
 {
 // 读取本地图片；normalize 为 true 时缩放到 1280x720（INTER_AREA），
@@ -82,28 +104,6 @@ json::object to_result_json(const std::string& task_name, const asst::PipelineAn
     result["rect"] = to_json_rect(result_opt->rect);
     return result;
 }
-}
-
-asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) :
-    InterfaceTask(callback, inst, TaskType)
-{
-}
-
-bool asst::DebugTask::run()
-{
-    if (m_image_test_mode == "report") {
-        return image_test_report();
-    }
-    if (m_image_test_mode == "pipeline") {
-        return image_test_pipeline();
-    }
-    if (m_image_test_mode == "ocr") {
-        return image_test_ocr();
-    }
-    if (m_image_test_mode == "templ") {
-        return image_test_templ();
-    }
-    return true;
 }
 
 // 离线图片评估的参数协议（AsstAppendTask 的 params，type 固定为 "Debug"）。
