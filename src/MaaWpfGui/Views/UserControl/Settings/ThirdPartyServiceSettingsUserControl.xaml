@@ -14,7 +14,6 @@
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <StackPanel
-        Margin="10"
         HorizontalAlignment="Center"
         VerticalAlignment="Center"
         Orientation="Vertical">
@@ -55,14 +54,13 @@
                 </Grid.ColumnDefinitions>
                 <hc:PasswordBox
                     Width="220"
+                    hc:BorderElement.CornerRadius="4,0,0,4"
                     IsSafeEnabled="False"
                     ShowEyeButton="True"
-                    UnsafePassword="{Binding YituliuOpenApiToken}"
-                    hc:BorderElement.CornerRadius="4,0,0,4" />
+                    UnsafePassword="{Binding YituliuOpenApiToken}" />
                 <Button
                     Grid.Column="1"
                     Height="30"
-                    Padding="10,0"
                     hc:BorderElement.CornerRadius="0,4,4,0"
                     BorderThickness="0,1,1,1"
                     Command="{s:Action VerifyYituliuToken}"
@@ -71,9 +69,9 @@
             </Grid>
         </StackPanel>
         <controls:TextBlock
+            MaxWidth="400"
             Margin="10,5"
             HorizontalAlignment="Center"
-            MaxWidth="400"
             Text="{Binding YituliuTokenValidationText}"
             TextWrapping="Wrap"
             Visibility="{c:Binding 'YituliuTokenValidationText.Length > 0'}" />
@@ -82,18 +80,13 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <CheckBox
-                MaxWidth="{c:Binding '220 - ActualWidth',
-                                    ElementName=EnableOperBoxYituliuApiTipTooltipBlock}"
-                IsChecked="{Binding EnableOperBoxYituliuApi}">
+            <CheckBox MaxWidth="{c:Binding '220 - ActualWidth', ElementName=EnableOperBoxYituliuApiTipTooltipBlock}" IsChecked="{Binding EnableOperBoxYituliuApi}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource EnableOperBoxYituliuApi}"
                     TextWrapping="Wrap" />
             </CheckBox>
-            <controls:TooltipBlock
-                x:Name="EnableOperBoxYituliuApiTipTooltipBlock"
-                TooltipText="{DynamicResource EnableOperBoxYituliuApiTip}" />
+            <controls:TooltipBlock x:Name="EnableOperBoxYituliuApiTipTooltipBlock" TooltipText="{DynamicResource EnableOperBoxYituliuApiTip}" />
         </StackPanel>
     </StackPanel>
 </UserControl>
