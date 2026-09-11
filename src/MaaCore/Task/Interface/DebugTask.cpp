@@ -210,7 +210,7 @@ bool asst::DebugTask::set_params_impl(const json::value& params)
             else {
                 m_eval_threshold = params.get("threshold", 0.8);
             }
-            if (auto resize_opt = params.find<std::array<int,2>>("resize"); resize_opt) {
+            if (auto resize_opt = params.find<std::array<int, 2>>("resize"); resize_opt) {
                 int resize_w = (*resize_opt)[0];
                 int resize_h = (*resize_opt)[1];
                 if (resize_w <= 0 || resize_h <= 0) {
