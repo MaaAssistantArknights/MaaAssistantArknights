@@ -16,7 +16,6 @@ using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using MaaWpfGui.Configuration.Single.Settings;
-using MaaWpfGui.Helper;
 
 namespace MaaWpfGui.Configuration.Converter.Specific;
 
@@ -74,12 +73,6 @@ internal class ThirdPartyMigrationConverter : JsonConverter<Root>
                         break;
                     case nameof(ThirdParty.ReportToYituliu) when property.Value.ValueKind is JsonValueKind.True or JsonValueKind.False:
                         thirdParty.ReportToYituliu = property.Value.GetBoolean();
-                        break;
-                    case nameof(ThirdParty.YituliuOpenApiToken) when property.Value.ValueKind == JsonValueKind.String:
-                        thirdParty.YituliuOpenApiToken = SimpleEncryptionHelper.Encrypt(property.Value.GetString() ?? string.Empty);
-                        break;
-                    case nameof(ThirdParty.OperBoxUseYituliuApi) when property.Value.ValueKind is JsonValueKind.True or JsonValueKind.False:
-                        thirdParty.OperBoxUseYituliuApi = property.Value.GetBoolean();
                         break;
                 }
             }

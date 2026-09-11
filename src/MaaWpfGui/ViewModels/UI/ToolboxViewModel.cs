@@ -1754,7 +1754,7 @@ public class ToolboxViewModel : Screen
         }
         catch (Exception e)
         {
-            Log.Error("Failed to load operator box from yituliu open-api: {Message}", e.Message);
+            _logger.Error("Failed to load operator box from yituliu open-api: {Message}", e.Message);
             OperBoxInfo = LocalizationHelper.GetString("YituliuTokenNetworkError");
             return false;
         }
@@ -1773,7 +1773,7 @@ public class ToolboxViewModel : Screen
         {
             if (!DataHelper.Operators.TryGetValue(oper.Id, out var charInfo))
             {
-                Log.Information("Skipped unknown operator from yituliu open-api: {Id}", oper.Id);
+                _logger.Information("Skipped unknown operator from yituliu open-api: {Id}", oper.Id);
                 continue;
             }
 
@@ -2024,11 +2024,13 @@ public class ToolboxViewModel : Screen
     }
 
     /// <summary>
-    /// 模组列：分支字母加等级（如 X3 Y1），未开通模组为空。
+    /// 模组列：分支字母加等级（如 X3 Y1），过滤等级为 0 的占位条目。
     /// </summary>
     private static string FormatEquipsColumn(OperBoxData.OperData item)
     {
-        return item.Equips is { Count: > 0 } ? string.Join(" ", item.Equips.Select(e => $"{e.Type}{e.Level}")) : string.Empty;
+        return item.Equips is { Count: > 0 }
+            ? string.Join(" ", item.Equips.Where(e => e.Level > 0).Select(e => $"{e.Type}{e.Level}"))
+            : string.Empty;
     }
 
     private static IEnumerable<string> BuildOperBoxCsvExportLines(IReadOnlyList<OperBoxData.OperData> items, bool includeYituliuFields)
