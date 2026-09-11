@@ -79,6 +79,7 @@ public class ThirdPartyServiceSettingsUserControlModel : PropertyChangedBase
             if (SetAndNotify(ref field, value))
             {
                 YituliuTokenValidationText = string.Empty;
+                _lastYituliuTokenValidation = null;
                 ConfigFactory.CurrentConfig.Gui.ThirdParty.YituliuOpenApiToken = SimpleEncryptionHelper.Encrypt(value);
             }
         }
@@ -143,6 +144,12 @@ public class ThirdPartyServiceSettingsUserControlModel : PropertyChangedBase
         try
         {
             var validation = await YituliuApiService.ValidateTokenAsync(token);
+            if (token != YituliuOpenApiToken.Trim())
+            {
+                // 等待期间 token 已被修改，丢弃过期结果
+                return;
+            }
+
             _lastYituliuTokenValidation = validation;
             YituliuTokenValidationText = FormatYituliuTokenValidationText(validation);
         }
