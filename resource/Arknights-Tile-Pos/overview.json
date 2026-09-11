@@ -18080,6 +18080,150 @@
         "stageId": "act54side_08",
         "width": 13
     },
+    "act54side_ex01#f#-activities/act54side/level_act54side_ex01": {
+        "code": "SR-EX-1",
+        "filename": "act54side_ex01#f#-activities-act54side-level_act54side_ex01.json",
+        "height": 9,
+        "levelId": "activities/act54side/level_act54side_ex01",
+        "name": "欲求之础",
+        "stageId": "act54side_ex01#f#",
+        "width": 13
+    },
+    "act54side_ex01-activities/act54side/level_act54side_ex01": {
+        "code": "SR-EX-1",
+        "filename": "act54side_ex01-activities-act54side-level_act54side_ex01.json",
+        "height": 9,
+        "levelId": "activities/act54side/level_act54side_ex01",
+        "name": "欲求之础",
+        "stageId": "act54side_ex01",
+        "width": 13
+    },
+    "act54side_ex02#f#-activities/act54side/level_act54side_ex02": {
+        "code": "SR-EX-2",
+        "filename": "act54side_ex02#f#-activities-act54side-level_act54side_ex02.json",
+        "height": 7,
+        "levelId": "activities/act54side/level_act54side_ex02",
+        "name": "封闭之柱",
+        "stageId": "act54side_ex02#f#",
+        "width": 11
+    },
+    "act54side_ex02-activities/act54side/level_act54side_ex02": {
+        "code": "SR-EX-2",
+        "filename": "act54side_ex02-activities-act54side-level_act54side_ex02.json",
+        "height": 7,
+        "levelId": "activities/act54side/level_act54side_ex02",
+        "name": "封闭之柱",
+        "stageId": "act54side_ex02",
+        "width": 11
+    },
+    "act54side_ex03#f#-activities/act54side/level_act54side_ex03": {
+        "code": "SR-EX-3",
+        "filename": "act54side_ex03#f#-activities-act54side-level_act54side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act54side/level_act54side_ex03",
+        "name": "否定之壁",
+        "stageId": "act54side_ex03#f#",
+        "width": 11
+    },
+    "act54side_ex03-activities/act54side/level_act54side_ex03": {
+        "code": "SR-EX-3",
+        "filename": "act54side_ex03-activities-act54side-level_act54side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act54side/level_act54side_ex03",
+        "name": "否定之壁",
+        "stageId": "act54side_ex03",
+        "width": 11
+    },
+    "act54side_ex04#f#-activities/act54side/level_act54side_ex04": {
+        "code": "SR-EX-4",
+        "filename": "act54side_ex04#f#-activities-act54side-level_act54side_ex04.json",
+        "height": 9,
+        "levelId": "activities/act54side/level_act54side_ex04",
+        "name": "反刍之堂",
+        "stageId": "act54side_ex04#f#",
+        "width": 11
+    },
+    "act54side_ex04-activities/act54side/level_act54side_ex04": {
+        "code": "SR-EX-4",
+        "filename": "act54side_ex04-activities-act54side-level_act54side_ex04.json",
+        "height": 9,
+        "levelId": "activities/act54side/level_act54side_ex04",
+        "name": "反刍之堂",
+        "stageId": "act54side_ex04",
+        "width": 11
+    },
+    "act54side_ex05#f#-activities/act54side/level_act54side_ex05": {
+        "code": "SR-EX-5",
+        "filename": "act54side_ex05#f#-activities-act54side-level_act54side_ex05.json",
+        "height": 9,
+        "levelId": "activities/act54side/level_act54side_ex05",
+        "name": "刻板之廊",
+        "stageId": "act54side_ex05#f#",
+        "width": 11
+    },
+    "act54side_ex05-activities/act54side/level_act54side_ex05": {
+        "code": "SR-EX-5",
+        "filename": "act54side_ex05-activities-act54side-level_act54side_ex05.json",
+        "height": 9,
+        "levelId": "activities/act54side/level_act54side_ex05",
+        "name": "刻板之廊",
+        "stageId": "act54side_ex05",
+        "width": 11
+    },
+    "act54side_ex06#f#-activities/act54side/level_act54side_ex06": {
+        "code": "SR-EX-6",
+        "filename": "act54side_ex06#f#-activities-act54side-level_act54side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act54side/level_act54side_ex06",
+        "name": "解离之梁",
+        "stageId": "act54side_ex06#f#",
+        "width": 11
+    },
+    "act54side_ex06-activities/act54side/level_act54side_ex06": {
+        "code": "SR-EX-6",
+        "filename": "act54side_ex06-activities-act54side-level_act54side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act54side/level_act54side_ex06",
+        "name": "解离之梁",
+        "stageId": "act54side_ex06",
+        "width": 11
+    },
+    "act54side_ex07#f#-activities/act54side/level_act54side_ex07": {
+        "code": "SR-EX-7",
+        "filename": "act54side_ex07#f#-activities-act54side-level_act54side_ex07.json",
+        "height": 9,
+        "levelId": "activities/act54side/level_act54side_ex07",
+        "name": "激越之拱",
+        "stageId": "act54side_ex07#f#",
+        "width": 11
+    },
+    "act54side_ex07-activities/act54side/level_act54side_ex07": {
+        "code": "SR-EX-7",
+        "filename": "act54side_ex07-activities-act54side-level_act54side_ex07.json",
+        "height": 9,
+        "levelId": "activities/act54side/level_act54side_ex07",
+        "name": "激越之拱",
+        "stageId": "act54side_ex07",
+        "width": 11
+    },
+    "act54side_ex08#f#-activities/act54side/level_act54side_ex08": {
+        "code": "SR-EX-8",
+        "filename": "act54side_ex08#f#-activities-act54side-level_act54side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act54side/level_act54side_ex08",
+        "name": "虚无之顶",
+        "stageId": "act54side_ex08#f#",
+        "width": 13
+    },
+    "act54side_ex08-activities/act54side/level_act54side_ex08": {
+        "code": "SR-EX-8",
+        "filename": "act54side_ex08-activities-act54side-level_act54side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act54side/level_act54side_ex08",
+        "name": "虚无之顶",
+        "stageId": "act54side_ex08",
+        "width": 13
+    },
     "act54side_tr01-activities/act54side/level_act54side_tr01": {
         "code": "SR-TR-1",
         "filename": "act54side_tr01-activities-act54side-level_act54side_tr01.json",
