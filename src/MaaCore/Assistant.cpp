@@ -198,6 +198,10 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
             return true;
         }
 #endif
+        else if (constexpr std::string_view MaaFw = "MaaFw"; value == MaaFw) {
+            m_ctrler->set_touch_mode(TouchMode::MaaFw);
+            return true;
+        }
         break;
     case InstanceOptionKey::DeploymentWithPause:
         if (constexpr std::string_view Enable = "1"; value == Enable) {

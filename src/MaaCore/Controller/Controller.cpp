@@ -22,6 +22,7 @@
 #include "AdbController.h"
 #include "ControllerAPI.h"
 #include "MaaFwAdbController.h"
+#include "MaaFwController.h"
 #include "MaatouchController.h"
 #include "MinitouchController.h"
 #include "PlayToolsController.h"
@@ -75,6 +76,8 @@ std::shared_ptr<asst::ControllerAPI>
             Log.debug("Use Android");
             return std::make_shared<MaaFwAndroidNativeController>(m_callback, m_inst);
 #endif
+        case ControllerType::MaaFw:
+            return std::make_shared<MaaFwController>(m_callback, m_inst, platform_type);
         default:
             return nullptr;
         }
@@ -433,6 +436,9 @@ void asst::Controller::set_touch_mode(const TouchMode& mode) noexcept
         m_controller_type = ControllerType::MaaFwAndroidNative;
         break;
 #endif
+    case TouchMode::MaaFw:
+        m_controller_type = ControllerType::MaaFw;
+        break;
     default:
         m_controller_type = ControllerType::Minitouch;
     }
