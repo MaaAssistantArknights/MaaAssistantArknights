@@ -111,7 +111,7 @@ json::object to_result_json(const std::string& task_name, const asst::PipelineAn
 // 离线图片评估的参数协议（AsstAppendTask 的 params，type 固定为 "Debug"）。
 // 日常用配套的 python 驱动 tools/maa_core_eval.py 调用，无需手拼 json：
 // { "mode": "report" | "pipeline" | "ocr" | "templ", "images": [图片路径], "tasks": [任务名],
-//   "templates": [模板名], "task": "任务名", "roi": [x, y, w, h], "threshold": 0.7, "resize": [w, h] }
+//   "templates": [模板名], "task": "任务名", "roi": [x, y, w, h], "threshold": 0.8, "resize": [w, h] }
 // images/tasks/templates 为 UTF-8 路径与名字（模板名也接受绝对路径图片文件）；roi 仅 ocr/templ
 // 模式使用，缺省全图；task 仅 templ 模式使用（mask/method 等 Matcher 配置取自该任务，复刻线上
 // 自定义识别器的用法，未显式给 threshold 时 hit 判定也取该任务阈值）；threshold/resize 仅 templ
@@ -150,7 +150,7 @@ bool asst::DebugTask::set_params_impl(const json::value& params)
     m_eval_templates.clear();
     m_eval_templ_task.clear();
     m_eval_roi = Rect();
-    m_eval_threshold = 0.7;
+    m_eval_threshold = 0.8;
     m_eval_resize.reset();
 
     auto images_opt = params.find<json::array>("images");
@@ -220,11 +220,11 @@ bool asst::DebugTask::set_params_impl(const json::value& params)
                 }
                 m_eval_templ_task = *task_opt;
                 double default_threshold =
-                    !match_ptr->templ_thresholds.empty() ? match_ptr->templ_thresholds.front() : 0.7;
+                    !match_ptr->templ_thresholds.empty() ? match_ptr->templ_thresholds.front() : 0.8;
                 m_eval_threshold = params.get("threshold", default_threshold);
             }
             else {
-                m_eval_threshold = params.get("threshold", 0.7);
+                m_eval_threshold = params.get("threshold", 0.8);
             }
             if (auto resize_opt = params.find<json::array>("resize"); resize_opt) {
                 if (resize_opt->size() != 2 ||
@@ -279,7 +279,6 @@ bool asst::DebugTask::image_test_report()
 
                 json::object result = to_result_json(task_name, result_opt);
                 LogInfo << __FUNCTION__ << image_path << task_name << (result_opt ? "hit" : "miss") << result.dumps();
-                        << result.dumps();
                 results.emplace_back(std::move(result));
             }
 
