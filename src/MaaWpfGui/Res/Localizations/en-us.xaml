@@ -696,6 +696,7 @@ To enable this mechanism, make sure the selected difficulty is N3 or higher (exc
     <system:String x:Key="YituliuTokenVerify">Verify</system:String>
     <system:String x:Key="YituliuTokenEmpty">Please enter a token first</system:String>
     <system:String x:Key="YituliuTokenValid">Token is valid, {0} operators found</system:String>
+    <system:String x:Key="YituliuTokenValidNoData">Token is valid, but the account has no operator data yet</system:String>
     <system:String x:Key="YituliuTokenWriteOnly">Token does not have read access. Use a read-only or read-write token</system:String>
     <system:String x:Key="YituliuTokenInvalid">Token is invalid or expired. Please generate a new one</system:String>
     <system:String x:Key="YituliuTokenNetworkError">Network error. Please try again later</system:String>
@@ -703,6 +704,7 @@ To enable this mechanism, make sure the selected difficulty is N3 or higher (exc
     <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">When enabled, {key=OperBoxRecognition} in ｢{key=Toolbox}｣ and ｢{key=UserDataUpdate}｣ no longer connects to the emulator for screenshot recognition, and instead reads the Yituliu progression data linked to the token.&#10;When triggered by ｢{key=UserDataUpdate}｣, fetching starts immediately after you press ｢{key=LinkStart}｣, in parallel with other tasks.&#10;Yituliu stores a snapshot of your progression, so your operator data must have been uploaded to Yituliu first.&#10;Generate the token under ｢Third-party API Token｣ on the Yituliu account page. Use a read-only token only to protect your account data.</system:String>
     <system:String x:Key="OperBoxFetchingFromYituliu">Fetching operator data from Yituliu...</system:String>
     <system:String x:Key="YituliuFetchFailed">Failed to fetch from Yituliu: {0}</system:String>
+    <system:String x:Key="YituliuNoOperBoxData">The Yituliu account linked to the token has no operator data yet. Local recognition results are kept</system:String>
     <system:String x:Key="OperBoxExportHeaderSkills">Skill masteries</system:String>
     <system:String x:Key="OperBoxExportHeaderEquips">Modules</system:String>
     <system:String x:Key="DrGrandet">Dr. Grandet Mode</system:String>

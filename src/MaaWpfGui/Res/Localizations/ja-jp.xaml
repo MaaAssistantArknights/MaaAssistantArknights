@@ -696,6 +696,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="YituliuTokenVerify">検証</system:String>
     <system:String x:Key="YituliuTokenEmpty">先にトークンを入力してください</system:String>
     <system:String x:Key="YituliuTokenValid">トークンは有効です。合計 {0} 名のオペレーター</system:String>
+    <system:String x:Key="YituliuTokenValidNoData">トークンは有効ですが、アカウントにまだオペレーターデータがありません</system:String>
     <system:String x:Key="YituliuTokenWriteOnly">トークンに読み取り権限がありません。読み取り専用または読み書き可能なトークンを使用してください</system:String>
     <system:String x:Key="YituliuTokenInvalid">トークンが無効または期限切れです。再生成してください</system:String>
     <system:String x:Key="YituliuTokenNetworkError">ネットワークエラーが発生しました。後でもう一度お試しください</system:String>
@@ -703,6 +704,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">有効にすると、｢{key=Toolbox}｣と｢{key=UserDataUpdate}｣の{key=OperBoxRecognition}はエミュレーターに接続してスクリーンショット識別を行わず、トークンに対応するYituliuの育成データを直接読み取ります。&#10;｢{key=UserDataUpdate}｣によるトリガーでは、｢{key=LinkStart}｣を押した直後に他のタスクと並行して取得を開始します。&#10;Yituliuに保存されるのは育成データのスナップショットのため、事前にYituliuサイトへオペレーターデータをアップロードしている必要があります。&#10;トークンはYituliuの「アカウント」ページの「サードパーティ API Token」で生成できます。アカウントデータを保護するため、読み取り専用のトークンのみ使用してください。</system:String>
     <system:String x:Key="OperBoxFetchingFromYituliu">Yituliuからオペレーターデータを取得中…</system:String>
     <system:String x:Key="YituliuFetchFailed">Yituliuからの取得に失敗しました：{0}</system:String>
+    <system:String x:Key="YituliuNoOperBoxData">トークンに対応するYituliuアカウントにオペレーターデータがなく、ローカルの識別結果を保持しました</system:String>
     <system:String x:Key="OperBoxExportHeaderSkills">スキル特化</system:String>
     <system:String x:Key="OperBoxExportHeaderEquips">モジュール</system:String>
     <system:String x:Key="DrGrandet">Dr.グランデモード</system:String>

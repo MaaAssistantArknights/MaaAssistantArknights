@@ -695,6 +695,7 @@ D:\
     <system:String x:Key="YituliuTokenVerify">驗證</system:String>
     <system:String x:Key="YituliuTokenEmpty">請先填寫 Token</system:String>
     <system:String x:Key="YituliuTokenValid">Token 有效，共 {0} 名幹員</system:String>
+    <system:String x:Key="YituliuTokenValidNoData">Token 有效，但帳號暫無幹員練度資料</system:String>
     <system:String x:Key="YituliuTokenWriteOnly">Token 不具備讀取權限，請使用唯讀或讀寫權限的 Token</system:String>
     <system:String x:Key="YituliuTokenInvalid">Token 無效或已失效，請重新生成</system:String>
     <system:String x:Key="YituliuTokenNetworkError">網路錯誤，請稍後重試</system:String>
@@ -702,6 +703,7 @@ D:\
     <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">開啟後 ｢{key=Toolbox}｣ 與 ｢{key=UserDataUpdate}｣ 的{key=OperBoxRecognition}不再連接模擬器截圖識別，改為直接讀取 Token 對應的一圖流練度資料。&#10;更新資料觸發時在點下 ｢{key=LinkStart}｣ 後立即並行取得，不等待其他任務完成。&#10;一圖流保存的是練度快照，需先在一圖流網站上傳過幹員資料。&#10;Token 在一圖流 ｢个人中心｣ 的 ｢第三方 API Token｣ 中生成，為保護帳號資料請僅使用唯讀 Token。</system:String>
     <system:String x:Key="OperBoxFetchingFromYituliu">正在從一圖流獲取幹員資料…</system:String>
     <system:String x:Key="YituliuFetchFailed">從一圖流獲取失敗：{0}</system:String>
+    <system:String x:Key="YituliuNoOperBoxData">Token 對應的一圖流帳號暫無幹員練度資料，已保留本地識別結果</system:String>
     <system:String x:Key="OperBoxExportHeaderSkills">技能專精</system:String>
     <system:String x:Key="OperBoxExportHeaderEquips">模組</system:String>
     <system:String x:Key="DrGrandet">博朗台模式</system:String>

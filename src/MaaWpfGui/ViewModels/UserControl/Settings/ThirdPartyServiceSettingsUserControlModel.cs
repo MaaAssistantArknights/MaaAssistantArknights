@@ -155,7 +155,9 @@ public class ThirdPartyServiceSettingsUserControlModel : PropertyChangedBase
     private static string FormatYituliuTokenValidationText((YituliuApiService.TokenValidationResult Result, int OperatorCount) validation)
     {
         return validation.Result switch {
-            YituliuApiService.TokenValidationResult.Valid => LocalizationHelper.GetStringFormat("YituliuTokenValid", validation.OperatorCount),
+            YituliuApiService.TokenValidationResult.Valid => validation.OperatorCount > 0
+                ? LocalizationHelper.GetStringFormat("YituliuTokenValid", validation.OperatorCount)
+                : LocalizationHelper.GetString("YituliuTokenValidNoData"),
             YituliuApiService.TokenValidationResult.WriteOnly => LocalizationHelper.GetString("YituliuTokenWriteOnly"),
             YituliuApiService.TokenValidationResult.Invalid => LocalizationHelper.GetString("YituliuTokenInvalid"),
             _ => LocalizationHelper.GetString("YituliuTokenNetworkError"),

@@ -1709,11 +1709,11 @@ public class ToolboxViewModel : Screen
     /// <summary>
     /// 从一图流 OpenAPI 拉取干员练度数据并按识别结果填充，不依赖模拟器连接。
     /// 拉取失败只报错不回退 core 本地识别：开关开着是用户显式选择，静默回退会突然要求连接模拟器，无人值守队列下不可预期。
+    /// 拉取成功后才重置旧识别数据，失败时保留。
     /// </summary>
     /// <returns>是否成功。</returns>
     public async Task<bool> StartOperBoxFromYituliuApiAsync()
     {
-        ResetOperBoxRecognitionState();
         var token = SettingsViewModel.ThirdPartyServiceSettings.YituliuOpenApiToken.Trim();
         if (string.IsNullOrEmpty(token))
         {
@@ -1740,6 +1740,16 @@ public class ToolboxViewModel : Screen
             }
 
             var details = ConvertYituliuDataToDetails(data);
+            if ((details["own_opers"] as JArray) is not { Count: > 0 })
+            {
+                // 账号未绑定或未导入练度时接口返回空列表（本地资源过旧跳过全部干员时同样为空），此时保留本地数据，不落盘覆盖
+                OperBoxInfo = LocalizationHelper.GetString("YituliuNoOperBoxData");
+                Instances.TaskQueueViewModel.AddLog(OperBoxInfo, UiLogColor.Error);
+                return false;
+            }
+
+            // 拉取成功后才清空内存中的旧识别数据与同步时间，失败时原样保留
+            ResetOperBoxRecognitionState();
             return OperBoxParse(details, updateSyncTime: true);
         }
         catch (Exception e)
@@ -1803,15 +1813,16 @@ public class ToolboxViewModel : Screen
     [UsedImplicitly]
     public async Task StartOperBox()
     {
-        ResetOperBoxRecognitionState();
         _runningState.SetIdle(false);
         if (SettingsViewModel.ThirdPartyServiceSettings.EnableOperBoxYituliuApi)
         {
+            // API 路径的重置由 StartOperBoxFromYituliuApiAsync 在拉取成功后进行，失败时保留旧识别数据
             await StartOperBoxFromYituliuApiAsync();
             _runningState.SetIdle(true);
             return;
         }
 
+        ResetOperBoxRecognitionState();
         string errMsg = string.Empty;
         OperBoxInfo = LocalizationHelper.GetString("ConnectingToEmulator");
         bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
