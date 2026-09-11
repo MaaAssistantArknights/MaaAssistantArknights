@@ -54,7 +54,7 @@ std::optional<cv::Mat> load_eval_image(const std::string& utf8_path, bool normal
 {
     cv::Mat image = MAA_NS::imread(asst::utils::path(utf8_path));
     if (image.empty()) {
-        Log.error("image_test | failed to load image:", utf8_path);
+        LogError << __FUNCTION__ << "failed to load image:" << utf8_path;
         return std::nullopt;
     }
     if (normalize && (image.cols != 1280 || image.rows != 720)) {
@@ -130,12 +130,12 @@ bool asst::DebugTask::set_params(const json::value& params)
 
     auto images_opt = params.find<json::array>("images");
     if (!images_opt || images_opt->empty()) {
-        Log.error("set_params failed, images not found");
+        LogError << "set_params failed, images not found";
         return false;
     }
     for (const auto& image : *images_opt) {
         if (!image.is_string()) {
-            Log.error("set_params failed, image is not string");
+            LogError << "set_params failed, image is not string";
             return false;
         }
         m_eval_images.emplace_back(image.as_string());
@@ -144,16 +144,16 @@ bool asst::DebugTask::set_params(const json::value& params)
     if (m_image_test_mode == "report" || m_image_test_mode == "pipeline") {
         auto tasks_opt = params.find<json::array>("tasks");
         if (!tasks_opt || tasks_opt->empty()) {
-            Log.error("set_params failed, tasks not found");
+            LogError << "set_params failed, tasks not found";
             return false;
         }
         for (const auto& task : *tasks_opt) {
             if (!task.is_string()) {
-                Log.error("set_params failed, task is not string");
+                LogError << "set_params failed, task is not string";
                 return false;
             }
             if (Task.get(task.as_string()) == nullptr) {
-                Log.error("set_params failed, task not found:", task.as_string());
+                LogError << "set_params failed, task not found:" << task.as_string();
                 return false;
             }
             m_eval_tasks.emplace_back(task.as_string());
@@ -170,12 +170,12 @@ bool asst::DebugTask::set_params(const json::value& params)
         if (m_image_test_mode == "templ") {
             auto templates_opt = params.find<json::array>("templates");
             if (!templates_opt || templates_opt->empty()) {
-                Log.error("set_params failed, templates not found");
+                LogError << "set_params failed, templates not found";
                 return false;
             }
             for (const auto& templ : *templates_opt) {
                 if (!templ.is_string()) {
-                    Log.error("set_params failed, template is not string");
+                    LogError << "set_params failed, template is not string";
                     return false;
                 }
                 m_eval_templates.emplace_back(templ.as_string());
@@ -183,7 +183,7 @@ bool asst::DebugTask::set_params(const json::value& params)
             if (auto task_opt = params.find<std::string>("task"); task_opt) {
                 auto task_ptr = Task.get(*task_opt);
                 if (task_ptr == nullptr) {
-                    Log.error("set_params failed, task not found:", *task_opt);
+                    LogError << "set_params failed, task not found:" << *task_opt;
                     return false;
                 }
                 m_eval_templ_task = *task_opt;
@@ -199,7 +199,7 @@ bool asst::DebugTask::set_params(const json::value& params)
                 int resize_w = (*resize_opt)[0].as_integer();
                 int resize_h = (*resize_opt)[1].as_integer();
                 if (resize_w <= 0 || resize_h <= 0) {
-                    Log.error("set_params failed, invalid resize:", resize_w, resize_h);
+                    LogError << "set_params failed, invalid resize:" << resize_w << resize_h;
                     return false;
                 }
                 m_eval_resize = std::make_pair(resize_w, resize_h);
@@ -207,7 +207,7 @@ bool asst::DebugTask::set_params(const json::value& params)
         }
     }
     else {
-        Log.error("set_params failed, unknown mode:", m_image_test_mode);
+        LogError << "set_params failed, unknown mode:" << m_image_test_mode;
         return false;
     }
 
@@ -216,7 +216,7 @@ bool asst::DebugTask::set_params(const json::value& params)
 
 void asst::DebugTask::emit_eval_error(const std::string& mode, const std::string& image_path, const std::string& error)
 {
-    Log.error("image_test |", image_path, error);
+    LogError << __FUNCTION__ << image_path << error;
     callback(
         AsstMsg::SubTaskExtraInfo,
         json::object { { "what", "DebugImageTest" },
@@ -241,21 +241,18 @@ bool asst::DebugTask::image_test_report()
             auto result_opt = analyzer.analyze();
 
             json::object result = to_result_json(task_name, result_opt);
-            Log.info(
-                "image_test |",
-                image_path,
-                task_name,
-                result_opt ? "hit" : "miss",
-                json::value(result).dumps());
+            LogInfo << __FUNCTION__ << image_path << task_name << (result_opt ? "hit" : "miss")
+                    << json::value(result).dumps();
             results.emplace_back(std::move(result));
         }
 
         callback(
             AsstMsg::SubTaskExtraInfo,
             json::object { { "what", "DebugImageTest" },
-                           { "details", json::object { { "mode", "report" },
-                                                        { "image", image_path },
-                                                        { "results", std::move(results) } } } });
+                           { "details",
+                             json::object { { "mode", "report" },
+                                            { "image", image_path },
+                                            { "results", std::move(results) } } } });
     }
     return all_ok;
 }
@@ -285,11 +282,11 @@ bool asst::DebugTask::image_test_pipeline()
             for (const auto& next_task : result_opt->task_ptr->next) {
                 next.emplace_back(next_task);
             }
-            Log.info("image_test |", image_path, "hit", json::value(hit).dumps());
+            LogInfo << __FUNCTION__ << image_path << "hit" << json::value(hit).dumps();
         }
         else {
             detail["hit"] = false;
-            Log.info("image_test |", image_path, "miss");
+            LogInfo << __FUNCTION__ << image_path << "miss";
         }
         detail["next"] = std::move(next);
 
@@ -324,14 +321,14 @@ bool asst::DebugTask::image_test_ocr()
                     json::object { { "text", res.text }, { "score", res.score }, { "rect", (json::value)res.rect } });
             }
         }
-        Log.info("image_test |", image_path, "ocr", json::value(results).dumps());
+        LogInfo << __FUNCTION__ << image_path << "ocr" << json::value(results).dumps();
 
         callback(
             AsstMsg::SubTaskExtraInfo,
-            json::object { { "what", "DebugImageTest" },
-                           { "details", json::object { { "mode", "ocr" },
-                                                        { "image", image_path },
-                                                        { "results", std::move(results) } } } });
+            json::object {
+                { "what", "DebugImageTest" },
+                { "details",
+                  json::object { { "mode", "ocr" }, { "image", image_path }, { "results", std::move(results) } } } });
     }
     return all_ok;
 }
@@ -371,7 +368,7 @@ bool asst::DebugTask::image_test_templ()
             if (templ_file.is_absolute() && std::filesystem::exists(templ_file)) {
                 cv::Mat templ = MAA_NS::imread(templ_file);
                 if (templ.empty()) {
-                    Log.error("image_test | failed to load templ:", templ_name);
+                    LogError << __FUNCTION__ << "failed to load templ:" << templ_name;
                     all_ok = false;
                     continue;
                 }
@@ -387,7 +384,7 @@ bool asst::DebugTask::image_test_templ()
                 auto result_opt = analyzer.analyze();
                 if (result_opt) {
                     result["score"] = result_opt->score;
-                    result["rect"] = to_json_rect(result_opt->rect);
+                    result["rect"] = (json::value)result_opt->rect;
                     result["hit"] = result_opt->score >= m_eval_threshold;
                 }
                 else {
@@ -400,21 +397,17 @@ bool asst::DebugTask::image_test_templ()
                 result["error"] = e.what();
                 all_ok = false;
             }
-            Log.info(
-                "image_test |",
-                image_path,
-                templ_name,
-                result["hit"].as_boolean() ? "hit" : "miss",
-                json::value(result).dumps());
+            LogInfo << __FUNCTION__ << image_path << templ_name << (result["hit"].as_boolean() ? "hit" : "miss")
+                    << json::value(result).dumps();
             results.emplace_back(std::move(result));
         }
 
         callback(
             AsstMsg::SubTaskExtraInfo,
-            json::object { { "what", "DebugImageTest" },
-                           { "details", json::object { { "mode", "templ" },
-                                                        { "image", image_path },
-                                                        { "results", std::move(results) } } } });
+            json::object {
+                { "what", "DebugImageTest" },
+                { "details",
+                  json::object { { "mode", "templ" }, { "image", image_path }, { "results", std::move(results) } } } });
     }
     return all_ok;
 }
