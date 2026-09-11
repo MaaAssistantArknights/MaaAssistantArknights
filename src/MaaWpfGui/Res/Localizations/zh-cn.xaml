@@ -1095,7 +1095,10 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Export">导出</system:String>
     <system:String x:Key="MaterialCraft">材料合成</system:String>
     <system:String x:Key="MaterialRequirement">材料需求识别</system:String>
-    <system:String x:Key="MaterialCraftStartHint">可从任意界面开始；会自动进入基建加工站并点击左下角加工入口</system:String>
+    <system:String x:Key="MaterialCraftManufacturingChips">芯片组（制造站）</system:String>
+    <system:String x:Key="MaterialCraftManufacturingFailed">制造站操作未完成，请检查游戏画面和日志。</system:String>
+    <system:String x:Key="MaterialCraftManufacturingRestoreRequired">制造站原配方尚未恢复，请检查：{0} ×{1}（设施 {2}）</system:String>
+    <system:String x:Key="MaterialCraftStartHint">可从任意界面启动，MAA 将自动进入加工站或制造站。双芯片制造完成后恢复原配方。</system:String>
     <system:String x:Key="MaterialCraftTarget">目标材料</system:String>
     <system:String x:Key="MaterialCraftQueue">待合成</system:String>
     <system:String x:Key="MaterialCraftQuantity">数量</system:String>

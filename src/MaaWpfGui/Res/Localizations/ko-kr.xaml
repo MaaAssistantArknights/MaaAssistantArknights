@@ -1097,7 +1097,10 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Export">내보내기</system:String>
     <system:String x:Key="MaterialCraft">재료 합성</system:String>
     <system:String x:Key="MaterialRequirement">재료 요구 인식</system:String>
-    <system:String x:Key="MaterialCraftStartHint">아무 화면에서 시작할 수 있습니다. 기반시설 가공소로 이동해 왼쪽 아래 가공 입구를 자동으로 엽니다.</system:String>
+    <system:String x:Key="MaterialCraftManufacturingChips">칩셋 (제조소)</system:String>
+    <system:String x:Key="MaterialCraftManufacturingFailed">제조소 작업이 완료되지 않았습니다. 게임 화면과 로그를 확인하세요.</system:String>
+    <system:String x:Key="MaterialCraftManufacturingRestoreRequired">제조소 제조식을 복원해 주세요: {0} ×{1} (시설 {2})</system:String>
+    <system:String x:Key="MaterialCraftStartHint">어느 화면에서든 시작할 수 있습니다. 가공소 또는 제조소로 이동하며 듀얼 칩 제조 후 원래 제조식을 복원합니다.</system:String>
     <system:String x:Key="MaterialCraftTarget">대상 재료</system:String>
     <system:String x:Key="MaterialCraftQueue">합성 대기</system:String>
     <system:String x:Key="MaterialCraftQuantity">수량</system:String>

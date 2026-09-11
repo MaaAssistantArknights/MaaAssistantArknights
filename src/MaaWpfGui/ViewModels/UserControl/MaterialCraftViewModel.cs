@@ -23,6 +23,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using JetBrains.Annotations;
+using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -46,6 +48,7 @@ public class MaterialCraftViewModel : PropertyChangedBase
     private CancellationTokenSource? _materialCraftCancellation;
     private int _requirementTaskId;
     private bool _materialCraftStopRequested;
+    private string _manufacturingFailure = string.Empty;
     private const int WorkshopApCostPerMood = 360000;
 
     public MaterialCraftViewModel(ToolboxViewModel toolbox)
@@ -150,7 +153,8 @@ public class MaterialCraftViewModel : PropertyChangedBase
                 .Where(recipe => !string.IsNullOrEmpty(recipe.Value<string>("itemId")))
                 .GroupBy(recipe => recipe.Value<string>("itemId")!)
                 .Select(group => {
-                    int rank = group.Key is "3302" or "3303" ? 0 : GetWorkshopQualityRank(group.First().Value<int>("goldCost"));
+                    int rank = group.First().Value<string>("facility") == "Mfg" ? -1 :
+                        group.Key is "3302" or "3303" ? 0 : GetWorkshopQualityRank(group.First().Value<int>("goldCost"));
                     return new MaterialCraftTarget {
                         Id = group.Key,
                         Name = GetItemNameOrId(group.Key),
@@ -209,6 +213,7 @@ public class MaterialCraftViewModel : PropertyChangedBase
     private static string GetWorkshopQualityName(int qualityRank)
     {
         return qualityRank switch {
+            -1 => LocalizationHelper.GetString("MaterialCraftManufacturingChips"),
             0 => LocalizationHelper.GetString("MaterialCraftSkillSummary"),
             1 => LocalizationHelper.GetString("MaterialCraftQualityNormal"),
             2 => LocalizationHelper.GetString("MaterialCraftQualityRare"),
@@ -496,6 +501,7 @@ public class MaterialCraftViewModel : PropertyChangedBase
         NotifyOfPropertyChange(nameof(CanToggleMaterialCraft));
         var taskParams = BuildMaterialCraftTaskParams();
         var targets = MaterialCraftPlanItems.ToDictionary(item => item.Id, item => item.Count);
+        _manufacturingFailure = string.Empty;
         _runningState.SetIdle(false);
         MaterialCraftResultInfo = LocalizationHelper.GetString("ConnectingToEmulator");
         bool taskStarted = false;
@@ -631,7 +637,8 @@ public class MaterialCraftViewModel : PropertyChangedBase
             return;
         }
         _materialCraftStopRequested = false;
-        MaterialCraftResultInfo = LocalizationHelper.GetString("Stopped");
+        MaterialCraftResultInfo = string.IsNullOrEmpty(_manufacturingFailure)
+            ? LocalizationHelper.GetString("Stopped") : _manufacturingFailure;
     }
 
     private JObject BuildMaterialCraftTaskParams()
@@ -651,6 +658,8 @@ public class MaterialCraftViewModel : PropertyChangedBase
         return new JObject {
             ["items"] = targets,
             ["inventory"] = inventory,
+            ["replenish"] = ConfigFactory.CurrentConfig.TaskQueue.OfType<InfrastTask>()
+                .FirstOrDefault()?.OriginiumShardAutoReplenishment ?? false,
         };
     }
 
@@ -724,7 +733,19 @@ public class MaterialCraftViewModel : PropertyChangedBase
             return;
         }
         int operation = details.Value<int?>("operation_id") ?? -1;
-        if (what == "MaterialCraftOperationStarted")
+        if (what == "MaterialCraftManufacturingRestoreRequired")
+        {
+            _manufacturingFailure = string.Format(LocalizationHelper.GetString(what),
+                GetItemNameOrId(details.Value<string>("item_id") ?? string.Empty),
+                details.Value<int>("batches"), details.Value<int>("index") + 1);
+            MaterialCraftResultInfo = _manufacturingFailure;
+        }
+        else if (what == "MaterialCraftManufacturingFailed")
+        {
+            _manufacturingFailure = LocalizationHelper.GetString(what);
+            MaterialCraftResultInfo = _manufacturingFailure;
+        }
+        else if (what == "MaterialCraftOperationStarted")
         {
             execution.BeginOperation(operation);
         }
@@ -793,6 +814,10 @@ public class MaterialCraftViewModel : PropertyChangedBase
             }
             MaterialCraftResultInfo = LocalizationHelper.GetString(
                 _toolbox.DepotInventoryNeedsRecognition ? "MaterialCraftInventoryUncertain" : "MaterialCraftStartFailed");
+        }
+        if (!string.IsNullOrEmpty(_manufacturingFailure))
+        {
+            MaterialCraftResultInfo = _manufacturingFailure;
         }
         _toolbox.SaveDepotDetails();
     }

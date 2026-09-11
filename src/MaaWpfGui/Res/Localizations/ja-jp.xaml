@@ -1098,7 +1098,10 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Export">エクスポート</system:String>
     <system:String x:Key="MaterialCraft">素材合成</system:String>
     <system:String x:Key="MaterialRequirement">素材要求認識</system:String>
-    <system:String x:Key="MaterialCraftStartHint">任意の画面から開始できます。基地の加工所へ移動し、左下の加工入口を自動で開きます。</system:String>
+    <system:String x:Key="MaterialCraftManufacturingChips">SoC（製造所）</system:String>
+    <system:String x:Key="MaterialCraftManufacturingFailed">製造所の操作が完了しませんでした。ゲーム画面とログを確認してください。</system:String>
+    <system:String x:Key="MaterialCraftManufacturingRestoreRequired">製造所のレシピを復元してください：{0} ×{1}（施設 {2}）</system:String>
+    <system:String x:Key="MaterialCraftStartHint">どの画面からでも開始できます。加工所または製造所へ移動し、上級SoC製造後は元のレシピに戻します。</system:String>
     <system:String x:Key="MaterialCraftTarget">対象素材</system:String>
     <system:String x:Key="MaterialCraftQueue">合成待ち</system:String>
     <system:String x:Key="MaterialCraftQuantity">数量</system:String>

@@ -283,6 +283,34 @@
         "baseTask": "MaterialRequirement-LeftQuantity",
         "roi": [308, 660, 128, 40]
     },
+    "MaterialRequirement-PromotionPage": {
+        "template": "InfrastPic/Processing/MaterialRequirementPromotion.png",
+        "roi": [725, 370, 140, 140],
+        "templThreshold": 0.9
+    },
+    "MaterialRequirement-ChipIcon": {
+        "baseTask": "MaterialRequirement-SkillSummaryIcon",
+        "template": "empty.png"
+    },
+    "MaterialRequirement-ChipQuantity": {
+        "baseTask": "MaterialRequirement-SkillSummaryQuantity"
+    },
+    "MaterialRequirement-ChipPopupName": {
+        "algorithm": "OcrDetect",
+        "roi": [420, 100, 260, 410],
+        "useRaw": true
+    },
+    "MaterialRequirement-ChipPopupClose": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [170, 400, 50, 50]
+    },
+    "MaterialRequirement-ChipPopupTitle": {
+        "algorithm": "OcrDetect",
+        "withoutDet": true,
+        "useRaw": true,
+        "binThreshold": [140, 255]
+    },
     "MaterialCraft-ByproductRate": {
         "baseTask": "NumberOcrReplace",
         "roi": [845, 233, 91, 45],

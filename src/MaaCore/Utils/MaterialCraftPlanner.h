@@ -23,8 +23,12 @@ struct MaterialFormula
     int gold_cost = 0;
     int ap_cost = 0;
     std::vector<MaterialAmount> costs;
+    // Recipe IDs from the workshop and factory use separate namespaces.
+    std::string facility = "Processing";
 
     bool is_skill_summary() const noexcept { return item_id == "3302" || item_id == "3303"; }
+
+    bool is_manufacturing() const noexcept { return facility == "Mfg"; }
 };
 
 using MaterialInventory = std::map<std::string, int>;

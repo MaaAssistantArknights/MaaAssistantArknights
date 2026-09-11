@@ -986,6 +986,31 @@ bool update_material_recipes_data(const fs::path& input_dir, const fs::path& out
         };
     }
 
+    const auto manufacturing = input_json_opt->find<json::object>("manufactFormulas");
+    if (!manufacturing) {
+        std::cerr << input_file << " missing manufactFormulas" << '\n';
+        return false;
+    }
+    const std::unordered_set<std::string> dualchips = {
+        "3213", "3223", "3233", "3243", "3253", "3263", "3273", "3283",
+    };
+    for (const auto& [id, formula] : *manufacturing) {
+        if (!dualchips.contains(formula.get("itemId", std::string()))) {
+            continue;
+        }
+        // Factory formula 12 must not replace workshop formula 12.
+        const std::string key = "Mfg@" + id;
+        output_json[key] = json::object {
+            { "formulaId", key },
+            { "facility", "Mfg" },
+            { "itemId", formula.at("itemId") },
+            { "count", formula.at("count") },
+            { "goldCost", 0 },
+            { "apCost", 0 },
+            { "costs", formula.at("costs") },
+        };
+    }
+
     std::ofstream ofs(output_file, std::ios::out);
     ofs << output_json.format() << '\n';
     ofs.close();

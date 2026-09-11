@@ -2,6 +2,9 @@
 
 #include <tuple>
 
+#include "Config/TaskData.h"
+#include "Vision/RegionOCRer.h"
+
 using namespace asst;
 
 bool InfrastMaterialCraftImageAnalyzer::analyze()
@@ -25,6 +28,25 @@ bool InfrastMaterialCraftImageAnalyzer::analyze()
     // Spatial order is separate from confidence ordering and duplicate suppression.
     std::ranges::sort(m_formulas, [](const FormulaMatch& lhs, const FormulaMatch& rhs) {
         return std::tie(lhs.product_rect.y, lhs.product_rect.x) < std::tie(rhs.product_rect.y, rhs.product_rect.x);
+    });
+    return !m_formulas.empty();
+}
+
+bool InfrastMaterialCraftImageAnalyzer::analyze_with_name(
+    const std::string& task_name,
+    const std::string& expected_name,
+    double minimum_score)
+{
+    if (expected_name.empty() || !analyze()) {
+        return false;
+    }
+    const auto task = Task.get<OcrTaskInfo>(task_name);
+    std::erase_if(m_formulas, [&](const FormulaMatch& formula) {
+        RegionOCRer name(m_image);
+        name.set_task_info(task_name);
+        name.set_roi(formula.product_rect.move(task->rect_move));
+        const auto result = name.analyze();
+        return !result || result->score < minimum_score || result->text != expected_name;
     });
     return !m_formulas.empty();
 }

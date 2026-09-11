@@ -1096,7 +1096,10 @@ Right Click: Select Target Process</system:String>
     <system:String x:Key="Export">Export</system:String>
     <system:String x:Key="MaterialCraft">Material Craft</system:String>
     <system:String x:Key="MaterialRequirement">Material Requirement Recognition</system:String>
-    <system:String x:Key="MaterialCraftStartHint">Can start from any screen; MAA will enter the base Workshop and open processing automatically.</system:String>
+    <system:String x:Key="MaterialCraftManufacturingChips">Chip packs (Factory)</system:String>
+    <system:String x:Key="MaterialCraftManufacturingFailed">Factory operation was not completed. Check the game screen and logs.</system:String>
+    <system:String x:Key="MaterialCraftManufacturingRestoreRequired">Factory recipe needs restoring: {0} ×{1} (facility {2})</system:String>
+    <system:String x:Key="MaterialCraftStartHint">Start from any screen. MAA enters the Workshop or Factory and restores the original Factory recipe after making dualchips.</system:String>
     <system:String x:Key="MaterialCraftTarget">Target</system:String>
     <system:String x:Key="MaterialCraftQueue">Queue</system:String>
     <system:String x:Key="MaterialCraftQuantity">Count</system:String>

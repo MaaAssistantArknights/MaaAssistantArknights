@@ -67,6 +67,65 @@ TEST_CASE("Craft skill summaries recursively with zero gold cost")
     CHECK(shortage.missing.at("3301") == 1);
 }
 
+TEST_CASE("Dualchips consume profession chip packs and shared catalysts without workshop costs")
+{
+    std::vector<MaterialFormula> formulas;
+    MaterialCraftRequest request;
+    request.inventory["32001"] = 28;
+    request.inventory["4001"] = 1000;
+    for (int profession = 1; profession <= 8; ++profession) {
+        const std::string prefix = "32" + std::to_string(profession);
+        const int count = profession % 2 == 0 ? 3 : 4;
+        formulas.push_back(
+            { "Mfg@" + std::to_string(profession + 4),
+              prefix + "3",
+              1,
+              0,
+              0,
+              { { prefix + "2", 2 }, { "32001", 1 } },
+              "Mfg" });
+        request.targets.push_back({ prefix + "3", count });
+        request.inventory[prefix + "2"] = 2 * count;
+    }
+    const MaterialCraftPlanner planner(formulas);
+    const auto plan = planner.build(request);
+    REQUIRE(plan.valid);
+    REQUIRE(plan.missing.empty());
+    REQUIRE(plan.operations.size() == 8);
+    CHECK(plan.gold_cost == 0);
+    CHECK(plan.ap_cost == 0);
+    CHECK(plan.inventory.at("32001") == 0);
+    CHECK(plan.inventory.at("4001") == 1000);
+    for (const auto& target : request.targets) {
+        CHECK(plan.inventory.at(target.item_id) == target.count);
+    }
+    for (const auto& operation : plan.operations) {
+        CHECK(operation.formula.is_manufacturing());
+    }
+    request.inventory["32001"] = 1;
+    request.inventory["3212"] = 0;
+    const auto shortage = planner.build(request);
+    REQUIRE(shortage.valid);
+    CHECK(shortage.missing.at("32001") == 27);
+    CHECK(shortage.missing.at("3212") == 8);
+}
+
+TEST_CASE("Workshop and factory operations with the same source formula ID stay separate")
+{
+    const MaterialFormula workshop { "12", "A", 1, 100, 360000, { { "ore", 1 } } };
+    const MaterialFormula factory { "12", "3283", 1, 0, 0, { { "3282", 2 }, { "32001", 1 } }, "Mfg" };
+    const auto plan = MaterialCraftPlanner({ workshop, factory })
+                          .build({ { { "A", 1 }, { "3283", 3 } }, { { "ore", 1 }, { "3282", 6 }, { "32001", 3 } } });
+    REQUIRE(plan.valid);
+    REQUIRE(plan.operations.size() == 2);
+    CHECK_FALSE(plan.operations[0].formula.is_manufacturing());
+    CHECK(plan.operations[0].batches == 1);
+    CHECK(plan.operations[1].formula.is_manufacturing());
+    CHECK(plan.operations[1].batches == 3);
+    CHECK(plan.gold_cost == 100);
+    CHECK(plan.ap_cost == 360000);
+}
+
 TEST_CASE("Try alternative recipes without leaking inventory changes or shortages")
 {
     MaterialCraftPlanner planner({ recipe("1", "A", { { "ore", 3 } }), recipe("2", "A", { { "salt", 2 } }) });

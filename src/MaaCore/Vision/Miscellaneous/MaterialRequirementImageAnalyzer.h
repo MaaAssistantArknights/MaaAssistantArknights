@@ -3,6 +3,7 @@
 #include "Vision/VisionHelper.h"
 
 #include <functional>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -33,6 +34,12 @@ public:
 
     const std::vector<MaterialRequirementInfo>& get_result() const noexcept { return m_result; }
 
+    const std::optional<MaterialRequirementInfo>& pending_chip() const noexcept { return m_pending_chip; }
+
+    bool confirm_chip_name(const std::string& name);
+    static bool is_promotion_page(const cv::Mat& image);
+    static std::optional<std::string> read_chip_popup_name(const cv::Mat& image);
+
 private:
     struct RequirementSlot
     {
@@ -53,6 +60,8 @@ private:
     std::vector<MaterialRequirementInfo> m_result;
     std::vector<std::string> m_candidates;
     bool m_complete = false;
+    bool m_other_slots_complete = false;
+    std::optional<MaterialRequirementInfo> m_pending_chip;
     std::function<bool()> m_cancel_check;
 };
 }

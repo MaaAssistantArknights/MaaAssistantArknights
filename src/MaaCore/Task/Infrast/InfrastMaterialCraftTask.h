@@ -22,7 +22,7 @@ public:
 
     virtual bool set_params(const json::value& params);
 
-    virtual std::string facility_name() const override { return "Processing"; }
+    virtual std::string facility_name() const override { return m_facility; }
 
 protected:
     virtual bool _run() override;
@@ -42,6 +42,33 @@ private:
     };
 
     bool build_plan();
+
+    struct ManufacturingRecipe
+    {
+        std::string item_id;
+        std::string ingredient_id;
+        int batches = 0;
+        int weight = 1;
+    };
+
+    bool execute_manufacturing_operation(const CraftOperation& operation);
+    bool ensure_manufacturing_page();
+    bool enter_manufacturing_facility(int index);
+    bool leave_manufacturing_page();
+    bool is_manufacturing_page(const cv::Mat& image) const;
+    std::optional<ManufacturingRecipe> read_manufacturing_recipe() const;
+    std::optional<std::pair<int, int>>
+        read_manufacturing_number(const std::string& task_name, bool fraction = false) const;
+    bool manufacturing_product_matches(const std::string& item_id, const cv::Mat& image, bool allow_completed = false)
+        const;
+    bool select_manufacturing_recipe(const ManufacturingRecipe& recipe);
+    bool set_manufacturing_count(int count);
+    bool confirm_manufacturing_recipe(const ManufacturingRecipe& recipe);
+    bool collect_manufacturing_product(const ManufacturingRecipe& recipe, int count);
+    bool manufacturing_action(const std::string& task_name);
+    void manufacturing_failure(const std::string& reason, const ManufacturingRecipe& original = {});
+    std::string m_facility = "Processing";
+    bool m_replenish_originium_shards = false;
 
     bool ensure_processing_room();
     bool craft_sleep(unsigned milliseconds) const;
