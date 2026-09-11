@@ -19,11 +19,12 @@ using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
+using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Stylet;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -35,6 +36,11 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
     private static readonly HashSet<string> AllowedFields = ["name", "elite", "skills", "skill", "skill_master"];
 
     static AutoRaiseTaskUserControlModel() => Instance = new();
+
+    public AutoRaiseTaskUserControlModel()
+    {
+        Instances.AsstProxy.AsstSubTaskMsgEvent += ProcAutoRaiseMsg;
+    }
 
     public static AutoRaiseTaskUserControlModel Instance { get; }
 
@@ -89,8 +95,7 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
     /// <summary>未满 5 名干员，或所选干员已在计划中（可直接进入编辑）时允许添加</summary>
     public bool CanAddOperator
     {
-        get
-        {
+        get {
             JArray plans = GetValidatedPlans();
             return DistinctOperatorCount(plans) < MaxOperators || FindOperator(plans, _selectedOperator) >= 0;
         }
@@ -376,7 +381,7 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
         }
         catch (Exception ex) when (ex is JsonException or InvalidOperationException)
         {
-            return new JArray();
+            return [];
         }
     }
 
@@ -648,5 +653,85 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
                 _ => (null, []),
             };
         }
+    }
+
+    private static void ProcAutoRaiseMsg(AsstMsg type, AsstSubTaskMsg? msg)
+    {
+        if (type == AsstMsg.SubTaskExtraInfo || msg?.TaskChain != nameof(TaskType.AutoRaise))
+        {
+            return;
+        }
+        switch (msg.What)
+        {
+            case "AutoRaiseTargetStart":
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetStringFormat(
+                        "AutoRaiseTargetStartLog",
+                        (int)(msg.Details?["index"] ?? 0) + 1,
+                        ProcAutoRaiseTargetName(msg.Details),
+                        ProcAutoRaiseTargetDescription(msg.Details)),
+                    UiLogColor.Info,
+                    splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+                break;
+
+            case "AutoRaiseTargetResult":
+                string action = msg.Details?["action"]?.ToString() ?? string.Empty;
+                string result = msg.Details?["result"]?.ToString() ?? "unsupported";
+                int? recognized = msg.Details?.Value<int?>("recognized");
+                string recognizedKey = action switch {
+                    "elite" => "AutoRaiseRecognizedElite",
+                    "skills" => "AutoRaiseRecognizedSkillLevel",
+                    "mastery" => "AutoRaiseRecognizedMastery",
+                    _ => string.Empty,
+                };
+                string recognizedText = recognized is null || recognizedKey.Length == 0
+                    ? string.Empty
+                    : LocalizationHelper.GetStringFormat(recognizedKey, recognized.Value);
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetStringFormat(
+                        "AutoRaiseTargetResultLog",
+                        (int)(msg.Details?["index"] ?? 0) + 1,
+                        ProcAutoRaiseTargetName(msg.Details),
+                        ProcAutoRaiseTargetDescription(msg.Details),
+                        result) + recognizedText,
+                    result is "completed" or "already_satisfied" ? UiLogColor.Success :
+                    result is "skipped" or "formula_locked" ? UiLogColor.Warning : UiLogColor.Error);
+                Instance.OnTargetResult(
+                    (int)(msg.Details?["index"] ?? -1),
+                    msg.Details?["name"]?.ToString() ?? string.Empty,
+                    result is "completed" or "already_satisfied");
+                break;
+
+            case "AutoRaiseSummary":
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetStringFormat(
+                        "AutoRaiseSummaryLog",
+                        msg.Details?["completed"] ?? 0,
+                        msg.Details?["already_satisfied"] ?? 0,
+                        msg.Details?["failed"] ?? 0,
+                        msg.Details?["skipped"] ?? 0),
+                    (int)(msg.Details?["failed"] ?? 0) == 0 ? UiLogColor.Success : UiLogColor.Warning);
+                Instance.OnSummary();
+                break;
+        }
+    }
+
+    private static string ProcAutoRaiseTargetName(JToken? details)
+    {
+        var name = details?["name"]?.ToString() ?? string.Empty;
+        return DataHelper.GetLocalizedCharacterName(name) ?? name;
+    }
+
+    // 与干员培养设置页的预览行（AutoRaiseTaskUserControlModel.DescribeAction）保持同一格式。
+    private static string ProcAutoRaiseTargetDescription(JToken? details)
+    {
+        string action = details?["action"]?.ToString() ?? string.Empty;
+        int target = details?["target"]?.Value<int>() ?? 0;
+        return action switch {
+            "elite" => LocalizationHelper.GetStringFormat("AutoRaiseEliteTarget", target),
+            "skills" => LocalizationHelper.GetStringFormat("AutoRaiseSkillLevelTarget", target),
+            "mastery" => LocalizationHelper.GetStringFormat("AutoRaiseMasteryTarget", details?["skill"]?.Value<int>() ?? 0, target),
+            _ => action,
+        };
     }
 }

@@ -2099,10 +2099,6 @@ public class AsstProxy
                 ProcRecruitCalcMsg(details);
                 break;
 
-            case "AutoRaise":
-                ProcAutoRaiseMsg(details);
-                break;
-
                 /*
                 case "VideoRecognition":
                     ProcVideoRecMsg(details);
@@ -2715,86 +2711,6 @@ public class AsstProxy
                     break;
                 }
         }
-    }
-
-    private static void ProcAutoRaiseMsg(JObject message)
-    {
-        string what = message["what"]?.ToString() ?? string.Empty;
-        JToken? details = message["details"];
-        switch (what)
-        {
-            case "AutoRaiseTargetStart":
-                Instances.TaskQueueViewModel.AddLog(
-                    LocalizationHelper.GetStringFormat(
-                        "AutoRaiseTargetStartLog",
-                        (int)(details?["index"] ?? 0) + 1,
-                        ProcAutoRaiseTargetName(details),
-                        ProcAutoRaiseTargetDescription(details)),
-                    UiLogColor.Info,
-                    splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
-                break;
-
-            case "AutoRaiseTargetResult":
-                string action = details?["action"]?.ToString() ?? string.Empty;
-                string result = details?["result"]?.ToString() ?? "unsupported";
-                int? recognized = details?["recognized"]?.Value<int?>();
-                string recognizedKey = action switch
-                {
-                    "elite" => "AutoRaiseRecognizedElite",
-                    "skills" => "AutoRaiseRecognizedSkillLevel",
-                    "mastery" => "AutoRaiseRecognizedMastery",
-                    _ => string.Empty,
-                };
-                string recognizedText = recognized is null || recognizedKey.Length == 0
-                    ? string.Empty
-                    : LocalizationHelper.GetStringFormat(recognizedKey, recognized.Value);
-                Instances.TaskQueueViewModel.AddLog(
-                    LocalizationHelper.GetStringFormat(
-                        "AutoRaiseTargetResultLog",
-                        (int)(details?["index"] ?? 0) + 1,
-                        ProcAutoRaiseTargetName(details),
-                        ProcAutoRaiseTargetDescription(details),
-                        result) + recognizedText,
-                    result is "completed" or "already_satisfied" ? UiLogColor.Success :
-                    result is "skipped" or "formula_locked" ? UiLogColor.Warning : UiLogColor.Error);
-                ViewModels.UserControl.TaskQueue.AutoRaiseTaskUserControlModel.Instance.OnTargetResult(
-                    (int)(details?["index"] ?? -1),
-                    details?["name"]?.ToString() ?? string.Empty,
-                    result is "completed" or "already_satisfied");
-                break;
-
-            case "AutoRaiseSummary":
-                Instances.TaskQueueViewModel.AddLog(
-                    LocalizationHelper.GetStringFormat(
-                        "AutoRaiseSummaryLog",
-                        details?["completed"] ?? 0,
-                        details?["already_satisfied"] ?? 0,
-                        details?["failed"] ?? 0,
-                        details?["skipped"] ?? 0),
-                    (int)(details?["failed"] ?? 0) == 0 ? UiLogColor.Success : UiLogColor.Warning);
-                ViewModels.UserControl.TaskQueue.AutoRaiseTaskUserControlModel.Instance.OnSummary();
-                break;
-        }
-    }
-
-    private static string ProcAutoRaiseTargetName(JToken? details)
-    {
-        var name = details?["name"]?.ToString() ?? string.Empty;
-        return DataHelper.GetLocalizedCharacterName(name) ?? name;
-    }
-
-    // 与干员培养设置页的预览行（AutoRaiseTaskUserControlModel.DescribeAction）保持同一格式。
-    private static string ProcAutoRaiseTargetDescription(JToken? details)
-    {
-        string action = details?["action"]?.ToString() ?? string.Empty;
-        int target = details?["target"]?.Value<int>() ?? 0;
-        return action switch
-        {
-            "elite" => LocalizationHelper.GetStringFormat("AutoRaiseEliteTarget", target),
-            "skills" => LocalizationHelper.GetStringFormat("AutoRaiseSkillLevelTarget", target),
-            "mastery" => LocalizationHelper.GetStringFormat("AutoRaiseMasteryTarget", details?["skill"]?.Value<int>() ?? 0, target),
-            _ => action,
-        };
     }
 
     private static void ProcRecruitCalcMsg(JObject details)
