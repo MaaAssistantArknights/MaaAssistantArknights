@@ -4522,5 +4522,6 @@
     "resource/template/InfrastPic/Processing/ProcessingReturnParent": "6854aba4faef85c1e259d81b1754113dc30f54560d4eeab35ae131a644571edf",
     "resource/template/InfrastPic/Processing/ProcessingFlag": "d3445e44b53f39b2ddaddb2b66fbfdb401527bac04e24a548993038387c2e8c2",
     "resource/template/InfrastPic/Processing/ProcessingNoOperator": "710da8ec7012f923087b05edc7dbaa17857df95e13aa6fe11644d9b31bf7a96a",
-    "resource/global/YoStarKR/resource/template/InfrastPic/Assistant/AssistantConfirmButton": "0f522aeb6d1b724444da6583c36f1e4650be481a10a3fe3d4e34775d1d235e08"
+    "resource/global/YoStarKR/resource/template/InfrastPic/Assistant/AssistantConfirmButton": "0f522aeb6d1b724444da6583c36f1e4650be481a10a3fe3d4e34775d1d235e08",
+    "resource/global/YoStarJP/resource/template/InfrastPic/Assistant/AssistantConfirmButton": "c79720179cdb861fb26ba617489eda164f3c79ff4482b9276da2fbe191613fac"
 }
