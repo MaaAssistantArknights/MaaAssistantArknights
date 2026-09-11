@@ -25,8 +25,8 @@ class InfrastTask final : public InterfaceTask
     enum class Mode
     {
         Default = 0,
-        Custom = 10000,
-        Rotation = 20000,
+        Custom = 10'000,
+        Rotation = 20'000,
     };
 
 public:

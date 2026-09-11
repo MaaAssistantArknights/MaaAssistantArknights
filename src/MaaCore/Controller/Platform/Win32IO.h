@@ -33,7 +33,7 @@ public:
 
     virtual std::shared_ptr<IOHandler> interactive_shell(const std::string& cmd) override;
 
-    virtual void release_adb(const std::string& adb_release, int64_t timeout = 20000);
+    virtual void release_adb(const std::string& adb_release, int64_t timeout = 20'000);
 
     WSADATA m_wsa_data {};
     SOCKET m_server_sock = INVALID_SOCKET;

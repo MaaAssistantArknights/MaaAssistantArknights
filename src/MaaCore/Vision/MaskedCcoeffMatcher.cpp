@@ -189,7 +189,7 @@ bool MaskedCcoeffMatcher::should_fallback_to_opencv(int mask_pixels, int result_
         return true;
     }
 #else
-    if (result_positions < 12000 && mask_pixels >= 500) {
+    if (result_positions < 12'000 && mask_pixels >= 500) {
         return true;
     }
     if (static_cast<long long>(mask_pixels) * result_positions < 25'000'000LL) {

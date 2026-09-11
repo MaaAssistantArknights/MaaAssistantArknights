@@ -363,7 +363,7 @@ bool OnDemandStateGraph::initialize(
     for (std::size_t index = 0; index < m_indexed_nodes.size(); ++index) {
         m_node_indices.emplace(m_indexed_nodes[index], static_cast<std::uint8_t>(index));
     }
-    m_ids.reserve(std::min<std::size_t>(m_options.maximum_states, 262144));
+    m_ids.reserve(std::min<std::size_t>(m_options.maximum_states, 262'144));
 
     PlannerState initial;
     initial.node = run.current_node;

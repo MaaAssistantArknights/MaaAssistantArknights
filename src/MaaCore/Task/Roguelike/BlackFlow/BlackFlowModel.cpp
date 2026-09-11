@@ -114,7 +114,7 @@ std::size_t GridPositionHash::operator()(const GridPosition& position) const noe
 
 std::optional<NodeId> make_stable_node_id(int floor, GridPosition position) noexcept
 {
-    if (floor < 0 || floor > 65534) {
+    if (floor < 0 || floor > 65'534) {
         return std::nullopt;
     }
     bool valid = true;

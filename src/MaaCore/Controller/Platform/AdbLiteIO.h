@@ -45,7 +45,7 @@ public:
 
     virtual void set_adb_serial(std::string_view serial) override;
 
-    virtual void release_adb(const std::string& adb_release, int64_t timeout = 20000) override;
+    virtual void release_adb(const std::string& adb_release, int64_t timeout = 20'000) override;
 
 private:
     std::optional<std::unique_lock<std::mutex>> lock_adb_client(std::string_view serial);

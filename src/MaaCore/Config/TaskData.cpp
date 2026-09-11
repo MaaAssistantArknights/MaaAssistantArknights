@@ -55,7 +55,7 @@ asst::TaskPtr asst::TaskData::get(std::string_view name_view)
         return nullptr;
     }
 
-    constexpr size_t MAX_TASKS_SIZE = 65535;
+    constexpr size_t MAX_TASKS_SIZE = 65'535;
     if (m_all_tasks_info.size() < MAX_TASKS_SIZE) [[likely]] {
         // 保存最终生成的任务，下次查询时可以直接返回
         return insert_or_assign_task(name, task).first->second;
@@ -120,7 +120,7 @@ bool asst::TaskData::lazy_parse(const json::value& json)
             validity &= syntax_check(name, task_json);
         }
 
-        const size_t MAX_CHECKING_SIZE = 10000;
+        const size_t MAX_CHECKING_SIZE = 10'000;
         while (!task_queue.empty() && checking_task_set.size() <= MAX_CHECKING_SIZE) {
             std::string name = std::move(task_queue.front());
             task_queue.pop();

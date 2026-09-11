@@ -18,19 +18,19 @@ enum class AsstMsg
     AsyncCallInfo,     // 外部异步调用信息
     Destroyed,         // 实例已销毁
     /* TaskChain Info */
-    TaskChainError = 10000, // 任务链执行/识别错误
-    TaskChainStart,         // 任务链开始
-    TaskChainCompleted,     // 任务链完成
-    TaskChainExtraInfo,     // 任务链额外信息
-    TaskChainStopped,       // 任务链停止（手动停止）
+    TaskChainError = 10'000, // 任务链执行/识别错误
+    TaskChainStart,          // 任务链开始
+    TaskChainCompleted,      // 任务链完成
+    TaskChainExtraInfo,      // 任务链额外信息
+    TaskChainStopped,        // 任务链停止（手动停止）
     /* SubTask Info */
-    SubTaskError = 20000, // 原子任务执行/识别错误
-    SubTaskStart,         // 原子任务开始
-    SubTaskCompleted,     // 原子任务完成
-    SubTaskExtraInfo,     // 原子任务额外信息
-    SubTaskStopped,       // 原子任务停止（手动停止）
+    SubTaskError = 20'000, // 原子任务执行/识别错误
+    SubTaskStart,          // 原子任务开始
+    SubTaskCompleted,      // 原子任务完成
+    SubTaskExtraInfo,      // 原子任务额外信息
+    SubTaskStopped,        // 原子任务停止（手动停止）
     /* Web Request */
-    ReportRequest = 30000, // 上报请求
+    ReportRequest = 30'000, // 上报请求
 };
 
 inline std::ostream& operator<<(std::ostream& os, const AsstMsg& type)

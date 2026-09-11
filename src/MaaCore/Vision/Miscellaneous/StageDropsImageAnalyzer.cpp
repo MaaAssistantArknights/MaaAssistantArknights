@@ -914,7 +914,7 @@ int asst::StageDropsImageAnalyzer::quantity_string_to_int(const std::string& str
     std::string digit_str = str;
     int multiple = 1;
     if (size_t w_pos = digit_str.find("万"); w_pos != std::string::npos) {
-        multiple = 10000;
+        multiple = 10'000;
         digit_str.erase(w_pos, digit_str.size());
     }
     else if (size_t k_pos = digit_str.find('k'); k_pos != std::string::npos) {
