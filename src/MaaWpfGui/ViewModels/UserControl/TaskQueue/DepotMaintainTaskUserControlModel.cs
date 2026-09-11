@@ -136,7 +136,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 ReportToPenguin = SettingsViewModel.ThirdPartyServiceSettings.EnablePenguin,
                 ReportToYituliu = SettingsViewModel.ThirdPartyServiceSettings.EnableYituliu,
                 PenguinId = SettingsViewModel.ThirdPartyServiceSettings.PenguinId,
-                YituliuId = SettingsViewModel.ThirdPartyServiceSettings.PenguinId,
                 ServerType = Instances.SettingsViewModel.ServerType,
                 ClientType = SettingsViewModel.GameSettings.ClientType,
             };
@@ -628,7 +627,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                     ReportToPenguin = SettingsViewModel.ThirdPartyServiceSettings.EnablePenguin,
                     ReportToYituliu = SettingsViewModel.ThirdPartyServiceSettings.EnableYituliu,
                     PenguinId = SettingsViewModel.ThirdPartyServiceSettings.PenguinId,
-                    YituliuId = SettingsViewModel.ThirdPartyServiceSettings.PenguinId,
                     ServerType = Instances.SettingsViewModel.ServerType,
                     ClientType = SettingsViewModel.GameSettings.ClientType,
                 };

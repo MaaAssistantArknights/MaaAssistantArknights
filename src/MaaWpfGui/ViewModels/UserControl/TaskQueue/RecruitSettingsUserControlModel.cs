@@ -301,7 +301,6 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
                 ReportToPenguin = SettingsViewModel.ThirdPartyServiceSettings.EnablePenguin,
                 ReportToYituliu = SettingsViewModel.ThirdPartyServiceSettings.EnableYituliu,
                 PenguinId = SettingsViewModel.ThirdPartyServiceSettings.PenguinId,
-                /* YituliuId = SettingsViewModel.ThirdPartyServiceSettings.PenguinId, */
                 ServerType = Instances.SettingsViewModel.ServerType,
             };
 
