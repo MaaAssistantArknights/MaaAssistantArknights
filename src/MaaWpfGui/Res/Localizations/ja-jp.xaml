@@ -701,7 +701,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="YituliuTokenInvalid">トークンが無効または期限切れです。再生成してください</system:String>
     <system:String x:Key="YituliuTokenNetworkError">ネットワークエラーが発生しました。後でもう一度お試しください</system:String>
     <system:String x:Key="EnableOperBoxYituliuApi">{key=OperBoxRecognition}をYituliuから取得</system:String>
-    <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">有効にすると、｢{key=Toolbox}｣と｢{key=UserDataUpdate}｣の{key=OperBoxRecognition}はエミュレーターに接続してスクリーンショット識別を行わず、トークンに対応するYituliuの育成データを直接読み取ります。&#10;｢{key=UserDataUpdate}｣によるトリガーでは、｢{key=LinkStart}｣を押した直後に他のタスクと並行して取得を開始します。&#10;Yituliuに保存されるのは育成データのスナップショットのため、事前にYituliuサイトへオペレーターデータをアップロードしている必要があります。&#10;トークンはYituliuの「アカウント」ページの「サードパーティ API Token」で生成できます。アカウントデータを保護するため、読み取り専用のトークンのみ使用してください。</system:String>
+    <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">有効にすると、｢{key=Toolbox}｣と｢{key=UserDataUpdate}｣の{key=OperBoxRecognition}はエミュレーターに接続してスクリーンショット識別を行わず、トークンに対応するYituliuの育成データを直接読み取ります。&#10;｢{key=UserDataUpdate}｣によるトリガーでは、｢{key=LinkStart}｣押下後にエミュレーターへ接続次第、他のタスクと並行して取得を開始します。&#10;Yituliuに保存されるのは育成データのスナップショットのため、事前にYituliuサイトへオペレーターデータをアップロードしている必要があります。育成データは森空島からのインポートのため、CNサーバーのアカウントのみデータが存在します。&#10;トークンはYituliuの「アカウント」ページの「サードパーティ API Token」で生成できます。アカウントデータを保護するため、読み取り専用のトークンのみ使用してください。</system:String>
     <system:String x:Key="OperBoxFetchingFromYituliu">Yituliuからオペレーターデータを取得中…</system:String>
     <system:String x:Key="YituliuFetchFailed">Yituliuからの取得に失敗しました：{0}</system:String>
     <system:String x:Key="YituliuNoOperBoxData">トークンに対応するYituliuアカウントにオペレーターデータがなく、ローカルの識別結果を保持しました</system:String>
