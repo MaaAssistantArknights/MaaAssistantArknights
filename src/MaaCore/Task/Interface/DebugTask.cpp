@@ -72,11 +72,6 @@ std::optional<cv::Mat> resize_eval_image(cv::Mat image, int width, int height)
     return image;
 }
 
-json::array to_json_rect(const asst::Rect& rect)
-{
-    return json::array { rect.x, rect.y, rect.width, rect.height };
-}
-
 json::object to_result_json(const std::string& task_name, const asst::PipelineAnalyzer::ResultOpt& result_opt)
 {
     json::object result { { "task", task_name } };
@@ -101,7 +96,7 @@ json::object to_result_json(const std::string& task_name, const asst::PipelineAn
         const auto& r = std::get<asst::FeatureMatcher::Result>(result_var);
         result["count"] = r.count;
     }
-    result["rect"] = to_json_rect(result_opt->rect);
+    result["rect"] = (json::value)result_opt->rect;
     return result;
 }
 }
@@ -326,7 +321,7 @@ bool asst::DebugTask::image_test_ocr()
         if (results_opt) {
             for (const auto& res : *results_opt) {
                 results.emplace_back(
-                    json::object { { "text", res.text }, { "score", res.score }, { "rect", to_json_rect(res.rect) } });
+                    json::object { { "text", res.text }, { "score", res.score }, { "rect", (json::value)res.rect } });
             }
         }
         Log.info("image_test |", image_path, "ocr", json::value(results).dumps());
