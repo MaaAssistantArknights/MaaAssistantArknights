@@ -167,21 +167,17 @@ bool asst::DebugTask::set_params_impl(const json::value& params)
     }
 
     if (m_image_test_mode == "report" || m_image_test_mode == "pipeline") {
-        auto tasks_opt = params.find<json::array>("tasks");
+        auto tasks_opt = params.find<std::vector<std::string>>("tasks");
         if (!tasks_opt || tasks_opt->empty()) {
             LogError << "set_params failed, tasks not found";
             return false;
         }
-        for (const auto& task : *tasks_opt) {
-            if (!task.is_string()) {
-                LogError << "set_params failed, task is not string";
+        for (auto& task : *tasks_opt) {
+            if (Task.get(task) == nullptr) {
+                LogError << "set_params failed, task not found:" << task;
                 return false;
             }
-            if (Task.get(task.as_string()) == nullptr) {
-                LogError << "set_params failed, task not found:" << task.as_string();
-                return false;
-            }
-            m_eval_tasks.emplace_back(task.as_string());
+            m_eval_tasks.emplace_back(std::move(task));
         }
     }
     else if (m_image_test_mode == "ocr" || m_image_test_mode == "templ") {
