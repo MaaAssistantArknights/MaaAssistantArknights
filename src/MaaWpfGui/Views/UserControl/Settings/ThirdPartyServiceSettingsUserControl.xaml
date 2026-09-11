@@ -5,6 +5,7 @@
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
@@ -41,6 +42,58 @@
                 Margin="5,0,0,0"
                 InputMethod.IsInputMethodEnabled="False"
                 Text="{Binding PenguinId}" />
+        </StackPanel>
+        <StackPanel
+            Margin="10"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <controls:TextBlock Text="{DynamicResource YituliuOpenApiToken}" />
+            <Grid Margin="5,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <hc:PasswordBox
+                    Width="220"
+                    IsSafeEnabled="False"
+                    ShowEyeButton="True"
+                    UnsafePassword="{Binding YituliuOpenApiToken}"
+                    hc:BorderElement.CornerRadius="4,0,0,4" />
+                <Button
+                    Grid.Column="1"
+                    Height="30"
+                    Padding="10,0"
+                    hc:BorderElement.CornerRadius="0,4,4,0"
+                    BorderThickness="0,1,1,1"
+                    Command="{s:Action VerifyYituliuToken}"
+                    Content="{DynamicResource YituliuTokenVerify}"
+                    IsEnabled="{Binding CanVerifyYituliuToken}" />
+            </Grid>
+        </StackPanel>
+        <controls:TextBlock
+            Margin="10,5"
+            HorizontalAlignment="Center"
+            MaxWidth="400"
+            Text="{Binding YituliuTokenValidationText}"
+            TextWrapping="Wrap"
+            Visibility="{c:Binding 'YituliuTokenValidationText.Length > 0'}" />
+        <StackPanel
+            Margin="0,10"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <CheckBox
+                MaxWidth="{c:Binding '220 - ActualWidth',
+                                    ElementName=EnableOperBoxYituliuApiTipTooltipBlock}"
+                IsChecked="{Binding EnableOperBoxYituliuApi}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource EnableOperBoxYituliuApi}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
+            <controls:TooltipBlock
+                x:Name="EnableOperBoxYituliuApiTipTooltipBlock"
+                TooltipText="{DynamicResource EnableOperBoxYituliuApiTip}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

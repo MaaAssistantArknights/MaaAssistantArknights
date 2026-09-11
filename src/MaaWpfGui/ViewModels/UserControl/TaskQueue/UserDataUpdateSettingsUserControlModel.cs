@@ -24,6 +24,7 @@ using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.UI;
 using Stylet;
 using static MaaWpfGui.Main.AsstProxy;
 
@@ -101,17 +102,27 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
             }
 
             List<int> ids = [];
+            bool operBoxSyncedWithoutTask = false;
             if (operBoxTriggerDue)
             {
-                bool operBoxRet = Instances.ToolboxViewModel.StartOperBoxRecognitionTask(startImmediately: false);
-                if (!operBoxRet)
+                if (ToolboxViewModel.IsOperBoxYituliuApiEnabled())
                 {
-                    return (false, []);
+                    // 一图流 OpenAPI 模式：不进 core 队列，后台直接拉取，不依赖模拟器连接，也没有 core 任务 id
+                    _ = Instances.ToolboxViewModel.StartOperBoxFromYituliuApiAsync();
+                    operBoxSyncedWithoutTask = true;
                 }
+                else
+                {
+                    bool operBoxRet = Instances.ToolboxViewModel.StartOperBoxRecognitionTask(startImmediately: false);
+                    if (!operBoxRet)
+                    {
+                        return (false, []);
+                    }
 
-                int operBoxTaskId = Instances.AsstProxy.TasksStatus.Last().Key;
-                Instances.ToolboxViewModel.MarkOperBoxRecognitionDataForReset(operBoxTaskId);
-                ids.Add(operBoxTaskId);
+                    int operBoxTaskId = Instances.AsstProxy.TasksStatus.Last().Key;
+                    Instances.ToolboxViewModel.MarkOperBoxRecognitionDataForReset(operBoxTaskId);
+                    ids.Add(operBoxTaskId);
+                }
             }
 
             if (depotTriggerDue)
@@ -131,7 +142,7 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.DoubleSync);
             }
 
-            return ids.Count > 0 ? (true, ids) : (null, []);
+            return ids.Count > 0 || operBoxSyncedWithoutTask ? (true, ids) : (null, []);
         }
 
         private static bool IsTriggerDue(DateTimeOffset? lastSyncTime, UserDataUpdateTriggerInterval triggerInterval)

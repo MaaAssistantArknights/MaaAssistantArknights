@@ -38,6 +38,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
+using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
@@ -1264,7 +1265,8 @@ public class ToolboxViewModel : Screen
         }
     }
 
-    public class Operator(string id, string name, int rarity, int elite = 0, int level = 0, int potential = 0)
+    public class Operator(string id, string name, int rarity, int elite = 0, int level = 0, int potential = 0,
+        List<OperBoxData.SkillData>? skills = null, List<OperBoxData.EquipData>? equips = null)
     {
         [JsonProperty("id")]
         public string Id { get; } = id;
@@ -1283,6 +1285,18 @@ public class ToolboxViewModel : Screen
 
         [JsonProperty("potential")]
         public int Potential { get; } = potential;
+
+        /// <summary>
+        /// Gets 技能专精，仅从一图流 OpenAPI 获取的数据有值
+        /// </summary>
+        [JsonProperty("skills", NullValueHandling = NullValueHandling.Ignore)]
+        public List<OperBoxData.SkillData>? Skills { get; } = skills;
+
+        /// <summary>
+        /// Gets 模组，仅从一图流 OpenAPI 获取的数据有值
+        /// </summary>
+        [JsonProperty("equips", NullValueHandling = NullValueHandling.Ignore)]
+        public List<OperBoxData.EquipData>? Equips { get; } = equips;
 
         public int IdNumber { get; } = ExtractIdNumber(id);
 
@@ -1452,11 +1466,12 @@ public class ToolboxViewModel : Screen
         return count <= 0 ? 1 : Math.Min(count, rowSize);
     }
 
-    private void SaveOperBoxDetails(List<OperBoxData.OperData> details)
+    private void SaveOperBoxDetails(List<OperBoxData.OperData> details, string source)
     {
         var data = new JObject {
             ["done"] = true,
             ["own_opers"] = JArray.FromObject(details),
+            ["source"] = source,
         };
 
         if (LastOperBoxSyncTime.HasValue)
@@ -1556,6 +1571,11 @@ public class ToolboxViewModel : Screen
     }
 
     /// <summary>
+    /// 干员识别数据的来源（local 或 yituliu），决定导出时是否包含专精/模组字段
+    /// </summary>
+    private string _operBoxDataSource = "local";
+
+    /// <summary>
     /// 每次传进来的都是完整数据, 临时缓存去重
     /// </summary>
     private HashSet<string> _tempOperHaveSet = [];
@@ -1598,6 +1618,8 @@ public class ToolboxViewModel : Screen
             ResetOperBoxRecognitionState();
         }
 
+        _operBoxDataSource = details["source"]?.ToString() == "yituliu" ? "yituliu" : "local";
+
         var ownOpers = (details["own_opers"] as JArray)?.ToObject<List<OperBoxData.OperData>>()?.Where(o => !string.IsNullOrEmpty(o.Id)).ToList();
         if (ownOpers is null)
         {
@@ -1609,7 +1631,7 @@ public class ToolboxViewModel : Screen
             if (_tempOperHaveSet.Add(oper.Id))
             {
                 var name = DataHelper.GetLocalizedCharacterName(DataHelper.Operators.FirstOrDefault(i => i.Key == oper.Id).Value) ?? "???";
-                OperBoxHaveList.Add(new Operator(oper.Id, name, oper.Rarity, oper.Elite, oper.Level, oper.Potential));
+                OperBoxHaveList.Add(new Operator(oper.Id, name, oper.Rarity, oper.Elite, oper.Level, oper.Potential, oper.Skills, oper.Equips));
                 if (oper.Id == "char_485_pallas")
                 {
                     AchievementTrackerHelper.Instance.Unlock(AchievementIds.WarehouseKeeper);
@@ -1654,7 +1676,7 @@ public class ToolboxViewModel : Screen
         }
 
         OperBoxInfo = $"{LocalizationHelper.GetString("IdentificationCompleted")}  {LocalizationHelper.GetString("OperBoxRecognitionTip")}";
-        SaveOperBoxDetails(ownOpers);
+        SaveOperBoxDetails(ownOpers, _operBoxDataSource);
         _tempOperHaveSet = [];
         return true;
     }
@@ -1685,6 +1707,97 @@ public class ToolboxViewModel : Screen
     }
 
     /// <summary>
+    /// 判断干员识别是否配置为从一图流 OpenAPI 获取（开关开启且已填写 Token）。
+    /// </summary>
+    /// <returns>是否启用</returns>
+    public static bool IsOperBoxYituliuApiEnabled()
+    {
+        var thirdParty = ConfigFactory.CurrentConfig.Gui.ThirdParty;
+        return thirdParty.OperBoxUseYituliuApi && !string.IsNullOrWhiteSpace(SimpleEncryptionHelper.Decrypt(thirdParty.YituliuOpenApiToken));
+    }
+
+    /// <summary>
+    /// 从一图流 OpenAPI 拉取干员练度数据并按识别结果填充，不依赖模拟器连接。
+    /// </summary>
+    /// <returns>是否成功。</returns>
+    public async Task<bool> StartOperBoxFromYituliuApiAsync()
+    {
+        ResetOperBoxRecognitionState();
+        var token = SimpleEncryptionHelper.Decrypt(ConfigFactory.CurrentConfig.Gui.ThirdParty.YituliuOpenApiToken).Trim();
+        OperBoxInfo = LocalizationHelper.GetString("OperBoxFetchingFromYituliu");
+
+        try
+        {
+            var (result, data) = await YituliuApiService.GetOperatorInfoAsync(token);
+            if (result != YituliuApiService.TokenValidationResult.Valid || data is null)
+            {
+                var reason = result switch {
+                    YituliuApiService.TokenValidationResult.WriteOnly => LocalizationHelper.GetString("YituliuTokenWriteOnly"),
+                    YituliuApiService.TokenValidationResult.Invalid => LocalizationHelper.GetString("YituliuTokenInvalid"),
+                    _ => LocalizationHelper.GetString("YituliuTokenNetworkError"),
+                };
+                OperBoxInfo = LocalizationHelper.GetStringFormat("YituliuFetchFailed", reason);
+                Instances.TaskQueueViewModel.AddLog(OperBoxInfo, UiLogColor.Error);
+                return false;
+            }
+
+            var details = ConvertYituliuDataToDetails(data);
+            return OperBoxParse(details, updateSyncTime: true);
+        }
+        catch (Exception e)
+        {
+            Log.Error("Failed to load operator box from yituliu open-api: {Message}", e.Message);
+            OperBoxInfo = LocalizationHelper.GetString("YituliuTokenNetworkError");
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// 将一图流 OpenAPI 返回的干员数据转换为 <see cref="OperBoxParse"/> 的输入格式，
+    /// 用本地干员表补全名称与星级，无法识别的干员（通常是本地资源过旧）跳过并记日志。
+    /// </summary>
+    /// <param name="data">一图流干员数据</param>
+    /// <returns>识别结果 details</returns>
+    private static JObject ConvertYituliuDataToDetails(List<YituliuApiService.OperatorInfo> data)
+    {
+        var ownOpers = new JArray();
+        foreach (var oper in data)
+        {
+            if (!DataHelper.Operators.TryGetValue(oper.Id, out var charInfo))
+            {
+                Log.Information("Skipped unknown operator from yituliu open-api: {Id}", oper.Id);
+                continue;
+            }
+
+            var entry = new JObject {
+                ["id"] = oper.Id,
+                ["own"] = true,
+                ["elite"] = oper.EvolvePhase,
+                ["level"] = oper.Level,
+                ["potential"] = oper.PotentialRank,
+                ["rarity"] = charInfo.Rarity,
+            };
+            if (oper.Skills is not null)
+            {
+                entry["skills"] = JArray.FromObject(oper.Skills);
+            }
+
+            if (oper.Equips is not null)
+            {
+                entry["equips"] = JArray.FromObject(oper.Equips);
+            }
+
+            ownOpers.Add(entry);
+        }
+
+        return new JObject {
+            ["done"] = true,
+            ["own_opers"] = ownOpers,
+            ["source"] = "yituliu",
+        };
+    }
+
+    /// <summary>
     /// 开始识别干员
     /// UI 绑定的方法
     /// </summary>
@@ -1694,6 +1807,13 @@ public class ToolboxViewModel : Screen
     {
         ResetOperBoxRecognitionState();
         _runningState.SetIdle(false);
+        if (IsOperBoxYituliuApiEnabled())
+        {
+            await StartOperBoxFromYituliuApiAsync();
+            _runningState.SetIdle(true);
+            return;
+        }
+
         string errMsg = string.Empty;
         OperBoxInfo = LocalizationHelper.GetString("ConnectingToEmulator");
         bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
@@ -1763,6 +1883,8 @@ public class ToolboxViewModel : Screen
                     Level = value.Level,
                     Potential = value.Potential,
                     Own = true,
+                    Skills = value.Skills,
+                    Equips = value.Equips,
                 });
             }
             else
@@ -1831,7 +1953,7 @@ public class ToolboxViewModel : Screen
     private void ExportOperBoxToMarkdown()
     {
         ExportOperBoxToFile(
-            list => string.Join(Environment.NewLine, BuildOperBoxMarkdownExportLines(list)),
+            list => string.Join(Environment.NewLine, BuildOperBoxMarkdownExportLines(list, _operBoxDataSource == "yituliu")),
             "Markdown files (*.md)|*.md|All files (*.*)|*.*",
             ".md",
             "Arknights_OperBox_Export.md");
@@ -1840,13 +1962,13 @@ public class ToolboxViewModel : Screen
     private void ExportOperBoxToCsv()
     {
         ExportOperBoxToFile(
-            list => string.Join(Environment.NewLine, BuildOperBoxCsvExportLines(list)),
+            list => string.Join(Environment.NewLine, BuildOperBoxCsvExportLines(list, _operBoxDataSource == "yituliu")),
             "CSV files (*.csv)|*.csv|All files (*.*)|*.*",
             ".csv",
             "Arknights_OperBox_Export.csv");
     }
 
-    private static IEnumerable<string> BuildOperBoxMarkdownExportLines(IReadOnlyList<OperBoxData.OperData> items)
+    private static IEnumerable<string> BuildOperBoxMarkdownExportLines(IReadOnlyList<OperBoxData.OperData> items, bool includeYituliuFields)
     {
         var nameHeader = LocalizationHelper.GetString("OperBoxExportHeaderName");
         var idHeader = LocalizationHelper.GetString("OperBoxExportHeaderId");
@@ -1858,15 +1980,39 @@ public class ToolboxViewModel : Screen
         var yes = LocalizationHelper.GetString("OperBoxExportYes");
         var no = LocalizationHelper.GetString("OperBoxExportNo");
 
-        yield return $"| {nameHeader} | {idHeader} | {rarityHeader} | {eliteHeader} | {levelHeader} | {ownHeader} | {potentialHeader} |";
-        yield return "| :-- | :-- | :-- | :-- | :-- | :-- | :-- |";
+        var skillsHeader = LocalizationHelper.GetString("OperBoxExportHeaderSkills");
+        var equipsHeader = LocalizationHelper.GetString("OperBoxExportHeaderEquips");
+
+        yield return includeYituliuFields
+            ? $"| {nameHeader} | {idHeader} | {rarityHeader} | {eliteHeader} | {levelHeader} | {ownHeader} | {potentialHeader} | {skillsHeader} | {equipsHeader} |"
+            : $"| {nameHeader} | {idHeader} | {rarityHeader} | {eliteHeader} | {levelHeader} | {ownHeader} | {potentialHeader} |";
+        yield return includeYituliuFields
+            ? "| :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- |"
+            : "| :-- | :-- | :-- | :-- | :-- | :-- | :-- |";
         foreach (var item in items)
         {
-            yield return $"| {item.Name} | {item.Id} | {item.Rarity} | {item.Elite} | {item.Level} | {(item.Own ? yes : no)} | {item.Potential} |";
+            var baseColumns = $"| {item.Name} | {item.Id} | {item.Rarity} | {item.Elite} | {item.Level} | {(item.Own ? yes : no)} | {item.Potential} |";
+            yield return includeYituliuFields ? baseColumns + $" {FormatSkillsColumn(item)} | {FormatEquipsColumn(item)} |" : baseColumns;
         }
     }
 
-    private static IEnumerable<string> BuildOperBoxCsvExportLines(IReadOnlyList<OperBoxData.OperData> items)
+    /// <summary>
+    /// 技能专精列：按技能顺序拼接专精等级（如 3/3/0），无专精技能为空。
+    /// </summary>
+    private static string FormatSkillsColumn(OperBoxData.OperData item)
+    {
+        return item.Skills is { Count: > 0 } ? string.Join("/", item.Skills.Select(s => s.Level)) : string.Empty;
+    }
+
+    /// <summary>
+    /// 模组列：分支字母加等级（如 X3 Y1），未开通模组为空。
+    /// </summary>
+    private static string FormatEquipsColumn(OperBoxData.OperData item)
+    {
+        return item.Equips is { Count: > 0 } ? string.Join(" ", item.Equips.Select(e => $"{e.Type}{e.Level}")) : string.Empty;
+    }
+
+    private static IEnumerable<string> BuildOperBoxCsvExportLines(IReadOnlyList<OperBoxData.OperData> items, bool includeYituliuFields)
     {
         var nameHeader = LocalizationHelper.GetString("OperBoxExportHeaderName");
         var idHeader = LocalizationHelper.GetString("OperBoxExportHeaderId");
@@ -1878,7 +2024,12 @@ public class ToolboxViewModel : Screen
         var yes = LocalizationHelper.GetString("OperBoxExportYes");
         var no = LocalizationHelper.GetString("OperBoxExportNo");
 
-        yield return $"{nameHeader},{idHeader},{rarityHeader},{eliteHeader},{levelHeader},{ownHeader},{potentialHeader}";
+        var skillsHeader = LocalizationHelper.GetString("OperBoxExportHeaderSkills");
+        var equipsHeader = LocalizationHelper.GetString("OperBoxExportHeaderEquips");
+
+        yield return includeYituliuFields
+            ? $"{nameHeader},{idHeader},{rarityHeader},{eliteHeader},{levelHeader},{ownHeader},{potentialHeader},{skillsHeader},{equipsHeader}"
+            : $"{nameHeader},{idHeader},{rarityHeader},{eliteHeader},{levelHeader},{ownHeader},{potentialHeader}";
         foreach (var item in items)
         {
             var name = item.Name ?? string.Empty;
@@ -1887,7 +2038,8 @@ public class ToolboxViewModel : Screen
                 name = "\"" + name.Replace("\"", "\"\"") + "\"";
             }
 
-            yield return $"{name},{item.Id},{item.Rarity},{item.Elite},{item.Level},{(item.Own ? yes : no)},{item.Potential}";
+            var baseColumns = $"{name},{item.Id},{item.Rarity},{item.Elite},{item.Level},{(item.Own ? yes : no)},{item.Potential}";
+            yield return includeYituliuFields ? baseColumns + $",{FormatSkillsColumn(item)},{FormatEquipsColumn(item)}" : baseColumns;
         }
     }
 

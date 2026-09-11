@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
+using System;
 using MaaWpfGui.Models;
 
 namespace MaaWpfGui.Configuration.Single.Settings;
@@ -26,4 +27,13 @@ public partial class ThirdParty : NotifyPropertyChangedWithValue
 
     public bool ReportToYituliu { get; set; } = true;
 
+    /// <summary>
+    /// 一图流第三方 OpenAPI Token，用于读取干员练度数据
+    /// </summary>
+    public string YituliuOpenApiToken { get; set; } = string.Empty;
+
+    /// <summary>
+    /// 干员识别改为从一图流 OpenAPI 获取，而不是连接模拟器本地识别
+    /// </summary>
+    public bool OperBoxUseYituliuApi { get; set; }
 }

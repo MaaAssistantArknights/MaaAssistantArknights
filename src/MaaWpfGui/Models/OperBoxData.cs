@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace MaaWpfGui.Models;
@@ -58,5 +59,41 @@ public class OperBoxData
         /// </summary>
         [JsonProperty("rarity")]
         public int Rarity { get; set; } = 0;
+
+        /// <summary>
+        /// Gets or sets 技能专精，仅从一图流 OpenAPI 获取的数据有值
+        /// </summary>
+        [JsonProperty("skills", NullValueHandling = NullValueHandling.Ignore)]
+        public List<SkillData>? Skills { get; set; }
+
+        /// <summary>
+        /// Gets or sets 模组，仅从一图流 OpenAPI 获取的数据有值
+        /// </summary>
+        [JsonProperty("equips", NullValueHandling = NullValueHandling.Ignore)]
+        public List<EquipData>? Equips { get; set; }
+    }
+
+    public class SkillData
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; } = null!;
+
+        [JsonProperty("level")]
+        public int Level { get; set; }
+    }
+
+    public class EquipData
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; } = null!;
+
+        /// <summary>
+        /// Gets or sets 模组分支（X/Y 等）
+        /// </summary>
+        [JsonProperty("type")]
+        public string Type { get; set; } = string.Empty;
+
+        [JsonProperty("level")]
+        public int Level { get; set; }
     }
 }
