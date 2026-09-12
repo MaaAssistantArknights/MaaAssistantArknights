@@ -2063,7 +2063,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="TaskStallWarning">작업 로그 출력이 {0}분 동안 업데이트되지 않았습니다(현재 {1}분 정지). 작업이 정상적으로 실행 중인지 확인하세요. 정상이라면 이 경고를 무시해도 됩니다. 응답이 없으면 수동 개입이 필요할 수 있습니다.</system:String>
     <system:String x:Key="RunDurationLimitEnabled">1회 실행 시간 제한</system:String>
     <system:String x:Key="RunDurationLimitMinutes">실행 시간 상한 (분)</system:String>
-    <system:String x:Key="RunDurationLimitTip" xml:space="preserve">｢{key=LinkStart}｣ 클릭 시점부터 시간을 측정하며, 상한에 도달하면 작업을 자동으로 중지합니다. 중지 후 ｢{key=PostActionsSettings}｣의 동작(게임 종료, 에뮬레이터 종료, 시스템 종료 등) 실행 여부는 아래 옵션으로 설정할 수 있습니다.
+    <system:String x:Key="RunDurationLimitTip" xml:space="preserve">｢{key=LinkStart}｣ 클릭 시점부터 시간을 측정하며, 상한에 도달하면 수동 중지를 한 번 실행합니다.
 {key=CheckBoxesNotSavedAsNull}.</system:String>
     <system:String x:Key="RunDurationLimitExecutePostActions">중지 후 ｢{key=PostActionsSettings}｣의 동작 실행</system:String>
     <system:String x:Key="RunDurationLimitReached">실행 시간 상한({0}분)에 도달하여 작업을 중지합니다</system:String>

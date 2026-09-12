@@ -208,7 +208,7 @@
                             <Button
                                 Width="120"
                                 Height="50"
-                                Command="{s:Action Stop}"
+                                Command="{s:Action ManualStop}"
                                 Content="{DynamicResource Stop}"
                                 IsEnabled="{c:Binding 'Inited and !Stopping'}"
                                 Visibility="{c:Binding !Idle}" />

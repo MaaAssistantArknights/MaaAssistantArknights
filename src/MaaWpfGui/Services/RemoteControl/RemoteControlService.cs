@@ -470,15 +470,9 @@ public class RemoteControlService
 
                 case "StopTask":
                     {
-                        await Task.Run(() => {
-                            if (!Instances.AsstProxy.AsstStop())
-                            {
-                                // 无法确定当前的界面，找不到借用的UI位置，因此只能Log
-                                Log.Logger.Error("Failed to stop Asst.");
-                            }
-                        });
-
+                        // 远控停止与界面手动停止同语义（结束脚本按当前任务链的开关闭合）；
                         // 无需等待，甩出任务即可返回，远端应该用心跳来确认界面卡死和取消是否成功。
+                        _ = Instances.TaskQueueViewModel.StopManuallyAsync();
                         break;
                     }
 
@@ -722,7 +716,6 @@ public class RemoteControlService
             if (count == 0)
             {
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UnselectedTask"));
-                _runningState.SetIdle(true);
                 Instances.TaskQueueViewModel.SetStopped();
                 return;
             }

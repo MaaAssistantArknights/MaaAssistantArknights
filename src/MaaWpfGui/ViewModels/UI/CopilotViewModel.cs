@@ -1843,7 +1843,7 @@ public partial class CopilotViewModel : Screen
         // 统一前置校验：先按 CopilotTabIndex 分发，再判断对应选项（UseCopilotList 等）
         if (!await ValidateStartAsync())
         {
-            _runningState.SetIdle(true);
+            Instances.TaskQueueViewModel.SetStopped();
             return;
         }
 
@@ -1851,14 +1851,16 @@ public partial class CopilotViewModel : Screen
 
         if (!await ConnectToEmulatorAsync())
         {
+            // Core 从未 start，Stop() 的轮询立即结束、走不到超时强制 SetStopped，需显式收尾
             await Stop();
+            Instances.TaskQueueViewModel.SetStopped();
             return;
         }
 
         // 连接期间用户可能已点停止，需在此处拦截
         if (_runningState.GetStopping())
         {
-            Instances.TaskQueueViewModel.SetStopped(SettingsViewModel.GameSettings.CopilotWithScript);
+            Instances.TaskQueueViewModel.SetStopped();
             AddLog(LocalizationHelper.GetString("Stopped"));
             return;
         }
@@ -1888,7 +1890,7 @@ public partial class CopilotViewModel : Screen
                 _logger.Warning("Failed to stop Asst");
             }
 
-            _runningState.SetIdle(true);
+            Instances.TaskQueueViewModel.SetStopped();
             AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error, showTime: false);
         }
     }
@@ -2091,13 +2093,36 @@ public partial class CopilotViewModel : Screen
     // }
 
     /// <summary>
-    /// Stops copilot.
+    /// 手动停止 copilot。
     /// UI 绑定的方法
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    [UsedImplicitly]
+    public async Task ManualStop()
+    {
+        if (_runningState.GetStopping() || _runningState.GetIdle())
+        {
+            return;
+        }
+
+        AddLog(LocalizationHelper.GetString("Stopping"));
+
+        // 停止目标恒为 copilot（连接中、Core 未运行无链信息可判的阶段也由入口显式声明）；
+        // 停止完成后发射结束脚本，须 ｢自动战斗时启用上述脚本｣ 与 ｢手动停止时启用上述脚本｣ 同时开启
+        var stopped = await Instances.TaskQueueViewModel.StopManuallyAsync(isCopilot: true);
+        if (stopped)
+        {
+            AddLog(LocalizationHelper.GetString("Stopped"));
+        }
+    }
+
+    /// <summary>
+    /// 内部收尾停止：仅通知 Core 停止并等待，不发射结束脚本（连接失败等启动链路调用）。
     /// </summary>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task Stop()
     {
-        // 等待 Core 实际停止；回调或超时自动 SetStopped（脚本由 proxy 回调按 CopilotWithScript 设置判断）
+        // 等待 Core 实际停止；回调或超时自动 SetStopped，结束脚本不经此发射
         AddLog(LocalizationHelper.GetString("Stopping"));
         await Instances.TaskQueueViewModel.Stop();
         if (_runningState.GetIdle() && !_runningState.GetStopping())

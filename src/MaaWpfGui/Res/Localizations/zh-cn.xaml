@@ -595,7 +595,7 @@ D:\
     <system:String x:Key="EndsWithScript">结束后脚本</system:String>
     <system:String x:Key="EndsWithScriptPlaceholder">示例："C:\1.cmd" -noWindow</system:String>
     <system:String x:Key="CopilotWithScript">自动战斗时启用上述脚本</system:String>
-    <system:String x:Key="ManualStopWithScript">手动暂停时启用上述脚本</system:String>
+    <system:String x:Key="ManualStopWithScript">手动停止时启用上述脚本</system:String>
     <system:String x:Key="BlockSleep">运行任务时阻止休眠</system:String>
     <system:String x:Key="BlockSleepWithScreenOn">阻止休眠时保持屏幕常亮</system:String>
     <system:String x:Key="ScreencapCost">截图耗时 min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
@@ -2061,7 +2061,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskStallWarning">任务日志输出已超过 {0} 分钟无更新（当前已停滞 {1} 分钟）。请确认任务是否正常运行，若任务正常可忽略此提示，若无响应则可能需要手动干预。</system:String>
     <system:String x:Key="RunDurationLimitEnabled">限制单次运行时长</system:String>
     <system:String x:Key="RunDurationLimitMinutes">运行时长上限（分钟）</system:String>
-    <system:String x:Key="RunDurationLimitTip" xml:space="preserve">从点击 ｢{key=LinkStart}｣ 开始计时，到达上限后自动停止任务，并按下方选项决定是否执行 ｢{key=PostActionsSettings}｣ 中的动作（如退出游戏、关闭模拟器、关机）。
+    <system:String x:Key="RunDurationLimitTip" xml:space="preserve">从点击 ｢{key=LinkStart}｣ 开始计时，到达上限后触发一次手动停止。
 {key=CheckBoxesNotSavedAsNull}。</system:String>
     <system:String x:Key="RunDurationLimitExecutePostActions">停止后执行 ｢{key=PostActionsSettings}｣ 中的动作</system:String>
     <system:String x:Key="RunDurationLimitReached">已达到运行时长上限（{0} 分钟），停止任务</system:String>

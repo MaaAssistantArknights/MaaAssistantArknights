@@ -441,6 +441,13 @@ public class AsstProxy
     {
         _callback = CallbackFunction;
         _runningState = RunningState.Instance;
+        _runningState.StateChanged += (_, e) => {
+            // 轮次结束回到空闲时归零链信息，下一轮启动链路（core 尚无链信息）读到的即为干净的 false
+            if (!e.OldState.Idle && e.NewState.Idle)
+            {
+                _isCopilotTaskChainRunning = false;
+            }
+        };
         _tasksStatus.CollectionChanged += (in NotifyCollectionChangedEventArgs<KeyValuePair<AsstTaskId, (TaskType, TaskStatus)>> args) => {
             if (args.Action == NotifyCollectionChangedAction.Reset)
             {
@@ -1298,9 +1305,7 @@ public class AsstProxy
         {
             case AsstMsg.TaskChainStopped:
                 {
-                    // Copilot 场景下只有 CopilotWithScript 开启时才执行结束脚本，否则由 SetStopped 默认逻辑处理
-                    bool runScript = !isCopilotTaskChain || SettingsViewModel.GameSettings.CopilotWithScript;
-                    Instances.TaskQueueViewModel.SetStopped(runStopScript: runScript);
+                    Instances.TaskQueueViewModel.SetStopped();
                 }
 
                 // UpdateTaskStatus(taskId, TaskStatus.Completed);
@@ -1343,6 +1348,7 @@ public class AsstProxy
                     taskName += GetMultiChainTaskNameSuffix(task, taskChain, taskId);
                     Instances.TaskQueueViewModel.AddLogSection(LocalizationHelper.GetString("StartTask") + taskName, decoratePlainText: false);
                     _logger.Information("Start Task Chain: {TaskChain}, Task ID: {TaskId}", taskChain, taskId);
+                    _isCopilotTaskChainRunning = isCopilotTaskChain;
                     UpdateTaskStatus(taskId, TaskStatus.InProgress);
 
                     // LinkStart 按钮也会修改，但小工具中的日志源需要在这里修改
@@ -1445,7 +1451,8 @@ public class AsstProxy
                 {
                     if (SettingsViewModel.GameSettings.CopilotWithScript)
                     {
-                        Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript", showLog: false));
+                        // 与手动停止入口共享发射权（copilot 日志走下方 AddLog，不进任务日志）
+                        _ = Instances.TaskQueueViewModel.RunStopScriptOnceAsync(showLog: false);
                         if (!string.IsNullOrWhiteSpace(SettingsViewModel.GameSettings.EndsWithScript))
                         {
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("EndsWithScript"));
@@ -3312,6 +3319,17 @@ public class AsstProxy
     ];
 
     private readonly ObservableDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> _tasksStatus = [];
+
+    // 本轮 Core 任务链是否 copilot；链开始时置值，轮次结束回到空闲时归零。
+    // 归零挂在 StateChanged(→Idle) 而非 TaskChainStopped：自然完成不发 TaskChainStopped（只有停止
+    // 路径发），挂回调清会让残留的 true 被下一轮启动链路（连接、开始前脚本阶段）的手动停止读到
+    private volatile bool _isCopilotTaskChainRunning;
+
+    /// <summary>
+    /// 当前运行的任务链是否 copilot（Copilot / SSSCopilot）。
+    /// 链开始时置值；轮次结束（回到空闲）时归零，Core 未运行（启动链路中的连接、开始前脚本阶段）时无链信息，值为 false。
+    /// </summary>
+    public bool IsCopilotTaskChainRunning => _isCopilotTaskChainRunning;
 
     public IReadOnlyDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> TasksStatus => new Dictionary<AsstTaskId, (TaskType, TaskStatus)>(_tasksStatus);
 

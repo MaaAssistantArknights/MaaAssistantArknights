@@ -1199,7 +1199,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         _isWaitingToRestart = true;
 
-        await RunningState.Instance.UntilIdleAsync(60000);
+        await RunningState.Instance.UntilIdleAsync();
         if (args is { Length: > 0 })
         {
             ShutdownAndRestartWithArgs(args);

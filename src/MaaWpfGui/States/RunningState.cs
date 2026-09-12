@@ -315,6 +315,8 @@ public class RunningState
         {
             _logger.Information("InterruptLock: depth={Depth} (called from {Caller})", newValue, caller);
         }
+
+        SignalCanInterrupt();
     }
 
     /// <summary>
@@ -329,6 +331,19 @@ public class RunningState
     /// </summary>
     /// <returns>空闲且中断未锁定返回 <see langword="true"/>，否则返回 <see langword="false"/>。</returns>
     public bool CanInterrupt() => GetIdle() && !IsInterruptLocked();
+
+    // 等待可打断的广播信号；状态跃迁或中断锁归零且恰好可打断时置位换新，等待方被即时唤醒
+    private TaskCompletionSource _canInterruptSignal = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+    private void SignalCanInterrupt()
+    {
+        if (!CanInterrupt())
+        {
+            return;
+        }
+
+        Interlocked.Exchange(ref _canInterruptSignal, new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously)).TrySetResult();
+    }
 
     private bool _inited;
 
@@ -381,27 +396,59 @@ public class RunningState
     private void RaiseStateChanged(StateSnapshot oldState)
     {
         StateChanged?.Invoke(this, new(oldState, _idle, _inited, _stopping));
+        SignalCanInterrupt();
     }
 
     /// <summary>
-    /// 等待状态变为闲置
+    /// 等待状态变为闲置（可打断），状态广播即时唤醒，无轮询。
     /// </summary>
-    /// <param name="time">查询间隔(ms)</param>
     /// <param name="confirmInterval">确认间隔(ms)</param>
-    /// <param name="confirmTimes">确认次数</param>
-    /// <returns>Task</returns>
-    public async Task UntilIdleAsync(int time = 1000, int confirmInterval = 1000, int confirmTimes = 3)
+    /// <param name="confirmTimes">确认次数；0 表示等到可打断即返回，不防抖确认</param>
+    /// <param name="timeout">总等待上限(ms)；小于 0（如 <see cref="Timeout.Infinite"/>）表示无限等待</param>
+    /// <returns>是否在超时内等到闲置；false 表示超时放弃</returns>
+    public async Task<bool> UntilIdleAsync(int confirmInterval = 1000, int confirmTimes = 3, int timeout = Timeout.Infinite)
     {
+        var deadline = timeout < 0 ? DateTime.MaxValue : DateTime.UtcNow.AddMilliseconds(timeout);
         while (true)
         {
             while (!CanInterrupt())
             {
-                await Task.Delay(time);
+                // 无限等待须传 InfiniteTimeSpan：deadline 为 DateTime.MaxValue 时的差值远超
+                // Task.WaitAsync(TimeSpan) 的上限，直接传剩余时间会抛 ArgumentOutOfRangeException
+                var remaining = timeout < 0 ? Timeout.InfiniteTimeSpan : deadline - DateTime.UtcNow;
+                if (timeout >= 0 && remaining <= TimeSpan.Zero)
+                {
+                    _logger.Information("Idle not reached before timeout.");
+                    return false;
+                }
+
+                // 读取信号与挂起之间广播可能已置位，挂起前双查兜底
+                var signal = Volatile.Read(ref _canInterruptSignal);
+                if (CanInterrupt())
+                {
+                    break;
+                }
+
+                try
+                {
+                    await signal.Task.WaitAsync(remaining);
+                }
+                catch (TimeoutException)
+                {
+                    _logger.Information("Idle not reached before timeout.");
+                    return false;
+                }
             }
 
             int confirmed = 0;
             while (confirmed < confirmTimes)
             {
+                if (DateTime.UtcNow >= deadline)
+                {
+                    _logger.Information("Idle not confirmed before timeout.");
+                    return false;
+                }
+
                 await Task.Delay(confirmInterval);
 
                 if (CanInterrupt())
@@ -418,7 +465,7 @@ public class RunningState
             if (confirmed >= confirmTimes)
             {
                 _logger.Information("Idle state confirmed after {ConfirmTimes} checks.", confirmTimes);
-                return;
+                return true;
             }
         }
     }
