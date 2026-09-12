@@ -432,6 +432,16 @@ internal static partial class PendingUpdateApplier
     }
 
     /// <summary>
+    /// 删除委托更新失败标志，供所有注册新更新包的路径统一调用。
+    /// 注册即代表用户已着手修复（手动下载完整包、拖入本地包等），旧失败原因失效；
+    /// 标志不删的话，下次启动 <see cref="TryReadDelegatedUpdateFailure"/> 会连刚注册的包一起清空，形成死循环。
+    /// </summary>
+    public static void ClearDelegatedUpdateFailureState()
+    {
+        SafeDeleteFile(DelegatedUpdateFailureStatusFilePath, "delegated update failure state");
+    }
+
+    /// <summary>
     /// 将更新器写入的英文失败原因映射为本地化的展示文案。
     /// </summary>
     /// <param name="failureReason">更新器写入的失败原因。</param>
@@ -970,9 +980,7 @@ internal static partial class PendingUpdateApplier
 
         ConfigFactory.Root.Update.UpdatePackage = packagePath;
 
-        // 注册新包即代表用户已着手修复（拖入本地包、自动修复下载完整包等），旧失败原因失效；
-        // 标志不删的话，下次启动 TryReadDelegatedUpdateFailure 会连刚注册的包一起清空，形成死循环
-        SafeDeleteFile(DelegatedUpdateFailureStatusFilePath, "delegated update failure state");
+        ClearDelegatedUpdateFailureState();
     }
 
     private static void ClearPendingUpdatePackageState()
