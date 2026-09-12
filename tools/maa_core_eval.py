@@ -5,7 +5,8 @@
 得分多少、OCR 认出了什么文本 —— 识别走的是 core 本体（模板、前处理、ocrReplace、
 各服 OCR 模型均与运行时一致），避免用外部脚本近似复现导致结论偏差。
 
-仅 Debug 构建的 MaaCore.dll 可用（Debug 任务只在 ASST_DEBUG 下注册）。
+仅 Debug 构建的 MaaCore.dll 可用（Debug 任务只在 ASST_DEBUG 下注册），
+且仅限 Windows（ctypes.WinDLL 加载 MaaCore.dll）。
 连着模拟器在线验证任务流请用 Custom 任务，本模块只做离线图片评估。
 
 用法一（作为模块，供脚本组合调用）::
@@ -35,6 +36,7 @@ import pathlib
 import sys
 import tempfile
 import threading
+import time
 
 REPO_ROOT = pathlib.Path(__file__).resolve().parent.parent
 MSG_ALL_TASKS_COMPLETED = 3
@@ -150,7 +152,9 @@ class CoreEval:
         for _ in range(100):
             if not self._lib.AsstRunning(self._handle):
                 break
-            threading.Event().wait(0.02)
+            time.sleep(0.02)
+        else:
+            raise RuntimeError("core did not return to idle after Debug task")
         return list(self._results)
 
     @staticmethod
@@ -167,9 +171,10 @@ class CoreEval:
         )
 
     def pipeline(self, images, tasks):
-        """每张图按任务列表跑一次线上同款首命中匹配：[{image, hit, task, next, ...}]。
+        """每张图按任务列表跑一次线上同款首命中匹配：[{image, hit, result, next}]。
 
-        返回的 next 是命中任务的 next 任务列表，可用于自行驱动任务链回放。
+        命中详情在 result 字段（task 为完整任务名含 @ 前缀、score、rect 等），next 为命中
+        任务的 next 任务列表，可用于自行驱动任务链回放。
         """
         return self._run_task(
             {
@@ -197,13 +202,13 @@ class CoreEval:
         :param templates: 模板名列表，与 core 的 get_templ 一致：物品 ID（如 "2001"）、
                           相对 resource/template 的路径（如 "items/2001.png"）、
                           或 resource/template 下的目录（自动展开其中全部模板）
-        :param threshold: hit 判定阈值，缺省取 task 任务的阈值（无 task 时 0.7）；
+        :param threshold: hit 判定阈值，缺省取 task 任务的阈值（无 task 时 0.8）；
                           匹配恒报最佳得分，排查 ｢为什么没认出｣ 时可调低
-        :param resize:    评估前把图 INTER_AREA 缩放到 [w, h]（core 侧执行），
-                          复刻线上各识别器的尺度预处理时使用
-        :param task:      Matcher 配置来源任务名（maskRange / colorScales / method 等取自
-                          该任务，threshold 缺省时也取任务阈值），复刻线上自定义识别器
-                          的 Matcher 用法时使用
+        :param resize:    先归一到 1280x720 再 INTER_AREA 缩放到 [w, h]（core 侧两级
+                          执行，与线上截图缩放链一致），复刻线上各识别器的尺度预处理时使用
+        :param task:      Matcher 配置来源任务名（maskRange / colorScales / method / roi
+                          等取自该任务，threshold 缺省时也取任务阈值），复刻线上自定义识别器
+                          的 Matcher 用法时使用；不传 roi 时识别区域即任务 roi
         :return: [{image, results: [{template, hit, score, rect, error?}]}]
         """
         names = []
@@ -237,10 +242,10 @@ class CoreEval:
     def depot_items(self, images, item_ids=None, threshold=None):
         """复刻线上 DepotImageAnalyzer 的仓库物品匹配（python 侧做自定义预处理）。
 
-        线上的自定义处理在此复刻：模板右下 80x50 涂黑（数量角标）、图 INTER_AREA 缩放
-        到 DepotMatchData 的 roi 尺寸、maskRange/阈值等 Matcher 配置取自 DepotMatchData
-        任务 —— 尺寸、mask、阈值直接读 tasks.json，与 core 运行时同源；缩放和匹配仍由
-        core 执行。需要 Pillow。数量识别等其余链路不在此复刻，只做模板匹配评估。
+        线上的自定义处理在此复刻：模板右下 80x50 涂黑（数量角标）、图先归一 1280x720 再
+        INTER_AREA 缩放到 DepotMatchData 的 roi 尺寸、maskRange/阈值等 Matcher 配置取自
+        DepotMatchData 任务 —— 尺寸、mask、阈值直接读 tasks.json，与 core 运行时同源；缩放
+        和匹配仍由 core 执行。需要 Pillow。数量识别等其余链路不在此复刻，只做模板匹配评估。
 
         :param item_ids: 物品 ID / 模板路径 / 目录列表；缺省为 item_index.json 里
                          classifyType 为 MATERIAL 的物品（与线上
@@ -315,7 +320,7 @@ class CoreEval:
     def replay(self, images, tasks):
         """图片序列按 next 链逐图推进（纯识别，不执行点击等 action）。
 
-        返回 [{step, image, hit, task, next, ...}]；链在未命中、next 为空或图耗尽处停止。
+        返回 [{step, image, hit, result, next}]；链在未命中、next 为空或图耗尽处停止。
         """
         steps = []
         current = list(tasks)
@@ -387,9 +392,13 @@ def main():
         "--threshold",
         type=float,
         default=None,
-        help="templ/depot 模式的 hit 判定阈值，默认取任务阈值或 0.7",
+        help="templ/depot 模式的 hit 判定阈值，默认取任务阈值或 0.8",
     )
     parser.add_argument("--roi", help="ocr/templ 模式的识别区域 x,y,w,h")
+    parser.add_argument(
+        "--resize",
+        help="templ 模式的评估前缩放尺寸 w,h（先归一 1280x720 再缩放，与线上两级缩放一致）",
+    )
     parser.add_argument("--dll-dir", default=str(REPO_ROOT / "build" / "bin" / "Debug"))
     parser.add_argument(
         "--resource",
@@ -431,11 +440,14 @@ def _run_cli(ev, args):
             if _print_entry_error(r):
                 continue
             hit = "hit " if r.get("hit") else "MISS"
+            result = r.get("result", {})
             extras = " ".join(
-                f"{k}={r[k]}" for k in ("score", "count", "text", "rect") if k in r
+                f"{k}={result[k]}"
+                for k in ("score", "count", "text", "rect")
+                if k in result
             )
             print(
-                f"{pathlib.Path(r['image']).name}: {hit} {r.get('task', '')} {extras} next={r.get('next', [])}"
+                f"{pathlib.Path(r['image']).name}: {hit} {result.get('task', '')} {extras} next={r.get('next', [])}"
             )
     elif args.mode == "ocr":
         roi = [int(v) for v in args.roi.split(",")] if args.roi else None
@@ -447,12 +459,14 @@ def _run_cli(ev, args):
                 print(f"  {r['score']:.4f} {r['text']} {r['rect']}")
     elif args.mode == "templ":
         roi = [int(v) for v in args.roi.split(",")] if args.roi else None
+        resize = [int(v) for v in args.resize.split(",")] if args.resize else None
         templates = [t.strip() for t in args.templates.split(",") if t.strip()]
         for entry in ev.templ(
             args.images,
             templates,
             threshold=args.threshold,
             roi=roi,
+            resize=resize,
             task=args.task,
         ):
             if _print_entry_error(entry):
@@ -490,11 +504,14 @@ def _run_cli(ev, args):
             if _print_entry_error(s):
                 continue
             hit = "hit " if s.get("hit") else "MISS"
+            result = s.get("result", {})
             extras = " ".join(
-                f"{k}={s[k]}" for k in ("score", "count", "text", "rect") if k in s
+                f"{k}={result[k]}"
+                for k in ("score", "count", "text", "rect")
+                if k in result
             )
             print(
-                f"step{s['step']} {pathlib.Path(s['image']).name}: {hit} {s.get('task', '')} {extras} next={s.get('next', [])}"
+                f"step{s['step']} {pathlib.Path(s['image']).name}: {hit} {result.get('task', '')} {extras} next={s.get('next', [])}"
             )
 
 

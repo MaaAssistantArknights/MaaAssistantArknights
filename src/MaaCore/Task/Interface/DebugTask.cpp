@@ -31,10 +31,8 @@ asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) :
 
 bool asst::DebugTask::run()
 {
-    std::string test = "[1,2,3,4]";
-    json::value test_json = json::parse(test);
-    LogInfo << "DebugTask run() called, test_json:" << test_json;
-    LogInfo << "DebugTask run() called, test_json:" << test_json.is<asst::Rect>();
+    // PackageTask::run 被覆盖，运行标记须自行置位，set_params 据此拒绝运行中更新
+    m_running = true;
 
     if (m_image_test_mode == "report") {
         return image_test_report();
@@ -53,9 +51,9 @@ bool asst::DebugTask::run()
 
 namespace
 {
-// 读取本地图片；normalize 为 true 时缩放到 1280x720（INTER_AREA），
-// 与线上 Controller::get_resized_image_cache 一致，调用方已自行预处理尺寸时传 false
-std::optional<cv::Mat> load_eval_image(const std::string& utf8_path, bool normalize)
+// 读取本地图片并缩放到 1280x720（INTER_AREA），与线上 Controller::get_resized_image_cache 一致；
+// 需要其他评估尺寸（如仓库识别的 1066x599）的先经此归一，再用 resize_eval_image 二级缩放
+std::optional<cv::Mat> load_eval_image(const std::string& utf8_path)
 {
     cv::Mat image = MAA_NS::imread(asst::utils::path(utf8_path));
     if (image.empty()) {
@@ -67,14 +65,14 @@ std::optional<cv::Mat> load_eval_image(const std::string& utf8_path, bool normal
         // 但结果与该分辨率的线上行为没有可比性
         LogWarn << __FUNCTION__ << "image is not 16:9, will be stretched to 1280x720:" << utf8_path;
     }
-    if (normalize && (image.cols != 1280 || image.rows != 720)) {
+    if (image.cols != 1280 || image.rows != 720) {
         cv::resize(image, image, { 1280, 720 }, 0, 0, cv::INTER_AREA);
     }
     return image;
 }
 
-// 可选的评估前缩放（INTER_AREA），供调用方复刻线上各识别器的尺度预处理
-std::optional<cv::Mat> resize_eval_image(cv::Mat image, int width, int height)
+// 归一后的二级缩放（INTER_AREA），复刻线上各识别器在 720p 截图基础上的尺度预处理
+cv::Mat resize_eval_image(cv::Mat image, int width, int height)
 {
     if (image.cols != width || image.rows != height) {
         cv::resize(image, image, { width, height }, 0, 0, cv::INTER_AREA);
@@ -118,10 +116,10 @@ json::object to_result_json(const std::string& task_name, const asst::PipelineAn
 // { "mode": "report" | "pipeline" | "ocr" | "templ", "images": [图片路径], "tasks": [任务名],
 //   "templates": [模板名], "task": "任务名", "roi": [x, y, w, h], "threshold": 0.8, "resize": [w, h] }
 // images/tasks/templates 为 UTF-8 路径与名字（模板名也接受绝对路径图片文件）；roi 仅 ocr/templ
-// 模式使用，缺省全图；task 仅 templ 模式使用（mask/method 等 Matcher 配置取自该任务，复刻线上
-// 自定义识别器的用法，未显式给 threshold 时 hit 判定也取该任务阈值）；threshold/resize 仅 templ
-// 模式使用（内部匹配放开阈值恒报最佳得分；resize 为评估前 INTER_AREA 缩放尺寸，替代默认的
-// 1280x720 归一）
+// 模式使用，缺省全图；task 仅 templ 模式使用（mask/method/roi 等 Matcher 配置取自该任务，
+// 显式传 roi 可覆盖任务 roi；未显式给 threshold 时 hit 判定也取该任务阈值）；threshold/resize
+// 仅 templ 模式使用（内部匹配放开阈值恒报最佳得分；resize 为 1280x720 归一后的二级 INTER_AREA
+// 缩放尺寸，复刻线上识别器的尺度预处理）
 bool asst::DebugTask::set_params(const json::value& params)
 {
     LogTraceFunction;
@@ -144,30 +142,28 @@ bool asst::DebugTask::set_params(const json::value& params)
 
 bool asst::DebugTask::set_params_impl(const json::value& params)
 {
-    m_image_test_mode = params.get("mode", "");
-    if (m_image_test_mode.empty()) {
+    auto mode = params.get("mode", "");
+    if (mode.empty()) {
         return true; // 无 mode 的 Debug 任务保持 run() 空跑的旧行为
     }
 
-    // AsstSetTaskParams 会对同一任务重复调用 set_params，先清空上次状态避免累积
-    m_eval_images.clear();
-    m_eval_tasks.clear();
-    m_eval_templates.clear();
-    m_eval_templ_task.clear();
-    m_eval_roi = Rect();
-    m_eval_threshold = 0.8;
-    m_eval_resize.reset();
+    // 全部解析校验通过后才写成员，AsstSetTaskParams 更新失败时任务保持原有完整参数
+    std::vector<std::string> images;
+    std::vector<std::string> tasks;
+    std::vector<std::string> templates;
+    std::string templ_task;
+    Rect roi;
+    double threshold = TemplThresholdDefault;
+    std::optional<std::pair<int, int>> resize;
 
     auto images_opt = params.find<std::vector<std::string>>("images");
     if (!images_opt || images_opt->empty()) {
         LogError << __FUNCTION__ << "failed, images not found";
         return false;
     }
-    for (auto& image : *images_opt) {
-        m_eval_images.emplace_back(std::move(image));
-    }
+    images = std::move(*images_opt);
 
-    if (m_image_test_mode == "report" || m_image_test_mode == "pipeline") {
+    if (mode == "report" || mode == "pipeline") {
         auto tasks_opt = params.find<std::vector<std::string>>("tasks");
         if (!tasks_opt || tasks_opt->empty()) {
             LogError << __FUNCTION__ << "failed, tasks not found";
@@ -178,54 +174,69 @@ bool asst::DebugTask::set_params_impl(const json::value& params)
                 LogError << __FUNCTION__ << "failed, task not found:" << task;
                 return false;
             }
-            m_eval_tasks.emplace_back(std::move(task));
+            tasks.emplace_back(std::move(task));
         }
     }
-    else if (m_image_test_mode == "ocr" || m_image_test_mode == "templ") {
-        if (auto roi_opt = params.find<asst::Rect>("roi"); roi_opt) {
-            m_eval_roi = *roi_opt;
+    else if (mode == "ocr" || mode == "templ") {
+        if (params.contains("roi")) {
+            // 畸形 roi（如只给了三个数）不能静默退化成全图，诊断工具须显式报错
+            auto roi_opt = params.find<asst::Rect>("roi");
+            if (!roi_opt) {
+                LogError << __FUNCTION__ << "failed, invalid roi";
+                return false;
+            }
+            roi = *roi_opt;
         }
-        if (m_image_test_mode == "templ") {
+        if (mode == "templ") {
             auto templates_opt = params.find<std::vector<std::string>>("templates");
             if (!templates_opt || templates_opt->empty()) {
                 LogError << __FUNCTION__ << "failed, templates not found";
                 return false;
             }
             for (const auto& templ : *templates_opt) {
-                m_eval_templates.emplace_back(templ);
+                templates.emplace_back(templ);
             }
             if (auto task_opt = params.find<std::string>("task"); task_opt) {
                 // Matcher 配置只能取自模板类任务；Task.get<MatchTaskInfo> 对非 MatchTaskInfo
                 // 任务返回空，后续 set_task_info 会对其解引用，必须在入口拒绝
                 auto match_ptr = Task.get<MatchTaskInfo>(*task_opt);
                 if (match_ptr == nullptr) {
-                    LogError << "set_params failed, task not found or not a match task:" << *task_opt;
+                    LogError << __FUNCTION__ << "failed, task not found or not a match task:" << *task_opt;
                     return false;
                 }
-                m_eval_templ_task = *task_opt;
-                double default_threshold =
-                    !match_ptr->templ_thresholds.empty() ? match_ptr->templ_thresholds.front() : 0.8;
-                m_eval_threshold = params.get("threshold", default_threshold);
+                templ_task = *task_opt;
+                double default_threshold = !match_ptr->templ_thresholds.empty() ?
+                                               match_ptr->templ_thresholds.front() :
+                                               TemplThresholdDefault;
+                threshold = params.get("threshold", default_threshold);
             }
             else {
-                m_eval_threshold = params.get("threshold", 0.8);
+                threshold = params.get("threshold", TemplThresholdDefault);
             }
             if (auto resize_opt = params.find<std::array<int, 2>>("resize"); resize_opt) {
                 int resize_w = (*resize_opt)[0];
                 int resize_h = (*resize_opt)[1];
                 if (resize_w <= 0 || resize_h <= 0) {
-                    LogError << "set_params failed, invalid resize:" << resize_w << resize_h;
+                    LogError << __FUNCTION__ << "failed, invalid resize:" << resize_w << resize_h;
                     return false;
                 }
-                m_eval_resize = std::make_pair(resize_w, resize_h);
+                resize = std::make_pair(resize_w, resize_h);
             }
         }
     }
     else {
-        LogError << "set_params failed, unknown mode:" << m_image_test_mode;
+        LogError << __FUNCTION__ << "failed, unknown mode:" << mode;
         return false;
     }
 
+    m_image_test_mode = std::move(mode);
+    m_eval_images = std::move(images);
+    m_eval_tasks = std::move(tasks);
+    m_eval_templates = std::move(templates);
+    m_eval_templ_task = std::move(templ_task);
+    m_eval_roi = roi;
+    m_eval_threshold = threshold;
+    m_eval_resize = resize;
     return true;
 }
 
@@ -243,7 +254,7 @@ bool asst::DebugTask::image_test_report()
     bool all_ok = true;
     for (const auto& image_path : m_eval_images) {
         try {
-            auto image_opt = load_eval_image(image_path, true);
+            auto image_opt = load_eval_image(image_path);
             if (!image_opt) {
                 all_ok = false;
                 emit_eval_error("report", image_path, "failed to load image");
@@ -252,7 +263,7 @@ bool asst::DebugTask::image_test_report()
 
             json::array results;
             for (const auto& task_name : m_eval_tasks) {
-                PipelineAnalyzer analyzer(*image_opt, Rect(0, 0, 1280, 720), nullptr);
+                PipelineAnalyzer analyzer(*image_opt, Rect(), nullptr);
                 analyzer.set_tasks({ task_name });
                 auto result_opt = analyzer.analyze();
 
@@ -283,28 +294,28 @@ bool asst::DebugTask::image_test_pipeline()
     bool all_ok = true;
     for (const auto& image_path : m_eval_images) {
         try {
-            auto image_opt = load_eval_image(image_path, true);
+            auto image_opt = load_eval_image(image_path);
             if (!image_opt) {
                 all_ok = false;
                 emit_eval_error("pipeline", image_path, "failed to load image");
                 continue;
             }
 
-            PipelineAnalyzer analyzer(*image_opt, Rect(0, 0, 1280, 720), nullptr);
+            PipelineAnalyzer analyzer(*image_opt, Rect(), nullptr);
             analyzer.set_tasks(m_eval_tasks);
             auto result_opt = analyzer.analyze();
 
             json::object detail { { "mode", "pipeline" }, { "image", image_path } };
             json::array next;
             if (result_opt) {
-                const auto hit = to_result_json(result_opt->task_ptr->name, result_opt);
-                for (const auto& [key, value] : hit) {
-                    detail[key] = value;
-                }
+                // 任务名须嵌在 result 内上报：平铺到 details.task 会被 AbstractTask::callback 按 @ 截断
+                const auto result = to_result_json(result_opt->task_ptr->name, result_opt);
+                detail["hit"] = true;
+                detail["result"] = result;
                 for (const auto& next_task : result_opt->task_ptr->next) {
                     next.emplace_back(next_task);
                 }
-                LogInfo << __FUNCTION__ << image_path << "hit" << hit.dumps();
+                LogInfo << __FUNCTION__ << image_path << "hit" << result.dumps();
             }
             else {
                 detail["hit"] = false;
@@ -329,7 +340,7 @@ bool asst::DebugTask::image_test_ocr()
     bool all_ok = true;
     for (const auto& image_path : m_eval_images) {
         try {
-            auto image_opt = load_eval_image(image_path, true);
+            auto image_opt = load_eval_image(image_path);
             if (!image_opt) {
                 all_ok = false;
                 emit_eval_error("ocr", image_path, "failed to load image");
@@ -338,8 +349,7 @@ bool asst::DebugTask::image_test_ocr()
 
             // 不 set_task_info：默认参数下 required 为空即不做 expected 过滤、不做 ocrReplace，
             // 返回 OCR 引擎的原始识别结果；带任务配置的评估用 report 模式
-            Rect roi = m_eval_roi.empty() ? Rect(0, 0, 1280, 720) : m_eval_roi;
-            OCRer analyzer(*image_opt, roi);
+            OCRer analyzer(*image_opt, m_eval_roi); // 空 roi 由 VisionHelper 展开为全图
             auto results_opt = analyzer.analyze();
 
             json::array results;
@@ -374,9 +384,9 @@ bool asst::DebugTask::image_test_templ()
     bool all_ok = true;
     for (const auto& image_path : m_eval_images) {
         try {
-            auto image_opt = load_eval_image(image_path, !m_eval_resize.has_value());
+            auto image_opt = load_eval_image(image_path);
             if (image_opt && m_eval_resize) {
-                image_opt = resize_eval_image(std::move(*image_opt), m_eval_resize->first, m_eval_resize->second);
+                *image_opt = resize_eval_image(std::move(*image_opt), m_eval_resize->first, m_eval_resize->second);
             }
             if (!image_opt) {
                 all_ok = false;
@@ -389,7 +399,7 @@ bool asst::DebugTask::image_test_templ()
                 // 模板名与 core 各处 get_templ 一致：物品 ID（如 "2001"）或相对
                 // resource/template 的路径（如 "items/2001.png"）；也接受绝对路径的
                 // 图片文件（调用方自行预处理过的模板）
-                Matcher analyzer(*image_opt, Rect(0, 0, image_opt->cols, image_opt->rows), nullptr);
+                Matcher analyzer(*image_opt, Rect(), nullptr);
 
                 if (!m_eval_templ_task.empty()) {
                     // mask/method 等 Matcher 配置取自该任务；须在 set_templ 之前调用，

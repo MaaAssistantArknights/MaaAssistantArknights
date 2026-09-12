@@ -457,7 +457,7 @@ public:
         return true;
     }
 };
-}
+} // namespace json::ext
 
 namespace std
 {
