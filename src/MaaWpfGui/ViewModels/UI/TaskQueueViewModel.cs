@@ -2474,7 +2474,16 @@ public class TaskQueueViewModel : Screen
 
         if (runScript)
         {
-            await RunStopScriptOnceAsync();
+            // 脚本运行期间持有 InterruptLock，防止等待空闲的自动更新安装/定时启动放行打断收尾
+            RunningState.Instance.LockInterrupt();
+            try
+            {
+                await RunStopScriptOnceAsync();
+            }
+            finally
+            {
+                RunningState.Instance.UnlockInterrupt();
+            }
         }
 
         return true;
