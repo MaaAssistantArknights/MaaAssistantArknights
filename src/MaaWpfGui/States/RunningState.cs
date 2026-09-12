@@ -267,7 +267,17 @@ public class RunningState
     public void BeginRun(RunOwner owner, [CallerMemberName] string caller = "")
     {
         _logger.Information("BeginRun: owner={Owner} (called from {Caller})", owner, caller);
-        Owner = owner;
+        if (_idle)
+        {
+            // 空闲起点直接写字段，归属与离开空闲合并为一次广播；避免先经 Owner setter 单独
+            // 广播出「空闲但已有归属」的中间快照
+            _runOwner = owner;
+        }
+        else
+        {
+            Owner = owner;
+        }
+
         SetIdle(false);
     }
 
