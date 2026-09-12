@@ -68,9 +68,10 @@ public interface IHttpService
     /// <param name="uri">Target Uri</param>
     /// <param name="content">The POST body content, will be serialized by <see cref="System.Text.Json.JsonSerializer"/></param>
     /// <param name="extraHeader">Extra HTTP Request Headers</param>
+    /// <param name="uriPartial">Which parts of uri to log</param>
     /// <typeparam name="T">The type of the POST body content</typeparam>
     /// <returns>Response string, null when failed</returns>
-    Task<string?> PostAsJsonAsync<T>(Uri uri, T content, Dictionary<string, string>? extraHeader = null);
+    Task<string?> PostAsJsonAsync<T>(Uri uri, T content, Dictionary<string, string>? extraHeader = null, UriPartial uriPartial = UriPartial.Query);
 
     /// <summary>
     /// Send HTTP POST request and a string response
@@ -78,8 +79,9 @@ public interface IHttpService
     /// <param name="uri">Target Uri</param>
     /// <param name="content">The POST body content</param>
     /// <param name="extraHeader">Extra HTTP Request Headers</param>
+    /// <param name="uriPartial">Which parts of uri to log</param>
     /// <returns>Response string, null when failed</returns>
-    Task<string?> PostAsFormUrlEncodedAsync(Uri uri, Dictionary<string, string?> content, Dictionary<string, string>? extraHeader = null);
+    Task<string?> PostAsFormUrlEncodedAsync(Uri uri, Dictionary<string, string?> content, Dictionary<string, string>? extraHeader = null, UriPartial uriPartial = UriPartial.Query);
 
     /// <summary>
     /// Send HTTP POST request with raw HttpContent and get the response

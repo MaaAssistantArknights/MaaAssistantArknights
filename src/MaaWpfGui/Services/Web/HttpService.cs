@@ -164,30 +164,30 @@ public class HttpService : IHttpService
         return response;
     }
 
-    public async Task<string?> PostAsJsonAsync<T>(Uri uri, T content, Dictionary<string, string>? extraHeader = null)
+    public async Task<string?> PostAsJsonAsync<T>(Uri uri, T content, Dictionary<string, string>? extraHeader = null, UriPartial uriPartial = UriPartial.Query)
     {
         try
         {
-            var response = await PostAsync(uri, new StringContent(JsonSerializer.Serialize(content), Encoding.UTF8, "application/json"), extraHeader);
+            var response = await PostAsync(uri, new StringContent(JsonSerializer.Serialize(content), Encoding.UTF8, "application/json"), extraHeader, uriPartial);
             return await response.Content.ReadAsStringAsync();
         }
         catch (Exception e)
         {
-            _logger.Error(e, "Failed to send POST request to {Uri}", uri);
+            _logger.Error(e, "Failed to send POST request to {Uri}", uri.GetLeftPart(uriPartial));
             return null;
         }
     }
 
-    public async Task<string?> PostAsFormUrlEncodedAsync(Uri uri, Dictionary<string, string?> content, Dictionary<string, string>? extraHeader = null)
+    public async Task<string?> PostAsFormUrlEncodedAsync(Uri uri, Dictionary<string, string?> content, Dictionary<string, string>? extraHeader = null, UriPartial uriPartial = UriPartial.Query)
     {
         try
         {
-            var response = await PostAsync(uri, new FormUrlEncodedContent(content), extraHeader);
+            var response = await PostAsync(uri, new FormUrlEncodedContent(content), extraHeader, uriPartial);
             return await response.Content.ReadAsStringAsync();
         }
         catch (Exception e)
         {
-            _logger.Error(e, "Failed to send POST request to {Uri}", uri);
+            _logger.Error(e, "Failed to send POST request to {Uri}", uri.GetLeftPart(uriPartial));
             return null;
         }
     }

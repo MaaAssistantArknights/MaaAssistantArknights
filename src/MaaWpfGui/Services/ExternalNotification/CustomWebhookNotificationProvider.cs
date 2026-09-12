@@ -51,7 +51,9 @@ public class CustomWebhookNotificationProvider(IHttpService httpService, CustomW
             .Select(line => line.Split(':', 2))
             .Where(parts => parts.Length == 2)
             .ToDictionary(p => p[0].Trim(), p => p[1].Trim());
-        var response = await httpService.PostAsync(new(webhookUrl), requestContent, headers);
+
+        // webhook 地址常内嵌鉴权 token，日志须截断到域名，避免随日志泄漏
+        var response = await httpService.PostAsync(new(webhookUrl), requestContent, headers, uriPartial: UriPartial.Authority);
 
         if (response == null)
         {

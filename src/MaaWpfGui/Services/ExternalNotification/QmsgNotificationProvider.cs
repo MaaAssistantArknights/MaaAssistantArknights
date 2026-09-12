@@ -37,9 +37,11 @@ public class QmsgNotificationProvider(IHttpService httpService, QmsgConfig qmsg)
 
         var uri = $"{server}/jsend/{key}";
 
+        // key 在 path 中，日志须截断到域名，避免随日志泄漏
         var response = await httpService.PostAsJsonAsync(
             new Uri(uri),
-            new QmsgContent { Msg = content, Qq = receiveUser, Bot = sendBot, });
+            new QmsgContent { Msg = content, Qq = receiveUser, Bot = sendBot, },
+            uriPartial: UriPartial.Authority);
 
         if (string.IsNullOrEmpty(response))
         {

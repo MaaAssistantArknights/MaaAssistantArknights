@@ -50,7 +50,8 @@ public class DingTalkNotificationProvider(IHttpService httpService, DingTalkConf
             },
         };
 
-        var response = await httpService.PostAsJsonAsync(new Uri(webhook), requestBody);
+        // token 与签名在 query 中，日志须截断到域名，避免随日志泄漏
+        var response = await httpService.PostAsJsonAsync(new Uri(webhook), requestBody, uriPartial: UriPartial.Authority);
         if (response == null)
         {
             _logger.Warning("Failed to send DingTalk notification: response is null");
