@@ -1478,49 +1478,8 @@
             ]
         },
         {
-            "id": "baby_cultivate_direct",
-            "description": "培育出目标即收工的秘境行商目标，用于猫和狗",
-            "milestones": [
-                {
-                    "id": "baby_cultivate_scrap_shop",
-                    "floor_window": [1, 3],
-                    "rank": 0,
-                    "active_if": {
-                        "any": [
-                            {
-                                "fact": "current_floor",
-                                "op": "eq",
-                                "value": 3
-                            },
-                            {
-                                "fact": "scrap_shop_available",
-                                "op": "eq",
-                                "value": true
-                            }
-                        ]
-                    },
-                    "complete_if": {
-                        "fact": "cultivation_completed",
-                        "op": "eq",
-                        "value": true
-                    },
-                    "reserves": ["baby_keep_cultivation_movement"],
-                    "enforcement": "feasible_hard",
-                    "terminality": "is_terminal",
-                    "on_miss": "terminate",
-                    "miss_outcome": "baby_cultivation_unfinished",
-                    "miss_reason": "scrap_shop_never_reached",
-                    "selector": {
-                        "node_types": ["scrap_shop"]
-                    },
-                    "page_intent": "scrap_shop.cultivate",
-                    "completion": "condition"
-                }
-            ]
-        },
-        {
             "id": "baby_cultivate_gated",
-            "description": "培育出目标之后仍须进入第三层的秘境行商目标，用于羽蛇和三头犬",
+            "description": "培育出目标之后仍须进入第三层的秘境行商目标，用于猫、狗、羽蛇和三头犬",
             "milestones": [
                 {
                     "id": "baby_cultivate_scrap_shop_transit",
@@ -1823,15 +1782,44 @@
         },
         {
             "id": "baby_animal",
-            "description": "第一层检查普通商店，第二、三层探索并进入秘境行商培育种子",
-            "modules": ["common_navigation", "baby_animal_route", "baby_cultivate_direct"],
+            "description": "培育出目标猫或狗后仍要进入第三层才收工",
+            "modules": ["common_navigation", "baby_animal_route", "baby_cultivate_gated"],
             "terminal_rules": [
                 {
                     "id": "baby_cultivation_completed",
                     "when": {
-                        "fact": "cultivation_completed",
-                        "op": "eq",
-                        "value": true
+                        "all": [
+                            {
+                                "fact": "cultivation_target_obtained",
+                                "op": "eq",
+                                "value": true
+                            },
+                            {
+                                "fact": "current_floor",
+                                "op": "ge",
+                                "value": 3
+                            }
+                        ]
+                    },
+                    "outcome": "baby_cultivation_completed",
+                    "reason": "cultivation_result_reported",
+                    "succeeded": true
+                },
+                {
+                    "id": "baby_cultivation_target_missed",
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "cultivation_completed",
+                                "op": "eq",
+                                "value": true
+                            },
+                            {
+                                "fact": "cultivation_target_obtained",
+                                "op": "eq",
+                                "value": false
+                            }
+                        ]
                     },
                     "outcome": "baby_cultivation_completed",
                     "reason": "cultivation_result_reported",
