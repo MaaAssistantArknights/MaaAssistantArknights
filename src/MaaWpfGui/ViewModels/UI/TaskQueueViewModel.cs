@@ -670,8 +670,8 @@ public class TaskQueueViewModel : Screen
                 Instances.Data.ClearCache();
             }
 
-            // 进入运行或停止中时重置结束脚本发射权
-            if ((e.OldState.Idle && !e.NewState.Idle) || (!e.OldState.Stopping && e.NewState.Stopping))
+            // 每轮运行开始（离开空闲）时重置结束脚本发射权；停止中不重置，避免把已合法发射的标志清零导致二次发射
+            if (e.OldState.Idle && !e.NewState.Idle)
             {
                 Interlocked.Exchange(ref _stopScriptLaunched, 0);
             }
@@ -903,10 +903,10 @@ public class TaskQueueViewModel : Screen
                 return;
             }
 
-            // 到点视为一次手动停止（设置开且肉鸽战斗中时前面已等待过战斗结束），结束脚本受 ManualStopWithScript 控制
-            await StopManuallyAsync(SettingsViewModel.GameSettings.ManualStopWithScript);
+            // 到点视为一次手动停止（设置开且肉鸽战斗中时前面已等待过战斗结束），结束脚本按当前任务链的开关闭合
+            var stopped = await StopManuallyAsync();
 
-            if (!executePostActions)
+            if (!stopped || !executePostActions)
             {
                 return;
             }
@@ -2316,7 +2316,7 @@ public class TaskQueueViewModel : Screen
             return;
         }
 
-        _ = StopManuallyAsync(SettingsViewModel.GameSettings.ManualStopWithScript);
+        _ = StopManuallyAsync();
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.TacticalRetreat);
 
         if (_taskStartTime is null)
@@ -2384,7 +2384,7 @@ public class TaskQueueViewModel : Screen
         Waiting = true;
         AddLog(LocalizationHelper.GetString("Waiting"));
         await WaitUntilRoguelikeCombatComplete();
-        await StopManuallyAsync(SettingsViewModel.GameSettings.ManualStopWithScript);
+        await StopManuallyAsync();
     }
 
     /// <summary>
@@ -2402,7 +2402,7 @@ public class TaskQueueViewModel : Screen
 
     public bool RoguelikeInCombatAndShowWait { get => field; set => SetAndNotify(ref field, value); }
 
-    // 手动停止的结束脚本发射权，进入运行或停止中时重置；多个手动入口并发时保证只发射一次
+    // 手动停止的结束脚本发射权，每轮运行开始（离开空闲）时重置；多个手动入口并发时保证只发射一次
     private int _stopScriptLaunched;
 
     /// <summary>
@@ -2422,19 +2422,30 @@ public class TaskQueueViewModel : Screen
     }
 
     /// <summary>
+    /// 按当前任务链判定停止目标后执行 <see cref="StopManuallyAsync(bool)"/>；
+    /// Core 未运行（如启动链路中的连接、开始前脚本阶段）时无链信息，按非 copilot 处理。
+    /// </summary>
+    /// <returns>是否完整走完本次手动停止。</returns>
+    public Task<bool> StopManuallyAsync() => StopManuallyAsync(Instances.AsstProxy.IsCopilotTaskChainRunning);
+
+    /// <summary>
     /// 手动停止核心：等待 Core 停止、UI 状态恢复（TaskChainStopped 回调，或 Stop 超时强制）后，
-    /// 按 <paramref name="runScript"/> 发射结束脚本。
-    /// 所有手动语义入口（手动停止 / 等待并停止 / 时长上限 / copilot 手动停止）收敛到此；
+    /// 按停止目标发射结束脚本——非 copilot 链须 ｢手动停止时启用上述脚本｣ 开启，
+    /// copilot 链还须 ｢自动战斗时启用上述脚本｣ 同时开启。
+    /// 所有手动语义入口（手动停止 / 等待并停止 / 时长上限 / 热键 / 远控 StopTask / copilot 停止按钮）收敛到此；
     /// 非手动场景（异常停止、挤停、启动失败等）直接调用 <see cref="Stop"/> 与 <see cref="SetStopped"/>，不发射脚本。
     /// </summary>
-    /// <param name="runScript">结束脚本的发射条件（由各入口按自身开关组合传入）。</param>
-    /// <returns>Task</returns>
-    public async Task StopManuallyAsync(bool runScript)
+    /// <param name="isCopilot">停止目标是否 copilot 任务。</param>
+    /// <returns>是否完整走完本次手动停止（等到空闲且未被新一轮运行抢占）；false 时调用方不应再执行后续动作。</returns>
+    public async Task<bool> StopManuallyAsync(bool isCopilot)
     {
         if (Stopping || _runningState.GetIdle())
         {
-            return;
+            return false;
         }
+
+        var runScript = SettingsViewModel.GameSettings.ManualStopWithScript
+            && (!isCopilot || SettingsViewModel.GameSettings.CopilotWithScript);
 
         // 等 Idle 是等「本次停止完成」：Stop() 正常出口不置 Idle（收口归异步在途的 TaskChainStopped 回调）；
         // 启动链路进行中点停止则要等链路走到下一个 Stopping 检查点（模拟器等待等环节每秒检查，通常秒级，
@@ -2444,20 +2455,22 @@ public class TaskQueueViewModel : Screen
         if (!await _runningState.UntilIdleAsync(confirmTimes: 0, timeout: 600_000))
         {
             _logger.Warning("Manual stop: idle not reached before wait limit, skip stop script");
-            return;
+            return false;
         }
 
         // 等待窗口内新一轮可能已开始，放弃本次发射；Stop() 超时强制收口时 Core 挂死仍在运行，仍应发射，
         // 用是否超时区分这两种 AsstRunning == true 的情况
         if (stoppedWithinTimeout && Instances.AsstProxy.AsstRunning())
         {
-            return;
+            return false;
         }
 
         if (runScript)
         {
             await RunStopScriptOnceAsync();
         }
+
+        return true;
     }
 
     /// <summary>
