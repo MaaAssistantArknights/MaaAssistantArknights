@@ -27,6 +27,8 @@ namespace MaaWpfGui.Helper;
 
 public static class CopilotHelper
 {
+    private static readonly ILogger _logger = Log.ForContext("SourceContext", "CopilotHelper");
+
     public static async Task<(PrtsStatus Status, PrtsCopilotModel? Copilot)> RequestCopilotAsync(int copilotId)
     {
         try
@@ -44,7 +46,7 @@ public static class CopilotHelper
         {
             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("NetworkServiceError"), UiLogColor.Error, showTime: false);
             Instances.CopilotViewModel.AddLog($"{e.Message}", UiLogColor.Error, showTime: false);
-            Log.Error(e.ToString());
+            _logger.Error(e, "Failed to request copilot from PRTS plus");
             return (PrtsStatus.NetworkError, null);
         }
 
@@ -68,7 +70,7 @@ public static class CopilotHelper
         {
             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("NetworkServiceError"), UiLogColor.Error, showTime: false);
             Instances.CopilotViewModel.AddLog($"{e.Message}", UiLogColor.Error, showTime: false);
-            Log.Error(e.ToString());
+            _logger.Error(e, "Failed to request copilot set from PRTS plus");
             return (PrtsStatus.NetworkError, null);
         }
 

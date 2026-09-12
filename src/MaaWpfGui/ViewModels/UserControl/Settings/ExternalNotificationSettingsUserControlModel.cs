@@ -37,6 +37,8 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 /// </summary>
 public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
 {
+    private static readonly ILogger _logger = Log.ForContext<ExternalNotificationSettingsUserControlModel>();
+
     static ExternalNotificationSettingsUserControlModel()
     {
         Instance = new();
@@ -92,7 +94,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
                         var index = ExternalNotificationConfigs.IndexOf(item);
                         if (index < 0 || index >= ExternalNotificationConfigs.Count || ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Count != ExternalNotificationConfigs.Count)
                         {
-                            Log.Error("ExternalNotificationConfigs index out of range or count mismatch. Index: {Index}, ExternalNotificationConfigs Count: {ExternalNotificationConfigsCount}, Config Count: {ConfigCount}", index, ExternalNotificationConfigs.Count, ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Count);
+                            _logger.Error("ExternalNotificationConfigs index out of range or count mismatch. Index: {Index}, ExternalNotificationConfigs Count: {ExternalNotificationConfigsCount}, Config Count: {ConfigCount}", index, ExternalNotificationConfigs.Count, ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Count);
                             return;
                         }
 
@@ -109,7 +111,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
                 var index = ExternalNotificationConfigs.IndexOf(item);
                 if (index < 0 || index >= ExternalNotificationConfigs.Count || ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Count != ExternalNotificationConfigs.Count)
                 {
-                    Log.Error("ExternalNotificationConfigs index out of range or count mismatch. Index: {Index}, ExternalNotificationConfigs Count: {ExternalNotificationConfigsCount}, Config Count: {ConfigCount}", index, ExternalNotificationConfigs.Count, ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Count);
+                    _logger.Error("ExternalNotificationConfigs index out of range or count mismatch. Index: {Index}, ExternalNotificationConfigs Count: {ExternalNotificationConfigsCount}, Config Count: {ConfigCount}", index, ExternalNotificationConfigs.Count, ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Count);
                     return;
                 }
                 ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs[index] = item.ToConfig();

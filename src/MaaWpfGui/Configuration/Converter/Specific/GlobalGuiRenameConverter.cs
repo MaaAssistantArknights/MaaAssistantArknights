@@ -24,6 +24,8 @@ namespace MaaWpfGui.Configuration.Converter.Specific;
 
 public class GlobalGuiRenameConverter : JsonConverter<Root>
 {
+    private static readonly ILogger _logger = Log.ForContext<GlobalGuiRenameConverter>();
+
     public override Root? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType != JsonTokenType.StartObject)
@@ -60,7 +62,7 @@ public class GlobalGuiRenameConverter : JsonConverter<Root>
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "Failed to deserialize Root object with GlobalGuiRenameConverter.");
+            _logger.Error(ex, "Failed to deserialize Root object.");
             return JsonSerializer.Deserialize<Root>(jsonDoc.RootElement.GetRawText(), GetOptionsWithoutThisConverter(options));
         }
     }
