@@ -316,10 +316,7 @@ public class RunningState
             _logger.Information("InterruptLock: depth={Depth} (called from {Caller})", newValue, caller);
         }
 
-        if (Volatile.Read(ref _interruptLockDepth) <= 0)
-        {
-            SignalCanInterrupt();
-        }
+        SignalCanInterrupt();
     }
 
     /// <summary>
