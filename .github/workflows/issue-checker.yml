@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Label issues and PRs Automatically
-          uses: MaaAssistantArknights/issue-checker@v1.15
+        uses: MaaAssistantArknights/issue-checker@v1.15
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           configuration-path: .github/issue-checker.yml
