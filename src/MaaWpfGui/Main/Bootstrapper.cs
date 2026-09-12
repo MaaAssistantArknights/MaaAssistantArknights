@@ -1040,8 +1040,9 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
     /// <summary>
     /// Gets a value indicating whether the current session must restart before running new tasks.
-    /// 停止超时强收后 Core 状态不可信（可能仍挂起并补发迟到回调），置位后所有任务入口均被拦截，
-    /// 禁止开始新任务。进程内标志，重启进程即解除。
+    /// 停止超时强收后 Core 状态不可信（可能仍挂起并补发迟到回调），置位后禁止开始新任务，
+    /// 拦截主队列 LinkStartWithTasks（热键/托盘/定时等汇入于此）、Copilot 启动、远程控制 LinkStart
+    /// 与启动自动运行（AsstProxy.Init）。进程内标志，重启进程即解除。
     /// </summary>
     public static bool RequiresRestart => _requiresRestart;
 
