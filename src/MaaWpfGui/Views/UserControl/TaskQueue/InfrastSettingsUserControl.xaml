@@ -201,7 +201,7 @@
                         hc:BorderElement.CornerRadius="4,0,0,4"
                         Command="{s:Action InfrastItemSelectedAll}"
                         Content="{DynamicResource SelectAll}"
-                        IsEnabled="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}" />
+                        IsEnabled="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}" />
                     <Button
                         Grid.Column="1"
                         Height="30"
@@ -210,7 +210,7 @@
                         hc:BorderElement.CornerRadius="0,4,4,0"
                         Command="{s:Action InfrastItemUnselectedAll}"
                         Content="{DynamicResource Clear}"
-                        IsEnabled="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}" />
+                        IsEnabled="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}" />
                 </Grid>
             </StackPanel>
         </StackPanel>

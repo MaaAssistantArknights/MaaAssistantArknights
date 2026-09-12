@@ -27,14 +27,14 @@ namespace MaaWpfGui.States;
 
 public class RunningState
 {
-    public class RunningStateChangedEventArgs(StateSnapshot oldState, bool idle, bool inited, bool stopping) : EventArgs
+    public class RunningStateChangedEventArgs(StateSnapshot oldState, bool idle, bool inited, bool stopping, RunOwner owner) : EventArgs
     {
         public StateSnapshot OldState { get; } = oldState;
 
-        public StateSnapshot NewState { get; } = new(idle, inited, stopping);
+        public StateSnapshot NewState { get; } = new(idle, inited, stopping, owner);
     }
 
-    public record StateSnapshot(bool Idle, bool Inited, bool Stopping);
+    public record StateSnapshot(bool Idle, bool Inited, bool Stopping, RunOwner Owner);
 
     private static RunningState? _instance;
     private static readonly ILogger _logger = Log.Logger.ForContext<RunningState>();
@@ -239,6 +239,37 @@ public class RunningState
     }
 
     private bool _idle = true;
+    private RunOwner _runOwner;
+
+    /// <summary>
+    /// 当前运行轮次的发起入口归属，由开始入口经 <see cref="BeginRun"/> 声明，回到空闲时清零。
+    /// </summary>
+    public RunOwner Owner
+    {
+        get => _runOwner;
+        private set {
+            if (_runOwner == value)
+            {
+                return;
+            }
+
+            var oldState = new StateSnapshot(_idle, _inited, _stopping, _runOwner);
+            _runOwner = value;
+            RaiseStateChanged(oldState);
+        }
+    }
+
+    /// <summary>
+    /// 声明本轮运行的入口归属并进入运行态；已在运行时调用则归属由新入口接管。
+    /// </summary>
+    /// <param name="owner">发起运行的入口归属。</param>
+    /// <param name="caller">调用方名称。</param>
+    public void BeginRun(RunOwner owner, [CallerMemberName] string caller = "")
+    {
+        _logger.Information("BeginRun: owner={Owner} (called from {Caller})", owner, caller);
+        Owner = owner;
+        SetIdle(false);
+    }
 
     public bool Idle
     {
@@ -249,10 +280,11 @@ public class RunningState
                 return;
             }
 
-            var oldState = new StateSnapshot(_idle, _inited, _stopping);
+            var oldState = new StateSnapshot(_idle, _inited, _stopping, _runOwner);
             _idle = value;
             if (value)
             {
+                _runOwner = RunOwner.None;
                 StopTimeoutTimer();
                 ClearRunDeadline();
                 SleepManagement.AllowSleep();
@@ -353,7 +385,7 @@ public class RunningState
         set {
             if (_inited != value)
             {
-                var oldState = new StateSnapshot(_idle, _inited, _stopping);
+                var oldState = new StateSnapshot(_idle, _inited, _stopping, _runOwner);
                 _inited = value;
                 RaiseStateChanged(oldState);
             }
@@ -376,7 +408,7 @@ public class RunningState
         set {
             if (_stopping != value)
             {
-                var oldState = new StateSnapshot(_idle, _inited, _stopping);
+                var oldState = new StateSnapshot(_idle, _inited, _stopping, _runOwner);
                 _stopping = value;
                 RaiseStateChanged(oldState);
             }
@@ -395,7 +427,7 @@ public class RunningState
 
     private void RaiseStateChanged(StateSnapshot oldState)
     {
-        StateChanged?.Invoke(this, new(oldState, _idle, _inited, _stopping));
+        StateChanged?.Invoke(this, new(oldState, _idle, _inited, _stopping, _runOwner));
         SignalCanInterrupt();
     }
 

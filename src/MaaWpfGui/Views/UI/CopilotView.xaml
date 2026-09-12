@@ -63,7 +63,7 @@
                             HorizontalAlignment="Center"
                             Background="Transparent"
                             BorderThickness="0"
-                            IsEnabled="{Binding Idle}"
+                            IsEnabled="{Binding Run.Idle}"
                             Loaded="CopilotTabList_Loaded"
                             SelectedIndex="{Binding CopilotTabIndex}"
                             SelectionChanged="CopilotTabList_SelectionChanged"
@@ -120,7 +120,7 @@
                             x:Name="FileTreeBox"
                             CornerRadius="4,0,0,4"
                             DropDownOpening="FileTreeBox_DropDownOpening"
-                            IsEnabled="{Binding Idle}"
+                            IsEnabled="{Binding Run.Idle}"
                             ItemsSource="{Binding FileItems}"
                             Placeholder="{DynamicResource CopilotLocation}"
                             PopupMinWidth="{c:Binding 'ActualWidth + 90',
@@ -150,7 +150,7 @@
                         hc:IconElement.Geometry="{StaticResource FolderOpen20Regular}"
                         BorderThickness="0,1,1,1"
                         Command="{s:Action SelectFile}"
-                        IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}" />
+                        IsEnabled="{c:Binding 'Run.Idle and StartEnabled'}" />
                     <Button
                         Grid.Column="2"
                         Height="30"
@@ -160,7 +160,7 @@
                         hc:IconElement.Geometry="{StaticResource ClipboardLink20Regular}"
                         BorderThickness="0,1,1,1"
                         Command="{s:Action PasteClipboard}"
-                        IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}" />
+                        IsEnabled="{c:Binding 'Run.Idle and StartEnabled'}" />
                     <controls:TooltipBlock
                         Grid.Column="1"
                         HorizontalAlignment="Right"
@@ -203,20 +203,21 @@
                                 Height="50"
                                 Command="{s:Action Start}"
                                 Content="{DynamicResource Start}"
-                                IsEnabled="{c:Binding 'StartEnabled and Inited'}"
-                                Visibility="{c:Binding Idle}" />
+                                IsEnabled="{c:Binding 'Run.CanStart and StartEnabled'}"
+                                Visibility="{c:Binding Run.Idle}" />
                             <Button
                                 Width="120"
                                 Height="50"
                                 Command="{s:Action ManualStop}"
                                 Content="{DynamicResource Stop}"
-                                IsEnabled="{c:Binding 'Inited and !Stopping'}"
-                                Visibility="{c:Binding !Idle}" />
+                                IsEnabled="{c:Binding '!Run.Stopping'}"
+                                ToolTip="{Binding Run.StopToolTip}"
+                                Visibility="{c:Binding '!Run.Idle'}" />
                         </Grid>
                         <StackPanel
                             Grid.Row="1"
                             HorizontalAlignment="Center"
-                            IsEnabled="{Binding Idle}">
+                            IsEnabled="{Binding Run.Idle}">
                             <!--  AutoSquad  -->
                             <StackPanel
                                 Margin="2.5,5"
@@ -485,8 +486,8 @@
                             HorizontalContentAlignment="Stretch"
                             d:ItemsSource="{d:SampleData ItemCount=7}"
                             dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
-                            dd:DragDrop.IsDragSource="{Binding Idle}"
-                            dd:DragDrop.IsDropTarget="{Binding Idle}"
+                            dd:DragDrop.IsDragSource="{Binding Run.Idle}"
+                            dd:DragDrop.IsDropTarget="{Binding Run.Idle}"
                             hc:BorderElement.CornerRadius="4,4,0,0"
                             properties:AutoScroll.AutoScroll="True"
                             BorderThickness="1,1,1,0"
@@ -515,8 +516,8 @@
                                         <CheckBox
                                             Grid.Column="0"
                                             IsChecked="{Binding IsChecked}"
-                                            IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
-                                            IsHitTestVisible="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
+                                            IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Run.Idle}"
+                                            IsHitTestVisible="{Binding ElementName=CopilotList, Path=DataContext.Run.Idle}"
                                             ToolTip="{c:Binding CopilotId}"
                                             Visibility="{c:Binding 'DataContext.CopilotTabIndex != 1 and DataContext.CopilotTabIndex != 3',
                                                                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
@@ -539,7 +540,7 @@
                                             Background="Transparent"
                                             BorderThickness="0"
                                             Foreground="{DynamicResource SecondaryTextBrush}"
-                                            IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
+                                            IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Run.Idle}"
                                             MouseRightButtonUp="{s:Action SelectCopilotTask}"
                                             PreviewMouseLeftButtonUp="{s:Action SelectCopilotTask}"
                                             Tag="{c:Binding Index}"
@@ -555,7 +556,7 @@
                                             BorderThickness="0"
                                             Command="{s:Action DeleteCopilotTask}"
                                             CommandParameter="{c:Binding Index}"
-                                            IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Idle}" />
+                                            IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Run.Idle}" />
                                     </Grid>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -568,7 +569,7 @@
                                 VerticalContentAlignment="Center"
                                 hc:BorderElement.CornerRadius="0"
                                 hc:InfoElement.Placeholder="{DynamicResource CopilotTaskName}"
-                                IsEnabled="{Binding Idle}"
+                                IsEnabled="{Binding Run.Idle}"
                                 MaxLines="1"
                                 Text="{Binding CopilotTaskName, UpdateSourceTrigger=LostFocus}" />
                             <controls:TooltipBlock
@@ -585,7 +586,7 @@
                                 hc:IconElement.Geometry="{StaticResource FolderAdd20Regular}"
                                 BorderThickness="1,1,0,1"
                                 Command="{s:Action ImportFiles}"
-                                IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}" />
+                                IsEnabled="{c:Binding 'Run.Idle and StartEnabled'}" />
                             <controls:TooltipBlock
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Top"
@@ -601,7 +602,7 @@
                                 hc:IconElement.Geometry="{StaticResource Add20Regular}"
                                 BorderThickness="0,1"
                                 Command="{s:Action AddCopilotTask}"
-                                IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}"
+                                IsEnabled="{c:Binding 'Run.Idle and StartEnabled'}"
                                 MouseRightButtonUp="{s:Action AddCopilotTask_Adverse}" />
                             <controls:TooltipBlock
                                 HorizontalAlignment="Right"
@@ -620,7 +621,7 @@
                                 BorderThickness="1"
                                 Command="{s:Action ClearCopilotTask}"
                                 Foreground="{DynamicResource DangerBrush}"
-                                IsEnabled="{c:Binding Idle}"
+                                IsEnabled="{c:Binding Run.Idle}"
                                 MouseRightButtonUp="{s:Action CleanUnableCopilotTask}" />
                             <controls:TooltipBlock
                                 HorizontalAlignment="Right"

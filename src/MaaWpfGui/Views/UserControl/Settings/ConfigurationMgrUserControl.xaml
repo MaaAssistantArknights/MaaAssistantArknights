@@ -25,7 +25,7 @@
             hc:TitleElement.HorizontalAlignment="Center"
             hc:TitleElement.Title="{DynamicResource ConfigurationName}"
             IsEditable="True"
-            IsHitTestVisible="{Binding Idle}"
+            IsHitTestVisible="{Binding Run.Idle}"
             IsReadOnly="True"
             ItemsSource="{Binding ConfigurationList}"
             SelectedValue="{Binding CurrentConfiguration}"

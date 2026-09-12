@@ -136,7 +136,7 @@
                     Margin="8"
                     hc:InfoElement.Title="{DynamicResource MainViewButtonFeature}"
                     DisplayMemberPath="Display"
-                    IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
+                    IsHitTestVisible="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
                     ItemsSource="{Binding InverseClearModeList}"
                     SelectedValue="{Binding InverseClearMode}"
                     SelectedValuePath="Value" />

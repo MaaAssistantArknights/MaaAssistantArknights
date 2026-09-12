@@ -660,11 +660,12 @@ public class TaskQueueViewModel : Screen
     {
         _runningState = RunningState.Instance;
         _runningState.StateChanged += (_, e) => {
-            Idle = e.NewState.Idle;
-            Inited = e.NewState.Inited;
-            Stopping = e.NewState.Stopping;
+            // 回到空闲时重置主任务进度（原 Idle 镜像置 true 的联动）
+            if (e.NewState.Idle)
+            {
+                UpdateMainTasksProgress(0);
+            }
 
-            Instances.SettingsViewModel.Idle = e.NewState.Idle;
             if (!e.NewState.Idle)
             {
                 Instances.Data.ClearCache();
@@ -827,7 +828,7 @@ public class TaskQueueViewModel : Screen
 
             _lastTimerElapsed = currentTime;
 
-            if ((currentTime.Hour == 3 || currentTime.Hour == 13 || currentTime.Hour == 23) && currentTime.Minute == 25 && !Idle)
+            if ((currentTime.Hour == 3 || currentTime.Hour == 13 || currentTime.Hour == 23) && currentTime.Minute == 25 && !_runningState.GetIdle())
             {
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.Time325);
             }
@@ -862,7 +863,7 @@ public class TaskQueueViewModel : Screen
     {
         try
         {
-            if (Stopping || _runningState.GetIdle())
+            if (_runningState.GetStopping() || _runningState.GetIdle())
             {
                 return;
             }
@@ -1624,7 +1625,7 @@ public class TaskQueueViewModel : Screen
     [UsedImplicitly]
     public void RenameTask(TaskItemViewModel taskItem)
     {
-        if (taskItem == null || !Idle)
+        if (taskItem == null || !_runningState.GetIdle())
         {
             return;
         }
@@ -1664,7 +1665,7 @@ public class TaskQueueViewModel : Screen
     [UsedImplicitly]
     public async Task RunTaskOnce(TaskItemViewModel taskItem)
     {
-        if (taskItem == null || !Idle)
+        if (taskItem == null || !_runningState.GetIdle())
         {
             return;
         }
@@ -1696,7 +1697,7 @@ public class TaskQueueViewModel : Screen
     [UsedImplicitly]
     public void CopyTask(TaskItemViewModel taskItem)
     {
-        if (taskItem == null || !Idle)
+        if (taskItem == null || !_runningState.GetIdle())
         {
             return;
         }
@@ -1727,7 +1728,7 @@ public class TaskQueueViewModel : Screen
     [UsedImplicitly]
     public void RemoveTask(TaskItemViewModel taskItem)
     {
-        if (taskItem == null || !Idle)
+        if (taskItem == null || !_runningState.GetIdle())
         {
             return;
         }
@@ -2160,8 +2161,8 @@ public class TaskQueueViewModel : Screen
         MainTasksCompletedCount = 0;
         ResetTaskItemStatuses();
 
-        // 所有提前 return 都要放在 _runningState.SetIdle(false) 之前，否则会导致无法再次点击开始
-        _runningState.SetIdle(false);
+        // 所有提前 return 都要放在进入运行态之前，否则会导致无法再次点击开始
+        _runningState.BeginRun(RunOwner.TaskQueue);
 
         // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
         // TaskItemSelectionChanged();
@@ -2310,7 +2311,7 @@ public class TaskQueueViewModel : Screen
 
     public void ManualStop()
     {
-        if (Stopping || _runningState.GetIdle())
+        if (_runningState.GetStopping() || _runningState.GetIdle())
         {
             _logger.Information("Already stopping or idle, return.");
             return;
@@ -2393,7 +2394,7 @@ public class TaskQueueViewModel : Screen
     private async Task WaitUntilRoguelikeCombatComplete()
     {
         int time = 0;
-        while (RoguelikeTask.RoguelikeDelayAbortUntilCombatComplete && RoguelikeInCombatAndShowWait && time < 600 && !Stopping)
+        while (RoguelikeTask.RoguelikeDelayAbortUntilCombatComplete && RoguelikeInCombatAndShowWait && time < 600 && !_runningState.GetStopping())
         {
             await Task.Delay(1000);
             ++time;
@@ -2422,30 +2423,22 @@ public class TaskQueueViewModel : Screen
     }
 
     /// <summary>
-    /// 按当前任务链判定停止目标后执行 <see cref="StopManuallyAsync(bool)"/>；
-    /// Core 未运行（如启动链路中的连接、开始前脚本阶段）时无链信息，按非 copilot 处理。
-    /// </summary>
-    /// <returns>是否完整走完本次手动停止。</returns>
-    public Task<bool> StopManuallyAsync() => StopManuallyAsync(Instances.AsstProxy.IsCopilotTaskChainRunning);
-
-    /// <summary>
     /// 手动停止核心：等待 Core 停止、UI 状态恢复（TaskChainStopped 回调，或 Stop 超时强制）后，
-    /// 按停止目标发射结束脚本——非 copilot 链须 ｢手动停止时启用上述脚本｣ 开启，
-    /// copilot 链还须 ｢自动战斗时启用上述脚本｣ 同时开启。
-    /// 所有手动语义入口（手动停止 / 等待并停止 / 时长上限 / 热键 / 远控 StopTask / copilot 停止按钮）收敛到此；
+    /// 按运行归属发射结束脚本——非 copilot 须 ｢手动停止时启用上述脚本｣ 开启，
+    /// copilot 还须 ｢自动战斗时启用上述脚本｣ 同时开启。归属在开始入口声明，跨页停止也能正确判定。
+    /// 所有手动语义入口（手动停止 / 等待并停止 / 时长上限 / 热键 / 远控 StopTask / 各页停止按钮）收敛到此；
     /// 非手动场景（异常停止、挤停、启动失败等）直接调用 <see cref="Stop"/> 与 <see cref="SetStopped"/>，不发射脚本。
     /// </summary>
-    /// <param name="isCopilot">停止目标是否 copilot 任务。</param>
     /// <returns>是否完整走完本次手动停止（等到空闲且未被新一轮运行抢占）；false 时调用方不应再执行后续动作。</returns>
-    public async Task<bool> StopManuallyAsync(bool isCopilot)
+    public async Task<bool> StopManuallyAsync()
     {
-        if (Stopping || _runningState.GetIdle())
+        if (_runningState.GetStopping() || _runningState.GetIdle())
         {
             return false;
         }
 
         var runScript = SettingsViewModel.GameSettings.ManualStopWithScript
-            && (!isCopilot || SettingsViewModel.GameSettings.CopilotWithScript);
+            && (_runningState.Owner != RunOwner.Copilot || SettingsViewModel.GameSettings.CopilotWithScript);
 
         // 等 Idle 是等「本次停止完成」：Stop() 正常出口不置 Idle（收口归异步在途的 TaskChainStopped 回调）；
         // 启动链路进行中点停止则要等链路走到下一个 Stopping 检查点（模拟器等待等环节每秒检查，通常秒级，
@@ -2501,37 +2494,10 @@ public class TaskQueueViewModel : Screen
 
     public bool EnableSetFightParams { get; set; } = true;
 
-    public bool Inited { get => field; set => SetAndNotify(ref field, value); }
-
-    private bool _idle;
-
     /// <summary>
-    /// Gets or sets a value indicating whether it is idle.
+    /// Gets the shared run control state for run-state bindings.
     /// </summary>
-    public bool Idle
-    {
-        get => _idle;
-        set {
-            SetAndNotify(ref _idle, value);
-            if (!value)
-            {
-                return;
-            }
-
-            UpdateMainTasksProgress(0);
-        }
-    }
-
-    private bool _stopping;
-
-    /// <summary>
-    /// Gets a value indicating whether `stop` is awaiting.
-    /// </summary>
-    public bool Stopping
-    {
-        get => _stopping;
-        private set => SetAndNotify(ref _stopping, value);
-    }
+    public RunControlState Run => RunControlState.Instance;
 
     private bool _waiting;
 

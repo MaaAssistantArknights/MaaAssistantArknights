@@ -930,6 +930,7 @@ Right-clicking other options will check/uncheck this option simultaneously</syst
     <system:String x:Key="BackToAndroidHome">Return to home screen of emulator</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">Stop</system:String>
+    <system:String x:Key="StopCurrentTaskFormat">Stop the running {0}</system:String>
     <system:String x:Key="WaitAndStop">Wait &amp; Stop</system:String>
     <system:String x:Key="AutoReloadResource">Auto Reload Resource</system:String>
     <system:String x:Key="CustomTaskName">Task Name(s)</system:String>

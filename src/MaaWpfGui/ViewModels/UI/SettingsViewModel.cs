@@ -50,9 +50,12 @@ namespace MaaWpfGui.ViewModels.UI;
 /// </summary>
 public class SettingsViewModel : Screen
 {
-    private readonly RunningState _runningState;
-
     private static readonly ILogger _logger = Log.ForContext<SettingsViewModel>();
+
+    /// <summary>
+    /// Gets the shared run control state for run-state bindings.
+    /// </summary>
+    public RunControlState Run => RunControlState.Instance;
 
     /// <summary>
     /// Gets the visibility of task setting views.
@@ -139,14 +142,6 @@ public class SettingsViewModel : Screen
 
         ResetGuideDemoTasks();
 
-        _runningState = RunningState.Instance;
-        _runningState.StateChanged += (_, e) => {
-            Idle = e.NewState.Idle;
-
-            // Inited = e.Inited;
-            // Stopping = e.Stopping;
-        };
-
         LocalizationHelper.LanguageChanged += RefreshLocalization;
     }
 
@@ -160,17 +155,6 @@ public class SettingsViewModel : Screen
     }
 
     #region Init
-
-    private bool _idle;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether it is idle.
-    /// </summary>
-    public bool Idle
-    {
-        get => _idle;
-        set => SetAndNotify(ref _idle, value);
-    }
 
     private void Init()
     {
