@@ -929,6 +929,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BackToAndroidHome">返回 模拟器 主屏幕</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
+    <system:String x:Key="StopCurrentTaskFormat">停止当前运行的 {0}</system:String>
     <system:String x:Key="WaitAndStop">等待 &amp; 停止</system:String>
     <system:String x:Key="AutoReloadResource">自动重载资源</system:String>
     <system:String x:Key="CustomTaskName">任务名</system:String>

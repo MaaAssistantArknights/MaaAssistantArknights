@@ -87,7 +87,7 @@
             </DataTemplate>
         </TabControl.ContentTemplate>
         <TabItem Header="{DynamicResource RecruitmentRecognition}">
-            <Grid Margin="20,0,20,20" IsEnabled="{Binding Idle}">
+            <Grid Margin="20,0,20,20" IsEnabled="{Binding Run.Idle}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
@@ -266,7 +266,7 @@
                         VerticalAlignment="Center"
                         Command="{s:Action RecruitStartCalc}"
                         Content="{DynamicResource StartToRecruit}"
-                        IsEnabled="{c:Binding Inited}" />
+                        IsEnabled="{c:Binding Run.Inited}" />
                 </Grid>
             </Grid>
         </TabItem>
@@ -497,7 +497,7 @@
                         VerticalAlignment="Bottom"
                         Command="{s:Action StartOperBox}"
                         Content="{DynamicResource StartToOperBoxRecognition}"
-                        IsEnabled="{c:Binding 'Idle and Inited'}" />
+                        IsEnabled="{c:Binding 'Run.Idle and Run.Inited'}" />
                 </StackPanel>
             </Grid>
         </TabItem>
@@ -615,7 +615,7 @@
                         VerticalAlignment="Bottom"
                         Command="{s:Action StartDepot}"
                         Content="{DynamicResource StartToDepotRecognition}"
-                        IsEnabled="{c:Binding 'Idle and Inited'}" />
+                        IsEnabled="{c:Binding 'Run.Idle and Run.Inited'}" />
                 </StackPanel>
             </Grid>
         </TabItem>
@@ -662,7 +662,7 @@
                         uiBehaviors:FadeBehavior.IsActive="{c:Binding Peeping}"
                         Source="{Binding PeepImage}"
                         Visibility="Collapsed" />
-                    <Canvas Visibility="{c:Binding !Idle}">
+                    <Canvas Visibility="{c:Binding !Run.Idle}">
                         <Viewbox Canvas.Left="15" Canvas.Top="15">
                             <Border
                                 Padding="4,2"
@@ -741,7 +741,7 @@
                         Command="{s:Action GachaOnce}"
                         Content="{DynamicResource GachaOnce}"
                         FontSize="16"
-                        IsEnabled="{c:Binding 'Idle and Inited'}" />
+                        IsEnabled="{c:Binding 'Run.Idle and Run.Inited'}" />
                     <Button
                         Width="180"
                         Height="70"
@@ -749,7 +749,7 @@
                         Command="{s:Action GachaTenTimes}"
                         Content="{DynamicResource GachaTenTimes}"
                         FontSize="16"
-                        IsEnabled="{c:Binding 'Idle and Inited'}" />
+                        IsEnabled="{c:Binding 'Run.Idle and Run.Inited'}" />
                     <Button
                         Width="180"
                         Height="70"
@@ -757,7 +757,7 @@
                         Command="{s:Action Peep}"
                         Content="{c:Binding '!Peeping ? &quot;Peep!&quot; : (IsGachaInProgress ? &quot;Stop!!!!!&quot; : &quot;Stop!&quot;)'}"
                         FontSize="16"
-                        IsEnabled="{c:Binding '!IsPeepTransitioning and Inited'}" />
+                        IsEnabled="{c:Binding '!IsPeepTransitioning and Run.Inited'}" />
                 </StackPanel>
             </Grid>
         </TabItem>
@@ -817,7 +817,7 @@
                         Command="{s:Action Peep}"
                         Content="{c:Binding '!Peeping ? &quot;Peep!&quot; : (IsGachaInProgress ? &quot;Stop!!!!!&quot; : &quot;Stop!&quot;)'}"
                         FontSize="16"
-                        IsEnabled="{c:Binding '!IsPeepTransitioning and Inited'}" />
+                        IsEnabled="{c:Binding '!IsPeepTransitioning and Run.Inited'}" />
                     <hc:NumericUpDown
                         MinWidth="50"
                         VerticalAlignment="Center"
@@ -862,7 +862,7 @@
                         <ListBox
                             Background="Transparent"
                             BorderThickness="0"
-                            IsEnabled="{Binding Idle}"
+                            IsEnabled="{Binding Run.Idle}"
                             ItemsSource="{Binding Source={StaticResource CategorizedMiniGames}}"
                             SelectedItem="{Binding SelectedMiniGameItem}">
                             <VirtualizingPanel.IsVirtualizingWhenGrouping>True</VirtualizingPanel.IsVirtualizingWhenGrouping>
@@ -909,14 +909,26 @@
                         Margin="0,10,0,0"
                         HorizontalAlignment="Center"
                         Command="{s:Action StartMiniGame}"
-                        Content="{c:Binding 'Idle ? &quot;Link Start!&quot; : &quot;Stop!&quot;'}"
-                        IsEnabled="{c:Binding 'Inited and !Stopping'}" />
+                        Content="{DynamicResource LinkStart}"
+                        IsEnabled="{c:Binding Run.CanStart}"
+                        Visibility="{c:Binding Run.Idle}" />
+                    <Button
+                        Grid.Row="1"
+                        Width="100"
+                        Height="50"
+                        Margin="0,10,0,0"
+                        HorizontalAlignment="Center"
+                        Command="{s:Action StopMiniGame}"
+                        Content="{DynamicResource Stop}"
+                        IsEnabled="{c:Binding '!Run.Stopping'}"
+                        ToolTip="{Binding Run.StopToolTip}"
+                        Visibility="{c:Binding '!Run.Idle'}" />
                 </Grid>
                 <Grid
                     Grid.Column="1"
                     Margin="10"
                     VerticalAlignment="Top"
-                    IsEnabled="{Binding Idle}">
+                    IsEnabled="{Binding Run.Idle}">
                     <!--  列表选择变化时，设置区按选中项在列表中的位置上下切换  -->
                     <controls:TransitioningContentControl
                         TransitionFade="True"

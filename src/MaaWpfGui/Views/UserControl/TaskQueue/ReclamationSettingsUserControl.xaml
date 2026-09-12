@@ -24,7 +24,7 @@
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource ReclamationTheme}"
                 DisplayMemberPath="Display"
-                IsHitTestVisible="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                IsHitTestVisible="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
                 ItemsSource="{Binding ReclamationThemeList}"
                 SelectedValue="{Binding ReclamationTheme}"
                 SelectedValuePath="Value" />
@@ -32,7 +32,7 @@
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource ReclamationMode}"
                 DisplayMemberPath="Display"
-                IsHitTestVisible="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                IsHitTestVisible="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
                 ItemsSource="{Binding ModeList}"
                 SelectedValue="{Binding ReclamationMode}"
                 SelectedValuePath="Value"
@@ -63,7 +63,7 @@
                     DisplayMemberPath="Display"
                     IsEnabled="{c:Binding 'ReclamationMode == task:ReclamationMode.ProsperityInSave',
                                           Source={x:Static taskQueue_vms:ReclamationSettingsUserControlModel.Instance}}"
-                    IsHitTestVisible="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                    IsHitTestVisible="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
                     ItemsSource="{Binding ReclamationIncrementModeList}"
                     SelectedValue="{Binding ReclamationIncrementMode}"
                     SelectedValuePath="Value" />

@@ -39,7 +39,7 @@
                     <TextBox
                         Grid.Column="0"
                         hc:BorderElement.CornerRadius="4,0,0,4"
-                        IsReadOnly="{c:Binding !Idle,
+                        IsReadOnly="{c:Binding !Run.Idle,
                                                Source={x:Static helper:Instances.SettingsViewModel}}"
                         Text="{Binding AccountName, UpdateSourceTrigger=PropertyChanged}" />
                     <Button
@@ -74,7 +74,7 @@
             Margin="0,5"
             hc:InfoElement.Title="{DynamicResource ClientType}"
             DisplayMemberPath="Display"
-            IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
+            IsHitTestVisible="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
             ItemsSource="{Binding ClientTypeList, Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}"
             SelectedValue="{Binding ClientType, Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}"
             SelectedValuePath="Value"
@@ -216,7 +216,7 @@
                     </StackPanel>
                     <hc:ComboBox
                         DisplayMemberPath="Display"
-                        IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
+                        IsHitTestVisible="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
                         ItemsSource="{Binding TouchModeList}"
                         SelectedValue="{Binding TouchMode}"
                         SelectedValuePath="Value" />

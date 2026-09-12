@@ -68,10 +68,6 @@ public class ToolboxViewModel : Screen
         DisplayName = LocalizationHelper.GetString("Toolbox");
         _runningState = RunningState.Instance;
         _runningState.StateChanged += (__, e) => {
-            Idle = e.NewState.Idle;
-            Inited = e.NewState.Inited;
-            Stopping = e.NewState.Stopping;
-
             if (e.NewState.Idle)
             {
                 PixelPaintParametersLocked = false;
@@ -116,32 +112,10 @@ public class ToolboxViewModel : Screen
         UpdateMiniGameTaskList();
     }
 
-    private bool _idle;
-
     /// <summary>
-    /// Gets or sets a value indicating whether it is idle.
+    /// Gets the shared run control state for run-state bindings.
     /// </summary>
-    public bool Idle
-    {
-        get => _idle;
-        set => SetAndNotify(ref _idle, value);
-    }
-
-    private bool _inited;
-
-    public bool Inited
-    {
-        get => _inited;
-        set => SetAndNotify(ref _inited, value);
-    }
-
-    private bool _stopping;
-
-    public bool Stopping
-    {
-        get => _stopping;
-        set => SetAndNotify(ref _stopping, value);
-    }
+    public RunControlState Run => RunControlState.Instance;
 
     #region Recruit
 
@@ -371,7 +345,7 @@ public class ToolboxViewModel : Screen
     {
         string errMsg = string.Empty;
         RecruitInfo = LocalizationHelper.GetString("ConnectingToEmulator");
-        _runningState.SetIdle(false);
+        _runningState.BeginRun(RunOwner.Toolbox);
         var recruitCaught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
         if (!recruitCaught)
         {
@@ -1177,7 +1151,7 @@ public class ToolboxViewModel : Screen
     [UsedImplicitly]
     public async Task StartDepot()
     {
-        _runningState.SetIdle(false);
+        _runningState.BeginRun(RunOwner.Toolbox);
         string errMsg = string.Empty;
         DepotInfo = LocalizationHelper.GetString("ConnectingToEmulator");
         bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
@@ -1813,7 +1787,7 @@ public class ToolboxViewModel : Screen
     [UsedImplicitly]
     public async Task StartOperBox()
     {
-        _runningState.SetIdle(false);
+        _runningState.BeginRun(RunOwner.Toolbox);
         if (SettingsViewModel.ThirdPartyServiceSettings.EnableOperBoxYituliuApi)
         {
             await StartOperBoxFromYituliuApiAsync();
@@ -2109,7 +2083,7 @@ public class ToolboxViewModel : Screen
 
     public async Task StartGacha(bool once = true)
     {
-        _runningState.SetIdle(false);
+        _runningState.BeginRun(RunOwner.Toolbox);
 
         string errMsg = string.Empty;
         GachaInfo = LocalizationHelper.GetString("ConnectingToEmulator");
@@ -2405,9 +2379,9 @@ public class ToolboxViewModel : Screen
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.PeekScreen);
 
             // 如果没任务在运行，需要先连接，并标记是由 Peep() 方法启动的 Peep
-            if (Idle)
+            if (_runningState.GetIdle())
             {
-                _runningState.SetIdle(false);
+                _runningState.BeginRun(RunOwner.Toolbox);
                 string errMsg = string.Empty;
                 bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
                 if (!caught)
@@ -3097,14 +3071,28 @@ public class ToolboxViewModel : Screen
         _ = StartMiniGameAsync();
     }
 
-    private async Task StartMiniGameAsync()
+    /// <summary>
+    /// 停止小游戏；其他任务运行时作为跨页停止入口，走手动停止核心。
+    /// UI 绑定的方法
+    /// </summary>
+    /// <returns>Task</returns>
+    [UsedImplicitly]
+    public async Task StopMiniGame()
     {
-        if (!Idle)
+        // 小游戏自身运行中的停止是清场，不发射结束脚本；
+        // 其他归属的运行经此停止属手动停止语义，脚本条件由运行归属判定
+        if (_runningState.Owner == RunOwner.MiniGame)
         {
             await Instances.TaskQueueViewModel.Stop();
-            return;
         }
+        else
+        {
+            await Instances.TaskQueueViewModel.StopManuallyAsync();
+        }
+    }
 
+    private async Task StartMiniGameAsync()
+    {
         var isPixelPaint = IsPixelPaintSelected;
         if (isPixelPaint && (_pixelPaintResult == null || _pixelPaintResult.Groups.Count == 0))
         {
@@ -3114,7 +3102,7 @@ public class ToolboxViewModel : Screen
 
         Instances.TaskQueueViewModel.ClearLog();
 
-        _runningState.SetIdle(false);
+        _runningState.BeginRun(RunOwner.MiniGame);
         if (isPixelPaint)
         {
             PixelPaintParametersLocked = true;

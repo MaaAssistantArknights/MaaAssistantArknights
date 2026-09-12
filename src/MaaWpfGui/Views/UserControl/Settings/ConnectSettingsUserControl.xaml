@@ -398,7 +398,7 @@
                 hc:TitleElement.Title="{DynamicResource TouchMode}"
                 hc:TitleElement.TitlePlacement="Left"
                 DisplayMemberPath="Display"
-                IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
+                IsHitTestVisible="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
                 ItemsSource="{Binding TouchModeList}"
                 SelectedValue="{Binding TouchMode}"
                 SelectedValuePath="Value" />

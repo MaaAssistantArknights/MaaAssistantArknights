@@ -932,6 +932,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BackToAndroidHome">エミュレータのホーム画面に戻る</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
+    <system:String x:Key="StopCurrentTaskFormat">実行中の{0}を停止</system:String>
     <system:String x:Key="WaitAndStop">待機 &amp; 停止</system:String>
     <system:String x:Key="AutoReloadResource">リソースを自動リロード</system:String>
     <system:String x:Key="CustomTaskName">タスク名</system:String>

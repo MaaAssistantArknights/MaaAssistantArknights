@@ -144,7 +144,7 @@
                                 Margin="0,20"
                                 HorizontalAlignment="Center"
                                 DataContext="{Binding PerformanceSettings}"
-                                IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
+                                IsEnabled="{Binding DataContext.Run.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
                         </Border>
                     </Expander>
                 </Grid>
@@ -189,7 +189,7 @@
                                 Margin="0,20"
                                 HorizontalAlignment="Center"
                                 DataContext="{Binding ConnectSettings}"
-                                IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
+                                IsEnabled="{Binding DataContext.Run.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
                         </Border>
                     </Expander>
                 </Grid>

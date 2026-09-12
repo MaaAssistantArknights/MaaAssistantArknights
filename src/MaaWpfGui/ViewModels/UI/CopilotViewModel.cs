@@ -27,6 +27,7 @@ using System.Windows.Input;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
@@ -113,11 +114,6 @@ public partial class CopilotViewModel : Screen
         DisplayName = LocalizationHelper.GetString("Copilot");
         AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
         _runningState = RunningState.Instance;
-        _runningState.StateChanged += (_, e) => {
-            Idle = e.NewState.Idle;
-            Inited = e.NewState.Inited;
-            Stopping = e.NewState.Stopping;
-        };
         LocalizationHelper.LanguageChanged += () => {
             DisplayName = LocalizationHelper.GetString("Copilot");
             SupportUnitUsageList.RefreshLocalization();
@@ -161,7 +157,7 @@ public partial class CopilotViewModel : Screen
     /// <param name="showTime">Whether show time.</param>
     public void AddLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true)
     {
-        // Copilot 自动战斗期间也会启动停滞计时器（Start 通过 SetIdle(false) 进入运行态），
+        // Copilot 自动战斗期间也会启动停滞计时器（Start 通过 BeginRun 进入运行态），
         // 这里的日志同样属于"有输出活动"，需要重置计时器，否则会误报任务卡住。
         RunningState.Instance.NotifyOutputActivity();
 
@@ -218,13 +214,9 @@ public partial class CopilotViewModel : Screen
     #region 属性
 
     /// <summary>
-    /// Gets a value indicating whether it is idle.
+    /// Gets the shared run control state for run-state bindings.
     /// </summary>
-    public bool Idle { get => field; private set => SetAndNotify(ref field, value); }
-
-    public bool Inited { get => field; set => SetAndNotify(ref field, value); }
-
-    public bool Stopping { get => field; set => SetAndNotify(ref field, value); }
+    public RunControlState Run => RunControlState.Instance;
 
     /// <summary>
     /// Gets or sets a value indicating whether the start button is enabled.
@@ -240,7 +232,7 @@ public partial class CopilotViewModel : Screen
     {
         get => _copilotTabIndex;
         set {
-            if (!Idle)
+            if (!_runningState.GetIdle())
             {
                 return;
             }
@@ -1830,7 +1822,7 @@ public partial class CopilotViewModel : Screen
         {
             AddLog(Localization.GetString("AutoSquadTip"), LogColor.Message);
         }*/
-        _runningState.SetIdle(false);
+        _runningState.BeginRun(RunOwner.Copilot);
 
         Instances.OverlayViewModel.LogItemsSource = LogItemViewModels;
 
@@ -2107,9 +2099,9 @@ public partial class CopilotViewModel : Screen
 
         AddLog(LocalizationHelper.GetString("Stopping"));
 
-        // 停止目标恒为 copilot（连接中、Core 未运行无链信息可判的阶段也由入口显式声明）；
-        // 停止完成后发射结束脚本，须 ｢自动战斗时启用上述脚本｣ 与 ｢手动停止时启用上述脚本｣ 同时开启
-        var stopped = await Instances.TaskQueueViewModel.StopManuallyAsync(isCopilot: true);
+        // 停止目标按运行归属判定：本页发起的运行归属 copilot，脚本须双开关同时开启；
+        // 其他页发起的运行在本页停止时也能正确判定归属（连接中、Core 未运行的启动阶段归属已在入口声明）
+        var stopped = await Instances.TaskQueueViewModel.StopManuallyAsync();
         if (stopped)
         {
             AddLog(LocalizationHelper.GetString("Stopped"));
