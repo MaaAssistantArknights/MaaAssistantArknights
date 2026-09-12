@@ -2107,22 +2107,12 @@ public partial class CopilotViewModel : Screen
 
         AddLog(LocalizationHelper.GetString("Stopping"));
 
-        // 结束脚本须 CopilotWithScript 与 ManualStopWithScript 同时开启（同主任务队列的手动停止语义）
-        var runScript = SettingsViewModel.GameSettings.CopilotWithScript && SettingsViewModel.GameSettings.ManualStopWithScript;
-        if (Instances.AsstProxy.AsstRunning())
+        // 停止目标恒为 copilot（连接中、Core 未运行无链信息可判的阶段也由入口显式声明）；
+        // 停止完成后发射结束脚本，须 ｢自动战斗时启用上述脚本｣ 与 ｢手动停止时启用上述脚本｣ 同时开启
+        var stopped = await Instances.TaskQueueViewModel.StopManuallyAsync(isCopilot: true);
+        if (stopped)
         {
-            // Core 运行中：复用主任务队列的手动停止核心，等回调恢复状态后发射脚本
-            await Instances.TaskQueueViewModel.StopManuallyAsync(runScript);
-        }
-        else
-        {
-            // Core 未运行（如连接中）时没有回调，等不到 Idle；
-            // 仅置停止中，状态恢复交给 Start 流程稍后的 Stopping 拦截分支，脚本在此直接发射
-            await Instances.TaskQueueViewModel.Stop();
-            if (runScript)
-            {
-                await Instances.TaskQueueViewModel.RunStopScriptOnceAsync();
-            }
+            AddLog(LocalizationHelper.GetString("Stopped"));
         }
     }
 
