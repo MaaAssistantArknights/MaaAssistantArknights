@@ -2435,7 +2435,7 @@ public class TaskQueueViewModel : Screen
 
     /// <summary>
     /// 手动停止核心：等待 Core 停止、UI 状态恢复（TaskChainStopped 回调，或 Stop 超时强制）后，
-    /// 按运行归属发射结束脚本——非 copilot 须 ｢手动停止时启用上述脚本｣ 开启，
+    /// 按运行归属发射结束脚本（仅主任务队列与 copilot 归属）——非 copilot 须 ｢手动停止时启用上述脚本｣ 开启，
     /// copilot 还须 ｢自动战斗时启用上述脚本｣ 同时开启。归属在开始入口声明，跨页停止也能正确判定。
     /// 所有手动语义入口（手动停止 / 等待并停止 / 时长上限 / 热键 / 远控 StopTask / 各页停止按钮）收敛到此；
     /// 非手动场景（异常停止、挤停、启动失败等）直接调用 <see cref="Stop"/> 与 <see cref="SetStopped"/>，不发射脚本。
@@ -2448,9 +2448,9 @@ public class TaskQueueViewModel : Screen
             return false;
         }
 
-        // 归属 None（连接测试、单独等模拟器等非任务语境的运行）不发射结束脚本
+        // 仅主任务队列与 copilot 发射结束脚本；小游戏/工具箱轮次从不跑开始脚本，各停止入口统一不发
         var owner = _runningState.Owner;
-        var runScript = owner != RunOwner.None
+        var runScript = owner is RunOwner.TaskQueue or RunOwner.Copilot
             && SettingsViewModel.GameSettings.ManualStopWithScript
             && (owner != RunOwner.Copilot || SettingsViewModel.GameSettings.CopilotWithScript);
 
