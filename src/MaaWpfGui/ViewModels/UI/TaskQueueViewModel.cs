@@ -505,6 +505,12 @@ public class TaskQueueViewModel : Screen
 
     private async Task RunPostActionsCoreAsync()
     {
+        // per-run 幂等：时长上限到点停止与 AllTasksCompleted 自然完成赛跑时只执行一次
+        if (Interlocked.CompareExchange(ref _postActionsLaunched, 1, 0) is not 0)
+        {
+            return;
+        }
+
         var actions = PostActionSetting;
         _logger.Information("Post actions: " + actions.ActionDescription);
 
@@ -672,10 +678,11 @@ public class TaskQueueViewModel : Screen
                 Instances.Data.ClearCache();
             }
 
-            // 每轮运行开始（离开空闲）时重置结束脚本发射权；停止中不重置，避免把已合法发射的标志清零导致二次发射
+            // 每轮运行开始（离开空闲）时重置结束脚本与完成后动作的发射权；停止中不重置，避免把已合法发射的标志清零导致二次发射
             if (e.OldState.Idle && !e.NewState.Idle)
             {
                 Interlocked.Exchange(ref _stopScriptLaunched, 0);
+                Interlocked.Exchange(ref _postActionsLaunched, 0);
             }
 
             if (e.NewState.Idle && _runDurationLimitOnce)
@@ -2406,6 +2413,9 @@ public class TaskQueueViewModel : Screen
 
     // 手动停止的结束脚本发射权，每轮运行开始（离开空闲）时重置；多个手动入口并发时保证只发射一次
     private int _stopScriptLaunched;
+
+    // 完成后动作发射权，每轮运行开始（离开空闲）时重置；时长上限停止与自然完成赛跑时保证只执行一次
+    private int _postActionsLaunched;
 
     /// <summary>
     /// 按 Interlocked 标志去重地执行一次结束脚本（EndsWithScript）。手动停止各入口与自然完成
