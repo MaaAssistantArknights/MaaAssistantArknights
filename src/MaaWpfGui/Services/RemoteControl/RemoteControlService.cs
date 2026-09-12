@@ -722,7 +722,6 @@ public class RemoteControlService
             if (count == 0)
             {
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UnselectedTask"));
-                _runningState.SetIdle(true);
                 Instances.TaskQueueViewModel.SetStopped();
                 return;
             }

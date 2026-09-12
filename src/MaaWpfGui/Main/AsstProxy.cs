@@ -1298,9 +1298,7 @@ public class AsstProxy
         {
             case AsstMsg.TaskChainStopped:
                 {
-                    // Copilot 场景下只有 CopilotWithScript 开启时才执行结束脚本，否则由 SetStopped 默认逻辑处理
-                    bool runScript = !isCopilotTaskChain || SettingsViewModel.GameSettings.CopilotWithScript;
-                    Instances.TaskQueueViewModel.SetStopped(runStopScript: runScript);
+                    Instances.TaskQueueViewModel.SetStopped();
                 }
 
                 // UpdateTaskStatus(taskId, TaskStatus.Completed);
@@ -1445,7 +1443,8 @@ public class AsstProxy
                 {
                     if (SettingsViewModel.GameSettings.CopilotWithScript)
                     {
-                        Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript", showLog: false));
+                        // 与手动停止入口共享发射权（copilot 日志走下方 AddLog，不进任务日志）
+                        _ = Instances.TaskQueueViewModel.RunStopScriptOnceAsync(showLog: false);
                         if (!string.IsNullOrWhiteSpace(SettingsViewModel.GameSettings.EndsWithScript))
                         {
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("EndsWithScript"));
