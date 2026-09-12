@@ -50,7 +50,10 @@
                 Block.TextAlignment="Center"
                 Content="{DynamicResource RunTaskAfterLaunch}"
                 IsChecked="{Binding RunDirectly}" />
-            <StackPanel Margin="10" Orientation="Horizontal">
+            <StackPanel
+                Margin="10"
+                Orientation="Horizontal"
+                Visibility="{c:Binding '!IsPCConnectConfig', Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
                 <CheckBox
                     HorizontalAlignment="Left"
                     Block.TextAlignment="Center"
@@ -58,21 +61,47 @@
                     IsChecked="{Binding OpenEmulatorAfterLaunch}" />
                 <controls:TooltipBlock TooltipText="{DynamicResource OpenEmulatorAfterLaunchTip}" />
             </StackPanel>
+            <StackPanel
+                Margin="10"
+                Orientation="Horizontal"
+                Visibility="{c:Binding IsPCConnectConfig, Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
+                <CheckBox
+                    HorizontalAlignment="Left"
+                    Block.TextAlignment="Center"
+                    Content="{DynamicResource OpenPcClientAfterLaunch}"
+                    IsChecked="{Binding OpenPcClientAfterLaunch}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource OpenPcClientAfterLaunchTip}" />
+            </StackPanel>
             <StackPanel Margin="10" Orientation="Horizontal">
                 <CheckBox MaxWidth="210" IsChecked="{Binding SkipStartupAutoRunAfterUpdate}">
                     <controls:TextBlock Text="{DynamicResource SkipStartupAutoRunAfterUpdate}" TextWrapping="Wrap" />
                 </CheckBox>
                 <controls:TooltipBlock Grid.Column="1" TooltipText="{DynamicResource SkipStartupAutoRunAfterUpdateTip}" />
             </StackPanel>
-            <StackPanel Margin="10" Orientation="Horizontal">
+            <StackPanel
+                Margin="10"
+                Orientation="Horizontal"
+                Visibility="{c:Binding '!IsPCConnectConfig', Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
                 <CheckBox MaxWidth="210" IsChecked="{Binding RetryOnDisconnected, Source={x:Static ui_vms:SettingsViewModel.ConnectSettings}}">
                     <controls:TextBlock Text="{DynamicResource RetryOnDisconnected}" TextWrapping="Wrap" />
                 </CheckBox>
                 <controls:TooltipBlock Grid.Column="1" TooltipText="{DynamicResource RetryOnDisconnectedTip}" />
             </StackPanel>
+            <StackPanel
+                Margin="10"
+                Orientation="Horizontal"
+                Visibility="{c:Binding IsPCConnectConfig, Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
+                <CheckBox MaxWidth="210" IsChecked="{Binding RetryPcClientOnDisconnected, Source={x:Static ui_vms:SettingsViewModel.ConnectSettings}}">
+                    <controls:TextBlock Text="{DynamicResource RetryOnPcDisconnected}" TextWrapping="Wrap" />
+                </CheckBox>
+                <controls:TooltipBlock Grid.Column="1" TooltipText="{DynamicResource RetryOnPcDisconnectedTip}" />
+            </StackPanel>
         </StackPanel>
 
-        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+        <StackPanel
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            Visibility="{c:Binding '!IsPCConnectConfig', Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
             <StackPanel Margin="10">
                 <StackPanel
                     HorizontalAlignment="Center"
@@ -122,6 +151,62 @@
                     Margin="3"
                     InputMethod.IsInputMethodEnabled="False"
                     Text="{Binding EmulatorWaitSeconds}" />
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            Visibility="{c:Binding IsPCConnectConfig, Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
+            <StackPanel Margin="10">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <controls:TextBlock
+                        Margin="0,5"
+                        VerticalAlignment="Center"
+                        Block.TextAlignment="Center"
+                        Text="{DynamicResource PcClientPath}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource SelectPcClientTip}" />
+                    <Button
+                        Margin="10,0,0,0"
+                        hc:BorderElement.CornerRadius="4,0,0,4"
+                        Command="{s:Action SelectPcClientExec}"
+                        Content="{DynamicResource Select}" />
+                    <Button
+                        hc:BorderElement.CornerRadius="0,4,4,0"
+                        BorderThickness="0,1,1,1"
+                        Command="{s:Action TestPcClientExec}"
+                        Content="{DynamicResource Test}" />
+                </StackPanel>
+                <TextBox Text="{Binding PcClientPath}" />
+            </StackPanel>
+            <StackPanel Margin="10">
+                <StackPanel
+                    Margin="0,0,0,5"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <controls:TextBlock Block.TextAlignment="Center" Text="{DynamicResource AdditionCommand}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource AdditionCommandTip}" />
+                </StackPanel>
+                <TextBox IsEnabled="{Binding PcClientPath.Length}" Text="{Binding PcClientAddCommand}" />
+            </StackPanel>
+            <StackPanel
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <controls:TextBlock
+                    Margin="3"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource WaitForPcClient}" />
+                <TextBox
+                    Width="50"
+                    Margin="3"
+                    InputMethod.IsInputMethodEnabled="False"
+                    Text="{Binding PcClientWaitSeconds}" />
             </StackPanel>
         </StackPanel>
     </Grid>
