@@ -202,6 +202,10 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
         {
             // 调用方 fire-and-forget 不 await，异常若无人观察，下方条目状态更新不会执行而永远停在运行中
             _logger.Error(e, "Failed to sync operator box from yituliu open-api");
+
+            // 内层已 catch 并 return false，正常失败不会抛到这里；此处只接内层 try 之前的意外异常，
+            // 补用户可见反馈与内层兜底 catch 一致
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("YituliuTokenNetworkError"), UiLogColor.Error);
         }
 
         var index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(baseTask);
