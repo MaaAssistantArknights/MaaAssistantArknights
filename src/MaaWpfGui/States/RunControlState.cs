@@ -24,7 +24,10 @@ namespace MaaWpfGui.States;
 /// </summary>
 public class RunControlState : PropertyChangedBase
 {
-    private static RunControlState? _instance;
+    /// <summary>
+    /// Gets the singleton instance, initialized statically (thread-safe, no lazy double-construction races).
+    /// </summary>
+    public static RunControlState Instance { get; } = new();
 
     private RunControlState()
     {
@@ -50,14 +53,6 @@ public class RunControlState : PropertyChangedBase
         LocalizationHelper.LanguageChanged += () => {
             NotifyOfPropertyChange(nameof(StopToolTip));
         };
-    }
-
-    public static RunControlState Instance
-    {
-        get {
-            _instance ??= new();
-            return _instance;
-        }
     }
 
     private bool _idle;
