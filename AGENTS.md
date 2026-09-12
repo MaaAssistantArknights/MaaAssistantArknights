@@ -8,6 +8,7 @@
 - 日志用 `"Utils/Logger.hpp"`，勿引入子模块 MaaUtils 的 `"MaaUtils/Logger.h"`，两套宏同名不同物，同文件混用会重定义；日志尽量走 `<<` 流式格式，正文一律英文。
 - 字符串一律 UTF-8 `std::string`，中文裸写、禁 `u8""` 前缀；文件路径必须经 `asst::utils::path()` 或 `"xxx"_p` 字面量构造，仅 Win32 API 边界转 `to_osstring`。
 - 错误处理返回 `bool` / `std::optional` / 空指针并记日志，常规任务与配置链路不用异常。
+- Json 序列化用 `meojson`，`#include <meojson/json.hpp>`。简单结构可考虑使用 `MEO_JSONIZATION` 宏生成序列化函数，如有复杂需求则需手写 `to_json` / `check_json` / `from_json`。检查 Json 字段、类型、范围、枚举值等，应在 `check_json` 中完成，`from_json` 返回 false 则会直接抛出异常，目前无返回 false 的情况。meojson 支持枚举的忽略大小写反序列化，但是如有 `_` 分隔符，则需要手动编写 `json::_reflection::enum_name_storage` 进行映射。
 
 ## C# / WPF（MaaWpfGui）
 
