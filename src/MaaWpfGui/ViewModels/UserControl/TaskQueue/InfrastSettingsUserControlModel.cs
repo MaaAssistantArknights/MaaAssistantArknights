@@ -103,7 +103,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
             {
                 if (!set.Contains(room))
                 {
-                    list.Add(new InfrastTask.RoomInfo(room, room == InfrastRoomType.AssistantChange));
+                    list.Add(new InfrastTask.RoomInfo(room, false));
                 }
             }
             SetTaskConfig<InfrastTask>(t => t.RoomList.SequenceEqual(list), t => t.RoomList = list);
