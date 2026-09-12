@@ -2437,8 +2437,11 @@ public class TaskQueueViewModel : Screen
             return false;
         }
 
-        var runScript = SettingsViewModel.GameSettings.ManualStopWithScript
-            && (_runningState.Owner != RunOwner.Copilot || SettingsViewModel.GameSettings.CopilotWithScript);
+        // 归属 None（连接测试、单独等模拟器等非任务语境的运行）不发射结束脚本
+        var owner = _runningState.Owner;
+        var runScript = owner != RunOwner.None
+            && SettingsViewModel.GameSettings.ManualStopWithScript
+            && (owner != RunOwner.Copilot || SettingsViewModel.GameSettings.CopilotWithScript);
 
         // 等 Idle 是等「本次停止完成」：Stop() 正常出口不置 Idle（收口归异步在途的 TaskChainStopped 回调）；
         // 启动链路进行中点停止则要等链路走到下一个 Stopping 检查点（模拟器等待等环节每秒检查，通常秒级，
