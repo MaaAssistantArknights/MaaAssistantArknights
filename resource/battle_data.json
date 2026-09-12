@@ -66,11 +66,11 @@
             "subProfessionId": "centurion"
         },
         "char_1001_amiya2": {
-            "name": "阿米娅-WARRIOR",
-            "name_en": "Amiya-WARRIOR",
-            "name_jp": "アーミヤ-WARRIOR",
-            "name_kr": "아미야-WARRIOR",
-            "name_tw": "阿米婭-WARRIOR",
+            "name": "阿米娅",
+            "name_en": "Amiya",
+            "name_jp": "アーミヤ",
+            "name_kr": "아미야",
+            "name_tw": "阿米婭",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": ["1-1", "1-1", "1-1"],
@@ -414,11 +414,11 @@
             "subProfessionId": "charger"
         },
         "char_1037_amiya3": {
-            "name": "阿米娅-MEDIC",
-            "name_en": "Amiya-MEDIC",
-            "name_jp": "アーミヤ-MEDIC",
-            "name_kr": "아미야-MEDIC",
-            "name_tw": "阿米婭-MEDIC",
+            "name": "阿米娅",
+            "name_en": "Amiya",
+            "name_jp": "アーミヤ",
+            "name_kr": "아미야",
+            "name_tw": "阿米婭",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": ["3-1", "3-3", "3-3"],

@@ -907,7 +907,8 @@
                     "recruit_priority": 318
                 },
                 {
-                    "name": "阿米娅-WARRIOR",
+                    "role": "WARRIOR",
+                    "name": "阿米娅",
                     "skill": 1,
                     "is_start": true,
                     "recruit_priority": 478,

@@ -185,6 +185,7 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         templ_rect.x = rect.x;
 
         SupportUnit support_unit { .templ = make_roi(m_image, templ_rect),
+                                   .role = role,
                                    .name = name_analyzer.get_result().text,
                                    .elite = elite,
                                    .level = level,
