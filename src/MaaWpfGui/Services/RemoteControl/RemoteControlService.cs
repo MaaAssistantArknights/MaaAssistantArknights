@@ -24,6 +24,7 @@ using System.Windows.Media.Imaging;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;

@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using Stylet;
 

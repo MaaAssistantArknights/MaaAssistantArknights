@@ -11,9 +11,11 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using MaaWpfGui.States;
+
 #nullable enable
 
-namespace MaaWpfGui.States;
+namespace MaaWpfGui.Constants.Enums;
 
 /// <summary>
 /// 当前运行轮次的发起入口归属，由各开始入口在启动运行时经 <see cref="RunningState.BeginRun"/> 声明，

@@ -18,6 +18,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Utilities;
