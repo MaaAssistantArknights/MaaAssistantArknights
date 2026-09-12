@@ -154,7 +154,12 @@ class CoreEval:
                 break
             time.sleep(0.02)
         else:
-            raise RuntimeError("core did not return to idle after Debug task")
+            # AsstRunning 晚于 AllTasksCompleted 转 false（间隔 taskDelay，默认 500ms、可配置更大），
+            # 走到这里结果已完整，超时只警告不丢弃；真异常由下一次 AsstStart failed 暴露
+            print(
+                "WARN: core still running 2s after Debug task completed",
+                file=sys.stderr,
+            )
         return list(self._results)
 
     @staticmethod
