@@ -388,7 +388,8 @@ internal static partial class PendingUpdateApplier
 
     /// <summary>
     /// 读取外部更新器写入的失败状态。标志文件只读不删：须跨启动持久保留
-    /// （避免用户忽略提示后重启导致半更新状态无人提醒），直至完整包安装时随根目录清场移除。
+    /// （避免用户忽略提示后重启导致半更新状态无人提醒），直至完整包安装时随根目录清场、
+    /// 或注册新更新包时（注册即代表用户已着手修复，旧失败原因失效）移除。
     /// 读取同时会清空待应用更新包配置（沿用旧消费语义：失败后不再自动重试该包）。
     /// </summary>
     /// <param name="failureReason">更新器写入的 UTF-8 失败原因，读取失败时为 <c>null</c>。</param>
@@ -910,7 +911,7 @@ internal static partial class PendingUpdateApplier
         }
     }
 
-    private static void SafeDeleteFile(string filePath)
+    private static void SafeDeleteFile(string filePath, string fileDescription = "pending update package")
     {
         try
         {
@@ -921,7 +922,7 @@ internal static partial class PendingUpdateApplier
         }
         catch (Exception ex)
         {
-            _logger.Warning(ex, "Failed to delete pending update package: {FilePath}", filePath);
+            _logger.Warning(ex, "Failed to delete {FileDescription}: {FilePath}", fileDescription, filePath);
         }
     }
 
@@ -968,6 +969,10 @@ internal static partial class PendingUpdateApplier
         }
 
         ConfigFactory.Root.Update.UpdatePackage = packagePath;
+
+        // 注册新包即代表用户已着手修复（拖入本地包、自动修复下载完整包等），旧失败原因失效；
+        // 标志不删的话，下次启动 TryReadDelegatedUpdateFailure 会连刚注册的包一起清空，形成死循环
+        SafeDeleteFile(DelegatedUpdateFailureStatusFilePath, "delegated update failure state");
     }
 
     private static void ClearPendingUpdatePackageState()
