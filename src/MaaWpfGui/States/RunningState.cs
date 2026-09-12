@@ -284,7 +284,11 @@ public class RunningState
             _idle = value;
             if (value)
             {
+                // 回到空闲即本轮结束：归属与停止中在同一快照内清零。直接 SetIdle(true) 收尾
+                // 的链路（工具箱各工具连接失败、测试连接等）不经 SetStopped，若不清 Stopping
+                // 会留下「空闲但停止中」的死锁态——三页开始/停止按钮全部不可用
                 _runOwner = RunOwner.None;
+                _stopping = false;
                 StopTimeoutTimer();
                 ClearRunDeadline();
                 SleepManagement.AllowSleep();
