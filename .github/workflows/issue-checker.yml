@@ -19,9 +19,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Label issues and PRs Automatically
-        uses: MaaAssistantArknights/issue-checker@v1.14
+          uses: MaaAssistantArknights/issue-checker@v1.15
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           configuration-path: .github/issue-checker.yml
           not-before: 2022-08-05T00:00:00Z
           include-title: 1
+          # MaaArknightsBot 是普通用户账号（type 非 Bot），需显式排除，
+          # 其分析评论引用 issue 原文且反复编辑，会重复触发检查
+          exclude-users: MaaArknightsBot
