@@ -304,6 +304,15 @@ struct StrategyTerminalRule
     std::string next_action;
 };
 
+struct InventoryCleanupPolicy
+{
+    int discard_max_rank = 1;
+    int extra_discards_after_clear = 0;
+    int rescan_after_rank = 0;
+    int max_attempts_per_rank = 1;
+    std::vector<std::string> discard_priority;
+};
+
 struct PolicyProfile
 {
     std::string id;

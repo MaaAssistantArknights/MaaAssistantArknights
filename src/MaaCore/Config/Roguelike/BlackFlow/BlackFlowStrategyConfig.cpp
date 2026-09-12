@@ -657,11 +657,62 @@ StrategyTerminalRule parse_terminal_rule(const json::value& value)
     return result;
 }
 
+InventoryCleanupPolicy parse_inventory_cleanup_policy(const json::value& value)
+{
+    check_keys(
+        value,
+        { "discard_max_rank",
+          "extra_discards_after_clear",
+          "rescan_after_rank",
+          "max_attempts_per_rank",
+          "discard_priority" },
+        { "discard_max_rank",
+          "extra_discards_after_clear",
+          "rescan_after_rank",
+          "max_attempts_per_rank",
+          "discard_priority" },
+        "inventory cleanup policy");
+    InventoryCleanupPolicy result;
+    result.discard_max_rank = value.at("discard_max_rank").as_integer();
+    result.extra_discards_after_clear = value.at("extra_discards_after_clear").as_integer();
+    result.rescan_after_rank = value.at("rescan_after_rank").as_integer();
+    result.max_attempts_per_rank = value.at("max_attempts_per_rank").as_integer();
+    result.discard_priority = parse_string_array(value, "discard_priority");
+    if (result.discard_priority.empty()) {
+        invalid_config("inventory cleanup discard_priority must not be empty");
+    }
+    const int priority_size = static_cast<int>(result.discard_priority.size());
+    if (result.discard_max_rank < 1 || result.discard_max_rank > priority_size) {
+        invalid_config("inventory cleanup discard_max_rank is out of discard_priority range");
+    }
+    if (result.extra_discards_after_clear < 0 || result.extra_discards_after_clear > priority_size) {
+        invalid_config("inventory cleanup extra_discards_after_clear is out of range");
+    }
+    if (result.rescan_after_rank < 0 || result.rescan_after_rank >= result.discard_max_rank) {
+        invalid_config("inventory cleanup rescan_after_rank is out of discard_max_rank range");
+    }
+    if (result.max_attempts_per_rank < 1) {
+        invalid_config("inventory cleanup max_attempts_per_rank must be positive");
+    }
+    std::unordered_set<std::string> unique_names;
+    for (const std::string& name : result.discard_priority) {
+        if (name.empty() || !unique_names.emplace(name).second) {
+            invalid_config("inventory cleanup discard_priority contains an empty or duplicate name");
+        }
+    }
+    return result;
+}
+
 PolicyProfile parse_profile(const json::value& value)
 {
     check_keys(
         value,
-        { "id", "description", "modules", "terminal_rules", "failure_action", "no_AP_is_terminal" },
+        { "id",
+          "description",
+          "modules",
+          "terminal_rules",
+          "failure_action",
+          "no_AP_is_terminal" },
         { "id", "modules" },
         "profile");
     PolicyProfile result;
@@ -1015,11 +1066,21 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
 {
     check_keys(
         json,
-        { "schema_version", "resources", "facts", "modules", "profiles" },
-        { "schema_version", "resources", "facts", "modules", "profiles" },
+        { "schema_version",
+          "resources",
+          "facts",
+          "modules",
+          "inventory_cleanup_policy",
+          "profiles" },
+        { "schema_version",
+          "resources",
+          "facts",
+          "modules",
+          "inventory_cleanup_policy",
+          "profiles" },
         "root");
     const int schema_version = json.at("schema_version").as_integer();
-    if (schema_version != 10) {
+    if (schema_version != 14) {
         invalid_config("unsupported schema_version: " + std::to_string(schema_version));
     }
     for (const auto key : { "resources", "facts", "modules", "profiles" }) {
@@ -1085,6 +1146,8 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
         validate_module(module, facts, resources);
     }
 
+    blackflow::InventoryCleanupPolicy inventory_cleanup_policy =
+        parse_inventory_cleanup_policy(json.at("inventory_cleanup_policy"));
     std::unordered_map<std::string, blackflow::PolicyProfile> profiles;
     for (const auto& value : json.at("profiles").as_array()) {
         auto profile = parse_profile(value);
@@ -1105,6 +1168,7 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
     m_resources = std::move(resources);
     m_facts = std::move(facts);
     m_modules = std::move(modules);
+    m_inventory_cleanup_policy = std::move(inventory_cleanup_policy);
     m_profiles = std::move(profiles);
     return true;
 }

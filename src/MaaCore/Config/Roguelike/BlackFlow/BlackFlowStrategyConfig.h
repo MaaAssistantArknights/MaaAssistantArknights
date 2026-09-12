@@ -30,6 +30,10 @@ public:
         get_fact_definition(const std::string& name) const noexcept;
     [[nodiscard]] const blackflow::PolicyModule* get_module(const std::string& id) const noexcept;
     [[nodiscard]] const blackflow::PolicyProfile* get_profile(const std::string& id) const noexcept;
+    [[nodiscard]] const blackflow::InventoryCleanupPolicy& inventory_cleanup_policy() const noexcept
+    {
+        return m_inventory_cleanup_policy;
+    }
 
     [[nodiscard]] const std::unordered_map<std::string, blackflow::FactDefinition>& facts() const noexcept
     {
@@ -61,6 +65,7 @@ private:
     std::unordered_map<std::string, blackflow::ResourceDefinition> m_resources;
     std::unordered_map<std::string, blackflow::FactDefinition> m_facts;
     std::unordered_map<std::string, blackflow::PolicyModule> m_modules;
+    blackflow::InventoryCleanupPolicy m_inventory_cleanup_policy;
     std::unordered_map<std::string, blackflow::PolicyProfile> m_profiles;
 };
 

@@ -1543,6 +1543,10 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowMilestoneChanged">단계 목표 {0}: {1}</system:String>
     <system:String x:Key="BlackFlowStrategyResult">로그라이크 전략 종료: {0} ({1})</system:String>
     <system:String x:Key="BlackFlowStrategyStarted">블랙 플로우 전략 시작: {0}</system:String>
+    <system:String x:Key="BlackFlowInventoryCleanupStarted">零件箱超载，开始清理</system:String>
+    <system:String x:Key="BlackFlowInventoryCleanupDiscarded">已丢弃零件：{0}</system:String>
+    <system:String x:Key="BlackFlowInventoryCleanupCompleted">零件箱清理完成</system:String>
+    <system:String x:Key="BlackFlowInventoryCleanupFailed">零件箱清理失败</system:String>
     <system:String x:Key="BlackFlowStrategyUnknown">알 수 없는 전략</system:String>
     <system:String x:Key="BlackFlowDecisionProbeUnknownNode">경로상 가장 가까운 미분류 노드 탐색</system:String>
     <system:String x:Key="BlackFlowDecisionPolicyOrder">전략에 설정된 우선순위대로 선택</system:String>
