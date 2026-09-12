@@ -20,6 +20,8 @@
 #include "Task/Interface/FightTask.h"
 #include "Task/Interface/InfrastTask.h"
 #include "Task/Interface/MallTask.h"
+#include "Task/Interface/MaterialCraftTask.h"
+#include "Task/Interface/MaterialRequirementTask.h"
 #include "Task/Interface/OperBoxTask.h"
 #include "Task/Interface/ParadoxCopilotTask.h"
 #include "Task/Interface/ReclamationTask.h"
@@ -333,6 +335,8 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(SingleStepTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(VideoRecognitionTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DepotTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(MaterialCraftTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(MaterialRequirementTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(OperBoxTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(ReclamationTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(SwitchThemeTask)
@@ -684,15 +688,20 @@ void Assistant::working_proc()
                 continue;
             }
 
+            lock.lock();
             if (m_tasks_list.empty()) {
+                // Callers may start again as soon as they receive completion.
+                // Finish cleanup and publish idle before sending the callback.
+                clear_cache();
+                m_thread_idle = true;
+                m_running = false;
                 callback_json["finished_tasks"] = json::array(finished_tasks);
                 append_callback(AsstMsg::AllTasksCompleted, callback_json);
                 finished_tasks.clear();
-                clear_cache();
+                continue;
             }
 
             const int delay = Config.get_options().task_delay;
-            lock.lock();
             m_condvar.wait_for(lock, std::chrono::milliseconds(delay), [&]() -> bool { return m_thread_idle; });
 
             if (m_thread_idle) {

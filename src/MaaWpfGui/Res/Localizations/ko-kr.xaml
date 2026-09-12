@@ -1115,6 +1115,45 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ExportedToFile">파일로 내보내기 완료</system:String>
     <system:String x:Key="ExportTo">내보내기:</system:String>
     <system:String x:Key="Export">내보내기</system:String>
+    <system:String x:Key="MaterialCraft">재료 합성</system:String>
+    <system:String x:Key="MaterialRequirement">재료 요구 인식</system:String>
+    <system:String x:Key="MaterialCraftManufacturingChips">칩셋 (제조소)</system:String>
+    <system:String x:Key="MaterialCraftManufacturingFailed">제조소 작업이 완료되지 않았습니다. 게임 화면과 로그를 확인하세요.</system:String>
+    <system:String x:Key="MaterialCraftManufacturingRestoreRequired">제조소 제조식을 복원해 주세요: {0} ×{1} (시설 {2})</system:String>
+    <system:String x:Key="MaterialCraftStartHint">어느 화면에서든 시작할 수 있습니다. 가공소 또는 제조소로 이동하며 듀얼 칩 제조 후 원래 제조식을 복원합니다.</system:String>
+    <system:String x:Key="MaterialCraftTarget">대상 재료</system:String>
+    <system:String x:Key="MaterialCraftQueue">합성 대기</system:String>
+    <system:String x:Key="MaterialCraftQuantity">수량</system:String>
+    <system:String x:Key="MaterialCraftAdd">추가</system:String>
+    <system:String x:Key="MaterialCraftClear">비우기</system:String>
+    <system:String x:Key="MaterialRequirementRecognize">요구 인식</system:String>
+    <system:String x:Key="MaterialCraftCheck">합성 확인</system:String>
+    <system:String x:Key="MaterialCraftStart">가공 시작</system:String>
+    <system:String x:Key="MaterialCraftStarted">재료 합성을 시작했습니다</system:String>
+    <system:String x:Key="MaterialCraftStartFailed">재료 합성을 시작하지 못했습니다</system:String>
+    <system:String x:Key="MaterialCraftInventoryUncertain">일부 재고 변동이 확인되지 않았지만 현재 재고 정보로 가공을 계속할 수 있습니다.</system:String>
+    <system:String x:Key="MaterialCraftCompleted">재료 합성이 완료되어 창고가 업데이트되었습니다</system:String>
+    <system:String x:Key="MaterialRequirementStarted">현재 화면의 부족한 재료 인식을 시작했습니다</system:String>
+    <system:String x:Key="MaterialRequirementStartFailed">재료 요구 인식을 시작하지 못했습니다</system:String>
+    <system:String x:Key="MaterialRequirementFailed">필요 재료를 인식하지 못했습니다. 필요 재료 화면에서 다시 시도해 주세요.</system:String>
+    <system:String x:Key="MaterialRequirementPartial">일부 재료를 인식하지 못했습니다. 추가된 가공 계획을 확인해 주세요.</system:String>
+    <system:String x:Key="MaterialRequirementNoMissing">합성이 필요한 재료를 인식하지 못했습니다</system:String>
+    <system:String x:Key="MaterialRequirementAdded">합성 대기에 추가됨: {0}</system:String>
+    <system:String x:Key="MaterialRequirementNoRecipe">인식했지만 사용할 수 있는 합성 레시피가 없습니다: {0}</system:String>
+    <system:String x:Key="MaterialCraftEmptyPlan">먼저 합성할 재료를 추가하세요</system:String>
+    <system:String x:Key="MaterialCraftNoRecipe">레시피 데이터를 사용할 수 없습니다</system:String>
+    <system:String x:Key="MaterialCraftNoDepotData">먼저 창고 인식을 완료하세요</system:String>
+    <system:String x:Key="MaterialCraftNoRecipeForTarget">{0} 합성 레시피가 없습니다</system:String>
+    <system:String x:Key="MaterialCraftSucceeded">{0} x{1} 합성 가능; LMD {2}; 사기 {3}</system:String>
+    <system:String x:Key="MaterialCraftFailed">{0} x{1} 합성 불가; 부족: {2}</system:String>
+    <system:String x:Key="MaterialCraftPlanSucceeded">재료가 충분합니다; 예상 LMD {0}, 사기 {1}</system:String>
+    <system:String x:Key="MaterialCraftPlanFailed">재료 부족: {0}</system:String>
+    <system:String x:Key="MaterialCraftListSeparator">, </system:String>
+    <system:String x:Key="MaterialCraftSkillSummary">기술개론</system:String>
+    <system:String x:Key="MaterialCraftQualityNormal">일반 품질</system:String>
+    <system:String x:Key="MaterialCraftQualityRare">희귀 품질</system:String>
+    <system:String x:Key="MaterialCraftQualityExcellent">고급 품질</system:String>
+    <system:String x:Key="MaterialCraftQualitySuperior">최상급 품질</system:String>
     <!--  !창고 인식  -->
     <!--  오퍼레이터 인식  -->
     <system:String x:Key="OperBoxRecognition">{key=Operator} 인식</system:String>

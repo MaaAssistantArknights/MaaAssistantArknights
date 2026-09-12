@@ -1,4 +1,4 @@
-// <copyright file="ToolboxViewModel.cs" company="MaaAssistantArknights">
+﻿// <copyright file="ToolboxViewModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -17,6 +17,7 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -108,6 +109,7 @@ public class ToolboxViewModel : Screen
         _peepImageTimer.Interval = 1000d / PeepTargetFps;
         _gachaTimer.Tick += RefreshGachaTip;
         LoadDepotDetails();
+        MaterialCraft = new(this);
         LoadOperBoxDetails();
         InitializeDepotRowPresentation();
         InitializeOperBoxRowPresentation();
@@ -533,6 +535,10 @@ public class ToolboxViewModel : Screen
     private string? _cachedLoliconResult;
     private readonly HashSet<int> _pendingDepotSyncTimeResetTaskIds = [];
 
+    public bool DepotInventoryNeedsRecognition { get; internal set; }
+
+    public UserControl.MaterialCraftViewModel MaterialCraft { get; }
+
     public void MarkDepotRecognitionSyncTimeForReset(int taskId)
     {
         if (taskId > 0)
@@ -549,6 +555,37 @@ public class ToolboxViewModel : Screen
         _depotCacheInvalid = true;
         _cachedArkPlannerResult = null;
         _cachedLoliconResult = null;
+        MaterialCraft?.InvalidateMaterialCraftPreview();
+    }
+
+    internal void ApplyMaterialCraftInventoryChanges(IReadOnlyList<MaterialCraftInventoryChange> changes)
+    {
+        var items = DepotResult.ToDictionary(item => item.Id);
+        foreach (var change in changes)
+        {
+            var existingItem = items.GetValueOrDefault(change.Id);
+            if (existingItem is not null)
+            {
+                existingItem.Count = change.NewCount;
+            }
+            else
+            {
+                items[change.Id] = new() {
+                    Id = change.Id,
+                    Name = ItemListHelper.GetItemName(change.Id),
+                    Image = ItemListHelper.GetItemImage(change.Id),
+                    Count = change.NewCount,
+                };
+            }
+        }
+
+        var sortedItems = items.Values.OrderBy(item => item).ToList();
+        DepotResult.Clear();
+        DepotResult.AddRange(sortedItems);
+
+        InvalidateDepotCache();
+        SaveDepotDetails();
+        Instances.TaskQueueViewModel.UpdateDatePrompt();
     }
 
     public class DepotResultDate : IComparable<DepotResultDate>
@@ -618,12 +655,13 @@ public class ToolboxViewModel : Screen
     /// <summary>
     /// 保存仓库详情数据
     /// </summary>
-    private void SaveDepotDetails()
+    internal void SaveDepotDetails()
     {
         // 构建简化格式：{"itemId": count}
         var details = new JObject {
             ["done"] = true,
             ["data"] = JObject.FromObject(DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count)),
+            ["needsRecognition"] = DepotInventoryNeedsRecognition,
         };
 
         // 保存同步时间为 UTC（如果有）
@@ -845,6 +883,7 @@ public class ToolboxViewModel : Screen
             }
         }
 
+        DepotInventoryNeedsRecognition = !updateSyncTime && (details.Value<bool?>("needsRecognition") ?? false);
         DepotInfo = LocalizationHelper.GetString("IdentificationCompleted");
         SaveDepotDetails();
         Instances.TaskQueueViewModel.UpdateDatePrompt();

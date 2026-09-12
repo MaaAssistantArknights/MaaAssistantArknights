@@ -1,0 +1,201 @@
+{
+    "MaterialCraft-MfgRewind": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [722, 280, 10, 10],
+        "rectMove": [722, 570, 10, 10],
+        "specialParams": [500, 0, 1, 1],
+        "postDelay": 400
+    },
+    "MaterialCraft-MfgSwipe": {
+        "baseTask": "MaterialCraft-MfgRewind",
+        "specificRect": [722, 570, 10, 10],
+        "rectMove": [722, 280, 10, 10]
+    },
+    "MaterialCraft-MfgQuickMenu": {
+        "baseTask": "QuickSwitch@ToInfrast@Entry",
+        "template": "QuickSwitch/Infrast.png",
+        "action": "DoNothing",
+        "next": []
+    },
+    "MaterialCraft-MfgCloseQuickMenu": {
+        "baseTask": "MaterialCraft-MfgQuickMenu",
+        "template": "QuickSwitch/Infrast.png",
+        "action": "ClickRect",
+        "specificRect": [212, 22, 99, 33],
+        "postDelay": 500
+    },
+    "MaterialCraft-MfgRoom": {
+        "template": "InfrastPic/Mfg/MaterialCraftMfgRoom.png",
+        "roi": [375, 0, 65, 75],
+        "templThreshold": 0.85
+    },
+    "MaterialCraft-MfgLevel3": {
+        "template": "InfrastPic/Mfg/MaterialCraftMfgLevel3.png",
+        "roi": [560, 10, 90, 55],
+        "templThreshold": 0.85
+    },
+    "MaterialCraft-MfgProductPanel": {
+        "baseTask": "ChooseProductList",
+        "template": "ChooseProductList.png",
+        "action": "DoNothing",
+        "next": []
+    },
+    "MaterialCraft-MfgOpenSelector": {
+        "baseTask": "ChangeProductToMiddleBattleRecord",
+        "template": "ChooseProductList.png",
+        "next": [],
+        "maxTimes": 1,
+        "exceededNext": [],
+        "postDelay": 500
+    },
+    "MaterialCraft-MfgPending": {
+        "baseTask": "ConfirmProductChange",
+        "template": "ReplenishToMaxConfirm.png",
+        "next": []
+    },
+    "MaterialCraft-MfgFinalConfirm": {
+        "baseTask": "ProductFinalConfirm",
+        "template": "SSSSettlementConfirm.png",
+        "next": [],
+        "postDelay": 500
+    },
+    "MaterialCraft-MfgCollect": {
+        "template": "InfrastPic/Mfg/MaterialCraftMfgCollect.png",
+        "roi": [1020, 585, 200, 120],
+        "templThreshold": 0.85,
+        "action": "ClickSelf",
+        "postDelay": 700
+    },
+    "MaterialCraft-MfgQuantity": {
+        "baseTask": "NumberOcrReplace",
+        "algorithm": "OcrDetect",
+        "roi": [867, 302, 64, 50],
+        "isAscii": true,
+        "withoutDet": true,
+        "useRaw": false,
+        "binThreshold": [150, 255]
+    },
+    "MaterialCraft-MfgProductName": {
+        "algorithm": "OcrDetect",
+        "roi": [1036, 236, 176, 41],
+        "withoutDet": true,
+        "useRaw": false,
+        "binThreshold": [150, 255]
+    },
+    "MaterialCraft-MfgFormulaName": {
+        "baseTask": "MaterialCraft-MfgProductName",
+        "binThreshold": [120, 255],
+        "rectMove": [168, -3, 194, 27]
+    },
+    "MaterialCraft-MfgChipName": {
+        "baseTask": "MaterialCraft-MfgProductName",
+        "binThreshold": [160, 255]
+    },
+    "MaterialCraft-MfgStorage": {
+        "baseTask": "NumberOcrReplace",
+        "algorithm": "OcrDetect",
+        "roi": [1095, 535, 102, 33],
+        "isAscii": true,
+        "withoutDet": true,
+        "useRaw": false,
+        "binThreshold": [150, 255]
+    },
+    "MaterialCraft-MfgSelectedProduct": {
+        "baseTask": "MaterialCraft-SelectedProduct",
+        "template": "empty.png",
+        "roi": [1030, 276, 190, 120],
+        "specialParams": [90, 95, 100, 105, 110, 115, 120, 125, 130],
+        "templThreshold": 0.78
+    },
+    "MaterialCraft-MfgSelectedChip": {
+        "baseTask": "MaterialCraft-MfgSelectedProduct",
+        "template": "empty.png",
+        "templThreshold": 0.85
+    },
+    "MaterialCraft-MfgCompleted": {
+        "template": "InfrastPic/Mfg/MaterialCraftMfgCompleted.png",
+        "roi": [1025, 308, 205, 45],
+        "templThreshold": 0.9
+    },
+    "MaterialCraft-MfgIngredient": {
+        "baseTask": "MaterialCraft-SelectedProduct",
+        "template": "empty.png",
+        "roi": [290, 275, 141, 110],
+        "specialParams": [70, 75, 80, 85, 90, 95, 100],
+        "templThreshold": 0.78
+    },
+    "MaterialCraft-MfgFormulaProduct": {
+        "baseTask": "MaterialCraft-FormulaProduct",
+        "template": "empty.png",
+        "roi": [245, 85, 990, 635],
+        "templThreshold": 0.78,
+        "specialParams": [130, 135, 140, 145, 150, 155, 160]
+    },
+    "MaterialCraft-MfgFormulaChip": {
+        "baseTask": "MaterialCraft-MfgFormulaProduct",
+        "template": "empty.png",
+        "templThreshold": 0.8
+    },
+    "MaterialCraft-MfgChipsCategory": {
+        "template": "InfrastPic/Mfg/MaterialCraftMfgChipsCategory.png",
+        "roi": [10, 85, 110, 380],
+        "templThreshold": 0.85,
+        "action": "ClickSelf",
+        "postDelay": 400
+    },
+    "MaterialCraft-MfgRecordsCategory": {
+        "template": [
+            "InfrastPic/Mfg/MaterialCraftMfgRecordsCategory.png",
+            "InfrastPic/Mfg/MaterialCraftMfgRecordsCategorySelected.png"
+        ],
+        "roi": [10, 85, 110, 380],
+        "templThreshold": 0.85,
+        "action": "ClickSelf",
+        "postDelay": 400
+    },
+    "MaterialCraft-MfgGoldCategory": {
+        "template": "InfrastPic/Mfg/MaterialCraftMfgGoldCategory.png",
+        "roi": [10, 85, 110, 380],
+        "templThreshold": 0.85,
+        "action": "ClickSelf",
+        "postDelay": 400
+    },
+    "MaterialCraft-MfgOriginiumCategory": {
+        "template": "InfrastPic/Mfg/MaterialCraftMfgOriginiumCategory.png",
+        "roi": [10, 85, 110, 380],
+        "templThreshold": 0.85,
+        "action": "ClickSelf",
+        "postDelay": 400
+    },
+    "MaterialCraft-MfgMinimum": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [941, 446, 40, 29],
+        "postDelay": 250
+    },
+    "MaterialCraft-MfgMaximum": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [941, 190, 40, 29],
+        "postDelay": 250
+    },
+    "MaterialCraft-MfgPlus": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [841, 190, 45, 28],
+        "postDelay": 250
+    },
+    "MaterialCraft-MfgCancel": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [832, 577, 40, 40],
+        "postDelay": 250
+    },
+    "MaterialCraft-MfgBack": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [32, 22, 76, 33],
+        "postDelay": 500
+    }
+}

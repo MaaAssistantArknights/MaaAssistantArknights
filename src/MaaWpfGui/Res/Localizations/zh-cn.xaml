@@ -1113,6 +1113,45 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ExportedToFile">已导出到文件</system:String>
     <system:String x:Key="ExportTo">导出到：</system:String>
     <system:String x:Key="Export">导出</system:String>
+    <system:String x:Key="MaterialCraft">材料合成</system:String>
+    <system:String x:Key="MaterialRequirement">材料需求识别</system:String>
+    <system:String x:Key="MaterialCraftManufacturingChips">芯片组（制造站）</system:String>
+    <system:String x:Key="MaterialCraftManufacturingFailed">制造站操作未完成，请检查游戏画面和日志。</system:String>
+    <system:String x:Key="MaterialCraftManufacturingRestoreRequired">制造站原配方尚未恢复，请检查：{0} ×{1}（设施 {2}）</system:String>
+    <system:String x:Key="MaterialCraftStartHint">可从任意界面启动，MAA 将自动进入加工站或制造站。双芯片制造完成后恢复原配方。</system:String>
+    <system:String x:Key="MaterialCraftTarget">目标材料</system:String>
+    <system:String x:Key="MaterialCraftQueue">待合成</system:String>
+    <system:String x:Key="MaterialCraftQuantity">数量</system:String>
+    <system:String x:Key="MaterialCraftAdd">添加</system:String>
+    <system:String x:Key="MaterialCraftClear">清空</system:String>
+    <system:String x:Key="MaterialRequirementRecognize">识别需求</system:String>
+    <system:String x:Key="MaterialCraftCheck">计算合成</system:String>
+    <system:String x:Key="MaterialCraftStart">开始加工</system:String>
+    <system:String x:Key="MaterialCraftStarted">已开始材料合成</system:String>
+    <system:String x:Key="MaterialCraftStartFailed">启动材料合成失败</system:String>
+    <system:String x:Key="MaterialCraftInventoryUncertain">部分库存变化尚未确认，可按当前库存继续合成。</system:String>
+    <system:String x:Key="MaterialCraftCompleted">材料合成完成，库存已更新</system:String>
+    <system:String x:Key="MaterialRequirementStarted">识别中......</system:String>
+    <system:String x:Key="MaterialRequirementStartFailed">启动材料需求识别失败</system:String>
+    <system:String x:Key="MaterialRequirementFailed">未能识别材料需求，请停留在材料需求界面后重试。</system:String>
+    <system:String x:Key="MaterialRequirementPartial">部分材料未能识别，请核对已添加的合成计划。</system:String>
+    <system:String x:Key="MaterialRequirementNoMissing">材料已足够</system:String>
+    <system:String x:Key="MaterialRequirementAdded">已加入待合成：{0}</system:String>
+    <system:String x:Key="MaterialRequirementNoRecipe">识别到材料，但没有可用合成配方：{0}</system:String>
+    <system:String x:Key="MaterialCraftEmptyPlan">请先添加需要合成的材料</system:String>
+    <system:String x:Key="MaterialCraftNoRecipe">配方数据不可用</system:String>
+    <system:String x:Key="MaterialCraftNoDepotData">请先完成仓库识别</system:String>
+    <system:String x:Key="MaterialCraftNoRecipeForTarget">{0} 暂无合成配方</system:String>
+    <system:String x:Key="MaterialCraftSucceeded">可以合成 {0} x{1}；龙门币 {2}；心情 {3}</system:String>
+    <system:String x:Key="MaterialCraftFailed">无法合成 {0} x{1}；缺少：{2}</system:String>
+    <system:String x:Key="MaterialCraftPlanSucceeded">材料足够；预计消耗龙门币 {0}，心情 {1}</system:String>
+    <system:String x:Key="MaterialCraftPlanFailed">材料不足，缺少：{0}</system:String>
+    <system:String x:Key="MaterialCraftListSeparator">、</system:String>
+    <system:String x:Key="MaterialCraftSkillSummary">技巧概要</system:String>
+    <system:String x:Key="MaterialCraftQualityNormal">普通品质</system:String>
+    <system:String x:Key="MaterialCraftQualityRare">罕见品质</system:String>
+    <system:String x:Key="MaterialCraftQualityExcellent">杰出品质</system:String>
+    <system:String x:Key="MaterialCraftQualitySuperior">卓越品质</system:String>
     <!--  !仓库识别  -->
     <!--  干员识别  -->
     <system:String x:Key="OperBoxRecognition">{key=Operator}识别</system:String>

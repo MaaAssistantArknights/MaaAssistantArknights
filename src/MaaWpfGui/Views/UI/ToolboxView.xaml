@@ -588,36 +588,42 @@
                 </ListBox>
                 <StackPanel
                     Grid.Row="2"
-                    Margin="0,10,0,0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-                    <StackPanel VerticalAlignment="Center">
-                        <ComboBox
-                            Width="160"
-                            hc:TitleElement.Title="{DynamicResource ExportTo}"
-                            DisplayMemberPath="Display"
-                            ItemsSource="{Binding ExportOptionList}"
-                            SelectedValue="{Binding SelectedExportValue}"
-                            SelectedValuePath="Value" />
+                    Margin="0,10,0,0">
+                    <StackPanel
+                        Margin="0,10,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <StackPanel VerticalAlignment="Center">
+                            <ComboBox
+                                Width="160"
+                                hc:TitleElement.Title="{DynamicResource ExportTo}"
+                                DisplayMemberPath="Display"
+                                ItemsSource="{Binding ExportOptionList}"
+                                SelectedValue="{Binding SelectedExportValue}"
+                                SelectedValuePath="Value" />
+                            <Button
+                                Width="160"
+                                Height="30"
+                                Margin="0,5,0,0"
+                                HorizontalAlignment="Center"
+                                Command="{s:Action ExecuteSelectedExport}"
+                                Content="{DynamicResource Export}" />
+                        </StackPanel>
                         <Button
-                            Width="160"
-                            Height="30"
-                            Margin="0,5,0,0"
-                            HorizontalAlignment="Center"
-                            Command="{s:Action ExecuteSelectedExport}"
-                            Content="{DynamicResource Export}" />
+                            Width="180"
+                            Height="63"
+                            Margin="20,0,0,0"
+                            VerticalAlignment="Bottom"
+                            Command="{s:Action StartDepot}"
+                            Content="{DynamicResource StartToDepotRecognition}"
+                            IsEnabled="{c:Binding 'Idle and Inited'}" />
                     </StackPanel>
-                    <Button
-                        Width="180"
-                        Height="63"
-                        Margin="20,0,0,0"
-                        VerticalAlignment="Bottom"
-                        Command="{s:Action StartDepot}"
-                        Content="{DynamicResource StartToDepotRecognition}"
-                        IsEnabled="{c:Binding 'Idle and Inited'}" />
                 </StackPanel>
             </Grid>
+        </TabItem>
+        <TabItem Header="{DynamicResource MaterialCraft}">
+            <ContentControl s:View.Model="{Binding MaterialCraft}" />
         </TabItem>
         <!--
         <TabItem Header="{DynamicResource VideoRecognition}" Visibility="Collapsed">
