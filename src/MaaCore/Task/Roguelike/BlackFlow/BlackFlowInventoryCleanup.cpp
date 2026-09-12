@@ -184,10 +184,7 @@ bool BlackFlowInventoryCleanup::rewind_to_left(BlackFlowInventoryContext& contex
         if (!swipe(context, false, error)) {
             return false;
         }
-        LogInfo << std::format(
-            "BlackFlow inventory | event=rewind_step | step={} | total={}",
-            step + 1,
-            swipes);
+        LogInfo << std::format("BlackFlow inventory | event=rewind_step | step={} | total={}", step + 1, swipes);
     }
     LogInfo << std::format("BlackFlow inventory | event=rewind_completed | swipes={}", swipes);
     return true;

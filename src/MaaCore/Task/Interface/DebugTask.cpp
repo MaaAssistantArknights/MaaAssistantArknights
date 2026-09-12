@@ -205,9 +205,8 @@ bool asst::DebugTask::set_params_impl(const json::value& params)
                     return false;
                 }
                 templ_task = *task_opt;
-                double default_threshold = !match_ptr->templ_thresholds.empty() ?
-                                               match_ptr->templ_thresholds.front() :
-                                               TemplThresholdDefault;
+                double default_threshold =
+                    !match_ptr->templ_thresholds.empty() ? match_ptr->templ_thresholds.front() : TemplThresholdDefault;
                 threshold = params.get("threshold", default_threshold);
             }
             else {

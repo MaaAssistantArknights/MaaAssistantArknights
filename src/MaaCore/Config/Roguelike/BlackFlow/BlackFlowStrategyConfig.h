@@ -30,6 +30,7 @@ public:
         get_fact_definition(const std::string& name) const noexcept;
     [[nodiscard]] const blackflow::PolicyModule* get_module(const std::string& id) const noexcept;
     [[nodiscard]] const blackflow::PolicyProfile* get_profile(const std::string& id) const noexcept;
+
     [[nodiscard]] const blackflow::InventoryCleanupPolicy& inventory_cleanup_policy() const noexcept
     {
         return m_inventory_cleanup_policy;

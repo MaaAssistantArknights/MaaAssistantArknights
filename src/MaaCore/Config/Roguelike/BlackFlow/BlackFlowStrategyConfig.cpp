@@ -707,12 +707,7 @@ PolicyProfile parse_profile(const json::value& value)
 {
     check_keys(
         value,
-        { "id",
-          "description",
-          "modules",
-          "terminal_rules",
-          "failure_action",
-          "no_AP_is_terminal" },
+        { "id", "description", "modules", "terminal_rules", "failure_action", "no_AP_is_terminal" },
         { "id", "modules" },
         "profile");
     PolicyProfile result;
@@ -1066,18 +1061,8 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
 {
     check_keys(
         json,
-        { "schema_version",
-          "resources",
-          "facts",
-          "modules",
-          "inventory_cleanup_policy",
-          "profiles" },
-        { "schema_version",
-          "resources",
-          "facts",
-          "modules",
-          "inventory_cleanup_policy",
-          "profiles" },
+        { "schema_version", "resources", "facts", "modules", "inventory_cleanup_policy", "profiles" },
+        { "schema_version", "resources", "facts", "modules", "inventory_cleanup_policy", "profiles" },
         "root");
     const int schema_version = json.at("schema_version").as_integer();
     if (schema_version != 14) {
