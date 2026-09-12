@@ -2096,12 +2096,15 @@ int wmain(int argc, wchar_t* argv[])
             }
 
             WriteLog((L"Installing new file: " + sourcePath + L" -> " + targetPath).c_str());
-            installationModified = true;
 
             bool installOk = false;
             DWORD sourceAttr = GetFileAttributesW(sourcePath.c_str());
             bool isSourceFile = (sourceAttr != INVALID_FILE_ATTRIBUTES) &&
                                 !(sourceAttr & FILE_ATTRIBUTE_DIRECTORY);
+
+            // 确认源存在后才算真正开始动文件：源缺失导致的失败尚未改动安装，
+            // 不置位以免误写失败标志，让完好的安装被 GUI 误判为资源损坏
+            installationModified = true;
 
             if (isSourceFile) {
                 // Use atomic file replacement for individual files
