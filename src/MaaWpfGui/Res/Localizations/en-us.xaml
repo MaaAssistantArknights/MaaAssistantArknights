@@ -687,9 +687,28 @@ To enable this mechanism, make sure the selected difficulty is N3 or higher (exc
     <system:String x:Key="RoguelikeStartWithIdea">Thought</system:String>
     <system:String x:Key="RoguelikeStartWithTicket">Coupon</system:String>
     <system:String x:Key="RefreshTraderWithDice">Refresh Rogue Trader with Dice</system:String>
-    <system:String x:Key="PenguinId">Penguin Report ID (Number part)</system:String>
-    <system:String x:Key="EnablePenguin">Report Penguin</system:String>
-    <system:String x:Key="EnableYituliu">Report Yituliu</system:String>
+    <system:String x:Key="PenguinId">Report ID (Number part)</system:String>
+    <system:String x:Key="EnablePenguin">Report drop and recruitment data</system:String>
+    <system:String x:Key="EnableYituliu">{key=EnablePenguin}</system:String>
+    <system:String x:Key="ThirdPartyServiceSettings">Third-party services</system:String>
+    <system:String x:Key="ThirdPartyGroupPenguin">Penguin Statistics</system:String>
+    <system:String x:Key="ThirdPartyGroupYituliu">Yituliu</system:String>
+    <system:String x:Key="YituliuOpenApiToken">OpenAPI token</system:String>
+    <system:String x:Key="YituliuTokenVerify">Verify</system:String>
+    <system:String x:Key="YituliuTokenEmpty">Please enter a token first</system:String>
+    <system:String x:Key="YituliuTokenValid">Token is valid, {0} operators found</system:String>
+    <system:String x:Key="YituliuTokenValidNoData">Token is valid, but the account has no operator data yet</system:String>
+    <system:String x:Key="YituliuTokenWriteOnly">Token does not have read access. Use a read-only or read-write token</system:String>
+    <system:String x:Key="YituliuTokenInvalid">Token is invalid or expired. Please generate a new one</system:String>
+    <system:String x:Key="YituliuTokenNetworkError">Network error. Please try again later</system:String>
+    <system:String x:Key="EnableOperBoxYituliuApi">Fetch {key=OperBoxRecognition} data from Yituliu</system:String>
+    <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">When enabled, {key=OperBoxRecognition} in ｢{key=Toolbox}｣ and ｢{key=UserDataUpdate}｣ no longer connects to the emulator for screenshot recognition, and instead reads the Yituliu progression data linked to the token.&#10;When triggered by ｢{key=UserDataUpdate}｣, fetching starts in parallel with other tasks once ｢{key=LinkStart}｣ has connected to the emulator.&#10;Yituliu stores a snapshot of your progression, so your operator data must have been uploaded to Yituliu first; the data is imported from SKLAND and is only available for CN server accounts.&#10;Generate the token under ｢Third-party API Token｣ on the Yituliu account page. Use a read-only token only to protect your account data.</system:String>
+    <system:String x:Key="OperBoxFetchingFromYituliu">Fetching operator data from Yituliu...</system:String>
+    <system:String x:Key="YituliuFetchFailed">Failed to fetch from Yituliu: {0}</system:String>
+    <system:String x:Key="YituliuNoOperBoxData">The Yituliu account linked to the token has no operator data yet. Local recognition results are kept</system:String>
+    <system:String x:Key="YituliuOperBoxCompleted">{key=OperBoxRecognition} sync completed (Yituliu)</system:String>
+    <system:String x:Key="OperBoxExportHeaderSkills">Skill masteries</system:String>
+    <system:String x:Key="OperBoxExportHeaderEquips">Modules</system:String>
     <system:String x:Key="DrGrandet">Dr. Grandet Mode</system:String>
     <system:String x:Key="DrGrandetTip">Wait on the sanity confirmation screen until the current sanity recovers to 1 point, then confirm immediately.</system:String>
     <system:String x:Key="SocialPtShop">Credit shopping</system:String>
@@ -1041,7 +1060,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="UnselectedTask">Unselected task</system:String>
     <system:String x:Key="Running">Running……</system:String>
     <system:String x:Key="TaskAppend.Skip">{0}: {1} task skip</system:String>
-    <system:String x:Key="TaskAppend.Error">{0}: {1} append task failed</system:String>
+    <system:String x:Key="TaskSerialize.Error">{0}: {1} failed to serialize</system:String>
     <system:String x:Key="AdbReplacementTips">If nothing happens or appears stuck, please go to ｢{key=Settings} - {key=ConnectionSettings} - {key=ForcedReplaceAdb}｣, or turn on ADB Input (Deprecated).</system:String>
     <system:String x:Key="LDPlayerMaaTouchWarning">LDPlayer emulator with MaaTouch touch mode detected. This combination is known to cause abnormally slow swipe operations (the actual swipe duration far exceeds the configured value), which may cause subsequent actions to execute before a swipe finishes, leading to various issues. Consider switching to a different touch mode.</system:String>
     <system:String x:Key="Waiting">Waiting for the mission completion…</system:String>

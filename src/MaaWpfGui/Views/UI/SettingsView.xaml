@@ -15,7 +15,7 @@
     d:DesignHeight="5000"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <Grid Margin="20">
+    <Grid Margin="20,5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="175" />
             <ColumnDefinition Width="*" />
@@ -67,6 +67,7 @@
             PanningMode="Both">
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -304,9 +305,31 @@
                 </Grid>
 
                 <Grid
-                    Grid.Row="{Binding HotKeySettingsSetting.Value}"
+                    Grid.Row="{Binding ThirdPartyServiceSettingsSetting.Value}"
                     Margin="0,0,0,5"
                     d:Grid.Row="10"
+                    Visibility="{c:Binding ThirdPartyServiceSettingsSetting.IsVisibleInSearch}">
+                    <Expander
+                        d:IsExpanded="True"
+                        Background="Transparent"
+                        Header="{Binding ThirdPartyServiceSettingsSetting.Display}"
+                        IsExpanded="{Binding IsThirdPartyServiceSettingsExpanded}">
+                        <Border
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,4,4">
+                            <settings:ThirdPartyServiceSettingsUserControl
+                                Margin="0,20"
+                                HorizontalAlignment="Center"
+                                DataContext="{Binding ThirdPartyServiceSettings}" />
+                        </Border>
+                    </Expander>
+                </Grid>
+
+                <Grid
+                    Grid.Row="{Binding HotKeySettingsSetting.Value}"
+                    Margin="0,0,0,5"
+                    d:Grid.Row="11"
                     Visibility="{c:Binding HotKeySettingsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
@@ -325,7 +348,7 @@
                 <Grid
                     Grid.Row="{Binding AchievementSettingsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="11"
+                    d:Grid.Row="12"
                     Visibility="{c:Binding AchievementSettingsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
@@ -347,7 +370,7 @@
                 <Grid
                     Grid.Row="{Binding UpdateSettingsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="12"
+                    d:Grid.Row="13"
                     Visibility="{c:Binding UpdateSettingsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
@@ -369,7 +392,7 @@
                 <Grid
                     Grid.Row="{Binding IssueReportSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="13"
+                    d:Grid.Row="14"
                     Visibility="{c:Binding IssueReportSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
@@ -391,7 +414,7 @@
                 <Grid
                     Grid.Row="{Binding AboutUsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="14"
+                    d:Grid.Row="15"
                     Visibility="{c:Binding AboutUsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"

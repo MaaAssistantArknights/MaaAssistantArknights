@@ -70,6 +70,11 @@ public enum SettingKey
     ExternalNotificationSettings,
 
     /// <summary>
+    /// 三方服务设置。
+    /// </summary>
+    ThirdPartyServiceSettings,
+
+    /// <summary>
     /// 快捷键设置。
     /// </summary>
     HotKeySettings,

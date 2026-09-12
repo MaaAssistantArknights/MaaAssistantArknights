@@ -687,9 +687,28 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="RoguelikeStartWithIdea">構想</system:String>
     <system:String x:Key="RoguelikeStartWithTicket">遊覧券</system:String>
     <system:String x:Key="RefreshTraderWithDice">ダイスで品揃えを更新する（ミチビキリンジュウ）</system:String>
-    <system:String x:Key="PenguinId">Penguin-StatsのレポートのID（デジタル部分のみ）</system:String>
-    <system:String x:Key="EnablePenguin">Penguin-Statsへ報告</system:String>
-    <system:String x:Key="EnableYituliu">Yituliuへ報告</system:String>
+    <system:String x:Key="PenguinId">レポートID（デジタル部分のみ）</system:String>
+    <system:String x:Key="EnablePenguin">ドロップと公開求人のデータを報告</system:String>
+    <system:String x:Key="EnableYituliu">{key=EnablePenguin}</system:String>
+    <system:String x:Key="ThirdPartyServiceSettings">サードパーティ</system:String>
+    <system:String x:Key="ThirdPartyGroupPenguin">Penguin-Stats</system:String>
+    <system:String x:Key="ThirdPartyGroupYituliu">Yituliu</system:String>
+    <system:String x:Key="YituliuOpenApiToken">OpenAPIトークン</system:String>
+    <system:String x:Key="YituliuTokenVerify">検証</system:String>
+    <system:String x:Key="YituliuTokenEmpty">先にトークンを入力してください</system:String>
+    <system:String x:Key="YituliuTokenValid">トークンは有効です。合計 {0} 名のオペレーター</system:String>
+    <system:String x:Key="YituliuTokenValidNoData">トークンは有効ですが、アカウントにまだオペレーターデータがありません</system:String>
+    <system:String x:Key="YituliuTokenWriteOnly">トークンに読み取り権限がありません。読み取り専用または読み書き可能なトークンを使用してください</system:String>
+    <system:String x:Key="YituliuTokenInvalid">トークンが無効または期限切れです。再生成してください</system:String>
+    <system:String x:Key="YituliuTokenNetworkError">ネットワークエラーが発生しました。後でもう一度お試しください</system:String>
+    <system:String x:Key="EnableOperBoxYituliuApi">{key=OperBoxRecognition}をYituliuから取得</system:String>
+    <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">有効にすると、｢{key=Toolbox}｣と｢{key=UserDataUpdate}｣の{key=OperBoxRecognition}はエミュレーターに接続してスクリーンショット識別を行わず、トークンに対応するYituliuの育成データを直接読み取ります。&#10;｢{key=UserDataUpdate}｣によるトリガーでは、｢{key=LinkStart}｣押下後にエミュレーターへ接続次第、他のタスクと並行して取得を開始します。&#10;Yituliuに保存されるのは育成データのスナップショットのため、事前にYituliuサイトへオペレーターデータをアップロードしている必要があります。育成データは森空島からのインポートのため、CNサーバーのアカウントのみデータが存在します。&#10;トークンはYituliuの「アカウント」ページの「サードパーティ API Token」で生成できます。アカウントデータを保護するため、読み取り専用のトークンのみ使用してください。</system:String>
+    <system:String x:Key="OperBoxFetchingFromYituliu">Yituliuからオペレーターデータを取得中…</system:String>
+    <system:String x:Key="YituliuFetchFailed">Yituliuからの取得に失敗しました：{0}</system:String>
+    <system:String x:Key="YituliuNoOperBoxData">トークンに対応するYituliuアカウントにオペレーターデータがなく、ローカルの識別結果を保持しました</system:String>
+    <system:String x:Key="YituliuOperBoxCompleted">{key=OperBoxRecognition}の取得が完了しました（Yituliu）</system:String>
+    <system:String x:Key="OperBoxExportHeaderSkills">スキル特化</system:String>
+    <system:String x:Key="OperBoxExportHeaderEquips">モジュール</system:String>
     <system:String x:Key="DrGrandet">Dr.グランデモード</system:String>
     <system:String x:Key="DrGrandetTip">理性の回復画面で、現在の待機中の回復が完了するまで待ってから、理性剤などを使用します。</system:String>
     <system:String x:Key="SocialPtShop">FP交換</system:String>
@@ -1043,7 +1062,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="UnselectedTask">タスクが選択されていません</system:String>
     <system:String x:Key="Running">動作中……</system:String>
     <system:String x:Key="TaskAppend.Skip">{0}: {1} タスクをスキップしました</system:String>
-    <system:String x:Key="TaskAppend.Error">{0}: {1} タスクの追加に失敗しました</system:String>
+    <system:String x:Key="TaskSerialize.Error">{0}: {1} のシリアライズに失敗しました</system:String>
     <system:String x:Key="AdbReplacementTips">タスクが応答なしになる場合は、 ｢{key=Settings} - {key=ConnectionSettings} - {key=ForcedReplaceAdb}｣ 、もしくは ADB Input タッチモード をチェックしてください（お勧めしない）。</system:String>
     <system:String x:Key="LDPlayerMaaTouchWarning">LDPlayer エミュレータと MaaTouch タッチモードの組み合わせを検出しました。この組み合わせではスワイプ操作が異常に遅くなることが知られています（実際のスワイプ時間が設定値を大幅に超過）。スワイプが終了する前に次の操作が実行され、各種異常が発生する可能性があります。他のタッチモードへの切り替えを推奨します。</system:String>
     <system:String x:Key="Waiting">ミッション終了を待っています……</system:String>

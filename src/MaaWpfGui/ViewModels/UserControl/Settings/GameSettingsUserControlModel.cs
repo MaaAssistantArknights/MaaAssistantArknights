@@ -265,44 +265,6 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         }
     } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.BlockSleepWithScreenOn;
 
-    #region 企鹅和一图流上报
-
-    /// <summary>
-    /// Gets or sets the id of PenguinStats.
-    /// </summary>
-    public string PenguinId
-    {
-        get; set {
-            SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.PenguinId = value;
-        }
-    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.PenguinId;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to enable penguin upload.
-    /// </summary>
-    public bool EnablePenguin
-    {
-        get; set {
-            SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ReportToPenguin = value;
-        }
-    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ReportToPenguin;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to enable yituliu upload.
-    /// </summary>
-    public bool EnableYituliu
-    {
-        get;
-        set {
-            SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ReportToYituliu = value;
-        }
-    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ReportToYituliu;
-
-    #endregion 企鹅和一图流上报
-
     #region 任务超时
 
     /// <summary>

@@ -685,9 +685,28 @@ D:\
     <system:String x:Key="RoguelikeStartWithIdea">构想</system:String>
     <system:String x:Key="RoguelikeStartWithTicket">票券</system:String>
     <system:String x:Key="RefreshTraderWithDice">刷新商店（指路鳞）</system:String>
-    <system:String x:Key="PenguinId">企鹅物流汇报 ID（仅数字部分）</system:String>
-    <system:String x:Key="EnablePenguin">上报企鹅物流</system:String>
-    <system:String x:Key="EnableYituliu">上报一图流</system:String>
+    <system:String x:Key="PenguinId">汇报 ID（仅数字部分）</system:String>
+    <system:String x:Key="EnablePenguin">掉落与公招数据上报</system:String>
+    <system:String x:Key="EnableYituliu">{key=EnablePenguin}</system:String>
+    <system:String x:Key="ThirdPartyServiceSettings">三方服务</system:String>
+    <system:String x:Key="ThirdPartyGroupPenguin">企鹅物流</system:String>
+    <system:String x:Key="ThirdPartyGroupYituliu">一图流</system:String>
+    <system:String x:Key="YituliuOpenApiToken">OpenAPI Token</system:String>
+    <system:String x:Key="YituliuTokenVerify">验证</system:String>
+    <system:String x:Key="YituliuTokenEmpty">请先填写 Token</system:String>
+    <system:String x:Key="YituliuTokenValid">Token 有效，共 {0} 名干员</system:String>
+    <system:String x:Key="YituliuTokenValidNoData">Token 有效，但账号暂无干员练度数据</system:String>
+    <system:String x:Key="YituliuTokenWriteOnly">Token 不具备读取权限，请使用只读或读写权限的 Token</system:String>
+    <system:String x:Key="YituliuTokenInvalid">Token 无效或已失效，请重新生成</system:String>
+    <system:String x:Key="YituliuTokenNetworkError">网络错误，请稍后重试</system:String>
+    <system:String x:Key="EnableOperBoxYituliuApi">{key=OperBoxRecognition}从一图流获取</system:String>
+    <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">开启后 ｢{key=Toolbox}｣ 与 ｢{key=UserDataUpdate}｣ 的{key=OperBoxRecognition}不再连接模拟器截图识别，改为直接读取 Token 对应的一图流练度数据。&#10;更新数据触发时在点下 ｢{key=LinkStart}｣ 并连接模拟器后立即并行拉取，不等待其他任务完成。&#10;一图流保存的是练度快照，需先在一图流网站上传过干员数据；练度数据由森空岛导入，仅国服账号有数据。&#10;Token 在一图流 ｢个人中心｣ 的 ｢第三方 API Token｣ 中生成，为保护账号数据请仅使用只读 Token。</system:String>
+    <system:String x:Key="OperBoxFetchingFromYituliu">正在从一图流获取干员数据…</system:String>
+    <system:String x:Key="YituliuFetchFailed">从一图流获取失败：{0}</system:String>
+    <system:String x:Key="YituliuNoOperBoxData">Token 对应的一图流账号暂无干员练度数据，已保留本地识别结果</system:String>
+    <system:String x:Key="YituliuOperBoxCompleted">{key=OperBoxRecognition}完成（一图流）</system:String>
+    <system:String x:Key="OperBoxExportHeaderSkills">技能专精</system:String>
+    <system:String x:Key="OperBoxExportHeaderEquips">模组</system:String>
     <system:String x:Key="DrGrandet">博朗台模式</system:String>
     <system:String x:Key="DrGrandetTip">在恢复理智确认界面等待，直到当前的 1 点理智恢复完成再立即确认。</system:String>
     <system:String x:Key="SocialPtShop">信用交易所自动购物</system:String>
@@ -1040,7 +1059,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="UnselectedTask">未选择任务</system:String>
     <system:String x:Key="Running">正在运行中……</system:String>
     <system:String x:Key="TaskAppend.Skip">{0}: {1} 任务跳过</system:String>
-    <system:String x:Key="TaskAppend.Error">{0}: {1} 添加任务失败</system:String>
+    <system:String x:Key="TaskSerialize.Error">{0}: {1} 序列化失败</system:String>
     <system:String x:Key="AdbReplacementTips">如果任务完全没有反应，请使用 ｢{key=Settings} - {key=ConnectionSettings} - {key=ForcedReplaceAdb}｣，或触控模式选择 ADB Input（不推荐）。</system:String>
     <system:String x:Key="LDPlayerMaaTouchWarning">检测到当前使用雷电模拟器 + MaaTouch 触控模式。已知该组合下滑动操作会异常缓慢（滑动实际持续时间远大于设定值），可能导致后续操作在滑动尚未结束时提前执行，从而引发各种异常。建议更换其他触控模式。</system:String>
     <system:String x:Key="Waiting">正在等待当前任务结束……</system:String>

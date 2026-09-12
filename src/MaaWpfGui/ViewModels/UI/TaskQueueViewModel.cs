@@ -2189,6 +2189,8 @@ public class TaskQueueViewModel : Screen
 
         // 直接遍历TaskItemViewModels里面的内容，是排序后的
         int count = 0;
+        List<int> coreTaskIds = [];
+        bool serializeFailed = false;
         foreach (var item in tasks)
         {
             var index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(item);
@@ -2210,11 +2212,12 @@ public class TaskQueueViewModel : Screen
                 {
                     case true:
                         ++count;
+                        coreTaskIds.AddRange(taskIds);
                         Instances.TaskQueueViewModel.TaskItemViewModels.ElementAtOrDefault(index)?.SetTaskIds(taskIds);
                         break;
                     case false:
-                        taskRet = false;
-                        AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Error", LocalizationHelper.GetString(item.TaskType.ToString()), item.NameOrTaskType), UiLogColor.Error);
+                        serializeFailed = true;
+                        AddLog(LocalizationHelper.GetStringFormat("TaskSerialize.Error", LocalizationHelper.GetString(item.TaskType.ToString()), item.NameOrTaskType), UiLogColor.Error);
                         SetTaskStatus(index, TaskItemStatus.Error);
                         break;
                     case null:
@@ -2225,15 +2228,31 @@ public class TaskQueueViewModel : Screen
             }
             catch (Exception ex)
             {
-                taskRet = false;
-                AddLog(LocalizationHelper.GetStringFormat("TaskAppend.Error", LocalizationHelper.GetString(item.TaskType.ToString()), item.NameOrTaskType) + "\n" + ex.Message, UiLogColor.Error);
+                serializeFailed = true;
+                AddLog(LocalizationHelper.GetStringFormat("TaskSerialize.Error", LocalizationHelper.GetString(item.TaskType.ToString()), item.NameOrTaskType) + "\n" + ex.Message, UiLogColor.Error);
             }
+        }
+
+        if (serializeFailed)
+        {
+            // 有任务序列化失败则整轮不启动（失败任务已各自记录错误并标记条目），与 AsstStart 失败的 ｢出现未知错误｣ 区分开
+            Instances.AsstProxy.AsstStop();
+            SetStopped();
+            return;
         }
 
         if (count == 0)
         {
             AddLog(LocalizationHelper.GetString("UnselectedTask"));
             _runningState.SetIdle(true);
+            Instances.AsstProxy.AsstStop();
+            SetStopped();
+            return;
+        }
+
+        if (coreTaskIds.Count == 0)
+        {
+            // 本轮所有任务都不需要 core 执行（例如更新数据仅勾选干员识别且从一图流 OpenAPI 获取），直接收尾
             Instances.AsstProxy.AsstStop();
             SetStopped();
             return;

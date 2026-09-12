@@ -687,9 +687,28 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="RoguelikeStartWithIdea">구상</system:String>
     <system:String x:Key="RoguelikeStartWithTicket">티켓</system:String>
     <system:String x:Key="RefreshTraderWithDice">상점 새로고침</system:String>
-    <system:String x:Key="PenguinId">Penguin-Stats 보고 ID (숫자)</system:String>
-    <system:String x:Key="EnablePenguin">Penguin-Stats 보고</system:String>
-    <system:String x:Key="EnableYituliu">Yituliu 보고</system:String>
+    <system:String x:Key="PenguinId">보고 ID (숫자)</system:String>
+    <system:String x:Key="EnablePenguin">드롭 및 공개모집 데이터 보고</system:String>
+    <system:String x:Key="EnableYituliu">{key=EnablePenguin}</system:String>
+    <system:String x:Key="ThirdPartyServiceSettings">서드파티</system:String>
+    <system:String x:Key="ThirdPartyGroupPenguin">Penguin-Stats</system:String>
+    <system:String x:Key="ThirdPartyGroupYituliu">Yituliu</system:String>
+    <system:String x:Key="YituliuOpenApiToken">OpenAPI 토큰</system:String>
+    <system:String x:Key="YituliuTokenVerify">확인</system:String>
+    <system:String x:Key="YituliuTokenEmpty">먼저 토큰을 입력해 주세요</system:String>
+    <system:String x:Key="YituliuTokenValid">토큰이 유효합니다. 총 {0}명의 오퍼레이터</system:String>
+    <system:String x:Key="YituliuTokenValidNoData">토큰은 유효하지만 계정에 아직 오퍼레이터 데이터가 없습니다</system:String>
+    <system:String x:Key="YituliuTokenWriteOnly">토큰에 읽기 권한이 없습니다. 읽기 전용 또는 읽기/쓰기 토큰을 사용해 주세요</system:String>
+    <system:String x:Key="YituliuTokenInvalid">토큰이 유효하지 않거나 만료되었습니다. 다시 생성해 주세요</system:String>
+    <system:String x:Key="YituliuTokenNetworkError">네트워크 오류가 발생했습니다. 나중에 다시 시도해 주세요</system:String>
+    <system:String x:Key="EnableOperBoxYituliuApi">{key=OperBoxRecognition}을 Yituliu에서 가져오기</system:String>
+    <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">활성화하면 ｢{key=Toolbox}｣와 ｢{key=UserDataUpdate}｣의 {key=OperBoxRecognition}이 에뮬레이터에 연결해 스크린샷으로 식별하지 않고, 토큰에 해당하는 Yituliu 육성 데이터를 직접 불러옵니다.&#10;｢{key=UserDataUpdate}｣ 트리거 시 ｢{key=LinkStart}｣ 후 에뮬레이터 연결이 완료되면 다른 작업과 병렬로 가져오기를 시작합니다.&#10;Yituliu에 저장되는 것은 육성 데이터 스냅샷이므로 먼저 Yituliu 사이트에 오퍼레이터 데이터를 업로드해야 합니다. 육성 데이터는 센쿵다오에서 가져오므로 CN 서버 계정에만 데이터가 있습니다.&#10;토큰은 Yituliu 계정 페이지의 ｢서드파티 API Token｣에서 생성할 수 있습니다. 계정 데이터 보호를 위해 읽기 전용 토큰만 사용해 주세요.</system:String>
+    <system:String x:Key="OperBoxFetchingFromYituliu">Yituliu에서 오퍼레이터 데이터를 가져오는 중…</system:String>
+    <system:String x:Key="YituliuFetchFailed">Yituliu에서 가져오기 실패: {0}</system:String>
+    <system:String x:Key="YituliuNoOperBoxData">토큰에 해당하는 Yituliu 계정에 오퍼레이터 데이터가 없어 로컬 인식 결과를 유지합니다</system:String>
+    <system:String x:Key="YituliuOperBoxCompleted">{key=OperBoxRecognition} 완료(Yituliu)</system:String>
+    <system:String x:Key="OperBoxExportHeaderSkills">스킬 전문화</system:String>
+    <system:String x:Key="OperBoxExportHeaderEquips">모듈</system:String>
     <system:String x:Key="DrGrandet">그랑데 영감 모드</system:String>
     <system:String x:Key="DrGrandetTip">회복제나 순오리지늄 사용 시 이성이 자연 회복될 때까지 기다렸다가 회복되는 즉시 사용합니다.</system:String>
     <system:String x:Key="OnlyOnceADay">하루에 한 번만 실행</system:String>
@@ -1042,7 +1061,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="UnselectedTask">선택된 작업이 없습니다</system:String>
     <system:String x:Key="Running">실행 중……</system:String>
     <system:String x:Key="TaskAppend.Skip">{0}: {1} 작업 스킵</system:String>
-    <system:String x:Key="TaskAppend.Error">{0}: {1} 작업 추가 실패</system:String>
+    <system:String x:Key="TaskSerialize.Error">{0}: {1} 직렬화 실패</system:String>
     <system:String x:Key="AdbReplacementTips">작업이 전혀 반응하지 않을 경우, ｢{key=Settings} - {key=ConnectionSettings} - {key=ForcedReplaceAdb}｣를 사용하거나, 터치 모드에서 ADB Input(권장하지 않음)을 선택해 보세요.</system:String>
     <system:String x:Key="LDPlayerMaaTouchWarning">LDPlayer 에뮬레이터와 MaaTouch 터치 모드 조합이 감지되었습니다. 이 조합은 스와이프 작업이 비정상적으로 느려지는 것으로 알려져 있습니다(실제 스와이프 지속 시간이 설정값을 훨씬 초과함). 스와이프가 끝나기 전에 다음 작업이 실행되어 다양한 문제가 발생할 수 있습니다. 다른 터치 모드로 전환하는 것을 권장합니다.</system:String>
     <system:String x:Key="Waiting">전투가 끝나기를 기다리며……</system:String>

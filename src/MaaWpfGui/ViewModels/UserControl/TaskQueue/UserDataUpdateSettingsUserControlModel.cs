@@ -17,6 +17,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
@@ -24,6 +26,7 @@ using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.UI;
 using Stylet;
 using static MaaWpfGui.Main.AsstProxy;
 
@@ -101,17 +104,35 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
             }
 
             List<int> ids = [];
+            bool operBoxSyncedWithoutTask = false;
             if (operBoxTriggerDue)
             {
-                bool operBoxRet = Instances.ToolboxViewModel.StartOperBoxRecognitionTask(startImmediately: false);
-                if (!operBoxRet)
+                if (SettingsViewModel.ThirdPartyServiceSettings.EnableOperBoxYituliuApi)
                 {
-                    return (false, []);
-                }
+                    if (string.IsNullOrWhiteSpace(SettingsViewModel.ThirdPartyServiceSettings.YituliuOpenApiToken))
+                    {
+                        // 错误才打任务分区标题提供上下文，正常执行不需要
+                        Instances.TaskQueueViewModel.AddLogSection(baseTask.NameOrTaskType);
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("YituliuTokenEmpty"), UiLogColor.Error);
+                        return (false, []);
+                    }
 
-                int operBoxTaskId = Instances.AsstProxy.TasksStatus.Last().Key;
-                Instances.ToolboxViewModel.MarkOperBoxRecognitionDataForReset(operBoxTaskId);
-                ids.Add(operBoxTaskId);
+                    // 一图流 OpenAPI 模式：不进 core 队列，后台直接拉取，没有 core 任务 id，完成后自行更新条目状态
+                    _ = SyncOperBoxFromYituliuApiAsync(baseTask);
+                    operBoxSyncedWithoutTask = true;
+                }
+                else
+                {
+                    bool operBoxRet = Instances.ToolboxViewModel.StartOperBoxRecognitionTask(startImmediately: false);
+                    if (!operBoxRet)
+                    {
+                        return (false, []);
+                    }
+
+                    int operBoxTaskId = Instances.AsstProxy.TasksStatus.Last().Key;
+                    Instances.ToolboxViewModel.MarkOperBoxRecognitionDataForReset(operBoxTaskId);
+                    ids.Add(operBoxTaskId);
+                }
             }
 
             if (depotTriggerDue)
@@ -131,7 +152,7 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.DoubleSync);
             }
 
-            return ids.Count > 0 ? (true, ids) : (null, []);
+            return ids.Count > 0 || operBoxSyncedWithoutTask ? (true, ids) : (null, []);
         }
 
         private static bool IsTriggerDue(DateTimeOffset? lastSyncTime, UserDataUpdateTriggerInterval triggerInterval)
@@ -154,6 +175,27 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
                 UserDataUpdateTriggerInterval.Weekly => ISOWeek.GetYear(now) != ISOWeek.GetYear(lastDate) || ISOWeek.GetWeekOfYear(now) != ISOWeek.GetWeekOfYear(lastDate),
                 _ => true,
             };
+        }
+    }
+
+    /// <summary>
+    /// 从一图流拉取干员数据并在完成后写任务日志、更新任务条目状态。
+    /// 拉取是后台并行的，只在结束时输出一条日志，避免与队列启动日志交错。
+    /// </summary>
+    /// <param name="baseTask">发起拉取的任务，用于定位任务条目</param>
+    /// <returns>Task</returns>
+    private static async Task SyncOperBoxFromYituliuApiAsync(BaseTask baseTask)
+    {
+        var success = await Instances.ToolboxViewModel.StartOperBoxFromYituliuApiAsync();
+        if (success)
+        {
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("YituliuOperBoxCompleted"), UiLogColor.Info, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
+        }
+
+        var index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(baseTask);
+        if (index >= 0)
+        {
+            Instances.TaskQueueViewModel.TaskItemViewModels.ElementAtOrDefault(index)?.StatusDisplay = success ? TaskItemStatus.Completed : TaskItemStatus.Error;
         }
     }
 
