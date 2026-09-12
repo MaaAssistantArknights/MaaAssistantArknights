@@ -416,8 +416,10 @@ public class RunningState
         {
             while (!CanInterrupt())
             {
-                var remaining = deadline - DateTime.UtcNow;
-                if (remaining <= TimeSpan.Zero)
+                // 无限等待须传 InfiniteTimeSpan：deadline 为 DateTime.MaxValue 时的差值远超
+                // Task.WaitAsync(TimeSpan) 的上限，直接传剩余时间会抛 ArgumentOutOfRangeException
+                var remaining = timeout < 0 ? Timeout.InfiniteTimeSpan : deadline - DateTime.UtcNow;
+                if (timeout >= 0 && remaining <= TimeSpan.Zero)
                 {
                     _logger.Information("Idle not reached before timeout.");
                     return false;
