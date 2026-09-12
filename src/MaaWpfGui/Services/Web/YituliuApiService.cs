@@ -30,6 +30,8 @@ namespace MaaWpfGui.Services.Web;
 /// </summary>
 public static class YituliuApiService
 {
+    private static readonly ILogger _logger = Log.ForContext("SourceContext", "YituliuApiService");
+
     private const int CodeSuccess = 200;
     private const int CodeInsufficientPermissions = 20010;
     private const int CodeInvalidCredentials = 20027;
@@ -172,7 +174,7 @@ public static class YituliuApiService
         }
         catch (Exception e)
         {
-            Log.Error("Failed to request yituliu open-api operator info: {Message}", e.Message);
+            _logger.Error("Failed to request yituliu open-api operator info: {Message}", e.Message);
             return (null, null);
         }
     }
