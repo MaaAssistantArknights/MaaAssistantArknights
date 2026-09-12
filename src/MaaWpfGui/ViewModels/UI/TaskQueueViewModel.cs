@@ -2502,10 +2502,6 @@ public class TaskQueueViewModel : Screen
             return false;
         }
 
-        // 本轮到此收口，清掉任务状态表；否则强收残留的旧 taskId 会让 Core 迟到补发的
-        // TaskChainStopped 通过归属校验，打断此后已开始的新运行
-        Instances.AsstProxy.ClearTasksStatus();
-
         SleepManagement.AllowSleep();
         if (!_runningState.GetIdle() || _runningState.GetStopping())
         {

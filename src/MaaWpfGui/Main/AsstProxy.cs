@@ -1298,15 +1298,6 @@ public class AsstProxy
         {
             case AsstMsg.TaskChainStopped:
                 {
-                    // 归属校验：迟到的旧轮回调（如 Stop 超时强收后 Core 复活补发）taskId 不在本轮
-                    // 任务集合中，跳过收口以免把新运行的 Idle/归属清掉；Core 侧异常恢复路径补发的
-                    // 消息不带 taskid（解析为 0），仍放行
-                    if (taskId != 0 && !_tasksStatus.ContainsKey(taskId))
-                    {
-                        _logger.Warning("TaskChainStopped of stale task {TaskId} not in current run, skip", taskId);
-                        break;
-                    }
-
                     Instances.TaskQueueViewModel.SetStopped();
                 }
 
@@ -3322,15 +3313,6 @@ public class AsstProxy
     private readonly ObservableDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> _tasksStatus = [];
 
     public IReadOnlyDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> TasksStatus => new Dictionary<AsstTaskId, (TaskType, TaskStatus)>(_tasksStatus);
-
-    /// <summary>
-    /// 清空任务状态表。强制收口（TaskQueueViewModel.SetStopped 等不再等待 Core 回调的路径）时调用，
-    /// 使残留的旧 taskId 无法通过 <c>TaskChainStopped</c> 的归属校验。
-    /// </summary>
-    public void ClearTasksStatus()
-    {
-        _tasksStatus.Clear();
-    }
 
     public delegate void TaskStatusDelegate(int taskId, TaskItemStatus status);
 
