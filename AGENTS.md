@@ -5,7 +5,7 @@
 ## C++（MaaCore）
 
 - 批量格式化用 `python tools/ClangFormatter/clang-formatter.py --input=src/MaaCore`，版本需求：clang-format 20.0.0；5 位以上整数字面量加千分位撇（`65'535`，存量尚有漏改，勿照抄）。
-- 日志用 `"Utils/Logger.hpp"`，勿引入子模块 MaaUtils 的 `"MaaUtils/Logger.h"`，两套宏同名不同物，同文件混用会重定义；日志走 `<<` 流式格式，正文一律英文。旧代码中存在使用函数式日志的情况，勿照抄。合理使用 `__FUNCTION__`、`LogTraceFunction` 标注当前函数，避免手动在日志中标记。避免匿名命名空间，会导致在日志中输出为 `<anonymous namespace>`，不利于定位。
+- 日志用 `"Utils/Logger.hpp"`，日志走 `<<` 流式格式，正文一律英文。旧代码中存在使用函数式日志的情况，勿照抄。合理使用 `__FUNCTION__`、`LogTraceFunction` 标注当前函数，避免手动在日志中标记。避免匿名命名空间，会导致在日志中输出为 `<anonymous namespace>`，不利于定位。
 - 字符串一律 UTF-8 `std::string`，中文裸写、禁 `u8""` 前缀；文件路径必须经 `asst::utils::path()` 或 `"xxx"_p` 字面量构造，仅 Win32 API 边界转 `to_osstring`。
 - 错误处理返回 `bool` / `std::optional` / 空指针并记日志，常规任务与配置链路不用异常。
 - 避免返回裸指针，如有需要，使用引用或智能指针；引用返回值须保证生命周期，禁止返回局部变量引用。
