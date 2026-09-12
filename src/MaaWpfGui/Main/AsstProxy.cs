@@ -1431,15 +1431,15 @@ public class AsstProxy
                 }
 
             case AsstMsg.AllTasksCompleted:
-                bool isMainTaskQueueAllCompleted = false;
                 var taskList = details["finished_tasks"]?.ToObject<AsstTaskId[]>();
-                if (taskList?.Length > 0)
-                {
-                    var latestMainTaskIds = _tasksStatus.Where(i => _mainTaskTypes.Contains(i.Value.Type)).Select(i => i.Key);
-                    isMainTaskQueueAllCompleted = taskList.Any(i => latestMainTaskIds.Contains(i));
-                }
 
-                if (_tasksStatus.Any(t => t.Value.Type == TaskType.Copilot))
+                // 完成判定按发起归属而非 _tasksStatus 条目类型推断：条目 Type 与队列任务脱节
+                // （更新数据/仓库维护展开的链不在白名单、copilot 启动失败残留条目误判轮次归属）。
+                // 归属快照须在 SetIdle(true) 清零之前取得
+                var runOwner = _runningState.Owner;
+                bool isMainTaskQueueAllCompleted = taskList?.Length > 0 && runOwner == RunOwner.TaskQueue;
+
+                if (runOwner == RunOwner.Copilot)
                 {
                     if (SettingsViewModel.GameSettings.CopilotWithScript)
                     {
@@ -1527,7 +1527,7 @@ public class AsstProxy
                         AchievementTrackerHelper.Instance.Unlock(AchievementIds.LogSupervisor);
                     }
                 }
-                else if (isCopilotTaskChain)
+                else if (runOwner == RunOwner.Copilot)
                 {
                     ToastNotification.ShowDirect(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(taskChain));
                 }
