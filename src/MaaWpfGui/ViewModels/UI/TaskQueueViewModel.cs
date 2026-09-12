@@ -2122,19 +2122,10 @@ public class TaskQueueViewModel : Screen
         _taskStartTime = DateTime.Now;
         ClearLog();
 
-        // Core 资源损坏待修复期间任务不可启动，覆盖热键/托盘/远程等入口（启动自动运行在 AsstProxy 另有前置拦截）
-        if (Bootstrapper.IsResourceBroken)
+        // 拦截判定收敛于 Bootstrapper.TryGetTaskBlockReason；热键/托盘/远程等入口汇入于此（启动自动运行在 AsstProxy 另有前置检查）
+        if (Bootstrapper.TryGetTaskBlockReason() is { } reason)
         {
-            AddLog(LocalizationHelper.GetString("ResourceBrokenTaskBlocked"), UiLogColor.Error);
-            _logger.Warning("LinkStart blocked: resource broken");
-            return;
-        }
-
-        // 停止超时强收后需重启才能再次开任务，同样覆盖热键/托盘/远程等入口
-        if (Bootstrapper.RequiresRestart)
-        {
-            AddLog(LocalizationHelper.GetString("RestartRecommendation"), UiLogColor.Error);
-            _logger.Warning("LinkStart blocked: restart required");
+            AddLog(reason, UiLogColor.Error);
             return;
         }
 

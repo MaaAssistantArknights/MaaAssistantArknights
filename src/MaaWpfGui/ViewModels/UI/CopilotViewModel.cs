@@ -1817,10 +1817,9 @@ public partial class CopilotViewModel : Screen
     [UsedImplicitly]
     public async Task Start()
     {
-        // 停止超时强收后 Core 状态不可信（可能仍挂起并补发迟到回调），重启前禁止新开任务
-        if (Bootstrapper.RequiresRestart)
+        if (Bootstrapper.TryGetTaskBlockReason() is { } reason)
         {
-            AddLog(LocalizationHelper.GetString("RestartRecommendation"), UiLogColor.Error);
+            AddLog(reason, UiLogColor.Error);
             return;
         }
 

@@ -553,11 +553,10 @@ public class RemoteControlService
     {
         await _runningState.UntilIdleAsync();
 
-        // 停止超时强收后 Core 状态不可信（可能仍挂起并补发迟到回调），重启前禁止新开任务
-        if (Bootstrapper.RequiresRestart)
+        if (Bootstrapper.TryGetTaskBlockReason() is { } reason)
         {
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RestartRecommendation"), UiLogColor.Error);
-            Log.Logger.Warning("RemoteControl LinkStart blocked: restart required");
+            Instances.TaskQueueViewModel.AddLog(reason, UiLogColor.Error);
+            Log.Logger.Warning("RemoteControl LinkStart blocked");
             return;
         }
 

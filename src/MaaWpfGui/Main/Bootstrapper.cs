@@ -1051,6 +1051,31 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     /// </summary>
     public static void MarkRequiresRestart() => _requiresRestart = true;
 
+#nullable enable
+
+    /// <summary>
+    /// 获取当前禁止开始新任务的原因文案；null 表示可启动。所有下发 Core 任务的入口统一经此判定：
+    /// 资源损坏（缺任务时 Core 进程直接崩溃）优先于需重启（停止超时后 Core 状态不可信）。
+    /// </summary>
+    /// <returns>拦截原因的本地化文案；可启动时为 null。</returns>
+    public static string? TryGetTaskBlockReason()
+    {
+        if (IsResourceBroken)
+        {
+            _logger.Warning("Task blocked: resource broken");
+            return LocalizationHelper.GetString("ResourceBrokenTaskBlocked");
+        }
+
+        if (RequiresRestart)
+        {
+            _logger.Warning("Task blocked: restart required");
+            return LocalizationHelper.GetString("RestartRecommendation");
+        }
+
+        return null;
+    }
+#nullable restore
+
     /// <summary>
     /// 在完整 GUI 尚未初始化前，应用待处理更新后立即重启。
     /// 若当前进程已带 <see cref="SkipStartupAutoRunArg"/>，则原样转发给下一进程。
