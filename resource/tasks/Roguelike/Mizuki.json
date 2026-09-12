@@ -413,6 +413,73 @@
         "templThreshold": 0.95
     },
     "Mizuki@Roguelike@StageTraderEnter": {},
+    "Mizuki@Roguelike@StageTraderInvestCancel": {
+        "baseTask": "Roguelike@StageTraderInvestCancel",
+        "template": "Roguelike@StageTraderInvestCancel.png",
+        "exceededNext": ["Mizuki@Roguelike@StageTraderInvestCancelForRefresh"]
+    },
+    "Mizuki@Roguelike@StageTraderInvestCancelForRefresh": {
+        "baseTask": "Roguelike@StageTraderInvestCancel",
+        "template": "Roguelike@StageTraderInvestCancel.png",
+        "next": [
+            "Mizuki@Roguelike@StageTraderInvestSystemLeaveForRefresh",
+            "Mizuki@Roguelike@StageTraderInvestCancelForRefresh"
+        ]
+    },
+    "Mizuki@Roguelike@StageTraderInvestSystemLeaveForRefresh": {
+        "baseTask": "Roguelike@StageTraderInvestSystemLeave",
+        "template": "Roguelike@StageTraderInvestSystemLeave.png",
+        "next": [
+            "Mizuki@Roguelike@StageTraderRefreshWithDice",
+            "Mizuki@Roguelike@StageTraderInvestSystemLeaveForRefresh"
+        ]
+    },
+    "Mizuki@Roguelike@StageTraderRefreshWithDice": {
+        "baseTask": "Roguelike@StageTraderRefreshWithDice",
+        "template": "Roguelike@StageTraderRefresh.png",
+        "next": [
+            "Mizuki@Roguelike@StageTraderRefreshWithDiceConfirm",
+            "Mizuki@Roguelike@StageTraderRefreshWithDiceNotAvaiable",
+            "Mizuki@Roguelike@ExitThenAbandon"
+        ],
+        "exceededNext": ["Mizuki@Roguelike@ExitThenAbandon"]
+    },
+    "Mizuki@Roguelike@StageTraderRefreshWithDiceDoubleConfirm": {
+        "baseTask": "Roguelike@StageTraderRefreshWithDiceDoubleConfirm",
+        "next": [
+            "Mizuki@Roguelike@StageTraderSpecialShoppingAfterRefresh",
+            "Mizuki@Roguelike@StageTraderRefreshWithDice",
+            "Mizuki@Roguelike@ExitThenAbandon"
+        ]
+    },
+    "Mizuki@Roguelike@StageTraderRefreshWithDiceNotAvaiable": {
+        "baseTask": "Roguelike@StageTraderRefreshWithDiceNotAvaiable",
+        "next": ["Mizuki@Roguelike@ExitThenAbandon"]
+    },
+    "Mizuki@Roguelike@StageTraderSpecialShoppingAfterRefresh": {
+        "baseTask": "Roguelike@StageTraderSpecialShoppingAfterRefresh",
+        "next": [
+            "Mizuki@Roguelike@StageTraderSpecialShoppingAfterRefreshConfirm",
+            "Mizuki@Roguelike@StageTraderSpecialShoppingAfterRefreshCancel",
+            "Mizuki@Roguelike@ExitThenAbandon"
+        ]
+    },
+    "Mizuki@Roguelike@StageTraderSpecialShoppingAfterRefreshConfirm": {
+        "baseTask": "Roguelike@TraderRandomShoppingConfirm",
+        "template": "Roguelike@TraderRandomShoppingConfirm.png",
+        "next": [
+            "Mizuki@Roguelike@ExitThenAbandon",
+            "Mizuki@Roguelike@StageTraderSpecialShoppingAfterRefreshConfirm"
+        ]
+    },
+    "Mizuki@Roguelike@StageTraderSpecialShoppingAfterRefreshCancel": {
+        "baseTask": "Roguelike@TraderRandomShoppingCancel",
+        "template": "Roguelike@StageTraderInvestCancel.png",
+        "next": [
+            "Mizuki@Roguelike@ExitThenAbandon",
+            "Mizuki@Roguelike@StageTraderSpecialShoppingAfterRefreshCancel"
+        ]
+    },
     "Mizuki@Roguelike@StageTraderLeaveConfirm": {
         "template": "Roguelike@StageTraderLeaveConfirm.png",
         "exceededNext": ["Mizuki@Roguelike@DiceConfirmThenAbandon", "Mizuki@Roguelike@ExitThenAbandon"]
