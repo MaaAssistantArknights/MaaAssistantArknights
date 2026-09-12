@@ -1046,7 +1046,7 @@ public class VersionUpdateDialogViewModel : Screen
         {
             if (FakeUpdateHelper.HasPendingFakeUpdate)
             {
-                await _runningState.UntilIdleAsync(1000);
+                await _runningState.UntilIdleAsync();
                 _ = FakeUpdateHelper.Updating();
                 return;
             }
@@ -1055,7 +1055,7 @@ public class VersionUpdateDialogViewModel : Screen
             return;
         }
 
-        await _runningState.UntilIdleAsync(10000);
+        await _runningState.UntilIdleAsync();
 
         var result = MessageBoxHelper.Show(
             description,
