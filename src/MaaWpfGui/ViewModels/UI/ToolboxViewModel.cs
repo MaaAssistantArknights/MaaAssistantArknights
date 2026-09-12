@@ -1730,6 +1730,7 @@ public class ToolboxViewModel : Screen
         {
             _logger.Error("Failed to load operator box from yituliu open-api: {Message}", e.Message);
             OperBoxInfo = LocalizationHelper.GetString("YituliuTokenNetworkError");
+            Instances.TaskQueueViewModel.AddLog(OperBoxInfo, UiLogColor.Error);
             return false;
         }
     }

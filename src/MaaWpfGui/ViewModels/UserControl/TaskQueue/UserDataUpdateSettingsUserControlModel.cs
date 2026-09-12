@@ -27,6 +27,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
+using Serilog;
 using Stylet;
 using static MaaWpfGui.Main.AsstProxy;
 
@@ -34,6 +35,8 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
 public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, UserDataUpdateSettingsUserControlModel.ISerialize
 {
+    private static readonly ILogger _logger = Log.ForContext<UserDataUpdateSettingsUserControlModel>();
+
     static UserDataUpdateSettingsUserControlModel()
     {
         Instance = new();
@@ -186,10 +189,19 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
     /// <returns>Task</returns>
     private static async Task SyncOperBoxFromYituliuApiAsync(BaseTask baseTask)
     {
-        var success = await Instances.ToolboxViewModel.StartOperBoxFromYituliuApiAsync();
-        if (success)
+        var success = false;
+        try
         {
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("YituliuOperBoxCompleted"), UiLogColor.Info, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
+            success = await Instances.ToolboxViewModel.StartOperBoxFromYituliuApiAsync();
+            if (success)
+            {
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("YituliuOperBoxCompleted"), UiLogColor.Info, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
+            }
+        }
+        catch (Exception e)
+        {
+            // 调用方 fire-and-forget 不 await，异常若无人观察，下方条目状态更新不会执行而永远停在运行中
+            _logger.Error(e, "Failed to sync operator box from yituliu open-api");
         }
 
         var index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(baseTask);
