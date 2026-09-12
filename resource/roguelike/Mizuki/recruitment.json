@@ -907,7 +907,8 @@
                     "recruit_priority": 318
                 },
                 {
-                    "name": "阿米娅-WARRIOR",
+                    "role": "WARRIOR",
+                    "name": "阿米娅",
                     "skill": 1,
                     "is_start": true,
                     "recruit_priority": 478,
@@ -3092,7 +3093,8 @@
                     "name": "濯尘芙蓉"
                 },
                 {
-                    "name": "阿米娅-MEDIC"
+                    "role": "MEDIC",
+                    "name": "阿米娅"
                 },
                 {
                     "name": "苏苏洛"
@@ -3375,7 +3377,8 @@
                     "skill": 2
                 },
                 {
-                    "name": "阿米娅-MEDIC"
+                    "role": "MEDIC",
+                    "name": "阿米娅"
                 },
                 {
                     "name": "至简",

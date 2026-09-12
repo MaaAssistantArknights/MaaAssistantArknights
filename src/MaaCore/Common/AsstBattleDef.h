@@ -401,6 +401,8 @@ struct SupportUnit
 {
     cv::Mat templ;
 
+    battle::Role role = battle::Role::Unknown;
+
     /// <summary>
     /// 助战干员名称。
     /// </summary>
@@ -435,26 +437,6 @@ struct SupportUnit
     // int elite_after_promotion = 0; // 进阶后精英化阶段，仅在集成战略中有效，
     // int level_after_promotion = 0; // 进阶后等级，仅在集成战略中有效，
 };
-
-/// <summary>
-/// 根据 <c>role</c> 对干员名 <c>literal_name</c> 进行消歧义，目前仅用于区分不同升变形态下的阿米娅。
-/// </summary>
-inline static std::string canonical_oper_name(battle::Role role, const std::string& literal_name)
-{
-    using battle::Role;
-    static const std::unordered_map<std::pair<Role, std::string>, std::string, std::pair_hash<Role, std::string>>
-        CanonicalOperNameDict {
-            { { Role::Caster, "阿米娅" }, "阿米娅" },
-            { { Role::Warrior, "阿米娅" }, "阿米娅-WARRIOR" },
-            { { Role::Medic, "阿米娅" }, "阿米娅-MEDIC" },
-        };
-
-    if (const auto iter = CanonicalOperNameDict.find({ role, literal_name }); iter != CanonicalOperNameDict.end()) {
-        return iter->second;
-    }
-
-    return literal_name;
-}
 
 // ————————————————————————————————————————————————————————————————
 
