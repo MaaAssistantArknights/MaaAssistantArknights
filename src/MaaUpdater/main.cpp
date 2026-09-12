@@ -1879,6 +1879,9 @@ int wmain(int argc, wchar_t* argv[])
     bool shouldRelaunch = false;
     bool success = false;
     std::wstring failureReason;
+    // 是否已开始改动安装文件（备份旧文件 / 写入新文件）；
+    // 预检失败未动任何文件、失败后回滚完整恢复时均保持 false，用于收紧失败标志的写入
+    bool installationModified = false;
     HANDLE hUpdateMutex = nullptr;
     // Copied from plan for CreateProcess after a successful update.
     std::vector<std::wstring> relaunchArgs;
@@ -2045,6 +2048,7 @@ int wmain(int argc, wchar_t* argv[])
             }
 
             WriteLog((L"Removing and backing up: " + targetPath + L" -> " + backupPath).c_str());
+            installationModified = true;
             bool backupOk = isFullPackage
                 ? RecycleAndBackupPath(targetPath, backupPath)
                 : MoveExistingPathToBackup(targetPath, backupPath);
@@ -2080,6 +2084,7 @@ int wmain(int argc, wchar_t* argv[])
                 }
 
                 WriteLog((L"Backing up existing entry: " + targetPath).c_str());
+                installationModified = true;
                 bool backupOk = IsRecycleAndReplaceDirectory(rel)
                     ? RecycleAndBackupDirectory(targetPath, backupPath)
                     : MoveExistingPathToBackup(targetPath, backupPath);
@@ -2091,6 +2096,7 @@ int wmain(int argc, wchar_t* argv[])
             }
 
             WriteLog((L"Installing new file: " + sourcePath + L" -> " + targetPath).c_str());
+            installationModified = true;
 
             bool installOk = false;
             DWORD sourceAttr = GetFileAttributesW(sourcePath.c_str());
@@ -2152,6 +2158,7 @@ int wmain(int argc, wchar_t* argv[])
 
         // Attempt rollback: restore files that were already backed up
         WriteLog(L"Update failed, attempting rollback from backup directory.");
+        bool rollbackComplete = true;
         for (const std::wstring& rel : removeList) {
             std::wstring targetPath, backupPath;
             if (!TryResolvePathUnderRoot(rootDir, rel, targetPath) ||
@@ -2160,7 +2167,12 @@ int wmain(int argc, wchar_t* argv[])
             }
             if (PathExistsW(backupPath) && !PathExistsW(targetPath)) {
                 WriteLog((L"Rollback: restoring " + backupPath + L" -> " + targetPath).c_str());
-                MovePathEntry(backupPath, targetPath);
+                if (!MovePathEntry(backupPath, targetPath)) {
+                    rollbackComplete = false;
+                }
+            } else if (PathExistsW(backupPath)) {
+                // 新文件已就位而旧文件仍在备份：回滚不覆盖已就位的文件，安装仍处于混合状态
+                rollbackComplete = false;
             }
         }
         for (const std::wstring& rel : moveList) {
@@ -2171,8 +2183,16 @@ int wmain(int argc, wchar_t* argv[])
             }
             if (PathExistsW(backupPath) && !PathExistsW(targetPath)) {
                 WriteLog((L"Rollback: restoring " + backupPath + L" -> " + targetPath).c_str());
-                MovePathEntry(backupPath, targetPath);
+                if (!MovePathEntry(backupPath, targetPath)) {
+                    rollbackComplete = false;
+                }
+            } else if (PathExistsW(backupPath)) {
+                rollbackComplete = false;
             }
+        }
+        if (rollbackComplete) {
+            installationModified = false;
+            WriteLog(L"Rollback complete, installation restored to its pre-update state.");
         }
     } while (false);
 
@@ -2180,10 +2200,14 @@ int wmain(int argc, wchar_t* argv[])
     // On failure: write failure status
     // ------------------------------------------------------------------
     if (!success && !failureReason.empty()) {
-        // Convert wstring reason to UTF-8 for file
-        std::string utf8Reason;
-        if (TryConvertWideToUtf8(failureReason, utf8Reason)) {
-            WriteUtf8File(failureStatusFile, utf8Reason);
+        // 失败标志仅用于标记安装可能已损坏（半更新状态）；预检失败（未动任何文件）
+        // 与回滚完整恢复的情况不写，避免完好的安装被 GUI 误判为资源损坏后拦截全部任务
+        if (installationModified) {
+            // Convert wstring reason to UTF-8 for file
+            std::string utf8Reason;
+            if (TryConvertWideToUtf8(failureReason, utf8Reason)) {
+                WriteUtf8File(failureStatusFile, utf8Reason);
+            }
         }
         if (PathExistsW(successStatusFile))
             DeleteFileW(successStatusFile.c_str());
