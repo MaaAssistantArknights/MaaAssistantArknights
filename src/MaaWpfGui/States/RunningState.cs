@@ -271,7 +271,7 @@ public class RunningState
         if (_idle)
         {
             // 空闲起点直接写字段，归属与离开空闲合并为一次广播；避免先经 Owner setter 单独
-            // 广播出「空闲但已有归属」的中间快照
+            // 广播出 ｢空闲但已有归属｣ 的中间快照
             _runOwner = owner;
         }
         else
@@ -297,7 +297,7 @@ public class RunningState
             {
                 // 回到空闲即本轮结束：归属与停止中在同一快照内清零。直接 SetIdle(true) 收尾
                 // 的链路（工具箱各工具连接失败、测试连接等）不经 SetStopped，若不清 Stopping
-                // 会留下「空闲但停止中」的死锁态——三页开始/停止按钮全部不可用
+                // 会留下 ｢空闲但停止中｣ 的死锁态——三页开始/停止按钮全部不可用
                 _runOwner = RunOwner.None;
                 _stopping = false;
                 StopTimeoutTimer();

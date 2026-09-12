@@ -660,8 +660,9 @@ public class TaskQueueViewModel : Screen
     {
         _runningState = RunningState.Instance;
         _runningState.StateChanged += (_, e) => {
-            // 回到空闲时重置主任务进度（原 Idle 镜像置 true 的联动）
-            if (e.NewState.Idle)
+            // 回到空闲的变化沿时重置主任务进度（原 Idle 镜像置 true 的联动；
+            // 空闲期内其他状态字段的广播不重复触发）
+            if (!e.OldState.Idle && e.NewState.Idle)
             {
                 UpdateMainTasksProgress(0);
             }
