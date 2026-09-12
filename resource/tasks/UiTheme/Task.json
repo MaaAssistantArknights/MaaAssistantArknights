@@ -22,7 +22,8 @@
             "TaskTogether",
             "TaskLoneTrail",
             "TaskReconstruct",
-            "TaskHunting"
+            "TaskHunting",
+            "TaskBlackFlow"
         ],
         "onErrorNext": ["Task-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -96,5 +97,9 @@
         "baseTask": "TaskDefault",
         "template": "Hunting/Task.png",
         "roi": [685, 548, 151, 131]
+    },
+    "TaskBlackFlow": {
+        "baseTask": "TaskDefault",
+        "template": "BlackFlow/Task.png"
     }
 }

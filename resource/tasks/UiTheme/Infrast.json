@@ -22,7 +22,8 @@
             "InfrastTogether",
             "InfrastLoneTrail",
             "InfrastReconstruct",
-            "InfrastHunting"
+            "InfrastHunting",
+            "InfrastBlackFlow"
         ],
         "onErrorNext": ["Infrast-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -93,5 +94,9 @@
     "InfrastHunting": {
         "baseTask": "InfrastDefault",
         "template": "Hunting/EnterInfrast.png"
+    },
+    "InfrastBlackFlow": {
+        "baseTask": "InfrastDefault",
+        "template": "BlackFlow/EnterInfrast.png"
     }
 }

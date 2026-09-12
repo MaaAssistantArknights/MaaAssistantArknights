@@ -22,7 +22,8 @@
             "FriendsTogether",
             "FriendsLoneTrail",
             "FriendsReconstruct",
-            "FriendsHunting"
+            "FriendsHunting",
+            "FriendsBlackFlow"
         ],
         "onErrorNext": ["Friends-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -94,5 +95,9 @@
     "FriendsHunting": {
         "baseTask": "FriendsDefault",
         "template": "Hunting/Friends.png"
+    },
+    "FriendsBlackFlow": {
+        "baseTask": "FriendsDefault",
+        "template": "BlackFlow/Friends.png"
     }
 }

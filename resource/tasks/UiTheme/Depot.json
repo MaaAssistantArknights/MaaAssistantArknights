@@ -22,7 +22,8 @@
             "DepotTogether",
             "DepotLoneTrail",
             "DepotReconstruct",
-            "DepotHunting"
+            "DepotHunting",
+            "DepotBlackFlow"
         ],
         "onErrorNext": ["Depot-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -93,5 +94,9 @@
     "DepotHunting": {
         "baseTask": "DepotDefault",
         "template": "Hunting/DepotEnter.png"
+    },
+    "DepotBlackFlow": {
+        "baseTask": "DepotDefault",
+        "template": "BlackFlow/DepotEnter.png"
     }
 }
