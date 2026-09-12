@@ -35,3 +35,15 @@ target_link_libraries(maa-algorithm-test PRIVATE Catch2::Catch2WithMain)
 target_include_directories(maa-algorithm-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../src/MaaCore)
 
 catch_discover_tests(maa-algorithm-test TEST_PREFIX "algorithm::")
+
+find_package(Boost REQUIRED COMPONENTS regex)
+
+add_executable(maa-ocr-equivalence-regex-test
+    MaaCore/EquivalenceRegexTest.cpp
+)
+
+target_compile_features(maa-ocr-equivalence-regex-test PRIVATE cxx_std_20)
+target_link_libraries(maa-ocr-equivalence-regex-test PRIVATE Catch2::Catch2WithMain Boost::regex)
+target_include_directories(maa-ocr-equivalence-regex-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../src/MaaCore)
+
+catch_discover_tests(maa-ocr-equivalence-regex-test TEST_PREFIX "ocr-equivalence-regex::")

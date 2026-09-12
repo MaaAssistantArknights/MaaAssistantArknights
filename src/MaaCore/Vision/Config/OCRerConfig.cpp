@@ -2,6 +2,7 @@
 
 #include "Config/Miscellaneous/OcrConfig.h"
 #include "Config/TaskData.h"
+#include "OCREquivalenceRegex.hpp"
 
 using namespace asst;
 
@@ -29,27 +30,12 @@ void OCRerConfig::set_replace(
     m_params.replace.clear();
     m_params.replace.reserve(replace.size());
 
+    // `key` is a regex pattern, so the equivalence classes have to be expanded in a regex-aware way, see
+    // expand_equivalence_in_regex().
+    const auto& eq_classes = OcrConfig::get_instance().get_eq_classes();
     for (auto&& [key, val] : replace) {
-        auto& ocr_config = OcrConfig::get_instance();
-        std::string new_key = key;
-        for (const auto& eq_class : ocr_config.get_eq_classes()) {
-            if (eq_class.size() <= 1) {
-                continue;
-            }
-
-            // eq_class: [s, S] -> regex: "(?:s|S)"
-            std::string eq_classes_regex = "(?:";
-            for (const auto& elem : eq_class) {
-                (eq_classes_regex += elem) += '|';
-            }
-            eq_classes_regex.pop_back();
-            eq_classes_regex += ')';
-            std::ranges::for_each(eq_class, [&](std::string_view elem) {
-                utils::string_replace_all_in_place(new_key, elem, eq_classes_regex);
-            });
-        }
         // do not create new_val as val is user-provided, and can avoid issues like 夕 and katakana タ
-        m_params.replace.emplace_back(std::move(new_key), val);
+        m_params.replace.emplace_back(expand_equivalence_in_regex(key, eq_classes), val);
     }
     m_params.replace_full = replace_full;
 }

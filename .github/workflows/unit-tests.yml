@@ -109,6 +109,11 @@ jobs:
         with:
           show-progress: false
 
+      - name: Install unit test dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-regex-dev
+
       - name: Configure unit tests
         run: |
           cmake -S unit_test -B build/unit_test -DCMAKE_BUILD_TYPE=Release
