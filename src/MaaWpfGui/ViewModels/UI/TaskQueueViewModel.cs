@@ -2235,9 +2235,10 @@ public class TaskQueueViewModel : Screen
 
         if (serializeFailed)
         {
-            // 有任务序列化失败则整轮不启动（失败任务已各自记录错误并标记条目），与 AsstStart 失败的 ｢出现未知错误｣ 区分开
+            // 有任务序列化失败则整轮不启动（失败任务已各自记录错误并标记条目），与 AsstStart 失败的 ｢出现未知错误｣ 区分开；
+            // 序列化失败不是手动停止，不执行结束脚本
             Instances.AsstProxy.AsstStop();
-            SetStopped();
+            SetStopped(runStopScript: false);
             return;
         }
 
