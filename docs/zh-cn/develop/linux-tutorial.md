@@ -110,7 +110,7 @@ MaaWpfGui 适用于 Windows，编译产物在 Linux 上需要通过 Wine 运行�
 2. 安装 .NET SDK
 
    ::: code-tabs
-   @tab:active Ubuntu/Debian
+   @tab:active Ubuntu
 
    ```bash
    sudo apt install dotnet-sdk-10.0

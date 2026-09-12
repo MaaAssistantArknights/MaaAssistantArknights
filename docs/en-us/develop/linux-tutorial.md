@@ -109,7 +109,7 @@ MaaWpfGui is built for Windows. Wine is required to run MaaWpfGui on Linux. See 
 2. Install .NET SDK
 
    ::: code-tabs
-   @tab:active Ubuntu/Debian
+   @tab:active Ubuntu
 
    ```bash
    sudo apt install dotnet-sdk-10.0

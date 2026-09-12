@@ -110,7 +110,7 @@ MaaWpfGui는 Windows용 프로그램으로, 빌드 결과물을 Linux에서 실�
 2. .NET SDK 설치
 
    ::: code-tabs
-   @tab:active Ubuntu/Debian
+   @tab:active Ubuntu
 
    ```bash
    sudo apt install dotnet-sdk-10.0
