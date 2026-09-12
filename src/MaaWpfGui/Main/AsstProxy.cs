@@ -703,6 +703,13 @@ public class AsstProxy
             return;
         }
 
+        // 停止超时强收后 Core 状态不可信：重启前不进入启动自动运行
+        if (Bootstrapper.RequiresRestart)
+        {
+            _logger.Information("Skip startup auto-run: restart required");
+            return;
+        }
+
         // TODO: 之后把这个 OnUIThread 拆出来
         // ReSharper disable once AsyncVoidLambda
         Execute.OnUIThread(

@@ -1036,6 +1036,20 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     /// </summary>
     public static void MarkResourceBroken() => _isResourceBroken = true;
 
+    private static bool _requiresRestart;
+
+    /// <summary>
+    /// Gets a value indicating whether the current session must restart before running new tasks.
+    /// 停止超时强收后 Core 状态不可信（可能仍挂起并补发迟到回调），置位后所有任务入口均被拦截，
+    /// 禁止开始新任务。进程内标志，重启进程即解除。
+    /// </summary>
+    public static bool RequiresRestart => _requiresRestart;
+
+    /// <summary>
+    /// 标记本会话需重启后才能继续任务。在 Stop 超时强收时调用。
+    /// </summary>
+    public static void MarkRequiresRestart() => _requiresRestart = true;
+
     /// <summary>
     /// 在完整 GUI 尚未初始化前，应用待处理更新后立即重启。
     /// 若当前进程已带 <see cref="SkipStartupAutoRunArg"/>，则原样转发给下一进程。

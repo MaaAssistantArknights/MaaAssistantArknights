@@ -2130,6 +2130,14 @@ public class TaskQueueViewModel : Screen
             return;
         }
 
+        // 停止超时强收后需重启才能再次开任务，同样覆盖热键/托盘/远程等入口
+        if (Bootstrapper.RequiresRestart)
+        {
+            AddLog(LocalizationHelper.GetString("RestartRecommendation"), UiLogColor.Error);
+            _logger.Warning("LinkStart blocked: restart required");
+            return;
+        }
+
         Instances.OverlayViewModel.LogItemsSource = LogItemViewModels;
 
         var buildDateTimeLong = VersionUpdateSettingsUserControlModel.BuildDateTimeCurrentCultureString;
@@ -2379,6 +2387,9 @@ public class TaskQueueViewModel : Screen
             // 超时：Core 未在超时内停止，强制恢复 UI 状态
             _logger.Warning("Stop timeout, force resetting UI state");
             AddLog(LocalizationHelper.GetString("StopTimeout") + "\n" + LocalizationHelper.GetString("RestartRecommendation"), UiLogColor.Error);
+
+            // Core 可能仍挂起并补发迟到 TaskChainStopped，若此后放行新任务，回调会把新运行的归属清掉，故重启前禁止再开任务
+            Bootstrapper.MarkRequiresRestart();
             SetStopped();
             return false;
         }
