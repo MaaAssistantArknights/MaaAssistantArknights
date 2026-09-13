@@ -42,7 +42,6 @@ MaaAssistantArknights/MaaMacGui 프로젝트의 [README.md](https://github.com/M
 2. 서드파티 라이브러리 빌드
 
    다음 방법 중 하나를 선택하세요:
-
    - 사전 빌드된 서드파티 라이브러리 다운로드 (권장)
 
      ```bash
@@ -101,6 +100,7 @@ MaaWpfGui는 Windows용 프로그램으로, 빌드 결과물을 Linux에서 실�
 :::
 
 :::: steps
+
 1. `MaaCore.dll` 준비
 
    MaaWpfGui는 `MaaCore.dll`(및 종속된 기타 DLL)에 의존합니다. 현재 Linux에서 Windows용 `MaaCore.dll`을 크로스 컴파일할 수 없습니다. MAA의 Windows 설치 패키지에서 복사해 올 수도 있지만, 버전 불일치 문제가 발생하기 쉽습니다.
@@ -141,4 +141,5 @@ MaaWpfGui는 Windows용 프로그램으로, 빌드 결과물을 Linux에서 실�
    ```bash
    wine build/bin/Debug/MAA.exe
    ```
-::::
+
+   ::::

@@ -41,7 +41,6 @@ Mac can use the `tools/build_macos_universal.zsh` script for compilation. It's r
 2. Build third-party libraries
 
    Choose one of the following methods:
-
    - Download pre-built third-party libraries (recommended)
 
      ```bash
@@ -100,6 +99,7 @@ MaaWpfGui is built for Windows. Wine is required to run MaaWpfGui on Linux. See 
 :::
 
 :::: steps
+
 1. Prepare `MaaCore.dll`
 
    MaaWpfGui depends on `MaaCore.dll` (and other DLLs it depends on). Currently, there is no way to cross-compile `MaaCore.dll` for Windows on Linux. While it is possible to copy these DLLs from MAA for Windows, mismatching version numbers will cause problems.
@@ -140,4 +140,5 @@ MaaWpfGui is built for Windows. Wine is required to run MaaWpfGui on Linux. See 
    ```bash
    wine build/bin/Debug/MAA.exe
    ```
-::::
+
+   ::::

@@ -42,7 +42,6 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译
 2. 构建第三方库
 
    以下方式任选其一：
-
    - 下载预构建的第三方库 (推荐)
 
      ```bash
@@ -101,6 +100,7 @@ MaaWpfGui 适用于 Windows，编译产物在 Linux 上需要通过 Wine 运行�
 :::
 
 :::: steps
+
 1. 准备 `MaaCore.dll`
 
    MaaWpfGui 依赖 `MaaCore.dll`（及其依赖的其他 DLL）。目前无法从 Linux 交叉编译出 Windows 版的 `MaaCore.dll`。虽然可以从 MAA 的 Windows 安装包中复制，但易出现版本不一致问题。
@@ -141,4 +141,5 @@ MaaWpfGui 适用于 Windows，编译产物在 Linux 上需要通过 Wine 运行�
    ```bash
    wine build/bin/Debug/MAA.exe
    ```
-::::
+
+   ::::

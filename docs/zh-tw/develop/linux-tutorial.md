@@ -42,7 +42,6 @@ Mac 使用者可以使用 `tools/build_macos_universal.zsh` 腳本進行編譯�
 2. 建置第三方函式庫
 
    以下方式任選其一：
-
    - 下載預編譯的第三方函式庫（推薦）
 
      ```bash
@@ -101,6 +100,7 @@ MaaWpfGui 適用於 Windows，編譯成品在 Linux 上需要透過 Wine 執行�
 :::
 
 :::: steps
+
 1. 準備 `MaaCore.dll`
 
    MaaWpfGui 依賴 `MaaCore.dll`（及其依賴的其他 DLL）。目前無法從 Linux 交叉編譯出 Windows 版的 `MaaCore.dll`。雖然可以從 MAA 的 Windows 安裝包中複製，但容易出現版本不一致問題。
@@ -141,4 +141,5 @@ MaaWpfGui 適用於 Windows，編譯成品在 Linux 上需要透過 Wine 執行�
    ```bash
    wine build/bin/Debug/MAA.exe
    ```
-::::
+
+   ::::
