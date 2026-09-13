@@ -1533,10 +1533,17 @@ PreviewDisposition BlackFlowSession::accept_preview(MovePreview preview, std::st
         preview.reachability = PreviewReachability::InsufficientActionPoints;
     }
     const PreviewReachability reachability = preview.reachability;
+    const MoveCandidate proposal = m_transaction->proposal();
+    const Node* existing = proposal.target == InvalidNodeId ? nullptr : m_map.snapshot().find_node(proposal.target);
+    if (preview.reachability == PreviewReachability::Reachable && existing != nullptr &&
+        existing->type == NodeType::HideBattle && preview.displayed_type == NodeType::BattleNormal) {
+        preview.displayed_type = existing->type;
+        preview.displayed_name = existing->name;
+        preview.identity_revealed = existing->identity_revealed;
+    }
     if (!m_transaction->record_preview(preview, error)) {
         return PreviewDisposition::Failed;
     }
-    const MoveCandidate proposal = m_transaction->proposal();
     if (m_transaction->stage() == MoveTransactionStage::Cancelled) {
         m_unreachable_actions.emplace(proposal.action_id);
         m_verified_move_arc.reset();
@@ -1571,7 +1578,6 @@ PreviewDisposition BlackFlowSession::accept_preview(MovePreview preview, std::st
     }
 
     bool changed = false;
-    const Node* existing = proposal.target == InvalidNodeId ? nullptr : m_map.snapshot().find_node(proposal.target);
     if (proposal.controllable && existing == nullptr) {
         if (error != nullptr) {
             *error = "preview target disappeared from normalized map";
