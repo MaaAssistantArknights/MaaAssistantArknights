@@ -535,6 +535,25 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   :::
   ::::
 
+- `RecruitPermitReserved`
+  当前招聘许可数量已达到为 3 星招募设置的保留值，因此跳过当前槽位。`details` 字段内容如下：
+
+  :::: field-group
+  ::: field current
+  @type number
+  @required
+  当前招聘许可数量。
+  :::
+  ::: field reserve
+  @type number
+  @required
+  设置的招聘许可保留数量。
+  :::
+  ::::
+
+- `RecruitPermitCountRecognitionFailed`
+  启用 3 星招聘许可保留后，招聘许可数量识别失败，因此跳过当前槽位。`details` 字段为空。
+
 - `RecruitTagsSelected`  
   公招选择了 Tags。`details` 字段内容如下：
 
