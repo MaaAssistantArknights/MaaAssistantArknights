@@ -88,7 +88,11 @@ public class HttpService : IHttpService
             {
                 foreach (var kvp in extraHeader)
                 {
-                    request.Headers.Add(kvp.Key, kvp.Value);
+                    // Add 对含 “/” “=” 等字符的值抛 FormatException 且异常消息带原值，凭据类 header 会明文泄漏进日志
+                    if (!request.Headers.TryAddWithoutValidation(kvp.Key, kvp.Value))
+                    {
+                        _logger.Warning("Failed to add external header: {Header}", kvp.Key);
+                    }
                 }
             }
 
@@ -153,7 +157,11 @@ public class HttpService : IHttpService
         {
             foreach (var kvp in extraHeader)
             {
-                request.Headers.Add(kvp.Key, kvp.Value);
+                // Add 对含 “/” “=” 等字符的值抛 FormatException 且异常消息带原值，凭据类 header 会明文泄漏进日志
+                if (!request.Headers.TryAddWithoutValidation(kvp.Key, kvp.Value))
+                {
+                    _logger.Warning("Failed to add external header: {Header}", kvp.Key);
+                }
             }
         }
 

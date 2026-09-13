@@ -343,6 +343,12 @@ public class ToolboxViewModel : Screen
     [UsedImplicitly]
     public async Task RecruitStartCalc()
     {
+        if (Bootstrapper.TryGetTaskBlockReason() is { } reason)
+        {
+            RecruitInfo = reason;
+            return;
+        }
+
         string errMsg = string.Empty;
         RecruitInfo = LocalizationHelper.GetString("ConnectingToEmulator");
         _runningState.BeginRun(RunOwner.Toolbox);
@@ -1151,6 +1157,12 @@ public class ToolboxViewModel : Screen
     [UsedImplicitly]
     public async Task StartDepot()
     {
+        if (Bootstrapper.TryGetTaskBlockReason() is { } reason)
+        {
+            DepotInfo = reason;
+            return;
+        }
+
         _runningState.BeginRun(RunOwner.Toolbox);
         string errMsg = string.Empty;
         DepotInfo = LocalizationHelper.GetString("ConnectingToEmulator");
@@ -1730,6 +1742,7 @@ public class ToolboxViewModel : Screen
         {
             _logger.Error("Failed to load operator box from yituliu open-api: {Message}", e.Message);
             OperBoxInfo = LocalizationHelper.GetString("YituliuTokenNetworkError");
+            Instances.TaskQueueViewModel.AddLog(OperBoxInfo, UiLogColor.Error);
             return false;
         }
     }
@@ -1787,8 +1800,16 @@ public class ToolboxViewModel : Screen
     [UsedImplicitly]
     public async Task StartOperBox()
     {
+        // 只拦 Core 本地识别分支；一图流 API 拉取不发 Core 任务，不受限
+        var useYituliuApi = SettingsViewModel.ThirdPartyServiceSettings.EnableOperBoxYituliuApi;
+        if (!useYituliuApi && Bootstrapper.TryGetTaskBlockReason() is { } reason)
+        {
+            OperBoxInfo = reason;
+            return;
+        }
+
         _runningState.BeginRun(RunOwner.Toolbox);
-        if (SettingsViewModel.ThirdPartyServiceSettings.EnableOperBoxYituliuApi)
+        if (useYituliuApi)
         {
             await StartOperBoxFromYituliuApiAsync();
             _runningState.SetIdle(true);
@@ -2083,6 +2104,12 @@ public class ToolboxViewModel : Screen
 
     public async Task StartGacha(bool once = true)
     {
+        if (Bootstrapper.TryGetTaskBlockReason() is { } reason)
+        {
+            GachaInfo = reason;
+            return;
+        }
+
         _runningState.BeginRun(RunOwner.Toolbox);
 
         string errMsg = string.Empty;
@@ -3093,6 +3120,12 @@ public class ToolboxViewModel : Screen
 
     private async Task StartMiniGameAsync()
     {
+        if (Bootstrapper.TryGetTaskBlockReason() is { } reason)
+        {
+            Instances.TaskQueueViewModel.AddLog(reason, UiLogColor.Error);
+            return;
+        }
+
         var isPixelPaint = IsPixelPaintSelected;
         if (isPixelPaint && (_pixelPaintResult == null || _pixelPaintResult.Groups.Count == 0))
         {

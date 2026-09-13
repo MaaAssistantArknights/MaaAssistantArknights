@@ -505,6 +505,12 @@ public class TaskQueueViewModel : Screen
 
     private async Task RunPostActionsCoreAsync()
     {
+        // per-run 幂等：时长上限到点停止与 AllTasksCompleted 自然完成赛跑时只执行一次
+        if (Interlocked.CompareExchange(ref _postActionsLaunched, 1, 0) is not 0)
+        {
+            return;
+        }
+
         var actions = PostActionSetting;
         _logger.Information("Post actions: " + actions.ActionDescription);
 
@@ -672,10 +678,11 @@ public class TaskQueueViewModel : Screen
                 Instances.Data.ClearCache();
             }
 
-            // 每轮运行开始（离开空闲）时重置结束脚本发射权；停止中不重置，避免把已合法发射的标志清零导致二次发射
+            // 每轮运行开始（离开空闲）时重置结束脚本与完成后动作的发射权；停止中不重置，避免把已合法发射的标志清零导致二次发射
             if (e.OldState.Idle && !e.NewState.Idle)
             {
                 Interlocked.Exchange(ref _stopScriptLaunched, 0);
+                Interlocked.Exchange(ref _postActionsLaunched, 0);
             }
 
             if (e.NewState.Idle && _runDurationLimitOnce)
@@ -2115,11 +2122,10 @@ public class TaskQueueViewModel : Screen
         _taskStartTime = DateTime.Now;
         ClearLog();
 
-        // Core 资源损坏待修复期间任务不可启动，覆盖热键/托盘/远程等入口（启动自动运行在 AsstProxy 另有前置拦截）
-        if (Bootstrapper.IsResourceBroken)
+        // 拦截判定收敛于 Bootstrapper.TryGetTaskBlockReason；热键/托盘/远程等入口汇入于此（启动自动运行在 AsstProxy 另有前置检查）
+        if (Bootstrapper.TryGetTaskBlockReason() is { } reason)
         {
-            AddLog(LocalizationHelper.GetString("ResourceBrokenTaskBlocked"), UiLogColor.Error);
-            _logger.Warning("LinkStart blocked: resource broken");
+            AddLog(reason, UiLogColor.Error);
             return;
         }
 
@@ -2372,6 +2378,9 @@ public class TaskQueueViewModel : Screen
             // 超时：Core 未在超时内停止，强制恢复 UI 状态
             _logger.Warning("Stop timeout, force resetting UI state");
             AddLog(LocalizationHelper.GetString("StopTimeout") + "\n" + LocalizationHelper.GetString("RestartRecommendation"), UiLogColor.Error);
+
+            // Core 可能仍挂起并补发迟到 TaskChainStopped，若此后放行新任务，回调会把新运行的归属清掉，故重启前禁止再开任务
+            Bootstrapper.MarkRequiresRestart();
             SetStopped();
             return false;
         }
@@ -2407,6 +2416,9 @@ public class TaskQueueViewModel : Screen
     // 手动停止的结束脚本发射权，每轮运行开始（离开空闲）时重置；多个手动入口并发时保证只发射一次
     private int _stopScriptLaunched;
 
+    // 完成后动作发射权，每轮运行开始（离开空闲）时重置；时长上限停止与自然完成赛跑时保证只执行一次
+    private int _postActionsLaunched;
+
     /// <summary>
     /// 按 Interlocked 标志去重地执行一次结束脚本（EndsWithScript）。手动停止各入口与自然完成
     /// 回调共享发射权，手动停止与自然完成赛跑时只执行一次。
@@ -2425,7 +2437,7 @@ public class TaskQueueViewModel : Screen
 
     /// <summary>
     /// 手动停止核心：等待 Core 停止、UI 状态恢复（TaskChainStopped 回调，或 Stop 超时强制）后，
-    /// 按运行归属发射结束脚本——非 copilot 须 ｢手动停止时启用上述脚本｣ 开启，
+    /// 按运行归属发射结束脚本（仅主任务队列与 copilot 归属）——非 copilot 须 ｢手动停止时启用上述脚本｣ 开启，
     /// copilot 还须 ｢自动战斗时启用上述脚本｣ 同时开启。归属在开始入口声明，跨页停止也能正确判定。
     /// 所有手动语义入口（手动停止 / 等待并停止 / 时长上限 / 热键 / 远控 StopTask / 各页停止按钮）收敛到此；
     /// 非手动场景（异常停止、挤停、启动失败等）直接调用 <see cref="Stop"/> 与 <see cref="SetStopped"/>，不发射脚本。
@@ -2438,9 +2450,9 @@ public class TaskQueueViewModel : Screen
             return false;
         }
 
-        // 归属 None（连接测试、单独等模拟器等非任务语境的运行）不发射结束脚本
+        // 仅主任务队列与 copilot 发射结束脚本；小游戏/工具箱轮次从不跑开始脚本，各停止入口统一不发
         var owner = _runningState.Owner;
-        var runScript = owner != RunOwner.None
+        var runScript = owner is RunOwner.TaskQueue or RunOwner.Copilot
             && SettingsViewModel.GameSettings.ManualStopWithScript
             && (owner != RunOwner.Copilot || SettingsViewModel.GameSettings.CopilotWithScript);
 
@@ -2464,7 +2476,16 @@ public class TaskQueueViewModel : Screen
 
         if (runScript)
         {
-            await RunStopScriptOnceAsync();
+            // 脚本运行期间持有 InterruptLock，防止等待空闲的自动更新安装/定时启动放行打断收尾
+            RunningState.Instance.LockInterrupt();
+            try
+            {
+                await RunStopScriptOnceAsync();
+            }
+            finally
+            {
+                RunningState.Instance.UnlockInterrupt();
+            }
         }
 
         return true;

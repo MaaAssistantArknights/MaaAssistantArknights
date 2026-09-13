@@ -1879,6 +1879,9 @@ int wmain(int argc, wchar_t* argv[])
     bool shouldRelaunch = false;
     bool success = false;
     std::wstring failureReason;
+    // 是否已开始改动安装文件（备份旧文件 / 写入新文件）；预检失败未动任何文件时保持
+    // false。进入应用阶段后不再回退该标志，失败后回滚无论是否完整恢复均按已改动处理
+    bool installationModified = false;
     HANDLE hUpdateMutex = nullptr;
     // Copied from plan for CreateProcess after a successful update.
     std::vector<std::wstring> relaunchArgs;
@@ -2045,6 +2048,7 @@ int wmain(int argc, wchar_t* argv[])
             }
 
             WriteLog((L"Removing and backing up: " + targetPath + L" -> " + backupPath).c_str());
+            installationModified = true;
             bool backupOk = isFullPackage
                 ? RecycleAndBackupPath(targetPath, backupPath)
                 : MoveExistingPathToBackup(targetPath, backupPath);
@@ -2080,6 +2084,7 @@ int wmain(int argc, wchar_t* argv[])
                 }
 
                 WriteLog((L"Backing up existing entry: " + targetPath).c_str());
+                installationModified = true;
                 bool backupOk = IsRecycleAndReplaceDirectory(rel)
                     ? RecycleAndBackupDirectory(targetPath, backupPath)
                     : MoveExistingPathToBackup(targetPath, backupPath);
@@ -2096,6 +2101,12 @@ int wmain(int argc, wchar_t* argv[])
             DWORD sourceAttr = GetFileAttributesW(sourcePath.c_str());
             bool isSourceFile = (sourceAttr != INVALID_FILE_ATTRIBUTES) &&
                                 !(sourceAttr & FILE_ATTRIBUTE_DIRECTORY);
+
+            // 源存在（文件或目录）才会真正开始改动安装；源缺失（如被杀软隔离）的条目
+            // 最多创建空父目录即失败，不置位以免误写失败标志，让完好的安装被 GUI 误判为资源损坏
+            if (sourceAttr != INVALID_FILE_ATTRIBUTES) {
+                installationModified = true;
+            }
 
             if (isSourceFile) {
                 // Use atomic file replacement for individual files
@@ -2180,10 +2191,14 @@ int wmain(int argc, wchar_t* argv[])
     // On failure: write failure status
     // ------------------------------------------------------------------
     if (!success && !failureReason.empty()) {
-        // Convert wstring reason to UTF-8 for file
-        std::string utf8Reason;
-        if (TryConvertWideToUtf8(failureReason, utf8Reason)) {
-            WriteUtf8File(failureStatusFile, utf8Reason);
+        // 失败标志仅用于标记安装可能已损坏（半更新状态）；预检失败（未动任何文件）不写，
+        // 避免完好的安装被 GUI 误判为资源损坏后拦截全部任务
+        if (installationModified) {
+            // Convert wstring reason to UTF-8 for file
+            std::string utf8Reason;
+            if (TryConvertWideToUtf8(failureReason, utf8Reason)) {
+                WriteUtf8File(failureStatusFile, utf8Reason);
+            }
         }
         if (PathExistsW(successStatusFile))
             DeleteFileW(successStatusFile.c_str());

@@ -688,7 +688,7 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
             else if (icon == "bskill_man_spd_veen") {   // 手艺人：维伊
                 base += 0.299;                          // 认为训练室三级
             }
-            else if (icon == "bskill_man_spd_veen") {   // 社群的意义：维伊
+            else if (icon == "bskill_man_p3r") {        // 社群的意义：结城理
                 base += 0.25;                           // 暂不考虑其他SEES干员挂件
             }
             else if (icon == "bskill_man_spd_reduce") { // 模糊视线：铅踝

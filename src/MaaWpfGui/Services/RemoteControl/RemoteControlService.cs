@@ -26,6 +26,7 @@ using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
@@ -551,6 +552,13 @@ public class RemoteControlService
     private async Task LinkStart(IEnumerable<string> originalNames)
     {
         await _runningState.UntilIdleAsync();
+
+        if (Bootstrapper.TryGetTaskBlockReason() is { } reason)
+        {
+            Instances.TaskQueueViewModel.AddLog(reason, UiLogColor.Error);
+            Log.Logger.Warning("RemoteControl LinkStart blocked");
+            return;
+        }
 
         _runningState.BeginRun(RunOwner.TaskQueue);
 

@@ -147,6 +147,13 @@ public class VersionUpdateDialogViewModel : Screen
         get; set {
             SetAndNotify(ref field, value);
             ConfigFactory.Root.Update.UpdatePackage = value;
+
+            // 非空赋值即注册新更新包（FakeUpdate / MaaApi / MirrorChyan 下载链都经此 setter 直写配置，不经 RegisterPendingUpdatePackage），须同步删失败标志防死循环；
+            // 空值（失败后的配置残留、资产名缺失）不删，保留标志供 AsstProxy.Init 启动期检测弹修复窗
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                PendingUpdateApplier.ClearDelegatedUpdateFailureState();
+            }
         }
     } = ConfigFactory.Root.Update.UpdatePackage;
 
