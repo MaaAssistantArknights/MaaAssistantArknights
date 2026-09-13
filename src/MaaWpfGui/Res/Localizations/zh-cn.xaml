@@ -1678,7 +1678,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowOutcomeMoveConfirmationFailed">无法确认本次移动</system:String>
     <system:String x:Key="BlackFlowOutcomePostMoveValidationFailed">移动后的状态校验失败</system:String>
     <system:String x:Key="BlackFlowOutcomePlanningRetryExhausted">路线重新规划次数已经用尽</system:String>
-    <system:String x:Key="BlackFlowOutcomeStateMachineDeadEnd">界面流程走不下去了</system:String>
+    <system:String x:Key="BlackFlowOutcomeStateMachineDeadEnd">内部状态机错误</system:String>
     <system:String x:Key="BlackFlowOutcomeMapRecoveryExhausted">地图恢复重试次数已经用尽</system:String>
     <system:String x:Key="BlackFlowOutcomeFloorRecognitionFailed">楼层识别失败</system:String>
     <system:String x:Key="BlackFlowOutcomeMovementInventoryFailed">移动加工品识别失败</system:String>
@@ -1708,7 +1708,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowTerminationPerceptionPortUnavailable">地图识别与任务接口不可用</system:String>
     <system:String x:Key="BlackFlowTerminationMapRebuildFailedTwice">连续两次地图重建失败</system:String>
     <system:String x:Key="BlackFlowTerminationPlanningRetryExhausted">预览反复改变可选路线，已经超过重新规划次数</system:String>
-    <system:String x:Key="BlackFlowTerminationUnknown">详细原因请查看文件日志</system:String>
+    <system:String x:Key="BlackFlowTerminationUnknown">如需反馈请前往 ｢{key=Settings} - {key=IssueReport}｣</system:String>
     <system:String x:Key="RoguelikeEvent">事件:</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">识别到 {0} 个选项:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">可选选项: {0}</system:String>

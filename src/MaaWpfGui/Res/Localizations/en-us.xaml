@@ -1678,7 +1678,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowOutcomeMoveConfirmationFailed">Failed to confirm the move</system:String>
     <system:String x:Key="BlackFlowOutcomePostMoveValidationFailed">Post-move state validation failed</system:String>
     <system:String x:Key="BlackFlowOutcomePlanningRetryExhausted">Route replanning limit reached</system:String>
-    <system:String x:Key="BlackFlowOutcomeStateMachineDeadEnd">Interface flow reached a dead end</system:String>
+    <system:String x:Key="BlackFlowOutcomeStateMachineDeadEnd">Internal state machine error</system:String>
     <system:String x:Key="BlackFlowOutcomeMapRecoveryExhausted">Map recovery retries exhausted</system:String>
     <system:String x:Key="BlackFlowOutcomeFloorRecognitionFailed">Floor recognition failed</system:String>
     <system:String x:Key="BlackFlowOutcomeMovementInventoryFailed">Movement item recognition failed</system:String>
@@ -1708,7 +1708,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowTerminationPerceptionPortUnavailable">Map perception and task interfaces are unavailable</system:String>
     <system:String x:Key="BlackFlowTerminationMapRebuildFailedTwice">Map rebuild failed twice consecutively</system:String>
     <system:String x:Key="BlackFlowTerminationPlanningRetryExhausted">Preview changes exhausted the route replanning limit</system:String>
-    <system:String x:Key="BlackFlowTerminationUnknown">See the file log for details</system:String>
+    <system:String x:Key="BlackFlowTerminationUnknown">To submit feedback, go to "{key=Settings} - {key=IssueReport}"</system:String>
     <system:String x:Key="RoguelikeEvent">Event:&#160;</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">Detected {0} options:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">Available option: {0}</system:String>

@@ -1680,7 +1680,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowOutcomeMoveConfirmationFailed">이번 이동을 확정할 수 없음</system:String>
     <system:String x:Key="BlackFlowOutcomePostMoveValidationFailed">이동 후 상태 검증 실패</system:String>
     <system:String x:Key="BlackFlowOutcomePlanningRetryExhausted">경로 재계획 횟수를 모두 소진함</system:String>
-    <system:String x:Key="BlackFlowOutcomeStateMachineDeadEnd">화면 진행이 더 이상 불가능함</system:String>
+    <system:String x:Key="BlackFlowOutcomeStateMachineDeadEnd">내부 상태 머신 오류</system:String>
     <system:String x:Key="BlackFlowOutcomeMapRecoveryExhausted">지도 복구 재시도 횟수를 모두 소진함</system:String>
     <system:String x:Key="BlackFlowOutcomeFloorRecognitionFailed">구역 인식 실패</system:String>
     <system:String x:Key="BlackFlowOutcomeMovementInventoryFailed">이동 가공품 인식 실패</system:String>
@@ -1710,7 +1710,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowTerminationPerceptionPortUnavailable">지도 인식·작업 인터페이스를 사용할 수 없음</system:String>
     <system:String x:Key="BlackFlowTerminationMapRebuildFailedTwice">지도 재구축 2회 연속 실패</system:String>
     <system:String x:Key="BlackFlowTerminationPlanningRetryExhausted">미리보기가 경로를 계속 바꿔 재계획 횟수 초과</system:String>
-    <system:String x:Key="BlackFlowTerminationUnknown">자세한 내용은 파일 로그를 확인하세요</system:String>
+    <system:String x:Key="BlackFlowTerminationUnknown">피드백하려면 "{key=Settings} - {key=IssueReport}"(으)로 이동하세요</system:String>
     <system:String x:Key="RoguelikeEvent">이벤트:</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">선택지 {0}개 감지:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">가능한 선택지: {0}</system:String>
