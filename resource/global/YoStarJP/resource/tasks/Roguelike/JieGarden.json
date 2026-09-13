@@ -12,7 +12,40 @@
     "JieGarden@Roguelike@CoppersExchangeFinish": {
         "Doc": "通宝交换完成后的交换按钮 (用于确认交换操作完成)",
         "text": ["交換"],
-        "roi": [575, 558, 240, 50]
+        "roi": [575, 558, 240, 50],
+        "next": [
+            "JieGarden@Roguelike@CoppersExchangeResult",
+            "JieGarden@Roguelike@CoppersTakeFlag",
+            "JieGarden@Roguelike@DropsFlag",
+            "JieGarden@Roguelike@CloseEvent"
+        ]
+    },
+    "JieGarden@Roguelike@CoppersExchangeResult": {
+        "Doc": "日服通宝交换成功结算页（「〜と交換しました」、无按钮，点文字关掉）",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["交換しました"],
+        "roi": [250, 430, 780, 200],
+        "preDelay": 400,
+        "postDelay": 800,
+        "next": [
+            "JieGarden@Roguelike@DropsFlag",
+            "JieGarden@Roguelike@CloseEvent",
+            "JieGarden@Roguelike@Stages#next",
+            "JieGarden@Roguelike@NextLevel",
+            "JieGarden@Roguelike@RandomPickAfterNextLevel",
+            "#self"
+        ]
+    },
+    "JieGarden@Roguelike@CoppersTakeFlag": {
+        "Doc": "交换通宝界面拿取按钮后继：优先关掉日服结算页，避免 20 次重试后 TaskChainError",
+        "next": [
+            "JieGarden@Roguelike@CoppersExchangeResult",
+            "JieGarden@Roguelike@CoppersAbandonExchange",
+            "JieGarden@Roguelike@DropsFlag",
+            "JieGarden@Roguelike@CloseEvent",
+            "#self"
+        ]
     },
     "JieGarden@Roguelike@CoppersNameOcrReplace": {
         "Doc": "通宝名称 OCR 识别替换规则 no diff: 衡-苦寒 衡-霜雪 花-分久必合 入幻 引光 相合 易花 受引",
