@@ -176,8 +176,10 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::select_difficulty(const int d
                     last_difficulty = m_current_difficulty;
                 }
             }
-            ProcessTask(*this, { "SwipeToTheDown" }).run();
-            sleep(300);
+            if (!ProcessTask(*this, { "SwipeToTheDown" }).run() || !sleep(300)) {
+                LogError << "Task stopped during difficulty selection.";
+                return false;
+            }
         }
         m_current_difficulty = detect_current_difficulty();
         if (converged) {
@@ -208,8 +210,10 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::select_difficulty(const int d
                 stable_count = 0;
                 last_read = m_current_difficulty;
             }
-            ProcessTask(*this, { "SwipeToTheUp" }).run();
-            sleep(300);
+            if (!ProcessTask(*this, { "SwipeToTheUp" }).run() || !sleep(300)) {
+                LogError << "Task stopped during difficulty selection.";
+                return false;
+            }
         }
         m_current_difficulty = detect_current_difficulty();
         if (converged) {
@@ -238,13 +242,16 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::select_difficulty(const int d
             const bool swipe_down = m_current_difficulty < 0 || m_current_difficulty < difficulty;
             const bool far_from_target = m_current_difficulty < 0 || m_current_difficulty < difficulty - 2 ||
                                          m_current_difficulty > difficulty + 2;
-            ProcessTask(
-                *this,
-                { swipe_down
-                      ? (far_from_target ? "SwipeToTheDown" : theme + "@Roguelike@ChooseDifficulty_SwipeDownStep")
-                      : (far_from_target ? "SwipeToTheUp" : theme + "@Roguelike@ChooseDifficulty_SwipeUpStep") })
-                .run();
-            sleep(300); // 等列表滚动稳定后再识别，避免动画中的 OCR 误读
+            if (!ProcessTask(
+                     *this,
+                     { swipe_down
+                           ? (far_from_target ? "SwipeToTheDown" : theme + "@Roguelike@ChooseDifficulty_SwipeDownStep")
+                           : (far_from_target ? "SwipeToTheUp" : theme + "@Roguelike@ChooseDifficulty_SwipeUpStep") })
+                     .run() ||
+                !sleep(300)) { // 等列表滚动稳定后再识别，避免动画中的 OCR 误读
+                LogError << "Task stopped during difficulty selection.";
+                return false;
+            }
 
             // 目标难度在列表可视区域内时直接点击，确保精确选中；
             // 未识别到目标不会产生点击，不影响下面的停滞判定
@@ -254,7 +261,10 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::select_difficulty(const int d
             if (specified_analyzer.analyze()) {
                 LogInfo << "Click target difficulty: " << difficulty;
                 ctrler()->click(specified_analyzer.get_result().front().rect);
-                sleep(500);
+                if (!sleep(500)) {
+                    LogError << "Task stopped during difficulty selection.";
+                    return false;
+                }
             }
 
             // 滑动并尝试点击后识别值仍不变，连续两次视为已到列表端点：
