@@ -168,6 +168,7 @@
                                                                     <MultiDataTrigger.Conditions>
                                                                         <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type Border}, AncestorLevel=1}}" Value="True" />
                                                                         <Condition Binding="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}" Value="True" />
+                                                                        <Condition Binding="{Binding Source={x:Static ui_vms:SettingsViewModel.GuiSettings}, Path=HideHoverActionButtons}" Value="False" />
                                                                     </MultiDataTrigger.Conditions>
                                                                     <Setter Property="Visibility" Value="Visible" />
                                                                 </MultiDataTrigger>

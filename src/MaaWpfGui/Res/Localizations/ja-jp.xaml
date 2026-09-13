@@ -753,6 +753,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="MainTasksNullFunctionality">メインタスクの右クリック効果を反転</system:String>
     <system:String x:Key="MainTasksNullFunctionalityTip">デフォルト：1回のみ有効、チェック後：1回のみスキップ</system:String>
     <system:String x:Key="MainTasksNullFunctionalitySwitch">｢{key=Settings} - {key=UiSettings} - {key=MainTasksNullFunctionality}｣ で右クリック効果を切替可能</system:String>
+    <system:String x:Key="HideHoverActionButtons">メインタスク ホバー時に操作ボタンを隠す</system:String>
+    <system:String x:Key="HideHoverActionButtonsTip">各操作は歯車の右クリックメニューから引き続き利用できます</system:String>
     <system:String x:Key="UseCardLog">カードスタイルのログを使用</system:String>
     <system:String x:Key="MaxNumberOfLogThumbnails">ログサムネイルの最大数</system:String>
     <system:String x:Key="TitleBarDisplayContent">タイトルバー表示コンテンツ</system:String>

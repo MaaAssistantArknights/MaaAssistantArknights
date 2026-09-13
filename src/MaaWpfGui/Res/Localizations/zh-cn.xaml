@@ -751,6 +751,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="MainTasksNullFunctionality">反转主任务右键单击效果</system:String>
     <system:String x:Key="MainTasksNullFunctionalityTip">默认仅一次生效，勾选后仅一次跳过</system:String>
     <system:String x:Key="MainTasksNullFunctionalitySwitch">可在 ｢{key=Settings} - {key=UiSettings} - {key=MainTasksNullFunctionality}｣ 切换右键单击效果</system:String>
+    <system:String x:Key="HideHoverActionButtons">悬停主任务时隐藏操作按钮</system:String>
+    <system:String x:Key="HideHoverActionButtonsTip">相应功能仍可通过右键齿轮菜单使用</system:String>
     <system:String x:Key="UseCardLog">使用卡片样式日志</system:String>
     <system:String x:Key="MaxNumberOfLogThumbnails">日志缩略图最大数量</system:String>
     <system:String x:Key="TitleBarDisplayContent">标题栏显示内容</system:String>
