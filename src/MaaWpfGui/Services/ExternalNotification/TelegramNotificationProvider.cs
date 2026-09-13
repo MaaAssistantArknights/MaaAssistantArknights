@@ -62,7 +62,7 @@ public class TelegramNotificationProvider(IHttpService httpService, TelegramConf
         }
         catch (Exception e)
         {
-            _logger.Error(e, "Failed to send POST request to {Uri}", uri);
+            _logger.Error(e, "Failed to send POST request to {Uri}", new Uri(uri).GetLeftPart(UriPartial.Authority));
         }
 
         _logger.Warning("Failed to send message.");
