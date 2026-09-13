@@ -589,6 +589,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
 
         DarkModeList.RefreshLocalization();
         InverseClearModeList.RefreshLocalization();
+        TransitionSpeedList.RefreshLocalization();
         RefreshWindowTitleAllShowDict();
         Instances.SettingsViewModel.UpdateWindowTitle();
     }
