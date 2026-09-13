@@ -1817,6 +1817,12 @@ public partial class CopilotViewModel : Screen
     [UsedImplicitly]
     public async Task Start()
     {
+        if (Bootstrapper.TryGetTaskBlockReason() is { } reason)
+        {
+            AddLog(reason, UiLogColor.Error);
+            return;
+        }
+
         /*
         if (_form)
         {
