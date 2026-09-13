@@ -2161,28 +2161,32 @@ int wmain(int argc, wchar_t* argv[])
     apply_failed:
         success = false;
 
-        // Attempt rollback: restore files that were already backed up
-        WriteLog(L"Update failed, attempting rollback from backup directory.");
-        for (const std::wstring& rel : removeList) {
-            std::wstring targetPath, backupPath;
-            if (!TryResolvePathUnderRoot(rootDir, rel, targetPath) ||
-                !TryResolvePathUnderRoot(backupDir, rel, backupPath)) {
-                continue;
+        // 回滚只回滚本次动过的内容；未动过文件（如路径非法在处理任何条目前失败）时
+        // .old 里的内容是更早一轮中断的遗留，还原会与已就位的新位置文件构成重复
+        if (installationModified) {
+            // Attempt rollback: restore files that were already backed up
+            WriteLog(L"Update failed, attempting rollback from backup directory.");
+            for (const std::wstring& rel : removeList) {
+                std::wstring targetPath, backupPath;
+                if (!TryResolvePathUnderRoot(rootDir, rel, targetPath) ||
+                    !TryResolvePathUnderRoot(backupDir, rel, backupPath)) {
+                    continue;
+                }
+                if (PathExistsW(backupPath) && !PathExistsW(targetPath)) {
+                    WriteLog((L"Rollback: restoring " + backupPath + L" -> " + targetPath).c_str());
+                    MovePathEntry(backupPath, targetPath);
+                }
             }
-            if (PathExistsW(backupPath) && !PathExistsW(targetPath)) {
-                WriteLog((L"Rollback: restoring " + backupPath + L" -> " + targetPath).c_str());
-                MovePathEntry(backupPath, targetPath);
-            }
-        }
-        for (const std::wstring& rel : moveList) {
-            std::wstring targetPath, backupPath;
-            if (!TryResolvePathUnderRoot(rootDir, rel, targetPath) ||
-                !TryResolvePathUnderRoot(backupDir, rel, backupPath)) {
-                continue;
-            }
-            if (PathExistsW(backupPath) && !PathExistsW(targetPath)) {
-                WriteLog((L"Rollback: restoring " + backupPath + L" -> " + targetPath).c_str());
-                MovePathEntry(backupPath, targetPath);
+            for (const std::wstring& rel : moveList) {
+                std::wstring targetPath, backupPath;
+                if (!TryResolvePathUnderRoot(rootDir, rel, targetPath) ||
+                    !TryResolvePathUnderRoot(backupDir, rel, backupPath)) {
+                    continue;
+                }
+                if (PathExistsW(backupPath) && !PathExistsW(targetPath)) {
+                    WriteLog((L"Rollback: restoring " + backupPath + L" -> " + targetPath).c_str());
+                    MovePathEntry(backupPath, targetPath);
+                }
             }
         }
     } while (false);
