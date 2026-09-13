@@ -56,7 +56,7 @@ MaaAssistantArknights/MaaMacGui 프로젝트의 [README.md](https://github.com/M
    - 서드파티 라이브러리 직접 빌드 (오랜 시간이 소요됩니다)
 
      ```bash
-     git clone https://github.com/MaaAssistantArknights/MaaDeps
+     git clone --recurse-submodules https://github.com/MaaAssistantArknights/MaaDeps.git
      cd MaaDeps
      # 시스템 환경이 너무 낮아 사전 빌드된 llvm 20을 사용할 수 없는 경우, 크로스 컴파일을 사용하지 않고 로컬 컴파일 환경을 직접 사용해 보세요.
      # src/MaaUtils/MaaDeps/cmake의 toolchain 구성을 조정해야 합니다.

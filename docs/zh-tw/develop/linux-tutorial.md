@@ -56,7 +56,7 @@ Mac 使用者可以使用 `tools/build_macos_universal.zsh` 腳本進行編譯�
    - 自行建置第三方函式庫（耗時較長）
 
      ```bash
-     git clone https://github.com/MaaAssistantArknights/MaaDeps
+     git clone --recurse-submodules https://github.com/MaaAssistantArknights/MaaDeps.git
      cd MaaDeps
      # 若系統環境版本過低無法使用我們預設提供的 LLVM 20，請考慮不使用交叉編譯，直接使用在地編譯環境。
      # 需調整 src/MaaUtils/MaaDeps/cmake 中的 toolchain 設定。

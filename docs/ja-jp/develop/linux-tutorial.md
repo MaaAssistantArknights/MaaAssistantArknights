@@ -56,7 +56,7 @@ MaaAssistantArknights/MaaMacGui プロジェクトの [README.md](https://github
    - サードパーティ製ライブラリを自分でビルドする（時間がかかります）
 
      ```bash
-     git clone https://github.com/MaaAssistantArknights/MaaDeps
+     git clone --recurse-submodules https://github.com/MaaAssistantArknights/MaaDeps.git
      cd MaaDeps
      # システム環境が古すぎて事前構築の llvm 20 を使用できない場合は、クロスコンパイルを使わずローカルのビルド環境を使用することを検討してください。
      # src/MaaUtils/MaaDeps/cmake 内の toolchain 設定を調整する必要があります。

@@ -55,7 +55,7 @@ Mac can use the `tools/build_macos_universal.zsh` script for compilation. It's r
    - Build third-party libraries from scratch (will take considerable time)
 
      ```bash
-     git clone https://github.com/MaaAssistantArknights/MaaDeps
+     git clone --recurse-submodules https://github.com/MaaAssistantArknights/MaaDeps.git
      cd MaaDeps
      # If the system is too old to use our prebuilt llvm 20, please consider using local build enviroment instead of cross compiling.
      # The toolchain config under src/MaaUtils/MaaDeps/cmake needs to be modified.
