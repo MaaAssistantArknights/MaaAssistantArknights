@@ -5,7 +5,9 @@ icon: teenyicons:linux-alt-solid
 
 # Linux Compilation Tutorial
 
-**This tutorial requires readers to have some Linux environment configuration ability and programming foundation!** If you only want to directly install MAA instead of compiling it yourself, please read [User Manual - Linux Emulators and Containers](../manual/device/linux.md).
+::: warning
+**This tutorial requires readers to have some Linux environment configuration ability and programming foundation!** If you just want to run MAA instead of compiling it yourself, please read [User Manual - Linux Emulators and Containers](../manual/device/linux.md).
+:::
 
 ::: info Note
 MAA's build method is still under discussion. The content of this tutorial may be outdated. Please refer to the scripts in [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/workflows/ci.yml#L264#:~:text=ubuntu%3A).  
@@ -16,39 +18,44 @@ You can also refer to [AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree
 Mac can use the `tools/build_macos_universal.zsh` script for compilation. It's recommended to refer to the README.md of the [MaaAssistantArknights/MaaMacGui](https://github.com/MaaAssistantArknights/MaaMacGui) project.
 :::
 
-## Compilation Process
+## Compiling MaaCore
+
+:::: steps
 
 1. Download compilation dependencies
-   - Ubuntu/Debian
+   ::: code-tabs
+   @tab:active Ubuntu/Debian
 
-   ```bash
-   sudo apt install cmake
+   ```bash :no-line-numbers
+   sudo apt-get install cmake ninja-build
    ```
 
-   - Arch Linux
+   @tab Arch
 
-   ```bash
-   sudo pacman -S --needed cmake
+   ```bash :no-line-numbers
+   sudo pacman -S --needed cmake ninja
    ```
+
+   :::
 
 2. Build third-party libraries
 
-   You can choose to download pre-built dependency libraries or compile from scratch
-   - Download pre-built third-party libraries (recommended)
+   Choose one of the following methods:
 
-     > **Note**
-     > ~~Contains dynamic libraries compiled on relatively new Linux distributions (Ubuntu 22.04). If your system's libstdc++ version is older, you may encounter ABI incompatibility issues.~~
-     > After introducing cross compiling to lower the runtime requirement, only glibc 2.31 (aka. ubuntu 20.04) is required now.
+   - Download pre-built third-party libraries (recommended)
 
      ```bash
      python tools/maadeps-download.py
      ```
 
-   If you find the libraries downloaded above cannot run on your system due to ABI version issues and you don't want to use container solutions, you can also try compiling from scratch
+     ::: info
+     Pre-built third-party libraries are cross-compiled using the [MaaLinuxToolchain](https://github.com/MaaXYZ/MaaLinuxToolchain) toolchain and require glibc version as low as 2.31 (Ubuntu 20.04). If you still encounter ABI incompatibility issues, you can use a container or try building the third-party libraries from scratch.
+     :::
+
    - Build third-party libraries from scratch (will take considerable time)
 
      ```bash
-     git clone https://github.com/MaaAssistantArknights/MaaDeps
+     git clone --recurse-submodules https://github.com/MaaAssistantArknights/MaaDeps.git
      cd MaaDeps
      # If the system is too old to use our prebuilt llvm 20, please consider using local build enviroment instead of cross compiling.
      # The toolchain config under src/MaaUtils/MaaDeps/cmake needs to be modified.
@@ -59,35 +66,78 @@ Mac can use the `tools/build_macos_universal.zsh` script for compilation. It's r
 3. Compile MAA
 
    ```bash
-   cmake -B build \
-       -DINSTALL_RESOURCE=ON \
-       -DINSTALL_PYTHON=ON \
-       -DCMAKE_TOOLCHAIN_FILE=src/MaaUtils/MaaDeps/cmake/maa-x64-linux-toolchain.cmake
+   cmake --preset linux-x64 -DINSTALL_RESOURCE=ON -DINSTALL_PYTHON=ON
    cmake --build build
-   ```
-
-   To install MAA to target location, note that MAA is recommended to run by specifying `LD_LIBRARY_PATH`, don't use administrator privileges to install MAA into `/usr`
-
-   > Now it shall be able to run without specifying `LD_LIBRARY_PATH`
-
-   ```bash
    cmake --install build --prefix <target_directory>
    ```
 
-4. To debug MaaFwAdbController (MaaFwAdb touch mode) features, you need to [compile the Debug version of MaaFramework yourself](https://maafw.com/docs/4.1-BuildGuide) and put `libMaaAdbControlUnit.so` in the installation directory.
+   The first two commands generate `build/bin/Debug/libMaaCore.so` (and `libMaaUtils.so`), and the third command installs (i.e., copies) the build artifacts to the target directory.
 
-## Integration Documentation
+   ::: info About the CMake Options
+   `-DINSTALL_RESOURCE=ON` copies the `resource` directory to the installation directory. MaaCore requires the `resource` directory to run.
 
-[~~Perhaps not really documentation~~](../protocol/integration.md)
+   `-DINSTALL_PYTHON=ON` copies the Python integration (`src/Python`) to the installation directory. If you do not use it or plan to use it directly from the repository source code, you can omit this option.
+   :::
 
-### Python
+   ::: tip
+   It is recommended to run MAA by specifying the dynamic library path or `LD_LIBRARY_PATH`. Do not use root privileges to install MAA into `/usr`.
+   :::
 
-You can refer to the implementation of `__main__` in [Python demo](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Python/sample.py)
+4. Compile MaaFramework components
 
-### C++
+   To debug MaaFwAdbController (MaaFwAdb touch mode) features, you need to [compile the Debug version of MaaFramework yourself](https://maafw.com/docs/4.1-BuildGuide) and place `libMaaAdbControlUnit.so` in the installation directory.
 
-You can refer to the implementation in [CppSample](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Cpp/main.cpp)
+5. Run
 
-### C\#
+   Refer to programming language [APIs](../readme.md#api) and [Using Python](../manual/device/linux.md#using-python) on how to use the MAA dynamic library.
 
-You can refer to the implementation in [MaaWpfGui](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/MaaWpfGui/Main/AsstProxy.cs)
+::::
+
+## Compiling MaaWpfGui
+
+::: info Note
+MaaWpfGui is built for Windows. Wine is required to run MaaWpfGui on Linux. See [Using Wine](../manual/device/linux.md#using-wine) for details.
+:::
+
+:::: steps
+1. Prepare `MaaCore.dll`
+
+   MaaWpfGui depends on `MaaCore.dll` (and other DLLs it depends on). Currently, there is no way to cross-compile `MaaCore.dll` for Windows on Linux. While it is possible to copy these DLLs from MAA for Windows, mismatching version numbers will cause problems.
+
+   Therefore, the recommended approach is to compile MaaCore first according to the previous section (without installing), then compile [MaaWineBridge](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev-v2/src/MaaWineBridge), and place the resulting `MaaCore.dll` into the `build/bin/Debug` directory.
+
+2. Install .NET SDK
+
+   ::: code-tabs
+   @tab:active Ubuntu
+
+   ```bash
+   sudo apt install dotnet-sdk-10.0
+   ```
+
+   @tab Arch
+
+   ```bash
+   sudo pacman -S --needed dotnet-sdk
+   ```
+
+   :::
+
+   See also [Install .NET on Linux](https://learn.microsoft.com/en-us/dotnet/core/install/linux).
+
+3. Compile MaaWpfGui
+
+   Run in the repository root:
+
+   ```bash
+   dotnet build src/MaaWpfGui/MaaWpfGui.csproj -p:Platform=x64
+   ```
+
+   Dependencies will be downloaded automatically during the first build. This generates `build/bin/Debug/MAA.exe`.
+
+4. Run
+
+   ```bash
+   wine build/bin/Debug/MAA.exe
+   ```
+::::

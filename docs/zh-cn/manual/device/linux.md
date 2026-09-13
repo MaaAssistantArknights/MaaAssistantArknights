@@ -30,7 +30,7 @@ MAA WPF GUI 当前可以通过 Wine 运行。MAA 已采用自包含部署方式�
    ```
 
    ::: tip
-   `DependencySetup_依赖库安装.bat` 基于 winget 和 Windows 提权机制，通常无法在 Wine 中正常工作，因此需要手动安装运行库。
+   `DependencySetup_依赖库安装.bat` 基于 winget，通常无法在 Wine 中正常工作，因此需要手动安装运行库。
    :::
 
 2. 下载 MAA
@@ -75,18 +75,18 @@ MAA WPF GUI 当前可以通过 Wine 运行。MAA 已采用自包含部署方式�
 :::: steps
 
 1. 安装 MAA 动态库
-   1. 在 [MAA 官网](https://maa.plus/) 下载 Linux 动态库并解压，或从软件源安装：
-      - AUR：[maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)，按照安装后的提示编辑文件
-      - Nixpkgs: [maa-assistant-arknights](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
-   2. 进入解压后的 `Python/` 目录下打开 `sample.py` 文件
+
+   以下安装方式任选其一：
+   - 从 [MAA 官网](https://maa.plus/) 下载预编译的 Linux 动态库压缩包，解压后编辑 `Python/sample.py` 文件
+   - AUR：[maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)，按照安装后“Alternative usage”的提示编辑文件
+   - Nixpkgs: [maa-assistant-arknights](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
 
    ::: tip
-   预编译的版本包含在相对较新的 Linux 发行版 (Ubuntu 22.04) 中编译的动态库，如果您系统中的 libstdc++ 版本较老，可能遇到 ABI 不兼容的问题
-   可以参考 [Linux 编译教程](../../develop/linux-tutorial.md) 重新编译或使用容器运行
+   预编译动态库基于 [MaaLinuxToolchain](https://github.com/MaaXYZ/MaaLinuxToolchain) 工具链交叉编译，仅需要依赖 glibc 2.31（Ubuntu 20.04）。如果您仍遇到 ABI 不兼容的问题（例如非 glibc 发行版），可以使用容器运行，或参考 [Linux 编译教程](../../develop/linux-tutorial.md) 重新编译。
    :::
 
 2. ADB 配置
-   1. 找到 [`if asst.connect("adb.exe", "127.0.0.1:5555"):`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Python/sample.py#L71) 一栏
+   1. 在上一步打开的 `sample.py` 中找到 [`if asst.connect("adb.exe", "127.0.0.1:5555"):`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Python/sample.py#L71) 一行。
    2. ADB 工具调用
       - 如果模拟器使用 `Android Studio` 的 `avd` ，其自带 ADB 。可以直接在 `adb.exe` 一栏填写 ADB 路径，一般在 `$HOME/Android/Sdk/platform-tools/` 里面可以找到，例如：
 
@@ -99,7 +99,7 @@ MAA WPF GUI 当前可以通过 Wine 运行。MAA 已采用自包含部署方式�
    3. 模拟器 ADB 路径获取
       - 可以直接使用 ADB 工具： `$ adb路径 devices` ，例如：
 
-      ```shell
+      ```console
       $ /home/foo/Android/Sdk/platform-tools/adb devices
       List of devices attached
       emulator-5554 device
@@ -115,7 +115,7 @@ MAA WPF GUI 当前可以通过 Wine 运行。MAA 已采用自包含部署方式�
 
 3. 任务配置
 
-   自定义任务： 根据需要参考 [集成文档](../../protocol/integration.md) 对 `sample.py` 的 [`# 任务及参数请参考 docs/zh-cn/protocol/integration.md`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/Python/sample.py#L77) 一栏进行修改
+   参考 [集成文档 - 任务类型一览](../../protocol/integration.md#任务类型一览)，根据需要修改 `sample.py` 中的 `asst.append_task(…)` 函数调用。
 
 ::::
 
@@ -153,6 +153,10 @@ waydroid prop set persist.waydroid.height 720
 ```
 
 设置 ADB 的 IP 地址：打开 `设置` - `关于` - `IP地址` ，记录第一个 `IP` ，将 `${记录的IP}:5555` 填入`sample.py` 的 adb IP 一栏。
+
+游戏仅支持 ARM 架构，在 x64 架构上需要安装 arm64 转译层 libhoudini 或 libndk，参见 [waydroid_script](https://github.com/casualsnek/waydroid_script) 和 [Waydroid Helper](https://github.com/waydroid-helper/waydroid-helper)。
+
+Waydroid 没有 Minitouch 所必需的 `/dev/input/eventN`，无法使用 Minitouch，请切换至其他触控模式。
 
 ### ✅ [redroid](https://github.com/remote-android/redroid-doc)
 
