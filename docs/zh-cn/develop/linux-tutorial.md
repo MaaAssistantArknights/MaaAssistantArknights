@@ -28,13 +28,13 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译
    @tab:active Ubuntu/Debian
 
    ```bash :no-line-numbers
-   sudo apt install cmake
+   sudo apt-get install cmake ninja-build
    ```
 
    @tab Arch
 
    ```bash :no-line-numbers
-   sudo pacman -S --needed cmake
+   sudo pacman -S --needed cmake ninja
    ```
 
    :::

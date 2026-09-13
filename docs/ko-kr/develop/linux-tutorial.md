@@ -28,13 +28,13 @@ MaaAssistantArknights/MaaMacGui 프로젝트의 [README.md](https://github.com/M
    @tab:active Ubuntu/Debian
 
    ```bash :no-line-numbers
-   sudo apt install cmake
+   sudo apt-get install cmake ninja-build
    ```
 
    @tab Arch
 
    ```bash :no-line-numbers
-   sudo pacman -S --needed cmake
+   sudo pacman -S --needed cmake ninja
    ```
 
    :::
