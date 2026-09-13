@@ -1431,9 +1431,11 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="ResourceIntegrityRepairYes">Repair automatically (download the full package and restore after restart)</system:String>
     <system:String x:Key="ResourceIntegrityRepairNo">Not now, continue starting</system:String>
     <system:String x:Key="ResourceBrokenTaskBlocked">The resources are damaged, tasks cannot be started. Repair the resources as prompted at startup, or download the full package again and restart MAA.</system:String>
-    <system:String x:Key="ResourceIntegrityRepairDownloading">Downloading the full package to restore missing resource files…</system:String>
+    <system:String x:Key="ResourceIntegrityRepairDownloading">Downloading the full package to repair the installation…</system:String>
     <system:String x:Key="ResourceIntegrityRepairFailed">Automatic repair failed. Please follow the instructions below to fix it manually.\n\n{key=FullPackageUpgradeTips}</system:String>
-    <system:String x:Key="ResourceIntegrityRepairCanceled">Automatic repair canceled. You will be reminded about the missing files again on the next startup.</system:String>
+    <system:String x:Key="ResourceIntegrityRepairCanceled">Automatic repair canceled. You will be reminded again on the next startup.</system:String>
+    <system:String x:Key="ForcedFullPackageUpdateNotice">To repair the installation, the full package will be downloaded instead of an incremental update package.</system:String>
+    <system:String x:Key="OtaPackageRejectedByBrokenInstall">The installation may be incomplete (damaged resources or a previous update failure). OTA incremental packages cannot repair it; please use a full package instead.</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB File NOT existing</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB Download Failed</system:String>
     <system:String x:Key="AdbDeletionFailedMessage">Unable to delete directory, it may have been replaced or encountered other issues. Please check the logs for more information.</system:String>

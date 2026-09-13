@@ -387,6 +387,16 @@ internal static partial class PendingUpdateApplier
     }
 
     /// <summary>
+    /// 判断委托更新失败标志文件是否存在（只读检查，无副作用）。
+    /// 存在期间安装可能处于半更新状态，只允许完整包更新。
+    /// </summary>
+    /// <returns>失败标志文件存在时为 <c>true</c>。</returns>
+    public static bool HasDelegatedUpdateFailure()
+    {
+        return File.Exists(DelegatedUpdateFailureStatusFilePath);
+    }
+
+    /// <summary>
     /// 读取外部更新器写入的失败状态。标志文件只读不删：须跨启动持久保留
     /// （避免用户忽略提示后重启导致半更新状态无人提醒），直至完整包安装时随根目录清场、
     /// 或注册新更新包时（注册即代表用户已着手修复，旧失败原因失效）移除。
@@ -397,7 +407,7 @@ internal static partial class PendingUpdateApplier
     public static bool TryReadDelegatedUpdateFailure(out string? failureReason)
     {
         failureReason = null;
-        if (!File.Exists(DelegatedUpdateFailureStatusFilePath))
+        if (!HasDelegatedUpdateFailure())
         {
             return false;
         }

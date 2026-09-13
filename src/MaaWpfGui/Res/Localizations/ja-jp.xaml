@@ -1434,9 +1434,11 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ResourceIntegrityRepairYes">自動修復（完全パッケージをダウンロードし、再起動後に復元）</system:String>
     <system:String x:Key="ResourceIntegrityRepairNo">後で行う</system:String>
     <system:String x:Key="ResourceBrokenTaskBlocked">リソースが破損しているためタスクを開始できません。起動時の案内に従ってリソースを修復するか、完全なパッケージを再ダウンロードして MAA を再起動してください。</system:String>
-    <system:String x:Key="ResourceIntegrityRepairDownloading">欠落したリソースファイルを修復するため、完全パッケージをダウンロードしています…</system:String>
+    <system:String x:Key="ResourceIntegrityRepairDownloading">インストールを修復するため、完全パッケージをダウンロードしています…</system:String>
     <system:String x:Key="ResourceIntegrityRepairFailed">自動修復に失敗しました。表示された手順に従って手動で処理してください。\n\n{key=FullPackageUpgradeTips}</system:String>
-    <system:String x:Key="ResourceIntegrityRepairCanceled">自動修復をキャンセルしました。欠落ファイルについては次回起動時に再度通知されます。</system:String>
+    <system:String x:Key="ResourceIntegrityRepairCanceled">自動修復をキャンセルしました。次回起動時に再度通知されます。</system:String>
+    <system:String x:Key="ForcedFullPackageUpdateNotice">インストールを修復するため、増分更新パッケージではなく完全パッケージをダウンロードします。</system:String>
+    <system:String x:Key="OtaPackageRejectedByBrokenInstall">インストールが不完全な状態（リソース破損または前回の更新失敗）の可能性があるため、OTA 増分パッケージでは修復できません。完全パッケージを使用してください。</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADBファイルが存在しません</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADBのダウンロードに失敗しました</system:String>
     <system:String x:Key="AdbDeletionFailedMessage">ディレクトリを削除できません。既に置換されたか、他の問題が発生している可能性があります。詳細な情報はログをご確認ください。</system:String>

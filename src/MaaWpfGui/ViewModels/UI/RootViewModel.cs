@@ -135,8 +135,10 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
                 // 修复优先于常规更新检查，注册完成后会提示重启
                 _logger.Information("Integrity repair accepted by user, {Count} file(s) missing", missingFiles.Count);
                 var repairResult = await Instances.VersionUpdateDialogViewModel.RunIntegrityRepairAsync();
-                if (repairResult == Dialogs.VersionUpdateDialogViewModel.IntegrityRepairResult.Succeeded)
+                if (repairResult is Dialogs.VersionUpdateDialogViewModel.IntegrityRepairResult.Succeeded
+                    or Dialogs.VersionUpdateDialogViewModel.IntegrityRepairResult.AlreadyRunning)
                 {
+                    // AlreadyRunning 表示另一弹窗路径的修复仍在进行，由那条链路收尾，此处不叠加常规更新检查
                     return;
                 }
 
@@ -411,8 +413,10 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
 
         try
         {
+            // 强制完整包更新期间最常见的版本状态是当前版本即最新，用户从官网重下的同版本完整包是此期间的官方自救途径
+            bool forceFullPackageUpdate = Dialogs.VersionUpdateDialogViewModel.ShouldForceFullPackageUpdate;
             PendingUpdateApplier.PackageInspectionResult packageInspection =
-                PendingUpdateApplier.InspectLocalUpdatePackage(packagePath, currentVersion, architecture);
+                PendingUpdateApplier.InspectLocalUpdatePackage(packagePath, currentVersion, architecture, allowSameVersion: forceFullPackageUpdate);
 
 #if DEBUG
             // Debug 专用：Ctrl+Shift 拖入时只做检测判断，不实际注册，用于快速验证正则匹配
@@ -440,6 +444,19 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
                 }
 
                 ShowUnsupportedPackageWarning(packagePath, currentVersion, normalizedArchitecture);
+                return;
+            }
+
+            // 资源损坏/上次更新失败期间 OTA 增量只含差异文件，修不好残留的不一致文件，拖入入口同样只接受完整包
+            if (packageInspection.Status == PendingUpdateApplier.PackageInspectionStatus.OtaSupported
+                && forceFullPackageUpdate)
+            {
+                _logger.Information("Dropped OTA package rejected while installation is broken: {PackagePath}", packagePath);
+                MessageBoxHelper.Show(
+                    LocalizationHelper.GetString("OtaPackageRejectedByBrokenInstall"),
+                    LocalizationHelper.GetString("Warning"),
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
                 return;
             }
 
