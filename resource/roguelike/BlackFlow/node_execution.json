@@ -65,6 +65,15 @@
             "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
         },
         {
+            "id": "default_scrap_shop",
+            "page_intent": "default",
+            "node_types": ["scrap_shop"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Shop",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
             "id": "default_expedition",
             "page_intent": "default",
             "node_types": ["expedition"],
