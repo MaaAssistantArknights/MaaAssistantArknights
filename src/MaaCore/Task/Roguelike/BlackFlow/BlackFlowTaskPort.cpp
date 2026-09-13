@@ -371,7 +371,7 @@ MoveConfirmationStatus BlackFlowTaskPort::confirm(
     }
 
     entered_page = {};
-    if (transaction.preview()->identity_revealed) {
+    if (transaction.preview()->identity_revealed || transaction.preview()->displayed_type == NodeType::HideBattle) {
         return MoveConfirmationStatus::Succeeded;
     }
     return classify_entered_page(m_task_context->capture(), entered_page, error) ? MoveConfirmationStatus::Succeeded
