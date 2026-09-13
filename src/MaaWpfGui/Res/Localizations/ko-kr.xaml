@@ -1436,7 +1436,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ResourceIntegrityRepairDownloading">설치를 복구하기 위해 전체 패키지를 다운로드하는 중…</system:String>
     <system:String x:Key="ResourceIntegrityRepairFailed">자동 복구에 실패했습니다. 안내에 따라 수동으로 처리해 주세요.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityRepairCanceled">자동 복구가 취소되었습니다. 다음 시작 시 다시 알림이 표시됩니다.</system:String>
-    <system:String x:Key="ForcedFullPackageUpdateNotice">설치를 복구하기 위해 이번 업데이트에서는 전체 패키지를 다운로드합니다.</system:String>
+    <system:String x:Key="ForcedFullPackageUpdateNotice">설치를 복구하기 위해 증분 업데이트 패키지 대신 전체 패키지를 다운로드합니다.</system:String>
     <system:String x:Key="OtaPackageRejectedByBrokenInstall">설치가 불완전한 상태(리소스 손상 또는 이전 업데이트 실패)일 수 있어 OTA 증분 패키지로는 복구할 수 없습니다. 전체 패키지를 사용해 주세요.</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB 파일이 존재하지 않습니다</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 다운로드 실패</system:String>

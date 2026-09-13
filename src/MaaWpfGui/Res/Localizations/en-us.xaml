@@ -1434,7 +1434,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="ResourceIntegrityRepairDownloading">Downloading the full package to repair the installation…</system:String>
     <system:String x:Key="ResourceIntegrityRepairFailed">Automatic repair failed. Please follow the instructions below to fix it manually.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityRepairCanceled">Automatic repair canceled. You will be reminded again on the next startup.</system:String>
-    <system:String x:Key="ForcedFullPackageUpdateNotice">This update will download the full package to repair the installation.</system:String>
+    <system:String x:Key="ForcedFullPackageUpdateNotice">To repair the installation, the full package will be downloaded instead of an incremental update package.</system:String>
     <system:String x:Key="OtaPackageRejectedByBrokenInstall">The installation may be incomplete (damaged resources or a previous update failure). OTA incremental packages cannot repair it; please use a full package instead.</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB File NOT existing</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB Download Failed</system:String>

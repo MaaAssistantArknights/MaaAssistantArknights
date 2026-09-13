@@ -1434,7 +1434,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ResourceIntegrityRepairDownloading">正在下载完整包以修复安装…</system:String>
     <system:String x:Key="ResourceIntegrityRepairFailed">自动修复失败，请按提示手动处理。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityRepairCanceled">已取消自动修复，下次启动时仍会提醒</system:String>
-    <system:String x:Key="ForcedFullPackageUpdateNotice">为修复安装，本次更新将下载完整安装包</system:String>
+    <system:String x:Key="ForcedFullPackageUpdateNotice">为修复安装，将下载完整安装包而非增量更新包</system:String>
     <system:String x:Key="OtaPackageRejectedByBrokenInstall">当前安装可能处于不完整状态（资源损坏或上次更新失败），OTA 增量更新包无法修复，请改用完整安装包</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB 路径不存在</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 下载失败</system:String>
