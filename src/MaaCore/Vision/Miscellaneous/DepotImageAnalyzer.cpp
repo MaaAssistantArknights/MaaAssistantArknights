@@ -10,7 +10,19 @@
 #include "Vision/RegionOCRer.h"
 
 #include <algorithm>
+#include <exception>
 #include <numbers>
+
+namespace
+{
+constexpr int QuantityMaskWidth = 80;
+constexpr int QuantityMaskHeight = 50;
+
+bool is_depot_template_size_valid(const cv::Mat& templ)
+{
+    return templ.cols >= QuantityMaskWidth && templ.rows >= QuantityMaskHeight;
+}
+}
 
 bool asst::DepotImageAnalyzer::analyze()
 {
@@ -18,6 +30,7 @@ bool asst::DepotImageAnalyzer::analyze()
 
     m_all_items_roi.clear();
     m_result.clear();
+    m_invalid_template_ids.clear();
 
     if (m_cached_templs.empty()) {
         prepare_cached_templates();
@@ -48,11 +61,40 @@ void asst::DepotImageAnalyzer::prepare_cached_templates()
     LogTraceFunction;
 
     for (const auto& item_id : get_ordered_item_ids()) {
-        cv::Mat templ = TemplResource::get_instance().get_templ(item_id).clone();
-        m_template_mean_colors[item_id] = cv::mean(templ(get_center_rect(templ)));
-        // 抹去右下角 80x50 区域（防止影响匹配）
-        templ(cv::Rect { templ.cols - 80, templ.rows - 50, 80, 50 }) = cv::Scalar { 0, 0, 0 };
-        m_cached_templs[item_id] = std::move(templ);
+        try {
+            cv::Mat templ = TemplResource::get_instance().get_templ(item_id).clone();
+            if (templ.empty()) {
+                record_invalid_template(item_id);
+                continue;
+            }
+            if (!is_depot_template_size_valid(templ)) {
+                Log.error(__FUNCTION__, "templ is too small:", item_id, "size:", templ.cols, "x", templ.rows);
+                record_invalid_template(item_id);
+                continue;
+            }
+
+            const cv::Scalar mean_color = cv::mean(templ(get_center_rect(templ)));
+            // 抹去右下角 80x50 区域（防止影响匹配）
+            templ(
+                cv::Rect { templ.cols - QuantityMaskWidth,
+                           templ.rows - QuantityMaskHeight,
+                           QuantityMaskWidth,
+                           QuantityMaskHeight }) = cv::Scalar { 0, 0, 0 };
+            m_template_mean_colors[item_id] = mean_color;
+            m_cached_templs[item_id] = std::move(templ);
+        }
+        catch (const std::exception& e) {
+            Log.error(__FUNCTION__, "failed to prepare templ:", item_id, "error:", e.what());
+            record_invalid_template(item_id);
+        }
+    }
+}
+
+void asst::DepotImageAnalyzer::record_invalid_template(const std::string& item_id)
+{
+    if (std::find(m_invalid_template_ids.begin(), m_invalid_template_ids.end(), item_id) ==
+        m_invalid_template_ids.end()) {
+        m_invalid_template_ids.emplace_back(item_id);
     }
 }
 
@@ -323,7 +365,32 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
 {
     auto task_ptr = Task.get<MatchTaskInfo>("DepotQuantity");
     auto item_templ = TemplResource::get_instance().get_templ(item.item_id);
+    if (item_templ.empty()) {
+        record_invalid_template(item.item_id);
+        return 0;
+    }
     auto item_image = m_image_resized(make_rect<cv::Rect>(item.rect));
+    if (!is_depot_template_size_valid(item_templ) || item_templ.size() != item_image.size() ||
+        item_templ.type() != item_image.type()) {
+        Log.error(
+            __FUNCTION__,
+            "templ is incompatible:",
+            item.item_id,
+            "templ size:",
+            item_templ.cols,
+            "x",
+            item_templ.rows,
+            "item size:",
+            item_image.cols,
+            "x",
+            item_image.rows,
+            "templ type:",
+            item_templ.type(),
+            "item type:",
+            item_image.type());
+        record_invalid_template(item.item_id);
+        return 0;
+    }
     cv::Mat quotient;
     cv::divide(
         item_image + cv::Scalar { 1, 1, 1 }, // I've forgot why I should plus 1 here
