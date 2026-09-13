@@ -1921,7 +1921,7 @@ public class TaskQueueViewModel : Screen
         string errMsg = string.Empty;
         bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
 
-        if (!connected && SettingsViewModel.ConnectSettings.IsPCConnectConfig)
+        if (!connected && !SettingsViewModel.ConnectSettings.IsADBConnectConfig)
         {
             AddLog(errMsg, UiLogColor.Error);
             SetStopped();

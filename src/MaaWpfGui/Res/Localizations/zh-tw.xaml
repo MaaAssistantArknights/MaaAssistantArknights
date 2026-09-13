@@ -236,6 +236,7 @@
     <system:String x:Key="XYAZ">逍遙模擬器</system:String>
     <system:String x:Key="WSA">WSA 舊版本</system:String>
     <system:String x:Key="PC">明日方舟 PC 端（社群維護）</system:String>
+    <system:String x:Key="Linux">Linux</system:String>
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">相容模式</system:String>
     <system:String x:Key="SecondResolution">第二解析度</system:String>
@@ -586,7 +587,7 @@ D:\
     <system:String x:Key="MiniTouchMode">Minitouch（預設）</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch（實驗功能）</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input（不推薦使用）</system:String>
-    <system:String x:Key="MaaFwAdbTouchMode">MaaFwAdb（實驗功能）</system:String>
+    <system:String x:Key="MaaFwTouchMode">MaaFw（實驗功能）</system:String>
     <system:String x:Key="MumuExtrasTouchMode">MuMu 觸控增強（實驗功能）</system:String>
     <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input 僅用於相容系統版本過低的實體機裝置，能用其他模式時不要選擇。&#10;ADB Input 的滑動容易拖飛，為此滑動速度會設定得非常慢，且滑動距離與其他模式不同，需要精確控制座標的場景下無法使用。&#10;&#10;MaaFwAdb 不支援額外滑動，依賴額外滑動防止拖飛的頁面在該模式下會拖飛。&#10;額外滑動是主滑動結束後沿垂直方向追加一小段的 ｢剎車｣ 滑動（軌跡類似拐 90° 的 L 形），用於抵消列表慣性。</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
@@ -1816,6 +1817,23 @@ C:\leidian\LDPlayer9
 5. 在明日方舟設定中調小滑鼠指標比例，以減少對辨識區域的遮擋
 6. 遊戲解析度需為 16:9，推薦設定 1280x720 或 1920x1080</system:String>
     <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. 推薦滑鼠輸入方式使用 SendMsg-WindowPos，使用此方式可以很大程度解決 PC 端辨識錯誤和卡住的問題</system:String>
+    <system:String x:Key="LinuxScreencapMethod">截圖方式</system:String>
+    <system:String x:Key="LinuxInputMethod">輸入方式</system:String>
+    <system:String x:Key="LinuxTargetIsPC">目標為 PC 端</system:String>
+    <system:String x:Key="LinuxTargetIsPCTip" xml:space="preserve">未勾選：將目標視為 Android 模擬器。
+勾選：將目標視為明日方舟 PC 端。請閱讀 PC 端連線注意事項，其中關於支援程度、遊戲設定的部分同樣適用。</system:String>
+    <system:String x:Key="LinuxScreencapWlr">wlroots</system:String>
+    <system:String x:Key="LinuxScreencapPipeWire">PipeWire</system:String>
+    <system:String x:Key="LinuxInputWlr">wlroots</system:String>
+    <system:String x:Key="LinuxInputUInput">uinput</system:String>
+    <system:String x:Key="LinuxInputLibei">libei</system:String>
+    <system:String x:Key="LinuxWlrSocketPath">Wayland socket 路徑</system:String>
+    <system:String x:Key="LinuxPipeWireNodeId">PipeWire node ID</system:String>
+    <system:String x:Key="LinuxUInputPath">uinput 裝置路徑</system:String>
+    <system:String x:Key="LinuxUInputScreenWidth">uinput 螢幕寬度</system:String>
+    <system:String x:Key="LinuxUInputScreenHeight">高度</system:String>
+    <system:String x:Key="LinuxEisSocketPath">EIS socket 路徑</system:String>
+    <system:String x:Key="LinuxConnectFailed">連接失敗，請檢查截圖/輸入方式配置</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">截圖方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">滑鼠輸入</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">鍵盤輸入</system:String>

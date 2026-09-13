@@ -236,6 +236,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="XYAZ">MEmu</system:String>
     <system:String x:Key="WSA">Old version of WSA</system:String>
     <system:String x:Key="PC">Arknights PC Client (Community-maintained)</system:String>
+    <system:String x:Key="Linux">Linux</system:String>
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">Compatible Mode</system:String>
     <system:String x:Key="SecondResolution">2nd Resolution</system:String>
@@ -586,7 +587,7 @@ If you choose ｢{key=ManualRestart}｣ and start MAA manually later, ｢{key=Ru
     <system:String x:Key="MiniTouchMode">Minitouch (Default)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (Experimental)</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input (Deprecated)</system:String>
-    <system:String x:Key="MaaFwAdbTouchMode">MaaFwAdb (Experimental)</system:String>
+    <system:String x:Key="MaaFwTouchMode">MaaFw (Experimental)</system:String>
     <system:String x:Key="MumuExtrasTouchMode">MuMu Touch (Experimental)</system:String>
     <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input is only for physical devices running an older OS version. Do not use it if other modes work.&#10;ADB Input swipes tend to drift, so swipe speed is set very slow and swipe distances differ from other modes; it cannot be used in scenarios requiring precise coordinate control.&#10;&#10;MaaFwAdb does not support extra swipe, so pages that rely on extra swipe to prevent overshooting will overshoot in this mode.&#10;An extra swipe is a short "brake" swipe appended perpendicular to the end of the main swipe (tracing an L-shaped 90° turn) to counteract list inertia.</system:String>
     <system:String x:Key="AdditionCommand">Additional command arguments</system:String>
@@ -1815,6 +1816,23 @@ If you do need to use it, please ensure:
 5. Lower the mouse pointer scale in Arknights settings to reduce obstruction of recognition areas
 6. Game resolution must be 16:9; recommended settings: 1280x720 or 1920x1080</system:String>
     <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. We recommend using SendMsg-WindowPos as the mouse input method; it can greatly reduce recognition errors and freezing issues on the PC client</system:String>
+    <system:String x:Key="LinuxScreencapMethod">Screencap Method</system:String>
+    <system:String x:Key="LinuxInputMethod">Input Method</system:String>
+    <system:String x:Key="LinuxTargetIsPC">Target is PC Client</system:String>
+    <system:String x:Key="LinuxTargetIsPCTip" xml:space="preserve">Unchecked: Treat the target as an Android emulator.
+Checked: Treat the target as Arknights PC client. See notes in Arknights PC Client connection preset, where the parts on support status and game settings also apply.</system:String>
+    <system:String x:Key="LinuxScreencapWlr">wlroots</system:String>
+    <system:String x:Key="LinuxScreencapPipeWire">PipeWire</system:String>
+    <system:String x:Key="LinuxInputWlr">wlroots</system:String>
+    <system:String x:Key="LinuxInputUInput">uinput</system:String>
+    <system:String x:Key="LinuxInputLibei">libei</system:String>
+    <system:String x:Key="LinuxWlrSocketPath">Wayland Socket Path</system:String>
+    <system:String x:Key="LinuxPipeWireNodeId">PipeWire Node ID</system:String>
+    <system:String x:Key="LinuxUInputPath">uinput Device Path</system:String>
+    <system:String x:Key="LinuxUInputScreenWidth">uinput Screen Width</system:String>
+    <system:String x:Key="LinuxUInputScreenHeight">Height</system:String>
+    <system:String x:Key="LinuxEisSocketPath">EIS Socket Path</system:String>
+    <system:String x:Key="LinuxConnectFailed">Connection failed. Please check screencap/input method settings</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">Screencap Method</system:String>
     <system:String x:Key="AttachWindowMouseMethod">Mouse Input Method</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">Keyboard Input Method</system:String>

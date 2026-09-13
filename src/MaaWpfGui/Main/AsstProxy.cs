@@ -498,8 +498,9 @@ public class AsstProxy
             loaded &= LoadResIfExists(globalRes) && LoadResIfExists(globalCacheRes);
         }
 
-        // 使用窗口绑定模式时，额外加载 PC 平台差异资源
-        if (SettingsViewModel.ConnectSettings.IsPCConnectConfig)
+        // 连接目标为 PC 端时，额外加载 PC 平台差异资源
+        if (SettingsViewModel.ConnectSettings.IsPCConnectConfig ||
+            SettingsViewModel.ConnectSettings.ExtraConfig is LinuxExtra { TargetIsPC: true })
         {
             string pcPlatformRes = Path.Combine(mainRes, "platform_diff", "PC", "resource");
             loaded &= LoadResIfExists(pcPlatformRes);
@@ -2882,6 +2883,10 @@ public class AsstProxy
         {
             return AsstAttachWindowConnect(ref error);
         }
+        else if (SettingsViewModel.ConnectSettings.ConnectConfig == ConnectConfig.Linux)
+        {
+            return AsstLinuxConnect(ref error);
+        }
 
         return AsstAdbConnect(ref error);
     }
@@ -3047,6 +3052,43 @@ public class AsstProxy
     }
 
     /// <summary>
+    /// 通过 MaaFw 触控模式、MaaLinuxControlUnit 连接 Linux 窗口。
+    /// </summary>
+    /// <param name="error">具体的连接错误。</param>
+    /// <returns>是否成功。</returns>
+    private bool AsstLinuxConnect(ref string error)
+    {
+        _lastConnectionError = string.Empty;
+
+        // Linux 与 MaaFw 触控模式绑定，无法选择其他触控模式
+        AsstSetInstanceOption(InstanceOptionKey.TouchMode, "MaaFw");
+        if (SettingsViewModel.ConnectSettings.ExtraConfig is not LinuxExtra linuxExtra)
+        {
+            return false;
+        }
+        AsstSetConnectionExtras("MaaFw", linuxExtra.Config);
+
+        // adbPath 参数会被 Wine Bridge 转换，传入空字符串会转出 NULL，最终导致段错误
+        bool ret = AsstConnect(_handle, "unused parameter", string.Empty, linuxExtra.TargetIsPC ? "PC" : "General");
+        if (!ret)
+        {
+            // 等待回调完成以获取详细错误信息
+            System.Threading.Thread.Sleep(1000);
+
+            if (!string.IsNullOrEmpty(_lastConnectionError))
+            {
+                error = _lastConnectionError;
+            }
+            else
+            {
+                error = LocalizationHelper.GetString("LinuxConnectFailed");
+            }
+        }
+
+        return ret;
+    }
+
+    /// <summary>
     /// 通过 ADB 连接模拟器。
     /// </summary>
     /// <param name="error">具体的连接错误。</param>
@@ -3062,6 +3104,10 @@ public class AsstProxy
         else if (ConnectSettingsUserControlModel.Instance.ExtraConfig is LDPlayerExtra ldPlayer)
         {
             AsstSetConnectionExtrasLdPlayer(ldPlayer.Config);
+        }
+        else if (ConnectSettingsUserControlModel.Instance.TouchMode == TouchMode.MaaFw)
+        {
+            AsstSetConnectionExtras("MaaFw", """{"library_name":"MaaAdbControlUnit"}""");
         }
 
         switch (SettingsViewModel.ConnectSettings.ConnectConfig)

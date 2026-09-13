@@ -236,6 +236,7 @@
     <system:String x:Key="XYAZ">MEmu</system:String>
     <system:String x:Key="WSA">古いバージョンのWSA</system:String>
     <system:String x:Key="PC">アークナイツ PC クライアント（コミュニティ保守）</system:String>
+    <system:String x:Key="Linux">Linux</system:String>
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">互換モード</system:String>
     <system:String x:Key="SecondResolution">2番目の決議</system:String>
@@ -586,7 +587,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="MiniTouchMode">Minitouch (標準)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (実験機能)</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input (非推奨)</system:String>
-    <system:String x:Key="MaaFwAdbTouchMode">MaaFwAdb (実験機能)</system:String>
+    <system:String x:Key="MaaFwTouchMode">MaaFw (実験機能)</system:String>
     <system:String x:Key="MumuExtrasTouchMode">MuMu タッチ (実験機能)</system:String>
     <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input は、OS バージョンが古い物理デバイスのみに使用します。他のモードが使える場合は、ADB Input を選択しないでください。&#10;ADB Input のスワイプはズレやすいため、スワイプ速度が非常に遅く設定され、スワイプ距離も他のモードと異なります。正確な座標制御が必要な場面では使用できません。&#10;&#10;MaaFwAdb は追加スワイプに非対応のため、追加スワイプでドラッグの暴走を防いでいるページはこのモードで暴走します。&#10;追加スワイプとは、メインスワイプの終了後に垂直方向へ少し追加分の｢ブレーキ｣スワイプを行うもので（軌跡は 90° に曲がる L 字型）、リストの慣性を打ち消すために使用します。</system:String>
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
@@ -1818,6 +1819,23 @@ C:\leidian\LDPlayer9
 5. アークナイツ設定で マウスカーソルサイズ を小さくし、認識領域の隠れを軽減してください
 6. ゲーム解像度は 16:9 である必要があります。推奨設定：1280x720 または 1920x1080</system:String>
     <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. マウス入力方式には SendMsg-WindowPos の使用を推奨します。この方式により、PC クライアントでの認識エラーやフリーズの問題を大幅に軽減できます</system:String>
+    <system:String x:Key="LinuxScreencapMethod">スクリーンキャプチャ方式</system:String>
+    <system:String x:Key="LinuxInputMethod">入力方式</system:String>
+    <system:String x:Key="LinuxTargetIsPC">対象は PC クライアント</system:String>
+    <system:String x:Key="LinuxTargetIsPCTip" xml:space="preserve">未選択：対象を Android エミュレーターとして扱います。
+選択：対象をアークナイツ PC クライアントとして扱います。接続構成「アークナイツ PC クライアント」の注意事項を読み、サポート状況やゲーム設定に関する内容も確認してください。</system:String>
+    <system:String x:Key="LinuxScreencapWlr">wlroots</system:String>
+    <system:String x:Key="LinuxScreencapPipeWire">PipeWire</system:String>
+    <system:String x:Key="LinuxInputWlr">wlroots</system:String>
+    <system:String x:Key="LinuxInputUInput">uinput</system:String>
+    <system:String x:Key="LinuxInputLibei">libei</system:String>
+    <system:String x:Key="LinuxWlrSocketPath">Wayland socket パス</system:String>
+    <system:String x:Key="LinuxPipeWireNodeId">PipeWire node ID</system:String>
+    <system:String x:Key="LinuxUInputPath">uinput デバイスパス</system:String>
+    <system:String x:Key="LinuxUInputScreenWidth">uinput 画面幅</system:String>
+    <system:String x:Key="LinuxUInputScreenHeight">高さ</system:String>
+    <system:String x:Key="LinuxEisSocketPath">EIS socket パス</system:String>
+    <system:String x:Key="LinuxConnectFailed">接続に失敗しました。スクリーンキャプチャ/入力方式の設定を確認してください</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">スクリーンキャプチャ方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">マウス入力方式</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">キーボード入力方式</system:String>
