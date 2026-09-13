@@ -2102,9 +2102,11 @@ int wmain(int argc, wchar_t* argv[])
             bool isSourceFile = (sourceAttr != INVALID_FILE_ATTRIBUTES) &&
                                 !(sourceAttr & FILE_ATTRIBUTE_DIRECTORY);
 
-            // 确认源存在后才算真正开始动文件：源缺失导致的失败尚未改动安装，
-            // 不置位以免误写失败标志，让完好的安装被 GUI 误判为资源损坏
-            installationModified = true;
+            // 源存在（文件或目录）才会真正开始改动安装；源缺失（如被杀软隔离）的条目
+            // 最多创建空父目录即失败，不置位以免误写失败标志，让完好的安装被 GUI 误判为资源损坏
+            if (sourceAttr != INVALID_FILE_ATTRIBUTES) {
+                installationModified = true;
+            }
 
             if (isSourceFile) {
                 // Use atomic file replacement for individual files
