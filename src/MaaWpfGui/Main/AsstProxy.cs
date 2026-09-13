@@ -586,7 +586,7 @@ public class AsstProxy
     /// 检查当前选中的 GPU，在任务队列与日志中输出相关提示。
     /// </summary>
     /// <remarks>
-    /// 当 GPU 不受推荐（存在兼容性问题）或驱动版本过旧（超过两年）时，
+    /// 当 GPU 不受推荐（存在兼容性问题）、驱动版本过旧（超过两年）或驱动信息无法读取时，
     /// 会向任务队列写入警告级别的日志。
     /// 本方法在程序启动（Init）与每次开始运行时都会调用，
     /// 以保证提示在日志被清空后仍能重新显示，避免被自动运行刷掉。
@@ -625,6 +625,13 @@ public class AsstProxy
                 Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Warning);
                 _logger.Warning("Using GPU {0} with outdated driver {1} (release date: {2}, over {3} years old)", description, version, dateStr, driverAgeYears);
             }
+        }
+        else if (info is { DriverDate: null })
+        {
+            // DriverDate 缺失即版本与日期一并读不到（PnP 驱动属性查询失败），过旧检查无从进行，且该状态多为驱动安装异常
+            var message = LocalizationHelper.GetStringFormat("GpuDriverInfoUnavailableMessage", description);
+            Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Warning);
+            _logger.Warning("Using GPU {0} with unreadable driver info (DriverVersion/DriverDate unavailable)", description);
         }
     }
 
