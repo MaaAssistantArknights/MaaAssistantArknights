@@ -1431,9 +1431,11 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ResourceIntegrityRepairYes">自动修复（下载完整包并在重启后恢复）</system:String>
     <system:String x:Key="ResourceIntegrityRepairNo">暂不处理，继续启动</system:String>
     <system:String x:Key="ResourceBrokenTaskBlocked">资源损坏，无法开始任务。请按启动时的提示修复资源，或重新下载完整安装包后重启 MAA。</system:String>
-    <system:String x:Key="ResourceIntegrityRepairDownloading">正在下载完整包以修复缺失的资源文件…</system:String>
+    <system:String x:Key="ResourceIntegrityRepairDownloading">正在下载完整包以修复安装…</system:String>
     <system:String x:Key="ResourceIntegrityRepairFailed">自动修复失败，请按提示手动处理。\n\n{key=FullPackageUpgradeTips}</system:String>
-    <system:String x:Key="ResourceIntegrityRepairCanceled">已取消自动修复，缺失文件下次启动时仍会提醒</system:String>
+    <system:String x:Key="ResourceIntegrityRepairCanceled">已取消自动修复，下次启动时仍会提醒</system:String>
+    <system:String x:Key="ForcedFullPackageUpdateNotice">为修复安装，本次更新将下载完整安装包</system:String>
+    <system:String x:Key="OtaPackageRejectedByBrokenInstall">当前安装可能处于不完整状态（资源损坏或上次更新失败），OTA 增量更新包无法修复，请改用完整安装包</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB 路径不存在</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 下载失败</system:String>
     <system:String x:Key="AdbDeletionFailedMessage">无法删除目录，可能已被替换或发生了其他问题。请检查日志获取更多信息。</system:String>
