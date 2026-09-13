@@ -456,6 +456,40 @@
         "postDelay": 800,
         "next": ["#self", "Stop"]
     },
+    "Roguelike@ChooseDifficulty_SwipeDownStep": {
+        "doc": "用于 RoguelikeDifficultySelectionTaskPlugin，小步幅下滑约一级难度",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 500,
+        "specificRect": [600, 320, 100, 60],
+        "rectMove": [600, 420, 100, 60],
+        "specialParams": [300]
+    },
+    "Roguelike@ChooseDifficulty_SwipeUpStep": {
+        "doc": "用于 RoguelikeDifficultySelectionTaskPlugin，小步幅上滑约一级难度",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 500,
+        "specificRect": [600, 420, 100, 60],
+        "rectMove": [600, 320, 100, 60],
+        "specialParams": [300]
+    },
+    "Roguelike@ChooseDifficulty_ClickSpecified": {
+        "doc": "用于 RoguelikeDifficultySelectionTaskPlugin，在完整难度列表中查找目标难度（由插件运行时设置 required 并点击）",
+        "baseTask": "NumberOcrReplace",
+        "ocrReplaceDoc": "修正 OCR 常见误识别：字母 O/I/L/B 与数字 0/1/8 混同、竖线识别为 1、忽略多余小数点与空格",
+        "ocrReplace": [
+            ["[Oo]", "0"],
+            ["[IiLl]", "1"],
+            ["\\|", "1"],
+            ["B", "8"],
+            ["\\.", ""],
+            [" ", ""]
+        ],
+        "roi": [380, 100, 250, 560],
+        "fullMatch": true,
+        "action": "DoNothing"
+    },
     "Roguelike@ChooseOper": {
         "Doc": "本任务注册了插件 RoguelikeRecruitTaskPlugin",
         "algorithm": "JustReturn"
