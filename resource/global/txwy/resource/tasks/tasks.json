@@ -1073,6 +1073,12 @@
     "InfrastTrainingIdle": {
         "text": ["空閒中"]
     },
+    "InfrastTrainingMasteryPage": {
+        "text": ["協助者"]
+    },
+    "InfrastTrainingMasterybusy": {
+        "text": ["訓練中"]
+    },
     "InfrastTrainingProcessing": {
         "text": ["進度"]
     },
@@ -1482,5 +1488,33 @@
     },
     "YellowTicket@Store@Purchase": {
         "text": ["購買物品"]
+    },
+    "RedTicket@Store@ChooseTicketType": {
+        "text": ["採購憑證區"]
+    },
+    "RedTicket@Store@ChooseTicketTypeSelected": {
+        "text": ["採購憑證區"]
+    },
+    "RedTicket@Store@Purchase": {
+        "text": ["購買物品"]
+    },
+    "AutoRaise@OperBoxRoleFiltered": {
+        "ocrReplace": [
+            ["衛師", "術師"],
+            ["狙(擎|犟|搫)", "狙擊"],
+            ["輔.*助", "輔助"]
+        ],
+        "text": ["先鋒", "近衛", "重裝", "狙擊", "術師", "醫療", "輔助", "特種"]
+    },
+    "AutoRaise@OperBoxRoleFilteredOpen": {
+        "ocrReplace": [
+            ["衛師", "術師"],
+            ["狙(擎|犟|搫)", "狙擊"],
+            ["輔.*助", "輔助"]
+        ],
+        "text": ["先鋒", "近衛", "重裝", "狙擊", "術師", "醫療", "輔助", "特種"]
+    },
+    "AutoRaise@OperBoxSortTabs": {
+        "text": ["等級", "稀有度", "獲取時間"]
     }
 }

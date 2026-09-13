@@ -1547,6 +1547,7 @@ ScoreResult select_dorm(const std::vector<ScoreOper>& opers, const ScoreContext&
                 }
             }
         }
+
         return { std::move(result), 0 };
     }
 
@@ -1715,7 +1716,233 @@ ScoreResult select_dorm(const std::vector<ScoreOper>& opers, const ScoreContext&
     }
     return { std::move(result), 0 };
 }
+
+double training_score_impl(const ScoreOper& oper, battle::Role trainee_role, int target_level)
+{
+    // 训练室导师技能按参考实现迁移：职业匹配、通用加成和目标等级专属加成叠加。
+    // 训练室一次只启动一级专精，target_level 始终表示本次要启动的下一级。
+    if (oper.mood_ratio * 24.0 < 16.0) {
+        return -1.0;
+    }
+
+    double score = 0.0;
+    for (const auto& icon : oper.skills) {
+        if (icon == "bskill_train_vanguard1" && trainee_role == battle::Role::Pioneer) {
+            score += 0.3;
+        }
+        else if (icon == "bskill_train_vanguard2" && trainee_role == battle::Role::Pioneer) {
+            score += 0.5;
+        }
+        else if (icon == "bskill_train_vanguard3" && trainee_role == battle::Role::Pioneer) {
+            score += 0.6;
+        }
+        else if (icon == "bskill_train1_vanguard1" && trainee_role == battle::Role::Pioneer) {
+            score += 0.3 + (target_level == 1 ? 0.45 : 0.0);
+        }
+        else if (icon == "bskill_train_spd&profession2" && trainee_role == battle::Role::Pioneer) {
+            score += 0.3;
+        }
+        else if (icon == "bskill_train_specialist&pioneer1" &&
+                 (trainee_role == battle::Role::Pioneer || trainee_role == battle::Role::Special)) {
+            score += 0.3;
+        }
+        else if (icon == "bskill_train2_specialist&pioneer1" &&
+                 (trainee_role == battle::Role::Pioneer || trainee_role == battle::Role::Special)) {
+            score += 0.45;
+        }
+        else if (icon == "bskill_train_all") {
+            score += 0.25;
+        }
+        else if (icon == "bskill_train_reducetime" && target_level < 3) {
+            score += 0.7;
+        }
+        else if (icon == "bskill_train_spd&level" && target_level == 3) {
+            score += 0.7;
+        }
+        else if (icon == "bskill_train_fighter" && trainee_role == battle::Role::Warrior) {
+            score += 0.3;
+        }
+        else if (icon == "bskill_train_vanguard&sniper" &&
+                 (trainee_role == battle::Role::Warrior || trainee_role == battle::Role::Sniper)) {
+            score += 0.3;
+        }
+        else if (icon == "bskill_train_caster&vanguard1" &&
+                 (trainee_role == battle::Role::Warrior || trainee_role == battle::Role::Caster)) {
+            score += 0.3;
+        }
+        else if (icon == "bskill_train_caster&vanguard2" &&
+                 (trainee_role == battle::Role::Warrior || trainee_role == battle::Role::Caster)) {
+            score += 0.45;
+        }
+        else if (icon == "bskill_train_lord" && trainee_role == battle::Role::Warrior) {
+            score += 0.3;
+        }
+        else if (icon == "bskill_train_guard1" && trainee_role == battle::Role::Warrior) {
+            score += 0.3;
+        }
+        else if (icon == "bskill_train_guard2" && trainee_role == battle::Role::Warrior) {
+            score += 0.5;
+        }
+        else if (icon == "bskill_train_guard3" && trainee_role == battle::Role::Warrior) {
+            score += 0.6;
+        }
+        else if (icon == "bskill_train3_guard1" && trainee_role == battle::Role::Warrior) {
+            score += 0.3 + (target_level == 3 ? 0.45 : 0.0);
+        }
+        else if (icon == "bskill_train3_guard2" && trainee_role == battle::Role::Warrior) {
+            score += 0.3 + (target_level == 3 ? 0.65 : 0.0);
+        }
+        else if (icon == "bskill_train2_guard1" && trainee_role == battle::Role::Warrior) {
+            score += 0.3 + (target_level == 2 ? 0.45 : 0.0);
+        }
+        else if (icon == "bskill_train1_guard1" && trainee_role == battle::Role::Warrior) {
+            score += 0.3 + (target_level == 1 ? 0.45 : 0.0);
+        }
+        else if (icon == "bskill_train_caster&medic1" &&
+                 (trainee_role == battle::Role::Medic || trainee_role == battle::Role::Caster)) {
+            score += 0.3;
+        }
+        else if (icon == "bskill_train_caster&medic2" &&
+                 (trainee_role == battle::Role::Medic || trainee_role == battle::Role::Caster)) {
+            score += 0.45;
+        }
+        else if (icon == "bskill_train_medic1" && trainee_role == battle::Role::Medic) {
+            score += 0.3;
+        }
+        else if (icon == "bskill_train_wandermedic" && trainee_role == battle::Role::Medic) {
+            score += 0.3;
+        }
+        else if (icon == "bskill_train_medic2" && trainee_role == battle::Role::Medic) {
+            score += 0.5;
+        }
+        else if (icon == "bskill_train_medic3" && trainee_role == battle::Role::Medic) {
+            score += 0.6;
+        }
+        else if (icon == "bskill_train2_medic1" && trainee_role == battle::Role::Medic) {
+            score += 0.3 + (target_level == 2 ? 0.45 : 0.0);
+        }
+        else if (icon == "bskill_train_defender1" && trainee_role == battle::Role::Tank) {
+            score += 0.3;
+        }
+        else if (icon == "bskill_train_defender2" && trainee_role == battle::Role::Tank) {
+            score += 0.5;
+        }
+        else if (icon == "bskill_train_defender3" && trainee_role == battle::Role::Tank) {
+            score += 0.6;
+        }
+        else if (icon == "bskill_train2_defender1" && trainee_role == battle::Role::Tank) {
+            score += 0.3 + (target_level == 2 ? 0.45 : 0.0);
+        }
+        else if (icon == "bskill_train_artsprotector" && trainee_role == battle::Role::Tank) {
+            score += 0.3;
+        }
+        else if (icon == "bskill_train1_defender1" && trainee_role == battle::Role::Tank) {
+            score += 0.3 + (target_level == 1 ? 0.45 : 0.0);
+        }
+        else if (icon == "bskill_train_caster1" && trainee_role == battle::Role::Caster) {
+            score += 0.3;
+        }
+        else if (icon == "bskill_train_caster2" && trainee_role == battle::Role::Caster) {
+            score += 0.5;
+        }
+        else if (icon == "bskill_train_caster3" && trainee_role == battle::Role::Caster) {
+            score += 0.6;
+        }
+        else if (icon == "bskill_train1_caster1" && trainee_role == battle::Role::Caster) {
+            score += 0.3 + (target_level == 1 ? 0.45 : 0.0);
+        }
+        else if (icon == "bskill_train2_caster1" && trainee_role == battle::Role::Caster) {
+            score += 0.3 + (target_level == 2 ? 0.45 : 0.0);
+        }
+        else if (icon == "bskill_train3_caster2" && trainee_role == battle::Role::Caster) {
+            score += 0.3 + (target_level == 3 ? 0.65 : 0.0);
+        }
+        else if (icon == "bskill_train_caster&supporter1" &&
+                 (trainee_role == battle::Role::Support || trainee_role == battle::Role::Caster)) {
+            score += 0.3;
+        }
+        else if (icon == "bskill_train_supporter1" && trainee_role == battle::Role::Support) {
+            score += 0.3;
+        }
+        else if (icon == "bskill_train_supporter2" && trainee_role == battle::Role::Support) {
+            score += 0.5;
+        }
+        else if (icon == "bskill_train_supporter3" && trainee_role == battle::Role::Support) {
+            score += 0.6;
+        }
+        else if (icon == "bskill_train3_supporter2" && trainee_role == battle::Role::Support) {
+            score += 0.3 + (target_level == 3 ? 0.65 : 0.0);
+        }
+        else if (icon == "bskill_train_siegesniper" && trainee_role == battle::Role::Sniper) {
+            score += 0.3;
+        }
+        else if (icon == "bskill_train_sniper1" && trainee_role == battle::Role::Sniper) {
+            score += 0.3;
+        }
+        else if (icon == "bskill_train_sniper2" && trainee_role == battle::Role::Sniper) {
+            score += 0.5;
+        }
+        else if (icon == "bskill_train_sniper3" && trainee_role == battle::Role::Sniper) {
+            score += 0.6;
+        }
+        else if (icon == "bskill_train3_sniper1" && trainee_role == battle::Role::Sniper) {
+            score += 0.3 + (target_level == 3 ? 0.45 : 0.0);
+        }
+        else if (icon == "bskill_train2_sniper1" && trainee_role == battle::Role::Sniper) {
+            score += 0.3 + (target_level == 2 ? 0.45 : 0.0);
+        }
+        else if (icon == "bskill_train3_sniper2" && trainee_role == battle::Role::Sniper) {
+            score += 0.3 + (target_level == 3 ? 0.65 : 0.0);
+        }
+        else if (icon == "bskill_train1_sniper2" && trainee_role == battle::Role::Sniper) {
+            score += 0.3 + (target_level == 1 ? 0.65 : 0.0);
+        }
+        else if (icon == "bskill_train_specialist1" && trainee_role == battle::Role::Special) {
+            score += 0.3;
+        }
+        else if (icon == "bskill_train_specialist2" && trainee_role == battle::Role::Special) {
+            score += 0.5;
+        }
+        else if (icon == "bskill_train_specialist3" && trainee_role == battle::Role::Special) {
+            score += 0.6;
+        }
+        else if (icon == "bskill_train1_specialist1" && trainee_role == battle::Role::Special) {
+            score += 0.3 + (target_level == 1 ? 0.45 : 0.0);
+        }
+        else if (icon == "bskill_train3_specialist2" && trainee_role == battle::Role::Special) {
+            score += 0.3 + (target_level == 3 ? 0.65 : 0.0);
+        }
+    }
+    return score;
+}
+
+ScoreResult select_training_impl(const std::vector<ScoreOper>& opers, const ScoreContext& context)
+{
+    if (context.slots <= 0) {
+        return { {}, 0.0 };
+    }
+    std::optional<size_t> best;
+    double best_score = -1.0;
+    for (size_t index = 0; index < opers.size(); ++index) {
+        const auto score = training_score_impl(opers[index], context.training_role, context.training_level);
+        if (score >= 0.0 && (!best || score > best_score)) {
+            best = index;
+            best_score = score;
+        }
+    }
+    return best ? ScoreResult { { *best }, best_score } : ScoreResult { {}, -1.0 };
+}
 } // namespace
+
+double training_score(const ScoreOper& oper, battle::Role trainee_role, int target_level)
+{
+    return training_score_impl(oper, trainee_role, target_level);
+}
+
+ScoreResult select_training(const std::vector<ScoreOper>& opers, const ScoreContext& context)
+{
+    return select_training_impl(opers, context);
+}
 
 const std::array<AbyssalHunterCandidate, 4>& get_abyssal_hunter_candidates()
 {
@@ -1775,6 +2002,9 @@ ScoreResult select_best_opers(const std::vector<ScoreOper>& opers, const ScoreCo
     }
     if (context.facility == "Control") {
         return select_control(opers, context);
+    }
+    if (context.facility == "Training") {
+        return select_training(opers, context);
     }
     if (context.facility == "Dorm") {
         return select_dorm(opers, context);

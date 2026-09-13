@@ -3980,6 +3980,26 @@
         "text": ["空闲中"],
         "roi": [346, 626, 161, 52]
     },
+    "InfrastTrainingMasteryPage": {
+        "algorithm": "OcrDetect",
+        "text": ["协助者"],
+        "roi": [82, 364, 163, 45],
+        "maxTimes": 20,
+        "doc": "检测到说明在训练选人界面"
+    },
+    "InfrastTrainingMasterybusy": {
+        "algorithm": "OcrDetect",
+        "text": ["训练中"],
+        "roi": [163, 290, 150, 42],
+        "doc": "专精选人界面的训练中状态"
+    },
+    "InfrastTrainingSelectTrainee": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "doc": "无论有没有干员在训练都点击进行选择",
+        "specificRect": [145, 148, 142, 122],
+        "postDelay": 800
+    },
     "InfrastTrainingProcessing": {
         "baseTask": "InfrastTrainingIdle",
         "text": ["进度"]
@@ -3990,6 +4010,12 @@
         "action": "ClickSelf",
         "postDelay": 1000,
         "next": ["CloseTaskAward"]
+    },
+    "InfrastTrainingCompleted2": {
+        "action": "ClickSelf",
+        "roi": [1087, 779, 226, 174],
+        "postDelay": 600,
+        "next": ["InfrastTrainingMasteryPage", "InfrastTrainingCompleted2"]
     },
     "InfrastTrainingOperatorAndSkill": {
         "algorithm": "OcrDetect",
@@ -4049,7 +4075,7 @@
         "action": "ClickSelf",
         "roi": [1000, 550, 280, 150],
         "postDelay": 1000,
-        "next": ["InfrastTrainingLocked"]
+        "next": ["InfrastTrainingLocked", "InfrastTrainingMasterybusy"]
     },
     "InfrastTrainingLocked": {
         "roi": [890, 10, 200, 200]
@@ -5504,7 +5530,7 @@
         "action": "ClickRect",
         "cache": true,
         "roi": [1000, 117, 115, 60],
-        "specificRect": [1026, 180, 193, 487]
+        "specificRect": [1051, 222, 143, 241]
     },
     "ConfirmProductChange": {
         "action": "ClickSelf",
@@ -5512,6 +5538,12 @@
         "cache": true,
         "roi": [890, 540, 120, 120],
         "next": ["ProductFinalConfirm", "Stop"]
+    },
+    "ClickProductIncrease": {
+        "action": "ClickSelf",
+        "cache": true,
+        "roi": [823, 178, 90, 51],
+        "postDelay": 200
     },
     "ClickProductMax": {
         "action": "ClickSelf",
@@ -5571,6 +5603,54 @@
         "exceededNext": ["ClickProductMax"],
         "preDelay": 500,
         "Doc": "加前延时等动画结束再执行点击"
+    },
+    "ChooseChipTab": {
+        "action": "ClickSelf",
+        "cache": true,
+        "roi": [0, 234, 162, 170],
+        "maxTimes": 3,
+        "postDelay": 500,
+        "next": ["ChooseChipTabSelected", "#self"],
+        "exceededNext": ["ChooseChipTabSelected"]
+    },
+    "ChooseChipTabSelected": {
+        "cache": true,
+        "roi": [0, 234, 162, 170],
+        "maxTimes": 3,
+        "preDelay": 200
+    },
+    "ChooseDualchip-Pioneer": {
+        "action": "ClickSelf",
+        "roi": [210, 43, 239, 174],
+        "postDelay": 1500
+    },
+    "ChooseDualchip-Warrior": {
+        "baseTask": "ChooseDualchip-Pioneer",
+        "roi": [705, 45, 239, 174]
+    },
+    "ChooseDualchip-Tank": {
+        "baseTask": "ChooseDualchip-Pioneer",
+        "roi": [211, 224, 239, 174]
+    },
+    "ChooseDualchip-Sniper": {
+        "baseTask": "ChooseDualchip-Pioneer",
+        "roi": [705, 222, 239, 174]
+    },
+    "ChooseDualchip-Caster": {
+        "baseTask": "ChooseDualchip-Pioneer",
+        "roi": [210, 404, 239, 174]
+    },
+    "ChooseDualchip-Medic": {
+        "baseTask": "ChooseDualchip-Pioneer",
+        "roi": [705, 405, 239, 174]
+    },
+    "ChooseDualchip-Support": {
+        "baseTask": "ChooseDualchip-Pioneer",
+        "roi": [211, 588, 239, 132]
+    },
+    "ChooseDualchip-Special": {
+        "baseTask": "ChooseDualchip-Pioneer",
+        "roi": [704, 586, 239, 134]
     },
     "ChangeProductToMiddleBattleRecord": {
         "action": "ClickRect",
@@ -5706,7 +5786,26 @@
     "Store@Begin": {
         "doc": "绿票、黄票商店",
         "algorithm": "JustReturn",
-        "next": ["Store@EnterStore", "Store@EnterTicketStore"]
+        "next": ["Store@EnterStore", "Store@EnterTicketStore", "Store@QuickSwitchEnterStore"]
+    },
+    "Store@QuickSwitchEnterStore": {
+        "baseTask": "QuickSwitch@ToMall",
+        "next": ["Store@QuickSwitch@ToMall@Entry", "Store@QuickSwitch@ToMall@Open"]
+    },
+    "Store@QuickSwitch@ToMall@Entry": {
+        "template": "QuickSwitch/Mall.png",
+        "next": [
+            "Store@QuickSwitch@ToMall@Entry",
+            "QuickSwitch@Confirm",
+            "LoadingText",
+            "LoadingIcon",
+            "Store@EnterTicketStore",
+            "#back"
+        ]
+    },
+    "Store@QuickSwitch@ToMall@Open": {
+        "template": "QuickSwitch/Menu.png",
+        "next": ["Store@QuickSwitch@ToMall@Entry", "Store@QuickSwitch@ToMall@Open"]
     },
     "Store@EnterStore": {
         "baseTask": "Mall",
@@ -5724,6 +5823,11 @@
     "Store@ChooseTicketType": {
         "algorithm": "JustReturn",
         "doc": "base_task"
+    },
+    "Store@Increase": {
+        "roi": [955, 400, 77, 66],
+        "action": "ClickSelf",
+        "postDelay": 200
     },
     "Store@ChooseMaxAmount": {
         "algorithm": "OcrDetect",
@@ -5966,5 +6070,676 @@
             "YellowTicket@Store@ClickItem_Ten-roll_Headhunting_Permit",
             "Stop"
         ]
+    },
+    "RedTicket@Store@ChooseTicketType": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["采购凭证区"],
+        "roi": [49, 451, 176, 78],
+        "postDelay": 1000,
+        "maxTimes": 10,
+        "next": ["RedTicket@Store@EnterTicketStore@FirstGood", "RedTicket@Store@ChooseTicketType"]
+    },
+    "RedTicket@Store@ChooseTicketTypeSelected": {
+        "algorithm": "OcrDetect",
+        "text": ["采购凭证区"],
+        "roi": [49, 451, 176, 78],
+        "postDelay": 800
+    },
+    "RedTicket@Store@EnterTicketStore@FirstGood": {
+        "roi": [244, 134, 55, 66]
+    },
+    "RedTicket@Store@ClickItem_Catalyst": {
+        "algorithm": "FeatureMatch",
+        "template": "items/32001.png",
+        "detector": "BRISK",
+        "count": 20,
+        "action": "ClickSelf",
+        "roi": [318, 139, 956, 484],
+        "postDelay": 800
+    },
+    "RedTicket@Store@Swipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 1500,
+        "specificRect": [957, 355, 20, 20],
+        "rectMove": [286, 355, 20, 20],
+        "specialParams": [400, 1, 2, 0],
+        "maxTimes": 20
+    },
+    "RedTicket@Store@Purchase": {
+        "roi": [872, 556, 137, 48],
+        "text": ["购买物品"],
+        "next": ["RedTicket@Store@PurchasedConfirm"]
+    },
+    "RedTicket@Store@PurchasedConfirm": {
+        "baseTask": "CreditShop-Bought",
+        "template": "CreditShop-Bought.png",
+        "maxTimes": 10,
+        "next": ["RedTicket@Store@ChooseTicketTypeSelected", "RedTicket@Store@PurchasedConfirm"]
+    },
+    "AutoRaise@OperFiles": {
+        "baseTask": "OperOpenInformationMenu",
+        "template": "OperInformationMenu.png",
+        "maxTimes": 20,
+        "preDelay": 1000,
+        "doc": "国际版官方名称OperFiles，以上面的进入信息档案按钮作为标志",
+        "action": "DoNothing",
+        "next": []
+    },
+    "AutoRaise@CurrentElite0": {
+        "template": "OperFilesElite0.png",
+        "roi": [866, 235, 119, 88]
+    },
+    "AutoRaise@CurrentElite1": {
+        "baseTask": "AutoRaise@CurrentElite0",
+        "template": "OperFilesElite1.png"
+    },
+    "AutoRaise@CurrentElite2": {
+        "baseTask": "AutoRaise@CurrentElite0",
+        "template": "OperFilesElite2.png"
+    },
+    "AutoRaise@CurrentSkillLevel": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [1215, 359, 14, 22]
+    },
+    "AutoRaise@CurrentSkill1MasterLevel": {
+        "template": [
+            "OperFilesSkillMaster0.png",
+            "OperFilesSkillMaster1.png",
+            "OperFilesSkillMaster2.png",
+            "OperFilesSkillMaster3.png"
+        ],
+        "roi": [880, 333, 28, 24]
+    },
+    "AutoRaise@CurrentSkill2MasterLevel": {
+        "template": [
+            "OperFilesSkillMaster0.png",
+            "OperFilesSkillMaster1.png",
+            "OperFilesSkillMaster2.png",
+            "OperFilesSkillMaster3.png"
+        ],
+        "roi": [968, 332, 28, 25]
+    },
+    "AutoRaise@CurrentSkill3MasterLevel": {
+        "template": [
+            "OperFilesSkillMaster0.png",
+            "OperFilesSkillMaster1.png",
+            "OperFilesSkillMaster2.png",
+            "OperFilesSkillMaster3.png"
+        ],
+        "roi": [1057, 332, 27, 25]
+    },
+    "AutoRaise@LevelUp": {
+        "algorithm": "JustReturn",
+        "next": ["AutoRaise@LevelMax", "AutoRaise@LevelUpPageEnter"]
+    },
+    "AutoRaise@LevelMax": {
+        "template": "OperFilesLevelMax.png",
+        "doc": "暂时采用经验-/-作为满级标志",
+        "roi": [974, 111, 76, 64]
+    },
+    "AutoRaise@LevelUpPageEnter": {
+        "template": "OperFilesEnterLevelUpButton.png",
+        "action": "ClickSelf",
+        "roi": [1147, 109, 103, 70],
+        "postDelay": 500,
+        "next": ["AutoRaise@LevelUpPageSelectMax", "AutoRaise@CannotEnterLevelUpPage"]
+    },
+    "AutoRaise@LevelUpPageSelectMax": {
+        "template": "LevelUpPageSelectMax.png",
+        "action": "ClickSelf",
+        "roi": [1035, 117, 171, 127],
+        "postDelay": 1000,
+        "next": ["AutoRaise@LevelUpPageConfirm"]
+    },
+    "AutoRaise@LevelUpPageConfirm": {
+        "template": "LevelUpPageConfirm.png",
+        "action": "ClickSelf",
+        "roi": [1071, 425, 209, 134],
+        "postDelay": 800,
+        "next": ["AutoRaise@LevelUpPageConfirm2", "AutoRaise@OperFiles"]
+    },
+    "AutoRaise@LevelUpPageConfirm2": {
+        "template": "LevelUpPageConfirm2.png",
+        "action": "ClickSelf",
+        "roi": [1041, 533, 162, 143],
+        "postDelay": 2000,
+        "next": ["AutoRaise@LevelMax"]
+    },
+    "AutoRaise@CannotEnterLevelUpPage": {
+        "doc": "点击升级按钮但是没有进入升级页面的情况，可能是干员等级已满",
+        "template": "OperFilesCannotEnterLevelUpPage.png",
+        "roi": [1041, 533, 162, 143]
+    },
+    "AutoRaise@EliteUp": {
+        "algorithm": "JustReturn",
+        "next": ["AutoRaise@EliteUpPageEnter"]
+    },
+    "AutoRaise@EliteUpPage": {
+        "template": "EliteUpPageFlag.png",
+        "roi": [1094, 346, 147, 149],
+        "postDelay": 300
+    },
+    "AutoRaise@EliteUpPageConfirm": {
+        "template": "EliteUpPageConfirm.png",
+        "action": "ClickSelf",
+        "roi": [955, 586, 243, 134],
+        "postDelay": 2000,
+        "next": ["AutoRaise@EliteUpRecruitSkip"]
+    },
+    "AutoRaise@EliteUpRecruitSkip": {
+        "baseTask": "RecruitSkip",
+        "template": ["RecruitSkip.png"],
+        "reduceOtherTimes": ["AutoRaise@EliteUpRecruitSkipWithoutButton*10"],
+        "next": ["AutoRaise@EliteUpRecruitSkip", "RecruitSkipWithoutButton"]
+    },
+    "AutoRaise@EliteUpRecruitSkipWithoutButton": {
+        "baseTask": "RecruitSkipWithoutButton",
+        "reduceOtherTimes": ["AutoRaise@EliteUpRecruitSkipWithoutButton*10"],
+        "next": ["AutoRaise@OperFiles", "AutoRaise@EliteUpRecruitSkip", "AutoRaise@EliteUpRecruitSkipWithoutButton"]
+    },
+    "AutoRaise@EliteUpPageEnter": {
+        "template": "OperFilesEnterEliteUpButton.png",
+        "action": "ClickSelf",
+        "roi": [928, 201, 175, 159],
+        "postDelay": 800,
+        "next": ["AutoRaise@EliteUpPage"]
+    },
+    "AutoRaise@EliteUpMaterialMissing": {
+        "doc": [
+            "检测晋升材料行内缺料数量文字的红色（#FD6801 色系，充足时为青色）。",
+            "包括等级/龙门币/芯片/材料,第一次检测到时进入芯片合成和材料合成流程",
+            "第二次检测到说明缺料仍然存在,无法晋升,返回干员档案页"
+        ],
+        "algorithm": "MatchTemplate",
+        "method": "HSVCount",
+        "template": "MaterialMissing.png",
+        "templThreshold": 0.6,
+        "pureColor": true,
+        "colorScales": [
+            [
+                [8, 180, 100],
+                [16, 255, 255]
+            ]
+        ],
+        "roi": [71, 665, 615, 17]
+    },
+    "AutoRaise@DualchipRequired": {
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
+        "doc": "干员精英化芯片位置的材料缺料检测",
+        "roi": [352, 664, 45, 17]
+    },
+    "AutoRaise@EliteUpMaterial1Required": {
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
+        "doc": "干员精英化第一个位置的材料缺料检测",
+        "roi": [489, 665, 45, 17]
+    },
+    "AutoRaise@EliteUpMaterial2Required": {
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
+        "doc": "干员精英化第二个位置的材料缺料检测",
+        "roi": [626, 665, 45, 17]
+    },
+    "AutoRaise@Dualchip": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [348, 572, 43, 45],
+        "postDelay": 800,
+        "doc": "干员精英化芯片位置,用于开启和关闭跳转弹窗"
+    },
+    "AutoRaise@EliteUpMaterial1": {
+        "baseTask": "AutoRaise@Dualchip",
+        "specificRect": [484, 575, 47, 46],
+        "doc": "干员精英化第一个位置,用于开启和关闭跳转弹窗"
+    },
+    "AutoRaise@EliteUpMaterial2": {
+        "baseTask": "AutoRaise@Dualchip",
+        "specificRect": [626, 578, 47, 46],
+        "doc": "干员精英化第二个位置,用于开启和关闭跳转弹窗"
+    },
+    "AutoRaise@DualchipJumpMfg": {
+        "template": "QuickJumpMfg.png",
+        "action": "ClickSelf",
+        "roi": [424, 341, 519, 313],
+        "rectMove": [314, 4, 84, 23],
+        "postDelay": 1000,
+        "doc": "干员精英化芯片位置调转至制造站",
+        "next": ["AutoRaise@MfgPage", "AutoRaise@DualchipJumpMfgSwipe"]
+    },
+    "AutoRaise@DualchipJumpMfgSwipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [683, 654, 1, 1],
+        "rectMove": [683, 445, 1, 1],
+        "specialParams": [400, 3, 10, 10],
+        "postDelay": 1000,
+        "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
+        "next": ["AutoRaise@DualchipJumpMfg", "AutoRaise@MfgPage"]
+    },
+    "AutoRaise@MfgPage": {
+        "baseTask": "InfrastFacilityListTabMfg",
+        "template": "FacilityListTabMfg.png",
+        "postDelay": 300,
+        "maxTimes": 20
+    },
+    "AutoRaise@DualchipBadgeCount": {
+        "baseTask": "NumberOcrReplace",
+        "doc": "晋升页面芯片icon下方 x/y 的 x 段",
+        "roi": [356, 658, 17, 26]
+    },
+    "AutoRaise@MfgCatalystCount": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [453, 383, 67, 41]
+    },
+    "AutoRaise@MfgCatalystStock": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [485, 425, 84, 20]
+    },
+    "AutoRaise@MfgCatalystMissing": {
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png"
+    },
+    "AutoRaise@ReturnToMfgPage": {
+        "baseTask": "Return",
+        "template": "Return.png",
+        "next": ["AutoRaise@MfgPage", "AutoRaise@ReturnToMfgPage"]
+    },
+    "AutoRaise@SkillUpPage": {
+        "baseTask": "AutoRaise@SkillUpConfirm",
+        "template": "EliteUpPageConfirm.png",
+        "action": "DoNothing",
+        "next": [],
+        "doc": "技能升级面板标志，仅用于从加工站返回时确认页面，不点击确认按钮"
+    },
+    "AutoRaise@ReturnToEliteUpPage": {
+        "baseTask": "Return",
+        "template": "Return.png",
+        "next": ["AutoRaise@EliteUpPage", "AutoRaise@ReturnToEliteUpPage"]
+    },
+    "AutoRaise@ReturnToSkillUpPage": {
+        "baseTask": "Return",
+        "template": "Return.png",
+        "next": ["AutoRaise@SkillUpPage", "AutoRaise@ReturnToSkillUpPage"]
+    },
+    "AutoRaise@ReturnToMasteryPage": {
+        "baseTask": "Return",
+        "template": "Return.png",
+        "next": ["AutoRaise@MasteryPage", "AutoRaise@ReturnToMasteryPage"]
+    },
+    "AutoRaise@ReturnToOperFilesPage": {
+        "baseTask": "Return",
+        "template": "Return.png",
+        "next": ["AutoRaise@OperFiles", "AutoRaise@ReturnToOperFilesPage"]
+    },
+    "AutoRaise@ReturnToOperBox": {
+        "algorithm": "JustReturn",
+        "doc": "一路点击返回直到干员列表页；到达标志覆盖职业栏无筛选、筛选残留、已展开三种状态与排序页签，供换干员导航使用",
+        "next": [
+            "AutoRaise@OperBoxRoleNoFilter",
+            "AutoRaise@OperBoxRoleFiltered",
+            "AutoRaise@OperBoxRoleBarOpened",
+            "AutoRaise@OperBoxSortTabs",
+            "AutoRaise@ReturnToOperBoxWalk"
+        ]
+    },
+    "AutoRaise@ReturnToOperBoxWalk": {
+        "baseTask": "ReturnButton",
+        "template": ["Return.png", "Return-White.png"],
+        "next": [
+            "AutoRaise@OperBoxRoleNoFilter",
+            "AutoRaise@OperBoxRoleFiltered",
+            "AutoRaise@OperBoxRoleBarOpened",
+            "AutoRaise@OperBoxSortTabs",
+            "AutoRaise@ReturnToOperBoxWalk",
+            "ReturnConfirm"
+        ]
+    },
+    "AutoRaise@OperBoxRoleNoFilter": {
+        "template": "BattleQuickFormationExpandRole.png",
+        "roi": [1152, 0, 128, 138],
+        "action": "DoNothing",
+        "doc": "干员列表页职业栏收起且无筛选：右上角为职业≡",
+        "next": []
+    },
+    "AutoRaise@OperBoxRoleFiltered": {
+        "algorithm": "OcrDetect",
+        "text": ["先锋", "近卫", "重装", "狙击", "术师", "医疗", "辅助", "特种"],
+        "roi": [1152, 0, 128, 138],
+        "action": "DoNothing",
+        "doc": "干员列表页职业栏收起且有筛选残留：右上角为职业名▼",
+        "next": []
+    },
+    "AutoRaise@OperBoxRoleFilteredOpen": {
+        "algorithm": "OcrDetect",
+        "text": ["先锋", "近卫", "重装", "狙击", "术师", "医疗", "辅助", "特种"],
+        "roi": [1152, 0, 128, 138],
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "doc": "点击筛选残留的职业名▼展开职业栏",
+        "next": []
+    },
+    "AutoRaise@OperBoxRoleBarOpened": {
+        "template": "BattleQuickFormationCollapseRole.png",
+        "roi": [1152, 0, 128, 138],
+        "action": "DoNothing",
+        "doc": "干员列表页职业栏已展开：右上角为收起>",
+        "next": []
+    },
+    "AutoRaise@OperBoxSortTabs": {
+        "algorithm": "OcrDetect",
+        "text": ["等级", "稀有度", "获取时间"],
+        "roi": [783, 0, 174, 136],
+        "action": "DoNothing",
+        "doc": "干员列表页排序页签，兜底到达标志；选中项为蓝字可能识别不佳，未选中项为白字",
+        "next": []
+    },
+    "AutoRaise@EliteUpMaterial1JumpProcessing": {
+        "template": "QuickJumpProcessing.png",
+        "action": "ClickSelf",
+        "roi": [570, 327, 519, 313],
+        "rectMove": [314, 4, 84, 23],
+        "postDelay": 1000,
+        "doc": "干员精英化第一个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
+        "next": ["MiniGame@MaterialSynthesis@Workshop", "AutoRaise@EliteUpMaterial1JumpProcessingSwipe"]
+    },
+    "AutoRaise@EliteUpMaterial1JumpProcessingSwipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [829, 640, 1, 1],
+        "rectMove": [829, 431, 1, 1],
+        "specialParams": [400, 3, 10, 10],
+        "postDelay": 1000,
+        "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
+        "next": ["AutoRaise@EliteUpMaterial1JumpProcessing", "MiniGame@MaterialSynthesis@Workshop"]
+    },
+    "AutoRaise@EliteUpMaterial1JumpProcessingUnable": {
+        "template": "QuickJumpProcessingUnable.png",
+        "roi": [570, 327, 519, 313],
+        "doc": "干员精英化第一个材料的加工站配方未解锁检测，roi 同 JumpProcessing"
+    },
+    "AutoRaise@EliteUpMaterial2JumpProcessing": {
+        "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
+        "template": "QuickJumpProcessing.png",
+        "roi": [76, 328, 519, 313],
+        "doc": "干员精英化第二个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
+        "next": ["MiniGame@MaterialSynthesis@Workshop", "AutoRaise@EliteUpMaterial2JumpProcessingSwipe"]
+    },
+    "AutoRaise@EliteUpMaterial2JumpProcessingSwipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [335, 641, 1, 1],
+        "rectMove": [335, 432, 1, 1],
+        "specialParams": [400, 3, 10, 10],
+        "postDelay": 1000,
+        "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
+        "next": ["AutoRaise@EliteUpMaterial2JumpProcessing", "MiniGame@MaterialSynthesis@Workshop"]
+    },
+    "AutoRaise@EliteUpMaterial2JumpProcessingUnable": {
+        "template": "QuickJumpProcessingUnable.png",
+        "roi": [76, 328, 519, 313],
+        "doc": "干员精英化第二个材料的加工站配方未解锁检测，roi 同 JumpProcessing"
+    },
+    "AutoRaise@RecordFactoryState": {
+        "algorithm": "MatchTemplate",
+        "template": "empty.png",
+        "templThreshold": 0.8,
+        "roi": [1030, 220, 190, 65]
+    },
+    "AutoRaise@CatalystMissing": {
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
+        "roi": [440, 370, 145, 90]
+    },
+    "AutoRaise@SkillUpgrade": {
+        "template": "OperFilesEnterSkillUpButton.png",
+        "action": "ClickSelf",
+        "roi": [1150, 349, 87, 91],
+        "postDelay": 800
+    },
+    "AutoRaise@SkillMaterialMissing": {
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
+        "roi": [101, 1001, 713, 26]
+    },
+    "AutoRaise@SkillUpSkillSummaryRequired": {
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
+        "doc": "干员技能升级的技能书缺料检测",
+        "roi": [215, 667, 43, 15]
+    },
+    "AutoRaise@SkillUpMaterial1Required": {
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
+        "doc": "干员技能升级的第一个材料缺料检测",
+        "roi": [353, 665, 43, 15]
+    },
+    "AutoRaise@SkillUpMaterial2Required": {
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
+        "doc": "干员技能升级的第二个材料缺料检测",
+        "roi": [490, 666, 48, 17]
+    },
+    "AutoRaise@SkillUpMaterial0": {
+        "baseTask": "AutoRaise@Dualchip",
+        "specificRect": [319, 865, 75, 70],
+        "doc": "干员技能升级的技能书位置,用于开启和关闭跳转弹窗"
+    },
+    "AutoRaise@SkillUpMaterial1": {
+        "baseTask": "AutoRaise@Dualchip",
+        "specificRect": [520, 862, 75, 70],
+        "doc": "干员技能升级的第一个材料位置,用于开启和关闭跳转弹窗"
+    },
+    "AutoRaise@SkillUpMaterial2": {
+        "baseTask": "AutoRaise@Dualchip",
+        "specificRect": [721, 862, 75, 70],
+        "doc": "干员技能升级的第二个材料位置,用于开启和关闭跳转弹窗"
+    },
+    "AutoRaise@SkillUpMaterial0JumpProcessing": {
+        "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
+        "template": "QuickJumpProcessing.png",
+        "roi": [279, 376, 539, 271],
+        "doc": "干员技能升级的技能书跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
+        "next": ["MiniGame@MaterialSynthesis@Workshop", "AutoRaise@SkillUpMaterial0JumpProcessingSwipe"]
+    },
+    "AutoRaise@SkillUpMaterial0JumpProcessingSwipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [548, 647, 1, 1],
+        "rectMove": [548, 466, 1, 1],
+        "specialParams": [400, 3, 10, 10],
+        "postDelay": 1000,
+        "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
+        "next": ["AutoRaise@SkillUpMaterial0JumpProcessing", "MiniGame@MaterialSynthesis@Workshop"]
+    },
+    "AutoRaise@SkillUpMaterial0JumpProcessingUnable": {
+        "template": "QuickJumpProcessingUnable.png",
+        "roi": [279, 376, 539, 271],
+        "doc": "干员技能升级的技能书加工站配方未解锁检测，roi 同 JumpProcessing"
+    },
+    "AutoRaise@SkillUpMaterial1JumpProcessing": {
+        "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
+        "template": "QuickJumpProcessing.png",
+        "roi": [417, 331, 539, 300],
+        "doc": "干员技能升级第一个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
+        "next": ["MiniGame@MaterialSynthesis@Workshop", "AutoRaise@SkillUpMaterial1JumpProcessingSwipe"]
+    },
+    "AutoRaise@SkillUpMaterial1JumpProcessingSwipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [686, 631, 1, 1],
+        "rectMove": [686, 431, 1, 1],
+        "specialParams": [400, 3, 10, 10],
+        "postDelay": 1000,
+        "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
+        "next": ["AutoRaise@SkillUpMaterial1JumpProcessing", "MiniGame@MaterialSynthesis@Workshop"]
+    },
+    "AutoRaise@SkillUpMaterial1JumpProcessingUnable": {
+        "template": "QuickJumpProcessingUnable.png",
+        "roi": [417, 331, 539, 300],
+        "doc": "干员技能升级第一个材料的加工站配方未解锁检测，roi 同 JumpProcessing"
+    },
+    "AutoRaise@SkillUpMaterial2JumpProcessing": {
+        "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
+        "template": "QuickJumpProcessing.png",
+        "roi": [555, 324, 539, 317],
+        "doc": "干员技能升级第二个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
+        "next": ["MiniGame@MaterialSynthesis@Workshop", "AutoRaise@SkillUpMaterial2JumpProcessingSwipe"]
+    },
+    "AutoRaise@SkillUpMaterial2JumpProcessingSwipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [824, 641, 1, 1],
+        "rectMove": [824, 430, 1, 1],
+        "specialParams": [400, 3, 10, 10],
+        "postDelay": 1000,
+        "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
+        "next": ["AutoRaise@SkillUpMaterial2JumpProcessing", "MiniGame@MaterialSynthesis@Workshop"]
+    },
+    "AutoRaise@SkillUpMaterial2JumpProcessingUnable": {
+        "template": "QuickJumpProcessingUnable.png",
+        "roi": [555, 324, 539, 317],
+        "doc": "干员技能升级第二个材料的加工站配方未解锁检测，roi 同 JumpProcessing"
+    },
+    "AutoRaise@SkillUpConfirm": {
+        "baseTask": "AutoRaise@EliteUpPageConfirm",
+        "template": "EliteUpPageConfirm.png",
+        "postDelay": 1500,
+        "next": []
+    },
+    "AutoRaise@MasteryPage": {
+        "baseTask": "InfrastTrainingConfirm",
+        "template": "InfrastTrainingConfirm.png",
+        "action": "DoNothing",
+        "next": [],
+        "doc": "技能专精确认面板标志，仅用于从加工站返回时确认页面，不开始训练"
+    },
+    "AutoRaise@MasteryPageEnter": {
+        "baseTask": "AutoRaise@SkillUpgrade",
+        "template": "OperFilesEnterTrainingButton.png"
+    },
+    "AutoRaise@MasteryMaterialMissing": {
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
+        "roi": [330, 655, 370, 50]
+    },
+    "AutoRaise@MasterySkillSummaryRequired": {
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
+        "roi": [341, 671, 73, 21]
+    },
+    "AutoRaise@MasteryMaterial1Required": {
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
+        "roi": [479, 672, 72, 15]
+    },
+    "AutoRaise@MasteryMaterial2Required": {
+        "baseTask": "AutoRaise@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
+        "roi": [615, 673, 73, 13]
+    },
+    "AutoRaise@MasteryMaterial0": {
+        "baseTask": "AutoRaise@Dualchip",
+        "specificRect": [348, 581, 49, 46],
+        "doc": "干员技能专精的技能书位置,用于开启和关闭跳转弹窗"
+    },
+    "AutoRaise@MasteryMaterial1": {
+        "baseTask": "AutoRaise@Dualchip",
+        "specificRect": [485, 581, 49, 46],
+        "doc": "干员技能专精的第一个材料位置,用于开启和关闭跳转弹窗"
+    },
+    "AutoRaise@MasteryMaterial2": {
+        "baseTask": "AutoRaise@Dualchip",
+        "specificRect": [624, 584, 49, 46],
+        "doc": "干员技能专精的第二个材料位置,用于开启和关闭跳转弹窗"
+    },
+    "AutoRaise@MasteryMaterial0JumpProcessing": {
+        "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
+        "template": "QuickJumpProcessing.png",
+        "roi": [415, 381, 539, 264],
+        "doc": "干员技能专精的技能书跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
+        "next": ["MiniGame@MaterialSynthesis@Workshop", "AutoRaise@MasteryMaterial0JumpProcessingSwipe"]
+    },
+    "AutoRaise@MasteryMaterial0JumpProcessingSwipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [684, 645, 1, 1],
+        "rectMove": [684, 469, 1, 1],
+        "specialParams": [400, 3, 10, 10],
+        "postDelay": 1000,
+        "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
+        "next": ["AutoRaise@MasteryMaterial0JumpProcessing", "MiniGame@MaterialSynthesis@Workshop"]
+    },
+    "AutoRaise@MasteryMaterial0JumpProcessingUnable": {
+        "template": "QuickJumpProcessingUnable.png",
+        "roi": [415, 381, 539, 264],
+        "doc": "干员技能专精的技能书加工站配方未解锁检测，roi 同 JumpProcessing"
+    },
+    "AutoRaise@MasteryMaterial1JumpProcessing": {
+        "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
+        "template": "QuickJumpProcessing.png",
+        "roi": [559, 326, 539, 312],
+        "doc": "干员技能专精第一个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
+        "next": ["MiniGame@MaterialSynthesis@Workshop", "AutoRaise@MasteryMaterial1JumpProcessingSwipe"]
+    },
+    "AutoRaise@MasteryMaterial1JumpProcessingSwipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [828, 638, 1, 1],
+        "rectMove": [828, 430, 1, 1],
+        "specialParams": [400, 3, 10, 10],
+        "postDelay": 1000,
+        "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
+        "next": ["AutoRaise@MasteryMaterial1JumpProcessing", "MiniGame@MaterialSynthesis@Workshop"]
+    },
+    "AutoRaise@MasteryMaterial1JumpProcessingUnable": {
+        "template": "QuickJumpProcessingUnable.png",
+        "roi": [559, 326, 539, 312],
+        "doc": "干员技能专精第一个材料的加工站配方未解锁检测，roi 同 JumpProcessing"
+    },
+    "AutoRaise@MasteryMaterial2JumpProcessing": {
+        "baseTask": "AutoRaise@EliteUpMaterial1JumpProcessing",
+        "template": "QuickJumpProcessing.png",
+        "roi": [68, 325, 539, 312],
+        "doc": "干员技能专精第二个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
+        "next": ["MiniGame@MaterialSynthesis@Workshop", "AutoRaise@MasteryMaterial2JumpProcessingSwipe"]
+    },
+    "AutoRaise@MasteryMaterial2JumpProcessingSwipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [337, 637, 1, 1],
+        "rectMove": [337, 429, 1, 1],
+        "specialParams": [400, 3, 10, 10],
+        "postDelay": 1000,
+        "doc": "快速跳转列表上滑，起点为对应跳转任务 roi 底边中点，上滑 2/3 个 roi 高度",
+        "next": ["AutoRaise@MasteryMaterial2JumpProcessing", "MiniGame@MaterialSynthesis@Workshop"]
+    },
+    "AutoRaise@MasteryMaterial2JumpProcessingUnable": {
+        "template": "QuickJumpProcessingUnable.png",
+        "roi": [68, 325, 539, 312],
+        "doc": "干员技能专精第二个材料的加工站配方未解锁检测，roi 同 JumpProcessing"
+    },
+    "AutoRaise@MasterySelectSkill1": {
+        "baseTask": "InfrastTrainingContinue1",
+        "template": "InfrastTrainingContinue.png",
+        "next": ["AutoRaise@MasteryPage"]
+    },
+    "AutoRaise@MasterySelectSkill2": {
+        "baseTask": "InfrastTrainingContinue2",
+        "template": "InfrastTrainingContinue.png",
+        "next": ["AutoRaise@MasteryPage"]
+    },
+    "AutoRaise@MasterySelectSkill3": {
+        "baseTask": "InfrastTrainingContinue3",
+        "template": "InfrastTrainingContinue.png",
+        "next": ["AutoRaise@MasteryPage"]
+    },
+    "AutoRaise@MasterySelectTrainer": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [169, 473, 88, 104],
+        "postDelay": 1000
     }
 }

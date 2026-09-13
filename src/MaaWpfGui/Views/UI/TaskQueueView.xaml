@@ -588,6 +588,12 @@
                                 Visibility="{c:Binding DataContext.TaskSettingVisibilities.Fight,
                                                        RelativeSource={RelativeSource Mode=FindAncestor,
                                                                                       AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:AutoRaiseTaskUserControl
+                                DataContext="{Binding AutoRaiseTask}"
+                                IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                Visibility="{c:Binding DataContext.TaskSettingVisibilities.AutoRaise,
+                                                       RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                      AncestorType={x:Type UserControl}}}" />
                             <taskQueue:RecruitSettingsUserControl
                                 DataContext="{Binding RecruitTask}"
                                 IsEnabled="{Binding DataContext.Run.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"

@@ -1288,6 +1288,12 @@
         "text": ["待機中"],
         "roi": [325, 637, 180, 50]
     },
+    "InfrastTrainingMasteryPage": {
+        "text": ["協力者"]
+    },
+    "InfrastTrainingMasterybusy": {
+        "text": ["訓練中"]
+    },
     "InfrastTrainingProcessing": {
         "text": ["訓練進捗"]
     },
@@ -1755,5 +1761,23 @@
     },
     "YellowTicket@Store@Purchase": {
         "text": ["購入"]
+    },
+    "RedTicket@Store@ChooseTicketType": {
+        "text": ["購買資格証"]
+    },
+    "RedTicket@Store@ChooseTicketTypeSelected": {
+        "text": ["購買資格証"]
+    },
+    "RedTicket@Store@Purchase": {
+        "text": ["購入"]
+    },
+    "AutoRaise@OperBoxRoleFiltered": {
+        "text": ["先鋒", "前衛", "重装", "狙撃", "術師", "医療", "補助", "特殊"]
+    },
+    "AutoRaise@OperBoxRoleFilteredOpen": {
+        "text": ["先鋒", "前衛", "重装", "狙撃", "術師", "医療", "補助", "特殊"]
+    },
+    "AutoRaise@OperBoxSortTabs": {
+        "text": ["レベル", "レア度", "入手時間"]
     }
 }

@@ -172,7 +172,6 @@
     <system:String x:Key="ClueExchangeUnlocked">Clue Exchange Unlocked</system:String>
     <system:String x:Key="InfrastReceptionSendClue">Send Clues</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">The following functions require configuration and execution within {key=Infrast}.</system:String>
-    <system:String x:Key="ContinueTraining">After training is complete, try to continue mastering the current Skill</system:String>
     <system:String x:Key="InfrastFiammettaRecovery">Enable Fiammetta morale recovery</system:String>
     <system:String x:Key="InfrastFiammettaRecoveryTips">When enabled, the recovery target and a full-mood Fiammetta swap moods in a dormitory at the start of each shift, after which Fiammetta stays in the dormitory to recover.</system:String>
     <system:String x:Key="InfrastFiammettaTargets">Fiammetta recovery targets</system:String>
@@ -871,6 +870,43 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="Infrast">{key=Base}</system:String>
     <system:String x:Key="Combat">Combat</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
+    <system:String x:Key="AutoRaise">Operator Development</system:String>
+    <system:String x:Key="AutoRaiseParsePlan">Parse Plan</system:String>
+    <system:String x:Key="AutoRaisePlanValid">The current text has been parsed successfully</system:String>
+    <system:String x:Key="AutoRaisePlanPending">Text changed; runs still use the last successfully parsed plan</system:String>
+    <system:String x:Key="AutoRaisePlanParsed">Plan parsed successfully: {0} entries</system:String>
+    <system:String x:Key="AutoRaiseJsonError">JSON error at line {0}, column {1}: {2}</system:String>
+    <system:String x:Key="AutoRaisePlanMustBeArray">The plan must be a JSON array</system:String>
+    <system:String x:Key="AutoRaisePlanMustBeObject">Plan entry {0} must be an object</system:String>
+    <system:String x:Key="AutoRaiseUnknownField">Plan entry {0} contains unknown field "{1}"</system:String>
+    <system:String x:Key="AutoRaiseUnknownOperator">Field "{1}" in plan entry {0} is not an available CN operator name</system:String>
+    <system:String x:Key="AutoRaiseExactlyOneAction">Plan entry {0} must contain exactly one development action</system:String>
+    <system:String x:Key="AutoRaiseMasteryPairRequired">Field "{1}" in plan entry {0} requires the other mastery field</system:String>
+    <system:String x:Key="AutoRaiseStringRequired">Field "{1}" in plan entry {0} must be a non-empty string</system:String>
+    <system:String x:Key="AutoRaiseIntegerRequired">Field "{1}" in plan entry {0} must be an integer</system:String>
+    <system:String x:Key="AutoRaiseFieldRange">Field "{1}" in plan entry {0} must be between {2} and {3}</system:String>
+    <system:String x:Key="AutoRaiseSkillLevelTarget">Skill level {0}</system:String>
+    <system:String x:Key="AutoRaiseMasteryTarget">Skill {0}, mastery {1}</system:String>
+    <system:String x:Key="AutoRaiseEliteTarget">Elite {0}</system:String>
+    <system:String x:Key="AutoRaiseDeleteCompletedEntries">Remove completed entries when the chain finishes</system:String>
+    <system:String x:Key="AutoRaiseDeleteCompletedEntriesTip">After the development chain finishes, entries reported as "completed" or "already satisfied" are removed automatically; failed and skipped entries are kept</system:String>
+    <system:String x:Key="AutoRaiseTargetStartLog">Development plan entry {0}: {1}, {2}</system:String>
+    <system:String x:Key="AutoRaiseTargetResultLog">Development plan entry {0}: {1}, {2}, result: {3}</system:String>
+    <system:String x:Key="AutoRaiseRecognizedElite"> (current elite {0})</system:String>
+    <system:String x:Key="AutoRaiseRecognizedSkillLevel"> (current skill level {0})</system:String>
+    <system:String x:Key="AutoRaiseRecognizedMastery"> (current mastery {0})</system:String>
+    <system:String x:Key="AutoRaiseSummaryLog">Operator development finished: {0} completed, {1} already satisfied, {2} failed, {3} skipped</system:String>
+    <system:String x:Key="AutoRaiseSelectOperator">Select operator</system:String>
+    <system:String x:Key="AutoRaiseAddTarget">Add</system:String>
+    <system:String x:Key="AutoRaiseTargetTitle">{0} · Targets</system:String>
+    <system:String x:Key="AutoRaiseElite">Elite</system:String>
+    <system:String x:Key="AutoRaiseSkillUpgrade">Skill upgrade</system:String>
+    <system:String x:Key="AutoRaiseMastery">Mastery</system:String>
+    <system:String x:Key="AutoRaiseSkillNumber">Skill {0}</system:String>
+    <system:String x:Key="AutoRaiseInvalidOperatorInput">Invalid operator name. Please select one from the list</system:String>
+    <system:String x:Key="AutoRaiseOperatorLimit">At most 5 operators can be selected</system:String>
+    <system:String x:Key="AutoRaiseEdit">Edit</system:String>
+    <system:String x:Key="AutoRaiseOnlineEditor">Edit the plan online with Arknights Toolbox</system:String>
     <system:String x:Key="Visiting">Visit Friends</system:String>
     <system:String x:Key="Mall">Credit Store</system:String>
     <system:String x:Key="Mission">Collect Rewards</system:String>

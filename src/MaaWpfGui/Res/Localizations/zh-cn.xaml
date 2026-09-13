@@ -172,7 +172,6 @@
     <system:String x:Key="ClueExchangeUnlocked">已开启线索交流</system:String>
     <system:String x:Key="InfrastReceptionSendClue">赠送线索</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">以下功能需在{key=Infrast}中设置并执行</system:String>
-    <system:String x:Key="ContinueTraining">训练完成后继续尝试专精当前技能</system:String>
     <system:String x:Key="InfrastFiammettaRecovery">启用菲亚梅塔心情恢复</system:String>
     <system:String x:Key="InfrastFiammettaRecoveryTips">开启后，换班开始时会将恢复目标与满心情的菲亚梅塔放入宿舍互换心情，菲亚梅塔随后留在宿舍恢复心情。</system:String>
     <system:String x:Key="InfrastFiammettaTargets">菲亚梅塔恢复目标</system:String>
@@ -870,6 +869,43 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Infrast">{key=Base}</system:String>
     <system:String x:Key="Combat">理智作战</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
+    <system:String x:Key="AutoRaise">干员培养</system:String>
+    <system:String x:Key="AutoRaiseParsePlan">解析计划</system:String>
+    <system:String x:Key="AutoRaisePlanValid">当前文本已通过解析</system:String>
+    <system:String x:Key="AutoRaisePlanPending">文本已修改；运行仍使用上次解析成功的计划</system:String>
+    <system:String x:Key="AutoRaisePlanParsed">计划解析成功，共 {0} 项</system:String>
+    <system:String x:Key="AutoRaiseJsonError">JSON 第 {0} 行第 {1} 列错误：{2}</system:String>
+    <system:String x:Key="AutoRaisePlanMustBeArray">计划必须是 JSON 数组</system:String>
+    <system:String x:Key="AutoRaisePlanMustBeObject">计划第 {0} 项必须是对象</system:String>
+    <system:String x:Key="AutoRaiseUnknownField">计划第 {0} 项包含未知字段“{1}”</system:String>
+    <system:String x:Key="AutoRaiseUnknownOperator">计划第 {0} 项的字段“{1}”不是国服可用干员名</system:String>
+    <system:String x:Key="AutoRaiseExactlyOneAction">计划第 {0} 项必须且只能包含一种培养动作</system:String>
+    <system:String x:Key="AutoRaiseMasteryPairRequired">计划第 {0} 项的“{1}”字段必须与另一专精字段同时提供</system:String>
+    <system:String x:Key="AutoRaiseStringRequired">计划第 {0} 项的“{1}”字段必须是非空字符串</system:String>
+    <system:String x:Key="AutoRaiseIntegerRequired">计划第 {0} 项的“{1}”字段必须是整数</system:String>
+    <system:String x:Key="AutoRaiseFieldRange">计划第 {0} 项的“{1}”字段必须在 {2} 到 {3} 之间</system:String>
+    <system:String x:Key="AutoRaiseSkillLevelTarget">技能等级 {0}</system:String>
+    <system:String x:Key="AutoRaiseMasteryTarget">技能 {0} 专精 {1}</system:String>
+    <system:String x:Key="AutoRaiseEliteTarget">精英化 {0}</system:String>
+    <system:String x:Key="AutoRaiseDeleteCompletedEntries">任务链结束后删除已完成条目</system:String>
+    <system:String x:Key="AutoRaiseDeleteCompletedEntriesTip">培养任务链结束后，自动删除结果为“成功”或“已满足”的条目；失败与跳过的条目会保留</system:String>
+    <system:String x:Key="AutoRaiseTargetStartLog">培养计划第 {0} 项：{1}，{2}</system:String>
+    <system:String x:Key="AutoRaiseTargetResultLog">培养计划第 {0} 项：{1}，{2}，结果 {3}</system:String>
+    <system:String x:Key="AutoRaiseRecognizedElite">（当前精英化 {0}）</system:String>
+    <system:String x:Key="AutoRaiseRecognizedSkillLevel">（当前技能等级 {0}）</system:String>
+    <system:String x:Key="AutoRaiseRecognizedMastery">（当前专精 {0}）</system:String>
+    <system:String x:Key="AutoRaiseSummaryLog">干员培养完成：成功 {0}，已满足 {1}，失败 {2}，跳过 {3}</system:String>
+    <system:String x:Key="AutoRaiseSelectOperator">选择干员</system:String>
+    <system:String x:Key="AutoRaiseAddTarget">添加</system:String>
+    <system:String x:Key="AutoRaiseTargetTitle">{0} · 培养目标</system:String>
+    <system:String x:Key="AutoRaiseElite">精英化</system:String>
+    <system:String x:Key="AutoRaiseSkillUpgrade">技能升级</system:String>
+    <system:String x:Key="AutoRaiseMastery">技能专精</system:String>
+    <system:String x:Key="AutoRaiseSkillNumber">技能 {0}</system:String>
+    <system:String x:Key="AutoRaiseInvalidOperatorInput">输入的干员名无效，请从列表中选择</system:String>
+    <system:String x:Key="AutoRaiseOperatorLimit">最多支持选择 5 名干员</system:String>
+    <system:String x:Key="AutoRaiseEdit">修改</system:String>
+    <system:String x:Key="AutoRaiseOnlineEditor">在明日方舟工具箱中在线编辑计划</system:String>
     <system:String x:Key="Visiting">访问好友</system:String>
     <system:String x:Key="Mall">信用收支</system:String>
     <system:String x:Key="Mission">领取奖励</system:String>
