@@ -651,6 +651,15 @@
     "JieGarden@Roguelike@MonthlySquad": {
         "template": "Roguelike@MonthlySquad.png"
     },
+    "JieGarden@Roguelike@MonthlySquadIndex": {
+        "Doc": "识别当前月度小队序号",
+        "algorithm": "OcrDetect",
+        "roi": [99, 431, 22, 30],
+        "text": ["1", "2", "3", "4", "5", "6", "7", "8"],
+        "fullMatch": true,
+        "isAscii": true,
+        "withoutDet": true
+    },
     "JieGarden@Roguelike@MonthlySquadComms": {
         "template": "Roguelike@MonthlySquadComms.png",
         "roi": [560, 420, 190, 60]
