@@ -10,12 +10,12 @@ namespace asst
 {
 class AutoRaiseProcessTask;
 
-class AutoRaiseTask final : public InterfaceTask
+class OperProgressionTask final : public InterfaceTask
 {
 private:
     // 对应 params.plans[] 的一项。elite / skills / skill + skill_master 三选一，
     // 用哪个字段出现表示本次执行哪种养成动作；字段名即 JSON key，字段含义变化时必须同步改名。
-    struct AutoRaiseTargetDto
+    struct ProgressionTargetDto
     {
         battle::Role role = battle::Role::Unknown;
         std::string name;
@@ -29,10 +29,10 @@ private:
     };
 
 public:
-    inline static constexpr std::string_view TaskType = "AutoRaise";
+    inline static constexpr std::string_view TaskType = "OperProgression";
 
-    AutoRaiseTask(const AsstCallback& callback, Assistant* inst);
-    virtual ~AutoRaiseTask() override = default;
+    OperProgressionTask(const AsstCallback& callback, Assistant* inst);
+    virtual ~OperProgressionTask() override = default;
 
     virtual bool set_params(const json::value& params) override;
 

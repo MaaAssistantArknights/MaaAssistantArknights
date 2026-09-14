@@ -1,14 +1,13 @@
-#include "AutoRaiseTask.h"
+#include "OperProgressionTask.h"
 
 #include <ranges>
 
+#include "Config/Miscellaneous/BattleDataConfig.h"
+#include "Task/AutoRaise/AutoRaisePlan.h"
 #include "Task/AutoRaise/AutoRaiseProcessTask.h"
 #include "Utils/Logger.hpp"
 
-#include "Config/Miscellaneous/BattleDataConfig.h"
-#include "Task/AutoRaise/AutoRaisePlan.h"
-
-asst::AutoRaiseTask::AutoRaiseTask(const AsstCallback& callback, Assistant* inst) :
+asst::OperProgressionTask::OperProgressionTask(const AsstCallback& callback, Assistant* inst) :
     InterfaceTask(callback, inst, TaskType),
     m_process_task_ptr(std::make_shared<AutoRaiseProcessTask>(callback, inst, TaskType))
 {
@@ -16,7 +15,7 @@ asst::AutoRaiseTask::AutoRaiseTask(const AsstCallback& callback, Assistant* inst
     m_subtasks.emplace_back(m_process_task_ptr);
 }
 
-bool asst::AutoRaiseTask::set_params(const json::value& params)
+bool asst::OperProgressionTask::set_params(const json::value& params)
 {
     LogTraceFunction;
     auto plan = parse_plan(params);
@@ -31,7 +30,7 @@ bool asst::AutoRaiseTask::set_params(const json::value& params)
 namespace json::ext
 {
 template <>
-class jsonization<asst::AutoRaiseTask::AutoRaiseTargetDto>
+class jsonization<asst::OperProgressionTask::ProgressionTargetDto>
 {
 public:
     bool check_json(const json::value& json) const
@@ -101,14 +100,20 @@ public:
             LogError << __FUNCTION__ << "skill_master must be between 1 and 3";
             return false;
         }
+
+        const auto& role = asst::BattleData.get_roles(*name_opt, true);
+        if (role.empty() || role.size() > 1) {
+            LogError << __FUNCTION__ << "unknown oper name: " << *name_opt;
+            return false;
+        }
         return true;
     }
 };
 } // namespace json::ext
 
-std::optional<asst::AutoRaisePlan> asst::AutoRaiseTask::parse_plan(const json::value& params)
+std::optional<asst::AutoRaisePlan> asst::OperProgressionTask::parse_plan(const json::value& params)
 {
-    const auto& plans = params.find<std::vector<AutoRaiseTargetDto>>("plans");
+    const auto& plans = params.find<std::vector<ProgressionTargetDto>>("plans");
     if (!plans) {
         LogError << __FUNCTION__ << "missing plans, or format is error";
         return std::nullopt;
