@@ -2208,9 +2208,13 @@ int wmain(int argc, wchar_t* argv[])
             }
         } else if (!updateMutexBlocked && PathExistsW(packagePath)) {
             // 不写失败标志时 GUI 不会清空待更新包，保留包会让下次启动拿同一个包反复委托、反复失败，
-            // 因此直接删包；互斥锁被占用属临时性失败，保留包重试
-            DeleteFileW(packagePath.c_str());
-            WriteLog((L"Deleted update package after pre-apply failure: " + packagePath).c_str());
+            // 因此直接删包；互斥锁被占用属临时性失败，保留包重试。
+            // 用 ForceDeleteFile 应对杀软扫描等临时占用：删不掉时改名腾出原路径，同样能让 GUI 检测不到待更新包
+            if (ForceDeleteFile(packagePath)) {
+                WriteLog((L"Deleted update package after pre-apply failure: " + packagePath).c_str());
+            } else {
+                WriteLog((L"Failed to delete update package after pre-apply failure: " + packagePath).c_str());
+            }
         }
         if (PathExistsW(successStatusFile))
             DeleteFileW(successStatusFile.c_str());
