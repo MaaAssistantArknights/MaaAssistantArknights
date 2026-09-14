@@ -16,10 +16,11 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using MaaWpfGui.Models;
 using Serilog;
 using Windows.Win32;
 using Windows.Win32.Foundation;
+using Windows.Win32.Media.Audio;
+using Windows.Win32.System.Com;
 using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace MaaWpfGui.Utilities;
@@ -33,7 +34,7 @@ internal static class GameAudioMuteManager
     private static IntPtr _windowHwnd;
     private static uint _processId;
     private static bool _restoreMinimized;
-    private static WindowPlacement? _windowPlacement;
+    private static WINDOWPLACEMENT? _windowPlacement;
     private static long _version;
 
     /// <summary>
@@ -189,8 +190,8 @@ internal static class GameAudioMuteManager
     {
         _restoreMinimized = PInvoke.IsIconic((HWND)hwnd);
         _windowPlacement = null;
-        var placement = new WindowPlacement { Length = Marshal.SizeOf<WindowPlacement>(), };
-        if (GetWindowPlacement(hwnd, ref placement))
+        var placement = new WINDOWPLACEMENT { length = (uint)Marshal.SizeOf<WINDOWPLACEMENT>(), };
+        if (PInvoke.GetWindowPlacement((HWND)hwnd, ref placement))
         {
             _windowPlacement = placement;
         }
@@ -203,16 +204,16 @@ internal static class GameAudioMuteManager
 
         try
         {
-            deviceEnumerator = (IMMDeviceEnumerator)new MMDeviceEnumeratorComObject();
-            ThrowIfFailed(deviceEnumerator.EnumAudioEndpoints(AudioDataFlow.Render, (uint)DeviceState.Active, out devices));
-            ThrowIfFailed(devices.GetCount(out var deviceCount));
+            deviceEnumerator = (IMMDeviceEnumerator)new MMDeviceEnumerator();
+            deviceEnumerator.EnumAudioEndpoints(EDataFlow.eRender, DEVICE_STATE.DEVICE_STATE_ACTIVE, out devices);
+            devices.GetCount(out var deviceCount);
 
             for (uint deviceIndex = 0; deviceIndex < deviceCount; deviceIndex++)
             {
                 IMMDevice? device = null;
                 try
                 {
-                    ThrowIfFailed(devices.Item(deviceIndex, out device));
+                    devices.Item(deviceIndex, out device);
                     MuteDeviceSessions(device, processId);
                 }
                 catch (Exception ex)
@@ -232,7 +233,7 @@ internal static class GameAudioMuteManager
         }
     }
 
-    private static void MuteDeviceSessions(IMMDevice device, uint processId)
+    private static unsafe void MuteDeviceSessions(IMMDevice device, uint processId)
     {
         IAudioSessionManager2? sessionManager = null;
         IAudioSessionEnumerator? sessionEnumerator = null;
@@ -240,37 +241,41 @@ internal static class GameAudioMuteManager
         try
         {
             var sessionManagerGuid = typeof(IAudioSessionManager2).GUID;
-            ThrowIfFailed(device.Activate(ref sessionManagerGuid, ClsCtx.All, IntPtr.Zero, out var sessionManagerObject));
+            device.Activate(&sessionManagerGuid, CLSCTX.CLSCTX_ALL, null, out var sessionManagerObject);
             sessionManager = (IAudioSessionManager2)sessionManagerObject;
-            ThrowIfFailed(sessionManager.GetSessionEnumerator(out sessionEnumerator));
-            ThrowIfFailed(sessionEnumerator.GetCount(out var sessionCount));
+            sessionEnumerator = sessionManager.GetSessionEnumerator();
+            sessionEnumerator.GetCount(out var sessionCount);
 
             for (var index = 0; index < sessionCount; index++)
             {
                 IAudioSessionControl? sessionControl = null;
                 try
                 {
-                    ThrowIfFailed(sessionEnumerator.GetSession(index, out sessionControl));
+                    sessionEnumerator.GetSession(index, out sessionControl);
                     if (sessionControl is not IAudioSessionControl2 sessionControl2 ||
-                        sessionControl2.GetProcessId(out var sessionProcessId) < 0 ||
-                        sessionProcessId != processId ||
                         sessionControl is not ISimpleAudioVolume volume)
                     {
                         continue;
                     }
 
-                    var sessionInstanceIdPointer = IntPtr.Zero;
+                    sessionControl2.GetProcessId(out var sessionProcessId);
+                    if (sessionProcessId != processId)
+                    {
+                        continue;
+                    }
+
+                    PWSTR sessionInstanceIdPointer = default;
                     string? sessionInstanceId;
                     try
                     {
-                        ThrowIfFailed(sessionControl2.GetSessionInstanceIdentifier(out sessionInstanceIdPointer));
-                        sessionInstanceId = Marshal.PtrToStringUni(sessionInstanceIdPointer);
+                        sessionControl2.GetSessionInstanceIdentifier(&sessionInstanceIdPointer);
+                        sessionInstanceId = sessionInstanceIdPointer.ToString();
                     }
                     finally
                     {
-                        if (sessionInstanceIdPointer != IntPtr.Zero)
+                        if (sessionInstanceIdPointer.Value != null)
                         {
-                            Marshal.FreeCoTaskMem(sessionInstanceIdPointer);
+                            Marshal.FreeCoTaskMem((IntPtr)sessionInstanceIdPointer.Value);
                         }
                     }
 
@@ -281,9 +286,10 @@ internal static class GameAudioMuteManager
 
                     try
                     {
-                        ThrowIfFailed(volume.GetMute(out var wasMuted));
+                        BOOL wasMuted = default;
+                        volume.GetMute(&wasMuted);
                         var eventContext = Guid.Empty;
-                        ThrowIfFailed(volume.SetMute(true, ref eventContext));
+                        volume.SetMute(true, &eventContext);
                         _mutedSessions.Add(new(volume, wasMuted));
                         sessionControl = null;
                     }
@@ -312,7 +318,7 @@ internal static class GameAudioMuteManager
         RestoreAudioCore();
     }
 
-    private static void RestoreAudioCore()
+    private static unsafe void RestoreAudioCore()
     {
         var hadAudioState = _mutedSessions.Count != 0;
 
@@ -321,7 +327,7 @@ internal static class GameAudioMuteManager
             try
             {
                 var eventContext = Guid.Empty;
-                ThrowIfFailed(state.Volume.SetMute(state.WasMuted, ref eventContext));
+                state.Volume.SetMute(state.WasMuted, &eventContext);
             }
             catch (Exception ex)
             {
@@ -351,7 +357,7 @@ internal static class GameAudioMuteManager
         var restored = false;
         if (_windowPlacement is { } placement)
         {
-            restored = SetWindowPlacement(_windowHwnd, ref placement);
+            restored = PInvoke.SetWindowPlacement((HWND)_windowHwnd, in placement);
         }
         else if (_restoreMinimized)
         {
@@ -376,14 +382,6 @@ internal static class GameAudioMuteManager
         _windowPlacement = null;
     }
 
-    private static void ThrowIfFailed(int hresult)
-    {
-        if (hresult < 0)
-        {
-            Marshal.ThrowExceptionForHR(hresult);
-        }
-    }
-
     private static void ReleaseComObject(object? value)
     {
         if (value is not null && Marshal.IsComObject(value))
@@ -393,237 +391,4 @@ internal static class GameAudioMuteManager
     }
 
     private sealed record AudioSessionMuteState(ISimpleAudioVolume Volume, bool WasMuted);
-
-    [DllImport("user32.dll", SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static extern bool GetWindowPlacement(IntPtr window, ref WindowPlacement placement);
-
-    [DllImport("user32.dll", SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static extern bool SetWindowPlacement(IntPtr window, [In] ref WindowPlacement placement);
-
-    private enum AudioDataFlow
-    {
-        Render,
-        Capture,
-        All,
-    }
-
-    private enum AudioRole
-    {
-        Console,
-        Multimedia,
-        Communications,
-    }
-
-    [Flags]
-    private enum DeviceState : uint
-    {
-        Active = 0x1,
-    }
-
-    [Flags]
-    private enum ClsCtx : uint
-    {
-        InprocServer = 0x1,
-        InprocHandler = 0x2,
-        LocalServer = 0x4,
-        RemoteServer = 0x10,
-        All = InprocServer | InprocHandler | LocalServer | RemoteServer,
-    }
-
-    [ComImport]
-    [Guid("BCDE0395-E52F-467C-8E3D-C4579291692E")]
-    private class MMDeviceEnumeratorComObject
-    {
-    }
-
-    [ComImport]
-    [Guid("A95664D2-9614-4F35-A746-DE8DB63617E6")]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    private interface IMMDeviceEnumerator
-    {
-        [PreserveSig]
-        int EnumAudioEndpoints(AudioDataFlow dataFlow, uint stateMask, out IMMDeviceCollection devices);
-
-        [PreserveSig]
-        int GetDefaultAudioEndpoint(AudioDataFlow dataFlow, AudioRole role, out IMMDevice device);
-
-        [PreserveSig]
-        int GetDevice([MarshalAs(UnmanagedType.LPWStr)] string id, out IMMDevice device);
-
-        [PreserveSig]
-        int RegisterEndpointNotificationCallback(IntPtr client);
-
-        [PreserveSig]
-        int UnregisterEndpointNotificationCallback(IntPtr client);
-    }
-
-    [ComImport]
-    [Guid("0BD7A1BE-7A1A-44DB-8397-CC5392387B5E")]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    private interface IMMDeviceCollection
-    {
-        [PreserveSig]
-        int GetCount(out uint deviceCount);
-
-        [PreserveSig]
-        int Item(uint deviceIndex, out IMMDevice device);
-    }
-
-    [ComImport]
-    [Guid("D666063F-1587-4E43-81F1-B948E807363F")]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    private interface IMMDevice
-    {
-        [PreserveSig]
-        int Activate(ref Guid interfaceId, ClsCtx classContext, IntPtr activationParams, [MarshalAs(UnmanagedType.IUnknown)] out object interfaceObject);
-
-        [PreserveSig]
-        int OpenPropertyStore(uint storageAccessMode, out IntPtr properties);
-
-        [PreserveSig]
-        int GetId(out IntPtr id);
-
-        [PreserveSig]
-        int GetState(out uint state);
-    }
-
-    [ComImport]
-    [Guid("77AA99A0-1BD6-484F-8BC7-2C654C9A9B6F")]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    private interface IAudioSessionManager2
-    {
-        [PreserveSig]
-        int GetAudioSessionControl(IntPtr sessionGuid, uint streamFlags, out IntPtr sessionControl);
-
-        [PreserveSig]
-        int GetSimpleAudioVolume(IntPtr sessionGuid, uint streamFlags, out IntPtr audioVolume);
-
-        [PreserveSig]
-        int GetSessionEnumerator(out IAudioSessionEnumerator sessionEnumerator);
-
-        [PreserveSig]
-        int RegisterSessionNotification(IntPtr sessionNotification);
-
-        [PreserveSig]
-        int UnregisterSessionNotification(IntPtr sessionNotification);
-
-        [PreserveSig]
-        int RegisterDuckNotification([MarshalAs(UnmanagedType.LPWStr)] string sessionId, IntPtr duckNotification);
-
-        [PreserveSig]
-        int UnregisterDuckNotification(IntPtr duckNotification);
-    }
-
-    [ComImport]
-    [Guid("E2F5BB11-0570-40CA-ACDD-3AA01277DEE8")]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    private interface IAudioSessionEnumerator
-    {
-        [PreserveSig]
-        int GetCount(out int sessionCount);
-
-        [PreserveSig]
-        int GetSession(int sessionIndex, out IAudioSessionControl sessionControl);
-    }
-
-    [ComImport]
-    [Guid("F4B1A599-7266-4319-A8CA-E70ACB11E8CD")]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    private interface IAudioSessionControl
-    {
-        [PreserveSig]
-        int GetState(out int state);
-
-        [PreserveSig]
-        int GetDisplayName(out IntPtr displayName);
-
-        [PreserveSig]
-        int SetDisplayName([MarshalAs(UnmanagedType.LPWStr)] string displayName, ref Guid eventContext);
-
-        [PreserveSig]
-        int GetIconPath(out IntPtr iconPath);
-
-        [PreserveSig]
-        int SetIconPath([MarshalAs(UnmanagedType.LPWStr)] string iconPath, ref Guid eventContext);
-
-        [PreserveSig]
-        int GetGroupingParam(out Guid groupingId);
-
-        [PreserveSig]
-        int SetGroupingParam(ref Guid groupingId, ref Guid eventContext);
-
-        [PreserveSig]
-        int RegisterAudioSessionNotification(IntPtr client);
-
-        [PreserveSig]
-        int UnregisterAudioSessionNotification(IntPtr client);
-    }
-
-    [ComImport]
-    [Guid("BFB7FF88-7239-4FC9-8FA2-07C950BE9C6D")]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    private interface IAudioSessionControl2
-    {
-        [PreserveSig]
-        int GetState(out int state);
-
-        [PreserveSig]
-        int GetDisplayName(out IntPtr displayName);
-
-        [PreserveSig]
-        int SetDisplayName([MarshalAs(UnmanagedType.LPWStr)] string displayName, ref Guid eventContext);
-
-        [PreserveSig]
-        int GetIconPath(out IntPtr iconPath);
-
-        [PreserveSig]
-        int SetIconPath([MarshalAs(UnmanagedType.LPWStr)] string iconPath, ref Guid eventContext);
-
-        [PreserveSig]
-        int GetGroupingParam(out Guid groupingId);
-
-        [PreserveSig]
-        int SetGroupingParam(ref Guid groupingId, ref Guid eventContext);
-
-        [PreserveSig]
-        int RegisterAudioSessionNotification(IntPtr client);
-
-        [PreserveSig]
-        int UnregisterAudioSessionNotification(IntPtr client);
-
-        [PreserveSig]
-        int GetSessionIdentifier(out IntPtr sessionIdentifier);
-
-        [PreserveSig]
-        int GetSessionInstanceIdentifier(out IntPtr sessionInstanceIdentifier);
-
-        [PreserveSig]
-        int GetProcessId(out uint processId);
-
-        [PreserveSig]
-        int IsSystemSoundsSession();
-
-        [PreserveSig]
-        int SetDuckingPreference([MarshalAs(UnmanagedType.Bool)] bool optOut);
-    }
-
-    [ComImport]
-    [Guid("87CE5498-68D6-44E5-9215-6DA47EF883D8")]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    private interface ISimpleAudioVolume
-    {
-        [PreserveSig]
-        int SetMasterVolume(float level, ref Guid eventContext);
-
-        [PreserveSig]
-        int GetMasterVolume(out float level);
-
-        [PreserveSig]
-        int SetMute([MarshalAs(UnmanagedType.Bool)] bool muted, ref Guid eventContext);
-
-        [PreserveSig]
-        int GetMute([MarshalAs(UnmanagedType.Bool)] out bool muted);
-    }
 }
