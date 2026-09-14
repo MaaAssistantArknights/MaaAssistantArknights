@@ -4,6 +4,8 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Utils/StringMisc.hpp"
+#include "Vision/OCRer.h"
 
 bool asst::RoguelikeIterateMonthlySquadPlugin::load_params([[maybe_unused]] const json::value& params)
 {
@@ -43,15 +45,18 @@ bool asst::RoguelikeIterateMonthlySquadPlugin::_run()
     LogTraceFunction;
 
     m_completed = true;
-    if (monthlySquadCount[m_config->get_theme()] > 0) {
+    const int monthly_squad_count = monthlySquadCount[m_config->get_theme()];
+    if (monthly_squad_count > 0) {
         ProcessTask(*this, { m_config->get_theme() + "@Roguelike@MonthlySquad" }).run();
     }
 
     if (!m_iterateMS) {
+        m_monthly_squad_index = recognize_monthly_squad_index();
         return true;
     }
 
-    for (int i = 0; i < monthlySquadCount[m_config->get_theme()]; i++) {
+    for (int i = 0; i < monthly_squad_count; i++) {
+        m_monthly_squad_index = recognize_monthly_squad_index();
         if (m_checkComms) {
             ProcessTask(*this, { m_config->get_theme() + "@Roguelike@MonthlySquadComms" }).run();
             if (!try_task("@Roguelike@MonthlySquadCommsCompleted")) {
@@ -73,6 +78,33 @@ bool asst::RoguelikeIterateMonthlySquadPlugin::_run()
     }
 
     return true;
+}
+
+std::optional<int> asst::RoguelikeIterateMonthlySquadPlugin::recognize_monthly_squad_index() const
+{
+    const std::string task_name = m_config->get_theme() + "@Roguelike@MonthlySquadIndex";
+    const auto task_info = Task.get<OcrTaskInfo>(task_name);
+    if (task_info == nullptr) {
+        return std::nullopt;
+    }
+
+    OCRer analyzer(ctrler()->get_image());
+    analyzer.set_task_info(task_info);
+    const auto results = analyzer.analyze();
+    if (!results.has_value() || results->size() != 1) {
+        Log.warn(__FUNCTION__, "failed to recognize monthly squad index");
+        return std::nullopt;
+    }
+
+    int index = 0;
+    const std::string& text = results->front().text;
+    if (!utils::chars_to_number(text, index) || index < 1 || index > monthlySquadCount.at(m_config->get_theme())) {
+        Log.warn(__FUNCTION__, "invalid monthly squad index:", text);
+        return std::nullopt;
+    }
+
+    Log.info(__FUNCTION__, "monthly squad index:", index);
+    return index;
 }
 
 bool asst::RoguelikeIterateMonthlySquadPlugin::try_task(const char* task) const
