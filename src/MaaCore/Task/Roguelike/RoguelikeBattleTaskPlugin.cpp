@@ -76,7 +76,8 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
     while (!need_exit()) {
         // 不在战斗场景，且已使用过了干员，说明已经打完了，就结束循环
         image = ctrler()->get_image();
-        if (!do_once(image, image_prev) && !m_first_deploy) {
+        const bool run_result = do_once(image, image_prev);
+        if (m_monthly_squad_task_battle_abandoned || (!run_result && !m_first_deploy)) {
             break;
         }
         image_prev = std::move(image);
@@ -444,13 +445,106 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
             m_deployed_time.insert_or_assign(oper_tag, deployed_time);
             // 获取技能用法和使用次数
             const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), oper_tag);
-            m_skill_usage[oper_tag] = oper_info.skill_usage;
-            m_skill_times[oper_tag] = oper_info.skill_times;
+            configure_skill_usage(oper_tag, oper_info.skill_usage, oper_info.skill_times);
             Log.trace("    best deploy is", deploy_plan.oper_name, "with rank", deploy_plan.rank);
             return true;
         }
     }
     return is_success;
+}
+
+bool asst::RoguelikeBattleTaskPlugin::try_run_monthly_squad_deploy_task()
+{
+    auto& monthly_squad_task = m_config->get_monthly_squad_task();
+    if (!monthly_squad_task.has_value() || monthly_squad_task->type != MonthlySquadTaskType::DeployOperator ||
+        monthly_squad_task->completed_count >= monthly_squad_task->required_count) {
+        return false;
+    }
+
+    if (m_monthly_squad_task_pending_abandon) {
+        m_monthly_squad_task_battle_abandoned = abandon();
+        return true;
+    }
+
+    if (monthly_squad_task->oper_name.empty() || monthly_squad_task->required_count <= 0) {
+        LogError << __FUNCTION__ << "invalid monthly squad deploy task";
+        return false;
+    }
+
+    const auto oper_iter = std::ranges::find_if(m_cur_deployment_opers, [&](const battle::DeploymentOper& oper) {
+        return oper.name == monthly_squad_task->oper_name;
+    });
+    if (oper_iter == m_cur_deployment_opers.cend() || !oper_iter->available) {
+        return true;
+    }
+
+    const auto deploy_info = calc_best_loc(*oper_iter);
+    if (!deploy_info.has_value()) {
+        return true;
+    }
+
+    if (!deploy_oper(oper_iter->role, oper_iter->name, deploy_info->placed, deploy_info->direction)) {
+        return true;
+    }
+
+    ++monthly_squad_task->completed_count;
+    m_first_deploy = false;
+    m_monthly_squad_task_pending_abandon = true;
+    LogInfo << __FUNCTION__ << "deployed monthly squad task operator:" << oper_iter->name
+            << "progress:" << monthly_squad_task->completed_count << "/" << monthly_squad_task->required_count;
+    m_monthly_squad_task_battle_abandoned = abandon();
+    return true;
+}
+
+void asst::RoguelikeBattleTaskPlugin::configure_skill_usage(
+    const battle::OperNameTag& oper_tag,
+    battle::SkillUsage default_usage,
+    int default_times)
+{
+    const auto& monthly_squad_task = m_config->get_monthly_squad_task();
+    if (monthly_squad_task.has_value() && monthly_squad_task->type == MonthlySquadTaskType::UseOperatorSkill &&
+        monthly_squad_task->oper_name == oper_tag.name && monthly_squad_task->skill.has_value() &&
+        monthly_squad_task->required_count > monthly_squad_task->completed_count) {
+        m_skill_usage[oper_tag] = battle::SkillUsage::Times;
+        m_skill_times[oper_tag] = monthly_squad_task->required_count - monthly_squad_task->completed_count;
+        return;
+    }
+
+    m_skill_usage[oper_tag] = default_usage;
+    m_skill_times[oper_tag] = default_times;
+}
+
+bool asst::RoguelikeBattleTaskPlugin::use_all_ready_skill_and_track_monthly_task(const cv::Mat& image)
+{
+    auto& monthly_squad_task = m_config->get_monthly_squad_task();
+    if (!monthly_squad_task.has_value() || monthly_squad_task->type != MonthlySquadTaskType::UseOperatorSkill ||
+        monthly_squad_task->oper_name.empty() || !monthly_squad_task->skill.has_value() ||
+        monthly_squad_task->required_count <= 0 ||
+        monthly_squad_task->completed_count >= monthly_squad_task->required_count) {
+        return use_all_ready_skill(image);
+    }
+
+    const auto oper_iter = std::ranges::find_if(m_battlefield_opers, [&](const auto& oper) {
+        return oper.first.name == monthly_squad_task->oper_name;
+    });
+    if (oper_iter == m_battlefield_opers.cend()) {
+        return use_all_ready_skill(image);
+    }
+
+    const auto times_iter = m_skill_times.find(oper_iter->first);
+    if (times_iter == m_skill_times.cend()) {
+        return use_all_ready_skill(image);
+    }
+
+    const int previous_times = times_iter->second;
+    const bool used = use_all_ready_skill(image);
+    const int current_times = m_skill_times.at(oper_iter->first);
+    if (current_times < previous_times) {
+        monthly_squad_task->completed_count += previous_times - current_times;
+        LogInfo << __FUNCTION__ << "used monthly squad task operator skill:" << monthly_squad_task->oper_name
+                << "progress:" << monthly_squad_task->completed_count << "/" << monthly_squad_task->required_count;
+    }
+    return used;
 }
 
 bool asst::RoguelikeBattleTaskPlugin::do_once(const cv::Mat& image, const cv::Mat& image_prev)
@@ -471,7 +565,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_once(const cv::Mat& image, const cv::Ma
     prev_frame_time = std::chrono::steady_clock::now();
 
     if (!m_first_deploy) {
-        use_all_ready_skill(image);
+        use_all_ready_skill_and_track_monthly_task(image);
     }
 
     std::unordered_set<std::string> pre_cooling;
@@ -519,6 +613,10 @@ bool asst::RoguelikeBattleTaskPlugin::do_once(const cv::Mat& image, const cv::Ma
         if (oper.available) {
             ++cur_available_count;
         }
+    }
+
+    if (try_run_monthly_squad_deploy_task()) {
+        return true;
     }
 
     if (do_best_deploy()) { // 这是新的部署逻辑，更加精确
@@ -592,8 +690,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_once(const cv::Mat& image, const cv::Ma
         m_deployed_time.insert_or_assign(oper_tag, deployed_time);
         // 获取技能用法和使用次数
         const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), oper_tag);
-        m_skill_usage[oper_tag] = oper_info.skill_usage;
-        m_skill_times[oper_tag] = oper_info.skill_times;
+        configure_skill_usage(oper_tag, oper_info.skill_usage, oper_info.skill_times);
 
         if (urgent_home_opt) {
             m_urgent_home_index.pop_front();
@@ -843,6 +940,8 @@ void asst::RoguelikeBattleTaskPlugin::clear()
 
     m_cur_home_index = 0;
     m_first_deploy = true;
+    m_monthly_squad_task_pending_abandon = false;
+    m_monthly_squad_task_battle_abandoned = false;
     m_melee_full = false;
     m_ranged_full = false;
     m_homes_status.clear();
