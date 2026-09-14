@@ -1,4 +1,4 @@
-// <copyright file="OperProgressionMasterySkillRow.cs" company="MaaAssistantArknights">
+// <copyright file="OperProgressMasterySkillRow.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -19,12 +19,12 @@ using Stylet;
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
 /// <summary>培养目标弹窗中的单个技能专精行</summary>
-public sealed class OperProgressionMasterySkillRow : PropertyChangedBase
+public sealed class OperProgressMasterySkillRow : PropertyChangedBase
 {
-    public OperProgressionMasterySkillRow(int skillIndex)
+    public OperProgressMasterySkillRow(int skillIndex)
     {
         SkillIndex = skillIndex;
-        Label = LocalizationHelper.GetStringFormat("OperProgressionSkillNumber", skillIndex);
+        Label = LocalizationHelper.GetStringFormat("OperProgressSkillNumber", skillIndex);
     }
 
     public int SkillIndex { get; }

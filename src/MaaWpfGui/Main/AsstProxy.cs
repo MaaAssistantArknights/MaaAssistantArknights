@@ -3380,7 +3380,7 @@ public class AsstProxy
         Fight,
 
         /// <summary>干员培养</summary>
-        OperProgression,
+        OperProgress,
 
         /// <summary>自动公招</summary>
         Recruit,
@@ -3440,7 +3440,7 @@ public class AsstProxy
     [
         TaskType.StartUp,
         TaskType.Fight,
-        TaskType.OperProgression,
+        TaskType.OperProgress,
         TaskType.Infrast,
         TaskType.Recruit,
         TaskType.Mall,

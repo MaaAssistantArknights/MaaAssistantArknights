@@ -1,4 +1,4 @@
-// <copyright file="OperProgressionTaskUserControlModel.cs" company="MaaAssistantArknights">
+// <copyright file="OperProgressTaskUserControlModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -29,20 +29,20 @@ using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperProgressionTaskUserControlModel.ISerialize
+public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgressTaskUserControlModel.ISerialize
 {
     private const int MaxOperators = 5;
 
     private static readonly HashSet<string> AllowedFields = ["name", "elite", "skills", "skill", "skill_master"];
 
-    static OperProgressionTaskUserControlModel() => Instance = new();
+    static OperProgressTaskUserControlModel() => Instance = new();
 
-    public OperProgressionTaskUserControlModel()
+    public OperProgressTaskUserControlModel()
     {
-        Instances.AsstProxy.AsstSubTaskMsgEvent += ProcOperProgressionMsg;
+        Instances.AsstProxy.AsstSubTaskMsgEvent += ProcOperProgressMsg;
     }
 
-    public static OperProgressionTaskUserControlModel Instance { get; }
+    public static OperProgressTaskUserControlModel Instance { get; }
 
     private string _planJson = "[]";
 
@@ -55,17 +55,17 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
                 return;
             }
 
-            IsCurrentTextValidated = value == GetTaskConfig<OperProgressionTask>().ValidatedPlanJson;
-            SetTaskConfig<OperProgressionTask>(t => t.PlanJson == value, t => t.PlanJson = value);
+            IsCurrentTextValidated = value == GetTaskConfig<OperProgressTask>().ValidatedPlanJson;
+            SetTaskConfig<OperProgressTask>(t => t.PlanJson == value, t => t.PlanJson = value);
             ValidationMessage = IsCurrentTextValidated
-                ? LocalizationHelper.GetString("OperProgressionPlanValid")
-                : LocalizationHelper.GetString("OperProgressionPlanPending");
+                ? LocalizationHelper.GetString("OperProgressPlanValid")
+                : LocalizationHelper.GetString("OperProgressPlanPending");
         }
     }
 
-    public bool IsCurrentTextValidated { get => field; private set => SetAndNotify(ref field, value); } = true;
+    public bool IsCurrentTextValidated { get; private set => SetAndNotify(ref field, value); } = true;
 
-    public string ValidationMessage { get => field; private set => SetAndNotify(ref field, value); } = string.Empty;
+    public string ValidationMessage { get; private set => SetAndNotify(ref field, value); } = string.Empty;
 
     public ObservableCollection<PlanPreview> PlanPreviewItems { get; } = [];
 
@@ -104,26 +104,25 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
     /// <summary>任务链结束后删除已完成条目（高级设置）</summary>
     public bool DeleteCompletedEntries
     {
-        get => GetTaskConfig<OperProgressionTask>().DeleteCompletedEntries;
-        set => SetTaskConfig<OperProgressionTask>(t => t.DeleteCompletedEntries == value, t => t.DeleteCompletedEntries = value);
+        get => GetTaskConfig<OperProgressTask>().DeleteCompletedEntries;
+        set => SetTaskConfig<OperProgressTask>(t => t.DeleteCompletedEntries == value, t => t.DeleteCompletedEntries = value);
     }
 
     /// <summary>本轮运行中各条目的回调结果，序号为 Core 收到的计划数组下标</summary>
     private readonly Dictionary<int, (string Name, bool Completed)> _runEntryResults = [];
 
     // —— 培养目标弹窗 ——
-    public bool IsTargetPopupOpen { get => field; set => SetAndNotify(ref field, value); }
+    public bool IsTargetPopupOpen { get; set => SetAndNotify(ref field, value); }
 
-    public string PopupTitle { get => field; private set => SetAndNotify(ref field, value); } = string.Empty;
+    public string PopupTitle { get; private set => SetAndNotify(ref field, value); } = string.Empty;
 
-    public string PopupConfirmText { get => field; private set => SetAndNotify(ref field, value); } = string.Empty;
+    public string PopupConfirmText { get; private set => SetAndNotify(ref field, value); } = string.Empty;
 
-    public bool PopupHasSelection { get => field; private set => SetAndNotify(ref field, value); }
+    public bool PopupHasSelection { get; private set => SetAndNotify(ref field, value); }
 
     public bool PopupSelectElite
     {
-        get => field;
-        set {
+        get; set {
             if (SetAndNotify(ref field, value))
             {
                 UpdatePopupHasSelection();
@@ -133,8 +132,7 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
 
     public int PopupEliteTarget
     {
-        get => field;
-        set {
+        get; set {
             if (SetAndNotify(ref field, value))
             {
                 PopupSelectElite = true;
@@ -144,8 +142,7 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
 
     public bool PopupSelectSkill
     {
-        get => field;
-        set {
+        get; set {
             if (SetAndNotify(ref field, value))
             {
                 UpdatePopupHasSelection();
@@ -155,8 +152,7 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
 
     public int PopupSkillTarget
     {
-        get => field;
-        set {
+        get; set {
             if (SetAndNotify(ref field, value))
             {
                 PopupSelectSkill = true;
@@ -171,7 +167,7 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
     public IReadOnlyList<int> MasteryTargetOptions { get; } = [1, 2, 3];
 
     /// <summary>技能专精行，每个技能独立勾选，按干员稀有度与已有条目动态生成</summary>
-    public ObservableCollection<OperProgressionMasterySkillRow> MasteryRows { get; } = [];
+    public ObservableCollection<OperProgressMasterySkillRow> MasteryRows { get; } = [];
 
     private string _popupOperatorName = string.Empty;
 
@@ -192,7 +188,7 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
 
     public override void RefreshUI(BaseTask baseTask)
     {
-        if (baseTask is not OperProgressionTask task)
+        if (baseTask is not OperProgressTask task)
         {
             return;
         }
@@ -200,8 +196,8 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
         _planJson = task.PlanJson;
         IsCurrentTextValidated = task.PlanJson == task.ValidatedPlanJson;
         ValidationMessage = IsCurrentTextValidated
-            ? LocalizationHelper.GetString("OperProgressionPlanValid")
-            : LocalizationHelper.GetString("OperProgressionPlanPending");
+            ? LocalizationHelper.GetString("OperProgressPlanValid")
+            : LocalizationHelper.GetString("OperProgressPlanPending");
         try
         {
             LoadPreview(ParseAndValidate(task.ValidatedPlanJson));
@@ -214,8 +210,7 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
         Refresh();
     }
 
-    public override (bool? IsSuccess, IEnumerable<int> TaskId) SerializeTask(BaseTask? baseTask, int? taskId = null) =>
-        (this as ISerialize).Serialize(baseTask, taskId);
+    public override (bool? IsSuccess, IEnumerable<int> TaskId) SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize).Serialize(baseTask, taskId);
 
     public void OpenTargetPopup()
     {
@@ -228,7 +223,7 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
         var character = DataHelper.GetCharacterByNameOrAlias(input);
         if (character?.Name is not { } name || !DataHelper.Operators.ContainsKey(character.Id))
         {
-            ValidationMessage = LocalizationHelper.GetString("OperProgressionInvalidOperatorInput");
+            ValidationMessage = LocalizationHelper.GetString("OperProgressInvalidOperatorInput");
             return;
         }
 
@@ -329,7 +324,7 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
     {
         var completedEntries = _runEntryResults.Where(kv => kv.Value.Completed).Select(kv => (Index: kv.Key, kv.Value.Name)).ToList();
         _runEntryResults.Clear();
-        if (!GetTaskConfig<OperProgressionTask>().DeleteCompletedEntries || completedEntries.Count == 0)
+        if (!GetTaskConfig<OperProgressTask>().DeleteCompletedEntries || completedEntries.Count == 0)
         {
             return;
         }
@@ -359,7 +354,7 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
     private void ApplyPlans(JArray plans)
     {
         string normalized = plans.ToString(Formatting.Indented);
-        SetTaskConfig<OperProgressionTask>(
+        SetTaskConfig<OperProgressTask>(
             t => t.PlanJson == normalized && t.ValidatedPlanJson == normalized,
             t => {
                 t.PlanJson = normalized;
@@ -368,7 +363,7 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
         _planJson = normalized;
         NotifyOfPropertyChange(nameof(PlanJson));
         IsCurrentTextValidated = true;
-        ValidationMessage = LocalizationHelper.GetStringFormat("OperProgressionPlanParsed", plans.Count);
+        ValidationMessage = LocalizationHelper.GetStringFormat("OperProgressPlanParsed", plans.Count);
         LoadPreview(plans);
     }
 
@@ -377,7 +372,7 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
     {
         try
         {
-            return ParseAndValidate(GetTaskConfig<OperProgressionTask>().ValidatedPlanJson);
+            return ParseAndValidate(GetTaskConfig<OperProgressTask>().ValidatedPlanJson);
         }
         catch (Exception ex) when (ex is JsonException or InvalidOperationException)
         {
@@ -389,8 +384,8 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
     {
         _popupOperatorName = name;
         _editOperatorIndex = editIndex;
-        PopupTitle = LocalizationHelper.GetStringFormat("OperProgressionTargetTitle", DataHelper.GetLocalizedCharacterName(name) ?? name);
-        PopupConfirmText = LocalizationHelper.GetString(editIndex >= 0 ? "OperProgressionEdit" : "Confirm");
+        PopupTitle = LocalizationHelper.GetStringFormat("OperProgressTargetTitle", DataHelper.GetLocalizedCharacterName(name) ?? name);
+        PopupConfirmText = LocalizationHelper.GetString(editIndex >= 0 ? "OperProgressEdit" : "Confirm");
 
         int maxSkill = GetMaxMasterySkill(name);
         if (editIndex >= 0)
@@ -462,7 +457,7 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
         MasteryRows.Clear();
         for (int skillIndex = 1; skillIndex <= maxSkill; ++skillIndex)
         {
-            var row = new OperProgressionMasterySkillRow(skillIndex);
+            var row = new OperProgressMasterySkillRow(skillIndex);
             row.PropertyChanged += (_, _) => UpdatePopupHasSelection();
             MasteryRows.Add(row);
         }
@@ -501,31 +496,31 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
         }
         catch (JsonReaderException ex)
         {
-            throw new InvalidOperationException(LocalizationHelper.GetStringFormat("OperProgressionJsonError", ex.LineNumber, ex.LinePosition, ex.Message), ex);
+            throw new InvalidOperationException(LocalizationHelper.GetStringFormat("OperProgressJsonError", ex.LineNumber, ex.LinePosition, ex.Message), ex);
         }
 
         if (root is not JArray plans)
         {
-            throw Error(-1, "$", "OperProgressionPlanMustBeArray");
+            throw Error(-1, "$", "OperProgressPlanMustBeArray");
         }
 
         for (int index = 0; index < plans.Count; ++index)
         {
             if (plans[index] is not JObject plan)
             {
-                throw Error(index, "$", "OperProgressionPlanMustBeObject");
+                throw Error(index, "$", "OperProgressPlanMustBeObject");
             }
 
             var unknown = plan.Properties().FirstOrDefault(property => !AllowedFields.Contains(property.Name));
             if (unknown is not null)
             {
-                throw Error(index, unknown.Name, "OperProgressionUnknownField");
+                throw Error(index, unknown.Name, "OperProgressUnknownField");
             }
 
             string name = ReadRequiredString(plan, index, "name");
             if (!DataHelper.Operators.Values.Any(character => character.Name == name))
             {
-                throw Error(index, "name", "OperProgressionUnknownOperator");
+                throw Error(index, "name", "OperProgressUnknownOperator");
             }
             plan["name"] = name;
 
@@ -536,7 +531,7 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
             int actionCount = Convert.ToInt32(hasElite) + Convert.ToInt32(hasSkills) + Convert.ToInt32(hasSkill || hasMastery);
             if (actionCount != 1)
             {
-                throw Error(index, "$", "OperProgressionExactlyOneAction");
+                throw Error(index, "$", "OperProgressExactlyOneAction");
             }
 
             if (hasElite)
@@ -551,7 +546,7 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
             {
                 if (!hasSkill || !hasMastery)
                 {
-                    throw Error(index, hasSkill ? "skill_master" : "skill", "OperProgressionMasteryPairRequired");
+                    throw Error(index, hasSkill ? "skill_master" : "skill", "OperProgressMasteryPairRequired");
                 }
                 ReadInteger(plan, index, "skill", 1, 3);
                 ReadInteger(plan, index, "skill_master", 1, 3);
@@ -560,7 +555,7 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
 
         if (DistinctOperatorCount(plans) > MaxOperators)
         {
-            throw new InvalidOperationException(LocalizationHelper.GetString("OperProgressionOperatorLimit"));
+            throw new InvalidOperationException(LocalizationHelper.GetString("OperProgressOperatorLimit"));
         }
 
         return plans;
@@ -570,7 +565,7 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
     {
         if (plan[fieldName]?.Type != JTokenType.String || string.IsNullOrWhiteSpace(plan.Value<string>(fieldName)))
         {
-            throw Error(index, fieldName, "OperProgressionStringRequired");
+            throw Error(index, fieldName, "OperProgressStringRequired");
         }
         return plan.Value<string>(fieldName)!.Trim();
     }
@@ -579,7 +574,7 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
     {
         if (plan[fieldName]?.Type != JTokenType.Integer)
         {
-            throw Error(index, fieldName, "OperProgressionIntegerRequired");
+            throw Error(index, fieldName, "OperProgressIntegerRequired");
         }
         int value;
         try
@@ -588,11 +583,11 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
         }
         catch (OverflowException ex)
         {
-            throw Error(index, fieldName, "OperProgressionIntegerRequired", ex);
+            throw Error(index, fieldName, "OperProgressIntegerRequired", ex);
         }
         if (value < minimum || value > maximum)
         {
-            throw new InvalidOperationException(LocalizationHelper.GetStringFormat("OperProgressionFieldRange", index, fieldName, minimum, maximum));
+            throw new InvalidOperationException(LocalizationHelper.GetStringFormat("OperProgressFieldRange", index, fieldName, minimum, maximum));
         }
         return value;
     }
@@ -614,10 +609,10 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
 
     private static string DescribeAction(JObject plan) =>
         plan.ContainsKey("elite")
-            ? LocalizationHelper.GetStringFormat("OperProgressionEliteTarget", plan.Value<int>("elite"))
+            ? LocalizationHelper.GetStringFormat("OperProgressEliteTarget", plan.Value<int>("elite"))
             : plan.ContainsKey("skills")
-                ? LocalizationHelper.GetStringFormat("OperProgressionSkillLevelTarget", plan.Value<int>("skills"))
-                : LocalizationHelper.GetStringFormat("OperProgressionMasteryTarget", plan.Value<int>("skill"), plan.Value<int>("skill_master"));
+                ? LocalizationHelper.GetStringFormat("OperProgressSkillLevelTarget", plan.Value<int>("skills"))
+                : LocalizationHelper.GetStringFormat("OperProgressMasteryTarget", plan.Value<int>("skill"), plan.Value<int>("skill_master"));
 
     public sealed record PlanPreview(int Index, string Name, string DisplayName, string Target);
 
@@ -625,7 +620,7 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
     {
         (bool? IsSuccess, IEnumerable<int> TaskId) ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
         {
-            if (baseTask is not OperProgressionTask development)
+            if (baseTask is not OperProgressTask development)
             {
                 return (null, []);
             }
@@ -646,42 +641,42 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
                 return (null, []);
             }
 
-            var task = new AsstOperProgressionTask { Plans = plans };
+            var task = new AsstOperProgressTask { Plans = plans };
             return taskId switch {
                 int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]),
-                null => FromSingle(Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.OperProgression, task)),
+                null => FromSingle(Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.OperProgress, task)),
                 _ => (null, []),
             };
         }
     }
 
-    private static void ProcOperProgressionMsg(AsstMsg type, AsstSubTaskMsg? msg)
+    private static void ProcOperProgressMsg(AsstMsg type, AsstSubTaskMsg? msg)
     {
-        if (type != AsstMsg.SubTaskExtraInfo || msg?.TaskChain != nameof(TaskType.OperProgression))
+        if (type != AsstMsg.SubTaskExtraInfo || msg?.TaskChain != nameof(TaskType.OperProgress))
         {
             return;
         }
         switch (msg.What)
         {
-            case "OperProgressionTargetStart":
+            case "OperProgressTargetStart":
                 Instances.TaskQueueViewModel.AddLog(
                     LocalizationHelper.GetStringFormat(
-                        "OperProgressionTargetStartLog",
+                        "OperProgressTargetStartLog",
                         (int)(msg.Details?["index"] ?? 0) + 1,
-                        ProcOperProgressionTargetName(msg.Details),
-                        ProcOperProgressionTargetDescription(msg.Details)),
+                        ProcOperProgressTargetName(msg.Details),
+                        ProcOperProgressTargetDescription(msg.Details)),
                     UiLogColor.Info,
                     splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
                 break;
 
-            case "OperProgressionTargetResult":
+            case "OperProgressTargetResult":
                 string action = msg.Details?["action"]?.ToString() ?? string.Empty;
                 string result = msg.Details?["result"]?.ToString() ?? "unsupported";
                 int? recognized = msg.Details?.Value<int?>("recognized");
                 string recognizedKey = action switch {
-                    "elite" => "OperProgressionRecognizedElite",
-                    "skills" => "OperProgressionRecognizedSkillLevel",
-                    "mastery" => "OperProgressionRecognizedMastery",
+                    "elite" => "OperProgressRecognizedElite",
+                    "skills" => "OperProgressRecognizedSkillLevel",
+                    "mastery" => "OperProgressRecognizedMastery",
                     _ => string.Empty,
                 };
                 string recognizedText = recognized is null || recognizedKey.Length == 0
@@ -689,10 +684,10 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
                     : LocalizationHelper.GetStringFormat(recognizedKey, recognized.Value);
                 Instances.TaskQueueViewModel.AddLog(
                     LocalizationHelper.GetStringFormat(
-                        "OperProgressionTargetResultLog",
+                        "OperProgressTargetResultLog",
                         (int)(msg.Details?["index"] ?? 0) + 1,
-                        ProcOperProgressionTargetName(msg.Details),
-                        ProcOperProgressionTargetDescription(msg.Details),
+                        ProcOperProgressTargetName(msg.Details),
+                        ProcOperProgressTargetDescription(msg.Details),
                         result) + recognizedText,
                     result is "completed" or "already_satisfied" ? UiLogColor.Success :
                     result is "skipped" or "formula_locked" ? UiLogColor.Warning : UiLogColor.Error);
@@ -702,10 +697,10 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
                     result is "completed" or "already_satisfied");
                 break;
 
-            case "OperProgressionSummary":
+            case "OperProgressSummary":
                 Instances.TaskQueueViewModel.AddLog(
                     LocalizationHelper.GetStringFormat(
-                        "OperProgressionSummaryLog",
+                        "OperProgressSummaryLog",
                         msg.Details?["completed"] ?? 0,
                         msg.Details?["already_satisfied"] ?? 0,
                         msg.Details?["failed"] ?? 0,
@@ -716,21 +711,21 @@ public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperPr
         }
     }
 
-    private static string ProcOperProgressionTargetName(JToken? details)
+    private static string ProcOperProgressTargetName(JToken? details)
     {
         var name = details?["name"]?.ToString() ?? string.Empty;
         return DataHelper.GetLocalizedCharacterName(name) ?? name;
     }
 
-    // 与干员培养设置页的预览行（OperProgressionTaskUserControlModel.DescribeAction）保持同一格式。
-    private static string ProcOperProgressionTargetDescription(JToken? details)
+    // 与干员培养设置页的预览行（OperProgressTaskUserControlModel.DescribeAction）保持同一格式。
+    private static string ProcOperProgressTargetDescription(JToken? details)
     {
         string action = details?["action"]?.ToString() ?? string.Empty;
         int target = details?["target"]?.Value<int>() ?? 0;
         return action switch {
-            "elite" => LocalizationHelper.GetStringFormat("OperProgressionEliteTarget", target),
-            "skills" => LocalizationHelper.GetStringFormat("OperProgressionSkillLevelTarget", target),
-            "mastery" => LocalizationHelper.GetStringFormat("OperProgressionMasteryTarget", details?["skill"]?.Value<int>() ?? 0, target),
+            "elite" => LocalizationHelper.GetStringFormat("OperProgressEliteTarget", target),
+            "skills" => LocalizationHelper.GetStringFormat("OperProgressSkillLevelTarget", target),
+            "mastery" => LocalizationHelper.GetStringFormat("OperProgressMasteryTarget", details?["skill"]?.Value<int>() ?? 0, target),
             _ => action,
         };
     }

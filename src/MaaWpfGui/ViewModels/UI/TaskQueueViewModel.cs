@@ -100,7 +100,7 @@ public class TaskQueueViewModel : Screen
     /// <summary>
     /// Gets 干员培养任务Model
     /// </summary>
-    public static OperProgressionTaskUserControlModel OperProgressionTask => OperProgressionTaskUserControlModel.Instance;
+    public static OperProgressTaskUserControlModel OperProgressTask => OperProgressTaskUserControlModel.Instance;
 
     /// <summary>
     /// Gets 招募任务Model
@@ -1274,29 +1274,14 @@ public class TaskQueueViewModel : Screen
         {
             ConfigFactory.CurrentConfig.TaskQueue.Add(new StartUpTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new FightTask());
-            ConfigFactory.CurrentConfig.TaskQueue.Add(new OperProgressionTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new InfrastTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new RecruitTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new MallTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new AwardTask());
+            ConfigFactory.CurrentConfig.TaskQueue.Add(new OperProgressTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new RoguelikeTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new ReclamationTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new UserDataUpdateTask());
-        }
-        else if (!ConfigFactory.CurrentConfig.TaskQueue.Any(static task => task is OperProgressionTask))
-        {
-            // Upgrade existing queues once so the new task is visible in the default workflow.
-            var fightIndex = -1;
-            for (var index = 0; index < ConfigFactory.CurrentConfig.TaskQueue.Count; index++)
-            {
-                if (ConfigFactory.CurrentConfig.TaskQueue[index] is FightTask)
-                {
-                    fightIndex = index;
-                    break;
-                }
-            }
-            var insertIndex = fightIndex >= 0 ? fightIndex + 1 : ConfigFactory.CurrentConfig.TaskQueue.Count;
-            ConfigFactory.CurrentConfig.TaskQueue.Insert(insertIndex, new OperProgressionTask());
         }
 
         // 临时补足到8个，支持添加删除后移除此代码
@@ -1668,11 +1653,11 @@ public class TaskQueueViewModel : Screen
         [
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("StartUp"), Value = typeof(StartUpTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Fight"), Value = typeof(FightTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("OperProgression"), Value = typeof(OperProgressionTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Infrast"), Value = typeof(InfrastTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Recruit"), Value = typeof(RecruitTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Mall"), Value = typeof(MallTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Award"), Value = typeof(AwardTask) },
+            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("OperProgress"), Value = typeof(OperProgressTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Roguelike"), Value = typeof(RoguelikeTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Reclamation"), Value = typeof(ReclamationTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("UserDataUpdate"), Value = typeof(UserDataUpdateTask) },
@@ -1688,11 +1673,11 @@ public class TaskQueueViewModel : Screen
             item.Display = item.Value.Name switch {
                 nameof(StartUpTask) => LocalizationHelper.GetString("StartUp"),
                 nameof(FightTask) => LocalizationHelper.GetString("Fight"),
-                nameof(OperProgressionTask) => LocalizationHelper.GetString("OperProgression"),
                 nameof(InfrastTask) => LocalizationHelper.GetString("Infrast"),
                 nameof(RecruitTask) => LocalizationHelper.GetString("Recruit"),
                 nameof(MallTask) => LocalizationHelper.GetString("Mall"),
                 nameof(AwardTask) => LocalizationHelper.GetString("Award"),
+                nameof(OperProgressTask) => LocalizationHelper.GetString("OperProgress"),
                 nameof(RoguelikeTask) => LocalizationHelper.GetString("Roguelike"),
                 nameof(ReclamationTask) => LocalizationHelper.GetString("Reclamation"),
                 nameof(UserDataUpdateTask) => LocalizationHelper.GetString("UserDataUpdate"),
