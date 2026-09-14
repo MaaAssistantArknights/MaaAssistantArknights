@@ -46,7 +46,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
 
     public bool Fight { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool AutoRaise { get => field; set => SetAndNotify(ref field, value); }
+    public bool OperProgression { get => field; set => SetAndNotify(ref field, value); }
 
     public bool Mall { get => field; set => SetAndNotify(ref field, value); }
 
@@ -155,7 +155,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
             RecruitTask => Recruit = enable,
             InfrastTask => Infrast = enable,
             FightTask => Fight = enable,
-            AutoRaiseTask => AutoRaise = enable,
+            OperProgressionTask => OperProgression = enable,
             MallTask => Mall = enable,
             AwardTask => Award = enable,
             RoguelikeTask => Roguelike = enable,
@@ -198,7 +198,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         Recruit = false;
         Infrast = false;
         Fight = false;
-        AutoRaise = false;
+        OperProgression = false;
         Mall = false;
         Award = false;
         Roguelike = false;
