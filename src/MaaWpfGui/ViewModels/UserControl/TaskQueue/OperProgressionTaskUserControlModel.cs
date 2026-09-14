@@ -1,4 +1,4 @@
-// <copyright file="AutoRaiseTaskUserControlModel.cs" company="MaaAssistantArknights">
+// <copyright file="OperProgressionTaskUserControlModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -29,20 +29,20 @@ using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTaskUserControlModel.ISerialize
+public class OperProgressionTaskUserControlModel : TaskSettingsViewModel, OperProgressionTaskUserControlModel.ISerialize
 {
     private const int MaxOperators = 5;
 
     private static readonly HashSet<string> AllowedFields = ["name", "elite", "skills", "skill", "skill_master"];
 
-    static AutoRaiseTaskUserControlModel() => Instance = new();
+    static OperProgressionTaskUserControlModel() => Instance = new();
 
-    public AutoRaiseTaskUserControlModel()
+    public OperProgressionTaskUserControlModel()
     {
-        Instances.AsstProxy.AsstSubTaskMsgEvent += ProcAutoRaiseMsg;
+        Instances.AsstProxy.AsstSubTaskMsgEvent += ProcOperProgressionMsg;
     }
 
-    public static AutoRaiseTaskUserControlModel Instance { get; }
+    public static OperProgressionTaskUserControlModel Instance { get; }
 
     private string _planJson = "[]";
 
@@ -55,11 +55,11 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
                 return;
             }
 
-            IsCurrentTextValidated = value == GetTaskConfig<AutoRaiseTask>().ValidatedPlanJson;
-            SetTaskConfig<AutoRaiseTask>(t => t.PlanJson == value, t => t.PlanJson = value);
+            IsCurrentTextValidated = value == GetTaskConfig<OperProgressionTask>().ValidatedPlanJson;
+            SetTaskConfig<OperProgressionTask>(t => t.PlanJson == value, t => t.PlanJson = value);
             ValidationMessage = IsCurrentTextValidated
-                ? LocalizationHelper.GetString("AutoRaisePlanValid")
-                : LocalizationHelper.GetString("AutoRaisePlanPending");
+                ? LocalizationHelper.GetString("OperProgressionPlanValid")
+                : LocalizationHelper.GetString("OperProgressionPlanPending");
         }
     }
 
@@ -104,8 +104,8 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
     /// <summary>任务链结束后删除已完成条目（高级设置）</summary>
     public bool DeleteCompletedEntries
     {
-        get => GetTaskConfig<AutoRaiseTask>().DeleteCompletedEntries;
-        set => SetTaskConfig<AutoRaiseTask>(t => t.DeleteCompletedEntries == value, t => t.DeleteCompletedEntries = value);
+        get => GetTaskConfig<OperProgressionTask>().DeleteCompletedEntries;
+        set => SetTaskConfig<OperProgressionTask>(t => t.DeleteCompletedEntries == value, t => t.DeleteCompletedEntries = value);
     }
 
     /// <summary>本轮运行中各条目的回调结果，序号为 Core 收到的计划数组下标</summary>
@@ -171,7 +171,7 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
     public IReadOnlyList<int> MasteryTargetOptions { get; } = [1, 2, 3];
 
     /// <summary>技能专精行，每个技能独立勾选，按干员稀有度与已有条目动态生成</summary>
-    public ObservableCollection<AutoRaiseMasterySkillRow> MasteryRows { get; } = [];
+    public ObservableCollection<OperProgressionMasterySkillRow> MasteryRows { get; } = [];
 
     private string _popupOperatorName = string.Empty;
 
@@ -192,7 +192,7 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
 
     public override void RefreshUI(BaseTask baseTask)
     {
-        if (baseTask is not AutoRaiseTask task)
+        if (baseTask is not OperProgressionTask task)
         {
             return;
         }
@@ -200,8 +200,8 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
         _planJson = task.PlanJson;
         IsCurrentTextValidated = task.PlanJson == task.ValidatedPlanJson;
         ValidationMessage = IsCurrentTextValidated
-            ? LocalizationHelper.GetString("AutoRaisePlanValid")
-            : LocalizationHelper.GetString("AutoRaisePlanPending");
+            ? LocalizationHelper.GetString("OperProgressionPlanValid")
+            : LocalizationHelper.GetString("OperProgressionPlanPending");
         try
         {
             LoadPreview(ParseAndValidate(task.ValidatedPlanJson));
@@ -228,7 +228,7 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
         var character = DataHelper.GetCharacterByNameOrAlias(input);
         if (character?.Name is not { } name || !DataHelper.Operators.ContainsKey(character.Id))
         {
-            ValidationMessage = LocalizationHelper.GetString("AutoRaiseInvalidOperatorInput");
+            ValidationMessage = LocalizationHelper.GetString("OperProgressionInvalidOperatorInput");
             return;
         }
 
@@ -329,7 +329,7 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
     {
         var completedEntries = _runEntryResults.Where(kv => kv.Value.Completed).Select(kv => (Index: kv.Key, kv.Value.Name)).ToList();
         _runEntryResults.Clear();
-        if (!GetTaskConfig<AutoRaiseTask>().DeleteCompletedEntries || completedEntries.Count == 0)
+        if (!GetTaskConfig<OperProgressionTask>().DeleteCompletedEntries || completedEntries.Count == 0)
         {
             return;
         }
@@ -359,7 +359,7 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
     private void ApplyPlans(JArray plans)
     {
         string normalized = plans.ToString(Formatting.Indented);
-        SetTaskConfig<AutoRaiseTask>(
+        SetTaskConfig<OperProgressionTask>(
             t => t.PlanJson == normalized && t.ValidatedPlanJson == normalized,
             t => {
                 t.PlanJson = normalized;
@@ -368,7 +368,7 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
         _planJson = normalized;
         NotifyOfPropertyChange(nameof(PlanJson));
         IsCurrentTextValidated = true;
-        ValidationMessage = LocalizationHelper.GetStringFormat("AutoRaisePlanParsed", plans.Count);
+        ValidationMessage = LocalizationHelper.GetStringFormat("OperProgressionPlanParsed", plans.Count);
         LoadPreview(plans);
     }
 
@@ -377,7 +377,7 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
     {
         try
         {
-            return ParseAndValidate(GetTaskConfig<AutoRaiseTask>().ValidatedPlanJson);
+            return ParseAndValidate(GetTaskConfig<OperProgressionTask>().ValidatedPlanJson);
         }
         catch (Exception ex) when (ex is JsonException or InvalidOperationException)
         {
@@ -389,8 +389,8 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
     {
         _popupOperatorName = name;
         _editOperatorIndex = editIndex;
-        PopupTitle = LocalizationHelper.GetStringFormat("AutoRaiseTargetTitle", DataHelper.GetLocalizedCharacterName(name) ?? name);
-        PopupConfirmText = LocalizationHelper.GetString(editIndex >= 0 ? "AutoRaiseEdit" : "Confirm");
+        PopupTitle = LocalizationHelper.GetStringFormat("OperProgressionTargetTitle", DataHelper.GetLocalizedCharacterName(name) ?? name);
+        PopupConfirmText = LocalizationHelper.GetString(editIndex >= 0 ? "OperProgressionEdit" : "Confirm");
 
         int maxSkill = GetMaxMasterySkill(name);
         if (editIndex >= 0)
@@ -462,7 +462,7 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
         MasteryRows.Clear();
         for (int skillIndex = 1; skillIndex <= maxSkill; ++skillIndex)
         {
-            var row = new AutoRaiseMasterySkillRow(skillIndex);
+            var row = new OperProgressionMasterySkillRow(skillIndex);
             row.PropertyChanged += (_, _) => UpdatePopupHasSelection();
             MasteryRows.Add(row);
         }
@@ -501,31 +501,31 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
         }
         catch (JsonReaderException ex)
         {
-            throw new InvalidOperationException(LocalizationHelper.GetStringFormat("AutoRaiseJsonError", ex.LineNumber, ex.LinePosition, ex.Message), ex);
+            throw new InvalidOperationException(LocalizationHelper.GetStringFormat("OperProgressionJsonError", ex.LineNumber, ex.LinePosition, ex.Message), ex);
         }
 
         if (root is not JArray plans)
         {
-            throw Error(-1, "$", "AutoRaisePlanMustBeArray");
+            throw Error(-1, "$", "OperProgressionPlanMustBeArray");
         }
 
         for (int index = 0; index < plans.Count; ++index)
         {
             if (plans[index] is not JObject plan)
             {
-                throw Error(index, "$", "AutoRaisePlanMustBeObject");
+                throw Error(index, "$", "OperProgressionPlanMustBeObject");
             }
 
             var unknown = plan.Properties().FirstOrDefault(property => !AllowedFields.Contains(property.Name));
             if (unknown is not null)
             {
-                throw Error(index, unknown.Name, "AutoRaiseUnknownField");
+                throw Error(index, unknown.Name, "OperProgressionUnknownField");
             }
 
             string name = ReadRequiredString(plan, index, "name");
             if (!DataHelper.Operators.Values.Any(character => character.Name == name))
             {
-                throw Error(index, "name", "AutoRaiseUnknownOperator");
+                throw Error(index, "name", "OperProgressionUnknownOperator");
             }
             plan["name"] = name;
 
@@ -536,7 +536,7 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
             int actionCount = Convert.ToInt32(hasElite) + Convert.ToInt32(hasSkills) + Convert.ToInt32(hasSkill || hasMastery);
             if (actionCount != 1)
             {
-                throw Error(index, "$", "AutoRaiseExactlyOneAction");
+                throw Error(index, "$", "OperProgressionExactlyOneAction");
             }
 
             if (hasElite)
@@ -551,7 +551,7 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
             {
                 if (!hasSkill || !hasMastery)
                 {
-                    throw Error(index, hasSkill ? "skill_master" : "skill", "AutoRaiseMasteryPairRequired");
+                    throw Error(index, hasSkill ? "skill_master" : "skill", "OperProgressionMasteryPairRequired");
                 }
                 ReadInteger(plan, index, "skill", 1, 3);
                 ReadInteger(plan, index, "skill_master", 1, 3);
@@ -560,7 +560,7 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
 
         if (DistinctOperatorCount(plans) > MaxOperators)
         {
-            throw new InvalidOperationException(LocalizationHelper.GetString("AutoRaiseOperatorLimit"));
+            throw new InvalidOperationException(LocalizationHelper.GetString("OperProgressionOperatorLimit"));
         }
 
         return plans;
@@ -570,7 +570,7 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
     {
         if (plan[fieldName]?.Type != JTokenType.String || string.IsNullOrWhiteSpace(plan.Value<string>(fieldName)))
         {
-            throw Error(index, fieldName, "AutoRaiseStringRequired");
+            throw Error(index, fieldName, "OperProgressionStringRequired");
         }
         return plan.Value<string>(fieldName)!.Trim();
     }
@@ -579,7 +579,7 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
     {
         if (plan[fieldName]?.Type != JTokenType.Integer)
         {
-            throw Error(index, fieldName, "AutoRaiseIntegerRequired");
+            throw Error(index, fieldName, "OperProgressionIntegerRequired");
         }
         int value;
         try
@@ -588,11 +588,11 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
         }
         catch (OverflowException ex)
         {
-            throw Error(index, fieldName, "AutoRaiseIntegerRequired", ex);
+            throw Error(index, fieldName, "OperProgressionIntegerRequired", ex);
         }
         if (value < minimum || value > maximum)
         {
-            throw new InvalidOperationException(LocalizationHelper.GetStringFormat("AutoRaiseFieldRange", index, fieldName, minimum, maximum));
+            throw new InvalidOperationException(LocalizationHelper.GetStringFormat("OperProgressionFieldRange", index, fieldName, minimum, maximum));
         }
         return value;
     }
@@ -614,10 +614,10 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
 
     private static string DescribeAction(JObject plan) =>
         plan.ContainsKey("elite")
-            ? LocalizationHelper.GetStringFormat("AutoRaiseEliteTarget", plan.Value<int>("elite"))
+            ? LocalizationHelper.GetStringFormat("OperProgressionEliteTarget", plan.Value<int>("elite"))
             : plan.ContainsKey("skills")
-                ? LocalizationHelper.GetStringFormat("AutoRaiseSkillLevelTarget", plan.Value<int>("skills"))
-                : LocalizationHelper.GetStringFormat("AutoRaiseMasteryTarget", plan.Value<int>("skill"), plan.Value<int>("skill_master"));
+                ? LocalizationHelper.GetStringFormat("OperProgressionSkillLevelTarget", plan.Value<int>("skills"))
+                : LocalizationHelper.GetStringFormat("OperProgressionMasteryTarget", plan.Value<int>("skill"), plan.Value<int>("skill_master"));
 
     public sealed record PlanPreview(int Index, string Name, string DisplayName, string Target);
 
@@ -625,7 +625,7 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
     {
         (bool? IsSuccess, IEnumerable<int> TaskId) ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
         {
-            if (baseTask is not AutoRaiseTask development)
+            if (baseTask is not OperProgressionTask development)
             {
                 return (null, []);
             }
@@ -646,42 +646,42 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
                 return (null, []);
             }
 
-            var task = new AsstAutoRaiseTask { Plans = plans };
+            var task = new AsstOperProgressionTask { Plans = plans };
             return taskId switch {
                 int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]),
-                null => FromSingle(Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.AutoRaise, task)),
+                null => FromSingle(Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.OperProgression, task)),
                 _ => (null, []),
             };
         }
     }
 
-    private static void ProcAutoRaiseMsg(AsstMsg type, AsstSubTaskMsg? msg)
+    private static void ProcOperProgressionMsg(AsstMsg type, AsstSubTaskMsg? msg)
     {
-        if (type != AsstMsg.SubTaskExtraInfo || msg?.TaskChain != nameof(TaskType.AutoRaise))
+        if (type != AsstMsg.SubTaskExtraInfo || msg?.TaskChain != nameof(TaskType.OperProgression))
         {
             return;
         }
         switch (msg.What)
         {
-            case "AutoRaiseTargetStart":
+            case "OperProgressionTargetStart":
                 Instances.TaskQueueViewModel.AddLog(
                     LocalizationHelper.GetStringFormat(
-                        "AutoRaiseTargetStartLog",
+                        "OperProgressionTargetStartLog",
                         (int)(msg.Details?["index"] ?? 0) + 1,
-                        ProcAutoRaiseTargetName(msg.Details),
-                        ProcAutoRaiseTargetDescription(msg.Details)),
+                        ProcOperProgressionTargetName(msg.Details),
+                        ProcOperProgressionTargetDescription(msg.Details)),
                     UiLogColor.Info,
                     splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
                 break;
 
-            case "AutoRaiseTargetResult":
+            case "OperProgressionTargetResult":
                 string action = msg.Details?["action"]?.ToString() ?? string.Empty;
                 string result = msg.Details?["result"]?.ToString() ?? "unsupported";
                 int? recognized = msg.Details?.Value<int?>("recognized");
                 string recognizedKey = action switch {
-                    "elite" => "AutoRaiseRecognizedElite",
-                    "skills" => "AutoRaiseRecognizedSkillLevel",
-                    "mastery" => "AutoRaiseRecognizedMastery",
+                    "elite" => "OperProgressionRecognizedElite",
+                    "skills" => "OperProgressionRecognizedSkillLevel",
+                    "mastery" => "OperProgressionRecognizedMastery",
                     _ => string.Empty,
                 };
                 string recognizedText = recognized is null || recognizedKey.Length == 0
@@ -689,10 +689,10 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
                     : LocalizationHelper.GetStringFormat(recognizedKey, recognized.Value);
                 Instances.TaskQueueViewModel.AddLog(
                     LocalizationHelper.GetStringFormat(
-                        "AutoRaiseTargetResultLog",
+                        "OperProgressionTargetResultLog",
                         (int)(msg.Details?["index"] ?? 0) + 1,
-                        ProcAutoRaiseTargetName(msg.Details),
-                        ProcAutoRaiseTargetDescription(msg.Details),
+                        ProcOperProgressionTargetName(msg.Details),
+                        ProcOperProgressionTargetDescription(msg.Details),
                         result) + recognizedText,
                     result is "completed" or "already_satisfied" ? UiLogColor.Success :
                     result is "skipped" or "formula_locked" ? UiLogColor.Warning : UiLogColor.Error);
@@ -702,10 +702,10 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
                     result is "completed" or "already_satisfied");
                 break;
 
-            case "AutoRaiseSummary":
+            case "OperProgressionSummary":
                 Instances.TaskQueueViewModel.AddLog(
                     LocalizationHelper.GetStringFormat(
-                        "AutoRaiseSummaryLog",
+                        "OperProgressionSummaryLog",
                         msg.Details?["completed"] ?? 0,
                         msg.Details?["already_satisfied"] ?? 0,
                         msg.Details?["failed"] ?? 0,
@@ -716,21 +716,21 @@ public class AutoRaiseTaskUserControlModel : TaskSettingsViewModel, AutoRaiseTas
         }
     }
 
-    private static string ProcAutoRaiseTargetName(JToken? details)
+    private static string ProcOperProgressionTargetName(JToken? details)
     {
         var name = details?["name"]?.ToString() ?? string.Empty;
         return DataHelper.GetLocalizedCharacterName(name) ?? name;
     }
 
-    // 与干员培养设置页的预览行（AutoRaiseTaskUserControlModel.DescribeAction）保持同一格式。
-    private static string ProcAutoRaiseTargetDescription(JToken? details)
+    // 与干员培养设置页的预览行（OperProgressionTaskUserControlModel.DescribeAction）保持同一格式。
+    private static string ProcOperProgressionTargetDescription(JToken? details)
     {
         string action = details?["action"]?.ToString() ?? string.Empty;
         int target = details?["target"]?.Value<int>() ?? 0;
         return action switch {
-            "elite" => LocalizationHelper.GetStringFormat("AutoRaiseEliteTarget", target),
-            "skills" => LocalizationHelper.GetStringFormat("AutoRaiseSkillLevelTarget", target),
-            "mastery" => LocalizationHelper.GetStringFormat("AutoRaiseMasteryTarget", details?["skill"]?.Value<int>() ?? 0, target),
+            "elite" => LocalizationHelper.GetStringFormat("OperProgressionEliteTarget", target),
+            "skills" => LocalizationHelper.GetStringFormat("OperProgressionSkillLevelTarget", target),
+            "mastery" => LocalizationHelper.GetStringFormat("OperProgressionMasteryTarget", details?["skill"]?.Value<int>() ?? 0, target),
             _ => action,
         };
     }

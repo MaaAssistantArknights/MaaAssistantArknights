@@ -1,4 +1,4 @@
-// <copyright file="AsstAutoRaiseTask.cs" company="MaaAssistantArknights">
+// <copyright file="AsstOperProgressionTask.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -17,12 +17,11 @@ using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.Models.AsstTasks;
 
-public class AsstAutoRaiseTask : AsstBaseTask
+public class AsstOperProgressionTask : AsstBaseTask
 {
-    public override AsstTaskType TaskType => AsstTaskType.AutoRaise;
+    public override AsstTaskType TaskType => AsstTaskType.OperProgression;
 
     public JArray Plans { get; set; } = [];
 
-    public override (AsstTaskType TaskType, JObject Params) Serialize() =>
-        (TaskType, new JObject { ["plans"] = Plans.DeepClone() });
+    public override (AsstTaskType TaskType, JObject Params) Serialize() => (TaskType, new JObject { ["plans"] = Plans.DeepClone() });
 }

@@ -1,4 +1,4 @@
-// <copyright file="AutoRaiseTaskUserControl.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="OperProgressionTaskUserControl.xaml.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -13,7 +13,7 @@
 
 namespace MaaWpfGui.Views.UserControl.TaskQueue;
 
-public partial class AutoRaiseTaskUserControl : System.Windows.Controls.UserControl
+public partial class OperProgressionTaskUserControl : System.Windows.Controls.UserControl
 {
-    public AutoRaiseTaskUserControl() => InitializeComponent();
+    public OperProgressionTaskUserControl() => InitializeComponent();
 }
