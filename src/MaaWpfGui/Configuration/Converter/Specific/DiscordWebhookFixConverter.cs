@@ -26,6 +26,8 @@ namespace MaaWpfGui.Configuration.Converter.Specific;
 
 public class DiscordWebhookFixConverter : JsonConverter<ExternalNotification>
 {
+    private static readonly ILogger _logger = Log.ForContext<DiscordWebhookFixConverter>();
+
     public override ExternalNotification? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType != JsonTokenType.StartObject)
@@ -68,7 +70,7 @@ public class DiscordWebhookFixConverter : JsonConverter<ExternalNotification>
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "Failed to deserialize Root object with DiscordWebhookFixConverter.");
+            _logger.Error(ex, "Failed to deserialize Root object.");
             return JsonSerializer.Deserialize<ExternalNotification>(jsonDoc.RootElement.GetRawText(), GetOptionsWithoutThisConverter(options));
         }
     }

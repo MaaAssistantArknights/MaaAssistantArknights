@@ -510,12 +510,12 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             _logger.Information("Delegated pending update completed successfully");
         }
 
-        if (PendingUpdateApplier.TryConsumeDelegatedUpdateFailure(out string delegatedUpdateFailureReason))
+        if (PendingUpdateApplier.TryReadDelegatedUpdateFailure(out string delegatedUpdateFailureReason))
         {
+            // 上次委托更新失败：标志文件保留供后续启动检测，此处仅置资源损坏标志并放行启动，
+            // 修复弹窗须等主窗口显示后（AsstProxy.Init）再弹，避免成为唯一窗口导致进程意外退出
             _logger.Error("Delegated pending update failed. Reason: {Reason}", delegatedUpdateFailureReason);
-            ShowPendingUpdateRecoveryDialog();
-            FlushLogAndExit();
-            return;
+            MarkResourceBroken();
         }
 
         if (TryGetUnsupportedInstallLocation(out string unsupportedLocation))
@@ -561,10 +561,11 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
             if (pendingUpdateResult.RequiresManualRecovery)
             {
+                // 进程内应用失败且安装已变动：写入失败标志持久化，与委托更新失败共用
+                // 主窗口显示后的修复弹窗路径，此处不退出
                 _logger.Error("Pending update package left the installation in an incomplete state. Reason: {Reason}", pendingUpdateResult.FailureReason);
-                ShowPendingUpdateRecoveryDialog();
-                FlushLogAndExit();
-                return;
+                PendingUpdateApplier.MarkDelegatedUpdateFailure(pendingUpdateResult.FailureReason ?? string.Empty);
+                MarkResourceBroken();
             }
 
             _logger.Warning("Pending update package could not be applied, continuing with normal startup");
@@ -1035,6 +1036,46 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     /// </summary>
     public static void MarkResourceBroken() => _isResourceBroken = true;
 
+    private static bool _requiresRestart;
+
+    /// <summary>
+    /// Gets a value indicating whether the current session must restart before running new tasks.
+    /// 停止超时强收后 Core 状态不可信（可能仍挂起并补发迟到回调），置位后禁止开始新任务，
+    /// 拦截主队列 LinkStartWithTasks（热键/托盘/定时等汇入于此）、Copilot 启动、远程控制 LinkStart
+    /// 与启动自动运行（AsstProxy.Init）。进程内标志，重启进程即解除。
+    /// </summary>
+    public static bool RequiresRestart => _requiresRestart;
+
+    /// <summary>
+    /// 标记本会话需重启后才能继续任务。在 Stop 超时强收时调用。
+    /// </summary>
+    public static void MarkRequiresRestart() => _requiresRestart = true;
+
+#nullable enable
+
+    /// <summary>
+    /// 获取当前禁止开始新任务的原因文案；null 表示可启动。所有下发 Core 任务的入口统一经此判定：
+    /// 资源损坏（缺任务时 Core 进程直接崩溃）优先于需重启（停止超时后 Core 状态不可信）。
+    /// </summary>
+    /// <returns>拦截原因的本地化文案；可启动时为 null。</returns>
+    public static string? TryGetTaskBlockReason()
+    {
+        if (IsResourceBroken)
+        {
+            _logger.Warning("Task blocked: resource broken");
+            return LocalizationHelper.GetString("ResourceBrokenTaskBlocked");
+        }
+
+        if (RequiresRestart)
+        {
+            _logger.Warning("Task blocked: restart required");
+            return LocalizationHelper.GetString("RestartRecommendation");
+        }
+
+        return null;
+    }
+#nullable restore
+
     /// <summary>
     /// 在完整 GUI 尚未初始化前，应用待处理更新后立即重启。
     /// 若当前进程已带 <see cref="SkipStartupAutoRunArg"/>，则原样转发给下一进程。
@@ -1079,14 +1120,6 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         return ConfigFactory.CurrentConfig.Gui.StartUpSettings.SkipStartupAutoRunAfterUpdate
             ? [SkipStartupAutoRunArg]
             : [];
-    }
-
-    private static void ShowPendingUpdateRecoveryDialog()
-    {
-        MessageBoxHelper.Show(
-            LocalizationHelper.GetString("UpdateApplyFailed"),
-            LocalizationHelper.GetString("Error"),
-            icon: MessageBoxImage.Error);
     }
 
     private static void ShowPendingUpdateMissingUpdaterDialog()
@@ -1206,7 +1239,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         _isWaitingToRestart = true;
 
-        await RunningState.Instance.UntilIdleAsync(60000);
+        await RunningState.Instance.UntilIdleAsync();
         if (args is { Length: > 0 })
         {
             ShutdownAndRestartWithArgs(args);

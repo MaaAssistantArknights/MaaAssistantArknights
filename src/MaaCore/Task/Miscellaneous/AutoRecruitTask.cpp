@@ -688,15 +688,13 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         if (!is_calc_only_task()) {
             if (!(has_skip_tag || has_special_tag)) {
                 // do not confirm 3 star, force skip
-                if (!is_confirm_level_valid(3) && final_combination.min_level == 3 &&
-                    !is_select_level_valid(final_combination.min_level)) {
+                if (!is_confirm_level_valid(3) && final_combination.min_level == 3) {
                     calc_task_result_type result(calc_task_result::force_skip);
                     return result;
                 }
             }
             // do not confirm 4 star
-            if (!is_confirm_level_valid(4) && final_combination.min_level == 4 &&
-                !is_select_level_valid(final_combination.min_level)) {
+            if (!is_confirm_level_valid(4) && final_combination.min_level == 4) {
                 calc_task_result_type result(calc_task_result::force_skip);
                 return result;
             }

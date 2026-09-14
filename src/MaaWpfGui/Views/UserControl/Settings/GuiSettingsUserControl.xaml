@@ -55,17 +55,20 @@
                     Content="{DynamicResource WindowTitleScrollable}"
                     IsChecked="{Binding WindowTitleScrollable}" />
                 <StackPanel Margin="8" Orientation="Horizontal">
-                    <CheckBox MaxWidth="200" IsChecked="{Binding MainTasksInvertNullFunction}">
+                    <CheckBox MaxWidth="167" IsChecked="{Binding MainTasksInvertNullFunction}">
                         <controls:TextBlock Text="{DynamicResource MainTasksNullFunctionality}" TextWrapping="Wrap" />
                     </CheckBox>
                     <controls:TooltipBlock TooltipText="{DynamicResource MainTasksNullFunctionalityTip}" />
                 </StackPanel>
                 <StackPanel Margin="8" Orientation="Horizontal">
-                    <CheckBox IsChecked="{Binding IgnoreBadModulesAndUseSoftwareRendering}">
-                        <controls:TextBlock
-                            MaxWidth="200"
-                            Text="{DynamicResource BadModules.UseSoftwareRendering}"
-                            TextWrapping="Wrap" />
+                    <CheckBox MaxWidth="167" IsChecked="{Binding HideHoverActionButtons}">
+                        <controls:TextBlock Text="{DynamicResource HideHoverActionButtons}" TextWrapping="Wrap" />
+                    </CheckBox>
+                    <controls:TooltipBlock TooltipText="{DynamicResource HideHoverActionButtonsTip}" />
+                </StackPanel>
+                <StackPanel Margin="8" Orientation="Horizontal">
+                    <CheckBox MaxWidth="167" IsChecked="{Binding IgnoreBadModulesAndUseSoftwareRendering}">
+                        <controls:TextBlock Text="{DynamicResource BadModules.UseSoftwareRendering}" TextWrapping="Wrap" />
                     </CheckBox>
                     <controls:TooltipBlock TooltipText="{DynamicResource BadModules.UseSoftwareRenderingTip}" />
                 </StackPanel>
@@ -136,7 +139,7 @@
                     Margin="8"
                     hc:InfoElement.Title="{DynamicResource MainViewButtonFeature}"
                     DisplayMemberPath="Display"
-                    IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
+                    IsHitTestVisible="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
                     ItemsSource="{Binding InverseClearModeList}"
                     SelectedValue="{Binding InverseClearMode}"
                     SelectedValuePath="Value" />

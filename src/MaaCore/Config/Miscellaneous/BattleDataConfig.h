@@ -145,13 +145,16 @@ public:
         return battle::Role::Unknown;
     }
 
-    std::unordered_set<battle::Role> get_roles(const std::string& name) const
+    std::unordered_set<battle::Role> get_roles(const std::string& name, bool oper_only = false) const
     {
         std::unordered_set<battle::Role> roles;
         if (name.empty()) {
             return roles;
         }
-        for (const auto& [role, oper_map] : m_chars_by_role) {
+        for (const auto& [role, oper_map] :
+             m_chars_by_role | std::views::filter([&](const auto& pair) {
+                 return !oper_only || (pair.first != battle::Role::Drone && pair.first != battle::Role::Unknown);
+             })) {
             auto oper_it =
                 std::ranges::find_if(oper_map, [&name](const auto& pair) { return pair.second->name == name; });
             if (oper_it != oper_map.cend()) {

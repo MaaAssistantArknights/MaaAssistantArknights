@@ -110,7 +110,7 @@
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource AutoRecruitSelectStrategy}"
                 DisplayMemberPath="Display"
-                IsEnabled="{Binding Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                IsEnabled="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
                 ItemsSource="{Binding AutoRecruitSelectExtraTagsList}"
                 SelectedValue="{Binding SelectExtraTags}"
                 SelectedValuePath="Value" />

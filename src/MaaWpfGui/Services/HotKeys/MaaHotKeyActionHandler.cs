@@ -70,7 +70,7 @@ public class MaaHotKeyActionHandler : IMaaHotKeyActionHandler
         }
         else
         {
-            _ = Instances.TaskQueueViewModel.Stop();
+            _ = Instances.TaskQueueViewModel.StopManuallyAsync();
 
             if (Application.Current.MainWindow == null ||
                 Application.Current.MainWindow.WindowState != WindowState.Minimized)

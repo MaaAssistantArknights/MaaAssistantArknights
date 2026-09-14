@@ -311,7 +311,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
                     // REFACTOR ME: 不招募情况没有对 oper_list 进行处理
                     // 若遇到 offset ，最终 priority 可能为正，会导致练度不够也招募 @Daydreamer114 @Saratoga-Official
-                    priority -= 114514;
+                    priority -= 114'514;
                 }
 
                 if (temp_recruit_exist && !oper_info.name.starts_with("预备干员")) {

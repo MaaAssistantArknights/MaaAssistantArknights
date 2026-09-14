@@ -129,7 +129,7 @@ protected:
 
     std::optional<std::string> call_command(
         const std::string& cmd,
-        int64_t timeout = 20000,
+        int64_t timeout = 20'000,
         bool allow_reconnect = true,
         bool recv_by_socket = false);
 
@@ -153,7 +153,7 @@ protected:
         const DecodeFunc& decode_func,
         bool allow_reconnect = false,
         bool by_socket = false,
-        int max_timeout = 20000);
+        int max_timeout = 20'000);
     void clear_lf_info();
 
     virtual void clear_info() noexcept;

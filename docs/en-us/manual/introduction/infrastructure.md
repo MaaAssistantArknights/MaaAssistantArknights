@@ -25,7 +25,7 @@ The following cross-facility operator teams can be enabled as needed in the base
 
 ### Shift Order
 
-In Normal Mode, the shift order is planned automatically by the algorithm (Dormitory → Power Plant → Office → Control Center → Factory → Trading Post → Reception Room → Dormitory → Processing Station → Training Room) to support cross-facility combinations and morale-recovery interactions. The facility list only determines which facility types MAA processes; the order of the list does not take effect. To schedule shifts in a custom order, use the `Custom Base Mode`.
+In Normal Mode, the shift order is planned automatically by the algorithm (Dormitory → Power Plant → Office → Control Center → Factory → Trading Post → Reception Room → Dormitory → Processing Station → Training Room → Assistant change) to support cross-facility combinations and morale-recovery interactions. The facility list only determines which facility types MAA processes; the order of the list does not take effect. To schedule shifts in a custom order, use the `Custom Base Mode`.
 
 ### Additional Notes
 
@@ -45,4 +45,5 @@ In Normal Mode, the shift order is planned automatically by the algorithm (Dormi
 ## Custom Base Mode
 
 - The [Schedule Generator](https://ark.yituliu.cn/tools/scheduleV3) created by community experts can help you create custom schedules. Refer to the [Base Facility Protocol Documentation](../../protocol/base-scheduling-schema.md) for usage.
+- [Automatic RIIC Schedule Generator](https://riic.autos/): Generate an efficient base schedule for the current version based on your operator roster.
 - The MAA folder `/resource/custom_infrast/` contains built-in theoretically maximum-efficiency presets. Not recommended for direct use due to their extreme operator and elite/skill level requirements.

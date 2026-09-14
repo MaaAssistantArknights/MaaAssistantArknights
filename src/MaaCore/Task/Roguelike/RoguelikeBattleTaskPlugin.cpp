@@ -1102,7 +1102,7 @@ asst::RoguelikeBattleTaskPlugin::DirectionAndScore asst::RoguelikeBattleTaskPlug
                 if (auto iter = m_used_tiles.find(absolute_pos);
                     iter != m_used_tiles.cend() &&
                     iter->second.role != battle::Role::Drone) { // 根据哪个方向上人多决定朝向哪
-                    score += 10000;
+                    score += 10'000;
                 }
                 if (auto iter = m_side_tile_info.find(absolute_pos); iter == m_side_tile_info.end()) {
                 }

@@ -391,7 +391,7 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
     std::string digit_str = result.text;
     int multiple = 1;
     if (size_t w_pos = digit_str.find("万"); w_pos != std::string::npos) {
-        multiple = 10000;
+        multiple = 10'000;
         digit_str.erase(w_pos, digit_str.size());
     }
     /*
@@ -420,7 +420,7 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
         digit_str.erase(m_pos, digit_str.size());
     }
     else if (size_t n_pos = digit_str.find("만"); n_pos != std::string::npos) {
-        multiple = 10000;
+        multiple = 10'000;
         digit_str.erase(n_pos, digit_str.size());
     }
     else if (size_t o_pos = digit_str.find("억"); o_pos != std::string::npos) {

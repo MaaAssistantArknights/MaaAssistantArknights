@@ -30,7 +30,7 @@ public:
 
     virtual std::shared_ptr<IOHandler> interactive_shell(const std::string& cmd) override;
 
-    virtual void release_adb(const std::string& adb_release, int64_t timeout = 20000) override;
+    virtual void release_adb(const std::string& adb_release, int64_t timeout = 20'000) override;
 
     int m_server_sock = -1;
     sockaddr_in m_server_sock_addr {};

@@ -106,7 +106,7 @@ IntegerLiteralSeparator:
   Binary: 4
   BinaryMinDigits: 9
   Decimal: 3
-  DecimalMinDigits: 7
+  DecimalMinDigits: 5
   Hex: -1
 # JavaImportGroups:
 # JavaScriptQuotes:

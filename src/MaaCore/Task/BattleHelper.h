@@ -68,9 +68,9 @@ protected:
     bool is_skill_ready(const std::string& name, const cv::Mat& reusable = cv::Mat());
     bool is_skill_ready(battle::Role role, const std::string& name, const cv::Mat& reusable = cv::Mat());
     // timeout_ms：0 为暂停快速路径（识别未命中即失败），正数为限时等待技能转好，-1 为不暂停无限等待
-    bool use_skill(const std::string& name, int timeout_ms = 500000);
-    bool use_skill(battle::Role role, const std::string& name, int timeout_ms = 500000);
-    bool use_skill(const Point& loc, int timeout_ms = 500000);
+    bool use_skill(const std::string& name, int timeout_ms = 500'000);
+    bool use_skill(battle::Role role, const std::string& name, int timeout_ms = 500'000);
+    bool use_skill(const Point& loc, int timeout_ms = 500'000);
     bool check_pause_button(const cv::Mat& reusable = cv::Mat());
     bool check_skip_plot_button(const cv::Mat& reusable = cv::Mat());
     // 检查是否有战斗中带头像的对话框
@@ -96,8 +96,8 @@ protected:
     bool click_oper_on_battlefield(const std::string& name);
     bool click_oper_on_battlefield(battle::Role role, const std::string& name);
     bool click_oper_on_battlefield(const Point& loc);
-    bool click_retreat();                      // 这个是不带识别的，直接点
-    bool click_skill(int timeout_ms = 500000); // 这个是带识别的，转好了才点
+    bool click_retreat();                       // 这个是不带识别的，直接点
+    bool click_skill(int timeout_ms = 500'000); // 这个是带识别的，转好了才点
     bool cancel_oper_selection();
     // 修正终点超出范围的滑动，纠正时是否需要顺时针旋转
     void fix_swipe_out_of_limit(

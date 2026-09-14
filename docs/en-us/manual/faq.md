@@ -32,7 +32,7 @@ Or manually download and install this runtime library to solve the problem:
 
 - A complete MAA software package is named "MAA-`version`-`platform`-`architecture`.zip"; others are "components" that cannot be used independently. Please read carefully.
   In most cases, you need the x64 architecture of MAA, meaning you should download `MAA-*-win-x64.zip`, not `MAA-*-win-arm64.zip`.
-- If you find missing or non-working features after an automatic update, the update process may have had issues. Please download and extract the complete installation package again. After extraction, copy the `config`, `data`, and `debug` folders from your old `MAA` folder into the newly extracted `MAA` folder to keep your existing settings and logs. The `cache` and `achievement` (screenshots) folders are optional to keep.
+- If you find missing or non-working features after an automatic update, the update process may have had issues. When an update fails, MAA will show an update-failure notice on the next launch and offer auto repair (downloading the full package again and installing it after a restart). If that notice was dismissed, the installation may be in a half-updated state; please download and extract the complete installation package again. After extraction, copy the `config`, `data`, and `debug` folders from your old `MAA` folder into the newly extracted `MAA` folder to keep your existing settings and logs. The `cache` and `achievement` (screenshots) folders are optional to keep.
 
 ### Runtime library issues
 

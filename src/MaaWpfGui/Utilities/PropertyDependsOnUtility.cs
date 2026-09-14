@@ -31,6 +31,8 @@ namespace MaaWpfGui.Utilities;
 /// </summary>
 public static class PropertyDependsOnUtility
 {
+    private static readonly ILogger _logger = Log.ForContext("SourceContext", "PropertyDependsOnUtility");
+
     // 存储每个实例的属性依赖关系：使用 ConditionalWeakTable 避免内存泄漏
     private static readonly ConditionalWeakTable<object, Dictionary<string, List<string>>> _instanceDependencies = [];
 
@@ -217,7 +219,7 @@ public static class PropertyDependsOnUtility
                     }
                     else
                     {
-                        Log.Warning("Cross-instance dependency {Path}: external instance not found or does not support PropertyChanged", fullPath);
+                        _logger.Warning("Cross-instance dependency {Path}: external instance not found or does not support PropertyChanged", fullPath);
                     }
                 }
             }
@@ -227,7 +229,7 @@ public static class PropertyDependsOnUtility
                 var externalInstance = ResolveExternalInstanceByType(ownerType);
                 if (externalInstance is not INotifyPropertyChanged notifyInstance)
                 {
-                    Log.Warning("Cross-instance dependency {OwnerType}: external instance not found or does not support PropertyChanged", ownerType.Name);
+                    _logger.Warning("Cross-instance dependency {OwnerType}: external instance not found or does not support PropertyChanged", ownerType.Name);
                     continue;
                 }
 
@@ -256,7 +258,7 @@ public static class PropertyDependsOnUtility
                 // 订阅外部实例的 PropertyChanged
                 void externalHandler(object? sender, PropertyChangedEventArgs e)
                 {
-                    Log.Debug("Cross-instance handler triggered: sender={Sender}, property={Property}", sender?.GetType().Name, e.PropertyName);
+                    _logger.Debug("Cross-instance handler triggered: sender={Sender}, property={Property}", sender?.GetType().Name, e.PropertyName);
 
                     // 在锁内只收集待通知的 (实例, 属性)，通知动作放到锁外执行，
                     // 避免 NotifyPropertyChange 触发任意用户代码时持锁（潜在死锁/重入问题）。
@@ -275,7 +277,7 @@ public static class PropertyDependsOnUtility
                         }
                         else if (currentPropMap.TryGetValue(e.PropertyName, out var affectedInstances))
                         {
-                            Log.Debug("Cross-instance dependency matched: property={Property}, instance count={Count}", e.PropertyName, affectedInstances.Count);
+                            _logger.Debug("Cross-instance dependency matched: property={Property}, instance count={Count}", e.PropertyName, affectedInstances.Count);
 
                             // 复制一份快照，避免通知期间列表被其他线程修改
                             toNotify = [.. affectedInstances];
@@ -297,7 +299,7 @@ public static class PropertyDependsOnUtility
 
                 _externalHandlers[externalInstance] = externalHandler;
                 externalInstance.PropertyChanged += externalHandler;
-                Log.Debug("Registered cross-instance dependency: externalType={Type}, property={Property}", externalInstance.GetType().Name, externalPropertyName);
+                _logger.Debug("Registered cross-instance dependency: externalType={Type}, property={Property}", externalInstance.GetType().Name, externalPropertyName);
             }
 
             if (!propMap.TryGetValue(externalPropertyName, out var existingList))
@@ -497,6 +499,6 @@ public static class PropertyDependsOnUtility
         }
 
         // 如果没有 NotifyOfPropertyChange 方法，记录警告
-        Log.Warning("Property {PropertyName} of type {Type} needs change notification but NotifyOfPropertyChange method not found", propertyName, type.FullName);
+        _logger.Warning("Property {PropertyName} of type {Type} needs change notification but NotifyOfPropertyChange method not found", propertyName, type.FullName);
     }
 }

@@ -46,21 +46,25 @@ public partial class RuntimeSettings : NotifyPropertyChangedWithValue, IJsonOnDe
 
     public bool BlockSleepWithScreenOn { get; set; } = true;
 
-    public bool ReportToPenguin { get; set; } = true;
-
-    public string PenguinId { get; set; } = string.Empty;
-
-    public bool ReportToYituliu { get; set; } = true;
-
     public bool EnableStallTimeout { get; set; } = true;
 
     public int StallTimeoutReminderIntervalMinutes { get; set; } = 30;
 
     public int StallTimeoutMinutes { get; set; } = 30;
 
+    /// <summary>
+    /// 运行时长上限，从开始任务起计时，到时停止任务；null 为右键半选，仅生效一次
+    /// </summary>
+    public bool? EnableRunDurationLimit { get; set; } = false;
+
+    public int RunDurationLimitMinutes { get; set; } = 240;
+
+    public bool RunDurationLimitExecutePostActions { get; set; } = true;
+
     public void OnDeserialized()
     {
         StallTimeoutMinutes = Math.Clamp(StallTimeoutMinutes, 0, GameSettingsUserControlModel.TimeoutMaxMinutes);
         StallTimeoutReminderIntervalMinutes = Math.Clamp(StallTimeoutReminderIntervalMinutes, 1, GameSettingsUserControlModel.TimeoutMaxMinutes);
+        RunDurationLimitMinutes = Math.Clamp(RunDurationLimitMinutes, 1, GameSettingsUserControlModel.TimeoutMaxMinutes);
     }
 }

@@ -46,7 +46,8 @@ public class ServerChanNotificationProvider(IHttpService httpService, ServerChan
             var url = ConstructUrl(sendKey);
             var postData = $"text={Uri.EscapeDataString(title)}&desp={Uri.EscapeDataString(content)}";
 
-            var response = await httpService.PostAsync(new(url), new StringContent(postData, Encoding.UTF8, "application/x-www-form-urlencoded"));
+            // sendKey 在 path 中，日志须截断到域名，避免随日志泄漏
+            var response = await httpService.PostAsync(new(url), new StringContent(postData, Encoding.UTF8, "application/x-www-form-urlencoded"), uriPartial: UriPartial.Authority);
             var responseContent = await response.Content.ReadAsStringAsync();
 
             var responseRoot = JsonDocument.Parse(responseContent).RootElement;

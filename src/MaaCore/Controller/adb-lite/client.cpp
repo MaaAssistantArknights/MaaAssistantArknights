@@ -274,7 +274,7 @@ bool client_impl::push(const std::string_view src, const std::string_view dst, i
     send_sync_request(socket, "SEND", request_size, send_request.data());
 
     // DATA request: file data trunk, trunk size
-    const auto buf_size = 64000;
+    const auto buf_size = 64'000;
     std::array<char, buf_size> buffer;
     while (!file.eof()) {
         file.read(buffer.data(), buf_size);

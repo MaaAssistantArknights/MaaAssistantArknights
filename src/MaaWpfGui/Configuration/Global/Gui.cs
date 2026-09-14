@@ -33,6 +33,8 @@ public class Gui : NotifyPropertyChangedWithValue
 
     public bool MainTasksInvertNullFunction { get; set; }
 
+    public bool HideHoverActionButtons { get; set; }
+
     public string Localization { get; set; } = LocalizationHelper.DefaultLanguage;
 
     public string OperNameLanguage { get; set; } = "OperNameLanguageMAA";

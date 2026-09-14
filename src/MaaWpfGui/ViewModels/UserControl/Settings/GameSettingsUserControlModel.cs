@@ -265,44 +265,6 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         }
     } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.BlockSleepWithScreenOn;
 
-    #region 企鹅和一图流上报
-
-    /// <summary>
-    /// Gets or sets the id of PenguinStats.
-    /// </summary>
-    public string PenguinId
-    {
-        get; set {
-            SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.PenguinId = value;
-        }
-    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.PenguinId;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to enable penguin upload.
-    /// </summary>
-    public bool EnablePenguin
-    {
-        get; set {
-            SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ReportToPenguin = value;
-        }
-    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ReportToPenguin;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to enable yituliu upload.
-    /// </summary>
-    public bool EnableYituliu
-    {
-        get;
-        set {
-            SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ReportToYituliu = value;
-        }
-    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ReportToYituliu;
-
-    #endregion 企鹅和一图流上报
-
     #region 任务超时
 
     /// <summary>
@@ -339,6 +301,43 @@ public class GameSettingsUserControlModel : PropertyChangedBase
             ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutReminderIntervalMinutes = value;
         }
     } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutReminderIntervalMinutes;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 是否启用运行时长上限，null 为右键半选，仅生效一次
+    /// </summary>
+    public bool? EnableRunDurationLimit
+    {
+        get; set {
+            SetAndNotify(ref field, value);
+            NotifyOfPropertyChange(nameof(RunDurationLimitActive));
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.EnableRunDurationLimit = value;
+        }
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.EnableRunDurationLimit;
+
+    /// <summary>
+    /// Gets a value indicating whether 运行时长上限生效（勾选或右键半选）
+    /// </summary>
+    public bool RunDurationLimitActive => EnableRunDurationLimit != false;
+
+    public int RunDurationLimitMinutes
+    {
+        get; set {
+            value = value.Clamp(1, TimeoutMaxMinutes);
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.RunDurationLimitMinutes = value;
+        }
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.RunDurationLimitMinutes;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 到达运行时长上限停止后是否执行完成后动作
+    /// </summary>
+    public bool RunDurationLimitExecutePostActions
+    {
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.RunDurationLimitExecutePostActions = value;
+        }
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.RunDurationLimitExecutePostActions;
 
     #endregion 任务超时
 

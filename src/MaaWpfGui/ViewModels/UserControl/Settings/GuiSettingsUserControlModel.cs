@@ -172,6 +172,15 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    public bool HideHoverActionButtons
+    {
+        get => ConfigFactory.Root.Gui.HideHoverActionButtons;
+        set {
+            ConfigFactory.Root.Gui.HideHoverActionButtons = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
     public List<string> LogItemDateFormatStringList { get; } =
     [
         "HH:mm:ss",
@@ -580,6 +589,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
 
         DarkModeList.RefreshLocalization();
         InverseClearModeList.RefreshLocalization();
+        TransitionSpeedList.RefreshLocalization();
         RefreshWindowTitleAllShowDict();
         Instances.SettingsViewModel.UpdateWindowTitle();
     }

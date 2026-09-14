@@ -32,6 +32,7 @@ public partial class Gui : NotifyPropertyChangedWithValue
         ExternalNotification.Configs.CollectionChanged += Handler.OnCollectionChangedFactory<Base>(prefix + nameof(ExternalNotification) + ".");
         RemoteControl.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(RemoteControl) + ".");
         RuntimeSettings.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(RuntimeSettings) + ".");
+        ThirdParty.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(ThirdParty) + ".");
         ConnectSettings.EventBinding(prefix + nameof(ConnectSettings) + ".");
         StartUpSettings.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(StartUpSettings) + ".");
     }
@@ -50,6 +51,9 @@ public partial class Gui : NotifyPropertyChangedWithValue
 
     [JsonInclude]
     public RuntimeSettings RuntimeSettings { get; private set; } = new();
+
+    [JsonInclude]
+    public ThirdParty ThirdParty { get; private set; } = new();
 
     [JsonInclude]
     public StartUpSettings StartUpSettings { get; private set; } = new();

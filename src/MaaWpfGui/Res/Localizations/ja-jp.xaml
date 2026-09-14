@@ -102,6 +102,7 @@
     <system:String x:Key="GpuOptionSystemDefault">システムデフォルトGPU</system:String>
     <system:String x:Key="GpuDeprecatedMessage">現在選択されている推論加速 GPU（{0}）には互換性の問題があり、認識ミスやずれ、その他の予期しない不具合が発生する可能性があります。\n ｢{key=Settings} - {key=PerformanceSettings}｣ で別の GPU に変更することをおすすめします。</system:String>
     <system:String x:Key="GpuDriverOutdatedMessage">現在選択されている推論加速 GPU（{0}）のドライバーバージョン（{1}、リリース日：{2}）は{3}年以上経過しており、互換性の問題が発生する可能性があります。\nグラフィックスドライバーを更新するか、 ｢{key=Settings} - {key=PerformanceSettings}｣ で別の GPU に変更することをおすすめします。</system:String>
+    <system:String x:Key="GpuDriverInfoUnavailableMessage">現在選択されている推論加速 GPU（{0}）のドライバー情報を読み取れません。ドライバーが正しくインストールされていないか異常な状態である可能性があり、互換性の問題が発生する可能性があります。\nグラフィックスドライバーを更新または再インストールするか、 ｢{key=Settings} - {key=PerformanceSettings}｣ で別の GPU に変更することをおすすめします。</system:String>
     <system:String x:Key="GpuAllowDeprecated">非推奨 GPU の使用を許可する</system:String>
     <system:String x:Key="Copy">コピー</system:String>
     <!--  Toast 不可用  -->
@@ -149,6 +150,7 @@
     <system:String x:Key="Mfg">製造所</system:String>
     <system:String x:Key="Processing">加工所</system:String>
     <system:String x:Key="Training">訓練室</system:String>
+    <system:String x:Key="AssistantChange">副手交代替え</system:String>
     <system:String x:Key="Trade">貿易所</system:String>
     <system:String x:Key="Power">発電所</system:String>
     <system:String x:Key="Reception">応接室</system:String>
@@ -564,6 +566,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="StartGameLaunchClient">起動時にクライアントを開始する</system:String>
     <system:String x:Key="UseWeeklySchedule">週次スケジュールを有効にする</system:String>
     <system:String x:Key="UseWeeklyScheduleTip">ここでの曜日はゲーム内時間に基づいており、現実時間ではありません。例えば、ゲームが4:00にリセットされる場合、3:59は前日としてカウントされます。</system:String>
+    <system:String x:Key="FightSkippedWeeklySchedule">週次スケジュールで今日が未選択</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">グローバルサーバーの対応は非常に大変で、皆様の協力が必要です！プログラミングの知識は必要ありません。</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">起動時にエミュレータ自動起動</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunchTip">エミュレータは MAA 起動時に一度だけ起動され、｢{key=LinkStart}｣ をクリックするたびに起動されるわけではありません。\nそのような動作が必要な場合は ｢{key=RetryOnDisconnected}｣ を有効にしてください</system:String>
@@ -685,9 +688,28 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="RoguelikeStartWithIdea">構想</system:String>
     <system:String x:Key="RoguelikeStartWithTicket">遊覧券</system:String>
     <system:String x:Key="RefreshTraderWithDice">ダイスで品揃えを更新する（ミチビキリンジュウ）</system:String>
-    <system:String x:Key="PenguinId">Penguin-StatsのレポートのID（デジタル部分のみ）</system:String>
-    <system:String x:Key="EnablePenguin">Penguin-Statsへ報告</system:String>
-    <system:String x:Key="EnableYituliu">Yituliuへ報告</system:String>
+    <system:String x:Key="PenguinId">レポートID（デジタル部分のみ）</system:String>
+    <system:String x:Key="EnablePenguin">ドロップと公開求人のデータを報告</system:String>
+    <system:String x:Key="EnableYituliu">{key=EnablePenguin}</system:String>
+    <system:String x:Key="ThirdPartyServiceSettings">サードパーティ</system:String>
+    <system:String x:Key="ThirdPartyGroupPenguin">Penguin-Stats</system:String>
+    <system:String x:Key="ThirdPartyGroupYituliu">Yituliu</system:String>
+    <system:String x:Key="YituliuOpenApiToken">OpenAPIトークン</system:String>
+    <system:String x:Key="YituliuTokenVerify">検証</system:String>
+    <system:String x:Key="YituliuTokenEmpty">先にトークンを入力してください</system:String>
+    <system:String x:Key="YituliuTokenValid">トークンは有効です。合計 {0} 名のオペレーター</system:String>
+    <system:String x:Key="YituliuTokenValidNoData">トークンは有効ですが、アカウントにまだオペレーターデータがありません</system:String>
+    <system:String x:Key="YituliuTokenWriteOnly">トークンに読み取り権限がありません。読み取り専用または読み書き可能なトークンを使用してください</system:String>
+    <system:String x:Key="YituliuTokenInvalid">トークンが無効または期限切れです。再生成してください</system:String>
+    <system:String x:Key="YituliuTokenNetworkError">ネットワークエラーが発生しました。後でもう一度お試しください</system:String>
+    <system:String x:Key="EnableOperBoxYituliuApi">{key=OperBoxRecognition}をYituliuから取得</system:String>
+    <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">有効にすると、｢{key=Toolbox}｣と｢{key=UserDataUpdate}｣の{key=OperBoxRecognition}はエミュレーターに接続してスクリーンショット識別を行わず、トークンに対応するYituliuの育成データを直接読み取ります。&#10;｢{key=UserDataUpdate}｣によるトリガーでは、｢{key=LinkStart}｣押下後にエミュレーターへ接続次第、他のタスクと並行して取得を開始します。&#10;Yituliuに保存されるのは育成データのスナップショットのため、事前にYituliuサイトへオペレーターデータをアップロードしている必要があります。育成データは森空島からのインポートのため、CNサーバーのアカウントのみデータが存在します。&#10;トークンはYituliuの「アカウント」ページの「サードパーティ API Token」で生成できます。アカウントデータを保護するため、読み取り専用のトークンのみ使用してください。</system:String>
+    <system:String x:Key="OperBoxFetchingFromYituliu">Yituliuからオペレーターデータを取得中…</system:String>
+    <system:String x:Key="YituliuFetchFailed">Yituliuからの取得に失敗しました：{0}</system:String>
+    <system:String x:Key="YituliuNoOperBoxData">トークンに対応するYituliuアカウントにオペレーターデータがなく、ローカルの識別結果を保持しました</system:String>
+    <system:String x:Key="YituliuOperBoxCompleted">{key=OperBoxRecognition}の取得が完了しました（Yituliu）</system:String>
+    <system:String x:Key="OperBoxExportHeaderSkills">スキル特化</system:String>
+    <system:String x:Key="OperBoxExportHeaderEquips">モジュール</system:String>
     <system:String x:Key="DrGrandet">Dr.グランデモード</system:String>
     <system:String x:Key="DrGrandetTip">理性の回復画面で、現在の待機中の回復が完了するまで待ってから、理性剤などを使用します。</system:String>
     <system:String x:Key="SocialPtShop">FP交換</system:String>
@@ -731,6 +753,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="MainTasksNullFunctionality">メインタスクの右クリック効果を反転</system:String>
     <system:String x:Key="MainTasksNullFunctionalityTip">デフォルト：1回のみ有効、チェック後：1回のみスキップ</system:String>
     <system:String x:Key="MainTasksNullFunctionalitySwitch">｢{key=Settings} - {key=UiSettings} - {key=MainTasksNullFunctionality}｣ で右クリック効果を切替可能</system:String>
+    <system:String x:Key="HideHoverActionButtons">メインタスク ホバー時に操作ボタンを隠す</system:String>
+    <system:String x:Key="HideHoverActionButtonsTip">各操作は歯車の右クリックメニューから引き続き利用できます</system:String>
     <system:String x:Key="UseCardLog">カードスタイルのログを使用</system:String>
     <system:String x:Key="MaxNumberOfLogThumbnails">ログサムネイルの最大数</system:String>
     <system:String x:Key="TitleBarDisplayContent">タイトルバー表示コンテンツ</system:String>
@@ -911,6 +935,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BackToAndroidHome">エミュレータのホーム画面に戻る</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
+    <system:String x:Key="StopCurrentTaskFormat">実行中の{0}を停止</system:String>
     <system:String x:Key="WaitAndStop">待機 &amp; 停止</system:String>
     <system:String x:Key="AutoReloadResource">リソースを自動リロード</system:String>
     <system:String x:Key="CustomTaskName">タスク名</system:String>
@@ -976,8 +1001,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotSkipDuringResourceCollection">資源收集限時全日開放期間中はスキップ</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlan">在庫不足の最初のプランのみ実行</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlanTip" xml:space="preserve">在庫不足かつ当日実行可能な最初のプランのみ実行します。&#10;ログはそのプランまでの表示で、以降のプランは今回実行されません。&#10;補充完了後は次回実行で後続のプランへ進みます。</system:String>
-    <system:String x:Key="DepotPlanSkippedActivity">イベント開催中のため、在庫維持をスキップしました。</system:String>
-    <system:String x:Key="DepotPlanSkippedResourceCollection">資源收集限時全日開放期間中のため、在庫維持をスキップしました。</system:String>
+    <system:String x:Key="DepotPlanSkippedActivity">イベント開催中</system:String>
+    <system:String x:Key="DepotPlanSkippedResourceCollection">資源收集限時全日開放期間中</system:String>
     <system:String x:Key="DepotPlanUpdateDepotFailed">在庫データの更新に失敗しました。</system:String>
     <system:String x:Key="DepotUseAutoSeries">AUTO 代理倍率</system:String>
     <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">未チェック時は 1 倍で代理；チェック後は現在の理性で可能な最大倍率で代理し、1回の周回で目標在庫上限を超える場合があります。</system:String>
@@ -1041,7 +1066,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="UnselectedTask">タスクが選択されていません</system:String>
     <system:String x:Key="Running">動作中……</system:String>
     <system:String x:Key="TaskAppend.Skip">{0}: {1} タスクをスキップしました</system:String>
-    <system:String x:Key="TaskAppend.Error">{0}: {1} タスクの追加に失敗しました</system:String>
+    <system:String x:Key="TaskSerialize.Error">{0}: {1} のシリアライズに失敗しました</system:String>
     <system:String x:Key="AdbReplacementTips">タスクが応答なしになる場合は、 ｢{key=Settings} - {key=ConnectionSettings} - {key=ForcedReplaceAdb}｣ 、もしくは ADB Input タッチモード をチェックしてください（お勧めしない）。</system:String>
     <system:String x:Key="LDPlayerMaaTouchWarning">LDPlayer エミュレータと MaaTouch タッチモードの組み合わせを検出しました。この組み合わせではスワイプ操作が異常に遅くなることが知られています（実際のスワイプ時間が設定値を大幅に超過）。スワイプが終了する前に次の操作が実行され、各種異常が発生する可能性があります。他のタッチモードへの切り替えを推奨します。</system:String>
     <system:String x:Key="Waiting">ミッション終了を待っています……</system:String>
@@ -1397,17 +1422,23 @@ C:\leidian\LDPlayer9
     <system:String x:Key="CopyErrorMessage">エラー情報をコピーする</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
-    <system:String x:Key="UpdateApplyFailed">更新の適用に失敗し、現在のインストールが不完全になっている可能性があります。完全パッケージを再ダウンロードし、以下の説明に従って config、data、debug を手動で移行してください。\n\n{key=FullPackageUpgradeTips}</system:String>
-    <system:String x:Key="UpdateApplyMissingUpdater">MAA.Updater.exe が見つからないため、外部更新プログラムを起動できず、更新を続行できませんでした。今回の更新はキャンセルされました。このファイルは手動で削除されたか、セキュリティソフトによってブロックまたは削除された可能性があります。セキュリティソフトが原因の場合は、その隔離領域を確認してファイルを復元し、MAA のフォルダーを当該ソフトの許可リストに追加してから、もう一度お試しください。\n\n{key=FullPackageUpgradeTips}</system:String>
-    <system:String x:Key="ResourceBroken">リソースファイルが破損しています。自動修復（完全なパッケージの再ダウンロード）を試すか、終了して手動で再インストールしてください。\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="DelegatedUpdateFailureDetected">前回の自動更新に失敗したため、現在のインストールが不完全な可能性があり、今回の起動ではリソースの読み込みをスキップしました。次のダイアログで修復方法を選択してください。\n\n失敗理由：{0}</system:String>
+    <system:String x:Key="SecuritySoftwareWhitelistTips">MAA のフォルダーを当該ソフトの許可リストに追加してから、もう一度お試しください。</system:String>
+    <system:String x:Key="DelegatedUpdateFailureReasonFileLocked">更新中のファイル移動に失敗しました。セキュリティソフトによるスキャン・ブロック・ロック、または他のプログラムによる占有が考えられます。セキュリティソフトが原因の場合は、{key=SecuritySoftwareWhitelistTips} PC を再起動してからもう一度試すこともできます。</system:String>
+    <system:String x:Key="DelegatedUpdateFailureReasonPackageError">更新パッケージまたはその展開ファイルが破損・不完全な可能性があります。</system:String>
+    <system:String x:Key="DelegatedUpdateFailureReasonUnknown">原因は不明です。詳細は debug フォルダーの gui.log を確認してください。</system:String>
+    <system:String x:Key="UpdateApplyMissingUpdater">MAA.Updater.exe が見つからないため、外部更新プログラムを起動できず、更新を続行できませんでした。今回の更新はキャンセルされました。このファイルは手動で削除されたか、セキュリティソフトによってブロックまたは削除された可能性があります。セキュリティソフトが原因の場合は、その隔離領域を確認してファイルを復元し、{key=SecuritySoftwareWhitelistTips}\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="ResourceBroken">リソースファイルが破損しています。自動修復（完全なパッケージの再ダウンロード）を試すか、今はそのまま続けて、後でローカルの完全パッケージをドラッグして更新してください。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityCheckTitle">インストールファイルの欠落</system:String>
-    <system:String x:Key="ResourceIntegrityCheckDesc">{0} 個のインストールファイルが欠落していることが検出されました（{1}）。一部の機能が使用できない可能性があります。ファイルがセキュリティソフトによってブロックまたは削除されたか、手動で削除された可能性があります。セキュリティソフトが原因の場合は、その隔離領域を確認してファイルを復元し、MAA のフォルダーを当該ソフトの許可リストに追加してから、もう一度お試しください。\n\n以下の説明に従って手動で再インストールすることもできます：\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="ResourceIntegrityCheckDesc">{0} 個のインストールファイルが欠落していることが検出されました（{1}）。一部の機能が使用できない可能性があります。ファイルがセキュリティソフトによってブロックまたは削除されたか、手動で削除された可能性があります。セキュリティソフトが原因の場合は、その隔離領域を確認してファイルを復元し、{key=SecuritySoftwareWhitelistTips}\n\n以下の説明に従って手動で再インストールすることもできます：\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityRepairYes">自動修復（完全パッケージをダウンロードし、再起動後に復元）</system:String>
     <system:String x:Key="ResourceIntegrityRepairNo">後で行う</system:String>
     <system:String x:Key="ResourceBrokenTaskBlocked">リソースが破損しているためタスクを開始できません。起動時の案内に従ってリソースを修復するか、完全なパッケージを再ダウンロードして MAA を再起動してください。</system:String>
-    <system:String x:Key="ResourceIntegrityRepairDownloading">欠落したリソースファイルを修復するため、完全パッケージをダウンロードしています…</system:String>
+    <system:String x:Key="ResourceIntegrityRepairDownloading">インストールを修復するため、完全パッケージをダウンロードしています…</system:String>
     <system:String x:Key="ResourceIntegrityRepairFailed">自動修復に失敗しました。表示された手順に従って手動で処理してください。\n\n{key=FullPackageUpgradeTips}</system:String>
-    <system:String x:Key="ResourceIntegrityRepairCanceled">自動修復をキャンセルしました。欠落ファイルについては次回起動時に再度通知されます。</system:String>
+    <system:String x:Key="ResourceIntegrityRepairCanceled">自動修復をキャンセルしました。次回起動時に再度通知されます。</system:String>
+    <system:String x:Key="ForcedFullPackageUpdateNotice">インストールを修復するため、増分更新パッケージではなく完全パッケージをダウンロードします。</system:String>
+    <system:String x:Key="OtaPackageRejectedByBrokenInstall">インストールが不完全な状態（リソース破損または前回の更新失敗）の可能性があるため、OTA 増分パッケージでは修復できません。完全パッケージを使用してください。</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADBファイルが存在しません</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADBのダウンロードに失敗しました</system:String>
     <system:String x:Key="AdbDeletionFailedMessage">ディレクトリを削除できません。既に置換されたか、他の問題が発生している可能性があります。詳細な情報はログをご確認ください。</system:String>
@@ -1538,6 +1569,10 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowMilestoneChanged">段階目標 {0}: {1}</system:String>
     <system:String x:Key="BlackFlowStrategyResult">ローグライク戦略終了：{0}（{1}）</system:String>
     <system:String x:Key="BlackFlowStrategyStarted">ローグライク戦略を開始：{0}</system:String>
+    <system:String x:Key="BlackFlowInventoryCleanupStarted">零件箱超载，开始清理</system:String>
+    <system:String x:Key="BlackFlowInventoryCleanupDiscarded">已丢弃零件：{0}</system:String>
+    <system:String x:Key="BlackFlowInventoryCleanupCompleted">零件箱清理完成</system:String>
+    <system:String x:Key="BlackFlowInventoryCleanupFailed">零件箱清理失败</system:String>
     <system:String x:Key="BlackFlowStrategyUnknown">不明な戦略</system:String>
     <system:String x:Key="BlackFlowDecisionProbeUnknownNode">経路上で最も近い未分類ノードを調査</system:String>
     <system:String x:Key="BlackFlowDecisionPolicyOrder">戦略で設定された優先順位で選択</system:String>
@@ -1648,7 +1683,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowOutcomeMoveConfirmationFailed">今回の移動を確定できず</system:String>
     <system:String x:Key="BlackFlowOutcomePostMoveValidationFailed">移動後の状態検証に失敗</system:String>
     <system:String x:Key="BlackFlowOutcomePlanningRetryExhausted">経路再計画の回数を使い切りました</system:String>
-    <system:String x:Key="BlackFlowOutcomeStateMachineDeadEnd">画面フローが先へ進めません</system:String>
+    <system:String x:Key="BlackFlowOutcomeStateMachineDeadEnd">内部ステートマシンエラー</system:String>
     <system:String x:Key="BlackFlowOutcomeMapRecoveryExhausted">マップ復旧の再試行回数を使い切りました</system:String>
     <system:String x:Key="BlackFlowOutcomeFloorRecognitionFailed">階層認識に失敗</system:String>
     <system:String x:Key="BlackFlowOutcomeMovementInventoryFailed">移動加工品の認識に失敗</system:String>
@@ -1678,7 +1713,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowTerminationPerceptionPortUnavailable">地図認識・タスクインターフェースが利用不可</system:String>
     <system:String x:Key="BlackFlowTerminationMapRebuildFailedTwice">マップ再構築が連続2回失敗</system:String>
     <system:String x:Key="BlackFlowTerminationPlanningRetryExhausted">プレビューが経路を変え続け再計画回数の上限に達しました</system:String>
-    <system:String x:Key="BlackFlowTerminationUnknown">詳細はファイルログを確認してください</system:String>
+    <system:String x:Key="BlackFlowTerminationUnknown">フィードバックは ｢{key=Settings} - {key=IssueReport}｣ へ</system:String>
     <system:String x:Key="RoguelikeEvent">イベント:</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">{0} 件の選択肢を検出しました:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">選択可能な選択肢: {0}</system:String>
@@ -2034,6 +2069,12 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="StallTimeoutMinutes">ログ出力停滞タイムアウト（分）</system:String>
     <system:String x:Key="StallTimeoutEnabled">停滞検出を有効にする</system:String>
     <system:String x:Key="TaskStallWarning">タスクログ出力が {0} 分間更新されていません（現在 {1} 分間停滞）。タスクが正常に実行中か確認してください。正常であればこの警告は無視できます。応答がない場合は、手動での操作が必要になる可能性があります。</system:String>
+    <system:String x:Key="RunDurationLimitEnabled">1回の実行時間を制限する</system:String>
+    <system:String x:Key="RunDurationLimitMinutes">実行時間の上限（分）</system:String>
+    <system:String x:Key="RunDurationLimitTip" xml:space="preserve">｢{key=LinkStart}｣ をクリックした時点から計測し、上限に達すると手動停止を一度だけ実行します。
+{key=CheckBoxesNotSavedAsNull}。</system:String>
+    <system:String x:Key="RunDurationLimitExecutePostActions">停止後に ｢{key=PostActionsSettings}｣ の動作を実行する</system:String>
+    <system:String x:Key="RunDurationLimitReached">実行時間の上限（{0} 分）に達したため、タスクを停止します</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->
     <system:String x:Key="AchievementCelebrate">🎉 実績を獲得した</system:String>

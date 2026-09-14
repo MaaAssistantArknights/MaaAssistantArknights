@@ -1292,10 +1292,9 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             MaxTimes = maxTimes,
             MedicineExpireDays = Math.Max(expireDays, activityExpireDays),
             IsDrGrandet = fight.IsDrGrandet,
-            ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
-            ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
-            PenguinId = SettingsViewModel.GameSettings.PenguinId,
-            YituliuId = SettingsViewModel.GameSettings.PenguinId,
+            ReportToPenguin = SettingsViewModel.ThirdPartyServiceSettings.EnablePenguin,
+            ReportToYituliu = SettingsViewModel.ThirdPartyServiceSettings.EnableYituliu,
+            PenguinId = SettingsViewModel.ThirdPartyServiceSettings.PenguinId,
             ServerType = Instances.SettingsViewModel.ServerType,
             ClientType = SettingsViewModel.GameSettings.ClientType,
         };
@@ -1624,6 +1623,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
             if (fight.UseWeeklySchedule && fight.WeeklySchedule.TryGetValue(Instances.TaskQueueViewModel.CurDayOfWeek, out var isEnabled) && !isEnabled)
             {
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightSkippedWeeklySchedule"), UiLogColor.Info);
                 return (null, []);
             }
 

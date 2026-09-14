@@ -147,6 +147,13 @@ public class VersionUpdateDialogViewModel : Screen
         get; set {
             SetAndNotify(ref field, value);
             ConfigFactory.Root.Update.UpdatePackage = value;
+
+            // 非空赋值即注册新更新包（FakeUpdate / MaaApi / MirrorChyan 下载链都经此 setter 直写配置，不经 RegisterPendingUpdatePackage），须同步删失败标志防死循环；
+            // 空值（失败后的配置残留、资产名缺失）不删，保留标志供 AsstProxy.Init 启动期检测弹修复窗
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                PendingUpdateApplier.ClearDelegatedUpdateFailureState();
+            }
         }
     } = ConfigFactory.Root.Update.UpdatePackage;
 
@@ -177,6 +184,13 @@ public class VersionUpdateDialogViewModel : Screen
     private string? _mirrorcVersionName;
     private string? _mirrorcReleaseNote;
     private bool _requiresFullPackageConfirmation;
+
+    /// <summary>
+    /// Gets a value indicating whether the installation only allows full package updates.
+    /// 资源损坏或上次更新失败标志存在期间，OTA 增量只含差异文件，无法修复残留的不一致文件，
+    /// 所有更新检查入口须强制改走完整包通道（修复流程，允许重装同版本）。
+    /// </summary>
+    internal static bool ShouldForceFullPackageUpdate => Bootstrapper.IsResourceBroken || PendingUpdateApplier.HasDelegatedUpdateFailure();
 
     public static bool HasPendingUpdatePackage()
     {
@@ -220,6 +234,11 @@ public class VersionUpdateDialogViewModel : Screen
         /// 获取信息失败
         /// </summary>
         FailedToGetInfo,
+
+        /// <summary>
+        /// 更新包下载失败
+        /// </summary>
+        UpdatePackageDownloadFailed,
 
         /// <summary>
         /// 新版正在构建中
@@ -331,6 +350,7 @@ public class VersionUpdateDialogViewModel : Screen
             CheckUpdateRetT.UnknownError => LocalizationHelper.GetString("NewVersionDetectFailedTitle"),
             CheckUpdateRetT.NetworkError => LocalizationHelper.GetString("CheckNetworking"),
             CheckUpdateRetT.FailedToGetInfo => LocalizationHelper.GetString("GetReleaseNoteFailed"),
+            CheckUpdateRetT.UpdatePackageDownloadFailed => LocalizationHelper.GetString("NewVersionDownloadFailedTitle"),
             CheckUpdateRetT.OK => string.Empty,
             CheckUpdateRetT.NewVersionIsBeingBuilt => string.Empty,
             CheckUpdateRetT.OnlyGameResourceUpdated => string.Empty,
@@ -357,6 +377,26 @@ public class VersionUpdateDialogViewModel : Screen
             if (FakeUpdateHelper.IsEnabled)
             {
                 return await HandleFakeUpdate();
+            }
+
+            // 资源损坏/上次更新失败期间只允许完整包更新，OTA 只含差异文件无法修复残留的不一致文件。
+            // 普通更新检查入口（设置页手动检查、启动/定时自动检查）统一重定向到完整包修复流程，
+            // 不做版本新旧判断——已是最新版本时也重装同版本完整包以修复安装
+            // 此分支有意不检查 ｢自动下载更新包｣ 偏好，修复优先于下载偏好，仅以流程内的完整包覆盖确认弹窗兜底
+            if (ShouldForceFullPackageUpdate)
+            {
+                _logger.Information("Installation is broken (resource broken or delegated update failure), forcing full package update");
+
+                // 重启提示交由调用方按 OK 返回值统一弹出，此处不再重复询问；
+                // AlreadyRunning 映射为 NoNeedToUpdate 静默退出以避免双弹，重启询问由执行中的链路在成功收尾时弹出；
+                // 失败一律映射为 UpdatePackageDownloadFailed，外层 toast 按下载失败提示，不区分实际失败原因
+                var repairResult = await RunIntegrityRepairAsync(askRestartOnSuccess: false);
+                return repairResult switch {
+                    IntegrityRepairResult.Succeeded => CheckUpdateRetT.OK,
+                    IntegrityRepairResult.AlreadyRunning => CheckUpdateRetT.NoNeedToUpdate,
+                    IntegrityRepairResult.Canceled => CheckUpdateRetT.NoNeedToUpdate,
+                    _ => CheckUpdateRetT.UpdatePackageDownloadFailed,
+                };
             }
 
             var (checkRet, source) = await CheckUpdate();
@@ -736,6 +776,11 @@ public class VersionUpdateDialogViewModel : Screen
         Succeeded,
 
         /// <summary>
+        /// 另一条链路的修复已在进行，本次调用未启动新流程。
+        /// </summary>
+        AlreadyRunning,
+
+        /// <summary>
         /// 用户在完整包风险确认弹窗中主动取消。
         /// </summary>
         Canceled,
@@ -756,22 +801,24 @@ public class VersionUpdateDialogViewModel : Screen
 
     /// <summary>
     /// 资源完整性修复：重新下载当前渠道的完整包并注册为待应用更新。
-    /// 用户已在弹窗中确认，不做版本新旧判断（允许重装同版本）。
-    /// 修复进行中重复调用直接视为已处理，避免并发下载。
+    /// 完整包覆盖确认弹窗在流程内对所有入口一律弹出，部分入口（安装文件缺失、资源损坏弹窗）进入前已另弹确认，会先后确认两次。
+    /// 不做版本新旧判断（允许重装同版本）。
+    /// 修复进行中重复调用返回 <see cref="IntegrityRepairResult.AlreadyRunning"/>，由执行中的链路收尾，避免并发下载。
     /// </summary>
-    /// <returns>修复流程的结果，用于区分成功、用户取消与失败。</returns>
-    public async Task<IntegrityRepairResult> RunIntegrityRepairAsync()
+    /// <param name="askRestartOnSuccess">注册成功后是否执行重启收尾（自动安装更新包开启时等空闲后直接重启，否则弹窗询问）；调用方自行按返回值提示重启时传 <c>false</c>。</param>
+    /// <returns>修复流程的结果，用于区分成功、已在执行、用户取消与失败。</returns>
+    public async Task<IntegrityRepairResult> RunIntegrityRepairAsync(bool askRestartOnSuccess = true)
     {
         if (_isIntegrityRepairRunning)
         {
-            _logger.Information("Integrity repair already running, treat as accepted");
-            return IntegrityRepairResult.Succeeded;
+            _logger.Information("Integrity repair already running, deferring to the running flow");
+            return IntegrityRepairResult.AlreadyRunning;
         }
 
         _isIntegrityRepairRunning = true;
         try
         {
-            return await RunIntegrityRepairCoreAsync();
+            return await RunIntegrityRepairCoreAsync(askRestartOnSuccess);
         }
         finally
         {
@@ -782,11 +829,17 @@ public class VersionUpdateDialogViewModel : Screen
     /// <summary>
     /// 执行完整性修复的主体流程，由 <see cref="RunIntegrityRepairAsync"/> 包装调用。
     /// </summary>
+    /// <param name="askRestartOnSuccess">注册成功后是否执行重启收尾（自动安装更新包开启时等空闲后直接重启，否则弹窗询问）；调用方自行按返回值提示重启时传 <c>false</c>。</param>
     /// <returns>修复流程的结果，用于区分成功、用户取消与失败。</returns>
-    private async Task<IntegrityRepairResult> RunIntegrityRepairCoreAsync()
+    private async Task<IntegrityRepairResult> RunIntegrityRepairCoreAsync(bool askRestartOnSuccess)
     {
         _logger.Information("Starting integrity repair");
-        OutputDownloadProgress(LocalizationHelper.GetString("ResourceIntegrityRepairDownloading"), downloading: false);
+
+        // 解释性提示放在流程内部而非重定向入口输出，命中防重入静默返回的调用不会进入流程内部，
+        // 重定向入口的进度区因此保持执行中链路的输出；下载日志区为单条目替换，两条提示合并为一次输出避免互相覆盖
+        OutputDownloadProgress(
+            LocalizationHelper.GetString("ForcedFullPackageUpdateNotice") + "\n" + LocalizationHelper.GetString("ResourceIntegrityRepairDownloading"),
+            downloading: false);
 
         // 后续需要弹窗询问重启，保持 UI 上下文，不使用 ConfigureAwait(false)
 
@@ -864,8 +917,10 @@ public class VersionUpdateDialogViewModel : Screen
             arch,
             inspection: null,
             allowSameVersion: true);
-        if (importResult.Status is not PendingUpdateApplier.LocalPackageImportStatus.FullPackageRegistered
-            and not PendingUpdateApplier.LocalPackageImportStatus.OtaPackageRegistered)
+
+        // 修复流程的两个解析源均只取完整包资产，此处再按注册结果防御，
+        // 避免 OTA 包（只含差异文件）进入修复链路
+        if (importResult.Status != PendingUpdateApplier.LocalPackageImportStatus.FullPackageRegistered)
         {
             _logger.Error("Integrity repair package rejected: status={Status}, packagePath={PackagePath}", importResult.Status, packagePath);
             FailIntegrityRepair("Integrity repair package rejected");
@@ -874,7 +929,11 @@ public class VersionUpdateDialogViewModel : Screen
 
         _logger.Information("Integrity repair package registered: {PackagePath}", packagePath);
         OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"));
-        await AskToRestartForImportedPackage();
+        if (askRestartOnSuccess)
+        {
+            await AskToRestartForImportedPackage();
+        }
+
         return IntegrityRepairResult.Succeeded;
     }
 
@@ -1046,7 +1105,7 @@ public class VersionUpdateDialogViewModel : Screen
         {
             if (FakeUpdateHelper.HasPendingFakeUpdate)
             {
-                await _runningState.UntilIdleAsync(1000);
+                await _runningState.UntilIdleAsync();
                 _ = FakeUpdateHelper.Updating();
                 return;
             }
@@ -1055,7 +1114,7 @@ public class VersionUpdateDialogViewModel : Screen
             return;
         }
 
-        await _runningState.UntilIdleAsync(10000);
+        await _runningState.UntilIdleAsync();
 
         var result = MessageBoxHelper.Show(
             description,

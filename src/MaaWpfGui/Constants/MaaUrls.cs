@@ -35,6 +35,8 @@ public static class MaaUrls
 
     public const string PrtsPlus = "https://prts.plus";
 
+    public const string YituliuOpenApiOperatorInfo = "https://backend.yituliu.cn/open-api/operator/info";
+
     public const string PrtsPlusCopilotGet = "https://prts.maa.plus/copilot/get/";
 
     public const string PrtsPlusCopilotRating = "https://prts.maa.plus/copilot/rating";

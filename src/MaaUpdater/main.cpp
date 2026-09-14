@@ -1879,6 +1879,11 @@ int wmain(int argc, wchar_t* argv[])
     bool shouldRelaunch = false;
     bool success = false;
     std::wstring failureReason;
+    // 是否已开始改动安装文件（备份旧文件 / 写入新文件）；预检失败未动任何文件时保持
+    // false。进入应用阶段后不再回退该标志，失败后回滚无论是否完整恢复均按已改动处理
+    bool installationModified = false;
+    // 因另一 MAA 实例占用更新互斥锁而失败：临时性失败，保留更新包供关闭其他实例后重试
+    bool updateMutexBlocked = false;
     HANDLE hUpdateMutex = nullptr;
     // Copied from plan for CreateProcess after a successful update.
     std::vector<std::wstring> relaunchArgs;
@@ -1956,6 +1961,7 @@ int wmain(int argc, wchar_t* argv[])
     if (!mutexName.empty()) {
         hUpdateMutex = AcquireUpdateMutex(mutexName);
         if (hUpdateMutex == nullptr) {
+            updateMutexBlocked = true;
             failureReason =
                 L"检测到另一个 MAA 实例正在运行，无法执行更新。请关闭所有 MAA 窗口后重试。\n\n"
                 L"Another MAA instance is running. Please close all MAA windows and try again.";
@@ -2045,6 +2051,7 @@ int wmain(int argc, wchar_t* argv[])
             }
 
             WriteLog((L"Removing and backing up: " + targetPath + L" -> " + backupPath).c_str());
+            installationModified = true;
             bool backupOk = isFullPackage
                 ? RecycleAndBackupPath(targetPath, backupPath)
                 : MoveExistingPathToBackup(targetPath, backupPath);
@@ -2080,6 +2087,7 @@ int wmain(int argc, wchar_t* argv[])
                 }
 
                 WriteLog((L"Backing up existing entry: " + targetPath).c_str());
+                installationModified = true;
                 bool backupOk = IsRecycleAndReplaceDirectory(rel)
                     ? RecycleAndBackupDirectory(targetPath, backupPath)
                     : MoveExistingPathToBackup(targetPath, backupPath);
@@ -2096,6 +2104,12 @@ int wmain(int argc, wchar_t* argv[])
             DWORD sourceAttr = GetFileAttributesW(sourcePath.c_str());
             bool isSourceFile = (sourceAttr != INVALID_FILE_ATTRIBUTES) &&
                                 !(sourceAttr & FILE_ATTRIBUTE_DIRECTORY);
+
+            // 源存在（文件或目录）才会真正开始改动安装；源缺失（如被杀软隔离）的条目
+            // 最多创建空父目录即失败，不置位以免误写失败标志，让完好的安装被 GUI 误判为资源损坏
+            if (sourceAttr != INVALID_FILE_ATTRIBUTES) {
+                installationModified = true;
+            }
 
             if (isSourceFile) {
                 // Use atomic file replacement for individual files
@@ -2150,28 +2164,32 @@ int wmain(int argc, wchar_t* argv[])
     apply_failed:
         success = false;
 
-        // Attempt rollback: restore files that were already backed up
-        WriteLog(L"Update failed, attempting rollback from backup directory.");
-        for (const std::wstring& rel : removeList) {
-            std::wstring targetPath, backupPath;
-            if (!TryResolvePathUnderRoot(rootDir, rel, targetPath) ||
-                !TryResolvePathUnderRoot(backupDir, rel, backupPath)) {
-                continue;
+        // 回滚只回滚本次动过的内容；未动过文件（如路径非法在处理任何条目前失败）时
+        // .old 里的内容是更早一轮中断的遗留，还原会与已就位的新位置文件构成重复
+        if (installationModified) {
+            // Attempt rollback: restore files that were already backed up
+            WriteLog(L"Update failed, attempting rollback from backup directory.");
+            for (const std::wstring& rel : removeList) {
+                std::wstring targetPath, backupPath;
+                if (!TryResolvePathUnderRoot(rootDir, rel, targetPath) ||
+                    !TryResolvePathUnderRoot(backupDir, rel, backupPath)) {
+                    continue;
+                }
+                if (PathExistsW(backupPath) && !PathExistsW(targetPath)) {
+                    WriteLog((L"Rollback: restoring " + backupPath + L" -> " + targetPath).c_str());
+                    MovePathEntry(backupPath, targetPath);
+                }
             }
-            if (PathExistsW(backupPath) && !PathExistsW(targetPath)) {
-                WriteLog((L"Rollback: restoring " + backupPath + L" -> " + targetPath).c_str());
-                MovePathEntry(backupPath, targetPath);
-            }
-        }
-        for (const std::wstring& rel : moveList) {
-            std::wstring targetPath, backupPath;
-            if (!TryResolvePathUnderRoot(rootDir, rel, targetPath) ||
-                !TryResolvePathUnderRoot(backupDir, rel, backupPath)) {
-                continue;
-            }
-            if (PathExistsW(backupPath) && !PathExistsW(targetPath)) {
-                WriteLog((L"Rollback: restoring " + backupPath + L" -> " + targetPath).c_str());
-                MovePathEntry(backupPath, targetPath);
+            for (const std::wstring& rel : moveList) {
+                std::wstring targetPath, backupPath;
+                if (!TryResolvePathUnderRoot(rootDir, rel, targetPath) ||
+                    !TryResolvePathUnderRoot(backupDir, rel, backupPath)) {
+                    continue;
+                }
+                if (PathExistsW(backupPath) && !PathExistsW(targetPath)) {
+                    WriteLog((L"Rollback: restoring " + backupPath + L" -> " + targetPath).c_str());
+                    MovePathEntry(backupPath, targetPath);
+                }
             }
         }
     } while (false);
@@ -2180,10 +2198,23 @@ int wmain(int argc, wchar_t* argv[])
     // On failure: write failure status
     // ------------------------------------------------------------------
     if (!success && !failureReason.empty()) {
-        // Convert wstring reason to UTF-8 for file
-        std::string utf8Reason;
-        if (TryConvertWideToUtf8(failureReason, utf8Reason)) {
-            WriteUtf8File(failureStatusFile, utf8Reason);
+        // 失败标志仅用于标记安装可能已损坏（半更新状态）；预检失败（未动任何文件）不写，
+        // 避免完好的安装被 GUI 误判为资源损坏后拦截全部任务
+        if (installationModified) {
+            // Convert wstring reason to UTF-8 for file
+            std::string utf8Reason;
+            if (TryConvertWideToUtf8(failureReason, utf8Reason)) {
+                WriteUtf8File(failureStatusFile, utf8Reason);
+            }
+        } else if (!updateMutexBlocked && PathExistsW(packagePath)) {
+            // 不写失败标志时 GUI 不会清空待更新包，保留包会让下次启动拿同一个包反复委托、反复失败，
+            // 因此直接删包；互斥锁被占用属临时性失败，保留包重试。
+            // 用 ForceDeleteFile 应对杀软扫描等临时占用：删不掉时改名腾出原路径，同样能让 GUI 检测不到待更新包
+            if (ForceDeleteFile(packagePath)) {
+                WriteLog((L"Deleted update package after pre-apply failure: " + packagePath).c_str());
+            } else {
+                WriteLog((L"Failed to delete update package after pre-apply failure: " + packagePath).c_str());
+            }
         }
         if (PathExistsW(successStatusFile))
             DeleteFileW(successStatusFile.c_str());

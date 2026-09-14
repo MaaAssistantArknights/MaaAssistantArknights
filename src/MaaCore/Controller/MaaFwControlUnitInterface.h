@@ -54,7 +54,7 @@ public:
     virtual bool shell(
         const std::string& cmd,
         std::string& output,
-        std::chrono::milliseconds timeout = std::chrono::milliseconds(20000)) = 0;
+        std::chrono::milliseconds timeout = std::chrono::milliseconds(20'000)) = 0;
 };
 
 class MaaFwAndroidNativeControlUnitAPI : public MaaFwControlUnitAPI
