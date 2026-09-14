@@ -29,6 +29,7 @@ private:
     bool m_completed;
     bool m_iterateMS;
     std::optional<int> m_monthly_squad_index;
+    void update_monthly_squad_task();
     void apply_monthly_squad_task_strategy() const;
     std::optional<int> recognize_monthly_squad_index() const;
     virtual bool try_task(const char*) const;
