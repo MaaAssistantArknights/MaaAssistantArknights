@@ -61,5 +61,11 @@ public class AsstAwardTask : AsstBaseTask
     [JsonProperty("specialaccess")]
     public bool SpecialAccess { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 是否领取限时签到活动奖励
+    /// </summary>
+    [JsonProperty("signinevent")]
+    public bool SignInEvent { get; set; }
+
     public override (AsstTaskType TaskType, JObject Params) Serialize() => (TaskType, JObject.FromObject(this));
 }

@@ -1273,6 +1273,15 @@
     "SpecialAccessActivitiesConfirm": {
         "text": ["CLAIM", "Claim", "NOW", "Now"]
     },
+    "SignInEventEnter": {
+        "text": ["Sign-In"]
+    },
+    "SignInEventInPopup": {
+        "text": ["Ends"]
+    },
+    "SignInEventEarnRewards": {
+        "text": ["Resource", "Gained"]
+    },
     "NoFriends": {
         "text": ["No friends"]
     },
