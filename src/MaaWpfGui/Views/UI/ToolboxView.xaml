@@ -347,9 +347,10 @@
                                             <DataTemplate>
                                                 <Border
                                                     MinWidth="{Binding Path=(uiBehaviors:SharedCardWidthBehavior.SharedMinWidth), RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                    MinHeight="70"
                                                     MaxWidth="{Binding Path=(uiBehaviors:SharedCardWidthBehavior.WidthLimit), RelativeSource={RelativeSource AncestorType=ListBox}}"
                                                     Margin="5"
-                                                    Padding="10,15"
+                                                    Padding="10,5"
                                                     uiBehaviors:SharedCardWidthBehavior.TrackWidth="True"
                                                     Background="{DynamicResource RegionBrushOpacity50}"
                                                     BorderBrush="{DynamicResource BorderBrush}"
@@ -401,9 +402,10 @@
                                             <DataTemplate>
                                                 <Border
                                                     MinWidth="{Binding Path=(uiBehaviors:SharedCardWidthBehavior.SharedMinWidth), RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                    MinHeight="70"
                                                     MaxWidth="{Binding Path=(uiBehaviors:SharedCardWidthBehavior.WidthLimit), RelativeSource={RelativeSource AncestorType=ListBox}}"
                                                     Margin="5"
-                                                    Padding="10,15"
+                                                    Padding="10,5"
                                                     uiBehaviors:SharedCardWidthBehavior.TrackWidth="True"
                                                     Background="{DynamicResource RegionBrushOpacity25}"
                                                     BorderBrush="{DynamicResource BorderBrush}"
@@ -458,6 +460,117 @@
                                                                         Color="Black" />
                                                                 </Image.Effect>
                                                             </Image>
+                                                        </StackPanel>
+                                                        <!--  技能练度行：无专精显示 RANK 徽章，有任一专精逐技能显示品字三圆角标；模组独立成行  -->
+                                                        <StackPanel Visibility="{c:Binding ShowSkillDetails}">
+                                                            <controls:TextBlock
+                                                                Margin="3,0"
+                                                                HorizontalAlignment="Center"
+                                                                FontSize="10"
+                                                                FontWeight="SemiBold"
+                                                                Foreground="{DynamicResource OperBox.MasteryTextBrush}"
+                                                                Text="{Binding RankText}"
+                                                                ToolTip="{Binding MainSkillLevel}"
+                                                                Visibility="{c:Binding ShowRankBadge}" />
+                                                            <ItemsControl
+                                                                Margin="0"
+                                                                HorizontalAlignment="Center"
+                                                                ItemsSource="{Binding MasteryBadges}"
+                                                                Visibility="{c:Binding !ShowRankBadge}">
+                                                                <ItemsControl.ItemsPanel>
+                                                                    <ItemsPanelTemplate>
+                                                                        <StackPanel Orientation="Horizontal" />
+                                                                    </ItemsPanelTemplate>
+                                                                </ItemsControl.ItemsPanel>
+                                                                <ItemsControl.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <!--  品字三圆按最终尺寸直绘：坐标/直径固定在 0.5 像素对齐网格上，勿改值或换回 Viewbox 缩放（小圆会渲染成椭圆）；色走主题资源，阴影同精英化/潜能图标  -->
+                                                                        <Canvas
+                                                                            Width="11"
+                                                                            Height="11"
+                                                                            Margin="2,0"
+                                                                            SnapsToDevicePixels="True"
+                                                                            UseLayoutRounding="True">
+                                                                            <Canvas.Effect>
+                                                                                <DropShadowEffect
+                                                                                    BlurRadius="8"
+                                                                                    Opacity="0.5"
+                                                                                    ShadowDepth="1"
+                                                                                    Color="Black" />
+                                                                            </Canvas.Effect>
+                                                                            <Canvas.Resources>
+                                                                                <Style x:Key="MasteryTopDotStyle" TargetType="Ellipse">
+                                                                                    <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOffBrush}" />
+                                                                                    <Style.Triggers>
+                                                                                        <DataTrigger Binding="{Binding TopOn}" Value="True">
+                                                                                            <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOnBrush}" />
+                                                                                        </DataTrigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                                <Style x:Key="MasteryBottomRightDotStyle" TargetType="Ellipse">
+                                                                                    <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOffBrush}" />
+                                                                                    <Style.Triggers>
+                                                                                        <DataTrigger Binding="{Binding BottomRightOn}" Value="True">
+                                                                                            <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOnBrush}" />
+                                                                                        </DataTrigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                                <Style x:Key="MasteryBottomLeftDotStyle" TargetType="Ellipse">
+                                                                                    <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOffBrush}" />
+                                                                                    <Style.Triggers>
+                                                                                        <DataTrigger Binding="{Binding BottomLeftOn}" Value="True">
+                                                                                            <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOnBrush}" />
+                                                                                        </DataTrigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </Canvas.Resources>
+                                                                            <Ellipse
+                                                                                Canvas.Left="3.5"
+                                                                                Canvas.Top="1"
+                                                                                Width="4"
+                                                                                Height="4"
+                                                                                Style="{StaticResource MasteryTopDotStyle}" />
+                                                                            <Ellipse
+                                                                                Canvas.Left="6.5"
+                                                                                Canvas.Top="6"
+                                                                                Width="4"
+                                                                                Height="4"
+                                                                                Style="{StaticResource MasteryBottomRightDotStyle}" />
+                                                                            <Ellipse
+                                                                                Canvas.Left="0.5"
+                                                                                Canvas.Top="6"
+                                                                                Width="4"
+                                                                                Height="4"
+                                                                                Style="{StaticResource MasteryBottomLeftDotStyle}" />
+                                                                        </Canvas>
+                                                                    </DataTemplate>
+                                                                </ItemsControl.ItemTemplate>
+                                                            </ItemsControl>
+                                                            <ItemsControl
+                                                                Margin="0"
+                                                                HorizontalAlignment="Center"
+                                                                ItemsSource="{Binding ModBadges}"
+                                                                Visibility="{c:Binding HasMods}">
+                                                                <ItemsControl.ItemsPanel>
+                                                                    <ItemsPanelTemplate>
+                                                                        <StackPanel Orientation="Horizontal" />
+                                                                    </ItemsPanelTemplate>
+                                                                </ItemsControl.ItemsPanel>
+                                                                <ItemsControl.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <!--  下标字符 fallback 字体会撑高行盒，锁定行高与字号一致  -->
+                                                                        <controls:TextBlock
+                                                                            Margin="2.5,0"
+                                                                            FontSize="10"
+                                                                            FontWeight="SemiBold"
+                                                                            Foreground="{DynamicResource OperBox.MasteryTextBrush}"
+                                                                            LineHeight="12"
+                                                                            LineStackingStrategy="BlockLineHeight"
+                                                                            Text="{Binding}"
+                                                                            ToolTip="{Binding}" />
+                                                                    </DataTemplate>
+                                                                </ItemsControl.ItemTemplate>
+                                                            </ItemsControl>
                                                         </StackPanel>
                                                     </StackPanel>
                                                 </Border>
