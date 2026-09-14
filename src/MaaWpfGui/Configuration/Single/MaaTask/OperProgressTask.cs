@@ -1,4 +1,4 @@
-// <copyright file="OperProgressionTask.cs" company="MaaAssistantArknights">
+// <copyright file="OperProgressTask.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -12,6 +12,8 @@
 // </copyright>
 
 #nullable enable
+using System.Collections.Generic;
+using MaaWpfGui.Constants.Enums;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Configuration.Single.MaaTask;
@@ -19,24 +21,24 @@ namespace MaaWpfGui.Configuration.Single.MaaTask;
 /// <summary>
 /// Ordered operator development plan.
 /// </summary>
-public class OperProgressionTask : BaseTask
+public class OperProgressTask : BaseTask
 {
-    public OperProgressionTask() => TaskType = TaskType.OperProgression;
+    public OperProgressTask() => TaskType = TaskType.OperProgress;
 
-    /// <summary>
-    /// Gets or sets the editable JSON shown in the settings page.
-    /// </summary>
-    public string PlanJson { get; set; } = "[]";
-
-    /// <summary>
-    /// Gets or sets the last plan which passed strict validation.
-    /// Editing <see cref="PlanJson"/> does not change the plan used by a run until validation succeeds again.
-    /// </summary>
-    public string ValidatedPlanJson { get; set; } = "[]";
+    public List<Plan> Plans { get; set; } = [];
 
     /// <summary>
     /// Gets or sets a value indicating whether entries reported as completed or already satisfied
     /// are removed from the plan when the whole development task chain finishes.
     /// </summary>
     public bool DeleteCompletedEntries { get; set; }
+
+    public record class Plan(OperatorRole role, string name, int? elite, int? level, SkillLevel? skillLevel);
+
+    public abstract record SkillLevel
+    {
+        public sealed record BaseLevel(int Level) : SkillLevel;
+
+        public sealed record Specialization(int Skill1, int Skill2, int Skill3) : SkillLevel;
+    }
 }

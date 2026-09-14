@@ -1,4 +1,4 @@
-// <copyright file="AsstOperProgressionTask.cs" company="MaaAssistantArknights">
+// <copyright file="AsstOperProgressTask.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -13,15 +13,17 @@
 
 #nullable enable
 using MaaWpfGui.Services;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.Models.AsstTasks;
 
-public class AsstOperProgressionTask : AsstBaseTask
+public class AsstOperProgressTask : AsstBaseTask
 {
-    public override AsstTaskType TaskType => AsstTaskType.OperProgression;
+    public override AsstTaskType TaskType => AsstTaskType.OperProgress;
 
+    [JsonProperty("plans")]
     public JArray Plans { get; set; } = [];
 
-    public override (AsstTaskType TaskType, JObject Params) Serialize() => (TaskType, new JObject { ["plans"] = Plans.DeepClone() });
+    public override (AsstTaskType TaskType, JObject Params) Serialize() => (TaskType, JObject.FromObject(this));
 }
