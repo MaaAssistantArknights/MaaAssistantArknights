@@ -24,6 +24,7 @@
 #include "Roguelike/JieGarden/RoguelikeCoppersConfig.h"
 #include "Roguelike/RoguelikeCopilotConfig.h"
 #include "Roguelike/RoguelikeMapConfig.h"
+#include "Roguelike/RoguelikeMonthlySquadConfig.h"
 #include "Roguelike/RoguelikeRecruitConfig.h"
 #include "Roguelike/RoguelikeShoppingConfig.h"
 #include "Roguelike/RoguelikeStageEncounterConfig.h"
@@ -214,6 +215,17 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         if (!load_with_custom.template operator()<RoguelikeRecruitConfig>(
                 roguelike_path(theme, "recruitment.json"_p),
                 "RoguelikeRecruitConfig")) {
+            return false;
+        }
+    }
+
+    // Monthly Squad Config
+    for (auto theme : roguelike_themes) {
+        const auto monthly_squad_path = roguelike_path(theme, "monthly_squad.json"_p);
+        if (std::filesystem::exists(path / monthly_squad_path) &&
+            !load_resource<RoguelikeMonthlySquadConfig>(path / monthly_squad_path)) {
+            LogError << __FUNCTION__ << "RoguelikeMonthlySquadConfig load failed, path:"
+                     << path / monthly_squad_path;
             return false;
         }
     }

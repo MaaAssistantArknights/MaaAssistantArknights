@@ -21,6 +21,7 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
     m_theme = theme;
     m_mode = mode;
     m_difficulty = params.get("difficulty", -1);
+    m_monthly_squad_task.reset();
 
     Log.info("Roguelike theme", m_theme, "| mode", static_cast<int>(m_mode), "| difficulty", m_difficulty);
 
@@ -124,4 +125,3 @@ void asst::RoguelikeConfig::clear()
     // ------------------ 通用参数 ------------------
     m_squad = std::string();
 }
-
