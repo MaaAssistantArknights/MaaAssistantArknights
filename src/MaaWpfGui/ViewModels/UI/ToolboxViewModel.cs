@@ -26,7 +26,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using HandyControl.Controls;
@@ -1351,28 +1350,17 @@ public class ToolboxViewModel : Screen
             ["D"] = "Δ",
         };
 
-        // 点亮色与熄灭色为浅深主题共用的硬常量，不走主题资源；Freeze 后才能跨线程用于 UI 渲染
-        private static readonly SolidColorBrush MasteryOnBrush = Brushes.White;
-
-        private static readonly SolidColorBrush MasteryOffBrush = CreateMasteryOffBrush();
-
-        private static SolidColorBrush CreateMasteryOffBrush()
-        {
-            var brush = new SolidColorBrush(Color.FromRgb(0x8C, 0x8C, 0x8C));
-            brush.Freeze();
-            return brush;
-        }
-
         /// <summary>
-        /// 单技能格的品字三圆角标，点亮顺序为用户裁定：专 1 亮上圆、专 2 加亮右下圆、专 3 全亮
+        /// 单技能格的品字三圆角标，点亮顺序为用户裁定：专 1 亮上圆、专 2 加亮右下圆、专 3 全亮；
+        /// 颜色由主题资源 OperBox.MasteryOnBrush/OffBrush 控制，随浅深主题切换
         /// </summary>
         public class MasteryBadge(int level)
         {
-            public Brush TopFill => level >= 1 ? MasteryOnBrush : MasteryOffBrush;
+            public bool TopOn => level >= 1;
 
-            public Brush BottomRightFill => level >= 2 ? MasteryOnBrush : MasteryOffBrush;
+            public bool BottomRightOn => level >= 2;
 
-            public Brush BottomLeftFill => level >= 3 ? MasteryOnBrush : MasteryOffBrush;
+            public bool BottomLeftOn => level >= 3;
         }
 
         public bool Equals(Operator? other) => other != null && Name == other.Name && Rarity == other.Rarity;

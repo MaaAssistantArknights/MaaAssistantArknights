@@ -468,7 +468,7 @@
                                                                 HorizontalAlignment="Center"
                                                                 FontSize="10"
                                                                 FontWeight="SemiBold"
-                                                                Foreground="#8C8C8C"
+                                                                Foreground="{DynamicResource OperBox.MasteryTextBrush}"
                                                                 Text="{Binding RankText}"
                                                                 ToolTip="{Binding MainSkillLevel}"
                                                                 Visibility="{c:Binding ShowRankBadge}" />
@@ -484,37 +484,63 @@
                                                                 </ItemsControl.ItemsPanel>
                                                                 <ItemsControl.ItemTemplate>
                                                                     <DataTemplate>
-                                                                        <!--  品字三圆，坐标按 mockup viewBox 64：上圆 (32,15)、右下 (48,47)、左下 (16,47)，r=14  -->
+                                                                        <!--  品字三圆，坐标按 mockup viewBox 64：上圆 (32,15)、右下 (48,47)、左下 (16,47)，r=14；点亮/熄灭色走主题资源，阴影参数与精英化/潜能图标一致  -->
                                                                         <Viewbox
                                                                             Width="10"
                                                                             Height="10"
                                                                             Margin="2.5,0">
                                                                             <Viewbox.Effect>
                                                                                 <DropShadowEffect
-                                                                                    BlurRadius="3"
-                                                                                    Opacity="0.4"
+                                                                                    BlurRadius="8"
+                                                                                    Opacity="0.5"
                                                                                     ShadowDepth="1"
                                                                                     Color="Black" />
                                                                             </Viewbox.Effect>
                                                                             <Canvas Width="64" Height="64">
+                                                                                <Canvas.Resources>
+                                                                                    <Style x:Key="MasteryTopDotStyle" TargetType="Ellipse">
+                                                                                        <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOffBrush}" />
+                                                                                        <Style.Triggers>
+                                                                                            <DataTrigger Binding="{Binding TopOn}" Value="True">
+                                                                                                <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOnBrush}" />
+                                                                                            </DataTrigger>
+                                                                                        </Style.Triggers>
+                                                                                    </Style>
+                                                                                    <Style x:Key="MasteryBottomRightDotStyle" TargetType="Ellipse">
+                                                                                        <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOffBrush}" />
+                                                                                        <Style.Triggers>
+                                                                                            <DataTrigger Binding="{Binding BottomRightOn}" Value="True">
+                                                                                                <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOnBrush}" />
+                                                                                            </DataTrigger>
+                                                                                        </Style.Triggers>
+                                                                                    </Style>
+                                                                                    <Style x:Key="MasteryBottomLeftDotStyle" TargetType="Ellipse">
+                                                                                        <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOffBrush}" />
+                                                                                        <Style.Triggers>
+                                                                                            <DataTrigger Binding="{Binding BottomLeftOn}" Value="True">
+                                                                                                <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOnBrush}" />
+                                                                                            </DataTrigger>
+                                                                                        </Style.Triggers>
+                                                                                    </Style>
+                                                                                </Canvas.Resources>
                                                                                 <Ellipse
                                                                                     Canvas.Left="18"
                                                                                     Canvas.Top="1"
                                                                                     Width="28"
                                                                                     Height="28"
-                                                                                    Fill="{Binding TopFill}" />
+                                                                                    Style="{StaticResource MasteryTopDotStyle}" />
                                                                                 <Ellipse
                                                                                     Canvas.Left="34"
                                                                                     Canvas.Top="33"
                                                                                     Width="28"
                                                                                     Height="28"
-                                                                                    Fill="{Binding BottomRightFill}" />
+                                                                                    Style="{StaticResource MasteryBottomRightDotStyle}" />
                                                                                 <Ellipse
                                                                                     Canvas.Left="2"
                                                                                     Canvas.Top="33"
                                                                                     Width="28"
                                                                                     Height="28"
-                                                                                    Fill="{Binding BottomLeftFill}" />
+                                                                                    Style="{StaticResource MasteryBottomLeftDotStyle}" />
                                                                             </Canvas>
                                                                         </Viewbox>
                                                                     </DataTemplate>
@@ -537,7 +563,7 @@
                                                                             Margin="2.5,0"
                                                                             FontSize="10"
                                                                             FontWeight="SemiBold"
-                                                                            Foreground="#8C8C8C"
+                                                                            Foreground="{DynamicResource OperBox.MasteryTextBrush}"
                                                                             LineHeight="12"
                                                                             LineStackingStrategy="BlockLineHeight"
                                                                             Text="{Binding}"
