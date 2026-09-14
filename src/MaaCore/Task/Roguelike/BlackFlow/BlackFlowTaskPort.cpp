@@ -83,6 +83,7 @@ std::optional<std::string>
         return std::nullopt;
     }
     const std::vector<std::string>& whitelist = required.empty() ? task->text : required;
+    // 按 OCR 返回顺序取首个合法结果。
     for (const auto& result : *results) {
         if (std::ranges::find(whitelist, result.text) != whitelist.end()) {
             return result.text;
@@ -312,6 +313,8 @@ bool BlackFlowTaskPort::preview(
         set_error(error, "move preview action point cost OCR failed");
         return false;
     }
+    // 节点预览中，“作战－未知的凶戾”只识别“作战”。
+    // 地图中已有的隐藏作战身份由 Session 保留，不依赖预览识别具体隐藏标题。
     const auto displayed_name =
         recognize_text(image, MovePreviewDisplayedNameTask, BlackFlowNodeExecution.preview_names());
     if (!displayed_name.has_value()) {
