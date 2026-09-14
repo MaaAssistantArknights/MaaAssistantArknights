@@ -119,14 +119,14 @@ public class CopilotModel : CopilotBase
             return string.Empty;
         }
 
-        string[] moduleName = [string.Empty, "χ", "γ", "α", "Δ"];
+        string[] moduleName = [string.Empty, "χ", "γ", "α", "Δ", "β"];
 
         // var moduleLevel = req.ModuleLevel > 0 ? $" [Lv.{req.ModuleLevel}]" : string.Empty;
 
-        // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组χ, 2: 模组γ, 3: 模组α, 4: 模组Δ
+        // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组χ, 2: 模组γ, 3: 模组α, 4: 模组Δ, 5: 模组β
         return req.Module switch {
             0 => $"{LocalizationHelper.GetString("CopilotWithoutModule")}",
-            1 or 2 or 3 or 4 => $"{LocalizationHelper.GetString("CopilotModule")} {moduleName[req.Module]}",
+            1 or 2 or 3 or 4 or 5 => $"{LocalizationHelper.GetString("CopilotModule")} {moduleName[req.Module]}",
             _ => string.Empty,
         };
     }

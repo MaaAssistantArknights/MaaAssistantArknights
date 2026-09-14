@@ -129,8 +129,8 @@ struct OperatorRequirements
     int elite = -1;       // 精英化等级
     int level = -1;       // 干员等级
     int skill_level = -1; // 技能等级
-    int module = -1;      // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组χ, 2: 模组γ, 3: 模组α, 4: 模组Δ
-                          // int potentiality = -1; // 潜能要求
+    int module = -1;      // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组χ, 2: 模组γ, 3: 模组α, 4: 模组Δ, 5:
+                          // 模组β int potentiality = -1; // 潜能要求
 
     auto operator<=>(const OperatorRequirements&) const = default;
 };
@@ -284,32 +284,32 @@ enum class OperModule
     Unspecified = -1,
 
     /// <summary>
-    /// 基础模组/无模组。
+    /// 基础模组/无模组。模组编号 0。
     /// </summary>
     Original = 0,
 
     /// <summary>
-    /// Chi 模组。
+    /// Chi 模组。模组编号 1。
     /// </summary>
     Chi,
 
     /// <summary>
-    /// Upsilon 模组。
+    /// Upsilon 模组。模组编号 2。
     /// </summary>
     Upsilon,
 
     /// <summary>
-    /// Delta 模组。
-    /// </summary>
-    Delta,
-
-    /// <summary>
-    /// Alpha 模组。
+    /// Alpha 模组。模组编号 3。
     /// </summary>
     Alpha,
 
     /// <summary>
-    /// Beta 模组。
+    /// Delta 模组。模组编号 4。
+    /// </summary>
+    Delta,
+
+    /// <summary>
+    /// Beta 模组。模组编号 5。
     /// </summary>
     Beta,
 };
@@ -708,8 +708,8 @@ inline std::string enum_to_string(const battle::OperModule module)
         { OperModule::Original, "Original" },
         { OperModule::Chi, "Chi" },
         { OperModule::Upsilon, "Upsilon" },
-        { OperModule::Delta, "Delta" },
         { OperModule::Alpha, "Alpha" },
+        { OperModule::Delta, "Delta" },
         { OperModule::Beta, "Beta" },
     };
 

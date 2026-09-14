@@ -658,7 +658,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
             continue;
         }
 
-        if (oper->requirements.module >= 0 && oper->requirements.module <= 4) {
+        if (oper->requirements.module >= 0 && oper->requirements.module <= 5) {
             ret = ProcessTask(*this, { "BattleQuickFormationModulePage" }).run();
             ret =
                 ret &&

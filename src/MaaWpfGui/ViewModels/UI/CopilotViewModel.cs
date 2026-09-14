@@ -651,7 +651,7 @@ public partial class CopilotViewModel : Screen
 
         /// <summary>
         /// Gets or sets the module number.
-        /// -1: 不切换模组 / 无要求, 0: 不使用模组, 1-4: 不同模组
+        /// -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组χ, 2: 模组γ, 3: 模组α, 4: 模组Δ, 5: 模组β
         /// </summary>
         public int Module
         {
