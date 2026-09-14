@@ -45,6 +45,30 @@ enum class RoguelikeMode
     BlackFlowStartRun = 30'003,   // 30003 - 刷动物组合和开局奖励，保留目标局
 };
 
+enum class MonthlySquadTaskType
+{
+    ReachThirdFloor,
+    DeployOperator,
+    DeployOperatorSummon,
+    UseOperatorSkill,
+};
+
+enum class MonthlySquadSkill
+{
+    Skill1 = 1,
+    Skill2 = 2,
+    Skill3 = 3,
+};
+
+struct MonthlySquadTask
+{
+    MonthlySquadTaskType type;
+    std::string oper_name;
+    int required_count = 0;
+    int completed_count = 0;
+    std::optional<MonthlySquadSkill> skill;
+};
+
 struct RoguelikeOper
 {
     int elite = 0; // 精英化
@@ -149,6 +173,12 @@ public:
 
     const std::string& get_squad() const { return m_squad; }
 
+    void set_monthly_squad_task(std::optional<MonthlySquadTask> task) { m_monthly_squad_task = std::move(task); }
+
+    std::optional<MonthlySquadTask>& get_monthly_squad_task() { return m_monthly_squad_task; }
+
+    const std::optional<MonthlySquadTask>& get_monthly_squad_task() const { return m_monthly_squad_task; }
+
     // ------------------ 开局 ------------------
     void set_start_with_elite_two(bool value) { m_start_with_elite_two = value; }
 
@@ -185,6 +215,7 @@ private:
     RoguelikeMode m_mode = RoguelikeMode::Exp; // 模式
     int m_difficulty = 0;                      // 难度
     std::string m_squad;                       // 分队
+    std::optional<MonthlySquadTask> m_monthly_squad_task;
 
     // ------------------ 开局 ------------------
     bool m_start_with_elite_two = false;      // 在刷开局模式下凹开局干员精二直升

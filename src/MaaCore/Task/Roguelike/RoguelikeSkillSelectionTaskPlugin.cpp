@@ -45,23 +45,36 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
     bool has_rookie = false;
     for (const auto& [name, skill_vec] : analyzer.get_result()) {
         const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), name);
-        if (oper_info.name.empty()) {
+        const auto& monthly_squad_task = m_config->get_monthly_squad_task();
+        const bool override_skill =
+            monthly_squad_task.has_value() && monthly_squad_task->type == MonthlySquadTaskType::UseOperatorSkill &&
+            monthly_squad_task->oper_name == name && monthly_squad_task->skill.has_value() &&
+            monthly_squad_task->completed_count < monthly_squad_task->required_count;
+        if (oper_info.name.empty() && !override_skill) {
             Log.warn("Unknown oper", name);
             continue;
         }
 
-        if (oper_info.alternate_skill > 0) {
-            Log.info(__FUNCTION__, name, " select alternate skill:", oper_info.alternate_skill);
-            ctrler()->click(skill_vec.at(oper_info.alternate_skill - 1));
+        if (override_skill) {
+            const int skill = static_cast<int>(*monthly_squad_task->skill);
+            LogInfo << __FUNCTION__ << name << "select monthly squad task skill:" << skill;
+            ctrler()->click(skill_vec.at(skill - 1));
             sleep(delay);
         }
-        if (oper_info.skill > 0) {
-            Log.info(__FUNCTION__, name, " select main skill:", oper_info.skill);
-            ctrler()->click(skill_vec.at(oper_info.skill - 1));
-            sleep(delay);
+        else {
+            if (oper_info.alternate_skill > 0) {
+                Log.info(__FUNCTION__, name, " select alternate skill:", oper_info.alternate_skill);
+                ctrler()->click(skill_vec.at(oper_info.alternate_skill - 1));
+                sleep(delay);
+            }
+            if (oper_info.skill > 0) {
+                Log.info(__FUNCTION__, name, " select main skill:", oper_info.skill);
+                ctrler()->click(skill_vec.at(oper_info.skill - 1));
+                sleep(delay);
+            }
         }
         constexpr int RookieStd = 200;
-        if (oper_info.promote_priority < RookieStd) {
+        if (!oper_info.name.empty() && oper_info.promote_priority < RookieStd) {
             has_rookie = true;
         }
     }
