@@ -3,7 +3,7 @@
 #include <meojson/json.hpp>
 
 #include "Utils/Logger.hpp"
-#include "Vision/Config/OCREquivalenceRegex.hpp"
+#include "Vision/Config/OCREquivalenceTraits.hpp"
 
 std::string asst::OcrConfig::process_equivalence_class(const std::string& str) const
 {
@@ -25,7 +25,7 @@ bool asst::OcrConfig::parse(const json::value& json)
         equivalence_class eq_class_tmp;
         for (const json::value& eq_element : eq_class.as_array()) {
             std::string member = eq_element.as_string();
-            if (!equivalence_regex_detail::is_single_unicode_scalar(member)) {
+            if (!is_single_unicode_scalar(member)) {
                 Log.error("equivalence class member must be a single Unicode scalar", member);
                 return false;
             }
@@ -34,5 +34,6 @@ bool asst::OcrConfig::parse(const json::value& json)
         eq_classes.emplace_back(std::move(eq_class_tmp));
     }
     m_eq_classes = std::move(eq_classes);
+    OcrEquivalenceTraits::set_classes(m_eq_classes);
     return true;
 }

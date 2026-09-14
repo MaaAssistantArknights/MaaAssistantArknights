@@ -1,8 +1,5 @@
 #include "OCRer.h"
 
-#include <shared_mutex>
-#include <unordered_map>
-
 #include <boost/regex.hpp>
 
 #include "Config/Miscellaneous/OcrConfig.h"
@@ -11,6 +8,7 @@
 #include "MaaUtils/Encoding.h"
 #include "MaaUtils/NoWarningCV.hpp"
 #include "Utils/Logger.hpp"
+#include "Vision/Config/OCREquivalenceTraits.hpp"
 
 using namespace asst;
 
@@ -84,20 +82,9 @@ void OCRer::postproc_trim_(Result& res) const
     utils::string_trim(res.text);
 }
 
-static const boost::wregex& gen_regex(const std::wstring& pattern)
+static const ocr_eq_wregex& gen_regex(const std::wstring& pattern)
 {
-    static std::shared_mutex mtx;
-    static std::unordered_map<std::wstring, boost::wregex> s_cache;
-
-    {
-        std::shared_lock slock(mtx);
-        if (auto it = s_cache.find(pattern); it != s_cache.end()) {
-            return it->second;
-        }
-    }
-
-    std::unique_lock ulock(mtx);
-    return s_cache.emplace(pattern, boost::wregex(pattern)).first->second;
+    return ocr_eq_regex(pattern);
 }
 
 void OCRer::postproc_replace_(Result& res) const

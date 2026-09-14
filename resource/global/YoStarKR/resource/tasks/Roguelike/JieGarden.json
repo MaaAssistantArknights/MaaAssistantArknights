@@ -284,7 +284,7 @@
         "doc": "/resource/roguelike/JieGarden/encounter/default.json의 option_text",
         "ocrReplace": [
             ["[ $().\"/'—_\\-+=,《》■~シ]", ""],
-            ["^[a-zA-Z]", ""],
+            ["^[[:lower:][:upper:]]", ""],
             ["([가-힣]+)[^가-힣]+$", "$1"],
             ["배부르게식사한다", "饱餐一顿"],
             ["사기진작", "鼓舞士气"],

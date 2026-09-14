@@ -2,7 +2,6 @@
 
 #include "Config/Miscellaneous/OcrConfig.h"
 #include "Config/TaskData.h"
-#include "OCREquivalenceRegex.hpp"
 
 using namespace asst;
 
@@ -30,12 +29,11 @@ void OCRerConfig::set_replace(
     m_params.replace.clear();
     m_params.replace.reserve(replace.size());
 
-    // `key` is a regex pattern, so the equivalence classes have to be expanded in a regex-aware way, see
-    // expand_equivalence_in_regex().
-    const auto& eq_classes = OcrConfig::get_instance().get_eq_classes();
+    // `key` is a regex pattern compiled later with OcrEquivalenceTraits. Equivalence is applied by
+    // the engine (translate / isctype); do not preprocess the key.
     for (auto&& [key, val] : replace) {
         // do not create new_val as val is user-provided, and can avoid issues like 夕 and katakana タ
-        m_params.replace.emplace_back(expand_equivalence_in_regex(key, eq_classes), val);
+        m_params.replace.emplace_back(key, val);
     }
     m_params.replace_full = replace_full;
 }
