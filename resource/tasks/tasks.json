@@ -5827,7 +5827,7 @@
     "GreenTicket@Store@ClickItem_Pure_Gold": {
         "doc": "赤金",
         "baseTask": "GreenTicket@Store@ClickItem",
-        "template": "items/3003.png",
+        "template": "items/3003_store.png",
         "detector": "SIFT",
         "count": 12
     },
@@ -5855,6 +5855,8 @@
         ]
     },
     "GreenTicket@Store@SecondFloor-Check": {
+        "doc": "检测二层页签的蓝色选中态：命中说明已处于二层，直接购买二层商品；一层期间页签为灰态，不命中",
+        "template": "GreenTicket@Store@SecondFloor-Check.png",
         "roi": [250, 315, 70, 165],
         "method": "HSVCount",
         "colorScales": [
