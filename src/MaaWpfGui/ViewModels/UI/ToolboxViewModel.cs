@@ -1339,7 +1339,7 @@ public class ToolboxViewModel : Screen
         /// </summary>
         public List<string> ModBadges =>
         [
-            .. Equips?.Where(e => e.Level > 0).Select(e => $"{ModTypeDisplay.GetValueOrDefault(e.Type, e.Type)}{ModLevelDisplay(e.Level)}") ?? [],
+            .. Equips?.Where(e => e.Level > 0).Select(e => $"{ModTypeDisplay.GetValueOrDefault(e.Type, e.Type)}{e.Level}") ?? [],
         ];
 
         private static readonly Dictionary<string, string> ModTypeDisplay = new()
@@ -1349,14 +1349,6 @@ public class ToolboxViewModel : Screen
             ["X"] = "χ",
             ["Y"] = "γ",
             ["D"] = "Δ",
-        };
-
-        private static string ModLevelDisplay(int level) => level switch
-        {
-            1 => "₁",
-            2 => "₂",
-            3 => "₃",
-            _ => level.ToString(),
         };
 
         // 点亮色与熄灭色为浅深主题共用的硬常量，不走主题资源；Freeze 后才能跨线程用于 UI 渲染
