@@ -474,7 +474,7 @@ Facilities for shifting. Editing in run-time is not supported.
 <br>
 When `mode = 0`, this array acts as an enabled set; the order and duplicates do not affect scheduling (the shift order is planned automatically by the algorithm). When `mode = 10000` / `20000`, facilities are processed in array order.
 <br>
-Facility name: `Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training`  
+Facility name: `Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training` | `AssistantChange`  
 :::  
 ::: field drones  
 @type string

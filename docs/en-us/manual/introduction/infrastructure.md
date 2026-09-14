@@ -25,7 +25,7 @@ The following cross-facility operator teams can be enabled as needed in the base
 
 ### Shift Order
 
-In Normal Mode, the shift order is planned automatically by the algorithm (Dormitory → Power Plant → Office → Control Center → Factory → Trading Post → Reception Room → Dormitory → Processing Station → Training Room) to support cross-facility combinations and morale-recovery interactions. The facility list only determines which facility types MAA processes; the order of the list does not take effect. To schedule shifts in a custom order, use the `Custom Base Mode`.
+In Normal Mode, the shift order is planned automatically by the algorithm (Dormitory → Power Plant → Office → Control Center → Factory → Trading Post → Reception Room → Dormitory → Processing Station → Training Room → Assistant change) to support cross-facility combinations and morale-recovery interactions. The facility list only determines which facility types MAA processes; the order of the list does not take effect. To schedule shifts in a custom order, use the `Custom Base Mode`.
 
 ### Additional Notes
 

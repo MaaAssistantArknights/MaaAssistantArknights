@@ -475,7 +475,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 <br>
 `mode = 0` 時該陣列為啟用集合，順序與重複項不參與調度（換班順序由演算法統一安排）；`mode = 10000` / `20000` 時按陣列順序執行。
 <br>
-設施名稱：`Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training`  
+設施名稱：`Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training` | `AssistantChange`  
 :::  
 ::: field drones  
 @type string

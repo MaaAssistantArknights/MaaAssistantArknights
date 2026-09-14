@@ -474,7 +474,7 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 <br>
 `mode = 0` の場合、この配列は有効化セットとして扱われ、順序と重複はスケジューリングに影響しません（交代順序はアルゴリズムが自動的に決定します）。`mode = 10000` / `20000` の場合は配列の順序で処理されます。
 <br>
-施設名：`Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training`  
+施設名：`Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training` | `AssistantChange`  
 :::  
 ::: field drones  
 @type string
