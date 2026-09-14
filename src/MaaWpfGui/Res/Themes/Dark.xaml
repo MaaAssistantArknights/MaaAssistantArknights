@@ -103,7 +103,7 @@
 
     <!--  OperBox 技能练度：品字点亮圆与熄灭圆/RANK/模组文字的灰  -->
     <SolidColorBrush x:Key="OperBox.MasteryOnBrush" Color="#FFFFFF" />
-    <SolidColorBrush x:Key="OperBox.MasteryOffBrush" Color="DarkGray" />
+    <SolidColorBrush x:Key="OperBox.MasteryOffBrush" Color="#555555" />
     <SolidColorBrush x:Key="OperBox.MasteryTextBrush" Color="DarkGray" />
 
     <SolidColorBrush x:Key="DownloadLogBrush" Color="Violet" />
