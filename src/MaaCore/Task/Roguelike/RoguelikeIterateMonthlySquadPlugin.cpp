@@ -1,5 +1,6 @@
 #include "RoguelikeIterateMonthlySquadPlugin.h"
 
+#include "Config/Roguelike/RoguelikeMonthlySquadConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
@@ -52,12 +53,14 @@ bool asst::RoguelikeIterateMonthlySquadPlugin::_run()
 
     if (!m_iterateMS) {
         m_monthly_squad_index = recognize_monthly_squad_index();
+        update_monthly_squad_task();
         apply_monthly_squad_task_strategy();
         return true;
     }
 
     for (int i = 0; i < monthly_squad_count; i++) {
         m_monthly_squad_index = recognize_monthly_squad_index();
+        update_monthly_squad_task();
         apply_monthly_squad_task_strategy();
         if (m_checkComms) {
             ProcessTask(*this, { m_config->get_theme() + "@Roguelike@MonthlySquadComms" }).run();
@@ -80,6 +83,22 @@ bool asst::RoguelikeIterateMonthlySquadPlugin::_run()
     }
 
     return true;
+}
+
+void asst::RoguelikeIterateMonthlySquadPlugin::update_monthly_squad_task()
+{
+    auto task = RoguelikeMonthlySquad.get_task(m_config->get_theme(), m_monthly_squad_index);
+    auto& current_task = m_config->get_monthly_squad_task();
+    if (!task.has_value() && !m_monthly_squad_index.has_value() && current_task.has_value() &&
+        current_task->theme == m_config->get_theme()) {
+        LogWarn << __FUNCTION__ << "keep current monthly squad task after index recognition failed";
+        return;
+    }
+    if (task.has_value() && current_task.has_value() && task->theme == current_task->theme &&
+        task->squad_key == current_task->squad_key) {
+        task->completed_count = current_task->completed_count;
+    }
+    m_config->set_monthly_squad_task(std::move(task));
 }
 
 void asst::RoguelikeIterateMonthlySquadPlugin::apply_monthly_squad_task_strategy() const

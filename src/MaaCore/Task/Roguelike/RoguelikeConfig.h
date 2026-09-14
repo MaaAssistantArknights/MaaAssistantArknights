@@ -7,6 +7,8 @@
 #include <unordered_set>
 #include <vector>
 
+#include "Config/Roguelike/RoguelikeMonthlySquadConfig.h"
+
 namespace asst
 {
 class RoguelikeTheme
@@ -42,30 +44,6 @@ enum class RoguelikeMode
 
     // ------------------ 黑流树海主题专用模式 ------------------
     BlackFlowBabyAnimal = 30'001 // 30001 - 刷襁褓动物
-};
-
-enum class MonthlySquadTaskType
-{
-    ReachThirdFloor,
-    DeployOperator,
-    DeployOperatorSummon,
-    UseOperatorSkill,
-};
-
-enum class MonthlySquadSkill
-{
-    Skill1 = 1,
-    Skill2 = 2,
-    Skill3 = 3,
-};
-
-struct MonthlySquadTask
-{
-    MonthlySquadTaskType type;
-    std::string oper_name;
-    int required_count = 0;
-    int completed_count = 0;
-    std::optional<MonthlySquadSkill> skill;
 };
 
 struct RoguelikeOper
