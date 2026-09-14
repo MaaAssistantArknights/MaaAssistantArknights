@@ -1770,6 +1770,7 @@ public class ToolboxViewModel : Screen
                 ["elite"] = oper.EvolvePhase,
                 ["level"] = oper.Level,
                 ["potential"] = oper.PotentialRank,
+                ["mainSkillLevel"] = oper.MainSkillLevel,
                 ["rarity"] = charInfo.Rarity,
             };
             if (oper.Skills is not null)
@@ -1994,20 +1995,29 @@ public class ToolboxViewModel : Screen
         var yes = LocalizationHelper.GetString("OperBoxExportYes");
         var no = LocalizationHelper.GetString("OperBoxExportNo");
 
+        var mainSkillHeader = LocalizationHelper.GetString("OperBoxExportHeaderMainSkillLevel");
         var skillsHeader = LocalizationHelper.GetString("OperBoxExportHeaderSkills");
         var equipsHeader = LocalizationHelper.GetString("OperBoxExportHeaderEquips");
 
         yield return includeYituliuFields
-            ? $"| {nameHeader} | {idHeader} | {rarityHeader} | {eliteHeader} | {levelHeader} | {ownHeader} | {potentialHeader} | {skillsHeader} | {equipsHeader} |"
+            ? $"| {nameHeader} | {idHeader} | {rarityHeader} | {eliteHeader} | {levelHeader} | {ownHeader} | {potentialHeader} | {mainSkillHeader} | {skillsHeader} | {equipsHeader} |"
             : $"| {nameHeader} | {idHeader} | {rarityHeader} | {eliteHeader} | {levelHeader} | {ownHeader} | {potentialHeader} |";
         yield return includeYituliuFields
-            ? "| :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- |"
+            ? "| :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- |"
             : "| :-- | :-- | :-- | :-- | :-- | :-- | :-- |";
         foreach (var item in items)
         {
             var baseColumns = $"| {item.Name} | {item.Id} | {item.Rarity} | {item.Elite} | {item.Level} | {(item.Own ? yes : no)} | {item.Potential} |";
-            yield return includeYituliuFields ? baseColumns + $" {FormatSkillsColumn(item)} | {FormatEquipsColumn(item)} |" : baseColumns;
+            yield return includeYituliuFields ? baseColumns + $" {FormatMainSkillColumn(item)} | {FormatSkillsColumn(item)} | {FormatEquipsColumn(item)} |" : baseColumns;
         }
+    }
+
+    /// <summary>
+    /// 主技能等级列（1~7），无该数据的干员为空。
+    /// </summary>
+    private static string FormatMainSkillColumn(OperBoxData.OperData item)
+    {
+        return item.MainSkillLevel?.ToString() ?? string.Empty;
     }
 
     /// <summary>
@@ -2040,11 +2050,12 @@ public class ToolboxViewModel : Screen
         var yes = LocalizationHelper.GetString("OperBoxExportYes");
         var no = LocalizationHelper.GetString("OperBoxExportNo");
 
+        var mainSkillHeader = LocalizationHelper.GetString("OperBoxExportHeaderMainSkillLevel");
         var skillsHeader = LocalizationHelper.GetString("OperBoxExportHeaderSkills");
         var equipsHeader = LocalizationHelper.GetString("OperBoxExportHeaderEquips");
 
         yield return includeYituliuFields
-            ? $"{nameHeader},{idHeader},{rarityHeader},{eliteHeader},{levelHeader},{ownHeader},{potentialHeader},{skillsHeader},{equipsHeader}"
+            ? $"{nameHeader},{idHeader},{rarityHeader},{eliteHeader},{levelHeader},{ownHeader},{potentialHeader},{mainSkillHeader},{skillsHeader},{equipsHeader}"
             : $"{nameHeader},{idHeader},{rarityHeader},{eliteHeader},{levelHeader},{ownHeader},{potentialHeader}";
         foreach (var item in items)
         {
@@ -2055,7 +2066,7 @@ public class ToolboxViewModel : Screen
             }
 
             var baseColumns = $"{name},{item.Id},{item.Rarity},{item.Elite},{item.Level},{(item.Own ? yes : no)},{item.Potential}";
-            yield return includeYituliuFields ? baseColumns + $",{FormatSkillsColumn(item)},{FormatEquipsColumn(item)}" : baseColumns;
+            yield return includeYituliuFields ? baseColumns + $",{FormatMainSkillColumn(item)},{FormatSkillsColumn(item)},{FormatEquipsColumn(item)}" : baseColumns;
         }
     }
 

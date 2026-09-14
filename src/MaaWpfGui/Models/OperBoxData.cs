@@ -61,6 +61,12 @@ public class OperBoxData
         public int Rarity { get; set; } = 0;
 
         /// <summary>
+        /// Gets or sets 当前主技能等级（1~7），仅从一图流 OpenAPI 获取的数据有值
+        /// </summary>
+        [JsonProperty("mainSkillLevel", NullValueHandling = NullValueHandling.Ignore)]
+        public int? MainSkillLevel { get; set; }
+
+        /// <summary>
         /// Gets or sets 技能专精，仅从一图流 OpenAPI 获取的数据有值
         /// </summary>
         [JsonProperty("skills", NullValueHandling = NullValueHandling.Ignore)]
