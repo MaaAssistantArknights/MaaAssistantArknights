@@ -2992,17 +2992,15 @@ public class AsstProxy
             }
             else
             {
-                GameAudioMuteManager.StopMuting();
+                GameAudioMuteManager.Restore(restoreWindow: false);
             }
 
             return;
         }
 
-        GameAudioMuteManager.PrepareWindow(_attachWindowHwnd, captureWindowPlacement: _runningState.GetIdle());
         if (!_runningState.GetIdle())
         {
-            GameAudioMuteManager.EnsureMuted();
-            GameAudioMuteManager.StartMonitoring(() => !_runningState.GetIdle());
+            GameAudioMuteManager.Start(_attachWindowHwnd, () => !_runningState.GetIdle());
         }
     }
 
@@ -3074,30 +3072,10 @@ public class AsstProxy
         var mouseMethod = (ulong)win32Extra.MouseMethod;
         var keyboardMethod = (ulong)win32Extra.KeyboardMethod;
 
-        if (win32Extra.MuteWhileRunning)
-        {
-            GameAudioMuteManager.PrepareWindow(hwnd);
-            if (!_runningState.GetIdle())
-            {
-                GameAudioMuteManager.EnsureMuted();
-            }
-        }
-
-        bool ret;
-        try
-        {
-            ret = AsstAttachWindow(_handle, hwnd, screencapMethod, mouseMethod, keyboardMethod);
-        }
-        catch
-        {
-            GameAudioMuteManager.Restore();
-            throw;
-        }
+        bool ret = AsstAttachWindow(_handle, hwnd, screencapMethod, mouseMethod, keyboardMethod);
 
         if (!ret)
         {
-            GameAudioMuteManager.Restore();
-
             // 等待回调完成以获取详细错误信息
             System.Threading.Thread.Sleep(1000);
 
@@ -3588,11 +3566,12 @@ public class AsstProxy
     /// <returns>是否成功。</returns>
     public bool AsstStart()
     {
+        var muteStarted = SettingsViewModel.ConnectSettings.ExtraConfig is Win32Extra { MuteWhileRunning: true } &&
+                          GameAudioMuteManager.Start(_attachWindowHwnd, () => !_runningState.GetIdle());
         var result = MaaService.AsstStart(_handle);
-        if (result && SettingsViewModel.ConnectSettings.ExtraConfig is Win32Extra { MuteWhileRunning: true })
+        if (!result && muteStarted)
         {
-            GameAudioMuteManager.EnsureMuted();
-            GameAudioMuteManager.StartMonitoring(() => !_runningState.GetIdle());
+            GameAudioMuteManager.Restore();
         }
 
         return result;

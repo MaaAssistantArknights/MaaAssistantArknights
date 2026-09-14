@@ -31,98 +31,80 @@ internal static class GameAudioMuteManager
     private static readonly List<AudioSessionMuteState> _mutedSessions = [];
     private static readonly HashSet<string> _mutedSessionIds = new(StringComparer.Ordinal);
     private static IntPtr _windowHwnd;
+    private static uint _processId;
     private static bool _restoreMinimized;
     private static WindowPlacement? _windowPlacement;
-    private static long _windowStateVersion;
-    private static long _monitorVersion;
+    private static long _version;
 
     /// <summary>
-    /// Records the attached game window so it can be muted when a task starts later.
+    /// Starts muting the process attached to the game window until the task ends.
     /// </summary>
     /// <param name="hwnd">The attached game window handle.</param>
-    /// <param name="captureWindowPlacement">Whether to retain the current placement for task-end restoration.</param>
-    /// <returns>Whether the window was recorded.</returns>
-    public static bool PrepareWindow(IntPtr hwnd, bool captureWindowPlacement = true)
+    /// <param name="shouldContinue">Returns whether task-time muting is still required.</param>
+    /// <returns>Whether muting was started.</returns>
+    public static bool Start(IntPtr hwnd, Func<bool> shouldContinue)
     {
         if (hwnd == IntPtr.Zero)
         {
             return false;
         }
 
-        lock (_syncRoot)
-        {
-            if (_windowHwnd == hwnd)
-            {
-                if (captureWindowPlacement && _windowPlacement is null)
-                {
-                    CaptureWindowPlacementCore(hwnd);
-                }
-
-                return true;
-            }
-
-            RestoreCore();
-            _windowHwnd = hwnd;
-            if (captureWindowPlacement)
-            {
-                CaptureWindowPlacementCore(hwnd);
-            }
-
-            _windowStateVersion++;
-            return true;
-        }
-    }
-
-    /// <summary>
-    /// Mutes every audio session owned by the process associated with <paramref name="hwnd"/>.
-    /// The original mute state is retained and can later be restored with <see cref="Restore"/>.
-    /// </summary>
-    /// <param name="hwnd">The attached game window handle.</param>
-    /// <returns>Whether at least one matching audio session was muted.</returns>
-    public static bool MuteWindow(IntPtr hwnd)
-    {
-        if (!PrepareWindow(hwnd))
+        _ = PInvoke.GetWindowThreadProcessId((HWND)hwnd, out var processId);
+        if (processId == 0)
         {
             return false;
         }
 
-        EnsureMuted();
+        long version;
         lock (_syncRoot)
         {
-            if (_mutedSessions.Count == 0)
-            {
-                _logger.Warning("No audio session found for game window {Hwnd}", hwnd);
-                return false;
-            }
-
-            return true;
+            version = ++_version;
+            RestoreCore();
+            _windowHwnd = hwnd;
+            _processId = processId;
+            CaptureWindowPlacementCore(hwnd);
+            MuteNewSessionsCore();
         }
+
+        _ = Task.Run(() => MonitorAsync(version, shouldContinue));
+        return true;
     }
 
     /// <summary>
-    /// Restores the mute state that each game audio session had before <see cref="MuteWindow"/> was called.
+    /// Restores the state retained by <see cref="Start"/>.
     /// This method is idempotent.
     /// </summary>
-    public static void Restore()
+    /// <param name="restoreWindow">Whether to restore the retained window placement.</param>
+    public static void Restore(bool restoreWindow = true)
     {
         lock (_syncRoot)
         {
-            RestoreCore();
+            _version++;
+            if (restoreWindow)
+            {
+                RestoreWindowCore();
+            }
+
+            RestoreAudioCore();
         }
     }
 
     /// <summary>
-    /// Restores audio immediately, then restores the original window placement after Core stops moving the window.
+    /// Restores the window and audio after Core stops moving the window.
     /// </summary>
     /// <param name="isCoreRunning">Returns whether Core is still running tasks.</param>
     /// <returns>A task representing the delayed window restoration.</returns>
     public static async Task RestoreWhenCoreIdleAsync(Func<bool> isCoreRunning)
     {
-        long stateVersion;
+        long version;
         lock (_syncRoot)
         {
-            RestoreAudioCore();
-            stateVersion = _windowStateVersion;
+            if (_windowHwnd == IntPtr.Zero && _mutedSessions.Count == 0)
+            {
+                return;
+            }
+
+            version = ++_version;
         }
 
         const int MaxAttempts = 1200;
@@ -130,11 +112,11 @@ internal static class GameAudioMuteManager
         {
             for (var attempt = 0; attempt < MaxAttempts && isCoreRunning(); attempt++)
             {
-                await Task.Delay(50);
+                await Task.Delay(50).ConfigureAwait(false);
             }
 
             // Core sets its running flag before its Win32 controller finishes restoring the window.
-            await Task.Delay(100);
+            await Task.Delay(100).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -143,96 +125,58 @@ internal static class GameAudioMuteManager
 
         lock (_syncRoot)
         {
-            if (stateVersion == _windowStateVersion)
+            if (version == _version)
             {
-                RestoreWindowCore();
+                RestoreCore();
             }
         }
     }
 
-    /// <summary>
-    /// Stops monitoring and restores only the original audio mute states.
-    /// </summary>
-    public static void StopMuting()
+    private static void MuteNewSessionsCore()
     {
-        lock (_syncRoot)
+        if (_processId == 0)
         {
-            RestoreAudioCore();
+            return;
+        }
+
+        var previousCount = _mutedSessions.Count;
+        try
+        {
+            MuteProcessSessions(_processId);
+        }
+        catch (Exception ex)
+        {
+            _logger.Warning(ex, "Failed to mute audio sessions for game process {ProcessId}", _processId);
+        }
+
+        var addedCount = _mutedSessions.Count - previousCount;
+        if (addedCount != 0)
+        {
+            _logger.Information("Muted {Count} new audio session(s) for game process {ProcessId}", addedCount, _processId);
         }
     }
 
-    /// <summary>
-    /// Periodically scans for audio sessions created while a task is running.
-    /// </summary>
-    /// <param name="shouldContinue">Returns whether task-time muting is still required.</param>
-    public static void StartMonitoring(Func<bool> shouldContinue)
-    {
-        long monitorVersion;
-        lock (_syncRoot)
-        {
-            monitorVersion = ++_monitorVersion;
-        }
-
-        _ = MonitorAsync(monitorVersion, shouldContinue);
-    }
-
-    /// <summary>
-    /// Attempts to mute the attached window again when the audio session was created after attachment.
-    /// </summary>
-    public static void EnsureMuted()
-    {
-        lock (_syncRoot)
-        {
-            if (_windowHwnd == IntPtr.Zero)
-            {
-                return;
-            }
-
-            _ = PInvoke.GetWindowThreadProcessId((HWND)_windowHwnd, out var processId);
-            if (processId == 0)
-            {
-                return;
-            }
-
-            var previousCount = _mutedSessions.Count;
-            try
-            {
-                MuteProcessSessions(processId);
-            }
-            catch (Exception ex)
-            {
-                _logger.Warning(ex, "Failed to retry muting audio sessions for game process {ProcessId}", processId);
-            }
-
-            var addedCount = _mutedSessions.Count - previousCount;
-            if (addedCount != 0)
-            {
-                _logger.Information("Muted {Count} new audio session(s) for game process {ProcessId}", addedCount, processId);
-            }
-        }
-    }
-
-    private static async Task MonitorAsync(long monitorVersion, Func<bool> shouldContinue)
+    private static async Task MonitorAsync(long version, Func<bool> shouldContinue)
     {
         try
         {
             while (true)
             {
-                lock (_syncRoot)
-                {
-                    if (monitorVersion != _monitorVersion || _windowHwnd == IntPtr.Zero)
-                    {
-                        return;
-                    }
-                }
-
+                await Task.Delay(1000).ConfigureAwait(false);
                 if (!shouldContinue())
                 {
                     return;
                 }
 
-                EnsureMuted();
-                await Task.Delay(1000);
+                lock (_syncRoot)
+                {
+                    if (version != _version)
+                    {
+                        return;
+                    }
+
+                    MuteNewSessionsCore();
+                }
             }
         }
         catch (Exception ex)
@@ -244,6 +188,7 @@ internal static class GameAudioMuteManager
     private static void CaptureWindowPlacementCore(IntPtr hwnd)
     {
         _restoreMinimized = PInvoke.IsIconic((HWND)hwnd);
+        _windowPlacement = null;
         var placement = new WindowPlacement { Length = Marshal.SizeOf<WindowPlacement>(), };
         if (GetWindowPlacement(hwnd, ref placement))
         {
@@ -363,13 +308,12 @@ internal static class GameAudioMuteManager
 
     private static void RestoreCore()
     {
-        RestoreAudioCore();
         RestoreWindowCore();
+        RestoreAudioCore();
     }
 
     private static void RestoreAudioCore()
     {
-        _monitorVersion++;
         var hadAudioState = _mutedSessions.Count != 0;
 
         foreach (var state in _mutedSessions)
@@ -427,6 +371,7 @@ internal static class GameAudioMuteManager
         }
 
         _windowHwnd = IntPtr.Zero;
+        _processId = 0;
         _restoreMinimized = false;
         _windowPlacement = null;
     }
