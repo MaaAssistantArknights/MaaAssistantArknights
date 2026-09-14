@@ -347,9 +347,10 @@
                                             <DataTemplate>
                                                 <Border
                                                     MinWidth="{Binding Path=(uiBehaviors:SharedCardWidthBehavior.SharedMinWidth), RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                    MinHeight="70"
                                                     MaxWidth="{Binding Path=(uiBehaviors:SharedCardWidthBehavior.WidthLimit), RelativeSource={RelativeSource AncestorType=ListBox}}"
                                                     Margin="5"
-                                                    Padding="10,15"
+                                                    Padding="10,5"
                                                     uiBehaviors:SharedCardWidthBehavior.TrackWidth="True"
                                                     Background="{DynamicResource RegionBrushOpacity50}"
                                                     BorderBrush="{DynamicResource BorderBrush}"
@@ -401,9 +402,10 @@
                                             <DataTemplate>
                                                 <Border
                                                     MinWidth="{Binding Path=(uiBehaviors:SharedCardWidthBehavior.SharedMinWidth), RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                    MinHeight="70"
                                                     MaxWidth="{Binding Path=(uiBehaviors:SharedCardWidthBehavior.WidthLimit), RelativeSource={RelativeSource AncestorType=ListBox}}"
                                                     Margin="5"
-                                                    Padding="10,15"
+                                                    Padding="10,5"
                                                     uiBehaviors:SharedCardWidthBehavior.TrackWidth="True"
                                                     Background="{DynamicResource RegionBrushOpacity25}"
                                                     BorderBrush="{DynamicResource BorderBrush}"
@@ -458,6 +460,91 @@
                                                                         Color="Black" />
                                                                 </Image.Effect>
                                                             </Image>
+                                                        </StackPanel>
+                                                        <!--  技能练度行：无专精显示 RANK 徽章，有任一专精逐技能显示品字三圆角标；模组独立成行  -->
+                                                        <StackPanel Visibility="{c:Binding ShowSkillDetails}">
+                                                            <controls:TextBlock
+                                                                Margin="3,0"
+                                                                HorizontalAlignment="Center"
+                                                                FontSize="10"
+                                                                FontWeight="SemiBold"
+                                                                Foreground="#8C8C8C"
+                                                                Text="{Binding RankText}"
+                                                                ToolTip="{Binding MainSkillLevel}"
+                                                                Visibility="{c:Binding ShowRankBadge}" />
+                                                            <ItemsControl
+                                                                Margin="0"
+                                                                HorizontalAlignment="Center"
+                                                                ItemsSource="{Binding MasteryBadges}"
+                                                                Visibility="{c:Binding !ShowRankBadge}">
+                                                                <ItemsControl.ItemsPanel>
+                                                                    <ItemsPanelTemplate>
+                                                                        <StackPanel Orientation="Horizontal" />
+                                                                    </ItemsPanelTemplate>
+                                                                </ItemsControl.ItemsPanel>
+                                                                <ItemsControl.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <!--  品字三圆，坐标按 mockup viewBox 64：上圆 (32,15)、右下 (48,47)、左下 (16,47)，r=14  -->
+                                                                        <Viewbox
+                                                                            Width="10"
+                                                                            Height="10"
+                                                                            Margin="2.5,0">
+                                                                            <Viewbox.Effect>
+                                                                                <DropShadowEffect
+                                                                                    BlurRadius="3"
+                                                                                    Opacity="0.4"
+                                                                                    ShadowDepth="1"
+                                                                                    Color="Black" />
+                                                                            </Viewbox.Effect>
+                                                                            <Canvas Width="64" Height="64">
+                                                                                <Ellipse
+                                                                                    Canvas.Left="18"
+                                                                                    Canvas.Top="1"
+                                                                                    Width="28"
+                                                                                    Height="28"
+                                                                                    Fill="{Binding TopFill}" />
+                                                                                <Ellipse
+                                                                                    Canvas.Left="34"
+                                                                                    Canvas.Top="33"
+                                                                                    Width="28"
+                                                                                    Height="28"
+                                                                                    Fill="{Binding BottomRightFill}" />
+                                                                                <Ellipse
+                                                                                    Canvas.Left="2"
+                                                                                    Canvas.Top="33"
+                                                                                    Width="28"
+                                                                                    Height="28"
+                                                                                    Fill="{Binding BottomLeftFill}" />
+                                                                            </Canvas>
+                                                                        </Viewbox>
+                                                                    </DataTemplate>
+                                                                </ItemsControl.ItemTemplate>
+                                                            </ItemsControl>
+                                                            <ItemsControl
+                                                                Margin="0"
+                                                                HorizontalAlignment="Center"
+                                                                ItemsSource="{Binding ModBadges}"
+                                                                Visibility="{c:Binding HasMods}">
+                                                                <ItemsControl.ItemsPanel>
+                                                                    <ItemsPanelTemplate>
+                                                                        <StackPanel Orientation="Horizontal" />
+                                                                    </ItemsPanelTemplate>
+                                                                </ItemsControl.ItemsPanel>
+                                                                <ItemsControl.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <!--  下标字符 fallback 字体会撑高行盒，锁定行高与字号一致  -->
+                                                                        <controls:TextBlock
+                                                                            Margin="2.5,0"
+                                                                            FontSize="10"
+                                                                            FontWeight="SemiBold"
+                                                                            Foreground="#8C8C8C"
+                                                                            LineHeight="12"
+                                                                            LineStackingStrategy="BlockLineHeight"
+                                                                            Text="{Binding}"
+                                                                            ToolTip="{Binding}" />
+                                                                    </DataTemplate>
+                                                                </ItemsControl.ItemTemplate>
+                                                            </ItemsControl>
                                                         </StackPanel>
                                                     </StackPanel>
                                                 </Border>
