@@ -1467,7 +1467,15 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 return (null, []);
             }
 
-            bool isPallasStarter = roguelike.StartingOpers.Any(i =>
+            // 仅在此处过滤，StartingOpers 配置本体不动，重开开关/回填断点即恢复：
+            // 开关关闭时只保留第 1 顺位；顺位链条在首个空名处截断，其后残留值不传参
+            var startingOpers = (roguelike.UseAdditionalStartingOpers
+                    ? roguelike.StartingOpers
+                    : roguelike.StartingOpers.Take(1))
+                .TakeWhile(i => !string.IsNullOrEmpty(i.Name))
+                .ToList();
+
+            bool isPallasStarter = startingOpers.Any(i =>
                 string.Equals(
                     DataHelper.GetCharacterByNameOrAlias(i.Name)?.CodeName,
                     "pallas",
@@ -1482,13 +1490,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 Squad = roguelike.Squad,
                 Roles = roguelike.Roles,
 
-                // 仅在此处过滤，StartingOpers 配置本体不动，重开开关/回填断点即恢复：
-                // 开关关闭时只保留第 1 顺位；顺位链条在首个空名处截断，其后残留值不传参
-                CoreCharList = [.. (roguelike.UseAdditionalStartingOpers
-                        ? roguelike.StartingOpers
-                        : roguelike.StartingOpers.Take(1))
-                    .TakeWhile(i => !string.IsNullOrEmpty(i.Name))
-                    .Select(i => new AsstRoguelikeCoreChar
+                CoreCharList = [.. startingOpers.Select(i => new AsstRoguelikeCoreChar
                     {
                         Name = DataHelper.GetCharacterByNameOrAlias(i.Name)?.Name ?? i.Name,
                         UseSupport = i.UseSupport,
