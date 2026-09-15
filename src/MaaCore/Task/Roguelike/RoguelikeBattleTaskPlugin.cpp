@@ -77,7 +77,12 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
         // 不在战斗场景，且已使用过了干员，说明已经打完了，就结束循环
         image = ctrler()->get_image();
         const bool run_result = do_once(image, image_prev);
-        if (m_monthly_squad_task_battle_abandoned || (!run_result && !m_first_deploy)) {
+        const auto& monthly_task = m_config->get_monthly_squad_task();
+        const bool summon_task_active = monthly_task.has_value() &&
+                                        monthly_task->type == MonthlySquadTaskType::DeployOperatorSummon &&
+                                        monthly_task->completed_count < monthly_task->required_count;
+        if (m_monthly_squad_task_battle_abandoned ||
+            (!run_result && (summon_task_active || !m_first_deploy))) {
             break;
         }
         image_prev = std::move(image);
@@ -475,6 +480,107 @@ bool asst::RoguelikeBattleTaskPlugin::try_run_monthly_squad_deploy_task()
     return true;
 }
 
+bool asst::RoguelikeBattleTaskPlugin::try_run_monthly_squad_summon_task()
+{
+    auto& task = m_config->get_monthly_squad_task();
+    if (!task.has_value() || task->type != MonthlySquadTaskType::DeployOperatorSummon ||
+        task->required_count <= 0 || task->oper_name.empty()) {
+        return false;
+    }
+
+    if (m_monthly_squad_task_pending_abandon) {
+        m_monthly_squad_task_battle_abandoned = abandon();
+        return true;
+    }
+
+    if (task->completed_count >= task->required_count) {
+        return false;
+    }
+
+    if (!m_monthly_squad_task_oper_deployed) {
+        const auto oper_iter = std::ranges::find_if(m_cur_deployment_opers, [&](const battle::DeploymentOper& oper) {
+            return oper.role != battle::Role::Drone && oper.name == task->oper_name;
+        });
+        if (oper_iter == m_cur_deployment_opers.cend() || !oper_iter->available) {
+            return true;
+        }
+
+        const auto deploy_info = calc_best_loc(*oper_iter);
+        if (!deploy_info.has_value() ||
+            !deploy_oper(oper_iter->role, oper_iter->name, deploy_info->placed, deploy_info->direction)) {
+            return true;
+        }
+
+        const battle::OperNameTag oper_tag { oper_iter->role, oper_iter->name };
+        const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), oper_tag);
+        m_deployed_time.insert_or_assign(oper_tag, std::chrono::steady_clock::now());
+        configure_skill_usage(oper_tag, oper_info.skill_usage, oper_info.skill_times);
+        m_monthly_squad_task_oper_deployed = true;
+        m_first_deploy = false;
+        LogInfo << __FUNCTION__ << "deployed monthly squad summoner:" << oper_iter->name;
+        return true;
+    }
+
+    const auto oper_iter = std::ranges::find_if(m_battlefield_opers, [&](const auto& oper) {
+        return oper.first.role != battle::Role::Drone && oper.first.name == task->oper_name;
+    });
+    if (oper_iter == m_battlefield_opers.cend()) {
+        // The operator retreated. Wait for the battle to fail or end rather than deploying an unrelated summon.
+        return true;
+    }
+
+    const auto tokens = BattleData.get_related_tokens(oper_iter->first.role, task->oper_name);
+    if (tokens.empty()) {
+        LogError << __FUNCTION__ << "monthly squad operator has no summon mapping:" << task->oper_name;
+        return false;
+    }
+
+    bool has_remaining_summon = false;
+    for (const auto& summon : m_cur_deployment_opers) {
+        if (summon.role != battle::Role::Drone ||
+            std::ranges::find(tokens, summon.name) == tokens.cend() || summon.cooling) {
+            continue;
+        }
+        has_remaining_summon = true;
+        if (!summon.available) {
+            continue;
+        }
+
+        const auto deploy_info = calc_best_loc(summon);
+        if (!deploy_info.has_value()) {
+            if (m_monthly_squad_task_summon_count_in_battle > 0) {
+                m_monthly_squad_task_pending_abandon = true;
+            }
+            return true;
+        }
+        if (!deploy_oper(summon.role, summon.name, deploy_info->placed, deploy_info->direction)) {
+            return true;
+        }
+
+        ++task->completed_count;
+        ++m_monthly_squad_task_summon_count_in_battle;
+        m_monthly_squad_task_no_summon_scans = 0;
+        LogInfo << __FUNCTION__ << "deployed monthly squad summon:" << summon.name
+                << "progress:" << task->completed_count << "/" << task->required_count;
+        if (task->completed_count >= task->required_count) {
+            m_monthly_squad_task_pending_abandon = true;
+            m_monthly_squad_task_battle_abandoned = abandon();
+        }
+        return true;
+    }
+
+    if (has_remaining_summon) {
+        m_monthly_squad_task_no_summon_scans = 0;
+        return true; // The remaining summon cards are waiting for cost.
+    }
+
+    if (m_monthly_squad_task_summon_count_in_battle > 0 && ++m_monthly_squad_task_no_summon_scans >= 3) {
+        m_monthly_squad_task_pending_abandon = true;
+        m_monthly_squad_task_battle_abandoned = abandon();
+    }
+    return true;
+}
+
 void asst::RoguelikeBattleTaskPlugin::configure_skill_usage(
     const battle::OperNameTag& oper_tag,
     battle::SkillUsage default_usage,
@@ -594,7 +700,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_once(const cv::Mat& image, const cv::Ma
         }
     }
 
-    if (try_run_monthly_squad_deploy_task()) {
+    if (try_run_monthly_squad_summon_task() || try_run_monthly_squad_deploy_task()) {
         return true;
     }
 
@@ -921,6 +1027,9 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_first_deploy = true;
     m_monthly_squad_task_pending_abandon = false;
     m_monthly_squad_task_battle_abandoned = false;
+    m_monthly_squad_task_oper_deployed = false;
+    m_monthly_squad_task_summon_count_in_battle = 0;
+    m_monthly_squad_task_no_summon_scans = 0;
     m_melee_full = false;
     m_ranged_full = false;
     m_homes_status.clear();
