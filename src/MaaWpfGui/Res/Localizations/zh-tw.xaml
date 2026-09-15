@@ -2384,7 +2384,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
 
     <system:String x:Key="Achievement.ClueSharer.Title">線索分享</system:String>
     <system:String x:Key="Achievement.ClueSharer.Description">好東西要和朋友分享。</system:String>
-    <system:String x:Key="Achievement.ClueSharer.Conditions">累計向好友發送 20 次線索</system:String>
+    <system:String x:Key="Achievement.ClueSharer.Conditions">累計向好友贈送 20 次線索</system:String>
 
     <system:String x:Key="Achievement.CluePhilanthropist.Title">線索慈善家</system:String>
     <system:String x:Key="Achievement.CluePhilanthropist.Description">拿去花，不用謝。</system:String>
