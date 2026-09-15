@@ -1,6 +1,8 @@
 #pragma once
 #include "Common/AsstTypes.h"
+#include "MaaUtils/NoWarningCV.hpp"
 #include "Task/InterfaceTask.h"
+#include "Vision/Miscellaneous/PipelineAnalyzer.h"
 
 namespace asst
 {
@@ -25,10 +27,15 @@ private:
     // 以下为离线图片评估入口：不连设备，对本地图片跑与线上一致的识别链路，
     // 结果通过 SubTaskExtraInfo 回调（what = "DebugImageTest"）与日志输出。
     // 配套 python 驱动 tools/maa_core_eval.py（可 import 或 CLI），测试本地图片用它即可
-    bool image_test_report();      // 每张图 × 每个任务独立评估命中情况
-    bool image_test_pipeline();    // 每张图按任务列表跑一次首命中，附带命中任务的 next 列表
-    bool image_test_ocr();         // 返回 OCR 原始识别文本（不套任务的 ocrReplace 与 expected 过滤）
-    bool image_test_templ();       // 每张图 × 裸模板文件匹配（物品图标等非任务模板），报最佳得分
+    bool image_test_report();   // 每张图 × 每个任务独立评估命中情况
+    bool image_test_pipeline(); // 每张图按任务列表跑一次首命中，附带命中任务的 next 列表
+    bool image_test_ocr();      // 返回 OCR 原始识别文本（不套任务的 ocrReplace 与 expected 过滤）
+    bool image_test_templ();    // 每张图 × 裸模板文件匹配（物品图标等非任务模板），报最佳得分
+
+    // image_test_* 的共享工具（读图归一、尺度预处理、结果序列化）
+    static std::optional<cv::Mat> load_eval_image(const std::string& utf8_path);
+    static cv::Mat resize_eval_image(cv::Mat image, int width, int height);
+    static json::object to_result_json(const std::string& task_name, const PipelineAnalyzer::ResultOpt& result_opt);
 
     std::string m_image_test_mode; // 空 = 未启用（run 空跑，保持旧行为）；report / pipeline / ocr / templ
     std::vector<std::string> m_eval_images;

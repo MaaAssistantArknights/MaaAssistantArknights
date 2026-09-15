@@ -49,11 +49,9 @@ bool asst::DebugTask::run()
     return true;
 }
 
-namespace
-{
 // 读取本地图片并缩放到 1280x720（INTER_AREA），与线上 Controller::get_resized_image_cache 一致；
 // 需要其他评估尺寸（如仓库识别的 1066x599）的先经此归一，再用 resize_eval_image 二级缩放
-std::optional<cv::Mat> load_eval_image(const std::string& utf8_path)
+std::optional<cv::Mat> asst::DebugTask::load_eval_image(const std::string& utf8_path)
 {
     cv::Mat image = MAA_NS::imread(asst::utils::path(utf8_path));
     if (image.empty()) {
@@ -72,7 +70,7 @@ std::optional<cv::Mat> load_eval_image(const std::string& utf8_path)
 }
 
 // 归一后的二级缩放（INTER_AREA），复刻线上各识别器在 720p 截图基础上的尺度预处理
-cv::Mat resize_eval_image(cv::Mat image, int width, int height)
+cv::Mat asst::DebugTask::resize_eval_image(cv::Mat image, int width, int height)
 {
     if (image.cols != width || image.rows != height) {
         cv::resize(image, image, { width, height }, 0, 0, cv::INTER_AREA);
@@ -80,7 +78,8 @@ cv::Mat resize_eval_image(cv::Mat image, int width, int height)
     return image;
 }
 
-json::object to_result_json(const std::string& task_name, const asst::PipelineAnalyzer::ResultOpt& result_opt)
+json::object
+    asst::DebugTask::to_result_json(const std::string& task_name, const asst::PipelineAnalyzer::ResultOpt& result_opt)
 {
     json::object result { { "task", task_name } };
     if (!result_opt) {
@@ -108,7 +107,6 @@ json::object to_result_json(const std::string& task_name, const asst::PipelineAn
     }
     result["rect"] = (json::value)result_opt->rect;
     return result;
-}
 }
 
 // 离线图片评估的参数协议（AsstAppendTask 的 params，type 固定为 "Debug"）。
