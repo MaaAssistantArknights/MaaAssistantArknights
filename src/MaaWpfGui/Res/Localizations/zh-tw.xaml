@@ -825,7 +825,7 @@ C:\Program Files\Netease\MuMuPlayer
 
 注意：
 1. 若目前連線位址通訊埠編號為 7555，則需將通訊埠編號改為 16384。
-2. 若正在使用網路橋接，則需勾選 MuMu 網路橋接模式並手動填寫裝置編號。</system:String>
+2. 若正在使用網路橋接，則需勾選 MuMu 網路橋接模式並手動填寫裝置編號（MuMu 裝置清單左上角的 # 數字，主裝置為 0）。</system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu 模擬器路徑</system:String>
     <system:String x:Key="MuMu12EmulatorPathPlaceholder">範例：C:\Program Files\Netease\MuMuPlayer</system:String>
     <system:String x:Key="MuMuEmulatorPathEmptyError">MuMu 安裝路徑為空！佔位符僅為示例，請在 ｢{key=Settings} - {key=ConnectionSettings}｣ 填寫實際路徑</system:String>
