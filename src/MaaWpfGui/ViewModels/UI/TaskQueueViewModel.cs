@@ -671,6 +671,7 @@ public class TaskQueueViewModel : Screen
             if (!e.OldState.Idle && e.NewState.Idle)
             {
                 UpdateMainTasksProgress(0);
+                _ = GameAudioMuteManager.RestoreWhenCoreIdleAsync(Instances.AsstProxy.AsstRunning);
             }
 
             if (!e.NewState.Idle)

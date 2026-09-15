@@ -2938,7 +2938,7 @@ public class AsstProxy
     }
 
     /// <summary>
-    /// 将连接时绑定的明日方舟窗口移动到主屏幕中央。
+    /// 将连接时绑定的明日方舟窗口从最小化恢复，并移动到主屏幕中央。
     /// </summary>
     public void RestoreGameWindowPosition()
     {
@@ -2949,6 +2949,12 @@ public class AsstProxy
         }
 
         var hwnd = (HWND)_attachWindowHwnd;
+        if (PInvoke.IsIconic(hwnd))
+        {
+            // A minimized window reports iconic coordinates; the restore button must show it before centering it.
+            _ = PInvoke.ShowWindow(hwnd, SHOW_WINDOW_CMD.SW_RESTORE);
+        }
+
         if (!PInvoke.GetWindowRect(hwnd, out var rect))
         {
             _logger.Warning("RestoreGameWindowPosition: GetWindowRect failed, hwnd: {Hwnd}", hwnd);
@@ -2970,6 +2976,37 @@ public class AsstProxy
             SET_WINDOW_POS_FLAGS.SWP_NOSIZE | SET_WINDOW_POS_FLAGS.SWP_NOZORDER | SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE);
 
         _logger.Information("RestoreGameWindowPosition: moved window to screen center, hwnd: {Hwnd}", hwnd);
+    }
+
+    /// <summary>
+    /// Applies a task-time game audio mute setting change without reconnecting Core.
+    /// </summary>
+    /// <param name="enabled">Whether task-time muting is enabled.</param>
+    public void UpdateGameAudioMute(bool enabled)
+    {
+        if (_attachWindowHwnd == IntPtr.Zero)
+        {
+            return;
+        }
+
+        if (!enabled)
+        {
+            if (_runningState.GetIdle())
+            {
+                GameAudioMuteManager.Restore();
+            }
+            else
+            {
+                GameAudioMuteManager.Restore(restoreWindow: false);
+            }
+
+            return;
+        }
+
+        if (!_runningState.GetIdle())
+        {
+            GameAudioMuteManager.Start(_attachWindowHwnd, () => !_runningState.GetIdle());
+        }
     }
 
     /// <summary>
@@ -3039,6 +3076,7 @@ public class AsstProxy
         var screencapMethod = (ulong)win32Extra.ScreencapMethod;
         var mouseMethod = (ulong)win32Extra.MouseMethod;
         var keyboardMethod = (ulong)win32Extra.KeyboardMethod;
+
         bool ret = AsstAttachWindow(_handle, hwnd, screencapMethod, mouseMethod, keyboardMethod);
 
         if (!ret)
@@ -3533,7 +3571,15 @@ public class AsstProxy
     /// <returns>是否成功。</returns>
     public bool AsstStart()
     {
-        return MaaService.AsstStart(_handle);
+        var muteStarted = SettingsViewModel.ConnectSettings.ExtraConfig is Win32Extra { MuteWhileRunning: true } &&
+                          GameAudioMuteManager.Start(_attachWindowHwnd, () => !_runningState.GetIdle());
+        var result = MaaService.AsstStart(_handle);
+        if (!result && muteStarted)
+        {
+            GameAudioMuteManager.Restore();
+        }
+
+        return result;
     }
 
     /// <summary>
@@ -3560,6 +3606,7 @@ public class AsstProxy
     public void AsstDestroy()
     {
         MaaService.AsstDestroy(_handle);
+        GameAudioMuteManager.Restore();
     }
 }
 
