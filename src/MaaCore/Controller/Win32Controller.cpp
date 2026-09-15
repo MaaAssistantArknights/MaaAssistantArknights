@@ -2,9 +2,11 @@
 
 #include "Win32Controller.h"
 
+#include <algorithm>
 #include <sstream>
 #include <thread>
 
+#include "CaptureInterest.hpp"
 #include "Config/GeneralConfig.h"
 #include "SwipeHelper.hpp"
 #include "Utils/Logger.hpp"
@@ -91,6 +93,20 @@ bool Win32Controller::attach(
         Log.info("Screen size:", m_screen_size.first, "x", m_screen_size.second);
     }
 
+    // 诊断用：记下窗口在屏幕上的矩形，便于从日志判断光标是否落在客户区内
+    RECT window_rect = { 0, 0, 0, 0 };
+    if (GetWindowRect(static_cast<HWND>(m_hwnd), &window_rect)) {
+        Log.info(
+            "Attached window rect:",
+            window_rect.left,
+            ",",
+            window_rect.top,
+            ",",
+            window_rect.right,
+            ",",
+            window_rect.bottom);
+    }
+
     if ((m_mouse_method & (Win32Input::SendMessageWithWindowPos | Win32Input::PostMessageWithWindowPos)) != 0 &&
         (m_screencap_method &
          (Win32Screencap::ScreenDC | Win32Screencap::DXGI_DesktopDup | Win32Screencap::DXGI_DesktopDup_Window)) == 0) {
@@ -124,30 +140,50 @@ bool Win32Controller::screencap(cv::Mat& image_payload, bool allow_reconnect [[m
 {
     LogTraceFunction;
 
-    // 截图前把鼠标移走，避免光标出现在截图中影响识别
+    const bool with_window_pos =
+        (m_mouse_method & (Win32Input::SendMessageWithWindowPos | Win32Input::PostMessageWithWindowPos)) != 0;
+    // 仅 WithCursorPos 两种方式挪的是真实光标；Seize 本就强制接管鼠标，纯消息模式不动真实光标
+    const bool cursor_pos_mode =
+        (m_mouse_method & (Win32Input::SendMessageWithCursorPos | Win32Input::PostMessageWithCursorPos)) != 0;
+    // 主界面识别必须把光标挪到窗口中心以回正视差；其他界面只在光标会挡到识别区时才挪。
+    // 曾经这里是「非主界面一律挪」，在战斗中每秒截图 18 帧的节奏下等于每秒抢占光标 18 次，
+    // 挂机期间用户鼠标完全不可用（issue #18229）。
+    const bool move_to_center = m_capture_hint.main_screen_recognition;
+    // 本次截图的决策输入：光标相对画面的位置（画面外/未知都偏保守）
+    const CursorLocation cursor_location = locate_cursor();
+    // 非主界面、非 WindowPos 的输入方式（CursorPos 与 Seize 都会真的移动光标）都要把光标挪出识别区，
+    // 但只在它确实会挡到本次识别时才挪。注意 save/restore 仍只对 CursorPos 生效（沿用改动前的分工）。
+    const bool move_to_corner = !move_to_center && !with_window_pos && need_relocate(cursor_location);
+    const bool relocating = cursor_pos_mode && (move_to_center || move_to_corner);
+
     POINT original_cursor_pos = { 0, 0 };
+    POINT parked_cursor_pos = { 0, 0 };
     bool cursor_pos_saved = false;
-    bool input_blocked = false;
+    bool cursor_parked = false;
+    if (relocating && m_screen_size.second > 0) {
+        // 挪之前先把用户的位置存下来。不再用 BlockInput 冻结指针来保护这次写入：
+        // 还原改为事后观测（见下方 should_restore_cursor），既不丢用户输入，也不会把位置拉错。
+        cursor_pos_saved = GetCursorPos(&original_cursor_pos) != 0;
+        Log.trace(
+            "Screencap saves cursor position:",
+            original_cursor_pos.x,
+            ",",
+            original_cursor_pos.y,
+            "cursor:",
+            capture_interest::to_string(cursor_location.state),
+            cursor_location.frame_pos.x,
+            ",",
+            cursor_location.frame_pos.y);
+    }
+
     if (m_screen_size.second > 0) {
-        const bool with_window_pos =
-            (m_mouse_method & (Win32Input::SendMessageWithWindowPos | Win32Input::PostMessageWithWindowPos)) != 0;
-        // 仅 WithCursorPos 两种方式挪的是真实光标；Seize 本就强制接管鼠标，纯消息模式不动真实光标
-        const bool moves_real_cursor =
-            (m_main_screen_recognition || !with_window_pos) &&
-            (m_mouse_method & (Win32Input::SendMessageWithCursorPos | Win32Input::PostMessageWithCursorPos)) != 0;
-        if (moves_real_cursor) {
-            // 挪鼠标是孤立 touch_move，没有底层 touch_down 的 BlockInput 保护，这里补上：
-            // 阻塞期间用户输入不产生事件，挪动与还原的写入不会被硬件移动竞争覆盖，与底层触控的还原同机制
-            input_blocked = BlockInput(TRUE) != 0;
-            cursor_pos_saved = GetCursorPos(&original_cursor_pos);
-            Log.trace("Screencap saves cursor position:", original_cursor_pos.x, ",", original_cursor_pos.y);
-        }
-        if (m_main_screen_recognition) {
+        if (move_to_center) {
             // 主界面情况下鼠标移动到窗口中心，等待主界面的视差动画，300ms
             unit_touch_move(0, m_screen_size.first / 2, m_screen_size.second / 2, 0);
             if (with_window_pos) {
                 unit_touch_up(0);
             }
+            cursor_parked = cursor_pos_saved && GetCursorPos(&parked_cursor_pos) != 0;
             std::this_thread::sleep_for(std::chrono::milliseconds(300));
         }
         else if (with_window_pos) {
@@ -164,23 +200,45 @@ bool Win32Controller::screencap(cv::Mat& image_payload, bool allow_reconnect [[m
             }
             unit_touch_up(0);
         }
-        else {
+        else if (move_to_corner) {
             unit_touch_move(0, 0, m_screen_size.second - 1, 0);
+            // 记录本次挪动实际落点：还原时以它为准而不是以「期望挪到哪」为准，
+            // 这样即使底层坐标换算与预期不同，也不会把光标还原到错误位置
+            cursor_parked = cursor_pos_saved && GetCursorPos(&parked_cursor_pos) != 0;
+            if (cursor_parked && !m_park_mismatch_logged && !parked_at_expected_position(parked_cursor_pos)) {
+                Log.warn(
+                    "Screencap parking spot mismatch, actual:",
+                    parked_cursor_pos.x,
+                    ",",
+                    parked_cursor_pos.y,
+                    "expected client:",
+                    "0,",
+                    m_screen_size.second - 1);
+                m_park_mismatch_logged = true;
+            }
             // 游戏自绘光标跟随真实光标，渲染存在帧延迟，等待其画到挪动终点后再截图，避免光标被截进识别区
             std::this_thread::sleep_for(std::chrono::milliseconds(34));
         }
+        else {
+            // 光标不会挡到本次识别的区域：不挪光标、不屏蔽输入
+            Log.trace(
+                "Screencap skips cursor relocation, cursor:",
+                capture_interest::to_string(cursor_location.state),
+                cursor_location.frame_pos.x,
+                ",",
+                cursor_location.frame_pos.y);
+        }
+    }
+
+    // 截图前确认停靠还在：用户抢先动了鼠标时本帧可能带光标，只记录不追
+    if (cursor_parked) {
+        log_cursor_escaped(parked_cursor_pos);
     }
 
     bool ret = unit_screencap(image_payload);
 
-    if (cursor_pos_saved) {
-        if (!SetCursorPos(original_cursor_pos.x, original_cursor_pos.y)) {
-            Log.error("Failed to restore cursor position after screencap, last_error:", GetLastError());
-        }
-    }
-
-    if (input_blocked) {
-        BlockInput(FALSE);
+    if (cursor_parked) {
+        restore_cursor_if_untouched(original_cursor_pos, parked_cursor_pos);
     }
 
     if (m_screen_size.first == 0) {
@@ -409,9 +467,125 @@ bool Win32Controller::press_esc()
     return unit_click_key(VK_ESCAPE); // VK_ESCAPE = 0x1B, defined in WinUser.h
 }
 
-void Win32Controller::set_main_screen_recognition(bool on)
+void Win32Controller::set_capture_hint(const CaptureHint& hint)
 {
-    m_main_screen_recognition = on;
+    m_capture_hint = hint;
+}
+
+Win32Controller::CursorLocation asst::Win32Controller::locate_cursor() const
+{
+    CursorLocation location;
+    if (m_hwnd == nullptr || m_screen_size.first <= 0 || m_screen_size.second <= 0) {
+        return location;
+    }
+
+    POINT cursor_pos = { 0, 0 };
+    if (!GetCursorPos(&cursor_pos)) {
+        return location;
+    }
+
+    RECT client_rect = { 0, 0, 0, 0 };
+    if (!GetClientRect(static_cast<HWND>(m_hwnd), &client_rect)) {
+        return location;
+    }
+
+    const int client_width = client_rect.right - client_rect.left;
+    const int client_height = client_rect.bottom - client_rect.top;
+    if (client_width <= 0 || client_height <= 0) {
+        return location;
+    }
+
+    if (!ScreenToClient(static_cast<HWND>(m_hwnd), &cursor_pos)) {
+        return location;
+    }
+
+    // 客户区物理像素与截图画面尺寸可能因 DPI 缩放而不一致，统一归一化到画面坐标
+    const int frame_x = cursor_pos.x * m_screen_size.first / client_width;
+    const int frame_y = cursor_pos.y * m_screen_size.second / client_height;
+    if (frame_x < 0 || frame_y < 0 || frame_x >= m_screen_size.first || frame_y >= m_screen_size.second) {
+        // 客户区外：这是实测过的「不污染画面」情形（挂机时鼠标通常就停在 MAA 窗口上）
+        location.state = capture_interest::CursorLocateState::Outside;
+        return location;
+    }
+
+    location.state = capture_interest::CursorLocateState::Inside;
+    location.frame_pos = Point { frame_x, frame_y };
+    return location;
+}
+
+bool asst::Win32Controller::need_relocate(const CursorLocation& location) const
+{
+    bool hit_interest = false;
+    if (location.state == capture_interest::CursorLocateState::Inside) {
+        if (m_capture_hint.interests.empty()) {
+            // 调用方未指定兴趣区：拿不准，按「必须挪」处理
+            hit_interest = true;
+        }
+        else {
+            hit_interest = std::ranges::any_of(m_capture_hint.interests, [&](const Rect& roi) {
+                return capture_interest::rect_hit(
+                    location.frame_pos.x,
+                    location.frame_pos.y,
+                    roi.x,
+                    roi.y,
+                    roi.width,
+                    roi.height,
+                    capture_interest::DefaultInterestMargin);
+            });
+        }
+    }
+
+    return capture_interest::should_relocate(location.state, hit_interest);
+}
+
+void Win32Controller::log_cursor_escaped(const POINT& parked) const
+{
+    // 截图过程中停靠被用户动作打断：本帧可能带光标（尽力而为的降级）。
+    // 不去重停靠 —— 那要再等一轮 34ms 让游戏重绘，事件成本翻倍，且会与正在操作的用户打架。
+    POINT cursor_pos = { 0, 0 };
+    if (!GetCursorPos(&cursor_pos)) {
+        return;
+    }
+    if (!capture_interest::same_point(cursor_pos.x, cursor_pos.y, parked.x, parked.y)) {
+        Log.trace("Screencap cursor escaped the parking spot before capture");
+    }
+}
+
+void Win32Controller::restore_cursor_if_untouched(const POINT& original, const POINT& parked)
+{
+    POINT cursor_pos = { 0, 0 };
+    if (!GetCursorPos(&cursor_pos)) {
+        // 读不到位置：保守不动，避免把用户拽到错误的地方
+        return;
+    }
+    // 只有光标仍停在我们挪去的停靠点（没人动过）才还原；用户自己动过就尊重其当前位置。
+    // 这取代了原先用 BlockInput 冻结指针来保证「还原写不被竞争覆盖」的做法：
+    // 既不会丢掉用户输入，也不会把光标拉回 45ms 前的位置。
+    if (!capture_interest::should_restore_cursor(cursor_pos.x, cursor_pos.y, parked.x, parked.y)) {
+        Log.trace("Screencap keeps user cursor position:", cursor_pos.x, ",", cursor_pos.y);
+        return;
+    }
+    if (!SetCursorPos(original.x, original.y)) {
+        Log.error("Failed to restore cursor position after screencap, last_error:", GetLastError());
+        return;
+    }
+    Log.trace("Screencap restores cursor position");
+}
+
+bool Win32Controller::parked_at_expected_position(const POINT& parked) const
+{
+    constexpr int ParkVerifyTolerance = 8;
+    // 左下角停靠的目标点（客户区坐标），下面会被 ClientToScreen 就地换算成屏幕坐标
+    POINT expected_cursor_pos = { 0, m_screen_size.second - 1 };
+    if (!ClientToScreen(static_cast<HWND>(m_hwnd), &expected_cursor_pos)) {
+        return false;
+    }
+    return capture_interest::same_point(
+        parked.x,
+        parked.y,
+        expected_cursor_pos.x,
+        expected_cursor_pos.y,
+        ParkVerifyTolerance);
 }
 
 void Win32Controller::save_window_position()
