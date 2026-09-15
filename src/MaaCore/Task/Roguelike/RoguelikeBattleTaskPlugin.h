@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <queue>
 #include <stack>
 
@@ -57,10 +58,8 @@ protected:
     bool try_run_monthly_squad_deploy_task();
     bool try_run_monthly_squad_summon_task();
     bool use_all_ready_skill_and_track_monthly_task(const cv::Mat& image);
-    void configure_skill_usage(
-        const battle::OperNameTag& oper_tag,
-        battle::SkillUsage default_usage,
-        int default_times);
+    void
+        configure_skill_usage(const battle::OperNameTag& oper_tag, battle::SkillUsage default_usage, int default_times);
     bool calc_stage_info();
 
     void all_melee_retreat();
@@ -140,7 +139,7 @@ protected:
     bool m_monthly_squad_task_battle_abandoned = false;
     bool m_monthly_squad_task_oper_deployed = false;
     int m_monthly_squad_task_summon_count_in_battle = 0;
-    int m_monthly_squad_task_no_summon_scans = 0;
+    std::optional<std::chrono::steady_clock::time_point> m_monthly_squad_task_no_summon_since;
     bool m_melee_full = false;
     bool m_ranged_full = false;
 
