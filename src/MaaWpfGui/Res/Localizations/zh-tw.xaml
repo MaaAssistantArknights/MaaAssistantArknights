@@ -573,7 +573,7 @@ D:\
     <system:String x:Key="WaitForEmulator">等待模擬器啟動時間（秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">等待結束</system:String>
     <system:String x:Key="EmulatorPath">模擬器路徑</system:String>
-    <system:String x:Key="SelectShortcutTip" xml:space="preserve">可選擇模擬器本體（配合 ｢{key=AdditionCommand}｣ 啟動參數可指定啟動模擬器實例），也可直接選擇模擬器或遊戲的捷徑。&#10;如因模擬器啟動時間過長導致 ｢{key=WakeUp}｣ 任務失敗，推薦填寫遊戲捷徑並延長 ｢{key=WaitForEmulator}｣。</system:String>
+    <system:String x:Key="SelectShortcutTip" xml:space="preserve">可選擇模擬器本體（配合 ｢{key=AdditionCommand}｣ 啟動參數可指定要啟動的模擬器），也可直接選擇模擬器或遊戲的捷徑。&#10;如因模擬器啟動時間過長導致 ｢{key=WakeUp}｣ 任務失敗，推薦填寫遊戲捷徑並延長 ｢{key=WaitForEmulator}｣。</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorPrompt">你也想在酒吧裡點酒吧？</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">我確定沒選錯</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">好的，我會重新選擇</system:String>
@@ -591,7 +591,7 @@ D:\
     <system:String x:Key="MumuExtrasTouchMode">MuMu 觸控增強（實驗功能）</system:String>
     <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input 僅用於相容系統版本過低的實體機裝置，能用其他模式時不要選擇。&#10;ADB Input 的滑動容易拖飛，為此滑動速度會設定得非常慢，且滑動距離與其他模式不同，需要精確控制座標的場景下無法使用。&#10;&#10;MaaFwAdb 不支援額外滑動，依賴額外滑動防止拖飛的頁面在該模式下會拖飛。&#10;額外滑動是主滑動結束後沿垂直方向追加一小段的 ｢剎車｣ 滑動（軌跡類似拐 90° 的 L 形），用於抵消列表慣性。</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
-    <system:String x:Key="AdditionCommandTip" xml:space="preserve">附加命令用於指定模擬器啟動參數（如 ｢--instance 1｣ 表示啟動 1 號實例）。&#10;不同模擬器的命令格式不同，通常包括實例編號、視窗模式等參數，請參考您使用的模擬器說明文件。</system:String>
+    <system:String x:Key="AdditionCommandTip" xml:space="preserve">附加命令用於指定模擬器啟動參數（如 ｢--instance 1｣ 表示啟動 1 號模擬器）。&#10;不同模擬器的命令格式不同，通常包括模擬器編號、視窗模式等參數，請參考您使用的模擬器說明文件。</system:String>
     <system:String x:Key="StartsWithScript">開始前腳本</system:String>
     <system:String x:Key="StartsWithScriptPlaceholder">範例："C:\1.cmd" -minimized</system:String>
     <system:String x:Key="EndsWithScript">結束後腳本</system:String>
@@ -825,13 +825,13 @@ C:\Program Files\Netease\MuMuPlayer
 
 注意：
 1. 若目前連線位址通訊埠編號為 7555，則需將通訊埠編號改為 16384。
-2. 若正在使用網路橋接，則需勾選 MuMu 網路橋接模式並手動填寫序號。</system:String>
+2. 若正在使用網路橋接，則需勾選 MuMu 網路橋接模式並手動填寫裝置編號。</system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu 模擬器路徑</system:String>
     <system:String x:Key="MuMu12EmulatorPathPlaceholder">範例：C:\Program Files\Netease\MuMuPlayer</system:String>
     <system:String x:Key="MuMuEmulatorPathEmptyError">MuMu 安裝路徑為空！佔位符僅為示例，請在 ｢{key=Settings} - {key=ConnectionSettings}｣ 填寫實際路徑</system:String>
     <system:String x:Key="MuMuBridgeConnection">MuMu 網路橋接模式</system:String>
     <system:String x:Key="MuMuBridgeConnectionTip">除非您知道自己在做什麼，否則不要啟用此選項</system:String>
-    <system:String x:Key="MuMu12Index">實例編號</system:String>
+    <system:String x:Key="MuMu12Index">裝置編號</system:String>
     <system:String x:Key="MuMu12Display">螢幕編號</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu 截圖增強未生效，請在 ｢{key=Settings} - {key=ConnectionSettings} - {key=ConnectionPreset}｣ 檢查下方顯示的截圖增強設定</system:String>
     <system:String x:Key="MuMuEmulator12KeepAliveOn">偵測到 MuMu 模擬器開啟了 ｢應用保活｣，但 MAA 的觸控增強未生效，在應用保活下無法操作。請在 MAA ｢{key=ConnectionSettings}｣ 中同時勾選 ｢{key=MuMu12ExtrasEnabled}｣ 及其下的 ｢{key=MuMuExtrasTouchEnabled}｣；或不想使用增強時，請在 MuMu 設定中關閉 ｢應用保活｣（部分版本曾稱 ｢背景保活｣ ｢背景掛機時保活運行｣ 等）。</system:String>
@@ -848,8 +848,8 @@ C:\leidian\LDPlayer9\dnplayer.exe
 則應填寫：
 C:\leidian\LDPlayer9
 
-實例編號可在雷電多開器中查看，
-主多開為 0，其他多開為版本 / 編號 ID 後的數字。
+模擬器編號可在雷電多開器中查看，
+主多開為 0，其他多開為 ｢版本/編號｣ 欄 ID 後的數字。
 
 截圖增強功能強制要求模擬器解析度設定為橫向螢幕模式，且在連線過程中請勿翻轉螢幕。
 如在縱向螢幕狀態下啟動遊戲後切換為橫向，可能導致畫面撕裂等問題。</system:String>
@@ -857,7 +857,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="LdEmulatorPathPlaceholder">範例：C:\leidian\LDPlayer9</system:String>
     <system:String x:Key="LdEmulatorPathEmptyError">雷電模擬器安裝路徑為空！佔位符僅為示例，請在 ｢{key=Settings} - {key=ConnectionSettings}｣ 填寫實際路徑</system:String>
     <system:String x:Key="LdManualSetIndex">手動填寫 ｢{key=LdIndex}｣</system:String>
-    <system:String x:Key="LdIndex">實例編號</system:String>
+    <system:String x:Key="LdIndex">模擬器編號</system:String>
     <system:String x:Key="LdExtrasNotEnabledMessage">LD 截圖增強未生效，請在 ｢{key=Settings} - {key=ConnectionSettings} - {key=ConnectionPreset}｣ 檢查下方顯示的截圖增強設定</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB 連線失敗時嘗試啟動模擬器</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">重連失敗後嘗試重新啟動模擬器；使用背景定時任務且設定任務完成後關閉模擬器時，必須勾選此項</system:String>
@@ -2048,7 +2048,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
 請先確認是否已將壓縮檔完整解壓縮。
 點擊 ｢{key=Confirm}｣ 將嘗試安裝/更新 VC++ 執行庫並結束 MAA（若為其他原因則無效），點擊 ｢{key=Cancel}｣ 將直接結束 MAA。
     </system:String>
-    <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">同一路徑下只能啟動一個執行個體！
+    <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">同一路徑下只能啟動一個實例！
 如需多開 MAA，請複製一份新的 MAA 到其他資料夾，並設定使用不同的 MAA，搭配相同的 ADB 與不同的模擬器位址進行多開操作。
     </system:String>
     <system:String x:Key="SoftwareLocationWarning">目前軟體所在的位置無法儲存資料，可能會導致設定遺失或執行異常。建議將軟體移動到可寫入的目錄中執行，請勿放置在系統保護目錄（如 Program Files、System32 或 Windows 目錄）中。</system:String>
