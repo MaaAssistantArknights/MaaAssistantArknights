@@ -48,7 +48,7 @@
     <system:String x:Key="Off">關閉</system:String>
     <system:String x:Key="ExternalNotificationTips">請注意：外部通知功能目前僅會發送 ｢所有任務完成｣ 的通知。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
-    <system:String x:Key="ExternalNotificationEnabled">啟用的通知配置</system:String>
+    <system:String x:Key="ExternalNotificationEnabled">啟用的通知設定</system:String>
     <system:String x:Key="ExternalNotificationEnableDetails">輸出詳細資訊</system:String>
     <system:String x:Key="ExternalNotificationSendWhenComplete">任務完成後發送通知</system:String>
     <system:String x:Key="ExternalNotificationSendWhenError">任務出錯時發送通知</system:String>
@@ -206,27 +206,27 @@
     <system:String x:Key="InfrastModeRotationToolTip" xml:space="preserve"> ｢{key=InfrastModeRotation}｣ 的換班邏輯與遊戲內基建右下角的 ｢{key=InfrastModeRotation}｣ 完全一致：
 當目前班次中任意幹員心情值為 0 時，會整隊替換為下一班幹員。
 若需自訂輪換班次，請使用 ｢{key=InfrastModeCustom}｣ 。</system:String>
-    <system:String x:Key="InfrastModeCustom">自訂基建配置</system:String>
-    <system:String x:Key="DefaultInfrast">內建配置</system:String>
+    <system:String x:Key="InfrastModeCustom">自訂基建排班</system:String>
+    <system:String x:Key="DefaultInfrast">內建排班</system:String>
     <system:String x:Key="UserDefined">自訂</system:String>
     <system:String x:Key="153Time3">153 一天 3 換</system:String>
     <system:String x:Key="153Time4">153 一天 4 換</system:String>
     <system:String x:Key="243Time3">243 一天 3 換</system:String>
     <system:String x:Key="243Time4">243 一天 4 換</system:String>
     <system:String x:Key="333Time3">333 一天 3 換</system:String>
-    <system:String x:Key="CustomInfrastFile">自訂基建配置檔案</system:String>
+    <system:String x:Key="CustomInfrastFile">自訂基建排班檔案</system:String>
     <system:String x:Key="CustomInfrastTimeSchedule">時間輪換 ({0})</system:String>
-    <system:String x:Key="CustomInfrastFileParseFailed">自訂基建配置檔案解析錯誤！</system:String>
-    <system:String x:Key="CustomInfrastFileHasPlanNoPeriod">自訂基建配置僅有部分計畫設定了時段，可能會產生預期外的行為。若需設定換班時段請確保所有計畫均有設定時段，否則請全部留白。</system:String>
-    <system:String x:Key="CustomInfrastPlanSelectOutOfIndex">自訂基建配置選擇超出索引範圍</system:String>
-    <system:String x:Key="CustomInfrastPlanNotFoundByPeriod">自訂基建配置找不到對應時段的計畫</system:String>
-    <system:String x:Key="CustomInfrastTitle" xml:space="preserve">自訂基建配置: </system:String>
+    <system:String x:Key="CustomInfrastFileParseFailed">自訂基建排班檔案解析錯誤！</system:String>
+    <system:String x:Key="CustomInfrastFileHasPlanNoPeriod">自訂基建排班僅有部分計畫設定了時段，可能會產生預期外的行為。若需設定換班時段請確保所有計畫均有設定時段，否則請全部留白。</system:String>
+    <system:String x:Key="CustomInfrastPlanSelectOutOfIndex">自訂基建排班選擇超出索引範圍</system:String>
+    <system:String x:Key="CustomInfrastPlanNotFoundByPeriod">自訂基建排班找不到對應時段的計畫</system:String>
+    <system:String x:Key="CustomInfrastTitle" xml:space="preserve">自訂基建排班: </system:String>
     <system:String x:Key="CustomInfrastPlan">基建計劃</system:String>
     <system:String x:Key="CustomInfrastPlanToolTip">
         若 ｢{key=CustomInfrastPlan}｣ 存在執行時間，則在 ｢{key=Base}｣ 任務開始前或任務執行時不會自動切換，將保持 {key=LinkStart} 狀態，僅於空閒或任務完成後才會切換。
     </system:String>
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">自動儲存為下個計劃</system:String>
-    <system:String x:Key="CustomizeInfrastSelectionEmpty">自訂設施配置選擇為空，請檢查配置或關閉自訂功能。</system:String>
+    <system:String x:Key="CustomizeInfrastSelectionEmpty">自訂設施選擇為空，請檢查設定或關閉自訂功能。</system:String>
     <system:String x:Key="General">通用模式</system:String>
     <system:String x:Key="BlueStacks">藍疊模擬器</system:String>
     <system:String x:Key="MuMuEmulator12">MuMu 模擬器</system:String>
@@ -536,16 +536,16 @@ D:\
     <system:String x:Key="ForceScheduledStartTip">停止目前任務，重新啟動遊戲並開始新任務</system:String>
     <system:String x:Key="ShowWindowBeforeForceScheduledStart">強制定時啟動前顯示視窗</system:String>
     <system:String x:Key="ShowWindowBeforeForceScheduledStartTip">定時啟動前顯示主視窗，避免最小化時看不到倒數</system:String>
-    <system:String x:Key="TimerCustomConfig">自訂配置選擇</system:String>
-    <system:String x:Key="TimerCustomConfigTip">定時啟動前兩分鐘重新啟動遊戲並切換配置</system:String>
+    <system:String x:Key="TimerCustomConfig">自訂設定檔選擇</system:String>
+    <system:String x:Key="TimerCustomConfigTip">定時啟動前兩分鐘重新啟動遊戲並切換設定檔</system:String>
     <system:String x:Key="Timer">定時</system:String>
-    <system:String x:Key="GlobalConfigTip">此選項分頁為全域配置</system:String>
+    <system:String x:Key="GlobalConfigTip">此選項分頁為全域設定</system:String>
     <system:String x:Key="MultiTasksShareTip">以下選項為多任務共用</system:String>
-    <system:String x:Key="SwitchConfiguration">切換配置</system:String>
-    <system:String x:Key="ConfigurationName">配置名稱</system:String>
+    <system:String x:Key="SwitchConfiguration">切換設定檔</system:String>
+    <system:String x:Key="ConfigurationName">設定檔名稱</system:String>
     <system:String x:Key="AddConfiguration">新增</system:String>
-    <system:String x:Key="AddConfigSuccess">配置 &lt;{0}&gt; 新增成功</system:String>
-    <system:String x:Key="ConfigExists">配置 &lt;{0}&gt; 已存在</system:String>
+    <system:String x:Key="AddConfigSuccess">設定檔 &lt;{0}&gt; 新增成功</system:String>
+    <system:String x:Key="ConfigExists">設定檔 &lt;{0}&gt; 已存在</system:String>
     <system:String x:Key="LaunchOnSystemStartup">開機自動啟動 MAA</system:String>
     <system:String x:Key="LaunchOnSystemStartupWarning" xml:space="preserve">此功能透過修改登錄檔來實現開機自動啟動。
 由於 MAA 為非安裝軟體，不會自動清除登錄檔項目。
@@ -780,7 +780,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
 可在關卡結尾輸入 ｢Normal/Hard｣ 切換難度：10-14 章對應標準/磨難，15 章及以後對應常規/險地
 可輸入 ｢SSReopen-XX｣ 一次性代理 SS 複刻的普通關</system:String>
     <system:String x:Key="AutoDetectConnection">自動偵測連線</system:String>
-    <system:String x:Key="AutoDetectConnectionNotSupported">該連線配置不支援自動偵測連線，請嘗試手動填寫通訊埠編號</system:String>
+    <system:String x:Key="AutoDetectConnectionNotSupported">該連線類型不支援自動偵測連線，請嘗試手動填寫通訊埠編號</system:String>
     <system:String x:Key="AutoDetectConnectionTip" xml:space="preserve">每次偵測完成後會自動取消勾選，如需重新偵測可再次勾選。
 僅當通訊埠經常發生變化時，才需要勾選 ｢{key=AlwaysAutoDetectConnection}｣ 選項。
 偵測時請確保只開啟需要連線的模擬器，同時開啟多個模擬器可能會導致連線到錯誤的目標。</system:String>
@@ -800,7 +800,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AdbPathFileSelectionErrorSelectAgain">好的，我會重新選擇</system:String>
     <system:String x:Key="ConnectionAddress">連線位址</system:String>
     <system:String x:Key="ConnectionAddressTip">開啟 ｢{key=AutoDetectConnection}｣ 並成功後會自動填入。若偵測失敗，請查到模擬器的實際連接埠後填入。</system:String>
-    <system:String x:Key="ConnectionPreset">連線配置</system:String>
+    <system:String x:Key="ConnectionPreset">連線類型</system:String>
     <system:String x:Key="ScreenshotTest">截圖測試</system:String>
     <system:String x:Key="WindowRestore">視窗復原</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">啟用 MuMu 截圖增強</system:String>
@@ -1475,7 +1475,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="CompleteCombat">完成戰鬥</system:String>
     <system:String x:Key="AllTasksComplete">任務已全部完成！\n(耗時 {0})</system:String>
     <system:String x:Key="SanityReport">理智會在 {DateTime} 回滿（{TimeDiff} 後）。</system:String>
-    <system:String x:Key="AllTaskCompleteContent">MAA 已在 {DateTime} 完成了 {Preset} 配置下所有預設的任務（耗時 {TimeDiff}）。</system:String>
+    <system:String x:Key="AllTaskCompleteContent">MAA 已在 {DateTime} 完成了 {Preset} 設定檔下所有預設的任務（耗時 {TimeDiff}）。</system:String>
     <system:String x:Key="BackgroundLinkStarted">開始執行任務</system:String>
     <system:String x:Key="BackgroundLinkStopped">任務終止</system:String>
     <system:String x:Key="FailedToOpenClient">開啟用戶端失敗，請檢查設定檔</system:String>
@@ -1736,7 +1736,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">符合編組：</system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">符合{key=Operator}編組失敗，編組列表：</system:String>
     <system:String x:Key="RoomOperators" xml:space="preserve">首選{key=Operator}：</system:String>
-    <system:String x:Key="ProductIncorrect">產物與配置不符。</system:String>
+    <system:String x:Key="ProductIncorrect">產物與排班不符。</system:String>
     <system:String x:Key="ProductUnknown">無法辨識的產物</system:String>
     <system:String x:Key="ProductChanged">產物已切換</system:String>
     <system:String x:Key="ProductChangeFail">產物切換失敗</system:String>
@@ -1803,7 +1803,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="AttachWindowNeedAdmin">PC 端連線需要系統管理員權限。\n是否以系統管理員身分重啟 MAA？</system:String>
     <system:String x:Key="RestartingAsAdmin">正在以系統管理員身分重啟…</system:String>
     <system:String x:Key="RestartAsAdminFailed">請手動以系統管理員身分執行 MAA</system:String>
-    <system:String x:Key="AttachWindowFailed">AttachWindow 綁定視窗失敗，請檢查截圖/輸入方式配置</system:String>
+    <system:String x:Key="AttachWindowFailed">AttachWindow 綁定視窗失敗，請檢查截圖/輸入方式設定</system:String>
     <system:String x:Key="UseAttachWindowTip">使用 Win32 視窗綁定明日方舟 PC 端，而非 ADB 連線模擬器或手機</system:String>
     <system:String x:Key="UseAttachWindowWarning" xml:space="preserve">連線明日方舟 PC 端（社群維護）
 
