@@ -154,31 +154,146 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::select_difficulty(const int d
     }
 
     if (difficulty == INT_MAX) {
-        ProcessTask(*this, { "SwipeToTheDown" }).run();
-        ProcessTask(*this, { "SwipeToTheDown" }).run();
+        // 最高难度：循环下滑直到识别出的难度不再变化（到达列表底部）。
+        // 原实现固定滑动两屏，难度列表较长时到不了底部，会以列表
+        // 中途的难度确认（如从低难度出发两次滑动只到 N15）。
+        // 收敛只认数值读数：识别失败（-1）既不累计也不重置稳定性
+        static constexpr int MaxScrollTimes = 8;
+        int last_difficulty = INT_MIN;
+        int stable_count = 0; // 连续无变化的滑动次数（需三次相同读数）
+        bool converged = false;
+        for (int i = 0; i < MaxScrollTimes && !need_exit(); ++i) {
+            m_current_difficulty = detect_current_difficulty();
+            if (m_current_difficulty >= 0) {
+                if (m_current_difficulty == last_difficulty) {
+                    if (++stable_count >= 2) {
+                        converged = true;
+                        break;
+                    }
+                }
+                else {
+                    stable_count = 0;
+                    last_difficulty = m_current_difficulty;
+                }
+            }
+            if (!ProcessTask(*this, { "SwipeToTheDown" }).run() || !sleep(300)) {
+                LogError << "Task stopped during difficulty selection.";
+                return false;
+            }
+        }
         m_current_difficulty = detect_current_difficulty();
+        if (converged) {
+            LogInfo << "Reached bottom of difficulty list, current: " << m_current_difficulty;
+        }
+        else {
+            LogWarn << "Did not converge to the highest difficulty, using current: " << m_current_difficulty;
+        }
     }
     else if (difficulty == 0) {
-        ProcessTask(*this, { "SwipeToTheUp" }).run();
-        ProcessTask(*this, { "SwipeToTheUp" }).run();
+        // 最低难度：循环上滑直到到达列表顶部，与最高难度对称。
+        // 原实现固定滑动两屏，从高难度出发时到不了顶部（如从 N18
+        // 出发只到 N7 就确认）。顶部边缘显示列表标题（识别返回 -1），
+        // 因此同一读数（数值或 -1）连续重复即视为到达端点
+        static constexpr int MaxScrollTimes = 8;
+        int last_read = INT_MIN;
+        int stable_count = 0;
+        bool converged = false;
+        for (int i = 0; i < MaxScrollTimes && !need_exit(); ++i) {
+            m_current_difficulty = detect_current_difficulty();
+            if (m_current_difficulty == last_read) {
+                if (++stable_count >= 2) {
+                    converged = true;
+                    break;
+                }
+            }
+            else {
+                stable_count = 0;
+                last_read = m_current_difficulty;
+            }
+            if (!ProcessTask(*this, { "SwipeToTheUp" }).run() || !sleep(300)) {
+                LogError << "Task stopped during difficulty selection.";
+                return false;
+            }
+        }
         m_current_difficulty = detect_current_difficulty();
+        if (converged) {
+            LogInfo << "Reached top of difficulty list, current: " << m_current_difficulty;
+        }
+        else {
+            LogWarn << "Did not converge to the lowest difficulty, using current: " << m_current_difficulty;
+        }
     }
     else {
-        m_current_difficulty = detect_current_difficulty();
-        Log.info("Target difficulty:", difficulty);
-        Log.info("Current difficulty:", m_current_difficulty);
-        if (m_current_difficulty != difficulty) {
-            if (m_current_difficulty < difficulty) {
-                ProcessTask(*this, { "SwipeToTheDown" }).run();
-                ProcessTask(*this, { "SwipeToTheDown" }).run();
+        // 向目标难度方向逐步滑动并尝试点击，直到选中目标难度。
+        // 原实现固定滑动两屏且仅尝试点击一次，目标难度（如 N14/N18）
+        // 不在识别槽位时会未点击任何难度条目就直接确认，以错误难度
+        // 开始探索。整屏滑动一次约移动 5 级，目标不在落点上时用小步
+        // 幅滑动微调；目标出现在列表可视区域内时直接点击精确选中
+        static constexpr int MaxAdjustTimes = 12;
+        int stall_count = 0;
+        bool boundary_reached = false;
+        for (int i = 0; i < MaxAdjustTimes && !need_exit(); ++i) {
+            const int previous = m_current_difficulty = detect_current_difficulty();
+            LogInfo << "Target difficulty: " << difficulty << ", current: " << m_current_difficulty;
+            if (m_current_difficulty == difficulty) {
+                break;
             }
-            std::vector<std::string> difficulty_list;
-            for (int i = 20; i >= difficulty; --i) { // 难度识别内容为 20 ~ difficulty
-                difficulty_list.push_back(std::to_string(i));
+
+            const bool swipe_down = m_current_difficulty < 0 || m_current_difficulty < difficulty;
+            const bool far_from_target = m_current_difficulty < 0 || m_current_difficulty < difficulty - 2 ||
+                                         m_current_difficulty > difficulty + 2;
+            if (!ProcessTask(
+                     *this,
+                     { swipe_down
+                           ? (far_from_target ? "SwipeToTheDown" : theme + "@Roguelike@ChooseDifficulty_SwipeDownStep")
+                           : (far_from_target ? "SwipeToTheUp" : theme + "@Roguelike@ChooseDifficulty_SwipeUpStep") })
+                     .run() ||
+                !sleep(300)) { // 等列表滚动稳定后再识别，避免动画中的 OCR 误读
+                LogError << "Task stopped during difficulty selection.";
+                return false;
             }
-            Task.get<OcrTaskInfo>(theme + "@Roguelike@ChooseDifficulty_Specified")->text = difficulty_list;
-            ProcessTask(*this, { theme + "@Roguelike@ChooseDifficulty_Specified", "Stop" }).run();
+
+            // 目标难度在列表可视区域内时直接点击，确保精确选中；
+            // 未识别到目标不会产生点击，不影响下面的停滞判定
+            OCRer specified_analyzer(ctrler()->get_image());
+            specified_analyzer.set_task_info(theme + "@Roguelike@ChooseDifficulty_ClickSpecified");
+            specified_analyzer.set_required({ std::to_string(difficulty) });
+            if (specified_analyzer.analyze()) {
+                LogInfo << "Click target difficulty: " << difficulty;
+                ctrler()->click(specified_analyzer.get_result().front().rect);
+                if (!sleep(500)) {
+                    LogError << "Task stopped during difficulty selection.";
+                    return false;
+                }
+            }
+
+            // 滑动并尝试点击后识别值仍不变，连续两次视为已到列表端点：
+            // 目标超出可解锁范围时接受端点处已解锁的难度
             m_current_difficulty = detect_current_difficulty();
+            if (m_current_difficulty == previous) {
+                if (++stall_count >= 2) {
+                    boundary_reached = true;
+                    break;
+                }
+            }
+            else {
+                stall_count = 0;
+            }
+        }
+        if (m_current_difficulty != difficulty) {
+            m_current_difficulty = detect_current_difficulty();
+        }
+        if (m_current_difficulty != difficulty) {
+            if (boundary_reached) {
+                LogWarn << "Reached list endpoint without selecting target difficulty: " << difficulty
+                        << ", current: " << m_current_difficulty;
+            }
+            else {
+                // 选择失败时以当前难度兜底继续任务：此处返回失败会导致
+                // 插件在每次 StartExplore 时被重新触发并反复放弃探索
+                LogError << "Failed to select target difficulty: " << difficulty
+                         << ", current: " << m_current_difficulty;
+            }
         }
     }
 
