@@ -3323,9 +3323,7 @@
         "next": ["InfrastAssistantButtonWait", "InfrastAssistantFlag"]
     },
     "InfrastAssistantButtonWait": {
-        "algorithm": "OcrDetect",
-        "text": ["正在提交", "反馈至神经"],
-        "roi": [700, 640, 300, 80],
+        "baseTask": "LoadingText",
         "postDelay": 500,
         "next": ["InfrastAssistantButtonWait", "InfrastAssistantChangeConfirmButtonClick", "InfrastAssistantFlag"]
     },
@@ -3475,9 +3473,7 @@
         "next": ["InfrastConfirmButtonWait", "Stop"]
     },
     "InfrastConfirmButtonWait": {
-        "algorithm": "OcrDetect",
-        "text": ["正在提交", "反馈至神经"],
-        "roi": [700, 640, 300, 80],
+        "baseTask": "LoadingText",
         "postDelay": 500,
         "next": ["InfrastConfirmButtonWait", "Stop"]
     },
@@ -3496,9 +3492,7 @@
         "next": ["InfrastDormConfirmButtonWait", "InfrastDormDoubleConfirmButton", "Stop"]
     },
     "InfrastDormConfirmButtonWait": {
-        "algorithm": "OcrDetect",
-        "text": ["正在提交", "反馈至神经"],
-        "roi": [700, 640, 300, 80],
+        "baseTask": "LoadingText",
         "postDelay": 500,
         "next": ["InfrastDormConfirmButtonWait", "InfrastDormDoubleConfirmButton", "Stop"]
     },
