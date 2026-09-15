@@ -56,12 +56,42 @@ public class RemoteControlService
 
     private string _currentSequentialTaskId = string.Empty;
 
+    /// <summary>
+    /// LinkStart-XXX 后缀到配置任务类型名（<see cref="Configuration.Single.MaaTask.TaskType"/>）的映射。
+    /// </summary>
+    private static readonly Dictionary<string, string> LinkStartModuleTypes = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ["Base"] = "Infrast",
+        ["WakeUp"] = "StartUp",
+        ["Combat"] = "Fight",
+        ["Recruiting"] = "Recruit",
+        ["Mall"] = "Mall",
+        ["Mission"] = "Award",
+        ["AutoRoguelike"] = "Roguelike",
+        ["Reclamation"] = "Reclamation",
+    };
+
     private static RemoteControlUserControlModel RemoteSettings => SettingsViewModel.RemoteControlSettings;
+
+    /// <summary>
+    /// 逐任务进度汇报聚合器。由本服务持有并订阅 AsstProxy 的各路回调事件，
+    /// 使 core 回调层无需感知汇报功能的具体实现。
+    /// </summary>
+    private readonly RemoteControlProgressReporter _progressReporter = new();
 
     public RemoteControlService()
     {
         InitializePollJobTask();
         _runningState = RunningState.Instance;
+
+        var proxy = Instances.AsstProxy;
+        proxy.OnTaskStatusChanged += _progressReporter.OnTaskStatusChanged;
+        proxy.OnStageDrops += _progressReporter.AppendDrops;
+        proxy.OnFightTimes += _progressReporter.NoteFightTimes;
+        proxy.OnRecruitResult += _progressReporter.NoteRecruitResult;
+        proxy.OnRecruitTagsSelected += _progressReporter.CommitRecruitSelection;
+        proxy.OnRecruitConfirmed += _progressReporter.NoteRecruitConfirmed;
+        proxy.OnSanityReport += _progressReporter.NoteSanity;
     }
 
     public void InitializePollJobTask()
@@ -263,9 +293,17 @@ public class RemoteControlService
         }
 
         var jsonObject = JsonConvert.DeserializeObject<JObject>(response);
+        if (jsonObject is null)
+        {
+            return;
+        }
+
+        // 服务端可在响应中声明是否支持逐任务进度汇报（可选字段，缺省视为不支持），
+        // 每轮轮询刷新一次，服务端可动态开关
+        _progressReporter.SetEnabled(jsonObject.Value<bool>("progressReport") == true);
 
         // A list of task
-        if (jsonObject?.GetValue("tasks") is JArray tasks)
+        if (jsonObject.GetValue("tasks") is JArray tasks)
         {
             foreach (var task in tasks.OfType<JObject>())
             {
@@ -336,10 +374,12 @@ public class RemoteControlService
                         var startLogStr = LocalizationHelper.GetStringFormat("RemoteControlReceivedTask", type, id);
 
                         Instances.TaskQueueViewModel.AddLog(startLogStr);
+                        _progressReporter.BeginRun(id);
                         await Execute.OnUIThreadAsync(() => {
                             _ = Instances.TaskQueueViewModel.LinkStart();
                         });
                         await _runningState.UntilIdleAsync();
+                        _progressReporter.CompleteRun();
 
                         var stopLogStr = LocalizationHelper.GetStringFormat("RemoteControlCompletedTask", type, id);
                         Instances.TaskQueueViewModel.AddLog(stopLogStr);
@@ -355,7 +395,9 @@ public class RemoteControlService
                 case "LinkStart-AutoRoguelike":
                 case "LinkStart-Reclamation":
                     {
+                        _progressReporter.BeginRun(id, LinkStartModuleTypes[type.Split('-')[1]]);
                         await LinkStart([type.Split('-')[1]]);
+                        _progressReporter.CompleteRun();
                         break;
                     }
 
@@ -606,7 +648,7 @@ public class RemoteControlService
                             var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<InfrastTask>().ToList();
                             if (tasks.Count == 1)
                             {
-                                taskRet &= InfrastSettingsUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
+                                taskRet &= SerializeAndBookkeep(tasks[0], InfrastSettingsUserControlModel.Instance.SerializeTask(tasks[0]));
                                 break;
                             }
 
@@ -619,7 +661,7 @@ public class RemoteControlService
                             var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<StartUpTask>().ToList();
                             if (tasks.Count == 1)
                             {
-                                taskRet &= StartUpSettingsUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
+                                taskRet &= SerializeAndBookkeep(tasks[0], StartUpSettingsUserControlModel.Instance.SerializeTask(tasks[0]));
                                 break;
                             }
 
@@ -632,7 +674,7 @@ public class RemoteControlService
                             var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>().ToList();
                             if (tasks.Count == 1)
                             {
-                                taskRet &= FightSettingsUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
+                                taskRet &= SerializeAndBookkeep(tasks[0], FightSettingsUserControlModel.Instance.SerializeTask(tasks[0]));
                                 break;
                             }
 
@@ -645,7 +687,7 @@ public class RemoteControlService
                             var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<RecruitTask>().ToList();
                             if (tasks.Count == 1)
                             {
-                                taskRet &= RecruitSettingsUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
+                                taskRet &= SerializeAndBookkeep(tasks[0], RecruitSettingsUserControlModel.Instance.SerializeTask(tasks[0]));
                                 break;
                             }
 
@@ -658,7 +700,7 @@ public class RemoteControlService
                             var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<MallTask>().ToList();
                             if (tasks.Count == 1)
                             {
-                                taskRet &= MallSettingsUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
+                                taskRet &= SerializeAndBookkeep(tasks[0], MallSettingsUserControlModel.Instance.SerializeTask(tasks[0]));
                                 break;
                             }
 
@@ -671,7 +713,7 @@ public class RemoteControlService
                             var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<AwardTask>().ToList();
                             if (tasks.Count == 1)
                             {
-                                taskRet &= AwardSettingsUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
+                                taskRet &= SerializeAndBookkeep(tasks[0], AwardSettingsUserControlModel.Instance.SerializeTask(tasks[0]));
                                 break;
                             }
 
@@ -684,7 +726,7 @@ public class RemoteControlService
                             var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<RoguelikeTask>().ToList();
                             if (tasks.Count == 1)
                             {
-                                taskRet &= RoguelikeSettingsUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
+                                taskRet &= SerializeAndBookkeep(tasks[0], RoguelikeSettingsUserControlModel.Instance.SerializeTask(tasks[0]));
                                 break;
                             }
 
@@ -697,7 +739,7 @@ public class RemoteControlService
                             var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<ReclamationTask>().ToList();
                             if (tasks.Count == 1)
                             {
-                                taskRet &= ReclamationSettingsUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
+                                taskRet &= SerializeAndBookkeep(tasks[0], ReclamationSettingsUserControlModel.Instance.SerializeTask(tasks[0]));
                                 break;
                             }
 
@@ -746,6 +788,28 @@ public class RemoteControlService
         });
 
         await _runningState.UntilIdleAsync();
+    }
+
+    /// <summary>
+    /// 序列化单个任务，并在追加成功后把 core 任务 id 簿记到对应任务项。
+    /// </summary>
+    /// <remarks>
+    /// 簿记方式与 <see cref="TaskQueueViewModel.LinkStartWithTasks"/> 保持一致：
+    /// <see cref="TaskItemViewModel.TaskIds"/> 是任务项状态显示与各类回调按 taskId 反查任务的共同依据，
+    /// 单模块执行路径此前遗漏该簿记，导致依赖它的既有功能对单模块失效。
+    /// </remarks>
+    /// <param name="task">要序列化的任务。</param>
+    /// <param name="result">对应设置模型的序列化结果。</param>
+    /// <returns>是否序列化成功。</returns>
+    private static bool SerializeAndBookkeep(BaseTask task, (bool? IsSuccess, IEnumerable<int> TaskId) result)
+    {
+        if (result.IsSuccess == true)
+        {
+            var index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(task);
+            Instances.TaskQueueViewModel.TaskItemViewModels.ElementAtOrDefault(index)?.SetTaskIds(result.TaskId);
+        }
+
+        return result.IsSuccess ?? false;
     }
 
     public static async Task ConnectionTest()

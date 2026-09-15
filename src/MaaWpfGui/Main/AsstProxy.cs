@@ -1621,7 +1621,7 @@ public class AsstProxy
         return taskChain == "Depot" ? $" ({LocalizationHelper.GetString("DepotRecognition")})" : string.Empty;
     }
 
-    private static void ProcSubTaskMsg(AsstMsg msg, JObject details)
+    private void ProcSubTaskMsg(AsstMsg msg, JObject details)
     {
         // 下面几行注释暂时没用到，先注释起来...
         // string taskChain = details["taskchain"].ToString();
@@ -1679,7 +1679,7 @@ public class AsstProxy
         }
     }
 
-    private static void ProcSubTaskError(JObject details)
+    private void ProcSubTaskError(JObject details)
     {
         string subTask = details["subtask"]?.ToString() ?? string.Empty;
         AsstTaskId taskId = details["taskid"]?.ToObject<AsstTaskId>() ?? 0;
@@ -1794,7 +1794,7 @@ public class AsstProxy
         };
     }
 
-    private static void ProcSubTaskStart(JObject details)
+    private void ProcSubTaskStart(JObject details)
     {
         string subTask = details["subtask"]?.ToString() ?? string.Empty;
         switch (subTask)
@@ -1884,6 +1884,7 @@ public class AsstProxy
                             }
 
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RecruitConfirm") + $" {RecruitConfirmTime}", UiLogColor.Info, updateCardImage: true);
+                            OnRecruitConfirmed?.Invoke(details["taskid"]?.ToObject<AsstTaskId>() ?? 0);
                             break;
 
                         case "InfrastDormDoubleConfirmButton":
@@ -2001,7 +2002,7 @@ public class AsstProxy
         }
     }
 
-    private static void ProcSubTaskCompleted(JObject details)
+    private void ProcSubTaskCompleted(JObject details)
     {
         string subTask = details["subtask"]?.ToString() ?? string.Empty;
         switch (subTask)
@@ -2104,7 +2105,7 @@ public class AsstProxy
         }
     }
 
-    private static void ProcSubTaskExtraInfo(JObject details)
+    private void ProcSubTaskExtraInfo(JObject details)
     {
         string taskChain = details["taskchain"]?.ToString() ?? string.Empty;
         switch (taskChain)
@@ -2163,6 +2164,9 @@ public class AsstProxy
                     // 先按新增数量降序，再按总数量降序
                     drops = [.. drops.OrderByDescending(x => x.Add).ThenByDescending(x => x.Total)];
 
+                    var stageCode = stageInfo["stageCode"]?.ToString();
+                    OnStageDrops?.Invoke(taskId, stageCode, curTimes, drops);
+
                     foreach (var (_, itemName, totalQuantity, addQuantity) in drops)
                     {
                         allDrops += $"{itemName} : {totalQuantity.FormatNumber(false)}";
@@ -2174,7 +2178,6 @@ public class AsstProxy
                         allDrops += "\n";
                     }
 
-                    var stageCode = stageInfo["stageCode"]?.ToString();
                     allDrops = allDrops.EndsWith('\n') ? allDrops.TrimEnd('\n') : LocalizationHelper.GetString("NoDrop");
 
                     var dropsForTooltip = drops.Where(x => !string.IsNullOrEmpty(x.ItemId)).ToList();
@@ -2279,6 +2282,7 @@ public class AsstProxy
             case "RecruitResult":
                 {
                     int level = (int)subTaskDetails!["level"]!;
+                    OnRecruitResult?.Invoke(taskId, subTaskDetails["result"] as JArray);
                     var tooltip = Instances.ToolboxViewModel.RecruitResultInlines.CreateTooltip(PlacementMode.Center);
                     if (level >= 5)
                     {
@@ -2335,6 +2339,7 @@ public class AsstProxy
                     selectedLog = selectedLog.EndsWith('\n') ? selectedLog.TrimEnd('\n') : LocalizationHelper.GetString("NoDrop");
 
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("RecruitTagsSelectedLog", selectedLog));
+                    OnRecruitTagsSelected?.Invoke(taskId, selected as JArray);
 
                     break;
                 }
@@ -2570,6 +2575,7 @@ public class AsstProxy
                     if (subTaskDetails?.ToObject<FightSettingsUserControlModel.SanityInfo>() is { SanityMax: > 0 } report)
                     {
                         FightSetting.SanityReport = report;
+                        OnSanityReport?.Invoke(taskId, report.SanityCurrent, report.SanityMax, report.ReportTime);
                     }
 
                     break;
@@ -2581,6 +2587,7 @@ public class AsstProxy
                     if ((subTaskDetails?.Children())?.Any() is true)
                     {
                         FightSetting.FightReport = subTaskDetails.ToObject<FightSetting.FightTimes>()!;
+                        OnFightTimes?.Invoke(taskId, FightSetting.FightReport.TimesFinished);
                         if (FightSetting.FightReport.TimesFinished > 0)
                         {
                             AchievementTrackerHelper.Instance.SetProgress(AchievementIds.OverLimitAgent, FightSetting.FightReport.TimesFinished);
@@ -3332,6 +3339,49 @@ public class AsstProxy
     public delegate void TaskStatusDelegate(int taskId, TaskItemStatus status);
 
     public event TaskStatusDelegate? OnTaskStatusChanged;
+
+    /// <summary>
+    /// 关卡结算掉落（<c>StageDrops</c>），参数为 core 任务链 id、关卡编号、结算界面连战次数、掉落明细。
+    /// </summary>
+    public delegate void StageDropsDelegate(int taskId, string? stageCode, int curTimes, IReadOnlyList<(string ItemId, string ItemName, int Total, int Add)> drops);
+
+    public event StageDropsDelegate? OnStageDrops;
+
+    /// <summary>
+    /// 战斗链已完成次数（<c>FightTimes</c>），参数为 core 任务链 id 与该链已完成的战斗次数。
+    /// </summary>
+    public delegate void FightTimesDelegate(int taskId, int timesFinished);
+
+    public event FightTimesDelegate? OnFightTimes;
+
+    /// <summary>
+    /// 公招识别结果（<c>RecruitResult</c>），参数为 core 任务链 id 与各标签组合（含 <c>tags</c> 与 <c>level</c>）。
+    /// </summary>
+    public delegate void RecruitResultDelegate(int taskId, JArray? combinations);
+
+    public event RecruitResultDelegate? OnRecruitResult;
+
+    /// <summary>
+    /// 公招槽位实际选中标签（<c>RecruitTagsSelected</c>），参数为 core 任务链 id 与选中的标签。
+    /// </summary>
+    public delegate void RecruitTagsSelectedDelegate(int taskId, JArray? selectedTags);
+
+    public event RecruitTagsSelectedDelegate? OnRecruitTagsSelected;
+
+    /// <summary>
+    /// 公招开始确认招募（<c>RecruitConfirm</c>），参数为 core 任务链 id。
+    /// </summary>
+    public delegate void RecruitConfirmedDelegate(int taskId);
+
+    public event RecruitConfirmedDelegate? OnRecruitConfirmed;
+
+    /// <summary>
+    /// 进图前识别的理智余量（<c>SanityBeforeStage</c>），参数为 core 任务链 id、当前理智、理智上限与识别时刻。
+    /// OCR 失败时不会触发（此时上限为 0）。
+    /// </summary>
+    public delegate void SanityReportDelegate(int taskId, int sanityCurrent, int sanityMax, DateTimeOffset reportTime);
+
+    public event SanityReportDelegate? OnSanityReport;
 
     private bool UpdateTaskStatus(AsstTaskId id, TaskStatus status)
     {
