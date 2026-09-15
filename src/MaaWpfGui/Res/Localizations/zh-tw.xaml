@@ -1409,7 +1409,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ErrorSolutionReplaceAdb">請關閉模擬器與 ADB 或重新啟動電腦後，以系統管理員身分執行 MAA 進行操作。</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">檔案被佔用，請重新啟動電腦後重試。</system:String>
     <system:String x:Key="ErrorSolutionDesktopCompositionDisabled">這通常是顯示卡驅動程式瞬時異常導致 DWM 桌面組合不可用，程式將嘗試繼續執行。如果介面顯示異常，請手動重新啟動 MAA；並建議檢查並更新顯示卡驅動程式。</system:String>
-    <system:String x:Key="ErrorSolutionDragDrop">這通常是在拖曳操作進行過程中重複拖曳導致的偶發崩潰，不影響功能，可忽略。如頻繁出現，請避免在拖曳過程中重複操作。</system:String>
+    <system:String x:Key="ErrorSolutionDragDrop">這通常是在拖曳操作進行過程中重複拖曳導致的偶發錯誤，不影響功能，可忽略。如頻繁出現，請避免在拖曳過程中重複操作。</system:String>
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">開啟連結失敗，請前往 ｢Windows 設定｣ 選擇預設瀏覽器。</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">建立 GitHub Issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">加入 QQ 群</system:String>
@@ -1417,7 +1417,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ErrorCrashMessageOpenLog">您可以前往 ｢{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}｣ 查看日誌，了解錯誤發生的具體原因。</system:String>
     <system:String x:Key="ErrorCrashMessageGenerateReport">請使用 ｢{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}｣ 產生錯誤報告，並點擊藍色的 ｢{key=Issue}｣ 連結提交回報。若程式已關閉無法使用該功能，可手動打包 debug、config、cache 資料夾回報。</system:String>
     <system:String x:Key="ErrorCrashMessageHelpTip">若要尋求協助，請直接發送產生的  ｢錯誤報告檔案｣ ；請勿發送此視窗的截圖、錄影、螢幕照片、翻拍影片、手繪圖片或抄寫的內容。上傳至 GitHub 時單一附件不能超過 20 MB，超限請分卷壓縮。</system:String>
-    <system:String x:Key="ErrorCrashDialogTitle">上次程式崩潰原因</system:String>
+    <system:String x:Key="ErrorCrashDialogTitle">上次程式異常關閉的原因</system:String>
     <system:String x:Key="CopyErrorMessage">複製錯誤資訊</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
@@ -1518,7 +1518,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="FightTimesMayNotExhausted">戰鬥次數 ({0}) 無法被 {key=Series} ({1}) 整除，可能無法耗盡</system:String>
     <system:String x:Key="FightTimesUnused">已完成 {0} 次戰鬥，下次將執行 {1} 倍率代理，進入後將完成 {2} 次戰鬥，超過 {3} 次限制，不進入戰鬥</system:String>
     <system:String x:Key="UpperLimit">投資已達上限</system:String>
-    <system:String x:Key="GameCrash">遊戲崩潰，重新啟動</system:String>
+    <system:String x:Key="GameCrash">遊戲閃退，重新啟動</system:String>
     <system:String x:Key="GameDrop">遊戲斷線，停止任務</system:String>
     <system:String x:Key="RoguelikeGamePass">肉鴿通關啦！</system:String>
     <system:String x:Key="RoguelikeSpecialItemBought">購買了特殊商品！</system:String>
@@ -2120,7 +2120,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
 
     <system:String x:Key="Achievement.UnexpectedCrash.Title">不速之客</system:String>
     <system:String x:Key="Achievement.UnexpectedCrash.Description">你觸發了未知的領域。</system:String>
-    <system:String x:Key="Achievement.UnexpectedCrash.Conditions">出現未處理的異常並被崩潰日誌記錄</system:String>
+    <system:String x:Key="Achievement.UnexpectedCrash.Conditions">出現未處理的例外並被崩潰日誌記錄</system:String>
 
     <system:String x:Key="Achievement.CustomizationMaster.Title">自訂達人</system:String>
     <system:String x:Key="Achievement.CustomizationMaster.Description">咱就是二次元！</system:String>
@@ -2547,9 +2547,9 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="BadModules.Warning.Prolog">偵測到以下第三方軟體向 MAA 注入了 DLL。這些注入的 DLL 會破壞 WPF 渲染和 ONNX/DML 推論，導致 MAA 閃退、介面渲染異常或 OCR 辨識失敗：</system:String>
     <system:String x:Key="BadModules.Warning.Epilog" xml:space="preserve">建議透過 Windows 安全中心從系統層面阻止注入：應用程式與瀏覽器控制 → 入侵防護 → 入侵防護設定 → 程式設定 → 新增 MAA.exe → 將「停用擴充點」設為「覆寫系統設定 - 開啟」，啟用後重新啟動 MAA。&#x0a;&#x0a;您也可以嘗試將 MAA 加入相關軟體的排除名單，或解除安裝相關軟體後檢查問題是否仍然存在。</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">不再顯示此警告</system:String>
-    <system:String x:Key="BadModules.Warning.Fallback">此外，系統的彈出視窗元件已被破壞並發生崩潰，MAA 的後續彈出視窗均可能無法正常顯示，其他系統功能也可能受到影響。點擊「是」下次不再提醒，點擊「否」僅本次關閉。</system:String>
+    <system:String x:Key="BadModules.Warning.Fallback">此外，系統的彈出視窗元件已被破壞而失效，MAA 的後續彈出視窗均可能無法正常顯示，其他系統功能也可能受到影響。點擊「是」下次不再提醒，點擊「否」僅本次關閉。</system:String>
     <system:String x:Key="BadModules.Confirmation.Heading">警告：效能影響</system:String>
-    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">選擇不再顯示警告後，MAA 將使用軟體渲染而不是硬體渲染，這可以緩解介面渲染相關的問題，但不能保證解決所有問題（如彈出視窗崩潰等）。此外還將導致以下後果：&#x0a;&#x0a;• 效能下降&#x0a;• 介面卡頓&#x0a;• CPU 佔用率增高&#x0a;&#x0a;是否確認忽略警告並接受這些影響？</system:String>
+    <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">選擇不再顯示警告後，MAA 將使用軟體渲染而不是硬體渲染，這可以緩解介面渲染相關的問題，但不能保證解決所有問題（如彈出視窗失效等）。此外還將導致以下後果：&#x0a;&#x0a;• 效能下降&#x0a;• 介面卡頓&#x0a;• CPU 佔用率增高&#x0a;&#x0a;是否確認忽略警告並接受這些影響？</system:String>
     <system:String x:Key="BadModules.UseSoftwareRendering">使用軟體渲染</system:String>
     <system:String x:Key="BadModules.UseSoftwareRenderingTip">啟用後將不再顯示壞模組警告，並使用軟體渲染模式。這會導致效能下降、介面卡頓、CPU 佔用增高等後果。取消勾選可恢復硬體渲染。</system:String>
     <system:String x:Key="BadModules.ResetWarning">已啟用軟體渲染模式。該設定需要重新啟動 MAA 才能生效。</system:String>
