@@ -69,7 +69,7 @@ private:
     AsstCallback m_callback = nullptr;
     void callback(AsstMsg msg, const json::value& details);
 
-    // MaaFramework/source/include/ControlUnit/AdbControlUnitAPI.h
+    // MaaFramework/include/MaaControlUnit/AdbControlUnitAPI.h
     using GetVersionFunc = const char*();
     using CreateFunc = MaaFwAdbControlUnitAPI*(const char*, const char*, uint64_t, uint64_t, const char*, const char*);
     using DestroyFunc = void(MaaFwAdbControlUnitAPI*);
