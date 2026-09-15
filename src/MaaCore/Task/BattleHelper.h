@@ -14,6 +14,7 @@
 #include <filesystem>
 #include <map>
 #include <optional>
+#include <vector>
 
 namespace asst
 {
@@ -37,6 +38,17 @@ protected:
 
     virtual bool set_stage_name(const std::string& name);
     virtual void clear();
+
+    // 本次截图将要识别的区域。战场上有一处会随干员落点变化：技能就绪判定读的是每个
+    // 已部署干员周围的固定大小区域；偏移类读取（BattleKills / BattleHpFlag / BattleOper*Range 等）
+    // 落在各自父 ROI 内并由 margin 吸收。
+    // with_deployment_bar：是否包含底部干员条（BattleAvatarReMatch / BattleOpersFlag）。
+    // 只有分析战场部署、重匹配干员时才读它；等待循环不读，传入 false 可显著缩小兴趣区。
+    // 任一任务解析不到或为全图识别（roi 为 0）时返回全图，表示必须挪开光标。
+    // 注意：新增战斗 ROI 任务时需要同步这里的列表。
+    std::vector<Rect> capture_interests(bool with_deployment_bar) const;
+    // 抓图并带上兴趣区提示，替代裸调 ctrler()->get_image()，让底层只在必要时挪开真实光标
+    cv::Mat get_image_with_interest(bool with_deployment_bar = true) const;
 
     virtual const std::string oper_name_ocr_task_name() const noexcept { return "BattleOperName"; }
 

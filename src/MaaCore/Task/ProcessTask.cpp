@@ -226,6 +226,30 @@ bool ProcessTask::_run()
 #endif
 }
 
+std::vector<Rect> asst::ProcessTask::calc_interest_roi(const TaskList& list) const
+{
+    std::vector<Rect> interests;
+    interests.reserve(list.size());
+
+    for (const std::string& name : list) {
+        const TaskConstPtr task_ptr = Task.get(name);
+        if (task_ptr == nullptr) {
+            // 解析不到该任务，无法判断它会在哪识别：按全图处理，即必须挪开光标
+            return { Rect() };
+        }
+
+        const Rect& roi = task_ptr->roi;
+        if (roi.width <= 0 || roi.height <= 0) {
+            // 该任务全图识别，等同全图
+            return { Rect() };
+        }
+
+        interests.emplace_back(roi);
+    }
+
+    return interests;
+}
+
 ProcessTask::HitDetail ProcessTask::find_first(const TaskList& list) /* const, except m_reusable */
 {
     if (list.empty()) [[unlikely]] {
@@ -239,21 +263,17 @@ ProcessTask::HitDetail ProcessTask::find_first(const TaskList& list) /* const, e
         return { .task_ptr = std::move(task_ptr) };
     }
 
-    // 告知本次截图是否用于主界面识别，然后决定鼠标位置
-    ControllerAPI* underlying = nullptr;
-    if (is_main_screen_recognition(list)) {
-        underlying = ctrler()->get_underlying();
-        if (underlying != nullptr) {
-            underlying->set_main_screen_recognition(true);
-        }
-    }
+    // 告知本次截图将要识别的区域，由底层决定截图前要不要挪开真实光标
+    CaptureHint hint;
+    hint.main_screen_recognition = is_main_screen_recognition(list);
+    hint.interests = calc_interest_roi(list);
+    ctrler()->set_capture_hint(hint);
 
     cv::Mat image = m_reusable.empty() ? ctrler()->get_image() : m_reusable;
     m_reusable = cv::Mat();
 
-    if (underlying != nullptr) {
-        underlying->set_main_screen_recognition(false);
-    }
+    // 及时清空，避免影响与本次识别无关的后续截图
+    ctrler()->set_capture_hint(CaptureHint {});
     PipelineAnalyzer analyzer(image, Rect(), m_inst);
     analyzer.set_tasks(list);
 

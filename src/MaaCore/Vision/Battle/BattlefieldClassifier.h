@@ -71,6 +71,10 @@ public:
 
     ResultOpt analyze() const;
 
+    // 技能就绪判定读取的区域，随干员在战场上的落点变化。
+    // 与 skill_ready_analyze 共用同一份推导：截图前的兴趣区判定也要用它，避免两份实现漂移。
+    static Rect skill_ready_roi(const Point& base_point);
+
 protected:
     SkillReadyResult skill_ready_analyze() const;
     DeployDirectionResult deploy_direction_analyze() const;

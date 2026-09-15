@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 #include "Common/AsstTypes.h"
 #include "MaaUtils/NoWarningCVMat.hpp"
@@ -25,6 +26,17 @@ enum class ControllerType
 #ifdef __ANDROID__
     MaaFwAndroidNative,
 #endif
+};
+
+// 本次截图将要识别的区域（画面坐标）与识别上下文，用于决定截图前是否要挪开真实光标。
+struct CaptureHint
+{
+    // 主界面识别：为回正 PC 端的视差偏转，必须把光标挪到窗口中心
+    bool main_screen_recognition = false;
+
+    // 本次截图之后会去读的区域。命中任一即认为光标会被画进识别区，需要挪开。
+    // 为空表示调用方未指定 —— 一律按「必须挪」处理，与引入门控前的行为一致。
+    std::vector<Rect> interests;
 };
 
 class ControllerAPI
@@ -76,7 +88,7 @@ public:
 
     virtual void back_to_home() noexcept {}
 
-    virtual void set_main_screen_recognition(bool /*on*/) {}
+    virtual void set_capture_hint([[maybe_unused]] const CaptureHint& hint) {}
 };
 
 struct InputEvent

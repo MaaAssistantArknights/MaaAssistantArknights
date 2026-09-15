@@ -449,6 +449,14 @@ void asst::Controller::set_adb_lite_enabled(bool enable) noexcept
     m_platform_type = enable ? PlatformType::AdbLite : PlatformType::Native;
 }
 
+void asst::Controller::set_capture_hint(const CaptureHint& hint)
+{
+    if (!m_controller) {
+        return;
+    }
+    m_controller->set_capture_hint(hint);
+}
+
 void asst::Controller::set_kill_adb_on_exit(bool enable) noexcept
 {
     m_kill_adb_on_exit = enable;

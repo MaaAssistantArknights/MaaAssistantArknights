@@ -1,5 +1,6 @@
 #include "BattleHelper.h"
 
+#include <array>
 #include <future>
 #include <thread>
 
@@ -220,7 +221,7 @@ bool asst::BattleHelper::update_deployment_(
 
             click_oper_on_deployment(oper_rect);
 
-            name_image = m_inst_helper.ctrler()->get_image();
+            name_image = get_image_with_interest();
 
             std::string name = analyze_detail_page_oper_name(name_image, oper.role);
             // 这时候即使名字不合法也只能凑合用了，但是为空还是不行的
@@ -269,7 +270,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
         }
     }
 
-    cv::Mat image = init || reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    cv::Mat image = init || reusable.empty() ? get_image_with_interest() : reusable;
     if (init) {
         auto draw_future = std::async(std::launch::async, [&]() { save_map(image); });
     }
@@ -303,7 +304,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
         } while (!m_inst_helper.need_exit());
 
         // 重新截图
-        image = m_inst_helper.ctrler()->get_image();
+        image = get_image_with_interest();
 
         // 如果需要停止任务或者已经不在战斗中，则退出；否则默认之后的操作一直都在战斗中
         if (m_inst_helper.need_exit() || !check_in_battle(image)) {
@@ -326,7 +327,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
         update_deployment_(oper_result_opt->deployment, old_deployment_opers, true);
         pause();
         cancel_oper_selection();
-        image = m_inst_helper.ctrler()->get_image();
+        image = get_image_with_interest();
     }
 
     if (init) {
@@ -567,7 +568,7 @@ bool asst::BattleHelper::retreat_oper(const Point& loc, bool manually)
 
 bool asst::BattleHelper::is_skill_ready(const Point& loc, const cv::Mat& reusable)
 {
-    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    cv::Mat image = reusable.empty() ? get_image_with_interest() : reusable;
 
     auto target_iter = m_normal_tile_info.find(loc);
     if (target_iter == m_normal_tile_info.end()) {
@@ -630,9 +631,78 @@ bool asst::BattleHelper::use_skill(const Point& loc, int timeout_ms)
     return click_oper_on_battlefield(loc) && click_skill(timeout_ms) && m_inst_helper.sleep(200);
 }
 
+std::vector<asst::Rect> asst::BattleHelper::capture_interests(bool with_deployment_bar) const
+{
+    // 这些任务在战场上都会被读取。任一解析不到或为全图识别（roi 为 0）时按全图处理，
+    // 即必须挪开光标 —— 拿不准时保守，宁可多挪一次也不要漏读。
+    static constexpr std::array<const char*, 10> BattleInterestTasks = {
+        "BattleHasStarted",   "BattleSpeedButton", "BattleOfficiallyBegin", "SkipThePreBattlePlot",
+        "BattleKillsFlag",    "BattleHpFlag",      "BattleHpFlag2",         "BattleCostData",
+        "BattleSpeedUpCheck", "BattleAvatarDialog",
+    };
+    // 只在分析战场部署 / 重匹配干员时才读的底部干员条
+    static constexpr std::array<const char*, 2> DeploymentInterestTasks = {
+        "BattleOpersFlag",
+        "BattleAvatarReMatch",
+    };
+
+    std::vector<Rect> interests;
+    interests.reserve(
+        BattleInterestTasks.size() + DeploymentInterestTasks.size() + m_battlefield_opers.size());
+
+    auto append_roi = [&interests](const char* name) {
+        const TaskConstPtr task_ptr = Task.get(name);
+        if (task_ptr == nullptr || task_ptr->roi.width <= 0 || task_ptr->roi.height <= 0) {
+            return false;
+        }
+        interests.emplace_back(task_ptr->roi);
+        return true;
+    };
+
+    for (const char* name : BattleInterestTasks) {
+        if (!append_roi(name)) {
+            return { Rect() };
+        }
+    }
+    if (with_deployment_bar) {
+        for (const char* name : DeploymentInterestTasks) {
+            if (!append_roi(name)) {
+                return { Rect() };
+            }
+        }
+    }
+
+    // 技能就绪判定读的是每个已部署干员周围的固定大小区域，位置随战场变化
+    for (const auto& [oper_tag, loc] : m_battlefield_opers) {
+        const auto tile_iter = m_normal_tile_info.find(loc);
+        if (tile_iter == m_normal_tile_info.end()) {
+            continue;
+        }
+        const Rect skill_roi = BattlefieldClassifier::skill_ready_roi(tile_iter->second.pos);
+        if (skill_roi.width <= 0 || skill_roi.height <= 0) {
+            return { Rect() };
+        }
+        interests.emplace_back(skill_roi);
+    }
+
+    return interests;
+}
+
+cv::Mat asst::BattleHelper::get_image_with_interest(bool with_deployment_bar) const
+{
+    CaptureHint hint;
+    hint.interests = capture_interests(with_deployment_bar);
+    m_inst_helper.ctrler()->set_capture_hint(hint);
+
+    cv::Mat image = m_inst_helper.ctrler()->get_image();
+
+    m_inst_helper.ctrler()->set_capture_hint(CaptureHint {});
+    return image;
+}
+
 bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
 {
-    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    cv::Mat image = reusable.empty() ? get_image_with_interest() : reusable;
     Matcher battle_flag_analyzer(image);
     battle_flag_analyzer.set_task_info("BattleOfficiallyBegin");
     bool ret = battle_flag_analyzer.analyze().has_value();
@@ -645,7 +715,7 @@ bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
 
 bool asst::BattleHelper::check_skip_plot_button(const cv::Mat& reusable)
 {
-    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    cv::Mat image = reusable.empty() ? get_image_with_interest() : reusable;
 
     Matcher battle_plot_analyzer(image);
     battle_plot_analyzer.set_task_info("SkipThePreBattlePlot");
@@ -658,7 +728,7 @@ bool asst::BattleHelper::check_skip_plot_button(const cv::Mat& reusable)
 
 bool asst::BattleHelper::check_avatar_dialog(const cv::Mat& reusable)
 {
-    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    cv::Mat image = reusable.empty() ? get_image_with_interest() : reusable;
 
     Matcher battle_plot_analyzer(image);
     battle_plot_analyzer.set_task_info("BattleAvatarDialog");
@@ -671,7 +741,7 @@ bool asst::BattleHelper::check_avatar_dialog(const cv::Mat& reusable)
 
 bool asst::BattleHelper::check_in_speedup(const cv::Mat& reusable)
 {
-    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    cv::Mat image = reusable.empty() ? get_image_with_interest() : reusable;
     Matcher analyzer(image);
     analyzer.set_task_info("BattleSpeedUpCheck");
     return analyzer.analyze().has_value();
@@ -679,7 +749,7 @@ bool asst::BattleHelper::check_in_speedup(const cv::Mat& reusable)
 
 bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
 {
-    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    cv::Mat image = reusable.empty() ? get_image_with_interest() : reusable;
     if (weak) {
         BattlefieldMatcher analyzer(image);
         auto result = analyzer.analyze();
@@ -718,7 +788,8 @@ bool asst::BattleHelper::wait_until_start(bool weak)
     const auto timeout_duration = std::chrono::seconds(Config.get_options().battle_start_timeout_seconds);
     const auto start_time = std::chrono::steady_clock::now();
 
-    cv::Mat image = m_inst_helper.ctrler()->get_image();
+    // 等待开战只读战斗标志位与技能框，不读底部干员条，故不带它（显著缩小兴趣区）
+    cv::Mat image = get_image_with_interest(false);
     while (!m_inst_helper.need_exit() && !check_in_battle(image, weak)) {
         if (std::chrono::steady_clock::now() - start_time > timeout_duration) {
             Log.warn("Timeout reached while waiting to start the battle.");
@@ -726,7 +797,7 @@ bool asst::BattleHelper::wait_until_start(bool weak)
         }
 
         std::this_thread::yield();
-        image = m_inst_helper.ctrler()->get_image();
+        image = get_image_with_interest(false);
     }
     return true;
 }
@@ -735,19 +806,20 @@ bool asst::BattleHelper::wait_until_end(bool weak)
 {
     LogTraceFunction;
 
-    cv::Mat image = m_inst_helper.ctrler()->get_image();
+    // 战斗中轮询只读战斗标志位与技能框，不读底部干员条，故不带它（显著缩小兴趣区）
+    cv::Mat image = get_image_with_interest(false);
     while (!m_inst_helper.need_exit() && check_in_battle(image, weak)) {
         do_strategic_action(image);
         std::this_thread::yield();
 
-        image = m_inst_helper.ctrler()->get_image();
+        image = get_image_with_interest(false);
     }
     return true;
 }
 
 bool asst::BattleHelper::do_strategic_action(const cv::Mat& reusable)
 {
-    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    cv::Mat image = reusable.empty() ? get_image_with_interest() : reusable;
     return use_all_ready_skill(image);
 }
 
@@ -758,7 +830,7 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
 
     bool used = false;
     const auto now = std::chrono::steady_clock::now();
-    const cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    const cv::Mat image = reusable.empty() ? get_image_with_interest() : reusable;
     for (const auto& [oper_tag, loc] : m_battlefield_opers) {
         const auto& skill_it = std::ranges::find_if(m_skill_usage, [&](const auto& pair) {
             return (pair.first.role == battle::Role::Unknown || pair.first.role == oper_tag.role) &&
@@ -814,7 +886,7 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
                 usage = SkillUsage::TimesUsed;
             }
         }
-        // image = m_inst_helper.ctrler()->get_image();
+        // image = get_image_with_interest();
     }
 
     return used;
@@ -843,7 +915,7 @@ bool asst::BattleHelper::check_and_use_skill(
 
 bool asst::BattleHelper::check_and_use_skill(const Point& loc, bool& has_error, const cv::Mat& reusable)
 {
-    const cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    const cv::Mat image = reusable.empty() ? get_image_with_interest() : reusable;
     if (!is_skill_ready(loc, image)) {
         return false;
     }
@@ -995,7 +1067,7 @@ bool asst::BattleHelper::click_skill(int timeout_ms)
     cv::Mat image;
     int retry = 0;
     while (!m_inst_helper.need_exit()) {
-        image = m_inst_helper.ctrler()->get_image();
+        image = get_image_with_interest();
         if (retry > 0 && (retry % 10 == 0) && !check_in_battle(image)) {
             return false;
         }
@@ -1108,7 +1180,7 @@ bool asst::BattleHelper::move_camera(const std::pair<double, double>& delta)
     LogTraceFunction;
     Log.info("move", delta.first, delta.second);
 
-    update_kills(m_inst_helper.ctrler()->get_image());
+    update_kills(get_image_with_interest());
 
     // 还没转场的时候
     if (m_kills != 0) {

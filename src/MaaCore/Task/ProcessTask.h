@@ -69,6 +69,8 @@ protected:
     virtual json::value basic_info() const override;
 
     HitDetail find_first(const TaskList& list);
+    // 本次截图将要识别的区域；任一候选任务解析不到或为全图识别（roi 为 0）时返回全图，表示必须挪开光标
+    std::vector<Rect> calc_interest_roi(const TaskList& list) const;
     NodeStatus run_action(const HitDetail& hits) const;
     NodeStatus run_task(const HitDetail& hits);
     std::pair<NodeStatus, TaskConstPtr> find_and_run_task(const TaskList& list);

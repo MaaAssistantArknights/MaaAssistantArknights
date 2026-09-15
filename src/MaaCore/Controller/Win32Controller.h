@@ -3,11 +3,13 @@
 #ifdef _WIN32
 
 #include <memory>
+#include <optional>
 #include <string>
 
 #include "MaaUtils/SafeWindows.hpp"
 
 #include "Common/AsstMsg.h"
+#include "CaptureInterest.hpp"
 #include "ControllerAPI.h"
 #include "InstHelper.h"
 #include "Win32ControlUnitLoader.h"
@@ -65,7 +67,7 @@ public: // ControllerAPI 接口
     virtual bool inject_input_event(const InputEvent& event) override;
 
     virtual bool press_esc() override;
-    virtual void set_main_screen_recognition(bool on) override;
+    virtual void set_capture_hint(const CaptureHint& hint) override;
     virtual ControlFeat::Feat support_features() const noexcept override;
 
     virtual std::pair<int, int> get_screen_res() const noexcept override;
@@ -74,6 +76,23 @@ private:
     void callback(AsstMsg msg, const json::value& details);
     // 记录窗口当前位置，任务结束是恢复
     void save_window_position();
+
+    // 真实光标相对截图画面的位置；三态语义见 capture_interest::CursorLocateState
+    struct CursorLocation
+    {
+        capture_interest::CursorLocateState state = capture_interest::CursorLocateState::Unknown;
+        Point frame_pos {}; // 仅 state == Inside 时有效
+    };
+
+    CursorLocation locate_cursor() const;
+    // 本次截图前是否需要挪开真实光标。拿不准时返回 true（与门控引入前一致）
+    bool need_relocate(const CursorLocation& location) const;
+    // 诊断：本次停靠是否落到了预期位置（DPI / 多显示器下底层坐标换算可能与预期不同）
+    bool parked_at_expected_position(const POINT& parked) const;
+    // 截图前发现停靠被用户动作打断时记一条 trace（只记录，不重停靠）
+    void log_cursor_escaped(const POINT& parked) const;
+    // 截图后把光标还给用户：只有它仍停在停靠点（没人动过）才还原
+    void restore_cursor_if_untouched(const POINT& original, const POINT& parked);
 
     // 封装 MaaWin32ControlUnit 的调用
     bool unit_connect();
@@ -102,9 +121,10 @@ private:
     Win32InputMethod m_mouse_method = Win32Input::None;
     Win32InputMethod m_keyboard_method = Win32Input::None;
 
-    bool m_main_screen_recognition = false;
+    CaptureHint m_capture_hint;
     RECT m_original_window_rect = { 0, 0, 0, 0 };
     bool m_window_rect_saved = false;
+    bool m_park_mismatch_logged = false;
 };
 } // namespace asst
 

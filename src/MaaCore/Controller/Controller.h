@@ -57,6 +57,9 @@ public:
     void set_client_type(const std::string& client_type) noexcept;
     const std::string& get_client_type() const noexcept;
 
+    // 告知底层控制器本次截图将要识别的区域，供其决定截图前是否挪开真实光标
+    void set_capture_hint(const CaptureHint& hint);
+
     const std::string& get_uuid() const;
 
     size_t get_pipe_data_size() const noexcept;
