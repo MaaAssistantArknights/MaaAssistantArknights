@@ -867,19 +867,24 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::: field core_char  
 @type string
 @optional
-开局干员名。仅支持单个干员**中文名**，无论区服；若留空或设置为空字符串 `""` 则根据练度自动选择。  
+开局干员名。仅支持单个干员**中文名**，无论区服；若留空或设置为空字符串 `""` 则根据练度自动选择。等价于 `core_char_list` 的第 1 顺位，仅为兼容旧调用方保留。  
+:::  
+::: field core_char_list  
+@type array<object>
+@optional
+开局干员列表。每项为 `{ "name": 干员名, "use_support": 是否借助战 }`，干员名同样仅支持**中文名**，无论区服；按数组顺序对应开局第 1、2、3 次招募，三个位置的干员职业不能相同。某位置未招募到指定干员（自有与助战均未刷出）时，该次招募按默认优先级进行；与 `core_char` 同传时以本字段为准。  
 :::  
 ::: field use_support  
 @type boolean
 @default false
 @optional
-开局干员是否为助战干员。  
+开局干员是否为助战干员。等价于 `core_char_list` 第 1 顺位的借助战标记，仅为兼容旧调用方保留。  
 :::  
 ::: field use_nonfriend_support  
 @type boolean
 @default false
 @optional
-是否可以是非好友助战干员。仅在 `use_support` 为 true 时有效。  
+是否可以是非好友助战干员。全局开关，作用于所有借助战的开局干员位置。  
 :::  
 ::: field starts_count  
 @type number
@@ -1075,9 +1080,12 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
    "theme": "Sami",
    "mode": 5,
    "squad": "指挥分队",
-   "roles": "取长补短",
-   "core_char": "塑心",
-   "use_support": false,
+   "roles": "稳扎稳打",
+   "core_char_list": [
+      { "name": "维什戴尔", "use_support": true },
+      { "name": "古米", "use_support": false },
+      { "name": "史都华德", "use_support": false }
+   ],
    "use_nonfriend_support": false,
    "starts_count": 3,
    "difficulty": 8,
