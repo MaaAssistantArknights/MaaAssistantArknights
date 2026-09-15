@@ -290,7 +290,7 @@
     <!--<system:String x:Key="RoguelikeStartWithSeed">啟用刷錢種子</system:String>-->
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">月度小隊自動切換</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">月度小隊通訊</system:String>
-    <system:String x:Key="RoguelikeMonthlySquadCheckCommsTip" xml:space="preserve">勾選後，MAA會檢查是否取得目前小隊的全部通訊，全部取得後才會切換至下一個月度小隊&#10;若只需取得獎勵，可取消勾選以減少重複探索&#10;MAA不會因為取消勾選此選項而提前在局內結束探索</system:String>
+    <system:String x:Key="RoguelikeMonthlySquadCheckCommsTip" xml:space="preserve">勾選後，MAA會檢查是否已解鎖目前小隊的全部通訊，全部解鎖後才會切換至下一個月度小隊&#10;若只需取得獎勵，可取消勾選以減少重複探索&#10;MAA不會因為取消勾選此選項而提前在局內結束探索</system:String>
     <system:String x:Key="RoguelikeDeepExplorationAutoIterate">深入調查自動切換</system:String>
     <system:String x:Key="DeploymentWithPause">暫停下{key=Operator}（自動戰鬥相關）（不穩定，暫不推薦開啟）</system:String>
     <system:String x:Key="DeploymentWithPauseTip">自動戰鬥部署{key=Operator}時暫停遊戲，再下{key=Operator}</system:String>
