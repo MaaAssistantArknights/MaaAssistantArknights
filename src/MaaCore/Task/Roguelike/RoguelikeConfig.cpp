@@ -125,3 +125,26 @@ void asst::RoguelikeConfig::clear()
     m_squad = std::string();
 }
 
+std::vector<asst::RoguelikeStartOper> asst::RoguelikeConfig::parse_start_opers(const json::value& params)
+{
+    std::vector<RoguelikeStartOper> opers;
+    if (auto list_opt = params.find<json::array>("core_char_list")) {
+        for (const auto& item : list_opt.value()) {
+            RoguelikeStartOper oper;
+            oper.name = item.get("name", std::string {});
+            oper.use_support = item.get("use_support", false);
+            if (!oper.name.empty()) {
+                opers.emplace_back(std::move(oper));
+            }
+        }
+        if (!opers.empty()) {
+            return opers;
+        }
+    }
+    // 旧版单干员参数，等价于第 1 顺位
+    std::string core_char = params.get("core_char", std::string {});
+    if (!core_char.empty()) {
+        opers.push_back({ .name = std::move(core_char), .use_support = params.get("use_support", false) });
+    }
+    return opers;
+}

@@ -125,15 +125,15 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         }
     }
 
-    if (m_initail_recruit && m_recruit_count == 1) {
-        if (m_config->get_use_support()) { // 是否使用助战干员开局
-            if (recruit_support_char()) {
-                m_starts_complete = true;
-                return true;
-            }
-        }
-        else {
-            if (recruit_own_char()) {
+    if (m_initail_recruit) {
+        // 开局指定招募：顺位无论成败都消耗，本次没招到则落入下方默认优先级遍历
+        const RoguelikeStartOper* start_oper = m_config->get_current_start_oper();
+        if (start_oper != nullptr) {
+            const int max_refresh = Task.get("RoguelikeRefreshSupportBtnOcr")->special_params.front();
+            const bool recruited = start_oper->use_support ? recruit_support_char(start_oper->name, max_refresh)
+                                                           : recruit_own_char(start_oper->name);
+            m_config->advance_start_oper_index();
+            if (recruited) {
                 m_starts_complete = true;
                 return true;
             }
@@ -488,6 +488,7 @@ void asst::RoguelikeRecruitTaskPlugin::reset_in_run_variables()
     m_recruit_count = 0;
     m_starts_complete = false;
     m_team_complete = false;
+    m_config->reset_start_oper_index();
 }
 
 bool asst::RoguelikeRecruitTaskPlugin::lazy_recruit()
@@ -589,20 +590,6 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
     return false;
 }
 
-bool asst::RoguelikeRecruitTaskPlugin::recruit_support_char()
-{
-    LogTraceFunction;
-    const int MaxRefreshTimes = Task.get("RoguelikeRefreshSupportBtnOcr")->special_params.front();
-
-    const auto& core_opt = m_config->get_core_char();
-    if (!core_opt.empty()) {
-        if (recruit_support_char(core_opt, MaxRefreshTimes)) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool asst::RoguelikeRecruitTaskPlugin::recruit_support_char(const std::string& name, const int max_refresh)
 {
     LogTraceFunction;
@@ -691,15 +678,11 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_support_char(const std::string& n
     return true;
 }
 
-bool asst::RoguelikeRecruitTaskPlugin::recruit_own_char()
+bool asst::RoguelikeRecruitTaskPlugin::recruit_own_char(const std::string& name)
 {
     LogTraceFunction;
 
-    const auto& core_opt = m_config->get_core_char();
-    if (core_opt.empty()) {
-        return false;
-    }
-    return recruit_appointed_char(core_opt);
+    return recruit_appointed_char(name);
 }
 
 void asst::RoguelikeRecruitTaskPlugin::select_oper(const battle::roguelike::Recruitment& oper)
