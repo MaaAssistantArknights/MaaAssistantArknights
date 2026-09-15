@@ -1447,12 +1447,12 @@
         "text": ["전부"]
     },
     "InfrastConfirmButtonWait": {
-        "text": ["피드백", "전달"],
-        "roi": [700, 620, 400, 80]
+        "roi": [700, 620, 400, 80],
+        "text": ["피드백", "전달"]
     },
     "InfrastDormConfirmButtonWait": {
-        "text": ["피드백", "전달"],
-        "roi": [700, 620, 400, 80]
+        "roi": [700, 620, 400, 80],
+        "text": ["피드백", "전달"]
     },
     "InfrastClueSelfFull": {
         "text": ["도달", "불가", "최대치"]

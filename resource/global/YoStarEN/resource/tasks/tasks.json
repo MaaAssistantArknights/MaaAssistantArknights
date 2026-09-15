@@ -1325,12 +1325,12 @@
         "text": ["All"]
     },
     "InfrastConfirmButtonWait": {
-        "text": ["Submitting feedback", "to the neural network"],
-        "roi": [675, 605, 427, 115]
+        "roi": [675, 605, 427, 115],
+        "text": ["Submitting feedback", "to the neural network"]
     },
     "InfrastDormConfirmButtonWait": {
-        "text": ["Submitting feedback", "to the neural network"],
-        "roi": [675, 605, 427, 115]
+        "roi": [675, 605, 427, 115],
+        "text": ["Submitting feedback", "to the neural network"]
     },
     "InfrastFlagOriginStone": {
         "templThreshold": 0.7
