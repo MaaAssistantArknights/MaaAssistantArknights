@@ -535,23 +535,20 @@ bool asst::RoguelikeBattleTaskPlugin::try_run_monthly_squad_summon_task()
         return false;
     }
 
-    bool has_remaining_summon = false;
+    bool has_summon_card = false;
     for (const auto& summon : m_cur_deployment_opers) {
         if (summon.role != battle::Role::Drone ||
-            std::ranges::find(tokens, summon.name) == tokens.cend() || summon.cooling) {
+            std::ranges::find(tokens, summon.name) == tokens.cend()) {
             continue;
         }
-        has_remaining_summon = true;
-        if (!summon.available) {
+        has_summon_card = true;
+        if (summon.cooling || !summon.available) {
             continue;
         }
 
         const auto deploy_info = calc_best_loc(summon);
         if (!deploy_info.has_value()) {
-            if (m_monthly_squad_task_summon_count_in_battle > 0) {
-                m_monthly_squad_task_pending_abandon = true;
-            }
-            return true;
+            continue; // Occupied tiles may become available after a summon retreats.
         }
         if (!deploy_oper(summon.role, summon.name, deploy_info->placed, deploy_info->direction)) {
             return true;
@@ -559,7 +556,7 @@ bool asst::RoguelikeBattleTaskPlugin::try_run_monthly_squad_summon_task()
 
         ++task->completed_count;
         ++m_monthly_squad_task_summon_count_in_battle;
-        m_monthly_squad_task_no_summon_scans = 0;
+        m_monthly_squad_task_no_summon_since.reset();
         LogInfo << __FUNCTION__ << "deployed monthly squad summon:" << summon.name
                 << "progress:" << task->completed_count << "/" << task->required_count;
         if (task->completed_count >= task->required_count) {
@@ -569,12 +566,20 @@ bool asst::RoguelikeBattleTaskPlugin::try_run_monthly_squad_summon_task()
         return true;
     }
 
-    if (has_remaining_summon) {
-        m_monthly_squad_task_no_summon_scans = 0;
-        return true; // The remaining summon cards are waiting for cost.
+    if (has_summon_card) {
+        m_monthly_squad_task_no_summon_since.reset();
+        return true; // A summon is still waiting for cost, cooldown, or a free tile.
     }
 
-    if (m_monthly_squad_task_summon_count_in_battle > 0 && ++m_monthly_squad_task_no_summon_scans >= 3) {
+    if (m_monthly_squad_task_summon_count_in_battle == 0) {
+        return true; // The operator may not have generated a summon card yet.
+    }
+
+    const auto now = std::chrono::steady_clock::now();
+    if (!m_monthly_squad_task_no_summon_since.has_value()) {
+        m_monthly_squad_task_no_summon_since = now;
+    }
+    if (now - *m_monthly_squad_task_no_summon_since >= std::chrono::seconds(60)) {
         m_monthly_squad_task_pending_abandon = true;
         m_monthly_squad_task_battle_abandoned = abandon();
     }
@@ -1029,7 +1034,7 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_monthly_squad_task_battle_abandoned = false;
     m_monthly_squad_task_oper_deployed = false;
     m_monthly_squad_task_summon_count_in_battle = 0;
-    m_monthly_squad_task_no_summon_scans = 0;
+    m_monthly_squad_task_no_summon_since.reset();
     m_melee_full = false;
     m_ranged_full = false;
     m_homes_status.clear();

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <queue>
 #include <stack>
 
@@ -140,7 +141,7 @@ protected:
     bool m_monthly_squad_task_battle_abandoned = false;
     bool m_monthly_squad_task_oper_deployed = false;
     int m_monthly_squad_task_summon_count_in_battle = 0;
-    int m_monthly_squad_task_no_summon_scans = 0;
+    std::optional<std::chrono::steady_clock::time_point> m_monthly_squad_task_no_summon_since;
     bool m_melee_full = false;
     bool m_ranged_full = false;
 
