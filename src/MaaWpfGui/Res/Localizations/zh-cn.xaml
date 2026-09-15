@@ -269,7 +269,7 @@
     <system:String x:Key="StartingCoreChar">开局{key=Operator}</system:String>
     <system:String x:Key="StartingCoreCharTip">不填写则使用默认策略。三个位置的职业不能相同。</system:String>
     <system:String x:Key="EnableAdditionalStartingCoreChar">启用第 2、3 位{key=StartingCoreChar}</system:String>
-    <system:String x:Key="EnableAdditionalStartingCoreCharTip">开启后可在常规设置中填写第 2、3 位开局干员，招募按位置顺序进行。</system:String>
+    <system:String x:Key="EnableAdditionalStartingCoreCharTip" xml:space="preserve">开启后可在常规设置中填写第 2、3 位开局干员，招募按位置顺序进行。&#10;招募只在前几页内翻找指定干员，希望消耗低的干员可能找不到，届时该位置会回退默认策略。&#10;建议将希望消耗高的干员排在前面。</system:String>
     <system:String x:Key="StartingCoreChar2">第 2 位{key=StartingCoreChar}</system:String>
     <system:String x:Key="StartingCoreChar3">第 3 位{key=StartingCoreChar}</system:String>
     <system:String x:Key="RoguelikeThemeTipRecommended">←强烈推荐看</system:String>

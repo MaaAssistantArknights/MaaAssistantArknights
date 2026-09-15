@@ -872,7 +872,7 @@ Starting operator name. Supports only single operator **Chinese name**, regardle
 ::: field core_char_list  
 @type array<object>
 @optional
-Starting operator list. Each entry is `{ "name": operator name, "use_support": whether to use support }`, with operator **Chinese name** only, regardless of server; entries correspond to the 1st, 2nd, and 3rd recruitments at the start in array order, and the operators in the three slots must be of different classes. If the operator of a slot is not recruited (neither owned nor support one appears), that recruitment falls back to the default priority; takes precedence over `core_char` when both are passed.  
+Starting operator list. Each entry is `{ "name": operator name, "use_support": whether to use support }`, with operator **Chinese name** only, regardless of server; entries correspond to the 1st, 2nd, and 3rd recruitments at the start in array order, and the operators in the three slots must be of different classes. Recruitment only searches the first few pages for the specified operators, so operators with lower hope cost may be missed due to appearing later in the list; if the operator of a slot is not recruited (neither owned nor support one appears), that recruitment falls back to the default priority, so it is recommended to place operators with higher hope cost first. Takes precedence over `core_char` when both are passed.  
 :::  
 ::: field use_support  
 @type boolean

@@ -269,7 +269,7 @@
     <system:String x:Key="StartingCoreChar">最初の{key=Operator}</system:String>
     <system:String x:Key="StartingCoreCharTip">記入がない場合はデフォルトの方針を使用します。3つの位置の職業は同じにできません。</system:String>
     <system:String x:Key="EnableAdditionalStartingCoreChar">2・3人目の{key=StartingCoreChar}を有効化</system:String>
-    <system:String x:Key="EnableAdditionalStartingCoreCharTip">有効にすると、一般設定で2・3人目の最初のオペレーターを指定でき、募集は位置の順番で行われます。</system:String>
+    <system:String x:Key="EnableAdditionalStartingCoreCharTip" xml:space="preserve">有効にすると、一般設定で2・3人目の最初のオペレーターを指定でき、募集は位置の順番で行われます。&#10;募集は先頭の数ページのみを検索するため、希望消費の低いオペレーターは見つからないことがあり、その位置はデフォルトの方針に戻ります。&#10;希望消費の高いオペレーターを前に配置することをお勧めします。</system:String>
     <system:String x:Key="StartingCoreChar2">2人目の{key=StartingCoreChar}</system:String>
     <system:String x:Key="StartingCoreChar3">3人目の{key=StartingCoreChar}</system:String>
     <system:String x:Key="RoguelikeThemeTipRecommended">←必読推奨</system:String>
