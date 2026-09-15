@@ -1,5 +1,7 @@
 #include "RoguelikeRecruitTaskPlugin.h"
 
+#include <limits>
+
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
@@ -353,6 +355,18 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                         }
                     }
                 }
+            }
+
+            const auto& monthly_task = m_config->get_monthly_squad_task();
+            const auto owned_oper = chars_map.find(oper_info.name);
+            if (monthly_task.has_value() && monthly_task->type == MonthlySquadTaskType::UseOperatorSkill &&
+                monthly_task->skill == MonthlySquadSkill::Skill3 &&
+                monthly_task->completed_count < monthly_task->required_count &&
+                monthly_task->oper_name == oper_info.name && owned_oper != chars_map.cend() &&
+                owned_oper->second.elite < 2 && oper_info.elite == 2 && !recruit_info.is_alternate) {
+                priority = std::numeric_limits<int>::max();
+                LogInfo << __FUNCTION__ << "prioritize monthly squad skill-3 operator promotion:"
+                        << oper_info.name;
             }
 
             // 优先级为0，可能练度不够被忽略

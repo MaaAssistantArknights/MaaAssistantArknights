@@ -1,0 +1,45 @@
+{
+    "1": {
+        "type": "DeployOperator",
+        "operator": "妮芙",
+        "count":10
+    },
+    "2": {
+        "type": "DeployOperator",
+        "operator": "泥岩",
+        "count": 10
+    },
+    "3": {
+        "type": "DeployOperator",
+        "operator": "锡人",
+        "count": 10
+    },
+    "4": {
+        "type": "UseOperatorSkill",
+        "operator": "魔王",
+        "skill": 2,
+        "count": 10
+    },
+    "5": {
+        "type": "UseOperatorSkill",
+        "operator": "截云",
+        "skill": 2,
+        "count": 10
+    },
+    "6": {
+        "type": "UseOperatorSkill",
+        "operator": "逻各斯",
+        "skill": 3,
+        "count": 10
+    },
+    "7": {
+        "type": "DeployOperator",
+        "operator": "史尔特尔",
+        "count": 10
+    },
+    "8": {
+        "type": "DeployOperator",
+        "operator": "阿米娅",
+        "count": 10
+    }
+}
