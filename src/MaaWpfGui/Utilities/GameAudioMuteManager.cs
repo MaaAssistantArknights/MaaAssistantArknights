@@ -163,7 +163,7 @@ internal static class GameAudioMuteManager
         {
             while (true)
             {
-                await Task.Delay(1000).ConfigureAwait(false);
+                await Task.Delay(5000).ConfigureAwait(false);
                 if (!shouldContinue())
                 {
                     return;

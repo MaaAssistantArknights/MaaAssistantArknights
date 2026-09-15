@@ -2938,7 +2938,7 @@ public class AsstProxy
     }
 
     /// <summary>
-    /// 将连接时绑定的明日方舟窗口移动到主屏幕中央。
+    /// 将连接时绑定的明日方舟窗口从最小化恢复，并移动到主屏幕中央。
     /// </summary>
     public void RestoreGameWindowPosition()
     {
@@ -2949,7 +2949,12 @@ public class AsstProxy
         }
 
         var hwnd = (HWND)_attachWindowHwnd;
-        _ = PInvoke.ShowWindow(hwnd, SHOW_WINDOW_CMD.SW_RESTORE);
+        if (PInvoke.IsIconic(hwnd))
+        {
+            // A minimized window reports iconic coordinates; the restore button must show it before centering it.
+            _ = PInvoke.ShowWindow(hwnd, SHOW_WINDOW_CMD.SW_RESTORE);
+        }
+
         if (!PInvoke.GetWindowRect(hwnd, out var rect))
         {
             _logger.Warning("RestoreGameWindowPosition: GetWindowRect failed, hwnd: {Hwnd}", hwnd);
