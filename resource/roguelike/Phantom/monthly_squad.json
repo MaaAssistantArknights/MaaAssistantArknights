@@ -1,1 +1,5 @@
-{}
+{
+    "default": {
+        "type": "ReachThirdFloor"
+    }
+}
