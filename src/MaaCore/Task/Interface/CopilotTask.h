@@ -1,6 +1,6 @@
 #pragma once
 #include "Task/InterfaceTask.h"
-#include "Vision/Miscellaneous/OperBoxImageAnalyzer.h"
+#include "Vision/Oper/OperBoxImageAnalyzer.h"
 
 #include <memory>
 #include <meojson/json.hpp>
