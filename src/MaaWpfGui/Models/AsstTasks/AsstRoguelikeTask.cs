@@ -13,6 +13,7 @@
 
 #nullable enable
 using System.Collections.Generic;
+using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Services;
 using Newtonsoft.Json.Linq;
@@ -100,9 +101,9 @@ public class AsstRoguelikeTask : AsstBaseTask
     public string Roles { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets 开局干员名
+    /// Gets or sets 开局干员顺位列表，按顺序招募
     /// </summary>
-    public string CoreChar { get; set; } = string.Empty;
+    public List<AsstRoguelikeCoreChar> CoreCharList { get; set; } = [];
 
     /// <summary>
     /// Gets or sets a value indicating whether 是否凹开局直升
@@ -143,11 +144,6 @@ public class AsstRoguelikeTask : AsstBaseTask
     /// Gets or sets 萨米刷坍缩专用，需要刷的坍缩列表
     /// </summary>
     public List<string> ExpectedCollapsalParadigms { get; set; } = [];
-
-    /// <summary>
-    /// Gets or sets a value indicating whether 是否core_char使用好友助战
-    /// </summary>
-    public bool UseSupport { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether 是否允许使用非好友助战
@@ -245,9 +241,13 @@ public class AsstRoguelikeTask : AsstBaseTask
             taskParams["roles"] = Roles;
         }
 
-        if (CoreChar.Length > 0)
+        if (CoreCharList.Count > 0)
         {
-            taskParams["core_char"] = CoreChar;
+            taskParams["core_char_list"] = new JArray(CoreCharList.Select(i => new JObject
+            {
+                ["name"] = i.Name,
+                ["use_support"] = i.UseSupport,
+            }));
         }
 
         if (Mode == RoguelikeMode.Exp)
@@ -296,7 +296,6 @@ public class AsstRoguelikeTask : AsstBaseTask
             taskParams["expected_collapsal_paradigms"] = JArray.FromObject(ExpectedCollapsalParadigms);
         }
 
-        taskParams["use_support"] = UseSupport;
         taskParams["use_nonfriend_support"] = UseSupportNonFriend;
         taskParams["refresh_trader_with_dice"] = Theme == RoguelikeTheme.Mizuki && RefreshTraderWithDice;
         if (!string.IsNullOrEmpty(StartWithSeed))
@@ -305,5 +304,21 @@ public class AsstRoguelikeTask : AsstBaseTask
         }
 
         return (TaskType, taskParams);
+    }
+
+    /// <summary>
+    /// 开局干员顺位项
+    /// </summary>
+    public class AsstRoguelikeCoreChar
+    {
+        /// <summary>
+        /// Gets or sets 干员名
+        /// </summary>
+        public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether 该位干员是否使用助战
+        /// </summary>
+        public bool UseSupport { get; set; }
     }
 }

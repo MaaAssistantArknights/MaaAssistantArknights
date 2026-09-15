@@ -267,7 +267,11 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="StartingSquad">Starting Squad</system:String>
     <system:String x:Key="StartingRoles">Starting Roles</system:String>
     <system:String x:Key="StartingCoreChar">Starting {key=Operator}</system:String>
-    <system:String x:Key="StartingCoreCharTip">If not filled out, the default policy will be used.</system:String>
+    <system:String x:Key="StartingCoreCharTip">If not filled out, the default policy will be used. The classes of the three positions must be different.</system:String>
+    <system:String x:Key="EnableAdditionalStartingCoreChar">Enable 2nd and 3rd {key=StartingCoreChar}</system:String>
+    <system:String x:Key="EnableAdditionalStartingCoreCharTip" xml:space="preserve">When enabled, the 2nd and 3rd starting operators can be filled in under General settings, and recruitment follows the position order.&#10;Recruitment only searches the first few pages, so operators with lower hope cost may not be found, and that position will fall back to the default policy.&#10;It is recommended to place operators with higher hope cost first.</system:String>
+    <system:String x:Key="StartingCoreChar2">2nd {key=StartingCoreChar}</system:String>
+    <system:String x:Key="StartingCoreChar3">3rd {key=StartingCoreChar}</system:String>
     <system:String x:Key="RoguelikeThemeTipRecommended">← Highly recommended reading</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">The {key=Operator} is not in battle_data.</system:String>
     <system:String x:Key="RoguelikeCoreCharSet">{key=StartingCoreChar} set: {0}</system:String>
@@ -280,7 +284,10 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="Roguelike3FirstFloorFoldartalTip">Enter the foldartal names, separated by ｢;｣</system:String>
     <system:String x:Key="RoguelikeCollapseList">Collapse Paradigm List</system:String>
     <system:String x:Key="RoguelikeCollapseListTip">Separate with ｢;｣. Leave blank to use the default list.</system:String>
-    <system:String x:Key="RoguelikeUseSupportUnit">Select ｢{key=StartingCoreChar}｣ from support unit list</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnitFormat">Select {0} from support unit list</system:String>
+    <system:String x:Key="StartingCoreCharPosition1">1st {key=Operator}</system:String>
+    <system:String x:Key="StartingCoreCharPosition2">2nd {key=Operator}</system:String>
+    <system:String x:Key="StartingCoreCharPosition3">3rd {key=Operator}</system:String>
     <system:String x:Key="RoguelikeRequireStartingCoreChar">Please enter ｢{key=StartingCoreChar}｣ first</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable non-friend support</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">Don't abort Auto IS until the end of battle</system:String>

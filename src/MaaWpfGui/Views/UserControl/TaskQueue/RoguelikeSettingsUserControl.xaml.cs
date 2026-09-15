@@ -11,10 +11,13 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
+
 #pragma warning disable SA1402
 
 using System;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Controls;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -32,42 +35,51 @@ public partial class RoguelikeSettingsUserControl : System.Windows.Controls.User
     public RoguelikeSettingsUserControl()
     {
         InitializeComponent();
-        _current = this;
+        AttachCoreCharRuleOwner(StartingCoreCharComboBox);
+        AttachCoreCharRuleOwner(StartingCoreChar2ComboBox);
+        AttachCoreCharRuleOwner(StartingCoreChar3ComboBox);
     }
 
-    private static RoguelikeSettingsUserControl _current;
-    private static bool _isValidResult;
-
-    internal static bool IsValidResult
+    // 三个开局干员下拉框各自持有独立的 StartingCoreCharRule 实例（位于各自 Text 绑定的
+    // ValidationRules 中），把规则与其所属下拉框关联，使输入无效时的全干员列表切换
+    // 只作用于触发校验的那一个下拉框，互不干扰
+    private static void AttachCoreCharRuleOwner(ComboBox comboBox)
     {
-        get => _isValidResult;
-        set
+        if (comboBox.GetBindingExpression(ComboBox.TextProperty)?.ParentBinding?.ValidationRules
+            .OfType<StartingCoreCharRule>().FirstOrDefault() is { } rule)
         {
-            _isValidResult = value;
-            if (!IsValidResult)
-            {
-                // 输入无效时把下拉列表临时扩展为全干员列表，便于从任意干员中选取；
-                // 经由可搜索扩展的 override 切换，不直接写 ItemsSource，以保持其维护的独立视图与过滤状态
-                _current.StartingCoreCharComboBox.SetSearchableItemsSourceOverride(DataHelper.CharacterNames);
-            }
+            rule.Owner = comboBox;
         }
     }
 
-    private void StartingCoreCharComboBox_DropDownClosed(object sender, EventArgs e)
+    private void CoreCharComboBox_DropDownClosed(object sender, EventArgs e)
     {
-        if (!IsValidResult)
+        if (sender is not ComboBox comboBox)
         {
+            return;
+        }
+
+        var text = comboBox.Text;
+        if (!string.IsNullOrEmpty(text) && DataHelper.GetCharacterByNameOrAlias(text) is null)
+        {
+            // 输入的是无效干员名，保持全干员列表 override，便于继续从任意干员中选取
             return;
         }
 
         // 清除全干员列表 override，回落到绑定的开局干员列表。换源可能因选中项不在新列表
         // 而清空文本，暂停 Text 绑定避免中间空值写回源属性，挂回时从源属性恢复文本
-        StartingCoreCharComboBox.WithTextBindingSuspended(StartingCoreCharComboBox.ClearSearchableItemsSourceOverride);
+        comboBox.WithTextBindingSuspended(comboBox.ClearSearchableItemsSourceOverride);
     }
 }
 
 public class StartingCoreCharRule : ValidationRule
 {
+    /// <summary>
+    /// Gets or sets the combo box owning this rule; its candidate list is switched to the
+    /// full operator list while the current input is invalid.
+    /// </summary>
+    internal ComboBox? Owner { get; set; }
+
     public override ValidationResult Validate(object value, CultureInfo cultureInfo)
     {
         if (value is not string stringValue)
@@ -77,11 +89,12 @@ public class StartingCoreCharRule : ValidationRule
 
         if (!string.IsNullOrEmpty(stringValue) && DataHelper.GetCharacterByNameOrAlias(stringValue) is null)
         {
-            RoguelikeSettingsUserControl.IsValidResult = false;
+            // 输入无效时把下拉列表临时扩展为全干员列表，便于从任意干员中选取；
+            // 经由可搜索扩展的 override 切换，不直接写 ItemsSource，以保持其维护的独立视图与过滤状态
+            Owner?.SetSearchableItemsSourceOverride(DataHelper.CharacterNames);
             return new ValidationResult(false, LocalizationHelper.GetString("RoguelikeStartingCoreCharNotFound"));
         }
 
-        RoguelikeSettingsUserControl.IsValidResult = true;
         return ValidationResult.ValidResult;
     }
 }

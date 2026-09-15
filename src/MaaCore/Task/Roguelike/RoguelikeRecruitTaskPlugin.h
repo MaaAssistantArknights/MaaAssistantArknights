@@ -32,12 +32,10 @@ protected:
     void slowly_swipe(bool to_left, int swipe_dist = 500);
 
 private:
-    // 使用助战干员开局
-    bool recruit_support_char();
     // 尝试招募指定助战干员
     bool recruit_support_char(const std::string& name, const int max_refresh);
-    // 招募自己的干员
-    bool recruit_own_char();
+    // 招募指定的自有干员
+    bool recruit_own_char(const std::string& name);
     // 直接招募第一个干员
     bool lazy_recruit();
     // 招募指定干员

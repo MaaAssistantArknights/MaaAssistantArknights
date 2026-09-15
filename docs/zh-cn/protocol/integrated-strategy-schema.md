@@ -757,7 +757,11 @@ OCR 识别不期而遇事件名称，但是选项是操作固定的位置
     "investment_enabled": false,
     "squad": "远程战术分队",
     "roles": "稳扎稳打",
-    "core_char": "维什戴尔",
+    "core_char_list": [
+        { "name": "维什戴尔", "use_support": false },
+        { "name": "斑点", "use_support": false },
+        { "name": "史都华德", "use_support": false }
+    ],
     "expected_collapsal_paradigms": ["目空一些", "睁眼瞎", "图像损坏", "一抹黑"]
 }
 ```
