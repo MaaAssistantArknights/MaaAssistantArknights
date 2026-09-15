@@ -414,14 +414,14 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
     auto update_image_if_empty = [&]() {
         if (image.empty()) {
             image_prev = cv::Mat();
-            image = ctrler()->get_image();
+            image = get_image_with_interest();
             check_in_battle(image);
         }
     };
     auto do_strategy_and_update_image = [&]() {
         do_strategic_action(image);
         image_prev = std::move(image);
-        image = ctrler()->get_image();
+        image = get_image_with_interest();
     };
 
     if (action.cost_changes != 0) {
@@ -552,11 +552,11 @@ void asst::BattleProcessTask::sleep_and_do_strategy(unsigned millisecond)
     const auto start = std::chrono::steady_clock::now();
     const auto delay = millisecond * 1ms;
 
-    cv::Mat image = ctrler()->get_image();
+    cv::Mat image = get_image_with_interest();
     while (!need_exit() && check_in_battle(image) && std::chrono::steady_clock::now() - start < delay) {
         do_strategic_action(image);
         std::this_thread::yield();
 
-        image = ctrler()->get_image();
+        image = get_image_with_interest();
     }
 }

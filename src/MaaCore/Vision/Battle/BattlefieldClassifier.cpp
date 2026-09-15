@@ -42,11 +42,24 @@ BattlefieldClassifier::ResultOpt BattlefieldClassifier::analyze() const
     return result;
 }
 
+Rect BattlefieldClassifier::skill_ready_roi(const Point& base_point)
+{
+    const auto task_ptr = Task.get<MatchTaskInfo>("BattleSkillReady");
+    if (task_ptr == nullptr) {
+        // 拿不到推导参数：返回空矩形，调用方按「全图、必须挪开光标」处理
+        return Rect();
+    }
+
+    return Rect(base_point.x, base_point.y, 0, 0).move(task_ptr->rect_move);
+}
+
 BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analyze() const
 {
-    auto task_ptr = Task.get<MatchTaskInfo>("BattleSkillReady");
-    const Rect& skill_roi_move = task_ptr->rect_move;
-    Rect roi = Rect(m_base_point.x, m_base_point.y, 0, 0).move(skill_roi_move);
+    Rect roi = skill_ready_roi(m_base_point);
+    if (roi.width <= 0 || roi.height <= 0) {
+        Log.error(__FUNCTION__, "| invalid skill ready roi");
+        return {};
+    }
 
     cv::Mat image = make_roi(m_image, correct_rect(roi, m_image));
 
