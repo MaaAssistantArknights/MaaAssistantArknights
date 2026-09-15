@@ -1457,10 +1457,10 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ReconnectFailed">重連失敗，連線已斷開！</system:String>
     <system:String x:Key="TouchModeNotAvailable">觸控模式不可用。請進入 ｢{key=Settings} - {key=ConnectionSettings}｣ 切換其他觸控模式。</system:String>
     <system:String x:Key="ScreencapFailed">截圖失敗，如反覆出現請嘗試重新啟動或更換模擬器！</system:String>
-    <system:String x:Key="FastestWayToScreencap">最快截圖用時: {0}ms ({1})</system:String>
-    <system:String x:Key="FastestWayToScreencapInfoTip">截圖用時 {0}ms。若使用 MuMu、雷電模擬器，可在 ｢{key=Settings} - {key=ConnectionSettings} - {key=ConnectionPreset}｣ 選擇對應模擬器，並開啟下方顯示的截圖增強以降低耗時</system:String>
-    <system:String x:Key="FastestWayToScreencapWarningTip">截圖用時較長 (平均: {0}ms)，執行自動戰鬥類功能（如自動肉鴿）時可能表現異常。若使用 MuMu、雷電模擬器，請在 ｢{key=Settings} - {key=ConnectionSettings} - {key=ConnectionPreset}｣ 選擇對應模擬器，並開啟下方顯示的截圖增強</system:String>
-    <system:String x:Key="FastestWayToScreencapErrorTip">截圖用時過長 (平均: {0}ms)，自動戰鬥類功能（如自動肉鴿）很可能無法正常執行，建議嘗試重新啟動或更換模擬器！若使用 MuMu、雷電模擬器，請在 ｢{key=Settings} - {key=ConnectionSettings} - {key=ConnectionPreset}｣ 選擇對應模擬器，並開啟下方顯示的截圖增強</system:String>
+    <system:String x:Key="FastestWayToScreencap">最快截圖耗時: {0}ms ({1})</system:String>
+    <system:String x:Key="FastestWayToScreencapInfoTip">截圖耗時 {0}ms。若使用 MuMu、雷電模擬器，可在 ｢{key=Settings} - {key=ConnectionSettings} - {key=ConnectionPreset}｣ 選擇對應模擬器，並開啟下方顯示的截圖增強以降低耗時</system:String>
+    <system:String x:Key="FastestWayToScreencapWarningTip">截圖耗時較長 (平均: {0}ms)，執行自動戰鬥類功能（如自動肉鴿）時可能表現異常。若使用 MuMu、雷電模擬器，請在 ｢{key=Settings} - {key=ConnectionSettings} - {key=ConnectionPreset}｣ 選擇對應模擬器，並開啟下方顯示的截圖增強</system:String>
+    <system:String x:Key="FastestWayToScreencapErrorTip">截圖耗時過長 (平均: {0}ms)，自動戰鬥類功能（如自動肉鴿）很可能無法正常執行，建議嘗試重新啟動或更換模擬器！若使用 MuMu、雷電模擬器，請在 ｢{key=Settings} - {key=ConnectionSettings} - {key=ConnectionPreset}｣ 選擇對應模擬器，並開啟下方顯示的截圖增強</system:String>
     <system:String x:Key="EmulatorFpsWarningTip">偵測到模擬器設定影格率為 {0} FPS，低於遊戲原生影格率（60 FPS），可能開啟了背景降幀或影格率設定過低，建議將模擬器影格率設定為 60 FPS</system:String>
     <system:String x:Key="EmulatorFpsErrorTip">偵測到模擬器設定影格率過低（{0} FPS），可能導致任務異常，請關閉模擬器背景降幀並將影格率設定為 60 FPS</system:String>
     <system:String x:Key="EmulatorFpsHighTip">偵測到模擬器設定影格率為 {0} FPS，高於遊戲原生影格率上限（60 FPS），可能是模擬器插幀功能，可能導致畫面異常或辨識不穩定，建議關閉插幀並將影格率設定為 60 FPS</system:String>
@@ -2240,27 +2240,27 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
 
     <system:String x:Key="Achievement.SnapshotChallenge1.Title">高 ping 戰士</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge1.Description">｢卡了｣</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge1.Conditions">平均截圖用時超過 800ms</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge1.Conditions">平均截圖耗時超過 800ms</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge2.Title">是不是有點太慢了</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge2.Description">截圖顯得有點吃力。</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge2.Conditions">平均截圖用時在 400ms 到 800ms 之間</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge2.Conditions">平均截圖耗時在 400ms 到 800ms 之間</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge3.Title">截圖挑戰 · Normal</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge3.Description">要不試試截圖增強？</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge3.Conditions">平均截圖用時小於 400ms</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Conditions">平均截圖耗時小於 400ms</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge4.Title">截圖挑戰 · Fast</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge4.Description">截圖快得我都沒反應過來。</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge4.Conditions">平均截圖用時小於 100ms</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge4.Conditions">平均截圖耗時小於 100ms</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge5.Title">截圖挑戰 · Ultra</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge5.Description">截圖速度擊敗了 90% 的 MAA 使用者。</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge5.Conditions">平均截圖用時小於 10ms</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge5.Conditions">平均截圖耗時小於 10ms</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge6.Title">截圖挑戰 · Beyond</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge6.Description">你發現了 MAA 的隱藏力量。</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge6.Conditions">平均截圖用時小於 5ms</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge6.Conditions">平均截圖耗時小於 5ms</system:String>
 
     <system:String x:Key="Achievement.Lucky.Title">Lucky</system:String>
     <system:String x:Key="Achievement.Lucky.Description">據說能看到這條成就的人都三連金了。</system:String>
