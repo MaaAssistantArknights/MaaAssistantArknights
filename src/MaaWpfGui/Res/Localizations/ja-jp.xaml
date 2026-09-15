@@ -173,7 +173,6 @@
     <system:String x:Key="ClueExchangeUnlocked">手がかり交換を開始しました</system:String>
     <system:String x:Key="InfrastReceptionSendClue">手がかりを贈る</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">{key=Infrast} で以下の関数を設定して実行する必要があります</system:String>
-    <system:String x:Key="ContinueTraining">訓練完了後に現在スキルの継続特化を試みます</system:String>
     <system:String x:Key="InfrastFiammettaRecovery">フィアメッタの体力回復を有効化</system:String>
     <system:String x:Key="InfrastFiammettaRecoveryTips">有効にすると、交代開始時に回復対象と体力が全快のフィアメッタを宿舎に入れて体力を交換し、その後フィアメッタは宿舎で回復します。</system:String>
     <system:String x:Key="InfrastFiammettaTargets">フィアメッタの回復対象</system:String>
@@ -877,6 +876,43 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Infrast">{key=Base}</system:String>
     <system:String x:Key="Combat">作戦</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
+    <system:String x:Key="OperProgress">オペレーター育成</system:String>
+    <system:String x:Key="OperProgressParsePlan">プランを解析</system:String>
+    <system:String x:Key="OperProgressPlanValid">現在のテキストは解析済みです</system:String>
+    <system:String x:Key="OperProgressPlanPending">テキストが変更されました。実行時は最後に解析成功したプランを使用します</system:String>
+    <system:String x:Key="OperProgressPlanParsed">プランを解析しました：{0} 件</system:String>
+    <system:String x:Key="OperProgressJsonError">JSON の {0} 行 {1} 列でエラー：{2}</system:String>
+    <system:String x:Key="OperProgressPlanMustBeArray">プランは JSON 配列である必要があります</system:String>
+    <system:String x:Key="OperProgressPlanMustBeObject">プラン {0} はオブジェクトである必要があります</system:String>
+    <system:String x:Key="OperProgressUnknownField">プラン {0} に不明なフィールド「{1}」があります</system:String>
+    <system:String x:Key="OperProgressUnknownOperator">プラン {0} の「{1}」は中国版の有効なオペレーター名ではありません</system:String>
+    <system:String x:Key="OperProgressExactlyOneAction">プラン {0} には育成操作を1種類だけ指定してください</system:String>
+    <system:String x:Key="OperProgressMasteryPairRequired">プラン {0} の「{1}」にはもう一方の特化フィールドが必要です</system:String>
+    <system:String x:Key="OperProgressStringRequired">プラン {0} の「{1}」は空でない文字列である必要があります</system:String>
+    <system:String x:Key="OperProgressIntegerRequired">プラン {0} の「{1}」は整数である必要があります</system:String>
+    <system:String x:Key="OperProgressFieldRange">プラン {0} の「{1}」は {2}～{3} の範囲で指定してください</system:String>
+    <system:String x:Key="OperProgressSkillLevelTarget">スキルランク {0}</system:String>
+    <system:String x:Key="OperProgressMasteryTarget">スキル {0} 特化 {1}</system:String>
+    <system:String x:Key="OperProgressEliteTarget">昇進段階 {0}</system:String>
+    <system:String x:Key="OperProgressDeleteCompletedEntries">育成タスクチェーン終了後に完了した項目を削除</system:String>
+    <system:String x:Key="OperProgressDeleteCompletedEntriesTip">育成タスクチェーン終了後、「成功」または「達成済み」の項目を自動的に削除します。失敗とスキップの項目は残ります</system:String>
+    <system:String x:Key="OperProgressTargetStartLog">育成プラン {0}：{1}、{2}</system:String>
+    <system:String x:Key="OperProgressTargetResultLog">育成プラン {0}：{1}、{2}、結果 {3}</system:String>
+    <system:String x:Key="OperProgressRecognizedElite">（現在の昇進段階 {0}）</system:String>
+    <system:String x:Key="OperProgressRecognizedSkillLevel">（現在のスキルランク {0}）</system:String>
+    <system:String x:Key="OperProgressRecognizedMastery">（現在の特化 {0}）</system:String>
+    <system:String x:Key="OperProgressSummaryLog">オペレーター育成完了：成功 {0}、達成済み {1}、失敗 {2}、スキップ {3}</system:String>
+    <system:String x:Key="OperProgressSelectOperator">オペレーターを選択</system:String>
+    <system:String x:Key="OperProgressAddTarget">追加</system:String>
+    <system:String x:Key="OperProgressTargetTitle">{0} · 育成目標</system:String>
+    <system:String x:Key="OperProgressElite">昇進段階</system:String>
+    <system:String x:Key="OperProgressSkillUpgrade">スキルランクアップ</system:String>
+    <system:String x:Key="OperProgressMastery">スキル特化</system:String>
+    <system:String x:Key="OperProgressSkillNumber">スキル{0}</system:String>
+    <system:String x:Key="OperProgressInvalidOperatorInput">入力したオペレーター名が無効です。リストから選択してください</system:String>
+    <system:String x:Key="OperProgressOperatorLimit">選択できるオペレーターは最大 5 人です</system:String>
+    <system:String x:Key="OperProgressEdit">変更</system:String>
+    <system:String x:Key="OperProgressOnlineEditor">アークナイツツールボックスでオンライン編集</system:String>
     <system:String x:Key="Visiting">戦友訪問</system:String>
     <system:String x:Key="Mall">FP獲得と交換</system:String>
     <system:String x:Key="Mission">報酬受取</system:String>
