@@ -267,7 +267,11 @@
     <system:String x:Key="StartingSquad">시작 분대</system:String>
     <system:String x:Key="StartingRoles">모집 조합</system:String>
     <system:String x:Key="StartingCoreChar">시작 {key=Operator}</system:String>
-    <system:String x:Key="StartingCoreCharTip">작성하지 않으면 기본 설정이 사용됩니다.</system:String>
+    <system:String x:Key="StartingCoreCharTip">작성하지 않으면 기본 설정이 사용됩니다. 세 위치의 직업은 서로 달라야 합니다.</system:String>
+    <system:String x:Key="EnableAdditionalStartingCoreChar">2·3번째 {key=StartingCoreChar} 활성화</system:String>
+    <system:String x:Key="EnableAdditionalStartingCoreCharTip">활성화하면 일반 설정에서 2·3번째 시작 오퍼레이터를 입력할 수 있으며, 모집은 위치 순서대로 진행됩니다.</system:String>
+    <system:String x:Key="StartingCoreChar2">2번째 {key=StartingCoreChar}</system:String>
+    <system:String x:Key="StartingCoreChar3">3번째 {key=StartingCoreChar}</system:String>
     <system:String x:Key="RoguelikeThemeTipRecommended">←필독 추천</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">해당 {key=Operator}는 battle_data에 없습니다</system:String>
     <system:String x:Key="RoguelikeCoreCharSet">{key=StartingCoreChar} 설정: {0}</system:String>
@@ -280,7 +284,10 @@
     <system:String x:Key="Roguelike3FirstFloorFoldartalTip">암호판 이름을 입력하고, 여러 개는 ｢;｣ 로 구분합니다</system:String>
     <system:String x:Key="RoguelikeCollapseList">붕괴 패러다임 목록</system:String>
     <system:String x:Key="RoguelikeCollapseListTip">세미콜론 ｢;｣ 으로 구분, 비워 두면 기본 목록이 사용됩니다.</system:String>
-    <system:String x:Key="RoguelikeUseSupportUnit">｢{key=StartingCoreChar}｣ 지원 유닛 사용</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnitFormat">{0} 지원 유닛 사용</system:String>
+    <system:String x:Key="StartingCoreCharPosition1">1번째 {key=Operator}</system:String>
+    <system:String x:Key="StartingCoreCharPosition2">2번째 {key=Operator}</system:String>
+    <system:String x:Key="StartingCoreCharPosition3">3번째 {key=Operator}</system:String>
     <system:String x:Key="RoguelikeRequireStartingCoreChar">먼저 ｢{key=StartingCoreChar}｣를 입력하세요</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">친구가 아니어도 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">{key=AutoRoguelike} 중지 시 전투 종료 대기</system:String>
