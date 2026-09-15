@@ -109,19 +109,6 @@ void asst::RoguelikeBattleTaskPlugin::wait_until_start_button_clicked()
         .run();
 }
 
-std::string asst::RoguelikeBattleTaskPlugin::oper_name_in_config(const battle::DeploymentOper& oper) const
-{
-    if (oper.role == Role::Warrior && oper.name == "阿米娅") {
-        return "阿米娅-WARRIOR"; // 在 BattleData.json 中有
-    }
-    else if (oper.role == Role::Medic && oper.name == "阿米娅") {
-        return "阿米娅-MEDIC"; // 在 BattleData.json 中有
-    }
-    else {
-        return oper.name;
-    }
-}
-
 bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
 {
     LogTraceFunction;
@@ -249,12 +236,6 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
     return true;
 }
 
-asst::battle::LocationType
-    asst::RoguelikeBattleTaskPlugin::get_oper_location_type(const battle::DeploymentOper& oper) const
-{
-    return BattleData.get_location_type(oper.role, oper_name_in_config(oper));
-}
-
 asst::battle::OperPosition asst::RoguelikeBattleTaskPlugin::get_role_position(const battle::Role& role) const
 {
     switch (role) {
@@ -316,7 +297,7 @@ void asst::RoguelikeBattleTaskPlugin::set_position_full(const Point& loc, bool f
 
 void asst::RoguelikeBattleTaskPlugin::set_position_full(const battle::DeploymentOper& oper, bool full)
 {
-    set_position_full(get_oper_location_type(oper), full);
+    set_position_full(BattleData.get_location_type(oper.role, oper.name), full);
 }
 
 bool asst::RoguelikeBattleTaskPlugin::get_position_full(battle::LocationType loc_type) const
@@ -341,7 +322,7 @@ bool asst::RoguelikeBattleTaskPlugin::get_position_full(battle::LocationType loc
 
 bool asst::RoguelikeBattleTaskPlugin::get_position_full(const battle::DeploymentOper& oper) const
 {
-    return get_position_full(get_oper_location_type(oper));
+    return get_position_full(BattleData.get_location_type(oper.role, oper.name));
 }
 
 bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
@@ -373,9 +354,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
             continue;
         }
 
-        const battle::OperNameTag oper_tag { oper.role,
-                                             oper_name_in_config(
-                                                 oper) }; // 临时使用阿米娅-WARRIOR/阿米娅-MEDIC来获取招募信息
+        const battle::OperNameTag oper_tag { oper.role, oper.name };
         // 获取招募信息
         const auto& recruit_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), oper_tag);
         // 获取会用到该干员的干员组[干员组1序号,干员组2序号,...]
@@ -859,7 +838,7 @@ void asst::RoguelikeBattleTaskPlugin::clear()
 
 std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(const DeploymentOper& oper) const
 {
-    auto type = get_oper_location_type(oper);
+    auto type = BattleData.get_location_type(oper.role, oper.name);
     if (type == LocationType::Invalid || type == LocationType::None) {
         return available_locations(get_role_usual_location(oper.role));
     }
@@ -890,7 +869,7 @@ asst::battle::AttackRange asst::RoguelikeBattleTaskPlugin::get_attack_range(
     if (m_oper_elite.contains(oper.name)) {
         elite = m_oper_elite.at(oper.name);
     }
-    battle::AttackRange right_attack_range = BattleData.get_range(oper_name_in_config(oper), elite);
+    battle::AttackRange right_attack_range = BattleData.get_range(oper.role, oper.name, elite);
 
     if (right_attack_range == BattleDataConfig::EmptyRange) {
         switch (oper.role) {

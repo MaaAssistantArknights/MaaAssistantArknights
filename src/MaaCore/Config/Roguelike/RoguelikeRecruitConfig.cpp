@@ -33,7 +33,10 @@ const asst::RoguelikeOperInfo&
     if (opers.contains(oper_tag)) {
         return opers.at(oper_tag);
     }
-    const auto& it = std::ranges::find_if(opers, [&](const auto& pair) { return pair.first.name == oper_tag.name; });
+    const auto& it = std::ranges::find_if(opers, [&](const auto& pair) {
+        return (pair.first.role == battle::Role::Unknown || pair.first.role == oper_tag.role) &&
+               pair.first.name == oper_tag.name;
+    }); // 配置中要求的为 unk 或者与实际干员职业相等
     if (it != opers.end()) {
         return it->second;
     }
