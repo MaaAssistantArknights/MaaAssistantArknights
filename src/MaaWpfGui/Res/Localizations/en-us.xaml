@@ -290,6 +290,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <!--<system:String x:Key="RoguelikeStartWithSeed">Enable Investment Seed</system:String>-->
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">Monthly Squad Auto-Switch</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">Monthly Squad Communication</system:String>
+    <system:String x:Key="RoguelikeMonthlySquadCheckCommsTip" xml:space="preserve">When enabled, MAA checks whether all communications for the current squad have been unlocked and only switches to the next Monthly Squad once they are all unlocked.&#10;If you only want the rewards, disable this option to reduce repeated exploration.&#10;MAA will not end the current exploration early just because this option is disabled.</system:String>
     <system:String x:Key="RoguelikeDeepExplorationAutoIterate">Deep Investigation Auto-Switch</system:String>
     <system:String x:Key="DeploymentWithPause" xml:space="preserve">Pause Trick (Experimental)</system:String>
     <system:String x:Key="DeploymentWithPauseTip">Pauses the game when deploying {key=Operator} in auto combat, then deploys the next {key=Operator}</system:String>
