@@ -47,7 +47,9 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
         const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), name);
         const auto& monthly_squad_task = m_config->get_monthly_squad_task();
         const bool override_skill =
-            monthly_squad_task.has_value() && monthly_squad_task->type == MonthlySquadTaskType::UseOperatorSkill &&
+            monthly_squad_task.has_value() &&
+            (monthly_squad_task->type == MonthlySquadTaskType::UseOperatorSkill ||
+             monthly_squad_task->type == MonthlySquadTaskType::DeployOperatorSummon) &&
             monthly_squad_task->oper_name == name && monthly_squad_task->skill.has_value() &&
             monthly_squad_task->completed_count < monthly_squad_task->required_count;
         if (oper_info.name.empty() && !override_skill) {

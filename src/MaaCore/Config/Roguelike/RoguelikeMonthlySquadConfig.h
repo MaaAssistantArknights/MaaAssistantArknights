@@ -29,7 +29,6 @@ struct MonthlySquadTask
 {
     MonthlySquadTaskType type = MonthlySquadTaskType::ReachThirdFloor;
     std::string oper_name;
-    std::string summon_name;
     int required_count = 0;
     int completed_count = 0;
     std::optional<MonthlySquadSkill> skill;

@@ -99,17 +99,27 @@ bool asst::RoguelikeMonthlySquadConfig::parse(const json::value& json)
             return false;
         }
 
-        if (task.type == MonthlySquadTaskType::DeployOperatorSummon) {
-            task.summon_name = task_json.get("summon", "");
-        }
-        else if (task.type == MonthlySquadTaskType::UseOperatorSkill) {
-            const int skill = task_json.get("skill", 0);
-            if (skill < 1 || skill > 3) {
-                LogError << __FUNCTION__ << "monthly squad skill must be 1, 2, or 3, theme:" << theme
+        if (task.type == MonthlySquadTaskType::UseOperatorSkill ||
+            task.type == MonthlySquadTaskType::DeployOperatorSummon) {
+            const auto skill_opt = task_json.find<int>("skill");
+            if (task_json.contains("skill") && !skill_opt.has_value()) {
+                LogError << __FUNCTION__ << "monthly squad skill must be an integer, theme:" << theme
                          << "squad:" << squad_key;
                 return false;
             }
-            task.skill = static_cast<MonthlySquadSkill>(skill);
+            if (!skill_opt.has_value() && task.type == MonthlySquadTaskType::UseOperatorSkill) {
+                LogError << __FUNCTION__ << "monthly squad skill is required, theme:" << theme
+                         << "squad:" << squad_key;
+                return false;
+            }
+            if (skill_opt.has_value()) {
+                if (*skill_opt < 1 || *skill_opt > 3) {
+                    LogError << __FUNCTION__ << "monthly squad skill must be 1, 2, or 3, theme:" << theme
+                             << "squad:" << squad_key;
+                    return false;
+                }
+                task.skill = static_cast<MonthlySquadSkill>(*skill_opt);
+            }
         }
 
         tasks.emplace(squad_key, std::move(task));
