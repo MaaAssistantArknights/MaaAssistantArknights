@@ -52,6 +52,11 @@ public class AsstRecruitTask : AsstBaseTask
     public List<int> ConfirmList { get; set; } = [];
 
     /// <summary>
+    /// Gets or sets 自动确认3星时保留的招聘许可数量。0 表示不保留。
+    /// </summary>
+    public int Level3RecruitmentPermitReserve { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 是否设置招募时限。仅在 times 为 0 时生效，可选，默认 true
     /// </summary>
     public bool SetRecruitTime { get; set; } = true;
@@ -150,6 +155,7 @@ public class AsstRecruitTask : AsstBaseTask
             ["force_refresh"] = ForceRefresh,
             ["select"] = JArray.FromObject(SelectList),
             ["confirm"] = JArray.FromObject(ConfirmList),
+            ["level3_recruitment_permit_reserve"] = Level3RecruitmentPermitReserve,
             ["times"] = RecruitTimes,
             ["set_time"] = SetRecruitTime,
             ["expedite"] = UseExpedited,

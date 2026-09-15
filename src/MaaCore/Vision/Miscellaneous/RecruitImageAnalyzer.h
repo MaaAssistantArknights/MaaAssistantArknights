@@ -1,6 +1,8 @@
 #pragma once
 #include "Vision/VisionHelper.h"
 
+#include <optional>
+
 #include "Common/AsstTypes.h"
 
 namespace asst
@@ -23,6 +25,8 @@ public:
     Rect get_refresh_rect() const noexcept { return m_refresh_rect; }
 
     Rect get_permit_rect() const noexcept { return m_permit_rect; }
+
+    std::optional<int> get_recruitment_permit_count() const;
 
 #ifdef ASST_DEBUG
     // mock function
