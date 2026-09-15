@@ -14,6 +14,16 @@
         "src/MaaCore/Utils/Algorithm.hpp",
         "unit_test/MaaCore/AlgorithmTest.cpp"
       ]
+    },
+    {
+      "id": "maa-capture-interest-test",
+      "name": "CaptureInterest",
+      "buildTarget": "maa-capture-interest-test",
+      "ctestRegex": "^capture_interest::",
+      "paths": [
+        "src/MaaCore/Controller/CaptureInterest.hpp",
+        "unit_test/MaaCore/CaptureInterestTest.cpp"
+      ]
     }
   ]
 }
