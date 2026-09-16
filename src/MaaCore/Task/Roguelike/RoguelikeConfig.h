@@ -118,8 +118,7 @@ public:
     bool verify_and_load_params(const json::value& params);
     void clear(); // 重置肉鸽局内数据
 
-    // 解析开局干员顺位：core_char_list 存在且有非空 name 项时用之（逐项读 name/use_support，name 为空的项跳过），
-    // 否则回落旧版 core_char + use_support 合成单项，两者都无返回空列表
+    // 解析开局干员顺位：core_char_list 存在且有非空 name 项时用之（逐项读 name/use_support，name 为空的项跳过）
     static std::vector<RoguelikeStartOper> parse_start_opers(const json::value& params);
 
     // ================================= 通用参数 =================================
@@ -229,7 +228,7 @@ public:
     }
 
     // 兼容旧调用方：第 1 顺位干员名，未指定开局干员时为空串
-    std::string get_core_char() const { return m_start_opers.empty() ? std::string {} : m_start_opers.front().name; }
+    std::string get_core_char() const { return m_start_opers.empty() ? std::string { } : m_start_opers.front().name; }
 
     void set_use_nonfriend_support(bool value) { m_use_nonfriend_support = value; }
 
