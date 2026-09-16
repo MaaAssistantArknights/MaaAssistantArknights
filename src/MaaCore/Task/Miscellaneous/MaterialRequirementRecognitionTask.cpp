@@ -15,37 +15,68 @@ bool asst::MaterialRequirementRecognitionTask::_run()
     }
     m_result.clear();
     auto image = ctrler()->get_image();
-    if (!MaterialRequirementImageAnalyzer::is_promotion_page(image) &&
-        MaterialRequirementImageAnalyzer::read_chip_popup_name(image)) {
-        if (!close_chip_popup()) {
-            callback_analyze_result("failed");
+    if (MaterialRequirementImageAnalyzer::has_item_popup(image)) {
+        if (!close_item_popup()) {
+            if (!need_exit()) {
+                callback_analyze_result("failed");
+            }
             return false;
         }
         image = ctrler()->get_image();
     }
+    const bool promotion = MaterialRequirementImageAnalyzer::is_promotion_page(image);
     MaterialRequirementImageAnalyzer analyzer(image);
     analyzer.set_cancel_check([this] { return need_exit(); });
-    bool recognized = analyzer.analyze();
+    bool recognized = analyzer.analyze(true);
     if (need_exit()) {
         return false;
     }
-    if (const auto pending = analyzer.pending_chip()) {
-        const auto name = verify_chip_name(pending->item_rect);
+    const auto chip = analyzer.pending_chip();
+    const auto materials = analyzer.pending_materials();
+    std::vector<MaterialRequirementInfo> pending;
+    if (chip) {
+        pending.push_back(*chip);
+    }
+    pending.insert(pending.end(), materials.begin(), materials.end());
+    std::vector<std::optional<std::string>> names;
+    for (const auto& item : pending) {
+        names.push_back(verify_item_name(item.item_rect));
         if (need_exit()) {
             return false;
         }
-        // Never publish a result while the popup still blocks navigation.
         image = ctrler()->get_image();
-        if (!MaterialRequirementImageAnalyzer::is_promotion_page(image)) {
+        // Never publish results or open another popup while navigation is blocked.
+        if (!MaterialRequirementImageAnalyzer::is_requirement_page(image) ||
+            MaterialRequirementImageAnalyzer::is_promotion_page(image) != promotion) {
             callback_analyze_result("failed");
             return false;
         }
+    }
+    if (!pending.empty()) {
+        // Re-read quantities once after all popups close, without re-scanning icons.
         MaterialRequirementImageAnalyzer restored(image);
         restored.set_cancel_check([this] { return need_exit(); });
-        recognized = restored.analyze();
-        const auto& current = restored.pending_chip();
-        if (name && current && current->owned == pending->owned && current->required == pending->required) {
-            restored.confirm_chip_name(*name);
+        recognized = restored.analyze(true);
+        size_t index = 0;
+        if (chip) {
+            const auto& current = restored.pending_chip();
+            if (names[index] && current && current->owned == chip->owned && current->required == chip->required) {
+                restored.confirm_chip_name(*names[index]);
+            }
+            ++index;
+        }
+        for (const auto& item : materials) {
+            if (need_exit()) {
+                return false;
+            }
+            if (names[index]) {
+                // A recognized but incompatible name is rejected, not overridden by an icon guess.
+                restored.confirm_material_name(item, *names[index]);
+            }
+            else {
+                restored.recognize_material_icon(item);
+            }
+            ++index;
         }
         analyzer = std::move(restored);
     }
@@ -63,23 +94,29 @@ bool asst::MaterialRequirementRecognitionTask::_run()
     return recognized;
 }
 
-bool asst::MaterialRequirementRecognitionTask::close_chip_popup()
+bool asst::MaterialRequirementRecognitionTask::close_item_popup()
 {
-    if (need_exit() || !ctrler()->click(Task.get("MaterialRequirement-ChipPopupClose")->specific_rect)) {
+    if (need_exit()) {
+        return false;
+    }
+    if (MaterialRequirementImageAnalyzer::is_requirement_page(ctrler()->get_image())) {
+        return true;
+    }
+    if (!ctrler()->click(Task.get("MaterialRequirement-ItemPopupClose")->specific_rect)) {
         return false;
     }
     for (int attempt = 0; attempt < 5 && !need_exit(); ++attempt) {
         if (!sleep(200)) {
             return false;
         }
-        if (MaterialRequirementImageAnalyzer::is_promotion_page(ctrler()->get_image())) {
+        if (MaterialRequirementImageAnalyzer::is_requirement_page(ctrler()->get_image())) {
             return true;
         }
     }
     return false;
 }
 
-std::optional<std::string> asst::MaterialRequirementRecognitionTask::verify_chip_name(const Rect& icon)
+std::optional<std::string> asst::MaterialRequirementRecognitionTask::verify_item_name(const Rect& icon)
 {
     if (need_exit() || !ctrler()->click(icon)) {
         return std::nullopt;
@@ -90,7 +127,7 @@ std::optional<std::string> asst::MaterialRequirementRecognitionTask::verify_chip
         if (!sleep(250)) {
             return std::nullopt;
         }
-        const auto name = MaterialRequirementImageAnalyzer::read_chip_popup_name(ctrler()->get_image());
+        const auto name = MaterialRequirementImageAnalyzer::read_popup_name(ctrler()->get_image());
         if (name && previous == name) {
             confirmed = true;
             break;
@@ -100,7 +137,7 @@ std::optional<std::string> asst::MaterialRequirementRecognitionTask::verify_chip
         }
         previous = name;
     }
-    if (!close_chip_popup() || !confirmed) {
+    if (!close_item_popup() || !confirmed) {
         return std::nullopt;
     }
     return previous;

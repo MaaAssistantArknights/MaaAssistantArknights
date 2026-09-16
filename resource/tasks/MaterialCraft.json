@@ -295,17 +295,17 @@
     "MaterialRequirement-ChipQuantity": {
         "baseTask": "MaterialRequirement-SkillSummaryQuantity"
     },
-    "MaterialRequirement-ChipPopupName": {
+    "MaterialRequirement-ItemPopupName": {
         "algorithm": "OcrDetect",
-        "roi": [420, 100, 260, 410],
+        "roi": [300, 60, 940, 470],
         "useRaw": true
     },
-    "MaterialRequirement-ChipPopupClose": {
+    "MaterialRequirement-ItemPopupClose": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [170, 400, 50, 50]
     },
-    "MaterialRequirement-ChipPopupTitle": {
+    "MaterialRequirement-ItemPopupTitle": {
         "algorithm": "OcrDetect",
         "withoutDet": true,
         "useRaw": true,
@@ -336,6 +336,12 @@
         "binThreshold": [160, 255],
         "useRaw": false,
         "postDelay": 0
+    },
+    "MaterialRequirement-ItemPopup": {
+        "template": "InfrastPic/Processing/MaterialRequirementItemPopup.png",
+        "roi": [300, 120, 940, 570],
+        "templThreshold": 0.85,
+        "template_Doc": "材料说明中的获得方式标签；专精标记在弹窗打开时仍可能可见。"
     },
     "MaterialCraft-ByproductToast": {
         "template": "InfrastPic/Processing/WorkshopByproductToast.png",

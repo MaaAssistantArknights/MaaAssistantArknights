@@ -1,5 +1,6 @@
 #include "MaterialRequirementImageAnalyzer.h"
 
+#include <algorithm>
 #include <cmath>
 #include <regex>
 
@@ -29,15 +30,16 @@ std::string item_display_name(const std::string& item_id)
 }
 }
 
-bool MaterialRequirementImageAnalyzer::analyze()
+bool MaterialRequirementImageAnalyzer::analyze(bool defer_material_names)
 {
     LogTraceFunction;
     m_result.clear();
     m_complete = false;
-    m_other_slots_complete = false;
+    m_slots_complete = false;
     m_pending_chip.reset();
+    m_pending_materials.clear();
     m_candidates = MaterialRecipes.item_ids();
-    if (m_image.empty() || m_candidates.empty()) {
+    if (m_image.empty() || m_candidates.empty() || has_item_popup(m_image)) {
         return false;
     }
     const bool promotion = is_promotion_page(m_image);
@@ -58,18 +60,24 @@ bool MaterialRequirementImageAnalyzer::analyze()
             return false;
         }
         MaterialRequirementInfo info;
-        if (analyze_slot(slot, info)) {
+        if (analyze_slot(slot, info, defer_material_names)) {
             ++recognized;
             if (info.shortage > 0) {
-                m_result.push_back(std::move(info));
+                if (info.item_id.empty()) {
+                    m_pending_materials.push_back(std::move(info));
+                }
+                else {
+                    m_result.push_back(std::move(info));
+                }
             }
         }
     }
-    m_other_slots_complete = recognized == static_cast<int>(slots.size());
-    m_complete = m_other_slots_complete;
+    m_slots_complete = recognized == static_cast<int>(slots.size());
+    m_complete = m_slots_complete && m_pending_materials.empty();
     if (promotion) {
         MaterialRequirementInfo chip;
         if (!parse_quantity("MaterialRequirement-ChipQuantity", chip.owned, chip.required)) {
+            m_slots_complete = false;
             m_complete = false;
         }
         else if (chip.required > chip.owned) {
@@ -85,6 +93,9 @@ bool MaterialRequirementImageAnalyzer::analyze()
                 chip.quantity_rect = Task.get("MaterialRequirement-ChipQuantity")->roi;
                 m_pending_chip = std::move(chip);
             }
+            else {
+                m_slots_complete = false;
+            }
         }
     }
     return recognized > 0 || m_pending_chip.has_value();
@@ -97,28 +108,63 @@ bool MaterialRequirementImageAnalyzer::is_promotion_page(const cv::Mat& image)
     return promotion.analyze().has_value();
 }
 
-std::optional<std::string> MaterialRequirementImageAnalyzer::read_chip_popup_name(const cv::Mat& image)
+bool MaterialRequirementImageAnalyzer::is_requirement_page(const cv::Mat& image)
 {
+    if (has_item_popup(image)) {
+        return false;
+    }
+    if (is_promotion_page(image)) {
+        return true;
+    }
+    Matcher mastery(image);
+    mastery.set_task_info("MaterialRequirement-MasteryPage");
+    return mastery.analyze().has_value();
+}
+
+bool MaterialRequirementImageAnalyzer::has_item_popup(const cv::Mat& image)
+{
+    Matcher popup(image);
+    popup.set_task_info("MaterialRequirement-ItemPopup");
+    return popup.analyze().has_value();
+}
+
+std::optional<std::string> MaterialRequirementImageAnalyzer::read_popup_name(const cv::Mat& image)
+{
+    if (!has_item_popup(image)) {
+        return std::nullopt;
+    }
     OCRer title(image);
-    title.set_task_info("MaterialRequirement-ChipPopupName");
+    title.set_task_info("MaterialRequirement-ItemPopupName");
     const auto results = title.analyze();
     if (!results) {
         return std::nullopt;
     }
     std::optional<std::string> name;
+    const auto candidates = MaterialRecipes.item_ids();
     for (const auto& result : *results) {
         if (!std::isfinite(result.score)) {
             continue;
         }
-        for (int profession = 1; profession <= 8; ++profession) {
-            const auto& expected = ItemData.get_item_name("32" + std::to_string(profession) + "3");
+        for (const auto& id : candidates) {
+            const auto& expected = ItemData.get_item_name(id);
             if (!expected.empty() && result.text == expected) {
+                // The popup title has white text on a dark label. A material
+                // mentioned in the white description panel is not its title.
+                const auto label = make_roi(image, result.rect);
+                if (label.empty()) {
+                    continue;
+                }
+                cv::Mat dark;
+                cv::inRange(label, cv::Scalar::all(0), cv::Scalar::all(100), dark);
+                if (cv::countNonZero(dark) < static_cast<double>(label.total()) * 0.45) {
+                    continue;
+                }
                 // Detection locates a title of variable height. Re-read the
                 // isolated line; the surrounding description reduces the
                 // detector's recognition confidence even on pristine images.
                 if (result.score < 0.95) {
                     RegionOCRer line(image);
-                    line.set_task_info("MaterialRequirement-ChipPopupTitle");
+                    line.set_task_info("MaterialRequirement-ItemPopupTitle");
                     line.set_roi(
                         { result.rect.x - 3, result.rect.y - 3, result.rect.width + 6, result.rect.height + 6 });
                     const auto confirmed = line.analyze();
@@ -151,8 +197,68 @@ bool MaterialRequirementImageAnalyzer::confirm_chip_name(const std::string& name
         m_pending_chip->item_name = name;
         m_result.insert(m_result.begin(), *m_pending_chip);
         m_pending_chip.reset();
-        m_complete = m_other_slots_complete;
+        m_complete = m_slots_complete && m_pending_materials.empty();
         return true;
+    }
+    return false;
+}
+
+bool MaterialRequirementImageAnalyzer::confirm_material_name(
+    const MaterialRequirementInfo& pending,
+    const std::string& name)
+{
+    if (name.empty() || (m_cancel_check && m_cancel_check())) {
+        return false;
+    }
+    const auto item = std::ranges::find_if(m_pending_materials, [&](const auto& current) {
+        return current.quantity_rect == pending.quantity_rect && current.owned == pending.owned &&
+               current.required == pending.required;
+    });
+    if (item == m_pending_materials.end()) {
+        return false;
+    }
+    std::string item_id;
+    for (const auto& candidate : m_candidates) {
+        // These slots contain workshop materials; chips and books occupy the leftmost slot.
+        if (candidate.starts_with("32") || candidate == "3302" || candidate == "3303" ||
+            name != ItemData.get_item_name(candidate)) {
+            continue;
+        }
+        if (!item_id.empty() && item_id != candidate) {
+            return false;
+        }
+        item_id = candidate;
+    }
+    if (item_id.empty()) {
+        return false;
+    }
+    item->item_id = item_id;
+    item->item_name = name;
+    m_result.push_back(*item);
+    std::ranges::stable_sort(m_result, {}, [](const auto& info) { return info.quantity_rect.x; });
+    m_pending_materials.erase(item);
+    m_complete = m_slots_complete && !m_pending_chip && m_pending_materials.empty();
+    return true;
+}
+
+bool MaterialRequirementImageAnalyzer::recognize_material_icon(const MaterialRequirementInfo& pending)
+{
+    // Only the slot whose popup could not be read pays for a full template scan.
+    const auto current = std::ranges::find_if(m_pending_materials, [&](const auto& item) {
+        return item.quantity_rect == pending.quantity_rect && item.owned == pending.owned &&
+               item.required == pending.required;
+    });
+    if (current == m_pending_materials.end()) {
+        return false;
+    }
+    for (const auto& slot : requirement_slots()) {
+        if (!slot.expected_item_id.empty() || Task.get(slot.quantity_task)->roi != pending.quantity_rect) {
+            continue;
+        }
+        std::string item_id;
+        Rect rect;
+        return match_item(slot.icon_task, item_id, rect) &&
+               confirm_material_name(pending, ItemData.get_item_name(item_id));
     }
     return false;
 }
@@ -172,7 +278,10 @@ std::vector<MaterialRequirementImageAnalyzer::RequirementSlot>
     return slots;
 }
 
-bool MaterialRequirementImageAnalyzer::analyze_slot(const RequirementSlot& slot, MaterialRequirementInfo& info) const
+bool MaterialRequirementImageAnalyzer::analyze_slot(
+    const RequirementSlot& slot,
+    MaterialRequirementInfo& info,
+    bool defer_material_names) const
 {
     std::string item_id;
     Rect item_rect;
@@ -194,13 +303,17 @@ bool MaterialRequirementImageAnalyzer::analyze_slot(const RequirementSlot& slot,
         return true;
     }
 
-    if (item_id.empty() && !match_item(slot.icon_task, item_id, item_rect)) {
+    if (item_id.empty() && defer_material_names) {
+        const auto icon = Task.get(slot.icon_task)->roi;
+        item_rect = { icon.x + icon.width / 2 - 20, icon.y + icon.height / 2 - 20, 40, 40 };
+    }
+    else if (item_id.empty() && !match_item(slot.icon_task, item_id, item_rect)) {
         Log.warn(__FUNCTION__, "| failed to match requirement item", slot.icon_task, owned, required);
         return false;
     }
 
     info.item_id = std::move(item_id);
-    info.item_name = item_display_name(info.item_id);
+    info.item_name = info.item_id.empty() ? std::string() : item_display_name(info.item_id);
     info.owned = owned;
     info.required = required;
     info.shortage = shortage;
