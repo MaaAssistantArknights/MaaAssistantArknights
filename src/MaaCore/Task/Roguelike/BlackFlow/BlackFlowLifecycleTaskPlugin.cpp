@@ -52,10 +52,12 @@ bool BlackFlowLifecycleTaskPlugin::load_params(const json::value& params)
     }
     const std::string selected_profile = profile;
 
-    // 三项都直接读 params：分队要等真正在选择界面点中才会写回 RoguelikeConfig，此刻取不到。
-    // 必须先于 initialize()，事实是在它末尾写入的。
+    // 三项都直接读 params 而非 RoguelikeConfig：分队要等真正在选择界面点中才会写回 RoguelikeConfig，开局干员顺位
+    // 也由别的插件 load_params 写入、时机不可依赖。黑流策略只消费第 1 顺位。必须先于
+    // initialize()，事实是在它末尾写入的。
+    const auto start_opers = RoguelikeConfig::parse_start_opers(params);
     m_session->set_start_loadout(
-        params.get("core_char", std::string()),
+        start_opers.empty() ? std::string {} : start_opers.front().name,
         params.get("squad", std::string()),
         params.get("roles", std::string()));
 

@@ -267,7 +267,11 @@
     <system:String x:Key="StartingSquad">開局分隊</system:String>
     <system:String x:Key="StartingRoles">開局職業組</system:String>
     <system:String x:Key="StartingCoreChar">開局{key=Operator}</system:String>
-    <system:String x:Key="StartingCoreCharTip">不填寫則使用預設策略。</system:String>
+    <system:String x:Key="StartingCoreCharTip">不填寫則使用預設策略。三個位置的職業不能相同。</system:String>
+    <system:String x:Key="EnableAdditionalStartingCoreChar">啟用第 2、3 位{key=StartingCoreChar}</system:String>
+    <system:String x:Key="EnableAdditionalStartingCoreCharTip" xml:space="preserve">開啟後可在一般設定中填寫第 2、3 位開局幹員，招募按位置順序進行。&#10;招募只在前幾頁內翻找指定幹員，希望消耗低的幹員可能找不到，屆時該位置會回退預設策略。&#10;建議將希望消耗高的幹員排在前面。</system:String>
+    <system:String x:Key="StartingCoreChar2">第 2 位{key=StartingCoreChar}</system:String>
+    <system:String x:Key="StartingCoreChar3">第 3 位{key=StartingCoreChar}</system:String>
     <system:String x:Key="RoguelikeThemeTipRecommended">←強烈推薦看</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">輸入的{key=Operator}未在戰鬥數據 (battle_data) 中。</system:String>
     <system:String x:Key="RoguelikeCoreCharSet">已設定{key=StartingCoreChar}: {0}</system:String>
@@ -280,7 +284,10 @@
     <system:String x:Key="Roguelike3FirstFloorFoldartalTip">填寫遠見密文板名稱，多個用英文分號 ｢;｣ 隔開</system:String>
     <system:String x:Key="RoguelikeCollapseList">坍縮範式列表</system:String>
     <system:String x:Key="RoguelikeCollapseListTip">用英文分號 ｢;｣ 隔開，留白將使用預設列表。</system:String>
-    <system:String x:Key="RoguelikeUseSupportUnit">｢{key=StartingCoreChar}｣ 使用助戰</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnitFormat">{0} 使用助戰</system:String>
+    <system:String x:Key="StartingCoreCharPosition1">第 1 位{key=Operator}</system:String>
+    <system:String x:Key="StartingCoreCharPosition2">第 2 位{key=Operator}</system:String>
+    <system:String x:Key="StartingCoreCharPosition3">第 3 位{key=Operator}</system:String>
     <system:String x:Key="RoguelikeRequireStartingCoreChar">需先填寫 ｢{key=StartingCoreChar}｣</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助戰</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">肉鴿在戰鬥結束前延遲 ｢{key=Stop}｣ 動作</system:String>

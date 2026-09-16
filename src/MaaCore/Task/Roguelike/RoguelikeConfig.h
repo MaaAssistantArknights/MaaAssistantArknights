@@ -50,6 +50,13 @@ struct RoguelikeOper
     int level = 0; // 干员等级
 };
 
+// 开局招募顺位干员，按列表顺序对应开局第 1/2/3 次免费招募
+struct RoguelikeStartOper
+{
+    std::string name;
+    bool use_support = false;
+};
+
 struct RoguelikeStatus
 {
 public:
@@ -110,6 +117,9 @@ public:
 
     bool verify_and_load_params(const json::value& params);
     void clear(); // 重置肉鸽局内数据
+
+    // 解析开局干员顺位：core_char_list 存在且有非空 name 项时用之（逐项读 name/use_support，name 为空的项跳过）
+    static std::vector<RoguelikeStartOper> parse_start_opers(const json::value& params);
 
     // ================================= 通用参数 =================================
 public:
@@ -196,13 +206,29 @@ public:
     auto& status() { return m_status; }
 
     // ------------------ 开局 ------------------
-    void set_core_char(std::string core_char) { m_core_char = std::move(core_char); }
+    void set_start_opers(std::vector<RoguelikeStartOper> opers) { m_start_opers = std::move(opers); }
 
-    const auto& get_core_char() const { return m_core_char; }
+    const std::vector<RoguelikeStartOper>& get_start_opers() const { return m_start_opers; }
 
-    void set_use_support(bool use_support) { m_use_support = use_support; }
+    size_t get_start_oper_index() const { return m_start_oper_index; }
 
-    bool get_use_support() const { return m_use_support; }
+    void reset_start_oper_index() { m_start_oper_index = 0; }
+
+    // 顺位无论招募成败都消耗，下一次开局招募使用下一顺位
+    void advance_start_oper_index()
+    {
+        if (m_start_oper_index < m_start_opers.size()) {
+            ++m_start_oper_index;
+        }
+    }
+
+    const RoguelikeStartOper* get_current_start_oper() const
+    {
+        return m_start_oper_index < m_start_opers.size() ? &m_start_opers[m_start_oper_index] : nullptr;
+    }
+
+    // 兼容旧调用方：第 1 顺位干员名，未指定开局干员时为空串
+    std::string get_core_char() const { return m_start_opers.empty() ? std::string { } : m_start_opers.front().name; }
 
     void set_use_nonfriend_support(bool value) { m_use_nonfriend_support = value; }
 
@@ -212,8 +238,8 @@ private:
     RoguelikeStatus m_status; // 局内状态
 
     // ------------------ 开局 ------------------
-    std::string m_core_char;              // 开局干员名
-    bool m_use_support = false;           // 开局干员是否为助战干员
-    bool m_use_nonfriend_support = false; // 是否可以是非好友助战干员
+    std::vector<RoguelikeStartOper> m_start_opers; // 开局干员顺位列表，任务参数，整局不变
+    size_t m_start_oper_index = 0;                 // 下一次开局招募待消耗的顺位，每局重置，跨插件共享
+    bool m_use_nonfriend_support = false;          // 是否可以是非好友助战干员
 };
 } // namespace asst

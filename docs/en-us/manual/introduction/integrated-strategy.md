@@ -17,8 +17,9 @@ All features involving Copilot require the following prerequisites, including bu
 
 - Please pin the corresponding Integrated Strategy theme at the terminal in-game. Although automatic navigation is currently possible, long-term functionality is not guaranteed.
 - Please manually end explorations of **non-target themes** in advance to ensure the target theme is ready to start exploration.
-- You can select theme, difficulty, squad, starting operator (single operator name only), and more in settings.
-- MAA can use support operators to start, by first entering the target operator name in `General Settings` → `Starting Operator` and then enabling `Advanced Settings` → `Use support unit for "Starting Operator"`.
+- You can select theme, difficulty, squad, starting operators, and more in settings. Only the 1st starting operator is available by default; the 2nd and 3rd can be enabled in `Advanced Settings`, and the operators in the three slots must be of different classes.
+- Recruitment only searches the first few pages for the specified operators, so operators with lower hope cost may be missed; in that case the slot falls back to the default policy. It is recommended to place operators with higher hope cost first.
+- MAA can use support operators to start, by first entering the target operator name in `General Settings` → `Starting Operator` and then enabling the use-support checkboxes for each starting operator in `Advanced Settings`. Each slot can independently choose whether to use a support unit, but using a support unit in the 1st slot is mutually exclusive with rerolling for Elite 2 (rerolling for Elite 2 works only with owned operators).
 - When playing for the **first time** in a newly installed client:
   - The difficulty selection button will not be displayed. Please manually select a difficulty once in-game, after which MAA can select it automatically.
   - Tutorials will appear after entering the map screen. Please read and close them manually.

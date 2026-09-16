@@ -33,6 +33,7 @@ using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using static MaaWpfGui.Main.AsstProxy;
+using AsstRoguelikeCoreChar = MaaWpfGui.Models.AsstTasks.AsstRoguelikeTask.AsstRoguelikeCoreChar;
 using CultivationTarget = MaaWpfGui.Configuration.Single.MaaTask.RoguelikeBlackFlowCultivationTarget;
 using Mode = MaaWpfGui.Configuration.Single.MaaTask.RoguelikeMode;
 using RoguelikeBoskySubNodeType = MaaWpfGui.Configuration.Single.MaaTask.RoguelikeBoskySubNodeType;
@@ -487,13 +488,35 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     }
 
     /// <summary>
-    /// Gets or sets the roguelike core character.
+    /// 读取指定顺位的开局干员配置项，顺位尚未填写时返回 null。
+    /// </summary>
+    private static RoguelikeTask.RoguelikeStartingOper? GetStartingOper(RoguelikeTask task, int index)
+        => task.StartingOpers.Count > index ? task.StartingOpers[index] : null;
+
+    /// <summary>
+    /// 确保指定顺位的开局干员配置项存在（不足则补齐），返回该项用于写入。
+    /// </summary>
+    private static RoguelikeTask.RoguelikeStartingOper EnsureStartingOper(RoguelikeTask task, int index)
+    {
+        while (task.StartingOpers.Count <= index)
+        {
+            task.StartingOpers.Add(new());
+        }
+
+        return task.StartingOpers[index];
+    }
+
+    private static string GetStartingOperName(RoguelikeTask task, int index)
+        => GetStartingOper(task, index)?.Name ?? string.Empty;
+
+    /// <summary>
+    /// Gets or sets the roguelike core character of the 1st starting position.
     /// </summary>
     public string RoguelikeCoreChar
     {
-        get => GetTaskConfig<RoguelikeTask>().CoreChar;
+        get => GetStartingOperName(GetTaskConfig<RoguelikeTask>(), 0);
         set {
-            if (!SetTaskConfig<RoguelikeTask>(t => t.CoreChar == value, t => t.CoreChar = value))
+            if (!SetTaskConfig<RoguelikeTask>(t => GetStartingOperName(t, 0) == value, t => EnsureStartingOper(t, 0).Name = value))
             {
                 return;
             }
@@ -504,6 +527,24 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         }
     }
 
+    /// <summary>
+    /// Gets or sets the roguelike core character of the 2nd starting position.
+    /// </summary>
+    public string RoguelikeCoreChar2
+    {
+        get => GetStartingOperName(GetTaskConfig<RoguelikeTask>(), 1);
+        set => SetTaskConfig<RoguelikeTask>(t => GetStartingOperName(t, 1) == value, t => EnsureStartingOper(t, 1).Name = value);
+    }
+
+    /// <summary>
+    /// Gets or sets the roguelike core character of the 3rd starting position.
+    /// </summary>
+    public string RoguelikeCoreChar3
+    {
+        get => GetStartingOperName(GetTaskConfig<RoguelikeTask>(), 2);
+        set => SetTaskConfig<RoguelikeTask>(t => GetStartingOperName(t, 2) == value, t => EnsureStartingOper(t, 2).Name = value);
+    }
+
     [PropertyDependsOn(nameof(RoguelikeTheme))]
     [PropertyDependsOn(typeof(GuiSettingsUserControlModel), nameof(GuiSettingsUserControlModel.Language))]
     public string StartingCoreCharTip => LocalizationHelper.GetString("StartingCoreCharTip") + "\n\n" + RoguelikeThemeTip;
@@ -511,15 +552,19 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     private ObservableCollection<string> _roguelikeCoreCharList = [];
 
     /// <summary>
-    /// Gets the roguelike core character.
+    /// Gets the roguelike core character candidates shared by all starting positions.
     /// </summary>
     public ObservableCollection<string> RoguelikeCoreCharList
     {
         get => _roguelikeCoreCharList;
         private set {
-            if (!string.IsNullOrEmpty(RoguelikeCoreChar) && !value.Contains(RoguelikeCoreChar))
+            // 各顺位当前值不在候选列表时追加，保证已保存的干员名（含别名/手输名）仍可选
+            foreach (var coreChar in new[] { RoguelikeCoreChar, RoguelikeCoreChar2, RoguelikeCoreChar3 })
             {
-                value.Add(RoguelikeCoreChar);
+                if (!string.IsNullOrEmpty(coreChar) && !value.Contains(coreChar))
+                {
+                    value.Add(coreChar);
+                }
             }
 
             SetAndNotify(ref _roguelikeCoreCharList, value);
@@ -685,20 +730,71 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to use support unit.
+    /// Gets or sets a value indicating whether to use support unit for the 1st starting oper.
+    /// 勾选时关闭开局凹直升（两者互斥）。
     /// </summary>
     public bool RoguelikeUseSupportUnit
     {
-        get => GetTaskConfig<RoguelikeTask>().UseSupport;
+        get => GetStartingOper(GetTaskConfig<RoguelikeTask>(), 0)?.UseSupport ?? false;
         set {
             if (value && RoguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional)
             {
                 RoguelikeStartWithEliteTwo = false;
             }
 
-            SetTaskConfig<RoguelikeTask>(t => t.UseSupport == value, t => t.UseSupport = value);
+            SetTaskConfig<RoguelikeTask>(t => (GetStartingOper(t, 0)?.UseSupport ?? false) == value, t => EnsureStartingOper(t, 0).UseSupport = value);
         }
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to use support unit for the 2nd starting oper.
+    /// </summary>
+    public bool RoguelikeCoreChar2UseSupport
+    {
+        get => GetStartingOper(GetTaskConfig<RoguelikeTask>(), 1)?.UseSupport ?? false;
+        set => SetTaskConfig<RoguelikeTask>(t => (GetStartingOper(t, 1)?.UseSupport ?? false) == value, t => EnsureStartingOper(t, 1).UseSupport = value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to use support unit for the 3rd starting oper.
+    /// </summary>
+    public bool RoguelikeCoreChar3UseSupport
+    {
+        get => GetStartingOper(GetTaskConfig<RoguelikeTask>(), 2)?.UseSupport ?? false;
+        set => SetTaskConfig<RoguelikeTask>(t => (GetStartingOper(t, 2)?.UseSupport ?? false) == value, t => EnsureStartingOper(t, 2).UseSupport = value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the 2nd and 3rd starting core characters are enabled.
+    /// </summary>
+    public bool RoguelikeEnableAdditionalCoreChars
+    {
+        get => GetTaskConfig<RoguelikeTask>().UseAdditionalStartingOpers;
+        set => SetTaskConfig<RoguelikeTask>(t => t.UseAdditionalStartingOpers == value, t => t.UseAdditionalStartingOpers = value);
+    }
+
+    /// <summary>
+    /// Gets the display text of the 1st starting oper's support unit checkbox.
+    /// </summary>
+    [PropertyDependsOn(nameof(RoguelikeCoreChar))]
+    public string RoguelikeUseSupportUnitText => GetUseSupportText(RoguelikeCoreChar, 1);
+
+    /// <summary>
+    /// Gets the display text of the 2nd starting oper's support unit checkbox.
+    /// </summary>
+    [PropertyDependsOn(nameof(RoguelikeCoreChar2))]
+    public string RoguelikeCoreChar2UseSupportText => GetUseSupportText(RoguelikeCoreChar2, 2);
+
+    /// <summary>
+    /// Gets the display text of the 3rd starting oper's support unit checkbox.
+    /// </summary>
+    [PropertyDependsOn(nameof(RoguelikeCoreChar3))]
+    public string RoguelikeCoreChar3UseSupportText => GetUseSupportText(RoguelikeCoreChar3, 3);
+
+    private static string GetUseSupportText(string operName, int position)
+        => LocalizationHelper.GetStringFormat(
+            "RoguelikeUseSupportUnitFormat",
+            string.IsNullOrEmpty(operName) ? LocalizationHelper.GetString($"StartingCoreCharPosition{position}") : operName);
 
     /// <summary>
     /// Gets or sets a value indicating whether can roguelike support unit belong to nonfriend.
@@ -1371,10 +1467,19 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 return (null, []);
             }
 
-            bool isPallasStarter = string.Equals(
-                DataHelper.GetCharacterByNameOrAlias(roguelike.CoreChar)?.CodeName,
-                "pallas",
-                StringComparison.OrdinalIgnoreCase);
+            // 仅在此处过滤，StartingOpers 配置本体不动，重开开关/回填断点即恢复：
+            // 开关关闭时只保留第 1 顺位；顺位链条在首个空名处截断，其后残留值不传参
+            var startingOpers = (roguelike.UseAdditionalStartingOpers
+                    ? roguelike.StartingOpers
+                    : roguelike.StartingOpers.Take(1))
+                .TakeWhile(i => !string.IsNullOrEmpty(i.Name))
+                .ToList();
+
+            bool isPallasStarter = startingOpers.Any(i =>
+                string.Equals(
+                    DataHelper.GetCharacterByNameOrAlias(i.Name)?.CodeName,
+                    "pallas",
+                    StringComparison.OrdinalIgnoreCase));
             bool roguelikeSquadIsProfessional = roguelike.Mode == Mode.Collectible && roguelike.Theme != Theme.Phantom && roguelike.Squad is "突击战术分队" or "堡垒战术分队" or "远程战术分队" or "破坏战术分队";
             bool roguelikeSquadIsFoldartal = roguelike.Mode == Mode.Collectible && roguelike.Theme == Theme.Sami && roguelike.Squad == "生活至上分队";
             var task = new AsstRoguelikeTask() {
@@ -1384,8 +1489,12 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 Difficulty = roguelike.Difficulty,
                 Squad = roguelike.Squad,
                 Roles = roguelike.Roles,
-                CoreChar = DataHelper.GetCharacterByNameOrAlias(roguelike.CoreChar)?.Name ?? roguelike.CoreChar,
-                UseSupport = roguelike.UseSupport,
+
+                CoreCharList = [.. startingOpers.Select(i => new AsstRoguelikeCoreChar
+                    {
+                        Name = DataHelper.GetCharacterByNameOrAlias(i.Name)?.Name ?? i.Name,
+                        UseSupport = i.UseSupport,
+                    })],
                 UseSupportNonFriend = roguelike.UseSupportNonFriend,
 
                 InvestmentEnabled = roguelike.Investment,
@@ -1479,5 +1588,8 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         UpdateRoguelikeModeList();
         UpdateRoguelikeRolesList();
         UpdateRoguelikeSquadList();
+        OnPropertyChanged(nameof(RoguelikeUseSupportUnitText));
+        OnPropertyChanged(nameof(RoguelikeCoreChar2UseSupportText));
+        OnPropertyChanged(nameof(RoguelikeCoreChar3UseSupportText));
     }
 }
