@@ -2253,7 +2253,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Achievement.SnapshotChallenge2.Conditions">平均截图用时在 400ms 到 800ms 之间</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge3.Title">截图挑战 · Normal</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge3.Description">要不试试截图增强？</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Description">要不试试模拟器的截图增强？</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge3.Conditions">平均截图用时小于 400ms</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge4.Title">截图挑战 · Fast</system:String>

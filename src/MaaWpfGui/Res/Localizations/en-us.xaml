@@ -2254,7 +2254,7 @@ These directories are not suitable places to keep MAA; files there can be easily
     <system:String x:Key="Achievement.SnapshotChallenge2.Conditions">Average screenshot time between 400ms and 800ms</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge3.Title">Screenshot Challenge · Normal</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge3.Description">Maybe try screenshot enhancement?</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Description">How about trying your emulator's screenshot enhancement?</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge3.Conditions">Average screenshot time under 400ms</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge4.Title">Screenshot Challenge · Fast</system:String>
