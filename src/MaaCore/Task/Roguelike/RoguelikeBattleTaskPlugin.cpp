@@ -440,14 +440,17 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
 bool asst::RoguelikeBattleTaskPlugin::try_run_monthly_squad_deploy_task()
 {
     auto& monthly_squad_task = m_config->get_monthly_squad_task();
-    if (!monthly_squad_task.has_value() || monthly_squad_task->type != MonthlySquadTaskType::DeployOperator ||
-        monthly_squad_task->completed_count >= monthly_squad_task->required_count) {
+    if (!monthly_squad_task.has_value() || monthly_squad_task->type != MonthlySquadTaskType::DeployOperator) {
         return false;
     }
 
     if (m_monthly_squad_task_pending_abandon) {
         m_monthly_squad_task_battle_abandoned = abandon();
         return true;
+    }
+
+    if (monthly_squad_task->completed_count >= monthly_squad_task->required_count) {
+        return false;
     }
 
     if (monthly_squad_task->oper_name.empty() || monthly_squad_task->required_count <= 0) {
