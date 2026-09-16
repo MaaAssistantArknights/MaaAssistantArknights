@@ -2248,7 +2248,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="Achievement.SnapshotChallenge2.Conditions">평균 스크린샷 시간이 400ms에서 800ms 사이</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge3.Title">스크린샷 · Normal</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge3.Description">이 정도 속도면 나쁘지 않네요</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Description">에뮬레이터의 스크린샷 향상 기능을 사용해 보는 건 어때요?</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge3.Conditions">평균 스크린샷 시간이 400ms 미만</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge4.Title">스크린샷 · Fast</system:String>

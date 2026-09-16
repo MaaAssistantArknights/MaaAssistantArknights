@@ -2250,7 +2250,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="Achievement.SnapshotChallenge2.Conditions">平均スクリーンショット時間が 400ms から 800ms の間</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge3.Title">スクリーンショットチャレンジ · Normal</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge3.Description">スクリーンショットを強化してみませんか？</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Description">エミュレーターのスクリーンショット強化を試してみませんか？</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge3.Conditions">平均スクリーンショット時間が 400ms 未満</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge4.Title">スクリーンショットチャレンジ · Fast</system:String>
