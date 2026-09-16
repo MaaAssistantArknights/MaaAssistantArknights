@@ -228,7 +228,7 @@ public:
     }
 
     // 兼容旧调用方：第 1 顺位干员名，未指定开局干员时为空串
-    std::string get_core_char() const { return m_start_opers.empty() ? std::string { } : m_start_opers.front().name; }
+    std::string get_core_char() const { return m_start_opers.empty() ? std::string {} : m_start_opers.front().name; }
 
     void set_use_nonfriend_support(bool value) { m_use_nonfriend_support = value; }
 

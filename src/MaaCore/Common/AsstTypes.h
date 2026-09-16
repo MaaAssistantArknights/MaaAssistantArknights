@@ -780,7 +780,7 @@ struct OcrTaskInfo : public TaskInfo
     std::vector<std::pair<std::string, std::string>>
         replace_map;                                 // 部分文字容易识别错，字符串强制replace之后，再进行匹配
     std::array<int, 2> bin_threshold = { 140, 255 }; // 二值化灰度上阈值
-    ResultOrderBy order_by = ResultOrderBy::None; // 多个匹配时的结果排序方式，默认按识别顺序
+    ResultOrderBy order_by = ResultOrderBy::None;    // 多个匹配时的结果排序方式，默认按识别顺序
 };
 
 using OcrTaskPtr = std::shared_ptr<OcrTaskInfo>;
