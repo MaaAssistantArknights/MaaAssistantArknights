@@ -5700,7 +5700,12 @@
     "Store@Begin": {
         "doc": "绿票、黄票商店",
         "algorithm": "JustReturn",
-        "next": ["Store@EnterStore", "Store@EnterTicketStore"]
+        "next": [
+            "Store@EnterStore",
+            "Store@EnterTicketStore",
+            "Store@Begin@QuickSwitch@ToMall#next",
+            "Store@EnterStore@ReturnButtons#next"
+        ]
     },
     "Store@EnterStore": {
         "baseTask": "Mall",
