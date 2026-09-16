@@ -6,6 +6,7 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
+#include "Vision/Matcher.h"
 #include "Vision/OCRer.h"
 
 bool asst::RoguelikeIterateMonthlySquadPlugin::load_params([[maybe_unused]] const json::value& params)
@@ -13,6 +14,8 @@ bool asst::RoguelikeIterateMonthlySquadPlugin::load_params([[maybe_unused]] cons
     m_checkComms = params.find<bool>("monthly_squad_check_comms").value_or(false);
 
     m_iterateMS = params.find<bool>("monthly_squad_auto_iterate").value_or(false);
+    m_use_legacy_monthly_squad_logic = false;
+    m_legacy_monthly_squad_index.reset();
     return m_config->get_mode() == RoguelikeMode::Squad;
 }
 
@@ -60,11 +63,25 @@ bool asst::RoguelikeIterateMonthlySquadPlugin::_run()
 
     for (int i = 0; i < monthly_squad_count; i++) {
         m_monthly_squad_index = recognize_monthly_squad_index();
-        update_monthly_squad_task();
-        apply_monthly_squad_task_strategy();
+        const bool reward_completed = m_checkComms && is_monthly_squad_reward_completed();
+        if (m_use_legacy_monthly_squad_logic && m_legacy_monthly_squad_index.has_value() &&
+            m_monthly_squad_index.has_value() && m_legacy_monthly_squad_index != m_monthly_squad_index) {
+            m_use_legacy_monthly_squad_logic = false;
+            m_legacy_monthly_squad_index.reset();
+        }
+        if (m_use_legacy_monthly_squad_logic) {
+            apply_legacy_monthly_squad_logic();
+        }
+        else {
+            update_monthly_squad_task();
+            apply_monthly_squad_task_strategy();
+        }
         if (m_checkComms) {
             ProcessTask(*this, { m_config->get_theme() + "@Roguelike@MonthlySquadComms" }).run();
             if (!try_task("@Roguelike@MonthlySquadCommsCompleted")) {
+                if (reward_completed) {
+                    apply_legacy_monthly_squad_logic();
+                }
                 try_task("@Roguelike@MonthlySquadCommsBackTwice");
                 m_completed = false;
                 break;
@@ -76,6 +93,8 @@ bool asst::RoguelikeIterateMonthlySquadPlugin::_run()
             m_completed = false;
             break;
         }
+        m_use_legacy_monthly_squad_logic = false;
+        m_legacy_monthly_squad_index.reset();
     }
     if (m_completed) {
         callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("MonthlySquadCompleted"));
@@ -119,6 +138,30 @@ void asst::RoguelikeIterateMonthlySquadPlugin::apply_monthly_squad_task_strategy
     }
 
     Task.set_task_base(strategy_task, strategy_base);
+}
+
+void asst::RoguelikeIterateMonthlySquadPlugin::apply_legacy_monthly_squad_logic()
+{
+    m_use_legacy_monthly_squad_logic = true;
+    m_legacy_monthly_squad_index = m_monthly_squad_index;
+    m_config->set_monthly_squad_task(std::nullopt);
+
+    const std::string strategy_task = m_config->get_theme() + "@Roguelike@StrategyChange";
+    const std::string strategy_base = strategy_task + "_mode6";
+    if (Task.get(strategy_base) == nullptr) {
+        LogError << __FUNCTION__ << "monthly squad legacy strategy does not exist:" << strategy_base;
+        return;
+    }
+
+    Task.set_task_base(strategy_task, strategy_base);
+    LogInfo << __FUNCTION__ << "use legacy monthly squad logic until communications are completed";
+}
+
+bool asst::RoguelikeIterateMonthlySquadPlugin::is_monthly_squad_reward_completed() const
+{
+    Matcher analyzer(ctrler()->get_image());
+    analyzer.set_task_info(m_config->get_theme() + "@Roguelike@MonthlySquadRewardCompleted");
+    return analyzer.analyze().has_value();
 }
 
 std::optional<int> asst::RoguelikeIterateMonthlySquadPlugin::recognize_monthly_squad_index() const
