@@ -14,7 +14,7 @@ unit binaries (MaaWin32ControlUnit.dll, MaaAdbControlUnit.dll, ...) out of its
 expected control units are already present unless ``--force`` is given.
 
 Usage:
-    python tools/maafw-control-unit-download.py [--tag v5.9.2] [--output-dir DIR] [--force]
+    python tools/maafw-control-unit-download.py [--tag v5.13.0] [--output-dir DIR] [--force]
 
 Note: these are Release builds of MaaFramework. They are ABI-compatible with
 Release/RelWithDebInfo builds of MAA, but NOT with Debug builds of MAA (MSVC
@@ -42,7 +42,7 @@ from pathlib import Path
 
 REPO = "MaaXYZ/MaaFramework"
 # Keep in sync with the pin used in .github/workflows/ci.yml
-DEFAULT_TAG = "v5.9.2"
+DEFAULT_TAG = "v5.13.0"
 
 ROOT = Path(__file__).resolve().parent.parent
 
