@@ -20,6 +20,7 @@ JSONファイルはコメントをサポートしていません。テキスト�
       - `deposit.json` 源石錐モード
     - `recruitment.json` オペレーター招集ロジック
     - `shopping.json` ストア購入ロジック
+    - `monthly_squad.json` 月次小隊の任務ロジック
 
 - 特に、`Sami/` の下の
   - `foldartal.json` はサーミの啓示板の使用ロジックを表す
@@ -39,6 +40,40 @@ JSONファイルはコメントをサポートしていません。テキスト�
   - `strategy.json` は黒流樹海ローグの高レベルルーティング戦略設定
   - `node_execution.json` は黒流樹海ローグのノードタイプ処理ルーティング設定
   - `map_perception/` は黒流樹海ローグのマップ認識ビジュアルリソース
+
+## 月次小隊の任務
+
+`resource/roguelike/テーマ名/monthly_squad.json` は、各月次小隊が完了する任務を定義します。トップレベルのキーには小隊番号 `1`～`8` を使用します。対応する番号が設定されていない場合や番号を認識できない場合のフォールバックとして、`default` も使用できます。
+
+```json
+{
+    "1": {
+        "type": "DeployOperator",
+        "operator": "年",
+        "count": 10
+    },
+    "2": {
+        "type": "DeployOperatorSummon",
+        "operator": "令",
+        "skill": 3,
+        "count": 20
+    },
+    "default": {
+        "type": "ReachThirdFloor"
+    }
+}
+```
+
+以下の任務タイプに対応しています：
+
+| `type` | 必須フィールド | 説明 |
+| --- | --- | --- |
+| `ReachThirdFloor` | なし | 既存の探索ロジックで第3層まで進む |
+| `DeployOperator` | `operator`、`count` | 指定したオペレーターを必要回数配置する |
+| `DeployOperatorSummon` | `operator`、`count` | 指定したオペレーターを配置し、関連する召喚ユニットを繰り返し配置する |
+| `UseOperatorSkill` | `operator`、`count`、`skill` | 指定したオペレーターの第1、第2、または第3スキルを選択して使用する |
+
+`count` は正の整数である必要があります。`skill` の範囲は `1`～`3` です。`DeployOperatorSummon` では省略でき、省略した場合はそのオペレーターの既存のスキル選択ロジックを使用します。
 
 ## ローグの始め--オペレーター招集
 
