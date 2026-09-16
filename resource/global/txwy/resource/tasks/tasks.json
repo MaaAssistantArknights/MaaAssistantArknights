@@ -1029,6 +1029,15 @@
     "SpecialAccessActivitiesConfirm": {
         "text": ["立即", "立即領取"]
     },
+    "SignInEventEnter": {
+        "text": ["簽到"]
+    },
+    "SignInEventInPopup": {
+        "text": ["結束時間"]
+    },
+    "SignInEventEarnRewards": {
+        "text": ["獲得物資"]
+    },
     "NoFriends": {
         "text": ["暫無好友"]
     },

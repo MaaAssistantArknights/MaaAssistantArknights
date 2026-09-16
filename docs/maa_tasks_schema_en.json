@@ -342,6 +342,12 @@
                     },
                     "default": [140, 255],
                     "description": "Optional, threshold for grayscale binarisation (default [140, 255]).\nPixels with a grayscale value out of range will be considered background and excluded from the text region.\nThis is only effective when algorithm is OcrDetect and withoutDet is false."
+                },
+                "orderBy": {
+                    "type": "string",
+                    "enum": ["None", "Horizontal", "Vertical", "Score"],
+                    "default": "None",
+                    "description": "Optional, sorting method for results when there are multiple matches (refer to MaaFramework order_by):\nNone: keep recognition order (no reorder); Horizontal: row-major (left-to-right within a row); Vertical: column-major (top-to-bottom within a column); Score: by score from high to low.\nIf omitted, inherits the baseTask's setting (None when there is no base); to override a base's ordering back to no-reorder, set None explicitly. This is only effective when algorithm is OcrDetect."
                 }
             },
             "required": ["algorithm", "text"],

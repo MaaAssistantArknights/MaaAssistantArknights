@@ -342,6 +342,12 @@
                     },
                     "default": [140, 255],
                     "description": "可选项，二值化灰度阈值（默认 [140, 255]）\n灰度值不处于范围内的像素将被视为背景，排除在文字区域之外\n仅当 algorithm 为 OcrDetect 且 withoutDet 为 false 时生效。"
+                },
+                "orderBy": {
+                    "type": "string",
+                    "enum": ["None", "Horizontal", "Vertical", "Score"],
+                    "default": "None",
+                    "description": "可选项，多个匹配时的结果排序方式（参考 MaaFramework order_by）：\nNone 不重排（按识别顺序）；Horizontal 行优先（行内从左到右）；Vertical 列优先（列内从上到下）；Score 按分数从高到低。\n省略时继承 baseTask 的设定（无 base 则为 None）；要把 base 已设的排序覆盖回不重排，显式写 None。仅当 algorithm 为 OcrDetect 时生效。"
                 }
             },
             "required": ["algorithm", "text"],
