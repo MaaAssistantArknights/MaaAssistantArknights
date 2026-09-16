@@ -297,6 +297,7 @@
     <!--<system:String x:Key="RoguelikeStartWithSeed">投資のシードを有効にする</system:String>-->
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">月次小隊自動切替</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">月次小隊通信</system:String>
+    <system:String x:Key="RoguelikeMonthlySquadCheckCommsTip" xml:space="preserve">有効にすると、MAAは現在の小隊の通信がすべて解放されているかを確認し、すべて解放されてから次の月次小隊に切り替えます。&#10;報酬の獲得のみが目的の場合は、この設定を無効にすると探索の繰り返しを減らせます。&#10;この設定を無効にしたからといって、MAAが進行中の探索を早めに終了することはありません。</system:String>
     <system:String x:Key="RoguelikeDeepExplorationAutoIterate">多面調査自動切替</system:String>
     <system:String x:Key="DeploymentWithPause">統合戦略/保全駐在でポーズトリックを使用します（ベータ機能のため非推奨です）</system:String>
     <system:String x:Key="DeploymentWithPauseTip">自動戦闘で{key=Operator}を配置する際にゲームを一時停止し、次の{key=Operator}を配置します</system:String>

@@ -297,6 +297,7 @@
     <!--<system:String x:Key="RoguelikeStartWithSeed">启用刷钱种子（美愿）</system:String>-->
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">月度小队自动切换</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">月度小队通讯</system:String>
+    <system:String x:Key="RoguelikeMonthlySquadCheckCommsTip" xml:space="preserve">勾选后，MAA会检查是否已解锁当前小队的全部通讯，全部解锁后才会切换下一个月度小队&#10;若只需获取奖励，可取消勾选以减少重复探索&#10;MAA不会因为取消勾选此选项而提前在局内结束探索</system:String>
     <system:String x:Key="RoguelikeDeepExplorationAutoIterate">深入调查自动切换</system:String>
     <system:String x:Key="DeploymentWithPause">划火柴模式（自动战斗相关）（不稳定, 暂不推荐开启）</system:String>
     <system:String x:Key="DeploymentWithPauseTip">自动战斗部署{key=Operator}时暂停游戏，再下{key=Operator}</system:String>

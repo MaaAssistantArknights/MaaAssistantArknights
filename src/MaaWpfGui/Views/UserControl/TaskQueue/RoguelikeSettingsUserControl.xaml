@@ -419,17 +419,20 @@
                     Text="{DynamicResource RoguelikeMonthlySquadAutoIterate}"
                     TextWrapping="Wrap" />
             </CheckBox>
-            <CheckBox
+            <StackPanel
                 Margin="0,10"
                 d:Visibility="Visible"
-                IsChecked="{Binding RoguelikeMonthlySquadCheckComms}"
+                Orientation="Horizontal"
                 Visibility="{c:Binding 'RoguelikeMonthlySquadAutoIterate and RoguelikeMode == task:RoguelikeMode.Squad',
                                        Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}">
-                <TextBlock
-                    Block.TextAlignment="Left"
-                    Text="{DynamicResource RoguelikeMonthlySquadCheckComms}"
-                    TextWrapping="Wrap" />
-            </CheckBox>
+                <CheckBox IsChecked="{Binding RoguelikeMonthlySquadCheckComms}">
+                    <TextBlock
+                        Block.TextAlignment="Left"
+                        Text="{DynamicResource RoguelikeMonthlySquadCheckComms}"
+                        TextWrapping="Wrap" />
+                </CheckBox>
+                <controls:TooltipBlock TooltipText="{DynamicResource RoguelikeMonthlySquadCheckCommsTip}" />
+            </StackPanel>
             <CheckBox
                 Margin="0,10"
                 d:Visibility="Visible"

@@ -297,6 +297,7 @@
     <!--<system:String x:Key="RoguelikeStartWithSeed">투자 시드 활성화</system:String>-->
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">월간 스쿼드 자동 전환</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">월간 스쿼드 통신</system:String>
+    <system:String x:Key="RoguelikeMonthlySquadCheckCommsTip" xml:space="preserve">활성화하면 MAA가 현재 스쿼드의 통신이 모두 해금되었는지 확인하고, 모두 해금된 후에 다음 월간 스쿼드로 전환합니다.&#10;보상만 획득하려면 이 옵션을 비활성화하여 반복 탐색을 줄일 수 있습니다.&#10;이 옵션을 비활성화한다고 해서 MAA가 진행 중인 탐색을 조기에 종료하지는 않습니다.</system:String>
     <system:String x:Key="RoguelikeDeepExplorationAutoIterate">심층 조사 자동 전환</system:String>
     <system:String x:Key="DeploymentWithPause" xml:space="preserve">일시정지 후 배치 (실험적)</system:String>
     <system:String x:Key="DeploymentWithPauseTip">자동 전투에서 {key=Operator} 배치 시 게임을 일시정지한 후 다음 {key=Operator}를 배치합니다</system:String>
