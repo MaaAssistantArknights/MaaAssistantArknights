@@ -105,7 +105,6 @@ private:
 
     std::deque<long long> m_screencap_cost;
     int m_screencap_times = 0;
-    bool m_screencap_initial_cost_emitted = false;
 
     bool m_main_screen_recognition = false;
     RECT m_original_window_rect = { 0, 0, 0, 0 };

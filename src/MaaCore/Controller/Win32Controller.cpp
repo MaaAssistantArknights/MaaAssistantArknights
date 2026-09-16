@@ -17,22 +17,22 @@ namespace asst
 {
 static const char* get_win32_screencap_method_name(Win32ScreencapMethod method)
 {
-    if (method & Win32Screencap::FramePool) {
+    switch (method) {
+    case Win32Screencap::GDI:
+        return "GDI";
+    case Win32Screencap::FramePool:
         return "FramePool";
-    }
-    if (method & Win32Screencap::DXGI_DesktopDup) {
+    case Win32Screencap::DXGI_DesktopDup:
         return "DXGI_DesktopDup";
-    }
-    if (method & Win32Screencap::DXGI_DesktopDup_Window) {
+    case Win32Screencap::DXGI_DesktopDup_Window:
         return "DXGI_DesktopDup_Window";
-    }
-    if (method & Win32Screencap::PrintWindow) {
+    case Win32Screencap::PrintWindow:
         return "PrintWindow";
-    }
-    if (method & Win32Screencap::ScreenDC) {
+    case Win32Screencap::ScreenDC:
         return "ScreenDC";
+    default:
+        return "Win32";
     }
-    return "Win32";
 }
 
 Win32Controller::Win32Controller(const AsstCallback& callback, Assistant* inst) :
@@ -68,6 +68,8 @@ bool Win32Controller::attach(
     m_screencap_method = screencap_method;
     m_mouse_method = mouse_method;
     m_keyboard_method = keyboard_method;
+    m_screencap_cost.clear();
+    m_screencap_times = 0;
 
     // 销毁旧的控制单元
     if (m_unit_handle && m_loader) {
@@ -194,9 +196,10 @@ bool Win32Controller::screencap(cv::Mat& image_payload, bool allow_reconnect [[m
         }
     }
 
-    auto start_time = std::chrono::steady_clock::now();
-    bool ret = unit_screencap(image_payload);
-    auto cost = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time);
+    const auto start_time = std::chrono::steady_clock::now();
+    const bool ret = unit_screencap(image_payload);
+    const auto cost =
+        std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time).count();
 
     if (cursor_pos_saved) {
         if (!SetCursorPos(original_cursor_pos.x, original_cursor_pos.y)) {
@@ -216,31 +219,30 @@ bool Win32Controller::screencap(cv::Mat& image_payload, bool allow_reconnect [[m
         m_screen_size = { image_payload.cols, image_payload.rows };
     }
 
-    m_screencap_cost.emplace_back(cost.count());
-    ++m_screencap_times;
+    const bool is_first_screencap = m_screencap_cost.empty();
+    m_screencap_cost.emplace_back(cost);
     if (m_screencap_cost.size() > 30) {
         m_screencap_cost.pop_front();
     }
+    m_screencap_times = (m_screencap_times + 1) % 10;
 
-    if (!m_screencap_initial_cost_emitted) {
-        m_screencap_initial_cost_emitted = true;
+    if (is_first_screencap) {
         json::value info = json::object {
             { "uuid", m_uuid },
             { "what", "FastestWayToScreencap" },
             { "details",
               json::object {
                   { "method", get_win32_screencap_method_name(m_screencap_method) },
-                  { "cost", cost.count() },
+                  { "cost", cost },
               } },
         };
         callback(AsstMsg::ConnectionInfo, info);
     }
 
-    if (m_screencap_times == 1 || m_screencap_times % 10 == 0) {
-        long long min_cost = *std::min_element(m_screencap_cost.begin(), m_screencap_cost.end());
-        long long max_cost = *std::max_element(m_screencap_cost.begin(), m_screencap_cost.end());
-        long long avg_cost = std::accumulate(m_screencap_cost.begin(), m_screencap_cost.end(), 0ll) /
-                             static_cast<long long>(m_screencap_cost.size());
+    if (is_first_screencap || m_screencap_times == 0) {
+        const auto [min_cost, max_cost] = std::ranges::minmax(m_screencap_cost);
+        const auto avg_cost = std::accumulate(m_screencap_cost.begin(), m_screencap_cost.end(), 0LL) /
+                              static_cast<long long>(m_screencap_cost.size());
 
         json::value info = json::object {
             { "uuid", m_uuid },

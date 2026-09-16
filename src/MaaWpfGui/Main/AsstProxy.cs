@@ -1175,8 +1175,7 @@ public class AsstProxy
                 HandleScreencapCost(
                     details["details"]?["min"]?.ToString() ?? "???",
                     details["details"]?["avg"]?.ToString() ?? "???",
-                    details["details"]?["max"]?.ToString() ?? "???",
-                    DateTimeOffset.Now);
+                    details["details"]?["max"]?.ToString() ?? "???");
                 break;
 
             case "EmulatorFPS":
@@ -1239,9 +1238,9 @@ public class AsstProxy
         _sanityRecoveryTimer = null;
     }
 
-    private void HandleScreencapCost(string min, string avg, string max, DateTimeOffset timestamp)
+    private void HandleScreencapCost(string min, string avg, string max)
     {
-        var currentTime = timestamp.ToString("HH:mm:ss");
+        var currentTime = DateTimeOffset.Now.ToString("HH:mm:ss");
         SettingsViewModel.ConnectSettings.ScreencapCost = LocalizationHelper.GetStringFormat("ScreencapCost", min, avg, max, currentTime);
 
         if (!int.TryParse(avg, out var avgInt))
