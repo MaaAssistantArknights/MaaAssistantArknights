@@ -622,8 +622,7 @@
         },
         "char_1051_headb2": {
             "name": "怒潮凛冬",
-            "name_en": "怒潮凛冬",
-            "name_en_unavailable": true,
+            "name_en": "Zima the Raging Tide",
             "name_jp": "怒潮ズィマー",
             "name_kr": "지마 더 레이징 타이드",
             "name_tw": "怒潮凛冬",
@@ -4878,8 +4877,7 @@
         },
         "char_4223_botany": {
             "name": "伯塔尼",
-            "name_en": "伯塔尼",
-            "name_en_unavailable": true,
+            "name_en": "Botani",
             "name_jp": "ボタニ",
             "name_kr": "보타니",
             "name_tw": "伯塔尼",
@@ -4893,8 +4891,7 @@
         },
         "char_4224_turdus": {
             "name": "乌啾",
-            "name_en": "乌啾",
-            "name_en_unavailable": true,
+            "name_en": "Ukusik",
             "name_jp": "ウクシク",
             "name_kr": "우쿠시크",
             "name_tw": "乌啾",
@@ -13842,8 +13839,7 @@
         },
         "trap_316_ubtower": {
             "name": "警戒塔",
-            "name_en": "警戒塔",
-            "name_en_unavailable": true,
+            "name_en": "Sentry Turret",
             "name_jp": "警備塔",
             "name_kr": "경계탑",
             "name_tw": "警戒塔",
@@ -13857,8 +13853,7 @@
         },
         "trap_317_ubprison": {
             "name": "禁闭所",
-            "name_en": "禁闭所",
-            "name_en_unavailable": true,
+            "name_en": "Cell",
             "name_jp": "監禁施設",
             "name_kr": "감금소",
             "name_tw": "禁闭所",
@@ -13872,8 +13867,7 @@
         },
         "trap_318_ubodst": {
             "name": "伪装工具",
-            "name_en": "伪装工具",
-            "name_en_unavailable": true,
+            "name_en": "Disguise Kit",
             "name_jp": "煙玉",
             "name_kr": "위장 도구",
             "name_tw": "伪装工具",
