@@ -5,6 +5,7 @@
         "count": 1,
         "goldCost": 400,
         "apCost": 2880000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30084",
@@ -29,6 +30,7 @@
         "count": 1,
         "goldCost": 400,
         "apCost": 2880000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30064",
@@ -48,6 +50,7 @@
         "count": 1,
         "goldCost": 400,
         "apCost": 2880000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30014",
@@ -72,6 +75,7 @@
         "count": 1,
         "goldCost": 300,
         "apCost": 1440000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30103",
@@ -96,6 +100,7 @@
         "count": 1,
         "goldCost": 300,
         "apCost": 1440000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30093",
@@ -120,6 +125,7 @@
         "count": 1,
         "goldCost": 300,
         "apCost": 1440000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30083",
@@ -144,6 +150,7 @@
         "count": 1,
         "goldCost": 300,
         "apCost": 1440000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30073",
@@ -168,6 +175,7 @@
         "count": 1,
         "goldCost": 100,
         "apCost": 360000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30061",
@@ -182,6 +190,7 @@
         "count": 1,
         "goldCost": 200,
         "apCost": 720000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30062",
@@ -196,6 +205,7 @@
         "count": 1,
         "goldCost": 300,
         "apCost": 1440000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30063",
@@ -220,6 +230,7 @@
         "count": 1,
         "goldCost": 100,
         "apCost": 360000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30051",
@@ -234,6 +245,7 @@
         "count": 1,
         "goldCost": 200,
         "apCost": 720000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30052",
@@ -248,6 +260,7 @@
         "count": 1,
         "goldCost": 300,
         "apCost": 1440000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30053",
@@ -272,6 +285,7 @@
         "count": 1,
         "goldCost": 100,
         "apCost": 360000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30041",
@@ -286,6 +300,7 @@
         "count": 1,
         "goldCost": 200,
         "apCost": 720000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30042",
@@ -300,6 +315,7 @@
         "count": 1,
         "goldCost": 300,
         "apCost": 1440000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30043",
@@ -324,6 +340,7 @@
         "count": 1,
         "goldCost": 100,
         "apCost": 360000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30031",
@@ -338,6 +355,7 @@
         "count": 1,
         "goldCost": 200,
         "apCost": 720000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30032",
@@ -352,6 +370,7 @@
         "count": 1,
         "goldCost": 300,
         "apCost": 1440000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30033",
@@ -376,6 +395,7 @@
         "count": 1,
         "goldCost": 100,
         "apCost": 360000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30021",
@@ -390,6 +410,7 @@
         "count": 1,
         "goldCost": 200,
         "apCost": 720000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30022",
@@ -404,6 +425,7 @@
         "count": 1,
         "goldCost": 300,
         "apCost": 1440000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30023",
@@ -428,6 +450,7 @@
         "count": 1,
         "goldCost": 100,
         "apCost": 360000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30011",
@@ -442,6 +465,7 @@
         "count": 1,
         "goldCost": 200,
         "apCost": 720000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30012",
@@ -456,6 +480,7 @@
         "count": 1,
         "goldCost": 300,
         "apCost": 1440000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30013",
@@ -470,6 +495,7 @@
         "count": 1,
         "goldCost": 0,
         "apCost": 360000,
+        "buffType": "W_SKILL",
         "costs": [
             {
                 "id": "3301",
@@ -484,6 +510,7 @@
         "count": 1,
         "goldCost": 0,
         "apCost": 720000,
+        "buffType": "W_SKILL",
         "costs": [
             {
                 "id": "3302",
@@ -498,6 +525,7 @@
         "count": 1,
         "goldCost": 300,
         "apCost": 1440000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30063",
@@ -522,6 +550,7 @@
         "count": 1,
         "goldCost": 300,
         "apCost": 1440000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30043",
@@ -546,6 +575,7 @@
         "count": 1,
         "goldCost": 400,
         "apCost": 2880000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "31034",
@@ -570,6 +600,7 @@
         "count": 1,
         "goldCost": 300,
         "apCost": 1440000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "31033",
@@ -594,6 +625,7 @@
         "count": 1,
         "goldCost": 300,
         "apCost": 1440000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "31043",
@@ -618,6 +650,7 @@
         "count": 1,
         "goldCost": 300,
         "apCost": 1440000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "31053",
@@ -642,6 +675,7 @@
         "count": 1,
         "goldCost": 300,
         "apCost": 1440000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "31063",
@@ -666,6 +700,7 @@
         "count": 1,
         "goldCost": 400,
         "apCost": 2880000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "31064",
@@ -690,6 +725,7 @@
         "count": 1,
         "goldCost": 300,
         "apCost": 1440000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "31073",
@@ -714,6 +750,7 @@
         "count": 1,
         "goldCost": 300,
         "apCost": 1440000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "31083",
@@ -738,6 +775,7 @@
         "count": 1,
         "goldCost": 300,
         "apCost": 1440000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "31093",
@@ -762,6 +800,7 @@
         "count": 1,
         "goldCost": 400,
         "apCost": 2880000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "31094",
@@ -786,6 +825,7 @@
         "count": 1,
         "goldCost": 300,
         "apCost": 1440000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30053",
@@ -810,6 +850,7 @@
         "count": 1,
         "goldCost": 300,
         "apCost": 1440000,
+        "buffType": "W_EVOLVE",
         "costs": [
             {
                 "id": "30063",

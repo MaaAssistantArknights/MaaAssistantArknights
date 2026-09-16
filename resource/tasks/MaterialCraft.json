@@ -311,11 +311,76 @@
         "useRaw": true,
         "binThreshold": [140, 255]
     },
+    "MaterialCraft-NoOperator": {
+        "baseTask": "MiniGame@MaterialSynthesis@NoOperator",
+        "template": "InfrastPic/Processing/ProcessingNoOperator.png",
+        "templThreshold": 0.85,
+        "action": "DoNothing",
+        "postDelay": 0
+    },
+    "MaterialCraft-OperatorMood": {
+        "baseTask": "MaterialCraft-Quantity",
+        "roi": [150, 486, 58, 30],
+        "binThreshold": [170, 255],
+        "postDelay": 0
+    },
+    "MaterialCraft-MoodCost": {
+        "baseTask": "MaterialCraft-Quantity",
+        "roi": [1135, 210, 78, 33],
+        "binThreshold": [170, 255],
+        "postDelay": 0
+    },
     "MaterialCraft-ByproductRate": {
         "baseTask": "NumberOcrReplace",
         "roi": [845, 233, 91, 45],
         "binThreshold": [160, 255],
         "useRaw": false,
         "postDelay": 0
+    },
+    "MaterialCraft-ByproductToast": {
+        "template": "InfrastPic/Processing/WorkshopByproductToast.png",
+        "roi": [0, 0, 380, 640],
+        "templThreshold": 0.88,
+        "maskRange": [130, 255]
+    },
+    "MaterialCraft-ByproductName": {
+        "algorithm": "OcrDetect",
+        "withoutDet": true,
+        "useRaw": true,
+        "ocrReplace": [
+            ["^环经预制体$", "环烃预制体"],
+            ["^技巧概要([.*]|·)$", "技巧概要"]
+        ],
+        "binThreshold": [100, 255],
+        "rectMove": [112, -2, 200, 30],
+        "roi": [0, 0, 380, 640]
+    },
+    "MaterialCraft-ByproductNameWrappedSuffix": {
+        "baseTask": "MaterialCraft-ByproductName",
+        "rectMove": [0, 28, 200, 30],
+        "specialParams": [15],
+        "doc": "Second line of a wrapped skill-book name; quantity is 15 px lower relative to the raised first line."
+    },
+    "MaterialCraft-ByproductCount": {
+        "baseTask": "MaterialCraft-Quantity",
+        "rectMove": [-49, 29, 23, 20],
+        "postDelay": 0,
+        "roi": [0, 0, 380, 640]
+    },
+    "MaterialCraft-ByproductCountSingleDigit": {
+        "baseTask": "MaterialCraft-ByproductCount",
+        "rectMove": [-40, 29, 14, 20],
+        "doc": "Right-aligned single-digit quantity; exclude item artwork on its left when fewer than ten crafts are possible."
+    },
+    "MaterialCraft-ByproductCapture": {
+        "algorithm": "JustReturn",
+        "postDelay": 100,
+        "specialParams": [2000, 500, 128],
+        "doc": "Reward observation: minimum duration (ms), quiet duration (ms), maximum buffered toast frames. OCR runs after capture."
+    },
+    "MaterialCraft-ByproductRegion": {
+        "algorithm": "JustReturn",
+        "roi": [900, 0, 380, 640],
+        "roi_Doc": "Right-side capture region read directly by the workshop task; this task does not run a recognizer."
     }
 }

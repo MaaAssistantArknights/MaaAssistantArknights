@@ -1196,7 +1196,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MaterialCraftAdd">新增</system:String>
     <system:String x:Key="MaterialCraftClear">清空</system:String>
     <system:String x:Key="MaterialRequirementRecognize">辨識需求</system:String>
-    <system:String x:Key="MaterialCraftCheck">計算合成</system:String>
+    <system:String x:Key="MaterialCraftStationOperators">進駐幹員</system:String>
     <system:String x:Key="MaterialCraftStart">開始加工</system:String>
     <system:String x:Key="MaterialCraftStarted">已開始材料合成</system:String>
     <system:String x:Key="MaterialCraftStartFailed">啟動材料合成失敗</system:String>

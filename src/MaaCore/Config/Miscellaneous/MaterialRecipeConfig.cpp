@@ -42,6 +42,7 @@ bool MaterialRecipeConfig::parse(const json::value& json)
         formula.gold_cost = quantity(entry.at("goldCost"));
         formula.ap_cost = quantity(entry.at("apCost"));
         formula.facility = entry.get("facility", std::string("Processing"));
+        formula.buff_type = entry.get("buffType", std::string());
         for (const auto& cost : entry.at("costs").as_array()) {
             formula.costs.push_back({ cost.at("id").as_string(), quantity(cost.at("count")) });
         }

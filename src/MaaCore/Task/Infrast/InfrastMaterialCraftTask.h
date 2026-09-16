@@ -2,6 +2,7 @@
 
 #include "Task/Infrast/InfrastAbstractTask.h"
 #include "Utils/MaterialCraftPlanner.h"
+#include "Utils/ProcessingOperatorScore.h"
 
 #include <optional>
 #include <unordered_map>
@@ -78,7 +79,39 @@ private:
     bool is_formula_selector(const cv::Mat& image) const;
     bool is_obtain_items_page(const cv::Mat& image) const;
     bool execute_operation(const CraftOperation& operation);
-    bool open_formula_selector();
+    bool m_station_operators = false;
+    std::optional<int> prepare_processing_operator(const Formula& formula, int remaining);
+    bool select_processing_operator(
+        const Formula& formula,
+        std::vector<std::string>& rejected_faces,
+        int current_mood,
+        bool replace_current = false);
+    bool enter_processing_operator_list();
+    bool scan_processing_operators();
+    void update_processing_operator_mood(int mood);
+
+    struct ProcessingCandidate
+    {
+        infrast::Oper oper;
+        // The list bar is approximate. Remember exact values read from the craft page.
+        std::optional<int> mood;
+    };
+
+    std::vector<ProcessingCandidate> m_processing_candidates;
+    bool m_processing_candidates_scanned = false;
+    std::optional<size_t> m_processing_operator;
+    std::optional<bool> m_stainless_in_dorm;
+    bool locate_processing_operator(const infrast::Oper& target);
+    bool confirm_processing_operator();
+    std::string m_scored_processing_item;
+    std::optional<infrast::ProcessingOperatorScore> m_processing_score;
+    bool review_processing_operator(const infrast::Oper& target) const;
+    std::optional<int> read_processing_mood(const cv::Mat& image) const;
+    std::optional<int>
+        read_processing_number(const cv::Mat& image, const std::string& task_name, bool fraction = false) const;
+    bool processing_mood_sufficient() const;
+    void processing_operator_failure(const std::string& reason);
+    bool open_formula_selector(const Formula* next_formula = nullptr);
     bool select_formula(const Formula& formula);
     bool prepare_formula_selector(const Formula& formula);
     bool click_formula_category(const Formula& formula);
@@ -97,6 +130,12 @@ private:
     std::optional<int> set_craft_count(int batches);
     bool click_start_button();
     bool click_complete_tick(const CraftOperation& operation, int operation_id);
+    void capture_processing_byproducts(
+        const cv::Mat& first_reward,
+        int batches,
+        const std::vector<cv::Mat>& pending_frames);
+    MaterialInventory read_processing_byproducts(const cv::Mat& toast_image, int batches) const;
+    MaterialInventory m_processing_byproducts;
     void callback_operation(const std::string& what, const CraftOperation& operation, int operation_id);
     int m_next_operation_id = 0;
     bool m_inventory_complete = false;

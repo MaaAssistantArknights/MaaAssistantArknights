@@ -67,6 +67,8 @@ protected:
     void order_opers_selection(const std::vector<std::string>& names);
     // 关闭按职业筛选
     void close_quick_formation_expand_role() const;
+    // Reuse the skill candidate intersection and name OCR for all facility selectors.
+    bool resolve_operator_identity(infrast::Oper& oper) const;
 
     virtual void click_return_button() override;
     // 点击进入设施后，左下角的tab（我也不知道这玩意该叫啥）

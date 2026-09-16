@@ -64,7 +64,8 @@ class AsstProxy {
     public bool AsstStop() { Stops++; return true; }
 }
 class State(Vm vm) {
-    public void SetIdle(bool value) { vm.Idle = value; if(value)vm.CompleteStop(); }
+    public void BeginRun(RunOwner owner) { vm.Owner = owner; SetIdle(false); }
+    public void SetIdle(bool value) { vm.Idle = value; if(value){vm.Owner=RunOwner.None;vm.CompleteStop();} }
     public void SetStopping(bool value) {
         vm.Stopping = value;
         if (value) vm.CancelMaterialCraftPlan();
@@ -88,8 +89,10 @@ class Toolbox {
     public void SaveDepotDetails() => Saves++;
 }
 class Target { public string Id = "A"; public int Count = 1; }
+enum RunOwner { None, Toolbox }
 class Vm {
     public bool Idle = true, Stopping;
+    public RunOwner Owner;
     public string MaterialCraftResultInfo = "";
     public readonly List<Target> MaterialCraftPlanItems = [new()];
     public readonly Toolbox _toolbox = new();
@@ -104,7 +107,7 @@ class Vm {
     string _manufacturingFailure = string.Empty;
     public Vm() => _runningState = new(this);
     public bool CanEditMaterialCraftPlan => _materialCraftExecution is null && _materialCraftCancellation is null;
-    bool CheckMaterialCraftPlanCore(bool updatePreview) => true;
+    bool CheckMaterialCraftPlanCore() => true;
     JObject BuildMaterialCraftTaskParams() => new();
     void NotifyOfPropertyChange(string property) {}
     public bool CanToggleMaterialCraft => !Stopping && (Idle || _materialCraftExecution is not null || _materialCraftCancellation is not null || _requirementTaskId != 0);
@@ -131,6 +134,7 @@ class Program {
                 var (vm, core, queue) = Setup(); core.Outcome = outcome;
                 var pending = Start(vm, requirement);
                 Check(core.Connecting.Wait(TimeSpan.FromSeconds(5)), "Connection must be in flight");
+                Check(vm.Owner == RunOwner.Toolbox, "Material tools declare their run owner before connecting");
                 vm.Stop();
                 Check(vm.Stopping && !vm.Idle, "Keep startup occupied until connection exits");
                 Check(!vm.CanToggleMaterialCraft, "Do not restart while cancellation is pending");
@@ -145,6 +149,7 @@ class Program {
                 core.Outcome = 0;
                 await Start(vm, requirement).WaitAsync(TimeSpan.FromSeconds(5));
                 Check(core.Starts == 1 && !vm.Idle && !vm.Stopping, "The next startup must succeed");
+                Check(vm.Owner == RunOwner.Toolbox, "Material tools keep their owner while the Core task runs");
                 int resets = queue.Resets;
                 vm.Stop();
                 Check(core.Stops == 1 && vm.Stopping && !vm.Idle && queue.Resets == resets,

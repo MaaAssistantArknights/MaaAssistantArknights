@@ -240,10 +240,12 @@
                         <ColumnDefinition Width="8" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Button
+                    <CheckBox
                         Height="30"
-                        Command="{s:Action CheckMaterialCraftPlan}"
-                        Content="{DynamicResource MaterialCraftCheck}"
+                        HorizontalAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Content="{DynamicResource MaterialCraftStationOperators}"
+                        IsChecked="{Binding MaterialCraftStationOperators}"
                         IsEnabled="{Binding CanEditMaterialCraftPlan}" />
                     <Button
                         Grid.Column="2"

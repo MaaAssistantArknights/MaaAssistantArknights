@@ -1197,7 +1197,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MaterialCraftAdd">추가</system:String>
     <system:String x:Key="MaterialCraftClear">비우기</system:String>
     <system:String x:Key="MaterialRequirementRecognize">요구 인식</system:String>
-    <system:String x:Key="MaterialCraftCheck">합성 확인</system:String>
+    <system:String x:Key="MaterialCraftStationOperators">오퍼레이터 배치</system:String>
     <system:String x:Key="MaterialCraftStart">가공 시작</system:String>
     <system:String x:Key="MaterialCraftStarted">재료 합성을 시작했습니다</system:String>
     <system:String x:Key="MaterialCraftStartFailed">재료 합성을 시작하지 못했습니다</system:String>

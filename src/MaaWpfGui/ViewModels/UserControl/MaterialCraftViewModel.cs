@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -25,6 +24,7 @@ using System.Windows.Media.Imaging;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -49,7 +49,6 @@ public class MaterialCraftViewModel : PropertyChangedBase
     private int _requirementTaskId;
     private bool _materialCraftStopRequested;
     private string _manufacturingFailure = string.Empty;
-    private const int WorkshopApCostPerMood = 360000;
 
     public MaterialCraftViewModel(ToolboxViewModel toolbox)
     {
@@ -84,6 +83,14 @@ public class MaterialCraftViewModel : PropertyChangedBase
         (Idle || _materialCraftExecution is not null || _materialCraftCancellation is not null || _requirementTaskId != 0);
 
     public bool CanEditMaterialCraftPlan => _materialCraftExecution is null && _materialCraftCancellation is null;
+
+    public bool MaterialCraftStationOperators
+    {
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.MaterialCraftStationOperators = value;
+        }
+    } = ConfigFactory.CurrentConfig.Toolbox.MaterialCraftStationOperators;
 
     private ObservableList<ToolboxViewModel.DepotResultDate> DepotResult => _toolbox.DepotResult;
 
@@ -349,14 +356,6 @@ public class MaterialCraftViewModel : PropertyChangedBase
         }
     }
 
-    public void CheckMaterialCraftPlan()
-    {
-        if (CanEditMaterialCraftPlan)
-        {
-            CheckMaterialCraftPlanCore(updatePreview: true);
-        }
-    }
-
     [UsedImplicitly]
     public async Task RecognizeMaterialRequirement()
     {
@@ -368,7 +367,7 @@ public class MaterialCraftViewModel : PropertyChangedBase
         _materialCraftCancellation = cancellation;
         NotifyOfPropertyChange(nameof(CanEditMaterialCraftPlan));
         NotifyOfPropertyChange(nameof(CanToggleMaterialCraft));
-        _runningState.SetIdle(false);
+        _runningState.BeginRun(RunOwner.Toolbox);
         MaterialCraftResultInfo = LocalizationHelper.GetString("ConnectingToEmulator");
         bool taskStarted = false;
         try
@@ -490,7 +489,7 @@ public class MaterialCraftViewModel : PropertyChangedBase
     [UsedImplicitly]
     public async Task StartMaterialCraft()
     {
-        if (!Idle || Stopping || !CanEditMaterialCraftPlan || !CheckMaterialCraftPlanCore(updatePreview: false))
+        if (!Idle || Stopping || !CanEditMaterialCraftPlan || !CheckMaterialCraftPlanCore())
         {
             return;
         }
@@ -502,7 +501,7 @@ public class MaterialCraftViewModel : PropertyChangedBase
         var taskParams = BuildMaterialCraftTaskParams();
         var targets = MaterialCraftPlanItems.ToDictionary(item => item.Id, item => item.Count);
         _manufacturingFailure = string.Empty;
-        _runningState.SetIdle(false);
+        _runningState.BeginRun(RunOwner.Toolbox);
         MaterialCraftResultInfo = LocalizationHelper.GetString("ConnectingToEmulator");
         bool taskStarted = false;
         try
@@ -658,18 +657,14 @@ public class MaterialCraftViewModel : PropertyChangedBase
         return new JObject {
             ["items"] = targets,
             ["inventory"] = inventory,
+            ["station_operators"] = MaterialCraftStationOperators,
             ["replenish"] = ConfigFactory.CurrentConfig.TaskQueue.OfType<InfrastTask>()
                 .FirstOrDefault()?.OriginiumShardAutoReplenishment ?? false,
         };
     }
 
-    private bool CheckMaterialCraftPlanCore(bool updatePreview)
+    private bool CheckMaterialCraftPlanCore()
     {
-        if (updatePreview)
-        {
-            MaterialCraftChanges.Clear();
-        }
-
         if (MaterialCraftPlanItems.Count == 0)
         {
             MaterialCraftResultInfo = LocalizationHelper.GetString("MaterialCraftEmptyPlan");
@@ -682,10 +677,6 @@ public class MaterialCraftViewModel : PropertyChangedBase
             return false;
         }
 
-        var before = DepotResult
-            .Where(item => item.Count >= 0)
-            .GroupBy(item => item.Id)
-            .ToDictionary(group => group.Key, group => group.First().Count);
         JObject? plan;
         try
         {
@@ -696,7 +687,7 @@ public class MaterialCraftViewModel : PropertyChangedBase
             _logger.Error(e, "Failed to calculate material craft plan");
             plan = null;
         }
-        if (plan is null || plan.Value<bool?>("valid") != true || plan["inventory"] is not JObject inventory)
+        if (plan is null || plan.Value<bool?>("valid") != true || plan["inventory"] is not JObject)
         {
             MaterialCraftResultInfo = LocalizationHelper.GetString("MaterialCraftNoRecipe");
             return false;
@@ -706,22 +697,12 @@ public class MaterialCraftViewModel : PropertyChangedBase
         _materialCraftPlannedOutputs = (plan["operations"] as JArray ?? []).OfType<JObject>()
             .GroupBy(item => item.Value<string>("item_id") ?? string.Empty)
             .ToDictionary(group => group.Key, group => group.Sum(item => item.Value<long>("count")));
-        if (updatePreview)
-        {
-            var after = inventory.Properties().ToDictionary(item => item.Name, item => item.Value.Value<int>());
-            RenderMaterialCraftChanges(BuildMaterialCraftInventoryChanges(before, after));
-        }
         var missing = (plan["missing"] as JArray ?? []).OfType<JObject>().ToList();
         if (missing.Count > 0)
         {
             var missingText = string.Join(LocalizationHelper.GetString("MaterialCraftListSeparator"),
                 missing.Select(item => $"{GetItemNameOrId(item.Value<string>("item_id") ?? string.Empty)} x{item.Value<int>("count")}"));
             MaterialCraftResultInfo = string.Format(LocalizationHelper.GetString("MaterialCraftPlanFailed"), missingText);
-        }
-        else if (updatePreview)
-        {
-            MaterialCraftResultInfo = string.Format(LocalizationHelper.GetString("MaterialCraftPlanSucceeded"),
-                plan.Value<long>("gold_cost"), FormatWorkshopApCost(plan.Value<long>("ap_cost")));
         }
         return true;
     }
@@ -822,22 +803,6 @@ public class MaterialCraftViewModel : PropertyChangedBase
         _toolbox.SaveDepotDetails();
     }
 
-    private static List<MaterialCraftInventoryChange> BuildMaterialCraftInventoryChanges(
-        IReadOnlyDictionary<string, int> before,
-        IReadOnlyDictionary<string, int> after)
-    {
-        return before.Keys.Concat(after.Keys).Distinct()
-            .Where(id => before.GetValueOrDefault(id) != after.GetValueOrDefault(id))
-            .OrderBy(GetItemSortId)
-            .ThenBy(GetItemNameOrId, StringComparer.CurrentCulture)
-            .Select(id => new MaterialCraftInventoryChange {
-                Id = id,
-                OldCount = before.GetValueOrDefault(id),
-                NewCount = after.GetValueOrDefault(id),
-            })
-            .ToList();
-    }
-
     private void RenderMaterialCraftChanges(IReadOnlyList<MaterialCraftInventoryChange> changes)
     {
         MaterialCraftChanges.Clear();
@@ -864,15 +829,5 @@ public class MaterialCraftViewModel : PropertyChangedBase
     private static string FormatCount(int count)
     {
         return count.FormatNumber(false);
-    }
-
-    private static string FormatWorkshopApCost(long apCost)
-    {
-        if (apCost % WorkshopApCostPerMood == 0)
-        {
-            return (apCost / WorkshopApCostPerMood).ToString(CultureInfo.InvariantCulture);
-        }
-
-        return ((double)apCost / WorkshopApCostPerMood).ToString("0.##", CultureInfo.InvariantCulture);
     }
 }

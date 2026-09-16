@@ -982,6 +982,7 @@ bool update_material_recipes_data(const fs::path& input_dir, const fs::path& out
             { "count", formula.get("count", 1) },
             { "goldCost", formula.get("goldCost", 0) },
             { "apCost", formula.get("apCost", 0) },
+            { "buffType", formula.get("buffType", std::string()) },
             { "costs", std::move(costs) },
         };
     }

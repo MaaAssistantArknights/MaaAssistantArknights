@@ -25,6 +25,8 @@ struct MaterialFormula
     std::vector<MaterialAmount> costs;
     // Recipe IDs from the workshop and factory use separate namespaces.
     std::string facility = "Processing";
+    // Game recipe category (W_EVOLVE / W_SKILL); empty for manufacturing recipes.
+    std::string buff_type;
 
     bool is_skill_summary() const noexcept { return item_id == "3302" || item_id == "3303"; }
 

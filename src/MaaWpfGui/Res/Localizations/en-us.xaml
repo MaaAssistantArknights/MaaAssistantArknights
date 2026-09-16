@@ -1196,7 +1196,7 @@ Right Click: Select Target Process</system:String>
     <system:String x:Key="MaterialCraftAdd">Add</system:String>
     <system:String x:Key="MaterialCraftClear">Clear</system:String>
     <system:String x:Key="MaterialRequirementRecognize">Recognize</system:String>
-    <system:String x:Key="MaterialCraftCheck">Check Craft</system:String>
+    <system:String x:Key="MaterialCraftStationOperators">Assign operators</system:String>
     <system:String x:Key="MaterialCraftStart">Start Processing</system:String>
     <system:String x:Key="MaterialCraftStarted">Material crafting started</system:String>
     <system:String x:Key="MaterialCraftStartFailed">Failed to start material crafting</system:String>

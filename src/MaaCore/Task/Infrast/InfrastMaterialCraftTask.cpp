@@ -79,6 +79,7 @@ bool InfrastMaterialCraftTask::set_params(const json::value& params)
             return false;
         }
         m_replenish_originium_shards = params.get("replenish", false);
+        m_station_operators = params.get("station_operators", false);
         m_request = std::move(request);
         m_plan = {};
         return true;
@@ -116,6 +117,12 @@ bool InfrastMaterialCraftTask::_run()
     LogTraceFunction;
 
     m_next_operation_id = 0;
+    m_scored_processing_item.clear();
+    m_processing_score.reset();
+    m_processing_candidates.clear();
+    m_processing_candidates_scanned = false;
+    m_processing_operator.reset();
+    m_stainless_in_dorm.reset();
     if (!build_plan()) {
         return false;
     }
@@ -300,7 +307,9 @@ bool InfrastMaterialCraftTask::is_craft_page(const cv::Mat& image) const
                           match_workshop_template(image, "MaterialCraft-FormulaSlotEmpty").has_value();
     const bool has_stepper = match_workshop_template(image, "MaterialCraft-PlusButton").has_value() ||
                              match_workshop_template(image, "MaterialCraft-MinusButton").has_value();
-    if (has_slot && has_stepper) {
+    // The low-mood warning can cover the upper-right edge of the formula slot.
+    // The start button and quantity stepper remain visible on this page.
+    if (has_stepper && (has_slot || match_workshop_template(image, "MaterialCraft-StartButton"))) {
         return true;
     }
 
@@ -340,20 +349,29 @@ bool InfrastMaterialCraftTask::execute_operation(const CraftOperation& operation
 {
     int remaining = operation.batches;
     while (remaining > 0 && !need_exit()) {
-        if (!open_formula_selector() || !select_formula(operation.formula)) {
+        if (!open_formula_selector(m_station_operators ? &operation.formula : nullptr) ||
+            !select_formula(operation.formula)) {
             return false;
         }
-        const auto batches = set_craft_count(remaining);
-        if (!batches || *batches <= 0 || *batches > remaining) {
+        const auto limit = m_station_operators ? prepare_processing_operator(operation.formula, remaining)
+                                               : std::optional<int>(remaining);
+        if (!limit) {
+            return false;
+        }
+        const auto batches = set_craft_count(*limit);
+        if (!batches || *batches <= 0 || *batches > *limit) {
+            return false;
+        }
+        // Recheck the displayed total, including operator skill modifiers, before consuming materials.
+        if (m_station_operators && !processing_mood_sufficient()) {
+            processing_operator_failure("MoodVerificationFailed");
             return false;
         }
 
         CraftOperation actual { operation.formula, *batches };
-        RegionOCRer byproduct(ctrler()->get_image());
-        byproduct.set_task_info("MaterialCraft-ByproductRate");
-        const auto rate = byproduct.analyze();
-        // Recipe deltas cannot account for random byproducts. Do not present them as a full inventory.
-        m_inventory_complete = rate && rate->text == "0%";
+        // The displayed green rate is an additional chance, not the total probability.
+        // A missing toast cannot prove that no byproducts were produced.
+        m_inventory_complete = false;
         const int operation_id = m_next_operation_id++;
         callback_operation("MaterialCraftOperationStarted", actual, operation_id);
         if (!click_start_button() || !click_complete_tick(actual, operation_id)) {
@@ -370,6 +388,9 @@ void InfrastMaterialCraftTask::callback_operation(
     int operation_id)
 {
     auto info = basic_info_with_what(what);
+    if (what == "MaterialCraftOperationStarted") {
+        m_processing_byproducts.clear();
+    }
     auto& details = info["details"];
     details["operation_id"] = operation_id;
     details["item_id"] = operation.formula.item_id;
@@ -381,6 +402,14 @@ void InfrastMaterialCraftTask::callback_operation(
         for (const auto& cost : operation.formula.costs) {
             deltas[cost.item_id] -= static_cast<long long>(cost.count) * operation.batches;
         }
+        json::array byproducts;
+        if (!operation.formula.is_manufacturing()) {
+            for (const auto& [id, count] : m_processing_byproducts) {
+                deltas[id] += count;
+                byproducts.emplace_back(json::object { { "item_id", id }, { "count", count } });
+            }
+        }
+        details["byproducts"] = std::move(byproducts);
         // Only adjust currency when the supplied depot snapshot contains it.
         if (m_request.inventory.contains("4001")) {
             deltas["4001"] -= static_cast<long long>(operation.formula.gold_cost) * operation.batches;
@@ -394,12 +423,13 @@ void InfrastMaterialCraftTask::callback_operation(
     callback(AsstMsg::SubTaskExtraInfo, info);
 }
 
-bool InfrastMaterialCraftTask::open_formula_selector()
+bool InfrastMaterialCraftTask::open_formula_selector(const Formula* next_formula)
 {
     if (need_exit()) {
         return false;
     }
 
+    std::vector<std::string> rejected_faces;
     for (int i = 0; i != 5; ++i) {
         if (need_exit()) {
             return false;
@@ -428,6 +458,19 @@ bool InfrastMaterialCraftTask::open_formula_selector()
                 return false;
             }
             continue;
+        }
+
+        if (m_station_operators && next_formula) {
+            const auto mood = read_processing_mood(image);
+            const auto cost = read_processing_number(image, "MaterialCraft-MoodCost");
+            if (mood && cost && (*mood == 0 || *cost > *mood)) {
+                // Replace the overloaded incumbent directly. Use the next recipe to rank the cached roster.
+                if (!select_processing_operator(*next_formula, rejected_faces, *mood, true)) {
+                    processing_operator_failure("OperatorSelectionFailed");
+                    return false;
+                }
+                continue;
+            }
         }
 
         auto slot = match_workshop_template(image, "MaterialCraft-FormulaSlotSelected-Click");
@@ -969,9 +1012,7 @@ bool InfrastMaterialCraftTask::click_start_button()
             if (need_exit() || !ctrler()->click(*start)) {
                 return false;
             }
-            if (!craft_sleep(Task.get("MaterialCraft-AnimationDelay")->post_delay)) {
-                return false;
-            }
+            // Observe the reward immediately; a fixed delay can miss a short byproduct toast.
             return true;
         }
         if (!craft_sleep(Task.get("MaterialCraft-RetryDelay")->post_delay)) {
@@ -989,6 +1030,8 @@ bool InfrastMaterialCraftTask::click_complete_tick(const CraftOperation& operati
     }
 
     bool has_obtained_items = false;
+    std::vector<cv::Mat> pending_frames;
+    const auto byproduct_roi = make_rect<cv::Rect>(Task.get("MaterialCraft-ByproductRegion")->roi);
     for (int i = 0; i != 20; ++i) {
         if (need_exit()) {
             return false;
@@ -999,6 +1042,12 @@ bool InfrastMaterialCraftTask::click_complete_tick(const CraftOperation& operati
         }
 
         if (!is_obtain_items_page(image)) {
+            // Byproduct toasts can appear before the main reward marker finishes animating.
+            // Keep these frames too; defer all toast matching and OCR until capture is complete.
+            if (!has_obtained_items && !image.empty() && byproduct_roi.x + byproduct_roi.width <= image.cols &&
+                byproduct_roi.y + byproduct_roi.height <= image.rows) {
+                pending_frames.emplace_back(image(byproduct_roi).clone());
+            }
             if (!craft_sleep(Task.get("MaterialCraft-RetryDelay")->post_delay)) {
                 return false;
             }
@@ -1006,6 +1055,8 @@ bool InfrastMaterialCraftTask::click_complete_tick(const CraftOperation& operati
         }
 
         if (!has_obtained_items) {
+            // Buffer the transient notifications before doing OCR or invoking callbacks.
+            capture_processing_byproducts(image, operation.batches, pending_frames);
             // Commit a confirmed result even if cancellation interrupts dismissing the reward page.
             callback_operation("MaterialCraftOperationCompleted", operation, operation_id);
             has_obtained_items = true;
