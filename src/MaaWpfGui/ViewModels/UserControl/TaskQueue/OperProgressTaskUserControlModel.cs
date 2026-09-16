@@ -18,13 +18,18 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
+using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Windows.Foundation.Metadata;
+using static MaaWpfGui.Configuration.Single.MaaTask.OperProgressTask;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -44,8 +49,50 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
     public static OperProgressTaskUserControlModel Instance { get; }
 
+    public ObservableCollection<OperProgressPlanItemViewModel> PlanItems { get; } = [];
+
+    private void RefreshPlanItems(OperProgressTask task)
+    {
+        var list = task.Plans.Select((plan, index) => {
+            bool doElite = plan.elite.HasValue;
+            int elite = plan.elite ?? 0;
+            int mainSkillLevel = plan.skillLevel switch {
+                SkillLevel.BaseLevel baseLevel => baseLevel.Level,
+                SkillLevel.Specialization => 7,
+                _ => 0,
+            };
+
+            var specializationLevel = plan.skillLevel switch {
+                SkillLevel.Specialization specialization => specialization,
+                _ => new(0, 0, 0),
+            };
+
+            return new OperProgressPlanItemViewModel(index, plan.role, plan.name, doElite, elite, mainSkillLevel, specializationLevel);
+        }).ToList();
+    }
+
+    private void SavePlan()
+    {
+        var list = PlanItems.Select(item => {
+            int? elite = item.DoElite ? item.Elite : null;
+            SkillLevel? skillLevel = null;
+            if (item.SpecializationSkillLevel.Any(x => x > 0))
+            {
+                skillLevel = new SkillLevel.Specialization(item.SpecializationSkillLevel.Skill1, item.SpecializationSkillLevel.Skill2, item.SpecializationSkillLevel.Skill3);
+            }
+            else if (item.MainSkillLevel > 0)
+            {
+                skillLevel = new SkillLevel.BaseLevel(item.MainSkillLevel);
+            }
+
+            return new OperProgressTask.Plan(item.Role, item.Name, elite, null, skillLevel);
+        }).ToList();
+        SetTaskConfig<OperProgressTask>(t => t.Plans.SequenceEqual(list), t => t.Plans = list);
+    }
+
     private string _planJson = "[]";
 
+    [Deprecated("合并前移除", DeprecationType.Remove, 0)]
     public string PlanJson
     {
         get => _planJson;
@@ -70,14 +117,11 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
     public ObservableCollection<PlanPreview> PlanPreviewItems { get; } = [];
 
     /// <summary>可选择的干员名列表，按稀有度降序、名称升序排列，实时取自干员数据</summary>
-    public IReadOnlyList<string> OperatorNames => DataHelper.Operators.Values
-        .GroupBy(character => character.Name)
-        .Select(group => group.OrderByDescending(character => character.Rarity).First())
-        .Select(character => (character.Rarity, Name: DataHelper.GetLocalizedCharacterName(character) ?? character.Name!))
+    public List<GenericCombinedData<(OperatorRole Role, string Name, int Rarity)>> OperatorNames => [.. DataHelper.Operators.Values
+        .Select(character => (character.Role, Name: DataHelper.GetLocalizedCharacterName(character) ?? character.Name!, character.Rarity))
         .OrderByDescending(entry => entry.Rarity)
         .ThenBy(entry => entry.Name, StringComparer.CurrentCulture)
-        .Select(entry => entry.Name)
-        .ToList();
+        .Select(oper => new GenericCombinedData<(OperatorRole Role, string Name, int Rarity)>($"{oper.Role}: {oper.Name}[{oper.Rarity}★]",  oper))];
 
     private string _selectedOperator = string.Empty;
 
@@ -104,8 +148,8 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
     /// <summary>任务链结束后删除已完成条目（高级设置）</summary>
     public bool DeleteCompletedEntries
     {
-        get => GetTaskConfig<OperProgressTask>().DeleteCompletedEntries;
-        set => SetTaskConfig<OperProgressTask>(t => t.DeleteCompletedEntries == value, t => t.DeleteCompletedEntries = value);
+        get => GetTaskConfig<OperProgressTask>().DeleteOnCompleted;
+        set => SetTaskConfig<OperProgressTask>(t => t.DeleteOnCompleted == value, t => t.DeleteOnCompleted = value);
     }
 
     /// <summary>本轮运行中各条目的回调结果，序号为 Core 收到的计划数组下标</summary>
@@ -324,7 +368,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
     {
         var completedEntries = _runEntryResults.Where(kv => kv.Value.Completed).Select(kv => (Index: kv.Key, kv.Value.Name)).ToList();
         _runEntryResults.Clear();
-        if (!GetTaskConfig<OperProgressTask>().DeleteCompletedEntries || completedEntries.Count == 0)
+        if (!GetTaskConfig<OperProgressTask>().DeleteOnCompleted || completedEntries.Count == 0)
         {
             return;
         }

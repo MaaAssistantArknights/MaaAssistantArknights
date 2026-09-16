@@ -368,7 +368,7 @@ public static class DataHelper
         public string? Position { get; set; }
 
         [JsonProperty("profession")]
-        public OperatorRole Type { get; set; } = OperatorRole.Unknown;
+        public OperatorRole Role { get; set; } = OperatorRole.Unknown;
 
         [JsonProperty("rangeId")]
         public List<string>? RangeId { get; set; }
@@ -376,7 +376,7 @@ public static class DataHelper
         [JsonProperty("rarity")]
         public int Rarity { get; set; }
 
-        public bool IsOperator => Type is
+        public bool IsOperator => Role is
             OperatorRole.Caster or
             OperatorRole.Medic or
             OperatorRole.Pioneer or

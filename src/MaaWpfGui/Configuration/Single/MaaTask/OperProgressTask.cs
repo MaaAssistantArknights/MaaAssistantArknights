@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+using System;
 using System.Collections.Generic;
 using MaaWpfGui.Constants.Enums;
 using static MaaWpfGui.Main.AsstProxy;
@@ -31,7 +32,7 @@ public class OperProgressTask : BaseTask
     /// Gets or sets a value indicating whether entries reported as completed or already satisfied
     /// are removed from the plan when the whole development task chain finishes.
     /// </summary>
-    public bool DeleteCompletedEntries { get; set; }
+    public bool DeleteOnCompleted { get; set; }
 
     public record class Plan(OperatorRole role, string name, int? elite, int? level, SkillLevel? skillLevel);
 
@@ -39,6 +40,11 @@ public class OperProgressTask : BaseTask
     {
         public sealed record BaseLevel(int Level) : SkillLevel;
 
-        public sealed record Specialization(int Skill1, int Skill2, int Skill3) : SkillLevel;
+        public sealed record Specialization(int Skill1, int Skill2, int Skill3) : SkillLevel
+        {
+            public bool Any(Func<int, bool> predicate) => predicate(Skill1) || predicate(Skill2) || predicate(Skill3);
+
+            public bool All(Func<int, bool> predicate) => predicate(Skill1) && predicate(Skill2) && predicate(Skill3);
+        }
     }
 }
