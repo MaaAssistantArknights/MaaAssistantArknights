@@ -269,13 +269,14 @@ public class AsstProxy
 
     public async Task<BitmapImage?> AsstGetImageAsync(bool forceScreencap)
     {
-        var handle = GetHandle();
+        // 每步现取句柄而非开头快照贯穿：销毁后 GetHandle() 得 Zero，native 判空安全失败；
+        // 快照贯穿会把悬垂句柄带过阻塞截图与 Task.Run（use-after-free）
         if (forceScreencap)
         {
-            MaaService.AsstAsyncScreencap(handle, true);
+            MaaService.AsstAsyncScreencap(GetHandle(), true);
         }
 
-        return await Task.Run(() => AsstGetImage(handle));
+        return await Task.Run(() => AsstGetImage(GetHandle()));
     }
 
     public async Task<BitmapImage?> AsstGetFreshImageAsync()
@@ -339,13 +340,13 @@ public class AsstProxy
 
     public async Task<byte[]?> AsstGetImageBgrDataAsync(bool forceScreencap)
     {
-        var handle = GetHandle();
+        // 同 AsstGetImageAsync(bool)：每步现取句柄，避免快照悬垂跨阻塞截图与 Task.Run
         if (forceScreencap)
         {
-            MaaService.AsstAsyncScreencap(handle, true);
+            MaaService.AsstAsyncScreencap(GetHandle(), true);
         }
 
-        return await Task.Run(() => AsstGetImageBgrData(handle));
+        return await Task.Run(() => AsstGetImageBgrData(GetHandle()));
     }
 
     // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
@@ -3198,8 +3199,7 @@ public class AsstProxy
             }
         }
 
-        var handle = GetHandle();
-        bool ret = AsstConnect(handle, SettingsViewModel.ConnectSettings.AdbPath, SettingsViewModel.ConnectSettings.ConnectAddress, SettingsViewModel.ConnectSettings.ConnectConfig.ToString());
+        bool ret = AsstConnect(GetHandle(), SettingsViewModel.ConnectSettings.AdbPath, SettingsViewModel.ConnectSettings.ConnectAddress, SettingsViewModel.ConnectSettings.ConnectConfig.ToString());
 
         // 如果连接失败，等待回调完成以获取详细错误信息
         if (!ret)
@@ -3215,6 +3215,14 @@ public class AsstProxy
                 foreach (var address in value
                              .TakeWhile(_ => !_runningState.GetIdle()))
                 {
+                    // 每轮现取句柄：循环跨越秒级等待，期间退出销毁会使快照句柄悬垂；
+                    // 得 Zero 即实例已销毁（进程退出中），放弃重试
+                    var handle = GetHandle();
+                    if (handle == AsstHandle.Zero)
+                    {
+                        return false;
+                    }
+
                     ret = AsstConnect(handle, SettingsViewModel.ConnectSettings.AdbPath, address, SettingsViewModel.ConnectSettings.ConnectConfig.ToString());
                     if (!ret)
                     {
