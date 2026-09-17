@@ -1314,6 +1314,15 @@ public class AsstProxy
         }
     }
 
+    private static bool TakeTradeDronesUsageReminder(IEnumerable<AsstTaskId>? finishedTasks)
+    {
+        bool shouldRemind = finishedTasks is not null && _infrastTradeDronesUsageReminderTasks.Overlaps(finishedTasks);
+
+        // 一次队列运行只提醒一次；无论完成列表是否匹配，都清理本轮所有待提醒任务。
+        _infrastTradeDronesUsageReminderTasks.Clear();
+        return shouldRemind;
+    }
+
     private void ProcTaskChainMsg(AsstMsg msg, JObject details)
     {
         string taskChain = details["taskchain"]?.ToString() ?? string.Empty;
@@ -1483,6 +1492,7 @@ public class AsstProxy
                 // 归属快照须在 SetIdle(true) 清零之前取得
                 var runOwner = _runningState.Owner;
                 bool isMainTaskQueueAllCompleted = taskList?.Length > 0 && runOwner == RunOwner.TaskQueue;
+                bool remindTradeDroneUsage = TakeTradeDronesUsageReminder(taskList) && isMainTaskQueueAllCompleted;
 
                 if (runOwner == RunOwner.Copilot)
                 {
@@ -1521,10 +1531,11 @@ public class AsstProxy
 
                     var allTaskCompleteLog = LocalizationHelper.GetStringFormat("AllTasksComplete", diffTaskTime);
 
-                    if (taskList?.Any(i => _infrastTradeDronesUsageReminderTasks.Remove(i)) == true)
+                    if (remindTradeDroneUsage)
                     {
                         Instances.TaskQueueViewModel.AddLog(
                             LocalizationHelper.GetString("TradeDronesUsageNotUsed"),
+                            UiLogColor.Warning,
                             splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
                     }
 
@@ -1560,6 +1571,12 @@ public class AsstProxy
                         }
 
                         toast.Show();
+                    }
+
+                    if (remindTradeDroneUsage)
+                    {
+                        using var toast = new ToastNotification(LocalizationHelper.GetString("DroneUsage"));
+                        toast.AppendContentText(LocalizationHelper.GetString("TradeDronesUsageNotUsed")).Show(row: 2);
                     }
 
                     if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
@@ -1716,14 +1733,6 @@ public class AsstProxy
         }
     }
 
-    private static string BuildInfrastFacilityLog(JToken? details, string suffix = "")
-    {
-        return LocalizationHelper.GetString("ThisFacility") +
-               LocalizationHelper.GetString($"{details?["facility"]}") + " " +
-               ((int)(details?["index"] ?? -2) + 1).ToString("D2") +
-               suffix;
-    }
-
     private static void ProcSubTaskError(JObject details)
     {
         string subTask = details["subtask"]?.ToString() ?? string.Empty;
@@ -1826,8 +1835,7 @@ public class AsstProxy
     /// <returns>当前语言的原因文本</returns>
     private static string GetLocalizedWhy(string why)
     {
-        return why switch
-        {
+        return why switch {
             "recognition error" => LocalizationHelper.GetString("IdentifyTheMistakes"),
             "refresh count reached the limit" => LocalizationHelper.GetString("RecruitRefreshLimitReached"),
             "UnknownStage" => LocalizationHelper.GetString("PenguinUploadUnknownStage"),
@@ -2247,7 +2255,9 @@ public class AsstProxy
                 }
 
             case "EnterFacility":
-                Instances.TaskQueueViewModel.AddLog(BuildInfrastFacilityLog(subTaskDetails),
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ThisFacility") +
+                                                    LocalizationHelper.GetString($"{subTaskDetails?["facility"]}") + " " +
+                                                    ((int)(subTaskDetails?["index"] ?? -2) + 1).ToString("D2"),
                                                     splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
                 break;
 

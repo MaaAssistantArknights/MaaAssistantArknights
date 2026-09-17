@@ -45,8 +45,6 @@ protected:
     size_t select_abyssal_hunters(const std::vector<std::string>& operator_ids);
     bool use_drone();
     void set_product(std::string product_name) noexcept;
-    void record_facility_product(const std::string& product_name);
-    bool check_trade_drones_usage();
 
     infrast::SkillsComb efficient_regex_calc(std::unordered_set<infrast::Skill> skills) const;
 
@@ -56,7 +54,6 @@ protected:
     std::vector<infrast::Oper> m_all_available_opers;
     std::vector<infrast::SkillsComb> m_optimal_combs;
     std::vector<Rect> m_facility_list_tabs;
-    std::vector<std::string> m_facility_products;
     size_t max_num_of_opers_per_page = 0;
     // 来自自定义基建配置的无人机使用参数
     bool m_is_use_drones_from_custom = false;

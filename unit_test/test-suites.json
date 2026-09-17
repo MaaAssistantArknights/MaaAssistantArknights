@@ -14,6 +14,17 @@
         "src/MaaCore/Utils/Algorithm.hpp",
         "unit_test/MaaCore/AlgorithmTest.cpp"
       ]
+    },
+    {
+      "id": "maa-infrast-drones-test",
+      "name": "Infrastructure drone usage",
+      "buildTarget": "maa-infrast-drones-test",
+      "ctestRegex": "^infrast-drones::",
+      "paths": [
+        "src/MaaCore/Utils/InfrastDronesUsage.hpp",
+        "src/MaaCore/Task/Infrast/InfrastProductionTask.cpp",
+        "unit_test/MaaCore/InfrastDronesUsageTest.cpp"
+      ]
     }
   ]
 }

@@ -41,13 +41,7 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
     /// <summary>
     /// Gets or sets 基建无人机用法
     /// </summary>
-    private string _usesOfDrones = "Money";
-
-    public string UsesOfDrones
-    {
-        get => _usesOfDrones;
-        set => _usesOfDrones = string.IsNullOrEmpty(value) || value == "Chip" ? "_NotUse" : value;
-    }
+    public string UsesOfDrones { get; set; } = "Money";
 
     /// <summary>
     /// Gets or sets 基建心情阈值
@@ -140,6 +134,12 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
 
     public void OnDeserialized()
     {
+        // 芯片组制造已不需要无人机，将旧配置迁移为不使用。
+        if (string.IsNullOrEmpty(UsesOfDrones) || UsesOfDrones == "Chip")
+        {
+            UsesOfDrones = "_NotUse";
+        }
+
         if (Mode != InfrastMode.Custom || string.IsNullOrWhiteSpace(Filename) || !File.Exists(Filename))
         {
             return;

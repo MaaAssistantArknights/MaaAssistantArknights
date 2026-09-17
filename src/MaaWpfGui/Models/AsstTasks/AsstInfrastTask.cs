@@ -48,13 +48,7 @@ public class AsstInfrastTask : AsstBaseTask
     /// <item><c>OriginStone</c></item>
     /// </list>
     /// </summary>
-    private string _usesOfDrones = "_NotUse";
-
-    public string UsesOfDrones
-    {
-        get => _usesOfDrones;
-        set => _usesOfDrones = string.IsNullOrEmpty(value) || value == "Chip" ? "_NotUse" : value;
-    }
+    public string UsesOfDrones { get; set; } = "_NotUse";
 
     /// <summary>
     /// Gets or sets a value indicating whether 训练室是否尝试连续专精
@@ -127,8 +121,7 @@ public class AsstInfrastTask : AsstBaseTask
             .Where(target => !string.IsNullOrWhiteSpace(target))
             .Distinct()
             .Take(3);
-        var taskParams = new JObject
-        {
+        var taskParams = new JObject {
             ["facility"] = JArray.FromObject(Facilitys),
             ["drones"] = UsesOfDrones,
             ["continue_training"] = ContinueTraining,
