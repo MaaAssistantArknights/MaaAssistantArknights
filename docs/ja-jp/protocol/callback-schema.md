@@ -503,6 +503,20 @@ Todo
   }
   ```
 
+- `RecruitPermitReserved`
+   現在の求人票数が星3募集用に設定された保留数に達したため、現在のスロットをスキップします。
+
+  ```json
+  // 対応する details フィールドの例
+  {
+      "current": 8,    // 現在の求人票数
+      "reserve": 8     // 設定された保留数
+  }
+  ```
+
+- `RecruitPermitCountRecognitionFailed`
+   星3用の求人票保留が有効な状態で求人票数の認識に失敗したため、現在のスロットをスキップします。`details` は空です。
+
 - `RecruitTagsSelected`  
    公開求人タグの選択
 

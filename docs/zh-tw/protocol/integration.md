@@ -320,6 +320,12 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
 @required
 會被自動點選確認的 Tag 等級。若只想計算結果而不實際招募，請設定為空陣列。  
 :::  
+::: field level3_recruitment_permit_reserve
+@type number
+@default 0
+@optional
+自動確認 3 星時保留的招聘許可數量。目前許可數量小於等於此值時會跳過 3 星招募，4 星以上不受影響；設為 `0` 時停用。啟用後若數量辨識失敗，也會跳過目前的 3 星招募，以避免誤用保留的許可。
+:::
 ::: field first_tags  
 @type array<string>
 @optional
@@ -425,6 +431,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
    "refresh": true,
    "select": [5, 4],
    "confirm": [4, 3],
+   "level3_recruitment_permit_reserve": 8,
    "first_tags": ["高级资深干员"],
    "extra_tags_mode": 1,
    "times": 4,
