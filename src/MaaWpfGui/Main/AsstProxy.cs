@@ -450,14 +450,6 @@ public class AsstProxy
     }
 
     /// <summary>
-    /// Finalizes an instance of the <see cref="AsstProxy"/> class.
-    /// </summary>
-    ~AsstProxy()
-    {
-        AsstDestroy();
-    }
-
-    /// <summary>
     /// 加载全局资源。新版 core 全惰性加载资源，所以可以无脑调用
     /// </summary>
     /// <returns>是否成功。</returns>
@@ -803,6 +795,11 @@ public class AsstProxy
 
     private void CallbackFunction(int msg, AsstHandle jsonBuffer, AsstHandle customArg)
     {
+        if (_destroying)
+        {
+            return;
+        }
+
         var jsonStr = PtrToStringCustom(jsonBuffer, Encoding.UTF8);
 
         // Console.WriteLine(json_str);
@@ -817,6 +814,10 @@ public class AsstProxy
     // 保护 _handle 的读写快照；销毁在锁内原子取走并清零，使并发调用者只会拿到销毁前句柄或 Zero
     private readonly object _handleLock = new();
     private AsstHandle _handle;
+
+    // 销毁开始（锁内置位）后 Core 回调一律丢弃：回调需同步投递 UI 线程，而退出销毁时 UI 线程
+    // 正限时等待销毁完成，不丢弃会互等到超时放弃，Core 侧退出清理（如 KillAdbOnExit）随之落空
+    private volatile bool _destroying;
 
     private AsstHandle GetHandle()
     {
@@ -3641,7 +3642,9 @@ public class AsstProxy
     }
 
     /// <summary>
-    /// 销毁 Core 实例。可重复调用，锁内原子取走 handle 并清零以保证只销毁一次，销毁完成后恢复游戏音频。
+    /// 销毁 Core 实例。可重复调用，锁内原子取走 handle 并清零以保证只销毁一次，
+    /// 销毁开始后到达的 Core 回调将被丢弃，销毁完成后恢复游戏音频。销毁统一由 Bootstrapper.Release 触发
+    /// （AsstProxy 被静态根持有，终结器永远不会执行，故不设兜底）。
     /// </summary>
     public void AsstDestroy()
     {
@@ -3655,6 +3658,7 @@ public class AsstProxy
 
             handle = _handle;
             _handle = AsstHandle.Zero;
+            _destroying = true;
             Connected = false;
         }
 
