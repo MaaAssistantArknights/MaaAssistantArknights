@@ -1484,12 +1484,15 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="IdentifyTheMistakes">Recognition error</system:String>
     <system:String x:Key="RecruitRefreshLimitReached">Refresh count reached the limit</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">Task error:&#160;</system:String>
+    <system:String x:Key="TaskErrorSummaryTitle">Errors occurred in this run:</system:String>
+    <system:String x:Key="TaskErrorSummaryItem">{0}</system:String>
     <system:String x:Key="OutOfMemoryError">The {0} task stopped due to insufficient memory. Close some programs or restart MAA and try again</system:String>
     <system:String x:Key="CombatError">Combat error</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">Start task:&#160;</system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">Complete task:&#160;</system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">Start combat:&#160;</system:String>
     <system:String x:Key="CompleteCombat">Complete combat</system:String>
+    <system:String x:Key="TaskCompletedWithErrors">Tasks completed with errors!\n(in {0})</system:String>
     <system:String x:Key="AllTasksComplete">All task(s) completed!\n(in {0})</system:String>
     <system:String x:Key="SanityReport">Sanity will be full at {DateTime} (in {TimeDiff})</system:String>
     <system:String x:Key="AllTaskCompleteContent">MAA has completed all tasks under the {Preset} configuration on {DateTime} (in {TimeDiff})</system:String>
