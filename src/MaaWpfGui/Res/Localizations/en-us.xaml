@@ -782,7 +782,7 @@ Then delete the entries corresponding to the paths.</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">This function is considered dangerous. Pressing the ｢{key=Confirm}｣ button indicates that you understand and are willing to accept the potential risks.</system:String>
     <system:String x:Key="UseAlternateStage">Use alternative stage</system:String>
     <system:String x:Key="UseExpiringMedicine">Unlimited use of sanity potion expiring in &lt;N days</system:String>
-    <system:String x:Key="MedicineExpireDaysTip">You can enter days manually. Items displayed as "N days" in-game actually have more than N days remaining and will not be used.</system:String>
+    <system:String x:Key="MedicineExpireDaysTip">Items displayed as "N days" in-game actually have N days or more remaining and will not be used.</system:String>
     <system:String x:Key="UseExpireMedicineForActivity">Use sanity potions that expire this week within 48 hours before the activity ends</system:String>
     <system:String x:Key="NoActivity">No activity</system:String>
     <system:String x:Key="HideUnavailableStage">Hide today's not open stages</system:String>
@@ -1526,7 +1526,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">Medicine: {0},{1}(Expiring)  </system:String>
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">Stone: {0}  </system:String>
     <system:String x:Key="MedicineUsed">Medicine used</system:String>
-    <system:String x:Key="ExpiringMedicineUsed">Expiring medicine (in {0} hours) used</system:String>
+    <system:String x:Key="ExpiringMedicineUsed">Expiring medicine (in {0} days) used</system:String>
     <system:String x:Key="UseMedicine.MedicineInfo">Medicine: {0}, Inventory: {1}</system:String>
     <system:String x:Key="StoneUsed">Originite Prime used</system:String>
     <system:String x:Key="ActingCommandError">PRTS error</system:String>

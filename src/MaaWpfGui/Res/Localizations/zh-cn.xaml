@@ -779,8 +779,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AllowUseStoneSaveTip">默认 ｢{key=UseOriginitePrime}｣ 仅生效一次；勾选后其状态将保存，左键可正常切换，右键选中时仍仅生效一次</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">该功能属于危险功能。按下 ｢{key=Confirm}｣ 键即视为你了解并愿意承担可能出现的风险。</system:String>
     <system:String x:Key="UseAlternateStage">使用备选关卡</system:String>
-    <system:String x:Key="UseExpiringMedicine">无限吃小于 N 天过期的理智药</system:String>
-    <system:String x:Key="MedicineExpireDaysTip">可手动输入天数。游戏内显示"N 天"实际剩余超过 N 天，不在使用范围内。</system:String>
+    <system:String x:Key="UseExpiringMedicine">无限吃 N 天内过期的理智药</system:String>
+    <system:String x:Key="MedicineExpireDaysTip">游戏内显示“N 天”实际剩余不少于 N 天，不在使用范围内。</system:String>
     <system:String x:Key="UseExpireMedicineForActivity">活动结束前 48H 吃当周过期理智药</system:String>
     <system:String x:Key="NoActivity">暂无活动</system:String>
     <system:String x:Key="HideUnavailableStage">下拉框中隐藏当日不开放关卡</system:String>
@@ -1526,7 +1526,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">药: {0},{1}(临期)  </system:String>
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">石: {0}  </system:String>
     <system:String x:Key="MedicineUsed">已使用理智药</system:String>
-    <system:String x:Key="ExpiringMedicineUsed">已使用 {0} H内过期理智药</system:String>
+    <system:String x:Key="ExpiringMedicineUsed">已使用 {0} 天内过期理智药</system:String>
     <system:String x:Key="UseMedicine.MedicineInfo">药: {0}, 库存: {1}</system:String>
     <system:String x:Key="StoneUsed">已使用源石</system:String>
     <system:String x:Key="ActingCommandError">代理指挥失误</system:String>
