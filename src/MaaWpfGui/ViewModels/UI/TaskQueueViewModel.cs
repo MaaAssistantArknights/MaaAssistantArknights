@@ -472,8 +472,8 @@ public class TaskQueueViewModel : Screen
     /// <summary>
     /// 本次运行中出错的主任务队列任务。用于 ｢出错时跳过后处理动作｣。
     /// <para>
-    /// key 为 Core 任务 id（稳定标识，同一任务重复报错时天然去重）；下发阶段就失败、
-    /// 尚未拿到 Core id 的任务用递减的负数合成 id，与 Core 的正数 id 不会冲突。
+    /// key 为 Core 任务 id（稳定标识，同一任务重复报错时天然去重）。下发阶段就失败的任务不会进入这里：
+    /// 此时整轮不会启动，也就不会执行完成后动作。
     /// value 是出错当时的任务显示名，只用于日志 —— 刻意做快照而非事后反查：
     /// 任务队列在运行期间可被拖动排序或改名，事后按下标反查会拿到错误的名字。
     /// </para>
@@ -490,8 +490,6 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     private readonly Dictionary<int, string> _failedTasks = [];
 
-    private int _syntheticFailedTaskId;
-
     /// <summary>
     /// 记录一个出错的主任务队列任务。由 <see cref="AsstProxy"/> 在 TaskChainError 时调用。
     /// </summary>
@@ -502,18 +500,6 @@ public class TaskQueueViewModel : Screen
         lock (_failedTasksLock)
         {
             _failedTasks[taskId] = taskName;
-        }
-    }
-
-    /// <summary>
-    /// 记录一个在下发阶段就失败、尚未拿到 Core 任务 id 的任务。
-    /// </summary>
-    /// <param name="taskName">出错当时的任务显示名，仅用于日志</param>
-    public void RecordFailedTask(string taskName)
-    {
-        lock (_failedTasksLock)
-        {
-            _failedTasks[--_syntheticFailedTaskId] = taskName;
         }
     }
 
@@ -530,7 +516,6 @@ public class TaskQueueViewModel : Screen
         lock (_failedTasksLock)
         {
             _failedTasks.Clear();
-            _syntheticFailedTaskId = 0;
         }
     }
 
