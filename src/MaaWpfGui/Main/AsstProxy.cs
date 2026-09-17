@@ -46,6 +46,7 @@ using MaaWpfGui.Services.ExternalNotification;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
+using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -1382,7 +1383,12 @@ public class AsstProxy
 
                     if (value is { Type: TaskType.Copilot })
                     {
-                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
+                        Instances.CopilotViewModel.AddLog(
+                            LocalizationHelper.GetString("CombatError"),
+                            UiLogColor.Error,
+                            updateCardImage: true,
+                            fetchLatestImage: true,
+                            useCardImageAsToolTip: true);
                         AchievementTrackerHelper.Instance.Unlock(AchievementIds.CopilotError);
                     }
 
@@ -2015,14 +2021,18 @@ public class AsstProxy
                             break;
 
                         case "BattleStartAll":
-                            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissionStart"), UiLogColor.Info);
+                            Instances.CopilotViewModel.AddLog(
+                                LocalizationHelper.GetString("MissionStart"),
+                                UiLogColor.Info,
+                                splitMode: CardLogHelper.SplitMode.Before,
+                                updateCardImage: true);
                             break;
 
                         case "StageDrops-Stars-3":
                         case "StageDrops-Stars-Adverse":
                             {
                                 Instances.CopilotViewModel.CopilotTaskSuccess();
-                                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info);
+                                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info, updateCardImage: true);
                                 break;
                             }
 

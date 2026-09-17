@@ -52,6 +52,14 @@ namespace MaaWpfGui.ViewModels.Items
         /// </summary>
         public string? Header { get; set => SetAndNotify(ref field, value); }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this card is closed for further appends
+        /// (a log section ended here). Sealed cards are never rendered empty, and the next
+        /// log opens a fresh card instead of reusing this one — which is what keeps a trailing
+        /// empty card with only a timestamp from appearing in the log.
+        /// </summary>
+        public bool Sealed { get; set; }
+
         private ImageSource? _thumbnail;
 
         public ImageSource? Thumbnail

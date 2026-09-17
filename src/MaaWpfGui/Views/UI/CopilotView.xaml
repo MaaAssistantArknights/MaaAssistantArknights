@@ -719,37 +719,32 @@
                 HorizontalScrollBarVisibility="Disabled"
                 IsInertiaEnabled="True"
                 PanningMode="VerticalOnly">
-                <ItemsControl ItemsSource="{Binding LogItemViewModels}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
+                <Grid>
+                    <!--  Plain text log style  -->
+                    <ItemsControl
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        d:ItemsSource="{d:SampleData ItemCount=20}"
+                        d:Visibility="Collapsed"
+                        ItemTemplate="{StaticResource PlainLogItemTemplate}"
+                        ItemsSource="{Binding LogItemViewModels}"
+                        Visibility="{c:Binding !UseCardLog,
+                                               Source={x:Static ui_vms:SettingsViewModel.GuiSettings}}" />
 
-                                <controls:TextBlock
-                                    Grid.Column="0"
-                                    Margin="0,5,12,0"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Stretch"
-                                    Foreground="{DynamicResource TraceLogBrush}"
-                                    Text="{Binding Time}"
-                                    TextWrapping="Wrap"
-                                    Visibility="{c:Binding ShowTime}" />
-                                <controls:TextBlock
-                                    Grid.Column="1"
-                                    Margin="0,5"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Stretch"
-                                    FontWeight="{Binding Weight}"
-                                    ForegroundKey="{Binding Color}"
-                                    Text="{Binding Content}"
-                                    TextWrapping="Wrap" />
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                    <!--  Card log style：与一键长草右侧信息流同款卡片样式。
+                          底部 8px 余量：日志贴底时视口下边缘会正好压住最后一张卡的下边框，
+                          留出余量后 1px 边框始终落在视口内，避免时有时无。  -->
+                    <ItemsControl
+                        Margin="20,10,0,8"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        d:ItemsSource="{d:SampleData ItemCount=20}"
+                        d:Visibility="Visible"
+                        ItemTemplate="{StaticResource LogCardItemTemplate}"
+                        ItemsSource="{Binding LogCardViewModels}"
+                        Visibility="{c:Binding UseCardLog,
+                                               Source={x:Static ui_vms:SettingsViewModel.GuiSettings}}" />
+                </Grid>
             </hc:ScrollViewer>
             <Grid
                 Grid.Row="1"

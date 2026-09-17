@@ -13,7 +13,6 @@
 
 #nullable enable
 using System;
-using System.Buffers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -27,7 +26,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
@@ -303,43 +301,6 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     public ObservableCollection<LogCardItemViewModel> LogCardViewModels { get; private set; } = [];
 
-    private static readonly Random _logRandom = new();
-
-    private bool TryMergeIntoLastCard(string content, string color, string weight, ToolTip? toolTip)
-    {
-        // Merge into last existing card when it exists and is not sealed.
-        if (LogCardViewModels.Count == 0)
-        {
-            return false;
-        }
-
-        var lastCard = LogCardViewModels[^1];
-        var log = new LogItemViewModel(content, color, weight, toolTip: toolTip);
-
-        var isAprilFools = DateTime.UtcNow.ToYjDate().IsAprilFoolsDay();
-        if (isAprilFools)
-        {
-            log.Content = "thinking 🤔";
-        }
-
-        LogItemViewModels.Add(log);
-        lastCard.Items.Add(log);
-
-        if (isAprilFools)
-        {
-            Execute.OnUIThread(async () => {
-                await Task.Delay(_logRandom.Next(800, 1500));
-                log.Content = string.Empty;
-                foreach (var ch in content)
-                {
-                    log.Content += ch;
-                    await Task.Delay(_logRandom.Next(10, 35));
-                }
-            });
-        }
-        return true;
-    }
-
     /// <summary>
     /// Gets or private sets the single download-related log item.
     /// Use a single LogItemViewModel instead of a collection because only one entry is shown.
@@ -351,105 +312,6 @@ public class TaskQueueViewModel : Screen
         get => _downloadLogItemViewModel;
         private set => SetAndNotify(ref _downloadLogItemViewModel, value);
     }
-
-    #region LogThumbnails
-
-    private readonly SemaphoreSlim _logThumbnailSemaphore = new(1, 1);
-
-    private const int LogThumbnailWidth = 640;
-    private const int LogThumbnailHeight = 360;
-
-    private static int MaxLogItemsWithThumbnails => SettingsViewModel.GuiSettings.MaxNumberOfLogThumbnails;
-
-    private async Task AttachThumbnailToCardAsync(LogCardItemViewModel card, bool forceScreencap, bool setToolTipOnLastLogItem = false)
-    {
-        if (card is null)
-        {
-            _logger.Warning("Cannot attach thumbnail to null log card.");
-            return;
-        }
-
-        try
-        {
-            var thumbnail = await GetOrCaptureLogThumbnailAsync(forceScreencap).ConfigureAwait(false);
-            if (thumbnail is null)
-            {
-                return;
-            }
-
-            await Execute.OnUIThreadAsync(() => {
-                // 检查卡片是否还在集合中，避免给已清空的卡片赋值
-                if (!LogCardViewModels.Contains(card))
-                {
-                    return;
-                }
-                card.Thumbnail = thumbnail;
-                TrimOldThumbnails();
-
-                // 若需要将当前 Card 图片作为 ToolTip，在缩略图挂载完成后设置最后一条日志的 ToolTip
-                if (setToolTipOnLastLogItem && card.Items.Count > 0)
-                {
-                    var lastLogItem = card.Items[^1];
-                    lastLogItem.ToolTip = thumbnail?.CreateTooltip();
-                }
-            });
-        }
-        catch
-        {
-            _logger.Warning("Failed to attach thumbnail to log card.");
-        }
-    }
-
-    private async Task<BitmapSource?> GetOrCaptureLogThumbnailAsync(bool forceScreencap = false)
-    {
-        if (!await _logThumbnailSemaphore.WaitAsync(100))
-        {
-            return null;
-        }
-
-        try
-        {
-            var frameData = await Instances.AsstProxy.AsstGetImageBgrDataAsync(forceScreencap: forceScreencap).ConfigureAwait(false);
-            if (frameData is null || frameData.Length == 0)
-            {
-                return null;
-            }
-
-            try
-            {
-                // 只保留小图，避免日志列表长期运行时占用过多内存。
-                var thumbnail = AsstProxy.CreateBgrBitmapSourceScaled(frameData, LogThumbnailWidth, LogThumbnailHeight);
-                return thumbnail;
-            }
-            finally
-            {
-                ArrayPool<byte>.Shared.Return(frameData);
-            }
-        }
-        finally
-        {
-            _logThumbnailSemaphore.Release();
-        }
-    }
-
-    private void TrimOldThumbnails()
-    {
-        var thumbnailIndices = LogCardViewModels
-            .Select((vm, index) => new { vm, index })
-            .Where(x => x.vm.Thumbnail != null)
-            .Select(x => x.index)
-            .ToList();
-
-        if (thumbnailIndices.Count > MaxLogItemsWithThumbnails)
-        {
-            for (int i = 0; i < thumbnailIndices.Count - MaxLogItemsWithThumbnails; i++)
-            {
-                LogCardViewModels[thumbnailIndices[i]].Thumbnail = null;
-            }
-        }
-    }
-
-    #endregion
 
     #region ActionAfterTasks
 
@@ -1518,44 +1380,30 @@ public class TaskQueueViewModel : Screen
         Execute.OnUIThread(() => {
             if (needsBeforeSplit)
             {
-                createNewCard();
+                CardLogHelper.SealTrailingCard(LogCardViewModels);
             }
 
-            // 确保至少有一个卡片（如果没有内容且不需要切割，也需要确保有卡片才能更新图片）
-            if (LogCardViewModels.Count <= 0 && (!isEmpty || updateCardImage))
+            if (!isEmpty)
             {
-                createNewCard();
+                // 卡片与纯文本（悬浮窗）共用同一条目
+                LogItemViewModels.Add(CardLogHelper.AppendToTrailingCard(LogCardViewModels, content!, color, weight, toolTip));
+            }
+            else if (updateCardImage && !CardLogHelper.HasTrailingWritableCard(LogCardViewModels))
+            {
+                // 只有截图要更新：末尾没有可写卡片才补一张，且它随后会被填上截图
+                LogCardViewModels.Add(new LogCardItemViewModel());
             }
 
-            if (LogCardViewModels.Count > 0)
+            if (updateCardImage && CardLogHelper.HasTrailingWritableCard(LogCardViewModels))
             {
-                if (!isEmpty)
-                {
-                    TryMergeIntoLastCard(content!, color, weight, toolTip);
-                }
-
-                if (updateCardImage)
-                {
-                    _ = AttachThumbnailToCardAsync(LogCardViewModels[^1], fetchLatestImage, setToolTipOnLastLogItem: useCardImageAsToolTip);
-                }
+                _ = CardLogHelper.AttachThumbnailToTrailingCardAsync(LogCardViewModels, fetchLatestImage, setToolTipOnLastLogItem: useCardImageAsToolTip);
             }
 
             if (needsAfterSplit)
             {
-                createNewCard();
+                CardLogHelper.SealTrailingCard(LogCardViewModels);
             }
         });
-    }
-
-    private void createNewCard()
-    {
-        if (LogCardViewModels.Count > 0 && LogCardViewModels[^1].Items.Count <= 0 && !LogCardViewModels[^1].IsDivider)
-        {
-            return;
-        }
-
-        var card = new LogCardItemViewModel();
-        LogCardViewModels.Add(card);
     }
 
     /// <summary>
@@ -1581,9 +1429,7 @@ public class TaskQueueViewModel : Screen
             LogItemViewModels.Add(new LogItemViewModel(plainText));
 
             // Card log style: render a real hc:Divider as its own card.
-            var divider = new LogCardItemViewModel { IsDivider = true, Header = header };
-            LogCardViewModels.Add(divider);
-            createNewCard();
+            CardLogHelper.AddDivider(LogCardViewModels, header);
         });
     }
 
