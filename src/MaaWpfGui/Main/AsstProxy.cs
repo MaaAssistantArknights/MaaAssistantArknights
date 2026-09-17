@@ -1835,7 +1835,8 @@ public class AsstProxy
     /// <returns>当前语言的原因文本</returns>
     private static string GetLocalizedWhy(string why)
     {
-        return why switch {
+        return why switch
+        {
             "recognition error" => LocalizationHelper.GetString("IdentifyTheMistakes"),
             "refresh count reached the limit" => LocalizationHelper.GetString("RecruitRefreshLimitReached"),
             "UnknownStage" => LocalizationHelper.GetString("PenguinUploadUnknownStage"),

@@ -134,12 +134,6 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
 
     public void OnDeserialized()
     {
-        // 芯片组制造已不需要无人机，将旧配置迁移为不使用。
-        if (string.IsNullOrEmpty(UsesOfDrones) || UsesOfDrones == "Chip")
-        {
-            UsesOfDrones = "_NotUse";
-        }
-
         if (Mode != InfrastMode.Custom || string.IsNullOrWhiteSpace(Filename) || !File.Exists(Filename))
         {
             return;

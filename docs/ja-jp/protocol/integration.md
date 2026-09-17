@@ -482,7 +482,7 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 @optional
 ドローン使用目的。`mode = 10000` の場合、このフィールドは無効です。
 <br>
-オプション：`_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone`
+オプション：`_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`  
 :::  
 ::: field threshold  
 @type number

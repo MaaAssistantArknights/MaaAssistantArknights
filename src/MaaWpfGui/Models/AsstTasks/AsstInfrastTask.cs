@@ -46,6 +46,7 @@ public class AsstInfrastTask : AsstBaseTask
     /// <item><c>CombatRecord</c></item>
     /// <item><c>PureGold</c></item>
     /// <item><c>OriginStone</c></item>
+    /// <item><c>Chip</c></item>
     /// </list>
     /// </summary>
     public string UsesOfDrones { get; set; } = "_NotUse";
@@ -121,7 +122,8 @@ public class AsstInfrastTask : AsstBaseTask
             .Where(target => !string.IsNullOrWhiteSpace(target))
             .Distinct()
             .Take(3);
-        var taskParams = new JObject {
+        var taskParams = new JObject
+        {
             ["facility"] = JArray.FromObject(Facilitys),
             ["drones"] = UsesOfDrones,
             ["continue_training"] = ContinueTraining,

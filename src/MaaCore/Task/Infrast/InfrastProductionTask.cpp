@@ -24,7 +24,7 @@
 
 asst::InfrastProductionTask& asst::InfrastProductionTask::set_drones_usage_from_params(std::string usage) noexcept
 {
-    m_drones_usage_from_params = usage == "Chip" ? "_NotUse" : std::move(usage);
+    m_drones_usage_from_params = std::move(usage);
     return *this;
 }
 
