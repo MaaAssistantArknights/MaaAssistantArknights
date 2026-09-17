@@ -30,6 +30,12 @@ enum class ControllerType
 class ControllerAPI
 {
 public:
+    // 全控制器共享的触控节奏基准，对齐 minitouch 行为：minitouch 用协议内建的 w 2 等待为
+    // 每个插值步进定拍，无此协议的本地输入后端按同样的 2ms 步进间隔执行；每次 touch
+    // down/up 各保持 50ms（w 50），使目标识别为完整手势
+    static constexpr int SwipeIntervalMs = 2;
+    static constexpr int TouchHoldMs = 50;
+
     virtual ~ControllerAPI() = default;
 
     virtual bool connect(const std::string& adb_path, const std::string& address, const std::string& config) = 0;

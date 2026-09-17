@@ -88,8 +88,6 @@ private:
     bool unit_click_key(int key);
 
 private:
-    static constexpr int DefaultSwipeDelay = 10; // ms
-
     AsstCallback m_callback = nullptr;
     std::unique_ptr<Win32ControlUnitLoader> m_loader;
     void* m_unit_handle = nullptr;
