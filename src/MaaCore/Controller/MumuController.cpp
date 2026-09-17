@@ -148,11 +148,11 @@ bool MumuController::click(const Point& p)
 
     // 无条件抬手，避免 down 出错后手指卡在屏幕上
     // down/up 之间保持一小段时间，模拟器才能识别为一次完整的点击（hold time）。
-    // 之后 up 再等同样时间，为下一次 click 留出间隔。与 minitouch 的 down w50、up w50 对齐。
+    // 之后 up 再等同样时间，为下一次 click 留出间隔。
     bool down = m_mumu_extras.touch_down(0, p.x, p.y);
-    std::this_thread::sleep_for(std::chrono::milliseconds(Minitoucher::DefaultClickDelay));
+    std::this_thread::sleep_for(std::chrono::milliseconds(TouchHoldMs));
     bool up = m_mumu_extras.touch_up(0);
-    std::this_thread::sleep_for(std::chrono::milliseconds(Minitoucher::DefaultClickDelay));
+    std::this_thread::sleep_for(std::chrono::milliseconds(TouchHoldMs));
 
     return up && down;
 }
@@ -185,15 +185,18 @@ bool MumuController::swipe(
     if (!m_mumu_extras.touch_down(0, x1, y1)) {
         return false;
     }
+    std::this_thread::sleep_for(std::chrono::milliseconds(TouchHoldMs));
 
     const auto& opt = Config.get_options();
-    constexpr int TimeInterval = Minitoucher::DefaultSwipeDelay;
 
-    auto move_func = [this](int x, int y) {
-        // nemu 的调用是同步的，没有 minitouch 那样的 commit/wait 协议，
-        // 这里自己按 TimeInterval 节流，否则滑动会瞬间走完
+    // nemu 的调用是同步的，没有 minitouch 那样的 commit/wait 协议，按绝对节拍控制：
+    // 以本段滑动起点为基准，第 k 步对齐 start + k * SwipeIntervalMs，
+    // 调用耗时吃进预算，超时不补立即继续
+    auto tick_start = std::chrono::steady_clock::now();
+    int move_step = 0;
+    auto move_func = [this, &tick_start, &move_step](int x, int y) {
         bool ret = m_mumu_extras.touch_move(0, x, y);
-        std::this_thread::sleep_for(std::chrono::milliseconds(TimeInterval));
+        high_res_sleep_until(tick_start + ++move_step * std::chrono::milliseconds(SwipeIntervalMs));
         return ret;
     };
 
@@ -201,7 +204,9 @@ bool MumuController::swipe(
         return x >= 0 && x < m_width && y >= 0 && y < m_height;
     };
 
-    bool need_pause = with_pause && use_swipe_with_pause();
+    // pause 走 nemu 直发按键（见下方 pause_action），不依赖 adb 的 press_esc 配置，
+    // 故不做 use_swipe_with_pause 的通道前置检查
+    bool need_pause = with_pause;
 
     auto pause_check = [&opt](int cur_x, int cur_y, int start_x, int start_y) {
         return std::sqrt(std::pow(cur_x - start_x, 2) + std::pow(cur_y - start_y, 2)) >
@@ -216,6 +221,9 @@ bool MumuController::swipe(
     };
 
     auto mumu_move = [&](int _x1, int _y1, int _x2, int _y2, int _duration) -> bool {
+        // 每段滑动各自成段，重置绝对节拍的起点与步计数
+        tick_start = std::chrono::steady_clock::now();
+        move_step = 0;
         if (need_pause) {
             return interpolate_swipe_with_pause(
                 _x1,
@@ -223,7 +231,7 @@ bool MumuController::swipe(
                 _x2,
                 _y2,
                 _duration,
-                TimeInterval,
+                SwipeIntervalMs,
                 slope_in,
                 slope_out,
                 move_func,
@@ -241,7 +249,7 @@ bool MumuController::swipe(
                 _x2,
                 _y2,
                 _duration,
-                TimeInterval,
+                SwipeIntervalMs,
                 slope_in,
                 slope_out,
                 move_func,
@@ -255,10 +263,16 @@ bool MumuController::swipe(
     if (moved && extra_swipe != SwipeExtraDirection::None && opt.minitouch_extra_swipe_duration > 0) {
         std::this_thread::sleep_for(std::chrono::milliseconds(opt.minitouch_swipe_extra_end_delay));
         const auto offset = extra_swipe_offset(extra_swipe, opt.minitouch_extra_swipe_dist);
-        moved = mumu_move(x2, y2, x2 + offset.x, y2 + offset.y, opt.minitouch_extra_swipe_duration);
+        // extra 是主滑成功后的补偿段，失败不判整体失败，避免上层无谓重试
+        if (!mumu_move(x2, y2, x2 + offset.x, y2 + offset.y, opt.minitouch_extra_swipe_duration)) {
+            LogWarn << "failed during extra swipe movement";
+        }
     }
 
-    return m_mumu_extras.touch_up(0) && moved;
+    const bool up = m_mumu_extras.touch_up(0);
+    // 抬起后留出间隔，为下一次输入留出手势结束的时间
+    std::this_thread::sleep_for(std::chrono::milliseconds(TouchHoldMs));
+    return up && moved;
 }
 
 bool MumuController::inject_input_event(const InputEvent& event)
