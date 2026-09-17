@@ -73,6 +73,11 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
         }
         // 界园指挥分队特殊策略
         if (m_theme == "JieGarden") {
+            // 商贾分队投资：设为 FastPass 策略以触发 Routing 任务，联动 RoguelikeRoutingTaskPlugin 的 MerchantRecast
+            // 分支
+            if (m_mode == RoguelikeMode::Investment && params.get("squad", "") == "商贾分队") {
+                Task.set_task_base(strategy_task, "JieGarden@Roguelike@StrategyChange_mode1-FastPass");
+            }
             if (m_mode == RoguelikeMode::Investment && params.get("squad", "") == "指挥分队" && m_difficulty >= 3) {
                 // 启用特殊策略，联动 RoguelikeRoutingTaskPlugin
                 Task.set_task_base(strategy_task, "JieGarden@Roguelike@StrategyChange_mode1-FastPass");
