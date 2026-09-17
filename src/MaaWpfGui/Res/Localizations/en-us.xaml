@@ -106,6 +106,11 @@
     <system:String x:Key="GpuDriverOutdatedMessage">The driver version ({1}, release date: {2}) of the selected GPU ({0}) for inference acceleration is over {3} years old, which may cause compatibility issues.\nIt is recommended to update the graphics driver or switch to a different GPU in ｢{key=Settings} - {key=PerformanceSettings}｣.</system:String>
     <system:String x:Key="GpuDriverInfoUnavailableMessage">The driver information of the selected GPU ({0}) for inference acceleration cannot be read. The driver may not be installed correctly or may be in an abnormal state, which may cause compatibility issues.\nIt is recommended to update or reinstall the graphics driver, or switch to a different GPU in ｢{key=Settings} - {key=PerformanceSettings}｣.</system:String>
     <system:String x:Key="GpuAllowDeprecated">Allow deprecated GPU</system:String>
+    <system:String x:Key="InferenceBackend">Inference Backend</system:String>
+    <system:String x:Key="InferenceBackendTip" xml:space="preserve">Select the execution provider for model inference.&#10;Auto mode selects the most stable provider (DirectML); WebGPU is still experimental.</system:String>
+    <system:String x:Key="InferenceBackendAuto">Auto (Recommended)</system:String>
+    <system:String x:Key="InferenceBackendDirectML">DirectML</system:String>
+    <system:String x:Key="InferenceBackendWebGpu">WebGPU (Experimental)</system:String>
     <system:String x:Key="Copy">Copy</system:String>
     <!--  Toast 不可用  -->
     <system:String x:Key="ToastNotificationTest">Notification test</system:String>
