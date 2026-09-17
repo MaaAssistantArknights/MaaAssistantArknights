@@ -1764,7 +1764,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
                                     ? fightTask.MedicineExpireDays : 0,
                                 Instance.ActivityExpireIn2Days && fightTask.UseExpireMedicineForActivity
                                     ? daysUntilEndOfWeek : 0);
-                            expireOut = $"{expireDays * 24}";
+                            expireOut = $"{expireDays}";
                         }
                     }
                     medicineLog = LocalizationHelper.GetStringFormat("ExpiringMedicineUsed", expireOut) + $" {ExpiringMedicineUsedTimes}(+{report.Count})";
