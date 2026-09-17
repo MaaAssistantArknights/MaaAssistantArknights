@@ -104,6 +104,11 @@
     <system:String x:Key="GpuDriverOutdatedMessage">현재 선택된 추론 가속 GPU({0})의 드라이버 버전({1}, 릴리스 날짜: {2})이 {3}년 이상 경과되어 호환성 문제가 발생할 수 있습니다.\n그래픽 드라이버를 업데이트하거나 ｢{key=Settings} - {key=PerformanceSettings}｣ 에서 다른 GPU로 변경하는 것을 권장합니다.</system:String>
     <system:String x:Key="GpuDriverInfoUnavailableMessage">현재 선택된 추론 가속 GPU({0})의 드라이버 정보를 읽을 수 없습니다. 드라이버가 올바르게 설치되지 않았거나 상태가 비정상일 수 있으며, 호환성 문제가 발생할 수 있습니다.\n그래픽 드라이버를 업데이트하거나 다시 설치하거나, ｢{key=Settings} - {key=PerformanceSettings}｣ 에서 다른 GPU로 변경하는 것을 권장합니다.</system:String>
     <system:String x:Key="GpuAllowDeprecated">권장되지 않는 GPU 사용 허용</system:String>
+    <system:String x:Key="InferenceBackend">추론 백엔드</system:String>
+    <system:String x:Key="InferenceBackendTip" xml:space="preserve">모델 추론 실행 백엔드를 선택합니다.&#10;자동 모드는 가장 안정적인 백엔드(DirectML)를 선택하며, WebGPU 지원은 현재 실험적 단계입니다.</system:String>
+    <system:String x:Key="InferenceBackendAuto">자동 (권장)</system:String>
+    <system:String x:Key="InferenceBackendDirectML">DirectML</system:String>
+    <system:String x:Key="InferenceBackendWebGpu">WebGPU (실험적)</system:String>
     <system:String x:Key="Copy">복사</system:String>
     <!--  Toast 不可用  -->
     <system:String x:Key="ToastNotificationUnavailable">Toast 알림을 사용할 수 없습니다, {0}</system:String>

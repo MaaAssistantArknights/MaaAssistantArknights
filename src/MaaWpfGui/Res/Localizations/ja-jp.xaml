@@ -104,6 +104,11 @@
     <system:String x:Key="GpuDriverOutdatedMessage">現在選択されている推論加速 GPU（{0}）のドライバーバージョン（{1}、リリース日：{2}）は{3}年以上経過しており、互換性の問題が発生する可能性があります。\nグラフィックスドライバーを更新するか、 ｢{key=Settings} - {key=PerformanceSettings}｣ で別の GPU に変更することをおすすめします。</system:String>
     <system:String x:Key="GpuDriverInfoUnavailableMessage">現在選択されている推論加速 GPU（{0}）のドライバー情報を読み取れません。ドライバーが正しくインストールされていないか異常な状態である可能性があり、互換性の問題が発生する可能性があります。\nグラフィックスドライバーを更新または再インストールするか、 ｢{key=Settings} - {key=PerformanceSettings}｣ で別の GPU に変更することをおすすめします。</system:String>
     <system:String x:Key="GpuAllowDeprecated">非推奨 GPU の使用を許可する</system:String>
+    <system:String x:Key="InferenceBackend">推論バックエンド</system:String>
+    <system:String x:Key="InferenceBackendTip" xml:space="preserve">モデル推論の実行バックエンドを選択します。&#10;自動モードでは最も安定したバックエンド（DirectML）が選択されます。WebGPU は現在実験的機能です。</system:String>
+    <system:String x:Key="InferenceBackendAuto">自動 (推奨)</system:String>
+    <system:String x:Key="InferenceBackendDirectML">DirectML</system:String>
+    <system:String x:Key="InferenceBackendWebGpu">WebGPU (実験的)</system:String>
     <system:String x:Key="Copy">コピー</system:String>
     <!--  Toast 不可用  -->
     <system:String x:Key="ToastNotificationUnavailable">Toast 通知は使用できません、 {0}</system:String>
