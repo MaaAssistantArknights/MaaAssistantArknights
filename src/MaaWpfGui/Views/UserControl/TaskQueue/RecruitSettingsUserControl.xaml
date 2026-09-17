@@ -137,16 +137,18 @@
                 Content="{DynamicResource AutoRefresh}"
                 IsChecked="{Binding RefreshLevel3}" />
             <StackPanel
-                Margin="0,10"
+                Height="30"
                 IsEnabled="{Binding ChooseLevel3}"
+                Margin="0,5"
                 Orientation="Horizontal">
                 <CheckBox
                     VerticalAlignment="Center"
                     Content="{DynamicResource RecruitLevel3PermitReserve}"
                     IsChecked="{Binding Level3RecruitmentPermitReserveEnabled}" />
                 <controls:TooltipBlock
-                    Margin="4,0,0,0"
-                    VerticalAlignment="Center"
+                    Margin="0,0,5,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
                     TooltipText="{DynamicResource RecruitLevel3PermitReserveTip}" />
                 <hc:NumericUpDown
                     Width="65"

@@ -1680,7 +1680,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Refreshed">目前欄位已刷新</system:String>
     <system:String x:Key="ContinueRefresh">無招聘許可，繼續嘗試刷新 Tags</system:String>
     <system:String x:Key="NoRecruitmentPermit">無招聘許可，已返回</system:String>
-    <system:String x:Key="RecruitPermitReserved">招聘許可剩餘 {0}，已達保留數量，跳過目前的 3★ 招聘</system:String>
+    <system:String x:Key="RecruitPermitReserved">招聘許可剩餘 {0}，小於等於保留數量，跳過目前的 3★ 招聘</system:String>
     <system:String x:Key="RecruitPermitCountRecognitionFailed">招聘許可數量辨識失敗，為避免消耗保留許可，已跳過目前的 3★ 招聘</system:String>
     <system:String x:Key="NotEnoughStaff">可用{key=Operator}不足</system:String>
     <system:String x:Key="AutoRecruitSelectStrategy">公招多選 Tags 的策略</system:String>

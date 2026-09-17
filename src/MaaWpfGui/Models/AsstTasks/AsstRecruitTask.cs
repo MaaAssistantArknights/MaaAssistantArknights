@@ -52,7 +52,7 @@ public class AsstRecruitTask : AsstBaseTask
     public List<int> ConfirmList { get; set; } = [];
 
     /// <summary>
-    /// Gets or sets 自动确认3星时保留的招聘许可数量。0 表示不保留。
+    /// Gets or sets 自动确认 3 星时保留的招聘许可数量。0 表示不保留。
     /// </summary>
     public int Level3RecruitmentPermitReserve { get; set; }
 

@@ -509,7 +509,7 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   ::::
 
 - `RecruitPermitReserved`
-  현재 모집 허가증 수가 ★3 모집에 설정한 보유 수량에 도달하여 현재 슬롯을 건너뜁니다. `details` 필드 내용은 다음과 같습니다:
+  현재 모집 허가증 수가 ★3 모집에 설정한 보유 수량 이하이므로 현재 슬롯을 건너뜁니다. `details` 필드 내용은 다음과 같습니다:
 
   :::: field-group
   ::: field current

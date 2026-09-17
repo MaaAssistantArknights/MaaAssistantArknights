@@ -171,7 +171,7 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether 自动确认3星时是否保留招聘许可。
+    /// Gets or sets a value indicating whether 自动确认 3 星时保留招聘许可。
     /// </summary>
     public bool Level3RecruitmentPermitReserveEnabled
     {
@@ -182,13 +182,13 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
     }
 
     /// <summary>
-    /// Gets or sets 自动确认3星时保留的招聘许可数量。
+    /// Gets or sets 自动确认 3 星时保留的招聘许可数量。
     /// </summary>
     public int Level3RecruitmentPermitReserve
     {
         get => GetTaskConfig<RecruitTask>().Level3RecruitmentPermitReserve;
         set {
-            value = Math.Clamp(value, 0, 999);
+            value = Math.Clamp(value, 1, 999);
             SetTaskConfig<RecruitTask>(
                 t => t.Level3RecruitmentPermitReserve == value,
                 t => t.Level3RecruitmentPermitReserve = value);

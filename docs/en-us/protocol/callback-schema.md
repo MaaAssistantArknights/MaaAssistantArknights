@@ -488,7 +488,7 @@ Todo
   ```
 
 - `RecruitPermitReserved`
-  The current recruitment permit count has reached the reserve configured for 3★ recruitment, so the current slot is skipped.
+  The current recruitment permit count is at or below the reserve configured for 3★ recruitment, so the current slot is skipped.
 
   ```json
   // Corresponding details field example

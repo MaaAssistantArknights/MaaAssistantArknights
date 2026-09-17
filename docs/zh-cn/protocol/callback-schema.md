@@ -536,7 +536,7 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   ::::
 
 - `RecruitPermitReserved`
-  当前招聘许可数量已达到为 3 星招募设置的保留值，因此跳过当前槽位。`details` 字段内容如下：
+  当前招聘许可数量小于等于为 3 星招募设置的保留值，因此跳过当前槽位。`details` 字段内容如下：
 
   :::: field-group
   ::: field current
