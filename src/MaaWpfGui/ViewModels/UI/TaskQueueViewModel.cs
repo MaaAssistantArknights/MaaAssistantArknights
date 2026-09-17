@@ -467,6 +467,65 @@ public class TaskQueueViewModel : Screen
         }
     }
 
+    private readonly object _failedTasksLock = new();
+
+    /// <summary>
+    /// 本次运行中出错的任务名。用于 ｢出错时跳过后处理动作｣。
+    /// <para>
+    /// 不能改用 <see cref="TaskItemViewModel.StatusDisplay"/> 判断：
+    /// <see cref="ResetAllTemporaryVariable"/> 会在 <see cref="CheckAfterCompleted"/> 之前
+    /// 把半选（<see langword="null"/>）任务的状态重置为 Idle，导致出错信息丢失。
+    /// </para>
+    /// <para>
+    /// 生命周期：每轮运行开始（离开空闲）时清空，与完成后动作的发射权一同重置。这覆盖所有启动入口，
+    /// 包括绕过 <see cref="LinkStartWithTasks"/> 直接 AsstStart 的 <c>RemoteControlService</c>；
+    /// 也不能在运行结束时清空：时长上限到点停止会先经过 <see cref="SetStopped"/> 再执行完成后动作。
+    /// </para>
+    /// </summary>
+    private readonly List<string> _failedTaskNames = [];
+
+    /// <summary>
+    /// Gets a value indicating whether 本次运行中有任务出错。
+    /// </summary>
+    public bool HasFailedTask
+    {
+        get
+        {
+            lock (_failedTasksLock)
+            {
+                return _failedTaskNames.Count > 0;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 记录一个出错的主任务队列任务。由 <see cref="AsstProxy"/> 在 TaskChainError 时调用。
+    /// </summary>
+    /// <param name="taskName">出错的任务名</param>
+    public void RecordFailedTask(string taskName)
+    {
+        lock (_failedTasksLock)
+        {
+            _failedTaskNames.Add(taskName);
+        }
+    }
+
+    private string[] GetFailedTaskNames()
+    {
+        lock (_failedTasksLock)
+        {
+            return [.. _failedTaskNames];
+        }
+    }
+
+    private void ClearFailedTasks()
+    {
+        lock (_failedTasksLock)
+        {
+            _failedTaskNames.Clear();
+        }
+    }
+
     /// <summary>
     /// 自然完成后的收尾：执行结束脚本后执行完成后动作。仅由 <see cref="AsstProxy"/> 的
     /// <c>AllTasksCompleted</c> 回调调用，结束脚本恒执行。
@@ -513,6 +572,18 @@ public class TaskQueueViewModel : Screen
 
         var actions = PostActionSetting;
         _logger.Information("Post actions: " + actions.ActionDescription);
+
+        var failedTasks = GetFailedTaskNames();
+        if (actions.SkipOnError && failedTasks.Length > 0)
+        {
+            var failedTasksText = string.Join(", ", failedTasks);
+            _logger.Information("Post actions skipped, failed tasks: {FailedTasks}", failedTasksText);
+            AddLog(LocalizationHelper.GetStringFormat("PostActionSkippedDueToError", failedTasksText), UiLogColor.Warning);
+
+            // 仍需还原 ｢仅当次｣ 的临时勾选，保持与正常路径一致
+            actions.LoadPostActions();
+            return;
+        }
 
         if (actions.BackToAndroidHome)
         {
@@ -684,6 +755,7 @@ public class TaskQueueViewModel : Screen
             {
                 Interlocked.Exchange(ref _stopScriptLaunched, 0);
                 Interlocked.Exchange(ref _postActionsLaunched, 0);
+                ClearFailedTasks();
             }
 
             if (e.NewState.Idle && _runDurationLimitOnce)
