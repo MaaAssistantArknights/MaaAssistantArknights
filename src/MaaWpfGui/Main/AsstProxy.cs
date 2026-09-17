@@ -1510,6 +1510,14 @@ public class AsstProxy
                 }
 
                 bool buyWine = _tasksStatus.Any(t => t.Value.Type == TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
+
+                // 错误条目快照须在 Clear 之前取得，完成汇报据此切换标题并输出错误汇总
+                var failedTaskEntries = _tasksStatus
+                    .Where(t => t.Value.Status == TaskStatus.Error)
+                    .Select(t => (t.Key, t.Value.Type))
+                    .ToArray();
+                bool hasTaskErrors = failedTaskEntries.Length > 0;
+                var taskErrorSummary = BuildTaskErrorSummaryLog(failedTaskEntries);
                 _tasksStatus.Clear();
 
                 Instances.TaskQueueViewModel.ResetAllTemporaryVariable();
@@ -1520,7 +1528,7 @@ public class AsstProxy
                     var dateTimeNow = DateTimeOffset.Now;
                     var diffTaskTime = (dateTimeNow - StartTaskTime).ToString(@"h\h\ m\m\ s\s");
 
-                    var allTaskCompleteTitle = LocalizationHelper.GetStringFormat("AllTasksComplete", diffTaskTime);
+                    var allTaskCompleteTitle = LocalizationHelper.GetStringFormat(hasTaskErrors ? "TaskCompletedWithErrors" : "AllTasksComplete", diffTaskTime);
                     var allTaskCompleteMessage = LocalizationHelper.GetString("AllTaskCompleteContent");
                     var sanityReport = string.Empty;
 
@@ -1531,7 +1539,7 @@ public class AsstProxy
                         .Replace("{Preset}", configurationPreset)
                         .Replace("{TimeDiff}", diffTaskTime);
 
-                    var allTaskCompleteLog = LocalizationHelper.GetStringFormat("AllTasksComplete", diffTaskTime);
+                    var allTaskCompleteLog = allTaskCompleteTitle;
 
                     if (FightSetting.SanityReport is not null)
                     {
@@ -1554,9 +1562,9 @@ public class AsstProxy
                             _sanityRecoveryTimer.Start();
                         }
                     }
-                    Instances.TaskQueueViewModel.AddLog(allTaskCompleteLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
+                    AddTaskCompletionLog(allTaskCompleteLog, hasTaskErrors);
 
-                    ExternalNotificationService.Event.AllTaskComplete(allTaskCompleteTitle, allTaskCompleteMessage, sanityReport);
+                    ExternalNotificationService.Event.AllTaskComplete(allTaskCompleteTitle, hasTaskErrors ? taskErrorSummary : allTaskCompleteMessage, sanityReport);
                     using (var toast = new ToastNotification(allTaskCompleteTitle))
                     {
                         if (FightSetting.SanityReport is not null)
@@ -1582,6 +1590,11 @@ public class AsstProxy
                     if (Instances.OverlayViewModel.IsCreated)
                     {
                         AchievementTrackerHelper.Instance.Unlock(AchievementIds.LogSupervisor);
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(taskErrorSummary))
+                    {
+                        Instances.TaskQueueViewModel.AddLog(taskErrorSummary, UiLogColor.Error, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
                     }
                 }
                 else if (runOwner == RunOwner.Copilot)
@@ -3439,6 +3452,72 @@ public class AsstProxy
         }
 
         return true;
+    }
+
+    private static string ResolveTaskDisplayName(AsstTaskId taskId, TaskType taskType)
+    {
+        var taskIndex = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index ?? -1;
+        var task = taskIndex >= 0 && taskIndex < ConfigFactory.CurrentConfig.TaskQueue.Count
+            ? ConfigFactory.CurrentConfig.TaskQueue[taskIndex]
+            : null;
+
+        return task?.NameOrTaskType ?? LocalizationHelper.GetString(taskType.ToString());
+    }
+
+    private static string BuildTaskErrorSummaryLog((AsstTaskId Id, TaskType Type)[] failedTaskEntries)
+    {
+        if (failedTaskEntries.Length == 0)
+        {
+            return string.Empty;
+        }
+
+        StringBuilder builder = new();
+        builder.AppendLine(LocalizationHelper.GetString("TaskErrorSummaryTitle"));
+
+        foreach (var entry in failedTaskEntries.OrderBy(e => e.Id))
+        {
+            builder.AppendLine(LocalizationHelper.GetStringFormat("TaskErrorSummaryItem", ResolveTaskDisplayName(entry.Id, entry.Type)));
+        }
+
+        return builder.ToString().TrimEnd();
+    }
+
+    private void AddTaskCompletionLog(string completionLog, bool hasTaskErrors)
+    {
+        // 有错误时标题行标红单独成段，理智报告等后续内容留在下一段，避免整卡变红
+        if (!hasTaskErrors)
+        {
+            Instances.TaskQueueViewModel.AddLog(completionLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
+            return;
+        }
+
+        var (errorHeadline, extraContent) = SplitTaskCompletionLog(completionLog);
+        if (string.IsNullOrWhiteSpace(extraContent))
+        {
+            Instances.TaskQueueViewModel.AddLog(errorHeadline, UiLogColor.Error, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
+            return;
+        }
+
+        Instances.TaskQueueViewModel.AddLog(errorHeadline, UiLogColor.Error, splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+        Instances.TaskQueueViewModel.AddLog(extraContent, splitMode: TaskQueueViewModel.LogCardSplitMode.After);
+    }
+
+    private static (string ErrorHeadline, string ExtraContent) SplitTaskCompletionLog(string completionLog)
+    {
+        if (string.IsNullOrWhiteSpace(completionLog))
+        {
+            return (string.Empty, string.Empty);
+        }
+
+        int firstLineEnd = completionLog.IndexOf('\n');
+        if (firstLineEnd < 0)
+        {
+            return (completionLog, string.Empty);
+        }
+
+        string errorHeadline = completionLog[..firstLineEnd].TrimEnd('\r');
+        string extraContent = completionLog[(firstLineEnd + 1)..].TrimStart('\r', '\n');
+        return (errorHeadline, extraContent);
     }
 
     public bool AsstAppendCloseDown(ClientType clientType)

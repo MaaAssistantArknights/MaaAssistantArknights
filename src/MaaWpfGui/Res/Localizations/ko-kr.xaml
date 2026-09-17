@@ -1490,12 +1490,15 @@ C:\leidian\LDPlayer9
     <system:String x:Key="IdentifyTheMistakes">인식 오류</system:String>
     <system:String x:Key="RecruitRefreshLimitReached">새로고침 횟수 상한 도달</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">작업 오류: </system:String>
+    <system:String x:Key="TaskErrorSummaryTitle">이번 실행에서 다음 오류가 발생했습니다:</system:String>
+    <system:String x:Key="TaskErrorSummaryItem">{0}</system:String>
     <system:String x:Key="OutOfMemoryError">메모리 부족으로 {0} 작업이 중지되었습니다. 다른 프로그램을 종료하거나 MAA를 재시작한 후 다시 시도해 주세요</system:String>
     <system:String x:Key="CombatError">작전 오류</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">작업 시작: </system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">작업 완료: </system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">작전 시작: </system:String>
     <system:String x:Key="CompleteCombat">작전 완료</system:String>
+    <system:String x:Key="TaskCompletedWithErrors">작업 중 오류가 발생했습니다!\n(소요 시간: {0})</system:String>
     <system:String x:Key="AllTasksComplete">모든 작업을 완료했습니다!\n(소요 시간: {0})</system:String>
     <system:String x:Key="SanityReport">{DateTime}에 이성이 모두 회복됩니다.\n(남은 시간: {TimeDiff})</system:String>
     <system:String x:Key="AllTaskCompleteContent">MAA가 {Preset} 구성으로 모든 작업을 {DateTime}에 완료했습니다. (소요 시간: {TimeDiff})</system:String>
