@@ -1252,7 +1252,7 @@ public class ToolboxViewModel : Screen
     }
 
     public class Operator(string id, string name, int rarity, int elite = 0, int level = 0, int potential = 0,
-        List<OperBoxData.SkillData>? skills = null, List<OperBoxData.EquipData>? equips = null)
+        int? mainSkillLevel = null, List<OperBoxData.SkillData>? skills = null, List<OperBoxData.EquipData>? equips = null)
     {
         [JsonProperty("id")]
         public string Id { get; } = id;
@@ -1271,6 +1271,12 @@ public class ToolboxViewModel : Screen
 
         [JsonProperty("potential")]
         public int Potential { get; } = potential;
+
+        /// <summary>
+        /// Gets 当前主技能等级（1~7），仅从一图流 OpenAPI 获取的数据有值
+        /// </summary>
+        [JsonProperty("mainSkillLevel", NullValueHandling = NullValueHandling.Ignore)]
+        public int? MainSkillLevel { get; } = mainSkillLevel;
 
         /// <summary>
         /// Gets 技能专精，仅从一图流 OpenAPI 获取的数据有值
@@ -1304,6 +1310,58 @@ public class ToolboxViewModel : Screen
         /// Gets the resource key based on rarity
         /// </summary>
         public string RarityColorResourceKey => (IsPallas && Level > 0) ? "AchievementBrush.Rare.LinearGradientBrush" : $"Star{Rarity}OperatorLogBrush";
+
+        /// <summary>
+        /// Gets 技能练度与模组区是否可见，Core 识别路径无主技能等级数据，整块隐藏
+        /// </summary>
+        public bool ShowSkillDetails => MainSkillLevel.HasValue;
+
+        /// <summary>
+        /// Gets 无任何专精（含未满 7 级与 7 级未专精）时显示单个 RANK 徽章，有任一专精则隐藏
+        /// </summary>
+        public bool ShowRankBadge => MainSkillLevel.HasValue && !HasAnyMastery;
+
+        public string RankText => $"RANK {MainSkillLevel}";
+
+        private bool HasAnyMastery => Skills?.Any(s => s.Level >= 1) == true;
+
+        /// <summary>
+        /// Gets 逐技能槽位的专精品字角标，skills 数组按槽位序全量给出（长度=干员技能数），无需按 id 对位
+        /// </summary>
+        public List<MasteryBadge> MasteryBadges => Skills?.Select(s => new MasteryBadge(s.Level)).ToList() ?? [];
+
+        public bool HasMods => Equips?.Any(e => e.Level > 0) == true;
+
+        /// <summary>
+        /// Gets 模组徽章文本（如 γ₃），分支映射 A/B/X/Y/D → α/β/χ/γ/Δ，等级用 Unicode 下标字符；
+        /// 等级 0 表示模组未开启，不显示
+        /// </summary>
+        public List<string> ModBadges =>
+        [
+            .. Equips?.Where(e => e.Level > 0).Select(e => $"{ModTypeDisplay.GetValueOrDefault(e.Type, e.Type)}{e.Level}") ?? [],
+        ];
+
+        private static readonly Dictionary<string, string> ModTypeDisplay = new()
+        {
+            ["A"] = "α",
+            ["B"] = "β",
+            ["X"] = "χ",
+            ["Y"] = "γ",
+            ["D"] = "Δ",
+        };
+
+        /// <summary>
+        /// 单技能格的品字三圆角标，点亮顺序为用户裁定：专 1 亮上圆、专 2 加亮右下圆、专 3 全亮；
+        /// 颜色由主题资源 OperBox.MasteryOnBrush/OffBrush 控制，随浅深主题切换
+        /// </summary>
+        public class MasteryBadge(int level)
+        {
+            public bool TopOn => level >= 1;
+
+            public bool BottomRightOn => level >= 2;
+
+            public bool BottomLeftOn => level >= 3;
+        }
 
         public bool Equals(Operator? other) => other != null && Name == other.Name && Rarity == other.Rarity;
 
@@ -1617,7 +1675,8 @@ public class ToolboxViewModel : Screen
             if (_tempOperHaveSet.Add(oper.Id))
             {
                 var name = DataHelper.GetLocalizedCharacterName(DataHelper.Operators.FirstOrDefault(i => i.Key == oper.Id).Value) ?? "???";
-                OperBoxHaveList.Add(new Operator(oper.Id, name, oper.Rarity, oper.Elite, oper.Level, oper.Potential, oper.Skills, oper.Equips));
+                OperBoxHaveList.Add(new Operator(oper.Id, name, oper.Rarity, oper.Elite, oper.Level, oper.Potential,
+                    oper.MainSkillLevel, oper.Skills, oper.Equips));
                 if (oper.Id == "char_485_pallas")
                 {
                     AchievementTrackerHelper.Instance.Unlock(AchievementIds.WarehouseKeeper);
@@ -1766,10 +1825,12 @@ public class ToolboxViewModel : Screen
 
             var entry = new JObject {
                 ["id"] = oper.Id,
+                ["name"] = DataHelper.GetLocalizedCharacterName(charInfo) ?? "???",
                 ["own"] = true,
                 ["elite"] = oper.EvolvePhase,
                 ["level"] = oper.Level,
                 ["potential"] = oper.PotentialRank,
+                ["mainSkillLevel"] = oper.MainSkillLevel,
                 ["rarity"] = charInfo.Rarity,
             };
             if (oper.Skills is not null)
@@ -1897,6 +1958,7 @@ public class ToolboxViewModel : Screen
                     Level = value.Level,
                     Potential = value.Potential,
                     Own = true,
+                    MainSkillLevel = value.MainSkillLevel,
                     Skills = value.Skills,
                     Equips = value.Equips,
                 });
@@ -1994,20 +2056,29 @@ public class ToolboxViewModel : Screen
         var yes = LocalizationHelper.GetString("OperBoxExportYes");
         var no = LocalizationHelper.GetString("OperBoxExportNo");
 
+        var mainSkillHeader = LocalizationHelper.GetString("OperBoxExportHeaderMainSkillLevel");
         var skillsHeader = LocalizationHelper.GetString("OperBoxExportHeaderSkills");
         var equipsHeader = LocalizationHelper.GetString("OperBoxExportHeaderEquips");
 
         yield return includeYituliuFields
-            ? $"| {nameHeader} | {idHeader} | {rarityHeader} | {eliteHeader} | {levelHeader} | {ownHeader} | {potentialHeader} | {skillsHeader} | {equipsHeader} |"
+            ? $"| {nameHeader} | {idHeader} | {rarityHeader} | {eliteHeader} | {levelHeader} | {ownHeader} | {potentialHeader} | {mainSkillHeader} | {skillsHeader} | {equipsHeader} |"
             : $"| {nameHeader} | {idHeader} | {rarityHeader} | {eliteHeader} | {levelHeader} | {ownHeader} | {potentialHeader} |";
         yield return includeYituliuFields
-            ? "| :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- |"
+            ? "| :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- |"
             : "| :-- | :-- | :-- | :-- | :-- | :-- | :-- |";
         foreach (var item in items)
         {
             var baseColumns = $"| {item.Name} | {item.Id} | {item.Rarity} | {item.Elite} | {item.Level} | {(item.Own ? yes : no)} | {item.Potential} |";
-            yield return includeYituliuFields ? baseColumns + $" {FormatSkillsColumn(item)} | {FormatEquipsColumn(item)} |" : baseColumns;
+            yield return includeYituliuFields ? baseColumns + $" {FormatMainSkillColumn(item)} | {FormatSkillsColumn(item)} | {FormatEquipsColumn(item)} |" : baseColumns;
         }
+    }
+
+    /// <summary>
+    /// 主技能等级列（1~7），无该数据的干员为空。
+    /// </summary>
+    private static string FormatMainSkillColumn(OperBoxData.OperData item)
+    {
+        return item.MainSkillLevel?.ToString() ?? string.Empty;
     }
 
     /// <summary>
@@ -2040,11 +2111,12 @@ public class ToolboxViewModel : Screen
         var yes = LocalizationHelper.GetString("OperBoxExportYes");
         var no = LocalizationHelper.GetString("OperBoxExportNo");
 
+        var mainSkillHeader = LocalizationHelper.GetString("OperBoxExportHeaderMainSkillLevel");
         var skillsHeader = LocalizationHelper.GetString("OperBoxExportHeaderSkills");
         var equipsHeader = LocalizationHelper.GetString("OperBoxExportHeaderEquips");
 
         yield return includeYituliuFields
-            ? $"{nameHeader},{idHeader},{rarityHeader},{eliteHeader},{levelHeader},{ownHeader},{potentialHeader},{skillsHeader},{equipsHeader}"
+            ? $"{nameHeader},{idHeader},{rarityHeader},{eliteHeader},{levelHeader},{ownHeader},{potentialHeader},{mainSkillHeader},{skillsHeader},{equipsHeader}"
             : $"{nameHeader},{idHeader},{rarityHeader},{eliteHeader},{levelHeader},{ownHeader},{potentialHeader}";
         foreach (var item in items)
         {
@@ -2055,7 +2127,7 @@ public class ToolboxViewModel : Screen
             }
 
             var baseColumns = $"{name},{item.Id},{item.Rarity},{item.Elite},{item.Level},{(item.Own ? yes : no)},{item.Potential}";
-            yield return includeYituliuFields ? baseColumns + $",{FormatSkillsColumn(item)},{FormatEquipsColumn(item)}" : baseColumns;
+            yield return includeYituliuFields ? baseColumns + $",{FormatMainSkillColumn(item)},{FormatSkillsColumn(item)},{FormatEquipsColumn(item)}" : baseColumns;
         }
     }
 

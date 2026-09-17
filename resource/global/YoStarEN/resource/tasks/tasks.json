@@ -1126,7 +1126,13 @@
             ["Simple Communicator", "简易通讯机"],
             ["Knightly Savings", "骑士储蓄罐"],
             ["Chivalric Commandments", "骑士戒律"],
-            ["Emergency Dispatch Ticket", "紧急调度券"]
+            ["Emergency Dispatch Ticket", "紧急调度券"],
+            ["Cell", "禁闭所"],
+            ["Sentry Turret", "警戒塔"],
+            ["Disguise Kit", "伪装工具"],
+            ["Botani", "伯塔尼"],
+            ["Ukusik", "乌啾"],
+            ["Zima the Raging Tide", "怒潮凛冬"]
         ]
     },
     "GameStartCheckResourceOCR": {
@@ -1273,6 +1279,15 @@
     "SpecialAccessActivitiesConfirm": {
         "text": ["CLAIM", "Claim", "NOW", "Now"]
     },
+    "SignInEventEnter": {
+        "text": ["Sign-In"]
+    },
+    "SignInEventInPopup": {
+        "text": ["Ends"]
+    },
+    "SignInEventEarnRewards": {
+        "text": ["Resource", "Gained"]
+    },
     "NoFriends": {
         "text": ["No friends"]
     },
@@ -1325,12 +1340,12 @@
         "text": ["All"]
     },
     "InfrastConfirmButtonWait": {
-        "text": ["Submitting feedback", "to the neural network"],
-        "roi": [675, 605, 427, 115]
+        "roi": [675, 605, 427, 115],
+        "text": ["Submitting feedback", "to the neural network"]
     },
     "InfrastDormConfirmButtonWait": {
-        "text": ["Submitting feedback", "to the neural network"],
-        "roi": [675, 605, 427, 115]
+        "roi": [675, 605, 427, 115],
+        "text": ["Submitting feedback", "to the neural network"]
     },
     "InfrastFlagOriginStone": {
         "templThreshold": 0.7

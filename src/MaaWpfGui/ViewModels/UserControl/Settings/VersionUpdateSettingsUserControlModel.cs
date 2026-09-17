@@ -596,6 +596,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public void ShowChangelog()
     {
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.ChangelogReader);
+        _ = Instances.VersionUpdateDialogViewModel.DownloadMissingContributorAvatarsAsync();
         if (Instances.VersionUpdateDialogViewModel.View is System.Windows.Window window)
         {
             if (window.WindowState == System.Windows.WindowState.Minimized)

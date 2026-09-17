@@ -17,10 +17,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Media.Imaging;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
@@ -58,15 +62,268 @@ public class VersionUpdateDialogViewModel : Screen
 
     private static readonly ILogger _logger = Log.ForContext<VersionUpdateDialogViewModel>();
 
+    private static readonly string s_contributorAvatarDir = Path.Combine(PathsHelper.CacheDir, "contributor");
+
+    private const string ContributorAvatarPlaceholderName = "_placeholder.png";
+
+    // 32×32 全透明 PNG；头像未下载时占住 16px 位置，下载完成前后布局零跳动
+    private const string PlaceholderAvatarBase64 = "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGklEQVR4nO3BAQEAAACCIP+vbkhAAQAAAO8GECAAARlDNO4AAAAASUVORK5CYII=";
+
+    private static readonly HashSet<string> s_downloadingAvatars = [];
+
+    private static string FormatUpdateInfo(string text)
+    {
+        // MdXaml.Html 的 DetailsParser 用 bool.TryParse 解析 open 属性值，HTML 无值写法 <details open>
+        // 解析出空串导致 TryParse 失败、Expander 恒为折叠；改写成带值形式使其自动展开
+        text = Regex.Replace(text, @"(?<=<details\s)open(?=[\s>])", "open=\"true\"");
+        return AddContributorLink(text);
+    }
+
     private static string AddContributorLink(string text)
     {
         /*
         //        "@ " -> "@ "
         //       "`@`" -> "`@`"
-        //   "@MistEO" -> "[@MistEO](https://github.com/MistEO)"
+        //   "@MistEO" -> "![avatar](path "MistEO"){…} [@MistEO](https://github.com/MistEO)"
         // "[@MistEO]" -> "[@MistEO]"
         */
-        return Regex.Replace(text, @"([^\[`]|^)@([^\s]+)", "$1[@$2](https://github.com/$2)");
+        // 头像图片与用户名链接平级不嵌套：MdXaml 的内联匹配正则带 Singleline，
+        // 嵌套图片链接在 LF 行尾（GitHub/MirrorChyan 的 release body）下会跨行吞掉后续行的内容
+        return Regex.Replace(text, @"([^\[`]|^)@([^\s]+)", m =>
+        {
+            var user = m.Groups[2].Value;
+            var avatar = GetContributorAvatarMarkdown(user);
+            return $"{m.Groups[1].Value}{avatar}[@{user}](https://github.com/{user})";
+        });
+    }
+
+    /// <summary>
+    /// 生成贡献者头像的内联图片 Markdown：缓存命中用真头像，否则用透明占位图；
+    /// 非 GitHub 用户名形状的捕获（可能带尾随标点）不插图，保持纯链接。
+    /// </summary>
+    private static string GetContributorAvatarMarkdown(string user)
+    {
+        if (!Regex.IsMatch(user, @"^[a-zA-Z0-9-]+$") || !EnsurePlaceholderAvatar())
+        {
+            return string.Empty;
+        }
+
+        string avatarPath = Path.Combine(s_contributorAvatarDir, user + ".png");
+        string effectivePath = File.Exists(avatarPath)
+            ? avatarPath
+            : Path.Combine(s_contributorAvatarDir, ContributorAvatarPlaceholderName);
+
+        // 路径用正斜杠，Markdown 中反斜杠是转义字符；尺寸语法 {width=16px} 由 MdXaml 的 ImageResizeExt 渲染；
+        // title（即渲染后的 ToolTip）携带用户名，供头像下载完成后在已渲染文档中定位占位图换源
+        return $"![avatar]({effectivePath.Replace('\\', '/')} \"{user}\"){{width=16px height=16px}} ";
+    }
+
+    private static bool s_placeholderAvatarReady;
+
+    private static bool EnsurePlaceholderAvatar()
+    {
+        if (s_placeholderAvatarReady)
+        {
+            return true;
+        }
+
+        try
+        {
+            Directory.CreateDirectory(s_contributorAvatarDir);
+            string path = Path.Combine(s_contributorAvatarDir, ContributorAvatarPlaceholderName);
+            if (!File.Exists(path))
+            {
+                File.WriteAllBytes(path, Convert.FromBase64String(PlaceholderAvatarBase64));
+            }
+
+            s_placeholderAvatarReady = true;
+        }
+        catch (Exception e)
+        {
+            // 写盘失败（目录只读等）后不再重试，头像整体退化为纯链接
+            _logger.Warning(e, "Failed to create placeholder contributor avatar");
+        }
+
+        return s_placeholderAvatarReady;
+    }
+
+    /// <summary>
+    /// 后台下载 changelog 中缺失的贡献者头像（走 GitHub 用户名头像直链，磁盘缓存命中即跳过，每个用户只下一次）。
+    /// 每落盘一个就在已渲染文档中把对应占位图换成真头像（不重建 FlowDocument，折叠/滚动状态不受影响）；
+    /// 失败静默，下次展示时重试。
+    /// </summary>
+    /// <param name="markdown">要提取用户名的 changelog 文本；传 null 时取当前 <see cref="UpdateInfo"/>（设置页更新日志按钮等只展示不写入的场景）。</param>
+    /// <returns>Task</returns>
+    public async Task DownloadMissingContributorAvatarsAsync(string? markdown = null)
+    {
+        markdown ??= UpdateInfo;
+        var users = Regex.Matches(markdown, @"@([a-zA-Z0-9-]+)")
+            .Select(m => m.Groups[1].Value)
+            .Distinct()
+            .ToList();
+
+        foreach (var user in users)
+        {
+            string path = Path.Combine(s_contributorAvatarDir, user + ".png");
+            if (File.Exists(path))
+            {
+                continue;
+            }
+
+            lock (s_downloadingAvatars)
+            {
+                if (!s_downloadingAvatars.Add(user))
+                {
+                    continue;
+                }
+            }
+
+            try
+            {
+                using var response = await Instances.HttpService.GetAsync(new Uri($"https://github.com/{user}.png?size=32")).ConfigureAwait(false);
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    var content = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                    Directory.CreateDirectory(s_contributorAvatarDir);
+                    string tempPath = path + ".temp";
+                    await File.WriteAllBytesAsync(tempPath, content).ConfigureAwait(false);
+                    File.Move(tempPath, path);
+                    ReplaceAvatarInDocument(user, path);
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Warning(e, "Failed to download contributor avatar for {User}", user);
+            }
+            finally
+            {
+                lock (s_downloadingAvatars)
+                {
+                    _ = s_downloadingAvatars.Remove(user);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 把弹窗已渲染文档中指定用户的占位头像图换成新下载的真头像（按 ToolTip 匹配用户）。
+    /// 弹窗未打开时无文档可换，静默跳过——下次打开时 getter 会直接用磁盘上的真头像。
+    /// </summary>
+    /// <param name="user">GitHub 用户名。</param>
+    /// <param name="avatarPath">真头像的本地路径。</param>
+    private void ReplaceAvatarInDocument(string user, string avatarPath)
+    {
+        Execute.OnUIThread(() =>
+        {
+            if (View is not Views.Dialogs.VersionUpdateDialogView view)
+            {
+                return;
+            }
+
+            if (view.ChangelogViewer.Document is not { } document)
+            {
+                return;
+            }
+
+            foreach (var image in EnumerateImages(document.Blocks))
+            {
+                if (image.Tag as string == "avatar" && image.ToolTip as string == user)
+                {
+                    image.Source = new BitmapImage(new Uri(avatarPath));
+                }
+            }
+        });
+    }
+
+    private static IEnumerable<Image> EnumerateImages(BlockCollection blocks)
+    {
+        foreach (var block in blocks)
+        {
+            switch (block)
+            {
+                case Paragraph paragraph:
+                    foreach (var image in EnumerateImages(paragraph.Inlines))
+                    {
+                        yield return image;
+                    }
+
+                    break;
+
+                case Section section:
+                    foreach (var image in EnumerateImages(section.Blocks))
+                    {
+                        yield return image;
+                    }
+
+                    break;
+
+                case List list:
+                    foreach (var listItem in list.ListItems)
+                    {
+                        foreach (var image in EnumerateImages(listItem.Blocks))
+                        {
+                            yield return image;
+                        }
+                    }
+
+                    break;
+
+                case Table table:
+                    foreach (var rowGroup in table.RowGroups)
+                    {
+                        foreach (var row in rowGroup.Rows)
+                        {
+                            foreach (var cell in row.Cells)
+                            {
+                                foreach (var image in EnumerateImages(cell.Blocks))
+                                {
+                                    yield return image;
+                                }
+                            }
+                        }
+                    }
+
+                    break;
+
+                // details 块渲染为 Expander，内容在嵌套 FlowDocumentScrollViewer 的文档里
+                case BlockUIContainer { Child: Expander { Content: FlowDocumentScrollViewer nested } }:
+                    foreach (var image in EnumerateImages(nested.Document.Blocks))
+                    {
+                        yield return image;
+                    }
+
+                    break;
+            }
+        }
+    }
+
+    private static IEnumerable<Image> EnumerateImages(InlineCollection inlines)
+    {
+        foreach (var inline in inlines)
+        {
+            switch (inline)
+            {
+                case InlineUIContainer { Child: Image image }:
+                    yield return image;
+                    break;
+
+                case Hyperlink hyperlink:
+                    foreach (var nested in EnumerateImages(hyperlink.Inlines))
+                    {
+                        yield return nested;
+                    }
+
+                    break;
+
+                case Span span:
+                    foreach (var nested in EnumerateImages(span.Inlines))
+                    {
+                        yield return nested;
+                    }
+
+                    break;
+            }
+        }
     }
 
     private readonly string _curVersion = FakeUpdateHelper.IsEnabled
@@ -109,7 +366,7 @@ public class VersionUpdateDialogViewModel : Screen
         get {
             try
             {
-                return AddContributorLink(_updateInfo);
+                return FormatUpdateInfo(_updateInfo);
             }
             catch
             {
@@ -120,6 +377,7 @@ public class VersionUpdateDialogViewModel : Screen
         set {
             SetAndNotify(ref _updateInfo, value);
             MarkdownDataHelper.Set("CHANGELOG", value);
+            _ = DownloadMissingContributorAvatarsAsync(value);
         }
     }
 
@@ -291,6 +549,8 @@ public class VersionUpdateDialogViewModel : Screen
             IsFirstBootAfterUpdate = false;
             if (!DoNotShowUpdate)
             {
+                // 首启展示时 UpdateInfo 不经 setter（构造期从本地缓存读取），此处兜底触发头像下载
+                _ = DownloadMissingContributorAvatarsAsync(_updateInfo);
                 Instances.WindowManager.ShowWindow(this);
             }
         }

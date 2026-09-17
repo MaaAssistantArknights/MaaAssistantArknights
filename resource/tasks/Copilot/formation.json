@@ -103,6 +103,9 @@
     "BattleQuickFormationModule-4": {
         "baseTask": "BattleQuickFormationModule-Item"
     },
+    "BattleQuickFormationModule-5": {
+        "baseTask": "BattleQuickFormationModule-Item"
+    },
     "BattleQuickFormationConfirm": {
         "action": "ClickSelf",
         "roi": [880, 608, 400, 112],

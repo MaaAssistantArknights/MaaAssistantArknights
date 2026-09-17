@@ -198,7 +198,7 @@ jobs:
         uses: robinraju/release-downloader@v1
         with:
           repository: MaaXYZ/MaaFramework
-          tag: v5.9.2
+          tag: v5.13.0
           fileName: ${{ matrix.arch == 'arm64' && '*win-aarch64*.zip' || '*win-x86_64*.zip' }}
           extract: true
           out-file-path: MaaFramework-temp

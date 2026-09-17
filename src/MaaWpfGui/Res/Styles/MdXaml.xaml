@@ -105,6 +105,17 @@
                     <Trigger Property="Tag" Value="imageright">
                         <Setter Property="Margin" Value="20,5,20,5" />
                     </Trigger>
+                    <Trigger Property="Tag" Value="avatar">
+                        <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+                        <Setter Property="Clip">
+                            <Setter.Value>
+                                <EllipseGeometry
+                                    Center="8,8"
+                                    RadiusX="8"
+                                    RadiusY="8" />
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
                 </Style.Triggers>
             </Style>
 

@@ -524,10 +524,6 @@
             "node_type": "expedition"
         },
         {
-            "text": "未知的凶戾",
-            "node_type": "hide_battle"
-        },
-        {
             "text": "未知的诡秘",
             "node_type": "hide_invisible"
         },

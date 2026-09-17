@@ -651,7 +651,7 @@ public partial class CopilotViewModel : Screen
 
         /// <summary>
         /// Gets or sets the module number.
-        /// -1: 不切换模组 / 无要求, 0: 不使用模组, 1-4: 不同模组
+        /// -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组χ, 2: 模组γ, 3: 模组α, 4: 模组Δ, 5: 模组β
         /// </summary>
         public int Module
         {
@@ -1995,7 +1995,14 @@ public partial class CopilotViewModel : Screen
             op.Skill = Math.Clamp(op.Skill, 0, 3);
         }
 
-        return UserAdditional.Where(op => !string.IsNullOrWhiteSpace(op.Name));
+        return UserAdditional
+            .Where(op => !string.IsNullOrWhiteSpace(op.Name))
+            .Select(op => new UserAdditional
+            {
+                Name = DataHelper.GetCharacterByNameOrAlias(op.Name)?.Name ?? op.Name,
+                Skill = op.Skill,
+                Module = op.Module,
+            });
     }
 
     private async Task<bool> AppendAndStartCopilotAsync(IEnumerable<UserAdditional> userAdditional)

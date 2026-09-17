@@ -112,8 +112,8 @@
                 </StackPanel>
                 <hc:ComboBox
                     Name="StartingCoreCharComboBox"
-                    Margin="0,0,0,15"
-                    DropDownClosed="StartingCoreCharComboBox_DropDownClosed"
+                    Margin="0,3"
+                    DropDownClosed="CoreCharComboBox_DropDownClosed"
                     IsEditable="True"
                     IsTextSearchEnabled="False"
                     ItemsSource="{Binding RoguelikeCoreCharList}"
@@ -128,6 +128,46 @@
                     </hc:ComboBox.Text>
                 </hc:ComboBox>
             </StackPanel>
+            <hc:ComboBox
+                Name="StartingCoreChar2ComboBox"
+                Margin="0,3"
+                hc:InfoElement.Title="{DynamicResource StartingCoreChar2}"
+                DropDownClosed="CoreCharComboBox_DropDownClosed"
+                IsEditable="True"
+                IsEnabled="{c:Binding 'RoguelikeCoreChar != &quot;&quot;'}"
+                IsTextSearchEnabled="False"
+                ItemsSource="{Binding RoguelikeCoreCharList}"
+                Loaded="{s:Action MakeComboBoxSearchable,
+                                  Target={x:Type ui_vms:SettingsViewModel}}"
+                Visibility="{c:Binding RoguelikeEnableAdditionalCoreChars}">
+                <hc:ComboBox.Text>
+                    <Binding Path="RoguelikeCoreChar2" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:StartingCoreCharRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </hc:ComboBox.Text>
+            </hc:ComboBox>
+            <hc:ComboBox
+                Name="StartingCoreChar3ComboBox"
+                Margin="0,3"
+                hc:InfoElement.Title="{DynamicResource StartingCoreChar3}"
+                DropDownClosed="CoreCharComboBox_DropDownClosed"
+                IsEditable="True"
+                IsEnabled="{c:Binding 'RoguelikeCoreChar != &quot;&quot; and RoguelikeCoreChar2 != &quot;&quot;'}"
+                IsTextSearchEnabled="False"
+                ItemsSource="{Binding RoguelikeCoreCharList}"
+                Loaded="{s:Action MakeComboBoxSearchable,
+                                  Target={x:Type ui_vms:SettingsViewModel}}"
+                Visibility="{c:Binding RoguelikeEnableAdditionalCoreChars}">
+                <hc:ComboBox.Text>
+                    <Binding Path="RoguelikeCoreChar3" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:StartingCoreCharRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </hc:ComboBox.Text>
+            </hc:ComboBox>
         </StackPanel>
 
         <StackPanel
@@ -238,18 +278,13 @@
                 Orientation="Horizontal"
                 Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Collectible and RoguelikeTheme == task:RoguelikeTheme.Sami',
                                        Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}">
-                <CheckBox
-                    MaxWidth="{c:Binding '220 - ActualWidth',
-                                         ElementName=Roguelike3FirstFloorFoldartalTipTooltipBlock}"
-                    IsChecked="{Binding Roguelike3FirstFloorFoldartal}">
+                <CheckBox MaxWidth="{c:Binding '220 - ActualWidth', ElementName=Roguelike3FirstFloorFoldartalTipTooltipBlock}" IsChecked="{Binding Roguelike3FirstFloorFoldartal}">
                     <TextBlock
                         Block.TextAlignment="Left"
                         Text="{DynamicResource Roguelike3FirstFloorFoldartal}"
                         TextWrapping="Wrap" />
                 </CheckBox>
-                <controls:TooltipBlock
-                    x:Name="Roguelike3FirstFloorFoldartalTipTooltipBlock"
-                    TooltipText="{DynamicResource Roguelike3FirstFloorFoldartalTip}" />
+                <controls:TooltipBlock x:Name="Roguelike3FirstFloorFoldartalTipTooltipBlock" TooltipText="{DynamicResource Roguelike3FirstFloorFoldartalTip}" />
             </StackPanel>
             <hc:TextBox
                 d:Visibility="Visible"
@@ -303,38 +338,64 @@
                     Text="{Binding RoguelikeExpectedCollapsalParadigms}" />
             </Grid>
 
+            <StackPanel Margin="0,10" Orientation="Horizontal">
+                <CheckBox MaxWidth="{c:Binding '220 - ActualWidth', ElementName=RoguelikeEnableAdditionalCoreCharTooltipBlock}" IsChecked="{Binding RoguelikeEnableAdditionalCoreChars}">
+                    <TextBlock
+                        Block.TextAlignment="Left"
+                        Text="{DynamicResource EnableAdditionalStartingCoreChar}"
+                        TextWrapping="Wrap" />
+                </CheckBox>
+                <controls:TooltipBlock x:Name="RoguelikeEnableAdditionalCoreCharTooltipBlock" TooltipText="{DynamicResource EnableAdditionalStartingCoreCharTip}" />
+            </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <CheckBox
-                    Grid.Column="0"
                     MaxWidth="{c:Binding '220 - ActualWidth',
                                          ElementName=RoguelikeRequireStartingCoreCharTooltipBlock}"
                     Margin="0,10"
+                    Content="{Binding RoguelikeUseSupportUnitText}"
                     IsChecked="{Binding RoguelikeUseSupportUnit}"
-                    IsEnabled="{c:Binding 'RoguelikeCoreChar != &quot;&quot;'}">
-                    <TextBlock
-                        Block.TextAlignment="Left"
-                        Text="{DynamicResource RoguelikeUseSupportUnit}"
-                        TextWrapping="Wrap" />
-                </CheckBox>
+                    IsEnabled="{c:Binding 'RoguelikeCoreChar != &quot;&quot;'}" />
                 <controls:TooltipBlock
                     x:Name="RoguelikeRequireStartingCoreCharTooltipBlock"
-                    Grid.Column="1"
-                    TooltipText="{DynamicResource RoguelikeRequireStartingCoreChar}" />
+                    TooltipText="{DynamicResource RoguelikeRequireStartingCoreChar}"
+                    Visibility="{c:Binding 'RoguelikeCoreChar == &quot;&quot;'}" />
             </StackPanel>
-            <StackPanel
-                Margin="0,-2.5,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Orientation="Horizontal"
-                Visibility="{c:Binding 'RoguelikeUseSupportUnit and RoguelikeCoreChar != &quot;&quot;'}">
-                <controls:TextBlock Margin="2.5,0,7.5,0" Text="└" />
-                <CheckBox IsChecked="{Binding RoguelikeEnableNonfriendSupport}" IsEnabled="{c:Binding 'RoguelikeCoreChar != &quot;&quot;'}">
-                    <TextBlock
-                        Block.TextAlignment="Left"
-                        Text="{DynamicResource RoguelikeUseNonFriendSupport}"
-                        TextWrapping="Wrap" />
-                </CheckBox>
+            <StackPanel Orientation="Horizontal" Visibility="{c:Binding RoguelikeEnableAdditionalCoreChars}">
+                <CheckBox
+                    MaxWidth="{c:Binding '220 - ActualWidth',
+                                         ElementName=RoguelikeRequireStartingCoreChar2TooltipBlock}"
+                    Margin="0,10"
+                    Content="{Binding RoguelikeCoreChar2UseSupportText}"
+                    IsChecked="{Binding RoguelikeCoreChar2UseSupport}"
+                    IsEnabled="{c:Binding 'RoguelikeCoreChar != &quot;&quot; and RoguelikeCoreChar2 != &quot;&quot;'}" />
+                <controls:TooltipBlock
+                    x:Name="RoguelikeRequireStartingCoreChar2TooltipBlock"
+                    TooltipText="{DynamicResource RoguelikeRequireStartingCoreChar}"
+                    Visibility="{c:Binding 'RoguelikeCoreChar == &quot;&quot; or RoguelikeCoreChar2 == &quot;&quot;'}" />
             </StackPanel>
+            <StackPanel Orientation="Horizontal" Visibility="{c:Binding RoguelikeEnableAdditionalCoreChars}">
+                <CheckBox
+                    MaxWidth="{c:Binding '220 - ActualWidth',
+                                         ElementName=RoguelikeRequireStartingCoreChar3TooltipBlock}"
+                    Margin="0,10"
+                    Content="{Binding RoguelikeCoreChar3UseSupportText}"
+                    IsChecked="{Binding RoguelikeCoreChar3UseSupport}"
+                    IsEnabled="{c:Binding 'RoguelikeCoreChar != &quot;&quot; and RoguelikeCoreChar2 != &quot;&quot; and RoguelikeCoreChar3 != &quot;&quot;'}" />
+                <controls:TooltipBlock
+                    x:Name="RoguelikeRequireStartingCoreChar3TooltipBlock"
+                    TooltipText="{DynamicResource RoguelikeRequireStartingCoreChar}"
+                    Visibility="{c:Binding 'RoguelikeCoreChar == &quot;&quot; or RoguelikeCoreChar2 == &quot;&quot; or RoguelikeCoreChar3 == &quot;&quot;'}" />
+            </StackPanel>
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding RoguelikeEnableNonfriendSupport}"
+                IsEnabled="{c:Binding 'RoguelikeCoreChar != &quot;&quot; or RoguelikeCoreChar2 != &quot;&quot; or RoguelikeCoreChar3 != &quot;&quot;'}"
+                Visibility="{c:Binding 'RoguelikeUseSupportUnit or (RoguelikeEnableAdditionalCoreChars and (RoguelikeCoreChar2UseSupport or RoguelikeCoreChar3UseSupport))'}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource RoguelikeUseNonFriendSupport}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
 
             <CheckBox
                 Margin="0,10"
@@ -358,17 +419,20 @@
                     Text="{DynamicResource RoguelikeMonthlySquadAutoIterate}"
                     TextWrapping="Wrap" />
             </CheckBox>
-            <CheckBox
+            <StackPanel
                 Margin="0,10"
                 d:Visibility="Visible"
-                IsChecked="{Binding RoguelikeMonthlySquadCheckComms}"
+                Orientation="Horizontal"
                 Visibility="{c:Binding 'RoguelikeMonthlySquadAutoIterate and RoguelikeMode == task:RoguelikeMode.Squad',
                                        Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}">
-                <TextBlock
-                    Block.TextAlignment="Left"
-                    Text="{DynamicResource RoguelikeMonthlySquadCheckComms}"
-                    TextWrapping="Wrap" />
-            </CheckBox>
+                <CheckBox IsChecked="{Binding RoguelikeMonthlySquadCheckComms}">
+                    <TextBlock
+                        Block.TextAlignment="Left"
+                        Text="{DynamicResource RoguelikeMonthlySquadCheckComms}"
+                        TextWrapping="Wrap" />
+                </CheckBox>
+                <controls:TooltipBlock TooltipText="{DynamicResource RoguelikeMonthlySquadCheckCommsTip}" />
+            </StackPanel>
             <CheckBox
                 Margin="0,10"
                 d:Visibility="Visible"
@@ -394,7 +458,8 @@
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding RoguelikeStartWithSeed}"
-                Visibility="{c:Binding 'RoguelikeTheme == task:RoguelikeTheme.JieGarden'}">
+                Visibility="{c:Binding 'RoguelikeTheme == task:RoguelikeTheme.JieGarden',
+                                       Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource RoguelikeStartWithSeed}"

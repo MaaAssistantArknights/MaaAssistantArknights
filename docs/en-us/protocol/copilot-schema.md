@@ -34,7 +34,7 @@ Please note that JSON files do not support comments. The comments in this docume
                 "elite": 2, // Elite level. Optional, default is -1, i.e., no requirement
                 "level": 90, // Operator level. Optional, default is -1, i.e., no requirement
                 "skill_level": 10, // Skill level. Optional, default is -1, i.e., no requirement
-                "module": 1, // Module number. Optional, default is -1, i.e., no requirement; 0 means no module, 1-4 correspond to modules of different numbers
+                "module": 1, // Module number. Optional, default is -1, i.e., no requirement; 0 means no module, 1-5 correspond to the χ, γ, α, Δ, β modules respectively
                 "module_level": 3, // Module level. Not yet supported
                 "potential": 1 // Potential requirement. Not yet supported
             }

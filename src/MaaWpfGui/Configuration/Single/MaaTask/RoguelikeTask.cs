@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+using System.Collections.Generic;
 using MaaWpfGui.Constants.Enums;
 using static MaaWpfGui.Main.AsstProxy;
 
@@ -53,7 +54,15 @@ public class RoguelikeTask : BaseTask
     /// </summary>
     public int StartCount { get; set; } = 999999;
 
-    public string CoreChar { get; set; } = string.Empty;
+    /// <summary>
+    /// Gets or sets 开局干员顺位列表，按顺序招募，最多 3 位
+    /// </summary>
+    public List<RoguelikeStartingOper> StartingOpers { get; set; } = [];
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 启用第 2、3 位开局干员
+    /// </summary>
+    public bool UseAdditionalStartingOpers { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether 启用投资
@@ -121,11 +130,6 @@ public class RoguelikeTask : BaseTask
     public RoguelikeBlackFlowCultivationTarget BlackFlowCultivationTarget { get; set; } = RoguelikeBlackFlowCultivationTarget.Cat;
 
     /// <summary>
-    /// Gets or sets a value indicating whether 使用好友助战
-    /// </summary>
-    public bool UseSupport { get; set; }
-
-    /// <summary>
     /// Gets or sets a value indicating whether 使用非好友助战
     /// </summary>
     public bool UseSupportNonFriend { get; set; }
@@ -177,6 +181,16 @@ public class RoguelikeTask : BaseTask
     public bool StartWithSeed { get; set; }
 
     public string Seed { get; set; } = string.Empty;
+
+    /// <summary>
+    /// 开局干员顺位
+    /// </summary>
+    public class RoguelikeStartingOper
+    {
+        public string Name { get; set; } = string.Empty;
+
+        public bool UseSupport { get; set; }
+    }
 }
 
 public enum RoguelikeTheme

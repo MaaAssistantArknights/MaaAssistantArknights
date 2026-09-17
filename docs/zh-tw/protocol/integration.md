@@ -749,6 +749,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @optional
 領取五週年贈送的月卡獎勵。  
 :::  
+::: field name="signinevent" type="boolean" optional default="false"  
+領取限時簽到活動獎勵（僅支援常見橫向版型）。  
+:::  
 ::::
 
 <details>
@@ -762,7 +765,8 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
    "recruit": true,
    "orundum": false,
    "mining": true,
-   "specialaccess": false
+   "specialaccess": false,
+   "signinevent": false
 }
 ```
 
@@ -868,19 +872,24 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 ::: field core_char  
 @type string
 @optional
-開局幹員名稱。僅支援單個幹員的**中文名稱**（不分遊戲伺服器）；若留空或設定為空字串 `""` 則根據練度自動選擇。  
+開局幹員名稱。僅支援單個幹員的**中文名稱**（不分遊戲伺服器）；若留空或設定為空字串 `""` 則根據練度自動選擇。等價於 `core_char_list` 的第 1 順位，僅為向下相容保留。  
+:::  
+::: field core_char_list  
+@type array<object>
+@optional
+開局幹員列表。每項為 `{ "name": 幹員名稱, "use_support": 是否借助戰 }`，幹員名稱同樣僅支援**中文名稱**（不分遊戲伺服器）；按陣列順序對應開局第 1、2、3 次招募，三個位置的幹員職業不能相同。招募只在前幾頁內翻找指定幹員，希望消耗低的幹員可能因排位靠後而找不到，某位置未招募到指定幹員（自有與助戰均未出現）時按預設優先順序進行，因此建議將希望消耗高的幹員排在前面；與 `core_char` 同時傳入時以本欄位為準。  
 :::  
 ::: field use_support  
 @type boolean
 @default false
 @optional
-開局幹員是否使用助戰幹員。  
+開局幹員是否使用助戰幹員。等價於 `core_char_list` 第 1 順位的借助戰標記，僅為向下相容保留。  
 :::  
 ::: field use_nonfriend_support  
 @type boolean
 @default false
 @optional
-是否接受非好友助戰幹員。僅在 `use_support` 為 `true` 時有效。  
+是否接受非好友助戰幹員。全域開關，作用於所有借助戰的開局幹員位置。  
 :::  
 ::: field starts_count  
 @type number
@@ -1076,9 +1085,12 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
    "theme": "Sami",
    "mode": 5,
    "squad": "指挥分队",
-   "roles": "取长补短",
-   "core_char": "塑心",
-   "use_support": false,
+   "roles": "稳扎稳打",
+   "core_char_list": [
+      { "name": "维什戴尔", "use_support": true },
+      { "name": "古米", "use_support": false },
+      { "name": "史都华德", "use_support": false }
+   ],
    "use_nonfriend_support": false,
    "starts_count": 3,
    "difficulty": 8,

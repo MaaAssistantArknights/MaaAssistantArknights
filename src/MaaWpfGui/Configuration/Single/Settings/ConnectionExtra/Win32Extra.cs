@@ -24,6 +24,8 @@ public class Win32Extra : BaseExtra, IJsonOnDeserialized
 
     public AsstWin32KeyboardInputMethod KeyboardMethod { get; set; } = AsstWin32KeyboardInputMethod.SendMessage;
 
+    public bool MuteWhileRunning { get; set; }
+
     public void OnDeserialized()
     {
         // 纯消息鼠标输入（SendMessage/PostMessage）在界面中永久禁用，历史配置若存有该值则回落默认

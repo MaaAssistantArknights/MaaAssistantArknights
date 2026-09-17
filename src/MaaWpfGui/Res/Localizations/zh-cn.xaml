@@ -267,7 +267,11 @@
     <system:String x:Key="StartingSquad">开局分队</system:String>
     <system:String x:Key="StartingRoles">开局职业组</system:String>
     <system:String x:Key="StartingCoreChar">开局{key=Operator}</system:String>
-    <system:String x:Key="StartingCoreCharTip">不填写则使用默认策略。</system:String>
+    <system:String x:Key="StartingCoreCharTip">不填写则使用默认策略。三个位置的职业不能相同。</system:String>
+    <system:String x:Key="EnableAdditionalStartingCoreChar">启用第 2、3 位{key=StartingCoreChar}</system:String>
+    <system:String x:Key="EnableAdditionalStartingCoreCharTip" xml:space="preserve">开启后可在常规设置中填写第 2、3 位开局干员，招募按位置顺序进行。&#10;招募只在前几页内翻找指定干员，希望消耗低的干员可能找不到，届时该位置会回退默认策略。&#10;建议将希望消耗高的干员排在前面。</system:String>
+    <system:String x:Key="StartingCoreChar2">第 2 位{key=StartingCoreChar}</system:String>
+    <system:String x:Key="StartingCoreChar3">第 3 位{key=StartingCoreChar}</system:String>
     <system:String x:Key="RoguelikeThemeTipRecommended">←强烈推荐看</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">输入的{key=Operator}未在 battle_data 中。</system:String>
     <system:String x:Key="RoguelikeCoreCharSet">已设置{key=StartingCoreChar}: {0}</system:String>
@@ -280,7 +284,10 @@
     <system:String x:Key="Roguelike3FirstFloorFoldartalTip">填写远见密文板名称，多个用英文分号 ｢;｣ 隔开</system:String>
     <system:String x:Key="RoguelikeCollapseList">坍缩范式列表</system:String>
     <system:String x:Key="RoguelikeCollapseListTip">用英文分号 ｢;｣ 隔开，留空将使用默认列表。</system:String>
-    <system:String x:Key="RoguelikeUseSupportUnit">｢{key=StartingCoreChar}｣ 使用助战</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnitFormat">{0} 使用助战</system:String>
+    <system:String x:Key="StartingCoreCharPosition1">第 1 位{key=Operator}</system:String>
+    <system:String x:Key="StartingCoreCharPosition2">第 2 位{key=Operator}</system:String>
+    <system:String x:Key="StartingCoreCharPosition3">第 3 位{key=Operator}</system:String>
     <system:String x:Key="RoguelikeRequireStartingCoreChar">需先填写 ｢{key=StartingCoreChar}｣</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助战</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">自动肉鸽在战斗结束前延迟 ｢{key=Stop}｣ 动作</system:String>
@@ -290,6 +297,7 @@
     <!--<system:String x:Key="RoguelikeStartWithSeed">启用刷钱种子（美愿）</system:String>-->
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">月度小队自动切换</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">月度小队通讯</system:String>
+    <system:String x:Key="RoguelikeMonthlySquadCheckCommsTip" xml:space="preserve">勾选后，MAA会检查是否已解锁当前小队的全部通讯，全部解锁后才会切换下一个月度小队&#10;若只需获取奖励，可取消勾选以减少重复探索&#10;MAA不会因为取消勾选此选项而提前在局内结束探索</system:String>
     <system:String x:Key="RoguelikeDeepExplorationAutoIterate">深入调查自动切换</system:String>
     <system:String x:Key="DeploymentWithPause">划火柴模式（自动战斗相关）（不稳定, 暂不推荐开启）</system:String>
     <system:String x:Key="DeploymentWithPauseTip">自动战斗部署{key=Operator}时暂停游戏，再下{key=Operator}</system:String>
@@ -599,6 +607,7 @@ D:\
     <system:String x:Key="ManualStopWithScript">手动停止时启用上述脚本</system:String>
     <system:String x:Key="BlockSleep">运行任务时阻止休眠</system:String>
     <system:String x:Key="BlockSleepWithScreenOn">阻止休眠时保持屏幕常亮</system:String>
+    <system:String x:Key="MuteGameWhileRunning">任务运行时游戏静音</system:String>
     <system:String x:Key="ScreencapCost">截图耗时 min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
     <system:String x:Key="RoguelikeTheme">肉鸽主题</system:String>
     <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
@@ -701,11 +710,12 @@ D:\
     <system:String x:Key="YituliuTokenInvalid">Token 无效或已失效，请重新生成</system:String>
     <system:String x:Key="YituliuTokenNetworkError">网络错误，请稍后重试</system:String>
     <system:String x:Key="EnableOperBoxYituliuApi">{key=OperBoxRecognition}从一图流获取</system:String>
-    <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">开启后 ｢{key=Toolbox}｣ 与 ｢{key=UserDataUpdate}｣ 的{key=OperBoxRecognition}不再连接模拟器截图识别，改为直接读取 Token 对应的一图流练度数据。&#10;更新数据触发时在点下 ｢{key=LinkStart}｣ 并连接模拟器后立即并行拉取，不等待其他任务完成。&#10;一图流保存的是练度快照，需先在一图流网站上传过干员数据；练度数据由森空岛导入，仅国服账号有数据。&#10;Token 在一图流 ｢个人中心｣ 的 ｢第三方 API Token｣ 中生成，为保护账号数据请仅使用只读 Token。</system:String>
+    <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">开启后 ｢{key=Toolbox}｣ 与 ｢{key=UserDataUpdate}｣ 的{key=OperBoxRecognition}不再连接模拟器截图识别，改为直接读取 Token 对应的一图流练度数据。&#10;更新数据触发时在点下 ｢{key=LinkStart}｣ 并连接模拟器后立即并行拉取，不等待其他任务完成。&#10;一图流保存的是练度快照，需先在一图流网站上传过干员数据。&#10;相比本地截图识别可额外获取技能等级、专精等级与模组信息。&#10;Token 在一图流 ｢个人中心｣ 的 ｢第三方 API Token｣ 中生成，为保护账号数据请仅使用只读 Token。</system:String>
     <system:String x:Key="OperBoxFetchingFromYituliu">正在从一图流获取干员数据…</system:String>
     <system:String x:Key="YituliuFetchFailed">从一图流获取失败：{0}</system:String>
     <system:String x:Key="YituliuNoOperBoxData">Token 对应的一图流账号暂无干员练度数据，已保留本地识别结果</system:String>
     <system:String x:Key="YituliuOperBoxCompleted">{key=OperBoxRecognition}完成（一图流）</system:String>
+    <system:String x:Key="OperBoxExportHeaderMainSkillLevel">技能等级</system:String>
     <system:String x:Key="OperBoxExportHeaderSkills">技能专精</system:String>
     <system:String x:Key="OperBoxExportHeaderEquips">模组</system:String>
     <system:String x:Key="DrGrandet">博朗台模式</system:String>
@@ -736,6 +746,8 @@ D:\
     <system:String x:Key="ReceiveOrundum">领取幸运墙的每日合成玉奖励</system:String>
     <system:String x:Key="ReceiveMining">领取限时开采许可的每日合成玉奖励</system:String>
     <system:String x:Key="ReceiveSpecialAccess">领取周年赠送月卡奖励</system:String>
+    <system:String x:Key="ReceiveSignInEvent">领取限时签到活动奖励</system:String>
+    <system:String x:Key="ReceiveSignInEventTip">仅支持常见横向版型；其他版型不支持，可能无法正常运作</system:String>
     <system:String x:Key="DroneUsage">无人机用途</system:String>
     <system:String x:Key="UseTray">显示托盘图标</system:String>
     <system:String x:Key="HideTray">隐藏托盘图标</system:String>
@@ -2244,7 +2256,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Achievement.SnapshotChallenge2.Conditions">平均截图用时在 400ms 到 800ms 之间</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge3.Title">截图挑战 · Normal</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge3.Description">要不试试截图增强？</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Description">要不试试模拟器的截图增强？</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge3.Conditions">平均截图用时小于 400ms</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge4.Title">截图挑战 · Fast</system:String>

@@ -20,6 +20,7 @@ This task includes two sub-items that can be independently toggled:
 - Recognizes owned and unowned operator rosters, and saves potential data.
 - Results are used by [Recruitment Recognition](./tools.md#recruitment-recognition) to display operator potentials.
 - Last sync time is displayed after recognition.
+- After enabling `Fetch Operator data from Yituliu` in `Settings - Third-party services`, this sub-item reads the Yituliu progression data directly when the task starts, without emulator recognition.
 
 ### Depot Recognition
 

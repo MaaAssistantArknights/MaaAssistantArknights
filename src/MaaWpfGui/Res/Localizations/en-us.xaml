@@ -267,7 +267,11 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="StartingSquad">Starting Squad</system:String>
     <system:String x:Key="StartingRoles">Starting Roles</system:String>
     <system:String x:Key="StartingCoreChar">Starting {key=Operator}</system:String>
-    <system:String x:Key="StartingCoreCharTip">If not filled out, the default policy will be used.</system:String>
+    <system:String x:Key="StartingCoreCharTip">If not filled out, the default policy will be used. The classes of the three positions must be different.</system:String>
+    <system:String x:Key="EnableAdditionalStartingCoreChar">Enable 2nd and 3rd {key=StartingCoreChar}</system:String>
+    <system:String x:Key="EnableAdditionalStartingCoreCharTip" xml:space="preserve">When enabled, the 2nd and 3rd starting operators can be filled in under General settings, and recruitment follows the position order.&#10;Recruitment only searches the first few pages, so operators with lower hope cost may not be found, and that position will fall back to the default policy.&#10;It is recommended to place operators with higher hope cost first.</system:String>
+    <system:String x:Key="StartingCoreChar2">2nd {key=StartingCoreChar}</system:String>
+    <system:String x:Key="StartingCoreChar3">3rd {key=StartingCoreChar}</system:String>
     <system:String x:Key="RoguelikeThemeTipRecommended">← Highly recommended reading</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">The {key=Operator} is not in battle_data.</system:String>
     <system:String x:Key="RoguelikeCoreCharSet">{key=StartingCoreChar} set: {0}</system:String>
@@ -280,7 +284,10 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="Roguelike3FirstFloorFoldartalTip">Enter the foldartal names, separated by ｢;｣</system:String>
     <system:String x:Key="RoguelikeCollapseList">Collapse Paradigm List</system:String>
     <system:String x:Key="RoguelikeCollapseListTip">Separate with ｢;｣. Leave blank to use the default list.</system:String>
-    <system:String x:Key="RoguelikeUseSupportUnit">Select ｢{key=StartingCoreChar}｣ from support unit list</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnitFormat">Select {0} from support unit list</system:String>
+    <system:String x:Key="StartingCoreCharPosition1">1st {key=Operator}</system:String>
+    <system:String x:Key="StartingCoreCharPosition2">2nd {key=Operator}</system:String>
+    <system:String x:Key="StartingCoreCharPosition3">3rd {key=Operator}</system:String>
     <system:String x:Key="RoguelikeRequireStartingCoreChar">Please enter ｢{key=StartingCoreChar}｣ first</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable non-friend support</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">Don't abort Auto IS until the end of battle</system:String>
@@ -290,6 +297,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <!--<system:String x:Key="RoguelikeStartWithSeed">Enable Investment Seed</system:String>-->
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">Monthly Squad Auto-Switch</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">Monthly Squad Communication</system:String>
+    <system:String x:Key="RoguelikeMonthlySquadCheckCommsTip" xml:space="preserve">When enabled, MAA checks whether all communications for the current squad have been unlocked and only switches to the next Monthly Squad once they are all unlocked.&#10;If you only want the rewards, disable this option to reduce repeated exploration.&#10;MAA will not end the current exploration early just because this option is disabled.</system:String>
     <system:String x:Key="RoguelikeDeepExplorationAutoIterate">Deep Investigation Auto-Switch</system:String>
     <system:String x:Key="DeploymentWithPause" xml:space="preserve">Pause Trick (Experimental)</system:String>
     <system:String x:Key="DeploymentWithPauseTip">Pauses the game when deploying {key=Operator} in auto combat, then deploys the next {key=Operator}</system:String>
@@ -600,6 +608,7 @@ If you choose ｢{key=ManualRestart}｣ and start MAA manually later, ｢{key=Ru
     <system:String x:Key="ManualStopWithScript">Enable the above script during manual stop</system:String>
     <system:String x:Key="BlockSleep">Prevent hibernation when running tasks</system:String>
     <system:String x:Key="BlockSleepWithScreenOn">Keep screen on when preventing hibernation</system:String>
+    <system:String x:Key="MuteGameWhileRunning">Mute the game while tasks are running</system:String>
     <system:String x:Key="ScreencapCost">Screencap Cost min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
     <system:String x:Key="RoguelikeTheme">I.S. Theme</system:String>
     <system:String x:Key="RoguelikeThemePhantom">Phantom</system:String>
@@ -703,11 +712,12 @@ To enable this mechanism, make sure the selected difficulty is N3 or higher (exc
     <system:String x:Key="YituliuTokenInvalid">Token is invalid or expired. Please generate a new one</system:String>
     <system:String x:Key="YituliuTokenNetworkError">Network error. Please try again later</system:String>
     <system:String x:Key="EnableOperBoxYituliuApi">Fetch {key=OperBoxRecognition} data from Yituliu</system:String>
-    <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">When enabled, {key=OperBoxRecognition} in ｢{key=Toolbox}｣ and ｢{key=UserDataUpdate}｣ no longer connects to the emulator for screenshot recognition, and instead reads the Yituliu progression data linked to the token.&#10;When triggered by ｢{key=UserDataUpdate}｣, fetching starts in parallel with other tasks once ｢{key=LinkStart}｣ has connected to the emulator.&#10;Yituliu stores a snapshot of your progression, so your operator data must have been uploaded to Yituliu first; the data is imported from SKLAND and is only available for CN server accounts.&#10;Generate the token under ｢Third-party API Token｣ on the Yituliu account page. Use a read-only token only to protect your account data.</system:String>
+    <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">When enabled, {key=OperBoxRecognition} in ｢{key=Toolbox}｣ and ｢{key=UserDataUpdate}｣ no longer connects to the emulator for screenshot recognition, and instead reads the Yituliu progression data linked to the token.&#10;When triggered by ｢{key=UserDataUpdate}｣, fetching starts in parallel with other tasks once ｢{key=LinkStart}｣ has connected to the emulator.&#10;Yituliu stores a snapshot of your progression, so your operator data must have been uploaded to Yituliu first.&#10;Unlike screenshot recognition, this also fetches skill levels, masteries, and module information.&#10;Generate the token under ｢Third-party API Token｣ on the Yituliu account page. Use a read-only token only to protect your account data.</system:String>
     <system:String x:Key="OperBoxFetchingFromYituliu">Fetching operator data from Yituliu...</system:String>
     <system:String x:Key="YituliuFetchFailed">Failed to fetch from Yituliu: {0}</system:String>
     <system:String x:Key="YituliuNoOperBoxData">The Yituliu account linked to the token has no operator data yet. Local recognition results are kept</system:String>
     <system:String x:Key="YituliuOperBoxCompleted">{key=OperBoxRecognition} sync completed (Yituliu)</system:String>
+    <system:String x:Key="OperBoxExportHeaderMainSkillLevel">Skill level</system:String>
     <system:String x:Key="OperBoxExportHeaderSkills">Skill masteries</system:String>
     <system:String x:Key="OperBoxExportHeaderEquips">Modules</system:String>
     <system:String x:Key="DrGrandet">Dr. Grandet Mode</system:String>
@@ -738,6 +748,8 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="ReceiveOrundum">Collect daily Orundum reward from the Lucky Strips</system:String>
     <system:String x:Key="ReceiveMining">Collect daily Orundum reward from the provisional mining permit</system:String>
     <system:String x:Key="ReceiveSpecialAccess">Collect Special Access rewards</system:String>
+    <system:String x:Key="ReceiveSignInEvent">Collect Sign-In Event rewards</system:String>
+    <system:String x:Key="ReceiveSignInEventTip">Only standard horizontal layouts are supported; other layouts are unsupported and may not work correctly</system:String>
     <system:String x:Key="DroneUsage">Drone Usage</system:String>
     <system:String x:Key="UseTray">Display Tray Icon</system:String>
     <system:String x:Key="HideTray">Disable Tray Icon</system:String>
@@ -2245,7 +2257,7 @@ These directories are not suitable places to keep MAA; files there can be easily
     <system:String x:Key="Achievement.SnapshotChallenge2.Conditions">Average screenshot time between 400ms and 800ms</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge3.Title">Screenshot Challenge · Normal</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge3.Description">Maybe try screenshot enhancement?</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Description">How about trying your emulator's screenshot enhancement?</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge3.Conditions">Average screenshot time under 400ms</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge4.Title">Screenshot Challenge · Fast</system:String>

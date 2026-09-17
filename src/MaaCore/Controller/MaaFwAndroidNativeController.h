@@ -73,7 +73,7 @@ private:
     AsstCallback m_callback = nullptr;
     void callback(AsstMsg msg, const json::value& details) const;
 
-    // MaaFramework/source/include/MaaControlUnit/AndroidNativeControlUnitAPI.h
+    // MaaFramework/include/MaaControlUnit/AndroidNativeControlUnitAPI.h
     using GetVersionFunc = const char*();
     using CreateFunc = MaaFwAndroidNativeControlUnitAPI*(const char*);
     using DestroyFunc = void(MaaFwAndroidNativeControlUnitAPI*);

@@ -82,6 +82,11 @@
     <SolidColorBrush x:Key="Star6OperatorLogBrush" Color="DarkOrange" />
     <SolidColorBrush x:Key="Star6OperatorLogBrushPotentialFull" Color="#66FF8C00" />
 
+    <!--  OperBox 技能练度：品字点亮圆与熄灭圆/RANK/模组文字的灰，浅色主题取适配浅底的深浅  -->
+    <SolidColorBrush x:Key="OperBox.MasteryOnBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="OperBox.MasteryOffBrush" Color="#555555" />
+    <SolidColorBrush x:Key="OperBox.MasteryTextBrush" Color="Gray" />
+
     <SolidColorBrush x:Key="DownloadLogBrush" Color="BlueViolet" />
 
     <SolidColorBrush x:Key="MuMuSpecialScreenshot" Color="#02BFFF" />

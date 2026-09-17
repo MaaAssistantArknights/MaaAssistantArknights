@@ -1,14 +1,14 @@
-## v6.18.0-beta.1
+## v6.18.0-beta.2
 
 ### Highlights
 
 #### 一图流练度数据读取
 
-设置新增 ｢三方服务｣ 栏，干员识别支持填写一图流 OpenAPI Token 后直接读取一图流保存的练度快照，小工具的干员识别不再需要连接模拟器。
+设置新增 ｢三方服务｣ 栏，干员识别支持填写一图流 OpenAPI Token 后直接读取一图流保存的练度快照，小工具的干员识别不再需要连接模拟器。相比本地截图识别，一图流数据还可额外获取技能等级、专精等级与模组信息。
 
-#### 黑流树海肉鸽增强
+#### 肉鸽开局自选干员与黑流树海增强
 
-零件箱超载时自动丢弃零件，刷襁褓动物策略统一为行进至第三层，未知终止原因时引导前往问题反馈页。
+肉鸽开局招募的 3 名干员可分别指定，每个可独立借助战，未招募到时该次按默认优先级补位。黑流树海主题下仅第 1 个指定干员生效，零件箱超载时自动丢弃零件，刷襁褓动物策略统一为行进至第三层，未知终止原因时引导前往问题反馈页。
 
 #### 更新失败自动修复
 
@@ -19,11 +19,11 @@
 
 #### Operator Recognition via Yituliu OpenAPI
 
-A new "Third-Party Services" settings section lets operator recognition read the proficiency snapshot stored on Yituliu via an OpenAPI token, and the toolbox's operator recognition no longer requires a connected emulator.
+A new "Third-Party Services" settings section lets operator recognition read the proficiency snapshot stored on Yituliu via an OpenAPI token, and the toolbox's operator recognition no longer requires a connected emulator. Unlike screenshot recognition, the Yituliu data also includes skill levels, masteries, and module information.
 
-#### BlackFlow Roguelike Enhancements
+#### Roguelike Start Operator Selection & BlackFlow Enhancements
 
-Parts are discarded automatically when the parts box is overloaded, the cultivation strategy now consistently advances to the third floor, and unknown terminations guide users to the issue report page.
+Each of the 3 start-of-run recruits can now specify an operator with an independent support-unit option; when a recruit misses, that slot falls back to the default priority list. On the BlackFlow theme only the first specified operator takes effect; parts are discarded automatically when the parts box is overloaded, the cultivation strategy consistently advances to the third floor, and unknown terminations guide users to the issue report page.
 
 #### Auto Repair for Failed Updates
 
@@ -36,6 +36,38 @@ After a failed update, task startup is blocked and the dialog offers automatic r
 以下是详细内容：
 
 <details open>
+<summary><b>v6.18.0-beta.2 (2026-09-17)</b></summary>
+
+### 新增 | New
+
+* 肉鸽开局招募的 3 名干员可分别指定，每个可独立选择是否借助战；未招募到指定干员时该次按默认优先级补位（黑流树海主题下仅第 1 个指定干员生效）([#18235](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18235)) @ABA2396
+* 领取奖励新增自动领取限时签到活动，默认关闭，可在领取设置中开启；仅适配通用横向版型，新春等特殊版型暂不支持 ([#16989](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/16989)) @momomochi987 @Constrat @HX3N @Manicsteiner
+* PC 端直连新增 ｢任务运行时游戏静音｣ 选项（连接设置 - Win32 附加选项，默认关闭），仅静音游戏进程音频、不影响系统音量，任务停止后自动恢复 ([#18040](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18040)) @H2O-MERO
+* 基建换班新增 ｢满血 252（2 赤金）一天 3 换｣ 排班表 ([#17188](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17188)) @ntgmc
+* 作业模组字段新增 β 模组（编号 5）支持，并修正 α/Δ 编号映射错位，编队不再切错模组 @ABA2396
+
+### 改进 | Improved
+
+* 干员识别使用一图流数据时，已拥有干员卡片新增展示技能等级、专精等级与模组，CSV/Markdown 导出新增技能等级列 ([#18231](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18231)) @ABA2396
+* Copilot 作业的自定义干员支持填写国际服干员名（英/日/韩/繁中），自动换算为对应干员 ([#18180](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18180)) @HX3N
+* 更新 MaaFramework 依赖至 v5.13.0，PC 端直连支持对游戏公告的独立 WebView 窗口截图，任务更不易被公告弹窗卡住 ([#18127](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18127)) @SweetSmellFox
+* PC 端截图测试显示截图用时，并可触发 ｢截图挑战｣ 成就，同步更新成就描述 ([#17874](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17874)) @H2O-MERO
+* 补充干员 ｢机械师｣ 制造站技能 ｢我睡过了｣ 的效率数据，基建排班正确将其编入制造站 ([#17884](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17884)) @Artoria2e5
+* 重构升变阿米娅的干员名匹配，移除内部职业后缀，借助战与肉鸽招募、战斗统一按名字与职业匹配，降低错配风险 ([#18190](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18190)) @status102
+* 更新弹窗的更新日志为贡献者显示 GitHub 头像，并修复当前版本内容始终显示为折叠的问题 @ABA2396
+* 肉鸽设置 ｢月度小队通讯｣ 选项新增悬停说明，说明勾选后的小队切换与结束行为 ([#18228](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18228)) @youzibigg
+* 繁中服优化 OCR 替换规则与公招标签容错，修正生息演算简体字残留，界面用词调整为台湾惯用语 ([#18232](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18232)) @momomochi987
+* YostarJP preload PA navigation @Manicsteiner
+
+### 修复 | Fix
+
+* 修复绿票、黄票商店任务必须从主界面启动的问题 ([#18237](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18237)) @ModerRAS
+* 调整绿票商店赤金匹配阈值，修复一层赤金未识别导致二层未解锁、任务却显示完成的问题 ([#18223](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18223)) @moranfanhua
+* 修复黑流树海肉鸽展开关卡信息时 ｢未知的凶戾｣（隐藏作战节点）被误判为普通作战的问题 ([#18208](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18208)) @ZiyinLin
+
+</details>
+
+<details>
 <summary><b>v6.18.0-beta.1 (2026-09-14)</b></summary>
 
 ### 新增 | New

@@ -1567,6 +1567,22 @@
         "sortId": 40003,
         "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
     },
+    "SINGLE_72_0_1_GACHA": {
+        "classifyType": "NORMAL",
+        "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
+        "icon": "SINGLE_72_0_1_GACHA.png",
+        "name": "Rage of the Many Headhunting Permit",
+        "sortId": 40003,
+        "usage": "A special permit from Rhodes Island HR for recruiting special talents at special points in time. Can be used to recruit one operator."
+    },
+    "SINGLE_72_0_1_GACHA_10": {
+        "classifyType": "NORMAL",
+        "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
+        "icon": "SINGLE_72_0_1_GACHA_10.png",
+        "name": "Rage of the Many Ten-roll Headhunting Permit",
+        "sortId": 40003,
+        "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
+    },
     "SOCIAL_PT": {
         "classifyType": "NONE",
         "description": "Credit holds communities together and stands as a symbol of social stability. Sometimes it's even more valuable than money, so do please cherish it.",
@@ -2638,6 +2654,14 @@
         "name": "Valid Intelligence Unit",
         "sortId": -10000,
         "usage": "A basic unit of the Rhodes Island Intelligence Processing System, used to advance intel-gathering efforts."
+    },
+    "act51side_token_poem": {
+        "classifyType": "NONE",
+        "description": "'To all who have held onto their tomorrows, I bestow what life and hope remain in me to every soul who seeks freedom and happiness. I will be dead before morning light... Mama, I call out your name, and you are Ursus, yet who am I?'",
+        "icon": "act51side_token_poem.png",
+        "name": "Broken Verses",
+        "sortId": -10000,
+        "usage": "Scraps of unsent letters. Those who find these can choose to either preserve them as evidence, or toss them to the still-burning bonfire in exchange for a pittance of warmth."
     },
     "act5bossrush_milestone_point": {
         "classifyType": "NONE",

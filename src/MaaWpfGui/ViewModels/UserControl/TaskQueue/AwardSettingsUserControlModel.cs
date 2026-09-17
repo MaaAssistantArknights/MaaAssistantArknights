@@ -102,6 +102,15 @@ public class AwardSettingsUserControlModel : TaskSettingsViewModel, AwardSetting
         set => SetTaskConfig<AwardTask>(t => t.SpecialAccess == value, t => t.SpecialAccess = value);
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether to collect limited-time sign-in event rewards.
+    /// </summary>
+    public bool ReceiveSignInEvent
+    {
+        get => GetTaskConfig<AwardTask>().SignInEvent;
+        set => SetTaskConfig<AwardTask>(t => t.SignInEvent == value, t => t.SignInEvent = value);
+    }
+
     public override void RefreshUI(BaseTask baseTask)
     {
         if (baseTask is AwardTask)
@@ -128,6 +137,7 @@ public class AwardSettingsUserControlModel : TaskSettingsViewModel, AwardSetting
                 Orundum = award.Orundum,
                 Mining = award.Mining,
                 SpecialAccess = award.SpecialAccess,
+                SignInEvent = award.SignInEvent,
             };
             return taskId switch {
                 int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]),

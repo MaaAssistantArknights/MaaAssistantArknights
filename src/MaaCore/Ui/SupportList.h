@@ -75,10 +75,10 @@ public:
     /// <summary>
     /// 助战干员详情界面识别 <c>module</c> 模组的等级，若不小于 <c>minimum_module_level</c> 则选择该模组。
     /// </summary>
-    /// <param name="module">目标模组；不可为 <c>OperModule::Unspecified</c>。</param>
-    /// <param name="minimum_module_level">模组等级下限；仅当 <c>module != OperModule::Original</c> 时有效。</param>
-    /// <returns>
-    /// 若模组等级达标且成功选择模组，则返回 <c>true</c>，反之则返回 <c>false</c>。
+    /// <param name="module">目标模组；不可为 <c>OperModule::Unspecified</c>。枚举值与作业协议的模组编号一致（1: χ, 2:
+    /// γ, 3: α, 4: Δ, 5: β）。</param> <param name="minimum_module_level">模组等级下限；仅当 <c>module !=
+    /// OperModule::Original</c> 时有效。</param> <returns> 若模组等级达标且成功选择模组，则返回 <c>true</c>，反之则返回
+    /// <c>false</c>。
     /// </returns>
     /// <remarks>
     /// 若当前助战干员未解锁模组系统，即 <c>support_unit.module_enabled == false</c>，
@@ -253,7 +253,7 @@ private:
     /// </summary>
     static constexpr std::array<OperModule, 8> SUPPORT_UNIT_MODULES = {
         OperModule::Original, OperModule::Chi,   OperModule::Upsilon,
-        OperModule::Delta,    OperModule::Alpha, OperModule::Beta,
+        OperModule::Alpha,    OperModule::Delta, OperModule::Beta,
     };
 };
 } // namespace asst

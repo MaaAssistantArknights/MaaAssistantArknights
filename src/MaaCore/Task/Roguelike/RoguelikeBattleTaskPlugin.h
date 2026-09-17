@@ -94,8 +94,6 @@ protected:
     void check_drone_tiles();
     void wait_until_start_button_clicked();
 
-    std::string oper_name_in_config(const battle::DeploymentOper& oper) const;
-    battle::LocationType get_oper_location_type(const battle::DeploymentOper& oper) const;
     std::vector<Point> available_locations(const battle::DeploymentOper& oper) const;
     std::vector<Point> available_locations(battle::LocationType type) const;
     bool get_position_full(const battle::DeploymentOper& oper) const;

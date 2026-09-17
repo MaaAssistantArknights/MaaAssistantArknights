@@ -1150,6 +1150,11 @@ public class AsstProxy
                     fastestScreencapStringBuilder.Insert(0, LocalizationHelper.GetStringFormat("FastestWayToScreencap", costString, method));
                     var fastestScreencapString = fastestScreencapStringBuilder.ToString();
                     SettingsViewModel.ConnectSettings.ScreencapTestCost = fastestScreencapString;
+                    if (SettingsViewModel.ConnectSettings.IsPCConnectConfig)
+                    {
+                        SettingsViewModel.ConnectSettings.TestLinkInfo = fastestScreencapString;
+                    }
+
                     Instances.TaskQueueViewModel.AddLog(fastestScreencapString, color, toolTip: screencapAlternatives.CreateScreencapTooltip());
                     Instances.CopilotViewModel.AddLog(fastestScreencapString, color, showTime: false);
 
@@ -1167,63 +1172,10 @@ public class AsstProxy
                 break;
 
             case "ScreencapCost":
-                var screencapCostMin = details["details"]?["min"]?.ToString() ?? "???";
-                var screencapCostAvg = details["details"]?["avg"]?.ToString() ?? "???";
-                var screencapCostMax = details["details"]?["max"]?.ToString() ?? "???";
-                var currentTime = DateTimeOffset.Now.ToString("HH:mm:ss");
-                SettingsViewModel.ConnectSettings.ScreencapCost = LocalizationHelper.GetStringFormat("ScreencapCost", screencapCostMin, screencapCostAvg, screencapCostMax, currentTime);
-                if (!HasPrintedScreencapWarning && int.TryParse(screencapCostAvg, out var screencapCostAvgInt))
-                {
-                    static void AddLog(string message, string color)
-                    {
-                        Instances.TaskQueueViewModel.AddLog(message, color);
-                        Instances.CopilotViewModel.AddLog(message, color, showTime: false);
-                        HasPrintedScreencapWarning = true;
-                    }
-
-                    switch (screencapCostAvgInt)
-                    {
-                        // 日志提示
-                        case >= 800:
-                            AddLog(LocalizationHelper.GetStringFormat("FastestWayToScreencapErrorTip", screencapCostAvgInt), UiLogColor.Warning);
-                            AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge1);
-                            break;
-
-                        case >= 400:
-                            AddLog(LocalizationHelper.GetStringFormat("FastestWayToScreencapWarningTip", screencapCostAvgInt), UiLogColor.Warning);
-                            AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge2);
-                            break;
-
-                        default:
-                            {
-                                // 高配电脑未开截图增强时耗时也常在 100ms 以上，此档不告警，仅提示可优化
-                                if (screencapCostAvgInt >= 100 && SettingsViewModel.ConnectSettings.ScreencapMethod is not ("MumuExtras" or "LDExtras"))
-                                {
-                                    AddLog(LocalizationHelper.GetStringFormat("FastestWayToScreencapInfoTip", screencapCostAvgInt), UiLogColor.Info);
-                                }
-
-                                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge3);
-
-                                if (screencapCostAvgInt < 100)
-                                {
-                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge4);
-                                }
-
-                                if (screencapCostAvgInt < 10)
-                                {
-                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge5);
-                                }
-
-                                if (screencapCostAvgInt < 5)
-                                {
-                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge6);
-                                }
-
-                                break;
-                            }
-                    }
-                }
-
+                HandleScreencapCost(
+                    details["details"]?["min"]?.ToString() ?? "???",
+                    details["details"]?["avg"]?.ToString() ?? "???",
+                    details["details"]?["max"]?.ToString() ?? "???");
                 break;
 
             case "EmulatorFPS":
@@ -1284,6 +1236,81 @@ public class AsstProxy
         _sanityRecoveryTimer.Stop();
         _sanityRecoveryTimer.Tick -= OnSanityRecoveryTimer;
         _sanityRecoveryTimer = null;
+    }
+
+    private void HandleScreencapCost(string min, string avg, string max)
+    {
+        var currentTime = DateTimeOffset.Now.ToString("HH:mm:ss");
+        SettingsViewModel.ConnectSettings.ScreencapCost = LocalizationHelper.GetStringFormat("ScreencapCost", min, avg, max, currentTime);
+
+        if (!int.TryParse(avg, out var avgInt))
+        {
+            return;
+        }
+
+        if (!HasPrintedScreencapWarning && !SettingsViewModel.ConnectSettings.IsPCConnectConfig)
+        {
+            static void AddLog(string message, string color)
+            {
+                Instances.TaskQueueViewModel.AddLog(message, color);
+                Instances.CopilotViewModel.AddLog(message, color, showTime: false);
+                HasPrintedScreencapWarning = true;
+            }
+
+            switch (avgInt)
+            {
+                // 日志提示
+                case >= 800:
+                    AddLog(LocalizationHelper.GetStringFormat("FastestWayToScreencapErrorTip", avgInt), UiLogColor.Warning);
+                    break;
+
+                case >= 400:
+                    AddLog(LocalizationHelper.GetStringFormat("FastestWayToScreencapWarningTip", avgInt), UiLogColor.Warning);
+                    break;
+
+                default:
+                    {
+                        // 高配电脑未开截图增强时耗时也常在 100ms 以上，此档不告警，仅提示可优化
+                        if (avgInt >= 100 && SettingsViewModel.ConnectSettings.ScreencapMethod is not ("MumuExtras" or "LDExtras"))
+                        {
+                            AddLog(LocalizationHelper.GetStringFormat("FastestWayToScreencapInfoTip", avgInt), UiLogColor.Info);
+                        }
+
+                        break;
+                    }
+            }
+        }
+
+        switch (avgInt)
+        {
+            case >= 800:
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge1);
+                break;
+
+            case >= 400:
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge2);
+                break;
+
+            default:
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge3);
+
+                if (avgInt < 100)
+                {
+                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge4);
+                }
+
+                if (avgInt < 10)
+                {
+                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge5);
+                }
+
+                if (avgInt < 5)
+                {
+                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge6);
+                }
+
+                break;
+        }
     }
 
     private void ProcTaskChainMsg(AsstMsg msg, JObject details)
@@ -2938,7 +2965,7 @@ public class AsstProxy
     }
 
     /// <summary>
-    /// 将连接时绑定的明日方舟窗口移动到主屏幕中央。
+    /// 将连接时绑定的明日方舟窗口从最小化恢复，并移动到主屏幕中央。
     /// </summary>
     public void RestoreGameWindowPosition()
     {
@@ -2949,6 +2976,12 @@ public class AsstProxy
         }
 
         var hwnd = (HWND)_attachWindowHwnd;
+        if (PInvoke.IsIconic(hwnd))
+        {
+            // A minimized window reports iconic coordinates; the restore button must show it before centering it.
+            _ = PInvoke.ShowWindow(hwnd, SHOW_WINDOW_CMD.SW_RESTORE);
+        }
+
         if (!PInvoke.GetWindowRect(hwnd, out var rect))
         {
             _logger.Warning("RestoreGameWindowPosition: GetWindowRect failed, hwnd: {Hwnd}", hwnd);
@@ -2970,6 +3003,37 @@ public class AsstProxy
             SET_WINDOW_POS_FLAGS.SWP_NOSIZE | SET_WINDOW_POS_FLAGS.SWP_NOZORDER | SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE);
 
         _logger.Information("RestoreGameWindowPosition: moved window to screen center, hwnd: {Hwnd}", hwnd);
+    }
+
+    /// <summary>
+    /// Applies a task-time game audio mute setting change without reconnecting Core.
+    /// </summary>
+    /// <param name="enabled">Whether task-time muting is enabled.</param>
+    public void UpdateGameAudioMute(bool enabled)
+    {
+        if (_attachWindowHwnd == IntPtr.Zero)
+        {
+            return;
+        }
+
+        if (!enabled)
+        {
+            if (_runningState.GetIdle())
+            {
+                GameAudioMuteManager.Restore();
+            }
+            else
+            {
+                GameAudioMuteManager.Restore(restoreWindow: false);
+            }
+
+            return;
+        }
+
+        if (!_runningState.GetIdle())
+        {
+            GameAudioMuteManager.Start(_attachWindowHwnd, () => !_runningState.GetIdle());
+        }
     }
 
     /// <summary>
@@ -3039,6 +3103,7 @@ public class AsstProxy
         var screencapMethod = (ulong)win32Extra.ScreencapMethod;
         var mouseMethod = (ulong)win32Extra.MouseMethod;
         var keyboardMethod = (ulong)win32Extra.KeyboardMethod;
+
         bool ret = AsstAttachWindow(_handle, hwnd, screencapMethod, mouseMethod, keyboardMethod);
 
         if (!ret)
@@ -3533,7 +3598,15 @@ public class AsstProxy
     /// <returns>是否成功。</returns>
     public bool AsstStart()
     {
-        return MaaService.AsstStart(_handle);
+        var muteStarted = SettingsViewModel.ConnectSettings.ExtraConfig is Win32Extra { MuteWhileRunning: true } &&
+                          GameAudioMuteManager.Start(_attachWindowHwnd, () => !_runningState.GetIdle());
+        var result = MaaService.AsstStart(_handle);
+        if (!result && muteStarted)
+        {
+            GameAudioMuteManager.Restore();
+        }
+
+        return result;
     }
 
     /// <summary>
@@ -3560,6 +3633,7 @@ public class AsstProxy
     public void AsstDestroy()
     {
         MaaService.AsstDestroy(_handle);
+        GameAudioMuteManager.Restore();
     }
 }
 

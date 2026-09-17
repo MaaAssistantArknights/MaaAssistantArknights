@@ -50,6 +50,7 @@
             </StackPanel>
 
             <mdxam:MarkdownScrollViewer
+                x:Name="ChangelogViewer"
                 Grid.Row="1"
                 ClickAction="SafetyOpenBrowser"
                 Markdown="{Binding UpdateInfo}"

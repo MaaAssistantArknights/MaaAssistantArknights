@@ -771,7 +771,11 @@ Here is an example task configuration for farming hidden Collapsal Paradigms:
     "investment_enabled": false,
     "squad": "远程战术分队",                   // ("远程战术分队" = "Ranged Tactics Squad")
     "roles": "稳扎稳打",                       // ("稳扎稳打" = "Steady Approach")
-    "core_char": "维什戴尔",                   // ("维什戴尔" = "Weathered")
+    "core_char_list": [
+        { "name": "维什戴尔", "use_support": false },   // ("维什戴尔" = "Weathered")
+        { "name": "斑点", "use_support": false },       // ("斑点" = "Spot")
+        { "name": "史都华德", "use_support": false }    // ("史都华德" = "Steward")
+    ],
     "expected_collapsal_paradigms": ["目空一些", "睁眼瞎", "图像损坏", "一抹黑"]
                                                // ("目空一些" = "Blank Somewhat", "睁眼瞎" = "Blind Eye", "图像损坏" = "Image Distortion", "一抹黑" = "Pitch Black")
 }

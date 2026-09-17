@@ -129,8 +129,8 @@ struct OperatorRequirements
     int elite = -1;       // 精英化等级
     int level = -1;       // 干员等级
     int skill_level = -1; // 技能等级
-    int module = -1;      // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组χ, 2: 模组γ, 3: 模组α, 4: 模组Δ
-                          // int potentiality = -1; // 潜能要求
+    int module = -1;      // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组χ, 2: 模组γ, 3: 模组α, 4: 模组Δ, 5:
+                          // 模组β int potentiality = -1; // 潜能要求
 
     auto operator<=>(const OperatorRequirements&) const = default;
 };
@@ -284,32 +284,32 @@ enum class OperModule
     Unspecified = -1,
 
     /// <summary>
-    /// 基础模组/无模组。
+    /// 基础模组/无模组。模组编号 0。
     /// </summary>
     Original = 0,
 
     /// <summary>
-    /// Chi 模组。
+    /// Chi 模组。模组编号 1。
     /// </summary>
     Chi,
 
     /// <summary>
-    /// Upsilon 模组。
+    /// Upsilon 模组。模组编号 2。
     /// </summary>
     Upsilon,
 
     /// <summary>
-    /// Delta 模组。
-    /// </summary>
-    Delta,
-
-    /// <summary>
-    /// Alpha 模组。
+    /// Alpha 模组。模组编号 3。
     /// </summary>
     Alpha,
 
     /// <summary>
-    /// Beta 模组。
+    /// Delta 模组。模组编号 4。
+    /// </summary>
+    Delta,
+
+    /// <summary>
+    /// Beta 模组。模组编号 5。
     /// </summary>
     Beta,
 };
@@ -401,6 +401,8 @@ struct SupportUnit
 {
     cv::Mat templ;
 
+    battle::Role role = battle::Role::Unknown;
+
     /// <summary>
     /// 助战干员名称。
     /// </summary>
@@ -435,26 +437,6 @@ struct SupportUnit
     // int elite_after_promotion = 0; // 进阶后精英化阶段，仅在集成战略中有效，
     // int level_after_promotion = 0; // 进阶后等级，仅在集成战略中有效，
 };
-
-/// <summary>
-/// 根据 <c>role</c> 对干员名 <c>literal_name</c> 进行消歧义，目前仅用于区分不同升变形态下的阿米娅。
-/// </summary>
-inline static std::string canonical_oper_name(battle::Role role, const std::string& literal_name)
-{
-    using battle::Role;
-    static const std::unordered_map<std::pair<Role, std::string>, std::string, std::pair_hash<Role, std::string>>
-        CanonicalOperNameDict {
-            { { Role::Caster, "阿米娅" }, "阿米娅" },
-            { { Role::Warrior, "阿米娅" }, "阿米娅-WARRIOR" },
-            { { Role::Medic, "阿米娅" }, "阿米娅-MEDIC" },
-        };
-
-    if (const auto iter = CanonicalOperNameDict.find({ role, literal_name }); iter != CanonicalOperNameDict.end()) {
-        return iter->second;
-    }
-
-    return literal_name;
-}
 
 // ————————————————————————————————————————————————————————————————
 
@@ -708,8 +690,8 @@ inline std::string enum_to_string(const battle::OperModule module)
         { OperModule::Original, "Original" },
         { OperModule::Chi, "Chi" },
         { OperModule::Upsilon, "Upsilon" },
-        { OperModule::Delta, "Delta" },
         { OperModule::Alpha, "Alpha" },
+        { OperModule::Delta, "Delta" },
         { OperModule::Beta, "Beta" },
     };
 

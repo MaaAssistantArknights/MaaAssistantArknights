@@ -34,6 +34,15 @@ UnhookWinEvent
 GetWindowLong
 SetWindowLong
 
+// Game audio mute
+GetWindowPlacement
+SetWindowPlacement
+MMDeviceEnumerator
+IMMDeviceEnumerator
+IAudioSessionManager2
+IAudioSessionControl2
+ISimpleAudioVolume
+
 //BadInjectedDllChecker
 GetModuleHandle
 GetModuleFileName

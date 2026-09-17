@@ -267,7 +267,11 @@
     <system:String x:Key="StartingSquad">시작 분대</system:String>
     <system:String x:Key="StartingRoles">모집 조합</system:String>
     <system:String x:Key="StartingCoreChar">시작 {key=Operator}</system:String>
-    <system:String x:Key="StartingCoreCharTip">작성하지 않으면 기본 설정이 사용됩니다.</system:String>
+    <system:String x:Key="StartingCoreCharTip">작성하지 않으면 기본 설정이 사용됩니다. 세 위치의 직업은 서로 달라야 합니다.</system:String>
+    <system:String x:Key="EnableAdditionalStartingCoreChar">2·3번째 {key=StartingCoreChar} 활성화</system:String>
+    <system:String x:Key="EnableAdditionalStartingCoreCharTip" xml:space="preserve">활성화하면 일반 설정에서 2·3번째 시작 오퍼레이터를 입력할 수 있으며, 모집은 위치 순서대로 진행됩니다.&#10;모집은 목록 앞쪽의 몇 페이지만 탐색하므로 희망 소모가 낮은 오퍼레이터는 찾지 못할 수 있으며, 해당 위치는 기본 설정으로 대체됩니다.&#10;희망 소모가 높은 오퍼레이터를 앞쪽에 배치하는 것이 좋습니다.</system:String>
+    <system:String x:Key="StartingCoreChar2">2번째 {key=StartingCoreChar}</system:String>
+    <system:String x:Key="StartingCoreChar3">3번째 {key=StartingCoreChar}</system:String>
     <system:String x:Key="RoguelikeThemeTipRecommended">←필독 추천</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">해당 {key=Operator}는 battle_data에 없습니다</system:String>
     <system:String x:Key="RoguelikeCoreCharSet">{key=StartingCoreChar} 설정: {0}</system:String>
@@ -280,7 +284,10 @@
     <system:String x:Key="Roguelike3FirstFloorFoldartalTip">암호판 이름을 입력하고, 여러 개는 ｢;｣ 로 구분합니다</system:String>
     <system:String x:Key="RoguelikeCollapseList">붕괴 패러다임 목록</system:String>
     <system:String x:Key="RoguelikeCollapseListTip">세미콜론 ｢;｣ 으로 구분, 비워 두면 기본 목록이 사용됩니다.</system:String>
-    <system:String x:Key="RoguelikeUseSupportUnit">｢{key=StartingCoreChar}｣ 지원 유닛 사용</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnitFormat">{0} 지원 유닛 사용</system:String>
+    <system:String x:Key="StartingCoreCharPosition1">1번째 {key=Operator}</system:String>
+    <system:String x:Key="StartingCoreCharPosition2">2번째 {key=Operator}</system:String>
+    <system:String x:Key="StartingCoreCharPosition3">3번째 {key=Operator}</system:String>
     <system:String x:Key="RoguelikeRequireStartingCoreChar">먼저 ｢{key=StartingCoreChar}｣를 입력하세요</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">친구가 아니어도 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">{key=AutoRoguelike} 중지 시 전투 종료 대기</system:String>
@@ -290,6 +297,7 @@
     <!--<system:String x:Key="RoguelikeStartWithSeed">투자 시드 활성화</system:String>-->
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">월간 스쿼드 자동 전환</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">월간 스쿼드 통신</system:String>
+    <system:String x:Key="RoguelikeMonthlySquadCheckCommsTip" xml:space="preserve">활성화하면 MAA가 현재 스쿼드의 통신이 모두 해금되었는지 확인하고, 모두 해금된 후에 다음 월간 스쿼드로 전환합니다.&#10;보상만 획득하려면 이 옵션을 비활성화하여 반복 탐색을 줄일 수 있습니다.&#10;이 옵션을 비활성화한다고 해서 MAA가 진행 중인 탐색을 조기에 종료하지는 않습니다.</system:String>
     <system:String x:Key="RoguelikeDeepExplorationAutoIterate">심층 조사 자동 전환</system:String>
     <system:String x:Key="DeploymentWithPause" xml:space="preserve">일시정지 후 배치 (실험적)</system:String>
     <system:String x:Key="DeploymentWithPauseTip">자동 전투에서 {key=Operator} 배치 시 게임을 일시정지한 후 다음 {key=Operator}를 배치합니다</system:String>
@@ -600,6 +608,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="ManualStopWithScript">수동 종료 시 스크립트 사용</system:String>
     <system:String x:Key="BlockSleep">작업 실행 시 절전 모드 차단</system:String>
     <system:String x:Key="BlockSleepWithScreenOn">절전 모드 방지 시 항상 밝게 표시</system:String>
+    <system:String x:Key="MuteGameWhileRunning">작업 실행 중 게임 음소거</system:String>
     <system:String x:Key="ScreencapCost">스크린샷 소요 시간 min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
     <system:String x:Key="RoguelikeTheme">{key=AutoRoguelike} 테마</system:String>
     <system:String x:Key="RoguelikeThemePhantom">팬텀</system:String>
@@ -703,11 +712,12 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="YituliuTokenInvalid">토큰이 유효하지 않거나 만료되었습니다. 다시 생성해 주세요</system:String>
     <system:String x:Key="YituliuTokenNetworkError">네트워크 오류가 발생했습니다. 나중에 다시 시도해 주세요</system:String>
     <system:String x:Key="EnableOperBoxYituliuApi">{key=OperBoxRecognition}을 Yituliu에서 가져오기</system:String>
-    <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">활성화하면 ｢{key=Toolbox}｣와 ｢{key=UserDataUpdate}｣의 {key=OperBoxRecognition}이 에뮬레이터에 연결해 스크린샷으로 식별하지 않고, 토큰에 해당하는 Yituliu 육성 데이터를 직접 불러옵니다.&#10;｢{key=UserDataUpdate}｣ 트리거 시 ｢{key=LinkStart}｣ 후 에뮬레이터 연결이 완료되면 다른 작업과 병렬로 가져오기를 시작합니다.&#10;Yituliu에 저장되는 것은 육성 데이터 스냅샷이므로 먼저 Yituliu 사이트에 오퍼레이터 데이터를 업로드해야 합니다. 육성 데이터는 센쿵다오에서 가져오므로 CN 서버 계정에만 데이터가 있습니다.&#10;토큰은 Yituliu 계정 페이지의 ｢서드파티 API Token｣에서 생성할 수 있습니다. 계정 데이터 보호를 위해 읽기 전용 토큰만 사용해 주세요.</system:String>
+    <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">활성화하면 ｢{key=Toolbox}｣와 ｢{key=UserDataUpdate}｣의 {key=OperBoxRecognition}이 에뮬레이터에 연결해 스크린샷으로 식별하지 않고, 토큰에 해당하는 Yituliu 육성 데이터를 직접 불러옵니다.&#10;｢{key=UserDataUpdate}｣ 트리거 시 ｢{key=LinkStart}｣ 후 에뮬레이터 연결이 완료되면 다른 작업과 병렬로 가져오기를 시작합니다.&#10;Yituliu에 저장되는 것은 육성 데이터 스냅샷이므로 먼저 Yituliu 사이트에 오퍼레이터 데이터를 업로드해야 합니다.&#10;스크린샷 식별과 달리 스킬 레벨, 스킬 특화, 모듈 정보를 추가로 가져올 수 있습니다.&#10;토큰은 Yituliu 계정 페이지의 ｢서드파티 API Token｣에서 생성할 수 있습니다. 계정 데이터 보호를 위해 읽기 전용 토큰만 사용해 주세요.</system:String>
     <system:String x:Key="OperBoxFetchingFromYituliu">Yituliu에서 오퍼레이터 데이터를 가져오는 중…</system:String>
     <system:String x:Key="YituliuFetchFailed">Yituliu에서 가져오기 실패: {0}</system:String>
     <system:String x:Key="YituliuNoOperBoxData">토큰에 해당하는 Yituliu 계정에 오퍼레이터 데이터가 없어 로컬 인식 결과를 유지합니다</system:String>
     <system:String x:Key="YituliuOperBoxCompleted">{key=OperBoxRecognition} 완료(Yituliu)</system:String>
+    <system:String x:Key="OperBoxExportHeaderMainSkillLevel">스킬 레벨</system:String>
     <system:String x:Key="OperBoxExportHeaderSkills">스킬 전문화</system:String>
     <system:String x:Key="OperBoxExportHeaderEquips">모듈</system:String>
     <system:String x:Key="DrGrandet">그랑데 영감 모드</system:String>
@@ -738,6 +748,8 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="ReceiveOrundum">복권방 일일 합성옥 수령</system:String>
     <system:String x:Key="ReceiveMining">한정 채굴 일일 합성옥 수령</system:String>
     <system:String x:Key="ReceiveSpecialAccess">스페셜 액세스 보상 수령</system:String>
+    <system:String x:Key="ReceiveSignInEvent">기간 한정 출석 이벤트 보상 수령</system:String>
+    <system:String x:Key="ReceiveSignInEventTip">가로형 레이아웃만 지원합니다. 다른 레이아웃은 지원되지 않으며 정상 동작하지 않을 수 있습니다</system:String>
     <system:String x:Key="DroneUsage">드론 사용처</system:String>
     <system:String x:Key="UseTray">트레이 아이콘 표시</system:String>
     <system:String x:Key="HideTray">트레이 아이콘 숨기기</system:String>
@@ -2246,7 +2258,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="Achievement.SnapshotChallenge2.Conditions">평균 스크린샷 시간이 400ms에서 800ms 사이</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge3.Title">스크린샷 · Normal</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge3.Description">이 정도 속도면 나쁘지 않네요</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Description">에뮬레이터의 스크린샷 향상 기능을 사용해 보는 건 어때요?</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge3.Conditions">평균 스크린샷 시간이 400ms 미만</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge4.Title">스크린샷 · Fast</system:String>

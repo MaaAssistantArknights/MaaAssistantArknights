@@ -3635,7 +3635,8 @@
                     "name": "濯尘芙蓉"
                 },
                 {
-                    "name": "阿米娅-MEDIC"
+                    "role": "MEDIC",
+                    "name": "阿米娅"
                 },
                 {
                     "name": "苏苏洛"
@@ -3946,7 +3947,8 @@
                     "skill": 2
                 },
                 {
-                    "name": "阿米娅-MEDIC"
+                    "role": "MEDIC",
+                    "name": "阿米娅"
                 },
                 {
                     "name": "至简",

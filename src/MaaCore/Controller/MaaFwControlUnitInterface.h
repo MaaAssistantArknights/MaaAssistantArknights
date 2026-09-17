@@ -45,16 +45,23 @@ public:
     virtual void* get_info() const = 0;
 };
 
-class MaaFwAdbControlUnitAPI : public MaaFwControlUnitAPI
+class MaaFwShellableUnitAPI
+{
+public:
+    virtual ~MaaFwShellableUnitAPI() = default;
+
+    virtual bool shell(
+        const std::string& cmd,
+        std::string& output,
+        std::chrono::milliseconds timeout = std::chrono::milliseconds(20'000)) = 0;
+};
+
+class MaaFwAdbControlUnitAPI : public MaaFwControlUnitAPI, public MaaFwShellableUnitAPI
 {
 public:
     virtual ~MaaFwAdbControlUnitAPI() = default;
 
     virtual bool find_device(std::vector<std::string>& devices) = 0;
-    virtual bool shell(
-        const std::string& cmd,
-        std::string& output,
-        std::chrono::milliseconds timeout = std::chrono::milliseconds(20'000)) = 0;
 };
 
 class MaaFwAndroidNativeControlUnitAPI : public MaaFwControlUnitAPI
@@ -67,8 +74,8 @@ public:
 namespace MaaFeature
 {
 constexpr uint64_t None = 0;
-constexpr uint64_t UseMouseDownAndUpInsteadOfClick = 1ULL << 1;
-constexpr uint64_t UseKeyboardDownAndUpInsteadOfClick = 1ULL << 2;
+constexpr uint64_t UseMouseDownAndUpInsteadOfClick = 1ULL;
+constexpr uint64_t UseKeyboardDownAndUpInsteadOfClick = 1ULL << 1;
 } // namespace MaaFeature
 
 // 与 MaaFramework 的 MaaAdbScreencapMethod 兼容的常量

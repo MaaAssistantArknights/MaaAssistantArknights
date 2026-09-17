@@ -2055,6 +2055,9 @@
             },
             "bskill_man_spd_mechanist": {
                 "desc": ["进驻制造站时，若单次工作时长达到12小时，生产力+10%"],
+                "efficient": {
+                    "all": 4.9
+                },
                 "name": ["“我睡过了”"],
                 "operatorIds": ["char_4230_mcnist"],
                 "template": "Bskill_man_spd_mechanist.png"

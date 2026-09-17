@@ -267,7 +267,11 @@
     <system:String x:Key="StartingSquad">最初の分隊</system:String>
     <system:String x:Key="StartingRoles">最初の職業</system:String>
     <system:String x:Key="StartingCoreChar">最初の{key=Operator}</system:String>
-    <system:String x:Key="StartingCoreCharTip">記入がない場合はデフォルトの方針を使用します。</system:String>
+    <system:String x:Key="StartingCoreCharTip">記入がない場合はデフォルトの方針を使用します。3つの位置の職業は同じにできません。</system:String>
+    <system:String x:Key="EnableAdditionalStartingCoreChar">2・3人目の{key=StartingCoreChar}を有効化</system:String>
+    <system:String x:Key="EnableAdditionalStartingCoreCharTip" xml:space="preserve">有効にすると、一般設定で2・3人目の最初のオペレーターを指定でき、募集は位置の順番で行われます。&#10;募集は先頭の数ページのみを検索するため、希望消費の低いオペレーターは見つからないことがあり、その位置はデフォルトの方針に戻ります。&#10;希望消費の高いオペレーターを前に配置することをお勧めします。</system:String>
+    <system:String x:Key="StartingCoreChar2">2人目の{key=StartingCoreChar}</system:String>
+    <system:String x:Key="StartingCoreChar3">3人目の{key=StartingCoreChar}</system:String>
     <system:String x:Key="RoguelikeThemeTipRecommended">←必読推奨</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">この{key=Operator}がbattle_dataにありません。</system:String>
     <system:String x:Key="RoguelikeCoreCharSet">{key=StartingCoreChar}を設定しました: {0}</system:String>
@@ -280,7 +284,10 @@
     <system:String x:Key="Roguelike3FirstFloorFoldartalTip">予見啓示板の名前を入力し、複数は半角セミコロン;で区切ります</system:String>
     <system:String x:Key="RoguelikeCollapseList">崩壊パラダイムリスト</system:String>
     <system:String x:Key="RoguelikeCollapseListTip">英語のセミコロン ｢;｣ で区切る、空白のままにするとデフォルトリストが使用されます。</system:String>
-    <system:String x:Key="RoguelikeUseSupportUnit">｢{key=StartingCoreChar}｣ をサポートから選択</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnitFormat">{0} をサポートから選択</system:String>
+    <system:String x:Key="StartingCoreCharPosition1">1人目の{key=Operator}</system:String>
+    <system:String x:Key="StartingCoreCharPosition2">2人目の{key=Operator}</system:String>
+    <system:String x:Key="StartingCoreCharPosition3">3人目の{key=Operator}</system:String>
     <system:String x:Key="RoguelikeRequireStartingCoreChar">まず ｢{key=StartingCoreChar}｣ を入力してください</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">戦友以外のサポートの使用を許可</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">自動ローグ 戦闘終了まえに ｢{key=Stop}｣ を遅らせる</system:String>
@@ -290,6 +297,7 @@
     <!--<system:String x:Key="RoguelikeStartWithSeed">投資のシードを有効にする</system:String>-->
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">月次小隊自動切替</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">月次小隊通信</system:String>
+    <system:String x:Key="RoguelikeMonthlySquadCheckCommsTip" xml:space="preserve">有効にすると、MAAは現在の小隊の通信がすべて解放されているかを確認し、すべて解放されてから次の月次小隊に切り替えます。&#10;報酬の獲得のみが目的の場合は、この設定を無効にすると探索の繰り返しを減らせます。&#10;この設定を無効にしたからといって、MAAが進行中の探索を早めに終了することはありません。</system:String>
     <system:String x:Key="RoguelikeDeepExplorationAutoIterate">多面調査自動切替</system:String>
     <system:String x:Key="DeploymentWithPause">統合戦略/保全駐在でポーズトリックを使用します（ベータ機能のため非推奨です）</system:String>
     <system:String x:Key="DeploymentWithPauseTip">自動戦闘で{key=Operator}を配置する際にゲームを一時停止し、次の{key=Operator}を配置します</system:String>
@@ -600,6 +608,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="ManualStopWithScript">手動停止時に上記のスクリプトを有効にする</system:String>
     <system:String x:Key="BlockSleep">タスク実行時の休止状態の防止</system:String>
     <system:String x:Key="BlockSleepWithScreenOn">休止状態を防ぐときは画面をオンのままにします</system:String>
+    <system:String x:Key="MuteGameWhileRunning">タスク実行中はゲームをミュートする</system:String>
     <system:String x:Key="ScreencapCost">スクリーンショットの撮影には時間がかかります min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
     <system:String x:Key="RoguelikeTheme">テーマ</system:String>
     <system:String x:Key="RoguelikeThemePhantom">ファントム</system:String>
@@ -703,11 +712,12 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="YituliuTokenInvalid">トークンが無効または期限切れです。再生成してください</system:String>
     <system:String x:Key="YituliuTokenNetworkError">ネットワークエラーが発生しました。後でもう一度お試しください</system:String>
     <system:String x:Key="EnableOperBoxYituliuApi">{key=OperBoxRecognition}をYituliuから取得</system:String>
-    <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">有効にすると、｢{key=Toolbox}｣と｢{key=UserDataUpdate}｣の{key=OperBoxRecognition}はエミュレーターに接続してスクリーンショット識別を行わず、トークンに対応するYituliuの育成データを直接読み取ります。&#10;｢{key=UserDataUpdate}｣によるトリガーでは、｢{key=LinkStart}｣押下後にエミュレーターへ接続次第、他のタスクと並行して取得を開始します。&#10;Yituliuに保存されるのは育成データのスナップショットのため、事前にYituliuサイトへオペレーターデータをアップロードしている必要があります。育成データは森空島からのインポートのため、CNサーバーのアカウントのみデータが存在します。&#10;トークンはYituliuの「アカウント」ページの「サードパーティ API Token」で生成できます。アカウントデータを保護するため、読み取り専用のトークンのみ使用してください。</system:String>
+    <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">有効にすると、｢{key=Toolbox}｣と｢{key=UserDataUpdate}｣の{key=OperBoxRecognition}はエミュレーターに接続してスクリーンショット識別を行わず、トークンに対応するYituliuの育成データを直接読み取ります。&#10;｢{key=UserDataUpdate}｣によるトリガーでは、｢{key=LinkStart}｣押下後にエミュレーターへ接続次第、他のタスクと並行して取得を開始します。&#10;Yituliuに保存されるのは育成データのスナップショットのため、事前にYituliuサイトへオペレーターデータをアップロードしている必要があります。&#10;スクリーンショット識別と異なり、スキルレベル・スキル特化・モジュール情報も追加で取得できます。&#10;トークンはYituliuの「アカウント」ページの「サードパーティ API Token」で生成できます。アカウントデータを保護するため、読み取り専用のトークンのみ使用してください。</system:String>
     <system:String x:Key="OperBoxFetchingFromYituliu">Yituliuからオペレーターデータを取得中…</system:String>
     <system:String x:Key="YituliuFetchFailed">Yituliuからの取得に失敗しました：{0}</system:String>
     <system:String x:Key="YituliuNoOperBoxData">トークンに対応するYituliuアカウントにオペレーターデータがなく、ローカルの識別結果を保持しました</system:String>
     <system:String x:Key="YituliuOperBoxCompleted">{key=OperBoxRecognition}の取得が完了しました（Yituliu）</system:String>
+    <system:String x:Key="OperBoxExportHeaderMainSkillLevel">スキルLv</system:String>
     <system:String x:Key="OperBoxExportHeaderSkills">スキル特化</system:String>
     <system:String x:Key="OperBoxExportHeaderEquips">モジュール</system:String>
     <system:String x:Key="DrGrandet">Dr.グランデモード</system:String>
@@ -738,6 +748,8 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="ReceiveOrundum">ラッキーウォールから毎日合成玉の報酬を受け取る</system:String>
     <system:String x:Key="ReceiveMining">期間限定の採掘許可で毎日合成玉の報酬を受け取る</system:String>
     <system:String x:Key="ReceiveSpecialAccess">スペシャルアクセス特典を集める</system:String>
+    <system:String x:Key="ReceiveSignInEvent">期間限定スタンプラリー報酬を受け取る</system:String>
+    <system:String x:Key="ReceiveSignInEventTip">横型レイアウトのみ対応。それ以外のレイアウトは非対応で、正常に動作しない可能性があります</system:String>
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
     <system:String x:Key="UseTray">トレイアイコンを表示</system:String>
     <system:String x:Key="HideTray">トレイアイコンを隠す</system:String>
@@ -2248,7 +2260,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="Achievement.SnapshotChallenge2.Conditions">平均スクリーンショット時間が 400ms から 800ms の間</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge3.Title">スクリーンショットチャレンジ · Normal</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge3.Description">スクリーンショットを強化してみませんか？</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Description">エミュレーターのスクリーンショット強化を試してみませんか？</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge3.Conditions">平均スクリーンショット時間が 400ms 未満</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge4.Title">スクリーンショットチャレンジ · Fast</system:String>

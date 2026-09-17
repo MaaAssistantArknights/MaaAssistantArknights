@@ -523,8 +523,8 @@ std::vector<asst::SupportList::ModuleItem> asst::SupportList::analyze_module_pag
         const std::string module_str = get_suffix_str(module_analyzer.get_result().templ_name);
 
         static const std::unordered_map<std::string, OperModule> STR_OPER_MODULE_MAP = {
-            { "Chi", OperModule::Chi },     { "Upsilon", OperModule::Upsilon }, { "Delta", OperModule::Delta },
-            { "Alpha", OperModule::Alpha }, { "Beta", OperModule::Beta },
+            { "Chi", OperModule::Chi },     { "Upsilon", OperModule::Upsilon }, { "Alpha", OperModule::Alpha },
+            { "Delta", OperModule::Delta }, { "Beta", OperModule::Beta },
         };
         const auto iter = STR_OPER_MODULE_MAP.find(module_str);
         if (iter == STR_OPER_MODULE_MAP.end()) {

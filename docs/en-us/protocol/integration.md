@@ -748,6 +748,9 @@ Collect Orundum from limited mining licenses.
 @optional
 Collect monthly card rewards from 5th anniversary.  
 :::  
+::: field name="signinevent" type="boolean" optional default="false"  
+Collect rewards from limited-time sign-in events (only standard horizontal layouts are supported).  
+:::  
 ::::
 
 <details>
@@ -761,7 +764,8 @@ Collect monthly card rewards from 5th anniversary.
    "recruit": true,
    "orundum": false,
    "mining": true,
-   "specialaccess": false
+   "specialaccess": false,
+   "signinevent": false
 }
 ```
 
@@ -867,19 +871,24 @@ Starting role group.
 ::: field core_char  
 @type string
 @optional
-Starting operator name. Supports only single operator **Chinese name**, regardless of server; leave empty or set to `""` to auto-select based on level.  
+Starting operator name. Supports only single operator **Chinese name**, regardless of server; leave empty or set to `""` to auto-select based on level. Equivalent to the 1st entry of `core_char_list`; kept only for compatibility with older callers.  
+:::  
+::: field core_char_list  
+@type array<object>
+@optional
+Starting operator list. Each entry is `{ "name": operator name, "use_support": whether to use support }`, with operator **Chinese name** only, regardless of server; entries correspond to the 1st, 2nd, and 3rd recruitments at the start in array order, and the operators in the three slots must be of different classes. Recruitment only searches the first few pages for the specified operators, so operators with lower hope cost may be missed due to appearing later in the list; if the operator of a slot is not recruited (neither owned nor support one appears), that recruitment falls back to the default priority, so it is recommended to place operators with higher hope cost first. Takes precedence over `core_char` when both are passed.  
 :::  
 ::: field use_support  
 @type boolean
 @default false
 @optional
-Whether the starting operator is a support operator.  
+Whether the starting operator is a support operator. Equivalent to the support flag of the 1st entry of `core_char_list`; kept only for compatibility with older callers.  
 :::  
 ::: field use_nonfriend_support  
 @type boolean
 @default false
 @optional
-Whether non-friend support operators are allowed. Only effective when `use_support` is true.  
+Whether non-friend support operators are allowed. A global switch that applies to all starting operator slots using support.  
 :::  
 ::: field starts_count  
 @type number
@@ -1075,9 +1084,12 @@ Target playtime node of the playtime node farming mode. `1` - Ling (掷地有声
    "theme": "Sami",
    "mode": 5,
    "squad": "指挥分队",
-   "roles": "取长补短",
-   "core_char": "塑心",
-   "use_support": false,
+   "roles": "稳扎稳打",
+   "core_char_list": [
+      { "name": "维什戴尔", "use_support": true },
+      { "name": "古米", "use_support": false },
+      { "name": "史都华德", "use_support": false }
+   ],
    "use_nonfriend_support": false,
    "starts_count": 3,
    "difficulty": 8,

@@ -15,6 +15,8 @@ If you have previously run Operator Recognition, potential data will be displaye
 
 Can recognize lists of both owned and unowned operators, and identify potential levels to provide data for Recruitment Recognition.
 
+After enabling `Fetch Operator data from Yituliu` in `Settings - Third-party services` and filling in a Yituliu read-only token, Operator Recognition no longer connects to the emulator for screenshot recognition, and instead reads the progression data stored on Yituliu; the exported Markdown/CSV tables will then include additional columns for skill level, skill masteries, and modules. Fetching from Yituliu is implemented by the UI, while the default screenshot recognition is still done by Core.
+
 Currently supports the following export formats:
 
 - Clipboard
