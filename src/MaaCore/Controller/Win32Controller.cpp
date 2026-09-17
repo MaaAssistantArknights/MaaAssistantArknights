@@ -407,9 +407,10 @@ bool Win32Controller::swipe(
     };
 
     auto move_func = [this](int x, int y) {
+        const auto start_time = std::chrono::steady_clock::now();
         bool ret = unit_touch_move(0, x, y, 0);
-        // Win32 输入（如 Seize 的 SendInput）为异步注入且无内置节拍，不等待会使整段滑动在毫秒级完成，被游戏判定为点击
-        std::this_thread::sleep_for(std::chrono::milliseconds(DefaultSwipeDelay));
+        // 将输入调用耗时计入插值步长，避免同步输入额外叠加等待；异步输入仍保留节拍。
+        std::this_thread::sleep_until(start_time + std::chrono::milliseconds(DefaultSwipeDelay));
         return ret;
     };
 
