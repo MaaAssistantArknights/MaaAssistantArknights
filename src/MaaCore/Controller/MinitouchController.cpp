@@ -127,6 +127,7 @@ void asst::MinitouchController::set_swipe_with_pause(bool enable) noexcept
 
 bool asst::MinitouchController::use_swipe_with_pause() const noexcept
 {
+    // pause 依赖 adb 的 press_esc 命令配置存在，或 maatouch 自带的 key 通道，故做通道前置检查
     return m_swipe_with_pause_enabled && (!m_adb.press_esc.empty() || m_use_maa_touch);
 }
 

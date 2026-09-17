@@ -4,6 +4,7 @@
 
 #include <chrono>
 #include <cmath>
+#include <future>
 #include <thread>
 
 #include "Common/AsstMsg.h"
@@ -259,7 +260,9 @@ bool MaaFwAndroidNativeController::swipe(
     }
     std::this_thread::sleep_for(std::chrono::milliseconds(TouchHoldMs));
 
+    // pause 的 press_esc 走 unit handle 按键（key down/up），无 adb 通道前置条件，故直判
     bool need_pause = with_pause;
+    std::future<void> pause_future;
     const auto& opt = Config.get_options();
 
     auto bounds_check = [this](int x, int y) {
@@ -303,7 +306,9 @@ bool MaaFwAndroidNativeController::swipe(
                 pause_check,
                 [&]() {
                     need_pause = false;
-                    press_esc();
+                    // press_esc 内含 sleep_for(50ms)，同步调用会让绝对节拍的 deadline 积压、
+                    // 恢复后 move 连发；异步执行以免卡住滑动节拍（future 析构时隐式等待按键序列完成）
+                    pause_future = std::async(std::launch::async, [this]() { press_esc(); });
                 });
         }
         return interpolate_swipe(

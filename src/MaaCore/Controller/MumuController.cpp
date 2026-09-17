@@ -204,7 +204,9 @@ bool MumuController::swipe(
         return x >= 0 && x < m_width && y >= 0 && y < m_height;
     };
 
-    bool need_pause = with_pause && use_swipe_with_pause();
+    // pause 走 nemu 直发按键（见下方 pause_action），不依赖 adb 的 press_esc 配置，
+    // 故不做 use_swipe_with_pause 的通道前置检查
+    bool need_pause = with_pause;
 
     auto pause_check = [&opt](int cur_x, int cur_y, int start_x, int start_y) {
         return std::sqrt(std::pow(cur_x - start_x, 2) + std::pow(cur_y - start_y, 2)) >

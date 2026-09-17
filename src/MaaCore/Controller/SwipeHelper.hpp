@@ -145,7 +145,7 @@ bool interpolate_swipe(
         [](int, int) { return true; });
 }
 
-// 带暂停检测的滑动插值执行器（用于 MinitouchController 的 swipe_with_pause 功能）
+// 带暂停检测的滑动插值执行器，滑动途中满足距离阈值时触发一次暂停回调
 // PauseCheckFunc: bool(int cur_x, int cur_y, int start_x, int start_y) - 检查是否需要暂停
 // PauseFunc: void() - 执行暂停操作
 template <typename MoveFunc, typename BoundsCheckFunc, typename PauseCheckFunc, typename PauseFunc>

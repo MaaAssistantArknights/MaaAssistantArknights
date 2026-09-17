@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <future>
 #include <numeric>
 #include <sstream>
 #include <thread>
@@ -366,7 +367,7 @@ bool Win32Controller::swipe(
     SwipeExtraDirection extra_swipe,
     double slope_in,
     double slope_out,
-    bool with_pause [[maybe_unused]])
+    bool with_pause)
 {
     LogTraceFunction;
 
@@ -397,6 +398,10 @@ bool Win32Controller::swipe(
     const auto& opt = Config.get_options();
     int actual_duration = duration > 0 ? duration : opt.minitouch_swipe_default_duration;
 
+    // pause 的 press_esc 走底层按键注入（key down/up），无 adb 通道前置条件，故直判
+    bool need_pause = with_pause;
+    std::future<void> pause_future;
+
     auto bounds_check = [width, height](int x, int y) {
         if (width <= 0 || height <= 0) {
             return true;
@@ -415,10 +420,38 @@ bool Win32Controller::swipe(
         return ret;
     };
 
-    auto do_swipe = [&](int _x1, int _y1, int _x2, int _y2, int _duration) {
+    auto pause_check = [&opt](int cur_x, int cur_y, int start_x, int start_y) {
+        return std::sqrt(std::pow(cur_x - start_x, 2) + std::pow(cur_y - start_y, 2)) >
+               opt.swipe_with_pause_required_distance;
+    };
+
+    // press_esc 走底层按键注入，耗时不可控，异步执行以免卡住滑动节拍
+    auto pause_action = [this, &pause_future]() {
+        pause_future = std::async(std::launch::async, [this]() { press_esc(); });
+    };
+
+    auto do_swipe = [&](int _x1, int _y1, int _x2, int _y2, int _duration) -> bool {
         // 每段滑动各自成段，重置绝对节拍的起点与步计数
         tick_start = std::chrono::steady_clock::now();
         move_step = 0;
+        if (need_pause) {
+            return interpolate_swipe_with_pause(
+                _x1,
+                _y1,
+                _x2,
+                _y2,
+                _duration,
+                SwipeIntervalMs,
+                slope_in,
+                slope_out,
+                move_func,
+                bounds_check,
+                pause_check,
+                [&]() {
+                    need_pause = false;
+                    pause_action();
+                });
+        }
         return interpolate_swipe(
             _x1,
             _y1,
@@ -535,7 +568,9 @@ void Win32Controller::restore_window_position()
 
 ControlFeat::Feat Win32Controller::support_features() const noexcept
 {
-    return ControlFeat::PRECISE_SWIPE;
+    // Win32 的 touch 坐标即窗口客户区原生坐标，无 minitouch 式的 max_x/max_y 换算；
+    // 暂停走底层按键注入，两个特性都能完整支持
+    return ControlFeat::PRECISE_SWIPE | ControlFeat::SWIPE_WITH_PAUSE;
 }
 
 std::pair<int, int> Win32Controller::get_screen_res() const noexcept

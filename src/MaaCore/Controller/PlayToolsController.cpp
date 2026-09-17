@@ -211,7 +211,7 @@ bool asst::PlayToolsController::swipe(
     SwipeExtraDirection extra_swipe,
     double slope_in,
     double slope_out,
-    bool with_pause [[maybe_unused]])
+    bool with_pause)
 {
     int x1 = p1.x, y1 = p1.y;
     int x2 = p2.x, y2 = p2.y;
@@ -227,6 +227,10 @@ bool asst::PlayToolsController::swipe(
     }
 
     Log.trace("PlayTools swipe", p1, p2, duration, extra_swipe, slope_in, slope_out);
+
+    if (with_pause) {
+        LogWarn << "swipe with_pause is not supported on PlayTools";
+    }
 
     if (!toucher_down({ x1, y1 })) {
         return false;
