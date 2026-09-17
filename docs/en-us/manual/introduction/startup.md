@@ -9,6 +9,8 @@ Automatically starts the emulator, launches the client, and enters the game.
 
 Automatic emulator startup requires additional configuration in the startup settings and enabling `Retry launching the emulator when ADB connection fails` in the connection settings.
 
+If the game is showing the disconnection popup, Startup taps confirm to reconnect and then continues into the game.
+
 ## Account Switch
 
 This feature needs to be used together with configuration switching or scheduled execution. An account switch operation will be performed each time the `Startup` task is executed.

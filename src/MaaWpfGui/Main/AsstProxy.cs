@@ -1831,6 +1831,12 @@ public class AsstProxy
                     string taskName = details!["details"]!["task"]!.ToString();
                     int execTimes = (int)details!["details"]!["exec_times"]!;
 
+                    if (IsGameDropTask(taskName))
+                    {
+                        OnGameDrop();
+                        break;
+                    }
+
                     switch (taskName)
                     {
                         case "StartButton2":
@@ -1966,18 +1972,6 @@ public class AsstProxy
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UpperLimit"), UiLogColor.Info);
                             break;
 
-                        case "OfflineConfirm":
-                        case "OfflineConfirmAfterBattle":
-                            var log = LocalizationHelper.GetString("GameDrop");
-                            Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error);
-                            ToastNotification.ShowDirect(log);
-                            if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenError)
-                            {
-                                ExternalNotificationService.Send(log, log);
-                            }
-                            _ = Instances.TaskQueueViewModel.Stop();
-                            break;
-
                         case "GamePass":
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeGamePass"), UiLogColor.RareOperator);
                             AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.RoguelikeGamePassGroup);
@@ -2026,6 +2020,43 @@ public class AsstProxy
                     break;
                 }
         }
+    }
+
+    /// <summary>
+    /// 判断是否为掉线弹窗检测节点：<c>OfflineConfirm</c>、<c>OfflineConfirmAfterBattle</c> 及其带前缀的派生节点，
+    /// 如 <c>Infrast@OfflineConfirm</c>、<c>Recruit@OfflineConfirm</c>、<c>StageQueue@OfflineConfirm</c>。
+    /// 开始唤醒的 <c>StartUp@OfflineConfirm</c> 除外：它会直接点击重连，属于正常的启动流程。
+    /// </summary>
+    /// <param name="taskName">ProcessTask 命中的节点名</param>
+    /// <returns>是否为掉线弹窗检测节点</returns>
+    private static bool IsGameDropTask(string taskName)
+    {
+        if (taskName.StartsWith("StartUp@", StringComparison.Ordinal))
+        {
+            return false;
+        }
+
+        var baseName = taskName[(taskName.LastIndexOf('@') + 1)..];
+        return baseName is "OfflineConfirm" or "OfflineConfirmAfterBattle";
+    }
+
+    private static void OnGameDrop()
+    {
+        // 同一次掉线可能被后续子任务再次命中，停止中不再重复提示
+        if (RunningState.Instance.GetStopping())
+        {
+            return;
+        }
+
+        var log = LocalizationHelper.GetString("GameDrop");
+        Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error);
+        ToastNotification.ShowDirect(log);
+        if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenError)
+        {
+            ExternalNotificationService.Send(log, log);
+        }
+
+        _ = Instances.TaskQueueViewModel.Stop();
     }
 
     private static void ProcSubTaskCompleted(JObject details)
