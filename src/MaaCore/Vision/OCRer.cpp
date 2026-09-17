@@ -131,7 +131,11 @@ void OCRer::postproc_replace_(Result& res) const
             }
         }
         else {
-            text_u16 = boost::regex_replace(text_u16, gen_regex(regex_u16), new_str_u16);
+            text_u16 = boost::regex_replace(
+                text_u16,
+                gen_regex(regex_u16),
+                new_str_u16,
+                boost::regex_constants::match_not_dot_newline);
         }
     }
     res.text = MAA_NS::from_u16(text_u16);
