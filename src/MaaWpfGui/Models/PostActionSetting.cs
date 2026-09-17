@@ -75,7 +75,7 @@ public class PostActionSetting : PropertyChangedBase
         Sleep = 1 << 7,
 
         /// <summary>
-        /// 任务出错时跳过所有后处理动作
+        /// 任务出错时跳过所有完成后动作
         /// </summary>
         SkipOnError = 1 << 8,
     }
@@ -302,7 +302,7 @@ public class PostActionSetting : PropertyChangedBase
     private bool _skipOnError;
 
     /// <summary>
-    /// Gets or sets a value indicating whether 任务队列中有任务出错时，跳过全部后处理动作。
+    /// Gets or sets a value indicating whether 任务队列中有任务出错时，跳过全部完成后动作。
     /// </summary>
     public bool SkipOnError
     {

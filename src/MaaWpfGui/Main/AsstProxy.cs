@@ -1352,19 +1352,20 @@ public class AsstProxy
                     UpdateTaskStatus(taskId, TaskStatus.Error);
                     _tasksStatus.TryGetValue(taskId, out var value);
 
-                    // 只统计左侧任务队列里的任务，Copilot / 小工具（如公招识别）的报错不应阻止后处理动作
-                    var failedItem = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId));
-                    if (failedItem is not null)
+                    // 只统计主任务队列轮次的失败（工具箱 / Copilot / 小游戏各有独立归属），
+                    // Copilot / 小工具（如公招识别）的报错不应阻止完成后动作。
+                    // 归属不能按 TaskIds 反查判定：RemoteControlService 启动的轮次不填充 TaskIds，反查恒落空会使跳过静默失效
+                    if (_runningState.Owner == RunOwner.TaskQueue)
                     {
-                        var failedIndex = failedItem.Index;
+                        var failedIndex = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index ?? -1;
                         var failedTask = failedIndex >= 0 && failedIndex < ConfigFactory.CurrentConfig.TaskQueue.Count
                             ? ConfigFactory.CurrentConfig.TaskQueue[failedIndex]
                             : null;
 
-                        // 以 Core 任务 id 为准去重记录；任务名只是出错当时的快照，仅用于日志
-                        Instances.TaskQueueViewModel.RecordFailedTask(
-                            taskId,
-                            failedTask?.NameOrTaskType ?? $"({LocalizationHelper.GetString(taskChain)})");
+                        // 以 Core 任务 id 为准去重记录；任务名只是出错当时的快照（取不到时以任务链名兜底），仅用于日志
+                        var failedTaskName = failedTask?.NameOrTaskType ?? $"({LocalizationHelper.GetString(taskChain)})";
+                        failedTaskName += GetMultiChainTaskNameSuffix(failedTask, taskChain, taskId);
+                        Instances.TaskQueueViewModel.RecordFailedTask(taskId, failedTaskName);
                     }
 
                     // details.error 为 Core 侧 TaskExceptionKind 名（如 OutOfMemory），普通识别错误无此字段
@@ -1511,13 +1512,11 @@ public class AsstProxy
 
                 bool buyWine = _tasksStatus.Any(t => t.Value.Type == TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
 
-                // 错误条目快照须在 Clear 之前取得，完成汇报据此切换标题并输出错误汇总
-                var failedTaskEntries = _tasksStatus
-                    .Where(t => t.Value.Status == TaskStatus.Error)
-                    .Select(t => (t.Key, t.Value.Type))
-                    .ToArray();
-                bool hasTaskErrors = failedTaskEntries.Length > 0;
-                var taskErrorSummary = BuildTaskErrorSummaryLog(failedTaskEntries);
+                // 失败名单复用 ｢出错时跳过完成后动作｣ 的记录（TaskChainError 时点快照，自带任务名与多链后缀），
+                // 同样覆盖 RemoteControlService 等绕过 LinkStartWithTasks 的启动入口；名单在下一轮开始时才清空，此处仍可读
+                var failedTaskNames = Instances.TaskQueueViewModel.GetFailedTaskNames();
+                bool hasTaskErrors = failedTaskNames.Length > 0;
+                var taskErrorSummary = BuildTaskErrorSummaryLog(failedTaskNames);
                 _tasksStatus.Clear();
 
                 Instances.TaskQueueViewModel.ResetAllTemporaryVariable();
@@ -1564,7 +1563,11 @@ public class AsstProxy
                     }
                     AddTaskCompletionLog(allTaskCompleteLog, hasTaskErrors);
 
-                    ExternalNotificationService.Event.AllTaskComplete(allTaskCompleteTitle, hasTaskErrors ? taskErrorSummary : allTaskCompleteMessage, sanityReport);
+                    // 出错时保留完成上下文（时间/配置等）再附错误清单，避免通知正文只剩清单
+                    var allTaskCompleteContent = hasTaskErrors
+                        ? allTaskCompleteMessage + Environment.NewLine + taskErrorSummary
+                        : allTaskCompleteMessage;
+                    ExternalNotificationService.Event.AllTaskComplete(allTaskCompleteTitle, allTaskCompleteContent, sanityReport);
                     using (var toast = new ToastNotification(allTaskCompleteTitle))
                     {
                         if (FightSetting.SanityReport is not null)
@@ -3454,19 +3457,9 @@ public class AsstProxy
         return true;
     }
 
-    private static string ResolveTaskDisplayName(AsstTaskId taskId, TaskType taskType)
+    private static string BuildTaskErrorSummaryLog(string[] failedTaskNames)
     {
-        var taskIndex = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index ?? -1;
-        var task = taskIndex >= 0 && taskIndex < ConfigFactory.CurrentConfig.TaskQueue.Count
-            ? ConfigFactory.CurrentConfig.TaskQueue[taskIndex]
-            : null;
-
-        return task?.NameOrTaskType ?? LocalizationHelper.GetString(taskType.ToString());
-    }
-
-    private static string BuildTaskErrorSummaryLog((AsstTaskId Id, TaskType Type)[] failedTaskEntries)
-    {
-        if (failedTaskEntries.Length == 0)
+        if (failedTaskNames.Length == 0)
         {
             return string.Empty;
         }
@@ -3474,9 +3467,9 @@ public class AsstProxy
         StringBuilder builder = new();
         builder.AppendLine(LocalizationHelper.GetString("TaskErrorSummaryTitle"));
 
-        foreach (var entry in failedTaskEntries.OrderBy(e => e.Id))
+        foreach (var taskName in failedTaskNames)
         {
-            builder.AppendLine(LocalizationHelper.GetStringFormat("TaskErrorSummaryItem", ResolveTaskDisplayName(entry.Id, entry.Type)));
+            builder.AppendLine(LocalizationHelper.GetStringFormat("TaskErrorSummaryItem", taskName));
         }
 
         return builder.ToString().TrimEnd();

@@ -470,11 +470,11 @@ public class TaskQueueViewModel : Screen
     private readonly object _failedTasksLock = new();
 
     /// <summary>
-    /// 本次运行中出错的主任务队列任务。用于 ｢出错时跳过后处理动作｣。
+    /// 本次运行中出错的主任务队列任务。用于 ｢出错时跳过完成后动作｣ 与完成汇报的错误汇总。
     /// <para>
     /// key 为 Core 任务 id（稳定标识，同一任务重复报错时天然去重）。下发阶段就失败的任务不会进入这里：
     /// 此时整轮不会启动，也就不会执行完成后动作。
-    /// value 是出错当时的任务显示名，只用于日志 —— 刻意做快照而非事后反查：
+    /// value 是出错当时的任务显示名（含多链任务后缀），只用于日志 —— 刻意做快照而非事后反查：
     /// 任务队列在运行期间可被拖动排序或改名，事后按下标反查会拿到错误的名字。
     /// </para>
     /// <para>
@@ -483,8 +483,9 @@ public class TaskQueueViewModel : Screen
     /// 把半选（<see langword="null"/>）任务的状态重置为 Idle，导致出错信息丢失。
     /// </para>
     /// <para>
-    /// 生命周期：每轮运行开始（离开空闲）时清空，与完成后动作的发射权一同重置。这覆盖所有启动入口，
-    /// 包括绕过 <see cref="LinkStartWithTasks"/> 直接 AsstStart 的 <c>RemoteControlService</c>；
+    /// 生命周期：每轮运行开始（离开空闲）时清空，与完成后动作的发射权一同重置。记录按轮次归属判定、
+    /// 清空挂在状态机沿，均不依赖 <see cref="TaskItemViewModel.TaskIds"/>（远程控制轮次不填充），
+    /// 覆盖所有启动入口，包括绕过 <see cref="LinkStartWithTasks"/> 直接 AsstStart 的 <c>RemoteControlService</c>；
     /// 也不能在运行结束时清空：时长上限到点停止会先经过 <see cref="SetStopped"/> 再执行完成后动作。
     /// </para>
     /// </summary>
@@ -503,7 +504,12 @@ public class TaskQueueViewModel : Screen
         }
     }
 
-    private string[] GetFailedTaskNames()
+    /// <summary>
+    /// 本次运行中已记录的失败任务显示名。完成汇报（错误汇总与标题切换）由 <see cref="AsstProxy"/> 的
+    /// <c>AllTasksCompleted</c> 回调读取。
+    /// </summary>
+    /// <returns>失败任务显示名数组</returns>
+    public string[] GetFailedTaskNames()
     {
         lock (_failedTasksLock)
         {

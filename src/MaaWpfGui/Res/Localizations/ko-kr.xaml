@@ -945,7 +945,7 @@ C:\leidian\LDPlayer9
 다른 옵션을 마우스 오른쪽 버튼으로 클릭하면 이 옵션도 함께 체크/체크 해제됩니다</system:String>
     <system:String x:Key="SkipPostActionOnError">작업 실패 시 건너뛰기</system:String>
     <system:String x:Key="SkipPostActionOnErrorTip" xml:space="preserve">선택하면 작업 목록의 작업이 하나 이상 실패한 경우 위의 모든 동작을 건너뜁니다.
-왼쪽 작업 목록의 작업만 집계되며, 자동 전투와 도구 상자의 오류는 포함되지 않습니다.</system:String>
+왼쪽 작업 목록의 작업만 집계되며, {key=Copilot}와 {key=Toolbox}의 오류는 포함되지 않습니다.</system:String>
     <system:String x:Key="PostActionSkippedDueToError">작업이 실패하여 완료 후 동작을 건너뛰었습니다: {0}</system:String>
     <system:String x:Key="IfNoOtherMaa">다른 MAA가 없는 경우</system:String>
     <system:String x:Key="IfNoOtherMaaTip">체크 시 다른 MAA 인스턴스가 실행 중이 아닐 때만 절전 모드/최대 절전 모드/시스템 종료를 실행합니다</system:String>
@@ -1498,7 +1498,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="CompleteTask" xml:space="preserve">작업 완료: </system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">작전 시작: </system:String>
     <system:String x:Key="CompleteCombat">작전 완료</system:String>
-    <system:String x:Key="TaskCompletedWithErrors">작업 중 오류가 발생했습니다!\n(소요 시간: {0})</system:String>
+    <system:String x:Key="TaskCompletedWithErrors">모든 작업이 완료되었지만 오류가 발생했습니다!\n(소요 시간: {0})</system:String>
     <system:String x:Key="AllTasksComplete">모든 작업을 완료했습니다!\n(소요 시간: {0})</system:String>
     <system:String x:Key="SanityReport">{DateTime}에 이성이 모두 회복됩니다.\n(남은 시간: {TimeDiff})</system:String>
     <system:String x:Key="AllTaskCompleteContent">MAA가 {Preset} 구성으로 모든 작업을 {DateTime}에 완료했습니다. (소요 시간: {TimeDiff})</system:String>

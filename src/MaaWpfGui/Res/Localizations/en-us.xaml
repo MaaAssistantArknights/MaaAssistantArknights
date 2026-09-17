@@ -944,7 +944,7 @@ After unchecking this option, other option states will be saved normally
 Right-clicking other options will check/uncheck this option simultaneously</system:String>
     <system:String x:Key="SkipPostActionOnError">Skip if any task failed</system:String>
     <system:String x:Key="SkipPostActionOnErrorTip" xml:space="preserve">When checked, all actions above will be skipped if one or more tasks in the task list failed.
-Only failures of tasks in the left-hand task list count; Copilot and Toolbox errors are ignored.</system:String>
+Only failures of tasks in the left-hand task list count; {key=Copilot} and {key=Toolbox} errors are ignored.</system:String>
     <system:String x:Key="PostActionSkippedDueToError">Post actions skipped, failed task(s): {0}</system:String>
     <system:String x:Key="IfNoOtherMaa">If no other running MAA</system:String>
     <system:String x:Key="IfNoOtherMaaTip">When checked, Sleep/Hibernate/Shutdown will only run when no other MAA instance is running</system:String>
@@ -1496,7 +1496,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">Complete task:&#160;</system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">Start combat:&#160;</system:String>
     <system:String x:Key="CompleteCombat">Complete combat</system:String>
-    <system:String x:Key="TaskCompletedWithErrors">Tasks completed with errors!\n(in {0})</system:String>
+    <system:String x:Key="TaskCompletedWithErrors">All task(s) completed with errors!\n(in {0})</system:String>
     <system:String x:Key="AllTasksComplete">All task(s) completed!\n(in {0})</system:String>
     <system:String x:Key="SanityReport">Sanity will be full at {DateTime} (in {TimeDiff})</system:String>
     <system:String x:Key="AllTaskCompleteContent">MAA has completed all tasks under the {Preset} configuration on {DateTime} (in {TimeDiff})</system:String>

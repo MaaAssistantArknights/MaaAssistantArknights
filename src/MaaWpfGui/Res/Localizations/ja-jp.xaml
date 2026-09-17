@@ -946,8 +946,8 @@ C:\leidian\LDPlayer9
 他のオプションを右クリックすると、このオプションも同時にチェック/チェック解除されます</system:String>
     <system:String x:Key="SkipPostActionOnError">タスク失敗時はスキップ</system:String>
     <system:String x:Key="SkipPostActionOnErrorTip" xml:space="preserve">チェックすると、タスクリスト内の1つ以上のタスクが失敗した場合、上記のすべての動作をスキップします。
-左側のタスクリストのタスクのみが対象で、自動戦闘やツールボックスのエラーは含まれません。</system:String>
-    <system:String x:Key="PostActionSkippedDueToError">タスクが失敗したため、終了後の動作をスキップしました：{0}</system:String>
+左側のタスクリストのタスクのみが対象で、{key=Copilot}や{key=Toolbox}のエラーは含まれません。</system:String>
+    <system:String x:Key="PostActionSkippedDueToError">タスクが失敗したため、完了後アクションをスキップしました：{0}</system:String>
     <system:String x:Key="IfNoOtherMaa">他のMAAがない場合</system:String>
     <system:String x:Key="IfNoOtherMaaTip">チェックすると、他の MAA インスタンスが実行されていない場合にのみ、スリープ/休止状態/シャットダウンを実行します</system:String>
     <system:String x:Key="BackToAndroidHome">エミュレータのホーム画面に戻る</system:String>
@@ -1499,7 +1499,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="CompleteTask" xml:space="preserve">タスク完了: </system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">戦闘開始: </system:String>
     <system:String x:Key="CompleteCombat">戦闘完了</system:String>
-    <system:String x:Key="TaskCompletedWithErrors">タスクでエラーが発生しました！\n({0} 後)</system:String>
+    <system:String x:Key="TaskCompletedWithErrors">すべてのタスクは完了しましたが、エラーが発生しました！\n({0} 後)</system:String>
     <system:String x:Key="AllTasksComplete">すべてのタスクが完了しました！\n({0} 後)</system:String>
     <system:String x:Key="SanityReport">({TimeDiff} 後)、{DateTime} に理性が完全回復します。</system:String>
     <system:String x:Key="AllTaskCompleteContent">({TimeDiff} 後) MAA は、{DateTime} の {Preset} 構成の下にあるすべてのプリセット タスクを完了しました。</system:String>

@@ -943,8 +943,8 @@ C:\leidian\LDPlayer9
 右键点击其他选项时，会同步勾选/取消勾选本选项</system:String>
     <system:String x:Key="SkipPostActionOnError">任务出错时跳过</system:String>
     <system:String x:Key="SkipPostActionOnErrorTip" xml:space="preserve">勾选后，若任务列表中有一个或多个任务出错，将跳过以上全部动作。
-仅统计左侧任务列表中的任务，自动战斗与小工具的报错不计入。</system:String>
-    <system:String x:Key="PostActionSkippedDueToError">任务出错，已跳过后处理动作：{0}</system:String>
+仅统计左侧任务列表中的任务，{key=Copilot}与{key=Toolbox}的报错不计入。</system:String>
+    <system:String x:Key="PostActionSkippedDueToError">任务出错，已跳过完成后动作：{0}</system:String>
     <system:String x:Key="IfNoOtherMaa">无其他 MAA 时</system:String>
     <system:String x:Key="IfNoOtherMaaTip">勾选后，仅当没有其他 MAA 实例在运行时，才会执行睡眠/休眠/关机</system:String>
     <system:String x:Key="BackToAndroidHome">返回 模拟器 主屏幕</system:String>
@@ -1488,7 +1488,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="IdentifyTheMistakes">识别错误</system:String>
     <system:String x:Key="RecruitRefreshLimitReached">刷新次数达到上限</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">任务出错: </system:String>
-    <system:String x:Key="TaskErrorSummaryTitle">本轮任务存在以下错误：</system:String>
+    <system:String x:Key="TaskErrorSummaryTitle">本轮任务出现以下错误：</system:String>
     <system:String x:Key="TaskErrorSummaryItem">{0}</system:String>
     <system:String x:Key="OutOfMemoryError">{0}任务因内存不足停止，请关闭部分程序或重启 MAA 后重试</system:String>
     <system:String x:Key="CombatError">战斗出错</system:String>
@@ -1496,7 +1496,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="CompleteTask" xml:space="preserve">完成任务: </system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">开始战斗: </system:String>
     <system:String x:Key="CompleteCombat">完成战斗</system:String>
-    <system:String x:Key="TaskCompletedWithErrors">任务出现错误！\n(用时：{0})</system:String>
+    <system:String x:Key="TaskCompletedWithErrors">任务已完成，但出现错误！\n(用时 {0})</system:String>
     <system:String x:Key="AllTasksComplete">任务已全部完成！\n(用时 {0})</system:String>
     <system:String x:Key="SanityReport">理智将在 {DateTime} 回满。({TimeDiff} 后)</system:String>
     <system:String x:Key="AllTaskCompleteContent">MAA 已在 {DateTime} 完成了 {Preset} 配置下所有预设的任务。(用时 {TimeDiff})</system:String>
