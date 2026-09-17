@@ -892,6 +892,7 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="Combat">Combat</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="OperProgress">Operator Development</system:String>
+    <!--  待确认移除（干员计划重构后 JSON 文本流程已废弃，以下键仅供已注释的 JSON 往返链路使用）  -->
     <system:String x:Key="OperProgressParsePlan">Parse Plan</system:String>
     <system:String x:Key="OperProgressPlanValid">The current text has been parsed successfully</system:String>
     <system:String x:Key="OperProgressPlanPending">Text changed; runs still use the last successfully parsed plan</system:String>
@@ -906,6 +907,7 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="OperProgressStringRequired">Field "{1}" in plan entry {0} must be a non-empty string</system:String>
     <system:String x:Key="OperProgressIntegerRequired">Field "{1}" in plan entry {0} must be an integer</system:String>
     <system:String x:Key="OperProgressFieldRange">Field "{1}" in plan entry {0} must be between {2} and {3}</system:String>
+    <!--  待确认移除结束  -->
     <system:String x:Key="OperProgressSkillLevelTarget">Skill level {0}</system:String>
     <system:String x:Key="OperProgressMasteryTarget">Skill {0}, mastery {1}</system:String>
     <system:String x:Key="OperProgressEliteTarget">Elite {0}</system:String>
@@ -919,6 +921,7 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="OperProgressSummaryLog">Operator development finished: {0} completed, {1} already satisfied, {2} failed, {3} skipped</system:String>
     <system:String x:Key="OperProgressSelectOperator">Select operator</system:String>
     <system:String x:Key="OperProgressAddTarget">Add</system:String>
+    <!--  待确认移除（弹窗专用：卡片内联编辑后不再使用）  -->
     <system:String x:Key="OperProgressTargetTitle">{0} · Targets</system:String>
     <system:String x:Key="OperProgressElite">Elite</system:String>
     <system:String x:Key="OperProgressSkillUpgrade">Skill upgrade</system:String>
@@ -926,6 +929,7 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="OperProgressSkillNumber">Skill {0}</system:String>
     <system:String x:Key="OperProgressInvalidOperatorInput">Invalid operator name. Please select one from the list</system:String>
     <system:String x:Key="OperProgressOperatorLimit">At most 5 operators can be selected</system:String>
+    <!--  待确认移除（弹窗专用：卡片内联编辑后不再使用）  -->
     <system:String x:Key="OperProgressEdit">Edit</system:String>
     <system:String x:Key="OperProgressOnlineEditor">Edit the plan online with Arknights Toolbox</system:String>
     <system:String x:Key="Visiting">Visit Friends</system:String>

@@ -892,6 +892,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Combat">刷理智</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="OperProgress">幹員培養</system:String>
+    <!--  待確認移除（幹員計畫重構後 JSON 文字流程已廢棄，以下鍵僅供已註解的 JSON 往返鏈路使用）  -->
     <system:String x:Key="OperProgressParsePlan">解析計畫</system:String>
     <system:String x:Key="OperProgressPlanValid">目前文字已通過解析</system:String>
     <system:String x:Key="OperProgressPlanPending">文字已修改；執行仍使用上次解析成功的計畫</system:String>
@@ -906,6 +907,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="OperProgressStringRequired">計畫第 {0} 項的「{1}」欄位必須是非空字串</system:String>
     <system:String x:Key="OperProgressIntegerRequired">計畫第 {0} 項的「{1}」欄位必須是整數</system:String>
     <system:String x:Key="OperProgressFieldRange">計畫第 {0} 項的「{1}」欄位必須在 {2} 到 {3} 之間</system:String>
+    <!--  待確認移除結束  -->
     <system:String x:Key="OperProgressSkillLevelTarget">技能等級 {0}</system:String>
     <system:String x:Key="OperProgressMasteryTarget">技能 {0} 專精 {1}</system:String>
     <system:String x:Key="OperProgressEliteTarget">精英化 {0}</system:String>
@@ -919,6 +921,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="OperProgressSummaryLog">幹員培養完成：成功 {0}，已滿足 {1}，失敗 {2}，跳過 {3}</system:String>
     <system:String x:Key="OperProgressSelectOperator">選擇幹員</system:String>
     <system:String x:Key="OperProgressAddTarget">新增</system:String>
+    <!--  待确认移除（弹窗专用：卡片内联编辑后不再使用）  -->
     <system:String x:Key="OperProgressTargetTitle">{0} · 培養目標</system:String>
     <system:String x:Key="OperProgressElite">精英化</system:String>
     <system:String x:Key="OperProgressSkillUpgrade">技能升級</system:String>
@@ -926,6 +929,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="OperProgressSkillNumber">技能 {0}</system:String>
     <system:String x:Key="OperProgressInvalidOperatorInput">輸入的幹員名無效，請從清單中選擇</system:String>
     <system:String x:Key="OperProgressOperatorLimit">最多支援選擇 5 名幹員</system:String>
+    <!--  待确认移除（弹窗专用：卡片内联编辑后不再使用）  -->
     <system:String x:Key="OperProgressEdit">修改</system:String>
     <system:String x:Key="OperProgressOnlineEditor">在明日方舟工具箱中線上編輯計畫</system:String>
     <system:String x:Key="Visiting">訪問好友</system:String>

@@ -893,6 +893,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Combat">이성 사용</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="OperProgress">오퍼레이터 육성</system:String>
+    <!--  待确认移除（干员计划重构后 JSON 文本流程已废弃，以下键仅供已注释的 JSON 往返链路使用）  -->
     <system:String x:Key="OperProgressParsePlan">계획 분석</system:String>
     <system:String x:Key="OperProgressPlanValid">현재 텍스트를 분석했습니다</system:String>
     <system:String x:Key="OperProgressPlanPending">텍스트가 변경되었습니다. 실행 시 마지막으로 분석된 계획을 사용합니다</system:String>
@@ -907,6 +908,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="OperProgressStringRequired">계획 항목 {0}의 "{1}"은 비어 있지 않은 문자열이어야 합니다</system:String>
     <system:String x:Key="OperProgressIntegerRequired">계획 항목 {0}의 "{1}"은 정수여야 합니다</system:String>
     <system:String x:Key="OperProgressFieldRange">계획 항목 {0}의 "{1}"은 {2}~{3} 범위여야 합니다</system:String>
+    <!--  待確認移除結束  -->
     <system:String x:Key="OperProgressSkillLevelTarget">스킬 레벨 {0}</system:String>
     <system:String x:Key="OperProgressMasteryTarget">스킬 {0}, 마스터리 {1}</system:String>
     <system:String x:Key="OperProgressEliteTarget">정예화 {0}</system:String>
@@ -920,6 +922,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="OperProgressSummaryLog">오퍼레이터 육성 완료: 성공 {0}, 이미 달성 {1}, 실패 {2}, 스킵 {3}</system:String>
     <system:String x:Key="OperProgressSelectOperator">선택</system:String>
     <system:String x:Key="OperProgressAddTarget">육성</system:String>
+    <!--  待确认移除（弹窗专用：卡片内联编辑后不再使用）  -->
     <system:String x:Key="OperProgressTargetTitle">{0} · 육성 목표</system:String>
     <system:String x:Key="OperProgressElite">정예화</system:String>
     <system:String x:Key="OperProgressSkillUpgrade">스킬 레벨업</system:String>
@@ -927,6 +930,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="OperProgressSkillNumber">스킬 {0}</system:String>
     <system:String x:Key="OperProgressInvalidOperatorInput">잘못된 오퍼레이터 이름입니다. 목록에서 선택해 주세요</system:String>
     <system:String x:Key="OperProgressOperatorLimit">오퍼레이터는 최대 5명까지 선택할 수 있습니다</system:String>
+    <!--  待确认移除（弹窗专用：卡片内联编辑后不再使用）  -->
     <system:String x:Key="OperProgressEdit">수정</system:String>
     <system:String x:Key="OperProgressOnlineEditor">명일방주 공구 상자에서 온라인 편집</system:String>
     <system:String x:Key="Visiting">친구 방문</system:String>

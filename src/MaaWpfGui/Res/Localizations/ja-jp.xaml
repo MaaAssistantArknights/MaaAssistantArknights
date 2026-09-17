@@ -894,6 +894,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Combat">作戦</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="OperProgress">オペレーター育成</system:String>
+    <!--  待确认移除（干员计划重构后 JSON 文本流程已废弃，以下键仅供已注释的 JSON 往返链路使用）  -->
     <system:String x:Key="OperProgressParsePlan">プランを解析</system:String>
     <system:String x:Key="OperProgressPlanValid">現在のテキストは解析済みです</system:String>
     <system:String x:Key="OperProgressPlanPending">テキストが変更されました。実行時は最後に解析成功したプランを使用します</system:String>
@@ -908,6 +909,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="OperProgressStringRequired">プラン {0} の「{1}」は空でない文字列である必要があります</system:String>
     <system:String x:Key="OperProgressIntegerRequired">プラン {0} の「{1}」は整数である必要があります</system:String>
     <system:String x:Key="OperProgressFieldRange">プラン {0} の「{1}」は {2}～{3} の範囲で指定してください</system:String>
+    <!--  待確認移除結束  -->
     <system:String x:Key="OperProgressSkillLevelTarget">スキルランク {0}</system:String>
     <system:String x:Key="OperProgressMasteryTarget">スキル {0} 特化 {1}</system:String>
     <system:String x:Key="OperProgressEliteTarget">昇進段階 {0}</system:String>
@@ -921,6 +923,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="OperProgressSummaryLog">オペレーター育成完了：成功 {0}、達成済み {1}、失敗 {2}、スキップ {3}</system:String>
     <system:String x:Key="OperProgressSelectOperator">オペレーターを選択</system:String>
     <system:String x:Key="OperProgressAddTarget">追加</system:String>
+    <!--  待确认移除（弹窗专用：卡片内联编辑后不再使用）  -->
     <system:String x:Key="OperProgressTargetTitle">{0} · 育成目標</system:String>
     <system:String x:Key="OperProgressElite">昇進段階</system:String>
     <system:String x:Key="OperProgressSkillUpgrade">スキルランクアップ</system:String>
@@ -928,6 +931,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="OperProgressSkillNumber">スキル{0}</system:String>
     <system:String x:Key="OperProgressInvalidOperatorInput">入力したオペレーター名が無効です。リストから選択してください</system:String>
     <system:String x:Key="OperProgressOperatorLimit">選択できるオペレーターは最大 5 人です</system:String>
+    <!--  待确认移除（弹窗专用：卡片内联编辑后不再使用）  -->
     <system:String x:Key="OperProgressEdit">変更</system:String>
     <system:String x:Key="OperProgressOnlineEditor">アークナイツツールボックスでオンライン編集</system:String>
     <system:String x:Key="Visiting">戦友訪問</system:String>

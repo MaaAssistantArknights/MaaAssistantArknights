@@ -15,6 +15,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
@@ -28,7 +30,6 @@ using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Windows.Foundation.Metadata;
 using static MaaWpfGui.Configuration.Single.MaaTask.OperProgressTask;
 using static MaaWpfGui.Main.AsstProxy;
 
@@ -36,8 +37,7 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
 public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgressTaskUserControlModel.ISerialize
 {
-    private const int MaxOperators = 5;
-
+    // 待确认移除（AllowedFields 已作废：字段权威改为 OperProgressTask.Plan 对象，本次重构后仅 ParseAndValidate 引用）
     private static readonly HashSet<string> AllowedFields = ["name", "elite", "skills", "skill", "skill_master"];
 
     static OperProgressTaskUserControlModel() => Instance = new();
@@ -45,11 +45,19 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
     public OperProgressTaskUserControlModel()
     {
         Instances.AsstProxy.AsstSubTaskMsgEvent += ProcOperProgressMsg;
+
+        // 语言与干员名语言切换后刷新卡片上的本地化显示
+        LocalizationHelper.LanguageChanged += RefreshPlanItemLocalization;
+        SettingsViewModel.GuiSettings.OperNameLanguageChanged += RefreshPlanItemLocalization;
     }
 
     public static OperProgressTaskUserControlModel Instance { get; }
 
-    public ObservableCollection<OperProgressPlanItemViewModel> PlanItems { get; } = [];
+    /// <summary>干员培养计划条目，每项对应一名干员。</summary>
+    public ObservableCollection<OperProgressPlanItemViewModel> PlanItems { get; private set => SetAndNotify(ref field, value); } = [];
+
+    /// <summary>为 true 时不响应集合变更，避免刷新期间把条目回写任务配置。</summary>
+    private bool _isRefreshing;
 
     private void RefreshPlanItems(OperProgressTask task)
     {
@@ -69,6 +77,12 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
             return new OperProgressPlanItemViewModel(index, plan.role, plan.name, doElite, elite, mainSkillLevel, specializationLevel);
         }).ToList();
+        PlanItems = [.. list];
+        PlanItems.CollectionChanged += PlanItems_CollectionChanged;
+        foreach (var item in PlanItems)
+        {
+            item.PropertyChanged += PlanItem_PropertyChanged;
+        }
     }
 
     private void SavePlan()
@@ -90,145 +104,40 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         SetTaskConfig<OperProgressTask>(t => t.Plans.SequenceEqual(list), t => t.Plans = list);
     }
 
-    private string _planJson = "[]";
-
-    [Deprecated("合并前移除", DeprecationType.Remove, 0)]
-    public string PlanJson
-    {
-        get => _planJson;
-        set {
-            if (!SetAndNotify(ref _planJson, value))
-            {
-                return;
-            }
-
-            IsCurrentTextValidated = value == GetTaskConfig<OperProgressTask>().ValidatedPlanJson;
-            SetTaskConfig<OperProgressTask>(t => t.PlanJson == value, t => t.PlanJson = value);
-            ValidationMessage = IsCurrentTextValidated
-                ? LocalizationHelper.GetString("OperProgressPlanValid")
-                : LocalizationHelper.GetString("OperProgressPlanPending");
-        }
-    }
-
-    public bool IsCurrentTextValidated { get; private set => SetAndNotify(ref field, value); } = true;
-
     public string ValidationMessage { get; private set => SetAndNotify(ref field, value); } = string.Empty;
 
+    // 待确认移除（本次重构后无绑定：列表改用 PlanItems，预览行由卡片自带）
     public ObservableCollection<PlanPreview> PlanPreviewItems { get; } = [];
 
+    public record class OperItem(OperatorRole Role, string Name, string NameDisplay, int Rarity);
+
     /// <summary>可选择的干员名列表，按稀有度降序、名称升序排列，实时取自干员数据</summary>
-    public List<GenericCombinedData<(OperatorRole Role, string Name, int Rarity)>> OperatorNames => [.. DataHelper.Operators.Values
-        .Select(character => (character.Role, Name: DataHelper.GetLocalizedCharacterName(character) ?? character.Name!, character.Rarity))
+    public List<GenericCombinedData<OperItem>> OperatorNames => [.. DataHelper.Operators.Values
+        .Select(character => new OperItem(character.Role, character.Name!, DataHelper.GetLocalizedCharacterName(character) ?? character.Name!, character.Rarity))
         .OrderByDescending(entry => entry.Rarity)
         .ThenBy(entry => entry.Name, StringComparer.CurrentCulture)
-        .Select(oper => new GenericCombinedData<(OperatorRole Role, string Name, int Rarity)>($"{oper.Role}: {oper.Name}[{oper.Rarity}★]",  oper))];
+        .Select(oper => new GenericCombinedData<OperItem>($"{oper.Name}[{oper.Role}, {oper.Rarity}★]",  oper))];
 
-    private string _selectedOperator = string.Empty;
+    public OperItem? OperSelect { get; set => SetAndNotify(ref field, value); }
 
-    public string SelectedOperator
-    {
-        get => _selectedOperator;
-        set {
-            if (SetAndNotify(ref _selectedOperator, value))
-            {
-                NotifyOfPropertyChange(nameof(CanAddOperator));
-            }
-        }
-    }
-
-    /// <summary>未满 5 名干员，或所选干员已在计划中（可直接进入编辑）时允许添加</summary>
-    public bool CanAddOperator
-    {
-        get {
-            JArray plans = GetValidatedPlans();
-            return DistinctOperatorCount(plans) < MaxOperators || FindOperator(plans, _selectedOperator) >= 0;
-        }
-    }
-
-    /// <summary>任务链结束后删除已完成条目（高级设置）</summary>
+    /// <summary>
+    /// 任务链结束后删除已完成条目
+    /// </summary>
     public bool DeleteCompletedEntries
     {
         get => GetTaskConfig<OperProgressTask>().DeleteOnCompleted;
         set => SetTaskConfig<OperProgressTask>(t => t.DeleteOnCompleted == value, t => t.DeleteOnCompleted = value);
     }
 
-    /// <summary>本轮运行中各条目的回调结果，序号为 Core 收到的计划数组下标</summary>
+    /// <summary>本轮运行中各条目的回调结果，键为 Core 收到的计划数组下标</summary>
+    // 待确认移除（本次重构后下标不再参与判断，改以回调携带的干员名匹配）
     private readonly Dictionary<int, (string Name, bool Completed)> _runEntryResults = [];
 
     // —— 培养目标弹窗 ——
-    public bool IsTargetPopupOpen { get; set => SetAndNotify(ref field, value); }
-
-    public string PopupTitle { get; private set => SetAndNotify(ref field, value); } = string.Empty;
-
-    public string PopupConfirmText { get; private set => SetAndNotify(ref field, value); } = string.Empty;
-
-    public bool PopupHasSelection { get; private set => SetAndNotify(ref field, value); }
-
-    public bool PopupSelectElite
-    {
-        get; set {
-            if (SetAndNotify(ref field, value))
-            {
-                UpdatePopupHasSelection();
-            }
-        }
-    }
-
-    public int PopupEliteTarget
-    {
-        get; set {
-            if (SetAndNotify(ref field, value))
-            {
-                PopupSelectElite = true;
-            }
-        }
-    } = 2;
-
-    public bool PopupSelectSkill
-    {
-        get; set {
-            if (SetAndNotify(ref field, value))
-            {
-                UpdatePopupHasSelection();
-            }
-        }
-    }
-
-    public int PopupSkillTarget
-    {
-        get; set {
-            if (SetAndNotify(ref field, value))
-            {
-                PopupSelectSkill = true;
-            }
-        }
-    } = 7;
-
-    public IReadOnlyList<int> EliteOptions { get; } = [1, 2];
-
-    public IReadOnlyList<int> SkillLevelOptions { get; } = [2, 3, 4, 5, 6, 7];
-
-    public IReadOnlyList<int> MasteryTargetOptions { get; } = [1, 2, 3];
 
     /// <summary>技能专精行，每个技能独立勾选，按干员稀有度与已有条目动态生成</summary>
+    // 待确认移除（本次重构后无绑定：专精行已移至 OperProgressPlanItemViewModel.MasteryRows）
     public ObservableCollection<OperProgressMasterySkillRow> MasteryRows { get; } = [];
-
-    private string _popupOperatorName = string.Empty;
-
-    private int _editOperatorIndex = -1;
-
-    public void ParsePlan()
-    {
-        try
-        {
-            ApplyPlans(ParseAndValidate(PlanJson));
-        }
-        catch (Exception ex) when (ex is JsonException or InvalidOperationException)
-        {
-            IsCurrentTextValidated = false;
-            ValidationMessage = ex.Message;
-        }
-    }
 
     public override void RefreshUI(BaseTask baseTask)
     {
@@ -237,122 +146,16 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
             return;
         }
 
-        _planJson = task.PlanJson;
-        IsCurrentTextValidated = task.PlanJson == task.ValidatedPlanJson;
-        ValidationMessage = IsCurrentTextValidated
-            ? LocalizationHelper.GetString("OperProgressPlanValid")
-            : LocalizationHelper.GetString("OperProgressPlanPending");
-        try
-        {
-            LoadPreview(ParseAndValidate(task.ValidatedPlanJson));
-        }
-        catch (Exception)
-        {
-            PlanPreviewItems.Clear();
-            NotifyOfPropertyChange(nameof(CanAddOperator));
-        }
+        _isRefreshing = true;
+        RefreshPlanItems(task);
         Refresh();
+        _isRefreshing = false;
     }
 
     public override (bool? IsSuccess, IEnumerable<int> TaskId) SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize).Serialize(baseTask, taskId);
 
-    public void OpenTargetPopup()
-    {
-        string input = SelectedOperator.Trim();
-        if (input.Length == 0)
-        {
-            return;
-        }
-
-        var character = DataHelper.GetCharacterByNameOrAlias(input);
-        if (character?.Name is not { } name || !DataHelper.Operators.ContainsKey(character.Id))
-        {
-            ValidationMessage = LocalizationHelper.GetString("OperProgressInvalidOperatorInput");
-            return;
-        }
-
-        JArray plans = GetValidatedPlans();
-        int editIndex = FindOperator(plans, name);
-        if (editIndex < 0 && DistinctOperatorCount(plans) >= MaxOperators)
-        {
-            return;
-        }
-
-        BeginTargetPopup(name, plans, editIndex);
-    }
-
-    public void EditOperator(PlanPreview item)
-    {
-        if (item is null)
-        {
-            return;
-        }
-
-        JArray plans = GetValidatedPlans();
-
-        // 延迟到本次点击结束后再弹窗，避免 StaysOpen=False 的弹窗被随后的松开操作立即关闭
-        System.Windows.Application.Current.Dispatcher.InvokeAsync(
-            () => BeginTargetPopup(item.Name, plans, FindOperator(plans, item.Name)),
-            System.Windows.Threading.DispatcherPriority.Background);
-    }
-
-    public void RemoveOperator(PlanPreview item)
-    {
-        if (item is null)
-        {
-            return;
-        }
-
-        JArray plans = GetValidatedPlans();
-        var remaining = new JArray();
-        foreach (JObject plan in plans.Cast<JObject>())
-        {
-            if (plan.Value<string>("name") != item.Name)
-            {
-                remaining.Add(plan);
-            }
-        }
-
-        if (remaining.Count == plans.Count)
-        {
-            return;
-        }
-
-        ApplyPlans(remaining);
-    }
-
-    public void CancelTargetPopup() => IsTargetPopupOpen = false;
-
-    public void ConfirmTargetPopup()
-    {
-        string name = _popupOperatorName;
-        IsTargetPopupOpen = false;
-        if (name.Length == 0 || !PopupHasSelection)
-        {
-            return;
-        }
-
-        JArray plans = GetValidatedPlans();
-        var remaining = new JArray();
-        foreach (JObject plan in plans.Cast<JObject>())
-        {
-            if (plan.Value<string>("name") != name)
-            {
-                remaining.Add(plan);
-            }
-        }
-
-        int insertAt = _editOperatorIndex >= 0 ? Math.Min(_editOperatorIndex, remaining.Count) : remaining.Count;
-        foreach (JObject entry in BuildOperatorPlans(name))
-        {
-            remaining.Insert(insertAt++, entry);
-        }
-
-        ApplyPlans(remaining);
-        SelectedOperator = string.Empty;
-    }
-
     /// <summary>记录单条培养结果，由 AsstProxy 在 UI 线程回调（回调线程已由 Execute.OnUIThread 保证）</summary>
+    // 待确认移除（本次重构后 Key 下标不再参与判断，可简化为按干员名上报）
     public void OnTargetResult(int index, string name, bool completed)
     {
         if (index == 0)
@@ -363,151 +166,125 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         _runEntryResults[index] = (name, completed);
     }
 
-    /// <summary>培养任务链结束：开启开关时删除结果为“成功/已满足”的条目，失败与跳过的保留</summary>
+    /// <summary>培养任务链结束：开启开关时删除结果为“成功/已满足”的干员条目，失败与跳过的保留</summary>
     public void OnSummary()
     {
-        var completedEntries = _runEntryResults.Where(kv => kv.Value.Completed).Select(kv => (Index: kv.Key, kv.Value.Name)).ToList();
+        var completedNames = _runEntryResults.Where(kv => kv.Value.Completed).Select(kv => kv.Value.Name).ToHashSet();
         _runEntryResults.Clear();
-        if (!GetTaskConfig<OperProgressTask>().DeleteOnCompleted || completedEntries.Count == 0)
+        if (!GetTaskConfig<OperProgressTask>().DeleteOnCompleted || completedNames.Count == 0)
         {
             return;
         }
 
-        JArray plans = GetValidatedPlans();
-        var remaining = new JArray();
-        for (int index = 0; index < plans.Count; ++index)
+        // 以回调携带的干员名为主键匹配：展开后的计划数组下标与卡片并非一一对应
+        var remaining = PlanItems.Where(item => !completedNames.Contains(item.Name)).ToList();
+        if (remaining.Count == PlanItems.Count)
         {
-            var plan = (JObject)plans[index]!;
-
-            // 双重校验：干员名与回调一致才删除，防止运行期间计划被修改导致错位误删
-            if (completedEntries.Any(entry => entry.Index == index && entry.Name == plan.Value<string>("name")))
-            {
-                continue;
-            }
-
-            remaining.Add(plan);
+            return;
         }
 
-        if (remaining.Count < plans.Count)
+        ReplacePlanItems(remaining);
+        SavePlan();
+    }
+
+    /// <summary>
+    /// 把当前选择的干员加入计划，新增的卡片自动展开。
+    /// </summary>
+    public void AddOperator()
+    {
+        if (OperSelect is null)
         {
-            ApplyPlans(remaining);
+            return;
+        }
+
+        PlanItems.Add(new OperProgressPlanItemViewModel(PlanItems.Count, OperSelect.Role, OperSelect.Name, false, 0, 0, new(0, 0, 0)));
+    }
+
+    /// <summary>
+    /// 从计划中移除指定的干员条目并重排序号。
+    /// </summary>
+    public void RemovePlan(OperProgressPlanItemViewModel? item)
+    {
+        if (item is null || !PlanItems.Remove(item))
+        {
+            return;
+        }
+
+        ReindexPlanItems();
+    }
+
+    private void PlanItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        foreach (var item in e.OldItems?.OfType<OperProgressPlanItemViewModel>() ?? [])
+        {
+            item.PropertyChanged -= PlanItem_PropertyChanged;
+        }
+
+        foreach (var item in e.NewItems?.OfType<OperProgressPlanItemViewModel>() ?? [])
+        {
+            item.PropertyChanged -= PlanItem_PropertyChanged;
+            item.PropertyChanged += PlanItem_PropertyChanged;
+        }
+
+        if (_isRefreshing)
+        {
+            return;
+        }
+
+        ReindexPlanItems();
+        SavePlan();
+    }
+
+    private void PlanItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (_isRefreshing || !OperProgressPlanItemViewModel.IsPersistedProperty(e.PropertyName))
+        {
+            return;
+        }
+
+        SavePlan();
+    }
+
+    /// <summary>语言或干员名语言切换后刷新卡片上的本地化显示。</summary>
+    private void RefreshPlanItemLocalization()
+    {
+        foreach (var item in PlanItems)
+        {
+            item.RefreshLocalizedText();
         }
     }
 
-    /// <summary>把计划写回配置并刷新文本框、校验状态与预览，与 ParsePlan 成功路径一致</summary>
-    private void ApplyPlans(JArray plans)
+    /// <summary>按当前顺序重排各条目的序号。</summary>
+    private void ReindexPlanItems()
     {
-        string normalized = plans.ToString(Formatting.Indented);
-        SetTaskConfig<OperProgressTask>(
-            t => t.PlanJson == normalized && t.ValidatedPlanJson == normalized,
-            t => {
-                t.PlanJson = normalized;
-                t.ValidatedPlanJson = normalized;
-            });
-        _planJson = normalized;
-        NotifyOfPropertyChange(nameof(PlanJson));
-        IsCurrentTextValidated = true;
-        ValidationMessage = LocalizationHelper.GetStringFormat("OperProgressPlanParsed", plans.Count);
-        LoadPreview(plans);
+        for (int index = 0; index < PlanItems.Count; ++index)
+        {
+            PlanItems[index].Index = index;
+        }
     }
 
-    /// <summary>构建器始终基于最后一次解析成功的计划操作，与运行时使用的计划一致</summary>
-    private JArray GetValidatedPlans()
+    /// <summary>批量替换全部条目并重排序号，期间的集合变更不回写任务配置。</summary>
+    private void ReplacePlanItems(IEnumerable<OperProgressPlanItemViewModel> items)
     {
+        _isRefreshing = true;
         try
         {
-            return ParseAndValidate(GetTaskConfig<OperProgressTask>().ValidatedPlanJson);
-        }
-        catch (Exception ex) when (ex is JsonException or InvalidOperationException)
-        {
-            return [];
-        }
-    }
-
-    private void BeginTargetPopup(string name, JArray plans, int editIndex)
-    {
-        _popupOperatorName = name;
-        _editOperatorIndex = editIndex;
-        PopupTitle = LocalizationHelper.GetStringFormat("OperProgressTargetTitle", DataHelper.GetLocalizedCharacterName(name) ?? name);
-        PopupConfirmText = LocalizationHelper.GetString(editIndex >= 0 ? "OperProgressEdit" : "Confirm");
-
-        int maxSkill = GetMaxMasterySkill(name);
-        if (editIndex >= 0)
-        {
-            // 已有超出稀有度规则的专精条目时扩展可选行，避免编辑时被静默丢弃
-            maxSkill = Math.Max(maxSkill, plans.Cast<JObject>()
-                .Where(plan => plan.Value<string>("name") == name && plan.ContainsKey("skill"))
-                .Select(plan => plan.Value<int>("skill"))
-                .DefaultIfEmpty(0)
-                .Max());
-        }
-
-        ResetMasteryRows(Math.Clamp(maxSkill, 1, 3));
-        PopupEliteTarget = 2;
-        PopupSkillTarget = 7;
-        PopupSelectElite = PopupSelectSkill = false;
-        if (editIndex >= 0)
-        {
-            foreach (JObject plan in plans.Cast<JObject>().Where(plan => plan.Value<string>("name") == name))
+            PlanItems.Clear();
+            foreach (var item in items)
             {
-                if (plan.ContainsKey("elite"))
-                {
-                    PopupEliteTarget = plan.Value<int>("elite");
-                    PopupSelectElite = true;
-                }
-                else if (plan.ContainsKey("skills"))
-                {
-                    PopupSkillTarget = plan.Value<int>("skills");
-                    PopupSelectSkill = true;
-                }
-                else
-                {
-                    var row = MasteryRows.FirstOrDefault(row => row.SkillIndex == plan.Value<int>("skill"));
-                    if (row is not null)
-                    {
-                        row.Target = plan.Value<int>("skill_master");
-                        row.IsSelected = true;
-                    }
-                }
+                PlanItems.Add(item);
             }
+
+            ReindexPlanItems();
         }
-
-        UpdatePopupHasSelection();
-        IsTargetPopupOpen = true;
-    }
-
-    private IEnumerable<JObject> BuildOperatorPlans(string name)
-    {
-        if (PopupSelectElite)
+        finally
         {
-            yield return new JObject { ["name"] = name, ["elite"] = PopupEliteTarget };
-        }
-
-        if (PopupSelectSkill)
-        {
-            yield return new JObject { ["name"] = name, ["skills"] = PopupSkillTarget };
-        }
-
-        foreach (var row in MasteryRows.Where(row => row.IsSelected))
-        {
-            yield return new JObject { ["name"] = name, ["skill"] = row.SkillIndex, ["skill_master"] = row.Target };
-        }
-    }
-
-    private void UpdatePopupHasSelection() => PopupHasSelection = PopupSelectElite || PopupSelectSkill || MasteryRows.Any(row => row.IsSelected);
-
-    private void ResetMasteryRows(int maxSkill)
-    {
-        MasteryRows.Clear();
-        for (int skillIndex = 1; skillIndex <= maxSkill; ++skillIndex)
-        {
-            var row = new OperProgressMasterySkillRow(skillIndex);
-            row.PropertyChanged += (_, _) => UpdatePopupHasSelection();
-            MasteryRows.Add(row);
+            _isRefreshing = false;
         }
     }
 
     /// <summary>专精可选技能数按稀有度过滤，规则与 CopilotViewModel 一致：3 技能需 6 星（或阿米娅），2 技能需 4 星</summary>
+    // 待确认移除（本次重构后仅弹窗链路调用：OperProgressPlanItemViewModel 已自带同规则实现）
     private static int GetMaxMasterySkill(string name)
     {
         var character = DataHelper.GetCharacterByNameOrAlias(name);
@@ -515,22 +292,11 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         return rarity >= 6 || character?.Id == "char_002_amiya" ? 3 : rarity >= 4 ? 2 : 1;
     }
 
-    private static int FindOperator(JArray plans, string name)
-    {
-        for (int index = 0; index < plans.Count; ++index)
-        {
-            if (((JObject)plans[index]!).Value<string>("name") == name)
-            {
-                return index;
-            }
-        }
-
-        return -1;
-    }
-
+    // 待确认移除（本次重构后仅 JSON 往返链路内部调用）
     private static int DistinctOperatorCount(JArray plans) =>
         plans.Cast<JObject>().Select(plan => plan.Value<string>("name")).Distinct().Count();
 
+    // 待确认移除（本次重构后仅 ISerialize/ParsePlan 调用，字段权威已改为 OperProgressTask.Plan）
     internal static JArray ParseAndValidate(string json)
     {
         JToken root;
@@ -597,14 +363,10 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
             }
         }
 
-        if (DistinctOperatorCount(plans) > MaxOperators)
-        {
-            throw new InvalidOperationException(LocalizationHelper.GetString("OperProgressOperatorLimit"));
-        }
-
         return plans;
     }
 
+    // 待确认移除（仅服务 ParseAndValidate）
     private static string ReadRequiredString(JObject plan, int index, string fieldName)
     {
         if (plan[fieldName]?.Type != JTokenType.String || string.IsNullOrWhiteSpace(plan.Value<string>(fieldName)))
@@ -614,6 +376,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         return plan.Value<string>(fieldName)!.Trim();
     }
 
+    // 待确认移除（仅服务 ParseAndValidate）
     private static int ReadInteger(JObject plan, int index, string fieldName, int minimum, int maximum)
     {
         if (plan[fieldName]?.Type != JTokenType.Integer)
@@ -636,9 +399,11 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         return value;
     }
 
+    // 待确认移除（仅服务 ParseAndValidate）
     private static InvalidOperationException Error(int index, string fieldName, string localizationKey, Exception? innerException = null) =>
         new(LocalizationHelper.GetStringFormat(localizationKey, index, fieldName), innerException);
 
+    // 待确认移除（本次重构后仅 RefreshUI/ApplyPlans 调用，列表绑定已改为 PlanItems）
     private void LoadPreview(JArray plans)
     {
         PlanPreviewItems.Clear();
@@ -648,9 +413,9 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
             var name = plan.Value<string>("name")!;
             PlanPreviewItems.Add(new(index + 1, name, DataHelper.GetLocalizedCharacterName(name) ?? name, DescribeAction(plan)));
         }
-        NotifyOfPropertyChange(nameof(CanAddOperator));
     }
 
+    // 待确认移除（本次重构后仅 LoadPreview 调用：卡片 VM 的 TargetDescription 已承接）
     private static string DescribeAction(JObject plan) =>
         plan.ContainsKey("elite")
             ? LocalizationHelper.GetStringFormat("OperProgressEliteTarget", plan.Value<int>("elite"))
@@ -658,6 +423,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                 ? LocalizationHelper.GetStringFormat("OperProgressSkillLevelTarget", plan.Value<int>("skills"))
                 : LocalizationHelper.GetStringFormat("OperProgressMasteryTarget", plan.Value<int>("skill"), plan.Value<int>("skill_master"));
 
+    // 待确认移除（本次重构后仅 JSON 往返链路使用）
     public sealed record PlanPreview(int Index, string Name, string DisplayName, string Target);
 
     private interface ISerialize : ITaskQueueModelSerialize
@@ -669,17 +435,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                 return (null, []);
             }
 
-            JArray plans;
-            try
-            {
-                plans = ParseAndValidate(development.ValidatedPlanJson);
-            }
-            catch (Exception ex) when (ex is JsonException or InvalidOperationException)
-            {
-                Instances.TaskQueueViewModel.AddLog(ex.Message, UiLogColor.Error);
-                return (false, []);
-            }
-
+            JArray plans = [];
             if (plans.Count == 0)
             {
                 return (null, []);

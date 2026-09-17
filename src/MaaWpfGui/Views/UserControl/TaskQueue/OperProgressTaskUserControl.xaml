@@ -7,6 +7,7 @@
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:taskQueue_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
@@ -41,83 +42,185 @@
                 Content="{DynamicResource OperProgressParsePlan}" />
 
             <!--  干员选择与添加培养目标  -->
-            <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
-                <controls:TextBlock VerticalAlignment="Center" Text="{DynamicResource OperProgressSelectOperator}" />
+            <Grid Margin="0,8,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
                 <hc:ComboBox
-                    Width="110"
-                    Margin="6,0,0,0"
+                    Grid.Column="0"
+                    HorizontalContentAlignment="Stretch"
+                    DisplayMemberPath="Display"
                     IsEditable="True"
                     IsTextSearchEnabled="False"
                     ItemsSource="{Binding OperatorNames}"
                     Loaded="{s:Action MakeComboBoxSearchable,
-                                      Target={x:Type ui_vms:SettingsViewModel}}">
-                    <hc:ComboBox.Text>
-                        <Binding Path="SelectedOperator" UpdateSourceTrigger="PropertyChanged" />
-                    </hc:ComboBox.Text>
-                </hc:ComboBox>
+                                      Target={x:Type ui_vms:SettingsViewModel}}"
+                    SelectedValue="{Binding OperSelect}"
+                    SelectedValuePath="Value" />
                 <Button
                     x:Name="AddTargetButton"
+                    Grid.Column="1"
                     MinWidth="60"
                     Margin="6,0,0,0"
-                    HorizontalAlignment="Left"
-                    Command="{s:Action OpenTargetPopup}"
+                    Command="{s:Action AddOperator}"
                     Content="{DynamicResource OperProgressAddTarget}"
                     IsEnabled="{Binding CanAddOperator}"
                     ToolTip="{DynamicResource OperProgressOperatorLimit}"
                     ToolTipService.ShowOnDisabled="True" />
-            </StackPanel>
+            </Grid>
 
             <controls:TextBlock
                 Margin="0,8,0,0"
                 Foreground="{DynamicResource TraceLogBrush}"
                 Text="{Binding ValidationMessage}"
                 TextWrapping="Wrap" />
-            <ItemsControl Margin="0,10,0,0" ItemsSource="{Binding PlanPreviewItems}">
-                <ItemsControl.ItemTemplate>
+
+            <!--  干员计划列表：容器与交互对齐 DepotMaintainTaskUserControl 的 ListBox  -->
+            <ListBox
+                Margin="0,10,0,0"
+                Padding="0"
+                VerticalAlignment="Top"
+                HorizontalContentAlignment="Stretch"
+                BorderThickness="0"
+                ClipToBounds="False"
+                IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                             Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
+                ItemsSource="{Binding PlanItems}"
+                PreviewMouseWheel="{s:Action RouteMouseWheelToParentExceptScrollable,
+                                             Target={x:Type helper:MouseWheelHelper}}">
+                <ListBox.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource NoSelectedHighlightListBoxItemStyle}" TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="Margin" Value="1" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid
-                            Margin="0,2"
-                            Background="Transparent"
-                            Cursor="Hand"
-                            ToolTip="{DynamicResource OperProgressEdit}">
-                            <Grid.InputBindings>
-                                <MouseBinding
-                                    Command="{s:Action EditOperator}"
-                                    CommandParameter="{Binding}"
-                                    Gesture="LeftClick" />
-                            </Grid.InputBindings>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="28" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <controls:TextBlock Text="{Binding Index}" />
-                            <controls:TextBlock
-                                Grid.Column="1"
-                                Margin="4,0"
-                                Text="{Binding DisplayName}"
-                                TextTrimming="CharacterEllipsis" />
-                            <controls:TextBlock Grid.Column="2" Text="{Binding Target}" />
-                            <Button
-                                Grid.Column="3"
-                                Width="18"
-                                Height="18"
-                                MinWidth="18"
-                                Margin="6,0,0,0"
-                                Padding="0"
-                                hc:IconElement.Geometry="{StaticResource CloseGeometry}"
-                                BorderThickness="0"
-                                Command="{s:Action RemoveOperator}"
-                                CommandParameter="{Binding}"
-                                ToolTip="{DynamicResource Delete}" />
-                        </Grid>
+                        <Expander HorizontalContentAlignment="Stretch" IsExpanded="{Binding IsExpanded}">
+                            <Expander.Header>
+                                <Grid HorizontalAlignment="Stretch" Background="Transparent">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <controls:TextBlock
+                                        MinWidth="20"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Index}" />
+                                    <controls:TextBlock
+                                        Grid.Column="1"
+                                        Margin="4,0"
+                                        HorizontalAlignment="Left"
+                                        Text="{Binding DisplayName}"
+                                        TextTrimming="CharacterEllipsis" />
+                                    <Button
+                                        Grid.Column="2"
+                                        Width="25"
+                                        Height="25"
+                                        Margin="0,0,-5,0"
+                                        Padding="0"
+                                        hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
+                                        hc:IconElement.Height="15"
+                                        hc:IconElement.Width="15"
+                                        BorderBrush="Transparent"
+                                        BorderThickness="0"
+                                        Command="{s:Action RemovePlan,
+                                                           Target={x:Static taskQueue_vms:OperProgressTaskUserControlModel.Instance}}"
+                                        CommandParameter="{Binding}"
+                                        ToolTip="{DynamicResource Delete}">
+                                        <Button.Style>
+                                            <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" Value="True">
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                </Grid>
+                            </Expander.Header>
+                            <Border
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1,0,1,1"
+                                CornerRadius="0,0,4,4">
+                                <StackPanel Margin="6">
+                                    <controls:TextBlock
+                                        Foreground="{DynamicResource TraceLogBrush}"
+                                        Text="{Binding TargetDescription}"
+                                        TextWrapping="Wrap" />
+
+                                    <!--  精英化目标  -->
+                                    <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
+                                        <CheckBox
+                                            MinWidth="80"
+                                            Content="{DynamicResource OperProgressElite}"
+                                            IsChecked="{Binding DoElite}" />
+                                        <TextBlock
+                                            Margin="6,0"
+                                            VerticalAlignment="Center"
+                                            Text="→" />
+                                        <ComboBox
+                                            MinWidth="64"
+                                            IsEnabled="{Binding DoElite}"
+                                            ItemsSource="{Binding EliteOptions}"
+                                            SelectedValue="{Binding Elite, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+
+                                    <!--  技能等级目标  -->
+                                    <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
+                                        <CheckBox
+                                            MinWidth="80"
+                                            Content="{DynamicResource OperProgressSkillUpgrade}"
+                                            IsChecked="{Binding DoSkillLevel}" />
+                                        <TextBlock
+                                            Margin="6,0"
+                                            VerticalAlignment="Center"
+                                            Text="→" />
+                                        <ComboBox
+                                            MinWidth="64"
+                                            IsEnabled="{Binding DoSkillLevel}"
+                                            ItemsSource="{Binding SkillLevelOptions}"
+                                            SelectedValue="{Binding MainSkillLevel, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+
+                                    <!--  技能专精目标  -->
+                                    <controls:TextBlock Margin="0,6,0,0" Text="{DynamicResource OperProgressMastery}" />
+                                    <ItemsControl ItemsSource="{Binding MasteryRows}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
+                                                    <CheckBox
+                                                        MinWidth="80"
+                                                        Content="{Binding Label}"
+                                                        IsChecked="{Binding IsSelected}" />
+                                                    <TextBlock
+                                                        Margin="6,0"
+                                                        VerticalAlignment="Center"
+                                                        Text="→" />
+                                                    <ComboBox
+                                                        MinWidth="64"
+                                                        IsEnabled="{Binding IsSelected}"
+                                                        ItemsSource="{Binding DataContext.MasteryTargetOptions, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                        SelectedValue="{Binding Target, UpdateSourceTrigger=PropertyChanged}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+                        </Expander>
                     </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </StackPanel>
 
-        <!--  培养目标选择弹窗  -->
+        <!--  待确认移除（重构后卡片支持内联编辑，本弹窗已无绑定）：培养目标选择弹窗
         <Popup
             IsOpen="{Binding IsTargetPopupOpen}"
             Placement="Center"
@@ -200,5 +303,6 @@
                 </StackPanel>
             </Border>
         </Popup>
+        -->
     </StackPanel>
 </UserControl>
