@@ -1034,14 +1034,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
     }
 
-    public List<GenericCombinedData<int>> MedicineExpireDayList { get; } = [
-        new() { Display = "1", Value = 1 },
-        new() { Display = "2", Value = 2 },
-        new() { Display = "7", Value = 7 },
-        new() { Display = "14", Value = 14 },
-        new() { Display = "21", Value = 21 },
-    ];
-
     public int MedicineExpireDays
     {
         get => GetTaskConfig<FightTask>().MedicineExpireDays;
