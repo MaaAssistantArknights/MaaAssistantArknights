@@ -2238,9 +2238,8 @@ public class AsstProxy
             case "TradeDronesUsageNotUsed":
                 {
                     var message = LocalizationHelper.GetString("TradeDronesUsageNotUsed");
-                    Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Warning, splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("DroneUsage"));
-                    toast.AppendContentText(message).Show(row: 2);
+                    Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Warning);
+                    ToastNotification.ShowDirect(message);
                     break;
                 }
 
