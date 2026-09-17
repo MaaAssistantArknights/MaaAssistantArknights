@@ -269,12 +269,13 @@ public class AsstProxy
 
     public async Task<BitmapImage?> AsstGetImageAsync(bool forceScreencap)
     {
+        var handle = GetHandle();
         if (forceScreencap)
         {
-            MaaService.AsstAsyncScreencap(GetHandle(), true);
+            MaaService.AsstAsyncScreencap(handle, true);
         }
 
-        return await Task.Run(() => AsstGetImage(GetHandle()));
+        return await Task.Run(() => AsstGetImage(handle));
     }
 
     public async Task<BitmapImage?> AsstGetFreshImageAsync()
@@ -338,12 +339,13 @@ public class AsstProxy
 
     public async Task<byte[]?> AsstGetImageBgrDataAsync(bool forceScreencap)
     {
+        var handle = GetHandle();
         if (forceScreencap)
         {
-            MaaService.AsstAsyncScreencap(GetHandle(), true);
+            MaaService.AsstAsyncScreencap(handle, true);
         }
 
-        return await Task.Run(() => AsstGetImageBgrData(GetHandle()));
+        return await Task.Run(() => AsstGetImageBgrData(handle));
     }
 
     // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
@@ -648,7 +650,7 @@ public class AsstProxy
 
         if (loaded == false || handle == AsstHandle.Zero)
         {
-            _logger.Error("Resource loading failed, loaded: {0}, handle created: {1}", loaded, _handle != AsstHandle.Zero);
+            _logger.Error("Resource loading failed, loaded: {0}, handle created: {1}", loaded, handle != AsstHandle.Zero);
 
             // 先置标志再弹窗：弹窗显示期间启动自动运行、热键/托盘/远程触发的任务都须被拦
             Bootstrapper.MarkResourceBroken();
@@ -811,6 +813,7 @@ public class AsstProxy
             });
     }
 
+    // 保护 _handle 的读写快照；销毁在锁内原子取走并清零，使并发调用者只会拿到销毁前句柄或 Zero
     private readonly object _handleLock = new();
     private AsstHandle _handle;
 
@@ -3630,7 +3633,7 @@ public class AsstProxy
     }
 
     /// <summary>
-    /// 销毁。
+    /// 销毁 Core 实例。可重复调用，锁内原子取走 handle 并清零以保证只销毁一次，销毁完成后恢复游戏音频。
     /// </summary>
     public void AsstDestroy()
     {
@@ -3639,7 +3642,6 @@ public class AsstProxy
         {
             if (_handle == AsstHandle.Zero)
             {
-                GameAudioMuteManager.Restore();
                 return;
             }
 
