@@ -75,7 +75,6 @@ public class AsstProxy
 {
     private readonly RunningState _runningState;
     private static readonly ILogger _logger = Log.ForContext<AsstProxy>();
-    private static readonly HashSet<AsstTaskId> _infrastTradeDronesUsageReminderTasks = [];
 
     public DateTimeOffset StartTaskTime { get; set; }
 
@@ -1346,7 +1345,6 @@ public class AsstProxy
 
                 // UpdateTaskStatus(taskId, TaskStatus.Completed);
                 _tasksStatus.Clear();
-                _infrastTradeDronesUsageReminderTasks.Clear();
                 break;
 
             case AsstMsg.TaskChainError:
@@ -1377,7 +1375,6 @@ public class AsstProxy
 
             case AsstMsg.TaskChainStart:
                 {
-                    _infrastTradeDronesUsageReminderTasks.Remove(taskId);
                     var taskIndex = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index ?? -1;
                     var task = taskIndex >= 0 && taskIndex < ConfigFactory.CurrentConfig.TaskQueue.Count
                         ? ConfigFactory.CurrentConfig.TaskQueue[taskIndex]
@@ -1483,10 +1480,6 @@ public class AsstProxy
                 // 归属快照须在 SetIdle(true) 清零之前取得
                 var runOwner = _runningState.Owner;
                 bool isMainTaskQueueAllCompleted = taskList?.Length > 0 && runOwner == RunOwner.TaskQueue;
-                bool remindTradeDroneUsage = isMainTaskQueueAllCompleted && taskList is not null && _infrastTradeDronesUsageReminderTasks.Overlaps(taskList);
-
-                // 一次队列运行只提醒一次；无论完成列表是否匹配，都清理本轮所有待提醒任务。
-                _infrastTradeDronesUsageReminderTasks.Clear();
 
                 if (runOwner == RunOwner.Copilot)
                 {
@@ -1525,14 +1518,6 @@ public class AsstProxy
 
                     var allTaskCompleteLog = LocalizationHelper.GetStringFormat("AllTasksComplete", diffTaskTime);
 
-                    if (remindTradeDroneUsage)
-                    {
-                        Instances.TaskQueueViewModel.AddLog(
-                            LocalizationHelper.GetString("TradeDronesUsageNotUsed"),
-                            UiLogColor.Warning,
-                            splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
-                    }
-
                     if (FightSetting.SanityReport is not null)
                     {
                         var recoveryTime = FightSetting.SanityReport.ReportTime.AddMinutes(FightSetting.SanityReport.SanityCurrent < FightSetting.SanityReport.SanityMax ? (FightSetting.SanityReport.SanityMax - FightSetting.SanityReport.SanityCurrent) * 6 : 0);
@@ -1565,12 +1550,6 @@ public class AsstProxy
                         }
 
                         toast.Show();
-                    }
-
-                    if (remindTradeDroneUsage)
-                    {
-                        using var toast = new ToastNotification(LocalizationHelper.GetString("DroneUsage"));
-                        toast.AppendContentText(LocalizationHelper.GetString("TradeDronesUsageNotUsed")).Show(row: 2);
                     }
 
                     if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
@@ -2257,8 +2236,13 @@ public class AsstProxy
                 break;
 
             case "TradeDronesUsageNotUsed":
-                _infrastTradeDronesUsageReminderTasks.Add(taskId);
-                break;
+                {
+                    var message = LocalizationHelper.GetString("TradeDronesUsageNotUsed");
+                    Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Warning, splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("DroneUsage"));
+                    toast.AppendContentText(message).Show(row: 2);
+                    break;
+                }
 
             case "ProductIncorrect":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ProductIncorrect"), UiLogColor.Error);
