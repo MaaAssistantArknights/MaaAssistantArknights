@@ -2177,6 +2177,19 @@ public class TaskQueueViewModel : Screen
         // InfrastTask.InfrastOrderSelectionChanged();
         await Task.Run(() => SettingsViewModel.GameSettings.RunScript("StartsWithScript"));
 
+        _dropResumeAttempts = 0;
+        await StartQueueAsync([.. tasks], isResume: false);
+    }
+
+    /// <summary>
+    /// 连接模拟器，下发并启动任务。
+    /// </summary>
+    /// <param name="tasks">要下发的任务</param>
+    /// <param name="isResume">是否为掉线恢复：沿用本轮的开始时间、运行时长上限与统计，不重新计数</param>
+    /// <returns>Task</returns>
+    private async Task StartQueueAsync(List<BaseTask> tasks, bool isResume)
+    {
+        _currentRunTasks = tasks;
         AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 
         /*
@@ -2285,8 +2298,11 @@ public class TaskQueueViewModel : Screen
         if (taskRet)
         {
             AddLog(LocalizationHelper.GetString("Running"));
-            Instances.AsstProxy.StartTaskTime = DateTimeOffset.Now;
-            SetRunDeadlineFromSettings();
+            if (!isResume)
+            {
+                Instances.AsstProxy.StartTaskTime = DateTimeOffset.Now;
+                SetRunDeadlineFromSettings();
+            }
         }
         else
         {
@@ -2295,8 +2311,11 @@ public class TaskQueueViewModel : Screen
             SetStopped();
         }
 
-        AchievementTrackerHelper.Instance.MissionStartCountAdd();
-        AchievementTrackerHelper.Instance.UseDailyAdd();
+        if (!isResume)
+        {
+            AchievementTrackerHelper.Instance.MissionStartCountAdd();
+            AchievementTrackerHelper.Instance.UseDailyAdd();
+        }
 
         static void SetTaskStatus(int index, TaskItemStatus status)
         {
@@ -2339,6 +2358,174 @@ public class TaskQueueViewModel : Screen
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.TaskStartCancel);
         }
     }
+
+    #region 掉线恢复
+
+    // 单轮运行内自动重连的次数上限，防止网络持续异常时反复重连
+    private const int MaxDropResumeAttempts = 3;
+
+    // 等待 Core 停止的上限，与 Stop 的默认超时一致
+    private static readonly TimeSpan _dropResumeStopTimeout = TimeSpan.FromSeconds(60);
+
+    private int _dropResumeAttempts;
+
+    // 本轮实际下发的任务，掉线恢复只续跑其中被中断任务之后的部分
+    private List<BaseTask> _currentRunTasks = [];
+
+    // 被掉线中断的那一段运行中 Core 任务 id 的上限。Core 的任务 id 单调递增，
+    // 不超过该值的链路回调都属于已被停止的那一段，按 id 识别而非按时序，不受回调迟到影响
+    private int _staleTaskIdWatermark;
+
+    /// <summary>
+    /// 判断 Core 任务是否属于已被掉线恢复停止的那一段运行。
+    /// </summary>
+    /// <param name="taskId">Core 任务 id</param>
+    /// <returns>是否属于已停止的那一段</returns>
+    public bool IsStaleAfterDrop(int taskId) => taskId > 0 && taskId <= _staleTaskIdWatermark;
+
+    /// <summary>
+    /// 开启 ｢掉线后自动重连并继续任务｣ 时：停止被中断的任务，由开始唤醒点击重连回到主界面，
+    /// 再从被中断的任务起重新下发队列。每个任务都能从主界面开始执行，因此不必在节点链中途续跑。
+    /// </summary>
+    /// <param name="taskId">命中掉线弹窗的 Core 任务 id</param>
+    /// <param name="log">开始恢复时的日志，未开始恢复时为空字符串</param>
+    /// <returns>是否已开始恢复；为 false 时调用方应按原逻辑停止任务</returns>
+    public bool TryResumeAfterDrop(int taskId, out string log)
+    {
+        log = string.Empty;
+        if (!SettingsViewModel.GameSettings.AutoReconnectOnDrop || _runningState.Owner != RunOwner.TaskQueue)
+        {
+            return false;
+        }
+
+        if (_dropResumeAttempts >= MaxDropResumeAttempts)
+        {
+            AddLog(LocalizationHelper.GetStringFormat("GameDropResumeExhausted", MaxDropResumeAttempts), UiLogColor.Warning);
+            return false;
+        }
+
+        var queue = ConfigFactory.CurrentConfig.TaskQueue;
+        var startUp = queue.FirstOrDefault(t => t is StartUpTask && IsTaskEnable(t));
+        if (startUp is null)
+        {
+            AddLog(LocalizationHelper.GetString("GameDropResumeNoStartUp"), UiLogColor.Warning);
+            return false;
+        }
+
+        var interruptedIndex = TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index ?? -1;
+        if (interruptedIndex < 0 || interruptedIndex >= queue.Count)
+        {
+            return false;
+        }
+
+        var interrupted = queue[interruptedIndex];
+
+        // 只续跑本轮实际下发的任务：单独运行某个任务时，不应带上队列里的其他任务
+        var position = _currentRunTasks.FindIndex(t => ReferenceEquals(t, interrupted));
+        if (position < 0)
+        {
+            return false;
+        }
+
+        List<BaseTask> tasks = [startUp];
+        if (!ReferenceEquals(interrupted, startUp))
+        {
+            if (IsSafeToRerun(interrupted))
+            {
+                if (interrupted is FightTask fight)
+                {
+                    FightSettingsUserControlModel.CarryOverConsumption(fight, taskId);
+                }
+
+                tasks.Add(interrupted);
+            }
+            else
+            {
+                AddLog(LocalizationHelper.GetStringFormat("GameDropResumeSkipTask", interrupted.NameOrTaskType), UiLogColor.Warning);
+                TaskItemViewModels[interruptedIndex].StatusDisplay = TaskItemStatus.Error;
+            }
+        }
+
+        tasks.AddRange(_currentRunTasks.Skip(position + 1).Where(t => !ReferenceEquals(t, startUp)));
+
+        // 已下发但尚未开始的后续任务 id 更大，也属于将被停止的这一段
+        _staleTaskIdWatermark = Math.Max(taskId, Instances.AsstProxy.TasksStatus.Keys.DefaultIfEmpty().Max());
+        _dropResumeAttempts++;
+
+        var resumeFrom = tasks.Skip(1).FirstOrDefault(IsTaskEnable) ?? startUp;
+        log = LocalizationHelper.GetStringFormat("GameDropResume", resumeFrom.NameOrTaskType, _dropResumeAttempts, MaxDropResumeAttempts);
+        _ = ResumeAfterDropAsync(tasks);
+        return true;
+    }
+
+    /// <summary>
+    /// 从头重跑不会重复消耗资源的任务。理智作战的消耗在重新下发时扣除；
+    /// 公招（招聘许可、加急许可）、仓库维护、自定任务等无法保证，被中断时跳过。
+    /// </summary>
+    /// <remarks>
+    /// 本类有同名的静态属性（如 <see cref="FightTask"/>），<c>or</c> 组合模式中的裸名称会被解析为属性，
+    /// 故用带弃元的声明模式强制按类型匹配。
+    /// </remarks>
+    private static bool IsSafeToRerun(BaseTask task) => task switch
+    {
+        StartUpTask _ or FightTask _ or InfrastTask _ or MallTask _ or AwardTask _ or UserDataUpdateTask _ or SwitchThemeTask _ => true,
+        _ => false,
+    };
+
+    private async Task ResumeAfterDropAsync(List<BaseTask> tasks)
+    {
+        try
+        {
+            // 不走 Stop()：本轮并未结束，不进入停止中状态，也不置空闲，以免定时启动等入口趁机开始新一轮
+            await Task.Run(() => Instances.AsstProxy.AsstStop());
+
+            // Core 工作线程空闲后不会再产生属于被中断那一段的回调，已在途的由 IsStaleAfterDrop 丢弃
+            var deadline = DateTime.UtcNow + _dropResumeStopTimeout;
+            while (Instances.AsstProxy.AsstRunning())
+            {
+                if (DateTime.UtcNow > deadline)
+                {
+                    _logger.Warning("Drop resume: core did not stop in time, fall back to stop");
+
+                    // 被中断那一段的停止回调会被丢弃，需自行收尾
+                    if (await Stop())
+                    {
+                        SetStopped();
+                    }
+
+                    return;
+                }
+
+                await Task.Delay(100);
+            }
+
+            // 恢复期间用户点了停止：同样因停止回调被丢弃而需自行收尾
+            if (_runningState.GetStopping())
+            {
+                SetStopped();
+                return;
+            }
+
+            await TaskQueueSerializingLock.WaitAsync();
+            try
+            {
+                await StartQueueAsync(tasks, isResume: true);
+            }
+            finally
+            {
+                TaskQueueSerializingLock.Release();
+            }
+        }
+        catch (Exception ex)
+        {
+            // 调用方不等待本方法，异常必须在此收尾，否则界面会停留在运行中而 Core 已停止
+            _logger.Error(ex, "Drop resume failed");
+            AddLog(ex.Message, UiLogColor.Error);
+            SetStopped();
+        }
+    }
+
+    #endregion
 
     /// <summary>
     /// <para>通知 Core 停止当前任务并等待其完成。</para>

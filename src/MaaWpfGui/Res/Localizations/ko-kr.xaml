@@ -1539,6 +1539,10 @@ C:\leidian\LDPlayer9
     <system:String x:Key="UpperLimit">투자 상한 도달</system:String>
     <system:String x:Key="GameCrash">게임 충돌 발생, 재시작</system:String>
     <system:String x:Key="GameDrop">게임 연결 끊김, 작업 중단</system:String>
+    <system:String x:Key="GameDropResume">게임 연결 끊김, 재연결 후 「{0}」부터 재개합니다 ({1}/{2}회)</system:String>
+    <system:String x:Key="GameDropResumeSkipTask">「{0}」은(는) 다시 실행하면 자원을 또 소모하므로 건너뜁니다</system:String>
+    <system:String x:Key="GameDropResumeNoStartUp">{key=WakeUp}이(가) 활성화되어 있지 않아 자동 재연결할 수 없습니다</system:String>
+    <system:String x:Key="GameDropResumeExhausted">이번 실행에서 이미 {0}회 재연결하여 더 이상 재연결하지 않습니다</system:String>
     <system:String x:Key="RoguelikeGamePass">{key=AutoRoguelike} 클리어!</system:String>
     <system:String x:Key="RoguelikeSpecialItemBought">특별 상품을 구매했습니다!</system:String>
     <system:String x:Key="MonthlySquadCompleted">월간 스쿼드 보상을 모두 획득했습니다!</system:String>
@@ -2085,6 +2089,10 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="ReminderIntervalMinutes">알림 간격 (분)</system:String>
     <system:String x:Key="StallTimeoutMinutes">로그 출력 정지 타임아웃 (분)</system:String>
     <system:String x:Key="StallTimeoutEnabled">정지 감지 활성화</system:String>
+    <system:String x:Key="AutoReconnectOnDrop">연결 끊김 시 재연결 후 작업 재개</system:String>
+    <system:String x:Key="AutoReconnectOnDropTip" xml:space="preserve">게임 연결이 끊기면 현재 작업을 중지하고, {key=WakeUp}에서 재연결하여 메인 화면으로 돌아간 뒤 중단된 작업부터 이어서 실행합니다
+작업 목록에서 {key=WakeUp}을(를) 활성화해야 하며, 한 번 실행에 최대 3회까지 재연결합니다
+{key=Combat}은(는) 연결 끊김 전에 사용한 이성 회복제, 오리지늄, 횟수를 차감하고 다시 실행합니다. 공개모집처럼 다시 실행하면 자원을 또 소모하는 작업은 중단 시 건너뜁니다</system:String>
     <system:String x:Key="TaskStallWarning">작업 로그 출력이 {0}분 동안 업데이트되지 않았습니다(현재 {1}분 정지). 작업이 정상적으로 실행 중인지 확인하세요. 정상이라면 이 경고를 무시해도 됩니다. 응답이 없으면 수동 개입이 필요할 수 있습니다.</system:String>
     <system:String x:Key="RunDurationLimitEnabled">1회 실행 시간 제한</system:String>
     <system:String x:Key="RunDurationLimitMinutes">실행 시간 상한 (분)</system:String>

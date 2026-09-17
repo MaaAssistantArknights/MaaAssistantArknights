@@ -289,6 +289,17 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         }
     } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutMinutes;
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 掉线后经开始唤醒重连，并从被中断的任务继续执行队列
+    /// </summary>
+    public bool AutoReconnectOnDrop
+    {
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.AutoReconnectOnDrop = value;
+        }
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.AutoReconnectOnDrop;
+
     // 防止乘以 60000 毫秒时 int 溢出，int.MaxValue / 60000 ≈ 35791
     public const int TimeoutMaxMinutes = 11451;
 

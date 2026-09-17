@@ -61,6 +61,11 @@ public partial class RuntimeSettings : NotifyPropertyChangedWithValue, IJsonOnDe
 
     public bool RunDurationLimitExecutePostActions { get; set; } = true;
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 掉线后经开始唤醒重连，并从被中断的任务继续执行队列
+    /// </summary>
+    public bool AutoReconnectOnDrop { get; set; }
+
     public void OnDeserialized()
     {
         StallTimeoutMinutes = Math.Clamp(StallTimeoutMinutes, 0, GameSettingsUserControlModel.TimeoutMaxMinutes);

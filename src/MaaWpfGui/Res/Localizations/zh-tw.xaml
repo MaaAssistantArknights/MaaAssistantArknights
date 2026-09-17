@@ -1538,6 +1538,10 @@ C:\leidian\LDPlayer9
     <system:String x:Key="UpperLimit">投資已達上限</system:String>
     <system:String x:Key="GameCrash">遊戲閃退，重新啟動</system:String>
     <system:String x:Key="GameDrop">遊戲斷線，停止任務</system:String>
+    <system:String x:Key="GameDropResume">遊戲斷線，重新喚醒後從「{0}」繼續（第 {1}/{2} 次）</system:String>
+    <system:String x:Key="GameDropResumeSkipTask">「{0}」重跑會重複消耗資源，跳過該任務</system:String>
+    <system:String x:Key="GameDropResumeNoStartUp">未啟用「{key=WakeUp}」任務，無法自動重連</system:String>
+    <system:String x:Key="GameDropResumeExhausted">本輪已自動重連 {0} 次，不再重連</system:String>
     <system:String x:Key="RoguelikeGamePass">肉鴿通關啦！</system:String>
     <system:String x:Key="RoguelikeSpecialItemBought">購買了特殊商品！</system:String>
     <system:String x:Key="MonthlySquadCompleted">月度小隊清完啦！</system:String>
@@ -2085,6 +2089,10 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="ReminderIntervalMinutes">通知間隔時間（分鐘）</system:String>
     <system:String x:Key="StallTimeoutMinutes">日誌輸出停滯逾時時間（分鐘）</system:String>
     <system:String x:Key="StallTimeoutEnabled">啟用停滯偵測</system:String>
+    <system:String x:Key="AutoReconnectOnDrop">斷線後自動重連並繼續任務</system:String>
+    <system:String x:Key="AutoReconnectOnDropTip" xml:space="preserve">遊戲斷線時先停止目前任務，由「{key=WakeUp}」點擊重連回到主畫面，再從被中斷的任務起繼續執行
+需要在任務清單中啟用「{key=WakeUp}」，每輪最多自動重連 3 次
+「{key=Combat}」重跑時會扣除斷線前已消耗的理智藥、源石與次數；公開招募等重跑會重複消耗資源的任務被中斷時直接跳過</system:String>
     <system:String x:Key="TaskStallWarning">任務日誌輸出已超過 {0} 分鐘無更新（目前已停滯 {1} 分鐘）。請確認任務是否正常執行，若任務正常可忽略此提示，若無回應則可能需要手動干預。</system:String>
     <system:String x:Key="RunDurationLimitEnabled">限制單次執行時長</system:String>
     <system:String x:Key="RunDurationLimitMinutes">執行時長上限（分鐘）</system:String>

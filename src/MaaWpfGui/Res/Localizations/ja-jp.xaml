@@ -1540,6 +1540,10 @@ C:\leidian\LDPlayer9
     <system:String x:Key="UpperLimit">源石錐が上限に達しました</system:String>
     <system:String x:Key="GameCrash">ゲームがクラッシュ。再起動を行います</system:String>
     <system:String x:Key="GameDrop">回線が落ちたため、タスクを停止します</system:String>
+    <system:String x:Key="GameDropResume">回線が落ちたため、再接続後に「{0}」から再開します（{1}/{2} 回目）</system:String>
+    <system:String x:Key="GameDropResumeSkipTask">「{0}」は再実行すると資源を再び消費するため、スキップします</system:String>
+    <system:String x:Key="GameDropResumeNoStartUp">{key=WakeUp}が有効になっていないため、自動再接続できません</system:String>
+    <system:String x:Key="GameDropResumeExhausted">この実行ですでに {0} 回再接続したため、これ以上再接続しません</system:String>
     <system:String x:Key="RoguelikeGamePass">ゲームクリア、おめでとうございます！</system:String>
     <system:String x:Key="RoguelikeSpecialItemBought">スペシャルアイテムを購入しました！</system:String>
     <system:String x:Key="MonthlySquadCompleted">月間チーム全てクリアしました！おめでとうございます！</system:String>
@@ -2087,6 +2091,10 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="ReminderIntervalMinutes">リマインダー間隔時間（分）</system:String>
     <system:String x:Key="StallTimeoutMinutes">ログ出力停滞タイムアウト（分）</system:String>
     <system:String x:Key="StallTimeoutEnabled">停滞検出を有効にする</system:String>
+    <system:String x:Key="AutoReconnectOnDrop">切断後に再接続してタスクを再開</system:String>
+    <system:String x:Key="AutoReconnectOnDropTip" xml:space="preserve">ゲームの接続が切れた場合、現在のタスクを停止し、{key=WakeUp}で再接続してメイン画面に戻った後、中断したタスクから続行します
+タスクリストで{key=WakeUp}を有効にする必要があります。1回の実行につき最大3回まで再接続します
+{key=Combat}は切断前に使用した理性回復剤・純正源石・回数を差し引いて再実行します。公開求人など再実行で資源を再び消費するタスクは、中断された場合スキップします</system:String>
     <system:String x:Key="TaskStallWarning">タスクログ出力が {0} 分間更新されていません（現在 {1} 分間停滞）。タスクが正常に実行中か確認してください。正常であればこの警告は無視できます。応答がない場合は、手動での操作が必要になる可能性があります。</system:String>
     <system:String x:Key="RunDurationLimitEnabled">1回の実行時間を制限する</system:String>
     <system:String x:Key="RunDurationLimitMinutes">実行時間の上限（分）</system:String>

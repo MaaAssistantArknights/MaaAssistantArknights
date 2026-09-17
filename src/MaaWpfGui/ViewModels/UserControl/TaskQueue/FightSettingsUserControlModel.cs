@@ -57,6 +57,83 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
     public static SanityInfo? SanityReport { get; set; }
 
+    /// <summary>
+    /// 理智作战的资源消耗：非临期理智药、源石与已完成的战斗次数。
+    /// </summary>
+    /// <param name="Medicine">非临期理智药</param>
+    /// <param name="Stone">源石</param>
+    /// <param name="Times">已完成的战斗次数</param>
+    public readonly record struct FightConsumption(int Medicine, int Stone, int Times)
+    {
+        public static FightConsumption operator +(FightConsumption a, FightConsumption b) =>
+            new(a.Medicine + b.Medicine, a.Stone + b.Stone, a.Times + b.Times);
+    }
+
+    private static readonly Lock _consumptionLock = new();
+
+    // 本轮各 Core 战斗任务的消耗，按 task id 记录，掉线时只取被中断的那一个
+    private static readonly Dictionary<int, FightConsumption> _consumptionByTaskId = [];
+
+    // 掉线恢复时各理智作战配置需扣除的累计消耗；同一任务可能多次掉线，故累加。
+    // 按引用区分配置，两个参数相同的理智作战也是不同的任务
+    private static readonly Dictionary<FightTask, FightConsumption> _carryOverByFight = new(ReferenceEqualityComparer.Instance);
+
+    public static void AddMedicineUsed(int taskId, int count) => UpdateConsumption(taskId, c => c with { Medicine = c.Medicine + count });
+
+    public static void AddStoneUsed(int taskId) => UpdateConsumption(taskId, c => c with { Stone = c.Stone + 1 });
+
+    public static void SetTimesFinished(int taskId, int timesFinished) => UpdateConsumption(taskId, c => c with { Times = timesFinished });
+
+    /// <summary>
+    /// 掉线恢复重跑前调用：把被中断的 Core 任务已产生的消耗计入该理智作战配置，重新下发参数时扣除，
+    /// 避免重跑时重复吃药、碎石或超出次数上限。
+    /// </summary>
+    /// <param name="fight">被中断的理智作战配置</param>
+    /// <param name="interruptedTaskId">被中断的 Core 任务 id</param>
+    public static void CarryOverConsumption(FightTask fight, int interruptedTaskId)
+    {
+        lock (_consumptionLock)
+        {
+            if (_consumptionByTaskId.TryGetValue(interruptedTaskId, out var used))
+            {
+                _carryOverByFight[fight] = _carryOverByFight.GetValueOrDefault(fight) + used;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 清空本轮消耗记录，随 <see cref="Instances.Data.ClearCache"/> 在每轮运行开始时调用。
+    /// </summary>
+    public static void ClearConsumption()
+    {
+        lock (_consumptionLock)
+        {
+            _consumptionByTaskId.Clear();
+            _carryOverByFight.Clear();
+        }
+    }
+
+    private static FightConsumption GetCarryOver(FightTask fight)
+    {
+        lock (_consumptionLock)
+        {
+            return _carryOverByFight.GetValueOrDefault(fight);
+        }
+    }
+
+    private static void UpdateConsumption(int taskId, Func<FightConsumption, FightConsumption> update)
+    {
+        if (taskId <= 0)
+        {
+            return;
+        }
+
+        lock (_consumptionLock)
+        {
+            _consumptionByTaskId[taskId] = update(_consumptionByTaskId.GetValueOrDefault(taskId));
+        }
+    }
+
     static FightSettingsUserControlModel()
     {
         Instance = new();
@@ -1284,12 +1361,15 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         var daysUntilEndOfWeek = ((7 - (int)yjTime.DayOfWeek + 7) % 7) + 1; // 距离本周结束的天数, 用鹰历计算
         var activityExpireDays = activityExpireIn2Days && fight.UseExpireMedicineForActivity ? daysUntilEndOfWeek : 0;
 
+        // 掉线恢复重跑时扣除被中断前已消耗的部分
+        var used = GetCarryOver(fight);
+
         var task = new AsstFightTask() {
             Stage = stage,
-            Medicine = fight.UseMedicine != false ? fight.MedicineCount : 0,
-            Stone = fight.UseStone != false ? fight.StoneCount : 0,
+            Medicine = fight.UseMedicine != false ? Math.Max(0, fight.MedicineCount - used.Medicine) : 0,
+            Stone = fight.UseStone != false ? Math.Max(0, fight.StoneCount - used.Stone) : 0,
             Series = fight.Series,
-            MaxTimes = maxTimes,
+            MaxTimes = maxTimes == int.MaxValue ? maxTimes : Math.Max(0, maxTimes - used.Times),
             MedicineExpireDays = Math.Max(expireDays, activityExpireDays),
             IsDrGrandet = fight.IsDrGrandet,
             ReportToPenguin = SettingsViewModel.ThirdPartyServiceSettings.EnablePenguin,
@@ -1756,6 +1836,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
                 if (!report.IsExpiring)
                 {
                     MedicineUsedTimes += report.Count;
+                    AddMedicineUsed(msg.TaskId, report.Count);
                     medicineLog = LocalizationHelper.GetString("MedicineUsed") + $" {MedicineUsedTimes}(+{report.Count})";
                 }
                 else

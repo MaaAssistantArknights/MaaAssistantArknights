@@ -213,6 +213,13 @@
                 Minimum="1"
                 Value="{Binding ReminderIntervalMinutes}" />
         </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <CheckBox
+                Margin="10"
+                Content="{DynamicResource AutoReconnectOnDrop}"
+                IsChecked="{Binding AutoReconnectOnDrop}" />
+            <controls:TooltipBlock TooltipText="{DynamicResource AutoReconnectOnDropTip}" />
+        </StackPanel>
         <StackPanel
             HorizontalAlignment="Center"
             VerticalAlignment="Center"

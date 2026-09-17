@@ -53,7 +53,7 @@ In `Settings` - `Scheduled Execution`, you can set up to 8 timed tasks. Each inc
 
 When checked, MAA will **stop the currently running task**, restart the game, and start a new task. Useful for handling the daily 04:00 (server local time) flash update — after the flash update, it forcibly restarts the game and re-executes tasks to prevent them from getting stuck.
 
-After a disconnection or flash update, MAA stops the tasks instead of reconnecting automatically. For overnight runs, also enable the `Start Up` task and schedule the timer after 4:10 AM each day (the flash update window is usually 4:00-4:10 AM).
+After a disconnection or flash update, MAA stops the tasks by default. With `Reconnect and resume after disconnection` enabled in `Settings` - `Game Settings`, MAA stops the interrupted task, lets `Start Up` tap reconnect, and then continues the queue from the interrupted task (the `Start Up` task must be enabled; at most 3 times per run). For overnight runs, you can also enable the `Start Up` task and schedule the timer after 4:10 AM each day (the flash update window is usually 4:00-4:10 AM).
 
 ### Custom Configuration Selection
 

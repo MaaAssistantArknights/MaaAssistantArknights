@@ -1537,6 +1537,10 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="UpperLimit">Investment limit reached</system:String>
     <system:String x:Key="GameCrash">Game crashed pending restart</system:String>
     <system:String x:Key="GameDrop">Game disconnected, stopping tasks</system:String>
+    <system:String x:Key="GameDropResume">Game disconnected, reconnecting and resuming from {0} ({1}/{2})</system:String>
+    <system:String x:Key="GameDropResumeSkipTask">{0} would consume resources again if rerun, skipping it</system:String>
+    <system:String x:Key="GameDropResumeNoStartUp">{key=WakeUp} is not enabled, cannot reconnect automatically</system:String>
+    <system:String x:Key="GameDropResumeExhausted">Already reconnected {0} times in this run, not reconnecting again</system:String>
     <system:String x:Key="RoguelikeGamePass">Exploration completed! Congratulations!</system:String>
     <system:String x:Key="RoguelikeSpecialItemBought">Special Item Purchased!</system:String>
     <system:String x:Key="MonthlySquadCompleted">Monthly squad all clear! Congratulations!</system:String>
@@ -2084,6 +2088,10 @@ These directories are not suitable places to keep MAA; files there can be easily
     <system:String x:Key="ReminderIntervalMinutes">Reminder interval (minutes)</system:String>
     <system:String x:Key="StallTimeoutMinutes">Log output stall timeout (min)</system:String>
     <system:String x:Key="StallTimeoutEnabled">Enable stall detection</system:String>
+    <system:String x:Key="AutoReconnectOnDrop">Reconnect and resume after disconnection</system:String>
+    <system:String x:Key="AutoReconnectOnDropTip" xml:space="preserve">When the game disconnects, the current task is stopped, {key=WakeUp} taps reconnect to return to the main screen, and the queue continues from the interrupted task.
+{key=WakeUp} must be enabled in the task list. At most 3 reconnects per run.
+{key=Combat} is rerun with the sanity potions, Originite Prime and runs already used before the disconnection deducted. Tasks that would consume resources again when rerun, such as recruitment, are skipped if interrupted.</system:String>
     <system:String x:Key="TaskStallWarning">Task log output has not been updated for {0} minutes (currently stalled for {1} minutes). Please check whether the task is still running; if so, you can ignore this warning. If the task is unresponsive, manual intervention may be required.</system:String>
     <system:String x:Key="RunDurationLimitEnabled">Limit run duration</system:String>
     <system:String x:Key="RunDurationLimitMinutes">Run duration limit (min)</system:String>

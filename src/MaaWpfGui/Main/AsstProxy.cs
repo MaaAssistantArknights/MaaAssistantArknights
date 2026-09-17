@@ -827,6 +827,11 @@ public class AsstProxy
 
     private void ProcMsg(AsstMsg msg, JObject details)
     {
+        if (IsStaleTaskChainMsg(msg, details))
+        {
+            return;
+        }
+
         switch (msg)
         {
             case AsstMsg.InternalError:
@@ -1311,6 +1316,36 @@ public class AsstProxy
 
                 break;
         }
+    }
+
+    /// <summary>
+    /// 掉线恢复会停止被中断的那一段再重新下发。那一段迟到的链路回调（包括动作 Stop 被当作成功而产生的完成回调）
+    /// 若照常处理，会把新一段置为空闲、触发完成后动作或推进基建计划，故丢弃并清理其任务状态。
+    /// </summary>
+    /// <param name="msg">消息类型</param>
+    /// <param name="details">消息详情</param>
+    /// <returns>是否为应丢弃的过期链路回调</returns>
+    private bool IsStaleTaskChainMsg(AsstMsg msg, JObject details)
+    {
+        if (msg is not (AsstMsg.TaskChainStart or AsstMsg.TaskChainExtraInfo or AsstMsg.TaskChainError
+            or AsstMsg.TaskChainCompleted or AsstMsg.TaskChainStopped or AsstMsg.AllTasksCompleted))
+        {
+            return false;
+        }
+
+        AsstTaskId taskId = details["taskid"]?.ToObject<AsstTaskId>() ?? 0;
+        if (!Instances.TaskQueueViewModel.IsStaleAfterDrop(taskId))
+        {
+            return false;
+        }
+
+        _logger.Information("Discard {Msg} of task {TaskId}, interrupted by game drop", msg, taskId);
+        foreach (var staleId in _tasksStatus.Select(i => i.Key).Where(Instances.TaskQueueViewModel.IsStaleAfterDrop).ToList())
+        {
+            _tasksStatus.Remove(staleId);
+        }
+
+        return true;
     }
 
     private void ProcTaskChainMsg(AsstMsg msg, JObject details)
@@ -1830,10 +1865,11 @@ public class AsstProxy
                 {
                     string taskName = details!["details"]!["task"]!.ToString();
                     int execTimes = (int)details!["details"]!["exec_times"]!;
+                    AsstTaskId taskId = details["taskid"]?.ToObject<AsstTaskId>() ?? 0;
 
                     if (IsGameDropTask(taskName))
                     {
-                        OnGameDrop();
+                        OnGameDrop(taskId);
                         break;
                     }
 
@@ -1877,6 +1913,7 @@ public class AsstProxy
                         case "StoneConfirm":
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StoneUsed") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
                             StoneUsedTimes++;
+                            FightSetting.AddStoneUsed(taskId);
                             break;
 
                         case "AbandonAction":
@@ -2040,23 +2077,27 @@ public class AsstProxy
         return baseName is "OfflineConfirm" or "OfflineConfirmAfterBattle";
     }
 
-    private static void OnGameDrop()
+    private static void OnGameDrop(AsstTaskId taskId)
     {
-        // 同一次掉线可能被后续子任务再次命中，停止中不再重复提示
-        if (RunningState.Instance.GetStopping())
+        // 同一次掉线可能被后续子任务再次命中；停止中或已进入恢复（属于被停止的那一段）时不再重复处理
+        if (RunningState.Instance.GetStopping() || Instances.TaskQueueViewModel.IsStaleAfterDrop(taskId))
         {
             return;
         }
 
-        var log = LocalizationHelper.GetString("GameDrop");
-        Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error);
+        bool resuming = Instances.TaskQueueViewModel.TryResumeAfterDrop(taskId, out var resumeLog);
+        var log = resuming ? resumeLog : LocalizationHelper.GetString("GameDrop");
+        Instances.TaskQueueViewModel.AddLog(log, resuming ? UiLogColor.Warning : UiLogColor.Error);
         ToastNotification.ShowDirect(log);
         if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenError)
         {
             ExternalNotificationService.Send(log, log);
         }
 
-        _ = Instances.TaskQueueViewModel.Stop();
+        if (!resuming)
+        {
+            _ = Instances.TaskQueueViewModel.Stop();
+        }
     }
 
     private static void ProcSubTaskCompleted(JObject details)
@@ -2639,6 +2680,7 @@ public class AsstProxy
                     if ((subTaskDetails?.Children())?.Any() is true)
                     {
                         FightSetting.FightReport = subTaskDetails.ToObject<FightSetting.FightTimes>()!;
+                        FightSetting.SetTimesFinished(taskId, FightSetting.FightReport.TimesFinished);
                         if (FightSetting.FightReport.TimesFinished > 0)
                         {
                             AchievementTrackerHelper.Instance.SetProgress(AchievementIds.OverLimitAgent, FightSetting.FightReport.TimesFinished);

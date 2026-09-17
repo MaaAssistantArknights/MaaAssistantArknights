@@ -137,3 +137,4 @@ Example: Assuming you have 100 sanity, the stage costs 6 sanity, and the stage m
 - Automatically checks `Auto Deploy` if it's available.
 - Continues tasks after level-ups.
 - If auto-deploy fails, abandons the current operation and retries the battle.
+- With `Reconnect and resume after disconnection` enabled, combat resumes after reconnecting, with the sanity potions, Originite Prime and runs used before the disconnection deducted from the settings.
