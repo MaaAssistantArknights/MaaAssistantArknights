@@ -173,6 +173,7 @@ bool asst::OnnxSessions::initialize_gpu_options()
         return false;
     }
 
+    const auto backend = m_gpu_selector->backend();
     auto all_providers = Ort::GetAvailableProviders();
     bool support_cuda = false;
 #ifdef WITH_DML
@@ -181,48 +182,98 @@ bool asst::OnnxSessions::initialize_gpu_options()
 #ifdef WITH_COREML
     bool support_coreml = false;
 #endif
+    bool support_webgpu = false;
     for (const auto& provider : all_providers) {
         if (provider == "CUDAExecutionProvider") {
             support_cuda = true;
         }
 #ifdef WITH_DML
-        if (provider == "DmlExecutionProvider") {
+        else if (provider == "DmlExecutionProvider") {
             support_dml = true;
         }
 #endif
 #ifdef WITH_COREML
-        if (provider == "CoreMLExecutionProvider") {
+        else if (provider == "CoreMLExecutionProvider") {
             support_coreml = true;
         }
 #endif
+        else if (provider == "WebGpuExecutionProvider") {
+            support_webgpu = true;
+        }
     }
 
     bool provider_configured = false;
 
-    if (support_cuda) {
-        OrtCUDAProviderOptions cuda_options {};
-        cuda_options.device_id = *device_id;
-        m_options.AppendExecutionProvider_CUDA(cuda_options);
-        provider_configured = true;
-    }
-#ifdef WITH_DML
-    else if (support_dml) {
-        if (!Ort::Status(OrtSessionOptionsAppendExecutionProvider_DML(m_options, *device_id)).IsOK()) {
+    if (backend == InferenceBackend::WebGPU) {
+        if (support_webgpu) {
+            std::unordered_map<std::string, std::string> ep_options;
+            // SessionOptionsAppendExecutionProvider prefixes the key with
+            // "ep.webgpuexecutionprovider." by itself, so a fully qualified key
+            // here would be ignored.
+            ep_options["deviceId"] = std::to_string(*device_id);
+            try {
+                m_options.AppendExecutionProvider("WebGPU", ep_options);
+                provider_configured = true;
+                LogInfo << "WebGPU execution provider enabled for device" << *device_id;
+            }
+            catch (const Ort::Exception& ex) {
+                LogError << "Failed to append WebGPU execution provider:" << ex.what();
+                return false;
+            }
+        }
+        else {
+            LogError << "WebGPU execution provider requested but not available in this build";
             return false;
         }
-        provider_configured = true;
     }
+    else if (backend == InferenceBackend::DirectML) {
+#ifdef WITH_DML
+        if (support_dml) {
+            if (!Ort::Status(OrtSessionOptionsAppendExecutionProvider_DML(m_options, *device_id)).IsOK()) {
+                LogError << "Failed to append DirectML execution provider for device" << *device_id;
+                return false;
+            }
+            provider_configured = true;
+            LogInfo << "DirectML execution provider enabled for device" << *device_id;
+        }
+        else
+#endif
+        {
+            LogError << "DirectML execution provider requested but not available in this build";
+            return false;
+        }
+    }
+    else {
+        // Auto: 优先使用最成熟稳定的后端，跳过实验性的 WebGPU
+        if (support_cuda) {
+            OrtCUDAProviderOptions cuda_options {};
+            cuda_options.device_id = *device_id;
+            m_options.AppendExecutionProvider_CUDA(cuda_options);
+            provider_configured = true;
+            LogInfo << "CUDA execution provider enabled for device" << *device_id;
+        }
+#ifdef WITH_DML
+        else if (support_dml) {
+            if (!Ort::Status(OrtSessionOptionsAppendExecutionProvider_DML(m_options, *device_id)).IsOK()) {
+                return false;
+            }
+            provider_configured = true;
+            LogInfo << "DirectML execution provider enabled for device" << *device_id;
+        }
 #endif
 #ifdef WITH_COREML
-    else if (support_coreml) {
-        if (!Ort::Status(OrtSessionOptionsAppendExecutionProvider_CoreML((OrtSessionOptions*)m_options, 0)).IsOK()) {
-            return false;
+        else if (support_coreml) {
+            if (!Ort::Status(OrtSessionOptionsAppendExecutionProvider_CoreML((OrtSessionOptions*)m_options, 0)).IsOK()) {
+                return false;
+            }
+            provider_configured = true;
+            LogInfo << "CoreML execution provider enabled";
         }
-        provider_configured = true;
-    }
 #endif
+    }
+
     if (!provider_configured) {
-        Log.error(__FUNCTION__, "No GPU execution provider available");
+        LogError << "No GPU execution provider available";
         return false;
     }
 
