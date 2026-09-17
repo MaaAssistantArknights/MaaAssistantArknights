@@ -41,6 +41,9 @@ public class BaseTask : NotifyPropertyChangedWithValue
 {
     public string Name { get; set; } = string.Empty;
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? GroupId { get; set; }
+
     [JsonIgnore]
     public string NameOrTaskType => string.IsNullOrEmpty(Name) ? LocalizationHelper.GetString(TaskType.ToString()) : Name;
 

@@ -215,6 +215,29 @@ public static class ConfigFactory
                 {
                     task.PropertyChanged += Handler.TaskQueueItemOnPropertyChangedFactory(config.TaskQueue, key);
                 }
+
+                config.TaskGroups.CollectionChanged += (in NotifyCollectionChangedEventArgs<TaskGroup> args) => {
+                    if (args.Action is NotifyCollectionChangedAction.Add or NotifyCollectionChangedAction.Replace)
+                    {
+                        if (args.IsSingleItem)
+                        {
+                            args.NewItem.PropertyChanged += Handler.OnPropertyChangedFactory(key + nameof(config.TaskGroups) + ".");
+                        }
+                        else
+                        {
+                            foreach (var value in args.NewItems)
+                            {
+                                value.PropertyChanged += Handler.OnPropertyChangedFactory(key + nameof(config.TaskGroups) + ".");
+                            }
+                        }
+                    }
+
+                    OnPropertyChanged($"({args.Action}){key}{nameof(config.TaskGroups)}[{args.NewStartingIndex}]", args.OldItem, args.NewItem);
+                };
+                foreach (var group in config.TaskGroups)
+                {
+                    group.PropertyChanged += Handler.OnPropertyChangedFactory(key + nameof(config.TaskGroups) + ".");
+                }
             }
         }
     });

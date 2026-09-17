@@ -34,6 +34,9 @@ public class SpecificConfig : NotifyPropertyChangedWithValue
     public ObservableList<BaseTask> TaskQueue { get; private set; } = [];
 
     [JsonInclude]
+    public ObservableList<TaskGroup> TaskGroups { get; private set; } = [];
+
+    [JsonInclude]
     public Gui Gui { get; private set; } = new();
 
     [JsonInclude]

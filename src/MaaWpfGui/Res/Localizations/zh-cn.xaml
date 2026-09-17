@@ -384,6 +384,10 @@
     <system:String x:Key="RenameTask">重命名任务</system:String>
     <system:String x:Key="RenameTaskPrompt">请输入新的任务名称：</system:String>
     <system:String x:Key="AddTaskQueueTask">添加新任务</system:String>
+    <system:String x:Key="AddTaskGroup">添加任务组</system:String>
+    <system:String x:Key="TaskGroup">任务组</system:String>
+    <system:String x:Key="RenameTaskGroup">重命名任务组</system:String>
+    <system:String x:Key="ConfirmDeleteTaskGroupMessage">确定要删除任务组“{0}”及其中的 {1} 个任务吗？</system:String>
     <system:String x:Key="ConfirmDeleteTask">确认删除</system:String>
     <system:String x:Key="ConfirmDeleteTaskMessage">确定要删除 {0} 任务 "{1}" 吗？</system:String>
     <system:String x:Key="TaskRenamed">任务已重命名为: {0}</system:String>

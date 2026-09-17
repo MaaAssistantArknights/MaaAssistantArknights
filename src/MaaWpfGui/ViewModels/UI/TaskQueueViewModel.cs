@@ -28,8 +28,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using GongSolutions.Wpf.DragDrop;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Single;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
@@ -60,7 +62,7 @@ namespace MaaWpfGui.ViewModels.UI;
 /// </summary>
 // 通过 container.Get<TaskQueueViewModel>(); 实例化或获取实例
 // ReSharper disable once ClassNeverInstantiated.Global
-public class TaskQueueViewModel : Screen
+public class TaskQueueViewModel : Screen, IDropTarget
 {
     private readonly RunningState _runningState;
 
@@ -72,6 +74,10 @@ public class TaskQueueViewModel : Screen
     /// Gets or private sets the view models of task items.
     /// </summary>
     public ObservableCollection<TaskItemViewModel> TaskItemViewModels { get; private set; } = [];
+
+    public ObservableCollection<object> TaskQueueItems { get; } = [];
+
+    private readonly Dictionary<string, TaskGroupItemViewModel> _taskGroupItemViewModels = [];
 
     /// <summary>
     /// Gets the visibility of task setting views.
@@ -647,6 +653,9 @@ public class TaskQueueViewModel : Screen
                 Instances.Data.ClearCache();
             }
         };
+        _idle = _runningState.GetIdle();
+        Inited = _runningState.GetInit();
+        _stopping = _runningState.GetStopping();
         _runningState.StallOccurred += RunningState_Stalled;
 
         if (Instances.VersionUpdateDialogViewModel.IsDebugVersion() || File.Exists("DEBUG") || File.Exists("DEBUG.txt"))
@@ -1081,18 +1090,29 @@ public class TaskQueueViewModel : Screen
                 ConfigFactory.Root.Timers.List.Add(new(i, string.Empty));
             }
         }
+        var validGroupIds = ConfigFactory.CurrentConfig.TaskGroups.Select(group => group.Id).ToHashSet();
         List<TaskItemViewModel> taskqueue = [];
         for (int i = 0; i < ConfigFactory.CurrentConfig.TaskQueue.Count; i++)
         {
             var task = ConfigFactory.CurrentConfig.TaskQueue.ElementAt(i);
             if (task is not null)
             {
-                taskqueue.Add(new TaskItemViewModel(task.IsEnable) { Index = i });
+                if (task.GroupId is not null && !validGroupIds.Contains(task.GroupId))
+                {
+                    task.GroupId = null;
+                }
+
+                taskqueue.Add(CreateTaskItemViewModel(task.IsEnable, i));
             }
         }
 
         TaskItemViewModels = [.. taskqueue];
         TaskItemViewModels.CollectionChanged += TaskItemSelectionChanged;
+        foreach (var group in ConfigFactory.CurrentConfig.TaskGroups)
+        {
+            _taskGroupItemViewModels[group.Id] = new TaskGroupItemViewModel(group, this);
+        }
+        RefreshTaskQueueItems();
         var taskItem = TaskItemViewModels.ElementAtOrDefault(ConfigFactory.CurrentConfig.TaskSelectedIndex);
         taskItem ??= TaskItemViewModels.FirstOrDefault(i => ConfigFactory.CurrentConfig.TaskQueue[i.Index] is FightTask);
         taskItem ??= TaskItemViewModels.FirstOrDefault();
@@ -1108,6 +1128,111 @@ public class TaskQueueViewModel : Screen
         {
             AddLog(LocalizationHelper.GetString("BuyWineOnAprilFoolsDay"), UiLogColor.Info);
         }
+    }
+
+    private TaskItemViewModel CreateTaskItemViewModel(bool? isEnable = true, int index = 0)
+    {
+        var item = new TaskItemViewModel(isEnable) { Index = index };
+        item.PropertyChanged += (_, args) => {
+            if (args.PropertyName is nameof(TaskItemViewModel.IsEnable) or nameof(TaskItemViewModel.StatusDisplay))
+            {
+                RefreshTaskGroupStates();
+            }
+        };
+        return item;
+    }
+
+    public IReadOnlyList<TaskItemViewModel> GetGroupTaskItems(string groupId) => TaskItemViewModels
+        .Where(item => ConfigFactory.CurrentConfig.TaskQueue.ElementAtOrDefault(item.Index)?.GroupId == groupId)
+        .ToList();
+
+    public void SetGroupEnabled(string groupId, bool? value)
+    {
+        var group = ConfigFactory.CurrentConfig.TaskGroups.FirstOrDefault(item => item.Id == groupId);
+        if (group is null)
+        {
+            return;
+        }
+
+        group.IsEnable = value;
+        foreach (var item in GetGroupTaskItems(groupId))
+        {
+            item.IsEnable = value;
+        }
+        RefreshTaskGroupStates();
+    }
+
+    private void RefreshTaskGroupStates()
+    {
+        foreach (var group in _taskGroupItemViewModels.Values)
+        {
+            group.RefreshState();
+        }
+    }
+
+    public void RefreshTaskQueueItems()
+    {
+        var config = ConfigFactory.CurrentConfig;
+        var groupsById = config.TaskGroups.ToDictionary(group => group.Id);
+        var groupIndexes = config.TaskGroups.ToDictionary(
+            group => group.Id,
+            group => {
+                var firstTask = config.TaskQueue.FirstOrDefault(task => task.GroupId == group.Id);
+                var firstTaskIndex = firstTask is null ? -1 : config.TaskQueue.IndexOf(firstTask);
+                return firstTaskIndex >= 0 ? firstTaskIndex : Math.Clamp(group.Index, 0, config.TaskQueue.Count);
+            });
+        var displayedGroupIds = new HashSet<string>();
+
+        TaskQueueItems.Clear();
+        for (int index = 0; index <= config.TaskQueue.Count; index++)
+        {
+            foreach (var taskGroup in config.TaskGroups.Where(group => groupIndexes[group.Id] == index))
+            {
+                taskGroup.Index = index;
+                displayedGroupIds.Add(taskGroup.Id);
+                TaskQueueItems.Add(GetOrCreateGroupItem(taskGroup));
+            }
+
+            if (index == config.TaskQueue.Count)
+            {
+                continue;
+            }
+
+            var task = config.TaskQueue[index];
+            var taskItem = TaskItemViewModels[index];
+            if (task.GroupId is null || !groupsById.TryGetValue(task.GroupId, out var group))
+            {
+                taskItem.IsGrouped = false;
+                TaskQueueItems.Add(taskItem);
+                continue;
+            }
+
+            taskItem.IsGrouped = true;
+            if (displayedGroupIds.Add(group.Id))
+            {
+                group.Index = index;
+                TaskQueueItems.Add(GetOrCreateGroupItem(group));
+            }
+
+            if (group.IsExpanded)
+            {
+                TaskQueueItems.Add(taskItem);
+            }
+        }
+
+        RefreshTaskGroupStates();
+    }
+
+    private TaskGroupItemViewModel GetOrCreateGroupItem(TaskGroup group)
+    {
+        if (_taskGroupItemViewModels.TryGetValue(group.Id, out var item))
+        {
+            return item;
+        }
+
+        item = new TaskGroupItemViewModel(group, this);
+        _taskGroupItemViewModels[group.Id] = item;
+        return item;
     }
 
     public DayOfWeek CurDayOfWeek { get; private set; }
@@ -1481,7 +1606,8 @@ public class TaskQueueViewModel : Screen
         if (Activator.CreateInstance(taskName) is BaseTask task)
         {
             ConfigFactory.CurrentConfig.TaskQueue.Add(task);
-            TaskItemViewModels.Add(new TaskItemViewModel());
+            TaskItemViewModels.Add(CreateTaskItemViewModel());
+            RefreshTaskQueueItems();
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.QueueExpansion);
             AchievementTrackerHelper.Instance.TrackManualTaskAddition(
                 task.TaskType.ToString(),
@@ -1493,14 +1619,32 @@ public class TaskQueueViewModel : Screen
         }
     }
 
+    [UsedImplicitly]
+    public void AddTaskGroup()
+    {
+        var group = new TaskGroup {
+            Name = LocalizationHelper.GetString("TaskGroup"),
+            Index = ConfigFactory.CurrentConfig.TaskQueue.Count,
+        };
+        ConfigFactory.CurrentConfig.TaskGroups.Add(group);
+        _taskGroupItemViewModels[group.Id] = new TaskGroupItemViewModel(group, this);
+        RefreshTaskQueueItems();
+    }
+
     /// <summary>
     /// 重命名任务
     /// </summary>
     /// <param name="taskItem">任务项</param>
     [UsedImplicitly]
-    public void RenameTask(TaskItemViewModel taskItem)
+    public void RenameTask(object item)
     {
-        if (taskItem == null || !Idle)
+        if (item is TaskGroupItemViewModel groupItem)
+        {
+            RenameTaskGroup(groupItem);
+            return;
+        }
+
+        if (item is not TaskItemViewModel taskItem || !Idle)
         {
             return;
         }
@@ -1538,9 +1682,40 @@ public class TaskQueueViewModel : Screen
     /// <param name="taskItem">任务项</param>
     /// <returns>A <see cref="Task"/>representing the asynchronous operation.</returns>
     [UsedImplicitly]
-    public async Task RunTaskOnce(TaskItemViewModel taskItem)
+    public async Task RunTaskOnce(object item)
     {
-        if (taskItem == null || !Idle)
+        if (!Idle)
+        {
+            return;
+        }
+
+        if (item is TaskGroupItemViewModel groupItem)
+        {
+            var tasks = GetGroupTasks(groupItem.Group.Id);
+            if (tasks.Count == 0)
+            {
+                return;
+            }
+            var originalStates = tasks.Select(groupTask => groupTask.IsEnable).ToList();
+            try
+            {
+                foreach (var groupTask in tasks)
+                {
+                    groupTask.IsEnable = true;
+                }
+                await LinkStartWithTasks(tasks);
+            }
+            finally
+            {
+                for (int i = 0; i < tasks.Count; i++)
+                {
+                    tasks[i].IsEnable = originalStates[i];
+                }
+            }
+            return;
+        }
+
+        if (item is not TaskItemViewModel taskItem)
         {
             return;
         }
@@ -1570,9 +1745,15 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     /// <param name="taskItem">任务项</param>
     [UsedImplicitly]
-    public void CopyTask(TaskItemViewModel taskItem)
+    public void CopyTask(object item)
     {
-        if (taskItem == null || !Idle)
+        if (item is TaskGroupItemViewModel groupItem)
+        {
+            CopyTaskGroup(groupItem);
+            return;
+        }
+
+        if (item is not TaskItemViewModel taskItem || !Idle)
         {
             return;
         }
@@ -1592,7 +1773,8 @@ public class TaskQueueViewModel : Screen
         }
         newTask.Name = newTask.NameOrTaskType + " (2)";
         ConfigFactory.CurrentConfig.TaskQueue.Insert(index + 1, newTask);
-        TaskItemViewModels.Insert(index + 1, new TaskItemViewModel(oldTask.IsEnable));
+        TaskItemViewModels.Insert(index + 1, CreateTaskItemViewModel(oldTask.IsEnable));
+        RefreshTaskQueueItems();
         AddLog(LocalizationHelper.GetStringFormat("TaskCopied", newTask.NameOrTaskType), UiLogColor.Info);
     }
 
@@ -1601,9 +1783,15 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     /// <param name="taskItem">任务项</param>
     [UsedImplicitly]
-    public void RemoveTask(TaskItemViewModel taskItem)
+    public void RemoveTask(object item)
     {
-        if (taskItem == null || !Idle)
+        if (item is TaskGroupItemViewModel groupItem)
+        {
+            RemoveTaskGroup(groupItem);
+            return;
+        }
+
+        if (item is not TaskItemViewModel taskItem || !Idle)
         {
             return;
         }
@@ -1620,10 +1808,278 @@ public class TaskQueueViewModel : Screen
             var index = taskItem.Index;
             if (index < ConfigFactory.CurrentConfig.TaskQueue.Count)
             {
+                PreserveGroupStateIfLastTask(taskItem);
                 TaskItemViewModels.RemoveAt(index);
+                RefreshTaskQueueItems();
                 AddLog(LocalizationHelper.GetStringFormat("TaskDeleted", taskItem.Name), UiLogColor.Info);
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.QueueSimplifier);
             }
+        }
+    }
+
+    private List<BaseTask> GetGroupTasks(string groupId) => ConfigFactory.CurrentConfig.TaskQueue
+        .Where(task => task.GroupId == groupId)
+        .ToList();
+
+    private void RenameTaskGroup(TaskGroupItemViewModel groupItem)
+    {
+        if (!Idle)
+        {
+            return;
+        }
+
+        var dialog = new Views.Dialogs.TextDialogView(
+            LocalizationHelper.GetString("RenameTaskGroup"),
+            LocalizationHelper.GetString("RenameTaskPrompt"),
+            groupItem.Name.Replace("\r", string.Empty).Replace("\n", string.Empty)) {
+            Owner = Application.Current.MainWindow,
+        };
+
+        if (dialog.ShowDialog() == true && !string.IsNullOrWhiteSpace(dialog.InputText))
+        {
+            groupItem.Name = dialog.InputText.Trim().Replace("\r", string.Empty).Replace("\n", string.Empty);
+            AddLog(LocalizationHelper.GetStringFormat("TaskRenamed", groupItem.Name), UiLogColor.Info);
+        }
+    }
+
+    private void CopyTaskGroup(TaskGroupItemViewModel groupItem)
+    {
+        if (!Idle)
+        {
+            return;
+        }
+
+        var group = groupItem.Group;
+        var newGroup = new TaskGroup {
+            Name = groupItem.Name + " (2)",
+            IsEnable = group.IsEnable,
+            IsExpanded = group.IsExpanded,
+            Index = group.Index,
+        };
+        var groupIndex = ConfigFactory.CurrentConfig.TaskGroups.IndexOf(group);
+        ConfigFactory.CurrentConfig.TaskGroups.Insert(groupIndex + 1, newGroup);
+        _taskGroupItemViewModels[newGroup.Id] = new TaskGroupItemViewModel(newGroup, this);
+
+        var tasks = GetGroupTasks(group.Id);
+        var insertIndex = tasks.Count == 0
+            ? Math.Clamp(group.Index, 0, ConfigFactory.CurrentConfig.TaskQueue.Count)
+            : ConfigFactory.CurrentConfig.TaskQueue.IndexOf(tasks[^1]) + 1;
+        foreach (var task in tasks)
+        {
+            var taskJson = JsonSerializer.Serialize(task);
+            if (JsonSerializer.Deserialize(taskJson, task.GetType()) is not BaseTask newTask)
+            {
+                continue;
+            }
+
+            newTask.GroupId = newGroup.Id;
+            ConfigFactory.CurrentConfig.TaskQueue.Insert(insertIndex, newTask);
+            TaskItemViewModels.Insert(insertIndex, CreateTaskItemViewModel(newTask.IsEnable));
+            insertIndex++;
+        }
+        newGroup.Index = insertIndex - tasks.Count;
+        RefreshTaskQueueItems();
+        AddLog(LocalizationHelper.GetStringFormat("TaskCopied", newGroup.Name), UiLogColor.Info);
+    }
+
+    private void RemoveTaskGroup(TaskGroupItemViewModel groupItem)
+    {
+        if (!Idle)
+        {
+            return;
+        }
+
+        var tasks = GetGroupTaskItems(groupItem.Group.Id);
+        var result = MessageBoxHelper.Show(
+            LocalizationHelper.GetStringFormat("ConfirmDeleteTaskGroupMessage", groupItem.Name, tasks.Count),
+            LocalizationHelper.GetString("ConfirmDeleteTask"),
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Question);
+        if (result != MessageBoxResult.Yes)
+        {
+            return;
+        }
+
+        foreach (var task in tasks.OrderByDescending(task => task.Index))
+        {
+            TaskItemViewModels.RemoveAt(task.Index);
+        }
+        ConfigFactory.CurrentConfig.TaskGroups.Remove(groupItem.Group);
+        _taskGroupItemViewModels.Remove(groupItem.Group.Id);
+        RefreshTaskQueueItems();
+        AddLog(LocalizationHelper.GetStringFormat("TaskDeleted", groupItem.Name), UiLogColor.Info);
+    }
+
+    [UsedImplicitly]
+    public void ToggleTaskGroup(TaskGroupItemViewModel groupItem)
+    {
+        if (groupItem is not null)
+        {
+            groupItem.IsExpanded = !groupItem.IsExpanded;
+        }
+    }
+
+    public void DragOver(IDropInfo dropInfo)
+    {
+        if (!Idle || dropInfo.Data is not (TaskItemViewModel or TaskGroupItemViewModel))
+        {
+            return;
+        }
+
+        dropInfo.Effects = DragDropEffects.Move;
+        dropInfo.DropTargetAdorner = dropInfo.Data is TaskItemViewModel &&
+                                       dropInfo.TargetItem is TaskGroupItemViewModel
+            ? DropTargetAdorners.Highlight
+            : DropTargetAdorners.Insert;
+    }
+
+    public void Drop(IDropInfo dropInfo)
+    {
+        if (!Idle)
+        {
+            return;
+        }
+
+        switch (dropInfo.Data)
+        {
+            case TaskItemViewModel taskItem:
+                DropTask(taskItem, dropInfo);
+                break;
+            case TaskGroupItemViewModel groupItem:
+                DropTaskGroup(groupItem, dropInfo);
+                break;
+        }
+    }
+
+    private void DropTask(TaskItemViewModel taskItem, IDropInfo dropInfo)
+    {
+        if (taskItem.Index < 0 || taskItem.Index >= ConfigFactory.CurrentConfig.TaskQueue.Count)
+        {
+            return;
+        }
+
+        var sourceTask = ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index];
+        var sourceGroup = ConfigFactory.CurrentConfig.TaskGroups.FirstOrDefault(group => group.Id == sourceTask.GroupId);
+        var sourceGroupBecomesEmpty = sourceGroup is not null && GetGroupTasks(sourceGroup.Id).Count == 1;
+        var insertIndex = ConfigFactory.CurrentConfig.TaskQueue.Count;
+        string? targetGroupId = null;
+        var insertAfter = dropInfo.InsertPosition.HasFlag(RelativeInsertPosition.AfterTargetItem);
+
+        switch (dropInfo.TargetItem)
+        {
+            case TaskItemViewModel targetTaskItem when targetTaskItem != taskItem:
+                insertIndex = targetTaskItem.Index + (insertAfter ? 1 : 0);
+                targetGroupId = ConfigFactory.CurrentConfig.TaskQueue[targetTaskItem.Index].GroupId;
+                break;
+            case TaskGroupItemViewModel targetGroupItem when targetGroupItem.Group.Id != sourceTask.GroupId:
+                targetGroupId = targetGroupItem.Group.Id;
+                var groupTasks = GetGroupTaskItems(targetGroupId);
+                insertIndex = groupTasks.Count == 0 ? targetGroupItem.Group.Index : groupTasks[^1].Index + 1;
+                break;
+            case null:
+                break;
+            default:
+                return;
+        }
+
+        if (sourceGroupBecomesEmpty && sourceGroup is not null)
+        {
+            sourceGroup.Index = taskItem.Index;
+            sourceGroup.IsEnable = taskItem.IsEnable;
+        }
+
+        sourceTask.GroupId = targetGroupId;
+        var newIndex = insertIndex > taskItem.Index ? insertIndex - 1 : insertIndex;
+        newIndex = Math.Clamp(newIndex, 0, TaskItemViewModels.Count - 1);
+        if (taskItem.Index != newIndex)
+        {
+            TaskItemViewModels.Move(taskItem.Index, newIndex);
+        }
+        RefreshTaskQueueItems();
+    }
+
+    private void PreserveGroupStateIfLastTask(TaskItemViewModel taskItem)
+    {
+        var task = ConfigFactory.CurrentConfig.TaskQueue.ElementAtOrDefault(taskItem.Index);
+        var group = ConfigFactory.CurrentConfig.TaskGroups.FirstOrDefault(item => item.Id == task?.GroupId);
+        if (group is not null && GetGroupTasks(group.Id).Count == 1)
+        {
+            group.Index = taskItem.Index;
+            group.IsEnable = taskItem.IsEnable;
+        }
+    }
+
+    private void DropTaskGroup(TaskGroupItemViewModel groupItem, IDropInfo dropInfo)
+    {
+        var targetItem = dropInfo.TargetItem;
+        if (targetItem == groupItem ||
+            (targetItem is TaskItemViewModel ownTask && ConfigFactory.CurrentConfig.TaskQueue[ownTask.Index].GroupId == groupItem.Group.Id))
+        {
+            return;
+        }
+
+        var insertAfter = dropInfo.InsertPosition.HasFlag(RelativeInsertPosition.AfterTargetItem);
+        var insertIndex = ConfigFactory.CurrentConfig.TaskQueue.Count;
+        switch (targetItem)
+        {
+            case TaskItemViewModel targetTaskItem:
+                var targetTask = ConfigFactory.CurrentConfig.TaskQueue[targetTaskItem.Index];
+                if (targetTask.GroupId is not null)
+                {
+                    var targetGroupTasks = GetGroupTaskItems(targetTask.GroupId);
+                    insertIndex = insertAfter ? targetGroupTasks[^1].Index + 1 : targetGroupTasks[0].Index;
+                }
+                else
+                {
+                    insertIndex = targetTaskItem.Index + (insertAfter ? 1 : 0);
+                }
+                break;
+            case TaskGroupItemViewModel targetGroupItem:
+                var targetGroupItems = GetGroupTaskItems(targetGroupItem.Group.Id);
+                insertIndex = targetGroupItems.Count == 0
+                    ? targetGroupItem.Group.Index
+                    : (insertAfter ? targetGroupItems[^1].Index + 1 : targetGroupItems[0].Index);
+                MoveGroupMetadata(groupItem.Group, targetGroupItem.Group, insertAfter);
+                break;
+            case null:
+                MoveGroupMetadata(groupItem.Group, null, true);
+                break;
+            default:
+                return;
+        }
+
+        var movingTasks = GetGroupTasks(groupItem.Group.Id);
+        var queue = ConfigFactory.CurrentConfig.TaskQueue.ToList();
+        insertIndex -= queue.Take(insertIndex).Count(movingTasks.Contains);
+        queue.RemoveAll(movingTasks.Contains);
+        insertIndex = Math.Clamp(insertIndex, 0, queue.Count);
+        queue.InsertRange(insertIndex, movingTasks);
+
+        for (int index = 0; index < queue.Count; index++)
+        {
+            var currentIndex = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(queue[index]);
+            if (currentIndex != index)
+            {
+                TaskItemViewModels.Move(currentIndex, index);
+            }
+        }
+        groupItem.Group.Index = insertIndex;
+        RefreshTaskQueueItems();
+    }
+
+    private static void MoveGroupMetadata(TaskGroup source, TaskGroup? target, bool insertAfter)
+    {
+        var groups = ConfigFactory.CurrentConfig.TaskGroups;
+        var oldIndex = groups.IndexOf(source);
+        var newIndex = target is null ? groups.Count - 1 : groups.IndexOf(target) + (insertAfter ? 1 : 0);
+        if (oldIndex < newIndex)
+        {
+            newIndex--;
+        }
+        newIndex = Math.Clamp(newIndex, 0, groups.Count - 1);
+        if (oldIndex != newIndex)
+        {
+            groups.Move(oldIndex, newIndex);
         }
     }
 

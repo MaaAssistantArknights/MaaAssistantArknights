@@ -384,6 +384,10 @@
     <system:String x:Key="RenameTask">작업 이름 변경</system:String>
     <system:String x:Key="RenameTaskPrompt">새 작업 이름을 입력하세요:</system:String>
     <system:String x:Key="AddTaskQueueTask">새 작업 추가</system:String>
+    <system:String x:Key="AddTaskGroup">작업 그룹 추가</system:String>
+    <system:String x:Key="TaskGroup">작업 그룹</system:String>
+    <system:String x:Key="RenameTaskGroup">작업 그룹 이름 바꾸기</system:String>
+    <system:String x:Key="ConfirmDeleteTaskGroupMessage">작업 그룹 "{0}"과(와) 그 안의 작업 {1}개를 삭제하시겠습니까?</system:String>
     <system:String x:Key="ConfirmDeleteTask">삭제 확인</system:String>
     <system:String x:Key="ConfirmDeleteTaskMessage">정말로 {0} 번째 작업 "{1}"을 삭제하시겠습니까?</system:String>
     <system:String x:Key="TaskRenamed">작업 이름 변경: {0}</system:String>

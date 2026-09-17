@@ -63,11 +63,12 @@
                             HorizontalAlignment="Center"
                             d:ItemsSource="{d:SampleData ItemCount=16}"
                             dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
+                            dd:DragDrop.DropHandler="{Binding}"
                             dd:DragDrop.IsDragSource="{c:Binding 'Idle or !Inited'}"
                             dd:DragDrop.IsDropTarget="{c:Binding 'Idle or !Inited'}"
                             Background="Transparent"
                             BorderThickness="0"
-                            ItemsSource="{Binding TaskItemViewModels}"
+                            ItemsSource="{Binding TaskQueueItems}"
                             Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
                             ToolTip="{DynamicResource LabelSequenceTip}">
                             <ListBox.ItemTemplate>
@@ -107,12 +108,21 @@
                                             <CheckBox
                                                 Grid.Column="0"
                                                 MaxWidth="140"
-                                                Margin="4.5,0,0,0"
                                                 HorizontalAlignment="Left"
                                                 IsChecked="{Binding IsEnable}"
                                                 IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}"
                                                 MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                                               Target={x:Type helper:CheckBoxHelper}}">
+                                                <CheckBox.Style>
+                                                    <Style BasedOn="{StaticResource MaaCheckBoxDefaultStyle}" TargetType="CheckBox">
+                                                        <Setter Property="Margin" Value="4.5,0,0,0" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsGrouped}" Value="True">
+                                                                <Setter Property="Margin" Value="20.5,0,0,0" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </CheckBox.Style>
                                                 <controls:TextBlock Text="{Binding Name}" Visibility="Hidden" />
                                                 <CheckBox.ToolTip>
                                                     <ToolTip>
@@ -134,9 +144,20 @@
                                                     </ToolTip>
                                                 </CheckBox.ToolTip>
                                             </CheckBox>
+                                            <Path
+                                                Grid.Column="0"
+                                                Width="16"
+                                                Height="16"
+                                                Margin="26,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Data="{StaticResource FolderOpen20Regular}"
+                                                Fill="{DynamicResource SecondaryTextBrush}"
+                                                IsHitTestVisible="False"
+                                                Stretch="Uniform"
+                                                Visibility="{c:Binding IsGroup}" />
                                             <controls:TextBlock
                                                 Grid.Column="0"
-                                                Margin="26,0,4,0"
                                                 HorizontalAlignment="Stretch"
                                                 VerticalAlignment="Center"
                                                 Background="Transparent"
@@ -144,7 +165,15 @@
                                                 Text="{Binding Name}">
                                                 <controls:TextBlock.Style>
                                                     <Style BasedOn="{StaticResource MaaTextBlockDefaultStyle}" TargetType="{x:Type controls:TextBlock}">
+                                                        <Setter Property="Margin" Value="26,0,4,0" />
                                                         <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsGrouped}" Value="True">
+                                                                <Setter Property="Margin" Value="42,0,4,0" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsGroup}" Value="True">
+                                                                <Setter Property="Margin" Value="46,0,4,0" />
+                                                                <Setter Property="FontWeight" Value="SemiBold" />
+                                                            </DataTrigger>
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
                                                                     <Condition Binding="{Binding Source={x:Static ui_vms:SettingsViewModel.GuiSettings}, Path=MainTasksInvertNullFunction}" Value="True" />
@@ -209,7 +238,8 @@
                                                         ContextMenuService.IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                         GroupName="TaskSettings"
                                                         IsChecked="{Binding EnableSetting}"
-                                                        Style="{DynamicResource RadioGroupItemSingle}">
+                                                        Style="{DynamicResource RadioGroupItemSingle}"
+                                                        Visibility="{c:Binding !IsGroup}">
                                                         <Grid Width="16" Height="16">
                                                             <Path
                                                                 Data="{StaticResource ConfigGeometry}"
@@ -270,6 +300,47 @@
                                                             </ContextMenu>
                                                         </RadioButton.ContextMenu>
                                                     </RadioButton>
+                                                    <Button
+                                                        Width="22"
+                                                        Margin="0,0,4,0"
+                                                        Padding="0"
+                                                        Background="Transparent"
+                                                        BorderThickness="0"
+                                                        Command="{s:Action ToggleTaskGroup,
+                                                                           Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                        CommandParameter="{Binding}"
+                                                        Visibility="{c:Binding IsGroup}">
+                                                        <Button.Style>
+                                                            <Style BasedOn="{StaticResource TaskActionButtonStyle}" TargetType="Button">
+                                                                <Setter Property="Content" Value="+" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsExpanded}" Value="True">
+                                                                        <Setter Property="Content" Value="−" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Button.Style>
+                                                        <Button.ContextMenu>
+                                                            <ContextMenu Width="150">
+                                                                <MenuItem
+                                                                    Command="{s:Action RunTaskOnce, Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                    Header="{DynamicResource RunTaskOnce}" />
+                                                                <MenuItem
+                                                                    Command="{s:Action CopyTask, Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                    Header="{DynamicResource Copy}" />
+                                                                <MenuItem
+                                                                    Command="{s:Action RenameTask, Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                    Header="{DynamicResource Rename}" />
+                                                                <MenuItem
+                                                                    Command="{s:Action RemoveTask, Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                    Header="{DynamicResource Delete}" />
+                                                            </ContextMenu>
+                                                        </Button.ContextMenu>
+                                                    </Button>
                                                 </hc:ButtonGroup>
                                             </StackPanel>
                                         </Grid>
@@ -292,6 +363,7 @@
                         </ListBox>
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
@@ -389,6 +461,20 @@
                             </controls:MenuButton>
                             <Button
                                 Grid.Column="1"
+                                Width="30"
+                                Height="30"
+                                Padding="0"
+                                VerticalAlignment="Top"
+                                hc:BorderElement.CornerRadius="0"
+                                hc:IconElement.Geometry="{StaticResource FolderOpen20Regular}"
+                                BorderThickness="0,1,1,1"
+                                Command="{s:Action AddTaskGroup}"
+                                Foreground="{DynamicResource PrimaryTextBrush}"
+                                IsEnabled="{c:Binding 'Idle or !Inited'}"
+                                Style="{StaticResource MaaButtonDefaultStyle}"
+                                ToolTip="{DynamicResource AddTaskGroup}" />
+                            <Button
+                                Grid.Column="2"
                                 Height="30"
                                 Margin="-1,0"
                                 HorizontalAlignment="Stretch"
@@ -398,7 +484,7 @@
                                 Content="{DynamicResource SelectAll}"
                                 IsEnabled="{c:Binding 'Idle or !Inited'}" />
                             <hc:SplitButton
-                                Grid.Column="2"
+                                Grid.Column="3"
                                 Height="30"
                                 Padding="0,0,5,0"
                                 HorizontalAlignment="Stretch"
@@ -431,7 +517,7 @@
                                 </hc:SplitButton.DropDownContent>
                             </hc:SplitButton>
                             <Button
-                                Grid.Column="2"
+                                Grid.Column="3"
                                 Height="30"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Top"

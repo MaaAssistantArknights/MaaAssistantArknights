@@ -384,6 +384,10 @@
     <system:String x:Key="RenameTask">タスク名を変更</system:String>
     <system:String x:Key="RenameTaskPrompt">新しいタスク名を入力してください：</system:String>
     <system:String x:Key="AddTaskQueueTask">新しいタスクを追加</system:String>
+    <system:String x:Key="AddTaskGroup">タスクグループを追加</system:String>
+    <system:String x:Key="TaskGroup">タスクグループ</system:String>
+    <system:String x:Key="RenameTaskGroup">タスクグループ名を変更</system:String>
+    <system:String x:Key="ConfirmDeleteTaskGroupMessage">タスクグループ「{0}」とその中の {1} 件のタスクを削除してもよろしいですか？</system:String>
     <system:String x:Key="ConfirmDeleteTask">削除の確認</system:String>
     <system:String x:Key="ConfirmDeleteTaskMessage">タスク "{1}" ({0}) を削除してもよろしいですか？</system:String>
     <system:String x:Key="TaskRenamed">タスク名を変更しました: {0}</system:String>

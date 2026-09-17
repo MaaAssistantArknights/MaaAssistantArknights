@@ -67,6 +67,12 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
 
     public int Index { get => field; set => SetAndNotify(ref field, value); }
 
+    public bool IsGroup => false;
+
+    public bool IsGrouped { get => field; set => SetAndNotify(ref field, value); }
+
+    public bool IsExpanded => false;
+
     /// <summary>
     /// Gets or sets a value indicating whether gets or sets whether the setting enabled.
     /// </summary>
