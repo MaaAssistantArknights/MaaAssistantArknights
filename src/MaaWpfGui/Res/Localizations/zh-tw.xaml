@@ -1287,6 +1287,11 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Guide.User">使用指引</system:String>
     <system:String x:Key="Guide.UserAgreement">使用 MAA 即表示您同意遵守 ｢使用者協議｣，完整協議內容可在官網底部的連結中查看。</system:String>
     <system:String x:Key="Guide.ViewLog">您可以前往 ｢{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}｣ 查看日誌，了解錯誤發生的具體原因。</system:String>
+    <system:String x:Key="InferenceBackend">推論後端</system:String>
+    <system:String x:Key="InferenceBackendAuto">自動 (推薦)</system:String>
+    <system:String x:Key="InferenceBackendDirectML">DirectML</system:String>
+    <system:String x:Key="InferenceBackendTip" xml:space="preserve">選擇模型推論計算後端。&#10;自動模式會選擇最成熟穩定的後端（DirectML）；WebGPU 仍處於實驗階段。</system:String>
+    <system:String x:Key="InferenceBackendWebGpu">WebGPU (實驗性)</system:String>
     <system:String x:Key="Infrast.ContinueTraining">訓練完成後繼續嘗試專精目前技能</system:String>
     <system:String x:Key="Infrast.Custom.File">自訂基建排班檔案</system:String>
     <system:String x:Key="Infrast.Custom.FileHasPlanNoPeriod">自訂基建排班僅有部分計畫設定了時段，可能會產生預期外的行為。若需設定換班時段請確保所有計畫均有設定時段，否則請全部留白。</system:String>

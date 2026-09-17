@@ -1286,6 +1286,11 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="Guide.User">User Guide</system:String>
     <system:String x:Key="Guide.UserAgreement">By using MAA, you agree to comply with the "User Agreement". The complete agreement can be found in the link at the bottom of the official website.</system:String>
     <system:String x:Key="Guide.ViewLog">You can go to "{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}" to view logs and understand the specific cause of the error.</system:String>
+    <system:String x:Key="InferenceBackend">Inference Backend</system:String>
+    <system:String x:Key="InferenceBackendAuto">Auto (Recommended)</system:String>
+    <system:String x:Key="InferenceBackendDirectML">DirectML</system:String>
+    <system:String x:Key="InferenceBackendTip" xml:space="preserve">Select the execution provider for model inference.&#10;Auto mode selects the most stable provider (DirectML); WebGPU is still experimental.</system:String>
+    <system:String x:Key="InferenceBackendWebGpu">WebGPU (Experimental)</system:String>
     <system:String x:Key="Infrast.ContinueTraining">After training is complete, try to continue mastering the current Skill</system:String>
     <system:String x:Key="Infrast.Custom.File">Base Configuration</system:String>
     <system:String x:Key="Infrast.Custom.FileHasPlanNoPeriod">Some rotations in the {key=Infrast.Mode.Custom} configuration have time periods set, which may lead to unexpected behavior. To set shift change time periods, ensure all rotations have time periods configured; otherwise, leave them all blank.</system:String>

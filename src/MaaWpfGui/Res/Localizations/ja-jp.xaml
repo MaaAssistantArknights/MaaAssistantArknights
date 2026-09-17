@@ -1289,6 +1289,11 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Guide.User">使用ガイド</system:String>
     <system:String x:Key="Guide.UserAgreement">MAA を使用することにより、｢利用規約｣ に同意したものとみなされます。完全な規約は、公式サイトの下部のリンクからご覧いただけます。</system:String>
     <system:String x:Key="Guide.ViewLog">｢{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}｣ にアクセスしてログを確認し、エラーの具体的な原因を把握できます。</system:String>
+    <system:String x:Key="InferenceBackend">推論バックエンド</system:String>
+    <system:String x:Key="InferenceBackendAuto">自動 (推奨)</system:String>
+    <system:String x:Key="InferenceBackendDirectML">DirectML</system:String>
+    <system:String x:Key="InferenceBackendTip" xml:space="preserve">モデル推論の実行バックエンドを選択します。&#10;自動モードでは最も安定したバックエンド（DirectML）が選択されます。WebGPU は現在実験的機能です。</system:String>
+    <system:String x:Key="InferenceBackendWebGpu">WebGPU (実験的)</system:String>
     <system:String x:Key="Infrast.ContinueTraining">訓練完了後に現在スキルの継続特化を試みます</system:String>
     <system:String x:Key="Infrast.Custom.File">基地構成ファイルの指定</system:String>
     <system:String x:Key="Infrast.Custom.FileHasPlanNoPeriod">カスタムインフラストラクチャ設定では、一部のプランにのみ時間帯が設定されている場合があり、予期しない動作が発生する可能性があります。シフト交代時間帯を設定する必要がある場合は、すべてのプランに時間帯が設定されていることを確認してください。設定されていない場合は、すべてのプランを空白のままにしてください。</system:String>

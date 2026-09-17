@@ -201,42 +201,52 @@ bool OcrPack::check_and_load()
     det_option.UseOrtBackend();
     rec_option.UseOrtBackend();
 
-#ifdef _WIN32
+    const auto backend = m_gpu_selector ? m_gpu_selector->backend() : InferenceBackend::Auto;
     const auto device_id = m_gpu_selector ? m_gpu_selector->resolve_device_id() : std::nullopt;
-    if (device_id) {
+
+    if (backend == InferenceBackend::WebGPU) {
+        if (!device_id) {
+            Log.error(__FUNCTION__, "| failed to resolve the configured WebGPU device, falling back to CPU");
+        }
+        else {
+            m_gpu_active = true;
+            det_option.UseWebGPU(*device_id);
+            rec_option.UseWebGPU(*device_id);
+            Log.info(__FUNCTION__, "| FastDeploy WebGPU mode with device", *device_id);
+        }
+    }
+#ifdef _WIN32
+    else if (device_id) {
         m_gpu_active = true;
         det_option.UseDirectML(*device_id);
         rec_option.UseDirectML(*device_id);
+        Log.info(__FUNCTION__, "| FastDeploy DirectML mode with device", *device_id);
     }
-    else {
-        m_gpu_active = false;
-        if (m_gpu_selector) {
-            Log.error("Failed to resolve configured GPU; falling back to FastDeploy CPU mode");
-        }
+#endif
+    else if (backend == InferenceBackend::DirectML) {
+#ifdef _WIN32
+        Log.error(__FUNCTION__, "| failed to resolve the configured DirectML device, falling back to CPU");
+#else
+        Log.error(__FUNCTION__, "| DirectML backend is only available on Windows, falling back to CPU");
+#endif
+    }
+    else if (m_gpu_selector && !device_id) {
+        Log.error(__FUNCTION__, "| failed to resolve the configured GPU, falling back to CPU");
+    }
+
+    if (!m_gpu_active) {
+        // macOS 上 CoreML 的 det/rec 结果不对（疑似丢精度），继续禁用：
+        // https://github.com/microsoft/onnxruntime/blob/main/include/onnxruntime/core/providers/coreml/coreml_provider_factory.h
+        // COREML_FLAG_ONLY_ENABLE_DEVICE_WITH_ANE
+        // det_option.UseCoreML(0x004);
+        // rec_option.UseCoreML(0x004);
+        det_option.UseCpu();
+        rec_option.UseCpu();
         // CPU 模式下限制线程数，避免过高的 CPU 占用
         det_option.SetCpuThreadNum(cpu_threads);
         rec_option.SetCpuThreadNum(cpu_threads);
-        Log.info("FastDeploy CPU mode with", cpu_threads, "threads");
+        Log.info(__FUNCTION__, "| FastDeploy CPU mode with", cpu_threads, "threads");
     }
-#elif defined(__APPLE__)
-    // rec 结果不对，先禁用
-    // maafw那边用户反馈，det 貌似也不怎么对，疑似 coreml 丢精度了，拉倒
-    // https://github.com/microsoft/onnxruntime/blob/main/include/onnxruntime/core/providers/coreml/coreml_provider_factory.h
-    // COREML_FLAG_ONLY_ENABLE_DEVICE_WITH_ANE
-    // det_option.UseCoreML(0x004);
-    // rec_option.UseCoreML(0x004);
-    det_option.UseCpu();
-    rec_option.UseCpu();
-    det_option.SetCpuThreadNum(cpu_threads);
-    rec_option.SetCpuThreadNum(cpu_threads);
-    Log.info("FastDeploy macOS mode with", cpu_threads, "CPU threads");
-#else
-    det_option.UseCpu();
-    rec_option.UseCpu();
-    det_option.SetCpuThreadNum(cpu_threads);
-    rec_option.SetCpuThreadNum(cpu_threads);
-    Log.info("FastDeploy CPU mode with", cpu_threads, "threads");
-#endif
 
     m_impl->det = std::make_unique<fastdeploy::vision::ocr::DBDetector>(
         platform::path_to_utf8_string(m_impl->det_model_path),
