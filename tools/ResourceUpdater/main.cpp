@@ -1400,16 +1400,16 @@ bool update_battle_chars_info(const fs::path& official_dir, const fs::path& over
 
     const auto& patch_json = chars_patch_opt.value()["patchChars"].as_object();
     json::value Amiya_data;
-    Amiya_data["name"] = "阿米娅-WARRIOR";
-    Amiya_data["name_en"] = "Amiya-WARRIOR";
-    Amiya_data["name_jp"] = "アーミヤ-WARRIOR";
-    Amiya_data["name_kr"] = "아미야-WARRIOR";
-    Amiya_data["name_tw"] = "阿米婭-WARRIOR";
+    Amiya_data["name"] = "阿米娅";
+    Amiya_data["name_en"] = "Amiya";
+    Amiya_data["name_jp"] = "アーミヤ";
+    Amiya_data["name_kr"] = "아미야";
+    Amiya_data["name_tw"] = "阿米婭";
     if (auto amiya2_opt = patch_json.find<json::object>("char_1001_amiya2")) {
         Amiya_data["profession"] = amiya2_opt->at("profession");
         Amiya_data["rarity"] = static_cast<int>(amiya2_opt->at("rarity")) + 1;
         Amiya_data["position"] = amiya2_opt->at("position");
-        Amiya_data["sortIndex"] = amiya2_opt->at("sortIndex");
+        Amiya_data["sortIndex"] = 17; // yj 给升变的 sortIndex 设了0，暂时使用主角色的 sortIndex
         Amiya_data["subProfessionId"] = amiya2_opt->at("subProfessionId");
         const std::string& default_range = amiya2_opt->get("phases", 0, "rangeId", "0-1");
         Amiya_data["rangeId"] = json::array {
@@ -1421,16 +1421,16 @@ bool update_battle_chars_info(const fs::path& official_dir, const fs::path& over
     chars.emplace("char_1001_amiya2", std::move(Amiya_data));
 
     json::value Amiya_data3;
-    Amiya_data3["name"] = "阿米娅-MEDIC";
-    Amiya_data3["name_en"] = "Amiya-MEDIC";
-    Amiya_data3["name_jp"] = "アーミヤ-MEDIC";
-    Amiya_data3["name_kr"] = "아미야-MEDIC";
-    Amiya_data3["name_tw"] = "阿米婭-MEDIC";
+    Amiya_data3["name"] = "阿米娅";
+    Amiya_data3["name_en"] = "Amiya";
+    Amiya_data3["name_jp"] = "アーミヤ";
+    Amiya_data3["name_kr"] = "아미야";
+    Amiya_data3["name_tw"] = "阿米婭";
     if (auto amiya3_opt = patch_json.find<json::object>("char_1037_amiya3")) {
         Amiya_data3["profession"] = amiya3_opt->at("profession");
         Amiya_data3["rarity"] = static_cast<int>(amiya3_opt->at("rarity")) + 1;
         Amiya_data3["position"] = amiya3_opt->at("position");
-        Amiya_data3["sortIndex"] = amiya3_opt->at("sortIndex");
+        Amiya_data3["sortIndex"] = 17;
         Amiya_data3["subProfessionId"] = amiya3_opt->at("subProfessionId");
         const std::string& default_range = amiya3_opt->get("phases", 0, "rangeId", "0-1");
         Amiya_data3["rangeId"] = json::array {

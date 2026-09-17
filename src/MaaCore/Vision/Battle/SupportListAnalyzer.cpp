@@ -62,9 +62,6 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
             continue;
         }
 
-        // canonical_oper_name 函数根据 role 对干员名进行消歧义，目前仅用于区分不同升变形态下的阿米娅
-        const std::string name = canonical_oper_name(role, name_analyzer.get_result().text);
-
         // ————————————————————————————————————————————————————————————————
         // Elite
         // ————————————————————————————————————————————————————————————————
@@ -188,7 +185,8 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         templ_rect.x = rect.x;
 
         SupportUnit support_unit { .templ = make_roi(m_image, templ_rect),
-                                   .name = name,
+                                   .role = role,
+                                   .name = name_analyzer.get_result().text,
                                    .elite = elite,
                                    .level = level,
                                    .potential = potential,
