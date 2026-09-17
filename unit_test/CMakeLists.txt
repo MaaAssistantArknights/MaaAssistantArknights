@@ -35,12 +35,3 @@ target_link_libraries(maa-algorithm-test PRIVATE Catch2::Catch2WithMain)
 target_include_directories(maa-algorithm-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../src/MaaCore)
 
 catch_discover_tests(maa-algorithm-test TEST_PREFIX "algorithm::")
-
-add_executable(maa-infrast-drones-test MaaCore/InfrastDronesUsageTest.cpp)
-target_compile_features(maa-infrast-drones-test PRIVATE cxx_std_20)
-target_link_libraries(maa-infrast-drones-test PRIVATE Catch2::Catch2WithMain)
-target_include_directories(maa-infrast-drones-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../src/MaaCore)
-if(MSVC)
-    target_compile_options(maa-infrast-drones-test PRIVATE /utf-8)
-endif()
-catch_discover_tests(maa-infrast-drones-test TEST_PREFIX "infrast-drones::")

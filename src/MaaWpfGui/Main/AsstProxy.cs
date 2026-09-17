@@ -1314,15 +1314,6 @@ public class AsstProxy
         }
     }
 
-    private static bool TakeTradeDronesUsageReminder(IEnumerable<AsstTaskId>? finishedTasks)
-    {
-        bool shouldRemind = finishedTasks is not null && _infrastTradeDronesUsageReminderTasks.Overlaps(finishedTasks);
-
-        // 一次队列运行只提醒一次；无论完成列表是否匹配，都清理本轮所有待提醒任务。
-        _infrastTradeDronesUsageReminderTasks.Clear();
-        return shouldRemind;
-    }
-
     private void ProcTaskChainMsg(AsstMsg msg, JObject details)
     {
         string taskChain = details["taskchain"]?.ToString() ?? string.Empty;
@@ -1492,7 +1483,10 @@ public class AsstProxy
                 // 归属快照须在 SetIdle(true) 清零之前取得
                 var runOwner = _runningState.Owner;
                 bool isMainTaskQueueAllCompleted = taskList?.Length > 0 && runOwner == RunOwner.TaskQueue;
-                bool remindTradeDroneUsage = TakeTradeDronesUsageReminder(taskList) && isMainTaskQueueAllCompleted;
+                bool remindTradeDroneUsage = isMainTaskQueueAllCompleted && taskList is not null && _infrastTradeDronesUsageReminderTasks.Overlaps(taskList);
+
+                // 一次队列运行只提醒一次；无论完成列表是否匹配，都清理本轮所有待提醒任务。
+                _infrastTradeDronesUsageReminderTasks.Clear();
 
                 if (runOwner == RunOwner.Copilot)
                 {

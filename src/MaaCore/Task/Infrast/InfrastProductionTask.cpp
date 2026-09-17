@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <array>
 #include <ranges>
+#include <string_view>
 
 #include <calculator/calculator.hpp>
 
@@ -14,7 +15,6 @@
 #include "Controller/Controller.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
-#include "Utils/InfrastDronesUsage.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Hasher.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
@@ -479,9 +479,15 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
     }
     if (!m_is_custom && !m_is_use_drones_from_custom && !m_inspect_only && facility_name() == "Trade" &&
-        infrast::is_trade_drones_usage_mismatched(m_drones_usage_from_params, facility_products)) {
-        LogInfo << "Trade drone usage does not match any facility:" << m_drones_usage_from_params;
-        callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("TradeDronesUsageNotUsed"));
+        !facility_products.empty() &&
+        (m_drones_usage_from_params == "Money" || m_drones_usage_from_params == "SyntheticJade")) {
+        const std::string_view opposite_product = m_drones_usage_from_params == "Money" ? "SyntheticJade" : "Money";
+        if (std::ranges::all_of(facility_products, [opposite_product](const auto& product) {
+                return product == opposite_product;
+            })) {
+            LogInfo << "Trade drone usage does not match any facility:" << m_drones_usage_from_params;
+            callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("TradeDronesUsageNotUsed"));
+        }
     }
     return true;
 }
