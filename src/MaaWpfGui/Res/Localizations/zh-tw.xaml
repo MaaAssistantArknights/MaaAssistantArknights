@@ -575,6 +575,8 @@ D:\
     <system:String x:Key="UseWeeklySchedule">使用週計畫</system:String>
     <system:String x:Key="UseWeeklyScheduleTip">此處的星期是根據遊戲時間計算的，並非現實時間。例如遊戲在 4:00 刷新，則 3:59 仍算作前一天。</system:String>
     <system:String x:Key="FightSkippedWeeklySchedule">週計畫今日未勾選</system:String>
+    <system:String x:Key="FightSkippedEmptyStagePlan">關卡計畫為空</system:String>
+    <system:String x:Key="FightSkippedNoOpenStage">關卡計畫內沒有當日開放的關卡</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">外服支援人力吃緊，幫幫我們！不會寫程式也可以參與。</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">啟動 MAA 後自動開啟模擬器</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunchTip">僅在啟動 MAA 時開啟一次模擬器，點擊 ｢{key=LinkStart}｣ 時不會自動開啟；\n如有此需求，請勾選 ｢{key=RetryOnDisconnected}｣</system:String>
@@ -987,6 +989,10 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Inventory">庫存</system:String>
     <system:String x:Key="InventoryUpdateTip">可透過 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新庫存數據</system:String>
     <system:String x:Key="SpecifiedDropsInventoryUnavailable">任務 ｢{0}｣ 啟用了 {key=TargetInventory}，但目前沒有可用的庫存資料，已跳過。可透過 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新庫存。</system:String>
+    <system:String x:Key="SpecifiedDropsInventoryEnough">{0} 已充足 {1}/{2}</system:String>
+    <system:String x:Key="UserDataUpdateCannotModifyExistingTask">無法修改已添加的 ｢{key=UserDataUpdate}｣ 任務參數</system:String>
+    <system:String x:Key="UserDataUpdateNothingSelected">｢{key=OperBoxRecognition}｣ 和 ｢{key=DepotRecognition}｣ 均未勾選</system:String>
+    <system:String x:Key="UserDataUpdateIntervalNotReached">距上次同步未達到 ｢{0}｣ 觸發間隔</system:String>
     <!--  庫存保持  -->
     <system:String x:Key="DepotUpdateBeforeStart">任務開始前更新庫存資料</system:String>
     <system:String x:Key="AddPlan">新增</system:String>
@@ -1007,6 +1013,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPlanSanityInsufficient">#{0}：理智不足（目前 {1}，低於關卡消耗 {2}），已跳過</system:String>
     <system:String x:Key="DepotPlanStageNotOpen">#{0}：關卡 ｢{1}｣ 未開放</system:String>
     <system:String x:Key="DepotPlanAddTaskFailed">#{0}：新增任務失敗</system:String>
+    <system:String x:Key="DepotPlanNoPlan">未設定任何計畫</system:String>
     <system:String x:Key="DepotSkipDuringActivity">活動期間跳過</system:String>
     <system:String x:Key="DepotSkipDuringResourceCollection">資源收集限時全天開放期間跳過</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlan">僅執行第一個庫存不足的計劃</system:String>

@@ -575,6 +575,8 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="UseWeeklySchedule">週次スケジュールを有効にする</system:String>
     <system:String x:Key="UseWeeklyScheduleTip">ここでの曜日はゲーム内時間に基づいており、現実時間ではありません。例えば、ゲームが4:00にリセットされる場合、3:59は前日としてカウントされます。</system:String>
     <system:String x:Key="FightSkippedWeeklySchedule">週次スケジュールで今日が未選択</system:String>
+    <system:String x:Key="FightSkippedEmptyStagePlan">ステージ計画が空です</system:String>
+    <system:String x:Key="FightSkippedNoOpenStage">計画内に本日開放中のステージがありません</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">グローバルサーバーの対応は非常に大変で、皆様の協力が必要です！プログラミングの知識は必要ありません。</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">起動時にエミュレータ自動起動</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunchTip">エミュレータは MAA 起動時に一度だけ起動され、｢{key=LinkStart}｣ をクリックするたびに起動されるわけではありません。\nそのような動作が必要な場合は ｢{key=RetryOnDisconnected}｣ を有効にしてください</system:String>
@@ -989,6 +991,10 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Inventory">在庫</system:String>
     <system:String x:Key="InventoryUpdateTip">在庫データは ｢{key=Toolbox}-{key=DepotRecognition}｣ で更新できます</system:String>
     <system:String x:Key="SpecifiedDropsInventoryUnavailable">タスク ｢{0}｣ では {key=TargetInventory} が有効ですが、利用可能な在庫データがないためスキップされました。｢{key=Toolbox}-{key=DepotRecognition}｣ で在庫を更新してください。</system:String>
+    <system:String x:Key="SpecifiedDropsInventoryEnough">{0} 十分 {1}/{2}</system:String>
+    <system:String x:Key="UserDataUpdateCannotModifyExistingTask">追加済みの ｢{key=UserDataUpdate}｣ タスクのパラメータは変更できません</system:String>
+    <system:String x:Key="UserDataUpdateNothingSelected">｢{key=OperBoxRecognition}｣ と ｢{key=DepotRecognition}｣ のどちらも選択されていません</system:String>
+    <system:String x:Key="UserDataUpdateIntervalNotReached">前回の同期から ｢{0}｣ の実行間隔に達していません</system:String>
     <!--  在庫維持  -->
     <system:String x:Key="DepotUpdateBeforeStart">タスク開始前に在庫データを更新</system:String>
     <system:String x:Key="AddPlan">追加</system:String>
@@ -1009,6 +1015,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPlanSanityInsufficient">#{0}：理性不足（現在 {1}、消費 {2} 未満）、スキップしました</system:String>
     <system:String x:Key="DepotPlanStageNotOpen">#{0}：ステージ ｢{1}｣ は公開されていません</system:String>
     <system:String x:Key="DepotPlanAddTaskFailed">#{0}：タスクの追加に失敗しました</system:String>
+    <system:String x:Key="DepotPlanNoPlan">計画が設定されていません</system:String>
     <system:String x:Key="DepotSkipDuringActivity">イベント期間中はスキップ</system:String>
     <system:String x:Key="DepotSkipDuringResourceCollection">資源收集限時全日開放期間中はスキップ</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlan">在庫不足の最初のプランのみ実行</system:String>

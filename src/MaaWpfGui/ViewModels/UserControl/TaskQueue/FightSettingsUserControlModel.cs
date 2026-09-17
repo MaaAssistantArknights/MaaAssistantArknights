@@ -1630,6 +1630,15 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             string? stage = GetFightStage(fight.StagePlan);
             if (stage is null)
             {
+                if (fight.StagePlan.Count == 0)
+                {
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightSkippedEmptyStagePlan"), UiLogColor.Error);
+                }
+                else
+                {
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightSkippedNoOpenStage"), UiLogColor.Info);
+                }
+
                 return (null, []);
             }
 
@@ -1678,6 +1687,10 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
                 specifiedDropsQuantity = inventoryTargetRuntimeState.EffectiveQuantity;
                 if (specifiedDropsQuantity <= 0 && taskId is null)
                 {
+                    var dropName = ItemListHelper.GetItemName(fight.DropId) ?? fight.DropId;
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat("SpecifiedDropsInventoryEnough", dropName, inventoryTargetRuntimeState.StartInventory.ToString("N0"), fight.DropCount.ToString("N0")),
+                        UiLogColor.Info);
                     return (null, []);
                 }
             }

@@ -89,12 +89,13 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
 
             if (taskId is int id && id > 0)
             {
-                Instances.TaskQueueViewModel.AddLog("Unable to modify existing UserDataUpdateTask.", UiLogColor.Error);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UserDataUpdateCannotModifyExistingTask"), UiLogColor.Error);
                 return (null, []);
             }
 
             if (!updateTask.IsTriggered)
             {
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UserDataUpdateNothingSelected"), UiLogColor.Info);
                 return (null, []);
             }
 
@@ -103,6 +104,7 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
 
             if (!operBoxTriggerDue && !depotTriggerDue)
             {
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("UserDataUpdateIntervalNotReached", LocalizationHelper.GetString(updateTask.TriggerInterval.ToString())), UiLogColor.Info);
                 return (null, []);
             }
 

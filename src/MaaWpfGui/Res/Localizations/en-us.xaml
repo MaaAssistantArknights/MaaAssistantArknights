@@ -575,6 +575,8 @@ If you choose ｢{key=ManualRestart}｣ and start MAA manually later, ｢{key=Ru
     <system:String x:Key="UseWeeklySchedule">Enable Weekly Schedule</system:String>
     <system:String x:Key="UseWeeklyScheduleTip">The day of week here is based on in-game time, not real-world time. For example, if the game resets at 4:00, then 3:59 is still counted as the previous day.</system:String>
     <system:String x:Key="FightSkippedWeeklySchedule">Weekly schedule is not enabled for today</system:String>
+    <system:String x:Key="FightSkippedEmptyStagePlan">Stage plan is empty</system:String>
+    <system:String x:Key="FightSkippedNoOpenStage">No stage in the plan is open today</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">The adaptation for Overseas clients is very difficult and we need your help! No programming knowledge is required.</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunchTip">The emulator is only started once when MAA launches, not every time you click ｢{key=LinkStart}｣.\nIf you need that, check ｢{key=RetryOnDisconnected}｣ instead</system:String>
@@ -987,6 +989,10 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="Inventory">Inv:</system:String>
     <system:String x:Key="InventoryUpdateTip">Inventory data can be updated via  ｢{key=Toolbox}-{key=DepotRecognition}｣</system:String>
     <system:String x:Key="SpecifiedDropsInventoryUnavailable">Task "{0}" uses {key=TargetInventory}, but no inventory data is currently available, so it was skipped. Update it via ｢{key=Toolbox}-{key=DepotRecognition}｣.</system:String>
+    <system:String x:Key="SpecifiedDropsInventoryEnough">{0} sufficient {1}/{2}</system:String>
+    <system:String x:Key="UserDataUpdateCannotModifyExistingTask">Cannot modify the parameters of an already added "{key=UserDataUpdate}" task</system:String>
+    <system:String x:Key="UserDataUpdateNothingSelected">Neither ｢{key=OperBoxRecognition}｣ nor ｢{key=DepotRecognition}｣ is selected</system:String>
+    <system:String x:Key="UserDataUpdateIntervalNotReached">The ｢{0}｣ trigger interval has not been reached since the last sync</system:String>
     <!--  DepotMaintain  -->
     <system:String x:Key="DepotUpdateBeforeStart">Update inventory before starting</system:String>
     <system:String x:Key="AddPlan">Add</system:String>
@@ -1007,6 +1013,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="DepotPlanSanityInsufficient">#{0}: Insufficient sanity ({1}, below stage cost {2}), skipped</system:String>
     <system:String x:Key="DepotPlanStageNotOpen">#{0}: stage '{1}' is not open</system:String>
     <system:String x:Key="DepotPlanAddTaskFailed">#{0}: add task failed</system:String>
+    <system:String x:Key="DepotPlanNoPlan">No plans configured</system:String>
     <system:String x:Key="DepotSkipDuringActivity">Skip during event</system:String>
     <system:String x:Key="DepotSkipDuringResourceCollection">Skip during resource collection limited-time all-day open</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlan">Only execute the first insufficient plan</system:String>
