@@ -859,11 +859,11 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     #region AttachWindow (Win32窗口绑定) 配置
 
     /// <summary>
-    /// Gets a value indicating whether to show the window restore button (PC 端 + SendMessageWithWindowPos 输入方式)。
+    /// Gets a value indicating whether to show the window restore button (PC 端 + *WithWindowPos 输入方式).
     /// </summary>
     [PropertyDependsOn(nameof(ConnectConfig))]
     public bool ShowWindowRestoreButton =>
-        IsPCConnectConfig && ExtraConfig is Models.EmulatorConnectionExtra.Win32Extra { MouseMethod: AsstWin32InputMethod.SendMessageWithWindowPos };
+        IsPCConnectConfig && ExtraConfig is Models.EmulatorConnectionExtra.Win32Extra { MouseMethod: AsstWin32InputMethod.SendMessageWithWindowPos or AsstWin32InputMethod.PostMessageWithWindowPos };
 
     [PropertyDependsOn(nameof(ConnectConfig))]
     public bool IsPCConnectConfig => ConnectConfig == ConnectConfig.PC;

@@ -842,7 +842,7 @@ public class ConfigConverter
                 {
                     var extra = new Win32Extra {
                         ScreencapMethod = ConfigurationHelper.GetValue(ConfigurationKeys.AttachWindowScreencapMethod, AsstWin32ScreencapMethod.PrintWindow),
-                        MouseMethod = ConfigurationHelper.GetValue(ConfigurationKeys.AttachWindowMouseMethod, AsstWin32InputMethod.SendMessageWithWindowPos),
+                        MouseMethod = ConfigurationHelper.GetValue(ConfigurationKeys.AttachWindowMouseMethod, AsstWin32InputMethod.PostMessageWithWindowPos),
                         KeyboardMethod = ConfigurationHelper.GetValue(ConfigurationKeys.AttachWindowKeyboardMethod, AsstWin32KeyboardInputMethod.SendMessage),
                     };
                     ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.Win32Extra = extra;

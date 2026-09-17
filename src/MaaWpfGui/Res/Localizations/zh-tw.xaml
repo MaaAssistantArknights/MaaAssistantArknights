@@ -1839,7 +1839,7 @@ C:\leidian\LDPlayer9
 4. 明日方舟設定 → 遊戲 → UI 縮放需設為 100%
 5. 在明日方舟設定中調小滑鼠指標比例，以減少對辨識區域的遮擋
 6. 遊戲解析度需為 16:9，推薦設定 1280x720 或 1920x1080</system:String>
-    <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. 推薦滑鼠輸入方式使用 SendMsg-WindowPos，使用此方式可以很大程度解決 PC 端辨識錯誤和卡住的問題</system:String>
+    <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. 推薦滑鼠輸入方式使用 PostMsg-WindowPos，使用此方式可以很大程度解決 PC 端辨識錯誤和卡住的問題</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">截圖方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">滑鼠輸入</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">鍵盤輸入</system:String>
@@ -1850,8 +1850,10 @@ C:\leidian\LDPlayer9
     <system:String x:Key="AttachWindowInputSeize">Seize（前景，完全搶滑鼠）</system:String>
     <system:String x:Key="AttachWindowInputSendMsgDisabled">SendMsg（全背景，明日方舟僅以真實滑鼠定位，無效）</system:String>
     <system:String x:Key="AttachWindowInputPostMsgDisabled">PostMsg（全背景，明日方舟僅以真實滑鼠定位，無效）</system:String>
-    <system:String x:Key="AttachWindowInputSendWithCursor">SendMsg-CursorPos（半背景，短暫搶滑鼠）</system:String>
-    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos（推薦，全背景，不搶滑鼠，視窗可能亂飛，截圖方式僅 PrintWindow，建議最小化）</system:String>
+    <system:String x:Key="AttachWindowInputSendWithCursorDisabled">SendMsg-CursorPos（延遲過高，已停用）</system:String>
+    <system:String x:Key="AttachWindowInputPostWithCursor">PostMsg-CursorPos（半背景，短暫搶滑鼠）</system:String>
+    <system:String x:Key="AttachWindowInputSendWithWindowPosDisabled">SendMsg-WindowPos（延遲過高，已停用）</system:String>
+    <system:String x:Key="AttachWindowInputPostWithWindowPos">PostMsg-WindowPos（推薦，全背景，不搶滑鼠，視窗可能亂飛，截圖方式僅 PrintWindow，建議最小化）</system:String>
     <system:String x:Key="AttachWindowInputSendMsg">SendMsg（穩定）</system:String>
     <system:String x:Key="AttachWindowInputPostMsg">PostMsg（高效）</system:String>
     <!--  !AsstProxy  -->

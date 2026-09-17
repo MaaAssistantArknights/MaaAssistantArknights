@@ -38,8 +38,8 @@ public class Win32Extra : ExtraConfig
     public AsstWin32ScreencapMethod ScreencapMethod
     {
         get; set {
-            // 鼠标输入方式为 SendMessageWithWindowPos 时，截图方式仅支持 PrintWindow
-            if (MouseMethod == AsstWin32InputMethod.SendMessageWithWindowPos)
+            // 鼠标输入方式为 *WithWindowPos 时，截图方式仅支持 PrintWindow
+            if (MouseMethod is AsstWin32InputMethod.SendMessageWithWindowPos or AsstWin32InputMethod.PostMessageWithWindowPos)
             {
                 value = AsstWin32ScreencapMethod.PrintWindow;
             }
@@ -57,14 +57,19 @@ public class Win32Extra : ExtraConfig
     /// 纯 SendMsg / PostMsg 仅列出作展示：明日方舟 PC 端按真实光标位置取坐标、不读取消息中的坐标，
     /// 纯消息点击会落点无效（原神等游戏读取消息坐标，故同类工具纯后台可用），因此永久禁用，
     /// 界面中以置灰选项呈现。
+    /// SendMsg-CursorPos / SendMsg-WindowPos 同样禁用：SendMessage 每步同步等待游戏窗口过程返回，
+    /// 滑动节奏下每步开销数倍于 PostMessage（实测滑动耗时约为两倍），延迟过高，
+    /// 由对应的 PostMsg 变体取代。
     /// </remarks>
     private static readonly LocalizedObservableList<AsstWin32InputMethod> _mouseMethodList =
         new(
             (AsstWin32InputMethod.Seize, "AttachWindowInputSeize", true),
             (AsstWin32InputMethod.SendMessage, "AttachWindowInputSendMsgDisabled", false),
             (AsstWin32InputMethod.PostMessage, "AttachWindowInputPostMsgDisabled", false),
-            (AsstWin32InputMethod.SendMessageWithCursorPos, "AttachWindowInputSendWithCursor", true),
-            (AsstWin32InputMethod.SendMessageWithWindowPos, "AttachWindowInputSendWithWindowPos", true));
+            (AsstWin32InputMethod.SendMessageWithCursorPos, "AttachWindowInputSendWithCursorDisabled", false),
+            (AsstWin32InputMethod.PostMessageWithCursorPos, "AttachWindowInputPostWithCursor", true),
+            (AsstWin32InputMethod.SendMessageWithWindowPos, "AttachWindowInputSendWithWindowPosDisabled", false),
+            (AsstWin32InputMethod.PostMessageWithWindowPos, "AttachWindowInputPostWithWindowPos", true));
 
     public LocalizedObservableList<AsstWin32InputMethod> MouseMethodList => _mouseMethodList;
 
@@ -90,8 +95,8 @@ public class Win32Extra : ExtraConfig
             Instances.AsstProxy.Connected = false;
             SetAndNotify(ref field, value);
 
-            // 鼠标输入方式为 SendMessageWithWindowPos 时，截图方式仅支持 PrintWindow
-            if (value == AsstWin32InputMethod.SendMessageWithWindowPos)
+            // 鼠标输入方式为 *WithWindowPos 时，截图方式仅支持 PrintWindow
+            if (value is AsstWin32InputMethod.SendMessageWithWindowPos or AsstWin32InputMethod.PostMessageWithWindowPos)
             {
                 ScreencapMethod = AsstWin32ScreencapMethod.PrintWindow;
             }
@@ -108,7 +113,7 @@ public class Win32Extra : ExtraConfig
     {
         foreach (var item in _screencapMethodList.Items)
         {
-            item.IsEnabled = MouseMethod != AsstWin32InputMethod.SendMessageWithWindowPos || item.Value == AsstWin32ScreencapMethod.PrintWindow;
+            item.IsEnabled = MouseMethod is not (AsstWin32InputMethod.SendMessageWithWindowPos or AsstWin32InputMethod.PostMessageWithWindowPos) || item.Value == AsstWin32ScreencapMethod.PrintWindow;
         }
     }
 
