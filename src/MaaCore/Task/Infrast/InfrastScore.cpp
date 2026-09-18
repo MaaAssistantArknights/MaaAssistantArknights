@@ -1381,7 +1381,7 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
         });
     }
 
-        // 感知信息或人间烟火组合需要琴柳补办公室加速。
+    // 感知信息或人间烟火组合需要琴柳补办公室加速。
     if (best.size() < ControlSlotCount && (perception_information || worldly_plight) &&
         add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_h_spd"); })) { // 感染力：琴柳
         office_acc = true;
@@ -1418,7 +1418,7 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
             return has_skill(oper, "bskill_ctrl_aegir2") && // 集群狩猎·β：歌蕾蒂娅
                    oper.mood_ratio > 22.0 / 24.0;
         });
-    }    
+    }
 
     if (best.size() < ControlSlotCount && !manu_acc &&
         add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_p_spd"); })) {
