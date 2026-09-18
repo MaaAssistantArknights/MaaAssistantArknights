@@ -180,7 +180,6 @@
                 Margin="5"
                 IsEnabled="{Binding BackgroundMonetEnabled}"
                 Visibility="{c:Binding BackgroundMonetEnabled}">
-
                 <!--  取色模式选择  -->
                 <controls:TextBlock
                     Margin="0,0,0,5"
