@@ -535,6 +535,20 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   :::
   ::::
 
+- `RecruitPermitReserved`
+  目前招聘許可數量小於等於為 3 星招募設定的保留值，因此跳過目前欄位。`details` 欄位內容如下：
+
+  :::: field-group
+  ::: field current
+  @type number
+  @required
+  目前招聘許可數量。
+  :::
+  ::::
+
+- `RecruitPermitCountRecognitionFailed`
+  啟用 3 星招聘許可保留後，招聘許可數量辨識失敗，因此跳過目前欄位。`details` 欄位為空。
+
 - `RecruitTagsSelected`  
   公招選擇了 Tags。`details` 欄位內容如下：
 

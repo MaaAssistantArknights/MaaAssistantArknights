@@ -781,7 +781,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AllowUseStoneSaveTip">デフォルトでは ｢{key=UseOriginitePrime}｣ は一度だけ有効です。チェックするとその状態が保存され、左クリックで通常どおり切り替えられ、右クリックで選択した場合も一度だけ有効になります</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">この機能は危険な機能と見なされます。 ｢{key=Confirm}｣ ボタンを押すと、リスクを理解し、受け入れることに同意したと見なされます。</system:String>
     <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
-    <system:String x:Key="UseExpiringMedicine">N時間以内に期限が切れる回復剤を無制限に使用</system:String>
+    <system:String x:Key="UseExpiringMedicine">N日未満で期限が切れる回復剤を無制限に使用</system:String>
+    <system:String x:Key="MedicineExpireDaysTip">ゲーム内で「N日」未満と表示される回復剤のみ使用し、「N日」以上は使用しません。</system:String>
     <system:String x:Key="UseExpireMedicineForActivity">今週中に期限切れとなる正気回復ポーションは、アクティビティ終了の48時間以内に使用してください。</system:String>
     <system:String x:Key="NoActivity">活動なし</system:String>
     <system:String x:Key="HideUnavailableStage">リストに当日開放されないステージを隠す</system:String>
@@ -944,6 +945,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="PostActionOnceTip" xml:space="preserve">チェックすると、オプションの変更が保存されず、次回 MAA 起動時または {key=LinkStart} 後に復元されます
 このオプションのチェックを解除すると、他のオプションの状態は正常に保存されます
 他のオプションを右クリックすると、このオプションも同時にチェック/チェック解除されます</system:String>
+    <system:String x:Key="SkipPostActionOnError">タスク失敗時はスキップ</system:String>
+    <system:String x:Key="SkipPostActionOnErrorTip">チェックすると、タスクリスト内の1つ以上のタスクが失敗した場合、上記のすべての動作をスキップします。</system:String>
+    <system:String x:Key="PostActionSkippedDueToError">タスクが失敗したため、完了後アクションをスキップしました：{0}</system:String>
     <system:String x:Key="IfNoOtherMaa">他のMAAがない場合</system:String>
     <system:String x:Key="IfNoOtherMaaTip">チェックすると、他の MAA インスタンスが実行されていない場合にのみ、スリープ/休止状態/シャットダウンを実行します</system:String>
     <system:String x:Key="BackToAndroidHome">エミュレータのホーム画面に戻る</system:String>
@@ -1487,12 +1491,15 @@ C:\leidian\LDPlayer9
     <system:String x:Key="IdentifyTheMistakes">認識エラー</system:String>
     <system:String x:Key="RecruitRefreshLimitReached">更新回数が上限に達しました</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">タスクエラー: </system:String>
+    <system:String x:Key="TaskErrorSummaryTitle">今回の実行で以下のエラーが発生しました：</system:String>
+    <system:String x:Key="TaskErrorSummaryItem">{0}</system:String>
     <system:String x:Key="OutOfMemoryError">メモリ不足により{0}タスクが停止しました。他のプログラムを閉じるか、MAA を再起動してもう一度お試しください</system:String>
     <system:String x:Key="CombatError">戦闘エラー</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">タスク開始: </system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">タスク完了: </system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">戦闘開始: </system:String>
     <system:String x:Key="CompleteCombat">戦闘完了</system:String>
+    <system:String x:Key="TaskCompletedWithErrors">すべてのタスクは完了しましたが、エラーが発生しました！\n({0} 後)</system:String>
     <system:String x:Key="AllTasksComplete">すべてのタスクが完了しました！\n({0} 後)</system:String>
     <system:String x:Key="SanityReport">({TimeDiff} 後)、{DateTime} に理性が完全回復します。</system:String>
     <system:String x:Key="AllTaskCompleteContent">({TimeDiff} 後) MAA は、{DateTime} の {Preset} 構成の下にあるすべてのプリセット タスクを完了しました。</system:String>
@@ -1522,7 +1529,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">薬: {0},{1}(期限切れ)  </system:String>
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">石: {0}  </system:String>
     <system:String x:Key="MedicineUsed">回復剤を使った</system:String>
-    <system:String x:Key="ExpiringMedicineUsed">{0}時間以内に期限が切れる回復剤を使った</system:String>
+    <system:String x:Key="ExpiringMedicineUsed">{0}日以内に期限が切れる回復剤を使った</system:String>
     <system:String x:Key="UseMedicine.MedicineInfo">回復剤：{0}、在庫：{1}</system:String>
     <system:String x:Key="StoneUsed">源石を使った</system:String>
     <system:String x:Key="ActingCommandError">自動指揮のミスが生じました</system:String>
@@ -1769,6 +1776,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Refreshed">現在のタグが更新されました</system:String>
     <system:String x:Key="ContinueRefresh">採用許可がないため、タグを更新しようとしています</system:String>
     <system:String x:Key="NoRecruitmentPermit">採用許可がないため返却されました</system:String>
+    <system:String x:Key="RecruitPermitReserved">求人票の残数は {0} で、保留数以下のため、現在の星3募集をスキップしました</system:String>
+    <system:String x:Key="RecruitPermitCountRecognitionFailed">求人票の残数を認識できませんでした。保留分を消費しないよう現在の星3募集をスキップしました</system:String>
     <system:String x:Key="AutoRecruitSelectStrategy">公開求人でのタグを複数選択する場合の作戦</system:String>
     <system:String x:Key="DefaultNoExtraTags">追加のタグを選択しない</system:String>
     <system:String x:Key="SelectExtraTags">常に 3 つのタグを選択する</system:String>
@@ -1841,7 +1850,7 @@ C:\leidian\LDPlayer9
 4. アークナイツ設定 → ゲーム → UI スケール を 100% に設定してください
 5. アークナイツ設定で マウスカーソルサイズ を小さくし、認識領域の隠れを軽減してください
 6. ゲーム解像度は 16:9 である必要があります。推奨設定：1280x720 または 1920x1080</system:String>
-    <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. マウス入力方式には SendMsg-WindowPos の使用を推奨します。この方式により、PC クライアントでの認識エラーやフリーズの問題を大幅に軽減できます</system:String>
+    <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. マウス入力方式には PostMsg-WindowPos の使用を推奨します。この方式により、PC クライアントでの認識エラーやフリーズの問題を大幅に軽減できます</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">スクリーンキャプチャ方式</system:String>
     <system:String x:Key="AttachWindowMouseMethod">マウス入力方式</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">キーボード入力方式</system:String>
@@ -1852,8 +1861,10 @@ C:\leidian\LDPlayer9
     <system:String x:Key="AttachWindowInputSeize">Seize（フォアグラウンド、マウスを完全に取得）</system:String>
     <system:String x:Key="AttachWindowInputSendMsgDisabled">SendMsg（フルバックグラウンド、アークナイツは実マウス位置のみ参照、無効）</system:String>
     <system:String x:Key="AttachWindowInputPostMsgDisabled">PostMsg（フルバックグラウンド、アークナイツは実マウス位置のみ参照、無効）</system:String>
-    <system:String x:Key="AttachWindowInputSendWithCursor">SendMsg-CursorPos（半バックグラウンド、一時的にマウスを取得）</system:String>
-    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos（推奨、フルバックグラウンド、マウス不要、ウィンドウが動く可能性あり、PrintWindow のみ対応、最小化推奨）</system:String>
+    <system:String x:Key="AttachWindowInputSendWithCursorDisabled">SendMsg-CursorPos（遅延過大、無効）</system:String>
+    <system:String x:Key="AttachWindowInputPostWithCursor">PostMsg-CursorPos（半バックグラウンド、一時的にマウスを取得）</system:String>
+    <system:String x:Key="AttachWindowInputSendWithWindowPosDisabled">SendMsg-WindowPos（遅延過大、無効）</system:String>
+    <system:String x:Key="AttachWindowInputPostWithWindowPos">PostMsg-WindowPos（推奨、フルバックグラウンド、マウス不要、ウィンドウが動く可能性あり、PrintWindow のみ対応、最小化推奨）</system:String>
     <system:String x:Key="AttachWindowInputSendMsg">SendMsg（安定）</system:String>
     <system:String x:Key="AttachWindowInputPostMsg">PostMsg（高効率）</system:String>
     <!--  !AsstProxy  -->
@@ -1901,6 +1912,8 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="RecruitMaxTimes">1回の実行あたりの求人の最大回数</system:String>
     <system:String x:Key="PreserveTags">指定タグを保留する</system:String>
     <system:String x:Key="AutoSelectLevel3">星3を自動的に確認する</system:String>
+    <system:String x:Key="RecruitLevel3PermitReserve">星3用に求人票を残す</system:String>
+    <system:String x:Key="RecruitLevel3PermitReserveTip">求人票の残数がこの値以下の場合、星3募集をスキップします</system:String>
     <system:String x:Key="AutoSelectLevel4">星4を自動的に確認する</system:String>
     <system:String x:Key="AutoSelectLevel5">星5を自動的に確認する</system:String>
     <system:String x:Key="AutoSelectLevel6">星6を自動的に確認する</system:String>

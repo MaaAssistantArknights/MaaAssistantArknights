@@ -487,6 +487,19 @@ Todo
   }
   ```
 
+- `RecruitPermitReserved`
+  The current recruitment permit count is at or below the reserve configured for 3★ recruitment, so the current slot is skipped.
+
+  ```json
+  // Corresponding details field example
+  {
+    "current": 8
+  }
+  ```
+
+- `RecruitPermitCountRecognitionFailed`
+  Recruitment permit count recognition failed while the 3★ permit reserve was enabled, so the current slot is skipped. The `details` field is empty.
+
 - `RecruitTagsSelected`  
   Recruitment tags selected
 

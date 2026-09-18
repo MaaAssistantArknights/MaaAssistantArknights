@@ -1381,6 +1381,19 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
         });
     }
 
+        // 感知信息或人间烟火组合需要琴柳补办公室加速。
+    if (best.size() < ControlSlotCount && (perception_information || worldly_plight) &&
+        add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_h_spd"); })) { // 感染力：琴柳
+        office_acc = true;
+    }
+    if (best.size() < ControlSlotCount && !office_acc &&
+        ( // 可靠伙伴：八幡海铃；同时影响后续叙拉古干员的效率计算。
+            add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_hire_tmoris"); }) ||
+            // 办公室年度人物：焰狐龙梓兰
+            add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_orchd2"); }))) {
+        office_acc = true;
+    }
+
     // 絮雨在办公室时，选择高心情的夕提供感知信息。
     if (best.size() < ControlSlotCount && perception_information) {
         add_first([](const ScoreOper& oper) {
@@ -1405,20 +1418,7 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
             return has_skill(oper, "bskill_ctrl_aegir2") && // 集群狩猎·β：歌蕾蒂娅
                    oper.mood_ratio > 22.0 / 24.0;
         });
-    }
-
-    // 感知信息或人间烟火组合需要琴柳补办公室加速。
-    if (best.size() < ControlSlotCount && (perception_information || worldly_plight) &&
-        add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_h_spd"); })) { // 感染力：琴柳
-        office_acc = true;
-    }
-    if (best.size() < ControlSlotCount && !office_acc &&
-        ( // 可靠伙伴：八幡海铃；同时影响后续叙拉古干员的效率计算。
-            add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_hire_tmoris"); }) ||
-            // 办公室年度人物：焰狐龙梓兰
-            add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_orchd2"); }))) {
-        office_acc = true;
-    }
+    }    
 
     if (best.size() < ControlSlotCount && !manu_acc &&
         add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_p_spd"); })) {

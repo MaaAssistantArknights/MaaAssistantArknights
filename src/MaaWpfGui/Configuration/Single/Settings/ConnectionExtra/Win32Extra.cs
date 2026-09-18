@@ -20,7 +20,7 @@ public class Win32Extra : BaseExtra, IJsonOnDeserialized
 {
     public AsstWin32ScreencapMethod ScreencapMethod { get; set; } = AsstWin32ScreencapMethod.PrintWindow;
 
-    public AsstWin32InputMethod MouseMethod { get; set; } = AsstWin32InputMethod.SendMessageWithWindowPos;
+    public AsstWin32InputMethod MouseMethod { get; set; } = AsstWin32InputMethod.PostMessageWithWindowPos;
 
     public AsstWin32KeyboardInputMethod KeyboardMethod { get; set; } = AsstWin32KeyboardInputMethod.SendMessage;
 
@@ -34,7 +34,15 @@ public class Win32Extra : BaseExtra, IJsonOnDeserialized
             MouseMethod = AsstWin32InputMethod.SendMessageWithCursorPos;
         }
 
-        if (MouseMethod == AsstWin32InputMethod.SendMessageWithWindowPos)
+        // SendMsg 坐标/窗口变体已因延迟过高从界面禁用，历史配置残留迁移到对应的 PostMsg 变体
+        MouseMethod = MouseMethod switch
+        {
+            AsstWin32InputMethod.SendMessageWithCursorPos => AsstWin32InputMethod.PostMessageWithCursorPos,
+            AsstWin32InputMethod.SendMessageWithWindowPos => AsstWin32InputMethod.PostMessageWithWindowPos,
+            _ => MouseMethod,
+        };
+
+        if (MouseMethod is AsstWin32InputMethod.SendMessageWithWindowPos or AsstWin32InputMethod.PostMessageWithWindowPos)
         {
             ScreencapMethod = AsstWin32ScreencapMethod.PrintWindow;
         }

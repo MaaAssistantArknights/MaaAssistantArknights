@@ -88,6 +88,17 @@
                 <controls:TextBlock Text="{DynamicResource Shutdown}" TextWrapping="Wrap" />
             </CheckBox>
 
+            <hc:Divider />
+            <StackPanel
+                Margin="0,10"
+                HorizontalAlignment="Left"
+                Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding SkipOnError}" MouseRightButtonUp="{s:Action PostActionsAndOnce}">
+                    <controls:TextBlock Text="{DynamicResource SkipPostActionOnError}" TextWrapping="Wrap" />
+                </CheckBox>
+                <controls:TooltipBlock TooltipText="{DynamicResource SkipPostActionOnErrorTip}" />
+            </StackPanel>
+
             <Button
                 Height="30"
                 Margin="20,10,20,0"

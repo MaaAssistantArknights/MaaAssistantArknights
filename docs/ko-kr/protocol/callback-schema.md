@@ -508,6 +508,20 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   :::
   ::::
 
+- `RecruitPermitReserved`
+  현재 모집 허가증 수가 ★3 모집에 설정한 보유 수량 이하이므로 현재 슬롯을 건너뜁니다. `details` 필드 내용은 다음과 같습니다:
+
+  :::: field-group
+  ::: field current
+  @type number
+  @required
+  현재 모집 허가증 수
+  :::
+  ::::
+
+- `RecruitPermitCountRecognitionFailed`
+  ★3 모집 허가증 보유 기능이 활성화된 상태에서 허가증 수량 인식에 실패하여 현재 슬롯을 건너뜁니다. `details` 필드는 비어 있습니다.
+
 - `RecruitTagsSelected`  
   공개모집 태그를 선택했습니다. `details` 필드 내용은 다음과 같습니다:
 

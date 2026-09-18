@@ -781,7 +781,8 @@ Then delete the entries corresponding to the paths.</system:String>
     <system:String x:Key="AllowUseStoneSaveTip">By default, ｢{key=UseOriginitePrime}｣ is effective only once; when checked, its state will be saved, the left-click toggles it normally, and a right-click selection still takes effect only once</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">This function is considered dangerous. Pressing the ｢{key=Confirm}｣ button indicates that you understand and are willing to accept the potential risks.</system:String>
     <system:String x:Key="UseAlternateStage">Use alternative stage</system:String>
-    <system:String x:Key="UseExpiringMedicine">Unlimited use of expiring (&lt;N hours) sanity potion</system:String>
+    <system:String x:Key="UseExpiringMedicine">Unlimited use of sanity potion expiring in &lt;N days</system:String>
+    <system:String x:Key="MedicineExpireDaysTip">Only uses medicine displayed as less than "N days" in-game; anything displayed as "N days" or more will not be used.</system:String>
     <system:String x:Key="UseExpireMedicineForActivity">Use sanity potions that expire this week within 48 hours before the activity ends</system:String>
     <system:String x:Key="NoActivity">No activity</system:String>
     <system:String x:Key="HideUnavailableStage">Hide today's not open stages</system:String>
@@ -942,6 +943,9 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="PostActionOnceTip" xml:space="preserve">When checked, option changes will not be saved and will revert the next time MAA starts or after {key=LinkStart}
 After unchecking this option, other option states will be saved normally
 Right-clicking other options will check/uncheck this option simultaneously</system:String>
+    <system:String x:Key="SkipPostActionOnError">Skip if any task failed</system:String>
+    <system:String x:Key="SkipPostActionOnErrorTip">When checked, all actions above will be skipped if one or more tasks in the task list failed.</system:String>
+    <system:String x:Key="PostActionSkippedDueToError">Post actions skipped, failed task(s): {0}</system:String>
     <system:String x:Key="IfNoOtherMaa">If no other running MAA</system:String>
     <system:String x:Key="IfNoOtherMaaTip">When checked, Sleep/Hibernate/Shutdown will only run when no other MAA instance is running</system:String>
     <system:String x:Key="BackToAndroidHome">Return to home screen of emulator</system:String>
@@ -1484,12 +1488,15 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="IdentifyTheMistakes">Recognition error</system:String>
     <system:String x:Key="RecruitRefreshLimitReached">Refresh count reached the limit</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">Task error:&#160;</system:String>
+    <system:String x:Key="TaskErrorSummaryTitle">Errors occurred in this run:</system:String>
+    <system:String x:Key="TaskErrorSummaryItem">{0}</system:String>
     <system:String x:Key="OutOfMemoryError">The {0} task stopped due to insufficient memory. Close some programs or restart MAA and try again</system:String>
     <system:String x:Key="CombatError">Combat error</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">Start task:&#160;</system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">Complete task:&#160;</system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">Start combat:&#160;</system:String>
     <system:String x:Key="CompleteCombat">Complete combat</system:String>
+    <system:String x:Key="TaskCompletedWithErrors">All task(s) completed with errors!\n(in {0})</system:String>
     <system:String x:Key="AllTasksComplete">All task(s) completed!\n(in {0})</system:String>
     <system:String x:Key="SanityReport">Sanity will be full at {DateTime} (in {TimeDiff})</system:String>
     <system:String x:Key="AllTaskCompleteContent">MAA has completed all tasks under the {Preset} configuration on {DateTime} (in {TimeDiff})</system:String>
@@ -1519,7 +1526,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">Medicine: {0},{1}(Expiring)  </system:String>
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">Stone: {0}  </system:String>
     <system:String x:Key="MedicineUsed">Medicine used</system:String>
-    <system:String x:Key="ExpiringMedicineUsed">Expiring medicine (in {0} hours) used</system:String>
+    <system:String x:Key="ExpiringMedicineUsed">Expiring medicine (in {0} days) used</system:String>
     <system:String x:Key="UseMedicine.MedicineInfo">Medicine: {0}, Inventory: {1}</system:String>
     <system:String x:Key="StoneUsed">Originite Prime used</system:String>
     <system:String x:Key="ActingCommandError">PRTS error</system:String>
@@ -1766,6 +1773,8 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="Refreshed">Refreshed</system:String>
     <system:String x:Key="ContinueRefresh">No recruitment permit, trying to refresh Tags</system:String>
     <system:String x:Key="NoRecruitmentPermit">No recruitment permit, returned</system:String>
+    <system:String x:Key="RecruitPermitReserved">{0} recruitment permit(s) remaining; at or below the reserve. Skipped the current 3★ recruitment</system:String>
+    <system:String x:Key="RecruitPermitCountRecognitionFailed">Failed to recognize the recruitment permit count. Skipped the current 3★ recruitment to preserve permits</system:String>
     <system:String x:Key="AutoRecruitSelectStrategy">Strategies for Additional Tags</system:String>
     <system:String x:Key="DefaultNoExtraTags">Additional Tags are not selected by default</system:String>
     <system:String x:Key="SelectExtraTags">If higher ★ tags appear, always select 3 tags</system:String>
@@ -1838,7 +1847,7 @@ If you do need to use it, please ensure:
 4. Arknights Settings → Game → UI Scaling is set to 100%
 5. Lower the mouse pointer scale in Arknights settings to reduce obstruction of recognition areas
 6. Game resolution must be 16:9; recommended settings: 1280x720 or 1920x1080</system:String>
-    <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. We recommend using SendMsg-WindowPos as the mouse input method; it can greatly reduce recognition errors and freezing issues on the PC client</system:String>
+    <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. We recommend using PostMsg-WindowPos as the mouse input method; it can greatly reduce recognition errors and freezing issues on the PC client</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">Screencap Method</system:String>
     <system:String x:Key="AttachWindowMouseMethod">Mouse Input Method</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">Keyboard Input Method</system:String>
@@ -1849,8 +1858,10 @@ If you do need to use it, please ensure:
     <system:String x:Key="AttachWindowInputSeize">Seize (Foreground, Fully Captures Mouse)</system:String>
     <system:String x:Key="AttachWindowInputSendMsgDisabled">SendMsg (Full Background, Arknights Uses Real Mouse Position Only, Ineffective)</system:String>
     <system:String x:Key="AttachWindowInputPostMsgDisabled">PostMsg (Full Background, Arknights Uses Real Mouse Position Only, Ineffective)</system:String>
-    <system:String x:Key="AttachWindowInputSendWithCursor">SendMsg-CursorPos (Semi-background, Briefly Captures Mouse)</system:String>
-    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos (Recommended, Full Background, No Mouse Capture, Window May Move, PrintWindow Screencap Only, Recommend Minimizing)</system:String>
+    <system:String x:Key="AttachWindowInputSendWithCursorDisabled">SendMsg-CursorPos (Excessive Latency, Disabled)</system:String>
+    <system:String x:Key="AttachWindowInputPostWithCursor">PostMsg-CursorPos (Semi-background, Briefly Captures Mouse)</system:String>
+    <system:String x:Key="AttachWindowInputSendWithWindowPosDisabled">SendMsg-WindowPos (Excessive Latency, Disabled)</system:String>
+    <system:String x:Key="AttachWindowInputPostWithWindowPos">PostMsg-WindowPos (Recommended, Full Background, No Mouse Capture, Window May Move, PrintWindow Screencap Only, Recommend Minimizing)</system:String>
     <system:String x:Key="AttachWindowInputSendMsg">SendMsg (Stable)</system:String>
     <system:String x:Key="AttachWindowInputPostMsg">PostMsg (Efficient)</system:String>
     <!--  !AsstProxy  -->
@@ -1898,6 +1909,8 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="RecruitMaxTimes">Recruit max times</system:String>
     <system:String x:Key="PreserveTags">Preserve selected tags</system:String>
     <system:String x:Key="AutoSelectLevel3">Auto confirm 3★</system:String>
+    <system:String x:Key="RecruitLevel3PermitReserve">Reserve recruitment permits for 3★</system:String>
+    <system:String x:Key="RecruitLevel3PermitReserveTip">Skip 3★ recruitment when the remaining permit count is less than or equal to this value</system:String>
     <system:String x:Key="AutoSelectLevel4">Auto confirm 4★</system:String>
     <system:String x:Key="AutoSelectLevel5">Auto confirm 5★</system:String>
     <system:String x:Key="AutoSelectLevel6">Auto confirm 6★</system:String>
