@@ -12,7 +12,7 @@
     xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type settings_vms:BackgroundSettingsUserControlModel}}"
-    d:DesignHeight="350"
+    d:DesignHeight="600"
     d:DesignWidth="550"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
@@ -165,8 +165,8 @@
                 <!--  保持中性：勾选莫奈后出现在右侧，同行（同官方自动检测/每次重新检测写法）  -->
                 <StackPanel
                     Margin="5,0,0,0"
-                    Orientation="Horizontal"
                     IsEnabled="{Binding BackgroundMonetEnabled}"
+                    Orientation="Horizontal"
                     Visibility="{c:Binding BackgroundMonetEnabled}">
                     <CheckBox
                         HorizontalAlignment="Center"
