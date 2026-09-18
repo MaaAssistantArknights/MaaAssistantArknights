@@ -1,11 +1,13 @@
 #include "OperBoxDataConfig.h"
 
 #include <algorithm>
+#include <functional>
 #include <ranges>
 #include <unordered_map>
 #include <unordered_set>
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
+#include "Task/AbstractTask.h"
 #include "Utils/BipartiteMatch.hpp"
 #include "Utils/Logger.hpp"
 
@@ -87,7 +89,7 @@ bool asst::OperBoxDataConfig::can_match(const battle::copilot::OperUsageGroup& g
             return false;
         }
         if (op.skill > 0) {
-            if (info.skills.size() <= op.skill) {
+            if (info.skills.size() < op.skill) {
                 return false;
             }
             int info_skill_level = info.main_skill_level + info.skills[op.skill - 1].level;
@@ -148,10 +150,9 @@ std::optional<asst::battle::copilot::OperUsageGroups>
                                                                { "oper_name", oper_name } });
         }
         if (!matched_groups.empty()) {
-            m_callback(
-                AsstMsg::SubTaskExtraInfo,
-                json::object { { "what", "BattleFormationOperboxMatched" },
-                               { "details", json::object { { "matched_groups", std::move(matched_groups) } } } });
+            json::value info = m_task_ptr->basic_info_with_what("BattleFormationOperboxMatched");
+            info["details"]["matched_groups"] = std::move(matched_groups);
+            m_task_ptr->callback(AsstMsg::SubTaskExtraInfo, info);
         }
     }
 
@@ -170,10 +171,9 @@ std::optional<asst::battle::copilot::OperUsageGroups>
     if (result.unmatched_left.size() == 1) {
         std::string unmatched_group_name = groups[result.unmatched_left[0]].name;
         if (!use_support_unit) {
-            m_callback(
-                AsstMsg::SubTaskExtraInfo,
-                json::object { { "what", "BattleFormationOperbox1Unmatched" },
-                               { "details", json::object { { "group_name", unmatched_group_name } } } });
+            json::value info = m_task_ptr->basic_info_with_what("BattleFormationOperbox1Unmatched");
+            info["details"]["group_name"] = unmatched_group_name;
+            m_task_ptr->callback(AsstMsg::SubTaskExtraInfo, info);
             return std::nullopt;
         }
 
@@ -250,23 +250,20 @@ std::optional<asst::battle::copilot::OperUsageGroups>
                         std::unordered_map<std::string, std::string> { { "group_name", group.name },
                                                                        { "oper_name", oper_it->name } });
                 }
-                m_callback(
-                    AsstMsg::SubTaskExtraInfo,
-                    json::object { { "what", "BattleFormationOperboxMatched" },
-                                   { "details", json::object { { "matched_groups", std::move(assigned_groups) } } } });
+                json::value info = m_task_ptr->basic_info_with_what("BattleFormationOperboxMatched");
+                info["details"]["matched_groups"] = std::move(assigned_groups);
+                m_task_ptr->callback(AsstMsg::SubTaskExtraInfo, info);
             }
-            json::object unmatched_details { { "group_name", unmatched_group_name },
-                                             { "may_borrow_oper", BattleData.find_oper_by_id(borrow_id)->name } };
-            m_callback(
-                AsstMsg::SubTaskExtraInfo,
-                json::object { { "what", "BattleFormationOperbox1Unmatched" },
-                               { "details", std::move(unmatched_details) } });
+            json::value info = m_task_ptr->basic_info_with_what("BattleFormationOperbox1Unmatched");
+            info["details"]["group_name"] = unmatched_group_name;
+            info["details"]["may_borrow_oper"] = BattleData.find_oper_by_id(borrow_id)->name;
+            m_task_ptr->callback(AsstMsg::SubTaskExtraInfo, info);
             return true;
         };
 
         auto& unmatched_group = groups[result.unmatched_left[0]];
         for (const auto& op : unmatched_group.opers) {
-            if (m_need_exit()) {
+            if (m_task_ptr->need_exit()) {
                 break;
             }
             auto borrow_id = BattleData.get_first_id(op.role, op.name);
@@ -278,17 +275,16 @@ std::optional<asst::battle::copilot::OperUsageGroups>
             }
         }
         for (const auto& borrow_id : candidate_ids) {
-            if (m_need_exit()) {
+            if (m_task_ptr->need_exit()) {
                 break;
             }
             if (try_borrow(borrow_id)) {
                 return groups;
             }
         }
-        m_callback(
-            AsstMsg::SubTaskExtraInfo,
-            json::object { { "what", "BattleFormationOperbox1Unmatched" },
-                           { "details", json::object { { "group_name", unmatched_group_name } } } });
+        json::value info = m_task_ptr->basic_info_with_what("BattleFormationOperbox1Unmatched");
+        info["details"]["group_name"] = unmatched_group_name;
+        m_task_ptr->callback(AsstMsg::SubTaskExtraInfo, info);
         return std::nullopt;
     }
 
@@ -300,10 +296,9 @@ std::optional<asst::battle::copilot::OperUsageGroups>
             LogInfo << __FUNCTION__ << "| Unmatched slot:" << groups[idx].name;
             unmatched_groups.emplace_back(groups[idx].name);
         }
-        m_callback(
-            AsstMsg::SubTaskError,
-            json::object { { "what", "OperboxMultipleUnmatched" },
-                           { "details", json::object { { "unmatched_groups", std::move(unmatched_groups) } } } });
+        json::value info = m_task_ptr->basic_info_with_what("OperboxMultipleUnmatched");
+        info["details"]["unmatched_groups"] = std::move(unmatched_groups);
+        m_task_ptr->callback(AsstMsg::SubTaskError, info);
     }
     return std::nullopt;
 }

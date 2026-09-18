@@ -81,8 +81,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     bool use_operbox = !operbox_data_path.empty();
 
     if (use_operbox) {
-        OperBoxData.set_callback([this](AsstMsg msg, const json::value& details) { callback(msg, details); });
-        OperBoxData.set_need_exit([this]() { return need_exit(); });
+        OperBoxData.set_task(this);
         OperBoxData.set_ignore_requirements(ignore_requirements);
         if (!OperBoxData.load(utils::path(operbox_data_path))) {
             LogError << __FUNCTION__ << "| OperBox data is empty or invalid, cannot perform precheck";

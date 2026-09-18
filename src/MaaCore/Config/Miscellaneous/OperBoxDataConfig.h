@@ -4,25 +4,20 @@
 #include "Config/AbstractConfig.h"
 #include "Vision/Oper/OperBoxImageAnalyzer.h"
 
-#include <functional>
 #include <optional>
 #include <vector>
 
 namespace asst
 {
+class AbstractTask;
+
 // 干员识别数据（OperBox）解析与辅助编队预检
 class OperBoxDataConfig final : public MAA_NS::SingletonHolder<OperBoxDataConfig>, public AbstractConfig
 {
 public:
-    using Callback = std::function<void(AsstMsg msg, const json::value& details)>;
-    using NeedExit = std::function<bool()>;
-
-public:
     virtual ~OperBoxDataConfig() override = default;
 
-    void set_callback(Callback callback) { m_callback = std::move(callback); }
-
-    void set_need_exit(NeedExit need_exit) { m_need_exit = std::move(need_exit); }
+    void set_task(AbstractTask* task) { m_task_ptr = task; }
 
     void set_ignore_requirements(bool ignore_requirements) { m_ignore_requirements = ignore_requirements; }
 
@@ -40,11 +35,7 @@ private:
     bool can_match(const battle::copilot::OperUsageGroup& group, const OperBoxInfo& info) const;
 
     std::vector<OperBoxInfo> m_data;
-    Callback m_callback = [](AsstMsg, const json::value&) {
-    };
-    NeedExit m_need_exit = []() {
-        return false;
-    };
+    AbstractTask* m_task_ptr = nullptr;
     bool m_ignore_requirements = false;
 };
 
