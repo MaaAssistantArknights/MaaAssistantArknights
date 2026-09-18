@@ -12,9 +12,12 @@
 // </copyright>
 
 #nullable enable
+using System.Collections.Generic;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using static MaaWpfGui.Configuration.Single.MaaTask.OperProgressTask.SkillLevel;
 
 namespace MaaWpfGui.Models.AsstTasks;
 
@@ -23,7 +26,31 @@ public class AsstOperProgressTask : AsstBaseTask
     public override AsstTaskType TaskType => AsstTaskType.OperProgress;
 
     [JsonProperty("plans")]
-    public JArray Plans { get; set; } = [];
+    public List<OperProgressTask.Plan> Plans { get; set; } = [];
 
-    public override (AsstTaskType TaskType, JObject Params) Serialize() => (TaskType, JObject.FromObject(this));
+    public override (AsstTaskType TaskType, JObject Params) Serialize()
+    {
+        var list = new JArray();
+        foreach (var p in Plans)
+        {
+            var planObj = new JObject {
+                ["role"] = p.role.ToString(),
+                ["name"] = p.name,
+            };
+            if (p.elite > 0)
+            {
+                planObj["elite"] = p.elite;
+            }
+            if (p.skillLevel is BaseLevel @base)
+            {
+                planObj["skill_level"] = @base.Level;
+            }
+            else if (p.skillLevel is Specialization specialization)
+            {
+                planObj["skill_level"] = new JArray { specialization.Skill1, specialization.Skill2, specialization.Skill3 };
+            }
+            list.Add(planObj);
+        }
+        return (TaskType, JObject.FromObject(this));
+    }
 }

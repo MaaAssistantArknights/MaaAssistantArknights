@@ -155,63 +155,135 @@
                                         Text="{Binding TargetDescription}"
                                         TextWrapping="Wrap" />
 
-                                    <!--  精英化目标  -->
-                                    <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
-                                        <CheckBox
-                                            MinWidth="80"
-                                            Content="{DynamicResource OperProgressElite}"
-                                            IsChecked="{Binding DoElite}" />
-                                        <TextBlock
-                                            Margin="6,0"
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" MinWidth="80" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" MinWidth="64" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <!--  精英化目标：0 表示不设定  -->
+                                        <controls:TextBlock
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Margin="0,6,0,0"
+                                            VerticalAlignment="Center"
+                                            Text="{DynamicResource OperProgressElite}" />
+                                        <controls:TextBlock
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Margin="6,6,6,0"
                                             VerticalAlignment="Center"
                                             Text="→" />
                                         <ComboBox
-                                            MinWidth="64"
-                                            IsEnabled="{Binding DoElite}"
-                                            ItemsSource="{Binding EliteOptions}"
-                                            SelectedValue="{Binding Elite, UpdateSourceTrigger=PropertyChanged}" />
-                                    </StackPanel>
+                                            Grid.Row="0"
+                                            Grid.Column="2"
+                                            Margin="0,6,0,0"
+                                            DisplayMemberPath="Display"
+                                            ItemsSource="{Binding DataContext.EliteList, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            SelectedValue="{Binding Elite, UpdateSourceTrigger=PropertyChanged}"
+                                            SelectedValuePath="Value" />
 
-                                    <!--  技能等级目标  -->
-                                    <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
-                                        <CheckBox
-                                            MinWidth="80"
-                                            Content="{DynamicResource OperProgressSkillUpgrade}"
-                                            IsChecked="{Binding DoSkillLevel}" />
-                                        <TextBlock
-                                            Margin="6,0"
+                                        <!--  技能等级目标：0 表示不设定  -->
+                                        <controls:TextBlock
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            Margin="0,6,0,0"
+                                            VerticalAlignment="Center"
+                                            Text="{DynamicResource OperProgressSkillUpgrade}" />
+                                        <controls:TextBlock
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            Margin="6,6,6,0"
                                             VerticalAlignment="Center"
                                             Text="→" />
                                         <ComboBox
-                                            MinWidth="64"
-                                            IsEnabled="{Binding DoSkillLevel}"
-                                            ItemsSource="{Binding SkillLevelOptions}"
-                                            SelectedValue="{Binding MainSkillLevel, UpdateSourceTrigger=PropertyChanged}" />
-                                    </StackPanel>
+                                            Grid.Row="1"
+                                            Grid.Column="2"
+                                            Margin="0,6,0,0"
+                                            DisplayMemberPath="Display"
+                                            ItemsSource="{Binding DataContext.MainSkillLevelList, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            SelectedValue="{Binding MainSkillLevel, UpdateSourceTrigger=PropertyChanged}"
+                                            SelectedValuePath="Value" />
 
-                                    <!--  技能专精目标  -->
-                                    <controls:TextBlock Margin="0,6,0,0" Text="{DynamicResource OperProgressMastery}" />
-                                    <ItemsControl ItemsSource="{Binding MasteryRows}">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
-                                                    <CheckBox
-                                                        MinWidth="80"
-                                                        Content="{Binding Label}"
-                                                        IsChecked="{Binding IsSelected}" />
-                                                    <TextBlock
-                                                        Margin="6,0"
-                                                        VerticalAlignment="Center"
-                                                        Text="→" />
-                                                    <ComboBox
-                                                        MinWidth="64"
-                                                        IsEnabled="{Binding IsSelected}"
-                                                        ItemsSource="{Binding DataContext.MasteryTargetOptions, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                                        SelectedValue="{Binding Target, UpdateSourceTrigger=PropertyChanged}" />
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
+                                        <!--  技能专精目标：技能 1/2/3 三行固定显示，超出干员技能数的行禁用  -->
+                                        <controls:TextBlock
+                                            Grid.Row="2"
+                                            Grid.Column="0"
+                                            Margin="0,6,0,0"
+                                            VerticalAlignment="Center"
+                                            IsEnabled="{c:Binding 'SkillCount >= 1'}"
+                                            Text="{Binding SkillLabel1}" />
+                                        <controls:TextBlock
+                                            Grid.Row="2"
+                                            Grid.Column="1"
+                                            Margin="6,6,6,0"
+                                            VerticalAlignment="Center"
+                                            IsEnabled="{c:Binding 'SkillCount >= 1'}"
+                                            Text="→" />
+                                        <ComboBox
+                                            Grid.Row="2"
+                                            Grid.Column="2"
+                                            Margin="0,6,0,0"
+                                            DisplayMemberPath="Display"
+                                            IsEnabled="{c:Binding 'SkillCount >= 1'}"
+                                            ItemsSource="{Binding DataContext.SpecializationSkillLevelList, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            SelectedValue="{Binding SpecializationSkill1}"
+                                            SelectedValuePath="Value" />
+                                        <controls:TextBlock
+                                            Grid.Row="3"
+                                            Grid.Column="0"
+                                            Margin="0,6,0,0"
+                                            VerticalAlignment="Center"
+                                            IsEnabled="{c:Binding 'SkillCount >= 2'}"
+                                            Text="{Binding SkillLabel2}" />
+                                        <controls:TextBlock
+                                            Grid.Row="3"
+                                            Grid.Column="1"
+                                            Margin="6,6,6,0"
+                                            VerticalAlignment="Center"
+                                            IsEnabled="{c:Binding 'SkillCount >= 2'}"
+                                            Text="→" />
+                                        <ComboBox
+                                            Grid.Row="3"
+                                            Grid.Column="2"
+                                            Margin="0,6,0,0"
+                                            DisplayMemberPath="Display"
+                                            IsEnabled="{c:Binding 'SkillCount >= 2'}"
+                                            ItemsSource="{Binding DataContext.SpecializationSkillLevelList, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            SelectedValue="{Binding SpecializationSkill2}"
+                                            SelectedValuePath="Value" />
+                                        <controls:TextBlock
+                                            Grid.Row="4"
+                                            Grid.Column="0"
+                                            Margin="0,6,0,0"
+                                            VerticalAlignment="Center"
+                                            IsEnabled="{c:Binding 'SkillCount >= 3'}"
+                                            Text="{Binding SkillLabel3}" />
+                                        <controls:TextBlock
+                                            Grid.Row="4"
+                                            Grid.Column="1"
+                                            Margin="6,6,6,0"
+                                            VerticalAlignment="Center"
+                                            IsEnabled="{c:Binding 'SkillCount >= 3'}"
+                                            Text="→" />
+                                        <ComboBox
+                                            Grid.Row="4"
+                                            Grid.Column="2"
+                                            Margin="0,6,0,0"
+                                            DisplayMemberPath="Display"
+                                            IsEnabled="{c:Binding 'SkillCount >= 3'}"
+                                            ItemsSource="{Binding DataContext.SpecializationSkillLevelList, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            SelectedValue="{Binding SpecializationSkill3}"
+                                            SelectedValuePath="Value" />
+                                    </Grid>
                                 </StackPanel>
                             </Border>
                         </Expander>

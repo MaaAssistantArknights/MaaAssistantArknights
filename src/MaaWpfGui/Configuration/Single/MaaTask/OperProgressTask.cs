@@ -34,7 +34,7 @@ public class OperProgressTask : BaseTask
     /// </summary>
     public bool DeleteOnCompleted { get; set; }
 
-    public record class Plan(OperatorRole role, string name, int? elite, int? level, SkillLevel? skillLevel);
+    public record class Plan(OperatorRole role, string name, int elite, int? level, SkillLevel skillLevel);
 
     public abstract record SkillLevel
     {

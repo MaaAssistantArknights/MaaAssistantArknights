@@ -14,12 +14,11 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
-using MaaWpfGui.ViewModels.UserControl.TaskQueue;
+using Serilog;
 using Stylet;
 using static MaaWpfGui.Configuration.Single.MaaTask.OperProgressTask;
 
@@ -31,9 +30,7 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
     /// <summary>触发回写任务配置的属性名集合，其余属性（序号、展开状态、本地化文本）不影响计划内容。</summary>
     // 弃用（即将被移除）：集合本身后续不再保留，改由各属性直接在 setter 中请求回写。
     private static readonly HashSet<string> PersistedPropertyNames = [
-        nameof(DoElite),
         nameof(Elite),
-        nameof(DoSkillLevel),
         nameof(MainSkillLevel),
         nameof(SpecializationSkill1),
         nameof(SpecializationSkill2),
@@ -45,8 +42,6 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
     /// <returns>需要回写时为 true。</returns>
     public static bool IsPersistedProperty(string? propertyName) => propertyName is not null && PersistedPropertyNames.Contains(propertyName);
 
-    private readonly ObservableCollection<OperProgressMasterySkillRow> _masteryRows = [];
-
     /// <summary>
     /// Initializes a new instance of the <see cref="OperProgressPlanItemViewModel"/> class.
     /// 初始化干员卡片。
@@ -54,11 +49,10 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
     /// <param name="index">列表序号。</param>
     /// <param name="role">干员职业。</param>
     /// <param name="name">干员名。</param>
-    /// <param name="doElite">是否设定精英化目标。</param>
-    /// <param name="elite">精英化目标。</param>
-    /// <param name="mainSkillLevel">技能等级目标。</param>
+    /// <param name="elite">精英化目标，0 表示不设定。</param>
+    /// <param name="mainSkillLevel">技能等级目标，0 表示不设定。</param>
     /// <param name="specializationSkillLevel">专精目标，未设定的技能为 0。</param>
-    public OperProgressPlanItemViewModel(int index, OperatorRole role, string name, bool doElite, int elite, int mainSkillLevel, SkillLevel.Specialization specializationSkillLevel)
+    public OperProgressPlanItemViewModel(int index, OperatorRole role, string name, int elite, int mainSkillLevel, SkillLevel.Specialization specializationSkillLevel)
     {
         Index = index;
         Role = role;
@@ -68,9 +62,35 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
         SpecializationSkill1 = specializationSkillLevel.Skill1;
         SpecializationSkill2 = specializationSkillLevel.Skill2;
         SpecializationSkill3 = specializationSkillLevel.Skill3;
-        DoElite = doElite;
-        DisplayName = ResolveDisplayName(name);
-        ResetMasteryRows();
+
+        var oper = DataHelper.Characters.Values.FirstOrDefault(c => (role == OperatorRole.Unknown || c.Role == role) && c.Name == name);
+        if (oper is not null)
+        {
+            DisplayName = DataHelper.GetLocalizedCharacterName(oper) ?? name;
+            if (Role == OperatorRole.Unknown)
+            {
+                Role = oper.Role;
+            }
+            if (oper.Id == "char_002_amiya")
+            {
+                SkillCount = 3;
+            }
+            else
+            {
+                SkillCount = oper.Rarity switch {
+                    6 => 3,
+                    5 or 4 => 2,
+                    3 => 1,
+                    _ => 0,
+                };
+            }
+        }
+        else
+        {
+            Log.Warning("干员 {Name} 不存在于数据中，无法解析职业与技能数", name);
+            SkillCount = 3;
+            DisplayName = name;
+        }
     }
 
     public int Index { get; set => SetAndNotify(ref field, value); }
@@ -85,53 +105,21 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
     /// <summary>Gets 本地化干员名，语言切换后由 <see cref="RefreshLocalizedText"/> 刷新。</summary>
     public string DisplayName { get; private set => SetAndNotify(ref field, value); }
 
-    /// <summary>Gets or sets a value indicating whether 设定精英化目标。勾选时补齐合法目标值。</summary>
-    public bool DoElite
-    {
-        get; set {
-            if (SetAndNotify(ref field, value) && value && Elite is < 1 or > 2)
-            {
-                Elite = 2;
-            }
-
-            NotifyOfPropertyChange(nameof(TargetDescription));
-        }
-    }
-
-    /// <summary>Gets or sets 精英化目标。</summary>
+    /// <summary>Gets or sets 精英化目标，0 表示不设定。</summary>
     public int Elite
     {
         get; set {
-            if (SetAndNotify(ref field, value))
+            if (!SetAndNotify(ref field, value))
             {
-                NotifyOfPropertyChange(nameof(TargetDescription));
-            }
-        }
-    }
-
-    /// <summary>为 true 时不响应专精行变更，避免互斥切换时互相回写。</summary>
-    private bool _isSyncingTargets;
-
-    /// <summary>Gets or sets a value indicating whether 设定技能等级目标。与专精互斥：勾选技能等级会清空专精。</summary>
-    public bool DoSkillLevel
-    {
-        get => SpecializationSkill1 == 0 && SpecializationSkill2 == 0 && SpecializationSkill3 == 0 && MainSkillLevel > 0;
-        set {
-            if (value)
-            {
-                if (MainSkillLevel <= 0)
-                {
-                    MainSkillLevel = 7;
-                }
-
-                ClearSpecialization();
-            }
-            else
-            {
-                MainSkillLevel = 0;
+                return;
             }
 
-            NotifyOfPropertyChange();
+            if (Elite == 1)
+            {
+                MainSkillLevel = Math.Min(MainSkillLevel, 4);
+            }
+
+            NotifyOfPropertyChange(nameof(TargetDescription));
         }
     }
 
@@ -140,45 +128,72 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
     {
         get;
         set {
-            if (SetAndNotify(ref field, value))
+            if (!SetAndNotify(ref field, value))
             {
-                NotifyOfPropertyChange(nameof(DoSkillLevel));
-                NotifyOfPropertyChange(nameof(TargetDescription));
+                return;
             }
+
+            // 技能的专精前置为 7 级：设定不足 7 级的技能等级目标时清空专精，二者不共存。
+            if (value > 0 && value < 7)
+            {
+                SpecializationSkill1 = 0;
+                SpecializationSkill2 = 0;
+                SpecializationSkill3 = 0;
+            }
+            if (value > 4 && Elite == 1)
+            {
+                Elite = 2;
+            }
+
+            NotifyOfPropertyChange(nameof(TargetDescription));
         }
     }
 
-    public int SpecializationSkill1 { get; set => SetAndNotify(ref field, value); }
+    /// <summary>
+    /// 干员技能数：3 星 1 个技能，4/5 星 2 个，6 星与阿米娅 3 个，其余无技能；专精行按该值启用。
+    /// </summary>
+    public int SkillCount { get; set => SetAndNotify(ref field, value); }
 
-    public int SpecializationSkill2 { get; set => SetAndNotify(ref field, value); }
+    /// <summary>Gets or sets 技能 1 的专精等级，0 表示不专精。设定专精会把不足 7 级的技能等级目标补到 7 级。</summary>
+    public int SpecializationSkill1 { get; set => SetSpecializationTarget(ref field, value); }
 
-    public int SpecializationSkill3 { get; set => SetAndNotify(ref field, value); }
+    /// <summary>Gets or sets 技能 2 的专精等级，0 表示不专精。</summary>
+    public int SpecializationSkill2 { get; set => SetSpecializationTarget(ref field, value); }
 
-    /// <summary>Gets 技能专精行，按干员稀有度与已有专精目标生成。</summary>
-    public ObservableCollection<OperProgressMasterySkillRow> MasteryRows => _masteryRows;
+    /// <summary>Gets or sets 技能 3 的专精等级，0 表示不专精。</summary>
+    public int SpecializationSkill3 { get; set => SetSpecializationTarget(ref field, value); }
 
-    public static ReadOnlySpan<int> EliteOptions => [1, 2];
+    /// <summary>Gets 技能序号 1 的专精行标签，语言切换后由 <see cref="RefreshLocalizedText"/> 刷新。</summary>
+    public string SkillLabel1 { get; } = LocalizationHelper.GetStringFormat("OperProgressSkillNumber", 1);
 
-    public IReadOnlyList<int> SkillLevelOptions { get; } = [2, 3, 4, 5, 6, 7];
+    /// <summary>Gets 技能序号 2 的专精行标签。</summary>
+    public string SkillLabel2 { get; } = LocalizationHelper.GetStringFormat("OperProgressSkillNumber", 2);
 
-    public IReadOnlyList<int> MasteryTargetOptions { get; } = [1, 2, 3];
+    /// <summary>Gets 技能序号 3 的专精行标签。</summary>
+    public string SkillLabel3 { get; } = LocalizationHelper.GetStringFormat("OperProgressSkillNumber", 3);
+
+    public SkillLevel.Specialization SpecializationSkillLevel => new(SpecializationSkill1, SpecializationSkill2, SpecializationSkill3);
 
     /// <summary>Gets 卡片当前培养目标的本地化描述，多个目标以「 / 」连接。</summary>
     public string TargetDescription
     {
         get {
             var parts = new List<string>(4);
-            foreach (var row in _masteryRows.Where(row => row.IsSelected))
+            for (int skill = 1; skill <= 3; ++skill)
             {
-                parts.Add(LocalizationHelper.GetStringFormat("OperProgressMasteryTarget", row.SkillIndex, row.Target));
+                int target = GetSpecializationTarget(skill);
+                if (target > 0)
+                {
+                    parts.Add(LocalizationHelper.GetStringFormat("OperProgressMasteryTarget", skill, target));
+                }
             }
 
-            if (DoSkillLevel)
+            if (MainSkillLevel > 0)
             {
                 parts.Add(LocalizationHelper.GetStringFormat("OperProgressSkillLevelTarget", MainSkillLevel));
             }
 
-            if (DoElite)
+            if (Elite > 0)
             {
                 parts.Add(LocalizationHelper.GetStringFormat("OperProgressEliteTarget", Elite));
             }
@@ -191,85 +206,27 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
     public void RefreshLocalizedText()
     {
         DisplayName = ResolveDisplayName(Name);
-        ResetMasteryRows();
+        NotifyOfPropertyChange(nameof(SkillLabel1));
+        NotifyOfPropertyChange(nameof(SkillLabel2));
+        NotifyOfPropertyChange(nameof(SkillLabel3));
         NotifyOfPropertyChange(nameof(TargetDescription));
     }
 
-    /// <summary>按当前专精目标重建专精行，行标签随语言切换刷新。</summary>
-    private void ResetMasteryRows()
+    /// <summary>写入单个技能的专精等级，并在需要时补齐专精前置的基础技能等级。</summary>
+    private void SetSpecializationTarget(ref int field, int value, [CallerMemberName] string propertyName = "")
     {
-        foreach (var row in _masteryRows)
-        {
-            row.PropertyChanged -= MasteryRow_PropertyChanged;
-        }
-
-        _masteryRows.Clear();
-        int maxSkill = Math.Clamp(Math.Max(GetMaxMasterySkill(Name), MaxSelectedSkill()), 1, 3);
-        for (int skillIndex = 1; skillIndex <= maxSkill; ++skillIndex)
-        {
-            var row = new OperProgressMasterySkillRow(skillIndex);
-            int target = GetSpecializationTarget(skillIndex);
-            if (target > 0)
-            {
-                row.Target = target;
-                row.IsSelected = true;
-            }
-
-            row.PropertyChanged += MasteryRow_PropertyChanged;
-            _masteryRows.Add(row);
-        }
-    }
-
-    private void MasteryRow_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (_isSyncingTargets || e.PropertyName is not (nameof(OperProgressMasterySkillRow.IsSelected) or nameof(OperProgressMasterySkillRow.Target)))
+        if (!SetAndNotify(ref field, value, propertyName))
         {
             return;
         }
 
-        // 勾选专精时清空技能等级目标，与 DoSkillLevel 的互斥方向对称：后操作者生效
-        if (GetRowTarget(sender as OperProgressMasterySkillRow) > 0)
+        if (value > 0 && MainSkillLevel != 0) // 专精某技能且需要提成基础技能等级，则自动补到7级
         {
-            MainSkillLevel = 0;
+            MainSkillLevel = 7;
         }
 
-        SpecializationSkill1 = GetRowTarget(1);
-        SpecializationSkill2 = GetRowTarget(2);
-        SpecializationSkill3 = GetRowTarget(3);
+        NotifyOfPropertyChange(nameof(TargetDescription));
     }
-
-    /// <summary>清空全部专精勾选（含已折叠的专精行），用于技能等级与专精的互斥切换。</summary>
-    private void ClearSpecialization()
-    {
-        if (SpecializationSkill1 == 0 && SpecializationSkill2 == 0 && SpecializationSkill3 == 0)
-        {
-            return;
-        }
-
-        _isSyncingTargets = true;
-        try
-        {
-            foreach (var row in _masteryRows)
-            {
-                row.IsSelected = false;
-            }
-
-            SpecializationSkill1 = 0;
-            SpecializationSkill2 = 0;
-            SpecializationSkill3 = 0;
-        }
-        finally
-        {
-            _isSyncingTargets = false;
-        }
-    }
-
-    /// <summary>读触发变更的单行当前勾选值，未勾选或行已移除时返回 0。</summary>
-    private static int GetRowTarget(OperProgressMasterySkillRow? row) => row is { IsSelected: true } ? row.Target : 0;
-
-    /// <summary>按技能序号读专精行的勾选值，未勾选或该技能不存在时返回 0。</summary>
-    private int GetRowTarget(int skillIndex) =>
-        _masteryRows.FirstOrDefault(row => row.SkillIndex == skillIndex && row.IsSelected)?.Target ?? 0;
 
     private int GetSpecializationTarget(int skillIndex) => skillIndex switch {
         1 => SpecializationSkill1,
@@ -277,27 +234,6 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
         3 => SpecializationSkill3,
         _ => 0,
     };
-
-    private int MaxSelectedSkill()
-    {
-        for (int skillIndex = 3; skillIndex >= 1; --skillIndex)
-        {
-            if (GetSpecializationTarget(skillIndex) > 0)
-            {
-                return skillIndex;
-            }
-        }
-
-        return 0;
-    }
-
-    /// <summary>专精可选技能数按稀有度过滤，规则与 CopilotViewModel 一致：3 技能需 6 星（或阿米娅），2 技能需 4 星。</summary>
-    private static int GetMaxMasterySkill(string name)
-    {
-        var character = DataHelper.GetCharacterByNameOrAlias(name);
-        int rarity = character?.Rarity ?? -1;
-        return rarity >= 6 || character?.Id == "char_002_amiya" ? 3 : rarity >= 4 ? 2 : 1;
-    }
 
     private static string ResolveDisplayName(string name) => DataHelper.GetLocalizedCharacterName(name) ?? name;
 }
