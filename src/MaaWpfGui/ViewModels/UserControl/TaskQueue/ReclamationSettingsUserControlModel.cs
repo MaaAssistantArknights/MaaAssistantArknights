@@ -74,6 +74,7 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
             ModeList = [
                 new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityNoSave"), Value = Mode.ProsperityNoSave },
                 new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityInSave"), Value = Mode.ProsperityInSave },
+                new() { Display = LocalizationHelper.GetString("ReclamationModeAdvanceInSave"), Value = Mode.AdvanceInSave },
             ];
         }
         else if (ReclamationTheme == Theme.RelaunchAnchor)
