@@ -41,6 +41,7 @@ protected:
     OcrPack();
 
     bool check_and_load();
+    void warmup();
 
     struct Impl;
     std::unique_ptr<Impl> m_impl;
