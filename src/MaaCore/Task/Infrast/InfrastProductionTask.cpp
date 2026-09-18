@@ -241,7 +241,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
     if (!facility_list_detect() || need_exit()) {
         return false;
     }
-    // 未访问或识别失败的设施保留空值，避免把部分识别结果当成全部贸易站的订单类型。
+    // 未访问或识别失败的设施保留空值，不作为订单类型的判断依据。
     std::vector<std::string> facility_products(m_facility_list_tabs.size());
 
     const auto tab_task_ptr = Task.get("InfrastFacilityListTab" + facility_name());
@@ -482,10 +482,10 @@ bool asst::InfrastProductionTask::shift_facility_list()
         !facility_products.empty() &&
         (m_drones_usage_from_params == "Money" || m_drones_usage_from_params == "SyntheticJade")) {
         const std::string_view opposite_product = m_drones_usage_from_params == "Money" ? "SyntheticJade" : "Money";
-        if (std::ranges::all_of(facility_products, [opposite_product](const auto& product) {
-                return product == opposite_product;
-            })) {
-            LogInfo << "Trade drone usage does not match any facility:" << m_drones_usage_from_params;
+        // 至少识别到一个相反订单，且没有匹配订单时才提醒，避免把无人机操作失败误判为用途不匹配。
+        if (std::ranges::find(facility_products, opposite_product) != facility_products.end() &&
+            std::ranges::find(facility_products, m_drones_usage_from_params) == facility_products.end()) {
+            LogInfo << "No recognized trade order matches drone usage:" << m_drones_usage_from_params;
             callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("TradeDronesUsageNotUsed"));
         }
     }
