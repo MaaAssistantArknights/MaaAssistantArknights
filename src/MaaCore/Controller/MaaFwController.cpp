@@ -1,8 +1,10 @@
 #include "MaaFwController.h"
 
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <cstdint>
+#include <future>
 #include <thread>
 
 #include "Config/GeneralConfig.h"
@@ -357,12 +359,14 @@ bool MaaFwController::click(const Point& p)
         return m_unit_handle->click(p.x, p.y);
     }
 
+    // 按下与抬起后各等待一次 TouchHoldMs
+    // 抬起后同样要等待，否则高频连点会被合并成一次触控，丢失点击
     if (!m_unit_handle->touch_down(0, p.x, p.y, 1)) {
         return false;
     }
-    std::this_thread::sleep_for(std::chrono::milliseconds(ClickDelay));
+    std::this_thread::sleep_for(std::chrono::milliseconds(TouchHoldMs));
     const bool ret = m_unit_handle->touch_up(0);
-    std::this_thread::sleep_for(std::chrono::milliseconds(ClickDelay));
+    std::this_thread::sleep_for(std::chrono::milliseconds(TouchHoldMs));
     return ret;
 }
 
@@ -410,20 +414,31 @@ bool MaaFwController::swipe(
         LogError << "touch_down failed at swipe start point";
         return false;
     }
+    std::this_thread::sleep_for(std::chrono::milliseconds(TouchHoldMs));
 
     bool need_pause = with_pause;
+    std::future<void> pause_future;
     const auto& opt = Config.get_options();
     auto bounds_check = [this](int x, int y) {
         return x >= 0 && x < m_screen_size.first && y >= 0 && y < m_screen_size.second;
     };
+    // 本地触控是同步的，而且命令是一个个发的，不像 minitouch/maatouch 那样有批次
+    // 所以直接同步 move-sleep-move-sleep-move-sleep 即可
+    // sleep 时长根据本段滑动起点为基准的绝对时间计算，过时不候
+    // 以本段滑动起始时间 start 为基准，第 k 步开始时间为 start + k * SwipeIntervalMs
+    auto tick_start = std::chrono::steady_clock::now();
+    int move_step = 0;
     auto move_func = [&](int x, int y) -> bool {
         if (!m_unit_handle->touch_move(0, x, y, 1)) {
             return false;
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(SwipeDelay));
+        high_res_sleep_until(tick_start + ++move_step * std::chrono::milliseconds(SwipeIntervalMs));
         return true;
     };
     auto do_swipe = [&](int _x1, int _y1, int _x2, int _y2, int _duration) -> bool {
+        // 主要滑动和额外滑动各自独立计时
+        tick_start = std::chrono::steady_clock::now();
+        move_step = 0;
         if (need_pause) {
             auto pause_check = [&opt](int cur_x, int cur_y, int start_x, int start_y) {
                 return std::hypot(cur_x - start_x, cur_y - start_y) > opt.swipe_with_pause_required_distance;
@@ -435,7 +450,7 @@ bool MaaFwController::swipe(
                 _x2,
                 _y2,
                 _duration,
-                SwipeDelay,
+                SwipeIntervalMs,
                 slope_in,
                 slope_out,
                 move_func,
@@ -443,7 +458,9 @@ bool MaaFwController::swipe(
                 pause_check,
                 [&]() {
                     need_pause = false;
-                    press_esc();
+                    // press_esc 内置 50ms 等待，同步调用会阻塞干扰 move 里的 sleep，故异步执行
+                    // future 析构时会自动等待 press_esc 完成
+                    pause_future = std::async(std::launch::async, [this]() { press_esc(); });
                 });
         }
         return interpolate_swipe(
@@ -452,7 +469,7 @@ bool MaaFwController::swipe(
             _x2,
             _y2,
             _duration,
-            SwipeDelay,
+            SwipeIntervalMs,
             slope_in,
             slope_out,
             move_func,
@@ -460,7 +477,7 @@ bool MaaFwController::swipe(
     };
 
     if (!do_swipe(x1, y1, x2, y2, duration ? duration : opt.minitouch_swipe_default_duration)) {
-        LogError << "Failed during main swipe movement";
+        LogWarn << "Failed during main swipe movement";
         m_unit_handle->touch_up(0);
         return false;
     }
@@ -475,9 +492,13 @@ bool MaaFwController::swipe(
         }
     }
 
-    const bool result = m_unit_handle->touch_up(0);
-    std::this_thread::sleep_for(std::chrono::milliseconds(ClickDelay));
-    return result;
+    if (!m_unit_handle->touch_up(0)) {
+        LogWarn << "failed during final touch up";
+        return false;
+    }
+    // 抬起后等待，为下一次输入留出时间间隔
+    std::this_thread::sleep_for(std::chrono::milliseconds(TouchHoldMs));
+    return true;
 }
 
 bool MaaFwController::inject_input_event(const InputEvent& event)
