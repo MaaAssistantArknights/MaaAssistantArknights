@@ -63,12 +63,6 @@ protected:
     bool connect_with_extras(const std::string& adb_path, const std::string& address, const std::string& config, const json::object& extras);
 
 private:
-    // 与 Minitoucher::DefaultClickDelay 对齐，按下与抬起各等待一次。
-    // 抬起后同样要留间隔，否则高频连点会被并成同一手势而丢点
-    static constexpr int ClickDelay = 50; // ms
-    // 类似 Minitoucher::DefaultSwipeDelay
-    static constexpr int SwipeDelay = 5; // ms
-
     bool init_library(const std::string& library_name);
     void destroy_unit();
     void callback(AsstMsg msg, const json::value& details) const;
