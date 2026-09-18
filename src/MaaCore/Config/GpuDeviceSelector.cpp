@@ -21,7 +21,7 @@ std::optional<int> asst::GpuDeviceSelector::resolve_device_id() const
     Microsoft::WRL::ComPtr<IDXGIFactory1> factory;
     const auto factory_hr = CreateDXGIFactory1(IID_PPV_ARGS(factory.GetAddressOf()));
     if (FAILED(factory_hr)) {
-        Log.error(__FUNCTION__, "CreateDXGIFactory1 failed", std::format("0x{:08X}", factory_hr));
+        LogError << __FUNCTION__ << "CreateDXGIFactory1 failed" << std::format("0x{:08X}", factory_hr);
         return std::nullopt;
     }
 
@@ -32,7 +32,7 @@ std::optional<int> asst::GpuDeviceSelector::resolve_device_id() const
             break;
         }
         if (FAILED(enum_hr)) {
-            Log.error(__FUNCTION__, "EnumAdapters failed", index, std::format("0x{:08X}", enum_hr));
+            LogError << __FUNCTION__ << "EnumAdapters failed" << index << std::format("0x{:08X}", enum_hr);
             return std::nullopt;
         }
 

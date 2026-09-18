@@ -10,7 +10,7 @@ bool asst::AbstractConfig::load(const std::filesystem::path& path)
     std::string class_name = utils::demangle(typeid(*this).name());
 
     if (!std::filesystem::exists(path) || !std::filesystem::is_regular_file(path)) {
-        Log.error(class_name, __FUNCTION__, "file does not exist", path);
+        LogError << class_name << "|" << __FUNCTION__ << "| file does not exist" << path;
         return false;
     }
     m_path = path;
@@ -19,8 +19,8 @@ bool asst::AbstractConfig::load(const std::filesystem::path& path)
 
     auto ret = json::open(path, true, true);
     if (!ret) {
-        Log.error("Json open failed", path);
-        Log.info(path.lexically_relative(UserDir.get()));
+        LogError << "Json open failed" << path;
+        LogInfo << path.lexically_relative(UserDir.get());
         return false;
     }
 
@@ -34,11 +34,11 @@ bool asst::AbstractConfig::load(const std::filesystem::path& path)
         return parse(root);
     }
     catch (const json::exception& e) {
-        Log.error("Json parse failed", path, e.what());
+        LogError << "Json parse failed" << path << e.what();
         return false;
     }
     catch (const std::exception& e) {
-        Log.error("Json parse failed", path, e.what());
+        LogError << "Json parse failed" << path << e.what();
         return false;
     }
 #endif

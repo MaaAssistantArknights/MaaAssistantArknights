@@ -35,22 +35,16 @@ bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
             event.option_num = static_cast<size_t>(num_options);
         }
         else {
-            Log.error(
-                std::format(
-                    "RoguelikeEncounterConfig | default number of options {} for event {} is less than zero",
-                    num_options,
-                    event.name));
+            LogError << __FUNCTION__ << "| default number of options" << num_options << "for event" << event.name
+                     << "is less than zero";
             return false;
         }
         if (int choice = event_json.get("choose", 0); choice >= 0) {
             event.default_choose = static_cast<size_t>(choice);
         }
         else {
-            Log.error(
-                std::format(
-                    "RoguelikeEncounterConfig | default choice {} for event {} is less than zero",
-                    choice,
-                    event.name));
+            LogError << __FUNCTION__ << "| default choice" << choice << "for event" << event.name
+                     << "is less than zero";
             return false;
         }
         event.next_event = event_json.get("next_event", "");
@@ -67,20 +61,13 @@ bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
 
                 int option_num = pair_arr[0].as_integer();
                 if (option_num < 0) {
-                    Log.error(
-                        std::format(
-                            "RoguelikeEncounterConfig | callback option_num for event {} is less than zero",
-                            event.name));
+                    LogError << __FUNCTION__ << "| callback option_num for event" << event.name << "is less than zero";
                     return false;
                 }
                 int choice = pair_arr[1].as_integer();
                 if (choice < 0) {
-                    Log.error(
-                        std::format(
-                            "RoguelikeEncounterConfig | callback choice for event {} with {} option(s) is less than "
-                            "zero",
-                            event.name,
-                            option_num));
+                    LogError << __FUNCTION__ << "| callback choice for event" << event.name << "with" << option_num
+                             << " option(s) is less than zero";
                     return false;
                 }
                 event.fallback_choices.emplace_back(static_cast<size_t>(option_num), static_cast<size_t>(choice));

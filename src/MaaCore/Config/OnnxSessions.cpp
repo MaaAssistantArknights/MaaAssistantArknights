@@ -43,11 +43,11 @@ Ort::Session& asst::OnnxSessions::get_or_create(const std::string& name)
 {
     if (!m_sessions.contains(name)) {
         if (gpu_enabled && !gpu_options_initialized && !initialize_gpu_options()) {
-            Log.error(__FUNCTION__, "Failed to initialize configured GPU; falling back to CPU mode");
+            LogError << __FUNCTION__ << "Failed to initialize configured GPU; falling back to CPU mode";
             use_cpu_locked();
         }
 
-        Log.info(__FUNCTION__, "lazy load", name);
+        LogInfo << __FUNCTION__ << "lazy load" << name;
         Ort::Session session(m_env, m_model_paths.at(name).c_str(), m_options);
         m_sessions.emplace(name, std::move(session));
     }

@@ -91,7 +91,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     using namespace asst::utils::path_literals;
 
     if (!std::filesystem::exists(path)) {
-        Log.error("Resource path not exists, path:", path);
+        LogError << "Resource path not exists, path:" << path;
         return false;
     }
 
@@ -105,14 +105,14 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     auto load_with_custom = [&]<typename T>(const std::filesystem::path& filename, const char* res_name) -> bool {
         auto full_path = path / filename;
         if (!load_resource<T>(full_path)) {
-            Log.error(res_name, " load failed, path:", full_path);
+            LogError << res_name << " load failed, path:" << full_path;
             return false;
         }
         auto custom_path = path / (full_path.stem().string() + "_custom.json");
         if (std::filesystem::exists(custom_path)) {
-            Log.info("Loading custom file for ", res_name, ", path:", custom_path);
+            LogInfo << "Loading custom file for " << res_name << ", path:" << custom_path;
             if (!load_resource<T>(custom_path)) {
-                Log.error(res_name, " load failed, path:", custom_path);
+                LogError << res_name << " load failed, path:" << custom_path;
                 return false;
             }
         }
@@ -127,7 +127,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         auto full_path = path / filename;
         auto full_templ_dir = path / templ_dir;
         if (!load_resource_with_templ<T>(full_path, full_templ_dir)) {
-            Log.error(res_name, "load failed, path:", full_path, ", templ dir:", full_templ_dir);
+            LogError << res_name << " load failed, path:" << full_path << ", templ dir:" << full_templ_dir;
             return false;
         }
         return true;
@@ -172,10 +172,10 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         }
     }
     else if (std::filesystem::is_regular_file(path / "tasks.json"_p)) {
-        Log.warn("================  DEPRECATED  ================");
-        Log.warn(__FUNCTION__, "resource/tasks.json has been deprecated since v5.15.4");
-        Log.warn(__FUNCTION__, "Please use resource/tasks/*.json instead");
-        Log.warn("================  DEPRECATED  ================");
+        LogWarn << "================  DEPRECATED  ================";
+        LogWarn << __FUNCTION__ << "resource/tasks.json has been deprecated since v5.15.4";
+        LogWarn << __FUNCTION__ << "Please use resource/tasks/*.json instead";
+        LogWarn << "================  DEPRECATED  ================";
         if (!load_with_templ.template operator()<TaskData>("tasks.json"_p, "template"_p, "TaskData")) {
             return false;
         }
@@ -308,10 +308,10 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         blackflow_model = blackflow_model_path;
     }
     else {
-        Log.warn("Optional BlackFlow map model is missing, path:", blackflow_model_path);
+        LogWarn << "Optional BlackFlow map model is missing, path:" << blackflow_model_path;
     }
     if (!std::filesystem::is_directory(blackflow_map_perception_path)) {
-        Log.warn("Optional BlackFlow map perception metadata is missing, path:", blackflow_map_perception_path);
+        LogWarn << "Optional BlackFlow map perception metadata is missing, path:" << blackflow_map_perception_path;
     }
     BlackFlowMapPerceptionResource::get_instance().load(blackflow_map_perception_path, blackflow_model);
     // ==================== 主题专属插件配置 ====================
@@ -333,7 +333,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 
     m_uuid = MaaNS::make_uuid();
     m_loaded = true;
-    Log.info(__FUNCTION__, "ret", m_loaded);
+    LogInfo << __FUNCTION__ << "ret" << m_loaded;
     return m_loaded;
 }
 

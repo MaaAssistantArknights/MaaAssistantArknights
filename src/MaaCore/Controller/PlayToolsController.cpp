@@ -86,7 +86,7 @@ bool asst::PlayToolsController::screencap(cv::Mat& image_payload, bool allow_rec
         mat.copyTo(image_payload);
         return true;
 #else
-        Log.error("MacSCK is not built, cannot capture screencap with this method");
+        LogError << "MacSCK is not built, cannot capture screencap with this method";
         return false;
 #endif // ASST_WITH_MAC_SCK
     }
@@ -109,12 +109,12 @@ bool asst::PlayToolsController::screencap_rgba(cv::Mat& image_payload, bool allo
         image_size = socket_ops::network_to_host_long(image_size);
     }
     catch (const std::exception& e) {
-        Log.error("Cannot get screencap:", e.what());
+        LogError << "Cannot get screencap:" << e.what();
         return false;
     }
 
     if (image_size == 0) {
-        Log.error("Cannot get screencap: invalid image size");
+        LogError << "Cannot get screencap: invalid image size";
         return false;
     }
 
@@ -125,7 +125,7 @@ bool asst::PlayToolsController::screencap_rgba(cv::Mat& image_payload, bool allo
         cv::cvtColor(mat, image_payload, cv::COLOR_RGBA2BGR);
     }
     catch (const std::exception& e) {
-        Log.error("Cannot get screencap:", e.what());
+        LogError << "Cannot get screencap:" << e.what();
         return false;
     }
 
@@ -145,7 +145,7 @@ bool asst::PlayToolsController::screencap_bgr(cv::Mat& image_payload, bool allow
         boost::asio::read(m_socket, boost::asio::buffer(header));
     }
     catch (const std::exception& e) {
-        Log.error("Cannot get screencap:", e.what());
+        LogError << "Cannot get screencap:" << e.what();
         return false;
     }
 
@@ -154,7 +154,7 @@ bool asst::PlayToolsController::screencap_bgr(cv::Mat& image_payload, bool allow
     uint32_t image_size = socket_ops::network_to_host_long(header[2]);
 
     if (image_size == 0) {
-        Log.error("Cannot get screencap: invalid image size");
+        LogError << "Cannot get screencap: invalid image size";
         return false;
     }
 
@@ -165,7 +165,7 @@ bool asst::PlayToolsController::screencap_bgr(cv::Mat& image_payload, bool allow
         mat.copyTo(image_payload);
     }
     catch (const std::exception& e) {
-        Log.error("Cannot get screencap:", e.what());
+        LogError << "Cannot get screencap:" << e.what();
         return false;
     }
 
@@ -174,7 +174,7 @@ bool asst::PlayToolsController::screencap_bgr(cv::Mat& image_payload, bool allow
 
 bool asst::PlayToolsController::start_game(const std::string& client_type [[maybe_unused]])
 {
-    Log.info("StartGame is not supported on PlayTools");
+    LogInfo << "StartGame is not supported on PlayTools";
     return true;
 }
 

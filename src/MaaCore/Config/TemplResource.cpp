@@ -16,7 +16,7 @@ void asst::TemplResource::set_load_required(std::unordered_set<std::string> requ
 bool asst::TemplResource::load(const std::filesystem::path& path)
 {
     LogTraceFunction;
-    Log.info("load", path.lexically_relative(UserDir.get()));
+    LogInfo << "load" << path.lexically_relative(UserDir.get());
 
     std::vector<std::filesystem::path> search_paths = { path };
 
@@ -70,7 +70,7 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
             }
 
             if (template_found) {
-                Log.error("Templ file exists in multiple paths:", m_templ_paths.at(name), full_path);
+                LogError << "Templ file exists in multiple paths:" << m_templ_paths.at(name) << full_path;
 #ifdef ASST_DEBUG
                 file_dumplicate = true;
 #else
@@ -86,7 +86,7 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
         }
 
         if (!template_found && !m_templ_paths.contains(name)) {
-            Log.error("Templ load failed, file not exists:", name);
+            LogError << "Templ load failed, file not exists:" << name;
 #ifdef ASST_DEBUG
             some_file_not_exists = true;
 #else
@@ -123,7 +123,7 @@ const cv::Mat& asst::TemplResource::get_templ(const std::string& name)
 
         auto path_iter = m_templ_paths.find(name);
         if (path_iter == m_templ_paths.cend()) {
-            Log.error(__FUNCTION__, "templ not found", name);
+            LogError << __FUNCTION__ << "templ not found" << name;
 
 #ifdef ASST_DEBUG
             throw std::runtime_error("templ not found: " + name);
