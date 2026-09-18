@@ -30,8 +30,7 @@
     <system:String x:Key="BackgroundMonetSelectColor">Select Color</system:String>
     <system:String x:Key="BackgroundMonetAutoTip">Extract dominant color from background image to generate theme palette</system:String>
     <system:String x:Key="BackgroundMonetKeepMaskNeutral">Keep mask color unchanged</system:String>
-    <system:String x:Key="BackgroundMonetKeepMaskNeutralTip" xml:space="preserve">The mask no longer follows the theme color.
-If the background makes text hard to read, try lowering the opacity slider above to 75% or below.</system:String>
+    <system:String x:Key="BackgroundMonetKeepMaskNeutralTip">When enabled, the mask no longer follows the theme color, which may affect control visibility</system:String>
     <system:String x:Key="UiTheme">UI Theme</system:String>
     <system:String x:Key="TransitionSpeed">Transition Animation</system:String>
     <system:String x:Key="TransitionSpeedNormal">Normal</system:String>
