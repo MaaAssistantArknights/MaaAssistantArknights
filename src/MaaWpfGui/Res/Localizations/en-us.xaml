@@ -30,7 +30,7 @@
     <system:String x:Key="BackgroundMonetSelectColor">Select Color</system:String>
     <system:String x:Key="BackgroundMonetAutoTip">Extract dominant color from background image to generate theme palette</system:String>
     <system:String x:Key="BackgroundMonetKeepMaskNeutral">Keep mask neutral</system:String>
-    <system:String x:Key="BackgroundMonetKeepMaskNeutralTip">Theme color only</system:String>
+    <system:String x:Key="BackgroundMonetKeepMaskNeutralTip">Only the theme color follows the palette; the mask stays neutral</system:String>
     <system:String x:Key="UiTheme">UI Theme</system:String>
     <system:String x:Key="TransitionSpeed">Transition Animation</system:String>
     <system:String x:Key="TransitionSpeedNormal">Normal</system:String>

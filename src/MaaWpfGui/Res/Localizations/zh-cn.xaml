@@ -30,7 +30,7 @@
     <system:String x:Key="BackgroundMonetSelectColor">选择颜色</system:String>
     <system:String x:Key="BackgroundMonetAutoTip">将从背景图自动提取主色生成主题配色</system:String>
     <system:String x:Key="BackgroundMonetKeepMaskNeutral">遮罩保持中性</system:String>
-    <system:String x:Key="BackgroundMonetKeepMaskNeutralTip">仅主题色取色</system:String>
+    <system:String x:Key="BackgroundMonetKeepMaskNeutralTip">仅主题色随取色，遮罩保持中性不变</system:String>
     <system:String x:Key="UiTheme">界面主题</system:String>
     <system:String x:Key="TransitionSpeed">过渡动画</system:String>
     <system:String x:Key="TransitionSpeedNormal">原速</system:String>
