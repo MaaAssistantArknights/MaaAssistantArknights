@@ -169,10 +169,12 @@ public static class ThemeHelper
         foreach (var (key, color) in palette)
         {
             // 开关开启时：遮罩层（RegionBrushOpacity*）与标题栏遮罩（RegionBrush 等背景体系）
-            // 不应用莫奈取色，保持主题默认中性色，避免背景被颜色蒙层遮挡
+            // 不应用莫奈取色：移除莫奈直接覆盖项，让底层主题字典的默认值重新生效。
+            // 不能只 continue——之前写入的莫奈色仍残留在资源里，界面不会即时变化
             if (MonetPaletteHelper.BackgroundMaskKeys.Contains(key)
                 && ConfigFactory.Root.Gui.BackgroundMonetKeepMaskNeutral)
             {
+                Application.Current.Resources.Remove(key);
                 continue;
             }
 
