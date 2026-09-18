@@ -42,24 +42,39 @@
         "next": ["MiniGame@AutoRaisePotential@FirstOperator"]
     },
     "MiniGame@AutoRaisePotential@FirstOperator": {
+        "doc": "识别首位干员卡片右上角的橙色潜能标记。标记背景随首位干员立绘变化，故用纯色匹配（RGBCount + pureColor），不依赖模板灰度；颜色区间须排除星级金色（G≈214）与立绘暖色（G≈170）。",
         "template": "OperBoxFirstOperatorBadge.png",
+        "method": "RGBCount",
+        "pureColor": true,
+        "colorScales": [
+            [
+                [230, 80, 0],
+                [255, 150, 60]
+            ]
+        ],
         "action": "ClickRect",
-        "maskRange": [1, 255],
         "specificRect": [52, 145, 87, 177],
-        "roi": [108, 68, 113, 43],
+        "roi": [126, 62, 46, 46],
         "postDelay": 1000,
         "next": ["MiniGame@AutoRaisePotential@OperatorProfile"]
     },
     "MiniGame@AutoRaisePotential@PotentialAvailable": {
-        "doc": "识别并点击干员档案中的潜能提升标记",
+        "doc": "识别并点击干员档案中的潜能提升标记。标记像素占比极小，灰度模板得分被固定的面板背景主导、无法按有无标记区分，故用纯色匹配（RGBCount + pureColor），颜色区间与 FirstOperator 一致。",
         "template": "OperInfoPotentialAvailable.png",
+        "method": "RGBCount",
+        "pureColor": true,
+        "colorScales": [
+            [
+                [230, 80, 0],
+                [255, 150, 60]
+            ]
+        ],
         "action": "ClickRect",
         "roi": [1125, 180, 155, 180],
-        "maskRange": [1, 255],
         "specificRect": [1100, 257, 126, 38],
         "postDelay": 1000,
         "next": ["MiniGame@AutoRaisePotential@PotentialScreen"]
-    },    
+    },
     "MiniGame@AutoRaisePotential@PotentialScreen": {
         "doc": "等待潜能提升确认弹窗出现。",
         "template": "RaisePotentialConfirm.png",
@@ -80,10 +95,7 @@
         "baseTask": "OperOpenInformationMenu",
         "template": "OperInformationMenu.png",
         "action": "DoNothing",
-        "next": [
-            "MiniGame@AutoRaisePotential@PotentialAvailable",
-            "MiniGame@AutoRaisePotential@SwipeToNextOperator"
-        ]
+        "next": ["MiniGame@AutoRaisePotential@PotentialAvailable", "MiniGame@AutoRaisePotential@SwipeToNextOperator"]
     },
     "MiniGame@AutoRaisePotential@SwipeToNextOperator": {
         "doc": "在干员档案中横向切换下一名干员，回到档案检查后继续提升或切换。滑动次数由顶部 OCR 数量动态设置；这是流程中唯一的固定点位动作。",

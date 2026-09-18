@@ -16,7 +16,7 @@ bool asst::AutoRaisePotentialTaskPlugin::verify(AsstMsg msg, const json::value& 
     }
 
     const std::string& task = details.get("details", "task", "");
-    if (msg == AsstMsg::SubTaskCompleted && task.ends_with(OperatorCountTask)) {
+    if (msg == AsstMsg::SubTaskCompleted && task.ends_with("MiniGame@AutoRaisePotential@OperatorCountOcr")) {
         m_pending = PendingAction::ReadOperatorCount;
         return true;
     }
@@ -25,6 +25,8 @@ bool asst::AutoRaisePotentialTaskPlugin::verify(AsstMsg msg, const json::value& 
 
 bool asst::AutoRaisePotentialTaskPlugin::_run()
 {
+    LogTraceFunction;
+
     const PendingAction pending = m_pending;
     m_pending = PendingAction::None;
 
@@ -36,9 +38,11 @@ bool asst::AutoRaisePotentialTaskPlugin::_run()
 
 bool asst::AutoRaisePotentialTaskPlugin::read_operator_count()
 {
+    LogTraceFunction;
+
     const auto result = get_hit_detail<TextRect>();
     if (result == nullptr) {
-        Log.error("AutoRaisePotential | operator count OCR result is missing");
+        LogError << __FUNCTION__ << "| operator count OCR result is missing";
         return false;
     }
 
@@ -49,36 +53,36 @@ bool asst::AutoRaisePotentialTaskPlugin::read_operator_count()
         }
     }
     if (digits.empty()) {
-        Log.error("AutoRaisePotential | operator count OCR returned no digits: ", result->text);
+        LogError << __FUNCTION__ << "| operator count OCR returned no digits:" << result->text;
         return false;
     }
 
     int count = 0;
     const auto [end, error] = std::from_chars(digits.data(), digits.data() + digits.size(), count);
     if (error != std::errc { } || end != digits.data() + digits.size() || count < 1 || count > MaxOperatorCount) {
-        Log.error("AutoRaisePotential | invalid operator count: ", result->text);
+        LogError << __FUNCTION__ << "| invalid operator count:" << result->text;
         return false;
     }
 
     auto process_task = dynamic_cast<ProcessTask*>(m_task_ptr);
     if (process_task == nullptr) {
-        Log.error("AutoRaisePotential | parent ProcessTask is missing");
+        LogError << __FUNCTION__ << "| parent ProcessTask is missing";
         return false;
     }
     // Keep the OCR-derived limit on this ProcessTask instance. TaskData is shared
     // by assistants, so changing the global TaskInfo would leak state between runs.
-    process_task->set_times_limit(std::string(SwipeTask), count);
+    process_task->set_times_limit("MiniGame@AutoRaisePotential@SwipeToNextOperator", count);
     // Each operator can have at most six potential levels. Bound the profile
     // entry without putting a process-wide maxTimes in the resource file.
     const int potential_limit = count * MaxPotentialLevels;
-    process_task->set_times_limit(std::string(PotentialTask), potential_limit);
-    Log.info("AutoRaisePotential | OCR operator count: ", count);
+    process_task->set_times_limit("MiniGame@AutoRaisePotential@PotentialAvailable", potential_limit);
+    LogInfo << __FUNCTION__ << "| OCR operator count:" << count;
     return true;
 }
 
 void asst::AutoRaisePotentialTaskPlugin::stop_process_task(std::string_view reason)
 {
-    Log.error("AutoRaisePotential | stopping task: ", reason);
+    LogError << __FUNCTION__ << "| stopping task:" << reason;
     if (m_task_ptr != nullptr) {
         m_task_ptr->set_enable(false);
     }

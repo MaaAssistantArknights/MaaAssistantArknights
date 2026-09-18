@@ -29,9 +29,6 @@ private:
 
     mutable PendingAction m_pending = PendingAction::None;
 
-    inline static constexpr std::string_view OperatorCountTask = "MiniGame@AutoRaisePotential@OperatorCountOcr";
-    inline static constexpr std::string_view PotentialTask = "MiniGame@AutoRaisePotential@PotentialAvailable";
-    inline static constexpr std::string_view SwipeTask = "MiniGame@AutoRaisePotential@SwipeToNextOperator";
     inline static constexpr int MaxOperatorCount = 512;
     inline static constexpr int MaxPotentialLevels = 6;
 };
