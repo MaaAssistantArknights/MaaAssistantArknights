@@ -84,6 +84,8 @@ public:
     inline static constexpr int RetryTimesDefault = 20;
 
 protected:
+    friend class OperBoxDataConfig;
+
     virtual bool _run() = 0;
 
     virtual bool on_run_fails() { return true; }
