@@ -29,6 +29,8 @@
     <system:String x:Key="BackgroundMonetCustom">自定义颜色</system:String>
     <system:String x:Key="BackgroundMonetSelectColor">选择颜色</system:String>
     <system:String x:Key="BackgroundMonetAutoTip">将从背景图自动提取主色生成主题配色</system:String>
+    <system:String x:Key="BackgroundMonetKeepMaskNeutral">不改变遮罩颜色</system:String>
+    <system:String x:Key="BackgroundMonetKeepMaskNeutralTip">开启后遮罩不随主题色变化，可能影响控件辨识度</system:String>
     <system:String x:Key="UiTheme">界面主题</system:String>
     <system:String x:Key="TransitionSpeed">过渡动画</system:String>
     <system:String x:Key="TransitionSpeedNormal">原速</system:String>

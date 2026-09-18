@@ -29,6 +29,8 @@
     <system:String x:Key="BackgroundMonetCustom">Custom Color</system:String>
     <system:String x:Key="BackgroundMonetSelectColor">Select Color</system:String>
     <system:String x:Key="BackgroundMonetAutoTip">Extract dominant color from background image to generate theme palette</system:String>
+    <system:String x:Key="BackgroundMonetKeepMaskNeutral">Keep mask color unchanged</system:String>
+    <system:String x:Key="BackgroundMonetKeepMaskNeutralTip">When enabled, the mask no longer follows the theme color, which may affect control visibility</system:String>
     <system:String x:Key="UiTheme">UI Theme</system:String>
     <system:String x:Key="TransitionSpeed">Transition Animation</system:String>
     <system:String x:Key="TransitionSpeedNormal">Normal</system:String>

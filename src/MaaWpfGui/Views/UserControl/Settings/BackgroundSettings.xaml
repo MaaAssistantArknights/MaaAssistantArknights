@@ -12,7 +12,7 @@
     xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type settings_vms:BackgroundSettingsUserControlModel}}"
-    d:DesignHeight="350"
+    d:DesignHeight="600"
     d:DesignWidth="550"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
@@ -156,11 +156,26 @@
                 SelectedValuePath="Value" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Center">
-            <CheckBox
-                Margin="5"
-                HorizontalAlignment="Center"
-                Content="{DynamicResource BackgroundMonet}"
-                IsChecked="{Binding BackgroundMonetEnabled}" />
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <CheckBox
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="{DynamicResource BackgroundMonet}"
+                    IsChecked="{Binding BackgroundMonetEnabled}" />
+                <!--  保持中性：勾选莫奈后出现在右侧，同行（同官方自动检测/每次重新检测写法）  -->
+                <StackPanel
+                    Margin="5,0,0,0"
+                    IsEnabled="{Binding BackgroundMonetEnabled}"
+                    Orientation="Horizontal"
+                    Visibility="{c:Binding BackgroundMonetEnabled}">
+                    <CheckBox
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="{DynamicResource BackgroundMonetKeepMaskNeutral}"
+                        IsChecked="{Binding BackgroundMonetKeepMaskNeutral}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource BackgroundMonetKeepMaskNeutralTip}" />
+                </StackPanel>
+            </StackPanel>
             <StackPanel
                 Margin="5"
                 IsEnabled="{Binding BackgroundMonetEnabled}"

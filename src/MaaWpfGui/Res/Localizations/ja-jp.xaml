@@ -29,6 +29,8 @@
     <system:String x:Key="BackgroundMonetCustom">カスタムカラー</system:String>
     <system:String x:Key="BackgroundMonetSelectColor">色を選択</system:String>
     <system:String x:Key="BackgroundMonetAutoTip">背景画像からメインカラーを自動抽出してテーマ配色を生成します</system:String>
+    <system:String x:Key="BackgroundMonetKeepMaskNeutral">マスクの色を変更しない</system:String>
+    <system:String x:Key="BackgroundMonetKeepMaskNeutralTip">有効にするとマスクがテーマ色に追従しなくなり、コントロールの視認性に影響する場合があります</system:String>
     <system:String x:Key="UiTheme">UI主題</system:String>
     <system:String x:Key="TransitionSpeed">切り替えアニメーション</system:String>
     <system:String x:Key="TransitionSpeedNormal">標準</system:String>
