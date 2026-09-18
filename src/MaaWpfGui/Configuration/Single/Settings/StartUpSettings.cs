@@ -17,7 +17,7 @@ using MaaWpfGui.Models;
 namespace MaaWpfGui.Configuration.Single.Settings;
 
 /// <summary>
-/// 模拟器启动设置
+/// 连接目标启动设置
 /// </summary>
 public partial class StartUpSettings : NotifyPropertyChangedWithValue
 {
@@ -39,4 +39,14 @@ public partial class StartUpSettings : NotifyPropertyChangedWithValue
     public string EmulatorAddCommand { get; set; } = string.Empty;
 
     public int EmulatorWaitSeconds { get; set; } = 60;
+
+    public bool StartPcClient { get; set; }
+
+    public bool RestartPcClientWhenConnectFailed { get; set; }
+
+    public string PcClientPath { get; set; } = string.Empty;
+
+    public string PcClientAddCommand { get; set; } = string.Empty;
+
+    public int PcClientWaitSeconds { get; set; } = 60;
 }
