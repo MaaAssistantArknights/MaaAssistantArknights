@@ -29,8 +29,9 @@
     <system:String x:Key="BackgroundMonetCustom">カスタムカラー</system:String>
     <system:String x:Key="BackgroundMonetSelectColor">色を選択</system:String>
     <system:String x:Key="BackgroundMonetAutoTip">背景画像からメインカラーを自動抽出してテーマ配色を生成します</system:String>
-    <system:String x:Key="BackgroundMonetKeepMaskNeutral">マスクをニュートラルに保つ</system:String>
-    <system:String x:Key="BackgroundMonetKeepMaskNeutralTip">テーマ色のみが取色に追従し、マスクはニュートラルのまま</system:String>
+    <system:String x:Key="BackgroundMonetKeepMaskNeutral">マスクの色を変更しない</system:String>
+    <system:String x:Key="BackgroundMonetKeepMaskNeutralTip" xml:space="preserve">有効にするとマスクがテーマ色に追従しなくなります。
+背景で文字が読みにくい場合は、上の不透明度スライダーを75%以下にしてみてください。</system:String>
     <system:String x:Key="UiTheme">UI主題</system:String>
     <system:String x:Key="TransitionSpeed">切り替えアニメーション</system:String>
     <system:String x:Key="TransitionSpeedNormal">標準</system:String>

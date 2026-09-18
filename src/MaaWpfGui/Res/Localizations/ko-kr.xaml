@@ -34,8 +34,9 @@
     <system:String x:Key="BackgroundMonetCustom">사용자 지정 색상</system:String>
     <system:String x:Key="BackgroundMonetSelectColor">색상 선택</system:String>
     <system:String x:Key="BackgroundMonetAutoTip">배경 이미지에서 주요 색상을 추출하여 테마 색상을 생성합니다</system:String>
-    <system:String x:Key="BackgroundMonetKeepMaskNeutral">마스크 중립 유지</system:String>
-    <system:String x:Key="BackgroundMonetKeepMaskNeutralTip">테마 색상만 팔레트를 따르며, 마스크는 중립을 유지합니다</system:String>
+    <system:String x:Key="BackgroundMonetKeepMaskNeutral">마스크 색상 유지</system:String>
+    <system:String x:Key="BackgroundMonetKeepMaskNeutralTip" xml:space="preserve">활성화하면 마스크가 테마 색상을 따르지 않습니다.
+배경 때문에 텍스트가 잘 보이지 않으면 위 불투명도 슬라이더를 75% 이하로 조절해 보세요.</system:String>
     <system:String x:Key="HotKeySettings">단축키 설정</system:String>
     <system:String x:Key="UpdateSettings">업데이트</system:String>
     <system:String x:Key="AchievementSettings">도전과제</system:String>

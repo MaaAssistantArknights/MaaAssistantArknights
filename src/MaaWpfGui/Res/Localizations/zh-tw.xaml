@@ -29,8 +29,9 @@
     <system:String x:Key="BackgroundMonetCustom">自訂顏色</system:String>
     <system:String x:Key="BackgroundMonetSelectColor">選擇顏色</system:String>
     <system:String x:Key="BackgroundMonetAutoTip">將從背景圖自動提取主色產生主題配色</system:String>
-    <system:String x:Key="BackgroundMonetKeepMaskNeutral">遮罩保持中性</system:String>
-    <system:String x:Key="BackgroundMonetKeepMaskNeutralTip">僅主題色隨取色，遮罩保持中性不變</system:String>
+    <system:String x:Key="BackgroundMonetKeepMaskNeutral">不改變遮罩顏色</system:String>
+    <system:String x:Key="BackgroundMonetKeepMaskNeutralTip" xml:space="preserve">開啟後遮罩不隨主題色變化；
+若背景圖導致文字看不清，可嘗試將上方不透明度滑塊調低至 75% 以下</system:String>
     <system:String x:Key="UiTheme">介面主題</system:String>
     <system:String x:Key="TransitionSpeed">過渡動畫</system:String>
     <system:String x:Key="TransitionSpeedNormal">原速</system:String>
