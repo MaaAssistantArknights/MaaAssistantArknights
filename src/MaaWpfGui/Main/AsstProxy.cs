@@ -240,7 +240,7 @@ public class AsstProxy
 
     public BitmapImage? AsstGetImage()
     {
-        return AsstGetImage(_handle);
+        return AsstGetImage(GetHandle());
     }
 
     public BitmapImage? AsstGetImage(bool forceScreencap)
@@ -248,12 +248,13 @@ public class AsstProxy
         // UI 端有两类取图场景：
         // - 首页预览/缩略图：直接取 core 的缓存帧即可（避免频繁主动截图）
         // - 监控/诊断：需要强制触发一次截图以拿到“此刻”的帧
+        var handle = GetHandle();
         if (forceScreencap)
         {
-            MaaService.AsstAsyncScreencap(_handle, true);
+            MaaService.AsstAsyncScreencap(handle, true);
         }
 
-        return AsstGetImage(_handle);
+        return AsstGetImage(handle);
     }
 
     public BitmapImage? AsstGetFreshImage()
@@ -261,24 +262,21 @@ public class AsstProxy
         return AsstGetImage(forceScreencap: true);
     }
 
-    public static async Task<BitmapImage?> AsstGetImageAsync(AsstHandle handle)
-    {
-        return await Task.Run(() => AsstGetImage(handle));
-    }
-
     public async Task<BitmapImage?> AsstGetImageAsync()
     {
-        return await AsstGetImageAsync(_handle);
+        return await Task.Run(() => AsstGetImage(GetHandle()));
     }
 
     public async Task<BitmapImage?> AsstGetImageAsync(bool forceScreencap)
     {
+        // 每步现取句柄而非开头快照贯穿：销毁后 GetHandle() 得 Zero，native 判空安全失败；
+        // 快照贯穿会把悬垂句柄带过阻塞截图与 Task.Run（use-after-free）
         if (forceScreencap)
         {
-            MaaService.AsstAsyncScreencap(_handle, true);
+            MaaService.AsstAsyncScreencap(GetHandle(), true);
         }
 
-        return await AsstGetImageAsync(_handle);
+        return await Task.Run(() => AsstGetImage(GetHandle()));
     }
 
     public async Task<BitmapImage?> AsstGetFreshImageAsync()
@@ -314,17 +312,18 @@ public class AsstProxy
     // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
     public byte[]? AsstGetImageBgrData()
     {
-        return AsstGetImageBgrData(_handle);
+        return AsstGetImageBgrData(GetHandle());
     }
 
     public byte[]? AsstGetImageBgrData(bool forceScreencap)
     {
+        var handle = GetHandle();
         if (forceScreencap)
         {
-            MaaService.AsstAsyncScreencap(_handle, true);
+            MaaService.AsstAsyncScreencap(handle, true);
         }
 
-        return AsstGetImageBgrData(_handle);
+        return AsstGetImageBgrData(handle);
     }
 
     // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
@@ -334,25 +333,20 @@ public class AsstProxy
     }
 
     // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
-    public static async Task<byte[]?> AsstGetImageBgrDataAsync(AsstHandle handle)
-    {
-        return await Task.Run(() => AsstGetImageBgrData(handle));
-    }
-
-    // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
     public async Task<byte[]?> AsstGetImageBgrDataAsync()
     {
-        return await AsstGetImageBgrDataAsync(_handle);
+        return await Task.Run(() => AsstGetImageBgrData(GetHandle()));
     }
 
     public async Task<byte[]?> AsstGetImageBgrDataAsync(bool forceScreencap)
     {
+        // 同 AsstGetImageAsync(bool)：每步现取句柄，避免快照悬垂跨阻塞截图与 Task.Run
         if (forceScreencap)
         {
-            MaaService.AsstAsyncScreencap(_handle, true);
+            MaaService.AsstAsyncScreencap(GetHandle(), true);
         }
 
-        return await AsstGetImageBgrDataAsync(_handle);
+        return await Task.Run(() => AsstGetImageBgrData(GetHandle()));
     }
 
     // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
@@ -453,17 +447,6 @@ public class AsstProxy
         };
 
         AsstSetUserDir(PathsHelper.BaseDir);
-    }
-
-    /// <summary>
-    /// Finalizes an instance of the <see cref="AsstProxy"/> class.
-    /// </summary>
-    ~AsstProxy()
-    {
-        if (_handle != AsstHandle.Zero)
-        {
-            AsstDestroy();
-        }
     }
 
     /// <summary>
@@ -652,11 +635,15 @@ public class AsstProxy
 
         bool loaded = !delegatedUpdateFailure && LoadResource();
 
-        _handle = MaaService.AsstCreateEx(_callback, AsstHandle.Zero);
-
-        if (loaded == false || _handle == AsstHandle.Zero)
+        var handle = MaaService.AsstCreateEx(_callback, AsstHandle.Zero);
+        lock (_handleLock)
         {
-            _logger.Error("Resource loading failed, loaded: {0}, handle created: {1}", loaded, _handle != AsstHandle.Zero);
+            _handle = handle;
+        }
+
+        if (loaded == false || handle == AsstHandle.Zero)
+        {
+            _logger.Error("Resource loading failed, loaded: {0}, handle created: {1}", loaded, handle != AsstHandle.Zero);
 
             // 先置标志再弹窗：弹窗显示期间启动自动运行、热键/托盘/远程触发的任务都须被拦
             Bootstrapper.MarkResourceBroken();
@@ -808,6 +795,11 @@ public class AsstProxy
 
     private void CallbackFunction(int msg, AsstHandle jsonBuffer, AsstHandle customArg)
     {
+        if (_destroying)
+        {
+            return;
+        }
+
         var jsonStr = PtrToStringCustom(jsonBuffer, Encoding.UTF8);
 
         // Console.WriteLine(json_str);
@@ -819,7 +811,21 @@ public class AsstProxy
             });
     }
 
+    // 保护 _handle 的读写快照；销毁在锁内原子取走并清零，使并发调用者只会拿到销毁前句柄或 Zero
+    private readonly object _handleLock = new();
     private AsstHandle _handle;
+
+    // 销毁开始（锁内置位）后 Core 回调一律丢弃：回调需同步投递 UI 线程，而退出销毁时 UI 线程
+    // 正限时等待销毁完成，不丢弃会互等到超时放弃，Core 侧退出清理（如 KillAdbOnExit）随之落空
+    private volatile bool _destroying;
+
+    private AsstHandle GetHandle()
+    {
+        lock (_handleLock)
+        {
+            return _handle;
+        }
+    }
 
     public delegate void AsstSubTaskMsgDelegate(AsstMsg type, AsstSubTaskMsg? msg);
 
@@ -2890,7 +2896,7 @@ public class AsstProxy
 
     public bool AsstSetInstanceOption(InstanceOptionKey key, string value)
     {
-        return AsstSetInstanceOption(_handle, (AsstInstanceOptionKey)key, value);
+        return AsstSetInstanceOption(GetHandle(), (AsstInstanceOptionKey)key, value);
     }
 
     public bool AsstSetStaticOption(AsstStaticOptionKey key, string value)
@@ -3146,7 +3152,7 @@ public class AsstProxy
         var mouseMethod = (ulong)win32Extra.MouseMethod;
         var keyboardMethod = (ulong)win32Extra.KeyboardMethod;
 
-        bool ret = AsstAttachWindow(_handle, hwnd, screencapMethod, mouseMethod, keyboardMethod);
+        bool ret = AsstAttachWindow(GetHandle(), hwnd, screencapMethod, mouseMethod, keyboardMethod);
 
         if (!ret)
         {
@@ -3236,7 +3242,7 @@ public class AsstProxy
             }
         }
 
-        bool ret = AsstConnect(_handle, SettingsViewModel.ConnectSettings.AdbPath, SettingsViewModel.ConnectSettings.ConnectAddress, SettingsViewModel.ConnectSettings.ConnectConfig.ToString());
+        bool ret = AsstConnect(GetHandle(), SettingsViewModel.ConnectSettings.AdbPath, SettingsViewModel.ConnectSettings.ConnectAddress, SettingsViewModel.ConnectSettings.ConnectConfig.ToString());
 
         // 如果连接失败，等待回调完成以获取详细错误信息
         if (!ret)
@@ -3252,7 +3258,15 @@ public class AsstProxy
                 foreach (var address in value
                              .TakeWhile(_ => !_runningState.GetIdle()))
                 {
-                    ret = AsstConnect(_handle, SettingsViewModel.ConnectSettings.AdbPath, address, SettingsViewModel.ConnectSettings.ConnectConfig.ToString());
+                    // 每轮现取句柄：循环跨越秒级等待，期间退出销毁会使快照句柄悬垂；
+                    // 得 Zero 即实例已销毁（进程退出中），放弃重试
+                    var handle = GetHandle();
+                    if (handle == AsstHandle.Zero)
+                    {
+                        return false;
+                    }
+
+                    ret = AsstConnect(handle, SettingsViewModel.ConnectSettings.AdbPath, address, SettingsViewModel.ConnectSettings.ConnectConfig.ToString());
                     if (!ret)
                     {
                         continue;
@@ -3337,7 +3351,7 @@ public class AsstProxy
     private AsstTaskId AsstAppendTaskWithEncoding(AsstTaskType type, JObject? taskParams = null)
     {
         taskParams ??= [];
-        return AsstAppendTask(_handle, type.ToString(), JsonConvert.SerializeObject(taskParams));
+        return AsstAppendTask(GetHandle(), type.ToString(), JsonConvert.SerializeObject(taskParams));
     }
 
     private bool AsstSetTaskParamsWithEncoding(AsstTaskId id, JObject? taskParams = null)
@@ -3348,7 +3362,7 @@ public class AsstProxy
         }
 
         taskParams ??= [];
-        return AsstSetTaskParams(_handle, id, JsonConvert.SerializeObject(taskParams));
+        return AsstSetTaskParams(GetHandle(), id, JsonConvert.SerializeObject(taskParams));
     }
 
     /// <summary>
@@ -3547,7 +3561,7 @@ public class AsstProxy
 
     public bool AsstBackToHome()
     {
-        return MaaService.AsstBackToHome(_handle);
+        return MaaService.AsstBackToHome(GetHandle());
     }
 
     /// <summary>
@@ -3651,7 +3665,7 @@ public class AsstProxy
     public (bool IsSuccess, int TaskId) AsstAppendTaskWithEncoding(TaskType wpfTaskType, (AsstTaskType Type, JObject? TaskParams) task)
     {
         task.TaskParams ??= [];
-        AsstTaskId id = AsstAppendTask(_handle, task.Type.ToString(), JsonConvert.SerializeObject(task.TaskParams));
+        AsstTaskId id = AsstAppendTask(GetHandle(), task.Type.ToString(), JsonConvert.SerializeObject(task.TaskParams));
         if (id == 0)
         {
             return (false, 0);
@@ -3664,7 +3678,7 @@ public class AsstProxy
     public bool AsstAppendTaskWithEncoding(TaskType wpfTaskType, AsstTaskType type, JObject? taskParams = null)
     {
         taskParams ??= [];
-        AsstTaskId id = AsstAppendTask(_handle, type.ToString(), JsonConvert.SerializeObject(taskParams));
+        AsstTaskId id = AsstAppendTask(GetHandle(), type.ToString(), JsonConvert.SerializeObject(taskParams));
         if (id == 0)
         {
             return false;
@@ -3687,7 +3701,7 @@ public class AsstProxy
         }
 
         taskParams ??= [];
-        return AsstSetTaskParams(_handle, id, JsonConvert.SerializeObject(taskParams));
+        return AsstSetTaskParams(GetHandle(), id, JsonConvert.SerializeObject(taskParams));
     }
 
     /// <summary>
@@ -3698,7 +3712,7 @@ public class AsstProxy
     {
         var muteStarted = SettingsViewModel.ConnectSettings.ExtraConfig is Win32Extra { MuteWhileRunning: true } &&
                           GameAudioMuteManager.Start(_attachWindowHwnd, () => !_runningState.GetIdle());
-        var result = MaaService.AsstStart(_handle);
+        var result = MaaService.AsstStart(GetHandle());
         if (!result && muteStarted)
         {
             GameAudioMuteManager.Restore();
@@ -3713,7 +3727,7 @@ public class AsstProxy
     /// <returns>是否正在运行。</returns>
     public bool AsstRunning()
     {
-        return MaaService.AsstRunning(_handle);
+        return MaaService.AsstRunning(GetHandle());
     }
 
     /// <summary>
@@ -3722,15 +3736,31 @@ public class AsstProxy
     /// <returns>是否成功。</returns>
     public bool AsstStop()
     {
-        return MaaService.AsstStop(_handle);
+        return MaaService.AsstStop(GetHandle());
     }
 
     /// <summary>
-    /// 销毁。
+    /// 销毁 Core 实例。可重复调用，锁内原子取走 handle 并清零以保证只销毁一次，
+    /// 销毁开始后到达的 Core 回调将被丢弃，销毁完成后恢复游戏音频。销毁统一由 Bootstrapper.Release 触发
+    /// （AsstProxy 被静态根持有，终结器永远不会执行，故不设兜底）。
     /// </summary>
     public void AsstDestroy()
     {
-        MaaService.AsstDestroy(_handle);
+        AsstHandle handle;
+        lock (_handleLock)
+        {
+            if (_handle == AsstHandle.Zero)
+            {
+                return;
+            }
+
+            handle = _handle;
+            _handle = AsstHandle.Zero;
+            _destroying = true;
+            Connected = false;
+        }
+
+        MaaService.AsstDestroy(handle);
         GameAudioMuteManager.Restore();
     }
 }
