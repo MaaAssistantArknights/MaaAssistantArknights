@@ -5,6 +5,8 @@
 #include <filesystem>
 #include <string_view>
 #include <thread>
+#include <utility>
+#include <vector>
 
 #include "Utils/Logger.hpp"
 
@@ -36,7 +38,53 @@ bool asst::OnnxSessions::load(const std::filesystem::path& path)
         }
     }
 
+    if (gpu_enabled && m_gpu_selector && m_gpu_selector->backend() == InferenceBackend::WebGPU &&
+        !m_sessions.contains(name)) {
+        warmup_locked(name);
+    }
+
     return true;
+}
+
+void asst::OnnxSessions::warmup_locked(const std::string& name)
+{
+    // WebGPU 的 shader 编译发生在 session 第一次推理上（实测 operators_det ~330ms、
+    // skill_ready_cls ~160ms、deploy_direction_cls ~157ms）。这些模型的输入 rank 在
+    // onnx 里没写，形状只能在这里给出，取值与各调用方喂进去的一致。
+    static const std::unordered_map<std::string, std::pair<int, int>> kInputSizes = {
+        { "operators_det", { 640, 640 } },
+        { "skill_ready_cls", { 64, 64 } },
+        { "deploy_direction_cls", { 96, 96 } },
+        { "BlackFlow_corridor_net", { 40, 160 } },
+    };
+
+    const auto size = kInputSizes.find(name);
+    if (size == kInputSizes.end()) {
+        Log.debug(__FUNCTION__, "| no warmup size recorded for", name);
+        return;
+    }
+
+    Ort::Session& session = get_or_create(name);
+
+    const std::array<int64_t, 4> shape { 1, 3, size->second.first, size->second.second };
+    std::vector<float> data(static_cast<std::size_t>(shape[0] * shape[1] * shape[2] * shape[3]), 0.0F);
+
+    Ort::AllocatorWithDefaultOptions allocator;
+    const auto input_name = session.GetInputNameAllocated(0, allocator);
+    const auto output_name = session.GetOutputNameAllocated(0, allocator);
+    const char* input_names[] = { input_name.get() };
+    const char* output_names[] = { output_name.get() };
+
+    auto memory_info = Ort::MemoryInfo::CreateCpu(OrtDeviceAllocator, OrtMemTypeDefault);
+    auto input = Ort::Value::CreateTensor<float>(memory_info, data.data(), data.size(), shape.data(), shape.size());
+
+    try {
+        session.Run(Ort::RunOptions { nullptr }, input_names, &input, 1, output_names, 1);
+        Log.info(__FUNCTION__, "| warmed up", name);
+    }
+    catch (const Ort::Exception& e) {
+        Log.warn(__FUNCTION__, "| warmup failed", name, e.what());
+    }
 }
 
 Ort::Session& asst::OnnxSessions::get_or_create(const std::string& name)

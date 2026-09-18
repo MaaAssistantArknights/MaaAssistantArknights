@@ -36,6 +36,7 @@ public:
 private:
     // 以下内部函数均要求调用方已持有 m_mutex
     Ort::Session& get_or_create(const std::string& name);
+    void warmup_locked(const std::string& name);
     bool use_cpu_locked();
     bool use_gpu_locked(GpuDeviceSelector selector);
 

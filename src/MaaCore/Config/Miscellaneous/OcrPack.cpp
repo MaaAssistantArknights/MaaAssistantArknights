@@ -3,6 +3,7 @@
 #include "OcrPack.h"
 
 #include <algorithm>
+#include <array>
 #include <filesystem>
 #include <thread>
 
@@ -87,7 +88,20 @@ bool OcrPack::load(const std::filesystem::path& path)
         m_impl->ocr = std::make_unique<fastdeploy::pipeline::PPOCRv6>(m_impl->det.get(), m_impl->rec.get());
     }
 
-    return !m_impl->det_model_path.empty() && !m_impl->rec_model_path.empty() && !m_impl->rec_label_path.empty();
+    const bool paths_ready =
+        !m_impl->det_model_path.empty() && !m_impl->rec_model_path.empty() && !m_impl->rec_label_path.empty();
+    if (!paths_ready) {
+        return false;
+    }
+
+    // WebGPU 的 shader 编译发生在 session 的第一次推理上。这里在资源加载阶段就把
+    // session 建好并预热（check_and_load 内部会预热），避免这笔开销落在第一次识别上。
+    // 其它后端保持原来的懒加载行为。
+    if (m_gpu_selector && m_gpu_selector->backend() == InferenceBackend::WebGPU) {
+        check_and_load();
+    }
+
+    return true;
 }
 
 OcrPack::ResultsVec OcrPack::recognize(const cv::Mat& image, bool without_det, const std::optional<Rect>& base_roi)
@@ -277,7 +291,36 @@ bool OcrPack::check_and_load()
 
     Log.info("det", det_inited, "rec", rec_inited, "ocr", ocr_inited);
 
-    return det_inited && rec_inited && ocr_inited;
+    if (!(det_inited && rec_inited && ocr_inited)) {
+        return false;
+    }
+
+    if (m_gpu_active && backend == InferenceBackend::WebGPU) {
+        warmup();
+    }
+
+    return true;
+}
+
+void OcrPack::warmup()
+{
+    LogTraceFunction;
+
+    // WebGPU compiles its shaders on the first inference of a session (a few
+    // hundred ms per model). One dummy inference per model moves that cost into
+    // the loading phase instead of the first recognition.
+    const cv::Mat det_dummy = cv::Mat::zeros(960, 960, CV_8UC3);
+    std::vector<std::array<int, 8>> boxes;
+    if (!m_impl->det->Predict(det_dummy, &boxes)) {
+        Log.warn(__FUNCTION__, "| det warmup failed");
+    }
+
+    const cv::Mat rec_dummy = cv::Mat::zeros(48, 320, CV_8UC3);
+    std::string text;
+    float score = 0.0F;
+    if (!m_impl->rec->Predict(rec_dummy, &text, &score)) {
+        Log.warn(__FUNCTION__, "| rec warmup failed");
+    }
 }
 
 } // namespace asst
