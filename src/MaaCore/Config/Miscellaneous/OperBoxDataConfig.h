@@ -41,7 +41,7 @@ private:
         const std::vector<OperBoxInfo>& data,
         size_t start_pos,
         size_t end_pos,
-        const OperBoxInfo& fake_oper) const;
+        std::string fake_oper_id) const;
 
     std::vector<OperBoxInfo> m_data;
     std::unordered_map<std::string, size_t> m_oper_id_to_index;
