@@ -1027,5 +1027,21 @@ std::string_view to_string(DecisionReasonCategory category) noexcept
     }
     return "tie_break";
 }
+
+const EncounterRule*
+    resolve_encounter_rule(const ResolvedPolicy& policy, const FactStore& facts, std::string_view event_name)
+{
+    const EncounterRule* selected = nullptr;
+    for (const EncounterRule& rule : policy.encounter_rules) {
+        if (rule.event_name != event_name || !rule.when.evaluate(facts)) {
+            continue;
+        }
+        if (selected == nullptr || std::tie(rule.rank, rule.id) < std::tie(selected->rank, selected->id)) {
+            selected = &rule;
+        }
+    }
+    return selected;
+}
+
 } // namespace asst::blackflow
 

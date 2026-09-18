@@ -6,11 +6,30 @@
 #include "MaaUtils/ImageIo.h"
 #include "MaaUtils/NoWarningCV.hpp"
 #include "Task/ProcessTask.h"
+#include "Task/Roguelike/BlackFlow/BlackFlowSession.h"
 #include "Task/Roguelike/Map/RoguelikeBoskyPassageMap.h"
 #include "Utils/DebugImageHelper.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
+
+namespace
+{
+// 黑流事件收尾的占位任务，本插件按实际选择改写它的 baseTask。
+constexpr std::string_view BlackFlowResultTask = "BlackFlow@Roguelike@StageEncounterResult";
+constexpr std::string_view BlackFlowRecoveryFailedTask = "BlackFlow@Roguelike@RecoveryFailed";
+constexpr std::string_view BlackFlowRewardTask = "BlackFlow@Roguelike@StageEncounterReward";
+constexpr std::string_view BlackFlowAbandonTask = "BlackFlow@Roguelike@ExitThenAbandon-Enter";
+constexpr std::string_view BlackFlowTerminatedTask = "BlackFlow@Roguelike@StrategyTerminated-Enter";
+constexpr std::string_view BlackFlowStagesTask = "BlackFlow@Roguelike@Stages_default";
+constexpr std::string_view BlackFlowLeaveConfirmTask = "BlackFlow@Roguelike@StageEncounterLeaveConfirm";
+constexpr std::string_view BlackFlowLeaveConfirmCompletedTask =
+    "BlackFlow@Roguelike@StageEncounterLeaveConfirmCompleted";
+constexpr std::string_view BlackFlowContinueTask = "BlackFlow@Roguelike@StageEncounterContinue";
+constexpr std::string_view BlackFlowContinueMapReadyTask = "BlackFlow@Roguelike@StageEncounterContinueMapReady";
+constexpr std::string_view BlackFlowContinueOptionsReadyTask = "BlackFlow@Roguelike@StageEncounterContinueOptionsReady";
+constexpr std::string_view BlackFlowTitleOcrTask = "BlackFlow@Roguelike@StageEncounterOcr";
+}
 
 bool asst::RoguelikeStageEncounterTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -45,7 +64,8 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     std::vector<std::string> event_names = RoguelikeStageEncounter.get_event_names(theme);
 
     if (theme == RoguelikeTheme::BlackFlow) {
-        Task.set_task_base("BlackFlow@Roguelike@StageEncounterResult", "BlackFlow@Roguelike@RecoveryFailed");
+        // 标题识别失败时不会进入 handle_single_event，这里先复位收尾占位，避免沿用上一次事件的去向。
+        set_blackflow_result(BlackFlowRecoveryFailedTask);
     }
 
     const std::string themed_ocr_task = theme + "@Roguelike@StageEncounterOcr";
@@ -75,9 +95,10 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     }
 
     std::string current_event_name = result_vec.front().text;
+    m_reported_event_name.clear();
 
     // 处理主事件及其链式 next_event
-    while (!current_event_name.empty()) {
+    while (!current_event_name.empty() && !need_exit()) {
         auto next = handle_single_event(current_event_name);
         if (!next) {
             break;
@@ -92,6 +113,9 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
 {
     const std::string& theme = m_config->get_theme();
     const RoguelikeMode& mode = m_config->get_mode();
+    if (theme == RoguelikeTheme::BlackFlow) {
+        set_blackflow_result(BlackFlowRecoveryFailedTask);
+    }
     const auto& event_map = RoguelikeStageEncounter.get_events(theme, mode);
 
     auto it = event_map.find(event_name);
@@ -123,11 +147,15 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
     size_t choose_option = process_task(event, special_val);
     Log.info("Event:", event.name, "special_val", special_val, "choose option", choose_option);
 
-    auto info = basic_info_with_what("RoguelikeEvent");
-    info["details"]["name"] = event.name;
-    info["details"]["default_choose"] = event.default_choose;
-    info["details"]["choose_option"] = choose_option;
-    callback(AsstMsg::SubTaskExtraInfo, info);
+    // 连续单选项事件会按页重复进入本函数，同一事件只向界面报告一次。
+    if (m_reported_event_name != event.name) {
+        m_reported_event_name = event.name;
+        auto info = basic_info_with_what("RoguelikeEvent");
+        info["details"]["name"] = event.name;
+        info["details"]["default_choose"] = event.default_choose;
+        info["details"]["choose_option"] = choose_option;
+        callback(AsstMsg::SubTaskExtraInfo, info);
+    }
 
     // 萨卡兹内容拓展 II，#11861
     if (event.name.starts_with("魂灵见闻：")) {
@@ -170,87 +198,18 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
         }
     }
 
-    // 界园与黑流树海通过识别实际选项列表选择事件选项。
-    if (theme == RoguelikeTheme::JieGarden || theme == RoguelikeTheme::BlackFlow) {
+    if (theme == RoguelikeTheme::BlackFlow) {
+        return select_blackflow_option(event, choose_option);
+    }
+
+    // 界园通过识别实际选项列表选择；列表识别失败或没有可选项时沿用下面的固定位置点击。
+    if (theme == RoguelikeTheme::JieGarden) {
         reset_option_list_and_view_data();
         if (update_option_list()) {
-            size_t choice = 0; // 以 0 作为无效 index。
-            if (theme == RoguelikeTheme::BlackFlow) {
-                if (choose_option > 0 && choose_option <= m_option_list.size() &&
-                    m_option_list[choose_option - 1].enabled) {
-                    choice = choose_option;
-                }
-                else {
-                    const auto enabled_it =
-                        std::ranges::find_if(m_option_list, [](const OptionAnalyzer::Option& option) {
-                            return option.enabled;
-                        });
-                    if (enabled_it != m_option_list.end()) {
-                        choice = std::distance(m_option_list.begin(), enabled_it) + 1;
-                    }
-                }
-            }
-            else if (!event.option_text.empty()) {
-                for (const std::string& event_text : event.option_text) {
-                    const auto option_it =
-                        std::ranges::find_if(m_option_list, [&event_text](const OptionAnalyzer::Option& option) {
-                            return option.text == event_text;
-                        });
-                    if (option_it != m_option_list.end()) {
-                        choice = std::distance(m_option_list.begin(), option_it) + 1;
-                        break;
-                    }
-                }
-            }
-            else if (event.option_num == m_option_list.size()) {
-                choice = choose_option;
-            }
-            else {
-                for (const auto& [total, item] : event.fallback_choices) {
-                    if (total == m_option_list.size()) {
-                        choice = item;
-                        break;
-                    }
-                }
-            }
-
-            if (choice == 0) {
-                Log.error(
-                    std::format(
-                        "RoguelikeEncounter | Failed to find choice for scenario with {} option(s)",
-                        m_option_list.size()));
-            }
-            else if (select_analyzed_option(choice - 1)) {
-                if (theme == RoguelikeTheme::BlackFlow) {
-                    Task.set_task_base(
-                        "BlackFlow@Roguelike@StageEncounterResult",
-                        "BlackFlow@Roguelike@StageEncounterReward");
-                }
+            if (const auto selected = select_event_option(plan_from_event(event, choose_option), event.name)) {
+                report_selected_option(event, *selected, nullptr);
                 return next_event(event);
             }
-
-            if (theme == RoguelikeTheme::BlackFlow) {
-                for (choice = 1; choice <= m_option_list.size(); ++choice) {
-                    if (m_option_list[choice - 1].enabled && select_analyzed_option(choice - 1)) {
-                        Task.set_task_base(
-                            "BlackFlow@Roguelike@StageEncounterResult",
-                            "BlackFlow@Roguelike@StageEncounterReward");
-                        return next_event(event);
-                    }
-                }
-                return std::nullopt;
-            }
-
-            // 界园兜底：从下到上依次选择。
-            for (choice = m_option_list.size(); choice > 0; --choice) {
-                if (m_option_list[choice - 1].enabled && select_analyzed_option(choice - 1)) {
-                    return next_event(event);
-                }
-            }
-        }
-        else if (theme == RoguelikeTheme::BlackFlow) {
-            Log.error("BlackFlow encounter option analysis failed");
-            return std::nullopt;
         }
     }
 
@@ -449,6 +408,193 @@ bool asst::RoguelikeStageEncounterTaskPlugin::update_option_list()
     return true;
 }
 
+asst::RoguelikeStageEncounterTaskPlugin::SelectionPlan
+    asst::RoguelikeStageEncounterTaskPlugin::plan_from_event(const Config::RoguelikeEvent& event, size_t choose_option)
+{
+    return SelectionPlan {
+        .option_text = event.option_text,
+        .option_num = event.option_num,
+        .choose = choose_option,
+        .fallback_choices = event.fallback_choices,
+        .allow_fallback = true,
+        .continue_single_option = event.continue_single_option,
+    };
+}
+
+asst::RoguelikeStageEncounterTaskPlugin::SelectionPlan
+    asst::RoguelikeStageEncounterTaskPlugin::plan_from_rule(const blackflow::EncounterRule& rule)
+{
+    // 规则命中后只按规则选择，事件默认配置的编号与兜底表不再参与。
+    return SelectionPlan {
+        .option_text = rule.option_text,
+        .option_num = rule.option_num,
+        .choose = rule.choose,
+        .allow_fallback = rule.allow_fallback,
+    };
+}
+
+void asst::RoguelikeStageEncounterTaskPlugin::set_blackflow_result(std::string_view base_task)
+{
+    Task.set_task_base(std::string(BlackFlowResultTask), std::string(base_task));
+}
+
+void asst::RoguelikeStageEncounterTaskPlugin::report_selected_option(
+    const Config::RoguelikeEvent& event,
+    const SelectedOption& selected,
+    const blackflow::EncounterRule* rule)
+{
+    auto info = basic_info_with_what("RoguelikeEventSelected");
+    info["details"] = json::object {
+        { "name", event.name },
+        { "option_num", static_cast<std::int64_t>(m_option_list.size()) },
+        { "choose_option", static_cast<std::int64_t>(selected.index + 1) },
+        { "option_text", m_option_list[selected.index].text },
+        { "rule_id", rule != nullptr ? rule->id : std::string() },
+        { "rule_description", rule != nullptr ? rule->description : std::string() },
+        { "used_fallback", selected.used_fallback },
+    };
+    callback(AsstMsg::SubTaskExtraInfo, info);
+}
+
+std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::select_blackflow_option(
+    const Config::RoguelikeEvent& event,
+    size_t choose_option)
+{
+    reset_option_list_and_view_data();
+    if (!update_option_list()) {
+        LogError << "BlackFlow encounter option analysis failed";
+        return std::nullopt;
+    }
+    for (const auto& [text, task] : event.option_tasks) {
+        if (Task.get(task) == nullptr) {
+            LogError << "Encounter result task is unavailable" << event.name << text << task;
+            return std::nullopt;
+        }
+    }
+    if (m_blackflow_session == nullptr) {
+        LogError << "BlackFlow encounter session is unavailable";
+        return std::nullopt;
+    }
+
+    std::vector<std::string> available_options;
+    for (const auto& option : m_option_list) {
+        if (option.enabled) {
+            available_options.emplace_back(option.text);
+        }
+    }
+    std::string error;
+    const auto context =
+        m_blackflow_session->prepare_encounter(event.name, m_option_list.size(), available_options, &error);
+    if (!context.has_value()) {
+        LogError << "BlackFlow encounter decision failed" << error;
+        return std::nullopt;
+    }
+    const blackflow::EncounterRule* rule = context->rule.has_value() ? &*context->rule : nullptr;
+    SelectionPlan plan = rule != nullptr ? plan_from_rule(*rule) : plan_from_event(event, choose_option);
+    plan.continue_single_option = event.continue_single_option;
+
+    const auto selected = select_event_option(plan, event.name);
+    if (!selected.has_value()) {
+        set_blackflow_result(BlackFlowAbandonTask);
+        return std::nullopt;
+    }
+    const std::string& selected_text = m_option_list[selected->index].text;
+    blackflow::EncounterSelection selection {
+        .event_name = event.name,
+        .option_num = m_option_list.size(),
+        .choose = selected->index + 1,
+        .option_text = selected_text,
+        .rule_id = rule != nullptr ? rule->id : std::string(),
+        .used_fallback = selected->used_fallback,
+    };
+    if (!m_blackflow_session->apply_encounter_selection(*context, std::move(selection), &error)) {
+        LogError << "BlackFlow encounter result failed" << error;
+        return std::nullopt;
+    }
+    report_selected_option(event, *selected, rule);
+
+    if (m_blackflow_session->terminated()) {
+        set_blackflow_result(BlackFlowTerminatedTask);
+        return std::nullopt;
+    }
+    if (event.continue_single_option) {
+        return continue_blackflow_event(event);
+    }
+    if (const auto result_task = event.option_tasks.find(selected_text); result_task != event.option_tasks.end()) {
+        set_blackflow_result(result_task->second);
+        return std::nullopt;
+    }
+    set_blackflow_result(BlackFlowRewardTask);
+    return next_event(event);
+}
+
+std::optional<asst::RoguelikeStageEncounterTaskPlugin::SelectedOption>
+    asst::RoguelikeStageEncounterTaskPlugin::select_event_option(const SelectionPlan& plan, std::string_view event_name)
+{
+    const bool blackflow = m_config->get_theme() == RoguelikeTheme::BlackFlow;
+    if (plan.continue_single_option) {
+        const auto enabled = [](const OptionAnalyzer::Option& option) {
+            return option.enabled;
+        };
+        if (std::ranges::count_if(m_option_list, enabled) != 1) {
+            LogError << "RoguelikeEncounter | Continuous event requires exactly one enabled option" << event_name;
+            return std::nullopt;
+        }
+        const size_t index = std::distance(m_option_list.begin(), std::ranges::find_if(m_option_list, enabled));
+        if (select_analyzed_option(index)) {
+            return SelectedOption { index, false };
+        }
+        return std::nullopt;
+    }
+
+    size_t choice = 0; // 以 0 作为无效 index。
+    bool used_fallback = false;
+    if (!plan.option_text.empty()) {
+        for (const std::string& target : plan.option_text) {
+            const auto option_it =
+                std::ranges::find_if(m_option_list, [blackflow, &target](const OptionAnalyzer::Option& option) {
+                    return option.text == target && (!blackflow || option.enabled);
+                });
+            if (option_it != m_option_list.end()) {
+                choice = std::distance(m_option_list.begin(), option_it) + 1;
+                break;
+            }
+        }
+    }
+    else if (plan.option_num == m_option_list.size()) {
+        choice = plan.choose;
+    }
+    else {
+        for (const auto& [total, item] : plan.fallback_choices) {
+            if (total == m_option_list.size()) {
+                choice = item;
+                used_fallback = true;
+                break;
+            }
+        }
+    }
+
+    if (choice == 0) {
+        LogInfo << "RoguelikeEncounter | No configured choice for" << event_name << "with" << m_option_list.size()
+                << "option(s)";
+    }
+    else if (select_analyzed_option(choice - 1)) {
+        return SelectedOption { choice - 1, used_fallback };
+    }
+    if (!plan.allow_fallback) {
+        LogError << "RoguelikeEncounter | Target option unavailable and fallback disabled" << event_name;
+        return std::nullopt;
+    }
+
+    // 从下到上依次尝试可用选项。
+    for (choice = m_option_list.size(); choice > 0; --choice) {
+        if (m_option_list[choice - 1].enabled && select_analyzed_option(choice - 1)) {
+            return SelectedOption { choice - 1, true };
+        }
+    }
+    return std::nullopt;
+}
+
 bool asst::RoguelikeStageEncounterTaskPlugin::select_analyzed_option(size_t index)
 {
     LogTraceFunction;
@@ -481,8 +627,14 @@ bool asst::RoguelikeStageEncounterTaskPlugin::select_analyzed_option(size_t inde
         };
         ctrler()->click(click_point);
         sleep(300);
-        if (ProcessTask(*this, { "BlackFlow@Roguelike@StageEncounterLeaveConfirm" }).run()) {
-            return true;
+        ProcessTask confirm_task(*this, { std::string(BlackFlowLeaveConfirmTask) });
+        if (confirm_task.run() && !need_exit() &&
+            confirm_task.get_last_task_name() == BlackFlowLeaveConfirmCompletedTask) {
+            Matcher confirm(ctrler()->get_image());
+            confirm.set_task_info(std::string(BlackFlowLeaveConfirmTask));
+            if (!confirm.analyze()) {
+                return true;
+            }
         }
     }
     else {
@@ -627,6 +779,34 @@ void asst::RoguelikeStageEncounterTaskPlugin::move_backward()
     LogTraceFunction;
 
     ProcessTask(*this, { m_config->get_theme() + "@RoguelikeEncounter-MoveUp" }).run();
+}
+
+std::optional<std::string>
+    asst::RoguelikeStageEncounterTaskPlugin::continue_blackflow_event(const Config::RoguelikeEvent& event)
+{
+    ProcessTask continuation(*this, { std::string(BlackFlowContinueTask) });
+    if (!continuation.run() || need_exit()) {
+        return std::nullopt;
+    }
+
+    const std::string& last_task = continuation.get_last_task_name();
+    if (last_task == BlackFlowContinueMapReadyTask) {
+        set_blackflow_result(BlackFlowStagesTask);
+        return std::nullopt;
+    }
+    if (last_task != BlackFlowContinueOptionsReadyTask) {
+        LogError << "Continuous encounter did not reach another option page or the map" << event.name << last_task;
+        return std::nullopt;
+    }
+
+    OCRer title(ctrler()->get_image());
+    title.set_task_info(std::string(BlackFlowTitleOcrTask));
+    title.set_required({ event.name });
+    if (!title.analyze() || title.get_result().empty() || title.get_result().front().text != event.name) {
+        LogError << "Continuous encounter title changed or could not be recognized" << event.name;
+        return std::nullopt;
+    }
+    return event.name;
 }
 
 std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::next_event(const Config::RoguelikeEvent& event)
