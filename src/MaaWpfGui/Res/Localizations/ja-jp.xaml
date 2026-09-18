@@ -1346,6 +1346,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@PixelPaint@StartLog">ピクセル画を開始：{0} マス、{1} 色</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ProgressLog">ピクセル画 {0}/{1}</system:String>
     <system:String x:Key="MiniGame@PixelPaint@DoneLog">ピクセル画完了</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@TotalLog">潜在能力自動強化：処理待ちオペレーター {0} 人</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@PotentialFoundLog">オペレーター {0}/{1}：強化可能な潜在能力あり</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@NoPotentialLog">オペレーター {0}/{1}：強化可能な潜在能力なし</system:String>
 
     <system:String x:Key="MiniGameNameGreenTicketStore">緑チケット商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1階は全部購入。&#10;2階はスカウト券と求人票を購入のみ。</system:String>

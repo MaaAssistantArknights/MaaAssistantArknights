@@ -1344,6 +1344,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@PixelPaint@StartLog">开始像素画：{0} 格，{1} 色</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ProgressLog">像素画 {0}/{1}</system:String>
     <system:String x:Key="MiniGame@PixelPaint@DoneLog">像素画完成</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@TotalLog">自动提升潜能：识别到 {0} 位待处理干员</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@PotentialFoundLog">第 {0}/{1} 位干员：有待提升的潜能</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@NoPotentialLog">第 {0}/{1} 位干员：无可提升的潜能</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">绿票商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1层全买。&#10;2层买寻访凭证和招聘许可。</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">黄票商店</system:String>
