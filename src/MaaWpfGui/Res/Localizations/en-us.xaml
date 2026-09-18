@@ -1807,6 +1807,9 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">Detected {0} options:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">Available option: {0}</system:String>
     <system:String x:Key="RoguelikeEncounterDisabledOption">Unavailable option: {0}</system:String>
+    <system:String x:Key="RoguelikeEventSelected">Selected: {0}</system:String>
+    <system:String x:Key="RoguelikeEventSelectedWithReason">Selected: {0} ({1})</system:String>
+    <system:String x:Key="RoguelikeEventSelectedFallback">Target unavailable, fallback selected: {0}</system:String>
     <system:String x:Key="EncounterOcrError">Event Name OCR Failed</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">Foldartal Foresee:&#160;</system:String>
     <system:String x:Key="RoguelikeInvestment">Invested {1}(+{0}), deposit: {2}</system:String>
