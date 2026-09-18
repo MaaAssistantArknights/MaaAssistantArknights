@@ -944,7 +944,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="SkipPostActionOnError">任务出错时跳过</system:String>
     <system:String x:Key="SkipPostActionOnErrorTip" xml:space="preserve">勾选后，若任务列表中有一个或多个任务出错，将跳过以上全部动作。
 仅统计左侧任务列表中的任务，{key=Copilot}与{key=Toolbox}的报错不计入。</system:String>
-    <system:String x:Key="PostActionSkippedDueToError">任务出错，已跳过完成后动作：{0}</system:String>
+    <system:String x:Key="PostActionSkippedDueToError">以下任务出错：{0}，已跳过完成后动作</system:String>
     <system:String x:Key="IfNoOtherMaa">无其他 MAA 时</system:String>
     <system:String x:Key="IfNoOtherMaaTip">勾选后，仅当没有其他 MAA 实例在运行时，才会执行睡眠/休眠/关机</system:String>
     <system:String x:Key="BackToAndroidHome">返回 模拟器 主屏幕</system:String>
