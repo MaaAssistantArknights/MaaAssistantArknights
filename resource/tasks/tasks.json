@@ -1741,6 +1741,12 @@
         "action": "ClickSelf",
         "next": ["UsePrts-Annihilation", "UsePrts", "UsePrts-StageSN", "StartButton1", "#self"]
     },
+    "LastBattleStageName": {
+        "baseTask": "ClickStageName",
+        "action": "ClickSelf",
+        "next": [],
+        "roi": [1070, 550, 190, 55]
+    },
     "RecruitBegin": {
         "algorithm": "JustReturn",
         "next": [
