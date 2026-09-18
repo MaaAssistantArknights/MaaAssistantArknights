@@ -664,19 +664,20 @@ When difficulty ≥ N6, 6★ Hope cost +1; some squads may be unable to recruit 
 4. When difficulty ≥ N15, 6★ Hope cost +1; using some squads may make it impossible to recruit a 6★ operator at the start, causing errors or failures</system:String>
     <system:String x:Key="RoguelikeThemeTipBlackFlow" xml:space="preserve">{key=RoguelikeThemeBlackFlow} recommended configuration:
 
-{key=StartingCoreChar}: Mechanic (Elite 2 required)
+{key=StartingCoreChar}: Mechanic (Elite 2 and the ｢Effect Improvement II｣ of the ｢Recruitment Mastery II｣ talent required)
 {key=StartingSquad}: ｢{key=SpecialForceSquad}｣ / ｢{key=TacticalFortificationOperative}｣
 {key=StartingRoles}: ｢{key=SlowAndSteadyWinsTheRace}｣ / ｢{key=Unbreakable}｣
 
 1. There is no dedicated battle strategy yet; combat is decided automatically by the recruitment scoring system.
     Ingot farming, level farming and swaddled-animal farming all currently revolve around the Elite 2 Mechanic's flight.
     This roguelike is full of special mechanics — without the setup above you are stuck with the default pathfinding and combat, which will most likely fail.
-    Starting with an Elite 2 Mechanic is strongly recommended (getting one only requires clearing N1 once, which is fairly easy)
-2. After Elite 2, unlock the ｢Recruitment Mastery II｣ and ｢Effect Improvement II｣ techs so the ｢Structural Principle｣ is carried from the start (fly anywhere on the map 3 times).
-    The unlock is easy — just sell 10 parts in total after Elite 2 — and strongly recommended.
-    Without it you can only fly to the 8 surrounding tiles 3 times; still farmable, but much less efficient
+    Once the Mechanic is recruited, the promotion check is skipped and the strategy runs as if it were Elite 2 for efficiency;
+    a non-Elite 2 Mechanic will get stuck or loop forever, so an Elite 2 Mechanic is required.
+    Some events also have different options before the first clear and may get stuck; clearing N1 once satisfies both the Elite 2 requirement and the event options, and is fairly easy
+2. You must unlock the ｢Effect Improvement II｣ of the ｢Recruitment Mastery II｣ talent, so that a ｢Structural Principle｣ part (fly anywhere on the map 3 times) is carried from the start.
+    The unlock is easy — just sell 10 parts in total after Elite 2
 3. When farming levels, the Mechanic (Elite 2 required) + the squads and roles above + a Defender voucher let you fly through the three floors quickly
-4. Do not pick the Mechanic without Elite 2; you can farm money normally, but battles will most likely end in defeat.
+4. Do not pick the Mechanic without Elite 2 — the run will get stuck or loop forever; without it you can farm money normally, but battles will most likely end in defeat.
     Other strategies await future optimization
 5. Farming levels with ｢{key=InvestmentEnabled}｣ unchecked skips shops entirely</system:String>
     <system:String x:Key="RoguelikeDifficulty">Difficulty</system:String>

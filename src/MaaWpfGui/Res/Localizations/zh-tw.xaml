@@ -664,19 +664,20 @@ D:\
 4. 目前難度 ≥ N15 時，6★ 幹員希望消耗 +1，使用部分分隊時可能無法招募開局 6★ 幹員，導致出錯或失敗</system:String>
     <system:String x:Key="RoguelikeThemeTipBlackFlow" xml:space="preserve">{key=RoguelikeThemeBlackFlow}推薦配置：
 
-{key=StartingCoreChar}: 機械師（要精二）
+{key=StartingCoreChar}: 機械師（必須精二並解鎖 ｢招募精通 II｣ 天賦的 ｢效果提升 II｣ ）
 {key=StartingSquad}: ｢{key=SpecialForceSquad}｣ / ｢{key=TacticalFortificationOperative}｣
 {key=StartingRoles}: ｢{key=SlowAndSteadyWinsTheRace}｣ / ｢{key=Unbreakable}｣
 
 1. 目前沒有專用戰鬥策略，作戰由招募評分自動決策；
     刷源石錠、刷等級、刷襁褓動物目前全部圍繞精二機械師的飛展開。
     本次肉鴿機制繁多，不按上述配置開局就只能使用預設尋路與戰鬥，大概率失敗，
-    強烈推薦精二機械師開局（精二機械師只需通關一次 N1，相對簡單）
-2. 機械師精二後，完成 ｢招募精通 II｣ ｢效果提升 II｣ 科技，開局即可攜帶 ｢結構性原理｣（全圖任意飛 3 次）；
-    解鎖很簡單，精二後累計賣出 10 個零件即可，強烈推薦。
-    未解鎖時只能向周圍 8 格飛 3 次，雖然也能刷，但效率會低不少
-3. 刷等級時，機械師（要精二）+ 上述分隊與職業組 + 重裝券，可以快速飛完三層
-4. 沒有精二機械師就不要選機械師，可以正常刷錢，但戰鬥大概率暴斃，其他策略待後續優化
+    招募到機械師後為保證效率不再檢查精英化狀態，直接按精二執行策略，
+    所選機械師未精二會卡住甚至死循環，必須使用精二機械師；
+    且通關一次前部分事件的選項會不同，遇到可能卡死；先通關一次 N1 即可同時滿足精二與事件選項的前提，相對簡單
+2. 必須解鎖 ｢招募精通 II｣ 天賦的 ｢效果提升 II｣ ，開局才會攜帶 ｢結構性原理｣ 零件（全圖任意飛 3 次）；
+    解鎖很簡單，精二後累計賣出 10 個零件即可
+3. 刷等級時，機械師（必須精二）+ 上述分隊與職業組 + 重裝券，可以快速飛完三層
+4. 沒有精二機械師就不要選機械師，否則會卡住或死循環；不選機械師可以正常刷錢，但戰鬥大概率暴斃，其他策略待後續優化
 5. 刷等級 + 不勾選 ｢{key=InvestmentEnabled}｣，即可跳過商店</system:String>
     <system:String x:Key="RoguelikeDifficulty">難度</system:String>
     <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">解鎖 ｢{key=RoguelikeThemeJieGarden}｣ 相關科技後，{key=LeaderSquad}在進行 N3 及以上難度的探索時，會額外攜帶一個 ｢時光之末｣，可以利用其進行 ｢一戰一跳｣ 的存錢策略。
