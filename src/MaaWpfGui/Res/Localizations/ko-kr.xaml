@@ -1796,6 +1796,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BattleFormationOperboxMatched">사전 매칭된 {key=Operator}(그룹):</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">추가된 커스텀 {key=Operator} 이름이 유효하지 않음: {0}, 철자를 확인하세요</system:String>
     <system:String x:Key="CopilotOperboxDataParseFailed">{key=OperBoxRecognition} 데이터 분석 실패</system:String>
+    <system:String x:Key="CopilotOperboxAssistRequiresIgnoreRequirements">로컬 인식 {key=OperBoxRecognition} 데이터에는 스킬 및 모듈 정보가 없습니다. 오퍼레이터 인식 데이터로 편성 지원을 사용하려면 "{key=Copilot.IgnoreRequirements}"를 활성화하거나 Yituliu 데이터를 사용하세요</system:String>
     <system:String x:Key="CurrentSteps">현재 단계: {0} {1}</system:String>
     <system:String x:Key="ElapsedTime">경과 시간: {0}ms</system:String>
     <system:String x:Key="Deploy">배치</system:String>

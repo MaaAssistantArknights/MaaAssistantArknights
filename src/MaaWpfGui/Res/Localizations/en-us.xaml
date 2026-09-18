@@ -1794,6 +1794,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BattleFormationOperboxMatched">Pre-matched {key=Operator} (groups):</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">Additional custom {key=Operator} name invalid: {0}, please check spelling</system:String>
     <system:String x:Key="CopilotOperboxDataParseFailed">{key=OperBoxRecognition} data parse failed</system:String>
+    <system:String x:Key="CopilotOperboxAssistRequiresIgnoreRequirements">Locally recognized {key=OperBoxRecognition} data has no skill or module info. To use OperBox formation assist, enable "{key=Copilot.IgnoreRequirements}" or use Yituliu data</system:String>
     <system:String x:Key="CurrentSteps">Step: {0} {1}</system:String>
     <system:String x:Key="ElapsedTime">Elapsed time: {0}ms</system:String>
     <system:String x:Key="Deploy">Deploy</system:String>

@@ -435,7 +435,7 @@
                         <!--  UseOperBoxAssist  -->
                         <WrapPanel
                             Orientation="Vertical"
-                            Visibility="{c:Binding 'IgnoreRequirements and Form and (CopilotTabIndex == 0 or CopilotTabIndex == 3)'}">
+                            Visibility="{c:Binding 'Form and (CopilotTabIndex == 0 or CopilotTabIndex == 3)'}">
                             <CheckBox
                                 Margin="2.5,5"
                                 Content="{DynamicResource Copilot.UseOperBoxAssist}" IsChecked="{Binding EnableOperBoxAssist}" />

@@ -482,14 +482,30 @@ public partial class CopilotViewModel : Screen
         }
     }
 
+    private bool IsOperBoxDataFromYituliu()
+    {
+        try
+        {
+            if (File.Exists(OperBoxDataJsonPath))
+            {
+                var json = JObject.Parse(File.ReadAllText(OperBoxDataJsonPath));
+                return json["source"]?.Value<string>() == "yituliu";
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.Warning(ex, "Failed to read OperBox source from {Path}", OperBoxDataJsonPath);
+        }
+
+        return false;
+    }
+
     [PropertyDependsOn(nameof(EnableOperBoxAssist))]
     [PropertyDependsOn(nameof(OperBoxLastSyncTimeText))]
-    [PropertyDependsOn(nameof(IgnoreRequirements))]
     [PropertyDependsOn(nameof(Form))]
     [PropertyDependsOn(nameof(CopilotTabIndex))]
     public bool EffectiveOperBoxAssist => EnableOperBoxAssist
         && !string.IsNullOrEmpty(OperBoxLastSyncTimeText)
-        && IgnoreRequirements
         && Form
         && (CopilotTabIndex == 0 || CopilotTabIndex == 3);
 
@@ -1940,6 +1956,12 @@ public partial class CopilotViewModel : Screen
 
     private async Task<bool> ValidateStartAsync()
     {
+        if (EffectiveOperBoxAssist && !IgnoreRequirements && !IsOperBoxDataFromYituliu())
+        {
+            AddLog(LocalizationHelper.GetString("CopilotOperboxAssistRequiresIgnoreRequirements"), UiLogColor.Error, showTime: false);
+            return false;
+        }
+
         if (UseCopilotList)
         {
             // 列表模式：只校验列表本身，不检查输入框里的单文件作业类型

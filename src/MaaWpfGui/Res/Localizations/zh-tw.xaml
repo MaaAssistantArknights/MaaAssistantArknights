@@ -1795,6 +1795,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BattleFormationOperboxMatched">預匹配的{key=Operator}（組）：</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">追加自訂{key=Operator}名稱無效：{0}，請檢查拼寫</system:String>
     <system:String x:Key="CopilotOperboxDataParseFailed">{key=OperBoxRecognition}資料解析失敗</system:String>
+    <system:String x:Key="CopilotOperboxAssistRequiresIgnoreRequirements">本地辨識的{key=OperBoxRecognition}資料不含技能與模組資訊，使用幹員辨識輔助編隊時請勾選「{key=Copilot.IgnoreRequirements}」或改用一圖流資料</system:String>
     <system:String x:Key="CurrentSteps">目前步驟：{0} {1}</system:String>
     <system:String x:Key="ElapsedTime">經過時間：{0}ms</system:String>
     <system:String x:Key="Deploy">部署</system:String>
