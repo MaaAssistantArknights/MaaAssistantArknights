@@ -114,7 +114,7 @@ std::vector<std::vector<size_t>> asst::OperBoxDataConfig::get_adjacency(
     const battle::copilot::OperUsageGroups& formation,
     const std::vector<OperBoxInfo>& data) const
 {
-    return get_adjacency(formation, data, data.size(), data.size(), OperBoxInfo {});
+    return get_adjacency(formation, data, data.size(), data.size(), std::string());
 }
 
 // 原本 [start_pos, end_pos) 的下标值加 1，新的 fake_oper 放在 start_pos 位置，其他下标值不变
@@ -123,7 +123,7 @@ std::vector<std::vector<size_t>> asst::OperBoxDataConfig::get_adjacency(
     const std::vector<OperBoxInfo>& data,
     size_t start_pos,
     size_t end_pos,
-    const OperBoxInfo& fake_oper) const
+    std::string fake_oper_id) const
 {
     std::vector<std::vector<size_t>> adjacency;
     adjacency.reserve(formation.size());
@@ -134,10 +134,8 @@ std::vector<std::vector<size_t>> asst::OperBoxDataConfig::get_adjacency(
             if (!usage_id.has_value()) {
                 continue;
             }
-            if (usage_id == fake_oper.id) {
-                if (can_match(usage, fake_oper)) {
-                    row.emplace_back(start_pos);
-                }
+            if (usage_id == fake_oper_id) {
+                row.emplace_back(start_pos);
                 continue;
             }
             if (m_oper_id_to_index.find(*usage_id) == m_oper_id_to_index.end()) {
@@ -252,7 +250,7 @@ std::optional<asst::battle::copilot::OperUsageGroups>
             const size_t insert_pos =
                 std::ranges::lower_bound(operbox_data, fake_oper, OperBoxInfo::SortCmp {}) - operbox_data.begin();
 
-            const auto cur_adjacency = get_adjacency(groups, operbox_data, insert_pos, cur_pos, fake_oper);
+            const auto cur_adjacency = get_adjacency(groups, operbox_data, insert_pos, cur_pos, fake_oper.id);
             const size_t right_count = operbox_data.size() + (borrowed_own ? 0 : 1);
             auto retry = algorithm::bipartite::bipartite_max_match(cur_adjacency, groups.size(), right_count);
 
