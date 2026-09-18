@@ -1692,7 +1692,7 @@ Use the CPU for OCR. The value is not parsed. Switching after resources are load
 ::: field GpuOCR
 @type string
 @optional
-Use the GPU for OCR. The value is the GPU device index (integer); on Windows, `luid:<hexadecimal LUID>` is also accepted. Switching after resources are loaded is not supported. Enum value: 2.
+Use the GPU for OCR. The value is the GPU device index (integer), which selects DirectML on Windows and falls back to CPU elsewhere; an explicit backend may also be given: `webgpu:<device index>` (experimental, Windows / macOS / Linux) or `directml:<device index>` (Windows only). On Windows, DirectML also accepts `luid:<hexadecimal LUID>`. Switching after resources are loaded is not supported. Enum value: 2.
 :::
 ::::
 
