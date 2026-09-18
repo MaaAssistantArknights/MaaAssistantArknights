@@ -15,6 +15,8 @@ DirectML을 사용하여 GPU를 호출하여 인식 추론을 가속화합니다
 
 테스트 결과, 일부 그래픽 카드는 기능 부족이나 성능 저하로 인해 이 기능을 사용할 때 인식 문제가 발생할 수 있습니다. MAA에는 이미 일부 GPU 블랙리스트가 내장되어 있습니다<sup>[PR1](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/9990)[PR2](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/12134)</sup>. 목록에 없는 그래픽 카드에서 이 기능을 활성화한 후 인식 문제가 발생하면 Issue를 제출해 주세요.
 
+`설정` - `성능 설정`에서 추론 백엔드를 선택할 수 있습니다. `자동`과 `DirectML`은 위의 DirectML 방식(Windows 전용)을 사용하며, `WebGPU`는 실험적 옵션으로 Windows / macOS / Linux에서 사용할 수 있습니다. WebGPU를 사용한 후 인식 문제가 발생하면 `자동` 또는 `DirectML`로 되돌리세요.
+
 ## 한 번만
 
 메인 인터페이스와 설정의 구성 변경은 일반적으로 자동으로 저장되지만 다음은 MAA 재시작 후 재설정됩니다.
