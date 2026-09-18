@@ -152,6 +152,8 @@ public static class ThemeHelper
         // 在 UI 线程写入资源
         Execute.OnUIThread(() =>
         {
+            // 应用前检查：若请求已被更新取消，丢弃过时的调色板
+            cancellationToken.ThrowIfCancellationRequested();
             ApplyPaletteToResources(palette, baseColor);
         });
     }
