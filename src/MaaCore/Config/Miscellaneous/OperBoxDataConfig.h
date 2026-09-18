@@ -24,6 +24,8 @@ public:
 
     void set_need_exit(NeedExit need_exit) { m_need_exit = std::move(need_exit); }
 
+    void set_ignore_requirements(bool ignore_requirements) { m_ignore_requirements = ignore_requirements; }
+
     const std::vector<OperBoxInfo>& get_data() const noexcept { return m_data; }
 
     void clear();
@@ -35,12 +37,15 @@ protected:
     virtual bool parse(const json::value& data) override;
 
 private:
+    bool can_match(const battle::copilot::OperUsageGroup& group, const OperBoxInfo& info) const;
+
     std::vector<OperBoxInfo> m_data;
     Callback m_callback = [](AsstMsg, const json::value&) {
     };
     NeedExit m_need_exit = []() {
         return false;
     };
+    bool m_ignore_requirements = false;
 };
 
 inline static auto& OperBoxData = OperBoxDataConfig::get_instance();
