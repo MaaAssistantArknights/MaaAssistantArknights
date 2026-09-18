@@ -35,11 +35,77 @@ bool asst::OperBoxDataConfig::parse(const json::value& data)
         info.potential = item.get("potential", 0);
         info.rarity = item.get("rarity", 0);
         info.own = item.get("own", false);
+        info.main_skill_level = item.get("mainSkillLevel", 0);
+
+        for (const auto& skill : item.get("skills", json::array())) {
+            OperBoxInfo::Skill skill_info;
+            skill_info.id = skill.get("id", std::string());
+            skill_info.level = skill.get("level", 0);
+            info.skills.emplace_back(std::move(skill_info));
+        }
+
+        static const std::unordered_map<std::string, battle::OperModule> EquipTypeMap {
+            { "A", battle::OperModule::Alpha },   { "B", battle::OperModule::Beta },  { "X", battle::OperModule::Chi },
+            { "Y", battle::OperModule::Upsilon }, { "D", battle::OperModule::Delta },
+        };
+        for (const auto& equip : item.get("equips", json::array())) {
+            OperBoxInfo::Equip equip_info;
+            equip_info.id = equip.get("id", std::string());
+            std::string type = equip.get("type", std::string());
+            if (auto iter = EquipTypeMap.find(type); iter != EquipTypeMap.end()) {
+                equip_info.type = iter->second;
+            }
+            equip_info.level = equip.get("level", 0);
+            info.equips.emplace_back(std::move(equip_info));
+        }
+
         m_data.emplace_back(std::move(info));
     }
 
     std::sort(m_data.begin(), m_data.end(), OperBoxInfo::SortCmp {});
     return !m_data.empty();
+}
+
+bool asst::OperBoxDataConfig::can_match(const battle::copilot::OperUsageGroup& group, const OperBoxInfo& info) const
+{
+    if (!info.own || info.id.empty()) {
+        return false;
+    }
+    auto it = std::ranges::find_if(group.opers, [&](const battle::OperUsage& op) {
+        // !!! 要用干员的 id 而不是 name，干员识别的 name 可能不是中文
+        if (BattleData.get_first_id(op.role, op.name) != info.id) {
+            return false;
+        }
+        if (m_ignore_requirements) {
+            if (op.requirements.elite <= 0 && op.requirements.level <= 0) {
+                return true;
+            }
+            return info.elite >= op.requirements.elite;
+        }
+        if (!(info.elite > op.requirements.elite ||
+              (info.elite == op.requirements.elite && info.level >= op.requirements.level))) {
+            return false;
+        }
+        if (op.skill > 0) {
+            if (info.skills.size() <= op.skill) {
+                return false;
+            }
+            int info_skill_level = info.main_skill_level + info.skills[op.skill - 1].level;
+            if (info_skill_level < op.requirements.skill_level) {
+                return false;
+            }
+        }
+        if (op.requirements.module > 0) {
+            auto module_it = std::ranges::find_if(info.equips, [&](const OperBoxInfo::Equip& equip) {
+                return equip.type == static_cast<battle::OperModule>(op.requirements.module);
+            });
+            if (module_it == info.equips.end() || module_it->level == 0) {
+                return false;
+            }
+        }
+        return true;
+    });
+    return it != group.opers.end();
 }
 
 std::optional<asst::battle::copilot::OperUsageGroups>
@@ -55,26 +121,10 @@ std::optional<asst::battle::copilot::OperUsageGroups>
         return groups;
     }
 
-    auto can_match = [](const OperUsageGroup& group, const OperBoxInfo& info) { // 目前只考虑忽略干员练度情况
-        if (!info.own || info.id.empty()) {
-            return false;
-        }
-        auto it = std::ranges::find_if(group.opers, [&](const battle::OperUsage& op) {
-            // !!! 要用干员的 id 而不是 name，干员识别的 name 可能不是中文
-            if (BattleData.get_first_id(op.role, op.name) != info.id) {
-                return false;
-            }
-            if (op.requirements.elite <= 0 && op.requirements.level <= 0) {
-                return true;
-            }
-            return info.elite >= op.requirements.elite;
-        });
-        return it != group.opers.end();
-    };
+    auto matcher = std::bind_front(&OperBoxDataConfig::can_match, this);
 
     // 使用二分图最大权匹配算法，尝试将干员组与可用干员进行匹配
-    auto result =
-        algorithm::bipartite::bipartite_max_match<OperUsageGroup, OperBoxInfo>(groups, operbox_data, can_match);
+    auto result = algorithm::bipartite::bipartite_max_match<OperUsageGroup, OperBoxInfo>(groups, operbox_data, matcher);
 
     LogInfo << __FUNCTION__ << "| matched" << result.matched.size() << "groups, unmatched"
             << result.unmatched_left.size() << "groups";
@@ -156,7 +206,7 @@ std::optional<asst::battle::copilot::OperUsageGroups>
             cur_data.insert(cur_data.begin() + insert_pos, std::move(fake_oper));
 
             auto retry =
-                algorithm::bipartite::bipartite_max_match<OperUsageGroup, OperBoxInfo>(groups, cur_data, can_match);
+                algorithm::bipartite::bipartite_max_match<OperUsageGroup, OperBoxInfo>(groups, cur_data, matcher);
 
             if (!retry.unmatched_left.empty()) {
                 return false;
