@@ -1669,7 +1669,7 @@ CPU로 OCR 수행. 값은 파싱에 사용되지 않음. 리소스 로드 후 �
 ::: field GpuOCR  
 @type string
 @optional
-GPU로 OCR 수행. 값은 GPU 장치 번호(정수), Windows에서는 `luid:<16진수 LUID>`도 가능. 리소스 로드 후 전환 불가. 열거값: 2  
+GPU로 OCR 수행. 값은 GPU 장치 번호(정수)로, Windows에서는 DirectML을 사용하고 다른 플랫폼에서는 CPU로 폴백합니다. 백엔드를 명시적으로 지정할 수도 있습니다: `webgpu:<장치 번호>`(실험적, Windows / macOS / Linux), `directml:<장치 번호>`(Windows 전용). Windows에서는 DirectML에 `luid:<16진수 LUID>`도 사용할 수 있습니다. 리소스 로드 후 전환 불가. 열거값: 2  
 :::  
 ::::
 
