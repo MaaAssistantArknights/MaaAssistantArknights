@@ -339,6 +339,20 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
     }
 
     /// <summary>
+    /// 莫奈取色时背景/遮罩系 brush 是否保持主题默认中性色。
+    /// </summary>
+    public bool BackgroundMonetKeepMaskNeutral
+    {
+        get => ConfigFactory.Root.Gui.BackgroundMonetKeepMaskNeutral;
+        set
+        {
+            ConfigFactory.Root.Gui.BackgroundMonetKeepMaskNeutral = value;
+            NotifyOfPropertyChange();
+            UpdateMonet();
+        }
+    }
+
+    /// <summary>
     /// 莫奈取色模式（Auto / Custom）。
     /// </summary>
     public MonetModeType BackgroundMonetMode

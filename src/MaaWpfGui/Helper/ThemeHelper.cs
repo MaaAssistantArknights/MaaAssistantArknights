@@ -19,6 +19,7 @@ using System.Windows.Media;
 using HandyControl.Themes;
 using HandyControl.Tools;
 using JetBrains.Annotations;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.WineCompat;
 using Microsoft.Win32;
@@ -167,6 +168,14 @@ public static class ThemeHelper
 
         foreach (var (key, color) in palette)
         {
+            // 开关开启时：遮罩层（RegionBrushOpacity*）与标题栏遮罩（RegionBrush 等背景体系）
+            // 不应用莫奈取色，保持主题默认中性色，避免背景被颜色蒙层遮挡
+            if (MonetPaletteHelper.BackgroundMaskKeys.Contains(key)
+                && ConfigFactory.Root.Gui.BackgroundMonetKeepMaskNeutral)
+            {
+                continue;
+            }
+
             Application.Current.Resources[key] = new SolidColorBrush(color);
         }
     }

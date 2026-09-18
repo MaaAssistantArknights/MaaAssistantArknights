@@ -165,6 +165,13 @@
                 Margin="5"
                 IsEnabled="{Binding BackgroundMonetEnabled}"
                 Visibility="{c:Binding BackgroundMonetEnabled}">
+                <!--  遮罩保持中性（仅主题色随取色）  -->
+                <CheckBox
+                    Margin="5"
+                    HorizontalAlignment="Center"
+                    Content="{DynamicResource BackgroundMonetKeepMaskNeutral}"
+                    IsChecked="{Binding BackgroundMonetKeepMaskNeutral}" />
+
                 <!--  取色模式选择  -->
                 <controls:TextBlock
                     Margin="0,0,0,5"
