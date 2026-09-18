@@ -5,6 +5,7 @@
 #include "Vision/Oper/OperBoxImageAnalyzer.h"
 
 #include <optional>
+#include <unordered_map>
 #include <vector>
 
 namespace asst
@@ -32,9 +33,18 @@ protected:
     virtual bool parse(const json::value& data) override;
 
 private:
-    bool can_match(const battle::copilot::OperUsageGroup& group, const OperBoxInfo& info) const;
+    bool can_match(const battle::OperUsage& usage, const OperBoxInfo& info) const;
+    std::vector<std::vector<size_t>>
+        get_adjacency(const battle::copilot::OperUsageGroups& formation, const std::vector<OperBoxInfo>& data) const;
+    std::vector<std::vector<size_t>> get_adjacency(
+        const battle::copilot::OperUsageGroups& formation,
+        const std::vector<OperBoxInfo>& data,
+        size_t start_pos,
+        size_t end_pos,
+        const OperBoxInfo& fake_oper) const;
 
     std::vector<OperBoxInfo> m_data;
+    std::unordered_map<std::string, size_t> m_oper_id_to_index;
     AbstractTask* m_task_ptr = nullptr;
     bool m_ignore_requirements = false;
 };
