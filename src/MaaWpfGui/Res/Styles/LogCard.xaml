@@ -63,7 +63,7 @@
                 Padding="2.5,0,1,5"
                 Background="{DynamicResource MouseOverRegionBrushOpacity10}"
                 BorderBrush="{DynamicResource BorderBrush}"
-                BorderThickness="1"
+                BorderThickness="2"
                 CornerRadius="4"
                 Visibility="{c:Binding '!IsDivider and Items.Count > 0'}">
                 <Grid>
