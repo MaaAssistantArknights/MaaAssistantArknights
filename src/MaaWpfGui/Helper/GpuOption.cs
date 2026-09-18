@@ -164,7 +164,7 @@ public abstract class GpuOption
             var instancePath = GetAdapterInstancePath(desc.AdapterLuid);
             var driverInfo = GetGpuDriverInformation(desc.Description.ToString(), instancePath);
 
-            if (driverInfo.DriverDate == null || true)
+            if (driverInfo.DriverVersion == null || driverInfo.DriverDate == null)
             {
                 var wmiInfo = GetGpuDriverInfoViaWmi(desc.Description.ToString());
                 driverInfo = new(driverInfo.Description, wmiInfo.DriverVersion, wmiInfo.DriverDate);
