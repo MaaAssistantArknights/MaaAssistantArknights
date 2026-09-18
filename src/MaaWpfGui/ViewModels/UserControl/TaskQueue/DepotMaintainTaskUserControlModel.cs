@@ -655,7 +655,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 }
             }
 
-            Instances.TaskQueueViewModel.AddLog(string.Empty, splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+            Instances.TaskQueueViewModel.AddLog(string.Empty, splitMode: CardLogHelper.SplitMode.Before);
 
             if (taskIds.Any(id => id > 0))
             {

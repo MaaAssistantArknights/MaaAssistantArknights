@@ -4,16 +4,11 @@
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls">
 
-    <!--
-        日志条目模板（信息流 / 自动战斗共用）。
-        DataContext 为 MaaWpfGui.ViewModels.Items.LogItemViewModel。
-        视图中引用时需在容器上绑定 ToolTip 与 ToolTipService.InitialShowDelay，
-        与 TaskQueueView / CopilotView 原有写法一致。
-        LogToolTip 用 DynamicResource：模板定义在共享资源字典里，跨字典取 Geometries.xaml
-        的 StaticResource 在模板实例化时解析不到（视图内定义的模板不受影响）。
-    -->
+    <!--  纯文本日志；共享字典中的几何资源需要动态解析。  -->
     <DataTemplate x:Key="PlainLogItemTemplate">
-        <Grid>
+        <Grid
+            ToolTip="{Binding ToolTip}"
+            ToolTipService.InitialShowDelay="200">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -53,12 +48,7 @@
         </Grid>
     </DataTemplate>
 
-    <!--
-        卡片样式日志（信息流 / 自动战斗共用）。
-        DataContext 为 MaaWpfGui.ViewModels.Items.LogCardItemViewModel。
-        LogSectionDivider 需在窗口隐藏（最小化托盘）期间动态添加，
-        故不用 hc:Divider，详见 LogSectionDivider 头注释。
-    -->
+    <!--  LogSectionDivider 避免 hc:Divider 在窗口隐藏期间动态添加时尺寸为 0。  -->
     <DataTemplate x:Key="LogCardItemTemplate">
         <Grid>
             <controls:LogSectionDivider
@@ -84,7 +74,8 @@
                     <Grid
                         Width="60"
                         Margin="0,5,0,0"
-                        VerticalAlignment="Stretch">
+                        VerticalAlignment="Stretch"
+                        Visibility="{c:Binding ShowMetadata}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
                             <RowDefinition Height="Auto" />
@@ -96,7 +87,8 @@
                             VerticalAlignment="Top"
                             Foreground="{DynamicResource TraceLogBrush}"
                             Text="{Binding StartTime}"
-                            TextWrapping="Wrap" />
+                            TextWrapping="Wrap"
+                            Visibility="{c:Binding ShowTime}" />
                         <Image
                             Grid.Row="1"
                             Width="60"
@@ -116,7 +108,7 @@
                             Foreground="{DynamicResource TraceLogBrush}"
                             Text="{Binding EndTime}"
                             TextWrapping="Wrap"
-                            Visibility="{c:Binding 'StartTime != EndTime or Items.Count > 1'}" />
+                            Visibility="{c:Binding 'ShowTime and (StartTime != EndTime or Items.Count > 1)'}" />
                     </Grid>
                     <Grid Grid.Column="1" Margin="5,0,0,0">
                         <ItemsControl ItemsSource="{Binding Items}">

@@ -1306,29 +1306,6 @@ public class TaskQueueViewModel : Screen
         private set => SetAndNotify(ref _stagesOfToday, value);
     }
 
-    public enum LogCardSplitMode
-    {
-        /// <summary>
-        /// 不拆分日志卡片
-        /// </summary>
-        None = 0,
-
-        /// <summary>
-        /// 插入日志前拆分卡片
-        /// </summary>
-        Before = 1,
-
-        /// <summary>
-        /// 插入日志后拆分卡片
-        /// </summary>
-        After = 2,
-
-        /// <summary>
-        /// 插入日志前后都拆分卡片
-        /// </summary>
-        Both = 3,
-    }
-
     /// <summary>
     /// Adds log.
     /// </summary>
@@ -1348,7 +1325,7 @@ public class TaskQueueViewModel : Screen
         bool updateCardImage = false,
         bool fetchLatestImage = false,
         bool useCardImageAsToolTip = false,
-        LogCardSplitMode splitMode = LogCardSplitMode.None,
+        CardLogHelper.SplitMode splitMode = CardLogHelper.SplitMode.None,
         bool notifyActivity = true)
     {
         if (notifyActivity)
@@ -1357,8 +1334,8 @@ public class TaskQueueViewModel : Screen
         }
 
         bool isEmpty = string.IsNullOrEmpty(content);
-        bool needsBeforeSplit = splitMode == LogCardSplitMode.Before || splitMode == LogCardSplitMode.Both;
-        bool needsAfterSplit = splitMode == LogCardSplitMode.After || splitMode == LogCardSplitMode.Both;
+        bool needsBeforeSplit = splitMode is CardLogHelper.SplitMode.Before or CardLogHelper.SplitMode.Both;
+        bool needsAfterSplit = splitMode is CardLogHelper.SplitMode.After or CardLogHelper.SplitMode.Both;
 
         // 记录日志
         if (!isEmpty)
@@ -1998,12 +1975,12 @@ public class TaskQueueViewModel : Screen
         const int cardCount = 500;        // 卡片数量
         const int logsPerCard = 5;        // 每张卡片日志条数
 
-        AddLog(LocalizationHelper.GetString("LinkStart"), UiLogColor.Info, splitMode: LogCardSplitMode.Before);
+        AddLog(LocalizationHelper.GetString("LinkStart"), UiLogColor.Info, splitMode: CardLogHelper.SplitMode.Before);
 
         for (int i = 1; i <= cardCount; i++)
         {
             // 每 10 张卡片前拆分一次，模拟任务边界；并为部分卡片附加缩略图
-            var split = (i % 10 == 1) ? LogCardSplitMode.Before : LogCardSplitMode.None;
+            var split = (i % 10 == 1) ? CardLogHelper.SplitMode.Before : CardLogHelper.SplitMode.None;
             string[] colors = [UiLogColor.Trace, UiLogColor.Message, UiLogColor.Info, UiLogColor.Warning, UiLogColor.Error];
             var color = colors[i % 5];
 
@@ -2015,7 +1992,7 @@ public class TaskQueueViewModel : Screen
                     color,
                     weight: j == 1 ? "Bold" : "Regular",
                     splitMode: split);
-                split = LogCardSplitMode.None;  // 仅第一条带 Before
+                split = CardLogHelper.SplitMode.None; // 仅第一条带 Before
             }
 
             // 避免阻塞 UI 线程，每批让出一次
@@ -2025,7 +2002,7 @@ public class TaskQueueViewModel : Screen
             }
         }
 
-        AddLog($"压力测试完成：共生成 {cardCount} 张卡片 × {logsPerCard} 条日志。", UiLogColor.Info, weight: "Bold", splitMode: LogCardSplitMode.Both);
+        AddLog($"压力测试完成：共生成 {cardCount} 张卡片 × {logsPerCard} 条日志。", UiLogColor.Info, weight: "Bold", splitMode: CardLogHelper.SplitMode.Both);
     }
 #endif
 
@@ -2276,7 +2253,7 @@ public class TaskQueueViewModel : Screen
     public async Task<bool> Stop(int timeout = 60 * 1000)
     {
         _runningState.SetStopping(true);
-        AddLog(LocalizationHelper.GetString("Stopping"), splitMode: LogCardSplitMode.Both);
+        AddLog(LocalizationHelper.GetString("Stopping"), splitMode: CardLogHelper.SplitMode.Both);
         await Task.Run(() => {
             if (!Instances.AsstProxy.AsstStop())
             {
@@ -2425,7 +2402,7 @@ public class TaskQueueViewModel : Screen
         SleepManagement.AllowSleep();
         if (!_runningState.GetIdle() || _runningState.GetStopping())
         {
-            AddLog(LocalizationHelper.GetString("Stopped"), splitMode: LogCardSplitMode.Both);
+            AddLog(LocalizationHelper.GetString("Stopped"), splitMode: CardLogHelper.SplitMode.Both);
         }
 
         Waiting = false;

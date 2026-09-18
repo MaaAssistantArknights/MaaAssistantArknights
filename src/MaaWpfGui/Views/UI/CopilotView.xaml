@@ -731,9 +731,7 @@
                         Visibility="{c:Binding !UseCardLog,
                                                Source={x:Static ui_vms:SettingsViewModel.GuiSettings}}" />
 
-                    <!--  Card log style：与一键长草右侧信息流同款卡片样式。
-                          底部 8px 余量：日志贴底时视口下边缘会正好压住最后一张卡的下边框，
-                          留出余量后 1px 边框始终落在视口内，避免时有时无。  -->
+                    <!--  底部留白避免最后一张卡片的边框被视口裁切。  -->
                     <ItemsControl
                         Margin="20,10,0,8"
                         HorizontalAlignment="Stretch"

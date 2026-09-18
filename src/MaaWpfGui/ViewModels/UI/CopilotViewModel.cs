@@ -96,9 +96,7 @@ public partial class CopilotViewModel : Screen
     public ObservableCollection<LogItemViewModel> LogItemViewModels { get; } = [];
 
     /// <summary>
-    /// Gets the grouped log cards. Each card contains multiple <see cref="LogItemViewModel"/>.
-    /// 与信息流（<see cref="TaskQueueViewModel.LogCardViewModels"/>）共用卡片样式，
-    /// 见 CardLogHelper 与 Res/Styles/LogCard.xaml。
+    /// Gets the grouped log cards.
     /// </summary>
     public ObservableCollection<LogCardItemViewModel> LogCardViewModels { get; } = [];
 
@@ -209,14 +207,18 @@ public partial class CopilotViewModel : Screen
 
             if (!isEmpty)
             {
-                // 卡片与纯文本（悬浮窗）共用同一条目，愚人节逐字动画两边同步
-                var log = CardLogHelper.AppendToTrailingCard(LogCardViewModels, content!, color, weight, toolTip: null);
-                log.ShowTime = showTime;
+                var log = CardLogHelper.AppendToTrailingCard(
+                    LogCardViewModels,
+                    content!,
+                    color,
+                    weight,
+                    toolTip: null,
+                    dateFormat: "HH':'mm':'ss",
+                    showTime: showTime);
                 LogItemViewModels.Add(log);
             }
             else if (updateCardImage && !CardLogHelper.HasTrailingWritableCard(LogCardViewModels))
             {
-                // 只有截图要更新：末尾没有可写卡片才补一张，且它随后会被填上截图
                 LogCardViewModels.Add(new LogCardItemViewModel());
             }
 
@@ -230,8 +232,6 @@ public partial class CopilotViewModel : Screen
                 CardLogHelper.SealTrailingCard(LogCardViewModels);
             }
         });
-
-        // LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
     }
 
     /// <summary>

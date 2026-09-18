@@ -746,42 +746,44 @@
                             <ContentControl.ContentTemplate>
                                 <DataTemplate>
                                     <StackPanel>
-                                        <!--  时间  -->
-                                        <controls:TextBlock
-                                            Grid.Column="0"
-                                            Margin="0,5,10,5"
-                                            VerticalAlignment="Top"
-                                            Foreground="{DynamicResource TraceLogBrush}"
-                                            Text="{Binding Time}"
-                                            Visibility="{c:Binding !UseCardLog, Source={x:Static ui_vms:SettingsViewModel.GuiSettings}}" />
-
-                                        <!--  内容  -->
-                                        <Grid
-                                            Grid.Column="1"
-                                            Margin="0,5"
-                                            HorizontalAlignment="Left"
-                                            ToolTip="{Binding ToolTip}"
-                                            ToolTipService.InitialShowDelay="200"
-                                            Visibility="{c:Binding !UseCardLog, Source={x:Static ui_vms:SettingsViewModel.GuiSettings}}">
+                                        <Grid Visibility="{c:Binding !UseCardLog, Source={x:Static ui_vms:SettingsViewModel.GuiSettings}}">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition />
                                                 <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
+
                                             <controls:TextBlock
-                                                FontWeight="{Binding Weight}"
-                                                ForegroundKey="{Binding Color}"
-                                                Text="{Binding DisplayContent}"
-                                                TextWrapping="Wrap" />
-                                            <controls:TooltipBlock
+                                                Grid.Column="0"
+                                                Margin="0,5,10,5"
+                                                VerticalAlignment="Top"
+                                                Foreground="{DynamicResource TraceLogBrush}"
+                                                Text="{Binding Time}" />
+
+                                            <Grid
                                                 Grid.Column="1"
-                                                Margin="10,0,0,0"
-                                                PathDate="{StaticResource LogToolTip}"
-                                                PathStrokeThickness="1.5"
-                                                TextBlockText=""
-                                                Visibility="{c:Binding ShowToolTip}" />
+                                                Margin="0,5"
+                                                HorizontalAlignment="Left"
+                                                ToolTip="{Binding ToolTip}"
+                                                ToolTipService.InitialShowDelay="200">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <controls:TextBlock
+                                                    FontWeight="{Binding Weight}"
+                                                    ForegroundKey="{Binding Color}"
+                                                    Text="{Binding DisplayContent}"
+                                                    TextWrapping="Wrap" />
+                                                <controls:TooltipBlock
+                                                    Grid.Column="1"
+                                                    Margin="10,0,0,0"
+                                                    PathDate="{StaticResource LogToolTip}"
+                                                    PathStrokeThickness="1.5"
+                                                    TextBlockText=""
+                                                    Visibility="{c:Binding ShowToolTip}" />
+                                            </Grid>
                                         </Grid>
 
-                                        <!--  卡片样式仅显示单条内容，沿用主信息流的卡片外观  -->
                                         <Border
                                             MaxWidth="420"
                                             Margin="0,0,0,2.5"
@@ -809,7 +811,9 @@
                                                 <Grid
                                                     Grid.Column="1"
                                                     Margin="0,5,0,0"
-                                                    HorizontalAlignment="Left">
+                                                    HorizontalAlignment="Left"
+                                                    ToolTip="{Binding ToolTip}"
+                                                    ToolTipService.InitialShowDelay="200">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition />
                                                         <ColumnDefinition Width="Auto" />

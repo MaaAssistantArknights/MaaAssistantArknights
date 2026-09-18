@@ -31,9 +31,7 @@ using Stylet;
 namespace MaaWpfGui.ViewModels.Items;
 
 /// <summary>
-/// 卡片样式日志（<see cref="LogCardItemViewModel"/> 集合）的公共逻辑：
-/// 卡片创建/合并、缩略图抓取与数量裁剪，以及日志分区分隔符。信息流与自动战斗共用，
-/// 保证两处日志的卡片结构（分块、时间列、截图）完全一致。
+/// 提供信息流与自动战斗共用的日志卡片操作。
 /// </summary>
 public static class CardLogHelper
 {
@@ -49,34 +47,33 @@ public static class CardLogHelper
     private static int MaxLogItemsWithThumbnails => SettingsViewModel.GuiSettings.MaxNumberOfLogThumbnails;
 
     /// <summary>
-    /// 日志分区分隔符（<see cref="LogCardItemViewModel.IsDivider"/>）在日志前 / 后插入卡片切割。
+    /// 指定在日志前后拆分卡片。
     /// </summary>
     public enum SplitMode
     {
         /// <summary>
-        /// 不拆分日志卡片
+        /// 不拆分日志卡片。
         /// </summary>
         None = 0,
 
         /// <summary>
-        /// 插入日志前拆分卡片
+        /// 在日志前拆分卡片。
         /// </summary>
         Before = 1,
 
         /// <summary>
-        /// 插入日志后拆分卡片
+        /// 在日志后拆分卡片。
         /// </summary>
         After = 2,
 
         /// <summary>
-        /// 插入日志前后都拆分卡片
+        /// 在日志前后都拆分卡片。
         /// </summary>
         Both = 3,
     }
 
     /// <summary>
-    /// 结束当前卡片（日志分区边界）：把末尾卡片标记为已封闭，下一条日志会新开一张卡片。
-    /// 不预先创建空卡片——否则末尾会留下一张只有时间戳、没有内容的空卡片。
+    /// 封闭末尾卡片，使下一条日志新建卡片。
     /// </summary>
     /// <param name="cards">目标卡片集合。</param>
     public static void SealTrailingCard(ObservableCollection<LogCardItemViewModel> cards)
@@ -95,8 +92,17 @@ public static class CardLogHelper
     /// <param name="color">字体颜色。</param>
     /// <param name="weight">字体粗细。</param>
     /// <param name="toolTip">日志条目的 ToolTip。</param>
-    /// <returns>新建的日志条目，调用方可加入纯文本日志集合以复用同一条目（含愚人节逐字动画）。</returns>
-    public static LogItemViewModel AppendToTrailingCard(ObservableCollection<LogCardItemViewModel> cards, string content, string color, string weight, ToolTip? toolTip)
+    /// <param name="dateFormat">时间格式。</param>
+    /// <param name="showTime">是否显示时间。</param>
+    /// <returns>新建的日志条目。</returns>
+    public static LogItemViewModel AppendToTrailingCard(
+        ObservableCollection<LogCardItemViewModel> cards,
+        string content,
+        string color,
+        string weight,
+        ToolTip? toolTip,
+        string dateFormat = "",
+        bool showTime = true)
     {
         if (cards.Count == 0 || cards[^1].Sealed || cards[^1].IsDivider)
         {
@@ -104,7 +110,7 @@ public static class CardLogHelper
         }
 
         var lastCard = cards[^1];
-        var log = new LogItemViewModel(content, color, weight, toolTip: toolTip);
+        var log = new LogItemViewModel(content, color, weight, dateFormat, showTime, toolTip);
 
         var isAprilFools = DateTime.UtcNow.ToYjDate().IsAprilFoolsDay();
         if (isAprilFools)
@@ -143,7 +149,7 @@ public static class CardLogHelper
     }
 
     /// <summary>
-    /// 判断末尾卡片是否还没有任何内容（用于「只更新截图、不写日志」的场景避免凭空建卡）。
+    /// 判断末尾是否有可继续追加内容的卡片。
     /// </summary>
     /// <param name="cards">目标卡片集合。</param>
     public static bool HasTrailingWritableCard(ObservableCollection<LogCardItemViewModel> cards)
@@ -163,10 +169,16 @@ public static class CardLogHelper
             return;
         }
 
-        await AttachThumbnailToCardAsync(cards, cards[^1], forceScreencap, setToolTipOnLastLogItem);
+        var card = cards[^1];
+        var toolTipTarget = setToolTipOnLastLogItem ? card.Items.LastOrDefault() : null;
+        await AttachThumbnailToCardAsync(cards, card, forceScreencap, toolTipTarget).ConfigureAwait(false);
     }
 
-    private static async Task AttachThumbnailToCardAsync(ObservableCollection<LogCardItemViewModel> cards, LogCardItemViewModel card, bool forceScreencap, bool setToolTipOnLastLogItem)
+    private static async Task AttachThumbnailToCardAsync(
+        ObservableCollection<LogCardItemViewModel> cards,
+        LogCardItemViewModel card,
+        bool forceScreencap,
+        LogItemViewModel? toolTipTarget)
     {
         try
         {
@@ -177,20 +189,18 @@ public static class CardLogHelper
             }
 
             await Execute.OnUIThreadAsync(() => {
-                // 检查卡片是否还在集合中，避免给已清空的卡片赋值
                 if (!cards.Contains(card))
                 {
                     return;
                 }
 
                 card.Thumbnail = thumbnail;
-                TrimOldThumbnails(cards);
-
-                // 若需要将当前 Card 图片作为 ToolTip，在缩略图挂载完成后设置最后一条日志的 ToolTip
-                if (setToolTipOnLastLogItem && card.Items.Count > 0)
+                if (toolTipTarget is not null && card.Items.Contains(toolTipTarget))
                 {
-                    card.Items[^1].ToolTip = thumbnail.CreateTooltip();
+                    toolTipTarget.ToolTip = thumbnail.CreateTooltip();
                 }
+
+                TrimOldThumbnails(cards);
             });
         }
         catch (Exception ex)
@@ -201,10 +211,7 @@ public static class CardLogHelper
 
     private static async Task<BitmapSource?> GetOrCaptureLogThumbnailAsync(bool forceScreencap = false)
     {
-        if (!await _logThumbnailSemaphore.WaitAsync(100))
-        {
-            return null;
-        }
+        await _logThumbnailSemaphore.WaitAsync().ConfigureAwait(false);
 
         try
         {
@@ -216,7 +223,7 @@ public static class CardLogHelper
 
             try
             {
-                // 只保留小图，避免日志列表长期运行时占用过多内存。
+                // 仅保留缩略图，避免日志长期累积原尺寸截图。
                 return AsstProxy.CreateBgrBitmapSourceScaled(frameData, LogThumbnailWidth, LogThumbnailHeight);
             }
             finally
@@ -237,7 +244,25 @@ public static class CardLogHelper
 
         foreach (var card in cardsWithThumbnails.Take(Math.Max(0, cardsWithThumbnails.Count - max)))
         {
-            card.Thumbnail = null;
+            ClearThumbnail(card);
+        }
+    }
+
+    private static void ClearThumbnail(LogCardItemViewModel card)
+    {
+        var thumbnail = card.Thumbnail;
+        card.Thumbnail = null;
+
+        foreach (var item in card.Items)
+        {
+            if (item.ToolTip?.Content is not Image { Source: var source } || !ReferenceEquals(source, thumbnail))
+            {
+                continue;
+            }
+
+            item.ToolTip.IsOpen = false;
+            item.ToolTip.Content = null;
+            item.ToolTip = null;
         }
     }
 }
