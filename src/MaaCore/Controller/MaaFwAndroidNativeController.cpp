@@ -7,8 +7,8 @@
 namespace asst
 {
 bool MaaFwAndroidNativeController::connect(
-    const std::string& adb_path [[maybe_unused]],
-    const std::string& address [[maybe_unused]],
+    const std::string& adb_path,
+    const std::string& address,
     const std::string& config)
 {
     auto parsed = json::parse(config);
@@ -18,7 +18,7 @@ bool MaaFwAndroidNativeController::connect(
     }
     json::object extras = parsed->as_object();
     extras["library_name"] = "MaaAndroidNativeControlUnit";
-    return connect_with_extras(extras);
+    return connect_with_extras(adb_path, address, config, extras);
 }
 } // namespace asst
 
