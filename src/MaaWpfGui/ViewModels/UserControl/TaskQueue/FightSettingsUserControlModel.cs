@@ -1034,16 +1034,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
     }
 
-    public List<GenericCombinedData<int>> MedicineExpireDayList { get; } = [
-        new() { Display = "24h x 1", Value = 1 },
-        new() { Display = "24h x 2", Value = 2 },
-        new() { Display = "24h x 3", Value = 3 },
-        new() { Display = "24h x 4", Value = 4 },
-        new() { Display = "24h x 5", Value = 5 },
-        new() { Display = "24h x 6", Value = 6 },
-        new() { Display = "24h x 7", Value = 7 },
-    ];
-
     public int MedicineExpireDays
     {
         get => GetTaskConfig<FightTask>().MedicineExpireDays;
@@ -1774,7 +1764,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
                                     ? fightTask.MedicineExpireDays : 0,
                                 Instance.ActivityExpireIn2Days && fightTask.UseExpireMedicineForActivity
                                     ? daysUntilEndOfWeek : 0);
-                            expireOut = $"{expireDays * 24}";
+                            expireOut = $"{expireDays}";
                         }
                     }
                     medicineLog = LocalizationHelper.GetStringFormat("ExpiringMedicineUsed", expireOut) + $" {ExpiringMedicineUsedTimes}(+{report.Count})";
