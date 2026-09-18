@@ -29,7 +29,8 @@
     <system:String x:Key="BackgroundMonetCustom">自訂顏色</system:String>
     <system:String x:Key="BackgroundMonetSelectColor">選擇顏色</system:String>
     <system:String x:Key="BackgroundMonetAutoTip">將從背景圖自動提取主色產生主題配色</system:String>
-    <system:String x:Key="BackgroundMonetKeepMaskNeutral">遮罩保持中性（僅主題色隨取色）</system:String>
+    <system:String x:Key="BackgroundMonetKeepMaskNeutral">遮罩保持中性</system:String>
+    <system:String x:Key="BackgroundMonetKeepMaskNeutralTip">僅主題色隨取色</system:String>
     <system:String x:Key="UiTheme">介面主題</system:String>
     <system:String x:Key="TransitionSpeed">過渡動畫</system:String>
     <system:String x:Key="TransitionSpeedNormal">原速</system:String>

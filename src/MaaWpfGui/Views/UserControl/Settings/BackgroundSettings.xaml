@@ -156,21 +156,30 @@
                 SelectedValuePath="Value" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Center">
-            <CheckBox
-                Margin="5"
-                HorizontalAlignment="Center"
-                Content="{DynamicResource BackgroundMonet}"
-                IsChecked="{Binding BackgroundMonetEnabled}" />
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <CheckBox
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="{DynamicResource BackgroundMonet}"
+                    IsChecked="{Binding BackgroundMonetEnabled}" />
+                <!--  保持中性：勾选莫奈后出现在右侧，同行（同官方自动检测/每次重新检测写法）  -->
+                <StackPanel
+                    Margin="5,0,0,0"
+                    Orientation="Horizontal"
+                    IsEnabled="{Binding BackgroundMonetEnabled}"
+                    Visibility="{c:Binding BackgroundMonetEnabled}">
+                    <CheckBox
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="{DynamicResource BackgroundMonetKeepMaskNeutral}"
+                        IsChecked="{Binding BackgroundMonetKeepMaskNeutral}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource BackgroundMonetKeepMaskNeutralTip}" />
+                </StackPanel>
+            </StackPanel>
             <StackPanel
                 Margin="5"
                 IsEnabled="{Binding BackgroundMonetEnabled}"
                 Visibility="{c:Binding BackgroundMonetEnabled}">
-                <!--  遮罩保持中性（仅主题色随取色）  -->
-                <CheckBox
-                    Margin="5"
-                    HorizontalAlignment="Center"
-                    Content="{DynamicResource BackgroundMonetKeepMaskNeutral}"
-                    IsChecked="{Binding BackgroundMonetKeepMaskNeutral}" />
 
                 <!--  取色模式选择  -->
                 <controls:TextBlock
