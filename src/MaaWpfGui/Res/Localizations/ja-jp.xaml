@@ -945,8 +945,7 @@ C:\leidian\LDPlayer9
 このオプションのチェックを解除すると、他のオプションの状態は正常に保存されます
 他のオプションを右クリックすると、このオプションも同時にチェック/チェック解除されます</system:String>
     <system:String x:Key="SkipPostActionOnError">タスク失敗時はスキップ</system:String>
-    <system:String x:Key="SkipPostActionOnErrorTip" xml:space="preserve">チェックすると、タスクリスト内の1つ以上のタスクが失敗した場合、上記のすべての動作をスキップします。
-左側のタスクリストのタスクのみが対象で、{key=Copilot}や{key=Toolbox}のエラーは含まれません。</system:String>
+    <system:String x:Key="SkipPostActionOnErrorTip">チェックすると、タスクリスト内の1つ以上のタスクが失敗した場合、上記のすべての動作をスキップします。</system:String>
     <system:String x:Key="PostActionSkippedDueToError">タスクが失敗したため、完了後アクションをスキップしました：{0}</system:String>
     <system:String x:Key="IfNoOtherMaa">他のMAAがない場合</system:String>
     <system:String x:Key="IfNoOtherMaaTip">チェックすると、他の MAA インスタンスが実行されていない場合にのみ、スリープ/休止状態/シャットダウンを実行します</system:String>

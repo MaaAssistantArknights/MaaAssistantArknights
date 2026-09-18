@@ -943,8 +943,7 @@ C:\leidian\LDPlayer9
 取消勾選本選項後，其他選項狀態將會正常儲存
 右鍵點擊其他選項時，會同步勾選 / 取消勾選本選項</system:String>
     <system:String x:Key="SkipPostActionOnError">任務出錯時跳過</system:String>
-    <system:String x:Key="SkipPostActionOnErrorTip" xml:space="preserve">勾選後，若任務清單中有一個或多個任務出錯，將跳過以上全部動作。
-僅統計左側任務清單中的任務，{key=Copilot}與{key=Toolbox}的錯誤不計入。</system:String>
+    <system:String x:Key="SkipPostActionOnErrorTip">勾選後，若任務清單中有一個或多個任務出錯，將跳過以上全部動作。</system:String>
     <system:String x:Key="PostActionSkippedDueToError">以下任務出錯：{0}，已跳過完成後動作</system:String>
     <system:String x:Key="IfNoOtherMaa">無其他 MAA 執行時</system:String>
     <system:String x:Key="IfNoOtherMaaTip">勾選後，僅當沒有其他 MAA 實例在執行時，才會執行睡眠/休眠/關機</system:String>
