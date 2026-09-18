@@ -2381,6 +2381,17 @@ public class AsstProxy
                     break;
                 }
 
+            case "RecruitPermitReserved":
+                {
+                    int current = (int)subTaskDetails!["current"]!;
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("RecruitPermitReserved", current), UiLogColor.Info);
+                    break;
+                }
+
+            case "RecruitPermitCountRecognitionFailed":
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RecruitPermitCountRecognitionFailed"), UiLogColor.Warning);
+                break;
+
             case "NotEnoughStaff":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("NotEnoughStaff"), UiLogColor.Error);
                 break;

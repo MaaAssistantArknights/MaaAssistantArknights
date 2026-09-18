@@ -305,6 +305,12 @@ v6.8.0부터 폐기됨. 대신 `medicine_expire_days`를 사용하세요.
 @required
 확인 클릭할 태그 등급. 공모 계산만 할 경우 빈 배열로 설정 가능  
 :::  
+::: field level3_recruitment_permit_reserve
+@type number
+@default 0
+@optional
+★3 자동 모집 시 보유할 모집 허가증 수입니다. 현재 허가증 수가 이 값 이하이면 ★3 모집을 건너뛰며, ★4 이상 모집에는 영향을 주지 않습니다. `0`으로 설정하면 비활성화됩니다. 활성화된 상태에서 수량 인식에 실패한 경우에도 허가증이 잘못 소모되는 것을 방지하기 위해 현재 ★3 모집을 건너뜁니다.
+:::
 ::: field first_tags  
 @type array<string>
 @optional
@@ -410,6 +416,7 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
    "refresh": true,
    "select": [5, 4],
    "confirm": [4, 3],
+   "level3_recruitment_permit_reserve": 8,
    "first_tags": ["高级资深干员"],
    "extra_tags_mode": 1,
    "times": 4,

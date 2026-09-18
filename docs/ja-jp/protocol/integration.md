@@ -319,6 +319,12 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 @required
 確認するタグレベル。計算のみの場合は、空配列に設定できます。  
 :::  
+::: field level3_recruitment_permit_reserve
+@type number
+@default 0
+@optional
+星3の自動確認時に残しておく求人票の枚数です。現在の求人票数がこの値以下の場合は星3募集をスキップします。星4以上の募集には影響しません。`0` に設定すると無効になります。有効時に枚数の認識に失敗した場合も、求人票を誤って消費しないよう現在の星3募集をスキップします。
+:::
 ::: field first_tags  
 @type array<string>
 @optional
@@ -424,6 +430,7 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
    "refresh": true,
    "select": [5, 4],
    "confirm": [4, 3],
+   "level3_recruitment_permit_reserve": 8,
    "first_tags": ["高级资深干员"],
    "extra_tags_mode": 1,
    "times": 4,
