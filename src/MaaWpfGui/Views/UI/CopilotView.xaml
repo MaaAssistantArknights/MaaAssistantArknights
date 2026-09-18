@@ -735,8 +735,6 @@
                     <ItemsControl
                         Margin="20,10,0,8"
                         HorizontalAlignment="Stretch"
-                        SnapsToDevicePixels="True"
-                        UseLayoutRounding="True"
                         VerticalAlignment="Stretch"
                         d:ItemsSource="{d:SampleData ItemCount=20}"
                         d:Visibility="Visible"

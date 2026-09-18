@@ -50,20 +50,23 @@
 
     <!--  LogSectionDivider 避免 hc:Divider 在窗口隐藏期间动态添加时尺寸为 0。  -->
     <DataTemplate x:Key="LogCardItemTemplate">
-        <Grid>
+        <Grid
+            MaxWidth="420"
+            HorizontalAlignment="Left"
+            SnapsToDevicePixels="True"
+            UseLayoutRounding="True"
+            Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}">
             <controls:LogSectionDivider
-                MaxWidth="420"
                 Margin="0,0,0,2.5"
                 Header="{Binding Header}"
                 HeaderHorizontalAlignment="Center"
                 Visibility="{c:Binding IsDivider}" />
             <Border
-                MaxWidth="420"
                 Margin="0,0,0,2.5"
                 Padding="2.5,0,1,5"
                 Background="{DynamicResource MouseOverRegionBrushOpacity10}"
                 BorderBrush="{DynamicResource BorderBrush}"
-                BorderThickness="2"
+                BorderThickness="1"
                 CornerRadius="4"
                 Visibility="{c:Binding '!IsDivider and Items.Count > 0'}">
                 <Grid>
