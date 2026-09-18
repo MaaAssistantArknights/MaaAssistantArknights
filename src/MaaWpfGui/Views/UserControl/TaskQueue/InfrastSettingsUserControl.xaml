@@ -110,6 +110,29 @@
                 ItemsSource="{Binding UsesOfDronesList}"
                 SelectedValue="{Binding UsesOfDrones}"
                 SelectedValuePath="Value" />
+            <StackPanel
+                Margin="0,5"
+                d:Visibility="Visible"
+                Orientation="Horizontal"
+                Visibility="{c:Binding IsDroneUsageThresholdVisible,
+                                       Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
+                <controls:TextBlock
+                    Margin="8,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Text="{DynamicResource DroneUsageThreshold}" />
+                <controls:TooltipBlock
+                    VerticalAlignment="Center"
+                    d:Visibility="Visible"
+                    TooltipText="{DynamicResource DroneUsageThresholdToolTip}" />
+                <hc:NumericUpDown
+                    Width="110"
+                    Margin="4,0,0,0"
+                    VerticalAlignment="Center"
+                    Maximum="999"
+                    Minimum="10"
+                    Value="{Binding DroneUsageThreshold, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
             <controls:TextBlock
                 Width="220"
                 Margin="0,4"
