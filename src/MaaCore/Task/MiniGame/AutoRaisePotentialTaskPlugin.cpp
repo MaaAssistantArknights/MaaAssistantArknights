@@ -20,6 +20,18 @@ bool asst::AutoRaisePotentialTaskPlugin::verify(AsstMsg msg, const json::value& 
         m_pending = PendingAction::ReadOperatorCount;
         return true;
     }
+    if (msg == AsstMsg::SubTaskCompleted && task.ends_with("MiniGame@AutoRaisePotential@FirstOperator")) {
+        m_pending = PendingAction::FirstOperatorEntered;
+        return true;
+    }
+    if (msg == AsstMsg::SubTaskStart && task.ends_with("MiniGame@AutoRaisePotential@PotentialAvailable")) {
+        m_pending = PendingAction::PotentialFound;
+        return true;
+    }
+    if (msg == AsstMsg::SubTaskStart && task.ends_with("MiniGame@AutoRaisePotential@SwipeToNextOperator")) {
+        m_pending = PendingAction::OperatorDone;
+        return true;
+    }
     return false;
 }
 
@@ -30,8 +42,29 @@ bool asst::AutoRaisePotentialTaskPlugin::_run()
     const PendingAction pending = m_pending;
     m_pending = PendingAction::None;
 
-    if (pending == PendingAction::ReadOperatorCount && !read_operator_count()) {
-        stop_process_task("operator count OCR failed");
+    switch (pending) {
+    case PendingAction::ReadOperatorCount:
+        if (!read_operator_count()) {
+            stop_process_task("operator count OCR failed");
+        }
+        break;
+    case PendingAction::FirstOperatorEntered:
+        m_current = 1;
+        m_potential_clicked = false;
+        break;
+    case PendingAction::PotentialFound:
+        m_potential_clicked = true;
+        report_progress(true);
+        break;
+    case PendingAction::OperatorDone:
+        if (!m_potential_clicked) {
+            report_progress(false);
+        }
+        ++m_current;
+        m_potential_clicked = false;
+        break;
+    default:
+        break;
     }
     return true;
 }
@@ -76,8 +109,22 @@ bool asst::AutoRaisePotentialTaskPlugin::read_operator_count()
     // entry without putting a process-wide maxTimes in the resource file.
     const int potential_limit = count * MaxPotentialLevels;
     process_task->set_times_limit("MiniGame@AutoRaisePotential@PotentialAvailable", potential_limit);
+    m_total = count;
+    auto info = basic_info_with_what("AutoRaisePotentialTotal");
+    info["details"] = json::object { { "total", count } };
+    callback(AsstMsg::SubTaskExtraInfo, info);
     LogInfo << __FUNCTION__ << "| OCR operator count:" << count;
     return true;
+}
+
+void asst::AutoRaisePotentialTaskPlugin::report_progress(bool has_potential)
+{
+    auto info = basic_info_with_what("AutoRaisePotentialProgress");
+    auto& details = info["details"];
+    details["current"] = m_current;
+    details["total"] = m_total;
+    details["has_potential"] = has_potential;
+    callback(AsstMsg::SubTaskExtraInfo, info);
 }
 
 void asst::AutoRaisePotentialTaskPlugin::stop_process_task(std::string_view reason)

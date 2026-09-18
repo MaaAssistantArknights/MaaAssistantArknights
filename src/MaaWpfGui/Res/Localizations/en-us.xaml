@@ -1331,6 +1331,9 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="MiniGame@PixelPaint@StartLog">Start pixel paint: {0} cells, {1} colors</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ProgressLog">Pixel paint {0}/{1}</system:String>
     <system:String x:Key="MiniGame@PixelPaint@DoneLog">Pixel paint done</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@TotalLog">Automatically Raise Potential: {0} operators to process</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@PotentialFoundLog">Operator {0}/{1}: potential raise available</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@NoPotentialLog">Operator {0}/{1}: no potential raise available</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">Green Ticket Store</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">Buy everything on the 1st floor.&#10;Buy Headhunting Permits and Recruitment Permits on the 2nd floor.</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">Yellow Ticket Store</system:String>

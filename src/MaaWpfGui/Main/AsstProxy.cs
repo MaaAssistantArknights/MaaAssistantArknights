@@ -2712,6 +2712,26 @@ public class AsstProxy
 
                     break;
                 }
+
+            case "AutoRaisePotentialTotal":
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetStringFormat("MiniGame@AutoRaisePotential@TotalLog", (int)(subTaskDetails?["total"] ?? 0)),
+                    UiLogColor.Info);
+                break;
+
+            case "AutoRaisePotentialProgress":
+                {
+                    int current = (int)(subTaskDetails?["current"] ?? 0);
+                    int total = (int)(subTaskDetails?["total"] ?? 0);
+                    bool hasPotential = subTaskDetails?["has_potential"]?.ToObject<bool>() ?? false;
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat(
+                            hasPotential ? "MiniGame@AutoRaisePotential@PotentialFoundLog" : "MiniGame@AutoRaisePotential@NoPotentialLog",
+                            current,
+                            total),
+                        hasPotential ? UiLogColor.Success : UiLogColor.Trace);
+                    break;
+                }
         }
     }
 
