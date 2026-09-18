@@ -544,11 +544,6 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   @required
   目前招聘許可數量。
   :::
-  ::: field reserve
-  @type number
-  @required
-  設定的招聘許可保留數量。
-  :::
   ::::
 
 - `RecruitPermitCountRecognitionFailed`

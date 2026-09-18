@@ -517,11 +517,6 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   @required
   현재 모집 허가증 수
   :::
-  ::: field reserve
-  @type number
-  @required
-  설정한 모집 허가증 보유 수량
-  :::
   ::::
 
 - `RecruitPermitCountRecognitionFailed`

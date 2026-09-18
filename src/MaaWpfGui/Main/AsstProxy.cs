@@ -2226,8 +2226,7 @@ public class AsstProxy
             case "RecruitPermitReserved":
                 {
                     int current = (int)subTaskDetails!["current"]!;
-                    int reserve = (int)subTaskDetails["reserve"]!;
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("RecruitPermitReserved", current, reserve), UiLogColor.Info);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("RecruitPermitReserved", current), UiLogColor.Info);
                     break;
                 }
 

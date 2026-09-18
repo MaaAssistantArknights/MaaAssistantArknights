@@ -1681,7 +1681,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Refreshed">새로고침됨</system:String>
     <system:String x:Key="ContinueRefresh">모집 허가증 없음, 태그 새로고침</system:String>
     <system:String x:Key="NoRecruitmentPermit">모집 허가증 없음, 중지</system:String>
-    <system:String x:Key="RecruitPermitReserved">모집 허가증이 {0}개 남아 보유 설정값 {1}개에 도달했습니다. 현재 ★3 모집을 건너뜁니다</system:String>
+    <system:String x:Key="RecruitPermitReserved">모집 허가증이 {0}개 남아 보유 한도에 도달했습니다. 현재 ★3 모집을 건너뜁니다</system:String>
     <system:String x:Key="RecruitPermitCountRecognitionFailed">모집 허가증 수를 인식하지 못했습니다. 허가증을 보존하기 위해 현재 ★3 모집을 건너뜁니다</system:String>
     <system:String x:Key="AutoRecruitSelectStrategy">공개모집 다중 태그 선택 전략</system:String>
     <system:String x:Key="DefaultNoExtraTags">기본값: 추가 태그 없음</system:String>

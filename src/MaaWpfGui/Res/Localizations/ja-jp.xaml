@@ -1682,7 +1682,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Refreshed">現在のタグが更新されました</system:String>
     <system:String x:Key="ContinueRefresh">採用許可がないため、タグを更新しようとしています</system:String>
     <system:String x:Key="NoRecruitmentPermit">採用許可がないため返却されました</system:String>
-    <system:String x:Key="RecruitPermitReserved">求人票の残数は {0}、保留数は {1} です。現在の星3募集をスキップしました</system:String>
+    <system:String x:Key="RecruitPermitReserved">求人票の残数は {0} で、保留数に達しました。現在の星3募集をスキップしました</system:String>
     <system:String x:Key="RecruitPermitCountRecognitionFailed">求人票の残数を認識できませんでした。保留分を消費しないよう現在の星3募集をスキップしました</system:String>
     <system:String x:Key="AutoRecruitSelectStrategy">公開求人でのタグを複数選択する場合の作戦</system:String>
     <system:String x:Key="DefaultNoExtraTags">追加のタグを選択しない</system:String>

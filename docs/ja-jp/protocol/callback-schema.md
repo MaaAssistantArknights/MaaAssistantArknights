@@ -509,8 +509,7 @@ Todo
   ```json
   // 対応する details フィールドの例
   {
-      "current": 8,    // 現在の求人票数
-      "reserve": 8     // 設定された保留数
+      "current": 8     // 現在の求人票数
   }
   ```
 

@@ -1679,7 +1679,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="Refreshed">Refreshed</system:String>
     <system:String x:Key="ContinueRefresh">No recruitment permit, trying to refresh Tags</system:String>
     <system:String x:Key="NoRecruitmentPermit">No recruitment permit, returned</system:String>
-    <system:String x:Key="RecruitPermitReserved">{0} recruitment permit(s) remaining; reserve is {1}. Skipped the current 3★ recruitment</system:String>
+    <system:String x:Key="RecruitPermitReserved">{0} recruitment permit(s) remaining; the reserve limit has been reached. Skipped the current 3★ recruitment</system:String>
     <system:String x:Key="RecruitPermitCountRecognitionFailed">Failed to recognize the recruitment permit count. Skipped the current 3★ recruitment to preserve permits</system:String>
     <system:String x:Key="AutoRecruitSelectStrategy">Strategies for Additional Tags</system:String>
     <system:String x:Key="DefaultNoExtraTags">Additional Tags are not selected by default</system:String>

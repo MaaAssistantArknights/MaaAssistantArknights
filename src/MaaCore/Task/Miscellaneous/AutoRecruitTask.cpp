@@ -720,19 +720,16 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             if (final_combination.min_level == 3 && m_level3_recruitment_permit_reserve > 0) {
                 const auto permit_count = image_analyzer.get_recruitment_permit_count();
                 if (!permit_count) {
-                    json::value cb_info = basic_info();
-                    cb_info["what"] = "RecruitPermitCountRecognitionFailed";
+                    json::value cb_info = basic_info_with_what("RecruitPermitCountRecognitionFailed");
                     callback(AsstMsg::SubTaskExtraInfo, cb_info);
                     Log.warn("Skip 3-star recruitment because recruitment permit count recognition failed");
                     return calc_task_result_type(calc_task_result::force_skip);
                 }
 
                 if (*permit_count <= m_level3_recruitment_permit_reserve) {
-                    json::value cb_info = basic_info();
-                    cb_info["what"] = "RecruitPermitReserved";
+                    json::value cb_info = basic_info_with_what("RecruitPermitReserved");
                     cb_info["details"] = json::object {
                         { "current", *permit_count },
-                        { "reserve", m_level3_recruitment_permit_reserve },
                     };
                     callback(AsstMsg::SubTaskExtraInfo, cb_info);
                     Log.info(

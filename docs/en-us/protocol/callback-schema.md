@@ -493,8 +493,7 @@ Todo
   ```json
   // Corresponding details field example
   {
-    "current": 8,
-    "reserve": 8
+    "current": 8
   }
   ```
 
