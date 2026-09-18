@@ -942,6 +942,10 @@ C:\leidian\LDPlayer9
     <system:String x:Key="PostActionOnceTip" xml:space="preserve">勾選後將不儲存選項變更，下次 MAA 啟動或 {key=LinkStart} 後將復原
 取消勾選本選項後，其他選項狀態將會正常儲存
 右鍵點擊其他選項時，會同步勾選 / 取消勾選本選項</system:String>
+    <system:String x:Key="SkipPostActionOnError">任務出錯時跳過</system:String>
+    <system:String x:Key="SkipPostActionOnErrorTip" xml:space="preserve">勾選後，若任務清單中有一個或多個任務出錯，將跳過以上全部動作。
+僅統計左側任務清單中的任務，{key=Copilot}與{key=Toolbox}的錯誤不計入。</system:String>
+    <system:String x:Key="PostActionSkippedDueToError">以下任務出錯：{0}，已跳過完成後動作</system:String>
     <system:String x:Key="IfNoOtherMaa">無其他 MAA 執行時</system:String>
     <system:String x:Key="IfNoOtherMaaTip">勾選後，僅當沒有其他 MAA 實例在執行時，才會執行睡眠/休眠/關機</system:String>
     <system:String x:Key="BackToAndroidHome">返回模擬器主畫面</system:String>
@@ -1485,12 +1489,15 @@ C:\leidian\LDPlayer9
     <system:String x:Key="IdentifyTheMistakes">辨識錯誤</system:String>
     <system:String x:Key="RecruitRefreshLimitReached">刷新次數達到上限</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">任務出錯: </system:String>
+    <system:String x:Key="TaskErrorSummaryTitle">本輪任務出現以下錯誤：</system:String>
+    <system:String x:Key="TaskErrorSummaryItem">{0}</system:String>
     <system:String x:Key="OutOfMemoryError">{0}任務因記憶體不足停止，請關閉部分程式或重新啟動 MAA 後再試</system:String>
     <system:String x:Key="CombatError">戰鬥出錯</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">開始任務: </system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">完成任務: </system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">開始戰鬥: </system:String>
     <system:String x:Key="CompleteCombat">完成戰鬥</system:String>
+    <system:String x:Key="TaskCompletedWithErrors">任務已完成，但出現錯誤！\n(耗時 {0})</system:String>
     <system:String x:Key="AllTasksComplete">任務已全部完成！\n(耗時 {0})</system:String>
     <system:String x:Key="SanityReport">理智會在 {DateTime} 回滿（{TimeDiff} 後）。</system:String>
     <system:String x:Key="AllTaskCompleteContent">MAA 已在 {DateTime} 完成了 {Preset} 設定檔下所有預設的任務（耗時 {TimeDiff}）。</system:String>
