@@ -6347,7 +6347,11 @@
     "OperProgress@EliteUpRecruitSkipWithoutButton": {
         "baseTask": "RecruitSkipWithoutButton",
         "reduceOtherTimes": ["OperProgress@EliteUpRecruitSkipWithoutButton*10"],
-        "next": ["OperProgress@OperFiles", "OperProgress@EliteUpRecruitSkip", "OperProgress@EliteUpRecruitSkipWithoutButton"]
+        "next": [
+            "OperProgress@OperFiles",
+            "OperProgress@EliteUpRecruitSkip",
+            "OperProgress@EliteUpRecruitSkipWithoutButton"
+        ]
     },
     "OperProgress@EliteUpPageEnter": {
         "template": "OperFilesEnterEliteUpButton.png",
