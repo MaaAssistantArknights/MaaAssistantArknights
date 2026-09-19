@@ -60,7 +60,7 @@
     },
     "MiniGame@AutoRaisePotential@PotentialAvailable": {
         "doc": "识别并点击干员档案中的潜能提升标记。标记像素占比极小，灰度模板得分被固定的面板背景主导、无法按有无标记区分，故用纯色匹配（RGBCount + pureColor），颜色区间与 FirstOperator 一致。",
-        "template": "OperInfoPotentialAvailable.png",
+        "template": "OperFilesEnterPotentialUpButton.png",
         "method": "RGBCount",
         "pureColor": true,
         "colorScales": [
@@ -77,14 +77,14 @@
     },
     "MiniGame@AutoRaisePotential@PotentialScreen": {
         "doc": "等待潜能提升确认弹窗出现。",
-        "template": "RaisePotentialConfirm.png",
+        "template": "PotentialUpPageConfirm.png",
         "roi": [987, 584, 243, 133],
         "action": "DoNothing",
         "next": ["MiniGame@AutoRaisePotential@ConfirmRaise"]
     },
     "MiniGame@AutoRaisePotential@ConfirmRaise": {
         "doc": "点击确定完成本次潜能提升，回到干员档案后继续检查。",
-        "template": "RaisePotentialConfirm.png",
+        "template": "PotentialUpPageConfirm.png",
         "action": "ClickSelf",
         "roi": [987, 584, 243, 133],
         "postDelay": 1000,
