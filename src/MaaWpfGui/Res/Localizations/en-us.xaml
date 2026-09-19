@@ -1295,6 +1295,9 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="MiniGame@MaterialSynthesis@Unsupported">unable to recognize the current material or formula data</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@NavigationFailed">page recognition or operation failed</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@UnknownFailure">unknown error</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential">Automatically Raise Potential</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotentialTip" xml:space="preserve">Open the Operator list before starting. MAA raises the Potential of every Operator marked as available.&#10;The task stops on the last Operator profile, or on the Operator list when there is no available target.</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@UseNormalToken">Use regular Tokens when mid-tier Tokens are insufficient</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition">Interactive Exhibition - Find Unrecorded Wonders</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibitionTip" xml:space="preserve">Start the task at the bottom right of the grass in the advanced zone of the selected map.&#10;Wander back and forth across the grass to find unrecorded creatures; the task stops automatically once one is found.&#10;Creatures can only be found on grass.</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationTitle">Interactive Exhibition: Unrecorded Wonder Found</system:String>
@@ -1329,6 +1332,9 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="MiniGame@PixelPaint@StartLog">Start pixel paint: {0} cells, {1} colors</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ProgressLog">Pixel paint {0}/{1}</system:String>
     <system:String x:Key="MiniGame@PixelPaint@DoneLog">Pixel paint done</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@TotalLog">Automatically Raise Potential: {0} operators to process</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@PotentialFoundLog">Operator {0}/{1}: potential raise available</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@NoPotentialLog">Operator {0}/{1}: no potential raise available</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">Green Ticket Store</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">Buy everything on the 1st floor.&#10;Buy Headhunting Permits and Recruitment Permits on the 2nd floor.</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">Yellow Ticket Store</system:String>
