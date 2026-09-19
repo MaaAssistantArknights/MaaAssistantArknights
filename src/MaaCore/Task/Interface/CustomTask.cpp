@@ -2,6 +2,7 @@
 
 #include "Config/TaskData.h"
 #include "Task/MiniGame/AutoRaisePotentialTaskPlugin.h"
+#include "Task/MiniGame/EventShopTaskPlugin.h"
 #include "Task/MiniGame/MaterialSynthesisTaskPlugin.h"
 #include "Task/MiniGame/PixelPaintTaskPlugin.h"
 #include "Task/MiniGame/SecretFrontTaskPlugin.h"
@@ -48,6 +49,9 @@ bool asst::CustomTask::set_params(const json::value& params)
         }
         else if (parse_and_register_material_synthesis(task_name)) {
             Log.info("Parsed and registered MaterialSynthesis task: ", task_name);
+        }
+        else if (parse_and_register_event_shop(task_name, params)) {
+            LogInfo << "Parsed and registered EventShop task:" << task_name;
         }
 
         if (Task.get(resolved_task) == nullptr) {
@@ -96,6 +100,50 @@ bool asst::CustomTask::parse_and_register_auto_raise_potential(const std::string
         }
         LogInfo << "AutoRaisePotential will use normal tokens when mid tokens are insufficient";
     }
+
+    return true;
+}
+
+bool asst::CustomTask::parse_and_register_event_shop(const std::string& task_name, const json::value& params)
+{
+    if (task_name != "SS@Store@Begin") {
+        return false;
+    }
+
+    auto params_opt = params.find<json::object>("params");
+    if (!params_opt) {
+        return false;
+    }
+    auto event_shop_opt = params_opt->find<json::object>("event_shop");
+    if (!event_shop_opt) {
+        return false;
+    }
+    auto blacklist_opt = event_shop_opt->find<json::array>("blacklist");
+    if (!blacklist_opt) {
+        LogError << "set_params failed, params.event_shop.blacklist not found";
+        return false;
+    }
+
+    std::vector<std::string> blacklist;
+    for (const auto& item : *blacklist_opt) {
+        if (!item.is_string()) {
+            LogError << "set_params failed, event shop blacklist item is not string";
+            return false;
+        }
+        if (std::string name = item.as_string(); !name.empty()) {
+            blacklist.emplace_back(std::move(name));
+        }
+    }
+    if (blacklist.empty()) {
+        return false;
+    }
+
+    if (!m_custom_task_ptr->override_next("SS@Store@Begin", {})) {
+        LogError << "Failed to override EventShop entry task";
+        return false;
+    }
+    auto plugin_ptr = m_custom_task_ptr->register_plugin<EventShopTaskPlugin>();
+    plugin_ptr->set_blacklist(std::move(blacklist));
     return true;
 }
 

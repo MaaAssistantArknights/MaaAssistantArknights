@@ -2644,6 +2644,8 @@ public class ToolboxViewModel : Screen
         public bool IsAutoRaisePotential => Value == "MiniGame@AutoRaisePotential@Begin";
 
         public bool IsMaterialSynthesis => Value == "MiniGame@MaterialSynthesis@Begin";
+
+        public bool IsEventShop => Value == "SS@Store@Begin";
     }
 
     public static string MaterialSynthesisVideoPath => Path.Combine(PathsHelper.BaseDir, "Res", "Video", "MaterialSynthesis.mp4");
@@ -2817,6 +2819,16 @@ public class ToolboxViewModel : Screen
     /// Gets or sets 自动提升潜能：中坚信物不足时是否消耗普通信物继续提升（不勾选时点 × 跳过该次提升）。
     /// </summary>
     public bool MiniGameUseNormalToken { get; set => SetAndNotify(ref field, value); }
+
+    public string EventShopBlackList
+    {
+        get;
+        set {
+            value = value.Replace("；", ";").Trim();
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackList = value;
+        }
+    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackList;
 
     #region PixelPaint
 
@@ -3391,6 +3403,15 @@ public class ToolboxViewModel : Screen
         if (IsAutoRaisePotentialSelected)
         {
             return Instances.AsstProxy.AsstAutoRaisePotential(MiniGameUseNormalToken);
+        }
+
+        if (SelectedMiniGameItem?.IsEventShop == true)
+        {
+            var eventShopBlackList = EventShopBlackList
+                .Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Distinct()
+                .ToList();
+            return Instances.AsstProxy.AsstMiniGame(GetMiniGameTask(), eventShopBlackList);
         }
 
         return Instances.AsstProxy.AsstMiniGame(GetMiniGameTask());
