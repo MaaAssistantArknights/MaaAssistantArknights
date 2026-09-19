@@ -395,6 +395,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="RenameTask">Rename Task</system:String>
     <system:String x:Key="RenameTaskPrompt">Please enter a new task name:</system:String>
     <system:String x:Key="AddTaskQueueTask">Add New Task</system:String>
+    <system:String x:Key="ConfirmDeleteConfigurationMessage">Are you sure you want to delete configuration &lt;{0}&gt;? This action cannot be undone.</system:String>
     <system:String x:Key="ConfirmDeleteTask">Confirm Delete</system:String>
     <system:String x:Key="ConfirmDeleteTaskMessage">Are you sure you want to delete {0} task "{1}"?</system:String>
     <system:String x:Key="TaskRenamed">Task renamed to: {0}</system:String>

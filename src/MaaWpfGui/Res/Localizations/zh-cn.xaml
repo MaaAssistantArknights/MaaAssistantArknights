@@ -395,6 +395,7 @@
     <system:String x:Key="RenameTask">重命名任务</system:String>
     <system:String x:Key="RenameTaskPrompt">请输入新的任务名称：</system:String>
     <system:String x:Key="AddTaskQueueTask">添加新任务</system:String>
+    <system:String x:Key="ConfirmDeleteConfigurationMessage">确定要删除配置 &lt;{0}&gt; 吗？此操作不可恢复。</system:String>
     <system:String x:Key="ConfirmDeleteTask">确认删除</system:String>
     <system:String x:Key="ConfirmDeleteTaskMessage">确定要删除 {0} 任务 "{1}" 吗？</system:String>
     <system:String x:Key="TaskRenamed">任务已重命名为: {0}</system:String>
