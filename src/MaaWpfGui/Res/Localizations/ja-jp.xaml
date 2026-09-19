@@ -1312,6 +1312,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@MaterialSynthesis@UnknownFailure">不明なエラー</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential">潜在能力自動強化</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotentialTip" xml:space="preserve">オペレーター一覧画面を開いてから開始してください。強化可能と表示された全オペレーターの潜在能力を自動で強化します。&#10;完了後は最後のオペレーター詳細画面に、対象がいない場合はオペレーター一覧に留まります。</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@UseNormalToken">中堅信物が不足している場合に通常の信物を使用</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition">奇象巡展-未収録の奇象を探す</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibitionTip" xml:space="preserve">選択したマップの高級エリアにある草原の右下からタスクを開始します。&#10;草原を行き来して未収録の生物を探し、見つかると自動的に停止します。&#10;生物に出会えるのは草原だけです。</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationTitle">奇象巡展：未収録の奇象を発見</system:String>

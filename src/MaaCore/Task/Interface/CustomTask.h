@@ -16,7 +16,7 @@ public:
 
     bool parse_and_register_secretfront(const std::string& task_name, std::string& resolved_task);
 
-    bool parse_and_register_auto_raise_potential(const std::string& task_name);
+    bool parse_and_register_auto_raise_potential(const std::string& task_name, const json::value& params);
 
     bool parse_and_register_pixel_paint(const std::string& task_name, const json::value& params);
 

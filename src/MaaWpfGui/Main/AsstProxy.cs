@@ -3635,12 +3635,22 @@ public class AsstProxy
     /// 小游戏。
     /// </summary>
     /// <param name="taskName">任务名（tasks.json 中的 key）</param>
+    /// <param name="useNormalToken">自动提升潜能：中间信物不足时是否消耗普通信物（仅 AutoRaisePotential 生效）。</param>
     /// <returns>是否成功。</returns>
-    public bool AsstMiniGame(string taskName)
+    public bool AsstMiniGame(string taskName, bool useNormalToken = false)
     {
         var task = new AsstCustomTask() {
             CustomTasks = [taskName],
         };
+        if (useNormalToken)
+        {
+            task.Params = JObject.FromObject(new {
+                auto_raise_potential = new {
+                    use_normal_token = true,
+                },
+            });
+        }
+
         var (type, param) = task.Serialize();
         return AsstAppendTaskWithEncoding(TaskType.MiniGame, type, param) && AsstStart();
     }

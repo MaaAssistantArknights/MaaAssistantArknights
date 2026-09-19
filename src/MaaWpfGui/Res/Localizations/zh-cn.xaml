@@ -1310,6 +1310,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@MaterialSynthesis@UnknownFailure">未知错误</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential">自动提升潜能</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotentialTip" xml:space="preserve">请先进入干员列表界面，再开始任务。自动提升所有带提示标记干员的潜能。&#10;完成后停留在最后一名干员档案；没有可提升目标时停留在干员列表。</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@UseNormalToken">中间信物不足时使用普通信物</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition">奇象巡展-找未收录生物</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibitionTip" xml:space="preserve">在所选地图的高级区草地右下角开始任务。&#10;在草地来回走动寻找未收录生物，找到后自动停止。&#10;只有草地能遇到生物。</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationTitle">奇象巡展：发现暂未收录奇象</system:String>
