@@ -109,6 +109,9 @@ bool asst::AutoRaisePotentialTaskPlugin::read_operator_count()
     // entry without putting a process-wide maxTimes in the resource file.
     const int potential_limit = count * MaxPotentialLevels;
     process_task->set_times_limit("MiniGame@AutoRaisePotential@PotentialAvailable", potential_limit);
+    // ConfirmRaise loops on the potential page until the confirm button disappears;
+    // the same per-operator bound keeps a stuck button from looping forever.
+    process_task->set_times_limit("MiniGame@AutoRaisePotential@ConfirmRaise", potential_limit);
     m_total = count;
     auto info = basic_info_with_what("AutoRaisePotentialTotal");
     info["details"] = json::object { { "total", count } };
