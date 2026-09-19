@@ -78,7 +78,8 @@
                     Margin="5,2"
                     HorizontalAlignment="Left"
                     Command="{s:Action GenerateSupportPayload}"
-                    Content="{DynamicResource GenerateSupportPayload}" />
+                    Content="{DynamicResource GenerateSupportPayload}"
+                    IsEnabled="{Binding CanGenerateSupportPayload}" />
                 <Button
                     Margin="5,2"
                     HorizontalAlignment="Left"
