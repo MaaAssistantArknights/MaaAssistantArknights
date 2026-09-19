@@ -49,4 +49,6 @@ public partial class Toolbox : NotifyPropertyChangedWithValue
     public bool AutoSetTime { get; set; } = true;
 
     public bool ShowPotential { get; set; } = true;
+
+    public string EventShopBlackList { get; set; } = string.Empty;
 }

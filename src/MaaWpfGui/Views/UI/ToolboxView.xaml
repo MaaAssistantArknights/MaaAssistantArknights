@@ -1257,6 +1257,15 @@
                                     SelectedValuePath="Value" />
                             </Grid>
 
+                            <!--  活动商店  -->
+                            <TextBox
+                                Grid.Row="0"
+                                Margin="0"
+                                hc:InfoElement.Title="{DynamicResource Blacklist}"
+                                Style="{StaticResource TextBoxExtend}"
+                                Text="{Binding EventShopBlackList, UpdateSourceTrigger=PropertyChanged}"
+                                Visibility="{c:Binding 'SelectedMiniGameItem.IsEventShop'}" />
+
                             <Viewbox
                                 Grid.Row="1"
                                 Margin="0,12,0,0"
