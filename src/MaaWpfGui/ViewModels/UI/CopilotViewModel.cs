@@ -122,7 +122,11 @@ public partial class CopilotViewModel : Screen
         LocalizationHelper.LanguageChanged += () => {
             DisplayName = LocalizationHelper.GetString("Copilot");
             SupportUnitUsageList.RefreshLocalization();
-            ClearLog();
+            ModuleMapping = BuildModuleMapping();
+            foreach (var item in UserAdditionalItems)
+            {
+                item.RefreshLocalization();
+            }
         };
         UserAdditionalItems.CollectionChanged += (_, _) => {
             NotifyOfPropertyChange(nameof(UserAdditionalGridHeight));
@@ -619,7 +623,7 @@ public partial class CopilotViewModel : Screen
         }
     }
 
-    public static Dictionary<string, int> ModuleMapping { get; } = new()
+    private static Dictionary<string, int> BuildModuleMapping() => new()
     {
         { LocalizationHelper.GetString("CopilotWithoutModule"), 0 },
         { "χ", 1 },
@@ -627,6 +631,11 @@ public partial class CopilotViewModel : Screen
         { "α", 3 },
         { "Δ", 4 },
     };
+
+    /// <summary>
+    /// Gets 模组下拉的显示名到模组号映射，语言切换时整表重建（显示名即 Key，无模组项为本地化文本）。
+    /// </summary>
+    public Dictionary<string, int> ModuleMapping { get => field; private set => SetAndNotify(ref field, value); } = BuildModuleMapping();
 
     public class UserAdditionalItemViewModel : PropertyChangedBase
     {
@@ -663,6 +672,12 @@ public partial class CopilotViewModel : Screen
             get => _module;
             set => SetAndNotify(ref _module, value);
         }
+
+        /// <summary>
+        /// 语言切换后通知 Module 重读：模组字典整表重建时 Selector 按项相等性恢复选中，
+        /// ｢无模组｣ 项的 key 为本地化文本、新旧不等而匹配不到，需由 SelectedValue binding 按新字典的 Value 重匹配。
+        /// </summary>
+        public void RefreshLocalization() => NotifyOfPropertyChange(nameof(Module));
     }
 
     private bool _useFormation;

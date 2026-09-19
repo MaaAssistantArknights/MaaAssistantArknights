@@ -619,5 +619,8 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     {
         AllVersionTypeList.RefreshLocalization();
         UpdateSourceList.RefreshLocalization();
+
+        // CDK 剩余天数文本为一次性格式化的本地化串，需通知重算（无 CDK 时 getter 自行返回空串）
+        RefreshMirrorChyanCdkRemaining();
     }
 }

@@ -93,6 +93,10 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         SeriesList.RefreshLocalization();
         AnnihilationModeList.RefreshLocalization();
         StageResetModeList.RefreshLocalization();
+        foreach (var item in WeeklyScheduleSource)
+        {
+            item.RefreshLocalization();
+        }
     }
 
     /// <summary>
@@ -1548,6 +1552,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     public class WeeklyScheduleItem(DayOfWeek dayOfWeek) : PropertyChangedBase
     {
         public string Display => LocalizationHelper.CustomCultureInfo.DateTimeFormat.GetDayName(DayOfWeek);
+
+        /// <summary>
+        /// 语言切换后通知 Display 回读新文化的星期名，Value（勾选状态）保持不变。
+        /// </summary>
+        public void RefreshLocalization() => NotifyOfPropertyChange(nameof(Display));
 
         public DayOfWeek DayOfWeek { get; } = dayOfWeek;
 

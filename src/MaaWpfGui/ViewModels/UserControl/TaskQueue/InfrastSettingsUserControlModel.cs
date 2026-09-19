@@ -646,6 +646,9 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
         InfrastModeList.RefreshLocalization();
         FiammettaTargetList.RefreshLocalization();
         OptionalFiammettaTargetList.RefreshLocalization();
+
+        // 重建显示列表以刷新 _defaultItem 固化的 ｢自动切换（xx）｣ 前缀，选中值由重建逻辑保留
+        RefreshCustomInfrastPlanList();
     }
 
     private interface ISerialize : ITaskQueueModelSerialize
