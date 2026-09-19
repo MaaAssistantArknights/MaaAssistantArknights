@@ -782,75 +782,101 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.KillAdbOnExit, KillAdbOnExit ? "1" : "0");
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 替换 ADB 进行中（含下载与解压全过程），期间禁用按钮防止并发写同一 adb.zip。
+    /// </summary>
+    public bool IsReplacingAdb
+    {
+        get; set {
+            if (SetAndNotify(ref field, value))
+            {
+                NotifyOfPropertyChange(nameof(CanReplaceAdb));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether 当前可触发替换 ADB（非进行中）。
+    /// </summary>
+    public bool CanReplaceAdb => !IsReplacingAdb;
+
     // UI 绑定的方法
     [UsedImplicitly]
     public async Task ReplaceAdb()
     {
-        if (!File.Exists(MaaUrls.GoogleAdbFilename))
+        IsReplacingAdb = true;
+        try
         {
-            string[] downloadUrls =
-            [
-                MaaUrls.GoogleAdbDownloadUrl,
-                MaaUrls.AdbMaaMirrorDownloadUrl,
-                MaaUrls.AdbMaaMirror2DownloadUrl
-            ];
-
-            bool downloadResult = false;
-            foreach (var url in downloadUrls)
+            if (!File.Exists(MaaUrls.GoogleAdbFilename))
             {
-                downloadResult = await Instances.HttpService.DownloadFileAsync(new(url), MaaUrls.GoogleAdbFilename);
-                if (downloadResult)
+                string[] downloadUrls =
+                [
+                    MaaUrls.GoogleAdbDownloadUrl,
+                    MaaUrls.AdbMaaMirrorDownloadUrl,
+                    MaaUrls.AdbMaaMirror2DownloadUrl
+                ];
+
+                bool downloadResult = false;
+                foreach (var url in downloadUrls)
                 {
-                    break;
+                    downloadResult = await Instances.HttpService.DownloadFileAsync(new(url), MaaUrls.GoogleAdbFilename);
+                    if (downloadResult)
+                    {
+                        break;
+                    }
+                }
+
+                if (!downloadResult)
+                {
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("AdbDownloadFailedTitle"));
+                    toast.AppendContentText(LocalizationHelper.GetString("AdbDownloadFailedDesc")).Show();
+                    return;
                 }
             }
 
-            if (!downloadResult)
+            const string UnzipDir = "adb";
+            const string NewAdb = UnzipDir + "/platform-tools/adb.exe";
+
+            try
             {
-                using var toast = new ToastNotification(LocalizationHelper.GetString("AdbDownloadFailedTitle"));
-                toast.AppendContentText(LocalizationHelper.GetString("AdbDownloadFailedDesc")).Show();
+                if (Directory.Exists(UnzipDir))
+                {
+                    Directory.Delete(UnzipDir, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("An error occurred while deleting directory: {Type}: {ExMessage}", ex.GetType(), ex.Message);
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("AdbDeletionFailedMessage"));
                 return;
             }
-        }
 
-        const string UnzipDir = "adb";
-        const string NewAdb = UnzipDir + "/platform-tools/adb.exe";
-
-        try
-        {
-            if (Directory.Exists(UnzipDir))
+            try
             {
-                Directory.Delete(UnzipDir, true);
+                ZipFile.ExtractToDirectory(MaaUrls.GoogleAdbFilename, UnzipDir);
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "UnzipFailedMessage");
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("UnzipFailedMessage"));
+                return;
+            }
+
+            if (File.Exists(NewAdb))
+            {
+                AdbPath = NewAdb;
+                AdbReplaced = true;
+                ConfigFactory.CurrentConfig.Gui.ConnectSettings.AdbReplaced = true;
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("SuccessfullyReplacedAdb"));
+            }
+            else
+            {
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocal"));
             }
         }
-        catch (Exception ex)
+        finally
         {
-            _logger.Error("An error occurred while deleting directory: {Type}: {ExMessage}", ex.GetType(), ex.Message);
-            ToastNotification.ShowDirect(LocalizationHelper.GetString("AdbDeletionFailedMessage"));
-            return;
-        }
-
-        try
-        {
-            ZipFile.ExtractToDirectory(MaaUrls.GoogleAdbFilename, UnzipDir);
-        }
-        catch (Exception e)
-        {
-            _logger.Error(e, "UnzipFailedMessage");
-            ToastNotification.ShowDirect(LocalizationHelper.GetString("UnzipFailedMessage"));
-            return;
-        }
-
-        if (File.Exists(NewAdb))
-        {
-            AdbPath = NewAdb;
-            AdbReplaced = true;
-            ConfigFactory.CurrentConfig.Gui.ConnectSettings.AdbReplaced = true;
-            ToastNotification.ShowDirect(LocalizationHelper.GetString("SuccessfullyReplacedAdb"));
-        }
-        else
-        {
-            ToastNotification.ShowDirect(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocal"));
+            IsReplacingAdb = false;
         }
     }
 

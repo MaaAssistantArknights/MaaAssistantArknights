@@ -434,6 +434,7 @@
                 Margin="5,5,0,5"
                 HorizontalAlignment="Left"
                 Command="{s:Action ReplaceAdb}"
+                IsEnabled="{Binding CanReplaceAdb}"
                 Content="{DynamicResource ForcedReplaceAdb}" />
             <controls:TooltipBlock TooltipText="{DynamicResource ForcedReplaceAdbTip}" />
             </StackPanel>
