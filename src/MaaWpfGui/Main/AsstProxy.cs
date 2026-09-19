@@ -2272,6 +2272,14 @@ public class AsstProxy
                                                     splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
                 break;
 
+            case "TradeDronesUsageNotUsed":
+                {
+                    var message = LocalizationHelper.GetString("TradeDronesUsageNotUsed");
+                    Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Warning);
+                    ToastNotification.ShowDirect(message);
+                    break;
+                }
+
             case "ProductIncorrect":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ProductIncorrect"), UiLogColor.Error);
                 break;
