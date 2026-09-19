@@ -23,8 +23,6 @@
             HorizontalContentAlignment="Stretch"
             BorderThickness="0"
             ClipToBounds="False"
-            IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                         Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
             ItemsSource="{Binding Path=Themes}"
             PreviewMouseWheel="{s:Action RouteMouseWheelToParentExceptScrollable,
                                          Target={x:Type helper:MouseWheelHelper}}">
@@ -82,9 +80,7 @@
             <Button
                 MinWidth="50"
                 Command="{s:Action AddTheme}"
-                Content="{DynamicResource SwitchThemeAdd}"
-                IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                             Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}" />
+                Content="{DynamicResource SwitchThemeAdd}" />
             <controls:TooltipBlock
                 Margin="3,0,0,0"
                 VerticalAlignment="Center"

@@ -36,8 +36,6 @@
                 dd:DragDrop.IsDropTarget="True"
                 BorderThickness="0"
                 ClipToBounds="False"
-                IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                             Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                 ItemsSource="{Binding Path=PlanList}"
                 PreviewMouseWheel="{s:Action RouteMouseWheelToParentExceptScrollable,
                                              Target={x:Type helper:MouseWheelHelper}}">
@@ -250,31 +248,23 @@
                     Margin="0,0,-1,0"
                     hc:BorderElement.CornerRadius="4,0,0,4"
                     Command="{s:Action CollapseAll}"
-                    Content="{DynamicResource CollapseAll}"
-                    IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                 Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}" />
+                    Content="{DynamicResource CollapseAll}" />
                 <Button
                     MinWidth="50"
                     Margin="0,0,-1,0"
                     hc:BorderElement.CornerRadius="0"
                     Command="{s:Action ClearPlans}"
-                    Content="{DynamicResource ClearPlans}"
-                    IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                 Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}" />
+                    Content="{DynamicResource ClearPlans}" />
                 <Button
                     MinWidth="50"
                     Margin="0,0,-1,0"
                     hc:BorderElement.CornerRadius="0"
                     Command="{s:Action AddPlan}"
-                    Content="{DynamicResource AddPlan}"
-                    IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                 Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}" />
+                    Content="{DynamicResource AddPlan}" />
                 <hc:SplitButton
                     hc:BorderElement.CornerRadius="0,4,4,0"
                     Click="PresetSplitButton_Click"
-                    Content="{DynamicResource DepotPreset}"
-                    IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                 Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
+                    Content="{DynamicResource DepotPreset}">
                     <hc:SplitButton.DropDownContent>
                         <Menu ItemsSource="{Binding PresetList, Source={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}" MenuItem.Click="{s:Action PresetMenuClick}">
                             <Menu.ItemsPanel>
