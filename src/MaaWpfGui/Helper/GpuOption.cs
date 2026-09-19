@@ -17,6 +17,7 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Management;
 using System.Runtime.InteropServices;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Extensions;
@@ -162,6 +163,12 @@ public abstract class GpuOption
             var desc = adapter.GetDesc1();
             var instancePath = GetAdapterInstancePath(desc.AdapterLuid);
             var driverInfo = GetGpuDriverInformation(desc.Description.ToString(), instancePath);
+
+            if (driverInfo.DriverVersion == null || driverInfo.DriverDate == null)
+            {
+                var wmiInfo = GetGpuDriverInfoViaWmi(desc.Description.ToString());
+                driverInfo = new(driverInfo.Description, wmiInfo.DriverVersion, wmiInfo.DriverDate);
+            }
 
             if (!CheckGpu(adapter, ref desc, instancePath, driverInfo, out var deprecated))
             {
@@ -350,6 +357,52 @@ public abstract class GpuOption
         }
 
         return new(description, driverVersion, driverDate);
+    }
+
+    private static (string? DriverVersion, DateTime? DriverDate) GetGpuDriverInfoViaWmi(string gpuName)
+    {
+        try
+        {
+            using var searcher = new ManagementObjectSearcher(
+                "SELECT Name, DriverVersion, DriverDate FROM Win32_VideoController");
+
+            foreach (var obj in searcher.Get())
+            {
+                var name = obj["Name"]?.ToString();
+                if (name != null && name.Contains(gpuName, StringComparison.OrdinalIgnoreCase))
+                {
+                    var version = obj["DriverVersion"]?.ToString();
+                    var dateStr = obj["DriverDate"]?.ToString();
+
+                    DateTime? date = null;
+                    if (!string.IsNullOrEmpty(dateStr))
+                    {
+                        // WMI 日期格式通常为 "yyyyMMddHHmmss.ffffff+zzz"
+                        // 可以尝试用 DateTime.ParseExact 或 ManagementDateTimeConverter
+                        try
+                        {
+                            date = ManagementDateTimeConverter.ToDateTime(dateStr).Date;
+                        }
+                        catch
+                        {
+                            // 回退到宽松解析
+                            if (DateTime.TryParse(dateStr, out var parsed))
+                            {
+                                date = parsed.Date;
+                            }
+                        }
+                    }
+
+                    return (version, date);
+                }
+            }
+        }
+        catch
+        {
+            // 忽略异常，返回空值
+        }
+
+        return (null, null);
     }
 
     private static bool CheckGpu(IDXGIAdapter1 adapter, ref DXGI_ADAPTER_DESC1 desc, string? instancePath, GpuDriverInformation driverInfo, out bool deprecated)
