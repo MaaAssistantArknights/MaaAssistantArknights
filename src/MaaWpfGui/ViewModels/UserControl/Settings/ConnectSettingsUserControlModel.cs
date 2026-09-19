@@ -209,7 +209,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public string AdbPath
     {
         get; set {
-            if (!Path.GetFileName(value).ToLower().Contains("adb"))
+            // 空路径视为用户清空输入、交由自动检测重填，不属于“文件名不含 ADB”
+            if (!string.IsNullOrWhiteSpace(value) && !Path.GetFileName(value).ToLower().Contains("adb"))
             {
                 var count = 3;
                 while (count-- > 0)
