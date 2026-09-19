@@ -82,9 +82,28 @@ public class IssueReportUserControlModel : PropertyChangedBase
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 图片缓存清空中。
+    /// </summary>
+    public bool IsClearingImageCache
+    {
+        get; set {
+            if (SetAndNotify(ref field, value))
+            {
+                NotifyOfPropertyChange(nameof(CanClearImageCache));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether 当前可清空图片缓存（非清空中）。
+    /// </summary>
+    public bool CanClearImageCache => !IsClearingImageCache;
+
+    /// <summary>
     /// 清空图片缓存 仅删除 cache 目录和 debug 目录中的图片文件，保留文件夹结构
     /// </summary>
-    public static void ClearImageCache()
+    /// <returns>Task</returns>
+    public async Task ClearImageCache()
     {
         var result = MessageBoxHelper.Show(
             LocalizationHelper.GetString("ClearImageCacheTip"),
@@ -98,6 +117,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
             return;
         }
 
+        IsClearingImageCache = true;
         try
         {
             var imageExtensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
@@ -105,17 +125,23 @@ public class IssueReportUserControlModel : PropertyChangedBase
                 ".jpg", ".jpeg", ".png",
             };
 
-            int deletedCount = 0;
-
-            if (Directory.Exists(PathsHelper.CacheDir))
+            // 枚举与删除为纯 IO，移入后台线程避免文件多时冻结 UI；结束后需回 UI 线程展示结果，故不加 ConfigureAwait(false)
+            int deletedCount = await Task.Run(() =>
             {
-                deletedCount += DeleteImageFiles(PathsHelper.CacheDir, imageExtensions);
-            }
+                int count = 0;
 
-            if (Directory.Exists(PathsHelper.DebugDir))
-            {
-                deletedCount += DeleteImageFiles(PathsHelper.DebugDir, imageExtensions);
-            }
+                if (Directory.Exists(PathsHelper.CacheDir))
+                {
+                    count += DeleteImageFiles(PathsHelper.CacheDir, imageExtensions);
+                }
+
+                if (Directory.Exists(PathsHelper.DebugDir))
+                {
+                    count += DeleteImageFiles(PathsHelper.DebugDir, imageExtensions);
+                }
+
+                return count;
+            });
 
             if (deletedCount > 0)
             {
@@ -130,6 +156,10 @@ public class IssueReportUserControlModel : PropertyChangedBase
         {
             ShowGrowl($"{LocalizationHelper.GetString("ClearImageCacheException")}\n{ex.Message}");
             _logger.Error(ex, "Failed to clear image cache");
+        }
+        finally
+        {
+            IsClearingImageCache = false;
         }
     }
 
