@@ -20,6 +20,7 @@ icon: ri:game-fill
       - `deposit.json` 刷源石锭模式
     - `recruitment.json` 干员招募逻辑
     - `shopping.json` 商店购买藏品逻辑
+    - `monthly_squad.json` 月度小队任务逻辑
 
 - 特别地，在 `Sami/` 下的
   - `foldartal.json` 表示萨米肉鸽密文板的使用逻辑
@@ -39,6 +40,40 @@ icon: ri:game-fill
   - `strategy.json` 黑流树海肉鸽的高层路由策略配置
   - `node_execution.json` 黑流树海肉鸽的节点类型处理路由配置
   - `map_perception/` 黑流树海肉鸽的地图感知视觉资源
+
+## 月度小队任务
+
+`resource/roguelike/主题名/monthly_squad.json` 描述各月度小队需要完成的任务。顶层键为小队序号 `1`～`8`，也可以使用 `default` 作为未配置对应序号或无法识别序号时的兜底任务。
+
+```json
+{
+    "1": {
+        "type": "DeployOperator",
+        "operator": "年",
+        "count": 10
+    },
+    "2": {
+        "type": "DeployOperatorSummon",
+        "operator": "令",
+        "skill": 3,
+        "count": 20
+    },
+    "default": {
+        "type": "ReachThirdFloor"
+    }
+}
+```
+
+支持以下任务类型：
+
+| `type` | 必填字段 | 说明 |
+| --- | --- | --- |
+| `ReachThirdFloor` | 无 | 沿用原有逻辑探索至第三层 |
+| `DeployOperator` | `operator`、`count` | 部署指定干员并累计次数 |
+| `DeployOperatorSummon` | `operator`、`count` | 先部署指定干员，再持续部署其关联召唤物 |
+| `UseOperatorSkill` | `operator`、`count`、`skill` | 选择并使用指定干员的一、二或三技能 |
+
+`count` 必须是大于零的整数。`skill` 的取值范围为 `1`～`3`；在 `DeployOperatorSummon` 中可以省略，省略后沿用该干员原有的选技能逻辑。
 
 ## 肉鸽第一步——干员招募
 
