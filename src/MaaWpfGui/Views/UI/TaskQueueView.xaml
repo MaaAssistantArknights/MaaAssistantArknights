@@ -915,20 +915,23 @@
                                                            Source={x:Static ui_vms:SettingsViewModel.GuiSettings}}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Grid>
+                                            <Grid
+                                                MaxWidth="420"
+                                                HorizontalAlignment="Left"
+                                                SnapsToDevicePixels="True"
+                                                UseLayoutRounding="True"
+                                                Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}">
                                                 <!--
                                                     日志分隔符需在窗口隐藏（最小化托盘）期间动态添加，
                                                     hc:Divider 的 Row/Col 栅格在该场景下会永久渲染为 0 尺寸，
                                                     详见 LogSectionDivider 头注释
                                                 -->
                                                 <controls:LogSectionDivider
-                                                    MaxWidth="420"
                                                     Margin="0,0,0,2.5"
                                                     Header="{Binding Header}"
                                                     HeaderHorizontalAlignment="Center"
                                                     Visibility="{c:Binding IsDivider}" />
                                                 <Border
-                                                    MaxWidth="420"
                                                     Margin="0,0,0,2.5"
                                                     Padding="2.5,0,1,5"
                                                     Background="{DynamicResource MouseOverRegionBrushOpacity10}"
