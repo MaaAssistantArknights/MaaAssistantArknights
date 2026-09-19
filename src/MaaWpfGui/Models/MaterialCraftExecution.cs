@@ -1,4 +1,4 @@
-﻿// <copyright file="MaterialCraftExecution.cs" company="MaaAssistantArknights">
+// <copyright file="MaterialCraftExecution.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -22,12 +22,11 @@ namespace MaaWpfGui.Models;
 /// </summary>
 public sealed class MaterialCraftExecution(
     int taskId,
-    IReadOnlyDictionary<string, int> targets,
-    IReadOnlyDictionary<string, long>? plannedOutputs = null)
+    IReadOnlyDictionary<string, int> targets)
 {
-    private readonly Dictionary<string, long> _plannedOutputs = plannedOutputs is null ? [] : new(plannedOutputs);
-    private readonly Dictionary<string, long> _craftedOutputs = [];
-    private readonly Dictionary<string, MaterialCraftInventoryChange> _inventoryChanges = [];
+    private readonly Dictionary<string, long> _regularChanges = [];
+    private readonly Dictionary<string, long> _byproducts = [];
+    private readonly HashSet<string> _completedTargets = [];
 
     public int TaskId { get; } = taskId;
 
@@ -41,28 +40,30 @@ public sealed class MaterialCraftExecution(
 
     public bool HasConfirmedCompletion => CompletedOperations > 0 && !PendingOperation.HasValue;
 
-    public IReadOnlyCollection<MaterialCraftInventoryChange> InventoryChanges => _inventoryChanges.Values;
+    public IReadOnlyDictionary<string, long> RegularChanges => _regularChanges;
 
-    public void RecordInventoryChanges(IEnumerable<MaterialCraftInventoryChange> changes)
+    public IReadOnlyDictionary<string, long> Byproducts => _byproducts;
+
+    public void RecordInventoryChanges(
+        IReadOnlyDictionary<string, long> netChanges,
+        IReadOnlyDictionary<string, long> byproducts)
     {
-        foreach (var change in changes)
+        foreach (var (id, count) in netChanges)
         {
-            _inventoryChanges[change.Id] = new() {
-                Id = change.Id,
-                OldCount = _inventoryChanges.TryGetValue(change.Id, out var previous) ? previous.OldCount : change.OldCount,
-                NewCount = change.NewCount,
-            };
+            _regularChanges[id] = _regularChanges.GetValueOrDefault(id) + count;
+        }
+        foreach (var (id, count) in byproducts)
+        {
+            // Core's net deltas already include byproducts. Split the display without applying stock twice.
+            _regularChanges[id] = _regularChanges.GetValueOrDefault(id) - count;
+            _byproducts[id] = _byproducts.GetValueOrDefault(id) + count;
         }
     }
 
-    public bool RecordCraftedOutput(string itemId, long count)
+    public bool ConfirmTarget(string itemId, int count)
     {
-        if (count <= 0 || !Targets.ContainsKey(itemId))
-        {
-            return false;
-        }
-        _craftedOutputs[itemId] = _craftedOutputs.GetValueOrDefault(itemId) + count;
-        return _craftedOutputs[itemId] >= _plannedOutputs.GetValueOrDefault(itemId, Targets[itemId]);
+        return PendingOperation is null && CompletedOperations > 0 &&
+            Targets.TryGetValue(itemId, out int requested) && count == requested && _completedTargets.Add(itemId);
     }
 
     public bool BeginOperation(int operation)

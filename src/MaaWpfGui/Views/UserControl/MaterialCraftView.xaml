@@ -280,16 +280,22 @@
                     Visibility="{c:Binding 'MaterialCraftChanges.Count > 0'}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image
-                                    Width="24"
-                                    Height="24"
-                                    Source="{Binding Image}" />
+                            <StackPanel>
                                 <controls:TextBlock
-                                    Margin="6,0,0,0"
-                                    VerticalAlignment="Center"
-                                    Text="{Binding Text}"
-                                    TextWrapping="Wrap" />
+                                    Margin="0,8,0,4"
+                                    Text="{DynamicResource MaterialCraftByproducts}"
+                                    Visibility="{c:Binding ShowByproductHeader}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <Image
+                                        Width="24"
+                                        Height="24"
+                                        Source="{Binding Image}" />
+                                    <controls:TextBlock
+                                        Margin="6,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Text}"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

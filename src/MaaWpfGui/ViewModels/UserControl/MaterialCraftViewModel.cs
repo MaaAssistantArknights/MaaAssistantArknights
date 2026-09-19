@@ -1,4 +1,4 @@
-﻿// <copyright file="MaterialCraftViewModel.cs" company="MaaAssistantArknights">
+// <copyright file="MaterialCraftViewModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -25,7 +25,6 @@ using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants.Enums;
-using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
@@ -44,7 +43,6 @@ public class MaterialCraftViewModel : PropertyChangedBase
     private readonly ToolboxViewModel _toolbox;
     private readonly RunningState _runningState = RunningState.Instance;
     private MaterialCraftExecution? _materialCraftExecution;
-    private Dictionary<string, long> _materialCraftPlannedOutputs = [];
     private CancellationTokenSource? _materialCraftCancellation;
     private int _requirementTaskId;
     private bool _materialCraftStopRequested;
@@ -138,6 +136,8 @@ public class MaterialCraftViewModel : PropertyChangedBase
         public BitmapSource? Image { get; init; }
 
         public string Text { get; init; } = string.Empty;
+
+        public bool ShowByproductHeader { get; init; }
     }
 
     public ObservableCollection<MaterialCraftTarget> MaterialCraftTargetList { get; } = [];
@@ -531,7 +531,7 @@ public class MaterialCraftViewModel : PropertyChangedBase
             }
 
             // Register the snapshot before Core can send its first callback.
-            var execution = new MaterialCraftExecution(taskId, targets, _materialCraftPlannedOutputs) {
+            var execution = new MaterialCraftExecution(taskId, targets) {
                 InventoryUncertain = _toolbox.DepotInventoryNeedsRecognition,
             };
             _materialCraftExecution = execution;
@@ -671,39 +671,13 @@ public class MaterialCraftViewModel : PropertyChangedBase
             return false;
         }
 
-        if (DepotResult.Count == 0)
-        {
-            MaterialCraftResultInfo = LocalizationHelper.GetString("MaterialCraftNoDepotData");
-            return false;
-        }
-
-        JObject? plan;
-        try
-        {
-            plan = AsstProxy.GetMaterialCraftPlan(BuildMaterialCraftTaskParams());
-        }
-        catch (Exception e)
-        {
-            _logger.Error(e, "Failed to calculate material craft plan");
-            plan = null;
-        }
-        if (plan is null || plan.Value<bool?>("valid") != true || plan["inventory"] is not JObject)
+        // Core validates recipes and reads current ingredient quantities after connecting.
+        if (MaterialCraftPlanItems.Any(item => item.Count <= 0))
         {
             MaterialCraftResultInfo = LocalizationHelper.GetString("MaterialCraftNoRecipe");
             return false;
         }
 
-        // Include intermediate production so an item is not removed while later batches remain.
-        _materialCraftPlannedOutputs = (plan["operations"] as JArray ?? []).OfType<JObject>()
-            .GroupBy(item => item.Value<string>("item_id") ?? string.Empty)
-            .ToDictionary(group => group.Key, group => group.Sum(item => item.Value<long>("count")));
-        var missing = (plan["missing"] as JArray ?? []).OfType<JObject>().ToList();
-        if (missing.Count > 0)
-        {
-            var missingText = string.Join(LocalizationHelper.GetString("MaterialCraftListSeparator"),
-                missing.Select(item => $"{GetItemNameOrId(item.Value<string>("item_id") ?? string.Empty)} x{item.Value<int>("count")}"));
-            MaterialCraftResultInfo = string.Format(LocalizationHelper.GetString("MaterialCraftPlanFailed"), missingText);
-        }
         return true;
     }
 
@@ -726,6 +700,27 @@ public class MaterialCraftViewModel : PropertyChangedBase
             _manufacturingFailure = LocalizationHelper.GetString(what);
             MaterialCraftResultInfo = _manufacturingFailure;
         }
+        else if (what == "MaterialCraftRecipeFailed")
+        {
+            _logger.Warning("Material recipe execution failed: {Error}", details.Value<string>("error"));
+            if (string.IsNullOrEmpty(_manufacturingFailure))
+            {
+                _manufacturingFailure = string.Format(LocalizationHelper.GetString(what),
+                    GetItemNameOrId(details.Value<string>("item_id") ?? string.Empty));
+                MaterialCraftResultInfo = _manufacturingFailure;
+            }
+        }
+        else if (what == "MaterialCraftTargetCompleted" &&
+            details.Value<string>("item_id") is { } targetId &&
+            execution.ConfirmTarget(targetId, details.Value<int>("count")))
+        {
+            var completedItem = MaterialCraftPlanItems.FirstOrDefault(item => item.Id == targetId);
+            if (completedItem is not null)
+            {
+                completedItem.PropertyChanged -= MaterialCraftPlanItemPropertyChanged;
+                MaterialCraftPlanItems.Remove(completedItem);
+            }
+        }
         else if (what == "MaterialCraftOperationStarted")
         {
             execution.BeginOperation(operation);
@@ -734,12 +729,31 @@ public class MaterialCraftViewModel : PropertyChangedBase
         {
             execution.InventoryUncertain |= details.Value<bool?>("inventory_complete") != true ||
                 details["inventory_changes"] is not JArray { Count: > 0 };
+            var netChanges = new Dictionary<string, long>();
+            var byproducts = new Dictionary<string, long>();
+            foreach (var item in (details["byproducts"] as JArray ?? []).OfType<JObject>())
+            {
+                string id = item.Value<string>("item_id") ?? string.Empty;
+                long count = item.Value<long?>("count") ?? 0;
+                if (!string.IsNullOrEmpty(id) && count > 0)
+                {
+                    byproducts[id] = byproducts.GetValueOrDefault(id) + count;
+                }
+            }
             var changes = new List<MaterialCraftInventoryChange>();
             foreach (var item in (details["inventory_changes"] as JArray ?? []).OfType<JObject>())
             {
                 string id = item.Value<string>("item_id") ?? string.Empty;
                 long delta = item.Value<long?>("count") ?? 0;
-                if (string.IsNullOrEmpty(id) || delta == 0)
+                if (string.IsNullOrEmpty(id))
+                {
+                    continue;
+                }
+                netChanges[id] = netChanges.GetValueOrDefault(id) + delta;
+            }
+            foreach (var (id, delta) in netChanges)
+            {
+                if (delta == 0)
                 {
                     continue;
                 }
@@ -749,19 +763,7 @@ public class MaterialCraftViewModel : PropertyChangedBase
                 changes.Add(new() { Id = id, OldCount = before, NewCount = (int)Math.Clamp(after, 0, int.MaxValue) });
             }
             _toolbox.ApplyMaterialCraftInventoryChanges(changes);
-            execution.RecordInventoryChanges(changes);
-            string productId = details.Value<string>("item_id") ?? string.Empty;
-            var productChange = changes.FirstOrDefault(change => change.Id == productId);
-            if (productChange is not null && execution.RecordCraftedOutput(
-                    productId, (long)productChange.NewCount - productChange.OldCount))
-            {
-                var completedItem = MaterialCraftPlanItems.FirstOrDefault(item => item.Id == productId);
-                if (completedItem is not null)
-                {
-                    completedItem.PropertyChanged -= MaterialCraftPlanItemPropertyChanged;
-                    MaterialCraftPlanItems.Remove(completedItem);
-                }
-            }
+            execution.RecordInventoryChanges(netChanges, byproducts);
         }
     }
 
@@ -775,12 +777,8 @@ public class MaterialCraftViewModel : PropertyChangedBase
         NotifyOfPropertyChange(nameof(CanEditMaterialCraftPlan));
         NotifyOfPropertyChange(nameof(CanToggleMaterialCraft));
 
-        // Show the confirmed net changes once, including partial results if the round stopped.
-        RenderMaterialCraftChanges(execution.InventoryChanges
-            .Where(change => change.OldCount != change.NewCount)
-            .OrderBy(change => GetItemSortId(change.Id))
-            .ThenBy(change => GetItemNameOrId(change.Id), StringComparer.CurrentCulture)
-            .ToList());
+        // Keep normal production/consumption separate from byproducts, including interrupted rounds.
+        RenderMaterialCraftChanges(execution);
         if (completed && execution.HasConfirmedCompletion)
         {
             _toolbox.DepotInventoryNeedsRecognition = execution.InventoryUncertain;
@@ -803,16 +801,27 @@ public class MaterialCraftViewModel : PropertyChangedBase
         _toolbox.SaveDepotDetails();
     }
 
-    private void RenderMaterialCraftChanges(IReadOnlyList<MaterialCraftInventoryChange> changes)
+    private void RenderMaterialCraftChanges(MaterialCraftExecution execution)
     {
         MaterialCraftChanges.Clear();
-        foreach (var change in changes)
+        AppendChanges(execution.RegularChanges, byproducts: false);
+        AppendChanges(execution.Byproducts, byproducts: true);
+
+        void AppendChanges(IReadOnlyDictionary<string, long> changes, bool byproducts)
         {
-            int delta = change.NewCount - change.OldCount;
-            MaterialCraftChanges.Add(new() {
-                Image = ItemListHelper.GetItemImage(change.Id),
-                Text = $"{GetItemNameOrId(change.Id)}: {FormatCount(change.OldCount)} -> {FormatCount(change.NewCount)} ({delta:+#;-#;0})",
-            });
+            bool first = true;
+            foreach (var (id, delta) in changes
+                .Where(change => change.Value != 0)
+                .OrderBy(change => GetItemSortId(change.Key))
+                .ThenBy(change => GetItemNameOrId(change.Key), StringComparer.CurrentCulture))
+            {
+                MaterialCraftChanges.Add(new() {
+                    Image = ItemListHelper.GetItemImage(id),
+                    Text = $"{GetItemNameOrId(id)}: {delta:+#;-#;0}",
+                    ShowByproductHeader = byproducts && first,
+                });
+                first = false;
+            }
         }
     }
 
@@ -824,10 +833,5 @@ public class MaterialCraftViewModel : PropertyChangedBase
     private static int GetItemSortId(string itemId)
     {
         return ItemListHelper.ArkItems.TryGetValue(itemId, out var item) ? item.SortId : int.MaxValue;
-    }
-
-    private static string FormatCount(int count)
-    {
-        return count.FormatNumber(false);
     }
 }

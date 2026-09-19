@@ -1186,7 +1186,7 @@ Right Click: Select Target Process</system:String>
     <system:String x:Key="Export">Export</system:String>
     <system:String x:Key="MaterialCraft">Material Craft</system:String>
     <system:String x:Key="MaterialRequirement">Material Requirement Recognition</system:String>
-    <system:String x:Key="MaterialCraftManufacturingChips">Chip packs (Factory)</system:String>
+    <system:String x:Key="MaterialCraftManufacturingChips">Dualchips (Factory)</system:String>
     <system:String x:Key="MaterialCraftManufacturingFailed">Factory operation was not completed. Check the game screen and logs.</system:String>
     <system:String x:Key="MaterialCraftManufacturingRestoreRequired">Factory recipe needs restoring: {0} ×{1} (facility {2})</system:String>
     <system:String x:Key="MaterialCraftStartHint">Start from any screen. MAA enters the Workshop or Factory and restores the original Factory recipe after making dualchips.</system:String>
@@ -1200,8 +1200,10 @@ Right Click: Select Target Process</system:String>
     <system:String x:Key="MaterialCraftStart">Start Processing</system:String>
     <system:String x:Key="MaterialCraftStarted">Material crafting started</system:String>
     <system:String x:Key="MaterialCraftStartFailed">Failed to start material crafting</system:String>
-    <system:String x:Key="MaterialCraftInventoryUncertain">Some inventory changes are unconfirmed. You can continue crafting using the current inventory.</system:String>
+    <system:String x:Key="MaterialCraftRecipeFailed">Crafting stopped because the recipe check or production of {0} failed. Check the material quantities and workshop status in the game.</system:String>
+    <system:String x:Key="MaterialCraftInventoryUncertain">Some inventory changes are unconfirmed. Crafting can continue using quantities read from the recipe screen.</system:String>
     <system:String x:Key="MaterialCraftCompleted">Material crafting completed; depot updated</system:String>
+    <system:String x:Key="MaterialCraftByproducts">Byproducts</system:String>
     <system:String x:Key="MaterialRequirementStarted">Started recognizing missing materials on the current screen</system:String>
     <system:String x:Key="MaterialRequirementStartFailed">Failed to start material requirement recognition</system:String>
     <system:String x:Key="MaterialRequirementFailed">Could not recognize material requirements. Open the material requirement screen and try again.</system:String>

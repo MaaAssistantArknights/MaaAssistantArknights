@@ -112,7 +112,7 @@ MaterialCraftRequest parse_material_craft_request(const json::value& params)
         inventory = params.find<json::object>("depot");
     }
     if (!inventory) {
-        throw std::invalid_argument("Inventory is required");
+        return request;
     }
     for (const auto& [id, count] : *inventory) {
         if (id.empty()) {

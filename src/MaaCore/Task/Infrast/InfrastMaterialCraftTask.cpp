@@ -15,6 +15,7 @@
 #include "MaaUtils/NoWarningCV.hpp"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Utils/MaterialCraftExecutor.h"
 #include "Utils/WorkingDir.hpp"
 #include "Vision/Infrast/InfrastMaterialCraftImageAnalyzer.h"
 #include "Vision/Matcher.h"
@@ -78,10 +79,18 @@ bool InfrastMaterialCraftTask::set_params(const json::value& params)
         if (request.targets.empty()) {
             return false;
         }
+        const auto formulas = MaterialRecipes.formulas();
+        for (const auto& target : request.targets) {
+            if (std::ranges::none_of(formulas, [&](const auto& formula) {
+                    return formula.item_id == target.item_id;
+                })) {
+                LogError << "Unknown craft target" << target.item_id;
+                return false;
+            }
+        }
         m_replenish_originium_shards = params.get("replenish", false);
         m_station_operators = params.get("station_operators", false);
         m_request = std::move(request);
-        m_plan = {};
         return true;
     }
     catch (const std::exception& e) {
@@ -90,22 +99,18 @@ bool InfrastMaterialCraftTask::set_params(const json::value& params)
     }
 }
 
-bool InfrastMaterialCraftTask::build_plan()
+std::optional<MaterialInventory> InfrastMaterialCraftTask::read_formula_inventory(const Formula& formula)
 {
-    MaterialCraftPlanner planner(MaterialRecipes.formulas());
-    m_plan = planner.build(m_request, [this] { return need_exit(); });
-    if (need_exit()) {
-        return false;
+    m_facility = "Processing";
+    if (!m_processing_ready && (!ensure_processing_room() || !ensure_craft_page())) {
+        return std::nullopt;
     }
-    auto info = basic_info_with_what("MaterialCraftPlan");
-    info["details"] = material_craft_plan_json(m_plan);
-    callback(AsstMsg::SubTaskExtraInfo, info);
-    if (!m_plan.valid || !m_plan.missing.empty()) {
-        info["what"] = "MaterialCraftPlanFailed";
-        callback(AsstMsg::SubTaskExtraInfo, info);
-    }
-    // Keep the existing ability to try crafting against an out-of-date depot snapshot.
-    return m_plan.valid && !m_plan.operations.empty();
+    m_processing_ready = true;
+    m_formula_inventory.reset();
+    m_read_formula_inventory = true;
+    const bool selected = open_formula_selector(m_station_operators ? &formula : nullptr) && select_formula(formula);
+    m_read_formula_inventory = false;
+    return selected ? m_formula_inventory : std::nullopt;
 }
 
 bool InfrastMaterialCraftTask::_run()
@@ -123,36 +128,39 @@ bool InfrastMaterialCraftTask::_run()
     m_processing_candidates_scanned = false;
     m_processing_operator.reset();
     m_stainless_in_dorm.reset();
-    if (!build_plan()) {
-        return false;
-    }
-
-    bool processing_ready = false;
-    for (const CraftOperation& operation : m_plan.operations) {
-        if (need_exit()) {
-            return false;
-        }
-        if (operation.formula.is_manufacturing()) {
-            m_facility = "Mfg";
-            processing_ready = false;
-            if (!execute_manufacturing_operation(operation)) {
-                return false;
+    m_processing_ready = false;
+    MaterialCraftExecutor executor(
+        MaterialRecipes.formulas(),
+        {
+            [this](const Formula& formula) { return read_formula_inventory(formula); },
+            [this](const CraftOperation& operation) -> std::optional<int> {
+                if (operation.formula.is_manufacturing()) {
+                    m_facility = "Mfg";
+                    m_processing_ready = false;
+                    if (!execute_manufacturing_operation(operation) || !leave_manufacturing_page()) {
+                        return std::nullopt;
+                    }
+                    return operation.batches;
+                }
+                return execute_batch(operation);
+            },
+            [this] { return need_exit(); },
+        });
+    for (const auto& target : m_request.targets) {
+        m_active_target = target;
+        m_target_output = 0;
+        m_target_completed = false;
+        if (!executor.craft(target)) {
+            if (!need_exit()) {
+                LogError << "Recipe execution failed" << executor.error();
+                save_img("debug"_p / "material_craft"_p / "recipe_failed"_p);
+                auto info = basic_info_with_what("MaterialCraftRecipeFailed");
+                info["details"] = json::object { { "item_id", target.item_id }, { "error", executor.error() } };
+                callback(AsstMsg::SubTaskExtraInfo, info);
             }
-            if (!leave_manufacturing_page()) {
-                return false;
-            }
-            continue;
-        }
-        m_facility = "Processing";
-        if (!processing_ready && (!ensure_processing_room() || !ensure_craft_page())) {
-            return false;
-        }
-        processing_ready = true;
-        if (!execute_operation(operation)) {
             return false;
         }
     }
-
     return true;
 }
 
@@ -345,41 +353,32 @@ bool InfrastMaterialCraftTask::is_obtain_items_page(const cv::Mat& image) const
     return matcher.analyze().has_value();
 }
 
-bool InfrastMaterialCraftTask::execute_operation(const CraftOperation& operation)
+std::optional<int> InfrastMaterialCraftTask::execute_batch(const CraftOperation& operation)
 {
-    int remaining = operation.batches;
-    while (remaining > 0 && !need_exit()) {
-        if (!open_formula_selector(m_station_operators ? &operation.formula : nullptr) ||
-            !select_formula(operation.formula)) {
-            return false;
-        }
-        const auto limit = m_station_operators ? prepare_processing_operator(operation.formula, remaining)
-                                               : std::optional<int>(remaining);
-        if (!limit) {
-            return false;
-        }
-        const auto batches = set_craft_count(*limit);
-        if (!batches || *batches <= 0 || *batches > *limit) {
-            return false;
-        }
-        // Recheck the displayed total, including operator skill modifiers, before consuming materials.
-        if (m_station_operators && !processing_mood_sufficient()) {
-            processing_operator_failure("MoodVerificationFailed");
-            return false;
-        }
-
-        CraftOperation actual { operation.formula, *batches };
-        // The displayed green rate is an additional chance, not the total probability.
-        // A missing toast cannot prove that no byproducts were produced.
-        m_inventory_complete = false;
-        const int operation_id = m_next_operation_id++;
-        callback_operation("MaterialCraftOperationStarted", actual, operation_id);
-        if (!click_start_button() || !click_complete_tick(actual, operation_id)) {
-            return false;
-        }
-        remaining -= *batches;
+    if (need_exit()) {
+        return std::nullopt;
     }
-    return remaining == 0;
+    const auto limit = m_station_operators ? prepare_processing_operator(operation.formula, operation.batches)
+                                           : std::optional<int>(operation.batches);
+    if (!limit) {
+        return std::nullopt;
+    }
+    const auto batches = set_craft_count(*limit);
+    if (!batches || *batches <= 0 || *batches > *limit) {
+        return std::nullopt;
+    }
+    if (m_station_operators && !processing_mood_sufficient()) {
+        processing_operator_failure("MoodVerificationFailed");
+        return std::nullopt;
+    }
+    CraftOperation actual { operation.formula, *batches };
+    m_inventory_complete = false;
+    const int operation_id = m_next_operation_id++;
+    callback_operation("MaterialCraftOperationStarted", actual, operation_id);
+    if (!click_start_button() || !click_complete_tick(actual, operation_id)) {
+        return std::nullopt;
+    }
+    return batches;
 }
 
 void InfrastMaterialCraftTask::callback_operation(
@@ -421,6 +420,18 @@ void InfrastMaterialCraftTask::callback_operation(
         details["inventory_changes"] = std::move(changes);
     }
     callback(AsstMsg::SubTaskExtraInfo, info);
+    if (what == "MaterialCraftOperationCompleted" && operation.formula.item_id == m_active_target.item_id &&
+        !m_target_completed) {
+        m_target_output += static_cast<int64_t>(operation.formula.count) * operation.batches;
+        if (m_target_output >= m_active_target.count) {
+            m_target_completed = true;
+            // Confirm the target even if stopping or restoring the page subsequently fails.
+            auto completed = basic_info_with_what("MaterialCraftTargetCompleted");
+            completed["details"] =
+                json::object { { "item_id", m_active_target.item_id }, { "count", m_active_target.count } };
+            callback(AsstMsg::SubTaskExtraInfo, completed);
+        }
+    }
 }
 
 bool InfrastMaterialCraftTask::open_formula_selector(const Formula* next_formula)
@@ -756,8 +767,8 @@ InfrastMaterialCraftTask::FormulaScanResult InfrastMaterialCraftTask::scan_and_c
     }
 
     cv::Mat image = ctrler()->get_image();
-    auto scan_matches = [&](const std::vector<double>& scales) {
-        InfrastMaterialCraftImageAnalyzer analyzer(image, Task.get("MaterialCraft-FormulaProduct")->roi);
+    auto scan_matches = [&](const cv::Mat& frame, const std::vector<double>& scales) {
+        InfrastMaterialCraftImageAnalyzer analyzer(frame, Task.get("MaterialCraft-FormulaProduct")->roi);
         analyzer.set_item_id(formula.item_id);
         analyzer.set_cancel_check([this] { return need_exit(); });
         analyzer.set_task_info("MaterialCraft-FormulaProduct");
@@ -776,12 +787,12 @@ InfrastMaterialCraftTask::FormulaScanResult InfrastMaterialCraftTask::scan_and_c
     if (scales.empty()) {
         return FormulaScanResult::VerificationFailed;
     }
-    std::vector<InfrastMaterialCraftImageAnalyzer::FormulaMatch> matches = scan_matches({ scales.front() });
+    std::vector<InfrastMaterialCraftImageAnalyzer::FormulaMatch> matches = scan_matches(image, { scales.front() });
     if (need_exit()) {
         return FormulaScanResult::Cancelled;
     }
     if (matches.empty()) {
-        matches = scan_matches(std::vector<double>(scales.begin() + 1, scales.end()));
+        matches = scan_matches(image, std::vector<double>(scales.begin() + 1, scales.end()));
     }
     if (need_exit()) {
         return FormulaScanResult::Cancelled;
@@ -794,11 +805,45 @@ InfrastMaterialCraftTask::FormulaScanResult InfrastMaterialCraftTask::scan_and_c
         if (need_exit()) {
             return FormulaScanResult::Cancelled;
         }
+        Rect click_rect = formula_match.click_rect;
+        if (m_read_formula_inventory) {
+            InfrastMaterialCraftImageAnalyzer quantities(image);
+            const auto first = quantities.analyze_requirements(formula, formula_match, [this] { return need_exit(); });
+            if (!first) {
+                continue;
+            }
+            bool confirmed = false;
+            for (int attempt = 0; attempt != 3 && !confirmed; ++attempt) {
+                if (!craft_sleep(Task.get("MaterialCraft-VerifyDelay")->post_delay)) {
+                    return FormulaScanResult::Cancelled;
+                }
+                // The list can still settle after a swipe. Locate the same product again
+                // before checking its ingredients and use the latest card position to click.
+                const cv::Mat confirmation_image = ctrler()->get_image();
+                const auto confirmation_matches = scan_matches(confirmation_image, { formula_match.scale });
+                InfrastMaterialCraftImageAnalyzer confirmation(confirmation_image);
+                for (const auto& candidate : confirmation_matches) {
+                    const auto second =
+                        confirmation.analyze_requirements(formula, candidate, [this] { return need_exit(); });
+                    if (second && first == second) {
+                        LogTrace << "Recipe card verified" << formula.item_id << formula_match.product_rect
+                                 << candidate.product_rect;
+                        click_rect = candidate.click_rect;
+                        confirmed = true;
+                        break;
+                    }
+                }
+            }
+            if (!confirmed) {
+                continue;
+            }
+            m_formula_inventory = first;
+        }
         for (int click_count = 0; click_count != 3; ++click_count) {
             if (need_exit()) {
                 return FormulaScanResult::Cancelled;
             }
-            if (need_exit() || !ctrler()->click(formula_match.click_rect)) {
+            if (need_exit() || !ctrler()->click(click_rect)) {
                 return need_exit() ? FormulaScanResult::Cancelled : FormulaScanResult::VerificationFailed;
             }
             if (!craft_sleep(Task.get("MaterialCraft-AnimationDelay")->post_delay)) {

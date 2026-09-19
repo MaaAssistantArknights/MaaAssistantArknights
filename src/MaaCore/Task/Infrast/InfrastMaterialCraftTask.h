@@ -42,7 +42,10 @@ private:
         Cancelled,
     };
 
-    bool build_plan();
+    std::optional<MaterialInventory> read_formula_inventory(const Formula& formula);
+    std::optional<MaterialInventory> m_formula_inventory;
+    bool m_read_formula_inventory = false;
+    bool m_processing_ready = false;
 
     struct ManufacturingRecipe
     {
@@ -78,7 +81,7 @@ private:
     bool is_craft_page(const cv::Mat& image) const;
     bool is_formula_selector(const cv::Mat& image) const;
     bool is_obtain_items_page(const cv::Mat& image) const;
-    bool execute_operation(const CraftOperation& operation);
+    std::optional<int> execute_batch(const CraftOperation& operation);
     bool m_station_operators = false;
     std::optional<int> prepare_processing_operator(const Formula& formula, int remaining);
     bool select_processing_operator(
@@ -143,6 +146,8 @@ private:
     std::optional<Rect> match_workshop_template(const cv::Mat& image, const std::string& task_name) const;
 
     MaterialCraftRequest m_request;
-    MaterialCraftPlan m_plan;
+    MaterialAmount m_active_target;
+    int64_t m_target_output = 0;
+    bool m_target_completed = false;
 };
 }

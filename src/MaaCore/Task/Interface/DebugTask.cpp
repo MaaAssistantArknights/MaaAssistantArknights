@@ -7,6 +7,7 @@
 
 #include "Common/AsstMsg.h"
 #include "Common/AsstTypes.h"
+#include "Config/Miscellaneous/MaterialRecipeConfig.h"
 #include "Config/TaskData.h"
 #include "Config/TemplResource.h"
 #include "MaaUtils/ImageIo.h"
@@ -16,6 +17,7 @@
 #include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/BestMatcher.h"
 #include "Vision/FeatureMatcher.h"
+#include "Vision/Infrast/InfrastMaterialCraftImageAnalyzer.h"
 #include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/DepotImageAnalyzer.h"
 #include "Vision/Miscellaneous/PipelineAnalyzer.h"
@@ -45,6 +47,9 @@ bool asst::DebugTask::run()
     }
     if (m_image_test_mode == "templ") {
         return image_test_templ();
+    }
+    if (m_image_test_mode == "material_craft") {
+        return image_test_material_craft();
     }
     return true;
 }
@@ -174,6 +179,9 @@ bool asst::DebugTask::set_params_impl(const json::value& params)
             }
             tasks.emplace_back(std::move(task));
         }
+    }
+    else if (mode == "material_craft") {
+        templates = params.get("items", std::vector<std::string>());
     }
     else if (mode == "ocr" || mode == "templ") {
         if (params.contains("roi")) {
@@ -625,4 +633,54 @@ void asst::DebugTask::test_match_template()
 #undef TEST
 #undef ASSERT_ACTIVE
 #undef ASSERT_INACTIVE
+}
+
+bool asst::DebugTask::image_test_material_craft()
+{
+    bool all_ok = true;
+    for (const auto& path : m_eval_images) {
+        const auto image = load_eval_image(path);
+        if (!image) {
+            emit_eval_error("material_craft", path, "Failed to load image");
+            all_ok = false;
+            continue;
+        }
+        json::array results;
+        for (const auto& formula : MaterialRecipes.formulas()) {
+            if (formula.is_manufacturing() ||
+                (!m_eval_templates.empty() &&
+                 std::ranges::find(m_eval_templates, formula.item_id) == m_eval_templates.end())) {
+                continue;
+            }
+            InfrastMaterialCraftImageAnalyzer analyzer(*image);
+            analyzer.set_task_info("MaterialCraft-FormulaProduct");
+            analyzer.set_item_id(formula.item_id);
+            if (!analyzer.analyze()) {
+                continue;
+            }
+            for (const auto& match : analyzer.get_result()) {
+                json::object result { { "item_id", formula.item_id },
+                                      { "rect", static_cast<json::value>(match.product_rect) },
+                                      { "score", match.score } };
+                const auto quantities = analyzer.analyze_requirements(formula, match);
+                result["hit"] = quantities.has_value();
+                json::object inventory;
+                if (quantities) {
+                    for (const auto& [id, count] : *quantities) {
+                        inventory[id] = count;
+                    }
+                }
+                result["inventory"] = std::move(inventory);
+                results.emplace_back(std::move(result));
+            }
+        }
+        callback(
+            AsstMsg::SubTaskExtraInfo,
+            json::object { { "what", "DebugImageTest" },
+                           { "details",
+                             json::object { { "mode", "material_craft" },
+                                            { "image", path },
+                                            { "results", std::move(results) } } } });
+    }
+    return all_ok;
 }

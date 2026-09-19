@@ -38,7 +38,9 @@ catch_discover_tests(maa-algorithm-test TEST_PREFIX "algorithm::")
 
 add_executable(maa-material-craft-test
     MaaCore/MaterialCraftPlannerTest.cpp
+    MaaCore/MaterialCraftExecutorTest.cpp
     ../src/MaaCore/Utils/MaterialCraftPlanner.cpp
+    ../src/MaaCore/Utils/MaterialCraftExecutor.cpp
 )
 target_compile_features(maa-material-craft-test PRIVATE cxx_std_20)
 target_link_libraries(maa-material-craft-test PRIVATE Catch2::Catch2WithMain)

@@ -388,5 +388,27 @@
         "algorithm": "JustReturn",
         "roi": [900, 0, 380, 640],
         "roi_Doc": "Right-side capture region read directly by the workshop task; this task does not run a recognizer."
+    },
+    "MaterialCraft-IngredientQuantity": {
+        "baseTask": "MaterialCraft-Quantity",
+        "roi": [0, 0, 1280, 720],
+        "rectMove": [90, 48, 100, 34],
+        "rectMove_Doc": "Ingredient fraction relative to the matched product icon center on a recipe card.",
+        "specialParams": [100],
+        "specialParams_Doc": "Horizontal distance between ingredient slots.",
+        "ocrReplace": [],
+        "binThreshold": [150, 255],
+        "useRaw": false,
+        "postDelay": 0
+    },
+    "MaterialCraft-IngredientIcon": {
+        "template": "empty.png",
+        "template_Doc": "Parameters for the known ingredient icon on the same recipe card.",
+        "roi": [0, 0, 1280, 720],
+        "rectMove": [0, -92, 100, 92],
+        "rectMove_Doc": "Icon region relative to the ingredient quantity rectangle.",
+        "specialParams": [60, 65, 70, 75, 80, 85, 90],
+        "specialParams_Doc": "Item template scales in percent.",
+        "templThreshold": 0.7
     }
 }
