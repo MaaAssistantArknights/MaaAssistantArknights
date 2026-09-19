@@ -907,7 +907,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame">便利機能</system:String>
     <system:String x:Key="MiniGameCategoryPermanent">常設</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">現在のイベント</system:String>
-    <system:String x:Key="MiniGameCategoryHandsFree">放置</system:String>
+    <system:String x:Key="MiniGameCategoryPermanentFeature">常設機能</system:String>
     <system:String x:Key="Custom">カスタムタスク</system:String>
     <system:String x:Key="SingleStep">単一ステップタスク</system:String>
     <system:String x:Key="ReclamationTheme">主題</system:String>
