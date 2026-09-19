@@ -1691,7 +1691,7 @@ CPU で OCR を行います。値はパースに参加しません。リソー�
 ::: field GpuOCR  
 @type string
 @optional
-GPU で OCR を行います。値は GPU デバイスの序数（整数）。Windows では `luid:<16 進数 LUID>` も指定できます。リソースロード後の切り替えは非対応。列挙値：2。  
+GPU で OCR を行います。値は GPU デバイスの序数（整数）で、Windows では DirectML、それ以外のプラットフォームでは CPU にフォールバックします。バックエンドを明示的に指定することもできます：`webgpu:<デバイス序数>`（実験的、Windows / macOS / Linux）、`directml:<デバイス序数>`（Windows のみ）。Windows では DirectML で `luid:<16 進数 LUID>` も指定できます。リソースロード後の切り替えは非対応。列挙値：2。  
 :::  
 ::::
 

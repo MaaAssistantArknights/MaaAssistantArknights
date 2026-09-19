@@ -3,13 +3,14 @@
 #include "OcrPack.h"
 
 #include <algorithm>
+#include <array>
 #include <filesystem>
 #include <thread>
 
 #include "MaaUtils/NoWarningCV.hpp"
 MAA_SUPPRESS_CV_WARNINGS_BEGIN
 #include "fastdeploy/vision/ocr/ppocr/dbdetector.h"
-#include "fastdeploy/vision/ocr/ppocr/ppocr_v3.h"
+#include "fastdeploy/vision/ocr/ppocr/ppocr_v6.h"
 #include "fastdeploy/vision/ocr/ppocr/recognizer.h"
 MAA_SUPPRESS_CV_WARNINGS_END
 
@@ -26,7 +27,7 @@ struct OcrPack::Impl
 {
     std::unique_ptr<fastdeploy::vision::ocr::DBDetector> det;
     std::unique_ptr<fastdeploy::vision::ocr::Recognizer> rec;
-    std::unique_ptr<fastdeploy::pipeline::PPOCRv3> ocr;
+    std::unique_ptr<fastdeploy::pipeline::PPOCRv6> ocr;
 
     std::filesystem::path det_model_path;
     std::filesystem::path rec_model_path;
@@ -62,6 +63,13 @@ bool OcrPack::load(const std::filesystem::path& path)
         m_impl->det_model_path = det_model_file;
         m_impl->det = nullptr;
     }
+    else if (m_impl->det_model_path.empty()) {
+        const auto fallback_det_file = path.parent_path() / "PaddleOCR" / "det" / "inference.onnx"_p;
+        if (std::filesystem::exists(fallback_det_file)) {
+            m_impl->det_model_path = fallback_det_file;
+            m_impl->det = nullptr;
+        }
+    }
 
     const auto rec_dir = path / "rec"_p;
     const auto rec_model_file = rec_dir / "inference.onnx"_p;
@@ -77,10 +85,23 @@ bool OcrPack::load(const std::filesystem::path& path)
     }
 
     if (m_impl->det && m_impl->rec) {
-        m_impl->ocr = std::make_unique<fastdeploy::pipeline::PPOCRv3>(m_impl->det.get(), m_impl->rec.get());
+        m_impl->ocr = std::make_unique<fastdeploy::pipeline::PPOCRv6>(m_impl->det.get(), m_impl->rec.get());
     }
 
-    return !m_impl->det_model_path.empty() && !m_impl->rec_model_path.empty() && !m_impl->rec_label_path.empty();
+    const bool paths_ready =
+        !m_impl->det_model_path.empty() && !m_impl->rec_model_path.empty() && !m_impl->rec_label_path.empty();
+    if (!paths_ready) {
+        return false;
+    }
+
+    // WebGPU 的 shader 编译发生在 session 的第一次推理上。这里在资源加载阶段就把
+    // session 建好并预热（check_and_load 内部会预热），避免这笔开销落在第一次识别上。
+    // 其它后端保持原来的懒加载行为。
+    if (m_gpu_selector && m_gpu_selector->backend() == InferenceBackend::WebGPU) {
+        check_and_load();
+    }
+
+    return true;
 }
 
 OcrPack::ResultsVec OcrPack::recognize(const cv::Mat& image, bool without_det, const std::optional<Rect>& base_roi)
@@ -194,48 +215,64 @@ bool OcrPack::check_and_load()
     det_option.UseOrtBackend();
     rec_option.UseOrtBackend();
 
-#ifdef _WIN32
+    const auto backend = m_gpu_selector ? m_gpu_selector->backend() : InferenceBackend::Auto;
     const auto device_id = m_gpu_selector ? m_gpu_selector->resolve_device_id() : std::nullopt;
-    if (device_id) {
+
+    if (backend == InferenceBackend::WebGPU) {
+        if (!device_id) {
+            Log.error(__FUNCTION__, "| failed to resolve the configured WebGPU device, falling back to CPU");
+        }
+        else {
+            m_gpu_active = true;
+            det_option.UseWebGPU(*device_id);
+            rec_option.UseWebGPU(*device_id);
+            Log.info(__FUNCTION__, "| FastDeploy WebGPU mode with device", *device_id);
+        }
+    }
+#ifdef _WIN32
+    else if (device_id) {
         m_gpu_active = true;
         det_option.UseDirectML(*device_id);
         rec_option.UseDirectML(*device_id);
+        Log.info(__FUNCTION__, "| FastDeploy DirectML mode with device", *device_id);
     }
-    else {
-        m_gpu_active = false;
-        if (m_gpu_selector) {
-            Log.error("Failed to resolve configured GPU; falling back to FastDeploy CPU mode");
-        }
+#endif
+    else if (backend == InferenceBackend::DirectML) {
+#ifdef _WIN32
+        Log.error(__FUNCTION__, "| failed to resolve the configured DirectML device, falling back to CPU");
+#else
+        Log.error(__FUNCTION__, "| DirectML backend is only available on Windows, falling back to CPU");
+#endif
+    }
+    else if (m_gpu_selector && !device_id) {
+        Log.error(__FUNCTION__, "| failed to resolve the configured GPU, falling back to CPU");
+    }
+
+    if (!m_gpu_active) {
+        // macOS 上 CoreML 的 det/rec 结果不对（疑似丢精度），继续禁用：
+        // https://github.com/microsoft/onnxruntime/blob/main/include/onnxruntime/core/providers/coreml/coreml_provider_factory.h
+        // COREML_FLAG_ONLY_ENABLE_DEVICE_WITH_ANE
+        // det_option.UseCoreML(0x004);
+        // rec_option.UseCoreML(0x004);
+        det_option.UseCpu();
+        rec_option.UseCpu();
         // CPU 模式下限制线程数，避免过高的 CPU 占用
         det_option.SetCpuThreadNum(cpu_threads);
         rec_option.SetCpuThreadNum(cpu_threads);
-        Log.info("FastDeploy CPU mode with", cpu_threads, "threads");
+        Log.info(__FUNCTION__, "| FastDeploy CPU mode with", cpu_threads, "threads");
     }
-#elif defined(__APPLE__)
-    // rec 结果不对，先禁用
-    // maafw那边用户反馈，det 貌似也不怎么对，疑似 coreml 丢精度了，拉倒
-    // https://github.com/microsoft/onnxruntime/blob/main/include/onnxruntime/core/providers/coreml/coreml_provider_factory.h
-    // COREML_FLAG_ONLY_ENABLE_DEVICE_WITH_ANE
-    // det_option.UseCoreML(0x004);
-    // rec_option.UseCoreML(0x004);
-    det_option.UseCpu();
-    rec_option.UseCpu();
-    det_option.SetCpuThreadNum(cpu_threads);
-    rec_option.SetCpuThreadNum(cpu_threads);
-    Log.info("FastDeploy macOS mode with", cpu_threads, "CPU threads");
-#else
-    det_option.UseCpu();
-    rec_option.UseCpu();
-    det_option.SetCpuThreadNum(cpu_threads);
-    rec_option.SetCpuThreadNum(cpu_threads);
-    Log.info("FastDeploy CPU mode with", cpu_threads, "threads");
-#endif
 
     m_impl->det = std::make_unique<fastdeploy::vision::ocr::DBDetector>(
         platform::path_to_utf8_string(m_impl->det_model_path),
         std::string(),
         det_option,
         fastdeploy::ModelFormat::ONNX);
+
+    // 针对 PP-OCRv6 检测模型调优后处理参数
+    m_impl->det->GetPostprocessor().SetDetDBThresh(0.2);
+    m_impl->det->GetPostprocessor().SetDetDBBoxThresh(0.45);
+    m_impl->det->GetPostprocessor().SetDetDBUnclipRatio(1.4);
+    m_impl->det->GetPostprocessor().SetDetDBMaxCandidates(3000);
 
     m_impl->rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>(
         platform::path_to_utf8_string(m_impl->rec_model_path),
@@ -245,7 +282,7 @@ bool OcrPack::check_and_load()
         fastdeploy::ModelFormat::ONNX);
 
     if (m_impl->det && m_impl->rec) {
-        m_impl->ocr = std::make_unique<fastdeploy::pipeline::PPOCRv3>(m_impl->det.get(), m_impl->rec.get());
+        m_impl->ocr = std::make_unique<fastdeploy::pipeline::PPOCRv6>(m_impl->det.get(), m_impl->rec.get());
     }
 
     bool det_inited = m_impl->det && m_impl->det->Initialized();
@@ -254,7 +291,36 @@ bool OcrPack::check_and_load()
 
     Log.info("det", det_inited, "rec", rec_inited, "ocr", ocr_inited);
 
-    return det_inited && rec_inited && ocr_inited;
+    if (!(det_inited && rec_inited && ocr_inited)) {
+        return false;
+    }
+
+    if (m_gpu_active && backend == InferenceBackend::WebGPU) {
+        warmup();
+    }
+
+    return true;
+}
+
+void OcrPack::warmup()
+{
+    LogTraceFunction;
+
+    // WebGPU compiles its shaders on the first inference of a session (a few
+    // hundred ms per model). One dummy inference per model moves that cost into
+    // the loading phase instead of the first recognition.
+    const cv::Mat det_dummy = cv::Mat::zeros(960, 960, CV_8UC3);
+    std::vector<std::array<int, 8>> boxes;
+    if (!m_impl->det->Predict(det_dummy, &boxes)) {
+        Log.warn(__FUNCTION__, "| det warmup failed");
+    }
+
+    const cv::Mat rec_dummy = cv::Mat::zeros(48, 320, CV_8UC3);
+    std::string text;
+    float score = 0.0F;
+    if (!m_impl->rec->Predict(rec_dummy, &text, &score)) {
+        Log.warn(__FUNCTION__, "| rec warmup failed");
+    }
 }
 
 } // namespace asst

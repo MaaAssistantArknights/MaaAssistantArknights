@@ -50,5 +50,24 @@
                 </Style>
             </hc:ComboBox.ItemContainerStyle>
         </hc:ComboBox>
+        <StackPanel
+            Margin="8,15,0,5"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <controls:TextBlock Text="{DynamicResource InferenceBackend}" />
+            <controls:TooltipBlock TooltipText="{DynamicResource InferenceBackendTip}" />
+        </StackPanel>
+        <hc:ComboBox
+            Width="250"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Background="{DynamicResource RegionBrushOpacity25}"
+            DisplayMemberPath="Display"
+            ItemsSource="{Binding BackendOptions}"
+            PreviewMouseWheel="{s:Action DisableComboBoxScrollWhenClosed,
+                                         Target={x:Type helper:MouseWheelHelper}}"
+            SelectedValue="{Binding ActiveBackend}"
+            SelectedValuePath="Value"
+            IsEnabled="{Binding IsGpuEnabled}" />
     </StackPanel>
 </UserControl>

@@ -361,7 +361,7 @@ user_resource = true # 사용자 정의 리소스를 로드할지 여부
 ```toml
 [static_options]
 cpu_ocr = false # CPU OCR을 사용할지 여부, 기본값은 CPU OCR 사용
-gpu_ocr = 1 # GPU OCR을 사용할 때 사용하는 GPU ID, 이 값이 비어 있으면 CPU OCR을 사용
+gpu_ocr = 1 # GPU OCR을 사용할 때 사용하는 GPU ID, `webgpu:` 접두사를 붙이면 실험적 WebGPU 백엔드(Windows / macOS / Linux), `directml:` 접두사를 붙이면 DirectML(Windows 전용)을 강제합니다. 이 값이 비어 있으면 CPU OCR을 사용
 ```
 
 ### 인스턴스 옵션
