@@ -2519,6 +2519,8 @@ public class ToolboxViewModel : Screen
         public bool IsSecretFront => Value == "MiniGame@SecretFront";
 
         public bool IsPixelPaint => Value is "MiniGame@PixelPaint" or "MiniGame@PixelPaint@Begin";
+
+        public bool IsEventShop => Value == "SS@Store@Begin";
     }
 
     public ObservableCollection<MiniGameCategoryItem> MiniGameCategoryItems { get; } = [];
@@ -2676,6 +2678,16 @@ public class ToolboxViewModel : Screen
         ("诡影迷踪", "MiniGame@SecretFront@Event3"));
 
     public string SecretFrontEvent { get; set => SetAndNotify(ref field, value); } = string.Empty;
+
+    public string EventShopBlackList
+    {
+        get;
+        set {
+            value = value.Replace("；", ";").Trim();
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackList = value;
+        }
+    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackList;
 
     #region PixelPaint
 
@@ -3246,7 +3258,11 @@ public class ToolboxViewModel : Screen
         }
         else
         {
-            caught = Instances.AsstProxy.AsstMiniGame(GetMiniGameTask());
+            var eventShopBlackList = EventShopBlackList
+                .Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Distinct()
+                .ToList();
+            caught = Instances.AsstProxy.AsstMiniGame(GetMiniGameTask(), eventShopBlackList);
         }
 
         if (!caught)

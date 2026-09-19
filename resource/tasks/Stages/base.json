@@ -29,6 +29,13 @@
         "colorScales": [[64, 96]],
         "next": ["SS@Store@CheckUnlimited", "SS@Store@ChooseMaxAmount", "SS@Store@Purchase"]
     },
+    "SS@Store@ProductName": {
+        "doc": "活动商店商品名 OCR，rectMove 以价格按钮匹配框为基准，仅覆盖对应的商品名称",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [0, 100, 1280, 610],
+        "rectMove": [-135, -105, 280, 60]
+    },
     "SS@Store@CheckUnlimited": {
         "roi": [838, 402, 161, 125],
         "templThreshold": 0.95,
