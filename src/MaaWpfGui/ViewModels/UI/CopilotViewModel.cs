@@ -78,6 +78,7 @@ public partial class CopilotViewModel : Screen
     // VideoRecognition 已不支持：仅保留 json 作业
     private static readonly string[] _supportExt = [".json"];
     private static readonly string CopilotJsonDir = Path.Combine(ConfigDir, "copilot");
+    private static readonly string OperBoxDataJsonPath = Path.Combine(DataDir, $"{JsonDataKey.OperBoxData}.json");
     private const string StageNameRegex = @"(?:[a-z]{0,3})(?:\d{0,2})-(?:(?:A|B|C|D|EX|S|TR|MO)-?)?(?:\d{1,2})";
     private const string InvalidStageNameChars = @"[:',\.\(\)\|\[\]\?，。【】｛｝；：]"; // 无效字符
 
@@ -142,6 +143,12 @@ public partial class CopilotViewModel : Screen
                 SaveCopilotTask();
             }
         };
+    }
+
+    protected override void OnActivate()
+    {
+        base.OnActivate();
+        NotifyOfPropertyChange(nameof(OperBoxLastSyncTimeText));
     }
 
     #region UI绑定及操作
@@ -447,6 +454,60 @@ public partial class CopilotViewModel : Screen
     /// Gets or sets a value indicating whether to use auto-formation.
     /// </summary>
     public bool IgnoreRequirements { get => field; set => SetAndNotify(ref field, value); }
+
+    public bool EnableOperBoxAssist { get; set => SetAndNotify(ref field, value); }
+
+    [PropertyDependsOn(nameof(EnableOperBoxAssist))]
+    public string OperBoxLastSyncTimeText
+    {
+        get {
+            if (!EnableOperBoxAssist)
+            {
+                return string.Empty;
+            }
+            try {
+                if (!string.IsNullOrEmpty(OperBoxDataJsonPath) && File.Exists(OperBoxDataJsonPath)) {
+                    var json = JObject.Parse(File.ReadAllText(OperBoxDataJsonPath));
+                    var syncTime = json["syncTime"]?.Value<string>();
+                    if (!string.IsNullOrEmpty(syncTime) && DateTimeOffset.TryParse(syncTime, out var dto)) {
+                        return Extensions.DateTimeExtension.ToLocalTimeString(dto);
+                    }
+                    return syncTime ?? string.Empty;
+                }
+            }
+            catch (Exception ex) {
+                _logger.Warning(ex, "Failed to read OperBox syncTime from {Path}", OperBoxDataJsonPath);
+            }
+            return string.Empty;
+        }
+    }
+
+    private bool IsOperBoxDataFromYituliu()
+    {
+        try
+        {
+            if (File.Exists(OperBoxDataJsonPath))
+            {
+                var json = JObject.Parse(File.ReadAllText(OperBoxDataJsonPath));
+                return json["source"]?.Value<string>() == "yituliu";
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.Warning(ex, "Failed to read OperBox source from {Path}", OperBoxDataJsonPath);
+        }
+
+        return false;
+    }
+
+    [PropertyDependsOn(nameof(EnableOperBoxAssist))]
+    [PropertyDependsOn(nameof(OperBoxLastSyncTimeText))]
+    [PropertyDependsOn(nameof(Form))]
+    [PropertyDependsOn(nameof(CopilotTabIndex))]
+    public bool EffectiveOperBoxAssist => EnableOperBoxAssist
+        && !string.IsNullOrEmpty(OperBoxLastSyncTimeText)
+        && Form
+        && (CopilotTabIndex == 0 || CopilotTabIndex == 3);
 
     /// <summary>
     /// Gets or sets a value indicating whether 真正有干员被忽略了要求
@@ -1895,6 +1956,12 @@ public partial class CopilotViewModel : Screen
 
     private async Task<bool> ValidateStartAsync()
     {
+        if (EffectiveOperBoxAssist && !IgnoreRequirements && !IsOperBoxDataFromYituliu())
+        {
+            AddLog(LocalizationHelper.GetString("CopilotOperboxAssistRequiresIgnoreRequirements"), UiLogColor.Error, showTime: false);
+            return false;
+        }
+
         if (UseCopilotList)
         {
             // 列表模式：只校验列表本身，不检查输入框里的单文件作业类型
@@ -2028,6 +2095,7 @@ public partial class CopilotViewModel : Screen
                 UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
                 UseSanityPotion = UseSanityPotion,
                 FormationIndex = UseFormation ? FormationIndex : 0,
+                OperBoxDataPath = EffectiveOperBoxAssist ? OperBoxDataJsonPath : string.Empty,
             };
 
             // 能用列表的是主线/ss/故事集/悖论，都是 Copilot 类型
@@ -2083,6 +2151,7 @@ public partial class CopilotViewModel : Screen
                 LoopTimes = Loop ? LoopTimes : 1,
                 UseSanityPotion = false,
                 FormationIndex = UseFormation ? FormationIndex : 0,
+                OperBoxDataPath = EffectiveOperBoxAssist ? OperBoxDataJsonPath : string.Empty,
             };
 
             // 单作业需要区分 Copilot / SSSCopilot
