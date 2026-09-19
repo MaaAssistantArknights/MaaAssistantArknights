@@ -892,7 +892,7 @@ asst::AutoRaiseProcessTask::Result
         return Result::ResourceInsufficient;
     }
     return run_task("OperProgress@ReturnTo" + std::string(task_type_name) + "Page") ? Result::Completed
-                                                                                 : Result::ResourceInsufficient;
+                                                                                    : Result::ResourceInsufficient;
 }
 
 bool asst::AutoRaiseProcessTask::record_factory_state()

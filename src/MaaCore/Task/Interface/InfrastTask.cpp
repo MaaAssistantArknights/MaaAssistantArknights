@@ -197,7 +197,6 @@ bool asst::InfrastTask::set_params(const json::value& params)
         m_info_task_ptr->set_ignore_error(mode != Mode::Default);
     }
 
-
     if (mode != Mode::Custom) {
         std::string drones = params.get("drones", "_NotUse");
         m_mfg_task_ptr->set_drones_usage_from_params(drones);

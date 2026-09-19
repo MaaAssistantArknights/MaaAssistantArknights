@@ -1742,12 +1742,14 @@ double training_score_impl(const ScoreOper& oper, battle::Role trainee_role, int
         else if (icon == "bskill_train_spd&profession2" && trainee_role == battle::Role::Pioneer) {
             score += 0.3;
         }
-        else if (icon == "bskill_train_specialist&pioneer1" &&
-                 (trainee_role == battle::Role::Pioneer || trainee_role == battle::Role::Special)) {
+        else if (
+            icon == "bskill_train_specialist&pioneer1" &&
+            (trainee_role == battle::Role::Pioneer || trainee_role == battle::Role::Special)) {
             score += 0.3;
         }
-        else if (icon == "bskill_train2_specialist&pioneer1" &&
-                 (trainee_role == battle::Role::Pioneer || trainee_role == battle::Role::Special)) {
+        else if (
+            icon == "bskill_train2_specialist&pioneer1" &&
+            (trainee_role == battle::Role::Pioneer || trainee_role == battle::Role::Special)) {
             score += 0.45;
         }
         else if (icon == "bskill_train_all") {
@@ -1762,16 +1764,19 @@ double training_score_impl(const ScoreOper& oper, battle::Role trainee_role, int
         else if (icon == "bskill_train_fighter" && trainee_role == battle::Role::Warrior) {
             score += 0.3;
         }
-        else if (icon == "bskill_train_vanguard&sniper" &&
-                 (trainee_role == battle::Role::Warrior || trainee_role == battle::Role::Sniper)) {
+        else if (
+            icon == "bskill_train_vanguard&sniper" &&
+            (trainee_role == battle::Role::Warrior || trainee_role == battle::Role::Sniper)) {
             score += 0.3;
         }
-        else if (icon == "bskill_train_caster&vanguard1" &&
-                 (trainee_role == battle::Role::Warrior || trainee_role == battle::Role::Caster)) {
+        else if (
+            icon == "bskill_train_caster&vanguard1" &&
+            (trainee_role == battle::Role::Warrior || trainee_role == battle::Role::Caster)) {
             score += 0.3;
         }
-        else if (icon == "bskill_train_caster&vanguard2" &&
-                 (trainee_role == battle::Role::Warrior || trainee_role == battle::Role::Caster)) {
+        else if (
+            icon == "bskill_train_caster&vanguard2" &&
+            (trainee_role == battle::Role::Warrior || trainee_role == battle::Role::Caster)) {
             score += 0.45;
         }
         else if (icon == "bskill_train_lord" && trainee_role == battle::Role::Warrior) {
@@ -1798,12 +1803,14 @@ double training_score_impl(const ScoreOper& oper, battle::Role trainee_role, int
         else if (icon == "bskill_train1_guard1" && trainee_role == battle::Role::Warrior) {
             score += 0.3 + (target_level == 1 ? 0.45 : 0.0);
         }
-        else if (icon == "bskill_train_caster&medic1" &&
-                 (trainee_role == battle::Role::Medic || trainee_role == battle::Role::Caster)) {
+        else if (
+            icon == "bskill_train_caster&medic1" &&
+            (trainee_role == battle::Role::Medic || trainee_role == battle::Role::Caster)) {
             score += 0.3;
         }
-        else if (icon == "bskill_train_caster&medic2" &&
-                 (trainee_role == battle::Role::Medic || trainee_role == battle::Role::Caster)) {
+        else if (
+            icon == "bskill_train_caster&medic2" &&
+            (trainee_role == battle::Role::Medic || trainee_role == battle::Role::Caster)) {
             score += 0.45;
         }
         else if (icon == "bskill_train_medic1" && trainee_role == battle::Role::Medic) {
@@ -1857,8 +1864,9 @@ double training_score_impl(const ScoreOper& oper, battle::Role trainee_role, int
         else if (icon == "bskill_train3_caster2" && trainee_role == battle::Role::Caster) {
             score += 0.3 + (target_level == 3 ? 0.65 : 0.0);
         }
-        else if (icon == "bskill_train_caster&supporter1" &&
-                 (trainee_role == battle::Role::Support || trainee_role == battle::Role::Caster)) {
+        else if (
+            icon == "bskill_train_caster&supporter1" &&
+            (trainee_role == battle::Role::Support || trainee_role == battle::Role::Caster)) {
             score += 0.3;
         }
         else if (icon == "bskill_train_supporter1" && trainee_role == battle::Role::Support) {
