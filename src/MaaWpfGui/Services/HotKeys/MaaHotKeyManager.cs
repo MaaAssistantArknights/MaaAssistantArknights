@@ -23,17 +23,27 @@ public class MaaHotKeyManager : IMaaHotKeyManager
 {
     private readonly Dictionary<MaaHotKeyAction, MaaHotKey> _actionHotKeyMapping = [];
 
+    // 注册失败（被占用/与其他条目重复）的条目仍保留在 mapping 中作为当前配置，
+    // 由该集合区分 ｢已生效｣ 与 ｢未生效但保留｣ ，避免编辑框显示与配置文件脱节
+    private readonly HashSet<MaaHotKeyAction> _failedRegistrations = [];
+
     public MaaHotKeyManager()
     {
         Instances.HotKeyManager.KeyPressed += HotKeyManagerPressed;
 
         foreach (var kvPair in GetPersistentHotKeys())
         {
+            // 清空过的热键在配置中是 null 条目，没有可注册的内容，跳过以免误入失败标记
+            if (kvPair.Value is null)
+            {
+                continue;
+            }
+
             TryRegister(kvPair.Key, kvPair.Value);
         }
     }
 
-    public bool TryRegister(MaaHotKeyAction action, MaaHotKey hotKey)
+    public MaaHotKeyRegistrationResult TryRegister(MaaHotKeyAction action, MaaHotKey hotKey)
     {
         InternalUnRegister(action);
 
@@ -41,7 +51,10 @@ public class MaaHotKeyManager : IMaaHotKeyManager
 
         if (hotKeyOwner.Value != null)
         {
-            return false;
+            _actionHotKeyMapping[action] = hotKey;
+            _failedRegistrations.Add(action);
+            PersistSilently();
+            return MaaHotKeyRegistrationResult.DuplicateHotKey;
         }
 
         try
@@ -51,33 +64,21 @@ public class MaaHotKeyManager : IMaaHotKeyManager
         }
         catch
         {
-            return false;
+            _actionHotKeyMapping[action] = hotKey;
+            _failedRegistrations.Add(action);
+            PersistSilently();
+            return MaaHotKeyRegistrationResult.OccupiedByOtherApp;
         }
 
-        try
-        {
-            PersistHotKeys();
-        }
-        catch
-        {
-            // ignored
-        }
-
-        return true;
+        PersistSilently();
+        return MaaHotKeyRegistrationResult.Success;
     }
 
     public void UnRegister(MaaHotKeyAction action)
     {
         InternalUnRegister(action);
 
-        try
-        {
-            PersistHotKeys();
-        }
-        catch
-        {
-            // ignored
-        }
+        PersistSilently();
     }
 
     public void Release()
@@ -88,14 +89,26 @@ public class MaaHotKeyManager : IMaaHotKeyManager
         }
     }
 
+    public bool IsRegistrationFailed(MaaHotKeyAction action)
+    {
+        return _failedRegistrations.Contains(action);
+    }
+
     private void InternalUnRegister(MaaHotKeyAction action)
     {
+        bool wasFailed = _failedRegistrations.Remove(action);
+
         if (!_actionHotKeyMapping.TryGetValue(action, out var value) || value == null)
         {
             return;
         }
 
-        Instances.HotKeyManager.Unregister(value);
+        // 失败保留的条目没有注册到系统，不能对其调用 Unregister
+        if (!wasFailed)
+        {
+            Instances.HotKeyManager.Unregister(value);
+        }
+
         _actionHotKeyMapping[action] = null;
     }
 
@@ -106,7 +119,11 @@ public class MaaHotKeyManager : IMaaHotKeyManager
 
     private void HotKeyManagerPressed(object sender, KeyPressedEventArgs e)
     {
-        var action = _actionHotKeyMapping.Where(x => x.Value.Equals(e.HotKey)).Select(x => x.Key).FirstOrDefault();
+        // 失败保留的条目未注册到系统，不会触发回调，排除以免与生效条目同组合时误派发
+        var action = _actionHotKeyMapping
+            .Where(x => x.Value != null && x.Value.Equals(e.HotKey) && !_failedRegistrations.Contains(x.Key))
+            .Select(x => x.Key)
+            .FirstOrDefault();
         Instances.MaaHotKeyActionHandler.HandleKeyPressed(action);
     }
 
@@ -134,5 +151,17 @@ public class MaaHotKeyManager : IMaaHotKeyManager
     private void PersistHotKeys()
     {
         ConfigFactory.Root.Gui.HotKeys = new(_actionHotKeyMapping);
+    }
+
+    private void PersistSilently()
+    {
+        try
+        {
+            PersistHotKeys();
+        }
+        catch
+        {
+            // ignored
+        }
     }
 }

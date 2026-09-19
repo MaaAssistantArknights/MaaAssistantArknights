@@ -407,6 +407,8 @@
     <system:String x:Key="HotKeyShowGui">[热键] 显示/收起 MAA</system:String>
     <system:String x:Key="HotKeyLinkStart">[热键] Link start/stop</system:String>
     <system:String x:Key="HotKeyChangingTip">键入 退格/Esc/Delete 清除当前热键</system:String>
+    <system:String x:Key="HotKeyRegistrationFailedOccupied">热键注册失败：组合键可能已被其他程序占用，请更换组合键</system:String>
+    <system:String x:Key="HotKeyRegistrationFailedDuplicate">热键注册失败：与其他 MAA 热键重复，请更换组合键</system:String>
     <system:String x:Key="LabelSequenceTip">标签顺序可拖动</system:String>
     <system:String x:Key="CheckBoxesNotSaved">该选项仅生效一次</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">该选项右键选中时仅生效一次</system:String>

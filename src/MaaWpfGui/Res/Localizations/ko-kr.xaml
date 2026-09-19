@@ -407,6 +407,8 @@
     <system:String x:Key="HotKeyShowGui">[단축키] MAA 보이기/숨기기</system:String>
     <system:String x:Key="HotKeyLinkStart">[단축키] Link 시작/중지</system:String>
     <system:String x:Key="HotKeyChangingTip">Backspace/Esc/Delete 키를 누르면 현재 값이 지워집니다</system:String>
+    <system:String x:Key="HotKeyRegistrationFailedOccupied">핫키 등록 실패: 이 조합은 다른 프로그램에서 이미 사용 중일 수 있습니다. 다른 조합으로 변경해 주세요</system:String>
+    <system:String x:Key="HotKeyRegistrationFailedDuplicate">핫키 등록 실패: 이 조합은 다른 MAA 핫키와 중복됩니다. 다른 조합으로 변경해 주세요</system:String>
     <system:String x:Key="LabelSequenceTip">드래그하여 작업 순서를 변경할 수 있습니다</system:String>
     <system:String x:Key="CheckBoxesNotSaved">이 옵션은 한 번만 유효합니다</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">이 옵션은 우클릭 시 한 번만 적용됩니다</system:String>

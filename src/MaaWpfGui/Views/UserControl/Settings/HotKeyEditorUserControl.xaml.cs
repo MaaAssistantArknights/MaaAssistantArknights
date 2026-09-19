@@ -39,6 +39,20 @@ public partial class HotKeyEditorUserControl : System.Windows.Controls.UserContr
         set => SetValue(HotKeyProperty, value);
     }
 
+    public static readonly DependencyProperty IsRegistrationFailedProperty =
+        DependencyProperty.Register(nameof(IsRegistrationFailed), typeof(bool),
+            typeof(HotKeyEditorUserControl),
+            new PropertyMetadata(false));
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the current hotkey failed to register; the editor shows an error border while set.
+    /// </summary>
+    public bool IsRegistrationFailed
+    {
+        get => (bool)GetValue(IsRegistrationFailedProperty);
+        set => SetValue(IsRegistrationFailedProperty, value);
+    }
+
     public HotKeyEditorUserControl()
     {
         InitializeComponent();

@@ -407,6 +407,8 @@
     <system:String x:Key="HotKeyShowGui">[ホットキー] MAAの表示/最小化</system:String>
     <system:String x:Key="HotKeyLinkStart">[ホットキー] Link 開始/停止</system:String>
     <system:String x:Key="HotKeyChangingTip">バックスペース/Esc/デリート キーを押すことで初期化できます</system:String>
+    <system:String x:Key="HotKeyRegistrationFailedOccupied">ホットキーの登録に失敗しました：このキー組み合わせは他のプログラムで使用中の可能性があります。別の組み合わせをお試しください</system:String>
+    <system:String x:Key="HotKeyRegistrationFailedDuplicate">ホットキーの登録に失敗しました：このキー組み合わせは他の MAA ホットキーと重複しています。別の組み合わせをお試しください</system:String>
     <system:String x:Key="LabelSequenceTip">タブの順番はドラッグ可能です</system:String>
     <system:String x:Key="CheckBoxesNotSaved">このオプションは一度有効です</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">このオプションは、右クリックで選択した時のみ一度だけ有効です</system:String>
