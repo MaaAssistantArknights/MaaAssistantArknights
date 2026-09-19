@@ -56,7 +56,7 @@ std::optional<int> asst::OperFilesImageAnalyzer::mastery_level(int skill)
     // 模板匹配只用于在任务 roi 内定位图标：0 级（全灰）与 3 级（全白）图标仅亮度不同，
     // TM_CCOEFF_NORMED 对亮度不敏感，二者得分几乎相同，不能按最高分模板判级；
     // 真实等级由点亮（白色）圆点数决定。
-    const std::string task_name = "AutoRaise@CurrentSkill" + std::to_string(skill) + "MasterLevel";
+    const std::string task_name = "OperProgress@CurrentSkill" + std::to_string(skill) + "MasterLevel";
     BestMatcher locator(m_image);
     locator.set_task_info(task_name);
     // BestMatcher 只遍历 append_templ 显式加入的模板,任务 json 声明的 template 列表不会自动参与匹配,
@@ -104,9 +104,9 @@ std::optional<int> asst::OperFilesImageAnalyzer::elite_level()
     // 精英化阶段标志（空心/半填充/全填充徽记）形状互异，模板匹配取最高分即可判级；
     // roi 与阈值取自任务，模板在代码侧补齐（参照 InfrastTrainingLevel 的用法）。
     // 注意 Matcher 按 templ_thres[i] 取阈值，追加的每个模板都要有对应阈值。
-    const auto task_ptr = Task.get<MatchTaskInfo>("AutoRaise@CurrentElite0");
+    const auto task_ptr = Task.get<MatchTaskInfo>("OperProgress@CurrentElite0");
     if (!task_ptr || task_ptr->templ_thresholds.empty()) {
-        Log.error(__FUNCTION__, "| task AutoRaise@CurrentElite0 not found");
+        Log.error(__FUNCTION__, "| task OperProgress@CurrentElite0 not found");
         return std::nullopt;
     }
 

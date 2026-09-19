@@ -1786,13 +1786,13 @@
     "RedTicket@Store@Purchase": {
         "text": ["購入"]
     },
-    "AutoRaise@OperBoxRoleFiltered": {
+    "OperProgress@OperBoxRoleFiltered": {
         "text": ["先鋒", "前衛", "重装", "狙撃", "術師", "医療", "補助", "特殊"]
     },
-    "AutoRaise@OperBoxRoleFilteredOpen": {
+    "OperProgress@OperBoxRoleFilteredOpen": {
         "text": ["先鋒", "前衛", "重装", "狙撃", "術師", "医療", "補助", "特殊"]
     },
-    "AutoRaise@OperBoxSortTabs": {
+    "OperProgress@OperBoxSortTabs": {
         "text": ["レベル", "レア度", "入手時間"]
     }
 }

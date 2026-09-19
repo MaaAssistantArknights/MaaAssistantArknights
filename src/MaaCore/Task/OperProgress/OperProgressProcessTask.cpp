@@ -1,4 +1,4 @@
-#include "AutoRaiseProcessTask.h"
+#include "OperProgressProcessTask.h"
 
 #include <algorithm>
 #include <optional>
@@ -147,7 +147,7 @@ bool asst::AutoRaiseProcessTask::_run()
         m_recognized_level.reset();
 
         Result result = Result::Unsupported;
-        if (target.action == AutoRaiseAction::Mastery && m_mastery_busy) {
+        if (target.action == OperProgressAction::Mastery && m_mastery_busy) {
             result = Result::Skipped;
         }
         else {
@@ -176,7 +176,7 @@ bool asst::AutoRaiseProcessTask::_run()
     return !need_exit();
 }
 
-asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_target(const AutoRaiseTarget& target)
+asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_target(const OperProgressTarget& target)
 {
     if (!BattleData.get_first_id(battle::Role::Unknown, target.name)) {
         return Result::OperatorNotFound;
@@ -188,22 +188,22 @@ asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_target(co
     }
 
     switch (target.action) {
-    case AutoRaiseAction::Elite:
+    case OperProgressAction::Elite:
         return execute_elite(target);
-    case AutoRaiseAction::Skills:
+    case OperProgressAction::Skills:
         return execute_skills(target);
-    case AutoRaiseAction::Mastery:
+    case OperProgressAction::Mastery:
         return execute_mastery(target);
     default:
         return Result::Unsupported;
     }
 }
 
-asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::find_and_open_operator(const AutoRaiseTarget& target)
+asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::find_and_open_operator(const OperProgressTarget& target)
 {
     // 计划中连续两条属于同一干员且档案页仍停留时直接复用当前页面,不回干员列表重复定位
     // 精英化等培养状态由 execute_xxx 在档案页现场识别,复用页面不影响状态判断。
-    if (m_current_operator == target.name && run_task("AutoRaise@OperFiles", 1)) {
+    if (m_current_operator == target.name && run_task("OperProgress@OperFiles", 1)) {
         return Result::Completed;
     }
 
@@ -211,15 +211,15 @@ asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::find_and_open_ope
     bool entered = false;
     if (m_entry_completed) {
         // 任务中途保证不去主页：档案页等主界面页面直接小房子快捷切进干员列表；
-        // 基建内部等没有小房子入口的页面点击返回逐层退出,到列表页即停(AutoRaise@ReturnToOperBox 的到达标志)。
-        entered = run_task("QuickSwitch@ToOperBox", 2) || run_task("AutoRaise@ReturnToOperBox", 3);
+        // 基建内部等没有小房子入口的页面点击返回逐层退出,到列表页即停(OperProgress@ReturnToOperBox 的到达标志)。
+        entered = run_task("QuickSwitch@ToOperBox", 2) || run_task("OperProgress@ReturnToOperBox", 3);
     }
     else {
         // 首条目标可能停在主页等任意页面,走完整入口链(主页入口/快捷切换/返回链,到列表页即停)。
         // 入口链在上一轮遗留的编队选人等相似页面上可能误命中,先逐层返回脱离再重试一次。
         entered = run_task("OperBoxBegin", 3);
         if (!entered && !need_exit()) {
-            run_task("AutoRaise@ReturnToOperBoxWalk", 3);
+            run_task("OperProgress@ReturnToOperBoxWalk", 3);
             entered = run_task("OperBoxBegin", 3);
         }
         m_entry_completed = true;
@@ -228,7 +228,7 @@ asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::find_and_open_ope
         return Result::RecognitionFailed;
     }
 
-    if (!select_operator_role(target.name)) {
+    if (!select_operator_role(target.role)) {
         return Result::RecognitionFailed;
     }
 
@@ -248,7 +248,7 @@ asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::find_and_open_ope
             if (!ctrler()->click(target_iter->rect)) {
                 return Result::RecognitionFailed;
             }
-            if (!run_task("AutoRaise@OperFiles")) {
+            if (!run_task("OperProgress@OperFiles")) {
                 return Result::RecognitionFailed;
             }
             m_current_operator = target.name;
@@ -268,17 +268,17 @@ asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::find_and_open_ope
     return need_exit() ? Result::Skipped : Result::OperatorNotFound;
 }
 
-bool asst::AutoRaiseProcessTask::select_operator_role(const std::string& operator_name)
+bool asst::AutoRaiseProcessTask::select_operator_role(battle::Role role)
 {
     // 使用 BattleData 职业信息缩小 OCR 查找范围,不使用固定的干员卡片坐标。
-    const std::string role_task = role_task_name(BattleData.get_first_role(operator_name));
+    const std::string role_task = role_task_name(role);
     if (role_task.empty()) {
         return true;
     }
     // 展开右上角职业栏,三种互斥状态依次尝试：筛选残留"职业名▼"(蓝字暗底与收起>模板互误匹配,只能按
     // 职业名 OCR 点开)、无筛选"职业≡"(模板)、已展开"收起>"(无需操作,直接选职业)。
-    if (!run_task("AutoRaise@OperBoxRoleFilteredOpen", 1) && !run_task("BattleQuickFormationExpandRole", 1) &&
-        !run_task("AutoRaise@OperBoxRoleBarOpened", 1)) {
+    if (!run_task("OperProgress@OperBoxRoleFilteredOpen", 1) && !run_task("BattleQuickFormationExpandRole", 1) &&
+        !run_task("OperProgress@OperBoxRoleBarOpened", 1)) {
         LogError << __FUNCTION__ << "| failed to expand role bar on oper box page";
         return false;
     }
@@ -288,10 +288,10 @@ bool asst::AutoRaiseProcessTask::select_operator_role(const std::string& operato
                .set_retry_times(3)
                .run() &&
            run_task(role_task) && run_task("InfrastCloseQuickFormationExpandRole", 3) &&
-           run_task("AutoRaise@OperBoxRoleFiltered", 3);
+           run_task("OperProgress@OperBoxRoleFiltered", 3);
 }
 
-asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_elite(const AutoRaiseTarget& target)
+asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_elite(const OperProgressTarget& target)
 {
     // 档案页现场识别当前精英阶段,不沿用干员列表页或上一条计划的结果：
     // 前序培养目标可能已改变该干员的精英化等级。识别失败时不猜测,直接判识别失败。
@@ -307,17 +307,17 @@ asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_elite(con
 
     for (int phase = current_elite; phase < target.target && !need_exit(); ++phase) {
         // 精英化前必须先把当前阶段升至满级；晋升成功后停在新阶段 1 级。
-        if (!run_task("AutoRaise@CurrentElite" + std::to_string(phase)) || !run_task("AutoRaise@LevelUp")) {
+        if (!run_task("OperProgress@CurrentElite" + std::to_string(phase)) || !run_task("OperProgress@LevelUp")) {
             return Result::RecognitionFailed;
         }
         // 档案页不展示材料行,缺料复核以晋升页面上的红色数量文字为准；
         // 弹窗链在 EliteUpPage 标志处停止,缺料探测与确认点击由本任务依次驱动。
-        if (!run_task("AutoRaise@EliteUp")) {
+        if (!run_task("OperProgress@EliteUp")) {
             return Result::RecognitionFailed;
         }
         // 存在性探测带少量重试即可：弹窗已由 EliteUpPage 标志确认渲染完成,充足时不必空烧 20 次截图。
-        if (run_task("AutoRaise@EliteUpMaterialMissing", 2)) {
-            if (run_task("AutoRaise@DualchipRequired", 2)) {
+        if (run_task("OperProgress@EliteUpMaterialMissing", 2)) {
+            if (run_task("OperProgress@DualchipRequired", 2)) {
                 // 加工站无法合成芯片。只有 5/6 星晋升二阶所需的双芯片有制造站产线；
                 // 判定依据是本次晋升的阶段（phase+1）而非总目标,E0→E1 缺的是普通芯片,直接报错转下一条。
                 const bool dual_chip =
@@ -327,35 +327,35 @@ asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_elite(con
                 }
             }
             // 材料 1/2 依次跳转加工站复用小游戏自动合成；当前槽位修复后再处理下一槽。
-            if (run_task("AutoRaise@EliteUpMaterial1Required", 2)) {
-                const Result synth_result = synthesize_missing_material(AutoRaiseAction::Elite, 1);
+            if (run_task("OperProgress@EliteUpMaterial1Required", 2)) {
+                const Result synth_result = synthesize_missing_material(OperProgressAction::Elite, 1);
                 if (synth_result != Result::Completed) {
                     return synth_result;
                 }
             }
-            if (run_task("AutoRaise@EliteUpMaterial2Required", 2)) {
-                const Result synth_result = synthesize_missing_material(AutoRaiseAction::Elite, 2);
+            if (run_task("OperProgress@EliteUpMaterial2Required", 2)) {
+                const Result synth_result = synthesize_missing_material(OperProgressAction::Elite, 2);
                 if (synth_result != Result::Completed) {
                     return synth_result;
                 }
             }
         }
         // 复核仍缺料则不点击晋升；材料齐备则点击晋升确认,再以新阶段标志确认晋升成功。
-        if (run_task("AutoRaise@EliteUpMaterialMissing", 2) || !run_task("AutoRaise@EliteUpPageConfirm") ||
-            !run_task("AutoRaise@CurrentElite" + std::to_string(phase + 1))) {
+        if (run_task("OperProgress@EliteUpMaterialMissing", 2) || !run_task("OperProgress@EliteUpPageConfirm") ||
+            !run_task("OperProgress@CurrentElite" + std::to_string(phase + 1))) {
             return Result::RecognitionFailed;
         }
     }
     return Result::Completed;
 }
 
-asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_skills(const AutoRaiseTarget& target)
+asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_skills(const OperProgressTarget& target)
 {
     // 档案页技能等级 OCR 与精英阶段识别共用一张截图
     const cv::Mat image = ctrler()->get_image();
 
-    // 当前技能等级以档案页 RANK 数字 OCR 为准（AutoRaise@CurrentSkillLevel）,识别失败按 1 级处理。
-    const auto current_opt = ocr_number(image, "AutoRaise@CurrentSkillLevel");
+    // 当前技能等级以档案页 RANK 数字 OCR 为准（OperProgress@CurrentSkillLevel）,识别失败按 1 级处理。
+    const auto current_opt = ocr_number(image, "OperProgress@CurrentSkillLevel");
     m_recognized_level = current_opt;
     const int current = current_opt.value_or(1);
     if (current >= target.target) {
@@ -368,50 +368,50 @@ asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_skills(co
         return Result::PrerequisiteNotMet;
     }
     // 点"升级+"进入全屏升级面板；2-6 级确认后面板停留在下一级,7 级确认后游戏自动返回档案页。
-    if (!run_task("AutoRaise@SkillUpgrade")) {
+    if (!run_task("OperProgress@SkillUpgrade")) {
         return Result::RecognitionFailed;
     }
     for (int level = current + 1; level <= target.target && !need_exit(); ++level) {
         // 面板缺料槽逐个检测（对接方式同 execute_elite 的槽位分派）：
         // 技能书/材料1/材料2 均跳加工站走自动合成,当前槽位修复后再检测下一槽；
         // 2-3 级的技能书不可合成,缺料时合成步骤失败即终止本轮培养。
-        if (run_task("AutoRaise@SkillUpSkillSummaryRequired", 1)) {
+        if (run_task("OperProgress@SkillUpSkillSummaryRequired", 1)) {
             if (level <= 3) {
                 return Result::ResourceInsufficient;
             }
-            const Result synth_result = synthesize_missing_material(AutoRaiseAction::Skills, 0);
+            const Result& synth_result = synthesize_missing_material(OperProgressAction::Skills, 0);
             if (synth_result != Result::Completed) {
                 return synth_result;
             }
         }
-        if (run_task("AutoRaise@SkillUpMaterial1Required", 1)) {
-            const Result synth_result = synthesize_missing_material(AutoRaiseAction::Skills, 1);
+        if (run_task("OperProgress@SkillUpMaterial1Required", 1)) {
+            const Result& synth_result = synthesize_missing_material(OperProgressAction::Skills, 1);
             if (synth_result != Result::Completed) {
                 return synth_result;
             }
         }
 
-        if (level == 7 && run_task("AutoRaise@SkillUpMaterial2Required", 1)) {
-            const Result synth_result = synthesize_missing_material(AutoRaiseAction::Skills, 2);
+        if (level == 7 && run_task("OperProgress@SkillUpMaterial2Required", 1)) {
+            const Result& synth_result = synthesize_missing_material(OperProgressAction::Skills, 2);
             if (synth_result != Result::Completed) {
                 return synth_result;
             }
         }
-        if (!run_task("AutoRaise@SkillUpConfirm")) {
+        if (!run_task("OperProgress@SkillUpConfirm")) {
             return Result::RecognitionFailed;
         }
     }
-    if (!run_task("AutoRaise@OperFiles", 10)) {
-        run_task("AutoRaise@ReturnToOperFilesPage");
+    if (!run_task("OperProgress@OperFiles", 10)) {
+        run_task("OperProgress@ReturnToOperFilesPage");
     }
     // 目标级确认后游戏返回档案页,以 RANK 数字复核最终等级。
-    if (ocr_number("AutoRaise@CurrentSkillLevel").value_or(0) < target.target) {
+    if (ocr_number("OperProgress@CurrentSkillLevel").value_or(0) < target.target) {
         return Result::RecognitionFailed;
     }
     return Result::Completed;
 }
 
-asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
+asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_mastery(const OperProgressTarget& target)
 {
     // 档案页技能等级 OCR、精英阶段与专精图标识别共用一张截图
     const cv::Mat image = ctrler()->get_image();
@@ -422,12 +422,12 @@ asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_mastery(c
     }
 
     // 专精任务前置要求通用等级7级,不满足的情况下直接返回
-    const auto rank = ocr_number(image, "AutoRaise@CurrentSkillLevel");
+    const auto rank = ocr_number(image, "OperProgress@CurrentSkillLevel");
     if (rank && *rank < 7) {
         return Result::PrerequisiteNotMet;
     }
 
-    // 档案页识别目标技能槽的当前专精等级（AutoRaise@CurrentSkill{skill}MasterLevel）：
+    // 档案页识别目标技能槽的当前专精等级（OperProgress@CurrentSkill{skill}MasterLevel）：
     // 专精等级是图标而不是可靠的 OCR 文本,而 0 级（全灰）与 3 级（全白）图标仅亮度不同,
     // 模板匹配分不出来,判级交给 OperFilesImageAnalyzer 按点亮圆点数统计。
     // 识别失败按 0 级处理,与历史行为一致。
@@ -442,7 +442,7 @@ asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_mastery(c
     int training_level = master_current + 1;
 
     // 从干员档案页的训练按钮直接进入训练室专精页面,保留当前目标干员的上下文。
-    if (!run_task("AutoRaise@MasteryPageEnter")) {
+    if (!run_task("OperProgress@MasteryPageEnter")) {
         return Result::RecognitionFailed;
     }
     // 现有训练完成任务已经负责点击领取并关闭奖励弹窗,避免重复点击占位任务；
@@ -451,7 +451,7 @@ asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_mastery(c
         ++training_level;
         if (training_level > target.target) {
             // 领取后专精等级已达到计划目标,不再启动下一级。
-            run_task("AutoRaise@ReturnToOperFilesPage");
+            run_task("OperProgress@ReturnToOperFilesPage");
             return Result::AlreadySatisfied;
         }
     }
@@ -467,10 +467,11 @@ asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_mastery(c
         std::string training_skill;
         int busy_training_level = 0;
         if (analyze_training_context(training_operator, training_skill, busy_training_level)) {
-            LogInfo << __FUNCTION__ << "| training room occupied" << training_operator<< training_skill << "mastery" << busy_training_level;
+            LogInfo << __FUNCTION__ << "| training room occupied" << training_operator << training_skill << "mastery"
+                    << busy_training_level;
         }
         m_mastery_busy = true;
-        run_task("AutoRaise@ReturnToOperFilesPage");
+        run_task("OperProgress@ReturnToOperFilesPage");
         return Result::Skipped;
     }
     // 专精会长期占用训练室,一次运行只启动下一级；导师选择任务负责结合职业、等级、技能与心情评分。
@@ -479,30 +480,30 @@ asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_mastery(c
         return Result::RecognitionFailed;
     }
     if (!run_task("BattleQuickFormationConfirm") || !run_task("InfrastTrainingMasteryPage") ||
-        !run_task("AutoRaise@MasterySelectSkill" + std::to_string(target.skill))) {
+        !run_task("OperProgress@MasterySelectSkill" + std::to_string(target.skill))) {
         return Result::RecognitionFailed;
     }
     // 选定受训干员与技能后确认面板展示材料行；逐槽检测（同 execute_elite 槽位分派）：
     // 技能书/材料1/材料2 依次跳加工站走自动合成,全部修复后复核仍缺料则不启动专精。
-    if (run_task("AutoRaise@MasterySkillSummaryRequired", 2)) {
-        const Result synth_result = synthesize_missing_material(AutoRaiseAction::Mastery, 0);
+    if (run_task("OperProgress@MasterySkillSummaryRequired", 2)) {
+        const Result synth_result = synthesize_missing_material(OperProgressAction::Mastery, 0);
         if (synth_result != Result::Completed) {
             return synth_result;
         }
     }
-    if (run_task("AutoRaise@MasteryMaterial1Required", 2)) {
-        const Result synth_result = synthesize_missing_material(AutoRaiseAction::Mastery, 1);
+    if (run_task("OperProgress@MasteryMaterial1Required", 2)) {
+        const Result synth_result = synthesize_missing_material(OperProgressAction::Mastery, 1);
         if (synth_result != Result::Completed) {
             return synth_result;
         }
     }
-    if (run_task("AutoRaise@MasteryMaterial2Required", 2)) {
-        const Result synth_result = synthesize_missing_material(AutoRaiseAction::Mastery, 2);
+    if (run_task("OperProgress@MasteryMaterial2Required", 2)) {
+        const Result synth_result = synthesize_missing_material(OperProgressAction::Mastery, 2);
         if (synth_result != Result::Completed) {
             return synth_result;
         }
     }
-    if (run_task("AutoRaise@MasteryMaterialMissing", 2)) {
+    if (run_task("OperProgress@MasteryMaterialMissing", 2)) {
         return Result::ResourceInsufficient;
     }
     // 材料齐备后先点确认弹窗的蓝色确认启动专精,
@@ -512,8 +513,8 @@ asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_mastery(c
     }
     m_mastery_busy = true;
     // 选好技能之后再选陪练，这样能确保逻各斯类技能触发
-    if (!run_task("AutoRaise@MasterySelectTrainer") || !select_training_trainer(target, training_level)) {
-        LogWarn << "execute_mastery | trainer selection failed, training already started";
+    if (!run_task("OperProgress@MasterySelectTrainer") || !select_training_trainer(target, training_level)) {
+        LogWarn << __FUNCTION__ << "| trainer selection failed, training already started";
     }
     return Result::Completed;
 }
@@ -562,7 +563,7 @@ bool asst::AutoRaiseProcessTask::analyze_training_context(
     return utils::chars_to_number(template_name.substr(std::string("InfrastTrainingLevel").size(), 1), level);
 }
 
-bool asst::AutoRaiseProcessTask::select_training_trainee(const AutoRaiseTarget& target)
+bool asst::AutoRaiseProcessTask::select_training_trainee(const OperProgressTarget& target)
 {
     // 训练室受训干员面板与作战快速编队共用同一套 UI（右侧职业栏 + 旗标卡片列表）,
     // 选人逻辑参照 BattleFormationTask::add_formation 按职业翻页扫寻；此处只点选干员,不选择技能。
@@ -656,7 +657,7 @@ bool asst::AutoRaiseProcessTask::select_training_trainee(const AutoRaiseTarget& 
     return selected;
 }
 
-bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& target, int training_level)
+bool asst::AutoRaiseProcessTask::select_training_trainer(const OperProgressTarget& target, int training_level)
 {
     LogTraceFunction;
 
@@ -848,7 +849,7 @@ bool asst::AutoRaiseProcessTask::reset_trainer_list_page()
 }
 
 asst::AutoRaiseProcessTask::Result
-    asst::AutoRaiseProcessTask::synthesize_missing_material(AutoRaiseAction task_type, int material_index)
+    asst::AutoRaiseProcessTask::synthesize_missing_material(OperProgressAction task_type, int material_index)
 {
     if (material_index < 0 || material_index > 2) {
         LogError << __FUNCTION__ << "| invalid material index" << material_index;
@@ -857,13 +858,13 @@ asst::AutoRaiseProcessTask::Result
 
     std::string_view task_type_name;
     switch (task_type) {
-    case AutoRaiseAction::Elite:
+    case OperProgressAction::Elite:
         task_type_name = "EliteUp";
         break;
-    case AutoRaiseAction::Skills:
+    case OperProgressAction::Skills:
         task_type_name = "SkillUp";
         break;
-    case AutoRaiseAction::Mastery:
+    case OperProgressAction::Mastery:
         task_type_name = "Mastery";
         break;
     default:
@@ -872,7 +873,7 @@ asst::AutoRaiseProcessTask::Result
     }
 
     const std::string material_task =
-        "AutoRaise@" + std::string(task_type_name) + "Material" + std::to_string(material_index);
+        "OperProgress@" + std::string(task_type_name) + "Material" + std::to_string(material_index);
     if (!run_task(material_task)) {
         return Result::ResourceInsufficient;
     }
@@ -890,7 +891,7 @@ asst::AutoRaiseProcessTask::Result
     if (!synthesis.run()) {
         return Result::ResourceInsufficient;
     }
-    return run_task("AutoRaise@ReturnTo" + std::string(task_type_name) + "Page") ? Result::Completed
+    return run_task("OperProgress@ReturnTo" + std::string(task_type_name) + "Page") ? Result::Completed
                                                                                  : Result::ResourceInsufficient;
 }
 
@@ -900,7 +901,7 @@ bool asst::AutoRaiseProcessTask::record_factory_state()
     // 识别结果写入 Status 供 RestoreFactoryState 恢复；识别失败时不得切换产线。
     const cv::Mat image = ctrler()->get_image();
     BestMatcher analyzer(image);
-    analyzer.set_task_info("AutoRaise@RecordFactoryState");
+    analyzer.set_task_info("OperProgress@RecordFactoryState");
     static const std::vector<std::pair<std::string, std::string>> product_flags = {
         { "InfrastMfgPureGoldFlag.png", "PureGold" },
         { "InfrastMfgDogFoodFlag.png", "BattleRecord" },
@@ -948,7 +949,7 @@ std::optional<int> asst::AutoRaiseProcessTask::ocr_number(const cv::Mat& image, 
     return value;
 }
 
-bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const AutoRaiseTarget& target)
+bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const OperProgressTarget& target)
 {
     // 弹窗徽标 OCR 已有/所需数量算缺口 → 跳制造站进芯片产线并记录当前产品 →
     // 选芯片类按职业选双芯片 → 助剂数量/库存不足时经凭证商店补购 → 制造站加 ×(缺口-1) →
@@ -957,7 +958,7 @@ bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const AutoRaiseTarget& ta
 
     const int rarity = BattleData.get_rarity(target.role, target.name);
     const int need = rarity >= 6 ? 4 : 3; // 所需数量按稀有度取值：6★ 晋升二阶需 4 枚、5★ 需 3 枚。
-    const int owned = ocr_number("AutoRaise@DualchipBadgeCount").value_or(0);
+    const int owned = ocr_number("OperProgress@DualchipBadgeCount").value_or(0);
     const int shortfall = std::max(need - owned, 0);
     LogInfo << __FUNCTION__ << "| Dualchip shortfall" << "owned:" << owned << "need:" << need
             << "shortfall:" << shortfall;
@@ -965,7 +966,7 @@ bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const AutoRaiseTarget& ta
         return true;
     }
 
-    if (!run_task("AutoRaise@Dualchip") || !run_task("AutoRaise@DualchipJumpMfg") || !record_factory_state()) {
+    if (!run_task("OperProgress@Dualchip") || !run_task("OperProgress@DualchipJumpMfg") || !record_factory_state()) {
         return false;
     }
     // 打开芯片类产品列表,按目标职业选择双芯片产品（ChooseDualchip-{职业}）。
@@ -980,15 +981,15 @@ bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const AutoRaiseTarget& ta
 
     int catalyst_owned = shortfall;
     int catalyst_stock = shortfall;
-    if (run_task("AutoRaise@MfgPage")) {
+    if (run_task("OperProgress@MfgPage")) {
         // 因为没有对紫色芯片数量做识别,如果是没有紫色芯片,就会每次都买胶水
         // 没识别出来的时候就不买芯片(强制识别结果为shortfall)
-        catalyst_owned = ocr_number("AutoRaise@MfgCatalystCount").value_or(shortfall);
-        catalyst_stock = ocr_number("AutoRaise@MfgCatalystStock").value_or(shortfall);
+        catalyst_owned = ocr_number("OperProgress@MfgCatalystCount").value_or(shortfall);
+        catalyst_stock = ocr_number("OperProgress@MfgCatalystStock").value_or(shortfall);
     }
     // 点击芯片后会若没有紫色芯片或者胶水,这时候无法跳转,还停留在配方选择页
     // 助剂数量与库存识别:出现红色视为0
-    else if (run_task("ChooseChipTabSelected") && run_task("AutoRaise@MfgCatalystMissing")) {
+    else if (run_task("ChooseChipTabSelected") && run_task("OperProgress@MfgCatalystMissing")) {
         catalyst_owned = 0;
         catalyst_stock = 0;
     }
@@ -1001,7 +1002,7 @@ bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const AutoRaiseTarget& ta
 
     if (run_task("ChooseChipTabSelected", 0)) {
         // 补购后回产品页需重新选中双芯片
-        if (!run_task(product_task) || !run_task("AutoRaise@MfgPage")) {
+        if (!run_task(product_task) || !run_task("OperProgress@MfgPage")) {
             return false;
         }
     }
@@ -1021,7 +1022,7 @@ bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const AutoRaiseTarget& ta
     }
 
     // 返回晋升页面：先退回材料详情,再点击芯片槽关闭详情
-    return run_task("AutoRaise@ReturnToEliteUpPage");
+    return run_task("OperProgress@ReturnToEliteUpPage");
 }
 
 bool asst::AutoRaiseProcessTask::restore_factory_state()
@@ -1092,7 +1093,7 @@ bool asst::AutoRaiseProcessTask::buy_catalyst(int count)
         return false;
     }
     // 购买后返回制造站重新进入芯片产品页
-    return run_task("AutoRaise@ReturnToMfgPage");
+    return run_task("OperProgress@ReturnToMfgPage");
 }
 
 bool asst::AutoRaiseProcessTask::run_task(const std::string& task_name, int retry_times)
@@ -1105,7 +1106,7 @@ bool asst::AutoRaiseProcessTask::run_task(const std::string& task_name, int retr
 void asst::AutoRaiseProcessTask::report_target(
     std::string what,
     size_t index,
-    const AutoRaiseTarget& target,
+    const OperProgressTarget& target,
     Result result,
     std::optional<int> recognized)
 {
@@ -1133,14 +1134,14 @@ void asst::AutoRaiseProcessTask::report_summary()
     callback(AsstMsg::SubTaskExtraInfo, info);
 }
 
-std::string_view asst::AutoRaiseProcessTask::action_name(AutoRaiseAction action)
+std::string_view asst::AutoRaiseProcessTask::action_name(OperProgressAction action)
 {
     switch (action) {
-    case AutoRaiseAction::Elite:
+    case OperProgressAction::Elite:
         return "elite";
-    case AutoRaiseAction::Skills:
+    case OperProgressAction::Skills:
         return "skills";
-    case AutoRaiseAction::Mastery:
+    case OperProgressAction::Mastery:
         return "mastery";
     default:
         return "unknown";

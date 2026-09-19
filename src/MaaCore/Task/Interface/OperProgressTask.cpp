@@ -1,12 +1,11 @@
-#include "OperProgressionTask.h"
+#include "OperProgressTask.h"
 
 #include <ranges>
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
-#include "Task/AutoRaise/AutoRaiseProcessTask.h"
 #include "Utils/Logger.hpp"
 
-asst::OperProgressionTask::OperProgressionTask(const AsstCallback& callback, Assistant* inst) :
+asst::OperProgressTask::OperProgressTask(const AsstCallback& callback, Assistant* inst) :
     InterfaceTask(callback, inst, TaskType),
     m_process_task_ptr(std::make_shared<AutoRaiseProcessTask>(callback, inst, TaskType))
 {
@@ -14,7 +13,7 @@ asst::OperProgressionTask::OperProgressionTask(const AsstCallback& callback, Ass
     m_subtasks.emplace_back(m_process_task_ptr);
 }
 
-bool asst::OperProgressionTask::set_params(const json::value& params)
+bool asst::OperProgressTask::set_params(const json::value& params)
 {
     LogTraceFunction;
     auto plan = parse_plan(params);
@@ -29,7 +28,7 @@ bool asst::OperProgressionTask::set_params(const json::value& params)
 namespace json::ext
 {
 template <>
-class jsonization<asst::OperProgressionTask::ProgressTargetDto>
+class jsonization<asst::OperProgressTask::ProgressTargetDto>
 {
 public:
     bool check_json(const json::value& json) const
@@ -102,7 +101,7 @@ public:
         if (role_opt && *role_opt == asst::battle::Role::Unknown) {
             const auto& role = asst::BattleData.get_roles(*name_opt, true);
             if (role.empty() || role.size() > 1) {
-                LogError << __FUNCTION__ << "oper name:" << *name_opt << "with multi role";
+                LogError << __FUNCTION__ << "oper name:" << *name_opt << "with multi role, and not specific";
                 return false;
             }
         }
@@ -115,7 +114,7 @@ public:
 };
 } // namespace json::ext
 
-std::optional<asst::AutoRaisePlan> asst::OperProgressionTask::parse_plan(const json::value& params)
+std::optional<asst::AutoRaiseProcessTask::AutoRaisePlan> asst::OperProgressTask::parse_plan(const json::value& params)
 {
     const auto& plans = params.find<std::vector<ProgressTargetDto>>("plans");
     if (!plans) {
@@ -123,36 +122,28 @@ std::optional<asst::AutoRaisePlan> asst::OperProgressionTask::parse_plan(const j
         return std::nullopt;
     }
 
-    AutoRaisePlan result;
+    AutoRaiseProcessTask::AutoRaisePlan result;
     result.reserve(plans->size());
     for (const auto& plan : *plans) {
         battle::Role role = plan.role;
         if (role == battle::Role::Unknown) {
-            role = *BattleData.get_roles(plan.name, true).begin();
+            const auto& roles = BattleData.get_roles(plan.name, true);
+            if (roles.empty() || roles.size() > 1) {
+                LogError << __FUNCTION__ << "oper name:" << plan.name << "with multi role, and not specific";
+                return std::nullopt;
+            }
+            role = *roles.begin();
         }
         if (plan.elite) {
             result.emplace_back(
-                AutoRaiseTarget {
+                AutoRaiseProcessTask::OperProgressTarget {
                     .role = role,
                     .name = plan.name,
-                    .action = AutoRaiseAction::Elite,
-                    .target
+                    .action = AutoRaiseProcessTask::OperProgressAction::Elite,
+                    .target = *plan.elite,
                 });
         }
-        if (plan.elite) {
-            target.action = AutoRaiseAction::Elite;
-            target.target = *plan.elite;
-        }
-        else if (plan.skills) {
-            target.action = AutoRaiseAction::Skills;
-            target.target = *plan.skills;
-        }
-        else {
-            target.action = AutoRaiseAction::Mastery;
-            target.skill = *plan.skill;
-            target.target = *plan.skill_master;
-        }
-        result.emplace_back(std::move(target));
+        // TODO 继续整理
     }
     return result;
 }

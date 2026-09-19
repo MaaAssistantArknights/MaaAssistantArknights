@@ -6,12 +6,13 @@
 #include <variant>
 
 #include "Common/AsstBattleDef.h"
+#include "Task/OperProgress/OperProgressProcessTask.h"
 
 namespace asst
 {
 class AutoRaiseProcessTask;
 
-class OperProgressionTask final : public InterfaceTask
+class OperProgressTask final : public InterfaceTask
 {
 private:
     // 对应 params.plans[] 的一项。elite / skills / skill + skill_master 三选一，
@@ -28,15 +29,15 @@ private:
     };
 
 public:
-    inline static constexpr std::string_view TaskType = "OperProgression";
+    inline static constexpr std::string_view TaskType = "OperProgress";
 
-    OperProgressionTask(const AsstCallback& callback, Assistant* inst);
-    virtual ~OperProgressionTask() override = default;
+    OperProgressTask(const AsstCallback& callback, Assistant* inst);
+    virtual ~OperProgressTask() override = default;
 
     virtual bool set_params(const json::value& params) override;
 
 private:
-    std::optional<AutoRaisePlan> parse_plan(const json::value& params);
+    std::optional<AutoRaiseProcessTask::AutoRaisePlan> parse_plan(const json::value& params);
 
     std::shared_ptr<AutoRaiseProcessTask> m_process_task_ptr;
 };

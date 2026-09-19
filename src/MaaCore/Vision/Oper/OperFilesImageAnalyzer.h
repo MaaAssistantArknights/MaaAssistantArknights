@@ -6,7 +6,7 @@
 
 namespace asst
 {
-// 档案页（干员信息页）干员培养状态识别，roi 与模板由 AutoRaise@CurrentXxx 任务提供。
+// 档案页（干员信息页）干员培养状态识别，roi 与模板由 OperProgress@CurrentXxx 任务提供。
 class OperFilesImageAnalyzer final : public VisionHelper
 {
 public:
