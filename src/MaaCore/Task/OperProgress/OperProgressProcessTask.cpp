@@ -21,114 +21,117 @@
 #include "Vision/BestMatcher.h"
 #include "Vision/Hasher.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
+#include "Vision/MultiMatcher.h"
 #include "Vision/Oper/OperBoxImageAnalyzer.h"
 #include "Vision/Oper/OperFilesImageAnalyzer.h"
 #include "Vision/Oper/OperNameAnalyzer.h"
-#include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
 #include "Vision/VisionHelper.h"
 
 namespace
 {
-    constexpr int MaxOperatorPages = 20;
-    // 制造站产线当前产品写入 Status 的键,RestoreFactoryState 读取后恢复原产品。
-    constexpr std::string_view FactoryProductStatusKey = "AutoRaiseFactoryProduct";
-    // 训练室受训干员整列表完整扫寻的轮数,超出后判定干员不在列表中。
-    constexpr int TraineeMissingRetryTimes = 1;
+constexpr int MaxOperatorPages = 20;
+// 制造站产线当前产品写入 Status 的键,RestoreFactoryState 读取后恢复原产品。
+constexpr std::string_view FactoryProductStatusKey = "AutoRaiseFactoryProduct";
+// 训练室受训干员整列表完整扫寻的轮数,超出后判定干员不在列表中。
+constexpr int TraineeMissingRetryTimes = 1;
 
-    // 快速编队卡片识别结果,参照 BattleFormationTask::QuickFormationOper 裁剪出选人所需字段。
-    struct QuickFormationOperInfo
-    {
-        std::string name;
-        asst::Rect flag_rect;
-        bool selected = false;
-    };
+// 快速编队卡片识别结果,参照 BattleFormationTask::QuickFormationOper 裁剪出选人所需字段。
+struct QuickFormationOperInfo
+{
+    std::string name;
+    asst::Rect flag_rect;
+    bool selected = false;
+};
 
-    // 参照 BattleFormationTask::analyzer_opers：以职业旗标模板定位卡片,
-    // 对旗标下方区域 OCR 干员名,并以旗标上方的高亮色块判断选中态。
-    std::vector<QuickFormationOperInfo> analyze_formation_opers(const cv::Mat& image)
-    {
-        const auto& ocr_replace = asst::Task.get<asst::OcrTaskInfo>("CharsNameOcrReplace");
-        const auto& ocr_task = asst::Task.get("BattleQuickFormationOCR");
-        std::vector<QuickFormationOperInfo> opers_result;
-        for (int i = 0; i < 8; ++i) {
-            const std::string flag_task_name = "BattleQuickFormation-OperNameFlag" + std::to_string(i);
+// 参照 BattleFormationTask::analyzer_opers：以职业旗标模板定位卡片,
+// 对旗标下方区域 OCR 干员名,并以旗标上方的高亮色块判断选中态。
+std::vector<QuickFormationOperInfo> analyze_formation_opers(const cv::Mat& image)
+{
+    const auto& ocr_replace = asst::Task.get<asst::OcrTaskInfo>("CharsNameOcrReplace");
+    const auto& ocr_task = asst::Task.get("BattleQuickFormationOCR");
+    std::vector<QuickFormationOperInfo> opers_result;
+    for (int i = 0; i < 8; ++i) {
+        const std::string flag_task_name = "BattleQuickFormation-OperNameFlag" + std::to_string(i);
 
-            asst::MultiMatcher multi(image);
-            multi.set_task_info(flag_task_name);
-            if (!multi.analyze()) [[unlikely]] {
+        asst::MultiMatcher multi(image);
+        multi.set_task_info(flag_task_name);
+        if (!multi.analyze()) [[unlikely]] {
+            continue;
+        }
+        for (const auto& flag : multi.get_result()) {
+            asst::OperNameAnalyzer region(image);
+            region.set_task_info(ocr_task);
+            region.set_roi(flag.rect.move(ocr_task->rect_move));
+            region.set_bin_threshold(ocr_task->special_params[0]);
+            region.set_bin_expansion(ocr_task->special_params[1]);
+            region.set_bin_trim_threshold(ocr_task->special_params[2], ocr_task->special_params[3]);
+            region.set_bottom_line_height(ocr_task->special_params[4]);
+            region.set_width_threshold(ocr_task->special_params[5]);
+            region.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
+            region.set_use_raw(true);
+            if (!region.analyze()) [[unlikely]] {
                 continue;
             }
-            for (const auto& flag : multi.get_result()) {
-                asst::OperNameAnalyzer region(image);
-                region.set_task_info(ocr_task);
-                region.set_roi(flag.rect.move(ocr_task->rect_move));
-                region.set_bin_threshold(ocr_task->special_params[0]);
-                region.set_bin_expansion(ocr_task->special_params[1]);
-                region.set_bin_trim_threshold(ocr_task->special_params[2], ocr_task->special_params[3]);
-                region.set_bottom_line_height(ocr_task->special_params[4]);
-                region.set_width_threshold(ocr_task->special_params[5]);
-                region.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
-                region.set_use_raw(true);
-                if (!region.analyze()) [[unlikely]] {
-                    continue;
-                }
 
-                const auto& ocr_result = region.get_result();
-                if (ocr_result.text.empty()) {
-                    continue;
-                }
-
-                // 相邻职业的旗标模板可能重复命中同一张卡片,按位置去重。
-                constexpr int kMinDistance = 5;
-                const auto find_it = std::ranges::find_if(opers_result, [&flag](const QuickFormationOperInfo& pre) {
-                    return std::abs(pre.flag_rect.x - flag.rect.x) < kMinDistance &&
-                           std::abs(pre.flag_rect.y - flag.rect.y) < kMinDistance;
-                });
-                if (find_it != opers_result.end()) {
-                    continue;
-                }
-
-                // 已选中的干员旗标上方出现橙色高亮。
-                cv::Mat selected_image = asst::make_roi(image, flag.rect.move({ 0, -10, 5, 4 }));
-                cv::inRange(selected_image, cv::Scalar(170, 115, 0), cv::Scalar(255, 180, 100), selected_image);
-
-                opers_result.emplace_back(
-                    QuickFormationOperInfo { ocr_result.text, flag.rect, cv::hasNonZero(selected_image) });
+            const auto& ocr_result = region.get_result();
+            if (ocr_result.text.empty()) {
+                continue;
             }
+
+            // 相邻职业的旗标模板可能重复命中同一张卡片,按位置去重。
+            constexpr int kMinDistance = 5;
+            const auto find_it = std::ranges::find_if(opers_result, [&flag](const QuickFormationOperInfo& pre) {
+                return std::abs(pre.flag_rect.x - flag.rect.x) < kMinDistance &&
+                       std::abs(pre.flag_rect.y - flag.rect.y) < kMinDistance;
+            });
+            if (find_it != opers_result.end()) {
+                continue;
+            }
+
+            // 已选中的干员旗标上方出现橙色高亮。
+            cv::Mat selected_image = asst::make_roi(image, flag.rect.move({ 0, -10, 5, 4 }));
+            cv::inRange(selected_image, cv::Scalar(170, 115, 0), cv::Scalar(255, 180, 100), selected_image);
+
+            opers_result.emplace_back(
+                QuickFormationOperInfo { ocr_result.text, flag.rect, cv::hasNonZero(selected_image) });
         }
-        // 参照 BattleFormationTask::analyzer_opers 的 sort_by_vertical_,保证卡片顺序确定以判断翻页。
-        std::sort(opers_result.begin(), opers_result.end(), [](const QuickFormationOperInfo& l, const QuickFormationOperInfo& r) {
+    }
+    // 参照 BattleFormationTask::analyzer_opers 的 sort_by_vertical_,保证卡片顺序确定以判断翻页。
+    std::sort(
+        opers_result.begin(),
+        opers_result.end(),
+        [](const QuickFormationOperInfo& l, const QuickFormationOperInfo& r) {
             return std::tie(l.flag_rect.y, l.flag_rect.x) < std::tie(r.flag_rect.y, r.flag_rect.x);
         });
-        return opers_result;
-    }
+    return opers_result;
+}
 
-    std::string role_task_name(asst::battle::Role role)
-    {
-        switch (role) {
-        case asst::battle::Role::Pioneer:
-            return "BattleQuickFormationRole-Pioneer";
-        case asst::battle::Role::Warrior:
-            return "BattleQuickFormationRole-Warrior";
-        case asst::battle::Role::Tank:
-            return "BattleQuickFormationRole-Tank";
-        case asst::battle::Role::Caster:
-            return "BattleQuickFormationRole-Caster";
-        case asst::battle::Role::Medic:
-            return "BattleQuickFormationRole-Medic";
-        case asst::battle::Role::Sniper:
-            return "BattleQuickFormationRole-Sniper";
-        case asst::battle::Role::Special:
-            return "BattleQuickFormationRole-Special";
-        case asst::battle::Role::Support:
-            return "BattleQuickFormationRole-Support";
-        case asst::battle::Role::Unknown:
-        case asst::battle::Role::Drone:
-        default:
-            return {};
-        }
+std::string role_task_name(asst::battle::Role role)
+{
+    switch (role) {
+    case asst::battle::Role::Pioneer:
+        return "BattleQuickFormationRole-Pioneer";
+    case asst::battle::Role::Warrior:
+        return "BattleQuickFormationRole-Warrior";
+    case asst::battle::Role::Tank:
+        return "BattleQuickFormationRole-Tank";
+    case asst::battle::Role::Caster:
+        return "BattleQuickFormationRole-Caster";
+    case asst::battle::Role::Medic:
+        return "BattleQuickFormationRole-Medic";
+    case asst::battle::Role::Sniper:
+        return "BattleQuickFormationRole-Sniper";
+    case asst::battle::Role::Special:
+        return "BattleQuickFormationRole-Special";
+    case asst::battle::Role::Support:
+        return "BattleQuickFormationRole-Support";
+    case asst::battle::Role::Unknown:
+    case asst::battle::Role::Drone:
+    default:
+        return {};
     }
+}
 }
 
 bool asst::AutoRaiseProcessTask::_run()
@@ -173,8 +176,7 @@ bool asst::AutoRaiseProcessTask::_run()
     return !need_exit();
 }
 
-asst::AutoRaiseProcessTask::Result
-asst::AutoRaiseProcessTask::execute_target(const AutoRaiseTarget& target)
+asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_target(const AutoRaiseTarget& target)
 {
     if (!BattleData.get_first_id(battle::Role::Unknown, target.name)) {
         return Result::OperatorNotFound;
@@ -197,10 +199,9 @@ asst::AutoRaiseProcessTask::execute_target(const AutoRaiseTarget& target)
     }
 }
 
-asst::AutoRaiseProcessTask::Result
-asst::AutoRaiseProcessTask::find_and_open_operator(const AutoRaiseTarget& target)
+asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::find_and_open_operator(const AutoRaiseTarget& target)
 {
-    // 计划中连续两条属于同一干员且档案页仍停留时直接复用当前页面,不回干员列表重复定位    
+    // 计划中连续两条属于同一干员且档案页仍停留时直接复用当前页面,不回干员列表重复定位
     // 精英化等培养状态由 execute_xxx 在档案页现场识别,复用页面不影响状态判断。
     if (m_current_operator == target.name && run_task("AutoRaise@OperFiles", 1)) {
         return Result::Completed;
@@ -278,7 +279,7 @@ bool asst::AutoRaiseProcessTask::select_operator_role(const std::string& operato
     // 职业名 OCR 点开)、无筛选"职业≡"(模板)、已展开"收起>"(无需操作,直接选职业)。
     if (!run_task("AutoRaise@OperBoxRoleFilteredOpen", 1) && !run_task("BattleQuickFormationExpandRole", 1) &&
         !run_task("AutoRaise@OperBoxRoleBarOpened", 1)) {
-        Log.error("AutoRaise | failed to expand role bar on oper box page");
+        LogError << __FUNCTION__ << "| failed to expand role bar on oper box page";
         return false;
     }
     // 先选 ALL 再切换目标职业,避免同职业列表保留上次的滚动位置。
@@ -290,8 +291,7 @@ bool asst::AutoRaiseProcessTask::select_operator_role(const std::string& operato
            run_task("AutoRaise@OperBoxRoleFiltered", 3);
 }
 
-asst::AutoRaiseProcessTask::Result
-asst::AutoRaiseProcessTask::execute_elite(const AutoRaiseTarget& target)
+asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_elite(const AutoRaiseTarget& target)
 {
     // 档案页现场识别当前精英阶段,不沿用干员列表页或上一条计划的结果：
     // 前序培养目标可能已改变该干员的精英化等级。识别失败时不猜测,直接判识别失败。
@@ -307,8 +307,7 @@ asst::AutoRaiseProcessTask::execute_elite(const AutoRaiseTarget& target)
 
     for (int phase = current_elite; phase < target.target && !need_exit(); ++phase) {
         // 精英化前必须先把当前阶段升至满级；晋升成功后停在新阶段 1 级。
-        if (!run_task("AutoRaise@CurrentElite" + std::to_string(phase)) ||
-            !run_task("AutoRaise@LevelUp")) {
+        if (!run_task("AutoRaise@CurrentElite" + std::to_string(phase)) || !run_task("AutoRaise@LevelUp")) {
             return Result::RecognitionFailed;
         }
         // 档案页不展示材料行,缺料复核以晋升页面上的红色数量文字为准；
@@ -322,8 +321,7 @@ asst::AutoRaiseProcessTask::execute_elite(const AutoRaiseTarget& target)
                 // 加工站无法合成芯片。只有 5/6 星晋升二阶所需的双芯片有制造站产线；
                 // 判定依据是本次晋升的阶段（phase+1）而非总目标,E0→E1 缺的是普通芯片,直接报错转下一条。
                 const bool dual_chip =
-                    phase + 1 == 2 &&
-                    BattleData.get_rarity(BattleData.get_first_role(target.name), target.name) > 4;
+                    phase + 1 == 2 && BattleData.get_rarity(BattleData.get_first_role(target.name), target.name) > 4;
                 if (!dual_chip || !manufacture_dual_chip(target)) {
                     return dual_chip ? Result::ResourceInsufficient : Result::ChipNotCraftable;
                 }
@@ -343,8 +341,7 @@ asst::AutoRaiseProcessTask::execute_elite(const AutoRaiseTarget& target)
             }
         }
         // 复核仍缺料则不点击晋升；材料齐备则点击晋升确认,再以新阶段标志确认晋升成功。
-        if (run_task("AutoRaise@EliteUpMaterialMissing", 2) ||
-            !run_task("AutoRaise@EliteUpPageConfirm") ||
+        if (run_task("AutoRaise@EliteUpMaterialMissing", 2) || !run_task("AutoRaise@EliteUpPageConfirm") ||
             !run_task("AutoRaise@CurrentElite" + std::to_string(phase + 1))) {
             return Result::RecognitionFailed;
         }
@@ -352,8 +349,7 @@ asst::AutoRaiseProcessTask::execute_elite(const AutoRaiseTarget& target)
     return Result::Completed;
 }
 
-asst::AutoRaiseProcessTask::Result
-asst::AutoRaiseProcessTask::execute_skills(const AutoRaiseTarget& target)
+asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_skills(const AutoRaiseTarget& target)
 {
     // 档案页技能等级 OCR 与精英阶段识别共用一张截图
     const cv::Mat image = ctrler()->get_image();
@@ -415,8 +411,7 @@ asst::AutoRaiseProcessTask::execute_skills(const AutoRaiseTarget& target)
     return Result::Completed;
 }
 
-asst::AutoRaiseProcessTask::Result
-asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
+asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
 {
     // 档案页技能等级 OCR、精英阶段与专精图标识别共用一张截图
     const cv::Mat image = ctrler()->get_image();
@@ -472,12 +467,7 @@ asst::AutoRaiseProcessTask::execute_mastery(const AutoRaiseTarget& target)
         std::string training_skill;
         int busy_training_level = 0;
         if (analyze_training_context(training_operator, training_skill, busy_training_level)) {
-            Log.info(
-                "AutoRaise | training room occupied",
-                training_operator,
-                training_skill,
-                "mastery",
-                busy_training_level);
+            LogInfo << __FUNCTION__ << "| training room occupied" << training_operator<< training_skill << "mastery" << busy_training_level;
         }
         m_mastery_busy = true;
         run_task("AutoRaise@ReturnToOperFilesPage");
@@ -619,16 +609,15 @@ bool asst::AutoRaiseProcessTask::select_training_trainee(const AutoRaiseTarget& 
     while (!need_exit()) {
         const auto opers_result = analyze_formation_opers(ctrler()->get_image());
         // 页面有效 = 能识别到干员,且末位干员与上一页不同（相同说明列表已滑到底未移动）。
-        const bool page_valid = !opers_result.empty() &&
-                                (last_oper_name.empty() || last_oper_name != opers_result.back().name);
+        const bool page_valid =
+            !opers_result.empty() && (last_oper_name.empty() || last_oper_name != opers_result.back().name);
         if (!opers_result.empty()) {
             last_oper_name = opers_result.back().name;
         }
 
         if (page_valid) {
             has_error = false;
-            const auto target_iter =
-                std::ranges::find(opers_result, target.name, &QuickFormationOperInfo::name);
+            const auto target_iter = std::ranges::find(opers_result, target.name, &QuickFormationOperInfo::name);
             if (target_iter != opers_result.cend()) {
                 if (!target_iter->selected) {
                     ctrler()->click(target_iter->flag_rect);
@@ -651,7 +640,7 @@ bool asst::AutoRaiseProcessTask::select_training_trainee(const AutoRaiseTarget& 
         }
         else {
             if (overall_swipe_times >= TraineeMissingRetryTimes) {
-                LogWarn << "select_training_trainee | oper not found" << target.name;
+                LogWarn << __FUNCTION__ << "| oper not found" << target.name;
                 break;
             }
             ++overall_swipe_times;
@@ -662,9 +651,7 @@ bool asst::AutoRaiseProcessTask::select_training_trainee(const AutoRaiseTarget& 
     }
 
     // 单一出口：复位"全部"并收起职业栏,筛选状态不带给后续技能与导师选择。
-    ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" })
-        .set_retry_times(0)
-        .run();
+    ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).set_retry_times(0).run();
     ProcessTask(*this, { "InfrastCloseQuickFormationExpandRole", "Stop" }).run();
     return selected;
 }
@@ -722,11 +709,11 @@ bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& 
     }
 
     if (score_operators.empty()) {
-        LogWarn << "select_training_trainer | no operator recognized";
+        LogWarn << __FUNCTION__ << "| no operator recognized";
         return false;
     }
     if (!scan_completed) {
-        LogWarn << "select_training_trainer | operator scan exceeded page limit";
+        LogWarn << __FUNCTION__ << "| operator scan exceeded page limit";
     }
 
     // 导师评分沿用 InfrastScore::select_training,
@@ -740,16 +727,16 @@ bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& 
     context.slots = 1;
     const auto selection = infrast::select_training(score_operators, context);
     if (selection.indices.empty() || selection.indices.front() >= operator_face_hashes.size()) {
-        LogWarn << "select_training_trainer | no eligible trainer, best score" << selection.score;
+        LogWarn << __FUNCTION__ << "| no eligible trainer, best score" << selection.score;
         return false;
     }
 
     const std::string& trainer_face_hash = operator_face_hashes.at(selection.indices.front());
     if (trainer_face_hash.empty()) {
-        LogWarn << "select_training_trainer | trainer face hash is empty";
+        LogWarn << __FUNCTION__ << "| trainer face hash is empty";
         return false;
     }
-    LogInfo << "select_training_trainer | trainer best score" << selection.score;
+    LogInfo << __FUNCTION__ << "| trainer best score" << selection.score;
 
     // 评分需要扫描完整列表；与加工站一样,复位到第一页后重新逐页定位目标再点击,
     // 不做"往回滑 N 页"的盲点击,避免快速滑动距离与实际页面数对不上。
@@ -783,14 +770,14 @@ bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& 
             if (Hasher::hamming(oper.face_hash, trainer_face_hash) >= face_hash_threshold) {
                 continue;
             }
-            LogInfo << "select_training_trainer | trainer located on page" << page;
+            LogInfo << __FUNCTION__ << "| trainer located on page" << page;
             // 协助者只有一个位置；目标已选中时无需点击,选择新目标时由列表直接替换。
             if (!oper.selected) {
                 ctrler()->click(oper.rect);
                 sleep(500);
             }
             else {
-                LogInfo << "select_training_trainer | trainer already selected";
+                LogInfo << __FUNCTION__ << "| trainer already selected";
             }
             trainer_selected = true;
             break;
@@ -812,7 +799,7 @@ bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& 
         run_task("InfrastOperListSlowlySwipeToTheRight");
     }
     if (!trainer_selected) {
-        LogWarn << "select_training_trainer | trainer not found while relocating";
+        LogWarn << __FUNCTION__ << "| trainer not found while relocating";
     }
 
     // 训练室换班结尾,点右下角确认按钮应用陪练干员并关闭列表；
@@ -821,7 +808,7 @@ bool asst::AutoRaiseProcessTask::select_training_trainer(const AutoRaiseTarget& 
     // 是否成功以专精页面的"协助者"字样复核为准；若弹出干员冲突确认,任务链内会顺带处理。
     run_task("InfrastDormConfirmButton");
     if (!run_task("InfrastTrainingMasteryPage", 10)) {
-        LogWarn << "select_training_trainer | failed to confirm trainer selection";
+        LogWarn << __FUNCTION__ << "| failed to confirm trainer selection";
         return false;
     }
     return trainer_selected;
@@ -861,10 +848,10 @@ bool asst::AutoRaiseProcessTask::reset_trainer_list_page()
 }
 
 asst::AutoRaiseProcessTask::Result
-asst::AutoRaiseProcessTask::synthesize_missing_material(AutoRaiseAction task_type, int material_index)
+    asst::AutoRaiseProcessTask::synthesize_missing_material(AutoRaiseAction task_type, int material_index)
 {
     if (material_index < 0 || material_index > 2) {
-        Log.error("AutoRaise | invalid material index", material_index);
+        LogError << __FUNCTION__ << "| invalid material index" << material_index;
         return Result::ResourceInsufficient;
     }
 
@@ -880,7 +867,7 @@ asst::AutoRaiseProcessTask::synthesize_missing_material(AutoRaiseAction task_typ
         task_type_name = "Mastery";
         break;
     default:
-        Log.error("AutoRaise | unsupported material task type", static_cast<int>(task_type));
+        LogError << __FUNCTION__ << "| unsupported material task type" << static_cast<int>(task_type);
         return Result::ResourceInsufficient;
     }
 
@@ -891,7 +878,7 @@ asst::AutoRaiseProcessTask::synthesize_missing_material(AutoRaiseAction task_typ
     }
     // 快速跳转弹窗内与跳转按钮同 roi 识别到不可用态,说明该材料配方尚未解锁,无法在加工站合成。
     if (run_task(material_task + "JumpProcessingUnable", 2)) {
-        Log.info("AutoRaise | formula locked, skip synthesizing", material_task);
+        LogInfo << __FUNCTION__ << "| formula locked, skip synthesizing" << material_task;
         return Result::FormulaLocked;
     }
     if (!run_task(material_task + "JumpProcessing")) {
@@ -924,7 +911,7 @@ bool asst::AutoRaiseProcessTask::record_factory_state()
         analyzer.append_templ(templ);
     }
     if (!analyzer.analyze()) {
-        Log.error("AutoRaise | factory product flag not recognized, refusing to switch production line");
+        LogError << __FUNCTION__ << "| factory product flag not recognized, refusing to switch production line";
         save_img(utils::path("debug") / utils::path("auto_raise"), false);
         return false;
     }
@@ -932,7 +919,7 @@ bool asst::AutoRaiseProcessTask::record_factory_state()
     for (const auto& [templ, product] : product_flags) {
         if (templ == templ_name) {
             status()->set_str(std::string(FactoryProductStatusKey), product);
-            Log.info("AutoRaise | factory product recorded", product);
+            LogInfo << __FUNCTION__ << "| factory product recorded" << product;
             return true;
         }
     }
@@ -966,19 +953,19 @@ bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const AutoRaiseTarget& ta
     // 弹窗徽标 OCR 已有/所需数量算缺口 → 跳制造站进芯片产线并记录当前产品 →
     // 选芯片类按职业选双芯片 → 助剂数量/库存不足时经凭证商店补购 → 制造站加 ×(缺口-1) →
     // 执行更改+右确认 → 等待生产 → 返回前按记录恢复产线 → 返回晋升页面。
-    // 生产为排队制：制造完成后当次晋升仍会因材料未到账而复核失败,由外层计划重试。    
+    // 生产为排队制：制造完成后当次晋升仍会因材料未到账而复核失败,由外层计划重试。
 
-    const int rarity = BattleData.get_rarity(BattleData.get_first_role(target.name), target.name);
-    const int need = rarity >= 6 ? 4 : 3;// 所需数量按稀有度取值：6★ 晋升二阶需 4 枚、5★ 需 3 枚。
+    const int rarity = BattleData.get_rarity(target.role, target.name);
+    const int need = rarity >= 6 ? 4 : 3; // 所需数量按稀有度取值：6★ 晋升二阶需 4 枚、5★ 需 3 枚。
     const int owned = ocr_number("AutoRaise@DualchipBadgeCount").value_or(0);
     const int shortfall = std::max(need - owned, 0);
-    Log.info("AutoRaise | Dualchip shortfall", "owned:", owned, "need:", need, "shortfall:", shortfall);
+    LogInfo << __FUNCTION__ << "| Dualchip shortfall" << "owned:" << owned << "need:" << need
+            << "shortfall:" << shortfall;
     if (shortfall == 0) {
         return true;
     }
 
-    if (!run_task("AutoRaise@Dualchip") || !run_task("AutoRaise@DualchipJumpMfg") ||
-        !record_factory_state()) {
+    if (!run_task("AutoRaise@Dualchip") || !run_task("AutoRaise@DualchipJumpMfg") || !record_factory_state()) {
         return false;
     }
     // 打开芯片类产品列表,按目标职业选择双芯片产品（ChooseDualchip-{职业}）。
@@ -987,27 +974,27 @@ bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const AutoRaiseTarget& ta
         return false;
     }
     const std::string product_task = "ChooseDualchip-" + enum_to_string(role, true);
-    if (!run_task("ChooseProductList") || !run_task("ChooseChipTab") ||
-        !run_task(product_task)) {
+    if (!run_task("ChooseProductList") || !run_task("ChooseChipTab") || !run_task(product_task)) {
         return false;
     }
 
     int catalyst_owned = shortfall;
     int catalyst_stock = shortfall;
     if (run_task("AutoRaise@MfgPage")) {
-        // 因为没有对紫色芯片数量做识别,如果是没有紫色芯片,就会每次都买胶水 
-        // 没识别出来的时候就不买芯片(强制识别结果为shortfall)   
+        // 因为没有对紫色芯片数量做识别,如果是没有紫色芯片,就会每次都买胶水
+        // 没识别出来的时候就不买芯片(强制识别结果为shortfall)
         catalyst_owned = ocr_number("AutoRaise@MfgCatalystCount").value_or(shortfall);
         catalyst_stock = ocr_number("AutoRaise@MfgCatalystStock").value_or(shortfall);
     }
-    // 点击芯片后会若没有紫色芯片或者胶水,这时候无法跳转,还停留在配方选择页    
-    // 助剂数量与库存识别:出现红色视为0 
+    // 点击芯片后会若没有紫色芯片或者胶水,这时候无法跳转,还停留在配方选择页
+    // 助剂数量与库存识别:出现红色视为0
     else if (run_task("ChooseChipTabSelected") && run_task("AutoRaise@MfgCatalystMissing")) {
         catalyst_owned = 0;
         catalyst_stock = 0;
     }
     const int catalyst_short = shortfall - catalyst_owned - catalyst_stock;
-    Log.info("AutoRaise | Catalyst shortfall", "owned:", catalyst_owned, "stock:", catalyst_stock, "shortfall:", catalyst_short);
+    LogInfo << __FUNCTION__ << "| Catalyst shortfall" << "owned:" << catalyst_owned << "stock:" << catalyst_stock
+            << "shortfall:" << catalyst_short;
     if (catalyst_short > 0 && !buy_catalyst(catalyst_short)) {
         return false;
     }
@@ -1027,7 +1014,7 @@ bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const AutoRaiseTarget& ta
     if (!run_task("ConfirmProductChange")) {
         return false;
     }
-    sleep(6000);// 最多4个芯片,休眠6s应该足够
+    sleep(6000); // 最多4个芯片,休眠6s应该足够
 
     if (!restore_factory_state()) {
         return false;
@@ -1043,7 +1030,7 @@ bool asst::AutoRaiseProcessTask::restore_factory_state()
     // 无记录或记录为芯片时无需恢复。
     const auto product = status()->get_str(std::string(FactoryProductStatusKey));
     if (!product) {
-        Log.warn("AutoRaise | no factory product recorded, skip restoring");
+        LogWarn << __FUNCTION__ << "| no factory product recorded, skip restoring";
         return true;
     }
     if (*product == "Chip") {
@@ -1073,8 +1060,7 @@ bool asst::AutoRaiseProcessTask::buy_catalyst(int count)
     // 凭证交易所导航 → 红票区页签 → 滚动查找芯片助剂（可能不在第一屏）→ 打开购买面板 →
     // 商品加 ×(count-1) → 支付 → 领取获得物资 → 返回制造站芯片产品页。
 
-    if (!run_task("Store@QuickSwitchEnterStore") ||
-        !run_task("RedTicket@Store@ChooseTicketType")) {
+    if (!run_task("Store@QuickSwitchEnterStore") || !run_task("RedTicket@Store@ChooseTicketType")) {
         return false;
     }
 
@@ -1090,7 +1076,7 @@ bool asst::AutoRaiseProcessTask::buy_catalyst(int count)
         }
     }
     if (!found) {
-        Log.error("AutoRaise | catalyst item not found in red ticket store");
+        LogError << __FUNCTION__ << "| catalyst item not found in red ticket store";
         save_img(utils::path("debug") / utils::path("auto_raise"), false);
         return false;
     }
@@ -1111,12 +1097,6 @@ bool asst::AutoRaiseProcessTask::buy_catalyst(int count)
 
 bool asst::AutoRaiseProcessTask::run_task(const std::string& task_name, int retry_times)
 {
-    // ProcessTask 对不存在的任务名会抛异常并终止整条任务链
-    // （如改动 tasks.json 后未重启客户端重新加载资源时）,这里提前拦截,只让当前目标失败。
-    if (!Task.get(task_name)) {
-        Log.error(__FUNCTION__, "| task not found:", task_name);
-        return false;
-    }
     ProcessTask task(*this, { task_name });
     task.set_retry_times(retry_times);
     return task.run();
@@ -1144,7 +1124,7 @@ void asst::AutoRaiseProcessTask::report_target(
 void asst::AutoRaiseProcessTask::report_summary()
 {
     auto info = basic_info_with_what("AutoRaiseSummary");
-    info["details"] = json::object{
+    info["details"] = json::object {
         { "completed", m_completed },
         { "already_satisfied", m_satisfied },
         { "failed", m_failed },

@@ -4,12 +4,31 @@
 
 #include "MaaUtils/NoWarningCVMat.hpp"
 #include "Task/AbstractTask.h"
-#include "Task/AutoRaise/AutoRaisePlan.h"
 
 namespace asst
 {
 class AutoRaiseProcessTask final : public AbstractTask
 {
+public:
+    enum class AutoRaiseAction
+    {
+        Elite,
+        Skills,
+        Mastery,
+    };
+
+    struct AutoRaiseTarget
+    {
+        battle::Role role = battle::Role::Unknown;
+        std::string name;
+        AutoRaiseAction action = AutoRaiseAction::Elite;
+        int target = 0;
+        int skill = 0;
+        std::array<int, 3> skill_specialization = { 0, 0, 0 };
+    };
+
+    using AutoRaisePlan = std::vector<AutoRaiseTarget>;
+
 public:
     using AbstractTask::AbstractTask;
     virtual ~AutoRaiseProcessTask() override = default;
@@ -60,8 +79,12 @@ private:
     std::optional<int> ocr_number(const cv::Mat& image, const std::string& task_name);
     // recognized 非空时随 AutoRaiseTargetResult 回调附带：本次任务现场识别到的当前等级
     // （elite 为当前精英化阶段，skills 为当前 RANK 等级，mastery 为目标技能的当前专精等级）。
-    void report_target(std::string what, size_t index, const AutoRaiseTarget& target, Result result,
-                       std::optional<int> recognized = std::nullopt);
+    void report_target(
+        std::string what,
+        size_t index,
+        const AutoRaiseTarget& target,
+        Result result,
+        std::optional<int> recognized = std::nullopt);
     void report_summary();
     static std::string_view action_name(AutoRaiseAction action);
     static std::string_view result_name(Result result);

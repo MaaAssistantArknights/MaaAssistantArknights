@@ -1,10 +1,11 @@
 #pragma once
 #include "Task/InterfaceTask.h"
 
+#include <array>
 #include <optional>
+#include <variant>
 
 #include "Common/AsstBattleDef.h"
-#include "Task/AutoRaise/AutoRaisePlan.h"
 
 namespace asst
 {
@@ -15,17 +16,15 @@ class OperProgressionTask final : public InterfaceTask
 private:
     // 对应 params.plans[] 的一项。elite / skills / skill + skill_master 三选一，
     // 用哪个字段出现表示本次执行哪种养成动作；字段名即 JSON key，字段含义变化时必须同步改名。
-    struct ProgressionTargetDto
+    struct ProgressTargetDto
     {
         battle::Role role = battle::Role::Unknown;
         std::string name;
         std::optional<int> elite;
-        std::optional<int> skills;
-        std::optional<int> skill;
-        std::optional<int> skill_master;
+        std::optional<std::variant<int, std::array<int, 3>>> skill_level;
 
-        MEO_TOJSON(name, MEO_OPT elite, MEO_OPT skills, MEO_OPT skill, MEO_OPT skill_master);
-        MEO_FROMJSON(name, MEO_OPT elite, MEO_OPT skills, MEO_OPT skill, MEO_OPT skill_master);
+        MEO_TOJSON(MEO_OPT role, name, MEO_OPT elite, MEO_OPT skill_level);
+        MEO_FROMJSON(MEO_OPT role, name, MEO_OPT elite, MEO_OPT skill_level);
     };
 
 public:

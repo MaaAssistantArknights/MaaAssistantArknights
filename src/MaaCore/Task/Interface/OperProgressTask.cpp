@@ -3,7 +3,6 @@
 #include <ranges>
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
-#include "Task/AutoRaise/AutoRaisePlan.h"
 #include "Task/AutoRaise/AutoRaiseProcessTask.h"
 #include "Utils/Logger.hpp"
 
@@ -30,13 +29,16 @@ bool asst::OperProgressionTask::set_params(const json::value& params)
 namespace json::ext
 {
 template <>
-class jsonization<asst::OperProgressionTask::ProgressionTargetDto>
+class jsonization<asst::OperProgressionTask::ProgressTargetDto>
 {
 public:
     bool check_json(const json::value& json) const
     {
-        static constexpr std::array<const char*, 5> allowed_keys = {
-            "name", "elite", "skills", "skill", "skill_master",
+        static constexpr std::array<const char*, 4> allowed_keys = {
+            "role",
+            "name",
+            "elite",
+            "skill_level",
         };
 
         if (!json.is_object()) {
@@ -50,7 +52,7 @@ public:
         }
 
         bool ret = true;
-        const auto check_field = [&]<typename T>(const char* key, const T&, bool required = true) -> std::optional<T> {
+        const auto check_field = [&]<typename T>(const char* key, bool required = true) -> std::optional<T> {
             const auto& found = json.find_value(key);
             if (!found) {
                 ret = ret && !required;
@@ -63,13 +65,12 @@ public:
             }
             return std::nullopt;
         };
-        static std::string _;
         // 养成动作一律是整数，显式写 null 时 is<int>() 为假，与类型错误同等拒绝，不会被当成未配置。
-        const auto& name_opt = check_field("name", _, true);
-        const auto& elite_opt = check_field("elite", 0, false);
-        const auto& skills_opt = check_field("skills", 0, false);
-        const auto& skill_opt = check_field("skill", 0, false);
-        const auto& skill_master_opt = check_field("skill_master", 0, false);
+        const auto& role_opt = check_field.template operator()<asst::battle::Role>("role", false);
+        const auto& name_opt = check_field.template operator()<std::string>("name", true);
+        const auto& elite_opt = check_field.template operator()<int>("elite", false);
+        const auto& skill_level_opt =
+            check_field.template operator()<std::variant<int, std::array<int, 3>>>("skill_level", false);
 
         if (!ret) {
             return false;
@@ -78,32 +79,35 @@ public:
             LogError << __FUNCTION__ << "name must be non-empty";
             return false;
         }
-        const int actions = static_cast<int>(elite_opt.has_value()) + static_cast<int>(skills_opt.has_value()) +
-                            static_cast<int>(skill_opt.has_value() || skill_master_opt.has_value());
-        if (actions != 1 || skill_opt.has_value() != skill_master_opt.has_value()) {
-            LogError << __FUNCTION__ << "plan must define exactly one of elite, skills, or skill with skill_master";
-            return false;
-        }
+
         if (elite_opt && (*elite_opt < 1 || *elite_opt > 2)) {
             LogError << __FUNCTION__ << "elite must be 1 or 2";
             return false;
         }
-        if (skills_opt && (*skills_opt < 2 || *skills_opt > 7)) {
-            LogError << __FUNCTION__ << "skills must be between 2 and 7";
-            return false;
+        if (!skill_level_opt) {
         }
-        if (skill_opt && (*skill_opt < 1 || *skill_opt > 3)) {
-            LogError << __FUNCTION__ << "skill must be between 1 and 3";
-            return false;
+        else if (auto base_opt = std::get_if<int>(&skill_level_opt.value()); base_opt != nullptr) {
+            if (*base_opt < 2 || *base_opt > 7) {
+                LogError << __FUNCTION__ << "skill_level must be between 2 and 7";
+                return false;
+            }
         }
-        if (skill_master_opt && (*skill_master_opt < 1 || *skill_master_opt > 3)) {
-            LogError << __FUNCTION__ << "skill_master must be between 1 and 3";
-            return false;
+        else if (auto specialization_opt = std::get_if<std::array<int, 3>>(&skill_level_opt.value());
+                 specialization_opt != nullptr) {
+            if (std::ranges::any_of(*specialization_opt, [](int level) { return level < 0 || level > 3; })) {
+                LogError << __FUNCTION__ << "skill_level specialization must be between 0 and 3";
+                return false;
+            }
         }
-
-        const auto& role = asst::BattleData.get_roles(*name_opt, true);
-        if (role.empty() || role.size() > 1) {
-            LogError << __FUNCTION__ << "unknown oper name: " << *name_opt;
+        if (role_opt && *role_opt == asst::battle::Role::Unknown) {
+            const auto& role = asst::BattleData.get_roles(*name_opt, true);
+            if (role.empty() || role.size() > 1) {
+                LogError << __FUNCTION__ << "oper name:" << *name_opt << "with multi role";
+                return false;
+            }
+        }
+        else if (asst::BattleData.find_opers(*role_opt, *name_opt).empty()) {
+            LogError << __FUNCTION__ << "unknown oper name: " << *name_opt << ", role:" << *role_opt;
             return false;
         }
         return true;
@@ -113,7 +117,7 @@ public:
 
 std::optional<asst::AutoRaisePlan> asst::OperProgressionTask::parse_plan(const json::value& params)
 {
-    const auto& plans = params.find<std::vector<ProgressionTargetDto>>("plans");
+    const auto& plans = params.find<std::vector<ProgressTargetDto>>("plans");
     if (!plans) {
         LogError << __FUNCTION__ << "missing plans, or format is error";
         return std::nullopt;
@@ -122,7 +126,19 @@ std::optional<asst::AutoRaisePlan> asst::OperProgressionTask::parse_plan(const j
     AutoRaisePlan result;
     result.reserve(plans->size());
     for (const auto& plan : *plans) {
-        AutoRaiseTarget target { .name = plan.name };
+        battle::Role role = plan.role;
+        if (role == battle::Role::Unknown) {
+            role = *BattleData.get_roles(plan.name, true).begin();
+        }
+        if (plan.elite) {
+            result.emplace_back(
+                AutoRaiseTarget {
+                    .role = role,
+                    .name = plan.name,
+                    .action = AutoRaiseAction::Elite,
+                    .target
+                });
+        }
         if (plan.elite) {
             target.action = AutoRaiseAction::Elite;
             target.target = *plan.elite;
