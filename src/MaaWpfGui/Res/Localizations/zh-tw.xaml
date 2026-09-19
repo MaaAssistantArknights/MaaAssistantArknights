@@ -1297,6 +1297,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@MaterialSynthesis@UnknownFailure">未知錯誤</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential">自動提升潛能</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotentialTip" xml:space="preserve">請先進入幹員列表介面，再開始任務。自動提升所有帶提示標記幹員的潛能。&#10;完成後停留在最後一名幹員檔案；沒有可提升目標時停留在幹員列表。</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@UseNormalToken">中間信物不足時使用普通信物</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition">奇象巡展-找未收錄生物</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibitionTip" xml:space="preserve">在所選地圖的高級區草地右下角開始任務。&#10;在草地來回走動尋找未收錄生物，找到後自動停止。&#10;只有草地能遇到生物。</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationTitle">奇象巡展：發現暫未收錄奇象</system:String>

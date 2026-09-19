@@ -1257,6 +1257,13 @@
                                     SelectedValuePath="Value" />
                             </Grid>
 
+                            <!--  自动提升潜能  -->
+                            <Grid Grid.Row="0" Visibility="{c:Binding 'SelectedMiniGameItem.IsAutoRaisePotential'}">
+                                <CheckBox
+                                    Content="{DynamicResource MiniGame@AutoRaisePotential@UseNormalToken}"
+                                    IsChecked="{Binding MiniGameUseNormalToken}" />
+                            </Grid>
+
                             <Viewbox
                                 Grid.Row="1"
                                 Margin="0,12,0,0"

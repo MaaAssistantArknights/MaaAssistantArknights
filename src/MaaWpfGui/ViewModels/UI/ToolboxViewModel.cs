@@ -2519,6 +2519,8 @@ public class ToolboxViewModel : Screen
         public bool IsSecretFront => Value == "MiniGame@SecretFront";
 
         public bool IsPixelPaint => Value is "MiniGame@PixelPaint" or "MiniGame@PixelPaint@Begin";
+
+        public bool IsAutoRaisePotential => Value == "MiniGame@AutoRaisePotential@Begin";
     }
 
     public ObservableCollection<MiniGameCategoryItem> MiniGameCategoryItems { get; } = [];
@@ -2676,6 +2678,11 @@ public class ToolboxViewModel : Screen
         ("诡影迷踪", "MiniGame@SecretFront@Event3"));
 
     public string SecretFrontEvent { get; set => SetAndNotify(ref field, value); } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets 自动提升潜能：中间信物不足时是否消耗普通信物继续提升（不勾选时点 × 跳过该次提升）。
+    /// </summary>
+    public bool MiniGameUseNormalToken { get; set => SetAndNotify(ref field, value); }
 
     #region PixelPaint
 
@@ -3246,7 +3253,7 @@ public class ToolboxViewModel : Screen
         }
         else
         {
-            caught = Instances.AsstProxy.AsstMiniGame(GetMiniGameTask());
+            caught = Instances.AsstProxy.AsstMiniGame(GetMiniGameTask(), MiniGameUseNormalToken);
         }
 
         if (!caught)
