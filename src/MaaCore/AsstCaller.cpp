@@ -8,6 +8,7 @@
 
 #include "Assistant.h"
 #include "Common/AsstTypes.h"
+#include "Config/Miscellaneous/MaterialRecipeConfig.h"
 #include "Config/ResourceLoader.h"
 #include "Utils/Logger.hpp"
 #include "Utils/WorkingDir.hpp"
@@ -310,6 +311,30 @@ AsstSize AsstGetTasksList(AsstHandle handle, AsstTaskId* buff, AsstSize buff_siz
     }
     memcpy(buff, tasks.data(), data_size * sizeof(decltype(tasks)::value_type));
     return data_size;
+}
+
+AsstSize AsstGetMaterialCraftPlan(const char* params, char* buff, AsstSize buff_size)
+{
+    if (!inited() || params == nullptr) {
+        return NullSize;
+    }
+    try {
+        const auto request_json = json::parse(params);
+        if (!request_json) {
+            return NullSize;
+        }
+        const auto request = asst::parse_material_craft_request(*request_json);
+        asst::MaterialCraftPlanner planner(asst::MaterialRecipes.formulas());
+        const auto result = asst::material_craft_plan_json(planner.build(request)).to_string();
+        if (buff != nullptr && buff_size >= result.size()) {
+            memcpy(buff, result.data(), result.size());
+        }
+        return result.size();
+    }
+    catch (const std::exception& e) {
+        Log.error(__FUNCTION__, e.what());
+        return NullSize;
+    }
 }
 
 AsstSize AsstGetNullSize()

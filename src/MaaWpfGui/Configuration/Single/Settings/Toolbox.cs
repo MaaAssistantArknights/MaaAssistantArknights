@@ -32,6 +32,8 @@ public partial class Toolbox : NotifyPropertyChangedWithValue
 
     public bool GachaShowDisclaimerNoMore { get; set; }
 
+    public bool MaterialCraftStationOperators { get; set; }
+
     public int PeepTargetFps { get; set; } = 20;
 
     public bool ChooseLevel3 { get; set; } = true;
