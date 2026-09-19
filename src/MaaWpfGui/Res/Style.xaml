@@ -24,6 +24,7 @@
 
         <!--  文本与提示  -->
         <ResourceDictionary Source="Styles/Divider.xaml" />
+        <ResourceDictionary Source="Styles/LogCard.xaml" />
         <ResourceDictionary Source="Styles/MessageBox.xaml" />
         <ResourceDictionary Source="Styles/MdXaml.xaml" />
         <ResourceDictionary Source="Styles/TextBlock.xaml" />

@@ -14,6 +14,7 @@
 #nullable enable
 
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Media;
 using MaaWpfGui.Utilities;
 using Stylet;
@@ -28,15 +29,7 @@ namespace MaaWpfGui.ViewModels.Items
         public LogCardItemViewModel()
         {
             PropertyDependsOnUtility.InitializePropertyDependencies(this);
-
-            // Keep StartTime/EndTime in sync when Items changes or an item's Time updates.
             Items.CollectionChanged += Items_CollectionChanged;
-
-            // Attach to existing items if any (defensive).
-            for (int i = 0; i < Items.Count; i++)
-            {
-                Items[i].PropertyChanged += LogItem_PropertyChanged;
-            }
         }
 
         public ObservableCollection<LogItemViewModel> Items { get; } = new();
@@ -51,6 +44,11 @@ namespace MaaWpfGui.ViewModels.Items
         /// Gets or sets the optional header text shown inside the divider.
         /// </summary>
         public string? Header { get; set => SetAndNotify(ref field, value); }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether subsequent logs must start a new card.
+        /// </summary>
+        public bool Sealed { get; set; }
 
         private ImageSource? _thumbnail;
 
@@ -89,6 +87,8 @@ namespace MaaWpfGui.ViewModels.Items
 
             NotifyOfPropertyChange(nameof(StartTime));
             NotifyOfPropertyChange(nameof(EndTime));
+            NotifyOfPropertyChange(nameof(ShowTime));
+            NotifyOfPropertyChange(nameof(ShowMetadata));
         }
 
         private void LogItem_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -98,10 +98,23 @@ namespace MaaWpfGui.ViewModels.Items
                 NotifyOfPropertyChange(nameof(StartTime));
                 NotifyOfPropertyChange(nameof(EndTime));
             }
+
+            if (e.PropertyName == nameof(LogItemViewModel.ShowTime))
+            {
+                NotifyOfPropertyChange(nameof(ShowTime));
+                NotifyOfPropertyChange(nameof(ShowMetadata));
+                NotifyOfPropertyChange(nameof(StartTime));
+                NotifyOfPropertyChange(nameof(EndTime));
+            }
         }
 
-        public string StartTime => Items.Count > 0 ? Items[0].Time : string.Empty;
+        public bool ShowTime => Items.Any(item => item.ShowTime);
 
-        public string EndTime => Items.Count > 0 ? Items[^1].Time : string.Empty;
+        [PropertyDependsOn(nameof(Thumbnail))]
+        public bool ShowMetadata => ShowTime || ShowThumbnail;
+
+        public string StartTime => Items.FirstOrDefault(item => item.ShowTime)?.Time ?? string.Empty;
+
+        public string EndTime => Items.LastOrDefault(item => item.ShowTime)?.Time ?? string.Empty;
     }
 }

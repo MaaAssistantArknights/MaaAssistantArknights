@@ -1,0 +1,151 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls">
+
+    <!--  纯文本日志；共享字典中的几何资源需要动态解析。  -->
+    <DataTemplate x:Key="PlainLogItemTemplate">
+        <Grid
+            ToolTip="{Binding ToolTip}"
+            ToolTipService.InitialShowDelay="200">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!--  时间  -->
+            <controls:TextBlock
+                Grid.Column="0"
+                Margin="0,5,10,5"
+                VerticalAlignment="Top"
+                Foreground="{DynamicResource TraceLogBrush}"
+                Text="{Binding Time}"
+                Visibility="{c:Binding ShowTime}" />
+
+            <!--  内容  -->
+            <Grid
+                Grid.Column="1"
+                Margin="0,5"
+                HorizontalAlignment="Left">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <controls:TextBlock
+                    FontWeight="{Binding Weight}"
+                    ForegroundKey="{Binding Color}"
+                    Text="{Binding DisplayContent}"
+                    TextWrapping="Wrap" />
+                <controls:TooltipBlock
+                    Grid.Column="1"
+                    Margin="10,0,0,0"
+                    PathDate="{DynamicResource LogToolTip}"
+                    PathStrokeThickness="1.5"
+                    TextBlockText=""
+                    Visibility="{c:Binding ShowToolTip}" />
+            </Grid>
+        </Grid>
+    </DataTemplate>
+
+    <!--  LogSectionDivider 避免 hc:Divider 在窗口隐藏期间动态添加时尺寸为 0。  -->
+    <DataTemplate x:Key="LogCardItemTemplate">
+        <Grid
+            MaxWidth="420"
+            HorizontalAlignment="Left"
+            SnapsToDevicePixels="True"
+            UseLayoutRounding="True"
+            Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}">
+            <controls:LogSectionDivider
+                Margin="0,0,0,2.5"
+                Header="{Binding Header}"
+                HeaderHorizontalAlignment="Center"
+                Visibility="{c:Binding IsDivider}" />
+            <Border
+                Margin="0,0,0,2.5"
+                Padding="2.5,0,1,5"
+                Background="{DynamicResource MouseOverRegionBrushOpacity10}"
+                BorderBrush="{DynamicResource BorderBrush}"
+                BorderThickness="1"
+                CornerRadius="4"
+                Visibility="{c:Binding '!IsDivider and Items.Count > 0'}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid
+                        Width="60"
+                        Margin="0,5,0,0"
+                        VerticalAlignment="Stretch"
+                        Visibility="{c:Binding ShowMetadata}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <controls:TextBlock
+                            Grid.Row="0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            Foreground="{DynamicResource TraceLogBrush}"
+                            Text="{Binding StartTime}"
+                            TextWrapping="Wrap"
+                            Visibility="{c:Binding ShowTime}" />
+                        <Image
+                            Grid.Row="1"
+                            Width="60"
+                            Source="{Binding Thumbnail}"
+                            Stretch="UniformToFill"
+                            ToolTipService.InitialShowDelay="200"
+                            Visibility="{c:Binding ShowThumbnail}">
+                            <Image.ToolTip>
+                                <ToolTip>
+                                    <Image Source="{Binding Thumbnail}" />
+                                </ToolTip>
+                            </Image.ToolTip>
+                        </Image>
+                        <TextBlock
+                            Grid.Row="2"
+                            HorizontalAlignment="Center"
+                            Foreground="{DynamicResource TraceLogBrush}"
+                            Text="{Binding EndTime}"
+                            TextWrapping="Wrap"
+                            Visibility="{c:Binding 'ShowTime and (StartTime != EndTime or Items.Count > 1)'}" />
+                    </Grid>
+                    <Grid Grid.Column="1" Margin="5,0,0,0">
+                        <ItemsControl ItemsSource="{Binding Items}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid
+                                        Margin="0,5,0,0"
+                                        HorizontalAlignment="Left"
+                                        ToolTip="{Binding ToolTip}"
+                                        ToolTipService.InitialShowDelay="200">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <controls:TextBlock
+                                            FontWeight="{Binding Weight}"
+                                            ForegroundKey="{Binding Color}"
+                                            Text="{Binding DisplayContent}"
+                                            TextWrapping="Wrap" />
+                                        <controls:TooltipBlock
+                                            Grid.Column="1"
+                                            Margin="10,0,0,0"
+                                            PathDate="{DynamicResource LogToolTip}"
+                                            PathStrokeThickness="1.5"
+                                            TextBlockText=""
+                                            Visibility="{c:Binding ShowToolTip}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </DataTemplate>
+
+</ResourceDictionary>

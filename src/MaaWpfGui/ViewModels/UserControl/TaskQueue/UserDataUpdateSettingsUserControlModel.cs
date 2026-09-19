@@ -26,6 +26,7 @@ using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UI;
 using Serilog;
 using Stylet;
@@ -197,7 +198,7 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
             success = await Instances.ToolboxViewModel.StartOperBoxFromYituliuApiAsync();
             if (success)
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("YituliuOperBoxCompleted"), UiLogColor.Info, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("YituliuOperBoxCompleted"), UiLogColor.Info, splitMode: CardLogHelper.SplitMode.Both);
             }
         }
         catch (Exception e)

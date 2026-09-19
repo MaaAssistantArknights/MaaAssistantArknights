@@ -96,6 +96,11 @@ public partial class CopilotViewModel : Screen
     public ObservableCollection<LogItemViewModel> LogItemViewModels { get; } = [];
 
     /// <summary>
+    /// Gets the grouped log cards.
+    /// </summary>
+    public ObservableCollection<LogCardItemViewModel> LogCardViewModels { get; } = [];
+
+    /// <summary>
     /// Gets the file items for TreeView.
     /// </summary>
     public ObservableCollection<CopilotFileItem> FileItems { get; } = [];
@@ -155,36 +160,78 @@ public partial class CopilotViewModel : Screen
     /// <param name="color">The font color.</param>
     /// <param name="weight">The font weight.</param>
     /// <param name="showTime">Whether show time.</param>
-    public void AddLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true)
+    /// <param name="splitMode">Whether to split cards before/after this log.</param>
+    /// <param name="updateCardImage">Whether to update the containing card's image/thumbnail.</param>
+    /// <param name="fetchLatestImage">Whether to force fetching a fresh screenshot instead of using cache.</param>
+    /// <param name="useCardImageAsToolTip">Whether to use the current card's image as toolTip.</param>
+    public void AddLog(string? content,
+        string color = UiLogColor.Trace,
+        string weight = "Regular",
+        bool showTime = true,
+        CardLogHelper.SplitMode splitMode = CardLogHelper.SplitMode.None,
+        bool updateCardImage = false,
+        bool fetchLatestImage = false,
+        bool useCardImageAsToolTip = false)
     {
         // Copilot 自动战斗期间也会启动停滞计时器（Start 通过 BeginRun 进入运行态），
         // 这里的日志同样属于"有输出活动"，需要重置计时器，否则会误报任务卡住。
         RunningState.Instance.NotifyOutputActivity();
 
-        if (string.IsNullOrEmpty(content))
+        bool isEmpty = string.IsNullOrEmpty(content);
+        if (isEmpty && !updateCardImage)
         {
             return;
         }
-        Execute.OnUIThread(() => {
-            LogItemViewModels.Add(new LogItemViewModel(content, color, weight, "HH':'mm':'ss", showTime: showTime));
-            if (showTime)
+
+        if (!isEmpty && showTime)
+        {
+            switch (color)
             {
-                switch (color)
-                {
-                    case UiLogColor.Error:
-                        _logger.Error("{Content}", content);
-                        break;
-                    case UiLogColor.Warning:
-                        _logger.Warning("{Content}", content);
-                        break;
-                    default:
-                        _logger.Information("{Content}", content);
-                        break;
-                }
+                case UiLogColor.Error:
+                    _logger.Error("{Content}", content);
+                    break;
+                case UiLogColor.Warning:
+                    _logger.Warning("{Content}", content);
+                    break;
+                default:
+                    _logger.Information("{Content}", content);
+                    break;
+            }
+        }
+
+        Execute.OnUIThread(() => {
+            if (splitMode is CardLogHelper.SplitMode.Before or CardLogHelper.SplitMode.Both)
+            {
+                CardLogHelper.SealTrailingCard(LogCardViewModels);
+            }
+
+            if (!isEmpty)
+            {
+                var log = CardLogHelper.AppendToTrailingCard(
+                    LogCardViewModels,
+                    content!,
+                    color,
+                    weight,
+                    toolTip: null,
+                    dateFormat: "HH':'mm':'ss",
+                    showTime: showTime);
+                LogItemViewModels.Add(log);
+            }
+            else if (updateCardImage && !CardLogHelper.HasTrailingWritableCard(LogCardViewModels))
+            {
+                LogCardViewModels.Add(new LogCardItemViewModel());
+            }
+
+            if (updateCardImage && CardLogHelper.HasTrailingWritableCard(LogCardViewModels))
+            {
+                _ = CardLogHelper.AttachThumbnailToTrailingCardAsync(LogCardViewModels, fetchLatestImage, setToolTipOnLastLogItem: useCardImageAsToolTip);
+            }
+
+            if (splitMode is CardLogHelper.SplitMode.After or CardLogHelper.SplitMode.Both)
+            {
+                CardLogHelper.SealTrailingCard(LogCardViewModels);
             }
         });
-
-        // LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
     }
 
     /// <summary>
@@ -205,6 +252,7 @@ public partial class CopilotViewModel : Screen
             }
 
             LogItemViewModels.Clear();
+            LogCardViewModels.Clear();
             AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
         });
     }
@@ -1879,7 +1927,7 @@ public partial class CopilotViewModel : Screen
 
         if (ret)
         {
-            AddLog(LocalizationHelper.GetString("Running"));
+            AddLog(LocalizationHelper.GetString("Running"), splitMode: CardLogHelper.SplitMode.After);
         }
         else
         {
@@ -1970,7 +2018,7 @@ public partial class CopilotViewModel : Screen
 
     private async Task<bool> ConnectToEmulatorAsync()
     {
-        AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
+        AddLog(LocalizationHelper.GetString("ConnectingToEmulator"), splitMode: CardLogHelper.SplitMode.Before);
 
         string errMsg = string.Empty;
         bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));

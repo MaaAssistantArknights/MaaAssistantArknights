@@ -28,6 +28,7 @@ using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.Items;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Serilog;
@@ -472,7 +473,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
 
             if (output)
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastTitle"), UiLogColor.Message, splitMode: UI.TaskQueueViewModel.LogCardSplitMode.Before);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastTitle"), UiLogColor.Message, splitMode: CardLogHelper.SplitMode.Before);
                 Instances.TaskQueueViewModel.AddLog($"title: {root.Title}", UiLogColor.Info);
                 Instances.TaskQueueViewModel.AddLog($"description: {root.Description}", UiLogColor.Info);
             }
@@ -507,7 +508,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastFileHasPlanNoPeriod"), UiLogColor.Warning);
             }
 
-            Instances.TaskQueueViewModel.AddLog(string.Empty, splitMode: UI.TaskQueueViewModel.LogCardSplitMode.After);
+            Instances.TaskQueueViewModel.AddLog(string.Empty, splitMode: CardLogHelper.SplitMode.After);
 
             CustomInfrastPlanList = [.. list];
             if (DefaultInfrast == UserDefined && list.Count > 0)

@@ -46,6 +46,7 @@ using MaaWpfGui.Services.ExternalNotification;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
+using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -1388,7 +1389,12 @@ public class AsstProxy
 
                     if (value is { Type: TaskType.Copilot })
                     {
-                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
+                        Instances.CopilotViewModel.AddLog(
+                            LocalizationHelper.GetString("CombatError"),
+                            UiLogColor.Error,
+                            updateCardImage: true,
+                            fetchLatestImage: true,
+                            useCardImageAsToolTip: true);
                         AchievementTrackerHelper.Instance.Unlock(AchievementIds.CopilotError);
                     }
 
@@ -1603,7 +1609,7 @@ public class AsstProxy
 
                     if (!string.IsNullOrWhiteSpace(taskErrorSummary))
                     {
-                        Instances.TaskQueueViewModel.AddLog(taskErrorSummary, UiLogColor.Error, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
+                        Instances.TaskQueueViewModel.AddLog(taskErrorSummary, UiLogColor.Error, splitMode: CardLogHelper.SplitMode.Both);
                     }
                 }
                 else if (runOwner == RunOwner.Copilot)
@@ -1902,7 +1908,7 @@ public class AsstProxy
                                 missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("StoneUsedTimes"), StoneUsedTimes);
                             }
 
-                            Instances.TaskQueueViewModel.AddLog(missionStartLogBuilder.ToString().TrimEnd(), UiLogColor.Info, splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+                            Instances.TaskQueueViewModel.AddLog(missionStartLogBuilder.ToString().TrimEnd(), UiLogColor.Info, splitMode: CardLogHelper.SplitMode.Before);
                             break;
 
                         case "StoneConfirm":
@@ -2021,14 +2027,18 @@ public class AsstProxy
                             break;
 
                         case "BattleStartAll":
-                            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissionStart"), UiLogColor.Info);
+                            Instances.CopilotViewModel.AddLog(
+                                LocalizationHelper.GetString("MissionStart"),
+                                UiLogColor.Info,
+                                splitMode: CardLogHelper.SplitMode.Before,
+                                updateCardImage: true);
                             break;
 
                         case "StageDrops-Stars-3":
                         case "StageDrops-Stars-Adverse":
                             {
                                 Instances.CopilotViewModel.CopilotTaskSuccess();
-                                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info);
+                                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info, updateCardImage: true);
                                 break;
                             }
 
@@ -2100,7 +2110,7 @@ public class AsstProxy
 
                             if (taskName == "StartExplore")
                             {
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("BegunToExplore") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info, splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("BegunToExplore") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info, splitMode: CardLogHelper.SplitMode.Before);
                             }
 
                             break;
@@ -2269,7 +2279,7 @@ public class AsstProxy
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ThisFacility") +
                                                     LocalizationHelper.GetString($"{subTaskDetails?["facility"]}") + " " +
                                                     ((int)(subTaskDetails?["index"] ?? -2) + 1).ToString("D2"),
-                                                    splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+                                                    splitMode: CardLogHelper.SplitMode.Before);
                 break;
 
             case "ProductIncorrect":
@@ -2299,7 +2309,7 @@ public class AsstProxy
                         .Aggregate(string.Empty, (current, tagStr) => current + (tagStr + "\n"));
 
                     logContent = logContent.EndsWith('\n') ? logContent.TrimEnd('\n') : LocalizationHelper.GetString("Error");
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RecruitingResults") + "\n" + logContent, splitMode: TaskQueueViewModel.LogCardSplitMode.Before, updateCardImage: true);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RecruitingResults") + "\n" + logContent, splitMode: CardLogHelper.SplitMode.Before, updateCardImage: true);
 
                     break;
                 }
@@ -2452,7 +2462,7 @@ public class AsstProxy
                 }
 
             case "StageInfoError":
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageInfoError"), UiLogColor.Error, splitMode: TaskQueueViewModel.LogCardSplitMode.Both, updateCardImage: true);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageInfoError"), UiLogColor.Error, splitMode: CardLogHelper.SplitMode.Both, updateCardImage: true);
                 break;
 
             case "BattleFormation":
@@ -2724,7 +2734,7 @@ public class AsstProxy
                 Instances.TaskQueueViewModel.AddLog(
                     LocalizationHelper.GetString("MiniGame@MaterialSynthesis@StartLog"),
                     UiLogColor.Info,
-                    splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+                    splitMode: CardLogHelper.SplitMode.Before);
                 break;
 
             case "MaterialSynthesisMaterial":
@@ -3509,19 +3519,19 @@ public class AsstProxy
         // 有错误时标题行标红单独成段，理智报告等后续内容留在下一段，避免整卡变红
         if (!hasTaskErrors)
         {
-            Instances.TaskQueueViewModel.AddLog(completionLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
+            Instances.TaskQueueViewModel.AddLog(completionLog, splitMode: CardLogHelper.SplitMode.Both);
             return;
         }
 
         var (errorHeadline, extraContent) = SplitTaskCompletionLog(completionLog);
         if (string.IsNullOrWhiteSpace(extraContent))
         {
-            Instances.TaskQueueViewModel.AddLog(errorHeadline, UiLogColor.Error, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
+            Instances.TaskQueueViewModel.AddLog(errorHeadline, UiLogColor.Error, splitMode: CardLogHelper.SplitMode.Both);
             return;
         }
 
-        Instances.TaskQueueViewModel.AddLog(errorHeadline, UiLogColor.Error, splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
-        Instances.TaskQueueViewModel.AddLog(extraContent, splitMode: TaskQueueViewModel.LogCardSplitMode.After);
+        Instances.TaskQueueViewModel.AddLog(errorHeadline, UiLogColor.Error, splitMode: CardLogHelper.SplitMode.Before);
+        Instances.TaskQueueViewModel.AddLog(extraContent, splitMode: CardLogHelper.SplitMode.After);
     }
 
     private static (string ErrorHeadline, string ExtraContent) SplitTaskCompletionLog(string completionLog)
