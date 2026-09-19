@@ -683,14 +683,18 @@ bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
     if (weak) {
         BattlefieldMatcher analyzer(image);
         auto result = analyzer.analyze();
-        m_in_battle = result.has_value();
-        if (m_in_battle && !result->pause_button) {
+        if (result && result->pause_button) {
+            m_in_battle = true;
+        }
+        else {
             if (check_skip_plot_button(image)) {
+                m_in_battle = true;
                 if (m_in_speedup && !check_in_speedup()) {
                     speed_up(); // 跳过剧情会退出2倍速
                 }
             }
             else if (check_avatar_dialog(image)) {
+                m_in_battle = true;
                 if (m_in_speedup && !check_in_speedup()) {
                     speed_up(); // 跳过剧情会退出2倍速
                     m_inst_helper.sleep(Config.get_options().task_delay);
@@ -702,11 +706,21 @@ bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
                     }
                 }
             }
+            else {
+                m_in_battle = result.has_value();
+            }
         }
     }
     else {
-        check_skip_plot_button(image);
-        m_in_battle = check_pause_button(image);
+        if (check_skip_plot_button(image) || check_avatar_dialog(image)) {
+            m_in_battle = true;
+            if (m_in_speedup && !check_in_speedup()) {
+                speed_up();
+            }
+        }
+        else {
+            m_in_battle = check_pause_button(image);
+        }
     }
     return m_in_battle;
 }
