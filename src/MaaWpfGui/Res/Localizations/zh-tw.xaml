@@ -108,6 +108,7 @@
     <system:String x:Key="GpuAllowDeprecated">允許使用不推薦的 GPU</system:String>
     <system:String x:Key="Copy">複製</system:String>
     <!--  Toast 不可用  -->
+    <system:String x:Key="ToastNotificationTest">通知測試</system:String>
     <system:String x:Key="ToastNotificationUnavailable">無法使用 Toast 通知，{0}</system:String>
     <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">使用者已在 Windows 設定中關閉此應用程式的通知</system:String>
     <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">使用者已在 Windows 設定中關閉所有應用程式通知</system:String>
@@ -296,6 +297,8 @@
     <system:String x:Key="RoguelikeStopAtMaxLevel">滿級後自動停止</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">使用指定種子開局</system:String>
     <!--<system:String x:Key="RoguelikeStartWithSeed">啟用刷錢種子</system:String>-->
+    <system:String x:Key="RoguelikeSeedFormatError">格式不正確</system:String>
+    <system:String x:Key="RoguelikeStartWithSeedTip">示例：2b3c4d,rogue_1,120</system:String>
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">月度小隊自動切換</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">月度小隊通訊</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckCommsTip" xml:space="preserve">勾選後，MAA會檢查是否已解鎖目前小隊的全部通訊，全部解鎖後才會切換至下一個月度小隊&#10;若只需取得獎勵，可取消勾選以減少重複探索&#10;MAA不會因為取消勾選此選項而提前在局內結束探索</system:String>
@@ -399,6 +402,7 @@
     <system:String x:Key="ConfirmDeleteTask">確認刪除</system:String>
     <system:String x:Key="ConfirmDeleteTaskMessage">確定要刪除 {0} 任務 "{1}" 嗎？</system:String>
     <system:String x:Key="TaskRenamed">任務已重新命名為：{0}</system:String>
+    <system:String x:Key="TaskRenameFailed">任務重新命名失敗</system:String>
     <system:String x:Key="TaskDeleted">已刪除任務：{0}</system:String>
     <system:String x:Key="TaskCopied">已複製任務：{0}</system:String>
     <system:String x:Key="StartGuideDemo">示範中不會真的執行任務</system:String>
@@ -409,6 +413,7 @@
     <system:String x:Key="HotKeyChangingTip">按 Backspace/Esc/Delete 可清除目前熱鍵</system:String>
     <system:String x:Key="HotKeyRegistrationFailedOccupied">熱鍵註冊失敗：組合鍵可能已被其他程式佔用，請更換組合鍵</system:String>
     <system:String x:Key="HotKeyRegistrationFailedDuplicate">熱鍵註冊失敗：與其他 MAA 熱鍵重複，請更換組合鍵</system:String>
+    <system:String x:Key="HotKeyNotSet">&lt; 未設定 &gt;</system:String>
     <system:String x:Key="LabelSequenceTip">標籤順序可拖曳</system:String>
     <system:String x:Key="CheckBoxesNotSaved">該選項僅生效一次</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">該選項點擊右鍵選取時僅生效一次</system:String>
@@ -1130,6 +1135,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="VersionMismatch">UI 和 Core 版本不一致: {0} 和 {1}，可能導致不可預測的行為。請勿手動替換檔案，或在更新時讓檔案處於被佔用狀態。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="FullPackageUpgradeTips">請下載完整安裝檔並解壓縮至新的資料夾中，切勿直接覆蓋原資料夾。\n可將原有的 config、data 與 debug 資料夾複製到新資料夾中，以保留原有設定與日誌。</system:String>
     <system:String x:Key="ConnectingToEmulator">正在連線模擬器……</system:String>
+    <system:String x:Key="ImageIsNull">截圖為空</system:String>
+    <system:String x:Key="ConnectionLost">連線已中斷</system:String>
+    <system:String x:Key="LoadResourceFailed">資源載入失敗</system:String>
     <system:String x:Key="UnselectedTask">未選擇任務</system:String>
     <system:String x:Key="Running">正在執行中……</system:String>
     <system:String x:Key="TaskAppend.Skip">{0}: {1} 任務跳過</system:String>
@@ -1246,6 +1254,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Peep">牛牛監控</system:String>
     <system:String x:Key="PeepTip">看看牛牛眼中的世界？</system:String>
     <system:String x:Key="PeepTargetFps">目標影格率 (FPS)</system:String>
+    <system:String x:Key="PeepScreenshotTooLong">截圖耗時過長，建議降低目標影格率至 {0}</system:String>
     <!--  !牛牛監控  -->
     <!--  小遊戲  -->
     <system:String x:Key="MiniGameName">小遊戲名稱</system:String>
@@ -1935,6 +1944,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Issue">問題回饋</system:String>
     <system:String x:Key="GenerateSupportPayload">產生紀錄壓縮檔</system:String>
     <system:String x:Key="OpenDebugFolder">開啟紀錄資料夾</system:String>
+    <system:String x:Key="FailedToOpenFolder">開啟資料夾失敗：{0}</system:String>
     <system:String x:Key="GenerateSupportPayloadSuccessful">壓縮檔產生成功</system:String>
     <system:String x:Key="GenerateSupportPayloadException">產生壓縮檔時發生問題：</system:String>
     <system:String x:Key="ClearImageCache">清空圖片快取</system:String>

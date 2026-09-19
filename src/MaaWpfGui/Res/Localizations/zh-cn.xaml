@@ -108,6 +108,7 @@
     <system:String x:Key="GpuAllowDeprecated">允许使用不推荐的 GPU</system:String>
     <system:String x:Key="Copy">复制</system:String>
     <!--  Toast 不可用  -->
+    <system:String x:Key="ToastNotificationTest">通知测试</system:String>
     <system:String x:Key="ToastNotificationUnavailable">Toast 通知不可用, {0}</system:String>
     <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">用户在 Windows 设置中关闭了该应用的通知</system:String>
     <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">用户在 Windows 设置中关闭了所有应用通知</system:String>
@@ -296,6 +297,8 @@
     <system:String x:Key="RoguelikeStopAtMaxLevel">满级后自动停止</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">使用指定种子开局</system:String>
     <!--<system:String x:Key="RoguelikeStartWithSeed">启用刷钱种子（美愿）</system:String>-->
+    <system:String x:Key="RoguelikeSeedFormatError">格式不正确</system:String>
+    <system:String x:Key="RoguelikeStartWithSeedTip">示例：2b3c4d,rogue_1,120</system:String>
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">月度小队自动切换</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">月度小队通讯</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckCommsTip" xml:space="preserve">勾选后，MAA会检查是否已解锁当前小队的全部通讯，全部解锁后才会切换下一个月度小队&#10;若只需获取奖励，可取消勾选以减少重复探索&#10;MAA不会因为取消勾选此选项而提前在局内结束探索</system:String>
@@ -399,6 +402,7 @@
     <system:String x:Key="ConfirmDeleteTask">确认删除</system:String>
     <system:String x:Key="ConfirmDeleteTaskMessage">确定要删除 {0} 任务 "{1}" 吗？</system:String>
     <system:String x:Key="TaskRenamed">任务已重命名为: {0}</system:String>
+    <system:String x:Key="TaskRenameFailed">任务重命名失败</system:String>
     <system:String x:Key="TaskDeleted">已删除任务: {0}</system:String>
     <system:String x:Key="TaskCopied">已复制任务: {0}</system:String>
     <system:String x:Key="StartGuideDemo">演示中不会真的运行任务</system:String>
@@ -409,6 +413,7 @@
     <system:String x:Key="HotKeyChangingTip">键入 退格/Esc/Delete 清除当前热键</system:String>
     <system:String x:Key="HotKeyRegistrationFailedOccupied">热键注册失败：组合键可能已被其他程序占用，请更换组合键</system:String>
     <system:String x:Key="HotKeyRegistrationFailedDuplicate">热键注册失败：与其他 MAA 热键重复，请更换组合键</system:String>
+    <system:String x:Key="HotKeyNotSet">&lt; 未设置 &gt;</system:String>
     <system:String x:Key="LabelSequenceTip">标签顺序可拖动</system:String>
     <system:String x:Key="CheckBoxesNotSaved">该选项仅生效一次</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">该选项右键选中时仅生效一次</system:String>
@@ -1130,6 +1135,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="VersionMismatch">UI 和 Core 版本不一致: {0} 和 {1}，可能导致不可预测的行为，请勿手动替换文件或者在更新时占用文件。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="FullPackageUpgradeTips">请下载完整包并解压到新的文件夹，切勿直接覆盖原文件夹。\n可将原有的 config、data 与 debug 文件夹复制到新文件夹中，以保留原有配置和日志。</system:String>
     <system:String x:Key="ConnectingToEmulator">正在连接模拟器……</system:String>
+    <system:String x:Key="ImageIsNull">截图为空</system:String>
+    <system:String x:Key="ConnectionLost">连接已断开</system:String>
+    <system:String x:Key="LoadResourceFailed">资源加载失败</system:String>
     <system:String x:Key="UnselectedTask">未选择任务</system:String>
     <system:String x:Key="Running">正在运行中……</system:String>
     <system:String x:Key="TaskAppend.Skip">{0}: {1} 任务跳过</system:String>
@@ -1246,6 +1254,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Peep">牛牛监控</system:String>
     <system:String x:Key="PeepTip">看看牛牛眼中的世界？</system:String>
     <system:String x:Key="PeepTargetFps">目标帧率</system:String>
+    <system:String x:Key="PeepScreenshotTooLong">截图耗时过长，建议降低目标帧率至 {0}</system:String>
     <!--  !牛牛监控  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">小游戏名称</system:String>
@@ -1934,6 +1943,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Issue">问题反馈</system:String>
     <system:String x:Key="GenerateSupportPayload">生成日志压缩包</system:String>
     <system:String x:Key="OpenDebugFolder">打开日志文件夹</system:String>
+    <system:String x:Key="FailedToOpenFolder">打开文件夹失败：{0}</system:String>
     <system:String x:Key="GenerateSupportPayloadSuccessful">生成压缩包成功</system:String>
     <system:String x:Key="GenerateSupportPayloadException">生成压缩包时出现问题：</system:String>
     <system:String x:Key="ClearImageCache">清空图片缓存</system:String>

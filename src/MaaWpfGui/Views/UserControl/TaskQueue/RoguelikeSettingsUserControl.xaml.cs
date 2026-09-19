@@ -38,6 +38,20 @@ public partial class RoguelikeSettingsUserControl : System.Windows.Controls.User
         AttachCoreCharRuleOwner(StartingCoreCharComboBox);
         AttachCoreCharRuleOwner(StartingCoreChar2ComboBox);
         AttachCoreCharRuleOwner(StartingCoreChar3ComboBox);
+        RefreshSeedRuleLocalization();
+        Loaded += (_, _) => LocalizationHelper.LanguageChanged += RefreshSeedRuleLocalization;
+        Unloaded += (_, _) => LocalizationHelper.LanguageChanged -= RefreshSeedRuleLocalization;
+    }
+
+    // 种子输入框 RegexRule 的校验失败文案本地化；ValidationRule 不是 DependencyObject，
+    // XAML 中无法用 DynamicResource，改为代码设置 ErrorContent 并在语言切换时刷新
+    private void RefreshSeedRuleLocalization()
+    {
+        if (RoguelikeSeedTextBox.GetBindingExpression(TextBox.TextProperty)?.ParentBinding?.ValidationRules
+            .OfType<HandyControl.Tools.RegexRule>().FirstOrDefault() is { } rule)
+        {
+            rule.ErrorContent = LocalizationHelper.GetString("RoguelikeSeedFormatError");
+        }
     }
 
     // 三个开局干员下拉框各自持有独立的 StartingCoreCharRule 实例（位于各自 Text 绑定的

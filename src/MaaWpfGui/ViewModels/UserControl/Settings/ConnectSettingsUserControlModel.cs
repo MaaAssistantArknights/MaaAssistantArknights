@@ -586,7 +586,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
         if (TestLinkImage is null)
         {
-            TestLinkInfo = "Image is null";
+            TestLinkInfo = LocalizationHelper.GetString("ImageIsNull");
             return;
         }
 

@@ -108,6 +108,7 @@
     <system:String x:Key="GpuAllowDeprecated">Allow deprecated GPU</system:String>
     <system:String x:Key="Copy">Copy</system:String>
     <!--  Toast 不可用  -->
+    <system:String x:Key="ToastNotificationTest">Notification test</system:String>
     <system:String x:Key="ToastNotificationUnavailable">Toast notifications are unavailable: {0}</system:String>
     <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">The user has disabled notifications for this app in Windows Settings.</system:String>
     <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">The user has disabled all app notifications in Windows Settings.</system:String>
@@ -296,6 +297,8 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="RoguelikeStopAtMaxLevel">Stop when max level is achieved</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">Start with seed</system:String>
     <!--<system:String x:Key="RoguelikeStartWithSeed">Enable Investment Seed</system:String>-->
+    <system:String x:Key="RoguelikeSeedFormatError">Invalid format</system:String>
+    <system:String x:Key="RoguelikeStartWithSeedTip">Example: 2b3c4d,rogue_1,120</system:String>
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">Monthly Squad Auto-Switch</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">Monthly Squad Communication</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckCommsTip" xml:space="preserve">When enabled, MAA checks whether all communications for the current squad have been unlocked and only switches to the next Monthly Squad once they are all unlocked.&#10;If you only want the rewards, disable this option to reduce repeated exploration.&#10;MAA will not end the current exploration early just because this option is disabled.</system:String>
@@ -399,6 +402,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="ConfirmDeleteTask">Confirm Delete</system:String>
     <system:String x:Key="ConfirmDeleteTaskMessage">Are you sure you want to delete {0} task "{1}"?</system:String>
     <system:String x:Key="TaskRenamed">Task renamed to: {0}</system:String>
+    <system:String x:Key="TaskRenameFailed">Failed to rename task</system:String>
     <system:String x:Key="TaskDeleted">Task deleted: {0}</system:String>
     <system:String x:Key="TaskCopied">Task copied: {0}</system:String>
     <system:String x:Key="StartGuideDemo">Tasks won't actually run in the demo.</system:String>
@@ -409,6 +413,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="HotKeyChangingTip">Press Backspace / Esc / Delete to clear the current value</system:String>
     <system:String x:Key="HotKeyRegistrationFailedOccupied">Failed to register the hotkey: the key combination may already be taken by another program. Please use a different combination.</system:String>
     <system:String x:Key="HotKeyRegistrationFailedDuplicate">Failed to register the hotkey: the key combination duplicates another MAA hotkey. Please use a different combination.</system:String>
+    <system:String x:Key="HotKeyNotSet">&lt; not set &gt;</system:String>
     <system:String x:Key="LabelSequenceTip">The label sequence can be dragged</system:String>
     <system:String x:Key="CheckBoxesNotSaved">This option is effective once</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">This option only takes effect once when right-clicked</system:String>
@@ -1130,6 +1135,9 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="VersionMismatch">UI and Core versions mismatch: {0} and {1}, which may cause unpredictable behavior. Please do not manually replace files or occupy files during updates.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="FullPackageUpgradeTips">Please download the full package and extract it into a new folder. Do not overwrite the existing installation folder.\nYou may copy the original config, data, and debug folders into the new folder to retain your existing settings and logs.</system:String>
     <system:String x:Key="ConnectingToEmulator">Connecting to emulator……</system:String>
+    <system:String x:Key="ImageIsNull">Image is null</system:String>
+    <system:String x:Key="ConnectionLost">Connection lost</system:String>
+    <system:String x:Key="LoadResourceFailed">Failed to load resource</system:String>
     <system:String x:Key="UnselectedTask">Unselected task</system:String>
     <system:String x:Key="Running">Running……</system:String>
     <system:String x:Key="TaskAppend.Skip">{0}: {1} task skip</system:String>
@@ -1246,6 +1254,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="Peep">Peep</system:String>
     <system:String x:Key="PeepTip">See the world through Pallas?</system:String>
     <system:String x:Key="PeepTargetFps">Target Frame Rate</system:String>
+    <system:String x:Key="PeepScreenshotTooLong">Screenshot taking too long, reduce Target FPS to {0}</system:String>
     <!--  !Peep  -->
     <!--  Minigame  -->
     <system:String x:Key="MiniGameName">Mini Game Name</system:String>
@@ -1934,6 +1943,7 @@ If you do need to use it, please ensure:
     <system:String x:Key="Issue">Issues</system:String>
     <system:String x:Key="GenerateSupportPayload">Generate Support Payload</system:String>
     <system:String x:Key="OpenDebugFolder">Open Debug Folder</system:String>
+    <system:String x:Key="FailedToOpenFolder">Failed to open folder: {0}</system:String>
     <system:String x:Key="GenerateSupportPayloadSuccessful">Support payload generated successfully</system:String>
     <system:String x:Key="GenerateSupportPayloadException">An error occurred while generating the support payload:</system:String>
     <system:String x:Key="ClearImageCache">Clear Image Cache</system:String>

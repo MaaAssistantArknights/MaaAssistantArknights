@@ -153,7 +153,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             NotifyOfPropertyChange();
             if (value)
             {
-                ToastNotification.ShowDirect("Test test");
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("ToastNotificationTest"));
                 var (isAvailable, detail) = ToastNotification.ToastNotificationCheck();
                 if (!isAvailable)
                 {

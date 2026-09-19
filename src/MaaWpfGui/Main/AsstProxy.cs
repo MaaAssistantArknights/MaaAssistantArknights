@@ -3219,7 +3219,7 @@ public class AsstProxy
             {
                 Connected = false;
                 _logger.Information("Connection lost to {ConnectedAdb} {ConnectedAddress}", _connectedAdb, _connectedAddress);
-                error = "Connection lost";
+                error = LocalizationHelper.GetString("ConnectionLost");
             }
             else
             {
@@ -3232,7 +3232,7 @@ public class AsstProxy
                 _logger.Information("Forced reload resource");
                 if (!LoadResource())
                 {
-                    error = "Load Resource Failed";
+                    error = LocalizationHelper.GetString("LoadResourceFailed");
                     return false;
                 }
 

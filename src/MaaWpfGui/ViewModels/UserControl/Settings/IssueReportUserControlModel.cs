@@ -58,7 +58,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
         }
         catch (Exception ex)
         {
-            ToastNotification.ShowDirect($"Failed to open debug folder\n{ex.Message}");
+            ToastNotification.ShowDirect(LocalizationHelper.GetStringFormat("FailedToOpenFolder", ex.Message));
             _logger.Error(ex, "Failed to open debug folder");
         }
     }
@@ -76,7 +76,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
         }
         catch (Exception ex)
         {
-            ToastNotification.ShowDirect($"Failed to open reports folder\n{ex.Message}");
+            ToastNotification.ShowDirect(LocalizationHelper.GetStringFormat("FailedToOpenFolder", ex.Message));
             _logger.Error(ex, "Failed to open reports folder");
         }
     }

@@ -460,12 +460,18 @@
                 IsChecked="{Binding RoguelikeStartWithSeed}"
                 Visibility="{c:Binding 'RoguelikeTheme == task:RoguelikeTheme.JieGarden',
                                        Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}">
-                <TextBlock
-                    Block.TextAlignment="Left"
-                    Text="{DynamicResource RoguelikeStartWithSeed}"
-                    TextWrapping="Wrap" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        Block.TextAlignment="Left"
+                        Text="{DynamicResource RoguelikeStartWithSeed}"
+                        TextWrapping="Wrap" />
+                    <controls:TooltipBlock Margin="4,0,0,0" TooltipText="{DynamicResource RoguelikeStartWithSeedTip}" />
+                </StackPanel>
             </CheckBox>
-            <hc:TextBox Margin="0,2,0,10" Visibility="{c:Binding RoguelikeStartWithSeed}">
+            <hc:TextBox
+                x:Name="RoguelikeSeedTextBox"
+                Margin="0,2,0,10"
+                Visibility="{c:Binding RoguelikeStartWithSeed}">
                 <hc:TextBox.Text>
                     <Binding Path="RoguelikeSeed" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>

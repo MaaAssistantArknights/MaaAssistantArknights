@@ -108,6 +108,7 @@
     <system:String x:Key="GpuAllowDeprecated">권장되지 않는 GPU 사용 허용</system:String>
     <system:String x:Key="Copy">복사</system:String>
     <!--  Toast 不可用  -->
+    <system:String x:Key="ToastNotificationTest">알림 테스트</system:String>
     <system:String x:Key="ToastNotificationUnavailable">Toast 알림을 사용할 수 없습니다, {0}</system:String>
     <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">사용자가 Windows 설정에서 이 앱의 알림을 비활성화했습니다</system:String>
     <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">사용자가 Windows 설정에서 모든 앱 알림을 비활성화했습니다</system:String>
@@ -296,6 +297,8 @@
     <system:String x:Key="RoguelikeStopAtMaxLevel">최대 레벨 달성 시 중지</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">지정 시드로 시작</system:String>
     <!--<system:String x:Key="RoguelikeStartWithSeed">투자 시드 활성화</system:String>-->
+    <system:String x:Key="RoguelikeSeedFormatError">형식이 올바르지 않습니다</system:String>
+    <system:String x:Key="RoguelikeStartWithSeedTip">예: 2b3c4d,rogue_1,120</system:String>
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">월간 스쿼드 자동 전환</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">월간 스쿼드 통신</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckCommsTip" xml:space="preserve">활성화하면 MAA가 현재 스쿼드의 통신이 모두 해금되었는지 확인하고, 모두 해금된 후에 다음 월간 스쿼드로 전환합니다.&#10;보상만 획득하려면 이 옵션을 비활성화하여 반복 탐색을 줄일 수 있습니다.&#10;이 옵션을 비활성화한다고 해서 MAA가 진행 중인 탐색을 조기에 종료하지는 않습니다.</system:String>
@@ -399,6 +402,7 @@
     <system:String x:Key="ConfirmDeleteTask">삭제 확인</system:String>
     <system:String x:Key="ConfirmDeleteTaskMessage">정말로 {0} 번째 작업 "{1}"을 삭제하시겠습니까?</system:String>
     <system:String x:Key="TaskRenamed">작업 이름 변경: {0}</system:String>
+    <system:String x:Key="TaskRenameFailed">작업 이름 변경 실패</system:String>
     <system:String x:Key="TaskDeleted">작업 삭제: {0}</system:String>
     <system:String x:Key="TaskCopied">작업 복사: {0}</system:String>
     <system:String x:Key="StartGuideDemo">데모에서는 실제로 작업이 실행되지 않습니다</system:String>
@@ -409,6 +413,7 @@
     <system:String x:Key="HotKeyChangingTip">Backspace/Esc/Delete 키를 누르면 현재 값이 지워집니다</system:String>
     <system:String x:Key="HotKeyRegistrationFailedOccupied">핫키 등록 실패: 이 조합은 다른 프로그램에서 이미 사용 중일 수 있습니다. 다른 조합으로 변경해 주세요</system:String>
     <system:String x:Key="HotKeyRegistrationFailedDuplicate">핫키 등록 실패: 이 조합은 다른 MAA 핫키와 중복됩니다. 다른 조합으로 변경해 주세요</system:String>
+    <system:String x:Key="HotKeyNotSet">&lt; 미설정 &gt;</system:String>
     <system:String x:Key="LabelSequenceTip">드래그하여 작업 순서를 변경할 수 있습니다</system:String>
     <system:String x:Key="CheckBoxesNotSaved">이 옵션은 한 번만 유효합니다</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">이 옵션은 우클릭 시 한 번만 적용됩니다</system:String>
@@ -1131,6 +1136,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="VersionMismatch">UI와 Core 버전이 일치하지 않습니다: {0} 및 {1}, 예측할 수 없는 동작을 유발할 수 있습니다. 파일을 수동으로 교체하거나 업데이트 중에 파일을 점유하지 마세요.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="FullPackageUpgradeTips">전체 패키지를 다운로드하여 기존 폴더를 덮어쓰지 말고 새 폴더에 압축을 푸세요.\n기존 설정과 로그를 유지하려면 기존 config, data 및 debug 폴더를 새 폴더로 복사하세요.</system:String>
     <system:String x:Key="ConnectingToEmulator">에뮬레이터에 연결 중……</system:String>
+    <system:String x:Key="ImageIsNull">스크린샷이 비어 있습니다</system:String>
+    <system:String x:Key="ConnectionLost">연결이 끊어졌습니다</system:String>
+    <system:String x:Key="LoadResourceFailed">리소스 로드 실패</system:String>
     <system:String x:Key="UnselectedTask">선택된 작업이 없습니다</system:String>
     <system:String x:Key="Running">실행 중……</system:String>
     <system:String x:Key="TaskAppend.Skip">{0}: {1} 작업 스킵</system:String>
@@ -1247,6 +1255,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Peep">모니터링</system:String>
     <system:String x:Key="PeepTip">팔라스의 눈에 비친 세상을 보시겠어요?</system:String>
     <system:String x:Key="PeepTargetFps">목표 프레임 속도</system:String>
+    <system:String x:Key="PeepScreenshotTooLong">스크린샷이 너무 오래 걸립니다. 목표 프레임 속도를 {0}로 낮춰 주세요</system:String>
     <!--  !Peep  -->
     <!--  미니게임  -->
     <system:String x:Key="MiniGameName">미니게임 이름</system:String>
@@ -1936,6 +1945,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Issue">문제 제보/피드백</system:String>
     <system:String x:Key="GenerateSupportPayload">로그 압축 파일 생성</system:String>
     <system:String x:Key="OpenDebugFolder">로그 폴더 열기</system:String>
+    <system:String x:Key="FailedToOpenFolder">폴더를 열지 못했습니다: {0}</system:String>
     <system:String x:Key="GenerateSupportPayloadSuccessful">압축 파일 생성 성공</system:String>
     <system:String x:Key="GenerateSupportPayloadException">압축 파일 생성 중 오류가 발생했습니다:</system:String>
     <system:String x:Key="ClearImageCache">이미지 캐시 비우기</system:String>

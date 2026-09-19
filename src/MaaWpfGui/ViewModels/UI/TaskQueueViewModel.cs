@@ -1740,7 +1740,7 @@ public class TaskQueueViewModel : Screen
             }
             else
             {
-                AddLog("Rename failed", UiLogColor.Error);
+                AddLog(LocalizationHelper.GetString("TaskRenameFailed"), UiLogColor.Error);
             }
         }
     }

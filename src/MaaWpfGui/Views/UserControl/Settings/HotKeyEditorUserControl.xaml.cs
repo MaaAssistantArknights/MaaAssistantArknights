@@ -14,6 +14,7 @@
 #nullable enable
 
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
@@ -56,6 +57,26 @@ public partial class HotKeyEditorUserControl : System.Windows.Controls.UserContr
     public HotKeyEditorUserControl()
     {
         InitializeComponent();
+        RefreshHotKeyTextBinding();
+        Loaded += (_, _) => LocalizationHelper.LanguageChanged += RefreshHotKeyTextBinding;
+        Unloaded += (_, _) => LocalizationHelper.LanguageChanged -= RefreshHotKeyTextBinding;
+    }
+
+    /// <summary>
+    /// Rebinds the hotkey text so its null placeholder follows the current language.
+    /// TargetNullValue is a plain binding property and cannot reference a DynamicResource,
+    /// so the binding is rebuilt from code on construction and on language change.
+    /// </summary>
+    private void RefreshHotKeyTextBinding()
+    {
+        HotKeyTextBox.SetBinding(
+            System.Windows.Controls.TextBox.TextProperty,
+            new Binding(nameof(HotKey))
+            {
+                Source = this,
+                Mode = BindingMode.OneWay,
+                TargetNullValue = LocalizationHelper.GetString("HotKeyNotSet"),
+            });
     }
 
     private static int CountModifierKeys(ModifierKeys modifiers)
