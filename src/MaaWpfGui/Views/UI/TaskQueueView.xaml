@@ -375,7 +375,8 @@
                                             <MenuItem
                                                 Command="{s:Action AddTaskQueueTask}"
                                                 CommandParameter="{Binding TaskTypeList[6].Value}"
-                                                Header="{Binding TaskTypeList[6].Display}" />
+                                                Header="{Binding TaskTypeList[6].Display}"
+                                                Visibility="Collapsed" />
                                             <MenuItem
                                                 Command="{s:Action AddTaskQueueTask}"
                                                 CommandParameter="{Binding TaskTypeList[7].Value}"
@@ -600,6 +601,12 @@
                                 d:Visibility="Visible"
                                 DataContext="{Binding FightTask}"
                                 Visibility="{c:Binding DataContext.TaskSettingVisibilities.Fight,
+                                                       RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                      AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:OperProgressTaskUserControl
+                                DataContext="{Binding OperProgressTask}"
+                                IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                Visibility="{c:Binding DataContext.TaskSettingVisibilities.OperProgress,
                                                        RelativeSource={RelativeSource Mode=FindAncestor,
                                                                                       AncestorType={x:Type UserControl}}}" />
                             <taskQueue:RecruitSettingsUserControl

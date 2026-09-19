@@ -1361,6 +1361,12 @@
         "text": ["Idle", "ldle"],
         "roi": [326, 637, 165, 41]
     },
+    "InfrastTrainingMasteryPage": {
+        "text": ["Trainer"]
+    },
+    "InfrastTrainingMasterybusy": {
+        "text": ["Training"]
+    },
     "InfrastTrainingProcessing": {
         "text": ["Progress"]
     },
@@ -1906,5 +1912,23 @@
     },
     "YellowTicket@Store@Purchase": {
         "text": ["Buy"]
+    },
+    "RedTicket@Store@ChooseTicketType": {
+        "text": ["Purchase", "Certificates"]
+    },
+    "RedTicket@Store@ChooseTicketTypeSelected": {
+        "text": ["Purchase", "Certificates"]
+    },
+    "RedTicket@Store@Purchase": {
+        "text": ["Buy"]
+    },
+    "OperProgress@OperBoxRoleFiltered": {
+        "text": ["Vanguard", "Guard", "Defender", "Sniper", "Caster", "Medic", "Support", "Specialist"]
+    },
+    "OperProgress@OperBoxRoleFilteredOpen": {
+        "text": ["Vanguard", "Guard", "Defender", "Sniper", "Caster", "Medic", "Support", "Specialist"]
+    },
+    "OperProgress@OperBoxSortTabs": {
+        "text": ["Level", "Rarity", "Acquisition Date"]
     }
 }

@@ -3379,6 +3379,9 @@ public class AsstProxy
         /// <summary>理智作战</summary>
         Fight,
 
+        /// <summary>干员培养</summary>
+        OperProgress,
+
         /// <summary>自动公招</summary>
         Recruit,
 
@@ -3437,8 +3440,9 @@ public class AsstProxy
     [
         TaskType.StartUp,
         TaskType.Fight,
-        TaskType.Recruit,
+        TaskType.OperProgress,
         TaskType.Infrast,
+        TaskType.Recruit,
         TaskType.Mall,
         TaskType.Award,
         TaskType.Roguelike,
