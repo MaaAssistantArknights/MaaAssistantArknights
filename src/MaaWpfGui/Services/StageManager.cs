@@ -325,14 +325,17 @@ public class StageManager
     {
         var entries = new List<MiniGameEntry>
         {
-            new() { Display = LocalizationHelper.GetString("MiniGameNameSsStore"), DisplayKey = "MiniGameNameSsStore", Value = "SS@Store@Begin", TipKey = "MiniGameNameSsStoreTip" },
-            new() { Display = LocalizationHelper.GetString("MiniGameNameGreenTicketStore"), DisplayKey = "MiniGameNameGreenTicketStore", Value = "GreenTicket@Store@Begin", TipKey = "MiniGameNameGreenTicketStoreTip" },
-            new() { Display = LocalizationHelper.GetString("MiniGameNameYellowTicketStore"), DisplayKey = "MiniGameNameYellowTicketStore", Value = "YellowTicket@Store@Begin", TipKey = "MiniGameNameYellowTicketStoreTip" },
-            new() { Display = LocalizationHelper.GetString("MiniGameNameRAStore"), DisplayKey = "MiniGameNameRAStore", Value = "RA@Store@Begin", TipKey = "MiniGameNameRAStoreTip" },
+            // 常驻活动
+            new() { Display = LocalizationHelper.GetString("MiniGame@SecretFront"), DisplayKey = "MiniGame@SecretFront", Value = "MiniGame@SecretFront", TipKey = "MiniGame@SecretFrontTip" },
+
+            // 解放双手
+            new() { Display = LocalizationHelper.GetString("MiniGameNameSsStore"), DisplayKey = "MiniGameNameSsStore", Value = "SS@Store@Begin", TipKey = "MiniGameNameSsStoreTip", CategoryKey = "MiniGameCategoryHandsFree" },
+            new() { Display = LocalizationHelper.GetString("MiniGameNameGreenTicketStore"), DisplayKey = "MiniGameNameGreenTicketStore", Value = "GreenTicket@Store@Begin", TipKey = "MiniGameNameGreenTicketStoreTip", CategoryKey = "MiniGameCategoryHandsFree" },
+            new() { Display = LocalizationHelper.GetString("MiniGameNameYellowTicketStore"), DisplayKey = "MiniGameNameYellowTicketStore", Value = "YellowTicket@Store@Begin", TipKey = "MiniGameNameYellowTicketStoreTip", CategoryKey = "MiniGameCategoryHandsFree" },
+            new() { Display = LocalizationHelper.GetString("MiniGameNameRAStore"), DisplayKey = "MiniGameNameRAStore", Value = "RA@Store@Begin", TipKey = "MiniGameNameRAStoreTip", CategoryKey = "MiniGameCategoryHandsFree" },
 
             // TODO: 材料合成 UI 入口暂时隐藏，待功能验证完成后恢复。
             // new() { Display = LocalizationHelper.GetString("MiniGame@MaterialSynthesis"), DisplayKey = "MiniGame@MaterialSynthesis", Value = "MiniGame@MaterialSynthesis@Begin", TipKey = "MiniGame@MaterialSynthesisTip" },
-            new() { Display = LocalizationHelper.GetString("MiniGame@SecretFront"), DisplayKey = "MiniGame@SecretFront", Value = "MiniGame@SecretFront", TipKey = "MiniGame@SecretFrontTip" },
         };
 
         return entries;
@@ -358,6 +361,7 @@ public class StageManager
             var value = token["Value"]?.ToString() ?? token["value"]?.ToString();
             var tip = token["Tip"]?.ToString();
             var tipKey = token["TipKey"]?.ToString();
+            var categoryKey = token["CategoryKey"]?.ToString();
             var minimumRequired = token["MinimumRequired"]?.ToString();
             var activity = token["Activity"]?.ToString();
 
@@ -430,6 +434,7 @@ public class StageManager
                 Value = value,
                 Tip = tip,
                 TipKey = tipKey,
+                CategoryKey = categoryKey,
                 MinimumRequired = minimumRequired,
                 Activity = activity,
                 UtcStartTime = utcStart,

@@ -2555,15 +2555,15 @@ public class ToolboxViewModel : Screen
         var categorizedItems = Instances.StageManager.MiniGameEntries
             .Select(t => {
                 var isCurrentEvent = t.UtcStartTime != DateTime.MinValue || t.UtcExpireTime != DateTime.MinValue;
-                var category = LocalizationHelper.GetString(isCurrentEvent
-                    ? "MiniGameCategoryCurrentEvent"
-                    : "MiniGameCategoryPermanent");
+                var categoryKey = !string.IsNullOrEmpty(t.CategoryKey)
+                    ? t.CategoryKey
+                    : (isCurrentEvent ? "MiniGameCategoryCurrentEvent" : "MiniGameCategoryPermanent");
                 return new MiniGameCategoryItem {
                     Display = string.IsNullOrEmpty(t.DisplayKey)
                         ? t.Display
                         : (LocalizationHelper.TryGetString(t.DisplayKey, out var loc) ? loc : t.Display),
                     Value = t.Value,
-                    Category = category,
+                    Category = LocalizationHelper.GetString(categoryKey),
                 };
             })
             .ToList();

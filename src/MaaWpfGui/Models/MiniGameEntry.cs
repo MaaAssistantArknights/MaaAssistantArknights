@@ -49,6 +49,12 @@ public class MiniGameEntry
     public string? TipKey { get; set; }
 
     /// <summary>
+    /// Gets or sets localization key of the UI category this entry is grouped into (optional).
+    /// When empty, the entry is categorized by its activity time (current event / permanent).
+    /// </summary>
+    public string? CategoryKey { get; set; }
+
+    /// <summary>
     /// Gets or sets minimum required client version (SemVer string) for this mini-game entry.
     /// </summary>
     public string? MinimumRequired { get; set; }
