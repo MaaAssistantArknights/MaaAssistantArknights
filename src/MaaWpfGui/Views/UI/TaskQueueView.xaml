@@ -609,7 +609,7 @@
                                                                                       AncestorType={x:Type UserControl}}}" />
                             <taskQueue:OperProgressTaskUserControl
                                 DataContext="{Binding OperProgressTask}"
-                                IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                IsEnabled="{Binding DataContext.Run.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
                                 Visibility="{c:Binding DataContext.TaskSettingVisibilities.OperProgress,
                                                        RelativeSource={RelativeSource Mode=FindAncestor,
                                                                                       AncestorType={x:Type UserControl}}}" />
