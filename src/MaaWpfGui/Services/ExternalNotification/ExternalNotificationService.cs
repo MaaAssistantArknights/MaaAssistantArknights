@@ -28,7 +28,7 @@ public static class ExternalNotificationService
 
     private static readonly ILogger _logger = Log.Logger;
 
-    private static async Task SendAsync(string title, string content, bool isTest = false)
+    private static async Task SendAsync(string title, string content, bool isTest = false, string? details = null)
     {
         var notificationList = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationConfigs.AsReadOnly();
         foreach (var config in notificationList)
@@ -49,7 +49,9 @@ public static class ExternalNotificationService
             var result = false;
             try
             {
-                result = await provider.SendAsync(title, content);
+                result = details is null
+                    ? await provider.SendAsync(title, content)
+                    : await provider.SendAsync(title, content, details);
             }
             catch (Exception ex)
             {
@@ -87,9 +89,10 @@ public static class ExternalNotificationService
     /// <param name="title">The title of the notification</param>
     /// <param name="content">The content of the notification</param>
     /// <param name="isTest">Indicate if it is a test or not.</param>
-    public static void Send(string title, string content, bool isTest = false)
+    /// <param name="details">The detailed log, when the user asked for it. Kept apart from <paramref name="content"/> so a provider can deliver it differently.</param>
+    public static void Send(string title, string content, bool isTest = false, string? details = null)
     {
-        var task = SendAsync("[MAA] " + title, content, isTest);
+        var task = SendAsync("[MAA] " + title, content, isTest, details);
         _taskContainers.RemoveAll(x => x.Status != TaskStatus.Running);
         _taskContainers.Add(task);
     }
@@ -100,18 +103,17 @@ public static class ExternalNotificationService
         {
             if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenComplete)
             {
-                var logs = string.Empty;
+                string? details = null;
                 if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationEnableDetails)
                 {
-                    logs = string.Join("\n", Instances.TaskQueueViewModel.LogItemViewModels.Select(logItem => $"[{logItem.Time}][{logItem.Color}]{logItem.Content}"));
+                    details = string.Join("\n", Instances.TaskQueueViewModel.LogItemViewModels.Select(logItem => $"[{logItem.Time}][{logItem.Color}]{logItem.Content}"));
                 }
-                logs += content;
                 if (!string.IsNullOrEmpty(sanityReport))
                 {
-                    logs += Environment.NewLine + sanityReport;
+                    content += Environment.NewLine + sanityReport;
                 }
 
-                Send(title, logs);
+                Send(title, content, details: details);
             }
         }
     }
