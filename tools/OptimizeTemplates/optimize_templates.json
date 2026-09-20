@@ -4530,5 +4530,6 @@
     "resource/global/txwy/resource/template/InfrastPic/Assistant/AssistantConfirmButton": "6c02243253aee3c004cf412df8ad325cdb0057ee529ca36425a04121461161b0",
     "resource/template/Award/SignInEventClaimedCheck": "89f8fe393c8c702435b440575604fe00c922532c7fa58349bb36b75427e9cc31",
     "resource/template/Award/SignInEventCostumeWear": "4c4469e181e2e41454e6e29beb904a8d0cb2a9066c0cfaaf9d0f8d8a9b8f2757",
-    "resource/template/Award/SignInEventEntryIcon": "f5d2367bceaf13e3f8a20093f4bfdc2900355591135aad736d025f0151fad952"
+    "resource/template/Award/SignInEventEntryIcon": "f5d2367bceaf13e3f8a20093f4bfdc2900355591135aad736d025f0151fad952",
+    "resource/template/items/act1dp_milestone_point": "05870afe52667756aaf470322687ff21ffeabb6afefc3fe4f5e6fa507449c39a"
 }
