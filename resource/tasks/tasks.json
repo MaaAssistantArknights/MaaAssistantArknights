@@ -1117,17 +1117,18 @@
         "next": ["OfflineConfirmImpl"]
     },
     "OfflineConfirmImpl": {
-        "Doc": "防止 reduceOtherTimes 两次。其他任务掉线时直接停止；开始唤醒经 StartUp@OfflineConfirm 走本节点点击重连",
+        "Doc": "防止 reduceOtherTimes 两次。其他任务掉线时直接停止；开始唤醒经 StartUp@OfflineConfirm 走本节点点击重连，点击次数有上限，停服等情况下不会无限重连",
         "template": "OfflineConfirm.png",
         "action": "ClickSelf",
         "roi": [310, 409, 648, 165],
+        "maxTimes": 6,
         "next": ["CloseAnnos#next", "OfflineConfirmImpl", "StartUpThemes#next"]
     },
     "StartUp@ClickCorner": {
         "next": ["StartUp@ReturnButtons#next", "StartUp", "StartUp@CloseAnnos#next", "StartUp@OfflineConfirm"]
     },
     "StartUp@OfflineConfirm": {
-        "Doc": "开始唤醒的职责是把游戏带回主界面：遇到掉线弹窗时点击确认重连并继续启动流程，而非像其他任务那样停止。显式声明的派生任务不继承模板（默认为自身任务名），需写明 template",
+        "Doc": "开始唤醒的职责是把游戏带回主界面：遇到掉线弹窗时点击确认重连并继续启动流程，而非像其他任务那样停止",
         "template": "OfflineConfirm.png",
         "action": "DoNothing"
     },
