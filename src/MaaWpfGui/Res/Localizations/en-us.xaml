@@ -953,6 +953,7 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="MiniGame">Useful Tasks</system:String>
     <system:String x:Key="MiniGameCategoryPermanent">Permanent</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">Current Events</system:String>
+    <system:String x:Key="MiniGameCategoryPermanentFeature">Permanent Features</system:String>
     <system:String x:Key="Custom">Custom Task</system:String>
     <system:String x:Key="SingleStep">Single-Step Task</system:String>
     <system:String x:Key="ReclamationTheme">Reclamation Algorithm Theme</system:String>

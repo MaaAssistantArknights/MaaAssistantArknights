@@ -953,6 +953,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame">快捷功能</system:String>
     <system:String x:Key="MiniGameCategoryPermanent">常駐</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">目前活動</system:String>
+    <system:String x:Key="MiniGameCategoryPermanentFeature">常駐功能</system:String>
     <system:String x:Key="Custom">自訂任務</system:String>
     <system:String x:Key="SingleStep">單步任務</system:String>
     <system:String x:Key="ReclamationTheme">生息演算主題</system:String>
