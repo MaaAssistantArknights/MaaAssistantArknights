@@ -41,7 +41,10 @@ protected:
     OcrPack();
 
     bool check_and_load();
-    void warmup();
+    [[nodiscard]] bool pipeline_ready() const;
+    void release_models();
+    bool create_pipeline(bool force_cpu);
+    bool warmup();
 
     struct Impl;
     std::unique_ptr<Impl> m_impl;
