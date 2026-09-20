@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "Utils/Logger.hpp"
+#include "WebGpuDevice.h"
 
 #if __has_include(<onnxruntime/dml_provider_factory.h>)
 #define WITH_DML
@@ -82,23 +83,41 @@ void asst::OnnxSessions::warmup_locked(const std::string& name)
         session.Run(Ort::RunOptions { nullptr }, input_names, &input, 1, output_names, 1);
         Log.info(__FUNCTION__, "| warmed up", name);
     }
-    catch (const Ort::Exception& e) {
+    catch (const std::exception& e) {
         Log.warn(__FUNCTION__, "| warmup failed", name, e.what());
     }
 }
 
 Ort::Session& asst::OnnxSessions::get_or_create(const std::string& name)
 {
-    if (!m_sessions.contains(name)) {
-        if (gpu_enabled && !gpu_options_initialized && !initialize_gpu_options()) {
-            Log.error(__FUNCTION__, "Failed to initialize configured GPU; falling back to CPU mode");
-            use_cpu_locked();
+    if (m_sessions.contains(name)) {
+        return m_sessions.at(name);
+    }
+
+    if (gpu_enabled && !gpu_options_initialized && !initialize_gpu_options()) {
+        Log.error(__FUNCTION__, "Failed to initialize configured GPU; falling back to CPU mode");
+        use_cpu_locked();
+    }
+
+    Log.info(__FUNCTION__, "lazy load", name);
+    try {
+        m_sessions.emplace(name, Ort::Session(m_env, m_model_paths.at(name).c_str(), m_options));
+    }
+    catch (const Ort::Exception& ex) {
+        // GPU 后端的初始化错误（例如 WebGPU EP）可能到建 session 时才暴露，退回 CPU 重试一次
+        Log.error(__FUNCTION__, "Failed to create", name, "session:", ex.what());
+        if (!gpu_enabled) {
+            throw;
         }
 
-        Log.info(__FUNCTION__, "lazy load", name);
-        Ort::Session session(m_env, m_model_paths.at(name).c_str(), m_options);
-        m_sessions.emplace(name, std::move(session));
+        Log.error(__FUNCTION__, "Falling back to CPU mode");
+        reset_session_options();
+        m_gpu_selector = std::nullopt;
+        gpu_enabled = false;
+        gpu_options_initialized = false;
+        m_sessions.emplace(name, Ort::Session(m_env, m_model_paths.at(name).c_str(), m_options));
     }
+
     return m_sessions.at(name);
 }
 
@@ -254,13 +273,17 @@ bool asst::OnnxSessions::initialize_gpu_options()
 
     if (backend == InferenceBackend::WebGPU) {
         if (support_webgpu) {
-            std::unordered_map<std::string, std::string> ep_options;
             // SessionOptionsAppendExecutionProvider prefixes the key with
-            // "ep.webgpuexecutionprovider." by itself, so a fully qualified key
-            // here would be ignored.
-            ep_options["deviceId"] = std::to_string(*device_id);
+            // "ep.webgpuexecutionprovider." by itself, so a fully qualified key here would be ignored.
+            // deviceId > 0 时 ORT 要求自带 WebGPU instance/device，由 make_webgpu_provider_options 一并给出。
+            const auto ep_options = make_webgpu_provider_options(*m_gpu_selector);
+            if (!ep_options) {
+                LogError << "Failed to create the WebGPU device for device" << *device_id;
+                return false;
+            }
+
             try {
-                m_options.AppendExecutionProvider("WebGPU", ep_options);
+                m_options.AppendExecutionProvider("WebGPU", *ep_options);
                 provider_configured = true;
                 LogInfo << "WebGPU execution provider enabled for device" << *device_id;
             }

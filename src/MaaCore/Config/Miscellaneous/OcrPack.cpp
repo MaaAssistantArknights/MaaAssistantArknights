@@ -6,7 +6,9 @@
 #include <array>
 #include <filesystem>
 #include <thread>
+#include <unordered_map>
 
+#include "Config/WebGpuDevice.h"
 #include "MaaUtils/NoWarningCV.hpp"
 MAA_SUPPRESS_CV_WARNINGS_BEGIN
 #include "fastdeploy/vision/ocr/ppocr/dbdetector.h"
@@ -32,6 +34,9 @@ struct OcrPack::Impl
     std::filesystem::path det_model_path;
     std::filesystem::path rec_model_path;
     std::filesystem::path rec_label_path;
+
+    // WebGPU 的 Dawn instance/device 句柄，生命周期需覆盖会话创建（见 WebGpuDevice.h）
+    std::unordered_map<std::string, std::string> webgpu_options;
 };
 
 OcrPack::OcrPack() :
@@ -222,11 +227,21 @@ bool OcrPack::check_and_load()
         if (!device_id) {
             Log.error(__FUNCTION__, "| failed to resolve the configured WebGPU device, falling back to CPU");
         }
-        else {
+        else if (auto webgpu_options = make_webgpu_provider_options(*m_gpu_selector); webgpu_options) {
             m_gpu_active = true;
+            // FastDeploy 建 OrtSessionOptions 时只给 deviceId 不满足 WebGPU EP 的要求（见 WebGpuDevice.h），
+            // 这里接管会话配置，把 Dawn 的 instance/device 一并交给 WebGPU EP。
+            m_impl->webgpu_options = std::move(*webgpu_options);
+            det_option.ort_option.configure_session_callback = &configure_webgpu_session;
+            det_option.ort_option.configure_session_callback_data = &m_impl->webgpu_options;
+            rec_option.ort_option.configure_session_callback = &configure_webgpu_session;
+            rec_option.ort_option.configure_session_callback_data = &m_impl->webgpu_options;
             det_option.UseWebGPU(*device_id);
             rec_option.UseWebGPU(*device_id);
             Log.info(__FUNCTION__, "| FastDeploy WebGPU mode with device", *device_id);
+        }
+        else {
+            Log.error(__FUNCTION__, "| failed to create the WebGPU device, falling back to CPU");
         }
     }
 #ifdef _WIN32
