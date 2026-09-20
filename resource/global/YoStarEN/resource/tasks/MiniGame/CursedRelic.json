@@ -1,0 +1,51 @@
+{
+    "MiniGame@CursedRelic@Begin": {
+        "algorithm": "JustReturn",
+        "next": ["MiniGame@CursedRelic@Run"]
+    },
+    "MiniGame@CursedRelic@Run": {
+        "template": ["Phantom@Roguelike@StartExplore.png"],
+        "baseTask": "Phantom@Roguelike@StartExplore",
+        "postDelay": 500,
+        "next": ["MiniGame@CursedRelic@CheckRelic", "MiniGame@CursedRelic@NotIt"],
+        "exceededNext": ["#none"]
+    },
+    "MiniGame@CursedRelic@CheckRelic": {
+        "algorithm": "OcrDetect",
+        "text": ["Victoria Crown"],
+        "roi": [352, 359, 241, 40],
+        "next": ["Stop"]
+    },
+    "MiniGame@CursedRelic@NotIt": {
+        "algorithm": "OcrDetect",
+        "ocrReplace": [[".+", "negative"]],
+        "text": ["negative"],
+        "roi": [352, 359, 241, 40],
+        "next": ["MiniGame@CursedRelic@Back"]
+    },
+    "MiniGame@CursedRelic@Back": {
+        "template": ["Roguelike@ExitThenAbandon.png"],
+        "action": "ClickSelf",
+        "roi": [9, 0, 74, 69],
+        "next": ["MiniGame@CursedRelic@GiveUp"]
+    },
+    "MiniGame@CursedRelic@GiveUp": {
+        "template": ["Phantom@Roguelike@Abandon.png"],
+        "action": "ClickSelf",
+        "specificRect": [1144, 300, 48, 51],
+        "next": ["MiniGame@CursedRelic@GiveUpConfirm"]
+    },
+    "MiniGame@CursedRelic@GiveUpConfirm": {
+        "action": "ClickSelf",
+        "template": ["Roguelike@AbandonConfirm.png"],
+        "postDelay": 55000,
+        "roi": [706, 458, 293, 75],
+        "next": ["MiniGame@CursedRelic@WaitCooldown"]
+    },
+    "MiniGame@CursedRelic@WaitCooldown": {
+        "baseTask": "Roguelike@StartExploreCD",
+        "postDelay": 1000,
+        "next": ["#self", "MiniGame@CursedRelic@Run"],
+        "onErrorNext": ["MiniGame@CursedRelic@WaitCooldown"]
+    }
+}
