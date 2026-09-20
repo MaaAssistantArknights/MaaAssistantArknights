@@ -87,9 +87,19 @@ public class TelegramNotificationProvider(IHttpService httpService, TelegramConf
     /// <returns>不超过上限的消息</returns>
     private static string Truncate(string text)
     {
-        return text.Length <= MaxTextLength
-            ? text
-            : TruncatedMark + text[^(MaxTextLength - TruncatedMark.Length)..];
+        if (text.Length <= MaxTextLength)
+        {
+            return text;
+        }
+
+        // 起点落在代理项对（如 emoji）中间时前半已被裁掉，剩下的低位代理项要一并丢掉，否则序列化成 JSON 会变成 U+FFFD
+        var suffixStart = text.Length - (MaxTextLength - TruncatedMark.Length);
+        if (char.IsLowSurrogate(text[suffixStart]))
+        {
+            suffixStart++;
+        }
+
+        return TruncatedMark + text[suffixStart..];
     }
 
     private class TelegramPostContent
