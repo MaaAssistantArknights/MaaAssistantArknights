@@ -418,19 +418,27 @@ void InfrastMaterialCraftTask::callback_operation(
             changes.emplace_back(json::object { { "item_id", id }, { "count", count } });
         }
         details["inventory_changes"] = std::move(changes);
+        if (operation.formula.item_id == m_active_target.item_id && !operation.formula.costs.empty() &&
+            !m_target_completed) {
+            m_target_output += static_cast<int64_t>(operation.formula.count) * operation.batches;
+            // Only the active target's main output advances its queue entry. Include progress
+            // in the confirmed operation so stopping cannot separate stock and target updates.
+            details["target_progress"] = json::object {
+                { "item_id", m_active_target.item_id },
+                { "completed", std::min<int64_t>(m_target_output, m_active_target.count) },
+                { "total", m_active_target.count },
+            };
+        }
     }
     callback(AsstMsg::SubTaskExtraInfo, info);
     if (what == "MaterialCraftOperationCompleted" && operation.formula.item_id == m_active_target.item_id &&
-        !m_target_completed) {
-        m_target_output += static_cast<int64_t>(operation.formula.count) * operation.batches;
-        if (m_target_output >= m_active_target.count) {
-            m_target_completed = true;
-            // Confirm the target even if stopping or restoring the page subsequently fails.
-            auto completed = basic_info_with_what("MaterialCraftTargetCompleted");
-            completed["details"] =
-                json::object { { "item_id", m_active_target.item_id }, { "count", m_active_target.count } };
-            callback(AsstMsg::SubTaskExtraInfo, completed);
-        }
+        !m_target_completed && m_target_output >= m_active_target.count) {
+        m_target_completed = true;
+        // Retain the full-target callback for clients that do not consume per-batch progress.
+        auto completed = basic_info_with_what("MaterialCraftTargetCompleted");
+        completed["details"] =
+            json::object { { "item_id", m_active_target.item_id }, { "count", m_active_target.count } };
+        callback(AsstMsg::SubTaskExtraInfo, completed);
     }
 }
 

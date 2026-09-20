@@ -24,6 +24,7 @@ using System.Windows.Media.Imaging;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
+using MaaWpfGui.Configuration.Single.Settings;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -69,6 +70,8 @@ public class MaterialCraftViewModel : PropertyChangedBase
         // The toolbox and its child have the same application-wide lifetime.
         LocalizationHelper.LanguageChanged += () => Execute.OnUIThread(LoadMaterialRecipes);
         LoadMaterialRecipes();
+        RestoreMaterialCraftQueue();
+        MaterialCraftPlanItems.CollectionChanged += (_, _) => SaveMaterialCraftQueue();
     }
 
     public bool Idle => _runningState.Idle;
@@ -84,11 +87,12 @@ public class MaterialCraftViewModel : PropertyChangedBase
 
     public bool MaterialCraftStationOperators
     {
-        get; set {
-            SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.MaterialCraftStationOperators = value;
+        get => SettingsViewModel.ToolboxSettings.MaterialCraftStationOperators;
+        set {
+            SettingsViewModel.ToolboxSettings.MaterialCraftStationOperators = value;
+            NotifyOfPropertyChange();
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.MaterialCraftStationOperators;
+    }
 
     private ObservableList<ToolboxViewModel.DepotResultDate> DepotResult => _toolbox.DepotResult;
 
@@ -149,6 +153,45 @@ public class MaterialCraftViewModel : PropertyChangedBase
     public ObservableCollection<MaterialCraftChange> MaterialCraftChanges { get; } = [];
 
     public string MaterialCraftResultInfo { get => field; set => SetAndNotify(ref field, value); } = string.Empty;
+
+    private void RestoreMaterialCraftQueue()
+    {
+        foreach (var saved in SettingsViewModel.ToolboxSettings.MaterialCraftQueue)
+        {
+            if (saved is null || string.IsNullOrWhiteSpace(saved.ItemId) || saved.Count <= 0)
+            {
+                _logger.Warning("Ignoring invalid saved material craft queue item");
+                continue;
+            }
+
+            var existing = MaterialCraftPlanItems.FirstOrDefault(item => item.Id == saved.ItemId);
+            if (existing is not null)
+            {
+                existing.Count = (int)Math.Min(int.MaxValue, (long)existing.Count + saved.Count);
+                continue;
+            }
+
+            // Preserve IDs even if resources are unavailable; missing recipes must not erase a saved queue.
+            var item = new MaterialCraftPlanItem {
+                Id = saved.ItemId,
+                Name = GetItemNameOrId(saved.ItemId),
+                Image = ItemListHelper.GetItemImage(saved.ItemId),
+                Count = saved.Count,
+            };
+            MaterialCraftPlanItems.Add(item);
+        }
+        foreach (var item in MaterialCraftPlanItems)
+        {
+            item.PropertyChanged += MaterialCraftPlanItemPropertyChanged;
+        }
+    }
+
+    private void SaveMaterialCraftQueue()
+    {
+        // Replace the snapshot so ConfigFactory observes changes and serializes a stable ordered list.
+        SettingsViewModel.ToolboxSettings.MaterialCraftQueue = MaterialCraftPlanItems
+            .Select(item => new MaterialCraftQueueItem { ItemId = item.Id, Count = item.Count }).ToList();
+    }
 
     private void LoadMaterialRecipes()
     {
@@ -352,6 +395,7 @@ public class MaterialCraftViewModel : PropertyChangedBase
     {
         if (e.PropertyName == nameof(MaterialCraftPlanItem.Count))
         {
+            SaveMaterialCraftQueue();
             InvalidateMaterialCraftPreview();
         }
     }
@@ -714,12 +758,7 @@ public class MaterialCraftViewModel : PropertyChangedBase
             details.Value<string>("item_id") is { } targetId &&
             execution.ConfirmTarget(targetId, details.Value<int>("count")))
         {
-            var completedItem = MaterialCraftPlanItems.FirstOrDefault(item => item.Id == targetId);
-            if (completedItem is not null)
-            {
-                completedItem.PropertyChanged -= MaterialCraftPlanItemPropertyChanged;
-                MaterialCraftPlanItems.Remove(completedItem);
-            }
+            UpdateMaterialCraftRemaining(targetId, 0);
         }
         else if (what == "MaterialCraftOperationStarted")
         {
@@ -764,6 +803,31 @@ public class MaterialCraftViewModel : PropertyChangedBase
             }
             _toolbox.ApplyMaterialCraftInventoryChanges(changes);
             execution.RecordInventoryChanges(netChanges, byproducts);
+            if (details["target_progress"] is JObject progress &&
+                progress.Value<string>("item_id") is { } itemId &&
+                execution.RecordTargetProgress(itemId, progress.Value<int?>("completed") ?? 0,
+                    progress.Value<int?>("total") ?? 0, out int remaining))
+            {
+                UpdateMaterialCraftRemaining(itemId, remaining);
+            }
+        }
+    }
+
+    private void UpdateMaterialCraftRemaining(string itemId, int remaining)
+    {
+        var item = MaterialCraftPlanItems.FirstOrDefault(entry => entry.Id == itemId);
+        if (item is null)
+        {
+            return;
+        }
+        if (remaining > 0)
+        {
+            item.Count = remaining;
+        }
+        else
+        {
+            item.PropertyChanged -= MaterialCraftPlanItemPropertyChanged;
+            MaterialCraftPlanItems.Remove(item);
         }
     }
 

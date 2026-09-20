@@ -26,7 +26,7 @@ public sealed class MaterialCraftExecution(
 {
     private readonly Dictionary<string, long> _regularChanges = [];
     private readonly Dictionary<string, long> _byproducts = [];
-    private readonly HashSet<string> _completedTargets = [];
+    private readonly Dictionary<string, int> _targetOutputs = [];
 
     public int TaskId { get; } = taskId;
 
@@ -62,8 +62,22 @@ public sealed class MaterialCraftExecution(
 
     public bool ConfirmTarget(string itemId, int count)
     {
-        return PendingOperation is null && CompletedOperations > 0 &&
-            Targets.TryGetValue(itemId, out int requested) && count == requested && _completedTargets.Add(itemId);
+        return RecordTargetProgress(itemId, count, count, out _);
+    }
+
+    public bool RecordTargetProgress(string itemId, int completed, int total, out int remaining)
+    {
+        remaining = 0;
+        if (PendingOperation is not null || CompletedOperations == 0 ||
+            !Targets.TryGetValue(itemId, out int requested) || total != requested ||
+            completed <= _targetOutputs.GetValueOrDefault(itemId) || completed > requested)
+        {
+            return false;
+        }
+
+        _targetOutputs[itemId] = completed;
+        remaining = requested - completed;
+        return true;
     }
 
     public bool BeginOperation(int operation)

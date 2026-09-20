@@ -129,6 +129,8 @@ public class SettingsViewModel : Screen
     /// </summary>
     public static ThirdPartyServiceSettingsUserControlModel ThirdPartyServiceSettings { get; } = ThirdPartyServiceSettingsUserControlModel.Instance;
 
+    public static ToolboxSettingsViewModel ToolboxSettings { get; } = new();
+
     #endregion 设置界面 Model
 
     /// <summary>
