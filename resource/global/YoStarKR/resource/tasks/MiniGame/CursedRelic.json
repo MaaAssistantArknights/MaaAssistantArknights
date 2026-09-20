@@ -1,4 +1,6 @@
-{    "MiniGame@CursedRelic@CheckRelic": {
-        "text": ["빅토리아 왕관"]
+{
+    "MiniGame@CursedRelic@CheckRelic": {
+        "ocrReplace": [[" ", ""]],
+        "text": ["빅토리아왕관"]
     }
 }
