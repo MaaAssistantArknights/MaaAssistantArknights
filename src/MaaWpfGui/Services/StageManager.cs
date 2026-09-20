@@ -361,6 +361,7 @@ public class StageManager
             var value = token["Value"]?.ToString() ?? token["value"]?.ToString();
             var tip = token["Tip"]?.ToString();
             var tipKey = token["TipKey"]?.ToString();
+            var category = token["Category"]?.ToString();
             var categoryKey = token["CategoryKey"]?.ToString();
             var minimumRequired = token["MinimumRequired"]?.ToString();
             var activity = token["Activity"]?.ToString();
@@ -434,6 +435,7 @@ public class StageManager
                 Value = value,
                 Tip = tip,
                 TipKey = tipKey,
+                Category = category,
                 CategoryKey = categoryKey,
                 MinimumRequired = minimumRequired,
                 Activity = activity,

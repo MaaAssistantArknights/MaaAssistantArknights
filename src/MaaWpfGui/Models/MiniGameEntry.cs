@@ -49,8 +49,13 @@ public class MiniGameEntry
     public string? TipKey { get; set; }
 
     /// <summary>
+    /// Gets or sets the fallback display text of the UI category this entry is grouped into (optional).
+    /// </summary>
+    public string? Category { get; set; }
+
+    /// <summary>
     /// Gets or sets localization key of the UI category this entry is grouped into (optional).
-    /// When empty, the entry is categorized by its activity time (current event / permanent).
+    /// When unavailable, <see cref="Category"/> is used; when both are empty, the entry is categorized by its activity time.
     /// </summary>
     public string? CategoryKey { get; set; }
 
