@@ -951,7 +951,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotMaintain">庫存保持</system:String>
     <system:String x:Key="SwitchTheme">更換主題</system:String>
     <system:String x:Key="MiniGame">快捷功能</system:String>
-    <system:String x:Key="MiniGameCategoryPermanent">常駐</system:String>
+    <system:String x:Key="MiniGameCategoryPermanent">常駐活動</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">目前活動</system:String>
     <system:String x:Key="MiniGameCategoryPermanentFeature">常駐功能</system:String>
     <system:String x:Key="Custom">自訂任務</system:String>

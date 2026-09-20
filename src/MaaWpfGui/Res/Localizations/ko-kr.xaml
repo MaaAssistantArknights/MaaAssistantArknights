@@ -952,7 +952,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotMaintain">재고 유지</system:String>
     <system:String x:Key="SwitchTheme">테마 변경</system:String>
     <system:String x:Key="MiniGame">편의 기능</system:String>
-    <system:String x:Key="MiniGameCategoryPermanent">상시</system:String>
+    <system:String x:Key="MiniGameCategoryPermanent">상시 활동</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">현재 이벤트</system:String>
     <system:String x:Key="MiniGameCategoryPermanentFeature">상시 기능</system:String>
     <system:String x:Key="Custom">커스텀 작업</system:String>
