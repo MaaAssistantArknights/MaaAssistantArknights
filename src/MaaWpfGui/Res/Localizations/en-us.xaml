@@ -1350,7 +1350,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="MiniGame@AutoRaisePotential@PotentialFoundLog">Operator {0}/{1}: potential raise available</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential@NoPotentialLog">Operator {0}/{1}: no potential raise available</system:String>
     <system:String x:Key="MiniGame@CursedRelic">IS2 Victoria Crown reroll</system:String>
-    <system:String x:Key="MiniGame@CursedRelicTip" xml:space="preserve">Please start from the IS2 EXPLORE page.</system:String>
+    <system:String x:Key="MiniGame@CursedRelicTip" xml:space="preserve">Please start from the IS2 main menu where the EXPLORE button is visible.</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">Green Ticket Store</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">Buy everything on the 1st floor.&#10;Buy Headhunting Permits and Recruitment Permits on the 2nd floor.</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">Yellow Ticket Store</system:String>
