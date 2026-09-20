@@ -396,7 +396,11 @@
                                             <MenuItem
                                                 Command="{s:Action AddTaskQueueTask}"
                                                 CommandParameter="{Binding TaskTypeList[11].Value}"
-                                                Header="{Binding TaskTypeList[11].Display}"
+                                                Header="{Binding TaskTypeList[11].Display}" />
+                                            <MenuItem
+                                                Command="{s:Action AddTaskQueueTask}"
+                                                CommandParameter="{Binding TaskTypeList[12].Value}"
+                                                Header="{Binding TaskTypeList[12].Display}"
                                                 Visibility="{c:Binding ShowDebugTask}" />
                                         </Menu>
                                     </Border>
