@@ -34,6 +34,7 @@
         <StackPanel
             Grid.Row="0"
             HorizontalAlignment="Center"
+            IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
             VerticalAlignment="Center"
             d:Visibility="Visible"
             Orientation="Horizontal"
@@ -58,7 +59,10 @@
             </StackPanel>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+        <StackPanel
+            Grid.Row="1"
+            HorizontalAlignment="Center"
+            IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}">
             <hc:ComboBox
                 Width="300"
                 Height="30"
@@ -170,7 +174,9 @@
 
         </StackPanel>
 
-        <StackPanel Grid.Row="2">
+        <StackPanel
+            Grid.Row="2"
+            IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}">
             <StackPanel>
                 <ContentControl d:Content="{d:DesignInstance Type={x:Type extra:MuMu12Extra}}" Content="{Binding ExtraConfig}">
                     <ContentControl.Resources>
@@ -344,7 +350,8 @@
                     Margin="5"
                     HorizontalAlignment="Center"
                     Command="{s:Action TestLinkAndGetImage}"
-                    Content="{DynamicResource ScreenshotTest}" />
+                    Content="{DynamicResource ScreenshotTest}"
+                    IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}" />
                 <Button
                     Height="30"
                     Margin="5"
@@ -372,6 +379,7 @@
             Grid.Row="5"
             HorizontalAlignment="Center"
             d:Visibility="Visible"
+            IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
             Visibility="{c:Binding ShowAdvancedConnectSettings and !DataContext.IsPCConnectConfig, ElementName=Root}">
             <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                 <CheckBox
@@ -396,6 +404,7 @@
             Grid.Row="6"
             HorizontalAlignment="Center"
             d:Visibility="Visible"
+            IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
             Orientation="Horizontal"
             Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC'}">
             <hc:ComboBox
@@ -442,6 +451,7 @@
         <StackPanel
             Grid.Row="7"
             d:Visibility="Visible"
+            IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
             Visibility="{c:Binding ShowAdvancedConnectSettings and !DataContext.IsPCConnectConfig, ElementName=Root}">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <CheckBox
