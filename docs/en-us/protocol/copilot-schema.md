@@ -78,8 +78,8 @@ Please note that JSON files do not support comments. The comments in this docume
             // "MoveCamera" for Guide mode, requires the distance field
             // "ResetStopwatch" — Resets the global stopwatch. Please refer to the “elapsed_time” condition.
             // "Click" directly clicks the pixel rect specified by "rect" or the battlefield tile specified by "location", without any recognition; empty tiles can also be clicked
-            //      "rect" and "location" are mutually exclusive; an error is logged and this step is skipped if both or neither is set
-            // "Swipe" swipes from the "begin" rect to the "end" rect, directly issuing the underlying swipe command
+            //      "rect" and "location" are mutually exclusive; the copilot fails to load (parse-time error) if both or neither is set
+            // "Swipe" swipes from the "begin" rect to the "end" rect, directly issuing the underlying swipe command; the copilot fails to load if either is missing
             // Currently the five conditions below use AND relationship
             "kills": 0, // Kill count condition, waits until reached. Optional, default is 0, executes immediately
             "costs": 50, // DP condition, waits until reached. Optional, default is 0, executes immediately
@@ -107,7 +107,7 @@ Please note that JSON files do not support comments. The comments in this docume
             // Optional when type is "Skill"|"Retreat".
             // "Skill": Recommended only for automatic devices on the field, use location without name to activate skill. For normal deployed operators, use name
             // "Retreat": Recommended only when multiple summons share the same name, use location without name to retreat. For normal deployed operators, use name
-            // When type is "Click", mutually exclusive with "rect"; directly clicks this tile
+            // When type is "Click", mutually exclusive with "rect"; directly clicks this tile; any valid tile coordinate is accepted, including [0, 0]
             "rect": [
                 100,
                 100,
@@ -150,7 +150,7 @@ Please note that JSON files do not support comments. The comments in this docume
             ], // Required when type is "Swipe"; end rect of the swipe, pixel rect based on 720p [x, y, w, h]; the end point is randomly picked within the rect and automatically scaled to the current resolution
             "duration": 200, // Swipe duration. Optional, default is 0, unit is milliseconds
             "extra_swipe": 1, // Direction of the compensating swipe appended after the main swipe. Optional, default is 0, disabled
-            // 0 - disabled; 1 - up; 2 - down; 3 - left; 4 - right
+            // 0 disables it, 1/2/3/4 are up/down/left/right respectively
             // A short swipe in the given direction is appended after the main swipe, to cancel the inertia along the main swipe direction after the finger is released
             // e.g. after swiping a list horizontally, appending a short vertical swipe prevents the list from keep scrolling past on release
             "slope_in": 10, // Start slope of the swipe. Optional, default is 10; stored as an integer multiplied by 10, so 10 means 1.0
