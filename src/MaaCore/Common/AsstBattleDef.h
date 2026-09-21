@@ -498,6 +498,8 @@ enum class ActionType
     Output,         // 仅输出，什么都不操作，界面上也不显示
     SkillDaemon,    // 什么都不做，有技能开技能，直到战斗结束
     ResetStopwatch, // 重置全局计时器 (试验性功能)
+    Click,          // 点击指定像素矩形或格子，无识别直接点
+    Swipe,          // 从一个像素矩形滑动到另一个像素矩形
 
     /* for TRN */
     MoveCamera, // 引航者试炼，移动镜头
@@ -517,6 +519,7 @@ struct Action
     battle::Role role = battle::Role::Unknown; // 目标职业
     std::string name;                          // 目标名，若 type >= SwitchSpeed, name 为空
     Point location;
+    Rect rect; // Click 的点击区域，720p 基准像素矩形，与 location 二选一
     DeployDirection direction = DeployDirection::Right;
     SkillUsage modify_usage = SkillUsage::NotUse;
     int modify_times = 1; // 更改使用技能的次数，默认为 1，兼容曾经的作业
@@ -528,6 +531,14 @@ struct Action
     RoleCounts role_counts;
     std::pair<double, double> distance;
     int elapsed_time = 0; // 全局计时条件 (试验性功能)
+    Rect begin;                            // Swipe 起点区域，720p 基准像素矩形
+    Rect end;                              // Swipe 终点区域，720p 基准像素矩形
+    int duration = 0;                      // Swipe 持续时间，单位毫秒
+    SwipeExtraDirection extra_swipe = SwipeExtraDirection::None; // Swipe 主滑动后追加的补偿滑动方向
+    int slope_in = 10;                     // Swipe 起始斜率，×10 整数存储，10 即 1.0
+    int slope_out = 10;                    // Swipe 结束斜率，×10 整数存储，10 即 1.0
+    bool with_pause = false;               // Swipe 是否在滑动期间暂停
+    bool high_resolution_swipe_fix = false; // Swipe 是否启用高分辨率滑动修正
 };
 
 struct BasicInfo

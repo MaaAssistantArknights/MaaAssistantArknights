@@ -270,6 +270,16 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
             { "resetstopwatch", ActionType::ResetStopwatch },
             { "Resetstopwatch", ActionType::ResetStopwatch },
             { "重置全局计时器", ActionType::ResetStopwatch },
+
+            { "Click", ActionType::Click },
+            { "click", ActionType::Click },
+            { "CLICK", ActionType::Click },
+            { "点击", ActionType::Click },
+
+            { "Swipe", ActionType::Swipe },
+            { "swipe", ActionType::Swipe },
+            { "SWIPE", ActionType::Swipe },
+            { "滑动", ActionType::Swipe },
         };
 
         std::string type_str = action_info.get("type", "Deploy");
@@ -291,6 +301,11 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
 
         action.location.x = action_info.get("location", 0, 0);
         action.location.y = action_info.get("location", 1, 0);
+        // Click 的点击区域，720p 基准像素矩形，与 location 二选一，缺失时保持空 Rect
+        action.rect.x = action_info.get("rect", 0, 0);
+        action.rect.y = action_info.get("rect", 1, 0);
+        action.rect.width = action_info.get("rect", 2, 0);
+        action.rect.height = action_info.get("rect", 3, 0);
         action.direction = string_to_direction(action_info.get("direction", "Right"));
 
         action.modify_usage = static_cast<battle::SkillUsage>(action_info.get("skill_usage", 0));
@@ -312,6 +327,23 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
             auto dist_arr = action_info.at("distance").as_array();
             action.distance = std::make_pair(dist_arr[0].as_double(), dist_arr[1].as_double());
         }
+
+        // Swipe 参数，均缺失时保持默认值
+        action.begin.x = action_info.get("begin", 0, 0);
+        action.begin.y = action_info.get("begin", 1, 0);
+        action.begin.width = action_info.get("begin", 2, 0);
+        action.begin.height = action_info.get("begin", 3, 0);
+        action.end.x = action_info.get("end", 0, 0);
+        action.end.y = action_info.get("end", 1, 0);
+        action.end.width = action_info.get("end", 2, 0);
+        action.end.height = action_info.get("end", 3, 0);
+        action.duration = action_info.get("duration", 0);
+        action.extra_swipe = to_swipe_extra_direction(action_info.get("extra_swipe", 0));
+        // slope 为 ×10 整数存储，10 即 1.0
+        action.slope_in = action_info.get("slope_in", 10);
+        action.slope_out = action_info.get("slope_out", 10);
+        action.with_pause = action_info.get("with_pause", false);
+        action.high_resolution_swipe_fix = action_info.get("high_resolution_swipe_fix", false);
 
         // ————————————————————————————————————————————————————————————————
         // 实验性功能

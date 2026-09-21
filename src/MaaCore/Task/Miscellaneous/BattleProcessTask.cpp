@@ -290,6 +290,53 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         }
         break;
 
+    case ActionType::Click: {
+        if (!action.rect.empty() && !location.empty()) {
+            LogError << "Both rect and location are set for Click action. Skip this step.";
+            break;
+        }
+        if (!action.rect.empty()) {
+            ret = ctrler()->click(action.rect);
+        }
+        else if (!location.empty()) {
+            // 无识别直接点，空格子也可点击
+            auto target_iter = m_normal_tile_info.find(location);
+            if (target_iter == m_normal_tile_info.end()) {
+                LogError << "No tile found at" << location << "for Click action. Skip this step.";
+                break;
+            }
+            ret = ctrler()->click(target_iter->second.pos);
+        }
+        else {
+            LogError << "Click action requires either rect or location. Skip this step.";
+            break;
+        }
+        if (ret) {
+            m_in_bullet_time = false;
+        }
+        break;
+    }
+
+    case ActionType::Swipe:
+        if (action.begin.empty() || action.end.empty()) {
+            LogError << "Swipe action requires both begin and end. Skip this step.";
+            break;
+        }
+        // slope 为 ×10 整数存储，转为 controller 需要的 double
+        ret = ctrler()->swipe(
+            action.begin,
+            action.end,
+            action.duration,
+            action.extra_swipe,
+            action.slope_in / 10.0,
+            action.slope_out / 10.0,
+            action.with_pause,
+            action.high_resolution_swipe_fix);
+        if (ret) {
+            m_in_bullet_time = false;
+        }
+        break;
+
     case ActionType::SkillUsage: {
         const auto set_usage = [this](const battle::OperNameTag& tag, SkillUsage usage, int times) {
             m_skill_usage[tag] = usage;
@@ -397,6 +444,8 @@ void asst::BattleProcessTask::notify_action(const battle::copilot::Action& actio
         { ActionType::DrawCard, "DrawCard" },
         { ActionType::CheckIfStartOver, "CheckIfStartOver" },
         { ActionType::ResetStopwatch, "ResetStopwatch" },
+        { ActionType::Click, "Click" },
+        { ActionType::Swipe, "Swipe" },
     };
 
     json::value info = basic_info_with_what("CopilotAction");
