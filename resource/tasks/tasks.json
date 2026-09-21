@@ -3684,6 +3684,18 @@
         "roi": [1030, 220, 190, 65],
         "preDelay": 500
     },
+    "InfrastMfgOriginiumOreCount": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [447, 217, 64, 25],
+        "ocrReplace": [["[^0-9/]", ""]],
+        "Doc": "源石碎片配方页固源岩数量，预期格式为当前数量/2"
+    },
+    "InfrastMfgDeviceCount": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [947, 217, 64, 25],
+        "ocrReplace": [["[^0-9/]", ""]],
+        "Doc": "源石碎片配方页装置数量，预期格式为当前数量/1"
+    },
     "VerifyTradeOrderChangedToMoney": {
         "baseTask": "InfrastFlagMoney",
         "template": "InfrastTradeMoneyFlag.png",
