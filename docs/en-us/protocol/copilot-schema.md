@@ -63,8 +63,8 @@ Please note that JSON files do not support comments. The comments in this docume
         // Combat operations. Ordered, executes the next one only after completing the previous one. Required
         {
             "type": "部署", // Operation type, optional, default is "Deploy" ("部署" = "Deploy")
-            // "Deploy" | "Skill" | "Retreat" | "SpeedUp" | "BulletTime" | "SkillUsage" | "Output" | "SkillDaemon" | "MoveCamera" | "ResetStopwatch"
-            // "部署"   |  "技能"  |  "撤退"   | "二倍速"   |  "子弹时间"  |  "技能用法"   | "打印"  |  "摆完挂机" | "移动镜头" | "重置全局计时器"
+            // "Deploy" | "Skill" | "Retreat" | "SpeedUp" | "BulletTime" | "SkillUsage" | "Output" | "SkillDaemon" | "MoveCamera" | "ResetStopwatch" | "Click" | "Swipe"
+            // "部署"   |  "技能"  |  "撤退"   | "二倍速"   |  "子弹时间"  |  "技能用法"   | "打印"  |  "摆完挂机" | "移动镜头" | "重置全局计时器" | "点击" | "滑动"
             // Both English and Chinese are supported (e.g., "部署" for "Deploy")
             // For "Deploy", waits until enough DP is available (unless timeout)
             // For "Skill", waits until skill is ready (unless timeout)
@@ -77,6 +77,9 @@ Please note that JSON files do not support comments. The comments in this docume
             // "SkillDaemon" only uses "use when ready" skills, does nothing else until battle ends
             // "MoveCamera" for Guide mode, requires the distance field
             // "ResetStopwatch" — Resets the global stopwatch. Please refer to the “elapsed_time” condition.
+            // "Click" directly clicks the pixel rect specified by "rect" or the battlefield tile specified by "location", without any recognition; empty tiles can also be clicked
+            //      "rect" and "location" are mutually exclusive; an error is logged and this step is skipped if both or neither is set
+            // "Swipe" swipes from the "begin" rect to the "end" rect, directly issuing the underlying swipe command
             // Currently the five conditions below use AND relationship
             "kills": 0, // Kill count condition, waits until reached. Optional, default is 0, executes immediately
             "costs": 50, // DP condition, waits until reached. Optional, default is 0, executes immediately
@@ -104,6 +107,14 @@ Please note that JSON files do not support comments. The comments in this docume
             // Optional when type is "Skill"|"Retreat".
             // "Skill": Recommended only for automatic devices on the field, use location without name to activate skill. For normal deployed operators, use name
             // "Retreat": Recommended only when multiple summons share the same name, use location without name to retreat. For normal deployed operators, use name
+            // When type is "Click", mutually exclusive with "rect"; directly clicks this tile
+            "rect": [
+                100,
+                100,
+                50,
+                50
+            ], // Mutually exclusive with "location" when type is "Click"; pixel rect based on 720p [x, y, w, h]
+            // The click point is randomly picked within the rect and automatically scaled to the current resolution
             "direction": "左", // Operator facing direction. Required when type is "Deploy" ("左" = "Left")
             // "Left" | "Right" | "Up" | "Down" | "None"
             // "左"   |  "右"   | "上"  | "下"   |  "无"
@@ -125,6 +136,28 @@ Please note that JSON files do not support comments. The comments in this docume
             ], // Required when type is "MoveCamera"
             // [x movement in tiles, y movement in tiles], can be decimal
             // Note that during "MoveCamera", operators on field cannot be recognized, need to use sleep to cover entire animation
+            "begin": [
+                100,
+                100,
+                50,
+                50
+            ], // Required when type is "Swipe"; start rect of the swipe, pixel rect based on 720p [x, y, w, h]; the start point is randomly picked within the rect and automatically scaled to the current resolution
+            "end": [
+                400,
+                400,
+                50,
+                50
+            ], // Required when type is "Swipe"; end rect of the swipe, pixel rect based on 720p [x, y, w, h]; the end point is randomly picked within the rect and automatically scaled to the current resolution
+            "duration": 200, // Swipe duration. Optional, default is 0, unit is milliseconds
+            "extra_swipe": 1, // Direction of the compensating swipe appended after the main swipe. Optional, default is 0, disabled
+            // 0 - disabled; 1 - up; 2 - down; 3 - left; 4 - right
+            // A short swipe in the given direction is appended after the main swipe, to cancel the inertia along the main swipe direction after the finger is released
+            // e.g. after swiping a list horizontally, appending a short vertical swipe prevents the list from keep scrolling past on release
+            "slope_in": 10, // Start slope of the swipe. Optional, default is 10; stored as an integer multiplied by 10, so 10 means 1.0
+            "slope_out": 10, // End slope of the swipe. Optional, default is 10; stored as an integer multiplied by 10, so 10 means 1.0
+            "with_pause": false, // Whether to pause the game while swiping (for cases that need to swipe while paused). Optional, default is false; only supported by some touch modes
+            "high_resolution_swipe_fix": false, // Whether to enable the high-resolution swipe fix. Optional, default is false
+            // The special swipe parameters above share exactly the same semantics as special_params of the Swipe task in tasks.json
             "doc": "下棘刺了！", // Description, optional. Displayed in UI, no actual function ("下棘刺了！" = "Deploying Thorns!")
             "doc_color": "orange" // Description text color, optional, default is gray. Displayed in UI, no actual function
         },
