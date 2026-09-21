@@ -174,7 +174,7 @@
             ["^Executor$", "送葬人"],
             ["Vermeil?", "红云"],
             ["Schwarz", "黑"],
-            ["Catapult", "空爆"],
+            ["^Catapult$", "空爆"],
             ["^Exusiai?$", "能天使"],
             ["Firewatch", "守林人"],
             ["Provence", "普罗旺斯"],
