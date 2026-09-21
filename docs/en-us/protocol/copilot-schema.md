@@ -136,6 +136,7 @@ Please note that JSON files do not support comments. The comments in this docume
             ], // Required when type is "MoveCamera"
             // [x movement in tiles, y movement in tiles], can be decimal
             // Note that during "MoveCamera", operators on field cannot be recognized, need to use sleep to cover entire animation
+            "keep_kills": false, // Whether to keep the kill count when moving the camera. Optional, default is false; when true, the camera move does not wait for the current wave to end and the kill count is not reset, for moving the camera within the same wave
             "begin": [
                 100,
                 100,
