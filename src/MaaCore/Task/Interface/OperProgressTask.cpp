@@ -106,7 +106,7 @@ public:
                 return false;
             }
         }
-        else if (asst::BattleData.find_opers(*role_opt, *name_opt).empty()) {
+        else if (role_opt && asst::BattleData.find_opers(*role_opt, *name_opt).empty()) {
             LogError << __FUNCTION__ << "unknown oper name: " << *name_opt << ", role:" << *role_opt;
             return false;
         }
