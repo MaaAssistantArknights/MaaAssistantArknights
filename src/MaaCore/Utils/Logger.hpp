@@ -1220,7 +1220,7 @@ public:
 #ifdef ASST_DEBUG
         m_id = Logger::get_instance().push
 #else
-        Logger::get_instance().trace
+        Logger::get_instance().trace_
 #endif
                (m_func_name, "| enter");
     }
