@@ -120,7 +120,7 @@
         "action": "ClickSelf",
         "roi": [0, 400, 650, 160],
         "postDelay": 500,
-        "next": ["MiniGame@AutoRaisePotential@ReturnToOperFilesPageAfterCancer"]
+        "next": ["MiniGame@AutoRaisePotential@ReturnToOperFilesPageAfterAbort"]
     },
     "MiniGame@AutoRaisePotential@PotentialMaxDismiss": {
         "algorithm": "JustReturn",
@@ -137,7 +137,7 @@
         "action": "DoNothing",
         "next": ["MiniGame@AutoRaisePotential@PotentialAvailable", "MiniGame@AutoRaisePotential@SwipeToNextOperator"]
     },
-    "MiniGame@AutoRaisePotential@OperatorFilesAfterCancer": {
+    "MiniGame@AutoRaisePotential@OperatorFilesAfterAbort": {
         "baseTask": "OperOpenInformationMenu",
         "template": "OperInformationMenu.png",
         "action": "DoNothing",
@@ -149,10 +149,10 @@
         "template": "Return.png",
         "next": ["MiniGame@AutoRaisePotential@OperatorFiles", "MiniGame@AutoRaisePotential@ReturnToOperFilesPage"]
     },
-    "MiniGame@AutoRaisePotential@ReturnToOperFilesPageAfterCancer": {
+    "MiniGame@AutoRaisePotential@ReturnToOperFilesPageAfterAbort": {
         "baseTask": "Return",
         "template": "Return.png",
-        "next": ["MiniGame@AutoRaisePotential@OperatorFilesAfterCancer"]
+        "next": ["MiniGame@AutoRaisePotential@OperatorFilesAfterAbort"]
     },
     "MiniGame@AutoRaisePotential@SwipeToNextOperator": {
         "doc": "在干员档案中横向切换下一名干员，回到档案检查后继续提升或切换。滑动次数由顶部 OCR 数量动态设置。",
