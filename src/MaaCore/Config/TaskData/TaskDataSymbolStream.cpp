@@ -187,7 +187,7 @@ asst::TaskDataSymbolStream::SymbolsOrError
             }
             if (times == 0) {
                 x = {};
-                Log.warn("y:", times, "is zero");
+                LogWarn << "y:" << times << "is zero";
                 continue;
             }
             if (times == 1) {

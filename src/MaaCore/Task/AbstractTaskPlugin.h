@@ -46,7 +46,7 @@ protected:
         else if (auto detail = std::dynamic_pointer_cast<T>(last_hit->reco_detail)) {
             return detail;
         }
-        Log.error(__FUNCTION__, "| Unable to get hit detail of type:", typeid(T).name());
+        LogError << __FUNCTION__ << "| Unable to get hit detail of type:" << typeid(T).name();
         return nullptr;
     }
 

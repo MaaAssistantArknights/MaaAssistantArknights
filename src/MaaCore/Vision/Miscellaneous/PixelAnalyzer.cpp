@@ -37,7 +37,7 @@ bool PixelAnalyzer::analyze()
     Result result(std::ranges::begin(transform_view), std::ranges::end(transform_view));
 
     if (m_log_tracing) {
-        Log.trace("analyze_bright_points | num:", result.size());
+        LogTrace << "analyze_bright_points | num:" << result.size();
     }
 
     // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉

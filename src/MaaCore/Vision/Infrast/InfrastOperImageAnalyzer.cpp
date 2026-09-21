@@ -283,7 +283,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
                 possible_skills.emplace_back(std::make_pair(skill, skill_analyzer.get_result()));
             }
             if (possible_skills.empty()) {
-                Log.error("skill has no recognition result");
+                LogError << "skill has no recognition result";
                 continue;
             }
             // 可能的结果多于1个，只可能是同一个技能不同等级的结果
@@ -327,7 +327,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
                     } // 这里对应的else就是上述的其他技能混进来了的情况
                 }
             }
-            Log.trace(most_confident_skills.id, most_confident_skills.names.front());
+            LogTrace << most_confident_skills.id << most_confident_skills.names.front();
             std::string skill_id = most_confident_skills.id;
             log_str += skill_id + " - " + most_confident_skills.names.front() + "; ";
 #ifdef ASST_DEBUG
@@ -343,7 +343,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
             }
             ++m_num_of_opers_with_skills;
         }
-        Log.trace(log_str, "]");
+        LogTrace << log_str << "]";
     }
 }
 
@@ -357,7 +357,7 @@ void asst::InfrastOperImageAnalyzer::selected_analyze()
 
     if (selected_task_ptr->color_scales.size() != 1 ||
         !std::holds_alternative<MatchTaskInfo::ColorRange>(selected_task_ptr->color_scales.front())) {
-        Log.error(__FUNCTION__, "| color_scales in `InfrastOperSelected` is not a ColorRange");
+        LogError << __FUNCTION__ << "| color_scales in `InfrastOperSelected` is not a ColorRange";
         return;
     }
     const auto& color_scale = std::get<MatchTaskInfo::ColorRange>(selected_task_ptr->color_scales.front());
@@ -371,7 +371,7 @@ void asst::InfrastOperImageAnalyzer::selected_analyze()
         cv::inRange(hsv, color_scale.first, color_scale.second, bin);
         int count = cv::countNonZero(bin);
 
-        Log.trace("selected_analyze |", count);
+        LogTrace << "selected_analyze |" << count;
         oper.selected = count >= selected_task_ptr->special_params.front();
         oper.rect = selected_rect.move(oper_move);
     }

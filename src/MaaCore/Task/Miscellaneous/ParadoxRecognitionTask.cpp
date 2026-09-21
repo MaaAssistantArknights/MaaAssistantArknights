@@ -19,13 +19,13 @@ bool asst::ParadoxRecognitionTask::_run()
     const auto& path = utils::path(raw_path);
     std::string file_name;
     if (!Copilot.load(path)) {
-        Log.error("CopilotConfig parse failed");
+        LogError << "CopilotConfig parse failed";
         return false;
     }
     file_name = utils::path_to_utf8_string(path);
     const auto& stage_name = Copilot.get_stage_name();
     if (!m_battle_task_ptr->set_stage_name(stage_name)) {
-        Log.error("Not support stage");
+        LogError << "Not support stage";
         return false;
     }
 

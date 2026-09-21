@@ -83,7 +83,7 @@ Rect asst::VisionHelper::correct_rect(const Rect& rect, const Rect& main_roi)
 Rect VisionHelper::correct_rect(const Rect& rect, const cv::Mat& image)
 {
     if (image.empty() || image.cols <= 0 || image.rows <= 0) {
-        Log.error(__FUNCTION__, "image is empty");
+        LogError << __FUNCTION__ << "image is empty";
         return rect;
     }
     if (rect.x == 0 && rect.y == 0 && rect.width == 0 && rect.height == 0) {
@@ -91,11 +91,11 @@ Rect VisionHelper::correct_rect(const Rect& rect, const cv::Mat& image)
         return { 0, 0, image.cols, image.rows };
     }
     else if (rect.empty()) {
-        Log.warn(__FUNCTION__, "roi is empty");
+        LogWarn << __FUNCTION__ << "roi is empty";
         return rect;
     }
     if (rect.x >= image.cols || rect.y >= image.rows) {
-        Log.error(__FUNCTION__, "roi is out of range", image.cols, image.rows, rect.to_string());
+        LogError << __FUNCTION__ << "roi is out of range" << image.cols << image.rows << rect.to_string();
         return { 1, 1, 0, 0 }; // 临时修复, 后续需调整默认rect的行为
     }
 
@@ -114,12 +114,12 @@ Rect VisionHelper::correct_rect(const Rect& rect, const cv::Mat& image)
     res.height = std::clamp(res.height, 0, image.rows - res.y);
 
     if (res.empty()) {
-        Log.warn(__FUNCTION__, "roi is empty after correction");
+        LogWarn << __FUNCTION__ << "roi is empty after correction";
         return { 1, 1, 0, 0 }; // 临时修复, 后续需调整默认rect的行为
     }
 
     if (res != rect) {
-        Log.warn(__FUNCTION__, "roi is out of range", image.cols, image.rows, rect.to_string(), "clamped");
+        LogWarn << __FUNCTION__ << "roi is out of range" << image.cols << image.rows << rect.to_string() << "clamped";
     }
 
     return res;

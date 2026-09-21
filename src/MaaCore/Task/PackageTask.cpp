@@ -6,7 +6,7 @@
 bool asst::PackageTask::run()
 {
     if (!m_enable) {
-        Log.info("task disabled, pass", basic_info().to_string());
+        LogInfo << "task disabled, pass" << basic_info().to_string();
         return true;
     }
     m_running = true;
@@ -22,7 +22,8 @@ bool asst::PackageTask::run()
         if (!task_ptr->get_enable()) {
             continue;
         }
-        Log.trace(__FUNCTION__, "| run subtask", i + 1, "/", m_subtasks.size(), task_ptr->basic_info().to_string());
+        LogTrace << __FUNCTION__ << "| run subtask" << i + 1 << "/" << m_subtasks.size()
+                 << task_ptr->basic_info().to_string();
 
         task_ptr->set_task_id(m_task_id);
 

@@ -74,7 +74,7 @@ bool asst::RoguelikeShoppingTaskPlugin::buy_once()
     for (const auto& [name, oper] : m_config->status().opers) {
         int elite = oper.elite;
         int level = oper.level;
-        Log.info(name, elite, level);
+        LogInfo << name << elite << level;
 
         // 等级太低的干员没必要为他专门买收藏品什么的
         if (level < 60) {
@@ -155,14 +155,14 @@ bool asst::RoguelikeShoppingTaskPlugin::buy_once()
                 }
             }
             if (!role_matched) {
-                Log.trace("Ready to buy", goods.name, ", but there is no such professional operator, skip");
+                LogTrace << "Ready to buy" << goods.name << ", but there is no such professional operator, skip";
                 continue;
             }
         }
 
         if (goods.promotion != 0) {
             if (total_wait_promotion == 0) {
-                Log.trace("Ready to buy", goods.name, ", but there is no one waiting for promotion, skip");
+                LogTrace << "Ready to buy" << goods.name << ", but there is no one waiting for promotion, skip";
                 continue;
             }
             if (!goods.roles.empty()) {
@@ -178,7 +178,7 @@ bool asst::RoguelikeShoppingTaskPlugin::buy_once()
                     }
                 }
                 if (!role_matched) {
-                    Log.trace("Ready to buy", goods.name, ", but there is no one waiting for promotion, skip");
+                    LogTrace << "Ready to buy" << goods.name << ", but there is no one waiting for promotion, skip";
                     continue;
                 }
             }
@@ -190,7 +190,7 @@ bool asst::RoguelikeShoppingTaskPlugin::buy_once()
                     }
                 }
                 if (sum_wait_promotion == 0) {
-                    Log.trace("Ready to buy", goods.name, ", but there is no one waiting for promotion, skip");
+                    LogTrace << "Ready to buy" << goods.name << ", but there is no one waiting for promotion, skip";
                     continue;
                 }
             }
@@ -198,7 +198,7 @@ bool asst::RoguelikeShoppingTaskPlugin::buy_once()
 
         if (!goods.chars.empty()) {
             if (std::ranges::find_first_of(chars_list, goods.chars) == chars_list.cend()) {
-                Log.trace("Ready to buy", goods.name, ", but there is no such character, skip");
+                LogTrace << "Ready to buy" << goods.name << ", but there is no such character, skip";
                 continue;
             }
         }
@@ -206,7 +206,7 @@ bool asst::RoguelikeShoppingTaskPlugin::buy_once()
         // 这里仅点一下收藏品，原本的 ProcessTask 还会再点一下，但它是由 rect_move
         // 的，保证不会点出去 即 ProcessTask 多点的那一下会点到不影响的地方 然后继续走 next 里确认
         // or 取消等等的逻辑
-        Log.info("Ready to buy", goods.name);
+        LogInfo << "Ready to buy" << goods.name;
         ctrler()->click(find_it->rect);
         // bought = true;
         if (m_config->get_theme() == RoguelikeTheme::Sami) {

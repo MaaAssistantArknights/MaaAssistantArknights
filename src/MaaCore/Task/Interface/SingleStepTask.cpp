@@ -61,11 +61,11 @@ bool asst::SingleStepTask::append_copilot_action(const json::value& details)
         task->set_actions(std::move(actions));
     }
     catch (const json::exception& e) {
-        Log.error(__FUNCTION__, e.what());
+        LogError << __FUNCTION__ << e.what();
         return false;
     }
     catch (const std::exception& e) {
-        Log.error(__FUNCTION__, e.what());
+        LogError << __FUNCTION__ << e.what();
         return false;
     }
 

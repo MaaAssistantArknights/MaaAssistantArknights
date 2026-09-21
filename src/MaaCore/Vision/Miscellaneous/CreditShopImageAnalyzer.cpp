@@ -33,7 +33,7 @@ size_t asst::CreditShopImageAnalyzer::match_required_index(
 
 void asst::CreditShopImageAnalyzer::set_black_list(std::vector<std::string> black_list)
 {
-    Log.info(__FUNCTION__, black_list);
+    LogInfo << __FUNCTION__ << black_list;
 
     m_shopping_list = std::move(black_list);
     m_is_white_list = false;
@@ -41,7 +41,7 @@ void asst::CreditShopImageAnalyzer::set_black_list(std::vector<std::string> blac
 
 void asst::CreditShopImageAnalyzer::set_white_list(std::vector<std::string> black_list)
 {
-    Log.info(__FUNCTION__, black_list);
+    LogInfo << __FUNCTION__ << black_list;
 
     m_shopping_list = std::move(black_list);
     m_is_white_list = true;
@@ -90,7 +90,7 @@ bool asst::CreditShopImageAnalyzer::commodities_analyze()
 
 bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
 {
-    Log.info(__FUNCTION__, m_shopping_list, "mode", m_is_white_list);
+    LogInfo << __FUNCTION__ << m_shopping_list << "mode" << m_is_white_list;
 
     const auto product_name_task_ptr = Task.get<OcrTaskInfo>("CreditShop-ProductName");
 
@@ -123,7 +123,7 @@ bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(commodity), cv::Scalar(0, 0, 255), 2);
 #endif
-        Log.info("need to buy", name);
+        LogInfo << "need to buy" << name;
         m_need_to_buy.emplace_back(commodity, 0.0, name);
     }
 

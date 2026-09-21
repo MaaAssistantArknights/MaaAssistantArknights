@@ -10,10 +10,10 @@ bool asst::AvatarCacheManager::load(const std::filesystem::path& path)
     LogTraceFunction;
 
     if (path == m_save_path) {
-        Log.info("already loaded", path.lexically_relative(UserDir.get()));
+        LogInfo << "already loaded" << path.lexically_relative(UserDir.get());
         return true;
     }
-    Log.info("load", path.lexically_relative(UserDir.get()));
+    LogInfo << "load" << path.lexically_relative(UserDir.get());
 
     m_save_path = path;
 
@@ -27,7 +27,7 @@ bool asst::AvatarCacheManager::load(const std::filesystem::path& path)
 
         const auto& oper_ptr = BattleData.find_oper_by_id(id);
         if (!oper_ptr) {
-            Log.warn("unknown oper", id);
+            LogWarn << "unknown oper" << id;
             continue;
         }
 

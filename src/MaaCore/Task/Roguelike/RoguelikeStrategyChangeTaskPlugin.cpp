@@ -10,7 +10,7 @@ bool asst::RoguelikeStrategyChangeTaskPlugin::verify(AsstMsg msg, const json::va
     }
 
     if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
-        Log.error("Roguelike name doesn't exist!");
+        LogError << "Roguelike name doesn't exist!";
         return false;
     }
     const std::string roguelike_name = m_config->get_theme() + "@";
@@ -36,13 +36,13 @@ bool asst::RoguelikeStrategyChangeTaskPlugin::_run()
     const std::string stages_task_name = theme + "@Roguelike@Stages";
     const std::string current_strategy = m_result.get("text", "");
     if (current_strategy.empty() || current_strategy.find("_SKIP_") != std::string::npos) {
-        Log.info("Skip strategy change, current strategy is", current_strategy);
+        LogInfo << "Skip strategy change, current strategy is" << current_strategy;
         return true;
     }
     const std::string strategy_task_name = stages_task_name + current_strategy;
 
     if (Task.get(strategy_task_name) == nullptr) [[unlikely]] {
-        Log.error("Strategy task", strategy_task_name, "doesn't exist!");
+        LogError << "Strategy task" << strategy_task_name << "doesn't exist!";
         return false;
     }
 

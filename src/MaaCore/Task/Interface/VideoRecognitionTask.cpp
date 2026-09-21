@@ -21,7 +21,7 @@ bool asst::VideoRecognitionTask::set_params(const json::value& params)
 
     auto filename_opt = params.find<std::string>("filename");
     if (!filename_opt) {
-        Log.error("No filename");
+        LogError << "No filename";
         return false;
     }
 

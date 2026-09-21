@@ -16,7 +16,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
     }
 
     if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
-        Log.error("Roguelike name doesn't exist!");
+        LogError << "Roguelike name doesn't exist!";
         return false;
     }
 
@@ -237,12 +237,12 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
     const auto& role = BattleData.get_first_role(char_name);
     auto role_iter = RoleOcrNameMap.find(role);
     if (role_iter == RoleOcrNameMap.cend()) {
-        Log.error("Unknown role", char_name, static_cast<int>(role));
+        LogError << "Unknown role" << char_name << static_cast<int>(role);
         return false;
     }
     // select role
     const std::string& role_ocr_name = role_iter->second;
-    Log.info("role", role_ocr_name);
+    LogInfo << "role" << role_ocr_name;
     auto image = ctrler()->get_image();
     OCRer analyzer(image);
     analyzer.set_task_info("RoguelikeCustom-HijackCoChar");

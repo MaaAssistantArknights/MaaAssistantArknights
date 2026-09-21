@@ -28,7 +28,7 @@ bool asst::SSSDropRewardsTaskPlugin::_run()
     OCRer analyzer(ctrler()->get_image());
     analyzer.set_task_info("SSSDropRecruitmentOCR");
     if (!analyzer.analyze()) {
-        Log.error(__FUNCTION__, "OCR failed to analyze");
+        LogError << __FUNCTION__ << "OCR failed to analyze";
         return false;
     }
 
@@ -41,7 +41,7 @@ bool asst::SSSDropRewardsTaskPlugin::_run()
     std::vector<DropRecruitment> opers;
     for (const auto& result : analyzer.get_result()) {
         if (SSSCopilot.get_data().blacklist.contains(result.text)) {
-            Log.info("Operator is blacklisted:", result.text);
+            LogInfo << "Operator is blacklisted:" << result.text;
             continue;
         }
         auto role = BattleData.get_first_role(result.text);
@@ -64,7 +64,7 @@ bool asst::SSSDropRewardsTaskPlugin::_run()
         }
     }
     if (!operSelect) {
-        Log.warn("No operator selected. Bypassing blacklist...");
+        LogWarn << "No operator selected. Bypassing blacklist...";
         ctrler()->click(opers.at(0).ocr_res.rect);
     }
 

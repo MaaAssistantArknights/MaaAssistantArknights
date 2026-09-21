@@ -35,12 +35,12 @@ bool asst::ParadoxCopilotTask::set_params(const json::value& params)
     if (single_opt) {
         m_battle_task_ptr->set_wait_until_end(false);
         if (!Copilot.load(utils::path(*single_opt))) {
-            Log.error("CopilotConfig parse failed");
+            LogError << "CopilotConfig parse failed";
             return false;
         }
         const auto& stage_name = Copilot.get_stage_name();
         if (!m_battle_task_ptr->set_stage_name(stage_name)) {
-            Log.error("Not support stage");
+            LogError << "Not support stage";
             return false;
         }
 

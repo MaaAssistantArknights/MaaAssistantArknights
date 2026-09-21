@@ -14,7 +14,7 @@ asst::ScreenshotTaskPlugin::ScreenshotTaskPlugin(
         std::ranges::copy(ptr->next, std::back_inserter(m_screenshot_tasks));
     }
     else {
-        Log.info(__FUNCTION__, "| no config found");
+        LogInfo << __FUNCTION__ << "| no config found";
     }
 
 #ifndef ASST_DEBUG
@@ -27,7 +27,7 @@ asst::ScreenshotTaskPlugin::ScreenshotTaskPlugin(
         std::ranges::copy(ptr->next, std::back_inserter(m_screenshot_tasks));
     }
     else {
-        Log.info(__FUNCTION__, "| no debug config found");
+        LogInfo << __FUNCTION__ << "| no debug config found";
     }
 }
 
@@ -42,7 +42,7 @@ bool asst::ScreenshotTaskPlugin::verify(AsstMsg msg, const json::value& details)
     auto now = std::chrono::steady_clock::now();
     if (task == m_last_triggered_task && now - m_last_triggered_time < 2min) {
         // 2min 内同一个任务重复触发一般是卡在某个地方了，不再截图但更新时间
-        Log.trace(__FUNCTION__, "| task", task, "triggered recently, skip");
+        LogTrace << __FUNCTION__ << "| task" << task << "triggered recently, skip";
         m_last_triggered_time = now;
         return false;
     }

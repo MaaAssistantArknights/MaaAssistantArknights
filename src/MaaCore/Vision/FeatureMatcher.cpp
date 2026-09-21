@@ -31,11 +31,11 @@ asst::FeatureMatcher::ResultsVecOpt asst::FeatureMatcher::analyze() const
         templ = std::get<cv::Mat>(templ_ptr);
     }
     else {
-        Log.error("templ is none");
+        LogError << "templ is none";
     }
 
     if (templ.empty()) {
-        Log.error("templ is empty!", templ_name);
+        LogError << "templ is empty!" << templ_name;
 #ifdef ASST_DEBUG
         throw std::runtime_error("templ is empty: " + templ_name);
 #else
@@ -66,10 +66,10 @@ asst::FeatureMatcher::ResultsVecOpt asst::FeatureMatcher::analyze() const
 #endif // ASST_DEBUG
     for (const auto& r : results) {
         if (r.count < m_params.count) {
-            Log.debug("feature_match |", templ_name, "count:", r.count, "rect:", r.rect, "roi:", m_roi);
+            LogDebug << __FUNCTION__ << "|" << templ_name << "count:" << r.count << "rect:" << r.rect << "roi:" << m_roi;
         }
         else {
-            Log.trace("feature_match |", templ_name, "count:", r.count, "rect:", r.rect, "roi:", m_roi);
+            LogTrace << __FUNCTION__ << "|" << templ_name << "count:" << r.count << "rect:" << r.rect << "roi:" << m_roi;
         }
 #ifdef ASST_DEBUG
         cv::putText(
@@ -228,12 +228,12 @@ cv::Ptr<cv::Feature2D> asst::FeatureMatcher::create_detector() const
 #ifdef MAA_VISION_HAS_XFEATURES2D
         return cv::xfeatures2d::SURF::create();
 #else
-        Log.error("SURF not enabled!");
+        LogError << "SURF not enabled!";
         return nullptr;
 #endif
     }
 
-    Log.error("Unknown detector", static_cast<int>(m_params.detector));
+    LogError << "Unknown detector" << static_cast<int>(m_params.detector);
     return nullptr;
 }
 
@@ -251,6 +251,6 @@ cv::Ptr<cv::DescriptorMatcher> asst::FeatureMatcher::create_matcher() const
         return cv::BFMatcher::create(cv::NORM_HAMMING);
     }
 
-    Log.error("Unknown detector", static_cast<int>(m_params.detector));
+    LogError << "Unknown detector" << static_cast<int>(m_params.detector);
     return nullptr;
 }

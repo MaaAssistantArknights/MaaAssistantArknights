@@ -181,7 +181,7 @@ bool BlackFlowCultivationTaskPlugin::_run()
         if (m_pending_purchase.has_value()) {
             m_purchased_shelf_rects.emplace_back(*m_pending_purchase);
             m_pending_purchase.reset();
-            Log.info("BlackFlow cultivation shelf purchased", "slots", m_purchased_shelf_rects.size());
+            LogInfo << "BlackFlow cultivation shelf purchased" << "slots" << m_purchased_shelf_rects.size();
         }
         return true;
     }
@@ -213,7 +213,7 @@ bool BlackFlowCultivationTaskPlugin::_run()
                 m_cultivated_animal_types.emplace_back(*type);
             }
         }
-        Log.info("BlackFlow cultivation harvest recognized", "count", m_cultivated_animals);
+        LogInfo << "BlackFlow cultivation harvest recognized" << "count" << m_cultivated_animals;
         return true;
     }
 
@@ -275,7 +275,7 @@ void BlackFlowCultivationTaskPlugin::apply_cultivation_result(const std::string&
 
     std::string error;
     if (!m_session->apply_node_task_result(result->get(), details, &error)) {
-        Log.error("BlackFlow cultivation result callback failed", error);
+        LogError << "BlackFlow cultivation result callback failed" << error;
         return;
     }
 

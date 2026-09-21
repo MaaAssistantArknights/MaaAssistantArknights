@@ -56,17 +56,17 @@ bool SecretFrontTaskPlugin::verify(AsstMsg msg, const json::value& details) cons
     // 卡片判断：区分有数值的 Actions 与基于文本的 Event
     if (task.ends_with("MiniGame@SecretFront@ActionsDetected")) {
         m_mode = Mode::Actions;
-        Log.info(__FUNCTION__, "| detect Actions");
+        LogInfo << __FUNCTION__ << "| detect Actions";
         return true;
     }
     if (task.ends_with("MiniGame@SecretFront@EventDetected")) {
         m_mode = Mode::Event;
-        Log.info(__FUNCTION__, "| detect Event");
+        LogInfo << __FUNCTION__ << "| detect Event";
         return true;
     }
     if (task.ends_with("MiniGame@SecretFront@PreClickDetect")) {
         m_mode = Mode::DetectBeforeClick;
-        Log.info(__FUNCTION__, "| detect PreClickDetect (pre-click detect)");
+        LogInfo << __FUNCTION__ << "| detect PreClickDetect (pre-click detect)";
         return true;
     }
 
@@ -138,7 +138,7 @@ std::optional<std::array<int, 3>> SecretFrontTaskPlugin::read_properties(const c
         v[i] = *r;
     }
 
-    Log.info(__FUNCTION__, "| properties materiel=", v[0], " intelligence=", v[1], " medicine=", v[2]);
+    LogInfo << __FUNCTION__ << "| properties materiel=" << v[0] << " intelligence=" << v[1] << " medicine=" << v[2];
 
     return v;
 }
@@ -187,13 +187,13 @@ int SecretFrontTaskPlugin::estimate_total_cards(const cv::Mat& image) const
         }
 
         if (ok == total) { // 所有卡片都能读取
-            Log.info(__FUNCTION__, "| estimate_total_cards -> ", total, " (all ", total, " cards read)");
+            LogInfo << __FUNCTION__ << "| estimate_total_cards -> " << total << " (all " << total << " cards read)";
             return total;
         }
     }
 
     // 如果3、2都不行，默认返回1
-    Log.info(__FUNCTION__, "| estimate_total_cards -> 1 (default)");
+    LogInfo << __FUNCTION__ << "| estimate_total_cards -> 1 (default)";
     return 1;
 }
 
@@ -272,13 +272,13 @@ SecretFrontTaskPlugin::BestChoice SecretFrontTaskPlugin::choose_best_card(
 
     // 前期遇到事件很有可能无法完成，成功率太低就先发育
     if (m_only_current_page && percentage < 0.8) {
-        Log.info(__FUNCTION__, "| only_current_page set and max_percentage < 0.8: skip scanning subsequent pages");
+        LogInfo << __FUNCTION__ << "| only_current_page set and max_percentage < 0.8: skip scanning subsequent pages";
         m_only_current_page = false;
     }
 
     // 如果只需在当前页内做选择（由 pre-click 识别触发），跳过后续页遍历
     if (m_only_current_page) {
-        Log.info(__FUNCTION__, "| only_current_page set: skip scanning subsequent pages");
+        LogInfo << __FUNCTION__ << "| only_current_page set: skip scanning subsequent pages";
         // 重置标志以便下次操作不受影响
         m_only_current_page = false;
     }
@@ -349,7 +349,7 @@ void SecretFrontTaskPlugin::click_choose_card(int total, int idx) const
     }
 
     const Point p { start + idx * step, 600 };
-    Log.info(__FUNCTION__, "| click_choose_card total=", total, ", idx=", idx);
+    LogInfo << __FUNCTION__ << "| click_choose_card total=" << total << ", idx=" << idx;
     for (int i = 0; i < 2; ++i) {
         ctrler()->click(p);
         sleep(500);
@@ -360,11 +360,11 @@ int SecretFrontTaskPlugin::estimate_total_cards_event(const cv::Mat& image) cons
 {
     for (int t = 3; t >= 2; --t) {
         if (!read_stage_name(image, t, t - 1, 100).empty()) {
-            Log.info(__FUNCTION__, "| estimate_total_cards_event -> ", t);
+            LogInfo << __FUNCTION__ << "| estimate_total_cards_event -> " << t;
             return t;
         }
     }
-    Log.info(__FUNCTION__, "| estimate_total_cards_event -> 1");
+    LogInfo << __FUNCTION__ << "| estimate_total_cards_event -> 1";
     return 1;
 }
 
@@ -442,14 +442,14 @@ bool SecretFrontTaskPlugin::handle_event_page(const cv::Mat& image) const
             return name.find(r) != std::string_view::npos;
         });
         if (in_route) {
-            Log.info(__FUNCTION__, "| event page choose idx=", idx, ", name=", name);
+            LogInfo << __FUNCTION__ << "| event page choose idx=" << idx << ", name=" << name;
             click_choose_card(total, idx);
             return true;
         }
     }
 
     // 如果都不在路线内，保底选第一张
-    Log.info(__FUNCTION__, "| event page no route match, fallback idx=0");
+    LogInfo << __FUNCTION__ << "| event page no route match, fallback idx=0";
     click_choose_card(total, 0);
     return true;
 }
@@ -476,7 +476,7 @@ bool SecretFrontTaskPlugin::_run()
             break;
         }
 
-        Log.info(__FUNCTION__, "| select team by ending, task=", team_task);
+        LogInfo << __FUNCTION__ << "| select team by ending, task=" << team_task;
         // 由插件主动执行分队选择与确认，避免 JSON 中循环 next 再进插件
         bool ok = ProcessTask(*this, { team_task, "MiniGame@SecretFront@SelectTeamOK" }).run();
         return ok;
@@ -527,14 +527,14 @@ bool SecretFrontTaskPlugin::_run()
 
     // 如果是 Event 模式，直接按事件页文本处理
     if (m_mode == Mode::Event) {
-        Log.info(__FUNCTION__, "| event mode: handle by text OCR");
+        LogInfo << __FUNCTION__ << "| event mode: handle by text OCR";
         return handle_event_page(image);
     }
 
     // Actions 模式：按数值处理
     auto properties = read_properties(image);
     if (!properties) {
-        Log.trace(__FUNCTION__, "| unable to read properties, skip");
+        LogTrace << __FUNCTION__ << "| unable to read properties, skip";
         return true;
     }
 
@@ -557,13 +557,13 @@ bool SecretFrontTaskPlugin::_run()
 
     if (non_zero_cards == 0) {
         // Actions 模式下未读取到任何数值，直接跳过
-        Log.info(__FUNCTION__, "| no numeric values found in Actions mode, skip");
+        LogInfo << __FUNCTION__ << "| no numeric values found in Actions mode, skip";
         return true;
     }
 
     // 从当前页与后续两页中选择全局最优卡片（逻辑已移动到 choose_best_card）
     auto best = choose_best_card(*properties, total, cards);
-    Log.info(__FUNCTION__, "| best_page=", best.page, ", total=", best.total, ", best_idx=", best.idx);
+    LogInfo << __FUNCTION__ << "| best_page=" << best.page << ", total=" << best.total << ", best_idx=" << best.idx;
 
     sleep(500);
     click_choose_card(best.total, std::clamp(best.idx, 0, best.total - 1));

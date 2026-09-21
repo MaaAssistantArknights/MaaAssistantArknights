@@ -45,7 +45,7 @@ bool RoguelikeMapConfig::parse(const json::value& json)
         const std::string& type_name = node_json.at("type").as_string();
         auto it = NODE_TYPE_MAPPING.find(type_name);
         if (it == NODE_TYPE_MAPPING.end()) {
-            Log.error("RoguelikeMapConfig::parse | Unknown roguelike node type name:", type_name);
+            LogError << __FUNCTION__ << "| Unknown roguelike node type name:" << type_name;
             return false;
         }
         RoguelikeNodeType type = it->second;

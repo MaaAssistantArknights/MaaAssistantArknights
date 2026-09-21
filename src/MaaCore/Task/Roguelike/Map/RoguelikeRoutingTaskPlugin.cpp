@@ -128,7 +128,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
             // 根据第三列节点类型更新导航策略
             const size_t sample_node_of_last_column = m_map.size() - 1;
             const RoguelikeNodeType sample_node_type = m_map.get_node_type(sample_node_of_last_column);
-            Log.info("RoguelikeRouting | Type of last node:", type2name(sample_node_type));
+            LogInfo << __FUNCTION__ << "| Type of last node:" << type2name(sample_node_type);
             if (sample_node_type == RoguelikeNodeType::RogueTrader) {
                 m_routing_strategy = RoutingStrategy::JieGarden_FastPassWithoutBattle;
                 m_config->set_skip_recruit_in_fast_pass(true);
@@ -264,7 +264,7 @@ bool asst::RoguelikeRoutingTaskPlugin::update_map(
     LogTraceFunction;
 
     if (leftmost_column == 0) {
-        Log.error(__FUNCTION__, "| leftmost_column must be greater than zero");
+        LogError << __FUNCTION__ << "| leftmost_column must be greater than zero";
         return false;
     }
 
@@ -276,7 +276,7 @@ bool asst::RoguelikeRoutingTaskPlugin::update_map(
     MultiMatcher node_analyzer(image);
     node_analyzer.set_task_info(theme + "@RoguelikeRoutingNodeAnalyze");
     if (!node_analyzer.analyze()) {
-        Log.error(__FUNCTION__, "| no nodes are recognised");
+        LogError << __FUNCTION__ << "| no nodes are recognised";
         return false;
     }
     MultiMatcher::ResultsVec match_results = node_analyzer.get_result();
@@ -327,7 +327,7 @@ void asst::RoguelikeRoutingTaskPlugin::generate_map()
     MultiMatcher node_analyzer(image);
     node_analyzer.set_task_info(theme + "@RoguelikeRoutingNodeAnalyze");
     if (!node_analyzer.analyze()) {
-        Log.error(__FUNCTION__, "| no nodes found in the first column");
+        LogError << __FUNCTION__ << "| no nodes found in the first column";
         return;
     }
     MultiMatcher::ResultsVec match_results = node_analyzer.get_result();
@@ -370,7 +370,7 @@ void asst::RoguelikeRoutingTaskPlugin::generate_edges(
     const size_t node_column = m_map.get_node_column(node);
 
     if (node_column == RoguelikeMap::INIT_INDEX) {
-        Log.error(__FUNCTION__, "| cannot generate edges for init node");
+        LogError << __FUNCTION__ << "| cannot generate edges for init node";
         return;
     }
 

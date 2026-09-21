@@ -152,13 +152,8 @@ std::shared_ptr<const MaskedCcoeffMatcher::TemplatePlan> MaskedCcoeffMatcher::ge
     while (m_cache_total_bytes + new_bytes > k_max_cache_bytes && !m_lru_list.empty()) {
         const std::string& victim = m_lru_list.back();
         const size_t victim_bytes = m_template_plan_cache.at(victim).bytes;
-        Log.debug(
-            "MaskedCcoeffMatcher | evict",
-            victim,
-            victim_bytes / 1024,
-            "KB, total",
-            m_cache_total_bytes / 1024,
-            "KB");
+        LogDebug << "MaskedCcoeffMatcher | evict" << victim << victim_bytes / 1024 << "KB, total"
+                 << m_cache_total_bytes / 1024 << "KB";
         m_cache_total_bytes -= victim_bytes;
         m_template_plan_cache.erase(victim);
         m_lru_list.pop_back();

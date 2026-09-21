@@ -45,7 +45,7 @@ std::optional<int> asst::Win32IO::call_command(
             true,
             false)) {
         DWORD err = GetLastError();
-        Log.error("CreateOverlappablePipe failed, err", err);
+        LogError << "CreateOverlappablePipe failed, err" << err;
         return std::nullopt;
     }
 
@@ -62,7 +62,7 @@ std::optional<int> asst::Win32IO::call_command(
     InitializeProcThreadAttributeList(nullptr, 1, 0, &attrsize);
     if (attrsize == 0) {
         DWORD err = GetLastError();
-        Log.error("Call `", cmd, "` InitializeProcThreadAttributeList failed, ret error code:", err);
+        LogError << "Call `" << cmd << "` InitializeProcThreadAttributeList failed, ret error code:" << err;
         return std::nullopt;
     }
     attrs.resize(attrsize);
@@ -70,7 +70,7 @@ std::optional<int> asst::Win32IO::call_command(
     auto attr_success = InitializeProcThreadAttributeList(si.lpAttributeList, 1, 0, &attrsize);
     if (!attr_success) {
         DWORD err = GetLastError();
-        Log.error("Call `", cmd, "` InitializeProcThreadAttributeList failed, ret error code:", err);
+        LogError << "Call `" << cmd << "` InitializeProcThreadAttributeList failed, ret error code:" << err;
         return std::nullopt;
     }
     attr_success = UpdateProcThreadAttribute(
@@ -83,7 +83,7 @@ std::optional<int> asst::Win32IO::call_command(
         nullptr);
     if (!attr_success) {
         DWORD err = GetLastError();
-        Log.error("Call `", cmd, "` UpdateProcThreadAttribute failed, ret error code:", err);
+        LogError << "Call `" << cmd << "` UpdateProcThreadAttribute failed, ret error code:" << err;
         return std::nullopt;
     }
     auto cmdline_osstr = asst::utils::to_osstring(cmd);
@@ -101,7 +101,7 @@ std::optional<int> asst::Win32IO::call_command(
     DeleteProcThreadAttributeList(si.lpAttributeList);
     if (!create_ret) {
         DWORD err = GetLastError();
-        Log.error("Call `", cmd, "` create process failed, ret", create_ret, "error code:", err);
+        LogError << "Call `" << cmd << "` create process failed, ret" << create_ret << "error code:" << err;
         return std::nullopt;
     }
 
@@ -157,7 +157,7 @@ std::optional<int> asst::Win32IO::call_command(
                 accept_pending = true;
             }
             else {
-                Log.trace("AcceptEx failed, err:", err);
+                LogTrace << "AcceptEx failed, err:" << err;
                 accept_pending = false;
                 socket_eof = true;
                 ::closesocket(client_socket);
@@ -220,7 +220,7 @@ std::optional<int> asst::Win32IO::call_command(
                         handle_string.emplace_back("UnknownHandle");
                     }
                 }
-                Log.warn("Wait handles:", handle_string, " after", timeout, "ms.");
+                LogWarn << "Wait handles:" << handle_string << " after" << timeout << "ms.";
                 if (process_running) {
                     TerminateProcess(process_info.hProcess, 0);
                 }
@@ -255,7 +255,7 @@ std::optional<int> asst::Win32IO::call_command(
             // something bad happened
             DWORD err = GetLastError();
             // throw std::system_error(std::error_code(err, std::system_category()));
-            Log.error(__FUNCTION__, "A fatal error occurred", err);
+            LogError << __FUNCTION__ << "A fatal error occurred" << err;
             break;
         }
 
@@ -280,7 +280,7 @@ std::optional<int> asst::Win32IO::call_command(
                     pipe_eof = true;
                 }
                 else {
-                    Log.error(__FUNCTION__, "GetOverlappedResult failed", err);
+                    LogError << __FUNCTION__ << "GetOverlappedResult failed" << err;
                     pipe_eof = true;
                 }
             }
@@ -345,12 +345,12 @@ std::optional<int> asst::Win32IO::call_command(
 
     if (recv_by_socket) {
         if (accept_pending) {
-            Log.warn("cancel AcceptEx");
+            LogWarn << "cancel AcceptEx";
             CancelIoEx(reinterpret_cast<HANDLE>(m_server_sock), &sockov);
             closesocket(client_socket);
         }
         else if (!socket_eof) {
-            Log.warn("cancel ReadFile");
+            LogWarn << "cancel ReadFile";
             CancelIoEx(reinterpret_cast<HANDLE>(client_socket), &sockov);
             closesocket(client_socket);
         }
@@ -400,7 +400,7 @@ std::optional<unsigned short> asst::Win32IO::init_socket(const std::string& loca
         NULL);
     if (err == SOCKET_ERROR) {
         err = WSAGetLastError();
-        Log.error("failed to resolve AcceptEx, err:", err);
+        LogError << "failed to resolve AcceptEx, err:" << err;
         close_socket();
         return std::nullopt;
     }
@@ -414,7 +414,7 @@ std::optional<unsigned short> asst::Win32IO::init_socket(const std::string& loca
     // capture the error right after the failed call, before logging may overwrite it
     auto socket_failed = [&](const char* step) -> std::optional<unsigned short> {
         int last_err = WSAGetLastError();
-        Log.info("not supports socket,", step, "failed, err:", last_err);
+        LogInfo << "not supports socket," << step << "failed, err:" << last_err;
         close_socket();
         return std::nullopt;
     };
@@ -426,7 +426,7 @@ std::optional<unsigned short> asst::Win32IO::init_socket(const std::string& loca
         }
         // local_address is not on this machine (e.g. a device connected over LAN), listen on all interfaces instead
         err = WSAGetLastError();
-        Log.warn("failed to bind", local_address, ", err:", err, ", fallback to INADDR_ANY");
+        LogWarn << "failed to bind" << local_address << ", err:" << err << ", fallback to INADDR_ANY";
         close_socket();
         return init_socket("0.0.0.0");
     }
@@ -442,7 +442,7 @@ std::optional<unsigned short> asst::Win32IO::init_socket(const std::string& loca
 
     char bound_address[INET_ADDRSTRLEN] = {};
     ::inet_ntop(AF_INET, &m_server_sock_addr.sin_addr, bound_address, sizeof(bound_address));
-    Log.info("command server start", bound_address, port_result);
+    LogInfo << "command server start" << bound_address << port_result;
     return port_result;
 }
 
@@ -484,7 +484,7 @@ std::shared_ptr<asst::IOHandler> asst::Win32IO::interactive_shell(const std::str
             false,
             false)) {
         DWORD err = GetLastError();
-        Log.error("Failed to create pipe for minitouch, err", err);
+        LogError << "Failed to create pipe for minitouch, err" << err;
         return nullptr;
     }
 
@@ -502,7 +502,7 @@ std::shared_ptr<asst::IOHandler> asst::Win32IO::interactive_shell(const std::str
     InitializeProcThreadAttributeList(nullptr, 1, 0, &attrsize);
     if (attrsize == 0) {
         DWORD err = GetLastError();
-        Log.error("Call `", cmd, "` InitializeProcThreadAttributeList failed, ret error code:", err);
+        LogError << "Call `" << cmd << "` InitializeProcThreadAttributeList failed, ret error code:" << err;
         return nullptr;
     }
     attrs.resize(attrsize);
@@ -510,7 +510,7 @@ std::shared_ptr<asst::IOHandler> asst::Win32IO::interactive_shell(const std::str
     auto attr_success = InitializeProcThreadAttributeList(si.lpAttributeList, 1, 0, &attrsize);
     if (!attr_success) {
         DWORD err = GetLastError();
-        Log.error("Call `", cmd, "` InitializeProcThreadAttributeList failed, ret error code:", err);
+        LogError << "Call `" << cmd << "` InitializeProcThreadAttributeList failed, ret error code:" << err;
         return nullptr;
     }
     attr_success = UpdateProcThreadAttribute(
@@ -523,7 +523,7 @@ std::shared_ptr<asst::IOHandler> asst::Win32IO::interactive_shell(const std::str
         nullptr);
     if (!attr_success) {
         DWORD err = GetLastError();
-        Log.error("Call `", cmd, "` UpdateProcThreadAttribute failed, ret error code:", err);
+        LogError << "Call `" << cmd << "` UpdateProcThreadAttribute failed, ret error code:" << err;
         return nullptr;
     }
     auto cmd_osstr = utils::to_osstring(cmd);
@@ -547,7 +547,7 @@ std::shared_ptr<asst::IOHandler> asst::Win32IO::interactive_shell(const std::str
 
     if (!create_ret) {
         DWORD err = GetLastError();
-        Log.error("Failed to create process for minitouch, err", err);
+        LogError << "Failed to create process for minitouch, err" << err;
         CloseHandle(m_process_info.hProcess);
         CloseHandle(m_process_info.hThread);
         CloseHandle(pipe_parent_read);
@@ -603,7 +603,7 @@ std::string asst::IOHandlerWin32::read(unsigned timeout_sec)
     while (true) {
         if (!check_timeout(start_time)) {
             CancelIoEx(m_read, &pipeov);
-            Log.error("read timeout");
+            LogError << "read timeout";
             break;
         }
         DWORD len = 0;
@@ -619,7 +619,7 @@ std::string asst::IOHandlerWin32::read(unsigned timeout_sec)
 bool asst::IOHandlerWin32::write(std::string_view data)
 {
     if (m_write == INVALID_HANDLE_VALUE) {
-        Log.error("IOHandler write handle invalid", m_write);
+        LogError << "IOHandler write handle invalid" << m_write;
         return false;
     }
     DWORD written = 0;
@@ -630,7 +630,7 @@ bool asst::IOHandlerWin32::write(std::string_view data)
             &written,
             NULL)) {
         auto err = GetLastError();
-        Log.error("Failed to write to IOHandlerWin32, err", err);
+        LogError << "Failed to write to IOHandlerWin32, err" << err;
         return false;
     }
 

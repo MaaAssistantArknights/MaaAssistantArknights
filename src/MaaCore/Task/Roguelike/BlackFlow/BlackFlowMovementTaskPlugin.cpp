@@ -94,7 +94,7 @@ bool BlackFlowMovementTaskPlugin::_run()
     Task.set_task_base(std::string(SelectionAction), "BlackFlow@Roguelike@RecoveryFailed");
 
     if (m_session == nullptr || !m_session->pending_candidate().has_value()) {
-        Log.error("BlackFlow movement selection has no pending route candidate");
+        LogError << "BlackFlow movement selection has no pending route candidate";
         return true;
     }
 
@@ -104,13 +104,13 @@ bool BlackFlowMovementTaskPlugin::_run()
     const SelectionOutcome outcome = select_movement(target, &error);
     if (outcome == SelectionOutcome::Selected) {
         Task.set_task_base(std::string(SelectionAction), "BlackFlow@Roguelike@RoutingResume-Enter");
-        Log.info("BlackFlow movement selected", target_spec == nullptr ? std::string_view("unknown") : target_spec->id);
+        LogInfo << "BlackFlow movement selected"
+                << (target_spec == nullptr ? std::string_view("unknown") : target_spec->id);
     }
     else if (outcome == SelectionOutcome::Unavailable) {
         Task.set_task_base(std::string(SelectionAction), "BlackFlow@Roguelike@MapPrepare");
-        Log.info(
-            "BlackFlow movement unavailable; route will be replanned",
-            target_spec == nullptr ? std::string_view("unknown") : target_spec->id);
+        LogInfo << "BlackFlow movement unavailable; route will be replanned"
+                << (target_spec == nullptr ? std::string_view("unknown") : target_spec->id);
     }
     else {
         // 不写结果的话，外层只会报「终止时没有策略结果」，真实原因就丢了。
@@ -118,7 +118,7 @@ bool BlackFlowMovementTaskPlugin::_run()
             "movement_selection_failed",
             error.empty() ? "movement selection failed" : error,
             FailureDisposition::RestartRun);
-        Log.error("BlackFlow movement selection failed", error);
+        LogError << "BlackFlow movement selection failed" << error;
     }
     report_outputs();
     return true;
@@ -128,7 +128,7 @@ bool BlackFlowMovementTaskPlugin::observe_inventory()
 {
     Task.set_task_base(std::string(InventoryObservationAction), std::string(InventoryCloseTask));
     if (m_session == nullptr) {
-        Log.error("BlackFlow movement inventory observation has no active session");
+        LogError << "BlackFlow movement inventory observation has no active session";
         return true;
     }
 
@@ -140,19 +140,15 @@ bool BlackFlowMovementTaskPlugin::observe_inventory()
             "movement_inventory_observation_failed",
             error.empty() ? "movement inventory OCR failed" : error,
             FailureDisposition::StopTask);
-        Log.error("BlackFlow movement inventory observation failed", error);
+        LogError << "BlackFlow movement inventory observation failed" << error;
         report_outputs();
         return true;
     }
 
     const MovementSpec* loaded =
         frame.loaded_movement.has_value() ? find_movement_spec(*frame.loaded_movement) : nullptr;
-    Log.info(
-        "BlackFlow movement inventory observed",
-        "visible items",
-        frame.movements.size(),
-        "loaded marker",
-        loaded == nullptr ? std::string_view("none") : loaded->id);
+    LogInfo << "BlackFlow movement inventory observed" << "visible items" << frame.movements.size() << "loaded marker"
+            << (loaded == nullptr ? std::string_view("none") : loaded->id);
     report_outputs();
     return true;
 }
@@ -236,7 +232,7 @@ BlackFlowMovementTaskPlugin::InventoryAnalysisOutcome BlackFlowMovementTaskPlugi
         }
     }
     if (!loaded_markers.empty() && !frame.loaded_movement.has_value()) {
-        Log.warn("BlackFlow movement inventory loaded marker has no recognized item on its left");
+        LogWarn << "BlackFlow movement inventory loaded marker has no recognized item on its left";
     }
     return InventoryAnalysisOutcome::Recognized;
 }
@@ -371,7 +367,7 @@ bool BlackFlowMovementTaskPlugin::title_visible(const cv::Mat& image) const
 {
     const auto task = Task.get<OcrTaskInfo>(std::string(PanelTitleTask));
     if (task == nullptr) {
-        Log.error("BlackFlow movement panel title OCR task is missing", PanelTitleTask);
+        LogError << "BlackFlow movement panel title OCR task is missing" << PanelTitleTask;
         return false;
     }
     OCRer analyzer(image);

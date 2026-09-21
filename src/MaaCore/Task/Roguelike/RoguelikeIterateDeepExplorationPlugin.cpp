@@ -18,7 +18,7 @@ bool asst::RoguelikeIterateDeepExplorationPlugin::verify(AsstMsg msg, const json
     }
 
     if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
-        Log.error("Roguelike name doesn't exist!");
+        LogError << "Roguelike name doesn't exist!";
         return false;
     }
 

@@ -64,7 +64,7 @@ bool asst::MedicineCounterTaskPlugin::_run()
             Matcher matcher(image);
             matcher.set_task_info("UseMedicine");
             if (!matcher.analyze()) [[unlikely]] {
-                Log.error(__FUNCTION__, "unable to analyze UseMedicine");
+                LogError << __FUNCTION__ << "unable to analyze UseMedicine";
                 return false;
             }
             using_medicine = MedicineResult { .using_count = 0, .medicines = {} };

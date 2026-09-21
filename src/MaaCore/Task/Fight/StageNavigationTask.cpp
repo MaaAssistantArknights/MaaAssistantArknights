@@ -51,7 +51,7 @@ bool asst::StageNavigationTask::set_stage_name(const std::string& stage_name)
         m_is_directly = true;
         m_directly_task = stage_name;
         m_stage_code = stage_name;
-        Log.info("directly task", m_directly_task);
+        LogInfo << "directly task" << m_directly_task;
         return true;
     }
     m_is_directly = false;
@@ -59,7 +59,7 @@ bool asst::StageNavigationTask::set_stage_name(const std::string& stage_name)
     static const boost::regex stage_regex(R"(^([A-Za-z]{0,3})(\d{1,2})-(\d{1,2})(?:-?(\w+))*$)");
     boost::smatch stage_sm;
     if (!boost::regex_match(stage_name, stage_sm, stage_regex)) {
-        Log.error("The stage name is not in invalid, or is not main line stage", stage_name);
+        LogError << "The stage name is not in invalid, or is not main line stage" << stage_name;
         return false;
     }
 
@@ -73,9 +73,9 @@ bool asst::StageNavigationTask::set_stage_name(const std::string& stage_name)
 
     static const std::string episode_task_prefix = "Episode";
     m_chapter_task = episode_task_prefix + chapter;
-    Log.info("chapter task", m_chapter_task);
+    LogInfo << "chapter task" << m_chapter_task;
     if (!Task.get(m_chapter_task)) {
-        Log.error("chapter task not exists", m_chapter_task);
+        LogError << "chapter task not exists" << m_chapter_task;
         return false;
     }
 
@@ -88,7 +88,7 @@ bool asst::StageNavigationTask::set_stage_name(const std::string& stage_name)
 
         const auto chapter_num = parse_chapter_number(chapter);
         if (!chapter_num.has_value()) {
-            Log.error("chapter is invalid", chapter);
+            LogError << "chapter is invalid" << chapter;
             return false;
         }
 
@@ -96,7 +96,7 @@ bool asst::StageNavigationTask::set_stage_name(const std::string& stage_name)
         m_switch_difficulty_after_stage_selection = mode == ChapterDifficultyMode::PostStageNormalHard;
         if (mode == ChapterDifficultyMode::PreStageNormalHard) {
             if (upper_difficulty != "Hard" && upper_difficulty != "Normal") {
-                Log.error("only Normal/Hard is supported for chapter 10-14", upper_difficulty);
+                LogError << "only Normal/Hard is supported for chapter 10-14" << upper_difficulty;
                 return false;
             }
             static const std::string difficulty_task_prefix = "ChapterDifficulty";
@@ -110,19 +110,19 @@ bool asst::StageNavigationTask::set_stage_name(const std::string& stage_name)
                 m_difficulty_tasks = { "ChangeToNormalDifficulty", "NormalConfirm" };
             }
             else {
-                Log.error("only Normal/Hard is supported for chapter 15+", upper_difficulty);
+                LogError << "only Normal/Hard is supported for chapter 15+" << upper_difficulty;
                 return false;
             }
         }
         else {
-            Log.error("difficulty suffix is not supported in this chapter", chapter, upper_difficulty);
+            LogError << "difficulty suffix is not supported in this chapter" << chapter << upper_difficulty;
             return false;
         }
 
         for (const auto& difficulty_task : m_difficulty_tasks) {
-            Log.info("difficulty task", difficulty_task);
+            LogInfo << "difficulty task" << difficulty_task;
             if (!Task.get(difficulty_task)) {
-                Log.error("difficulty task not exists", difficulty_task);
+                LogError << "difficulty task not exists" << difficulty_task;
                 return false;
             }
         }
@@ -133,7 +133,7 @@ bool asst::StageNavigationTask::set_stage_name(const std::string& stage_name)
         return static_cast<char>(::toupper(ch));
     });
     m_stage_code = upper_prefix + chapter + "-" + stage_index;
-    Log.info("stage code", m_stage_code);
+    LogInfo << "stage code" << m_stage_code;
 
     return true;
 }
@@ -187,7 +187,7 @@ bool asst::StageNavigationTask::try_last_battle()
     }
 
     Task.get<OcrTaskInfo>("LastBattleStageName")->text = { m_stage_code };
-    Log.info("Try last battle shortcut for", m_stage_code);
+    LogInfo << "Try last battle shortcut for" << m_stage_code;
     // 快路径需要快速失败以回退到完整导航，不用默认重试次数
     return ProcessTask(*this, { "LastBattleStageName" }).set_retry_times(3).run();
 }
@@ -225,7 +225,7 @@ bool asst::StageNavigationTask::swipe_and_find_stage()
     // 优先检查是否存在对应活动关卡名的模板资源，如果存在则走模板匹配
     std::string templ_path = StageNavigationHelper::get_stage_template_path(m_stage_code);
     if (!templ_path.empty()) {
-        Log.info("Stage template found, using template matching for", m_stage_code, ", templ:", templ_path);
+        LogInfo << "Stage template found, using template matching for" << m_stage_code << ", templ:" << templ_path;
         Task.get<MatchTaskInfo>(m_stage_code + "@ClickStageByTemplate")->templ_names = { templ_path + ".png" };
         Task.get<OcrTaskInfo>(m_stage_code + "@ClickedCorrectStageByTemplateOrSwipe")->text = { m_stage_code };
         return ProcessTask(*this, { m_stage_code + "@StageNavigationByTemplateMatchBegin" })

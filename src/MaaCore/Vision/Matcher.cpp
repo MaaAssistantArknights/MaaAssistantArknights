@@ -46,7 +46,8 @@ Matcher::ResultOpt Matcher::analyze() const
         }
         tag += "]";
         if (m_log_tracing && max_val > 0.5 && max_val > threshold - 0.2) { // 得分太低的肯定不对，没必要打印
-            Log.trace("match_templ |", templ_name, tag, "score:", max_val, "rect:", rect, "roi:", m_roi);
+            LogTrace << "match_templ |" << templ_name << tag << "score:" << max_val << "rect:" << rect
+                     << "roi:" << m_roi;
 #ifdef ASST_DEBUG
             if (!m_params.methods.empty() && m_params.methods[0] == MatchMethod::HSVCount) {
                 const cv::Rect expanded_roi(
@@ -78,7 +79,8 @@ Matcher::ResultOpt Matcher::analyze() const
 #endif
         }
         else {
-            Log.debug("match_templ |", templ_name, tag, "score:", max_val, "rect:", rect, "roi:", m_roi);
+            LogDebug << "match_templ |" << templ_name << tag << "score:" << max_val << "rect:" << rect
+                     << "roi:" << m_roi;
         }
         if (max_val < threshold) {
             continue;
@@ -113,14 +115,14 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
         const auto& ptempl = params.templs[i];
         auto method = MatchMethod::Ccoeff;
         if (params.methods.size() <= i) {
-            Log.warn("methods is empty, use default method: Ccoeff");
+            LogWarn << "methods is empty, use default method: Ccoeff";
         }
         else {
             method = params.methods[i];
         }
 
         if (method == MatchMethod::Invalid) {
-            Log.error(__FUNCTION__, "| invalid method");
+            LogError << __FUNCTION__ << "| invalid method";
             return {};
         }
 
@@ -138,11 +140,11 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
             templ = std::get<cv::Mat>(ptempl);
         }
         else {
-            Log.error("templ is none");
+            LogError << "templ is none";
         }
 
         if (templ.empty()) {
-            Log.error("templ is empty!", templ_name);
+            LogError << "templ is empty!" << templ_name;
 #ifdef ASST_DEBUG
             throw std::runtime_error("templ is empty: " + templ_name);
 #else
@@ -151,15 +153,8 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
         }
 
         if (templ.cols > image.cols || templ.rows > image.rows) {
-            Log.error(
-                "templ size is too large",
-                templ_name,
-                "image size:",
-                image.cols,
-                image.rows,
-                "templ size:",
-                templ.cols,
-                templ.rows);
+            LogError << "templ size is too large" << templ_name << "image size:" << image.cols << image.rows
+                     << "templ size:" << templ.cols << templ.rows;
             return {};
         }
 
@@ -205,7 +200,7 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
                     cv::inRange(templ, color_range.first, color_range.second, current_mask);
                 }
                 else {
-                    Log.error("The task with template", templ_name, "holds invalid mask range");
+                    LogError << "The task with template" << templ_name << "holds invalid mask range";
                     return std::nullopt;
                 }
                 cv::bitwise_or(mask, current_mask, mask);

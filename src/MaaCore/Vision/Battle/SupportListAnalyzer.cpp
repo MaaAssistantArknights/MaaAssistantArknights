@@ -15,7 +15,7 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
 
     MultiMatcher::ResultsVecOpt support_unit_analyze_ret = analyze_support_units(m_image);
     if (!support_unit_analyze_ret) {
-        Log.error(LOG_PREFIX, "| Failed to recognise any support unit");
+        LogError << LOG_PREFIX << "| Failed to recognise any support unit";
         save_img(m_image, "m_image");
         return false;
     }
@@ -55,7 +55,7 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         name_analyzer.set_task_info(name_task_ptr);
         name_analyzer.set_roi(name_roi);
         if (!name_analyzer.analyze()) [[unlikely]] {
-            Log.error(LOG_PREFIX, "| Failed to recognise the current support unit's name; skipping to the next one");
+            LogError << LOG_PREFIX << "| Failed to recognise the current support unit's name; skipping to the next one";
 #ifndef ASST_DEBUG
             need_save_img = true;
 #endif
@@ -77,7 +77,8 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         if (elite_analyzer.analyze()) {
             std::optional<int> ret = get_suffix_num(elite_analyzer.get_result().templ_name);
             if (!ret) [[unlikely]] {
-                Log.error(LOG_PREFIX, "| Failed to analyze the current support unit's elite; skipping to the next one");
+                LogError << LOG_PREFIX
+                         << "| Failed to analyze the current support unit's elite; skipping to the next one";
                 continue;
             }
             elite = ret.value();
@@ -95,7 +96,8 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         level_analyzer.set_task_info(level_task_ptr);
         level_analyzer.set_roi(level_roi);
         if (!level_analyzer.analyze()) [[unlikely]] {
-            Log.error(LOG_PREFIX, "| Failed to recognise the current support unit's level; skipping to the next one");
+            LogError << LOG_PREFIX
+                     << "| Failed to recognise the current support unit's level; skipping to the next one";
 #ifndef ASST_DEBUG
             need_save_img = true;
 #endif
@@ -103,8 +105,8 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         }
         int level = 0;
         if (!utils::chars_to_number(level_analyzer.get_result().text, level)) {
-            Log.error(LOG_PREFIX, "| Failed to convert text", level_analyzer.get_result().text, "to number");
-            Log.error(LOG_PREFIX, "| Failed to analyze the current support unit's level; skipping to the next one");
+            LogError << LOG_PREFIX << "| Failed to convert text" << level_analyzer.get_result().text << "to number";
+            LogError << LOG_PREFIX << "| Failed to analyze the current support unit's level; skipping to the next one";
 #ifndef ASST_DEBUG
             need_save_img = true;
 #endif
@@ -123,7 +125,8 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         potential_analyzer.set_task_info(potential_task_ptr);
         potential_analyzer.set_roi(potential_roi);
         if (!potential_analyzer.analyze()) [[unlikely]] {
-            Log.error(LOG_PREFIX, "| Failed to analyze the current support unit's potential; skipping to the next one");
+            LogError << LOG_PREFIX
+                     << "| Failed to analyze the current support unit's potential; skipping to the next one";
 #ifndef ASST_DEBUG
             need_save_img = true;
 #endif
@@ -131,7 +134,8 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         }
         std::optional<int> ret = get_suffix_num(potential_analyzer.get_result().front().templ_name);
         if (!ret) [[unlikely]] {
-            Log.error(LOG_PREFIX, "| Failed to analyze the current support unit's potential; skipping to the next one");
+            LogError << LOG_PREFIX
+                     << "| Failed to analyze the current support unit's potential; skipping to the next one";
             continue;
         }
         const int potential = ret.value();
@@ -192,18 +196,17 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
                                    .potential = potential,
                                    .module_enabled = module_enabled,
                                    .friendship = friendship };
-        Log.info(
-            std::format(
-                "SupportListAnalyzer"
-                " | Found support unit {} from {} with elite {}, level {}, potential {} and module {}",
-                support_unit.name,
-                support_unit.friendship == Friendship::BestFriend
-                    ? "a best friend"
-                    : (support_unit.friendship == Friendship::Friend ? "a friend" : "a stranger"),
-                support_unit.elite,
-                support_unit.level,
-                support_unit.potential,
-                support_unit.module_enabled ? "enabled" : "disabled"));
+        LogInfo << __FUNCTION__
+                << std::format(
+                       " | Found support unit {} from {} with elite {}, level {}, potential {} and module {}",
+                       support_unit.name,
+                       support_unit.friendship == Friendship::BestFriend
+                           ? "a best friend"
+                           : (support_unit.friendship == Friendship::Friend ? "a friend" : "a stranger"),
+                       support_unit.elite,
+                       support_unit.level,
+                       support_unit.potential,
+                       support_unit.module_enabled ? "enabled" : "disabled");
         results.emplace_back(std::move(support_unit));
     }
 
@@ -229,25 +232,24 @@ std::optional<int> asst::SupportListAnalyzer::merge_image(const cv::Mat& new_img
     // ————————————————————————————————————————————————————————————————
     const int last_support_unit_x_in_new_img = get_last_support_unit_x(new_img);
     if (last_support_unit_x_in_new_img == UNDEFINED) [[unlikely]] {
-        Log.error(__FUNCTION__, "| No support unit is recognised in new_img; failed to merge images");
+        LogError << __FUNCTION__ << "| No support unit is recognised in new_img; failed to merge images";
         save_img(new_img, "new_img");
         return std::nullopt;
     }
 
     if (m_image.empty()) {
-        Log.info(__FUNCTION__, "| m_image is empty; replace m_image with new_img");
+        LogInfo << __FUNCTION__ << "| m_image is empty; replace m_image with new_img";
         set_image(new_img);
         set_last_support_unit_x(last_support_unit_x_in_new_img);
         return new_img.cols;
     }
 
     if (new_img.rows != m_image.rows) [[unlikely]] {
-        Log.error(
-            __FUNCTION__,
-            std::format(
-                "| new_img height ({}) does not match m_image height ({}); failed to merge images",
-                new_img.rows,
-                m_image.rows));
+        LogError << __FUNCTION__
+                 << std::format(
+                        "| new_img height ({}) does not match m_image height ({}); failed to merge images",
+                        new_img.rows,
+                        m_image.rows);
         return std::nullopt;
     }
 
@@ -255,10 +257,10 @@ std::optional<int> asst::SupportListAnalyzer::merge_image(const cv::Mat& new_img
     // initialise m_last_support_unit_x when needed
     // ————————————————————————————————————————————————————————————————
     if (m_last_support_unit_x == UNDEFINED) {
-        Log.info(__FUNCTION__, "| Initialising m_last_support_unit_x...");
+        LogInfo << __FUNCTION__ << "| Initialising m_last_support_unit_x...";
         const int last_support_unit_x = get_last_support_unit_x(m_image);
         if (last_support_unit_x == UNDEFINED) {
-            Log.warn(__FUNCTION__, "| No support unit is recognised in m_image; replace m_image with new_img");
+            LogWarn << __FUNCTION__ << "| No support unit is recognised in m_image; replace m_image with new_img";
             set_image(new_img);
             set_last_support_unit_x(last_support_unit_x_in_new_img);
             return new_img.cols;
@@ -275,7 +277,7 @@ std::optional<int> asst::SupportListAnalyzer::merge_image(const cv::Mat& new_img
 
     Matcher::ResultOpt overlap_match_ret = match_support_unit(new_img, overlap_option_templ);
     if (!overlap_match_ret) {
-        Log.error(__FUNCTION__, "Overlap match failed; failed to merge images");
+        LogError << __FUNCTION__ << "Overlap match failed; failed to merge images";
         save_img(m_image, "m_image");
         save_img(new_img, "new_img");
         save_img(overlap_option_templ, "overlap_option_templ");
@@ -285,7 +287,7 @@ std::optional<int> asst::SupportListAnalyzer::merge_image(const cv::Mat& new_img
 
     const int offset = (new_img.cols - overlap_rect_in_new_img.x) - (m_image.cols - overlap_rect_in_m_image.x);
     if (offset <= 0) {
-        Log.info("The offset", offset, "is less than or equal to zero; cancel the image merging");
+        LogInfo << "The offset" << offset << "is less than or equal to zero; cancel the image merging";
         return offset;
     }
     const int rel_x = m_image.cols + offset - new_img.cols;
@@ -360,7 +362,7 @@ int asst::SupportListAnalyzer::get_last_support_unit_x(const cv::Mat& image)
 
     const MultiMatcher::ResultsVecOpt support_unit_analyze_ret = analyze_support_units(image);
     if (!support_unit_analyze_ret) {
-        Log.error("get_last_support_unit_x | Fail to recognise any support unit");
+        LogError << __FUNCTION__ << "| Fail to recognise any support unit";
         save_img(image);
         return UNDEFINED;
     }
@@ -370,14 +372,14 @@ int asst::SupportListAnalyzer::get_last_support_unit_x(const cv::Mat& image)
 void asst::SupportListAnalyzer::set_last_support_unit_x(const int last_support_unit_x)
 {
     m_last_support_unit_x = last_support_unit_x;
-    Log.info("SupportListAnalyzer | m_last_support_unit_x set to", last_support_unit_x);
+    LogInfo << __FUNCTION__ << "| m_last_support_unit_x set to" << last_support_unit_x;
 }
 
 std::optional<int> asst::SupportListAnalyzer::get_suffix_num(const std::string& s, const char delimiter)
 {
     const size_t pos = s.rfind(delimiter);
     if (pos == std::string::npos) [[unlikely]] {
-        Log.error(__FUNCTION__, "| Unsupported string", s);
+        LogError << __FUNCTION__ << "| Unsupported string" << s;
         return std::nullopt;
     }
 
@@ -388,7 +390,7 @@ std::optional<int> asst::SupportListAnalyzer::get_suffix_num(const std::string& 
 
     int num = 0;
     if (!utils::chars_to_number(num_str, num)) [[unlikely]] {
-        Log.error(__FUNCTION__, "| Failed to convert text", num_str, "to number");
+        LogError << __FUNCTION__ << "| Failed to convert text" << num_str << "to number";
         return std::nullopt;
     }
 

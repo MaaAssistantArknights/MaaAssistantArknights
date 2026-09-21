@@ -40,18 +40,18 @@ bool asst::SSSCopilotTask::set_params(const json::value& params)
     LogTraceFunction;
 
     if (m_running) {
-        Log.error("SSSCopilotTask not support set_params when running");
+        LogError << "SSSCopilotTask not support set_params when running";
         return false;
     }
 
     auto filename_opt = params.find<std::string>("filename");
     if (!filename_opt) {
-        Log.error("SSSCopilotTask set_params failed, stage_name or filename not found");
+        LogError << "SSSCopilotTask set_params failed, stage_name or filename not found";
         return false;
     }
 
     if (!SSSCopilot.load(utils::path(*filename_opt))) {
-        Log.error("SSSCopilotConfig parse failed");
+        LogError << "SSSCopilotConfig parse failed";
         return false;
     }
 

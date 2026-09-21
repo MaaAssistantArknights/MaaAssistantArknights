@@ -72,7 +72,7 @@ std::shared_ptr<asst::ControllerAPI>
 #endif
 #ifdef __ANDROID__
         case ControllerType::MaaFwAndroidNative:
-            Log.debug("Use Android");
+            LogDebug << "Use Android";
             return std::make_shared<MaaFwAndroidNativeController>(m_callback, m_inst);
 #endif
         default:
@@ -473,7 +473,7 @@ const std::string& asst::Controller::get_uuid() const
 cv::Mat asst::Controller::get_image(bool raw)
 {
     if (get_scale_size() == std::pair(0, 0)) {
-        Log.error("Unknown image size");
+        LogError << "Unknown image size";
         return {};
     }
 

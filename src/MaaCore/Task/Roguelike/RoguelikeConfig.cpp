@@ -8,13 +8,13 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
     // ------------------ 肉鸽主题设置 ------------------
     std::string theme = params.get("theme", std::string(RoguelikeTheme::Phantom));
     if (!RoguelikeConfig::is_valid_theme(theme)) {
-        Log.error("Unknown roguelike theme", theme);
+        LogError << "Unknown roguelike theme" << theme;
         return false;
     }
 
     auto mode = static_cast<RoguelikeMode>(params.get("mode", 0));
     if (!RoguelikeConfig::is_valid_mode(mode, theme)) {
-        Log.error(__FUNCTION__, "| Unknown mode", static_cast<int>(mode));
+        LogError << __FUNCTION__ << "| Unknown mode" << static_cast<int>(mode);
         return false;
     }
 
@@ -22,7 +22,7 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
     m_mode = mode;
     m_difficulty = params.get("difficulty", -1);
 
-    Log.info("Roguelike theme", m_theme, "| mode", static_cast<int>(m_mode), "| difficulty", m_difficulty);
+    LogInfo << "Roguelike theme" << m_theme << "| mode" << static_cast<int>(m_mode) << "| difficulty" << m_difficulty;
 
     if (mode == RoguelikeMode::Collectible) {
         m_collectible_mode_shopping = params.get("collectible_mode_shopping", false);
@@ -35,11 +35,11 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
     m_start_with_elite_two = params.get("start_with_elite_two", false);
     m_only_start_with_elite_two = params.get("only_start_with_elite_two", false);
     if (mode != RoguelikeMode::Collectible && (m_start_with_elite_two || m_only_start_with_elite_two)) {
-        Log.error(__FUNCTION__, "| Invalid mode for start_with_elite_two", static_cast<int>(mode));
+        LogError << __FUNCTION__ << "| Invalid mode for start_with_elite_two" << static_cast<int>(mode);
         return false;
     }
     if (!m_start_with_elite_two && m_only_start_with_elite_two) {
-        Log.error(__FUNCTION__, "| only_start_with_elite_two can only be used together with start_with_elite_two");
+        LogError << __FUNCTION__ << "| only_start_with_elite_two can only be used together with start_with_elite_two";
         return false;
     }
 
@@ -50,7 +50,7 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
         std::string strategy_task_with_mode = strategy_task + "_mode" + std::to_string(static_cast<int>(mode));
         if (Task.get(strategy_task_with_mode) == nullptr) {
             strategy_task_with_mode = "#none"; // 没有对应的层数选点策略，使用默认策略（避战）
-            Log.warn(__FUNCTION__, "No strategy for mode", static_cast<int>(mode));
+            LogWarn << __FUNCTION__ << "No strategy for mode" << static_cast<int>(mode);
         }
         Task.set_task_base(strategy_task, strategy_task_with_mode);
 
@@ -92,10 +92,10 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
     if (m_mode == RoguelikeMode::Investment) {
         bool investment_with_more_score = params.get("investment_with_more_score", false);
         if (params.contains("investment_enter_second_floor")) {
-            Log.warn("================  DEPRECATED  ================");
+            LogWarn << "================  DEPRECATED  ================";
             LogWarn << "`investment_enter_second_floor` has been deprecated since v5.2.1; Please use "
                        "'investment_with_more_score'";
-            Log.warn("================  DEPRECATED  ================");
+            LogWarn << "================  DEPRECATED  ================";
             return false;
         }
         m_invest_with_more_score = (investment_with_more_score);
@@ -108,7 +108,7 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
     if (m_mode == RoguelikeMode::FindPlaytime) {
         m_find_playTime_target = params.get("find_playTime_target", 0);
         if (m_find_playTime_target < 1 || m_find_playTime_target > 3) {
-            Log.error(__FUNCTION__, "| Invalid find_playTime_target", m_find_playTime_target);
+            LogError << __FUNCTION__ << "| Invalid find_playTime_target" << m_find_playTime_target;
             return false;
         }
     }

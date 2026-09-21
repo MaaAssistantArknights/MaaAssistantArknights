@@ -86,7 +86,7 @@ bool OcrPack::load(const std::filesystem::path& path)
 OcrPack::ResultsVec OcrPack::recognize(const cv::Mat& image, bool without_det, const std::optional<Rect>& base_roi)
 {
     if (!check_and_load()) {
-        Log.error(__FUNCTION__, "check_and_load failed");
+        LogError << __FUNCTION__ << "check_and_load failed";
         return {};
     }
 
@@ -141,7 +141,8 @@ OcrPack::ResultsVec OcrPack::recognize(const cv::Mat& image, bool without_det, c
         std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time).count();
     std::string class_type = utils::demangle(typeid(*this).name());
     if (!base_roi) {
-        Log.trace(class_type, raw_results, without_det ? "by OCR Rec" : "by OCR Pipeline", ", cost", costs, "ms");
+        LogTrace << class_type << raw_results << (without_det ? "by OCR Rec" : "by OCR Pipeline") << ", cost" << costs
+                 << "ms";
     }
     else {
         std::string output = "[";

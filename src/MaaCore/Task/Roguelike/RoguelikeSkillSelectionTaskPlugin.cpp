@@ -13,7 +13,7 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::verify(AsstMsg msg, const json::va
     }
 
     if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
-        Log.error("Roguelike name doesn't exist!");
+        LogError << "Roguelike name doesn't exist!";
         return false;
     }
     const std::string roguelike_name = m_config->get_theme() + "@";
@@ -46,17 +46,17 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
     for (const auto& [name, skill_vec] : analyzer.get_result()) {
         const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), name);
         if (oper_info.name.empty()) {
-            Log.warn("Unknown oper", name);
+            LogWarn << "Unknown oper" << name;
             continue;
         }
 
         if (oper_info.alternate_skill > 0) {
-            Log.info(__FUNCTION__, name, " select alternate skill:", oper_info.alternate_skill);
+            LogInfo << __FUNCTION__ << name << " select alternate skill:" << oper_info.alternate_skill;
             ctrler()->click(skill_vec.at(oper_info.alternate_skill - 1));
             sleep(delay);
         }
         if (oper_info.skill > 0) {
-            Log.info(__FUNCTION__, name, " select main skill:", oper_info.skill);
+            LogInfo << __FUNCTION__ << name << " select main skill:" << oper_info.skill;
             ctrler()->click(skill_vec.at(oper_info.skill - 1));
             sleep(delay);
         }
@@ -76,11 +76,11 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
     }
 
     if (analyzer.get_team_full() && !has_rookie) {
-        Log.info("Team full and no rookie");
+        LogInfo << "Team full and no rookie";
         m_config->status().team_full_without_rookie = true;
     }
     else {
-        Log.info("Team not full or has rookie");
+        LogInfo << "Team not full or has rookie";
         m_config->status().team_full_without_rookie = false;
     }
     return true;

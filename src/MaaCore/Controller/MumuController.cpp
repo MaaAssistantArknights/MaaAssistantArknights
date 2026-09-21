@@ -141,10 +141,10 @@ bool MumuController::click(const Point& p)
     }
 
     if (p.x < 0 || p.x >= m_width || p.y < 0 || p.y >= m_height) {
-        Log.error("click point out of range");
+        LogError << "click point out of range";
     }
 
-    Log.trace("mumu click:", p);
+    LogTrace << "mumu click:" << p;
 
     // 无条件抬手，避免 down 出错后手指卡在屏幕上
     // down/up 之间保持一小段时间，模拟器才能识别为一次完整的点击（hold time）。
@@ -175,12 +175,12 @@ bool MumuController::swipe(
 
     // 起点不能在屏幕外，但是终点可以
     if (x1 < 0 || x1 >= m_width || y1 < 0 || y1 >= m_height) {
-        Log.warn("swipe point1 is out of range", x1, y1);
+        LogWarn << "swipe point1 is out of range" << x1 << y1;
         x1 = std::clamp(x1, 0, m_width - 1);
         y1 = std::clamp(y1, 0, m_height - 1);
     }
 
-    Log.trace("mumu swipe", p1, p2, duration, extra_swipe, slope_in, slope_out);
+    LogTrace << "mumu swipe" << p1 << p2 << duration << extra_swipe << slope_in << slope_out;
 
     if (!m_mumu_extras.touch_down(0, x1, y1)) {
         return false;
@@ -301,7 +301,7 @@ bool MumuController::inject_input_event(const InputEvent& event)
         return true;
     case InputEvent::Type::UNKNOWN:
     default:
-        Log.error("unknown input event type");
+        LogError << "unknown input event type";
         return false;
     }
 }

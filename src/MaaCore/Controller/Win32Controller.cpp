@@ -82,7 +82,7 @@ bool Win32Controller::attach(
     if (!m_loader->loaded()) {
         auto dll_path = "MaaWin32ControlUnit";
         if (!m_loader->load(dll_path)) {
-            Log.error("Failed to load MaaWin32ControlUnit.dll");
+            LogError << "Failed to load MaaWin32ControlUnit.dll";
             return false;
         }
     }
@@ -90,13 +90,13 @@ bool Win32Controller::attach(
     // 创建控制单元
     m_unit_handle = m_loader->create(hwnd, screencap_method, mouse_method, keyboard_method);
     if (!m_unit_handle) {
-        Log.error("Failed to create Win32ControlUnit");
+        LogError << "Failed to create Win32ControlUnit";
         return false;
     }
 
     // 连接
     if (!unit_connect()) {
-        Log.error("Failed to connect Win32ControlUnit");
+        LogError << "Failed to connect Win32ControlUnit";
         m_loader->destroy(m_unit_handle);
         m_unit_handle = nullptr;
         return false;
@@ -114,7 +114,7 @@ bool Win32Controller::attach(
     cv::Mat image;
     if (unit_screencap(image)) {
         m_screen_size = { image.cols, image.rows };
-        Log.info("Screen size:", m_screen_size.first, "x", m_screen_size.second);
+        LogInfo << "Screen size:" << m_screen_size.first << "x" << m_screen_size.second;
     }
 
     if ((m_mouse_method & (Win32Input::SendMessageWithWindowPos | Win32Input::PostMessageWithWindowPos)) != 0 &&
@@ -132,7 +132,7 @@ bool Win32Controller::connect(
     const std::string& address [[maybe_unused]],
     const std::string& config [[maybe_unused]])
 {
-    Log.error("Win32Controller does not support connect(), use attach() instead");
+    LogError << "Win32Controller does not support connect(), use attach() instead";
     return false;
 }
 
@@ -166,7 +166,7 @@ bool Win32Controller::screencap(cv::Mat& image_payload, bool allow_reconnect [[m
             // 阻塞期间用户输入不产生事件，挪动与还原的写入不会被硬件移动竞争覆盖，与底层触控的还原同机制
             input_blocked = BlockInput(TRUE) != 0;
             cursor_pos_saved = GetCursorPos(&original_cursor_pos);
-            Log.trace("Screencap saves cursor position:", original_cursor_pos.x, ",", original_cursor_pos.y);
+            LogTrace << "Screencap saves cursor position:" << original_cursor_pos.x << "," << original_cursor_pos.y;
         }
         if (m_main_screen_recognition) {
             // 主界面情况下鼠标移动到窗口中心，等待主界面的视差动画，300ms
@@ -204,7 +204,7 @@ bool Win32Controller::screencap(cv::Mat& image_payload, bool allow_reconnect [[m
 
     if (cursor_pos_saved) {
         if (!SetCursorPos(original_cursor_pos.x, original_cursor_pos.y)) {
-            Log.error("Failed to restore cursor position after screencap, last_error:", GetLastError());
+            LogError << "Failed to restore cursor position after screencap, last_error:" << GetLastError();
         }
     }
 
@@ -263,7 +263,7 @@ bool Win32Controller::screencap(cv::Mat& image_payload, bool allow_reconnect [[m
 
 bool Win32Controller::start_game(const std::string& client_type [[maybe_unused]])
 {
-    Log.warn("start_game is not supported on Win32Controller");
+    LogWarn << "start_game is not supported on Win32Controller";
     return false;
 }
 
@@ -272,13 +272,13 @@ bool Win32Controller::stop_game(const std::string& client_type [[maybe_unused]])
     LogTraceFunction;
 
     if (!m_hwnd) {
-        Log.info("No window handle available, game may already be closed");
+        LogInfo << "No window handle available, game may already be closed";
         return true;
     }
 
     HWND hwnd = static_cast<HWND>(m_hwnd);
     if (!IsWindow(hwnd)) {
-        Log.info("Invalid or stale window handle, game may already be closed, hwnd:", m_hwnd);
+        LogInfo << "Invalid or stale window handle, game may already be closed, hwnd:" << m_hwnd;
         return true;
     }
 
@@ -286,19 +286,19 @@ bool Win32Controller::stop_game(const std::string& client_type [[maybe_unused]])
     DWORD tid = GetWindowThreadProcessId(hwnd, &pid);
     if (tid == 0) {
         DWORD error = GetLastError();
-        Log.error("Failed to get thread/process id from hwnd, hwnd:", m_hwnd, "last_error:", error);
+        LogError << "Failed to get thread/process id from hwnd, hwnd:" << m_hwnd << "last_error:" << error;
         return false;
     }
 
     if (pid == 0) {
-        Log.error("Failed to get process id from hwnd, hwnd:", m_hwnd);
+        LogError << "Failed to get process id from hwnd, hwnd:" << m_hwnd;
         return false;
     }
 
     HANDLE hProcess = OpenProcess(PROCESS_TERMINATE | SYNCHRONIZE, FALSE, pid);
     if (!hProcess) {
         DWORD error = GetLastError();
-        Log.error("Failed to open process, pid:", pid, "last_error:", error);
+        LogError << "Failed to open process, pid:" << pid << "last_error:" << error;
         return false;
     }
 
@@ -306,7 +306,7 @@ bool Win32Controller::stop_game(const std::string& client_type [[maybe_unused]])
         DWORD wait_result = WaitForSingleObject(hProcess, 5000);
         if (wait_result == WAIT_OBJECT_0) {
             CloseHandle(hProcess);
-            Log.info("Game process closed gracefully, pid:", pid);
+            LogInfo << "Game process closed gracefully, pid:" << pid;
             return true;
         }
     }
@@ -315,7 +315,7 @@ bool Win32Controller::stop_game(const std::string& client_type [[maybe_unused]])
     if (!ok) {
         DWORD error = GetLastError();
         CloseHandle(hProcess);
-        Log.error("Failed to terminate process, pid:", pid, "last_error:", error);
+        LogError << "Failed to terminate process, pid:" << pid << "last_error:" << error;
         return false;
     }
 
@@ -323,24 +323,24 @@ bool Win32Controller::stop_game(const std::string& client_type [[maybe_unused]])
     CloseHandle(hProcess);
 
     if (wait_result == WAIT_TIMEOUT) {
-        Log.error("Terminate process timed out, pid:", pid);
+        LogError << "Terminate process timed out, pid:" << pid;
         return false;
     }
 
     if (wait_result == WAIT_FAILED) {
         DWORD error = GetLastError();
-        Log.error("Wait for process termination failed, pid:", pid, "last_error:", error);
+        LogError << "Wait for process termination failed, pid:" << pid << "last_error:" << error;
         return false;
     }
 
-    Log.info("Game process terminated, pid:", pid);
+    LogInfo << "Game process terminated, pid:" << pid;
     return true;
 }
 
 bool Win32Controller::click(const Point& p)
 {
     LogTraceFunction;
-    Log.trace("Win32Controller click:", p);
+    LogTrace << "Win32Controller click:" << p;
 
     // MaaWin32ControlUnit 返回 MaaControllerFeature_UseMouseDownAndUpInsteadOfClick
     // 需要使用 touch_down/touch_up 替代 click
@@ -380,13 +380,13 @@ bool Win32Controller::swipe(
     // 起点不能在屏幕外，但是终点可以
     if (width > 0 && height > 0) {
         if (x1 < 0 || x1 >= width || y1 < 0 || y1 >= height) {
-            Log.warn("swipe point1 is out of range", x1, y1);
+            LogWarn << "swipe point1 is out of range" << x1 << y1;
             x1 = std::clamp(x1, 0, width - 1);
             y1 = std::clamp(y1, 0, height - 1);
         }
     }
 
-    Log.trace("Win32Controller swipe", p1, p2, duration, extra_swipe, slope_in, slope_out);
+    LogTrace << "Win32Controller swipe" << p1 << p2 << duration << extra_swipe << slope_in << slope_out;
 
     // MaaWin32ControlUnit 返回 MaaControllerFeature_UseMouseDownAndUpInsteadOfClick
     // 需要使用 touch_down/touch_move/touch_up 实现滑动
@@ -514,7 +514,7 @@ bool Win32Controller::inject_input_event(const InputEvent& event)
         return true;
     case InputEvent::Type::UNKNOWN:
     default:
-        Log.error("unknown input event type");
+        LogError << "unknown input event type";
         return false;
     }
 }

@@ -49,7 +49,7 @@ bool RoguelikeCoppersAnalyzer::analyze_pickup()
 
     const auto name_task = Task.get<OcrTaskInfo>(kPickupNameTask);
     if (!name_task) {
-        Log.error(__FUNCTION__, "| failed to load pickup name OCR task");
+        LogError << __FUNCTION__ << "| failed to load pickup name OCR task";
         return false;
     }
 
@@ -77,13 +77,13 @@ bool RoguelikeCoppersAnalyzer::analyze_column(ColumnRole role, bool detect_cast)
 
     const auto name_task = Task.get<OcrTaskInfo>(ocr_task_name);
     if (!name_task) {
-        Log.error(__FUNCTION__, "| failed to load OCR task:", ocr_task_name);
+        LogError << __FUNCTION__ << "| failed to load OCR task:" << ocr_task_name;
         return false;
     }
 
     const auto cast_task = detect_cast ? Task.get<OcrTaskInfo>(kCastTask) : nullptr;
     if (detect_cast && !cast_task) {
-        Log.error(__FUNCTION__, "| failed to load cast OCR task");
+        LogError << __FUNCTION__ << "| failed to load cast OCR task";
         return false;
     }
 
@@ -103,7 +103,7 @@ bool RoguelikeCoppersAnalyzer::analyze_column(ColumnRole role, bool detect_cast)
     const bool analyzed = analyze_internal(matcher_task, *name_task, cast_task.get(), SortStrategy::Vertical);
 
     if (!analyzed) {
-        Log.error(__FUNCTION__, "| failed to analyze column ", to_string(role));
+        LogError << __FUNCTION__ << "| failed to analyze column " << to_string(role);
     }
     return analyzed;
 }
@@ -121,7 +121,7 @@ bool RoguelikeCoppersAnalyzer::analyze_internal(
 {
     // 检查图像是否为空
     if (m_image.empty()) {
-        Log.error(__FUNCTION__, "| empty image for matcher task ", matcher_task);
+        LogError << __FUNCTION__ << "| empty image for matcher task " << matcher_task;
         return false;
     }
 
@@ -130,13 +130,13 @@ bool RoguelikeCoppersAnalyzer::analyze_internal(
     matcher.set_task_info(matcher_task);
 
     if (!matcher.analyze()) {
-        Log.error(__FUNCTION__, "| matcher analyze failed for task ", matcher_task);
+        LogError << __FUNCTION__ << "| matcher analyze failed for task " << matcher_task;
         return false;
     }
 
     auto match_results = matcher.get_result();
     if (match_results.empty()) {
-        Log.error(__FUNCTION__, "| matcher returned empty result for task ", matcher_task);
+        LogError << __FUNCTION__ << "| matcher returned empty result for task " << matcher_task;
         return false;
     }
 
@@ -170,13 +170,13 @@ bool RoguelikeCoppersAnalyzer::analyze_internal(
         const Rect name_roi = match_result.rect.move(name_task.roi);
         name_ocr.set_roi(name_roi);
         if (!name_ocr.analyze()) {
-            Log.error(__FUNCTION__, "| failed to recognize copper name at", name_roi.to_string());
+            LogError << __FUNCTION__ << "| failed to recognize copper name at" << name_roi.to_string();
             continue;
         }
 
         const auto& name_result = name_ocr.get_result();
         if (name_result.text.empty()) {
-            Log.error(__FUNCTION__, "| empty copper name at", name_roi.to_string());
+            LogError << __FUNCTION__ << "| empty copper name at" << name_roi.to_string();
             continue;
         }
 
@@ -206,13 +206,13 @@ bool RoguelikeCoppersAnalyzer::analyze_internal(
             }
         }
 
-        Log.info(__FUNCTION__, "| detection", detection.name, detection.match_rect);
+        LogInfo << __FUNCTION__ << "| detection" << detection.name << detection.match_rect;
         m_detections.emplace_back(std::move(detection));
     }
 
     // 检查是否有有效的检测结果
     if (m_detections.empty()) {
-        Log.error(__FUNCTION__, "| no valid detections for task ", matcher_task);
+        LogError << __FUNCTION__ << "| no valid detections for task " << matcher_task;
         return false;
     }
 

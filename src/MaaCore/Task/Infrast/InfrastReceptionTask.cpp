@@ -75,7 +75,7 @@ bool asst::InfrastReceptionTask::_run()
         return shift();
     }
 
-    Log.info("skip shift in rotation mode");
+    LogInfo << "skip shift in rotation mode";
     return true;
 }
 
@@ -149,7 +149,7 @@ bool asst::InfrastReceptionTask::use_clue()
 
     const auto& vacancy = vacancy_analyzer.get_vacancy();
     for (const auto& id : vacancy | std::views::keys) {
-        Log.trace("InfrastReceptionTask | Vacancy", id);
+        LogTrace << "InfrastReceptionTask | Vacancy" << id;
     }
 
     std::string product;
@@ -159,7 +159,7 @@ bool asst::InfrastReceptionTask::use_clue()
     else {
         product = "General";
     }
-    Log.trace("InfrastReceptionTask | product", product);
+    LogTrace << "InfrastReceptionTask | product" << product;
     set_product(product);
 
     return true;
@@ -189,7 +189,7 @@ bool asst::InfrastReceptionTask::remove_clue()
         if (need_exit()) {
             return false;
         }
-        Log.trace("InfrastReceptionTask | Vacancy", id);
+        LogTrace << "InfrastReceptionTask | Vacancy" << id;
 
         // 点击已放上的线索
         Rect click_rect = vacancy.at(id);
@@ -240,7 +240,7 @@ bool asst::InfrastReceptionTask::proc_clue_vacancy()
     if (ProcessTask(*this, { "InfrastClueQuickInsert" }).set_retry_times(3).run()) {
         // 先把线索都移除掉，避免因快捷赠送重复线索无法识别线索版上的线索导致线索达到上限，而无法获得新线索
         if (!remove_clue()) {
-            Log.warn(__FUNCTION__, "| remove_clue failed");
+            LogWarn << __FUNCTION__ << "| remove_clue failed";
             return false;
         }
 
@@ -260,7 +260,7 @@ bool asst::InfrastReceptionTask::proc_clue_vacancy()
             if (auto ocr_res = ocr_analyzer.analyze()) {
                 int available = 0;
                 if (utils::chars_to_number(ocr_res->text, available)) {
-                    Log.info("vacancy_cnt:", vacancy_cnt, ", available:", available);
+                    LogInfo << "vacancy_cnt:" << vacancy_cnt << ", available:" << available;
                     if (available == vacancy_cnt) {
                         Rect click_rect = confirm_task->roi.move(confirm_task->rect_move);
                         ctrler()->click(click_rect);
@@ -332,7 +332,7 @@ bool asst::InfrastReceptionTask::shift()
     LogTraceFunction;
 
     if (m_is_custom && current_room_config().skip) {
-        Log.info("skip this room");
+        LogInfo << "skip this room";
         return true;
     }
 

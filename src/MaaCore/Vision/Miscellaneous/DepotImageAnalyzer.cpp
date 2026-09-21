@@ -223,7 +223,7 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
             2);
 #endif
         if (item_id.empty() || info.quantity == 0) {
-            Log.error(__FUNCTION__, item_id, info.item_name, " quantity is zero");
+            LogError << __FUNCTION__ << item_id << info.item_name << " quantity is zero";
             continue;
         }
         info.rect = resize_rect_to_raw_size(info.rect);
@@ -261,7 +261,7 @@ size_t asst::DepotImageAnalyzer::match_item(
     // 用颜色过滤得到候选模板 ID，传入缓存的模板均值和阈值
     const auto candidates =
         filter_candidates_by_color(m_image_resized(make_rect<cv::Rect>(roi)), m_template_mean_colors);
-    Log.info("Candidate templates count:", candidates.size());
+    LogInfo << "Candidate templates count:" << candidates.size();
 
     Matcher analyzer(m_image_resized);
     analyzer.set_task_info("DepotMatchData");
@@ -309,7 +309,7 @@ size_t asst::DepotImageAnalyzer::match_item(
         }
     }
 
-    Log.info("Item id:", matched_item_id);
+    LogInfo << "Item id:" << matched_item_id;
     if (matched_item_id.empty()) {
         return NPos;
     }
@@ -440,7 +440,7 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
     }
 
     int quantity = static_cast<int>(std::stod(digit_str) * multiple);
-    Log.info("Quantity:", quantity);
+    LogInfo << "Quantity:" << quantity;
     return quantity;
 }
 

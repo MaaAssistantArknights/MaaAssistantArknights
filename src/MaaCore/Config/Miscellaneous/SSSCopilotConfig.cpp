@@ -44,7 +44,7 @@ bool asst::SSSCopilotConfig::parse(const json::value& json)
             m_data.equipment.emplace_back(Equipment.at(equipment_info.as_string()));
         }
         if (m_data.equipment.size() != 8) {
-            Log.warn("SSS CopilotConfig: equipment size is not 8");
+            LogWarn << "SSS CopilotConfig: equipment size is not 8";
         }
     }
 

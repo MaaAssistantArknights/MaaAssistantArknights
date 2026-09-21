@@ -16,7 +16,7 @@ bool asst::InfrastPowerTask::_run()
             return false;
         }
         if (m_is_custom && current_room_config().skip) {
-            Log.info("skip this room");
+            LogInfo << "skip this room";
             continue;
         }
         swipe_to_the_left_of_main_ui();

@@ -160,7 +160,7 @@ std::string asst::platform::call_command(
             true,
             false)) {
         DWORD err = GetLastError();
-        Log.error("CreateOverlappablePipe failed, err", err);
+        LogError << "CreateOverlappablePipe failed, err" << err;
         return {};
     }
 
@@ -177,7 +177,7 @@ std::string asst::platform::call_command(
     InitializeProcThreadAttributeList(nullptr, 1, 0, &attrsize);
     if (attrsize == 0) {
         DWORD err = GetLastError();
-        Log.error("Call `", cmdline, "` InitializeProcThreadAttributeList failed, ret error code:", err);
+        LogError << "Call `" << cmdline << "` InitializeProcThreadAttributeList failed, ret error code:" << err;
         CloseHandle(pipe_parent_read);
         CloseHandle(pipe_child_write);
         return {};
@@ -187,7 +187,7 @@ std::string asst::platform::call_command(
     auto attr_success = InitializeProcThreadAttributeList(si.lpAttributeList, 1, 0, &attrsize);
     if (!attr_success) {
         DWORD err = GetLastError();
-        Log.error("Call `", cmdline, "` InitializeProcThreadAttributeList failed, ret error code:", err);
+        LogError << "Call `" << cmdline << "` InitializeProcThreadAttributeList failed, ret error code:" << err;
         CloseHandle(pipe_parent_read);
         CloseHandle(pipe_child_write);
         return {};
@@ -202,7 +202,7 @@ std::string asst::platform::call_command(
         nullptr);
     if (!attr_success) {
         DWORD err = GetLastError();
-        Log.error("Call `", cmdline, "` UpdateProcThreadAttribute failed, ret error code:", err);
+        LogError << "Call `" << cmdline << "` UpdateProcThreadAttribute failed, ret error code:" << err;
         DeleteProcThreadAttributeList(si.lpAttributeList);
         CloseHandle(pipe_parent_read);
         CloseHandle(pipe_child_write);
@@ -232,7 +232,7 @@ std::string asst::platform::call_command(
     DeleteProcThreadAttributeList(si.lpAttributeList);
     if (!create_ret) {
         DWORD err = GetLastError();
-        Log.error("Call `", cmdline, "` create process failed, ret", create_ret, "error code:", err);
+        LogError << "Call `" << cmdline << "` create process failed, ret" << create_ret << "error code:" << err;
         CloseHandle(pipe_parent_read);
         CloseHandle(pipe_child_write);
         return {};
@@ -315,7 +315,7 @@ std::string asst::platform::call_command(
         }
         else {
             DWORD err = GetLastError();
-            Log.error(__FUNCTION__, "A fatal error occurred", err);
+            LogError << __FUNCTION__ << "A fatal error occurred" << err;
             break;
         }
 
@@ -339,7 +339,7 @@ std::string asst::platform::call_command(
                     pipe_eof = true;
                 }
                 else {
-                    Log.error(__FUNCTION__, "GetOverlappedResult failed", err);
+                    LogError << __FUNCTION__ << "GetOverlappedResult failed" << err;
                     pipe_eof = true;
                 }
             }

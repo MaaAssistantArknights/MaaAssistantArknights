@@ -21,7 +21,7 @@ bool Win32ControlUnitLoader::load(const std::filesystem::path& dll_path)
     LogTraceFunction;
 
     if (m_module) {
-        Log.warn("DLL already loaded");
+        LogWarn << "DLL already loaded";
         return true;
     }
 
@@ -30,12 +30,12 @@ bool Win32ControlUnitLoader::load(const std::filesystem::path& dll_path)
         full_path += ".dll";
     }
 
-    Log.info("Loading", full_path);
+    LogInfo << "Loading" << full_path;
 
     m_module = LoadLibraryW(full_path.wstring().c_str());
     if (!m_module) {
         DWORD error = GetLastError();
-        Log.error("Failed to load DLL, error code:", error);
+        LogError << "Failed to load DLL, error code:" << error;
         return false;
     }
 
@@ -47,13 +47,13 @@ bool Win32ControlUnitLoader::load(const std::filesystem::path& dll_path)
         reinterpret_cast<DestroyFunc>(GetProcAddress(static_cast<HMODULE>(m_module), "MaaWin32ControlUnitDestroy"));
 
     if (!m_create || !m_destroy) {
-        Log.error("Failed to get function pointers from DLL");
+        LogError << "Failed to get function pointers from DLL";
         unload();
         return false;
     }
 
     if (m_get_version) {
-        Log.info("MaaWin32ControlUnit version:", m_get_version());
+        LogInfo << "MaaWin32ControlUnit version:" << m_get_version();
     }
 
     return true;
@@ -88,17 +88,17 @@ void* Win32ControlUnitLoader::create(
     LogTraceFunction;
 
     if (!m_create) {
-        Log.error("DLL not loaded or create function not available");
+        LogError << "DLL not loaded or create function not available";
         return nullptr;
     }
 
     void* handle = m_create(hwnd, screencap_method, mouse_method, keyboard_method);
     if (!handle) {
-        Log.error("Failed to create Win32ControlUnit");
+        LogError << "Failed to create Win32ControlUnit";
         return nullptr;
     }
 
-    Log.info("Created Win32ControlUnit:", reinterpret_cast<void*>(handle));
+    LogInfo << "Created Win32ControlUnit:" << reinterpret_cast<void*>(handle);
     return handle;
 }
 
@@ -107,13 +107,13 @@ void Win32ControlUnitLoader::destroy(void* handle)
     LogTraceFunction;
 
     if (!m_destroy) {
-        Log.error("DLL not loaded or destroy function not available");
+        LogError << "DLL not loaded or destroy function not available";
         return;
     }
 
     if (handle) {
         m_destroy(handle);
-        Log.info("Destroyed Win32ControlUnit:", reinterpret_cast<void*>(handle));
+        LogInfo << "Destroyed Win32ControlUnit:" << reinterpret_cast<void*>(handle);
     }
 }
 

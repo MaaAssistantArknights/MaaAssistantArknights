@@ -34,7 +34,7 @@ bool asst::InstHelper::sleep(unsigned millisecond) const
         std::this_thread::yield();
         return true;
     }
-    Log.trace("ready to sleep", millisecond);
+    LogTrace << "ready to sleep" << millisecond;
     auto millisecond_ms = std::chrono::milliseconds(millisecond);
     auto interval = std::chrono::milliseconds(std::min(millisecond, 5000U));
 
@@ -44,7 +44,7 @@ bool asst::InstHelper::sleep(unsigned millisecond) const
     if (!need_exit()) {
         std::this_thread::sleep_for(millisecond_ms % interval);
     }
-    Log.trace("end of sleep", millisecond);
+    LogTrace << "end of sleep" << millisecond;
 
     return !need_exit();
 }

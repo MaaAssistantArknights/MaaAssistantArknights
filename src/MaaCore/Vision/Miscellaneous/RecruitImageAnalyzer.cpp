@@ -17,7 +17,8 @@ bool asst::RecruitImageAnalyzer::analyze()
     bool ret2 = permit_analyze();
     bool ret3 = tags_analyze();
 
-    Log.trace("time_analyze:", ret0, "refresh_analyze:", ret1, "permit_analyze:", ret2, "tags_analyze:", ret3);
+    LogTrace << "time_analyze:" << ret0 << "refresh_analyze:" << ret1 << "permit_analyze:" << ret2
+             << "tags_analyze:" << ret3;
 
     return ret0 && ret3;
 }
@@ -104,7 +105,7 @@ std::optional<int> asst::RecruitImageAnalyzer::get_recruitment_permit_count() co
 
     auto results = permit_count_analyzer.analyze();
     if (!results) {
-        Log.warn("Failed to recognize recruitment permit count");
+        LogWarn << "Failed to recognize recruitment permit count";
         return std::nullopt;
     }
 
@@ -122,10 +123,10 @@ std::optional<int> asst::RecruitImageAnalyzer::get_recruitment_permit_count() co
             continue;
         }
 
-        Log.info("Recruitment permit count:", current);
+        LogInfo << "Recruitment permit count:" << current;
         return current;
     }
 
-    Log.warn("Failed to parse recruitment permit count from OCR results:", *results);
+    LogWarn << "Failed to parse recruitment permit count from OCR results:" << *results;
     return std::nullopt;
 }

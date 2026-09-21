@@ -107,7 +107,7 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
         bool is_legal = true;
         if (std::ranges::find_if_not(raw_roles | std::views::all, std::mem_fn(&json::value::is_string)) !=
             raw_roles.end()) {
-            Log.error("Role should be string");
+            LogError << "Role should be string";
             return false;
         }
         auto roles = raw_roles | filter(&json::value::is_string) | transform(&json::value::as_string) |
@@ -118,12 +118,12 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
         for (const std::string& role_name : roles) {
             const auto role = get_role_type(role_name);
             if (role == Role::Unknown) [[unlikely]] {
-                Log.error("Unknown Role:", role_name);
+                LogError << "Unknown Role:" << role_name;
                 is_legal = false;
                 break;
             }
             if (specified_role.contains(role)) [[unlikely]] {
-                Log.error("Duplicated Role:", role_name);
+                LogError << "Duplicated Role:" << role_name;
                 is_legal = false;
                 break;
             }
@@ -135,13 +135,13 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
                 RoleOrder | filter([&](Role role) { return !specified_role.contains(role); }),
                 std::back_inserter(role_order));
             if (role_order.size() != RoleNumber) [[unlikely]] {
-                Log.error("Unexpected role_order size:", role_order.size());
+                LogError << "Unexpected role_order size:" << role_order.size();
                 return false;
             }
             std::ranges::move(role_order, data.role_order.begin());
         }
         else {
-            Log.error("Illegal role_order detected");
+            LogError << "Illegal role_order detected";
             return false;
         }
     }
@@ -161,7 +161,7 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
                 fd_dir.direction = DeployDirection::None;
             }
             if (fd_dir.direction == DeployDirection::None) [[unlikely]] {
-                Log.error("Unknown direction");
+                LogError << "Unknown direction";
                 return false;
             }
             std::unordered_set<Role> fd_role;

@@ -27,7 +27,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::load_params(const json::value& 
 
     m_expected_clp_pds =
         params.get("expected_collapsal_paradigms", RoguelikeCollapsalParadigms.get_rare_clp_pds(theme));
-    Log.info(__FUNCTION__, "| Expected collapsal paradigms are", m_expected_clp_pds);
+    LogInfo << __FUNCTION__ << "| Expected collapsal paradigms are" << m_expected_clp_pds;
 
     // 从 tasks.json 获取插件设置，由于仅有萨米肉鸽使用，任务名暂定写死
     const auto& bannerCheckConfig = Task.get<OcrTaskInfo>(theme + "@Roguelike@CollapsalParadigmTaskBannerCheckConfig");
@@ -149,7 +149,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_banner()
         OCRer analyzer2(image); // 检测坍缩范式名
         analyzer2.set_task_info(theme + "@Roguelike@CheckCollapsalParadigmsBanner");
         if (!analyzer2.analyze()) {
-            Log.info(m_banner_check_error_message);
+            LogInfo << m_banner_check_error_message;
             return;
         }
 
@@ -165,13 +165,13 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_banner()
         while (result_it1 != ocr_results1.end() && result_it2 != ocr_results2.end()) {
             // 如果坍缩范式名与坍缩范式变动之间的距离太远，则提示识别出错，跳到下一个坍缩范式变动
             if (result_it2->rect.y >= result_it1->rect.y + result_it1->rect.height + 25) {
-                Log.info(m_banner_check_error_message);
+                LogInfo << m_banner_check_error_message;
                 ++result_it1;
                 continue;
             }
             // 如果坍缩范式名在坍缩范式变动之前，则提示识别出错，跳到下一个坍缩范式名
             else if (result_it2->rect.y <= result_it1->rect.y) {
-                Log.info(m_banner_check_error_message);
+                LogInfo << m_banner_check_error_message;
                 ++result_it2;
                 continue;
             }
@@ -240,7 +240,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_panel()
 
 #ifdef ASST_DEBUG
     if (m_verification_check) {
-        Log.info(__FUNCTION__, "| Verification");
+        LogInfo << __FUNCTION__ << "| Verification";
     }
 #endif
 
@@ -290,15 +290,15 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_panel()
         return;
     }
     else if (m_verification_check) {
-        Log.info(__FUNCTION__, "| Verification Failed");
+        LogInfo << __FUNCTION__ << "| Verification Failed";
 #ifdef ASST_DEBUG
-        Log.info("–––––––– Previous ––––––––––––––");
+        LogInfo << "–––––––– Previous ––––––––––––––";
         for (const std::string& clp_pd : prev_clp_pds) {
-            Log.info(clp_pd);
+            LogInfo << clp_pd;
         }
-        Log.info("–––––––– Current –––––––––––––––");
+        LogInfo << "–––––––– Current –––––––––––––––";
         for (const std::string& clp_pd : cur_clp_pds) {
-            Log.info(clp_pd);
+            LogInfo << clp_pd;
         }
 #endif
     }
@@ -395,7 +395,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::new_zone() const
     if (zone != m_zone) {
         m_zone = zone;
 #ifdef ASST_DEBUG
-        Log.info(__FUNCTION__, "Current Zone is " + m_zone);
+        LogInfo << __FUNCTION__ << "Current Zone is " + m_zone;
 #endif
         return true;
     }

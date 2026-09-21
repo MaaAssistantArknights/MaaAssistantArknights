@@ -54,7 +54,7 @@ bool asst::BattleDataConfig::parse(const json::value& json)
             { "ALL", battle::LocationType::All },
         };
         if (auto iter = PositionMap.find(char_data_json.get("position", "")); iter == PositionMap.cend()) {
-            Log.warn("Unknown position", char_data_json.get("position", ""));
+            LogWarn << "Unknown position" << char_data_json.get("position", "");
             data_ptr->location_type = battle::LocationType::Invalid;
         }
         else {

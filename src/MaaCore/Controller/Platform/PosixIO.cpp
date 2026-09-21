@@ -58,11 +58,11 @@ std::optional<int> asst::PosixIO::call_command(
     int pipe_out[2] {};
 
     if (::pipe(pipe_in) != 0) {
-        Log.error("pipe() failed:", std::strerror(errno));
+        LogError << "pipe() failed:" << std::strerror(errno);
         return std::nullopt;
     }
     if (::pipe(pipe_out) != 0) {
-        Log.error("pipe() failed:", std::strerror(errno));
+        LogError << "pipe() failed:" << std::strerror(errno);
         ::close(pipe_in[0]);
         ::close(pipe_in[1]);
         return std::nullopt;
@@ -84,7 +84,7 @@ std::optional<int> asst::PosixIO::call_command(
         // TODO: close all other fds
 
         execlp("sh", "sh", "-c", cmd.c_str(), nullptr);
-        Log.error("exec failed:", std::strerror(errno));
+        LogError << "exec failed:" << std::strerror(errno);
         // 必须终止子进程：返回会让 child 在 parent 地址空间的副本里继续 unwind，
         // 释放 m_callcmd_mutex、双重析构 fd、kill(0, ...) 误杀整个进程组。
         // 退出码沿用 POSIX shell 约定的 127（command not found）。
@@ -96,14 +96,14 @@ std::optional<int> asst::PosixIO::call_command(
         // failed to create child process
         ::close(pipe_in[PIPE_WRITE]);
         ::close(pipe_out[PIPE_READ]);
-        Log.error("Call `", cmd, "` create process failed:", std::strerror(errno));
+        LogError << "Call `" << cmd << "` create process failed:" << std::strerror(errno);
         return std::nullopt;
     }
 
     // parent process
     auto kill_child = [&]() {
         ::kill(m_child, SIGTERM);
-        Log.error("Killing child `", cmd, "`, pid:", m_child);
+        LogError << "Killing child `" << cmd << "`, pid:" << m_child;
         ::kill(m_child, SIGKILL);
         ::waitpid(m_child, &exit_ret, 0);
     };
@@ -119,7 +119,7 @@ std::optional<int> asst::PosixIO::call_command(
                 auto elapsed = duration_cast<milliseconds>(steady_clock::now() - start_time).count();
                 auto remaining = timeout - elapsed;
                 if (remaining <= 0) {
-                    Log.warn("timeout when waiting socket connection, killing child:", m_child);
+                    LogWarn << "timeout when waiting socket connection, killing child:" << m_child;
                     kill_child();
                     return std::nullopt;
                 }
@@ -133,7 +133,7 @@ std::optional<int> asst::PosixIO::call_command(
                         break;
                     }
 
-                    Log.warn("socket connection failed before timeout, killing child:", m_child);
+                    LogWarn << "socket connection failed before timeout, killing child:" << m_child;
                     kill_child();
                     return std::nullopt;
                 }
@@ -141,13 +141,13 @@ std::optional<int> asst::PosixIO::call_command(
                     continue;
                 }
 
-                Log.error("poll() failed:", std::strerror(errno));
+                LogError << "poll() failed:" << std::strerror(errno);
                 kill_child();
                 return std::nullopt;
             }
 
             if (!socket_ready) {
-                Log.warn("socket connection is interrupted, killing child:", m_child);
+                LogWarn << "socket connection is interrupted, killing child:" << m_child;
                 kill_child();
                 return std::nullopt;
             }
@@ -155,9 +155,9 @@ std::optional<int> asst::PosixIO::call_command(
 
         int client_socket = ::accept(m_server_sock, &addr, &len);
         if (client_socket < 0) {
-            Log.error("accept failed:", strerror(errno));
+            LogError << "accept failed:" << strerror(errno);
             ::kill(m_child, SIGTERM);
-            Log.error("Killing child `", cmd, "`, pid:", m_child);
+            LogError << "Killing child `" << cmd << "`, pid:" << m_child;
             ::kill(m_child, SIGKILL);
             ::waitpid(m_child, &exit_ret, 0);
             return std::nullopt;
@@ -195,7 +195,7 @@ std::optional<int> asst::PosixIO::call_command(
             break;
         }
         if (check_timeout()) {
-            Log.warn("timeout when reading the output, killing child:", m_child);
+            LogWarn << "timeout when reading the output, killing child:" << m_child;
             break;
         }
     }
@@ -205,7 +205,7 @@ std::optional<int> asst::PosixIO::call_command(
 
     if (!child_exited) {
         ::kill(m_child, SIGTERM);
-        Log.error("Killing child `", cmd, "`, pid:", m_child);
+        LogError << "Killing child `" << cmd << "`, pid:" << m_child;
         ::kill(m_child, SIGKILL);
         ::waitpid(m_child, &exit_ret, 0);
     }
@@ -238,13 +238,13 @@ std::optional<unsigned short> asst::PosixIO::init_socket(const std::string& loca
     server_start = bind_ret == 0 && getname_ret == 0 && listen_ret == 0 && timeout_ret == 0;
 
     if (!server_start) {
-        Log.info("not supports socket");
+        LogInfo << "not supports socket";
         return std::nullopt;
     }
 
     port_result = ntohs(m_server_sock_addr.sin_port);
 
-    Log.info("command server start", local_address, port_result);
+    LogInfo << "command server start" << local_address << port_result;
     return port_result;
 }
 
@@ -278,7 +278,7 @@ std::shared_ptr<asst::IOHandler> asst::PosixIO::interactive_shell(const std::str
         ::close(pipe_to_child[1]);
         ::close(pipe_from_child[0]);
         ::close(pipe_from_child[1]);
-        Log.error("fork failed:", strerror(errno));
+        LogError << "fork failed:" << strerror(errno);
         return nullptr;
     }
     if (pid == 0) {
@@ -359,7 +359,7 @@ bool asst::IOHandlerPosix::write(std::string_view data)
     if (::write(m_write_fd, data.data(), data.length()) >= 0) {
         return true;
     }
-    Log.error("Failed to write to IOHandlerPosix, err", errno);
+    LogError << "Failed to write to IOHandlerPosix, err" << errno;
     return false;
 }
 

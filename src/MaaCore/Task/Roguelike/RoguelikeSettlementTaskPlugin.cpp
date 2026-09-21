@@ -47,7 +47,7 @@ bool asst::RoguelikeSettlementTaskPlugin::_run()
     sleep(task->pre_delay);
 
     if (!wait_for_whole_page()) {
-        Log.error(__FUNCTION__, "wait for whole page failed");
+        LogError << __FUNCTION__ << "wait for whole page failed";
         save_img(ctrler()->get_image(), utils::path("debug") / utils::path("roguelike"), "Page2_Error");
         return true;
     }
@@ -68,7 +68,7 @@ bool asst::RoguelikeSettlementTaskPlugin::get_settlement_info(json::value& info,
     const auto& append_data = [&](std::string task_name, const std::string& ocr_result) {
         int num = -1;
         if (!utils::chars_to_number(ocr_result, num)) {
-            Log.error(__FUNCTION__, "convert str to int failed, task:", task_name, ", string:", ocr_result);
+            LogError << __FUNCTION__ << "convert str to int failed, task:" << task_name << ", string:" << ocr_result;
             return;
         }
 
@@ -84,7 +84,7 @@ bool asst::RoguelikeSettlementTaskPlugin::get_settlement_info(json::value& info,
         merge_map.emplace_back("[^\\d]+", "");
         ocr.set_replace(merge_map);
         if (!ocr.analyze()) {
-            Log.error(__FUNCTION__, "analyze battle data failed, task:", task_name);
+            LogError << __FUNCTION__ << "analyze battle data failed, task:" << task_name;
             return;
         }
         append_data(task_name, ocr.get_result().text);
@@ -99,7 +99,7 @@ bool asst::RoguelikeSettlementTaskPlugin::get_settlement_info(json::value& info,
         std::ranges::copy(task_replace, std::back_inserter(merge_map));
         ocr.set_replace(merge_map);
         if (!ocr.analyze()) {
-            Log.error(__FUNCTION__, "analyze battle data failed, task:", task_name);
+            LogError << __FUNCTION__ << "analyze battle data failed, task:" << task_name;
             return;
         }
 
@@ -142,7 +142,7 @@ bool asst::RoguelikeSettlementTaskPlugin::wait_for_whole_page()
         if (matcher.analyze()) {
             return true;
         }
-        Log.error(__FUNCTION__, "RoguelikeSettlementConfirm match failed, retry:", retry);
+        LogError << __FUNCTION__ << "RoguelikeSettlementConfirm match failed, retry:" << retry;
         ++retry;
         sleep(Config.get_options().task_delay);
     } while (!need_exit() && retry < 20);

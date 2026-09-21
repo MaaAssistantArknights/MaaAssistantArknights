@@ -82,7 +82,7 @@ MultiMatcher::ResultsVecOpt MultiMatcher::analyze() const
 #endif
 
     if (m_log_tracing) {
-        Log.trace("multi_match | ", "result:", results, "roi:", m_roi);
+        LogTrace << "multi_match | " << "result:" << results << "roi:" << m_roi;
     }
 
     // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉

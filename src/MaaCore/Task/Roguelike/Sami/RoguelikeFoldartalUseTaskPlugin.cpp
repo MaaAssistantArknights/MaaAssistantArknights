@@ -88,7 +88,7 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::_run()
     std::vector<RoguelikeFoldartalCombination> combination = RoguelikeFoldartal.get_combination(m_config->get_theme());
 
     auto foldartal_list = m_config->status().foldartal_list;
-    Log.trace("All foldartal got yet:", foldartal_list);
+    LogTrace << "All foldartal got yet:" << foldartal_list;
     auto filter =
         std::views::filter([&](const RoguelikeFoldartalCombination& usage) { return m_stage == usage.usage; });
     for (const auto& comb : combination | filter) {
@@ -137,40 +137,40 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(
                  */
                 // 直接结束任务
                 if (result == UseBoardResult::ClickFoldartalError) {
-                    Log.info("Click foldartal error! Return");
+                    LogInfo << "Click foldartal error! Return";
                     return;
                 }
                 if (result == UseBoardResult::UnknownError) {
-                    Log.info("Unknown error! Return");
+                    LogInfo << "Unknown error! Return";
                     return;
                 }
                 // 涉及上板子的错误，跳出循环
                 if (result == UseBoardResult::StageNotFound) {
                     boards_to_skip.emplace(up_board);
-                    Log.info("Stage not found! Skip up board:", up_board);
+                    LogInfo << "Stage not found! Skip up board:" << up_board;
                     break;
                 }
                 if (result == UseBoardResult::UpBoardNotFound) {
                     list.erase(std::ranges::find(list, up_board));
-                    Log.info("Up board not found! Delete up board:", up_board);
+                    LogInfo << "Up board not found! Delete up board:" << up_board;
                     break;
                 }
                 // 涉及下板子的错误，继续循环
                 if (result == UseBoardResult::CanNotUseConfirm) {
                     boards_to_skip.emplace(down_board);
-                    Log.info("Can not use confirm! Skip down board:", down_board);
+                    LogInfo << "Can not use confirm! Skip down board:" << down_board;
                     continue;
                 }
                 if (result == UseBoardResult::DownBoardNotFound) {
                     list.erase(std::ranges::find(list, down_board));
-                    Log.info("Down board not found! Delete down board:", down_board);
+                    LogInfo << "Down board not found! Delete down board:" << down_board;
                     continue;
                 }
                 // 正常使用板子，用完删除上板子和下板子
                 if (result == UseBoardResult::UseBoardResultSuccess) {
                     list.erase(std::ranges::find(list, up_board));
                     list.erase(std::ranges::find(list, down_board));
-                    Log.trace("Board pair used, up:", up_board, ", down:", down_board);
+                    LogTrace << "Board pair used, up:" << up_board << ", down:" << down_board;
                     break;
                 }
             }
@@ -187,7 +187,7 @@ asst::RoguelikeFoldartalUseTaskPlugin::UseBoardResult
 {
     LogTraceFunction;
 
-    Log.trace("Try to use the board pair", up_board, down_board);
+    LogTrace << "Try to use the board pair" << up_board << down_board;
 
     if (!ProcessTask(*this, { m_config->get_theme() + "@Roguelike@Foldartal" }).run()) {
         return UseBoardResult::ClickFoldartalError;
@@ -196,7 +196,7 @@ asst::RoguelikeFoldartalUseTaskPlugin::UseBoardResult
     Matcher matcher(ctrler()->get_image());
     matcher.set_task_info(m_config->get_theme() + "@Roguelike@FoldartalBack");
     if (!matcher.analyze()) {
-        Log.error("Matcher Back failed");
+        LogError << "Matcher Back failed";
         return UseBoardResult::ClickFoldartalError;
     }
 
@@ -224,7 +224,7 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::search_and_click_board(const std::st
 {
     LogTraceFunction;
 
-    Log.trace("Search and click the board", board);
+    LogTrace << "Search and click the board" << board;
 
     constexpr int max_retry = 10;
     int try_time = 0;
@@ -250,7 +250,7 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::search_and_click_stage() const
 {
     LogTraceFunction;
 
-    Log.trace("Try to click stage", m_stage);
+    LogTrace << "Try to click stage" << m_stage;
     // todo:根据坐标换算位置,根据节点类型设置识别优先度
 
     // 重置到最左边

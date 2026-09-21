@@ -52,14 +52,14 @@ std::optional<asst::InfrastTrainingTask::TrainingStatus> asst::InfrastTrainingTa
         name_analyzer.set_replace(task_replace);
         name_analyzer.set_use_raw(true);
         if (!name_analyzer.analyze()) {
-            Log.error(__FUNCTION__, "operator name recognition failed");
+            LogError << __FUNCTION__ << "operator name recognition failed";
             return std::nullopt;
         }
 
         std::string name_str = name_analyzer.get_result().text;
         size_t separation_pos = name_str.find('\n');
         if (separation_pos == std::string::npos) {
-            Log.error(__FUNCTION__, "separate string failed");
+            LogError << __FUNCTION__ << "separate string failed";
             return std::nullopt;
         }
 
@@ -72,14 +72,14 @@ std::optional<asst::InfrastTrainingTask::TrainingStatus> asst::InfrastTrainingTa
         skill_analyzer.set_task_info("InfrastTrainingOperatorAndSkill");
         skill_analyzer.set_use_raw(true);
         if (!skill_analyzer.analyze()) {
-            Log.error(__FUNCTION__, "skill name recognition failed");
+            LogError << __FUNCTION__ << "skill name recognition failed";
             return std::nullopt;
         }
 
         std::string skill_str = skill_analyzer.get_result().text;
         size_t separation_pos = skill_str.find('\n');
         if (separation_pos == std::string::npos) {
-            Log.error(__FUNCTION__, "separate string failed");
+            LogError << __FUNCTION__ << "separate string failed";
             return std::nullopt;
         }
 
@@ -90,7 +90,7 @@ std::optional<asst::InfrastTrainingTask::TrainingStatus> asst::InfrastTrainingTa
     // m_operator_role = BattleData.get_role(m_operator_name);
 
     if (!level_analyze(image)) {
-        Log.error(__FUNCTION__, "analyze level failed");
+        LogError << __FUNCTION__ << "analyze level failed";
         return std::nullopt;
     }
 
@@ -137,7 +137,7 @@ bool asst::InfrastTrainingTask::level_analyze(const cv::Mat& image)
     }
     const auto& res = analyzer.get_result();
     utils::chars_to_number(res.templ_info.name.substr(task_name.size(), 1), m_level);
-    Log.info(__FUNCTION__, "level has been set to ", m_level);
+    LogInfo << __FUNCTION__ << "level has been set to " << m_level;
 
     return true;
 }
@@ -158,7 +158,7 @@ std::optional<std::string> asst::InfrastTrainingTask::time_left_analyze(const cv
     }
     const auto& text = analyzer.get_result().text;
     if (text.empty() || text.find(":") == std::string::npos) {
-        Log.error(__FUNCTION__, "time left analyze failed");
+        LogError << __FUNCTION__ << "time left analyze failed";
         return std::nullopt;
     }
     return text;

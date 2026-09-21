@@ -54,7 +54,7 @@ BestMatcher::ResultOpt BestMatcher::analyze() const
     }
 
     if (m_log_tracing) {
-        Log.trace("The best match is", result.to_string(), result.templ_info.name);
+        LogTrace << "The best match is" << result.to_string() << result.templ_info.name;
     }
     m_result = std::move(result);
     return m_result;

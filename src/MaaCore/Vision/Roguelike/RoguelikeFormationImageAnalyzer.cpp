@@ -59,7 +59,7 @@ bool asst::RoguelikeFormationImageAnalyzer::selected_analyze(const Rect& roi)
     // mask. Thus, we count and compare white pixels in upper half (where the digits were) and lower half.
     int upper = cv::countNonZero(bin(cv::Rect(bin.cols / 4, 0, bin.cols / 2, bin.rows / 2)));
     int lower = cv::countNonZero(bin(cv::Rect(bin.cols / 4, bin.rows / 2, bin.cols / 2, bin.rows / 2)));
-    Log.trace("selected_analyze |", upper, ':', lower);
+    LogTrace << "selected_analyze |" << upper << ':' << lower;
 
     return upper > 250 && lower < 2;
 }

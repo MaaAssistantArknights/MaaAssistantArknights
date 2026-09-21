@@ -25,7 +25,7 @@ std::optional<size_t>
 void asst::RoguelikeMap::add_edge(const size_t& source, const size_t& target)
 {
     if (source >= m_nodes.size() || target >= m_nodes.size()) {
-        Log.error(__FUNCTION__, "| node does not exist");
+        LogError << __FUNCTION__ << "| node does not exist";
         return;
     }
 
@@ -33,17 +33,17 @@ void asst::RoguelikeMap::add_edge(const size_t& source, const size_t& target)
     const RoguelikeNodePtr& target_node = m_nodes.at(target);
     source_node->succs.emplace_back(target);
     target_node->preds.emplace_back(source);
-    Log.info(__FUNCTION__, "| Node", source, "-> Node", target);
+    LogInfo << __FUNCTION__ << "| Node" << source << "-> Node" << target;
 }
 
 void asst::RoguelikeMap::set_curr_pos(const size_t& node_index)
 {
     if (node_index >= m_nodes.size()) {
-        Log.error(__FUNCTION__, "| node does not exist");
+        LogError << __FUNCTION__ << "| node does not exist";
         return;
     }
 
-    Log.info(__FUNCTION__, "| move from Node", m_curr_pos, "to Node ", node_index);
+    LogInfo << __FUNCTION__ << "| move from Node" << m_curr_pos << "to Node " << node_index;
     m_curr_pos = node_index;
 }
 
@@ -77,7 +77,7 @@ size_t asst::RoguelikeMap::get_column_begin(const size_t& column) const
         return INIT_INDEX;
     }
     if (column >= m_column_indices.size()) {
-        Log.warn(__FUNCTION__, "| column does not exist");
+        LogWarn << __FUNCTION__ << "| column does not exist";
         return m_nodes.size();
     }
     return m_column_indices.at(column - 1);
@@ -86,7 +86,7 @@ size_t asst::RoguelikeMap::get_column_begin(const size_t& column) const
 size_t asst::RoguelikeMap::get_column_end(const size_t& column) const
 {
     if (column >= m_column_indices.size()) {
-        Log.warn(__FUNCTION__, "| column does not exist");
+        LogWarn << __FUNCTION__ << "| column does not exist";
         return m_nodes.size();
     }
     return m_column_indices.at(column);
@@ -97,7 +97,7 @@ size_t asst::RoguelikeMap::get_next_node() const
     const RoguelikeNodePtr curr = m_nodes.at(m_curr_pos);
 
     if (curr->succs.empty()) {
-        Log.error(__FUNCTION__, "| no successor nodes");
+        LogError << __FUNCTION__ << "| no successor nodes";
         return m_curr_pos;
     }
 
@@ -137,7 +137,7 @@ DEFINE_GET_NODE_FIELD(int, refresh_times)
 asst::RoguelikeNodeType asst::RoguelikeMap::get_node_type(const size_t& node_index) const
 {
     if (node_index >= m_nodes.size()) {
-        Log.error(__FUNCTION__, "| node does not exist");
+        LogError << __FUNCTION__ << "| node does not exist";
     }
 
     return m_nodes.at(node_index)->type;
@@ -146,7 +146,7 @@ asst::RoguelikeNodeType asst::RoguelikeMap::get_node_type(const size_t& node_ind
 size_t asst::RoguelikeMap::get_node_column(const size_t& node_index) const
 {
     if (node_index >= m_nodes.size()) {
-        Log.error(__FUNCTION__, "| node does not exist");
+        LogError << __FUNCTION__ << "| node does not exist";
     }
 
     return m_nodes.at(node_index)->column;
@@ -155,7 +155,7 @@ size_t asst::RoguelikeMap::get_node_column(const size_t& node_index) const
 int asst::RoguelikeMap::get_node_y(const size_t& node_index) const
 {
     if (node_index >= m_nodes.size()) {
-        Log.error(__FUNCTION__, "| node does not exist");
+        LogError << __FUNCTION__ << "| node does not exist";
     }
 
     return m_nodes.at(node_index)->y;
@@ -164,7 +164,7 @@ int asst::RoguelikeMap::get_node_y(const size_t& node_index) const
 bool asst::RoguelikeMap::get_node_visited(const size_t& node_index) const
 {
     if (node_index >= m_nodes.size()) {
-        Log.error(__FUNCTION__, "| node does not exist");
+        LogError << __FUNCTION__ << "| node does not exist";
     }
 
     return m_nodes.at(node_index)->visited;
@@ -173,7 +173,7 @@ bool asst::RoguelikeMap::get_node_visited(const size_t& node_index) const
 std::vector<size_t> asst::RoguelikeMap::get_node_succs(const size_t& node_index) const
 {
     if (node_index >= m_nodes.size()) {
-        Log.error(__FUNCTION__, "| node does not exist");
+        LogError << __FUNCTION__ << "| node does not exist";
     }
 
     return m_nodes.at(node_index)->succs;
@@ -182,7 +182,7 @@ std::vector<size_t> asst::RoguelikeMap::get_node_succs(const size_t& node_index)
 std::vector<size_t> asst::RoguelikeMap::get_node_preds(const size_t& node_index) const
 {
     if (node_index >= m_nodes.size()) {
-        Log.error(__FUNCTION__, "| node does not exist");
+        LogError << __FUNCTION__ << "| node does not exist";
     }
 
     return m_nodes.at(node_index)->preds;
@@ -191,7 +191,7 @@ std::vector<size_t> asst::RoguelikeMap::get_node_preds(const size_t& node_index)
 int asst::RoguelikeMap::get_node_cost(const size_t& node_index) const
 {
     if (node_index >= m_nodes.size()) {
-        Log.error(__FUNCTION__, "| node does not exist");
+        LogError << __FUNCTION__ << "| node does not exist";
     }
 
     return m_nodes.at(node_index)->cost;
@@ -200,7 +200,7 @@ int asst::RoguelikeMap::get_node_cost(const size_t& node_index) const
 int asst::RoguelikeMap::get_node_refresh_times(const size_t& node_index) const
 {
     if (node_index >= m_nodes.size()) {
-        Log.error(__FUNCTION__, "| node does not exist");
+        LogError << __FUNCTION__ << "| node does not exist";
     }
 
     return m_nodes.at(node_index)->refresh_times;
@@ -233,17 +233,17 @@ std::optional<size_t> asst::RoguelikeMap::insert_node(const RoguelikeNodePtr& no
 {
     // 第一个 node 必须为 init node
     if (column != INIT_INDEX && m_nodes.empty()) [[unlikely]] {
-        Log.error(__FUNCTION__, "| insert node to column", column, "before init node");
+        LogError << __FUNCTION__ << "| insert node to column" << column << "before init node";
         return std::nullopt;
     }
     // 只允许有一个 init node
     if (column == INIT_INDEX && column < m_column_indices.size() && m_column_indices.at(column) > 0) [[unlikely]] {
-        Log.error(__FUNCTION__, "| init node has already exist");
+        LogError << __FUNCTION__ << "| init node has already exist";
         return std::nullopt;
     }
     // 边界鉴定
     if (column > std::numeric_limits<int>::max()) [[unlikely]] { // to avoid narrowing conversion
-        Log.error(__FUNCTION__, "| column index", column, "is out of boundary");
+        LogError << __FUNCTION__ << "| column index" << column << "is out of boundary";
         return std::nullopt;
     }
 
@@ -256,7 +256,7 @@ std::optional<size_t> asst::RoguelikeMap::insert_node(const RoguelikeNodePtr& no
 
     // 边界鉴定
     if (index > std::numeric_limits<int>::max()) [[unlikely]] { // to avoid narrowing conversion
-        Log.error(__FUNCTION__, "| node index", index, "is out of boundary");
+        LogError << __FUNCTION__ << "| node index" << index << "is out of boundary";
         return std::nullopt;
     }
 

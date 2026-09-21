@@ -37,7 +37,7 @@ bool asst::ReclamationTask::set_params(const json::value& params)
     const auto& mode = m_config_ptr->get_mode();
 
     if (theme == ReclamationTheme::Fire) {
-        Log.info(__FUNCTION__, "Reclamation Algorithm theme", theme, "is no longer available");
+        LogInfo << __FUNCTION__ << "Reclamation Algorithm theme" << theme << "is no longer available";
         m_reclamation_task_ptr->set_tasks({ "Stop" });
         return true;
     }

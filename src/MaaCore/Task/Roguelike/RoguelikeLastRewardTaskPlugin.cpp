@@ -10,7 +10,7 @@ bool asst::RoguelikeLastRewardTaskPlugin::verify(AsstMsg msg, const json::value&
     }
 
     if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
-        Log.error("Roguelike name doesn't exist!");
+        LogError << "Roguelike name doesn't exist!";
         return false;
     }
     const std::string roguelike_name = m_config->get_theme() + "@";
@@ -37,7 +37,7 @@ bool asst::RoguelikeLastRewardTaskPlugin::_run()
     std::string strategy_task_name = stages_task_name + "_default";
 
     if (Task.get(strategy_task_name) == nullptr) {
-        Log.error("Strategy task", strategy_task_name, "doesn't exist!");
+        LogError << "Strategy task" << strategy_task_name << "doesn't exist!";
     }
     else {
         // 重置选点策略

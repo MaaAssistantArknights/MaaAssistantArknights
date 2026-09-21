@@ -19,7 +19,7 @@ bool asst::AccountSwitchTask::_run()
     }
 
     if (m_account.empty()) {
-        Log.error(__FUNCTION__, "account is empty");
+        LogError << __FUNCTION__ << "account is empty";
         return false;
     }
 
@@ -35,7 +35,7 @@ bool asst::AccountSwitchTask::_run()
     // 当前账号就是想要的
     bool equal = false;
 
-    Log.info(m_client_type);
+    LogInfo << m_client_type;
     if (m_client_type == "Official" || m_client_type == "txwy" || m_client_type == "YoStarKR") {
         equal = equal_current_account();
     }

@@ -74,7 +74,7 @@ int asst::CreditShoppingTask::credit_ocr()
     credit_analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
 
     if (!credit_analyzer.analyze()) {
-        Log.trace("ERROR:!credit_analyzer.analyze():");
+        LogTrace << "ERROR:!credit_analyzer.analyze():";
         return -1;
     }
 
@@ -84,7 +84,7 @@ int asst::CreditShoppingTask::credit_ocr()
         return -1;
     }
 
-    Log.trace("credit:", credit);
+    LogTrace << "credit:" << credit;
 
     return std::stoi(credit);
 }
@@ -108,7 +108,7 @@ int asst::CreditShoppingTask::discount_ocr(const asst::Rect& commodity)
 
     std::string discount = discount_analyzer.get_result().front().text;
 
-    Log.trace("discount:", discount);
+    LogTrace << "discount:" << discount;
 
     if (discount.size() != 2) {
         return 0;
@@ -202,11 +202,8 @@ bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool sho
 
 bool asst::CreditShoppingTask::_run()
 {
-    Log.trace(
-        "CreditShopping: m_is_white_list:",
-        m_is_white_list,
-        " m_force_shopping_if_credit_full: ",
-        m_force_shopping_if_credit_full);
+    LogTrace << "CreditShopping: m_is_white_list:" << m_is_white_list
+             << " m_force_shopping_if_credit_full: " << m_force_shopping_if_credit_full;
 
     if (!m_force_shopping_if_credit_full) {
         return credit_shopping(true, false);

@@ -483,7 +483,7 @@ void asst::DebugTask::test_drops()
         StageDropsImageAnalyzer analyzer(resized);
         success += analyzer.analyze();
     }
-    Log.info(__FUNCTION__, success, "/", total);
+    LogInfo << __FUNCTION__ << success << "/" << total;
 }
 
 void asst::DebugTask::test_skill_ready()
@@ -499,17 +499,8 @@ void asst::DebugTask::test_skill_ready()
         total++;
         auto result = analyzer.analyze()->skill_ready;
         // 记录日志：文件、预期结果、实际预测、得分、概率信息
-        Log.info(
-            __FUNCTION__,
-            "File: ",
-            entry.path().string(),
-            " | Expected: Y (ready: true)",
-            " | Predicted: ",
-            result.ready,
-            " | Score: ",
-            result.score,
-            " | Prob: ",
-            result.prob);
+        LogInfo << __FUNCTION__ << "File: " << entry.path().string() << " | Expected: Y (ready: true)"
+                << " | Predicted: " << result.ready << " | Score: " << result.score << " | Prob: " << result.prob;
         if (result.ready) {
             correct++;
         }
@@ -522,17 +513,8 @@ void asst::DebugTask::test_skill_ready()
         analyzer.set_object_of_interest({ .skill_ready = true });
         total++;
         auto result = analyzer.analyze()->skill_ready;
-        Log.info(
-            __FUNCTION__,
-            "File: ",
-            entry.path().string(),
-            " | Expected: N (ready: false)",
-            " | Predicted: ",
-            result.ready,
-            " | Score: ",
-            result.score,
-            " | Prob: ",
-            result.prob);
+        LogInfo << __FUNCTION__ << "File: " << entry.path().string() << " | Expected: N (ready: false)"
+                << " | Predicted: " << result.ready << " | Score: " << result.score << " | Prob: " << result.prob;
         if (!result.ready) {
             correct++;
         }
@@ -545,23 +527,14 @@ void asst::DebugTask::test_skill_ready()
         analyzer.set_object_of_interest({ .skill_ready = true });
         total++;
         auto result = analyzer.analyze()->skill_ready;
-        Log.info(
-            __FUNCTION__,
-            "File: ",
-            entry.path().string(),
-            " | Expected: C (ready: false)",
-            " | Predicted: ",
-            result.ready,
-            " | Score: ",
-            result.score,
-            " | Prob: ",
-            result.prob);
+        LogInfo << __FUNCTION__ << "File: " << entry.path().string() << " | Expected: C (ready: false)"
+                << " | Predicted: " << result.ready << " | Score: " << result.score << " | Prob: " << result.prob;
         if (!result.ready) {
             correct++;
         }
     }
 
-    Log.info(__FUNCTION__, "Final Accuracy: ", correct, "/", total, " (", double(correct) / total, ")");
+    LogInfo << __FUNCTION__ << "Final Accuracy: " << correct << "/" << total << " (" << double(correct) / total << ")";
 }
 
 void asst::DebugTask::test_battle_image()
@@ -587,11 +560,11 @@ void asst::DebugTask::test_match_template()
         const auto& result_opt = match_analyzer.analyze();
         if (result_opt) {
             const auto& result = result_opt.value().to_string();
-            Log.info("active", path, task_name, result);
+            LogInfo << "active" << path << task_name << result;
             return result_opt.value().score;
         }
         else {
-            Log.info("inactive", path, task_name);
+            LogInfo << "inactive" << path << task_name;
             return 0.;
         }
     };

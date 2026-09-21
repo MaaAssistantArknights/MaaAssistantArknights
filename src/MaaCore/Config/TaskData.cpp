@@ -62,7 +62,7 @@ asst::TaskPtr asst::TaskData::get(std::string_view name_view)
     }
     else {
         // 个数超过上限时不保存，直接返回，防止内存占用过大
-        Log.warn("Task count has exceeded the upper limit:", MAX_TASKS_SIZE, "current task:", name);
+        LogWarn << "Task count has exceeded the upper limit:" << MAX_TASKS_SIZE << "current task:" << name;
         return task;
     }
 }
@@ -72,7 +72,7 @@ bool asst::TaskData::lazy_parse(const json::value& json)
     LogTraceFunction;
 
     if (!json.is_object()) {
-        Log.error("parameter json is not a json::object");
+        LogError << "parameter json is not a json::object";
         return false;
     }
 
@@ -84,7 +84,7 @@ bool asst::TaskData::lazy_parse(const json::value& json)
             std::string base_task = task_json.get("baseTask", "");
 #ifdef ASST_DEBUG
             if (base_task.empty()) {
-                Log.error("Task", name, "has empty baseTask");
+                LogError << "Task" << name << "has empty baseTask";
             }
 #endif
             if (base_task == "#none") {
@@ -126,7 +126,7 @@ bool asst::TaskData::lazy_parse(const json::value& json)
             task_queue.pop();
             auto task = get(name);
             if (task == nullptr) [[unlikely]] {
-                Log.error("Task", name, "not successfully generated");
+                LogError << "Task" << name << "not successfully generated";
                 validity = false;
                 continue;
             }
@@ -183,7 +183,7 @@ bool asst::TaskData::lazy_parse(const json::value& json)
                     match_task->methods.cend() &&
                 match_task->color_scales.empty()) {
                 // RGBCount 和 HSVCount 必须有 color_scales
-                Log.error("Task", name, "with Count method has empty color_scales");
+                LogError << "Task" << name << "with Count method has empty color_scales";
                 validity = false;
             }
             // 用于解决 a8d68dd72df6eef1d2f8feed3883299922ec1a17 类似的潜在regex非法问题
@@ -208,10 +208,10 @@ bool asst::TaskData::lazy_parse(const json::value& json)
         }
         if (checking_task_set.size() > MAX_CHECKING_SIZE) {
             // 生成超出上限一般是出现了会导致无限隐式生成的任务。比如 "#self@LoadingText". 这里给个警告.
-            Log.warn("Generating exceeded limit when syntax_check.");
+            LogWarn << "Generating exceeded limit when syntax_check.";
         }
         else {
-            Log.trace(checking_task_set.size(), "tasks checked.");
+            LogTrace << checking_task_set.size() << "tasks checked.";
         }
         clear_tasks();
         if (!validity) {
@@ -640,22 +640,22 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(
             std::back_inserter(match_task_info_ptr->methods));
     }
     else {
-        Log.error("Invalid method type in task", name);
+        LogError << "Invalid method type in task" << name;
         return nullptr;
     }
 
     if (std::ranges::find(match_task_info_ptr->methods, MatchMethod::Invalid) != match_task_info_ptr->methods.end()) {
-        Log.error("Invalid method in task", name);
+        LogError << "Invalid method in task" << name;
         return nullptr;
     }
 
     if (match_task_info_ptr->templ_names.size() != match_task_info_ptr->methods.size()) {
-        Log.error("Template count and method count not match in task", name);
+        LogError << "Template count and method count not match in task" << name;
         return nullptr;
     }
 
     if (match_task_info_ptr->templ_names.size() == 0 || match_task_info_ptr->methods.size() == 0) {
-        Log.error("Template or method is empty in task", name);
+        LogError << "Template or method is empty in task" << name;
         return nullptr;
     }
 
@@ -663,7 +663,7 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(
         match_task_info_ptr->mask_ranges = default_ptr->mask_ranges;
     }
     else if (!mask_opt->is_array()) {
-        Log.error("Invalid mask_range type in task", name, ", should be `array<int, 2>`");
+        LogError << "Invalid mask_range type in task" << name << ", should be `array<int, 2>`";
         return nullptr;
     }
     else if (auto mask_array = mask_opt->as_array();
@@ -672,7 +672,7 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(
             MatchTaskInfo::GrayRange { mask_array[0].as_integer(), mask_array[1].as_integer() });
     }
     else {
-        Log.error("Invalid mask_range in task", name);
+        LogError << "Invalid mask_range in task" << name;
         return nullptr;
     }
 
@@ -680,13 +680,13 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(
         match_task_info_ptr->color_scales = default_ptr->color_scales;
     }
     else if (!color_opt->is_array()) {
-        Log.error("Invalid color_scales type in task", name);
+        LogError << "Invalid color_scales type in task" << name;
         return nullptr;
     }
     else if (auto color_array = color_opt->as_array();
              color_array.size() == 2 && color_array[0].is_number() && color_array[1].is_number()) {
         // gray scale, color_array is array<int, 2>
-        Log.debug("Deprecated GrayRange color_scales in task", name, ", should be `list<pair<int, int>>`");
+        LogDebug << "Deprecated GrayRange color_scales in task" << name << ", should be `list<pair<int, int>>`";
         match_task_info_ptr->color_scales.emplace_back(
             MatchTaskInfo::GrayRange { color_array[0].as_integer(), color_array[1].as_integer() });
     }
@@ -795,7 +795,7 @@ asst::TaskPtr asst::TaskData::generate_ocr_task_info(
     ocr_task_info_ptr->text = array_opt ? to_string_list(array_opt.value()) : default_ptr->text;
 #ifdef ASST_DEBUG
     if (!array_opt && default_ptr == default_ocr_task_info_ptr) {
-        Log.warn("Ocr task", name, "has implicit empty text.");
+        LogWarn << "Ocr task" << name << "has implicit empty text.";
     }
 #endif
     utils::get_and_check_value_or(name, task_json, "fullMatch", ocr_task_info_ptr->full_match, default_ptr->full_match);
@@ -1196,7 +1196,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
 
     for (const auto& [name, _] : task_json.as_object()) {
         if (!allowed_key.contains(name) && !is_doc(name) && !has_doc(name)) {
-            Log.error(task_name, "has unknown key:", name);
+            LogError << task_name << "has unknown key:" << name;
             validity = false;
         }
     }

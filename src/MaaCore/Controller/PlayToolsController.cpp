@@ -185,7 +185,7 @@ bool asst::PlayToolsController::stop_game(const std::string& client_type [[maybe
         boost::asio::write(m_socket, boost::asio::buffer(request));
     }
     catch (const std::exception& e) {
-        Log.error("Cannot terminate game:", e.what());
+        LogError << "Cannot terminate game:" << e.what();
         return false;
     }
 
@@ -194,13 +194,13 @@ bool asst::PlayToolsController::stop_game(const std::string& client_type [[maybe
 
 bool asst::PlayToolsController::click(const Point& p)
 {
-    Log.trace("PlayTools click:", p);
+    LogTrace << "PlayTools click:" << p;
     return toucher_down(p) && toucher_up(p);
 }
 
 bool asst::PlayToolsController::input([[maybe_unused]] const std::string& text)
 {
-    Log.info("InputText is not supported on iOS");
+    LogInfo << "InputText is not supported on iOS";
     return true;
 }
 
@@ -221,12 +221,12 @@ bool asst::PlayToolsController::swipe(
 
     // 起点不能在屏幕外，但是终点可以
     if (x1 < 0 || x1 >= width || y1 < 0 || y1 >= height) {
-        Log.warn("swipe point1 is out of range", x1, y1);
+        LogWarn << "swipe point1 is out of range" << x1 << y1;
         x1 = std::clamp(x1, 0, width - 1);
         y1 = std::clamp(y1, 0, height - 1);
     }
 
-    Log.trace("PlayTools swipe", p1, p2, duration, extra_swipe, slope_in, slope_out);
+    LogTrace << "PlayTools swipe" << p1 << p2 << duration << extra_swipe << slope_in << slope_out;
 
     if (with_pause) {
         LogWarn << "swipe with_pause is not supported on PlayTools";
@@ -288,7 +288,7 @@ bool asst::PlayToolsController::swipe(
 
 bool asst::PlayToolsController::press_esc()
 {
-    Log.info("ESC is not supported on iOS");
+    LogInfo << "ESC is not supported on iOS";
     return false;
 }
 
@@ -299,7 +299,7 @@ std::pair<int, int> asst::PlayToolsController::get_screen_res() const noexcept
 
 void asst::PlayToolsController::back_to_home() noexcept
 {
-    Log.info("HOME is not supported on iOS");
+    LogInfo << "HOME is not supported on iOS";
     return;
 }
 
@@ -332,14 +332,14 @@ void asst::PlayToolsController::close()
             m_socket.shutdown(tcp::socket::shutdown_both);
         }
         catch (const std::exception& e) {
-            Log.warn("Error during socket shutdown in close():", e.what());
+            LogWarn << "Error during socket shutdown in close():" << e.what();
         }
 
         try {
             m_socket.close();
         }
         catch (const std::exception& e) {
-            Log.warn("Error during socket close() cleanup:", e.what());
+            LogWarn << "Error during socket close() cleanup:" << e.what();
         }
     }
 }
@@ -367,12 +367,12 @@ bool asst::PlayToolsController::open()
         boost::asio::read(m_socket, boost::asio::buffer(buffer, 4));
     }
     catch (const std::exception& e) {
-        Log.error("Cannot connect to", m_address, e.what());
+        LogError << "Cannot connect to" << m_address << e.what();
         return false;
     }
 
     if (memcmp(&buffer, signature, 4)) {
-        Log.error("Got invalid response:", buffer);
+        LogError << "Got invalid response:" << buffer;
         return false;
     }
 
@@ -387,7 +387,7 @@ bool asst::PlayToolsController::open()
 #if ASST_WITH_MAC_SCK
         return m_sck_helper.init(m_bundle_id, port, m_screen_size, m_frame_rect);
 #else
-        Log.error("MacSCK is not built, fallback to BGR screencap method");
+        LogError << "MacSCK is not built, fallback to BGR screencap method";
         m_screencap_method = ScreencapMethod::BGR;
 #endif // ASST_WITH_MAC_SCK
     }
@@ -405,13 +405,13 @@ bool asst::PlayToolsController::check_version()
         boost::asio::read(m_socket, boost::asio::buffer(&version, sizeof(version)));
     }
     catch (const std::exception& e) {
-        Log.error("Cannot get MaaTools version:", e.what());
+        LogError << "Cannot get MaaTools version:" << e.what();
         return false;
     }
 
     version = socket_ops::network_to_host_long(version);
     if (version < m_minimal_version) {
-        Log.error("Unsupported MaaTools version:", version);
+        LogError << "Unsupported MaaTools version:" << version;
 
         json::value details;
         details["what"] = "UnsupportedPlayTools";
@@ -436,7 +436,7 @@ bool asst::PlayToolsController::fetch_screen_res()
         boost::asio::read(m_socket, boost::asio::buffer(&height, sizeof(height)));
     }
     catch (const std::exception& e) {
-        Log.error("Cannot get screen resolution:", e.what());
+        LogError << "Cannot get screen resolution:" << e.what();
         return false;
     }
 
@@ -464,7 +464,7 @@ bool asst::PlayToolsController::toucher_commit(const TouchPhase phase, const Poi
         boost::asio::write(m_socket, boost::asio::buffer(payload, 5));
     }
     catch (const std::exception& e) {
-        Log.error("Cannot touch screen:", e.what());
+        LogError << "Cannot touch screen:" << e.what();
         return false;
     }
 
@@ -481,7 +481,7 @@ bool asst::PlayToolsController::fetch_frame_rect()
         boost::asio::read(m_socket, boost::asio::buffer(m_frame_rect));
     }
     catch (const std::exception& e) {
-        Log.error("Cannot get frame rectangle:", e.what());
+        LogError << "Cannot get frame rectangle:" << e.what();
         return false;
     }
 
@@ -504,12 +504,12 @@ bool asst::PlayToolsController::fetch_bundle_id()
         length = socket_ops::network_to_host_long(length);
     }
     catch (const std::exception& e) {
-        Log.error("Cannot get bundle ID length:", e.what());
+        LogError << "Cannot get bundle ID length:" << e.what();
         return false;
     }
 
     if (length == 0 || length > BUFSIZ) {
-        Log.error("Invalid bundle ID length:", length);
+        LogError << "Invalid bundle ID length:" << length;
         return false;
     }
 
@@ -518,7 +518,7 @@ bool asst::PlayToolsController::fetch_bundle_id()
         boost::asio::read(m_socket, boost::asio::buffer(m_bundle_id.data(), length));
     }
     catch (const std::exception& e) {
-        Log.error("Cannot get bundle ID:", e.what());
+        LogError << "Cannot get bundle ID:" << e.what();
         return false;
     }
 

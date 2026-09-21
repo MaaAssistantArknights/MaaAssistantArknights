@@ -255,7 +255,7 @@ void BlackFlowSession::set_cultivated_animal_types(std::vector<CultivatedAnimalT
         m_cultivated_animal_types.end();
     std::string error;
     if (!set_fact("cultivation_target_obtained", obtained, &error)) {
-        Log.error("BlackFlow cultivation target fact update failed", error);
+        LogError << "BlackFlow cultivation target fact update failed" << error;
     }
 }
 
@@ -624,32 +624,12 @@ void BlackFlowSession::queue_map_summary(const PerceptionSummary& summary)
         { "attempt_count", summary.attempt_count },
         { "retry_count", summary.retry_count },
     };
-    Log.info(
-        "BlackFlow map summary",
-        "observation",
-        summary.observation_id,
-        "floor",
-        summary.floor,
-        "floor source",
-        summary.floor_from_ocr ? "ocr" : "fallback",
-        "current",
-        summary.current_node,
-        "nodes",
-        summary.node_count,
-        "confirmed edges",
-        summary.confirmed_edge_count,
-        "inferred edges",
-        summary.forced_edge_count,
-        "unclassified",
-        summary.unclassified_count,
-        "attempts",
-        summary.attempt_count,
-        "retries",
-        summary.retry_count,
-        "screenshot us",
-        summary.screenshot_us,
-        "recognition us",
-        summary.recognition_us);
+    LogInfo << "BlackFlow map summary" << "observation" << summary.observation_id << "floor" << summary.floor
+            << "floor source" << (summary.floor_from_ocr ? "ocr" : "fallback") << "current" << summary.current_node
+            << "nodes" << summary.node_count << "confirmed edges" << summary.confirmed_edge_count << "inferred edges"
+            << summary.forced_edge_count << "unclassified" << summary.unclassified_count << "attempts"
+            << summary.attempt_count << "retries" << summary.retry_count << "screenshot us" << summary.screenshot_us
+            << "recognition us" << summary.recognition_us;
     m_telemetry_events.emplace_back(BlackFlowTelemetryEvent { "BlackFlowMapSummary", details });
 
     std::vector<json::value> nodes;
@@ -740,7 +720,7 @@ void BlackFlowSession::queue_warning(std::string code, std::string message, Diag
         { "code", code },
         { "message", message },
     };
-    Log.warn("BlackFlow routing warning", code, message);
+    LogWarn << "BlackFlow routing warning" << code << message;
     m_telemetry_events.emplace_back(BlackFlowTelemetryEvent { "BlackFlowRoutingWarning", details });
     request_diagnostics(trigger, std::move(details));
 }
@@ -895,35 +875,13 @@ void BlackFlowSession::queue_decision()
         }
         details["planned_route_steps"] = json::array(std::move(planned_route_steps));
     }
-    Log.info(
-        "BlackFlow decision",
-        m_decision_id,
-        "profile",
-        m_profile,
-        "rule",
-        decision.decisive_rule_id,
-        "milestone",
-        decision.decisive_milestone_id,
-        "floor",
-        m_run.floor,
-        "target",
-        move.target,
-        "cost",
-        cost,
-        "margin",
-        margin,
-        "reason",
-        to_string(decision.reason_category),
-        "confirmed states",
-        m_last_plan->confirmed_state_count,
-        "relaxed states",
-        m_last_plan->relaxed_state_count,
-        "route expansions",
-        m_last_plan->route_search_expansions,
-        "time exhausted",
-        m_last_plan->route_search_time_exhausted,
-        "expansions exhausted",
-        m_last_plan->route_search_expansions_exhausted);
+    LogInfo << "BlackFlow decision" << m_decision_id << "profile" << m_profile << "rule" << decision.decisive_rule_id
+            << "milestone" << decision.decisive_milestone_id << "floor" << m_run.floor << "target" << move.target
+            << "cost" << cost << "margin" << margin << "reason" << to_string(decision.reason_category)
+            << "confirmed states" << m_last_plan->confirmed_state_count << "relaxed states"
+            << m_last_plan->relaxed_state_count << "route expansions" << m_last_plan->route_search_expansions
+            << "time exhausted" << m_last_plan->route_search_time_exhausted << "expansions exhausted"
+            << m_last_plan->route_search_expansions_exhausted;
     m_telemetry_events.emplace_back(BlackFlowTelemetryEvent { "BlackFlowRoutingDecision", std::move(details) });
     if (move.uses_inferred_edge) {
         queue_warning(
@@ -1369,20 +1327,10 @@ BlackFlowPlan BlackFlowSession::plan(std::string* error)
         request.forbidden_actions = &m_unreachable_actions;
         request.probe_target = m_pending_probe_target;
         result = BlackFlowPlanner {}.plan(request);
-        Log.info(
-            "BlackFlow strategy goals",
-            "profile",
-            m_profile,
-            "floor",
-            m_run.floor,
-            "binding candidates",
-            goals.binding_candidates.size(),
-            "locked",
-            result.binding_milestone_ids.size(),
-            "demoted",
-            result.demoted_milestone_ids.size(),
-            "strategy terminal nodes",
-            goals.terminal_nodes.size());
+        LogInfo << "BlackFlow strategy goals" << "profile" << m_profile << "floor" << m_run.floor
+                << "binding candidates" << goals.binding_candidates.size() << "locked"
+                << result.binding_milestone_ids.size() << "demoted" << result.demoted_milestone_ids.size()
+                << "strategy terminal nodes" << goals.terminal_nodes.size();
         if (result && m_pending_probe_target.has_value() &&
             result.decision.selected->target != *m_pending_probe_target) {
             m_pending_probe_target.reset();
@@ -1987,16 +1935,8 @@ void BlackFlowSession::queue_node_resolution(const PageExecutionContext& context
         { "repeatable", repeatable },
         { "becomes_empty", becomes_empty },
     };
-    Log.info(
-        "BlackFlow node resolution",
-        "floor",
-        context.floor,
-        "node",
-        context.node,
-        "event",
-        context.node_name,
-        "type",
-        to_string(resolved_type));
+    LogInfo << "BlackFlow node resolution" << "floor" << context.floor << "node" << context.node << "event"
+            << context.node_name << "type" << to_string(resolved_type);
     m_telemetry_events.emplace_back(BlackFlowTelemetryEvent { "BlackFlowNodeResolution", std::move(details) });
 }
 
@@ -2093,7 +2033,7 @@ void BlackFlowSession::fail(std::string outcome, std::string reason, FailureDisp
     if (m_result.has_value()) {
         // 终局规则可能已写入结果（如培育完成）；后到的失败路径不得改写已定局的本局结局，
         // 与 apply_node_task_result 成功路径的 !m_result.has_value() 保护保持一致
-        Log.warn(__FUNCTION__, "ignore failure; strategy result already present", outcome, reason);
+        LogWarn << __FUNCTION__ << "ignore failure; strategy result already present" << outcome << reason;
         return;
     }
     if (outcome == "map_rebuild_failed") {

@@ -28,7 +28,7 @@ bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details)
         int64_t last_start_time = status()->get_number(LastStartTimeKey).value_or(0);
         int64_t last_recognize_flag = status()->get_number(RecognitionRestrictionsKey).value_or(0);
         if (last_start_time + RecognitionTimeOffset == last_recognize_flag) {
-            Log.warn("Only one recognition per start", last_start_time, last_recognize_flag);
+            LogWarn << "Only one recognition per start" << last_start_time << last_recognize_flag;
             return false;
         }
         m_is_annihilation = false;
@@ -107,26 +107,26 @@ bool asst::StageDropsTaskPlugin::_run()
     }
 
     if (m_is_annihilation) {
-        Log.info(__FUNCTION__, "Annihilation is not supported by PenguinStats");
-        Log.info(__FUNCTION__, "Annihilation is not supported by Yituliu");
+        LogInfo << __FUNCTION__ << "Annihilation is not supported by PenguinStats";
+        LogInfo << __FUNCTION__ << "Annihilation is not supported by Yituliu";
         return true;
     }
 
     if (m_enable_penguin) {
         if (!upload_to_penguin()) {
-            Log.error(__FUNCTION__, "upload_to_penguin failed");
+            LogError << __FUNCTION__ << "upload_to_penguin failed";
             save_img(utils::path("debug") / utils::path("drops"));
         }
     }
     else {
-        Log.info(__FUNCTION__, "PenguinStats is disabled");
+        LogInfo << __FUNCTION__ << "PenguinStats is disabled";
     }
 
     if (m_enable_yituliu) {
         upload_to_yituliu();
     }
     else {
-        Log.info(__FUNCTION__, "Yituliu is disabled");
+        LogInfo << __FUNCTION__ << "Yituliu is disabled";
     }
 
     return true;
@@ -164,7 +164,7 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
                 break;
             }
             const auto offset = offset_opt.value();
-            Log.trace("new image offset:", offset);
+            LogTrace << "new image offset:" << offset;
             if (offset <= 4) {
                 ret = true;
                 break;
@@ -340,7 +340,7 @@ void asst::StageDropsTaskPlugin::set_start_button_delay()
     }
 
     m_start_button_delay_is_set = true;
-    Log.info(__FUNCTION__, "set StartButton2WaitTime post delay", delay);
+    LogInfo << __FUNCTION__ << "set StartButton2WaitTime post delay" << delay;
     m_cast_ptr->set_post_delay("StartButton2WaitTime", static_cast<int>(delay));
 }
 

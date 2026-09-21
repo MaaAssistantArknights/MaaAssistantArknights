@@ -1012,7 +1012,7 @@ private:
 
         const auto dump_count = frame_count > frame_start ? frame_count - frame_start : 0;
         __android_log_print(ANDROID_LOG_FATAL, AndroidCrashLogTag, "Native backtrace (%zu frames):", dump_count);
-        logger.error("Native backtrace", dump_count, "frames");
+        logger.error_() << "Native backtrace" << dump_count << "frames";
 
         for (std::size_t i = frame_start; i < frame_count; ++i) {
             Dl_info info {};
@@ -1035,7 +1035,7 @@ private:
             }
 
             __android_log_write(ANDROID_LOG_FATAL, AndroidCrashLogTag, frame_message.c_str());
-            logger.error(frame_message);
+            logger.error_() << frame_message;
         }
     }
 #endif
@@ -1074,22 +1074,22 @@ private:
             auto& logger = Logger::get_instance();
 
             if (signal_info != nullptr) {
-                logger.error_("=== FATAL ERROR ===");
-                logger.error_("Signal caught:", signal_info);
+                logger.error_() << "=== FATAL ERROR ===";
+                logger.error_() << "Signal caught:" << signal_info;
                 logger.flush();
                 write_crash_file("Fatal Signal", signal_info);
             }
 
-            logger.error_("=== FATAL ERROR ===");
-            logger.error_("Version", MAA_VERSION);
-            logger.error_("Built at", __DATE__, __TIME__);
-            logger.error_("User Dir", UserDir.get());
-            logger.error_("Unhandled exception caught:", exception_info);
+            logger.error_() << "=== FATAL ERROR ===";
+            logger.error_() << "Version" << MAA_VERSION;
+            logger.error_() << "Built at" << __DATE__ << __TIME__;
+            logger.error_() << "User Dir" << UserDir.get();
+            logger.error_() << "Unhandled exception caught:" << exception_info;
 #ifdef __ANDROID__
             dump_android_stacktrace(logger);
 #endif
-            logger.error_("Program terminating...");
-            logger.error_("===================");
+            logger.error_() << "Program terminating...";
+            logger.error_() << "===================";
             logger.flush();
             write_crash_file("Unhandled exception", exception_info.c_str());
         }
@@ -1232,7 +1232,7 @@ public:
         Logger::get_instance().pop(
             m_id,
 #else
-        Logger::get_instance().trace(
+        Logger::get_instance().trace_(
 #endif
             m_func_name,
             "| leave,",

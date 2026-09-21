@@ -141,7 +141,7 @@ std::optional<std::string> asst::AdbController::call_command(
     exit_res = m_platform_io->call_command(cmd, recv_by_socket, pipe_data, sock_data, timeout, start_time);
 
     if (!exit_res) {
-        Log.warn("Call `", cmd, "` failed");
+        LogWarn << "Call `" << cmd << "` failed";
         return std::nullopt;
     }
     const int exit_ret = exit_res.value();
@@ -263,7 +263,7 @@ void asst::AdbController::init_mumu_extras(const AdbCfg& adb_cfg, const std::str
 #if !ASST_WITH_EMULATOR_EXTRAS
     std::ignore = adb_cfg;
     std::ignore = address;
-    Log.error("MaaCore is not compiled with ASST_WITH_EMULATOR_EXTRAS");
+    LogError << "MaaCore is not compiled with ASST_WITH_EMULATOR_EXTRAS";
 #else
     if (adb_cfg.extras.empty()) {
         LogWarn << "adb_cfg.extras is empty";
@@ -299,7 +299,7 @@ void asst::AdbController::set_mumu_package(const std::string& client_type)
 {
 #if !ASST_WITH_EMULATOR_EXTRAS
     std::ignore = client_type;
-    Log.error("MaaCore is not compiled with ASST_WITH_EMULATOR_EXTRAS");
+    LogError << "MaaCore is not compiled with ASST_WITH_EMULATOR_EXTRAS";
 #else
     // MuMu get_display_id 需要真实包名。client_type 为空时默认官服明日方舟
     const std::string type = client_type.empty() ? "Official" : client_type;
@@ -319,13 +319,13 @@ std::optional<int> asst::AdbController::get_ld_index(const std::string& address)
         std::string_view port_sv = std::string_view(address).substr(9); // after "emulator-"
         int port = 0;
         if (!utils::chars_to_number<int, true>(port_sv, port)) {
-            Log.error("emulator port is invalid", port_sv);
+            LogError << "emulator port is invalid" << port_sv;
             return std::nullopt;
         }
         // emulator 控制台端口从 5554 起步进 2（5554, 5556, ...），
         // 奇数端口是 adb 端口而非控制台端口，不在 emulator-xxxx 格式中出现
         if (port < base_emulator_port || (port - base_emulator_port) % 2 != 0) {
-            Log.error("emulator port is out of range or not aligned", port);
+            LogError << "emulator port is out of range or not aligned" << port;
             return std::nullopt;
         }
         int index = (port - base_emulator_port) / 2;
@@ -446,7 +446,7 @@ bool asst::AdbController::stop_game(const std::string& client_type)
 bool asst::AdbController::click(const Point& p)
 {
     if (p.x < 0 || p.x >= m_width || p.y < 0 || p.y >= m_height) {
-        Log.error("click point out of range");
+        LogError << "click point out of range";
     }
 
     std::string cur_cmd =
@@ -460,7 +460,7 @@ bool asst::AdbController::click(const Point& p)
 bool asst::AdbController::input(const std::string& text)
 {
     if (text == "") {
-        Log.error("empty text");
+        LogError << "empty text";
     }
 
     std::string cur_cmd = utils::string_replace_all(m_adb.input, { { "[text]", text } });
@@ -481,7 +481,7 @@ bool asst::AdbController::swipe(
 
     // 起点不能在屏幕外，但是终点可以
     if (x1 < 0 || x1 >= m_width || y1 < 0 || y1 >= m_height) {
-        Log.warn("swipe point1 is out of range", x1, y1);
+        LogWarn << "swipe point1 is out of range" << x1 << y1;
         x1 = std::clamp(x1, 0, m_width - 1);
         y1 = std::clamp(y1, 0, m_height - 1);
     }
@@ -794,13 +794,13 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                     m_inited = true;
                     min_cost = duration;
                 }
-                Log.info("MumuExtras cost", duration.count(), "ms");
+                LogInfo << "MumuExtras cost" << duration.count() << "ms";
                 all_methods_cost.emplace_back(
                     AdbProperty::ScreencapMethod::MumuExtras,
                     std::to_string(duration.count()));
             }
             else {
-                Log.info("MumuExtras is not supported");
+                LogInfo << "MumuExtras is not supported";
                 all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::MumuExtras, "???");
             }
         }
@@ -813,11 +813,11 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                     m_inited = true;
                     min_cost = duration;
                 }
-                Log.info("LDExtras cost", duration.count(), "ms");
+                LogInfo << "LDExtras cost" << duration.count() << "ms";
                 all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::LDExtras, std::to_string(duration.count()));
             }
             else {
-                Log.info("LDExtras is not supported");
+                LogInfo << "LDExtras is not supported";
                 all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::LDExtras, "???");
             }
         }
@@ -835,7 +835,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             { AdbProperty::ScreencapMethod::LDExtras, "LDExtras" },
 #endif
         };
-        Log.info("The fastest way is", MethodName.at(m_adb.screencap_method), ", cost:", min_cost.count(), "ms");
+        LogInfo << "The fastest way is" << MethodName.at(m_adb.screencap_method) << "cost" << min_cost.count() << "ms";
         if (m_adb.screencap_method != AdbProperty::ScreencapMethod::UnknownYet) {
             json::value info = json::object {
                 { "uuid", m_uuid },
@@ -986,7 +986,7 @@ asst::AdbController::ScreencapResult asst::AdbController::screencap(
         auto ret = call_command(cmd, timeout, allow_reconnect, by_socket);
 
         if (!ret || ret.value().empty()) [[unlikely]] {
-            Log.warn("data is empty!");
+            LogWarn << "data is empty!";
             return ScreencapResult::Failed;
         }
         auto& data = ret.value();
@@ -1088,7 +1088,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
 #ifdef ASST_DEBUG
         return false;
 #else
-        Log.error("config ", config, "not found");
+        LogError << "config " << config << "not found";
         adb_ret = Config.get_adb_cfg("General");
 #endif
     }
@@ -1420,7 +1420,7 @@ void asst::AdbController::check_fps()
         // 放宽到 5 秒：异步执行后不再阻塞截图，可给 adb 足够时间
         auto ret = call_command(cmd, 5000, false);
         if (!ret || ret.value().empty()) {
-            Log.warn("fps command failed or empty");
+            LogWarn << "fps command failed or empty";
             return;
         }
 
@@ -1435,18 +1435,18 @@ void asst::AdbController::check_fps()
         std::erase_if(first_line, [](char c) { return !std::isdigit(static_cast<unsigned char>(c)); });
 
         if (first_line.empty()) {
-            Log.warn("fps output is empty after sanitize");
+            LogWarn << "fps output is empty after sanitize";
             return;
         }
 
         long long refresh_period_ns = 0;
         if (!utils::chars_to_number<long long, true>(first_line, refresh_period_ns)) {
-            Log.warn("fps output parse failed:", first_line);
+            LogWarn << "fps output parse failed:" << first_line;
             return;
         }
 
         if (refresh_period_ns <= 0) {
-            Log.warn("invalid refresh period:", refresh_period_ns);
+            LogWarn << "invalid refresh period:" << refresh_period_ns;
             return;
         }
 

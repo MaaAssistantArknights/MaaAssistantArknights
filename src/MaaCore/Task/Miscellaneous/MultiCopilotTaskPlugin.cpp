@@ -27,14 +27,14 @@ bool asst::MultiCopilotTaskPlugin::_run()
 
     std::string file_name;
     if (!Copilot.load(config.copilot_file)) {
-        Log.error("CopilotConfig parse failed");
+        LogError << "CopilotConfig parse failed";
         return false;
     }
     file_name = utils::path_to_utf8_string(config.copilot_file);
 
     const auto& stage_name = Copilot.get_stage_name();
     if (!m_battle_task_ptr->set_stage_name(stage_name)) {
-        Log.error("Not support stage");
+        LogError << "Not support stage";
         return false;
     }
 
@@ -70,7 +70,7 @@ bool asst::MultiCopilotTaskPlugin::navigate_to_stage(const std::string& stage_na
     // 优先检查是否存在对应活动关卡名的模板资源，如果存在则走模板匹配
     std::string templ_path = StageNavigationHelper::get_stage_template_path(stage_name);
     if (!templ_path.empty()) {
-        Log.info("Stage template found, using template matching for", stage_name, ", templ:", templ_path);
+        LogInfo << "Stage template found, using template matching for" << stage_name << ", templ:" << templ_path;
         // 动态注入模板路径到 MatchTaskInfo（需带 .png 后缀）
         Task.get<MatchTaskInfo>(stage_name + "@Copilot@ClickStageByTemplate")->templ_names = { templ_path + ".png" };
         Task.get<OcrTaskInfo>(stage_name + "@Copilot@ClickedCorrectStage")->text = { stage_name };
@@ -80,7 +80,7 @@ bool asst::MultiCopilotTaskPlugin::navigate_to_stage(const std::string& stage_na
     }
 
     // 模板不存在，使用基于图像分析的 OCR 方案
-    Log.info("No stage template available, using image-based OCR for", stage_name);
+    LogInfo << "No stage template available, using image-based OCR for" << stage_name;
 
     auto image = ctrler()->get_image();
 

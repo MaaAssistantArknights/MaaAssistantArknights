@@ -18,7 +18,7 @@ bool asst::RoguelikeRecruitTaskPlugin::verify(AsstMsg msg, const json::value& de
     }
 
     if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
-        Log.error("Roguelike name doesn't exist!");
+        LogError << "Roguelike name doesn't exist!";
         return false;
     }
     const std::string roguelike_name = m_config->get_theme() + "@";
@@ -113,7 +113,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             for (int i = 0; i < 5; ++i) {
                 analyzer.set_image(ctrler()->get_image());
                 if (analyzer.analyze().has_value()) {
-                    Log.info(__FUNCTION__, "| Waiting for confirm button to disappear...");
+                    LogInfo << __FUNCTION__ << "| Waiting for confirm button to disappear...";
                     sleep(200);
                 }
                 else {
@@ -121,7 +121,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 }
             }
             // 没有消失的话就继续招募流程
-            Log.warn(__FUNCTION__, "| Confirm button did not disappear in time, continue recruitment process.");
+            LogWarn << __FUNCTION__ << "| Confirm button did not disappear in time, continue recruitment process.";
         }
     }
 
@@ -168,8 +168,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 complete = false;
             }
 
-            Log.trace("__FUNCTION__", "groups:", condition.groups);
-            Log.trace("__FUNCTION__", "opers:", opers);
+            LogTrace << "__FUNCTION__" << "groups:" << condition.groups;
+            LogTrace << "__FUNCTION__" << "opers:" << opers;
         }
         m_team_complete = complete;
         if (complete_count <= RoguelikeRecruit.get_team_complete_require(m_config->get_theme()) / 2 &&
@@ -177,7 +177,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             // 如果第10次招募还没拿到半队key干员，说明账号阵容不齐，放开招募限制，有啥用啥吧
             m_team_complete = true;
         }
-        Log.trace("__FUNCTION__", "complete_count:", complete_count, "m_team_complete:", m_team_complete);
+        LogTrace << "__FUNCTION__" << "complete_count:" << complete_count << "m_team_complete:" << m_team_complete;
     }
 
     if (m_recruit_count >= 3 && !m_starts_complete) {
@@ -204,7 +204,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     Matcher temp_recruit_analyzer(image);
     temp_recruit_analyzer.set_task_info("Roguelike@TempRecruitFlag");
     temp_recruit_exist = temp_recruit_analyzer.analyze().has_value();
-    Log.trace(__FUNCTION__, "temp_recruit_exist", temp_recruit_exist);
+    LogTrace << __FUNCTION__ << "temp_recruit_exist" << temp_recruit_exist;
 
     // 翻页找出所有候选干员
     for (; i != SwipeTimes; ++i) {
@@ -214,7 +214,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         image = ctrler()->get_image();
         RoguelikeRecruitImageAnalyzer analyzer(image);
         if (!analyzer.analyze()) {
-            Log.trace(__FUNCTION__, "| Page", i, "recruit list analyse failed");
+            LogTrace << __FUNCTION__ << "| Page" << i << "recruit list analyse failed";
             // 还没滑动就识别失败，通常是招募界面为空，视为招募成功并退出
             if (i == 0) {
                 return true;
@@ -245,17 +245,9 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 // 偏移低于阈值，代表划动没有效果，已经到达屏幕最右侧
                 if (x_offset < 20 && y_offset < 5) {
                     stop_swipe = true;
-                    Log.trace(
-                        __FUNCTION__,
-                        "| Page",
-                        i,
-                        "oper",
-                        oper_info.name,
-                        "last rect:",
-                        rect_it->second.to_string(),
-                        "current rect:",
-                        oper_info.rect.to_string(),
-                        " - stop swiping");
+                    LogTrace << __FUNCTION__ << "| Page" << i << ", oper" << oper_info.name
+                             << ", last rect:" << rect_it->second.to_string()
+                             << ", current rect:" << oper_info.rect.to_string() << " - stop swiping";
                     break;
                 }
 
@@ -302,12 +294,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 }
                 else {
                     // 精一55级以下，默认不招募
-                    Log.trace(
-                        __FUNCTION__,
-                        "| Ignored low level oper:",
-                        oper_info.name,
-                        oper_info.elite,
-                        oper_info.level);
+                    LogTrace << __FUNCTION__ << "| Ignored low level oper:" << oper_info.name << oper_info.elite
+                             << oper_info.level;
 
                     // REFACTOR ME: 不招募情况没有对 oper_list 进行处理
                     // 若遇到 offset ，最终 priority 可能为正，会导致练度不够也招募 @Daydreamer114 @Saratoga-Official
@@ -372,11 +360,10 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 info.page_index = i;
                 recruit_list.emplace_back(info);
             }
-            Log.info(__FUNCTION__, "| Operator", recruit_info.name, "priority:", priority);
+            LogInfo << __FUNCTION__ << "| Operator:" << recruit_info.name << "priority:" << priority;
         }
 
-        Log.info(__FUNCTION__, "| Page", i, "oper list:", oper_names);
-
+        LogInfo << __FUNCTION__ << "| Page" << i << "oper list:" << oper_names;
         if (stop_swipe) {
             break;
         }
@@ -384,17 +371,17 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         // 每列4个干员，未滑动时可以显示2列，滑动后至少可以显示1列
         const size_t oper_count = oper_list.size();
         if ((i == 0 && oper_count < 8) || (oper_count != 4 && oper_count != 8)) {
-            Log.trace(__FUNCTION__, "| Page", i, "oper count:", oper_count, "- stop swiping");
+            LogTrace << __FUNCTION__ << "| Page" << i << "oper count:" << oper_count << " - stop swiping";
             break;
         }
         if (pre_oper_names == oper_names) {
-            Log.trace(__FUNCTION__, "| Oper list not changed, stop swiping");
+            LogTrace << __FUNCTION__ << "| Oper list not changed, stop swiping";
             break;
         }
         pre_oper_names = std::move(oper_names);
 
         // 向右滑动
-        Log.trace(__FUNCTION__, "| Page", i, "oper count:", oper_count, "- continue swiping");
+        LogTrace << __FUNCTION__ << "| Page" << i << "oper count:" << oper_count << " - continue swiping";
         slowly_swipe(false, max_oper_x - 200);
         sleep(Task.get("RoguelikeCustom-HijackCoChar")->post_delay);
     }
@@ -407,7 +394,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
     // 没有候选干员，进入后备逻辑
     if (recruit_list.empty()) {
-        Log.trace(__FUNCTION__, "| No oper in recruit list.");
+        LogTrace << __FUNCTION__ << "| No oper in recruit list.";
 
         // 如果划动过，先划回最左边
         if (i != 0) {
@@ -417,7 +404,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         image = ctrler()->get_image();
         RoguelikeRecruitImageAnalyzer analyzer(image);
         if (!analyzer.analyze()) {
-            Log.error(__FUNCTION__, "| Random recruitment analyse failed");
+            LogError << __FUNCTION__ << "| Random recruitment analyse failed";
             return false;
         }
 
@@ -428,7 +415,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             if (info.elite != 2) {
                 continue;
             }
-            Log.trace(__FUNCTION__, "| Choose temporary recruitment elite 2:", info.name, info.elite, info.level);
+            LogTrace << __FUNCTION__ << "| Choose temporary recruitment elite 2:" << info.name << info.elite
+                     << info.level;
             recruit_oper(info);
             return true;
         }
@@ -443,7 +431,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         //     return true;
         // }
 
-        Log.trace(__FUNCTION__, "| Did not choose oper");
+        LogTrace << __FUNCTION__ << "| Did not choose oper";
         return true;
     }
 
@@ -451,20 +439,13 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     auto selected_oper =
         std::ranges::max_element(recruit_list, std::less {}, std::mem_fn(&RoguelikeRecruitInfo::priority));
     if (selected_oper == recruit_list.cend()) {
-        Log.trace(__FUNCTION__, "| No opers in recruit list.");
+        LogTrace << __FUNCTION__ << "| No opers in recruit list.";
         return false;
     }
 
     std::string char_name = selected_oper->name;
-    Log.trace(
-        __FUNCTION__,
-        "| Top priority oper:",
-        char_name,
-        selected_oper->priority,
-        "page",
-        selected_oper->page_index,
-        "/",
-        i);
+    LogTrace << __FUNCTION__ << "| Top priority oper:" << char_name << selected_oper->priority << "page"
+             << selected_oper->page_index << "/" << i;
 
     // 滑动方向
     // 页码大于一半: 从右往左划动
@@ -532,7 +513,7 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
                 chars,
                 std::inserter(oper_names, oper_names.end()),
                 std::mem_fn(&battle::roguelike::Recruitment::name));
-            Log.info(__FUNCTION__, "| Oper list:", oper_names);
+            LogInfo << __FUNCTION__ << "| Oper list:" << oper_names;
 
             if (it != chars.cend()) {
                 // !get_run_for_collectible() 即当前没有在烧开水/水已经烧好了
@@ -563,7 +544,7 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
             }
             if (pre_oper_names == oper_names) {
                 if (has_been_same) {
-                    Log.trace(__FUNCTION__, "| Oper list not changed for three times, stop swiping");
+                    LogTrace << __FUNCTION__ << "| Oper list not changed for three times, stop swiping";
                     break;
                 }
                 else {
@@ -585,7 +566,7 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
         }
         sleep(Task.get("RoguelikeCustom-HijackCoChar")->post_delay);
     }
-    Log.info(__FUNCTION__, "| Cannot find oper `" + char_name + "`");
+    LogInfo << __FUNCTION__ << "| Cannot find oper `" + char_name + "`";
     swipe_to_the_left_of_operlist(i + 1);
     return false;
 }
@@ -602,7 +583,7 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_support_char(const std::string& n
         return false;
     }
     const auto& choose_btn_rect = analyzer_choose.get_result_choose_support();
-    Log.info(__FUNCTION__, "| check choose support btn ", choose_btn_rect);
+    LogInfo << __FUNCTION__ << "| check choose support btn " << choose_btn_rect;
     ctrler()->click(choose_btn_rect);
     ProcessTask(*this, { "RoguelikeRecruitSupportEnterFlag" }).run(); // 等待页面加载
 
@@ -662,7 +643,7 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_support_char(const std::string& n
     }
     if (satisfied_chars.empty()) {
         // 找不到需要的助战干员，返回正常招募逻辑
-        Log.info(__FUNCTION__, "| can't find support char `", name, "`");
+        LogInfo << __FUNCTION__ << "| can't find support char `" << name << "`";
         click_return_button();
         return false;
     }
@@ -687,7 +668,7 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_own_char(const std::string& name)
 
 void asst::RoguelikeRecruitTaskPlugin::select_oper(const battle::roguelike::Recruitment& oper)
 {
-    Log.info(__FUNCTION__, "| Choose oper:", oper.name, "( elite", oper.elite, "level", oper.level, ")");
+    LogInfo << __FUNCTION__ << "| Choose oper:" << oper.name << "( elite" << oper.elite << "level" << oper.level << ")";
 
     ctrler()->click(oper.rect);
 

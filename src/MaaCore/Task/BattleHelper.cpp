@@ -109,7 +109,7 @@ std::optional<asst::BestMatcher::Result>
     BestMatcher avatar_analyzer(oper.avatar);
     avatar_analyzer.set_method(MatchMethod::Ccoeff);
     if (oper.cooling) {
-        Log.trace("start matching cooling", oper.index);
+        LogTrace << "start matching cooling" << oper.index;
         static const auto cooling_threshold =
             Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_thresholds.front();
         static const auto cooling_mask_range = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_ranges;
@@ -184,7 +184,7 @@ bool asst::BattleHelper::update_deployment_(
                 remove_cooling_from_battlefield(oper);
             }
             else {
-                Log.info("unknown oper", oper.index);
+                LogInfo << "unknown oper" << oper.index;
                 // 冷却中的未知干员不进行匹配
                 if (!analyze_unknown && !oper.cooling) {
                     return false;
@@ -196,7 +196,7 @@ bool asst::BattleHelper::update_deployment_(
         m_cur_deployment_opers.emplace_back(oper);
 
         if (oper.cooling) {
-            Log.trace("stop matching cooling", oper.index);
+            LogTrace << "stop matching cooling" << oper.index;
         }
     }
 
@@ -211,7 +211,7 @@ bool asst::BattleHelper::update_deployment_(
         for (auto& oper : unknown_opers) {
             LogTraceScope("rec unknown oper: " + std::to_string(oper.index));
             if (oper.cooling) {
-                Log.info("cooling oper, skip");
+                LogInfo << "cooling oper, skip";
                 // oper.name = "UnknownCooling_" + std::to_string(oper.index); // 为什么还要取名字啊喵
                 continue;
             }
@@ -225,7 +225,7 @@ bool asst::BattleHelper::update_deployment_(
             std::string name = analyze_detail_page_oper_name(name_image, oper.role);
             // 这时候即使名字不合法也只能凑合用了，但是为空还是不行的
             if (name.empty()) {
-                Log.error("name is empty");
+                LogError << "name is empty";
             }
             else {
                 set_oper_name(oper, name);
@@ -571,7 +571,7 @@ bool asst::BattleHelper::is_skill_ready(const Point& loc, const cv::Mat& reusabl
 
     auto target_iter = m_normal_tile_info.find(loc);
     if (target_iter == m_normal_tile_info.end()) {
-        Log.error("No loc", loc);
+        LogError << "No loc" << loc;
         return false;
     }
     const Point& battlefield_point = target_iter->second.pos;
@@ -721,7 +721,7 @@ bool asst::BattleHelper::wait_until_start(bool weak)
     cv::Mat image = m_inst_helper.ctrler()->get_image();
     while (!m_inst_helper.need_exit() && !check_in_battle(image, weak)) {
         if (std::chrono::steady_clock::now() - start_time > timeout_duration) {
-            Log.warn("Timeout reached while waiting to start the battle.");
+            LogWarn << "Timeout reached while waiting to start the battle.";
             return false;
         }
 
@@ -950,7 +950,7 @@ bool asst::BattleHelper::click_oper_on_battlefield(const Point& loc)
 
     auto target_iter = m_normal_tile_info.find(loc);
     if (target_iter == m_normal_tile_info.end()) {
-        Log.error("No loc", loc);
+        LogError << "No loc" << loc;
         return false;
     }
     const Point& target_point = target_iter->second.pos;
@@ -1098,7 +1098,7 @@ void asst::BattleHelper::fix_swipe_out_of_limit(
         };
     }
 
-    Log.info(__FUNCTION__, "swipe end_point out of limit, start:", p1, ", end:", p2, ", adjust:", adjust);
+    LogInfo << __FUNCTION__ << "swipe end_point out of limit, start:" << p1 << ", end:" << p2 << ", adjust:" << adjust;
     p1 += adjust;
     p2 += adjust;
 }
@@ -1106,7 +1106,7 @@ void asst::BattleHelper::fix_swipe_out_of_limit(
 bool asst::BattleHelper::move_camera(const std::pair<double, double>& delta)
 {
     LogTraceFunction;
-    Log.info("move", delta.first, delta.second);
+    LogInfo << "move" << delta.first << delta.second;
 
     update_kills(m_inst_helper.ctrler()->get_image());
 
@@ -1147,7 +1147,7 @@ std::string asst::BattleHelper::analyze_detail_page_oper_name(const cv::Mat& ima
         return preproc_result_opt->text;
     }
 
-    Log.warn("ocr with preprocess got a invalid name, try to use detect model");
+    LogWarn << "ocr with preprocess got a invalid name, try to use detect model";
     OCRer det_analyzer(image);
     det_analyzer.set_task_info(task);
     det_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
@@ -1188,7 +1188,7 @@ int asst::BattleHelper::elapsed_time()
     auto now = std::chrono::steady_clock::now();
     auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_stopwatch_start_time).count();
     if (elapsed_ms > std::numeric_limits<int>::max()) {
-        Log.error(__FUNCTION__, "| elapsed time exceeds int maximum");
+        LogError << __FUNCTION__ << "| elapsed time exceeds int maximum";
         return std::numeric_limits<int>::max();
     }
     return static_cast<int>(elapsed_ms);

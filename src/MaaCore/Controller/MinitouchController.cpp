@@ -27,7 +27,7 @@ bool asst::MinitouchController::call_and_hup_minitouch()
     release_minitouch(true);
 
     std::string cmd = m_use_maa_touch ? m_adb.call_maatouch : m_adb.call_minitouch;
-    Log.info(cmd);
+    LogInfo << cmd;
 
     std::string pipe_str;
 
@@ -178,7 +178,8 @@ bool asst::MinitouchController::swipe(
         y1 = std::clamp(y1, 0, m_height - 1);
     }
 
-    LogTrace << (m_use_maa_touch ? "maatouch" : "minitouch") << "swipe" << p1 << p2 << duration << extra_swipe << slope_in << slope_out;
+    LogTrace << (m_use_maa_touch ? "maatouch" : "minitouch") << "swipe" << p1 << p2 << duration << extra_swipe
+             << slope_in << slope_out;
     if (!m_minitoucher->down(x1, y1)) {
         return false;
     }

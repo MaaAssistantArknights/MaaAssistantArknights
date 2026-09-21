@@ -47,19 +47,14 @@ std::optional<int> asst::GpuDeviceSelector::resolve_device_id() const
             continue;
         }
 
-        Log.info(
-            __FUNCTION__,
-            "resolved adapter LUID",
-            std::format("{:016X}", adapter_luid),
-            "to device id",
-            index,
-            MAA_NS::from_u16(std::wstring_view(desc.Description)));
+        LogInfo << __FUNCTION__ << "resolved adapter LUID" << std::format("{:016X}", adapter_luid) << "to device id"
+                << index << MAA_NS::from_u16(std::wstring_view(desc.Description));
         return static_cast<int>(index);
     }
 
-    Log.error(__FUNCTION__, "adapter LUID not found", std::format("{:016X}", *m_adapter_luid));
+    LogError << __FUNCTION__ << "adapter LUID not found" << std::format("{:016X}", *m_adapter_luid);
 #else
-    Log.error(__FUNCTION__, "adapter LUID selectors are only supported on Windows");
+    LogError << __FUNCTION__ << "adapter LUID selectors are only supported on Windows";
 #endif
 
     return std::nullopt;

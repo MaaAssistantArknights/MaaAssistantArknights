@@ -38,7 +38,7 @@ void BlackFlowTaskPluginBase::report_outputs()
         for (const auto& request : m_session->take_diagnostic_requests()) {
             std::string error;
             if (!m_port->persist_diagnostics(request, &error)) {
-                Log.warn("BlackFlow diagnostic artifact persistence failed:", error);
+                LogWarn << "BlackFlow diagnostic artifact persistence failed:" << error;
             }
         }
     }

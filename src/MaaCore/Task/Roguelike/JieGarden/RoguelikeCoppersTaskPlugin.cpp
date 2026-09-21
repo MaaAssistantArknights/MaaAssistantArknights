@@ -40,11 +40,11 @@ bool asst::RoguelikeCoppersTaskPlugin::verify(AsstMsg msg, const json::value& de
     // 根据任务名称确定运行模式
     if (task_name.ends_with("Roguelike@CoppersTakeFlag")) {
         m_run_mode = CoppersTaskRunMode::EXCHANGE;
-        Log.info(__FUNCTION__, "| plugin activated for EXCHANGE mode");
+        LogInfo << __FUNCTION__ << "| plugin activated for EXCHANGE mode";
     }
     else if (task_name.ends_with("Roguelike@GetDropSwitch")) {
         m_run_mode = CoppersTaskRunMode::PICKUP;
-        Log.info(__FUNCTION__, "| plugin activated for PICKUP mode");
+        LogInfo << __FUNCTION__ << "| plugin activated for PICKUP mode";
     }
     else {
         return false; // 不支持的任务类型
@@ -429,13 +429,12 @@ bool asst::RoguelikeCoppersTaskPlugin::swipe_copper_list(int times, bool to_left
                         : to_swipe_extra_direction(swipe_task->special_params.at(1)),
                     (swipe_task->special_params.size() < 3) ? 1 : swipe_task->special_params.at(2) / 10.0,
                     (swipe_task->special_params.size() < 4) ? 1 : swipe_task->special_params.at(3) / 10.0);
-                Log.debug(
-                    __FUNCTION__,
-                    std::format(
-                        "| correcting swipe error: origin_x = {}, cur_x = {}, diff = {}",
-                        m_origin_x,
-                        cur_x,
-                        abs(m_origin_x - cur_x)));
+                LogDebug << __FUNCTION__
+                         << std::format(
+                                "| correcting swipe error: origin_x = {}, cur_x = {}, diff = {}",
+                                m_origin_x,
+                                cur_x,
+                                abs(m_origin_x - cur_x));
                 ret &= sleep(100);
             }
         }
@@ -483,16 +482,15 @@ void asst::RoguelikeCoppersTaskPlugin::click_copper_at_position(int col, int row
     // 计算Y坐标：基于行偏移量
     Point click_point(x, m_y + (row - 1) * m_row_offset);
 
-    Log.debug(
-        __FUNCTION__,
-        std::format(
-            "| clicking copper at ({},{}) -> point ({},{},{},{})",
-            col,
-            row,
-            click_point.x,
-            m_y,
-            (row - 1),
-            m_row_offset));
+    LogDebug << __FUNCTION__
+             << std::format(
+                    "| clicking copper at ({},{}) -> point ({},{},{},{})",
+                    col,
+                    row,
+                    click_point.x,
+                    m_y,
+                    (row - 1),
+                    m_row_offset);
 
     // 先滑动回最左边
     swipe_copper_list_to_leftmost(m_col + 1);
@@ -542,18 +540,17 @@ std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_co
         copper.col = col;
         copper.row = row;
         copper.is_cast = is_cast;
-        Log.info(
-            __FUNCTION__,
-            std::format(
-                "| created copper: {} priority: {}/{}/{}",
-                name,
-                copper.pickup_priority,
-                copper.discard_priority,
-                copper.cast_discard_priority));
+        LogInfo << __FUNCTION__
+                << std::format(
+                       "| created copper: {} priority: {}/{}/{}",
+                       name,
+                       copper.pickup_priority,
+                       copper.discard_priority,
+                       copper.cast_discard_priority);
         return copper;
     }
 
-    Log.error(__FUNCTION__, std::format("| copper not found in config: {}", name));
+    LogError << __FUNCTION__ << "| copper not found in config:" << name;
 
     // 将识别到的错误的名称发送到 WPF 进行反馈
     auto copper_info = basic_info_with_what("RoguelikeCoppersRecognitionError");
@@ -571,7 +568,7 @@ std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_co
         }
     }
     catch (const std::exception& e) {
-        Log.error(__FUNCTION__, std::format("| failed to save unknown copper debug image: {}", e.what()));
+        LogError << __FUNCTION__ << "| failed to save unknown copper debug image:" << e.what();
     }
 
     return std::nullopt;
@@ -636,6 +633,6 @@ void asst::RoguelikeCoppersTaskPlugin::save_debug_image(
             jpeg_params);
     }
     catch (const std::exception& e) {
-        Log.error(__FUNCTION__, "| failed to save debug image:", e.what());
+        LogError << __FUNCTION__ << "| failed to save debug image:" << e.what();
     }
 }
