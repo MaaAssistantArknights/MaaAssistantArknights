@@ -517,9 +517,9 @@ struct Action
     int cooling = 0;
     ActionType type = ActionType::Deploy;
     battle::Role role = battle::Role::Unknown; // 目标职业
-    std::string name;                          // 目标名，若 type >= SwitchSpeed, name 为空
-    Point location;
-    Rect rect; // Click 的点击区域，720p 基准像素矩形，与 location 二选一
+    std::string name;                          // 目标名
+    std::optional<Point> location;             // 目标位置，未填写时为 nullopt；Click 时与 rect 二选一
+    Rect rect;                                 // Click 的点击区域，720p 基准像素矩形，与 location 二选一
     DeployDirection direction = DeployDirection::Right;
     SkillUsage modify_usage = SkillUsage::NotUse;
     int modify_times = 1; // 更改使用技能的次数，默认为 1，兼容曾经的作业
@@ -530,15 +530,15 @@ struct Action
     std::string doc_color;
     RoleCounts role_counts;
     std::pair<double, double> distance;
-    int elapsed_time = 0; // 全局计时条件 (试验性功能)
-    Rect begin;                            // Swipe 起点区域，720p 基准像素矩形
-    Rect end;                              // Swipe 终点区域，720p 基准像素矩形
-    int duration = 0;                      // Swipe 持续时间，单位毫秒
+    int elapsed_time = 0;                                        // 全局计时条件 (试验性功能)
+    Rect begin;                                                  // Swipe 起点区域，720p 基准像素矩形
+    Rect end;                                                    // Swipe 终点区域，720p 基准像素矩形
+    int duration = 0;                                            // Swipe 持续时间，单位毫秒
     SwipeExtraDirection extra_swipe = SwipeExtraDirection::None; // Swipe 主滑动后追加的补偿滑动方向
-    int slope_in = 10;                     // Swipe 起始斜率，×10 整数存储，10 即 1.0
-    int slope_out = 10;                    // Swipe 结束斜率，×10 整数存储，10 即 1.0
-    bool with_pause = false;               // Swipe 是否在滑动期间暂停
-    bool high_resolution_swipe_fix = false; // Swipe 是否启用高分辨率滑动修正
+    int slope_in = 10;                                           // Swipe 起始斜率，×10 整数存储，10 即 1.0
+    int slope_out = 10;                                          // Swipe 结束斜率，×10 整数存储，10 即 1.0
+    bool with_pause = false;                                     // Swipe 是否在滑动期间暂停
+    bool high_resolution_swipe_fix = false;                      // Swipe 是否启用高分辨率滑动修正
 };
 
 struct BasicInfo

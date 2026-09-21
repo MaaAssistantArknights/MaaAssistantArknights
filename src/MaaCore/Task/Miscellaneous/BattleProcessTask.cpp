@@ -253,15 +253,16 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
 
     switch (action.type) {
     case ActionType::Deploy:
-        ret = deploy_oper(role, name, location, action.direction);
+        // Deploy 语义上必填 location，未填时按 [0, 0] 部署（与历史版本 json 缺失时的行为一致）
+        ret = deploy_oper(role, name, location.value_or(Point {}), action.direction);
         if (ret) {
             m_in_bullet_time = false;
         }
         break;
 
     case ActionType::Retreat:
-        ret =
-            m_in_bullet_time ? click_retreat() : (location.empty() ? retreat_oper(role, name) : retreat_oper(location));
+        ret = m_in_bullet_time ? click_retreat()
+                               : (location.has_value() ? retreat_oper(*location) : retreat_oper(role, name));
         if (ret) {
             m_in_bullet_time = false;
         }
@@ -269,8 +270,8 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
 
     case ActionType::UseSkill:
         ret = m_in_bullet_time ? click_skill(action.timeout_ms)
-                               : (location.empty() ? use_skill(role, name, action.timeout_ms)
-                                                   : use_skill(location, action.timeout_ms));
+                               : (location.has_value() ? use_skill(*location, action.timeout_ms)
+                                                       : use_skill(role, name, action.timeout_ms));
         if (ret) {
             m_in_bullet_time = false;
         }
@@ -291,23 +292,22 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         break;
 
     case ActionType::Click: {
-        if (!action.rect.empty() && !location.empty()) {
-            LogError << "Both rect and location are set for Click action. Skip this step.";
-            break;
-        }
         if (!action.rect.empty()) {
             ret = ctrler()->click(action.rect);
         }
-        else if (!location.empty()) {
+        else if (location.has_value()) {
+            // Click 为直接点击，画面处于正常战斗视角（无俯角），用 normal 表；
+            // side 表对应拖拽部署时倾斜 10° 的相机视角，仅 Deploy 拖拽使用
             // 无识别直接点，空格子也可点击
-            auto target_iter = m_normal_tile_info.find(location);
+            auto target_iter = m_normal_tile_info.find(*location);
             if (target_iter == m_normal_tile_info.end()) {
-                LogError << "No tile found at" << location << "for Click action. Skip this step.";
+                LogError << "No tile found at" << *location << "for Click action. Skip this step.";
                 break;
             }
             ret = ctrler()->click(target_iter->second.pos);
         }
         else {
+            // 解析层已保证 rect/location 二选一，正常不会走到这里
             LogError << "Click action requires either rect or location. Skip this step.";
             break;
         }
@@ -318,11 +318,7 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
     }
 
     case ActionType::Swipe:
-        if (action.begin.empty() || action.end.empty()) {
-            LogError << "Swipe action requires both begin and end. Skip this step.";
-            break;
-        }
-        // slope 为 ×10 整数存储，转为 controller 需要的 double
+        // begin/end 必填由解析层保证；slope 为 ×10 整数存储，转为 controller 需要的 double
         ret = ctrler()->swipe(
             action.begin,
             action.end,
@@ -344,11 +340,11 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
                 m_skill_times[tag] = times;
             }
         };
-        if (!location.empty() && !name.empty()) {
+        if (location.has_value() && !name.empty()) {
             LogError << "Both name and location are set for SkillUsage action. Skip this step.";
             break;
         }
-        else if (location.empty()) { // 坐标为空, 指定oper name
+        else if (!location.has_value()) { // 坐标未填, 指定oper name
             auto tag_it = std::ranges::find_if(m_skill_usage, [&](const auto& pair) {
                 return (role == battle::Role::Unknown || pair.first.role == role) && pair.first.name == name;
             });
@@ -362,11 +358,11 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         else { // oper name为空, 指定坐标
             battle::Role _role;
             std::string drone_name;
-            if (auto it = m_used_tiles.find(location); it == m_used_tiles.end()) {
-                LogInfo << "Tile hasn't used, register for drone" << location;
-                drone_name = std::format("drone_{}_{}", location.x, location.y);
+            if (auto it = m_used_tiles.find(*location); it == m_used_tiles.end()) {
+                LogInfo << "Tile hasn't used, register for drone" << *location;
+                drone_name = std::format("drone_{}_{}", location->x, location->y);
                 _role = Role::Drone;
-                register_deployed_oper(_role, drone_name, location);
+                register_deployed_oper(_role, drone_name, *location);
             }
             else {
                 drone_name = it->second.name;
@@ -581,11 +577,14 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
     return true;
 }
 
-bool asst::BattleProcessTask::enter_bullet_time(battle::Role role, const std::string& name, const Point& location)
+bool asst::BattleProcessTask::enter_bullet_time(
+    battle::Role role,
+    const std::string& name,
+    const std::optional<Point>& location)
 {
     LogTraceFunction;
 
-    bool ret = location.empty() ? click_oper_on_battlefield(role, name) : click_oper_on_battlefield(location);
+    bool ret = location.has_value() ? click_oper_on_battlefield(*location) : click_oper_on_battlefield(role, name);
     if (!ret) {
         ret = click_oper_on_deployment(role, name);
     };

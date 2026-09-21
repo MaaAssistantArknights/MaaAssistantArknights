@@ -57,8 +57,11 @@ bool asst::SingleStepTask::append_copilot_action(const json::value& details)
 
     try {
         // 请参考自动战斗协议
-        auto actions = CopilotConfig::parse_actions(details);
-        task->set_actions(std::move(actions));
+        auto actions_opt = CopilotConfig::parse_actions(details);
+        if (!actions_opt) {
+            return false;
+        }
+        task->set_actions(std::move(*actions_opt));
     }
     catch (const json::exception& e) {
         Log.error(__FUNCTION__, e.what());

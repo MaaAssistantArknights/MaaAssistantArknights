@@ -42,7 +42,7 @@ protected:
     battle::OperNameTag get_name_from_group(battle::Role role, const std::string& oper_name_in_action);
     void notify_action(const battle::copilot::Action& action);
     bool wait_condition(const battle::copilot::Action& action);
-    bool enter_bullet_time(battle::Role role, const std::string& name, const Point& location);
+    bool enter_bullet_time(battle::Role role, const std::string& name, const std::optional<Point>& location);
     void sleep_and_do_strategy(unsigned millisecond);
 
     battle::copilot::CombatData m_combat_data;
