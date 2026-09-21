@@ -328,6 +328,13 @@ std::optional<std::vector<asst::battle::copilot::Action>> asst::CopilotConfig::p
         action.rect.y = action_info.get("rect", 1, 0);
         action.rect.width = action_info.get("rect", 2, 0);
         action.rect.height = action_info.get("rect", 3, 0);
+        // 值级校验：与 Swipe 对称，key 存在而值畸形（元素不足、空数组、null）时分量 get 回退为 0，
+        // 解析出退化 Rect，判定整个作业无效，避免静默点击错误位置
+        if (action.type == ActionType::Click && action_info.contains("rect") && action.rect.empty()) {
+            LogError << __FUNCTION__
+                     << "| Click action 'rect' must be a 4-element array [x, y, w, h] with non-zero width and height";
+            return std::nullopt;
+        }
         action.direction = string_to_direction(action_info.get("direction", "Right"));
 
         action.modify_usage = static_cast<battle::SkillUsage>(action_info.get("skill_usage", 0));

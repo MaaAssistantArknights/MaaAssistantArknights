@@ -259,7 +259,7 @@ public class CopilotModel : CopilotBase
         public List<int>? Location { get; set; }
 
         /// <summary>
-        /// Gets or sets 点击的区域。type 为 "点击" 时必选，与 location 二选一，格式为 720p 基准像素矩形 [x, y, w, h]，点击时在区域内随机取点
+        /// Gets or sets 点击的区域。type 为 "点击" 时与 location 二选一，格式为 720p 基准像素矩形 [x, y, w, h]，点击时在区域内随机取点
         /// </summary>
         [JsonProperty("rect")]
         public List<int>? Rect { get; set; }

@@ -307,7 +307,7 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
             ret = ctrler()->click(target_iter->second.pos);
         }
         else {
-            // 解析层已保证 rect/location 二选一，正常不会走到这里
+            // 解析层已保证 rect/location 二选一且值合法，此处仅兜底
             LogError << "Click action requires either rect or location. Skip this step.";
             break;
         }
