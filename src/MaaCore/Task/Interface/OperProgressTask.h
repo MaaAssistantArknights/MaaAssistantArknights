@@ -10,7 +10,7 @@
 
 namespace asst
 {
-class AutoRaiseProcessTask;
+class OperProgressProcessTask;
 
 class OperProgressTask final : public InterfaceTask
 {
@@ -37,8 +37,8 @@ public:
     virtual bool set_params(const json::value& params) override;
 
 private:
-    std::optional<AutoRaiseProcessTask::AutoRaisePlan> parse_plan(const json::value& params);
+    std::optional<OperProgressProcessTask::AutoRaisePlan> parse_plan(const json::value& params);
 
-    std::shared_ptr<AutoRaiseProcessTask> m_process_task_ptr;
+    std::shared_ptr<OperProgressProcessTask> m_process_task_ptr;
 };
 } // namespace asst

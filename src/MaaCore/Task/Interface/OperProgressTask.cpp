@@ -7,7 +7,7 @@
 
 asst::OperProgressTask::OperProgressTask(const AsstCallback& callback, Assistant* inst) :
     InterfaceTask(callback, inst, TaskType),
-    m_process_task_ptr(std::make_shared<AutoRaiseProcessTask>(callback, inst, TaskType))
+    m_process_task_ptr(std::make_shared<OperProgressProcessTask>(callback, inst, TaskType))
 {
     m_process_task_ptr->set_retry_times(0);
     m_subtasks.emplace_back(m_process_task_ptr);
@@ -115,7 +115,7 @@ public:
 };
 } // namespace json::ext
 
-std::optional<asst::AutoRaiseProcessTask::AutoRaisePlan> asst::OperProgressTask::parse_plan(const json::value& params)
+std::optional<asst::OperProgressProcessTask::AutoRaisePlan> asst::OperProgressTask::parse_plan(const json::value& params)
 {
     const auto& plans = params.find<std::vector<ProgressTargetDto>>("plans");
     if (!plans) {
@@ -123,7 +123,7 @@ std::optional<asst::AutoRaiseProcessTask::AutoRaisePlan> asst::OperProgressTask:
         return std::nullopt;
     }
 
-    AutoRaiseProcessTask::AutoRaisePlan result;
+    OperProgressProcessTask::AutoRaisePlan result;
     result.reserve(plans->size());
     for (const auto& plan : *plans) {
         battle::Role role = plan.role;
@@ -137,10 +137,10 @@ std::optional<asst::AutoRaiseProcessTask::AutoRaisePlan> asst::OperProgressTask:
         }
         if (plan.elite) {
             result.emplace_back(
-                AutoRaiseProcessTask::OperProgressTarget {
+                OperProgressProcessTask::OperProgressTarget {
                     .role = role,
                     .name = plan.name,
-                    .action = AutoRaiseProcessTask::OperProgressAction::Elite,
+                    .action = OperProgressProcessTask::OperProgressAction::Elite,
                     .target = *plan.elite,
                 });
         }

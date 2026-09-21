@@ -8,7 +8,7 @@
 
 namespace asst
 {
-class AutoRaiseProcessTask final : public AbstractTask
+class OperProgressProcessTask final : public AbstractTask
 {
 public:
     enum class OperProgressAction
@@ -32,7 +32,7 @@ public:
 
 public:
     using AbstractTask::AbstractTask;
-    virtual ~AutoRaiseProcessTask() override = default;
+    virtual ~OperProgressProcessTask() override = default;
 
     void set_plan(std::vector<OperProgressTarget> plan) { m_plan = std::move(plan); }
 

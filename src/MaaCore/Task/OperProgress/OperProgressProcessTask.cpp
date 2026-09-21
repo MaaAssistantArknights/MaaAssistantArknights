@@ -134,7 +134,7 @@ std::string role_task_name(asst::battle::Role role)
 }
 }
 
-bool asst::AutoRaiseProcessTask::_run()
+bool asst::OperProgressProcessTask::_run()
 {
     m_mastery_busy = false;
     m_entry_completed = false;
@@ -176,7 +176,7 @@ bool asst::AutoRaiseProcessTask::_run()
     return !need_exit();
 }
 
-asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_target(const OperProgressTarget& target)
+asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_target(const OperProgressTarget& target)
 {
     if (!BattleData.get_first_id(battle::Role::Unknown, target.name)) {
         return Result::OperatorNotFound;
@@ -199,7 +199,7 @@ asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_target(co
     }
 }
 
-asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::find_and_open_operator(const OperProgressTarget& target)
+asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::find_and_open_operator(const OperProgressTarget& target)
 {
     // 计划中连续两条属于同一干员且档案页仍停留时直接复用当前页面,不回干员列表重复定位
     // 精英化等培养状态由 execute_xxx 在档案页现场识别,复用页面不影响状态判断。
@@ -268,7 +268,7 @@ asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::find_and_open_ope
     return need_exit() ? Result::Skipped : Result::OperatorNotFound;
 }
 
-bool asst::AutoRaiseProcessTask::select_operator_role(battle::Role role)
+bool asst::OperProgressProcessTask::select_operator_role(battle::Role role)
 {
     // 使用 BattleData 职业信息缩小 OCR 查找范围,不使用固定的干员卡片坐标。
     const std::string role_task = role_task_name(role);
@@ -291,7 +291,7 @@ bool asst::AutoRaiseProcessTask::select_operator_role(battle::Role role)
            run_task("OperProgress@OperBoxRoleFiltered", 3);
 }
 
-asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_elite(const OperProgressTarget& target)
+asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_elite(const OperProgressTarget& target)
 {
     // 档案页现场识别当前精英阶段,不沿用干员列表页或上一条计划的结果：
     // 前序培养目标可能已改变该干员的精英化等级。识别失败时不猜测,直接判识别失败。
@@ -349,7 +349,7 @@ asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_elite(con
     return Result::Completed;
 }
 
-asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_skills(const OperProgressTarget& target)
+asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_skills(const OperProgressTarget& target)
 {
     // 档案页技能等级 OCR 与精英阶段识别共用一张截图
     const cv::Mat image = ctrler()->get_image();
@@ -411,7 +411,7 @@ asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_skills(co
     return Result::Completed;
 }
 
-asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_mastery(const OperProgressTarget& target)
+asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_mastery(const OperProgressTarget& target)
 {
     // 档案页技能等级 OCR、精英阶段与专精图标识别共用一张截图
     const cv::Mat image = ctrler()->get_image();
@@ -519,7 +519,7 @@ asst::AutoRaiseProcessTask::Result asst::AutoRaiseProcessTask::execute_mastery(c
     return Result::Completed;
 }
 
-bool asst::AutoRaiseProcessTask::analyze_training_context(
+bool asst::OperProgressProcessTask::analyze_training_context(
     std::string& operator_name,
     std::string& skill_name,
     int& level)
@@ -563,7 +563,7 @@ bool asst::AutoRaiseProcessTask::analyze_training_context(
     return utils::chars_to_number(template_name.substr(std::string("InfrastTrainingLevel").size(), 1), level);
 }
 
-bool asst::AutoRaiseProcessTask::select_training_trainee(const OperProgressTarget& target)
+bool asst::OperProgressProcessTask::select_training_trainee(const OperProgressTarget& target)
 {
     // 训练室受训干员面板与作战快速编队共用同一套 UI（右侧职业栏 + 旗标卡片列表）,
     // 选人逻辑参照 BattleFormationTask::add_formation 按职业翻页扫寻；此处只点选干员,不选择技能。
@@ -657,7 +657,7 @@ bool asst::AutoRaiseProcessTask::select_training_trainee(const OperProgressTarge
     return selected;
 }
 
-bool asst::AutoRaiseProcessTask::select_training_trainer(const OperProgressTarget& target, int training_level)
+bool asst::OperProgressProcessTask::select_training_trainer(const OperProgressTarget& target, int training_level)
 {
     LogTraceFunction;
 
@@ -815,7 +815,7 @@ bool asst::AutoRaiseProcessTask::select_training_trainer(const OperProgressTarge
     return trainer_selected;
 }
 
-bool asst::AutoRaiseProcessTask::reset_trainer_list_page()
+bool asst::OperProgressProcessTask::reset_trainer_list_page()
 {
     // 参照 InfrastAbstractTask::swipe_to_the_left_of_operlist：基建干员列表通过切换职业栏标签复位——
     // 先收起已展开的职业栏（未展开时该点击不会命中,属预期）,再展开职业栏并点任一职业把列表拉回
@@ -848,8 +848,8 @@ bool asst::AutoRaiseProcessTask::reset_trainer_list_page()
     return false;
 }
 
-asst::AutoRaiseProcessTask::Result
-    asst::AutoRaiseProcessTask::synthesize_missing_material(OperProgressAction task_type, int material_index)
+asst::OperProgressProcessTask::Result
+    asst::OperProgressProcessTask::synthesize_missing_material(OperProgressAction task_type, int material_index)
 {
     if (material_index < 0 || material_index > 2) {
         LogError << __FUNCTION__ << "| invalid material index" << material_index;
@@ -895,7 +895,7 @@ asst::AutoRaiseProcessTask::Result
                                                                                     : Result::ResourceInsufficient;
 }
 
-bool asst::AutoRaiseProcessTask::record_factory_state()
+bool asst::OperProgressProcessTask::record_factory_state()
 {
     // 制造站产线当前产品复用基建产品标志模板识别
     // 识别结果写入 Status 供 RestoreFactoryState 恢复；识别失败时不得切换产线。
@@ -927,12 +927,12 @@ bool asst::AutoRaiseProcessTask::record_factory_state()
     return false;
 }
 
-std::optional<int> asst::AutoRaiseProcessTask::ocr_number(const std::string& task_name)
+std::optional<int> asst::OperProgressProcessTask::ocr_number(const std::string& task_name)
 {
     return ocr_number(ctrler()->get_image(), task_name);
 }
 
-std::optional<int> asst::AutoRaiseProcessTask::ocr_number(const cv::Mat& image, const std::string& task_name)
+std::optional<int> asst::OperProgressProcessTask::ocr_number(const cv::Mat& image, const std::string& task_name)
 {
     RegionOCRer analyzer(image);
     analyzer.set_task_info(task_name);
@@ -949,7 +949,7 @@ std::optional<int> asst::AutoRaiseProcessTask::ocr_number(const cv::Mat& image, 
     return value;
 }
 
-bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const OperProgressTarget& target)
+bool asst::OperProgressProcessTask::manufacture_dual_chip(const OperProgressTarget& target)
 {
     // 弹窗徽标 OCR 已有/所需数量算缺口 → 跳制造站进芯片产线并记录当前产品 →
     // 选芯片类按职业选双芯片 → 助剂数量/库存不足时经凭证商店补购 → 制造站加 ×(缺口-1) →
@@ -1025,7 +1025,7 @@ bool asst::AutoRaiseProcessTask::manufacture_dual_chip(const OperProgressTarget&
     return run_task("OperProgress@ReturnToEliteUpPage");
 }
 
-bool asst::AutoRaiseProcessTask::restore_factory_state()
+bool asst::OperProgressProcessTask::restore_factory_state()
 {
     // 读取 record_factory_state 写入的产品名,复用基建换产品链恢复产线；
     // 无记录或记录为芯片时无需恢复。
@@ -1056,7 +1056,7 @@ bool asst::AutoRaiseProcessTask::restore_factory_state()
     return selected && run_task("VerifyProductChangedTo" + *product);
 }
 
-bool asst::AutoRaiseProcessTask::buy_catalyst(int count)
+bool asst::OperProgressProcessTask::buy_catalyst(int count)
 {
     // 凭证交易所导航 → 红票区页签 → 滚动查找芯片助剂（可能不在第一屏）→ 打开购买面板 →
     // 商品加 ×(count-1) → 支付 → 领取获得物资 → 返回制造站芯片产品页。
@@ -1096,14 +1096,14 @@ bool asst::AutoRaiseProcessTask::buy_catalyst(int count)
     return run_task("OperProgress@ReturnToMfgPage");
 }
 
-bool asst::AutoRaiseProcessTask::run_task(const std::string& task_name, int retry_times)
+bool asst::OperProgressProcessTask::run_task(const std::string& task_name, int retry_times)
 {
     ProcessTask task(*this, { task_name });
     task.set_retry_times(retry_times);
     return task.run();
 }
 
-void asst::AutoRaiseProcessTask::report_target(
+void asst::OperProgressProcessTask::report_target(
     std::string what,
     size_t index,
     const OperProgressTarget& target,
@@ -1122,7 +1122,7 @@ void asst::AutoRaiseProcessTask::report_target(
     callback(AsstMsg::SubTaskExtraInfo, info);
 }
 
-void asst::AutoRaiseProcessTask::report_summary()
+void asst::OperProgressProcessTask::report_summary()
 {
     auto info = basic_info_with_what("AutoRaiseSummary");
     info["details"] = json::object {
@@ -1134,7 +1134,7 @@ void asst::AutoRaiseProcessTask::report_summary()
     callback(AsstMsg::SubTaskExtraInfo, info);
 }
 
-std::string_view asst::AutoRaiseProcessTask::action_name(OperProgressAction action)
+std::string_view asst::OperProgressProcessTask::action_name(OperProgressAction action)
 {
     switch (action) {
     case OperProgressAction::Elite:
@@ -1148,7 +1148,7 @@ std::string_view asst::AutoRaiseProcessTask::action_name(OperProgressAction acti
     }
 }
 
-std::string_view asst::AutoRaiseProcessTask::result_name(Result result)
+std::string_view asst::OperProgressProcessTask::result_name(Result result)
 {
     switch (result) {
     case Result::Completed:
