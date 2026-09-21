@@ -300,6 +300,6 @@ public static class CopilotHelper
             throw new JsonSerializationException("Unsupported JSON structure for Content");
         }
 
-        public override void WriteJson(JsonWriter writer, CopilotBase? value, JsonSerializer serializer) => writer.WriteValue(JsonConvert.SerializeObject(value));
+        public override void WriteJson(JsonWriter writer, CopilotBase? value, JsonSerializer serializer) => writer.WriteValue(JsonConvert.SerializeObject(value, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore, }));
     }
 }

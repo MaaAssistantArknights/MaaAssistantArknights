@@ -205,6 +205,7 @@ public class CopilotModel : CopilotBase
         /// <item>"SkillUsage" - 技能用法</item>
         /// <item>"Output" - 打印</item>
         /// <item>"SkillDaemon" - 摆完挂机</item>
+        /// <item>"ResetStopwatch" - 重置全局计时器</item>
         /// <item>"MoveCamera" - 移动镜头</item>
         /// <item>"Click" - 点击</item>
         /// <item>"Swipe" - 滑动</item>
@@ -258,7 +259,7 @@ public class CopilotModel : CopilotBase
         public List<int>? Location { get; set; }
 
         /// <summary>
-        /// Gets or sets 点击的区域。type 为 "点击" 时必选，与 location 二选一，格式为 720p 基准像素矩形 [x, y, w, h]
+        /// Gets or sets 点击的区域。type 为 "点击" 时必选，与 location 二选一，格式为 720p 基准像素矩形 [x, y, w, h]，点击时在区域内随机取点
         /// </summary>
         [JsonProperty("rect")]
         public List<int>? Rect { get; set; }
@@ -353,7 +354,7 @@ public class CopilotModel : CopilotBase
         public int SlopeOut { get; set; } = 10;
 
         /// <summary>
-        /// Gets or sets 滑动期间是否暂停。可选，默认为 false
+        /// Gets or sets 滑动期间是否暂停。可选，默认为 false，仅部分触控模式支持
         /// </summary>
         [JsonProperty("with_pause")]
         public bool WithPause { get; set; }
