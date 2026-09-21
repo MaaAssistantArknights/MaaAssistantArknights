@@ -173,7 +173,7 @@ bool asst::OperProgressProcessTask::_run()
         report_target("AutoRaiseTargetResult", index, target, result, m_recognized_level);
     }
     report_summary();
-    return !need_exit();
+    return true;
 }
 
 asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_target(const OperProgressTarget& target)
@@ -199,7 +199,8 @@ asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_tar
     }
 }
 
-asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::find_and_open_operator(const OperProgressTarget& target)
+asst::OperProgressProcessTask::Result
+    asst::OperProgressProcessTask::find_and_open_operator(const OperProgressTarget& target)
 {
     // 计划中连续两条属于同一干员且档案页仍停留时直接复用当前页面,不回干员列表重复定位
     // 精英化等培养状态由 execute_xxx 在档案页现场识别,复用页面不影响状态判断。
