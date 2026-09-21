@@ -316,6 +316,13 @@ public class CopilotModel : CopilotBase
         public List<double>? Distance { get; set; }
 
         /// <summary>
+        /// Gets or sets 移动镜头时是否不归零击杀数。type 为 "移动镜头" 时可选，默认为 false；
+        /// 为 true 时不等待当前波次结束、击杀数不清零，适用于同一波次内移动镜头的场景
+        /// </summary>
+        [JsonProperty("keep_kills")]
+        public bool KeepKills { get; set; }
+
+        /// <summary>
         /// Gets or sets 滑动起点的区域。type 为 "滑动" 时必选，格式为 720p 基准像素矩形 [x, y, w, h]
         /// </summary>
         [JsonProperty("begin")]

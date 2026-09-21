@@ -258,6 +258,14 @@ public class SSSCopilotModel : CopilotBase
 
             [JsonProperty("high_resolution_swipe_fix")]
             public bool? HighResolutionSwipeFix { get; set; }
+
+            // MoveCamera 专用：true 时不等待当前波次结束、击杀数不清零，用于同一波次内移动镜头；null（未填）时 core 按 false 处理
+            [JsonProperty("keep_kills")]
+            public bool? KeepKills { get; set; }
+
+            // MoveCamera 专用：镜头移动量 [x 格数, y 格数]，可小数可负
+            [JsonProperty("distance")]
+            public List<double>? Distance { get; set; }
         }
     }
 }
