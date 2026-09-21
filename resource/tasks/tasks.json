@@ -5701,10 +5701,10 @@
         "cache": true,
         "roi": [10, 360, 100, 110],
         "maxTimes": 3,
-        "next": ["ChooseOriginiumShard", "#self"],
-        "exceededNext": ["ChooseOriginiumShard"]
+        "next": ["ChooseOriginiumShardFromOriginiumOre", "#self"],
+        "exceededNext": ["ChooseOriginiumShardFromOriginiumOre"]
     },
-    "ChooseOriginiumShard": {
+    "ChooseOriginiumShardFromOriginiumOre": {
         "action": "ClickSelf",
         "cache": true,
         "roi": [250, 90, 165, 165],
@@ -5713,6 +5713,16 @@
         "exceededNext": ["ClickProductMax"],
         "preDelay": 500,
         "Doc": "加前延时等动画结束再执行点击"
+    },
+    "ChooseOriginiumShardFromDevice": {
+        "action": "ClickSelf",
+        "cache": true,
+        "roi": [748, 90, 165, 165],
+        "maxTimes": 3,
+        "next": ["ClickProductMax", "#self"],
+        "exceededNext": ["ClickProductMax"],
+        "preDelay": 500,
+        "Doc": "使用装置合成源石碎片"
     },
     "ChooseChipTab": {
         "action": "ClickSelf",
