@@ -230,7 +230,7 @@ public class SSSCopilotModel : CopilotBase
             [JsonProperty("kills")]
             public int? Kills { get; set; }
 
-            // Click 的点击区域，与 location 二选一；begin/end 为 Swipe 起终点区域；均为 720p 基准像素矩形 [x, y, w, h]
+            // Click 的点击区域，与 location 至少填一个，同时填写时优先使用 rect；begin/end 为 Swipe 起终点区域；均为 720p 基准像素矩形 [x, y, w, h]
             [JsonProperty("rect")]
             public List<int>? Rect { get; set; }
 

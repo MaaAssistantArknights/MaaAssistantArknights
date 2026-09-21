@@ -297,11 +297,15 @@ std::optional<std::vector<asst::battle::copilot::Action>> asst::CopilotConfig::p
             continue;
         }
 
-        // Click 必须且只能提供 rect / location 之一，Swipe 必须同时提供 begin / end，结构错误判定整个作业无效
+        // Click 必须提供 rect / location 之一（都不填判定整个作业无效），同填仅警告并按 rect 优先执行；
+        // Swipe 必须同时提供 begin / end，缺一判定整个作业无效
         if (action.type == ActionType::Click) {
-            if (action_info.contains("rect") == action_info.contains("location")) { // 同填或都不填
-                LogError << __FUNCTION__ << "| Click action must specify exactly one of 'rect' or 'location'";
+            if (!action_info.contains("rect") && !action_info.contains("location")) { // 都不填
+                LogError << __FUNCTION__ << "| Click action must specify one of 'rect' or 'location'";
                 return std::nullopt;
+            }
+            if (action_info.contains("rect") && action_info.contains("location")) { // 同填，执行层按 rect 优先
+                LogWarn << __FUNCTION__ << "| Both rect and location are set for Click action, using rect";
             }
         }
         else if (action.type == ActionType::Swipe) {
@@ -323,7 +327,7 @@ std::optional<std::vector<asst::battle::copilot::Action>> asst::CopilotConfig::p
         if (action_info.contains("location")) {
             action.location = Point { action_info.get("location", 0, 0), action_info.get("location", 1, 0) };
         }
-        // Click 的点击区域，720p 基准像素矩形，与 location 二选一，缺失时保持空 Rect
+        // Click 的点击区域，720p 基准像素矩形，与 location 至少填一个，同填时优先使用 rect，缺失时保持空 Rect
         action.rect.x = action_info.get("rect", 0, 0);
         action.rect.y = action_info.get("rect", 1, 0);
         action.rect.width = action_info.get("rect", 2, 0);

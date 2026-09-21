@@ -261,6 +261,10 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         break;
 
     case ActionType::Retreat:
+        // name 与 location 同填仅警告，路由按 location 优先；子弹时间分支无坐标概念，同样进入即提示
+        if (location.has_value() && !name.empty()) {
+            LogWarn << "Both name and location are set for Retreat action, using location";
+        }
         ret = m_in_bullet_time ? click_retreat()
                                : (location.has_value() ? retreat_oper(*location) : retreat_oper(role, name));
         if (ret) {
@@ -269,6 +273,10 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         break;
 
     case ActionType::UseSkill:
+        // name 与 location 同填仅警告，路由按 location 优先；子弹时间分支无坐标概念，同样进入即提示
+        if (location.has_value() && !name.empty()) {
+            LogWarn << "Both name and location are set for UseSkill action, using location";
+        }
         ret = m_in_bullet_time ? click_skill(action.timeout_ms)
                                : (location.has_value() ? use_skill(*location, action.timeout_ms)
                                                        : use_skill(role, name, action.timeout_ms));
@@ -307,7 +315,7 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
             ret = ctrler()->click(target_iter->second.pos);
         }
         else {
-            // 解析层已保证 rect/location 二选一且值合法，此处仅兜底
+            // 解析层已保证 rect/location 至少填一个且 rect 值合法，此处仅兜底
             LogError << "Click action requires either rect or location. Skip this step.";
             break;
         }
