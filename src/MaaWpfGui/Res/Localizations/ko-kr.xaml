@@ -1869,6 +1869,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MoveCamera">카메라 이동</system:String>
     <system:String x:Key="DrawCard">오퍼레이터 배치</system:String>
     <system:String x:Key="CheckIfStartOver">재시작 여부 확인</system:String>
+    <system:String x:Key="ResetStopwatch">스톱워치 초기화</system:String>
+    <system:String x:Key="Click">클릭</system:String>
+    <system:String x:Key="Swipe">스와이프</system:String>
     <system:String x:Key="UnsupportedLevel">지원되지 않는 스테이지입니다. 스테이지 이름을 확인하거나 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 로 이동하여 리소스 버전을 업데이트해 보세요!</system:String>
     <system:String x:Key="Copilot.UnsupportedSkill">{0}은 {1} 스킬을 지원하지 않으므로, 스킬이 선택되지 않음</system:String>
     <system:String x:Key="Copilot.EliteEmpty">{0} 정예화 등급 요구 사항이 설정되지 않았지만, 다른 속성에 대한 요구 사항은 정예화 {1}입니다. 이 값은 자동으로 채워졌습니다.</system:String>
