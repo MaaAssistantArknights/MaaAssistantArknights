@@ -72,4 +72,4 @@ Built-in features include:
   - Green ticket shop exchange
   - Yellow ticket shop exchange
   - Reclamation Algorithm shop exchange
-  - Automatically Raise Potential (start from the Operator list screen; stops on the last Operator profile when finished, or on the Operator list if there is no available target)
+  - Automatically Raise Potential
