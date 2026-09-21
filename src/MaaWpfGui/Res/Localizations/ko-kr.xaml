@@ -1295,6 +1295,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@SecretFrontTip">소대 선택 화면에서 시작합니다. 기존 세이브 데이터가 있으면 수동으로 삭제해야 합니다.\n게임 내  ｢이전 소대의 데이터 전승받기｣  옵션을 체크하는 것을 권장합니다.</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis">부족 재료 합성</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesisTip" xml:space="preserve">육성 화면(정예화, 스킬 특훈, 모듈 업그레이드 등)의 부족 재료 팝업에서 가공소 합성 화면으로 직접 이동한 뒤 시작하세요.&#10;합성 가능한 하위 재료를 재귀적으로 합성하며, 재료가 부족하면 중지합니다.</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@DemoVideo">데모 영상</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@StartLog">재료 자동 합성 시작</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@MaterialLog">현재 재료: {0}, {1}개 더 필요 ({2}단계)</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@IngredientLog">{0}의 {1}번째 하위 재료 보충</system:String>
