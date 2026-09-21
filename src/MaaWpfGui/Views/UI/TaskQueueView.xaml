@@ -170,7 +170,8 @@
                                                                 Command="{s:Action CopyTask,
                                                                                    Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                                 CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                                Header="{DynamicResource Copy}" />
+                                                                Header="{DynamicResource Copy}"
+                                                                IsEnabled="{Binding PlacementTarget.DataContext.CanCopy, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                                                             <MenuItem
                                                                 Command="{s:Action RenameTask,
                                                                                    Target={x:Static helper:Instances.TaskQueueViewModel}}"
@@ -269,6 +270,7 @@
                                                     Command="{s:Action CopyTask,
                                                                        Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                     CommandParameter="{Binding}"
+                                                    IsEnabled="{c:Binding CanCopy}"
                                                     Style="{StaticResource TaskActionButtonStyle}"
                                                     ToolTip="{DynamicResource Copy}" />
                                                 <Button
@@ -351,7 +353,8 @@
                                             <MenuItem
                                                 Command="{s:Action AddTaskQueueTask}"
                                                 CommandParameter="{Binding TaskTypeList[0].Value}"
-                                                Header="{Binding TaskTypeList[0].Display}" />
+                                                Header="{Binding TaskTypeList[0].Display}"
+                                                IsEnabled="{c:Binding 'StartUpTaskCount less 1'}" />
                                             <MenuItem
                                                 Command="{s:Action AddTaskQueueTask}"
                                                 CommandParameter="{Binding TaskTypeList[1].Value}"
@@ -375,7 +378,8 @@
                                             <MenuItem
                                                 Command="{s:Action AddTaskQueueTask}"
                                                 CommandParameter="{Binding TaskTypeList[6].Value}"
-                                                Header="{Binding TaskTypeList[6].Display}" />
+                                                Header="{Binding TaskTypeList[6].Display}"
+                                                Visibility="Collapsed" />
                                             <MenuItem
                                                 Command="{s:Action AddTaskQueueTask}"
                                                 CommandParameter="{Binding TaskTypeList[7].Value}"
@@ -395,7 +399,11 @@
                                             <MenuItem
                                                 Command="{s:Action AddTaskQueueTask}"
                                                 CommandParameter="{Binding TaskTypeList[11].Value}"
-                                                Header="{Binding TaskTypeList[11].Display}"
+                                                Header="{Binding TaskTypeList[11].Display}" />
+                                            <MenuItem
+                                                Command="{s:Action AddTaskQueueTask}"
+                                                CommandParameter="{Binding TaskTypeList[12].Value}"
+                                                Header="{Binding TaskTypeList[12].Display}"
                                                 Visibility="{c:Binding ShowDebugTask}" />
                                         </Menu>
                                     </Border>
@@ -602,6 +610,12 @@
                                 Visibility="{c:Binding DataContext.TaskSettingVisibilities.Fight,
                                                        RelativeSource={RelativeSource Mode=FindAncestor,
                                                                                       AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:OperProgressTaskUserControl
+                                DataContext="{Binding OperProgressTask}"
+                                IsEnabled="{Binding DataContext.Run.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                Visibility="{c:Binding DataContext.TaskSettingVisibilities.OperProgress,
+                                                       RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                      AncestorType={x:Type UserControl}}}" />
                             <taskQueue:RecruitSettingsUserControl
                                 DataContext="{Binding RecruitTask}"
                                 IsEnabled="{Binding DataContext.Run.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
@@ -785,56 +799,60 @@
                                                     Visibility="{c:Binding ShowToolTip}" />
                                             </Grid>
                                         </Grid>
-                                        <Border
+                                        <Grid
                                             MaxWidth="420"
-                                            Margin="0,0,0,2.5"
-                                            Padding="5,0,1,5"
-                                            Background="{DynamicResource MouseOverRegionBrushOpacity10}"
-                                            BorderBrush="{DynamicResource BorderBrush}"
-                                            BorderThickness="1"
-                                            CornerRadius="4"
-                                            Visibility="{c:Binding UseCardLog,
-                                                                   Source={x:Static ui_vms:SettingsViewModel.GuiSettings}}">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="*" />
-                                                </Grid.ColumnDefinitions>
-                                                <Grid Width="60">
-                                                    <controls:TextBlock
-                                                        Grid.Row="0"
-                                                        Margin="0,5,10,0"
-                                                        HorizontalAlignment="Center"
-                                                        Foreground="{DynamicResource TraceLogBrush}"
-                                                        Text="{Binding Time}"
-                                                        TextWrapping="Wrap" />
-                                                </Grid>
-                                                <Grid
-                                                    Grid.Column="1"
-                                                    Margin="0,5,0,0"
-                                                    HorizontalAlignment="Left"
-                                                    ToolTip="{Binding ToolTip}"
-                                                    ToolTipService.InitialShowDelay="200">
+                                            SnapsToDevicePixels="True"
+                                            UseLayoutRounding="True">
+                                            <Border
+                                                Margin="0,0,0,2.5"
+                                                Padding="5,0,1,5"
+                                                Background="{DynamicResource MouseOverRegionBrushOpacity10}"
+                                                BorderBrush="{DynamicResource BorderBrush}"
+                                                BorderThickness="1"
+                                                CornerRadius="4"
+                                                Visibility="{c:Binding UseCardLog,
+                                                                       Source={x:Static ui_vms:SettingsViewModel.GuiSettings}}">
+                                                <Grid>
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition />
                                                         <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
                                                     </Grid.ColumnDefinitions>
-                                                    <controls:TextBlock
-                                                        Grid.Column="0"
-                                                        FontWeight="{Binding Weight}"
-                                                        ForegroundKey="{Binding Color}"
-                                                        Text="{Binding DisplayContent}"
-                                                        TextWrapping="Wrap" />
-                                                    <controls:TooltipBlock
+                                                    <Grid Width="60">
+                                                        <controls:TextBlock
+                                                            Grid.Row="0"
+                                                            Margin="0,5,10,0"
+                                                            HorizontalAlignment="Center"
+                                                            Foreground="{DynamicResource TraceLogBrush}"
+                                                            Text="{Binding Time}"
+                                                            TextWrapping="Wrap" />
+                                                    </Grid>
+                                                    <Grid
                                                         Grid.Column="1"
-                                                        Margin="10,0,0,0"
-                                                        PathDate="{StaticResource LogToolTip}"
-                                                        PathStrokeThickness="1.5"
-                                                        TextBlockText=""
-                                                        Visibility="{c:Binding ShowToolTip}" />
+                                                        Margin="0,5,0,0"
+                                                        HorizontalAlignment="Left"
+                                                        ToolTip="{Binding ToolTip}"
+                                                        ToolTipService.InitialShowDelay="200">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <controls:TextBlock
+                                                            Grid.Column="0"
+                                                            FontWeight="{Binding Weight}"
+                                                            ForegroundKey="{Binding Color}"
+                                                            Text="{Binding DisplayContent}"
+                                                            TextWrapping="Wrap" />
+                                                        <controls:TooltipBlock
+                                                            Grid.Column="1"
+                                                            Margin="10,0,0,0"
+                                                            PathDate="{StaticResource LogToolTip}"
+                                                            PathStrokeThickness="1.5"
+                                                            TextBlockText=""
+                                                            Visibility="{c:Binding ShowToolTip}" />
+                                                    </Grid>
                                                 </Grid>
-                                            </Grid>
-                                        </Border>
+                                            </Border>
+                                        </Grid>
                                     </StackPanel>
                                 </DataTemplate>
                             </ContentControl.ContentTemplate>
@@ -915,20 +933,21 @@
                                                            Source={x:Static ui_vms:SettingsViewModel.GuiSettings}}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Grid>
+                                            <Grid
+                                                MaxWidth="420"
+                                                SnapsToDevicePixels="True"
+                                                UseLayoutRounding="True">
                                                 <!--
                                                     日志分隔符需在窗口隐藏（最小化托盘）期间动态添加，
                                                     hc:Divider 的 Row/Col 栅格在该场景下会永久渲染为 0 尺寸，
                                                     详见 LogSectionDivider 头注释
                                                 -->
                                                 <controls:LogSectionDivider
-                                                    MaxWidth="420"
                                                     Margin="0,0,0,2.5"
                                                     Header="{Binding Header}"
                                                     HeaderHorizontalAlignment="Center"
                                                     Visibility="{c:Binding IsDivider}" />
                                                 <Border
-                                                    MaxWidth="420"
                                                     Margin="0,0,0,2.5"
                                                     Padding="2.5,0,1,5"
                                                     Background="{DynamicResource MouseOverRegionBrushOpacity10}"

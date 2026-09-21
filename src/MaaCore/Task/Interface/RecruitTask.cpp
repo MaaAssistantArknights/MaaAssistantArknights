@@ -48,6 +48,7 @@ bool asst::RecruitTask::set_params(const json::value& params)
     bool refresh = params.get("refresh", false);
     bool set_time = params.get("set_time", true);
     bool force_refresh = params.get("force_refresh", true);
+    int level3_recruitment_permit_reserve = params.get("level3_recruitment_permit_reserve", 0);
     int times = params.get("times", 0);
     bool expedite = params.get("expedite", false);
     [[maybe_unused]] int expedite_times = params.get("expedite_times", 0);
@@ -88,6 +89,7 @@ bool asst::RecruitTask::set_params(const json::value& params)
         .set_preserve_tags(std::move(preserve_tags))
         .set_select_level(std::move(select))
         .set_confirm_level(std::move(confirm))
+        .set_level3_recruitment_permit_reserve(level3_recruitment_permit_reserve)
         .set_recruitment_time(recruitment_time_map)
         .set_penguin_enabled(penguin_enabled, penguin_id)
         .set_yituliu_enabled(yituliu_enabled, yituliu_id)

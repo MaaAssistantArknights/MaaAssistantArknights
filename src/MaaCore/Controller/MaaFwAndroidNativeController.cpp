@@ -2,7 +2,9 @@
 
 #include "MaaFwAndroidNativeController.h"
 
+#include <chrono>
 #include <cmath>
+#include <future>
 #include <thread>
 
 #include "Common/AsstMsg.h"
@@ -13,10 +15,6 @@
 
 namespace asst
 {
-
-// 与 Minitoucher::DefaultClickDelay 对齐：按下与抬起各等待一次。
-// 抬起后同样要留间隔，否则高频连点会被并成同一手势而丢点
-constexpr int ClickDelay = 50;
 
 MaaFwAndroidNativeController::MaaFwAndroidNativeController(const AsstCallback& callback, Assistant* inst) :
     InstHelper(inst),
@@ -210,12 +208,13 @@ bool MaaFwAndroidNativeController::click(const Point& p)
         return false;
     }
 
+    // 按下与抬起各等待一次 TouchHoldMs；抬起后同样要留间隔，否则高频连点会被并成同一手势而丢点
     if (!m_unit_handle->touch_down(0, p.x, p.y, 1)) {
         return false;
     }
-    std::this_thread::sleep_for(std::chrono::milliseconds(ClickDelay));
+    std::this_thread::sleep_for(std::chrono::milliseconds(TouchHoldMs));
     const bool ret = m_unit_handle->touch_up(0);
-    std::this_thread::sleep_for(std::chrono::milliseconds(ClickDelay));
+    std::this_thread::sleep_for(std::chrono::milliseconds(TouchHoldMs));
     return ret;
 }
 
@@ -259,25 +258,34 @@ bool MaaFwAndroidNativeController::swipe(
         LogError << "touch_down failed at swipe start point";
         return false;
     }
+    std::this_thread::sleep_for(std::chrono::milliseconds(TouchHoldMs));
 
-    constexpr int TimeInterval = 5; // 类似 Minitoucher::DefaultSwipeDelay
-
+    // pause 的 press_esc 走 unit handle 按键（key down/up），无 adb 通道前置条件，故直判
     bool need_pause = with_pause;
+    std::future<void> pause_future;
     const auto& opt = Config.get_options();
 
     auto bounds_check = [this](int x, int y) {
         return x >= 0 && x < m_screen_resolution.first && y >= 0 && y < m_screen_resolution.second;
     };
 
+    // 本地触控没有 minitouch 那样的 commit/wait 协议，按绝对节拍控制：
+    // 以本段滑动起点为基准，第 k 步对齐 start + k * SwipeIntervalMs，
+    // 调用耗时吃进预算，超时不补立即继续
+    auto tick_start = std::chrono::steady_clock::now();
+    int move_step = 0;
     auto move_func = [&](int x, int y) -> bool {
         if (!m_unit_handle->touch_move(0, x, y, 1)) {
             return false;
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(TimeInterval));
+        high_res_sleep_until(tick_start + ++move_step * std::chrono::milliseconds(SwipeIntervalMs));
         return true;
     };
 
     auto do_swipe = [&](const int _x1, const int _y1, const int _x2, const int _y2, const int _duration) -> bool {
+        // 每段滑动各自成段，重置绝对节拍的起点与步计数
+        tick_start = std::chrono::steady_clock::now();
+        move_step = 0;
         if (need_pause) {
             auto pause_check = [&opt](const int cur_x, const int cur_y, const int start_x, const int start_y) {
                 return std::sqrt(std::pow(cur_x - start_x, 2) + std::pow(cur_y - start_y, 2)) >
@@ -290,7 +298,7 @@ bool MaaFwAndroidNativeController::swipe(
                 _x2,
                 _y2,
                 _duration,
-                TimeInterval,
+                SwipeIntervalMs,
                 slope_in,
                 slope_out,
                 move_func,
@@ -298,7 +306,9 @@ bool MaaFwAndroidNativeController::swipe(
                 pause_check,
                 [&]() {
                     need_pause = false;
-                    press_esc();
+                    // press_esc 内含 sleep_for(50ms)，同步调用会让绝对节拍的 deadline 积压、
+                    // 恢复后 move 连发；异步执行以免卡住滑动节拍（future 析构时隐式等待按键序列完成）
+                    pause_future = std::async(std::launch::async, [this]() { press_esc(); });
                 });
         }
         return interpolate_swipe(
@@ -307,7 +317,7 @@ bool MaaFwAndroidNativeController::swipe(
             _x2,
             _y2,
             _duration,
-            TimeInterval,
+            SwipeIntervalMs,
             slope_in,
             slope_out,
             move_func,
@@ -315,7 +325,7 @@ bool MaaFwAndroidNativeController::swipe(
     };
 
     if (!do_swipe(x1, y1, x2, y2, duration ? duration : opt.minitouch_swipe_default_duration)) {
-        LogError << "Failed during main swipe movement";
+        LogWarn << "failed during main swipe movement";
         m_unit_handle->touch_up(0);
         return false;
     }
@@ -325,13 +335,18 @@ bool MaaFwAndroidNativeController::swipe(
         std::this_thread::sleep_for(std::chrono::milliseconds(opt.minitouch_swipe_extra_end_delay));
         const auto offset = extra_swipe_offset(extra_swipe, opt.minitouch_extra_swipe_dist);
 
+        // extra 是主滑成功后的补偿段，失败不判整体失败，避免上层无谓重试
         if (!do_swipe(x2, y2, x2 + offset.x, y2 + offset.y, opt.minitouch_extra_swipe_duration)) {
-            LogWarn << "Failed during extra swipe movement";
+            LogWarn << "failed during extra swipe movement";
         }
     }
 
-    m_unit_handle->touch_up(0);
-    std::this_thread::sleep_for(std::chrono::milliseconds(ClickDelay));
+    if (!m_unit_handle->touch_up(0)) {
+        LogWarn << "failed during final touch up";
+        return false;
+    }
+    // 抬起后留出间隔，为下一次输入留出手势结束的时间
+    std::this_thread::sleep_for(std::chrono::milliseconds(TouchHoldMs));
     return true;
 }
 
@@ -385,7 +400,8 @@ bool MaaFwAndroidNativeController::press_esc()
 
 ControlFeat::Feat MaaFwAndroidNativeController::support_features() const noexcept
 {
-    // MaaFwAndroidNativeController 支持精确滑动和暂停滑动功能
+    // 本地触控坐标即设备原生坐标，无 minitouch 式的 max_x/max_y 换算；
+    // 暂停走 unit handle 按键注入，两个特性都能完整支持
     auto feat = ControlFeat::PRECISE_SWIPE;
     feat |= ControlFeat::SWIPE_WITH_PAUSE;
     return feat;

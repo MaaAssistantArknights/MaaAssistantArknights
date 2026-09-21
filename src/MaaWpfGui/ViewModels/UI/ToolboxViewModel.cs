@@ -1664,7 +1664,14 @@ public class ToolboxViewModel : Screen
 
         _operBoxDataSource = details["source"]?.ToString() == "yituliu" ? "yituliu" : "local";
 
-        var ownOpers = (details["own_opers"] as JArray)?.ToObject<List<OperBoxData.OperData>>()?.Where(o => !string.IsNullOrEmpty(o.Id)).ToList();
+        // 升变形态 ID 先归一到基础形态，后续的拥有去重、未拥有差集与落盘都使用同一 ID
+        var ownOpers = (details["own_opers"] as JArray)?.ToObject<List<OperBoxData.OperData>>()?
+            .Where(o => !string.IsNullOrEmpty(o.Id))
+            .Select(o => {
+                o.Id = DataHelper.GetCanonicalOperId(o.Id);
+                return o;
+            })
+            .ToList();
         if (ownOpers is null)
         {
             return false;
@@ -2379,7 +2386,7 @@ public class ToolboxViewModel : Screen
             _logger.Warning("Screenshot Semaphore Full, Reduce Target FPS count to {PeepTargetFps}", --PeepTargetFps);
             _ = Execute.OnUIThreadAsync(() => {
                 Growl.Clear();
-                Growl.Warning($"Screenshot taking too long, reduce Target FPS to {PeepTargetFps}");
+                Growl.Warning(LocalizationHelper.GetStringFormat("PeepScreenshotTooLong", PeepTargetFps));
             });
             return;
         }
@@ -2519,7 +2526,13 @@ public class ToolboxViewModel : Screen
         public bool IsSecretFront => Value == "MiniGame@SecretFront";
 
         public bool IsPixelPaint => Value is "MiniGame@PixelPaint" or "MiniGame@PixelPaint@Begin";
+
+        public bool IsAutoRaisePotential => Value == "MiniGame@AutoRaisePotential@Begin";
+
+        public bool IsMaterialSynthesis => Value == "MiniGame@MaterialSynthesis@Begin";
     }
+
+    public static string MaterialSynthesisVideoPath => Path.Combine(PathsHelper.BaseDir, "Res", "Video", "MaterialSynthesis.mp4");
 
     public ObservableCollection<MiniGameCategoryItem> MiniGameCategoryItems { get; } = [];
 
@@ -2555,9 +2568,16 @@ public class ToolboxViewModel : Screen
         var categorizedItems = Instances.StageManager.MiniGameEntries
             .Select(t => {
                 var isCurrentEvent = t.UtcStartTime != DateTime.MinValue || t.UtcExpireTime != DateTime.MinValue;
-                var category = LocalizationHelper.GetString(isCurrentEvent
-                    ? "MiniGameCategoryCurrentEvent"
-                    : "MiniGameCategoryPermanent");
+                var defaultCategoryKey = isCurrentEvent ? "MiniGameCategoryCurrentEvent" : "MiniGameCategoryPermanent";
+                var category = !string.IsNullOrEmpty(t.CategoryKey)
+                    && LocalizationHelper.TryGetString(t.CategoryKey, out var localizedCategory)
+                    ? localizedCategory
+                    : t.Category;
+                if (string.IsNullOrEmpty(category))
+                {
+                    category = LocalizationHelper.GetString(defaultCategoryKey);
+                }
+
                 return new MiniGameCategoryItem {
                     Display = string.IsNullOrEmpty(t.DisplayKey)
                         ? t.Display
@@ -2676,6 +2696,11 @@ public class ToolboxViewModel : Screen
         ("诡影迷踪", "MiniGame@SecretFront@Event3"));
 
     public string SecretFrontEvent { get; set => SetAndNotify(ref field, value); } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets 自动提升潜能：中间信物不足时是否消耗普通信物继续提升（不勾选时点 × 跳过该次提升）。
+    /// </summary>
+    public bool MiniGameUseNormalToken { get; set => SetAndNotify(ref field, value); }
 
     #region PixelPaint
 
@@ -3246,7 +3271,7 @@ public class ToolboxViewModel : Screen
         }
         else
         {
-            caught = Instances.AsstProxy.AsstMiniGame(GetMiniGameTask());
+            caught = Instances.AsstProxy.AsstMiniGame(GetMiniGameTask(), MiniGameUseNormalToken);
         }
 
         if (!caught)

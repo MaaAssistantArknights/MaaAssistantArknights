@@ -19,6 +19,7 @@ using System.Windows.Media;
 using HandyControl.Themes;
 using HandyControl.Tools;
 using JetBrains.Annotations;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.WineCompat;
 using Microsoft.Win32;
@@ -151,6 +152,8 @@ public static class ThemeHelper
         // 在 UI 线程写入资源
         Execute.OnUIThread(() =>
         {
+            // 应用前检查：若请求已被更新取消，丢弃过时的调色板
+            cancellationToken.ThrowIfCancellationRequested();
             ApplyPaletteToResources(palette, baseColor);
         });
     }
@@ -167,6 +170,16 @@ public static class ThemeHelper
 
         foreach (var (key, color) in palette)
         {
+            // 开关开启时：遮罩层（RegionBrushOpacity*）与标题栏遮罩（RegionBrush 等背景体系）
+            // 不应用莫奈取色：移除莫奈直接覆盖项，让底层主题字典的默认值重新生效。
+            // 不能只 continue——之前写入的莫奈色仍残留在资源里，界面不会即时变化
+            if (MonetPaletteHelper.BackgroundMaskKeys.Contains(key)
+                && ConfigFactory.Root.Gui.BackgroundMonetKeepMaskNeutral)
+            {
+                Application.Current.Resources.Remove(key);
+                continue;
+            }
+
             Application.Current.Resources[key] = new SolidColorBrush(color);
         }
     }

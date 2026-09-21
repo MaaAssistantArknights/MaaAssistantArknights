@@ -30,6 +30,13 @@ public class TelegramNotificationProvider(IHttpService httpService, TelegramConf
 {
     private readonly ILogger _logger = Log.ForContext<TelegramNotificationProvider>();
 
+    /// <summary>
+    /// sendMessage 的 text 上限，超出时接口返回 400 message is too long。
+    /// </summary>
+    private const int MaxTextLength = 4096;
+
+    private const string TruncatedMark = "[...]\n";
+
     public async Task<bool> SendAsync(string title, string content)
     {
         var botToken = telegram.BotToken;
@@ -41,7 +48,7 @@ public class TelegramNotificationProvider(IHttpService httpService, TelegramConf
         var postContent = new TelegramPostContent
         {
             ChatId = chatId,
-            Content = $"{title}: {content}",
+            Content = Truncate($"{title}: {content}"),
         };
 
         // Only add the topic ID if one is provided
@@ -53,12 +60,15 @@ public class TelegramNotificationProvider(IHttpService httpService, TelegramConf
         try
         {
             var response = await httpService.PostAsync(new(uri), new StringContent(JsonSerializer.Serialize(postContent), Encoding.UTF8, "application/json"), uriPartial: UriPartial.Authority);
-            response.EnsureSuccessStatusCode();
             var str = await response.Content.ReadAsStringAsync();
-            if (response is not null)
+            if (!response.IsSuccessStatusCode)
             {
-                return !str.Contains("\"ok\":false");
+                // 失败原因只在响应体里（如 message is too long），不记下来无从排查
+                _logger.Warning("Telegram API returned {StatusCode}: {Body}", (int)response.StatusCode, str);
+                return false;
             }
+
+            return !str.Contains("\"ok\":false");
         }
         catch (Exception e)
         {
@@ -67,6 +77,29 @@ public class TelegramNotificationProvider(IHttpService httpService, TelegramConf
 
         _logger.Warning("Failed to send message.");
         return false;
+    }
+
+    /// <summary>
+    /// 把消息裁到 <see cref="MaxTextLength"/> 以内。开启 ｢通知包含详细日志｣ 后，完成通知会带上本轮全部日志，
+    /// 长任务很容易超限而整条发不出去。保留末尾：用时、配置与出错清单等正文在日志之后。
+    /// </summary>
+    /// <param name="text">完整消息</param>
+    /// <returns>不超过上限的消息</returns>
+    private static string Truncate(string text)
+    {
+        if (text.Length <= MaxTextLength)
+        {
+            return text;
+        }
+
+        // 起点落在代理项对（如 emoji）中间时前半已被裁掉，剩下的低位代理项要一并丢掉，否则序列化成 JSON 会变成 U+FFFD
+        var suffixStart = text.Length - (MaxTextLength - TruncatedMark.Length);
+        if (char.IsLowSurrogate(text[suffixStart]))
+        {
+            suffixStart++;
+        }
+
+        return TruncatedMark + text[suffixStart..];
     }
 
     private class TelegramPostContent

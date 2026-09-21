@@ -1,6 +1,7 @@
 #include "PlayToolsController.h"
 
 #include <boost/asio.hpp>
+#include <chrono>
 
 #include "Config/GeneralConfig.h"
 #include "MaaUtils/NoWarningCV.hpp"
@@ -210,7 +211,7 @@ bool asst::PlayToolsController::swipe(
     SwipeExtraDirection extra_swipe,
     double slope_in,
     double slope_out,
-    bool with_pause [[maybe_unused]])
+    bool with_pause)
 {
     int x1 = p1.x, y1 = p1.y;
     int x2 = p2.x, y2 = p2.y;
@@ -227,25 +228,39 @@ bool asst::PlayToolsController::swipe(
 
     Log.trace("PlayTools swipe", p1, p2, duration, extra_swipe, slope_in, slope_out);
 
-    toucher_down({ x1, y1 });
+    if (with_pause) {
+        LogWarn << "swipe with_pause is not supported on PlayTools";
+    }
+
+    if (!toucher_down({ x1, y1 })) {
+        return false;
+    }
 
     auto bounds_check = [width, height](int x, int y) {
-        return x >= 0 && x <= width && y >= 0 && y <= height;
+        return x >= 0 && x < width && y >= 0 && y < height;
     };
 
-    auto move_func = [this](int x, int y) {
-        toucher_move({ x, y });
-        return true;
+    // 按绝对节拍控制：以本段滑动起点为基准，第 k 步对齐
+    // start + k * SwipeIntervalMs，调用耗时吃进预算，超时不补立即继续
+    auto tick_start = std::chrono::steady_clock::now();
+    int move_step = 0;
+    auto move_func = [this, &tick_start, &move_step](int x, int y) {
+        bool ret = toucher_move({ x, y });
+        high_res_sleep_until(tick_start + ++move_step * std::chrono::milliseconds(SwipeIntervalMs));
+        return ret;
     };
 
-    auto progressive_move = [&](int _x1, int _y1, int _x2, int _y2, int _duration) {
-        interpolate_swipe(
+    auto progressive_move = [&](int _x1, int _y1, int _x2, int _y2, int _duration) -> bool {
+        // 每段滑动各自成段，重置绝对节拍的起点与步计数
+        tick_start = std::chrono::steady_clock::now();
+        move_step = 0;
+        return interpolate_swipe(
             _x1,
             _y1,
             _x2,
             _y2,
             _duration,
-            DefaultSwipeDelay,
+            SwipeIntervalMs,
             slope_in,
             slope_out,
             move_func,
@@ -254,12 +269,18 @@ bool asst::PlayToolsController::swipe(
 
     const auto& opt = Config.get_options();
 
-    progressive_move(x1, y1, x2, y2, duration ? duration : opt.minitouch_swipe_default_duration);
+    // 中途失败也必须尽力抬手，否则手指会一直按在屏幕上，后续操作全部失效
+    if (!progressive_move(x1, y1, x2, y2, duration ? duration : opt.minitouch_swipe_default_duration)) {
+        (void)toucher_up(p2);
+        return false;
+    }
 
     if (extra_swipe != SwipeExtraDirection::None && opt.minitouch_extra_swipe_duration > 0) {
         toucher_wait(opt.minitouch_swipe_extra_end_delay);
         const auto offset = extra_swipe_offset(extra_swipe, opt.minitouch_extra_swipe_dist);
-        progressive_move(x2, y2, x2 + offset.x, y2 + offset.y, opt.minitouch_extra_swipe_duration);
+        if (!progressive_move(x2, y2, x2 + offset.x, y2 + offset.y, opt.minitouch_extra_swipe_duration)) {
+            LogWarn << "failed during extra swipe movement";
+        }
     }
 
     return toucher_up(p2);

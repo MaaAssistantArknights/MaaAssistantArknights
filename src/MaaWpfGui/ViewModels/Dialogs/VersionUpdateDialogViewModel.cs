@@ -568,7 +568,7 @@ public class VersionUpdateDialogViewModel : Screen
                     _ = Task.Run(() =>
                         MessageBoxHelper.Show(
                             LocalizationHelper.GetString("MirrorChyanSelectedButNoCdk"),
-                            "cdk is empty!",
+                            LocalizationHelper.GetString("Warning"),
                             MessageBoxButton.OK,
                             MessageBoxImage.Warning,
                             ok: LocalizationHelper.GetString("Ok")));

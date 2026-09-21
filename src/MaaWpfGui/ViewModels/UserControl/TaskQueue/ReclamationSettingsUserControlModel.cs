@@ -21,6 +21,7 @@ using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using static MaaWpfGui.Main.AsstProxy;
 using Mode = MaaWpfGui.Configuration.Single.MaaTask.ReclamationMode;
 using Theme = MaaWpfGui.Configuration.Single.MaaTask.ReclamationTheme;
@@ -152,6 +153,7 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
     /// Gets the theme-specific tip text.
     /// </summary>
     [PropertyDependsOn(nameof(ReclamationTheme), nameof(ReclamationMode))]
+    [PropertyDependsOn(typeof(GuiSettingsUserControlModel), nameof(GuiSettingsUserControlModel.Language))]
     public string ReclamationTip
     {
         get {

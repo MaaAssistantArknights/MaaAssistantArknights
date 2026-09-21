@@ -224,7 +224,7 @@ pip 설치 후에도 Pre-commit을 실행할 수 없다면, PIP 설치 경로가
 
 ### Visual Studio에서 clang-format 사용 설정
 
-1. clang-format 20.1.0 또는 그 이상 버전을 설치합니다.
+1. clang-format 21.1.8 또는 그 이상 버전을 설치합니다.
 
    ```bash
    python -m pip install clang-format

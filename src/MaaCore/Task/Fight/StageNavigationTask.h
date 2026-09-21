@@ -38,5 +38,9 @@ protected:
     bool m_switch_difficulty_after_stage_selection = false;
     std::shared_ptr<ProcessTask> m_fight_task_ptr = nullptr;
     static constexpr std::string_view AnnihilationSuffix = "Annihilation";
+
+private:
+    bool try_last_battle();
+    bool m_last_battle_checked = false;
 };
 }

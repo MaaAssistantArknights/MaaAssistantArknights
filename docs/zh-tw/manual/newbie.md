@@ -21,7 +21,7 @@ icon: ri:guide-fill
 
    MAA 在 Windows 下僅支援 10 和 11，舊版 Windows 使用者請參閱 [常見問題](./faq.md#系統問題) 中的系統問題部分。
 
-   非 Windows 使用者請參閱 [模擬器及設備支援](./device/)。
+   非 Windows 使用者請參閱 [模擬器及設備支援](./device/) 下的對應部分。
 
 2. 確認模擬器支援
 

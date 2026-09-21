@@ -570,6 +570,13 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 taskIds.Add(depotTaskId);
             }
 
+            // 空计划且未追加前置仓库识别时整任务没有 core 任务，须说明跳过原因；计划非空时各 plan 已有逐条日志
+            if (depot.PlanList.Count == 0 && !depot.UpdateDepot)
+            {
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DepotPlanNoPlan"), UiLogColor.Error);
+                return (null, []);
+            }
+
             Instances.TaskQueueViewModel.AddLogSection(depot.NameOrTaskType);
 
             var depotList = Instances.ToolboxViewModel?.DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count) ?? [];

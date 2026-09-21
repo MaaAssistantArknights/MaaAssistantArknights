@@ -22,3 +22,5 @@ Recruitment tag data is automatically uploaded to [Penguin Statistics](https://p
 After enabling `Preference for 3★ Tags`, you can choose which 3★ tags should be preferred. After enabling `Preserve selected tags`, you can choose which tags should keep the current slot untouched.
 
 When any preserved tag is recognized, MAA skips the current recruitment slot and leaves it unchanged instead of confirming that recruitment.
+
+After enabling `Reserve recruitment permits for 3★` and setting a value, MAA skips 3★ recruitment when the remaining permit count is less than or equal to that value. Recruitment is also skipped when the permit count fails to be recognized, so that the reserved permits are not consumed.

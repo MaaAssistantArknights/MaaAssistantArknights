@@ -489,16 +489,69 @@ public class SettingsViewModel : Screen
         set => SetHotKey(MaaHotKeyAction.LinkStart, value);
     }
 
+    /// <summary>
+    /// Gets a value indicating whether the ShowGui hotkey failed to register, to mark the editor in the UI.
+    /// The manager is the single source of truth; UI reads it when the binding initializes.
+    /// </summary>
+    public bool HotKeyShowGuiRegistrationFailed => Instances.MaaHotKeyManager?.IsRegistrationFailed(MaaHotKeyAction.ShowGui) ?? false;
+
+    /// <summary>
+    /// Gets a value indicating whether the LinkStart hotkey failed to register, to mark the editor in the UI.
+    /// The manager is the single source of truth; UI reads it when the binding initializes.
+    /// </summary>
+    public bool HotKeyLinkStartRegistrationFailed => Instances.MaaHotKeyManager?.IsRegistrationFailed(MaaHotKeyAction.LinkStart) ?? false;
+
     private static void SetHotKey(MaaHotKeyAction action, MaaHotKey? value)
     {
         if (value != null)
         {
-            Instances.MaaHotKeyManager.TryRegister(action, value);
+            var result = Instances.MaaHotKeyManager.TryRegister(action, value);
+            if (result == MaaHotKeyRegistrationResult.DuplicateHotKey)
+            {
+                Growl.Warning(LocalizationHelper.GetString("HotKeyRegistrationFailedDuplicate"));
+            }
+            else if (result == MaaHotKeyRegistrationResult.OccupiedByOtherApp)
+            {
+                Growl.Warning(LocalizationHelper.GetString("HotKeyRegistrationFailedOccupied"));
+            }
         }
         else
         {
             Instances.MaaHotKeyManager.UnRegister(action);
         }
+
+        NotifyHotKeyRegistrationChanged(action);
+    }
+
+    private static void NotifyHotKeyRegistrationChanged(MaaHotKeyAction action)
+    {
+        var settingsViewModel = Instances.SettingsViewModel;
+        if (settingsViewModel == null)
+        {
+            return;
+        }
+
+        switch (action)
+        {
+            case MaaHotKeyAction.ShowGui:
+                settingsViewModel.OnHotKeyShowGuiRegistrationChanged();
+                break;
+            case MaaHotKeyAction.LinkStart:
+                settingsViewModel.OnHotKeyLinkStartRegistrationChanged();
+                break;
+        }
+    }
+
+    /// <summary>Notifies the UI to re-read the ShowGui registration state after a register/unregister attempt.</summary>
+    private void OnHotKeyShowGuiRegistrationChanged()
+    {
+        NotifyOfPropertyChange(nameof(HotKeyShowGuiRegistrationFailed));
+    }
+
+    /// <summary>Notifies the UI to re-read the LinkStart registration state after a register/unregister attempt.</summary>
+    private void OnHotKeyLinkStartRegistrationChanged()
+    {
+        NotifyOfPropertyChange(nameof(HotKeyLinkStartRegistrationFailed));
     }
 
     #endregion HotKey
@@ -594,6 +647,17 @@ public class SettingsViewModel : Screen
     [UsedImplicitly]
     public void DeleteConfiguration(CombinedData delete)
     {
+        var result = MessageBoxHelper.Show(
+            LocalizationHelper.GetStringFormat("ConfirmDeleteConfigurationMessage", delete.Display),
+            LocalizationHelper.GetString("ConfirmDeleteTask"),
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Warning);
+
+        if (result != MessageBoxResult.Yes)
+        {
+            return;
+        }
+
         if (ConfigFactory.DeleteConfiguration(delete.Display))
         {
             ConfigurationList.Remove(delete);

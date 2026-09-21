@@ -114,6 +114,11 @@ public class Gui : NotifyPropertyChangedWithValue
     public string BackgroundMonetCachedColor { get; set; } = string.Empty;
 
     /// <summary>
+    /// 莫奈取色时背景/遮罩系 brush 是否保持主题默认中性色（不施加颜色遮罩）。
+    /// </summary>
+    public bool BackgroundMonetKeepMaskNeutral { get; set; }
+
+    /// <summary>
     /// 表示深色模式的类型。
     /// </summary>
     public enum DarkModeType

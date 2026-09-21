@@ -61,4 +61,7 @@ public class GenericCombinedData<TValueType>() : PropertyChangedBase
         get => _isEnabled;
         set => SetAndNotify(ref _isEnabled, value);
     }
+
+    /// <inheritdoc/>
+    public override string ToString() => Display;
 }

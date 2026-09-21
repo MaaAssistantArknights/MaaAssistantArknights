@@ -98,6 +98,11 @@ public class TaskQueueViewModel : Screen
     public static FightSettingsUserControlModel FightTask => FightSettingsUserControlModel.Instance;
 
     /// <summary>
+    /// Gets 干员培养任务Model
+    /// </summary>
+    public static OperProgressTaskUserControlModel OperProgressTask => OperProgressTaskUserControlModel.Instance;
+
+    /// <summary>
     /// Gets 招募任务Model
     /// </summary>
     public static RecruitSettingsUserControlModel RecruitTask => RecruitSettingsUserControlModel.Instance;
@@ -152,7 +157,7 @@ public class TaskQueueViewModel : Screen
     private static readonly IEnumerable<TaskSettingsViewModel> _taskViewModelTypes = InitTaskViewModelList();
 
     /// <summary>
-    /// 实时更新任务顺序
+    /// 实时更新任务顺序与依赖任务列表的派生属性
     /// </summary>
     /// <param name="sender">ignored object</param>
     /// <param name="e">ignored NotifyCollectionChangedEventArgs</param>
@@ -222,6 +227,12 @@ public class TaskQueueViewModel : Screen
             {
                 ConfigFactory.CurrentConfig.TaskQueue.Clear();
                 TaskSettingVisibilities.SetPostAction(true);
+            }
+
+            // Move 不改变队列内容，其余操作都可能增删开始唤醒任务
+            if (e.Action != NotifyCollectionChangedAction.Move)
+            {
+                NotifyOfPropertyChange(nameof(StartUpTaskCount));
             }
         });
     }
@@ -467,6 +478,64 @@ public class TaskQueueViewModel : Screen
         }
     }
 
+    private readonly object _failedTasksLock = new();
+
+    /// <summary>
+    /// 本次运行中出错的主任务队列任务。用于 ｢出错时跳过完成后动作｣ 与完成汇报的错误汇总。
+    /// <para>
+    /// key 为 Core 任务 id（稳定标识，同一任务重复报错时天然去重）。下发阶段就失败的任务不会进入这里：
+    /// 此时整轮不会启动，也就不会执行完成后动作。
+    /// value 是出错当时的任务显示名（含多链任务后缀），只用于日志 —— 刻意做快照而非事后反查：
+    /// 任务队列在运行期间可被拖动排序或改名，事后按下标反查会拿到错误的名字。
+    /// </para>
+    /// <para>
+    /// 不能改用 <see cref="TaskItemViewModel.StatusDisplay"/> 判断：
+    /// <see cref="ResetAllTemporaryVariable"/> 会在 <see cref="CheckAfterCompleted"/> 之前
+    /// 把半选（<see langword="null"/>）任务的状态重置为 Idle，导致出错信息丢失。
+    /// </para>
+    /// <para>
+    /// 生命周期：每轮运行开始（离开空闲）时清空，与完成后动作的发射权一同重置。记录按轮次归属判定、
+    /// 清空挂在状态机沿，均不依赖 <see cref="TaskItemViewModel.TaskIds"/>（远程控制轮次不填充），
+    /// 覆盖所有启动入口，包括绕过 <see cref="LinkStartWithTasks"/> 直接 AsstStart 的 <c>RemoteControlService</c>；
+    /// 也不能在运行结束时清空：时长上限到点停止会先经过 <see cref="SetStopped"/> 再执行完成后动作。
+    /// </para>
+    /// </summary>
+    private readonly Dictionary<int, string> _failedTasks = [];
+
+    /// <summary>
+    /// 记录一个出错的主任务队列任务。由 <see cref="AsstProxy"/> 在 TaskChainError 时调用。
+    /// </summary>
+    /// <param name="taskId">Core 任务 id</param>
+    /// <param name="taskName">出错当时的任务显示名，仅用于日志</param>
+    public void RecordFailedTask(int taskId, string taskName)
+    {
+        lock (_failedTasksLock)
+        {
+            _failedTasks[taskId] = taskName;
+        }
+    }
+
+    /// <summary>
+    /// 本次运行中已记录的失败任务显示名。完成汇报（错误汇总与标题切换）由 <see cref="AsstProxy"/> 的
+    /// <c>AllTasksCompleted</c> 回调读取。
+    /// </summary>
+    /// <returns>失败任务显示名数组</returns>
+    public string[] GetFailedTaskNames()
+    {
+        lock (_failedTasksLock)
+        {
+            return [.. _failedTasks.Values];
+        }
+    }
+
+    private void ClearFailedTasks()
+    {
+        lock (_failedTasksLock)
+        {
+            _failedTasks.Clear();
+        }
+    }
+
     /// <summary>
     /// 自然完成后的收尾：执行结束脚本后执行完成后动作。仅由 <see cref="AsstProxy"/> 的
     /// <c>AllTasksCompleted</c> 回调调用，结束脚本恒执行。
@@ -513,6 +582,18 @@ public class TaskQueueViewModel : Screen
 
         var actions = PostActionSetting;
         _logger.Information("Post actions: " + actions.ActionDescription);
+
+        var failedTasks = GetFailedTaskNames();
+        if (actions.SkipOnError && failedTasks.Length > 0)
+        {
+            var failedTasksText = string.Join(", ", failedTasks);
+            _logger.Information("Post actions skipped, failed tasks: {FailedTasks}", failedTasksText);
+            AddLog(LocalizationHelper.GetStringFormat("PostActionSkippedDueToError", failedTasksText), UiLogColor.Warning);
+
+            // 仍需还原 ｢仅当次｣ 的临时勾选，保持与正常路径一致
+            actions.LoadPostActions();
+            return;
+        }
 
         if (actions.BackToAndroidHome)
         {
@@ -684,6 +765,7 @@ public class TaskQueueViewModel : Screen
             {
                 Interlocked.Exchange(ref _stopScriptLaunched, 0);
                 Interlocked.Exchange(ref _postActionsLaunched, 0);
+                ClearFailedTasks();
             }
 
             if (e.NewState.Idle && _runDurationLimitOnce)
@@ -1202,6 +1284,7 @@ public class TaskQueueViewModel : Screen
             ConfigFactory.CurrentConfig.TaskQueue.Add(new RecruitTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new MallTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new AwardTask());
+            //ConfigFactory.CurrentConfig.TaskQueue.Add(new OperProgressTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new RoguelikeTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new ReclamationTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new UserDataUpdateTask());
@@ -1572,6 +1655,12 @@ public class TaskQueueViewModel : Screen
         }
     }
 
+    /// <summary>
+    /// Gets the number of StartUp tasks in the task queue.
+    /// 开始唤醒任务至多一个，用于限制添加菜单与复制入口。
+    /// </summary>
+    public int StartUpTaskCount => ConfigFactory.CurrentConfig.TaskQueue.Count(t => t is StartUpTask);
+
     public static ReadOnlyCollection<GenericCombinedData<Type>> TaskTypeList { get; } = Array.AsReadOnly(
         [
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("StartUp"), Value = typeof(StartUpTask) },
@@ -1580,6 +1669,7 @@ public class TaskQueueViewModel : Screen
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Recruit"), Value = typeof(RecruitTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Mall"), Value = typeof(MallTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Award"), Value = typeof(AwardTask) },
+            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("OperProgress"), Value = typeof(OperProgressTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Roguelike"), Value = typeof(RoguelikeTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Reclamation"), Value = typeof(ReclamationTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("UserDataUpdate"), Value = typeof(UserDataUpdateTask) },
@@ -1599,6 +1689,7 @@ public class TaskQueueViewModel : Screen
                 nameof(RecruitTask) => LocalizationHelper.GetString("Recruit"),
                 nameof(MallTask) => LocalizationHelper.GetString("Mall"),
                 nameof(AwardTask) => LocalizationHelper.GetString("Award"),
+                nameof(OperProgressTask) => LocalizationHelper.GetString("OperProgress"),
                 nameof(RoguelikeTask) => LocalizationHelper.GetString("Roguelike"),
                 nameof(ReclamationTask) => LocalizationHelper.GetString("Reclamation"),
                 nameof(UserDataUpdateTask) => LocalizationHelper.GetString("UserDataUpdate"),
@@ -1612,6 +1703,12 @@ public class TaskQueueViewModel : Screen
 
     public void AddTaskQueueTask(Type taskName)
     {
+        // 开始唤醒任务至多一个，菜单项禁用之外的行为兜底
+        if (taskName == typeof(StartUpTask) && StartUpTaskCount >= 1)
+        {
+            return;
+        }
+
         if (Activator.CreateInstance(taskName) is BaseTask task)
         {
             ConfigFactory.CurrentConfig.TaskQueue.Add(task);
@@ -1661,7 +1758,7 @@ public class TaskQueueViewModel : Screen
             }
             else
             {
-                AddLog("Rename failed", UiLogColor.Error);
+                AddLog(LocalizationHelper.GetString("TaskRenameFailed"), UiLogColor.Error);
             }
         }
     }
@@ -1718,6 +1815,12 @@ public class TaskQueueViewModel : Screen
         }
 
         var oldTask = ConfigFactory.CurrentConfig.TaskQueue[index];
+        // 开始唤醒任务至多一个，入口按钮禁用之外的行为兜底
+        if (oldTask is StartUpTask && StartUpTaskCount >= 1)
+        {
+            return;
+        }
+
         var oldTaskJson = JsonSerializer.Serialize(oldTask);
         if (JsonSerializer.Deserialize(oldTaskJson, oldTask.GetType()) is not BaseTask newTask)
         {

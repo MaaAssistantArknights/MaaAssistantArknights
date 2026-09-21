@@ -61,8 +61,6 @@
                         VerticalContentAlignment="Center"
                         d:IsHitTestVisible="True"
                         DisplayMemberPath="Display"
-                        IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                                     Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                         ItemsSource="{Binding CustomPlanListDisplay}"
                         SelectedValue="{Binding CustomInfrastPlanSelect}"
                         SelectedValuePath="Value" />
@@ -200,8 +198,7 @@
                         VerticalAlignment="Top"
                         hc:BorderElement.CornerRadius="4,0,0,4"
                         Command="{s:Action InfrastItemSelectedAll}"
-                        Content="{DynamicResource SelectAll}"
-                        IsEnabled="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}" />
+                        Content="{DynamicResource SelectAll}" />
                     <Button
                         Grid.Column="1"
                         Height="30"
@@ -209,8 +206,7 @@
                         VerticalAlignment="Top"
                         hc:BorderElement.CornerRadius="0,4,4,0"
                         Command="{s:Action InfrastItemUnselectedAll}"
-                        Content="{DynamicResource Clear}"
-                        IsEnabled="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}" />
+                        Content="{DynamicResource Clear}" />
                 </Grid>
             </StackPanel>
         </StackPanel>
@@ -250,10 +246,11 @@
             <CheckBox Margin="0,10" IsChecked="{Binding ReceptionSendClue}">
                 <controls:TextBlock Text="{DynamicResource InfrastReceptionSendClue}" TextWrapping="Wrap" />
             </CheckBox>
-            <CheckBox Margin="0,10" IsChecked="{Binding ContinueTraining}">
-                <controls:TextBlock Text="{DynamicResource ContinueTraining}" TextWrapping="Wrap" />
-            </CheckBox>
-            <StackPanel HorizontalAlignment="Left" Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Normal', Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
+            <StackPanel
+                Margin="0,5"
+                HorizontalAlignment="Left"
+                Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Normal',
+                                       Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
                 <StackPanel.Resources>
                     <DataTemplate x:Key="FiammettaTargetTemplate">
                         <TextBlock Text="{Binding Display}" ToolTip="{Binding Display}" />

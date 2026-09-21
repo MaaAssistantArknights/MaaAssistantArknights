@@ -61,8 +61,22 @@ public static class ExternalNotificationService
                 continue;
             }
 
+            // 渠道显示名与设置页各渠道卡片标题一致：品牌名无需本地化，自定义 Webhook 用本地化 key
+            var providerName = config switch {
+                ServerChanConfig => "Server Chan",
+                TelegramConfig => "Telegram",
+                DiscordConfig => "Discord",
+                DingTalkConfig => "DingTalk",
+                SmtpConfig => "SMTP",
+                BarkConfig => "Bark",
+                QmsgConfig => "Qmsg",
+                GotifyConfig => "Gotify",
+                CustomWebhookConfig => LocalizationHelper.GetString("ExternalNotificationCustomWebhook"),
+                _ => config.GetType().Name,
+            };
+
             ToastNotification.ShowDirect(
-                config.GetType().Name + " " +
+                providerName + " " +
                 LocalizationHelper.GetString(result ? "ExternalNotificationSendSuccess" : "ExternalNotificationSendFail"));
         }
     }

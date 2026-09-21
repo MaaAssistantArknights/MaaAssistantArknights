@@ -14,6 +14,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Models.Copilot;
@@ -29,11 +30,11 @@ public static class CopilotHelper
 {
     private static readonly ILogger _logger = Log.ForContext("SourceContext", "CopilotHelper");
 
-    public static async Task<(PrtsStatus Status, PrtsCopilotModel? Copilot)> RequestCopilotAsync(int copilotId)
+    public static async Task<(PrtsStatus Status, PrtsCopilotModel? Copilot)> RequestCopilotAsync(int copilotId, CancellationToken token = default)
     {
         try
         {
-            var response = await Instances.HttpService.GetAsync(new Uri(MaaUrls.PrtsPlusCopilotGet + copilotId));
+            var response = await Instances.HttpService.GetAsync(new Uri(MaaUrls.PrtsPlusCopilotGet + copilotId), token: token);
             response.EnsureSuccessStatusCode();
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var json = JsonConvert.DeserializeObject<PrtsCopilotModel>(jsonResponse);
@@ -42,8 +43,19 @@ public static class CopilotHelper
                 return (PrtsStatus.Success, json);
             }
         }
+        catch (OperationCanceledException) when (token.IsCancellationRequested)
+        {
+            // 调用方主动取消（如输入已被新一轮更新），直接冒泡由其丢弃结果，不写 UI 错误日志
+            throw;
+        }
         catch (Exception e)
         {
+            // 取消也可能落在 SendAsync 已返回后的续体窗口（校验状态码/读响应体/反序列化期间），此时同样按取消丢弃
+            if (token.IsCancellationRequested)
+            {
+                throw new OperationCanceledException(token);
+            }
+
             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("NetworkServiceError"), UiLogColor.Error, showTime: false);
             Instances.CopilotViewModel.AddLog($"{e.Message}", UiLogColor.Error, showTime: false);
             _logger.Error(e, "Failed to request copilot from PRTS plus");
@@ -53,11 +65,11 @@ public static class CopilotHelper
         return (PrtsStatus.NotFound, null);
     }
 
-    public static async Task<(PrtsStatus Status, PrtsCopilotSetModel? CopilotSet)> RequestCopilotSetAsync(int copilotId)
+    public static async Task<(PrtsStatus Status, PrtsCopilotSetModel? CopilotSet)> RequestCopilotSetAsync(int copilotId, CancellationToken token = default)
     {
         try
         {
-            var response = await Instances.HttpService.GetAsync(new Uri(MaaUrls.PrtsPlusCopilotSetGet + copilotId));
+            var response = await Instances.HttpService.GetAsync(new Uri(MaaUrls.PrtsPlusCopilotSetGet + copilotId), token: token);
             response.EnsureSuccessStatusCode();
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var json = JsonConvert.DeserializeObject<PrtsCopilotSetModel>(jsonResponse);
@@ -66,8 +78,19 @@ public static class CopilotHelper
                 return (PrtsStatus.Success, json);
             }
         }
+        catch (OperationCanceledException) when (token.IsCancellationRequested)
+        {
+            // 调用方主动取消（如输入已被新一轮更新），直接冒泡由其丢弃结果，不写 UI 错误日志
+            throw;
+        }
         catch (Exception e)
         {
+            // 取消也可能落在 SendAsync 已返回后的续体窗口（校验状态码/读响应体/反序列化期间），此时同样按取消丢弃
+            if (token.IsCancellationRequested)
+            {
+                throw new OperationCanceledException(token);
+            }
+
             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("NetworkServiceError"), UiLogColor.Error, showTime: false);
             Instances.CopilotViewModel.AddLog($"{e.Message}", UiLogColor.Error, showTime: false);
             _logger.Error(e, "Failed to request copilot set from PRTS plus");
@@ -277,6 +300,6 @@ public static class CopilotHelper
             throw new JsonSerializationException("Unsupported JSON structure for Content");
         }
 
-        public override void WriteJson(JsonWriter writer, CopilotBase? value, JsonSerializer serializer) => writer.WriteValue(JsonConvert.SerializeObject(value));
+        public override void WriteJson(JsonWriter writer, CopilotBase? value, JsonSerializer serializer) => writer.WriteValue(JsonConvert.SerializeObject(value, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore, }));
     }
 }

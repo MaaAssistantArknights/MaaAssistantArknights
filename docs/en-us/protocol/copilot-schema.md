@@ -63,8 +63,8 @@ Please note that JSON files do not support comments. The comments in this docume
         // Combat operations. Ordered, executes the next one only after completing the previous one. Required
         {
             "type": "部署", // Operation type, optional, default is "Deploy" ("部署" = "Deploy")
-            // "Deploy" | "Skill" | "Retreat" | "SpeedUp" | "BulletTime" | "SkillUsage" | "Output" | "SkillDaemon" | "MoveCamera" | "ResetStopwatch"
-            // "部署"   |  "技能"  |  "撤退"   | "二倍速"   |  "子弹时间"  |  "技能用法"   | "打印"  |  "摆完挂机" | "移动镜头" | "重置全局计时器"
+            // "Deploy" | "Skill" | "Retreat" | "SpeedUp" | "BulletTime" | "SkillUsage" | "Output" | "SkillDaemon" | "MoveCamera" | "ResetStopwatch" | "Click" | "Swipe"
+            // "部署"   |  "技能"  |  "撤退"   | "二倍速"   |  "子弹时间"  |  "技能用法"   | "打印"  |  "摆完挂机" | "移动镜头" | "重置全局计时器" | "点击" | "滑动"
             // Both English and Chinese are supported (e.g., "部署" for "Deploy")
             // For "Deploy", waits until enough DP is available (unless timeout)
             // For "Skill", waits until skill is ready (unless timeout)
@@ -77,6 +77,9 @@ Please note that JSON files do not support comments. The comments in this docume
             // "SkillDaemon" only uses "use when ready" skills, does nothing else until battle ends
             // "MoveCamera" for Guide mode, requires the distance field
             // "ResetStopwatch" — Resets the global stopwatch. Please refer to the “elapsed_time” condition.
+            // "Click" directly clicks the pixel rect specified by "rect" or the battlefield tile specified by "location", without any recognition; empty tiles can also be clicked
+            //      At least one of "rect" or "location" must be set; the copilot fails to load (parse-time error) if neither is set; when both are set, "rect" takes priority (a warning is logged)
+            // "Swipe" swipes from the "begin" rect to the "end" rect, directly issuing the underlying swipe command; the copilot fails to load if either is missing
             // Currently the five conditions below use AND relationship
             "kills": 0, // Kill count condition, waits until reached. Optional, default is 0, executes immediately
             "costs": 50, // DP condition, waits until reached. Optional, default is 0, executes immediately
@@ -104,6 +107,15 @@ Please note that JSON files do not support comments. The comments in this docume
             // Optional when type is "Skill"|"Retreat".
             // "Skill": Recommended only for automatic devices on the field, use location without name to activate skill. For normal deployed operators, use name
             // "Retreat": Recommended only when multiple summons share the same name, use location without name to retreat. For normal deployed operators, use name
+            // When type is "Skill"|"Retreat"|"SkillUsage" and both name and location are set, location takes priority
+            // When type is "Click", at least one of this and "rect" must be set; directly clicks this tile; any valid tile coordinate is accepted, including [0, 0]
+            "rect": [
+                100,
+                100,
+                50,
+                50
+            ], // At least one of this and "location" must be set when type is "Click"; "rect" takes priority if both are set; pixel rect based on 720p [x, y, w, h]
+            // The click point is randomly picked within the rect and automatically scaled to the current resolution
             "direction": "左", // Operator facing direction. Required when type is "Deploy" ("左" = "Left")
             // "Left" | "Right" | "Up" | "Down" | "None"
             // "左"   |  "右"   | "上"  | "下"   |  "无"
@@ -125,6 +137,32 @@ Please note that JSON files do not support comments. The comments in this docume
             ], // Required when type is "MoveCamera"
             // [x movement in tiles, y movement in tiles], can be decimal
             // Note that during "MoveCamera", operators on field cannot be recognized, need to use sleep to cover entire animation
+            "keep_kills": false, // Whether to keep the kill count when moving the camera. Optional, default is false; when true, the camera move does not wait for the current wave to end and the kill count is not reset, for moving the camera within the same wave
+            "begin": [
+                100,
+                100,
+                50,
+                50
+            ], // Required when type is "Swipe"; start rect of the swipe, pixel rect based on 720p [x, y, w, h]; the start point is randomly picked within the rect and automatically scaled to the current resolution
+            "end": [
+                400,
+                400,
+                50,
+                50
+            ], // Required when type is "Swipe"; end rect of the swipe, pixel rect based on 720p [x, y, w, h]; the end point is randomly picked within the rect and automatically scaled to the current resolution
+            "duration": 200, // Swipe duration. Optional, default is 0, unit is milliseconds
+            "extra_swipe": 1, // Direction of the compensating swipe appended after the main swipe. Optional, default is 0, disabled
+            // 0 disables it, 1/2/3/4 are up/down/left/right respectively
+            // A short swipe in the given direction is appended after the main swipe, to cancel the inertia along the main swipe direction after the finger is released
+            // e.g. after swiping a list horizontally, appending a short vertical swipe prevents the list from keep scrolling past on release
+            "slope_in": 10, // Start slope of the swipe. Optional, default is 10; stored as an integer multiplied by 10, so 10 means 1.0
+            "slope_out": 10, // End slope of the swipe. Optional, default is 10; stored as an integer multiplied by 10, so 10 means 1.0
+            "with_pause": false, // Whether to pause the game while swiping (for cases that need to swipe while paused). Optional, default is false; only supported by some touch modes
+            "high_resolution_swipe_fix": false, // Whether to enable the high-resolution swipe fix. Optional, default is false. Rarely needed: this fix targets interfaces that do not use Unity swipe handling (currently only the chapter swipe in mainline stage navigation requires it), which auto-battle swipes never touch
+            // duration, extra_swipe, slope_in, and slope_out share the same value semantics as the first four elements
+            // of special_params of the Swipe task in tasks.json; high_resolution_swipe_fix corresponds to the standalone
+            // highResolutionSwipeFix task field in tasks.json; with_pause is unique to this schema (tasks.json has no
+            // counterpart — whether pipeline swipes pause the game is a global setting, not per-task)
             "doc": "下棘刺了！", // Description, optional. Displayed in UI, no actual function ("下棘刺了！" = "Deploying Thorns!")
             "doc_color": "orange" // Description text color, optional, default is gray. Displayed in UI, no actual function
         },

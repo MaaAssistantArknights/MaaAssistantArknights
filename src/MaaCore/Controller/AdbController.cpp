@@ -461,8 +461,8 @@ bool asst::AdbController::click(const Point& p)
     std::string cur_cmd =
         utils::string_replace_all(m_adb.click, { { "[x]", std::to_string(p.x) }, { "[y]", std::to_string(p.y) } });
     bool ret = call_command(cur_cmd).has_value();
-    // adb click 没有内置间隔，与 minitouch/maatouch 的 DefaultClickDelay 对齐，避免高频连点丢点
-    sleep(50);
+    // adb click 没有内置间隔，这里补上间隔，避免高频连点丢点
+    sleep(TouchHoldMs);
     return ret;
 }
 
@@ -1126,7 +1126,13 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         if (devices_ret) {
             const auto& devices_str = devices_ret.value();
             const boost::regex address_regex(m_adb.address_regex);
-            for (boost::sregex_iterator iter(devices_str.begin(), devices_str.end(), address_regex), end; iter != end;
+            for (boost::sregex_iterator iter(
+                     devices_str.begin(),
+                     devices_str.end(),
+                     address_regex,
+                     boost::regex_constants::match_not_dot_newline),
+                 end;
+                 iter != end;
                  ++iter) {
                 if (iter->size() > 1 && iter->str(1) == address) {
                     need_connect = false;

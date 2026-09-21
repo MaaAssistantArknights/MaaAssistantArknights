@@ -319,6 +319,12 @@ Tag ★ rarity to click.
 @required
 Tag ★ rarity for confirmation. Can be set to empty array for calculation only.  
 :::  
+::: field level3_recruitment_permit_reserve
+@type number
+@default 0
+@optional
+Number of recruitment permits to reserve when automatically confirming 3★ recruitment. MAA skips 3★ recruitment when the current permit count is less than or equal to this value; 4★ and higher recruitment is unaffected. Set to `0` to disable. When enabled, a count recognition failure also skips the current 3★ recruitment to prevent accidental consumption.
+:::
 ::: field first_tags  
 @type array<string>
 @optional
@@ -424,6 +430,7 @@ Options: `CN` | `US` | `JP` | `KR`
    "refresh": true,
    "select": [5, 4],
    "confirm": [4, 3],
+   "level3_recruitment_permit_reserve": 8,
    "first_tags": ["高级资深干员"],
    "extra_tags_mode": 1,
    "times": 4,

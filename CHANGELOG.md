@@ -1,4 +1,4 @@
-## v6.18.0-beta.2
+## v6.18.0-beta.3
 
 ### Highlights
 
@@ -13,6 +13,10 @@
 #### 更新失败自动修复
 
 更新失败后会拦截任务启动，并在弹窗中提供自动修复，自动下载完整包后在本地安装；暂不修复也可正常进入主界面，通过设置检查更新或拖入本地完整包完成更新。
+
+#### 牛杂新增自动提升潜能与缺口材料合成
+
+牛杂新增两项功能：｢自动提升潜能｣ 从干员列表界面启动，自动提升所有带提示标记干员的潜能，中间信物不足时可选用普通信物；｢缺口材料合成｣ 从培养页面的缺少材料弹窗跳转到加工站合成页后启动，递归合成可加工的下级材料。牛杂列表同时新增 ｢常驻功能｣ 分组，常驻功能与当期活动分列展示。
 
 <details>
 <summary><b>English</b></summary>
@@ -29,6 +33,10 @@ Each of the 3 start-of-run recruits can now specify an operator with an independ
 
 After a failed update, task startup is blocked and the dialog offers automatic repair, which downloads the full package and installs it locally; postponing the repair still opens the main window normally, where you can check for updates in Settings or drop in a local full package to complete the update.
 
+#### New Utilities: Auto Potential Up & Missing Material Synthesis
+
+Two new entries join the "Useful Tasks" list: Auto Potential Up starts from the operator list and automatically raises the potential of every operator flagged there, with an option to fall back to generic tokens when intermediate tokens run short; Missing Material Synthesis starts from the crafting page reached via the material-shortage popup on training pages (elite promotion, mastery, module upgrades) and recursively crafts the missing lower-tier materials. The list also gains a "Permanent Features" group.
+
 </details>
 
 ----
@@ -36,6 +44,66 @@ After a failed update, task startup is blocked and the dialog offers automatic r
 以下是详细内容：
 
 <details open>
+<summary><b>v6.18.0-beta.3 (2026-09-22)</b></summary>
+
+### 新增 | New
+
+* 牛杂新增 ｢自动提升潜能｣：从干员列表界面启动，自动提升所有带提示标记干员的潜能，中间信物不足时可选择使用普通信物 ([#18268](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18268) [#18137](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18137)) @Lancarus @youzibigg @HX3N @Constrat @status102 @Manicsteiner @momomochi987
+* 牛杂新增 ｢缺口材料合成｣：从培养页面（精英化、专精、模组升级等）的缺少材料弹窗跳转到加工站合成页后启动，递归合成可加工的下级材料，任务页内附演示视频 @Lancarus @ABA2396
+* Copilot 作业协议新增 Click 与 Swipe 动作，MoveCamera 动作新增 keep_kills 参数；字段与既有动作同填时改为警告并按优先级取值，location 支持 [0, 0]，结构校验前置至解析层 ([#18303](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18303)) @ABA2396
+* 完成后动作新增 ｢任务出错时跳过｣ 选项：勾选后任务列表中有任务出错时跳过全部完成后动作，仅统计任务列表中的任务；任务完成通知会汇总本轮出错的任务 @XXLC @hhhhcxy
+* 公招设置新增 ｢3 星保留招聘许可｣：剩余招聘许可小于等于保留值时跳过 3 星招募，许可数量识别失败时同样跳过以保护许可 @moranfanhua
+* 莫奈取色新增 ｢遮罩保持中性｣ 开关 ([#18262](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18262)) @WSMTBG
+* 新增 ｢牛牛表情包 3 - 正弦线｣ 壁纸，更新理智上限背景图 @ABA2396
+
+### 改进 | Improved
+
+* 对齐 ADB、Win32、MuMu、Minitouch、PlayTools 等各控制器滑动与点击的触控节奏和收尾行为，补齐 Win32 控制器的滑动暂停支持；PC 端鼠标输入方式切换为 PostMessage 变体，SendMessage 变体因延迟过高从界面移除，历史配置自动迁移至对应 PostMessage 变体 ([#18256](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18256)) @ABA2396
+* 导航目标与上一次作战相同时跳过完整导航流程，直接进入作战 ([#18265](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18265)) @ABA2396 @Acture
+* OCR 正则匹配时 ｢.｣ 不再默认匹配换行符，提升替换性能，并同步适配既有正则规则 ([#18248](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18248)) @status102
+* ｢无限吃理智药｣ 的过期阈值从小时改为天，天数支持手动输入 @soundofautumn
+* 牛杂列表新增 ｢常驻功能｣ 分组，常驻功能与当期活动分列展示 ([#18269](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18269)) @H2O-MERO @ABA2396
+* 任务队列至多添加一个开始唤醒任务，重复添加的入口自动禁用 @ABA2396
+* 任务被跳过时在日志中补充原因（关卡计划为空、库存已充足、未达到触发间隔等） @ABA2396
+* 清空图片缓存与生成日志压缩包改为后台执行，执行期间禁用按钮防重复触发 @ABA2396
+* Copilot 作业输入解析加入取消令牌，不再逐字符触发网络请求 @ABA2396
+* 热键注册失败时弹出提示并标红输入框 @ABA2396
+* 删除配置前增加确认弹窗 @ABA2396
+* 修正黑流树海机械师策略提示的前置条件（须使用精二机械师，并解锁 ｢招募精通 II｣ 天赋的 ｢效果提升 II｣ 后开局才携带 ｢结构性原理｣） @ABA2396
+* 调整基建办公室加速干员的编入逻辑与部分干员的基建效率数据 @Lancarus
+
+### 修复 | Fix
+
+* 修复开始唤醒遇到掉线弹窗时直接停止的问题，现在会点击确认重连并继续启动流程；重连尝试达到上限后停止任务，避免频繁登录触发验证码 ([#18257](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18257)) @XXLC
+* 修复 Telegram 通知内容超长时整条发送失败的问题 ([#18281](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18281)) @XXLC
+* 修复退出 MAA 后 MaaCore 未正确销毁的问题 ([#17148](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17148)) @VisoTC
+* 修复小工具干员识别将升变阿米娅判为未拥有的问题 @ABA2396
+* 修复任务运行中干员培养任务面板未被正确禁用的问题 @ABA2396
+* 修复语言热切换后多处界面文本残留旧语言的问题，并补齐硬编码英文文案的本地化 @ABA2396
+* 修复 ADB 强制替换流程的问题：下载期间禁用按钮防重复触发，路径选择弹窗排除空路径 @ABA2396
+* 修复日志卡片边框在窗口尺寸变化时闪动或消失的问题 ([#18266](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18266)) @H2O-MERO
+* 降低 PC 端商店投资系统的匹配阈值，提高识别容错 ([#18267](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18267)) @moranfanhua
+* 修复任务添加菜单缺少调试任务项的问题 @status102
+* 修复 Friston-3 被识别为 EFriston-3 导致匹配失败的问题 @ABA2396
+* YostarEN/KR update ocr regex for incoming alter operators @Constrat @HX3N
+* YostarEN fix Catapult alter regex @Constrat
+* YostarKR adjust ocr regex for PA @HX3N
+
+### 文档 | Docs
+
+* 优化非 Windows 模拟器与容器说明，并补齐其余四语言 @SherkeyXD @ABA2396
+* 补全五语言手册的 3 星保留招聘许可与安装不完整期间更新限制说明 @ABA2396
+* 修正协议文档中 highResolutionSwipeFix 的描述 @ABA2396
+
+### MaaMacGui
+
+#### 修复 | Fix
+
+* 恢复单作业模式的循环次数选项 @hguandl
+
+</details>
+
+<details>
 <summary><b>v6.18.0-beta.2 (2026-09-17)</b></summary>
 
 ### 新增 | New

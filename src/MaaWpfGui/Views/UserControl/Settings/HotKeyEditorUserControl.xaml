@@ -17,7 +17,18 @@
         IsReadOnlyCaretVisible="False"
         IsUndoEnabled="False"
         PreviewKeyDown="HotKeyTextBox_PreviewKeyDown"
-        Text="{Binding HotKey, ElementName=UserControl, Mode=OneWay, TargetNullValue=&lt; not set &gt;}">
+        Text="{Binding HotKey, ElementName=UserControl, Mode=OneWay}">
+        <TextBox.Style>
+            <!--  BasedOn 隐式样式保持常规外观；注册失败时标红边框提示  -->
+            <Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsRegistrationFailed, ElementName=UserControl}" Value="True">
+                        <Setter Property="BorderBrush" Value="{DynamicResource DangerBrush}" />
+                        <Setter Property="BorderThickness" Value="2" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </TextBox.Style>
         <TextBox.ContextMenu>
             <ContextMenu Visibility="Collapsed" />
         </TextBox.ContextMenu>

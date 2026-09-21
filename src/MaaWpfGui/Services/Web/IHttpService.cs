@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 
@@ -59,8 +60,9 @@ public interface IHttpService
     /// <param name="extraHeader">Extra HTTP Request Headers</param>
     /// <param name="httpCompletionOption">The HTTP completion option</param>
     /// <param name="uriPartial">Which parts of uri to log</param>
+    /// <param name="token">Cancellation token to abort the request</param>
     /// <returns><see cref="HttpRequestMessage"/> object</returns>
-    Task<HttpResponseMessage> GetAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseHeadersRead, UriPartial uriPartial = UriPartial.Query);
+    Task<HttpResponseMessage> GetAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseHeadersRead, UriPartial uriPartial = UriPartial.Query, CancellationToken token = default);
 
     /// <summary>
     /// Send HTTP POST request and a string response

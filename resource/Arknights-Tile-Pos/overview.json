@@ -6515,6 +6515,195 @@
         "stageId": "act1break_sp16",
         "width": 10
     },
+    "act1dp_01-activities/act1dp/level_act1dp_01": {
+        "code": "DP-1",
+        "filename": "act1dp_01-activities-act1dp-level_act1dp_01.json",
+        "height": 7,
+        "levelId": "activities/act1dp/level_act1dp_01",
+        "name": "入场吧绒绒！",
+        "stageId": "act1dp_01",
+        "width": 11
+    },
+    "act1dp_02-activities/act1dp/level_act1dp_02": {
+        "code": "DP-2",
+        "filename": "act1dp_02-activities-act1dp-level_act1dp_02.json",
+        "height": 7,
+        "levelId": "activities/act1dp/level_act1dp_02",
+        "name": "选择吧绒绒！",
+        "stageId": "act1dp_02",
+        "width": 11
+    },
+    "act1dp_03-activities/act1dp/level_act1dp_03": {
+        "code": "DP-3",
+        "filename": "act1dp_03-activities-act1dp-level_act1dp_03.json",
+        "height": 7,
+        "levelId": "activities/act1dp/level_act1dp_03",
+        "name": "等待吧绒绒！",
+        "stageId": "act1dp_03",
+        "width": 11
+    },
+    "act1dp_04-activities/act1dp/level_act1dp_04": {
+        "code": "DP-4",
+        "filename": "act1dp_04-activities-act1dp-level_act1dp_04.json",
+        "height": 7,
+        "levelId": "activities/act1dp/level_act1dp_04",
+        "name": "跟上吧绒绒！",
+        "stageId": "act1dp_04",
+        "width": 11
+    },
+    "act1dp_05-activities/act1dp/level_act1dp_05": {
+        "code": "DP-5",
+        "filename": "act1dp_05-activities-act1dp-level_act1dp_05.json",
+        "height": 7,
+        "levelId": "activities/act1dp/level_act1dp_05",
+        "name": "欢呼吧绒绒！",
+        "stageId": "act1dp_05",
+        "width": 9
+    },
+    "act1dp_06-activities/act1dp/level_act1dp_06": {
+        "code": "DP-6",
+        "filename": "act1dp_06-activities-act1dp-level_act1dp_06.json",
+        "height": 7,
+        "levelId": "activities/act1dp/level_act1dp_06",
+        "name": "返程吧绒绒！",
+        "stageId": "act1dp_06",
+        "width": 11
+    },
+    "act1dp_ex01#f#-activities/act1dp/level_act1dp_ex01": {
+        "code": "DP-EX-1",
+        "filename": "act1dp_ex01#f#-activities-act1dp-level_act1dp_ex01.json",
+        "height": 8,
+        "levelId": "activities/act1dp/level_act1dp_ex01",
+        "name": "花车游行秀",
+        "stageId": "act1dp_ex01#f#",
+        "width": 11
+    },
+    "act1dp_ex01-activities/act1dp/level_act1dp_ex01": {
+        "code": "DP-EX-1",
+        "filename": "act1dp_ex01-activities-act1dp-level_act1dp_ex01.json",
+        "height": 8,
+        "levelId": "activities/act1dp/level_act1dp_ex01",
+        "name": "花车游行秀",
+        "stageId": "act1dp_ex01",
+        "width": 11
+    },
+    "act1dp_ex02#f#-activities/act1dp/level_act1dp_ex02": {
+        "code": "DP-EX-2",
+        "filename": "act1dp_ex02#f#-activities-act1dp-level_act1dp_ex02.json",
+        "height": 7,
+        "levelId": "activities/act1dp/level_act1dp_ex02",
+        "name": "人气摄影点",
+        "stageId": "act1dp_ex02#f#",
+        "width": 11
+    },
+    "act1dp_ex02-activities/act1dp/level_act1dp_ex02": {
+        "code": "DP-EX-2",
+        "filename": "act1dp_ex02-activities-act1dp-level_act1dp_ex02.json",
+        "height": 7,
+        "levelId": "activities/act1dp/level_act1dp_ex02",
+        "name": "人气摄影点",
+        "stageId": "act1dp_ex02",
+        "width": 11
+    },
+    "act1dp_ex03#f#-activities/act1dp/level_act1dp_ex03": {
+        "code": "DP-EX-3",
+        "filename": "act1dp_ex03#f#-activities-act1dp-level_act1dp_ex03.json",
+        "height": 8,
+        "levelId": "activities/act1dp/level_act1dp_ex03",
+        "name": "射击小摊位",
+        "stageId": "act1dp_ex03#f#",
+        "width": 12
+    },
+    "act1dp_ex03-activities/act1dp/level_act1dp_ex03": {
+        "code": "DP-EX-3",
+        "filename": "act1dp_ex03-activities-act1dp-level_act1dp_ex03.json",
+        "height": 8,
+        "levelId": "activities/act1dp/level_act1dp_ex03",
+        "name": "射击小摊位",
+        "stageId": "act1dp_ex03",
+        "width": 12
+    },
+    "act1dp_ex04#f#-activities/act1dp/level_act1dp_ex04": {
+        "code": "DP-EX-4",
+        "filename": "act1dp_ex04#f#-activities-act1dp-level_act1dp_ex04.json",
+        "height": 7,
+        "levelId": "activities/act1dp/level_act1dp_ex04",
+        "name": "密室空走廊",
+        "stageId": "act1dp_ex04#f#",
+        "width": 12
+    },
+    "act1dp_ex04-activities/act1dp/level_act1dp_ex04": {
+        "code": "DP-EX-4",
+        "filename": "act1dp_ex04-activities-act1dp-level_act1dp_ex04.json",
+        "height": 7,
+        "levelId": "activities/act1dp/level_act1dp_ex04",
+        "name": "密室空走廊",
+        "stageId": "act1dp_ex04",
+        "width": 12
+    },
+    "act1dp_ex05#f#-activities/act1dp/level_act1dp_ex05": {
+        "code": "DP-EX-5",
+        "filename": "act1dp_ex05#f#-activities-act1dp-level_act1dp_ex05.json",
+        "height": 7,
+        "levelId": "activities/act1dp/level_act1dp_ex05",
+        "name": "粉丝大比拼",
+        "stageId": "act1dp_ex05#f#",
+        "width": 11
+    },
+    "act1dp_ex05-activities/act1dp/level_act1dp_ex05": {
+        "code": "DP-EX-5",
+        "filename": "act1dp_ex05-activities-act1dp-level_act1dp_ex05.json",
+        "height": 7,
+        "levelId": "activities/act1dp/level_act1dp_ex05",
+        "name": "粉丝大比拼",
+        "stageId": "act1dp_ex05",
+        "width": 11
+    },
+    "act1dp_ex06#f#-activities/act1dp/level_act1dp_ex06": {
+        "code": "DP-EX-6",
+        "filename": "act1dp_ex06#f#-activities-act1dp-level_act1dp_ex06.json",
+        "height": 8,
+        "levelId": "activities/act1dp/level_act1dp_ex06",
+        "name": "拥挤停车场",
+        "stageId": "act1dp_ex06#f#",
+        "width": 12
+    },
+    "act1dp_ex06-activities/act1dp/level_act1dp_ex06": {
+        "code": "DP-EX-6",
+        "filename": "act1dp_ex06-activities-act1dp-level_act1dp_ex06.json",
+        "height": 8,
+        "levelId": "activities/act1dp/level_act1dp_ex06",
+        "name": "拥挤停车场",
+        "stageId": "act1dp_ex06",
+        "width": 12
+    },
+    "act1dp_s01-activities/act1dp/level_act1dp_sub-01": {
+        "code": "DS-1",
+        "filename": "act1dp_s01-activities-act1dp-level_act1dp_sub-01.json",
+        "height": 8,
+        "levelId": "activities/act1dp/level_act1dp_sub-01",
+        "name": "午间休息！",
+        "stageId": "act1dp_s01",
+        "width": 11
+    },
+    "act1dp_s02-activities/act1dp/level_act1dp_sub-02": {
+        "code": "DS-2",
+        "filename": "act1dp_s02-activities-act1dp-level_act1dp_sub-02.json",
+        "height": 7,
+        "levelId": "activities/act1dp/level_act1dp_sub-02",
+        "name": "傍晚小憩！",
+        "stageId": "act1dp_s02",
+        "width": 11
+    },
+    "act1dp_tr01-activities/act1dp/level_act1dp_tr01": {
+        "code": "DP-TR-1",
+        "filename": "act1dp_tr01-activities-act1dp-level_act1dp_tr01.json",
+        "height": 7,
+        "levelId": "activities/act1dp/level_act1dp_tr01",
+        "name": "集结吧绒绒！",
+        "stageId": "act1dp_tr01",
+        "width": 9
+    },
     "act1enemyduel_01a-activities/act1enemyduel/level_act1enemyduel_01a": {
         "code": "VS-1",
         "filename": "act1enemyduel_01a-activities-act1enemyduel-level_act1enemyduel_01a.json",

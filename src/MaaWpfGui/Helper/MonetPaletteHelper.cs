@@ -61,6 +61,26 @@ public static class MonetPaletteHelper
         "MessageLogBrush",
     ];
 
+    /// <summary>
+    /// 背景/遮罩系 key：莫奈取色时不覆盖这些资源，保持主题默认值。
+    /// 对应 issue #18245 的诉求：遮罩层与标题栏遮罩不跟随莫奈取色。
+    /// </summary>
+    public static readonly HashSet<string> BackgroundMaskKeys =
+    [
+        "RegionBrush",
+        "SecondaryRegionBrush",
+        "RegionBrushOpacity10",
+        "RegionBrushOpacity25",
+        "RegionBrushOpacity50",
+        "RegionBrushOpacity75",
+        "MouseOverRegionBrush",
+        "MouseOverRegionBrushOpacity10",
+        "MouseOverRegionBrushOpacity25",
+        "MouseOverRegionBrushOpacity50",
+        "MouseOverRegionBrushOpacity75",
+        "BorderBrush",
+    ];
+
     // 原 Dark.xaml / Light.xaml 的 Alpha 值，保持不变
     private const byte Alpha10 = 0x19; // 10%
     private const byte Alpha25 = 0x40; // 25%

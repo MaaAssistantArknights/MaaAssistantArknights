@@ -65,8 +65,12 @@ Used to automatically farm mini-games in events. Supports selecting names and sw
 
 Built-in features include:
 
-- Event shop exchange
-- Green ticket shop exchange
-- Yellow ticket shop exchange
-- Reclamation Algorithm shop exchange
-- Hidden Front (supports selecting endings and event branches)
+- Permanent Activities
+  - Hidden Front (supports selecting endings and event branches)
+- Permanent Features
+  - Event shop exchange
+  - Green ticket shop exchange
+  - Yellow ticket shop exchange
+  - Reclamation Algorithm shop exchange
+  - Automatically Raise Potential
+  - Missing Material Synthesis

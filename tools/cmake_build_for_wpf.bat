@@ -1,3 +1,3 @@
 cd ..
-cmake -G "Visual Studio 18 2026" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
+cmake --preset windows-x64
 pause

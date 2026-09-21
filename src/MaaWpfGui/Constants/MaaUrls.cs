@@ -45,6 +45,9 @@ public static class MaaUrls
 
     public const string MapPrts = "https://map.ark-nights.com/areas?coord_override=maa";
 
+    // 明日方舟工具箱（精英材料计算，可在线编辑培养计划）
+    public const string ArknightsToolbox = "https://arkntools.app/#/material";
+
     public const string MaaApi = "https://api.maa.plus/MaaAssistantArknights/api/";
     public const string MaaApi2 = "https://api2.maa.plus/MaaAssistantArknights/api/";
 

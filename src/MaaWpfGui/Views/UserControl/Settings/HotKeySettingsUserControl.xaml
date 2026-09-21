@@ -27,7 +27,8 @@
             <settings:HotKeyEditorUserControl
                 Margin="10,10,0,10"
                 HorizontalAlignment="Right"
-                HotKey="{Binding HotKeyShowGui}" />
+                HotKey="{Binding HotKeyShowGui}"
+                IsRegistrationFailed="{Binding HotKeyShowGuiRegistrationFailed}" />
             <controls:TooltipBlock TooltipText="{DynamicResource HotKeyChangingTip}" />
         </StackPanel>
         <StackPanel
@@ -41,7 +42,8 @@
             <settings:HotKeyEditorUserControl
                 Margin="10,10,0,10"
                 HorizontalAlignment="Right"
-                HotKey="{Binding HotKeyLinkStart}" />
+                HotKey="{Binding HotKeyLinkStart}"
+                IsRegistrationFailed="{Binding HotKeyLinkStartRegistrationFailed}" />
             <controls:TooltipBlock TooltipText="{DynamicResource HotKeyChangingTip}" />
         </StackPanel>
     </StackPanel>

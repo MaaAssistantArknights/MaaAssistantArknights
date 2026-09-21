@@ -93,7 +93,7 @@
             ["Popukar", "泡普卡"],
             ["Midnight", "月见夜"],
             ["Reserve Operator *-* *M[elee]*", "预备干员-近战"],
-            ["Angelina", "安洁莉娜"],
+            ["^Angelina$", "安洁莉娜"],
             ["Sora", "空"],
             ["Skadi the Corrupting ?[Heart]*", "浊心斯卡蒂"],
             ["Scene", "稀音"],
@@ -110,7 +110,7 @@
             ["Earthspirit", "地灵"],
             ["Roberta", "罗比菈塔"],
             ["Deepcolor", "深海色"],
-            ["Orchid", "梓兰"],
+            ["^Orchid$", "梓兰"],
             ["Reserve Operator *-* *C[aster]*", "预备干员-术师"],
             ["^Hibiscus$", "芙蓉"],
             ["Ansel?", "安赛尔"],
@@ -174,7 +174,7 @@
             ["^Executor$", "送葬人"],
             ["Vermeil?", "红云"],
             ["Schwarz", "黑"],
-            ["Catapult", "空爆"],
+            ["^Catapult$", "空爆"],
             ["^Exusiai?$", "能天使"],
             ["Firewatch", "守林人"],
             ["Provence", "普罗旺斯"],
@@ -379,7 +379,7 @@
             ["Preparation Area Transmitter", "预备区发讯器"],
             ["Remnants of Days Past", "旧日残影"],
             ["'Tuba'", "“低音号”"],
-            [".*Equipment Activation Valve[^\\n]*", "战备激活阀"],
+            [".*Equipment Activation Valve.*", "战备激活阀"],
             ["Emergency Recall Box", "紧急召回情报箱"],
             ["Recuperation Area Transmitter", "休整区发讯器"],
             ["Heat Cluster", "聚热晶簇"],
@@ -474,7 +474,7 @@
             ["Manticore Killer", "曼提柯杀手"],
             ["Veteran Hunter", "老练猎手"],
             ["Combat Readiness Station", "备勤激活站"],
-            ["[TL]er*a .ese.*r[^\\n]*", "Terra Research Commission"],
+            ["[TL]er*a .ese.*r.*", "Terra Research Commission"],
             ["Terra Research Commission", "泰拉大陆调查团"],
             ["Wiredrone", "滞空牵引无人机"],
             ["Hypnotic Censer", "安眠迷香"],
@@ -1361,6 +1361,12 @@
         "text": ["Idle", "ldle"],
         "roi": [326, 637, 165, 41]
     },
+    "InfrastTrainingMasteryPage": {
+        "text": ["Trainer"]
+    },
+    "InfrastTrainingMasterybusy": {
+        "text": ["Training"]
+    },
     "InfrastTrainingProcessing": {
         "text": ["Progress"]
     },
@@ -1906,5 +1912,23 @@
     },
     "YellowTicket@Store@Purchase": {
         "text": ["Buy"]
+    },
+    "RedTicket@Store@ChooseTicketType": {
+        "text": ["Purchase", "Certificates"]
+    },
+    "RedTicket@Store@ChooseTicketTypeSelected": {
+        "text": ["Purchase", "Certificates"]
+    },
+    "RedTicket@Store@Purchase": {
+        "text": ["Buy"]
+    },
+    "OperProgress@OperBoxRoleFiltered": {
+        "text": ["Vanguard", "Guard", "Defender", "Sniper", "Caster", "Medic", "Support", "Specialist"]
+    },
+    "OperProgress@OperBoxRoleFilteredOpen": {
+        "text": ["Vanguard", "Guard", "Defender", "Sniper", "Caster", "Medic", "Support", "Specialist"]
+    },
+    "OperProgress@OperBoxSortTabs": {
+        "text": ["Level", "Rarity", "Acquisition Date"]
     }
 }

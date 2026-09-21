@@ -78,7 +78,8 @@
                     Margin="5,2"
                     HorizontalAlignment="Left"
                     Command="{s:Action GenerateSupportPayload}"
-                    Content="{DynamicResource GenerateSupportPayload}" />
+                    Content="{DynamicResource GenerateSupportPayload}"
+                    IsEnabled="{Binding CanGenerateSupportPayload}" />
                 <Button
                     Margin="5,2"
                     HorizontalAlignment="Left"
@@ -87,9 +88,9 @@
                 <StackPanel Margin="5,2" Orientation="Horizontal">
                     <Button
                         HorizontalAlignment="Left"
-                        Command="{s:Action ClearImageCache,
-                                           Target={x:Type settings_vms:IssueReportUserControlModel}}"
-                        Content="{DynamicResource ClearImageCache}" />
+                        Command="{s:Action ClearImageCache}"
+                        Content="{DynamicResource ClearImageCache}"
+                        IsEnabled="{Binding CanClearImageCache}" />
                     <controls:TooltipBlock TooltipText="{DynamicResource ClearImageCacheTip}" />
                 </StackPanel>
             </StackPanel>

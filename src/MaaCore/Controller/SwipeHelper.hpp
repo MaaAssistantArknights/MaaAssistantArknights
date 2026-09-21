@@ -1,12 +1,56 @@
 #pragma once
 
+#include <chrono>
 #include <cmath>
 #include <functional>
+#include <thread>
 
 #include "Common/AsstTypes.h"
 
+#ifdef _WIN32
+// NOMINMAX 已由 AsstTypes.h 定义，SafeWindows.hpp 同样适用
+#include "MaaUtils/SafeWindows.hpp"
+#endif
+
 namespace asst
 {
+
+// 高精度睡眠至指定时刻
+// Windows 11 起最小化/被遮挡进程的 timeBeginPeriod 请求会被系统忽略，普通 sleep_until
+// 的精度退回默认约 15.6ms 定时器粒度：首步睡过头后，后续所有绝对节拍点均已过期，
+// sleep_until 立即返回导致 move 连发。高分辨率 waitable timer 不经过全局定时器分辨率
+// 体系，窗口不可见时仍能兑现毫秒级节拍；创建失败（Win10 1803 之前）降级为普通睡眠。
+// 非 Windows 平台的睡眠粒度足以兑现节拍，直接转发以保持调用点无平台分支
+inline void high_res_sleep_until(std::chrono::steady_clock::time_point target)
+{
+#ifdef _WIN32
+    const auto rel = target - std::chrono::steady_clock::now();
+    if (rel <= std::chrono::steady_clock::duration::zero()) {
+        return;
+    }
+
+    // 每次创建并销毁句柄：一次滑动约百步，syscall 开销可忽略，不引入缓存等复杂度
+    HANDLE timer = CreateWaitableTimerExW(nullptr, nullptr, CREATE_WAITABLE_TIMER_HIGH_RESOLUTION, TIMER_ALL_ACCESS);
+    if (!timer) {
+        std::this_thread::sleep_until(target);
+        return;
+    }
+
+    LARGE_INTEGER due = {};
+    // 负值表示相对当前时刻的超时，单位 100ns
+    due.QuadPart = -std::chrono::duration_cast<std::chrono::nanoseconds>(rel).count() / 100;
+    if (!SetWaitableTimer(timer, &due, 0, nullptr, nullptr, FALSE)) {
+        // 未激活的 timer 永不置位，INFINITE 等待会永久卡死工作线程，失败即降级普通睡眠
+        CloseHandle(timer);
+        std::this_thread::sleep_until(target);
+        return;
+    }
+    WaitForSingleObject(timer, INFINITE);
+    CloseHandle(timer);
+#else
+    std::this_thread::sleep_until(target);
+#endif
+}
 
 // extra swipe 的额外位移方向
 inline Point extra_swipe_offset(SwipeExtraDirection direction, int dist)
@@ -101,7 +145,7 @@ bool interpolate_swipe(
         [](int, int) { return true; });
 }
 
-// 带暂停检测的滑动插值执行器（用于 MinitouchController 的 swipe_with_pause 功能）
+// 带暂停检测的滑动插值执行器，滑动途中满足距离阈值时触发一次暂停回调
 // PauseCheckFunc: bool(int cur_x, int cur_y, int start_x, int start_y) - 检查是否需要暂停
 // PauseFunc: void() - 执行暂停操作
 template <typename MoveFunc, typename BoundsCheckFunc, typename PauseCheckFunc, typename PauseFunc>

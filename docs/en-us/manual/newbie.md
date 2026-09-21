@@ -21,7 +21,7 @@ Some features (such as Depot Maintain, scheduled execution, and drag-and-drop pa
 
    MAA on Windows only supports Windows 10 and 11. For older Windows versions, please refer to the system issues section in [FAQ](./faq.md#system-issues).
 
-   Non-Windows users, please refer to [Emulator and Device Support](./device/).
+   Non-Windows users, please refer to the corresponding section of [Emulator and Device Support](./device/).
 
 2. Confirm emulator support
 

@@ -35,6 +35,7 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel, MallSettingsU
     static MallSettingsUserControlModel()
     {
         Instance = new();
+        LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
     }
 
     public static MallSettingsUserControlModel Instance { get; }
@@ -85,6 +86,15 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel, MallSettingsU
         new() { Display = "3", Value = 3 },
         new() { Display = "4", Value = 4 },
     ];
+
+    /// <summary>
+    /// 刷新构造时缓存的本地化列表文本。
+    /// </summary>
+    private void RefreshLocalization()
+    {
+        // 仅首项 ｢当前编队｣ 为本地化文本，其余为纯数字；GenericCombinedData 自带变更通知，原地重赋即可刷新显示
+        FormationSelectList[0].Display = LocalizationHelper.GetString("Current");
+    }
 
     public string LastCreditVisitFriendsTime
     {

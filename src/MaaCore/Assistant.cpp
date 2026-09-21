@@ -21,6 +21,7 @@
 #include "Task/Interface/InfrastTask.h"
 #include "Task/Interface/MallTask.h"
 #include "Task/Interface/OperBoxTask.h"
+#include "Task/Interface/OperProgressTask.h"
 #include "Task/Interface/ParadoxCopilotTask.h"
 #include "Task/Interface/ReclamationTask.h"
 #include "Task/Interface/RecruitTask.h"
@@ -325,6 +326,7 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(AwardTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(MallTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(InfrastTask)
+    // ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(OperProgressTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(RecruitTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(RoguelikeTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CopilotTask)

@@ -5,7 +5,6 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/BestMatcher.h"
-#include "Vision/FeatureMatcher.h"
 #include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
 
@@ -27,19 +26,6 @@ bool asst::InfrastTrainingTask::_run()
     auto status = analyze_status();
     if (!status) {
         return false;
-    }
-
-    if (m_continue_training && *status == TrainingStatus::Completed && m_level != 3) { // 继续训练
-        click_bottom_left_tab();
-        FeatureMatcher choose_skill_analyzer(ctrler()->get_image());
-        choose_skill_analyzer.set_task_info("InfrastTrainingChooseSkillRec");
-        choose_skill_analyzer.set_templ(m_skill_img);
-        if (!choose_skill_analyzer.analyze()) {
-            Log.error(__FUNCTION__, "choose skill failed");
-            return false;
-        }
-
-        continue_train(skill_index_from_rect(choose_skill_analyzer.get_result().front().rect));
     }
 
     return true;
@@ -99,9 +85,6 @@ std::optional<asst::InfrastTrainingTask::TrainingStatus> asst::InfrastTrainingTa
 
         m_skill_name = skill_str.substr(separation_pos + 1);
     }
-
-    Rect roi = Task.get("InfrastTrainingSkillImg")->roi;
-    m_skill_img = image(make_rect<cv::Rect>(roi));
 
     // TODO: 根据角色职业增加换班功能
     // m_operator_role = BattleData.get_role(m_operator_name);
@@ -179,30 +162,4 @@ std::optional<std::string> asst::InfrastTrainingTask::time_left_analyze(const cv
         return std::nullopt;
     }
     return text;
-}
-
-asst::InfrastTrainingTask& asst::InfrastTrainingTask::set_continue_training(bool continue_training) noexcept
-{
-    m_continue_training = continue_training;
-    return *this;
-}
-
-bool asst::InfrastTrainingTask::continue_train(int index)
-{
-    static const std::vector<std::string> continue_train_task = { "InfrastTrainingContinue1",
-                                                                  "InfrastTrainingContinue2",
-                                                                  "InfrastTrainingContinue3" };
-    return ProcessTask { *this, { continue_train_task[index - 1] } }.run();
-}
-
-int asst::InfrastTrainingTask::skill_index_from_rect(const Rect& r)
-{
-    int cy = r.y + r.height / 2;
-    if (cy <= 300) {
-        return 1;
-    }
-    if (cy <= 500) {
-        return 2;
-    }
-    return 3;
 }

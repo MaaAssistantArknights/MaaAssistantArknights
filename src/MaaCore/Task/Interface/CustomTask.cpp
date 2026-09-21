@@ -1,6 +1,7 @@
 #include "CustomTask.h"
 
 #include "Config/TaskData.h"
+#include "Task/MiniGame/AutoRaisePotentialTaskPlugin.h"
 #include "Task/MiniGame/MaterialSynthesisTaskPlugin.h"
 #include "Task/MiniGame/PixelPaintTaskPlugin.h"
 #include "Task/MiniGame/SecretFrontTaskPlugin.h"
@@ -39,6 +40,9 @@ bool asst::CustomTask::set_params(const json::value& params)
         if (parse_and_register_secretfront(task_name, resolved_task)) {
             Log.info("Parsed and registered SecretFront task: ", task_name, " -> ", resolved_task);
         }
+        else if (parse_and_register_auto_raise_potential(task_name, params)) {
+            LogInfo << "Parsed and registered AutoRaisePotential task:" << task_name;
+        }
         else if (parse_and_register_pixel_paint(task_name, params)) {
             Log.info("Parsed and registered PixelPaint task: ", task_name);
         }
@@ -65,6 +69,32 @@ bool asst::CustomTask::parse_and_register_material_synthesis(const std::string& 
     }
     if (!m_custom_task_ptr->find_plugin<MaterialSynthesisTaskPlugin>()) {
         m_custom_task_ptr->register_plugin<MaterialSynthesisTaskPlugin>()->set_retry_times(0);
+    }
+    return true;
+}
+
+bool asst::CustomTask::parse_and_register_auto_raise_potential(const std::string& task_name, const json::value& params)
+{
+    if (task_name != "MiniGame@AutoRaisePotential@Begin") {
+        return false;
+    }
+
+    auto plugin_ptr = m_custom_task_ptr->register_plugin<AutoRaisePotentialTaskPlugin>();
+    if (!plugin_ptr) {
+        LogError << __FUNCTION__ << "| failed to register AutoRaisePotentialTaskPlugin";
+        return false;
+    }
+
+    // 中间信物不足的确认弹窗默认点 × 放弃提升；勾选后覆写分发节点的 next，改走点 √ 消耗普通信物的分支
+    const auto params_opt = params.find<json::object>("params");
+    if (params_opt && params_opt->get("auto_raise_potential", "use_normal_token", false)) {
+        static constexpr std::string_view dialog_task = "MiniGame@AutoRaisePotential@TokenConfirmDialog";
+        static constexpr std::string_view use_task = "MiniGame@AutoRaisePotential@TokenConfirmUse";
+        if (!m_custom_task_ptr->override_next(dialog_task, { std::string(use_task) })) {
+            LogError << __FUNCTION__ << "| failed to override next for" << dialog_task;
+            return false;
+        }
+        LogInfo << "AutoRaisePotential will use normal tokens when mid tokens are insufficient";
     }
     return true;
 }

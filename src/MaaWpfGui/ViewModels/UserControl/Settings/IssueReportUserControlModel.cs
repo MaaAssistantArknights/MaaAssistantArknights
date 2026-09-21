@@ -18,6 +18,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using HandyControl.Controls;
 using HandyControl.Data;
@@ -57,7 +58,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
         }
         catch (Exception ex)
         {
-            ToastNotification.ShowDirect($"Failed to open debug folder\n{ex.Message}");
+            ToastNotification.ShowDirect(LocalizationHelper.GetStringFormat("FailedToOpenFolder", ex.Message));
             _logger.Error(ex, "Failed to open debug folder");
         }
     }
@@ -75,15 +76,34 @@ public class IssueReportUserControlModel : PropertyChangedBase
         }
         catch (Exception ex)
         {
-            ToastNotification.ShowDirect($"Failed to open reports folder\n{ex.Message}");
+            ToastNotification.ShowDirect(LocalizationHelper.GetStringFormat("FailedToOpenFolder", ex.Message));
             _logger.Error(ex, "Failed to open reports folder");
         }
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 图片缓存清空中。
+    /// </summary>
+    public bool IsClearingImageCache
+    {
+        get; set {
+            if (SetAndNotify(ref field, value))
+            {
+                NotifyOfPropertyChange(nameof(CanClearImageCache));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether 当前可清空图片缓存（非清空中）。
+    /// </summary>
+    public bool CanClearImageCache => !IsClearingImageCache;
+
+    /// <summary>
     /// 清空图片缓存 仅删除 cache 目录和 debug 目录中的图片文件，保留文件夹结构
     /// </summary>
-    public static void ClearImageCache()
+    /// <returns>Task</returns>
+    public async Task ClearImageCache()
     {
         var result = MessageBoxHelper.Show(
             LocalizationHelper.GetString("ClearImageCacheTip"),
@@ -97,6 +117,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
             return;
         }
 
+        IsClearingImageCache = true;
         try
         {
             var imageExtensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
@@ -104,17 +125,23 @@ public class IssueReportUserControlModel : PropertyChangedBase
                 ".jpg", ".jpeg", ".png",
             };
 
-            int deletedCount = 0;
-
-            if (Directory.Exists(PathsHelper.CacheDir))
+            // 枚举与删除为纯 IO，移入后台线程避免文件多时冻结 UI；结束后需回 UI 线程展示结果，故不加 ConfigureAwait(false)
+            int deletedCount = await Task.Run(() =>
             {
-                deletedCount += DeleteImageFiles(PathsHelper.CacheDir, imageExtensions);
-            }
+                int count = 0;
 
-            if (Directory.Exists(PathsHelper.DebugDir))
-            {
-                deletedCount += DeleteImageFiles(PathsHelper.DebugDir, imageExtensions);
-            }
+                if (Directory.Exists(PathsHelper.CacheDir))
+                {
+                    count += DeleteImageFiles(PathsHelper.CacheDir, imageExtensions);
+                }
+
+                if (Directory.Exists(PathsHelper.DebugDir))
+                {
+                    count += DeleteImageFiles(PathsHelper.DebugDir, imageExtensions);
+                }
+
+                return count;
+            });
 
             if (deletedCount > 0)
             {
@@ -129,6 +156,10 @@ public class IssueReportUserControlModel : PropertyChangedBase
         {
             ShowGrowl($"{LocalizationHelper.GetString("ClearImageCacheException")}\n{ex.Message}");
             _logger.Error(ex, "Failed to clear image cache");
+        }
+        finally
+        {
+            IsClearingImageCache = false;
         }
     }
 
@@ -159,126 +190,151 @@ public class IssueReportUserControlModel : PropertyChangedBase
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 日志压缩包生成中。
+    /// </summary>
+    public bool IsGeneratingSupportPayload
+    {
+        get; set {
+            if (SetAndNotify(ref field, value))
+            {
+                NotifyOfPropertyChange(nameof(CanGenerateSupportPayload));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether 当前可生成日志压缩包（非生成中）。
+    /// </summary>
+    public bool CanGenerateSupportPayload => !IsGeneratingSupportPayload;
+
+    /// <summary>
     /// 生成日志压缩包
     /// </summary>
-    public void GenerateSupportPayload()
+    /// <returns>Task</returns>
+    public async Task GenerateSupportPayload()
     {
+        IsGeneratingSupportPayload = true;
         try
         {
             const int PartSize = 20 * 1024 * 1024; // 20 MB
             string reportNameBase = $"report_{DateTimeOffset.Now:MM-dd_HH-mm-ss}";
-            string tempPath = Path.Combine(PathsHelper.ReportsDir, $"maa-report-{Guid.NewGuid()}");
-            Directory.CreateDirectory(tempPath);
+            string fullZipPath = Path.Combine(PathsHelper.ReportsDir, $"{reportNameBase}.zip");
 
-            if (!Directory.Exists(PathsHelper.ReportsDir))
+            // 目录复制与压缩为纯 IO，移入后台线程避免冻结 UI；结束后需回 UI 线程展示结果，故不加 ConfigureAwait(false)
+            await Task.Run(() =>
             {
-                Directory.CreateDirectory(PathsHelper.ReportsDir);
-            }
+                string tempPath = Path.Combine(PathsHelper.ReportsDir, $"maa-report-{Guid.NewGuid()}");
+                Directory.CreateDirectory(tempPath);
 
-            // 复制文件
-            CopyDirectoryIfExists(PathsHelper.DebugDir, Path.Combine(tempPath, "debug"),
-                f => { return !Path.GetFileName(f).StartsWith("report", StringComparison.OrdinalIgnoreCase); });
-            CopyDirectoryIfExists(PathsHelper.ResourceDir, Path.Combine(tempPath, "resource"),
-                f => { return Path.GetFileName(f).Contains("_custom.", StringComparison.OrdinalIgnoreCase); });
-            CopyDirectoryIfExists(PathsHelper.ConfigDir, Path.Combine(tempPath, "config"));
-            CopyDirectoryIfExists(PathsHelper.CacheDir, Path.Combine(tempPath, "cache"));
-
-            string partsFolder = Path.Combine(PathsHelper.ReportsDir, $"{reportNameBase}_parts");
-            if (!Directory.Exists(partsFolder))
-            {
-                Directory.CreateDirectory(partsFolder);
-            }
-
-            // ====== part01：config + resource + cache + debug 根目录文件 ======
-            List<string> part01Files = [];
-
-            string[] categories = ["config", "resource", "cache"];
-            foreach (string category in categories)
-            {
-                string categoryPath = Path.Combine(tempPath, category);
-                if (Directory.Exists(categoryPath))
+                if (!Directory.Exists(PathsHelper.ReportsDir))
                 {
-                    part01Files.AddRange(Directory.EnumerateFiles(categoryPath, "*", SearchOption.AllDirectories));
+                    Directory.CreateDirectory(PathsHelper.ReportsDir);
                 }
-            }
 
-            string debugPath = Path.Combine(tempPath, "debug");
-            if (Directory.Exists(debugPath))
-            {
-                // 只取 debug 根目录文件
-                var debugRootFiles = Directory.EnumerateFiles(debugPath, "*", SearchOption.TopDirectoryOnly).ToList();
-                part01Files.AddRange(debugRootFiles);
-            }
+                // 复制文件
+                CopyDirectoryIfExists(PathsHelper.DebugDir, Path.Combine(tempPath, "debug"),
+                    f => { return !Path.GetFileName(f).StartsWith("report", StringComparison.OrdinalIgnoreCase); });
+                CopyDirectoryIfExists(PathsHelper.ResourceDir, Path.Combine(tempPath, "resource"),
+                    f => { return Path.GetFileName(f).Contains("_custom.", StringComparison.OrdinalIgnoreCase); });
+                CopyDirectoryIfExists(PathsHelper.ConfigDir, Path.Combine(tempPath, "config"));
+                CopyDirectoryIfExists(PathsHelper.CacheDir, Path.Combine(tempPath, "cache"));
 
-            if (part01Files.Count > 0)
-            {
-                string part01Path = Path.Combine(partsFolder, $"{reportNameBase}_part01.zip");
-                using var fs = new FileStream(part01Path, FileMode.Create);
-                using var archive = new ZipArchive(fs, ZipArchiveMode.Create);
-                foreach (var file in part01Files)
+                string partsFolder = Path.Combine(PathsHelper.ReportsDir, $"{reportNameBase}_parts");
+                if (!Directory.Exists(partsFolder))
                 {
-                    string entryName = Path.GetRelativePath(tempPath, file).Replace("\\", "/");
-                    var entry = archive.CreateEntry(entryName, CompressionLevel.SmallestSize);
-
-                    using var entryStream = entry.Open();
-                    using var fileStream = File.OpenRead(file);
-                    fileStream.CopyTo(entryStream);
+                    Directory.CreateDirectory(partsFolder);
                 }
-            }
 
-            // ====== part02：debug 子目录文件按 PartSize 分卷 ======
-            var threeDaysAgo = DateTime.Now.AddDays(-3);
-            var debugSubFiles = Directory.EnumerateFiles(debugPath, "*", SearchOption.AllDirectories)
-                .Where(f => Path.GetDirectoryName(f) != debugPath)
-                .Where(f => new FileInfo(f).LastWriteTime >= threeDaysAgo)
-                .ToList();
+                // ====== part01：config + resource + cache + debug 根目录文件 ======
+                List<string> part01Files = [];
 
-            int partNumber = 2;
-            while (debugSubFiles.Count > 0)
-            {
-                string partFileName = $"{reportNameBase}_part{partNumber:D2}.zip";
-                string partPath = Path.Combine(partsFolder, partFileName);
-
-                using (var fs = new FileStream(partPath, FileMode.Create))
+                string[] categories = ["config", "resource", "cache"];
+                foreach (string category in categories)
                 {
-                    using var archive = new ZipArchive(fs, ZipArchiveMode.Create);
-                    long currentSize = 0;
-                    List<string> processedFiles = [];
-
-                    foreach (var file in debugSubFiles.ToList())
+                    string categoryPath = Path.Combine(tempPath, category);
+                    if (Directory.Exists(categoryPath))
                     {
-                        var fileInfo = new FileInfo(file);
+                        part01Files.AddRange(Directory.EnumerateFiles(categoryPath, "*", SearchOption.AllDirectories));
+                    }
+                }
 
-                        if (currentSize + fileInfo.Length > PartSize && currentSize > 0)
-                        {
-                            break;
-                        }
+                string debugPath = Path.Combine(tempPath, "debug");
+                if (Directory.Exists(debugPath))
+                {
+                    // 只取 debug 根目录文件
+                    var debugRootFiles = Directory.EnumerateFiles(debugPath, "*", SearchOption.TopDirectoryOnly).ToList();
+                    part01Files.AddRange(debugRootFiles);
+                }
 
+                if (part01Files.Count > 0)
+                {
+                    string part01Path = Path.Combine(partsFolder, $"{reportNameBase}_part01.zip");
+                    using var fs = new FileStream(part01Path, FileMode.Create);
+                    using var archive = new ZipArchive(fs, ZipArchiveMode.Create);
+                    foreach (var file in part01Files)
+                    {
                         string entryName = Path.GetRelativePath(tempPath, file).Replace("\\", "/");
                         var entry = archive.CreateEntry(entryName, CompressionLevel.SmallestSize);
 
-                        using (var entryStream = entry.Open())
-                        {
-                            using var fileStream = File.OpenRead(file);
-                            fileStream.CopyTo(entryStream);
-                        }
-
-                        currentSize += fileInfo.Length;
-                        processedFiles.Add(file);
+                        using var entryStream = entry.Open();
+                        using var fileStream = File.OpenRead(file);
+                        fileStream.CopyTo(entryStream);
                     }
-
-                    debugSubFiles.RemoveAll(f => processedFiles.Contains(f));
                 }
 
-                partNumber++;
-            }
+                // ====== part02：debug 子目录文件按 PartSize 分卷 ======
+                var threeDaysAgo = DateTime.Now.AddDays(-3);
+                var debugSubFiles = Directory.EnumerateFiles(debugPath, "*", SearchOption.AllDirectories)
+                    .Where(f => Path.GetDirectoryName(f) != debugPath)
+                    .Where(f => new FileInfo(f).LastWriteTime >= threeDaysAgo)
+                    .ToList();
 
-            // ====== 生成完整压缩包 ======
-            string fullZipPath = Path.Combine(PathsHelper.ReportsDir, $"{reportNameBase}.zip");
-            ZipFile.CreateFromDirectory(tempPath, fullZipPath, CompressionLevel.SmallestSize, includeBaseDirectory: false);
+                int partNumber = 2;
+                while (debugSubFiles.Count > 0)
+                {
+                    string partFileName = $"{reportNameBase}_part{partNumber:D2}.zip";
+                    string partPath = Path.Combine(partsFolder, partFileName);
 
-            // 清理临时目录
-            Directory.Delete(tempPath, recursive: true);
+                    using (var fs = new FileStream(partPath, FileMode.Create))
+                    {
+                        using var archive = new ZipArchive(fs, ZipArchiveMode.Create);
+                        long currentSize = 0;
+                        List<string> processedFiles = [];
+
+                        foreach (var file in debugSubFiles.ToList())
+                        {
+                            var fileInfo = new FileInfo(file);
+
+                            if (currentSize + fileInfo.Length > PartSize && currentSize > 0)
+                            {
+                                break;
+                            }
+
+                            string entryName = Path.GetRelativePath(tempPath, file).Replace("\\", "/");
+                            var entry = archive.CreateEntry(entryName, CompressionLevel.SmallestSize);
+
+                            using (var entryStream = entry.Open())
+                            {
+                                using var fileStream = File.OpenRead(file);
+                                fileStream.CopyTo(entryStream);
+                            }
+
+                            currentSize += fileInfo.Length;
+                            processedFiles.Add(file);
+                        }
+
+                        debugSubFiles.RemoveAll(f => processedFiles.Contains(f));
+                    }
+
+                    partNumber++;
+                }
+
+                // ====== 生成完整压缩包 ======
+                ZipFile.CreateFromDirectory(tempPath, fullZipPath, CompressionLevel.SmallestSize, includeBaseDirectory: false);
+
+                // 清理临时目录
+                Directory.Delete(tempPath, recursive: true);
+            });
 
             ShowGrowl($"{LocalizationHelper.GetString("GenerateSupportPayloadSuccessful")}\n{fullZipPath}");
             OpenReportsFolder();
@@ -287,6 +343,10 @@ public class IssueReportUserControlModel : PropertyChangedBase
         {
             ShowGrowl($"{LocalizationHelper.GetString("GenerateSupportPayloadException")}\n{ex.Message}");
             _logger.Error(ex, "Failed to create support payload");
+        }
+        finally
+        {
+            IsGeneratingSupportPayload = false;
         }
     }
 

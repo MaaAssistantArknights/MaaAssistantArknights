@@ -339,6 +339,20 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
     }
 
     /// <summary>
+    /// 莫奈取色时背景/遮罩系 brush 是否保持主题默认中性色。
+    /// </summary>
+    public bool BackgroundMonetKeepMaskNeutral
+    {
+        get => ConfigFactory.Root.Gui.BackgroundMonetKeepMaskNeutral;
+        set
+        {
+            ConfigFactory.Root.Gui.BackgroundMonetKeepMaskNeutral = value;
+            NotifyOfPropertyChange();
+            UpdateMonet();
+        }
+    }
+
+    /// <summary>
     /// 莫奈取色模式（Auto / Custom）。
     /// </summary>
     public MonetModeType BackgroundMonetMode
@@ -485,8 +499,11 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
     /// <param name="skipDebounce">是否跳过防抖延迟。初始化时应传 true 以避免界面先闪烁原版颜色。</param>
     public void UpdateMonet(bool skipDebounce = false)
     {
+        // 与 ScheduleMonetUpdate 一致：每次更新都持有可取消的令牌，
+        // 快速连续修改设置时，旧提取/旧调色板会被取消，避免覆盖最新结果
         _monetUpdateCts?.Cancel();
-        _ = UpdateMonetAsync(CancellationToken.None, skipDebounce);
+        _monetUpdateCts = new CancellationTokenSource();
+        _ = UpdateMonetAsync(_monetUpdateCts.Token, skipDebounce);
     }
 
     /// <summary>

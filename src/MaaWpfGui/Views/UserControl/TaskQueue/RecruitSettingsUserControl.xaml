@@ -110,18 +110,13 @@
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource AutoRecruitSelectStrategy}"
                 DisplayMemberPath="Display"
-                IsEnabled="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
                 ItemsSource="{Binding AutoRecruitSelectExtraTagsList}"
                 SelectedValue="{Binding SelectExtraTags}"
                 SelectedValuePath="Value" />
             <StackPanel Margin="0,10">
                 <StackPanel Orientation="Horizontal">
                     <CheckBox Content="{DynamicResource AutoRecruitHighPriority}" IsChecked="{Binding UseLevel3PreferTags}" />
-                    <controls:TooltipBlock
-                        Margin="0,0,5,0"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Top"
-                        TooltipText="{DynamicResource AutoRecruitHighPriorityTooltip}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource AutoRecruitHighPriorityTooltip}" />
                 </StackPanel>
                 <hc:CheckComboBox
                     Margin="0,10,0,0"
@@ -136,6 +131,24 @@
                 Margin="0,10"
                 Content="{DynamicResource AutoRefresh}"
                 IsChecked="{Binding RefreshLevel3}" />
+            <WrapPanel Margin="0,10,0,0" IsEnabled="{Binding ChooseLevel3}">
+                <StackPanel Margin="0,0,0,10" Orientation="Horizontal">
+                    <CheckBox
+                        MaxWidth="203"
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding Level3RecruitmentPermitReserveEnabled}">
+                        <TextBlock Text="{DynamicResource RecruitLevel3PermitReserve}" TextWrapping="Wrap" />
+                    </CheckBox>
+                    <controls:TooltipBlock TooltipText="{DynamicResource RecruitLevel3PermitReserveTip}" />
+                </StackPanel>
+                <hc:NumericUpDown
+                    MinWidth="50"
+                    Margin="2,0,0,10"
+                    Maximum="999"
+                    Minimum="1"
+                    Visibility="{c:Binding Level3RecruitmentPermitReserveEnabled}"
+                    Value="{Binding Level3RecruitmentPermitReserve}" />
+            </WrapPanel>
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding ForceRefresh}"

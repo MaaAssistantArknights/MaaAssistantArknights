@@ -66,7 +66,12 @@ bool asst::SSSCopilotConfig::parse(const json::value& json)
         stage_data.info = CopilotConfig::parse_basic_info(stage);
         stage_data.draw_as_possible = stage.at("draw_as_possible").as_boolean();
 
-        stage_data.actions = CopilotConfig::parse_actions(stage);
+        if (auto actions = CopilotConfig::parse_actions(stage)) {
+            stage_data.actions = std::move(*actions);
+        }
+        else {
+            return false;
+        }
         stage_data.groups = m_data.groups;
         stage_data.order_of_drops = m_data.order_of_drops;
         stage_data.retry_times = stage.get("retry_times", 0);

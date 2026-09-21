@@ -52,11 +52,6 @@ public class AsstInfrastTask : AsstBaseTask
     public string UsesOfDrones { get; set; } = "_NotUse";
 
     /// <summary>
-    /// Gets or sets a value indicating whether 训练室是否尝试连续专精
-    /// </summary>
-    public bool ContinueTraining { get; set; }
-
-    /// <summary>
     /// Gets or sets 宿舍进驻心情阈值
     /// </summary>
     public double DormThreshold { get; set; }
@@ -126,7 +121,6 @@ public class AsstInfrastTask : AsstBaseTask
         {
             ["facility"] = JArray.FromObject(Facilitys),
             ["drones"] = UsesOfDrones,
-            ["continue_training"] = ContinueTraining,
             ["threshold"] = DormThreshold,
             ["dorm_notstationed_enabled"] = DormFilterNotStationedEnabled,
             ["dorm_trust_enabled"] = DormTrustEnabled,

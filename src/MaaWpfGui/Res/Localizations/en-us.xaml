@@ -29,6 +29,8 @@
     <system:String x:Key="BackgroundMonetCustom">Custom Color</system:String>
     <system:String x:Key="BackgroundMonetSelectColor">Select Color</system:String>
     <system:String x:Key="BackgroundMonetAutoTip">Extract dominant color from background image to generate theme palette</system:String>
+    <system:String x:Key="BackgroundMonetKeepMaskNeutral">Keep mask color unchanged</system:String>
+    <system:String x:Key="BackgroundMonetKeepMaskNeutralTip">When enabled, the mask no longer follows the theme color, which may affect control visibility</system:String>
     <system:String x:Key="UiTheme">UI Theme</system:String>
     <system:String x:Key="TransitionSpeed">Transition Animation</system:String>
     <system:String x:Key="TransitionSpeedNormal">Normal</system:String>
@@ -106,6 +108,7 @@
     <system:String x:Key="GpuAllowDeprecated">Allow deprecated GPU</system:String>
     <system:String x:Key="Copy">Copy</system:String>
     <!--  Toast 不可用  -->
+    <system:String x:Key="ToastNotificationTest">Notification test</system:String>
     <system:String x:Key="ToastNotificationUnavailable">Toast notifications are unavailable: {0}</system:String>
     <system:String x:Key="ToastNotificationUnavailable.DisabledForApplication">The user has disabled notifications for this app in Windows Settings.</system:String>
     <system:String x:Key="ToastNotificationUnavailable.DisabledForUser">The user has disabled all app notifications in Windows Settings.</system:String>
@@ -173,7 +176,6 @@
     <system:String x:Key="ClueExchangeUnlocked">Clue Exchange Unlocked</system:String>
     <system:String x:Key="InfrastReceptionSendClue">Send Clues</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">The following functions require configuration and execution within {key=Infrast}.</system:String>
-    <system:String x:Key="ContinueTraining">After training is complete, try to continue mastering the current Skill</system:String>
     <system:String x:Key="InfrastFiammettaRecovery">Enable Fiammetta morale recovery</system:String>
     <system:String x:Key="InfrastFiammettaRecoveryTips">When enabled, the recovery target and a full-mood Fiammetta swap moods in a dormitory at the start of each shift, after which Fiammetta stays in the dormitory to recover.</system:String>
     <system:String x:Key="InfrastFiammettaTargets">Fiammetta recovery targets</system:String>
@@ -295,6 +297,8 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="RoguelikeStopAtMaxLevel">Stop when max level is achieved</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">Start with seed</system:String>
     <!--<system:String x:Key="RoguelikeStartWithSeed">Enable Investment Seed</system:String>-->
+    <system:String x:Key="RoguelikeSeedFormatError">Invalid format</system:String>
+    <system:String x:Key="RoguelikeStartWithSeedTip">Example: 2b3c4d,rogue_1,120</system:String>
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">Monthly Squad Auto-Switch</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">Monthly Squad Communication</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckCommsTip" xml:space="preserve">When enabled, MAA checks whether all communications for the current squad have been unlocked and only switches to the next Monthly Squad once they are all unlocked.&#10;If you only want the rewards, disable this option to reduce repeated exploration.&#10;MAA will not end the current exploration early just because this option is disabled.</system:String>
@@ -394,9 +398,11 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="RenameTask">Rename Task</system:String>
     <system:String x:Key="RenameTaskPrompt">Please enter a new task name:</system:String>
     <system:String x:Key="AddTaskQueueTask">Add New Task</system:String>
+    <system:String x:Key="ConfirmDeleteConfigurationMessage">Are you sure you want to delete configuration &lt;{0}&gt;? This action cannot be undone.</system:String>
     <system:String x:Key="ConfirmDeleteTask">Confirm Delete</system:String>
     <system:String x:Key="ConfirmDeleteTaskMessage">Are you sure you want to delete {0} task "{1}"?</system:String>
     <system:String x:Key="TaskRenamed">Task renamed to: {0}</system:String>
+    <system:String x:Key="TaskRenameFailed">Failed to rename task</system:String>
     <system:String x:Key="TaskDeleted">Task deleted: {0}</system:String>
     <system:String x:Key="TaskCopied">Task copied: {0}</system:String>
     <system:String x:Key="StartGuideDemo">Tasks won't actually run in the demo.</system:String>
@@ -405,6 +411,9 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="HotKeyShowGui">[HotKey] Show/collapse MAA</system:String>
     <system:String x:Key="HotKeyLinkStart">[HotKey] Link start/stop</system:String>
     <system:String x:Key="HotKeyChangingTip">Press Backspace / Esc / Delete to clear the current value</system:String>
+    <system:String x:Key="HotKeyRegistrationFailedOccupied">Failed to register the hotkey: the key combination may already be taken by another program. Please use a different combination.</system:String>
+    <system:String x:Key="HotKeyRegistrationFailedDuplicate">Failed to register the hotkey: the key combination duplicates another MAA hotkey. Please use a different combination.</system:String>
+    <system:String x:Key="HotKeyNotSet">&lt; not set &gt;</system:String>
     <system:String x:Key="LabelSequenceTip">The label sequence can be dragged</system:String>
     <system:String x:Key="CheckBoxesNotSaved">This option is effective once</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">This option only takes effect once when right-clicked</system:String>
@@ -575,6 +584,8 @@ If you choose ｢{key=ManualRestart}｣ and start MAA manually later, ｢{key=Ru
     <system:String x:Key="UseWeeklySchedule">Enable Weekly Schedule</system:String>
     <system:String x:Key="UseWeeklyScheduleTip">The day of week here is based on in-game time, not real-world time. For example, if the game resets at 4:00, then 3:59 is still counted as the previous day.</system:String>
     <system:String x:Key="FightSkippedWeeklySchedule">Weekly schedule is not enabled for today</system:String>
+    <system:String x:Key="FightSkippedEmptyStagePlan">Stage plan is empty</system:String>
+    <system:String x:Key="FightSkippedNoOpenStage">No stage in the plan is open today</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">The adaptation for Overseas clients is very difficult and we need your help! No programming knowledge is required.</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunchTip">The emulator is only started once when MAA launches, not every time you click ｢{key=LinkStart}｣.\nIf you need that, check ｢{key=RetryOnDisconnected}｣ instead</system:String>
@@ -660,19 +671,20 @@ When difficulty ≥ N6, 6★ Hope cost +1; some squads may be unable to recruit 
 4. When difficulty ≥ N15, 6★ Hope cost +1; using some squads may make it impossible to recruit a 6★ operator at the start, causing errors or failures</system:String>
     <system:String x:Key="RoguelikeThemeTipBlackFlow" xml:space="preserve">{key=RoguelikeThemeBlackFlow} recommended configuration:
 
-{key=StartingCoreChar}: Mechanic (Elite 2 required)
+{key=StartingCoreChar}: Mechanic (Elite 2 and the ｢Effect Improvement II｣ of the ｢Recruitment Mastery II｣ talent required)
 {key=StartingSquad}: ｢{key=SpecialForceSquad}｣ / ｢{key=TacticalFortificationOperative}｣
 {key=StartingRoles}: ｢{key=SlowAndSteadyWinsTheRace}｣ / ｢{key=Unbreakable}｣
 
 1. There is no dedicated battle strategy yet; combat is decided automatically by the recruitment scoring system.
     Ingot farming, level farming and swaddled-animal farming all currently revolve around the Elite 2 Mechanic's flight.
     This roguelike is full of special mechanics — without the setup above you are stuck with the default pathfinding and combat, which will most likely fail.
-    Starting with an Elite 2 Mechanic is strongly recommended (getting one only requires clearing N1 once, which is fairly easy)
-2. After Elite 2, unlock the ｢Recruitment Mastery II｣ and ｢Effect Improvement II｣ techs so the ｢Structural Principle｣ is carried from the start (fly anywhere on the map 3 times).
-    The unlock is easy — just sell 10 parts in total after Elite 2 — and strongly recommended.
-    Without it you can only fly to the 8 surrounding tiles 3 times; still farmable, but much less efficient
+    Once the Mechanic is recruited, the promotion check is skipped and the strategy runs as if it were Elite 2 for efficiency;
+    a non-Elite 2 Mechanic will get stuck or loop forever, so an Elite 2 Mechanic is required.
+    Some events also have different options before the first clear and may get stuck; clearing N1 once satisfies both the Elite 2 requirement and the event options, and is fairly easy
+2. You must unlock the ｢Effect Improvement II｣ of the ｢Recruitment Mastery II｣ talent, so that a ｢Structural Principle｣ part (fly anywhere on the map 3 times) is carried from the start.
+    The unlock is easy — just sell 10 parts in total after Elite 2
 3. When farming levels, the Mechanic (Elite 2 required) + the squads and roles above + a Defender voucher let you fly through the three floors quickly
-4. Do not pick the Mechanic without Elite 2; you can farm money normally, but battles will most likely end in defeat.
+4. Do not pick the Mechanic without Elite 2 — the run will get stuck or loop forever; without it you can farm money normally, but battles will most likely end in defeat.
     Other strategies await future optimization
 5. Farming levels with ｢{key=InvestmentEnabled}｣ unchecked skips shops entirely</system:String>
     <system:String x:Key="RoguelikeDifficulty">Difficulty</system:String>
@@ -779,7 +791,8 @@ Then delete the entries corresponding to the paths.</system:String>
     <system:String x:Key="AllowUseStoneSaveTip">By default, ｢{key=UseOriginitePrime}｣ is effective only once; when checked, its state will be saved, the left-click toggles it normally, and a right-click selection still takes effect only once</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">This function is considered dangerous. Pressing the ｢{key=Confirm}｣ button indicates that you understand and are willing to accept the potential risks.</system:String>
     <system:String x:Key="UseAlternateStage">Use alternative stage</system:String>
-    <system:String x:Key="UseExpiringMedicine">Unlimited use of expiring (&lt;N hours) sanity potion</system:String>
+    <system:String x:Key="UseExpiringMedicine">Unlimited use of sanity potion expiring in &lt;N days</system:String>
+    <system:String x:Key="MedicineExpireDaysTip">Only uses medicine displayed as less than "N days" in-game; anything displayed as "N days" or more will not be used.</system:String>
     <system:String x:Key="UseExpireMedicineForActivity">Use sanity potions that expire this week within 48 hours before the activity ends</system:String>
     <system:String x:Key="NoActivity">No activity</system:String>
     <system:String x:Key="HideUnavailableStage">Hide today's not open stages</system:String>
@@ -886,6 +899,47 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="Infrast">{key=Base}</system:String>
     <system:String x:Key="Combat">Combat</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
+    <system:String x:Key="OperProgress">Operator Development</system:String>
+    <!--  待确认移除（干员计划重构后 JSON 文本流程已废弃，以下键仅供已注释的 JSON 往返链路使用）  -->
+    <system:String x:Key="OperProgressParsePlan">Parse Plan</system:String>
+    <system:String x:Key="OperProgressPlanValid">The current text has been parsed successfully</system:String>
+    <system:String x:Key="OperProgressPlanPending">Text changed; runs still use the last successfully parsed plan</system:String>
+    <system:String x:Key="OperProgressPlanParsed">Plan parsed successfully: {0} entries</system:String>
+    <system:String x:Key="OperProgressJsonError">JSON error at line {0}, column {1}: {2}</system:String>
+    <system:String x:Key="OperProgressPlanMustBeArray">The plan must be a JSON array</system:String>
+    <system:String x:Key="OperProgressPlanMustBeObject">Plan entry {0} must be an object</system:String>
+    <system:String x:Key="OperProgressUnknownField">Plan entry {0} contains unknown field "{1}"</system:String>
+    <system:String x:Key="OperProgressUnknownOperator">Field "{1}" in plan entry {0} is not an available CN operator name</system:String>
+    <system:String x:Key="OperProgressExactlyOneAction">Plan entry {0} must contain exactly one development action</system:String>
+    <system:String x:Key="OperProgressMasteryPairRequired">Field "{1}" in plan entry {0} requires the other mastery field</system:String>
+    <system:String x:Key="OperProgressStringRequired">Field "{1}" in plan entry {0} must be a non-empty string</system:String>
+    <system:String x:Key="OperProgressIntegerRequired">Field "{1}" in plan entry {0} must be an integer</system:String>
+    <system:String x:Key="OperProgressFieldRange">Field "{1}" in plan entry {0} must be between {2} and {3}</system:String>
+    <!--  待确认移除结束  -->
+    <system:String x:Key="OperProgressSkillLevelTarget">Skill level {0}</system:String>
+    <system:String x:Key="OperProgressMasteryTarget">Skill {0}, mastery {1}</system:String>
+    <system:String x:Key="OperProgressEliteTarget">Elite {0}</system:String>
+    <system:String x:Key="OperProgressDeleteCompletedEntries">Remove completed entries when the chain finishes</system:String>
+    <system:String x:Key="OperProgressDeleteCompletedEntriesTip">After the development chain finishes, entries reported as "completed" or "already satisfied" are removed automatically; failed and skipped entries are kept</system:String>
+    <system:String x:Key="OperProgressTargetStartLog">Development plan entry {0}: {1}, {2}</system:String>
+    <system:String x:Key="OperProgressTargetResultLog">Development plan entry {0}: {1}, {2}, result: {3}</system:String>
+    <system:String x:Key="OperProgressRecognizedElite"> (current elite {0})</system:String>
+    <system:String x:Key="OperProgressRecognizedSkillLevel"> (current skill level {0})</system:String>
+    <system:String x:Key="OperProgressRecognizedMastery"> (current mastery {0})</system:String>
+    <system:String x:Key="OperProgressSummaryLog">Operator development finished: {0} completed, {1} already satisfied, {2} failed, {3} skipped</system:String>
+    <system:String x:Key="OperProgressSelectOperator">Select operator</system:String>
+    <system:String x:Key="OperProgressAddTarget">Add</system:String>
+    <!--  待确认移除（弹窗专用：卡片内联编辑后不再使用）  -->
+    <system:String x:Key="OperProgressTargetTitle">{0} · Targets</system:String>
+    <system:String x:Key="OperProgressElite">Elite</system:String>
+    <system:String x:Key="OperProgressSkillUpgrade">Skill upgrade</system:String>
+    <system:String x:Key="OperProgressMastery">Mastery</system:String>
+    <system:String x:Key="OperProgressSkillNumber">Skill {0}</system:String>
+    <system:String x:Key="OperProgressInvalidOperatorInput">Invalid operator name. Please select one from the list</system:String>
+    <system:String x:Key="OperProgressOperatorLimit">At most 5 operators can be selected</system:String>
+    <!--  待确认移除（弹窗专用：卡片内联编辑后不再使用）  -->
+    <system:String x:Key="OperProgressEdit">Edit</system:String>
+    <system:String x:Key="OperProgressOnlineEditor">Edit the plan online with Arknights Toolbox</system:String>
     <system:String x:Key="Visiting">Visit Friends</system:String>
     <system:String x:Key="Mall">Credit Store</system:String>
     <system:String x:Key="Mission">Collect Rewards</system:String>
@@ -897,8 +951,9 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="DepotMaintain">Depot Maintain</system:String>
     <system:String x:Key="SwitchTheme">Switch Theme</system:String>
     <system:String x:Key="MiniGame">Useful Tasks</system:String>
-    <system:String x:Key="MiniGameCategoryPermanent">Permanent</system:String>
+    <system:String x:Key="MiniGameCategoryPermanent">Permanent Activities</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">Current Events</system:String>
+    <system:String x:Key="MiniGameCategoryPermanentFeature">Permanent Features</system:String>
     <system:String x:Key="Custom">Custom Task</system:String>
     <system:String x:Key="SingleStep">Single-Step Task</system:String>
     <system:String x:Key="ReclamationTheme">Reclamation Algorithm Theme</system:String>
@@ -940,6 +995,9 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="PostActionOnceTip" xml:space="preserve">When checked, option changes will not be saved and will revert the next time MAA starts or after {key=LinkStart}
 After unchecking this option, other option states will be saved normally
 Right-clicking other options will check/uncheck this option simultaneously</system:String>
+    <system:String x:Key="SkipPostActionOnError">Skip if any task failed</system:String>
+    <system:String x:Key="SkipPostActionOnErrorTip">When checked, all actions above will be skipped if one or more tasks in the task list failed.</system:String>
+    <system:String x:Key="PostActionSkippedDueToError">Post actions skipped, failed task(s): {0}</system:String>
     <system:String x:Key="IfNoOtherMaa">If no other running MAA</system:String>
     <system:String x:Key="IfNoOtherMaaTip">When checked, Sleep/Hibernate/Shutdown will only run when no other MAA instance is running</system:String>
     <system:String x:Key="BackToAndroidHome">Return to home screen of emulator</system:String>
@@ -987,6 +1045,10 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="Inventory">Inv:</system:String>
     <system:String x:Key="InventoryUpdateTip">Inventory data can be updated via  ｢{key=Toolbox}-{key=DepotRecognition}｣</system:String>
     <system:String x:Key="SpecifiedDropsInventoryUnavailable">Task "{0}" uses {key=TargetInventory}, but no inventory data is currently available, so it was skipped. Update it via ｢{key=Toolbox}-{key=DepotRecognition}｣.</system:String>
+    <system:String x:Key="SpecifiedDropsInventoryEnough">{0} sufficient {1}/{2}</system:String>
+    <system:String x:Key="UserDataUpdateCannotModifyExistingTask">Cannot modify the parameters of an already added "{key=UserDataUpdate}" task</system:String>
+    <system:String x:Key="UserDataUpdateNothingSelected">Neither ｢{key=OperBoxRecognition}｣ nor ｢{key=DepotRecognition}｣ is selected</system:String>
+    <system:String x:Key="UserDataUpdateIntervalNotReached">The ｢{0}｣ trigger interval has not been reached since the last sync</system:String>
     <!--  DepotMaintain  -->
     <system:String x:Key="DepotUpdateBeforeStart">Update inventory before starting</system:String>
     <system:String x:Key="AddPlan">Add</system:String>
@@ -1007,6 +1069,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="DepotPlanSanityInsufficient">#{0}: Insufficient sanity ({1}, below stage cost {2}), skipped</system:String>
     <system:String x:Key="DepotPlanStageNotOpen">#{0}: stage '{1}' is not open</system:String>
     <system:String x:Key="DepotPlanAddTaskFailed">#{0}: add task failed</system:String>
+    <system:String x:Key="DepotPlanNoPlan">No plans configured</system:String>
     <system:String x:Key="DepotSkipDuringActivity">Skip during event</system:String>
     <system:String x:Key="DepotSkipDuringResourceCollection">Skip during resource collection limited-time all-day open</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlan">Only execute the first insufficient plan</system:String>
@@ -1073,6 +1136,9 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="VersionMismatch">UI and Core versions mismatch: {0} and {1}, which may cause unpredictable behavior. Please do not manually replace files or occupy files during updates.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="FullPackageUpgradeTips">Please download the full package and extract it into a new folder. Do not overwrite the existing installation folder.\nYou may copy the original config, data, and debug folders into the new folder to retain your existing settings and logs.</system:String>
     <system:String x:Key="ConnectingToEmulator">Connecting to emulator……</system:String>
+    <system:String x:Key="ImageIsNull">Image is null</system:String>
+    <system:String x:Key="ConnectionLost">Connection lost</system:String>
+    <system:String x:Key="LoadResourceFailed">Failed to load resource</system:String>
     <system:String x:Key="UnselectedTask">Unselected task</system:String>
     <system:String x:Key="Running">Running……</system:String>
     <system:String x:Key="TaskAppend.Skip">{0}: {1} task skip</system:String>
@@ -1189,6 +1255,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="Peep">Peep</system:String>
     <system:String x:Key="PeepTip">See the world through Pallas?</system:String>
     <system:String x:Key="PeepTargetFps">Target Frame Rate</system:String>
+    <system:String x:Key="PeepScreenshotTooLong">Screenshot taking too long, reduce Target FPS to {0}</system:String>
     <!--  !Peep  -->
     <!--  Minigame  -->
     <system:String x:Key="MiniGameName">Mini Game Name</system:String>
@@ -1225,8 +1292,9 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="MiniGame@SecretFront@Event3">Sly Shadows</system:String>
     <system:String x:Key="MiniGame@SecretFront">Hidden Front</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip" xml:space="preserve">Start from the squad selection screen;&#10;If there is a saved game, please delete it manually.&#10;Close the tutorial after playing it for the first time.&#10;Recommended to enable in-game ｢Inherit previous squad's data｣.</system:String>
-    <system:String x:Key="MiniGame@MaterialSynthesis">Automatic Material Synthesis</system:String>
-    <system:String x:Key="MiniGame@MaterialSynthesisTip" xml:space="preserve">Open the synthesis page for the target material in the Workshop before starting.&#10;MAA recursively synthesizes available lower-tier materials and stops when ingredients are insufficient.</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis">Missing Material Synthesis</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesisTip" xml:space="preserve">Navigate to the Workshop synthesis page via the missing-material popup on a training page (e.g. elite promotion, mastery, or module upgrade) before starting.&#10;MAA recursively synthesizes available lower-tier materials and stops when ingredients are insufficient.</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis@DemoVideo">Demo Video</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@StartLog">Starting automatic material synthesis</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@MaterialLog">Current material: {0}, {1} remaining (depth {2})</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@IngredientLog">Synthesizing missing ingredient {1} for {0}</system:String>
@@ -1241,6 +1309,9 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="MiniGame@MaterialSynthesis@Unsupported">unable to recognize the current material or formula data</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@NavigationFailed">page recognition or operation failed</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@UnknownFailure">unknown error</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential">Automatically Raise Potential</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotentialTip" xml:space="preserve">Open the Operator list before starting. MAA raises the Potential of every Operator marked as available.&#10;The task stops on the last Operator profile, or on the Operator list when there is no available target.</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@UseNormalToken">Use regular Tokens when mid-tier Tokens are insufficient</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition">Interactive Exhibition - Find Unrecorded Wonders</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibitionTip" xml:space="preserve">Start the task at the bottom right of the grass in the advanced zone of the selected map.&#10;Wander back and forth across the grass to find unrecorded creatures; the task stops automatically once one is found.&#10;Creatures can only be found on grass.</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationTitle">Interactive Exhibition: Unrecorded Wonder Found</system:String>
@@ -1275,6 +1346,9 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="MiniGame@PixelPaint@StartLog">Start pixel paint: {0} cells, {1} colors</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ProgressLog">Pixel paint {0}/{1}</system:String>
     <system:String x:Key="MiniGame@PixelPaint@DoneLog">Pixel paint done</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@TotalLog">Automatically Raise Potential: {0} operators to process</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@PotentialFoundLog">Operator {0}/{1}: potential raise available</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@NoPotentialLog">Operator {0}/{1}: no potential raise available</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">Green Ticket Store</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">Buy everything on the 1st floor.&#10;Buy Headhunting Permits and Recruitment Permits on the 2nd floor.</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">Yellow Ticket Store</system:String>
@@ -1477,12 +1551,15 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="IdentifyTheMistakes">Recognition error</system:String>
     <system:String x:Key="RecruitRefreshLimitReached">Refresh count reached the limit</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">Task error:&#160;</system:String>
+    <system:String x:Key="TaskErrorSummaryTitle">Errors occurred in this run:</system:String>
+    <system:String x:Key="TaskErrorSummaryItem">{0}</system:String>
     <system:String x:Key="OutOfMemoryError">The {0} task stopped due to insufficient memory. Close some programs or restart MAA and try again</system:String>
     <system:String x:Key="CombatError">Combat error</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">Start task:&#160;</system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">Complete task:&#160;</system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">Start combat:&#160;</system:String>
     <system:String x:Key="CompleteCombat">Complete combat</system:String>
+    <system:String x:Key="TaskCompletedWithErrors">All task(s) completed with errors!\n(in {0})</system:String>
     <system:String x:Key="AllTasksComplete">All task(s) completed!\n(in {0})</system:String>
     <system:String x:Key="SanityReport">Sanity will be full at {DateTime} (in {TimeDiff})</system:String>
     <system:String x:Key="AllTaskCompleteContent">MAA has completed all tasks under the {Preset} configuration on {DateTime} (in {TimeDiff})</system:String>
@@ -1512,7 +1589,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">Medicine: {0},{1}(Expiring)  </system:String>
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">Stone: {0}  </system:String>
     <system:String x:Key="MedicineUsed">Medicine used</system:String>
-    <system:String x:Key="ExpiringMedicineUsed">Expiring medicine (in {0} hours) used</system:String>
+    <system:String x:Key="ExpiringMedicineUsed">Expiring medicine (in {0} days) used</system:String>
     <system:String x:Key="UseMedicine.MedicineInfo">Medicine: {0}, Inventory: {1}</system:String>
     <system:String x:Key="StoneUsed">Originite Prime used</system:String>
     <system:String x:Key="ActingCommandError">PRTS error</system:String>
@@ -1759,6 +1836,8 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="Refreshed">Refreshed</system:String>
     <system:String x:Key="ContinueRefresh">No recruitment permit, trying to refresh Tags</system:String>
     <system:String x:Key="NoRecruitmentPermit">No recruitment permit, returned</system:String>
+    <system:String x:Key="RecruitPermitReserved">{0} recruitment permit(s) remaining; at or below the reserve. Skipped the current 3★ recruitment</system:String>
+    <system:String x:Key="RecruitPermitCountRecognitionFailed">Failed to recognize the recruitment permit count. Skipped the current 3★ recruitment to preserve permits</system:String>
     <system:String x:Key="AutoRecruitSelectStrategy">Strategies for Additional Tags</system:String>
     <system:String x:Key="DefaultNoExtraTags">Additional Tags are not selected by default</system:String>
     <system:String x:Key="SelectExtraTags">If higher ★ tags appear, always select 3 tags</system:String>
@@ -1795,6 +1874,9 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="MoveCamera">Move Camera</system:String>
     <system:String x:Key="DrawCard">Deploy Operator</system:String>
     <system:String x:Key="CheckIfStartOver">Check If Restart</system:String>
+    <system:String x:Key="ResetStopwatch">Reset Stopwatch</system:String>
+    <system:String x:Key="Click">Click</system:String>
+    <system:String x:Key="Swipe">Swipe</system:String>
     <system:String x:Key="UnsupportedLevel">Unsupported stage, please check the stage name or go to ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ and try updating the resource version!</system:String>
     <system:String x:Key="Copilot.UnsupportedSkill">{0} does not support Skill {1}, so the Skill will no longer be selected.</system:String>
     <system:String x:Key="Copilot.EliteEmpty">{0} No Elite Level requirement was set, but the requirement for other attributes is Elite {1}; this has been auto-filled.</system:String>
@@ -1831,7 +1913,7 @@ If you do need to use it, please ensure:
 4. Arknights Settings → Game → UI Scaling is set to 100%
 5. Lower the mouse pointer scale in Arknights settings to reduce obstruction of recognition areas
 6. Game resolution must be 16:9; recommended settings: 1280x720 or 1920x1080</system:String>
-    <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. We recommend using SendMsg-WindowPos as the mouse input method; it can greatly reduce recognition errors and freezing issues on the PC client</system:String>
+    <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. We recommend using PostMsg-WindowPos as the mouse input method; it can greatly reduce recognition errors and freezing issues on the PC client</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">Screencap Method</system:String>
     <system:String x:Key="AttachWindowMouseMethod">Mouse Input Method</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">Keyboard Input Method</system:String>
@@ -1842,8 +1924,10 @@ If you do need to use it, please ensure:
     <system:String x:Key="AttachWindowInputSeize">Seize (Foreground, Fully Captures Mouse)</system:String>
     <system:String x:Key="AttachWindowInputSendMsgDisabled">SendMsg (Full Background, Arknights Uses Real Mouse Position Only, Ineffective)</system:String>
     <system:String x:Key="AttachWindowInputPostMsgDisabled">PostMsg (Full Background, Arknights Uses Real Mouse Position Only, Ineffective)</system:String>
-    <system:String x:Key="AttachWindowInputSendWithCursor">SendMsg-CursorPos (Semi-background, Briefly Captures Mouse)</system:String>
-    <system:String x:Key="AttachWindowInputSendWithWindowPos">SendMsg-WindowPos (Recommended, Full Background, No Mouse Capture, Window May Move, PrintWindow Screencap Only, Recommend Minimizing)</system:String>
+    <system:String x:Key="AttachWindowInputSendWithCursorDisabled">SendMsg-CursorPos (Excessive Latency, Disabled)</system:String>
+    <system:String x:Key="AttachWindowInputPostWithCursor">PostMsg-CursorPos (Semi-background, Briefly Captures Mouse)</system:String>
+    <system:String x:Key="AttachWindowInputSendWithWindowPosDisabled">SendMsg-WindowPos (Excessive Latency, Disabled)</system:String>
+    <system:String x:Key="AttachWindowInputPostWithWindowPos">PostMsg-WindowPos (Recommended, Full Background, No Mouse Capture, Window May Move, PrintWindow Screencap Only, Recommend Minimizing)</system:String>
     <system:String x:Key="AttachWindowInputSendMsg">SendMsg (Stable)</system:String>
     <system:String x:Key="AttachWindowInputPostMsg">PostMsg (Efficient)</system:String>
     <!--  !AsstProxy  -->
@@ -1870,6 +1954,7 @@ If you do need to use it, please ensure:
     <system:String x:Key="Issue">Issues</system:String>
     <system:String x:Key="GenerateSupportPayload">Generate Support Payload</system:String>
     <system:String x:Key="OpenDebugFolder">Open Debug Folder</system:String>
+    <system:String x:Key="FailedToOpenFolder">Failed to open folder: {0}</system:String>
     <system:String x:Key="GenerateSupportPayloadSuccessful">Support payload generated successfully</system:String>
     <system:String x:Key="GenerateSupportPayloadException">An error occurred while generating the support payload:</system:String>
     <system:String x:Key="ClearImageCache">Clear Image Cache</system:String>
@@ -1891,6 +1976,8 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="RecruitMaxTimes">Recruit max times</system:String>
     <system:String x:Key="PreserveTags">Preserve selected tags</system:String>
     <system:String x:Key="AutoSelectLevel3">Auto confirm 3★</system:String>
+    <system:String x:Key="RecruitLevel3PermitReserve">Reserve recruitment permits for 3★</system:String>
+    <system:String x:Key="RecruitLevel3PermitReserveTip">Skip 3★ recruitment when the remaining permit count is less than or equal to this value</system:String>
     <system:String x:Key="AutoSelectLevel4">Auto confirm 4★</system:String>
     <system:String x:Key="AutoSelectLevel5">Auto confirm 5★</system:String>
     <system:String x:Key="AutoSelectLevel6">Auto confirm 6★</system:String>

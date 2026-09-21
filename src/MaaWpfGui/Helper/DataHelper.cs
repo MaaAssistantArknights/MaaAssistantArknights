@@ -332,6 +332,15 @@ public static class DataHelper
             character.CodeName.Equals(codeName, StringComparison.OrdinalIgnoreCase));
     }
 
+    /// <summary>
+    /// 将干员 ID 归一化为基础形态 ID。升变干员（阿米娅）在 battle_data 中按形态拆成独立条目，
+    /// 游戏内却共享同一培养条目；干员识别按玩家当前形态回传形态 ID，而形态条目不在
+    /// 干员全集（<see cref="Operators"/>）内，展示、存储与潜能匹配前须归一到基础形态。
+    /// </summary>
+    /// <param name="id">干员 ID</param>
+    /// <returns>归一化后的干员 ID，无等价条目时原样返回</returns>
+    public static string GetCanonicalOperId(string id) => _promotedOperIds.GetValueOrDefault(id, id);
+
     public class CharacterInfo
     {
         [JsonIgnore]
@@ -368,7 +377,7 @@ public static class DataHelper
         public string? Position { get; set; }
 
         [JsonProperty("profession")]
-        public OperatorRole Type { get; set; } = OperatorRole.Unknown;
+        public OperatorRole Role { get; set; } = OperatorRole.Unknown;
 
         [JsonProperty("rangeId")]
         public List<string>? RangeId { get; set; }
@@ -376,7 +385,7 @@ public static class DataHelper
         [JsonProperty("rarity")]
         public int Rarity { get; set; }
 
-        public bool IsOperator => Type is
+        public bool IsOperator => Role is
             OperatorRole.Caster or
             OperatorRole.Medic or
             OperatorRole.Pioneer or
@@ -470,4 +479,13 @@ public static class DataHelper
         "char_1001_amiya2", // 阿米娅-WARRIOR
         "char_1037_amiya3", // 阿米娅-MEDIC
     ];
+
+    /// <summary>
+    /// 升变形态 ID 到基础形态 ID 的等价表，供 <see cref="GetCanonicalOperId"/> 归一化。
+    /// </summary>
+    private static readonly Dictionary<string, string> _promotedOperIds = new()
+    {
+        { "char_1001_amiya2", "char_002_amiya" }, // 阿米娅近卫升变形态
+        { "char_1037_amiya3", "char_002_amiya" }, // 阿米娅医疗升变形态
+    };
 }
