@@ -158,7 +158,10 @@ Please note that JSON files do not support comments. The comments in this docume
             "slope_out": 10, // End slope of the swipe. Optional, default is 10; stored as an integer multiplied by 10, so 10 means 1.0
             "with_pause": false, // Whether to pause the game while swiping (for cases that need to swipe while paused). Optional, default is false; only supported by some touch modes
             "high_resolution_swipe_fix": false, // Whether to enable the high-resolution swipe fix. Optional, default is false
-            // The special swipe parameters above share exactly the same semantics as special_params of the Swipe task in tasks.json
+            // duration, extra_swipe, slope_in, and slope_out share the same value semantics as the first four elements
+            // of special_params of the Swipe task in tasks.json; high_resolution_swipe_fix corresponds to the standalone
+            // highResolutionSwipeFix task field in tasks.json; with_pause is unique to this schema (tasks.json has no
+            // counterpart — whether pipeline swipes pause the game is a global setting, not per-task)
             "doc": "下棘刺了！", // Description, optional. Displayed in UI, no actual function ("下棘刺了！" = "Deploying Thorns!")
             "doc_color": "orange" // Description text color, optional, default is gray. Displayed in UI, no actual function
         },

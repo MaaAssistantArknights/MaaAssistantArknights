@@ -160,7 +160,9 @@ icon: ph:sword-bold
             "slope_out": 10, // 滑動結束斜率。選填，預設為 10；以 ×10 的整數儲存，10 即 1.0
             "with_pause": false, // 滑動時是否附帶暫停操作（用於需要在暫停狀態下滑動的場景）。選填，預設為 false；僅部分觸控模式支援
             "high_resolution_swipe_fix": false, // 是否啟用高解析度滑動修正。選填，預設為 false
-            // 以上滑動特殊參數的語義與 tasks.json 中 Swipe 任務的 special_params 完全一致，可對照
+            // duration、extra_swipe、slope_in、slope_out 與 tasks.json 中 Swipe 任務 special_params 的前四個元素取值語義一致，可對照；
+            // high_resolution_swipe_fix 對應 tasks.json 中的獨立任務欄位 highResolutionSwipeFix；
+            // with_pause 為本協議獨有參數，tasks.json 中無對應欄位（滑動是否附帶暫停由全域設定決定，無法按任務指定）
             "doc": "下棘刺了！", // 描述，選填。會顯示在介面上，沒有實際作用
             "doc_color": "orange" // 描述文字的顏色，選填，預設灰色。會顯示在介面上，沒有實際作用。
         },
