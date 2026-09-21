@@ -1103,20 +1103,24 @@ void asst::BattleHelper::fix_swipe_out_of_limit(
     p2 += adjust;
 }
 
-bool asst::BattleHelper::move_camera(const std::pair<double, double>& delta)
+bool asst::BattleHelper::move_camera(const std::pair<double, double>& delta, bool keep_kills)
 {
     LogTraceFunction;
     Log.info("move", delta.first, delta.second);
 
     update_kills(m_inst_helper.ctrler()->get_image());
 
-    // 还没转场的时候
-    if (m_kills != 0) {
-        wait_until_end(false);
-    }
+    // keep_kills 为 false 时（引航者试炼转场）：等待当前波次结束并归零击杀数；
+    // 为 true 时（同一波内移动镜头）：跳过等待与归零，击杀数保持连续
+    if (!keep_kills) {
+        // 还没转场的时候
+        if (m_kills != 0) {
+            wait_until_end(false);
+        }
 
-    m_kills = 0;
-    m_total_kills = 0;
+        m_kills = 0;
+        m_total_kills = 0;
+    }
 
     m_camera_shift.first += delta.first;
     m_camera_shift.second += delta.second;

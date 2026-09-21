@@ -348,6 +348,7 @@ std::optional<std::vector<asst::battle::copilot::Action>> asst::CopilotConfig::p
         else if (action.type == ActionType::MoveCamera) {
             auto dist_arr = action_info.at("distance").as_array();
             action.distance = std::make_pair(dist_arr[0].as_double(), dist_arr[1].as_double());
+            action.keep_kills = action_info.get("keep_kills", false);
         }
 
         // Swipe 参数，均缺失时保持默认值

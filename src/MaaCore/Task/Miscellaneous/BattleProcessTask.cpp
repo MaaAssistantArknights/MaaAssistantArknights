@@ -380,7 +380,7 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         break;
 
     case ActionType::MoveCamera:
-        ret = move_camera(action.distance);
+        ret = move_camera(action.distance, action.keep_kills);
         break;
 
     case ActionType::ResetStopwatch:

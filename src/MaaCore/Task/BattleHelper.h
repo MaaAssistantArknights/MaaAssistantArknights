@@ -107,7 +107,7 @@ protected:
         int height,
         int max_distance = INT_MAX,
         double radian = 0);
-    bool move_camera(const std::pair<double, double>& delta);
+    bool move_camera(const std::pair<double, double>& delta, bool keep_kills = false);
 
     std::string analyze_detail_page_oper_name(const cv::Mat& image, battle::Role role);
     std::optional<Rect> get_oper_rect_on_deployment(battle::Role role, const std::string& name) const;

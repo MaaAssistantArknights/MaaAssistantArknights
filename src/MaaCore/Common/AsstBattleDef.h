@@ -530,10 +530,11 @@ struct Action
     std::string doc_color;
     RoleCounts role_counts;
     std::pair<double, double> distance;
-    int elapsed_time = 0;                                        // 全局计时条件 (试验性功能)
-    Rect begin;                                                  // Swipe 起点区域，720p 基准像素矩形
-    Rect end;                                                    // Swipe 终点区域，720p 基准像素矩形
-    int duration = 0;                                            // Swipe 持续时间，单位毫秒
+    bool keep_kills = false; // MoveCamera 专用：true 时移动相机不等待当前波次结束、不归零击杀数（用于同一波内移动镜头）
+    int elapsed_time = 0;    // 全局计时条件 (试验性功能)
+    Rect begin;              // Swipe 起点区域，720p 基准像素矩形
+    Rect end;                // Swipe 终点区域，720p 基准像素矩形
+    int duration = 0;        // Swipe 持续时间，单位毫秒
     SwipeExtraDirection extra_swipe = SwipeExtraDirection::None; // Swipe 主滑动后追加的补偿滑动方向
     int slope_in = 10;                                           // Swipe 起始斜率，×10 整数存储，10 即 1.0
     int slope_out = 10;                                          // Swipe 结束斜率，×10 整数存储，10 即 1.0
