@@ -297,14 +297,12 @@ std::optional<std::vector<asst::battle::copilot::Action>> asst::CopilotConfig::p
             continue;
         }
 
-        // Click 必须提供 rect / location 之一（都不填判定整个作业无效），同填仅警告并按 rect 优先执行；
-        // Swipe 必须同时提供 begin / end，缺一判定整个作业无效
         if (action.type == ActionType::Click) {
-            if (!action_info.contains("rect") && !action_info.contains("location")) { // 都不填
+            if (!action_info.contains("rect") && !action_info.contains("location")) {
                 LogError << __FUNCTION__ << "| Click action must specify one of 'rect' or 'location'";
                 return std::nullopt;
             }
-            if (action_info.contains("rect") && action_info.contains("location")) { // 同填，执行层按 rect 优先
+            if (action_info.contains("rect") && action_info.contains("location")) {
                 LogWarn << __FUNCTION__ << "| Both rect and location are set for Click action, using rect";
             }
         }
@@ -313,6 +311,12 @@ std::optional<std::vector<asst::battle::copilot::Action>> asst::CopilotConfig::p
                 LogError << __FUNCTION__ << "| Swipe action requires both 'begin' and 'end'";
                 return std::nullopt;
             }
+        }
+        else if (
+            (action.type == ActionType::Retreat || action.type == ActionType::UseSkill ||
+             action.type == ActionType::SkillUsage) &&
+            action_info.contains("name") && action_info.contains("location")) {
+            LogWarn << __FUNCTION__ << "| Both name and location are set for" << type_str << "action, using location";
         }
 
         action.kills = action_info.get("kills", 0);
@@ -323,17 +327,15 @@ std::optional<std::vector<asst::battle::copilot::Action>> asst::CopilotConfig::p
         action.role = battle::parse_role_type(role, battle::Role::Unknown);
         action.name = action_info.get("name", std::string());
 
-        // 未填写 location 时保持 nullopt，供执行层区分 ｢未填｣ 与显式 [0, 0]
         if (action_info.contains("location")) {
             action.location = Point { action_info.get("location", 0, 0), action_info.get("location", 1, 0) };
         }
-        // Click 的点击区域，720p 基准像素矩形，与 location 至少填一个，同填时优先使用 rect，缺失时保持空 Rect
+        // Click 的点击区域，720p 基准像素矩形
         action.rect.x = action_info.get("rect", 0, 0);
         action.rect.y = action_info.get("rect", 1, 0);
         action.rect.width = action_info.get("rect", 2, 0);
         action.rect.height = action_info.get("rect", 3, 0);
-        // 值级校验：与 Swipe 对称，key 存在而值畸形（元素不足、空数组、null）时分量 get 回退为 0，
-        // 解析出退化 Rect，判定整个作业无效，避免静默点击错误位置
+        // 值畸形（元素不足、空数组、null）时分量 get 回退为 0，解析出退化 Rect，需在此拦下
         if (action.type == ActionType::Click && action_info.contains("rect") && action.rect.empty()) {
             LogError << __FUNCTION__
                      << "| Click action 'rect' must be a 4-element array [x, y, w, h] with non-zero width and height";
@@ -371,8 +373,7 @@ std::optional<std::vector<asst::battle::copilot::Action>> asst::CopilotConfig::p
         action.end.y = action_info.get("end", 1, 0);
         action.end.width = action_info.get("end", 2, 0);
         action.end.height = action_info.get("end", 3, 0);
-        // 值级校验：key 存在而值畸形（元素不足、空数组、null）时分量 get 回退为 0，解析出退化
-        // Rect，判定整个作业无效，避免静默执行错误滑动
+        // 值畸形（元素不足、空数组、null）时分量 get 回退为 0，解析出退化 Rect，需在此拦下
         if (action.type == ActionType::Swipe && (action.begin.empty() || action.end.empty())) {
             LogError
                 << __FUNCTION__

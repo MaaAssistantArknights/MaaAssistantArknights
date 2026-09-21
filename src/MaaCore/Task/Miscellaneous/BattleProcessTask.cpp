@@ -261,10 +261,6 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         break;
 
     case ActionType::Retreat:
-        // name 与 location 同填仅警告，路由按 location 优先；子弹时间分支无坐标概念，同样进入即提示
-        if (location.has_value() && !name.empty()) {
-            LogWarn << "Both name and location are set for Retreat action, using location";
-        }
         ret = m_in_bullet_time ? click_retreat()
                                : (location.has_value() ? retreat_oper(*location) : retreat_oper(role, name));
         if (ret) {
@@ -273,10 +269,6 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         break;
 
     case ActionType::UseSkill:
-        // name 与 location 同填仅警告，路由按 location 优先；子弹时间分支无坐标概念，同样进入即提示
-        if (location.has_value() && !name.empty()) {
-            LogWarn << "Both name and location are set for UseSkill action, using location";
-        }
         ret = m_in_bullet_time ? click_skill(action.timeout_ms)
                                : (location.has_value() ? use_skill(*location, action.timeout_ms)
                                                        : use_skill(role, name, action.timeout_ms));
@@ -315,7 +307,6 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
             ret = ctrler()->click(target_iter->second.pos);
         }
         else {
-            // 解析层已保证 rect/location 至少填一个且 rect 值合法，此处仅兜底
             LogError << "Click action requires either rect or location. Skip this step.";
             break;
         }
@@ -326,7 +317,7 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
     }
 
     case ActionType::Swipe:
-        // begin/end 必填由解析层保证；slope 为 ×10 整数存储，转为 controller 需要的 double
+        // slope 为 ×10 整数存储，转为 controller 需要的 double
         ret = ctrler()->swipe(
             action.begin,
             action.end,
@@ -348,22 +339,7 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
                 m_skill_times[tag] = times;
             }
         };
-        if (location.has_value() && !name.empty()) {
-            LogError << "Both name and location are set for SkillUsage action. Skip this step.";
-            break;
-        }
-        else if (!location.has_value()) { // 坐标未填, 指定oper name
-            auto tag_it = std::ranges::find_if(m_skill_usage, [&](const auto& pair) {
-                return (role == battle::Role::Unknown || pair.first.role == role) && pair.first.name == name;
-            });
-            if (tag_it != m_skill_usage.end()) {
-                set_usage(tag_it->first, action.modify_usage, action.modify_times);
-            }
-            else {
-                set_usage({ role, name }, action.modify_usage, action.modify_times);
-            }
-        }
-        else { // oper name为空, 指定坐标
+        if (location.has_value()) {
             battle::Role _role;
             std::string drone_name;
             if (auto it = m_used_tiles.find(*location); it == m_used_tiles.end()) {
@@ -377,6 +353,17 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
                 _role = it->second.role;
             }
             set_usage({ _role, drone_name }, action.modify_usage, action.modify_times);
+        }
+        else { // 坐标未填, 指定 oper name
+            auto tag_it = std::ranges::find_if(m_skill_usage, [&](const auto& pair) {
+                return (role == battle::Role::Unknown || pair.first.role == role) && pair.first.name == name;
+            });
+            if (tag_it != m_skill_usage.end()) {
+                set_usage(tag_it->first, action.modify_usage, action.modify_times);
+            }
+            else {
+                set_usage({ role, name }, action.modify_usage, action.modify_times);
+            }
         }
         ret = true;
         break;
