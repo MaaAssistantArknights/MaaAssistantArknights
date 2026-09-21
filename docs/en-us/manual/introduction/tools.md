@@ -72,3 +72,4 @@ Built-in features include:
   - Green ticket shop exchange
   - Yellow ticket shop exchange
   - Reclamation Algorithm shop exchange
+  - Automatically Raise Potential

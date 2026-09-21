@@ -1308,6 +1308,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@MaterialSynthesis@Unsupported">无法识别当前材料或配方数据</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@NavigationFailed">页面识别或操作失败</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@UnknownFailure">未知错误</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential">自动提升潜能</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotentialTip" xml:space="preserve">请先进入干员列表界面，再开始任务。自动提升所有带提示标记干员的潜能。&#10;完成后停留在最后一名干员档案；没有可提升目标时停留在干员列表。</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@UseNormalToken">中间信物不足时使用普通信物</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition">奇象巡展-找未收录生物</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibitionTip" xml:space="preserve">在所选地图的高级区草地右下角开始任务。&#10;在草地来回走动寻找未收录生物，找到后自动停止。&#10;只有草地能遇到生物。</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationTitle">奇象巡展：发现暂未收录奇象</system:String>
@@ -1342,6 +1345,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@PixelPaint@StartLog">开始像素画：{0} 格，{1} 色</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ProgressLog">像素画 {0}/{1}</system:String>
     <system:String x:Key="MiniGame@PixelPaint@DoneLog">像素画完成</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@TotalLog">自动提升潜能：识别到 {0} 位待处理干员</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@PotentialFoundLog">第 {0}/{1} 位干员：有待提升的潜能</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@NoPotentialLog">第 {0}/{1} 位干员：无可提升的潜能</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">绿票商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1层全买。&#10;2层买寻访凭证和招聘许可。</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">黄票商店</system:String>

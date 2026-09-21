@@ -1,0 +1,167 @@
+{
+    "MiniGame@AutoRaisePotential@Begin": {
+        "doc": "自动提升潜能入口。用户须已进入干员列表界面；复用 OperBox 的现有模板确认页面，然后 OCR 读取筛选结果数量。",
+        "algorithm": "JustReturn",
+        "next": [
+            "MiniGame@AutoRaisePotential@OperatorCountZero",
+            "MiniGame@AutoRaisePotential@OperatorCountOcr",
+            "MiniGame@AutoRaisePotential@FinishNoTarget"
+        ]
+    },
+    "MiniGame@AutoRaisePotential@OperatorCountZero": {
+        "doc": "识别顶部潜能标记数量为 0 时直接结束，保持在干员列表。",
+        "baseTask": "NumberOcrReplace",
+        "action": "Stop",
+        "roi": [643, 28, 37, 27],
+        "fullMatch": true,
+        "useRaw": false,
+        "binThreshold": [180, 255],
+        "withoutDet": true,
+        "text": ["0"]
+    },
+    "MiniGame@AutoRaisePotential@OperatorCountOcr": {
+        "doc": "识别干员列表顶部橙色潜能标记中的数量。Core 插件读取 OCR 结果并设置横向切换次数。",
+        "baseTask": "NumberOcrReplace",
+        "roi": [643, 28, 37, 27],
+        "binThreshold": [180, 255],
+        "useRaw": false,
+        "withoutDet": true,
+        "next": ["MiniGame@AutoRaisePotential@FilterAvailable"]
+    },
+    "MiniGame@AutoRaisePotential@FinishNoTarget": {
+        "doc": "未识别到顶部潜能数量，视为没有可提升目标并停留在干员列表。",
+        "algorithm": "JustReturn",
+        "action": "Stop"
+    },
+    "MiniGame@AutoRaisePotential@FilterAvailable": {
+        "doc": "可能判断错,所以加自循环",
+        "template": "OperBoxBadgeTop.png",
+        "action": "ClickSelf",
+        "roi": [542, 12, 195, 58],
+        "postDelay": 1000,
+        "next": ["MiniGame@AutoRaisePotential@FirstOperator", "MiniGame@AutoRaisePotential@FilterAvailable"]
+    },
+    "MiniGame@AutoRaisePotential@FirstOperator": {
+        "doc": "识别首位干员卡片右上角的橙色潜能标记。标记背景随首位干员立绘变化，故用纯色匹配（RGBCount + pureColor），不依赖模板灰度；颜色区间须排除星级金色（G≈214）与立绘暖色（G≈170）。",
+        "template": "OperBoxFirstOperatorBadge.png",
+        "method": "RGBCount",
+        "pureColor": true,
+        "colorScales": [
+            [
+                [230, 80, 0],
+                [255, 150, 60]
+            ]
+        ],
+        "action": "ClickRect",
+        "specificRect": [52, 145, 87, 177],
+        "roi": [126, 62, 46, 46],
+        "postDelay": 1000,
+        "next": ["MiniGame@AutoRaisePotential@OperatorFiles"]
+    },
+    "MiniGame@AutoRaisePotential@PotentialAvailable": {
+        "doc": "识别并点击干员档案中的潜能提升标记。标记像素占比极小，灰度模板得分被固定的面板背景主导、无法按有无标记区分，故用纯色匹配（RGBCount + pureColor），颜色区间与 FirstOperator 一致。",
+        "template": "OperFilesEnterPotentialUpButton.png",
+        "method": "RGBCount",
+        "pureColor": true,
+        "colorScales": [
+            [
+                [230, 80, 0],
+                [255, 150, 60]
+            ]
+        ],
+        "action": "ClickRect",
+        "maxTimes": 3,
+        "roi": [1125, 180, 155, 180],
+        "specificRect": [1100, 257, 126, 38],
+        "postDelay": 1000,
+        "next": ["MiniGame@AutoRaisePotential@PotentialScreen"]
+    },
+    "MiniGame@AutoRaisePotential@PotentialScreen": {
+        "doc": "识别潜能页右下角的确认按钮，作为提潜循环条件",
+        "template": "PotentialUpPageConfirm.png",
+        "roi": [987, 584, 243, 133],
+        "next": ["MiniGame@AutoRaisePotential@ConfirmRaise"]
+    },
+    "MiniGame@AutoRaisePotential@ConfirmRaise": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1055, 637, 105, 28],
+        "postDelay": 500,
+        "next": [
+            "MiniGame@AutoRaisePotential@TokenNotEnough",
+            "MiniGame@AutoRaisePotential@TokenConfirmDialog",
+            "MiniGame@AutoRaisePotential@PotentialScreen",
+            "MiniGame@AutoRaisePotential@PotentialMaxDismiss"
+        ]
+    },
+    "MiniGame@AutoRaisePotential@TokenNotEnough": {
+        "algorithm": "OcrDetect",
+        "roi": [1043, 89, 221, 56],
+        "text": ["信物不足"],
+        "next": ["MiniGame@AutoRaisePotential@ReturnToOperFilesPage"]
+    },
+    "MiniGame@AutoRaisePotential@TokenConfirmDialog": {
+        "template": "PopupConfirm.png",
+        "action": "DoNothing",
+        "roi": [630, 400, 650, 160],
+        "next": ["MiniGame@AutoRaisePotential@TokenConfirmAbort"]
+    },
+    "MiniGame@AutoRaisePotential@TokenConfirmUse": {
+        "doc": "确认消耗普通信物提升潜能，点 √ 后回到 ConfirmRaise 继续循环。",
+        "template": "PopupConfirm.png",
+        "action": "ClickSelf",
+        "roi": [630, 400, 650, 160],
+        "postDelay": 500,
+        "next": ["MiniGame@AutoRaisePotential@ConfirmRaise"]
+    },
+    "MiniGame@AutoRaisePotential@TokenConfirmAbort": {
+        "doc": "放弃消耗普通信物，点 × 后回到干员档案页。",
+        "template": "PopupCancel.png",
+        "action": "ClickSelf",
+        "roi": [0, 400, 650, 160],
+        "postDelay": 500,
+        "next": ["MiniGame@AutoRaisePotential@ReturnToOperFilesPageAfterAbort"]
+    },
+    "MiniGame@AutoRaisePotential@PotentialMaxDismiss": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1055, 637, 105, 28],
+        "preDelay": 1000,
+        "postDelay": 500,
+        "next": ["MiniGame@AutoRaisePotential@OperatorFiles", "MiniGame@AutoRaisePotential@PotentialMaxDismiss"]
+    },
+    "MiniGame@AutoRaisePotential@OperatorFiles": {
+        "doc": "识别已经回到干员档案；优先检查当前干员的潜能标记，未发现时横向切换下一名。",
+        "baseTask": "OperOpenInformationMenu",
+        "template": "OperInformationMenu.png",
+        "action": "DoNothing",
+        "next": ["MiniGame@AutoRaisePotential@PotentialAvailable", "MiniGame@AutoRaisePotential@SwipeToNextOperator"]
+    },
+    "MiniGame@AutoRaisePotential@OperatorFilesAfterAbort": {
+        "baseTask": "OperOpenInformationMenu",
+        "template": "OperInformationMenu.png",
+        "action": "DoNothing",
+        "next": ["MiniGame@AutoRaisePotential@SwipeToNextOperator"]
+    },
+    "MiniGame@AutoRaisePotential@ReturnToOperFilesPage": {
+        "doc": "该干员潜能提升完毕后点击左上角返回键回到干员档案页；档案页自身也有返回键，故 OperatorFiles 须优先识别，避免误点退出档案页。",
+        "baseTask": "Return",
+        "template": "Return.png",
+        "next": ["MiniGame@AutoRaisePotential@OperatorFiles", "MiniGame@AutoRaisePotential@ReturnToOperFilesPage"]
+    },
+    "MiniGame@AutoRaisePotential@ReturnToOperFilesPageAfterAbort": {
+        "baseTask": "Return",
+        "template": "Return.png",
+        "next": ["MiniGame@AutoRaisePotential@OperatorFilesAfterAbort"]
+    },
+    "MiniGame@AutoRaisePotential@SwipeToNextOperator": {
+        "doc": "在干员档案中横向切换下一名干员，回到档案检查后继续提升或切换。滑动次数由顶部 OCR 数量动态设置。",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [735, 580, 1, 1],
+        "rectMove": [545, 580, 1, 1],
+        "specialParams": [300, 0, 1, 0],
+        "postDelay": 1600,
+        "next": ["MiniGame@AutoRaisePotential@OperatorFiles"]
+    }
+}
