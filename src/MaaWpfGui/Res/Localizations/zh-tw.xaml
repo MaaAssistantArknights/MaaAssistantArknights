@@ -1292,8 +1292,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@SecretFront@Event3">詭影迷蹤</system:String>
     <system:String x:Key="MiniGame@SecretFront">隱秘戰線</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip">在選擇小隊介面開始，如有存檔須手動刪除。&#10;第一次打請先看完教學後關閉。&#10;推薦勾選遊戲內 ｢繼承上一支隊伍發回的資料｣ 。</system:String>
-    <system:String x:Key="MiniGame@MaterialSynthesis">自動合成材料</system:String>
-    <system:String x:Key="MiniGame@MaterialSynthesisTip" xml:space="preserve">請先手動進入目標材料的加工站合成頁，再開始任務。&#10;會遞迴合成可加工的下級材料，材料不足時停止。</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis">缺口材料合成</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesisTip" xml:space="preserve">請先手動從培養頁面(如精英化、專精、模組升級)缺少的材料彈窗跳轉到加工站合成頁，再開始任務。&#10;會遞迴合成可加工的下級材料，材料不足時停止。</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@StartLog">開始自動合成材料</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@MaterialLog">目前材料：{0}，還需合成 {1} 個（第 {2} 層）</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@IngredientLog">{0} 的第 {1} 種下級材料不足，正在補充</system:String>

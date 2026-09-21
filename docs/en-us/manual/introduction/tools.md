@@ -73,3 +73,4 @@ Built-in features include:
   - Yellow ticket shop exchange
   - Reclamation Algorithm shop exchange
   - Automatically Raise Potential
+  - Missing Material Synthesis

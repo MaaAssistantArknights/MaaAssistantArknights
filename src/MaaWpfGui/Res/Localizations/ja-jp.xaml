@@ -1294,8 +1294,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@SecretFront@Event3">揺蕩う影</system:String>
     <system:String x:Key="MiniGame@SecretFront">隠密戦線</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip">小隊選択画面で開始します。セーブデータがある場合は手動で削除する必要があります。ゲーム内の ｢前の小隊からのデータを引き継ぐ｣ にチェックすることを推奨します。</system:String>
-    <system:String x:Key="MiniGame@MaterialSynthesis">素材自動合成</system:String>
-    <system:String x:Key="MiniGame@MaterialSynthesisTip" xml:space="preserve">対象素材の加工所の合成画面を手動で開いてから開始してください。&#10;合成可能な下位素材を再帰的に合成し、素材が不足すると停止します。</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis">不足素材の合成</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesisTip" xml:space="preserve">育成画面（昇進、スキル特化、モジュールアップグレードなど）の不足素材ポップアップから加工所の合成画面へ手動で移動してから開始してください。&#10;合成可能な下位素材を再帰的に合成し、素材が不足すると停止します。</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@StartLog">素材の自動合成を開始します</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@MaterialLog">現在の素材：{0}、残り {1} 個（第 {2} 階層）</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@IngredientLog">{0} の第 {1} 下位素材が不足しているため、補充します</system:String>
