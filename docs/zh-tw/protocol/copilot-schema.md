@@ -107,7 +107,7 @@ icon: ph:sword-bold
             // type 為 "技能" | "撤退" 時選填，
             // "技能"：僅推薦場地上自動的裝置等，不填寫 name，並使用 location 開啟技能。正常部署的幹員推薦使用 name 開啟技能
             // "撤退"：僅推薦有多個同名召喚物時，不填寫 name，並使用 location 進行撤退。正常部署的幹員推薦 name 進行撤退
-            // type 為 "技能" | "撤退" 時若同時填寫 name 與 location，優先使用 location
+            // type 為 "技能" | "撤退" | "技能用法" 時若同時填寫 name 與 location，優先使用 location
             // type 為 "點擊" 時與 "rect" 至少填一個，直接點擊該格子；座標為任意合法格子，包括 [0, 0]
             // 座標資訊可在 [https://map.ark-nights.com/areas](https://map.ark-nights.com/areas) 中查看，在設定中將「座標展示」選為「MAA」即為 MAA 使用的座標
             "rect": [

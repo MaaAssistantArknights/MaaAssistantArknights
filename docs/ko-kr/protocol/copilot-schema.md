@@ -107,7 +107,7 @@ JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 �
             // type "Skill" | "Retreat" 시 선택
             // "Skill": 필드 위 자동 장치 등에 추천 (name 없이 location으로 스킬 발동). 일반 오퍼레이터는 name 권장
             // "Retreat": 동명의 소환물이 여러 개일 때 추천 (name 없이 location으로 퇴각). 일반 오퍼레이터는 name 권장
-            // type "Skill" | "Retreat" 시 name과 location을 모두 지정하면 location이 우선됨
+            // type "Skill" | "Retreat" | "SkillUsage" 시 name과 location을 모두 지정하면 location이 우선됨
             // 좌표 정보는 https://map.ark-nights.com/areas 에서 확인 가능. 설정에서 "좌표 표시"를 "MAA"로 선택하면 MAA 좌표 확인 가능
             // type이 "Click"인 경우 "rect"와 둘 중 하나는 반드시 지정. 해당 칸을 직접 클릭. 좌표는 [0, 0]을 포함한 모든 유효한 칸 가능
             "rect": [

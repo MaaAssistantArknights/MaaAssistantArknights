@@ -107,7 +107,7 @@ Please note that JSON files do not support comments. The comments in this docume
             // Optional when type is "Skill"|"Retreat".
             // "Skill": Recommended only for automatic devices on the field, use location without name to activate skill. For normal deployed operators, use name
             // "Retreat": Recommended only when multiple summons share the same name, use location without name to retreat. For normal deployed operators, use name
-            // When type is "Skill"|"Retreat" and both name and location are set, location takes priority
+            // When type is "Skill"|"Retreat"|"SkillUsage" and both name and location are set, location takes priority
             // When type is "Click", at least one of this and "rect" must be set; directly clicks this tile; any valid tile coordinate is accepted, including [0, 0]
             "rect": [
                 100,
