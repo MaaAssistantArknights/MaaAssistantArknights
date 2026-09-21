@@ -375,6 +375,15 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
     }
 
     /// <summary>
+    /// Gets or sets a value indicating 搓玉是否允许用装置.
+    /// </summary>
+    public bool OriginiumShardUseDevice
+    {
+        get => GetTaskConfig<InfrastTask>().OriginiumShardUseDevice;
+        set => SetTaskConfig<InfrastTask>(t => t.OriginiumShardUseDevice == value, t => t.OriginiumShardUseDevice = value);
+    }
+
+    /// <summary>
     /// Selects infrast config file.
     /// UI 绑定的方法
     /// </summary>

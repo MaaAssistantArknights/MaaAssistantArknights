@@ -59,6 +59,11 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
     public bool OriginiumShardAutoReplenishment { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets a value indicating 搓玉是否允许用装置.
+    /// </summary>
+    public bool OriginiumShardUseDevice { get; set; } = false;
+
+    /// <summary>
     /// Gets or sets a value indicating whether 不将已进驻干员放入宿舍
     /// </summary>
     public bool DormFilterNotStationed { get; set; } = true;
