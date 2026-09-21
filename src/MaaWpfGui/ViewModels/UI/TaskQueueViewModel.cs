@@ -157,7 +157,7 @@ public class TaskQueueViewModel : Screen
     private static readonly IEnumerable<TaskSettingsViewModel> _taskViewModelTypes = InitTaskViewModelList();
 
     /// <summary>
-    /// 实时更新任务顺序
+    /// 实时更新任务顺序与依赖任务列表的派生属性
     /// </summary>
     /// <param name="sender">ignored object</param>
     /// <param name="e">ignored NotifyCollectionChangedEventArgs</param>
@@ -227,6 +227,12 @@ public class TaskQueueViewModel : Screen
             {
                 ConfigFactory.CurrentConfig.TaskQueue.Clear();
                 TaskSettingVisibilities.SetPostAction(true);
+            }
+
+            // Move 不改变队列内容，其余操作都可能增删开始唤醒任务
+            if (e.Action != NotifyCollectionChangedAction.Move)
+            {
+                NotifyOfPropertyChange(nameof(StartUpTaskCount));
             }
         });
     }
@@ -1649,6 +1655,12 @@ public class TaskQueueViewModel : Screen
         }
     }
 
+    /// <summary>
+    /// Gets the number of StartUp tasks in the task queue.
+    /// 开始唤醒任务至多一个，用于限制添加菜单与复制入口。
+    /// </summary>
+    public int StartUpTaskCount => ConfigFactory.CurrentConfig.TaskQueue.Count(t => t is StartUpTask);
+
     public static ReadOnlyCollection<GenericCombinedData<Type>> TaskTypeList { get; } = Array.AsReadOnly(
         [
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("StartUp"), Value = typeof(StartUpTask) },
@@ -1691,6 +1703,12 @@ public class TaskQueueViewModel : Screen
 
     public void AddTaskQueueTask(Type taskName)
     {
+        // 开始唤醒任务至多一个，菜单项禁用之外的行为兜底
+        if (taskName == typeof(StartUpTask) && StartUpTaskCount >= 1)
+        {
+            return;
+        }
+
         if (Activator.CreateInstance(taskName) is BaseTask task)
         {
             ConfigFactory.CurrentConfig.TaskQueue.Add(task);
@@ -1797,6 +1815,12 @@ public class TaskQueueViewModel : Screen
         }
 
         var oldTask = ConfigFactory.CurrentConfig.TaskQueue[index];
+        // 开始唤醒任务至多一个，入口按钮禁用之外的行为兜底
+        if (oldTask is StartUpTask && StartUpTaskCount >= 1)
+        {
+            return;
+        }
+
         var oldTaskJson = JsonSerializer.Serialize(oldTask);
         if (JsonSerializer.Deserialize(oldTaskJson, oldTask.GetType()) is not BaseTask newTask)
         {

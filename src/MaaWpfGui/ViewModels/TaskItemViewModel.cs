@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
@@ -66,6 +67,13 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
     }
 
     public int Index { get => field; set => SetAndNotify(ref field, value); }
+
+    /// <summary>
+    /// Gets a value indicating whether the task can be copied.
+    /// 开始唤醒任务至多一个，开始唤醒行禁止复制，其余行不受限。
+    /// </summary>
+    [PropertyDependsOn(nameof(Index))]
+    public bool CanCopy => ConfigFactory.CurrentConfig.TaskQueue[Index] is not StartUpTask;
 
     /// <summary>
     /// Gets or sets a value indicating whether gets or sets whether the setting enabled.
