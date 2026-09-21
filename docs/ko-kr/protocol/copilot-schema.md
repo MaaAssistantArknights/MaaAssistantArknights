@@ -161,7 +161,7 @@ JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 �
             "slope_in": 10, // 스와이프 시작 기울기. 선택 사항, 기본값 10. ×10 정수로 저장되며 10은 1.0을 의미
             "slope_out": 10, // 스와이프 종료 기울기. 선택 사항, 기본값 10. ×10 정수로 저장되며 10은 1.0을 의미
             "with_pause": false, // 스와이프 시 일시정지 작업을 동반할지 (일시정지 상태에서 스와이프해야 하는 경우). 선택 사항, 기본값 false. 일부 터치 모드에서만 지원
-            "high_resolution_swipe_fix": false, // 고해상도 스와이프 보정 활성화 여부. 선택 사항, 기본값 false
+            "high_resolution_swipe_fix": false, // 고해상도 스와이프 보정 활성화 여부. 선택 사항, 기본값 false. 대부분의 경우 켤 필요 없음: 이 보정은 Unity 스와이프 방식을 사용하지 않는 화면(현재는 메인 스테이지 내비게이션의 챕터 스와이프만 해당)을 위한 것으로, 자동 전투 중 스와이프와는 무관함
             // duration·extra_swipe·slope_in·slope_out은 tasks.json의 Swipe 작업 special_params의 첫 4개 요소와
             // 값 의미가 동일하여 참조할 수 있음. high_resolution_swipe_fix는 tasks.json의 독립 작업 필드인
             // highResolutionSwipeFix에 해당. with_pause는 본 스키마 고유 매개변수로 tasks.json에 대응 필드가 없음

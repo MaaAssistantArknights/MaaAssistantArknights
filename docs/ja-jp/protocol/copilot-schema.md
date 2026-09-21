@@ -150,7 +150,7 @@ JSONファイルはコメントをサポートしておらず、テキスト内�
             "slope_in": 10,         // スワイプ開始時の傾き。オプション、デフォルトは 10。×10 の整数として格納され、10 なら 1.0 です
             "slope_out": 10,        // スワイプ終了時の傾き。オプション、デフォルトは 10。×10 の整数として格納され、10 なら 1.0 です
             "with_pause": false,    // スワイプ時に一時停止操作を伴うか（一時停止中にスワイプする必要がある場合）。オプション、デフォルトは false。一部のタッチモードでのみサポートされます
-            "high_resolution_swipe_fix": false, // 高解像度スワイプ補正を有効にするか。オプション、デフォルトは false
+            "high_resolution_swipe_fix": false, // 高解像度スワイプ補正を有効にするか。オプション、デフォルトは false。基本的に無効のままで問題ありません：この補正は Unity のスワイプ処理を使用していない画面（現時点ではメインストーリーのステージナビゲーションの章スワイプのみが該当）向けのもので、自動戦闘中のスワイプには無関係です
                                     // duration・extra_swipe・slope_in・slope_out は tasks.json の Swipe タスク special_params の先頭 4 要素と
                                     // 同じ値の意味を持ち、対照できます。high_resolution_swipe_fix は tasks.json の独立タスクフィールド
                                     // highResolutionSwipeFix に対応します。with_pause は本スキーマ独自のパラメータで、tasks.json には対応

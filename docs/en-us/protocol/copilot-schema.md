@@ -158,7 +158,7 @@ Please note that JSON files do not support comments. The comments in this docume
             "slope_in": 10, // Start slope of the swipe. Optional, default is 10; stored as an integer multiplied by 10, so 10 means 1.0
             "slope_out": 10, // End slope of the swipe. Optional, default is 10; stored as an integer multiplied by 10, so 10 means 1.0
             "with_pause": false, // Whether to pause the game while swiping (for cases that need to swipe while paused). Optional, default is false; only supported by some touch modes
-            "high_resolution_swipe_fix": false, // Whether to enable the high-resolution swipe fix. Optional, default is false
+            "high_resolution_swipe_fix": false, // Whether to enable the high-resolution swipe fix. Optional, default is false. Rarely needed: this fix targets interfaces that do not use Unity swipe handling (currently only the chapter swipe in mainline stage navigation requires it), which auto-battle swipes never touch
             // duration, extra_swipe, slope_in, and slope_out share the same value semantics as the first four elements
             // of special_params of the Swipe task in tasks.json; high_resolution_swipe_fix corresponds to the standalone
             // highResolutionSwipeFix task field in tasks.json; with_pause is unique to this schema (tasks.json has no

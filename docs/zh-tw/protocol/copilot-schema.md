@@ -160,7 +160,7 @@ icon: ph:sword-bold
             "slope_in": 10, // 滑動起始斜率。選填，預設為 10；以 ×10 的整數儲存，10 即 1.0
             "slope_out": 10, // 滑動結束斜率。選填，預設為 10；以 ×10 的整數儲存，10 即 1.0
             "with_pause": false, // 滑動時是否附帶暫停操作（用於需要在暫停狀態下滑動的場景）。選填，預設為 false；僅部分觸控模式支援
-            "high_resolution_swipe_fix": false, // 是否啟用高解析度滑動修正。選填，預設為 false
+            "high_resolution_swipe_fix": false, // 是否啟用高解析度滑動修正。選填，預設為 false。絕大多數情況下無需開啟：該修正僅針對未使用 Unity 滑動方式的介面（現階段僅主線關卡導航的章節滑動需要），自動戰鬥中的滑動不涉及
             // duration、extra_swipe、slope_in、slope_out 與 tasks.json 中 Swipe 任務 special_params 的前四個元素取值語義一致，可對照；
             // high_resolution_swipe_fix 對應 tasks.json 中的獨立任務欄位 highResolutionSwipeFix；
             // with_pause 為本協議獨有參數，tasks.json 中無對應欄位（滑動是否附帶暫停由全域設定決定，無法按任務指定）
