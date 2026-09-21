@@ -1874,6 +1874,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MoveCamera">移动相机</system:String>
     <system:String x:Key="DrawCard">调配干员</system:String>
     <system:String x:Key="CheckIfStartOver">检查是否重开</system:String>
+    <system:String x:Key="ResetStopwatch">重置全局计时器</system:String>
+    <system:String x:Key="Click">点击</system:String>
+    <system:String x:Key="Swipe">滑动</system:String>
     <system:String x:Key="UnsupportedLevel">不支持的关卡，请检查关卡名或前往 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 尝试更新资源版本！</system:String>
     <system:String x:Key="Copilot.UnsupportedSkill">{0} 不支持技能 {1}, 不再选择技能</system:String>
     <system:String x:Key="Copilot.EliteEmpty">{0} 未设置精英等级要求, 但其他属性要求 精{1}, 已自动补全</system:String>

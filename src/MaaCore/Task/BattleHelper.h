@@ -107,7 +107,7 @@ protected:
         int height,
         int max_distance = INT_MAX,
         double radian = 0);
-    bool move_camera(const std::pair<double, double>& delta);
+    bool move_camera(const std::pair<double, double>& delta, bool keep_kills = false);
 
     std::string analyze_detail_page_oper_name(const cv::Mat& image, battle::Role role);
     std::optional<Rect> get_oper_rect_on_deployment(battle::Role role, const std::string& name) const;
@@ -121,8 +121,10 @@ protected:
 
     std::string m_stage_name;
     Map::Level m_map_data;
-    std::unordered_map<Point, TilePack::TileInfo> m_side_tile_info;   // 子弹时间的坐标映射
-    std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info; // 正常的坐标映射
+    // 拖拽部署时倾斜视角（俯角 10°）投影的格子屏幕坐标，拖拽落点按此视角计算（肉鸽朝向评估亦查其 TileKey）
+    std::unordered_map<Point, TilePack::TileInfo> m_side_tile_info;
+    // 正常战斗视角（无俯角）投影的格子屏幕坐标，点击场上格子、技能就绪检测等使用
+    std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info;
     Point m_skill_button_pos;
     Point m_retreat_button_pos;
     bool m_has_multi_stages = false;

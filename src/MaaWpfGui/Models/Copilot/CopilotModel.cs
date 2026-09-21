@@ -205,7 +205,10 @@ public class CopilotModel : CopilotBase
         /// <item>"SkillUsage" - 技能用法</item>
         /// <item>"Output" - 打印</item>
         /// <item>"SkillDaemon" - 摆完挂机</item>
+        /// <item>"ResetStopwatch" - 重置全局计时器</item>
         /// <item>"MoveCamera" - 移动镜头</item>
+        /// <item>"Click" - 点击</item>
+        /// <item>"Swipe" - 滑动</item>
         /// </list>
         /// </summary>
         [DefaultValue("Deploy")]
@@ -254,6 +257,12 @@ public class CopilotModel : CopilotBase
         /// </summary>
         [JsonProperty("location")]
         public List<int>? Location { get; set; }
+
+        /// <summary>
+        /// Gets or sets 点击的区域。type 为 "点击" 时与 location 至少填一个，同时填写时优先使用 rect，格式为 720p 基准像素矩形 [x, y, w, h]，点击时在区域内随机取点
+        /// </summary>
+        [JsonProperty("rect")]
+        public List<int>? Rect { get; set; }
 
         /// <summary>
         /// Gets or sets 部署干员的干员朝向。 type 为 "部署" 时必选。
@@ -305,6 +314,63 @@ public class CopilotModel : CopilotBase
         /// </summary>
         [JsonProperty("distance")]
         public List<double>? Distance { get; set; }
+
+        /// <summary>
+        /// Gets or sets 移动镜头时是否不归零击杀数。type 为 "移动镜头" 时可选，默认为 false；
+        /// 为 true 时不等待当前波次结束、击杀数不清零，适用于同一波次内移动镜头的场景
+        /// </summary>
+        [JsonProperty("keep_kills")]
+        public bool KeepKills { get; set; }
+
+        /// <summary>
+        /// Gets or sets 滑动起点的区域。type 为 "滑动" 时必选，格式为 720p 基准像素矩形 [x, y, w, h]
+        /// </summary>
+        [JsonProperty("begin")]
+        public List<int>? Begin { get; set; }
+
+        /// <summary>
+        /// Gets or sets 滑动终点的区域。type 为 "滑动" 时必选，格式为 720p 基准像素矩形 [x, y, w, h]
+        /// </summary>
+        [JsonProperty("end")]
+        public List<int>? End { get; set; }
+
+        /// <summary>
+        /// Gets or sets 滑动持续时间，单位毫秒。可选，默认为 0
+        /// </summary>
+        [JsonProperty("duration")]
+        public int Duration { get; set; }
+
+        /// <summary>
+        /// Gets or sets 主滑动结束后追加的补偿滑动方向，1/2/3/4 为上/下/左/右。可选，默认为 0（不启用）
+        /// </summary>
+        [JsonProperty("extra_swipe")]
+        public int ExtraSwipe { get; set; }
+
+        /// <summary>
+        /// Gets or sets 滑动起始斜率，按 ×10 整数表示，10 即 1.0。可选，未填时 core 按 10 处理，显式 0 合法（即斜率 0.0）
+        /// </summary>
+        [DefaultValue(10)]
+        [JsonProperty("slope_in")]
+        public int SlopeIn { get; set; } = 10;
+
+        /// <summary>
+        /// Gets or sets 滑动结束斜率，按 ×10 整数表示，10 即 1.0。可选，未填时 core 按 10 处理，显式 0 合法（即斜率 0.0）
+        /// </summary>
+        [DefaultValue(10)]
+        [JsonProperty("slope_out")]
+        public int SlopeOut { get; set; } = 10;
+
+        /// <summary>
+        /// Gets or sets 滑动期间是否暂停。可选，默认为 false，仅部分触控模式支持
+        /// </summary>
+        [JsonProperty("with_pause")]
+        public bool WithPause { get; set; }
+
+        /// <summary>
+        /// Gets or sets 是否启用高分辨率滑动修正。可选，默认为 false
+        /// </summary>
+        [JsonProperty("high_resolution_swipe_fix")]
+        public bool HighResolutionSwipeFix { get; set; }
 
         /// <summary>
         /// Gets or sets 描述，可选。会显示在界面上，没有实际作用
