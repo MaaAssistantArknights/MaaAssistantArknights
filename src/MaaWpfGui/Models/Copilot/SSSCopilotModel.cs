@@ -229,6 +229,35 @@ public class SSSCopilotModel : CopilotBase
 
             [JsonProperty("kills")]
             public int? Kills { get; set; }
+
+            // Click 的点击区域，与 location 二选一；begin/end 为 Swipe 起终点区域；均为 720p 基准像素矩形 [x, y, w, h]
+            [JsonProperty("rect")]
+            public List<int>? Rect { get; set; }
+
+            [JsonProperty("begin")]
+            public List<int>? Begin { get; set; }
+
+            [JsonProperty("end")]
+            public List<int>? End { get; set; }
+
+            [JsonProperty("duration")]
+            public int? Duration { get; set; }
+
+            [JsonProperty("extra_swipe")]
+            public int? ExtraSwipe { get; set; }
+
+            // slope 为 ×10 整数，10 即 1.0；null（未填）时 core 按 10 处理，显式 0 合法（即斜率 0.0）
+            [JsonProperty("slope_in")]
+            public int? SlopeIn { get; set; }
+
+            [JsonProperty("slope_out")]
+            public int? SlopeOut { get; set; }
+
+            [JsonProperty("with_pause")]
+            public bool? WithPause { get; set; }
+
+            [JsonProperty("high_resolution_swipe_fix")]
+            public bool? HighResolutionSwipeFix { get; set; }
         }
     }
 }
