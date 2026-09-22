@@ -923,9 +923,9 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="OperProgressDeleteCompletedEntriesTip">After the development chain finishes, entries reported as "completed" or "already satisfied" are removed automatically; failed and skipped entries are kept</system:String>
     <system:String x:Key="OperProgressTargetStartLog">Development plan entry {0}: {1}, {2}</system:String>
     <system:String x:Key="OperProgressTargetResultLog">Development plan entry {0}: {1}, {2}, result: {3}</system:String>
-    <system:String x:Key="OperProgressRecognizedElite"> (current elite {0})</system:String>
-    <system:String x:Key="OperProgressRecognizedSkillLevel"> (current skill level {0})</system:String>
-    <system:String x:Key="OperProgressRecognizedMastery"> (current mastery {0})</system:String>
+    <system:String x:Key="OperProgressRecognizedElite">(current elite {0})</system:String>
+    <system:String x:Key="OperProgressRecognizedSkillLevel">(current skill level {0})</system:String>
+    <system:String x:Key="OperProgressRecognizedMastery">(current mastery {0})</system:String>
     <system:String x:Key="OperProgressSummaryLog">Operator development finished: {0} completed, {1} already satisfied, {2} failed, {3} skipped</system:String>
     <system:String x:Key="OperProgressSelectOperator">Select operator</system:String>
     <system:String x:Key="OperProgressAddTarget">Add</system:String>
@@ -1881,6 +1881,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="Copilot.UnsupportedSkill">{0} does not support Skill {1}, so the Skill will no longer be selected.</system:String>
     <system:String x:Key="Copilot.EliteEmpty">{0} No Elite Level requirement was set, but the requirement for other attributes is Elite {1}; this has been auto-filled.</system:String>
     <system:String x:Key="Copilot.EliteAjust">{0} Was set to require Elite {1}, but the requirement for other attributes is Elite {2}; this has been auto-adjusted.</system:String>
+    <system:String x:Key="Copilot.ActionWithBothLocAndOper">{0} has both location and operator set, the location setting will be removed.</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results:&#160;</system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToReconnectByAdb">Attempting to reconnect</system:String>

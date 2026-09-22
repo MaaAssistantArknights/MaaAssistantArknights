@@ -1236,6 +1236,16 @@ public partial class CopilotViewModel : Screen
                 }
             }
         }
+        foreach (var action in copilot.Actions.Where(a => a.Type is "Skill" or "Retreat" or "BulletTime" or "SkillUsage"))
+        {
+            var hasLoc = action.Location is not null;
+            var hasOper = action.Name is not null;
+            if (hasLoc && hasOper)
+            {
+                AddLog(LocalizationHelper.GetStringFormat("Copilot.ActionWithBothLocAndOper", $"{action.Type}[{action.Location}]"), UiLogColor.Warning, showTime: false);
+                action.Location = null;
+            }
+        }
         if (printInfo)
         {
             foreach (var (output, color) in copilot.Output())
@@ -2073,8 +2083,7 @@ public partial class CopilotViewModel : Screen
 
         return UserAdditional
             .Where(op => !string.IsNullOrWhiteSpace(op.Name))
-            .Select(op => new UserAdditional
-            {
+            .Select(op => new UserAdditional {
                 Name = DataHelper.GetCharacterByNameOrAlias(op.Name)?.Name ?? op.Name,
                 Skill = op.Skill,
                 Module = op.Module,

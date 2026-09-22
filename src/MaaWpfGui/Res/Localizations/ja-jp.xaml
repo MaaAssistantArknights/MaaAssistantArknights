@@ -1884,6 +1884,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Copilot.UnsupportedSkill">{0} のスキル {1} はサポートされないので、スキルを選択されなくなります。</system:String>
     <system:String x:Key="Copilot.EliteEmpty">{0} エリートレベルの要件は設定されていませんでしたが、他の属性の要件はエリート{1}です。これは自動入力されました。</system:String>
     <system:String x:Key="Copilot.EliteAjust">{0} エリート{1}の要件が設定されていましたが、他の属性の要件はエリート{2}です。これは自動調整されました。</system:String>
+    <system:String x:Key="Copilot.ActionWithBothLocAndOper">{0} 同時に位置とオペレーターが設定されているため、位置の設定は削除されます。</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">認識結果: </system:String>
     <system:String x:Key="ConnectFailed">接続失敗</system:String>
     <system:String x:Key="TryToReconnectByAdb">再接続を試みています</system:String>
