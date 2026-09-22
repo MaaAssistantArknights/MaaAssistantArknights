@@ -178,10 +178,6 @@ bool asst::OperProgressProcessTask::_run()
 
 asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_target(const OperProgressTarget& target)
 {
-    if (!BattleData.get_first_id(battle::Role::Unknown, target.name)) {
-        return Result::OperatorNotFound;
-    }
-
     const Result located = find_and_open_operator(target);
     if (located != Result::Completed) {
         return located;
