@@ -252,7 +252,9 @@ bool asst::InfrastTask::set_params(const json::value& params)
 
     bool replenish = params.get("replenish", false);
     m_replenish_task_ptr->set_enable(replenish);
-    m_replenish_task_ptr->set_use_device(mode == Mode::Default && params.get("originium_shard_use_device", false));
+    const bool originium_shard_use_device = params.get("originium_shard_use_device", false);
+    m_replenish_task_ptr->set_use_device(originium_shard_use_device);
+    m_mfg_task_ptr->set_originium_shard_use_device(originium_shard_use_device);
 
     if (mode == Mode::Custom && !m_running) {
         auto filename_opt = params.find<std::string>("filename");

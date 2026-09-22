@@ -199,8 +199,9 @@ bool asst::InfrastProductionTask::change_product()
                 "VerifyProductChangedToOriginiumShard",
                 "OriginiumShard",
                 [&]() {
-                    // 自定义基建当前没有“允许消耗装置”的配置，保持原有固源岩配方行为。
-                    const auto recipe = detect_originium_shard_recipe(ctrler()->get_image(), false);
+                    // 自定义基建与默认基建共用“允许使用装置”开关，并按当前材料数量选择配方。
+                    const auto recipe =
+                        detect_originium_shard_recipe(ctrler()->get_image(), m_originium_shard_use_device);
                     return recipe &&
                            ProcessTask(*this, { std::string(originium_shard_recipe_task_name(*recipe)) }).run();
                 })) {
