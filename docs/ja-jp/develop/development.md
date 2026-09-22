@@ -225,7 +225,7 @@ pipインストール後もPre-commitを実行できない場合は、PIPイン�
 
 ### Visual Studioでclang-formatを有効にする
 
-1. clang-format バージョン21.1.8以上をインストールします。
+1. clang-format バージョン23.1.1以上をインストールします。
 
    ```bash
    python -m pip install clang-format

@@ -91,8 +91,9 @@ public:
                 return false;
             }
         }
-        else if (auto specialization_opt = std::get_if<std::array<int, 3>>(&skill_level_opt.value());
-                 specialization_opt != nullptr) {
+        else if (
+            auto specialization_opt = std::get_if<std::array<int, 3>>(&skill_level_opt.value());
+            specialization_opt != nullptr) {
             if (std::ranges::any_of(*specialization_opt, [](int level) { return level < 0 || level > 3; })) {
                 LogError << __FUNCTION__ << "skill_level specialization must be between 0 and 3";
                 return false;

@@ -8,7 +8,7 @@ repos:
         args: ["-q", "-o", "2", "-s", "--ng"]
 
   - repo: https://github.com/pre-commit/mirrors-clang-format
-    rev: v21.1.8
+    rev: v23.1.1
     hooks:
       - id: clang-format
         name: Clang-Format (MaaCore)
