@@ -287,6 +287,7 @@ std::optional<std::vector<asst::battle::copilot::Action>> asst::CopilotConfig::p
             { "滑动", ActionType::Swipe },
 
             { "SetUnitLocation", ActionType::SetUnitLocation },
+            { "Setunitlocation", ActionType::SetUnitLocation },
             { "setunitlocation", ActionType::SetUnitLocation },
             { "SETUNITLOCATION", ActionType::SetUnitLocation },
             { "设置单位坐标", ActionType::SetUnitLocation },
