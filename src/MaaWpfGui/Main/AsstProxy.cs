@@ -2873,9 +2873,17 @@ public class AsstProxy
             return;
         }
 
-        if (SettingsViewModel.ConnectSettings.IsPCConnectConfig && (subTask == "ReportToPenguinStats" || subTask == "ReportToYituliu"))
+        string? reportTargetKey = subTask switch
         {
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ReportSkippedForPcClient"), UiLogColor.Warning);
+            "ReportToPenguinStats" => "ThirdPartyGroupPenguin",
+            "ReportToYituliu" => "ThirdPartyGroupYituliu",
+            _ => null,
+        };
+        if (SettingsViewModel.ConnectSettings.IsPCConnectConfig && reportTargetKey is not null)
+        {
+            Instances.TaskQueueViewModel.AddLog(
+                LocalizationHelper.GetStringFormat("ReportSkippedForPcClient", LocalizationHelper.GetString(reportTargetKey)),
+                UiLogColor.Warning);
             return;
         }
 
