@@ -323,6 +323,22 @@ std::optional<std::vector<asst::battle::copilot::Action>> asst::CopilotConfig::p
                 LogError << __FUNCTION__ << "| SetUnitLocation action requires both 'name' and 'location'";
                 return std::nullopt;
             }
+            // 值级校验：name 为非空字符串，location 为 2 元素数字数组；
+            // 畸形值（空串/null/元素不足/类型不符）经分量 get 回退会静默落到 [0, 0]，
+            // 该记录写入位置表后，后续按名动作都会跟着错，须在解析期拦下
+            const auto& name_json = action_info.at("name");
+            if (!name_json.is_string() || name_json.as_string().empty()) {
+                LogError << __FUNCTION__ << "| SetUnitLocation action 'name' must be a non-empty string";
+                return std::nullopt;
+            }
+            const auto& location_json = action_info.at("location");
+            if (!location_json.is_array() || location_json.as_array().size() != 2 ||
+                !location_json.as_array()[0].is_number() || !location_json.as_array()[1].is_number()) {
+                LogError << __FUNCTION__
+                         << "| SetUnitLocation action 'location' must be a 2-element numeric "
+                            "array [x, y]";
+                return std::nullopt;
+            }
         }
         else if (
             (action.type == ActionType::Retreat || action.type == ActionType::UseSkill ||

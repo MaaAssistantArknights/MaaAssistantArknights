@@ -80,7 +80,7 @@ Please note that JSON files do not support comments. The comments in this docume
             // "Click" directly clicks the pixel rect specified by "rect" or the battlefield tile specified by "location", without any recognition; empty tiles can also be clicked
             //      At least one of "rect" or "location" must be set; the copilot fails to load (parse-time error) if neither is set; when both are set, "rect" takes priority (a warning is logged)
             // "Swipe" swipes from the "begin" rect to the "end" rect, directly issuing the underlying swipe command; the copilot fails to load if either is missing
-            // "SetUnitLocation" sets the tile coordinate of a battlefield unit: both "name" and "location" are required; the copilot fails to load if either is missing
+            // "SetUnitLocation" sets the tile coordinate of a battlefield unit: both "name" and "location" are required; the copilot fails to load if either is missing or malformed ("name" must be a non-empty string, "location" must be a 2-element numeric array)
             //      Used to correct an operator's position after it moves, so that subsequent "Skill" / "Retreat" / "SkillUsage" actions by "name" target the new tile;
             //      also used to register on-field devices and facilities, combined with "SkillUsage" and "SkillDaemon" to auto-cast device skills;
             //      if the "name" is already on the field its position is updated; otherwise it is registered as a new unit ("role" is optional, default is role-agnostic)
