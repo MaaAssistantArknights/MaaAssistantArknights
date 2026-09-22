@@ -1293,9 +1293,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@SecretFront@Event3">수상한 그림자</system:String>
     <system:String x:Key="MiniGame@SecretFront">비밀 전선</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip">소대 선택 화면에서 시작합니다. 기존 세이브 데이터가 있으면 수동으로 삭제해야 합니다.\n게임 내  ｢이전 소대의 데이터 전승받기｣  옵션을 체크하는 것을 권장합니다.</system:String>
-    <system:String x:Key="MiniGame@MaterialSynthesis">부족 재료 합성</system:String>
-    <system:String x:Key="MiniGame@MaterialSynthesisTip" xml:space="preserve">육성 화면(정예화, 스킬 특훈, 모듈 업그레이드 등)의 부족 재료 팝업에서 가공소 합성 화면으로 직접 이동한 뒤 시작하세요.&#10;합성 가능한 하위 재료를 재귀적으로 합성하며, 재료가 부족하면 중지합니다.</system:String>
-    <system:String x:Key="MiniGame@MaterialSynthesis@DemoVideo">데모 영상</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis">재료 자동 합성</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesisTip" xml:space="preserve">대상 재료의 가공소 합성 화면에 직접 들어간 뒤 시작하세요.&#10;합성 가능한 하위 재료를 재귀적으로 합성하며, 재료가 부족하면 중지합니다.</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@StartLog">재료 자동 합성 시작</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@MaterialLog">현재 재료: {0}, {1}개 더 필요 ({2}단계)</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@IngredientLog">{0}의 {1}번째 하위 재료 보충</system:String>
@@ -1310,9 +1309,6 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@MaterialSynthesis@Unsupported">현재 재료 또는 제작법 데이터 인식 불가</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@NavigationFailed">화면 인식 또는 조작 실패</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@UnknownFailure">알 수 없는 오류</system:String>
-    <system:String x:Key="MiniGame@AutoRaisePotential">잠재능력 자동 강화</system:String>
-    <system:String x:Key="MiniGame@AutoRaisePotentialTip" xml:space="preserve">오퍼레이터 목록 화면에 들어간 뒤 시작하세요. 강화 가능 표시가 있는 모든 오퍼레이터의 잠재능력을 자동으로 강화합니다.&#10;완료 후 마지막 오퍼레이터 상세 화면에 머물며, 대상이 없으면 오퍼레이터 목록에 머뭅니다.</system:String>
-    <system:String x:Key="MiniGame@AutoRaisePotential@UseNormalToken">중간 신물이 부족할 때 일반 신물 사용</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition">기상 순회전 - 미수록 기상 찾기</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibitionTip" xml:space="preserve">선택한 맵의 고급 구역 초원 오른쪽 아래에서 작업을 시작합니다.&#10;초원을 왔다 갔다 하며 미수록 생물을 찾고, 발견하면 자동으로 중지됩니다.&#10;생물은 초원에서만 만날 수 있습니다.</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationTitle">기상 순회전: 미수록 기상 발견</system:String>
@@ -1347,9 +1343,6 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@PixelPaint@StartLog">픽셀 아트 시작: {0}칸, {1}색</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ProgressLog">픽셀 아트 {0}/{1}</system:String>
     <system:String x:Key="MiniGame@PixelPaint@DoneLog">픽셀 아트 완료</system:String>
-    <system:String x:Key="MiniGame@AutoRaisePotential@TotalLog">잠재능력 자동 강화: 처리할 오퍼레이터 {0}명</system:String>
-    <system:String x:Key="MiniGame@AutoRaisePotential@PotentialFoundLog">오퍼레이터 {0}/{1}: 강화 가능한 잠재능력 있음</system:String>
-    <system:String x:Key="MiniGame@AutoRaisePotential@NoPotentialLog">오퍼레이터 {0}/{1}: 강화 가능한 잠재능력 없음</system:String>
 
     <system:String x:Key="MiniGameNameGreenTicketStore">자격증명서 상점</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1단계는 전부 구매하고&#10;2단계는 헤드헌팅 허가증과 모집 허가증을 구매해요</system:String>
@@ -1876,9 +1869,6 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MoveCamera">카메라 이동</system:String>
     <system:String x:Key="DrawCard">오퍼레이터 배치</system:String>
     <system:String x:Key="CheckIfStartOver">재시작 여부 확인</system:String>
-    <system:String x:Key="ResetStopwatch">스톱워치 초기화</system:String>
-    <system:String x:Key="Click">클릭</system:String>
-    <system:String x:Key="Swipe">스와이프</system:String>
     <system:String x:Key="UnsupportedLevel">지원되지 않는 스테이지입니다. 스테이지 이름을 확인하거나 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 로 이동하여 리소스 버전을 업데이트해 보세요!</system:String>
     <system:String x:Key="Copilot.UnsupportedSkill">{0}은 {1} 스킬을 지원하지 않으므로, 스킬이 선택되지 않음</system:String>
     <system:String x:Key="Copilot.EliteEmpty">{0} 정예화 등급 요구 사항이 설정되지 않았지만, 다른 속성에 대한 요구 사항은 정예화 {1}입니다. 이 값은 자동으로 채워졌습니다.</system:String>
@@ -1987,6 +1977,8 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="AutoUseExpeditedTip" xml:space="preserve">한 번만 유효합니다.
 모집 허가증 획득 속도가 소비 속도보다 느리므로, 일반적으로 다음 모집 작업 실행 시 자연스럽게 시간이 경과합니다. 모집 허가증이 대량 남는 등 비상 시에만 사용하세요</system:String>
     <system:String x:Key="PreserveTagsTip">선택한 태그 중 하나라도 인식되면 해당 모집을 건너뛰고 슬롯을 유지합니다. 비워 두면 어떤 태그도 보류하지 않습니다.</system:String>
+    <system:String x:Key="RecruitYellowTicketExchange">공개모집으로 노란 증표 교환</system:String>
+    <system:String x:Key="RecruitYellowTicketExchangeTip">네 슬롯을 순서대로 처리합니다. 3성은 1:00 후 중지 및 확인하고, 4/5성은 9:00으로 긴급 모집하며, 6성은 알림 후 건너뜁니다.</system:String>
     <!--  !AutoRecruitSettings  -->
     <!--  EasterEggs  -->
     <system:String x:Key="BuyWineOnAprilFoolsDay">박사님, 클로저 씨의 가게에 ｢술｣이 입고되었다는 소식을 들으셨나요? 함께 확인해 볼까요?</system:String>

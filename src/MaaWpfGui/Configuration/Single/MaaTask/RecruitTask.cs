@@ -30,6 +30,13 @@ public class RecruitTask : BaseTask, IJsonOnDeserialized
     public RecruitTask() => TaskType = TaskType.Recruit;
 
     /// <summary>
+    /// Gets or sets a value indicating whether to use the dedicated four-slot recruit loop.
+    /// This is a transient UI action and is intentionally not persisted in the task queue.
+    /// </summary>
+    [JsonIgnore]
+    public bool LoopRecruit { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 是否使用公招加速卷
     /// </summary>
     [JsonIgnore]

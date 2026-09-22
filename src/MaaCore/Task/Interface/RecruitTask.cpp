@@ -51,6 +51,7 @@ bool asst::RecruitTask::set_params(const json::value& params)
     int level3_recruitment_permit_reserve = params.get("level3_recruitment_permit_reserve", 0);
     int times = params.get("times", 0);
     bool expedite = params.get("expedite", false);
+    bool loop_recruit = params.get("loop_recruit", false);
     [[maybe_unused]] int expedite_times = params.get("expedite_times", 0);
     std::vector<RecruitConfig::TagId> preserve_tags;
     std::vector<std::string> first_tags = params.get("first_tags", std::vector<std::string>(0));
@@ -96,6 +97,7 @@ bool asst::RecruitTask::set_params(const json::value& params)
         .set_server(server)
         .set_set_time(set_time)
         .set_force_refresh(force_refresh)
+        .set_loop_recruit(loop_recruit)
         .set_retry_times(3);
 
     return true;

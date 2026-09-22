@@ -67,6 +67,11 @@ public class AsstRecruitTask : AsstBaseTask
     public bool UseExpedited { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether to run the dedicated four-slot recruit loop.
+    /// </summary>
+    public bool LoopRecruit { get; set; }
+
+    /// <summary>
     /// Gets or sets 使用加急许可
     /// </summary>
     public int ExpeditedTimes { get; set; }
@@ -159,6 +164,7 @@ public class AsstRecruitTask : AsstBaseTask
             ["times"] = RecruitTimes,
             ["set_time"] = SetRecruitTime,
             ["expedite"] = UseExpedited,
+            ["loop_recruit"] = LoopRecruit,
             ["preserve_tags"] = JArray.FromObject(preserveTags),
             ["extra_tags_mode"] = SelectExtraTags,
             ["first_tags"] = JArray.FromObject(firstTags),

@@ -173,5 +173,12 @@
                     Visibility="{c:Binding PreserveTagEnabled}" />
             </StackPanel>
         </StackPanel>
+
+        <Button
+            Margin="0,15,0,5"
+            HorizontalAlignment="Left"
+            Command="{s:Action StartRecruitYellowTicketExchange}"
+            Content="{DynamicResource RecruitYellowTicketExchange}"
+            ToolTip="{DynamicResource RecruitYellowTicketExchangeTip}" />
     </StackPanel>
 </UserControl>
