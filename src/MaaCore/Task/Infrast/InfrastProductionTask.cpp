@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <array>
+#include <functional>
 #include <ranges>
 
 #include <calculator/calculator.hpp>
@@ -13,6 +14,7 @@
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Status.h"
+#include "Task/Infrast/OriginiumShardRecipe.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Hasher.h"
@@ -86,48 +88,56 @@ bool asst::InfrastProductionTask::change_product()
         return static_cast<bool>(confirm_analyzer.analyze());
     };
 
-    auto run_change_task =
-        [&](const std::string& task_name, const std::string& verify_task_name, const std::string& target_product_key) {
-            constexpr int ProductChangeMaxTimes = 3;
-            for (int retry = 0; retry < ProductChangeMaxTimes; ++retry) {
-                if (retry != 0) {
-                    cv::Mat image = ctrler()->get_image();
-                    Matcher verify_analyzer(image);
-                    verify_analyzer.set_task_info(verify_task_name);
-                    if (verify_analyzer.analyze()) {
-                        Matcher confirm_analyzer(image);
-                        confirm_analyzer.set_task_info("ConfirmProductChange");
-                        if (!confirm_analyzer.analyze()) {
-                            return true;
-                        }
+    auto run_change_task = [&](const std::string& task_name,
+                               const std::string& verify_task_name,
+                               const std::string& target_product_key,
+                               const std::function<bool()>& select_recipe = {}) {
+        constexpr int ProductChangeMaxTimes = 3;
+        for (int retry = 0; retry < ProductChangeMaxTimes; ++retry) {
+            if (retry != 0) {
+                cv::Mat image = ctrler()->get_image();
+                Matcher verify_analyzer(image);
+                verify_analyzer.set_task_info(verify_task_name);
+                if (verify_analyzer.analyze()) {
+                    Matcher confirm_analyzer(image);
+                    confirm_analyzer.set_task_info("ConfirmProductChange");
+                    if (!confirm_analyzer.analyze()) {
+                        return true;
                     }
                 }
-
-                // 只有切换流程和产物复核都通过，才上报 ProductChanged。
-                if (!ProcessTask(*this, { task_name }).run()) {
-                    Log.warn("change product failed", task_name, retry);
-                    continue;
-                }
-
-                if (!ProcessTask(*this, { verify_task_name }).run()) {
-                    Log.warn("product verification failed", verify_task_name, retry);
-                    continue;
-                }
-                sleep(500); // verify 有500ms delay, 勉强覆盖网络响应动画，此处加余量
-                // 匹配到了则说明未能正确点击确认按钮完成产物更换，需要重试
-                if (has_confirm_product_change_button()) {
-                    Log.warn("failed to confirm product change to target product", target_product_key, retry);
-                    continue;
-                }
-
-                return true;
             }
 
-            Log.warn("failed to change product to target product", target_product_key);
-            json::value fail_info = basic_info_with_what("ProductChangeFail");
-            callback(AsstMsg::SubTaskExtraInfo, fail_info);
-            return false;
-        };
+            // 只有切换流程和产物复核都通过，才上报 ProductChanged。
+            if (!ProcessTask(*this, { task_name }).run()) {
+                Log.warn("change product failed", task_name, retry);
+                continue;
+            }
+
+            // 源石碎片先停在配方页，由调用方选定原料后再回到通用确认链。
+            if (select_recipe && !select_recipe()) {
+                Log.warn("select product recipe failed", target_product_key, retry);
+                continue;
+            }
+
+            if (!ProcessTask(*this, { verify_task_name }).run()) {
+                Log.warn("product verification failed", verify_task_name, retry);
+                continue;
+            }
+            sleep(500); // verify 有500ms delay, 勉强覆盖网络响应动画，此处加余量
+            // 匹配到了则说明未能正确点击确认按钮完成产物更换，需要重试
+            if (has_confirm_product_change_button()) {
+                Log.warn("failed to confirm product change to target product", target_product_key, retry);
+                continue;
+            }
+
+            return true;
+        }
+
+        Log.warn("failed to change product to target product", target_product_key);
+        json::value fail_info = basic_info_with_what("ProductChangeFail");
+        callback(AsstMsg::SubTaskExtraInfo, fail_info);
+        return false;
+    };
 
     auto run_trade_order_task =
         [&](const std::string& task_name, const std::string& verify_task_name, const std::string& target_product_key) {
@@ -187,7 +197,13 @@ bool asst::InfrastProductionTask::change_product()
         if (!run_change_task(
                 "ChangeProductToOriginiumShard",
                 "VerifyProductChangedToOriginiumShard",
-                "OriginiumShard")) {
+                "OriginiumShard",
+                [&]() {
+                    // 自定义基建当前没有“允许消耗装置”的配置，保持原有固源岩配方行为。
+                    const auto recipe = detect_originium_shard_recipe(ctrler()->get_image(), false);
+                    return recipe &&
+                           ProcessTask(*this, { std::string(originium_shard_recipe_task_name(*recipe)) }).run();
+                })) {
             return false;
         }
         m_product = "OriginStone";

@@ -1,7 +1,10 @@
 #include "ReplenishOriginiumShardTaskPlugin.h"
 
+#include <string>
+
+#include "Controller/Controller.h"
+#include "OriginiumShardRecipe.h"
 #include "Task/ProcessTask.h"
-#include "Utils/StringMisc.hpp"
 
 bool asst::ReplenishOriginiumShardTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -18,27 +21,67 @@ bool asst::ReplenishOriginiumShardTaskPlugin::verify(AsstMsg msg, const json::va
     }
 }
 
-std::optional<asst::ReplenishOriginiumShardTaskPlugin::MaterialCount>
-asst::ReplenishOriginiumShardTaskPlugin::parse_material_count(std::string_view text, int expected_required) noexcept
+bool asst::ReplenishOriginiumShardTaskPlugin::open_originium_shard_selector() const
 {
-    const auto separator = text.find('/');
-    if (separator == std::string_view::npos || text.find('/', separator + 1) != std::string_view::npos) {
-        return std::nullopt;
+    ProcessTask open_selector(*this, { "OpenOriginiumShardSelectorForReplenish" });
+    if (!open_selector.run()) {
+        return false;
     }
 
-    int current = 0;
-    int required = 0;
-    if (!utils::chars_to_number<int, true>(text.substr(0, separator), current) ||
-        !utils::chars_to_number<int, true>(text.substr(separator + 1), required) || current < 0 ||
-        required != expected_required) {
-        return std::nullopt;
+    ProcessTask choose_tab(*this, { "ChooseOriginiumShardTab" });
+    if (choose_tab.run()) {
+        return true;
     }
 
-    return MaterialCount { .current = current, .required = required };
+    ProcessTask close_selector(*this, { "Return" });
+    close_selector.run();
+    return false;
+}
+
+bool asst::ReplenishOriginiumShardTaskPlugin::close_originium_shard_selector() const
+{
+    ProcessTask task(*this, { "Return" });
+    return task.run();
+}
+
+bool asst::ReplenishOriginiumShardTaskPlugin::select_recipe(OriginiumShardRecipe recipe) const
+{
+    ProcessTask task(*this, { std::string(originium_shard_recipe_task_name(recipe)) });
+    return task.run();
+}
+
+bool asst::ReplenishOriginiumShardTaskPlugin::replenish_original()
+{
+    ProcessTask task(*this, { "ReplenishToMax" });
+    return task.run();
 }
 
 bool asst::ReplenishOriginiumShardTaskPlugin::_run()
 {
-    ProcessTask task(*this, { "ReplenishToMax" });
-    return task.run();
+    if (!m_use_device) {
+        return replenish_original();
+    }
+
+    if (!open_originium_shard_selector()) {
+        return replenish_original();
+    }
+
+    // 切到配方页后统一识别材料；识别失败时仍回退到原有固源岩补货逻辑。
+    const auto recipe = detect_originium_shard_recipe(ctrler()->get_image(), true);
+    if (!recipe) {
+        if (!close_originium_shard_selector()) {
+            return false;
+        }
+        return replenish_original();
+    }
+
+    // 显式选择识别出的配方，确保装置耗尽后也能切回固源岩配方。
+    if (!select_recipe(*recipe)) {
+        if (!close_originium_shard_selector()) {
+            return false;
+        }
+        return replenish_original();
+    }
+
+    return replenish_original();
 }
