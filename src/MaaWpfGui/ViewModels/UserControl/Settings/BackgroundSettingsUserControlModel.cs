@@ -151,6 +151,7 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
     /// <param name="promoteChildrenOfFlattenDirs">是否对 Wallpapers 等目录做一层展开</param>
     private void AddDirectoryContent(string dirPath, string relativeRoot, bool promoteChildrenOfFlattenDirs)
     {
+        // 各处 OrderBy 均为文件名字符串序：新增壁纸文件名须带零填充前缀定序，否则 1/10/2 乱序
         foreach (var file in Directory.GetFiles(dirPath)
                      .Where(IsSupportedImage)
                      .OrderBy(Path.GetFileName, StringComparer.CurrentCultureIgnoreCase))
