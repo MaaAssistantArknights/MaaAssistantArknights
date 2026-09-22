@@ -1882,7 +1882,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Copilot.UnsupportedSkill">{0} 不支援技能 {1}, 不再選擇技能</system:String>
     <system:String x:Key="Copilot.EliteEmpty">{0} 未設定精英等級要求, 但其他屬性要求 精{1}, 已自動補全</system:String>
     <system:String x:Key="Copilot.EliteAjust">{0} 設定為要求 精{1}, 但是其他屬性需求 精{2}, 已自動調整</system:String>
-    <system:String x:Key="Copilot.ActionWithBothLocAndOper">{0} 同時設定了位置和幹員, 將移除位置設定</system:String>
+    <system:String x:Key="Copilot.ActionWithBothLocAndOper">{0} 同時設定了位置和幹員, 將按位置執行</system:String>
+    <system:String x:Key="Copilot.ActionWithBothRectAndLoc">{0} 同時設定了像素區域和位置, 將按像素區域執行</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">辨識結果：</system:String>
     <system:String x:Key="ConnectFailed">連線失敗</system:String>
     <system:String x:Key="TryToReconnectByAdb">正在嘗試重連</system:String>

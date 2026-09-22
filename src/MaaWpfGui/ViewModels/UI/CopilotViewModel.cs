@@ -1243,6 +1243,18 @@ public partial class CopilotViewModel : Screen
             if (hasLoc && hasOper)
             {
                 AddLog(LocalizationHelper.GetStringFormat("Copilot.ActionWithBothLocAndOper", $"{action.Type}[{action.Location}]"), UiLogColor.Warning, showTime: false);
+
+                // Core 对同填 name 与 location 的动作按位置执行，此处移除 name 以与 Core 语义一致
+                action.Name = null;
+            }
+        }
+        foreach (var action in copilot.Actions.Where(a => a.Type is "Click"))
+        {
+            if (action.Rect is not null && action.Location is not null)
+            {
+                AddLog(LocalizationHelper.GetStringFormat("Copilot.ActionWithBothRectAndLoc", $"{action.Type}[{string.Join(",", action.Rect)}]"), UiLogColor.Warning, showTime: false);
+
+                // Core 对同填 rect 与 location 的点击动作按 rect 执行，此处移除 location 以与 Core 语义一致
                 action.Location = null;
             }
         }
