@@ -85,7 +85,7 @@ bool asst::CustomTask::parse_and_register_auto_raise_potential(const std::string
         return false;
     }
 
-    // 中间信物不足的确认弹窗默认点 × 放弃提升；勾选后覆写分发节点的 next，改走点 √ 消耗普通信物的分支
+    // 中坚信物不足的确认弹窗默认点 × 放弃提升；勾选后覆写分发节点的 next，改走点 √ 消耗普通信物的分支
     const auto params_opt = params.find<json::object>("params");
     if (params_opt && params_opt->get("auto_raise_potential", "use_normal_token", false)) {
         static constexpr std::string_view dialog_task = "MiniGame@AutoRaisePotential@TokenConfirmDialog";

@@ -3635,7 +3635,7 @@ public class AsstProxy
     /// 小游戏。
     /// </summary>
     /// <param name="taskName">任务名（tasks.json 中的 key）</param>
-    /// <param name="useNormalToken">自动提升潜能：中间信物不足时是否消耗普通信物（仅 AutoRaisePotential 生效）。</param>
+    /// <param name="useNormalToken">自动提升潜能：中坚信物不足时是否消耗普通信物（仅 AutoRaisePotential 生效）。</param>
     /// <returns>是否成功。</returns>
     public bool AsstMiniGame(string taskName, bool useNormalToken = false)
     {

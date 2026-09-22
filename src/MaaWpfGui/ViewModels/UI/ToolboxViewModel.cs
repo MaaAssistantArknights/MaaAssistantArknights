@@ -2698,7 +2698,7 @@ public class ToolboxViewModel : Screen
     public string SecretFrontEvent { get; set => SetAndNotify(ref field, value); } = string.Empty;
 
     /// <summary>
-    /// Gets or sets 自动提升潜能：中间信物不足时是否消耗普通信物继续提升（不勾选时点 × 跳过该次提升）。
+    /// Gets or sets 自动提升潜能：中坚信物不足时是否消耗普通信物继续提升（不勾选时点 × 跳过该次提升）。
     /// </summary>
     public bool MiniGameUseNormalToken { get; set => SetAndNotify(ref field, value); }
 
