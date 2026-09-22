@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
@@ -137,6 +138,32 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
 
             SetTaskConfig<RecruitTask>(t => t.UseExpedited == value, t => t.UseExpedited = value);
         }
+    }
+
+    /// <summary>
+    /// Starts the dedicated recruitment-to-yellow-certificates workflow without changing the saved task queue.
+    /// </summary>
+    [JetBrains.Annotations.UsedImplicitly]
+    public async Task StartRecruitYellowTicketExchange()
+    {
+        var task = new RecruitTask {
+            IsEnable = true,
+            LoopRecruit = true,
+            MaxTimes = int.MaxValue,
+            RefreshLevel3 = false,
+            ForceRefresh = false,
+            Level3Choose = true,
+            Level4Choose = true,
+            Level5Choose = true,
+            Level6Choose = false,
+            Level3Time = 60,
+            Level4Time = 540,
+            UseExpedited = true,
+            PreferTagEnabled = false,
+            PreserveTagEnabled = false,
+        };
+
+        await Instances.TaskQueueViewModel.LinkStartWithTasks([task]);
     }
 
     public static void ResetRecruitVariables(RecruitTask? recruit)
@@ -318,6 +345,7 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSet
                 RecruitTimes = recruit.MaxTimes,
                 UseExpedited = recruit.UseExpedited is not false,
                 ExpeditedTimes = recruit.MaxTimes,
+                LoopRecruit = recruit.LoopRecruit,
                 SelectExtraTags = recruit.ExtraTagMode,
                 Level3FirstList = firstTags,
                 PreserveTags = preserveTags,

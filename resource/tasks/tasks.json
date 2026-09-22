@@ -255,7 +255,7 @@
     "ClickStageName": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "roi": [0, 0, 1280, 720],
+        "roi": [700, 430, 350, 120],
         "fullMatch": true,
         "isAscii": true,
         "text": [],
@@ -329,7 +329,7 @@
         "doc": "模板匹配关卡截图（对应 OCR 的 ClickStageName），由 C++ 动态替换实际模板",
         "action": "ClickSelf",
         "template": ["empty.png"],
-        "roi": [0, 0, 1280, 720],
+        "roi": [700, 430, 350, 120],
         "next": ["ClickedCorrectStageByTemplateOrSwipe", "#self"]
     },
     "StageNavigationSlowlySwipeLeftByTemplate": {
@@ -1117,20 +1117,14 @@
         "next": ["OfflineConfirmImpl"]
     },
     "OfflineConfirmImpl": {
-        "Doc": "防止 reduceOtherTimes 两次。其他任务掉线时直接停止；开始唤醒经 StartUp@OfflineConfirm 走本节点点击重连，点击次数有上限，停服等情况下不会无限重连",
+        "Doc": "防止 reduceOtherTimes 两次。掉线重连移除后暂无引用，保留作恢复重连时的参考",
         "template": "OfflineConfirm.png",
         "action": "ClickSelf",
         "roi": [310, 409, 648, 165],
-        "maxTimes": 6,
         "next": ["CloseAnnos#next", "OfflineConfirmImpl", "StartUpThemes#next"]
     },
     "StartUp@ClickCorner": {
         "next": ["StartUp@ReturnButtons#next", "StartUp", "StartUp@CloseAnnos#next", "StartUp@OfflineConfirm"]
-    },
-    "StartUp@OfflineConfirm": {
-        "Doc": "开始唤醒的职责是把游戏带回主界面：遇到掉线弹窗时点击确认重连并继续启动流程，而非像其他任务那样停止",
-        "template": "OfflineConfirm.png",
-        "action": "DoNothing"
     },
     "Chernobog@Annihilation": {
         "template": "StageAnnihilation.png",
@@ -2568,6 +2562,23 @@
         "roi": [675, 470, 450, 50],
         "action": "ClickSelf",
         "postDelay": 500
+    },
+    "RecruitStop": {
+        "algorithm": "OcrDetect",
+        "text": ["\u505c\u6b62\u62db\u52df"],
+        "roi": [0, 300, 1280, 420],
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "next": ["RecruitStopConfirm"]
+    },
+    "RecruitStopConfirm": {
+        "algorithm": "OcrDetect",
+        "text": ["\u786e\u8ba4\u505c\u6b62"],
+        "action": "ClickSelf",
+        "roi": [700, 430, 350, 120],
+        "preDelay": 500,
+        "postDelay": 1000,
+        "next": ["RecruitStopConfirm@LoadingText", "Recruit@OfflineConfirm", "RecruitFlag"]
     },
     "InfrastBegin": {
         "algorithm": "JustReturn",

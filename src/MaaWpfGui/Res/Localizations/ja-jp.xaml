@@ -1294,9 +1294,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@SecretFront@Event3">揺蕩う影</system:String>
     <system:String x:Key="MiniGame@SecretFront">隠密戦線</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip">小隊選択画面で開始します。セーブデータがある場合は手動で削除する必要があります。ゲーム内の ｢前の小隊からのデータを引き継ぐ｣ にチェックすることを推奨します。</system:String>
-    <system:String x:Key="MiniGame@MaterialSynthesis">不足素材の合成</system:String>
-    <system:String x:Key="MiniGame@MaterialSynthesisTip" xml:space="preserve">育成画面（昇進、スキル特化、モジュールアップグレードなど）の不足素材ポップアップから加工所の合成画面へ手動で移動してから開始してください。&#10;合成可能な下位素材を再帰的に合成し、素材が不足すると停止します。</system:String>
-    <system:String x:Key="MiniGame@MaterialSynthesis@DemoVideo">デモ動画</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis">素材自動合成</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesisTip" xml:space="preserve">対象素材の加工所の合成画面を手動で開いてから開始してください。&#10;合成可能な下位素材を再帰的に合成し、素材が不足すると停止します。</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@StartLog">素材の自動合成を開始します</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@MaterialLog">現在の素材：{0}、残り {1} 個（第 {2} 階層）</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@IngredientLog">{0} の第 {1} 下位素材が不足しているため、補充します</system:String>
@@ -1311,9 +1310,6 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@MaterialSynthesis@Unsupported">現在の素材またはレシピデータを認識できません</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@NavigationFailed">画面認識または操作に失敗しました</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@UnknownFailure">不明なエラー</system:String>
-    <system:String x:Key="MiniGame@AutoRaisePotential">潜在能力自動強化</system:String>
-    <system:String x:Key="MiniGame@AutoRaisePotentialTip" xml:space="preserve">オペレーター一覧画面を開いてから開始してください。強化可能と表示された全オペレーターの潜在能力を自動で強化します。&#10;完了後は最後のオペレーター詳細画面に、対象がいない場合はオペレーター一覧に留まります。</system:String>
-    <system:String x:Key="MiniGame@AutoRaisePotential@UseNormalToken">中堅信物が不足している場合に通常の信物を使用</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition">奇象巡展-未収録の奇象を探す</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibitionTip" xml:space="preserve">選択したマップの高級エリアにある草原の右下からタスクを開始します。&#10;草原を行き来して未収録の生物を探し、見つかると自動的に停止します。&#10;生物に出会えるのは草原だけです。</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationTitle">奇象巡展：未収録の奇象を発見</system:String>
@@ -1348,9 +1344,6 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@PixelPaint@StartLog">ピクセル画を開始：{0} マス、{1} 色</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ProgressLog">ピクセル画 {0}/{1}</system:String>
     <system:String x:Key="MiniGame@PixelPaint@DoneLog">ピクセル画完了</system:String>
-    <system:String x:Key="MiniGame@AutoRaisePotential@TotalLog">潜在能力自動強化：処理待ちオペレーター {0} 人</system:String>
-    <system:String x:Key="MiniGame@AutoRaisePotential@PotentialFoundLog">オペレーター {0}/{1}：強化可能な潜在能力あり</system:String>
-    <system:String x:Key="MiniGame@AutoRaisePotential@NoPotentialLog">オペレーター {0}/{1}：強化可能な潜在能力なし</system:String>
 
     <system:String x:Key="MiniGameNameGreenTicketStore">緑チケット商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1階は全部購入。&#10;2階はスカウト券と求人票を購入のみ。</system:String>
@@ -1877,9 +1870,6 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MoveCamera">カメラ移動</system:String>
     <system:String x:Key="DrawCard">オペレーター配分</system:String>
     <system:String x:Key="CheckIfStartOver">再開確認</system:String>
-    <system:String x:Key="ResetStopwatch">ストップウォッチをリセット</system:String>
-    <system:String x:Key="Click">クリック</system:String>
-    <system:String x:Key="Swipe">スワイプ</system:String>
     <system:String x:Key="UnsupportedLevel">サポートされていないステージです。ステージ名を確認するか、 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ に移動してリソースバージョンを更新してみてください！</system:String>
     <system:String x:Key="Copilot.UnsupportedSkill">{0} のスキル {1} はサポートされないので、スキルを選択されなくなります。</system:String>
     <system:String x:Key="Copilot.EliteEmpty">{0} エリートレベルの要件は設定されていませんでしたが、他の属性の要件はエリート{1}です。これは自動入力されました。</system:String>
@@ -1989,6 +1979,8 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
 求人許可の取得速度は消費速度より遅いため、通常は次の公招タスク実行時までに自然に時間が経過します。求人許可が大量に余っているなど、緊急時のみご使用ください</system:String>
     <system:String x:Key="PreserveTagsTip">選択したタグのいずれかを認識した場合、その募集をスキップして枠を残します。未選択の場合は何も保留しません。</system:String>
     <!--  !自動募集設定  -->
+    <system:String x:Key="RecruitYellowTicketExchange">公開求人で資格証交換</system:String>
+    <system:String x:Key="RecruitYellowTicketExchangeTip">4枠を順番に処理します。3★は1:00後に停止して確認し、4/5★は9:00で緊急招集、6★は通知してスキップします。</system:String>
     <!--  EasterEggs  -->
     <system:String x:Key="BuyWineOnAprilFoolsDay">尊敬なるドクター、クロージャ様のお店で ｢酒｣ の新しいリストがあると聞いたことがありませんか？一緒に確認しませんか？</system:String>
     <system:String x:Key="Burping">うぅ……オエッ</system:String>

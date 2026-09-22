@@ -13,6 +13,7 @@
 
 #include <algorithm>
 #include <boost/regex.hpp>
+#include <limits>
 #include <ranges>
 
 namespace asst::recruit_calc
@@ -186,6 +187,12 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_recruitment_time(std::unordere
     return *this;
 }
 
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_loop_recruit(bool loop_recruit) noexcept
+{
+    m_loop_recruit = loop_recruit;
+    return *this;
+}
+
 asst::AutoRecruitTask& asst::AutoRecruitTask::set_penguin_enabled(bool enable, std::string penguin_id) noexcept
 {
     m_upload_to_penguin = enable;
@@ -234,8 +241,21 @@ bool asst::AutoRecruitTask::_run()
     static constexpr int slot_retry_limit = 3;
 
     bool try_use_expedited = m_use_expedited;
+    if (m_loop_recruit) {
+        m_max_times = (std::numeric_limits<int>::max)();
+    }
 
     while (m_cur_times < m_max_times) {
+        // In the dedicated loop, collect a completed tracked/9-hour slot
+        // before opening another recruitment. Otherwise a freed three-star
+        // slot can be filled repeatedly while a four/five-star slot waits
+        // for its expedited permit.
+        if (m_loop_recruit && try_use_expedited && recruit_now()) {
+            hire_all();
+            m_expedite_slots.clear();
+            continue;
+        }
+
         auto start_rect = try_get_start_button(ctrler()->get_image());
         if (start_rect) {
             if (need_exit()) {
@@ -257,6 +277,12 @@ bool asst::AutoRecruitTask::_run()
             if (!m_has_permit && (!m_force_refresh || !m_has_refresh)) {
                 return true;
             }
+
+            // Fill every available recruitment slot before trying expedited permits.
+            // A three-star slot is intentionally stopped after confirmation; do not
+            // let the expedited-recruitment branch terminate the whole loop while
+            // other slots are still waiting to be processed.
+            continue;
         }
         else {
             if (!check_recruit_home_page()) {
@@ -268,29 +294,46 @@ bool asst::AutoRecruitTask::_run()
             }
         }
 
-        if (try_use_expedited) {
-            if (need_exit()) {
-                return false;
+        // No new slot is available. Only now consume expedited permits for
+        // completed four/five-star recruitments, then scan the slots again.
+        if (need_exit()) {
+            return false;
+        }
+        Log.info("ready to use expedited plan");
+        if (recruit_now()) {
+            hire_all();
+            // RecruitFinish collects all completed slots. Clear the tracked
+            // set together so a later OCR result cannot accidentally reuse a
+            // permit for a slot that has already been collected.
+            m_expedite_slots.clear();
+            continue;
+        }
+
+        Log.info("Failed to use expedited plan");
+        if (m_loop_recruit) {
+            // RecruitNow can fail because there are no completed recruitments,
+            // not only because expedited permits are exhausted. If a slot that
+            // was intentionally skipped this pass is available again, start a
+            // new pass and keep consuming recruitment permits.
+            if (check_recruit_home_page() && !start_recruit_analyze(ctrler()->get_image()).empty()) {
+                m_force_skipped.clear();
+                Log.info("No completed recruitment to expedite; starting the next recruitment pass.");
+                continue;
             }
-            Log.info("ready to use expedited plan");
-            if (recruit_now()) {
-                hire_all();
-            }
-            else {
-                Log.info("Failed to use expedited plan");
-                // There is a small chance that confirm button were clicked twice and got stuck into
-                // the bottom-right slot. ref: #1491
-                if (check_recruit_home_page()) {
-                    // ran out of expedited plan? stop trying
-                    // however, there is another possibility (#7266: all the slots are empty now)
-                    // if we can get another start btn, we still have a chance to continue
-                    try_use_expedited = try_get_start_button(ctrler()->get_image()).has_value();
-                }
-                else {
-                    Log.info("Not in home page after failing to use expedited plan.");
-                    return false;
-                }
-            }
+            Log.info("Loop recruitment stopped because expedited permits are unavailable.");
+            return true;
+        }
+        // There is a small chance that confirm button were clicked twice and got stuck into
+        // the bottom-right slot. ref: #1491
+        if (check_recruit_home_page()) {
+            // ran out of expedited plan? stop trying
+            // however, there is another possibility (#7266: all the slots are empty now)
+            // if we can get another start btn, we still have a chance to continue
+            try_use_expedited = try_get_start_button(ctrler()->get_image()).has_value();
+        }
+        else {
+            Log.info("Not in home page after failing to use expedited plan.");
+            return false;
         }
     }
     return true;
@@ -317,9 +360,19 @@ std::optional<asst::Rect> asst::AutoRecruitTask::try_get_start_button(const cv::
     if (result.empty()) {
         return std::nullopt;
     }
-    auto iter = std::ranges::find_if(result, [&](const TextRect& r) -> bool {
-        return !m_force_skipped.contains(slot_index_from_rect(r.rect));
-    });
+    auto iter = result.end();
+    for (auto candidate = result.begin(); candidate != result.end(); ++candidate) {
+        const auto candidate_slot = slot_index_from_rect(candidate->rect);
+        if (m_force_skipped.contains(candidate_slot)) {
+            continue;
+        }
+        if (iter == result.end() || (m_loop_recruit && candidate_slot < slot_index_from_rect(iter->rect))) {
+            iter = candidate;
+        }
+        if (!m_loop_recruit) {
+            break;
+        }
+    }
     if (iter == result.cend()) {
         return std::nullopt;
     }
@@ -395,6 +448,27 @@ asst::AutoRecruitTask::recruit_result asst::AutoRecruitTask::recruit_one(const R
         Log.info("Failed to confirm current recruit config.");
         click_return_button();
         return recruit_result::failed;
+    }
+
+    if (m_loop_recruit && calc_result.min_level == 3) {
+        if (!stop_recruit(slot_index_from_rect(button))) {
+            Log.info("Failed to stop the 1-hour three-star recruitment.");
+            click_return_button();
+            return recruit_result::failed;
+        }
+
+        // The cancelled slot becomes available immediately again. Mark it as
+        // processed for this pass so the loop advances to the other slots
+        // instead of repeatedly selecting the first three-star slot.
+        m_force_skipped.emplace(slot_index_from_rect(button));
+    }
+    else if (m_loop_recruit && (calc_result.min_level == 4 || calc_result.min_level == 5)) {
+        // Only a recruitment confirmed by this task as four/five-star may
+        // consume an expedited permit. In particular, never infer this from
+        // the presence of the generic "Recruit Now" button: that button is
+        // also shown for three-star recruitments.
+        m_expedite_slots.emplace(slot_index_from_rect(button));
+        Log.info("Tracked four/five-star slot", slot_index_from_rect(button), "for expedited recruitment.");
     }
 
     return recruit_result::confirmed;
@@ -765,6 +839,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         if (!(final_combination.min_level == 3 && has_preferred_tag) &&
             !is_select_level_valid(final_combination.min_level)) {
             calc_task_result_type result(calc_task_result::nothing_to_select, recruitment_time);
+            result.min_level = final_combination.min_level;
             return result;
         }
 
@@ -791,6 +866,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             calc_task_result::success,
             recruitment_time,
             static_cast<int>(final_combination.tags.size()));
+        result.min_level = final_combination.min_level;
         return result;
     }
 
@@ -850,8 +926,104 @@ bool asst::AutoRecruitTask::check_recruit_home_page()
 
 bool asst::AutoRecruitTask::recruit_now()
 {
-    ProcessTask task(*this, { "RecruitNow" });
-    return task.run();
+    // Do not run the generic RecruitNow task: it clicks the first OCR match,
+    // without knowing whether that slot was a three-star recruitment. Filter
+    // the OCR matches against the slots confirmed above by this task.
+    OCRer now_analyzer(ctrler()->get_image());
+    now_analyzer.set_task_info("RecruitNow");
+    if (!now_analyzer.analyze()) {
+        return false;
+    }
+
+    std::optional<slot_index> selected_slot;
+    std::optional<Rect> selected_rect;
+    for (const auto& result : now_analyzer.get_result()) {
+        const auto slot = slot_index_from_rect(result.rect);
+        bool eligible = m_expedite_slots.contains(slot);
+        if (!eligible && m_loop_recruit && is_nine_hour_slot(ctrler()->get_image(), slot)) {
+            // A slot that was already set to 9:00 before this task started is
+            // not in m_expedite_slots. A visible 08/09-hour countdown is the
+            // safe way to recognize it without ever expediting a 1-hour slot.
+            eligible = true;
+            Log.info("Recognized existing nine-hour slot", slot, "for expedited recruitment.");
+        }
+        if (!eligible) {
+            Log.info("Ignoring RecruitNow button for untracked slot", slot, ".");
+            continue;
+        }
+        if (!selected_slot || slot < *selected_slot) {
+            selected_slot = slot;
+            selected_rect = result.rect;
+        }
+    }
+
+    if (!selected_rect) {
+        Log.info("RecruitNow found no tracked four/five-star slot.");
+        return false;
+    }
+
+    Log.info("Using expedited permit for tracked four/five-star slot", *selected_slot, ".");
+    ctrler()->click(*selected_rect);
+    sleep(Config.get_options().task_delay);
+
+    ProcessTask confirm_task(*this, { "RecruitNowConfirm" });
+    return confirm_task.set_retry_times(5).run();
+}
+
+bool asst::AutoRecruitTask::is_nine_hour_slot(const cv::Mat& image, size_t slot) const
+{
+    const int column = static_cast<int>(slot % 2);
+    const int row = static_cast<int>(slot / 2);
+
+    // Home-page countdown positions at 1280x720. Keep the ROI around the
+    // hour field only, so the OCR cannot mistake the slot number or button
+    // text for a timer.
+    OCRer hour_analyzer(image);
+    hour_analyzer.set_task_info("RecruitTimerH");
+    hour_analyzer.set_required({ "00", "01", "02", "03", "04", "05", "06", "07", "08", "09" });
+    hour_analyzer.set_roi({ 55 + column * 640, 250 + row * 300, 170, 65 });
+    if (!hour_analyzer.analyze()) {
+        return false;
+    }
+
+    for (const auto& result : hour_analyzer.get_result()) {
+        if (result.text == "08" || result.text == "09") {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool asst::AutoRecruitTask::stop_recruit(size_t target_slot)
+{
+    // RecruitStop can be visible in multiple slots at once. Running the
+    // generic task would click whichever OCR result happens to come first,
+    // which can cancel a neighbouring four/five-star recruitment while the
+    // current slot is only a three-star recruitment.
+    OCRer stop_analyzer(ctrler()->get_image());
+    stop_analyzer.set_task_info("RecruitStop");
+    if (!stop_analyzer.analyze()) {
+        return false;
+    }
+
+    std::optional<Rect> target_rect;
+    for (const auto& result : stop_analyzer.get_result()) {
+        if (slot_index_from_rect(result.rect) == target_slot) {
+            target_rect = result.rect;
+            break;
+        }
+    }
+    if (!target_rect) {
+        Log.info("RecruitStop found no stop button for slot", target_slot, ".");
+        return false;
+    }
+
+    Log.info("Stopping only the one-hour three-star slot", target_slot, ".");
+    ctrler()->click(*target_rect);
+    sleep(Config.get_options().task_delay);
+
+    ProcessTask confirm_task(*this, { "RecruitStopConfirm" });
+    return confirm_task.set_retry_times(5).run();
 }
 
 bool asst::AutoRecruitTask::confirm()

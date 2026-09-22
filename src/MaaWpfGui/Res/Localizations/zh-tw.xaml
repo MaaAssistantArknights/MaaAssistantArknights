@@ -1292,9 +1292,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@SecretFront@Event3">詭影迷蹤</system:String>
     <system:String x:Key="MiniGame@SecretFront">隱秘戰線</system:String>
     <system:String x:Key="MiniGame@SecretFrontTip">在選擇小隊介面開始，如有存檔須手動刪除。&#10;第一次打請先看完教學後關閉。&#10;推薦勾選遊戲內 ｢繼承上一支隊伍發回的資料｣ 。</system:String>
-    <system:String x:Key="MiniGame@MaterialSynthesis">缺口材料合成</system:String>
-    <system:String x:Key="MiniGame@MaterialSynthesisTip" xml:space="preserve">請先手動從培養頁面(如精英化、專精、模組升級)缺少的材料彈窗跳轉到加工站合成頁，再開始任務。&#10;會遞迴合成可加工的下級材料，材料不足時停止。</system:String>
-    <system:String x:Key="MiniGame@MaterialSynthesis@DemoVideo">演示影片</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesis">自動合成材料</system:String>
+    <system:String x:Key="MiniGame@MaterialSynthesisTip" xml:space="preserve">請先手動進入目標材料的加工站合成頁，再開始任務。&#10;會遞迴合成可加工的下級材料，材料不足時停止。</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@StartLog">開始自動合成材料</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@MaterialLog">目前材料：{0}，還需合成 {1} 個（第 {2} 層）</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@IngredientLog">{0} 的第 {1} 種下級材料不足，正在補充</system:String>
@@ -1309,9 +1308,6 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@MaterialSynthesis@Unsupported">無法辨識目前材料或配方資料</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@NavigationFailed">頁面辨識或操作失敗</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@UnknownFailure">未知錯誤</system:String>
-    <system:String x:Key="MiniGame@AutoRaisePotential">自動提升潛能</system:String>
-    <system:String x:Key="MiniGame@AutoRaisePotentialTip" xml:space="preserve">請先進入幹員列表介面，再開始任務。自動提升所有帶提示標記幹員的潛能。&#10;完成後停留在最後一名幹員檔案；沒有可提升目標時停留在幹員列表。</system:String>
-    <system:String x:Key="MiniGame@AutoRaisePotential@UseNormalToken">中間信物不足時使用普通信物</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition">奇象巡展-找未收錄生物</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibitionTip" xml:space="preserve">在所選地圖的高級區草地右下角開始任務。&#10;在草地來回走動尋找未收錄生物，找到後自動停止。&#10;只有草地能遇到生物。</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationTitle">奇象巡展：發現暫未收錄奇象</system:String>
@@ -1346,9 +1342,6 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@PixelPaint@StartLog">開始像素畫：{0} 格，{1} 色</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ProgressLog">像素畫 {0}/{1}</system:String>
     <system:String x:Key="MiniGame@PixelPaint@DoneLog">像素畫完成</system:String>
-    <system:String x:Key="MiniGame@AutoRaisePotential@TotalLog">自動提升潛能：識別到 {0} 位待處理幹員</system:String>
-    <system:String x:Key="MiniGame@AutoRaisePotential@PotentialFoundLog">第 {0}/{1} 位幹員：有待提升的潛能</system:String>
-    <system:String x:Key="MiniGame@AutoRaisePotential@NoPotentialLog">第 {0}/{1} 位幹員：無可提升的潛能</system:String>
 
     <system:String x:Key="MiniGameNameGreenTicketStore">綠票商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">第 1 層全買。&#10;第 2 層買 ｢尋訪憑證｣ 和 ｢招聘許可｣ 。</system:String>
@@ -1875,9 +1868,6 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MoveCamera">移動相機</system:String>
     <system:String x:Key="DrawCard">調配幹員</system:String>
     <system:String x:Key="CheckIfStartOver">檢查是否重開</system:String>
-    <system:String x:Key="ResetStopwatch">重置全域計時器</system:String>
-    <system:String x:Key="Click">點擊</system:String>
-    <system:String x:Key="Swipe">滑動</system:String>
     <system:String x:Key="UnsupportedLevel">不支援的關卡，請檢查關卡名稱或前往 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 嘗試更新資源版本！</system:String>
     <system:String x:Key="Copilot.UnsupportedSkill">{0} 不支援技能 {1}, 不再選擇技能</system:String>
     <system:String x:Key="Copilot.EliteEmpty">{0} 未設定精英等級要求, 但其他屬性要求 精{1}, 已自動補全</system:String>
@@ -1986,6 +1976,8 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="AutoUseExpeditedTip" xml:space="preserve">該選項僅生效一次。
 招募券獲得速度低於消耗速度，正常情況下下一輪公招任務時自然已到招募時間，僅在招募券嚴重溢出等應急場景下使用</system:String>
     <system:String x:Key="PreserveTagsTip">辨識到任一已選 Tag 時，跳過該次招募並保留該欄位；留空時不保留任何 Tag。</system:String>
+    <system:String x:Key="RecruitYellowTicketExchange">公招換黃票</system:String>
+    <system:String x:Key="RecruitYellowTicketExchangeTip">依序處理四個公招位置：3 星使用 1:00 後停止並確認，4/5 星使用 9:00 並加急，6 星提醒後跳過；直到資源不足。</system:String>
     <!--  !AutoRecruitSettings  -->
     <!--  EasterEggs  -->
     <system:String x:Key="BuyWineOnAprilFoolsDay">博士，歡迎加入這盛大的魚人慶典！聽說可露希爾小姐的商店裡新上架了美酒，要去來一杯嗎？</system:String>

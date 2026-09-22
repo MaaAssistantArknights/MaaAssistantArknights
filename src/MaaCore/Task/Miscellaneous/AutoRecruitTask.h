@@ -32,6 +32,7 @@ public:
     AutoRecruitTask& set_set_time(bool set_time) noexcept;
     AutoRecruitTask& set_force_refresh(bool force_refrest) noexcept;
     AutoRecruitTask& set_recruitment_time(std::unordered_map<int, int>) noexcept;
+    AutoRecruitTask& set_loop_recruit(bool loop_recruit) noexcept;
 
     AutoRecruitTask& set_penguin_enabled(bool enable, std::string penguin_id = std::string()) noexcept;
     AutoRecruitTask& set_yituliu_enabled(bool enable, std::string yituliu_id = std::string()) noexcept;
@@ -59,12 +60,14 @@ protected:
     bool recruit_begin();
     bool check_timer(int);
     bool recruit_now();
+    bool stop_recruit(size_t target_slot);
     bool confirm();
     bool refresh();
     // 检查是否有已完成且未领取的招募，有则领取，无则返回true
     bool hire_all(const cv::Mat&);
     bool hire_all();
     bool initialize_dirty_slot_info(const cv::Mat&);
+    bool is_nine_hour_slot(const cv::Mat&, size_t slot) const;
     std::vector<std::string> get_tag_names(const std::vector<RecruitConfig::TagId>& ids) const;
     std::vector<asst::RecruitConfig::TagId>
         get_select_tags(const std::vector<RecruitCombs>& combinations, std::vector<RecruitConfig::TagId> tag_ids);
@@ -98,6 +101,7 @@ protected:
         bool for_special_tags_skip = false; // Get the definition by searching for "SpecialTags".
         bool for_preserved_tags_skip = false;
         int recruitment_time = 60;
+        int min_level = 3;
         [[maybe_unused]] int tags_selected = 0;
 
         calc_task_result_type(calc_task_result res, const int _recruitment_time = 60, const int _tag_selected = 0)
@@ -179,12 +183,19 @@ protected:
     bool m_has_refresh = true;
     bool m_set_time = true;
     bool m_force_refresh = true;
+    bool m_loop_recruit = false;
     std::unordered_map<int /*level*/, int /*minutes*/> m_desired_time_map;
 
     int m_slot_fail = 0;
     int m_cur_times = 0;
 
     std::set<slot_index> m_force_skipped;
+
+    // Slots that this task itself confirmed as four/five-star recruitments.
+    // RecruitNow must never use a permit for a slot outside this set: the
+    // game does not expose the star level on the home page after recruitment
+    // has finished, so an untracked button is intentionally left untouched.
+    std::set<slot_index> m_expedite_slots;
 
     // Do not report tags from these slot. Already reported, or we can not make sure whether it has been reported.
     // e.g. those that were already empty (*Recruit Now*) when we open the recruit page, because
