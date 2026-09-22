@@ -14,6 +14,7 @@
 #include "MaaUtils/NoWarningCV.hpp"
 #include "Status.h"
 #include "Task/Infrast/InfrastScore.h"
+#include "Task/Infrast/OriginiumShardRecipe.h"
 #include "Task/MiniGame/MaterialSynthesisTaskPlugin.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
@@ -1050,11 +1051,16 @@ bool asst::AutoRaiseProcessTask::restore_factory_state()
     }
     else if (*product == "OriginiumShard") {
         if (!run_task("ChooseOriginiumShardTab")) {
+            restore_mfg_product_details_page(*this);
             return false;
         }
 
         // 自动升级未记录切换前的具体配方，沿用原有行为，恢复为固源岩配方。
-        selected = run_task("ChooseOriginiumShardFromOriginiumOre");
+        selected = run_originium_shard_recipe_task(*this, OriginiumShardRecipe::OriginiumOre);
+        if (!selected) {
+            restore_mfg_product_details_page(*this);
+            return false;
+        }
     }
     // 恢复完成后以详情页产品标志模板复核。
     return selected && run_task("VerifyProductChangedTo" + *product);

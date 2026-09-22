@@ -1,6 +1,7 @@
 #include "OriginiumShardRecipe.h"
 
 #include "Config/TaskData.h"
+#include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 #include "Vision/RegionOCRer.h"
@@ -80,4 +81,43 @@ std::string_view asst::originium_shard_recipe_task_name(OriginiumShardRecipe rec
         return "ChooseOriginiumShardFromDevice";
     }
     return {};
+}
+
+bool asst::run_originium_shard_recipe_task(const AbstractTask& task, OriginiumShardRecipe recipe)
+{
+    ProcessTask select_task(task, { std::string(originium_shard_recipe_task_name(recipe)) });
+    if (!select_task.run()) {
+        return false;
+    }
+
+    // ProcessTask 达到 maxTimes 后也可能结束为成功，必须额外确认已经离开配方选择流程。
+    ProcessTask verify_task(task, { "VerifyMfgProductDetailsPage" });
+    return verify_task.run();
+}
+
+bool asst::restore_mfg_product_details_page(const AbstractTask& task)
+{
+    constexpr int MaxReturnTimes = 3;
+
+    auto is_product_details_page = [&]() {
+        ProcessTask verify_task(task, { "VerifyMfgProductDetailsPage" });
+        return verify_task.run();
+    };
+
+    if (is_product_details_page()) {
+        return true;
+    }
+
+    // 选择配方失败时可能停在配方页、数量页或确认弹窗，逐层返回到产品详情页。
+    for (int i = 0; i < MaxReturnTimes; ++i) {
+        ProcessTask return_task(task, { "Return" });
+        if (!return_task.run()) {
+            return false;
+        }
+        if (is_product_details_page()) {
+            return true;
+        }
+    }
+
+    return false;
 }

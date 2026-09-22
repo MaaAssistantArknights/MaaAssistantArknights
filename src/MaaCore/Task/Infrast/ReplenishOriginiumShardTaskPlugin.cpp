@@ -40,14 +40,12 @@ bool asst::ReplenishOriginiumShardTaskPlugin::open_originium_shard_selector() co
 
 bool asst::ReplenishOriginiumShardTaskPlugin::close_originium_shard_selector() const
 {
-    ProcessTask task(*this, { "Return" });
-    return task.run();
+    return restore_mfg_product_details_page(*this);
 }
 
 bool asst::ReplenishOriginiumShardTaskPlugin::select_recipe(OriginiumShardRecipe recipe) const
 {
-    ProcessTask task(*this, { std::string(originium_shard_recipe_task_name(recipe)) });
-    return task.run();
+    return run_originium_shard_recipe_task(*this, recipe);
 }
 
 bool asst::ReplenishOriginiumShardTaskPlugin::replenish_original()
@@ -63,6 +61,9 @@ bool asst::ReplenishOriginiumShardTaskPlugin::_run()
     }
 
     if (!open_originium_shard_selector()) {
+        if (!close_originium_shard_selector()) {
+            return false;
+        }
         return replenish_original();
     }
 

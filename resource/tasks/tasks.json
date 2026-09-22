@@ -3702,6 +3702,13 @@
         "postDelay": 500,
         "Doc": "打开源石碎片配方选择页，不自动选择配方"
     },
+    "VerifyMfgProductDetailsPage": {
+        "baseTask": "ChooseProductList",
+        "action": "DoNothing",
+        "template": "ChooseProductList.png",
+        "preDelay": 500,
+        "Doc": "验证已回到制造站产品详情页，不打开产品选择器"
+    },
     "VerifyTradeOrderChangedToMoney": {
         "baseTask": "InfrastFlagMoney",
         "template": "InfrastTradeMoneyFlag.png",

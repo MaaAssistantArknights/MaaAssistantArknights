@@ -92,6 +92,14 @@ bool asst::InfrastProductionTask::change_product()
                                const std::string& verify_task_name,
                                const std::string& target_product_key,
                                const std::function<bool()>& select_recipe = {}) {
+        auto restore_product_page_for_retry = [&]() {
+            if (!select_recipe || restore_mfg_product_details_page(*this)) {
+                return true;
+            }
+            Log.warn("failed to restore manufacturing product details page", target_product_key);
+            return false;
+        };
+
         constexpr int ProductChangeMaxTimes = 3;
         for (int retry = 0; retry < ProductChangeMaxTimes; ++retry) {
             if (retry != 0) {
@@ -110,23 +118,35 @@ bool asst::InfrastProductionTask::change_product()
             // 只有切换流程和产物复核都通过，才上报 ProductChanged。
             if (!ProcessTask(*this, { task_name }).run()) {
                 Log.warn("change product failed", task_name, retry);
+                if (!restore_product_page_for_retry()) {
+                    return false;
+                }
                 continue;
             }
 
             // 源石碎片先停在配方页，由调用方选定原料后再回到通用确认链。
             if (select_recipe && !select_recipe()) {
                 Log.warn("select product recipe failed", target_product_key, retry);
+                if (!restore_product_page_for_retry()) {
+                    return false;
+                }
                 continue;
             }
 
             if (!ProcessTask(*this, { verify_task_name }).run()) {
                 Log.warn("product verification failed", verify_task_name, retry);
+                if (!restore_product_page_for_retry()) {
+                    return false;
+                }
                 continue;
             }
             sleep(500); // verify 有500ms delay, 勉强覆盖网络响应动画，此处加余量
             // 匹配到了则说明未能正确点击确认按钮完成产物更换，需要重试
             if (has_confirm_product_change_button()) {
                 Log.warn("failed to confirm product change to target product", target_product_key, retry);
+                if (!restore_product_page_for_retry()) {
+                    return false;
+                }
                 continue;
             }
 
@@ -202,8 +222,7 @@ bool asst::InfrastProductionTask::change_product()
                     // 自定义基建与默认基建共用“允许使用装置”开关，并按当前材料数量选择配方。
                     const auto recipe =
                         detect_originium_shard_recipe(ctrler()->get_image(), m_originium_shard_use_device);
-                    return recipe &&
-                           ProcessTask(*this, { std::string(originium_shard_recipe_task_name(*recipe)) }).run();
+                    return recipe && run_originium_shard_recipe_task(*this, *recipe);
                 })) {
             return false;
         }
