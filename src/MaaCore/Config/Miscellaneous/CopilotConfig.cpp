@@ -285,6 +285,11 @@ std::optional<std::vector<asst::battle::copilot::Action>> asst::CopilotConfig::p
             { "swipe", ActionType::Swipe },
             { "SWIPE", ActionType::Swipe },
             { "滑动", ActionType::Swipe },
+
+            { "SetUnitLocation", ActionType::SetUnitLocation },
+            { "setunitlocation", ActionType::SetUnitLocation },
+            { "SETUNITLOCATION", ActionType::SetUnitLocation },
+            { "设置单位坐标", ActionType::SetUnitLocation },
         };
 
         std::string type_str = action_info.get("type", "Deploy");
@@ -309,6 +314,12 @@ std::optional<std::vector<asst::battle::copilot::Action>> asst::CopilotConfig::p
         else if (action.type == ActionType::Swipe) {
             if (!action_info.contains("begin") || !action_info.contains("end")) {
                 LogError << __FUNCTION__ << "| Swipe action requires both 'begin' and 'end'";
+                return std::nullopt;
+            }
+        }
+        else if (action.type == ActionType::SetUnitLocation) {
+            if (!action_info.contains("name") || !action_info.contains("location")) {
+                LogError << __FUNCTION__ << "| SetUnitLocation action requires both 'name' and 'location'";
                 return std::nullopt;
             }
         }
