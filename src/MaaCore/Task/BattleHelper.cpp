@@ -595,10 +595,10 @@ bool asst::BattleHelper::set_unit_location(battle::Role role, const std::string&
         LogInfo << __FUNCTION__ << "| Unit" << name << "not on battlefield, register it at" << loc;
     }
 
-    // for SSS, multiple operator may be deployed at the same location.
+    // 一格只保留一条单位记录：目标格已有占用者时，旧单位的记录整条移除（其名字不再可按名引用）
     if (m_used_tiles.contains(loc)) {
         const auto& pre_oper = m_used_tiles.at(loc);
-        LogInfo << "remove previous oper" << pre_oper << loc;
+        LogInfo << __FUNCTION__ << "| remove previous oper" << pre_oper << loc;
         m_battlefield_opers.erase(pre_oper);
         m_used_tiles.erase(loc);
     }
