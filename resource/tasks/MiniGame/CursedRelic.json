@@ -1,0 +1,53 @@
+{
+    "MiniGame@CursedRelic@Begin": {
+        "algorithm": "JustReturn",
+        "next": ["MiniGame@CursedRelic@Run"]
+    },
+    "MiniGame@CursedRelic@Run": {
+        "template": ["Phantom@Roguelike@StartExplore.png"],
+        "baseTask": "Phantom@Roguelike@StartExplore",
+        "postDelay": 500,
+        "next": ["MiniGame@CursedRelic@CheckRelic", "MiniGame@CursedRelic@NotIt"],
+        "exceededNext": ["#none"]
+    },
+    "MiniGame@CursedRelic@CheckRelic": {
+        "algorithm": "OcrDetect",
+        "text": ["维多利亚王冠"],
+        "roi": [352, 359, 241, 40],
+        "next": ["Stop"]
+    },
+    "MiniGame@CursedRelic@NotIt": {
+        "algorithm": "OcrDetect",
+        "ocrReplace": [[".+", "negative"]],
+        "text": ["negative"],
+        "roi": [352, 359, 241, 40],
+        "next": ["MiniGame@CursedRelic@Back"]
+    },
+    "MiniGame@CursedRelic@Back": {
+        "template": ["Roguelike@ExitThenAbandon.png"],
+        "action": "ClickSelf",
+        "roi": [9, 0, 74, 69],
+        "next": ["MiniGame@CursedRelic@GiveUp"]
+    },
+    "MiniGame@CursedRelic@GiveUp": {
+        "template": ["Phantom@Roguelike@Abandon.png"],
+        "baseTask": "Phantom@Roguelike@Abandon",
+        "next": ["MiniGame@CursedRelic@GiveUpConfirm"]
+    },
+    "MiniGame@CursedRelic@GiveUpConfirm": {
+        "action": "ClickSelf",
+        "template": ["Roguelike@AbandonConfirm.png"],
+        "postDelay": 55000,
+        "roi": [706, 458, 293, 75],
+        "next": ["MiniGame@CursedRelic@WaitCooldown"]
+    },
+    "MiniGame@CursedRelic@WaitCooldown": {
+        "algorithm": "JustReturn",
+        "next": ["MiniGame@CursedRelic@StillOnCD", "MiniGame@CursedRelic@Run"],
+        "onErrorNext": ["MiniGame@CursedRelic@WaitCooldown"]
+    },
+    "MiniGame@CursedRelic@StillOnCD": {
+        "baseTask": "Roguelike@StartExploreCD",
+        "next": ["MiniGame@CursedRelic@WaitCooldown"]
+    }
+}

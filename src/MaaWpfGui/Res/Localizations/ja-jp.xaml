@@ -153,7 +153,7 @@
     <system:String x:Key="Mfg">製造所</system:String>
     <system:String x:Key="Processing">加工所</system:String>
     <system:String x:Key="Training">訓練室</system:String>
-    <system:String x:Key="AssistantChange">副手交代替え</system:String>
+    <system:String x:Key="AssistantChange">補佐交代替え</system:String>
     <system:String x:Key="Trade">貿易所</system:String>
     <system:String x:Key="Power">発電所</system:String>
     <system:String x:Key="Reception">応接室</system:String>
@@ -1351,6 +1351,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@AutoRaisePotential@TotalLog">潜在能力自動強化：処理待ちオペレーター {0} 人</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential@PotentialFoundLog">オペレーター {0}/{1}：強化可能な潜在能力あり</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential@NoPotentialLog">オペレーター {0}/{1}：強化可能な潜在能力なし</system:String>
+    <system:String x:Key="MiniGame@CursedRelic">IS2 ヴィクトリアのクラウン リロール</system:String>
+    <system:String x:Key="MiniGame@CursedRelicTip" xml:space="preserve">IS2 のメインメニューで「探索開始」ボタンが表示されている状態から開始してください。</system:String>
 
     <system:String x:Key="MiniGameNameGreenTicketStore">緑チケット商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1階は全部購入。&#10;2階はスカウト券と求人票を購入のみ。</system:String>

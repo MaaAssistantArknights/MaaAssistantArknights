@@ -335,6 +335,7 @@ public class StageManager
             new() { Display = LocalizationHelper.GetString("MiniGameNameRAStore"), DisplayKey = "MiniGameNameRAStore", Value = "RA@Store@Begin", TipKey = "MiniGameNameRAStoreTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
             new() { Display = LocalizationHelper.GetString("MiniGame@AutoRaisePotential"), DisplayKey = "MiniGame@AutoRaisePotential", Value = "MiniGame@AutoRaisePotential@Begin", TipKey = "MiniGame@AutoRaisePotentialTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
             new() { Display = LocalizationHelper.GetString("MiniGame@MaterialSynthesis"), DisplayKey = "MiniGame@MaterialSynthesis", Value = "MiniGame@MaterialSynthesis@Begin", TipKey = "MiniGame@MaterialSynthesisTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
+            new() { Display = LocalizationHelper.GetString("MiniGame@CursedRelic"), DisplayKey = "MiniGame@CursedRelic", Value = "MiniGame@CursedRelic@Begin", TipKey = "MiniGame@CursedRelicTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
         };
 
         return entries;
