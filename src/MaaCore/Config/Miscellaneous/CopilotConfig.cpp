@@ -323,8 +323,8 @@ std::optional<std::vector<asst::battle::copilot::Action>> asst::CopilotConfig::p
                 LogError << __FUNCTION__ << "| SetUnitLocation action requires both 'name' and 'location'";
                 return std::nullopt;
             }
-            // 值级校验：name 为非空字符串，location 为 2 元素数字数组；
-            // 畸形值（空串/null/元素不足/类型不符）经分量 get 回退会静默落到 [0, 0]，
+            // 值级校验：name 为非空字符串，location 为 2 元素整数数组；
+            // 畸形值（空串/null/元素不足/类型不符/小数）经分量 get 回退会静默落到 [0, 0]，
             // 该记录写入位置表后，后续按名动作都会跟着错，须在解析期拦下
             const auto& name_json = action_info.at("name");
             if (!name_json.is_string() || name_json.as_string().empty()) {
@@ -332,11 +332,16 @@ std::optional<std::vector<asst::battle::copilot::Action>> asst::CopilotConfig::p
                 return std::nullopt;
             }
             const auto& location_json = action_info.at("location");
-            if (!location_json.is_array() || location_json.as_array().size() != 2 ||
-                !location_json.as_array()[0].is_number() || !location_json.as_array()[1].is_number()) {
+            if (!location_json.is_array() || location_json.as_array().size() != 2) {
                 LogError << __FUNCTION__
-                         << "| SetUnitLocation action 'location' must be a 2-element numeric "
+                         << "| SetUnitLocation action 'location' must be a 2-element integer "
                             "array [x, y]";
+                return std::nullopt;
+            }
+            const auto& location_arr = location_json.as_array();
+            // is<int>() 同时要求是数字且可无损解析为 int，小数与字符串数字都会被拒绝
+            if (!location_arr[0].is<int>() || !location_arr[1].is<int>()) {
+                LogError << __FUNCTION__ << "| SetUnitLocation action 'location' elements must be integers";
                 return std::nullopt;
             }
         }
