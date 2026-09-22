@@ -491,7 +491,13 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 @type boolean
 @default false
 @optional
-무역소 "오리지늄 조각" 자동 보충 여부  
+제조소 "오리지늄 조각" 자동 보충 여부  
+:::  
+::: field originium_shard_use_device  
+@type boolean
+@default false
+@optional
+"오리지늄 조각" 생산 시 오리지늄 광석이 부족할 때 장치 레시피 사용 여부. 기본 및 사용자 지정 기반시설 모두에 적용됩니다.  
 :::  
 ::: field dorm_notstationed_enabled  
 @type boolean
@@ -594,6 +600,7 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
    "drones": "PureGold",
    "threshold": 0.3,
    "replenish": true,
+   "originium_shard_use_device": true,
    "dorm_notstationed_enabled": false,
    "dorm_trust_enabled": true,
    "reception_message_board": true,

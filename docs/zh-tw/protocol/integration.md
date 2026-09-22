@@ -506,7 +506,13 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @type boolean
 @default false
 @optional
-貿易站「源石碎片」是否自動補貨。  
+製造站「源石碎片」是否自動補貨。  
+:::  
+::: field originium_shard_use_device  
+@type boolean
+@default false
+@optional
+合成「源石碎片」時，固源岩不足時是否允許使用裝置配方。啟用後對預設基建和自訂基建均有效。  
 :::  
 ::: field dorm_notstationed_enabled  
 @type boolean
@@ -609,6 +615,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
    "drones": "PureGold",
    "threshold": 0.3,
    "replenish": true,
+   "originium_shard_use_device": true,
    "dorm_notstationed_enabled": false,
    "dorm_trust_enabled": true,
    "reception_message_board": true,
