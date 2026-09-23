@@ -2535,6 +2535,14 @@
         "sortId": -10000,
         "usage": "상응하는 단계별 이벤트 보상을 교환하는 데 사용된다."
     },
+    "act3enemyduel_milestone_point": {
+        "classifyType": "NONE",
+        "description": "이걸 사용하면 듀얼 채널에서 전체 화면에 불꽃놀이 특수효과가 적용된 메시지를 보낼 수 있다고 한다. 하지만 하루 종일 이걸 사용하면서 서로 욕하는 부자들은, 사실 설정에서 이 특수효과를 끌 수 있다는 사실을 아마 모를 것이다.",
+        "icon": "act3enemyduel_milestone_point.png",
+        "name": "듀얼 폭죽",
+        "sortId": -10000,
+        "usage": "듀얼 채널 선물 중에서도 비교적 비싼 유형. 홈페이지에서 실물 보상을 교환할 수 있다. (무료 배송)"
+    },
     "act3mainss_token": {
         "classifyType": "NONE",
         "description": "부싯돌 소리는 설원에서 사라지고, 끝없는 어둠 속엔 뜨겁게 타오르는 불꽃만 남았다. 그 불꽃은 매서운 추위를 응시하며, 차디찬 밤을 녹이고 태양이 떠오르길 기다린다.",
