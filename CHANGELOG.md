@@ -6,17 +6,13 @@
 
 设置新增 ｢三方服务｣ 栏，干员识别支持填写一图流 OpenAPI Token 后直接读取一图流保存的练度快照，小工具的干员识别不再需要连接模拟器。相比本地截图识别，一图流数据还可额外获取技能等级、专精等级与模组信息。
 
-#### 肉鸽开局自选干员与黑流树海增强
-
-肉鸽开局招募的 3 名干员可分别指定，每个可独立借助战，未招募到时该次按默认优先级补位。黑流树海主题下仅第 1 个指定干员生效，零件箱超载时自动丢弃零件，刷襁褓动物策略统一为行进至第三层，未知终止原因时引导前往问题反馈页。
-
 #### 更新失败自动修复
 
 更新失败后会拦截任务启动，并在弹窗中提供自动修复，自动下载完整包后在本地安装；暂不修复也可正常进入主界面，通过设置检查更新或拖入本地完整包完成更新。
 
-#### 牛杂新增自动提升潜能与缺口材料合成
+#### 牛杂新增多项实用工具
 
-牛杂新增两项功能：｢自动提升潜能｣ 从干员列表界面启动，自动提升所有带提示标记干员的潜能，中坚信物不足时可选用普通信物；｢缺口材料合成｣ 从培养页面的缺少材料弹窗跳转到加工站合成页后启动，递归合成可加工的下级材料。牛杂列表同时新增 ｢常驻功能｣ 分组，常驻功能与当期活动分列展示。
+牛杂新增 ｢自动提升潜能｣ ｢缺口材料合成｣ ｢刷傀影维多利亚皇冠｣ 等多项工具；列表同时新增 ｢常驻功能｣ 分组，常驻功能与当期活动分列展示。
 
 #### 从 beta.3 更新的用户请注意
 
@@ -29,17 +25,13 @@ beta.3 曾短暂移除基建设置中的 ｢训练完成后继续尝试专精当
 
 A new "Third-Party Services" settings section lets operator recognition read the proficiency snapshot stored on Yituliu via an OpenAPI token, and the toolbox's operator recognition no longer requires a connected emulator. Unlike screenshot recognition, the Yituliu data also includes skill levels, masteries, and module information.
 
-#### Roguelike Start Operator Selection & BlackFlow Enhancements
-
-Each of the 3 start-of-run recruits can now specify an operator with an independent support-unit option; when a recruit misses, that slot falls back to the default priority list. On the BlackFlow theme only the first specified operator takes effect; parts are discarded automatically when the parts box is overloaded, the cultivation strategy consistently advances to the third floor, and unknown terminations guide users to the issue report page.
-
 #### Auto Repair for Failed Updates
 
 After a failed update, task startup is blocked and the dialog offers automatic repair, which downloads the full package and installs it locally; postponing the repair still opens the main window normally, where you can check for updates in Settings or drop in a local full package to complete the update.
 
-#### New Utilities: Auto Potential Up & Missing Material Synthesis
+#### New Useful Tasks
 
-Two new entries join the "Useful Tasks" list: Auto Potential Up starts from the operator list and automatically raises the potential of every operator flagged there, with an option to fall back to generic tokens when intermediate tokens run short; Missing Material Synthesis starts from the crafting page reached via the material-shortage popup on training pages (elite promotion, mastery, module upgrades) and recursively crafts the missing lower-tier materials. The list also gains a "Permanent Features" group.
+Several new useful tasks are added, including Auto Potential Up, Missing Material Synthesis, and a Victoria Crown reroll tool for the Phantom roguelike; the list also gains a "Permanent Features" group separating permanent tools from event ones.
 
 #### Notice for beta.3 upgraders
 
