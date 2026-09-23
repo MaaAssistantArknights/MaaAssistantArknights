@@ -5,6 +5,23 @@
         https://github.com/whistyun/MdXaml/blob/master/MdXaml/Markdown.Style.xaml
     -->
 
+    <!--
+        贡献者头像（Tag=avatar）的具名样式，供 VersionUpdateDialogViewModel 原子合并后的
+        TextBlock.Resources 注入（那里解析不到下方 MdXamlStyle 内的隐式样式）；
+        与 MdXamlStyle 里 Tag=avatar 触发器的 setter 保持一致，改这里须同步改那里
+    -->
+    <Style x:Key="MdXamlAvatarImageStyle" TargetType="{x:Type Image}">
+        <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+        <Setter Property="Clip">
+            <Setter.Value>
+                <EllipseGeometry
+                    Center="8,8"
+                    RadiusX="8"
+                    RadiusY="8" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="MdXamlStyle" TargetType="{x:Type FlowDocument}">
         <Setter Property="Background" Value="{DynamicResource MdXamlBackground}" />
         <Setter Property="FontFamily" Value="Microsoft YaHei, Global User Interface" />

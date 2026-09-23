@@ -176,6 +176,7 @@
     <system:String x:Key="ClueExchangeUnlocked">已开启线索交流</system:String>
     <system:String x:Key="InfrastReceptionSendClue">赠送线索</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">以下功能需在{key=Infrast}中设置并执行</system:String>
+    <system:String x:Key="ContinueTraining">训练完成后继续尝试专精当前技能</system:String>
     <system:String x:Key="InfrastFiammettaRecovery">启用菲亚梅塔心情恢复</system:String>
     <system:String x:Key="InfrastFiammettaRecoveryTips">开启后，换班开始时会将恢复目标与满心情的菲亚梅塔放入宿舍互换心情，菲亚梅塔随后留在宿舍恢复心情。</system:String>
     <system:String x:Key="InfrastFiammettaTargets">菲亚梅塔恢复目标</system:String>
@@ -1311,7 +1312,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@MaterialSynthesis@UnknownFailure">未知错误</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential">自动提升潜能</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotentialTip" xml:space="preserve">请先进入干员列表界面，再开始任务。自动提升所有带提示标记干员的潜能。&#10;完成后停留在最后一名干员档案；没有可提升目标时停留在干员列表。</system:String>
-    <system:String x:Key="MiniGame@AutoRaisePotential@UseNormalToken">中间信物不足时使用普通信物</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@UseNormalToken">中坚信物不足时使用普通信物</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition">奇象巡展-找未收录生物</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibitionTip" xml:space="preserve">在所选地图的高级区草地右下角开始任务。&#10;在草地来回走动寻找未收录生物，找到后自动停止。&#10;只有草地能遇到生物。</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationTitle">奇象巡展：发现暂未收录奇象</system:String>
@@ -1349,6 +1350,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@AutoRaisePotential@TotalLog">自动提升潜能：识别到 {0} 位待处理干员</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential@PotentialFoundLog">第 {0}/{1} 位干员：有待提升的潜能</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential@NoPotentialLog">第 {0}/{1} 位干员：无可提升的潜能</system:String>
+    <system:String x:Key="MiniGame@CursedRelic">刷傀影维多利亚皇冠</system:String>
+    <system:String x:Key="MiniGame@CursedRelicTip" xml:space="preserve">请从傀影肉鸽主菜单中“探索”按钮可见的状态开始。</system:String>
+
     <system:String x:Key="MiniGameNameGreenTicketStore">绿票商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1层全买。&#10;2层买寻访凭证和招聘许可。</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">黄票商店</system:String>
@@ -1878,10 +1882,13 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ResetStopwatch">重置全局计时器</system:String>
     <system:String x:Key="Click">点击</system:String>
     <system:String x:Key="Swipe">滑动</system:String>
+    <system:String x:Key="SetUnitLocation">设置单位坐标</system:String>
     <system:String x:Key="UnsupportedLevel">不支持的关卡，请检查关卡名或前往 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 尝试更新资源版本！</system:String>
     <system:String x:Key="Copilot.UnsupportedSkill">{0} 不支持技能 {1}, 不再选择技能</system:String>
     <system:String x:Key="Copilot.EliteEmpty">{0} 未设置精英等级要求, 但其他属性要求 精{1}, 已自动补全</system:String>
     <system:String x:Key="Copilot.EliteAjust">{0} 设置为要求 精{1}, 但是其他属性要求 精{2}, 已自动调整</system:String>
+    <system:String x:Key="Copilot.ActionWithBothLocAndOper">{0} 同时设置了位置和干员, 将按位置执行</system:String>
+    <system:String x:Key="Copilot.ActionWithBothRectAndLoc">{0} 同时设置了像素区域和位置, 将按像素区域执行</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">识别结果: </system:String>
     <system:String x:Key="ConnectFailed">连接失败</system:String>
     <system:String x:Key="TryToReconnectByAdb">正在尝试重连</system:String>

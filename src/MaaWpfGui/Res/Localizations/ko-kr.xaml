@@ -176,6 +176,7 @@
     <system:String x:Key="ClueExchangeUnlocked">단서 공유 개방</system:String>
     <system:String x:Key="InfrastReceptionSendClue">단서 전달</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">다음 기능들은 {key=Infrast}에서 설정 및 실행해야 합니다</system:String>
+    <system:String x:Key="ContinueTraining">마스터리 훈련 완료 시 이어서 시도</system:String>
     <system:String x:Key="InfrastFiammettaRecovery">피아메타 컨디션 회복 활성화</system:String>
     <system:String x:Key="InfrastFiammettaRecoveryTips">활성화하면 교대 시작 시 회복 대상과 컨디션이 가득한 피아메타를 숙소에 넣어 컨디션을 교환하며, 이후 피아메타는 숙소에서 회복합니다.</system:String>
     <system:String x:Key="InfrastFiammettaTargets">피아메타 회복 대상</system:String>
@@ -1312,7 +1313,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@MaterialSynthesis@UnknownFailure">알 수 없는 오류</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential">잠재능력 자동 강화</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotentialTip" xml:space="preserve">오퍼레이터 목록 화면에 들어간 뒤 시작하세요. 강화 가능 표시가 있는 모든 오퍼레이터의 잠재능력을 자동으로 강화합니다.&#10;완료 후 마지막 오퍼레이터 상세 화면에 머물며, 대상이 없으면 오퍼레이터 목록에 머뭅니다.</system:String>
-    <system:String x:Key="MiniGame@AutoRaisePotential@UseNormalToken">중간 신물이 부족할 때 일반 신물 사용</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@UseNormalToken">커널 증표가 부족할 때 일반 증표 사용</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition">기상 순회전 - 미수록 기상 찾기</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibitionTip" xml:space="preserve">선택한 맵의 고급 구역 초원 오른쪽 아래에서 작업을 시작합니다.&#10;초원을 왔다 갔다 하며 미수록 생물을 찾고, 발견하면 자동으로 중지됩니다.&#10;생물은 초원에서만 만날 수 있습니다.</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationTitle">기상 순회전: 미수록 기상 발견</system:String>
@@ -1350,6 +1351,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@AutoRaisePotential@TotalLog">잠재능력 자동 강화: 처리할 오퍼레이터 {0}명</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential@PotentialFoundLog">오퍼레이터 {0}/{1}: 강화 가능한 잠재능력 있음</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential@NoPotentialLog">오퍼레이터 {0}/{1}: 강화 가능한 잠재능력 없음</system:String>
+    <system:String x:Key="MiniGame@CursedRelic">팬텀 빅토리아 왕관 리롤</system:String>
+    <system:String x:Key="MiniGame@CursedRelicTip" xml:space="preserve">팬텀 로그라이크 메인 화면에서 '탐험 시작' 버튼이 표시된 상태에서 시작하세요</system:String>
 
     <system:String x:Key="MiniGameNameGreenTicketStore">자격증명서 상점</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1단계는 전부 구매하고&#10;2단계는 헤드헌팅 허가증과 모집 허가증을 구매해요</system:String>
@@ -1879,10 +1882,13 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ResetStopwatch">스톱워치 초기화</system:String>
     <system:String x:Key="Click">클릭</system:String>
     <system:String x:Key="Swipe">스와이프</system:String>
+    <system:String x:Key="SetUnitLocation">유닛 좌표 설정</system:String>
     <system:String x:Key="UnsupportedLevel">지원되지 않는 스테이지입니다. 스테이지 이름을 확인하거나 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 로 이동하여 리소스 버전을 업데이트해 보세요!</system:String>
     <system:String x:Key="Copilot.UnsupportedSkill">{0}은 {1} 스킬을 지원하지 않으므로, 스킬이 선택되지 않음</system:String>
     <system:String x:Key="Copilot.EliteEmpty">{0} 정예화 등급 요구 사항이 설정되지 않았지만, 다른 속성에 대한 요구 사항은 정예화 {1}입니다. 이 값은 자동으로 채워졌습니다.</system:String>
     <system:String x:Key="Copilot.EliteAjust">{0} 정예화 {1}을 요구하도록 설정되었지만, 다른 속성에 대한 요구 사항은 정예화 {2}입니다. 이 값은 자동으로 조정되었습니다.</system:String>
+    <system:String x:Key="Copilot.ActionWithBothLocAndOper">{0} 동시에 위치와 오퍼레이터가 설정되어 있어, 위치가 사용됩니다.</system:String>
+    <system:String x:Key="Copilot.ActionWithBothRectAndLoc">{0} 동시에 픽셀 영역과 위치가 설정되어 있어, 픽셀 영역이 사용됩니다.</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">인식 결과: </system:String>
     <system:String x:Key="ConnectFailed">연결 실패</system:String>
     <system:String x:Key="TryToReconnectByAdb">재접속을 시도하고 있습니다</system:String>

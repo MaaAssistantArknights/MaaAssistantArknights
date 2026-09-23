@@ -332,6 +332,10 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         }
         break;
 
+    case ActionType::SetUnitLocation:
+        ret = set_unit_location(role, name, location.value_or(Point {}));
+        break;
+
     case ActionType::SkillUsage: {
         const auto set_usage = [this](const battle::OperNameTag& tag, SkillUsage usage, int times) {
             m_skill_usage[tag] = usage;
@@ -437,6 +441,7 @@ void asst::BattleProcessTask::notify_action(const battle::copilot::Action& actio
         { ActionType::ResetStopwatch, "ResetStopwatch" },
         { ActionType::Click, "Click" },
         { ActionType::Swipe, "Swipe" },
+        { ActionType::SetUnitLocation, "SetUnitLocation" },
     };
 
     json::value info = basic_info_with_what("CopilotAction");

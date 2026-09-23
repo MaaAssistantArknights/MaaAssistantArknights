@@ -576,6 +576,12 @@ public class AsstProxy
     /// </remarks>
     public void LogGpuStatus()
     {
+        if (Bootstrapper.IsDemoMode)
+        {
+            // README 截图演示模式：GPU 提示会污染注入的演示日志，直接跳过
+            return;
+        }
+
         if (GpuOption.GetCurrent() is not GpuOption.EnableOption x)
         {
             return;
@@ -705,6 +711,13 @@ public class AsstProxy
             return;
         }
 
+        if (Bootstrapper.IsDemoMode)
+        {
+            // README 截图演示模式：不连接模拟器，也不进入启动自动运行
+            _logger.Information("Skip startup auto-run: demo shot mode");
+            return;
+        }
+
         // TODO: 之后把这个 OnUIThread 拆出来
         // ReSharper disable once AsyncVoidLambda
         Execute.OnUIThread(
@@ -815,8 +828,7 @@ public class AsstProxy
     private readonly object _handleLock = new();
     private AsstHandle _handle;
 
-    // 销毁开始（锁内置位）后 Core 回调一律丢弃：回调需同步投递 UI 线程，而退出销毁时 UI 线程
-    // 正限时等待销毁完成，不丢弃会互等到超时放弃，Core 侧退出清理（如 KillAdbOnExit）随之落空
+    // 销毁开始（锁内置位）后 Core 回调一律丢弃
     private volatile bool _destroying;
 
     private AsstHandle GetHandle()
@@ -3635,7 +3647,7 @@ public class AsstProxy
     /// 小游戏。
     /// </summary>
     /// <param name="taskName">任务名（tasks.json 中的 key）</param>
-    /// <param name="useNormalToken">自动提升潜能：中间信物不足时是否消耗普通信物（仅 AutoRaisePotential 生效）。</param>
+    /// <param name="useNormalToken">自动提升潜能：中坚信物不足时是否消耗普通信物（仅 AutoRaisePotential 生效）。</param>
     /// <returns>是否成功。</returns>
     public bool AsstMiniGame(string taskName, bool useNormalToken = false)
     {

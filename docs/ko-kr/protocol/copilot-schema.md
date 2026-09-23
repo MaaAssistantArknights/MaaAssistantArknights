@@ -63,8 +63,8 @@ JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 �
         // 전투 중 조작. 순서가 있으며, 이전 동작이 완료되어야 다음 동작 실행. 필수
         {
             "type": "部署", // 조작 유형, 선택 사항, 기본값 "Deploy"
-            // "Deploy" | "Skill" | "Retreat" | "SpeedUp" | "BulletTime" | "SkillUsage" | "Output" | "SkillDaemon" | "MoveCamera" | "ResetStopwatch" | "Click" | "Swipe"
-            // "部署"   |  "技能"  |  "撤退"   | "二倍速"   |  "子弹时间"  |  "技能用法"   | "打印"  |  "摆完挂机" | "移动镜头" | "重置全局计时器" | "点击" | "滑动"
+            // "Deploy" | "Skill" | "Retreat" | "SpeedUp" | "BulletTime" | "SkillUsage" | "Output" | "SkillDaemon" | "MoveCamera" | "ResetStopwatch" | "Click" | "Swipe" | "SetUnitLocation"
+            // "部署"   |  "技能"  |  "撤退"   | "二倍速"   |  "子弹时间"  |  "技能用法"   | "打印"  |  "摆完挂机" | "移动镜头" | "重置全局计时器" | "点击" | "滑动" | "设置单位坐标"
             // 중/영문 모두 가능, 효과 동일
             // "Deploy"인 경우, 코스트가 부족하면 코스트가 모일 때까지 계속 대기 (timeout 제외)
             // "Skill"인 경우, 스킬 쿨타임이 안 찼으면 쿨타임 찰 때까지 계속 대기 (timeout 제외)
@@ -80,6 +80,11 @@ JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 �
             // "Click" "rect"로 지정한 픽셀 영역 또는 "location"으로 지정한 전장 칸을 인식 없이 직접 클릭. 빈 칸도 클릭 가능
             //      "rect"와 "location" 중 하나는 반드시 지정해야 함. 모두 비워 두면 파싱 오류로 작업 파일 로드에 실패함. 둘 다 지정하면 "rect"가 우선됨 (로그에 경고 출력)
             // "Swipe" "begin" 사각형에서 "end" 사각형으로 스와이프. 하위 레벨 스와이프 명령을 직접 전송. 둘 중 하나라도 없으면 작업 파일 로드에 실패함
+            // "SetUnitLocation" 전장 유닛의 칸 좌표 설정. "name"과 "location" 모두 필수. 하나라도 없거나 값이 잘못된 경우("name"은 비어 있지 않은 문자열, "location"은 [x, y] 2요소 숫자 배열이어야 함) 작업 파일 로드에 실패함
+            //      게임에 어떠한 조작도 하지 않으며 MAA 내부의 유닛 위치 기록만 갱신함
+            //      오퍼레이터가 이동한 후 위치를 수정하여, 이후 "name"으로 지정하는 "Skill" / "Retreat" / "SkillUsage" 동작이 새 칸에 적용되도록 함
+            //      필드 위 장치·시설 등 오퍼레이터가 아닌 유닛을 등록하는 용도로도 사용 가능. "SkillUsage" 및 "SkillDaemon"과 조합하여 장치 스킬 자동 사용 가능
+            //      해당 "name"이 이미 필드에 있으면 위치를 갱신하고, 없으면 새 유닛으로 등록함 ("role"은 선택 사항, 기본값은 직업 구분 없음)
             // 현재 아래 5개 조건은 AND 관계임 (&&)
             "kills": 0, // 킬 수 조건, 도달 못하면 계속 대기. 선택 사항, 기본값 0 (즉시 실행)
             "costs": 50, // 코스트 조건, 도달 못하면 계속 대기. 선택 사항, 기본값 0 (즉시 실행)
@@ -97,7 +102,7 @@ JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 �
             // TODO: 기타 조건
             // TODO: "condition_type": 0,    // 실행 조건 간 관계, 선택 사항, 기본값 0
             //                        // 0 - AND; 1 - OR
-            "name": "棘刺", // 오퍼레이터명 또는 그룹명. type이 "Deploy"일 때 필수, "Skill" | "Retreat"일 때 선택
+            "name": "棘刺", // 오퍼레이터명 또는 그룹명. type이 "Deploy"일 때 필수, "Skill" | "Retreat"일 때 선택, "SetUnitLocation"일 때 필수
             "role": "guard", // 오퍼레이터 직업. 선택 사항, 동명 오퍼레이터 구분에 사용. 영문 직업명 입력, 대소문자 구분 없음
             "location": [
                 5,
@@ -108,6 +113,7 @@ JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 �
             // "Skill": 필드 위 자동 장치 등에 추천 (name 없이 location으로 스킬 발동). 일반 오퍼레이터는 name 권장
             // "Retreat": 동명의 소환물이 여러 개일 때 추천 (name 없이 location으로 퇴각). 일반 오퍼레이터는 name 권장
             // type "Skill" | "Retreat" | "SkillUsage" 시 name과 location을 모두 지정하면 location이 우선됨
+            // type이 "SetUnitLocation"인 경우 필수. 해당 "name" 유닛의 위치를 이 칸으로 설정. 좌표는 [0, 0]을 포함한 모든 유효한 칸 가능
             // 좌표 정보는 https://map.ark-nights.com/areas 에서 확인 가능. 설정에서 "좌표 표시"를 "MAA"로 선택하면 MAA 좌표 확인 가능
             // type이 "Click"인 경우 "rect"와 "location" 중 하나는 반드시 지정. 해당 칸을 직접 클릭. 좌표는 [0, 0]을 포함한 모든 유효한 칸 가능
             "rect": [

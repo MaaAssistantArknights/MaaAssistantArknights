@@ -438,6 +438,8 @@ FodyWeavers.xsd
 screen.png
 adb_screen.png
 tools/**/*.png
+# ReadmeShotDemo 演示模式的日志卡片缩略图需进仓库
+!tools/ReadmeShotDemo/thumbnails/**
 enc_temp_folder/*
 
 # RoguelikeRecruitmentTool 导出的 Excel 文件

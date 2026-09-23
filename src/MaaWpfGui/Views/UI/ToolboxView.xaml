@@ -69,6 +69,7 @@
         Margin="0,10"
         Background="{DynamicResource MouseOverRegionBrushOpacity75}"
         BorderThickness="0"
+        SelectedIndex="{Binding ToolboxSelectedIndex}"
         Style="{StaticResource TabControlSliding}">
         <TabControl.ContentTemplate>
             <DataTemplate>
@@ -322,7 +323,7 @@
                     </TabControl.ContentTemplate>
                     <TabItem
                         Header="{c:Binding OperBoxNotHaveList.Count}"
-                        HeaderStringFormat="{StaticResource OperBoxNotHaveList}"
+                        HeaderStringFormat="{DynamicResource OperBoxNotHaveList}"
                         Visibility="{c:Binding 'OperBoxNotHaveList.Count != 0'}">
                         <ListBox
                             d:ItemsSource="{d:SampleData ItemCount=3}"
@@ -378,7 +379,7 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                     </TabItem>
-                    <TabItem Header="{c:Binding OperBoxHaveList.Count}" HeaderStringFormat="{StaticResource OperBoxHaveList}">
+                    <TabItem Header="{c:Binding OperBoxHaveList.Count}" HeaderStringFormat="{DynamicResource OperBoxHaveList}">
                         <ListBox
                             d:ItemsSource="{d:SampleData ItemCount=3}"
                             uiBehaviors:SharedCardWidthBehavior.ColumnCount="{Binding OperBoxHaveColumnCount}"

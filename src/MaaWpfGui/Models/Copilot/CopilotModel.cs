@@ -209,6 +209,7 @@ public class CopilotModel : CopilotBase
         /// <item>"MoveCamera" - 移动镜头</item>
         /// <item>"Click" - 点击</item>
         /// <item>"Swipe" - 滑动</item>
+        /// <item>"SetUnitLocation" - 设置单位坐标</item>
         /// </list>
         /// </summary>
         [DefaultValue("Deploy")]
@@ -247,13 +248,13 @@ public class CopilotModel : CopilotBase
         public OperatorRole? Role { get; set; }
 
         /// <summary>
-        /// Gets or sets 干员名 或 群组名， type 为 "部署" 时必选，为 "技能" | "撤退" 时可选。
+        /// Gets or sets 干员名 或 群组名， type 为 "部署" 时必选，为 "技能" | "撤退" 时可选，为 "设置单位坐标" 时必选。
         /// </summary>
         [JsonProperty("name")]
         public string? Name { get; set; }
 
         /// <summary>
-        /// Gets or sets 部署干员的位置。type 为 "部署" 时必选。type 为 "技能" | "撤退" 时可选。
+        /// Gets or sets 部署干员的位置。type 为 "部署" 时必选。type 为 "技能" | "撤退" 时可选。type 为 "设置单位坐标" 时必选。
         /// </summary>
         [JsonProperty("location")]
         public List<int>? Location { get; set; }

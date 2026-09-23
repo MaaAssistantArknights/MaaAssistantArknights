@@ -176,6 +176,7 @@
     <system:String x:Key="ClueExchangeUnlocked">Clue Exchange Unlocked</system:String>
     <system:String x:Key="InfrastReceptionSendClue">Send Clues</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">The following functions require configuration and execution within {key=Infrast}.</system:String>
+    <system:String x:Key="ContinueTraining">After training is complete, try to continue mastering the current Skill</system:String>
     <system:String x:Key="InfrastFiammettaRecovery">Enable Fiammetta morale recovery</system:String>
     <system:String x:Key="InfrastFiammettaRecoveryTips">When enabled, the recovery target and a full-mood Fiammetta swap moods in a dormitory at the start of each shift, after which Fiammetta stays in the dormitory to recover.</system:String>
     <system:String x:Key="InfrastFiammettaTargets">Fiammetta recovery targets</system:String>
@@ -923,9 +924,9 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="OperProgressDeleteCompletedEntriesTip">After the development chain finishes, entries reported as "completed" or "already satisfied" are removed automatically; failed and skipped entries are kept</system:String>
     <system:String x:Key="OperProgressTargetStartLog">Development plan entry {0}: {1}, {2}</system:String>
     <system:String x:Key="OperProgressTargetResultLog">Development plan entry {0}: {1}, {2}, result: {3}</system:String>
-    <system:String x:Key="OperProgressRecognizedElite"> (current elite {0})</system:String>
-    <system:String x:Key="OperProgressRecognizedSkillLevel"> (current skill level {0})</system:String>
-    <system:String x:Key="OperProgressRecognizedMastery"> (current mastery {0})</system:String>
+    <system:String x:Key="OperProgressRecognizedElite">(current elite {0})</system:String>
+    <system:String x:Key="OperProgressRecognizedSkillLevel">(current skill level {0})</system:String>
+    <system:String x:Key="OperProgressRecognizedMastery">(current mastery {0})</system:String>
     <system:String x:Key="OperProgressSummaryLog">Operator development finished: {0} completed, {1} already satisfied, {2} failed, {3} skipped</system:String>
     <system:String x:Key="OperProgressSelectOperator">Select operator</system:String>
     <system:String x:Key="OperProgressAddTarget">Add</system:String>
@@ -1029,7 +1030,7 @@ If the number of battles is not enough to complete the set multiplier (such as o
 Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="StageSelect">Stage</system:String>
     <system:String x:Key="StageSelect2">Candidates</system:String>
-    <system:String x:Key="AddStage">Add candidate</system:String>
+    <system:String x:Key="AddStage">Add</system:String>
     <system:String x:Key="RemainingSanityStage">Remaining Sanity</system:String>
     <system:String x:Key="NoUse">No Use</system:String>
     <!--<system:String x:Key="Amend">Amend</system:String>-->
@@ -1311,7 +1312,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="MiniGame@MaterialSynthesis@UnknownFailure">unknown error</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential">Automatically Raise Potential</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotentialTip" xml:space="preserve">Open the Operator list before starting. MAA raises the Potential of every Operator marked as available.&#10;The task stops on the last Operator profile, or on the Operator list when there is no available target.</system:String>
-    <system:String x:Key="MiniGame@AutoRaisePotential@UseNormalToken">Use regular Tokens when mid-tier Tokens are insufficient</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@UseNormalToken">Use regular Tokens when Kernel Tokens are insufficient</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition">Interactive Exhibition - Find Unrecorded Wonders</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibitionTip" xml:space="preserve">Start the task at the bottom right of the grass in the advanced zone of the selected map.&#10;Wander back and forth across the grass to find unrecorded creatures; the task stops automatically once one is found.&#10;Creatures can only be found on grass.</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationTitle">Interactive Exhibition: Unrecorded Wonder Found</system:String>
@@ -1349,6 +1350,8 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="MiniGame@AutoRaisePotential@TotalLog">Automatically Raise Potential: {0} operators to process</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential@PotentialFoundLog">Operator {0}/{1}: potential raise available</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential@NoPotentialLog">Operator {0}/{1}: no potential raise available</system:String>
+    <system:String x:Key="MiniGame@CursedRelic">Phantom Victoria Crown reroll</system:String>
+    <system:String x:Key="MiniGame@CursedRelicTip" xml:space="preserve">Please start from the Phantom roguelike main menu where the EXPLORE button is visible.</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">Green Ticket Store</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">Buy everything on the 1st floor.&#10;Buy Headhunting Permits and Recruitment Permits on the 2nd floor.</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">Yellow Ticket Store</system:String>
@@ -1877,10 +1880,13 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="ResetStopwatch">Reset Stopwatch</system:String>
     <system:String x:Key="Click">Click</system:String>
     <system:String x:Key="Swipe">Swipe</system:String>
+    <system:String x:Key="SetUnitLocation">Set Unit Location</system:String>
     <system:String x:Key="UnsupportedLevel">Unsupported stage, please check the stage name or go to ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ and try updating the resource version!</system:String>
     <system:String x:Key="Copilot.UnsupportedSkill">{0} does not support Skill {1}, so the Skill will no longer be selected.</system:String>
     <system:String x:Key="Copilot.EliteEmpty">{0} No Elite Level requirement was set, but the requirement for other attributes is Elite {1}; this has been auto-filled.</system:String>
     <system:String x:Key="Copilot.EliteAjust">{0} Was set to require Elite {1}, but the requirement for other attributes is Elite {2}; this has been auto-adjusted.</system:String>
+    <system:String x:Key="Copilot.ActionWithBothLocAndOper">{0} has both location and operator set, the location will be used.</system:String>
+    <system:String x:Key="Copilot.ActionWithBothRectAndLoc">{0} has both rect and location set, the rect will be used.</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results:&#160;</system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToReconnectByAdb">Attempting to reconnect</system:String>

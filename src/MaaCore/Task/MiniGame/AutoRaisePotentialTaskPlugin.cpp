@@ -92,7 +92,7 @@ bool asst::AutoRaisePotentialTaskPlugin::read_operator_count()
 
     int count = 0;
     const auto [end, error] = std::from_chars(digits.data(), digits.data() + digits.size(), count);
-    if (error != std::errc { } || end != digits.data() + digits.size() || count < 1 || count > MaxOperatorCount) {
+    if (error != std::errc {} || end != digits.data() + digits.size() || count < 1 || count > MaxOperatorCount) {
         LogError << __FUNCTION__ << "| invalid operator count:" << result->text;
         return false;
     }

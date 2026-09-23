@@ -145,9 +145,10 @@ std::optional<SafetyGoalProgram> SafetyGoalProgram::compile(
                 milestone.prerequisite_indices.emplace_back(found->second);
             }
             // 前置没有被编进来，只有两种合法情形：它已经完成，或者它已经失效而被跳过。
-            else if (const MilestoneStatus status = mission.status(prerequisite);
-                     status != MilestoneStatus::Satisfied && status != MilestoneStatus::Missed &&
-                     status != MilestoneStatus::Impossible) {
+            else if (
+                const MilestoneStatus status = mission.status(prerequisite); status != MilestoneStatus::Satisfied &&
+                                                                             status != MilestoneStatus::Missed &&
+                                                                             status != MilestoneStatus::Impossible) {
                 set_error(error, "strategy safety goal cannot track prerequisite: " + prerequisite);
                 return std::nullopt;
             }

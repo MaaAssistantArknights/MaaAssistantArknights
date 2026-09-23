@@ -285,6 +285,12 @@ std::optional<std::vector<asst::battle::copilot::Action>> asst::CopilotConfig::p
             { "swipe", ActionType::Swipe },
             { "SWIPE", ActionType::Swipe },
             { "滑动", ActionType::Swipe },
+
+            { "SetUnitLocation", ActionType::SetUnitLocation },
+            { "Setunitlocation", ActionType::SetUnitLocation },
+            { "setunitlocation", ActionType::SetUnitLocation },
+            { "SETUNITLOCATION", ActionType::SetUnitLocation },
+            { "设置单位坐标", ActionType::SetUnitLocation },
         };
 
         std::string type_str = action_info.get("type", "Deploy");
@@ -309,6 +315,33 @@ std::optional<std::vector<asst::battle::copilot::Action>> asst::CopilotConfig::p
         else if (action.type == ActionType::Swipe) {
             if (!action_info.contains("begin") || !action_info.contains("end")) {
                 LogError << __FUNCTION__ << "| Swipe action requires both 'begin' and 'end'";
+                return std::nullopt;
+            }
+        }
+        else if (action.type == ActionType::SetUnitLocation) {
+            if (!action_info.contains("name") || !action_info.contains("location")) {
+                LogError << __FUNCTION__ << "| SetUnitLocation action requires both 'name' and 'location'";
+                return std::nullopt;
+            }
+            // 值级校验：name 为非空字符串，location 为 2 元素整数数组；
+            // 畸形值（空串/null/元素不足/类型不符/小数）经分量 get 回退会静默落到 [0, 0]，
+            // 该记录写入位置表后，后续按名动作都会跟着错，须在解析期拦下
+            const auto& name_json = action_info.at("name");
+            if (!name_json.is_string() || name_json.as_string().empty()) {
+                LogError << __FUNCTION__ << "| SetUnitLocation action 'name' must be a non-empty string";
+                return std::nullopt;
+            }
+            const auto& location_json = action_info.at("location");
+            if (!location_json.is_array() || location_json.as_array().size() != 2) {
+                LogError << __FUNCTION__
+                         << "| SetUnitLocation action 'location' must be a 2-element integer "
+                            "array [x, y]";
+                return std::nullopt;
+            }
+            const auto& location_arr = location_json.as_array();
+            // is<int>() 同时要求是数字且可无损解析为 int，小数与字符串数字都会被拒绝
+            if (!location_arr[0].is<int>() || !location_arr[1].is<int>()) {
+                LogError << __FUNCTION__ << "| SetUnitLocation action 'location' elements must be integers";
                 return std::nullopt;
             }
         }

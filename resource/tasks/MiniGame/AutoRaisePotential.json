@@ -59,7 +59,7 @@
         "next": ["MiniGame@AutoRaisePotential@OperatorFiles"]
     },
     "MiniGame@AutoRaisePotential@PotentialAvailable": {
-        "doc": "识别并点击干员档案中的潜能提升标记。标记像素占比极小，灰度模板得分被固定的面板背景主导、无法按有无标记区分，故用纯色匹配（RGBCount + pureColor），颜色区间与 FirstOperator 一致。",
+        "doc": "仅识别干员档案中潜能标记的中心橙色区域，避开外圈动画；使用纯色匹配（RGBCount + pureColor），颜色区间与 FirstOperator 一致。",
         "template": "OperFilesEnterPotentialUpButton.png",
         "method": "RGBCount",
         "pureColor": true,
@@ -71,7 +71,7 @@
         ],
         "action": "ClickRect",
         "maxTimes": 3,
-        "roi": [1125, 180, 155, 180],
+        "roi": [1227, 235, 28, 28],
         "specificRect": [1100, 257, 126, 38],
         "postDelay": 1000,
         "next": ["MiniGame@AutoRaisePotential@PotentialScreen"]

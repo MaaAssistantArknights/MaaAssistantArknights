@@ -222,7 +222,7 @@ MAA 使用一系列的格式化工具來確保倉庫中的程式碼和資源檔�
 
 ### 在 Visual Studio 中啟用 clang-format
 
-1. 安裝 clang-format 21.1.8 或更高版本
+1. 安裝 clang-format 23.1.1 或更高版本
 
    ```bash
    python -m pip install clang-format

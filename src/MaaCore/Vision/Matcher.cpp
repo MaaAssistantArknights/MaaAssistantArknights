@@ -237,9 +237,10 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
                 if (mask_pixels == mask_opt.value().rows * mask_opt.value().cols) {
                     cv::matchTemplate(image_match, templ_match, matched, match_algorithm);
                 }
-                else if (MaskedCcoeffMatcher::should_fallback_to_opencv(
-                             mask_pixels,
-                             (image_match.rows - templ_match.rows + 1) * (image_match.cols - templ_match.cols + 1))) {
+                else if (
+                    MaskedCcoeffMatcher::should_fallback_to_opencv(
+                        mask_pixels,
+                        (image_match.rows - templ_match.rows + 1) * (image_match.cols - templ_match.cols + 1))) {
                     // matched 保持 empty，统一落到下面的 OpenCV masked matchTemplate
                 }
                 else {

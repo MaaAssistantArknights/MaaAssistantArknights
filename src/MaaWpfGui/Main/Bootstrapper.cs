@@ -422,6 +422,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     /// <remarks>初始化些啥自己加。</remarks>
     protected override void OnStart()
     {
+        // 相对路径启动参数须按启动时的工作目录解析，先于下面的 SetCurrentDirectory 记录
+        string launchDir = Environment.CurrentDirectory;
         Directory.SetCurrentDirectory(AppContext.BaseDirectory);
         if (!Directory.Exists("debug"))
         {
@@ -503,6 +505,31 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             _logger.Information("Startup auto-run will be skipped due to {Arg}", SkipStartupAutoRunArg);
         }
 
+        // 解析 README 截图演示模式参数
+        var demoArgs = ParseArgs(args, DemoDataArg, ShotsDirArg);
+        if (demoArgs.TryGetValue(DemoDataArg, out string demoDataPath))
+        {
+            if (demoDataPath.StartsWith("--", StringComparison.Ordinal))
+            {
+                // --demo 后紧跟另一个 flag 时 ParseArgs 会把该 flag 吞作值，按未启用处理
+                _logger.Warning("{Arg} value looks like another flag ({Value}); demo shot mode is not enabled", DemoDataArg, demoDataPath);
+            }
+            else
+            {
+                _isDemoMode = true;
+                _demoDataPath = Path.GetFullPath(demoDataPath, launchDir);
+                _shotsOutputDir = demoArgs.TryGetValue(ShotsDirArg, out string shotsDir)
+                    ? Path.GetFullPath(shotsDir, launchDir)
+                    : launchDir;
+                _logger.Information("Demo shot mode enabled, data: {DemoDataPath}, shots dir: {ShotsOutputDir}", _demoDataPath, _shotsOutputDir);
+            }
+        }
+        else if (args.Any(arg => string.Equals(arg, DemoDataArg, StringComparison.OrdinalIgnoreCase)))
+        {
+            // --demo 位于末位无值，或大小写不符（ParseArgs 的 flag 匹配区分大小写）
+            _logger.Warning("{Arg} present but not recognized (flags are case-sensitive) or has no value; demo shot mode is not enabled", DemoDataArg);
+        }
+
         ConfigurationHelper.Load();
         LocalizationHelper.Load();
         if (PendingUpdateApplier.TryConsumeDelegatedUpdateSuccess())
@@ -573,6 +600,20 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         ConfigConverter.ConvertConfig();
         ETagCache.Load();
+
+        if (IsDemoMode)
+        {
+            // 演示模式不落盘任何配置（ConfigFactory 保存链整体拦截），窗口位置由 DemoShotService
+            // 统一归位；客户端类型固定为官服（与演示数据 zh-cn 组一致），使 Core 资源加载与启动时的
+            // 关卡/活动解析都基于国服资源，不受运行目录遗留的外服配置影响；
+            // 置空自定义背景路径并关闭莫奈取色，截图不携带运行目录遗留的背景图与取色主题；
+            // 设置指引按已完成处理，避免全新配置首次启动时向导覆盖任务页截图。
+            // 必须在 ConvertConfig 之后执行，否则未迁移旧配置的转换结果会覆盖这里的设置
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ClientType = MaaWpfGui.Constants.Enums.ClientType.Official;
+            ConfigFactory.Root.Gui.Background.ImagePath = string.Empty;
+            ConfigFactory.Root.Gui.BackgroundMonetEnabled = false;
+            ConfigFactory.Root.Gui.GuideStep = SettingsViewModel.GuideMaxStep;
+        }
 
         if (ConfigFactory.Root.Gui.IgnoreBadModulesAndUseSoftwareRendering)
         {
@@ -889,6 +930,13 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             return;
         }
 
+        if (IsDemoMode)
+        {
+            // README 截图演示模式：跳过启动成就（Growl 通知会出现在截图内），主窗口显示后启动截图流程
+            _ = DemoShot.DemoShotService.RunAsync(DemoDataPath!, ShotsOutputDir!);
+            return;
+        }
+
         AchievementTrackerHelper.Events.Startup();
 
         var buildTimeInterval = (DateTimeOffset.UtcNow - VersionUpdateSettingsUserControlModel.BuildDateTime).TotalDays;
@@ -1022,9 +1070,46 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     /// </summary>
     public const string SkipStartupAutoRunArg = "--skip-startup-auto-run";
 
+    /// <summary>
+    /// README 截图演示模式参数：值为演示数据 JSON 路径。
+    /// 演示模式跳过常规联网与模拟器连接，加载演示数据填充界面并自动截图退出；
+    /// 仅标题版本段取 latest 时联网查询一次 GitHub 最新 Release。
+    /// </summary>
+    public const string DemoDataArg = "--demo";
+
+    /// <summary>
+    /// README 截图演示模式参数：值为截图输出目录（相对路径按启动时的工作目录解析），
+    /// 缺省为启动时的工作目录。
+    /// </summary>
+    public const string ShotsDirArg = "--shots";
+
     private static bool _isRestartingWithoutArgs;
     private static ProcessStartInfo _restartStartInfo;
     private static bool _skipStartupAutoRun;
+
+#nullable enable
+
+    private static bool _isDemoMode;
+    private static string? _demoDataPath;
+    private static string? _shotsOutputDir;
+
+    /// <summary>
+    /// Gets a value indicating whether the current process runs in README demo shot mode
+    /// (offline UI population + automated screenshots + auto exit).
+    /// </summary>
+    public static bool IsDemoMode => _isDemoMode;
+
+    /// <summary>
+    /// Gets the demo data file path passed via <see cref="DemoDataArg"/>.
+    /// </summary>
+    public static string? DemoDataPath => _demoDataPath;
+
+    /// <summary>
+    /// Gets the screenshot output directory passed via <see cref="ShotsDirArg"/>.
+    /// </summary>
+    public static string? ShotsOutputDir => _shotsOutputDir;
+
+#nullable restore
 
     /// <summary>
     /// Gets a value indicating whether the current process should skip startup auto-run
@@ -1071,6 +1156,13 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     /// <returns>拦截原因的本地化文案；可启动时为 null。</returns>
     public static string? TryGetTaskBlockReason()
     {
+        if (IsDemoMode)
+        {
+            // 演示模式禁止一切真实任务：热键/托盘/远程等入口统一汇入于此
+            _logger.Warning("Task blocked: demo shot mode is active");
+            return "README demo shot mode is active; task execution is disabled";
+        }
+
         if (IsResourceBroken)
         {
             _logger.Warning("Task blocked: resource broken");

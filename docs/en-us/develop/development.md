@@ -221,7 +221,7 @@ The formatting tool will automatically run every time you submit to ensure that 
 
 ### Enable clang-format in Visual Studio
 
-1. Install clang-format version 21.1.8 or higher.
+1. Install clang-format version 23.1.1 or higher.
 
    ```bash
    python -m pip install clang-format

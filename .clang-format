@@ -1,5 +1,5 @@
 # https://clang.llvm.org/docs/ClangFormatStyleOptions.html
-# for clang-format 20.0.0
+# for clang-format 23.1.1
 Language: Cpp
 BasedOnStyle: "WebKit"
 # AccessModifierOffset: 2
@@ -170,6 +170,8 @@ SpaceBeforeParens: ControlStatements
 SpaceBeforeRangeBasedForLoopColon: true
 SpaceBeforeSquareBrackets: false
 SpaceInEmptyBlock: false
+# clang-format 22 起空花括号初始化列表不再跟随 SpaceInEmptyBlock，需显式指定以保持旧版输出
+SpaceInEmptyBraces: Never
 SpaceInEmptyParentheses: false
 SpacesBeforeTrailingComments: 1
 SpacesInAngles: Never

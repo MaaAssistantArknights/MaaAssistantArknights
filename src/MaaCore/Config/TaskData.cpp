@@ -666,8 +666,9 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(
         Log.error("Invalid mask_range type in task", name, ", should be `array<int, 2>`");
         return nullptr;
     }
-    else if (auto mask_array = mask_opt->as_array();
-             mask_array.size() == 2 && mask_array[0].is_number() && mask_array[1].is_number()) {
+    else if (
+        auto mask_array = mask_opt->as_array();
+        mask_array.size() == 2 && mask_array[0].is_number() && mask_array[1].is_number()) {
         match_task_info_ptr->mask_ranges.emplace_back(
             MatchTaskInfo::GrayRange { mask_array[0].as_integer(), mask_array[1].as_integer() });
     }
@@ -683,8 +684,9 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(
         Log.error("Invalid color_scales type in task", name);
         return nullptr;
     }
-    else if (auto color_array = color_opt->as_array();
-             color_array.size() == 2 && color_array[0].is_number() && color_array[1].is_number()) {
+    else if (
+        auto color_array = color_opt->as_array();
+        color_array.size() == 2 && color_array[0].is_number() && color_array[1].is_number()) {
         // gray scale, color_array is array<int, 2>
         Log.debug("Deprecated GrayRange color_scales in task", name, ", should be `list<pair<int, int>>`");
         match_task_info_ptr->color_scales.emplace_back(

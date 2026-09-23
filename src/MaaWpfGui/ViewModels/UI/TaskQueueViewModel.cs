@@ -778,7 +778,8 @@ public class TaskQueueViewModel : Screen
 
         if (Instances.VersionUpdateDialogViewModel.IsDebugVersion() || File.Exists("DEBUG") || File.Exists("DEBUG.txt"))
         {
-            CanShowAutoReload = true;
+            // Debug 版专属的 ｢自动重载资源｣ 勾选项不进 README 演示截图
+            CanShowAutoReload = !Bootstrapper.IsDemoMode;
             ShowDebugTask = true;
         }
     }
@@ -897,6 +898,12 @@ public class TaskQueueViewModel : Screen
 
     private void InitTimer()
     {
+        if (Bootstrapper.IsDemoMode)
+        {
+            // README 截图演示模式：定时器链含更新检查与定时自动任务，全部停用
+            return;
+        }
+
         _timer.Interval = 30 * 1000;
         _timer.Elapsed += Timer1_Elapsed;
         _timer.Start();
@@ -1327,6 +1334,51 @@ public class TaskQueueViewModel : Screen
         }
     }
 
+    /// <summary>
+    /// README 截图演示模式专用（仅供 <see cref="MaaWpfGui.Main.DemoShot.DemoShotService"/> 调用）：
+    /// 把配置任务集合整体替换为给定固定序列，并以理智作战（FightTask）行为选中行重建任务条目列表。
+    /// 集合替换、条目重建与选中恢复都在调用线程同步一次成型，不经 <see cref="TaskItemSelectionChanged"/>
+    /// 的 Dispatcher 排队回写，与截图时序无竞争；非演示路径不调用本方法。
+    /// </summary>
+    /// <param name="orderedTasks">演示数据工厂新建的目标序列，调用方已写好每条 <see cref="BaseTask.IsEnable"/>。</param>
+    public void ApplyDemoTaskSequence(IReadOnlyList<BaseTask> orderedTasks)
+    {
+        var configQueue = ConfigFactory.CurrentConfig.TaskQueue;
+
+        // 固定序列整体替换配置集合：序列实例均不在旧集合中，无从 Move 重排；Clear/Add 的集合变更
+        // 只联动同步防抖保存（演示模式已整体拦截），不产生 Dispatcher 排队回调
+        configQueue.Clear();
+        foreach (var task in orderedTasks)
+        {
+            configQueue.Add(task);
+        }
+
+        // 选中理智作战行：TaskSelectedIndex 决定 InitializeItems 的 EnableSetting 落点，任务设置面板与
+        // 候选关卡注入（InjectDemoStages）都要求 CurrentTask 为 FightTask；序列不含 FightTask 时保持 -1，
+        // 由 InitializeItems 走既有回退
+        ConfigFactory.CurrentConfig.TaskSelectedIndex = -1;
+        for (int i = 0; i < orderedTasks.Count; i++)
+        {
+            if (orderedTasks[i] is FightTask)
+            {
+                ConfigFactory.CurrentConfig.TaskSelectedIndex = i;
+                break;
+            }
+        }
+
+        // 旧条目随重建废弃，按条目集合 Remove 分支同样的方式释放事件订阅
+        foreach (var item in TaskItemViewModels)
+        {
+            (item as IDisposable)?.Dispose();
+        }
+
+        InitializeItems();
+
+        // InitializeItems 以新集合实例整体替换 TaskItemViewModels 且该属性 setter 不发通知，
+        // 显式发通知让 ItemsSource 绑定重读到新列表
+        NotifyOfPropertyChange(nameof(TaskItemViewModels));
+    }
+
     public DayOfWeek CurDayOfWeek { get; private set; }
 
     public bool ShowDeepSleepIcon => DateTime.UtcNow.ToYjDate().IsAprilFoolsDay();
@@ -1374,6 +1426,13 @@ public class TaskQueueViewModel : Screen
     /// <returns>可等待</returns>
     public async Task UpdateDatePromptAndStagesWeb()
     {
+        if (Bootstrapper.IsDemoMode)
+        {
+            // README 截图演示模式：跳过活动关卡联网更新，仅做本地刷新
+            UpdateDatePromptAndStagesLocally();
+            return;
+        }
+
         await Instances.StageManager.UpdateStageWeb();
         UpdateDatePromptAndStagesLocally();
     }
@@ -1388,6 +1447,7 @@ public class TaskQueueViewModel : Screen
 
         // yj历的 4/16 点
         var today = DateOnly.FromDateTime(now);
+
         bool isCriticalTime = now is { Minute: 0, Hour: 0 or 12 };
         bool isNewDate = today != _lastPromptDate;
 

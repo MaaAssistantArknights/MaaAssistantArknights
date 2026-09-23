@@ -646,9 +646,8 @@ CombinationScore score_mfg(const std::vector<const ScoreOper*>& opers, const Sco
                     ++standard;
                 }
                 // 莱茵科技：白面鸮、赫默、多萝西、星源。
-                else if (is_operator(
-                             oper,
-                             { "char_128_plosis", "char_108_silent", "char_4048_doroth", "char_135_halo" })) {
+                else if (
+                    is_operator(oper, { "char_128_plosis", "char_108_silent", "char_4048_doroth", "char_135_halo" })) {
                     ++rhine;
                 }
                 // 红松骑士团：远牙、灰毫、野鬃；受薇薇安娜、焰尾和正义骑士号联动影响。

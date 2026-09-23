@@ -87,6 +87,8 @@ public class ToolboxViewModel : Screen
             PixelPaintFitModeList.RefreshLocalization();
             PixelPaintDitherModeList.RefreshLocalization();
             SecretFrontEventList.RefreshLocalization();
+            ExportOptionList.RefreshLocalization();
+            OperBoxExportOptionList.RefreshLocalization();
             Application.Current.Dispatcher.InvokeAsync(
                 () => {
                     LoadDepotDetails();
@@ -116,6 +118,18 @@ public class ToolboxViewModel : Screen
     /// Gets the shared run control state for run-state bindings.
     /// </summary>
     public RunControlState Run => RunControlState.Instance;
+
+    private int _toolboxSelectedIndex;
+
+    /// <summary>
+    /// Gets or sets 外层功能 Tab 的选中索引（0 公招识别、1 干员识别、2 仓库识别，后续为隐藏/其他页）。
+    /// XAML 的外层 TabControl 原本无 VM 绑定，此属性供 README 截图演示模式等场景程序化切页。
+    /// </summary>
+    public int ToolboxSelectedIndex
+    {
+        get => _toolboxSelectedIndex;
+        set => SetAndNotify(ref _toolboxSelectedIndex, value);
+    }
 
     #region Recruit
 
@@ -884,14 +898,14 @@ public class ToolboxViewModel : Screen
         Csv = 3,
     }
 
-    public record struct ExportEntry(string Display, int Value);
-
-    public List<ExportEntry> ExportOptionList { get; } = [
-        new(LocalizationHelper.GetString("ExportToArkplanner"), (int)DepotExportFormat.Arkplanner),
-        new(LocalizationHelper.GetString("ExportToLolicon"), (int)DepotExportFormat.Lolicon),
-        new(LocalizationHelper.GetString("ExportToMarkdown"), (int)DepotExportFormat.Markdown),
-        new(LocalizationHelper.GetString("ExportToCsv"), (int)DepotExportFormat.Csv),
-    ];
+    /// <summary>
+    /// Gets 仓库导出格式选项，文案随语言热切换自动刷新。
+    /// </summary>
+    public LocalizedObservableList<int> ExportOptionList { get; } = new(
+        ((int)DepotExportFormat.Arkplanner, "ExportToArkplanner"),
+        ((int)DepotExportFormat.Lolicon, "ExportToLolicon"),
+        ((int)DepotExportFormat.Markdown, "ExportToMarkdown"),
+        ((int)DepotExportFormat.Csv, "ExportToCsv"));
 
     private int _selectedExportValue;
 
@@ -1909,12 +1923,14 @@ public class ToolboxViewModel : Screen
         StartOperBoxRecognitionTask();
     }
 
-    public List<GenericCombinedData<OperBoxExportFormat>> OperBoxExportOptionList { get; } = [
-        new(LocalizationHelper.GetString("OperBoxExportToClipboard"), OperBoxExportFormat.Clipboard),
-        new(LocalizationHelper.GetString("OperBoxExportToJson"), OperBoxExportFormat.Json),
-        new(LocalizationHelper.GetString("ExportToMarkdown"), OperBoxExportFormat.Markdown),
-        new(LocalizationHelper.GetString("ExportToCsv"), OperBoxExportFormat.Csv),
-    ];
+    /// <summary>
+    /// Gets 干员识别导出格式选项，文案随语言热切换自动刷新。
+    /// </summary>
+    public LocalizedObservableList<OperBoxExportFormat> OperBoxExportOptionList { get; } = new(
+        (OperBoxExportFormat.Clipboard, "OperBoxExportToClipboard"),
+        (OperBoxExportFormat.Json, "OperBoxExportToJson"),
+        (OperBoxExportFormat.Markdown, "ExportToMarkdown"),
+        (OperBoxExportFormat.Csv, "ExportToCsv"));
 
     public OperBoxExportFormat SelectedOperBoxExportValue
     {
@@ -2698,7 +2714,7 @@ public class ToolboxViewModel : Screen
     public string SecretFrontEvent { get; set => SetAndNotify(ref field, value); } = string.Empty;
 
     /// <summary>
-    /// Gets or sets 自动提升潜能：中间信物不足时是否消耗普通信物继续提升（不勾选时点 × 跳过该次提升）。
+    /// Gets or sets 自动提升潜能：中坚信物不足时是否消耗普通信物继续提升（不勾选时点 × 跳过该次提升）。
     /// </summary>
     public bool MiniGameUseNormalToken { get; set => SetAndNotify(ref field, value); }
 

@@ -153,7 +153,7 @@
     <system:String x:Key="Mfg">製造所</system:String>
     <system:String x:Key="Processing">加工所</system:String>
     <system:String x:Key="Training">訓練室</system:String>
-    <system:String x:Key="AssistantChange">副手交代替え</system:String>
+    <system:String x:Key="AssistantChange">補佐交代替え</system:String>
     <system:String x:Key="Trade">貿易所</system:String>
     <system:String x:Key="Power">発電所</system:String>
     <system:String x:Key="Reception">応接室</system:String>
@@ -176,6 +176,7 @@
     <system:String x:Key="ClueExchangeUnlocked">手がかり交換を開始しました</system:String>
     <system:String x:Key="InfrastReceptionSendClue">手がかりを贈る</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">{key=Infrast} で以下の関数を設定して実行する必要があります</system:String>
+    <system:String x:Key="ContinueTraining">訓練完了後に現在スキルの継続特化を試みます</system:String>
     <system:String x:Key="InfrastFiammettaRecovery">フィアメッタの体力回復を有効化</system:String>
     <system:String x:Key="InfrastFiammettaRecoveryTips">有効にすると、交代開始時に回復対象と体力が全快のフィアメッタを宿舎に入れて体力を交換し、その後フィアメッタは宿舎で回復します。</system:String>
     <system:String x:Key="InfrastFiammettaTargets">フィアメッタの回復対象</system:String>
@@ -1031,7 +1032,7 @@ C:\leidian\LDPlayer9
 ゲーム内で代理乗数の設定を調整しません。</system:String>
     <system:String x:Key="StageSelect">ステージ</system:String>
     <system:String x:Key="StageSelect2">代替ステージ</system:String>
-    <system:String x:Key="AddStage">ステージを追加</system:String>
+    <system:String x:Key="AddStage">追加</system:String>
     <system:String x:Key="RemainingSanityStage">余剰理性の消費</system:String>
     <system:String x:Key="NoUse">使用しない</system:String>
     <!--<system:String x:Key="Amend">修改</system:String>-->
@@ -1351,6 +1352,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@AutoRaisePotential@TotalLog">潜在能力自動強化：処理待ちオペレーター {0} 人</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential@PotentialFoundLog">オペレーター {0}/{1}：強化可能な潜在能力あり</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential@NoPotentialLog">オペレーター {0}/{1}：強化可能な潜在能力なし</system:String>
+    <system:String x:Key="MiniGame@CursedRelic">ファントム ヴィクトリアのクラウン リロール</system:String>
+    <system:String x:Key="MiniGame@CursedRelicTip" xml:space="preserve">ファントムのメインメニューで「探索開始」ボタンが表示されている状態から開始してください。</system:String>
 
     <system:String x:Key="MiniGameNameGreenTicketStore">緑チケット商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1階は全部購入。&#10;2階はスカウト券と求人票を購入のみ。</system:String>
@@ -1880,10 +1883,13 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ResetStopwatch">ストップウォッチをリセット</system:String>
     <system:String x:Key="Click">クリック</system:String>
     <system:String x:Key="Swipe">スワイプ</system:String>
+    <system:String x:Key="SetUnitLocation">ユニット座標を設定</system:String>
     <system:String x:Key="UnsupportedLevel">サポートされていないステージです。ステージ名を確認するか、 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ に移動してリソースバージョンを更新してみてください！</system:String>
     <system:String x:Key="Copilot.UnsupportedSkill">{0} のスキル {1} はサポートされないので、スキルを選択されなくなります。</system:String>
     <system:String x:Key="Copilot.EliteEmpty">{0} エリートレベルの要件は設定されていませんでしたが、他の属性の要件はエリート{1}です。これは自動入力されました。</system:String>
     <system:String x:Key="Copilot.EliteAjust">{0} エリート{1}の要件が設定されていましたが、他の属性の要件はエリート{2}です。これは自動調整されました。</system:String>
+    <system:String x:Key="Copilot.ActionWithBothLocAndOper">{0} 同時に位置とオペレーターが設定されているため、位置が使用されます。</system:String>
+    <system:String x:Key="Copilot.ActionWithBothRectAndLoc">{0} 同時にピクセル領域と位置が設定されているため、ピクセル領域が使用されます。</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">認識結果: </system:String>
     <system:String x:Key="ConnectFailed">接続失敗</system:String>
     <system:String x:Key="TryToReconnectByAdb">再接続を試みています</system:String>

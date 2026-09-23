@@ -907,7 +907,7 @@ bool asst::BattleFormationTask::compare_formation()
             }
 
             const auto& oper_last_it = std::ranges::find_if(last_group_it->opers, [&](const battle::OperUsage& op) {
-                return op.status == battle ::OperStatus::Selected;
+                return op.status == battle::OperStatus::Selected;
             });
             if (oper_last_it == last_group_it->opers.cend()) [[unlikely]] {
                 LogError << __FUNCTION__ << "| Group" << last_group_it->name

@@ -67,6 +67,12 @@ public class ETagCache
 
     public static void Save()
     {
+        if (Main.Bootstrapper.IsDemoMode)
+        {
+            // README 截图演示模式：不写缓存文件
+            return;
+        }
+
         File.WriteAllText(_etagFile, JsonConvert.SerializeObject(_etagCache, Formatting.Indented));
         File.WriteAllText(_lastModifiedFile, JsonConvert.SerializeObject(_lastModifiedCache, Formatting.Indented));
     }

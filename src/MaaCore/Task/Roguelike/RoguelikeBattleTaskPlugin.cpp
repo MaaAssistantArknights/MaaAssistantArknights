@@ -682,8 +682,8 @@ std::optional<size_t> asst::RoguelikeBattleTaskPlugin::check_urgent(
             new_urgent.emplace_back(home_index);
             m_blocking_for_home_index.erase(del_loc_blocking);
         }
-        else if (auto del_loc_medic = m_medic_for_home_index.find(pre_loc);
-                 del_loc_medic != m_medic_for_home_index.end()) {
+        else if (
+            auto del_loc_medic = m_medic_for_home_index.find(pre_loc); del_loc_medic != m_medic_for_home_index.end()) {
             for (const size_t& home_index : del_loc_medic->second) {
                 m_homes_status[home_index].wait_medic = true;
             }

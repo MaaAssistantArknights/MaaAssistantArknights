@@ -63,8 +63,8 @@ Please note that JSON files do not support comments. The comments in this docume
         // Combat operations. Ordered, executes the next one only after completing the previous one. Required
         {
             "type": "部署", // Operation type, optional, default is "Deploy" ("部署" = "Deploy")
-            // "Deploy" | "Skill" | "Retreat" | "SpeedUp" | "BulletTime" | "SkillUsage" | "Output" | "SkillDaemon" | "MoveCamera" | "ResetStopwatch" | "Click" | "Swipe"
-            // "部署"   |  "技能"  |  "撤退"   | "二倍速"   |  "子弹时间"  |  "技能用法"   | "打印"  |  "摆完挂机" | "移动镜头" | "重置全局计时器" | "点击" | "滑动"
+            // "Deploy" | "Skill" | "Retreat" | "SpeedUp" | "BulletTime" | "SkillUsage" | "Output" | "SkillDaemon" | "MoveCamera" | "ResetStopwatch" | "Click" | "Swipe" | "SetUnitLocation"
+            // "部署"   |  "技能"  |  "撤退"   | "二倍速"   |  "子弹时间"  |  "技能用法"   | "打印"  |  "摆完挂机" | "移动镜头" | "重置全局计时器" | "点击" | "滑动" | "设置单位坐标"
             // Both English and Chinese are supported (e.g., "部署" for "Deploy")
             // For "Deploy", waits until enough DP is available (unless timeout)
             // For "Skill", waits until skill is ready (unless timeout)
@@ -80,6 +80,11 @@ Please note that JSON files do not support comments. The comments in this docume
             // "Click" directly clicks the pixel rect specified by "rect" or the battlefield tile specified by "location", without any recognition; empty tiles can also be clicked
             //      At least one of "rect" or "location" must be set; the copilot fails to load (parse-time error) if neither is set; when both are set, "rect" takes priority (a warning is logged)
             // "Swipe" swipes from the "begin" rect to the "end" rect, directly issuing the underlying swipe command; the copilot fails to load if either is missing
+            // "SetUnitLocation" sets the tile coordinate of a battlefield unit: both "name" and "location" are required; the copilot fails to load if either is missing or malformed ("name" must be a non-empty string, "location" must be a 2-element numeric array)
+            //      Only updates MAA's internal record of the unit's position; performs no operation on the game
+            //      Used to correct an operator's position after it moves, so that subsequent "Skill" / "Retreat" / "SkillUsage" actions by "name" target the new tile;
+            //      also used to register on-field devices and facilities, combined with "SkillUsage" and "SkillDaemon" to auto-cast device skills;
+            //      if the "name" is already on the field its position is updated; otherwise it is registered as a new unit ("role" is optional, default is role-agnostic)
             // Currently the five conditions below use AND relationship
             "kills": 0, // Kill count condition, waits until reached. Optional, default is 0, executes immediately
             "costs": 50, // DP condition, waits until reached. Optional, default is 0, executes immediately
@@ -97,7 +102,7 @@ Please note that JSON files do not support comments. The comments in this docume
             // TODO: Other conditions
             // TODO: "condition_type": 0,    // Relationship between execution conditions, optional, default is 0
             //                        // 0 - AND; 1 - OR
-            "name": "棘刺", // Operator name or group name, required when type is "Deploy", optional for "Skill"|"Retreat" ("棘刺" = "Thorns")
+            "name": "棘刺", // Operator name or group name, required when type is "Deploy", optional for "Skill"|"Retreat", required for "SetUnitLocation" ("棘刺" = "Thorns")
             "role": "guard", // Operator role. Optional, used to distinguish operators with the same name; English role names should be used, case-insensitive
             "location": [
                 5,
@@ -108,6 +113,7 @@ Please note that JSON files do not support comments. The comments in this docume
             // "Skill": Recommended only for automatic devices on the field, use location without name to activate skill. For normal deployed operators, use name
             // "Retreat": Recommended only when multiple summons share the same name, use location without name to retreat. For normal deployed operators, use name
             // When type is "Skill"|"Retreat"|"SkillUsage" and both name and location are set, location takes priority
+            // When type is "SetUnitLocation", this is required; sets the position of the "name" unit to this tile; any valid tile coordinate is accepted, including [0, 0]
             // When type is "Click", at least one of this and "rect" must be set; directly clicks this tile; any valid tile coordinate is accepted, including [0, 0]
             "rect": [
                 100,

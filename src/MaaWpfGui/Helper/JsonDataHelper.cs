@@ -69,6 +69,12 @@ public static class JsonDataHelper
     /// <returns>是否设置成功</returns>
     public static bool Set<T>(string key, T value, string? dataDir = null)
     {
+        if (MaaWpfGui.Main.Bootstrapper.IsDemoMode)
+        {
+            // README 截图演示模式：不写任何 data/ 缓存文件，进程内状态退出即弃
+            return true;
+        }
+
         var filePath = Path.Combine(dataDir ?? PathsHelper.DataDir, $"{key}.json");
 
         lock (_lock)
@@ -95,6 +101,12 @@ public static class JsonDataHelper
     /// <returns>是否成功删除</returns>
     public static bool Delete(string key)
     {
+        if (MaaWpfGui.Main.Bootstrapper.IsDemoMode)
+        {
+            // README 截图演示模式：不删不写任何 data/ 缓存文件
+            return false;
+        }
+
         var filePath = Path.Combine(PathsHelper.DataDir, $"{key}.json");
 
         try

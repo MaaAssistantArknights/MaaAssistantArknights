@@ -176,6 +176,7 @@
     <system:String x:Key="ClueExchangeUnlocked">已開啟線索交流</system:String>
     <system:String x:Key="InfrastReceptionSendClue">贈送線索</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">以下功能需在{key=Infrast}中設定並執行</system:String>
+    <system:String x:Key="ContinueTraining">訓練完成後繼續嘗試專精目前技能</system:String>
     <system:String x:Key="InfrastFiammettaRecovery">啟用菲亞梅塔心情恢復</system:String>
     <system:String x:Key="InfrastFiammettaRecoveryTips">開啟後，換班開始時會將恢復目標與滿心情的菲亞梅塔放入宿舍互換心情，菲亞梅塔隨後留在宿舍恢復心情。</system:String>
     <system:String x:Key="InfrastFiammettaTargets">菲亞梅塔恢復目標</system:String>
@@ -482,7 +483,7 @@
 📄 更新說明：
     • {key=UpdateCheckNow}：包含介面與功能更新。介面改動、新功能需透過 {key=UpdateCheckNow} 取得
     • {key=ResourceUpdate}：包含自動作戰新關卡、掉落辨識圖示、公招幹員標籤等素材資料
-    • 導航熱更新：自動觸發，用於更新主介面提示與活動關卡入口。成功後右上角會顯示 ｢{key=ApiUpdateSuccess}｣ 
+    • 導航熱更新：自動觸發，用於更新主介面提示與活動關卡入口。成功後右上角會顯示 ｢{key=ApiUpdateSuccess}｣
 </system:String>
     <system:String x:Key="GlobalSource">全域來源</system:String>
     <system:String x:Key="ForceGithubGlobalSource">強制使用 GitHub</system:String>
@@ -1267,7 +1268,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@SPA">衛戍協議：盟約</system:String>
     <system:String x:Key="MiniGame@SPATip" xml:space="preserve">在活動主介面（有 ｢獨立模擬｣ 處）開始任務。
 在有存檔時需要先手動放棄
-最高只測試過 ｢險境模擬｣ 
+最高只測試過 ｢險境模擬｣
 如果已通關更高難度導致看不到 ｢險境模擬｣ 或 ｢標準模擬｣ ，需手動選擇一次 ｢險境模擬｣ 難度
 手動通關 ｢標準模擬｣ 可以更快刷分。
 只能刷等級獎勵，拿蝕刻章得打完所有的 ｢關鍵目標｣ 。</system:String>
@@ -1311,7 +1312,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@MaterialSynthesis@UnknownFailure">未知錯誤</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential">自動提升潛能</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotentialTip" xml:space="preserve">請先進入幹員列表介面，再開始任務。自動提升所有帶提示標記幹員的潛能。&#10;完成後停留在最後一名幹員檔案；沒有可提升目標時停留在幹員列表。</system:String>
-    <system:String x:Key="MiniGame@AutoRaisePotential@UseNormalToken">中間信物不足時使用普通信物</system:String>
+    <system:String x:Key="MiniGame@AutoRaisePotential@UseNormalToken">中堅信物不足時使用普通信物</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition">奇象巡展-找未收錄生物</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibitionTip" xml:space="preserve">在所選地圖的高級區草地右下角開始任務。&#10;在草地來回走動尋找未收錄生物，找到後自動停止。&#10;只有草地能遇到生物。</system:String>
     <system:String x:Key="MiniGame@InteractiveExhibition@UncollectedNotificationTitle">奇象巡展：發現暫未收錄奇象</system:String>
@@ -1349,6 +1350,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@AutoRaisePotential@TotalLog">自動提升潛能：識別到 {0} 位待處理幹員</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential@PotentialFoundLog">第 {0}/{1} 位幹員：有待提升的潛能</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential@NoPotentialLog">第 {0}/{1} 位幹員：無可提升的潛能</system:String>
+    <system:String x:Key="MiniGame@CursedRelic">刷傀影維多利亞皇冠</system:String>
+    <system:String x:Key="MiniGame@CursedRelicTip" xml:space="preserve">請從傀影肉鴿主選單中“探索”按鈕可見的狀態開始。</system:String>
 
     <system:String x:Key="MiniGameNameGreenTicketStore">綠票商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">第 1 層全買。&#10;第 2 層買 ｢尋訪憑證｣ 和 ｢招聘許可｣ 。</system:String>
@@ -1878,10 +1881,13 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ResetStopwatch">重置全域計時器</system:String>
     <system:String x:Key="Click">點擊</system:String>
     <system:String x:Key="Swipe">滑動</system:String>
+    <system:String x:Key="SetUnitLocation">設定單位座標</system:String>
     <system:String x:Key="UnsupportedLevel">不支援的關卡，請檢查關卡名稱或前往 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 嘗試更新資源版本！</system:String>
     <system:String x:Key="Copilot.UnsupportedSkill">{0} 不支援技能 {1}, 不再選擇技能</system:String>
     <system:String x:Key="Copilot.EliteEmpty">{0} 未設定精英等級要求, 但其他屬性要求 精{1}, 已自動補全</system:String>
     <system:String x:Key="Copilot.EliteAjust">{0} 設定為要求 精{1}, 但是其他屬性需求 精{2}, 已自動調整</system:String>
+    <system:String x:Key="Copilot.ActionWithBothLocAndOper">{0} 同時設定了位置和幹員, 將按位置執行</system:String>
+    <system:String x:Key="Copilot.ActionWithBothRectAndLoc">{0} 同時設定了像素區域和位置, 將按像素區域執行</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">辨識結果：</system:String>
     <system:String x:Key="ConnectFailed">連線失敗</system:String>
     <system:String x:Key="TryToReconnectByAdb">正在嘗試重連</system:String>
