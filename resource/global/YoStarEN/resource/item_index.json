@@ -2535,6 +2535,14 @@
         "sortId": -10000,
         "usage": "Can be exchanged for the corresponding event stage reward."
     },
+    "act3enemyduel_milestone_point": {
+        "classifyType": "NONE",
+        "description": "Apparently, using it can send a fullscreen fireworks effect along with a message to the entire Duel Channel. But what the richie-riches who break the TOS to spam them in public chat all day might not know is that they can be blocked with a click of a button on the website.",
+        "icon": "act3enemyduel_milestone_point.png",
+        "name": "Grand Duel Fireworks",
+        "sortId": -10000,
+        "usage": "One of the more expensive Duel Channel gifts, and can be exchanged on the website for material rewards, with free shipping and home delivery."
+    },
     "act3mainss_token": {
         "classifyType": "NONE",
         "description": "The sound of hitting flint fades into the vast snow. The darkness is boundless, with only a tiny speck of flame to illuminate it, quietly flickering and melting the ice and snow, and waiting for the sun to rise again.",
