@@ -64,6 +64,8 @@ protected:
     bool retreat_oper(const std::string& name);
     bool retreat_oper(battle::Role role, const std::string& name);
     bool retreat_oper(const Point& loc, bool manually = true);
+    // 设置战场单位（干员位移修正 / 装置设施登记）的格子坐标：已在场则迁移双表记录，不在场则登记新条目
+    bool set_unit_location(battle::Role role, const std::string& name, const Point& loc);
     bool is_skill_ready(const Point& loc, const cv::Mat& reusable = cv::Mat());
     bool is_skill_ready(const std::string& name, const cv::Mat& reusable = cv::Mat());
     bool is_skill_ready(battle::Role role, const std::string& name, const cv::Mat& reusable = cv::Mat());

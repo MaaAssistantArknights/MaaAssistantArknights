@@ -1882,6 +1882,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ResetStopwatch">ストップウォッチをリセット</system:String>
     <system:String x:Key="Click">クリック</system:String>
     <system:String x:Key="Swipe">スワイプ</system:String>
+    <system:String x:Key="SetUnitLocation">ユニット座標を設定</system:String>
     <system:String x:Key="UnsupportedLevel">サポートされていないステージです。ステージ名を確認するか、 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ に移動してリソースバージョンを更新してみてください！</system:String>
     <system:String x:Key="Copilot.UnsupportedSkill">{0} のスキル {1} はサポートされないので、スキルを選択されなくなります。</system:String>
     <system:String x:Key="Copilot.EliteEmpty">{0} エリートレベルの要件は設定されていませんでしたが、他の属性の要件はエリート{1}です。これは自動入力されました。</system:String>
