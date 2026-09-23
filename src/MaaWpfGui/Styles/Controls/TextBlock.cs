@@ -27,6 +27,12 @@ public class TextBlock : System.Windows.Controls.TextBlock
         DefaultStyleKeyProperty.OverrideMetadata(typeof(TextBlock), new FrameworkPropertyMetadata(typeof(TextBlock)));
     }
 
+    public TextBlock()
+    {
+        Loaded += (_, _) => TryStartRainbowAnimation();
+        Unloaded += (_, _) => StopRainbowAnimation();
+    }
+
     public static readonly DependencyProperty ForegroundKeyProperty = DependencyProperty.Register(nameof(ForegroundKey), typeof(string), typeof(TextBlock), new PropertyMetadata(ThemeHelper.DefaultKey, OnForegroundKeyChanged));
 
     private static void OnForegroundKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -52,7 +58,11 @@ public class TextBlock : System.Windows.Controls.TextBlock
             if (TryFindResource(value) is Brush)
             {
                 SetResourceReference(ForegroundProperty, value);
-                TryStartRainbowAnimation();
+                if (IsLoaded)
+                {
+                    TryStartRainbowAnimation();
+                }
+
                 return;
             }
 
@@ -81,6 +91,14 @@ public class TextBlock : System.Windows.Controls.TextBlock
             EasingFunction = new PowerEase { Power = 3, EasingMode = EasingMode.EaseOut },
         };
         translate.BeginAnimation(TranslateTransform.XProperty, anim);
+    }
+
+    private void StopRainbowAnimation()
+    {
+        if (Foreground is LinearGradientBrush { Transform: TranslateTransform translate })
+        {
+            translate.BeginAnimation(TranslateTransform.XProperty, null);
+        }
     }
 
     public static readonly DependencyProperty BindableInlinesProperty =
