@@ -1349,8 +1349,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@AutoRaisePotential@TotalLog">自動提升潛能：識別到 {0} 位待處理幹員</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential@PotentialFoundLog">第 {0}/{1} 位幹員：有待提升的潛能</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential@NoPotentialLog">第 {0}/{1} 位幹員：無可提升的潛能</system:String>
-    <system:String x:Key="MiniGame@CursedRelic">IS2 維多利亞皇冠重置</system:String>
-    <system:String x:Key="MiniGame@CursedRelicTip" xml:space="preserve">請從 IS2 主選單中“探索”按鈕可見的狀態開始。</system:String>
+    <system:String x:Key="MiniGame@CursedRelic">刷傀影維多利亞皇冠</system:String>
+    <system:String x:Key="MiniGame@CursedRelicTip" xml:space="preserve">請從傀影肉鴿主選單中“探索”按鈕可見的狀態開始。</system:String>
 
     <system:String x:Key="MiniGameNameGreenTicketStore">綠票商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">第 1 層全買。&#10;第 2 層買 ｢尋訪憑證｣ 和 ｢招聘許可｣ 。</system:String>

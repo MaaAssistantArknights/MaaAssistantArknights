@@ -1350,7 +1350,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@AutoRaisePotential@TotalLog">잠재능력 자동 강화: 처리할 오퍼레이터 {0}명</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential@PotentialFoundLog">오퍼레이터 {0}/{1}: 강화 가능한 잠재능력 있음</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential@NoPotentialLog">오퍼레이터 {0}/{1}: 강화 가능한 잠재능력 없음</system:String>
-    <system:String x:Key="MiniGame@CursedRelic">IS2 빅토리아 왕관 리롤</system:String>
+    <system:String x:Key="MiniGame@CursedRelic">팬텀 빅토리아 왕관 리롤</system:String>
     <system:String x:Key="MiniGame@CursedRelicTip" xml:space="preserve">팬텀 로그라이크 메인 화면에서 '탐험 시작' 버튼이 표시된 상태에서 시작하세요</system:String>
 
     <system:String x:Key="MiniGameNameGreenTicketStore">자격증명서 상점</system:String>

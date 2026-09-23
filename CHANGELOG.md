@@ -16,7 +16,7 @@
 
 #### 牛杂新增自动提升潜能与缺口材料合成
 
-牛杂新增两项功能：｢自动提升潜能｣ 从干员列表界面启动，自动提升所有带提示标记干员的潜能，中间信物不足时可选用普通信物；｢缺口材料合成｣ 从培养页面的缺少材料弹窗跳转到加工站合成页后启动，递归合成可加工的下级材料。牛杂列表同时新增 ｢常驻功能｣ 分组，常驻功能与当期活动分列展示。
+牛杂新增两项功能：｢自动提升潜能｣ 从干员列表界面启动，自动提升所有带提示标记干员的潜能，中坚信物不足时可选用普通信物；｢缺口材料合成｣ 从培养页面的缺少材料弹窗跳转到加工站合成页后启动，递归合成可加工的下级材料。牛杂列表同时新增 ｢常驻功能｣ 分组，常驻功能与当期活动分列展示。
 
 <details>
 <summary><b>English</b></summary>
@@ -48,11 +48,13 @@ Two new entries join the "Useful Tasks" list: Auto Potential Up starts from the 
 
 ### 新增 | New
 
-* 牛杂新增 ｢自动提升潜能｣：从干员列表界面启动，自动提升所有带提示标记干员的潜能，中间信物不足时可选择使用普通信物 ([#18268](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18268) [#18137](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18137)) @Lancarus @youzibigg @HX3N @Constrat @status102 @Manicsteiner @momomochi987
+* 牛杂新增 ｢自动提升潜能｣：从干员列表界面启动，自动提升所有带提示标记干员的潜能，中坚信物不足时可选择使用普通信物 ([#18268](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18268) [#18137](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18137)) @Lancarus @youzibigg @HX3N @Constrat @status102 @Manicsteiner @momomochi987
 * 牛杂新增 ｢缺口材料合成｣：从培养页面（精英化、专精、模组升级等）的缺少材料弹窗跳转到加工站合成页后启动，递归合成可加工的下级材料，任务页内附演示视频 @Lancarus @ABA2396
+* 牛杂常驻功能新增 ｢刷傀影维多利亚皇冠｣：从傀影肉鸽主菜单启动，反复开始探索检查开局收藏品，未刷到 ｢维多利亚王冠｣ 时放弃重开并等待冷却，刷到后自动停止 ([#18285](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18285)) @Constrat @Manicsteiner @HX3N
 * 设置新增 ｢三方服务｣ 栏（企鹅物流上报设置迁入其中），干员识别支持填写一图流 OpenAPI Token 后改为读取一图流保存的练度快照，小工具的干员识别不再需要连接模拟器，数据更新任务的干员识别在连接模拟器后立即并行拉取，不等待其他任务完成 ([#18187](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18187)) @ABA2396
 * 肉鸽开局招募的 3 名干员可分别指定，每个可独立选择是否借助战；未招募到指定干员时该次按默认优先级补位（黑流树海主题下仅第 1 个指定干员生效）([#18235](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18235)) @ABA2396
 * Copilot 作业协议新增 Click 与 Swipe 动作，MoveCamera 动作新增 keep_kills 参数；字段与既有动作同填时改为警告并按优先级取值，location 支持 [0, 0]，结构校验前置至解析层 ([#18303](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18303)) @ABA2396
+* Copilot 作业协议新增 ｢设置单位坐标｣（SetUnitLocation）动作，仅更新作战内部记录的单位坐标、不执行点击；name 与 location 均必填，缺失或值畸形时作业加载期报错 ([#18316](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18316)) @ABA2396
 * 任务设置新增运行时长上限，到达后自动停止任务 ([#18167](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18167)) @Aliothmoon @ABA2396
 * 基建换班新增副手换人流程，基建设施列表新增 ｢基建副手｣，可自动更换进驻的副手干员 ([#17943](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17943)) @Lancarus
 * 完成后动作新增 ｢任务出错时跳过｣ 选项：勾选后任务列表中有任务出错时跳过全部完成后动作，仅统计任务列表中的任务；任务完成通知会汇总本轮出错的任务 @XXLC @hhhhcxy
@@ -75,6 +77,7 @@ Two new entries join the "Useful Tasks" list: Auto Potential Up starts from the 
 * 更新 MaaFramework 依赖至 v5.13.0，PC 端直连支持对游戏公告的独立 WebView 窗口截图，任务更不易被公告弹窗卡住 ([#18127](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18127)) @SweetSmellFox
 * 干员识别使用一图流数据时，已拥有干员卡片新增展示技能等级、专精等级与模组，CSV/Markdown 导出新增技能等级列 ([#18231](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18231)) @ABA2396
 * Copilot 作业的自定义干员支持填写国际服干员名（英/日/韩/繁中），自动换算为对应干员 ([#18180](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18180)) @HX3N
+* Copilot 作业的技能、撤退、子弹时间、技能用法动作同时填写干员与位置时统一按位置执行，Click 动作同时填写像素区域与位置时按像素区域执行；加载作业时自动移除被覆盖的干员或位置字段并输出警告，与 Core 的执行优先级保持一致 @status102 @ABA2396
 * 重构升变阿米娅的干员名匹配，移除内部职业后缀，借助战与肉鸽招募、战斗统一按名字与职业匹配，降低错配风险；修复干员识别将升变阿米娅判为未拥有的问题 ([#18190](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18190)) @status102 @ABA2396
 * ｢无限吃理智药｣ 的过期阈值从小时改为天，天数支持手动输入 @soundofautumn
 * 牛杂列表新增 ｢常驻功能｣ 分组，常驻功能与当期活动分列展示 ([#18269](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18269)) @H2O-MERO @ABA2396
@@ -110,11 +113,13 @@ Two new entries join the "Useful Tasks" list: Auto Potential Up starts from the 
 * 修复绿票、黄票商店任务必须从主界面启动的问题 ([#18237](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18237)) @ModerRAS
 * 调整绿票商店赤金匹配阈值，修复一层赤金未识别导致二层未解锁、任务却显示完成的问题 ([#18223](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18223)) @moranfanhua
 * 修复黑流树海肉鸽展开关卡信息时 ｢未知的凶戾｣（隐藏作战节点）被误判为普通作战的问题 ([#18208](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18208)) @ZiyinLin
+* 修复黑流树海肉鸽内部错误停止时直接放弃当局退回主界面的问题，现在保留报错现场画面（含加工品识别失败时的加工品面板）便于截图反馈 ([#18319](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18319)) @ZiyinLin
 * 修复公招未勾选自动确认 3/4 星招募结果时仍会自动确认的问题 ([#18176](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18176)) @Aliothmoon
 * 修复 RunningState 计时器并发操作可能引发空引用异常的问题 ([#18202](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18202)) @ABA2396
 * 修复切换界面语言后设置页过渡动画下拉选项停留旧语言的问题 @ABA2396
+* 修复彩虹文字动画在切换页面后转为静态的问题 ([#18318](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18318)) @H2O-MERO
 * 外部通知请求日志中的 URL 截断到域名，避免 token 等凭据随日志泄漏 @ABA2396
-* 修复语言热切换后多处界面文本残留旧语言的问题，并补齐硬编码英文文案的本地化 @ABA2396
+* 修复语言热切换后多处界面文本残留旧语言的问题（含小工具导出选项与干员识别页签计数），并补齐硬编码英文文案的本地化 @ABA2396
 * 修复任务运行中干员培养任务面板未被正确禁用的问题 @ABA2396
 * 修复 ADB 强制替换流程的问题：下载期间禁用按钮防重复触发，路径选择弹窗排除空路径 @ABA2396
 * 修复日志卡片边框在窗口尺寸变化时闪动或消失的问题 ([#18266](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18266)) @H2O-MERO
@@ -124,6 +129,7 @@ Two new entries join the "Useful Tasks" list: Auto Potential Up starts from the 
 * YostarEN/KR update ocr regex for incoming alter operators @Constrat @HX3N
 * YostarEN fix Catapult alter regex @Constrat
 * YostarKR adjust ocr regex for PA @HX3N
+* YostarKR fix ocr regex for Eyjafjalla alter, full name no longer mangled by fuzzy rules @HX3N
 
 ### 文档 | Docs
 
@@ -137,12 +143,14 @@ Two new entries join the "Useful Tasks" list: Auto Potential Up starts from the 
 ### 其他 | Other
 
 * 新增本地图片离线识别评估工具（DebugTask 评估原语与 maa_core_eval.py）([#18181](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18181)) @ABA2396 @status102
+* 新增 README 截图演示模式，并重新生成 README 五语言演示截图 ([#18323](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18323)) @ABA2396
 
 ### MaaMacGui
 
 #### 新增 | New
 
 * 刷理智设置页新增今日关卡小提示 ([#122](https://github.com/MaaAssistantArknights/MaaMacGui/pull/122)) @zhangweijian97
+* 新增更换主题任务，同步 WPF 端的 SwitchTheme ([#126](https://github.com/MaaAssistantArknights/MaaMacGui/pull/126)) @zhangweijian97
 
 #### 修复 | Fix
 
