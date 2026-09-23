@@ -91,17 +91,9 @@
                 "enabled": false
             }
         ],
-        "stages": [
-            "PA-8",
-            "CE-6",
-            "1-7"
-        ]
+        "stages": ["PA-8", "CE-6", "1-7"]
     },
-    "thumbnails": [
-        "thumbnails/thumb-2.png",
-        "thumbnails/thumb-3.png",
-        "thumbnails/thumb-4.png"
-    ],
+    "thumbnails": ["thumbnails/thumb-2.png", "thumbnails/thumb-3.png", "thumbnails/thumb-4.png"],
     "taskQueueLogs": [
         {
             "time": "20:21:47",
@@ -252,10 +244,7 @@
     ],
     "copilot": {
         "tabIndex": 0,
-        "copilotIds": [
-            114514,
-            325799
-        ],
+        "copilotIds": [114514, 325799],
         "headerLines": [
             {
                 "color": "Message",
