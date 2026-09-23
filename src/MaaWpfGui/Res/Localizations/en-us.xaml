@@ -1417,6 +1417,7 @@ Right-click: select this job and exit multi-job mode</system:String>
 Right-click to clear inactive jobs</system:String>
     <system:String x:Key="Start">Start</system:String>
     <system:String x:Key="RunTaskOnce">Run Once</system:String>
+    <system:String x:Key="RunTasksFromHere">Run from Here</system:String>
     <system:String x:Key="VideoLink">Video Link</system:String>
     <system:String x:Key="CopilotFormationRequirement.Level">E{0} Lv.{1}</system:String>
     <system:String x:Key="CopilotSkill">Skill</system:String>

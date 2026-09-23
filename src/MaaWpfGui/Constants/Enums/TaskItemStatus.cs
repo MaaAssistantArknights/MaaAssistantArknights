@@ -39,4 +39,9 @@ public enum TaskItemStatus
     /// 跳过
     /// </summary>
     Skipped = 4,
+
+    /// <summary>
+    /// 因指定运行起点而跳过
+    /// </summary>
+    SkippedByStartPosition = 5,
 }

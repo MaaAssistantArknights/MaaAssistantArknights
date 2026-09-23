@@ -94,6 +94,10 @@
                                                     <DataTrigger Binding="{Binding StatusDisplay}" Value="{x:Static enums:TaskItemStatus.Skipped}">
                                                         <Setter Property="Opacity" Value="0.5" />
                                                     </DataTrigger>
+                                                    <!--  因指定起点跳过 - 黄色  -->
+                                                    <DataTrigger Binding="{Binding StatusDisplay}" Value="{x:Static enums:TaskItemStatus.SkippedByStartPosition}">
+                                                        <Setter Property="Background" Value="{DynamicResource TaskQueue.TaskItemStatus.SkippedByStartPosition}" />
+                                                    </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </Border.Style>
@@ -154,7 +158,7 @@
 
                                                                 <TextBlock FontWeight="SemiBold" Text="{DynamicResource RightClick}" />
                                                                 <TextBlock>
-                                                                    <Run Text="{DynamicResource RunTaskOnce}" /><Run Text="/" /><Run Text="{DynamicResource Copy}" /><Run Text="/" /><Run Text="{DynamicResource Rename}" /><Run Text="/" /><Run Text="{DynamicResource Delete}" />
+                                                                    <Run Text="{DynamicResource RunTaskOnce}" /><Run Text="/" /><Run Text="{DynamicResource RunTasksFromHere}" /><Run Text="/" /><Run Text="{DynamicResource Copy}" /><Run Text="/" /><Run Text="{DynamicResource Rename}" /><Run Text="/" /><Run Text="{DynamicResource Delete}" />
                                                                 </TextBlock>
                                                             </StackPanel>
                                                         </ToolTip>
@@ -166,6 +170,11 @@
                                                                                    Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                                 CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                                 Header="{DynamicResource RunTaskOnce}" />
+                                                            <MenuItem
+                                                                Command="{s:Action RunTasksFromHere,
+                                                                                   Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                Header="{DynamicResource RunTasksFromHere}" />
                                                             <MenuItem
                                                                 Command="{s:Action CopyTask,
                                                                                    Target={x:Static helper:Instances.TaskQueueViewModel}}"

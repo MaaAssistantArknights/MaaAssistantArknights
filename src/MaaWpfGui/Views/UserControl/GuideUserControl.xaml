@@ -334,7 +334,7 @@
 
                                                                                     <TextBlock FontWeight="SemiBold" Text="{DynamicResource RightClick}" />
                                                                                     <TextBlock>
-                                                                                        <Run Text="{DynamicResource RunTaskOnce}" /><Run Text="/" /><Run Text="{DynamicResource Copy}" /><Run Text="/" /><Run Text="{DynamicResource Rename}" /><Run Text="/" /><Run Text="{DynamicResource Delete}" />
+                                                                                        <Run Text="{DynamicResource RunTaskOnce}" /><Run Text="/" /><Run Text="{DynamicResource RunTasksFromHere}" /><Run Text="/" /><Run Text="{DynamicResource Copy}" /><Run Text="/" /><Run Text="{DynamicResource Rename}" /><Run Text="/" /><Run Text="{DynamicResource Delete}" />
                                                                                     </TextBlock>
                                                                                 </StackPanel>
                                                                             </ToolTip>
@@ -342,6 +342,7 @@
                                                                         <RadioButton.ContextMenu>
                                                                             <ContextMenu Width="150">
                                                                                 <MenuItem Command="{s:Action StartGuideDemo, Target={x:Static helper:Instances.SettingsViewModel}}" Header="{DynamicResource RunTaskOnce}" />
+                                                                                <MenuItem Command="{s:Action StartGuideDemo, Target={x:Static helper:Instances.SettingsViewModel}}" Header="{DynamicResource RunTasksFromHere}" />
                                                                                 <MenuItem
                                                                                     Command="{s:Action CopyGuideDemoTask,
                                                                                                        Target={x:Static helper:Instances.SettingsViewModel}}"

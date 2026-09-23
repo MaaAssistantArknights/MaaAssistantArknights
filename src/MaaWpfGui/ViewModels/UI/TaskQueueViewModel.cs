@@ -1797,6 +1797,34 @@ public class TaskQueueViewModel : Screen
     }
 
     /// <summary>
+    /// 从指定任务或其后第一个启用的任务开始运行。
+    /// </summary>
+    /// <param name="taskItem">任务项</param>
+    /// <returns>A <see cref="Task"/>representing the asynchronous operation.</returns>
+    [UsedImplicitly]
+    public async Task RunTasksFromHere(TaskItemViewModel taskItem)
+    {
+        if (taskItem == null || !_runningState.GetIdle())
+        {
+            return;
+        }
+
+        var taskQueue = ConfigFactory.CurrentConfig.TaskQueue;
+        if (taskItem.Index < 0 || taskItem.Index >= taskQueue.Count)
+        {
+            return;
+        }
+
+        var startIndex = taskItem.Index;
+        while (startIndex < taskQueue.Count && !IsTaskEnable(taskQueue[startIndex]))
+        {
+            ++startIndex;
+        }
+
+        await LinkStartWithTasks(taskQueue.Skip(startIndex).ToArray(), startIndex);
+    }
+
+    /// <summary>
     /// 复制任务
     /// </summary>
     /// <param name="taskItem">任务项</param>
@@ -2215,7 +2243,7 @@ public class TaskQueueViewModel : Screen
     }
 #endif
 
-    public async Task LinkStartWithTasks(IEnumerable<BaseTask> tasks)
+    public async Task LinkStartWithTasks(IEnumerable<BaseTask> tasks, int? startIndex = null)
     {
         if (!_runningState.Idle)
         {
@@ -2271,6 +2299,10 @@ public class TaskQueueViewModel : Screen
 
         MainTasksCompletedCount = 0;
         ResetTaskItemStatuses();
+        if (startIndex is not null)
+        {
+            MarkTasksSkippedBefore(startIndex.Value);
+        }
 
         // 所有提前 return 都要放在进入运行态之前，否则会导致无法再次点击开始
         _runningState.BeginRun(RunOwner.TaskQueue);
@@ -2417,6 +2449,19 @@ public class TaskQueueViewModel : Screen
         foreach (var item in TaskItemViewModels)
         {
             item.StatusDisplay = TaskItemStatus.Idle;
+        }
+    }
+
+    private void MarkTasksSkippedBefore(int startIndex)
+    {
+        var taskQueue = ConfigFactory.CurrentConfig.TaskQueue;
+        var endIndex = Math.Min(startIndex, Math.Min(taskQueue.Count, TaskItemViewModels.Count));
+        for (int index = 0; index < endIndex; ++index)
+        {
+            if (IsTaskEnable(taskQueue[index]))
+            {
+                TaskItemViewModels[index].StatusDisplay = TaskItemStatus.SkippedByStartPosition;
+            }
         }
     }
 
