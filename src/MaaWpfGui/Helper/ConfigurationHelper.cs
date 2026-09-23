@@ -372,7 +372,7 @@ public class ConfigurationHelper
     /// <returns>The result of saving process</returns>
     private static bool Save(string file = null)
     {
-        if (MaaWpfGui.Main.Bootstrapper.IsDemoMode)
+        if (Main.Bootstrapper.IsDemoMode)
         {
             // README 截图演示模式：不落盘任何配置文件，进程内状态退出即弃
             return true;

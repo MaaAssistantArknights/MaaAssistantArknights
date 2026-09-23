@@ -327,7 +327,7 @@ public class TaskQueueViewModel : Screen
         var lastCard = LogCardViewModels[^1];
         var log = new LogItemViewModel(content, color, weight, toolTip: toolTip);
 
-        var isAprilFools = !Bootstrapper.IsDemoMode && DateTime.UtcNow.ToYjDate().IsAprilFoolsDay();
+        var isAprilFools = DateTime.UtcNow.ToYjDate().IsAprilFoolsDay();
         if (isAprilFools)
         {
             log.Content = "thinking 🤔";
@@ -1328,7 +1328,7 @@ public class TaskQueueViewModel : Screen
         NeedToUpdateDatePrompt();
         UpdateDatePromptAndStagesLocally();
 
-        if (!Bootstrapper.IsDemoMode && DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
+        if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
         {
             AddLog(LocalizationHelper.GetString("BuyWineOnAprilFoolsDay"), UiLogColor.Info);
         }

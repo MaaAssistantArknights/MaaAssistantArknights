@@ -67,7 +67,7 @@ public class ETagCache
 
     public static void Save()
     {
-        if (MaaWpfGui.Main.Bootstrapper.IsDemoMode)
+        if (Main.Bootstrapper.IsDemoMode)
         {
             // README 截图演示模式：不写缓存文件
             return;
