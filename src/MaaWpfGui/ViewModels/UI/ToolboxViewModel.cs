@@ -87,6 +87,8 @@ public class ToolboxViewModel : Screen
             PixelPaintFitModeList.RefreshLocalization();
             PixelPaintDitherModeList.RefreshLocalization();
             SecretFrontEventList.RefreshLocalization();
+            ExportOptionList.RefreshLocalization();
+            OperBoxExportOptionList.RefreshLocalization();
             Application.Current.Dispatcher.InvokeAsync(
                 () => {
                     LoadDepotDetails();
@@ -884,14 +886,14 @@ public class ToolboxViewModel : Screen
         Csv = 3,
     }
 
-    public record struct ExportEntry(string Display, int Value);
-
-    public List<ExportEntry> ExportOptionList { get; } = [
-        new(LocalizationHelper.GetString("ExportToArkplanner"), (int)DepotExportFormat.Arkplanner),
-        new(LocalizationHelper.GetString("ExportToLolicon"), (int)DepotExportFormat.Lolicon),
-        new(LocalizationHelper.GetString("ExportToMarkdown"), (int)DepotExportFormat.Markdown),
-        new(LocalizationHelper.GetString("ExportToCsv"), (int)DepotExportFormat.Csv),
-    ];
+    /// <summary>
+    /// Gets 仓库导出格式选项，文案随语言热切换自动刷新。
+    /// </summary>
+    public LocalizedObservableList<int> ExportOptionList { get; } = new(
+        ((int)DepotExportFormat.Arkplanner, "ExportToArkplanner"),
+        ((int)DepotExportFormat.Lolicon, "ExportToLolicon"),
+        ((int)DepotExportFormat.Markdown, "ExportToMarkdown"),
+        ((int)DepotExportFormat.Csv, "ExportToCsv"));
 
     private int _selectedExportValue;
 
@@ -1909,12 +1911,14 @@ public class ToolboxViewModel : Screen
         StartOperBoxRecognitionTask();
     }
 
-    public List<GenericCombinedData<OperBoxExportFormat>> OperBoxExportOptionList { get; } = [
-        new(LocalizationHelper.GetString("OperBoxExportToClipboard"), OperBoxExportFormat.Clipboard),
-        new(LocalizationHelper.GetString("OperBoxExportToJson"), OperBoxExportFormat.Json),
-        new(LocalizationHelper.GetString("ExportToMarkdown"), OperBoxExportFormat.Markdown),
-        new(LocalizationHelper.GetString("ExportToCsv"), OperBoxExportFormat.Csv),
-    ];
+    /// <summary>
+    /// Gets 干员识别导出格式选项，文案随语言热切换自动刷新。
+    /// </summary>
+    public LocalizedObservableList<OperBoxExportFormat> OperBoxExportOptionList { get; } = new(
+        (OperBoxExportFormat.Clipboard, "OperBoxExportToClipboard"),
+        (OperBoxExportFormat.Json, "OperBoxExportToJson"),
+        (OperBoxExportFormat.Markdown, "ExportToMarkdown"),
+        (OperBoxExportFormat.Csv, "ExportToCsv"));
 
     public OperBoxExportFormat SelectedOperBoxExportValue
     {
