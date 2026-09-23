@@ -1029,7 +1029,7 @@ If the number of battles is not enough to complete the set multiplier (such as o
 Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="StageSelect">Stage</system:String>
     <system:String x:Key="StageSelect2">Candidates</system:String>
-    <system:String x:Key="AddStage">Add candidate</system:String>
+    <system:String x:Key="AddStage">Add</system:String>
     <system:String x:Key="RemainingSanityStage">Remaining Sanity</system:String>
     <system:String x:Key="NoUse">No Use</system:String>
     <!--<system:String x:Key="Amend">Amend</system:String>-->
