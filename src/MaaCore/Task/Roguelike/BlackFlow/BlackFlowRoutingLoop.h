@@ -54,28 +54,12 @@ bool refresh_with_retries(Session& session, IBlackFlowTaskPort& port, std::strin
         }
         const auto* failure = current_error.empty() ? "unknown" : current_error.c_str();
         if (attempt == 0) {
-            Log.info(
-                "BlackFlow map rebuild attempt failed",
-                "floor",
-                request.floor,
-                "attempt",
-                attempt + 1,
-                "of",
-                2,
-                "error",
-                failure);
+            LogInfo << "BlackFlow map rebuild attempt failed" << "floor" << request.floor << "attempt" << attempt + 1
+                    << "of" << 2 << "error" << failure;
         }
         else {
-            Log.debug(
-                "BlackFlow map rebuild attempt failed",
-                "floor",
-                request.floor,
-                "attempt",
-                attempt + 1,
-                "of",
-                2,
-                "error",
-                failure);
+            LogDebug << "BlackFlow map rebuild attempt failed" << "floor" << request.floor << "attempt" << attempt + 1
+                     << "of" << 2 << "error" << failure;
         }
         if (!current_error.empty()) {
             latest_error = std::move(current_error);

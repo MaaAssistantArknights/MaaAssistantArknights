@@ -262,7 +262,7 @@ bool asst::AutoRecruitTask::_run()
             if (!check_recruit_home_page()) {
                 return false;
             }
-            Log.info("There is no available start button.");
+            LogInfo << "There is no available start button.";
             if (!try_use_expedited) {
                 return true;
             }
@@ -272,12 +272,12 @@ bool asst::AutoRecruitTask::_run()
             if (need_exit()) {
                 return false;
             }
-            Log.info("ready to use expedited plan");
+            LogInfo << "ready to use expedited plan";
             if (recruit_now()) {
                 hire_all();
             }
             else {
-                Log.info("Failed to use expedited plan");
+                LogInfo << "Failed to use expedited plan";
                 // There is a small chance that confirm button were clicked twice and got stuck into
                 // the bottom-right slot. ref: #1491
                 if (check_recruit_home_page()) {
@@ -287,7 +287,7 @@ bool asst::AutoRecruitTask::_run()
                     try_use_expedited = try_get_start_button(ctrler()->get_image()).has_value();
                 }
                 else {
-                    Log.info("Not in home page after failing to use expedited plan.");
+                    LogInfo << "Not in home page after failing to use expedited plan.";
                     return false;
                 }
             }
@@ -323,7 +323,7 @@ std::optional<asst::Rect> asst::AutoRecruitTask::try_get_start_button(const cv::
     if (iter == result.cend()) {
         return std::nullopt;
     }
-    Log.info("Found slot index", slot_index_from_rect(iter->rect), ".");
+    LogInfo << "Found slot index" << slot_index_from_rect(iter->rect) << ".";
     return iter->rect;
 }
 
@@ -380,7 +380,7 @@ asst::AutoRecruitTask::recruit_result asst::AutoRecruitTask::recruit_one(const R
         // see
         // https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/300#issuecomment-1073287984
         // return and try later
-        Log.info("Timer of this slot has not been reduced as expected.");
+        LogInfo << "Timer of this slot has not been reduced as expected.";
         click_return_button();
         return recruit_result::failed;
     }
@@ -392,7 +392,7 @@ asst::AutoRecruitTask::recruit_result asst::AutoRecruitTask::recruit_one(const R
     }
 
     if (!confirm()) {
-        Log.info("Failed to confirm current recruit config.");
+        LogInfo << "Failed to confirm current recruit config.";
         click_return_button();
         return recruit_result::failed;
     }
@@ -613,7 +613,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                 m_dirty_slots.emplace(index); // mark as dirty
             }
             else {
-                Log.info("will not report, dirty slots are", m_dirty_slots);
+                LogInfo << "will not report, dirty slots are" << m_dirty_slots;
             }
         }
 
@@ -660,7 +660,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                     { "refresh_limit", refresh_limit },
                 };
                 callback(AsstMsg::SubTaskExtraInfo, cb_info);
-                Log.trace("recruit tags refreshed", refresh_count, "times, rerunning recruit task");
+                LogTrace << "recruit tags refreshed" << refresh_count << "times, rerunning recruit task";
             }
 
             // desired retry, not an error
@@ -681,7 +681,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                 { "continue", continue_refresh },
             };
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
-            Log.trace("No recruit permit");
+            LogTrace << "No recruit permit";
 
             calc_task_result_type result(calc_task_result::no_permit);
             return result;
@@ -720,7 +720,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                 if (!permit_count) {
                     json::value cb_info = basic_info_with_what("RecruitPermitCountRecognitionFailed");
                     callback(AsstMsg::SubTaskExtraInfo, cb_info);
-                    Log.warn("Skip 3-star recruitment because recruitment permit count recognition failed");
+                    LogWarn << "Skip 3-star recruitment because recruitment permit count recognition failed";
                     return calc_task_result_type(calc_task_result::force_skip);
                 }
 
@@ -730,11 +730,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                         { "current", *permit_count },
                     };
                     callback(AsstMsg::SubTaskExtraInfo, cb_info);
-                    Log.info(
-                        "Skip 3-star recruitment to preserve permits:",
-                        *permit_count,
-                        "<=",
-                        m_level3_recruitment_permit_reserve);
+                    LogInfo << "Skip 3-star recruitment to preserve permits:" << *permit_count
+                            << "<=" << m_level3_recruitment_permit_reserve;
                     return calc_task_result_type(calc_task_result::force_skip);
                 }
             }
@@ -747,7 +744,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         // try to set the timer to desired value
         if (m_set_time) {
-            Log.info("recruitment time:", recruitment_time, "min");
+            LogInfo << "recruitment time:" << recruitment_time << "min";
             const int desired_hour = recruitment_time / 60;
             const int desired_minute_div_10 = (recruitment_time % 60) / 10;
             const int temp = desired_hour + (desired_minute_div_10 != 0);
@@ -795,7 +792,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         return result;
     }
 
-    Log.error("Failed to analyze recruit tags.");
+    LogError << "Failed to analyze recruit tags.";
     save_img(utils::path("debug") / utils::path("recruit"));
     return {};
 }
@@ -876,7 +873,7 @@ bool asst::AutoRecruitTask::hire_all(const cv::Mat& image)
         hire_searcher.set_task_info("RecruitFinish");
         hire_searcher.analyze();
         for (const MatchRect& r : hire_searcher.get_result()) {
-            Log.info("Mark", slot_index_from_rect(r.rect), "clean");
+            LogInfo << "Mark" << slot_index_from_rect(r.rect) << "clean";
             m_dirty_slots.erase(slot_index_from_rect(r.rect));
         }
         if (hire_searcher.get_result().empty()) {
@@ -901,7 +898,7 @@ bool asst::AutoRecruitTask::hire_all()
     for (const TextRect& r : result) {
         m_dirty_slots.emplace(slot_index_from_rect(r.rect));
     }
-    Log.info("Dirty slots are", m_dirty_slots);
+    LogInfo << "Dirty slots are" << m_dirty_slots;
     return true;
 }
 

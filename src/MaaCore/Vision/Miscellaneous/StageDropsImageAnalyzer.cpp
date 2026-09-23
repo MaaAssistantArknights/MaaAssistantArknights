@@ -65,7 +65,7 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
         if (analyzer.analyze()) {
             stage_code = analyzer.get_result().text;
             text_rect = analyzer.get_result().rect;
-            Log.info(__FUNCTION__, "stage_code", stage_code);
+            LogInfo << __FUNCTION__ << "stage_code" << stage_code;
         }
     }
 
@@ -79,7 +79,7 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
             if (!non_char_model_stage_code.empty()) {
                 stage_code = non_char_model_stage_code;
                 text_rect = analyzer.get_result().rect;
-                Log.info(__FUNCTION__, "stage_code (Non-ASCII model)", stage_code);
+                LogInfo << __FUNCTION__ << "stage_code (Non-ASCII model)" << stage_code;
             }
         }
     }
@@ -109,7 +109,7 @@ bool asst::StageDropsImageAnalyzer::analyze_times()
     check_analyzer.set_use_raw(true);
     if (!check_analyzer.analyze()) {
         m_times = -1; // not found
-        Log.info(__FUNCTION__, "Times not found");
+        LogInfo << __FUNCTION__ << "Times not found";
 #ifdef ASST_DEBUG
         auto draw_rect = Task.get("StageDrops-TimesCheck")->roi;
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(draw_rect), cv::Scalar(0, 0, 255), 2);
@@ -130,26 +130,26 @@ bool asst::StageDropsImageAnalyzer::analyze_times()
     rec_analyzer.set_use_raw(true);
     if (!rec_analyzer.analyze()) {
         m_times = -2; // recognition failed
-        Log.error(__FUNCTION__, "recognition failed");
+        LogError << __FUNCTION__ << "recognition failed";
         return false;
     }
 
     std::string raw_str = rec_analyzer.get_result().text;
-    Log.info(__FUNCTION__, "raw_str", raw_str);
+    LogInfo << __FUNCTION__ << "raw_str" << raw_str;
 
     boost::regex re(R"([0-9]+)");
     boost::smatch match;
     if (!boost::regex_search(raw_str, match, re)) {
         m_times = -2;
-        Log.error(__FUNCTION__, "regex_search failed");
+        LogError << __FUNCTION__ << "regex_search failed";
         return false;
     }
     std::string str_times = match.str();
-    Log.info(__FUNCTION__, "str_times", str_times);
+    LogInfo << __FUNCTION__ << "str_times" << str_times;
 
     if (!utils::chars_to_number(str_times, m_times)) {
         m_times = -2;
-        Log.error(__FUNCTION__, "chars_to_number failed");
+        LogError << __FUNCTION__ << "chars_to_number failed";
         return false;
     }
 
@@ -166,7 +166,7 @@ bool asst::StageDropsImageAnalyzer::analyze_times()
         2);
 #endif
 
-    Log.info(__FUNCTION__, "times", m_times);
+    LogInfo << __FUNCTION__ << "times" << m_times;
     return true;
 }
 
@@ -205,7 +205,7 @@ bool asst::StageDropsImageAnalyzer::analyze_stars()
     }
     m_stars = matched_stars;
 
-    Log.info(__FUNCTION__, "stars", m_stars);
+    LogInfo << __FUNCTION__ << "stars" << m_stars;
 
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, make_rect<cv::Rect>(matched_rect), cv::Scalar(0, 0, 255), 2);
@@ -232,10 +232,10 @@ bool asst::StageDropsImageAnalyzer::analyze_difficulty()
 
     auto log = [&]() {
         if (m_difficulty == StageDifficulty::Normal) {
-            Log.info(__FUNCTION__, "StageDifficulty::Normal");
+            LogInfo << __FUNCTION__ << "StageDifficulty::Normal";
         }
         else {
-            Log.info(__FUNCTION__, "StageDifficulty::Tough");
+            LogInfo << __FUNCTION__ << "StageDifficulty::Tough";
         }
 #ifdef ASST_DEBUG
         cv::putText(
@@ -268,7 +268,7 @@ bool asst::StageDropsImageAnalyzer::analyze_difficulty()
     int count = cv::countNonZero(bin);
 
     int threshold = task_ptr->special_params[0];
-    Log.info(__FUNCTION__, "count", count, "threshold", threshold);
+    LogInfo << __FUNCTION__ << "count" << count << "threshold" << threshold;
 
     m_difficulty = count > threshold ? StageDifficulty::Tough : StageDifficulty::Normal;
     log();
@@ -311,7 +311,7 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
             if (use_word_model && quantity == 0) {
                 quantity = match_quantity(item_roi, item, false);
             }
-            Log.info("Item id:", item, ", quantity:", quantity);
+            LogInfo << "Item id:" << item << ", quantity:" << quantity;
 #ifdef ASST_DEBUG
             cv::rectangle(m_image_draw, make_rect<cv::Rect>(item_roi), cv::Scalar(0, 0, 255), 2);
             cv::putText(
@@ -333,10 +333,10 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
 #endif
             if (quantity <= 0) {
                 has_error = true;
-                Log.error(__FUNCTION__, "quantity error", quantity);
+                LogError << __FUNCTION__ << "quantity error" << quantity;
             }
             if (item.empty()) {
-                Log.warn(__FUNCTION__, "item id is empty");
+                LogWarn << __FUNCTION__ << "item id is empty";
             }
             StageDropInfo info;
             info.drop_type = drop_type;
@@ -379,7 +379,7 @@ bool asst::StageDropsImageAnalyzer::analyze_drops_for_CF()
     food_analyzer.set_task_info("StageDrops-StageCF-FoodBonusFlag");
     if (food_analyzer.analyze()) {
         // 这个企鹅物流不收，而且也不好识别，直接报错拉倒
-        Log.info(__FUNCTION__, "Food Bonus, stop to upload");
+        LogInfo << __FUNCTION__ << "Food Bonus, stop to upload";
         has_error = true;
     }
 
@@ -392,7 +392,7 @@ bool asst::StageDropsImageAnalyzer::analyze_drops_for_CF()
         const auto& result = analyzer.get_result().front();
         int quantity = quantity_string_to_int(result.text);
 
-        Log.info("Item id:", item_name, ", quantity:", quantity);
+        LogInfo << "Item id:" << item_name << ", quantity:" << quantity;
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(result.rect), cv::Scalar(0, 0, 255), 2);
         cv::putText(
@@ -414,7 +414,7 @@ bool asst::StageDropsImageAnalyzer::analyze_drops_for_CF()
 #endif
         if (quantity <= 0) {
             has_error = true;
-            Log.error(__FUNCTION__, "quantity error", quantity);
+            LogError << __FUNCTION__ << "quantity error" << quantity;
         }
         StageDropInfo info;
         info.drop_type = StageDropType::Normal;
@@ -454,7 +454,7 @@ std::optional<int> asst::StageDropsImageAnalyzer::merge_image(const cv::Mat& new
     const int old_strip_min_width = ref_roi.br().x;
     const int old_strip_min_height = std::max<int>(ref_roi.br().y, overlay_rect.br().y);
     if (m_image.empty() || ref_roi.x < 0 || m_image.cols < old_strip_min_width || m_image.rows < old_strip_min_height) {
-        Log.error("m_image is empty or has invalid dimensions:", m_image.size());
+        LogError << "m_image is empty or has invalid dimensions:" << m_image.size();
         return std::nullopt;
     }
 
@@ -465,7 +465,7 @@ std::optional<int> asst::StageDropsImageAnalyzer::merge_image(const cv::Mat& new
     const int new_img_min_width = std::max<int>(ref_roi.width, overlay_rect.br().x);
     const int new_img_min_height = std::max<int>(ref_roi.br().y, overlay_rect.br().y);
     if (new_img.empty() || new_img.cols < new_img_min_width || new_img.rows < new_img_min_height) {
-        Log.error("new_img is empty or has invalid dimensions:", new_img.size());
+        LogError << "new_img is empty or has invalid dimensions:" << new_img.size();
         return std::nullopt;
     }
 
@@ -474,7 +474,7 @@ std::optional<int> asst::StageDropsImageAnalyzer::merge_image(const cv::Mat& new
     offset_match.set_threshold(0.7);
     offset_match.set_method(MatchMethod::Ccoeff);
     if (!offset_match.analyze()) {
-        Log.error("Unable to merge images");
+        LogError << "Unable to merge images";
         return std::nullopt;
     }
     const int offset = (new_img.cols - offset_match.get_result().rect.x) - (m_image.cols - ref_roi.x);
@@ -486,12 +486,9 @@ std::optional<int> asst::StageDropsImageAnalyzer::merge_image(const cv::Mat& new
 
     // 检查 (即将创建的) new_strip 的长度, 若比 m_image 更短, 则放弃
     if (overlay_rect_on_strip.br().x <= m_image.cols) {
-        Log.info(
-            "The width of new_strip",
-            overlay_rect_on_strip.br().x,
-            "is less than or equal to the original one",
-            m_image.cols);
-        Log.info("Cancel the image merging");
+        LogInfo << "The width of new_strip" << overlay_rect_on_strip.br().x
+                << "is less than or equal to the original one" << m_image.cols;
+        LogInfo << "Cancel the image merging";
         return offset;
     }
 
@@ -514,7 +511,7 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     auto task_ptr = Task.get<MatchTaskInfo>("StageDrops-BaseLine");
     if (task_ptr->color_scales.size() != 1 ||
         !std::holds_alternative<MatchTaskInfo::GrayRange>(task_ptr->color_scales.front())) {
-        Log.error(__FUNCTION__, "| color_scales in `StageDrops-BaseLine` is not a GrayRange");
+        LogError << __FUNCTION__ << "| color_scales in `StageDrops-BaseLine` is not a GrayRange";
         return false;
     }
     const auto& color_scale = std::get<MatchTaskInfo::GrayRange>(task_ptr->color_scales.front());
@@ -604,18 +601,18 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     }
     if (!m_baseline.empty()) {
         if (m_baseline.back().second == StageDropType::Unknown) {
-            Log.warn(__FUNCTION__, "The last baseline is unknown type, remove it");
+            LogWarn << __FUNCTION__ << "The last baseline is unknown type, remove it";
             m_baseline.pop_back();
         }
     }
 
-    Log.trace(__FUNCTION__, "baseline size", m_baseline.size());
+    LogTrace << __FUNCTION__ << "baseline size" << m_baseline.size();
     for (const auto& key : m_baseline | std::views::keys) {
-        Log.trace(__FUNCTION__, "baseline", key.to_string());
+        LogTrace << __FUNCTION__ << "baseline" << key.to_string();
     }
 
     if (m_image.cols - (x_offset + bounding_rect.width) < 30 + max_spacing) {
-        Log.trace("bounding_rect.right=", x_offset + bounding_rect.width, ", more materials to reveal?");
+        LogTrace << "bounding_rect.right=" << x_offset + bounding_rect.width << ", more materials to reveal?";
     } // TODO: else tell caller to prevent unnecessary swipe
 
     return !m_baseline.empty();
@@ -625,7 +622,7 @@ asst::StageDropType asst::StageDropsImageAnalyzer::match_droptype(const Rect& ro
 {
     LogTraceFunction;
 
-    Log.trace(__FUNCTION__, "baseline: ", roi.to_string());
+    LogTrace << __FUNCTION__ << "baseline: " << roi.to_string();
 
     static const std::unordered_map<StageDropType, std::string> DropTypeTaskName = {
         { StageDropType::ExpAndLMB, "StageDrops-DropType-ExpAndLMB" },
@@ -701,7 +698,7 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
             }
         }
         else {
-            Log.error("StageDropType::ExpAndLMB, size", size);
+            LogError << "StageDropType::ExpAndLMB, size" << size;
             return {};
         }
         break;
@@ -763,7 +760,7 @@ std::optional<asst::TextRect>
     auto task_ptr = Task.get<MatchTaskInfo>("StageDrops-Quantity");
     if (task_ptr->color_scales.size() != 1 ||
         !std::holds_alternative<MatchTaskInfo::GrayRange>(task_ptr->color_scales.front())) {
-        Log.error(__FUNCTION__, "| color_scales in `StageDrops-Quantity` is not a GrayRange");
+        LogError << __FUNCTION__ << "| color_scales in `StageDrops-Quantity` is not a GrayRange";
         return std::nullopt;
     }
     const auto& color_scale = std::get<MatchTaskInfo::GrayRange>(task_ptr->color_scales.front());
@@ -839,13 +836,13 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     auto task_ptr = Task.get<MatchTaskInfo>("StageDrops-Quantity");
     if (task_ptr->color_scales.size() != 1 ||
         !std::holds_alternative<MatchTaskInfo::GrayRange>(task_ptr->color_scales.front())) {
-        Log.error(__FUNCTION__, "| color_scales in `StageDrops-Quantity` is not a GrayRange");
+        LogError << __FUNCTION__ << "| color_scales in `StageDrops-Quantity` is not a GrayRange";
         return std::nullopt;
     }
     const auto& color_scale = std::get<MatchTaskInfo::GrayRange>(task_ptr->color_scales.front());
     auto templ = TemplResource::get_instance().get_templ(item).clone();
     if (templ.empty()) {
-        Log.error("templ is empty: ", item);
+        LogError << "templ is empty: " << item;
         return std::nullopt;
     }
 
@@ -934,7 +931,7 @@ int asst::StageDropsImageAnalyzer::quantity_string_to_int(const std::string& str
     }
 
     int quantity = static_cast<int>(std::stod(digit_str) * multiple);
-    Log.info("Quantity:", quantity);
+    LogInfo << "Quantity:" << quantity;
     return quantity;
 }
 

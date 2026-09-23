@@ -109,7 +109,8 @@ AsstBool AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, con
 AsstBool AsstConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config)
 {
     if (!inited() || handle == nullptr) {
-        Log.error(__FUNCTION__, "Cannot connect to device, asst not inited or handle is null", inited(), handle);
+        LogError << __FUNCTION__ << "| Cannot connect to device, asst not inited or handle is null" << inited()
+                 << handle;
         return AsstFalse;
     }
 
@@ -190,7 +191,7 @@ AsstBool AsstAttachWindow(
     uint64_t keyboard_method)
 {
     if (!inited() || handle == nullptr) {
-        Log.error(__FUNCTION__, "Cannot attach to window, asst not inited or handle is null", inited(), handle);
+        LogError << __FUNCTION__ << "Cannot attach to window, asst not inited or handle is null" << inited() << handle;
         return AsstFalse;
     }
     auto* assistant = dynamic_cast<asst::Assistant*>(handle);

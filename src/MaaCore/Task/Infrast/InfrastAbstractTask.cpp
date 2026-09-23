@@ -101,7 +101,7 @@ asst::infrast::CustomRoomConfig& asst::InfrastAbstractTask::current_room_config(
 {
     static infrast::CustomRoomConfig empty;
     if (!m_is_custom) [[unlikely]] {
-        Log.warn(__FUNCTION__, "custom is not enabled");
+        LogWarn << __FUNCTION__ << "custom is not enabled";
         return empty;
     }
 
@@ -109,7 +109,7 @@ asst::infrast::CustomRoomConfig& asst::InfrastAbstractTask::current_room_config(
         return m_custom_config.at(m_cur_facility_index);
     }
     else {
-        Log.warn(__FUNCTION__, "index out of range:", m_cur_facility_index, m_custom_config.size());
+        LogWarn << __FUNCTION__ << "index out of range:" << m_cur_facility_index << m_custom_config.size();
         return empty;
     }
 }
@@ -122,7 +122,7 @@ bool asst::InfrastAbstractTask::match_operator_groups()
 
     auto opers = get_available_oper_for_group();
     if (opers.size() == 0) {
-        Log.info(__FUNCTION__, "available operator for group is empty");
+        LogInfo << __FUNCTION__ << "available operator for group is empty";
         std::vector<std::string> temp, pre_temp;
         while (true) {
             if (need_exit()) {
@@ -134,9 +134,9 @@ bool asst::InfrastAbstractTask::match_operator_groups()
             }
             if (pre_temp == temp) {
                 if (pre_result_no_changes) {
-                    Log.warn("partial result is not changed, reset the page");
+                    LogWarn << "partial result is not changed, reset the page";
                     if (retried) {
-                        Log.error("already retried");
+                        LogError << "already retried";
                         break;
                     }
                     swipe_to_the_left_of_operlist(swipe_times + 1);
@@ -158,7 +158,7 @@ bool asst::InfrastAbstractTask::match_operator_groups()
     }
     swipe_to_the_left_of_operlist(swipe_times + 1);
     swipe_times = 0;
-    Log.info(__FUNCTION__, "available operators for group size:", opers.size());
+    LogInfo << __FUNCTION__ << "available operators for group size:" << opers.size();
     // 筛选第一个满足要求的干员组
     for (const auto& oper_group_pair : current_room_config().operator_groups) {
         if (std::ranges::all_of(oper_group_pair.second, [opers](const std::string& oper) {
@@ -229,20 +229,20 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
     LogTraceFunction;
 
     if (m_is_custom && static_cast<size_t>(m_cur_facility_index) >= m_custom_config.size()) {
-        Log.warn("index out of range:", index, m_custom_config.size());
+        LogWarn << "index out of range:" << index << m_custom_config.size();
         return false;
     }
 
     InfrastFacilityImageAnalyzer analyzer(ctrler()->get_image());
     analyzer.set_to_be_analyzed({ facility_name() });
     if (!analyzer.analyze()) {
-        Log.info("result is empty");
+        LogInfo << "result is empty";
         analyzer.save_img(utils::path("debug") / utils::path("infrast") / utils::path("enter_facility"));
         return false;
     }
     Rect rect = analyzer.get_rect(facility_name(), index);
     if (rect.empty()) {
-        Log.info("facility index is out of range");
+        LogInfo << "facility index is out of range";
         analyzer.save_img(utils::path("debug") / utils::path("infrast") / utils::path("enter_facility"));
         return false;
     }
@@ -319,9 +319,9 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
         }
         if (partial_result == pre_partial_result) {
             if (pre_result_no_changes) {
-                Log.warn("partial result is not changed, reset the page");
+                LogWarn << "partial result is not changed, reset the page";
                 if (retried) {
-                    Log.error("already retring");
+                    LogError << "already retring";
                     break;
                 }
                 swipe_to_the_left_of_operlist(swipe_times + 1);
@@ -389,30 +389,25 @@ bool asst::InfrastAbstractTask::select_opers_review(
     oper_analyzer.set_to_be_calced(
         InfrastOperImageAnalyzer::ToBeCalced::Selected | InfrastOperImageAnalyzer::ToBeCalced::Doing);
     if (!oper_analyzer.analyze()) {
-        Log.warn("No oper");
+        LogWarn << "No oper";
         return false;
     }
     oper_analyzer.sort_by_loc();
     const auto& oper_analyzer_res = oper_analyzer.get_result();
     size_t selected_count =
         std::ranges::count_if(oper_analyzer_res, [](const infrast::Oper& info) { return info.selected; });
-    Log.info(
-        "selected_count,config.names.size,num_of_opers_expect = ",
-        selected_count,
-        ",",
-        room_config.names.size(),
-        ",",
-        num_of_opers_expect);
+    LogInfo << "selected_count,config.names.size,num_of_opers_expect = " << selected_count << ","
+            << room_config.names.size() << "," << num_of_opers_expect;
 
     if (selected_count < num_of_opers_expect) {
-        Log.warn("select opers review fail: unexpected number of selected operators ");
+        LogWarn << "select opers review fail: unexpected number of selected operators ";
         return false;
     }
     if (facility_name() != "Dorm" && (!m_is_custom || (room_config.names.empty() && room_config.candidates.empty()))) {
         return true;
     }
     if (selected_count < room_config.names.size()) {
-        Log.warn("select opers review fail: part of custom operators unselected");
+        LogWarn << "select opers review fail: part of custom operators unselected";
         return false;
     }
 
@@ -431,24 +426,24 @@ bool asst::InfrastAbstractTask::select_opers_review(
 
         const std::string& name = name_analyzer.get_result().text;
         if (auto iter = std::ranges::find(room_config.names, name); iter != room_config.names.end()) {
-            Log.info(name, "is in \"operators\"，and is selected");
+            LogInfo << name << "is in \"operators\"，and is selected";
             room_config.names.erase(iter);
         }
         else { // 备选干员或自动选择，只要不选工作中的干员即可
             if (oper.doing == infrast::Doing::Working) {
-                Log.warn("selected operators at work:", name);
-                Log.warn("select opers review fail: non-custom configuration, but an operator at work is selected");
+                LogWarn << "selected operators at work:" << name;
+                LogWarn << "select opers review fail: non-custom configuration, but an operator at work is selected";
                 return false;
             }
         }
     }
 
     if (room_config.names.size()) {
-        Log.warn("select opers review fail: part of custom operators unselected.");
+        LogWarn << "select opers review fail: part of custom operators unselected.";
         return false;
     }
 
-    Log.info("select opers review passed");
+    LogInfo << "select opers review passed";
     return true;
 }
 
@@ -458,7 +453,7 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
 
     auto& room_config = current_room_config();
     if (room_config.names.empty() && room_config.candidates.empty()) {
-        Log.warn("opers_name is empty");
+        LogWarn << "opers_name is empty";
         return false;
     }
 
@@ -470,7 +465,7 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
     InfrastOperImageAnalyzer oper_analyzer(image);
     oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected);
     if (!oper_analyzer.analyze()) {
-        Log.warn("No oper");
+        LogWarn << "No oper";
         return false;
     }
     oper_analyzer.sort_by_loc();
@@ -495,7 +490,7 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
     }
 
     if (!need_to_select) {
-        Log.warn("no custom operators found.");
+        LogWarn << "no custom operators found.";
         return true;
     }
 
@@ -517,7 +512,7 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
     InfrastOperImageAnalyzer oper_analyzer2(image);
     oper_analyzer2.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected);
     if (!oper_analyzer2.analyze()) {
-        Log.warn("No oper");
+        LogWarn << "No oper";
         return false;
     }
     oper_analyzer2.sort_by_loc();
@@ -567,7 +562,7 @@ bool asst::InfrastAbstractTask::get_opers(std::vector<std::string>& result, doub
     InfrastOperImageAnalyzer oper_analyzer(image);
     oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Mood);
     if (!oper_analyzer.analyze()) {
-        Log.warn(__FUNCTION__, "No oper");
+        LogWarn << __FUNCTION__ << "No oper";
         return false;
     }
     oper_analyzer.sort_by_loc();
@@ -594,7 +589,7 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
     LogTraceFunction;
 
     if (names.empty()) {
-        Log.warn("names is empty");
+        LogWarn << "names is empty";
         return;
     }
 
@@ -602,7 +597,7 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
     InfrastOperImageAnalyzer oper_analyzer(image);
     oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected);
     if (!oper_analyzer.analyze()) {
-        Log.warn("No oper");
+        LogWarn << "No oper";
         return;
     }
     oper_analyzer.sort_by_loc();
@@ -628,7 +623,7 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
             ctrler()->click(iter->rect);
         }
         else {
-            Log.error("name not in this page", name);
+            LogError << "name not in this page" << name;
         }
     }
     sleep(500); // 此处刚刚选择了一位干员，因后续任务需截图识别，所以需要一个延迟，以保证后续截图选中状态无误
@@ -673,13 +668,13 @@ bool asst::InfrastAbstractTask::click_clear_button()
             }
             size_t selected_count =
                 std::ranges::count_if(analyzer.get_result(), [](const infrast::Oper& info) { return info.selected; });
-            Log.info(__FUNCTION__, "after clear, selected_count = ", selected_count);
+            LogInfo << __FUNCTION__ << "after clear, selected_count = " << selected_count;
             if (selected_count == 0) {
                 break;
             }
         }
         else {
-            Log.error(__FUNCTION__, "clear failed");
+            LogError << __FUNCTION__ << "clear failed";
             return false;
         }
     }
@@ -726,7 +721,7 @@ bool asst::InfrastAbstractTask::click_confirm_button()
     bool ret = task.run();
     if (ret) {
         for (const auto& operator_id : m_pending_operator_ids) {
-            Log.trace("infrastructure operator committed", facility_name(), operator_id);
+            LogTrace << "infrastructure operator committed" << facility_name() << operator_id;
         }
         if (m_task_data) {
             m_task_data->commit_pending();

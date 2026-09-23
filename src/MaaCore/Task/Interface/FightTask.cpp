@@ -94,7 +94,7 @@ bool asst::FightTask::set_params(const json::value& params)
 
     bool is_new_series_list = Task.get("FightSeries-OldMethodFlag") == nullptr;
     if (series < -1 || (series > 10 && is_new_series_list) || (series > 6 && !is_new_series_list)) {
-        Log.error("Invalid series");
+        LogError << "Invalid series";
         return false;
     }
     else {
@@ -132,7 +132,7 @@ bool asst::FightTask::set_params(const json::value& params)
             if (stage.starts_with("SSReopen-") && stage.length() == 11) {
                 m_sidestory_reopen_task_ptr->set_sidestory_name(stage.substr(9));
                 if (!m_stage_navigation_task_ptr->set_stage_name(stage.substr(9) + "-OpenOpt")) {
-                    Log.error("StageNavigationTask not support sidestory reopen stage", stage);
+                    LogError << "StageNavigationTask not support sidestory reopen stage" << stage;
                     return false;
                 }
                 m_sidestory_reopen_task_ptr->set_enable(true);
@@ -145,7 +145,7 @@ bool asst::FightTask::set_params(const json::value& params)
             else {
                 m_stage_navigation_task_ptr->set_enable(false);
                 m_sidestory_reopen_task_ptr->set_enable(false);
-                Log.error("Cannot set stage", stage);
+                LogError << "Cannot set stage" << stage;
                 return false;
             }
         }

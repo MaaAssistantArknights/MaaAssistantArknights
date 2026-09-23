@@ -140,7 +140,7 @@ asst::TilePack::result_type asst::TilePack::calc_(const Map::Level& level, doubl
                 }
             }
             if (!ret || !ret_side) {
-                Log.info("Tiles calc error!");
+                LogInfo << "Tiles calc error!";
                 return {};
             }
         }

@@ -96,7 +96,7 @@ void asst::RoguelikeFoldartalGainTaskPlugin::enter_next_floor()
         callback(AsstMsg::SubTaskExtraInfo, info);
 
         if (m_config->get_first_floor_foldartal()) {
-            Log.info("Foldartal will get next floor:", foldartar_will_get_next_floor);
+            LogInfo << "Foldartal will get next floor:" << foldartar_will_get_next_floor;
             if (foldartar_will_get_next_floor == m_start_floor_foldartal) {
                 m_task_ptr->set_enable(false);
             }

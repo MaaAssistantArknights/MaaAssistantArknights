@@ -9,7 +9,7 @@ bool asst::SingleStepBattleProcessTask::set_stage_name_cache(const std::string& 
     LogTraceFunction;
 
     if (!Tile.find(stage_name)) {
-        Log.error("get stage info failed", stage_name);
+        LogError << "get stage info failed" << stage_name;
         return false;
     }
     m_stage_name_cache = stage_name;
@@ -26,7 +26,7 @@ bool asst::SingleStepBattleProcessTask::_run()
     LogTraceFunction;
 
     if (!calc_tiles_info(m_stage_name_cache)) {
-        Log.error("get stage info failed", m_stage_name_cache);
+        LogError << "get stage info failed" << m_stage_name_cache;
         return false;
     }
 

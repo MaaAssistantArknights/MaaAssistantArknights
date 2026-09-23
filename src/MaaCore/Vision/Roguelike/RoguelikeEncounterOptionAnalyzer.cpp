@@ -15,19 +15,19 @@ bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
     // validate m_theme
     // ————————————————————————————————————————————————————————————————
     if (!RoguelikeConfig::is_valid_theme(m_theme)) [[unlikely]] {
-        Log.error(__FUNCTION__, std::format("| Invalid roguelike theme: {}; failed to analyze", m_theme));
+        LogError << __FUNCTION__ << std::format("| Invalid roguelike theme: {}; failed to analyze", m_theme);
         return false;
     }
 
     if (m_theme != RoguelikeTheme::JieGarden && m_theme != RoguelikeTheme::BlackFlow) [[unlikely]] {
-        Log.error(__FUNCTION__, std::format("| Unsupported roguelike theme: {}; failed to analyze", m_theme));
+        LogError << __FUNCTION__ << std::format("| Unsupported roguelike theme: {}; failed to analyze", m_theme);
         return false;
     }
     // ————————————————————————————————————————————————————————————————
 
     MultiMatcher::ResultsVecOpt option_analyze_ret = analyze_options(m_image);
     if (!option_analyze_ret) {
-        Log.error(__FUNCTION__, "| Failed to recognise any options");
+        LogError << __FUNCTION__ << "| Failed to recognise any options";
         save_img(m_image, "m_image");
         return false;
     }
@@ -49,7 +49,7 @@ bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
             if (enabled_rect.x < 0 || enabled_rect.y < 0 || enabled_rect.width <= 0 || enabled_rect.height <= 0 ||
                 enabled_rect.x + enabled_rect.width > m_image.cols ||
                 enabled_rect.y + enabled_rect.height > m_image.rows) {
-                Log.error(__FUNCTION__, "BlackFlow option enabled-state ROI is out of bounds:", enabled_rect);
+                LogError << __FUNCTION__ << "BlackFlow option enabled-state ROI is out of bounds:" << enabled_rect;
                 return false;
             }
 
@@ -60,10 +60,8 @@ bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
             const double dark_pixel_ratio =
                 static_cast<double>(cv::countNonZero(dark_pixel_mask)) / static_cast<double>(gray.total());
             option.enabled = dark_pixel_ratio >= 0.10;
-            Log.debug(
-                "RoguelikeEncounterOptionAnalyzer | BlackFlow option dark pixel ratio",
-                dark_pixel_ratio,
-                option.enabled ? "enabled" : "disabled");
+            LogDebug << "RoguelikeEncounterOptionAnalyzer | BlackFlow option dark pixel ratio" << dark_pixel_ratio
+                     << (option.enabled ? "enabled" : "disabled");
         }
         else {
             const MatchTaskPtr enabled_task_ptr =
@@ -83,15 +81,11 @@ bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
             option.text = ocrer.get_result().text;
         }
         else {
-            Log.error(__FUNCTION__, "Failed to recognise option text");
+            LogError << __FUNCTION__ << "Failed to recognise option text";
             save_img(option.templ, "option template");
         }
 
-        Log.info(
-            "RoguelikeEncounterOptionAnalyzer | Found",
-            option.enabled ? "enabled" : "disabled",
-            "option:",
-            option.text);
+        LogInfo << __FUNCTION__ << "| Found" << (option.enabled ? "enabled" : "disabled") << "option:" << option.text;
         result.emplace_back(std::move(option));
     }
 
@@ -108,12 +102,12 @@ std::optional<int> asst::RoguelikeEncounterOptionAnalyzer::merge_image(const cv:
     // validate m_theme
     // ————————————————————————————————————————————————————————————————
     if (!RoguelikeConfig::is_valid_theme(m_theme)) {
-        Log.error(__FUNCTION__, std::format("| Invalid roguelike theme: {}; failed to merge images", m_theme));
+        LogError << __FUNCTION__ << std::format("| Invalid roguelike theme: {}; failed to merge images", m_theme);
         return std::nullopt;
     }
 
     if (m_theme != RoguelikeTheme::JieGarden && m_theme != RoguelikeTheme::BlackFlow) {
-        Log.error(__FUNCTION__, std::format("| Unsupported roguelike theme: {}; failed to merge images", m_theme));
+        LogError << __FUNCTION__ << std::format("| Unsupported roguelike theme: {}; failed to merge images", m_theme);
         return std::nullopt;
     }
 
@@ -122,25 +116,24 @@ std::optional<int> asst::RoguelikeEncounterOptionAnalyzer::merge_image(const cv:
     // ————————————————————————————————————————————————————————————————
     const int last_option_y_in_new_img = get_last_option_y(new_img);
     if (last_option_y_in_new_img == UNDEFINED) [[unlikely]] {
-        Log.error(__FUNCTION__, "| No option is recognised in new_img; failed to merge images");
+        LogError << __FUNCTION__ << "| No option is recognised in new_img; failed to merge images";
         save_img(new_img, "new_img");
         return std::nullopt;
     }
 
     if (m_image.empty()) {
-        Log.info(__FUNCTION__, "| m_image is empty; replace m_image with new_img");
+        LogInfo << __FUNCTION__ << "| m_image is empty; replace m_image with new_img";
         set_image(new_img);
         set_last_option_y(last_option_y_in_new_img);
         return new_img.rows;
     }
 
     if (new_img.cols != m_image.cols) [[unlikely]] {
-        Log.error(
-            __FUNCTION__,
-            std::format(
-                "| new_img width ({}) does not match m_image width ({}); failed to merge images",
-                new_img.cols,
-                m_image.cols));
+        LogError << __FUNCTION__
+                 << std::format(
+                        "| new_img width ({}) does not match m_image width ({}); failed to merge images",
+                        new_img.cols,
+                        m_image.cols);
         return std::nullopt;
     }
 
@@ -148,10 +141,10 @@ std::optional<int> asst::RoguelikeEncounterOptionAnalyzer::merge_image(const cv:
     // initialise m_last_option_y when needed
     // ————————————————————————————————————————————————————————————————
     if (m_last_option_y == UNDEFINED) {
-        Log.info(__FUNCTION__, "| Initialising m_last_option_y...");
+        LogInfo << __FUNCTION__ << "| Initialising m_last_option_y...";
         const int last_option_y = get_last_option_y(m_image);
         if (last_option_y == UNDEFINED) {
-            Log.warn(__FUNCTION__, "| No option is recognised in m_image; replace m_image with new_img");
+            LogWarn << __FUNCTION__ << "| No option is recognised in m_image; replace m_image with new_img";
             set_image(new_img);
             set_last_option_y(last_option_y_in_new_img);
             return new_img.rows;
@@ -169,7 +162,7 @@ std::optional<int> asst::RoguelikeEncounterOptionAnalyzer::merge_image(const cv:
 
     Matcher::ResultOpt overlap_match_ret = match_option(m_theme, new_img, overlap_option_templ);
     if (!overlap_match_ret) {
-        Log.error(__FUNCTION__, "Overlap match failed; failed to merge images");
+        LogError << __FUNCTION__ << "Overlap match failed; failed to merge images";
         save_img(m_image, "m_image");
         save_img(new_img, "new_img");
         save_img(overlap_option_templ, "overlap_option_templ");
@@ -179,7 +172,7 @@ std::optional<int> asst::RoguelikeEncounterOptionAnalyzer::merge_image(const cv:
 
     const int offset = (new_img.rows - overlap_rect_in_new_img.y) - (m_image.rows - overlap_rect_in_m_image.y);
     if (offset <= 0) {
-        Log.info("The offset", offset, "is less than or equal to zero; cancel the image merging");
+        LogInfo << "The offset" << offset << "is less than or equal to zero; cancel the image merging";
         return offset;
     }
     const int rel_y = m_image.rows + offset - new_img.rows;
@@ -213,22 +206,21 @@ void asst::RoguelikeEncounterOptionAnalyzer::set_theme(const std::string& theme)
     // validate theme
     // ————————————————————————————————————————————————————————————————
     if (!RoguelikeConfig::is_valid_theme(theme)) {
-        Log.error(
-            __FUNCTION__,
-            std::format("| Invalid roguelike theme: {}; failed to set theme; reverting to {}", theme, m_theme));
+        LogError << __FUNCTION__
+                 << std::format("| Invalid roguelike theme: {}; failed to set theme; reverting to {}", theme, m_theme);
         return;
     }
 
     if (theme != RoguelikeTheme::JieGarden && theme != RoguelikeTheme::BlackFlow) {
-        Log.error(
-            __FUNCTION__,
-            std::format("| Unsupported roguelike theme: {}; failed to set theme; reverting to {}", theme, m_theme));
+        LogError
+            << __FUNCTION__
+            << std::format("| Unsupported roguelike theme: {}; failed to set theme; reverting to {}", theme, m_theme);
         return;
     }
     // ————————————————————————————————————————————————————————————————
 
     m_theme = theme;
-    Log.info(__FUNCTION__, "| Set theme to", theme);
+    LogInfo << __FUNCTION__ << "| Set theme to" << theme;
 }
 
 asst::Matcher::ResultOpt asst::RoguelikeEncounterOptionAnalyzer::match_option(
@@ -242,12 +234,12 @@ asst::Matcher::ResultOpt asst::RoguelikeEncounterOptionAnalyzer::match_option(
     // validate theme
     // ————————————————————————————————————————————————————————————————
     if (!RoguelikeConfig::is_valid_theme(theme)) [[unlikely]] {
-        Log.error(__FUNCTION__, std::format("| Invalid roguelike theme: {}; failed to match option", theme));
+        LogError << __FUNCTION__ << std::format("| Invalid roguelike theme: {}; failed to match option", theme);
         return std::nullopt;
     }
 
     if (theme != RoguelikeTheme::JieGarden && theme != RoguelikeTheme::BlackFlow) [[unlikely]] {
-        Log.error(__FUNCTION__, std::format("| Unsupported roguelike theme: {}; failed to match option", theme));
+        LogError << __FUNCTION__ << std::format("| Unsupported roguelike theme: {}; failed to match option", theme);
         return std::nullopt;
     }
     // ————————————————————————————————————————————————————————————————
@@ -295,7 +287,7 @@ int asst::RoguelikeEncounterOptionAnalyzer::get_last_option_y(const cv::Mat& ima
 
     const MultiMatcher::ResultsVecOpt option_analyze_ret = analyze_options(image);
     if (!option_analyze_ret) {
-        Log.error("get_last_option_y | Fail to recognise any option");
+        LogError << __FUNCTION__ << "| Fail to recognise any option";
         save_img(image);
         return UNDEFINED;
     }
@@ -305,7 +297,7 @@ int asst::RoguelikeEncounterOptionAnalyzer::get_last_option_y(const cv::Mat& ima
 void asst::RoguelikeEncounterOptionAnalyzer::set_last_option_y(int last_option_y)
 {
     m_last_option_y = last_option_y;
-    Log.info("RoguelikeEncounterOptionAnalyzer | m_last_option y set to", last_option_y);
+    LogInfo << __FUNCTION__ << "| m_last_option y set to" << last_option_y;
 }
 
 cv::Mat asst::RoguelikeEncounterOptionAnalyzer::binarize_for_ocr(const cv::Mat& image)

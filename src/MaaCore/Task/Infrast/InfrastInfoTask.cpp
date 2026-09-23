@@ -102,16 +102,9 @@ int level_or_maximum(int recognized_level, std::string_view facility, int max_le
         return recognized_level;
     }
 
-    Log.warn(
-        "infrastructure level recognition failed, using maximum level",
-        "facility",
-        facility,
-        "recognized level",
-        recognized_level,
-        "fallback level",
-        max_level,
-        "facility rect",
-        facility_rect);
+    LogWarn << "infrastructure level recognition failed, using maximum level" << "facility" << facility
+            << "recognized level" << recognized_level << "fallback level" << max_level << "facility rect"
+            << facility_rect;
     return max_level;
 }
 
@@ -129,7 +122,7 @@ int recognize_level(
 
     if (view_type == ViewType::Normal) {
         if (task->templ_names.empty()) {
-            Log.error("missing infrastructure level template", task_name);
+            LogError << "missing infrastructure level template" << task_name;
             return 0;
         }
         const auto& mini_templ = asst::TemplResource::get_instance().get_templ(task->templ_names.front());
@@ -147,7 +140,7 @@ int recognize_level(
     const auto result = matcher.analyze();
     const int level = result ? static_cast<int>(result->size()) : 0;
     if (level <= 0 || level > max_level) {
-        Log.warn("invalid infrastructure level match count", task_name, level, "roi", roi);
+        LogWarn << "invalid infrastructure level match count" << task_name << level << "roi" << roi;
         return 0;
     }
     return level;
@@ -182,7 +175,7 @@ bool recognize_mini_layout(
                 }
             }
             if (best_slot == MiniStationRowCount * MiniStationColumnCount) {
-                Log.warn("no free mini station level ROI", facility_name, match.rect);
+                LogWarn << "no free mini station level ROI" << facility_name << match.rect;
                 return false;
             }
 
@@ -222,7 +215,7 @@ bool recognize_mini_layout(
                 }
             }
             if (best_slot == MiniDormRowCount) {
-                Log.warn("no free mini dorm level ROI", match.rect);
+                LogWarn << "no free mini dorm level ROI" << match.rect;
                 return false;
             }
 
@@ -431,13 +424,13 @@ bool asst::InfrastInfoTask::_run()
         for (const auto& [name, result] : analyzer.get_result()) {
             const std::string key = "NumOf" + name;
             status()->set_number(key, result.size());
-            Log.trace("InfrastInfoTask | ", key, result.size());
+            LogTrace << __FUNCTION__ << "|" << key << result.size();
         }
         return true;
     }
 
     const bool zoom_sent = try_zoom_out();
-    Log.info("InfrastInfoTask | zoom gesture", zoom_sent ? "sent" : "unsupported");
+    LogInfo << __FUNCTION__ << "| zoom gesture" << (zoom_sent ? "sent" : "unsupported");
 
     constexpr int MaxAttempts = 3;
     const auto prepare_retry = [&](int attempt) {
@@ -446,11 +439,8 @@ bool asst::InfrastInfoTask::_run()
         // normal or mini templates match; pinch again before retrying.
         if (zoom_sent && attempt < MaxAttempts) {
             const bool retry_zoom_sent = try_zoom_out();
-            Log.info(
-                "InfrastInfoTask | retry zoom gesture",
-                retry_zoom_sent ? "sent" : "unsupported",
-                "after attempt",
-                attempt);
+            LogInfo << __FUNCTION__ << "| retry zoom gesture" << (retry_zoom_sent ? "sent" : "unsupported")
+                    << "after attempt" << attempt;
             if (retry_zoom_sent) {
                 return;
             }
@@ -469,7 +459,7 @@ bool asst::InfrastInfoTask::_run()
             { "Mfg", "Trade", "Power", "Dorm", "Control", "Reception", "Office", "Processing", "Training" });
         if (!analyzer.analyze()) {
             partial_layout_candidate.reset();
-            Log.warn("InfrastInfoTask | no facility matched, attempt", attempt);
+            LogWarn << __FUNCTION__ << "| no facility matched, attempt" << attempt;
             prepare_retry(attempt);
             continue;
         }
@@ -499,18 +489,15 @@ bool asst::InfrastInfoTask::_run()
         const auto layout_counts = count_facilities(facilities);
         if (!layout_mapped || !is_usable_layout(layout_counts)) {
             partial_layout_candidate.reset();
-            Log.warn(
-                "InfrastInfoTask | inconsistent facility layout, attempt",
-                attempt,
-                "view",
-                static_cast<int>(analyzer.get_view_type()));
+            LogWarn << __FUNCTION__ << "| inconsistent facility layout, attempt" << attempt << "view"
+                    << static_cast<int>(analyzer.get_view_type());
             prepare_retry(attempt);
             continue;
         }
 
         if (!is_complete_layout(layout_counts) && partial_layout_candidate != layout_counts) {
             partial_layout_candidate = layout_counts;
-            Log.info("InfrastInfoTask | partial facility layout detected, confirming", attempt);
+            LogInfo << __FUNCTION__ << "| partial facility layout detected, confirming" << attempt;
             sleep(300);
             continue;
         }
@@ -522,7 +509,7 @@ bool asst::InfrastInfoTask::_run()
         for (const auto& name : { "Mfg", "Trade", "Power", "Dorm" }) {
             const std::string key = "NumOf" + std::string(name);
             status()->set_number(key, get_count(name));
-            Log.trace("InfrastInfoTask | ", key, get_count(name));
+            LogTrace << __FUNCTION__ << "|" << key << get_count(name);
         }
 
         m_task_data->trading_station_num = get_count("Trade");
@@ -566,6 +553,6 @@ bool asst::InfrastInfoTask::_run()
     json::value error = basic_info_with_what("FacilityLayoutRecognitionFailed");
     error["details"]["attempts"] = MaxAttempts;
     callback(AsstMsg::SubTaskError, error);
-    Log.error("InfrastInfoTask | facility layout recognition failed after", MaxAttempts, "attempts");
+    LogError << __FUNCTION__ << "| facility layout recognition failed after" << MaxAttempts << "attempts";
     return false;
 }

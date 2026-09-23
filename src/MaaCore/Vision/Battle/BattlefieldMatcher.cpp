@@ -106,7 +106,7 @@ std::vector<battle::DeploymentOper> BattlefieldMatcher::deployment_analyze() con
         Rect role_rect = correct_rect(flag_res.rect.move(role_move), m_image);
         oper.role = oper_role_analyze(role_rect);
         if (oper.role == battle::Role::Unknown) {
-            Log.warn("Unknown role");
+            LogWarn << "Unknown role";
             continue;
         }
 
@@ -131,7 +131,7 @@ std::vector<battle::DeploymentOper> BattlefieldMatcher::deployment_analyze() con
         Rect cooling_rect = correct_rect(flag_res.rect.move(cooling_move), m_image);
         oper.cooling = oper_cooling_analyze(cooling_rect);
         if (oper.cooling && oper.available) {
-            Log.error("oper is available, but with cooling");
+            LogError << "oper is available, but with cooling";
         }
 
 #ifdef ASST_DEBUG
@@ -181,7 +181,7 @@ battle::Role BattlefieldMatcher::oper_role_analyze(const Rect& roi) const
     }
     auto role_opt = role_analyzer.analyze();
     if (!role_opt) {
-        Log.warn(__FUNCTION__, "unknown role");
+        LogWarn << __FUNCTION__ << "unknown role";
         return battle::Role::Unknown;
     }
 
@@ -202,7 +202,7 @@ bool BattlefieldMatcher::oper_cooling_analyze(const Rect& roi) const
 
     if (cooling_task_ptr->color_scales.size() != 1 ||
         !std::holds_alternative<MatchTaskInfo::ColorRange>(cooling_task_ptr->color_scales.front())) {
-        Log.error(__FUNCTION__, "| color_scales in `BattleOperCooling` is not a ColorRange");
+        LogError << __FUNCTION__ << "| color_scales in `BattleOperCooling` is not a ColorRange";
         return false;
     }
 
@@ -226,11 +226,11 @@ int BattlefieldMatcher::oper_cost_analyze(const Rect& roi) const
     cost_analyzer.set_use_char_model(true);
     cost_analyzer.set_bin_threshold(80, 255);
     if (!cost_analyzer.analyze()) {
-        Log.warn("oper cost analyze failed");
+        LogWarn << "oper cost analyze failed";
         return cost;
     }
     if (!utils::chars_to_number(cost_analyzer.get_result().text, cost)) {
-        Log.warn("oper cost convert failed, str:", cost_analyzer.get_result().text);
+        LogWarn << "oper cost convert failed, str:" << cost_analyzer.get_result().text;
         return cost;
     }
     return cost;
@@ -318,13 +318,13 @@ BattlefieldMatcher::MatchResult<std::pair<int, int>> BattlefieldMatcher::kills_a
 
     size_t pos = kills_text.find('/');
     if (pos == std::string::npos) {
-        Log.warn("cannot found flag /");
+        LogWarn << "cannot found flag /";
         // 这种时候绝大多数是把 "0/41" 中的 '/' 识别成了别的什么东西（其中又有绝大部分情况是识别成了 '1'）
         // 所以这里依赖 m_pre_total_kills 转一下
         if (m_total_kills_prompt <= 0) {
             // 第一次识别就识别错了，识别成了 "0141"
             if (kills_text.at(0) != '0') {
-                Log.error("m_total_kills_prompt is zero");
+                LogError << "m_total_kills_prompt is zero";
                 return {};
             }
             pos = 1;
@@ -332,16 +332,17 @@ BattlefieldMatcher::MatchResult<std::pair<int, int>> BattlefieldMatcher::kills_a
         else {
             size_t pre_pos = kills_text.find(std::to_string(m_total_kills_prompt));
             if (pre_pos == std::string::npos || pre_pos == 0) {
-                Log.error("can't get pre_pos");
+                LogError << "can't get pre_pos";
                 return {};
             }
-            Log.trace("pre total kills pos:", pre_pos);
+            LogTrace << "pre total kills pos:" << pre_pos;
             pos = pre_pos - 1;
         }
     }
 
     if (kills_text.length() <= pos + 1) {
-        Log.error("kills_text length is too short: text='{}', length={}, pos={}", kills_text, kills_text.size(), pos);
+        LogError << "kills_text length is too short: text='{}', length={}, pos={}" << kills_text << kills_text.size()
+                 << pos;
         return {};
     }
 
@@ -357,7 +358,7 @@ BattlefieldMatcher::MatchResult<std::pair<int, int>> BattlefieldMatcher::kills_a
     int total_kills = 0;
     if (total_kills_text.empty() ||
         !std::ranges::all_of(total_kills_text, [](char c) -> bool { return std::isdigit(c); })) {
-        Log.warn("total kills recognition failed, set to", m_total_kills_prompt);
+        LogWarn << "total kills recognition failed, set to" << m_total_kills_prompt;
         total_kills = m_total_kills_prompt;
     }
     else {
@@ -365,7 +366,7 @@ BattlefieldMatcher::MatchResult<std::pair<int, int>> BattlefieldMatcher::kills_a
     }
     total_kills = std::max(total_kills, m_total_kills_prompt);
 
-    Log.trace("Kills:", kills, "/", total_kills);
+    LogTrace << "Kills:" << kills << "/" << total_kills;
     return { .value = std::make_pair(kills, total_kills), .status = MatchStatus::Success };
 }
 
@@ -451,7 +452,7 @@ bool BattlefieldMatcher::pause_button_analyze() const
     cv::threshold(roi_gray, bin, value_threshold, 255, cv::THRESH_BINARY);
     int count = cv::countNonZero(bin);
     const int count_threshold = task_ptr->special_params[1];
-    Log.trace(__FUNCTION__, "count", count, "threshold", count_threshold);
+    LogTrace << __FUNCTION__ << "count" << count << "threshold" << count_threshold;
 
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, make_rect<cv::Rect>(task_ptr->roi), cv::Scalar(0, 0, 255), 2);
@@ -484,7 +485,7 @@ bool BattlefieldMatcher::in_detail_analyze() const
         int count2 = cv::countNonZero(bin2);
 
         const int threshold = task_ptr->special_params[0];
-        Log.info("in_detail, count:", count1, count2, ", threshold:", threshold);
+        LogInfo << "in_detail, count:" << count1 << count2 << ", threshold:" << threshold;
 
         return count1 > threshold || count2 > threshold;
     };
@@ -506,7 +507,7 @@ bool asst::BattlefieldMatcher::speed_button_analyze() const
     cv::threshold(roi_gray, bin, value_threshold, 255, cv::THRESH_BINARY);
     int count = cv::countNonZero(bin);
     const int count_threshold = task_ptr->special_params[1];
-    Log.trace(__FUNCTION__, "count", count, "threshold", count_threshold);
+    LogTrace << __FUNCTION__ << "count" << count << "threshold" << count_threshold;
 
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, make_rect<cv::Rect>(task_ptr->roi), cv::Scalar(0, 0, 255), 2);

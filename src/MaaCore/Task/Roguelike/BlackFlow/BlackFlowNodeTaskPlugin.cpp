@@ -142,7 +142,7 @@ bool BlackFlowNodeTaskPlugin::_run()
 
     if (work == PendingWork::RecoverMapCompleted) {
         restore_node_completion_action();
-        Log.info("BlackFlow map page recovery completed");
+        LogInfo << "BlackFlow map page recovery completed";
         report_outputs();
         return true;
     }

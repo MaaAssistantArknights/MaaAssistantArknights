@@ -20,7 +20,7 @@
 bool asst::CombatRecordRecognitionTask::set_video_path(const std::filesystem::path& path)
 {
     if (!std::filesystem::exists(path)) {
-        Log.error(__FUNCTION__, "filename not exists", path);
+        LogError << __FUNCTION__ << "filename not exists" << path;
         return false;
     }
     m_video_path = path;
@@ -40,7 +40,7 @@ bool asst::CombatRecordRecognitionTask::_run()
     m_video_ptr = std::shared_ptr<cv::VideoCapture>(new cv::VideoCapture(crt_path), release_video);
 
     if (!m_video_ptr->isOpened()) {
-        Log.error(__FUNCTION__, "video_io open failed", m_video_path);
+        LogError << __FUNCTION__ << "video_io open failed" << m_video_path;
         return false;
     }
     m_video_fps = m_video_ptr->get(cv::CAP_PROP_FPS);
@@ -49,22 +49,22 @@ bool asst::CombatRecordRecognitionTask::_run()
     m_scale = WindowHeightDefault / m_video_ptr->get(cv::CAP_PROP_FRAME_HEIGHT);
 
     if (!analyze_formation()) {
-        Log.error(__FUNCTION__, "failed to analyze formation");
+        LogError << __FUNCTION__ << "failed to analyze formation";
         return false;
     }
 
     if (!analyze_stage()) {
-        Log.error(__FUNCTION__, "unknown stage");
+        LogError << __FUNCTION__ << "unknown stage";
         return false;
     }
 
     if (!analyze_deployment()) {
-        Log.error(__FUNCTION__, "failed to match deployment");
+        LogError << __FUNCTION__ << "failed to match deployment";
         return false;
     }
 
     if (!slice_video()) {
-        Log.error(__FUNCTION__, "failed to slice");
+        LogError << __FUNCTION__ << "failed to slice";
         return false;
     }
 
@@ -78,13 +78,13 @@ bool asst::CombatRecordRecognitionTask::_run()
         }
 
         if (!analyze_clip(clip, pre_valid)) {
-            Log.error(__FUNCTION__, "failed to analyze clip");
+            LogError << __FUNCTION__ << "failed to analyze clip";
             return false;
         }
         pre_valid = &clip;
     }
 
-    Log.info("full copilot json", m_copilot_json.to_string());
+    LogInfo << "full copilot json" << m_copilot_json.to_string();
 
     std::string filename = std::format(
         "MaaAI_{}_{}_{}.json",
@@ -117,7 +117,7 @@ bool asst::CombatRecordRecognitionTask::analyze_formation()
         cv::Mat frame;
         *m_video_ptr >> frame;
         if (frame.empty()) {
-            Log.error(i, "frame is empty");
+            LogError << i << "frame is empty";
             callback(AsstMsg::SubTaskError, basic_info_with_what("OcrFormation"));
             return false;
         }
@@ -144,7 +144,7 @@ bool asst::CombatRecordRecognitionTask::analyze_formation()
         }
     }
 
-    Log.info("Formation:", m_formation | std::views::keys);
+    LogInfo << "Formation:" << (m_formation | std::views::keys);
     auto cb_info = basic_info_with_what("OcrFormation");
     auto& cb_formation = cb_info["details"]["formation"];
     for (const auto& [name, avatar] : m_formation) {
@@ -174,7 +174,7 @@ bool asst::CombatRecordRecognitionTask::analyze_stage()
         cv::Mat frame;
         *m_video_ptr >> frame;
         if (frame.empty()) {
-            Log.error(i, "frame is empty");
+            LogError << i << "frame is empty";
             callback(AsstMsg::SubTaskError, basic_info_with_what("OcrStage"));
             return false;
         }
@@ -206,7 +206,7 @@ bool asst::CombatRecordRecognitionTask::analyze_stage()
         break;
     }
 
-    Log.info("Stage", m_stage_name);
+    LogInfo << "Stage" << m_stage_name;
     if (m_stage_name.empty() || !Tile.find(m_stage_name)) {
         callback(AsstMsg::SubTaskError, basic_info_with_what("OcrStage"));
         return false;
@@ -239,7 +239,7 @@ bool asst::CombatRecordRecognitionTask::analyze_deployment()
         cv::Mat frame;
         *m_video_ptr >> frame;
         if (frame.empty()) {
-            Log.error(i, "frame is empty");
+            LogError << i << "frame is empty";
             callback(AsstMsg::SubTaskError, basic_info_with_what("MatchDeployment"));
             return false;
         }
@@ -290,7 +290,7 @@ bool asst::CombatRecordRecognitionTask::analyze_deployment()
         }
         bool analyzed = best_match_analyzer.analyze().has_value();
         if (!analyzed) {
-            Log.warn(m_battle_start_frame, "failed to match", name);
+            LogWarn << m_battle_start_frame << "failed to match" << name;
             continue;
         }
         m_all_avatars.emplace(name, candidate.at(best_match_analyzer.get_result().templ_info.name));
@@ -340,7 +340,7 @@ bool asst::CombatRecordRecognitionTask::slice_video()
         *m_video_ptr >> temp;
         frame = temp;
         if (frame.empty()) {
-            Log.warn(i, "frame is empty");
+            LogWarn << i << "frame is empty";
             battle_over();
             break;
         }
@@ -412,7 +412,7 @@ bool asst::CombatRecordRecognitionTask::slice_video()
             continue;
         }
         else if (!continuity) {
-            Log.warn(i, "opers is not continuity");
+            LogWarn << i << "opers is not continuity";
             continue;
         }
         else if (!in_segment) {
@@ -440,11 +440,8 @@ bool asst::CombatRecordRecognitionTask::slice_video()
     for (auto iter = m_clips.begin(); iter != m_clips.end();) {
         ClipInfo& clip = *iter;
         if (clip.end_frame_index <= clip.start_frame_index) {
-            Log.warn(
-                __FUNCTION__,
-                "deployment has no changes or frame error",
-                clip.start_frame_index,
-                clip.end_frame_index);
+            LogWarn << __FUNCTION__ << "deployment has no changes or frame error" << clip.start_frame_index
+                    << clip.end_frame_index;
             iter = m_clips.erase(iter);
             continue;
         }
@@ -519,7 +516,7 @@ bool asst::CombatRecordRecognitionTask::compare_skill(ClipInfo& clip, ClipInfo& 
     constexpr int skip_ms = 500;
     size_t cls_begin = clip.start_frame_index + static_cast<size_t>(skip_ms * m_video_fps / 1000.0);
     if (cls_begin > clip.end_frame_index) {
-        Log.warn("skip too much");
+        LogWarn << "skip too much";
         cls_begin = clip.start_frame_index + (clip.end_frame_index - clip.start_frame_index) / 2;
     }
     const size_t begin_skip = cls_begin - static_cast<size_t>(m_video_ptr->get(cv::CAP_PROP_POS_FRAMES));
@@ -528,7 +525,7 @@ bool asst::CombatRecordRecognitionTask::compare_skill(ClipInfo& clip, ClipInfo& 
     cv::Mat frame;
     *m_video_ptr >> frame;
     if (frame.empty()) {
-        Log.error("frame is empty");
+        LogError << "frame is empty";
         callback(AsstMsg::SubTaskError, basic_info_with_what("CompSkill"));
         return false;
     }
@@ -543,7 +540,7 @@ bool asst::CombatRecordRecognitionTask::compare_skill(ClipInfo& clip, ClipInfo& 
             { "location", json::array { target_location.x, target_location.y } },
             { "name", oper_name },
         };
-        Log.info("skill json", skill_json.to_string());
+        LogInfo << "skill json" << skill_json.to_string();
         auto& actions_json = m_copilot_json["actions"].as_array();
         actions_json.emplace_back(std::move(skill_json));
     }
@@ -579,7 +576,7 @@ bool asst::CombatRecordRecognitionTask::detect_operators(ClipInfo& clip, [[maybe
         cv::Mat frame;
         *m_video_ptr >> frame;
         if (frame.empty()) {
-            Log.error(i, "frame is empty");
+            LogError << i << "frame is empty";
             callback(AsstMsg::SubTaskError, basic_info_with_what("DetectOperators"));
             return false;
         }
@@ -595,7 +592,7 @@ bool asst::CombatRecordRecognitionTask::detect_operators(ClipInfo& clip, [[maybe
             Rect rect = box.rect.move(det_box_move);
             auto iter = std::ranges::find_if(tiles, [&](const TilePack::TileInfo& t) { return rect.include(t.pos); });
             if (iter == tiles.end()) {
-                Log.warn(i, __FUNCTION__, "no pos", box.rect.to_string(), rect);
+                LogWarn << i << __FUNCTION__ << "no pos" << box.rect.to_string() << rect;
                 continue;
             }
             cur_locations.emplace((*iter).loc);
@@ -610,7 +607,7 @@ bool asst::CombatRecordRecognitionTask::detect_operators(ClipInfo& clip, [[maybe
         return lhs.second < rhs.second;
     });
     if (oper_det_iter == oper_det_samping.end()) {
-        Log.error(__FUNCTION__, "oper_det_samping is empty");
+        LogError << __FUNCTION__ << "oper_det_samping is empty";
         callback(AsstMsg::SubTaskError, basic_info_with_what("DetectOperators"));
         return false;
     }
@@ -628,7 +625,7 @@ bool asst::CombatRecordRecognitionTask::classify_direction(ClipInfo& clip, ClipI
     LogTraceFunction;
 
     if (!pre_clip_ptr) {
-        Log.info("first clip, skip");
+        LogInfo << "first clip, skip";
         callback(AsstMsg::SubTaskCompleted, basic_info_with_what("ClassifyDirection"));
         return true;
     }
@@ -679,7 +676,7 @@ bool asst::CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo
     std::ignore = clip;
 
     if (!pre_clip_ptr) {
-        Log.info("first clip, skip");
+        LogInfo << "first clip, skip";
         return true;
     }
 
@@ -701,10 +698,10 @@ bool asst::CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo
             }
             deployed.emplace_back(pre_oper.name);
         }
-        Log.info("deployed", deployed);
+        LogInfo << "deployed" << deployed;
 
         if (deployed.empty()) {
-            Log.warn("Unknown dployed, will use pre tails_page's name", pre_clip_ptr->ends_oper_name);
+            LogWarn << "Unknown dployed, will use pre tails_page's name" << pre_clip_ptr->ends_oper_name;
         }
 
         auto deployed_iter = deployed.begin();
@@ -730,7 +727,7 @@ bool asst::CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo
                 { "location", json::array { loc.x, loc.y } },
                 { "direction", direction },
             };
-            Log.info("deploy json", deploy_json.to_string());
+            LogInfo << "deploy json" << deploy_json.to_string();
             actions_json.emplace_back(std::move(deploy_json));
 
             m_operator_locations.insert_or_assign(name, loc);
@@ -752,7 +749,7 @@ bool asst::CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo
                 { "location", json::array { pre_loc.x, pre_loc.y } },
                 { "name", name },
             };
-            Log.info("retreat json", retreat_json.to_string());
+            LogInfo << "retreat json" << retreat_json.to_string();
             actions_json.emplace_back(std::move(retreat_json));
 
             m_location_operators.erase(pre_loc);
@@ -760,13 +757,8 @@ bool asst::CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo
         }
     }
     else {
-        Log.warn(
-            "Unknown changes, deployment:",
-            pre_clip_ptr->deployment.size(),
-            clip.deployment.size(),
-            "battlefield:",
-            pre_clip_ptr->battlefield.size(),
-            clip.battlefield.size());
+        LogWarn << "Unknown changes, deployment:" << pre_clip_ptr->deployment.size() << clip.deployment.size()
+                << "battlefield:" << pre_clip_ptr->battlefield.size() << clip.battlefield.size();
     }
 
     return true;
@@ -876,7 +868,7 @@ std::string asst::CombatRecordRecognitionTask::analyze_detail_page_oper_name(con
         return preproc_result_opt->text;
     }
 
-    Log.warn("ocr with preprocess got a invalid name, try to use detect model");
+    LogWarn << "ocr with preprocess got a invalid name, try to use detect model";
     OCRer det_analyzer(frame);
     det_analyzer.set_task_info("BattleOperName");
     det_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);

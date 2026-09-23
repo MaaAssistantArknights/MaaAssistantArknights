@@ -78,7 +78,7 @@ void best_effort(Function&& function) noexcept
 
 bool ::AsstExtAPI::set_static_option(StaticOptionKey key, const std::string& value)
 {
-    Log.info(__FUNCTION__, "| key", static_cast<int>(key), "value", value);
+    LogInfo << __FUNCTION__ << "| key" << static_cast<int>(key) << "value" << value;
 
     switch (key) {
     case StaticOptionKey::CpuOCR: {
@@ -90,7 +90,7 @@ bool ::AsstExtAPI::set_static_option(StaticOptionKey key, const std::string& val
     case StaticOptionKey::GpuOCR: {
         const auto selector = GpuDeviceSelector::parse(value);
         if (!selector) {
-            Log.error(__FUNCTION__, "| invalid GPU selector:", value);
+            LogError << __FUNCTION__ << "| invalid GPU selector:" << value;
             return false;
         }
 
@@ -103,7 +103,7 @@ bool ::AsstExtAPI::set_static_option(StaticOptionKey key, const std::string& val
         return true;
     } break;
     default:
-        Log.error(__FUNCTION__, "| unknown key:", static_cast<int>(key));
+        LogError << __FUNCTION__ << "| unknown key:" << static_cast<int>(key);
         break;
     }
 
@@ -164,7 +164,7 @@ Assistant::~Assistant()
 
 bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::string& value)
 {
-    Log.info(__FUNCTION__, "| key", static_cast<int>(key), "value", value);
+    LogInfo << __FUNCTION__ << "| key" << static_cast<int>(key) << "value" << value;
     switch (key) {
     case InstanceOptionKey::TouchMode:
         if (constexpr std::string_view Adb = "adb"; value == Adb) {
@@ -236,7 +236,7 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
     default:
         break;
     }
-    Log.error("Unknown key or value", value);
+    LogError << "Unknown key or value" << value;
     return false;
 }
 
@@ -302,11 +302,11 @@ bool asst::Assistant::ctrl_screencap()
 
 asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, const std::string& params)
 {
-    Log.info(__FUNCTION__, type, params);
+    LogInfo << __FUNCTION__ << "|" << type << "|" << params;
 
     auto ret = json::parse(params.empty() ? "{}" : params);
     if (!ret) {
-        Log.error("json::parse failed");
+        LogError << "json::parse failed";
         return 0;
     }
 
@@ -344,7 +344,7 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
 #endif
     else
     {
-        Log.error(__FUNCTION__, "| invalid type:", type);
+        LogError << __FUNCTION__ << "| invalid type:" << type;
         return 0;
     }
 
@@ -355,7 +355,7 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
 
     bool params_ret = ptr->set_params(json);
     if (!params_ret) {
-        Log.error(__FUNCTION__, "| invalid params:", params);
+        LogError << __FUNCTION__ << "| invalid params:" << params;
         return 0;
     }
 
@@ -363,14 +363,14 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     int task_id = ++m_task_id;
     ptr->set_task_id(task_id);
     m_tasks_list.emplace_back(task_id, ptr);
-    Log.info(__FUNCTION__, "| task_id:", task_id);
+    LogInfo << __FUNCTION__ << "| task_id:" << task_id;
 
     return task_id;
 }
 
 bool asst::Assistant::set_task_params(TaskId task_id, const std::string& params)
 {
-    Log.info(__FUNCTION__, task_id, params);
+    LogInfo << __FUNCTION__ << "| task_id:" << task_id << "| params:" << params;
 
     if (task_id <= 0) {
         return false;
@@ -511,7 +511,7 @@ std::vector<Assistant::TaskId> asst::Assistant::get_tasks_list() const
 bool asst::Assistant::start(bool block)
 {
     LogTraceFunction;
-    Log.info("Start |", block ? "block" : "non block");
+    LogInfo << "Start |" << (block ? "block" : "non block");
 
     if (!m_thread_idle) {
         return false;
@@ -530,7 +530,7 @@ bool asst::Assistant::start(bool block)
 bool Assistant::stop(bool block)
 {
     LogTraceFunction;
-    Log.info("Stop |", block ? "block" : "non block");
+    LogInfo << "Stop |" << (block ? "block" : "non block");
 
     m_thread_idle = true;
 
@@ -594,29 +594,15 @@ void Assistant::working_proc()
                 if (e.code == cv::Error::StsNoMem) {
                     exception_kind = TaskExceptionKind::OutOfMemory;
                     best_effort([&] {
-                        Log.error(
-                            "OpenCV out of memory in task thread",
-                            e.what(),
-                            "code",
-                            e.code,
-                            "file",
-                            e.file,
-                            "line",
-                            e.line);
+                        LogError << "OpenCV out of memory in task thread" << e.what() << "code" << e.code << "file"
+                                 << e.file << "line" << e.line;
                     });
                 }
                 else {
                     exception_kind = TaskExceptionKind::OpenCV;
                     best_effort([&] {
-                        Log.error(
-                            "Unhandled OpenCV exception in task thread",
-                            e.what(),
-                            "code",
-                            e.code,
-                            "file",
-                            e.file,
-                            "line",
-                            e.line);
+                        LogError << "Unhandled OpenCV exception in task thread" << e.what() << "code" << e.code
+                                 << "file" << e.file << "line" << e.line;
                     });
                 }
             }
@@ -625,11 +611,11 @@ void Assistant::working_proc()
             }
             catch (const std::exception& e) {
                 exception_kind = TaskExceptionKind::Standard;
-                best_effort([&] { Log.error("Unhandled exception in task thread", e.what()); });
+                best_effort([&] { LogError << "Unhandled exception in task thread" << e.what(); });
             }
             catch (...) {
                 exception_kind = TaskExceptionKind::Unknown;
-                best_effort([&] { Log.error("Unknown exception in task thread"); });
+                best_effort([&] { LogError << "Unknown exception in task thread"; });
             }
 
             lock.lock();
@@ -648,7 +634,7 @@ void Assistant::working_proc()
                     m_thread_idle = true;
                     m_tasks_list.clear();
                     lock.unlock();
-                    best_effort([&] { Log.error("Unhandled out of memory in task thread"); });
+                    best_effort([&] { LogError << "Unhandled out of memory in task thread"; });
                 }
 
                 const auto append_error = [&] {
@@ -740,7 +726,7 @@ void Assistant::msg_proc()
             }
         }
         catch (...) {
-            best_effort([&] { Log.error("Unhandled exception in callback message thread"); });
+            best_effort([&] { LogError << "Unhandled exception in callback message thread"; });
         }
     }
 }
@@ -847,29 +833,15 @@ void asst::Assistant::call_proc()
                 if (e.code == cv::Error::StsNoMem) {
                     exception_kind = TaskExceptionKind::OutOfMemory;
                     best_effort([&] {
-                        Log.error(
-                            "OpenCV out of memory in async call thread",
-                            e.what(),
-                            "code",
-                            e.code,
-                            "file",
-                            e.file,
-                            "line",
-                            e.line);
+                        LogError << "OpenCV out of memory in async call thread" << e.what() << "code" << e.code
+                                 << "file" << e.file << "line" << e.line;
                     });
                 }
                 else {
                     exception_kind = TaskExceptionKind::OpenCV;
                     best_effort([&] {
-                        Log.error(
-                            "Unhandled OpenCV exception in async call thread",
-                            e.what(),
-                            "code",
-                            e.code,
-                            "file",
-                            e.file,
-                            "line",
-                            e.line);
+                        LogError << "Unhandled OpenCV exception in async call thread" << e.what() << "code" << e.code
+                                 << "file" << e.file << "line" << e.line;
                     });
                 }
             }
@@ -878,11 +850,11 @@ void asst::Assistant::call_proc()
             }
             catch (const std::exception& e) {
                 exception_kind = TaskExceptionKind::Standard;
-                best_effort([&] { Log.error("Unhandled exception in async call thread", e.what()); });
+                best_effort([&] { LogError << "Unhandled exception in async call thread" << e.what(); });
             }
             catch (...) {
                 exception_kind = TaskExceptionKind::Unknown;
-                best_effort([&] { Log.error("Unknown exception in async call thread"); });
+                best_effort([&] { LogError << "Unknown exception in async call thread"; });
             }
 
             {
@@ -897,7 +869,7 @@ void asst::Assistant::call_proc()
                     m_thread_idle = true;
                     m_tasks_list.clear();
                 }
-                best_effort([&] { Log.error("Unhandled out of memory in async call thread"); });
+                best_effort([&] { LogError << "Unhandled out of memory in async call thread"; });
             }
 
             auto cost =
@@ -980,7 +952,7 @@ void Assistant::append_callback(AsstMsg msg, const json::value& detail)
     }
 
     // 加入回调消息队列，由回调消息线程外抛给外部
-    Log.info("Assistant::append_callback |", msg, more_detail.to_string());
+    LogInfo << "Assistant::append_callback |" << msg << more_detail.to_string();
 
     std::unique_lock<std::mutex> lock(m_msg_mutex);
     m_msg_queue.emplace(msg, std::move(more_detail));

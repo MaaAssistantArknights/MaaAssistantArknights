@@ -43,14 +43,11 @@ bool asst::MaterialSynthesisImageAnalyzer::analyze()
     }
 
     if (m_result.templ_name.empty()) {
-        Log.warn("MaterialSynthesis | material template match failed");
+        LogWarn << "MaterialSynthesis | material template match failed";
         return false;
     }
 
-    Log.info(
-        "MaterialSynthesis | material template matched",
-        m_result.templ_name,
-        ItemData.get_item_name(m_result.templ_name),
-        m_result.score);
+    LogInfo << "MaterialSynthesis | material template matched" << m_result.templ_name
+            << ItemData.get_item_name(m_result.templ_name) << m_result.score;
     return true;
 }

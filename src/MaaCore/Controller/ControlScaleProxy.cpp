@@ -67,7 +67,7 @@ bool asst::ControlScaleProxy::click(const Point& p)
     int x = static_cast<int>(p.x * m_control_scale);
     int y = static_cast<int>(p.y * m_control_scale);
 
-    Log.trace("Click with scaled coordinates", p, m_control_scale);
+    LogTrace << "Click with scaled coordinates" << p << m_control_scale;
 
     return m_controller->click(Point(x, y));
 }
@@ -96,14 +96,14 @@ bool asst::ControlScaleProxy::swipe(
         int dy = p2.y - p1.y;
         x2 = x1 + dx;
         y2 = y1 + dy;
-        Log.trace("High-resolution swipe fix, offset", Point(dx, dy));
+        LogTrace << "High-resolution swipe fix, offset" << Point(dx, dy);
     }
     else {
         x2 = static_cast<int>(p2.x * m_control_scale);
         y2 = static_cast<int>(p2.y * m_control_scale);
     }
 
-    Log.trace("Swipe with scaled coordinates", p1, p2, m_control_scale);
+    LogTrace << "Swipe with scaled coordinates" << p1 << p2 << m_control_scale;
 
     return m_controller->swipe(Point(x1, y1), Point(x2, y2), duration, extra_swipe, slope_in, slope_out, with_pause);
 }

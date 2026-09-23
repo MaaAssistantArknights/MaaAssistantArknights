@@ -238,12 +238,8 @@ bool BlackFlowTaskPort::refresh(
                 error,
                 "map_model_failed_after_next_level_floor: floor " + std::to_string(request.floor) + ": " +
                     perception_error);
-            Log.warn(
-                "BlackFlow map model failed after NextLevel floor recognition",
-                "floor",
-                request.floor,
-                "error",
-                perception_error);
+            LogWarn << "BlackFlow map model failed after NextLevel floor recognition" << "floor" << request.floor
+                    << "error" << perception_error;
             return false;
         }
         if (const auto action_points = recognize_action_points(image); action_points.has_value()) {

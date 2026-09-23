@@ -49,7 +49,7 @@ std::optional<int> asst::OperFilesImageAnalyzer::mastery_level(int skill)
     LogTraceFunction;
 
     if (skill < 1 || skill > 3) {
-        Log.error(__FUNCTION__, "| invalid skill index", skill);
+        LogError << __FUNCTION__ << "| invalid skill index" << skill;
         return std::nullopt;
     }
 
@@ -66,13 +66,13 @@ std::optional<int> asst::OperFilesImageAnalyzer::mastery_level(int skill)
     }
     const auto locate_opt = locator.analyze();
     if (!locate_opt) {
-        Log.warn(__FUNCTION__, "| mastery icon not found, task", task_name);
+        LogWarn << __FUNCTION__ << "| mastery icon not found, task" << task_name;
         return std::nullopt;
     }
 
     const std::vector<cv::Point> dot_centers = mastery_dot_centers();
     if (dot_centers.size() != 3) {
-        Log.error(__FUNCTION__, "| unexpected dot count in OperFilesSkillMaster3.png:", dot_centers.size());
+        LogError << __FUNCTION__ << "| unexpected dot count in OperFilesSkillMaster3.png:" << dot_centers.size();
         return std::nullopt;
     }
 
@@ -106,7 +106,7 @@ std::optional<int> asst::OperFilesImageAnalyzer::elite_level()
     // 注意 Matcher 按 templ_thres[i] 取阈值，追加的每个模板都要有对应阈值。
     const auto task_ptr = Task.get<MatchTaskInfo>("OperProgress@CurrentElite0");
     if (!task_ptr || task_ptr->templ_thresholds.empty()) {
-        Log.error(__FUNCTION__, "| task OperProgress@CurrentElite0 not found");
+        LogError << __FUNCTION__ << "| task OperProgress@CurrentElite0 not found";
         return std::nullopt;
     }
 
@@ -118,7 +118,7 @@ std::optional<int> asst::OperFilesImageAnalyzer::elite_level()
 
     const auto result_opt = analyzer.analyze();
     if (!result_opt) {
-        Log.warn(__FUNCTION__, "| elite flag not matched");
+        LogWarn << __FUNCTION__ << "| elite flag not matched";
         return std::nullopt;
     }
 
@@ -126,7 +126,7 @@ std::optional<int> asst::OperFilesImageAnalyzer::elite_level()
     const std::string& templ_name = result_opt->templ_info.name;
     if (!templ_name.starts_with(kEliteTemplPrefix) ||
         !utils::chars_to_number(templ_name.substr(kEliteTemplPrefix.size(), 1), elite)) {
-        Log.error(__FUNCTION__, "| unexpected elite template name", templ_name);
+        LogError << __FUNCTION__ << "| unexpected elite template name" << templ_name;
         return std::nullopt;
     }
     return elite;

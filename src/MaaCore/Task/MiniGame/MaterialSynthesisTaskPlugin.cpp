@@ -44,7 +44,7 @@ bool asst::MaterialSynthesisTaskPlugin::_run()
         if (need_exit()) {
             return false;
         }
-        Log.error("MaterialSynthesis | start from the material synthesis page");
+        LogError << "MaterialSynthesis | start from the material synthesis page";
         save_img(utils::path("debug") / utils::path("material_synthesis"), false);
         report_result(Result::NavigationFailed);
         return false;
@@ -58,7 +58,7 @@ bool asst::MaterialSynthesisTaskPlugin::_run()
     bool operator_selection_initialized = false;
     const Result result =
         synthesize_material(0, material_stack, operation_budget, processing_task, operator_selection_initialized);
-    Log.info("MaterialSynthesis | finished", result_name(result), "remaining operations", operation_budget);
+    LogInfo << "MaterialSynthesis | finished" << result_name(result) << "remaining operations" << operation_budget;
     if (result != Result::Cancelled && !need_exit()) {
         if (result != Result::Completed) {
             save_img(utils::path("debug") / utils::path("material_synthesis"), false);
@@ -79,7 +79,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
         return Result::Cancelled;
     }
     if (depth >= MaxMaterialDepth || operation_budget <= 0) {
-        Log.warn("MaterialSynthesis | recursion limit reached", depth, operation_budget);
+        LogWarn << "MaterialSynthesis | recursion limit reached" << depth << operation_budget;
         return Result::InsufficientResources;
     }
     if (!detect_task("MiniGame@MaterialSynthesis@Workshop")) {
@@ -94,11 +94,11 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
     const std::string& first_material_name = ItemData.get_item_name(material_id);
     const auto material_rarity = ItemData.get_item_rarity(material_id);
     if (!material_rarity) {
-        Log.warn("MaterialSynthesis | material rarity is not in item config", material_id);
+        LogWarn << "MaterialSynthesis | material rarity is not in item config" << material_id;
         return Result::Unsupported;
     }
     if (!material_stack.emplace(material_id).second) {
-        Log.warn("MaterialSynthesis | recipe cycle detected", material_id);
+        LogWarn << "MaterialSynthesis | recipe cycle detected" << material_id;
         return Result::InsufficientResources;
     }
 
@@ -164,7 +164,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
                 }
             }
             else if (detect_task(prefix + "Unavailable")) {
-                Log.warn("MaterialSynthesis | ingredient unavailable", ingredient, material_id);
+                LogWarn << "MaterialSynthesis | ingredient unavailable" << ingredient << material_id;
                 report_status(
                     "MaterialSynthesisIngredientUnavailable",
                     json::object {
@@ -250,7 +250,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
 
                 ++increase_clicks_without_low_mood;
                 if (increase_clicks_without_low_mood >= MaxMoodProbeIncreaseClicks && selected_count < batch_count) {
-                    Log.info("MaterialSynthesis | mood probe increase limit reached", selected_count, batch_count);
+                    LogInfo << "MaterialSynthesis | mood probe increase limit reached" << selected_count << batch_count;
                     break;
                 }
             }
@@ -295,7 +295,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
         }
 
         // 单批小于总缺口时继续当前配方，并共享总操作预算。
-        Log.info("MaterialSynthesis | continue current recipe", material_id, operation_budget);
+        LogInfo << "MaterialSynthesis | continue current recipe" << material_id << operation_budget;
     }
 
     material_stack.erase(material_id);
@@ -306,7 +306,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
         return result;
     }
     if (has_parent) {
-        Log.info("MaterialSynthesis | return to parent recipe", depth);
+        LogInfo << "MaterialSynthesis | return to parent recipe" << depth;
         report_status(
             "MaterialSynthesisReturn",
             json::object {

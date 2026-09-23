@@ -151,12 +151,12 @@ bool ProcessTask::run()
     LogTraceFunction;
 
     if (!m_enable) {
-        Log.info("task disabled, pass", basic_info().to_string());
+        LogInfo << "task disabled, pass" << basic_info().to_string();
         return true;
     }
 
     if (m_begin_task_list.empty()) {
-        Log.warn("task list is empty, pass", basic_info().to_string());
+        LogWarn << "task list is empty, pass" << basic_info().to_string();
         return true;
     }
 
@@ -198,7 +198,7 @@ bool ProcessTask::run()
             callback(AsstMsg::SubTaskError, basic_info());
             return false;
         default:
-            Log.error(__FUNCTION__, "| Unknown status", static_cast<int>(status));
+            LogError << __FUNCTION__ << "| Unknown status" << static_cast<int>(status);
             return false;
         }
 
@@ -218,7 +218,7 @@ bool ProcessTask::run()
 
 bool ProcessTask::_run()
 {
-    Log.error(__FUNCTION__, "should not be called");
+    LogError << __FUNCTION__ << "should not be called";
 #ifdef ASST_DEBUG
     throw std::runtime_error("ProcessTask::_run() should not be called");
 #else
@@ -229,7 +229,7 @@ bool ProcessTask::_run()
 ProcessTask::HitDetail ProcessTask::find_first(const TaskList& list) /* const, except m_reusable */
 {
     if (list.empty()) [[unlikely]] {
-        Log.warn(__FUNCTION__, "| empty task list");
+        LogWarn << __FUNCTION__ << "| empty task list";
         return { .task_ptr = nullptr };
     }
 
@@ -328,7 +328,7 @@ ProcessTask::NodeStatus ProcessTask::run_action(const HitDetail& hits) const
     case ProcessTaskAction::DoNothing:
         return NodeStatus::Success;
     case ProcessTaskAction::Stop:
-        Log.info("Action: Stop");
+        LogInfo << "Action: Stop";
         return NodeStatus::Interrupted;
     default:
         return NodeStatus::Success;
@@ -350,7 +350,7 @@ ProcessTask::NodeStatus ProcessTask::run_task(const HitDetail& hits)
             { "exec_times", exec_times },
             { "max_times", max_times },
         };
-        Log.info("exec times exceeded the limit", info.to_string());
+        LogInfo << "exec times exceeded the limit" << info.to_string();
         callback(AsstMsg::SubTaskExtraInfo, info);
         return NodeStatus::Runout;
     }
@@ -369,7 +369,7 @@ ProcessTask::NodeStatus ProcessTask::run_task(const HitDetail& hits)
     callback(AsstMsg::SubTaskStart, info);
     // 允许插件停用ProcessTask
     if (!m_enable) {
-        Log.info("task disabled after SubTaskStart callback, pass", basic_info().to_string());
+        LogInfo << "task disabled after SubTaskStart callback, pass" << basic_info().to_string();
         return NodeStatus::Interrupted;
     }
 
@@ -391,7 +391,7 @@ ProcessTask::NodeStatus ProcessTask::run_task(const HitDetail& hits)
     for (const std::string& other_task : task->reduce_other_times) {
         if (int& v = m_exec_times[other_task]; v > 0) {
             --v;
-            Log.trace("task `", task_name, "` reduce `", other_task, "` exec times to", v);
+            LogTrace << "task `" << task_name << "` reduce `" << other_task << "` exec times to" << v;
         }
     }
 
@@ -404,7 +404,7 @@ ProcessTask::NodeStatus ProcessTask::run_task(const HitDetail& hits)
         LogTraceScope("Sub: " + sub);
         bool sub_ret = ProcessTask(*this, { sub }).set_override_next(m_next_override).run();
         if (!sub_ret && !task->sub_error_ignored) {
-            Log.error("Sub error and not ignored", sub);
+            LogError << "Sub error and not ignored" << sub;
             // 感觉应该把 run 改成 NodeStatus 类型，这样可以知道 sub 的具体执行结果
             return NodeStatus::InternalError;
         }
@@ -416,7 +416,7 @@ ProcessTask::NodeStatus ProcessTask::run_task(const HitDetail& hits)
     callback(AsstMsg::SubTaskCompleted, info);
     // 允许插件停用ProcessTask
     if (!m_enable) {
-        Log.info("task disabled after SubTaskCompleted callback, pass", basic_info().to_string());
+        LogInfo << "task disabled after SubTaskCompleted callback, pass" << basic_info().to_string();
         return NodeStatus::Interrupted;
     }
 
@@ -427,7 +427,7 @@ ProcessTask::NodeStatus ProcessTask::run_task(const HitDetail& hits)
             { "exec_times", exec_times },
             { "max_times", max_times },
         };
-        Log.info("exec times exceeded the limit", info.to_string());
+        LogInfo << "exec times exceeded the limit" << info.to_string();
         callback(AsstMsg::SubTaskExtraInfo, info);
         return NodeStatus::Runout;
     }
@@ -443,7 +443,7 @@ std::pair<ProcessTask::NodeStatus, TaskConstPtr> ProcessTask::find_and_run_task(
     }
 
     if (!m_enable) {
-        Log.info("task disabled, pass", basic_info().to_string());
+        LogInfo << "task disabled, pass" << basic_info().to_string();
         return { NodeStatus::Interrupted, nullptr };
     }
 
@@ -456,7 +456,7 @@ std::pair<ProcessTask::NodeStatus, TaskConstPtr> ProcessTask::find_and_run_task(
             { "retry_times", m_retry_times },
         };
         info["cur_task"] = m_last_task_name;
-        Log.info(info.to_string());
+        LogInfo << info.to_string();
 
         if (cur_retry != 0 && !sleep(m_task_delay)) {
             return { NodeStatus::Interrupted, nullptr };

@@ -32,9 +32,9 @@
 - (void)stream:(SCStream*)stream didStopWithError:(NSError*)error
 {
     if (error) {
-        Log.error(__FUNCTION__, "| Stream stopped with error:", error.localizedDescription.UTF8String);
+        LogError << __FUNCTION__ << "| Stream stopped with error:" << error.localizedDescription.UTF8String;
     } else {
-        Log.trace(__FUNCTION__, "| Stream stopped without error");
+        LogTrace << __FUNCTION__ << "| Stream stopped without error";
     }
     self.running = NO;
     _initialized.store(true, std::memory_order_release);
@@ -146,7 +146,7 @@ asst::MacSCKHelper::Impl::~Impl()
     if (stream) {
         [stream stopCaptureWithCompletionHandler:^(NSError* _Nullable error) {
             if (error) {
-                Log.error("Error stopping capture:", error.localizedDescription.UTF8String);
+                LogError << "Error stopping capture:" << error.localizedDescription.UTF8String;
             }
             cleanup();
         }];
@@ -162,7 +162,7 @@ bool asst::MacSCKHelper::Impl::init(std::string_view bundle_id, std::string_view
 
     const auto handler = ^(SCShareableContent* _Nullable content, NSError* _Nullable error) {
         if (error) {
-            Log.error("Cannot get shareable content:", error.localizedDescription.UTF8String);
+            LogError << "Cannot get shareable content:" << error.localizedDescription.UTF8String;
             dispatch_semaphore_signal(sem);
             return;
         }
@@ -180,7 +180,7 @@ bool asst::MacSCKHelper::Impl::init(std::string_view bundle_id, std::string_view
             }
         }
         if (!targetWindow) {
-            Log.error("No window found with bundle ID:", bundle_id, ", port:", port);
+            LogError << "No window found with bundle ID:" << bundle_id << ", port:" << port;
             dispatch_semaphore_signal(sem);
             return;
         }
@@ -200,7 +200,7 @@ bool asst::MacSCKHelper::Impl::init(std::string_view bundle_id, std::string_view
 
         const auto titlebar_height = window_height - content_height;
         if (titlebar_height > 0) {
-            Log.trace("Titlebar logical height:", titlebar_height);
+            LogTrace << "Titlebar logical height:" << titlebar_height;
             config.sourceRect = CGRectMake(0, titlebar_height, content_width, content_height);
         }
 
@@ -217,19 +217,19 @@ bool asst::MacSCKHelper::Impl::init(std::string_view bundle_id, std::string_view
                             error:&error];
 
         if (error) {
-            Log.error("Cannot add stream output:", error.localizedDescription.UTF8String);
+            LogError << "Cannot add stream output:" << error.localizedDescription.UTF8String;
             dispatch_semaphore_signal(sem);
             return;
         }
 
         [m_stream startCaptureWithCompletionHandler:^(NSError* _Nullable error) {
             if (error) {
-                Log.error("Cannot start capture:", error.localizedDescription.UTF8String);
+                LogError << "Cannot start capture:" << error.localizedDescription.UTF8String;
                 dispatch_semaphore_signal(sem);
                 return;
             }
 
-            Log.trace("Started capture for window:", targetWindow.title.UTF8String);
+            LogTrace << "Started capture for window:" << targetWindow.title.UTF8String;
             m_output.running = YES;
             result = true;
             dispatch_semaphore_signal(sem);
@@ -271,7 +271,7 @@ struct BufferGuard {
 bool asst::MacSCKHelper::Impl::capture(std::vector<uint8_t>& bgrData) const
 {
     if (!m_queue || !m_output) {
-        Log.error("Stream output is not initialized");
+        LogError << "Stream output is not initialized";
         return false;
     }
 
@@ -280,7 +280,7 @@ bool asst::MacSCKHelper::Impl::capture(std::vector<uint8_t>& bgrData) const
     __block CVImageBufferRef buffer = nullptr;
     dispatch_sync(m_queue, ^{
         if (!m_output.running) {
-            Log.error("Stream is not running");
+            LogError << "Stream is not running";
             return;
         }
         if (m_output.buffer) {
@@ -290,7 +290,7 @@ bool asst::MacSCKHelper::Impl::capture(std::vector<uint8_t>& bgrData) const
     });
 
     if (!buffer) {
-        Log.error("No image buffer available");
+        LogError << "No image buffer available";
         return false;
     }
 
@@ -298,7 +298,7 @@ bool asst::MacSCKHelper::Impl::capture(std::vector<uint8_t>& bgrData) const
 
     long ret = CVPixelBufferLockBaseAddress(buffer, kCVPixelBufferLock_ReadOnly);
     if (ret != kCVReturnSuccess) [[unlikely]] {
-        Log.error("Failed to lock pixel buffer:", ret);
+        LogError << "Failed to lock pixel buffer:" << ret;
         return false;
     }
 
@@ -324,7 +324,7 @@ bool asst::MacSCKHelper::Impl::capture(std::vector<uint8_t>& bgrData) const
 
     ret = vImageConvert_RGBA8888toRGB888(&srcBuffer, &dstBuffer, kvImageNoFlags);
     if (ret != kvImageNoError) [[unlikely]] {
-        Log.error("Failed to convert buffer channels:", ret);
+        LogError << "Failed to convert buffer channels:" << ret;
         return false;
     }
 

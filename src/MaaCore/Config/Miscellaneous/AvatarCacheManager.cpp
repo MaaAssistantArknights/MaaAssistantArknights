@@ -10,10 +10,10 @@ bool asst::AvatarCacheManager::load(const std::filesystem::path& path)
     LogTraceFunction;
 
     if (path == m_save_path) {
-        Log.info("already loaded", path.lexically_relative(UserDir.get()));
+        LogInfo << "already loaded" << path.lexically_relative(UserDir.get());
         return true;
     }
-    Log.info("load", path.lexically_relative(UserDir.get()));
+    LogInfo << "load" << path.lexically_relative(UserDir.get());
 
     m_save_path = path;
 
@@ -27,7 +27,7 @@ bool asst::AvatarCacheManager::load(const std::filesystem::path& path)
 
         const auto& oper_ptr = BattleData.find_oper_by_id(id);
         if (!oper_ptr) {
-            Log.warn("unknown oper", id);
+            LogWarn << "unknown oper" << id;
             continue;
         }
 
@@ -58,7 +58,7 @@ void asst::AvatarCacheManager::set_avatar(
     bool overlay)
 {
     LogTraceFunction;
-    Log.info(__FUNCTION__, name, ", overlay:", overlay);
+    LogInfo << __FUNCTION__ << name << ", overlay:" << overlay;
 
     if (overlay) {
         m_avatars[role].insert_or_assign(name, avatar);
@@ -70,12 +70,12 @@ void asst::AvatarCacheManager::set_avatar(
 
     const auto& oper_ptr = BattleData.find_first_oper(role, name);
     if (!oper_ptr) {
-        Log.error("invalid name", name);
+        LogError << "invalid name" << name;
         return;
     }
 
     auto path = m_save_path / utils::path(oper_ptr->id + CacheExtension);
-    Log.info(path.lexically_relative(UserDir.get()));
+    LogInfo << path.lexically_relative(UserDir.get());
 
     MAA_NS::imwrite(path, avatar);
 }
@@ -96,17 +96,17 @@ void asst::AvatarCacheManager::_load(LoadItem waiting_to_load)
     for (const auto& [role, name_and_paths] : waiting_to_load) {
         for (const auto& [name, filepath] : name_and_paths) {
 #ifdef ASST_DEBUG
-            Log.trace(__FUNCTION__, name, filepath.lexically_relative(UserDir.get()));
+            LogTrace << __FUNCTION__ << name << filepath.lexically_relative(UserDir.get());
 #endif
 
             auto avatar = MAA_NS::imread(filepath);
 
             if (avatar.empty()) {
-                Log.error("load failed", filepath.lexically_relative(UserDir.get()));
+                LogError << "load failed" << filepath.lexically_relative(UserDir.get());
                 continue;
             }
             if (avatar.cols != w || avatar.rows != h) {
-                Log.error("size mismatch", filepath.lexically_relative(UserDir.get()), avatar.cols, avatar.rows);
+                LogError << "size mismatch" << filepath.lexically_relative(UserDir.get()) << avatar.cols << avatar.rows;
                 continue;
             }
 

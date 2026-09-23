@@ -27,7 +27,7 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
             return false;
         }
         m_choose_support_result = analyzer.get_result().front().rect;
-        Log.info(__FUNCTION__, "| ChooseSupportBtn");
+        LogInfo << __FUNCTION__ << "| ChooseSupportBtn";
         return true;
     }
     else if (m_mode == battle::roguelike::SupportAnalyzeMode::AnalyzeChars) {
@@ -56,7 +56,7 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
             int char_level = match_level(level_roi);
             if (char_level <= 0) {
                 // 等级识别失败，可能希望不足，舍弃结果
-                Log.info(__FUNCTION__, "| match_level failed ", char_rect.text, char_level);
+                LogInfo << __FUNCTION__ << "| match_level failed " << char_rect.text << char_level;
                 continue;
             }
 
@@ -79,7 +79,7 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
             int rarity = BattleData.get_rarity(battle::Role::Unknown, char_rect.text);
             if (rarity == 0) {
                 // 非干员名，可能是屏幕边角，舍弃结果
-                Log.info(__FUNCTION__, "| can't get rarity of `", char_rect.text, "`");
+                LogInfo << __FUNCTION__ << "| can't get rarity of `" << char_rect.text << "`";
                 continue;
             }
             else if (rarity <= 3) {
@@ -92,16 +92,9 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
                 }
             }
 
-            Log.info(
-                __FUNCTION__,
-                "| AnalyzeChars append ",
-                char_info.oper_info.name,
-                char_info.oper_info.rect,
-                char_info.oper_info.elite,
-                char_info.oper_info.level,
-                is_friend,
-                char_info.max_elite,
-                char_info.max_level);
+            LogInfo << __FUNCTION__ << "| AnalyzeChars append " << char_info.oper_info.name << char_info.oper_info.rect
+                    << char_info.oper_info.elite << char_info.oper_info.level << is_friend << char_info.max_elite
+                    << char_info.max_level;
             m_char_result.push_back(char_info);
         }
         return !m_char_result.empty();
@@ -113,7 +106,7 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
         // 未处在冷却时间
         analyzer.set_task_info("RoguelikeRefreshSupportBtnOcr");
         if (analyzer.analyze()) {
-            Log.info(__FUNCTION__, "| RefreshSupportBtn no cooldown");
+            LogInfo << __FUNCTION__ << "| RefreshSupportBtn no cooldown";
             m_refresh_result = { analyzer.get_result().front().rect, false, 0 };
             return true;
         }
@@ -122,12 +115,12 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
         analyzer.set_required({});
         analyzer.set_replace({ { "：", ":" } });
         if (!analyzer.analyze()) {
-            Log.info(__FUNCTION__, "| RefreshSupportBtn analyze failed");
+            LogInfo << __FUNCTION__ << "| RefreshSupportBtn analyze failed";
             return false;
         }
         const auto& results = analyzer.get_result();
         for (const auto& result : results) {
-            Log.info(__FUNCTION__, "| RefreshSupportBtn parse `", result.text, "`", result.score);
+            LogInfo << __FUNCTION__ << "| RefreshSupportBtn parse `" << result.text << "`" << result.score;
             boost::smatch match_results;
             if (boost::regex_search(result.text, match_results, boost::regex("[0-9]{2}:[0-9]{2}:[0-9]{2}"))) {
                 const auto& match_str = match_results[0].str();
@@ -138,7 +131,7 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
                 return true;
             }
         }
-        Log.info(__FUNCTION__, "| RefreshSupportBtn failed: no matched results");
+        LogInfo << __FUNCTION__ << "| RefreshSupportBtn failed: no matched results";
         return false;
     }
 
@@ -180,7 +173,7 @@ int asst::RoguelikeRecruitSupportAnalyzer::match_elite(const Rect& roi, const in
         }
     }
 
-    Log.info(__FUNCTION__, "| ", roi, elite_result, max_score);
+    LogInfo << __FUNCTION__ << "| " << roi << elite_result << max_score;
     return elite_result;
 }
 
@@ -197,7 +190,7 @@ int asst::RoguelikeRecruitSupportAnalyzer::judge_is_friend(const Rect& roi, cons
     auto r_mean = cv::mean(red_channel)[0];
     bool is_friend = (r_mean > threshold);
 
-    Log.info(__FUNCTION__, "| ", roi, r_mean, threshold);
+    LogInfo << __FUNCTION__ << "| " << roi << r_mean << threshold;
 
     return is_friend;
 }
@@ -215,7 +208,7 @@ int asst::RoguelikeRecruitSupportAnalyzer::match_level(const Rect& roi)
         return -1;
     }
 
-    Log.info(__FUNCTION__, "| ", roi, "`", analyzer.get_result().text, "`");
+    LogInfo << __FUNCTION__ << "| " << roi << "`" << analyzer.get_result().text << "`";
     const std::string& level = analyzer.get_result().text;
     if (level.empty() || !std::ranges::all_of(level, [](char c) -> bool { return std::isdigit(c); })) {
         return 0;

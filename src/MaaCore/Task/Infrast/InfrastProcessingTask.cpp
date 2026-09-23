@@ -25,14 +25,14 @@ bool asst::InfrastProcessingTask::_run()
 
     // 不是自定义的也换不了加工站
     if (!is_use_custom_opers()) {
-        Log.info("skip this room");
+        LogInfo << "skip this room";
         return true;
     }
     // 加工站，啥也造不了，随便写一个
     set_product("Placeholder");
 
     if (current_room_config().skip) {
-        Log.info("skip this room");
+        LogInfo << "skip this room";
         return true;
     }
 
@@ -99,7 +99,7 @@ bool asst::InfrastProcessingTask::select_operator(
                 if (need_exit()) {
                     return false;
                 }
-                Log.warn("MaterialSynthesis | operator cache scan failed", attempt);
+                LogWarn << __FUNCTION__ << "| operator cache scan failed" << attempt;
                 invalidate_material_synthesis_cache();
                 if (!is_material_synthesis_operator_list()) {
                     return false;
@@ -109,7 +109,7 @@ bool asst::InfrastProcessingTask::select_operator(
             }
         }
         else {
-            Log.info("MaterialSynthesis | operator cache hit", m_material_synthesis_operator_cache.size());
+            LogInfo << __FUNCTION__ << "| operator cache hit" << m_material_synthesis_operator_cache.size();
             swipe_to_the_left_of_operlist();
             if (need_exit()) {
                 return false;
@@ -118,7 +118,7 @@ bool asst::InfrastProcessingTask::select_operator(
 
         const auto best_index = find_best_material_synthesis_operator(material_id, material_rarity);
         if (!best_index) {
-            Log.warn("MaterialSynthesis | no cached operator is available", material_id, material_rarity);
+            LogWarn << __FUNCTION__ << "| no cached operator is available" << material_id << material_rarity;
             return false;
         }
         const infrast::Oper target = m_material_synthesis_operator_cache.at(*best_index);
@@ -127,7 +127,7 @@ bool asst::InfrastProcessingTask::select_operator(
             if (need_exit()) {
                 return false;
             }
-            Log.warn("MaterialSynthesis | cached operator selection failed, rebuild cache", attempt);
+            LogWarn << __FUNCTION__ << "| cached operator selection failed, rebuild cache" << attempt;
             invalidate_material_synthesis_cache();
             if (!is_material_synthesis_operator_list()) {
                 return false;
@@ -139,7 +139,7 @@ bool asst::InfrastProcessingTask::select_operator(
             if (need_exit()) {
                 return false;
             }
-            Log.warn("MaterialSynthesis | operator confirmation failed", attempt);
+            LogWarn << __FUNCTION__ << "| operator confirmation failed" << attempt;
             invalidate_material_synthesis_cache();
             if (!is_material_synthesis_operator_list()) {
                 return false;
@@ -150,22 +150,18 @@ bool asst::InfrastProcessingTask::select_operator(
 
         m_material_synthesis_operator_cache.erase(m_material_synthesis_operator_cache.begin() + *best_index);
         operator_changed = selection_changed;
-        Log.info(
-            "MaterialSynthesis | operator selected from cache",
-            material_id,
-            material_rarity,
-            "remaining",
-            m_material_synthesis_operator_cache.size());
+        LogInfo << __FUNCTION__ << "| operator selected from cache" << material_id << material_rarity << "remaining"
+                << m_material_synthesis_operator_cache.size();
         return true;
     }
 
-    Log.error("MaterialSynthesis | operator selection failed after cache rebuild");
+    LogError << __FUNCTION__ << "| operator selection failed after cache rebuild";
     return false;
 }
 
 bool asst::InfrastProcessingTask::rebuild_material_synthesis_cache()
 {
-    Log.info("MaterialSynthesis | full operator scan started");
+    LogInfo << __FUNCTION__ << "| full operator scan started";
     m_material_synthesis_operator_cache.clear();
 
     bool reached_end = false;
@@ -175,15 +171,9 @@ bool asst::InfrastProcessingTask::rebuild_material_synthesis_cache()
             invalidate_material_synthesis_cache();
             return false;
         }
-        Log.trace(
-            "MaterialSynthesis | operator cache page",
-            page,
-            "skilled operators",
-            scan_result->skilled_operators,
-            "new candidates",
-            scan_result->new_candidates,
-            "cached candidates",
-            m_material_synthesis_operator_cache.size());
+        LogTrace << __FUNCTION__ << "| operator cache page" << page << ", skilled operators"
+                 << scan_result->skilled_operators << ", new candidates" << scan_result->new_candidates
+                 << ", cached candidates" << m_material_synthesis_operator_cache.size();
         // 与其他单人生产设施一致，进入首个没有本设施技能的页面即视为扫描完成。
         if (scan_result->skilled_operators == 0) {
             reached_end = true;
@@ -205,13 +195,13 @@ bool asst::InfrastProcessingTask::rebuild_material_synthesis_cache()
         return false;
     }
     if (!reached_end) {
-        Log.error("MaterialSynthesis | operator scan exceeded page limit");
+        LogError << __FUNCTION__ << "| operator scan exceeded page limit";
         invalidate_material_synthesis_cache();
         return false;
     }
 
     m_material_synthesis_cache_valid = true;
-    Log.info("MaterialSynthesis | full operator scan completed", m_material_synthesis_operator_cache.size());
+    LogInfo << __FUNCTION__ << "| full operator scan completed" << m_material_synthesis_operator_cache.size();
     return true;
 }
 
@@ -234,7 +224,7 @@ std::optional<asst::InfrastProcessingTask::MaterialSynthesisScanResult>
     MaterialSynthesisScanResult result { static_cast<size_t>(analyzer.get_num_of_opers_with_skills()), 0 };
     for (const auto& oper : analyzer.get_result()) {
         if (oper.face_hash.empty()) {
-            Log.warn("MaterialSynthesis | operator face hash is empty");
+            LogWarn << __FUNCTION__ << "| operator face hash is empty";
             return std::nullopt;
         }
 
@@ -288,7 +278,7 @@ std::optional<size_t> asst::InfrastProcessingTask::find_best_material_synthesis_
         return std::nullopt;
     }
 
-    Log.info("MaterialSynthesis | cached operator score", result.score, material_id, material_rarity);
+    LogInfo << __FUNCTION__ << "| cached operator score" << result.score << material_id << material_rarity;
     return result.indices.front();
 }
 
@@ -329,7 +319,7 @@ bool asst::InfrastProcessingTask::locate_and_select_material_synthesis_operator(
             if (oper.mood_ratio < MaterialSynthesisMoodThreshold) {
                 return false;
             }
-            Log.info("MaterialSynthesis | cached operator located", page);
+            LogInfo << __FUNCTION__ << "| cached operator located" << page;
             if (need_exit()) {
                 return false;
             }
@@ -340,7 +330,7 @@ bool asst::InfrastProcessingTask::locate_and_select_material_synthesis_operator(
                 sleep(500);
             }
             else {
-                Log.info("MaterialSynthesis | cached operator is already selected");
+                LogInfo << __FUNCTION__ << "| cached operator is already selected";
             }
             if (!review_material_synthesis_selection(target)) {
                 return false;
@@ -390,7 +380,7 @@ bool asst::InfrastProcessingTask::review_material_synthesis_selection(const infr
         target_selected = target_selected || material_synthesis_avatar_matches(oper, target, face_hash_threshold);
     }
 
-    Log.info("MaterialSynthesis | operator selection review", selected_count, target_selected);
+    LogInfo << __FUNCTION__ << "| operator selection review" << selected_count << target_selected;
     return selected_count == 1 && target_selected;
 }
 
@@ -458,5 +448,5 @@ void asst::InfrastProcessingTask::invalidate_material_synthesis_cache()
 {
     m_material_synthesis_cache_valid = false;
     m_material_synthesis_operator_cache.clear();
-    Log.info("MaterialSynthesis | operator cache invalidated");
+    LogInfo << __FUNCTION__ << "| operator cache invalidated";
 }

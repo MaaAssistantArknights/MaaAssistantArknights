@@ -69,7 +69,7 @@ int asst::DrGrandetTaskPlugin::analyze_time_left(const cv::Mat& image)
     analyzer.set_use_char_model(false);
 
     if (!analyzer.analyze()) {
-        Log.warn(__FUNCTION__, "unable to analyze time");
+        LogWarn << __FUNCTION__ << "unable to analyze time";
         return -1;
     }
     auto text = analyzer.get_result().front().text;
@@ -77,20 +77,20 @@ int asst::DrGrandetTaskPlugin::analyze_time_left(const cv::Mat& image)
     auto regex = boost::regex(R"((\d):(\d?)(\d?))");
     boost::smatch match;
     if (!boost::regex_search(text, match, regex)) {
-        Log.warn(__FUNCTION__, "Unable to match time:", text);
+        LogWarn << __FUNCTION__ << "Unable to match time:" << text;
         return -1;
     }
     std::string time = match.str(0);
-    Log.info("Time:", time);
+    LogInfo << "Time:" << time;
 
     int min = std::stoi(match.str(1));
     int sec1 = match.str(2).empty() ? 5 : std::stoi(match.str(2));
     int sec2 = match.str(3).empty() ? 9 : std::stoi(match.str(3));
     int millis = (min * 60 + sec1 * 10 + sec2) * 1000;
     if (millis < 0 || millis > 6 * 60 * 1000) {
-        Log.warn("Invalid time:", millis);
+        LogWarn << "Invalid time:" << millis;
         return -1;
     }
-    Log.info("Time left ms:", millis);
+    LogInfo << "Time left ms:" << millis;
     return millis;
 }

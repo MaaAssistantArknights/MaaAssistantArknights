@@ -10,7 +10,7 @@ bool asst::ReclamationConfig::verify_and_load_params(const json::value& params)
     // Reclamation Algorithm Theme
     const std::string theme = params.get("theme", std::string(ReclamationTheme::Tales));
     if (!is_valid_theme(theme)) {
-        Log.error(__FUNCTION__, "| Unknown Reclamation Algorithm theme", theme);
+        LogError << __FUNCTION__ << "| Unknown Reclamation Algorithm theme" << theme;
         return false;
     }
     m_theme = theme;
@@ -33,7 +33,7 @@ bool asst::ReclamationConfig::verify_and_load_params(const json::value& params)
             break;
 
         default:
-            Log.error(__FUNCTION__, "| Invalid RelaunchAnchor mode", modeInt);
+            LogError << __FUNCTION__ << "| Invalid RelaunchAnchor mode" << modeInt;
             return false;
         }
     }
@@ -49,7 +49,7 @@ bool asst::ReclamationConfig::verify_and_load_params(const json::value& params)
             break;
 
         default:
-            Log.error(__FUNCTION__, "| Invalid Tales mode", modeInt);
+            LogError << __FUNCTION__ << "| Invalid Tales mode" << modeInt;
             return false;
         }
     }

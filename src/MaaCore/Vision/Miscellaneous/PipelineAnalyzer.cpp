@@ -18,7 +18,7 @@ PipelineAnalyzer::ResultOpt PipelineAnalyzer::analyze() const
         const auto& task_ptr = Task.get(task_name);
         // 可能有配置错误，导致不存在对应的任务
         if (task_ptr == nullptr) {
-            Log.error("Invalid task", task_name);
+            LogError << "Invalid task" << task_name;
 #ifdef ASST_DEBUG
             throw std::runtime_error("Invalid task: " + task_name);
 #endif
@@ -33,19 +33,19 @@ PipelineAnalyzer::ResultOpt PipelineAnalyzer::analyze() const
 
         case AlgorithmType::MatchTemplate:
             if (auto match_opt = match(task_ptr)) {
-                Log.trace(__FUNCTION__, "| MatchTemplate", task_ptr->name);
+                LogTrace << __FUNCTION__ << "| MatchTemplate" << task_ptr->name;
                 return Result { .task_ptr = task_ptr, .result = *match_opt, .rect = match_opt->rect };
             }
             break;
         case AlgorithmType::OcrDetect:
             if (auto ocr_opt = ocr(task_ptr)) {
-                Log.trace(__FUNCTION__, "| OcrDetect", task_ptr->name, *ocr_opt);
+                LogTrace << __FUNCTION__ << "| OcrDetect" << task_ptr->name << *ocr_opt;
                 return Result { .task_ptr = task_ptr, .result = ocr_opt->front(), .rect = ocr_opt->front().rect };
             }
             break;
         case AlgorithmType::FeatureMatch:
             if (auto match_opt = feature_match(task_ptr)) {
-                Log.trace(__FUNCTION__, "| FeatureMatch", task_ptr->name);
+                LogTrace << __FUNCTION__ << "| FeatureMatch" << task_ptr->name;
                 return Result { .task_ptr = task_ptr, .result = match_opt->front(), .rect = match_opt->front().rect };
             }
             break;
@@ -62,7 +62,7 @@ Matcher::ResultOpt PipelineAnalyzer::match(const std::shared_ptr<TaskInfo>& task
 
     const auto match_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(task_ptr);
     if (std::ranges::all_of(match_task_ptr->templ_thresholds, [](double t) { return t > 1.0; })) {
-        Log.info(match_task_ptr->name, "'s threshold is", match_task_ptr->templ_thresholds, ", just skip");
+        LogInfo << match_task_ptr->name << "'s threshold is" << match_task_ptr->templ_thresholds << ", just skip";
         return std::nullopt;
     }
     match_analyzer.set_task_info(match_task_ptr);

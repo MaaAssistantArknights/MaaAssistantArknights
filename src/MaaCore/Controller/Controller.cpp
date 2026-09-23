@@ -72,7 +72,7 @@ std::shared_ptr<asst::ControllerAPI>
 #endif
 #ifdef __ANDROID__
         case ControllerType::MaaFwAndroidNative:
-            Log.debug("Use Android");
+            LogDebug << "Use Android";
             return std::make_shared<MaaFwAndroidNativeController>(m_callback, m_inst);
 #endif
         default:
@@ -80,7 +80,7 @@ std::shared_ptr<asst::ControllerAPI>
         }
     }
     catch (const std::exception& e) {
-        Log.error("Unable to create controller: {}", e.what());
+        LogError << "Unable to create controller:" << e.what();
         return nullptr;
     }
 }
@@ -120,17 +120,17 @@ void asst::Controller::callback(AsstMsg msg, const json::value& details)
     }
 }
 
-#define CHECK_EXIST(object, return_value)                       \
-    if (!object) {                                              \
-        Log.error(__FUNCTION__, "|", #object, "is not inited"); \
-        return return_value;                                    \
+#define CHECK_EXIST(object, return_value)                              \
+    if (!object) {                                                     \
+        LogError << __FUNCTION__ << "|" << #object << "is not inited"; \
+        return return_value;                                           \
     }
 
 void asst::Controller::sync_params()
 {
     if (!m_controller) {
         // 参数没有实时同步，但是在连接时会被同步
-        Log.info("skip sync_params, retry when connect");
+        LogInfo << "skip sync_params, retry when connect";
         return;
     }
     m_controller->set_swipe_with_pause(m_swipe_with_pause);
@@ -150,7 +150,7 @@ cv::Mat asst::Controller::get_resized_image_cache() const
 
     std::shared_lock<std::shared_mutex> image_lock(m_image_mutex);
     if (m_cache_image.empty()) {
-        Log.error("image is empty");
+        LogError << "image is empty";
         return { d_size, CV_8UC3 };
     }
     cv::Mat resized_mat;
@@ -270,14 +270,14 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
     m_controller = create_controller(m_controller_type, m_platform_type);
     if (!m_controller) {
-        Log.error("connect failed");
+        LogError << "connect failed";
         return false;
     }
 
     sync_params();
 
     if (!m_controller->connect(adb_path, address, config)) {
-        Log.error("connect failed");
+        LogError << "connect failed";
         m_controller = nullptr;
         return false;
     }
@@ -294,7 +294,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 #ifndef __ANDROID__
     // try to find the fastest way
     if (!screencap()) {
-        Log.error("Cannot find a proper way to screencap!");
+        LogError << "Cannot find a proper way to screencap!";
         return false;
     }
 #endif
@@ -316,12 +316,12 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         m_scale_proxy = std::make_shared<ControlScaleProxy>(m_controller, m_controller_type, proxy_callback);
     }
     catch (const std::exception& e) {
-        Log.error("Cannot create controller proxy: {}", e.what());
+        LogError << "Cannot create controller proxy: " << e.what();
         return false;
     }
 
     if (!m_scale_proxy) {
-        Log.error("Cannot create controller proxy!");
+        LogError << "Cannot create controller proxy!";
         return false;
     }
 
@@ -343,7 +343,7 @@ bool asst::Controller::attach_window(
 
     auto win32_controller = std::make_shared<Win32Controller>(m_callback, m_inst);
     if (!win32_controller->attach(hwnd, screencap_method, mouse_method, keyboard_method)) {
-        Log.error("attach_window failed");
+        LogError << "attach_window failed";
         return false;
     }
 
@@ -353,7 +353,7 @@ bool asst::Controller::attach_window(
 
     // 尝试截图
     if (!screencap()) {
-        Log.error("Cannot screencap!");
+        LogError << "Cannot screencap!";
         return false;
     }
 
@@ -375,12 +375,12 @@ bool asst::Controller::attach_window(
         m_scale_proxy = std::make_shared<ControlScaleProxy>(m_controller, m_controller_type, proxy_callback);
     }
     catch (const std::exception& e) {
-        Log.error("Cannot create controller proxy: {}", e.what());
+        LogError << "Cannot create controller proxy: " << e.what();
         return false;
     }
 
     if (!m_scale_proxy) {
-        Log.error("Cannot create controller proxy!");
+        LogError << "Cannot create controller proxy!";
         return false;
     }
 
@@ -473,7 +473,7 @@ const std::string& asst::Controller::get_uuid() const
 cv::Mat asst::Controller::get_image(bool raw)
 {
     if (get_scale_size() == std::pair(0, 0)) {
-        Log.error("Unknown image size");
+        LogError << "Unknown image size";
         return {};
     }
 
@@ -493,7 +493,7 @@ cv::Mat asst::Controller::get_image(bool raw)
         if (screencap(true)) {
             break;
         }
-        Log.error(__FUNCTION__, "screencap failed!");
+        LogError << __FUNCTION__ << "|screencap failed!";
         json::value info = json::object {
             { "uuid", m_uuid },
             { "what", "ScreencapFailed" },

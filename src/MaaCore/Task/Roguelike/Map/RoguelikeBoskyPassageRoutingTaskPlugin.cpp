@@ -22,7 +22,7 @@ bool asst::RoguelikeBoskyPassageRoutingTaskPlugin::load_params([[maybe_unused]] 
             m_bosky_routing_strategy = RoutingStrategy::FindPlaytime_JieGarden;
             int target = m_config->get_find_playTime_target();
             RoguelikeBoskyPassageMap::get_instance().set_target_subtype(static_cast<RoguelikeBoskySubNodeType>(target));
-            Log.info(__FUNCTION__, "| FindPlaytime mode enabled with target:", target);
+            LogInfo << __FUNCTION__ << "| FindPlaytime mode enabled with target:" << target;
             return true;
         }
 
@@ -63,7 +63,7 @@ bool asst::RoguelikeBoskyPassageRoutingTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    Log.info(__FUNCTION__, "| Running with bosky_routing_strategy:", static_cast<int>(m_bosky_routing_strategy));
+    LogInfo << __FUNCTION__ << "| Running with bosky_routing_strategy:" << static_cast<int>(m_bosky_routing_strategy);
 
     switch (m_bosky_routing_strategy) {
     case RoutingStrategy::BoskyPassage_JieGarden: {
@@ -78,10 +78,8 @@ bool asst::RoguelikeBoskyPassageRoutingTaskPlugin::_run()
         const std::vector<RoguelikeNodeType> priority_order = get_bosky_passage_priority("FindPlaytime");
 
         // 获取目标常乐节点子类型
-        Log.info(
-            __FUNCTION__,
-            "| Looking for playtime subtype:",
-            subtype2name(RoguelikeBoskyPassageMap::get_instance().get_target_subtype()));
+        LogInfo << __FUNCTION__ << "| Looking for playtime subtype:"
+                << subtype2name(RoguelikeBoskyPassageMap::get_instance().get_target_subtype());
 
         // 尝试找到目标节点，使用常乐节点优先的策略
         bosky_decide_and_click(priority_order);
@@ -99,7 +97,7 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_update_map()
 {
     LogTraceFunction;
 
-    Log.info(__FUNCTION__, "| updating bosky map");
+    LogInfo << __FUNCTION__ << "| updating bosky map";
 
     // 有时候从不期而遇出来可能会多点一下，点到剩余烛火，导致接下来的一次点击只会把窗口关掉，无法进入节点。而且还遮挡了部分节点
     // 能检测到意识回归的话就点一下边缘，把退出树洞的弹窗关掉
@@ -107,19 +105,19 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_update_map()
 
     cv::Mat image = ctrler()->get_image();
     if (image.empty()) {
-        Log.error(__FUNCTION__, "| Failed to get image from controller");
+        LogError << __FUNCTION__ << "| Failed to get image from controller";
         return;
     }
 
     MultiMatcher node_analyzer(image);
     node_analyzer.set_task_info("JieGarden@RoguelikeRoutingNodeAnalyze_BoskyPassage");
     if (!node_analyzer.analyze()) {
-        Log.error(__FUNCTION__, "| no nodes are recognised");
+        LogError << __FUNCTION__ << "| no nodes are recognised";
         return;
     }
 
     MultiMatcher::ResultsVec match_results = node_analyzer.get_result();
-    Log.info(__FUNCTION__, "| found", match_results.size(), "nodes");
+    LogInfo << __FUNCTION__ << "| found" << match_results.size() << "nodes";
 
     // 排序 靠左上优先
     sort_by_vertical_(match_results);
@@ -132,11 +130,11 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_update_map()
 
     // 处理每个识别到的节点
     for (const auto& [rect, score, templ_name] : match_results) {
-        Log.debug(__FUNCTION__, "| analyzing node", templ_name, "at (", rect.x, ",", rect.y, ")");
+        LogDebug << __FUNCTION__ << "| analyzing node" << templ_name << "at (" << rect.x << "," << rect.y << ")";
 
         const RoguelikeNodeType type = RoguelikeMapInfo.templ2type(theme, templ_name);
         if (type == RoguelikeNodeType::Unknown) {
-            Log.warn(__FUNCTION__, "| unknown template:", templ_name);
+            LogWarn << __FUNCTION__ << "| unknown template:" << templ_name;
             continue;
         }
 
@@ -149,10 +147,10 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_update_map()
         if (idx.has_value()) {
             // 更新节点类型（防止类型不一致）
             RoguelikeBoskyPassageMap::get_instance().set_node_type(idx.value(), type);
-            Log.debug(__FUNCTION__, "| updated node (", idx.value(), ") type: (", type2name(type), ")");
+            LogDebug << __FUNCTION__ << "| updated node (" << idx.value() << ") type: (" << type2name(type) << ")";
         }
         else {
-            Log.warn(__FUNCTION__, "| failed to create/update node from pixel (", rect.x, ",", rect.y, ")");
+            LogWarn << __FUNCTION__ << "| failed to create/update node from pixel (" << rect.x << "," << rect.y << ")";
         }
 
 #ifdef ASST_DEBUG
@@ -181,7 +179,7 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_update_map()
         /*suffix=*/"draw");
 #endif
 
-    Log.info(__FUNCTION__, "| map updated with", RoguelikeBoskyPassageMap::get_instance().size(), "nodes");
+    LogInfo << __FUNCTION__ << "| map updated with" << RoguelikeBoskyPassageMap::get_instance().size() << "nodes";
 }
 
 void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_decide_and_click(
@@ -189,7 +187,7 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_decide_and_click(
 {
     LogTraceFunction;
 
-    Log.info(__FUNCTION__, "| deciding and clicking a bosky passage node");
+    LogInfo << __FUNCTION__ << "| deciding and clicking a bosky passage node";
 
     size_t chosen = 0;
     bool found = false;
@@ -200,13 +198,14 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_decide_and_click(
         if (!nodes_of_type.empty()) {
             chosen = nodes_of_type.front();
             found = true;
-            Log.debug(__FUNCTION__, "| found node of type (", type2name(node_type), ") with index (", chosen, ")");
+            LogDebug << __FUNCTION__ << "| found node of type (" << type2name(node_type) << ") with index (" << chosen
+                     << ")";
             break;
         }
     }
 
     if (!found) {
-        Log.info(__FUNCTION__, "| no open unvisited nodes available");
+        LogInfo << __FUNCTION__ << "| no open unvisited nodes available";
         Task.set_task_base("RoguelikeRoutingAction", "JieGarden@RoguelikeRoutingAction-LeaveBoskyPassage");
         return;
     }
@@ -215,7 +214,8 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_decide_and_click(
     int gy = RoguelikeBoskyPassageMap::get_instance().get_node_y(chosen);
     RoguelikeNodeType node_type = RoguelikeBoskyPassageMap::get_instance().get_node_type(chosen);
 
-    Log.info(__FUNCTION__, "| chosen node:", chosen, "(", gx, ",", gy, ") type:", type2name(node_type));
+    LogInfo << __FUNCTION__ << "| chosen node:" << chosen << "(" << gx << "," << gy
+            << ") type:" << type2name(node_type);
 
     // 点击节点中心
     auto [px, py] = RoguelikeBoskyPassageMap::get_instance().get_node_pixel(
@@ -226,7 +226,7 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_decide_and_click(
         m_bosky_config.row_offset);
 
     if (px == -1 || py == -1) {
-        Log.error(__FUNCTION__, "| Invalid pixel coordinates for node", chosen, ": (", px, ",", py, ")");
+        LogError << __FUNCTION__ << "| Invalid pixel coordinates for node" << chosen << ": (" << px << "," << py << ")";
         return;
     }
 
@@ -261,14 +261,14 @@ std::vector<asst::RoguelikeNodeType>
 
     const auto& task_info = Task.get<MatchTaskInfo>(config_name);
     if (!task_info) {
-        Log.error(__FUNCTION__, "| priority config not found:", config_name);
+        LogError << __FUNCTION__ << "| priority config not found:" << config_name;
         return {};
     }
 
     // 从 next 字段中读取优先级配置
     const auto& template_list = task_info->templ_names;
     if (template_list.empty()) {
-        Log.warn(__FUNCTION__, "| Priority config is empty in:", config_name);
+        LogWarn << __FUNCTION__ << "| Priority config is empty in:" << config_name;
         return {};
     }
 
@@ -278,6 +278,6 @@ std::vector<asst::RoguelikeNodeType>
                                });
     std::vector<RoguelikeNodeType> priority_order(priority_order_view.begin(), priority_order_view.end());
 
-    Log.info(__FUNCTION__, "| Loaded", priority_order.size(), "node types from priority config");
+    LogInfo << __FUNCTION__ << "| Loaded" << priority_order.size() << "node types from priority config";
     return priority_order;
 }

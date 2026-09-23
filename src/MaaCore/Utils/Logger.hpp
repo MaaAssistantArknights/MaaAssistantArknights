@@ -628,19 +628,19 @@ public:
     }
 
 #ifdef ASST_DEBUG
-#define LOGGER_FUNC_WITH_LEVEL(lv)                                                     \
-    template <typename... Args>                                                        \
-    inline void lv(Args&&... args)                                                     \
-    {                                                                                  \
-        std::unique_lock lock { m_trace_mutex };                                       \
-        log(std::move(lock), level::lv, m_scopes.next(), std::forward<Args>(args)...); \
+#define LOGGER_FUNC_WITH_LEVEL(lv)                                                              \
+    template <typename... Args>                                                                 \
+    [[deprecated("Please Use LogInfo / LogWarn / ... instead")]] inline void lv(Args&&... args) \
+    {                                                                                           \
+        std::unique_lock lock { m_trace_mutex };                                                \
+        log(std::move(lock), level::lv, m_scopes.next(), std::forward<Args>(args)...);          \
     }
 #else
-#define LOGGER_FUNC_WITH_LEVEL(lv)                   \
-    template <typename... Args>                      \
-    inline void lv(Args&&... args)                   \
-    {                                                \
-        log(level::lv, std::forward<Args>(args)...); \
+#define LOGGER_FUNC_WITH_LEVEL(lv)                                                              \
+    template <typename... Args>                                                                 \
+    [[deprecated("Please Use LogInfo / LogWarn / ... instead")]] inline void lv(Args&&... args) \
+    {                                                                                           \
+        log(level::lv, std::forward<Args>(args)...);                                            \
     }
 #endif
 
@@ -650,7 +650,7 @@ public:
     LOGGER_FUNC_WITH_LEVEL(error)
 
     template <typename... Args>
-    inline void debug([[maybe_unused]] Args&&... args)
+    [[deprecated("Please Use LogInfo / LogWarn / ... instead")]] inline void debug([[maybe_unused]] Args&&... args)
     {
 #ifndef ASST_DEBUG
         static const bool need_log = std::filesystem::exists("DEBUG.txt");
@@ -845,14 +845,14 @@ private:
 
     void log_init_info()
     {
-        trace("-----------------------------");
-        trace("MaaCore Process Start");
-        trace("Version", MAA_VERSION);
-        trace("Built at", __DATE__, __TIME__);
-        trace("User Dir", m_directory);
-        trace("-----------------------------");
+        trace_("-----------------------------");
+        trace_("MaaCore Process Start");
+        trace_("Version", MAA_VERSION);
+        trace_("Built at", __DATE__, __TIME__);
+        trace_("User Dir", m_directory);
+        trace_("-----------------------------");
         if (std::filesystem::exists("DEBUG.txt")) {
-            trace("Debug mode enabled (DEBUG.txt found)");
+            trace_("Debug mode enabled (DEBUG.txt found)");
         }
     }
 
@@ -914,21 +914,21 @@ private:
         try {
             const auto& er = *pExceptionInfo->ExceptionRecord;
             auto& logger = Logger::get_instance();
-            logger.error("=== UNHANDLED EXCEPTION ===");
-            logger.error("Version", MAA_VERSION);
-            logger.error("Built at", __DATE__, __TIME__);
-            logger.error("User Dir", UserDir.get());
-            logger.error("ExceptionCode", std::format("{:#010x}", static_cast<unsigned>(er.ExceptionCode)));
-            logger.error("ExceptionAddress", er.ExceptionAddress);
-            logger.error("ExceptionParameters", er.NumberParameters);
+            logger.error_("=== UNHANDLED EXCEPTION ===");
+            logger.error_("Version", MAA_VERSION);
+            logger.error_("Built at", __DATE__, __TIME__);
+            logger.error_("User Dir", UserDir.get());
+            logger.error_("ExceptionCode", std::format("{:#010x}", static_cast<unsigned>(er.ExceptionCode)));
+            logger.error_("ExceptionAddress", er.ExceptionAddress);
+            logger.error_("ExceptionParameters", er.NumberParameters);
             if (er.ExceptionCode == EXCEPTION_ACCESS_VIOLATION && er.NumberParameters >= 2) {
-                logger.error(
+                logger.error_(
                     "AccessViolation",
                     er.ExceptionInformation[0] ? "write" : "read",
                     "at",
                     reinterpret_cast<const void*>(er.ExceptionInformation[1]));
             }
-            logger.error("============================");
+            logger.error_("============================");
             logger.flush();
             write_crash_file("UNHANDLED EXCEPTION (handed over to WER for dump)");
         }
@@ -1012,7 +1012,7 @@ private:
 
         const auto dump_count = frame_count > frame_start ? frame_count - frame_start : 0;
         __android_log_print(ANDROID_LOG_FATAL, AndroidCrashLogTag, "Native backtrace (%zu frames):", dump_count);
-        logger.error("Native backtrace", dump_count, "frames");
+        logger.error_() << "Native backtrace" << dump_count << "frames";
 
         for (std::size_t i = frame_start; i < frame_count; ++i) {
             Dl_info info {};
@@ -1035,7 +1035,7 @@ private:
             }
 
             __android_log_write(ANDROID_LOG_FATAL, AndroidCrashLogTag, frame_message.c_str());
-            logger.error(frame_message);
+            logger.error_() << frame_message;
         }
     }
 #endif
@@ -1074,22 +1074,22 @@ private:
             auto& logger = Logger::get_instance();
 
             if (signal_info != nullptr) {
-                logger.error("=== FATAL ERROR ===");
-                logger.error("Signal caught:", signal_info);
+                logger.error_() << "=== FATAL ERROR ===";
+                logger.error_() << "Signal caught:" << signal_info;
                 logger.flush();
                 write_crash_file("Fatal Signal", signal_info);
             }
 
-            logger.error("=== FATAL ERROR ===");
-            logger.error("Version", MAA_VERSION);
-            logger.error("Built at", __DATE__, __TIME__);
-            logger.error("User Dir", UserDir.get());
-            logger.error("Unhandled exception caught:", exception_info);
+            logger.error_() << "=== FATAL ERROR ===";
+            logger.error_() << "Version" << MAA_VERSION;
+            logger.error_() << "Built at" << __DATE__ << __TIME__;
+            logger.error_() << "User Dir" << UserDir.get();
+            logger.error_() << "Unhandled exception caught:" << exception_info;
 #ifdef __ANDROID__
             dump_android_stacktrace(logger);
 #endif
-            logger.error("Program terminating...");
-            logger.error("===================");
+            logger.error_() << "Program terminating...";
+            logger.error_() << "===================";
             logger.flush();
             write_crash_file("Unhandled exception", exception_info.c_str());
         }
@@ -1220,7 +1220,7 @@ public:
 #ifdef ASST_DEBUG
         m_id = Logger::get_instance().push
 #else
-        Logger::get_instance().trace
+        Logger::get_instance().trace_
 #endif
                (m_func_name, "| enter");
     }
@@ -1232,7 +1232,7 @@ public:
         Logger::get_instance().pop(
             m_id,
 #else
-        Logger::get_instance().trace(
+        Logger::get_instance().trace_(
 #endif
             m_func_name,
             "| leave,",
@@ -1256,11 +1256,11 @@ private:
 #define _CatVarNameWithLine(Var) _Cat(Var, __LINE__)
 
 #define Log asst::Logger::get_instance()
-#define LogDebug Log.debug_()
-#define LogTrace Log.trace_()
-#define LogInfo Log.info_()
-#define LogWarn Log.warn_()
-#define LogError Log.error_()
+#define LogDebug asst::Logger::get_instance().debug_()
+#define LogTrace asst::Logger::get_instance().trace_()
+#define LogInfo asst::Logger::get_instance().info_()
+#define LogWarn asst::Logger::get_instance().warn_()
+#define LogError asst::Logger::get_instance().error_()
 
 #define LogTraceScope LoggerAux _CatVarNameWithLine(_func_aux_)
 

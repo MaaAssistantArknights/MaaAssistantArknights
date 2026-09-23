@@ -105,25 +105,25 @@ bool asst::InfrastProductionTask::change_product()
 
                 // 只有切换流程和产物复核都通过，才上报 ProductChanged。
                 if (!ProcessTask(*this, { task_name }).run()) {
-                    Log.warn("change product failed", task_name, retry);
+                    LogWarn << "change product failed" << task_name << retry;
                     continue;
                 }
 
                 if (!ProcessTask(*this, { verify_task_name }).run()) {
-                    Log.warn("product verification failed", verify_task_name, retry);
+                    LogWarn << "product verification failed" << verify_task_name << retry;
                     continue;
                 }
                 sleep(500); // verify 有500ms delay, 勉强覆盖网络响应动画，此处加余量
                 // 匹配到了则说明未能正确点击确认按钮完成产物更换，需要重试
                 if (has_confirm_product_change_button()) {
-                    Log.warn("failed to confirm product change to target product", target_product_key, retry);
+                    LogWarn << "failed to confirm product change to target product" << target_product_key << retry;
                     continue;
                 }
 
                 return true;
             }
 
-            Log.warn("failed to change product to target product", target_product_key);
+            LogWarn << "failed to change product to target product" << target_product_key;
             json::value fail_info = basic_info_with_what("ProductChangeFail");
             callback(AsstMsg::SubTaskExtraInfo, fail_info);
             return false;
@@ -142,14 +142,14 @@ bool asst::InfrastProductionTask::change_product()
                 }
 
                 if (!ProcessTask(*this, { task_name }).run()) {
-                    Log.warn("change trade order failed", task_name, retry);
+                    LogWarn << "change trade order failed" << task_name << retry;
                     continue;
                 }
 
                 return true;
             }
 
-            Log.warn("failed to change trade order to target order", target_product_key);
+            LogWarn << "failed to change trade order to target order" << target_product_key;
             json::value fail_info = basic_info_with_what("ProductChangeFail");
             callback(AsstMsg::SubTaskExtraInfo, fail_info);
             return false;
@@ -254,7 +254,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
                     current_room_config() = m_custom_config.at(m_cur_facility_index);
                 }
                 else {
-                    Log.warn("index out of range:", m_cur_facility_index, m_custom_config.size());
+                    LogWarn << "index out of range:" << m_cur_facility_index << m_custom_config.size();
                     break;
                 }
             }
@@ -275,7 +275,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         const auto add_task_ptr = Task.get("InfrastAddOperator" + facility_name() + m_work_mode_name);
         add_analyzer.set_task_info(add_task_ptr);
         if (!add_analyzer.analyze()) {
-            Log.error("no add button, just continue");
+            LogError << "no add button, just continue";
             continue;
         }
         Rect add_button = add_analyzer.get_result().rect;
@@ -300,7 +300,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
 
         if (m_is_custom && current_room_config().skip) {
-            Log.info("skip this room");
+            LogInfo << "skip this room";
             continue;
         }
 
@@ -330,7 +330,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         if (!best_product.empty() && best_score > 0) {
             auto templ_ptr = Task.get<MatchTaskInfo>("InfrastFlag" + best_product);
             if (templ_ptr == nullptr) {
-                Log.warn(__FUNCTION__, "| missing product task config:", "InfrastFlag" + best_product);
+                LogWarn << __FUNCTION__ << "| missing product task config:" << "InfrastFlag" + best_product;
             }
             else {
                 const double thresh =
@@ -344,16 +344,9 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
 
         if (!cur_product_detection_valid) {
-            Log.warn(
-                __FUNCTION__,
-                "| product unrecognized or weak match, skip unreliable product:",
-                facility_name(),
-                "| index",
-                m_cur_facility_index,
-                "| best",
-                best_product,
-                "| score",
-                best_score);
+            LogWarn << __FUNCTION__
+                    << "| product unrecognized or weak match, skip unreliable product:" << facility_name() << "| index"
+                    << m_cur_facility_index << "| best" << best_product << "| score" << best_score;
             m_product.clear();
             m_is_product_incorrect = false;
             cur_product_for_non_custom_drone.clear();
@@ -377,10 +370,8 @@ bool asst::InfrastProductionTask::shift_facility_list()
         if (m_is_custom && m_is_product_incorrect) {
             if (!change_product()) {
                 // 产物失败只报错，不阻断换人，尽量保证干员心情和恢复轴按排班推进。
-                Log.warn(
-                    "change_product failed after retries, proceed with staffing",
-                    facility_name(),
-                    m_cur_facility_index);
+                LogWarn << "change_product failed after retries, proceed with staffing" << facility_name()
+                        << m_cur_facility_index;
             }
             else {
                 cur_product_for_non_custom_drone = m_product;
@@ -449,7 +440,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
             }
         }
         else if (m_skip_shift) {
-            Log.info("skip shift in rotation mode");
+            LogInfo << "skip shift in rotation mode";
         }
 
         // 自定义基建 Post 无人机
@@ -483,7 +474,7 @@ bool asst::InfrastProductionTask::opers_detect_with_swipe()
             return false;
         }
         size_t num = opers_detect();
-        Log.trace("opers_detect return", num);
+        LogTrace << "opers_detect return" << num;
 
         if (num == 0) {
             break;
@@ -523,7 +514,7 @@ size_t asst::InfrastProductionTask::opers_detect()
                 skills_str += skill.id + ", ";
             }
             skills_str += "]";
-            Log.trace(skills_str, "mood", cur_oper.mood_ratio, "threshold", m_mood_threshold);
+            LogTrace << skills_str << "mood" << cur_oper.mood_ratio << "threshold" << m_mood_threshold;
         }
         // 心情过低的干员则不可用
         if (cur_oper.mood_ratio < m_mood_threshold) {
@@ -537,7 +528,7 @@ size_t asst::InfrastProductionTask::opers_detect()
             }
             // 有可能是同一个干员，比一下hash
             int dist = Hasher::hamming(cur_oper.face_hash, oper.face_hash);
-            Log.debug("opers_detect hash dist |", dist);
+            LogDebug << "opers_detect hash dist |" << dist;
             return dist < face_hash_thres;
         });
         // 如果两个的hash距离过小，则认为是同一个干员，不进行插入
@@ -562,7 +553,7 @@ size_t asst::InfrastProductionTask::opers_detect()
         }
 
         if (!resolved_oper.operator_id.empty()) {
-            Log.trace("infrastructure operator candidate", facility_name(), resolved_oper.operator_id);
+            LogTrace << "infrastructure operator candidate" << facility_name() << resolved_oper.operator_id;
         }
         m_all_available_opers.emplace_back(std::move(resolved_oper));
     }
@@ -608,7 +599,7 @@ bool asst::InfrastProductionTask::optimal_calc()
         cur_max_num_of_opers -= current_room_config().selected;
     }
     if (cur_max_num_of_opers == 0) {
-        Log.warn("no need select opers");
+        LogWarn << "no need select opers";
         m_optimal_combs.clear();
         return true;
     }
@@ -671,7 +662,8 @@ bool asst::InfrastProductionTask::optimal_calc()
             }
             m_optimal_combs.emplace_back(std::move(comb));
         }
-        Log.info("infrastructure optimal score", facility_name(), result.score, "operators", result.indices.size());
+        LogInfo << "infrastructure optimal score" << facility_name() << result.score << "operators"
+                << result.indices.size();
         return true;
     }
 
@@ -702,7 +694,7 @@ bool asst::InfrastProductionTask::optimal_calc()
         for (const auto& skill : comb.skills) {
             skill_str += skill.id + " ";
         }
-        Log.trace(skill_str, get_efficient(comb));
+        LogTrace << skill_str << get_efficient(comb);
     }
 
     std::unordered_map<std::string, int> skills_num;

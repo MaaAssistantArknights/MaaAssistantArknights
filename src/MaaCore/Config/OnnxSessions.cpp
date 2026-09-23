@@ -21,7 +21,7 @@
 bool asst::OnnxSessions::load(const std::filesystem::path& path)
 {
     LogTraceFunction;
-    Log.info("record path", path.lexically_relative(UserDir.get()));
+    LogInfo << "record path" << path.lexically_relative(UserDir.get());
 
     std::string name = utils::path_to_utf8_string(path.stem());
     std::lock_guard lock(m_mutex);
@@ -43,11 +43,11 @@ Ort::Session& asst::OnnxSessions::get_or_create(const std::string& name)
 {
     if (!m_sessions.contains(name)) {
         if (gpu_enabled && !gpu_options_initialized && !initialize_gpu_options()) {
-            Log.error(__FUNCTION__, "Failed to initialize configured GPU; falling back to CPU mode");
+            LogError << __FUNCTION__ << "Failed to initialize configured GPU; falling back to CPU mode";
             use_cpu_locked();
         }
 
-        Log.info(__FUNCTION__, "lazy load", name);
+        LogInfo << __FUNCTION__ << "lazy load" << name;
         Ort::Session session(m_env, m_model_paths.at(name).c_str(), m_options);
         m_sessions.emplace(name, std::move(session));
     }
@@ -73,7 +73,7 @@ void asst::OnnxSessions::release(const std::string& name)
     std::lock_guard lock(m_mutex);
     const auto found = m_session_users.find(name);
     if (found == m_session_users.end()) {
-        Log.error(__FUNCTION__, "session was not acquired", name);
+        LogError << __FUNCTION__ << "session was not acquired" << name;
         return;
     }
     if (--found->second == 0) {
@@ -81,9 +81,9 @@ void asst::OnnxSessions::release(const std::string& name)
         if (m_pending_reload.erase(name) > 0) {
             // 持有期间模型路径变化过，最后一个引用释放后销毁旧会话，下次 acquire 按新路径重建
             m_sessions.erase(name);
-            Log.info(__FUNCTION__, "stale session destroyed after last release", name);
+            LogInfo << __FUNCTION__ << "stale session destroyed after last release" << name;
         }
-        Log.info(__FUNCTION__, "released", name);
+        LogInfo << __FUNCTION__ << "released" << name;
     }
 }
 
@@ -126,7 +126,7 @@ bool asst::OnnxSessions::use_cpu_locked()
     }
 
     const auto cpu_threads = reset_session_options();
-    Log.info("CPU OCR enabled with", cpu_threads, "threads");
+    LogInfo << "CPU OCR enabled with" << cpu_threads << "threads";
 
     m_gpu_selector = std::nullopt;
     gpu_enabled = false;
@@ -147,11 +147,11 @@ bool asst::OnnxSessions::use_gpu_locked(GpuDeviceSelector selector)
             return true;
         }
 
-        Log.error(__FUNCTION__, "GPU OCR is already configured with a different device selector");
+        LogError << __FUNCTION__ << "GPU OCR is already configured with a different device selector";
         return false;
     }
     if (!m_sessions.empty()) {
-        Log.error(__FUNCTION__, "GPU OCR cannot be configured after ONNX sessions have been created");
+        LogError << __FUNCTION__ << "GPU OCR cannot be configured after ONNX sessions have been created";
         return false;
     }
 
@@ -222,7 +222,7 @@ bool asst::OnnxSessions::initialize_gpu_options()
     }
 #endif
     if (!provider_configured) {
-        Log.error(__FUNCTION__, "No GPU execution provider available");
+        LogError << __FUNCTION__ << "No GPU execution provider available";
         return false;
     }
 

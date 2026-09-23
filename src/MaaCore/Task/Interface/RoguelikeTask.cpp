@@ -160,7 +160,7 @@ bool asst::RoguelikeTask::run()
     {
         std::lock_guard lock(m_run_state_mutex);
         if (m_run_started) {
-            Log.warn(__FUNCTION__, "RoguelikeTask is already running");
+            LogWarn << __FUNCTION__ << "RoguelikeTask is already running";
             return false;
         }
         m_run_started = true;
@@ -179,7 +179,7 @@ bool asst::RoguelikeTask::run()
     if (use_blackflow_map) {
         std::string error;
         if (!m_blackflow_map_source_ptr->prepare(&error)) {
-            Log.error("BlackFlow map perception preparation failed:", error);
+            LogError << "BlackFlow map perception preparation failed:" << error;
             if (m_blackflow_session_ptr != nullptr) {
                 m_blackflow_session_ptr->fail(
                     "perception_port_missing",
@@ -211,7 +211,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     LogTraceFunction;
     std::lock_guard lock(m_run_state_mutex);
     if (m_run_started) {
-        Log.warn(__FUNCTION__, "RoguelikeTask is running, cannot set params");
+        LogWarn << __FUNCTION__ << "RoguelikeTask is running, cannot set params";
         return false;
     }
     if (!m_config_ptr->verify_and_load_params(params)) {
@@ -271,7 +271,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
             }
             /* 由于插件 load_param返回值仅决定自身是否启用，二次读取参数进行验证 */
             if (list.empty()) {
-                Log.error(__FUNCTION__, "| Empty start_foldartal_list");
+                LogError << __FUNCTION__ << "| Empty start_foldartal_list";
                 return false;
             }
         }

@@ -51,7 +51,7 @@ void asst::StageQueueMissionCompletedTaskPlugin::mission_completed()
 
     StageDropsImageAnalyzer analyzer(ctrler()->get_image());
     if (!analyzer.analyze()) {
-        Log.error(__FUNCTION__, "StageDropsImage Analyze failed");
+        LogError << __FUNCTION__ << "StageDropsImage Analyze failed";
         return;
     }
     auto&& [code, difficulty] = analyzer.get_stage_key();
@@ -61,7 +61,7 @@ void asst::StageQueueMissionCompletedTaskPlugin::mission_completed()
         return static_cast<char>(::toupper(ch));
     });
 
-    Log.info(__FUNCTION__, "Stage Code:", stage_code, "Stars:", analyzer.get_stars());
+    LogInfo << __FUNCTION__ << "Stage Code:" << stage_code << "Stars:" << analyzer.get_stars();
 
     json::value battle_info = basic_info_with_what("StageQueueMissionCompleted");
     battle_info["details"]["stage_code"] = stage_code;

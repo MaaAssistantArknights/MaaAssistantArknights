@@ -105,10 +105,10 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
 
     Ort::RunOptions run_options;
     session.Run(run_options, input_names, &input_tensor, 1, output_names, &output_tensor, 1);
-    Log.info(__FUNCTION__, "raw results:", raw_results);
+    LogInfo << __FUNCTION__ << "raw results:" << raw_results;
 
     SkillReadyResult::Prob prob = softmax(raw_results);
-    Log.info(__FUNCTION__, "prob:", prob);
+    LogInfo << __FUNCTION__ << "prob:" << prob;
     // 类别顺序为 c, n, y
     int class_id = static_cast<int>(std::ranges::max_element(prob) - prob.begin());
     bool ready = class_id == 2; // 只有当class_id为2（代表y）时，才认为是ready
@@ -161,23 +161,23 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
 
         // 判断当前类别是否与上次保存的类别不同
         if (last_class != class_id) {
-            Log.trace("Class changed", last_class, class_id);
+            LogTrace << "Class changed" << last_class << class_id;
             need_save = true;
         }
         // y 1 秒存一次（最小开技能间隔为 1.5s），c 5 秒存一次
         else if ((class_id == 2 && duration_since_last_save > 1) || (class_id == 0 && duration_since_last_save > 5)) {
-            Log.trace("Class is", class_id);
+            LogTrace << "Class is" << class_id;
             need_save = true;
         }
         // 长时间没变化，可能是被遮挡了
         else if (duration_since_last_save > 10) {
-            Log.trace("Long time no change", duration_since_last_save);
+            LogTrace << "Long time no change" << duration_since_last_save;
             need_save = true;
         }
 
         // 新增：如果最高得分低于阈值，则保存
         if (score < 0.75f && duration_since_last_save > 1) {
-            Log.trace("Low score", score);
+            LogTrace << "Low score" << score;
             need_save = true;
         }
 
@@ -255,10 +255,10 @@ BattlefieldClassifier::DeployDirectionResult BattlefieldClassifier::deploy_direc
 
     Ort::RunOptions run_options;
     session.Run(run_options, input_names, &input_tensor, 1, output_names, &output_tensor, 1);
-    Log.info(__FUNCTION__, "raw result:", raw_results);
+    LogInfo << __FUNCTION__ << "raw result:" << raw_results;
 
     DeployDirectionResult::Prob prob = softmax(raw_results);
-    Log.info(__FUNCTION__, "after softmax:", prob);
+    LogInfo << __FUNCTION__ << "after softmax:" << prob;
 
     size_t class_id = std::max_element(prob.begin(), prob.end()) - prob.begin();
 
@@ -270,7 +270,7 @@ BattlefieldClassifier::DeployDirectionResult BattlefieldClassifier::deploy_direc
         { 3, "Up" },
     };
     if (ClassNames.size() != prob.size()) {
-        Log.error("ClassNames.size() != prob.size()", ClassNames.size(), prob.size());
+        LogError << "ClassNames.size() != prob.size()" << ClassNames.size() << prob.size();
         throw std::runtime_error("ClassNames.size() != prob.size()");
     }
     cv::putText(
@@ -313,7 +313,7 @@ void BattlefieldClassifier::init_skill_ready_file_queue_locked(
     std::error_code dir_ec;
     if (!std::filesystem::is_directory(dir, dir_ec)) {
         if (dir_ec) {
-            Log.warn(__FUNCTION__, "failed to inspect image directory", dir, dir_ec.message());
+            LogWarn << __FUNCTION__ << "failed to inspect image directory" << dir << dir_ec.message();
         }
         return;
     }
@@ -323,7 +323,7 @@ void BattlefieldClassifier::init_skill_ready_file_queue_locked(
     const auto options = std::filesystem::directory_options::skip_permission_denied;
     for (std::filesystem::directory_iterator iter(dir, options, iter_ec), end; iter != end; iter.increment(iter_ec)) {
         if (iter_ec) {
-            Log.warn(__FUNCTION__, "failed to iterate image directory", dir, iter_ec.message());
+            LogWarn << __FUNCTION__ << "failed to iterate image directory" << dir << iter_ec.message();
             break;
         }
 
@@ -331,7 +331,7 @@ void BattlefieldClassifier::init_skill_ready_file_queue_locked(
         std::error_code entry_ec;
         if (!entry.is_regular_file(entry_ec)) {
             if (entry_ec) {
-                Log.warn(__FUNCTION__, "failed to inspect image entry", entry.path(), entry_ec.message());
+                LogWarn << __FUNCTION__ << "failed to inspect image entry" << entry.path() << entry_ec.message();
             }
             continue;
         }
@@ -339,7 +339,7 @@ void BattlefieldClassifier::init_skill_ready_file_queue_locked(
         const auto path = entry.path();
         const auto write_time = std::filesystem::last_write_time(path, entry_ec);
         if (entry_ec) {
-            Log.warn(__FUNCTION__, "failed to query image timestamp", path, entry_ec.message());
+            LogWarn << __FUNCTION__ << "failed to query image timestamp" << path << entry_ec.message();
             continue;
         }
 
@@ -358,7 +358,7 @@ void BattlefieldClassifier::init_skill_ready_file_queue_locked(
         std::error_code ec;
         std::filesystem::remove(files[i].second, ec);
         if (ec) {
-            Log.warn(__FUNCTION__, "failed to remove old image", files[i].second, ec.message());
+            LogWarn << __FUNCTION__ << "failed to remove old image" << files[i].second << ec.message();
         }
     }
 
@@ -384,7 +384,7 @@ bool BattlefieldClassifier::save_skill_ready_debug_image(
     std::error_code create_ec;
     std::filesystem::create_directories(absolute_dir, create_ec);
     if (create_ec) {
-        Log.warn(__FUNCTION__, "failed to create image directory", absolute_dir, create_ec.message());
+        LogWarn << __FUNCTION__ << "failed to create image directory" << absolute_dir << create_ec.message();
         return false;
     }
 
@@ -413,11 +413,11 @@ bool BattlefieldClassifier::save_skill_ready_debug_image(
             std::error_code ec;
             std::filesystem::remove(old_path, ec);
             if (ec) {
-                Log.warn(__FUNCTION__, "failed to remove old image", old_path, ec.message());
+                LogWarn << __FUNCTION__ << "failed to remove old image" << old_path << ec.message();
             }
         }
 
-        Log.trace("Save image", absolute_path);
+        LogTrace << "Save image" << absolute_path;
         if (!MAA_NS::imwrite(absolute_path, image)) {
             std::lock_guard<std::mutex> lock(s_mutex);
             auto queue_iter = s_file_queues.find(absolute_dir);
@@ -437,6 +437,6 @@ bool BattlefieldClassifier::save_skill_ready_debug_image(
         return true;
     }
 
-    Log.trace("Save image", absolute_path);
+    LogTrace << "Save image" << absolute_path;
     return MAA_NS::imwrite(absolute_path, image);
 }

@@ -39,7 +39,7 @@ inline std::string get_stage_template_path(const std::string& stage_name)
     std::filesystem::path templ_file = ResDir.get() / "template" / (templ_rel_path + ".png");
 
     if (std::filesystem::exists(templ_file)) {
-        Log.info("Stage template found:", templ_rel_path);
+        LogInfo << "Stage template found:" << templ_rel_path;
         return templ_rel_path;
     }
 

@@ -23,14 +23,14 @@ bool asst::CustomTask::set_params(const json::value& params)
 
     auto tasks_opt = params.find<json::array>("task_names");
     if (!tasks_opt) {
-        Log.error("set_params failed, task_names not found");
+        LogError << "set_params failed, task_names not found";
         return false;
     }
     std::vector<std::string> tasks;
 
     for (const auto& t : *tasks_opt) {
         if (!t.is_string()) {
-            Log.error("set_params failed, task is not string");
+            LogError << "set_params failed, task is not string";
             return false;
         }
 
@@ -38,20 +38,20 @@ bool asst::CustomTask::set_params(const json::value& params)
         std::string resolved_task = task_name;
 
         if (parse_and_register_secretfront(task_name, resolved_task)) {
-            Log.info("Parsed and registered SecretFront task: ", task_name, " -> ", resolved_task);
+            LogInfo << "Parsed and registered SecretFront task: " << task_name << " -> " << resolved_task;
         }
         else if (parse_and_register_auto_raise_potential(task_name, params)) {
             LogInfo << "Parsed and registered AutoRaisePotential task:" << task_name;
         }
         else if (parse_and_register_pixel_paint(task_name, params)) {
-            Log.info("Parsed and registered PixelPaint task: ", task_name);
+            LogInfo << "Parsed and registered PixelPaint task: " << task_name;
         }
         else if (parse_and_register_material_synthesis(task_name)) {
-            Log.info("Parsed and registered MaterialSynthesis task: ", task_name);
+            LogInfo << "Parsed and registered MaterialSynthesis task: " << task_name;
         }
 
         if (Task.get(resolved_task) == nullptr) {
-            Log.error("set_params failed, task not found: ", resolved_task);
+            LogError << "set_params failed, task not found: " << resolved_task;
             return false;
         }
 
@@ -108,18 +108,18 @@ bool asst::CustomTask::parse_and_register_pixel_paint(const std::string& task_na
 
     auto params_opt = params.find<json::object>("params");
     if (!params_opt) {
-        Log.error("set_params failed, params not found for pixel paint");
+        LogError << "set_params failed, params not found for pixel paint";
         return false;
     }
     auto pixel_opt = params_opt->find<json::object>("pixel_paint");
     if (!pixel_opt) {
-        Log.error("set_params failed, params.pixel_paint not found");
+        LogError << "set_params failed, params.pixel_paint not found";
         return false;
     }
 
     auto groups_opt = pixel_opt->find<json::array>("groups");
     if (!groups_opt || groups_opt->empty()) {
-        Log.error("set_params failed, params.pixel_paint.groups not found");
+        LogError << "set_params failed, params.pixel_paint.groups not found";
         return false;
     }
 
@@ -128,7 +128,7 @@ bool asst::CustomTask::parse_and_register_pixel_paint(const std::string& task_na
         PixelPaintTaskPlugin::Group group;
         group.color = g.get("color", 0);
         if (group.color < 0 || group.color >= PixelPaintTaskPlugin::Group::PaletteSize) {
-            Log.error("set_params failed, pixel paint color out of range:", group.color);
+            LogError << "set_params failed, pixel paint color out of range:" << group.color;
             continue;
         }
         if (auto points_opt = g.find<json::array>("points"); points_opt) {
@@ -156,7 +156,7 @@ bool asst::CustomTask::parse_and_register_pixel_paint(const std::string& task_na
     }
 
     if (groups.empty()) {
-        Log.error("set_params failed, params.pixel_paint.groups is empty");
+        LogError << "set_params failed, params.pixel_paint.groups is empty";
         return false;
     }
 
@@ -166,7 +166,7 @@ bool asst::CustomTask::parse_and_register_pixel_paint(const std::string& task_na
     // grid_delay：每格额外等待；兼容旧键 grid_click_delay
     plugin_ptr->set_grid_delay(
         static_cast<unsigned>(pixel_opt->get("grid_delay", pixel_opt->get("grid_click_delay", 0))));
-    Log.info("PixelPaint groups:", plugin_ptr->get_groups().size());
+    LogInfo << "PixelPaint groups:" << plugin_ptr->get_groups().size();
     return true;
 }
 
@@ -208,13 +208,13 @@ bool asst::CustomTask::parse_and_register_secretfront(const std::string& task_na
 
     auto plugin_ptr = m_custom_task_ptr->register_plugin<SecretFrontTaskPlugin>();
     if (!plugin_ptr) {
-        Log.error("Failed to register SecretFrontTaskPlugin");
+        LogError << "Failed to register SecretFrontTaskPlugin";
         return false;
     }
 
     if (event_name && !event_name->empty()) {
         plugin_ptr->set_event_name(*event_name);
-        Log.info("Set SecretFront event name:", *event_name);
+        LogInfo << "Set SecretFront event name:" << *event_name;
     }
     if (ending_token && !ending_token->empty()) {
         if (*ending_token == "EndingA") {
@@ -232,7 +232,7 @@ bool asst::CustomTask::parse_and_register_secretfront(const std::string& task_na
         else if (*ending_token == "EndingE") {
             plugin_ptr->set_ending(SecretFrontTaskPlugin::Ending::E);
         }
-        Log.info("Set SecretFront ending:", *ending_token);
+        LogInfo << "Set SecretFront ending:" << *ending_token;
     }
 
     resolved_task = "MiniGame@SecretFront@Begin";

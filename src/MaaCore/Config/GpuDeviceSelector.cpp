@@ -21,7 +21,7 @@ std::optional<int> asst::GpuDeviceSelector::resolve_device_id() const
     Microsoft::WRL::ComPtr<IDXGIFactory1> factory;
     const auto factory_hr = CreateDXGIFactory1(IID_PPV_ARGS(factory.GetAddressOf()));
     if (FAILED(factory_hr)) {
-        Log.error(__FUNCTION__, "CreateDXGIFactory1 failed", std::format("0x{:08X}", factory_hr));
+        LogError << __FUNCTION__ << "CreateDXGIFactory1 failed" << std::format("0x{:08X}", factory_hr);
         return std::nullopt;
     }
 
@@ -32,7 +32,7 @@ std::optional<int> asst::GpuDeviceSelector::resolve_device_id() const
             break;
         }
         if (FAILED(enum_hr)) {
-            Log.error(__FUNCTION__, "EnumAdapters failed", index, std::format("0x{:08X}", enum_hr));
+            LogError << __FUNCTION__ << "EnumAdapters failed" << index << std::format("0x{:08X}", enum_hr);
             return std::nullopt;
         }
 
@@ -47,19 +47,14 @@ std::optional<int> asst::GpuDeviceSelector::resolve_device_id() const
             continue;
         }
 
-        Log.info(
-            __FUNCTION__,
-            "resolved adapter LUID",
-            std::format("{:016X}", adapter_luid),
-            "to device id",
-            index,
-            MAA_NS::from_u16(std::wstring_view(desc.Description)));
+        LogInfo << __FUNCTION__ << "resolved adapter LUID" << std::format("{:016X}", adapter_luid) << "to device id"
+                << index << MAA_NS::from_u16(std::wstring_view(desc.Description));
         return static_cast<int>(index);
     }
 
-    Log.error(__FUNCTION__, "adapter LUID not found", std::format("{:016X}", *m_adapter_luid));
+    LogError << __FUNCTION__ << "adapter LUID not found" << std::format("{:016X}", *m_adapter_luid);
 #else
-    Log.error(__FUNCTION__, "adapter LUID selectors are only supported on Windows");
+    LogError << __FUNCTION__ << "adapter LUID selectors are only supported on Windows";
 #endif
 
     return std::nullopt;

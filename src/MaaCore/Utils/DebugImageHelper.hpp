@@ -29,7 +29,7 @@ inline size_t filenum_ctrl(const std::filesystem::path& absolute_or_relative_dir
     std::error_code dir_ec;
     if (!std::filesystem::is_directory(absolute_path, dir_ec)) {
         if (dir_ec) {
-            Log.warn(__FUNCTION__, "failed to inspect debug image directory", absolute_path, dir_ec.message());
+            LogWarn << __FUNCTION__ << "failed to inspect debug image directory" << absolute_path << dir_ec.message();
         }
         return 0;
     }
@@ -41,12 +41,12 @@ inline size_t filenum_ctrl(const std::filesystem::path& absolute_or_relative_dir
     const auto options = std::filesystem::directory_options::skip_permission_denied;
     std::filesystem::directory_iterator iter(absolute_path, options, iter_ec);
     if (iter_ec) {
-        Log.warn(__FUNCTION__, "failed to open debug image directory", absolute_path, iter_ec.message());
+        LogWarn << __FUNCTION__ << "failed to open debug image directory" << absolute_path << iter_ec.message();
         return 0;
     }
     for (const std::filesystem::directory_iterator end; iter != end; iter.increment(iter_ec)) {
         if (iter_ec) {
-            Log.warn(__FUNCTION__, "failed to iterate debug image directory", absolute_path, iter_ec.message());
+            LogWarn << __FUNCTION__ << "failed to iterate debug image directory" << absolute_path << iter_ec.message();
             break;
         }
 
@@ -54,14 +54,14 @@ inline size_t filenum_ctrl(const std::filesystem::path& absolute_or_relative_dir
         std::error_code entry_ec;
         if (!file.is_regular_file(entry_ec)) {
             if (entry_ec) {
-                Log.warn(__FUNCTION__, "failed to inspect debug image entry", file.path(), entry_ec.message());
+                LogWarn << __FUNCTION__ << "failed to inspect debug image entry" << file.path() << entry_ec.message();
             }
             continue;
         }
 
         const auto write_time = std::filesystem::last_write_time(file.path(), entry_ec);
         if (entry_ec) {
-            Log.warn(__FUNCTION__, "failed to query debug image timestamp", file.path(), entry_ec.message());
+            LogWarn << __FUNCTION__ << "failed to query debug image timestamp" << file.path() << entry_ec.message();
             continue;
         }
 
@@ -91,7 +91,7 @@ inline size_t filenum_ctrl(const std::filesystem::path& absolute_or_relative_dir
             ++deleted;
         }
         else if (ec) {
-            Log.warn(__FUNCTION__, "failed to remove old debug image", files[i].second, ec.message());
+            LogWarn << __FUNCTION__ << "failed to remove old debug image" << files[i].second << ec.message();
         }
     }
 
@@ -136,7 +136,7 @@ inline bool save_debug_image(
     auto relative_path = norm_dir / filename;
 
     if (description.empty()) {
-        Log.trace("Save image", relative_path);
+        LogTrace << "Save image" << relative_path;
     }
     else {
         LogInfo << "Save" << description << "to" << relative_path;

@@ -42,7 +42,7 @@ bool asst::SupportList::select_role(const Role role)
                   enum_to_string(role, true) + "@SupportList-SelectRole" })
             .run()) {
         m_selected_role = role;
-        Log.info(__FUNCTION__, "| Successfully selected role", enum_to_string(role));
+        LogInfo << __FUNCTION__ << "| Successfully selected role" << enum_to_string(role);
         return true;
     }
 
@@ -64,9 +64,9 @@ bool asst::SupportList::update()
 
     // 识别助战列表当前所选的职业并更新 m_selected_role
     if (m_selected_role == Role::Unknown) {
-        Log.info(__FUNCTION__, "| The currently selected role is unknown; updating before proceeding");
+        LogInfo << __FUNCTION__ << "| The currently selected role is unknown; updating before proceeding";
         if (!update_selected_role(ctrler()->get_image())) {
-            Log.error(__FUNCTION__, "Fail to update selected role; abandoning support list update.");
+            LogError << __FUNCTION__ << "Fail to update selected role; abandoning support list update.";
             return false;
         }
     }
@@ -109,16 +109,15 @@ bool asst::SupportList::select_support_unit(const size_t index)
     }
 
     if (m_in_support_unit_detail_panel) {
-        Log.error(
-            __FUNCTION__,
-            "| Invalid operation: currently in support unit detail panel; failed to select support unit");
+        LogError << __FUNCTION__
+                 << "| Invalid operation: currently in support unit detail panel; failed to select support unit";
         return false;
     }
 
     move_to_support_unit(index);
 
     // click support unit
-    Log.info(__FUNCTION__, std::format("| Clicking support unit {}: {}", index + 1, m_list[index].name));
+    LogInfo << __FUNCTION__ << std::format("| Clicking support unit {}: {}", index + 1, m_list[index].name);
     Rect click_rect = Task.get("SupportList-ClickSupportUnit")->specific_rect;
     click_rect.x = m_support_unit_x_in_view[index];
     ctrler()->click(click_rect);
@@ -127,7 +126,7 @@ bool asst::SupportList::select_support_unit(const size_t index)
     if (!ProcessTask(m_callback, m_inst, m_task_chain)
              .set_tasks({ "SupportList-DetailPanel-Flag", "SupportList-DetailPanel-Flag@LoadingText" })
              .run()) {
-        Log.error(__FUNCTION__, "| Support unit detail panel not recognised; failed to select support unit");
+        LogError << __FUNCTION__ << "| Support unit detail panel not recognised; failed to select support unit";
         save_img(ctrler()->get_image(), "screenshot");
         return false;
     }
@@ -141,9 +140,9 @@ bool asst::SupportList::confirm_to_use_support_unit()
     LogTraceFunction;
 
     if (!m_in_support_unit_detail_panel) {
-        Log.error(
-            __FUNCTION__,
-            "| Invalid operation: currently not in support unit detail panel; failed to confirm to use support_unit");
+        LogError
+            << __FUNCTION__
+            << "| Invalid operation: currently not in support unit detail panel; failed to confirm to use support_unit";
         return false;
     }
 
@@ -208,7 +207,8 @@ bool asst::SupportList::select_skill(const int skill, const int minimum_skill_le
 
     std::optional<int> ret = get_suffix_num(skill_level_analyzer.get_result().templ_name);
     if (!ret) [[unlikely]] {
-        Log.error(__FUNCTION__, "| Failed to analyze the current support unit's skill level; failed to select skill");
+        LogError << __FUNCTION__
+                 << "| Failed to analyze the current support unit's skill level; failed to select skill";
         return false;
     }
     const int skill_level = ret.value();
@@ -355,13 +355,13 @@ bool asst::SupportList::update_selected_role(const cv::Mat& image)
         role_analyzer.set_task_info(enum_to_string(role, true) + "@SupportList-RoleSelected");
         if (role_analyzer.analyze()) {
             m_selected_role = role;
-            Log.info(__FUNCTION__, "| The currently selected role is", enum_to_string(role));
+            LogInfo << __FUNCTION__ << "| The currently selected role is" << enum_to_string(role);
             return true;
         }
     }
 
     m_selected_role = Role::Unknown;
-    Log.error(__FUNCTION__, "| Fail to update currently selected role; the currently selected role is unknown");
+    LogError << __FUNCTION__ << "| Fail to update currently selected role; the currently selected role is unknown";
     return false;
 }
 
@@ -375,24 +375,23 @@ void asst::SupportList::print_support_list() const
 {
     static constexpr std::string_view FMT_STR = "{:^5} | {:^2} | {:^3} | {:^3} | {:^3} | {}";
 
-    Log.info("Support List");
-    Log.info(std::string(40, '-'));
-    Log.info(std::format(FMT_STR, "Elite", "Lv", "Pot", "Mod", "Frd", "Name"));
-    Log.info(std::string(40, '-'));
+    LogInfo << "Support List";
+    LogInfo << std::string(40, '-');
+    LogInfo << std::format(FMT_STR, "Elite", "Lv", "Pot", "Mod", "Frd", "Name");
+    LogInfo << std::string(40, '-');
     for (const SupportUnit& support_unit : m_list) {
-        Log.info(
-            std::format(
-                FMT_STR,
-                support_unit.elite,
-                support_unit.level,
-                support_unit.potential,
-                support_unit.module_enabled ? "Y" : "N",
-                support_unit.friendship == Friendship::BestFriend
-                    ? "BF"
-                    : (support_unit.friendship == Friendship::Friend ? "F" : "S"),
-                support_unit.name));
+        LogInfo << std::format(
+            FMT_STR,
+            support_unit.elite,
+            support_unit.level,
+            support_unit.potential,
+            support_unit.module_enabled ? "Y" : "N",
+            support_unit.friendship == Friendship::BestFriend
+                ? "BF"
+                : (support_unit.friendship == Friendship::Friend ? "F" : "S"),
+            support_unit.name);
     }
-    Log.info(std::string(40, '-'));
+    LogInfo << std::string(40, '-');
 }
 
 void asst::SupportList::update_view(const cv::Mat& image)
@@ -496,7 +495,7 @@ std::vector<asst::SupportList::ModuleItem> asst::SupportList::analyze_module_pag
     MultiMatcher module_level_analyzer(image);
     module_level_analyzer.set_task_info("SupportList-DetailPanel-ModuleLevel");
     if (!module_level_analyzer.analyze()) {
-        Log.info(__FUNCTION__, "No non-original module found");
+        LogInfo << __FUNCTION__ << "No non-original module found";
         return {};
     }
     MultiMatcher::ResultsVec module_level_analyze_result = module_level_analyzer.get_result();
@@ -506,7 +505,7 @@ std::vector<asst::SupportList::ModuleItem> asst::SupportList::analyze_module_pag
     for (const auto& [rect, score, templ_name] : module_level_analyze_result) {
         std::optional<int> ret = get_suffix_num(templ_name);
         if (!ret) [[unlikely]] {
-            Log.error(__FUNCTION__, "| Failed to analyze the current module's level; skipping to the next one");
+            LogError << __FUNCTION__ << "| Failed to analyze the current module's level; skipping to the next one";
             continue;
         }
         const int module_level = ret.value();
@@ -516,7 +515,7 @@ std::vector<asst::SupportList::ModuleItem> asst::SupportList::analyze_module_pag
         const Rect module_roi = rect.move(module_task->rect_move);
         module_analyzer.set_roi(module_roi);
         if (!module_analyzer.analyze()) {
-            Log.error(__FUNCTION__, "Failed to recognise the current module's letter; skipping to the next one");
+            LogError << __FUNCTION__ << "Failed to recognise the current module's letter; skipping to the next one";
             save_img(image, "screenshot");
             continue;
         }
@@ -543,7 +542,7 @@ std::optional<int> asst::SupportList::get_suffix_num(const std::string& s, const
 {
     const size_t pos = s.rfind(delimiter);
     if (pos == std::string::npos) [[unlikely]] {
-        Log.error(__FUNCTION__, "| Unsupported string", s);
+        LogError << __FUNCTION__ << "| Unsupported string" << s;
         return std::nullopt;
     }
 
@@ -554,7 +553,7 @@ std::optional<int> asst::SupportList::get_suffix_num(const std::string& s, const
 
     int num = 0;
     if (!utils::chars_to_number(num_str, num)) [[unlikely]] {
-        Log.error(__FUNCTION__, "| Failed to convert text", num_str, "to number");
+        LogError << __FUNCTION__ << "| Failed to convert text" << num_str << "to number";
         return std::nullopt;
     }
 

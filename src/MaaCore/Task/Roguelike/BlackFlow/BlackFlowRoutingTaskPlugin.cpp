@@ -94,7 +94,7 @@ bool BlackFlowRoutingTaskPlugin::_run()
     }
     if (cycle.status == RoutingCycleStatus::PreviewNeedsDismiss) {
         if (!cycle.failure_code.empty() || !cycle.error.empty()) {
-            Log.info("BlackFlow move preview dismissed", cycle.failure_code, cycle.error);
+            LogInfo << "BlackFlow move preview dismissed" << cycle.failure_code << cycle.error;
         }
         Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@CancelNodeSelection");
         report_outputs();

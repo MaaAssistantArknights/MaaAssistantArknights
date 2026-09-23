@@ -27,13 +27,13 @@ bool asst::MinitouchController::call_and_hup_minitouch()
     release_minitouch(true);
 
     std::string cmd = m_use_maa_touch ? m_adb.call_maatouch : m_adb.call_minitouch;
-    Log.info(cmd);
+    LogInfo << cmd;
 
     std::string pipe_str;
 
     m_minitouch_handler = m_platform_io->interactive_shell(cmd);
     if (!m_minitouch_handler) {
-        Log.error("unable to start minitouch");
+        LogError << "unable to start minitouch";
         return false;
     }
 
@@ -52,7 +52,7 @@ bool asst::MinitouchController::call_and_hup_minitouch()
         pipe_str += m_minitouch_handler->read(3);
 
         if (!check_timeout(start_time)) {
-            Log.info("unable to find $ from pipe_str:", Logger::separator::newline, pipe_str);
+            LogError << "unable to find $ from pipe_str:" << Logger::separator::newline << pipe_str;
             release_minitouch(true);
             return false;
         }
@@ -62,18 +62,18 @@ bool asst::MinitouchController::call_and_hup_minitouch()
         }
     }
 
-    Log.info("pipe str", Logger::separator::newline, pipe_str);
+    LogInfo << "pipe str" << Logger::separator::newline << pipe_str;
 
     convert_lf(pipe_str);
     size_t s_pos = pipe_str.find('^');
     size_t e_pos = pipe_str.find('\n', s_pos);
     if (s_pos == std::string::npos || e_pos == std::string::npos) {
-        Log.error("Failed to find ^ in minitouch pipe");
+        LogError << "Failed to find ^ in minitouch pipe";
         release_minitouch(true);
         return false;
     }
     std::string key_info = pipe_str.substr(s_pos + 1, e_pos - s_pos - 1);
-    Log.info("minitouch key props", key_info);
+    LogInfo << "minitouch key props" << key_info;
     int size_1 = 0, size_2 = 0;
     std::stringstream ss;
     ss << key_info;
@@ -114,7 +114,7 @@ std::optional<std::string>
 bool asst::MinitouchController::input_to_minitouch(const std::string& cmd)
 {
     if (!(m_minitouch_handler && m_minitouch_handler->write(cmd))) {
-        Log.error("Failed to write to minitouch, try restart minitouch and re-write");
+        LogError << "Failed to write to minitouch, try restart minitouch and re-write";
         return call_and_hup_minitouch() && m_minitouch_handler->write(cmd);
     }
     return true;
@@ -134,17 +134,17 @@ bool asst::MinitouchController::use_swipe_with_pause() const noexcept
 bool asst::MinitouchController::click(const Point& p)
 {
     if (!m_minitoucher) {
-        Log.error("minitoucher is not initialized");
+        LogError << "minitoucher is not initialized";
         if (!call_and_hup_minitouch()) {
             return false;
         }
     }
 
     if (p.x < 0 || p.x >= m_width || p.y < 0 || p.y >= m_height) {
-        Log.error("click point out of range");
+        LogError << "click point out of range:" << p;
     }
 
-    Log.trace(m_use_maa_touch ? "maatouch" : "minitouch", "click:", p);
+    LogTrace << (m_use_maa_touch ? "maatouch" : "minitouch") << "click:" << p;
     bool ret = m_minitoucher->down(p.x, p.y) && m_minitoucher->up();
     if (ret) {
         m_minitoucher->extra_sleep();
@@ -162,7 +162,7 @@ bool asst::MinitouchController::swipe(
     bool with_pause)
 {
     if (!m_minitoucher) {
-        Log.error("minitoucher is not initialized");
+        LogError << "minitoucher is not initialized";
         if (!call_and_hup_minitouch()) {
             return false;
         }
@@ -173,12 +173,13 @@ bool asst::MinitouchController::swipe(
 
     // 起点不能在屏幕外，但是终点可以
     if (x1 < 0 || x1 >= m_width || y1 < 0 || y1 >= m_height) {
-        Log.warn("swipe point1 is out of range", x1, y1);
+        LogWarn << "swipe point1 is out of range:" << x1 << "," << y1;
         x1 = std::clamp(x1, 0, m_width - 1);
         y1 = std::clamp(y1, 0, m_height - 1);
     }
 
-    Log.trace(m_use_maa_touch ? "maatouch" : "minitouch", "swipe", p1, p2, duration, extra_swipe, slope_in, slope_out);
+    LogTrace << (m_use_maa_touch ? "maatouch" : "minitouch") << "swipe" << p1 << p2 << duration << extra_swipe
+             << slope_in << slope_out;
     if (!m_minitoucher->down(x1, y1)) {
         return false;
     }
@@ -276,7 +277,7 @@ bool asst::MinitouchController::inject_input_event(const InputEvent& event)
     LogTraceFunction;
 
     if (!m_minitoucher) {
-        Log.error("minitoucher is not initialized");
+        LogError << "minitoucher is not initialized";
         if (!call_and_hup_minitouch()) {
             return false;
         }
@@ -301,7 +302,7 @@ bool asst::MinitouchController::inject_input_event(const InputEvent& event)
         return m_minitoucher->commit();
     case InputEvent::Type::UNKNOWN:
     default:
-        Log.error("unknown input event type");
+        LogError << "unknown input event type";
         return false;
     }
 }
@@ -365,7 +366,7 @@ bool asst::MinitouchController::probe_minitouch()
         }
         read_orientation();
     }
-    Log.info("touch_program", touch_program, "orientation", m_minitouch_props.orientation);
+    LogInfo << "touch_program" << touch_program << "orientation" << m_minitouch_props.orientation;
 
     if (touch_program.empty()) {
         return false;

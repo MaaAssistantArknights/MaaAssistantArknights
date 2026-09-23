@@ -41,7 +41,7 @@ OcrPack::~OcrPack()
 bool OcrPack::load(const std::filesystem::path& path)
 {
     LogTraceFunction;
-    Log.info("load", path.lexically_relative(UserDir.get()));
+    LogInfo << "load" << path.lexically_relative(UserDir.get());
 
     using namespace asst::utils::path_literals;
 
@@ -70,7 +70,7 @@ bool OcrPack::load(const std::filesystem::path& path)
 OcrPack::ResultsVec OcrPack::recognize(const cv::Mat& image, bool without_det, const std::optional<Rect>& base_roi)
 {
     if (!check_and_load()) {
-        Log.error(__FUNCTION__, "check_and_load failed");
+        LogError << __FUNCTION__ << "check_and_load failed";
         return {};
     }
 
@@ -82,7 +82,8 @@ OcrPack::ResultsVec OcrPack::recognize(const cv::Mat& image, bool without_det, c
         std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time).count();
     std::string class_type = utils::demangle(typeid(*this).name());
     if (!base_roi) {
-        Log.trace(class_type, raw_results, without_det ? "by OCR Rec" : "by OCR Pipeline", ", cost", costs, "ms");
+        LogTrace << class_type << raw_results << (without_det ? "by OCR Rec" : "by OCR Pipeline") << ", cost" << costs
+                 << "ms";
     }
     else {
         std::string output = "[";
@@ -102,7 +103,8 @@ OcrPack::ResultsVec OcrPack::recognize(const cv::Mat& image, bool without_det, c
                 raw_results[i].score);
         }
         output += "]";
-        Log.trace(class_type, output, without_det ? "by OCR Rec" : "by OCR Pipeline", ", cost", costs, "ms");
+        LogTrace << class_type << output << (without_det ? "by OCR Rec" : "by OCR Pipeline") << ", cost" << costs
+                 << "ms";
     }
     return raw_results;
 }
@@ -140,7 +142,7 @@ bool OcrPack::check_and_load()
     bool ok =
         m_impl->ncnn->load(m_impl->det_model_path, det_bin, m_impl->rec_model_path, rec_bin, m_impl->rec_label_path);
 
-    Log.info("ncnn ocr inited", ok);
+    LogInfo << "ncnn ocr inited" << ok;
     return ok;
 }
 
@@ -279,11 +281,11 @@ bool asst::OcrPackNcnn::load(
         net->opt.use_fp16_storage = false;
         net->opt.use_fp16_arithmetic = false;
         if (net->load_param(platform::path_to_utf8_string(param).c_str()) != 0) {
-            Log.error("OcrPackNcnn load_param failed:", param);
+            LogError << "OcrPackNcnn load_param failed:" << param;
             return nullptr;
         }
         if (net->load_model(platform::path_to_utf8_string(bin).c_str()) != 0) {
-            Log.error("OcrPackNcnn load_model failed:", bin);
+            LogError << "OcrPackNcnn load_model failed:" << bin;
             return nullptr;
         }
         return net;
@@ -300,7 +302,7 @@ bool asst::OcrPackNcnn::load(
     {
         std::ifstream ifs(keys_path, std::ios::binary);
         if (!ifs.is_open()) {
-            Log.error("OcrPackNcnn open keys failed:", keys_path);
+            LogError << "OcrPackNcnn open keys failed:" << keys_path;
             m_loaded = false;
             return false;
         }
@@ -329,7 +331,7 @@ bool asst::OcrPackNcnn::load(
         ex.input("in0", dummy);
         ncnn::Mat out;
         if (ex.extract("out0", out) != 0) {
-            Log.error("OcrPackNcnn rec probe extract failed");
+            LogError << "OcrPackNcnn rec probe extract failed";
             m_loaded = false;
             return false;
         }
@@ -354,7 +356,8 @@ bool asst::OcrPackNcnn::load(
         m_charset.emplace_back(" ");
     }
     if (num_classes != static_cast<int>(m_charset.size())) {
-        Log.warn("OcrPackNcnn charset size", m_charset.size(), "!= num_classes", num_classes, "; keys", keys.size());
+        LogWarn << "OcrPackNcnn charset size" << m_charset.size() << "!= num_classes" << num_classes << "; keys"
+                << keys.size();
         if (num_classes > static_cast<int>(m_charset.size())) {
             m_charset.resize(num_classes, "<unk>");
         }
@@ -364,7 +367,8 @@ bool asst::OcrPackNcnn::load(
     }
 
     m_loaded = true;
-    Log.info("OcrPackNcnn loaded, num_classes", num_classes, "charset", m_charset.size(), "threads", m_cpu_threads);
+    LogInfo << "OcrPackNcnn loaded, num_classes" << num_classes << "charset" << m_charset.size() << "threads"
+            << m_cpu_threads;
     return true;
 }
 
@@ -399,7 +403,7 @@ std::vector<asst::OcrPackNcnn::DetBox> asst::OcrPackNcnn::detect(const cv::Mat& 
         ncnn::Extractor ex = m_det->create_extractor();
         ex.input("in0", in);
         if (ex.extract("out0", out) != 0) {
-            Log.error("OcrPackNcnn det extract failed");
+            LogError << "OcrPackNcnn det extract failed";
             return {};
         }
     }
@@ -549,7 +553,7 @@ std::pair<std::string, float> asst::OcrPackNcnn::recognize_line(const cv::Mat& l
         ncnn::Extractor ex = m_rec->create_extractor();
         ex.input("in0", in);
         if (ex.extract("out0", out) != 0) {
-            Log.error("OcrPackNcnn rec extract failed");
+            LogError << "OcrPackNcnn rec extract failed";
             return { std::string(), 0.f };
         }
     }

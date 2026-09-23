@@ -35,7 +35,7 @@ bool asst::DepotRecognitionTask::analyze_basic_items()
     all_tab_matcher.set_task_info("DepotAllTab");
     auto all_tab_result = all_tab_matcher.analyze();
     if (!all_tab_result) {
-        Log.error(__FUNCTION__, "failed to match DepotAllTab");
+        LogError << __FUNCTION__ << "failed to match DepotAllTab";
         return false;
     }
     ctrler()->click(all_tab_result->rect);

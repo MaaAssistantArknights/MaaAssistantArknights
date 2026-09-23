@@ -31,7 +31,7 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
     for (const auto& key : m_to_be_analyzed) {
         auto find_iter = facility_task_name.find(key);
         if (find_iter == facility_task_name.cend()) {
-            Log.error("facility name error", key);
+            LogError << "facility name error" << key;
             continue;
         }
         std::string task_name = find_iter->second;

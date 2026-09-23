@@ -45,7 +45,7 @@ bool RoguelikeMapConfig::parse(const json::value& json)
         const std::string& type_name = node_json.at("type").as_string();
         auto it = NODE_TYPE_MAPPING.find(type_name);
         if (it == NODE_TYPE_MAPPING.end()) {
-            Log.error("RoguelikeMapConfig::parse | Unknown roguelike node type name:", type_name);
+            LogError << __FUNCTION__ << "| Unknown roguelike node type name:" << type_name;
             return false;
         }
         RoguelikeNodeType type = it->second;
@@ -61,13 +61,13 @@ RoguelikeNodeType RoguelikeMapConfig::templ2type(const std::string& theme, const
 {
     auto outer_it = m_templ_type_mappings.find(theme);
     if (outer_it == m_templ_type_mappings.end()) {
-        Log.error(__FUNCTION__, "| Unsupported roguelike theme:", theme);
+        LogError << __FUNCTION__ << "| Unsupported roguelike theme:" << theme;
         return RoguelikeNodeType::Unknown;
     }
     const auto& templ_type_mapping = outer_it->second;
     auto inner_it = templ_type_mapping.find(templ_name);
     if (inner_it == templ_type_mapping.end()) {
-        Log.error(__FUNCTION__, "| No roguelike node type is specified for template", templ_name);
+        LogError << __FUNCTION__ << "| No roguelike node type is specified for template" << templ_name;
         return RoguelikeNodeType::Unknown;
     }
     return inner_it->second;
@@ -86,7 +86,7 @@ std::string RoguelikeMapConfig::type2name(RoguelikeNodeType type)
 
     auto it = NODE_NAME_MAPPING.find(type);
     if (it == NODE_NAME_MAPPING.end()) {
-        Log.error(__FUNCTION__, "| Unknown roguelike node type", static_cast<int>(type));
+        LogError << __FUNCTION__ << "| Unknown roguelike node type" << static_cast<int>(type);
         return "Unknown";
     }
     return it->second;
@@ -96,7 +96,7 @@ RoguelikeNodeType RoguelikeMapConfig::name2type(const std::string& type_name)
 {
     auto it = NODE_TYPE_MAPPING.find(type_name);
     if (it == NODE_TYPE_MAPPING.end()) {
-        Log.error(__FUNCTION__, "| Unknown roguelike node type name:", type_name);
+        LogError << __FUNCTION__ << "| Unknown roguelike node type name:" << type_name;
         return RoguelikeNodeType::Unknown;
     }
     return it->second;

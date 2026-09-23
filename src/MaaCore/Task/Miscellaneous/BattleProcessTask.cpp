@@ -37,12 +37,12 @@ bool asst::BattleProcessTask::_run()
     clear();
 
     if (!calc_tiles_info(m_stage_name)) {
-        Log.error("get stage info failed");
+        LogError << "get stage info failed";
         return false;
     }
 
     if (!update_deployment(true)) {
-        Log.error("update deployment failed");
+        LogError << "update deployment failed";
         return false;
     }
 
@@ -133,13 +133,13 @@ bool asst::BattleProcessTask::to_group()
     else {
         switch (allocation_result.status) {
         case algorithm::CharAllocationStatus::NoSolution:
-            Log.info("get_char_allocation_for_each_group has no feasible solution");
+            LogInfo << "get_char_allocation_for_each_group has no feasible solution";
             break;
         case algorithm::CharAllocationStatus::Overflow:
-            Log.error("get_char_allocation_for_each_group overflowed while building the DLX model");
+            LogError << "get_char_allocation_for_each_group overflowed while building the DLX model";
             break;
         case algorithm::CharAllocationStatus::InternalError:
-            Log.error("get_char_allocation_for_each_group failed due to an internal error");
+            LogError << "get_char_allocation_for_each_group failed due to an internal error";
             break;
         case algorithm::CharAllocationStatus::Success:
             break;
@@ -230,7 +230,7 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
 
     // prevent our program from consuming too much CPU
     if (const auto now = std::chrono::steady_clock::now(); prev_frame_time > now - min_frame_interval) [[unlikely]] {
-        Log.debug("Sleeping for framerate limit");
+        LogDebug << "Sleeping for framerate limit";
         std::this_thread::sleep_for(min_frame_interval - (now - prev_frame_time));
     }
 
@@ -544,7 +544,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             }
         }
         else {
-            Log.warn(__FUNCTION__, "| Timer not enabled. Reset required before use.");
+            LogWarn << __FUNCTION__ << "| Timer not enabled. Reset required before use.";
         }
     }
 

@@ -149,7 +149,7 @@ bool asst::InfrastDormTask::_run()
             return false;
         }
         if (m_is_custom && current_room_config().skip) {
-            Log.info("skip this room");
+            LogInfo << "skip this room";
             continue;
         }
 
@@ -183,7 +183,7 @@ bool asst::InfrastDormTask::_run()
         const auto room_config = current_room_config();
         const bool room_uses_custom_opers = is_use_custom_opers();
 
-        Log.trace("m_notstationed_filter_enabled:", m_notstationed_filter_enabled);
+        LogTrace << "m_notstationed_filter_enabled:" << m_notstationed_filter_enabled;
         const bool is_default_prepare_phase = m_prepare_phase && m_default_mode;
         // 常规模式第一轮保持游戏默认的“全部”筛选，未进驻仅在第二轮重排启用。
         if (m_notstationed_filter_enabled && !room_uses_custom_opers && !is_default_prepare_phase) {
@@ -260,7 +260,7 @@ bool asst::InfrastDormTask::fill_dorm_slots()
         constexpr int without_skill = InfrastOperImageAnalyzer::All ^ InfrastOperImageAnalyzer::Skill;
         oper_analyzer.set_to_be_calced(without_skill);
         if (!oper_analyzer.analyze()) {
-            Log.error("mood analyze failed!");
+            LogError << "mood analyze failed!";
             return false;
         }
         oper_analyzer.sort_by_mood();
@@ -275,12 +275,12 @@ bool asst::InfrastDormTask::fill_dorm_slots()
                 return false;
             }
             if (num_of_selected >= max_num_of_opers()) {
-                Log.info("num_of_selected:", num_of_selected, ", just break");
+                LogInfo << "num_of_selected:" << num_of_selected << ", just break";
                 break;
             }
             if (fill_remaining_slots) {
                 if (oper.doing != infrast::Doing::Working && !oper.selected) {
-                    Log.info("fill remaining slots");
+                    LogInfo << "fill remaining slots";
                     ctrler()->click(oper.rect);
                     ++num_of_selected;
                 }
@@ -291,9 +291,9 @@ bool asst::InfrastDormTask::fill_dorm_slots()
             case infrast::SmileyType::Rest:
                 if (m_selection_phase == SelectionPhase::FillRemaining) {
                     fill_remaining_slots = true;
-                    Log.info("switch to fill remaining slots");
+                    LogInfo << "switch to fill remaining slots";
                     if (oper.doing != infrast::Doing::Working && !oper.selected) {
-                        Log.info("fill remaining slots");
+                        LogInfo << "fill remaining slots";
                         ctrler()->click(oper.rect);
                         ++num_of_selected;
                     }
@@ -304,14 +304,14 @@ bool asst::InfrastDormTask::fill_dorm_slots()
                     oper.doing != infrast::Doing::Working && oper.doing != infrast::Doing::Resting) {
                     RegionOCRer trust_analyzer(oper.name_img);
                     if (!trust_analyzer.analyze()) {
-                        Log.trace("ERROR:!trust_analyzer.analyze()");
+                        LogTrace << "ERROR:!trust_analyzer.analyze()";
                         break;
                     }
 
                     std::string oper_trust_text = trust_analyzer.get_result().text;
                     boost::regex trust_rule("[^0-9]");
                     oper_trust_text = boost::regex_replace(oper_trust_text, trust_rule, "");
-                    Log.trace("oper_trust_text:", oper_trust_text);
+                    LogTrace << "oper_trust_text:" << oper_trust_text;
 
                     bool has_incomplete_trust = false;
                     if (!oper_trust_text.empty()) {
@@ -324,7 +324,7 @@ bool asst::InfrastDormTask::fill_dorm_slots()
                         }
                     }
                     if (num_of_fulltrust >= TrustAutofillThreshold) {
-                        Log.trace("num_of_fulltrust:", num_of_fulltrust);
+                        LogTrace << "num_of_fulltrust:" << num_of_fulltrust;
                         m_selection_phase = SelectionPhase::FillRemaining;
                         fill_remaining_slots = true;
                         if (!m_notstationed_filter_enabled && m_notstationed_filter_active) {
@@ -336,7 +336,7 @@ bool asst::InfrastDormTask::fill_dorm_slots()
 
                     RegionOCRer facility_analyzer(oper.facility_img);
                     if (!facility_analyzer.analyze()) {
-                        Log.trace("ERROR:!facility_analyzer.analyze()");
+                        LogTrace << "ERROR:!facility_analyzer.analyze()";
                         break;
                     }
 
@@ -344,7 +344,7 @@ bool asst::InfrastDormTask::fill_dorm_slots()
                     boost::regex facility_rule("[^BF0-9]");
                     facility_name = boost::regex_replace(facility_name, facility_rule, "");
 
-                    Log.trace("facility_name:<" + facility_name + ">");
+                    LogTrace << "facility_name:<" + facility_name + ">";
                     const bool is_not_stationed = facility_name.length() < ActiveFacilityNumberLength;
 
                     if (has_incomplete_trust && is_not_stationed) {
@@ -352,12 +352,12 @@ bool asst::InfrastDormTask::fill_dorm_slots()
                         ++num_of_selected;
                     }
                     else {
-                        Log.trace("skip trust autofill candidate");
+                        LogTrace << "skip trust autofill candidate";
                     }
                 }
                 else if (
                     ++num_of_resting >= RestingOperCountThreshold && m_selection_phase != SelectionPhase::LowMood) {
-                    Log.trace("num_of_resting:", num_of_resting, ", dorm finished");
+                    LogTrace << "num_of_resting:" << num_of_resting << ", dorm finished";
                     if (m_trust_autofill_enabled) {
                         // We have exhausted the low-mood pass on this page. Switch to the
                         // trust-autofill view and let the next iteration re-read the list.
@@ -393,7 +393,7 @@ bool asst::InfrastDormTask::fill_dorm_slots()
         }
 
         if (num_of_selected >= max_num_of_opers()) {
-            Log.trace("num_of_selected:", num_of_selected, ", just break");
+            LogTrace << "num_of_selected:" << num_of_selected << ", just break";
             advance_after_trust_sort();
             break;
         }
@@ -401,7 +401,7 @@ bool asst::InfrastDormTask::fill_dorm_slots()
         // 低心情阶段必须先扫描完整个页面，避免休息完成干员数量达到阈值时
         // 跳过当前页中尚未处理的低心情干员。
         if (m_selection_phase == SelectionPhase::LowMood && num_of_resting >= RestingOperCountThreshold) {
-            Log.trace("num_of_resting:", num_of_resting, ", dorm finished");
+            LogTrace << "num_of_resting:" << num_of_resting << ", dorm finished";
             if (m_trust_autofill_enabled) {
                 switch_to_trust_autofill_phase();
             }
@@ -509,7 +509,7 @@ asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_selec
     const DetectResult fiammetta_detect = detect_full_mood_fiammetta(fiammetta_opers);
     if (fiammetta_detect != DetectResult::Found) {
         if (fiammetta_detect == DetectResult::NotFound) {
-            Log.warn("full-mood Fiammetta was not found on the first page");
+            LogWarn << "full-mood Fiammetta was not found on the first page";
         }
         if (!switch_to_low_mood_sort()) {
             return FiammettaSelectionResult::Error;
@@ -564,7 +564,7 @@ asst::InfrastDormTask::DetectResult asst::InfrastDormTask::detect_fiammetta_targ
     analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
     analyzer.set_facility(facility_name());
     if (!analyzer.analyze()) {
-        Log.error("fiammetta target analyze failed");
+        LogError << "fiammetta target analyze failed";
         return DetectResult::Error;
     }
     opers = analyzer.get_result();
@@ -607,7 +607,7 @@ asst::InfrastDormTask::DetectResult asst::InfrastDormTask::detect_full_mood_fiam
     analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
     analyzer.set_facility(facility_name());
     if (!analyzer.analyze()) {
-        Log.error("full-mood fiammetta analyze failed");
+        LogError << "full-mood fiammetta analyze failed";
         return DetectResult::Error;
     }
     opers = analyzer.get_result();
@@ -646,11 +646,11 @@ bool asst::InfrastDormTask::set_notstationed_filter(bool enabled)
     // 每次都真正执行是安全的，不会对已选中的「未进驻」二次点击。
     bool success = false;
     if (enabled) {
-        Log.trace("click_filter_menu_not_stationed_button");
+        LogTrace << "click_filter_menu_not_stationed_button";
         success = click_filter_menu_not_stationed_button();
     }
     else {
-        Log.trace("click_filter_menu_cancel_not_stationed_button");
+        LogTrace << "click_filter_menu_cancel_not_stationed_button";
         success = click_filter_menu_cancel_not_stationed_button();
     }
 
@@ -666,7 +666,7 @@ bool asst::InfrastDormTask::restore_list_sort_for_selection_phase(asst::infrast:
     // Custom dorm selection leaves the list sorted by mood. Restore trust sort
     // before continuing trust autofill in the same room flow.
     if (room_config.autofill && m_trust_autofill_enabled && is_in_trust_autofill_phase()) {
-        Log.trace("click_sort_by_trust_button");
+        LogTrace << "click_sort_by_trust_button";
         return click_sort_by_trust_button();
     }
 
@@ -690,9 +690,9 @@ bool asst::InfrastDormTask::switch_to_low_mood_sort()
 
 void asst::InfrastDormTask::switch_to_trust_autofill_phase()
 {
-    Log.trace("m_trust_autofill_enabled:", m_trust_autofill_enabled);
+    LogTrace << "m_trust_autofill_enabled:" << m_trust_autofill_enabled;
     set_notstationed_filter(true);
-    Log.trace("click_sort_by_trust_button");
+    LogTrace << "click_sort_by_trust_button";
     click_sort_by_trust_button();
     m_selection_phase = SelectionPhase::ResortForTrust;
 }

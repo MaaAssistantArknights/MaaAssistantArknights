@@ -32,7 +32,7 @@ bool asst::StartUpTask::run()
     LogTraceFunction;
 
     if (!m_enable) {
-        Log.info("task disabled, pass", basic_info().to_string());
+        LogInfo << "task disabled, pass" << basic_info().to_string();
         return true;
     }
 
@@ -56,25 +56,26 @@ bool asst::StartUpTask::run()
         return false;
     }
 
-    Log.warn(__FUNCTION__, "| Login failed, entering game-restart loop");
+    LogWarn << __FUNCTION__ << "| Login failed, entering game-restart loop";
     for (int attempts = 0; attempts < MaxRestartAttempts && !need_exit(); ++attempts) {
-        Log.info(__FUNCTION__, "| Restarting game client (attempt", attempts + 1, "/", MaxRestartAttempts, ")");
+        LogInfo << __FUNCTION__ << "| Restarting game client (attempt" << attempts + 1 << "/" << MaxRestartAttempts
+                << ")";
         if (!m_start_game_task_ptr->restart_game()) {
-            Log.warn(__FUNCTION__, "| restart_game failed, retrying");
+            LogWarn << __FUNCTION__ << "| restart_game failed, retrying";
             sleep(3000);
             continue;
         }
 
         if (!m_account_switch_task_ptr->run()) {
-            Log.warn(__FUNCTION__, "| Account switch failed after restart, retrying game restart");
+            LogWarn << __FUNCTION__ << "| Account switch failed after restart, retrying game restart";
             continue;
         }
 
-        Log.info(__FUNCTION__, "| Game restarted, retrying login navigation");
+        LogInfo << __FUNCTION__ << "| Game restarted, retrying login navigation";
         if (m_start_up_task_ptr->run()) {
             return true;
         }
-        Log.warn(__FUNCTION__, "| Login navigation failed again, restarting game");
+        LogWarn << __FUNCTION__ << "| Login navigation failed again, restarting game";
     }
 
     return false;

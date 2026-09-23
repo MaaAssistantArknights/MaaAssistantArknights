@@ -48,7 +48,7 @@ bool asst::RoguelikeRecruitImageAnalyzer::analyze()
         info.elite = elite;
         info.level = level;
 
-        Log.info(__FUNCTION__, info.name, elite, level, info.rect);
+        LogInfo << __FUNCTION__ << info.name << elite << level << info.rect;
         m_result.emplace_back(std::move(info));
     }
 

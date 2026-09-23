@@ -20,7 +20,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::verify(AsstMsg msg, const json::va
     }
 
     if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
-        Log.error("Roguelike name doesn't exist!");
+        LogError << "Roguelike name doesn't exist!";
         return false;
     }
     const std::string roguelike_name = m_config->get_theme() + "@";
@@ -63,14 +63,14 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     name_analyzer.set_required(event_names);
 
     if (!name_analyzer.analyze()) {
-        Log.error("Unknown Event");
+        LogError << "Unknown Event";
         callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EncounterOcrError"));
         return true;
     }
 
     const auto& result_vec = name_analyzer.get_result();
     if (result_vec.empty()) {
-        Log.error("Unknown Event");
+        LogError << "Unknown Event";
         return true;
     }
 
@@ -96,7 +96,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
 
     auto it = event_map.find(event_name);
     if (it == event_map.end()) {
-        Log.error("Unknown event:", event_name);
+        LogError << "Unknown event:" << event_name;
         return std::nullopt;
     }
 
@@ -113,7 +113,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
         analyzer.set_use_char_model(true);
         if (!analyzer.analyze()) {
             // return std::nullopt;
-            Log.error("Failed to recognize special value for event:", event.name);
+            LogError << "Failed to recognize special value for event:" << event.name;
         }
         else {
             utils::chars_to_number(analyzer.get_result().front().text, special_val);
@@ -121,7 +121,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
     }
 
     size_t choose_option = process_task(event, special_val);
-    Log.info("Event:", event.name, "special_val", special_val, "choose option", choose_option);
+    LogInfo << "Event:" << event.name << "special_val" << special_val << "choose option" << choose_option;
 
     auto info = basic_info_with_what("RoguelikeEvent");
     info["details"]["name"] = event.name;
@@ -134,7 +134,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
         Matcher matcher(image);
         matcher.set_task_info("Sarkaz@Roguelike@CloseCollectionClose");
         if (matcher.analyze()) {
-            Log.trace("Found extra 'Plans', click CloseCollectionClose and StageEncounterJudgeClick");
+            LogTrace << "Found extra 'Plans', click CloseCollectionClose and StageEncounterJudgeClick";
             ctrler()->click(matcher.get_result().rect);
             ProcessTask(*this, { "Roguelike@StageEncounterJudgeClick" }).run();
             ProcessTask(*this, { "Roguelike@StageEncounterJudgeClick2" }).run();
@@ -156,7 +156,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
 
         if (bosky_map.get_target_subtype() != RoguelikeBoskySubNodeType::Unknown) {
             if (bosky_map.get_node_subtype(bosky_map.get_curr_pos()) == bosky_map.get_target_subtype()) {
-                Log.info(__FUNCTION__, "| Found target playtime node, completing task and exiting");
+                LogInfo << __FUNCTION__ << "| Found target playtime node, completing task and exiting";
 
                 auto target_info = basic_info_with_what("RoguelikeJieGardenTargetFound");
                 target_info["details"]["target_subtype"] = subtype2name(bosky_map.get_target_subtype());
@@ -215,10 +215,8 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
             }
 
             if (choice == 0) {
-                Log.error(
-                    std::format(
-                        "RoguelikeEncounter | Failed to find choice for scenario with {} option(s)",
-                        m_option_list.size()));
+                LogError << __FUNCTION__
+                         << std::format("| Failed to find choice for scenario with {} option(s)", m_option_list.size());
             }
             else if (select_analyzed_option(choice - 1)) {
                 if (theme == RoguelikeTheme::BlackFlow) {
@@ -249,14 +247,15 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
             }
         }
         else if (theme == RoguelikeTheme::BlackFlow) {
-            Log.error("BlackFlow encounter option analysis failed");
+            LogError << "BlackFlow encounter option analysis failed";
             return std::nullopt;
         }
     }
 
     const auto click_option_task_name = [&](size_t item, size_t total) {
         if (item > total) {
-            Log.warn("Event:", event.name, "Total:", total, "Choice", item, "out of range, switch to choice", total);
+            LogWarn << "Event:" << event.name << "Total:" << total << "Choice" << item
+                    << "out of range, switch to choice" << total;
             item = total;
         }
         return m_config->get_theme() + "@Roguelike@OptionChoose" + std::to_string(total) + "-" + std::to_string(item);
@@ -275,7 +274,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
     // fallback 可变选项，临时处理，之后还得改成更通用的方式
     if (!hp_disappeared) {
         for (const auto& [total, item] : event.fallback_choices) {
-            Log.info("Trying fallback choice", total, "-", item);
+            LogInfo << "Trying fallback choice" << total << "-" << item;
             for (int j = 0; j < 2; ++j) {
                 ProcessTask(*this, { click_option_task_name(item, total) }).run();
                 sleep(300);
@@ -283,7 +282,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
             sleep(500);
             image = ctrler()->get_image();
             if (hp(image) < 0) {
-                Log.info("Fallback choice success");
+                LogInfo << "Fallback choice success";
                 hp_disappeared = true;
                 break;
             }
@@ -331,25 +330,25 @@ bool asst::RoguelikeStageEncounterTaskPlugin::satisfies_condition(
 {
     int value = 0;
     bool ret = utils::chars_to_number(requirement.vision.value, value);
-    Log.trace("special_val: ", special_val, "value: ", value);
+    LogTrace << "special_val: " << special_val << "value: " << value;
     switch (requirement.vision.type) {
     case Config::ComparisonType::GreaterThan:
         ret &= special_val > value;
-        Log.trace("special_val > value: ", special_val > value ? "true" : "false");
+        LogTrace << "special_val > value: " << (special_val > value ? "true" : "false");
         break;
     case Config::ComparisonType::LessThan:
         ret &= special_val < value;
-        Log.trace("special_val < value: ", special_val < value ? "true" : "false");
+        LogTrace << "special_val < value: " << (special_val < value ? "true" : "false");
         break;
     case Config::ComparisonType::Equal:
         ret &= special_val == value;
-        Log.trace("special_val == value: ", special_val == value ? "true" : "false");
+        LogTrace << "special_val == value: " << (special_val == value ? "true" : "false");
         break;
     case Config::ComparisonType::None:
-        Log.warn("no vision type");
+        LogWarn << "no vision type";
         break;
     case Config::ComparisonType::Unsupported:
-        Log.warn("unsupported vision type");
+        LogWarn << "unsupported vision type";
         return false;
     }
     /*
@@ -381,7 +380,7 @@ int asst::RoguelikeStageEncounterTaskPlugin::hp(const cv::Mat& image) const
     LogTraceFunction;
 
     if (!ProcessTask(*this, { "Roguelike@HpFlag" }).run()) {
-        Log.info("Not found HpFlag");
+        LogInfo << "Not found HpFlag";
         return -1;
     }
 
@@ -455,24 +454,23 @@ bool asst::RoguelikeStageEncounterTaskPlugin::select_analyzed_option(size_t inde
 
     // sanity check
     if (index >= m_option_list.size()) [[unlikely]] {
-        Log.error(
-            __FUNCTION__,
-            std::format("| Attempt to select option {} out of {}", index + 1, m_option_list.size()));
+        LogError << __FUNCTION__
+                 << std::format("| Attempt to select option {} out of {}", index + 1, m_option_list.size());
         return false;
     }
     if (!m_option_list[index].enabled) {
-        Log.info(__FUNCTION__, std::format("| Attempt to select disabled option {}", index + 1));
+        LogInfo << __FUNCTION__ << "| Attempt to select disabled option " << index + 1;
         return false;
     }
 
     move_to_analyzed_option(index);
 
     // click option
-    Log.info(__FUNCTION__, std::format("| Clicking option {}: {}", index + 1, m_option_list[index].text));
+    LogInfo << __FUNCTION__ << std::format("| Clicking option {}: {}", index + 1, m_option_list[index].text);
     if (m_config->get_theme() == RoguelikeTheme::BlackFlow) {
         const Rect& header_rect = m_option_rect_in_view[index];
         if (header_rect.x == UNDEFINED) {
-            Log.error(__FUNCTION__, "| BlackFlow option header is unavailable in the current view");
+            LogError << __FUNCTION__ << "| BlackFlow option header is unavailable in the current view";
             return false;
         }
         const Point click_point {
@@ -499,7 +497,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::select_analyzed_option(size_t inde
         }
     }
 
-    Log.error(__FUNCTION__, "| The option doesn't respond to click");
+    LogError << __FUNCTION__ << "| The option doesn't respond to click";
     save_img(ctrler()->get_image(), "current screenshot");
 
     return false;
@@ -515,19 +513,19 @@ void asst::RoguelikeStageEncounterTaskPlugin::report_analyzed_options()
 {
     std::vector<json::value> options;
 
-    Log.info("Analyzed Options");
-    Log.info(std::string(40, '-'));
-    Log.info(std::format("{:^9} | {}", "Enabled", "Text"));
-    Log.info(std::string(40, '-'));
+    LogInfo << "Analyzed Options";
+    LogInfo << std::string(40, '-');
+    LogInfo << std::format("{:^9} | {}", "Enabled", "Text");
+    LogInfo << std::string(40, '-');
     for (const auto& [enabled, templ, text] : m_option_list) {
         json::value option = json::object {
             { "enabled", enabled },
             { "text", text },
         };
         options.emplace_back(std::move(option));
-        Log.info(std::format("{:^9} | {}", enabled ? "Y" : "N", text));
+        LogInfo << std::format("{:^9} | {}", enabled ? "Y" : "N", text);
     }
-    Log.info(std::string(40, '-'));
+    LogInfo << std::string(40, '-');
 
     json::value info = basic_info_with_what("RoguelikeEncounterOptions");
     info["details"]["options"] = std::move(options);
@@ -557,7 +555,7 @@ void asst::RoguelikeStageEncounterTaskPlugin::update_view(const cv::Mat& image)
         }
     }
 
-    Log.info(__FUNCTION__, std::format("| Current view is [{}, {}]", m_view_begin + 1, m_view_end));
+    LogInfo << __FUNCTION__ << std::format("| Current view is [{}, {}]", m_view_begin + 1, m_view_end);
 }
 
 void asst::RoguelikeStageEncounterTaskPlugin::reset_view()
@@ -574,13 +572,12 @@ void asst::RoguelikeStageEncounterTaskPlugin::move_to_analyzed_option(size_t ind
 
     // sanity check
     if (index >= m_option_list.size()) [[unlikely]] {
-        Log.error(
-            __FUNCTION__,
-            std::format("| Attempt to move to option {} out of {}", index + 1, m_option_list.size()));
+        LogError << __FUNCTION__
+                 << std::format("| Attempt to move to option {} out of {}", index + 1, m_option_list.size());
         return;
     }
 
-    Log.info(__FUNCTION__, std::format("Moving to option {}: {}", index + 1, m_option_list[index].text));
+    LogInfo << __FUNCTION__ << std::format("Moving to option {}: {}", index + 1, m_option_list[index].text);
 
     cv::Mat image;
     while (!need_exit()) {
@@ -597,7 +594,7 @@ void asst::RoguelikeStageEncounterTaskPlugin::move_to_analyzed_option(size_t ind
             continue;
         }
         if (m_option_y_in_view[index] == UNDEFINED) {
-            Log.error(__FUNCTION__, "| y for option {} in view is not updated", index + 1);
+            LogError << __FUNCTION__ << "| y for option " << index + 1 << " in view is not updated";
             save_img(image, "lastly used screenshot");
             save_img(m_option_list[index].templ, "option template");
             image = ctrler()->get_image();
@@ -644,7 +641,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::next_event(c
             sleep(500);
         }
         if (hp(ctrler()->get_image()) >= 0) {
-            Log.debug("HP restored, going to next_event:", event.next_event);
+            LogDebug << "HP restored, going to next_event:" << event.next_event;
             // 多点一次，确保选项恢复
             ctrler()->click(task->specific_rect);
             sleep(500);

@@ -26,7 +26,7 @@ std::optional<size_t>
     RoguelikeBoskyPassageMap::create_and_insert_node(int x, int y, RoguelikeNodeType type, bool is_open)
 {
     if (!in_bounds(x, y)) {
-        Log.warn(__FUNCTION__, "| Coordinates (", x, ",", y, ") out of bounds");
+        LogWarn << __FUNCTION__ << "| Coordinates (" << x << "," << y << ") out of bounds";
         return std::nullopt;
     }
 
@@ -47,7 +47,7 @@ std::optional<size_t>
         return idx;
     }
     else {
-        Log.warn(__FUNCTION__, "| Node already exists at (", x, ",", y, ")");
+        LogWarn << __FUNCTION__ << "| Node already exists at (" << x << "," << y << ")";
         return std::nullopt;
     }
 }
@@ -83,11 +83,11 @@ void RoguelikeBoskyPassageMap::set_node_subtype(size_t index, RoguelikeBoskySubN
 {
     Node* n = get_valid_node(index);
     if (!n || !n->exists) {
-        Log.warn(__FUNCTION__, "| Invalid index or node doesn't exist:", index);
+        LogWarn << __FUNCTION__ << "| Invalid index or node doesn't exist:" << index;
         return;
     }
     n->sub_type = sub_type;
-    Log.info(__FUNCTION__, "| Set node", index, "subtype to", subtype2name(sub_type));
+    LogInfo << __FUNCTION__ << "| Set node" << index << "subtype to" << subtype2name(sub_type);
 }
 
 RoguelikeBoskySubNodeType RoguelikeBoskyPassageMap::get_node_subtype(size_t index) const
@@ -183,7 +183,7 @@ std::pair<int, int> RoguelikeBoskyPassageMap::get_node_pixel(
     int row_offset) const
 {
     if (index >= m_nodes.size() || !m_nodes[index].exists) {
-        Log.warn(__FUNCTION__, "| Invalid node index: (", index, ")");
+        LogWarn << __FUNCTION__ << "| Invalid node index: (" << index << ")";
         return { -1, -1 };
     }
     const int x = get_node_x(index);
@@ -233,25 +233,17 @@ std::optional<size_t> RoguelikeBoskyPassageMap::ensure_node_from_pixel(
     RoguelikeNodeType type)
 {
     if (config.node_width <= 0 || config.node_height <= 0 || config.column_offset <= 0 || config.row_offset <= 0) {
-        Log.warn(
-            __FUNCTION__,
-            "| Invalid parameters: node_width=(",
-            config.node_width,
-            "), node_height=(",
-            config.node_height,
-            "), column_offset=(",
-            config.column_offset,
-            "), row_offset=(",
-            config.row_offset,
-            ")");
+        LogWarn << __FUNCTION__ << "| Invalid parameters: node_width=(" << config.node_width << "), node_height=("
+                << config.node_height << "), column_offset=(" << config.column_offset << "), row_offset=("
+                << config.row_offset << ")";
         return std::nullopt;
     }
 
     auto [gx, gy] = pixel_to_grid_coords(px, py, config);
-    Log.info(__FUNCTION__, "| analyzing node (", px, ",", py, ") -> (", gx, ",", gy, ")");
+    LogInfo << __FUNCTION__ << "| analyzing node (" << px << "," << py << ") -> (" << gx << "," << gy << ")";
 
     if (!in_bounds(gx, gy)) {
-        Log.warn(__FUNCTION__, "| Grid coordinates (", gx, ",", gy, ") out of bounds");
+        LogWarn << __FUNCTION__ << "| Grid coordinates (" << gx << "," << gy << ") out of bounds";
         return std::nullopt;
     }
 

@@ -14,7 +14,7 @@ std::optional<int> asst::AdbLiteIO::call_command(
 {
     // TODO: 从上面的 call_command_win32/posix 里抽取出 socket 接收的部分
     if (recv_by_socket) {
-        Log.error("adb-lite does not support receiving data from socket");
+        LogError << "adb-lite does not support receiving data from socket";
         sock_data.clear();
         return std::nullopt;
     }
@@ -40,7 +40,7 @@ std::optional<int> asst::AdbLiteIO::call_command(
             goto ret_exit;
         }
         catch (const std::exception& e) {
-            Log.error("adb devices failed:", e.what());
+            LogError << "adb devices failed:" << e.what();
             ret = std::nullopt;
             goto ret_exit;
         }
@@ -54,7 +54,7 @@ std::optional<int> asst::AdbLiteIO::call_command(
             goto ret_exit;
         }
         catch (const std::exception& e) {
-            Log.error("adb kill-server failed:", e.what());
+            LogError << "adb kill-server failed:" << e.what();
             ret = std::nullopt;
             goto ret_exit;
         }
@@ -75,7 +75,7 @@ std::optional<int> asst::AdbLiteIO::call_command(
             goto ret_exit;
         }
         catch (const std::exception& e) {
-            Log.error("adb connect failed:", e.what());
+            LogError << "adb connect failed:" << e.what();
             // fallback 到 fork adb 进程的方式
             ret = std::nullopt;
             goto ret_exit;
@@ -100,7 +100,7 @@ std::optional<int> asst::AdbLiteIO::call_command(
             goto ret_exit;
         }
         catch (const std::exception& e) {
-            Log.error("adb shell failed:", e.what());
+            LogError << "adb shell failed:" << e.what();
             ret = -1;
             goto ret_exit;
         }
@@ -124,7 +124,7 @@ std::optional<int> asst::AdbLiteIO::call_command(
             goto ret_exit;
         }
         catch (const std::exception& e) {
-            Log.error("adb exec-out failed:", e.what());
+            LogError << "adb exec-out failed:" << e.what();
             ret = -1;
             goto ret_exit;
         }
@@ -145,19 +145,19 @@ std::optional<int> asst::AdbLiteIO::call_command(
             goto ret_exit;
         }
         catch (const std::exception& e) {
-            Log.error("adb push failed:", e.what());
+            LogError << "adb push failed:" << e.what();
             ret = -1;
             goto ret_exit;
         }
     }
 
-    Log.info("adb-lite does not support command:", cmd);
+    LogInfo << "adb-lite does not support command:" << cmd;
     ret = std::nullopt;
 
 ret_exit:
     if (!ret) {
-        Log.warn("adb-lite command: \"", cmd, "\"run failed");
-        Log.warn("fallback to NativeIO");
+        LogWarn << "adb-lite command: \"" << cmd << "\"run failed";
+        LogWarn << "fallback to NativeIO";
         ret = NativeIO::call_command(cmd, recv_by_socket, pipe_data, sock_data, timeout, start_time);
     }
     return ret;
@@ -167,7 +167,7 @@ std::optional<std::unique_lock<std::mutex>> asst::AdbLiteIO::lock_adb_client(std
 {
     std::unique_lock lock(m_adb_client_mutex);
     if (!m_adb_client || m_adb_serial != serial) {
-        Log.error("adb client not initialized for serial:", std::string(serial), "current:", m_adb_serial);
+        LogError << "adb client not initialized for serial:" << std::string(serial) << "current:" << m_adb_serial;
         return std::nullopt;
     }
 
@@ -188,7 +188,7 @@ void asst::AdbLiteIO::set_adb_serial(std::string_view serial)
         m_adb_client = std::move(adb_client);
     }
     catch (const std::exception& e) {
-        Log.error("failed to create adb-lite client for serial:", serial_str, e.what());
+        LogError << "failed to create adb-lite client for serial:" << serial_str << e.what();
         m_adb_serial.clear();
         m_adb_client.reset();
     }
@@ -213,12 +213,12 @@ std::shared_ptr<asst::IOHandler> asst::AdbLiteIO::interactive_shell(const std::s
             return std::make_shared<IOHandlerAdbLite>(m_adb_client->interactive_shell(command));
         }
         catch (const std::exception& e) {
-            Log.error("adb shell failed:", e.what());
+            LogError << "adb shell failed:" << e.what();
             return nullptr;
         }
     }
     else {
-        Log.error("unknown command to call interactive shell:", cmd);
+        LogError << "unknown command to call interactive shell:" << cmd;
         return nullptr;
     }
 }
@@ -262,7 +262,7 @@ bool asst::IOHandlerAdbLite::write(std::string_view data)
         return true;
     }
     catch (const std::exception& e) {
-        Log.error("IOHandler write failed:", e.what());
+        LogError << "IOHandler write failed:" << e.what();
         return false;
     }
 }
@@ -273,7 +273,7 @@ std::string asst::IOHandlerAdbLite::read(unsigned timeout_sec)
         return m_handle->read(timeout_sec);
     }
     catch (const std::exception& e) {
-        Log.error("IOHandler read failed:", e.what());
+        LogError << "IOHandler read failed:" << e.what();
         return {};
     }
 }

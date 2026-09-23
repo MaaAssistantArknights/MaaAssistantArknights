@@ -52,7 +52,7 @@ OcrPack::~OcrPack()
 bool OcrPack::load(const std::filesystem::path& path)
 {
     LogTraceFunction;
-    Log.info("load", path.lexically_relative(UserDir.get()));
+    LogInfo << "load" << path.lexically_relative(UserDir.get());
 
     using namespace asst::utils::path_literals;
     const auto det_dir = path / "det"_p;
@@ -86,7 +86,7 @@ bool OcrPack::load(const std::filesystem::path& path)
 OcrPack::ResultsVec OcrPack::recognize(const cv::Mat& image, bool without_det, const std::optional<Rect>& base_roi)
 {
     if (!check_and_load()) {
-        Log.error(__FUNCTION__, "check_and_load failed");
+        LogError << __FUNCTION__ << "check_and_load failed";
         return {};
     }
 
@@ -141,7 +141,8 @@ OcrPack::ResultsVec OcrPack::recognize(const cv::Mat& image, bool without_det, c
         std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time).count();
     std::string class_type = utils::demangle(typeid(*this).name());
     if (!base_roi) {
-        Log.trace(class_type, raw_results, without_det ? "by OCR Rec" : "by OCR Pipeline", ", cost", costs, "ms");
+        LogTrace << class_type << raw_results << (without_det ? "by OCR Rec" : "by OCR Pipeline") << ", cost" << costs
+                 << "ms";
     }
     else {
         std::string output = "[";
@@ -161,7 +162,8 @@ OcrPack::ResultsVec OcrPack::recognize(const cv::Mat& image, bool without_det, c
                 raw_results[i].score);
         }
         output += "]";
-        Log.trace(class_type, output, without_det ? "by OCR Rec" : "by OCR Pipeline", ", cost", costs, "ms");
+        LogTrace << class_type << "|" << output << "|" << (without_det ? "by OCR Rec" : "by OCR Pipeline") << ", cost"
+                 << costs << "ms";
     }
     return raw_results;
 }
@@ -204,12 +206,12 @@ bool OcrPack::check_and_load()
     else {
         m_gpu_active = false;
         if (m_gpu_selector) {
-            Log.error("Failed to resolve configured GPU; falling back to FastDeploy CPU mode");
+            LogError << "Failed to resolve configured GPU; falling back to FastDeploy CPU mode";
         }
         // CPU 模式下限制线程数，避免过高的 CPU 占用
         det_option.SetCpuThreadNum(cpu_threads);
         rec_option.SetCpuThreadNum(cpu_threads);
-        Log.info("FastDeploy CPU mode with", cpu_threads, "threads");
+        LogInfo << "FastDeploy CPU mode with" << cpu_threads << "threads";
     }
 #elif defined(__APPLE__)
     // rec 结果不对，先禁用
@@ -222,13 +224,13 @@ bool OcrPack::check_and_load()
     rec_option.UseCpu();
     det_option.SetCpuThreadNum(cpu_threads);
     rec_option.SetCpuThreadNum(cpu_threads);
-    Log.info("FastDeploy macOS mode with", cpu_threads, "CPU threads");
+    LogInfo << "FastDeploy macOS mode with" << cpu_threads << "CPU threads";
 #else
     det_option.UseCpu();
     rec_option.UseCpu();
     det_option.SetCpuThreadNum(cpu_threads);
     rec_option.SetCpuThreadNum(cpu_threads);
-    Log.info("FastDeploy CPU mode with", cpu_threads, "threads");
+    LogInfo << "FastDeploy CPU mode with" << cpu_threads << "threads";
 #endif
 
     m_impl->det = std::make_unique<fastdeploy::vision::ocr::DBDetector>(
@@ -252,7 +254,7 @@ bool OcrPack::check_and_load()
     bool rec_inited = m_impl->rec && m_impl->rec->Initialized();
     bool ocr_inited = m_impl->ocr && m_impl->ocr->Initialized();
 
-    Log.info("det", det_inited, "rec", rec_inited, "ocr", ocr_inited);
+    LogInfo << "det" << det_inited << "rec" << rec_inited << "ocr" << ocr_inited;
 
     return det_inited && rec_inited && ocr_inited;
 }

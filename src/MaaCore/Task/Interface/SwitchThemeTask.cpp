@@ -20,11 +20,11 @@ bool asst::SwitchThemeTask::set_params(const json::value& params)
     m_candidates.clear();
     auto themes_opt = params.find("themes");
     if (!themes_opt) {
-        Log.error("SwitchThemeTask: no themes in params");
+        LogError << "SwitchThemeTask: no themes in params";
         return false;
     }
     if (!themes_opt->is_array()) {
-        Log.error("SwitchThemeTask: themes is not an array");
+        LogError << "SwitchThemeTask: themes is not an array";
         return false;
     }
     for (const auto& theme : themes_opt->as_array()) {
@@ -45,12 +45,12 @@ bool asst::SwitchThemeTask::run()
     LogTraceFunction;
 
     if (!m_enable) {
-        Log.info("task disabled, pass", basic_info().to_string());
+        LogInfo << "task disabled, pass" << basic_info().to_string();
         return true;
     }
 
     if (m_candidates.empty()) {
-        Log.info("no candidate theme, skip");
+        LogInfo << "no candidate theme, skip";
         json::value skip_info = basic_info_with_what("SwitchThemeSkipped");
         callback(AsstMsg::SubTaskExtraInfo, skip_info);
         return true;
@@ -62,7 +62,7 @@ bool asst::SwitchThemeTask::run()
         std::uniform_int_distribution<size_t> rand_uni(0, m_candidates.size() - 1);
         target = m_candidates[rand_uni(rand_engine)];
     }
-    Log.info("target theme:", target);
+    LogInfo << "target theme:" << target;
 
     Task.get<OcrTaskInfo>("SwitchThemeByNameSelectTheme")->text = { target };
 
@@ -115,7 +115,7 @@ bool asst::SwitchThemeTask::run()
     if (!selected) {
         // 整个列表都没有目标，取消退出并报失败
         ProcessTask(*this, { "SwitchThemeByNameCancelTheme" }).run();
-        Log.error("theme not found:", target);
+        LogError << "theme not found:" << target;
         json::value fail_info = basic_info_with_what("SwitchThemeNotFound");
         fail_info["details"]["theme"] = target;
         callback(AsstMsg::SubTaskExtraInfo, fail_info);
@@ -132,6 +132,6 @@ bool asst::SwitchThemeTask::run()
         ProcessTask(*this, { "SwitchThemeByNameCancelTheme" }).run();
         return false;
     }
-    Log.info("theme switch flow done:", target);
+    LogInfo << "theme switch flow done:" << target;
     return true;
 }

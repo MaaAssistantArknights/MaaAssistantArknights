@@ -14,7 +14,7 @@ bool asst::RoguelikeFormationTaskPlugin::verify(AsstMsg msg, const json::value& 
     }
 
     if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
-        Log.error("Roguelike name doesn't exist!");
+        LogError << "Roguelike name doesn't exist!";
         return false;
     }
     const std::string roguelike_name = m_config->get_theme() + "@";
@@ -50,7 +50,7 @@ bool asst::RoguelikeFormationTaskPlugin::_run()
         ctrler()->click(oper.rect);
         ++select_count;
     }
-    Log.info(__FUNCTION__, "pre_selected: ", pre_selected, " select: ", select_count);
+    LogInfo << __FUNCTION__ << "pre_selected: " << pre_selected << " select: " << select_count;
 
     // 以下情况清空重选（游戏会自动排序）
     // 1. 这一页选满 8 个了
@@ -65,7 +65,7 @@ bool asst::RoguelikeFormationTaskPlugin::_run()
         formation_analyzer.set_image(ctrler()->get_image());
 
         if (!formation_analyzer.analyze()) {
-            Log.warn("RoguelikeFormationImageAnalyzer re analyze failed");
+            LogWarn << "RoguelikeFormationImageAnalyzer re analyze failed";
             return true;
         }
 
@@ -105,7 +105,7 @@ void asst::RoguelikeFormationTaskPlugin::clear_and_reselect()
         oper.selected = false;
     }
 
-    Log.info(__FUNCTION__, "max_page: ", max_page, " oper_count: ", oper_list.size());
+    LogInfo << __FUNCTION__ << "max_page: " << max_page << " oper_count: " << oper_list.size();
 
     std::vector<asst::RoguelikeFormationImageAnalyzer::FormationOper> sorted_oper_list;
     std::unordered_set<std::string> oper_to_select; // 和上面的 vector 一致，用于快速查重
@@ -167,7 +167,7 @@ bool asst::RoguelikeFormationTaskPlugin::analyze()
         });
     });
     auto append_page_proj = std::views::transform([&](auto oper) {
-        Log.info(__FUNCTION__, "oper: ", oper.name, " page: ", cur_page);
+        LogInfo << __FUNCTION__ << "oper: " << oper.name << " page: " << cur_page;
         oper.page = cur_page;
         return oper;
     });
@@ -181,7 +181,7 @@ bool asst::RoguelikeFormationTaskPlugin::select(RoguelikeFormationImageAnalyzer:
     LogTraceFunction;
 
     if (cur_page != oper.page) {
-        Log.info(__FUNCTION__, "swipe from page", cur_page, "to page", oper.page);
+        LogInfo << __FUNCTION__ << "swipe from page" << cur_page << "to page" << oper.page;
         // 在最大页码时（当总页数>=2），从右往左划可能会有对不齐的问题，直接划动到底
         if ((cur_page > oper.page && max_page >= 2 && cur_page == max_page) || max_page == 1) {
             swipe_to_first_page();
@@ -196,7 +196,7 @@ bool asst::RoguelikeFormationTaskPlugin::select(RoguelikeFormationImageAnalyzer:
             cur_page++;
         }
     }
-    Log.info(__FUNCTION__, "select oper", oper.name, "on page", cur_page);
+    LogInfo << __FUNCTION__ << "select oper" << oper.name << "on page" << cur_page;
     ctrler()->click(oper.rect);
     return true;
 }

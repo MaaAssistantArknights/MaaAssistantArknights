@@ -153,7 +153,7 @@ bool get_value_or(
         */
         return true;
     }
-    Log.error("Invalid type of", key, "in", repr);
+    LogError << "Invalid type of" << key << "in" << repr;
     return false;
 }
 

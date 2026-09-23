@@ -29,7 +29,7 @@ bool asst::ReclamationCraftTaskPlugin::load_params(const json::value& params)
     const int increment_mode_int = params.get("increment_mode", static_cast<int>(IncrementMode::Click));
     const auto increment_mode = static_cast<IncrementMode>(increment_mode_int);
     if (increment_mode != IncrementMode::Click && increment_mode != IncrementMode::Hold) {
-        Log.error(__FUNCTION__, "| unknown increment mode: ", increment_mode_int);
+        LogError << __FUNCTION__ << "| unknown increment mode: " << increment_mode_int;
         return false;
     }
     m_increment_mode = increment_mode;
@@ -86,7 +86,7 @@ bool asst::ReclamationCraftTaskPlugin::_run()
                         insufficient_materials = true;
                     }
                     else {
-                        Log.info("Reclamation Craft", "| craft amount: ", craft_amount);
+                        LogInfo << __FUNCTION__ << "| craft amount: " << craft_amount;
                     }
                 }
             }
@@ -143,14 +143,14 @@ void asst::ReclamationCraftTaskPlugin::increase_craft_amount(const int& amount)
     case IncrementMode::Hold:
         add_button_analyzer.set_image(ctrler()->get_image());
         if (!add_button_analyzer.analyze()) {
-            Log.error(__FUNCTION__, "| cannot recongnise the add button");
+            LogError << __FUNCTION__ << "| cannot recongnise the add button";
             return;
         }
         add_button_rect = add_button_analyzer.get_result().rect;
         ctrler()->swipe(add_button_rect, add_button_rect, 10 * 1000 * amount / 100 + 1000);
         break;
     default:
-        Log.error(__FUNCTION__, "| unknown increment mode: ", static_cast<int>(m_increment_mode));
+        LogError << __FUNCTION__ << "| unknown increment mode: " << static_cast<int>(m_increment_mode);
         break;
     }
 }
@@ -173,11 +173,11 @@ bool asst::ReclamationCraftTaskPlugin::calc_craft_amount(int& value)
     }
 
     if (!utils::chars_to_number(value_str, value)) {
-        Log.error(__FUNCTION__, "| unable to convert OCR result to integer: ", value_str);
+        LogError << __FUNCTION__ << "| unable to convert OCR result to integer: " << value_str;
         value = -1;
         return false;
     }
 
-    Log.info(__FUNCTION__, "| craft amount: ", value);
+    LogInfo << __FUNCTION__ << "| craft amount: " << value;
     return true;
 }

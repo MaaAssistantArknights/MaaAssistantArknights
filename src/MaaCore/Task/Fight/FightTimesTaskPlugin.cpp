@@ -50,7 +50,7 @@ bool asst::FightTimesTaskPlugin::_run()
     auto image = ctrler()->get_image();
     auto sanity = analyze_sanity_remain(image);
     if (!sanity) {
-        Log.error(__FUNCTION__, "unable to analyze sanity");
+        LogError << __FUNCTION__ << "unable to analyze sanity";
         callback(AsstMsg::SubTaskExtraInfo, sanity_info);
         callback(AsstMsg::SubTaskExtraInfo, fight);
         return false;
@@ -62,7 +62,7 @@ bool asst::FightTimesTaskPlugin::_run()
     fight["details"]["times_finished"] = m_fight_times;
     if (m_fight_times >= m_fight_times_max) {
         m_task_ptr->set_enable(false); // 战斗次数已达上限
-        Log.info(__FUNCTION__, "fight times reached max");
+        LogInfo << __FUNCTION__ << "fight times reached max";
         fight["details"]["finished"] = true;
         callback(AsstMsg::SubTaskExtraInfo, fight);
         return true;
@@ -71,7 +71,7 @@ bool asst::FightTimesTaskPlugin::_run()
     auto sanity_cost = analyze_sanity_cost(image);
     auto series = analyze_stage_series(image);
     if (sanity_cost.value_or(-1) < 0 || (series && (*series < 1 || *series > 10))) [[unlikely]] {
-        Log.error(__FUNCTION__, "unable to analyze sanity cost or series");
+        LogError << __FUNCTION__ << "unable to analyze sanity cost or series";
         callback(AsstMsg::SubTaskExtraInfo, fight);
         return false;
     }
@@ -79,7 +79,7 @@ bool asst::FightTimesTaskPlugin::_run()
         m_series_current = 1;
         fight["details"]["series"] = 1;
         fight["details"]["sanity_cost"] = *sanity_cost;
-        Log.info(__FUNCTION__, "series not support");
+        LogInfo << __FUNCTION__ << "series not support";
         callback(AsstMsg::SubTaskExtraInfo, fight);
         return true;
     }
@@ -98,7 +98,7 @@ bool asst::FightTimesTaskPlugin::_run()
             sanity_cost = analyze_sanity_cost(image);
             series = analyze_stage_series(image);
             if (sanity_cost.value_or(-1) < 0 || !series || *series < 1 || *series > 10) [[unlikely]] {
-                Log.error(__FUNCTION__, "unable to analyze sanity cost or series");
+                LogError << __FUNCTION__ << "unable to analyze sanity cost or series";
                 callback(AsstMsg::SubTaskExtraInfo, fight);
                 return false;
             }
@@ -111,7 +111,7 @@ bool asst::FightTimesTaskPlugin::_run()
             sanity_cost = analyze_sanity_cost(image);
             series = analyze_stage_series(image);
             if (sanity_cost.value_or(-1) < 0 || !series || *series < 1 || *series > 10) [[unlikely]] {
-                Log.error(__FUNCTION__, "unable to analyze sanity cost or series");
+                LogError << __FUNCTION__ << "unable to analyze sanity cost or series";
                 callback(AsstMsg::SubTaskExtraInfo, fight);
                 return false;
             }
@@ -125,7 +125,7 @@ bool asst::FightTimesTaskPlugin::_run()
 
     if (m_fight_times + *series > m_fight_times_max) {
         m_task_ptr->set_enable(false); // 战斗次数超过上限
-        Log.info(__FUNCTION__, "fight times reached max");
+        LogInfo << __FUNCTION__ << "fight times reached max";
         fight["details"]["finished"] = true;
     }
     callback(AsstMsg::SubTaskExtraInfo, fight);
@@ -138,7 +138,7 @@ bool asst::FightTimesTaskPlugin::open_series_list(const cv::Mat& image)
              .set_reusable_image(image)
              .set_retry_times(10)
              .run()) {
-        Log.error(__FUNCTION__, "unable to open series list");
+        LogError << __FUNCTION__ << "unable to open series list";
         const auto relative_dir = utils::path("debug") / utils::path("fightSeries");
         utils::save_debug_image(image, relative_dir, true, "reusable image");
         utils::save_debug_image(ctrler()->get_image(), relative_dir, true, "current screenshot");
@@ -229,7 +229,7 @@ std::optional<int> asst::FightTimesTaskPlugin::select_series(bool available_only
     auto list = analyze_series_list(image);
     if (list.empty()) {
         close_series_list();
-        Log.error(__FUNCTION__, "unable to analyze series list");
+        LogError << __FUNCTION__ << "unable to analyze series list";
         return std::nullopt;
     }
     for (const auto& item : list) {
@@ -258,7 +258,7 @@ std::optional<int> asst::FightTimesTaskPlugin::select_series_new(bool available_
     auto list = analyze_series_list_new(image);
     if (list.empty()) {
         close_series_list();
-        Log.error(__FUNCTION__, "unable to analyze series list");
+        LogError << __FUNCTION__ << "unable to analyze series list";
         return std::nullopt;
     }
     for (const auto& item : list) {
@@ -287,7 +287,7 @@ bool asst::FightTimesTaskPlugin::select_series(int times)
     auto list = analyze_series_list(image);
     if (list.empty()) {
         close_series_list();
-        Log.error(__FUNCTION__, "unable to analyze series list");
+        LogError << __FUNCTION__ << "unable to analyze series list";
         return false;
     }
     for (const auto& item : list) {
@@ -298,7 +298,7 @@ bool asst::FightTimesTaskPlugin::select_series(int times)
         }
     }
     close_series_list();
-    Log.error(__FUNCTION__, "no available series found");
+    LogError << __FUNCTION__ << "no available series found";
     return false;
 }
 
@@ -312,7 +312,7 @@ bool asst::FightTimesTaskPlugin::select_series_new(int times)
     auto list = analyze_series_list_new(image);
     if (list.empty()) {
         close_series_list();
-        Log.error(__FUNCTION__, "unable to analyze series list");
+        LogError << __FUNCTION__ << "unable to analyze series list";
         return false;
     }
     const auto reanalyze = [&]() {
@@ -320,7 +320,7 @@ bool asst::FightTimesTaskPlugin::select_series_new(int times)
         list = analyze_series_list_new(image);
         if (list.empty()) {
             close_series_list();
-            Log.error(__FUNCTION__, "unable to analyze series list");
+            LogError << __FUNCTION__ << "unable to analyze series list";
             return false;
         }
         return true;
@@ -380,7 +380,7 @@ bool asst::FightTimesTaskPlugin::select_series_new(int times)
         }
     }
     close_series_list();
-    Log.error(__FUNCTION__, "no available series found");
+    LogError << __FUNCTION__ << "no available series found";
     return false;
 }
 
@@ -391,12 +391,12 @@ std::vector<asst::FightSeriesListItem> asst::FightTimesTaskPlugin::analyze_serie
     MultiMatcher flag_Match(image);
     flag_Match.set_task_info(task);
     if (!flag_Match.analyze()) {
-        Log.error(__FUNCTION__, "unable to analyze series list");
+        LogError << __FUNCTION__ << "unable to analyze series list";
         return list;
     }
     auto result = flag_Match.get_result();
     if (result.size() != 6) {
-        Log.error(__FUNCTION__, "no series found");
+        LogError << __FUNCTION__ << "no series found";
         return list;
     }
     sort_by_vertical_(result);
@@ -456,7 +456,7 @@ std::vector<asst::FightSeriesListItem> asst::FightTimesTaskPlugin::analyze_serie
     MultiMatcher flag_Match(image);
     flag_Match.set_task_info(task);
     if (!flag_Match.analyze()) {
-        Log.error(__FUNCTION__, "unable to analyze series list");
+        LogError << __FUNCTION__ << "unable to analyze series list";
     }
     auto result = flag_Match.get_result();
     sort_by_vertical_(result);
@@ -472,7 +472,7 @@ std::vector<asst::FightSeriesListItem> asst::FightTimesTaskPlugin::analyze_serie
         analyzer.set_use_char_model(true);
         analyzer.set_bin_threshold(0);
         if (!analyzer.analyze()) {
-            Log.error(__FUNCTION__, "unable to analyze series");
+            LogError << __FUNCTION__ << "unable to analyze series";
         }
         else {
             if (!utils::chars_to_number(analyzer.get_result().text, times)) [[unlikely]] {
@@ -509,7 +509,7 @@ std::optional<asst::SanityResult> asst::FightTimesTaskPlugin::analyze_sanity_rem
     auto res_opt = analyzer.analyze();
 
     if (!res_opt) [[unlikely]] {
-        Log.warn(__FUNCTION__, "Sanity ocr failed");
+        LogWarn << __FUNCTION__ << "Sanity ocr failed";
         analyzer.save_img(utils::path("debug") / utils::path("sanity"));
         return std::nullopt;
     }
@@ -517,7 +517,7 @@ std::optional<asst::SanityResult> asst::FightTimesTaskPlugin::analyze_sanity_rem
     std::string_view text = res_opt->text;
     auto slash_pos = text.find('/');
     if (slash_pos == std::string_view::npos) [[unlikely]] {
-        Log.warn(__FUNCTION__, "Sanity ocr result without '/':", text);
+        LogWarn << __FUNCTION__ << "Sanity ocr result without '/':" << text;
         analyzer.save_img(utils::path("debug") / utils::path("sanity"));
         return std::nullopt;
     }
@@ -525,15 +525,15 @@ std::optional<asst::SanityResult> asst::FightTimesTaskPlugin::analyze_sanity_rem
     int sanity_cur = 0, sanity_max = 0;
     if (!utils::chars_to_number(text.substr(0, slash_pos), sanity_cur) ||
         !utils::chars_to_number(text.substr(slash_pos + 1), sanity_max)) [[unlikely]] {
-        Log.warn(__FUNCTION__, "Sanity ocr result could not convert to int:", text);
+        LogWarn << __FUNCTION__ << "Sanity ocr result could not convert to int:" << text;
         analyzer.save_img(utils::path("debug") / utils::path("sanity"));
         return std::nullopt;
     }
 
-    Log.info(__FUNCTION__, "Current Sanity:", sanity_cur, ", Max Sanity:", sanity_max);
+    LogInfo << __FUNCTION__ << "Current Sanity:" << sanity_cur << ", Max Sanity:" << sanity_max;
     if (sanity_cur < 0 || sanity_max > 210 || sanity_max < 82) [[unlikely]] {
         // 理智上限[82,135] 2024.11.01 上限增加45点 [127, 180] 2026.05.01 上限增加30点 -> 210
-        Log.warn(__FUNCTION__, "Sanity out of limit");
+        LogWarn << __FUNCTION__ << "Sanity out of limit";
         analyzer.save_img(utils::path("debug") / utils::path("sanity"));
         return std::nullopt;
     }
@@ -550,7 +550,7 @@ std::optional<int> asst::FightTimesTaskPlugin::analyze_stage_series(const cv::Ma
     Matcher match(image);
     match.set_task_info(task);
     if (!match.analyze()) {
-        Log.error(__FUNCTION__, "unable to match series icon");
+        LogError << __FUNCTION__ << "unable to match series icon";
         return std::nullopt;
     }
 
@@ -560,13 +560,13 @@ std::optional<int> asst::FightTimesTaskPlugin::analyze_stage_series(const cv::Ma
     analyzer.set_bin_threshold(0, 255);
     analyzer.set_use_char_model(true);
     if (!analyzer.analyze()) {
-        Log.error(__FUNCTION__, "unable to analyze series");
+        LogError << __FUNCTION__ << "unable to analyze series";
         return std::nullopt;
     }
 
     int times = 0;
     if (!utils::chars_to_number(analyzer.get_result().text, times)) [[unlikely]] {
-        Log.warn(__FUNCTION__, "Series ocr result could not convert to int:", analyzer.get_result().text);
+        LogWarn << __FUNCTION__ << "Series ocr result could not convert to int:" << analyzer.get_result().text;
         analyzer.save_img(utils::path("debug") / utils::path("times"));
         return std::nullopt;
     }
@@ -587,7 +587,7 @@ std::optional<int> asst::FightTimesTaskPlugin::analyze_sanity_cost(const cv::Mat
     Matcher match(image);
     match.set_task_info("StageSanityCost");
     if (!match.analyze()) {
-        Log.warn(__FUNCTION__, "Sanity cost ocr failed");
+        LogWarn << __FUNCTION__ << "Sanity cost ocr failed";
         return std::nullopt;
     }
 
@@ -597,14 +597,14 @@ std::optional<int> asst::FightTimesTaskPlugin::analyze_sanity_cost(const cv::Mat
     analyzer.set_replace(merge_map);
 
     if (!analyzer.analyze()) [[unlikely]] {
-        Log.warn(__FUNCTION__, "Sanity cost ocr failed");
+        LogWarn << __FUNCTION__ << "Sanity cost ocr failed";
         analyzer.save_img(utils::path("debug") / utils::path("sanity"));
         return std::nullopt;
     }
 
     int sanity = 0;
     if (!utils::chars_to_number(analyzer.get_result().text, sanity)) [[unlikely]] {
-        Log.warn(__FUNCTION__, "Sanity ocr result could not convert to int:", analyzer.get_result().text);
+        LogWarn << __FUNCTION__ << "Sanity ocr result could not convert to int:" << analyzer.get_result().text;
         analyzer.save_img(utils::path("debug") / utils::path("sanity"));
         return std::nullopt;
     }

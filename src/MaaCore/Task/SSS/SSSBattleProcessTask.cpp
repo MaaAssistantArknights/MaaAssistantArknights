@@ -12,10 +12,10 @@ using namespace asst::battle::sss;
 
 bool asst::SSSBattleProcessTask::set_stage_name(const std::string& stage_name)
 {
-    Log.info(__FUNCTION__, stage_name);
+    LogInfo << __FUNCTION__ << stage_name;
 
     if (!SSSCopilot.contains(stage_name)) {
-        Log.error("SSS SSSBattleProcessTask: unknown name", stage_name);
+        LogError << "SSS SSSBattleProcessTask: unknown name" << stage_name;
         return false;
     }
     m_sss_combat_data = SSSCopilot.get_data(stage_name);
@@ -50,7 +50,7 @@ bool asst::SSSBattleProcessTask::update_deployment_with_skip(const cv::Mat& reus
     static auto interval_time = 0;
 
     if (std::chrono::duration_cast<std::chrono::milliseconds>(now - last_skip_time).count() < interval_time) {
-        Log.trace("Passed without update deployment");
+        LogTrace << "Passed without update deployment";
         sleep(interval_time);
         return true;
     }
@@ -66,13 +66,13 @@ bool asst::SSSBattleProcessTask::update_deployment_with_skip(const cv::Mat& reus
             [](const DeploymentOper& oper1, const DeploymentOper& oper2) { return oper1.name == oper2.name; })) {
         if (std::chrono::duration_cast<std::chrono::milliseconds>(now - last_same_time).count() > 30'000) {
             // 30s 能回 60 费，基本上已经到了挂机的时候，放缓检查的速度
-            Log.trace("30s is unchanged and the waiting time is extended to 1s");
+            LogTrace << "30s is unchanged and the waiting time is extended to 1s";
             interval_time = 1000;
         }
     }
     else {
         last_same_time = now;
-        Log.trace("Changed, the waiting time is reset to 0s");
+        LogTrace << "Changed, the waiting time is reset to 0s";
         interval_time = 0;
     }
 
@@ -91,7 +91,7 @@ bool asst::SSSBattleProcessTask::do_derived_action(const battle::copilot::Action
     case battle::copilot::ActionType::CheckIfStartOver:
         return check_if_start_over(action);
     default:
-        Log.error("unknown action type", static_cast<int>(action.type));
+        LogError << "unknown action type" << static_cast<int>(action.type);
         return false;
     }
 }
@@ -105,7 +105,7 @@ bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
 
     // prevent our program from consuming too much CPU
     if (const auto now = std::chrono::steady_clock::now(); prev_frame_time > now - min_frame_interval) [[unlikely]] {
-        Log.debug("Sleeping for framerate limit");
+        LogDebug << "Sleeping for framerate limit";
         std::this_thread::sleep_for(min_frame_interval - (now - prev_frame_time));
     }
 
@@ -164,12 +164,12 @@ bool asst::SSSBattleProcessTask::wait_until_start(bool weak)
         if (oper.role == Role::Drone) {
             // 直接抛弃水泥
             ctrler()->click(oper.rect);
-            Log.info(__FUNCTION__, "replace Drone, name:", oper.name);
+            LogInfo << __FUNCTION__ << "replace Drone, name:" << oper.name;
             --replace_limit;
         }
         else if (replace_count > 0 && !m_all_cores.contains(oper.name)) {
             ctrler()->click(oper.rect);
-            Log.info(__FUNCTION__, "replace oper, name:", oper.name);
+            LogInfo << __FUNCTION__ << "replace oper, name:" << oper.name;
             --replace_count;
             --replace_limit;
         }
@@ -251,13 +251,13 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
         if (use_the_core) {
             const auto& core = exist_core.at(strategy.core.value());
             if (!core.available) {
-                Log.trace(__FUNCTION__, "| Core", core.name, "is not available, waiting");
+                LogTrace << __FUNCTION__ << "| Core" << core.name << "is not available, waiting";
                 // 直接返回，等费用，等下次循环处理部署逻辑
                 return false;
             }
             strategy.all_deployed = true;
             strategy.core.reset();
-            Log.info(__FUNCTION__, "| Deploy core", core.name, "at", strategy.location);
+            LogInfo << __FUNCTION__ << "| Deploy core" << core.name << "at" << strategy.location;
 
             // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
             if (auto it = m_all_cores.find(core.name); it != m_all_cores.end()) {
@@ -290,7 +290,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                 // 如果没有 core，且所有工具人都用完了，就直接算执行完毕
                 strategy.all_deployed = true;
             }
-            Log.info(__FUNCTION__, "| Deploy tool_man", available_iter->name, "at", strategy.location);
+            LogInfo << __FUNCTION__ << "| Deploy tool_man" << available_iter->name << "at" << strategy.location;
             // 工具人的技能一概好了就用
             auto skill_it = m_skill_usage.find({ available_iter->role, available_iter->name });
             if (skill_it == m_skill_usage.end()) {
@@ -398,6 +398,6 @@ bool asst::SSSBattleProcessTask::check_and_get_drops(const cv::Mat& reusable)
         Task.get<OcrTaskInfo>(inst_string() + "@SSSHalfTimeDrops")->text = { drops };
         task_name = inst_string() + "@SSSHalfTimeDropsBegin";
     }
-    Log.info("Get drops", drops);
+    LogInfo << "Get drops" << drops;
     return ProcessTask(*this, { task_name }).set_reusable_image(image).set_retry_times(3).run();
 }

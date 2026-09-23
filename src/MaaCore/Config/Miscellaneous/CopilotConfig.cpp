@@ -293,7 +293,7 @@ std::optional<std::vector<asst::battle::copilot::Action>> asst::CopilotConfig::p
             action.type = iter->second;
         }
         else {
-            Log.warn("Unknown action type:", type_str);
+            LogWarn << "Unknown action type:" << type_str;
             continue;
         }
 
@@ -424,7 +424,7 @@ asst::battle::RoleCounts asst::CopilotConfig::parse_role_counts(const json::valu
     for (const auto& [role_name, count] : json.as_object()) {
         auto role = get_role_type(role_name);
         if (role == Role::Unknown) {
-            Log.error("Unknown role name: ", role_name);
+            LogError << "Unknown role name: " << role_name;
             throw std::runtime_error("Unknown role name: " + role_name);
         }
         counts.emplace(role, count.as_integer());

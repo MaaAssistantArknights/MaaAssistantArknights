@@ -63,11 +63,8 @@ bool BlackFlowMapPerceptionResource::load(
     const bool runtime_manifest_available = std::filesystem::is_regular_file(runtime_manifest_path);
     const bool model_available = model_path.has_value() && std::filesystem::is_regular_file(*model_path);
     if (!template_manifest_available && !edge_config_available && !runtime_manifest_available && !model_available) {
-        Log.trace(
-            __FUNCTION__,
-            "BlackFlow map perception resource layer contains no applicable component",
-            "path",
-            path);
+        LogTrace << __FUNCTION__ << "BlackFlow map perception resource layer contains no applicable component"
+                 << "path" << path;
         return true;
     }
 
@@ -101,18 +98,11 @@ bool BlackFlowMapPerceptionResource::load(
         update_pending_path(m_runtime_manifest_path, m_pending_runtime_manifest_path, runtime_manifest_path);
     const bool model_changed = model_available && update_pending_path(m_model_path, m_pending_model_path, *model_path);
     if (template_manifest_changed || edge_config_changed || runtime_manifest_changed || model_changed) {
-        Log.warn(
-            __FUNCTION__,
-            "BlackFlow map perception resources changed while the analyzer is in use; "
-            "the component updates will take effect together after release",
-            "template manifest changed",
-            template_manifest_changed,
-            "edge config changed",
-            edge_config_changed,
-            "runtime manifest changed",
-            runtime_manifest_changed,
-            "model changed",
-            model_changed);
+        LogWarn << __FUNCTION__ << "BlackFlow map perception resources changed while the analyzer is in use; "
+                << "the component updates will take effect together after release"
+                << "template manifest changed" << template_manifest_changed << "edge config changed"
+                << edge_config_changed << "runtime manifest changed" << runtime_manifest_changed << "model changed"
+                << model_changed;
     }
     return true;
 }

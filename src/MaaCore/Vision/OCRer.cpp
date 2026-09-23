@@ -77,7 +77,7 @@ OCRer::ResultsVecOpt OCRer::analyze() const
         break;
     }
 
-    Log.trace("Proceed", results_vec);
+    LogTrace << "Proceed" << results_vec;
 
     m_result = std::move(results_vec);
     return m_result;

@@ -27,13 +27,13 @@ bool asst::PixelPaintTaskPlugin::_run()
     LogTraceFunction;
 
     if (m_groups.empty()) {
-        Log.info("PixelPaint | no groups to paint");
+        LogInfo << __FUNCTION__ << "| no groups to paint";
         return true;
     }
 
     // 开画前识别
     if (!in_editor_page()) {
-        Log.error("PixelPaint | not in pixel editor page, abort");
+        LogError << __FUNCTION__ << "| not in pixel editor page, abort";
         return false;
     }
 
@@ -47,13 +47,13 @@ bool asst::PixelPaintTaskPlugin::_run()
         }
     }
 
-    Log.info("PixelPaint | total cells:", total, "groups:", m_groups.size(), "need bottom:", need_bottom);
+    LogInfo << __FUNCTION__ << "| total cells:" << total << "groups:" << m_groups.size() << "need bottom:" << need_bottom;
 
     int done = 0;
 
     // 第一阶段：滚到顶，画 0~23
     if (!scroll_palette(false)) {
-        Log.error("PixelPaint | scroll to top failed");
+        LogError << __FUNCTION__ << "| scroll to top failed";
         return false;
     }
     for (const auto& g : m_groups) {
@@ -68,7 +68,7 @@ bool asst::PixelPaintTaskPlugin::_run()
     // 第二阶段：滚到底，画 24~39
     if (need_bottom) {
         if (!scroll_palette(true)) {
-            Log.error("PixelPaint | scroll to bottom failed");
+            LogError << __FUNCTION__ << "| scroll to bottom failed";
             return false;
         }
         for (const auto& g : m_groups) {
@@ -81,20 +81,20 @@ bool asst::PixelPaintTaskPlugin::_run()
         }
     }
 
-    Log.info("PixelPaint | all done");
+    LogInfo << __FUNCTION__ << "| all done";
     return true;
 }
 
 bool asst::PixelPaintTaskPlugin::in_editor_page() const
 {
     if (Task.get("MiniGame@PixelPaint@EditorCheck") == nullptr) {
-        Log.error("PixelPaint | EditorCheck not configured");
+        LogError << __FUNCTION__ << "| EditorCheck not configured";
         return false;
     }
 
     auto ret = ProcessTask(*this, { "MiniGame@PixelPaint@EditorCheck" }).set_retry_times(0).run();
     if (!ret) {
-        Log.error("PixelPaint | editor page check failed");
+        LogError << __FUNCTION__ << "| editor page check failed";
     }
     return ret;
 }
@@ -104,7 +104,7 @@ bool asst::PixelPaintTaskPlugin::scroll_palette(bool to_bottom) const
     const std::string task_name =
         to_bottom ? "MiniGame@PixelPaint@PaletteScrollToBottom" : "MiniGame@PixelPaint@PaletteScrollToTop";
     if (Task.get(task_name) == nullptr) {
-        Log.error("PixelPaint | scroll task not found:", task_name);
+        LogError  << __FUNCTION__ << "| scroll task not found:" << task_name;
         return false;
     }
 
@@ -114,7 +114,7 @@ bool asst::PixelPaintTaskPlugin::scroll_palette(bool to_bottom) const
             return false;
         }
         if (!ProcessTask(*this, { task_name }).set_retry_times(0).run()) {
-            Log.warn("PixelPaint | scroll attempt", i + 1, "failed");
+            LogWarn << __FUNCTION__ << "| scroll attempt" << i + 1 << "failed";
             return false;
         }
         sleep(150);
@@ -134,7 +134,7 @@ std::optional<asst::Point> asst::PixelPaintTaskPlugin::palette_slot_pos(int colo
     if (color < 24) {
         auto task = Task.get(top_task);
         if (task == nullptr) {
-            Log.error("PixelPaint | task not found:", top_task);
+            LogError << __FUNCTION__ << "| task not found:" << top_task;
             return std::nullopt;
         }
         auto params = task->special_params;
@@ -144,7 +144,7 @@ std::optional<asst::Point> asst::PixelPaintTaskPlugin::palette_slot_pos(int colo
 
     auto task = Task.get(bottom_task);
     if (task == nullptr) {
-        Log.error("PixelPaint | task not found:", bottom_task);
+        LogError << __FUNCTION__ << "| task not found:" << bottom_task;
         return std::nullopt;
     }
     auto params = task->special_params;
@@ -158,7 +158,7 @@ std::optional<asst::Point> asst::PixelPaintTaskPlugin::grid_center(int x, int y)
 {
     auto task = Task.get("MiniGame@PixelPaint@Grid");
     if (task == nullptr) {
-        Log.error("PixelPaint | task not found: MiniGame@PixelPaint@Grid");
+        LogError << __FUNCTION__ << "| task not found: MiniGame@PixelPaint@Grid";
         return std::nullopt;
     }
     auto params = task->special_params;
@@ -185,12 +185,12 @@ void asst::PixelPaintTaskPlugin::click_grid(const Point& pos) const
 
 bool asst::PixelPaintTaskPlugin::draw_group(const Group& group, int& done_cells, int total_cells)
 {
-    Log.info("PixelPaint | select color", group.color, "cells:", group.points.size());
+    LogInfo << __FUNCTION__ << "| select color" << group.color << "cells:" << group.points.size();
 
     // 点色板选色
     const auto slot = palette_slot_pos(group.color);
     if (!slot) {
-        Log.error("PixelPaint | failed to resolve palette slot for color", group.color);
+        LogError << __FUNCTION__ << "| failed to resolve palette slot for color" << group.color;
         return false;
     }
     ctrler()->click(*slot);
@@ -219,7 +219,7 @@ bool asst::PixelPaintTaskPlugin::draw_group(const Group& group, int& done_cells,
     int checked_at = done_cells;
     for (const auto& seg : segments) {
         if (need_exit()) {
-            Log.info("PixelPaint | stopped by exit request");
+            LogInfo << __FUNCTION__ << "| stopped by exit request";
             return false;
         }
 
@@ -254,7 +254,7 @@ bool asst::PixelPaintTaskPlugin::draw_group(const Group& group, int& done_cells,
             checked_at = done_cells;
             report_progress(done_cells, total_cells, group.color);
             if (!in_editor_page()) {
-                Log.error("PixelPaint | left editor page while painting color", group.color);
+                LogError << __FUNCTION__ << "| left editor page while painting color" << group.color;
                 return false;
             }
         }

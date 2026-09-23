@@ -60,7 +60,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     using SupportUnitUsage = BattleFormationTask::SupportUnitUsage;
 
     if (m_has_subtasks_duplicate) {
-        Log.error(__FUNCTION__, "CopilotTask set_params failed, already set params");
+        LogError << __FUNCTION__ << "CopilotTask set_params failed, already set params";
         return false;
     }
 
@@ -90,7 +90,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
         }
         m_stage_name = Copilot.get_stage_name();
         if (!m_battle_task_ptr->set_stage_name(m_stage_name)) {
-            Log.error("Not support stage");
+            LogError << "Not support stage";
             return false;
         }
     }
@@ -136,10 +136,10 @@ bool asst::CopilotTask::set_params(const json::value& params)
 
         for (const auto& obj : *multi_tasks_opt) {
             if (obj.contains("is_paradox")) {
-                Log.error("================  !DEPRECATED!  ================");
+                LogError << "================  !DEPRECATED!  ================";
                 LogError << "`is_paradox` has been deprecated since v6.1.2;";
                 LogError << "Please use 'ParadoxCopilotTask' for paradox copilot;";
-                Log.error("================  !DEPRECATED!  ================");
+                LogError << "================  !DEPRECATED!  ================";
                 return false;
             }
         }
@@ -208,7 +208,7 @@ std::optional<std::filesystem::path> asst::CopilotTask::parse_copilot_filename(c
 {
     auto path = utils::path(name);
     if (!Copilot.load(path)) {
-        Log.error("CopilotConfig parse failed");
+        LogError << "CopilotConfig parse failed, file: " << path;
         return std::nullopt;
     }
     return path;

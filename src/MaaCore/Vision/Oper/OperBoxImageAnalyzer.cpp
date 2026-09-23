@@ -99,7 +99,7 @@ bool asst::OperBoxImageAnalyzer::opers_analyze()
                 list.emplace_back(std::move(ocr));
             }
             else {
-                Log.error("OperNameAnalyzer analyze failed");
+                LogError << "OperNameAnalyzer analyze failed";
             }
         }
         if (list.empty()) {
@@ -197,7 +197,7 @@ bool asst::OperBoxImageAnalyzer::level_analyze()
         Rect roi = box.rect.move(level_roi);
         if (roi.x < 0) {
             // 等级在lv的左,lv的识别框x该右移
-            Log.error("level roi", roi, "is out of range");
+            LogError << "level roi" << roi << "is out of range";
             return false;
         }
         level_analyzer.set_roi(roi);
@@ -236,7 +236,7 @@ bool asst::OperBoxImageAnalyzer::elite_analyze()
         Rect roi = box.rect.move(elite_roi);
         if (roi.x < 0) {
             // 等级在lv的左,lv的识别框x该右移
-            Log.error("elite roi", roi, "is out of range");
+            LogError << "elite roi" << roi << "is out of range";
             return false;
         }
         elite_analyzer.set_roi(roi);

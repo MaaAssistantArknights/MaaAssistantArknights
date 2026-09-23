@@ -31,7 +31,7 @@ AbstractTask::AbstractTask(const AsstCallback& callback, Assistant* inst, std::s
 bool asst::AbstractTask::run()
 {
     if (!m_enable) {
-        Log.info("task disabled, pass", basic_info().to_string());
+        LogInfo << "task disabled, pass" << basic_info().to_string();
         return true;
     }
     callback(AsstMsg::SubTaskStart, basic_info());

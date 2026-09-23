@@ -48,7 +48,7 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::verify(AsstMsg msg, const jso
     }
 
     if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
-        Log.error("Roguelike name doesn't exist!");
+        LogError << "Roguelike name doesn't exist!";
         return false;
     }
 
@@ -75,11 +75,11 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::_run()
     LogTraceFunction;
 
     if (m_config->get_run_for_collectible()) {
-        Log.info(__FUNCTION__, "| Running for collectible");
+        LogInfo << __FUNCTION__ << "| Running for collectible";
     }
 
     const int difficulty = m_config->get_run_for_collectible() ? m_collectible_difficulty : m_config->get_difficulty();
-    Log.info(__FUNCTION__, "| current_difficulty:", m_current_difficulty, "next difficulty:", difficulty);
+    LogInfo << __FUNCTION__ << "| current_difficulty:" << m_current_difficulty << "next difficulty:" << difficulty;
 
     // 仅在插件记录的当前难度与目标难度不一致时重新选择难度
     select_difficulty(difficulty);
@@ -97,16 +97,16 @@ int asst::RoguelikeDifficultySelectionTaskPlugin::detect_current_difficulty() co
     analyzer.set_task_info("Roguelike@ChooseDifficulty_AnalyzeCurrentDifficulty");
     if (analyzer.analyze()) {
         const std::string text = analyzer.get_result().front().text;
-        Log.info("Detected difficulty text:", text);
+        LogInfo << "Detected difficulty text:" << text;
         int difficulty;
         if (!utils::chars_to_number(text, difficulty)) {
-            Log.error("Failed to convert difficulty text to number. Text =", text);
+            LogError << "Failed to convert difficulty text to number. Text =" << text;
             return -1;
         }
         return difficulty;
     }
     else {
-        Log.error("OCR failed. Cannot detect difficulty.");
+        LogError << "OCR failed. Cannot detect difficulty.";
         return -1;
     }
 }
@@ -125,20 +125,20 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::select_difficulty(const int d
         OCRer confirm_matcher(ctrler()->get_image());
         confirm_matcher.set_task_info(theme + "@Roguelike@ChooseDifficultyConfirm");
         if (!confirm_matcher.analyze()) {
-            Log.warn("Failed to find difficulty selection UI. Try to click Roguelike@StartExplore.");
+            LogWarn << "Failed to find difficulty selection UI. Try to click Roguelike@StartExplore.";
             Matcher start_explore_matcher(ctrler()->get_image());
             start_explore_matcher.set_task_info(theme + "@Roguelike@StartExplore");
             if (start_explore_matcher.analyze()) {
                 ctrler()->click(start_explore_matcher.get_result().rect);
             }
             else {
-                Log.error("Failed to find Roguelike@StartExplore button. Cannot proceed with difficulty selection.");
+                LogError << "Failed to find Roguelike@StartExplore button. Cannot proceed with difficulty selection.";
                 return false;
             }
         }
 
         if (difficulty == m_current_difficulty) {
-            Log.info("Current difficulty is already set to the target difficulty:", difficulty);
+            LogInfo << "Current difficulty is already set to the target difficulty:" << difficulty;
             ProcessTask(*this, { theme + "@Roguelike@ChooseDifficultyConfirm" }).run();
             initialized_themes.insert(theme);
             return true;
@@ -147,7 +147,7 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::select_difficulty(const int d
     }
     else {
         if (difficulty == m_current_difficulty) {
-            Log.info("Current difficulty is already set to the target difficulty:", difficulty);
+            LogInfo << "Current difficulty is already set to the target difficulty:" << difficulty;
             return true;
         }
         ProcessTask(*this, { theme + "@Roguelike@ChooseDifficultyEnter" }).run();
@@ -165,8 +165,8 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::select_difficulty(const int d
     }
     else {
         m_current_difficulty = detect_current_difficulty();
-        Log.info("Target difficulty:", difficulty);
-        Log.info("Current difficulty:", m_current_difficulty);
+        LogInfo << "Target difficulty:" << difficulty;
+        LogInfo << "Current difficulty:" << m_current_difficulty;
         if (m_current_difficulty != difficulty) {
             if (m_current_difficulty < difficulty) {
                 ProcessTask(*this, { "SwipeToTheDown" }).run();
@@ -182,8 +182,8 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::select_difficulty(const int d
         }
     }
 
-    Log.info("Target difficulty:", difficulty);
-    Log.info("Current difficulty:", m_current_difficulty);
+    LogInfo << "Target difficulty:" << difficulty;
+    LogInfo << "Current difficulty:" << m_current_difficulty;
 
     ProcessTask(*this, { theme + "@Roguelike@ChooseDifficultyConfirm" }).run();
 

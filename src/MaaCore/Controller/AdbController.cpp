@@ -34,14 +34,14 @@ asst::AdbController::AdbController(const AsstCallback& callback, Assistant* inst
     m_platform_io = PlatformFactory::create_platform(inst, type);
 
     if (!m_platform_io) {
-        Log.error("platform not supported");
+        LogError << "platform not supported";
         throw std::runtime_error("platform not supported");
     }
 
     m_support_socket = m_platform_io->m_support_socket;
 
     if (!m_support_socket) {
-        Log.error("socket not supported");
+        LogError << "socket not supported";
     }
 }
 
@@ -141,7 +141,7 @@ std::optional<std::string> asst::AdbController::call_command(
     exit_res = m_platform_io->call_command(cmd, recv_by_socket, pipe_data, sock_data, timeout, start_time);
 
     if (!exit_res) {
-        Log.warn("Call `", cmd, "` failed");
+        LogWarn << "Call `" << cmd << "` failed";
         return std::nullopt;
     }
     const int exit_ret = exit_res.value();
@@ -149,23 +149,14 @@ std::optional<std::string> asst::AdbController::call_command(
     callcmd_lock.unlock();
 
     m_last_command_duration = duration_cast<milliseconds>(steady_clock::now() - start_time).count();
-    Log.info(
-        "Call `",
-        cmd,
-        "` ret",
-        exit_ret,
-        ", cost",
-        m_last_command_duration,
-        "ms , stdout size:",
-        pipe_data.size(),
-        ", socket size:",
-        sock_data.size());
+    LogInfo << "Call `" << cmd << "` ret" << exit_ret << ", cost" << m_last_command_duration
+            << "ms , stdout size:" << pipe_data.size() << ", socket size:" << sock_data.size();
     if (!pipe_data.empty() && pipe_data.size() < 4096) {
         m_pipe_data_size = pipe_data.size();
-        Log.trace("stdout output:", Logger::separator::newline, pipe_data);
+        LogTrace << "stdout output:" << Logger::separator::newline << pipe_data;
     }
     if (recv_by_socket && !sock_data.empty() && sock_data.size() < 4096) {
-        Log.trace("socket output:", Logger::separator::newline, sock_data);
+        LogTrace << "socket output:" << Logger::separator::newline << sock_data;
     }
     // 直接 return，避免走到下面的 else if 里的 m_inited = false) 关闭 adb 连接，
     // 导致停止后再开始任务还需要重连一次
@@ -212,13 +203,13 @@ std::optional<int> asst::AdbController::get_mumu_index(const std::string& addres
         std::string_view port_sv = std::string_view(address).substr(9); // after "emulator-"
         int port = 0;
         if (!utils::chars_to_number<int, true>(port_sv, port)) {
-            Log.error("emulator port is invalid", port_sv);
+            LogError << "emulator port is invalid" << port_sv;
             return std::nullopt;
         }
         // emulator 控制台端口从 5554 起步进 2（5554, 5556, ...），
         // 奇数端口是 adb 端口而非控制台端口，不在 emulator-xxxx 格式中出现
         if (port < base_emulator_port || (port - base_emulator_port) % 2 != 0) {
-            Log.error("emulator port is out of range or not aligned", port);
+            LogError << "emulator port is out of range or not aligned" << port;
             return std::nullopt;
         }
         int mumu_index = (port - base_emulator_port) / 2;
@@ -228,13 +219,13 @@ std::optional<int> asst::AdbController::get_mumu_index(const std::string& addres
 
     auto pos = address.find(":");
     if (pos == std::string::npos) {
-        Log.error("address is invalid", address);
+        LogError << "address is invalid" << address;
         return std::nullopt;
     }
 
     std::string port_str = address.substr(pos + 1);
     if (port_str.empty() || !std::ranges::all_of(port_str, [](const char& c) -> bool { return std::isdigit(c); })) {
-        Log.error("port is invalid", port_str);
+        LogError << "port is invalid" << port_str;
         return std::nullopt;
     }
     int port = std::stoi(port_str);
@@ -260,7 +251,7 @@ std::optional<int> asst::AdbController::get_mumu_index(const std::string& addres
         mumu_index = (port - 5555) / 2;
     }
     else {
-        Log.error("port is not in a valid MuMu range", port);
+        LogError << "port is not in a valid MuMu range" << port;
         return std::nullopt;
     }
     LogInfo << VAR(port_str) << VAR(port) << VAR(mumu_index);
@@ -272,7 +263,7 @@ void asst::AdbController::init_mumu_extras(const AdbCfg& adb_cfg, const std::str
 #if !ASST_WITH_EMULATOR_EXTRAS
     std::ignore = adb_cfg;
     std::ignore = address;
-    Log.error("MaaCore is not compiled with ASST_WITH_EMULATOR_EXTRAS");
+    LogError << "MaaCore is not compiled with ASST_WITH_EMULATOR_EXTRAS";
 #else
     if (adb_cfg.extras.empty()) {
         LogWarn << "adb_cfg.extras is empty";
@@ -308,7 +299,7 @@ void asst::AdbController::set_mumu_package(const std::string& client_type)
 {
 #if !ASST_WITH_EMULATOR_EXTRAS
     std::ignore = client_type;
-    Log.error("MaaCore is not compiled with ASST_WITH_EMULATOR_EXTRAS");
+    LogError << "MaaCore is not compiled with ASST_WITH_EMULATOR_EXTRAS";
 #else
     // MuMu get_display_id 需要真实包名。client_type 为空时默认官服明日方舟
     const std::string type = client_type.empty() ? "Official" : client_type;
@@ -328,13 +319,13 @@ std::optional<int> asst::AdbController::get_ld_index(const std::string& address)
         std::string_view port_sv = std::string_view(address).substr(9); // after "emulator-"
         int port = 0;
         if (!utils::chars_to_number<int, true>(port_sv, port)) {
-            Log.error("emulator port is invalid", port_sv);
+            LogError << "emulator port is invalid" << port_sv;
             return std::nullopt;
         }
         // emulator 控制台端口从 5554 起步进 2（5554, 5556, ...），
         // 奇数端口是 adb 端口而非控制台端口，不在 emulator-xxxx 格式中出现
         if (port < base_emulator_port || (port - base_emulator_port) % 2 != 0) {
-            Log.error("emulator port is out of range or not aligned", port);
+            LogError << "emulator port is out of range or not aligned" << port;
             return std::nullopt;
         }
         int index = (port - base_emulator_port) / 2;
@@ -348,7 +339,7 @@ std::optional<int> asst::AdbController::get_ld_index(const std::string& address)
         constexpr int base_adb_port = 5555;
         std::string port_str = address.substr(pos + 1);
         if (port_str.empty() || !std::ranges::all_of(port_str, [](char c) { return std::isdigit(c); })) {
-            Log.error("adb port is invalid", port_str);
+            LogError << "adb port is invalid" << port_str;
             return std::nullopt;
         }
         int port = std::stoi(port_str);
@@ -357,7 +348,7 @@ std::optional<int> asst::AdbController::get_ld_index(const std::string& address)
         return index;
     }
 
-    Log.error("address is invalid or unsupported", address);
+    LogError << "address is invalid or unsupported" << address;
     return std::nullopt;
 }
 
@@ -366,7 +357,7 @@ void asst::AdbController::init_ld_extras(const AdbCfg& adb_cfg, const std::strin
 #if !ASST_WITH_EMULATOR_EXTRAS
     std::ignore = adb_cfg;
     std::ignore = address;
-    Log.error("MaaCore is not compiled with ASST_WITH_EMULATOR_EXTRAS");
+    LogError << "MaaCore is not compiled with ASST_WITH_EMULATOR_EXTRAS";
 #else
     if (adb_cfg.extras.empty()) {
         LogWarn << "adb_cfg.extras is empty";
@@ -455,7 +446,7 @@ bool asst::AdbController::stop_game(const std::string& client_type)
 bool asst::AdbController::click(const Point& p)
 {
     if (p.x < 0 || p.x >= m_width || p.y < 0 || p.y >= m_height) {
-        Log.error("click point out of range");
+        LogError << "click point out of range";
     }
 
     std::string cur_cmd =
@@ -469,7 +460,7 @@ bool asst::AdbController::click(const Point& p)
 bool asst::AdbController::input(const std::string& text)
 {
     if (text == "") {
-        Log.error("empty text");
+        LogError << "empty text";
     }
 
     std::string cur_cmd = utils::string_replace_all(m_adb.input, { { "[text]", text } });
@@ -490,7 +481,7 @@ bool asst::AdbController::swipe(
 
     // 起点不能在屏幕外，但是终点可以
     if (x1 < 0 || x1 >= m_width || y1 < 0 || y1 >= m_height) {
-        Log.warn("swipe point1 is out of range", x1, y1);
+        LogWarn << "swipe point1 is out of range" << x1 << y1;
         x1 = std::clamp(x1, 0, m_width - 1);
         y1 = std::clamp(y1, 0, m_height - 1);
     }
@@ -547,7 +538,7 @@ void asst::AdbController::invalidate_connection(std::string_view reason, int wid
     if (m_inited) {
         m_inited = false;
         m_connection_expired = true;
-        Log.warn("Resolution changed, connection invalidated.", reason, "width", width, "height", height);
+        LogWarn << "Resolution changed, connection invalidated." << reason << "width" << width << "height" << height;
         json::value info = json::object {
             { "uuid", m_uuid },
             { "what", "ResolutionChanged" },
@@ -737,7 +728,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         std::vector<std::pair<AdbProperty::ScreencapMethod, std::string>> all_methods_cost;
         auto fastest_method = AdbProperty::ScreencapMethod::UnknownYet;
 
-        Log.info("Try to find the fastest way to screencap");
+        LogInfo << "Try to find the fastest way to screencap";
         auto min_cost = milliseconds(LLONG_MAX);
         clear_lf_info();
 
@@ -750,11 +741,11 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                 m_inited = true;
                 min_cost = duration;
             }
-            Log.info("RawByNc cost", duration.count(), "ms");
+            LogInfo << "RawByNc cost" << duration.count() << "ms";
             all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::RawByNc, std::to_string(duration.count()));
         }
         else {
-            Log.info("RawByNc is not supported");
+            LogInfo << "RawByNc is not supported";
             all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::RawByNc, "???");
         }
         clear_lf_info();
@@ -768,11 +759,11 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                 m_inited = true;
                 min_cost = duration;
             }
-            Log.info("RawWithGzip cost", duration.count(), "ms");
+            LogInfo << "RawWithGzip cost" << duration.count() << "ms";
             all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::RawWithGzip, std::to_string(duration.count()));
         }
         else {
-            Log.info("RawWithGzip is not supported");
+            LogInfo << "RawWithGzip is not supported";
             all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::RawWithGzip, "???");
         }
         clear_lf_info();
@@ -785,11 +776,11 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                 m_inited = true;
                 min_cost = duration;
             }
-            Log.info("Encode cost", duration.count(), "ms");
+            LogInfo << "Encode cost" << duration.count() << "ms";
             all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::Encode, std::to_string(duration.count()));
         }
         else {
-            Log.info("Encode is not supported");
+            LogInfo << "Encode is not supported";
             all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::Encode, "???");
         }
 
@@ -803,13 +794,13 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                     m_inited = true;
                     min_cost = duration;
                 }
-                Log.info("MumuExtras cost", duration.count(), "ms");
+                LogInfo << "MumuExtras cost" << duration.count() << "ms";
                 all_methods_cost.emplace_back(
                     AdbProperty::ScreencapMethod::MumuExtras,
                     std::to_string(duration.count()));
             }
             else {
-                Log.info("MumuExtras is not supported");
+                LogInfo << "MumuExtras is not supported";
                 all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::MumuExtras, "???");
             }
         }
@@ -822,11 +813,11 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                     m_inited = true;
                     min_cost = duration;
                 }
-                Log.info("LDExtras cost", duration.count(), "ms");
+                LogInfo << "LDExtras cost" << duration.count() << "ms";
                 all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::LDExtras, std::to_string(duration.count()));
             }
             else {
-                Log.info("LDExtras is not supported");
+                LogInfo << "LDExtras is not supported";
                 all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::LDExtras, "???");
             }
         }
@@ -844,7 +835,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             { AdbProperty::ScreencapMethod::LDExtras, "LDExtras" },
 #endif
         };
-        Log.info("The fastest way is", MethodName.at(m_adb.screencap_method), ", cost:", min_cost.count(), "ms");
+        LogInfo << "The fastest way is" << MethodName.at(m_adb.screencap_method) << "cost" << min_cost.count() << "ms";
         if (m_adb.screencap_method != AdbProperty::ScreencapMethod::UnknownYet) {
             json::value info = json::object {
                 { "uuid", m_uuid },
@@ -995,7 +986,7 @@ asst::AdbController::ScreencapResult asst::AdbController::screencap(
         auto ret = call_command(cmd, timeout, allow_reconnect, by_socket);
 
         if (!ret || ret.value().empty()) [[unlikely]] {
-            Log.warn("data is empty!");
+            LogWarn << "data is empty!";
             return ScreencapResult::Failed;
         }
         auto& data = ret.value();
@@ -1004,40 +995,40 @@ asst::AdbController::ScreencapResult asst::AdbController::screencap(
         if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::CRLF) {
             tried_conversion = true;
             if (!convert_lf(data)) [[unlikely]] { // 没找到 "\r\n"
-                Log.info("screencap_end_of_line is set to CRLF but no `\\r\\n` found, set it to LF");
+                LogInfo << "screencap_end_of_line is set to CRLF but no `\\r\\n` found, set it to LF";
                 m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::LF;
             }
         }
 
         if (decode_func(data)) [[likely]] {
             if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) [[unlikely]] {
-                Log.info("screencap_end_of_line is LF");
+                LogInfo << "screencap_end_of_line is LF";
                 m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::LF;
             }
         }
         else {
-            Log.info("data is not empty, but image is empty");
+            LogInfo << "data is not empty, but image is empty";
 
             if (tried_conversion) { // 已经转换过行尾，再次转换 data 不会变化，不必重试
-                Log.error("skip retry decoding and decode failed!");
+                LogError << "skip retry decoding and decode failed!";
                 return ScreencapResult::Reprobe;
             }
 
-            Log.info("try to cvt lf");
+            LogInfo << "try to cvt lf";
             if (!convert_lf(data)) { // 没找到 "\r\n"，data 没有变化，不必重试
-                Log.error("no `\\r\\n` found, skip retry decode");
+                LogError << "no `\\r\\n` found, skip retry decode";
                 return ScreencapResult::Reprobe;
             }
             if (!decode_func(data)) {
-                Log.error("convert lf and retry decode failed!");
+                LogError << "convert lf and retry decode failed!";
                 return ScreencapResult::Reprobe;
             }
 
             if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) {
-                Log.info("screencap_end_of_line is CRLF");
+                LogInfo << "screencap_end_of_line is CRLF";
             }
             else {
-                Log.info("screencap_end_of_line is changed to CRLF");
+                LogInfo << "screencap_end_of_line is changed to CRLF";
             }
             m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::CRLF;
         }
@@ -1048,15 +1039,8 @@ asst::AdbController::ScreencapResult asst::AdbController::screencap(
             throw;
         }
         try {
-            Log.error(
-                "ADB screencap decode OpenCV exception",
-                e.what(),
-                "code",
-                e.code,
-                "file",
-                e.file,
-                "line",
-                e.line);
+            LogError << "ADB screencap decode OpenCV exception:" << e.what() << ", code:" << e.code
+                     << ", file:" << e.file << ", line:" << e.line;
         }
         catch (...) {
         }
@@ -1104,7 +1088,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
 #ifdef ASST_DEBUG
         return false;
 #else
-        Log.error("config ", config, "not found");
+        LogError << "config " << config << "not found";
         adb_ret = Config.get_adb_cfg("General");
 #endif
     }
@@ -1292,7 +1276,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
     if (!adb_cfg.event_id.empty()) {
         auto event_id_ret = call_command(m_conn_ctx.replace_cmd(adb_cfg.event_id));
         if (!event_id_ret) {
-            Log.warn("Failed to get event_id, skip");
+            LogWarn << "Failed to get event_id, skip";
         }
         else {
             auto& event_id_pipe_str = event_id_ret.value();
@@ -1301,11 +1285,11 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
             std::erase_if(event_id_pipe_str, [](char c) { return !std::isdigit(c); });
 
             if (event_id_pipe_str.empty()) {
-                Log.warn("event_id is empty, skip");
+                LogWarn << "event_id is empty, skip";
             }
             else {
                 m_conn_ctx.event_id = event_id_pipe_str;
-                Log.info("event_id:", m_conn_ctx.event_id);
+                LogInfo << "event_id:" << m_conn_ctx.event_id;
             }
         }
     }
@@ -1436,7 +1420,7 @@ void asst::AdbController::check_fps()
         // 放宽到 5 秒：异步执行后不再阻塞截图，可给 adb 足够时间
         auto ret = call_command(cmd, 5000, false);
         if (!ret || ret.value().empty()) {
-            Log.warn("fps command failed or empty");
+            LogWarn << "fps command failed or empty";
             return;
         }
 
@@ -1451,18 +1435,18 @@ void asst::AdbController::check_fps()
         std::erase_if(first_line, [](char c) { return !std::isdigit(static_cast<unsigned char>(c)); });
 
         if (first_line.empty()) {
-            Log.warn("fps output is empty after sanitize");
+            LogWarn << "fps output is empty after sanitize";
             return;
         }
 
         long long refresh_period_ns = 0;
         if (!utils::chars_to_number<long long, true>(first_line, refresh_period_ns)) {
-            Log.warn("fps output parse failed:", first_line);
+            LogWarn << "fps output parse failed:" << first_line;
             return;
         }
 
         if (refresh_period_ns <= 0) {
-            Log.warn("invalid refresh period:", refresh_period_ns);
+            LogWarn << "invalid refresh period:" << refresh_period_ns;
             return;
         }
 

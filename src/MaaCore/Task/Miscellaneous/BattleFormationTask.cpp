@@ -32,14 +32,14 @@ bool asst::BattleFormationTask::set_specific_support_unit(const std::string& nam
     LogTraceFunction;
 
     if (m_support_unit_usage != SupportUnitUsage::Specific) {
-        Log.error(__FUNCTION__, "| Current support unit usage is not SupportUnitUsage::Specific");
+        LogError << __FUNCTION__ << "| Current support unit usage is not SupportUnitUsage::Specific";
         return false;
     }
 
     const battle::Role role = (m_specific_support_unit.role = BattleData.get_first_role(name));
     if (role == battle::Role::Unknown) {
         // 无法根据干员名称获取其职业
-        Log.error(__FUNCTION__, "| Invalid specific support unit");
+        LogError << __FUNCTION__ << "| Invalid specific support unit";
         return false;
     }
     m_specific_support_unit.name = name; // 此处可能需要对阿米娅进行特殊处理
@@ -62,7 +62,7 @@ bool asst::BattleFormationTask::_run()
         return false;
     }
     else if (compare_formation()) { // 与上一个作业的编队进行对比，相同则跳过
-        Log.info(__FUNCTION__, "| Formation is the same as last time, skip");
+        LogInfo << __FUNCTION__ << "| Formation is the same as last time, skip";
         for (auto& [name, _, __, opers] : m_formation | std::views::values | std::views::join) {
             const auto& pair_it =
                 std::ranges::find_if(*m_opers_in_formation, [&](const auto& pair) { return pair.second == name; });
@@ -74,7 +74,7 @@ bool asst::BattleFormationTask::_run()
                 return oper.role == pair_it->first.role && oper.name == pair_it->first.name;
             });
             if (oper_it == opers.end()) {
-                Log.error(__FUNCTION__, "| Cannot find oper ", pair_it->first, " in m_formation");
+                LogError << __FUNCTION__ << "| Cannot find oper " << pair_it->first << " in m_formation";
             }
             else {
                 oper_it->status = battle::OperStatus::Selected; // 更新编队情况
@@ -136,7 +136,7 @@ bool asst::BattleFormationTask::_run()
 
         // 先退出去招募助战再回来，好蠢
         confirm_selection();
-        Log.info(__FUNCTION__, "| Left quick formation scene");
+        LogInfo << __FUNCTION__ << "| Left quick formation scene";
         if (auto opt = add_support_unit(required_opers)) {
             m_used_support_unit = true;
             m_opers_in_formation->emplace(*opt, missing_group->name);
@@ -146,7 +146,7 @@ bool asst::BattleFormationTask::_run()
             save_img(utils::path("debug") / utils::path("other"));
             return false;
         }
-        Log.info(__FUNCTION__, "| Returned to quick formation scene");
+        LogInfo << __FUNCTION__ << "| Returned to quick formation scene";
     }
 
     // 在尝试补齐编队后依然有缺失干员，自动编队失败
@@ -547,12 +547,12 @@ std::vector<asst::BattleFormationTask::QuickFormationOper>
         }
     }
     if (opers_result.empty()) {
-        Log.error("BattleFormationTask: no oper found");
+        LogError << "BattleFormationTask: no oper found";
         return {};
     }
     sort_by_vertical_(opers_result);
 
-    Log.info(opers_result);
+    LogInfo << opers_result;
     return opers_result;
 }
 
@@ -585,7 +585,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
 
     if (!opers_result.empty()) {
         if (m_last_oper_name == opers_result.back().text) {
-            Log.info("last oper name is same as current, skip");
+            LogInfo << "last oper name is same as current, skip";
             return false;
         }
         m_last_oper_name = opers_result.back().text;
@@ -1023,7 +1023,7 @@ std::optional<asst::battle::OperNameTag> asst::BattleFormationTask::add_support_
     }
 
     // 未找到符合要求的助战干员，手动退出助战列表
-    Log.info(__FUNCTION__, "| Fail to find any qualified support operator");
+    LogInfo << __FUNCTION__ << "| Fail to find any qualified support operator";
     ProcessTask(*this, { "Formation-AddSupportUnit-LeaveSupportList" }).run();
     return std::nullopt;
 }

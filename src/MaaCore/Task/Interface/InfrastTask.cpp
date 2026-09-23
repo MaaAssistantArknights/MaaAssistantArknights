@@ -180,7 +180,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
                                                       : infrast::FacilityPlanMode::Rotation;
         const auto plan = infrast::build_facility_plan(plan_mode, facilities);
         if (!plan) {
-            Log.error(__FUNCTION__, "| Unknown facility in configuration");
+            LogError << __FUNCTION__ << "| Unknown facility in configuration";
             m_subtasks.clear();
             append_infrast_begin();
             return false;
@@ -256,7 +256,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
     if (mode == Mode::Custom && !m_running) {
         auto filename_opt = params.find<std::string>("filename");
         if (!filename_opt) {
-            Log.error("filename is not set while custom mode is enabled");
+            LogError << "filename is not set while custom mode is enabled";
             return false;
         }
         std::string filename = filename_opt.value();
@@ -266,11 +266,11 @@ bool asst::InfrastTask::set_params(const json::value& params)
             return parse_and_set_custom_config(utils::path(filename), index);
         }
         catch (const json::exception& e) {
-            Log.error("Json parse failed", utils::path(filename), e.what());
+            LogError << "Json parse failed" << utils::path(filename) << e.what();
             return false;
         }
         catch (const std::exception& e) {
-            Log.error("Json parse failed", utils::path(filename), e.what());
+            LogError << "Json parse failed" << utils::path(filename) << e.what();
             return false;
         }
     }
@@ -283,21 +283,21 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
     LogTraceFunction;
 
     if (!std::filesystem::exists(path) || !std::filesystem::is_regular_file(path)) {
-        Log.error("custom infrast file does not exist:", path);
+        LogError << "custom infrast file does not exist:" << path;
         return false;
     }
 
     auto custom_json_opt = json::open(path, true, true);
     if (!custom_json_opt) {
-        Log.error("failed to open json file:", path);
+        LogError << "failed to open json file:" << path;
         return false;
     }
     auto& custom_json = custom_json_opt.value();
-    Log.trace(__FUNCTION__, "| custom json:", custom_json.to_string());
+    LogTrace << __FUNCTION__ << "| custom json:" << custom_json.to_string();
 
     auto& all_plans = custom_json.at("plans").as_array();
     if (index < 0 || index >= int(all_plans.size())) {
-        Log.error("index is out of range, plans size:", all_plans.size(), ", index:", index);
+        LogError << "index is out of range, plans size:" << all_plans.size() << ", index:" << index;
         return false;
     }
     auto& cur_plan = all_plans.at(index);
@@ -338,7 +338,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
                     room_config.product = iter->second;
                 }
                 else {
-                    Log.error("Unknown product", product);
+                    LogError << "Unknown product" << product;
                     return false;
                 }
             }
@@ -348,7 +348,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
                 for (const auto& oper_name : opers_opt.value()) {
                     std::string name = oper_name.as_string();
                     if (name.empty()) {
-                        Log.warn("operators.name is empty");
+                        LogWarn << "operators.name is empty";
                         continue;
                     }
                     room_config.names.emplace_back(std::move(name));
@@ -373,7 +373,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
                 for (const auto& candidate_name : candidates_opt.value()) {
                     std::string name = candidate_name.as_string();
                     if (name.empty()) {
-                        Log.warn("operators.candidates is empty");
+                        LogWarn << "operators.candidates is empty";
                         continue;
                     }
                     room_config.candidates.emplace_back(std::move(name));
@@ -408,7 +408,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
             m_dorm_task_ptr->set_custom_config(facility_config);
         }
         else {
-            Log.error(__FUNCTION__, "unknown facility", facility);
+            LogError << __FUNCTION__ << "unknown facility" << facility;
             return false;
         }
     }
@@ -427,10 +427,10 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         }
         std::string target = Fia_json.get("target", std::string());
         if (target.empty()) {
-            Log.warn("Fiammetta's target is unsetted or empty");
+            LogWarn << "Fiammetta's target is unsetted or empty";
             break;
         }
-        Log.trace("Fiammetta's target:", target);
+        LogTrace << "Fiammetta's target:" << target;
 
         static const std::string FiaName = "菲亚梅塔";
 
@@ -477,11 +477,11 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         bool additional_advance_drones = Fia_is_pre && drones_config.order == infrast::CustomDronesConfig::Order::Pre;
         std::string room = drones_json.get("room", std::string());
         if (room.empty()) {
-            Log.warn("drones room is unsetted or empty");
+            LogWarn << "drones room is unsetted or empty";
             break;
         }
         else if (room != "trading" && room != "manufacture") {
-            Log.error("error drones config, unknown room", room);
+            LogError << "error drones config, unknown room" << room;
             return false;
         }
 
