@@ -186,6 +186,9 @@ public static class DemoShotService
         // 即已定版，与首个语言组的截图时序无竞争
         Instances.TaskQueueViewModel.ApplyDemoTaskSequence(BuildOrderedDemoTasks(data.TaskQueue.Tasks));
 
+        // 条目状态展示（已完成/进行中）与日志区的演示进度对齐，须在条目列表重建后注入
+        InjectTaskStatuses(data.TaskQueue.Tasks);
+
         // 自动战斗页：作业列表逐项条目 + 顶部输入框展示首个神秘代码；
         // DisplayFilename 赋 maa:// 作业站代码走 IsCopilotCode 分支透传 Filename，
         // 该链上的 UpdateFileDoc 已在演示模式短路，不触网
@@ -825,6 +828,44 @@ public static class DemoShotService
 
         _logger.Warning("Unknown demo log color {Color}, falling back to Trace", color);
         return UiLogColor.Trace;
+    }
+
+    /// <summary>
+    /// 按演示数据的 <c>status</c> 字段注入任务条目状态展示（如公招前的任务已完成、公招进行中，
+    /// 与日志区的演示进度对齐）。任务类型在固定列表中唯一，按类型匹配条目；
+    /// 未知取值记警告按 idle 处理。
+    /// </summary>
+    /// <param name="entries">演示数据的任务条目。</param>
+    private static void InjectTaskStatuses(IReadOnlyList<DemoTaskEntry> entries)
+    {
+        var statusByType = new Dictionary<string, Constants.Enums.TaskItemStatus>(StringComparer.OrdinalIgnoreCase);
+        foreach (var entry in entries)
+        {
+            var status = entry.Status.ToLowerInvariant() switch
+            {
+                "inprogress" => Constants.Enums.TaskItemStatus.InProgress,
+                "completed" => Constants.Enums.TaskItemStatus.Completed,
+                "idle" => Constants.Enums.TaskItemStatus.Idle,
+                _ => Constants.Enums.TaskItemStatus.Idle,
+            };
+
+            if (status == Constants.Enums.TaskItemStatus.Idle && !string.Equals(entry.Status, "idle", StringComparison.OrdinalIgnoreCase))
+            {
+                _logger.Warning("Unknown demo task status {Status} for {Type}, using idle", entry.Status, entry.Type);
+            }
+
+            statusByType[entry.Type] = status;
+        }
+
+        // 演示模式无真实任务回调，注入后不会被覆盖；须在 ApplyDemoTaskSequence 重建条目列表后调用
+        foreach (var item in Instances.TaskQueueViewModel.TaskItemViewModels)
+        {
+            var task = ConfigFactory.CurrentConfig.TaskQueue[item.Index];
+            if (statusByType.TryGetValue(task.TaskType.ToString(), out var status))
+            {
+                item.StatusDisplay = status;
+            }
+        }
     }
 
     /// <summary>

@@ -44,19 +44,23 @@
         "tasks": [
             {
                 "type": "StartUp",
-                "enabled": true
+                "enabled": true,
+                "status": "completed"
             },
             {
                 "type": "Fight",
-                "enabled": true
+                "enabled": true,
+                "status": "completed"
             },
             {
                 "type": "Infrast",
-                "enabled": true
+                "enabled": true,
+                "status": "completed"
             },
             {
                 "type": "Recruit",
-                "enabled": true
+                "enabled": true,
+                "status": "inProgress"
             },
             {
                 "type": "Mall",

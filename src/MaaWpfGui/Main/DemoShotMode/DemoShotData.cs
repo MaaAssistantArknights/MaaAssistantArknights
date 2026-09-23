@@ -176,6 +176,13 @@ public class DemoTaskEntry
     /// </summary>
     [JsonProperty("enabled")]
     public bool Enabled { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets 条目状态展示（<c>idle</c> 未开始 / <c>inProgress</c> 进行中 / <c>completed</c> 已完成），
+    /// 缺省 idle；仅影响截图观感，演示模式无真实任务回调。
+    /// </summary>
+    [JsonProperty("status")]
+    public string Status { get; set; } = "idle";
 }
 
 /// <summary>
