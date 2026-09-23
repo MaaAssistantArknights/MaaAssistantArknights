@@ -576,6 +576,12 @@ public class AsstProxy
     /// </remarks>
     public void LogGpuStatus()
     {
+        if (Bootstrapper.IsDemoMode)
+        {
+            // README 截图演示模式：GPU 提示会污染注入的演示日志，直接跳过
+            return;
+        }
+
         if (GpuOption.GetCurrent() is not GpuOption.EnableOption x)
         {
             return;
@@ -702,6 +708,13 @@ public class AsstProxy
         if (Bootstrapper.RequiresRestart)
         {
             _logger.Information("Skip startup auto-run: restart required");
+            return;
+        }
+
+        if (Bootstrapper.IsDemoMode)
+        {
+            // README 截图演示模式：不连接模拟器，也不进入启动自动运行
+            _logger.Information("Skip startup auto-run: demo shot mode");
             return;
         }
 

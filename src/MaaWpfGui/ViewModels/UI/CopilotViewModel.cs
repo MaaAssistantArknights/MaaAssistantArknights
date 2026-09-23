@@ -1029,6 +1029,13 @@ public partial class CopilotViewModel : Screen
 
     private async Task UpdateFileDoc(string filename, CancellationToken token)
     {
+        if (Bootstrapper.IsDemoMode)
+        {
+            // README 截图演示模式：作业站代码仅用于界面展示，不发起网络请求
+            StartEnabled = true;
+            return;
+        }
+
         ClearLog();
         CopilotUrl = CopilotUiUrl;
         VideoUrl = string.Empty;
