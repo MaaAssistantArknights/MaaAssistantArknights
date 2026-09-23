@@ -18,6 +18,10 @@
 
 牛杂新增两项功能：｢自动提升潜能｣ 从干员列表界面启动，自动提升所有带提示标记干员的潜能，中坚信物不足时可选用普通信物；｢缺口材料合成｣ 从培养页面的缺少材料弹窗跳转到加工站合成页后启动，递归合成可加工的下级材料。牛杂列表同时新增 ｢常驻功能｣ 分组，常驻功能与当期活动分列展示。
 
+#### 从 beta.3 更新的用户请注意
+
+beta.3 曾短暂移除基建设置中的 ｢训练完成后继续尝试专精当前技能｣ 选项，现已恢复；升级 beta.3 后原开关状态已被重置，需要继续专精的话请重新开启。
+
 <details>
 <summary><b>English</b></summary>
 
@@ -36,6 +40,10 @@ After a failed update, task startup is blocked and the dialog offers automatic r
 #### New Utilities: Auto Potential Up & Missing Material Synthesis
 
 Two new entries join the "Useful Tasks" list: Auto Potential Up starts from the operator list and automatically raises the potential of every operator flagged there, with an option to fall back to generic tokens when intermediate tokens run short; Missing Material Synthesis starts from the crafting page reached via the material-shortage popup on training pages (elite promotion, mastery, module upgrades) and recursively crafts the missing lower-tier materials. The list also gains a "Permanent Features" group.
+
+#### Notice for beta.3 upgraders
+
+The "keep training the current skill after completion" option in Base settings was briefly removed in v6.18.0-beta.3 and is now restored. Upgrading to beta.3 already reset the original toggle state — re-enable the option if you want mastery training to continue.
 
 </details>
 
