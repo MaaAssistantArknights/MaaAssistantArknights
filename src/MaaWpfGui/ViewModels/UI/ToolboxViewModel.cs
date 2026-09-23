@@ -119,6 +119,18 @@ public class ToolboxViewModel : Screen
     /// </summary>
     public RunControlState Run => RunControlState.Instance;
 
+    private int _toolboxSelectedIndex;
+
+    /// <summary>
+    /// Gets or sets 外层功能 Tab 的选中索引（0 公招识别、1 干员识别、2 仓库识别，后续为隐藏/其他页）。
+    /// XAML 的外层 TabControl 原本无 VM 绑定，此属性供 README 截图演示模式等场景程序化切页。
+    /// </summary>
+    public int ToolboxSelectedIndex
+    {
+        get => _toolboxSelectedIndex;
+        set => SetAndNotify(ref _toolboxSelectedIndex, value);
+    }
+
     #region Recruit
 
     /// <summary>

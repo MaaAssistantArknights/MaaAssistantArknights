@@ -1380,13 +1380,34 @@ public class SettingsViewModel : Screen
             }
         }
 
-        string resourceVersionDisplay = !string.IsNullOrEmpty(VersionUpdateSettings.ResourceVersion)
-            ? $" - {LocalizationHelper.FormatVersion(VersionUpdateSettings.ResourceVersion, VersionUpdateSettings.ResourceDateTime)}"
-            : string.Empty;
-        string uiVersionDisplay = LocalizationHelper.FormatVersion(uiVersion, VersionUpdateSettingsUserControlModel.BuildDateTime);
+        string resourceVersionDisplay = DemoWindowTitleResourceVersionOverride is { Length: > 0 } demoResVersion
+            ? $" - {demoResVersion}"
+            : !string.IsNullOrEmpty(EffectiveResourceVersion)
+                ? $" - {LocalizationHelper.FormatVersion(EffectiveResourceVersion, VersionUpdateSettings.ResourceDateTime)}"
+                : string.Empty;
+        string uiVersionDisplay = DemoWindowTitleVersionOverride is { Length: > 0 } demoUiVersion
+            ? demoUiVersion
+            : LocalizationHelper.FormatVersion(uiVersion, VersionUpdateSettingsUserControlModel.BuildDateTime);
         string adminTag = Bootstrapper.IsAdministratorWithUac() ? $" ({LocalizationHelper.GetString("Administrator")})" : string.Empty;
         rvm.WindowTitle = $"{prefix}MAA{adminTag}{currentConfiguration} - {uiVersionDisplay}{resourceVersionDisplay}{connectConfigName}{connectAddress}{clientName}";
     }
+
+    /// <summary>
+    /// README 截图演示模式的窗口标题 UI 版本段覆盖。null 表示字段缺省走原行为（真实构建版本），
+    /// 仅 <see cref="Main.Bootstrapper.IsDemoMode"/> 流程会设置。
+    /// </summary>
+    internal static string? DemoWindowTitleVersionOverride { get; set; }
+
+    /// <summary>
+    /// README 截图演示模式的窗口标题资源版本段覆盖。null 走原行为，空串隐藏整段，
+    /// 非 null 时替代真实资源版本参与拼接（一并消除 culture 相关的日期格式差异）。仅演示流程会设置。
+    /// </summary>
+    internal static string? DemoWindowTitleResourceVersionOverride { get; set; }
+
+    /// <summary>
+    /// Gets 标题拼接实际使用的资源版本：演示覆盖优先于真实资源版本。
+    /// </summary>
+    private static string EffectiveResourceVersion => DemoWindowTitleResourceVersionOverride ?? VersionUpdateSettings.ResourceVersion;
 
     /// <summary>
     /// Gets the client type.

@@ -57,6 +57,13 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         // 必须在其他内容初始化之前执行，否则其他内容语言可能已经被初始化为非宿醉语言
         Instances.SettingsViewModel.HangoverEnd();
 
+        if (Bootstrapper.IsDemoMode)
+        {
+            // README 截图演示模式：跳过版本不匹配提示、Nightly 提示、公告下载、
+            // 完整性/更新检查与配置损坏等弹窗，避免联网与弹窗干扰自动截图
+            return;
+        }
+
         ShowVersionMismatchWarningOnStartup();
         if (SettingsViewModel.VersionUpdateSettings.VersionType == VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly &&
             !SettingsViewModel.VersionUpdateSettings.HasAcknowledgedNightlyWarning)

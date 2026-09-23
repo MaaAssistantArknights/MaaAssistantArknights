@@ -1,0 +1,452 @@
+{
+    "clientType": {
+        "zh-cn": "Official",
+        "zh-tw": "Txwy",
+        "en-us": "EN",
+        "ja-jp": "JP",
+        "ko-kr": "KR"
+    },
+    "windowTitle": {
+        "version": "latest",
+        "resourceVersion": ""
+    },
+    "depot": {
+        "done": true,
+        "data": {
+            "4002": 769,
+            "4003": 228000,
+            "4001": 9862576,
+            "3003": 4091,
+            "4006": 18000,
+            "2004": 156,
+            "2003": 33000,
+            "2002": 31000,
+            "2001": 22002,
+            "3303": 73,
+            "3302": 118,
+            "3301": 99,
+            "mod_unlock_token": 30,
+            "mod_update_token_2": 1123,
+            "mod_update_token_1": 4450,
+            "30165": 10,
+            "30155": 11,
+            "30145": 10,
+            "30135": 10,
+            "30125": 10,
+            "30115": 12,
+            "30014": 9,
+            "30013": 136,
+            "32001": 38,
+            "3213": 20
+        }
+    },
+    "taskQueue": {
+        "tasks": [
+            {
+                "type": "StartUp",
+                "enabled": true,
+                "status": "completed"
+            },
+            {
+                "type": "Fight",
+                "enabled": true,
+                "status": "completed"
+            },
+            {
+                "type": "Infrast",
+                "enabled": true,
+                "status": "completed"
+            },
+            {
+                "type": "Recruit",
+                "enabled": true,
+                "status": "inProgress"
+            },
+            {
+                "type": "Mall",
+                "enabled": true
+            },
+            {
+                "type": "UserDataUpdate",
+                "enabled": true
+            },
+            {
+                "type": "DepotMaintain",
+                "enabled": true
+            },
+            {
+                "type": "Award",
+                "enabled": true
+            },
+            {
+                "type": "SwitchTheme",
+                "enabled": true
+            },
+            {
+                "type": "Roguelike",
+                "enabled": false
+            },
+            {
+                "type": "Reclamation",
+                "enabled": false
+            }
+        ],
+        "stages": [
+            "PA-8",
+            "CE-6",
+            "1-7"
+        ]
+    },
+    "thumbnails": [
+        "thumbnails/thumb-2.png",
+        "thumbnails/thumb-3.png",
+        "thumbnails/thumb-4.png"
+    ],
+    "taskQueueLogs": [
+        {
+            "time": "20:21:47",
+            "color": "Trace",
+            "weight": "Regular",
+            "split": "Before",
+            "thumbnail": 0,
+            "text": {
+                "zh-cn": "公招识别结果: \n狙击干员\n近战位\n新手\n费用回复\n快速复活",
+                "zh-tw": "公招辨識結果：\n狙擊幹員\n近戰位\n新手\n費用回復\n快速復活",
+                "en-us": "Recruitment Results: \nSniper\nMelee\nStarter\nDP-Recovery\nFast-Redeploy",
+                "ja-jp": "公開求人の認識結果: \n狙撃タイプ\n近距離\n初期\nCOST回復\n高速再配置",
+                "ko-kr": "공개모집 인식 결과: \n스나이퍼\n근거리\n신입\n코스트+\n쾌속부활"
+            }
+        },
+        {
+            "time": "20:21:47",
+            "color": "Info",
+            "weight": "Regular",
+            "split": "None",
+            "text": {
+                "zh-cn": "4 ★ Tags",
+                "zh-tw": "4 ★ Tags",
+                "en-us": "4 ★ Tags",
+                "ja-jp": "4 ★ Tags",
+                "ko-kr": "4 ★ Tags"
+            }
+        },
+        {
+            "time": "20:21:48",
+            "color": "Trace",
+            "weight": "Regular",
+            "split": "None",
+            "text": {
+                "zh-cn": "选择 Tags：\n快速复活\n近战位",
+                "zh-tw": "選擇 Tags：\n快速復活\n近戰位",
+                "en-us": "Selected tags:\nFast-Redeploy\nMelee",
+                "ja-jp": "選択した Tags：\n高速再配置\n近距離",
+                "ko-kr": "선택한 Tags:\n쾌속부활\n근거리"
+            }
+        },
+        {
+            "time": "20:21:49",
+            "color": "Info",
+            "weight": "Regular",
+            "split": "None",
+            "text": {
+                "zh-cn": "已确认招募 2",
+                "zh-tw": "已確認招募 2",
+                "en-us": "Recruit confirm 2",
+                "ja-jp": "募集を行いました 2",
+                "ko-kr": "모집 확정 2"
+            }
+        },
+        {
+            "time": "20:21:51",
+            "color": "Trace",
+            "weight": "Regular",
+            "split": "Before",
+            "thumbnail": 1,
+            "text": {
+                "zh-cn": "公招识别结果: \n医疗干员\n辅助干员\n先锋干员\n费用回复\n群攻",
+                "zh-tw": "公招辨識結果：\n醫療幹員\n輔助幹員\n先鋒幹員\n費用回復\n群攻",
+                "en-us": "Recruitment Results: \nMedic\nSupporter\nVanguard\nDP-Recovery\nAoE",
+                "ja-jp": "公開求人の認識結果: \n医療タイプ\n補助タイプ\n先鋒タイプ\nCOST回復\n範囲攻撃",
+                "ko-kr": "공개모집 인식 결과: \n메딕\n서포터\n뱅가드\n코스트+\n범위공격"
+            }
+        },
+        {
+            "time": "20:21:51",
+            "color": "Info",
+            "weight": "Regular",
+            "split": "None",
+            "text": {
+                "zh-cn": "3 ★ Tags",
+                "zh-tw": "3 ★ Tags",
+                "en-us": "3 ★ Tags",
+                "ja-jp": "3 ★ Tags",
+                "ko-kr": "3 ★ Tags"
+            }
+        },
+        {
+            "time": "20:21:53",
+            "color": "Info",
+            "weight": "Regular",
+            "split": "None",
+            "text": {
+                "zh-cn": "已确认招募 3",
+                "zh-tw": "已確認招募 3",
+                "en-us": "Recruit confirm 3",
+                "ja-jp": "募集を行いました 3",
+                "ko-kr": "모집 확정 3"
+            }
+        },
+        {
+            "time": "20:21:55",
+            "color": "Trace",
+            "weight": "Regular",
+            "split": "Before",
+            "thumbnail": 2,
+            "text": {
+                "zh-cn": "公招识别结果: \n重装干员\n医疗干员\n近战位\n费用回复\n防护",
+                "zh-tw": "公招辨識結果：\n重裝幹員\n醫療幹員\n近戰位\n費用回復\n防護",
+                "en-us": "Recruitment Results: \nDefender\nMedic\nMelee\nDP-Recovery\nDefense",
+                "ja-jp": "公開求人の認識結果: \n重装タイプ\n医療タイプ\n近距離\nCOST回復\n防御",
+                "ko-kr": "공개모집 인식 결과: \n디펜더\n메딕\n근거리\n코스트+\n방어형"
+            }
+        },
+        {
+            "time": "20:21:55",
+            "color": "Info",
+            "weight": "Regular",
+            "split": "None",
+            "text": {
+                "zh-cn": "3 ★ Tags",
+                "zh-tw": "3 ★ Tags",
+                "en-us": "3 ★ Tags",
+                "ja-jp": "3 ★ Tags",
+                "ko-kr": "3 ★ Tags"
+            }
+        },
+        {
+            "time": "20:21:57",
+            "color": "Info",
+            "weight": "Regular",
+            "split": "None",
+            "text": {
+                "zh-cn": "已确认招募 4",
+                "zh-tw": "已確認招募 4",
+                "en-us": "Recruit confirm 4",
+                "ja-jp": "募集を行いました 4",
+                "ko-kr": "모집 확정 4"
+            }
+        },
+        {
+            "time": "20:21:57",
+            "color": "Trace",
+            "weight": "Regular",
+            "split": "None",
+            "text": {
+                "zh-cn": "完成任务: 自动公招",
+                "zh-tw": "完成任務: 自動公招",
+                "en-us": "Complete task: Auto Recruit",
+                "ja-jp": "タスク完了: 公開求人",
+                "ko-kr": "작업 완료: 공개모집"
+            }
+        }
+    ],
+    "copilot": {
+        "tabIndex": 0,
+        "copilotIds": [
+            114514,
+            325799
+        ],
+        "headerLines": [
+            {
+                "color": "Message",
+                "weight": "Bold",
+                "text": {
+                    "zh-cn": "乌尔比安 技能 2",
+                    "zh-tw": "烏爾比安 技能 2",
+                    "en-us": "Ulpianus Skill 2",
+                    "ja-jp": "ウルピアヌス スキル2",
+                    "ko-kr": "울피아누스 스킬 2"
+                }
+            },
+            {
+                "color": "Message",
+                "weight": "Bold",
+                "text": {
+                    "zh-cn": "圣聆初雪 技能 2",
+                    "zh-tw": "聖聆初雪 技能 2",
+                    "en-us": "Pramanix the Prerita Skill 2",
+                    "ja-jp": "聖聆プラマニクス スキル2",
+                    "ko-kr": "프라마닉스 더 프레리타 스킬 2"
+                }
+            },
+            {
+                "color": "Message",
+                "weight": "Regular",
+                "text": {
+                    "zh-cn": "奶盾: 黍 1 / 塞雷娅 1",
+                    "zh-tw": "奶盾: 黍 1 / 塞雷婭 1",
+                    "en-us": "Healing Defender: Shu 1 / Saria 1",
+                    "ja-jp": "回復タンク: シュウ 1 / サリア 1",
+                    "ko-kr": "힐 탱커: 슈 1 / 사리아 1"
+                }
+            },
+            {
+                "color": "Message",
+                "weight": "Regular",
+                "text": {
+                    "zh-cn": "共 3 名干员",
+                    "zh-tw": "共 3 名幹員",
+                    "en-us": "3 operators in total",
+                    "ja-jp": "合計 3 名のオペレーター",
+                    "ko-kr": "총 3명의 오퍼레이터"
+                }
+            }
+        ],
+        "logs": [
+            {
+                "time": "20:45:13",
+                "color": "Trace",
+                "weight": "Regular",
+                "text": {
+                    "zh-cn": "正在连接模拟器……",
+                    "zh-tw": "正在連線模擬器……",
+                    "en-us": "Connecting to emulator……",
+                    "ja-jp": "エミュレータ接続中……",
+                    "ko-kr": "에뮬레이터에 연결 중……"
+                }
+            },
+            {
+                "time": "20:45:13",
+                "color": "Trace",
+                "weight": "Regular",
+                "text": {
+                    "zh-cn": "正在运行中……",
+                    "zh-tw": "正在執行中……",
+                    "en-us": "Running……",
+                    "ja-jp": "動作中……",
+                    "ko-kr": "실행 중……"
+                }
+            },
+            {
+                "time": "20:45:15",
+                "color": "Trace",
+                "weight": "Regular",
+                "text": {
+                    "zh-cn": "开始编队\n[乌尔比安, 圣聆初雪, 奶盾]",
+                    "zh-tw": "開始編隊\n[烏爾比安, 聖聆初雪, 奶盾]",
+                    "en-us": "Start formation\n[Ulpianus, Pramanix the Prerita, Healing Defender]",
+                    "ja-jp": "編成開始\n[ウルピアヌス, 聖聆プラマニクス, 回復タンク]",
+                    "ko-kr": "편성 시작\n[울피아누스, 프라마닉스 더 프레리타, 힐 탱커]"
+                }
+            },
+            {
+                "time": "20:45:24",
+                "color": "Trace",
+                "weight": "Regular",
+                "text": {
+                    "zh-cn": "选择干员: 乌尔比安",
+                    "zh-tw": "選擇幹員: 烏爾比安",
+                    "en-us": "Selected: Ulpianus",
+                    "ja-jp": "オペレーターを選択: ウルピアヌス",
+                    "ko-kr": "오퍼레이터를 선택: 울피아누스"
+                }
+            },
+            {
+                "time": "20:45:28",
+                "color": "Trace",
+                "weight": "Regular",
+                "text": {
+                    "zh-cn": "选择干员: 圣聆初雪",
+                    "zh-tw": "選擇幹員: 聖聆初雪",
+                    "en-us": "Selected: Pramanix the Prerita",
+                    "ja-jp": "オペレーターを選択: 聖聆プラマニクス",
+                    "ko-kr": "오퍼레이터를 선택: 프라마닉스 더 프레리타"
+                }
+            },
+            {
+                "time": "20:45:30",
+                "color": "Trace",
+                "weight": "Regular",
+                "text": {
+                    "zh-cn": "选择干员: 奶盾 => 塞雷娅",
+                    "zh-tw": "選擇幹員: 奶盾 => 塞雷婭",
+                    "en-us": "Selected: Healing Defender => Saria",
+                    "ja-jp": "オペレーターを選択: 回復タンク => サリア",
+                    "ko-kr": "오퍼레이터를 선택: 힐 탱커 => 사리아"
+                }
+            },
+            {
+                "time": "20:45:38",
+                "color": "Info",
+                "weight": "Bold",
+                "text": {
+                    "zh-cn": "已开始行动",
+                    "zh-tw": "已開始行動",
+                    "en-us": "Mission started",
+                    "ja-jp": "行動開始しました",
+                    "ko-kr": "작전 개시"
+                }
+            },
+            {
+                "time": "20:45:54",
+                "color": "Trace",
+                "weight": "Regular",
+                "text": {
+                    "zh-cn": "当前步骤: 部署 乌尔比安",
+                    "zh-tw": "目前步驟：部署 烏爾比安",
+                    "en-us": "Step: Deploy Ulpianus",
+                    "ja-jp": "現在の手順: 配置 ウルピアヌス",
+                    "ko-kr": "현재 단계: 배치 울피아누스"
+                }
+            },
+            {
+                "time": "20:46:06",
+                "color": "Trace",
+                "weight": "Regular",
+                "text": {
+                    "zh-cn": "当前步骤: 部署 奶盾",
+                    "zh-tw": "目前步驟：部署 奶盾",
+                    "en-us": "Step: Deploy Healing Defender",
+                    "ja-jp": "現在の手順: 配置 回復タンク",
+                    "ko-kr": "현재 단계: 배치 힐 탱커"
+                }
+            },
+            {
+                "time": "20:46:17",
+                "color": "Trace",
+                "weight": "Regular",
+                "text": {
+                    "zh-cn": "当前步骤: 部署 圣聆初雪",
+                    "zh-tw": "目前步驟：部署 聖聆初雪",
+                    "en-us": "Step: Deploy Pramanix the Prerita",
+                    "ja-jp": "現在の手順: 配置 聖聆プラマニクス",
+                    "ko-kr": "현재 단계: 배치 프라마닉스 더 프레리타"
+                }
+            },
+            {
+                "time": "20:46:30",
+                "color": "Trace",
+                "weight": "Regular",
+                "text": {
+                    "zh-cn": "当前步骤: 切换倍速",
+                    "zh-tw": "目前步驟：切換倍速",
+                    "en-us": "Step: Switch Speed",
+                    "ja-jp": "現在の手順: 倍速切替",
+                    "ko-kr": "현재 단계: 배속 전환"
+                }
+            },
+            {
+                "time": "20:46:30",
+                "color": "Trace",
+                "weight": "Regular",
+                "text": {
+                    "zh-cn": "当前步骤: 开始挂机",
+                    "zh-tw": "目前步驟：開始掛機",
+                    "en-us": "Step: Start Auto",
+                    "ja-jp": "現在の手順: 自動進行開始",
+                    "ko-kr": "현재 단계: 자동 진행 시작"
+                }
+            }
+        ]
+    }
+}

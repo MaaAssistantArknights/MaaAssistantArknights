@@ -68,6 +68,12 @@ public class RemoteControlService
 
     public void InitializePollJobTask()
     {
+        if (Bootstrapper.IsDemoMode)
+        {
+            // README 截图演示模式：禁止远程控制轮询联网（更新检查类的定时器联网链已由 InitTimer 拦截）
+            return;
+        }
+
         if (_inited)
         {
             return;

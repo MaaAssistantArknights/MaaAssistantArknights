@@ -252,6 +252,54 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         StagePlan.Add(item);
     }
 
+    /// <summary>
+    /// README 截图演示模式专用：绕开联网关卡更新与当日开放过滤，切至备选关卡模式，
+    /// 并以给定关卡名重建候选关卡列表与已选关卡。
+    /// 语言切换会经 <see cref="UpdateStageList"/> 重建列表，届时需重新调用本方法。
+    /// </summary>
+    /// <param name="stages">候选关卡名；Display/Value 取 <see cref="StageManager.GetStageInfo"/> 的解析结果（含兜底）。</param>
+    public void InjectDemoStages(IReadOnlyList<string> stages)
+    {
+        if (TaskSettingVisibilityInfo.CurrentTask is not FightTask current)
+        {
+            _logger.Warning("InjectDemoStages skipped: current task is not FightTask");
+            return;
+        }
+
+        // 备选三行 StagePlan 不受 UseAlternateStage 控制可见性，必须先切备选模式，
+        // 否则「关卡指定」标签/添加关卡按钮/复选框勾选停留在主关卡模式，与渲染出的三行叠加错乱
+        UseAlternateStage = true;
+
+        StageListSource = [.. stages.Select(s => {
+            var info = Instances.StageManager.GetStageInfo(s);
+            return new StageSourceItem { Display = info.Display, Value = info.Value, IsOpen = true, IsVisible = true };
+        })];
+        current.StagePlan = [.. stages.Select(s => Instances.StageManager.GetStageInfo(s).Value)];
+        RefreshCurrentStagePlan();
+
+        // 演示截图不校验当日开放，勾掉关卡行的删除线样式
+        foreach (var item in StagePlan)
+        {
+            item.IsOpen = true;
+        }
+
+        // 注入后校验末位落位，自检 GetStageInfo 解析与注入赋值的一致性；截图前若被异步重建覆盖，需另从日志比对发现
+        if (StageListSource.Count == 0)
+        {
+            _logger.Warning("Demo stage injection produced empty stage list");
+            return;
+        }
+
+        if (StageListSource[^1].Value != Instances.StageManager.GetStageInfo(stages[^1]).Value)
+        {
+            _logger.Warning("Demo stage injection mismatch: last item is {Actual}, expected {Expected}", StageListSource[^1].Value, stages[^1]);
+        }
+        else
+        {
+            _logger.Information("Demo stages injected: {Count} item(s), last={LastDisplay}", StageListSource.Count, StageListSource[^1].Display);
+        }
+    }
+
     // UI 绑定的方法
     [UsedImplicitly]
     public void RemoveStageFromPlan(StagePlanItem plan)
