@@ -3,6 +3,7 @@
 #include <ranges>
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
+#include "Task/OperProgress/OperProgressProcessTask.h"
 #include "Utils/Logger.hpp"
 
 asst::OperProgressTask::OperProgressTask(const AsstCallback& callback, Assistant* inst) :
@@ -13,22 +14,10 @@ asst::OperProgressTask::OperProgressTask(const AsstCallback& callback, Assistant
     m_subtasks.emplace_back(m_process_task_ptr);
 }
 
-bool asst::OperProgressTask::set_params(const json::value& params)
-{
-    LogTraceFunction;
-    auto plan = parse_plan(params);
-    if (!plan) {
-        LogError << __FUNCTION__ << "invalid plans";
-        return false;
-    }
-    m_process_task_ptr->set_plan(std::move(*plan));
-    return true;
-}
-
 namespace json::ext
 {
 template <>
-class jsonization<asst::OperProgressTask::ProgressTargetDto>
+class jsonization<asst::OperProgressTask::ProgressPlan>
 {
 public:
     bool check_json(const json::value& json) const
@@ -99,52 +88,44 @@ public:
                 return false;
             }
         }
-        if (role_opt && *role_opt == asst::battle::Role::Unknown) {
-            const auto& role = asst::BattleData.get_roles(*name_opt, true);
-            if (role.empty() || role.size() > 1) {
-                LogError << __FUNCTION__ << "oper name:" << *name_opt << "with multi role, and not specific";
-                return false;
-            }
-        }
-        else if (role_opt && asst::BattleData.find_opers(*role_opt, *name_opt).empty()) {
-            LogError << __FUNCTION__ << "unknown oper name: " << *name_opt << ", role:" << *role_opt;
-            return false;
-        }
         return true;
     }
 };
 } // namespace json::ext
 
-std::optional<asst::OperProgressProcessTask::AutoRaisePlan> asst::OperProgressTask::parse_plan(const json::value& params)
+bool asst::OperProgressTask::set_params(const json::value& params)
 {
-    const auto& plans = params.find<std::vector<ProgressTargetDto>>("plans");
+    LogTraceFunction;
+
+    const auto& plans = params.find<std::vector<ProgressPlan>>("plans");
     if (!plans) {
         LogError << __FUNCTION__ << "missing plans, or format is error";
-        return std::nullopt;
+        return false;
     }
-
-    OperProgressProcessTask::AutoRaisePlan result;
-    result.reserve(plans->size());
+    std::vector<ProgressPlan> validated_plans;
     for (const auto& plan : *plans) {
         battle::Role role = plan.role;
         if (role == battle::Role::Unknown) {
             const auto& roles = BattleData.get_roles(plan.name, true);
             if (roles.empty() || roles.size() > 1) {
                 LogError << __FUNCTION__ << "oper name:" << plan.name << "with multi role, and not specific";
-                return std::nullopt;
+                return false;
             }
             role = *roles.begin();
         }
-        if (plan.elite) {
-            result.emplace_back(
-                OperProgressProcessTask::OperProgressTarget {
-                    .role = role,
-                    .name = plan.name,
-                    .action = OperProgressProcessTask::OperProgressAction::Elite,
-                    .target = *plan.elite,
-                });
+        else if (asst::BattleData.find_opers(role, plan.name).empty()) {
+            LogError << __FUNCTION__ << "unknown oper name: " << plan.name << ", role:" << role;
+            return false;
         }
-        // TODO 继续整理
+        validated_plans.emplace_back(
+            ProgressPlan {
+                .role = role,
+                .name = plan.name,
+                .elite = plan.elite,
+                .skill_level = plan.skill_level,
+            });
     }
-    return result;
+
+    m_process_task_ptr->set_plan(std::move(validated_plans));
+    return true;
 }

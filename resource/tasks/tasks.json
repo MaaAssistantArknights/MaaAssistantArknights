@@ -4292,7 +4292,27 @@
     "BattleQuickFormationExpandRole": {
         "action": "ClickSelf",
         "roi": [1152, 0, 128, 138],
-        "next": ["Stop"]
+        "next": ["BattleQuickFormationRoleExpanded"]
+    },
+    "BattleQuickFormationExpandRoleFiltering": {
+        "doc": "筛选职业的情况下, 展开职业筛选",
+        "baseTask": "BattleQuickFormationRoleFiltering",
+        "template": "BattleQuickFormationRoleFiltering.png",
+        "action": "ClickSelf",
+        "next": ["BattleQuickFormationRoleExpanded"]
+    },
+    "BattleQuickFormationRoleExpanded": {
+        "doc": "职业筛选已展开",
+        "baseTask": "BattleQuickFormationRoleFiltering",
+        "template": "BattleQuickFormationCollapseRole.png",
+        "action": "DoNothing",
+        "next": []
+    },
+    "BattleQuickFormationCollapseRole": {
+        "doc": "收起职业筛选",
+        "action": "ClickSelf",
+        "roi": [1152, 0, 128, 138],
+        "next": ["BattleQuickFormationRoleFiltering"]
     },
     "BattleQuickFormationRole": {
         "Doc": "base_task",
@@ -4304,6 +4324,10 @@
         "colorScales": [[90, 150]],
         "colorWithClose": false,
         "next": ["Stop"]
+    },
+    "BattleQuickFormationRoleFiltering": {
+        "doc": "筛选了任意职业/子职业",
+        "roi": [1152, 0, 128, 138]
     },
     "BattleQuickFormationFilter": {
         "action": "ClickSelf",
@@ -5120,8 +5144,8 @@
     },
     "OperBoxRoleTabSelect": {
         "action": "ClickSelf",
+        "baseTask": "BattleQuickFormationRoleExpanded",
         "template": "BattleQuickFormationCollapseRole.png",
-        "roi": [1152, 0, 128, 138],
         "next": ["OperBoxSortTabSelect", "OperBoxRoleTab"]
     },
     "OperBoxSortTabSelect": {
@@ -6542,10 +6566,9 @@
         "next": []
     },
     "OperProgress@OperBoxRoleBarOpened": {
-        "template": "BattleQuickFormationCollapseRole.png",
-        "roi": [1152, 0, 128, 138],
-        "action": "DoNothing",
         "doc": "干员列表页职业栏已展开：右上角为收起>",
+        "baseTask": "BattleQuickFormationRoleExpanded",
+        "template": "BattleQuickFormationCollapseRole.png",
         "next": []
     },
     "OperProgress@OperBoxSortTabs": {

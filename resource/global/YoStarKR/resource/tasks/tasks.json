@@ -2008,9 +2008,6 @@
     "OperProgress@OperBoxRoleFiltered": {
         "text": ["뱅가드", "가드", "디펜더", "스나이퍼", "캐스터", "메딕", "서포터", "스페셜리스트"]
     },
-    "OperProgress@OperBoxRoleFilteredOpen": {
-        "text": ["뱅가드", "가드", "디펜더", "스나이퍼", "캐스터", "메딕", "서포터", "스페셜리스트"]
-    },
     "OperProgress@OperBoxSortTabs": {
         "text": ["레벨", "레어도", "획득 시간"]
     }

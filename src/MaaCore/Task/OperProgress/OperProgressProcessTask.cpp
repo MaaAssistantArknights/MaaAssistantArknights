@@ -126,8 +126,6 @@ std::string role_task_name(asst::battle::Role role)
         return "BattleQuickFormationRole-Special";
     case asst::battle::Role::Support:
         return "BattleQuickFormationRole-Support";
-    case asst::battle::Role::Unknown:
-    case asst::battle::Role::Drone:
     default:
         return {};
     }
@@ -147,11 +145,31 @@ bool asst::OperProgressProcessTask::_run()
         m_recognized_level.reset();
 
         Result result = Result::Unsupported;
+        /*
         if (target.action == OperProgressAction::Mastery && m_mastery_busy) {
             result = Result::Skipped;
-        }
-        else {
-            result = execute_target(target);
+        }*/
+        {
+            const Result located = find_and_open_operator(target.role, target.name);
+            if (located != Result::Completed) {
+                return false; // TODO 修改
+            }
+
+            if (target.elite) {
+                execute_elite(target.role, target.name, target.elite.value());
+            }
+
+            if (target.skill_level) {
+                if (std::holds_alternative<int>(*target.skill_level)) {
+                    execute_skills(std::get<int>(*target.skill_level));
+                }
+                else if (std::holds_alternative<std::array<int, 3>>(*target.skill_level)) {
+                    const auto& arr = std::get<std::array<int, 3>>(*target.skill_level);
+                    for (int i = 0; i < 3; ++i) {
+                        execute_mastery(target.role, target.name, i, arr[i]);
+                    }
+                }
+            }
         }
 
         switch (result) {
@@ -176,31 +194,12 @@ bool asst::OperProgressProcessTask::_run()
     return true;
 }
 
-asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_target(const OperProgressTarget& target)
-{
-    const Result located = find_and_open_operator(target);
-    if (located != Result::Completed) {
-        return located;
-    }
-
-    switch (target.action) {
-    case OperProgressAction::Elite:
-        return execute_elite(target);
-    case OperProgressAction::Skills:
-        return execute_skills(target);
-    case OperProgressAction::Mastery:
-        return execute_mastery(target);
-    default:
-        return Result::Unsupported;
-    }
-}
-
 asst::OperProgressProcessTask::Result
-    asst::OperProgressProcessTask::find_and_open_operator(const OperProgressTarget& target)
+    asst::OperProgressProcessTask::find_and_open_operator(battle::Role role, std::string_view name)
 {
     // 计划中连续两条属于同一干员且档案页仍停留时直接复用当前页面,不回干员列表重复定位
     // 精英化等培养状态由 execute_xxx 在档案页现场识别,复用页面不影响状态判断。
-    if (m_current_operator == target.name && run_task("OperProgress@OperFiles", 1)) {
+    if (m_current_operator == name && run_task("OperProgress@OperFiles", 0)) {
         return Result::Completed;
     }
 
@@ -209,13 +208,13 @@ asst::OperProgressProcessTask::Result
     if (m_entry_completed) {
         // 任务中途保证不去主页：档案页等主界面页面直接小房子快捷切进干员列表；
         // 基建内部等没有小房子入口的页面点击返回逐层退出,到列表页即停(OperProgress@ReturnToOperBox 的到达标志)。
-        entered = run_task("QuickSwitch@ToOperBox", 2) || run_task("OperProgress@ReturnToOperBox", 3);
+        entered = run_task("QuickSwitch@ToOperBox", 3) || run_task("OperProgress@ReturnToOperBox", 3);
     }
     else {
         // 首条目标可能停在主页等任意页面,走完整入口链(主页入口/快捷切换/返回链,到列表页即停)。
         // 入口链在上一轮遗留的编队选人等相似页面上可能误命中,先逐层返回脱离再重试一次。
         entered = run_task("OperBoxBegin", 3);
-        if (!entered && !need_exit()) {
+        if (!entered) {
             run_task("OperProgress@ReturnToOperBoxWalk", 3);
             entered = run_task("OperBoxBegin", 3);
         }
@@ -225,7 +224,7 @@ asst::OperProgressProcessTask::Result
         return Result::RecognitionFailed;
     }
 
-    if (!select_operator_role(target.role)) {
+    if (!select_role(role)) {
         return Result::RecognitionFailed;
     }
 
@@ -238,7 +237,7 @@ asst::OperProgressProcessTask::Result
         }
 
         const auto& operators = analyzer.get_result();
-        const auto target_iter = std::ranges::find(operators, target.name, &OperBoxInfo::name);
+        const auto target_iter = std::ranges::find(operators, name, &OperBoxInfo::name);
         if (target_iter != operators.cend()) {
             // OperBoxImageAnalyzer 同时使用八职业标志、OperBoxNameOCR 和精英标志；卡片点击锚定于识别结果。
             // 精英化等级不取此处的识别值,由 execute_xxx 在档案页现场识别。
@@ -248,7 +247,7 @@ asst::OperProgressProcessTask::Result
             if (!run_task("OperProgress@OperFiles")) {
                 return Result::RecognitionFailed;
             }
-            m_current_operator = target.name;
+            m_current_operator = std::string(name);
             return Result::Completed;
         }
 
@@ -265,30 +264,33 @@ asst::OperProgressProcessTask::Result
     return need_exit() ? Result::Skipped : Result::OperatorNotFound;
 }
 
-bool asst::OperProgressProcessTask::select_operator_role(battle::Role role)
+bool asst::OperProgressProcessTask::select_role(battle::Role role)
 {
     // 使用 BattleData 职业信息缩小 OCR 查找范围,不使用固定的干员卡片坐标。
-    const std::string role_task = role_task_name(role);
+    const std::string& role_task = role_task_name(role);
     if (role_task.empty()) {
         return true;
     }
     // 展开右上角职业栏,三种互斥状态依次尝试：筛选残留"职业名▼"(蓝字暗底与收起>模板互误匹配,只能按
     // 职业名 OCR 点开)、无筛选"职业≡"(模板)、已展开"收起>"(无需操作,直接选职业)。
-    if (!run_task("OperProgress@OperBoxRoleFilteredOpen", 1) && !run_task("BattleQuickFormationExpandRole", 1) &&
-        !run_task("OperProgress@OperBoxRoleBarOpened", 1)) {
+    if (!run_task(
+            { "BattleQuickFormationExpandRoleFiltering",
+              "BattleQuickFormationExpandRole",
+              "BattleQuickFormationRoleExpanded" },
+            3)) {
         LogError << __FUNCTION__ << "| failed to expand role bar on oper box page";
         return false;
     }
     // 先选 ALL 再切换目标职业,避免同职业列表保留上次的滚动位置。
     // 筛选后收起职业栏,并复用职业名 OCR 确认收起,避免遮挡最右侧干员卡片。
-    return ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" })
-               .set_retry_times(3)
-               .run() &&
-           run_task(role_task) && run_task("InfrastCloseQuickFormationExpandRole", 3) &&
-           run_task("OperProgress@OperBoxRoleFiltered", 3);
+    return run_task(
+               std::vector<std::string> { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" },
+               3) &&
+           run_task(role_task) && run_task("BattleQuickFormationCollapseRole", 3);
 }
 
-asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_elite(const OperProgressTarget& target)
+asst::OperProgressProcessTask::Result
+    asst::OperProgressProcessTask::execute_elite(battle::Role role, const std::string& name, int target)
 {
     // 档案页现场识别当前精英阶段,不沿用干员列表页或上一条计划的结果：
     // 前序培养目标可能已改变该干员的精英化等级。识别失败时不猜测,直接判识别失败。
@@ -298,11 +300,11 @@ asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_eli
     }
     m_recognized_level = current_elite_opt;
     const int current_elite = *current_elite_opt;
-    if (current_elite >= target.target) {
+    if (current_elite >= target) {
         return Result::AlreadySatisfied;
     }
 
-    for (int phase = current_elite; phase < target.target && !need_exit(); ++phase) {
+    for (int phase = current_elite; phase < target && !need_exit(); ++phase) {
         // 精英化前必须先把当前阶段升至满级；晋升成功后停在新阶段 1 级。
         if (!run_task("OperProgress@CurrentElite" + std::to_string(phase)) || !run_task("OperProgress@LevelUp")) {
             return Result::RecognitionFailed;
@@ -317,9 +319,8 @@ asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_eli
             if (run_task("OperProgress@DualchipRequired", 2)) {
                 // 加工站无法合成芯片。只有 5/6 星晋升二阶所需的双芯片有制造站产线；
                 // 判定依据是本次晋升的阶段（phase+1）而非总目标,E0→E1 缺的是普通芯片,直接报错转下一条。
-                const bool dual_chip =
-                    phase + 1 == 2 && BattleData.get_rarity(BattleData.get_first_role(target.name), target.name) > 4;
-                if (!dual_chip || !manufacture_dual_chip(target)) {
+                const bool dual_chip = phase + 1 == 2 && BattleData.get_rarity(role, name) > 4;
+                if (!dual_chip || !manufacture_dual_chip(role, name)) {
                     return dual_chip ? Result::ResourceInsufficient : Result::ChipNotCraftable;
                 }
             }
@@ -338,7 +339,7 @@ asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_eli
             }
         }
         // 复核仍缺料则不点击晋升；材料齐备则点击晋升确认,再以新阶段标志确认晋升成功。
-        if (run_task("OperProgress@EliteUpMaterialMissing", 2) || !run_task("OperProgress@EliteUpPageConfirm") ||
+        if (run_task("OperProgress@EliteUpMaterialMissing", 3) || !run_task("OperProgress@EliteUpPageConfirm") ||
             !run_task("OperProgress@CurrentElite" + std::to_string(phase + 1))) {
             return Result::RecognitionFailed;
         }
@@ -346,7 +347,7 @@ asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_eli
     return Result::Completed;
 }
 
-asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_skills(const OperProgressTarget& target)
+asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_skills(int target)
 {
     // 档案页技能等级 OCR 与精英阶段识别共用一张截图
     const cv::Mat image = ctrler()->get_image();
@@ -355,12 +356,12 @@ asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_ski
     const auto current_opt = ocr_number(image, "OperProgress@CurrentSkillLevel");
     m_recognized_level = current_opt;
     const int current = current_opt.value_or(1);
-    if (current >= target.target) {
+    if (current >= target) {
         return Result::AlreadySatisfied;
     }
     // 前置：精0 技能最高 4 级,精1 最高 7 级；目标超出当前精英阶段的上限则不满足。
     // 精英阶段为档案页现场识别,不沿用干员列表页的结果；识别失败按 0 处理,宁可放弃不误操作。
-    const int required_elite = target.target <= 4 ? 0 : 1;
+    const int required_elite = target <= 4 ? 0 : 1;
     if (OperFilesImageAnalyzer(image).elite_level().value_or(0) < required_elite) {
         return Result::PrerequisiteNotMet;
     }
@@ -368,7 +369,7 @@ asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_ski
     if (!run_task("OperProgress@SkillUpgrade")) {
         return Result::RecognitionFailed;
     }
-    for (int level = current + 1; level <= target.target && !need_exit(); ++level) {
+    for (int level = current + 1; level <= target && !need_exit(); ++level) {
         // 面板缺料槽逐个检测（对接方式同 execute_elite 的槽位分派）：
         // 技能书/材料1/材料2 均跳加工站走自动合成,当前槽位修复后再检测下一槽；
         // 2-3 级的技能书不可合成,缺料时合成步骤失败即终止本轮培养。
@@ -402,13 +403,17 @@ asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_ski
         run_task("OperProgress@ReturnToOperFilesPage");
     }
     // 目标级确认后游戏返回档案页,以 RANK 数字复核最终等级。
-    if (ocr_number("OperProgress@CurrentSkillLevel").value_or(0) < target.target) {
+    if (ocr_number("OperProgress@CurrentSkillLevel").value_or(0) < target) {
         return Result::RecognitionFailed;
     }
     return Result::Completed;
 }
 
-asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_mastery(const OperProgressTarget& target)
+asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_mastery(
+    battle::Role role,
+    std::string_view name,
+    int skill,
+    int specialization)
 {
     // 档案页技能等级 OCR、精英阶段与专精图标识别共用一张截图
     const cv::Mat image = ctrler()->get_image();
@@ -428,10 +433,10 @@ asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_mas
     // 专精等级是图标而不是可靠的 OCR 文本,而 0 级（全灰）与 3 级（全白）图标仅亮度不同,
     // 模板匹配分不出来,判级交给 OperFilesImageAnalyzer 按点亮圆点数统计。
     // 识别失败按 0 级处理,与历史行为一致。
-    const auto master_current_opt = OperFilesImageAnalyzer(image).mastery_level(target.skill);
+    const auto master_current_opt = OperFilesImageAnalyzer(image).mastery_level(skill);
     m_recognized_level = master_current_opt;
     const int master_current = master_current_opt.value_or(0);
-    if (master_current >= target.target) {
+    if (master_current >= specialization) {
         return Result::AlreadySatisfied;
     }
 
@@ -446,7 +451,7 @@ asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_mas
     // 领取会使当前专精等级 +1,本次实际启动的专精等级随之再 +1。
     if (run_task("InfrastTrainingCompleted2", 10)) {
         ++training_level;
-        if (training_level > target.target) {
+        if (training_level > specialization) {
             // 领取后专精等级已达到计划目标,不再启动下一级。
             run_task("OperProgress@ReturnToOperFilesPage");
             return Result::AlreadySatisfied;
@@ -473,11 +478,11 @@ asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_mas
     }
     // 专精会长期占用训练室,一次运行只启动下一级；导师选择任务负责结合职业、等级、技能与心情评分。
     // 该 task 只负责打开受训干员列表；列表内的目标查找、翻页和点击复用编队识别能力。
-    if (!run_task("InfrastTrainingSelectTrainee") || !select_training_trainee(target)) {
+    if (!run_task("InfrastTrainingSelectTrainee") || !select_training_trainee(role, name)) {
         return Result::RecognitionFailed;
     }
     if (!run_task("BattleQuickFormationConfirm") || !run_task("InfrastTrainingMasteryPage") ||
-        !run_task("OperProgress@MasterySelectSkill" + std::to_string(target.skill))) {
+        !run_task("OperProgress@MasterySelectSkill" + std::to_string(skill))) {
         return Result::RecognitionFailed;
     }
     // 选定受训干员与技能后确认面板展示材料行；逐槽检测（同 execute_elite 槽位分派）：
@@ -510,7 +515,7 @@ asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_mas
     }
     m_mastery_busy = true;
     // 选好技能之后再选陪练，这样能确保逻各斯类技能触发
-    if (!run_task("OperProgress@MasterySelectTrainer") || !select_training_trainer(target, training_level)) {
+    if (!run_task("OperProgress@MasterySelectTrainer") || !select_training_trainer(role, training_level)) {
         LogWarn << __FUNCTION__ << "| trainer selection failed, training already started";
     }
     return Result::Completed;
@@ -560,11 +565,10 @@ bool asst::OperProgressProcessTask::analyze_training_context(
     return utils::chars_to_number(template_name.substr(std::string("InfrastTrainingLevel").size(), 1), level);
 }
 
-bool asst::OperProgressProcessTask::select_training_trainee(const OperProgressTarget& target)
+bool asst::OperProgressProcessTask::select_training_trainee(battle::Role role, std::string_view name)
 {
     // 训练室受训干员面板与作战快速编队共用同一套 UI（右侧职业栏 + 旗标卡片列表）,
     // 选人逻辑参照 BattleFormationTask::add_formation 按职业翻页扫寻；此处只点选干员,不选择技能。
-    const battle::Role role = BattleData.get_first_role(target.name);
     const int delay = Task.get("BattleQuickFormationOCR")->post_delay;
     std::string last_oper_name;
 
@@ -615,7 +619,7 @@ bool asst::OperProgressProcessTask::select_training_trainee(const OperProgressTa
 
         if (page_valid) {
             has_error = false;
-            const auto target_iter = std::ranges::find(opers_result, target.name, &QuickFormationOperInfo::name);
+            const auto target_iter = std::ranges::find(opers_result, name, &QuickFormationOperInfo::name);
             if (target_iter != opers_result.cend()) {
                 if (!target_iter->selected) {
                     ctrler()->click(target_iter->flag_rect);
@@ -638,7 +642,7 @@ bool asst::OperProgressProcessTask::select_training_trainee(const OperProgressTa
         }
         else {
             if (overall_swipe_times >= TraineeMissingRetryTimes) {
-                LogWarn << __FUNCTION__ << "| oper not found" << target.name;
+                LogWarn << __FUNCTION__ << "| oper not found" << name;
                 break;
             }
             ++overall_swipe_times;
@@ -654,7 +658,7 @@ bool asst::OperProgressProcessTask::select_training_trainee(const OperProgressTa
     return selected;
 }
 
-bool asst::OperProgressProcessTask::select_training_trainer(const OperProgressTarget& target, int training_level)
+bool asst::OperProgressProcessTask::select_training_trainer(battle::Role role, int training_level)
 {
     LogTraceFunction;
 
@@ -718,7 +722,7 @@ bool asst::OperProgressProcessTask::select_training_trainer(const OperProgressTa
     // 职业匹配、通用加成与目标等级加成叠加,心情低于 16 的干员不参与。
     infrast::ScoreContext context;
     context.facility = "Training";
-    context.training_role = BattleData.get_first_role(target.name);
+    context.training_role = role;
     // 每次只启动一级专精；评分传入本次实际启动的专精等级
     // （档案页识别值 + 1,进训练室领取已完成训练后再 +1）,而不是计划目标等级。
     context.training_level = std::clamp(training_level, 1, 3);
@@ -946,14 +950,14 @@ std::optional<int> asst::OperProgressProcessTask::ocr_number(const cv::Mat& imag
     return value;
 }
 
-bool asst::OperProgressProcessTask::manufacture_dual_chip(const OperProgressTarget& target)
+bool asst::OperProgressProcessTask::manufacture_dual_chip(battle::Role role, const std::string& name)
 {
     // 弹窗徽标 OCR 已有/所需数量算缺口 → 跳制造站进芯片产线并记录当前产品 →
     // 选芯片类按职业选双芯片 → 助剂数量/库存不足时经凭证商店补购 → 制造站加 ×(缺口-1) →
     // 执行更改+右确认 → 等待生产 → 返回前按记录恢复产线 → 返回晋升页面。
     // 生产为排队制：制造完成后当次晋升仍会因材料未到账而复核失败,由外层计划重试。
 
-    const int rarity = BattleData.get_rarity(target.role, target.name);
+    const int rarity = BattleData.get_rarity(role, name);
     const int need = rarity >= 6 ? 4 : 3; // 所需数量按稀有度取值：6★ 晋升二阶需 4 枚、5★ 需 3 枚。
     const int owned = ocr_number("OperProgress@DualchipBadgeCount").value_or(0);
     const int shortfall = std::max(need - owned, 0);
@@ -967,10 +971,6 @@ bool asst::OperProgressProcessTask::manufacture_dual_chip(const OperProgressTarg
         return false;
     }
     // 打开芯片类产品列表,按目标职业选择双芯片产品（ChooseDualchip-{职业}）。
-    const battle::Role role = BattleData.get_first_role(target.name);
-    if (role == battle::Role::Unknown || role == battle::Role::Drone) {
-        return false;
-    }
     const std::string product_task = "ChooseDualchip-" + enum_to_string(role, true);
     if (!run_task("ChooseProductList") || !run_task("ChooseChipTab") || !run_task(product_task)) {
         return false;
@@ -1095,22 +1095,27 @@ bool asst::OperProgressProcessTask::buy_catalyst(int count)
 
 bool asst::OperProgressProcessTask::run_task(const std::string& task_name, int retry_times)
 {
-    ProcessTask task(*this, { task_name });
-    task.set_retry_times(retry_times);
-    return task.run();
+    return run_task({ task_name }, retry_times);
+}
+
+bool asst::OperProgressProcessTask::run_task(std::vector<std::string> tasks, int retry_times)
+{
+    ProcessTask task(*this, std::move(tasks));
+    return task.set_retry_times(retry_times).run();
 }
 
 void asst::OperProgressProcessTask::report_target(
     std::string what,
-    size_t index,
-    const OperProgressTarget& target,
-    Result result,
-    std::optional<int> recognized)
+    [[maybe_unused]] size_t index,
+    [[maybe_unused]] const OperProgressTask::ProgressPlan& plan,
+    [[maybe_unused]] Result result,
+    [[maybe_unused]] std::optional<int> recognized)
 {
     auto info = basic_info_with_what(std::move(what));
+    // TODO
     json::object details {
-        { "index", index },          { "name", target.name },   { "action", std::string(action_name(target.action)) },
-        { "target", target.target }, { "skill", target.skill }, { "result", std::string(result_name(result)) },
+        //{ "index", index },          { "name", plan.name },     { "action", std::string(action_name(plan.action)) },
+        //{ "target", plan.target }, { "skill", plan.skill }, { "result", std::string(result_name(result)) },
     };
     if (recognized) {
         details["recognized"] = *recognized;

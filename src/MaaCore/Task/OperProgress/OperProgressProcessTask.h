@@ -2,9 +2,11 @@
 #include "Task/AbstractTask.h"
 
 #include <optional>
+#include <variant>
 
 #include "Common/AsstBattleDef.h"
 #include "MaaUtils/NoWarningCVMat.hpp"
+#include "Task/Interface/OperProgressTask.h"
 
 namespace asst
 {
@@ -18,23 +20,11 @@ public:
         Mastery,
     };
 
-    struct OperProgressTarget
-    {
-        battle::Role role = battle::Role::Unknown; // 干员职业, 应当设置为干员的真实职业, 而不是Unknown
-        std::string name;
-        OperProgressAction action = OperProgressAction::Elite;
-        int target = 0;
-        int skill = 0;
-        std::array<int, 3> skill_specialization = { 0, 0, 0 };
-    };
-
-    using AutoRaisePlan = std::vector<OperProgressTarget>;
-
 public:
     using AbstractTask::AbstractTask;
     virtual ~OperProgressProcessTask() override = default;
 
-    void set_plan(std::vector<OperProgressTarget> plan) { m_plan = std::move(plan); }
+    void set_plan(std::vector<OperProgressTask::ProgressPlan> plan) { m_plan = std::move(plan); }
 
 protected:
     virtual bool _run() override;
@@ -54,26 +44,24 @@ private:
         Skipped,
     };
 
-    Result execute_target(const OperProgressTarget& target);
-    Result execute_elite(const OperProgressTarget& target);
-    Result execute_skills(const OperProgressTarget& target);
-    Result execute_mastery(const OperProgressTarget& target);
-    Result find_and_open_operator(const OperProgressTarget& target);
-    bool select_operator_role(battle::Role role);
+    Result execute_elite(battle::Role role, const std::string& name, int target);
+    Result execute_skills(int level);
+    Result execute_mastery(battle::Role role, std::string_view name, int skill, int specialization);
+    Result find_and_open_operator(battle::Role role, std::string_view name);
+    bool select_role(battle::Role role);
     bool analyze_training_context(std::string& operator_name, std::string& skill_name, int& level);
-    bool select_training_trainee(const OperProgressTarget& target);
+    bool select_training_trainee(battle::Role role, std::string_view name);
     // training_level 为本次实际启动的专精等级（识别的当前等级 + 1，领取已完成训练后再 +1），供导师评分使用。
-    bool select_training_trainer(const OperProgressTarget& target, int training_level);
+    bool select_training_trainer(battle::Role role, int training_level);
     // 通过切换职业栏标签把基建干员列表复位到第一页，参照 InfrastAbstractTask::swipe_to_the_left_of_operlist。
     bool reset_trainer_list_page();
-    // retry_times 缺省沿用 ProcessTask 的 RetryTimesDefault：显式传 0 会把重试覆盖成单次截图，
-    // 页面过场动画未完成时一次性验证必然失败。
     bool run_task(const std::string& task_name, int retry_times = RetryTimesDefault);
+    bool run_task(std::vector<std::string> tasks, int retry_times = RetryTimesDefault);
     // task_type 区分精英化、技能升级与技能专精页面；material_index 对应页面上的材料槽 0-2。
     // 返回 FormulaLocked 表示该材料在快速跳转弹窗中的配方尚未解锁,调用方应据此跳过当前任务。
     Result synthesize_missing_material(OperProgressAction task_type, int material_index);
     bool record_factory_state();
-    bool manufacture_dual_chip(const OperProgressTarget& target);
+    bool manufacture_dual_chip(battle::Role role, const std::string& name);
     bool restore_factory_state();
     bool buy_catalyst(int count);
     std::optional<int> ocr_number(const std::string& task_name);
@@ -83,14 +71,14 @@ private:
     void report_target(
         std::string what,
         size_t index,
-        const OperProgressTarget& target,
+        const OperProgressTask::ProgressPlan& target,
         Result result,
         std::optional<int> recognized = std::nullopt);
     void report_summary();
     static std::string_view action_name(OperProgressAction action);
     static std::string_view result_name(Result result);
 
-    AutoRaisePlan m_plan;
+    std::vector<OperProgressTask::ProgressPlan> m_plan;
     // 本次任务现场识别到的当前等级，含义随 action 而异，随 AutoRaiseTargetResult 回调给 UI。
     std::optional<int> m_recognized_level;
     // 首条目标已定位:任务开始时可能停在主页走完整入口链,之后换干员保证不去主页。
