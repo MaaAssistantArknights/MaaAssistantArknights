@@ -200,7 +200,7 @@ public class DemoLogEntry
     /// Gets or sets 颜色，直接使用 UiLogColor 常量名（如 Trace/Message/Success）。
     /// </summary>
     [JsonProperty("color")]
-    public string Color { get; set; } = MaaWpfGui.Constants.UiLogColor.Trace;
+    public string Color { get; set; } = nameof(MaaWpfGui.Constants.UiLogColor.Trace);
 
     /// <summary>
     /// Gets or sets 字重（Regular/Bold）。
@@ -268,7 +268,7 @@ public class DemoCopilotLine
     /// Gets or sets 颜色，直接使用 UiLogColor 常量名。
     /// </summary>
     [JsonProperty("color")]
-    public string Color { get; set; } = MaaWpfGui.Constants.UiLogColor.Info;
+    public string Color { get; set; } = nameof(MaaWpfGui.Constants.UiLogColor.Info);
 
     /// <summary>
     /// Gets or sets 字重（Regular/Bold）。
@@ -298,7 +298,7 @@ public class DemoCopilotLog
     /// Gets or sets 颜色，直接使用 UiLogColor 常量名。
     /// </summary>
     [JsonProperty("color")]
-    public string Color { get; set; } = MaaWpfGui.Constants.UiLogColor.Trace;
+    public string Color { get; set; } = nameof(MaaWpfGui.Constants.UiLogColor.Trace);
 
     /// <summary>
     /// Gets or sets 字重（Regular/Bold）。

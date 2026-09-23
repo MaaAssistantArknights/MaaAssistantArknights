@@ -422,6 +422,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     /// <remarks>初始化些啥自己加。</remarks>
     protected override void OnStart()
     {
+        // 相对路径启动参数须按启动时的工作目录解析，先于下面的 SetCurrentDirectory 记录
+        string launchDir = Environment.CurrentDirectory;
         Directory.SetCurrentDirectory(AppContext.BaseDirectory);
         if (!Directory.Exists("debug"))
         {
@@ -515,15 +517,17 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             else
             {
                 _isDemoMode = true;
-                _demoDataPath = demoDataPath;
-                _shotsOutputDir = demoArgs.GetValueOrDefault(ShotsDirArg) ?? Directory.GetCurrentDirectory();
+                _demoDataPath = Path.GetFullPath(demoDataPath, launchDir);
+                _shotsOutputDir = demoArgs.TryGetValue(ShotsDirArg, out string shotsDir)
+                    ? Path.GetFullPath(shotsDir, launchDir)
+                    : launchDir;
                 _logger.Information("Demo shot mode enabled, data: {DemoDataPath}, shots dir: {ShotsOutputDir}", _demoDataPath, _shotsOutputDir);
             }
         }
         else if (args.Any(arg => string.Equals(arg, DemoDataArg, StringComparison.OrdinalIgnoreCase)))
         {
-            // --demo 位于末位无值（ParseArgs 要求 flag 后跟一个参数才会入字典）
-            _logger.Warning("{Arg} present but has no value; demo shot mode is not enabled", DemoDataArg);
+            // --demo 位于末位无值，或大小写不符（ParseArgs 的 flag 匹配区分大小写）
+            _logger.Warning("{Arg} present but not recognized (flags are case-sensitive) or has no value; demo shot mode is not enabled", DemoDataArg);
         }
 
         ConfigurationHelper.Load();
@@ -1074,7 +1078,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     public const string DemoDataArg = "--demo";
 
     /// <summary>
-    /// README 截图演示模式参数：值为截图输出目录，缺省为当前目录。
+    /// README 截图演示模式参数：值为截图输出目录（相对路径按启动时的工作目录解析），
+    /// 缺省为启动时的工作目录。
     /// </summary>
     public const string ShotsDirArg = "--shots";
 

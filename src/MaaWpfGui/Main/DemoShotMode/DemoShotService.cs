@@ -71,6 +71,7 @@ public static class DemoShotService
             _logger.Information("Demo shot service starting, data: {DemoDataPath}, output: {ShotsOutputDir}", demoDataPath, shotsOutputDir);
 
             await WaitForRootViewReadyAsync();
+            await WaitForCoreInitAsync();
 
             var data = await Task.Run(() => DemoShotData.LoadFromFile(demoDataPath));
             if (data == null)
@@ -138,6 +139,26 @@ public static class DemoShotService
     }
 
     /// <summary>
+    /// 等待 Core 初始化完成（AsstProxy.Init 异步执行，Inited 置位前 Link Start 呈未初始化置灰）；
+    /// 超时记警告继续截图（按钮保持置灰好过流程中断）。
+    /// </summary>
+    private static async Task WaitForCoreInitAsync()
+    {
+        var start = DateTime.UtcNow;
+        while ((DateTime.UtcNow - start).TotalMilliseconds < 60000)
+        {
+            if (States.RunningState.Instance.GetInit())
+            {
+                return;
+            }
+
+            await Task.Delay(200);
+        }
+
+        _logger.Warning("Core init was not ready within 60s, screenshots will show uninitialized start button");
+    }
+
+    /// <summary>
     /// 一次性固定窗口与标题形态：窗口位置归一、标题只保留客户端类型段、关闭页面过渡动画。
     /// </summary>
     private static void ApplyStaticSettings(DemoShotData data)
@@ -152,6 +173,11 @@ public static class DemoShotService
             window.Left = 60;
             window.Top = 60;
             window.WindowState = WindowState.Normal;
+
+            // 配置可能恢复出更大的历史窗口尺寸（WindowPlacement），而截图像素尺寸固定 800x600，
+            // 窗口超出部分截不到、圆角遮罩也会错位，故尺寸一并归位
+            window.Width = WindowWidth;
+            window.Height = WindowHeight;
         }
 
         ConfigFactory.CurrentConfig.Gui.WindowTitlePrefix = string.Empty;
@@ -370,7 +396,7 @@ public static class DemoShotService
         Instances.StageManager.UpdateStageLocal();
         Instances.TaskQueueViewModel.UpdateDatePrompt();
 
-        // 仓库识别数据随语言组重注入：演示模式识别缓存不落盘（SaveDepotDetails 拦截），
+        // 仓库识别数据随语言组重注入：演示模式 data/ 缓存写入由 JsonDataHelper 层统一拦截，
         // 语言切换的重载回调无落盘数据可读，材料名的按语言重建只能由重注入完成
         Instances.ToolboxViewModel.ResetDepotRecognitionState();
         if (data.Depot != null)
@@ -542,7 +568,7 @@ public static class DemoShotService
         if (data.ClientType.TryGetValue(lang, out var clientTypeName) &&
             Enum.TryParse(clientTypeName, ignoreCase: true, out ClientType clientType))
         {
-            SetClientTypeQuietly(clientType);
+            GameSettingsUserControlModel.Instance.SetClientTypeQuietly(clientType);
         }
         else
         {
@@ -564,32 +590,16 @@ public static class DemoShotService
     }
 
     /// <summary>
-    /// 绕开 <see cref="GameSettingsUserControlModel.ClientType"/> 属性 setter
-    /// （其副作用含资源重载、联网刷新与重启询问），仅改配置与 VM 后备字段。
-    /// </summary>
-    private static void SetClientTypeQuietly(ClientType clientType)
-    {
-        ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ClientType = clientType;
-        var backing = typeof(GameSettingsUserControlModel).GetField(
-            "<ClientType>k__BackingField",
-            BindingFlags.NonPublic | BindingFlags.Instance)
-            ?? throw new InvalidOperationException("ClientType backing field not found; window title and client dropdown would go stale");
-
-        backing.SetValue(GameSettingsUserControlModel.Instance, clientType);
-
-        // 绕开 setter 即绕开了属性变更通知，ClientType 下拉等绑定不会重读；
-        // Refresh() 发出全量属性变更通知补上这一环
-        GameSettingsUserControlModel.Instance.Refresh();
-    }
-
-    /// <summary>
     /// 依次切页截取四个页面：长草、自动战斗、小工具-干员识别（已拥有）、小工具-仓库识别。
     /// </summary>
     private static async Task CapturePagesAsync(string outDir, string themeSuffix)
     {
         var root = Instances.SettingsViewModel.Parent as RootViewModel ?? throw new InvalidOperationException("RootViewModel is not ready");
 
-        // 页 1：一键长草
+        // 页 1：一键长草。Idle 置为运行中：与任务条目 ｢公招进行中｣ 的演示进度一致，Link Start 呈
+        // 运行态；仅观感模拟，任务入口已被 TryGetTaskBlockReason 统一拦截。每组语言主题循环都会
+        // 经过本页，故在此恢复（上一组小工具页已切回空闲）
+        States.RunningState.Instance.SetIdle(false);
         root.ActiveItem = Instances.TaskQueueViewModel;
         await WaitUiSettledAsync();
         await CaptureAsync(Path.Combine(outDir, $"1-{themeSuffix}.png"));
@@ -600,6 +610,9 @@ public static class DemoShotService
         await CaptureAsync(Path.Combine(outDir, $"2-{themeSuffix}.png"));
 
         // 页 3：小工具-干员识别，切到「已拥有」页。
+        // Idle 切回空闲：小工具页的识别按钮呈可点观感（演示数据是识别完成的结果态），
+        // 长草/自动战斗页则保持运行中（与日志的演示进度一致）
+        States.RunningState.Instance.SetIdle(true);
         // TabControlSliding 的滑块依赖可见状态下的选择变化事件移动，且视图分离期间的索引变更
         // 会以未布局的位置参与动画导致滑块错位；故挂载稳定后先抖到 0 再落到 1，强制一次完整动画。
         // 内层 OperBox TabControl 同理抖一次：语言组的热切换重建会把索引拉回 0，直接设 1 滑块可能不跟随
@@ -633,10 +646,13 @@ public static class DemoShotService
         var rtb = new RenderTargetBitmap(WindowWidth, WindowHeight, 96, 96, PixelFormats.Pbgra32);
         rtb.Render(window);
 
-        // 四角按 README 透明圆角规格（PR #18273 基准图）做 alpha 遮罩；渲染产生的轻微半透明像素
-        // （抗锯齿/描边，alpha 237~254）钳到 255 对齐基准的全不透明主体。演示界面无深半透明内容
-        // （背景不透明、无遮罩），钳制不引入可见变化
-        var opaque = new WriteableBitmap(rtb);
+        // Pbgra32 为预乘 alpha：只改 alpha 不同比缩放 BGR，PNG 编码反预乘时会把半透明边缘像素提亮
+        // （暗色背景下圆角出现浅色光晕）；先转直通 alpha 的 Bgra32 再做钳制与遮罩
+        var direct = new FormatConvertedBitmap(rtb, PixelFormats.Bgra32, null, 0);
+
+        // 渲染产生的轻微半透明像素（抗锯齿/描边，alpha 237~254）钳到 255 对齐基准的全不透明主体。
+        // 演示界面无深半透明内容（背景不透明、无遮罩），钳制不引入可见变化
+        var opaque = new WriteableBitmap(direct);
         int stride = opaque.PixelWidth * 4;
         var pixels = new byte[stride * opaque.PixelHeight];
         opaque.CopyPixels(pixels, stride, 0);
@@ -661,11 +677,11 @@ public static class DemoShotService
     private const int CornerMaskSize = 14;
 
     /// <summary>
-    /// README 透明圆角的四角 14×14 alpha 模板，逐像素取自 PR #18273 基准图
-    /// （tools 产线认可的 README 圆角形态，弧线/羽化为该图实测值，非理想几何圆，
-    /// 且四角彼此并非严格镜像，故各自独立内嵌）。
+    /// README 透明圆角的 14×14 alpha 模板（左上角），逐像素取自历史基准图
+    /// （tools 产线认可的 README 圆角形态，弧线/羽化为实测值，非理想几何圆）；
+    /// 其余三角与左上角互为严格镜像，按翻转取下标即可。
     /// </summary>
-    private static readonly byte[,] CornerAlphaMaskTl =
+    private static readonly byte[,] CornerAlphaMask =
     {
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 96, 159, 191 },
         { 0, 0, 0, 0, 0, 0, 0, 0, 32, 159, 255, 255, 255, 255 },
@@ -681,83 +697,31 @@ public static class DemoShotService
         { 96, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 },
         { 159, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 },
         { 191, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 },
-    };
-
-    private static readonly byte[,] CornerAlphaMaskTr =
-    {
-        { 191, 159, 96, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 255, 255, 255, 255, 159, 32, 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 255, 255, 255, 255, 255, 255, 143, 16, 0, 0, 0, 0, 0, 0 },
-        { 255, 255, 255, 255, 255, 255, 255, 207, 48, 0, 0, 0, 0, 0 },
-        { 255, 255, 255, 255, 255, 255, 255, 255, 239, 48, 0, 0, 0, 0 },
-        { 255, 255, 255, 255, 255, 255, 255, 255, 255, 239, 48, 0, 0, 0 },
-        { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 207, 16, 0, 0 },
-        { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 143, 0, 0 },
-        { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 32, 0 },
-        { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 159, 0 },
-        { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 16 },
-        { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 96 },
-        { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 159 },
-        { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 191 },
-    };
-
-    private static readonly byte[,] CornerAlphaMaskBl =
-    {
-        { 191, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 },
-        { 159, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 },
-        { 96, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 },
-        { 16, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 },
-        { 0, 159, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 },
-        { 0, 32, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 },
-        { 0, 0, 143, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 },
-        { 0, 0, 16, 207, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 },
-        { 0, 0, 0, 48, 239, 255, 255, 255, 255, 255, 255, 255, 255, 255 },
-        { 0, 0, 0, 0, 48, 239, 255, 255, 255, 255, 255, 255, 255, 255 },
-        { 0, 0, 0, 0, 0, 48, 207, 255, 255, 255, 255, 255, 255, 255 },
-        { 0, 0, 0, 0, 0, 0, 16, 143, 255, 255, 255, 255, 255, 255 },
-        { 0, 0, 0, 0, 0, 0, 0, 0, 32, 159, 255, 255, 255, 255 },
-        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 96, 159, 191 },
-    };
-
-    private static readonly byte[,] CornerAlphaMaskBr =
-    {
-        { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 191 },
-        { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 159 },
-        { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 96 },
-        { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 16 },
-        { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 159, 0 },
-        { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 32, 0 },
-        { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 143, 0, 0 },
-        { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 207, 16, 0, 0 },
-        { 255, 255, 255, 255, 255, 255, 255, 255, 255, 239, 48, 0, 0, 0 },
-        { 255, 255, 255, 255, 255, 255, 255, 255, 239, 48, 0, 0, 0, 0 },
-        { 255, 255, 255, 255, 255, 255, 255, 207, 48, 0, 0, 0, 0, 0 },
-        { 255, 255, 255, 255, 255, 255, 143, 16, 0, 0, 0, 0, 0, 0 },
-        { 255, 255, 255, 255, 159, 32, 0, 0, 0, 0, 0, 0, 0, 0 },
-        { 191, 159, 96, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     };
 
     /// <summary>
-    /// 把四角的 alpha 模板写到像素缓冲（各角直接按基准图原值覆盖，不做镜像推导）。
+    /// 把四角的 alpha 模板写到像素缓冲（TR=TL 水平翻转、BL=竖直翻转、BR=中心对称）。
     /// </summary>
     private static void ApplyCornerMask(byte[] pixels, int stride, int width, int height)
     {
-        var corners = new (int OriginX, int OriginY, byte[,] Mask)[]
+        var corners = new (int OriginX, int OriginY, bool FlipX, bool FlipY)[]
         {
-            (0, 0, CornerAlphaMaskTl),
-            (width - CornerMaskSize, 0, CornerAlphaMaskTr),
-            (0, height - CornerMaskSize, CornerAlphaMaskBl),
-            (width - CornerMaskSize, height - CornerMaskSize, CornerAlphaMaskBr),
+            (0, 0, false, false),
+            (width - CornerMaskSize, 0, true, false),
+            (0, height - CornerMaskSize, false, true),
+            (width - CornerMaskSize, height - CornerMaskSize, true, true),
         };
 
-        foreach (var (originX, originY, mask) in corners)
+        foreach (var (originX, originY, flipX, flipY) in corners)
         {
             for (int y = 0; y < CornerMaskSize; y++)
             {
+                int maskY = flipY ? CornerMaskSize - 1 - y : y;
                 int rowBase = ((originY + y) * stride) + (originX * 4);
                 for (int x = 0; x < CornerMaskSize; x++)
                 {
-                    pixels[rowBase + (x * 4) + 3] = mask[y, x];
+                    int maskX = flipX ? CornerMaskSize - 1 - x : x;
+                    pixels[rowBase + (x * 4) + 3] = CornerAlphaMask[maskY, maskX];
                 }
             }
         }

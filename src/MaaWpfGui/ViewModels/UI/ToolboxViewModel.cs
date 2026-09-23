@@ -614,12 +614,6 @@ public class ToolboxViewModel : Screen
     /// </summary>
     private void SaveDepotDetails()
     {
-        // README 截图演示模式：识别缓存不落盘，语言切换由 DemoShotService 重注入内存数据
-        if (Bootstrapper.IsDemoMode)
-        {
-            return;
-        }
-
         // 构建简化格式：{"itemId": count}
         var details = new JObject {
             ["done"] = true,
@@ -1532,12 +1526,6 @@ public class ToolboxViewModel : Screen
 
     private void SaveOperBoxDetails(List<OperBoxData.OperData> details, string source)
     {
-        // README 截图演示模式：识别缓存不落盘，语言切换由 DemoShotService 重注入内存数据
-        if (Bootstrapper.IsDemoMode)
-        {
-            return;
-        }
-
         var data = new JObject {
             ["done"] = true,
             ["own_opers"] = JArray.FromObject(details),

@@ -284,7 +284,13 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
 
         // 注入后校验末位落位，自检 GetStageInfo 解析与注入赋值的一致性；截图前若被异步重建覆盖，需另从日志比对发现
-        if (StageListSource.Count > 0 && StageListSource[^1].Value != Instances.StageManager.GetStageInfo(stages[^1]).Value)
+        if (StageListSource.Count == 0)
+        {
+            _logger.Warning("Demo stage injection produced empty stage list");
+            return;
+        }
+
+        if (StageListSource[^1].Value != Instances.StageManager.GetStageInfo(stages[^1]).Value)
         {
             _logger.Warning("Demo stage injection mismatch: last item is {Actual}, expected {Expected}", StageListSource[^1].Value, stages[^1]);
         }

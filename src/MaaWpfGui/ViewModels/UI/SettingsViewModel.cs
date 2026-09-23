@@ -1380,9 +1380,11 @@ public class SettingsViewModel : Screen
             }
         }
 
-        string resourceVersionDisplay = !string.IsNullOrEmpty(EffectiveResourceVersion)
-            ? $" - {LocalizationHelper.FormatVersion(EffectiveResourceVersion, VersionUpdateSettings.ResourceDateTime)}"
-            : string.Empty;
+        string resourceVersionDisplay = DemoWindowTitleResourceVersionOverride is { Length: > 0 } demoResVersion
+            ? $" - {demoResVersion}"
+            : !string.IsNullOrEmpty(EffectiveResourceVersion)
+                ? $" - {LocalizationHelper.FormatVersion(EffectiveResourceVersion, VersionUpdateSettings.ResourceDateTime)}"
+                : string.Empty;
         string uiVersionDisplay = DemoWindowTitleVersionOverride is { Length: > 0 } demoUiVersion
             ? demoUiVersion
             : LocalizationHelper.FormatVersion(uiVersion, VersionUpdateSettingsUserControlModel.BuildDateTime);

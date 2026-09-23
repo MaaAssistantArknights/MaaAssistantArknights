@@ -43,5 +43,7 @@ MAA.exe --demo tools/ReadmeShotDemo/readme-demo-data.json --shots <输出目录>
 
 ## 注意事项
 
-- 演示模式只渲染界面并截图，不连接模拟器，不写入任何配置与识别缓存文件（配置保存链整体拦截，进程内状态退出即弃，不污染运行目录）；除标题版本段取 `latest` 时联网查询一次 GitHub 最新 Release 外不发起任何网络请求。
+- 演示模式只渲染界面并截图，不连接模拟器，不写入任何配置与数据缓存文件（配置保存链与 `data/` JSON 写入分别在 ConfigFactory 与 JsonDataHelper 层整体拦截，进程内状态退出即弃，不污染运行目录）；除标题版本段取 `latest` 时联网查询一次 GitHub 最新 Release 外不发起任何网络请求。
 - MAA.exe 从自身所在目录读取 `data/` 等运行时文件作为界面初始基线，演示不写任何文件、不污染运行目录；为保证截图内容确定（连接配置、功能开关等基线不受该目录历史配置影响），仍建议在独立的构建输出目录执行。
+- `--demo` / `--shots` 的相对路径按启动 MAA.exe 时的工作目录解析（与 `run-demo.bat` 中示例的仓库根用法一致）。
+- 产出的 PNG 提交前需过 oxipng：`pre-commit run oxipng --files <图片路径>`（仓库 pre-commit 钩子不限文件范围，不本地处理的话 CI 会补机器修复 commit）。
