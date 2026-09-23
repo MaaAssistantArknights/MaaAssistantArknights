@@ -140,6 +140,8 @@ bool BlackFlowMovementTaskPlugin::observe_inventory()
             "movement_inventory_observation_failed",
             error.empty() ? "movement inventory OCR failed" : error,
             FailureDisposition::StopTask);
+        // 直接进入终止流程，保留识别失败时的加工品面板。
+        Task.set_task_base(std::string(InventoryObservationAction), "BlackFlow@Roguelike@StrategyTerminated-Enter");
         Log.error("BlackFlow movement inventory observation failed", error);
         report_outputs();
         return true;
