@@ -112,27 +112,7 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
     /// <summary>
     /// Gets or sets 上次状态, 可能和当前不一致
     /// </summary>
-    public TaskItemStatus StatusDisplay
-    {
-        get => field;
-        set {
-            if (!SetAndNotify(ref field, value))
-            {
-                return;
-            }
-
-            // 条目状态变化时联动重算主任务进度（幂等；非主任务轮次分母为 0，不产生进度）
-            Instances.TaskQueueViewModel?.RefreshMainTasksProgress();
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether 该条目的 chain 计数计入本轮任务栏进度（与分母同源同生命周期：
-    /// LinkStart 序列化成功时置位，新一轮开始与回到空闲时随分母一并复位）。
-    /// 后台异步完成的赋值（如一图流 OpenAPI 拉取）可能晚于所属轮次结束才落地，不携带轮次上下文，
-    /// 凭此标记被进度分子排除，避免跨轮污染。不驱动 UI，无需变更通知。
-    /// </summary>
-    public bool ParticipatesInCurrentRun { get; set; }
+    public TaskItemStatus StatusDisplay { get => field; set => SetAndNotify(ref field, value); }
 
     private void OnTaskStatusChanged(int taskId, TaskItemStatus status)
     {
@@ -147,8 +127,10 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
         }
         StatusList[index] = status;
 
-        // chain 级进度分子随本列表变化，须在此显式重算：StatusDisplay 聚合结果可能同值
-        // （如某 chain 完成后条目仍显示 InProgress），setter 同值短路不会触发那里的联动
+        // chain 级进度分子只由 StatusList 派生，随其变化在此显式重算（状态驱动的唯一触发点）；
+        // StatusDisplay 是 StatusList 的聚合显示，不在其 setter 里联动重算——那会令每次链状态变化
+        // 双重重算（TaskProgress setter 无同值短路，每次重算即一次任务栏 COM 调用），且空闲期写
+        // StatusDisplay 的路径（切勾选置 Idle、DemoShot 注入）会空转任务栏
         Instances.TaskQueueViewModel?.RefreshMainTasksProgress();
 
         if (StatusList.Any(s => s == TaskItemStatus.Error))

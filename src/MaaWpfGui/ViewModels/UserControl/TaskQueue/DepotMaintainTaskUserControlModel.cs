@@ -587,13 +587,11 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 if (string.IsNullOrEmpty(plan.DropId))
                 {
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanInvalidDropItem", i + 1), UiLogColor.Error);
-                    taskIds.Add(0);
                     continue;
                 }
                 if (plan.DropCount <= 0)
                 {
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanZeroDropCount", i + 1), UiLogColor.Error);
-                    taskIds.Add(0);
                     continue;
                 }
 
@@ -603,7 +601,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 if (need <= 0)
                 {
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanInventoryEnough", i + 1, dropName, currentCount.ToString("N0"), plan.DropCount.ToString("N0")));
-                    taskIds.Add(0);
                     continue;
                 }
 
@@ -619,7 +616,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanStageNotOpen", i + 1, plan.Stage));
                     }
 
-                    taskIds.Add(0);
                     continue;
                 }
 
@@ -641,7 +637,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 if (!ret)
                 {
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanAddTaskFailed", i + 1), UiLogColor.Error);
-                    taskIds.Add(0);
                 }
                 else
                 {

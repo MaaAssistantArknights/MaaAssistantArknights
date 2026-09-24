@@ -746,12 +746,11 @@ public class TaskQueueViewModel : Screen
     {
         _runningState = RunningState.Instance;
         _runningState.StateChanged += (_, e) => {
-            // 回到空闲的变化沿时清零主任务进度分母与条目参与标记并隐藏任务栏进度
+            // 回到空闲的变化沿时清零主任务进度分母并隐藏任务栏进度
             // （空闲期内其他状态字段的广播不重复触发）
             if (!e.OldState.Idle && e.NewState.Idle)
             {
                 _mainTasksTotalCount = 0;
-                ResetTaskParticipation();
                 RefreshMainTasksProgress();
                 _ = GameAudioMuteManager.RestoreWhenCoreIdleAsync(Instances.AsstProxy.AsstRunning);
             }
@@ -2176,14 +2175,14 @@ public class TaskQueueViewModel : Screen
     }
 
     /// <summary>
-    /// 本轮参与条目的有效 chain 总数（LinkStart 序列化产出的 Core 任务 id 数，id 0 占位不计），
+    /// 本轮参与条目的有效 chain 总数（LinkStart 序列化产出的 Core 任务 id 数，防御性排除非正 id），
     /// 作为任务栏进度的分母；0 表示当前无产生进度的主任务轮次。
     /// </summary>
     private int _mainTasksTotalCount;
 
     /// <summary>
     /// Recomputes the main tasks progress from item statuses and pushes it to the taskbar.
-    /// 分子为本轮参与条目中已处理（完成或出错）的 chain 数之和，未参与条目不计入（含跨轮落地的后台赋值）；
+    /// 分子为各条目已处理（完成或出错）的 chain 数之和（未参与条目的 id 映射已在轮首清空，自然贡献 0）；
     /// 分母为 0（无进行中的轮次）或分子走满时隐藏进度。
     /// </summary>
     public void RefreshMainTasksProgress()
@@ -2200,7 +2199,7 @@ public class TaskQueueViewModel : Screen
             return;
         }
 
-        var completedChainCount = TaskItemViewModels.Where(x => x.ParticipatesInCurrentRun).Sum(x => x.CompletedChainCount);
+        var completedChainCount = TaskItemViewModels.Sum(x => x.CompletedChainCount);
         rvm.TaskProgress = completedChainCount >= _mainTasksTotalCount ? null : (completedChainCount, _mainTasksTotalCount);
     }
 
@@ -2331,9 +2330,7 @@ public class TaskQueueViewModel : Screen
         // GPU 相关提示在每次开始运行时重新输出，避免被 ClearLog 清空
         Instances.AsstProxy.LogGpuStatus();
 
-        // 先清分母与参与标记再重置条目状态：重置触发的 StatusDisplay 联动重算须看到清零态
         _mainTasksTotalCount = 0;
-        ResetTaskParticipation();
         ResetTaskItemStatuses();
 
         // 所有提前 return 都要放在进入运行态之前，否则会导致无法再次点击开始
@@ -2404,14 +2401,13 @@ public class TaskQueueViewModel : Screen
                         var taskIdList = taskIds.ToList();
                         coreTaskIds.AddRange(taskIdList);
 
-                        // 进度分母按 Core chain 粒度累计，仅计有效任务 id：id 0 是库存保持序列化方对无效计划的
-                        // 占位（无对应 Core 任务，永无回调），计入则分子永远差格、进度走不满；一图流-only 条目
-                        // 序列化成功但无 Core chain，贡献 0 格；index 为 -1 的临时任务如手动切账号不在配置队列，
-                        // 取不到条目，天然不计入；count 另含这类临时任务，仍用于空任务判定与成就统计，两个计数不可合并
+                        // 进度分母按 Core chain 粒度累计，仅计有效任务 id（防御性过滤 id <= 0：
+                        // 无对应 Core 任务的 id 永无回调，若被计入则分子永远差格、进度走不满）；一图流-only 条目序列化成功但无 Core chain，
+                        // 贡献 0 格；index 为 -1 的临时任务如手动切账号不在配置队列，取不到条目，天然不计入；
+                        // count 另含这类临时任务，仍用于空任务判定与成就统计，两个计数不可合并
                         if (Instances.TaskQueueViewModel.TaskItemViewModels.ElementAtOrDefault(index) is { } itemViewModel)
                         {
                             itemViewModel.SetTaskIds(taskIdList);
-                            itemViewModel.ParticipatesInCurrentRun = true;
                             participatingChainCount += taskIdList.Count(id => id > 0);
                         }
 
@@ -2493,22 +2489,14 @@ public class TaskQueueViewModel : Screen
         }
     }
 
-    /// <summary>
-    /// 与进度分母清零同步复位各条目的本轮参与标记；LinkStart 开头调用时须在
-    /// <see cref="ResetTaskItemStatuses"/> 之前，使状态重置触发的联动重算看到清零口径。
-    /// </summary>
-    private void ResetTaskParticipation()
-    {
-        foreach (var item in TaskItemViewModels)
-        {
-            item.ParticipatesInCurrentRun = false;
-        }
-    }
-
+    // 轮首清空各条目的 id 映射并重置显示状态：超时强制恢复的 SetStopped 不清 _taskIds，
+    // 上一轮残留的 id 映射会被迟到的 Core 回调继续写入（污染 chain 分子、改写条目标签）；
+    // 清空后未参与条目的 StatusList 为空、CompletedChainCount 恒 0，进度分子无需参与标记
     private void ResetTaskItemStatuses()
     {
         foreach (var item in TaskItemViewModels)
         {
+            item.SetTaskIds([]);
             item.StatusDisplay = TaskItemStatus.Idle;
         }
     }
