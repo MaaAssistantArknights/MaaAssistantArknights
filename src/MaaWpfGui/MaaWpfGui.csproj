@@ -43,7 +43,8 @@
 
   <PropertyGroup>
     <UseApplicationTrust>false</UseApplicationTrust>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsNotAsErrors>NU1901;NU1902;NU1903</WarningsNotAsErrors>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CETCompat>false</CETCompat>
   </PropertyGroup>
