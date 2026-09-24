@@ -10,6 +10,7 @@
 - 错误处理返回 `bool` / `std::optional` / 空指针并记日志，常规任务与配置链路不用异常。
 - 避免返回裸指针，如有需要，使用引用或智能指针；引用返回值须保证生命周期，禁止返回局部变量引用。
 - Json 序列化用 `meojson`，`#include <meojson/json.hpp>`。简单结构可考虑使用 `MEO_JSONIZATION` 宏生成序列化函数，如有复杂需求则需手写 `to_json` / `check_json` / `from_json`。检查 Json 字段、类型、范围、枚举值等，应在 `check_json` 中完成，`from_json` 返回 false 则会直接抛出异常，目前无返回 false 的情况。meojson 支持枚举的忽略大小写反序列化，但是如有 `_` 分隔符，则需要手动编写 `json::_reflection::enum_name_storage` 进行映射。
+- 业务流程参照 `docs/zh-cn/protocol/task-schema.md` 合理使用任务链，不应手动调用 ProcessTask 并拼接任务流来实现 `next`。
 
 ## C# / WPF（MaaWpfGui）
 
