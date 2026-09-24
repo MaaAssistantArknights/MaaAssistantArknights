@@ -24,7 +24,7 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1204:Static elements should appear before instance elements", Justification = "成员声明顺序不做强制，随功能迭代自然追加", Scope = "module")]
 [assembly: SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1214:Readonly fields should appear before non-readonly fields", Justification = "成员声明顺序不做强制，随功能迭代自然追加", Scope = "module")]
 [assembly: SuppressMessage("StyleCop.CSharp.NamingRules", "SA1309:Field names should not begin with underscore", Justification = "私有字段统一 _camelCase 前缀惯例", Scope = "module")]
-[assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600", Justification = "不强制公共成员提供 XML 文档注释")]
+[assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "不强制公共成员提供 XML 文档注释", Scope = "module")]
 [assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1601:Partial elements should be documented", Justification = "不强制 partial 元素提供 XML 文档注释", Scope = "module")]
 [assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1602:Enumeration items should be documented", Justification = "不强制枚举项提供 XML 文档注释", Scope = "module")]
 [assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1629:Documentation text should end with a period", Justification = "中文 XML 注释不强制句号结尾", Scope = "module")]
