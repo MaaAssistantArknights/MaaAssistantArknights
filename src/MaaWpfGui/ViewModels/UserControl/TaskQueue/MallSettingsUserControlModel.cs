@@ -77,7 +77,6 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel, MallSettingsU
     /// <summary>
     /// Gets 设置选择的编队
     /// </summary>
-    // ReSharper disable once MemberCanBePrivate.Global
     public List<GenericCombinedData<int>> FormationSelectList { get; } =
     [
         new() { Display = LocalizationHelper.GetString("Current"), Value = 0 },

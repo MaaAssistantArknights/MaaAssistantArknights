@@ -111,7 +111,6 @@ public partial class NotifyIcon
     }
 
     // 不知道是干嘛的，先留着
-    // ReSharper disable once UnusedMember.Local
     private void AddMenuItemOnFirst(string text, Action action)
     {
         var menuItem = new MenuItem { Header = text };

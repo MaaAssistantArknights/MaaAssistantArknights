@@ -721,7 +721,6 @@ public class AsstProxy
         }
 
         // TODO: 之后把这个 OnUIThread 拆出来
-        // ReSharper disable once AsyncVoidLambda
         Execute.OnUIThread(
             async () => {
                 bool runDirectly = SettingsViewModel.StartSettings.RunDirectly;
@@ -768,7 +767,6 @@ public class AsstProxy
                     return;
                 }
 
-                // ReSharper disable once InvertIf
                 if (runDirectly)
                 {
                     // 重置按钮状态，不影响LinkStart判断
@@ -3801,7 +3799,6 @@ public class AsstProxy
 /// <summary>
 /// MaaCore 消息。
 /// </summary>
-[SuppressMessage("ReSharper", "UnusedMember.Global")]
 public enum AsstMsg
 {
     /* Global Info */

@@ -47,7 +47,6 @@ public static class HttpResponseHelper
             return false;
         }
 
-        // ReSharper disable once InvertIf
         if (saveAndDeleteTmp)
         {
             File.Copy(tempFile, saveTo, true);
@@ -57,7 +56,6 @@ public static class HttpResponseHelper
         return true;
     }
 
-    // ReSharper disable once MemberCanBePrivate.Global
     public static async Task<Stream?> GetStreamAsync(HttpResponseMessage? response)
     {
         if (response == null)

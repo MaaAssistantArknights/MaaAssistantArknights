@@ -95,7 +95,6 @@ public static class Instances
     public static OverlayViewModel OverlayViewModel { get; private set; }
 
     // 别的地方有用到这个吗？
-    // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public static RemoteControlService RemoteControlService { get; private set; }
 
     public static IMainWindowManager MainWindowManager { get; private set; }

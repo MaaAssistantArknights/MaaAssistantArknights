@@ -33,7 +33,6 @@ namespace MaaWpfGui.ViewModels.Dialogs;
 /// The view model of version update.
 /// </summary>
 // 通过 container.Get<AnnouncementDialogViewModel>(); 实例化或获取实例
-// ReSharper disable once ClassNeverInstantiated.Global
 public class AnnouncementDialogViewModel : Screen
 {
     private static readonly ILogger _logger = Log.ForContext<AnnouncementDialogViewModel>();
@@ -180,7 +179,6 @@ public class AnnouncementDialogViewModel : Screen
     /// <summary>
     /// Gets the announcement info.
     /// </summary>
-    // ReSharper disable once MemberCanBePrivate.Global
     public string AnnouncementInfo
     {
         get => _announcementInfo;

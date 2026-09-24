@@ -700,7 +700,6 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
         var allLines = File.ReadAllLines(_bluestacksConfig);
 
-        // ReSharper disable once InvertIf
         if (string.IsNullOrEmpty(_bluestacksKeyWord))
         {
             foreach (var line in allLines)

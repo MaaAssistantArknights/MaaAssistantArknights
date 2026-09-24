@@ -416,7 +416,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     /// <summary>
     /// Gets or sets a value indicating whether 使用源石 with null
     /// </summary>
-    // ReSharper disable once MemberCanBePrivate.Global
     [PropertyDependsOn(nameof(UseStone))]
     public bool UseStoneDisplay
     {

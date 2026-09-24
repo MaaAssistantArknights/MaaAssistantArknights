@@ -71,7 +71,6 @@ public class QmsgNotificationProvider(IHttpService httpService, QmsgConfig qmsg)
     private class QmsgContent
     {
         // 消息内容
-        // ReSharper disable UnusedAutoPropertyAccessor.Local
         [JsonPropertyName("msg")]
         public string Msg { get; set; }
 

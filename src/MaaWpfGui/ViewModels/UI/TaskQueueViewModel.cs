@@ -59,7 +59,6 @@ namespace MaaWpfGui.ViewModels.UI;
 /// The view model of task queue.
 /// </summary>
 // 通过 container.Get<TaskQueueViewModel>(); 实例化或获取实例
-// ReSharper disable once ClassNeverInstantiated.Global
 public class TaskQueueViewModel : Screen
 {
     private readonly RunningState _runningState;
@@ -1126,7 +1125,6 @@ public class TaskQueueViewModel : Screen
                 break;
             }
 
-            // ReSharper disable once InvertIf
             if (currentTime == startTime)
             {
                 timeToStart = true;

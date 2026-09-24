@@ -55,7 +55,6 @@ namespace MaaWpfGui.ViewModels.UI;
 /// The view model of copilot.
 /// </summary>
 // 通过 container.Get<CopilotViewModel>(); 实例化或获取实例
-// ReSharper disable once ClassNeverInstantiated.Global
 public partial class CopilotViewModel : Screen
 {
     private readonly RunningState _runningState;

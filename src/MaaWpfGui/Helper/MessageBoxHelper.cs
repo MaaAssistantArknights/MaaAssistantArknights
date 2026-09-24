@@ -38,7 +38,6 @@ public static class MessageBoxHelper
     /// <summary>
     /// OK text
     /// </summary>
-    // ReSharper disable once InconsistentNaming
     public static string OK = "OK";
 
     /// <summary>

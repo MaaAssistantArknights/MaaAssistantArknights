@@ -554,7 +554,6 @@ public class VersionUpdateDialogViewModel : Screen
         /// <summary>
         /// 操作成功
         /// </summary>
-        // ReSharper disable once InconsistentNaming
         OK,
 
         /// <summary>
@@ -934,7 +933,6 @@ public class VersionUpdateDialogViewModel : Screen
         var selected = 0;
         for (int i = 0; i < latencies.Length; i++)
         {
-            // ReSharper disable once StringLiteralTypo
             var isInChina = urls[i].Contains("s3.maa-org.net") || urls[i].Contains("maa-ota.annangela.cn");
 
             if (latencies[i] < 0)
@@ -1617,7 +1615,6 @@ public class VersionUpdateDialogViewModel : Screen
                 fullPackage = curAssets as JObject;
             }
 
-            // ReSharper disable once InvertIf
             if (name.Contains("ota") && name.Contains($"{curVersionLower}_{latestVersionLower}"))
             {
                 _assetsObject = curAssets as JObject;
@@ -2031,7 +2028,6 @@ public class VersionUpdateDialogViewModel : Screen
             return false;
         }
 
-        // ReSharper disable once CommentTypo
         // v{Major}.{Minor}.{Patch}-{Prerelease}.{CommitDistance}.g{CommitHash}
         // v4.6.7-beta.2.1.g1234567
         // v4.6.8-5.g1234567

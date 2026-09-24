@@ -65,8 +65,6 @@ public class BarkNotificationProvider(IHttpService httpService, BarkConfig bark)
 
     private class BarkPostContent
     {
-        // ReSharper disable UnusedAutoPropertyAccessor.Local
-        // ReSharper disable UnusedMember.Local
         [JsonPropertyName("device_key")]
         public string? SendKey { get; set; }
 
@@ -82,9 +80,6 @@ public class BarkNotificationProvider(IHttpService httpService, BarkConfig bark)
 
         [JsonPropertyName("icon")]
         public string Icon { get; } = "https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/v2/icons/maa-logo_256x256.png";
-
-        // ReSharper restore UnusedAutoPropertyAccessor.Local
-        // ReSharper restore UnusedMember.Local
     }
 
     private class BarkResponse
