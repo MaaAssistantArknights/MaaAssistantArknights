@@ -121,6 +121,9 @@ public:
     // 解析开局干员顺位：core_char_list 存在且有非空 name 项时用之（逐项读 name/use_support，name 为空的项跳过）
     static std::vector<RoguelikeStartOper> parse_start_opers(const json::value& params);
 
+    // 将用户输入的密文板名（可能是客户端语言）归一化为简体中文，与 OCR 结果一致
+    static std::string normalize_foldartal_name(const std::string& name);
+
     // ================================= 通用参数 =================================
 public:
     const std::string& get_theme() const { return m_theme; }

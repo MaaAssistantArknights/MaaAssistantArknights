@@ -40,7 +40,7 @@ bool asst::RoguelikeFoldartalStartTaskPlugin::load_params(const json::value& par
         std::vector<std::string> list;
         for (const auto& name : *opt) {
             if (std::string name_str = name.as_string(); !name_str.empty()) {
-                list.emplace_back(name_str);
+                list.emplace_back(RoguelikeConfig::normalize_foldartal_name(name_str));
             }
         }
         /* 由于插件 load_param返回值仅决定自身是否启用，参数验证移动至他处 */

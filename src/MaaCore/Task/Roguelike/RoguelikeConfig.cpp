@@ -1,6 +1,9 @@
 #include "RoguelikeConfig.h"
 
+#include <boost/regex.hpp>
+
 #include "Config/TaskData.h"
+#include "MaaUtils/Encoding.h"
 #include "Utils/Logger.hpp"
 
 bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
@@ -146,4 +149,30 @@ std::vector<asst::RoguelikeStartOper> asst::RoguelikeConfig::parse_start_opers(c
         opers.push_back({ .name = std::move(core_char), .use_support = params.get("use_support", false) });
     }
     return opers;
+}
+
+std::string asst::RoguelikeConfig::normalize_foldartal_name(const std::string& name)
+{
+    if (name.empty()) {
+        return name;
+    }
+
+    auto task = Task.get<OcrTaskInfo>("Sami@Roguelike@FoldartalGainOcr");
+    if (task == nullptr) {
+        return name;
+    }
+
+    std::wstring text_u16 = MAA_NS::to_u16(name);
+    for (const auto& [pattern, replacement] : task->replace_map) {
+        std::wstring pattern_u16 = MAA_NS::to_u16(pattern);
+        std::wstring replacement_u16 = MAA_NS::to_u16(replacement);
+        try {
+            boost::wregex regex(pattern_u16);
+            text_u16 = boost::regex_replace(text_u16, regex, replacement_u16, boost::regex_constants::match_not_dot_newline);
+        }
+        catch (const boost::regex_error&) {
+            // 非法正则，跳过
+        }
+    }
+    return MAA_NS::from_u16(text_u16);
 }

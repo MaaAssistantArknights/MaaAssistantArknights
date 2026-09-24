@@ -11,7 +11,7 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::load_params(const json::value& para
     if (theme != RoguelikeTheme::Sami) {
         return false;
     }
-    set_start_floor_foldartal(params.get("first_floor_foldartal", ""));
+    set_start_floor_foldartal(RoguelikeConfig::normalize_foldartal_name(params.get("first_floor_foldartal", "")));
     return true;
 }
 
