@@ -101,11 +101,11 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         SetTaskConfig<OperProgressTask>(t => t.Plans.SequenceEqual(list), t => t.Plans = list);
     }
 
-    public record class OperItem(OperatorRole Role, string Name, string NameDisplay, int Rarity);
+    public record class OperItem(string id, OperatorRole Role, string Name, string NameDisplay, int Rarity);
 
     /// <summary>可选择的干员名列表，按稀有度降序、名称升序排列，实时取自干员数据</summary>
     public List<GenericCombinedData<OperItem>> OperatorNames => [.. DataHelper.Operators.Values
-        .Select(character => new OperItem(character.Role, character.Name!, DataHelper.GetLocalizedCharacterName(character) ?? character.Name!, character.Rarity))
+        .Select(character => new OperItem(character.Id, character.Role, character.Name!, DataHelper.GetLocalizedCharacterName(character) ?? character.Name!, character.Rarity))
         .OrderByDescending(entry => entry.Rarity)
         .ThenBy(entry => entry.Name, StringComparer.CurrentCulture)
         .Select(oper => new GenericCombinedData<OperItem>($"{oper.NameDisplay}[{oper.Rarity}★]",  oper))];
@@ -182,7 +182,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
             return;
         }
 
-        PlanItems.Add(new OperProgressPlanItemViewModel(PlanItems.Count, OperSelect.Role, OperSelect.Name, 0, 0, new(0, 0, 0)));
+        PlanItems.Add(new OperProgressPlanItemViewModel(PlanItems.Count, OperSelect.Role, OperSelect.Name, 2, 7, new(3, 3, 3)));
     }
 
     /// <summary>

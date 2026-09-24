@@ -71,18 +71,13 @@
                     ToolTipService.ShowOnDisabled="True" />
             </Grid>
 
-            <controls:TextBlock
-                Margin="0,8,0,0"
-                Foreground="{DynamicResource TraceLogBrush}"
-                Text="{Binding ValidationMessage}"
-                TextWrapping="Wrap" />
-
             <!--  干员计划列表：容器与交互对齐 DepotMaintainTaskUserControl 的 ListBox  -->
             <ListBox
                 Margin="0,10,0,0"
                 Padding="0"
                 VerticalAlignment="Top"
                 HorizontalContentAlignment="Stretch"
+                d:IsHitTestVisible="True"
                 BorderThickness="0"
                 ClipToBounds="False"
                 IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
@@ -104,21 +99,25 @@
                                 <Grid HorizontalAlignment="Stretch" Background="Transparent">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <controls:TextBlock
-                                        MinWidth="20"
-                                        VerticalAlignment="Center"
-                                        Text="{Binding Index}" />
+                                    <controls:TextBlock VerticalAlignment="Center" Text="{Binding Index}" />
                                     <controls:TextBlock
                                         Grid.Column="1"
                                         Margin="4,0"
                                         HorizontalAlignment="Left"
                                         Text="{Binding DisplayName}"
                                         TextTrimming="CharacterEllipsis" />
-                                    <Button
+                                    <controls:TextBlock
                                         Grid.Column="2"
+                                        Margin="4,0"
+                                        HorizontalAlignment="Right"
+                                        Text="{Binding TargetDescription}"
+                                        TextWrapping="Wrap" />
+                                    <Button
+                                        Grid.Column="3"
                                         Width="25"
                                         Height="25"
                                         Margin="0,0,-5,0"
@@ -150,10 +149,7 @@
                                 BorderThickness="1,0,1,1"
                                 CornerRadius="0,0,4,4">
                                 <StackPanel Margin="6">
-                                    <controls:TextBlock
-                                        Foreground="{DynamicResource TraceLogBrush}"
-                                        Text="{Binding TargetDescription}"
-                                        TextWrapping="Wrap" />
+                                    <controls:TextBlock Text="{Binding TargetDescription}" TextWrapping="Wrap" />
 
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -214,13 +210,14 @@
                                             SelectedValuePath="Value" />
 
                                         <!--  技能专精目标：技能 1/2/3 三行固定显示，超出干员技能数的行禁用  -->
-                                        <controls:TextBlock
+                                        <CheckBox
                                             Grid.Row="2"
                                             Grid.Column="0"
                                             Margin="0,6,0,0"
                                             VerticalAlignment="Center"
-                                            IsEnabled="{c:Binding 'SkillCount >= 1'}"
-                                            Text="{Binding SkillLabel1}" />
+                                            Content="{Binding SkillLabel1}"
+                                            IsChecked="{Binding IsSpecializationSkill1Selected}"
+                                            IsEnabled="{c:Binding 'SkillCount >= 1'}" />
                                         <controls:TextBlock
                                             Grid.Row="2"
                                             Grid.Column="1"
@@ -237,13 +234,14 @@
                                             ItemsSource="{Binding DataContext.SpecializationSkillLevelList, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                             SelectedValue="{Binding SpecializationSkill1}"
                                             SelectedValuePath="Value" />
-                                        <controls:TextBlock
+                                        <CheckBox
                                             Grid.Row="3"
                                             Grid.Column="0"
                                             Margin="0,6,0,0"
                                             VerticalAlignment="Center"
-                                            IsEnabled="{c:Binding 'SkillCount >= 2'}"
-                                            Text="{Binding SkillLabel2}" />
+                                            Content="{Binding SkillLabel2}"
+                                            IsChecked="{Binding IsSpecializationSkill2Selected}"
+                                            IsEnabled="{c:Binding 'SkillCount >= 2'}" />
                                         <controls:TextBlock
                                             Grid.Row="3"
                                             Grid.Column="1"
@@ -260,13 +258,14 @@
                                             ItemsSource="{Binding DataContext.SpecializationSkillLevelList, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                             SelectedValue="{Binding SpecializationSkill2}"
                                             SelectedValuePath="Value" />
-                                        <controls:TextBlock
+                                        <CheckBox
                                             Grid.Row="4"
                                             Grid.Column="0"
                                             Margin="0,6,0,0"
                                             VerticalAlignment="Center"
-                                            IsEnabled="{c:Binding 'SkillCount >= 3'}"
-                                            Text="{Binding SkillLabel3}" />
+                                            Content="{Binding SkillLabel3}"
+                                            IsChecked="{Binding IsSpecializationSkill3Selected}"
+                                            IsEnabled="{c:Binding 'SkillCount >= 3'}" />
                                         <controls:TextBlock
                                             Grid.Row="4"
                                             Grid.Column="1"
