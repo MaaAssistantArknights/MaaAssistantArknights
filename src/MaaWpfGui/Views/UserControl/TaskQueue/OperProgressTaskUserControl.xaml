@@ -71,12 +71,6 @@
                     ToolTipService.ShowOnDisabled="True" />
             </Grid>
 
-            <controls:TextBlock
-                Margin="0,8,0,0"
-                Foreground="{DynamicResource TraceLogBrush}"
-                Text="{Binding ValidationMessage}"
-                TextWrapping="Wrap" />
-
             <!--  干员计划列表：容器与交互对齐 DepotMaintainTaskUserControl 的 ListBox  -->
             <ListBox
                 Margin="0,10,0,0"
@@ -107,16 +101,19 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <controls:TextBlock
-                                        MinWidth="20"
-                                        VerticalAlignment="Center"
-                                        Text="{Binding Index}" />
-                                    <controls:TextBlock
-                                        Grid.Column="1"
-                                        Margin="4,0"
-                                        HorizontalAlignment="Left"
-                                        Text="{Binding DisplayName}"
-                                        TextTrimming="CharacterEllipsis" />
+                                    <controls:TextBlock VerticalAlignment="Center" Text="{Binding Index}" />
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                        <controls:TextBlock
+                                            Margin="4,0"
+                                            HorizontalAlignment="Left"
+                                            Text="{Binding DisplayName}"
+                                            TextTrimming="CharacterEllipsis" />
+                                        <controls:TextBlock
+                                            Margin="4,0"
+                                            HorizontalAlignment="Left"
+                                            Text="{Binding ShortDescription}"
+                                            TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
                                     <Button
                                         Grid.Column="2"
                                         Width="25"

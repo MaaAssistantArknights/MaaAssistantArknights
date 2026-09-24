@@ -18,9 +18,12 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
+using PropertyChanged;
 using Serilog;
 using Stylet;
 using static MaaWpfGui.Configuration.Single.MaaTask.OperProgressTask;
+
+[assembly: PropertyChanged.FilterType("MaaWpfGui.ViewModels.Items.OperProgressPlanItemViewModel")]
 
 namespace MaaWpfGui.ViewModels.Items;
 
@@ -201,6 +204,10 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
             return string.Join(" / ", parts);
         }
     }
+
+    [DependsOn(nameof(Elite), nameof(MainSkillLevel), nameof(SpecializationSkill1), nameof(SpecializationSkill2), nameof(SpecializationSkill3))]
+    public string ShortDescription => string.Join(" / ", new int[] { Elite, MainSkillLevel, SpecializationSkill1, SpecializationSkill2, SpecializationSkill3 }
+        .Select(x => x.ToString())).Replace("0", "-");
 
     /// <summary>语言切换后刷新本地化文本（干员名、专精行标签与目标描述）。</summary>
     public void RefreshLocalizedText()
