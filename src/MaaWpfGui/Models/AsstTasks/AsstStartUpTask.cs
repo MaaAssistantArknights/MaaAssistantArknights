@@ -46,9 +46,6 @@ public class AsstStartUpTask : AsstBaseTask
     /// <summary>
     /// 开始唤醒。
     /// </summary>
-    /// <param name="clientType">客户端版本。</param>
-    /// <param name="enable">是否自动启动客户端。</param>
-    /// <param name="accountName">需要切换到的登录名，留空以禁用</param>
     /// <returns>是否成功。</returns>
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {

@@ -257,7 +257,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     /// 并以给定关卡名重建候选关卡列表与已选关卡。
     /// 语言切换会经 <see cref="UpdateStageList"/> 重建列表，届时需重新调用本方法。
     /// </summary>
-    /// <param name="stages">候选关卡名；Display/Value 取 <see cref="StageManager.GetStageInfo"/> 的解析结果（含兜底）。</param>
+    /// <param name="stages">候选关卡名；Display/Value 取 <see cref="MaaWpfGui.Services.StageManager.GetStageInfo"/> 的解析结果（含兜底）。</param>
     public void InjectDemoStages(IReadOnlyList<string> stages)
     {
         if (TaskSettingVisibilityInfo.CurrentTask is not FightTask current)

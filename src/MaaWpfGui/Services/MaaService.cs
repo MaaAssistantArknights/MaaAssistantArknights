@@ -23,7 +23,6 @@ using AsstTaskId = System.Int32;
 
 namespace MaaWpfGui.Services;
 
-#pragma warning disable SA1601 // partial 为 LibraryImport 源生成器的硬性要求
 internal static partial class MaaService
 {
     internal delegate void CallbackDelegate(int msg, IntPtr jsonBuffer, IntPtr customArg);
@@ -101,7 +100,6 @@ internal static partial class MaaService
     [LibraryImport("MaaCore.dll")]
     internal static unsafe partial void AsstSetConnectionExtras(byte* name, byte* extras);
 }
-#pragma warning restore SA1601 // partial 为 LibraryImport 源生成器的硬性要求
 
 public enum AsstTaskType : byte
 {

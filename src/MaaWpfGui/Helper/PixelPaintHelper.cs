@@ -473,7 +473,7 @@ public static class PixelPaintHelper
 
     /// <summary>
     /// OKLab 感知色差（欧氏距离平方）。向后兼容入口，内部逐次转换。
-    /// 热路径请用 <see cref="NearestPaletteIndex((double L, double A, double B))"/> 的 OKLab 缓存比对。
+    /// 热路径请用 <c>NearestPaletteIndex</c> 的 OKLab 缓存比对。
     /// </summary>
     /// <param name="c1">颜色一。</param>
     /// <param name="c2">颜色二。</param>

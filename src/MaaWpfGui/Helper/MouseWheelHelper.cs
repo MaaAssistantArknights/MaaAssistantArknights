@@ -119,7 +119,7 @@ public static class MouseWheelHelper
     /// （如 ComboBox 下拉）打开/滚动时带动外层页面一起滚，干扰页面自身的滚动联动。三道防线：
     /// 1) <c>PreviewMouseWheel</c>——弹层打开期间外层不响应滚轮，滚轮转给弹层内可滚动控件；
     /// 2) <c>RequestBringIntoView</c>——拦截弹层内元素请求滚入视野，防止冒泡到外层；
-    /// 3) <see cref="LockOuterScroll"/>——对前两道拦不住的滚动（主要是布局微调）事后恢复外层位置，
+    /// 3) <c>LockOuterScroll</c>——对前两道拦不住的滚动（主要是布局微调）事后恢复外层位置，
     ///    并置 <c>IsVerticalOffsetSyncSuspended</c> 暂停外层滚动联动的回写。
     /// </summary>
     public static readonly DependencyProperty IsolateParentScrollProperty =
@@ -359,7 +359,7 @@ public static class MouseWheelHelper
 
     /// <summary>
     /// 附加到 <see cref="ComboBox"/>：模板应用后自动为其内部 <c>PART_Popup</c> 启用
-    /// <see cref="IsolateParentScroll"/>，隔离下拉打开/滚动期间对设置页外层滚动联动的干扰。
+    /// <see cref="IsolateParentScrollProperty"/>，隔离下拉打开/滚动期间对设置页外层滚动联动的干扰。
     /// </summary>
     public static readonly DependencyProperty IsolateComboBoxScrollProperty =
         DependencyProperty.RegisterAttached(

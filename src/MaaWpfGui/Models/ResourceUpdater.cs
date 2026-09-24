@@ -525,7 +525,7 @@ public static class ResourceUpdater
     }
 
     /// <summary>
-    /// 导入本地资源更新包并重载资源。重载采用 fire-and-forget，避免长时间占用 <see cref="VersionUpdateSettings.IsCheckingForUpdates"/>。
+    /// 导入本地资源更新包并重载资源。重载采用 fire-and-forget，避免长时间占用 <see cref="VersionUpdateSettingsUserControlModel.IsCheckingForUpdates"/>。
     /// </summary>
     /// <param name="packagePath">压缩包路径。</param>
     /// <param name="packageDateTime">由 <see cref="IsResourcePackage"/> 预检测得到的时间戳。</param>

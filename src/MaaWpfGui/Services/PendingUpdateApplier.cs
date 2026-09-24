@@ -429,6 +429,7 @@ internal static partial class PendingUpdateApplier
     /// 写入更新失败状态文件，格式与外部更新器写入的一致（UTF-8 纯文本原因），
     /// 供进程内应用失败（RequiresManualRecovery）等场景持久化失败状态。
     /// </summary>
+    /// <param name="failureReason">失败原因，原样写入状态文件</param>
     public static void MarkDelegatedUpdateFailure(string failureReason)
     {
         try
