@@ -1857,6 +1857,28 @@ public class TaskQueueViewModel : Screen
     }
 
     /// <summary>
+    /// 从指定任务或其后第一个启用的任务开始运行。
+    /// </summary>
+    /// <param name="taskItem">任务项</param>
+    /// <returns>A <see cref="Task"/>representing the asynchronous operation.</returns>
+    [UsedImplicitly]
+    public async Task RunTasksFromHere(TaskItemViewModel taskItem)
+    {
+        if (taskItem == null || !_runningState.GetIdle())
+        {
+            return;
+        }
+
+        var taskQueue = ConfigFactory.CurrentConfig.TaskQueue;
+        if (taskItem.Index < 0 || taskItem.Index >= taskQueue.Count)
+        {
+            return;
+        }
+
+        await LinkStartWithTasks(taskQueue, taskItem.Index);
+    }
+
+    /// <summary>
     /// 复制任务
     /// </summary>
     /// <param name="taskItem">任务项</param>
@@ -2276,7 +2298,7 @@ public class TaskQueueViewModel : Screen
     }
 #endif
 
-    public async Task LinkStartWithTasks(IEnumerable<BaseTask> tasks)
+    public async Task LinkStartWithTasks(IEnumerable<BaseTask> tasks, int? startIndex = null)
     {
         if (!_runningState.Idle)
         {
@@ -2385,7 +2407,7 @@ public class TaskQueueViewModel : Screen
                 item.TaskType,
                 item.NameOrTaskType,
                 item.IsEnable);
-            if (!IsTaskEnable(item))
+            if ((startIndex is int firstTaskIndex && index < firstTaskIndex) || !IsTaskEnable(item))
             {
                 SetTaskStatus(index, TaskItemStatus.Skipped);
                 continue;
