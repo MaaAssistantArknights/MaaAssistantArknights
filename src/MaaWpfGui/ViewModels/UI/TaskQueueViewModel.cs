@@ -1293,7 +1293,8 @@ public class TaskQueueViewModel : Screen
             ConfigFactory.CurrentConfig.TaskQueue.Add(new RecruitTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new MallTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new AwardTask());
-            //ConfigFactory.CurrentConfig.TaskQueue.Add(new OperProgressTask());
+
+            // ConfigFactory.CurrentConfig.TaskQueue.Add(new OperProgressTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new RoguelikeTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new ReclamationTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new UserDataUpdateTask());
@@ -1877,6 +1878,7 @@ public class TaskQueueViewModel : Screen
         }
 
         var oldTask = ConfigFactory.CurrentConfig.TaskQueue[index];
+
         // 开始唤醒任务至多一个，入口按钮禁用之外的行为兜底
         if (oldTask is StartUpTask && StartUpTaskCount >= 1)
         {

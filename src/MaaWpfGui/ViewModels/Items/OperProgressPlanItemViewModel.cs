@@ -272,7 +272,8 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
             return;
         }
 
-        if (value > 0 && MainSkillLevel != 0) // 专精某技能且需要提成基础技能等级，则自动补到7级
+        // 专精某技能且需要提升基础技能等级，则自动补到 7 级
+        if (value > 0 && MainSkillLevel != 0)
         {
             MainSkillLevel = 7;
         }

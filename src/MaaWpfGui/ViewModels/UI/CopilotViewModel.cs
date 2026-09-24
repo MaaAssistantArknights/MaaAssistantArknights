@@ -1245,9 +1245,10 @@ public partial class CopilotViewModel : Screen
         }
         foreach (var action in copilot.Actions.Where(a => a.Type is "Skill" or "Retreat" or "BulletTime" or "SkillUsage"))
         {
+            // 重复指定干员和坐标，使用坐标
             var hasLoc = action.Location is not null;
             var hasOper = action.Name is not null;
-            if (hasLoc && hasOper) // 重复指定干员和坐标，使用坐标
+            if (hasLoc && hasOper)
             {
                 AddLog(LocalizationHelper.GetStringFormat("Copilot.ActionWithBothLocAndOper", $"{action.Type}[{action.Location}]"), UiLogColor.Warning, showTime: false);
                 action.Role = null;
@@ -1257,7 +1258,8 @@ public partial class CopilotViewModel : Screen
         }
         foreach (var action in copilot.Actions.Where(a => a.Type is "Click"))
         {
-            if (action.Rect is not null && action.Location is not null) // Core 对同填 rect 与 location 的点击动作按 rect 执行，此处移除 location 以与 Core 语义一致
+            // Core 对同填 rect 与 location 的点击动作按 rect 执行，此处移除 location 以与 Core 语义一致
+            if (action.Rect is not null && action.Location is not null)
             {
                 AddLog(LocalizationHelper.GetStringFormat("Copilot.ActionWithBothRectAndLoc", $"{action.Type}[{string.Join(",", action.Rect)}]"), UiLogColor.Warning, showTime: false);
                 action.Location = null;

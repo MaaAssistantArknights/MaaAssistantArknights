@@ -613,6 +613,7 @@ public static class DemoShotService
         // Idle 切回空闲：小工具页的识别按钮呈可点观感（演示数据是识别完成的结果态），
         // 长草/自动战斗页则保持运行中（与日志的演示进度一致）
         States.RunningState.Instance.SetIdle(true);
+
         // TabControlSliding 的滑块依赖可见状态下的选择变化事件移动，且视图分离期间的索引变更
         // 会以未布局的位置参与动画导致滑块错位；故挂载稳定后先抖到 0 再落到 1，强制一次完整动画。
         // 内层 OperBox TabControl 同理抖一次：语言组的热切换重建会把索引拉回 0，直接设 1 滑块可能不跟随
