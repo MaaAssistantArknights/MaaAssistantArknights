@@ -29,7 +29,7 @@ namespace MaaWpfGui.Views.UI;
 /// </summary>
 public partial class CopilotView
 {
-    private static readonly Duration CopilotTabAnimationDuration = new(TimeSpan.FromMilliseconds(180));
+    private static readonly Duration _copilotTabAnimationDuration = new(TimeSpan.FromMilliseconds(180));
 
     public CopilotView()
     {
@@ -167,7 +167,7 @@ public partial class CopilotView
     {
         return new DoubleAnimation {
             To = toValue,
-            Duration = CopilotTabAnimationDuration,
+            Duration = _copilotTabAnimationDuration,
             EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
         };
     }

@@ -199,7 +199,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private static readonly List<GenericCombinedData<Type>> ExternalNotificationProviders =
+    private static readonly List<GenericCombinedData<Type>> _externalNotificationProviders =
         [
             new GenericCombinedData<Type> { Display = "ServerChan", Value = typeof(ServerChanConfig) },
             new GenericCombinedData<Type> { Display = "Telegram", Value = typeof(TelegramConfig) },
@@ -212,7 +212,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             new GenericCombinedData<Type> { Display = "Custom Webhook", Value = typeof(CustomWebhookConfig) }
         ];
 
-    public static List<GenericCombinedData<Type>> ExternalNotificationProviderList => ExternalNotificationProviders;
+    public static List<GenericCombinedData<Type>> ExternalNotificationProviderList => _externalNotificationProviders;
 
     public void AddConfig(object sender, RoutedEventArgs e)
     {

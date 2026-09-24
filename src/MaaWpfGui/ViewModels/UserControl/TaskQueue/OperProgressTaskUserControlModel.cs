@@ -36,8 +36,8 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
 public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgressTaskUserControlModel.ISerialize
 {
-    // 待确认移除（AllowedFields 已作废：字段权威改为 OperProgressTask.Plan 对象，本次重构后仅 ParseAndValidate 引用）
-    private static readonly HashSet<string> AllowedFields = ["name", "elite", "skills", "skill", "skill_master"];
+    // 待确认移除（_allowedFields 已作废：字段权威改为 OperProgressTask.Plan 对象，本次重构后仅 ParseAndValidate 引用）
+    private static readonly HashSet<string> _allowedFields = ["name", "elite", "skills", "skill", "skill_master"];
 
     static OperProgressTaskUserControlModel() => Instance = new();
 

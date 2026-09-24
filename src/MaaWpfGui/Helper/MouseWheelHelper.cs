@@ -30,7 +30,7 @@ namespace MaaWpfGui.Helper;
 /// </summary>
 public static class MouseWheelHelper
 {
-    private static readonly ConditionalWeakTable<Popup, PopupScrollIsolationState> PopupIsolationStates = [];
+    private static readonly ConditionalWeakTable<Popup, PopupScrollIsolationState> _popupIsolationStates = [];
 
     public static void RouteMouseWheelToParent(object sender, MouseWheelEventArgs e)
     {
@@ -144,10 +144,10 @@ public static class MouseWheelHelper
 
         if ((bool)e.NewValue)
         {
-            var state = PopupIsolationStates.GetValue(popup, static p => new PopupScrollIsolationState(p));
+            var state = _popupIsolationStates.GetValue(popup, static p => new PopupScrollIsolationState(p));
             state.Attach();
         }
-        else if (PopupIsolationStates.TryGetValue(popup, out var state))
+        else if (_popupIsolationStates.TryGetValue(popup, out var state))
         {
             state.Detach();
         }

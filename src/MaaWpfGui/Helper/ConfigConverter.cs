@@ -48,9 +48,9 @@ namespace MaaWpfGui.Helper;
 public class ConfigConverter
 {
     private static readonly ILogger _logger = Log.ForContext<ConfigConverter>();
-    private static readonly string ConfigurationNewFile = ConfigFactory.ConfigFile;
-    private static readonly string ConfigurationOldBakFile = ConfigurationHelper.ConfigFile + ".old";
-    private static readonly string ConfigurationOldFile = ConfigurationHelper.ConfigFile;
+    private static readonly string _configurationNewFile = ConfigFactory.ConfigFile;
+    private static readonly string _configurationOldBakFile = ConfigurationHelper.ConfigFile + ".old";
+    private static readonly string _configurationOldFile = ConfigurationHelper.ConfigFile;
     private static bool _hasBackupOldConfig = false;
 
     public static bool ConvertConfig()
@@ -61,13 +61,13 @@ public class ConfigConverter
         }
 
         // Load configuration file
-        var parsedOld = ParseJsonFile(ConfigurationOldFile);
+        var parsedOld = ParseJsonFile(_configurationOldFile);
         if (parsedOld is null)
         {
             return false;
         }
 
-        var root = ParseJsonFile(ConfigurationNewFile);
+        var root = ParseJsonFile(_configurationNewFile);
 
         bool ret = true;
         JObject? configurations = root?["Configurations"] as JObject;
@@ -1217,7 +1217,7 @@ public class ConfigConverter
         _hasBackupOldConfig = true;
         try
         {
-            File.Copy(ConfigurationOldFile, ConfigurationOldBakFile, true);
+            File.Copy(_configurationOldFile, _configurationOldBakFile, true);
         }
         catch (Exception ex)
         {
