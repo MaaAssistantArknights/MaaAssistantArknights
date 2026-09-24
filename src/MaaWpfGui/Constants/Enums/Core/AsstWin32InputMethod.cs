@@ -23,4 +23,5 @@ public enum AsstWin32InputMethod
     PostMessageWithCursorPos = 64,
     SendMessageWithWindowPos = 128,
     PostMessageWithWindowPos = 256,
+    AnchoredTouch = 1024,
 }

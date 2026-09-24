@@ -1935,6 +1935,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="AttachWindowInputPostWithCursor">PostMsg-CursorPos（半背景，短暫搶滑鼠）</system:String>
     <system:String x:Key="AttachWindowInputSendWithWindowPosDisabled">SendMsg-WindowPos（延遲過高，已停用）</system:String>
     <system:String x:Key="AttachWindowInputPostWithWindowPos">PostMsg-WindowPos（推薦，全背景，不搶滑鼠，視窗可能亂飛，截圖方式僅 PrintWindow，建議最小化）</system:String>
+    <system:String x:Key="AttachWindowInputAnchoredTouch">AnchoredTouch（全背景，不搶滑鼠，合成觸控注入，需 Win10 1809+，被遮擋時視窗短暫閃爍）</system:String>
     <system:String x:Key="AttachWindowInputSendMsg">SendMsg（穩定）</system:String>
     <system:String x:Key="AttachWindowInputPostMsg">PostMsg（高效）</system:String>
     <!--  !AsstProxy  -->
