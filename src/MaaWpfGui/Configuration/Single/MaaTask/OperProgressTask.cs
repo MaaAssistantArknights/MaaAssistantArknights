@@ -16,6 +16,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using MaaWpfGui.Constants.Enums;
 using static MaaWpfGui.Main.AsstProxy;
 
@@ -38,10 +39,21 @@ public class OperProgressTask : BaseTask
 
     public record class Plan(OperatorRole role, string name, int elite, int? level, SkillLevel skillLevel);
 
+    /// <summary>
+    /// 技能培养目标：基础技能等级（<see cref="BaseLevel"/>）与专精等级（<see cref="Specialization"/>）二选一。
+    /// </summary>
+    [JsonDerivedType(typeof(BaseLevel), typeDiscriminator: nameof(BaseLevel))]
+    [JsonDerivedType(typeof(Specialization), typeDiscriminator: nameof(Specialization))]
     public abstract record SkillLevel
     {
+        /// <summary>
+        /// 基础技能等级目标。
+        /// </summary>
         public sealed record BaseLevel(int Level) : SkillLevel;
 
+        /// <summary>
+        /// 技能 1/2/3 的专精等级目标，未设定为 0。
+        /// </summary>
         public sealed record Specialization(int Skill1, int Skill2, int Skill3) : SkillLevel
         {
             public bool Any(Func<int, bool> predicate) => predicate(Skill1) || predicate(Skill2) || predicate(Skill3);
