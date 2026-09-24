@@ -94,14 +94,6 @@
                                                     <DataTrigger Binding="{Binding StatusDisplay}" Value="{x:Static enums:TaskItemStatus.Skipped}">
                                                         <Setter Property="Opacity" Value="0.5" />
                                                     </DataTrigger>
-                                                    <!--  仍已勾选，但本轮被跳过 - 黄色  -->
-                                                    <MultiDataTrigger>
-                                                        <MultiDataTrigger.Conditions>
-                                                            <Condition Binding="{Binding StatusDisplay}" Value="{x:Static enums:TaskItemStatus.Skipped}" />
-                                                            <Condition Binding="{Binding IsEnable}" Value="True" />
-                                                        </MultiDataTrigger.Conditions>
-                                                        <Setter Property="Background" Value="{DynamicResource TaskQueue.TaskItemStatus.Skipped}" />
-                                                    </MultiDataTrigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </Border.Style>

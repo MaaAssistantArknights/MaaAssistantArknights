@@ -85,7 +85,6 @@
     <SolidColorBrush x:Key="TaskQueue.TaskItemStatus.InProgress" Color="#20326CF3" />
     <SolidColorBrush x:Key="TaskQueue.TaskItemStatus.Completed" Color="#2090EE90" />
     <SolidColorBrush x:Key="TaskQueue.TaskItemStatus.Error" Color="#20FF4444" />
-    <SolidColorBrush x:Key="TaskQueue.TaskItemStatus.Skipped" Color="#20FBBF24" />
 
     <SolidColorBrush x:Key="Copilot.RaidBrush" Color="#33FF0000" />
 
