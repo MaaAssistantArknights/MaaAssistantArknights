@@ -1665,6 +1665,7 @@
             "Roguelike@GamePassTheEndConfirm",
             "Roguelike@GamePass",
             "Roguelike@StartAction@LoadingText",
+            "Roguelike@StageSyncRetryConfirm",
             "Roguelike@StartAction@LoadingIcon",
             "Roguelike@NextLevel",
             "Roguelike@NextLevel#next",
@@ -1676,6 +1677,18 @@
         "postDelay": 5000,
         "maxTimes": 20,
         "next": ["Roguelike@StartAction#next"]
+    },
+    "Roguelike@StageSyncRetryConfirm": {
+        "Doc": "战斗记录同步神经网络失败弹窗：识别“是否重试”并点重试按钮重新同步。防止弹窗残留被 ReturnConfirm(PopupConfirm) 误吃导致 ReturnConfirm@LoadingIcon 卡死整链报错",
+        "algorithm": "OcrDetect",
+        "text": ["是否重试"],
+        "roi": [574, 306, 126, 35],
+        "action": "ClickRect",
+        "specificRect": [917, 464, 80, 60],
+        "postDelay": 10000,
+        "maxTimes": 10,
+        "next": ["Roguelike@StartAction#next"],
+        "exceededNext": ["Roguelike@ExitThenAbandon"]
     },
     "Roguelike@StartExplore": {
         "Doc": "base_task",
