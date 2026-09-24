@@ -17,6 +17,7 @@ namespace
 {
 // 黑流事件收尾的占位任务，本插件按实际选择改写它的 baseTask。
 constexpr std::string_view BlackFlowResultTask = "BlackFlow@Roguelike@StageEncounterResult";
+constexpr std::string_view BlackFlowOptionTask = "BlackFlow@Roguelike@StageEncounterOption-Enter";
 constexpr std::string_view BlackFlowRecoveryFailedTask = "BlackFlow@Roguelike@RecoveryFailed";
 constexpr std::string_view BlackFlowRewardTask = "BlackFlow@Roguelike@StageEncounterReward";
 constexpr std::string_view BlackFlowAbandonTask = "BlackFlow@Roguelike@ExitThenAbandon-Enter";
@@ -521,7 +522,14 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::select_black
         return continue_blackflow_event(event);
     }
     if (const auto result_task = event.option_tasks.find(selected_text); result_task != event.option_tasks.end()) {
-        set_blackflow_result(result_task->second);
+        // 经独立入口转发，保留目标任务的模板、回调名称和执行次数。
+        if (!Task.lazy_parse(json::object {
+                { std::string(BlackFlowOptionTask), json::object { { "next", json::array { result_task->second } } } },
+            })) {
+            LogError << __FUNCTION__ << "Failed to configure encounter option task" << result_task->second;
+            return std::nullopt;
+        }
+        set_blackflow_result(BlackFlowOptionTask);
         return std::nullopt;
     }
     set_blackflow_result(BlackFlowRewardTask);

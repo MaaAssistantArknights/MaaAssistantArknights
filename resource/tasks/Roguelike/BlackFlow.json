@@ -1587,6 +1587,11 @@
     "BlackFlow@Roguelike@StageEncounterResult": {
         "baseTask": "BlackFlow@Roguelike@RecoveryFailed"
     },
+    "BlackFlow@Roguelike@StageEncounterOption-Enter": {
+        "Doc": "事件选项的转发入口，由 C++ 设置 next，使目标任务以自己的名称执行。",
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@RecoveryFailed"]
+    },
     "BlackFlow@Roguelike@StageEncounterContinue": {
         "algorithm": "JustReturn",
         "next": [
