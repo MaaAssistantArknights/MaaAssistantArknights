@@ -1429,15 +1429,7 @@ public class AsstProxy
 
             case AsstMsg.TaskChainCompleted:
                 {
-                    // 判断 _latestTaskId 中是否有元素的值和 details["taskid"] 相等，如果有再判断这个 id 对应的任务是否在 _mainTaskTypes 中
                     UpdateTaskStatus(taskId, TaskStatus.Completed);
-                    if (_tasksStatus.TryGetValue(taskId, out var taskInfo))
-                    {
-                        if (_mainTaskTypes.Contains(taskInfo.Type))
-                        {
-                            Instances.TaskQueueViewModel.UpdateMainTasksProgress();
-                        }
-                    }
 
                     var taskIndex = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index ?? -1;
                     var task = taskIndex >= 0 && taskIndex < ConfigFactory.CurrentConfig.TaskQueue.Count
@@ -3474,20 +3466,6 @@ public class AsstProxy
         /// <summary>自定义任务s</summary>
         Custom,
     }
-
-    private readonly HashSet<TaskType> _mainTaskTypes =
-    [
-        TaskType.StartUp,
-        TaskType.Fight,
-        TaskType.OperProgress,
-        TaskType.Infrast,
-        TaskType.Recruit,
-        TaskType.Mall,
-        TaskType.Award,
-        TaskType.Roguelike,
-        TaskType.Reclamation,
-        TaskType.UserDataUpdate,
-    ];
 
     private readonly ObservableDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> _tasksStatus = [];
 

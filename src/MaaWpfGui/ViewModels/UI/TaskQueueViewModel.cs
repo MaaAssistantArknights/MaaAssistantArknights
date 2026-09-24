@@ -747,11 +747,13 @@ public class TaskQueueViewModel : Screen
     {
         _runningState = RunningState.Instance;
         _runningState.StateChanged += (_, e) => {
-            // 回到空闲的变化沿时重置主任务进度（原 Idle 镜像置 true 的联动；
-            // 空闲期内其他状态字段的广播不重复触发）
+            // 回到空闲的变化沿时清零主任务进度分母与条目参与标记并隐藏任务栏进度
+            // （空闲期内其他状态字段的广播不重复触发）
             if (!e.OldState.Idle && e.NewState.Idle)
             {
-                UpdateMainTasksProgress(0);
+                _mainTasksTotalCount = 0;
+                ResetTaskParticipation();
+                RefreshMainTasksProgress();
                 _ = GameAudioMuteManager.RestoreWhenCoreIdleAsync(Instances.AsstProxy.AsstRunning);
             }
 
@@ -2173,33 +2175,33 @@ public class TaskQueueViewModel : Screen
         return false;
     }
 
-    public int MainTasksCompletedCount { get; set; }
-
-    public int MainTasksSelectedCount => TaskItemViewModels.Count(x => (x.IsEnable ?? true));
+    /// <summary>
+    /// 本轮参与条目的有效 chain 总数（LinkStart 序列化产出的 Core 任务 id 数，id 0 占位不计），
+    /// 作为任务栏进度的分母；0 表示当前无产生进度的主任务轮次。
+    /// </summary>
+    private int _mainTasksTotalCount;
 
     /// <summary>
-    /// updates the main tasks progress.
+    /// Recomputes the main tasks progress from item statuses and pushes it to the taskbar.
+    /// 分子为本轮参与条目中已处理（完成或出错）的 chain 数之和，未参与条目不计入（含跨轮落地的后台赋值）；
+    /// 分母为 0（无进行中的轮次）或分子走满时隐藏进度。
     /// </summary>
-    /// <param name="completedCount">已完成任务数，留空则代表 +1</param>
-    public void UpdateMainTasksProgress(int? completedCount = null)
+    public void RefreshMainTasksProgress()
     {
-        var rvm = (RootViewModel)this.Parent;
-        if (MainTasksSelectedCount == 0)
+        var rvm = (RootViewModel?)Parent;
+        if (rvm is null)
+        {
+            return;
+        }
+
+        if (_mainTasksTotalCount == 0)
         {
             rvm.TaskProgress = null;
             return;
         }
 
-        MainTasksCompletedCount = completedCount ?? ++MainTasksCompletedCount;
-
-        if (MainTasksCompletedCount >= MainTasksSelectedCount)
-        {
-            rvm.TaskProgress = null;
-        }
-        else
-        {
-            rvm.TaskProgress = (MainTasksCompletedCount, MainTasksSelectedCount);
-        }
+        var completedChainCount = TaskItemViewModels.Where(x => x.ParticipatesInCurrentRun).Sum(x => x.CompletedChainCount);
+        rvm.TaskProgress = completedChainCount >= _mainTasksTotalCount ? null : (completedChainCount, _mainTasksTotalCount);
     }
 
     public bool ShowDebugTask { get => field; set => SetAndNotify(ref field, value); }
@@ -2329,7 +2331,9 @@ public class TaskQueueViewModel : Screen
         // GPU 相关提示在每次开始运行时重新输出，避免被 ClearLog 清空
         Instances.AsstProxy.LogGpuStatus();
 
-        MainTasksCompletedCount = 0;
+        // 先清分母与参与标记再重置条目状态：重置触发的 StatusDisplay 联动重算须看到清零态
+        _mainTasksTotalCount = 0;
+        ResetTaskParticipation();
         ResetTaskItemStatuses();
 
         // 所有提前 return 都要放在进入运行态之前，否则会导致无法再次点击开始
@@ -2373,6 +2377,7 @@ public class TaskQueueViewModel : Screen
 
         // 直接遍历TaskItemViewModels里面的内容，是排序后的
         int count = 0;
+        int participatingChainCount = 0;
         List<int> coreTaskIds = [];
         bool serializeFailed = false;
         foreach (var item in tasks)
@@ -2396,8 +2401,20 @@ public class TaskQueueViewModel : Screen
                 {
                     case true:
                         ++count;
-                        coreTaskIds.AddRange(taskIds);
-                        Instances.TaskQueueViewModel.TaskItemViewModels.ElementAtOrDefault(index)?.SetTaskIds(taskIds);
+                        var taskIdList = taskIds.ToList();
+                        coreTaskIds.AddRange(taskIdList);
+
+                        // 进度分母按 Core chain 粒度累计，仅计有效任务 id：id 0 是库存保持序列化方对无效计划的
+                        // 占位（无对应 Core 任务，永无回调），计入则分子永远差格、进度走不满；一图流-only 条目
+                        // 序列化成功但无 Core chain，贡献 0 格；index 为 -1 的临时任务如手动切账号不在配置队列，
+                        // 取不到条目，天然不计入；count 另含这类临时任务，仍用于空任务判定与成就统计，两个计数不可合并
+                        if (Instances.TaskQueueViewModel.TaskItemViewModels.ElementAtOrDefault(index) is { } itemViewModel)
+                        {
+                            itemViewModel.SetTaskIds(taskIdList);
+                            itemViewModel.ParticipatesInCurrentRun = true;
+                            participatingChainCount += taskIdList.Count(id => id > 0);
+                        }
+
                         break;
                     case false:
                         serializeFailed = true;
@@ -2432,6 +2449,10 @@ public class TaskQueueViewModel : Screen
             SetStopped();
             return;
         }
+
+        // 分母定死为本轮参与条目的有效 chain 总数（含仅一图流后台执行、无 Core 任务 id 的条目贡献的 0）；分母为 0 时不显示进度
+        _mainTasksTotalCount = participatingChainCount;
+        RefreshMainTasksProgress();
 
         if (coreTaskIds.Count == 0)
         {
@@ -2469,6 +2490,18 @@ public class TaskQueueViewModel : Screen
             }
 
             Instances.TaskQueueViewModel.TaskItemViewModels[index].StatusDisplay = status;
+        }
+    }
+
+    /// <summary>
+    /// 与进度分母清零同步复位各条目的本轮参与标记；LinkStart 开头调用时须在
+    /// <see cref="ResetTaskItemStatuses"/> 之前，使状态重置触发的联动重算看到清零口径。
+    /// </summary>
+    private void ResetTaskParticipation()
+    {
+        foreach (var item in TaskItemViewModels)
+        {
+            item.ParticipatesInCurrentRun = false;
         }
     }
 
