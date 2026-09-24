@@ -200,8 +200,6 @@ csharp_space_between_method_call_empty_parameter_list_parentheses = false
 csharp_preserve_single_line_statements = true
 csharp_preserve_single_line_blocks = true
 
-# SA1010: Opening square brackets should be spaced correctly
-dotnet_diagnostic.SA1010.severity = silent
 # Code inspection: Incorrect line breaks (around parenthesis)
 resharper_bad_parens_line_breaks_highlighting = none
 # Code inspection: Incorrect spacing (around braces)
