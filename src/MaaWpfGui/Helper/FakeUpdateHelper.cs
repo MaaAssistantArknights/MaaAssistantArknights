@@ -32,43 +32,43 @@ public static class FakeUpdateHelper
 
     private const string FileName = "FakeUpdate";
 
-    private static readonly FakeUpdateInfo? s_updateInfo = JsonDataHelper.Get<FakeUpdateInfo>(FileName);
+    private static readonly FakeUpdateInfo? UpdateInfo = JsonDataHelper.Get<FakeUpdateInfo>(FileName);
 
     public static bool IsEnabled =>
-        s_updateInfo is { } &&
-        !string.IsNullOrWhiteSpace(s_updateInfo.CurrentVersion) &&
-        !string.IsNullOrWhiteSpace(s_updateInfo.TargetVersion);
+        UpdateInfo is { } &&
+        !string.IsNullOrWhiteSpace(UpdateInfo.CurrentVersion) &&
+        !string.IsNullOrWhiteSpace(UpdateInfo.TargetVersion);
 
     public static string CurrentVersion =>
         !IsEnabled
             ? string.Empty
-            : s_updateInfo!.IsUpdated
-                ? s_updateInfo.TargetVersion
-                : s_updateInfo.CurrentVersion;
+            : UpdateInfo!.IsUpdated
+                ? UpdateInfo.TargetVersion
+                : UpdateInfo.CurrentVersion;
 
-    public static string TargetVersion => IsEnabled ? s_updateInfo!.TargetVersion : string.Empty;
+    public static string TargetVersion => IsEnabled ? UpdateInfo!.TargetVersion : string.Empty;
 
     public static bool HasPendingFakeUpdate =>
         IsEnabled &&
-        !s_updateInfo!.IsUpdated &&
-        !string.Equals(s_updateInfo.CurrentVersion, s_updateInfo.TargetVersion, StringComparison.OrdinalIgnoreCase);
+        !UpdateInfo!.IsUpdated &&
+        !string.Equals(UpdateInfo.CurrentVersion, UpdateInfo.TargetVersion, StringComparison.OrdinalIgnoreCase);
 
     public static bool Updating()
     {
-        if (!HasPendingFakeUpdate || s_updateInfo is null)
+        if (!HasPendingFakeUpdate || UpdateInfo is null)
         {
             return false;
         }
 
-        s_updateInfo.IsUpdated = true;
-        ConfigFactory.Root.Update.Name = s_updateInfo.TargetVersion;
+        UpdateInfo.IsUpdated = true;
+        ConfigFactory.Root.Update.Name = UpdateInfo.TargetVersion;
         ConfigFactory.Root.Update.IsFirstBoot = true;
         return SaveAndRestart();
     }
 
     private static bool SaveAndRestart()
     {
-        if (!JsonDataHelper.Set(FileName, s_updateInfo))
+        if (!JsonDataHelper.Set(FileName, UpdateInfo))
         {
             return false;
         }

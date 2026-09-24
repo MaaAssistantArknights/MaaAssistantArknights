@@ -19,7 +19,7 @@ namespace MaaWpfGui.Helper;
 
 public class AppIcon
 {
-    private static readonly Lazy<BitmapSource> lazyIcon = new(ExtractIcon);
+    private static readonly Lazy<BitmapSource> LazyIcon = new(ExtractIcon);
 
     private static BitmapSource ExtractIcon()
     {
@@ -44,5 +44,5 @@ public class AppIcon
         }
     }
 
-    public static BitmapSource GetIcon() => lazyIcon.Value;
+    public static BitmapSource GetIcon() => LazyIcon.Value;
 }

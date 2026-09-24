@@ -62,14 +62,14 @@ public class VersionUpdateDialogViewModel : Screen
 
     private static readonly ILogger _logger = Log.ForContext<VersionUpdateDialogViewModel>();
 
-    private static readonly string s_contributorAvatarDir = Path.Combine(PathsHelper.CacheDir, "contributor");
+    private static readonly string ContributorAvatarDir = Path.Combine(PathsHelper.CacheDir, "contributor");
 
     private const string ContributorAvatarPlaceholderName = "_placeholder.png";
 
     // 32×32 全透明 PNG；头像未下载时占住 16px 位置，下载完成前后布局零跳动
     private const string PlaceholderAvatarBase64 = "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGklEQVR4nO3BAQEAAACCIP+vbkhAAQAAAO8GECAAARlDNO4AAAAASUVORK5CYII=";
 
-    private static readonly HashSet<string> s_downloadingAvatars = [];
+    private static readonly HashSet<string> DownloadingAvatars = [];
 
     private static string FormatUpdateInfo(string text)
     {
@@ -110,10 +110,10 @@ public class VersionUpdateDialogViewModel : Screen
             return string.Empty;
         }
 
-        string avatarPath = Path.Combine(s_contributorAvatarDir, user + ".png");
+        string avatarPath = Path.Combine(ContributorAvatarDir, user + ".png");
         string effectivePath = File.Exists(avatarPath)
             ? avatarPath
-            : Path.Combine(s_contributorAvatarDir, ContributorAvatarPlaceholderName);
+            : Path.Combine(ContributorAvatarDir, ContributorAvatarPlaceholderName);
 
         // 路径用正斜杠，Markdown 中反斜杠是转义字符；尺寸语法 {width=16px} 由 MdXaml 的 ImageResizeExt 渲染；
         // title（即渲染后的 ToolTip）携带用户名，供头像下载完成后在已渲染文档中定位占位图换源。
@@ -122,25 +122,25 @@ public class VersionUpdateDialogViewModel : Screen
         return $"![avatar]({effectivePath.Replace('\\', '/')} \"{user}\"){{width=16px height=16px}}\u2060";
     }
 
-    private static bool s_placeholderAvatarReady;
+    private static bool placeholderAvatarReady;
 
     private static bool EnsurePlaceholderAvatar()
     {
-        if (s_placeholderAvatarReady)
+        if (placeholderAvatarReady)
         {
             return true;
         }
 
         try
         {
-            Directory.CreateDirectory(s_contributorAvatarDir);
-            string path = Path.Combine(s_contributorAvatarDir, ContributorAvatarPlaceholderName);
+            Directory.CreateDirectory(ContributorAvatarDir);
+            string path = Path.Combine(ContributorAvatarDir, ContributorAvatarPlaceholderName);
             if (!File.Exists(path))
             {
                 File.WriteAllBytes(path, Convert.FromBase64String(PlaceholderAvatarBase64));
             }
 
-            s_placeholderAvatarReady = true;
+            placeholderAvatarReady = true;
         }
         catch (Exception e)
         {
@@ -148,7 +148,7 @@ public class VersionUpdateDialogViewModel : Screen
             _logger.Warning(e, "Failed to create placeholder contributor avatar");
         }
 
-        return s_placeholderAvatarReady;
+        return placeholderAvatarReady;
     }
 
     /// <summary>
@@ -168,15 +168,15 @@ public class VersionUpdateDialogViewModel : Screen
 
         foreach (var user in users)
         {
-            string path = Path.Combine(s_contributorAvatarDir, user + ".png");
+            string path = Path.Combine(ContributorAvatarDir, user + ".png");
             if (File.Exists(path))
             {
                 continue;
             }
 
-            lock (s_downloadingAvatars)
+            lock (DownloadingAvatars)
             {
-                if (!s_downloadingAvatars.Add(user))
+                if (!DownloadingAvatars.Add(user))
                 {
                     continue;
                 }
@@ -188,7 +188,7 @@ public class VersionUpdateDialogViewModel : Screen
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     var content = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-                    Directory.CreateDirectory(s_contributorAvatarDir);
+                    Directory.CreateDirectory(ContributorAvatarDir);
                     string tempPath = path + ".temp";
                     await File.WriteAllBytesAsync(tempPath, content).ConfigureAwait(false);
                     File.Move(tempPath, path);
@@ -201,9 +201,9 @@ public class VersionUpdateDialogViewModel : Screen
             }
             finally
             {
-                lock (s_downloadingAvatars)
+                lock (DownloadingAvatars)
                 {
-                    _ = s_downloadingAvatars.Remove(user);
+                    _ = DownloadingAvatars.Remove(user);
                 }
             }
         }
