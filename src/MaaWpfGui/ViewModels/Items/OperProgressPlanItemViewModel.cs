@@ -62,6 +62,9 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
         Name = name;
         Elite = elite;
         MainSkillLevel = mainSkillLevel;
+        IsSpecializationSkill1Selected = specializationSkillLevel.Skill1 > 0;
+        IsSpecializationSkill2Selected = specializationSkillLevel.Skill2 > 0;
+        IsSpecializationSkill3Selected = specializationSkillLevel.Skill3 > 0;
         SpecializationSkill1 = specializationSkillLevel.Skill1;
         SpecializationSkill2 = specializationSkillLevel.Skill2;
         SpecializationSkill3 = specializationSkillLevel.Skill3;
@@ -157,6 +160,48 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
     /// </summary>
     public int SkillCount { get; set => SetAndNotify(ref field, value); }
 
+    public bool IsSpecializationSkill1Selected
+    {
+        get; set {
+            if (!SetAndNotify(ref field, value))
+            {
+                return;
+            }
+            if (value && SpecializationSkill1 == 0)
+            {
+                SpecializationSkill1 = 3;
+            }
+        }
+    }
+
+    public bool IsSpecializationSkill2Selected
+    {
+        get; set {
+            if (!SetAndNotify(ref field, value))
+            {
+                return;
+            }
+            if (value && SpecializationSkill2 == 0)
+            {
+                SpecializationSkill2 = 3;
+            }
+        }
+    }
+
+    public bool IsSpecializationSkill3Selected
+    {
+        get; set {
+            if (!SetAndNotify(ref field, value))
+            {
+                return;
+            }
+            if (value && SpecializationSkill3 == 0)
+            {
+                SpecializationSkill3 = 3;
+            }
+        }
+    }
+
     /// <summary>Gets or sets 技能 1 的专精等级，0 表示不专精。设定专精会把不足 7 级的技能等级目标补到 7 级。</summary>
     public int SpecializationSkill1 { get; set => SetSpecializationTarget(ref field, value); }
 
@@ -175,7 +220,7 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
     /// <summary>Gets 技能序号 3 的专精行标签。</summary>
     public string SkillLabel3 { get; } = LocalizationHelper.GetStringFormat("OperProgressSkillNumber", 3);
 
-    public SkillLevel.Specialization SpecializationSkillLevel => new(SpecializationSkill1, SpecializationSkill2, SpecializationSkill3);
+    public SkillLevel.Specialization SpecializationSkillLevel => new(IsSpecializationSkill1Selected ? SpecializationSkill1 : 0, IsSpecializationSkill2Selected ? SpecializationSkill2 : 0, IsSpecializationSkill3Selected ? SpecializationSkill3 : 0);
 
     /// <summary>Gets 卡片当前培养目标的本地化描述，多个目标以「 / 」连接。</summary>
     public string TargetDescription
