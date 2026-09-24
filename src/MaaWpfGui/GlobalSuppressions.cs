@@ -13,13 +13,12 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA0001:Comma should be followed by a space", Justification = "Comma followed by space", Scope = "module")]
+[assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA0001:XML comment analysis is disabled due to project configuration", Justification = "Documentation file generation is not enabled", Scope = "module")]
 [assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:Prefix local calls with this", Justification = "Underscores used", Scope = "module")]
 [assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1116:Split parameters should start on line after declaration", Justification = "Alignment does not matter", Scope = "module")]
 [assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1117:Parameters should be on same line or separate lines", Justification = "Alignment does not matter", Scope = "module")]
 [assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1118:Parameter should not span multiple lines", Justification = "Alignment does not matter", Scope = "module")]
 [assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1124:Do not use regions", Justification = "Use regions", Scope = "module")]
-[assembly: SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1200:Using directives should be placed correctly", Justification = "Using directives are placed outside namespace")]
 [assembly: SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1201:Elements should appear in the correct order", Justification = "Orders are not important", Scope = "module")]
 [assembly: SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1202:Elements should be ordered by access", Justification = "Orders are not important", Scope = "module")]
 [assembly: SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1203:Constants should appear before fields", Justification = "Orders are not important", Scope = "module")]
