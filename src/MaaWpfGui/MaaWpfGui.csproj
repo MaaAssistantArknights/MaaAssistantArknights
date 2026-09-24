@@ -89,11 +89,6 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
-  <!-- Ignore Warings -->
-  <PropertyGroup>
-    <NoWarn>SA1404</NoWarn>
-  </PropertyGroup>
-
   <!-- Resource -->
   <ItemGroup>
     <AdditionalFiles Include="stylecop.json" />
