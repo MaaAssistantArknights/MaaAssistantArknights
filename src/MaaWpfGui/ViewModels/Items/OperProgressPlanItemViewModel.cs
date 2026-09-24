@@ -124,8 +124,6 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
             {
                 MainSkillLevel = Math.Min(MainSkillLevel, 4);
             }
-
-            NotifyOfPropertyChange(nameof(TargetDescription));
         }
     }
 
@@ -150,8 +148,6 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
             {
                 Elite = 2;
             }
-
-            NotifyOfPropertyChange(nameof(TargetDescription));
         }
     }
 
@@ -222,7 +218,11 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
 
     public SkillLevel.Specialization SpecializationSkillLevel => new(IsSpecializationSkill1Selected ? SpecializationSkill1 : 0, IsSpecializationSkill2Selected ? SpecializationSkill2 : 0, IsSpecializationSkill3Selected ? SpecializationSkill3 : 0);
 
-    /// <summary>Gets 卡片当前培养目标的本地化描述，多个目标以「 / 」连接。</summary>
+    /// <summary>
+    /// Gets 卡片当前培养目标的本地化描述，多个目标以「 / 」连接。
+    /// </summary>
+    [DependsOn(nameof(Elite), nameof(MainSkillLevel), nameof(IsSpecializationSkill1Selected), nameof(SpecializationSkill1), nameof(IsSpecializationSkill2Selected), nameof(SpecializationSkill2), nameof(IsSpecializationSkill3Selected), nameof(SpecializationSkill3))]
+
     public string TargetDescription
     {
         get {
@@ -250,8 +250,8 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
         }
     }
 
-    [DependsOn(nameof(Elite), nameof(MainSkillLevel), nameof(SpecializationSkill1), nameof(SpecializationSkill2), nameof(SpecializationSkill3))]
-    public string ShortDescription => string.Join(" / ", new int[] { Elite, MainSkillLevel, SpecializationSkill1, SpecializationSkill2, SpecializationSkill3 }
+    [DependsOn(nameof(Elite), nameof(MainSkillLevel), nameof(IsSpecializationSkill1Selected), nameof(SpecializationSkill1), nameof(IsSpecializationSkill2Selected), nameof(SpecializationSkill2), nameof(IsSpecializationSkill3Selected), nameof(SpecializationSkill3))]
+    public string ShortDescription => string.Join(" / ", new int[] { Elite, MainSkillLevel, GetSpecializationTarget(1), GetSpecializationTarget(2), GetSpecializationTarget(3) }
         .Select(x => x.ToString())).Replace("0", "-");
 
     /// <summary>语言切换后刷新本地化文本（干员名、专精行标签与目标描述）。</summary>
@@ -276,14 +276,12 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
         {
             MainSkillLevel = 7;
         }
-
-        NotifyOfPropertyChange(nameof(TargetDescription));
     }
 
     private int GetSpecializationTarget(int skillIndex) => skillIndex switch {
-        1 => SpecializationSkill1,
-        2 => SpecializationSkill2,
-        3 => SpecializationSkill3,
+        1 => IsSpecializationSkill1Selected ? SpecializationSkill1 : 0,
+        2 => IsSpecializationSkill2Selected ? SpecializationSkill2 : 0,
+        3 => IsSpecializationSkill3Selected ? SpecializationSkill3 : 0,
         _ => 0,
     };
 
