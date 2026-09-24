@@ -35,12 +35,22 @@
                 <controls:TooltipBlock TooltipText="{DynamicResource OperProgressDeleteCompletedEntriesTip}" />
             </StackPanel>
 
-            <Button
-                Margin="0,8,0,0"
-                HorizontalAlignment="Left"
-                Command="{s:Action ParsePlan}"
-                Content="{DynamicResource OperProgressParsePlan}" />
+            <StackPanel
+                Margin="0,4,0,0"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <Button
+                    MinWidth="50"
+                    Margin="0,8,0,0"
+                    Command="{s:Action CollapseAll}"
+                    Content="{DynamicResource CollapseAll}" />
+                <Button
+                    Margin="6,8,0,0"
+                    HorizontalAlignment="Left"
+                    Command="{s:Action ParsePlan}"
+                    Content="从剪贴板读取" />
 
+            </StackPanel>
             <!--  干员选择与添加培养目标  -->
             <Grid Margin="0,8,0,0">
                 <Grid.ColumnDefinitions>
@@ -100,6 +110,7 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
@@ -110,14 +121,90 @@
                                         HorizontalAlignment="Left"
                                         Text="{Binding DisplayName}"
                                         TextTrimming="CharacterEllipsis" />
-                                    <controls:TextBlock
-                                        Grid.Column="2"
-                                        Margin="4,0"
-                                        HorizontalAlignment="Right"
-                                        Text="{Binding TargetDescription}"
-                                        TextWrapping="Wrap" />
+                                    <Grid Grid.Column="3" HorizontalAlignment="Right">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            Grid.Column="0"
+                                            Width="18"
+                                            Height="18"
+                                            Margin="3"
+                                            Source="{Binding EliteIconPath}"
+                                            Stretch="Uniform"
+                                            Visibility="{c:Binding IsEliteSelected}">
+                                            <Image.Effect>
+                                                <DropShadowEffect
+                                                    BlurRadius="8"
+                                                    Opacity="0.8"
+                                                    ShadowDepth="1"
+                                                    Color="Black" />
+                                            </Image.Effect>
+                                        </Image>
+                                        <controls:TextBlock
+                                            Grid.Column="1"
+                                            Margin="4,0"
+                                            HorizontalAlignment="Right"
+                                            Text="{Binding ShortDescription}"
+                                            TextWrapping="Wrap"
+                                            ToolTip="{Binding TargetDescription}"
+                                            ToolTipService.InitialShowDelay="0"
+                                            Visibility="Collapsed" />
+                                        <Image
+                                            Grid.Column="2"
+                                            Width="18"
+                                            Height="18"
+                                            Margin="3"
+                                            Source="{Binding Skill1IconPath}"
+                                            Stretch="Uniform"
+                                            Visibility="{c:Binding IsSpecializationSkill1Selected}">
+                                            <Image.Effect>
+                                                <DropShadowEffect
+                                                    BlurRadius="8"
+                                                    Opacity="0.5"
+                                                    ShadowDepth="1"
+                                                    Color="Black" />
+                                            </Image.Effect>
+                                        </Image>
+                                        <Image
+                                            Grid.Column="3"
+                                            Width="18"
+                                            Height="18"
+                                            Margin="3"
+                                            Source="{Binding Skill2IconPath}"
+                                            Stretch="Uniform"
+                                            Visibility="{c:Binding IsSpecializationSkill2Selected}">
+                                            <Image.Effect>
+                                                <DropShadowEffect
+                                                    BlurRadius="8"
+                                                    Opacity="0.5"
+                                                    ShadowDepth="1"
+                                                    Color="Black" />
+                                            </Image.Effect>
+                                        </Image>
+                                        <Image
+                                            Grid.Column="4"
+                                            Width="18"
+                                            Height="18"
+                                            Margin="3"
+                                            Source="{Binding Skill3IconPath}"
+                                            Stretch="Uniform"
+                                            Visibility="{c:Binding IsSpecializationSkill3Selected}">
+                                            <Image.Effect>
+                                                <DropShadowEffect
+                                                    BlurRadius="8"
+                                                    Opacity="0.5"
+                                                    ShadowDepth="1"
+                                                    Color="Black" />
+                                            </Image.Effect>
+                                        </Image>
+                                    </Grid>
                                     <Button
-                                        Grid.Column="3"
+                                        Grid.Column="4"
                                         Width="25"
                                         Height="25"
                                         Margin="0,0,-5,0"
@@ -166,12 +253,13 @@
                                         </Grid.RowDefinitions>
 
                                         <!--  精英化目标：0 表示不设定  -->
-                                        <controls:TextBlock
+                                        <CheckBox
                                             Grid.Row="0"
                                             Grid.Column="0"
                                             Margin="0,6,0,0"
                                             VerticalAlignment="Center"
-                                            Text="{DynamicResource OperProgressElite}" />
+                                            Content="{DynamicResource OperProgressElite}"
+                                            IsChecked="{Binding IsEliteSelected}" />
                                         <controls:TextBlock
                                             Grid.Row="0"
                                             Grid.Column="1"
@@ -184,16 +272,17 @@
                                             Margin="0,6,0,0"
                                             DisplayMemberPath="Display"
                                             ItemsSource="{Binding DataContext.EliteList, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                            SelectedValue="{Binding Elite, UpdateSourceTrigger=PropertyChanged}"
+                                            SelectedValue="{Binding Elite}"
                                             SelectedValuePath="Value" />
 
                                         <!--  技能等级目标：0 表示不设定  -->
-                                        <controls:TextBlock
+                                        <CheckBox
                                             Grid.Row="1"
                                             Grid.Column="0"
                                             Margin="0,6,0,0"
                                             VerticalAlignment="Center"
-                                            Text="{DynamicResource OperProgressSkillUpgrade}" />
+                                            Content="{DynamicResource OperProgressSkillUpgrade}"
+                                            IsChecked="{Binding IsMainSkillLevelSelected}" />
                                         <controls:TextBlock
                                             Grid.Row="1"
                                             Grid.Column="1"
@@ -206,7 +295,7 @@
                                             Margin="0,6,0,0"
                                             DisplayMemberPath="Display"
                                             ItemsSource="{Binding DataContext.MainSkillLevelList, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                            SelectedValue="{Binding MainSkillLevel, UpdateSourceTrigger=PropertyChanged}"
+                                            SelectedValue="{Binding MainSkillLevel}"
                                             SelectedValuePath="Value" />
 
                                         <!--  技能专精目标：技能 1/2/3 三行固定显示，超出干员技能数的行禁用  -->

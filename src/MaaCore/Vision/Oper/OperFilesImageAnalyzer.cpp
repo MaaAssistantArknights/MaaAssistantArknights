@@ -49,7 +49,7 @@ std::optional<int> asst::OperFilesImageAnalyzer::mastery_level(int skill)
     LogTraceFunction;
 
     if (skill < 1 || skill > 3) {
-        Log.error(__FUNCTION__, "| invalid skill index", skill);
+        LogError << __FUNCTION__ << "| invalid skill index" << skill;
         return std::nullopt;
     }
 
