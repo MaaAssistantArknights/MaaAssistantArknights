@@ -23,6 +23,7 @@ using AsstTaskId = System.Int32;
 
 namespace MaaWpfGui.Services;
 
+#pragma warning disable SA1601 // Partial elements should be documented
 internal static partial class MaaService
 {
     internal delegate void CallbackDelegate(int msg, IntPtr jsonBuffer, IntPtr customArg);
