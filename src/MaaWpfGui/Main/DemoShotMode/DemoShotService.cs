@@ -56,7 +56,7 @@ public static class DemoShotService
     private const int WindowHeight = 600;
 
     /// <summary>遍历的界面语言，与 LocalizationHelper.SupportedLanguages 及文档目录名保持一致。</summary>
-    private static readonly string[] Languages = ["zh-cn", "zh-tw", "en-us", "ja-jp", "ko-kr"];
+    private static readonly string[] _languages = ["zh-cn", "zh-tw", "en-us", "ja-jp", "ko-kr"];
 
     /// <summary>
     /// 运行演示截图流程。全程保持在 UI 线程（数据文件读取除外），异常时记日志并以非零码退出。
@@ -89,9 +89,9 @@ public static class DemoShotService
 
             string[] themeSuffixes = ["light", "dark"];
             GlobalGui.DarkModeType[] themes = [GlobalGui.DarkModeType.Light, GlobalGui.DarkModeType.Dark];
-            int total = Languages.Length * themes.Length;
+            int total = _languages.Length * themes.Length;
             int current = 0;
-            foreach (string lang in Languages)
+            foreach (string lang in _languages)
             {
                 for (int themeIndex = 0; themeIndex < themes.Length; themeIndex++)
                 {
@@ -236,7 +236,7 @@ public static class DemoShotService
     /// <c>TaskQueueViewModel.TaskTypeList</c> 的成员（<c>TaskQueueView.xaml</c> 的菜单项）一一对应，
     /// 即任务列表可出现的全部条目；<c>CustomTask</c> 为自定义空壳不在演示之列。
     /// </summary>
-    private static readonly Dictionary<string, Func<BaseTask>> DemoTaskFactories =
+    private static readonly Dictionary<string, Func<BaseTask>> _demoTaskFactories =
         new(StringComparer.OrdinalIgnoreCase)
         {
             ["StartUp"] = () => new StartUpTask(),
@@ -254,7 +254,7 @@ public static class DemoShotService
         };
 
     /// <summary>
-    /// 按演示数据序列以 <see cref="DemoTaskFactories"/> 全新建固定任务实例列表，不读取配置：
+    /// 按演示数据序列以 <see cref="_demoTaskFactories"/> 全新建固定任务实例列表，不读取配置：
     /// 任务名一律为 TaskType 标准本地化名（<see cref="BaseTask.Name"/> 留空），不受运行目录
     /// 遗留的自定义任务名与任务集差异影响。
     /// </summary>
@@ -265,7 +265,7 @@ public static class DemoShotService
         var ordered = new List<BaseTask>(tasks.Count);
         foreach (var entry in tasks)
         {
-            if (!DemoTaskFactories.TryGetValue(entry.Type, out var factory))
+            if (!_demoTaskFactories.TryGetValue(entry.Type, out var factory))
             {
                 _logger.Warning("Demo task type {Type} not found in factories, skipped", entry.Type);
                 continue;
@@ -682,7 +682,7 @@ public static class DemoShotService
     /// （tools 产线认可的 README 圆角形态，弧线/羽化为实测值，非理想几何圆）；
     /// 其余三角与左上角互为严格镜像，按翻转取下标即可。
     /// </summary>
-    private static readonly byte[,] CornerAlphaMask =
+    private static readonly byte[,] _cornerAlphaMask =
     {
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 96, 159, 191 },
         { 0, 0, 0, 0, 0, 0, 0, 0, 32, 159, 255, 255, 255, 255 },
@@ -722,7 +722,7 @@ public static class DemoShotService
                 for (int x = 0; x < CornerMaskSize; x++)
                 {
                     int maskX = flipX ? CornerMaskSize - 1 - x : x;
-                    pixels[rowBase + (x * 4) + 3] = CornerAlphaMask[maskY, maskX];
+                    pixels[rowBase + (x * 4) + 3] = _cornerAlphaMask[maskY, maskX];
                 }
             }
         }
@@ -770,7 +770,7 @@ public static class DemoShotService
     /// UiLogColor 常量名到常量值的映射。演示数据中的 color 是常量名（如 Trace），
     /// 而 AddLog 接受的是常量值即 brush 资源 key（如 TraceLogBrush），直传常量名会查不到资源回退默认色。
     /// </summary>
-    private static readonly Dictionary<string, string> LogColorMap =
+    private static readonly Dictionary<string, string> _logColorMap =
         typeof(UiLogColor)
             .GetFields(BindingFlags.Public | BindingFlags.Static)
             .Where(f => f.IsLiteral && f.FieldType == typeof(string))
@@ -786,7 +786,7 @@ public static class DemoShotService
             return UiLogColor.Trace;
         }
 
-        if (LogColorMap.TryGetValue(color, out string? brushKey))
+        if (_logColorMap.TryGetValue(color, out string? brushKey))
         {
             return brushKey;
         }

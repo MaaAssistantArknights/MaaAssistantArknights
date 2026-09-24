@@ -551,7 +551,6 @@ public abstract class GpuOption
             return false;
         }
 
-        // ReSharper disable once UsageOfDefaultStructEquality
         public override int GetHashCode() => HashCode.Combine(typeof(SpecificGpuOption), _description, _index, _instancePath);
 
         public override string ToString() => ShowIndex ? _description + $" (GPU {_index})" : _description.Description.ToString();

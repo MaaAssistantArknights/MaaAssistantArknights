@@ -97,8 +97,6 @@ public class DiscordNotificationProvider(IHttpService httpService, DiscordConfig
 
     private class ChannelsCreation
     {
-        // ReSharper disable UnusedMember.Local
-        // ReSharper disable UnusedAutoPropertyAccessor.Local
         [JsonPropertyName("recipient_id")]
         public string? RecipientId { get; set; }
 
@@ -107,8 +105,5 @@ public class DiscordNotificationProvider(IHttpService httpService, DiscordConfig
 
         [JsonPropertyName("nicks")]
         public string? Nicks { get; set; }
-
-        // ReSharper restore UnusedMember.Local
-        // ReSharper restore UnusedAutoPropertyAccessor.Local
     }
 }

@@ -15,6 +15,7 @@
 ## C# / WPF（MaaWpfGui）
 
 - 新 `.cs` 文件必须带 `stylecop.json` 模板规定的版权头，`file=` 值须等于实际文件名。
+- 构建开启警告即错误与 XML 文档校验（`GenerateDocumentationFile`）：cref 指向不存在的成员、注释里的裸 `&`/`<`/`>`、写了 `<summary>` 却漏 `<param>`/`<returns>` 都会直接挡构建；不强制写文档，但写了就必须完整。
 - MVVM 框架是 Stylet：对话框 VM 继承 `Screen`，Root 用 `Conductor<Screen>.Collection.OneActive`，UserControl 子模型与列表项继承 `PropertyChangedBase`，配置树类继承 `NotifyPropertyChangedWithValue`；交互用 `Command="{s:Action 方法名}"` 直绑 VM 方法，不自建 ICommand。
 - 派生属性标 `[PropertyDependsOn(nameof(X))]` 并在构造函数调 `PropertyDependsOnUtility.InitializePropertyDependencies(this)`。
 - `MaaWpfGui.Configuration.` 命名空间内的类用纯 auto-property（Fody PropertyChanged 织入通知），命名空间外织入不生效，必须手动 `SetAndNotify`，否则 UI 静默不刷新。

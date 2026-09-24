@@ -1033,7 +1033,7 @@ public class ToolboxViewModel : Screen
     */
 
     // 需要排除的物品 ID（不统计到仓库）
-    private static readonly HashSet<string> ExcludedItemIds =
+    private static readonly HashSet<string> _excludedItemIds =
     [
         "3401", // 家具
         "3112", "3113", "3114", // 碳
@@ -1048,7 +1048,7 @@ public class ToolboxViewModel : Screen
     private static bool ShouldExcludeItem(string itemId)
     {
         // 排除特定 ID
-        if (ExcludedItemIds.Contains(itemId))
+        if (_excludedItemIds.Contains(itemId))
         {
             return true;
         }
@@ -1352,10 +1352,10 @@ public class ToolboxViewModel : Screen
         /// </summary>
         public List<string> ModBadges =>
         [
-            .. Equips?.Where(e => e.Level > 0).Select(e => $"{ModTypeDisplay.GetValueOrDefault(e.Type, e.Type)}{e.Level}") ?? [],
+            .. Equips?.Where(e => e.Level > 0).Select(e => $"{_modTypeDisplay.GetValueOrDefault(e.Type, e.Type)}{e.Level}") ?? [],
         ];
 
-        private static readonly Dictionary<string, string> ModTypeDisplay = new()
+        private static readonly Dictionary<string, string> _modTypeDisplay = new()
         {
             ["A"] = "α",
             ["B"] = "β",

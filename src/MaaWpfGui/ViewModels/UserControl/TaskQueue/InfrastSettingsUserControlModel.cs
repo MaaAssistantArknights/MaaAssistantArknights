@@ -31,11 +31,10 @@ using MaaWpfGui.Utilities.ValueType;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Serilog;
+using static MaaWpfGui.Main.AsstProxy;
+using Mode = MaaWpfGui.ViewModels.UserControl.TaskQueue.InfrastMode;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
-
-using static MaaWpfGui.Main.AsstProxy;
-using Mode = InfrastMode;
 
 /// <summary>
 /// 基建任务

@@ -11,22 +11,17 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-#nullable enable
+#pragma warning disable SA1401 // 按钮文案为公开字段，供全局定制
 
-#pragma warning disable CS0618
-#pragma warning disable SA1401
+#nullable enable
 
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Security;
 using System.Windows;
 using System.Windows.Forms;
 using HandyControl.Data;
 using MaaWpfGui.Constants;
-
-[assembly: SecurityCritical]
-[assembly: SecurityTreatAsSafe]
 
 namespace MaaWpfGui.Helper;
 
@@ -38,7 +33,6 @@ public static class MessageBoxHelper
     /// <summary>
     /// OK text
     /// </summary>
-    // ReSharper disable once InconsistentNaming
     public static string OK = "OK";
 
     /// <summary>

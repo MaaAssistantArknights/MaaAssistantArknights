@@ -11,9 +11,9 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-#nullable enable
+#pragma warning disable SA1402 // 伴生小类与控件同文件
 
-#pragma warning disable SA1402
+#nullable enable
 
 using System;
 using System.Globalization;

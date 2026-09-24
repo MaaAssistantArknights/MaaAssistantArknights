@@ -148,7 +148,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         }
     }
 
-    private static readonly Environment.SpecialFolder[] s_unsupportedInstallLocationSpecialFolders =
+    private static readonly Environment.SpecialFolder[] _unsupportedInstallLocationSpecialFolders =
     {
         Environment.SpecialFolder.CommonApplicationData,
         Environment.SpecialFolder.ApplicationData,
@@ -251,7 +251,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     private static HashSet<string> GetUnsupportedInstallLocationPaths()
     {
         var paths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        foreach (Environment.SpecialFolder specialFolder in s_unsupportedInstallLocationSpecialFolders)
+        foreach (Environment.SpecialFolder specialFolder in _unsupportedInstallLocationSpecialFolders)
         {
             AddCandidateDirectoryPath(paths, Environment.GetFolderPath(specialFolder));
         }

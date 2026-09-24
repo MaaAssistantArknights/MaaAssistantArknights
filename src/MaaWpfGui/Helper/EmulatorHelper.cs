@@ -77,7 +77,7 @@ public class EmulatorHelper
     /// <summary>
     /// 将 MuMu 端口号转换为实例索引。
     /// MuMu 端口分配公式：port = 16384 + (index % 32) * 32 + floor(index/32) * 4，
-    /// 简化后 index = ((k & 7) << 5) | (k >> 3)，其中 k = (port - 16384) / 4。
+    /// 简化后 index = ((k &amp; 7) &lt;&lt; 5) | (k &gt;&gt; 3)，其中 k = (port - 16384) / 4。
     /// 参见 https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/17112
     /// </summary>
     /// <param name="port">MuMu ADB 端口号。</param>

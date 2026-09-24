@@ -11,7 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-#pragma warning disable SA1312
+#pragma warning disable SA1312 // 局部变量 _dtor_* 前缀标记 RAII 析构守卫
 using System;
 using System.Diagnostics;
 using System.Numerics;

@@ -32,7 +32,7 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
 public class GameSettingsUserControlModel : PropertyChangedBase
 {
-    private static RunningState _runningState => RunningState.Instance;
+    private readonly RunningState _runningState = RunningState.Instance;
 
     static GameSettingsUserControlModel()
     {

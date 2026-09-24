@@ -11,7 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-#pragma warning disable CS0649, SA1307, SA1602, SA1649
+#pragma warning disable CS0649, SA1307, SA1649 // 镜像 fontconfig C API，由原生侧赋值、命名跟随 C
 namespace MaaWpfGui.WineCompat.FontConfig;
 
 internal enum FcResult

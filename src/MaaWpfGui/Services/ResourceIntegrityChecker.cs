@@ -38,7 +38,7 @@ internal static class ResourceIntegrityChecker
 
     private static readonly ILogger _logger = Log.ForContext(typeof(ResourceIntegrityChecker));
 
-    private static readonly HashSet<string> s_skippedExtensions = new(StringComparer.OrdinalIgnoreCase)
+    private static readonly HashSet<string> _skippedExtensions = new(StringComparer.OrdinalIgnoreCase)
     {
         ".dll",
         ".exe",
@@ -97,7 +97,7 @@ internal static class ResourceIntegrityChecker
             }
 
             // Python/ 目录供用户自行接入调用，允许删除
-            if (s_skippedExtensions.Contains(Path.GetExtension(trimmedPath)))
+            if (_skippedExtensions.Contains(Path.GetExtension(trimmedPath)))
             {
                 continue;
             }

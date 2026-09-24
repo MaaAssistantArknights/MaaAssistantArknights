@@ -32,7 +32,7 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
 {
     /// <summary>触发回写任务配置的属性名集合，其余属性（序号、展开状态、本地化文本）不影响计划内容。</summary>
     // 弃用（即将被移除）：集合本身后续不再保留，改由各属性直接在 setter 中请求回写。
-    private static readonly HashSet<string> PersistedPropertyNames = [
+    private static readonly HashSet<string> _persistedPropertyNames = [
         nameof(Elite),
         nameof(MainSkillLevel),
         nameof(SpecializationSkill1),
@@ -43,7 +43,7 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
     /// <summary>判断属性变更是否影响计划内容，进而需要回写任务配置。</summary>
     /// <param name="propertyName">变更的属性名。</param>
     /// <returns>需要回写时为 true。</returns>
-    public static bool IsPersistedProperty(string? propertyName) => propertyName is not null && PersistedPropertyNames.Contains(propertyName);
+    public static bool IsPersistedProperty(string? propertyName) => propertyName is not null && _persistedPropertyNames.Contains(propertyName);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="OperProgressPlanItemViewModel"/> class.

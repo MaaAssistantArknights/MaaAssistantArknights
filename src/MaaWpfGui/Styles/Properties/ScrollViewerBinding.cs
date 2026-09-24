@@ -124,7 +124,7 @@ public static class ScrollViewerBinding
     }
 
     /// <summary>
-    /// 暂停 <see cref="VerticalOffset"/> 由滚动到属性的回写。Popup（如 ComboBox 下拉）打开期间由
+    /// 暂停 <see cref="VerticalOffsetProperty"/> 由滚动到属性的回写。Popup（如 ComboBox 下拉）打开期间由
     /// MouseWheelHelper.IsolateParentScroll 置位：下拉会触发外层 ScrollViewer 的瞬时滚动（布局微调、
     /// 位置恢复等），若被回写成 ScrollOffset，会经设置页的滚动联动改写左侧导航 SelectedIndex
     /// （高亮跳顶）。置位后 ScrollChanged 不回写，下拉关闭后自动恢复。
@@ -159,7 +159,7 @@ public static class ScrollViewerBinding
     /// <summary>
     /// 变速滚动目标偏移。值变化时由动画引擎直接驱动 <see cref="VerticalOffsetProperty"/>
     /// 从当前位置缓动（五次缓出，先快后慢）到目标，时长随距离自适应并按全局过渡档位同比缩放
-    /// （无动画档不播动画直接就位）；动画期间动画值优先于 <see cref="VerticalOffset"/> 的绑定与回写，
+    /// （无动画档不播动画直接就位）；动画期间动画值优先于 <see cref="VerticalOffsetProperty"/> 的绑定与回写，
     /// 结束后释放并把最终值路由回绑定源。仅由源（View 侧绑定）写入，从不回写，故注册为单向。
     /// </summary>
     public static readonly DependencyProperty SmoothScrollToProperty =

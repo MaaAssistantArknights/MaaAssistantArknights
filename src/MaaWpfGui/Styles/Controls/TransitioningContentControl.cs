@@ -53,11 +53,11 @@ public class TransitioningContentControl : HandyControl.Controls.TransitioningCo
     // 动画在播放时刻现建，改档立即生效
     public static TimeSpan TransitionDuration { get; set; } = TimeSpan.FromMilliseconds(NormalDurationMilliseconds);
 
-    private static readonly PropertyPath TranslateXPath = new("(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)");
+    private static readonly PropertyPath _translateXPath = new("(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)");
 
-    private static readonly PropertyPath TranslateYPath = new("(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)");
+    private static readonly PropertyPath _translateYPath = new("(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)");
 
-    private static readonly PropertyPath OpacityPath = new("(UIElement.Opacity)");
+    private static readonly PropertyPath _opacityPath = new("(UIElement.Opacity)");
 
     // 最近一次放行的过渡及其截止时刻（毫秒，Environment.TickCount64，抗系统时钟跳变），
     // 优先级更低的过渡请求在此期间让位；更高优先级可抢占；同级互不压制；
@@ -66,7 +66,7 @@ public class TransitioningContentControl : HandyControl.Controls.TransitioningCo
     private static int _grantedPriority = int.MaxValue;
     private static long _grantedUntilTick = long.MinValue;
 
-    private static readonly object GrantGate = new();
+    private static readonly object _grantGate = new();
 
     private bool _playPending;
 
@@ -302,7 +302,7 @@ public class TransitioningContentControl : HandyControl.Controls.TransitioningCo
 
     private bool TryAcquireTransitionGrant()
     {
-        lock (GrantGate)
+        lock (_grantGate)
         {
             var now = Environment.TickCount64;
             _grantedControl.TryGetTarget(out var granted);
@@ -380,35 +380,35 @@ public class TransitioningContentControl : HandyControl.Controls.TransitioningCo
         switch (mode)
         {
             case TransitionMode.Right2Left:
-                AddAnimation(50, 0, TranslateXPath);
+                AddAnimation(50, 0, _translateXPath);
                 break;
             case TransitionMode.Left2Right:
-                AddAnimation(-50, 0, TranslateXPath);
+                AddAnimation(-50, 0, _translateXPath);
                 break;
             case TransitionMode.Bottom2Top:
-                AddAnimation(50, 0, TranslateYPath);
+                AddAnimation(50, 0, _translateYPath);
                 break;
             case TransitionMode.Top2Bottom:
-                AddAnimation(-50, 0, TranslateYPath);
+                AddAnimation(-50, 0, _translateYPath);
                 break;
             case TransitionMode.Fade:
-                AddAnimation(0, 1, OpacityPath);
+                AddAnimation(0, 1, _opacityPath);
                 break;
             case TransitionMode.Right2LeftWithFade:
-                AddAnimation(50, 0, TranslateXPath);
-                AddAnimation(0, 1, OpacityPath);
+                AddAnimation(50, 0, _translateXPath);
+                AddAnimation(0, 1, _opacityPath);
                 break;
             case TransitionMode.Left2RightWithFade:
-                AddAnimation(-50, 0, TranslateXPath);
-                AddAnimation(0, 1, OpacityPath);
+                AddAnimation(-50, 0, _translateXPath);
+                AddAnimation(0, 1, _opacityPath);
                 break;
             case TransitionMode.Bottom2TopWithFade:
-                AddAnimation(50, 0, TranslateYPath);
-                AddAnimation(0, 1, OpacityPath);
+                AddAnimation(50, 0, _translateYPath);
+                AddAnimation(0, 1, _opacityPath);
                 break;
             case TransitionMode.Top2BottomWithFade:
-                AddAnimation(-50, 0, TranslateYPath);
-                AddAnimation(0, 1, OpacityPath);
+                AddAnimation(-50, 0, _translateYPath);
+                AddAnimation(0, 1, _opacityPath);
                 break;
             default:
                 return null;

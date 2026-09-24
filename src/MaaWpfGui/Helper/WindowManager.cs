@@ -92,7 +92,6 @@ public class WindowManager : Stylet.WindowManager
                 };
             }
 
-            // ReSharper disable once InvertIf
             if (_minimizeDirectly && _minimizeToTray)
             {
                 window.ShowInTaskbar = false;

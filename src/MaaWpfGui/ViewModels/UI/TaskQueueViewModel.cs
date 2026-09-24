@@ -59,7 +59,6 @@ namespace MaaWpfGui.ViewModels.UI;
 /// The view model of task queue.
 /// </summary>
 // 通过 container.Get<TaskQueueViewModel>(); 实例化或获取实例
-// ReSharper disable once ClassNeverInstantiated.Global
 public class TaskQueueViewModel : Screen
 {
     private readonly RunningState _runningState;
@@ -1126,7 +1125,6 @@ public class TaskQueueViewModel : Screen
                 break;
             }
 
-            // ReSharper disable once InvertIf
             if (currentTime == startTime)
             {
                 timeToStart = true;
@@ -1593,13 +1591,13 @@ public class TaskQueueViewModel : Screen
         Execute.OnUIThread(() => {
             if (needsBeforeSplit)
             {
-                createNewCard();
+                CreateNewCard();
             }
 
             // 确保至少有一个卡片（如果没有内容且不需要切割，也需要确保有卡片才能更新图片）
             if (LogCardViewModels.Count <= 0 && (!isEmpty || updateCardImage))
             {
-                createNewCard();
+                CreateNewCard();
             }
 
             if (LogCardViewModels.Count > 0)
@@ -1617,12 +1615,12 @@ public class TaskQueueViewModel : Screen
 
             if (needsAfterSplit)
             {
-                createNewCard();
+                CreateNewCard();
             }
         });
     }
 
-    private void createNewCard()
+    private void CreateNewCard()
     {
         if (LogCardViewModels.Count > 0 && LogCardViewModels[^1].Items.Count <= 0 && !LogCardViewModels[^1].IsDivider)
         {
@@ -1658,7 +1656,7 @@ public class TaskQueueViewModel : Screen
             // Card log style: render a real hc:Divider as its own card.
             var divider = new LogCardItemViewModel { IsDivider = true, Header = header };
             LogCardViewModels.Add(divider);
-            createNewCard();
+            CreateNewCard();
         });
     }
 

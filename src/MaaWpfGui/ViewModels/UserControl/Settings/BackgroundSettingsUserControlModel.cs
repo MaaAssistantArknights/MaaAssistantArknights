@@ -98,12 +98,12 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
     /// </summary>
     public ObservableCollection<BackgroundImageItem> BackgroundImageItems { get; } = [];
 
-    private static readonly string BackgroundsRoot = Path.Combine(PathsHelper.BaseDir, "Res", "Backgrounds");
+    private static readonly string _backgroundsRoot = Path.Combine(PathsHelper.BaseDir, "Res", "Backgrounds");
 
     /// <summary>
     /// 这些目录本身不显示，只把内部子项提升到上一级。
     /// </summary>
-    private static readonly HashSet<string> FlattenDirectoryNames = new(StringComparer.OrdinalIgnoreCase)
+    private static readonly HashSet<string> _flattenDirectoryNames = new(StringComparer.OrdinalIgnoreCase)
     {
         "Wallpapers",
     };
@@ -111,12 +111,12 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// 内部资源目录，不出现在用户可选列表中。
     /// </summary>
-    private static readonly HashSet<string> SkippedDirectoryNames = new(StringComparer.OrdinalIgnoreCase)
+    private static readonly HashSet<string> _skippedDirectoryNames = new(StringComparer.OrdinalIgnoreCase)
     {
         "Internal",
     };
 
-    private static readonly string[] SupportedImageExtensions = [".jpg", ".jpeg", ".png", ".bmp", ".gif", ".webp"];
+    private static readonly string[] _supportedImageExtensions = [".jpg", ".jpeg", ".png", ".bmp", ".gif", ".webp"];
 
     /// <summary>
     /// 加载 <c>Res/Backgrounds</c> 下的文件夹与图片，供下拉 TreeView 使用。
@@ -128,18 +128,18 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
         {
             BackgroundImageItems.Clear();
 
-            if (!Directory.Exists(BackgroundsRoot))
+            if (!Directory.Exists(_backgroundsRoot))
             {
-                Directory.CreateDirectory(BackgroundsRoot);
+                Directory.CreateDirectory(_backgroundsRoot);
                 return;
             }
 
-            AddDirectoryContent(BackgroundsRoot, BackgroundsRoot, promoteChildrenOfFlattenDirs: true);
+            AddDirectoryContent(_backgroundsRoot, _backgroundsRoot, promoteChildrenOfFlattenDirs: true);
         }
         catch (Exception ex)
         {
             BackgroundImageItems.Clear();
-            _logger.Error(ex, "Failed to load background images from {BackgroundsRoot}", BackgroundsRoot);
+            _logger.Error(ex, "Failed to load background images from {_backgroundsRoot}", _backgroundsRoot);
         }
     }
 
@@ -163,13 +163,13 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
                      .OrderBy(Path.GetFileName, StringComparer.CurrentCultureIgnoreCase))
         {
             var dirName = Path.GetFileName(dir);
-            if (SkippedDirectoryNames.Contains(dirName))
+            if (_skippedDirectoryNames.Contains(dirName))
             {
                 continue;
             }
 
             // Wallpapers 等容器目录：不生成折叠节点，直接提升其子目录/图片
-            if (promoteChildrenOfFlattenDirs && FlattenDirectoryNames.Contains(dirName))
+            if (promoteChildrenOfFlattenDirs && _flattenDirectoryNames.Contains(dirName))
             {
                 AddDirectoryContent(dir, relativeRoot, promoteChildrenOfFlattenDirs: false);
                 continue;
@@ -229,7 +229,7 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
     private static bool IsSupportedImage(string path)
     {
         var ext = Path.GetExtension(path);
-        return SupportedImageExtensions.Any(supported => ext.Equals(supported, StringComparison.OrdinalIgnoreCase));
+        return _supportedImageExtensions.Any(supported => ext.Equals(supported, StringComparison.OrdinalIgnoreCase));
     }
 
     /// <summary>

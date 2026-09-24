@@ -36,8 +36,8 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
 public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgressTaskUserControlModel.ISerialize
 {
-    // 待确认移除（AllowedFields 已作废：字段权威改为 OperProgressTask.Plan 对象，本次重构后仅 ParseAndValidate 引用）
-    private static readonly HashSet<string> AllowedFields = ["name", "elite", "skills", "skill", "skill_master"];
+    // 待确认移除（_allowedFields 已作废：字段权威改为 OperProgressTask.Plan 对象，本次重构后仅 ParseAndValidate 引用）
+    private static readonly HashSet<string> _allowedFields = ["name", "elite", "skills", "skill", "skill_master"];
 
     static OperProgressTaskUserControlModel() => Instance = new();
 
@@ -101,7 +101,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         SetTaskConfig<OperProgressTask>(t => t.Plans.SequenceEqual(list), t => t.Plans = list);
     }
 
-    public record class OperItem(string id, OperatorRole Role, string Name, string NameDisplay, int Rarity);
+    public record class OperItem(string Id, OperatorRole Role, string Name, string NameDisplay, int Rarity);
 
     /// <summary>可选择的干员名列表，按稀有度降序、名称升序排列，实时取自干员数据</summary>
     public List<GenericCombinedData<OperItem>> OperatorNames => [.. DataHelper.Operators.Values
@@ -141,6 +141,9 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
     public override (bool? IsSuccess, IEnumerable<int> TaskId) SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize).Serialize(baseTask, taskId);
 
     /// <summary>记录单条培养结果，由 AsstProxy 在 UI 线程回调（回调线程已由 Execute.OnUIThread 保证）</summary>
+    /// <param name="index">本条结果在计划数组中的下标</param>
+    /// <param name="name">干员名</param>
+    /// <param name="completed">是否培养完成</param>
     // 待确认移除（本次重构后 Key 下标不再参与判断，可简化为按干员名上报）
     public void OnTargetResult(int index, string name, bool completed)
     {
@@ -188,6 +191,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
     /// <summary>
     /// 从计划中移除指定的干员条目
     /// </summary>
+    /// <param name="item">要移除的干员条目</param>
     public void RemovePlan(OperProgressPlanItemViewModel? item)
     {
         if (item is null || !PlanItems.Remove(item))

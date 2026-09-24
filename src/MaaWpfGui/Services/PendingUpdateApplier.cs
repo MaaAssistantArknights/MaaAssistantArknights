@@ -43,13 +43,13 @@ internal static partial class PendingUpdateApplier
     [GeneratedRegex(@"^MAA-(?<version>v.+?)-win-(?<arch>x64|arm64)\.zip$", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant)]
     private static partial Regex FullPackageNameRegex();
 
-    private static readonly HashSet<string> s_controlFiles = new(StringComparer.OrdinalIgnoreCase)
+    private static readonly HashSet<string> _controlFiles = new(StringComparer.OrdinalIgnoreCase)
     {
         "removelist.txt",
         "changes.json",
     };
 
-    private static readonly HashSet<string> s_fullPackagePreservedEntries = new(StringComparer.OrdinalIgnoreCase)
+    private static readonly HashSet<string> _fullPackagePreservedEntries = new(StringComparer.OrdinalIgnoreCase)
     {
         "achievement",
         "cache",
@@ -62,7 +62,7 @@ internal static partial class PendingUpdateApplier
     // 完整包清理时的嵌套保留目录（相对安装根目录，反斜杠分隔）：
     // 用于随包发布、同时允许用户存放自有文件的目录（如壁纸目录 Res\Backgrounds\Wallpapers），
     // 不随完整包更新清理，其上级目录（如 Res）下的其他内容仍正常清理
-    private static readonly HashSet<string> s_fullPackagePreservedNestedEntries = new(StringComparer.OrdinalIgnoreCase)
+    private static readonly HashSet<string> _fullPackagePreservedNestedEntries = new(StringComparer.OrdinalIgnoreCase)
     {
         @"Res\Backgrounds\Wallpapers",
     };
@@ -429,6 +429,7 @@ internal static partial class PendingUpdateApplier
     /// 写入更新失败状态文件，格式与外部更新器写入的一致（UTF-8 纯文本原因），
     /// 供进程内应用失败（RequiresManualRecovery）等场景持久化失败状态。
     /// </summary>
+    /// <param name="failureReason">失败原因，原样写入状态文件</param>
     public static void MarkDelegatedUpdateFailure(string failureReason)
     {
         try
@@ -658,7 +659,7 @@ internal static partial class PendingUpdateApplier
     private static string[] GetFullPackageMoveEntries(string extractDir)
     {
         // 新包侧：嵌套保留目录只下钻输出其中的文件条目（逐文件覆盖、新增），不整体替换该目录
-        return [.. ExpandFullPackageEntries(extractDir, string.Empty, s_fullPackagePreservedEntries, includePreserved: true)
+        return [.. ExpandFullPackageEntries(extractDir, string.Empty, _fullPackagePreservedEntries, includePreserved: true)
             .Where(entry => !IsControlFile(entry))
             .Distinct(StringComparer.OrdinalIgnoreCase)];
     }
@@ -698,7 +699,7 @@ internal static partial class PendingUpdateApplier
             }
 
             bool isDirectory = Directory.Exists(entryPath);
-            if (!insidePreserved && isDirectory && s_fullPackagePreservedNestedEntries.Contains(relativePath))
+            if (!insidePreserved && isDirectory && _fullPackagePreservedNestedEntries.Contains(relativePath))
             {
                 if (includePreserved)
                 {
@@ -747,7 +748,7 @@ internal static partial class PendingUpdateApplier
     private static bool ContainsNestedPreservedEntry(string relativePath)
     {
         string prefix = relativePath + Path.DirectorySeparatorChar;
-        return s_fullPackagePreservedNestedEntries.Any(entry => entry.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
+        return _fullPackagePreservedNestedEntries.Any(entry => entry.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
     }
 
     private static string PrepareDelegatedUpdaterExecutable(PendingUpdateContext context)
@@ -769,7 +770,7 @@ internal static partial class PendingUpdateApplier
 
     private static HashSet<string> CreateFullPackagePreservedEntries(PendingUpdateContext context)
     {
-        var preservedEntries = new HashSet<string>(s_fullPackagePreservedEntries, StringComparer.OrdinalIgnoreCase)
+        var preservedEntries = new HashSet<string>(_fullPackagePreservedEntries, StringComparer.OrdinalIgnoreCase)
         {
             Path.GetFileName(context.ExtractDir),
             Path.GetFileName(context.BackupDir),
@@ -895,7 +896,7 @@ internal static partial class PendingUpdateApplier
 
     private static bool IsControlFile(string relativePath)
     {
-        return relativePath.IndexOf(Path.DirectorySeparatorChar) < 0 && s_controlFiles.Contains(relativePath);
+        return relativePath.IndexOf(Path.DirectorySeparatorChar) < 0 && _controlFiles.Contains(relativePath);
     }
 
     private static bool PathExists(string path)
