@@ -91,7 +91,7 @@
 
   <!-- Ignore Warings -->
   <PropertyGroup>
-    <NoWarn>SA1121;SA1404;Uno0001</NoWarn>
+    <NoWarn>SA1404</NoWarn>
   </PropertyGroup>
 
   <!-- Resource -->

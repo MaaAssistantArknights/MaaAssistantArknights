@@ -11,6 +11,8 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#pragma warning disable SA1121 // Aliases keep full type names to mirror the core API
+
 using System;
 using System.Runtime.InteropServices;
 using MaaWpfGui.Main;
@@ -21,7 +23,6 @@ using AsstTaskId = System.Int32;
 
 namespace MaaWpfGui.Services;
 
-#pragma warning disable SA1601 // Partial elements should be documented
 internal static partial class MaaService
 {
     internal delegate void CallbackDelegate(int msg, IntPtr jsonBuffer, IntPtr customArg);

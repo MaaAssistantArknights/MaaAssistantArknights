@@ -11,6 +11,8 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#pragma warning disable SA1121 // P/Invoke signatures keep full type names to mirror AsstCaller.h
+
 #nullable enable
 
 using System;
