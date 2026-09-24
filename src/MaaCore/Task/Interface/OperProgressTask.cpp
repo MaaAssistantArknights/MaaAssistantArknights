@@ -54,7 +54,7 @@ public:
             return std::nullopt;
         };
         // 养成动作一律是整数，显式写 null 时 is<int>() 为假，与类型错误同等拒绝，不会被当成未配置。
-        const auto& role_opt = check_field.template operator()<asst::battle::Role>("role", false);
+        [[maybe_unused]] const auto& role_opt = check_field.template operator()<asst::battle::Role>("role", false);
         const auto& name_opt = check_field.template operator()<std::string>("name", true);
         const auto& elite_opt = check_field.template operator()<int>("elite", false);
         const auto& skill_level_opt =
