@@ -41,6 +41,8 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 /// </summary>
 public class StartSettingsUserControlModel : PropertyChangedBase
 {
+    private readonly RunningState _runningState = RunningState.Instance;
+
     static StartSettingsUserControlModel()
     {
         Instance = new();
@@ -248,12 +250,12 @@ public class StartSettingsUserControlModel : PropertyChangedBase
 
     private void WaitForEmulatorStart(int delay)
     {
-        bool idle = RunningState.Instance.GetIdle();
-        RunningState.Instance.SetIdle(false);
+        bool idle = _runningState.GetIdle();
+        _runningState.SetIdle(false);
 
         for (var i = 0; i < delay; ++i)
         {
-            if (RunningState.Instance.GetStopping())
+            if (_runningState.GetStopping())
             {
                 _logger.Information("Stop waiting for the emulator to start");
                 return;
@@ -271,7 +273,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("WaitForEmulatorFinish"));
         _logger.Information("The wait is over");
 
-        RunningState.Instance.SetIdle(idle);
+        _runningState.SetIdle(idle);
     }
 
     /// <summary>

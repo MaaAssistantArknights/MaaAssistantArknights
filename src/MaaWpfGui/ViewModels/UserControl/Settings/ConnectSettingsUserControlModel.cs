@@ -49,6 +49,8 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 /// </summary>
 public class ConnectSettingsUserControlModel : PropertyChangedBase
 {
+    private readonly RunningState _runningState = RunningState.Instance;
+
     static ConnectSettingsUserControlModel()
     {
         Instance = new();
@@ -561,12 +563,12 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     [UsedImplicitly]
     public async Task TestLinkAndGetImage()
     {
-        if (!RunningState.Instance.GetIdle())
+        if (!_runningState.GetIdle())
         {
             return;
         }
 
-        RunningState.Instance.SetIdle(false);
+        _runningState.SetIdle(false);
 
         var errMsg = string.Empty;
         TestLinkInfo = LocalizationHelper.GetString("ConnectingToEmulator");
@@ -575,12 +577,12 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         if (!caught)
         {
             TestLinkInfo = errMsg;
-            RunningState.Instance.SetIdle(true);
+            _runningState.SetIdle(true);
             return;
         }
 
         TestLinkImage = await Instances.AsstProxy.AsstGetImageAsync(forceScreencap: true);
-        RunningState.Instance.SetIdle(true);
+        _runningState.SetIdle(true);
 
         if (TestLinkImage is null)
         {
