@@ -11,6 +11,8 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#pragma warning disable SA1300 // record positional parameter names double as JSON field names
+
 #nullable enable
 using System;
 using System.Collections.Generic;

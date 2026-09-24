@@ -11,6 +11,8 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#pragma warning disable SA1300 // P/Invoke names mirror the exported C symbols
+
 using System.Runtime.InteropServices;
 
 namespace MaaWpfGui.WineCompat;

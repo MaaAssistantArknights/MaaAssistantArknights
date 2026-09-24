@@ -167,7 +167,7 @@ public static class PropertyDependsOnUtility
         {
             _instanceDependencies.Add(instance, propertyDependencies);
 
-            void handler(object? sender, PropertyChangedEventArgs e)
+            void Handler(object? sender, PropertyChangedEventArgs e)
             {
                 if (sender != instance)
                 {
@@ -197,8 +197,8 @@ public static class PropertyDependsOnUtility
                 }
             }
 
-            _instanceHandlers.Add(instance, handler);
-            instance.PropertyChanged += handler;
+            _instanceHandlers.Add(instance, Handler);
+            instance.PropertyChanged += Handler;
         }
 
         // 第三步：处理跨实例依赖
@@ -256,7 +256,7 @@ public static class PropertyDependsOnUtility
                 _externalDependencies[externalInstance] = propMap;
 
                 // 订阅外部实例的 PropertyChanged
-                void externalHandler(object? sender, PropertyChangedEventArgs e)
+                void ExternalHandler(object? sender, PropertyChangedEventArgs e)
                 {
                     _logger.Debug("Cross-instance handler triggered: sender={Sender}, property={Property}", sender?.GetType().Name, e.PropertyName);
 
@@ -297,8 +297,8 @@ public static class PropertyDependsOnUtility
                     }
                 }
 
-                _externalHandlers[externalInstance] = externalHandler;
-                externalInstance.PropertyChanged += externalHandler;
+                _externalHandlers[externalInstance] = ExternalHandler;
+                externalInstance.PropertyChanged += ExternalHandler;
                 _logger.Debug("Registered cross-instance dependency: externalType={Type}, property={Property}", externalInstance.GetType().Name, externalPropertyName);
             }
 

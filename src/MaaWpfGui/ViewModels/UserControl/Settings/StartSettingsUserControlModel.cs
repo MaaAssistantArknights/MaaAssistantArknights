@@ -50,8 +50,6 @@ public class StartSettingsUserControlModel : PropertyChangedBase
 
     private static readonly ILogger _logger = Log.ForContext<StartSettingsUserControlModel>();
 
-    private static RunningState _runningState => RunningState.Instance;
-
     private static ConnectSettingsUserControlModel ConnectSettings => SettingsViewModel.ConnectSettings;
 
     private static VersionUpdateSettingsUserControlModel VersionUpdateSettings => SettingsViewModel.VersionUpdateSettings;
@@ -250,12 +248,12 @@ public class StartSettingsUserControlModel : PropertyChangedBase
 
     private void WaitForEmulatorStart(int delay)
     {
-        bool idle = _runningState.GetIdle();
-        _runningState.SetIdle(false);
+        bool idle = RunningState.Instance.GetIdle();
+        RunningState.Instance.SetIdle(false);
 
         for (var i = 0; i < delay; ++i)
         {
-            if (_runningState.GetStopping())
+            if (RunningState.Instance.GetStopping())
             {
                 _logger.Information("Stop waiting for the emulator to start");
                 return;
@@ -273,7 +271,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("WaitForEmulatorFinish"));
         _logger.Information("The wait is over");
 
-        _runningState.SetIdle(idle);
+        RunningState.Instance.SetIdle(idle);
     }
 
     /// <summary>

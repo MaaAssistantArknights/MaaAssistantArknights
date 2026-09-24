@@ -87,8 +87,6 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
     private static readonly ILogger _logger = Log.ForContext<ConnectSettingsUserControlModel>();
 
-    private static RunningState _runningState => RunningState.Instance;
-
     /// <summary>
     /// Gets the list of the configuration of connection.
     /// </summary>
@@ -563,12 +561,12 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     [UsedImplicitly]
     public async Task TestLinkAndGetImage()
     {
-        if (!_runningState.GetIdle())
+        if (!RunningState.Instance.GetIdle())
         {
             return;
         }
 
-        _runningState.SetIdle(false);
+        RunningState.Instance.SetIdle(false);
 
         var errMsg = string.Empty;
         TestLinkInfo = LocalizationHelper.GetString("ConnectingToEmulator");
@@ -577,12 +575,12 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         if (!caught)
         {
             TestLinkInfo = errMsg;
-            _runningState.SetIdle(true);
+            RunningState.Instance.SetIdle(true);
             return;
         }
 
         TestLinkImage = await Instances.AsstProxy.AsstGetImageAsync(forceScreencap: true);
-        _runningState.SetIdle(true);
+        RunningState.Instance.SetIdle(true);
 
         if (TestLinkImage is null)
         {

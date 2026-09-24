@@ -32,8 +32,6 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
 public class GameSettingsUserControlModel : PropertyChangedBase
 {
-    private static RunningState _runningState => RunningState.Instance;
-
     static GameSettingsUserControlModel()
     {
         Instance = new();
@@ -290,7 +288,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
     {
         get; set {
             SetAndNotify(ref field, value);
-            _runningState.EnableStallTimeout = value;
+            RunningState.Instance.EnableStallTimeout = value;
             ConfigFactory.CurrentConfig.Gui.RuntimeSettings.EnableStallTimeout = value;
         }
     } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.EnableStallTimeout;
@@ -300,7 +298,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         get; set {
             value = value.Clamp(0, TimeoutMaxMinutes);
             SetAndNotify(ref field, value);
-            _runningState.StallTimeoutMinutes = value;
+            RunningState.Instance.StallTimeoutMinutes = value;
             ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutMinutes = value;
         }
     } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutMinutes;
@@ -313,7 +311,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         get; set {
             value = value.Clamp(1, TimeoutMaxMinutes);
             SetAndNotify(ref field, value);
-            _runningState.ReminderIntervalMinutes = value;
+            RunningState.Instance.ReminderIntervalMinutes = value;
             ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutReminderIntervalMinutes = value;
         }
     } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutReminderIntervalMinutes;
