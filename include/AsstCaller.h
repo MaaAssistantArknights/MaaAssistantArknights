@@ -32,6 +32,9 @@ typedef enum AsstWin32InputMethodEnum
     AsstWin32InputMethod_PostMessageWithCursorPos = 1 << 6,
     AsstWin32InputMethod_SendMessageWithWindowPos = 1 << 7,
     AsstWin32InputMethod_PostMessageWithWindowPos = 1 << 8,
+    // 与 MaaFramework 的 MaaWin32InputMethod_Interception 对应，本仓库未使用，仅为占位对齐
+    AsstWin32InputMethod_Interception = 1 << 9,
+    AsstWin32InputMethod_AnchoredTouch = 1 << 10,
 } AsstWin32InputMethodEnum;
 #endif
 

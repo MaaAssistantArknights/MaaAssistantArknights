@@ -156,10 +156,13 @@ bool Win32Controller::screencap_impl(cv::Mat& image_payload, bool move_cursor)
     LogTraceFunction;
 
     // 截图前把鼠标移走，避免光标出现在截图中影响识别
+    // AnchoredTouch 注入合成触控，全程不移动真实光标，游戏自绘光标也不随合成触控移动，
+    // 挪光标逻辑对其无意义，且底层 touch_move 在无活动接触点时会直接失败，整体跳过
     POINT original_cursor_pos = { 0, 0 };
     bool cursor_pos_saved = false;
     bool input_blocked = false;
-    if (move_cursor && m_screen_size.second > 0) {
+    // preview 截图（move_cursor == false）与 AnchoredTouch 都不需要挪动窗口/光标，整体跳过
+    if (move_cursor && m_screen_size.second > 0 && (m_mouse_method & Win32Input::AnchoredTouch) == 0) {
         const bool with_window_pos =
             (m_mouse_method & (Win32Input::SendMessageWithWindowPos | Win32Input::PostMessageWithWindowPos)) != 0;
         // 仅 WithCursorPos 两种方式挪的是真实光标；Seize 本就强制接管鼠标，纯消息模式不动真实光标
