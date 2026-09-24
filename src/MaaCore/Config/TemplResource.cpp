@@ -134,6 +134,12 @@ const cv::Mat& asst::TemplResource::get_templ(const std::string& name)
         }
 
         cv::Mat templ = MAA_NS::imread(path_iter->second);
+        if (templ.empty()) {
+            Log.error(__FUNCTION__, "failed to load templ", name, "path:", path_iter->second);
+#ifdef ASST_DEBUG
+            throw std::runtime_error("failed to load templ: " + name);
+#endif
+        }
         m_templs.emplace(name, std::move(templ));
     }
     return m_templs.at(name);
