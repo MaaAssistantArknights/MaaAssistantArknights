@@ -1815,13 +1815,7 @@ public class TaskQueueViewModel : Screen
             return;
         }
 
-        var startIndex = taskItem.Index;
-        while (startIndex < taskQueue.Count && !IsTaskEnable(taskQueue[startIndex]))
-        {
-            ++startIndex;
-        }
-
-        await LinkStartWithTasks(taskQueue.Skip(startIndex).ToArray(), startIndex);
+        await LinkStartWithTasks(taskQueue, taskItem.Index);
     }
 
     /// <summary>
@@ -2299,10 +2293,6 @@ public class TaskQueueViewModel : Screen
 
         MainTasksCompletedCount = 0;
         ResetTaskItemStatuses();
-        if (startIndex is not null)
-        {
-            MarkTasksSkippedBefore(startIndex.Value);
-        }
 
         // 所有提前 return 都要放在进入运行态之前，否则会导致无法再次点击开始
         _runningState.BeginRun(RunOwner.TaskQueue);
@@ -2355,7 +2345,7 @@ public class TaskQueueViewModel : Screen
                 item.TaskType,
                 item.NameOrTaskType,
                 item.IsEnable);
-            if (!IsTaskEnable(item))
+            if ((startIndex is int firstTaskIndex && index < firstTaskIndex) || !IsTaskEnable(item))
             {
                 SetTaskStatus(index, TaskItemStatus.Skipped);
                 continue;
@@ -2449,19 +2439,6 @@ public class TaskQueueViewModel : Screen
         foreach (var item in TaskItemViewModels)
         {
             item.StatusDisplay = TaskItemStatus.Idle;
-        }
-    }
-
-    private void MarkTasksSkippedBefore(int startIndex)
-    {
-        var taskQueue = ConfigFactory.CurrentConfig.TaskQueue;
-        var endIndex = Math.Min(startIndex, Math.Min(taskQueue.Count, TaskItemViewModels.Count));
-        for (int index = 0; index < endIndex; ++index)
-        {
-            if (IsTaskEnable(taskQueue[index]))
-            {
-                TaskItemViewModels[index].StatusDisplay = TaskItemStatus.SkippedByStartPosition;
-            }
         }
     }
 
