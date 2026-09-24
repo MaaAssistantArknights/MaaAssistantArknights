@@ -232,7 +232,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
     private void PlanItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (_isRefreshing || !OperProgressPlanItemViewModel.IsPersistedProperty(e.PropertyName))
+        if (_isRefreshing)
         {
             return;
         }

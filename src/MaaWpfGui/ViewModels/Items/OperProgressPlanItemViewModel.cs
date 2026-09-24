@@ -30,21 +30,6 @@ namespace MaaWpfGui.ViewModels.Items;
 /// <summary>干员培养计划中的单个干员卡片，一个条目对应一名干员。</summary>
 public class OperProgressPlanItemViewModel : PropertyChangedBase
 {
-    /// <summary>触发回写任务配置的属性名集合，其余属性（序号、展开状态、本地化文本）不影响计划内容。</summary>
-    // 弃用（即将被移除）：集合本身后续不再保留，改由各属性直接在 setter 中请求回写。
-    private static readonly HashSet<string> _persistedPropertyNames = [
-        nameof(Elite),
-        nameof(MainSkillLevel),
-        nameof(SpecializationSkill1),
-        nameof(SpecializationSkill2),
-        nameof(SpecializationSkill3),
-    ];
-
-    /// <summary>判断属性变更是否影响计划内容，进而需要回写任务配置。</summary>
-    /// <param name="propertyName">变更的属性名。</param>
-    /// <returns>需要回写时为 true。</returns>
-    public static bool IsPersistedProperty(string? propertyName) => propertyName is not null && _persistedPropertyNames.Contains(propertyName);
-
     /// <summary>
     /// Initializes a new instance of the <see cref="OperProgressPlanItemViewModel"/> class.
     /// 初始化干员卡片。
@@ -110,10 +95,11 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
 
     public string Name { get; set => SetAndNotify(ref field, value); }
 
-    /// <summary>Gets a value indicating whether 卡片展开状态。</summary>
     public bool IsExpanded { get; set => SetAndNotify(ref field, value); }
 
-    /// <summary>Gets 本地化干员名，语言切换后由 <see cref="RefreshLocalizedText"/> 刷新。</summary>
+    /// <summary>
+    /// Gets 本地化干员名，语言切换后由 <see cref="RefreshLocalizedText"/>
+    /// 刷新。</summary>
     public string DisplayName { get; private set => SetAndNotify(ref field, value); }
 
     public bool IsEliteSelected { get; set => SetAndNotify(ref field, value); }
@@ -231,13 +217,13 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
     public string SkillLabel3 { get; } = LocalizationHelper.GetStringFormat("OperProgressSkillNumber", 3);
 
     [DependsOn(nameof(SpecializationSkill1))]
-    public string Skill1IconPath => $"/Res/Img/Operator/OperSkillSpecialization_{SpecializationSkill1}.png";
+    public string Skill1IconPath => $"/Res/Img/Operator/OperSkillSpecialization_{(IsSpecializationSkill1Selected ? SpecializationSkill1 : 0)}.png";
 
     [DependsOn(nameof(SpecializationSkill2))]
-    public string Skill2IconPath => $"/Res/Img/Operator/OperSkillSpecialization_{SpecializationSkill2}.png";
+    public string Skill2IconPath => $"/Res/Img/Operator/OperSkillSpecialization_{(IsSpecializationSkill2Selected ? SpecializationSkill2 : 0)}.png";
 
     [DependsOn(nameof(SpecializationSkill3))]
-    public string Skill3IconPath => $"/Res/Img/Operator/OperSkillSpecialization_{SpecializationSkill3}.png";
+    public string Skill3IconPath => $"/Res/Img/Operator/OperSkillSpecialization_{(IsSpecializationSkill3Selected ? SpecializationSkill3 : 0)}.png";
 
     public SkillLevel.Specialization SpecializationSkillLevel => new(IsSpecializationSkill1Selected ? SpecializationSkill1 : 0, IsSpecializationSkill2Selected ? SpecializationSkill2 : 0, IsSpecializationSkill3Selected ? SpecializationSkill3 : 0);
 
