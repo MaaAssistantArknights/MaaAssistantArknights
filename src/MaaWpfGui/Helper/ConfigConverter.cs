@@ -51,7 +51,7 @@ public class ConfigConverter
     private static readonly string ConfigurationNewFile = ConfigFactory.ConfigFile;
     private static readonly string ConfigurationOldBakFile = ConfigurationHelper.ConfigFile + ".old";
     private static readonly string ConfigurationOldFile = ConfigurationHelper.ConfigFile;
-    private static bool HasBackupOldConfig = false;
+    private static bool _hasBackupOldConfig = false;
 
     public static bool ConvertConfig()
     {
@@ -1210,11 +1210,11 @@ public class ConfigConverter
 
     private static void BackupOldConfig()
     {
-        if (HasBackupOldConfig)
+        if (_hasBackupOldConfig)
         {
             return;
         }
-        HasBackupOldConfig = true;
+        _hasBackupOldConfig = true;
         try
         {
             File.Copy(ConfigurationOldFile, ConfigurationOldBakFile, true);

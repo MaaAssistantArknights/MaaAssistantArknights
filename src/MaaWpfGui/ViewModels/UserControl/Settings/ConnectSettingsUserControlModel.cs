@@ -56,7 +56,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
         // MuMu 触控勾选框的跨实例依赖须在 Instance 就绪后注册，
         // 放进构造链会因静态构造重入拿到 null 的 Instance 而静默失败
-        PropertyDependsOnUtility.InitializePropertyDependencies(Instance.Extras.Mumu12);
+        PropertyDependsOnUtility.InitializePropertyDependencies(Instance._extras.Mumu12);
     }
 
     private ConnectSettingsUserControlModel()
@@ -64,9 +64,9 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         PropertyDependsOnUtility.InitializePropertyDependencies(this);
 
         // 刷新截图方式选项的可用状态
-        Extras.Win32.UpdateScreencapMethodAvailability();
+        _extras.Win32.UpdateScreencapMethodAvailability();
 
-        Extras.Win32.PropertyChanged += (_, e) => {
+        _extras.Win32.PropertyChanged += (_, e) => {
             if (e.PropertyName == nameof(Win32Extra.MouseMethod))
             {
                 NotifyOfPropertyChange(nameof(ShowWindowRestoreButton));
@@ -254,13 +254,13 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
     [PropertyDependsOn(nameof(ConnectConfig))]
     public ExtraConfig? ExtraConfig => ConnectConfig switch {
-        ConnectConfig.LDPlayer => Extras.LdPlayer,
-        ConnectConfig.MuMuEmulator12 => Extras.Mumu12,
-        ConnectConfig.PC => Extras.Win32,
+        ConnectConfig.LDPlayer => _extras.LdPlayer,
+        ConnectConfig.MuMuEmulator12 => _extras.Mumu12,
+        ConnectConfig.PC => _extras.Win32,
         _ => null,
     };
 
-    private readonly ExtraConfigs Extras = new();
+    private readonly ExtraConfigs _extras = new();
 
     private class ExtraConfigs
     {

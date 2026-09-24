@@ -38,7 +38,7 @@ namespace MaaWpfGui.Services.Web;
 
 public class HttpService : IHttpService
 {
-    private readonly string UserAgent;
+    private readonly string _userAgent;
 
     private static string Proxy
     {
@@ -61,7 +61,7 @@ public class HttpService : IHttpService
     public HttpService()
     {
         string uiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
-        UserAgent = $"MaaWpfGui/{uiVersion}";
+        _userAgent = $"MaaWpfGui/{uiVersion}";
 
         VersionUpdateSettingsUserControlModel.Instance.PropertyChanged += (sender, args) => {
             if (args.PropertyName != nameof(VersionUpdateSettingsUserControlModel.Proxy) && args.PropertyName != nameof(VersionUpdateSettingsUserControlModel.ProxyType))
@@ -350,7 +350,7 @@ public class HttpService : IHttpService
         }
 
         HttpClient client = new HttpClient(handler);
-        client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
+        client.DefaultRequestHeaders.Add("User-Agent", _userAgent);
         client.Timeout = TimeSpan.FromSeconds(15);
         return client;
     }
