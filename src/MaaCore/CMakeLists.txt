@@ -16,7 +16,12 @@ if(WITH_MAC_SCK)
     endif()
 endif()
 
-add_library(MaaCore SHARED ${maa_src})
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/Version.cpp.in
+    ${CMAKE_CURRENT_BINARY_DIR}/Version.cpp
+    @ONLY)
+
+add_library(MaaCore SHARED ${maa_src} ${CMAKE_CURRENT_BINARY_DIR}/Version.cpp)
 
 if(WITH_EMULATOR_EXTRAS)
     if(EXISTS ${PROJECT_SOURCE_DIR}/3rdparty/EmulatorExtras/Mumu)
