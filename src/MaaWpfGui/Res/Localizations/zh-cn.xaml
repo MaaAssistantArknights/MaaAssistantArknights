@@ -1393,6 +1393,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">某些作业需要特定技能等级、模组等作为前置条件
 勾选此项将跳过这些检查，但可能导致作业无法正常运行
 干员精英化等级无法被跳过，如果跳过了任何需求，则战斗完成后不再进行自动点赞</system:String>
+    <system:String x:Key="Copilot.UseOperBoxAssist">依据干员识别结果辅助编队</system:String>
     <system:String x:Key="AddUserAdditional">追加自定{key=Operator}</system:String>
     <system:String x:Key="AddUserAdditionalTip">点击旁边的设置按钮打开编辑窗口，点击 ｢{key=UserAdditional.Add}｣ 逐条添加，按列填写{key=Operator}名、技能与操作</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator}名</system:String>
@@ -1583,6 +1584,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ReportSkippedForPcClient">PC 端鼠标为独立渲染，可能遮挡掉落物及数量识别。为避免错误数据污染数据池，已自动跳过本次上报</system:String>
     <system:String x:Key="TheEx">无奖励关卡，已停止</system:String>
     <system:String x:Key="MissingOperators">以下{key=Operator}组内的{key=Operator}均未拥有（每组只需其一）或未达到作业要求：\n{0}｢特别关注｣ 可能影响{key=Operator}识别，若实际已拥有，可移除 ｢特别关注｣ 后重试，或关闭 ｢{key=AutoSquad}｣ 手动补充；若确实未拥有，仅缺一组时可使用 ｢{key=SupportUnitUsage}｣，缺两组以上请更换作业。</system:String>
+    <system:String x:Key="OperboxMultipleUnmatched">多个{key=Operator}（组）不匹配：</system:String>
     <system:String x:Key="RecruitSupportOperator">编入助战{key=Operator}：{0}</system:String>
     <system:String x:Key="StageQueue">关卡队列:</system:String>
     <system:String x:Key="UnableToAgent">无法使用代理指挥</system:String>
@@ -1865,7 +1867,11 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BattleFormationOperUnavailable.Level">等级不足</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">技能等级不足</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Module">所需模组未解锁</system:String>
+    <system:String x:Key="BattleFormationOperbox1Unmatched" xml:space="preserve">{key=Operator}（组） {0} 没有匹配的{key=Operator}，可能需要借助战{key=Operator}{1}</system:String>
+    <system:String x:Key="BattleFormationOperboxMatched">预匹配的{key=Operator}（组）：</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">追加自定{key=Operator}名称无效: {0}，请检查拼写</system:String>
+    <system:String x:Key="CopilotOperboxDataParseFailed">{key=OperBoxRecognition}数据解析失败</system:String>
+    <system:String x:Key="CopilotOperboxAssistRequiresIgnoreRequirements">本地识别的{key=OperBoxRecognition}数据不含技能与模组信息，使用干员识别辅助编队时请勾选「{key=Copilot.IgnoreRequirements}」或改用一图流数据</system:String>
     <system:String x:Key="CurrentSteps">当前步骤: {0} {1}</system:String>
     <system:String x:Key="ElapsedTime">当前计时器: {0}ms</system:String>
     <system:String x:Key="Deploy">部署</system:String>
