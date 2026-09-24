@@ -13,7 +13,7 @@
 
 #nullable enable
 
-#pragma warning disable SA1402
+#pragma warning disable SA1402 // 伴生小类与控件同文件
 
 using System;
 using System.Globalization;

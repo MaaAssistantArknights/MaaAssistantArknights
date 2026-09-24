@@ -11,7 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-#pragma warning disable SA1300 // P/Invoke names mirror the exported C symbols
+#pragma warning disable SA1300 // P/Invoke 函数名镜像导出的 C 符号
 
 using System;
 using System.Runtime.InteropServices;

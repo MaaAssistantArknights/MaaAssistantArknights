@@ -82,12 +82,12 @@ public partial class HotKeyEditorUserControl : System.Windows.Controls.UserContr
     private static int CountModifierKeys(ModifierKeys modifiers)
     {
         int count = 0;
-#pragma warning disable SA1503 // Braces should not be omitted
+#pragma warning disable SA1503 // 单行计数保持紧凑
         if ((modifiers & ModifierKeys.Control) != 0) count++;
         if ((modifiers & ModifierKeys.Alt) != 0) count++;
         if ((modifiers & ModifierKeys.Shift) != 0) count++;
         if ((modifiers & ModifierKeys.Windows) != 0) count++;
-#pragma warning restore SA1503 // Braces should not be omitted
+#pragma warning restore SA1503 // 单行计数保持紧凑
         return count;
     }
 

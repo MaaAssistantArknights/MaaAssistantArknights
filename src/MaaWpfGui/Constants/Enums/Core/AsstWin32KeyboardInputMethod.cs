@@ -13,7 +13,7 @@
 
 namespace MaaWpfGui.Constants.Enums.Core;
 
-#pragma warning disable SA1602 // Enumeration items should be documented
+#pragma warning disable SA1602 // 枚举项与 AsstCaller.h 一一对应，逐项注释无信息量
 // 遵循 AsstCaller.h 中的定义，确保与 AsstCaller.h 中的枚举值对应
 public enum AsstWin32KeyboardInputMethod
 {
@@ -21,5 +21,5 @@ public enum AsstWin32KeyboardInputMethod
     SendMessage = 2,
     PostMessage = 4,
 }
-#pragma warning restore SA1602 // Enumeration items should be documented
+#pragma warning restore SA1602 // 枚举项与 AsstCaller.h 一一对应，逐项注释无信息量
 

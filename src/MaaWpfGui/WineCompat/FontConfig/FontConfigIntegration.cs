@@ -11,7 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-#pragma warning disable SA1312
+#pragma warning disable SA1312 // 标识符大小写跟随 fontconfig C API
 using System;
 using System.Diagnostics;
 using System.Numerics;

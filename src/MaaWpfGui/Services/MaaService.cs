@@ -11,7 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-#pragma warning disable SA1121 // Aliases keep full type names to mirror the core API
+#pragma warning disable SA1121 // 别名保留完整类型名，对照 core API
 
 using System;
 using System.Runtime.InteropServices;
@@ -23,7 +23,7 @@ using AsstTaskId = System.Int32;
 
 namespace MaaWpfGui.Services;
 
-#pragma warning disable SA1601 // Partial elements should be documented
+#pragma warning disable SA1601 // partial 为 LibraryImport 源生成器的硬性要求
 internal static partial class MaaService
 {
     internal delegate void CallbackDelegate(int msg, IntPtr jsonBuffer, IntPtr customArg);
@@ -101,7 +101,7 @@ internal static partial class MaaService
     [LibraryImport("MaaCore.dll")]
     internal static unsafe partial void AsstSetConnectionExtras(byte* name, byte* extras);
 }
-#pragma warning restore SA1601 // Partial elements should be documented
+#pragma warning restore SA1601 // partial 为 LibraryImport 源生成器的硬性要求
 
 public enum AsstTaskType : byte
 {

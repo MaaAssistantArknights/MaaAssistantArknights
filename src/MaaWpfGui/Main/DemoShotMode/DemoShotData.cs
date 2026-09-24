@@ -120,7 +120,7 @@ public class DemoShotData
     }
 }
 
-#pragma warning disable SA1402 // File may only contain a single type
+#pragma warning disable SA1402 // 演示数据伴生小类集中放本文件
 
 /// <summary>
 /// 窗口标题版本段覆盖。

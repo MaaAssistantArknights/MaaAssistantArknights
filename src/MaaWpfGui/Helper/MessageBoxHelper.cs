@@ -13,8 +13,8 @@
 
 #nullable enable
 
-#pragma warning disable CS0618
-#pragma warning disable SA1401
+#pragma warning disable CS0618 // SecurityTreatAsSafe 在新版 .NET 已过时，WinForms 互操作仍需保留
+#pragma warning disable SA1401 // 按钮文案为公开字段，供全局定制
 
 using System;
 using System.Linq;

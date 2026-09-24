@@ -159,7 +159,7 @@ public partial class OverlayWindow : Window
 
     #region Win32
 
-#pragma warning disable SA1310 // Field names intentionally contain underscores for Win32 constants
+#pragma warning disable SA1310 // 字段名按 Win32 常量惯例保留下划线
     private const int WS_EX_TRANSPARENT = 0x20;
     private const int WS_EX_LAYERED = 0x80000;
     private const int WS_EX_NOACTIVATE = 0x08000000;

@@ -11,7 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-#pragma warning disable SA1300 // record positional parameter names double as JSON field names
+#pragma warning disable SA1300 // record 位置参数名即 JSON 字段名
 
 #nullable enable
 using System;

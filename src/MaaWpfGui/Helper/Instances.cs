@@ -11,8 +11,6 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-#pragma warning disable SA1401
-
 using System;
 using GlobalHotKey;
 using MaaWpfGui.Main;

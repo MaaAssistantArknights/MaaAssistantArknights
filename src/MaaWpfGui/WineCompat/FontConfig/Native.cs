@@ -11,7 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-#pragma warning disable SA1310 // Field names should not contain underscore
+#pragma warning disable SA1310 // 字段名镜像原生 C API
 
 using System.Runtime.InteropServices;
 

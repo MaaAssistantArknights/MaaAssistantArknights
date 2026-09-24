@@ -53,7 +53,7 @@ public class BaseTask : NotifyPropertyChangedWithValue
     public TaskType TaskType { get; init; }
 }
 
-#pragma warning disable SA1402 // File may only contain a single type
+#pragma warning disable SA1402 // 同族任务小类集中放本文件
 public class CloseDownTask : BaseTask
 {
 }
@@ -78,4 +78,4 @@ public class OperBoxTask : BaseTask
 {
 }
 
-#pragma warning restore SA1402 // File may only contain a single type
+#pragma warning restore SA1402 // 同族任务小类集中放本文件
