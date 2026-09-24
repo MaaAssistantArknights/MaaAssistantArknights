@@ -2335,6 +2335,14 @@
         "sortId": -10000,
         "usage": "飄落在崔林特爾梅街巷的樹葉，時而能在其上拾到遺落的樂句。將它們交給演奏會上的尋律之人，他們會回以音樂的饋贈。"
     },
+    "act2autochess_token_chess": {
+        "classifyType": "NONE",
+        "description": "羅德島工坊為參與衛戍協議的幹員準備的勛章，帶有磁性，聽說集齊一定數量便可合成一個堡壘棋子。",
+        "icon": "act2autochess_token_chess.png",
+        "name": "衛戍認證",
+        "sortId": -10000,
+        "usage": "用於在衛戍協議中兌換各類物資。"
+    },
     "act2bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "模擬中的對錯並不重要，它們只是種輔助，幫助你在實戰中做出正確的選擇。",
