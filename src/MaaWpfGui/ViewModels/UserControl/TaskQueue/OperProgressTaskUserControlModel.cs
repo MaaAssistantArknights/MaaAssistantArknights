@@ -11,8 +11,6 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-#pragma warning disable SA1300 // record 位置参数名即 JSON 字段名
-
 #nullable enable
 using System;
 using System.Collections.Generic;
@@ -103,7 +101,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         SetTaskConfig<OperProgressTask>(t => t.Plans.SequenceEqual(list), t => t.Plans = list);
     }
 
-    public record class OperItem(string id, OperatorRole Role, string Name, string NameDisplay, int Rarity);
+    public record class OperItem(string Id, OperatorRole Role, string Name, string NameDisplay, int Rarity);
 
     /// <summary>可选择的干员名列表，按稀有度降序、名称升序排列，实时取自干员数据</summary>
     public List<GenericCombinedData<OperItem>> OperatorNames => [.. DataHelper.Operators.Values

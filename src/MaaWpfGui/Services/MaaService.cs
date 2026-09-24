@@ -11,7 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-#pragma warning disable SA1121 // 别名保留完整类型名，对照 core API
+#pragma warning disable SA1121 // 别名指向内建类型会被 SA1121 穿透检查，保留全名对照 core API
 
 using System;
 using System.Runtime.InteropServices;

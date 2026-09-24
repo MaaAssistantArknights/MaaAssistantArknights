@@ -11,22 +11,17 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-#nullable enable
-
-#pragma warning disable CS0618 // SecurityTreatAsSafe 在新版 .NET 已过时，WinForms 互操作仍需保留
 #pragma warning disable SA1401 // 按钮文案为公开字段，供全局定制
+
+#nullable enable
 
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Security;
 using System.Windows;
 using System.Windows.Forms;
 using HandyControl.Data;
 using MaaWpfGui.Constants;
-
-[assembly: SecurityCritical]
-[assembly: SecurityTreatAsSafe]
 
 namespace MaaWpfGui.Helper;
 

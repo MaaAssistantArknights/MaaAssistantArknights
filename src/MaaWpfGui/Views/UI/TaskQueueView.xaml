@@ -490,7 +490,6 @@
                             TextWrapping="Wrap" />
                     </StackPanel>
                     <hc:ButtonGroup HorizontalAlignment="Right" VerticalAlignment="Center">
-                        <!--  ReSharper disable once Xaml.StaticResourceNotResolved  -->
                         <RadioButton
                             hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
                             hc:VisualElement.HighlightBackground="Transparent"
