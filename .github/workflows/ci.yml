@@ -208,7 +208,6 @@ jobs:
           $csproj.Save($csprojPath)
 
       - name: Publish WPF GUI
-        continue-on-error: true
         run: |
           dotnet publish src/MaaWpfGui/MaaWpfGui.csproj -c Release -p:Platform=${{ matrix.arch == 'arm64' && 'ARM64' || 'x64' }} -o install
 
