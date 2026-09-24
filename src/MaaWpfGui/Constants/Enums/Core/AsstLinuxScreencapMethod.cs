@@ -1,4 +1,4 @@
-// <copyright file="ConnectConfig.cs" company="MaaAssistantArknights">
+// <copyright file="AsstLinuxScreencapMethod.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -11,25 +11,14 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-#nullable enable
-using MaaWpfGui;
+namespace MaaWpfGui.Constants.Enums.Core;
 
-namespace MaaWpfGui.Constants.Enums;
-
-public enum ConnectConfig
+#pragma warning disable SA1602 // Enumeration items should be documented
+// 遵循 MaaFramework 的 MaaDef.h 中的定义，确保与 MaaDef.h 中的枚举值对应
+public enum AsstLinuxScreencapMethod
 {
-    General = 0,
-    BlueStacks,
-    MuMuEmulator12,
-    LDPlayer,
-    Androws,
-    AVD,
-    Nox,
-    XYAZ,
-    PC,
-    Linux,
-    WSA,
-    Compatible,
-    SecondResolution,
-    GeneralWithoutScreencapErr,
+    Wlr = 1,
+    ExtImage = 2,
+    PipeWire = 4,
 }
+#pragma warning restore SA1602 // Enumeration items should be documented
