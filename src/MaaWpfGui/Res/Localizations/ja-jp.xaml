@@ -1075,6 +1075,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPlanNoPlan">計画が設定されていません</system:String>
     <system:String x:Key="DepotSkipDuringActivity">イベント期間中はスキップ</system:String>
     <system:String x:Key="DepotSkipDuringResourceCollection">資源收集限時全日開放期間中はスキップ</system:String>
+    <system:String x:Key="DepotSkipStageOpenCheck">ステージ開放時間のチェックをスキップ</system:String>
+    <system:String x:Key="DepotSkipStageOpenCheckTip" xml:space="preserve">新規・復帰アカウント向けの資源ステージ期間限定全日開放に対応します。&#10;有効にすると選択したステージに直接挑戦するため、ゲーム内で実際に開放されていることを確認してください。</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlan">在庫不足の最初のプランのみ実行</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlanTip" xml:space="preserve">在庫不足かつ当日実行可能な最初のプランのみ実行します。&#10;ログはそのプランまでの表示で、以降のプランは今回実行されません。&#10;補充完了後は次回実行で後続のプランへ進みます。</system:String>
     <system:String x:Key="DepotPlanSkippedActivity">イベント開催中</system:String>

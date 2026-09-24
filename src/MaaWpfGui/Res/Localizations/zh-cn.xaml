@@ -1073,6 +1073,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPlanNoPlan">未配置任何计划</system:String>
     <system:String x:Key="DepotSkipDuringActivity">活动期间跳过</system:String>
     <system:String x:Key="DepotSkipDuringResourceCollection">资源收集限时全天开放期间跳过</system:String>
+    <system:String x:Key="DepotSkipStageOpenCheck">跳过关卡开放时间检查</system:String>
+    <system:String x:Key="DepotSkipStageOpenCheckTip" xml:space="preserve">适用于新手或回归账号的资源关卡限时全天开放。&#10;开启后直接尝试所选关卡，请确认关卡在游戏中实际可用。</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlan">仅执行第一个库存不足的计划</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlanTip" xml:space="preserve">仅执行第一个库存不足且当日可执行的计划，日志也只显示到该计划为止。&#10;该计划补满后，下次运行自动继续后续计划，当日不可执行的会被跳过。</system:String>
     <system:String x:Key="DepotPlanSkippedActivity">当前有活动进行中</system:String>

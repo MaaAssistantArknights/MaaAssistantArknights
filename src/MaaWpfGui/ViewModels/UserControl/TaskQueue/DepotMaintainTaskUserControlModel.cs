@@ -123,7 +123,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         }
 
         // 复用 FightSettings 的公共方法，用最新库存重算缺口
-        var stage = GetFightStage([plan.Stage]);
+        var stage = task.SkipStageOpenCheck ? plan.Stage : GetFightStage([plan.Stage]);
         if (!string.IsNullOrEmpty(stage))
         {
             var fight = new AsstFightTask() {
@@ -169,6 +169,15 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     {
         get => GetTaskConfig<DepotMaintainTask>().SkipDuringResourceCollection;
         set => SetTaskConfig<DepotMaintainTask>(t => t.SkipDuringResourceCollection == value, t => t.SkipDuringResourceCollection = value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 跳过关卡开放时间检查。
+    /// </summary>
+    public bool SkipStageOpenCheck
+    {
+        get => GetTaskConfig<DepotMaintainTask>().SkipStageOpenCheck;
+        set => SetTaskConfig<DepotMaintainTask>(t => t.SkipStageOpenCheck == value, t => t.SkipStageOpenCheck = value);
     }
 
     /// <summary>
@@ -607,7 +616,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                     continue;
                 }
 
-                var stage = GetFightStage([plan.Stage]);
+                var stage = depot.SkipStageOpenCheck ? plan.Stage : GetFightStage([plan.Stage]);
                 if (string.IsNullOrEmpty(stage))
                 {
                     if (string.IsNullOrEmpty(plan.Stage))

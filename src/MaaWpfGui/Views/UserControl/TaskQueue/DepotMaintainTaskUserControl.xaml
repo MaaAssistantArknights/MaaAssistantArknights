@@ -305,6 +305,10 @@
 
             <hc:Divider Margin="0,12,0,0" Content="{DynamicResource DepotGroupStageAndBattle}" />
             <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
+                <CheckBox Content="{DynamicResource DepotSkipStageOpenCheck}" IsChecked="{Binding SkipStageOpenCheck}" />
+                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource DepotSkipStageOpenCheckTip}" />
+            </StackPanel>
+            <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
                 <CheckBox Content="{DynamicResource CustomStageCode}" IsChecked="{Binding IsStageManually}" />
                 <controls:TooltipBlock TooltipText="{DynamicResource CustomStageCodeTip}" />
             </StackPanel>

@@ -42,6 +42,11 @@ public class DepotMaintainTask : BaseTask
     public bool SkipDuringResourceCollection { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 跳过关卡开放时间检查，适用于新手或回归账号的资源关卡全天开放。
+    /// </summary>
+    public bool SkipStageOpenCheck { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 仅下发第一个库存不足且当日可执行的计划，其补满后由下次运行继续后续计划。
     /// </summary>
     public bool OnlyFirstInsufficientPlan { get; set; }

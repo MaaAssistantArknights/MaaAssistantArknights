@@ -1074,6 +1074,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPlanNoPlan">설정된 계획이 없습니다</system:String>
     <system:String x:Key="DepotSkipDuringActivity">이벤트 기간 중 건너뛰기</system:String>
     <system:String x:Key="DepotSkipDuringResourceCollection">「물자 비축」 기간 한정 상시 개방 중 건너뛰기</system:String>
+    <system:String x:Key="DepotSkipStageOpenCheck">스테이지 개방 시간 확인 건너뛰기</system:String>
+    <system:String x:Key="DepotSkipStageOpenCheckTip" xml:space="preserve">신규 또는 복귀 계정의 자원 스테이지 한정 상시 개방 시 사용합니다.&#10;활성화하면 선택한 스테이지에 바로 도전하므로, 게임 내에서 실제로 이용 가능한지 확인하세요.</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlan">재고 부족한 첫 번째 계획만 실행</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlanTip" xml:space="preserve">재고가 부족하고 당일 실행 가능한 첫 번째 계획만 실행합니다.&#10;로그는 해당 계획까지만 표시되며, 이후 계획은 이번 실행에서 생략됩니다.&#10;목표에 도달하면 다음 실행에서 자동으로 이후 계획을 진행합니다.</system:String>
     <system:String x:Key="DepotPlanSkippedActivity">이벤트 진행 중</system:String>

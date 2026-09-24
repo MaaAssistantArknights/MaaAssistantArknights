@@ -63,6 +63,10 @@ When checked, a depot recognition is performed at task start to get the latest i
 
 Recommended to keep checked unless you are certain the cache is accurate or want to save recognition time.
 
+### Skip stage availability check
+
+Disabled by default. When checked, Depot Maintain skips stage availability checks and directly attempts the stages selected in your plans. Use this for new or returning accounts with temporary all-day access to resource stages. Confirm that the stages are available in-game first. This option does not unlock stages or override the settings to skip the task during events or resource collection full-day opening periods.
+
 ### AUTO Proxy Multiplier
 
 When unchecked, farming is done at single (1×) proxy. When checked, the maximum proxy multiplier available for current sanity is used, which may exceed the target inventory in a single run.
