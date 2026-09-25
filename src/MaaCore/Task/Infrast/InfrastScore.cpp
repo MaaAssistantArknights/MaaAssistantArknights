@@ -1136,7 +1136,7 @@ double processing_score(const ScoreOper& oper, const ScoreContext& context)
             // 训练有素：芯片副产品 +80%。
             score += 0.8;
         }
-        else if (icon == "bskill_hire_kalts2" || icon == "bskill_ws_p_kalts2") {
+        else if (icon == "bskill_ws_p_kalts2") {
             // “泰拉的方舟” / 理论革新：凯尔希·思衡托。
             score += 0.8;
         }
