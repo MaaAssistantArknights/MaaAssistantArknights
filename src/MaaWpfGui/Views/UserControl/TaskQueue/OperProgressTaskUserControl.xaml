@@ -159,62 +159,89 @@
                                                 StrokeStartLineCap="Square"
                                                 StrokeThickness="1.5" />
                                             <!--  中间数字  -->
-                                            <TextBlock
+                                            <controls:TextBlock
+                                                Margin="3,3,3,3"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                FontSize="14"
+                                                FontSize="12"
                                                 FontWeight="Normal"
-                                                Foreground="{DynamicResource PrimaryTextBrush}"
                                                 Text="{Binding MainSkillLevel}" />
                                         </Grid>
                                         <StackPanel
                                             Grid.Column="2"
-                                            Orientation="Horizontal"
-                                            Visibility="{c:Binding 'IsSpecializationSkill1Selected or IsSpecializationSkill2Selected or IsSpecializationSkill3Selected'}">
-                                            <Image
-                                                Width="18"
-                                                Height="18"
-                                                Margin="1.5,3"
-                                                Source="{Binding Skill1IconPath}"
-                                                Stretch="Uniform">
-                                                <Image.Effect>
-                                                    <DropShadowEffect
-                                                        BlurRadius="8"
-                                                        Opacity="0.5"
-                                                        ShadowDepth="1"
-                                                        Color="Black" />
-                                                </Image.Effect>
-                                            </Image>
-                                            <Image
-                                                Width="18"
-                                                Height="18"
-                                                Margin="1.5,3"
-                                                Source="{Binding Skill2IconPath}"
-                                                Stretch="Uniform">
-                                                <Image.Effect>
-                                                    <DropShadowEffect
-                                                        BlurRadius="8"
-                                                        Opacity="0.5"
-                                                        ShadowDepth="1"
-                                                        Color="Black" />
-                                                </Image.Effect>
-                                            </Image>
-                                            <Image
-                                                Width="18"
-                                                Height="18"
-                                                Margin="1.5,3"
-                                                Source="{Binding Skill3IconPath}"
-                                                Stretch="Uniform">
-                                                <Image.Effect>
-                                                    <DropShadowEffect
-                                                        BlurRadius="8"
-                                                        Opacity="0.5"
-                                                        ShadowDepth="1"
-                                                        Color="Black" />
-                                                </Image.Effect>
-                                            </Image>
-                                        </StackPanel>
+                                            Margin="0,3"
+                                            Orientation="Horizontal">
+                                            <Grid Visibility="{c:Binding IsSpecializationSkill1Selected}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <controls:SkillSpecializationIcon
+                                                    Width="18"
+                                                    Height="18"
+                                                    Level="{Binding SpecializationSkill1}" />
+                                                <controls:TextBlock
+                                                    Margin="20,0,0,0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Text="1">
+                                                    <controls:TextBlock.Effect>
+                                                        <DropShadowEffect
+                                                            BlurRadius="8"
+                                                            Opacity="0.8"
+                                                            ShadowDepth="1"
+                                                            Color="Black" />
+                                                    </controls:TextBlock.Effect>
+                                                </controls:TextBlock>
+                                            </Grid>
+                                            <Grid Visibility="{c:Binding IsSpecializationSkill2Selected}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <controls:SkillSpecializationIcon
+                                                    Width="18"
+                                                    Height="18"
+                                                    Level="{Binding SpecializationSkill2}" />
+                                                <controls:TextBlock
+                                                    Margin="20,0,0,0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Text="2">
+                                                    <controls:TextBlock.Effect>
+                                                        <DropShadowEffect
+                                                            BlurRadius="8"
+                                                            Opacity="0.8"
+                                                            ShadowDepth="1"
+                                                            Color="Black" />
+                                                    </controls:TextBlock.Effect>
+                                                </controls:TextBlock>
+                                            </Grid>
+                                            <Grid Visibility="{c:Binding IsSpecializationSkill3Selected}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <controls:SkillSpecializationIcon
+                                                    Width="18"
+                                                    Height="18"
+                                                    Level="{Binding SpecializationSkill3}" />
+                                                <controls:TextBlock
+                                                    Margin="20,0,0,0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Text="3">
+                                                    <controls:TextBlock.Effect>
+                                                        <DropShadowEffect
+                                                            BlurRadius="8"
+                                                            Opacity="0.8"
+                                                            ShadowDepth="1"
+                                                            Color="Black" />
+                                                    </controls:TextBlock.Effect>
+                                                </controls:TextBlock>
+                                            </Grid>
 
+                                        </StackPanel>
                                     </Grid>
                                     <Button
                                         Grid.Column="4"
