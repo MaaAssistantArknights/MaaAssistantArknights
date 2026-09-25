@@ -505,8 +505,10 @@
                 IsChecked="{Binding HideUnavailableStage}"
                 IsEnabled="{c:Binding !UseWeeklySchedule}" />
             <StackPanel Margin="0,10" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource SkipBasedOnActivitySchedule}" IsChecked="{Binding SkipBasedOnActivitySchedule}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource SkipBasedOnActivityScheduleTip}" />
+                <CheckBox MaxWidth="{c:Binding '220 - ActualWidth', ElementName=SkipBasedOnActivityScheduleTipTooltipBlock}" IsChecked="{Binding SkipBasedOnActivitySchedule}">
+                    <controls:TextBlock Text="{DynamicResource SkipBasedOnActivitySchedule}" TextWrapping="Wrap" />
+                </CheckBox>
+                <controls:TooltipBlock x:Name="SkipBasedOnActivityScheduleTipTooltipBlock" TooltipText="{DynamicResource SkipBasedOnActivityScheduleTip}" />
             </StackPanel>
             <StackPanel Margin="0,10" Orientation="Horizontal">
                 <CheckBox Content="{DynamicResource UseWeeklySchedule}" IsChecked="{Binding UseWeeklySchedule}" />
