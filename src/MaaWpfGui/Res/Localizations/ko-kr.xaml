@@ -582,7 +582,6 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="MinimizeAfterLaunch">MAA 실행 후 최소화</system:String>
     <system:String x:Key="ClientType">클라이언트 종류</system:String>
     <system:String x:Key="StartGameLaunchClient">시작 시 클라이언트 실행</system:String>
-    <system:String x:Key="UseAdvancedSchedule">고급 일정 활성화</system:String>
     <system:String x:Key="SkipBasedOnActivitySchedule">이벤트 일정에 따라 자동 건너뛰기</system:String>
     <system:String x:Key="SkipBasedOnActivityScheduleTip" xml:space="preserve">활성화하면 먼저 현재 게임 날짜에 {key=SideStory} 이벤트가 진행 중인지 확인합니다. 진행 중이고 이번 주 남은 기간 내에 이벤트가 종료되면, 종료 후 어느 날에든 섬멸 작전을 실행할 수 있도록 현재 이성 사용 작업을 건너뜁니다.&#10;{key=SideStory} 이벤트가 일요일 종료 시점까지 이번 주의 남은 기간을 계속 덮으면 작업을 건너뛰지 않습니다.</system:String>
     <system:String x:Key="FightSkippedActivitySchedule">이벤트 일정에 따라 건너뜁</system:String>

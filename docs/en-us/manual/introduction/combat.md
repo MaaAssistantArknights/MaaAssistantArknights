@@ -6,7 +6,7 @@ icon: hugeicons:brain-02
 # Sanity Farming
 
 ::: info UI-Only Feature
-Some features on this page are implemented by the UI layer (such as Target Inventory, Advanced Schedule, and multi-task ordering). See [Getting Started](../newbie.md#about-this-documentation) for details.
+Some features on this page are implemented by the UI layer (such as Target Inventory, activity-aware skipping, Weekly Schedule, and multi-task ordering). See [Getting Started](../newbie.md#about-this-documentation) for details.
 :::
 
 ## General Settings
@@ -76,7 +76,7 @@ Some features on this page are implemented by the UI layer (such as Target Inven
 - At settlement, MAA recognizes the weekly Orundum progress (e.g. `1800 / 1800`) and automatically stops when the weekly cap is reached.
 - Annihilation is a permanent stage: if it is selected in stage selection / alternative stages, later alternative stages will not continue to be recognized or run.
 - Annihilation drops are not uploaded to Penguin Statistics or Yituliu.
-- To run Annihilation first, add a separate Sanity Farming task with only Annihilation selected, and drag it above your existing Sanity Farming task. In Advanced Settings, enable Advanced Schedule and its Weekly Schedule option, then check only Monday so it runs on Mondays only.
+- To run Annihilation first, add a separate Sanity Farming task with only Annihilation selected, and drag it above your existing Sanity Farming task. In Advanced Settings, enable Weekly Schedule and check only Monday so it runs on Mondays only.
 
 ## Advanced Settings
 
@@ -92,9 +92,9 @@ Example: Alternative Stages are `CE-6/5`, `1-7` and `LS-6/5`:
 - Since `1-7` is a permanent stage that appears before `LS-6/5` in the list, MAA will never run `LS-6/5` in this scenario.
 - Likewise, if a permanent stage such as `Annihilation` is selected in the alternatives, later stages will not continue to be recognized.
 
-### Advanced Schedule
+### Activity-aware skipping and Weekly Schedule
 
-- Enable it under `Task Settings` - `Sanity Farming` - `Advanced Settings`. This feature is implemented by the UI.
+- “Skip intelligently based on event schedule” and “Weekly Schedule” are independent options under `Task Settings` - `Sanity Farming` - `Advanced Settings`. These features are implemented by the UI.
 - “Skip intelligently based on event schedule”: MAA first checks whether a Side Story event is active on the current in-game day. If so, and any continuous or overlapping follow-up events end before the current week ends, the current Sanity Farming task is skipped so Annihilation can run on any day after the events end. If Side Story events continuously cover the rest of the week through the end of Sunday, the task is not skipped.
 - After enabling “Weekly Schedule”, you can check which **in-game weekdays** (Sunday–Saturday) this Sanity Farming task should run.
 - The weekday is calculated from in-game time (client timezone + daily 4:00 reset), not the local calendar day. For example, on CN servers, 3:59 local time still counts as the previous day.

@@ -141,39 +141,23 @@ public class FightTask : BaseTask, IJsonOnDeserialized
     public FightStageResetMode StageResetMode { get; set; } = FightStageResetMode.Current;
 
     /// <summary>
-    /// Gets or sets a value indicating whether 是否启用高级计划
-    /// </summary>
-    public bool UseAdvancedSchedule { get; set; }
-
-    /// <summary>
     /// Gets or sets a value indicating whether 是否根据活动排期智能跳过
     /// </summary>
-    [JsonPredict(nameof(UseAdvancedSchedule))]
     public bool SkipBasedOnActivitySchedule { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether 是否启用周计划
     /// </summary>
-    [JsonPredict(nameof(UseAdvancedSchedule))]
     public bool UseWeeklySchedule { get; set; }
 
     /// <summary>
-    /// Gets or sets 周计划。当高级计划或周计划未启用时不参与序列化。
+    /// Gets or sets 周计划。当 <see cref="UseWeeklySchedule"/> 为 false 时不参与序列化。
     /// </summary>
-    [JsonPredict(nameof(IsWeeklyScheduleEnabled))]
+    [JsonPredict(nameof(UseWeeklySchedule))]
     public Dictionary<DayOfWeek, bool> WeeklySchedule { get; set; } = Enum.GetValues<DayOfWeek>().ToDictionary(i => i, _ => true);
-
-    [JsonIgnore]
-    public bool IsWeeklyScheduleEnabled => UseAdvancedSchedule && UseWeeklySchedule;
 
     public void OnDeserialized()
     {
-        // 兼容旧配置：过去只有 UseWeeklySchedule，已启用的周计划应自动开启高级计划。
-        if (UseWeeklySchedule)
-        {
-            UseAdvancedSchedule = true;
-        }
-
         if (UseStoneAllowSave == false)
         {
             UseStone = false;

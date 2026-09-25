@@ -581,7 +581,6 @@ D:\
     <system:String x:Key="MinimizeAfterLaunch">启动 MAA 后直接最小化</system:String>
     <system:String x:Key="ClientType">客户端类型</system:String>
     <system:String x:Key="StartGameLaunchClient">是否启动客户端</system:String>
-    <system:String x:Key="UseAdvancedSchedule">启用高级计划</system:String>
     <system:String x:Key="SkipBasedOnActivitySchedule">根据活动排期智能跳过</system:String>
     <system:String x:Key="SkipBasedOnActivityScheduleTip" xml:space="preserve">勾选后，会先检查当前游戏日是否有 {key=SideStory} 活动；若有，且本周后续时间内活动会结束，则跳过当前理智作战任务，以便在活动结束后的任意一天执行剿灭作战。&#10;如果 {key=SideStory} 活动连续覆盖本周剩余时间直至周日结束，则不会跳过。</system:String>
     <system:String x:Key="FightSkippedActivitySchedule">根据活动排期智能跳过</system:String>

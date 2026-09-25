@@ -582,7 +582,6 @@ If you choose ｢{key=ManualRestart}｣ and start MAA manually later, ｢{key=Ru
     <system:String x:Key="MinimizeAfterLaunch">Auto Minimize after launched</system:String>
     <system:String x:Key="ClientType">Client Type</system:String>
     <system:String x:Key="StartGameLaunchClient">Launch Client on Start</system:String>
-    <system:String x:Key="UseAdvancedSchedule">Enable advanced schedule</system:String>
     <system:String x:Key="SkipBasedOnActivitySchedule">Skip intelligently based on event schedule</system:String>
     <system:String x:Key="SkipBasedOnActivityScheduleTip" xml:space="preserve">When enabled, MAA first checks whether a {key=SideStory} event is active on the current in-game day. If so, and the event schedule ends later within the current week, this Sanity Farming task is skipped so Annihilation can run on any day after the events end.&#10;If {key=SideStory} events continuously cover the rest of the week through the end of Sunday, the task is not skipped.</system:String>
     <system:String x:Key="FightSkippedActivitySchedule">Skipped based on the event schedule</system:String>

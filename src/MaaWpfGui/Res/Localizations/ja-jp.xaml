@@ -582,7 +582,6 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="MinimizeAfterLaunch">アプリの起動時に自動的に最小化</system:String>
     <system:String x:Key="ClientType">クライアントバージョン</system:String>
     <system:String x:Key="StartGameLaunchClient">起動時にクライアントを開始する</system:String>
-    <system:String x:Key="UseAdvancedSchedule">高度なスケジュールを有効にする</system:String>
     <system:String x:Key="SkipBasedOnActivitySchedule">イベント日程に基づいて自動スキップ</system:String>
     <system:String x:Key="SkipBasedOnActivityScheduleTip" xml:space="preserve">有効にすると、まず現在のゲーム日に {key=SideStory} イベントが開催中かを確認します。開催中で、今週の残り期間内にイベントが終了する場合、終了後のいずれかの日に殲滅作戦を実行できるよう、現在の作戦タスクをスキップします。&#10;{key=SideStory} イベントが日曜日の終了まで今週の残り期間を途切れずに覆う場合は、スキップしません。</system:String>
     <system:String x:Key="FightSkippedActivitySchedule">イベント日程に基づいてスキップしました</system:String>

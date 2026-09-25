@@ -221,7 +221,7 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel, MallSettingsU
                     continue;
                 }
 
-                var weekly = Enum.GetValues<DayOfWeek>().Where(d => !t.IsWeeklyScheduleEnabled || (t.WeeklySchedule.TryGetValue(d, out var isEnabled) && isEnabled));
+                var weekly = Enum.GetValues<DayOfWeek>().Where(d => !t.UseWeeklySchedule || (t.WeeklySchedule.TryGetValue(d, out var isEnabled) && isEnabled));
                 if (weekly.Any(day => GetStageForDayOfWeek(t, day) == string.Empty))
                 {
                     taskIndex = i;
