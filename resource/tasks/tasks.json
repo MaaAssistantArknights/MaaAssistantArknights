@@ -6879,6 +6879,21 @@
         "template": "InfrastTrainingContinue.png",
         "next": ["OperProgress@MasteryPage"]
     },
+    "OperProgress@MasterySelectSkillMaxAlready1": {
+        "baseTask": "InfrastTrainingContinue1",
+        "template": "InfrastTrainingMaxAlready.png",
+        "next": ["OperProgress@OperProgress@ReturnToOperFilesPage"]
+    },
+    "OperProgress@MasterySelectSkillMaxAlready2": {
+        "baseTask": "InfrastTrainingContinue2",
+        "template": "InfrastTrainingMaxAlready.png",
+        "next": ["OperProgress@OperProgress@ReturnToOperFilesPage"]
+    },
+    "OperProgress@MasterySelectSkillMaxAlready3": {
+        "baseTask": "InfrastTrainingContinue3",
+        "template": "InfrastTrainingMaxAlready.png",
+        "next": ["OperProgress@OperProgress@ReturnToOperFilesPage"]
+    },
     "OperProgress@MasterySelectTrainer": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
