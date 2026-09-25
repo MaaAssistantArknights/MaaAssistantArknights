@@ -33,6 +33,7 @@ struct AdbConnectionContext
 
     // 连接过程中获取/更新的动态状态
     std::string display_id;
+    std::string screencap_display_id;
     std::string event_id;
     std::string nc_address = "10.0.2.2";
     uint16_t nc_port = 0;
@@ -44,6 +45,7 @@ struct AdbConnectionContext
         package_name = client_type.empty() ? "" : Config.get_package_name(client_type).value_or("");
         adb_cfg = {};
         display_id.clear();
+        screencap_display_id.clear();
         event_id.clear();
         nc_address = "10.0.2.2";
         nc_port = 0;
@@ -51,12 +53,16 @@ struct AdbConnectionContext
 
     std::string replace_cmd(const std::string& cfg_cmd) const
     {
+        const std::string screencap_display_id_arg =
+            screencap_display_id.empty() ? std::string() : "-d " + screencap_display_id;
         return utils::string_replace_all(
             cfg_cmd,
             {
                 { "[Adb]", adb_path },
                 { "[AdbSerial]", address },
                 { "[DisplayId]", display_id },
+                { "[ScreencapDisplayId]", screencap_display_id },
+                { "[ScreencapDisplayIdArg]", screencap_display_id_arg },
                 { "[EventId]", event_id },
                 { "[NcPort]", std::to_string(nc_port) },
                 { "[NcAddress]", nc_address },
