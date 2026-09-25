@@ -145,6 +145,19 @@ public static class OperAvatarHelper
         return badge;
     }
 
+    /// <summary>
+    /// 按干员名（含别名解析）生成「头像 + 干员名」一体的展示元素，规则同 <see cref="CreateOperBadge(string,string,double,string?)"/>。
+    /// </summary>
+    /// <param name="operName">干员名</param>
+    /// <param name="avatarSize">头像边长</param>
+    /// <param name="foregroundResourceKey">名字前景色资源键，null 则继承所在处默认前景色</param>
+    /// <returns>可直接用于 UI 或 <see cref="System.Windows.Documents.InlineUIContainer"/> 的元素</returns>
+    public static FrameworkElement CreateOperBadgeByName(string operName, double avatarSize = 18, string? foregroundResourceKey = null)
+    {
+        var info = DataHelper.GetCharacterByNameOrAlias(operName);
+        return CreateOperBadge(info?.Id ?? string.Empty, operName, avatarSize, foregroundResourceKey);
+    }
+
     private static BitmapSource? LoadRoleIcon(OperatorRole role)
     {
         if (!_roleTemplateIndex.TryGetValue(role, out var index))
