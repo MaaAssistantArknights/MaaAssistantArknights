@@ -582,6 +582,10 @@ D:\
     <system:String x:Key="MinimizeAfterLaunch">啟動 MAA 後直接最小化</system:String>
     <system:String x:Key="ClientType">用戶端類型</system:String>
     <system:String x:Key="StartGameLaunchClient">是否啟動用戶端</system:String>
+    <system:String x:Key="UseAdvancedSchedule">啟用進階計畫</system:String>
+    <system:String x:Key="SkipBasedOnActivitySchedule">根據活動排程智慧跳過</system:String>
+    <system:String x:Key="SkipBasedOnActivityScheduleTip" xml:space="preserve">勾選後，會先檢查目前遊戲日是否有 {key=SideStory} 活動；若有，且本週後續時間內活動會結束，則跳過目前的刷作戰任務，以便在活動結束後的任意一天執行剿滅作戰。&#10;若 {key=SideStory} 活動連續覆蓋本週剩餘時間直至週日結束，則不會跳過。</system:String>
+    <system:String x:Key="FightSkippedActivitySchedule">根據活動排程智慧跳過</system:String>
     <system:String x:Key="UseWeeklySchedule">使用週計畫</system:String>
     <system:String x:Key="UseWeeklyScheduleTip">此處的星期是根據遊戲時間計算的，並非現實時間。例如遊戲在 4:00 刷新，則 3:59 仍算作前一天。</system:String>
     <system:String x:Key="FightSkippedWeeklySchedule">週計畫今日未勾選</system:String>

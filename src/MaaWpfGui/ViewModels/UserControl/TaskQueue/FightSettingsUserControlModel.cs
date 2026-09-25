@@ -1149,6 +1149,29 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 使用高级计划。
+    /// </summary>
+    public bool UseAdvancedSchedule
+    {
+        get => GetTaskConfig<FightTask>().UseAdvancedSchedule;
+        set {
+            if (SetTaskConfig<FightTask>(t => t.UseAdvancedSchedule == value, t => t.UseAdvancedSchedule = value) && value && UseWeeklySchedule)
+            {
+                HideUnavailableStage = false;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 根据活动排期智能跳过。
+    /// </summary>
+    public bool SkipBasedOnActivitySchedule
+    {
+        get => GetTaskConfig<FightTask>().SkipBasedOnActivitySchedule;
+        set => SetTaskConfig<FightTask>(t => t.SkipBasedOnActivitySchedule == value, t => t.SkipBasedOnActivitySchedule = value);
+    }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 使用周计划。
     /// </summary>
     public bool UseWeeklySchedule
@@ -1667,7 +1690,13 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
                 return (null, []);
             }
 
-            if (fight.UseWeeklySchedule && fight.WeeklySchedule.TryGetValue(Instances.TaskQueueViewModel.CurDayOfWeek, out var isEnabled) && !isEnabled)
+            if (fight.UseAdvancedSchedule && fight.SkipBasedOnActivitySchedule && Instances.StageManager.ShouldSkipFightForActivitySchedule())
+            {
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightSkippedActivitySchedule"), UiLogColor.Info);
+                return (null, []);
+            }
+
+            if (fight.IsWeeklyScheduleEnabled && fight.WeeklySchedule.TryGetValue(Instances.TaskQueueViewModel.CurDayOfWeek, out var isEnabled) && !isEnabled)
             {
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightSkippedWeeklySchedule"), UiLogColor.Info);
                 return (null, []);
