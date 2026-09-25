@@ -45,9 +45,22 @@ public static class ResourceReferenceHelper
             typeof(ResourceReferenceHelper),
             new PropertyMetadata(null, (d, e) =>
             {
-                if (d is FrameworkElement fe && e.NewValue is string key)
+                if (e.NewValue is not string key)
                 {
-                    fe.SetResourceReference(Control.BackgroundProperty, key);
+                    return;
+                }
+
+                // Border/Panel 的 Background 定义在自身类型上，与 Control.Background 不是同一个属性
+                DependencyProperty property = d switch
+                {
+                    Border => Border.BackgroundProperty,
+                    Panel => Panel.BackgroundProperty,
+                    Control => Control.BackgroundProperty,
+                    _ => null,
+                };
+                if (property != null && d is FrameworkElement fe)
+                {
+                    fe.SetResourceReference(property, key);
                 }
             }));
 

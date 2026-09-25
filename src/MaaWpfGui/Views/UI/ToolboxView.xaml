@@ -18,6 +18,67 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
     <UserControl.Resources>
+        <!--  专精品字三圆角标：干员识别的文字卡片与头像卡片共用  -->
+        <DataTemplate x:Key="OperMasteryBadgeTemplate">
+            <Canvas
+                Width="11"
+                Height="11"
+                Margin="2,0"
+                SnapsToDevicePixels="True"
+                UseLayoutRounding="True">
+                <Canvas.Effect>
+                    <DropShadowEffect
+                        BlurRadius="8"
+                        Opacity="0.5"
+                        ShadowDepth="1"
+                        Color="Black" />
+                </Canvas.Effect>
+                <Canvas.Resources>
+                    <Style x:Key="MasteryTopDotStyle" TargetType="Ellipse">
+                        <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOffBrush}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding TopOn}" Value="True">
+                                <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOnBrush}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style x:Key="MasteryBottomRightDotStyle" TargetType="Ellipse">
+                        <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOffBrush}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding BottomRightOn}" Value="True">
+                                <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOnBrush}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style x:Key="MasteryBottomLeftDotStyle" TargetType="Ellipse">
+                        <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOffBrush}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding BottomLeftOn}" Value="True">
+                                <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOnBrush}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Canvas.Resources>
+                <Ellipse
+                    Canvas.Left="3.5"
+                    Canvas.Top="1"
+                    Width="4"
+                    Height="4"
+                    Style="{StaticResource MasteryTopDotStyle}" />
+                <Ellipse
+                    Canvas.Left="6.5"
+                    Canvas.Top="6"
+                    Width="4"
+                    Height="4"
+                    Style="{StaticResource MasteryBottomRightDotStyle}" />
+                <Ellipse
+                    Canvas.Left="0.5"
+                    Canvas.Top="6"
+                    Width="4"
+                    Height="4"
+                    Style="{StaticResource MasteryBottomLeftDotStyle}" />
+            </Canvas>
+        </DataTemplate>
         <Style x:Key="OperBoxVirtualizedRowListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
@@ -347,6 +408,7 @@
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <Border
+                                                    x:Name="OperCard"
                                                     MinWidth="{Binding Path=(uiBehaviors:SharedCardWidthBehavior.SharedMinWidth), RelativeSource={RelativeSource AncestorType=ListBox}}"
                                                     MinHeight="70"
                                                     MaxWidth="{Binding Path=(uiBehaviors:SharedCardWidthBehavior.WidthLimit), RelativeSource={RelativeSource AncestorType=ListBox}}"
@@ -357,21 +419,80 @@
                                                     BorderBrush="{DynamicResource BorderBrush}"
                                                     BorderThickness="1"
                                                     CornerRadius="4">
-                                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                        <controls:TextBlock
+                                                    <Grid>
+                                                        <!--  头像模式：稀有度底色 + 居中头像 + 一图流式布局  -->
+                                                        <Grid x:Name="AvatarLayout" Visibility="Collapsed" ToolTip="{Binding Name}">
+                                                            <Border
+                                                                CornerRadius="3"
+                                                                uiBehaviors:ResourceReferenceHelper.BackgroundResourceKey="{Binding RarityColorResourceKey}" />
+                                                            <Image
+                                                                Width="96"
+                                                                Height="96"
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"
+                                                                Source="{Binding Avatar}"
+                                                                Stretch="Uniform" />
+                                                            <!--  顶行：职业 + 星级  -->
+                                                            <Grid VerticalAlignment="Top" Margin="4,3">
+                                                                <Border
+                                                                    Width="18"
+                                                                    Height="18"
+                                                                    HorizontalAlignment="Left"
+                                                                    Background="#AA1F1F1F"
+                                                                    CornerRadius="3"
+                                                                    ToolTip="{Binding Role}">
+                                                                    <Image Margin="1" Source="{Binding RoleIcon}" Stretch="Uniform" />
+                                                                </Border>
+                                                                <controls:TextBlock
+                                                                    HorizontalAlignment="Center"
+                                                                    FontSize="10"
+                                                                    Foreground="White"
+                                                                    Text="{Binding RarityStars}">
+                                                                    <controls:TextBlock.Effect>
+                                                                        <DropShadowEffect
+                                                                            BlurRadius="3"
+                                                                            Opacity="0.9"
+                                                                            ShadowDepth="1"
+                                                                            Color="Black" />
+                                                                    </controls:TextBlock.Effect>
+                                                                </controls:TextBlock>
+                                                            </Grid>
+                                                        </Grid>
+                                                        <StackPanel
+                                                            x:Name="ContentPanel"
                                                             HorizontalAlignment="Center"
-                                                            FontSize="13"
-                                                            Text="{Binding Name}"
-                                                            TextAlignment="Center"
-                                                            TextWrapping="Wrap" />
-                                                        <controls:TextBlock
-                                                            HorizontalAlignment="Center"
-                                                            uiBehaviors:ResourceReferenceHelper.ForegroundResourceKey="{Binding RarityColorResourceKey}"
-                                                            FontSize="11"
-                                                            Text="{Binding RarityStars}"
-                                                            TextAlignment="Center" />
-                                                    </StackPanel>
+                                                            VerticalAlignment="Center">
+                                                            <controls:TextBlock
+                                                                x:Name="OperNameText"
+                                                                HorizontalAlignment="Center"
+                                                                FontSize="13"
+                                                                Text="{Binding Name}"
+                                                                TextAlignment="Center"
+                                                                TextWrapping="Wrap" />
+                                                            <controls:TextBlock
+                                                                HorizontalAlignment="Center"
+                                                                uiBehaviors:ResourceReferenceHelper.ForegroundResourceKey="{Binding RarityColorResourceKey}"
+                                                                FontSize="11"
+                                                                Text="{Binding RarityStars}"
+                                                                TextAlignment="Center" />
+                                                        </StackPanel>
+                                                    </Grid>
                                                 </Border>
+                                                <DataTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding DataContext.OperBoxAvatarMode, RelativeSource={RelativeSource AncestorType=ListBox}}" Value="True">
+                                                        <Setter TargetName="ContentPanel" Property="Visibility" Value="Collapsed" />
+                                                        <Setter TargetName="AvatarLayout" Property="Visibility" Value="Visible" />
+                                                        <Setter TargetName="OperCard" Property="Padding" Value="0" />
+                                                        <Setter TargetName="OperCard" Property="MinHeight" Value="100" />
+                                                    </DataTrigger>
+                                                    <!--  置于末尾以获得最高优先级：头像缺失时回退纯文字卡片  -->
+                                                    <DataTrigger Binding="{Binding Avatar}" Value="{x:Null}">
+                                                        <Setter TargetName="AvatarLayout" Property="Visibility" Value="Collapsed" />
+                                                        <Setter TargetName="ContentPanel" Property="Visibility" Value="Visible" />
+                                                        <Setter TargetName="OperCard" Property="Padding" Value="10,5" />
+                                                        <Setter TargetName="OperCard" Property="MinHeight" Value="70" />
+                                                    </DataTrigger>
+                                                </DataTemplate.Triggers>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
@@ -402,6 +523,7 @@
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <Border
+                                                    x:Name="OperCard"
                                                     MinWidth="{Binding Path=(uiBehaviors:SharedCardWidthBehavior.SharedMinWidth), RelativeSource={RelativeSource AncestorType=ListBox}}"
                                                     MinHeight="70"
                                                     MaxWidth="{Binding Path=(uiBehaviors:SharedCardWidthBehavior.WidthLimit), RelativeSource={RelativeSource AncestorType=ListBox}}"
@@ -412,169 +534,277 @@
                                                     BorderBrush="{DynamicResource BorderBrush}"
                                                     BorderThickness="1"
                                                     CornerRadius="4">
-                                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                        <controls:TextBlock
-                                                            HorizontalAlignment="Center"
-                                                            FontSize="13"
-                                                            Text="{Binding Name}"
-                                                            TextAlignment="Center"
-                                                            TextWrapping="Wrap" />
-                                                        <controls:TextBlock
-                                                            HorizontalAlignment="Center"
-                                                            uiBehaviors:ResourceReferenceHelper.ForegroundResourceKey="{Binding RarityColorResourceKey}"
-                                                            FontSize="11"
-                                                            Text="{Binding RarityStars}"
-                                                            TextAlignment="Center" />
-                                                        <StackPanel
-                                                            Margin="0,0,0,0"
-                                                            HorizontalAlignment="Center"
-                                                            Orientation="Horizontal">
+                                                    <Grid>
+                                                        <!--  头像模式：稀有度底色 + 居中头像 + 一图流式布局  -->
+                                                        <Grid x:Name="AvatarLayout" Visibility="Collapsed" ToolTip="{Binding Name}">
+                                                            <Border
+                                                                CornerRadius="3"
+                                                                uiBehaviors:ResourceReferenceHelper.BackgroundResourceKey="{Binding RarityColorResourceKey}" />
                                                             <Image
-                                                                Width="18"
-                                                                Height="18"
-                                                                Source="{Binding EliteIconPath}"
-                                                                Stretch="Uniform"
-                                                                ToolTip="{Binding Elite}">
-                                                                <Image.Effect>
-                                                                    <DropShadowEffect
-                                                                        BlurRadius="8"
-                                                                        Opacity="0.5"
-                                                                        ShadowDepth="1"
-                                                                        Color="Black" />
-                                                                </Image.Effect>
-                                                            </Image>
-                                                            <controls:TextBlock
-                                                                Margin="2.5,0"
+                                                                Width="96"
+                                                                Height="96"
+                                                                HorizontalAlignment="Center"
                                                                 VerticalAlignment="Center"
-                                                                FontSize="11"
-                                                                Text="{Binding Level, StringFormat={}Lv.{0}}" />
-                                                            <Image
-                                                                Width="18"
-                                                                Height="18"
-                                                                Source="{Binding PotentialIconPath}"
-                                                                ToolTip="{Binding Potential}">
-                                                                <Image.Effect>
-                                                                    <DropShadowEffect
-                                                                        BlurRadius="8"
-                                                                        Opacity="0.5"
-                                                                        ShadowDepth="1"
-                                                                        Color="Black" />
-                                                                </Image.Effect>
-                                                            </Image>
-                                                        </StackPanel>
-                                                        <!--  技能练度行：无专精显示 RANK 徽章，有任一专精逐技能显示品字三圆角标；模组独立成行  -->
-                                                        <StackPanel Visibility="{c:Binding ShowSkillDetails}">
+                                                                Source="{Binding Avatar}"
+                                                                Stretch="Uniform" />
+                                                            <!--  顶行：职业 + 星级  -->
+                                                            <Grid VerticalAlignment="Top" Margin="4,3">
+                                                                <Border
+                                                                    Width="18"
+                                                                    Height="18"
+                                                                    HorizontalAlignment="Left"
+                                                                    Background="#AA1F1F1F"
+                                                                    CornerRadius="3"
+                                                                    ToolTip="{Binding Role}">
+                                                                    <Image Margin="1" Source="{Binding RoleIcon}" Stretch="Uniform" />
+                                                                </Border>
+                                                                <controls:TextBlock
+                                                                    HorizontalAlignment="Center"
+                                                                    FontSize="10"
+                                                                    Foreground="White"
+                                                                    Text="{Binding RarityStars}">
+                                                                    <controls:TextBlock.Effect>
+                                                                        <DropShadowEffect
+                                                                            BlurRadius="3"
+                                                                            Opacity="0.9"
+                                                                            ShadowDepth="1"
+                                                                            Color="Black" />
+                                                                    </controls:TextBlock.Effect>
+                                                                </controls:TextBlock>
+                                                            </Grid>
+                                                            <!--  左下：潜能/精英化/等级  -->
+                                                            <StackPanel
+                                                                VerticalAlignment="Bottom"
+                                                                HorizontalAlignment="Left"
+                                                                Margin="4,0,0,4">
+                                                                <Image
+                                                                    Width="14"
+                                                                    Height="14"
+                                                                    HorizontalAlignment="Left"
+                                                                    Source="{Binding PotentialIconPath}"
+                                                                    ToolTip="{Binding Potential}">
+                                                                    <Image.Effect>
+                                                                        <DropShadowEffect
+                                                                            BlurRadius="4"
+                                                                            Opacity="0.6"
+                                                                            ShadowDepth="1"
+                                                                            Color="Black" />
+                                                                    </Image.Effect>
+                                                                </Image>
+                                                                <Image
+                                                                    Width="14"
+                                                                    Height="14"
+                                                                    Margin="0,2,0,0"
+                                                                    HorizontalAlignment="Left"
+                                                                    Source="{Binding EliteIconPath}"
+                                                                    ToolTip="{Binding Elite}">
+                                                                    <Image.Effect>
+                                                                        <DropShadowEffect
+                                                                            BlurRadius="4"
+                                                                            Opacity="0.6"
+                                                                            ShadowDepth="1"
+                                                                            Color="Black" />
+                                                                    </Image.Effect>
+                                                                </Image>
+                                                                <Border
+                                                                    Margin="0,2,0,0"
+                                                                    HorizontalAlignment="Left"
+                                                                    Background="#AA1F1F1F"
+                                                                    CornerRadius="3">
+                                                                    <controls:TextBlock
+                                                                        Margin="3,0"
+                                                                        FontSize="9"
+                                                                        Foreground="White"
+                                                                        Text="{Binding Level, StringFormat={}Lv.{0}}" />
+                                                                </Border>
+                                                            </StackPanel>
+                                                            <!--  右下：模组/技能专精（仅一图流数据源时显示）  -->
+                                                            <StackPanel
+                                                                VerticalAlignment="Bottom"
+                                                                HorizontalAlignment="Right"
+                                                                Margin="0,0,4,4"
+                                                                Visibility="{c:Binding ShowSkillDetails}">
+                                                                <ItemsControl
+                                                                    HorizontalAlignment="Center"
+                                                                    ItemsSource="{Binding ModBadges}"
+                                                                    Visibility="{c:Binding HasMods}">
+                                                                    <ItemsControl.ItemsPanel>
+                                                                        <ItemsPanelTemplate>
+                                                                            <StackPanel Orientation="Horizontal" />
+                                                                        </ItemsPanelTemplate>
+                                                                    </ItemsControl.ItemsPanel>
+                                                                    <ItemsControl.ItemTemplate>
+                                                                        <DataTemplate>
+                                                                            <Border
+                                                                                Margin="0,0,1,1"
+                                                                                Background="#AA1F1F1F"
+                                                                                CornerRadius="3">
+                                                                                <controls:TextBlock
+                                                                                    Margin="3,0"
+                                                                                    FontSize="9"
+                                                                                    FontWeight="SemiBold"
+                                                                                    Foreground="White"
+                                                                                    Text="{Binding}"
+                                                                                    ToolTip="{Binding}" />
+                                                                            </Border>
+                                                                        </DataTemplate>
+                                                                    </ItemsControl.ItemTemplate>
+                                                                </ItemsControl>
+                                                                <Border
+                                                                    Margin="0,1,0,0"
+                                                                    HorizontalAlignment="Center"
+                                                                    Background="#AA1F1F1F"
+                                                                    CornerRadius="3"
+                                                                    Visibility="{c:Binding ShowRankBadge}">
+                                                                    <controls:TextBlock
+                                                                        Margin="3,0"
+                                                                        FontSize="9"
+                                                                        FontWeight="SemiBold"
+                                                                        Foreground="White"
+                                                                        Text="{Binding RankText}"
+                                                                        ToolTip="{Binding MainSkillLevel}" />
+                                                                </Border>
+                                                                <Border
+                                                                    Margin="0,1,0,0"
+                                                                    Padding="1"
+                                                                    HorizontalAlignment="Center"
+                                                                    Background="#AA1F1F1F"
+                                                                    CornerRadius="3"
+                                                                    Visibility="{c:Binding !ShowRankBadge}">
+                                                                    <ItemsControl
+                                                                        HorizontalAlignment="Center"
+                                                                        ItemTemplate="{StaticResource OperMasteryBadgeTemplate}"
+                                                                        ItemsSource="{Binding MasteryBadges}">
+                                                                        <ItemsControl.ItemsPanel>
+                                                                            <ItemsPanelTemplate>
+                                                                                <StackPanel Orientation="Horizontal" />
+                                                                            </ItemsPanelTemplate>
+                                                                        </ItemsControl.ItemsPanel>
+                                                                    </ItemsControl>
+                                                                </Border>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                        <StackPanel
+                                                            x:Name="ContentPanel"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center">
                                                             <controls:TextBlock
-                                                                Margin="3,0"
+                                                                x:Name="OperNameText"
                                                                 HorizontalAlignment="Center"
-                                                                FontSize="10"
-                                                                FontWeight="SemiBold"
-                                                                Foreground="{DynamicResource OperBox.MasteryTextBrush}"
-                                                                Text="{Binding RankText}"
-                                                                ToolTip="{Binding MainSkillLevel}"
-                                                                Visibility="{c:Binding ShowRankBadge}" />
-                                                            <ItemsControl
-                                                                Margin="0"
+                                                                FontSize="13"
+                                                                Text="{Binding Name}"
+                                                                TextAlignment="Center"
+                                                                TextWrapping="Wrap" />
+                                                            <controls:TextBlock
                                                                 HorizontalAlignment="Center"
-                                                                ItemsSource="{Binding MasteryBadges}"
-                                                                Visibility="{c:Binding !ShowRankBadge}">
-                                                                <ItemsControl.ItemsPanel>
-                                                                    <ItemsPanelTemplate>
-                                                                        <StackPanel Orientation="Horizontal" />
-                                                                    </ItemsPanelTemplate>
-                                                                </ItemsControl.ItemsPanel>
-                                                                <ItemsControl.ItemTemplate>
-                                                                    <DataTemplate>
-                                                                        <!--  品字三圆按最终尺寸直绘：坐标/直径固定在 0.5 像素对齐网格上，勿改值或换回 Viewbox 缩放（小圆会渲染成椭圆）；色走主题资源，阴影同精英化/潜能图标  -->
-                                                                        <Canvas
-                                                                            Width="11"
-                                                                            Height="11"
-                                                                            Margin="2,0"
-                                                                            SnapsToDevicePixels="True"
-                                                                            UseLayoutRounding="True">
-                                                                            <Canvas.Effect>
-                                                                                <DropShadowEffect
-                                                                                    BlurRadius="8"
-                                                                                    Opacity="0.5"
-                                                                                    ShadowDepth="1"
-                                                                                    Color="Black" />
-                                                                            </Canvas.Effect>
-                                                                            <Canvas.Resources>
-                                                                                <Style x:Key="MasteryTopDotStyle" TargetType="Ellipse">
-                                                                                    <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOffBrush}" />
-                                                                                    <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding TopOn}" Value="True">
-                                                                                            <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOnBrush}" />
-                                                                                        </DataTrigger>
-                                                                                    </Style.Triggers>
-                                                                                </Style>
-                                                                                <Style x:Key="MasteryBottomRightDotStyle" TargetType="Ellipse">
-                                                                                    <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOffBrush}" />
-                                                                                    <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding BottomRightOn}" Value="True">
-                                                                                            <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOnBrush}" />
-                                                                                        </DataTrigger>
-                                                                                    </Style.Triggers>
-                                                                                </Style>
-                                                                                <Style x:Key="MasteryBottomLeftDotStyle" TargetType="Ellipse">
-                                                                                    <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOffBrush}" />
-                                                                                    <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding BottomLeftOn}" Value="True">
-                                                                                            <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOnBrush}" />
-                                                                                        </DataTrigger>
-                                                                                    </Style.Triggers>
-                                                                                </Style>
-                                                                            </Canvas.Resources>
-                                                                            <Ellipse
-                                                                                Canvas.Left="3.5"
-                                                                                Canvas.Top="1"
-                                                                                Width="4"
-                                                                                Height="4"
-                                                                                Style="{StaticResource MasteryTopDotStyle}" />
-                                                                            <Ellipse
-                                                                                Canvas.Left="6.5"
-                                                                                Canvas.Top="6"
-                                                                                Width="4"
-                                                                                Height="4"
-                                                                                Style="{StaticResource MasteryBottomRightDotStyle}" />
-                                                                            <Ellipse
-                                                                                Canvas.Left="0.5"
-                                                                                Canvas.Top="6"
-                                                                                Width="4"
-                                                                                Height="4"
-                                                                                Style="{StaticResource MasteryBottomLeftDotStyle}" />
-                                                                        </Canvas>
-                                                                    </DataTemplate>
-                                                                </ItemsControl.ItemTemplate>
-                                                            </ItemsControl>
-                                                            <ItemsControl
-                                                                Margin="0"
+                                                                uiBehaviors:ResourceReferenceHelper.ForegroundResourceKey="{Binding RarityColorResourceKey}"
+                                                                FontSize="11"
+                                                                Text="{Binding RarityStars}"
+                                                                TextAlignment="Center" />
+                                                            <StackPanel
+                                                                Margin="0,0,0,0"
                                                                 HorizontalAlignment="Center"
-                                                                ItemsSource="{Binding ModBadges}"
-                                                                Visibility="{c:Binding HasMods}">
-                                                                <ItemsControl.ItemsPanel>
-                                                                    <ItemsPanelTemplate>
-                                                                        <StackPanel Orientation="Horizontal" />
-                                                                    </ItemsPanelTemplate>
-                                                                </ItemsControl.ItemsPanel>
-                                                                <ItemsControl.ItemTemplate>
-                                                                    <DataTemplate>
-                                                                        <!--  下标字符 fallback 字体会撑高行盒，锁定行高与字号一致  -->
-                                                                        <controls:TextBlock
-                                                                            Margin="2.5,0"
-                                                                            FontSize="10"
-                                                                            FontWeight="SemiBold"
-                                                                            Foreground="{DynamicResource OperBox.MasteryTextBrush}"
-                                                                            LineHeight="12"
-                                                                            LineStackingStrategy="BlockLineHeight"
-                                                                            Text="{Binding}"
-                                                                            ToolTip="{Binding}" />
-                                                                    </DataTemplate>
-                                                                </ItemsControl.ItemTemplate>
-                                                            </ItemsControl>
+                                                                Orientation="Horizontal">
+                                                                <Image
+                                                                    Width="18"
+                                                                    Height="18"
+                                                                    Source="{Binding EliteIconPath}"
+                                                                    Stretch="Uniform"
+                                                                    ToolTip="{Binding Elite}">
+                                                                    <Image.Effect>
+                                                                        <DropShadowEffect
+                                                                            BlurRadius="8"
+                                                                            Opacity="0.5"
+                                                                            ShadowDepth="1"
+                                                                            Color="Black" />
+                                                                    </Image.Effect>
+                                                                </Image>
+                                                                <controls:TextBlock
+                                                                    Margin="2.5,0"
+                                                                    VerticalAlignment="Center"
+                                                                    FontSize="11"
+                                                                    Text="{Binding Level, StringFormat={}Lv.{0}}" />
+                                                                <Image
+                                                                    Width="18"
+                                                                    Height="18"
+                                                                    Source="{Binding PotentialIconPath}"
+                                                                    ToolTip="{Binding Potential}">
+                                                                    <Image.Effect>
+                                                                        <DropShadowEffect
+                                                                            BlurRadius="8"
+                                                                            Opacity="0.5"
+                                                                            ShadowDepth="1"
+                                                                            Color="Black" />
+                                                                    </Image.Effect>
+                                                                </Image>
+                                                            </StackPanel>
+                                                            <!--  技能练度行：无专精显示 RANK 徽章，有任一专精逐技能显示品字三圆角标；模组独立成行  -->
+                                                            <StackPanel Visibility="{c:Binding ShowSkillDetails}">
+                                                                <controls:TextBlock
+                                                                    Margin="3,0"
+                                                                    HorizontalAlignment="Center"
+                                                                    FontSize="10"
+                                                                    FontWeight="SemiBold"
+                                                                    Foreground="{DynamicResource OperBox.MasteryTextBrush}"
+                                                                    Text="{Binding RankText}"
+                                                                    ToolTip="{Binding MainSkillLevel}"
+                                                                    Visibility="{c:Binding ShowRankBadge}" />
+                                                                <ItemsControl
+                                                                    Margin="0"
+                                                                    HorizontalAlignment="Center"
+                                                                    ItemTemplate="{StaticResource OperMasteryBadgeTemplate}"
+                                                                    ItemsSource="{Binding MasteryBadges}"
+                                                                    Visibility="{c:Binding !ShowRankBadge}">
+                                                                    <ItemsControl.ItemsPanel>
+                                                                        <ItemsPanelTemplate>
+                                                                            <StackPanel Orientation="Horizontal" />
+                                                                        </ItemsPanelTemplate>
+                                                                    </ItemsControl.ItemsPanel>
+                                                                </ItemsControl>
+                                                                <ItemsControl
+                                                                    Margin="0"
+                                                                    HorizontalAlignment="Center"
+                                                                    ItemsSource="{Binding ModBadges}"
+                                                                    Visibility="{c:Binding HasMods}">
+                                                                    <ItemsControl.ItemsPanel>
+                                                                        <ItemsPanelTemplate>
+                                                                            <StackPanel Orientation="Horizontal" />
+                                                                        </ItemsPanelTemplate>
+                                                                    </ItemsControl.ItemsPanel>
+                                                                    <ItemsControl.ItemTemplate>
+                                                                        <DataTemplate>
+                                                                            <!--  下标字符 fallback 字体会撑高行盒，锁定行高与字号一致  -->
+                                                                            <controls:TextBlock
+                                                                                Margin="2.5,0"
+                                                                                FontSize="10"
+                                                                                FontWeight="SemiBold"
+                                                                                Foreground="{DynamicResource OperBox.MasteryTextBrush}"
+                                                                                LineHeight="12"
+                                                                                LineStackingStrategy="BlockLineHeight"
+                                                                                Text="{Binding}"
+                                                                                ToolTip="{Binding}" />
+                                                                        </DataTemplate>
+                                                                    </ItemsControl.ItemTemplate>
+                                                                </ItemsControl>
+                                                            </StackPanel>
                                                         </StackPanel>
-                                                    </StackPanel>
+                                                    </Grid>
                                                 </Border>
+                                                <DataTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding DataContext.OperBoxAvatarMode, RelativeSource={RelativeSource AncestorType=ListBox}}" Value="True">
+                                                        <Setter TargetName="ContentPanel" Property="Visibility" Value="Collapsed" />
+                                                        <Setter TargetName="AvatarLayout" Property="Visibility" Value="Visible" />
+                                                        <Setter TargetName="OperCard" Property="Padding" Value="0" />
+                                                        <Setter TargetName="OperCard" Property="MinHeight" Value="100" />
+                                                    </DataTrigger>
+                                                    <!--  置于末尾以获得最高优先级：头像缺失时回退纯文字卡片  -->
+                                                    <DataTrigger Binding="{Binding Avatar}" Value="{x:Null}">
+                                                        <Setter TargetName="AvatarLayout" Property="Visibility" Value="Collapsed" />
+                                                        <Setter TargetName="ContentPanel" Property="Visibility" Value="Visible" />
+                                                        <Setter TargetName="OperCard" Property="Padding" Value="10,5" />
+                                                        <Setter TargetName="OperCard" Property="MinHeight" Value="70" />
+                                                    </DataTrigger>
+                                                </DataTemplate.Triggers>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
@@ -604,6 +834,12 @@
                             Command="{s:Action ExportOperBox}"
                             Content="{DynamicResource Export}" />
                     </StackPanel>
+                    <CheckBox
+                        MinWidth="90"
+                        Margin="20,0,0,0"
+                        VerticalAlignment="Bottom"
+                        Content="{DynamicResource OperBoxAvatarMode}"
+                        IsChecked="{Binding OperBoxAvatarMode}" />
                     <Button
                         Width="180"
                         Height="63"

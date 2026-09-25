@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
@@ -646,8 +647,18 @@ public partial class CopilotViewModel : Screen
         public string Name
         {
             get => _name;
-            set => SetAndNotify(ref _name, value);
+            set {
+                if (SetAndNotify(ref _name, value))
+                {
+                    NotifyOfPropertyChange(nameof(Avatar));
+                }
+            }
         }
+
+        /// <summary>
+        /// Gets 干员头像（按 <see cref="Name"/> 解析，名字为空或无法识别时为 null）
+        /// </summary>
+        public BitmapSource? Avatar => OperAvatarHelper.GetOperAvatarByName(Name);
 
         private int _skill;
 

@@ -27,6 +27,7 @@ jobs:
           sparse-checkout: |
             /levels.json
             /item
+            /avatar/char_*
             /building_skill
             /gamedata/excel/item_table.json
             /gamedata/excel/building_data.json
@@ -279,7 +280,7 @@ jobs:
       - name: Optimize png images
         if: steps.update_version.outputs.contains_png == 'True'
         run: |
-          python tools/OptimizeTemplates/optimize_templates.py --no-cleanup -p resource/template/items/ resource/template/infrast/
+          python tools/OptimizeTemplates/optimize_templates.py --no-cleanup -p resource/template/items/ resource/template/infrast/ resource/template/avatar/
 
       - name: Commit changes
         if: steps.update_version.outputs.changes == 'True'
