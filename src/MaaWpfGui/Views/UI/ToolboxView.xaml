@@ -572,40 +572,34 @@
                                                                     </controls:TextBlock.Effect>
                                                                 </controls:TextBlock>
                                                             </Grid>
-                                                            <!--  左下：潜能/精英化/等级  -->
+                                                            <!--  左下：潜能/精英化/等级（统一黑色方框底）  -->
                                                             <StackPanel
                                                                 VerticalAlignment="Bottom"
                                                                 HorizontalAlignment="Left"
                                                                 Margin="4,0,0,4">
-                                                                <Image
-                                                                    Width="14"
-                                                                    Height="14"
+                                                                <Border
+                                                                    Padding="1"
                                                                     HorizontalAlignment="Left"
-                                                                    Source="{Binding PotentialIconPath}"
+                                                                    Background="#AA1F1F1F"
+                                                                    CornerRadius="3"
                                                                     ToolTip="{Binding Potential}">
-                                                                    <Image.Effect>
-                                                                        <DropShadowEffect
-                                                                            BlurRadius="4"
-                                                                            Opacity="0.6"
-                                                                            ShadowDepth="1"
-                                                                            Color="Black" />
-                                                                    </Image.Effect>
-                                                                </Image>
-                                                                <Image
-                                                                    Width="14"
-                                                                    Height="14"
+                                                                    <Image
+                                                                        Width="12"
+                                                                        Height="12"
+                                                                        Source="{Binding PotentialIconPath}" />
+                                                                </Border>
+                                                                <Border
                                                                     Margin="0,2,0,0"
+                                                                    Padding="1"
                                                                     HorizontalAlignment="Left"
-                                                                    Source="{Binding EliteIconPath}"
+                                                                    Background="#AA1F1F1F"
+                                                                    CornerRadius="3"
                                                                     ToolTip="{Binding Elite}">
-                                                                    <Image.Effect>
-                                                                        <DropShadowEffect
-                                                                            BlurRadius="4"
-                                                                            Opacity="0.6"
-                                                                            ShadowDepth="1"
-                                                                            Color="Black" />
-                                                                    </Image.Effect>
-                                                                </Image>
+                                                                    <Image
+                                                                        Width="12"
+                                                                        Height="12"
+                                                                        Source="{Binding EliteIconPath}" />
+                                                                </Border>
                                                                 <Border
                                                                     Margin="0,2,0,0"
                                                                     HorizontalAlignment="Left"
@@ -618,12 +612,11 @@
                                                                         Text="{Binding Level, StringFormat={}Lv.{0}}" />
                                                                 </Border>
                                                             </StackPanel>
-                                                            <!--  右下：模组/技能专精（仅一图流数据源时显示）  -->
+                                                            <!--  右下：模组/技能专精（练度数据仅一图流 API 源返回，本地截图识别无此数据）  -->
                                                             <StackPanel
                                                                 VerticalAlignment="Bottom"
                                                                 HorizontalAlignment="Right"
-                                                                Margin="0,0,4,4"
-                                                                Visibility="{c:Binding ShowSkillDetails}">
+                                                                Margin="0,0,4,4">
                                                                 <ItemsControl
                                                                     HorizontalAlignment="Center"
                                                                     ItemsSource="{Binding ModBadges}"
@@ -670,7 +663,7 @@
                                                                     HorizontalAlignment="Center"
                                                                     Background="#AA1F1F1F"
                                                                     CornerRadius="3"
-                                                                    Visibility="{c:Binding !ShowRankBadge}">
+                                                                    Visibility="{c:Binding 'ShowSkillDetails and !ShowRankBadge'}">
                                                                     <ItemsControl
                                                                         HorizontalAlignment="Center"
                                                                         ItemTemplate="{StaticResource OperMasteryBadgeTemplate}"
