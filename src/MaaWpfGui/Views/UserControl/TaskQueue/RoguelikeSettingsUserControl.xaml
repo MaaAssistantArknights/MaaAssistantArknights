@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:converters="clr-namespace:MaaWpfGui.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
@@ -18,6 +19,9 @@
     d:DesignWidth="220"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:OperNameBadgeConverter x:Key="OperNameBadgeConverter" />
+    </UserControl.Resources>
     <StackPanel>
         <StackPanel
             d:Visibility="Visible"
@@ -119,6 +123,11 @@
                     ItemsSource="{Binding RoguelikeCoreCharList}"
                     Loaded="{s:Action MakeComboBoxSearchable,
                                       Target={x:Type ui_vms:SettingsViewModel}}">
+                    <hc:ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <ContentControl Content="{Binding Converter={StaticResource OperNameBadgeConverter}}" />
+                        </DataTemplate>
+                    </hc:ComboBox.ItemTemplate>
                     <hc:ComboBox.Text>
                         <Binding Path="RoguelikeCoreChar" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -140,6 +149,11 @@
                 Loaded="{s:Action MakeComboBoxSearchable,
                                   Target={x:Type ui_vms:SettingsViewModel}}"
                 Visibility="{c:Binding RoguelikeEnableAdditionalCoreChars}">
+                <hc:ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <ContentControl Content="{Binding Converter={StaticResource OperNameBadgeConverter}}" />
+                    </DataTemplate>
+                </hc:ComboBox.ItemTemplate>
                 <hc:ComboBox.Text>
                     <Binding Path="RoguelikeCoreChar2" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
@@ -160,6 +174,11 @@
                 Loaded="{s:Action MakeComboBoxSearchable,
                                   Target={x:Type ui_vms:SettingsViewModel}}"
                 Visibility="{c:Binding RoguelikeEnableAdditionalCoreChars}">
+                <hc:ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <ContentControl Content="{Binding Converter={StaticResource OperNameBadgeConverter}}" />
+                    </DataTemplate>
+                </hc:ComboBox.ItemTemplate>
                 <hc:ComboBox.Text>
                     <Binding Path="RoguelikeCoreChar3" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
