@@ -6,7 +6,7 @@ icon: hugeicons:brain-02
 # Sanity Farming
 
 ::: info UI-Only Feature
-Some features on this page are implemented by the UI layer (such as Target Inventory, activity-aware skipping, Weekly Schedule, and multi-task ordering). See [Getting Started](../newbie.md#about-this-documentation) for details.
+Some features on this page are implemented by the UI layer (such as Target Inventory, preferring to run when no events are active, Weekly Schedule, and multi-task ordering). See [Getting Started](../newbie.md#about-this-documentation) for details.
 :::
 
 ## General Settings
@@ -92,10 +92,10 @@ Example: Alternative Stages are `CE-6/5`, `1-7` and `LS-6/5`:
 - Since `1-7` is a permanent stage that appears before `LS-6/5` in the list, MAA will never run `LS-6/5` in this scenario.
 - Likewise, if a permanent stage such as `Annihilation` is selected in the alternatives, later stages will not continue to be recognized.
 
-### Skip intelligently based on event schedule
+### Prefer running when no events are active
 
 - Enable it under `Task Settings` - `Sanity Farming` - `Advanced Settings`. This feature is implemented by the UI.
-- MAA first checks whether a Side Story event is active on the current in-game day. If so, and any continuous or overlapping follow-up events end before the current week ends, the current Sanity Farming task is skipped so Annihilation can run on any day after the events end. If Side Story events continuously cover the rest of the week through the end of Sunday, the task is not skipped.
+- When enabled, checks whether a Side Story event is active. If an event is active and ends within the current week, the current task is skipped; otherwise, it is not skipped.
 
 ### Weekly Schedule
 
