@@ -347,6 +347,18 @@
                                                         </Style>
                                                     </DataGrid.RowStyle>
                                                     <DataGrid.Columns>
+                                                        <DataGridTemplateColumn Width="36">
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <Image
+                                                                        Width="24"
+                                                                        Height="24"
+                                                                        HorizontalAlignment="Center"
+                                                                        VerticalAlignment="Center"
+                                                                        Source="{Binding Avatar}" />
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+                                                        </DataGridTemplateColumn>
                                                         <DataGridTextColumn
                                                             Width="Auto"
                                                             Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}"

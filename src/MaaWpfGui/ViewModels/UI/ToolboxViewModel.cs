@@ -205,6 +205,19 @@ public class ToolboxViewModel : Screen
                     }
                 }
 
+                var avatar = operId == null ? null : OperAvatarHelper.GetOperAvatar(operId);
+                if (avatar != null)
+                {
+                    var avatarImage = new System.Windows.Controls.Image
+                    {
+                        Source = avatar,
+                        Width = 18,
+                        Height = 18,
+                        Margin = new Thickness(0, 0, 3, 0),
+                    };
+                    recruitResultInlines.Add(new InlineUIContainer(avatarImage) { BaselineAlignment = BaselineAlignment.Bottom });
+                }
+
                 var run = new Run($"{operName}{potentialText}    ");
                 var brushKey = GetBrushKeyByStar(operLevel, isMaxPot);
                 run.SetResourceReference(TextElement.ForegroundProperty, brushKey);
@@ -1321,6 +1334,21 @@ public class ToolboxViewModel : Screen
             : "/Res/Img/Operator/Potential_1.png";
 
         /// <summary>
+        /// Gets 干员头像（裁自头像雪碧图，资源缺失或无坐标时为 null）
+        /// </summary>
+        public BitmapSource? Avatar => OperAvatarHelper.GetOperAvatar(Id);
+
+        /// <summary>
+        /// Gets 干员职业（取自 battle_data，识别不到时为 Unknown）
+        /// </summary>
+        public OperatorRole Role => DataHelper.GetCharacterById(Id)?.Role ?? OperatorRole.Unknown;
+
+        /// <summary>
+        /// Gets 职业图标（复用识别用职业旗标模板，无图标时为 null）
+        /// </summary>
+        public BitmapSource? RoleIcon => OperAvatarHelper.GetRoleIcon(Role);
+
+        /// <summary>
         /// Gets the resource key based on rarity
         /// </summary>
         public string RarityColorResourceKey => (IsPallas && Level > 0) ? "AchievementBrush.Rare.LinearGradientBrush" : $"Star{Rarity}OperatorLogBrush";
@@ -1922,6 +1950,17 @@ public class ToolboxViewModel : Screen
 
         StartOperBoxRecognitionTask();
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 干员识别卡片以干员头像为底板展示（重启后保留）。
+    /// </summary>
+    public bool OperBoxAvatarMode
+    {
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.OperBoxAvatarMode = value;
+        }
+    } = ConfigFactory.CurrentConfig.Toolbox.OperBoxAvatarMode;
 
     /// <summary>
     /// Gets 干员识别导出格式选项，文案随语言热切换自动刷新。

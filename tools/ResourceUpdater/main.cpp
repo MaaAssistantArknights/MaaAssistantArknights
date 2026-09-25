@@ -1,8 +1,12 @@
+#include <algorithm>
 #include <array>
 #include <cctype>
 #include <chrono>
 #include <filesystem>
 #include <fstream>
+#include <iterator>
+#include <map>
+#include <set>
 #include <string_view>
 #include <thread>
 #include <unordered_map>
@@ -30,6 +34,24 @@ const std::unordered_map<std::string, std::string> InfrastRoomTypeMap = {
 constexpr std::array<std::string_view, 9> InfrastRoomTypes = {
     "Power", "Reception", "Control", "Dorm", "Trade", "Office", "Mfg", "Processing", "Training",
 };
+
+// Cell size and column count of the operator avatar sprite sheet, must be kept in
+// sync with the WPF consumer (MaaWpfGui/Helper/OperAvatarHelper.cs).
+constexpr int AvatarSpriteCellSize = 120;
+constexpr int AvatarSpriteColumns = 10;
+
+// Only playable operators get avatar cells; tokens, traps and similar entries have
+// no consumer in the GUI and would bloat the sheet.
+bool is_playable_oper_profession(std::string profession)
+{
+    static constexpr std::array<std::string_view, 8> OperProfessions = {
+        "CASTER", "MEDIC", "PIONEER", "SNIPER", "SPECIAL", "SUPPORT", "TANK", "WARRIOR",
+    };
+    std::ranges::transform(profession, profession.begin(), [](unsigned char ch) {
+        return static_cast<char>(std::toupper(ch));
+    });
+    return std::ranges::find(OperProfessions, profession) != OperProfessions.end();
+}
 
 std::string normalize_infrast_skill_id(std::string id)
 {
@@ -173,7 +195,17 @@ bool
     update_infrast_templates(const fs::path& input_dir, const fs::path& building_data_file, const fs::path& output_dir);
 bool validate_infrast_resources(const fs::path& resource_dir, const fs::path& building_data_file);
 bool generate_english_roguelike_stage_name_replacement(const fs::path& ch_file, const fs::path& en_file);
-bool update_battle_chars_info(const fs::path& input_dir, const fs::path& overseas_dir, const fs::path& output_dir);
+bool update_battle_chars_info(
+    const fs::path& input_dir,
+    const fs::path& overseas_dir,
+    const fs::path& output_dir,
+    const fs::path& avatar_dir = fs::path());
+bool update_oper_avatar_sprite(const fs::path& input_dir, const fs::path& output_dir);
+bool compose_oper_avatar_sprite(
+    const fs::path& avatar_dir,
+    const std::set<std::string>& valid_ids,
+    const fs::path& output_file,
+    std::map<std::string, std::pair<int, int>>& sprite_pos);
 bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, bool is_base);
 bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_base_path, const fs::path& base_dir);
 bool update_version_info(const fs::path& input_dir, const fs::path& output_dir);
@@ -189,6 +221,9 @@ int main([[maybe_unused]] int argc, char** argv)
     }
     if (argc == 4 && std::string_view(argv[1]) == "--items-data") {
         return update_items_data(fs::path(argv[2]), fs::path(argv[3]), false) ? 0 : 1;
+    }
+    if (argc == 4 && std::string_view(argv[1]) == "--oper-avatar") {
+        return update_oper_avatar_sprite(fs::path(argv[2]), fs::path(argv[3])) ? 0 : 1;
     }
 
     // ---- PATH DECLARATION ----
@@ -312,7 +347,11 @@ bool run_parallel_tasks(
             return;
         }
         std::cout << "------- Update battle chars info -------" << '\n';
-        if (!update_battle_chars_info(official_data_dir / "gamedata" / "excel", overseas_data_dir, resource_dir)) {
+        if (!update_battle_chars_info(
+                official_data_dir / "gamedata" / "excel",
+                overseas_data_dir,
+                resource_dir,
+                official_data_dir / "avatar")) {
             std::cerr << "update_battle_chars_info failed" << '\n';
             error_occurred.store(true);
         }
@@ -679,7 +718,7 @@ bool cvt_single_item_template(const fs::path& input, const fs::path& output)
             cv::Mat matched;
             cv::matchTemplate(dst_resized, pre, matched, cv::TM_CCORR_NORMED);
             double max_val = 0, min_val = 0;
-            cv::Point max_loc { }, min_loc { };
+            cv::Point max_loc {}, min_loc {};
             cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
             if (max_val > 0.95) {
@@ -1082,7 +1121,7 @@ bool update_infrast_templates(const fs::path& input_dir, const fs::path& buildin
                 cv::Mat matched;
                 cv::matchTemplate(dst, pre, matched, cv::TM_CCORR_NORMED);
                 double max_val = 0, min_val = 0;
-                cv::Point max_loc { }, min_loc { };
+                cv::Point max_loc {}, min_loc {};
                 cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
                 if (max_val > 0.95) {
@@ -1310,7 +1349,164 @@ bool generate_english_roguelike_stage_name_replacement(const fs::path& ch_file, 
     return true;
 }
 
-bool update_battle_chars_info(const fs::path& official_dir, const fs::path& overseas_dir, const fs::path& output_dir)
+bool compose_oper_avatar_sprite(
+    const fs::path& avatar_dir,
+    const std::set<std::string>& valid_ids,
+    const fs::path& output_file,
+    std::map<std::string, std::pair<int, int>>& sprite_pos)
+{
+    sprite_pos.clear();
+
+    std::vector<std::string> avatar_ids;
+    std::error_code ec;
+    for (const auto& entry : fs::directory_iterator(avatar_dir, ec)) {
+        if (!entry.is_regular_file() || entry.path().extension() != ".png") {
+            continue;
+        }
+        std::string id = entry.path().stem().string();
+        if (valid_ids.contains(id)) {
+            avatar_ids.emplace_back(std::move(id));
+        }
+    }
+    if (ec) {
+        std::cerr << "Failed to iterate avatar dir: " << avatar_dir.string() << '\n';
+        return false;
+    }
+    if (avatar_ids.empty()) {
+        std::cerr << "No usable avatar found in: " << avatar_dir.string() << '\n';
+        return false;
+    }
+    std::ranges::sort(avatar_ids);
+
+    const int rows = static_cast<int>((avatar_ids.size() + AvatarSpriteColumns - 1) / AvatarSpriteColumns);
+    cv::Mat sheet(
+        rows * AvatarSpriteCellSize,
+        AvatarSpriteColumns * AvatarSpriteCellSize,
+        CV_8UC4,
+        cv::Scalar(0, 0, 0, 0));
+
+    for (size_t i = 0; i != avatar_ids.size(); ++i) {
+        const std::string& id = avatar_ids[i];
+        const cv::Mat avatar = cv::imread((avatar_dir / (id + ".png")).string(), -1);
+        if (avatar.empty()) {
+            std::cerr << "Failed to read avatar: " << id << '\n';
+            continue;
+        }
+        cv::Mat bgra;
+        switch (avatar.channels()) {
+        case 4:
+            bgra = avatar;
+            break;
+        case 3:
+            cv::cvtColor(avatar, bgra, cv::COLOR_BGR2BGRA);
+            break;
+        case 1:
+            cv::cvtColor(avatar, bgra, cv::COLOR_GRAY2BGRA);
+            break;
+        default:
+            std::cerr << "Unsupported channel count " << avatar.channels() << " for avatar: " << id << '\n';
+            continue;
+        }
+        const int col = static_cast<int>(i % AvatarSpriteColumns);
+        const int row = static_cast<int>(i / AvatarSpriteColumns);
+        const cv::Mat cell_roi = sheet(
+            cv::Rect(
+                col * AvatarSpriteCellSize,
+                row * AvatarSpriteCellSize,
+                AvatarSpriteCellSize,
+                AvatarSpriteCellSize));
+        cv::resize(bgra, bgra, cell_roi.size(), 0, 0, cv::INTER_AREA);
+        bgra.copyTo(cell_roi);
+        sprite_pos.emplace(id, std::make_pair(col, row));
+    }
+
+    std::vector<unsigned char> encoded;
+    if (!cv::imencode(".png", sheet, encoded)) {
+        std::cerr << "Failed to encode avatar sprite sheet" << '\n';
+        return false;
+    }
+
+    if (fs::exists(output_file)) {
+        std::ifstream ifs(output_file, std::ios::binary);
+        const std::string existing((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
+        if (existing.size() == encoded.size() && std::equal(existing.begin(), existing.end(), encoded.begin())) {
+            std::cout << "Avatar sprite sheet unchanged, skip writing" << '\n';
+            return true;
+        }
+    }
+
+    std::error_code create_ec;
+    fs::create_directories(output_file.parent_path(), create_ec);
+    if (create_ec) {
+        std::cerr << "Failed to create dir: " << output_file.parent_path().string() << '\n';
+        return false;
+    }
+    std::ofstream ofs(output_file, std::ios::binary);
+    if (!ofs) {
+        std::cerr << "Failed to open for write: " << output_file.string() << '\n';
+        return false;
+    }
+    ofs.write(reinterpret_cast<const char*>(encoded.data()), static_cast<std::streamsize>(encoded.size()));
+    if (!ofs.good()) {
+        std::cerr << "Failed to write: " << output_file.string() << '\n';
+        return false;
+    }
+    std::cout << "Avatar sprite sheet written: " << sprite_pos.size() << " avatars" << '\n';
+    return true;
+}
+
+bool update_oper_avatar_sprite(const fs::path& input_dir, const fs::path& output_dir)
+{
+    const auto battle_data_file = output_dir / "battle_data.json";
+    auto battle_data_opt = json::open(battle_data_file);
+    if (!battle_data_opt) {
+        std::cerr << "Failed to open " << battle_data_file.string() << '\n';
+        return false;
+    }
+
+    auto& result = battle_data_opt.value();
+    if (!result.contains("chars")) {
+        std::cerr << "chars not found in " << battle_data_file.string() << '\n';
+        return false;
+    }
+    auto& chars = result["chars"];
+    std::set<std::string> char_ids;
+    for (const auto& [id, _] : chars.as_object()) {
+        if (is_playable_oper_profession(chars.get(id, "profession", std::string()))) {
+            char_ids.emplace(id);
+        }
+    }
+
+    std::map<std::string, std::pair<int, int>> sprite_pos;
+    if (!compose_oper_avatar_sprite(
+            input_dir / "avatar",
+            char_ids,
+            output_dir / "template" / "avatar" / "avatar_sprite.png",
+            sprite_pos)) {
+        return false;
+    }
+
+    // Drop stale coordinates first so repeated standalone runs stay consistent with the sheet
+    for (auto& [id, data] : chars.as_object()) {
+        if (data.contains("avatar_sprite")) {
+            data.as_object().erase("avatar_sprite");
+        }
+    }
+    for (const auto& [id, pos] : sprite_pos) {
+        chars[id]["avatar_sprite"] = json::array { pos.first, pos.second };
+    }
+
+    std::ofstream ofs(battle_data_file, std::ios::out);
+    ofs << result.format() << '\n';
+    ofs.close();
+    return true;
+}
+
+bool update_battle_chars_info(
+    const fs::path& official_dir,
+    const fs::path& overseas_dir,
+    const fs::path& output_dir,
+    const fs::path& avatar_dir)
 {
     std::string to_char_json = "gamedata/excel/character_table.json";
 
@@ -1440,6 +1636,31 @@ bool update_battle_chars_info(const fs::path& official_dir, const fs::path& over
         };
     }
     chars.emplace("char_1037_amiya3", std::move(Amiya_data3));
+
+    if (!avatar_dir.empty()) {
+        if (fs::exists(avatar_dir)) {
+            std::set<std::string> char_ids;
+            for (const auto& [id, _] : chars.as_object()) {
+                if (is_playable_oper_profession(chars.get(id, "profession", std::string()))) {
+                    char_ids.emplace(id);
+                }
+            }
+            std::map<std::string, std::pair<int, int>> sprite_pos;
+            if (!compose_oper_avatar_sprite(
+                    avatar_dir,
+                    char_ids,
+                    output_dir / "template" / "avatar" / "avatar_sprite.png",
+                    sprite_pos)) {
+                return false;
+            }
+            for (const auto& [id, pos] : sprite_pos) {
+                chars[id]["avatar_sprite"] = json::array { pos.first, pos.second };
+            }
+        }
+        else {
+            std::cout << "Avatar dir not found, skip avatar sprite: " << avatar_dir.string() << '\n';
+        }
+    }
 
     const auto& out_file = output_dir / "battle_data.json";
     std::ofstream ofs(out_file, std::ios::out);
