@@ -205,25 +205,12 @@ public class ToolboxViewModel : Screen
                     }
                 }
 
-                var avatar = operId == null ? null : OperAvatarHelper.GetOperAvatar(operId);
-                if (avatar != null)
-                {
-                    var avatarImage = new System.Windows.Controls.Image
-                    {
-                        Source = avatar,
-                        Width = 18,
-                        Height = 18,
-                        Margin = new Thickness(0, 0, 3, 0),
-                    };
-                    recruitResultInlines.Add(new InlineUIContainer(avatarImage) { BaselineAlignment = BaselineAlignment.Bottom });
-                }
-
-                var run = new Run($"{operName}{potentialText}    ");
                 var brushKey = GetBrushKeyByStar(operLevel, isMaxPot);
-                run.SetResourceReference(TextElement.ForegroundProperty, brushKey);
-                run.Tag = brushKey;
 
-                recruitResultInlines.Add(run);
+                // 头像+名字拼成一体元素，防止在名字与头像之间换行
+                var badge = OperAvatarHelper.CreateOperBadge(operId ?? string.Empty, $"{operName}{potentialText}", 18, brushKey);
+                recruitResultInlines.Add(new InlineUIContainer(badge) { BaselineAlignment = BaselineAlignment.Bottom });
+                recruitResultInlines.Add(new Run("    "));
             }
 
             recruitResultInlines.Add(new LineBreak());

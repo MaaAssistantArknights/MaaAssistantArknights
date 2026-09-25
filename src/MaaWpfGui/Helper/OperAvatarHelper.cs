@@ -18,6 +18,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MaaWpfGui.Constants.Enums;
@@ -101,6 +102,47 @@ public static class OperAvatarHelper
     public static BitmapSource? GetRoleIcon(OperatorRole role)
     {
         return _roleIconCache.GetOrAdd(role, LoadRoleIcon);
+    }
+
+    /// <summary>
+    /// 生成「头像 + 干员名」一体的展示元素：头像与名字作为一个整体参与排版，不会被换行拆开。
+    /// 无头像（资源缺失或无坐标）时退化为仅名字的元素。
+    /// </summary>
+    /// <param name="operId">干员 ID</param>
+    /// <param name="displayName">展示文本（本地化后的干员名及附加文本）</param>
+    /// <param name="avatarSize">头像边长</param>
+    /// <param name="foregroundResourceKey">名字前景色资源键（如稀有度颜色），null 则继承所在处默认前景色</param>
+    /// <returns>可直接用于 UI 或 <see cref="System.Windows.Documents.InlineUIContainer"/> 的元素</returns>
+    public static FrameworkElement CreateOperBadge(string operId, string displayName, double avatarSize = 18, string? foregroundResourceKey = null)
+    {
+        var badge = new StackPanel { Orientation = Orientation.Horizontal };
+
+        var avatar = GetOperAvatar(operId);
+        if (avatar != null)
+        {
+            badge.Children.Add(new Image
+            {
+                Source = avatar,
+                Width = avatarSize,
+                Height = avatarSize,
+                VerticalAlignment = VerticalAlignment.Center,
+            });
+        }
+
+        var name = new TextBlock
+        {
+            Text = displayName,
+            VerticalAlignment = VerticalAlignment.Center,
+            Margin = avatar == null ? default : new Thickness(3, 0, 0, 0),
+        };
+        if (!string.IsNullOrEmpty(foregroundResourceKey))
+        {
+            name.SetResourceReference(TextBlock.ForegroundProperty, foregroundResourceKey);
+        }
+
+        badge.Children.Add(name);
+        badge.ToolTip = operId;
+        return badge;
     }
 
     private static BitmapSource? LoadRoleIcon(OperatorRole role)
