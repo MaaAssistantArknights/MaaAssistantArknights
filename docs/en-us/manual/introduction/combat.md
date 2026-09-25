@@ -100,10 +100,10 @@ Example: Alternative Stages are `CE-6/5`, `1-7` and `LS-6/5`:
 ### Weekly Schedule
 
 - Enable it under `Task Settings` - `Sanity Farming` - `Advanced Settings`. This feature is implemented by the UI.
-- After enabling “Weekly Schedule”, you can check which **in-game weekdays** (Sunday–Saturday) this Sanity Farming task should run.
+- After enabling, you can check which **in-game weekdays** (Sunday–Saturday) this Sanity Farming task should run.
 - The weekday is calculated from in-game time (client timezone + daily 4:00 reset), not the local calendar day. For example, on CN servers, 3:59 local time still counts as the previous day.
 - When starting tasks: if Weekly Schedule is enabled and today is not checked, this Sanity Farming task is **skipped** (log shows task skipped; not a failure), and later tasks continue.
-- If Weekly Schedule is not enabled, the task is not skipped based on the weekday.
+- If Weekly Schedule is not enabled, the task is attempted every day.
 - Enabling Weekly Schedule turns off and disables “Hide today's not open stages”.
 - Typical use: add a separate Sanity Farming task for Annihilation only, check only Monday in Weekly Schedule, and it will run on Mondays only. See [Annihilation Mode](#annihilation-mode) above.
 
