@@ -66,7 +66,7 @@ private:
     bool buy_catalyst(int count);
     std::optional<int> ocr_number(const std::string& task_name);
     std::optional<int> ocr_number(const cv::Mat& image, const std::string& task_name);
-    // recognized 非空时随 AutoRaiseTargetResult 回调附带：本次任务现场识别到的当前等级
+    // recognized 非空时随 OperProgressTargetResult 回调附带：本次任务现场识别到的当前等级
     // （elite 为当前精英化阶段，skills 为当前 RANK 等级，mastery 为目标技能的当前专精等级）。
     void report_target(
         std::string what,
@@ -79,7 +79,7 @@ private:
     static std::string_view result_name(Result result);
 
     std::vector<OperProgressTask::ProgressPlan> m_plan;
-    // 本次任务现场识别到的当前等级，含义随 action 而异，随 AutoRaiseTargetResult 回调给 UI。
+    // 本次任务现场识别到的当前等级，含义随 action 而异，随 OperProgressTargetResult 回调给 UI。
     std::optional<int> m_recognized_level;
     // 首条目标已定位:任务开始时可能停在主页走完整入口链,之后换干员保证不去主页。
     bool m_entry_completed = false;

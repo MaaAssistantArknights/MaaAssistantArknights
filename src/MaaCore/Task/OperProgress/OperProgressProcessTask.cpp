@@ -32,7 +32,7 @@ namespace
 {
 constexpr int MaxOperatorPages = 20;
 // 制造站产线当前产品写入 Status 的键,RestoreFactoryState 读取后恢复原产品。
-constexpr std::string_view FactoryProductStatusKey = "AutoRaiseFactoryProduct";
+constexpr std::string_view FactoryProductStatusKey = "OperProgressFactoryProduct";
 // 训练室受训干员整列表完整扫寻的轮数,超出后判定干员不在列表中。
 constexpr int TraineeMissingRetryTimes = 1;
 
@@ -141,7 +141,7 @@ bool asst::OperProgressProcessTask::_run()
 
     for (size_t index = 0; index < m_plan.size() && !need_exit(); ++index) {
         const auto& target = m_plan[index];
-        report_target("AutoRaiseTargetStart", index, target, Result::Skipped);
+        report_target("OperProgressTargetStart", index, target, Result::Skipped);
         m_recognized_level.reset();
 
         Result result = Result::Unsupported;
@@ -188,7 +188,7 @@ bool asst::OperProgressProcessTask::_run()
             save_img(utils::path("debug") / utils::path("auto_raise"), false);
             break;
         }
-        report_target("AutoRaiseTargetResult", index, target, result, m_recognized_level);
+        report_target("OperProgressTargetResult", index, target, result, m_recognized_level);
     }
     report_summary();
     return true;
@@ -481,10 +481,16 @@ asst::OperProgressProcessTask::Result asst::OperProgressProcessTask::execute_mas
     if (!run_task("InfrastTrainingSelectTrainee") || !select_training_trainee(role, name)) {
         return Result::RecognitionFailed;
     }
-    if (!run_task("BattleQuickFormationConfirm") || !run_task("InfrastTrainingMasteryPage") ||
-        !run_task("OperProgress@MasterySelectSkill" + std::to_string(skill))) {
+    if (!run_task("BattleQuickFormationConfirm") || !run_task("InfrastTrainingMasteryPage")) {
         return Result::RecognitionFailed;
     }
+    if (!run_task("OperProgress@MasterySelectSkillMaxAlready" + std::to_string(skill))) {
+        return Result::AlreadySatisfied;
+    }
+    else if (!run_task("OperProgress@MasterySelectSkill" + std::to_string(skill))) {
+        return Result::RecognitionFailed;
+    }
+
     // 选定受训干员与技能后确认面板展示材料行；逐槽检测（同 execute_elite 槽位分派）：
     // 技能书/材料1/材料2 依次跳加工站走自动合成,全部修复后复核仍缺料则不启动专精。
     if (run_task("OperProgress@MasterySkillSummaryRequired", 2)) {
@@ -1126,7 +1132,7 @@ void asst::OperProgressProcessTask::report_target(
 
 void asst::OperProgressProcessTask::report_summary()
 {
-    auto info = basic_info_with_what("AutoRaiseSummary");
+    auto info = basic_info_with_what("OperProgressSummary");
     info["details"] = json::object {
         { "completed", m_completed },
         { "already_satisfied", m_satisfied },
