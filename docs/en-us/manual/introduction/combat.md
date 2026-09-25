@@ -92,10 +92,14 @@ Example: Alternative Stages are `CE-6/5`, `1-7` and `LS-6/5`:
 - Since `1-7` is a permanent stage that appears before `LS-6/5` in the list, MAA will never run `LS-6/5` in this scenario.
 - Likewise, if a permanent stage such as `Annihilation` is selected in the alternatives, later stages will not continue to be recognized.
 
-### Activity-aware skipping and Weekly Schedule
+### Skip intelligently based on event schedule
 
-- “Skip intelligently based on event schedule” and “Weekly Schedule” are independent options under `Task Settings` - `Sanity Farming` - `Advanced Settings`. These features are implemented by the UI.
-- “Skip intelligently based on event schedule”: MAA first checks whether a Side Story event is active on the current in-game day. If so, and any continuous or overlapping follow-up events end before the current week ends, the current Sanity Farming task is skipped so Annihilation can run on any day after the events end. If Side Story events continuously cover the rest of the week through the end of Sunday, the task is not skipped.
+- Enable it under `Task Settings` - `Sanity Farming` - `Advanced Settings`. This feature is implemented by the UI.
+- MAA first checks whether a Side Story event is active on the current in-game day. If so, and any continuous or overlapping follow-up events end before the current week ends, the current Sanity Farming task is skipped so Annihilation can run on any day after the events end. If Side Story events continuously cover the rest of the week through the end of Sunday, the task is not skipped.
+
+### Weekly Schedule
+
+- Enable it under `Task Settings` - `Sanity Farming` - `Advanced Settings`. This feature is implemented by the UI.
 - After enabling “Weekly Schedule”, you can check which **in-game weekdays** (Sunday–Saturday) this Sanity Farming task should run.
 - The weekday is calculated from in-game time (client timezone + daily 4:00 reset), not the local calendar day. For example, on CN servers, 3:59 local time still counts as the previous day.
 - When starting tasks: if Weekly Schedule is enabled and today is not checked, this Sanity Farming task is **skipped** (log shows task skipped; not a failure), and later tasks continue.
