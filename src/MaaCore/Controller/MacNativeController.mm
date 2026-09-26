@@ -3,6 +3,7 @@
 
 #if defined(__APPLE__) && ASST_WITH_MAC_NATIVE
 
+#import <AppKit/AppKit.h>
 #import <ApplicationServices/ApplicationServices.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <ScreenCaptureKit/ScreenCaptureKit.h>
@@ -398,6 +399,7 @@ public:
     }
     EventOwner(const EventOwner&) = delete;
     EventOwner& operator=(const EventOwner&) = delete;
+    CGEventRef get() const { return m_event; }
 
 private:
     CGEventRef m_event = nullptr;
@@ -667,7 +669,15 @@ bool asst::MacNativeController::connect(
     }
     m_impl->bundle_id = address;
     m_impl->initialized = false;
-    return m_impl->refresh_frame();
+    for (int attempt = 0; attempt < 20; ++attempt) {
+        if (m_impl->refresh_frame()) {
+            return true;
+        }
+        if (attempt < 19) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        }
+    }
+    return false;
 }
 
 bool asst::MacNativeController::inited() const noexcept
@@ -701,14 +711,86 @@ bool asst::MacNativeController::screencap(cv::Mat& image_payload, bool allow_rec
 
 bool asst::MacNativeController::start_game(const std::string& client_type [[maybe_unused]])
 {
-    LogWarn << "Starting the game is not supported by MacNative.";
-    return false;
+    constexpr auto GamePath = "/Applications/Arknights.app";
+    NSBundle* bundle = [NSBundle bundleWithPath:@"/Applications/Arknights.app"];
+    if (!bundle) {
+        LogError << "MacNative cannot start the game: expected application at" << GamePath;
+        return false;
+    }
+
+    NSString* bundle_id = bundle.bundleIdentifier;
+    if (!bundle_id || m_impl->bundle_id != bundle_id.UTF8String) {
+        LogError << "MacNative game bundle identifier does not match the connected application at" << GamePath;
+        return false;
+    }
+
+    struct LaunchResult {
+        dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+        bool started = false;
+        std::string error;
+
+        ~LaunchResult() { dispatch_release(semaphore); }
+    };
+    const auto result = std::make_shared<LaunchResult>();
+    [[NSWorkspace sharedWorkspace] openApplicationAtURL:[NSURL fileURLWithPath:@"/Applications/Arknights.app"]
+                                          configuration:[NSWorkspaceOpenConfiguration configuration]
+                                      completionHandler:^(NSRunningApplication* app, NSError* error) {
+                                          result->started = app != nil;
+                                          if (error) {
+                                              result->error = error.localizedDescription.UTF8String;
+                                          }
+                                          dispatch_semaphore_signal(result->semaphore);
+                                      }];
+    if (dispatch_semaphore_wait(result->semaphore, dispatch_time(DISPATCH_TIME_NOW, 30 * NSEC_PER_SEC)) != 0) {
+        LogError << "MacNative timed out while starting the game at" << GamePath;
+        return false;
+    }
+    if (!result->started) {
+        LogError << "MacNative could not start the game at" << GamePath << result->error;
+        return false;
+    }
+    return true;
 }
 
 bool asst::MacNativeController::stop_game(const std::string& client_type [[maybe_unused]])
 {
-    LogWarn << "Stopping the game is not supported by MacNative.";
-    return false;
+    NSString* bundle_id = [NSString stringWithUTF8String:m_impl->bundle_id.c_str()];
+    NSArray<NSRunningApplication*>* apps = [NSRunningApplication runningApplicationsWithBundleIdentifier:bundle_id];
+    if (apps.count == 0) {
+        LogInfo << "MacNative game is already stopped" << m_impl->bundle_id;
+        return true;
+    }
+    bool stopped = true;
+    for (NSRunningApplication* app in apps) {
+        const pid_t pid = app.processIdentifier;
+        if (!AXIsProcessTrusted()) {
+            LogError << "Accessibility permission is required to quit the MacNative game.";
+            stopped = false;
+            continue;
+        }
+
+        constexpr CGKeyCode QuitKey = 0x0C; // Q on the macOS virtual keyboard.
+        MacNativeDetail::EventOwner key_down(CGEventCreateKeyboardEvent(nullptr, QuitKey, true));
+        MacNativeDetail::EventOwner key_up(CGEventCreateKeyboardEvent(nullptr, QuitKey, false));
+        if (!key_down.get() || !key_up.get()) {
+            LogError << "MacNative could not create a quit shortcut for the game process" << pid;
+            stopped = false;
+            continue;
+        }
+        CGEventSetFlags(key_down.get(), kCGEventFlagMaskCommand);
+        CGEventSetFlags(key_up.get(), kCGEventFlagMaskCommand);
+        CGEventPostToPid(pid, key_down.get());
+        CGEventPostToPid(pid, key_up.get());
+
+        for (int attempt = 0; attempt < 20 && !app.isTerminated; ++attempt) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(250));
+        }
+        if (!app.isTerminated) {
+            LogError << "MacNative game did not quit after Command-Q" << pid;
+            stopped = false;
+        }
+    }
+    return stopped;
 }
 
 bool asst::MacNativeController::click(const Point& point)

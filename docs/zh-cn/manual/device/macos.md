@@ -39,7 +39,7 @@ MAA 通过 MacNative 实验模式支持 Apple Silicon Mac 上的 App Store 版�
 
 启动 App Store 版明日方舟后，在 MAA 的 `设置` - `连接设置` 中选择 `macOS 原生控制（实验）`，确认 Bundle ID，然后按界面提示授予录屏和辅助功能权限。
 
-游戏窗口必须保持打开，不能最小化或隐藏。此模式支持截图、点击和滑动；暂不支持自动启动游戏、文本输入、账号切换或暂停部署。
+游戏窗口必须保持打开，不能最小化或隐藏。此模式支持截图、点击和滑动；启动和关闭游戏要求游戏位于 `/Applications/Arknights.app`。暂不支持文本输入、账号切换或暂停部署。
 
 ### ✅ [MuMu 模拟器 Pro](https://mumu.163.com/mac/)
 
