@@ -8,6 +8,7 @@
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
+    xmlns:item_vms="clr-namespace:MaaWpfGui.ViewModels.Items"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:s="https://github.com/canton7/Stylet"
@@ -732,6 +733,20 @@
                 IsInertiaEnabled="True"
                 PanningMode="VerticalOnly">
                 <ItemsControl ItemsSource="{Binding LogItemViewModels}">
+                    <ItemsControl.Resources>
+                        <DataTemplate DataType="{x:Type item_vms:LogItemViewModel}">
+                            <controls:TextBlock
+                                ForegroundKey="{Binding Color}"
+                                Text="{Binding Content}"
+                                TextWrapping="Wrap" />
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type item_vms:OperPreviewLogItem}">
+                            <controls:TextBlock
+                                BindableInlines="{Binding Inlines}"
+                                ForegroundKey="{Binding Color}"
+                                TextWrapping="Wrap" />
+                        </DataTemplate>
+                    </ItemsControl.Resources>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Grid>
@@ -749,15 +764,13 @@
                                     Text="{Binding Time}"
                                     TextWrapping="Wrap"
                                     Visibility="{c:Binding ShowTime}" />
-                                <controls:TextBlock
+                                <ContentControl
                                     Grid.Column="1"
                                     Margin="0,5"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Stretch"
-                                    FontWeight="{Binding Weight}"
-                                    ForegroundKey="{Binding Color}"
-                                    Text="{Binding Content}"
-                                    TextWrapping="Wrap" />
+                                    Content="{Binding}"
+                                    FontWeight="{Binding Weight}" />
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

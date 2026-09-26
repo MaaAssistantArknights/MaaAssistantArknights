@@ -107,9 +107,9 @@ public class SSSCopilotModel : CopilotBase
             : key;
     }
 
-    public List<(string Output, string? Color)> Output()
+    public List<CopilotOutput> Output()
     {
-        var output = new List<(string, string?)>();
+        var output = new List<CopilotOutput>();
 
         if (Documentation is not null)
         {
@@ -134,8 +134,8 @@ public class SSSCopilotModel : CopilotBase
         foreach (var oper in Opers ?? [])
         {
             count++;
-            var localizedName = DataHelper.GetLocalizedCharacterName(oper.Name);
-            output.Add(($"{localizedName}, {LocalizationHelper.GetString("CopilotSkill")} {oper.Skill}", null));
+            var localizedName = DataHelper.GetLocalizedCharacterName(oper.Name) ?? oper.Name;
+            output.Add(new CopilotOutput([new(localizedName, oper.Name), new($", {LocalizationHelper.GetString("CopilotSkill")} {oper.Skill}")], null));
         }
 
         output.Add((LocalizationHelper.GetStringFormat("TotalOperatorsCount", count), null));
