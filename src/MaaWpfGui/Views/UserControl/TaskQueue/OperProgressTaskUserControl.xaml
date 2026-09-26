@@ -35,12 +35,22 @@
                 <controls:TooltipBlock TooltipText="{DynamicResource OperProgressDeleteCompletedEntriesTip}" />
             </StackPanel>
 
-            <Button
-                Margin="0,8,0,0"
-                HorizontalAlignment="Left"
-                Command="{s:Action ParsePlan}"
-                Content="{DynamicResource OperProgressParsePlan}" />
+            <StackPanel
+                Margin="0,4,0,0"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <Button
+                    MinWidth="50"
+                    Margin="0,8,0,0"
+                    Command="{s:Action CollapseAll}"
+                    Content="{DynamicResource CollapseAll}" />
+                <Button
+                    Margin="6,8,0,0"
+                    HorizontalAlignment="Left"
+                    Command="{s:Action ParsePlan}"
+                    Content="从剪贴板读取" />
 
+            </StackPanel>
             <!--  干员选择与添加培养目标  -->
             <Grid Margin="0,8,0,0">
                 <Grid.ColumnDefinitions>
@@ -100,6 +110,7 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
@@ -110,14 +121,130 @@
                                         HorizontalAlignment="Left"
                                         Text="{Binding DisplayName}"
                                         TextTrimming="CharacterEllipsis" />
-                                    <controls:TextBlock
-                                        Grid.Column="2"
-                                        Margin="4,0"
-                                        HorizontalAlignment="Right"
-                                        Text="{Binding TargetDescription}"
-                                        TextWrapping="Wrap" />
+                                    <Grid Grid.Column="3" HorizontalAlignment="Right">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            Grid.Column="0"
+                                            Width="18"
+                                            Height="18"
+                                            Margin="3"
+                                            Source="{Binding EliteIconPath}"
+                                            Stretch="Uniform"
+                                            Visibility="{c:Binding IsEliteSelected}">
+                                            <Image.Effect>
+                                                <DropShadowEffect
+                                                    BlurRadius="8"
+                                                    Opacity="0.8"
+                                                    ShadowDepth="1"
+                                                    Color="Black" />
+                                            </Image.Effect>
+                                        </Image>
+                                        <Grid
+                                            Grid.Column="1"
+                                            Margin="3,2"
+                                            Visibility="{c:Binding 'IsMainSkillLevelSelected and !IsSpecializationSkill1Selected and !IsSpecializationSkill2Selected and !IsSpecializationSkill3Selected'}">
+                                            <Path
+                                                Width="18"
+                                                Height="18"
+                                                Data="M 0,14 L 0,0 L 14,0 M 34,0 L 48,0 L 48,14 M 0,34 L 0,48 L 14,48 M 34,48 L 48,48 L 48,34"
+                                                Stretch="Uniform"
+                                                Stroke="{DynamicResource PrimaryTextBrush}"
+                                                StrokeEndLineCap="Square"
+                                                StrokeStartLineCap="Square"
+                                                StrokeThickness="1.5" />
+                                            <!--  中间数字  -->
+                                            <controls:TextBlock
+                                                Margin="3,3,3,3"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                FontSize="12"
+                                                FontWeight="Normal"
+                                                Text="{Binding MainSkillLevel}" />
+                                        </Grid>
+                                        <StackPanel
+                                            Grid.Column="2"
+                                            Margin="0,3"
+                                            Orientation="Horizontal">
+                                            <Grid Visibility="{c:Binding IsSpecializationSkill1Selected}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <controls:SkillSpecializationIcon
+                                                    Width="18"
+                                                    Height="18"
+                                                    Level="{Binding SpecializationSkill1}" />
+                                                <controls:TextBlock
+                                                    Margin="20,0,0,0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Text="1">
+                                                    <controls:TextBlock.Effect>
+                                                        <DropShadowEffect
+                                                            BlurRadius="8"
+                                                            Opacity="0.8"
+                                                            ShadowDepth="1"
+                                                            Color="Black" />
+                                                    </controls:TextBlock.Effect>
+                                                </controls:TextBlock>
+                                            </Grid>
+                                            <Grid Visibility="{c:Binding IsSpecializationSkill2Selected}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <controls:SkillSpecializationIcon
+                                                    Width="18"
+                                                    Height="18"
+                                                    Level="{Binding SpecializationSkill2}" />
+                                                <controls:TextBlock
+                                                    Margin="20,0,0,0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Text="2">
+                                                    <controls:TextBlock.Effect>
+                                                        <DropShadowEffect
+                                                            BlurRadius="8"
+                                                            Opacity="0.8"
+                                                            ShadowDepth="1"
+                                                            Color="Black" />
+                                                    </controls:TextBlock.Effect>
+                                                </controls:TextBlock>
+                                            </Grid>
+                                            <Grid Visibility="{c:Binding IsSpecializationSkill3Selected}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <controls:SkillSpecializationIcon
+                                                    Width="18"
+                                                    Height="18"
+                                                    Level="{Binding SpecializationSkill3}" />
+                                                <controls:TextBlock
+                                                    Margin="20,0,0,0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Text="3">
+                                                    <controls:TextBlock.Effect>
+                                                        <DropShadowEffect
+                                                            BlurRadius="8"
+                                                            Opacity="0.8"
+                                                            ShadowDepth="1"
+                                                            Color="Black" />
+                                                    </controls:TextBlock.Effect>
+                                                </controls:TextBlock>
+                                            </Grid>
+
+                                        </StackPanel>
+                                    </Grid>
                                     <Button
-                                        Grid.Column="3"
+                                        Grid.Column="4"
                                         Width="25"
                                         Height="25"
                                         Margin="0,0,-5,0"
@@ -166,12 +293,13 @@
                                         </Grid.RowDefinitions>
 
                                         <!--  精英化目标：0 表示不设定  -->
-                                        <controls:TextBlock
+                                        <CheckBox
                                             Grid.Row="0"
                                             Grid.Column="0"
                                             Margin="0,6,0,0"
                                             VerticalAlignment="Center"
-                                            Text="{DynamicResource OperProgressElite}" />
+                                            Content="{DynamicResource OperProgressElite}"
+                                            IsChecked="{Binding IsEliteSelected}" />
                                         <controls:TextBlock
                                             Grid.Row="0"
                                             Grid.Column="1"
@@ -184,16 +312,17 @@
                                             Margin="0,6,0,0"
                                             DisplayMemberPath="Display"
                                             ItemsSource="{Binding DataContext.EliteList, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                            SelectedValue="{Binding Elite, UpdateSourceTrigger=PropertyChanged}"
+                                            SelectedValue="{Binding Elite}"
                                             SelectedValuePath="Value" />
 
                                         <!--  技能等级目标：0 表示不设定  -->
-                                        <controls:TextBlock
+                                        <CheckBox
                                             Grid.Row="1"
                                             Grid.Column="0"
                                             Margin="0,6,0,0"
                                             VerticalAlignment="Center"
-                                            Text="{DynamicResource OperProgressSkillUpgrade}" />
+                                            Content="{DynamicResource OperProgressSkillUpgrade}"
+                                            IsChecked="{Binding IsMainSkillLevelSelected}" />
                                         <controls:TextBlock
                                             Grid.Row="1"
                                             Grid.Column="1"
@@ -206,7 +335,7 @@
                                             Margin="0,6,0,0"
                                             DisplayMemberPath="Display"
                                             ItemsSource="{Binding DataContext.MainSkillLevelList, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                            SelectedValue="{Binding MainSkillLevel, UpdateSourceTrigger=PropertyChanged}"
+                                            SelectedValue="{Binding MainSkillLevel}"
                                             SelectedValuePath="Value" />
 
                                         <!--  技能专精目标：技能 1/2/3 三行固定显示，超出干员技能数的行禁用  -->
@@ -290,90 +419,5 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </StackPanel>
-
-        <!--  待确认移除（重构后卡片支持内联编辑，本弹窗已无绑定）：培养目标选择弹窗
-        <Popup
-            IsOpen="{Binding IsTargetPopupOpen}"
-            Placement="Center"
-            PlacementTarget="{Binding ElementName=AddTargetButton}"
-            PopupAnimation="Fade"
-            StaysOpen="False">
-            <Border
-                MinWidth="300"
-                Padding="12"
-                Background="{DynamicResource RegionBrush}"
-                BorderBrush="{DynamicResource BorderBrush}"
-                BorderThickness="1"
-                CornerRadius="4">
-                <StackPanel>
-                    <TextBlock FontSize="14" Text="{Binding PopupTitle}" />
-                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                        <CheckBox
-                            MinWidth="80"
-                            Content="{DynamicResource OperProgressElite}"
-                            IsChecked="{Binding PopupSelectElite}" />
-                        <TextBlock
-                            Margin="6,0"
-                            VerticalAlignment="Center"
-                            Text="→" />
-                        <ComboBox
-                            MinWidth="64"
-                            ItemsSource="{Binding EliteOptions}"
-                            SelectedValue="{Binding PopupEliteTarget}" />
-                    </StackPanel>
-                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                        <CheckBox
-                            MinWidth="80"
-                            Content="{DynamicResource OperProgressSkillUpgrade}"
-                            IsChecked="{Binding PopupSelectSkill}" />
-                        <TextBlock
-                            Margin="6,0"
-                            VerticalAlignment="Center"
-                            Text="→" />
-                        <ComboBox
-                            MinWidth="64"
-                            ItemsSource="{Binding SkillLevelOptions}"
-                            SelectedValue="{Binding PopupSkillTarget}" />
-                    </StackPanel>
-                    <controls:TextBlock Margin="0,10,0,0" Text="{DynamicResource OperProgressMastery}" />
-                    <ItemsControl ItemsSource="{Binding MasteryRows}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
-                                    <CheckBox
-                                        MinWidth="80"
-                                        Content="{Binding Label}"
-                                        IsChecked="{Binding IsSelected}" />
-                                    <TextBlock
-                                        Margin="6,0"
-                                        VerticalAlignment="Center"
-                                        Text="→" />
-                                    <ComboBox
-                                        MinWidth="64"
-                                        ItemsSource="{Binding DataContext.MasteryTargetOptions, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                        SelectedValue="{Binding Target}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <StackPanel
-                        Margin="0,12,0,0"
-                        HorizontalAlignment="Right"
-                        Orientation="Horizontal">
-                        <Button
-                            MinWidth="60"
-                            Command="{s:Action CancelTargetPopup}"
-                            Content="{DynamicResource Cancel}" />
-                        <Button
-                            MinWidth="60"
-                            Margin="6,0,0,0"
-                            Command="{s:Action ConfirmTargetPopup}"
-                            Content="{Binding PopupConfirmText}"
-                            IsEnabled="{Binding PopupHasSelection}" />
-                    </StackPanel>
-                </StackPanel>
-            </Border>
-        </Popup>
-        -->
     </StackPanel>
 </UserControl>

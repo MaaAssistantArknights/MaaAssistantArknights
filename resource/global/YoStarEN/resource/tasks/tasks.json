@@ -1925,9 +1925,6 @@
     "OperProgress@OperBoxRoleFiltered": {
         "text": ["Vanguard", "Guard", "Defender", "Sniper", "Caster", "Medic", "Support", "Specialist"]
     },
-    "OperProgress@OperBoxRoleFilteredOpen": {
-        "text": ["Vanguard", "Guard", "Defender", "Sniper", "Caster", "Medic", "Support", "Specialist"]
-    },
     "OperProgress@OperBoxSortTabs": {
         "text": ["Level", "Rarity", "Acquisition Date"]
     }

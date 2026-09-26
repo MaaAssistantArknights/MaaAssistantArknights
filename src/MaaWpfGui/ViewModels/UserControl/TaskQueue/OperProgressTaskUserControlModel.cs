@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
@@ -36,9 +37,6 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
 public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgressTaskUserControlModel.ISerialize
 {
-    // 待确认移除（_allowedFields 已作废：字段权威改为 OperProgressTask.Plan 对象，本次重构后仅 ParseAndValidate 引用）
-    private static readonly HashSet<string> _allowedFields = ["name", "elite", "skills", "skill", "skill_master"];
-
     static OperProgressTaskUserControlModel() => Instance = new();
 
     public OperProgressTaskUserControlModel()
@@ -61,19 +59,19 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
     private void RefreshPlanItems(OperProgressTask task)
     {
         var list = task.Plans.Select((plan, index) => {
-            int elite = plan.elite;
-            int mainSkillLevel = plan.skillLevel switch {
+            int elite = plan.Elite;
+            int mainSkillLevel = plan.SkillLevel switch {
                 SkillLevel.BaseLevel baseLevel => baseLevel.Level,
                 SkillLevel.Specialization => 7,
                 _ => 0,
             };
 
-            var specializationLevel = plan.skillLevel switch {
+            var specializationLevel = plan.SkillLevel switch {
                 SkillLevel.Specialization specialization => specialization,
                 _ => new(0, 0, 0),
             };
 
-            return new OperProgressPlanItemViewModel(index, plan.role, plan.name, elite, mainSkillLevel, specializationLevel);
+            return new OperProgressPlanItemViewModel(index, plan.Role, plan.Name, elite, mainSkillLevel, specializationLevel);
         }).ToList();
         PlanItems = [.. list];
         PlanItems.CollectionChanged += PlanItems_CollectionChanged;
@@ -93,10 +91,10 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
             }
             else
             {
-                skillLevel = new SkillLevel.BaseLevel(item.MainSkillLevel);
+                skillLevel = new SkillLevel.BaseLevel(item.IsMainSkillLevelSelected ? item.MainSkillLevel : 0);
             }
 
-            return new Plan(item.Role, item.Name, item.Elite, null, skillLevel);
+            return new Plan(item.Role, item.Name, item.IsEliteSelected ? item.Elite : 0, null, skillLevel);
         }).ToList();
         SetTaskConfig<OperProgressTask>(t => t.Plans.SequenceEqual(list), t => t.Plans = list);
     }
@@ -175,6 +173,22 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         ReplacePlanItems(remaining);
     }
 
+    public void CollapseAll()
+    {
+        foreach (var item in PlanItems)
+        {
+            item.IsExpanded = false;
+        }
+    }
+
+    public void ParsePlan()
+    {
+        if (Clipboard.ContainsText())
+        {
+            var str = Clipboard.GetText().Trim();
+        }
+    }
+
     /// <summary>
     /// 把当前选择的干员加入计划，新增的卡片自动展开。
     /// </summary>
@@ -185,7 +199,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
             return;
         }
 
-        PlanItems.Add(new OperProgressPlanItemViewModel(PlanItems.Count, OperSelect.Role, OperSelect.Name, 2, 7, new(3, 3, 3)));
+        PlanItems.Add(new OperProgressPlanItemViewModel(PlanItems.Count, OperSelect.Role, OperSelect.Name, 2, 7, new(3, 3, 3)) { IsExpanded = true });
     }
 
     /// <summary>
@@ -218,7 +232,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
     private void PlanItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (_isRefreshing || !OperProgressPlanItemViewModel.IsPersistedProperty(e.PropertyName))
+        if (_isRefreshing)
         {
             return;
         }
@@ -356,8 +370,8 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
     public static List<GenericCombinedData<int>> EliteList => [
         new("---", 0),
-        new(LocalizationHelper.GetStringFormat("OperProgressEliteTarget", 1), 1),
-        new(LocalizationHelper.GetStringFormat("OperProgressEliteTarget", 2), 2),
+        new("1", 1),
+        new("2", 2),
     ];
 
     public static List<GenericCombinedData<int>> MainSkillLevelList => [
