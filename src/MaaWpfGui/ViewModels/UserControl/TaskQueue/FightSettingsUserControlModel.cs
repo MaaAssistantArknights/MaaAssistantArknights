@@ -1149,6 +1149,15 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 根据活动排期智能跳过。
+    /// </summary>
+    public bool SkipBasedOnActivitySchedule
+    {
+        get => GetTaskConfig<FightTask>().SkipBasedOnActivitySchedule;
+        set => SetTaskConfig<FightTask>(t => t.SkipBasedOnActivitySchedule == value, t => t.SkipBasedOnActivitySchedule = value);
+    }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 使用周计划。
     /// </summary>
     public bool UseWeeklySchedule
@@ -1664,6 +1673,12 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         {
             if (baseTask is not FightTask fight || taskId is int and <= 0)
             {
+                return (null, []);
+            }
+
+            if (fight.SkipBasedOnActivitySchedule && Instances.StageManager.ShouldSkipFightForActivitySchedule())
+            {
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightSkippedActivitySchedule"), UiLogColor.Info);
                 return (null, []);
             }
 

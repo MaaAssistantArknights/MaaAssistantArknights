@@ -6,7 +6,7 @@ icon: hugeicons:brain-02
 # Sanity Farming
 
 ::: info UI-Only Feature
-Some features on this page are implemented by the UI layer (such as Target Inventory, Weekly Schedule, and multi-task ordering). See [Getting Started](../newbie.md#about-this-documentation) for details.
+Some features on this page are implemented by the UI layer (such as Target Inventory, preferring to run when no events are active, Weekly Schedule, and multi-task ordering). See [Getting Started](../newbie.md#about-this-documentation) for details.
 :::
 
 ## General Settings
@@ -76,7 +76,7 @@ Some features on this page are implemented by the UI layer (such as Target Inven
 - At settlement, MAA recognizes the weekly Orundum progress (e.g. `1800 / 1800`) and automatically stops when the weekly cap is reached.
 - Annihilation is a permanent stage: if it is selected in stage selection / alternative stages, later alternative stages will not continue to be recognized or run.
 - Annihilation drops are not uploaded to Penguin Statistics or Yituliu.
-- To run Annihilation first, add a separate Sanity Farming task with only Annihilation selected, and drag it above your existing Sanity Farming task. You can enable Weekly Schedule in Advanced Settings and check only Monday so it runs on Mondays only.
+- To run Annihilation first, add a separate Sanity Farming task with only Annihilation selected, and drag it above your existing Sanity Farming task. In Advanced Settings, enable Weekly Schedule and check only Monday so it runs on Mondays only.
 
 ## Advanced Settings
 
@@ -91,6 +91,11 @@ Example: Alternative Stages are `CE-6/5`, `1-7` and `LS-6/5`:
 - If `CE-6/5` is closed today, MAA will run `1-7` instead. If you haven't unlocked auto-deploy for 1-7, the task will fail.
 - Since `1-7` is a permanent stage that appears before `LS-6/5` in the list, MAA will never run `LS-6/5` in this scenario.
 - Likewise, if a permanent stage such as `Annihilation` is selected in the alternatives, later stages will not continue to be recognized.
+
+### Prefer running when no events are active
+
+- Enable it under `Task Settings` - `Sanity Farming` - `Advanced Settings`. This feature is implemented by the UI.
+- Recommended for Annihilation. When enabled, checks whether a Side Story event is active. If an active event ends within the current week, this run is skipped; otherwise, it is not skipped.
 
 ### Weekly Schedule
 
