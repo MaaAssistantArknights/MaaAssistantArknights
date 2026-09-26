@@ -20,6 +20,7 @@ JSON 파일은 주석을 지원하지 않습니다. 본문의 주석은 설명�
       - `deposit.json` 오리지늄각뿔 파밍 모드
     - `recruitment.json` 오퍼레이터 모집 로직
     - `shopping.json` 상점 소장품 구매 로직
+    - `monthly_squad.json` 월간 스쿼드 임무 로직
 
 - 특별히 `Sami/` 폴더 하위에는:
   - `foldartal.json` 사미 통합 전략의 암호판 사용 로직
@@ -33,6 +34,40 @@ JSON 파일은 주석을 지원하지 않습니다. 본문의 주석은 설명�
 
 - `JieGarden/` 폴더 하위에는:
   - `coppers.json` 주화의 기본 정보 및 줍기/교체 로직
+
+## 월간 스쿼드 임무
+
+`resource/roguelike/테마명/monthly_squad.json`은 각 월간 스쿼드가 수행할 임무를 정의합니다. 최상위 키에는 스쿼드 번호 `1`～`8`을 사용합니다. 해당 번호의 설정이 없거나 번호를 인식하지 못한 경우를 위한 기본 임무로 `default`를 사용할 수 있습니다.
+
+```json
+{
+    "1": {
+        "type": "DeployOperator",
+        "operator": "年",
+        "count": 10
+    },
+    "2": {
+        "type": "DeployOperatorSummon",
+        "operator": "令",
+        "skill": 3,
+        "count": 20
+    },
+    "default": {
+        "type": "ReachThirdFloor"
+    }
+}
+```
+
+다음 임무 유형을 지원합니다:
+
+| `type` | 필수 필드 | 설명 |
+| --- | --- | --- |
+| `ReachThirdFloor` | 없음 | 기존 탐험 로직을 사용하여 3층까지 진행 |
+| `DeployOperator` | `operator`, `count` | 지정한 오퍼레이터를 필요한 횟수만큼 배치 |
+| `DeployOperatorSummon` | `operator`, `count` | 지정한 오퍼레이터를 먼저 배치한 후 관련 소환물을 반복해서 배치 |
+| `UseOperatorSkill` | `operator`, `count`, `skill` | 지정한 오퍼레이터의 1, 2 또는 3스킬을 선택하여 사용 |
+
+`count`는 양의 정수여야 합니다. `skill`의 범위는 `1`～`3`입니다. `DeployOperatorSummon`에서는 생략할 수 있으며, 생략하면 해당 오퍼레이터의 기존 스킬 선택 로직을 사용합니다.
 
 ## 통합 전략 1단계 — 오퍼레이터 모집
 
