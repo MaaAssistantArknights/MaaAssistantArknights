@@ -76,7 +76,8 @@ if(APPLE AND WITH_MAC_SCK)
 endif()
 
 if(APPLE AND WITH_MAC_NATIVE)
-    target_link_libraries(MaaCore "-framework ApplicationServices"
+    target_link_libraries(MaaCore "-framework AppKit"
+                                  "-framework ApplicationServices"
                                   "-framework CoreGraphics"
                                   "-framework CoreFoundation"
                                   "-framework Foundation"
