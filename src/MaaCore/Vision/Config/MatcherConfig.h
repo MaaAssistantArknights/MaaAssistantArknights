@@ -43,6 +43,9 @@ public:
     void set_pure_color(bool pure_color) noexcept;
     void set_method(MatchMethod method) noexcept;
 
+    static void set_thread_threshold_scale(double scale) noexcept;
+    static double effective_threshold(double threshold) noexcept;
+
 protected:
     virtual void _set_roi(const Rect& roi) = 0;
 

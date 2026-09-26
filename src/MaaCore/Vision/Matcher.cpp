@@ -33,7 +33,7 @@ Matcher::ResultOpt Matcher::analyze() const
 
         Rect rect(max_loc.x + m_roi.x, max_loc.y + m_roi.y, templ.cols, templ.rows);
 
-        double threshold = m_params.templ_thres[i];
+        double threshold = effective_threshold(m_params.templ_thres[i]);
         const char* path_tag = path == MatchPath::Optimized ? "optimized" : "opencv";
         const auto& method_i = m_params.methods.size() > i ? m_params.methods[i] : MatchMethod::Ccoeff;
         std::string tag = "[";
