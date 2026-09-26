@@ -24,4 +24,14 @@ public interface IExternalNotificationProvider
     /// <param name="content">The content of the notification</param>
     /// <returns>True for success, False for fail</returns>
     public Task<bool> SendAsync(string title, string content);
+
+    /// <summary>
+    ///     Send notification together with the detailed log
+    ///     <para>Providers that cannot do better just get the log in front of the content, exactly as before.</para>
+    /// </summary>
+    /// <param name="title">The title of the notification</param>
+    /// <param name="content">The content of the notification, without the detailed log</param>
+    /// <param name="details">The detailed log of the run</param>
+    /// <returns>True for success, False for fail</returns>
+    public Task<bool> SendAsync(string title, string content, string details) => SendAsync(title, details + content);
 }
