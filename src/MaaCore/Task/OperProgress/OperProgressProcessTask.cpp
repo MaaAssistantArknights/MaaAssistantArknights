@@ -14,6 +14,7 @@
 #include "MaaUtils/NoWarningCV.hpp"
 #include "Status.h"
 #include "Task/Infrast/InfrastScore.h"
+#include "Task/Infrast/OriginiumShardRecipe.h"
 #include "Task/MiniGame/MaterialSynthesisTaskPlugin.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
@@ -1040,8 +1041,7 @@ bool asst::AutoRaiseProcessTask::restore_factory_state()
     if (!run_task("ChooseProductList")) {
         return false;
     }
-    // 换产品任务以 next 互链：选分类后依次自动完成 选产品→设最多→确认变更→最终确认,
-    // cpp 不得再单独调用链内步骤（面板关闭后模板必失配,会误判恢复失败）。
+    // 普通产品仍由 next 串联完整换产物流程；源石碎片会先停在配方页，由 C++ 选择具体配方。
     bool selected = false;
     if (*product == "BattleRecord") {
         selected = run_task("ChooseBattleRecord");
@@ -1050,7 +1050,17 @@ bool asst::AutoRaiseProcessTask::restore_factory_state()
         selected = run_task("ChoosePureGoldTab");
     }
     else if (*product == "OriginiumShard") {
-        selected = run_task("ChooseOriginiumShardTab");
+        if (!run_task("ChooseOriginiumShardTab")) {
+            restore_mfg_product_details_page(*this);
+            return false;
+        }
+
+        // 自动升级未记录切换前的具体配方，沿用原有行为，恢复为固源岩配方。
+        selected = run_originium_shard_recipe_task(*this, OriginiumShardRecipe::OriginiumOre);
+        if (!selected) {
+            restore_mfg_product_details_page(*this);
+            return false;
+        }
     }
     // 恢复完成后以详情页产品标志模板复核。
     return selected && run_task("VerifyProductChangedTo" + *product);

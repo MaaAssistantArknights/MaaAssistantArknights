@@ -23,6 +23,8 @@ public:
 
     void set_default_mode(bool enabled) noexcept { m_default_mode = enabled; }
 
+    void set_originium_shard_use_device(bool enabled) noexcept { m_originium_shard_use_device = enabled; }
+
     void set_inspect_only(bool enabled) noexcept { m_inspect_only = enabled; }
 
     void set_abyssal_hunter_enabled(bool enabled) noexcept { m_abyssal_hunter_enabled = enabled; }
@@ -64,6 +66,7 @@ protected:
     bool m_worldly_plight_enabled = false;
     bool m_abyssal_hunter_enabled = false;
     bool m_default_mode = false;
+    bool m_originium_shard_use_device = false;
     bool m_inspect_only = false;
 
 protected:

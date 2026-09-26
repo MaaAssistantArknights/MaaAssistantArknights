@@ -3690,6 +3690,31 @@
         "roi": [1030, 220, 190, 65],
         "preDelay": 500
     },
+    "InfrastMfgOriginiumOreCount": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [447, 217, 64, 25],
+        "ocrReplace": [["[^0-9/]", ""]],
+        "Doc": "源石碎片配方页固源岩数量，预期格式为当前数量/2"
+    },
+    "InfrastMfgDeviceCount": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [947, 217, 64, 25],
+        "ocrReplace": [["[^0-9/]", ""]],
+        "Doc": "源石碎片配方页装置数量，预期格式为当前数量/1"
+    },
+    "OpenOriginiumShardSelectorForReplenish": {
+        "baseTask": "ChooseProductList",
+        "template": "ChooseProductList.png",
+        "postDelay": 500,
+        "Doc": "打开源石碎片配方选择页，不自动选择配方"
+    },
+    "VerifyMfgProductDetailsPage": {
+        "baseTask": "ChooseProductList",
+        "action": "DoNothing",
+        "template": "ChooseProductList.png",
+        "preDelay": 500,
+        "Doc": "验证已回到制造站产品详情页，不打开产品选择器"
+    },
     "VerifyTradeOrderChangedToMoney": {
         "baseTask": "InfrastFlagMoney",
         "template": "InfrastTradeMoneyFlag.png",
@@ -5707,11 +5732,12 @@
         "cache": true,
         "roi": [10, 360, 100, 110],
         "maxTimes": 3,
-        "next": ["ChooseOriginiumShard", "#self"],
-        "exceededNext": ["ChooseOriginiumShard"]
+        "postDelay": 500,
+        "Doc": "切换到源石碎片配方页签，不自动选择固源岩或装置"
     },
-    "ChooseOriginiumShard": {
+    "ChooseOriginiumShardFromOriginiumOre": {
         "action": "ClickSelf",
+        "template": "ChooseOriginiumShard.png",
         "cache": true,
         "roi": [250, 90, 165, 165],
         "maxTimes": 3,
@@ -5719,6 +5745,17 @@
         "exceededNext": ["ClickProductMax"],
         "preDelay": 500,
         "Doc": "加前延时等动画结束再执行点击"
+    },
+    "ChooseOriginiumShardFromDevice": {
+        "action": "ClickSelf",
+        "template": "ChooseOriginiumShard.png",
+        "cache": true,
+        "roi": [748, 90, 165, 165],
+        "maxTimes": 3,
+        "next": ["ClickProductMax", "#self"],
+        "exceededNext": ["ClickProductMax"],
+        "preDelay": 500,
+        "Doc": "使用装置合成源石碎片"
     },
     "ChooseChipTab": {
         "action": "ClickSelf",

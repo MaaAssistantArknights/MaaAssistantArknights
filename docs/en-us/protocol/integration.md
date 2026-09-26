@@ -505,7 +505,13 @@ This field is ignored when `mode = 20000`.
 @type boolean
 @default false
 @optional
-Whether to replenish Originium Shard in trading post.  
+Whether to replenish Originium Shard in the factory.  
+:::  
+::: field originium_shard_use_device  
+@type boolean
+@default false
+@optional
+Whether to allow using the Device recipe when producing Originium Shards if Originium Ore is insufficient. This applies to both default and custom infrastructure schedules.  
 :::  
 ::: field dorm_notstationed_enabled  
 @type boolean
@@ -608,6 +614,7 @@ Whether to continue unfinished skill training in the Training Room.
    "drones": "PureGold",
    "threshold": 0.3,
    "replenish": true,
+   "originium_shard_use_device": true,
    "dorm_notstationed_enabled": false,
    "dorm_trust_enabled": true,
    "reception_message_board": true,

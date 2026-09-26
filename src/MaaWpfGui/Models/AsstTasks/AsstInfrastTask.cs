@@ -77,6 +77,11 @@ public class AsstInfrastTask : AsstBaseTask
     public bool OriginiumShardAutoReplenishment { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating 搓玉是否允许用装置.
+    /// </summary>
+    public bool OriginiumShardUseDevice { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 领取基建会客室留言板奖励
     /// </summary>
     public bool ReceptionMessageBoard { get; set; }
@@ -131,6 +136,7 @@ public class AsstInfrastTask : AsstBaseTask
             ["dorm_notstationed_enabled"] = DormFilterNotStationedEnabled,
             ["dorm_trust_enabled"] = DormTrustEnabled,
             ["replenish"] = OriginiumShardAutoReplenishment,
+            ["originium_shard_use_device"] = OriginiumShardUseDevice,
             ["reception_message_board"] = ReceptionMessageBoard,
             ["reception_clue_exchange"] = ReceptionClueExchange,
             ["reception_send_clue"] = ReceptionSendClue,

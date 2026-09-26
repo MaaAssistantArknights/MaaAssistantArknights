@@ -505,7 +505,13 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 @type boolean
 @default false
 @optional
-貿易所の「源石の欠片」を自動補充するかどうか。  
+製造所の「源石の欠片」を自動補充するかどうか。  
+:::  
+::: field originium_shard_use_device  
+@type boolean
+@default false
+@optional
+「源石の欠片」を製造する際、固源岩が不足した場合に装置のレシピを使用するかどうか。デフォルト基建とカスタム基建の両方で有効です。  
 :::  
 ::: field dorm_notstationed_enabled  
 @type boolean
@@ -608,6 +614,7 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
    "drones": "PureGold",
    "threshold": 0.3,
    "replenish": true,
+   "originium_shard_use_device": true,
    "dorm_notstationed_enabled": false,
    "dorm_trust_enabled": true,
    "reception_message_board": true,
