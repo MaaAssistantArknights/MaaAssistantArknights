@@ -1,0 +1,153 @@
+#pragma once
+
+#include "Task/Infrast/InfrastAbstractTask.h"
+#include "Utils/MaterialCraftPlanner.h"
+#include "Utils/ProcessingOperatorScore.h"
+
+#include <optional>
+#include <unordered_map>
+#include <unordered_set>
+
+namespace cv
+{
+class Mat;
+}
+
+namespace asst
+{
+class InfrastMaterialCraftTask final : public InfrastAbstractTask
+{
+public:
+    InfrastMaterialCraftTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);
+    virtual ~InfrastMaterialCraftTask() override = default;
+
+    virtual bool set_params(const json::value& params);
+
+    virtual std::string facility_name() const override { return m_facility; }
+
+protected:
+    virtual bool _run() override;
+
+    virtual bool on_run_fails() override { return false; }
+
+private:
+    using Formula = MaterialFormula;
+    using CraftOperation = MaterialCraftOperation;
+
+    enum class FormulaScanResult
+    {
+        NotFound,
+        Selected,
+        VerificationFailed,
+        Cancelled,
+    };
+
+    std::optional<MaterialInventory> read_formula_inventory(const Formula& formula);
+    std::optional<MaterialInventory> m_formula_inventory;
+    bool m_read_formula_inventory = false;
+    bool m_processing_ready = false;
+
+    struct ManufacturingRecipe
+    {
+        std::string item_id;
+        std::string ingredient_id;
+        int batches = 0;
+        int weight = 1;
+    };
+
+    bool execute_manufacturing_operation(const CraftOperation& operation);
+    bool ensure_manufacturing_page();
+    bool enter_manufacturing_facility(int index);
+    bool leave_manufacturing_page();
+    bool is_manufacturing_page(const cv::Mat& image) const;
+    std::optional<ManufacturingRecipe> read_manufacturing_recipe() const;
+    std::optional<std::pair<int, int>>
+        read_manufacturing_number(const std::string& task_name, bool fraction = false) const;
+    bool manufacturing_product_matches(const std::string& item_id, const cv::Mat& image, bool allow_completed = false)
+        const;
+    bool select_manufacturing_recipe(const ManufacturingRecipe& recipe);
+    bool set_manufacturing_count(int count);
+    bool confirm_manufacturing_recipe(const ManufacturingRecipe& recipe);
+    bool collect_manufacturing_product(const ManufacturingRecipe& recipe, int count);
+    bool manufacturing_action(const std::string& task_name);
+    void manufacturing_failure(const std::string& reason, const ManufacturingRecipe& original = {});
+    std::string m_facility = "Processing";
+    bool m_replenish_originium_shards = false;
+
+    bool ensure_processing_room();
+    bool craft_sleep(unsigned milliseconds) const;
+    bool ensure_craft_page();
+    bool is_processing_room(const cv::Mat& image) const;
+    bool is_craft_page(const cv::Mat& image) const;
+    bool is_formula_selector(const cv::Mat& image) const;
+    bool is_obtain_items_page(const cv::Mat& image) const;
+    std::optional<int> execute_batch(const CraftOperation& operation);
+    bool m_station_operators = false;
+    std::optional<int> prepare_processing_operator(const Formula& formula, int remaining);
+    bool select_processing_operator(
+        const Formula& formula,
+        std::vector<std::string>& rejected_faces,
+        int current_mood,
+        bool replace_current = false);
+    bool enter_processing_operator_list();
+    bool scan_processing_operators();
+    void update_processing_operator_mood(int mood);
+
+    struct ProcessingCandidate
+    {
+        infrast::Oper oper;
+        // The list bar is approximate. Remember exact values read from the craft page.
+        std::optional<int> mood;
+    };
+
+    std::vector<ProcessingCandidate> m_processing_candidates;
+    bool m_processing_candidates_scanned = false;
+    std::optional<size_t> m_processing_operator;
+    std::optional<bool> m_stainless_in_dorm;
+    bool locate_processing_operator(const infrast::Oper& target);
+    bool confirm_processing_operator();
+    std::string m_scored_processing_item;
+    std::optional<infrast::ProcessingOperatorScore> m_processing_score;
+    bool review_processing_operator(const infrast::Oper& target) const;
+    std::optional<int> read_processing_mood(const cv::Mat& image) const;
+    std::optional<int>
+        read_processing_number(const cv::Mat& image, const std::string& task_name, bool fraction = false) const;
+    bool processing_mood_sufficient() const;
+    void processing_operator_failure(const std::string& reason);
+    bool open_formula_selector(const Formula* next_formula = nullptr);
+    bool select_formula(const Formula& formula);
+    bool prepare_formula_selector(const Formula& formula);
+    bool click_formula_category(const Formula& formula);
+    bool select_quality_filter(const Formula& formula);
+    bool open_quality_menu();
+    bool close_quality_menu();
+    bool is_quality_menu_open(const cv::Mat& image) const;
+    int max_formula_pages(const Formula& formula) const;
+    FormulaScanResult scan_formula_pages(const Formula& formula, int page_limit);
+    FormulaScanResult scan_and_click_formula(const Formula& formula);
+    bool selected_formula_matches(const Formula& formula) const;
+    bool rewind_formula_list(int swipe_times);
+    bool rewind_formula_list_to_top();
+    bool swipe_formula_list(bool forward);
+    std::optional<int> read_craft_count() const;
+    std::optional<int> set_craft_count(int batches);
+    bool click_start_button();
+    bool click_complete_tick(const CraftOperation& operation, int operation_id);
+    void capture_processing_byproducts(
+        const cv::Mat& first_reward,
+        int batches,
+        const std::vector<cv::Mat>& pending_frames);
+    MaterialInventory read_processing_byproducts(const cv::Mat& toast_image, int batches) const;
+    MaterialInventory m_processing_byproducts;
+    void callback_operation(const std::string& what, const CraftOperation& operation, int operation_id);
+    int m_next_operation_id = 0;
+    bool m_inventory_complete = false;
+
+    std::optional<Rect> match_workshop_template(const cv::Mat& image, const std::string& task_name) const;
+
+    MaterialCraftRequest m_request;
+    MaterialAmount m_active_target;
+    int64_t m_target_output = 0;
+    bool m_target_completed = false;
+};
+}

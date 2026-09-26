@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+using System.Collections.Generic;
 using MaaWpfGui.Models;
 using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 using static MaaWpfGui.ViewModels.UI.ToolboxViewModel;
@@ -31,6 +32,10 @@ public partial class Toolbox : NotifyPropertyChangedWithValue
     public OperBoxExportFormat OperBoxExportFormat { get; set; } = OperBoxExportFormat.Clipboard;
 
     public bool GachaShowDisclaimerNoMore { get; set; }
+
+    public bool MaterialCraftStationOperators { get; set; }
+
+    public List<MaterialCraftQueueItem> MaterialCraftQueue { get; set; } = [];
 
     public int PeepTargetFps { get; set; } = 20;
 

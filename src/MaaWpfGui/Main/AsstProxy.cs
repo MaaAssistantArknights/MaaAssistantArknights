@@ -1,4 +1,4 @@
-// <copyright file="AsstProxy.cs" company="MaaAssistantArknights">
+﻿// <copyright file="AsstProxy.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -1357,6 +1357,15 @@ public class AsstProxy
         {
             case AsstMsg.TaskChainStopped:
                 {
+                    if (taskChain == "MaterialCraft")
+                    {
+                        Instances.ToolboxViewModel.MaterialCraft.FinishMaterialCraft(taskId, completed: false);
+                    }
+                    else if (taskChain == "MaterialRequirement")
+                    {
+                        Instances.ToolboxViewModel.MaterialCraft.FinishMaterialRequirement(taskId);
+                    }
+
                     Instances.TaskQueueViewModel.SetStopped();
                 }
 
@@ -1366,6 +1375,14 @@ public class AsstProxy
 
             case AsstMsg.TaskChainError:
                 {
+                    if (taskChain == "MaterialCraft")
+                    {
+                        Instances.ToolboxViewModel.MaterialCraft.FinishMaterialCraft(taskId, completed: false);
+                    }
+                    else if (taskChain == "MaterialRequirement")
+                    {
+                        Instances.ToolboxViewModel.MaterialCraft.FinishMaterialRequirement(taskId);
+                    }
                     UpdateTaskStatus(taskId, TaskStatus.Error);
                     _tasksStatus.TryGetValue(taskId, out var value);
 
@@ -1464,6 +1481,15 @@ public class AsstProxy
                     }
 
                     _logger.Information("Completed Task Chain: {TaskChain}, Task ID: {TaskId}", taskChain, taskId);
+
+                    if (taskChain == "MaterialCraft")
+                    {
+                        Instances.ToolboxViewModel.MaterialCraft.FinishMaterialCraft(taskId, completed: true);
+                    }
+                    else if (taskChain == "MaterialRequirement")
+                    {
+                        Instances.ToolboxViewModel.MaterialCraft.FinishMaterialRequirement(taskId);
+                    }
 
                     if (isCopilotTaskChain)
                     {
@@ -2205,9 +2231,17 @@ public class AsstProxy
             case "OperBox":
                 Instances.ToolboxViewModel.OperBoxParse((JObject?)subTaskDetails, updateSyncTime: true, taskId);
                 break;
+
+            case "MaterialRequirement" when details.Value<string>("what") == "MaterialRequirementInfo":
+                Instances.ToolboxViewModel.MaterialCraft.MaterialRequirementParse(taskId, (JObject?)subTaskDetails);
+                break;
         }
 
         string what = details["what"]?.ToString() ?? string.Empty;
+        if (taskChain == "MaterialCraft")
+        {
+            Instances.ToolboxViewModel.MaterialCraft.MaterialCraftProgress(taskId, what, subTaskDetails as JObject);
+        }
         switch (what)
         {
             case "StageDrops":
@@ -3464,6 +3498,10 @@ public class AsstProxy
 
         /// <summary>自定义任务s</summary>
         Custom,
+
+        MaterialCraft,
+
+        MaterialRequirement,
     }
 
     private readonly ObservableDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> _tasksStatus = [];
@@ -3593,6 +3631,30 @@ public class AsstProxy
     {
         return AsstAppendTaskWithEncoding(TaskType.Depot, AsstTaskType.Depot) &&
                (!startImmediately || AsstStart());
+    }
+
+    public static unsafe JObject? GetMaterialCraftPlan(JObject taskParams)
+    {
+        string request = taskParams.ToString(Formatting.None);
+        var buffer = new byte[65536];
+        for (int attempt = 0; attempt < 3; ++attempt)
+        {
+            ulong size;
+            fixed (byte* data = buffer)
+            {
+                size = MaaService.AsstGetMaterialCraftPlan(request, data, (ulong)buffer.Length);
+            }
+            if (size == ulong.MaxValue || size > 16 * 1024 * 1024)
+            {
+                return null;
+            }
+            if (size <= (ulong)buffer.Length)
+            {
+                return JObject.Parse(Encoding.UTF8.GetString(buffer, 0, (int)size));
+            }
+            buffer = new byte[(int)size];
+        }
+        return null;
     }
 
     /// <summary>

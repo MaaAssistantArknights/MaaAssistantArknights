@@ -31,6 +31,7 @@ private:
     bool image_test_pipeline(); // 每张图按任务列表跑一次首命中，附带命中任务的 next 列表
     bool image_test_ocr();      // 返回 OCR 原始识别文本（不套任务的 ocrReplace 与 expected 过滤）
     bool image_test_templ();    // 每张图 × 裸模板文件匹配（物品图标等非任务模板），报最佳得分
+    bool image_test_material_craft();
 
     // image_test_* 的共享工具（读图归一、尺度预处理、结果序列化）
     static std::optional<cv::Mat> load_eval_image(const std::string& utf8_path);

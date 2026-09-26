@@ -5,6 +5,7 @@
 #include <utility>
 
 #include "Common/AsstMsg.h"
+#include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Status.h"
@@ -228,6 +229,10 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
 {
     LogTraceFunction;
 
+    if (need_exit()) {
+        return false;
+    }
+
     if (m_is_custom && static_cast<size_t>(m_cur_facility_index) >= m_custom_config.size()) {
         Log.warn("index out of range:", index, m_custom_config.size());
         return false;
@@ -246,13 +251,13 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
         analyzer.save_img(utils::path("debug") / utils::path("infrast") / utils::path("enter_facility"));
         return false;
     }
-    ctrler()->click(rect);
+    if (need_exit() || !ctrler()->click(rect)) {
+        return false;
+    }
     m_cur_facility_index = index;
 
     callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
-    sleep(Task.get("InfrastEnterFacility")->post_delay);
-
-    return true;
+    return sleep(Task.get("InfrastEnterFacility")->post_delay);
 }
 
 bool asst::InfrastAbstractTask::enter_oper_list_page()
@@ -792,4 +797,34 @@ void asst::InfrastAbstractTask::swipe_to_right_of_main_ui()
 {
     ProcessTask(*this, { "InfrastSwipeToRightOfMainUi" }).run();
     sleep(500);
+}
+
+bool asst::InfrastAbstractTask::resolve_operator_identity(infrast::Oper& oper) const
+{
+    if (!oper.operator_id.empty()) {
+        return true;
+    }
+
+    RegionOCRer name_analyzer(oper.name_img);
+    const auto& replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
+    name_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
+    name_analyzer.set_bin_expansion(0);
+    const auto name = name_analyzer.analyze();
+    if (!name) {
+        return false;
+    }
+
+    const std::string& operator_id = BattleData.get_first_id(battle::Role::Unknown, name->text).value_or(std::string());
+    if (!infrast::operator_id_matches_candidates(oper.operator_ids, operator_id)) {
+        if (!operator_id.empty()) {
+            LogWarn << __FUNCTION__ << "infrastructure operator identity conflicts with skills" << name->text
+                    << operator_id;
+        }
+        return false;
+    }
+
+    oper.operator_ids = { operator_id };
+    oper.operator_id = operator_id;
+    LogTrace << __FUNCTION__ << "infrastructure operator identity" << facility_name() << name->text << operator_id;
+    return true;
 }

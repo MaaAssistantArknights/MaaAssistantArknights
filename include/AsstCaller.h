@@ -128,6 +128,10 @@ extern "C"
     AsstSize ASSTAPI AsstGetImageBgr(AsstHandle handle, void* buff, AsstSize buff_size);
     AsstSize ASSTAPI AsstGetUUID(AsstHandle handle, char* buff, AsstSize buff_size);
     AsstSize ASSTAPI AsstGetTasksList(AsstHandle handle, AsstTaskId* buff, AsstSize buff_size);
+    // Read-only planning after resource loading; no assistant or device connection is required.
+    // Returns UTF-8 byte length (without NUL), or AsstGetNullSize() on failure.
+    // A null/short buffer is not written; use the returned length to allocate and retry.
+    AsstSize ASSTAPI AsstGetMaterialCraftPlan(const char* params, char* buff, AsstSize buff_size);
     AsstSize ASSTAPI AsstGetNullSize();
 
     ASSTAPI_PORT const char* ASST_CALL AsstGetVersion();

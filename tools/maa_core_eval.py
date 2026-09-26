@@ -166,6 +166,16 @@ class CoreEval:
     def _abs_images(images):
         return [str(pathlib.Path(p).resolve()) for p in images]
 
+    def material_craft(self, images, items=()):
+        """Read workshop recipe cards with the runtime analyzer (product, ingredient icons and fractions)."""
+        return self._run_task(
+            {
+                "mode": "material_craft",
+                "images": self._abs_images(images),
+                "items": list(items),
+            }
+        )
+
     def report(self, images, tasks):
         """每张图 × 每个任务独立评估：[{image, results: [{task, hit, score, rect, ...}]}]。
 
