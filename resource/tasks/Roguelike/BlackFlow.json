@@ -1325,7 +1325,7 @@
         "baseTask": "BlackFlow@Roguelike@StageEncounterJudgeClick"
     },
     "BlackFlow@Roguelike@Page-Ending2SandtableA": {
-        "baseTask": "BlackFlow@Roguelike@NodeDispatch-Unconfigured"
+        "baseTask": "BlackFlow@Roguelike@Page-Encounter"
     },
     "BlackFlow@Roguelike@Page-Ending2SandtableB": {
         "baseTask": "BlackFlow@Roguelike@NodeDispatch-Unconfigured"
@@ -1530,6 +1530,7 @@
     "BlackFlow@Roguelike@StageEncounterLeaveConfirm": {
         "templThreshold": 0.7,
         "next": [
+            "BlackFlow@Roguelike@StageEncounterLeaveConfirm@LoadingText",
             "BlackFlow@Roguelike@StageEncounterLeaveConfirm",
             "BlackFlow@Roguelike@StageEncounterLeaveConfirmCompleted"
         ],
@@ -1579,13 +1580,44 @@
             "窥视箱中",
             "泪之聚落",
             "调谐仪式",
-            "行动奖励",
             "溯源"
         ],
         "ocrReplace": [["^临时介所$", "临时中介所"]]
     },
     "BlackFlow@Roguelike@StageEncounterResult": {
         "baseTask": "BlackFlow@Roguelike@RecoveryFailed"
+    },
+    "BlackFlow@Roguelike@StageEncounterOption-Enter": {
+        "Doc": "事件选项的转发入口，由 C++ 设置 next，使目标任务以自己的名称执行。",
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@RecoveryFailed"]
+    },
+    "BlackFlow@Roguelike@StageEncounterContinue": {
+        "algorithm": "JustReturn",
+        "next": [
+            "BlackFlow@Roguelike@StageEncounterContinue@LoadingText",
+            "BlackFlow@Roguelike@StageEncounterContinue@(BlackFlow@Roguelike@CloseCollectionContinue)",
+            "BlackFlow@Roguelike@StageEncounterContinue@(BlackFlow@Roguelike@CloseCollection)",
+            "BlackFlow@Roguelike@StageEncounterContinueMapReady",
+            "BlackFlow@Roguelike@StageEncounterContinueOptionsReady",
+            "BlackFlow@Roguelike@StageEncounterContinueClose"
+        ]
+    },
+    "BlackFlow@Roguelike@StageEncounterContinueMapReady": {
+        "baseTask": "BlackFlow@Roguelike@MapPrepare-Ready",
+        "template": ["BlackFlow@Roguelike@MapZoomIn.png", "BlackFlow@Roguelike@MapZoomOut.png"],
+        "next": [],
+        "reduceOtherTimes": []
+    },
+    "BlackFlow@Roguelike@StageEncounterContinueOptionsReady": {
+        "baseTask": "BlackFlow@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar",
+        "template": "BlackFlow@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-40.png",
+        "next": []
+    },
+    "BlackFlow@Roguelike@StageEncounterContinueClose": {
+        "baseTask": "BlackFlow@Roguelike@CloseEventAfterEncounter",
+        "template": "BlackFlow@Roguelike@CloseEvent.png",
+        "next": ["BlackFlow@Roguelike@StageEncounterContinue#next"]
     },
     "BlackFlow@Roguelike@StageEncounterReward": {
         "Doc": "事件选完之后领取奖励，可能连续弹出多个藏品或资源弹窗。",

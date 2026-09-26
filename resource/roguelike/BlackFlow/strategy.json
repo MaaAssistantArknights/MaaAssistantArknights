@@ -1530,6 +1530,16 @@
         },
         {
             "id": "ending2_route",
+            "encounter_rules": [
+                {
+                    "id": "ending2_informant",
+                    "description": "二结局前置",
+                    "event_name": "线人",
+                    "rank": 0,
+                    "option_text": ["我受雇于梅兰德"],
+                    "on_selected": { "sandtable_a": true }
+                }
+            ],
             "milestones": [
                 {
                     "id": "ending2_sandtable_a",

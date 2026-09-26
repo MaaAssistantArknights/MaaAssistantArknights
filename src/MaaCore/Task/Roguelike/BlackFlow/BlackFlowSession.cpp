@@ -1837,6 +1837,7 @@ bool BlackFlowSession::commit(EnteredPageObservation entered_page, std::string* 
         std::move(entered_page.matched_texts),
         PageExecutionStage::PendingDispatch,
     };
+    m_page_context->remaining_route_battles = remaining_route_battles(proposal);
     if (m_pending_probe_target == proposal.target) {
         m_pending_probe_target.reset();
     }
@@ -1888,6 +1889,145 @@ bool BlackFlowSession::completed_page_changes_floor() const noexcept
     return node_type == NodeType::Final || node_type == NodeType::Evacuate || node_type == NodeType::BattleBoss;
 }
 
+std::optional<int> BlackFlowSession::remaining_route_battles(const MoveCandidate& move) const
+{
+    if (!m_last_plan.has_value() || !m_policy.has_value() || !move.controllable ||
+        m_last_plan->map_revision != m_map.snapshot().revision || m_last_plan->cost_revision != m_run.costs.revision) {
+        return std::nullopt;
+    }
+    const PolicyDecision& decision = m_last_plan->decision;
+    if (!decision.selected.has_value() || decision.selected->action_id != move.action_id ||
+        decision.selected->source != move.source || decision.selected->target != move.target ||
+        decision.planned_route_steps.empty()) {
+        return std::nullopt;
+    }
+    const auto& steps = decision.planned_route_steps;
+    if (steps.front().move.action_id != move.action_id || steps.front().move.target != move.target ||
+        steps.front().action_points_before != m_run.resources.action_points ||
+        (m_transaction.has_value() && steps.front().action_point_cost != m_transaction->authoritative_cost())) {
+        return std::nullopt;
+    }
+
+    // 仅使用进入当前事件时的完整单条计划。多结果动作和未识别节点都不能证明后续无战斗。
+    NodeId previous = move.source;
+    auto visited = m_run.visited_nodes;
+    int battles = 0;
+    for (std::size_t index = 0; index < steps.size(); ++index) {
+        const MoveCandidate& step = steps[index].move;
+        const Node* node = m_map.snapshot().find_node(step.target);
+        if (!step.controllable || step.source != previous || node == nullptr || node->floor != m_run.floor ||
+            (index > 0 && node->identity_state != NodeIdentityState::Classified)) {
+            return std::nullopt;
+        }
+        const bool completed = node->progress != NodeProgress::Active || visited.contains(node->id);
+        if (index > 0 && is_combat_node_type(node->type) && (!completed || node->traversal.repeatable)) {
+            ++battles;
+        }
+        visited.emplace(node->id);
+        previous = step.landing;
+    }
+    const MoveCandidate& last = steps.back().move;
+    const Node* endpoint = m_map.snapshot().find_node(last.target);
+    const StrategyGoals goals =
+        strategy_goals_for(*m_policy, m_mission, m_facts.merged(), m_map.snapshot(), m_run.floor);
+    if (!last.terminal_on_completion && !is_exit_node_type(endpoint->type) &&
+        !goals.terminal_nodes.contains(last.target)) {
+        return std::nullopt;
+    }
+    return battles;
+}
+
+std::optional<EncounterContext> BlackFlowSession::prepare_encounter(
+    std::string event_name,
+    std::size_t option_num,
+    const std::vector<std::string>& available_options,
+    std::string* error) const
+{
+    if (!m_policy.has_value() || !m_page_context.has_value() || !m_transaction.has_value() || terminated() ||
+        m_page_context->stage != PageExecutionStage::Running ||
+        m_transaction->stage() != MoveTransactionStage::Committed || event_name.empty() || option_num == 0) {
+        if (error != nullptr) {
+            *error = "encounter decision requires a running page and a recognized option list";
+        }
+        return std::nullopt;
+    }
+    const PageExecutionContext& page = *m_page_context;
+    FactStore facts = m_facts.merged();
+    facts.set("current_floor", static_cast<std::int64_t>(page.floor));
+    facts.set("encounter.name", event_name);
+    facts.set("encounter.option_count", static_cast<std::int64_t>(option_num));
+    facts.set("encounter.available_options", available_options);
+    facts.set("encounter.route_known", page.remaining_route_battles.has_value());
+    if (page.remaining_route_battles.has_value()) {
+        facts.set("encounter.remaining_battles", static_cast<std::int64_t>(*page.remaining_route_battles));
+    }
+    else {
+        facts.erase("encounter.remaining_battles");
+    }
+    EncounterContext context {
+        .run_revision = page.run_revision,
+        .page_revision = page.page_revision,
+        .sequence = page.encounter_sequence + 1,
+        .event_name = std::move(event_name),
+        .option_num = option_num,
+    };
+    if (const EncounterRule* rule = resolve_encounter_rule(*m_policy, facts, context.event_name)) {
+        context.rule = *rule;
+    }
+    return context;
+}
+
+bool BlackFlowSession::apply_encounter_selection(
+    const EncounterContext& context,
+    EncounterSelection selection,
+    std::string* error)
+{
+    if (!m_page_context.has_value() || !m_transaction.has_value() ||
+        m_page_context->stage != PageExecutionStage::Running ||
+        m_transaction->stage() != MoveTransactionStage::Committed ||
+        context.run_revision != m_page_context->run_revision ||
+        context.page_revision != m_page_context->page_revision ||
+        context.sequence != m_page_context->encounter_sequence + 1 || selection.event_name != context.event_name ||
+        selection.option_num != context.option_num || selection.choose == 0 || selection.choose > context.option_num ||
+        selection.rule_id != (context.rule.has_value() ? context.rule->id : std::string {})) {
+        if (error != nullptr) {
+            *error = "encounter selection does not belong to the active page decision";
+        }
+        return false;
+    }
+    FactContext updated = m_facts;
+    if (!updated.set(FactScope::Page, "encounter.name", selection.event_name, error) ||
+        !updated
+             .set(FactScope::Page, "encounter.option_count", static_cast<std::int64_t>(selection.option_num), error) ||
+        !updated
+             .set(FactScope::Page, "encounter.selected_option", static_cast<std::int64_t>(selection.choose), error) ||
+        !updated.set(FactScope::Page, "encounter.selected_text", selection.option_text, error) ||
+        !updated.set(FactScope::Page, "encounter.used_fallback", selection.used_fallback, error) ||
+        !updated.set(FactScope::Page, "encounter.rule_id", selection.rule_id, error)) {
+        return false;
+    }
+    if (context.rule.has_value() &&
+        std::ranges::find(context.rule->option_text, selection.option_text) != context.rule->option_text.end()) {
+        for (const auto& [name, value] : context.rule->on_selected) {
+            const auto definition = BlackFlowStrategy.get_fact_definition(name);
+            if (!definition.has_value() || definition->get().scope != FactScope::Run ||
+                name.starts_with("milestone.") || !updated.set(FactScope::Run, name, value, error)) {
+                if (error != nullptr && error->empty()) {
+                    *error = "encounter result refers to an invalid run fact: " + name;
+                }
+                return false;
+            }
+        }
+    }
+    m_facts = std::move(updated);
+    m_page_context->encounter_sequence = context.sequence;
+    m_page_context->encounter_selection = std::move(selection);
+    // 确认选择后更新明确配置的整局事实。派遣和页面结束仍由后续实际完成的任务报告。
+    refresh_mission();
+    evaluate_terminal_rules();
+    return true;
+}
+
 bool BlackFlowSession::mark_page_running(std::string* error)
 {
     if (!m_page_context.has_value() || !m_transaction.has_value() ||
@@ -1903,10 +2043,21 @@ bool BlackFlowSession::mark_page_running(std::string* error)
 }
 
 bool BlackFlowSession::apply_node_signal(
+    FactContext& facts,
     const NodeStrategySignal& signal,
     const json::value& callback_details,
     std::string* error)
 {
+    const auto definition = BlackFlowStrategy.get_fact_definition(signal.fact);
+    if (!definition.has_value()) {
+        if (error != nullptr) {
+            *error = "node result refers to an unknown strategy fact: " + signal.fact;
+        }
+        return false;
+    }
+    const auto assign = [&](FactValue value) {
+        return facts.set(definition->get().scope, signal.fact, std::move(value), error);
+    };
     if (signal.kind == NodeSignalKind::Set) {
         if (!signal.value.has_value()) {
             if (error != nullptr) {
@@ -1915,7 +2066,7 @@ bool BlackFlowSession::apply_node_signal(
             return false;
         }
         FactValue value = std::visit([](const auto& item) -> FactValue { return item; }, *signal.value);
-        return set_fact(signal.fact, std::move(value), error);
+        return assign(std::move(value));
     }
     if (signal.kind == NodeSignalKind::Add) {
         if (!signal.value.has_value() || !std::holds_alternative<std::int64_t>(*signal.value)) {
@@ -1924,7 +2075,7 @@ bool BlackFlowSession::apply_node_signal(
             }
             return false;
         }
-        const FactValue* current = m_facts.find(signal.fact);
+        const FactValue* current = facts.find(signal.fact);
         if (current == nullptr || !std::holds_alternative<std::int64_t>(*current)) {
             if (error != nullptr) {
                 *error = "add signal target is not an initialized integer fact";
@@ -1932,7 +2083,7 @@ bool BlackFlowSession::apply_node_signal(
             return false;
         }
         const std::int64_t delta = std::get<std::int64_t>(*signal.value);
-        return set_fact(signal.fact, saturated_add(std::get<std::int64_t>(*current), delta), error);
+        return assign(saturated_add(std::get<std::int64_t>(*current), delta));
     }
 
     const std::string text = callback_details.get("details", "result", "text", "");
@@ -1954,7 +2105,7 @@ bool BlackFlowSession::apply_node_signal(
         return false;
     }
     parsed = std::clamp<std::int64_t>(parsed, signal.minimum, signal.maximum);
-    return set_fact(signal.fact, parsed, error);
+    return assign(parsed);
 }
 
 void BlackFlowSession::queue_node_resolution(const PageExecutionContext& context)
@@ -2005,15 +2156,20 @@ bool BlackFlowSession::apply_node_task_result(
     const json::value& callback_details,
     std::string* error)
 {
-    if (!m_page_context.has_value() || !m_transaction.has_value()) {
+    if (!m_page_context.has_value() || !m_transaction.has_value() ||
+        m_page_context->stage != PageExecutionStage::Running ||
+        m_transaction->stage() != MoveTransactionStage::Committed) {
         if (error != nullptr) {
-            *error = "node task result arrived without an active BlackFlow page";
+            *error = "node task result requires a running BlackFlow page";
         }
         return false;
     }
 
+    FactContext updated_facts = m_facts;
+    PageExecutionContext updated_page = *m_page_context;
+    MoveTransaction updated_transaction = *m_transaction;
     for (const NodeStrategySignal& signal : result.signals) {
-        if (!apply_node_signal(signal, callback_details, error)) {
+        if (!apply_node_signal(updated_facts, signal, callback_details, error)) {
             return false;
         }
     }
@@ -2039,17 +2195,17 @@ bool BlackFlowSession::apply_node_task_result(
         return false;
     }
     if (has_node_update) {
-        NodeStateUpdate merged = m_page_context->result.value_or(NodeStateUpdate {});
+        NodeStateUpdate merged = updated_page.result.value_or(NodeStateUpdate {});
         if (update.progress.has_value()) {
             merged.progress = update.progress;
         }
         if (update.actual_type.has_value()) {
             merged.actual_type = update.actual_type;
-            m_page_context->node_type = *update.actual_type;
+            updated_page.node_type = *update.actual_type;
         }
         if (update.actual_name.has_value()) {
             merged.actual_name = update.actual_name;
-            m_page_context->node_name = *update.actual_name;
+            updated_page.node_name = *update.actual_name;
         }
         if (update.identity_revealed.has_value()) {
             merged.identity_revealed = update.identity_revealed;
@@ -2060,18 +2216,22 @@ bool BlackFlowSession::apply_node_task_result(
         if (update.becomes_empty.has_value()) {
             merged.becomes_empty = update.becomes_empty;
         }
-        m_page_context->result = std::move(merged);
+        updated_page.result = std::move(merged);
     }
 
     if (result.kind == NodeTaskResultKind::PageCompleted) {
-        if (!m_transaction->mark_page_resolved(error)) {
+        if (!updated_transaction.mark_page_resolved(error)) {
             return false;
         }
-        m_page_context->stage = PageExecutionStage::Resolved;
+        updated_page.stage = PageExecutionStage::Resolved;
+        updated_page.resolution_reported = true;
+    }
+    m_facts = std::move(updated_facts);
+    m_page_context = std::move(updated_page);
+    m_transaction = std::move(updated_transaction);
+    if (result.kind == NodeTaskResultKind::PageCompleted) {
         m_movement_inventory_refresh_required = true;
-
         queue_node_resolution(*m_page_context);
-        m_page_context->resolution_reported = true;
     }
     refresh_mission();
     evaluate_terminal_rules();
