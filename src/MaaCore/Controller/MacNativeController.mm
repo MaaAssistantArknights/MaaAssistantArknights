@@ -13,17 +13,25 @@
 
 #include <algorithm>
 #include <array>
+#include <atomic>
 #include <chrono>
 #include <cmath>
 #include <cstdint>
 #include <cstring>
+#include <filesystem>
 #include <mutex>
 #include <string>
 #include <string_view>
 #include <thread>
 #include <vector>
 
+#include "SwipeHelper.hpp"
 #include "Utils/Logger.hpp"
+#ifdef ASST_DEBUG
+#include "Utils/DebugImageHelper.hpp"
+#include "Utils/Platform.hpp"
+#include "Utils/WorkingDir.hpp"
+#endif
 
 namespace MacNativeDetail {
 struct NativeFrame {
@@ -48,6 +56,8 @@ struct CaptureResult {
     SCWindow* window = nil;
     CGImageRef image = nullptr;
     NativeFrame frame;
+    size_t requested_width = 0;
+    size_t requested_height = 0;
     std::string error;
 
     ~CaptureResult()
@@ -66,93 +76,206 @@ void capture_window(
     std::string bundle_id,
     const std::shared_ptr<CaptureResult>& result)
 {
+    const auto handler = ^(SCShareableContent* content, NSError* error) {
+        if (error || !content) {
+            result->error = error.localizedDescription.UTF8String
+                ? error.localizedDescription.UTF8String
+                : "ScreenCaptureKit could not enumerate windows.";
+            dispatch_semaphore_signal(result->semaphore);
+            return;
+        }
+
+        SCWindow* selected = nil;
+        size_t matches = 0;
+        for (SCWindow* window in content.windows) {
+            NSString* owner = window.owningApplication.bundleIdentifier;
+            if (!window.isOnScreen || !owner || bundle_id != owner.UTF8String) {
+                continue;
+            }
+            const CGRect frame = window.frame;
+            if (frame.size.width < 600 || frame.size.height < 300) {
+                continue;
+            }
+            selected = window;
+            ++matches;
+        }
+        if (matches != 1) {
+            result->error = matches == 0
+                ? "No visible game window matches the configured bundle identifier."
+                : "More than one visible game window matches the configured bundle identifier.";
+            dispatch_semaphore_signal(result->semaphore);
+            return;
+        }
+
+        result->window = [selected retain];
+        const CGRect frame = selected.frame;
+        result->frame.pid = selected.owningApplication.processID;
+        result->frame.window_id = selected.windowID;
+        result->frame.x = frame.origin.x;
+        result->frame.y = frame.origin.y;
+        result->frame.width = frame.size.width;
+        result->frame.height = frame.size.height;
+
+        SCContentFilter* filter = [[SCContentFilter alloc] initWithDesktopIndependentWindow:selected];
+        SCStreamConfiguration* configuration = [[SCStreamConfiguration alloc] init];
+        configuration.showsCursor = NO;
+        if (@available(macOS 14.0, *)) {
+            configuration.ignoreShadowsSingleWindow = YES;
+            const CGRect capture_rect = filter.contentRect;
+            const double point_pixel_scale = filter.pointPixelScale;
+            if (capture_rect.size.width <= 0 || capture_rect.size.height <= 0 || point_pixel_scale <= 0) {
+                result->error = "ScreenCaptureKit returned invalid capture geometry.";
+                dispatch_semaphore_signal(result->semaphore);
+                [configuration release];
+                [filter release];
+                return;
+            }
+            result->frame.capture_offset_x = capture_rect.origin.x - frame.origin.x;
+            result->frame.capture_offset_y = capture_rect.origin.y - frame.origin.y;
+            result->frame.capture_width = capture_rect.size.width;
+            result->frame.capture_height = capture_rect.size.height;
+            constexpr double MaxCaptureWidth = 1920.0;
+            const double capture_scale = std::min(point_pixel_scale, MaxCaptureWidth / capture_rect.size.width);
+            result->requested_width = static_cast<size_t>(std::lround(capture_rect.size.width * capture_scale));
+            result->requested_height = static_cast<size_t>(std::lround(capture_rect.size.height * capture_scale));
+            configuration.width = result->requested_width;
+            configuration.height = result->requested_height;
+            [SCScreenshotManager captureImageWithFilter:filter
+                                          configuration:configuration
+                                      completionHandler:^(CGImageRef image, NSError* capture_error) {
+                                          if (capture_error || !image) {
+                                              result->error = capture_error.localizedDescription.UTF8String
+                                                  ? capture_error.localizedDescription.UTF8String
+                                                  : "ScreenCaptureKit returned an empty window image.";
+                                          } else {
+                                              result->image = CGImageRetain(image);
+                                              result->frame.pixel_width = static_cast<int>(CGImageGetWidth(image));
+                                              result->frame.pixel_height = static_cast<int>(CGImageGetHeight(image));
+                                              result->frame.scale_x = result->frame.pixel_width / result->frame.capture_width;
+                                              result->frame.scale_y = result->frame.pixel_height / result->frame.capture_height;
+                                          }
+                                          dispatch_semaphore_signal(result->semaphore);
+                                      }];
+        } else {
+            result->error = "MacNative capture requires macOS 14 or later.";
+            dispatch_semaphore_signal(result->semaphore);
+        }
+        [configuration release];
+        [filter release];
+    };
     [SCShareableContent getShareableContentExcludingDesktopWindows:YES
                                                onScreenWindowsOnly:YES
-                                                 completionHandler:^(SCShareableContent* content, NSError* error) {
-                                                     if (error || !content) {
-                                                         result->error = error.localizedDescription.UTF8String
-                                                             ? error.localizedDescription.UTF8String
-                                                             : "ScreenCaptureKit could not enumerate windows.";
-                                                         dispatch_semaphore_signal(result->semaphore);
-                                                         return;
-                                                     }
-
-                                                     SCWindow* selected = nil;
-                                                     size_t matches = 0;
-                                                     for (SCWindow* window in content.windows) {
-                                                         NSString* owner = window.owningApplication.bundleIdentifier;
-                                                         if (!window.isOnScreen || !owner || bundle_id != owner.UTF8String) {
-                                                             continue;
-                                                         }
-                                                         const CGRect frame = window.frame;
-                                                         if (frame.size.width < 600 || frame.size.height < 300) {
-                                                             continue;
-                                                         }
-                                                         selected = window;
-                                                         ++matches;
-                                                     }
-                                                     if (matches != 1) {
-                                                         result->error = matches == 0
-                                                             ? "No visible game window matches the configured bundle identifier."
-                                                             : "More than one visible game window matches the configured bundle identifier.";
-                                                         dispatch_semaphore_signal(result->semaphore);
-                                                         return;
-                                                     }
-
-                                                     result->window = [selected retain];
-                                                     const CGRect frame = selected.frame;
-                                                     result->frame.pid = selected.owningApplication.processID;
-                                                     result->frame.window_id = selected.windowID;
-                                                     result->frame.x = frame.origin.x;
-                                                     result->frame.y = frame.origin.y;
-                                                     result->frame.width = frame.size.width;
-                                                     result->frame.height = frame.size.height;
-
-                                                     SCContentFilter* filter = [[SCContentFilter alloc] initWithDesktopIndependentWindow:selected];
-                                                     SCStreamConfiguration* configuration = [[SCStreamConfiguration alloc] init];
-                                                     configuration.showsCursor = NO;
-                                                     if (@available(macOS 14.0, *)) {
-                                                         const CGRect capture_rect = filter.contentRect;
-                                                         const double point_pixel_scale = filter.pointPixelScale;
-                                                         if (capture_rect.size.width <= 0 || capture_rect.size.height <= 0 || point_pixel_scale <= 0) {
-                                                             result->error = "ScreenCaptureKit returned invalid capture geometry.";
-                                                             dispatch_semaphore_signal(result->semaphore);
-                                                             [configuration release];
-                                                             [filter release];
-                                                             return;
-                                                         }
-                                                         result->frame.capture_offset_x = capture_rect.origin.x - frame.origin.x;
-                                                         result->frame.capture_offset_y = capture_rect.origin.y - frame.origin.y;
-                                                         result->frame.capture_width = capture_rect.size.width;
-                                                         result->frame.capture_height = capture_rect.size.height;
-                                                         [SCScreenshotManager captureImageWithFilter:filter
-                                                                                       configuration:configuration
-                                                                                   completionHandler:^(CGImageRef image, NSError* capture_error) {
-                                                                                       if (capture_error || !image) {
-                                                                                           result->error = capture_error.localizedDescription.UTF8String
-                                                                                               ? capture_error.localizedDescription.UTF8String
-                                                                                               : "ScreenCaptureKit returned an empty window image.";
-                                                                                       } else {
-                                                                                           result->image = CGImageRetain(image);
-                                                                                           result->frame.pixel_width = static_cast<int>(CGImageGetWidth(image));
-                                                                                           result->frame.pixel_height = static_cast<int>(CGImageGetHeight(image));
-                                                                                           result->frame.scale_x = result->frame.pixel_width / result->frame.capture_width;
-                                                                                           result->frame.scale_y = result->frame.pixel_height / result->frame.capture_height;
-                                                                                           const double scale_tolerance = 0.05;
-                                                                                           if (std::abs(result->frame.scale_x - point_pixel_scale) > scale_tolerance || std::abs(result->frame.scale_y - point_pixel_scale) > scale_tolerance) {
-                                                                                               result->error = "Captured pixels do not match ScreenCaptureKit's window geometry.";
-                                                                                           }
-                                                                                       }
-                                                                                       dispatch_semaphore_signal(result->semaphore);
-                                                                                   }];
-                                                     } else {
-                                                         result->error = "MacNative capture requires macOS 14 or later.";
-                                                         dispatch_semaphore_signal(result->semaphore);
-                                                     }
-                                                     [configuration release];
-                                                     [filter release];
-                                                 }];
+                                                 completionHandler:handler];
 }
+
+double row_chromatic_fraction(const cv::Mat& image, int y)
+{
+    const int step = std::max(1, image.cols / 640);
+    size_t colored = 0;
+    size_t sampled = 0;
+    for (int x = 0; x < image.cols; x += step) {
+        const auto& pixel = image.at<cv::Vec3b>(y, x);
+        const auto max_channel = std::max({ pixel[0], pixel[1], pixel[2] });
+        const auto min_channel = std::min({ pixel[0], pixel[1], pixel[2] });
+        if (max_channel - min_channel > 14) {
+            ++colored;
+        }
+        ++sampled;
+    }
+    return sampled == 0 ? 0.0 : static_cast<double>(colored) / sampled;
+}
+
+int detect_title_bar_height(const cv::Mat& image)
+{
+    if (image.empty() || image.rows < 30) {
+        return 0;
+    }
+
+    constexpr double HeaderChromaLimit = 0.06;
+    constexpr double ContentChromaLimit = 0.12;
+    const int probe_rows = std::min(6, image.rows);
+    for (int y = 0; y < probe_rows; ++y) {
+        if (row_chromatic_fraction(image, y) > HeaderChromaLimit) {
+            return 0;
+        }
+    }
+
+    const int max_header_height = std::min(image.rows / 6, 120);
+    for (int y = probe_rows; y + 2 < max_header_height; ++y) {
+        if (row_chromatic_fraction(image, y) > ContentChromaLimit
+            && row_chromatic_fraction(image, y + 1) > ContentChromaLimit
+            && row_chromatic_fraction(image, y + 2) > ContentChromaLimit) {
+            return y;
+        }
+    }
+    return 0;
+}
+
+cv::Rect detect_game_content(const cv::Mat& image)
+{
+    // The capture preserves the window aspect ratio, so the 16:9 game fills
+    // the width below the title bar. Dark game content must not alter bounds.
+    const int top = image.rows - static_cast<int>(std::lround(image.cols * 9.0 / 16.0));
+    if (top > 0 && top <= std::min(image.rows / 6, 120)) {
+        return { 0, top, image.cols, image.rows - top };
+    }
+    const int title_bar_height = detect_title_bar_height(image);
+    return { 0, title_bar_height, image.cols, image.rows - title_bar_height };
+}
+
+#ifdef ASST_DEBUG
+void prune_mac_native_images(const std::filesystem::path& directory)
+{
+    constexpr size_t MaxImagesPerKind = 100;
+    static std::mutex prune_mutex;
+    std::scoped_lock lock(prune_mutex);
+    using ImageFile = std::pair<std::filesystem::file_time_type, std::filesystem::path>;
+    std::array<std::vector<ImageFile>, 2> images;
+    std::error_code error;
+    std::filesystem::directory_iterator iter(directory, std::filesystem::directory_options::skip_permission_denied, error);
+    if (error) {
+        LogWarn << "Cannot inspect MacNative screenshot directory" << directory << error.message();
+        return;
+    }
+    for (const std::filesystem::directory_iterator end; iter != end; iter.increment(error)) {
+        if (error) {
+            LogWarn << "Cannot iterate MacNative screenshots" << directory << error.message();
+            break;
+        }
+        const auto& path = iter->path();
+        const auto name = path.filename().string();
+        const size_t kind = name.find("_window_") != std::string::npos ? 0
+            : name.find("_normalized_") != std::string::npos           ? 1
+                                                                       : images.size();
+        if (kind == images.size() || path.extension() != ".png" || !iter->is_regular_file(error)) {
+            error.clear();
+            continue;
+        }
+        const auto time = std::filesystem::last_write_time(path, error);
+        if (error) {
+            LogWarn << "Cannot inspect MacNative screenshot" << path << error.message();
+            error.clear();
+            continue;
+        }
+        images[kind].emplace_back(time, path);
+    }
+    for (auto& group : images) {
+        if (group.size() <= MaxImagesPerKind) {
+            continue;
+        }
+        std::sort(group.begin(), group.end(), [](const ImageFile& lhs, const ImageFile& rhs) {
+            return lhs.first == rhs.first ? lhs.second < rhs.second : lhs.first < rhs.first;
+        });
+        for (size_t i = 0; i < group.size() - MaxImagesPerKind; ++i) {
+            std::filesystem::remove(group[i].second, error);
+            if (error) {
+                LogWarn << "Cannot remove old MacNative screenshot" << group[i].second << error.message();
+                error.clear();
+            }
+        }
+    }
+}
+#endif
 
 bool capture_frame(std::string_view bundle_id, cv::Mat& bgr, NativeFrame& frame)
 {
@@ -198,12 +321,64 @@ bool capture_frame(std::string_view bundle_id, cv::Mat& bgr, NativeFrame& frame)
             LogError << "Cannot allocate the MacNative image conversion context.";
             return false;
         }
-        CGContextTranslateCTM(context, 0, height);
-        CGContextScaleCTM(context, 1, -1);
+        // ScreenCaptureKit's image already has the top-left orientation expected by the controller.
         CGContextDrawImage(context, CGRectMake(0, 0, width, height), result->image);
         CGContextRelease(context);
         cv::cvtColor(bgra, bgr, cv::COLOR_BGRA2BGR);
         frame = result->frame;
+
+#ifdef ASST_DEBUG
+        static std::atomic_uint64_t capture_sequence = 0;
+        const auto capture_id = capture_sequence.fetch_add(1, std::memory_order_relaxed) + 1;
+        const auto debug_dir = asst::utils::path("debug") / asst::utils::path("MacNative");
+        const auto capture_suffix = std::to_string(capture_id);
+        if (!asst::utils::save_debug_image(bgr, debug_dir, false, "", "window_" + capture_suffix)) {
+            LogWarn << "Failed to save the MacNative window screenshot" << capture_id;
+        }
+#endif
+
+        const cv::Rect content = detect_game_content(bgr);
+        if (content.width <= 0 || content.height <= 0) {
+            LogError << "MacNative could not determine the game content bounds.";
+            return false;
+        }
+
+        const double source_scale_x = frame.scale_x;
+        const double source_scale_y = frame.scale_y;
+        frame.capture_offset_x += content.x / source_scale_x;
+        frame.capture_offset_y += content.y / source_scale_y;
+        frame.capture_width = content.width / source_scale_x;
+        frame.capture_height = content.height / source_scale_y;
+        constexpr int NormalizedWidth = 1280;
+        constexpr int NormalizedHeight = 720;
+        frame.pixel_width = NormalizedWidth;
+        frame.pixel_height = NormalizedHeight;
+        frame.scale_x = frame.pixel_width / frame.capture_width;
+        frame.scale_y = frame.pixel_height / frame.capture_height;
+
+        cv::Mat normalized;
+        cv::resize(
+            bgr(content),
+            normalized,
+            cv::Size(frame.pixel_width, frame.pixel_height),
+            0.0,
+            0.0,
+            cv::INTER_AREA);
+        bgr = std::move(normalized);
+#ifdef ASST_DEBUG
+        if (!asst::utils::save_debug_image(bgr, debug_dir, false, "", "normalized_" + capture_suffix)) {
+            LogWarn << "Failed to save the MacNative normalized screenshot" << capture_id;
+        }
+        prune_mac_native_images(asst::UserDir.get() / debug_dir);
+        LogDebug << "MacNative capture" << capture_id
+                 << "window" << frame.window_id << "origin" << frame.x << frame.y
+                 << "window size" << frame.width << frame.height
+                 << "requested size" << result->requested_width << result->requested_height
+                 << "raw size" << width << height
+                 << "content rect" << content.x << content.y << content.width << content.height
+                 << "capture offset" << frame.capture_offset_x << frame.capture_offset_y
+                 << "capture size" << frame.capture_width << frame.capture_height;
+#endif
         return true;
     }
     LogError << "MacNative capture requires macOS 14 or later.";
@@ -333,9 +508,12 @@ CGPoint local_point(const NativeFrame& frame, const asst::Point& point)
 {
     // ScreenCaptureKit reports the selected capture rectangle relative to the
     // window frame, so title-bar and crop offsets need no fixed-size guess.
+    // Keep edge coordinates inside the content; a point exactly on the window
+    // border can be ignored by the native game even though it is in the image.
+    constexpr double BorderInset = 2.0;
     return CGPointMake(
-        frame.capture_offset_x + point.x / frame.scale_x,
-        frame.capture_offset_y + point.y / frame.scale_y);
+        frame.capture_offset_x + std::clamp(point.x / frame.scale_x, BorderInset, frame.capture_width - BorderInset),
+        frame.capture_offset_y + std::clamp(point.y / frame.scale_y, BorderInset, frame.capture_height - BorderInset));
 }
 
 CGPoint screen_point(const NativeFrame& frame, CGPoint local)
@@ -351,6 +529,14 @@ bool post_tap(const NativeFrame& frame, const asst::Point& point)
     }
     const auto local = local_point(frame, point);
     const auto screen = screen_point(frame, local);
+    LogDebug << "MacNative click mapping"
+             << "image point" << point.x << point.y
+             << "window point" << local.x << local.y
+             << "screen point" << screen.x << screen.y
+             << "window origin" << frame.x << frame.y
+             << "capture offset" << frame.capture_offset_x << frame.capture_offset_y
+             << "capture size" << frame.capture_width << frame.capture_height
+             << "scale" << frame.scale_x << frame.scale_y;
     if (!post_event(make_scroll(1, 0, kCGScrollPhaseBegan), frame, local, screen) || !post_event(make_gesture(false, kCGScrollPhaseBegan, 0, 0), frame, local, screen) || !post_event(make_gesture(true, kCGScrollPhaseBegan, 1, 0), frame, local, screen)) {
         return false;
     }
@@ -358,35 +544,53 @@ bool post_tap(const NativeFrame& frame, const asst::Point& point)
     return post_event(make_scroll(0, 0, kCGScrollPhaseEnded), frame, local, screen) && post_event(make_gesture(false, kCGScrollPhaseEnded, 0, 0), frame, local, screen) && post_event(make_gesture(true, kCGScrollPhaseEnded, 0, 0), frame, local, screen);
 }
 
-bool post_swipe(const NativeFrame& frame, const asst::Point& from, const asst::Point& to, int duration_ms)
+bool post_swipe(
+    const NativeFrame& frame,
+    const asst::Point& from,
+    const asst::Point& to,
+    int duration_ms,
+    double slope_in,
+    double slope_out)
 {
     if (!AXIsProcessTrusted()) {
         LogError << "Accessibility permission is required for MacNative input.";
         return false;
     }
-    const auto delta_x = (to.x - from.x) / frame.scale_x;
-    const auto delta_y = (to.y - from.y) / frame.scale_y;
-    const auto steps = std::clamp(duration_ms / 8, 1, 33);
+    const auto steps = std::clamp(duration_ms / 10, 1, 80);
+    auto previous_local = local_point(frame, from);
+    const auto start_screen = screen_point(frame, previous_local);
+    if (!post_event(make_scroll(0, 0, kCGScrollPhaseBegan), frame, previous_local, start_screen)
+        || !post_event(make_gesture(false, kCGScrollPhaseBegan, 0, 0), frame, previous_local, start_screen)
+        || !post_event(make_gesture(true, kCGScrollPhaseBegan, 0, 0), frame, previous_local, start_screen)) {
+        return false;
+    }
     const auto start = std::chrono::steady_clock::now();
+    double previous_progress = 0.0;
 
     for (int i = 1; i <= steps; ++i) {
         const auto deadline = start + std::chrono::nanoseconds(static_cast<int64_t>(duration_ms) * 1'000'000 * i / steps);
         std::this_thread::sleep_until(deadline);
-        const double progress = static_cast<double>(i) / steps;
+        const double progress = std::max(
+            previous_progress,
+            std::clamp(asst::cubic_spline(slope_in, slope_out, static_cast<double>(i) / steps), 0.0, 1.0));
         const asst::Point pixel_point {
             static_cast<int>(std::lround(from.x + (to.x - from.x) * progress)),
             static_cast<int>(std::lround(from.y + (to.y - from.y) * progress)),
         };
         const auto local = local_point(frame, pixel_point);
         const auto screen = screen_point(frame, local);
-        const auto phase = i == 1 ? kCGScrollPhaseBegan : kCGScrollPhaseChanged;
+        const auto step_x = local.x - previous_local.x;
+        const auto step_y = local.y - previous_local.y;
         if (!post_event(make_scroll(
-                            static_cast<int32_t>(std::lround(delta_x / steps)),
-                            static_cast<int32_t>(std::lround(delta_y / steps)), phase),
+                            static_cast<int32_t>(std::lround(step_x)),
+                            static_cast<int32_t>(std::lround(step_y)), kCGScrollPhaseChanged),
                 frame, local, screen)
-            || !post_event(make_gesture(false, phase, 0, 0), frame, local, screen) || !post_event(make_gesture(true, phase, delta_x / steps, delta_y / steps), frame, local, screen)) {
+            || !post_event(make_gesture(false, kCGScrollPhaseChanged, 0, 0), frame, local, screen)
+            || !post_event(make_gesture(true, kCGScrollPhaseChanged, step_x, step_y), frame, local, screen)) {
             return false;
         }
+        previous_local = local;
+        previous_progress = progress;
     }
 
     const auto local = local_point(frame, to);
@@ -394,16 +598,17 @@ bool post_swipe(const NativeFrame& frame, const asst::Point& from, const asst::P
     return post_event(make_scroll(0, 0, kCGScrollPhaseEnded), frame, local, screen) && post_event(make_gesture(false, kCGScrollPhaseEnded, 0, 0), frame, local, screen) && post_event(make_gesture(true, kCGScrollPhaseEnded, 0, 0), frame, local, screen);
 }
 
-bool same_capture_geometry(const NativeFrame& lhs, const NativeFrame& rhs)
+bool same_window_geometry(const NativeFrame& lhs, const NativeFrame& rhs)
 {
     constexpr double Tolerance = 0.01;
-    return lhs.pid == rhs.pid && lhs.window_id == rhs.window_id && lhs.pixel_width == rhs.pixel_width && lhs.pixel_height == rhs.pixel_height && std::abs(lhs.width - rhs.width) < Tolerance && std::abs(lhs.height - rhs.height) < Tolerance && std::abs(lhs.capture_offset_x - rhs.capture_offset_x) < Tolerance && std::abs(lhs.capture_offset_y - rhs.capture_offset_y) < Tolerance && std::abs(lhs.capture_width - rhs.capture_width) < Tolerance && std::abs(lhs.capture_height - rhs.capture_height) < Tolerance && std::abs(lhs.scale_x - rhs.scale_x) < Tolerance && std::abs(lhs.scale_y - rhs.scale_y) < Tolerance;
+    return lhs.pid == rhs.pid && lhs.window_id == rhs.window_id && std::abs(lhs.width - rhs.width) < Tolerance
+        && std::abs(lhs.height - rhs.height) < Tolerance;
 }
 } // namespace MacNativeDetail
 
 using MacNativeDetail::capture_frame;
 using MacNativeDetail::NativeFrame;
-using MacNativeDetail::same_capture_geometry;
+using MacNativeDetail::same_window_geometry;
 
 struct asst::MacNativeController::Impl {
     mutable std::mutex mutex;
@@ -433,12 +638,12 @@ struct asst::MacNativeController::Impl {
         if (!capture_frame(bundle_id, current, next)) {
             return false;
         }
-        if (!same_capture_geometry(frame, next)) {
-            LogWarn << "MacNative window geometry changed; a fresh screenshot is required before input.";
+        if (!same_window_geometry(frame, next)) {
+            LogWarn << "MacNative target window changed; a fresh screenshot is required before input.";
             return false;
         }
-        // A pure move keeps the screenshot coordinates valid; update only the
-        // current screen origin used for background event delivery.
+        // Use the crop that produced the recognized image for input mapping.
+        // Only the window's current screen origin needs to be refreshed.
         frame.x = next.x;
         frame.y = next.y;
         return true;
@@ -486,7 +691,7 @@ bool asst::MacNativeController::screencap(cv::Mat& image_payload, bool allow_rec
     if (!capture_frame(m_impl->bundle_id, image_payload, frame)) {
         return false;
     }
-    if (m_impl->initialized && !same_capture_geometry(m_impl->frame, frame)) {
+    if (m_impl->initialized && !same_window_geometry(m_impl->frame, frame)) {
         LogInfo << "MacNative target window geometry changed; the new frame is now active.";
     }
     m_impl->frame = frame;
@@ -535,9 +740,8 @@ bool asst::MacNativeController::swipe(
     bool with_pause)
 {
     std::scoped_lock lock(m_impl->mutex);
-    if (extra_swipe != SwipeExtraDirection::None || slope_in != 1 || slope_out != 1 || with_pause) {
-        LogWarn << "MacNative supports only a straight swipe without pause or extra movement.";
-        return false;
+    if (extra_swipe != SwipeExtraDirection::None || with_pause) {
+        LogWarn << "MacNative ignores extra movement and pause parameters.";
     }
     if (!m_impl->validate_frame_for_input()) {
         return false;
@@ -549,8 +753,30 @@ bool asst::MacNativeController::swipe(
         LogError << "MacNative swipe coordinates are outside the captured window.";
         return false;
     }
-    const int duration_ms = duration > 0 ? duration : 500;
-    return post_swipe(m_impl->frame, from, to, std::max(duration_ms, 8));
+    const bool curved_swipe = slope_in != 1 || slope_out != 1;
+    // A 200 ms wheel gesture leaves the native operator list coasting across
+    // multiple pages. Give curved swipes enough time to decelerate in place.
+    const int duration_ms = curved_swipe ? std::max(duration, 650) : (duration > 0 ? duration : 500);
+    // Native gesture scrolling travels farther than the same task swipe on
+    // touch controllers. Scale the gesture displacement without changing the
+    // shared task coordinates or the starting point.
+    constexpr double SwipeDistanceScale = 0.8;
+    const Point native_to {
+        static_cast<int>(std::lround(from.x + (to.x - from.x) * SwipeDistanceScale)),
+        static_cast<int>(std::lround(from.y + (to.y - from.y) * SwipeDistanceScale)),
+    };
+    const auto local_from = MacNativeDetail::local_point(m_impl->frame, from);
+    const auto local_to = MacNativeDetail::local_point(m_impl->frame, native_to);
+    LogDebug << "MacNative swipe mapping"
+             << "image from" << from.x << from.y
+             << "requested image to" << to.x << to.y
+             << "native image to" << native_to.x << native_to.y
+             << "window from" << local_from.x << local_from.y
+             << "window to" << local_to.x << local_to.y
+             << "requested duration" << duration
+             << "duration" << duration_ms
+             << "slope" << slope_in << slope_out;
+    return post_swipe(m_impl->frame, from, native_to, std::max(duration_ms, 8), slope_in, slope_out);
 }
 
 bool asst::MacNativeController::inject_input_event(const InputEvent& event [[maybe_unused]])
