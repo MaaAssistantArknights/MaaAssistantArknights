@@ -59,19 +59,19 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
     private void RefreshPlanItems(OperProgressTask task)
     {
         var list = task.Plans.Select((plan, index) => {
-            int elite = plan.elite;
-            int mainSkillLevel = plan.skillLevel switch {
+            int elite = plan.Elite;
+            int mainSkillLevel = plan.SkillLevel switch {
                 SkillLevel.BaseLevel baseLevel => baseLevel.Level,
                 SkillLevel.Specialization => 7,
                 _ => 0,
             };
 
-            var specializationLevel = plan.skillLevel switch {
+            var specializationLevel = plan.SkillLevel switch {
                 SkillLevel.Specialization specialization => specialization,
                 _ => new(0, 0, 0),
             };
 
-            return new OperProgressPlanItemViewModel(index, plan.role, plan.name, elite, mainSkillLevel, specializationLevel);
+            return new OperProgressPlanItemViewModel(index, plan.Role, plan.Name, elite, mainSkillLevel, specializationLevel);
         }).ToList();
         PlanItems = [.. list];
         PlanItems.CollectionChanged += PlanItems_CollectionChanged;

@@ -34,23 +34,23 @@ public class AsstOperProgressTask : AsstBaseTask
         foreach (var p in Plans)
         {
             var planObj = new JObject {
-                ["role"] = p.role.ToString(),
-                ["name"] = p.name,
+                ["role"] = p.Role.ToString(),
+                ["name"] = p.Name,
             };
-            if (p.elite > 0)
+            if (p.Elite > 0)
             {
-                planObj["elite"] = p.elite;
+                planObj["elite"] = p.Elite;
             }
-            if (p.skillLevel is BaseLevel @base)
+            if (p.SkillLevel is BaseLevel @base)
             {
                 planObj["skill_level"] = @base.Level;
             }
-            else if (p.skillLevel is Specialization specialization)
+            else if (p.SkillLevel is Specialization specialization)
             {
                 planObj["skill_level"] = new JArray { specialization.Skill1, specialization.Skill2, specialization.Skill3 };
             }
             list.Add(planObj);
         }
-        return (TaskType, JObject.FromObject(this));
+        return (TaskType, JObject.FromObject(list));
     }
 }

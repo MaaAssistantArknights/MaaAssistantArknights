@@ -11,8 +11,6 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-#pragma warning disable SA1300 // record 位置参数名即 JSON 字段名
-
 #nullable enable
 using System;
 using System.Collections.Generic;
@@ -37,7 +35,7 @@ public class OperProgressTask : BaseTask
     /// </summary>
     public bool DeleteOnCompleted { get; set; }
 
-    public record class Plan(OperatorRole role, string name, int elite, int? level, SkillLevel skillLevel);
+    public record class Plan(OperatorRole Role, string Name, int Elite, int? Level, SkillLevel SkillLevel);
 
     /// <summary>
     /// 技能培养目标：基础技能等级（<see cref="BaseLevel"/>）与专精等级（<see cref="Specialization"/>）二选一。

@@ -900,7 +900,7 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="Infrast">{key=Base}</system:String>
     <system:String x:Key="Combat">Combat</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
-    <system:String x:Key="OperProgress">Operator Development</system:String>
+    <system:String x:Key="OperProgress">Operator Progression</system:String>
     <!--  待确认移除（干员计划重构后 JSON 文本流程已废弃，以下键仅供已注释的 JSON 往返链路使用）  -->
     <system:String x:Key="OperProgressParsePlan">Parse Plan</system:String>
     <system:String x:Key="OperProgressPlanValid">The current text has been parsed successfully</system:String>
