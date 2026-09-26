@@ -25,12 +25,19 @@
                 DisplayMemberPath="Display"
                 ItemsSource="{Binding MiniGameEntryList}"
                 SelectedValue="{Binding MiniGameName}"
-                SelectedValuePath="Value" />
-            <controls:TextBlock
-                Margin="0,6,0,0"
-                Opacity="0.85"
-                Text="{Binding MiniGameTip}"
-                TextWrapping="Wrap" />
+                SelectedValuePath="Value">
+                <ComboBox.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="{x:Type ComboBoxItem}">
+                        <Setter Property="IsEnabled" Value="{Binding IsEnabled}" />
+                        <Style.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.4" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ComboBox.ItemContainerStyle>
+            </ComboBox>
+            
             <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                 <ComboBox
                     MinWidth="120"

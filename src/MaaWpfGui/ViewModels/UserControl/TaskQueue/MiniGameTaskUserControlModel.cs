@@ -62,6 +62,13 @@ public class MiniGameTaskUserControlModel : TaskSettingsViewModel, MiniGameTaskU
 
     public ObservableCollection<GenericCombinedData<string>> MiniGameEntryList { get; } = [];
 
+    // 任务队列里只有绿票/黄票商店能稳定执行，其余牛杂在下拉框中置灰不可选
+    private static readonly HashSet<string> _selectableMiniGameEntries =
+    [
+        "GreenTicket@Store@Begin",
+        "YellowTicket@Store@Begin",
+    ];
+
     private string _miniGameName = string.Empty;
 
     /// <summary>
@@ -167,6 +174,7 @@ public class MiniGameTaskUserControlModel : TaskSettingsViewModel, MiniGameTaskU
                     ? t.Display
                     : (LocalizationHelper.TryGetString(t.DisplayKey, out var loc) ? loc : t.Display),
                 Value = t.Value,
+                IsEnabled = _selectableMiniGameEntries.Contains(t.Value),
             })
             .ToList();
 
