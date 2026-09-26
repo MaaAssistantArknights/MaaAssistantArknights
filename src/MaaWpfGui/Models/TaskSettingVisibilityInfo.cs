@@ -62,6 +62,8 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
 
     public bool SwitchTheme { get => field; set => SetAndNotify(ref field, value); }
 
+    public bool MiniGame { get => field; set => SetAndNotify(ref field, value); }
+
     public bool Custom { get => field; set => SetAndNotify(ref field, value); }
 
     public bool PostAction { get => field; set => SetAndNotify(ref field, value); }
@@ -163,6 +165,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
             UserDataUpdateTask => UserDataUpdate = enable,
             DepotMaintainTask => DepotMaintain = enable,
             SwitchThemeTask => SwitchTheme = enable,
+            MiniGameTask => MiniGame = enable,
             CustomTask => Custom = enable,
             _ => throw new NotImplementedException(),
         };
@@ -185,8 +188,9 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
 
     private void UpdateAdvancedSettingsVisibility(BaseTask task)
     {
+        // 牛杂在任务队列里只有绿票/黄票商店可选，没有需要放进高级设置的参数
         AdvancedSettingsVisibility = task switch {
-            AwardTask or StartUpTask or UserDataUpdateTask or OperProgressTask => false,
+            AwardTask or StartUpTask or UserDataUpdateTask or OperProgressTask or MiniGameTask => false,
             ReclamationTask rt => rt.Theme == ReclamationTheme.Tales,
             _ => true,
         };
@@ -206,6 +210,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         UserDataUpdate = false;
         DepotMaintain = false;
         SwitchTheme = false;
+        MiniGame = false;
         Custom = false;
     }
 

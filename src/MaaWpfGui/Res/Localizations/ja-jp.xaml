@@ -957,6 +957,15 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGameCategoryPermanent">常設イベント</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">現在のイベント</system:String>
     <system:String x:Key="MiniGameCategoryPermanentFeature">常設機能</system:String>
+    <!--  牛杂（任务队列）  -->
+    <system:String x:Key="MiniGameSchedule">実行スケジュール</system:String>
+    <system:String x:Key="MiniGameScheduleTip" xml:space="preserve">ここでの曜日と日付はゲーム内時間に基づいており、現実時間ではありません。例えば、ゲームが4:00にリセットされる場合、3:59は前日としてカウントされます。&#10;未チェックの曜日・日付はその日に本タスクをスキップします。</system:String>
+    <system:String x:Key="MiniGameScheduleNone">無効</system:String>
+    <system:String x:Key="MiniGameScheduleWeekly">週次スケジュール</system:String>
+    <system:String x:Key="MiniGameScheduleMonthly">月次スケジュール</system:String>
+    <system:String x:Key="MiniGameSkippedEmptyName">便利機能が未選択のため、このタスクをスキップします。</system:String>
+    <system:String x:Key="MiniGameSkippedWeeklySchedule">週次スケジュールで今日が未選択のため、便利機能をスキップします。</system:String>
+    <system:String x:Key="MiniGameSkippedMonthlySchedule">月次スケジュールで今日が未選択のため、便利機能をスキップします。</system:String>
     <system:String x:Key="Custom">カスタムタスク</system:String>
     <system:String x:Key="SingleStep">単一ステップタスク</system:String>
     <system:String x:Key="ReclamationTheme">主題</system:String>

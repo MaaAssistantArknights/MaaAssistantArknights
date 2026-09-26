@@ -956,6 +956,15 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGameCategoryPermanent">상시 활동</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">현재 이벤트</system:String>
     <system:String x:Key="MiniGameCategoryPermanentFeature">상시 기능</system:String>
+    <!--  Mini game (task queue)  -->
+    <system:String x:Key="MiniGameSchedule">실행 일정</system:String>
+    <system:String x:Key="MiniGameScheduleTip" xml:space="preserve">여기의 요일과 날짜는 현실 시간이 아닌 게임 내 시간을 기준으로 합니다. 예를 들어 게임이 4:00에 초기화되면 3:59는 전날로 계산됩니다.&#10;체크하지 않은 요일이나 날짜에는 이 작업을 건너뜁니다.</system:String>
+    <system:String x:Key="MiniGameScheduleNone">사용 안 함</system:String>
+    <system:String x:Key="MiniGameScheduleWeekly">주간 일정</system:String>
+    <system:String x:Key="MiniGameScheduleMonthly">월간 일정</system:String>
+    <system:String x:Key="MiniGameSkippedEmptyName">편의 기능이 선택되지 않아 이 작업을 건너뜁니다.</system:String>
+    <system:String x:Key="MiniGameSkippedWeeklySchedule">주간 일정에서 오늘이 선택되지 않아 편의 기능을 건너뜁니다.</system:String>
+    <system:String x:Key="MiniGameSkippedMonthlySchedule">월간 일정에서 오늘이 선택되지 않아 편의 기능을 건너뜁니다.</system:String>
     <system:String x:Key="Custom">커스텀 작업</system:String>
     <system:String x:Key="SingleStep">단일 단계 작업</system:String>
     <system:String x:Key="ReclamationTheme">생존 연산 테마</system:String>

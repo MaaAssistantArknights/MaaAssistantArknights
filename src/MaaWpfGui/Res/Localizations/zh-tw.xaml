@@ -955,6 +955,15 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGameCategoryPermanent">常駐活動</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">目前活動</system:String>
     <system:String x:Key="MiniGameCategoryPermanentFeature">常駐功能</system:String>
+    <!--  牛杂（任务队列）  -->
+    <system:String x:Key="MiniGameSchedule">執行計畫</system:String>
+    <system:String x:Key="MiniGameScheduleTip" xml:space="preserve">此處星期與日期依遊戲時間計算，並非現實時間。例如遊戲於 4:00 刷新，則 3:59 仍算作前一天。&#10;未勾選的星期或日期當天會跳過本任務。</system:String>
+    <system:String x:Key="MiniGameScheduleNone">不啟用</system:String>
+    <system:String x:Key="MiniGameScheduleWeekly">週計畫</system:String>
+    <system:String x:Key="MiniGameScheduleMonthly">月計畫</system:String>
+    <system:String x:Key="MiniGameSkippedEmptyName">未選擇牛雜，跳過該任務。</system:String>
+    <system:String x:Key="MiniGameSkippedWeeklySchedule">週計畫未勾選今日，跳過牛雜。</system:String>
+    <system:String x:Key="MiniGameSkippedMonthlySchedule">月計畫未勾選今日，跳過牛雜。</system:String>
     <system:String x:Key="Custom">自訂任務</system:String>
     <system:String x:Key="SingleStep">單步任務</system:String>
     <system:String x:Key="ReclamationTheme">生息演算主題</system:String>
