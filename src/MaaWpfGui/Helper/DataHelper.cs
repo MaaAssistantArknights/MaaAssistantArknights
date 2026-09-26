@@ -385,6 +385,10 @@ public static class DataHelper
         [JsonProperty("rarity")]
         public int Rarity { get; set; }
 
+        // 头像雪碧图 template/avatar/avatar_sprite.png 中的格坐标 [列, 行]，ResourceUpdater 生成，无头像时缺省
+        [JsonProperty("avatar_sprite")]
+        public int[]? AvatarSprite { get; set; }
+
         public bool IsOperator => Role is
             OperatorRole.Caster or
             OperatorRole.Medic or

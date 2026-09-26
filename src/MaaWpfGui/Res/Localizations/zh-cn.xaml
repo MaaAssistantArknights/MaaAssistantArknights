@@ -731,6 +731,7 @@ D:\
     <system:String x:Key="OperBoxExportHeaderMainSkillLevel">技能等级</system:String>
     <system:String x:Key="OperBoxExportHeaderSkills">技能专精</system:String>
     <system:String x:Key="OperBoxExportHeaderEquips">模组</system:String>
+    <system:String x:Key="OperBoxAvatarMode">头像展示</system:String>
     <system:String x:Key="DrGrandet">博朗台模式</system:String>
     <system:String x:Key="DrGrandetTip">在恢复理智确认界面等待，直到当前的 1 点理智恢复完成再立即确认。</system:String>
     <system:String x:Key="SocialPtShop">信用交易所自动购物</system:String>

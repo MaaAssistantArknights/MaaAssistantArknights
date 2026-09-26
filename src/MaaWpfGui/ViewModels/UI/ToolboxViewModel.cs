@@ -205,12 +205,12 @@ public class ToolboxViewModel : Screen
                     }
                 }
 
-                var run = new Run($"{operName}{potentialText}    ");
                 var brushKey = GetBrushKeyByStar(operLevel, isMaxPot);
-                run.SetResourceReference(TextElement.ForegroundProperty, brushKey);
-                run.Tag = brushKey;
 
-                recruitResultInlines.Add(run);
+                // 头像+名字拼成一体元素，防止在名字与头像之间换行
+                var badge = OperAvatarHelper.CreateOperBadge(operId ?? string.Empty, $"{operName}{potentialText}", 18, brushKey);
+                recruitResultInlines.Add(new InlineUIContainer(badge) { BaselineAlignment = BaselineAlignment.Bottom });
+                recruitResultInlines.Add(new Run("    "));
             }
 
             recruitResultInlines.Add(new LineBreak());
@@ -1266,7 +1266,7 @@ public class ToolboxViewModel : Screen
     }
 
     public class Operator(string id, string name, int rarity, int elite = 0, int level = 0, int potential = 0,
-        int? mainSkillLevel = null, List<OperBoxData.SkillData>? skills = null, List<OperBoxData.EquipData>? equips = null)
+        int? mainSkillLevel = null, List<OperBoxData.SkillData>? skills = null, List<OperBoxData.EquipData>? equips = null, bool owned = true)
     {
         [JsonProperty("id")]
         public string Id { get; } = id;
@@ -1319,6 +1319,26 @@ public class ToolboxViewModel : Screen
         public string PotentialIconPath => Potential > 0 && Potential <= 6
             ? $"/Res/Img/Operator/Potential_{Potential}.png"
             : "/Res/Img/Operator/Potential_1.png";
+
+        /// <summary>
+        /// Gets 干员头像（裁自头像雪碧图，资源缺失或无坐标时为 null；未拥有干员为降饱和版本）
+        /// </summary>
+        public BitmapSource? Avatar => OperAvatarHelper.GetOperAvatar(Id, !Owned);
+
+        /// <summary>
+        /// Gets a value indicating whether 该干员在识别结果中为已拥有
+        /// </summary>
+        public bool Owned { get; } = owned;
+
+        /// <summary>
+        /// Gets 干员职业（取自 battle_data，识别不到时为 Unknown）
+        /// </summary>
+        public OperatorRole Role => DataHelper.GetCharacterById(Id)?.Role ?? OperatorRole.Unknown;
+
+        /// <summary>
+        /// Gets 职业图标（复用识别用职业旗标模板，无图标时为 null）
+        /// </summary>
+        public BitmapSource? RoleIcon => OperAvatarHelper.GetRoleIcon(Role);
 
         /// <summary>
         /// Gets the resource key based on rarity
@@ -1620,7 +1640,7 @@ public class ToolboxViewModel : Screen
                 }
                 else
                 {
-                    OperBoxNotHaveList.Add(new Operator(id, name, oper.Rarity));
+                    OperBoxNotHaveList.Add(new Operator(id, name, oper.Rarity, owned: false));
                 }
             }
 
@@ -1716,7 +1736,7 @@ public class ToolboxViewModel : Screen
             if (!_tempOperHaveSet.Contains(id) && DataHelper.IsCharacterAvailableInClient(oper, SettingsViewModel.GameSettings.ClientType.ToCustomString()))
             {
                 var name = DataHelper.GetLocalizedCharacterName(oper) ?? "???";
-                OperBoxNotHaveList.Add(new Operator(id, name, oper.Rarity));
+                OperBoxNotHaveList.Add(new Operator(id, name, oper.Rarity, owned: false));
             }
         }
 
@@ -1922,6 +1942,17 @@ public class ToolboxViewModel : Screen
 
         StartOperBoxRecognitionTask();
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 干员识别卡片以干员头像为底板展示（重启后保留）。
+    /// </summary>
+    public bool OperBoxAvatarMode
+    {
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.OperBoxAvatarMode = value;
+        }
+    } = ConfigFactory.CurrentConfig.Toolbox.OperBoxAvatarMode;
 
     /// <summary>
     /// Gets 干员识别导出格式选项，文案随语言热切换自动刷新。
