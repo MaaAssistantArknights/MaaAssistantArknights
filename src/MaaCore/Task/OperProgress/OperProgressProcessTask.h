@@ -80,14 +80,7 @@ private:
     bool buy_catalyst(int count);
     std::optional<int> ocr_number(const std::string& task_name);
     std::optional<int> ocr_number(const cv::Mat& image, const std::string& task_name);
-    // recognized 非空时随 OperProgressTargetResult 回调附带：本次任务现场识别到的当前等级
-    // （elite 为当前精英化阶段，skills 为当前 RANK 等级，mastery 为目标技能的当前专精等级）。
-    void report_target(
-        std::string what,
-        size_t index,
-        const OperProgressTask::ProgressPlan& target,
-        ResultDetail result,
-        std::optional<int> recognized = std::nullopt);
+
     void report_summary();
     static std::string_view action_name(OperProgressAction action);
     static std::string_view result_name(ResultDetail result);

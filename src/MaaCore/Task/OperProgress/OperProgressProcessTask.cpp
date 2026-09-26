@@ -638,8 +638,9 @@ void asst::OperProgressProcessTask::report_skill_result(
             }
             else [[unlikely]] {
                 // 不应进入此分支, 除非1技能专精时识别错误, 2技能时正确进入
-                LogError << __FUNCTION__ << "| skill level type mismatch, existing: " << *skill_level
-                         << ", new: " << level;
+                json::value old = *skill_level;
+                json::value new_val = level;
+                LogError << __FUNCTION__ << "| skill level type mismatch, existing: " << old << ", new: " << new_val;
             }
         }
     }
@@ -1227,29 +1228,6 @@ bool asst::OperProgressProcessTask::run_task(std::vector<std::string> tasks, int
 {
     ProcessTask task(*this, std::move(tasks));
     return task.set_retry_times(retry_times).run();
-}
-
-void asst::OperProgressProcessTask::report_target(
-    std::string what,
-    size_t index,
-    const OperProgressTask::ProgressPlan& plan,
-    [[maybe_unused]] ResultDetail result,
-    std::optional<int> recognized)
-{
-    auto info = basic_info_with_what(std::move(what));
-
-    json::object details {
-        { "index", index },
-        { "role", plan.role },
-        { "name", plan.name },
-        //{ "action", std::string(action_name(plan.action)) },
-        //{ "target", plan.target }, { "skill", plan.skill }, { "result", std::string(result_name(result)) },
-    };
-    if (recognized) {
-        details["recognized"] = *recognized;
-    }
-    info["details"] = std::move(details);
-    callback(AsstMsg::SubTaskExtraInfo, info);
 }
 
 void asst::OperProgressProcessTask::report_summary()
