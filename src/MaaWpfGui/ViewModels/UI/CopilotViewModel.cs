@@ -196,6 +196,18 @@ public partial class CopilotViewModel : Screen
         // LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
     }
 
+    private void AddCopilotPreview(CopilotOutput output)
+    {
+        if (output.Parts.All(part => part.OperName is null))
+        {
+            AddLog(output.Content, output.Color ?? UiLogColor.Message, showTime: false);
+            return;
+        }
+
+        RunningState.Instance.NotifyOutputActivity();
+        Execute.OnUIThread(() => LogItemViewModels.Add(new OperPreviewLogItem(output)));
+    }
+
     /// <summary>
     /// Clears log.
     /// </summary>
@@ -1278,9 +1290,9 @@ public partial class CopilotViewModel : Screen
         }
         if (printInfo)
         {
-            foreach (var (output, color) in copilot.Output())
+            foreach (var output in copilot.Output())
             {
-                AddLog(output, color ?? UiLogColor.Message, showTime: false); // 作业信息输出
+                AddCopilotPreview(output);
             }
         }
 
@@ -1369,9 +1381,9 @@ public partial class CopilotViewModel : Screen
             }
         }
 
-        foreach (var (output, color) in copilot.Output())
+        foreach (var output in copilot.Output())
         {
-            AddLog(output, color ?? UiLogColor.Message, showTime: false);
+            AddCopilotPreview(output);
         }
 
         // 不支持的关卡
