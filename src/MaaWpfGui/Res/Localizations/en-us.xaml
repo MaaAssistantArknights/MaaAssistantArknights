@@ -1935,6 +1935,7 @@ If you do need to use it, please ensure:
     <system:String x:Key="AttachWindowInputPostWithCursor">PostMsg-CursorPos (Semi-background, Briefly Captures Mouse)</system:String>
     <system:String x:Key="AttachWindowInputSendWithWindowPosDisabled">SendMsg-WindowPos (Excessive Latency, Disabled)</system:String>
     <system:String x:Key="AttachWindowInputPostWithWindowPos">PostMsg-WindowPos (Recommended, Full Background, No Mouse Capture, Window May Move, PrintWindow Screencap Only, Recommend Minimizing)</system:String>
+    <system:String x:Key="AttachWindowInputAnchoredTouch">AnchoredTouch (Full Background, No Mouse Capture, Synthetic Touch Injection, Requires Win10 1809+, Window Briefly Flashes When Occluded)</system:String>
     <system:String x:Key="AttachWindowInputSendMsg">SendMsg (Stable)</system:String>
     <system:String x:Key="AttachWindowInputPostMsg">PostMsg (Efficient)</system:String>
     <!--  !AsstProxy  -->
