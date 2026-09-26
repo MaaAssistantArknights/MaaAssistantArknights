@@ -41,6 +41,12 @@ public static class OperAvatarHelper
 
     private static readonly object _spriteLock = new();
     private static readonly ConcurrentDictionary<string, BitmapSource?> _avatarCache = new();
+    private static readonly ConcurrentDictionary<string, BitmapSource?> _desaturatedAvatarCache = new();
+
+    /// <summary>
+    /// 未拥有干员头像的色彩保留比例（0=全灰，1=原色）。
+    /// </summary>
+    private const double DesaturatedColorKeep = 0.35;
 
     private static BitmapSource? _spriteSheet;
     private static int _cellSize;
@@ -66,6 +72,83 @@ public static class OperAvatarHelper
         var avatar = LoadOperAvatar(operId);
         _avatarCache.TryAdd(operId, avatar);
         return avatar;
+    }
+
+    /// <summary>
+    /// 按干员 ID 获取头像，可要求降饱和版本（如识别结果中未拥有的干员）。
+    /// </summary>
+    /// <param name="operId">干员 ID</param>
+    /// <param name="desaturated">是否降低饱和度</param>
+    /// <returns>头像图；无雪碧图资源或无坐标时返回 <c>null</c></returns>
+    public static BitmapSource? GetOperAvatar(string operId, bool desaturated)
+    {
+        if (!desaturated)
+        {
+            return GetOperAvatar(operId);
+        }
+
+        if (string.IsNullOrEmpty(operId))
+        {
+            return null;
+        }
+
+        if (_desaturatedAvatarCache.TryGetValue(operId, out var cached))
+        {
+            return cached;
+        }
+
+        BitmapSource? avatar = null;
+        var normal = GetOperAvatar(operId);
+        if (normal != null)
+        {
+            avatar = Desaturate(normal, DesaturatedColorKeep);
+        }
+
+        _desaturatedAvatarCache.TryAdd(operId, avatar);
+        return avatar;
+    }
+
+    /// <summary>
+    /// 将头像按比例降低饱和度（保留原色彩观感，不做全灰）。
+    /// </summary>
+    /// <param name="source">原头像</param>
+    /// <param name="colorKeep">色彩保留比例（0=全灰，1=原色）</param>
+    /// <returns>降饱和后的头像</returns>
+    private static BitmapSource Desaturate(BitmapSource source, double colorKeep)
+    {
+        var converted = new FormatConvertedBitmap(source, PixelFormats.Bgra32, null, 0);
+        var writeable = new WriteableBitmap(converted);
+        writeable.Lock();
+        try
+        {
+            unsafe
+            {
+                var pixels = (uint*)writeable.BackBuffer;
+                int pixelCount = writeable.PixelWidth * writeable.PixelHeight;
+                for (int i = 0; i < pixelCount; i++)
+                {
+                    uint pixel = pixels[i];
+                    byte a = (byte)(pixel >> 24);
+                    double b = pixel & 0xFF;
+                    double g = (pixel >> 8) & 0xFF;
+                    double r = (pixel >> 16) & 0xFF;
+                    double gray = (r * 0.299) + (g * 0.587) + (b * 0.114);
+                    byte nb = (byte)((b * colorKeep) + (gray * (1 - colorKeep)));
+                    byte ng = (byte)((g * colorKeep) + (gray * (1 - colorKeep)));
+                    byte nr = (byte)((r * colorKeep) + (gray * (1 - colorKeep)));
+                    pixels[i] = ((uint)a << 24) | ((uint)nr << 16) | ((uint)ng << 8) | nb;
+                }
+            }
+
+            writeable.AddDirtyRect(new Int32Rect(0, 0, writeable.PixelWidth, writeable.PixelHeight));
+        }
+        finally
+        {
+            writeable.Unlock();
+        }
+
+        writeable.Freeze();
+        return writeable;
     }
 
     /// <summary>
