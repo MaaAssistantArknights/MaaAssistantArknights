@@ -1266,7 +1266,7 @@ public class ToolboxViewModel : Screen
     }
 
     public class Operator(string id, string name, int rarity, int elite = 0, int level = 0, int potential = 0,
-        int? mainSkillLevel = null, List<OperBoxData.SkillData>? skills = null, List<OperBoxData.EquipData>? equips = null)
+        int? mainSkillLevel = null, List<OperBoxData.SkillData>? skills = null, List<OperBoxData.EquipData>? equips = null, bool owned = true)
     {
         [JsonProperty("id")]
         public string Id { get; } = id;
@@ -1321,9 +1321,14 @@ public class ToolboxViewModel : Screen
             : "/Res/Img/Operator/Potential_1.png";
 
         /// <summary>
-        /// Gets 干员头像（裁自头像雪碧图，资源缺失或无坐标时为 null）
+        /// Gets 干员头像（裁自头像雪碧图，资源缺失或无坐标时为 null；未拥有干员为降饱和版本）
         /// </summary>
-        public BitmapSource? Avatar => OperAvatarHelper.GetOperAvatar(Id);
+        public BitmapSource? Avatar => OperAvatarHelper.GetOperAvatar(Id, !Owned);
+
+        /// <summary>
+        /// Gets a value indicating whether 该干员在识别结果中为已拥有
+        /// </summary>
+        public bool Owned { get; } = owned;
 
         /// <summary>
         /// Gets 干员职业（取自 battle_data，识别不到时为 Unknown）
@@ -1635,7 +1640,7 @@ public class ToolboxViewModel : Screen
                 }
                 else
                 {
-                    OperBoxNotHaveList.Add(new Operator(id, name, oper.Rarity));
+                    OperBoxNotHaveList.Add(new Operator(id, name, oper.Rarity, owned: false));
                 }
             }
 
@@ -1731,7 +1736,7 @@ public class ToolboxViewModel : Screen
             if (!_tempOperHaveSet.Contains(id) && DataHelper.IsCharacterAvailableInClient(oper, SettingsViewModel.GameSettings.ClientType.ToCustomString()))
             {
                 var name = DataHelper.GetLocalizedCharacterName(oper) ?? "???";
-                OperBoxNotHaveList.Add(new Operator(id, name, oper.Rarity));
+                OperBoxNotHaveList.Add(new Operator(id, name, oper.Rarity, owned: false));
             }
         }
 
