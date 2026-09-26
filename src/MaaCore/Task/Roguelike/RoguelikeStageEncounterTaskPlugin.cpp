@@ -523,9 +523,11 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::select_black
     }
     if (const auto result_task = event.option_tasks.find(selected_text); result_task != event.option_tasks.end()) {
         // 经独立入口转发，保留目标任务的模板、回调名称和执行次数。
-        if (!Task.lazy_parse(json::object {
-                { std::string(BlackFlowOptionTask), json::object { { "next", json::array { result_task->second } } } },
-            })) {
+        if (!Task.lazy_parse(
+                json::object {
+                    { std::string(BlackFlowOptionTask),
+                      json::object { { "next", json::array { result_task->second } } } },
+                })) {
             LogError << __FUNCTION__ << "Failed to configure encounter option task" << result_task->second;
             return std::nullopt;
         }
