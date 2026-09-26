@@ -582,7 +582,7 @@ D:\
     <system:String x:Key="ClientType">客户端类型</system:String>
     <system:String x:Key="StartGameLaunchClient">是否启动客户端</system:String>
     <system:String x:Key="SkipBasedOnActivitySchedule">优先在无活动期间运行</system:String>
-    <system:String x:Key="SkipBasedOnActivityScheduleTip">勾选后，检查是否有 {key=SideStory} 活动；若有活动且在本周内结束，则跳过当前任务；否则不会跳过。</system:String>
+    <system:String x:Key="SkipBasedOnActivityScheduleTip">建议剿灭作战使用。勾选后，检查是否有 {key=SideStory} 活动；若有活动于本周内结束，跳过本次执行；否则不会跳过。</system:String>
     <system:String x:Key="FightSkippedActivitySchedule">根据活动排期智能跳过</system:String>
     <system:String x:Key="UseWeeklySchedule">启用周计划</system:String>
     <system:String x:Key="UseWeeklyScheduleTip">此处星期根据游戏时间计算，并非现实时间。例如游戏在 4:00 刷新，则 3:59 仍算作前一天。</system:String>

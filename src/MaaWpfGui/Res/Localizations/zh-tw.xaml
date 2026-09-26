@@ -583,7 +583,7 @@ D:\
     <system:String x:Key="ClientType">用戶端類型</system:String>
     <system:String x:Key="StartGameLaunchClient">是否啟動用戶端</system:String>
     <system:String x:Key="SkipBasedOnActivitySchedule">優先在無活動期間執行</system:String>
-    <system:String x:Key="SkipBasedOnActivityScheduleTip">勾選後，檢查是否有 {key=SideStory} 活動；若有活動且在本週內結束，則跳過目前任務；否則不會跳過。</system:String>
+    <system:String x:Key="SkipBasedOnActivityScheduleTip">建議用於剿滅作戰。勾選後，檢查是否有 {key=SideStory} 活動；若有活動於本週內結束，跳過本次執行；否則不會跳過。</system:String>
     <system:String x:Key="FightSkippedActivitySchedule">根據活動排程智慧跳過</system:String>
     <system:String x:Key="UseWeeklySchedule">使用週計畫</system:String>
     <system:String x:Key="UseWeeklyScheduleTip">此處的星期是根據遊戲時間計算的，並非現實時間。例如遊戲在 4:00 刷新，則 3:59 仍算作前一天。</system:String>

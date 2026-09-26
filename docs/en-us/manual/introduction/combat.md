@@ -95,7 +95,7 @@ Example: Alternative Stages are `CE-6/5`, `1-7` and `LS-6/5`:
 ### Prefer running when no events are active
 
 - Enable it under `Task Settings` - `Sanity Farming` - `Advanced Settings`. This feature is implemented by the UI.
-- When enabled, checks whether a Side Story event is active. If an event is active and ends within the current week, the current task is skipped; otherwise, it is not skipped.
+- Recommended for Annihilation. When enabled, checks whether a Side Story event is active. If an active event ends within the current week, this run is skipped; otherwise, it is not skipped.
 
 ### Weekly Schedule
 
