@@ -246,7 +246,16 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
         analyzer.save_img(utils::path("debug") / utils::path("infrast") / utils::path("enter_facility"));
         return false;
     }
-    ctrler()->click(rect);
+    // Pure-color facility matches identify only the narrow stripe at the card's left edge.
+    // Tap inside the card so a small coordinate offset cannot select its neighbor.
+    if (rect.width <= 12) {
+        rect.x += 48;
+        rect.width = 40;
+    }
+    if (!ctrler()->click(rect)) {
+        LogError << "Failed to click the infrastructure facility.";
+        return false;
+    }
     m_cur_facility_index = index;
 
     callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
