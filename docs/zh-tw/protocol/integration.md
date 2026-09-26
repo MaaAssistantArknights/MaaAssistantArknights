@@ -1692,7 +1692,7 @@ AsstBool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value)
 ::: field GpuOCR  
 @type string
 @optional
-使用 GPU 進行 OCR。值為 GPU 裝置序號（整數），Windows 上也可傳 `luid:<十六進制 LUID>`。資源載入後不支援切換。列舉值：2。  
+使用 GPU 進行 OCR。值為 GPU 裝置序號（整數），Windows 上使用 DirectML，其他平台回退 CPU；也可顯式指定後端：`webgpu:<裝置序號>`（實驗性，Windows / macOS / Linux）、`directml:<裝置序號>`（僅 Windows）。Windows 上 DirectML 還支援 `luid:<十六進制 LUID>`。資源載入後不支援切換。列舉值：2。  
 :::  
 ::::
 

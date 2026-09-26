@@ -372,7 +372,7 @@ The `static_options` section configures MaaCore static options:
 ```toml
 [static_options]
 cpu_ocr = false # Whether to use CPU OCR (enabled by default)
-gpu_ocr = 1 # GPU ID for GPU OCR; leave empty to use CPU OCR
+gpu_ocr = 1 # GPU ID for GPU OCR; prefix it with `webgpu:` for the experimental WebGPU backend (Windows / macOS / Linux), or with `directml:` to force DirectML (Windows only); leave empty to use CPU OCR
 ```
 
 ### Instance options
