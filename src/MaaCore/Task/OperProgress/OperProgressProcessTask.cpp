@@ -138,7 +138,6 @@ bool asst::OperProgressProcessTask::_run()
     bool training_room_busy = false;
     for (size_t index = 0; index < m_plan.size() && !need_exit(); ++index) {
         const auto& target = m_plan[index];
-        report_target("OperProgressTargetStart", index, target, Result::Skipped);
         m_recognized_level.reset();
 
         ResultDetail result = ResultDetail::Unsupported;
@@ -194,7 +193,6 @@ bool asst::OperProgressProcessTask::_run()
             save_img(utils::path("debug") / utils::path("auto_raise"), false);
             break;
         }
-        report_target("OperProgressTargetResult", index, target, result, m_recognized_level);
     }
     report_summary();
     return true;
