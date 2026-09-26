@@ -188,8 +188,7 @@
                             <settings:ConnectSettingsUserControl
                                 Margin="0,20"
                                 HorizontalAlignment="Center"
-                                DataContext="{Binding ConnectSettings}"
-                                IsEnabled="{Binding DataContext.Run.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
+                                DataContext="{Binding ConnectSettings}" />
                         </Border>
                     </Expander>
                 </Grid>
