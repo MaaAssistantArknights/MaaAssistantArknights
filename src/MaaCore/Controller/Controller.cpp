@@ -25,6 +25,9 @@
 #include "MaatouchController.h"
 #include "MinitouchController.h"
 #include "PlayToolsController.h"
+#if defined(__APPLE__) && ASST_WITH_MAC_NATIVE
+#include "MacNativeController.h"
+#endif
 #if ASST_WITH_EMULATOR_EXTRAS
 #include "MumuController.h"
 #endif
@@ -64,6 +67,10 @@ std::shared_ptr<asst::ControllerAPI>
             return std::make_shared<MaatouchController>(m_callback, m_inst, platform_type);
         case ControllerType::MacPlayTools:
             return std::make_shared<PlayToolsController>(m_callback, m_inst, platform_type);
+#if defined(__APPLE__) && ASST_WITH_MAC_NATIVE
+        case ControllerType::MacNative:
+            return std::make_shared<MacNativeController>();
+#endif
         case ControllerType::MaaFwAdb:
             return std::make_shared<MaaFwAdbController>(m_callback, m_inst, platform_type);
 #if ASST_WITH_EMULATOR_EXTRAS
@@ -424,6 +431,11 @@ void asst::Controller::set_touch_mode(const TouchMode& mode) noexcept
     case TouchMode::MacPlayTools:
         m_controller_type = ControllerType::MacPlayTools;
         break;
+#if defined(__APPLE__) && ASST_WITH_MAC_NATIVE
+    case TouchMode::MacNative:
+        m_controller_type = ControllerType::MacNative;
+        break;
+#endif
     case TouchMode::MaaFwAdb:
         m_controller_type = ControllerType::MaaFwAdb;
         break;

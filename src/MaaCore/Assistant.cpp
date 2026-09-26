@@ -183,6 +183,12 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
             m_ctrler->set_touch_mode(TouchMode::MacPlayTools);
             return true;
         }
+#if defined(__APPLE__) && ASST_WITH_MAC_NATIVE
+        else if (constexpr std::string_view MacNative = "MacNative"; value == MacNative) {
+            m_ctrler->set_touch_mode(TouchMode::MacNative);
+            return true;
+        }
+#endif
         else if (constexpr std::string_view MaaFwAdb = "MaaFwAdb"; value == MaaFwAdb) {
             m_ctrler->set_touch_mode(TouchMode::MaaFwAdb);
             return true;
