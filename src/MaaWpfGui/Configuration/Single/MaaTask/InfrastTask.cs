@@ -44,6 +44,11 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
     public string UsesOfDrones { get; set; } = "Money";
 
     /// <summary>
+    /// Gets or sets 无人机自动平衡阈值（PureGold-Money / OriginStone-SyntheticJade 使用），剩余量小于该值即停止消耗
+    /// </summary>
+    public int DroneUsageThreshold { get; set; } = 10;
+
+    /// <summary>
     /// Gets or sets 基建心情阈值
     /// </summary>
     public int DormThreshold { get; set; } = 30;
