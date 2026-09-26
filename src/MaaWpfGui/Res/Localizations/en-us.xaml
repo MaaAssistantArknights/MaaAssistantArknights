@@ -955,6 +955,15 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="MiniGameCategoryPermanent">Permanent Activities</system:String>
     <system:String x:Key="MiniGameCategoryCurrentEvent">Current Events</system:String>
     <system:String x:Key="MiniGameCategoryPermanentFeature">Permanent Features</system:String>
+    <!--  Mini game (task queue)  -->
+    <system:String x:Key="MiniGameSchedule">Schedule</system:String>
+    <system:String x:Key="MiniGameScheduleTip" xml:space="preserve">The day of week and day of month here are based on in-game time, not real-world time. For example, if the game resets at 4:00, then 3:59 is still counted as the previous day.&#10;The task is skipped on days that are not checked.</system:String>
+    <system:String x:Key="MiniGameScheduleNone">Disabled</system:String>
+    <system:String x:Key="MiniGameScheduleWeekly">Weekly Schedule</system:String>
+    <system:String x:Key="MiniGameScheduleMonthly">Monthly Schedule</system:String>
+    <system:String x:Key="MiniGameSkippedEmptyName">No useful task selected, skipping.</system:String>
+    <system:String x:Key="MiniGameSkippedWeeklySchedule">Weekly schedule is not enabled for today, skipping.</system:String>
+    <system:String x:Key="MiniGameSkippedMonthlySchedule">Monthly schedule is not enabled for today, skipping.</system:String>
     <system:String x:Key="Custom">Custom Task</system:String>
     <system:String x:Key="SingleStep">Single-Step Task</system:String>
     <system:String x:Key="ReclamationTheme">Reclamation Algorithm Theme</system:String>

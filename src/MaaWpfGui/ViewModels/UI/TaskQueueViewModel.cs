@@ -147,6 +147,11 @@ public class TaskQueueViewModel : Screen
     public static SwitchThemeTaskUserControlModel SwitchThemeTask => SwitchThemeTaskUserControlModel.Instance;
 
     /// <summary>
+    /// Gets 牛杂任务Model
+    /// </summary>
+    public static MiniGameTaskUserControlModel MiniGameTask => MiniGameTaskUserControlModel.Instance;
+
+    /// <summary>
     /// Gets 生稀盐酸任务Model
     /// </summary>
     public static CustomSettingsUserControlModel CustomTask => CustomSettingsUserControlModel.Instance;
@@ -1381,6 +1386,11 @@ public class TaskQueueViewModel : Screen
 
     public DayOfWeek CurDayOfWeek { get; private set; }
 
+    /// <summary>
+    /// Gets 游戏内（yj 历）当前是几号，供月计划判定使用。
+    /// </summary>
+    public int CurDayOfMonth { get; private set; }
+
     public bool ShowDeepSleepIcon => DateTime.UtcNow.ToYjDate().IsAprilFoolsDay();
 
     /// <summary>
@@ -1418,6 +1428,7 @@ public class TaskQueueViewModel : Screen
             Task.WaitAll(task, task2);
         }
         ToolboxViewModel.UpdateMiniGameTaskList();
+        MiniGameTaskUserControlModel.UpdateMiniGameEntryList();
     }
 
     /// <summary>
@@ -1444,6 +1455,7 @@ public class TaskQueueViewModel : Screen
         var now = DateTime.UtcNow.ToYjDateTime();
 
         CurDayOfWeek = now.DayOfWeek;
+        CurDayOfMonth = now.Day;
 
         // yj历的 4/16 点
         var today = DateOnly.FromDateTime(now);
@@ -1735,6 +1747,7 @@ public class TaskQueueViewModel : Screen
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("UserDataUpdate"), Value = typeof(UserDataUpdateTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("DepotMaintain"), Value = typeof(DepotMaintainTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("SwitchTheme"), Value = typeof(SwitchThemeTask) },
+            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("MiniGame"), Value = typeof(MiniGameTask) },
             new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Custom"), Value = typeof(CustomTask) },
         ]);
 
@@ -1755,6 +1768,7 @@ public class TaskQueueViewModel : Screen
                 nameof(UserDataUpdateTask) => LocalizationHelper.GetString("UserDataUpdate"),
                 nameof(DepotMaintainTask) => LocalizationHelper.GetString("DepotMaintain"),
                 nameof(SwitchThemeTask) => LocalizationHelper.GetString("SwitchTheme"),
+                nameof(MiniGameTask) => LocalizationHelper.GetString("MiniGame"),
                 nameof(CustomTask) => LocalizationHelper.GetString("Custom"),
                 _ => item.Display,
             };

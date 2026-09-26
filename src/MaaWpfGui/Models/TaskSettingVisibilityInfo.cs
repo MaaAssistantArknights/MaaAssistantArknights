@@ -62,6 +62,8 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
 
     public bool SwitchTheme { get => field; set => SetAndNotify(ref field, value); }
 
+    public bool MiniGame { get => field; set => SetAndNotify(ref field, value); }
+
     public bool Custom { get => field; set => SetAndNotify(ref field, value); }
 
     public bool PostAction { get => field; set => SetAndNotify(ref field, value); }
@@ -163,6 +165,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
             UserDataUpdateTask => UserDataUpdate = enable,
             DepotMaintainTask => DepotMaintain = enable,
             SwitchThemeTask => SwitchTheme = enable,
+            MiniGameTask => MiniGame = enable,
             CustomTask => Custom = enable,
             _ => throw new NotImplementedException(),
         };
@@ -206,6 +209,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         UserDataUpdate = false;
         DepotMaintain = false;
         SwitchTheme = false;
+        MiniGame = false;
         Custom = false;
     }
 
