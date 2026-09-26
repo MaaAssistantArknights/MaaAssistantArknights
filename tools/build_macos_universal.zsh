@@ -9,6 +9,7 @@ pushd ${basedir}
 
 build_arch() {
     [[ $1 = "arm64" ]] && triplet="arm64-osx" || triplet="x64-osx"
+    [[ $1 = "arm64" ]] && with_mac_native="ON" || with_mac_native="OFF"
 
     python3 tools/maadeps-download.py --cache-asset ${triplet}
 
@@ -17,7 +18,7 @@ build_arch() {
         export CMAKE_CXX_COMPILER_LAUNCHER=ccache
     fi
 
-    cmake -B build-$1 -GNinja -DCMAKE_BUILD_TYPE=$2 -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_OSX_ARCHITECTURES=$1
+    cmake -B build-$1 -GNinja -DCMAKE_BUILD_TYPE=$2 -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_OSX_ARCHITECTURES=$1 -DWITH_MAC_NATIVE=${with_mac_native}
     cmake --build build-$1
     cmake --install build-$1 --prefix install-$1
 }
