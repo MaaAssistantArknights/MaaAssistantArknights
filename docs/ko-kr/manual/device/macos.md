@@ -33,6 +33,14 @@ icon: basil:apple-solid
 
 :::
 
+### App Store 명일방주 (MacNative 실험 모드)
+
+MAA는 Apple Silicon Mac(macOS 14 이상)에서 실험적인 MacNative 모드로 App Store 버전 명일방주를 지원합니다.
+
+App Store 버전 명일방주를 실행한 뒤 MAA의 `설정` - `연결 설정`에서 `macOS 기본 제어 (실험적)`를 선택하세요. Bundle ID를 확인하고 화면 안내에 따라 화면 기록 및 손쉬운 사용 권한을 허용하세요.
+
+게임 창을 열어 두세요. 최소화하거나 숨긴 창은 지원하지 않습니다. 스크린샷, 클릭, 스와이프를 지원합니다. 게임 자동 실행, 텍스트 입력, 계정 전환, 일시정지 배치는 지원하지 않습니다.
+
 ### ✅ [MuMu 에뮬레이터 Pro](https://mumu.163.com/mac/)
 
 지원됩니다. 그러나 테스트는 적고 `MacPlayTools` 이외의 터치 모드를 사용해야 합니다. 관련된 이슈 [#8098](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8098)

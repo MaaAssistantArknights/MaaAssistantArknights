@@ -37,6 +37,14 @@ icon: basil:apple-solid
 
 :::
 
+### App Store 版アークナイツ（MacNative 実験モード）
+
+MAA は Apple Silicon Mac（macOS 14 以降）で、実験的な MacNative モードによる App Store 版アークナイツの操作に対応しています。
+
+App Store 版アークナイツを起動し、MAA の `設定` - `接続設定` で `macOS 原生控制（实验）` を選択します。Bundle ID を確認し、画面の案内に従って画面収録とアクセシビリティの権限を許可してください。
+
+ゲームウィンドウを開いたままにしてください。最小化または非表示のウィンドウには対応していません。スクリーンショット、クリック、スワイプに対応しています。ゲームの自動起動、テキスト入力、アカウント切り替え、一時停止を伴う配置には対応していません。
+
 ### ✅ [MuMu エミューレータ Pro](https://mumu.163.com/mac/)
 
 サポートされています、ただしテストは少なく、 `MacPlayTools` 以外のタッチモードが必要です。 関連する問題 [#8098](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8098)

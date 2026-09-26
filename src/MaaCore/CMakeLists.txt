@@ -16,6 +16,16 @@ if(WITH_MAC_SCK)
     endif()
 endif()
 
+if(WITH_MAC_NATIVE)
+    enable_language(OBJCXX)
+    list(APPEND maa_src Controller/MacNativeController.mm)
+    set_source_files_properties(Controller/MacNativeController.mm PROPERTIES
+        COMPILE_FLAGS "-fno-objc-arc"
+        OBJCXX_STANDARD 20
+        OBJCXX_STANDARD_REQUIRED YES
+        OBJCXX_EXTENSIONS NO)
+endif()
+
 add_library(MaaCore SHARED ${maa_src})
 
 if(WITH_EMULATOR_EXTRAS)
@@ -30,6 +40,7 @@ endif()
 target_compile_definitions(MaaCore PRIVATE ASST_WITH_EMULATOR_EXTRAS=$<BOOL:${WITH_EMULATOR_EXTRAS}>)
 target_compile_definitions(MaaCore PUBLIC ASST_WITH_EXTRA_CALLERS=$<BOOL:${WITH_EXTRA_CALLERS}>)
 target_compile_definitions(MaaCore PRIVATE ASST_WITH_MAC_SCK=$<BOOL:${WITH_MAC_SCK}>)
+target_compile_definitions(MaaCore PRIVATE ASST_WITH_MAC_NATIVE=$<BOOL:${WITH_MAC_NATIVE}>)
 
 target_include_directories(MaaCore PUBLIC ${PROJECT_SOURCE_DIR}/include PRIVATE .)
 add_dependencies(MaaCore MaaUtils)
@@ -61,6 +72,14 @@ if(APPLE AND WITH_MAC_SCK)
                                   "-framework CoreGraphics"
                                   "-framework CoreMedia"
                                   "-framework CoreVideo"
+                                  "-framework ScreenCaptureKit")
+endif()
+
+if(APPLE AND WITH_MAC_NATIVE)
+    target_link_libraries(MaaCore "-framework ApplicationServices"
+                                  "-framework CoreGraphics"
+                                  "-framework CoreFoundation"
+                                  "-framework Foundation"
                                   "-framework ScreenCaptureKit")
 endif()
 

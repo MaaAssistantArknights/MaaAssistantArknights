@@ -15,6 +15,9 @@ enum class ControllerType
     Minitouch,
     Maatouch,
     MacPlayTools,
+#if defined(__APPLE__) && ASST_WITH_MAC_NATIVE
+    MacNative,
+#endif
 #ifdef _WIN32
     Win32,
 #endif
