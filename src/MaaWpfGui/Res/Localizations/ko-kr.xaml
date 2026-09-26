@@ -744,6 +744,7 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="CreditFightWhenOF-1Warning">｢{key=Fight}｣ 작업의 스테이지 목록에 ｢{key=DefaultStage}｣가 존재하여, ｢{key=Mall}｣ 작업은 OF-1에서 지원 유닛을 사용한 전투를 건너뜁니다. 작업 이름: {0} (순서 {1}), 스테이지 순서 {2}</system:String>
     <system:String x:Key="HighPriority">구매 우선 항목 (｢;｣ 로 구분)</system:String>
     <system:String x:Key="Blacklist">무시 항목 (｢;｣ 로 구분)</system:String>
+    <system:String x:Key="CreditItemNameMatchTip">상품명에 포함된 연속된 일부 문자열만 입력해도 일치합니다. 예를 들어 “카본”을 입력하면 “카본”이 포함된 모든 상품명과 일치합니다.</system:String>
     <system:String x:Key="HighPriorityDefault">모집 허가증</system:String>
     <system:String x:Key="BlacklistDefault">카본;가구 부품;즉시 완료 허가증</system:String>
     <system:String x:Key="Drink">술 한잔은 어떠십니까🍷? 박사님</system:String>

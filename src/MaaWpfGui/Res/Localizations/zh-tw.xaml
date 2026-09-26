@@ -743,6 +743,7 @@ D:\
     <system:String x:Key="CreditFightWhenOF-1Warning">當 ｢{key=Fight}｣ 任務關卡列表中已包含 ｢{key=DefaultStage}｣ 時， ｢{key=Mall}｣ 任務將不再借助戰打一把 OF-1。任務名稱: {0} (序號{1}), 關卡序號 {2}</system:String>
     <system:String x:Key="HighPriority">優先購買（子字串即可，分號分隔）</system:String>
     <system:String x:Key="Blacklist">黑名單（子字串即可，分號分隔）</system:String>
+    <system:String x:Key="CreditItemNameMatchTip">只要輸入商品名稱中的連續文字即可匹配，例如輸入「碳」會匹配「碳」和「碳素」。</system:String>
     <system:String x:Key="HighPriorityDefault">招聘許可</system:String>
     <system:String x:Key="BlacklistDefault">碳;傢俱;加急許可</system:String>
     <system:String x:Key="Drink">要來一杯美酒嗎🍷？博士</system:String>
