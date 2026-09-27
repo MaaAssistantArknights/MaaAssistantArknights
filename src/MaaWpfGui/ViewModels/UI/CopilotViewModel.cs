@@ -205,7 +205,7 @@ public partial class CopilotViewModel : Screen
         }
 
         RunningState.Instance.NotifyOutputActivity();
-        Execute.OnUIThread(() => LogItemViewModels.Add(new OperPreviewLogItem(output)));
+        Execute.OnUIThread(() => LogItemViewModels.Add(new OperPreviewLogItemViewModel(output)));
     }
 
     /// <summary>

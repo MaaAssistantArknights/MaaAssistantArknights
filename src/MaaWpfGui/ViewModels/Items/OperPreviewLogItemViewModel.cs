@@ -1,4 +1,4 @@
-// <copyright file="OperPreviewLogItem.cs" company="MaaAssistantArknights">
+// <copyright file="OperPreviewLogItemViewModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -22,9 +22,9 @@ using MaaWpfGui.Models.Copilot;
 
 namespace MaaWpfGui.ViewModels.Items;
 
-public class OperPreviewLogItem : LogItemViewModel
+public class OperPreviewLogItemViewModel : LogItemViewModel
 {
-    public OperPreviewLogItem(CopilotOutput output)
+    public OperPreviewLogItemViewModel(CopilotOutput output)
         : base(output.Content, output.Color ?? UiLogColor.Message, dateFormat: "HH':'mm':'ss", showTime: false)
     {
         Inlines = output.Parts.Select(part => {

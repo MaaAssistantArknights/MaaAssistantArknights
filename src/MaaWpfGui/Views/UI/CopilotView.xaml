@@ -740,7 +740,7 @@
                                 Text="{Binding Content}"
                                 TextWrapping="Wrap" />
                         </DataTemplate>
-                        <DataTemplate DataType="{x:Type item_vms:OperPreviewLogItem}">
+                        <DataTemplate DataType="{x:Type item_vms:OperPreviewLogItemViewModel}">
                             <controls:TextBlock
                                 BindableInlines="{Binding Inlines}"
                                 ForegroundKey="{Binding Color}"
