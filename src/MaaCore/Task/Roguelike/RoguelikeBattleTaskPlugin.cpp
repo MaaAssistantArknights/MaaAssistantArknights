@@ -595,6 +595,8 @@ void asst::RoguelikeBattleTaskPlugin::configure_skill_usage(
     const auto& monthly_squad_task = m_config->get_monthly_squad_task();
     if (monthly_squad_task.has_value() && monthly_squad_task->type == MonthlySquadTaskType::UseOperatorSkill &&
         monthly_squad_task->oper_name == oper_tag.name && monthly_squad_task->skill.has_value() &&
+        (monthly_squad_task->skill != MonthlySquadSkill::Skill3 ||
+         (m_oper_elite.contains(oper_tag.name) && m_oper_elite.at(oper_tag.name) >= 2)) &&
         monthly_squad_task->required_count > monthly_squad_task->completed_count) {
         m_skill_usage[oper_tag] = battle::SkillUsage::Times;
         m_skill_times[oper_tag] = monthly_squad_task->required_count - monthly_squad_task->completed_count;
@@ -610,6 +612,9 @@ bool asst::RoguelikeBattleTaskPlugin::use_all_ready_skill_and_track_monthly_task
     auto& monthly_squad_task = m_config->get_monthly_squad_task();
     if (!monthly_squad_task.has_value() || monthly_squad_task->type != MonthlySquadTaskType::UseOperatorSkill ||
         monthly_squad_task->oper_name.empty() || !monthly_squad_task->skill.has_value() ||
+        (monthly_squad_task->skill == MonthlySquadSkill::Skill3 &&
+         (!m_oper_elite.contains(monthly_squad_task->oper_name) ||
+          m_oper_elite.at(monthly_squad_task->oper_name) < 2)) ||
         monthly_squad_task->required_count <= 0 ||
         monthly_squad_task->completed_count >= monthly_squad_task->required_count) {
         return use_all_ready_skill(image);
