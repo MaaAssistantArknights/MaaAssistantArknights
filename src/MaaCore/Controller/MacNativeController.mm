@@ -519,10 +519,16 @@ bool post_tap(const NativeFrame& frame, const asst::Point& point)
         LogError << "Accessibility permission is required for MacNative input.";
         return false;
     }
-    const auto local = local_point(frame, point);
+    constexpr int EdgeInset = 10;
+    const asst::Point inset_point {
+        std::clamp(point.x, EdgeInset, std::max(EdgeInset, frame.pixel_width - EdgeInset - 1)),
+        std::clamp(point.y, EdgeInset, std::max(EdgeInset, frame.pixel_height - EdgeInset - 1)),
+    };
+    const auto local = local_point(frame, inset_point);
     const auto screen = screen_point(frame, local);
     LogDebug << "MacNative click mapping"
              << "image point" << point.x << point.y
+             << "inset image point" << inset_point.x << inset_point.y
              << "window point" << local.x << local.y
              << "screen point" << screen.x << screen.y
              << "window origin" << frame.x << frame.y
