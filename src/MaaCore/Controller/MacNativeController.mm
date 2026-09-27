@@ -17,7 +17,6 @@
 #include <chrono>
 #include <cmath>
 #include <cstdint>
-#include <cstring>
 #include <filesystem>
 #include <mutex>
 #include <string>
@@ -47,6 +46,10 @@ struct NativeFrame {
     double capture_height = 0;
     int pixel_width = 0;
     int pixel_height = 0;
+    int content_x = 0;
+    int content_y = 0;
+    int content_width = 0;
+    int content_height = 0;
     double scale_x = 0;
     double scale_y = 0;
 };
@@ -168,21 +171,17 @@ void capture_window(
                                                  completionHandler:handler];
 }
 
-double row_chromatic_fraction(const cv::Mat& image, int y)
+double row_bright_fraction(const cv::Mat& image, int y)
 {
     const int step = std::max(1, image.cols / 640);
-    size_t colored = 0;
+    size_t bright = 0;
     size_t sampled = 0;
     for (int x = 0; x < image.cols; x += step) {
         const auto& pixel = image.at<cv::Vec3b>(y, x);
-        const auto max_channel = std::max({ pixel[0], pixel[1], pixel[2] });
-        const auto min_channel = std::min({ pixel[0], pixel[1], pixel[2] });
-        if (max_channel - min_channel > 14) {
-            ++colored;
-        }
+        bright += pixel[0] > 220 && pixel[1] > 220 && pixel[2] > 220;
         ++sampled;
     }
-    return sampled == 0 ? 0.0 : static_cast<double>(colored) / sampled;
+    return sampled == 0 ? 0.0 : static_cast<double>(bright) / sampled;
 }
 
 int detect_title_bar_height(const cv::Mat& image)
@@ -191,36 +190,18 @@ int detect_title_bar_height(const cv::Mat& image)
         return 0;
     }
 
-    constexpr double HeaderChromaLimit = 0.06;
-    constexpr double ContentChromaLimit = 0.12;
-    const int probe_rows = std::min(6, image.rows);
-    for (int y = 0; y < probe_rows; ++y) {
-        if (row_chromatic_fraction(image, y) > HeaderChromaLimit) {
-            return 0;
-        }
-    }
-
-    const int max_header_height = std::min(image.rows / 6, 120);
-    for (int y = probe_rows; y + 2 < max_header_height; ++y) {
-        if (row_chromatic_fraction(image, y) > ContentChromaLimit
-            && row_chromatic_fraction(image, y + 1) > ContentChromaLimit
-            && row_chromatic_fraction(image, y + 2) > ContentChromaLimit) {
-            return y;
+    constexpr double BrightHeaderLimit = 0.85;
+    if (row_bright_fraction(image, 0) > BrightHeaderLimit
+        && row_bright_fraction(image, 1) > BrightHeaderLimit
+        && row_bright_fraction(image, 2) > BrightHeaderLimit) {
+        const int max_header_height = std::min(image.rows / 6, 120);
+        for (int y = 3; y < max_header_height; ++y) {
+            if (row_bright_fraction(image, y) < BrightHeaderLimit) {
+                return y;
+            }
         }
     }
     return 0;
-}
-
-cv::Rect detect_game_content(const cv::Mat& image)
-{
-    // The capture preserves the window aspect ratio, so the 16:9 game fills
-    // the width below the title bar. Dark game content must not alter bounds.
-    const int top = image.rows - static_cast<int>(std::lround(image.cols * 9.0 / 16.0));
-    if (top > 0 && top <= std::min(image.rows / 6, 120)) {
-        return { 0, top, image.cols, image.rows - top };
-    }
-    const int title_bar_height = detect_title_bar_height(image);
-    return { 0, title_bar_height, image.cols, image.rows - title_bar_height };
 }
 
 #ifdef ASST_DEBUG
@@ -243,7 +224,6 @@ void prune_mac_native_images(const std::filesystem::path& directory)
             break;
         }
         const auto& path = iter->path();
-        const auto name = path.filename().string();
         if ((path.extension() != ".png" && path.extension() != ".jpg")
             || !iter->is_regular_file(error)) {
             error.clear();
@@ -324,15 +304,10 @@ bool capture_frame(std::string_view bundle_id, cv::Mat& bgr, NativeFrame& frame)
 #ifdef ASST_DEBUG
         static std::atomic_uint64_t capture_sequence = 0;
         const auto capture_id = capture_sequence.fetch_add(1, std::memory_order_relaxed) + 1;
-        const auto debug_dir = asst::utils::path("debug") / asst::utils::path("MacNative");
-        const auto capture_suffix = std::to_string(capture_id);
-        if (!asst::utils::save_debug_image(bgr, debug_dir, false, "", "window_" + capture_suffix, "jpg", { cv::IMWRITE_JPEG_QUALITY, 65 })) {
-            LogWarn << "Failed to save the MacNative window screenshot" << capture_id;
-        }
-        prune_mac_native_images(asst::UserDir.get() / debug_dir);
 #endif
 
-        const cv::Rect content = detect_game_content(bgr);
+        const int title_bar_height = detect_title_bar_height(bgr);
+        const cv::Rect content { 0, title_bar_height, bgr.cols, bgr.rows - title_bar_height };
         if (content.width <= 0 || content.height <= 0) {
             LogError << "MacNative could not determine the game content bounds.";
             return false;
@@ -346,27 +321,50 @@ bool capture_frame(std::string_view bundle_id, cv::Mat& bgr, NativeFrame& frame)
         frame.capture_height = content.height / source_scale_y;
         constexpr int NormalizedWidth = 1280;
         constexpr int NormalizedHeight = 720;
+        const double fit_scale = std::min(
+            static_cast<double>(NormalizedWidth) / content.width,
+            static_cast<double>(NormalizedHeight) / content.height);
+        frame.content_width = std::min(NormalizedWidth, static_cast<int>(std::lround(content.width * fit_scale)));
+        frame.content_height = std::min(NormalizedHeight, static_cast<int>(std::lround(content.height * fit_scale)));
+        frame.content_x = (NormalizedWidth - frame.content_width) / 2;
+        frame.content_y = (NormalizedHeight - frame.content_height) / 2;
+        constexpr double MaxPaddingFraction = 0.05;
+        if (static_cast<double>(NormalizedWidth - frame.content_width) / NormalizedWidth > MaxPaddingFraction
+            || static_cast<double>(NormalizedHeight - frame.content_height) / NormalizedHeight > MaxPaddingFraction) {
+            LogError << "MacNative game content aspect ratio differs too much from 16:9"
+                     << "content size" << content.width << content.height
+                     << "padding" << NormalizedWidth - frame.content_width << NormalizedHeight - frame.content_height;
+            return false;
+        }
         frame.pixel_width = NormalizedWidth;
         frame.pixel_height = NormalizedHeight;
-        frame.scale_x = frame.pixel_width / frame.capture_width;
-        frame.scale_y = frame.pixel_height / frame.capture_height;
+        frame.scale_x = frame.content_width / frame.capture_width;
+        frame.scale_y = frame.content_height / frame.capture_height;
 
-        cv::Mat normalized;
+        cv::Mat normalized(frame.pixel_height, frame.pixel_width, CV_8UC3, cv::Scalar(0, 0, 0));
+        cv::Mat scaled;
         cv::resize(
             bgr(content),
-            normalized,
-            cv::Size(frame.pixel_width, frame.pixel_height),
+            scaled,
+            cv::Size(frame.content_width, frame.content_height),
             0.0,
             0.0,
             cv::INTER_AREA);
+        scaled.copyTo(normalized(cv::Rect(frame.content_x, frame.content_y, frame.content_width, frame.content_height)));
         bgr = std::move(normalized);
 #ifdef ASST_DEBUG
+        const auto debug_dir = asst::utils::path("debug") / asst::utils::path("MacNative");
+        if (!asst::utils::save_debug_image(bgr, debug_dir, false, "", "normalized_" + std::to_string(capture_id), "png")) {
+            LogWarn << "Failed to save the MacNative normalized screenshot" << capture_id;
+        }
+        prune_mac_native_images(asst::UserDir.get() / debug_dir);
         LogDebug << "MacNative capture" << capture_id
                  << "window" << frame.window_id << "origin" << frame.x << frame.y
                  << "window size" << frame.width << frame.height
                  << "requested size" << result->requested_width << result->requested_height
                  << "raw size" << width << height
                  << "content rect" << content.x << content.y << content.width << content.height
+                 << "normalized content rect" << frame.content_x << frame.content_y << frame.content_width << frame.content_height
                  << "capture offset" << frame.capture_offset_x << frame.capture_offset_y
                  << "capture size" << frame.capture_width << frame.capture_height;
 #endif
@@ -504,8 +502,8 @@ CGPoint local_point(const NativeFrame& frame, const asst::Point& point)
     // border can be ignored by the native game even though it is in the image.
     constexpr double BorderInset = 2.0;
     return CGPointMake(
-        frame.capture_offset_x + std::clamp(point.x / frame.scale_x, BorderInset, frame.capture_width - BorderInset),
-        frame.capture_offset_y + std::clamp(point.y / frame.scale_y, BorderInset, frame.capture_height - BorderInset));
+        frame.capture_offset_x + std::clamp((point.x - frame.content_x) / frame.scale_x, BorderInset, frame.capture_width - BorderInset),
+        frame.capture_offset_y + std::clamp((point.y - frame.content_y) / frame.scale_y, BorderInset, frame.capture_height - BorderInset));
 }
 
 CGPoint screen_point(const NativeFrame& frame, CGPoint local)
@@ -521,8 +519,8 @@ bool post_tap(const NativeFrame& frame, const asst::Point& point)
     }
     constexpr int EdgeInset = 10;
     const asst::Point inset_point {
-        std::clamp(point.x, EdgeInset, std::max(EdgeInset, frame.pixel_width - EdgeInset - 1)),
-        std::clamp(point.y, EdgeInset, std::max(EdgeInset, frame.pixel_height - EdgeInset - 1)),
+        std::clamp(point.x, frame.content_x + EdgeInset, frame.content_x + std::max(EdgeInset, frame.content_width - EdgeInset - 1)),
+        std::clamp(point.y, frame.content_y + EdgeInset, frame.content_y + std::max(EdgeInset, frame.content_height - EdgeInset - 1)),
     };
     const auto local = local_point(frame, inset_point);
     const auto screen = screen_point(frame, local);
@@ -534,6 +532,7 @@ bool post_tap(const NativeFrame& frame, const asst::Point& point)
              << "window origin" << frame.x << frame.y
              << "capture offset" << frame.capture_offset_x << frame.capture_offset_y
              << "capture size" << frame.capture_width << frame.capture_height
+             << "normalized content" << frame.content_x << frame.content_y << frame.content_width << frame.content_height
              << "scale" << frame.scale_x << frame.scale_y;
     if (!post_event(make_scroll(1, 0, kCGScrollPhaseBegan), frame, local, screen) || !post_event(make_gesture(false, kCGScrollPhaseBegan, 0, 0), frame, local, screen) || !post_event(make_gesture(true, kCGScrollPhaseBegan, 1, 0), frame, local, screen)) {
         return false;
