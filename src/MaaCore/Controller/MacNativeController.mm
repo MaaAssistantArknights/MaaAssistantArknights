@@ -13,7 +13,6 @@
 #include <unistd.h>
 
 #include <algorithm>
-#include <array>
 #include <atomic>
 #include <chrono>
 #include <cmath>
@@ -227,11 +226,11 @@ cv::Rect detect_game_content(const cv::Mat& image)
 #ifdef ASST_DEBUG
 void prune_mac_native_images(const std::filesystem::path& directory)
 {
-    constexpr size_t MaxImagesPerKind = 100;
+    constexpr size_t MaxRawImages = 4000;
     static std::mutex prune_mutex;
     std::scoped_lock lock(prune_mutex);
     using ImageFile = std::pair<std::filesystem::file_time_type, std::filesystem::path>;
-    std::array<std::vector<ImageFile>, 2> images;
+    std::vector<ImageFile> raw_images;
     std::error_code error;
     std::filesystem::directory_iterator iter(directory, std::filesystem::directory_options::skip_permission_denied, error);
     if (error) {
@@ -245,10 +244,8 @@ void prune_mac_native_images(const std::filesystem::path& directory)
         }
         const auto& path = iter->path();
         const auto name = path.filename().string();
-        const size_t kind = name.find("_window_") != std::string::npos ? 0
-            : name.find("_normalized_") != std::string::npos           ? 1
-                                                                       : images.size();
-        if (kind == images.size() || path.extension() != ".png" || !iter->is_regular_file(error)) {
+        if ((path.extension() != ".png" && path.extension() != ".jpg")
+            || !iter->is_regular_file(error)) {
             error.clear();
             continue;
         }
@@ -258,21 +255,17 @@ void prune_mac_native_images(const std::filesystem::path& directory)
             error.clear();
             continue;
         }
-        images[kind].emplace_back(time, path);
+        raw_images.emplace_back(time, path);
     }
-    for (auto& group : images) {
-        if (group.size() <= MaxImagesPerKind) {
-            continue;
-        }
-        std::sort(group.begin(), group.end(), [](const ImageFile& lhs, const ImageFile& rhs) {
-            return lhs.first == rhs.first ? lhs.second < rhs.second : lhs.first < rhs.first;
-        });
-        for (size_t i = 0; i < group.size() - MaxImagesPerKind; ++i) {
-            std::filesystem::remove(group[i].second, error);
-            if (error) {
-                LogWarn << "Cannot remove old MacNative screenshot" << group[i].second << error.message();
-                error.clear();
-            }
+    std::sort(raw_images.begin(), raw_images.end(), [](const ImageFile& lhs, const ImageFile& rhs) {
+        return lhs.first == rhs.first ? lhs.second < rhs.second : lhs.first < rhs.first;
+    });
+    const size_t excess = raw_images.size() > MaxRawImages ? raw_images.size() - MaxRawImages : 0;
+    for (size_t i = 0; i < excess; ++i) {
+        std::filesystem::remove(raw_images[i].second, error);
+        if (error) {
+            LogWarn << "Cannot remove old MacNative screenshot" << raw_images[i].second << error.message();
+            error.clear();
         }
     }
 }
@@ -333,9 +326,10 @@ bool capture_frame(std::string_view bundle_id, cv::Mat& bgr, NativeFrame& frame)
         const auto capture_id = capture_sequence.fetch_add(1, std::memory_order_relaxed) + 1;
         const auto debug_dir = asst::utils::path("debug") / asst::utils::path("MacNative");
         const auto capture_suffix = std::to_string(capture_id);
-        if (!asst::utils::save_debug_image(bgr, debug_dir, false, "", "window_" + capture_suffix)) {
+        if (!asst::utils::save_debug_image(bgr, debug_dir, false, "", "window_" + capture_suffix, "jpg", { cv::IMWRITE_JPEG_QUALITY, 65 })) {
             LogWarn << "Failed to save the MacNative window screenshot" << capture_id;
         }
+        prune_mac_native_images(asst::UserDir.get() / debug_dir);
 #endif
 
         const cv::Rect content = detect_game_content(bgr);
@@ -367,10 +361,6 @@ bool capture_frame(std::string_view bundle_id, cv::Mat& bgr, NativeFrame& frame)
             cv::INTER_AREA);
         bgr = std::move(normalized);
 #ifdef ASST_DEBUG
-        if (!asst::utils::save_debug_image(bgr, debug_dir, false, "", "normalized_" + capture_suffix)) {
-            LogWarn << "Failed to save the MacNative normalized screenshot" << capture_id;
-        }
-        prune_mac_native_images(asst::UserDir.get() / debug_dir);
         LogDebug << "MacNative capture" << capture_id
                  << "window" << frame.window_id << "origin" << frame.x << frame.y
                  << "window size" << frame.width << frame.height
