@@ -249,7 +249,9 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         }
     }
 
-    /// <summary>按当前顺序重排各条目的序号。</summary>
+    /// <summary>
+    /// 刷新Index
+    /// </summary>
     private void ReindexPlanItems()
     {
         for (int index = 0; index < PlanItems.Count; ++index)
@@ -288,7 +290,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         }
     }
 
-    private static void ProcOperProgressMsg(AsstMsg type, AsstSubTaskMsg? msg)
+    private void ProcOperProgressMsg(AsstMsg type, AsstSubTaskMsg? msg)
     {
         if (type != AsstMsg.SubTaskExtraInfo || msg?.TaskChain != nameof(TaskType.OperProgress))
         {
@@ -346,8 +348,47 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                     (int)(msg.Details?["failed"] ?? 0) == 0 ? UiLogColor.Success : UiLogColor.Warning);
                 Instance.OnSummary();
                 break;
+
+            case "OperProgressDetail":
+                var callback = ParsePlan(msg.Details);
+                var task = GetConfigByTaskId<OperProgressTask>(msg.TaskId);
+                var plan = task?.Plans.FirstOrDefault(p => p.Role == callback.Role && p.Name == callback.Name) ?? task?.Plans.FirstOrDefault(p => p.Name == callback.Name);
+                if (callback is null || task is null || plan is null)
+                {
+                    Instances.TaskQueueViewModel.AddLog("Could not find matching plan for OperProgressDetail", UiLogColor.Error);
+                    break;
+                }
+
+                break;
         }
     }
+
+    private static ProgressCallback ParsePlan(JObject? json)
+    {
+        OperatorRole role = json?.Value<OperatorRole>("role") ?? OperatorRole.Unknown;
+        string name = json?["name"]?.ToString() ?? string.Empty;
+        int? elite = json?.Value<int?>("elite");
+        var skillLevelObj = json?["skill_level"];
+        SkillLevel? skillLevel = null;
+        if (skillLevelObj is null)
+        {
+        }
+        else if (skillLevelObj.Type == JTokenType.Integer)
+        {
+            skillLevel = new SkillLevel.BaseLevel(skillLevelObj.Value<int>());
+        }
+        else if (skillLevelObj.Type == JTokenType.Array)
+        {
+            skillLevel = new SkillLevel.Specialization(
+                skillLevelObj.Value<int?>("skill1") ?? 0,
+                skillLevelObj.Value<int?>("skill2") ?? 0,
+                skillLevelObj.Value<int?>("skill3") ?? 0);
+        }
+
+        return new ProgressCallback(role, name, elite, skillLevel);
+    }
+
+    private record ProgressCallback(OperatorRole Role, string Name, int? Elite, SkillLevel? SkillLevel);
 
     private static string ProcOperProgressTargetName(JToken? details)
     {

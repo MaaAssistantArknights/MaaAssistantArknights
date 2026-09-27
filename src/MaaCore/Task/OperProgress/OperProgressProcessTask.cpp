@@ -143,7 +143,7 @@ bool asst::OperProgressProcessTask::_run()
         ResultDetail result = ResultDetail::Unsupported;
         const ResultDetail located = find_and_open_operator(target.role, target.name);
         if (located != ResultDetail::Completed) {
-            auto info = basic_info_with_what("OperProgress");
+            auto info = basic_info_with_what("OperProgressDetail");
             info["details"] |= json::object {
                 { "role", target.role },
                 { "name", target.name },
@@ -152,19 +152,19 @@ bool asst::OperProgressProcessTask::_run()
             };
             callback(AsstMsg::SubTaskExtraInfo, info);
             continue;
-            }
-            if (target.elite) {
+        }
+        if (target.elite) {
             auto elite_ret = execute_elite(target.role, target.name, *target.elite);
             report_elite_result(target.role, target.name, elite_ret, *target.elite);
-            }
-            if (target.skill_level) {
-                if (std::holds_alternative<int>(*target.skill_level)) {
+        }
+        if (target.skill_level) {
+            if (std::holds_alternative<int>(*target.skill_level)) {
                 auto main_ret = execute_skill(std::get<int>(*target.skill_level));
                 report_skill_result(target.role, target.name, main_ret, *target.skill_level);
-                }
+            }
             else if (!training_room_busy && std::holds_alternative<std::array<int, 3>>(*target.skill_level)) {
-                    const auto& arr = std::get<std::array<int, 3>>(*target.skill_level);
-                    for (int i = 0; i < 3; ++i) {
+                const auto& arr = std::get<std::array<int, 3>>(*target.skill_level);
+                for (int i = 0; i < 3; ++i) {
                     auto skill_ret = execute_mastery(target.role, target.name, i, arr[i]);
                     std::array<int, 3> skill_levels { 0, 0, 0 };
                     skill_levels[i] = arr[i];
@@ -364,7 +364,7 @@ void asst::OperProgressProcessTask::report_elite_result(
             return Result::Failure;
         }
     }();
-    auto info = basic_info_with_what("OperProgress");
+    auto info = basic_info_with_what("OperProgressDetail");
     info["details"] |= json::object {
         { "role", role },
         { "name", name },
@@ -601,7 +601,7 @@ void asst::OperProgressProcessTask::report_skill_result(
             return Result::Failure;
         }
     }();
-    auto info = basic_info_with_what("OperProgress");
+    auto info = basic_info_with_what("OperProgressDetail");
     info["details"] |= json::object {
         { "role", role },
         { "name", name },
@@ -1233,11 +1233,8 @@ bool asst::OperProgressProcessTask::run_task(std::vector<std::string> tasks, int
 void asst::OperProgressProcessTask::report_summary()
 {
     auto info = basic_info_with_what("OperProgressSummary");
-    info["details"] = json::object {
-        { "completed", m_completed },
-        { "already_satisfied", m_satisfied },
-        { "failed", m_failed },
-        { "skipped", m_skipped },
+    info["details"] |= json::object {
+        { "plans", m_plan_finish },
     };
     callback(AsstMsg::SubTaskExtraInfo, info);
 }
