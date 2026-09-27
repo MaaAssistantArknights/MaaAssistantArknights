@@ -18,6 +18,7 @@ namespace asst::blackflow::perception
 struct MapRecognitionResult
 {
     bool ok = false;
+    bool allow_exit_supplement = true;
     std::string error;
     int floor = 0;
     int rows = 0;
@@ -30,6 +31,8 @@ struct MapRecognitionResult
     std::int64_t normalization_us = 0;
     std::int64_t recognition_us = 0;
 };
+
+[[nodiscard]] bool trim_empty_map_borders(MapRecognitionResult& result);
 
 class BlackFlowMapAnalyzer
 {

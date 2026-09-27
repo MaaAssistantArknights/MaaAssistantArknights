@@ -15,12 +15,23 @@ constexpr int MoveConfirmationDismissRetryLimit = 1;
 
 bool BlackFlowRoutingTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
-    if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
+    if (details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
     const std::string task = details.get("details", "task", "");
+    if (msg == AsstMsg::SubTaskCompleted && task == "BlackFlow@Roguelike@MapPrepare-Ready") {
+        m_pending = PendingWork::MapPrepared;
+        return true;
+    }
+    if (msg != AsstMsg::SubTaskStart) {
+        return false;
+    }
     if (task == "BlackFlow@Roguelike@Routing") {
         m_pending = PendingWork::ObserveAndPlan;
+        return true;
+    }
+    if (task == "BlackFlow@Roguelike@RoutingReplan") {
+        m_pending = PendingWork::ReplanCurrentMap;
         return true;
     }
     if (task == "BlackFlow@Roguelike@RoutingResume") {
@@ -34,6 +45,7 @@ void BlackFlowRoutingTaskPlugin::reset_in_run_variables()
 {
     m_pending = PendingWork::None;
     m_page_recovery_attempted = false;
+    m_replan_current_map = false;
     m_move_confirmation_dismiss_retries = 0;
 }
 
@@ -43,6 +55,15 @@ bool BlackFlowRoutingTaskPlugin::_run()
     const PendingWork work = m_pending;
     m_pending = PendingWork::None;
     if (work == PendingWork::None) {
+        return true;
+    }
+    if (work == PendingWork::MapPrepared) {
+        // 首次进层时向左滑地图避免遮挡
+        const bool swipe = m_session != nullptr && !m_session->terminated() && m_session->current_floor() == 5 &&
+                           m_session->map().floor() != 5;
+        Task.set_task_base(
+            "BlackFlow@Roguelike@MapPrepare-ReadyAction",
+            swipe ? "BlackFlow@Roguelike@MapPrepare-Floor5Swipe" : "BlackFlow@Roguelike@Routing-Enter");
         return true;
     }
     Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@RecoveryFailed");
@@ -56,9 +77,10 @@ bool BlackFlowRoutingTaskPlugin::_run()
         return true;
     }
 
-    const RoutingCycleOutcome cycle = work == PendingWork::ResumePendingMove
-                                          ? execute_pending_routing_cycle(*m_session, *m_port)
-                                          : execute_routing_cycle(*m_session, *m_port);
+    const RoutingCycleOutcome cycle =
+        work == PendingWork::ResumePendingMove ? execute_pending_routing_cycle(*m_session, *m_port)
+        : work == PendingWork::ReplanCurrentMap || m_replan_current_map ? execute_replanning_cycle(*m_session, *m_port)
+                                                                        : execute_routing_cycle(*m_session, *m_port);
     if (cycle.status == RoutingCycleStatus::NeedsPageRecovery) {
         const bool completed_page = m_session->page_context().has_value() &&
                                     m_session->page_context()->stage == PageExecutionStage::Resolved &&
@@ -92,6 +114,12 @@ bool BlackFlowRoutingTaskPlugin::_run()
         report_outputs();
         return true;
     }
+    if (cycle.status == RoutingCycleStatus::PreviewNeedsReplan) {
+        m_replan_current_map = true;
+        Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@CancelNodeSelectionForReplan");
+        report_outputs();
+        return true;
+    }
     if (cycle.status == RoutingCycleStatus::PreviewNeedsDismiss) {
         if (!cycle.failure_code.empty() || !cycle.error.empty()) {
             Log.info("BlackFlow move preview dismissed", cycle.failure_code, cycle.error);
@@ -101,6 +129,7 @@ bool BlackFlowRoutingTaskPlugin::_run()
         return true;
     }
     if (cycle.status == RoutingCycleStatus::InventoryCleaned) {
+        m_replan_current_map = false;
         m_move_confirmation_dismiss_retries = 0;
         LogInfo << "BlackFlow inventory | event=routing_resumed_after_cleanup";
         Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@MapPrepare");
@@ -125,18 +154,21 @@ bool BlackFlowRoutingTaskPlugin::_run()
         return true;
     }
     if (cycle.status == RoutingCycleStatus::MoveCommittedToMap) {
+        m_replan_current_map = false;
         m_move_confirmation_dismiss_retries = 0;
         Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@MapPrepare");
         report_outputs();
         return true;
     }
     if (cycle.status == RoutingCycleStatus::MoveCommitted) {
+        m_replan_current_map = false;
         m_move_confirmation_dismiss_retries = 0;
         Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@NodeDispatch");
         report_outputs();
         return true;
     }
     if (cycle.status == RoutingCycleStatus::SessionTerminated) {
+        m_replan_current_map = false;
         Task.set_task_base("BlackFlow@Roguelike@RoutingAction", "BlackFlow@Roguelike@StrategyTerminated-Enter");
         report_outputs();
         return true;

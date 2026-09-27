@@ -19,6 +19,7 @@
 #include "Miscellaneous/TilePack.h"
 #include "OnnxSessions.h"
 #include "Roguelike/BlackFlow/BlackFlowMapPerceptionResource.h"
+#include "Roguelike/BlackFlow/BlackFlowMapTemplateConfig.h"
 #include "Roguelike/BlackFlow/BlackFlowNodeExecutionConfig.h"
 #include "Roguelike/BlackFlow/BlackFlowStrategyConfig.h"
 #include "Roguelike/JieGarden/RoguelikeCoppersConfig.h"
@@ -301,6 +302,21 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
             "BlackFlow node execution configuration is missing");
         LogError << __FUNCTION__ << " BlackFlow node execution configuration is missing; other themes remain available";
     }
+
+    const auto blackflow_map_templates_path = roguelike_path("BlackFlow", "map_templates.json"_p);
+    if (std::filesystem::exists(path / blackflow_map_templates_path)) {
+        const bool available = load_with_custom.template operator()<BlackFlowMapTemplateConfig>(
+            blackflow_map_templates_path,
+            "BlackFlowMapTemplateConfig");
+        if (!available) {
+            LogWarn << __FUNCTION__
+                    << "BlackFlow map templates failed to load; continuing with previously loaded templates, if any";
+        }
+    }
+    else if (!m_loaded) {
+        LogWarn << __FUNCTION__ << "BlackFlow map templates are missing; exit supplementation is unavailable";
+    }
+
     const auto blackflow_map_perception_path = path / roguelike_path("BlackFlow", "map_perception"_p);
     const auto blackflow_model_path = path / "onnx"_p / "BlackFlow_corridor_net.onnx"_p;
     std::optional<std::filesystem::path> blackflow_model;

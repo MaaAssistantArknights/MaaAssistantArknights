@@ -118,7 +118,6 @@ bool BlackFlowMapObservationSource::recognize(
     next.floor = floor;
     next.floor_from_ocr = true;
     next.coverage = ObservationCoverage::FullMap;
-    next.covered_positions = BlackFlowObservationAdapter::expected_grid_positions(floor);
     next.attempt_count = attempt_count;
     next.retry_count = attempt_count - 1;
     m_last_attempt_id = next.observation_id;
@@ -158,7 +157,11 @@ bool BlackFlowMapObservationSource::recognize(
             return false;
         }
 
+        next.rows = result.rows;
+        next.columns = result.columns;
+        next.covered_positions = BlackFlowObservationAdapter::expected_grid_positions(floor, result.columns);
         next.recognition_ok = true;
+        next.allow_exit_supplement = result.allow_exit_supplement;
         next.graph_connected = result.edge_detection.graph_connected;
         next.current_marker_temporary_id = result.node_detection.current_marker_node_id;
         next.current_marker_score = result.node_detection.current_marker_score;

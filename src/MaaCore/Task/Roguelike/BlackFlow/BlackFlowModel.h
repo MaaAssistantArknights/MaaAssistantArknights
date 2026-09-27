@@ -124,6 +124,8 @@ struct EdgeEvidence
     bool cnn_connected = false;
     bool forced_by_connectivity_constraint = false;
     std::string decision_source;
+
+    bool operator==(const EdgeEvidence&) const noexcept = default;
 };
 
 struct Edge
@@ -132,6 +134,8 @@ struct Edge
     NodeId second = InvalidNodeId;
     EdgeKnowledge knowledge = EdgeKnowledge::Unknown;
     EdgeEvidence evidence;
+
+    bool operator==(const Edge&) const noexcept = default;
 };
 
 class MapSnapshot
@@ -201,11 +205,15 @@ struct MapObservationBatch
     std::vector<ObservedEdge> edges;
 };
 
+struct MovePreview;
+
 class NormalizedMap
 {
 public:
     [[nodiscard]] bool merge(const MapObservationBatch& batch, std::string* error = nullptr);
     void reset();
+    void finalize_revision(const MapSnapshot& previous);
+    bool accept_preview(NodeId target, const MovePreview& preview, bool& changed, std::string* error);
 
     [[nodiscard]] const MapSnapshot& snapshot() const noexcept { return m_snapshot; }
 
@@ -233,6 +241,9 @@ public:
     void
         replace(std::vector<NodeObservation> observations, std::uint64_t map_revision, std::uint64_t viewport_revision);
     void clear(std::uint64_t map_revision, std::uint64_t viewport_revision);
+
+    void associate_map(std::uint64_t revision) noexcept { m_map_revision = revision; }
+
     [[nodiscard]] const NodeObservation* find(NodeId node) const noexcept;
     [[nodiscard]] std::optional<Rect> clickable_rect(
         NodeId node,
