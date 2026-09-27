@@ -41,7 +41,7 @@ public class AsstOperProgressTask : AsstBaseTask
             {
                 planObj["elite"] = p.Elite;
             }
-            if (p.SkillLevel is BaseLevel @base)
+            if (p.SkillLevel is BaseLevel @base && @base.Level > 0)
             {
                 planObj["skill_level"] = @base.Level;
             }
@@ -51,6 +51,9 @@ public class AsstOperProgressTask : AsstBaseTask
             }
             list.Add(planObj);
         }
-        return (TaskType, JObject.FromObject(list));
+        var jObject = new JObject {
+            ["plans"] = list,
+        };
+        return (TaskType, jObject);
     }
 }
