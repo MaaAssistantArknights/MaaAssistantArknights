@@ -9,24 +9,17 @@ icon: mdi:plug
 
 MAA can automatically detect and fill in the ADB path, connection address, and connection configuration for a **single currently running emulator**.
 
-As of MAA v6.16.8, the following emulators and connection addresses are supported for detection:
+The following emulators and connection addresses are supported for detection:
 
 - BlueStacks 5: `127.0.0.1:5555/5556/5565/5575/5585/5595/5554`
 - MuMu Player: `127.0.0.1:16384/16416/16448/16480/16512/16544/16576`
+- MuMu Player (Windows ARM): automatically detects the virtual network address of the instance; verified with MuMu ARM 1.8.9.
 - LDPlayer 9: `emulator-5554/5556/5558/5560`, `127.0.0.1:5555/5557/5559/5561`
 - NoxPlayer: `127.0.0.1:62001/59865`
 - MEmu Play: `127.0.0.1:21503`
 - Tencent App Store (after 5.10.56.xx): `127.0.0.1:5555`
 
 If detection fails, try launching MAA with UAC administrator privileges and detect again. If it still fails, refer to the manual setup instructions below and verify that your emulator and connection address are included in the list above.
-
-### MuMu Player (Windows ARM)
-
-Start an Android instance in MuMu ARM, select `MuMu Player (Windows ARM)` in `Connection Settings`, and click `Detect and test` to fill in the ADB path and address and test screenshots. Standard auto detection also recognizes it; when multiple instances are detected, you will be prompted to choose one.
-
-This preset reads the instance number from the running process's `--VmIndex`, then reads `AdbHost` and `AdbPort` from `vms/vm<index>.madoa/misc/state.json` under the installation directory. It uses `shell/adb.exe`; no prior `adb connect` is needed. ARM instances use a virtual network address, not the regular MuMu endpoint `127.0.0.1:16384`. Enable both `Auto Detect Connection` and `Re-detect Each Time` to refresh the address on subsequent connections.
-
-Verified with MuMu ARM 1.8.9. This version does not provide the MuMu screenshot and touch enhancement interfaces required by MAA, so the preset uses standard ADB screenshots and the selected touch mode and does not show the regular MuMu enhancement options. If the state file is missing or invalid, wait for the emulator to finish starting and retry, or disable auto detection and configure the connection manually.
 
 ## ADB Path
 
@@ -178,6 +171,8 @@ Select the configuration matching your emulator. If not listed, choose General M
 For specific differences, see the [source code](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/resource/config.json#L57).
 
 ### MuMu Screenshot Enhanced Mode
+
+MuMu Windows ARM 1.8.9 does not support the screenshot and touch enhancements described here.
 
 **Version Requirement**: Official/Arknights-specific MuMu V4.1.26 or above, or Global MuMu V5.21.3 or above. <!-- Official V3.8.13 supports initial enhanced screenshots -->
 
