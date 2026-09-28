@@ -392,6 +392,9 @@
     <system:String x:Key="Yes">はい</system:String>
     <system:String x:Key="No">いいえ</system:String>
     <system:String x:Key="Ok">はい</system:String>
+    <system:String x:Key="Success">成功</system:String>
+    <system:String x:Key="Failed">失敗</system:String>
+    <system:String x:Key="Skipped">スキップ</system:String>
     <system:String x:Key="Cancel">キャンセル</system:String>
     <system:String x:Key="Confirm">認識する</system:String>
     <system:String x:Key="Rename">名前を変更</system:String>

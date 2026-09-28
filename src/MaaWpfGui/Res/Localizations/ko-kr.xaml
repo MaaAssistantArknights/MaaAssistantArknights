@@ -392,6 +392,9 @@
     <system:String x:Key="Yes">네</system:String>
     <system:String x:Key="No">아니요</system:String>
     <system:String x:Key="Ok">확인</system:String>
+    <system:String x:Key="Success">성공</system:String>
+    <system:String x:Key="Failed">실패</system:String>
+    <system:String x:Key="Skipped">스킵</system:String>
     <system:String x:Key="Cancel">취소</system:String>
     <system:String x:Key="Confirm">확인</system:String>
     <system:String x:Key="Rename">이름 변경</system:String>
