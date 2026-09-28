@@ -6885,6 +6885,21 @@
         "template": "InfrastTrainingMaxAlready.png",
         "next": []
     },
+    "OperProgress@TrainingSkill1MasterLevel": {
+        "algorithm": "JustReturn",
+        "roi": [372, 96, 74, 70],
+        "roi_Doc": "训练室专精页技能1的专精等级三角标区域，等级=点亮菱形块数，采样位置见 OperProgressProcessTask"
+    },
+    "OperProgress@TrainingSkill2MasterLevel": {
+        "algorithm": "JustReturn",
+        "roi": [372, 306, 74, 70],
+        "roi_Doc": "训练室专精页技能2的专精等级三角标区域，同 TrainingSkill1MasterLevel"
+    },
+    "OperProgress@TrainingSkill3MasterLevel": {
+        "algorithm": "JustReturn",
+        "roi": [372, 516, 74, 70],
+        "roi_Doc": "训练室专精页技能3的专精等级三角标区域，同 TrainingSkill1MasterLevel"
+    },
     "OperProgress@MasterySelectTrainer": {
         "algorithm": "JustReturn",
         "action": "ClickRect",

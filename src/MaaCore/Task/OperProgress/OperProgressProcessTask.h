@@ -62,8 +62,10 @@ private:
     bool select_role(battle::Role role);
     bool analyze_training_context(std::string& operator_name, std::string& skill_name, int& level);
     bool select_training_trainee(battle::Role role, std::string_view name);
-    // training_level 为本次实际启动的专精等级（识别的当前等级 + 1，领取已完成训练后再 +1），供导师评分使用。
+    // training_level 为本次实际启动的专精等级（专精页现场识别的当前等级 + 1），供导师评分使用。
     bool select_training_trainer(battle::Role role, int training_level);
+    // 训练室专精页技能行的专精等级三角标识别：统计点亮菱形块数，返回 0-3。
+    std::optional<int> training_skill_mastery_level(const cv::Mat& image, int skill);
     // 通过切换职业栏标签把基建干员列表复位到第一页，参照 InfrastAbstractTask::swipe_to_the_left_of_operlist。
     bool reset_trainer_list_page();
     bool run_task(const std::string& task_name, int retry_times = RetryTimesDefault);

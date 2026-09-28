@@ -34,6 +34,16 @@ constexpr int MaxOperatorPages = 20;
 // 制造站产线当前产品写入 Status 的键,RestoreFactoryState 读取后恢复原产品。
 constexpr std::string_view FactoryProductStatusKey = "OperProgressFactoryProduct";
 
+// 训练室专精页技能行的专精等级三角标由三个菱形块组成,点亮(白色)块数即当前专精等级。
+// 块中心在图标区(roi)内的相对位置(上、左下、右下),实测自 1280x720 界面。
+constexpr std::array<std::pair<double, double>, 3> TrainingMasteryCellCenters = {
+    { { 0.50, 0.41 }, { 0.25, 0.77 }, { 0.74, 0.77 } }
+};
+// 菱形块点亮判白阈值(HSV V 通道):点亮块恒为 255,未点亮块随半透明底图波动最深约 120。
+constexpr int TrainingMasteryLitVThreshold = 180;
+// 块中心采样邻域半径:菱形块约 24px 见方,7x7 均值抑制抗锯齿边缘与 1-2px 定位偏差。
+constexpr int TrainingMasterySampleRadius = 3;
+
 // 快速编队卡片识别结果,参照 BattleFormationTask::QuickFormationOper 裁剪出选人所需字段。
 struct QuickFormationOperInfo
 {
@@ -526,15 +536,11 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
     if (!run_task("OperProgress@MasteryPageEnter")) {
         return ResultDetail::RecognitionFailed;
     }
-    // 现有训练完成任务已经负责点击领取并关闭奖励弹窗,避免重复点击占位任务；
-    // 领取会使当前专精等级 +1,本次实际启动的专精等级随之再 +1。
+    
+    // 若领取会使正在专精的技能等级产生变化,或者领取到非目标干员的专精完成,需要选完人后重新识别。
+    bool need_re_recognize_mastery = false;
     if (run_task("InfrastTrainingCompleted2", 10)) {
-        ++training_level;
-        if (training_level > specialization) {
-            // 领取后专精等级已达到计划目标,不再启动下一级。
-            run_task("OperProgress@ReturnToOperFilesPage");
-            return ResultDetail::AlreadySatisfied;
-        }
+        need_re_recognize_mastery = true;
     }
 
     if (!run_task("InfrastTrainingMasteryPage")) {
@@ -565,7 +571,25 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
     if (run_task("OperProgress@MasterySelectSkillMaxAlready" + std::to_string(skill))) {
         return ResultDetail::AlreadySatisfied;
     }
-    else if (!run_task("OperProgress@MasterySelectSkill" + std::to_string(skill))) {
+
+    // 领取已完成训练可能使目标技能的专精等级变化,进训练室前档案页的识别值已不可信,
+    // 选完人在专精页现场复核；本次将启动的专精等级取"当前等级 + 1"。
+    if (need_re_recognize_mastery) {
+        const auto& re_recognized_opt = training_skill_mastery_level(ctrler()->get_image(), skill);
+        if (!re_recognized_opt) {
+            return ResultDetail::RecognitionFailed;
+        }
+        m_recognized_level = re_recognized_opt;
+        LogInfo << __FUNCTION__ << "| re-recognized mastery level after claim" << *re_recognized_opt;
+        if (*re_recognized_opt >= specialization) {
+            // 领取后专精等级已达到计划目标,不再启动下一级。
+            run_task("OperProgress@ReturnToOperFilesPage");
+            return ResultDetail::AlreadySatisfied;
+        }
+        training_level = *re_recognized_opt + 1;
+    }
+
+    if (!run_task("OperProgress@MasterySelectSkill" + std::to_string(skill))) {
         return ResultDetail::RecognitionFailed;
     }
 
@@ -695,6 +719,49 @@ bool asst::OperProgressProcessTask::analyze_training_context(
 
     const auto& template_name = level_analyzer.get_result().templ_info.name;
     return utils::chars_to_number(template_name.substr(std::string("InfrastTrainingLevel").size(), 1), level);
+}
+
+std::optional<int> asst::OperProgressProcessTask::training_skill_mastery_level(const cv::Mat& image, int skill)
+{
+    LogTraceFunction;
+
+    if (skill < 1 || skill > 3) {
+        LogError << __FUNCTION__ << "| invalid skill index" << skill;
+        return std::nullopt;
+    }
+
+    const std::string task_name = "OperProgress@TrainingSkill" + std::to_string(skill) + "MasterLevel";
+    const auto task_ptr = Task.get(task_name);
+    if (!task_ptr) {
+        LogError << __FUNCTION__ << "| task not found" << task_name;
+        return std::nullopt;
+    }
+
+    // 与档案页圆点判级(OperFilesImageAnalyzer::mastery_level)同理:三角标 0 级与 3 级仅亮度不同,
+    // 模板匹配分不出来,等级由点亮菱形块数决定,按块中心采样亮度统计。
+    const cv::Mat icon = make_roi(image, task_ptr->roi);
+    if (icon.empty()) {
+        LogError << __FUNCTION__ << "| empty roi for task" << task_name;
+        return std::nullopt;
+    }
+    cv::Mat hsv;
+    cv::cvtColor(icon, hsv, cv::COLOR_BGR2HSV);
+
+    int lit_cells = 0;
+    for (const auto& [center_x_ratio, center_y_ratio] : TrainingMasteryCellCenters) {
+        const cv::Rect sample(
+            static_cast<int>(center_x_ratio * icon.cols) - TrainingMasterySampleRadius,
+            static_cast<int>(center_y_ratio * icon.rows) - TrainingMasterySampleRadius,
+            TrainingMasterySampleRadius * 2 + 1,
+            TrainingMasterySampleRadius * 2 + 1);
+        if (sample.x < 0 || sample.y < 0 || sample.br().x > icon.cols || sample.br().y > icon.rows) {
+            continue;
+        }
+        if (cv::mean(hsv(sample))[2] > TrainingMasteryLitVThreshold) {
+            ++lit_cells;
+        }
+    }
+    return lit_cells;
 }
 
 bool asst::OperProgressProcessTask::select_training_trainee(battle::Role role, std::string_view name)
