@@ -28,7 +28,7 @@
 #include "Vision/RegionOCRer.h"
 #include "Vision/VisionHelper.h"
 
-namespace
+namespace asst::oper_progress
 {
 constexpr int MaxOperatorPages = 20;
 // 制造站产线当前产品写入 Status 的键,RestoreFactoryState 读取后恢复原产品。
@@ -208,7 +208,7 @@ asst::OperProgressProcessTask::ResultDetail
 
     std::string previous_last_operator;
     std::string previous_previous_last_operator;
-    for (int page = 0; page < MaxOperatorPages; ++page) {
+    for (int page = 0; page < oper_progress::MaxOperatorPages; ++page) {
         if (need_exit()) {
             return ResultDetail::Interrupt;
         }
@@ -247,7 +247,7 @@ asst::OperProgressProcessTask::ResultDetail
 bool asst::OperProgressProcessTask::select_role(battle::Role role)
 {
     // 使用 BattleData 职业信息缩小 OCR 查找范围,不使用固定的干员卡片坐标。
-    const std::string& role_task = role_task_name(role);
+    const std::string& role_task = oper_progress::role_task_name(role);
     if (role_task.empty()) {
         return true;
     }
@@ -770,7 +770,7 @@ bool asst::OperProgressProcessTask::select_training_trainee(battle::Role role, s
     const auto click_role_table = [&](battle::Role tab) {
         last_oper_name.clear();
         std::vector<std::string> tasks;
-        const std::string tab_task = role_task_name(tab);
+        const std::string tab_task = oper_progress::role_task_name(tab);
         if (tab_task.empty()) {
             tasks = { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" };
         }
@@ -803,7 +803,7 @@ bool asst::OperProgressProcessTask::select_training_trainee(battle::Role role, s
     int swipe_times = 0;
     int overall_swipe_times = 0; // 完整从左到右滑动扫完一轮的次数
     while (!need_exit()) {
-        const auto opers_result = analyze_formation_opers(ctrler()->get_image());
+        const auto opers_result = oper_progress::analyze_formation_opers(ctrler()->get_image());
         // 页面有效 = 能识别到干员,且末位干员与上一页不同（相同说明列表已滑到底未移动）。
         const bool page_valid =
             !opers_result.empty() && (last_oper_name.empty() || last_oper_name != opers_result.back().name);
@@ -813,7 +813,8 @@ bool asst::OperProgressProcessTask::select_training_trainee(battle::Role role, s
 
         if (page_valid) {
             has_error = false;
-            const auto target_iter = std::ranges::find(opers_result, name, &QuickFormationOperInfo::name);
+            const auto target_iter =
+                std::ranges::find(opers_result, name, &oper_progress::QuickFormationOperInfo::name);
             if (target_iter != opers_result.cend()) {
                 if (!target_iter->selected) {
                     ctrler()->click(target_iter->flag_rect);
@@ -866,14 +867,14 @@ bool asst::OperProgressProcessTask::select_training_trainer(battle::Role role, i
     std::vector<std::string> operator_face_hashes;
     std::unordered_set<std::string> seen_skills;
     bool scan_completed = false;
-    for (int page = 0; page < MaxOperatorPages && !need_exit(); ++page) {
+    for (int page = 0; page < oper_progress::MaxOperatorPages && !need_exit(); ++page) {
         InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
         analyzer.set_facility("Training");
         analyzer.set_to_be_calced(
             InfrastOperImageAnalyzer::ToBeCalced::Mood | InfrastOperImageAnalyzer::ToBeCalced::Skill |
             InfrastOperImageAnalyzer::ToBeCalced::FaceHash);
         if (!analyzer.analyze()) {
-            analyzer.save_img(utils::path("debug") / utils::path("auto_raise"));
+            analyzer.save_img(utils::path("debug") / utils::path("oper_progress"));
             return false;
         }
 
@@ -942,7 +943,7 @@ bool asst::OperProgressProcessTask::select_training_trainer(battle::Role role, i
     std::vector<std::string> relocate_seen_faces;
     int unchanged_pages = 0;
     bool trainer_selected = false;
-    for (int page = 0; page < MaxOperatorPages && !need_exit(); ++page) {
+    for (int page = 0; page < oper_progress::MaxOperatorPages && !need_exit(); ++page) {
         InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
         analyzer.set_to_be_calced(
             InfrastOperImageAnalyzer::ToBeCalced::FaceHash | InfrastOperImageAnalyzer::ToBeCalced::Selected);
@@ -1109,13 +1110,13 @@ bool asst::OperProgressProcessTask::record_factory_state()
     }
     if (!analyzer.analyze()) {
         LogError << __FUNCTION__ << "| factory product flag not recognized, refusing to switch production line";
-        save_img(utils::path("debug") / utils::path("auto_raise"), false);
+        save_img(utils::path("debug") / utils::path("oper_progress"), false);
         return false;
     }
     const std::string& templ_name = analyzer.get_result().templ_info.name;
     for (const auto& [templ, product] : product_flags) {
         if (templ == templ_name) {
-            status()->set_str(std::string(FactoryProductStatusKey), product);
+            status()->set_str(std::string(oper_progress::FactoryProductStatusKey), product);
             LogInfo << __FUNCTION__ << "| factory product recorded" << product;
             return true;
         }
@@ -1221,7 +1222,7 @@ bool asst::OperProgressProcessTask::restore_factory_state()
 {
     // 读取 record_factory_state 写入的产品名,复用基建换产品链恢复产线；
     // 无记录或记录为芯片时无需恢复。
-    const auto product = status()->get_str(std::string(FactoryProductStatusKey));
+    const auto product = status()->get_str(std::string(oper_progress::FactoryProductStatusKey));
     if (!product) {
         LogWarn << __FUNCTION__ << "| no factory product recorded, skip restoring";
         return true;
@@ -1270,7 +1271,7 @@ bool asst::OperProgressProcessTask::buy_catalyst(int count)
     }
     if (!found) {
         LogError << __FUNCTION__ << "| catalyst item not found in red ticket store";
-        save_img(utils::path("debug") / utils::path("auto_raise"), false);
+        save_img(utils::path("debug") / utils::path("oper_progress"), false);
         return false;
     }
 
