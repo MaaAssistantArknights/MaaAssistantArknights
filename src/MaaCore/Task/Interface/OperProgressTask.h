@@ -21,10 +21,11 @@ public:
         battle::Role role = battle::Role::Unknown;
         std::string name;
         std::optional<int> elite;
-        std::optional<std::variant<int, std::array<int, 3>>> skill_level;
+        std::optional<int> skill_level;                  // 仅用于单技能升级，表示目标等级
+        std::optional<std::array<int, 3>> skill_mastery; // 仅用于专精升级，表示目标专精等级数组
 
-        MEO_TOJSON(MEO_OPT role, name, MEO_OPT elite, MEO_OPT skill_level);
-        MEO_FROMJSON(MEO_OPT role, name, MEO_OPT elite, MEO_OPT skill_level);
+        MEO_TOJSON(MEO_OPT role, name, MEO_OPT elite, MEO_OPT skill_level, MEO_OPT skill_mastery);
+        MEO_FROMJSON(MEO_OPT role, name, MEO_OPT elite, MEO_OPT skill_level, MEO_OPT skill_mastery);
     };
 
 public:

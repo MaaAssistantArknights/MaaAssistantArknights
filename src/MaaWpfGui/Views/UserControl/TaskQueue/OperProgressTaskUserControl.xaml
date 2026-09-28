@@ -30,23 +30,26 @@
                 </Hyperlink>
             </controls:TextBlock>
 
-            <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource OperProgressDeleteCompletedEntries}" IsChecked="{Binding DeleteCompletedEntries}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource OperProgressDeleteCompletedEntriesTip}" />
-            </StackPanel>
-
             <StackPanel
-                Margin="0,4,0,0"
+                Margin="0,6,0,0"
                 HorizontalAlignment="Center"
                 Orientation="Horizontal">
                 <Button
                     MinWidth="50"
-                    Margin="0,8,0,0"
+                    Margin="0"
+                    hc:BorderElement.CornerRadius="4,0,0,4"
                     Command="{s:Action CollapseAll}"
                     Content="{DynamicResource CollapseAll}" />
                 <Button
-                    Margin="6,8,0,0"
+                    MinWidth="50"
+                    Margin="-1,0,0,0"
+                    hc:BorderElement.CornerRadius="0"
+                    Command="{s:Action ClearPlan}"
+                    Content="{DynamicResource Clear}" />
+                <Button
+                    Margin="-1,0,0,0"
                     HorizontalAlignment="Left"
+                    hc:BorderElement.CornerRadius="0,4,4,0"
                     Command="{s:Action ParsePlan}"
                     Content="从剪贴板读取" />
 
@@ -75,10 +78,7 @@
                     MinWidth="60"
                     Margin="6,0,0,0"
                     Command="{s:Action AddOperator}"
-                    Content="{DynamicResource OperProgressAddTarget}"
-                    IsEnabled="{Binding CanAddOperator}"
-                    ToolTip="{DynamicResource OperProgressOperatorLimit}"
-                    ToolTipService.ShowOnDisabled="True" />
+                    Content="{DynamicResource Add}" />
             </Grid>
 
             <!--  干员计划列表：容器与交互对齐 DepotMaintainTaskUserControl 的 ListBox  -->
@@ -276,8 +276,6 @@
                                 BorderThickness="1,0,1,1"
                                 CornerRadius="0,0,4,4">
                                 <StackPanel Margin="6">
-                                    <controls:TextBlock Text="{Binding TargetDescription}" TextWrapping="Wrap" />
-
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" MinWidth="80" />

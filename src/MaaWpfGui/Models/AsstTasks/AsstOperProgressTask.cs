@@ -13,11 +13,11 @@
 
 #nullable enable
 using System.Collections.Generic;
+using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using static MaaWpfGui.Configuration.Single.MaaTask.OperProgressTask.SkillLevel;
 
 namespace MaaWpfGui.Models.AsstTasks;
 
@@ -41,13 +41,13 @@ public class AsstOperProgressTask : AsstBaseTask
             {
                 planObj["elite"] = p.Elite;
             }
-            if (p.SkillLevel is BaseLevel @base && @base.Level > 0)
+            if (p.SkillLevel > 0)
             {
-                planObj["skill_level"] = @base.Level;
+                planObj["skill_level"] = p.SkillLevel;
             }
-            else if (p.SkillLevel is Specialization specialization)
+            if (p.SkillMastery.ToArray().Any(x => x > 0))
             {
-                planObj["skill_level"] = new JArray { specialization.Skill1, specialization.Skill2, specialization.Skill3 };
+                planObj["skill_mastery"] = JArray.FromObject(p.SkillMastery.ToArray());
             }
             list.Add(planObj);
         }

@@ -6556,15 +6556,6 @@
         "doc": "干员列表页职业栏收起且有筛选残留：右上角为职业名▼",
         "next": []
     },
-    "OperProgress@OperBoxRoleFilteredOpen": {
-        "algorithm": "OcrDetect",
-        "text": ["先锋", "近卫", "重装", "狙击", "术师", "医疗", "辅助", "特种"],
-        "roi": [1152, 0, 128, 138],
-        "action": "ClickSelf",
-        "postDelay": 500,
-        "doc": "点击筛选残留的职业名▼展开职业栏",
-        "next": []
-    },
     "OperProgress@OperBoxRoleBarOpened": {
         "doc": "干员列表页职业栏已展开：右上角为收起>",
         "baseTask": "BattleQuickFormationRoleExpanded",

@@ -395,7 +395,9 @@
     <system:String x:Key="Cancel">キャンセル</system:String>
     <system:String x:Key="Confirm">認識する</system:String>
     <system:String x:Key="Rename">名前を変更</system:String>
+    <system:String x:Key="Add">追加</system:String>
     <system:String x:Key="Delete">削除</system:String>
+    <system:String x:Key="ParseFailed">解析に失敗しました</system:String>
     <system:String x:Key="RenameTask">タスク名を変更</system:String>
     <system:String x:Key="RenameTaskPrompt">新しいタスク名を入力してください：</system:String>
     <system:String x:Key="AddTaskQueueTask">新しいタスクを追加</system:String>
@@ -919,9 +921,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="OperProgressIntegerRequired">プラン {0} の「{1}」は整数である必要があります</system:String>
     <system:String x:Key="OperProgressFieldRange">プラン {0} の「{1}」は {2}～{3} の範囲で指定してください</system:String>
     <!--  待確認移除結束  -->
-    <system:String x:Key="OperProgressSkillLevelTarget">スキルランク {0}</system:String>
-    <system:String x:Key="OperProgressMasteryTarget">スキル {0} 特化 {1}</system:String>
-    <system:String x:Key="OperProgressEliteTarget">昇進段階 {0}</system:String>
+    <system:String x:Key="OperProgress.SkillLevelTarget">スキルランク {0}</system:String>
+    <system:String x:Key="OperProgress.MasteryTarget">スキル {0} 特化 {1}</system:String>
+    <system:String x:Key="OperProgress.EliteTarget">昇進段階 {0}</system:String>
     <system:String x:Key="OperProgressDeleteCompletedEntries">育成タスクチェーン終了後に完了した項目を削除</system:String>
     <system:String x:Key="OperProgressDeleteCompletedEntriesTip">育成タスクチェーン終了後、「成功」または「達成済み」の項目を自動的に削除します。失敗とスキップの項目は残ります</system:String>
     <system:String x:Key="OperProgressTargetStartLog">育成プラン {0}：{1}、{2}</system:String>
@@ -929,9 +931,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="OperProgressRecognizedElite">（現在の昇進段階 {0}）</system:String>
     <system:String x:Key="OperProgressRecognizedSkillLevel">（現在のスキルランク {0}）</system:String>
     <system:String x:Key="OperProgressRecognizedMastery">（現在の特化 {0}）</system:String>
-    <system:String x:Key="OperProgressSummaryLog">オペレーター育成完了：成功 {0}、達成済み {1}、失敗 {2}、スキップ {3}</system:String>
-    <system:String x:Key="OperProgressSelectOperator">オペレーターを選択</system:String>
-    <system:String x:Key="OperProgressAddTarget">追加</system:String>
+    <system:String x:Key="OperProgress.Summary">オペレーター育成完了：成功 {0}、失敗 {1}、スキップ {2}</system:String>
     <!--  待确认移除（弹窗专用：卡片内联编辑后不再使用）  -->
     <system:String x:Key="OperProgressTargetTitle">{0} · 育成目標</system:String>
     <system:String x:Key="OperProgressElite">昇進段階</system:String>
@@ -943,6 +943,7 @@ C:\leidian\LDPlayer9
     <!--  待确认移除（弹窗专用：卡片内联编辑后不再使用）  -->
     <system:String x:Key="OperProgressEdit">変更</system:String>
     <system:String x:Key="OperProgressOnlineEditor">アークナイツツールボックスでオンライン編集</system:String>
+    <system:String x:Key="OperProgress.Detail">{key=OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="Visiting">戦友訪問</system:String>
     <system:String x:Key="Mall">FP獲得と交換</system:String>
     <system:String x:Key="Mission">報酬受取</system:String>

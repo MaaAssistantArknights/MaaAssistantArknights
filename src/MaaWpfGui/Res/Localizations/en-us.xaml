@@ -395,7 +395,9 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="Cancel">Cancel</system:String>
     <system:String x:Key="Confirm">Confirm</system:String>
     <system:String x:Key="Rename">Rename</system:String>
+    <system:String x:Key="Add">Add</system:String>
     <system:String x:Key="Delete">Delete</system:String>
+    <system:String x:Key="ParseFailed">Parse failed</system:String>
     <system:String x:Key="RenameTask">Rename Task</system:String>
     <system:String x:Key="RenameTaskPrompt">Please enter a new task name:</system:String>
     <system:String x:Key="AddTaskQueueTask">Add New Task</system:String>
@@ -917,9 +919,9 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="OperProgressIntegerRequired">Field "{1}" in plan entry {0} must be an integer</system:String>
     <system:String x:Key="OperProgressFieldRange">Field "{1}" in plan entry {0} must be between {2} and {3}</system:String>
     <!--  待确认移除结束  -->
-    <system:String x:Key="OperProgressSkillLevelTarget">Skill level {0}</system:String>
-    <system:String x:Key="OperProgressMasteryTarget">Skill {0}, mastery {1}</system:String>
-    <system:String x:Key="OperProgressEliteTarget">Elite {0}</system:String>
+    <system:String x:Key="OperProgress.SkillLevelTarget">Skill level {0}</system:String>
+    <system:String x:Key="OperProgress.MasteryTarget">Skill {0}, mastery {1}</system:String>
+    <system:String x:Key="OperProgress.EliteTarget">Elite {0}</system:String>
     <system:String x:Key="OperProgressDeleteCompletedEntries">Remove completed entries when the chain finishes</system:String>
     <system:String x:Key="OperProgressDeleteCompletedEntriesTip">After the development chain finishes, entries reported as "completed" or "already satisfied" are removed automatically; failed and skipped entries are kept</system:String>
     <system:String x:Key="OperProgressTargetStartLog">Development plan entry {0}: {1}, {2}</system:String>
@@ -927,9 +929,7 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="OperProgressRecognizedElite">(current elite {0})</system:String>
     <system:String x:Key="OperProgressRecognizedSkillLevel">(current skill level {0})</system:String>
     <system:String x:Key="OperProgressRecognizedMastery">(current mastery {0})</system:String>
-    <system:String x:Key="OperProgressSummaryLog">Operator development finished: {0} completed, {1} already satisfied, {2} failed, {3} skipped</system:String>
-    <system:String x:Key="OperProgressSelectOperator">Select operator</system:String>
-    <system:String x:Key="OperProgressAddTarget">Add</system:String>
+    <system:String x:Key="OperProgress.Summary">Operator development finished: {0} completed, {1} failed, {2} skipped</system:String>
     <!--  待确认移除（弹窗专用：卡片内联编辑后不再使用）  -->
     <system:String x:Key="OperProgressTargetTitle">{0} · Targets</system:String>
     <system:String x:Key="OperProgressElite">Elite</system:String>
@@ -941,6 +941,7 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <!--  待确认移除（弹窗专用：卡片内联编辑后不再使用）  -->
     <system:String x:Key="OperProgressEdit">Edit</system:String>
     <system:String x:Key="OperProgressOnlineEditor">Edit the plan online with Arknights Toolbox</system:String>
+    <system:String x:Key="OperProgress.Detail">{key=OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="Visiting">Visit Friends</system:String>
     <system:String x:Key="Mall">Credit Store</system:String>
     <system:String x:Key="Mission">Collect Rewards</system:String>

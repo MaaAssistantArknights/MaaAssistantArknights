@@ -16,7 +16,7 @@ public:
     enum class OperProgressAction
     {
         Elite,
-        Skills,
+        MainSkillLevel,
         Mastery,
     };
 
@@ -48,19 +48,16 @@ private:
     enum class Result
     {
         Success, // 执行成功; 目标已达成、精英化 / 技能升级 / 专精实际推进成功
-        Failure, // 执行失败; 识别失败、无法合成、前置不满足等
+        Failed,  // 执行失败; 识别失败、无法合成、前置不满足等
         Skipped, // 跳过本条; 训练室被占用
     };
 
     ResultDetail execute_elite(battle::Role role, const std::string& name, int target);
     void report_elite_result(battle::Role role, std::string_view name, ResultDetail result, int elite);
     ResultDetail execute_skill(int level);
+    void report_skill_result(battle::Role role, std::string_view name, ResultDetail result, int level);
     ResultDetail execute_mastery(battle::Role role, std::string_view name, int skill, int specialization);
-    void report_skill_result(
-        battle::Role role,
-        std::string_view name,
-        ResultDetail result,
-        std::variant<int, std::array<int, 3>> level);
+    void report_skill_result(battle::Role role, std::string_view name, ResultDetail result, std::array<int, 3> level);
     ResultDetail find_and_open_operator(battle::Role role, std::string_view name);
     bool select_role(battle::Role role);
     bool analyze_training_context(std::string& operator_name, std::string& skill_name, int& level);
@@ -82,8 +79,6 @@ private:
     std::optional<int> ocr_number(const cv::Mat& image, const std::string& task_name);
 
     void report_summary();
-    static std::string_view action_name(OperProgressAction action);
-    static std::string_view result_name(ResultDetail result);
 
     std::vector<OperProgressTask::ProgressPlan> m_plan;
     std::vector<OperProgressTask::ProgressPlan> m_plan_finish;
@@ -91,10 +86,9 @@ private:
     std::optional<int> m_recognized_level;
     // 首条目标已定位:任务开始时可能停在主页走完整入口链,之后换干员保证不去主页。
     bool m_entry_completed = false;
-    size_t m_completed = 0;
-    size_t m_satisfied = 0;
-    size_t m_failed = 0;
-    size_t m_skipped = 0;
+    int m_success = 0;
+    int m_failed = 0;
+    int m_skipped = 0;
     const int TraineeMissingRetryTimes = 1; // 训练室受训干员整列表完整扫寻的轮数,超出后判定干员不在列表中。
 };
 } // namespace asst

@@ -132,24 +132,21 @@ std::string role_task_name(asst::battle::Role role)
 
 bool asst::OperProgressProcessTask::_run()
 {
-    m_entry_completed = false;
-    m_completed = m_satisfied = m_failed = m_skipped = 0;
-
     bool training_room_busy = false;
     for (size_t index = 0; index < m_plan.size() && !need_exit(); ++index) {
         const auto& target = m_plan[index];
         m_recognized_level.reset();
 
-        ResultDetail result = ResultDetail::Unsupported;
         const ResultDetail located = find_and_open_operator(target.role, target.name);
         if (located != ResultDetail::Completed) {
             auto info = basic_info_with_what("OperProgressDetail");
             info["details"] |= json::object {
                 { "role", target.role },
                 { "name", target.name },
-                { "result", Result::Failure },
+                { "result", Result::Failed },
                 { "result_detail", located }, // OperatorNotFound, Interrupt, RecognitionFailed
             };
+            m_failed++;
             callback(AsstMsg::SubTaskExtraInfo, info);
             continue;
         }
@@ -158,40 +155,21 @@ bool asst::OperProgressProcessTask::_run()
             report_elite_result(target.role, target.name, elite_ret, *target.elite);
         }
         if (target.skill_level) {
-            if (std::holds_alternative<int>(*target.skill_level)) {
-                auto main_ret = execute_skill(std::get<int>(*target.skill_level));
-                report_skill_result(target.role, target.name, main_ret, *target.skill_level);
-            }
-            else if (!training_room_busy && std::holds_alternative<std::array<int, 3>>(*target.skill_level)) {
-                const auto& arr = std::get<std::array<int, 3>>(*target.skill_level);
-                for (int i = 0; i < 3; ++i) {
-                    auto skill_ret = execute_mastery(target.role, target.name, i, arr[i]);
-                    std::array<int, 3> skill_levels { 0, 0, 0 };
-                    skill_levels[i] = arr[i];
-                    report_skill_result(target.role, target.name, skill_ret, skill_levels);
-                    if (skill_ret == ResultDetail::TrainingRoomBusy || skill_ret == ResultDetail::Completed) {
-                        training_room_busy = true;
-                        break;
-                    }
+            auto main_ret = execute_skill(*target.skill_level);
+            report_skill_result(target.role, target.name, main_ret, *target.skill_level);
+        }
+        if (!training_room_busy && target.skill_mastery) {
+            const auto& arr = *target.skill_mastery;
+            for (int i = 0; i < 3; ++i) {
+                auto skill_ret = execute_mastery(target.role, target.name, i, arr[i]);
+                std::array<int, 3> skill_levels { 0, 0, 0 };
+                skill_levels[i] = arr[i];
+                report_skill_result(target.role, target.name, skill_ret, skill_levels);
+                if (skill_ret == ResultDetail::TrainingRoomBusy || skill_ret == ResultDetail::Completed) {
+                    training_room_busy = true;
+                    break;
                 }
             }
-        }
-
-        switch (result) {
-        case ResultDetail::Completed:
-            ++m_completed;
-            break;
-        case ResultDetail::AlreadySatisfied:
-            ++m_satisfied;
-            break;
-        case ResultDetail::TrainingRoomBusy:
-        case ResultDetail::FormulaLocked:
-            ++m_skipped;
-            break;
-        default:
-            ++m_failed;
-            save_img(utils::path("debug") / utils::path("auto_raise"), false);
-            break;
         }
     }
     report_summary();
@@ -359,9 +337,11 @@ void asst::OperProgressProcessTask::report_elite_result(
         switch (result) {
         case ResultDetail::Completed:
         case ResultDetail::AlreadySatisfied:
+            m_success++;
             return Result::Success;
         default:
-            return Result::Failure;
+            m_failed++;
+            return Result::Failed;
         }
     }();
     auto info = basic_info_with_what("OperProgressDetail");
@@ -423,20 +403,20 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
             if (level <= 3) {
                 return ResultDetail::ResourceInsufficient;
             }
-            const ResultDetail& synth_result = synthesize_missing_material(OperProgressAction::Skills, 0);
+            const ResultDetail& synth_result = synthesize_missing_material(OperProgressAction::MainSkillLevel, 0);
             if (synth_result != ResultDetail::Completed) {
                 return synth_result;
             }
         }
         if (run_task("OperProgress@SkillUpMaterial1Required", 1)) {
-            const ResultDetail& synth_result = synthesize_missing_material(OperProgressAction::Skills, 1);
+            const ResultDetail& synth_result = synthesize_missing_material(OperProgressAction::MainSkillLevel, 1);
             if (synth_result != ResultDetail::Completed) {
                 return synth_result;
             }
         }
 
         if (level == 7 && run_task("OperProgress@SkillUpMaterial2Required", 1)) {
-            const ResultDetail& synth_result = synthesize_missing_material(OperProgressAction::Skills, 2);
+            const ResultDetail& synth_result = synthesize_missing_material(OperProgressAction::MainSkillLevel, 2);
             if (synth_result != ResultDetail::Completed) {
                 return synth_result;
             }
@@ -453,6 +433,52 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
         return ResultDetail::RecognitionFailed;
     }
     return ResultDetail::Completed;
+}
+
+void asst::OperProgressProcessTask::report_skill_result(
+    battle::Role role,
+    std::string_view name,
+    ResultDetail result,
+    int level)
+{
+    const auto process_result = [&]() {
+        switch (result) {
+        case ResultDetail::Completed:
+        case ResultDetail::AlreadySatisfied:
+            m_success++;
+            return Result::Success; // 目标已达成
+        case ResultDetail::TrainingRoomBusy:
+            m_skipped++;
+            return Result::Skipped;
+        default:
+            m_failed++;
+            return Result::Failed;
+        }
+    }();
+    auto info = basic_info_with_what("OperProgressDetail");
+    info["details"] |= json::object {
+        { "role", role },
+        { "name", name },
+        { "result", process_result },
+        { "result_detail", result }, // RecognitionFailed, ResourceInsufficient, FormulaLocked, PrerequisiteNotMet
+    };
+    if (process_result == Result::Success) {
+        info["details"] |= json::object { { "skill_level", level } };
+    }
+    callback(AsstMsg::SubTaskExtraInfo, std::move(info));
+    if (process_result == Result::Success) {
+        auto oper_it = std::ranges::find_if(m_plan_finish, [&role, &name](const auto& oper) {
+            return oper.role == role && oper.name == name;
+        });
+        if (oper_it == m_plan_finish.end()) {
+            m_plan_finish.emplace_back(
+                OperProgressTask::ProgressPlan { .role = role, .name = std::string(name), .skill_level = level });
+        }
+        else {
+            auto& skill_level = oper_it->skill_level;
+            skill_level = std::max(skill_level.value_or(0), level);
+        }
+    }
 }
 
 asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execute_mastery(
@@ -479,13 +505,7 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
         return ResultDetail::RecognitionFailed;
     }
     else if (*rank < 7) {
-        auto skill_ret = execute_skill(7);
-        if (skill_ret == ResultDetail::Completed || skill_ret == ResultDetail::AlreadySatisfied) {
-            report_skill_result(role, name, skill_ret, 7);
-        }
-        else {
-            return ResultDetail::PrerequisiteNotMet;
-        }
+        return ResultDetail::PrerequisiteNotMet;
     }
 
     // 档案页识别目标技能槽的当前专精等级（OperProgress@CurrentSkill{skill}MasterLevel）：
@@ -588,17 +608,20 @@ void asst::OperProgressProcessTask::report_skill_result(
     battle::Role role,
     std::string_view name,
     ResultDetail result,
-    std::variant<int, std::array<int, 3>> level)
+    std::array<int, 3> level)
 {
     const auto process_result = [&]() {
         switch (result) {
         case ResultDetail::Completed:
         case ResultDetail::AlreadySatisfied:
+            m_success++;
             return Result::Success; // 目标已达成
         case ResultDetail::TrainingRoomBusy:
+            m_skipped++;
             return Result::Skipped;
         default:
-            return Result::Failure;
+            m_failed++;
+            return Result::Failed;
         }
     }();
     auto info = basic_info_with_what("OperProgressDetail");
@@ -609,7 +632,7 @@ void asst::OperProgressProcessTask::report_skill_result(
         { "result_detail", result }, // RecognitionFailed, ResourceInsufficient, FormulaLocked, PrerequisiteNotMet
     };
     if (process_result == Result::Success) {
-        info["details"] |= json::object { { "skill", level } };
+        info["details"] |= json::object { { "skill_mastery", level } };
     }
     callback(AsstMsg::SubTaskExtraInfo, std::move(info));
     if (process_result == Result::Success) {
@@ -618,30 +641,14 @@ void asst::OperProgressProcessTask::report_skill_result(
         });
         if (oper_it == m_plan_finish.end()) {
             m_plan_finish.emplace_back(
-                OperProgressTask::ProgressPlan { .role = role, .name = std::string(name), .skill_level = level });
+                OperProgressTask::ProgressPlan { .role = role, .name = std::string(name), .skill_mastery = level });
         }
         else {
-            auto& skill_level = oper_it->skill_level;
-            if (!skill_level) {
-                skill_level = level;
-            }
-            else if (std::holds_alternative<int>(*skill_level)) {
-                skill_level = level; // 基础技能等级时直接覆盖, 基础升级必比原先高; 专精大于基础等级, 同样覆盖
-            }
-            else if (std::holds_alternative<std::array<int, 3>>(level)) {
-                // 有可能某个技能正好手动专精完成, 此处可能会返回两个技能
-                const auto& arr = std::get<std::array<int, 3>>(*skill_level);
-                const auto& new_arr = std::get<std::array<int, 3>>(level);
-                oper_it->skill_level = std::array<int, 3> { std::max(arr[0], new_arr[0]),
-                                                            std::max(arr[1], new_arr[1]),
-                                                            std::max(arr[2], new_arr[2]) };
-            }
-            else [[unlikely]] {
-                // 不应进入此分支, 除非1技能专精时识别错误, 2技能时正确进入
-                json::value old = *skill_level;
-                json::value new_val = level;
-                LogError << __FUNCTION__ << "| skill level type mismatch, existing: " << old << ", new: " << new_val;
-            }
+            auto& skill_mastery = oper_it->skill_mastery;
+            // 有可能某个技能正好手动专精完成, 此处可能会返回两个技能
+            oper_it->skill_mastery = std::array<int, 3> { std::max(skill_mastery->at(0), level[0]),
+                                                          std::max(skill_mastery->at(1), level[1]),
+                                                          std::max(skill_mastery->at(2), level[2]) };
         }
     }
 }
@@ -987,7 +994,7 @@ asst::OperProgressProcessTask::ResultDetail
     case OperProgressAction::Elite:
         task_type_name = "EliteUp";
         break;
-    case OperProgressAction::Skills:
+    case OperProgressAction::MainSkillLevel:
         task_type_name = "SkillUp";
         break;
     case OperProgressAction::Mastery:
@@ -1234,49 +1241,10 @@ void asst::OperProgressProcessTask::report_summary()
 {
     auto info = basic_info_with_what("OperProgressSummary");
     info["details"] |= json::object {
-        { "plans", m_plan_finish },
+        { "finished", m_plan_finish },
+        { "success", m_success },
+        { "failed", m_failed },
+        { "skipped", m_skipped },
     };
     callback(AsstMsg::SubTaskExtraInfo, info);
-}
-
-std::string_view asst::OperProgressProcessTask::action_name(OperProgressAction action)
-{
-    switch (action) {
-    case OperProgressAction::Elite:
-        return "elite";
-    case OperProgressAction::Skills:
-        return "skills";
-    case OperProgressAction::Mastery:
-        return "mastery";
-    default:
-        return "unknown";
-    }
-}
-
-std::string_view asst::OperProgressProcessTask::result_name(ResultDetail result)
-{
-    switch (result) {
-    case ResultDetail::Completed:
-        return "completed";
-    case ResultDetail::AlreadySatisfied:
-        return "already_satisfied";
-    case ResultDetail::ResourceInsufficient:
-        return "resource_insufficient";
-    case ResultDetail::OperatorNotFound:
-        return "operator_not_found";
-    case ResultDetail::PrerequisiteNotMet:
-        return "prerequisite_not_met";
-    case ResultDetail::ChipNotCraftable:
-        return "chip_not_craftable";
-    case ResultDetail::FormulaLocked:
-        return "formula_locked";
-    case ResultDetail::Unsupported:
-        return "unsupported";
-    case ResultDetail::RecognitionFailed:
-        return "recognition_failed";
-    case ResultDetail::TrainingRoomBusy:
-        return "skipped";
-    default:
-        return "unsupported";
-    }
 }

@@ -22,11 +22,8 @@ class jsonization<asst::OperProgressTask::ProgressPlan>
 public:
     bool check_json(const json::value& json) const
     {
-        static constexpr std::array<const char*, 4> allowed_keys = {
-            "role",
-            "name",
-            "elite",
-            "skill_level",
+        static constexpr std::array<const char*, 5> allowed_keys = {
+            "role", "name", "elite", "skill_level", "skill_mastery",
         };
 
         if (!json.is_object()) {
@@ -55,10 +52,11 @@ public:
         };
         // 养成动作一律是整数，显式写 null 时 is<int>() 为假，与类型错误同等拒绝，不会被当成未配置。
         [[maybe_unused]] const auto& role_opt = check_field.template operator()<asst::battle::Role>("role", false);
-        const auto& name_opt = check_field.template operator()<std::string>("name", true);
-        const auto& elite_opt = check_field.template operator()<int>("elite", false);
-        const auto& skill_level_opt =
-            check_field.template operator()<std::variant<int, std::array<int, 3>>>("skill_level", false);
+        [[maybe_unused]] const auto& name_opt = check_field.template operator()<std::string>("name", true);
+        [[maybe_unused]] const auto& elite_opt = check_field.template operator()<int>("elite", false);
+        [[maybe_unused]] const auto& skill_level_opt = check_field.template operator()<int>("skill_level", false);
+        [[maybe_unused]] const auto& skill_mastery_opt =
+            check_field.template operator()<std::array<int, 3>>("skill_mastery", false);
 
         if (!ret) {
             return false;
@@ -72,21 +70,14 @@ public:
             LogError << __FUNCTION__ << "elite must be 1 or 2";
             return false;
         }
-        if (!skill_level_opt) {
+        if (skill_level_opt && (*skill_level_opt < 2 || *skill_level_opt > 7)) {
+            LogError << __FUNCTION__ << "skill_level must be between 2 and 7";
+            return false;
         }
-        else if (auto base_opt = std::get_if<int>(&skill_level_opt.value()); base_opt != nullptr) {
-            if (*base_opt < 2 || *base_opt > 7) {
-                LogError << __FUNCTION__ << "skill_level must be between 2 and 7";
-                return false;
-            }
-        }
-        else if (
-            auto specialization_opt = std::get_if<std::array<int, 3>>(&skill_level_opt.value());
-            specialization_opt != nullptr) {
-            if (std::ranges::any_of(*specialization_opt, [](int level) { return level < 0 || level > 3; })) {
-                LogError << __FUNCTION__ << "skill_level specialization must be between 0 and 3";
-                return false;
-            }
+        if (skill_mastery_opt &&
+            std::ranges::any_of(*skill_mastery_opt, [](int level) { return level < 0 || level > 3; })) {
+            LogError << __FUNCTION__ << "skill_mastery must be between 0 and 3";
+            return false;
         }
         return true;
     }

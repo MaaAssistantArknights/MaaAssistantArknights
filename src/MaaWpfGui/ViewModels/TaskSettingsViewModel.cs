@@ -14,9 +14,11 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
+using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Utilities;
 using Stylet;
@@ -59,6 +61,17 @@ public abstract class TaskSettingsViewModel : PropertyChangedBase
         }
 
         return false;
+    }
+
+    protected T? GetConfigByTaskId<T>(int taskId)
+        where T : notnull, BaseTask, new()
+    {
+        var index = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(t => t.TaskIds.Contains(taskId))?.Index;
+        if (index is null || index < 0 || index >= ConfigFactory.CurrentConfig.TaskQueue.Count)
+        {
+            return null;
+        }
+        return ConfigFactory.CurrentConfig.TaskQueue[index.Value] is T t ? t : null;
     }
 
     /// <summary>

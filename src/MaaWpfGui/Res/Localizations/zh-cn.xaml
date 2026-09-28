@@ -392,10 +392,15 @@
     <system:String x:Key="Yes">是</system:String>
     <system:String x:Key="No">否</system:String>
     <system:String x:Key="Ok">好的</system:String>
+    <system:String x:Key="Success">成功</system:String>
+    <system:String x:Key="Failed">失败</system:String>
+    <system:String x:Key="Skipped">跳过</system:String>
     <system:String x:Key="Cancel">取消</system:String>
     <system:String x:Key="Confirm">确认</system:String>
     <system:String x:Key="Rename">重命名</system:String>
+    <system:String x:Key="Add">添加</system:String>
     <system:String x:Key="Delete">删除</system:String>
+    <system:String x:Key="ParseFailed">解析失败</system:String>
     <system:String x:Key="RenameTask">重命名任务</system:String>
     <system:String x:Key="RenameTaskPrompt">请输入新的任务名称：</system:String>
     <system:String x:Key="AddTaskQueueTask">添加新任务</system:String>
@@ -917,9 +922,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="OperProgressIntegerRequired">计划第 {0} 项的“{1}”字段必须是整数</system:String>
     <system:String x:Key="OperProgressFieldRange">计划第 {0} 项的“{1}”字段必须在 {2} 到 {3} 之间</system:String>
     <!--  待确认移除结束  -->
-    <system:String x:Key="OperProgressSkillLevelTarget">技能等级 {0}</system:String>
-    <system:String x:Key="OperProgressMasteryTarget">技能 {0} 专精 {1}</system:String>
-    <system:String x:Key="OperProgressEliteTarget">精英化 {0}</system:String>
+    <system:String x:Key="OperProgress.SkillLevelTarget">技能等级 {0}</system:String>
+    <system:String x:Key="OperProgress.MasteryTarget">技能 {0} 专精 {1}</system:String>
+    <system:String x:Key="OperProgress.EliteTarget">精英化 {0}</system:String>
     <system:String x:Key="OperProgressDeleteCompletedEntries">任务链结束后删除已完成条目</system:String>
     <system:String x:Key="OperProgressDeleteCompletedEntriesTip">培养任务链结束后，自动删除结果为“成功”或“已满足”的条目；失败与跳过的条目会保留</system:String>
     <system:String x:Key="OperProgressTargetStartLog">培养计划第 {0} 项：{1}，{2}</system:String>
@@ -927,9 +932,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="OperProgressRecognizedElite">（当前精英化 {0}）</system:String>
     <system:String x:Key="OperProgressRecognizedSkillLevel">（当前技能等级 {0}）</system:String>
     <system:String x:Key="OperProgressRecognizedMastery">（当前专精 {0}）</system:String>
-    <system:String x:Key="OperProgressSummaryLog">干员培养完成：成功 {0}，已满足 {1}，失败 {2}，跳过 {3}</system:String>
-    <system:String x:Key="OperProgressSelectOperator">选择干员</system:String>
-    <system:String x:Key="OperProgressAddTarget">添加</system:String>
+    <system:String x:Key="OperProgress.Summary">干员培养完成：成功 {0}，失败 {1}，跳过 {2}</system:String>
     <!--  待确认移除（弹窗专用：卡片内联编辑后不再使用）  -->
     <system:String x:Key="OperProgressTargetTitle">{0} · 培养目标</system:String>
     <system:String x:Key="OperProgressElite">精英化</system:String>
@@ -941,6 +944,7 @@ C:\leidian\LDPlayer9
     <!--  待确认移除（弹窗专用：卡片内联编辑后不再使用）  -->
     <system:String x:Key="OperProgressEdit">修改</system:String>
     <system:String x:Key="OperProgressOnlineEditor">在明日方舟工具箱中在线编辑计划</system:String>
+    <system:String x:Key="OperProgress.Detail">{key=OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="Visiting">访问好友</system:String>
     <system:String x:Key="Mall">信用收支</system:String>
     <system:String x:Key="Mission">领取奖励</system:String>
