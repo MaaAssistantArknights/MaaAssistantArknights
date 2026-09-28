@@ -161,7 +161,7 @@ bool asst::OperProgressProcessTask::_run()
         if (!training_room_busy && target.skill_mastery) {
             const auto& arr = *target.skill_mastery;
             for (int i = 0; i < 3; ++i) {
-                auto skill_ret = execute_mastery(target.role, target.name, i, arr[i]);
+                auto skill_ret = execute_mastery(target.role, target.name, i + 1, arr[i]);
                 std::array<int, 3> skill_levels { 0, 0, 0 };
                 skill_levels[i] = arr[i];
                 report_skill_result(target.role, target.name, skill_ret, skill_levels);
