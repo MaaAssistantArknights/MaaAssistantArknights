@@ -6873,17 +6873,17 @@
     "OperProgress@MasterySelectSkillMaxAlready1": {
         "baseTask": "InfrastTrainingContinue1",
         "template": "InfrastTrainingMaxAlready.png",
-        "next": ["OperProgress@OperProgress@ReturnToOperFilesPage"]
+        "next": []
     },
     "OperProgress@MasterySelectSkillMaxAlready2": {
         "baseTask": "InfrastTrainingContinue2",
         "template": "InfrastTrainingMaxAlready.png",
-        "next": ["OperProgress@OperProgress@ReturnToOperFilesPage"]
+        "next": []
     },
     "OperProgress@MasterySelectSkillMaxAlready3": {
         "baseTask": "InfrastTrainingContinue3",
         "template": "InfrastTrainingMaxAlready.png",
-        "next": ["OperProgress@OperProgress@ReturnToOperFilesPage"]
+        "next": []
     },
     "OperProgress@MasterySelectTrainer": {
         "algorithm": "JustReturn",
