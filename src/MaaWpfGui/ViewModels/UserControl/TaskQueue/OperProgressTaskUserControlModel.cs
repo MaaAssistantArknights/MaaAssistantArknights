@@ -295,7 +295,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                         summary?.Success ?? -1,
                         summary?.Failed ?? -1,
                         summary?.Skipped ?? -1),
-                    (summary?.Failed ?? -1) > 0 ? UiLogColor.Warning : UiLogColor.Success);
+                    (summary?.Failed ?? -1) > 0 ? UiLogColor.Warning : UiLogColor.Info);
                 Instance.RemoveFinishedPlans(msg.TaskId);
                 break;
 
@@ -358,7 +358,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                     Instances.TaskQueueViewModel.AddLog(
                         LocalizationHelper.GetStringFormat(
                             "OperProgress.Detail",
-                            list.IndexOf(plan),
+                            list.IndexOf(plan) + 1,
                             operName,
                             LocalizationHelper.GetStringFormat(status)) + BuildTargetCallbackDescription(callback),
                         UiLogColor.Info);

@@ -114,7 +114,7 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <controls:TextBlock VerticalAlignment="Center" Text="{Binding Index}" />
+                                    <controls:TextBlock VerticalAlignment="Center" Text="{c:Binding 'Index + 1'}" />
                                     <controls:TextBlock
                                         Grid.Column="1"
                                         Margin="4,0"
