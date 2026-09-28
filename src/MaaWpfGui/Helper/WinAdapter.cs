@@ -40,9 +40,9 @@ public class WinAdapter
 
         public string? Address { get; } = address;
 
-        public string SelectionDisplayText => string.IsNullOrEmpty(AdbPath)
+        public string SelectionDisplayText => (string.IsNullOrEmpty(AdbPath)
             ? EmulatorName.ToString()
-            : $"{EmulatorName} ({AdbPath}){(Address == null ? string.Empty : $" - {Address}")}";
+            : $"{EmulatorName} ({AdbPath})") + (Address == null ? string.Empty : $" - {Address}");
     }
 
     private static readonly Dictionary<string, ConnectConfig> _emulatorIdDict = new()

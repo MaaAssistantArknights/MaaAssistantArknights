@@ -7,6 +7,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="../../src/MaaWpfGui/Helper/MuMuArmConnection.cs" Link="MuMuArmConnection.cs" />
+    <Compile Include="../../src/MaaWpfGui/Helper/WinAdapter.cs" Link="WinAdapter.cs" />
+    <Compile Include="../../src/MaaWpfGui/Constants/Enums/ConnectConfig.cs" Link="ConnectConfig.cs" />
+    <PackageReference Include="System.Management" Version="10.0.0" />
     <PackageReference Include="Serilog" Version="4.3.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageReference Include="xunit" Version="2.9.3" />
