@@ -34,16 +34,6 @@ constexpr int MaxOperatorPages = 20;
 // 制造站产线当前产品写入 Status 的键,RestoreFactoryState 读取后恢复原产品。
 constexpr std::string_view FactoryProductStatusKey = "OperProgressFactoryProduct";
 
-// 训练室专精页技能行的专精等级三角标由三个菱形块组成,点亮(白色)块数即当前专精等级。
-// 块中心在图标区(roi)内的相对位置(上、左下、右下),实测自 1280x720 界面。
-constexpr std::array<std::pair<double, double>, 3> TrainingMasteryCellCenters = {
-    { { 0.50, 0.41 }, { 0.25, 0.77 }, { 0.74, 0.77 } }
-};
-// 菱形块点亮判白阈值(HSV V 通道):点亮块恒为 255,未点亮块随半透明底图波动最深约 120。
-constexpr int TrainingMasteryLitVThreshold = 180;
-// 块中心采样邻域半径:菱形块约 24px 见方,7x7 均值抑制抗锯齿边缘与 1-2px 定位偏差。
-constexpr int TrainingMasterySampleRadius = 3;
-
 // 快速编队卡片识别结果,参照 BattleFormationTask::QuickFormationOper 裁剪出选人所需字段。
 struct QuickFormationOperInfo
 {
@@ -536,7 +526,7 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
     if (!run_task("OperProgress@MasteryPageEnter")) {
         return ResultDetail::RecognitionFailed;
     }
-    
+
     // 若领取会使正在专精的技能等级产生变化,或者领取到非目标干员的专精完成,需要选完人后重新识别。
     bool need_re_recognize_mastery = false;
     if (run_task("InfrastTrainingCompleted2", 10)) {
@@ -731,37 +721,36 @@ std::optional<int> asst::OperProgressProcessTask::training_skill_mastery_level(c
     }
 
     const std::string task_name = "OperProgress@TrainingSkill" + std::to_string(skill) + "MasterLevel";
-    const auto task_ptr = Task.get(task_name);
-    if (!task_ptr) {
+    const auto task_ptr = Task.get<MatchTaskInfo>(task_name);
+    if (!task_ptr || task_ptr->templ_thresholds.empty()) {
         LogError << __FUNCTION__ << "| task not found" << task_name;
         return std::nullopt;
     }
 
-    // 与档案页圆点判级(OperFilesImageAnalyzer::mastery_level)同理:三角标 0 级与 3 级仅亮度不同,
-    // 模板匹配分不出来,等级由点亮菱形块数决定,按块中心采样亮度统计。
-    const cv::Mat icon = make_roi(image, task_ptr->roi);
-    if (icon.empty()) {
-        LogError << __FUNCTION__ << "| empty roi for task" << task_name;
+    // 三角标 0 级(全灰)与 3 级(全白)仅亮度不同,任务声明 HSVCount + colorScales(纯白点亮菱形)
+    // 后得分 = 形状匹配 × 点亮菱形数色 F1,等级不同得分可分,取最优模板即当前等级。
+    // 未点亮区域会被背景立绘透光干扰,故模板只留 1-3 级(见任务 doc),
+    // 三个模板均未命中即无点亮菱形,按 0 级返回;调用点已由前置任务确认位于专精页。
+    BestMatcher analyzer(image);
+    analyzer.set_task_info(task_ptr);
+    for (int level = 1; level <= 3; ++level) {
+        analyzer.append_templ("TrainingCurrentLevel" + std::to_string(level) + ".png");
+    }
+    const auto result_opt = analyzer.analyze();
+    if (!result_opt) {
+        LogInfo << __FUNCTION__ << "| no lit mastery cell, treat as level 0, task" << task_name;
+        return 0;
+    }
+
+    // 模板由本函数显式加入,名字必然是 TrainingCurrentLevel{1-3}.png,取尾数字即等级
+    // (参照 analyze_training_context 对 InfrastTrainingLevel 的解析)。
+    int level = 0;
+    const std::string& templ_name = result_opt->templ_info.name;
+    if (!utils::chars_to_number(templ_name.substr(std::string("TrainingCurrentLevel").size(), 1), level)) {
+        LogError << __FUNCTION__ << "| unexpected template name" << templ_name;
         return std::nullopt;
     }
-    cv::Mat hsv;
-    cv::cvtColor(icon, hsv, cv::COLOR_BGR2HSV);
-
-    int lit_cells = 0;
-    for (const auto& [center_x_ratio, center_y_ratio] : TrainingMasteryCellCenters) {
-        const cv::Rect sample(
-            static_cast<int>(center_x_ratio * icon.cols) - TrainingMasterySampleRadius,
-            static_cast<int>(center_y_ratio * icon.rows) - TrainingMasterySampleRadius,
-            TrainingMasterySampleRadius * 2 + 1,
-            TrainingMasterySampleRadius * 2 + 1);
-        if (sample.x < 0 || sample.y < 0 || sample.br().x > icon.cols || sample.br().y > icon.rows) {
-            continue;
-        }
-        if (cv::mean(hsv(sample))[2] > TrainingMasteryLitVThreshold) {
-            ++lit_cells;
-        }
-    }
-    return lit_cells;
+    return level;
 }
 
 bool asst::OperProgressProcessTask::select_training_trainee(battle::Role role, std::string_view name)
