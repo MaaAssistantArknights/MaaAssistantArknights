@@ -9,11 +9,10 @@ icon: mdi:plug
 
 MAA can automatically detect and fill in the ADB path, connection address, and connection configuration for a **single currently running emulator**.
 
-The following emulators and connection addresses are supported for detection:
+As of MAA v6.16.8, the following emulators and connection addresses are supported for detection:
 
 - BlueStacks 5: `127.0.0.1:5555/5556/5565/5575/5585/5595/5554`
 - MuMu Player: `127.0.0.1:16384/16416/16448/16480/16512/16544/16576`
-- MuMu Player (Windows ARM): automatically detects the virtual network address of the instance; verified with MuMu ARM 1.8.9.
 - LDPlayer 9: `emulator-5554/5556/5558/5560`, `127.0.0.1:5555/5557/5559/5561`
 - NoxPlayer: `127.0.0.1:62001/59865`
 - MEmu Play: `127.0.0.1:21503`
@@ -172,7 +171,9 @@ For specific differences, see the [source code](https://github.com/MaaAssistantA
 
 ### MuMu Screenshot Enhanced Mode
 
+::: warning
 MuMu Windows ARM 1.8.9 does not support the screenshot and touch enhancements described here.
+:::
 
 **Version Requirement**: Official/Arknights-specific MuMu V4.1.26 or above, or Global MuMu V5.21.3 or above. <!-- Official V3.8.13 supports initial enhanced screenshots -->
 
