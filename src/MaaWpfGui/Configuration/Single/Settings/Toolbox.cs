@@ -49,9 +49,4 @@ public partial class Toolbox : NotifyPropertyChangedWithValue
     public bool AutoSetTime { get; set; } = true;
 
     public bool ShowPotential { get; set; } = true;
-
-    /// <summary>
-    /// 干员识别卡片是否以干员头像为底板展示
-    /// </summary>
-    public bool OperBoxAvatarMode { get; set; }
 }

@@ -1321,9 +1321,12 @@ public class ToolboxViewModel : Screen
             : "/Res/Img/Operator/Potential_1.png";
 
         /// <summary>
-        /// Gets 干员头像（裁自头像雪碧图，资源缺失或无坐标时为 null；未拥有干员为降饱和版本）
+        /// Gets 干员头像（裁自 resource/template/avatar 的单图，未拥有干员为降饱和版本）。
+        /// 帕拉斯在干员识别中特殊处理：显示 MAA 图标而非上游头像，未拥有时同样降饱和
         /// </summary>
-        public BitmapSource? Avatar => OperAvatarHelper.GetOperAvatar(Id, !Owned);
+        public BitmapSource? Avatar => IsPallas
+            ? OperAvatarHelper.GetMaaIcon(!Owned) ?? OperAvatarHelper.GetOperAvatar(Id, !Owned)
+            : OperAvatarHelper.GetOperAvatar(Id, !Owned);
 
         /// <summary>
         /// Gets a value indicating whether 该干员在识别结果中为已拥有
@@ -1942,17 +1945,6 @@ public class ToolboxViewModel : Screen
 
         StartOperBoxRecognitionTask();
     }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether 干员识别卡片以干员头像为底板展示（重启后保留）。
-    /// </summary>
-    public bool OperBoxAvatarMode
-    {
-        get; set {
-            SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.OperBoxAvatarMode = value;
-        }
-    } = ConfigFactory.CurrentConfig.Toolbox.OperBoxAvatarMode;
 
     /// <summary>
     /// Gets 干员识别导出格式选项，文案随语言热切换自动刷新。

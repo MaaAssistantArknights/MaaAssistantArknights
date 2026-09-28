@@ -17,6 +17,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -118,6 +119,72 @@ public static class OperAvatarHelper
     public static BitmapSource? GetRoleIcon(OperatorRole role)
     {
         return _roleIconCache.GetOrAdd(role, LoadRoleIcon);
+    }
+
+    private static BitmapSource? _maaIcon;
+    private static BitmapSource? _desaturatedMaaIcon;
+
+    /// <summary>
+    /// 获取 MAA 应用图标（打包资源 <c>newlogo.ico</c>），供干员识别中的特殊干员展示使用。
+    /// </summary>
+    /// <param name="desaturated">是否降低饱和度（如识别结果中未拥有的特殊干员）</param>
+    /// <returns>MAA 图标；解码失败时返回 <c>null</c></returns>
+    public static BitmapSource? GetMaaIcon(bool desaturated = false)
+    {
+        if (desaturated)
+        {
+            if (_desaturatedMaaIcon != null)
+            {
+                return _desaturatedMaaIcon;
+            }
+        }
+        else if (_maaIcon != null)
+        {
+            return _maaIcon;
+        }
+
+        lock (_avatarCacheLock)
+        {
+            if (desaturated)
+            {
+                if (_desaturatedMaaIcon == null)
+                {
+                    var normal = GetMaaIcon();
+                    _desaturatedMaaIcon = normal != null ? Desaturate(normal, DesaturatedColorKeep) : null;
+                }
+
+                return _desaturatedMaaIcon;
+            }
+
+            if (_maaIcon == null)
+            {
+                var dispatcher = Application.Current?.Dispatcher;
+                _maaIcon = dispatcher != null && !dispatcher.CheckAccess()
+                    ? dispatcher.Invoke(DecodeMaaIconCore)
+                    : DecodeMaaIconCore();
+            }
+
+            return _maaIcon;
+        }
+    }
+
+    private static BitmapSource? DecodeMaaIconCore()
+    {
+        try
+        {
+            var decoder = new IconBitmapDecoder(
+                new Uri("pack://application:,,,/newlogo.ico"),
+                BitmapCreateOptions.None,
+                BitmapCacheOption.OnLoad);
+            var frame = decoder.Frames.OrderByDescending(f => f.PixelWidth).FirstOrDefault();
+            frame?.Freeze();
+            return frame;
+        }
+        catch (Exception e)
+        {
+            _logger.Error(e, "Failed to decode MAA icon from newlogo.ico");
+            return null;
+        }
     }
 
     /// <summary>
