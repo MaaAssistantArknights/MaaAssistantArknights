@@ -114,6 +114,7 @@ bool asst::OperProgressTask::set_params(const json::value& params)
                 .name = plan.name,
                 .elite = plan.elite,
                 .skill_level = plan.skill_level,
+                .skill_mastery = plan.skill_mastery,
             });
     }
 
