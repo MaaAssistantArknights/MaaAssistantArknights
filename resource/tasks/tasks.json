@@ -5131,6 +5131,7 @@
             "OperBoxRoleTabSelect",
             "OperBoxSortTabSelect",
             "OperBoxRoleTab",
+            "OperBoxRoleTabCollapsed",
             "OperBoxBegin@QuickSwitch@ToOperBox#next",
             "OperBox@ReturnButtons#next"
         ]
@@ -5141,6 +5142,12 @@
         "roi": [227, 327, 159, 152],
         "sub": ["OperBox-Entry"],
         "next": ["OperBoxRoleTabSelect", "OperBoxSortTabSelect", "OperBoxRoleTab"]
+    },
+    "OperBoxRoleTabCollapsed": {
+        "action": "ClickSelf",
+        "baseTask": "BattleQuickFormationRoleFiltering",
+        "template": "BattleQuickFormationRoleFiltering.png",
+        "next": ["OperBoxRoleTabSelect"]
     },
     "OperBoxRoleTabSelect": {
         "action": "ClickSelf",
