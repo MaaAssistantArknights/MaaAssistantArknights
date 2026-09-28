@@ -364,7 +364,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                     Instances.TaskQueueViewModel.AddLog(
                         LocalizationHelper.GetStringFormat(
                             "OperProgress.Detail",
-                            list.IndexOf(plan) + 1,
+                            list.IndexOf(plan),
                             operName,
                             LocalizationHelper.GetStringFormat(status)) + BuildTargetCallbackDescription(callback),
                         UiLogColor.Info);
