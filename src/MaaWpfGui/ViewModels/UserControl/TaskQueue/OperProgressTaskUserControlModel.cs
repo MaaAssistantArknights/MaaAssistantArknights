@@ -180,6 +180,8 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                     }
                     list.Add(new Plan(plan.Role, plan.Name, plan.Elite ?? 0, plan.MainSkillLevel ?? 0, plan.SkillMastery ?? SkillMastery.Of(0, 0, 0)));
                 }
+                SetTaskConfig<OperProgressTask>(t => t.Plans.SequenceEqual(list), t => t.Plans = list);
+                RefreshUI(TaskSettingVisibilityInfo.CurrentTask);
             }
             catch (Exception ex)
             {
@@ -380,12 +382,14 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         int? mainSkillLevel = json?.Value<int?>("skill_level");
         SkillMastery? skillMastery = null;
         var skillLevelObj = json?["skill_mastery"];
-        if (skillLevelObj?.Type == JTokenType.Array && skillLevelObj.Count() == 3)
+        if (skillLevelObj?.Type == JTokenType.Array)
         {
-            skillMastery = SkillMastery.Of(
-                skillLevelObj[0]?.Value<int>() ?? 0,
-                skillLevelObj[1]?.Value<int>() ?? 0,
-                skillLevelObj[2]?.Value<int>() ?? 0);
+            var list = skillLevelObj.ToObject<int[]>() ?? [];
+            if (list.Length < 3)
+            {
+                Array.Resize(ref list, 3);
+            }
+            skillMastery = SkillMastery.Of(list[0], list[1], list[2]);
         }
 
         return new ProgressCallback(role, name, elite, mainSkillLevel, skillMastery);

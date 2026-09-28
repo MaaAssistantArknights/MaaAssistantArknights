@@ -14,9 +14,11 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
+using MaaWpfGui.Configuration.Converter.Specific;
 using MaaWpfGui.Constants.Enums;
 using static MaaWpfGui.Main.AsstProxy;
 
@@ -31,10 +33,20 @@ public class OperProgressTask : BaseTask
 
     public List<Plan> Plans { get; set; } = [];
 
-    public record class Plan(OperatorRole Role, string Name, int Elite, int SkillLevel, SkillMastery SkillMastery);
+    public record Plan(OperatorRole Role, string Name, int Elite, int SkillLevel, SkillMastery SkillMastery);
 
+    /// <summary>
+    /// 干员技能 1/2/3 的专精等级，未设定的技能为 0。
+    /// </summary>
+    /// <remarks>
+    /// 该结构体没有公开的可读写成员，<see cref="System.Text.Json"/> 无法原生读写，故由
+    /// <see cref="SkillMasteryConverter"/> 显式按数组处理；同理运行时也不会生成默认的
+    /// <see cref="Equals(object)"/> 与 <see cref="GetHashCode"/>（调用即抛 <see cref="NotSupportedException"/>），
+    /// 必须自行实现，否则 <see cref="Plan"/> 的记录相等比较会失败。
+    /// </remarks>
     [InlineArray(3)]
-    public struct SkillMastery
+    [JsonConverter(typeof(SkillMasteryConverter))]
+    public struct SkillMastery : IEquatable<SkillMastery>
     {
         private int _v;
 
@@ -53,52 +65,23 @@ public class OperProgressTask : BaseTask
             MemoryMarshal.CreateReadOnlySpan(ref _v, 3).CopyTo(arr);
             return arr;
         }
-    }
 
-    /// <summary>
-    /// 技能培养目标：基础技能等级（<see cref="BaseLevel"/>）与专精等级（<see cref="Mastery"/>）二选一。
-    /// </summary>
-    [JsonDerivedType(typeof(BaseLevel), typeDiscriminator: nameof(BaseLevel))]
-    [JsonDerivedType(typeof(Mastery), typeDiscriminator: nameof(Mastery))]
-    public abstract record SkillLevel
-    {
-        /// <summary>
-        /// 基础技能等级目标。
-        /// </summary>
-        public sealed record BaseLevel(int Level) : SkillLevel
+        /// <inheritdoc/>
+        public readonly bool Equals(SkillMastery other) => ((ReadOnlySpan<int>)this).SequenceEqual((ReadOnlySpan<int>)other);
+
+        /// <inheritdoc/>
+        public readonly override bool Equals([NotNullWhen(true)] object? obj) => obj is SkillMastery other && Equals(other);
+
+        /// <inheritdoc/>
+        public readonly override int GetHashCode()
         {
-            public static implicit operator int(BaseLevel value) => value.Level;
-
-            public static implicit operator BaseLevel(int value) => new(value);
-        }
-
-        /// <summary>
-        /// 技能 1/2/3 的专精等级目标，未设定为 0。
-        /// </summary>
-        public sealed record Mastery(int Skill1, int Skill2, int Skill3) : SkillLevel
-        {
-            public int[] ToArray() => [Skill1, Skill2, Skill3];
-
-            public static explicit operator int[](Mastery value)
+            HashCode hashCode = default;
+            foreach (var level in (ReadOnlySpan<int>)this)
             {
-                ArgumentNullException.ThrowIfNull(value);
-                return value.ToArray();
+                hashCode.Add(level);
             }
 
-            public static explicit operator Mastery(int[] skills)
-            {
-                ArgumentNullException.ThrowIfNull(skills);
-                if (skills.Length != 3)
-                {
-                    throw new ArgumentException("Exactly three skill levels are required.", nameof(skills));
-                }
-
-                return new Mastery(skills[0], skills[1], skills[2]);
-            }
-
-            public bool Any(Func<int, bool> predicate) => predicate(Skill1) || predicate(Skill2) || predicate(Skill3);
-
-            public bool All(Func<int, bool> predicate) => predicate(Skill1) && predicate(Skill2) && predicate(Skill3);
+            return hashCode.ToHashCode();
         }
     }
 }
