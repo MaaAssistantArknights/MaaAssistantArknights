@@ -116,8 +116,11 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
                 MainSkillLevel = Math.Min(MainSkillLevel, 4);
             }
             IsEliteSelected = value > 0;
+            NotifyOfPropertyChange(nameof(EliteIconPath));
         }
     }
+
+    public string EliteIconPath => $"/Res/Img/Operator/Elite_{Elite}.png";
 
     public bool IsMainSkillLevelSelected { get; set => SetAndNotify(ref field, value); }
 
