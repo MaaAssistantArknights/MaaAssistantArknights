@@ -132,13 +132,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
             return;
         }
 
-        foreach (var plan in list)
-        {
-            if (plan.Elite == 0 && plan.SkillLevel == 0 && plan.SkillMastery.ToArray().All(x => x == 0))
-            {
-                task.Plans.Remove(plan);
-            }
-        }
+        task.Plans = [.. list.Where(plan => plan.Elite != 0 || plan.SkillLevel != 0 || plan.SkillMastery.ToArray().Any(x => x > 0))];
         RefreshUI(TaskSettingVisibilityInfo.CurrentTask);
     }
 
