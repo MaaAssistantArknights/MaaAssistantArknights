@@ -912,9 +912,13 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="OperProgress.Summary">Operator progression finished: {0} completed, {1} failed, {2} skipped</system:String>
     <system:String x:Key="OperProgressElite">Elite</system:String>
     <system:String x:Key="OperProgressSkillUpgrade">Skill upgrade</system:String>
-    <system:String x:Key="OperProgressMastery">Mastery</system:String>
+    <system:String x:Key="OperProgressNotSet">---</system:String>
+    <system:String x:Key="OperProgressMastery1">Mastery 1</system:String>
+    <system:String x:Key="OperProgressMastery2">Mastery 2</system:String>
+    <system:String x:Key="OperProgressMastery3">Mastery 3</system:String>
     <system:String x:Key="OperProgressSkillNumber">Skill {0}</system:String>
     <system:String x:Key="OperProgressOnlineEditor">Edit the plan online with Arknights Toolbox</system:String>
+    <system:String x:Key="OperProgressReadFromClipboard">Read from Clipboard</system:String>
     <system:String x:Key="OperProgress.Detail">{key=OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="Visiting">Visit Friends</system:String>
     <system:String x:Key="Mall">Credit Store</system:String>

@@ -236,9 +236,10 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         SavePlan();
     }
 
-    /// <summary>语言或干员名语言切换后刷新卡片上的本地化显示。</summary>
+    /// <summary>语言或干员名语言切换后刷新卡片与专精等级下拉的本地化显示。</summary>
     private void RefreshPlanItemLocalization()
     {
+        SpecializationSkillLevelList.RefreshLocalization();
         foreach (var item in PlanItems)
         {
             item.RefreshLocalizedText();
@@ -436,10 +437,9 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         new("Lv. 7", 7),
     ];
 
-    public static List<GenericCombinedData<int>> SpecializationSkillLevelList => [
-        new("---", 0),
-        new(LocalizationHelper.GetStringFormat("OperProgressMastery", 1), 1),
-        new(LocalizationHelper.GetStringFormat("OperProgressMastery", 2), 2),
-        new(LocalizationHelper.GetStringFormat("OperProgressMastery", 3), 3),
-    ];
+    public static LocalizedObservableList<int> SpecializationSkillLevelList { get; } = new(
+        (0, "OperProgressNotSet"),
+        (1, "OperProgressMastery1"),
+        (2, "OperProgressMastery2"),
+        (3, "OperProgressMastery3"));
 }

@@ -914,9 +914,13 @@ C:\leidian\LDPlayer9
     <system:String x:Key="OperProgress.Summary">オペレーター育成完了：成功 {0}、失敗 {1}、スキップ {2}</system:String>
     <system:String x:Key="OperProgressElite">昇進段階</system:String>
     <system:String x:Key="OperProgressSkillUpgrade">スキルランクアップ</system:String>
-    <system:String x:Key="OperProgressMastery">スキル特化</system:String>
+    <system:String x:Key="OperProgressNotSet">---</system:String>
+    <system:String x:Key="OperProgressMastery1">特化 1</system:String>
+    <system:String x:Key="OperProgressMastery2">特化 2</system:String>
+    <system:String x:Key="OperProgressMastery3">特化 3</system:String>
     <system:String x:Key="OperProgressSkillNumber">スキル{0}</system:String>
     <system:String x:Key="OperProgressOnlineEditor">アークナイツツールボックスでオンライン編集</system:String>
+    <system:String x:Key="OperProgressReadFromClipboard">クリップボードから読み込む</system:String>
     <system:String x:Key="OperProgress.Detail">{key=OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="Visiting">戦友訪問</system:String>
     <system:String x:Key="Mall">FP獲得と交換</system:String>

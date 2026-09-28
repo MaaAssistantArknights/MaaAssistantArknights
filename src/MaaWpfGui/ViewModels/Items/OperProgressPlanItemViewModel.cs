@@ -81,7 +81,7 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
         }
         else
         {
-            Log.Warning("干员 {Name} 不存在于数据中，无法解析职业与技能数", name);
+            Log.Warning("Operator {Name} not found in data, cannot resolve role and skill count", name);
             SkillCount = 3;
             DisplayName = name;
         }

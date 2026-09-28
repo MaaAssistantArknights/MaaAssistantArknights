@@ -913,9 +913,13 @@ C:\leidian\LDPlayer9
     <system:String x:Key="OperProgress.Summary">오퍼레이터 육성 완료: 성공 {0}, 실패 {1}, 스킵 {2}</system:String>
     <system:String x:Key="OperProgressElite">정예화</system:String>
     <system:String x:Key="OperProgressSkillUpgrade">스킬 레벨업</system:String>
-    <system:String x:Key="OperProgressMastery">스킬 마스터리</system:String>
+    <system:String x:Key="OperProgressNotSet">---</system:String>
+    <system:String x:Key="OperProgressMastery1">마스터리 1</system:String>
+    <system:String x:Key="OperProgressMastery2">마스터리 2</system:String>
+    <system:String x:Key="OperProgressMastery3">마스터리 3</system:String>
     <system:String x:Key="OperProgressSkillNumber">스킬 {0}</system:String>
     <system:String x:Key="OperProgressOnlineEditor">명일방주 공구 상자에서 온라인 편집</system:String>
+    <system:String x:Key="OperProgressReadFromClipboard">클립보드에서 읽기</system:String>
     <system:String x:Key="OperProgress.Detail">{key=OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="Visiting">친구 방문</system:String>
     <system:String x:Key="Mall">크레딧 수급 및 상점</system:String>

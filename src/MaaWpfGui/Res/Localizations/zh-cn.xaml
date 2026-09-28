@@ -912,9 +912,13 @@ C:\leidian\LDPlayer9
     <system:String x:Key="OperProgress.Summary">干员培养完成：成功 {0}，失败 {1}，跳过 {2}</system:String>
     <system:String x:Key="OperProgressElite">精英化</system:String>
     <system:String x:Key="OperProgressSkillUpgrade">技能基础等级</system:String>
-    <system:String x:Key="OperProgressMastery">专精 {0}</system:String>
+    <system:String x:Key="OperProgressNotSet">---</system:String>
+    <system:String x:Key="OperProgressMastery1">专精 1</system:String>
+    <system:String x:Key="OperProgressMastery2">专精 2</system:String>
+    <system:String x:Key="OperProgressMastery3">专精 3</system:String>
     <system:String x:Key="OperProgressSkillNumber">技能 {0}</system:String>
     <system:String x:Key="OperProgressOnlineEditor">在明日方舟工具箱中在线编辑计划</system:String>
+    <system:String x:Key="OperProgressReadFromClipboard">从剪贴板读取</system:String>
     <system:String x:Key="OperProgress.Detail">{key=OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="Visiting">访问好友</system:String>
     <system:String x:Key="Mall">信用收支</system:String>
