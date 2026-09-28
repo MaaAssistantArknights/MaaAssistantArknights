@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Management;
 using MaaWpfGui.Constants.Enums;
 using Microsoft.Win32;
 using Serilog;
@@ -31,15 +32,17 @@ public class WinAdapter
 {
     private static readonly ILogger _logger = Log.ForContext<WinAdapter>();
 
-    public sealed class DetectedEmulatorInfo(ConnectConfig emulatorName, string? adbPath)
+    public sealed class DetectedEmulatorInfo(ConnectConfig emulatorName, string? adbPath, string? address = null)
     {
         public ConnectConfig EmulatorName { get; } = emulatorName;
 
         public string? AdbPath { get; } = adbPath;
 
+        public string? Address { get; } = address;
+
         public string SelectionDisplayText => string.IsNullOrEmpty(AdbPath)
             ? EmulatorName.ToString()
-            : $"{EmulatorName} ({AdbPath})";
+            : $"{EmulatorName} ({AdbPath}){(Address == null ? string.Empty : $" - {Address}")}";
     }
 
     private static readonly Dictionary<string, ConnectConfig> _emulatorIdDict = new()
@@ -49,6 +52,7 @@ public class WinAdapter
         { "Nox", ConnectConfig.Nox },
         { "MuMuPlayer", ConnectConfig.MuMuEmulator12 },
         { "MuMuNxDevice", ConnectConfig.MuMuEmulator12 },
+        { "nemux-shell-winui", ConnectConfig.MuMuArm },
         { "MEmu", ConnectConfig.XYAZ },
     };
 
@@ -72,6 +76,7 @@ public class WinAdapter
             ]
         },
         { ConnectConfig.XYAZ, [@".\adb.exe"] },
+        { ConnectConfig.MuMuArm, [@".\adb.exe"] },
     };
 
     /// <summary>
@@ -90,11 +95,15 @@ public class WinAdapter
                 continue;
             }
 
-            var adbPath = GetAdbPathByProcessPath(process.MainModule?.FileName, emulatorId);
-            var detectionKey = $"{emulatorId}\n{adbPath}";
+            var processPath = process.MainModule?.FileName;
+            var adbPath = GetAdbPathByProcessPath(processPath, emulatorId);
+            var address = emulatorId == ConnectConfig.MuMuArm
+                ? GetMuMuArmAddress(process.Id, processPath)
+                : null;
+            var detectionKey = $"{emulatorId}\n{adbPath}\n{address}";
             if (detectedEmulators.Add(detectionKey))
             {
-                emulators.Add(new DetectedEmulatorInfo(emulatorId, adbPath));
+                emulators.Add(new DetectedEmulatorInfo(emulatorId, adbPath, address));
             }
         }
 
@@ -105,6 +114,28 @@ public class WinAdapter
         }
 
         return emulators;
+    }
+
+    private static string? GetMuMuArmAddress(int processId, string? processPath)
+    {
+        try
+        {
+            using var searcher = new ManagementObjectSearcher($"SELECT CommandLine FROM Win32_Process WHERE ProcessId = {processId}");
+            using var results = searcher.Get();
+            foreach (ManagementObject result in results)
+            {
+                using (result)
+                {
+                    return MuMuArmConnection.GetAddress(processPath, result["CommandLine"] as string);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            _logger.Warning(e, "Failed to read MuMu ARM process command line for {ProcessId}", processId);
+        }
+
+        return null;
     }
 
     /// <summary>
@@ -191,10 +222,8 @@ public class WinAdapter
     {
         try
         {
-            var process = new Process
-            {
-                StartInfo = new()
-                {
+            var process = new Process {
+                StartInfo = new() {
                     FileName = adbPath,
                     Arguments = command,
                     RedirectStandardOutput = true,

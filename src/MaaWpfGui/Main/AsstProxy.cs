@@ -1848,8 +1848,7 @@ public class AsstProxy
     /// <returns>当前语言的原因文本</returns>
     private static string GetLocalizedWhy(string why)
     {
-        return why switch
-        {
+        return why switch {
             "recognition error" => LocalizationHelper.GetString("IdentifyTheMistakes"),
             "refresh count reached the limit" => LocalizationHelper.GetString("RecruitRefreshLimitReached"),
             "UnknownStage" => LocalizationHelper.GetString("PenguinUploadUnknownStage"),
@@ -3338,6 +3337,11 @@ public class AsstProxy
 
     private static bool AutoDetectConnection(ref string error)
     {
+        if (SettingsViewModel.ConnectSettings.ConnectConfig == ConnectConfig.MuMuArm)
+        {
+            return SettingsViewModel.ConnectSettings.DetectAdbConfig(ref error);
+        }
+
         var adbPath = SettingsViewModel.ConnectSettings.AdbPath;
         bool adbResult = !string.IsNullOrEmpty(adbPath) &&
                          File.Exists(adbPath) &&

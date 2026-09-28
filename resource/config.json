@@ -98,6 +98,10 @@
             "orientation": "[Adb] -s [AdbSerial] shell \"dumpsys input | grep SurfaceOrientation | tail -n 1 | grep -m 1 -o -E [0-9]\""
         },
         {
+            "configName": "MuMuArm",
+            "baseConfig": "General"
+        },
+        {
             "configName": "LDPlayer",
             "baseConfig": "CapWithShell",
             "screencapRawByNC": "[Adb] -s [AdbSerial] shell \"screencap | busybox nc -w 3 [NcAddress] [NcPort]\""

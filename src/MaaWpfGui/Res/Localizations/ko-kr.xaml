@@ -233,6 +233,9 @@
     <system:String x:Key="General">일반 모드</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
     <system:String x:Key="MuMuEmulator12">MuMu Player</system:String>
+    <system:String x:Key="MuMuArm">MuMu 에뮬레이터 (Windows ARM)</system:String>
+    <system:String x:Key="MuMuArmDetectAndTest">자동 감지 및 테스트</system:String>
+    <system:String x:Key="MuMuArmConnectionNotReady">MuMu ARM의 ADB 주소를 읽을 수 없습니다. 에뮬레이터가 완전히 시작된 후 다시 시도하거나 자동 감지를 끄고 연결 주소를 직접 입력하세요.</system:String>
     <system:String x:Key="LDPlayer">LD Player</system:String>
     <system:String x:Key="AVD">Android Virtual Device (AVD)</system:String>
     <system:String x:Key="Androws">Androws</system:String>

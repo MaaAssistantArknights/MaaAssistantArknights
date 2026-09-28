@@ -20,6 +20,14 @@ As of MAA v6.16.8, the following emulators and connection addresses are supporte
 
 If detection fails, try launching MAA with UAC administrator privileges and detect again. If it still fails, refer to the manual setup instructions below and verify that your emulator and connection address are included in the list above.
 
+### MuMu Player (Windows ARM)
+
+Start an Android instance in MuMu ARM, select `MuMu Player (Windows ARM)` in `Connection Settings`, and click `Detect and test` to fill in the ADB path and address and test screenshots. Standard auto detection also recognizes it; when multiple instances are detected, you will be prompted to choose one.
+
+This preset reads the instance number from the running process's `--VmIndex`, then reads `AdbHost` and `AdbPort` from `vms/vm<index>.madoa/misc/state.json` under the installation directory. It uses `shell/adb.exe`; no prior `adb connect` is needed. ARM instances use a virtual network address, not the regular MuMu endpoint `127.0.0.1:16384`. Enable both `Auto Detect Connection` and `Re-detect Each Time` to refresh the address on subsequent connections.
+
+Verified with MuMu ARM 1.8.9. This version does not provide the MuMu screenshot and touch enhancement interfaces required by MAA, so the preset uses standard ADB screenshots and the selected touch mode and does not show the regular MuMu enhancement options. If the state file is missing or invalid, wait for the emulator to finish starting and retry, or disable auto detection and configure the connection manually.
+
 ## ADB Path
 
 :::info Technical details

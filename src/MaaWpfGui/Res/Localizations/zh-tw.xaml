@@ -233,6 +233,9 @@
     <system:String x:Key="General">通用模式</system:String>
     <system:String x:Key="BlueStacks">藍疊模擬器</system:String>
     <system:String x:Key="MuMuEmulator12">MuMu 模擬器</system:String>
+    <system:String x:Key="MuMuArm">MuMu 模擬器（Windows ARM）</system:String>
+    <system:String x:Key="MuMuArmDetectAndTest">自動偵測並測試</system:String>
+    <system:String x:Key="MuMuArmConnectionNotReady">無法讀取 MuMu ARM 的 ADB 位址。請等待模擬器啟動完成後重試，或關閉自動偵測並手動填入連線位址。</system:String>
     <system:String x:Key="LDPlayer">雷電模擬器</system:String>
     <system:String x:Key="AVD">Android 虛擬裝置（AVD）</system:String>
     <system:String x:Key="Androws">應用寶模擬器</system:String>
