@@ -12,7 +12,6 @@
 // </copyright>
 
 #nullable enable
-using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using MaaWpfGui.Constants.Enums;
@@ -111,10 +110,6 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
                 return;
             }
 
-            if (value == 1)
-            {
-                MainSkillLevel = Math.Min(MainSkillLevel, 4);
-            }
             IsEliteSelected = value > 0;
             NotifyOfPropertyChange(nameof(EliteIconPath));
         }
@@ -140,10 +135,6 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
                 SpecializationSkill1 = 0;
                 SpecializationSkill2 = 0;
                 SpecializationSkill3 = 0;
-            }
-            if (value > 4 && Elite == 1)
-            {
-                Elite = 2;
             }
             IsMainSkillLevelSelected = value > 0;
         }
