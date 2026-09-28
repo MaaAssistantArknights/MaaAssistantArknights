@@ -657,6 +657,9 @@ void asst::OperProgressProcessTask::report_skill_result(
             m_plan_finish.emplace_back(
                 OperProgressTask::ProgressPlan { .role = role, .name = std::string(name), .skill_mastery = level });
         }
+        else if (!oper_it->skill_mastery) {
+            oper_it->skill_mastery = level;
+        }
         else {
             auto& skill_mastery = oper_it->skill_mastery;
             // 有可能某个技能正好手动专精完成, 此处可能会返回两个技能
