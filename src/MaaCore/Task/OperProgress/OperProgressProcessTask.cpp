@@ -135,7 +135,6 @@ bool asst::OperProgressProcessTask::_run()
     bool training_room_busy = false;
     for (size_t index = 0; index < m_plan.size() && !need_exit(); ++index) {
         const auto& target = m_plan[index];
-        m_recognized_level.reset();
 
         const ResultDetail located = find_and_open_operator(target.role, target.name);
         if (located != ResultDetail::Completed) {
@@ -278,7 +277,6 @@ asst::OperProgressProcessTask::ResultDetail
     if (!current_elite_opt) {
         return ResultDetail::RecognitionFailed;
     }
-    m_recognized_level = current_elite_opt;
     const int current_elite = *current_elite_opt;
     if (current_elite >= target) {
         return ResultDetail::AlreadySatisfied;
@@ -379,7 +377,6 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
 
     // 当前技能等级以档案页 RANK 数字 OCR 为准（OperProgress@CurrentSkillLevel）,识别失败按 1 级处理。
     const auto& current_opt = ocr_number(image, "OperProgress@CurrentSkillLevel");
-    m_recognized_level = current_opt;
     const int current = current_opt.value_or(1);
     if (current >= target) {
         return ResultDetail::AlreadySatisfied;
@@ -516,7 +513,6 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
     // 模板匹配分不出来,判级交给 OperFilesImageAnalyzer 按点亮圆点数统计。
     // 识别失败按 0 级处理,与历史行为一致。
     const auto& master_current_opt = OperFilesImageAnalyzer(image).mastery_level(skill);
-    m_recognized_level = master_current_opt;
     const int master_current = master_current_opt.value_or(0);
     if (master_current >= specialization) {
         return ResultDetail::AlreadySatisfied;
@@ -572,7 +568,6 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
         if (!re_recognized_opt) {
             return ResultDetail::RecognitionFailed;
         }
-        m_recognized_level = re_recognized_opt;
         LogInfo << __FUNCTION__ << "| re-recognized mastery level after claim" << *re_recognized_opt;
         if (*re_recognized_opt >= specialization) {
             // 领取后专精等级已达到计划目标,不再启动下一级。
@@ -734,7 +729,6 @@ std::optional<int> asst::OperProgressProcessTask::training_skill_mastery_level(c
     }
 
     // 三角标 0 级(全灰)与 3 级(全白)仅亮度不同,任务声明 HSVCount + colorScales(纯白点亮菱形)
-    // 后得分 = 形状匹配 × 点亮菱形数色 F1,等级不同得分可分,取最优模板即当前等级。
     // 未点亮区域会被背景立绘透光干扰,故模板只留 1-3 级(见任务 doc),
     // 三个模板均未命中即无点亮菱形,按 0 级返回;调用点已由前置任务确认位于专精页。
     BestMatcher analyzer(image);

@@ -84,8 +84,6 @@ private:
 
     std::vector<OperProgressTask::ProgressPlan> m_plan;
     std::vector<OperProgressTask::ProgressPlan> m_plan_finish;
-    // 本次任务现场识别到的当前等级，含义随 action 而异，随 OperProgressTargetResult 回调给 UI。
-    std::optional<int> m_recognized_level;
     // 首条目标已定位:任务开始时可能停在主页走完整入口链,之后换干员保证不去主页。
     bool m_entry_completed = false;
     int m_success = 0;
