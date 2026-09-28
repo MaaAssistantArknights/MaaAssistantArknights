@@ -739,7 +739,7 @@ std::optional<int> asst::OperProgressProcessTask::training_skill_mastery_level(c
     // 三个模板均未命中即无点亮菱形,按 0 级返回;调用点已由前置任务确认位于专精页。
     BestMatcher analyzer(image);
     analyzer.set_task_info(task_ptr);
-    for (int level = 1; level <= 3; ++level) {
+    for (int level = 0; level <= 3; ++level) {
         analyzer.append_templ("TrainingCurrentLevel" + std::to_string(level) + ".png");
     }
     const auto result_opt = analyzer.analyze();
