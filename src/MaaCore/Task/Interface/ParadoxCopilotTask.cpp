@@ -32,6 +32,7 @@ bool asst::ParadoxCopilotTask::set_params(const json::value& params)
     LogTraceFunction;
 
     m_subtasks.clear();
+    m_paradox_task_ptr->set_from_detail(params.get("from_detail", false));
     if (params.get("auto", false)) {
         if (params.contains("filename")) {
             return false;

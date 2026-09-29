@@ -16,12 +16,17 @@ private:
     {
         int id;
         std::string filename;
-        std::string stage;
-        std::string operator_id;
+    };
+
+    enum class CandidateResult
+    {
+        Completed,
+        AlreadyCompleted,
+        Failed,
     };
 
     bool _run() override;
-    bool run_candidate(const Candidate& candidate);
+    CandidateResult run_candidate(const Candidate& candidate, bool from_detail);
     void report(const std::string& what, const std::string& name, int id = -1);
 
     std::map<std::string, std::vector<Candidate>> m_candidates;

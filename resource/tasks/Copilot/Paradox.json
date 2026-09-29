@@ -74,13 +74,5 @@
         "action": "DoNothing",
         "text": ["已完成模拟作战"],
         "roi": [0, 620, 320, 100]
-    },
-    "ParadoxAutoPrepare": {
-        "algorithm": "JustReturn",
-        "next": ["ParadoxStartSimulation"]
-    },
-    "ParadoxAutoReturnToList": {
-        "algorithm": "JustReturn",
-        "next": ["ParadoxReturnOperListFlag", "ParadoxReturnUntilOperList"]
     }
 }

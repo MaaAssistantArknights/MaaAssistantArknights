@@ -27,23 +27,22 @@ public:
     virtual ~ParadoxRecognitionTask() override = default;
     void add_file(int id, const std::string& navigate_name);
 
+    void set_from_detail(bool enabled) { m_from_detail = enabled; }
+
     void set_battle_task_ptr(const std::shared_ptr<BattleProcessTask>& ptr) { m_battle_task_ptr = ptr; }
 
 private:
     virtual bool _run() override;
-    void swipe_page() const;                             // 翻页
-    void return_initial_oper() const;                    // 回到最左侧的干员
-    bool click_role_table(battle::Role role) const;      // 点击对应职业
-    bool swipe_and_analyze();                            // 找干员
-    std::optional<asst::Rect> match_from_result(const std::vector<OperBoxInfo>& result) const;
+    void return_to_oper_list() const;
     bool match_oper(const std::string& oper_name) const; // oper_name 和 m_navigate_name 匹配
     static std::string standardize_name(const std::string& navigate_name);
-    void enter_paradox(int skill_num, int rarity) const; // 进悖论模拟
+    bool enter_paradox(int skill_num, int rarity);
+    void report_status(const std::string& status);
 
     std::vector<std::pair<int, std::string>> m_paradox_files;
     OperName m_oper_name {};
+    bool m_from_detail = false;
     std::string m_navigate_name;
-    asst::Rect m_navigate_rect;
     int m_skill_num;
     std::shared_ptr<BattleProcessTask> m_battle_task_ptr = nullptr;
 };

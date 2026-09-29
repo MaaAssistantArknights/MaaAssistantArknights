@@ -9,6 +9,7 @@
 #include "Vision/BestMatcher.h"
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
+#include "Vision/OCRer.h"
 #include "Vision/Oper/OperNameAnalyzer.h"
 #include "Vision/RegionOCRer.h"
 #include "Vision/TemplDetOCRer.h"
@@ -39,6 +40,10 @@ bool asst::OperBoxImageAnalyzer::analyzer_oper_box()
 {
     LogTraceFunction;
 
+    if (m_paradox_filter) {
+        return paradox_cards_analyze();
+    }
+
     if (!opers_analyze()) {
         return false;
     }
@@ -55,6 +60,44 @@ bool asst::OperBoxImageAnalyzer::analyzer_oper_box()
         return false;
     }
 
+    return !m_result.empty();
+}
+
+bool asst::OperBoxImageAnalyzer::paradox_cards_analyze()
+{
+    std::vector<MatchRect> flags;
+    for (int role = 1; role <= 9; ++role) {
+        for (const auto& roi_task : { "OperBoxFlagRoleTopROI", "OperBoxFlagRoleBottomROI" }) {
+            MultiMatcher matcher(m_image);
+            matcher.set_task_info("OperBoxFlagRole" + std::to_string(role));
+            matcher.set_roi(Task.get(roi_task)->roi);
+            if (const auto result = matcher.analyze()) {
+                for (const auto& flag : *result) {
+                    if (flag.rect.x >= 0 && flag.rect.x + 128 <= 1145) {
+                        flags.emplace_back(flag);
+                    }
+                }
+            }
+        }
+    }
+    flags = NMS(std::move(flags));
+    sort_by_horizontal_(flags);
+    for (const auto& flag : flags) {
+        OCRer status(m_image);
+        status.set_task_info("OperBoxParadoxCompletedOCR");
+        status.set_roi(flag.rect.move(Task.get("OperBoxParadoxCompletedOCR")->roi));
+        const auto result = status.analyze();
+        if (!result || result->size() != 1) {
+            return false;
+        }
+        const auto& text = result->front().text;
+        OperBoxInfo box;
+        box.rect = flag.rect;
+        box.own = true;
+        box.paradox_completed = text == "已通过";
+        box.paradox_unlocked = text == "已通过" || text == "未通过";
+        m_result.emplace_back(std::move(box));
+    }
     return !m_result.empty();
 }
 

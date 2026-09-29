@@ -6,7 +6,6 @@
 #include "Controller/Controller.h"
 #include "MaaUtils/NoWarningCV.hpp"
 #include "Task/ProcessTask.h"
-#include "Vision/Miscellaneous/ParadoxCardAnalyzer.h"
 #include "Vision/Miscellaneous/ParadoxDetailAnalyzer.h"
 
 bool asst::ParadoxListTask::return_to_list()
@@ -29,9 +28,8 @@ bool asst::ParadoxListTask::prepare()
         !ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).run()) {
         return false;
     }
-    // Checking the selected tab avoids toggling its sorting direction.
     if (!ProcessTask(*this, { "OperBoxParadoxSelected" }).set_retry_times(0).run() &&
-        !ProcessTask(*this, { "OperBoxOpenParadoxMenu" }).set_retry_times(3).run()) {
+        !ProcessTask(*this, { "OperBoxOpenParadoxMenu", "OperBoxSelectParadox" }).set_retry_times(3).run()) {
         return false;
     }
     return rewind();
@@ -42,7 +40,6 @@ bool asst::ParadoxListTask::same_page(const cv::Mat& before, const cv::Mat& afte
     if (before.empty() || after.empty() || before.size() != after.size()) {
         return false;
     }
-    // Exclude the menu and the scrollbar; compare the actual operator cards.
     const cv::Rect grid(20, 80, 1100, 620);
     if (before.cols < grid.x + grid.width || before.rows < grid.y + grid.height) {
         return false;
@@ -87,39 +84,54 @@ std::string asst::ParadoxListTask::detail_name()
 bool asst::ParadoxListTask::_run()
 {
     m_result.clear();
+    m_found = false;
     m_completed = false;
-    if (m_candidates.empty() || !prepare()) {
+    if (!prepare()) {
         return false;
     }
+    std::unordered_set<std::string> seen;
     int unchanged = 0;
     for (int page = 0; page < 100 && !need_exit(); ++page) {
-        ParadoxCardAnalyzer analyzer(ctrler()->get_image());
-        const auto cards = analyzer.analyze();
-        if (!cards) {
+        OperBoxImageAnalyzer analyzer(ctrler()->get_image());
+        analyzer.set_paradox_filter(true);
+        if (!analyzer.analyze()) {
             return false;
         }
-        for (const auto& card : *cards) {
+        for (auto card : analyzer.get_result()) {
             if (need_exit()) {
                 return false;
             }
-            if (!card.unlocked || (card.completed && !m_include_completed)) {
+            if (!card.paradox_unlocked || (m_target.empty() && card.paradox_completed)) {
                 continue;
             }
             if (!ctrler()->click(card.rect.move(Rect(20, 50, 70, 100)))) {
                 return false;
             }
-            const auto name = detail_name();
-            if (name.empty()) {
+            card.name = detail_name();
+            if (card.name.empty()) {
+                callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("ParadoxDetailRecognitionFailed"));
                 return false;
             }
-            if (m_candidates.contains(name)) {
-                // Leave the verified detail page open for skill selection.
-                m_result = name;
-                m_completed = card.completed;
+            const auto oper = BattleData.find_first_oper(battle::Role::Unknown, card.name);
+            if (!oper) {
+                return false;
+            }
+            card.id = oper->id;
+            card.rarity = oper->rarity;
+            if (m_next_only && (m_candidates.empty() || m_candidates.contains(card.name))) {
+                m_result.emplace_back(std::move(card));
+                return true;
+            }
+            if (!m_target.empty() && card.name == m_target) {
+                m_found = true;
+                m_completed = card.paradox_completed;
                 return true;
             }
             if (!return_to_list()) {
                 return false;
+            }
+            if (!m_next_only && seen.emplace(card.name).second) {
+                m_result.emplace_back(std::move(card));
             }
         }
         const auto before = ctrler()->get_image();

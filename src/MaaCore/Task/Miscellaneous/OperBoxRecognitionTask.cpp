@@ -6,6 +6,7 @@
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "Task/Miscellaneous/ParadoxListTask.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Oper/OperBoxImageAnalyzer.h"
@@ -15,8 +16,21 @@ bool asst::OperBoxRecognitionTask::_run()
 {
     LogTraceFunction;
 
-    bool ret = swipe_and_analyze();
-    callback_analyze_result(true);
+    m_own_opers.clear();
+    bool ret = false;
+    if (m_paradox_filter) {
+        ParadoxListTask scan(m_callback, m_inst, m_task_chain);
+        scan.set_task_id(m_task_id).set_retry_times(0);
+        scan.set_next_only(m_next_only, m_candidates);
+        ret = scan.run();
+        for (const auto& oper : scan.get_result()) {
+            m_own_opers.emplace(oper.name, oper);
+        }
+    }
+    else {
+        ret = swipe_and_analyze();
+    }
+    callback_analyze_result(ret);
     return ret;
 }
 
@@ -61,7 +75,6 @@ void asst::OperBoxRecognitionTask::swipe_page()
 void asst::OperBoxRecognitionTask::callback_analyze_result(bool done)
 {
     LogTraceFunction;
-    // 获取所有干员名
     const auto& all_chars = BattleData.get_all_chars();
 
     json::value info = basic_info_with_what("OperBoxInfo");
@@ -84,7 +97,7 @@ void asst::OperBoxRecognitionTask::callback_analyze_result(bool done)
                 { "name_kr", props ? props->name_kr : "" },
                 { "name_tw", props ? props->name_tw : "" },
                 { "rarity", props ? props->rarity : 0 },
-                { "own", own }, // 在m_own_opers中重复
+                { "own", own },
             });
     }
     for (const auto& [name, box_info] : m_own_opers) {
@@ -97,6 +110,7 @@ void asst::OperBoxRecognitionTask::callback_analyze_result(bool done)
                 { "level", box_info.level },
                 { "potential", box_info.potential },
                 { "rarity", box_info.rarity },
+                { "paradox_completed", box_info.paradox_completed },
             });
     }
 

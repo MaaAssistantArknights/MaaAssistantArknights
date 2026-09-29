@@ -1,6 +1,8 @@
 #pragma once
-#include "Task/AbstractTask.h"
 #include <unordered_set>
+
+#include "Task/AbstractTask.h"
+#include "Vision/Oper/OperBoxImageAnalyzer.h"
 
 namespace asst
 {
@@ -9,13 +11,19 @@ class ParadoxListTask : public AbstractTask
 public:
     using AbstractTask::AbstractTask;
 
-    void set_candidates(std::unordered_set<std::string> names) { m_candidates = std::move(names); }
+    void set_target(std::string name) { m_target = std::move(name); }
 
-    void set_include_completed(bool enabled) { m_include_completed = enabled; }
+    void set_next_only(bool enabled, const std::vector<std::string>& candidates)
+    {
+        m_next_only = enabled;
+        m_candidates = { candidates.begin(), candidates.end() };
+    }
 
-    bool completed() const noexcept { return m_completed; }
+    const auto& get_result() const noexcept { return m_result; }
 
-    const std::string& get_result() const noexcept { return m_result; }
+    bool found_target() const noexcept { return m_found; }
+
+    bool target_completed() const noexcept { return m_completed; }
 
 private:
     bool _run() override;
@@ -25,9 +33,11 @@ private:
     std::string detail_name();
     bool same_page(const cv::Mat& before, const cv::Mat& after) const;
 
-    bool m_include_completed = false;
+    std::string m_target;
+    std::vector<OperBoxInfo> m_result;
+    bool m_found = false;
     bool m_completed = false;
-    std::string m_result;
+    bool m_next_only = false;
     std::unordered_set<std::string> m_candidates;
 };
 }
