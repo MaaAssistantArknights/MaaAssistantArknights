@@ -1765,7 +1765,8 @@ public class ToolboxViewModel : Screen
 
         _operBoxDataSource = details["source"]?.ToString() == "yituliu" ? "yituliu" : "local";
 
-        // 升变形态 ID 先归一到基础形态，后续的拥有去重、未拥有差集与落盘都使用同一 ID
+        // 阿米娅这类升变干员在 battle_data 里每个形态一条记录（基础/近卫/医疗），识别结果回传的是
+        // 玩家当前形态的 ID；拥有列表统一换回基础形态 ID，去重与落盘都只用基础 ID
         var ownOpers = (details["own_opers"] as JArray)?.ToObject<List<OperBoxData.OperData>>()?
             .Where(o => !string.IsNullOrEmpty(o.Id))
             .Select(o => {
@@ -1800,7 +1801,9 @@ public class ToolboxViewModel : Screen
 
         foreach (var (id, oper) in DataHelper.Operators)
         {
-            if (!_tempOperHaveSet.Contains(id) && DataHelper.IsCharacterAvailableInClient(oper, SettingsViewModel.GameSettings.ClientType.ToCustomString()))
+            // 跳过升变形态条目：阿米娅是否拥有只看基础形态，否则形态条目永远算没拥有，
+            // 未拥有列表会多出两个"阿米娅"
+            if (!_tempOperHaveSet.Contains(id) && !DataHelper.IsPromotedOperId(id) && DataHelper.IsCharacterAvailableInClient(oper, SettingsViewModel.GameSettings.ClientType.ToCustomString()))
             {
                 var name = DataHelper.GetLocalizedCharacterName(oper) ?? "???";
                 OperBoxNotHaveList.Add(new Operator(id, name, oper.Rarity, owned: false));
