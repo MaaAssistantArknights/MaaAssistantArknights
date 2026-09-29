@@ -392,10 +392,16 @@
     <system:String x:Key="Yes">是</system:String>
     <system:String x:Key="No">否</system:String>
     <system:String x:Key="Ok">好的</system:String>
+    <system:String x:Key="Success">成功</system:String>
+    <system:String x:Key="Failed">失敗</system:String>
+    <system:String x:Key="Skipped">跳過</system:String>
     <system:String x:Key="Cancel">取消</system:String>
     <system:String x:Key="Confirm">確認</system:String>
     <system:String x:Key="Rename">重新命名</system:String>
+    <system:String x:Key="Add">新增</system:String>
     <system:String x:Key="Delete">刪除</system:String>
+    <system:String x:Key="ParseClipboard">從剪貼簿讀取</system:String>
+    <system:String x:Key="ParseFailed">解析失敗</system:String>
     <system:String x:Key="RenameTask">重新命名任務</system:String>
     <system:String x:Key="RenameTaskPrompt">請輸入新的任務名稱：</system:String>
     <system:String x:Key="AddTaskQueueTask">新增任務</system:String>
@@ -901,46 +907,19 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Combat">刷理智</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="OperProgress">幹員培養</system:String>
-    <!--  待確認移除（幹員計畫重構後 JSON 文字流程已廢棄，以下鍵僅供已註解的 JSON 往返鏈路使用）  -->
-    <system:String x:Key="OperProgressParsePlan">解析計畫</system:String>
-    <system:String x:Key="OperProgressPlanValid">目前文字已通過解析</system:String>
-    <system:String x:Key="OperProgressPlanPending">文字已修改；執行仍使用上次解析成功的計畫</system:String>
-    <system:String x:Key="OperProgressPlanParsed">計畫解析成功，共 {0} 項</system:String>
-    <system:String x:Key="OperProgressJsonError">JSON 第 {0} 行第 {1} 列錯誤：{2}</system:String>
-    <system:String x:Key="OperProgressPlanMustBeArray">計畫必須是 JSON 陣列</system:String>
-    <system:String x:Key="OperProgressPlanMustBeObject">計畫第 {0} 項必須是物件</system:String>
-    <system:String x:Key="OperProgressUnknownField">計畫第 {0} 項包含未知欄位「{1}」</system:String>
-    <system:String x:Key="OperProgressUnknownOperator">計畫第 {0} 項的欄位「{1}」不是陸服可用幹員名稱</system:String>
-    <system:String x:Key="OperProgressExactlyOneAction">計畫第 {0} 項必須且只能包含一種培養動作</system:String>
-    <system:String x:Key="OperProgressMasteryPairRequired">計畫第 {0} 項的「{1}」欄位必須與另一專精欄位同時提供</system:String>
-    <system:String x:Key="OperProgressStringRequired">計畫第 {0} 項的「{1}」欄位必須是非空字串</system:String>
-    <system:String x:Key="OperProgressIntegerRequired">計畫第 {0} 項的「{1}」欄位必須是整數</system:String>
-    <system:String x:Key="OperProgressFieldRange">計畫第 {0} 項的「{1}」欄位必須在 {2} 到 {3} 之間</system:String>
-    <!--  待確認移除結束  -->
-    <system:String x:Key="OperProgressSkillLevelTarget">技能等級 {0}</system:String>
-    <system:String x:Key="OperProgressMasteryTarget">技能 {0} 專精 {1}</system:String>
-    <system:String x:Key="OperProgressEliteTarget">精英化 {0}</system:String>
-    <system:String x:Key="OperProgressDeleteCompletedEntries">任務鏈結束後刪除已完成項目</system:String>
-    <system:String x:Key="OperProgressDeleteCompletedEntriesTip">培養任務鏈結束後，自動刪除結果為「成功」或「已滿足」的項目；失敗與跳過的項目會保留</system:String>
-    <system:String x:Key="OperProgressTargetStartLog">培養計畫第 {0} 項：{1}，{2}</system:String>
-    <system:String x:Key="OperProgressTargetResultLog">培養計畫第 {0} 項：{1}，{2}，結果 {3}</system:String>
-    <system:String x:Key="OperProgressRecognizedElite">（目前精英化 {0}）</system:String>
-    <system:String x:Key="OperProgressRecognizedSkillLevel">（目前技能等級 {0}）</system:String>
-    <system:String x:Key="OperProgressRecognizedMastery">（目前專精 {0}）</system:String>
-    <system:String x:Key="OperProgressSummaryLog">幹員培養完成：成功 {0}，已滿足 {1}，失敗 {2}，跳過 {3}</system:String>
-    <system:String x:Key="OperProgressSelectOperator">選擇幹員</system:String>
-    <system:String x:Key="OperProgressAddTarget">新增</system:String>
-    <!--  待确认移除（弹窗专用：卡片内联编辑后不再使用）  -->
-    <system:String x:Key="OperProgressTargetTitle">{0} · 培養目標</system:String>
+    <system:String x:Key="OperProgress.SkillLevelTarget">技能等級 {0}</system:String>
+    <system:String x:Key="OperProgress.MasteryTarget">技能 {0} 專精 {1}</system:String>
+    <system:String x:Key="OperProgress.EliteTarget">精英化 {0}</system:String>
+    <system:String x:Key="OperProgress.Summary">幹員培養完成：成功 {0}，失敗 {1}，跳過 {2}</system:String>
     <system:String x:Key="OperProgressElite">精英化</system:String>
     <system:String x:Key="OperProgressSkillUpgrade">技能升級</system:String>
-    <system:String x:Key="OperProgressMastery">技能專精</system:String>
+    <system:String x:Key="OperProgressNotSet">---</system:String>
+    <system:String x:Key="OperProgressMastery1">專精 1</system:String>
+    <system:String x:Key="OperProgressMastery2">專精 2</system:String>
+    <system:String x:Key="OperProgressMastery3">專精 3</system:String>
     <system:String x:Key="OperProgressSkillNumber">技能 {0}</system:String>
-    <system:String x:Key="OperProgressInvalidOperatorInput">輸入的幹員名無效，請從清單中選擇</system:String>
-    <system:String x:Key="OperProgressOperatorLimit">最多支援選擇 5 名幹員</system:String>
-    <!--  待确认移除（弹窗专用：卡片内联编辑后不再使用）  -->
-    <system:String x:Key="OperProgressEdit">修改</system:String>
     <system:String x:Key="OperProgressOnlineEditor">在明日方舟工具箱中線上編輯計畫</system:String>
+    <system:String x:Key="OperProgress.Detail">{key=OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="Visiting">訪問好友</system:String>
     <system:String x:Key="Mall">獲取信用及購物</system:String>
     <system:String x:Key="Mission">領取獎勵</system:String>

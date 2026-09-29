@@ -4292,7 +4292,27 @@
     "BattleQuickFormationExpandRole": {
         "action": "ClickSelf",
         "roi": [1152, 0, 128, 138],
-        "next": ["Stop"]
+        "next": ["BattleQuickFormationRoleExpanded"]
+    },
+    "BattleQuickFormationExpandRoleFiltering": {
+        "doc": "筛选职业的情况下, 展开职业筛选",
+        "baseTask": "BattleQuickFormationRoleFiltering",
+        "template": "BattleQuickFormationRoleFiltering.png",
+        "action": "ClickSelf",
+        "next": ["BattleQuickFormationRoleExpanded"]
+    },
+    "BattleQuickFormationRoleExpanded": {
+        "doc": "职业筛选已展开",
+        "baseTask": "BattleQuickFormationRoleFiltering",
+        "template": "BattleQuickFormationCollapseRole.png",
+        "action": "DoNothing",
+        "next": []
+    },
+    "BattleQuickFormationCollapseRole": {
+        "doc": "收起职业筛选",
+        "action": "ClickSelf",
+        "roi": [1152, 0, 128, 138],
+        "next": ["BattleQuickFormationRoleFiltering"]
     },
     "BattleQuickFormationRole": {
         "Doc": "base_task",
@@ -4304,6 +4324,10 @@
         "colorScales": [[90, 150]],
         "colorWithClose": false,
         "next": ["Stop"]
+    },
+    "BattleQuickFormationRoleFiltering": {
+        "doc": "筛选了任意职业/子职业",
+        "roi": [1152, 0, 128, 138]
     },
     "BattleQuickFormationFilter": {
         "action": "ClickSelf",
@@ -5107,6 +5131,7 @@
             "OperBoxRoleTabSelect",
             "OperBoxSortTabSelect",
             "OperBoxRoleTab",
+            "OperBoxRoleTabCollapsed",
             "OperBoxBegin@QuickSwitch@ToOperBox#next",
             "OperBox@ReturnButtons#next"
         ]
@@ -5118,10 +5143,16 @@
         "sub": ["OperBox-Entry"],
         "next": ["OperBoxRoleTabSelect", "OperBoxSortTabSelect", "OperBoxRoleTab"]
     },
+    "OperBoxRoleTabCollapsed": {
+        "action": "ClickSelf",
+        "baseTask": "BattleQuickFormationRoleFiltering",
+        "template": "BattleQuickFormationRoleFiltering.png",
+        "next": ["OperBoxRoleTabSelect"]
+    },
     "OperBoxRoleTabSelect": {
         "action": "ClickSelf",
+        "baseTask": "BattleQuickFormationRoleExpanded",
         "template": "BattleQuickFormationCollapseRole.png",
-        "roi": [1152, 0, 128, 138],
         "next": ["OperBoxSortTabSelect", "OperBoxRoleTab"]
     },
     "OperBoxSortTabSelect": {
@@ -6532,20 +6563,10 @@
         "doc": "干员列表页职业栏收起且有筛选残留：右上角为职业名▼",
         "next": []
     },
-    "OperProgress@OperBoxRoleFilteredOpen": {
-        "algorithm": "OcrDetect",
-        "text": ["先锋", "近卫", "重装", "狙击", "术师", "医疗", "辅助", "特种"],
-        "roi": [1152, 0, 128, 138],
-        "action": "ClickSelf",
-        "postDelay": 500,
-        "doc": "点击筛选残留的职业名▼展开职业栏",
-        "next": []
-    },
     "OperProgress@OperBoxRoleBarOpened": {
-        "template": "BattleQuickFormationCollapseRole.png",
-        "roi": [1152, 0, 128, 138],
-        "action": "DoNothing",
         "doc": "干员列表页职业栏已展开：右上角为收起>",
+        "baseTask": "BattleQuickFormationRoleExpanded",
+        "template": "BattleQuickFormationCollapseRole.png",
         "next": []
     },
     "OperProgress@OperBoxSortTabs": {
@@ -6855,6 +6876,47 @@
         "baseTask": "InfrastTrainingContinue3",
         "template": "InfrastTrainingContinue.png",
         "next": ["OperProgress@MasteryPage"]
+    },
+    "OperProgress@MasterySelectSkillMaxAlready1": {
+        "baseTask": "InfrastTrainingContinue1",
+        "template": "InfrastTrainingMaxAlready.png",
+        "next": []
+    },
+    "OperProgress@MasterySelectSkillMaxAlready2": {
+        "baseTask": "InfrastTrainingContinue2",
+        "template": "InfrastTrainingMaxAlready.png",
+        "next": []
+    },
+    "OperProgress@MasterySelectSkillMaxAlready3": {
+        "baseTask": "InfrastTrainingContinue3",
+        "template": "InfrastTrainingMaxAlready.png",
+        "next": []
+    },
+    "OperProgress@TrainingSkill1MasterLevel": {
+        "algorithm": "MatchTemplate",
+        "template": ["TrainingCurrentLevel1.png", "TrainingCurrentLevel2.png", "TrainingCurrentLevel3.png"],
+        "method": "HSVCount",
+        "colorScales": [[240, 255]],
+        "roi": [373, 108, 72, 52],
+        "templThreshold": 0.8,
+        "roi_Doc": "训练室专精页技能1的专精等级三角标区域",
+        "doc": "三角标未点亮区会被背景立绘透光干扰，colorScales 只取 250+ 纯白点亮菱形；模板仅 1-3 级，三个均未命中即 0 级，C++ 取最优模板即等级"
+    },
+    "OperProgress@TrainingSkill2MasterLevel": {
+        "algorithm": "MatchTemplate",
+        "template": ["TrainingCurrentLevel1.png", "TrainingCurrentLevel2.png", "TrainingCurrentLevel3.png"],
+        "method": "HSVCount",
+        "colorScales": [[240, 255]],
+        "roi": [373, 318, 72, 52],
+        "templThreshold": 0.8
+    },
+    "OperProgress@TrainingSkill3MasterLevel": {
+        "algorithm": "MatchTemplate",
+        "template": ["TrainingCurrentLevel1.png", "TrainingCurrentLevel2.png", "TrainingCurrentLevel3.png"],
+        "method": "HSVCount",
+        "colorScales": [[240, 255]],
+        "roi": [373, 528, 72, 52],
+        "templThreshold": 0.8
     },
     "OperProgress@MasterySelectTrainer": {
         "algorithm": "JustReturn",

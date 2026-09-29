@@ -1723,6 +1723,7 @@ double training_score_impl(const ScoreOper& oper, battle::Role trainee_role, int
 {
     // 训练室导师技能按参考实现迁移：职业匹配、通用加成和目标等级专属加成叠加。
     // 训练室一次只启动一级专精，target_level 始终表示本次要启动的下一级。
+    // 阈值设定为16让逻各斯类陪练能够连续在专一专二触发
     if (oper.mood_ratio * 24.0 < 16.0) {
         return -1.0;
     }

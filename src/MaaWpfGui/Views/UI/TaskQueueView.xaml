@@ -383,8 +383,7 @@
                                             <MenuItem
                                                 Command="{s:Action AddTaskQueueTask}"
                                                 CommandParameter="{Binding TaskTypeList[6].Value}"
-                                                Header="{Binding TaskTypeList[6].Display}"
-                                                Visibility="Collapsed" />
+                                                Header="{Binding TaskTypeList[6].Display}" />
                                             <MenuItem
                                                 Command="{s:Action AddTaskQueueTask}"
                                                 CommandParameter="{Binding TaskTypeList[7].Value}"

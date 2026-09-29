@@ -1,0 +1,77 @@
+<UserControl
+    x:Class="MaaWpfGui.Styles.Controls.SkillSpecializationIcon"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <!--
+        11×11 是像素网格对齐的设计稿：品字三圆的坐标与直径固定写死（勿改），缩放交给 Viewbox——
+        它把整幅设计稿按本控件（UserControl）给定的 Width/Height 等比拉伸，圆点直径、间距、阴影随之一起缩放；
+        Stretch=Uniform 保证圆点始终是圆（Stretch=Fill 在非正方形外框下会把圆压成椭圆），
+        非正方形外框按短边等比缩放、长边留白居中；不给尺寸时由父容器决定可用空间（UserControl 默认 Stretch 会填满），
+        仅当父容器给无限约束（如水平 StackPanel）时才回落到设计稿 11×11 显示。
+        缩放倍率非整数时边缘会有轻微抗锯齿，SnapsToDevicePixels/UseLayoutRounding 只保证设计稿自身坐标贴格。
+        色走主题资源，阴影同精英化/潜能图标。DataContext 指向本控件，故点亮的三个属性名与样式触发器里的绑定直接对应
+    -->
+    <Viewbox Stretch="Uniform" StretchDirection="Both">
+        <Canvas
+            Width="11"
+            Height="11"
+            DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+            SnapsToDevicePixels="True"
+            UseLayoutRounding="True">
+            <Canvas.Effect>
+                <DropShadowEffect
+                    BlurRadius="8"
+                    Opacity="0.5"
+                    ShadowDepth="1"
+                    Color="Black" />
+            </Canvas.Effect>
+            <Canvas.Resources>
+                <Style x:Key="MasteryTopDotStyle" TargetType="Ellipse">
+                    <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOffBrush}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding TopOn}" Value="True">
+                            <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOnBrush}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+                <Style x:Key="MasteryBottomRightDotStyle" TargetType="Ellipse">
+                    <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOffBrush}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding BottomRightOn}" Value="True">
+                            <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOnBrush}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+                <Style x:Key="MasteryBottomLeftDotStyle" TargetType="Ellipse">
+                    <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOffBrush}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding BottomLeftOn}" Value="True">
+                            <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOnBrush}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Canvas.Resources>
+            <Ellipse
+                Canvas.Left="3.6"
+                Canvas.Top="1"
+                Width="4"
+                Height="4"
+                Style="{StaticResource MasteryTopDotStyle}" />
+            <Ellipse
+                Canvas.Left="6"
+                Canvas.Top="6"
+                Width="4"
+                Height="4"
+                Style="{StaticResource MasteryBottomRightDotStyle}" />
+            <Ellipse
+                Canvas.Left="0.8"
+                Canvas.Top="6"
+                Width="4"
+                Height="4"
+                Style="{StaticResource MasteryBottomLeftDotStyle}" />
+        </Canvas>
+    </Viewbox>
+</UserControl>

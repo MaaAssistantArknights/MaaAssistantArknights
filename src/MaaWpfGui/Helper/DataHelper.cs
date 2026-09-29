@@ -475,9 +475,6 @@ public static class DataHelper
         "char_615_acspec", // Misery 6★
         "char_616_pithst", // 盟约·辅助干员
         "char_617_sharp2", // 领主·Sharp
-
-        "char_1001_amiya2", // 阿米娅-WARRIOR
-        "char_1037_amiya3", // 阿米娅-MEDIC
     ];
 
     /// <summary>

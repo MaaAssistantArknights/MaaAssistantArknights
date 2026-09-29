@@ -18,6 +18,8 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
+using System.Windows;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
@@ -29,6 +31,7 @@ using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json.Linq;
+using Serilog;
 using static MaaWpfGui.Configuration.Single.MaaTask.OperProgressTask;
 using static MaaWpfGui.Main.AsstProxy;
 
@@ -36,8 +39,7 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
 public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgressTaskUserControlModel.ISerialize
 {
-    // 待确认移除（_allowedFields 已作废：字段权威改为 OperProgressTask.Plan 对象，本次重构后仅 ParseAndValidate 引用）
-    private static readonly HashSet<string> _allowedFields = ["name", "elite", "skills", "skill", "skill_master"];
+    private static readonly ILogger _logger = Log.ForContext<OperProgressTaskUserControlModel>();
 
     static OperProgressTaskUserControlModel() => Instance = new();
 
@@ -61,19 +63,10 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
     private void RefreshPlanItems(OperProgressTask task)
     {
         var list = task.Plans.Select((plan, index) => {
-            int elite = plan.elite;
-            int mainSkillLevel = plan.skillLevel switch {
-                SkillLevel.BaseLevel baseLevel => baseLevel.Level,
-                SkillLevel.Specialization => 7,
-                _ => 0,
-            };
-
-            var specializationLevel = plan.skillLevel switch {
-                SkillLevel.Specialization specialization => specialization,
-                _ => new(0, 0, 0),
-            };
-
-            return new OperProgressPlanItemViewModel(index, plan.role, plan.name, elite, mainSkillLevel, specializationLevel);
+            int elite = plan.Elite;
+            int mainSkillLevel = plan.SkillLevel;
+            var specializationLevel = plan.SkillMastery;
+            return new OperProgressPlanItemViewModel(index, plan.Role, plan.Name, elite, mainSkillLevel, specializationLevel, plan.ShowRole);
         }).ToList();
         PlanItems = [.. list];
         PlanItems.CollectionChanged += PlanItems_CollectionChanged;
@@ -86,46 +79,30 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
     private void SavePlan()
     {
         var list = PlanItems.Select(item => {
-            SkillLevel skillLevel;
-            if (item.SpecializationSkillLevel.Any(x => x > 0))
-            {
-                skillLevel = new SkillLevel.Specialization(item.SpecializationSkillLevel.Skill1, item.SpecializationSkillLevel.Skill2, item.SpecializationSkillLevel.Skill3);
-            }
-            else
-            {
-                skillLevel = new SkillLevel.BaseLevel(item.MainSkillLevel);
-            }
-
-            return new Plan(item.Role, item.Name, item.Elite, null, skillLevel);
+            var elite = item.IsEliteSelected ? item.Elite : 0;
+            var mainSkillLevel = item.IsMainSkillLevelSelected ? item.MainSkillLevel : 0;
+            var mastery = SkillMastery.Of(item.SpecializationSkillLevel[0], item.SpecializationSkillLevel[1], item.SpecializationSkillLevel[2]);
+            return new Plan(item.Role, item.Name, elite, mainSkillLevel, mastery, item.ShowRole);
         }).ToList();
         SetTaskConfig<OperProgressTask>(t => t.Plans.SequenceEqual(list), t => t.Plans = list);
     }
 
-    public record class OperItem(string Id, OperatorRole Role, string Name, string NameDisplay, int Rarity);
+    public record class OperItem(string Id, OperatorRole Role, string Name, string NameDisplay, int Rarity, bool HasSameRoleOpers);
 
     /// <summary>可选择的干员名列表，按稀有度降序、名称升序排列，实时取自干员数据</summary>
     public List<GenericCombinedData<OperItem>> OperatorNames => [.. DataHelper.Operators.Values
-        .Select(character => new OperItem(character.Id, character.Role, character.Name!, DataHelper.GetLocalizedCharacterName(character) ?? character.Name!, character.Rarity))
+
+        // 暂时屏蔽三个阿米娅形态（本体/近卫/医疗），培养流程未验证前不可选。
+        .Where(oper => oper.Id is not ("char_002_amiya" or "char_1001_amiya2" or "char_1037_amiya3"))
+        .GroupBy(oper => oper.Name)
+        .SelectMany(group => group.Select(oper => new OperItem(oper.Id, oper.Role, oper.Name!, DataHelper.GetLocalizedCharacterName(oper) ?? oper.Name!, oper.Rarity, group.Count() > 1)).Distinct())
         .OrderByDescending(entry => entry.Rarity)
-        .ThenBy(entry => entry.Name, StringComparer.CurrentCulture)
-        .Select(oper => new GenericCombinedData<OperItem>($"{oper.NameDisplay}[{oper.Rarity}★]",  oper))];
+        .ThenBy(entry => entry.NameDisplay, StringComparer.CurrentCultureIgnoreCase)
+        .Select(oper => new GenericCombinedData<OperItem>($"{oper.NameDisplay}{(oper.HasSameRoleOpers ? "-" + LocalizationHelper.GetString(oper.Role.ToString()) : string.Empty)}",  oper))];
 
     public OperItem? OperSelect { get; set => SetAndNotify(ref field, value); }
 
-    /// <summary>
-    /// 任务链结束后删除已完成条目
-    /// </summary>
-    public bool DeleteCompletedEntries
-    {
-        get => GetTaskConfig<OperProgressTask>().DeleteOnCompleted;
-        set => SetTaskConfig<OperProgressTask>(t => t.DeleteOnCompleted == value, t => t.DeleteOnCompleted = value);
-    }
-
-    /// <summary>本轮运行中各条目的回调结果，键为 Core 收到的计划数组下标</summary>
-    // 待确认移除（本次重构后下标不再参与判断，改以回调携带的干员名匹配）
-    private readonly Dictionary<int, (string Name, bool Completed)> _runEntryResults = [];
-
-    public override void RefreshUI(BaseTask baseTask)
+    public override void RefreshUI(BaseTask? baseTask)
     {
         if (baseTask is not OperProgressTask task)
         {
@@ -140,39 +117,76 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
     public override (bool? IsSuccess, IEnumerable<int> TaskId) SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize).Serialize(baseTask, taskId);
 
-    /// <summary>记录单条培养结果，由 AsstProxy 在 UI 线程回调（回调线程已由 Execute.OnUIThread 保证）</summary>
-    /// <param name="index">本条结果在计划数组中的下标</param>
-    /// <param name="name">干员名</param>
-    /// <param name="completed">是否培养完成</param>
-    // 待确认移除（本次重构后 Key 下标不再参与判断，可简化为按干员名上报）
-    public void OnTargetResult(int index, string name, bool completed)
+    /// <summary>
+    /// 完成后移除已完成的条目
+    /// </summary>
+    /// <param name="taskId">任务 ID</param>
+    public void RemoveFinishedPlans(int taskId)
     {
-        if (index == 0)
+        var task = GetConfigByTaskId<OperProgressTask>(taskId);
+        if (task is null)
         {
-            _runEntryResults.Clear();
+            _logger.Error("RemoveFinishedPlans: Could not find task with ID {TaskId}", taskId);
+            return;
         }
 
-        _runEntryResults[index] = (name, completed);
+        var list = task.Plans.ToList();
+        if (list.Count == 0)
+        {
+            return;
+        }
+
+        task.Plans = [.. list.Where(plan => plan.Elite != 0 || plan.SkillLevel != 0 || plan.SkillMastery.ToArray().Any(x => x > 0))];
+        RefreshUI(TaskSettingVisibilityInfo.CurrentTask);
     }
 
-    /// <summary>培养任务链结束：开启开关时删除结果为“成功/已满足”的干员条目，失败与跳过的保留</summary>
-    public void OnSummary()
+    public void CollapseAll()
     {
-        var completedNames = _runEntryResults.Where(kv => kv.Value.Completed).Select(kv => kv.Value.Name).ToHashSet();
-        _runEntryResults.Clear();
-        if (!GetTaskConfig<OperProgressTask>().DeleteOnCompleted || completedNames.Count == 0)
+        foreach (var item in PlanItems)
         {
-            return;
+            item.IsExpanded = false;
         }
+    }
 
-        // 以回调携带的干员名为主键匹配：展开后的计划数组下标与卡片并非一一对应
-        var remaining = PlanItems.Where(item => !completedNames.Contains(item.Name)).ToList();
-        if (remaining.Count == PlanItems.Count)
+    public void ClearPlan()
+    {
+        PlanItems.Clear();
+    }
+
+    public void ParsePlan()
+    {
+        if (Clipboard.ContainsText())
         {
-            return;
-        }
+            var str = Clipboard.GetText().Trim();
 
-        ReplacePlanItems(remaining);
+            // {"role": "Warrior","name":"陈","elite":2,"skill_level": 7, "skill_mastery":[0,0,3]}
+            try
+            {
+                var json = JArray.Parse(str);
+                var list = GetTaskConfig<OperProgressTask>()?.Plans.ToList() ?? [];
+                foreach (var item in json)
+                {
+                    var plan = ParsePlan(item as JObject);
+                    if (plan.Role == OperatorRole.Unknown && DataHelper.Operators.FirstOrDefault(c => c.Value.Name == plan.Name) is { } character)
+                    {
+                        plan = plan with { Role = character.Value.Role };
+                    }
+                    if (plan.Role == OperatorRole.Unknown || string.IsNullOrEmpty(plan.Name))
+                    {
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ParseFailed") + $"\nunknown oper: {plan.Role}-{plan.Name}", UiLogColor.Error);
+                        return;
+                    }
+                    list.Add(new Plan(plan.Role, plan.Name, plan.Elite ?? 0, plan.MainSkillLevel ?? 0, plan.SkillMastery ?? SkillMastery.Of(0, 0, 0), false));
+                }
+                SetTaskConfig<OperProgressTask>(t => t.Plans.SequenceEqual(list), t => t.Plans = list);
+                RefreshUI(TaskSettingVisibilityInfo.CurrentTask);
+            }
+            catch (Exception ex)
+            {
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ParseFailed") + $"\n{ex.Message}", UiLogColor.Error);
+                return;
+            }
+        }
     }
 
     /// <summary>
@@ -185,7 +199,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
             return;
         }
 
-        PlanItems.Add(new OperProgressPlanItemViewModel(PlanItems.Count, OperSelect.Role, OperSelect.Name, 2, 7, new(3, 3, 3)));
+        PlanItems.Add(new OperProgressPlanItemViewModel(PlanItems.Count, OperSelect.Role, OperSelect.Name, 2, 7, SkillMastery.Of(3, 3, 3), OperSelect.HasSameRoleOpers) { IsExpanded = true });
     }
 
     /// <summary>
@@ -218,7 +232,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
     private void PlanItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (_isRefreshing || !OperProgressPlanItemViewModel.IsPersistedProperty(e.PropertyName))
+        if (_isRefreshing || !OperProgressPlanItemViewModel.MainProperty.Contains(e.PropertyName))
         {
             return;
         }
@@ -226,29 +240,25 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         SavePlan();
     }
 
-    /// <summary>语言或干员名语言切换后刷新卡片上的本地化显示。</summary>
+    /// <summary>语言或干员名语言切换后刷新卡片与专精等级下拉的本地化显示。</summary>
     private void RefreshPlanItemLocalization()
     {
+        SpecializationSkillLevelList.RefreshLocalization();
         foreach (var item in PlanItems)
         {
             item.RefreshLocalizedText();
         }
     }
 
-    /// <summary>按当前顺序重排各条目的序号。</summary>
+    /// <summary>
+    /// 刷新Index
+    /// </summary>
     private void ReindexPlanItems()
     {
         for (int index = 0; index < PlanItems.Count; ++index)
         {
             PlanItems[index].Index = index;
         }
-    }
-
-    /// <summary>批量替换全部条目并重排序号，期间的集合变更不回写任务配置。</summary>
-    private void ReplacePlanItems(IEnumerable<OperProgressPlanItemViewModel> items)
-    {
-        PlanItems = new(items);
-        PlanItems.CollectionChanged += PlanItems_CollectionChanged;
     }
 
     private interface ISerialize : ITaskQueueModelSerialize
@@ -274,7 +284,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         }
     }
 
-    private static void ProcOperProgressMsg(AsstMsg type, AsstSubTaskMsg? msg)
+    private void ProcOperProgressMsg(AsstMsg type, AsstSubTaskMsg? msg)
     {
         if (type != AsstMsg.SubTaskExtraInfo || msg?.TaskChain != nameof(TaskType.OperProgress))
         {
@@ -282,82 +292,143 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         }
         switch (msg.What)
         {
-            case "OperProgressTargetStart":
-                Instances.TaskQueueViewModel.AddLog(
-                    LocalizationHelper.GetStringFormat(
-                        "OperProgressTargetStartLog",
-                        (int)(msg.Details?["index"] ?? 0) + 1,
-                        ProcOperProgressTargetName(msg.Details),
-                        ProcOperProgressTargetDescription(msg.Details)),
-                    UiLogColor.Info,
-                    splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
-                break;
-
-            case "OperProgressTargetResult":
-                string action = msg.Details?["action"]?.ToString() ?? string.Empty;
-                string result = msg.Details?["result"]?.ToString() ?? "unsupported";
-                int? recognized = msg.Details?.Value<int?>("recognized");
-                string recognizedKey = action switch {
-                    "elite" => "OperProgressRecognizedElite",
-                    "skills" => "OperProgressRecognizedSkillLevel",
-                    "mastery" => "OperProgressRecognizedMastery",
-                    _ => string.Empty,
-                };
-                string recognizedText = recognized is null || recognizedKey.Length == 0
-                    ? string.Empty
-                    : LocalizationHelper.GetStringFormat(recognizedKey, recognized.Value);
-                Instances.TaskQueueViewModel.AddLog(
-                    LocalizationHelper.GetStringFormat(
-                        "OperProgressTargetResultLog",
-                        (int)(msg.Details?["index"] ?? 0) + 1,
-                        ProcOperProgressTargetName(msg.Details),
-                        ProcOperProgressTargetDescription(msg.Details),
-                        result) + recognizedText,
-                    result is "completed" or "already_satisfied" ? UiLogColor.Success :
-                    result is "skipped" or "formula_locked" ? UiLogColor.Warning : UiLogColor.Error);
-                Instance.OnTargetResult(
-                    (int)(msg.Details?["index"] ?? -1),
-                    msg.Details?["name"]?.ToString() ?? string.Empty,
-                    result is "completed" or "already_satisfied");
-                break;
-
             case "OperProgressSummary":
+                var summary = msg.Details?.ToObject<ProgressSummary>();
                 Instances.TaskQueueViewModel.AddLog(
                     LocalizationHelper.GetStringFormat(
-                        "OperProgressSummaryLog",
-                        msg.Details?["completed"] ?? 0,
-                        msg.Details?["already_satisfied"] ?? 0,
-                        msg.Details?["failed"] ?? 0,
-                        msg.Details?["skipped"] ?? 0),
-                    (int)(msg.Details?["failed"] ?? 0) == 0 ? UiLogColor.Success : UiLogColor.Warning);
-                Instance.OnSummary();
+                        "OperProgress.Summary",
+                        summary?.Success ?? -1,
+                        summary?.Failed ?? -1,
+                        summary?.Skipped ?? -1),
+                    (summary?.Failed ?? -1) > 0 ? UiLogColor.Warning : UiLogColor.Info);
+                Instance.RemoveFinishedPlans(msg.TaskId);
                 break;
+
+            case "OperProgressDetail":
+                {
+                    var callback = ParsePlan(msg.Details);
+                    var task = GetConfigByTaskId<OperProgressTask>(msg.TaskId);
+                    var list = task?.Plans.ToList();
+                    var plan = list?.FirstOrDefault(p => p.Role == callback.Role && p.Name == callback.Name) ?? task?.Plans.FirstOrDefault(p => p.Name == callback.Name);
+                    if (callback is null || task is null || list is null || plan is null)
+                    {
+                        Instances.TaskQueueViewModel.AddLog("Could not find matching plan for OperProgressDetail", UiLogColor.Error);
+                        break;
+                    }
+
+                    var index = list.IndexOf(plan);
+                    bool isModified = false;
+                    if (callback.Elite is int elite && elite >= plan.Elite)
+                    {
+                        isModified = true;
+                        plan = plan with { Elite = 0 };
+                    }
+                    if (callback.MainSkillLevel is int mainSkill && mainSkill >= plan.SkillLevel)
+                    {
+                        isModified = true;
+                        plan = plan with { SkillLevel = 0 };
+                    }
+                    if (callback.SkillMastery is SkillMastery callbackMastery)
+                    {
+                        int[] skillSpec = plan.SkillMastery.ToArray();
+                        int[] callbackSkillSpec = callbackMastery.ToArray();
+                        for (int i = 0; i < 3; ++i)
+                        {
+                            if (callbackSkillSpec[i] >= skillSpec[i])
+                            {
+                                skillSpec[i] = 0;
+                            }
+                        }
+                        if (!skillSpec.SequenceEqual(plan.SkillMastery.ToArray()))
+                        {
+                            if (skillSpec.All(i => i == 0))
+                            {
+                                isModified = true; // 如果全部专精已完成, 则将技能等级重置为基础等级0
+                                plan = plan with { SkillMastery = SkillMastery.Of(0, 0, 0) };
+                            }
+                            else
+                            {
+                                isModified = true;
+                                plan = plan with { SkillMastery = SkillMastery.Of(skillSpec[0], skillSpec[1], skillSpec[2]) };
+                            }
+                        }
+                    }
+                    if (isModified)
+                    {
+                        list[index] = plan;
+                        task.Plans = [.. list];
+                    }
+                    var status = msg.Details?["result"]?.ToString() ?? string.Empty;
+                    var operName = DataHelper.GetLocalizedCharacterName(callback.Name) ?? callback.Name;
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat(
+                            "OperProgress.Detail",
+                            list.IndexOf(plan) + 1,
+                            operName,
+                            LocalizationHelper.GetStringFormat(status)) + BuildTargetCallbackDescription(callback),
+                        UiLogColor.Info);
+
+                    break;
+                }
         }
     }
 
-    private static string ProcOperProgressTargetName(JToken? details)
+    private static ProgressCallback ParsePlan(JObject? json)
     {
-        var name = details?["name"]?.ToString() ?? string.Empty;
-        return DataHelper.GetLocalizedCharacterName(name) ?? name;
+        OperatorRole role = Enum.TryParse<OperatorRole>(json?.Value<string>("role") ?? string.Empty, out var parsedRole) ? parsedRole : OperatorRole.Unknown;
+        string name = json?["name"]?.ToString() ?? string.Empty;
+        int? elite = json?.Value<int?>("elite");
+        int? mainSkillLevel = json?.Value<int?>("skill_level");
+        SkillMastery? skillMastery = null;
+        var skillLevelObj = json?["skill_mastery"];
+        if (skillLevelObj?.Type == JTokenType.Array)
+        {
+            var list = skillLevelObj.ToObject<int[]>() ?? [];
+            if (list.Length < 3)
+            {
+                Array.Resize(ref list, 3);
+            }
+            skillMastery = SkillMastery.Of(list[0], list[1], list[2]);
+        }
+
+        return new ProgressCallback(role, name, elite, mainSkillLevel, skillMastery);
     }
 
-    // 与干员培养设置页的预览行（OperProgressTaskUserControlModel.DescribeAction）保持同一格式。
-    private static string ProcOperProgressTargetDescription(JToken? details)
+    private record ProgressCallback(OperatorRole Role, string Name, int? Elite, int? MainSkillLevel, SkillMastery? SkillMastery);
+
+    private record ProgressSummary(int Success, int Failed, int Skipped);
+
+    private static string BuildTargetCallbackDescription(ProgressCallback callback)
     {
-        string action = details?["action"]?.ToString() ?? string.Empty;
-        int target = details?["target"]?.Value<int>() ?? 0;
-        return action switch {
-            "elite" => LocalizationHelper.GetStringFormat("OperProgressEliteTarget", target),
-            "skills" => LocalizationHelper.GetStringFormat("OperProgressSkillLevelTarget", target),
-            "mastery" => LocalizationHelper.GetStringFormat("OperProgressMasteryTarget", details?["skill"]?.Value<int>() ?? 0, target),
-            _ => action,
-        };
+        var str = new StringBuilder();
+        if (callback.Elite is int elite)
+        {
+            str.AppendLine();
+            str.Append(LocalizationHelper.GetStringFormat("OperProgress.EliteTarget", elite));
+        }
+        if (callback.MainSkillLevel is int mainSkill)
+        {
+            str.AppendLine();
+            str.Append(LocalizationHelper.GetStringFormat("OperProgress.SkillLevelTarget", mainSkill));
+        }
+        if (callback.SkillMastery is SkillMastery mastery)
+        {
+            foreach (var (index, level) in mastery.ToArray().Index())
+            {
+                if (level > 0)
+                {
+                    str.AppendLine();
+                    str.Append(LocalizationHelper.GetStringFormat("OperProgress.MasteryTarget", index + 1, level));
+                }
+            }
+        }
+        return str.ToString();
     }
 
     public static List<GenericCombinedData<int>> EliteList => [
         new("---", 0),
-        new(LocalizationHelper.GetStringFormat("OperProgressEliteTarget", 1), 1),
-        new(LocalizationHelper.GetStringFormat("OperProgressEliteTarget", 2), 2),
+        new("1", 1),
+        new("2", 2),
     ];
 
     public static List<GenericCombinedData<int>> MainSkillLevelList => [
@@ -370,10 +441,9 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         new("Lv. 7", 7),
     ];
 
-    public static List<GenericCombinedData<int>> SpecializationSkillLevelList => [
-        new("---", 0),
-        new(LocalizationHelper.GetStringFormat("OperProgressMastery", 1), 1),
-        new(LocalizationHelper.GetStringFormat("OperProgressMastery", 2), 2),
-        new(LocalizationHelper.GetStringFormat("OperProgressMastery", 3), 3),
-    ];
+    public static LocalizedObservableList<int> SpecializationSkillLevelList { get; } = new(
+        (0, "OperProgressNotSet"),
+        (1, "OperProgressMastery1"),
+        (2, "OperProgressMastery2"),
+        (3, "OperProgressMastery3"));
 }
