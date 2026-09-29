@@ -198,7 +198,6 @@ public static class OperAvatarHelper
         }
 
         badge.Children.Add(name);
-        badge.ToolTip = operId;
         badge.Tag = string.Join(
             OperBadgeTagSeparator,
             OperBadgeTagPrefix,
