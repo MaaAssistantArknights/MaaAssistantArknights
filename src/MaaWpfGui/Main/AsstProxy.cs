@@ -1382,7 +1382,6 @@ public class AsstProxy
                         // 以 Core 任务 id 为准去重记录；任务名只是出错当时的快照（取不到时以任务链名兜底），仅用于日志
                         var failedTaskName = failedTask?.NameOrTaskType ?? $"({LocalizationHelper.GetString(taskChain)})";
                         failedTaskName += GetMultiChainTaskNameSuffix(failedTask, taskChain, taskId);
-                        Instances.TaskQueueViewModel.RecordFailedTask(taskId, failedTaskName);
                     }
 
                     // details.error 为 Core 侧 TaskExceptionKind 名（如 OutOfMemory），普通识别错误无此字段
@@ -1504,8 +1503,6 @@ public class AsstProxy
                 // （更新数据/仓库维护展开的链不在白名单、copilot 启动失败残留条目误判轮次归属）。
                 // 归属快照须在 SetIdle(true) 清零之前取得
                 var runOwner = _runningState.Owner;
-                bool isMainTaskQueueAllCompleted = taskList?.Length > 0 && runOwner == RunOwner.TaskQueue;
-
                 if (runOwner == RunOwner.Copilot)
                 {
                     if (SettingsViewModel.GameSettings.CopilotWithScript)
@@ -1523,25 +1520,26 @@ public class AsstProxy
 
                 // 失败名单复用 ｢出错时跳过完成后动作｣ 的记录（TaskChainError 时点快照，自带任务名与多链后缀），
                 // 同样覆盖 RemoteControlService 等绕过 LinkStartWithTasks 的启动入口；名单在下一轮开始时才清空，此处仍可读
-                var failedTaskNames = Instances.TaskQueueViewModel.GetFailedTaskNames();
+                var failedTaskNames = Instances.TaskQueueViewModel.TaskItemViewModels.Where(i => i.StatusDisplay == TaskItemStatus.Error).Select(i => i.Name).ToArray();
                 bool hasTaskErrors = failedTaskNames.Length > 0;
-                var taskErrorSummary = BuildTaskErrorSummaryLog(failedTaskNames);
                 _tasksStatus.Clear();
 
                 Instances.TaskQueueViewModel.ResetAllTemporaryVariable();
                 _runningState.SetIdle(true);
 
-                if (isMainTaskQueueAllCompleted)
+                if (runOwner == RunOwner.TaskQueue && taskList?.Length > 0)
                 {
                     var dateTimeNow = DateTimeOffset.Now;
                     var diffTaskTime = (dateTimeNow - StartTaskTime).ToString(@"h\h\ m\m\ s\s");
 
-                    var allTaskCompleteTitle = LocalizationHelper.GetStringFormat(hasTaskErrors ? "TaskCompletedWithErrors" : "AllTasksComplete", diffTaskTime);
-                    var allTaskCompleteMessage = LocalizationHelper.GetString("AllTaskCompleteContent");
+                    var allTaskCompleteTitle = hasTaskErrors ?
+                        LocalizationHelper.GetStringFormat("TaskCompletedWithErrors", string.Join(", ", failedTaskNames), diffTaskTime) :
+                        LocalizationHelper.GetStringFormat("AllTasksComplete", diffTaskTime);
                     var sanityReport = string.Empty;
 
                     var configurationPreset = ConfigFactory.Root.Current;
 
+                    var allTaskCompleteMessage = LocalizationHelper.GetString("AllTaskCompleteContent");
                     allTaskCompleteMessage = allTaskCompleteMessage
                         .Replace("{DateTime}", dateTimeNow.ToString("yyyy-MM-dd HH:mm:ss"))
                         .Replace("{Preset}", configurationPreset)
@@ -1574,7 +1572,7 @@ public class AsstProxy
 
                     // 出错时保留完成上下文（时间/配置等）再附错误清单，避免通知正文只剩清单
                     var allTaskCompleteContent = hasTaskErrors
-                        ? allTaskCompleteMessage + Environment.NewLine + taskErrorSummary
+                        ? allTaskCompleteMessage + Environment.NewLine + BuildTaskErrorSummaryLog(failedTaskNames)
                         : allTaskCompleteMessage;
                     ExternalNotificationService.Event.AllTaskComplete(allTaskCompleteTitle, allTaskCompleteContent, sanityReport);
                     using (var toast = new ToastNotification(allTaskCompleteTitle))
@@ -1602,11 +1600,6 @@ public class AsstProxy
                     if (Instances.OverlayViewModel.IsCreated)
                     {
                         AchievementTrackerHelper.Instance.Unlock(AchievementIds.LogSupervisor);
-                    }
-
-                    if (!string.IsNullOrWhiteSpace(taskErrorSummary))
-                    {
-                        Instances.TaskQueueViewModel.AddLog(taskErrorSummary, UiLogColor.Error, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
                     }
                 }
                 else if (runOwner == RunOwner.Copilot)
@@ -1848,8 +1841,7 @@ public class AsstProxy
     /// <returns>当前语言的原因文本</returns>
     private static string GetLocalizedWhy(string why)
     {
-        return why switch
-        {
+        return why switch {
             "recognition error" => LocalizationHelper.GetString("IdentifyTheMistakes"),
             "refresh count reached the limit" => LocalizationHelper.GetString("RecruitRefreshLimitReached"),
             "UnknownStage" => LocalizationHelper.GetString("PenguinUploadUnknownStage"),
@@ -3509,15 +3501,7 @@ public class AsstProxy
             return string.Empty;
         }
 
-        StringBuilder builder = new();
-        builder.AppendLine(LocalizationHelper.GetString("TaskErrorSummaryTitle"));
-
-        foreach (var taskName in failedTaskNames)
-        {
-            builder.AppendLine(LocalizationHelper.GetStringFormat("TaskErrorSummaryItem", taskName));
-        }
-
-        return builder.ToString().TrimEnd();
+        return string.Join('\n', failedTaskNames.Prepend(LocalizationHelper.GetString("TaskErrorSummaryTitle")));
     }
 
     private void AddTaskCompletionLog(string completionLog, bool hasTaskErrors)
@@ -3547,7 +3531,7 @@ public class AsstProxy
             return (string.Empty, string.Empty);
         }
 
-        int firstLineEnd = completionLog.IndexOf('\n');
+        int firstLineEnd = completionLog.LastIndexOf('\n');
         if (firstLineEnd < 0)
         {
             return (completionLog, string.Empty);
