@@ -14,7 +14,14 @@ bool asst::ParadoxListTask::return_to_list()
         !ProcessTask(*this, { "ParadoxReturnUntilOperList" }).set_retry_times(3).run()) {
         return false;
     }
-    return ProcessTask(*this, { "BattleQuickFormationExpandRole" }).set_retry_times(3).run();
+    return ensure_role_panel_expanded();
+}
+
+bool asst::ParadoxListTask::ensure_role_panel_expanded()
+{
+    return ProcessTask(*this, { "BattleQuickFormationRoleExpanded", "BattleQuickFormationExpandRole" })
+        .set_retry_times(3)
+        .run();
 }
 
 bool asst::ParadoxListTask::prepare()
@@ -24,7 +31,7 @@ bool asst::ParadoxListTask::prepare()
             return false;
         }
     }
-    if (!ProcessTask(*this, { "BattleQuickFormationExpandRole" }).set_retry_times(3).run() ||
+    if (!ensure_role_panel_expanded() ||
         !ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).run()) {
         return false;
     }
@@ -66,6 +73,21 @@ bool asst::ParadoxListTask::rewind()
     return false;
 }
 
+std::optional<std::vector<asst::OperBoxInfo>> asst::ParadoxListTask::analyze_page()
+{
+    for (int retry = 0; retry < 3 && !need_exit(); ++retry) {
+        OperBoxImageAnalyzer analyzer(ctrler()->get_image());
+        analyzer.set_paradox_filter(true);
+        if (analyzer.analyze()) {
+            return analyzer.get_result();
+        }
+        if (retry < 2 && !sleep(300)) {
+            break;
+        }
+    }
+    return std::nullopt;
+}
+
 std::string asst::ParadoxListTask::detail_name()
 {
     for (int retry = 0; retry < 3 && !need_exit(); ++retry) {
@@ -92,12 +114,11 @@ bool asst::ParadoxListTask::_run()
     std::unordered_set<std::string> seen;
     int unchanged = 0;
     for (int page = 0; page < 100 && !need_exit(); ++page) {
-        OperBoxImageAnalyzer analyzer(ctrler()->get_image());
-        analyzer.set_paradox_filter(true);
-        if (!analyzer.analyze()) {
+        const auto cards = analyze_page();
+        if (!cards) {
             return false;
         }
-        for (auto card : analyzer.get_result()) {
+        for (auto card : *cards) {
             if (need_exit()) {
                 return false;
             }

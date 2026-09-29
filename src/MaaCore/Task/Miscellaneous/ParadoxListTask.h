@@ -1,4 +1,5 @@
 #pragma once
+#include <optional>
 #include <unordered_set>
 
 #include "Task/AbstractTask.h"
@@ -30,6 +31,8 @@ private:
     bool prepare();
     bool rewind();
     bool return_to_list();
+    bool ensure_role_panel_expanded();
+    std::optional<std::vector<OperBoxInfo>> analyze_page();
     std::string detail_name();
     bool same_page(const cv::Mat& before, const cv::Mat& after) const;
 
