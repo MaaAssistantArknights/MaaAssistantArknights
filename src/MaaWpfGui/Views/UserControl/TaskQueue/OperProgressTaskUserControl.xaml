@@ -51,7 +51,7 @@
                     HorizontalAlignment="Left"
                     hc:BorderElement.CornerRadius="0,4,4,0"
                     Command="{s:Action ParsePlan}"
-                    Content="{DynamicResource OperProgressReadFromClipboard}" />
+                    Content="{DynamicResource ParseClipboard}" />
 
             </StackPanel>
             <!--  干员选择与添加培养目标  -->

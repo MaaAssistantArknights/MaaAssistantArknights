@@ -400,6 +400,7 @@
     <system:String x:Key="Rename">重新命名</system:String>
     <system:String x:Key="Add">新增</system:String>
     <system:String x:Key="Delete">刪除</system:String>
+    <system:String x:Key="ParseClipboard">從剪貼簿讀取</system:String>
     <system:String x:Key="ParseFailed">解析失敗</system:String>
     <system:String x:Key="RenameTask">重新命名任務</system:String>
     <system:String x:Key="RenameTaskPrompt">請輸入新的任務名稱：</system:String>
@@ -918,7 +919,6 @@ C:\leidian\LDPlayer9
     <system:String x:Key="OperProgressMastery3">專精 3</system:String>
     <system:String x:Key="OperProgressSkillNumber">技能 {0}</system:String>
     <system:String x:Key="OperProgressOnlineEditor">在明日方舟工具箱中線上編輯計畫</system:String>
-    <system:String x:Key="OperProgressReadFromClipboard">從剪貼簿讀取</system:String>
     <system:String x:Key="OperProgress.Detail">{key=OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="Visiting">訪問好友</system:String>
     <system:String x:Key="Mall">獲取信用及購物</system:String>

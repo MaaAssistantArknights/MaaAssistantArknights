@@ -400,6 +400,7 @@
     <system:String x:Key="Rename">名前を変更</system:String>
     <system:String x:Key="Add">追加</system:String>
     <system:String x:Key="Delete">削除</system:String>
+    <system:String x:Key="ParseClipboard">クリップボードから読み取り</system:String>
     <system:String x:Key="ParseFailed">解析に失敗しました</system:String>
     <system:String x:Key="RenameTask">タスク名を変更</system:String>
     <system:String x:Key="RenameTaskPrompt">新しいタスク名を入力してください：</system:String>
@@ -920,7 +921,6 @@ C:\leidian\LDPlayer9
     <system:String x:Key="OperProgressMastery3">特化 3</system:String>
     <system:String x:Key="OperProgressSkillNumber">スキル{0}</system:String>
     <system:String x:Key="OperProgressOnlineEditor">アークナイツツールボックスでオンライン編集</system:String>
-    <system:String x:Key="OperProgressReadFromClipboard">クリップボードから読み込む</system:String>
     <system:String x:Key="OperProgress.Detail">{key=OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="Visiting">戦友訪問</system:String>
     <system:String x:Key="Mall">FP獲得と交換</system:String>
