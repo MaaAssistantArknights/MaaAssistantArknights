@@ -632,6 +632,13 @@ void Assistant::working_proc()
                 best_effort([&] { Log.error("Unknown exception in task thread"); });
             }
 
+            const auto save_fail_img = [&]() {
+                if (task_ptr == nullptr) {
+                    return;
+                }
+                best_effort([&] { task_ptr->save_fail_img(); });
+            };
+
             lock.lock();
             if (!m_tasks_list.empty()) {
                 m_tasks_list.pop_front();
@@ -643,6 +650,7 @@ void Assistant::working_proc()
             }
 
             if (exception_kind != TaskExceptionKind::None) {
+                save_fail_img();
                 if (exception_kind == TaskExceptionKind::OutOfMemory) {
                     lock.lock();
                     m_thread_idle = true;
@@ -668,6 +676,9 @@ void Assistant::working_proc()
             else {
                 auto msg = m_thread_idle ? AsstMsg::TaskChainStopped
                                          : (ret ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError);
+                if (msg == AsstMsg::TaskChainError) {
+                    save_fail_img();
+                }
                 append_callback(msg, callback_json);
             }
 
