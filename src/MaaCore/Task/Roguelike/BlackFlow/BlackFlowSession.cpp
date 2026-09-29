@@ -1592,7 +1592,8 @@ PreviewDisposition BlackFlowSession::accept_preview_in_place(MovePreview preview
     }
     const PreviewReachability reachability = preview.reachability;
     const MoveCandidate proposal = m_transaction->proposal();
-    const Node* existing = proposal.target == InvalidNodeId ? nullptr : m_map_version.map.snapshot().find_node(proposal.target);
+    const Node* existing =
+        proposal.target == InvalidNodeId ? nullptr : m_map_version.map.snapshot().find_node(proposal.target);
     if (preview.reachability == PreviewReachability::Reachable && existing != nullptr &&
         existing->type == NodeType::HideBattle && preview.displayed_type == NodeType::BattleNormal) {
         preview.displayed_type = existing->type;
@@ -1925,7 +1926,8 @@ bool BlackFlowSession::completed_page_changes_floor() const noexcept
 std::optional<int> BlackFlowSession::remaining_route_battles(const MoveCandidate& move) const
 {
     if (!m_last_plan.has_value() || !m_policy.has_value() || !move.controllable ||
-        m_last_plan->map_revision != m_map_version.map.snapshot().revision || m_last_plan->cost_revision != m_run.costs.revision) {
+        m_last_plan->map_revision != m_map_version.map.snapshot().revision ||
+        m_last_plan->cost_revision != m_run.costs.revision) {
         return std::nullopt;
     }
     const PolicyDecision& decision = m_last_plan->decision;
