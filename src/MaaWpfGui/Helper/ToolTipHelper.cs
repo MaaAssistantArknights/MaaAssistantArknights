@@ -137,6 +137,14 @@ public static class ToolTipHelper
                     return newRun;
                 case LineBreak:
                     return new LineBreak();
+                case InlineUIContainer container:
+                {
+                    // 「头像+干员名」组合元素按 Tag 载荷重建，其余内嵌元素无法安全克隆，退化为空 Run
+                    var recreated = OperAvatarHelper.TryRecreateOperBadge((container.Child as FrameworkElement)?.Tag);
+                    return recreated == null
+                        ? new Run()
+                        : new InlineUIContainer(recreated) { BaselineAlignment = BaselineAlignment.Bottom };
+                }
                 default:
                     return new Run();
             }

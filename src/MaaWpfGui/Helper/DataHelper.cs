@@ -333,13 +333,20 @@ public static class DataHelper
     }
 
     /// <summary>
-    /// 将干员 ID 归一化为基础形态 ID。升变干员（阿米娅）在 battle_data 中按形态拆成独立条目，
-    /// 游戏内却共享同一培养条目；干员识别按玩家当前形态回传形态 ID，而形态条目不在
-    /// 干员全集（<see cref="Operators"/>）内，展示、存储与潜能匹配前须归一到基础形态。
+    /// 将干员 ID 归一化为基础形态 ID。阿米娅等升变干员在 battle_data 中每个形态一条记录，
+    /// 游戏内却是同一个干员；干员识别回传的是玩家当前形态的 ID，展示与存储前须换回基础形态。
     /// </summary>
     /// <param name="id">干员 ID</param>
     /// <returns>归一化后的干员 ID，无等价条目时原样返回</returns>
     public static string GetCanonicalOperId(string id) => _promotedOperIds.GetValueOrDefault(id, id);
+
+    /// <summary>
+    /// 判断是否为升变形态条目（如阿米娅的近卫/医疗形态）。这类条目与基础形态并存于干员全集，
+    /// 但升变不会获得新干员——是否拥有只看基础形态，遍历全集时不应把形态条目当独立干员处理。
+    /// </summary>
+    /// <param name="id">干员 ID</param>
+    /// <returns>是升变形态条目返回 <see langword="true"/></returns>
+    public static bool IsPromotedOperId(string id) => _promotedOperIds.ContainsKey(id);
 
     public class CharacterInfo
     {

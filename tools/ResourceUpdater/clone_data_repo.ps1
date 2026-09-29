@@ -20,6 +20,7 @@ $jobs += Start-Job -ScriptBlock {
     git sparse-checkout set --no-cone `
         "/levels.json" `
         "/item" `
+        "/avatar/char_*" `
         "/building_skill" `
         "/gamedata/excel/item_table.json" `
         "/gamedata/excel/building_data.json" `

@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
@@ -49,9 +48,9 @@ public class CopilotModel : CopilotBase
     [JsonProperty("difficulty")]
     public DifficultyFlags Difficulty { get; set; }
 
-    public List<(string Output, string? Color)> Output()
+    public List<CopilotOutput> Output()
     {
-        var output = new List<(string, string?)>();
+        var output = new List<CopilotOutput>();
         if (Documentation is not null)
         {
             var title = Documentation.Title;
@@ -74,20 +73,27 @@ public class CopilotModel : CopilotBase
         foreach (var oper in Opers)
         {
             count++;
-            var localizedName = DataHelper.GetLocalizedCharacterName(oper.Name);
-            var log = $"{localizedName}{PrintLevelInfo(oper)} {LocalizationHelper.GetString("CopilotSkill")} {oper.Skill}{PrintSkillLevel(oper)} {GetModuleInfo(oper.Requirements)}".Trim();
-            output.Add((log, UiLogColor.Message));
+            var localizedName = DataHelper.GetLocalizedCharacterName(oper.Name) ?? oper.Name;
+            var details = $"{PrintLevelInfo(oper)} {LocalizationHelper.GetString("CopilotSkill")} {oper.Skill}{PrintSkillLevel(oper)} {GetModuleInfo(oper.Requirements)}".TrimEnd();
+            output.Add(new CopilotOutput([new(localizedName, oper.Name), new(details)], UiLogColor.Message));
         }
 
         foreach (var group in Groups)
         {
             count++;
-            var groupName = group.Name + ": ";
-            var operInfos = group.Opers
-                .Select(oper => $"{DataHelper.GetLocalizedCharacterName(oper.Name)} {oper.Skill}{PrintSkillLevel(oper)} {GetModuleInfo(oper.Requirements)}".Trim())
-                .ToList();
+            var parts = new List<CopilotOutput.Part> { new(group.Name + ": ") };
+            foreach (var oper in group.Opers)
+            {
+                if (parts.Count > 1)
+                {
+                    parts.Add(new(" / "));
+                }
 
-            output.Add((groupName + string.Join(" / ", operInfos), UiLogColor.Message));
+                parts.Add(new(DataHelper.GetLocalizedCharacterName(oper.Name) ?? oper.Name, oper.Name));
+                parts.Add(new($" {oper.Skill}{PrintSkillLevel(oper)} {GetModuleInfo(oper.Requirements)}".TrimEnd()));
+            }
+
+            output.Add(new CopilotOutput(parts, UiLogColor.Message));
         }
 
         output.Add((LocalizationHelper.GetStringFormat("TotalOperatorsCount", count), UiLogColor.Message));
