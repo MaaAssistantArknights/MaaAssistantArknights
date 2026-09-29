@@ -14,6 +14,7 @@
 #nullable enable
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows.Media.Imaging;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using Serilog;
@@ -58,6 +59,7 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
         var oper = DataHelper.Characters.Values.FirstOrDefault(c => (role == OperatorRole.Unknown || c.Role == role) && c.Name == name);
         if (oper is not null)
         {
+            OperId = oper.Id;
             DisplayName = (DataHelper.GetLocalizedCharacterName(oper) ?? name) + (ShowRole ? $"({RoleString})" : string.Empty);
             if (Role == OperatorRole.Unknown)
             {
@@ -104,6 +106,16 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
     /// Gets 本地化干员名，语言切换后由 <see cref="RefreshLocalizedText"/>
     /// 刷新。</summary>
     public string DisplayName { get; private set => SetAndNotify(ref field, value); }
+
+    /// <summary>
+    /// Gets 干员 ID（无法从干员数据解析时为 null）。
+    /// </summary>
+    public string? OperId { get; }
+
+    /// <summary>
+    /// Gets 干员头像（上游解包头像，资源缺失或干员无法解析时为 null）。
+    /// </summary>
+    public BitmapSource? Avatar => OperId is null ? null : OperAvatarHelper.GetOperAvatar(OperId);
 
     public bool IsEliteSelected { get; set => SetAndNotify(ref field, value); }
 

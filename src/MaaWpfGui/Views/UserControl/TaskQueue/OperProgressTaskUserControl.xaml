@@ -5,6 +5,7 @@
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:constants="clr-namespace:MaaWpfGui.Constants"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:converters="clr-namespace:MaaWpfGui.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
@@ -17,6 +18,9 @@
     d:DesignWidth="220"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:OperBadgeMultiConverter x:Key="OperBadgeMultiConverter" />
+    </UserControl.Resources>
     <StackPanel>
         <!--  常规设置  -->
         <StackPanel Visibility="{c:Binding '!EnableAdvancedSettings', Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
@@ -64,14 +68,26 @@
                 <hc:ComboBox
                     Grid.Column="0"
                     HorizontalContentAlignment="Stretch"
-                    DisplayMemberPath="Display"
                     IsEditable="True"
                     IsTextSearchEnabled="False"
                     ItemsSource="{Binding OperatorNames}"
                     Loaded="{s:Action MakeComboBoxSearchable,
                                       Target={x:Type ui_vms:SettingsViewModel}}"
                     SelectedValue="{Binding OperSelect}"
-                    SelectedValuePath="Value" />
+                    SelectedValuePath="Value">
+                    <hc:ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <ContentControl>
+                                <ContentControl.Content>
+                                    <MultiBinding Converter="{StaticResource OperBadgeMultiConverter}">
+                                        <Binding Path="Value.Id" />
+                                        <Binding Path="Display" />
+                                    </MultiBinding>
+                                </ContentControl.Content>
+                            </ContentControl>
+                        </DataTemplate>
+                    </hc:ComboBox.ItemTemplate>
+                </hc:ComboBox>
                 <Button
                     x:Name="AddTargetButton"
                     Grid.Column="1"
@@ -115,12 +131,21 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <controls:TextBlock VerticalAlignment="Center" Text="{c:Binding 'Index + 1'}" />
-                                    <controls:TextBlock
+                                    <StackPanel
                                         Grid.Column="1"
                                         Margin="4,0"
-                                        HorizontalAlignment="Left"
-                                        Text="{Binding DisplayName}"
-                                        TextTrimming="CharacterEllipsis" />
+                                        Orientation="Horizontal">
+                                        <Image
+                                            Width="18"
+                                            Height="18"
+                                            VerticalAlignment="Center"
+                                            Source="{Binding Avatar}" />
+                                        <controls:TextBlock
+                                            Margin="4,0,0,0"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding DisplayName}"
+                                            TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
                                     <Grid Grid.Column="3" HorizontalAlignment="Right">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
