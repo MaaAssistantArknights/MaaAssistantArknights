@@ -77,6 +77,10 @@
         "specificRect": [1, 154, 45, 261],
         "postDelay": 100
     },
+    "BlackFlow@Roguelike@CancelNodeSelectionForReplan": {
+        "baseTask": "BlackFlow@Roguelike@CancelNodeSelection",
+        "next": ["BlackFlow@Roguelike@MapReplanReady"]
+    },
     "BlackFlow@Roguelike@CheckLevel": {
         "text": ["源流堆栈"]
     },
@@ -931,6 +935,24 @@
         ],
         "onErrorNext": ["BlackFlow@Roguelike@RecoveryFailed"]
     },
+    "BlackFlow@Roguelike@MapPrepare-Floor5Swipe": {
+        "Doc": [
+            "第五层地图最右列会被界面遮挡，首次进层建图前沿 y=615 从 x=766 向左滑到 x=584 两次，把地图整体挪开。",
+            "地图有中心吸附，滑过头也会吸回左侧中心点，所以重复滑动是安全的；建图成功后 map().floor() 已是 5，之后的地图准备不再滑动。"
+        ],
+        "algorithm": "JustReturn",
+        "sub": ["BlackFlow@Roguelike@MapPrepare-Floor5SwipeOnce*2"],
+        "next": ["BlackFlow@Roguelike@Routing"],
+        "onErrorNext": ["BlackFlow@Roguelike@RecoveryFailed"]
+    },
+    "BlackFlow@Roguelike@MapPrepare-Floor5SwipeOnce": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [766, 615, 1, 1],
+        "rectMove": [584, 615, 1, 1],
+        "specialParams": [200, 0, 37, 1],
+        "postDelay": 500
+    },
     "BlackFlow@Roguelike@MapPrepare-FloorEnterZoom": {
         "Doc": "刚进入楼层时比例尺必定是大的，此刻两种放大镜状态分不清，所以不判状态直接切一次；比例尺缩小后节点不会压到顶部标题，楼层 OCR 才干净。",
         "baseTask": "BlackFlow@Roguelike@MapPrepare-Ready",
@@ -955,29 +977,6 @@
         "Doc": "占位任务，默认转入 Routing-Enter；第五层首次建图前由插件改指 MapPrepare-Floor5Swipe。",
         "baseTask": "BlackFlow@Roguelike@Routing-Enter"
     },
-    "BlackFlow@Roguelike@Routing-Enter": {
-        "Doc": "Routing 被插件监听，占位任务不能直接指向它，经本任务转发让它以自己的名字执行。",
-        "algorithm": "JustReturn",
-        "next": ["BlackFlow@Roguelike@Routing"]
-    },
-    "BlackFlow@Roguelike@MapPrepare-Floor5Swipe": {
-        "Doc": [
-            "第五层地图最右列会被界面遮挡，首次进层建图前沿 y=615 从 x=766 向左滑到 x=584 两次，把地图整体挪开。",
-            "地图有中心吸附，滑过头也会吸回左侧中心点，所以重复滑动是安全的；建图成功后 map().floor() 已是 5，之后的地图准备不再滑动。"
-        ],
-        "algorithm": "JustReturn",
-        "sub": ["BlackFlow@Roguelike@MapPrepare-Floor5SwipeOnce*2"],
-        "next": ["BlackFlow@Roguelike@Routing"],
-        "onErrorNext": ["BlackFlow@Roguelike@RecoveryFailed"]
-    },
-    "BlackFlow@Roguelike@MapPrepare-Floor5SwipeOnce": {
-        "algorithm": "JustReturn",
-        "action": "Swipe",
-        "specificRect": [766, 615, 1, 1],
-        "rectMove": [584, 615, 1, 1],
-        "specialParams": [200, 0, 37, 1],
-        "postDelay": 500
-    },
     "BlackFlow@Roguelike@MapPrepare-ZoomOut": {
         "template": "BlackFlow@Roguelike@MapZoomOut.png",
         "templThreshold": 0.9,
@@ -988,6 +987,12 @@
         "next": ["BlackFlow@Roguelike@MapPrepare"],
         "exceededNext": ["BlackFlow@Roguelike@RecoveryFailed"],
         "reduceOtherTimes": ["BlackFlow@Roguelike@MovementInventoryClose*3"]
+    },
+    "BlackFlow@Roguelike@MapReplanReady": {
+        "baseTask": "BlackFlow@Roguelike@MapPrepare-Ready",
+        "template": "BlackFlow@Roguelike@MapZoomIn.png",
+        "next": ["BlackFlow@Roguelike@RoutingReplan"],
+        "onErrorNext": ["BlackFlow@Roguelike@RecoveryFailed"]
     },
     "BlackFlow@Roguelike@MissionFailedFlag": {
         "template": "BlackFlow@Roguelike@MissionFailedFlag.png"
@@ -1492,8 +1497,18 @@
         "next": ["BlackFlow@Roguelike@RoutingAction"],
         "onErrorNext": ["BlackFlow@Roguelike@RecoveryFailed"]
     },
+    "BlackFlow@Roguelike@Routing-Enter": {
+        "Doc": "Routing 被插件监听，占位任务不能直接指向它，经本任务转发让它以自己的名字执行。",
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@Routing"]
+    },
     "BlackFlow@Roguelike@RoutingAction": {
         "baseTask": "BlackFlow@Roguelike@RecoveryFailed"
+    },
+    "BlackFlow@Roguelike@RoutingReplan": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@RoutingAction"],
+        "onErrorNext": ["BlackFlow@Roguelike@RecoveryFailed"]
     },
     "BlackFlow@Roguelike@RoutingResume": {
         "algorithm": "JustReturn",
@@ -1876,20 +1891,5 @@
     },
     "BlackFlow@RoguelikeSettlementConfirm": {
         "template": "BlackFlow@Roguelike@GamePassTheEndConfirm.png"
-    },
-    "BlackFlow@Roguelike@CancelNodeSelectionForReplan": {
-        "baseTask": "BlackFlow@Roguelike@CancelNodeSelection",
-        "next": ["BlackFlow@Roguelike@MapReplanReady"]
-    },
-    "BlackFlow@Roguelike@MapReplanReady": {
-        "baseTask": "BlackFlow@Roguelike@MapPrepare-Ready",
-        "template": "BlackFlow@Roguelike@MapZoomIn.png",
-        "next": ["BlackFlow@Roguelike@RoutingReplan"],
-        "onErrorNext": ["BlackFlow@Roguelike@RecoveryFailed"]
-    },
-    "BlackFlow@Roguelike@RoutingReplan": {
-        "algorithm": "JustReturn",
-        "next": ["BlackFlow@Roguelike@RoutingAction"],
-        "onErrorNext": ["BlackFlow@Roguelike@RecoveryFailed"]
     }
 }
