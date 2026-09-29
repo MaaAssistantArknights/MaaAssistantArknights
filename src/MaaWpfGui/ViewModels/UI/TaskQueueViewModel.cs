@@ -2086,7 +2086,7 @@ public class TaskQueueViewModel : Screen
     /// <param name="refreshUI">是否刷新UI</param>
     public void ResetAllTemporaryVariable(bool refreshUI = true)
     {
-        foreach (var item in ConfigFactory.CurrentConfig.TaskQueue)
+        foreach (var item in ConfigFactory.CurrentConfig.TaskQueue.ToList())
         {
             switch (item)
             {
