@@ -37,13 +37,13 @@ bool asst::ParadoxCopilotTask::set_params(const json::value& params)
             return false;
         }
         std::vector<std::pair<int, std::string>> files;
-        if (auto list = params.find<std::vector<CopilotConfig>>("list")) {
-            for (const auto& item : *list) {
+        if (auto configs = params.find<std::vector<CopilotConfig>>("list")) {
+            for (const auto& item : *configs) {
                 files.emplace_back(item.id, item.filename);
             }
         }
-        else if (auto list = params.find<std::vector<std::string>>("list")) {
-            for (const auto& filename : *list) {
+        else if (auto filenames = params.find<std::vector<std::string>>("list")) {
+            for (const auto& filename : *filenames) {
                 files.emplace_back(-1, filename);
             }
         }
