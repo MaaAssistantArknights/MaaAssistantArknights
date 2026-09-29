@@ -45,10 +45,8 @@ void supplement_map_exits(MapObservationBatch& observation, std::span<const Grid
     for (const auto& position : exits) {
         auto node = std::ranges::find(observation.nodes, position, &ObservedNode::position);
         if (node == observation.nodes.end()) {
-            ObservedNode added;
-            added.position = position;
-            observation.nodes.emplace_back(std::move(added));
-            node = std::prev(observation.nodes.end());
+            // 仅补全已识别节点的身份，避免创建没有点击坐标的移动目标。
+            continue;
         }
         node->type = NodeType::Final;
         node->name = "险路尽头";

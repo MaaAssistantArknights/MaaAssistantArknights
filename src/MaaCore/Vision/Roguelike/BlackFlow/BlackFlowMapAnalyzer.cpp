@@ -277,6 +277,19 @@ MapRecognitionResult BlackFlowMapAnalyzer::recognize(const cv::Mat& image, int f
                 result.error = candidate.error;
                 continue;
             }
+            // 先检查地图是否有效，再参与候选选择和模板匹配计数。
+            if (!is_supported_floor_grid(floor, candidate.rows, candidate.columns)) {
+                candidate.error = "map recognition produced unsupported grid dimensions";
+            }
+            else if (candidate.node_detection.current_marker_node_id < 0) {
+                candidate.error = "map recognition did not locate the current marker";
+            }
+            if (!candidate.error.empty()) {
+                result.error = candidate.error;
+                LogInfo << __FUNCTION__ << "Map grid" << grid.rows << grid.columns << "recognition failed"
+                        << candidate.error;
+                continue;
+            }
             const auto* matched = floor == 5 ? match_recognized_map(candidate) : nullptr;
             if (matched != nullptr) {
                 ++matching_grids;

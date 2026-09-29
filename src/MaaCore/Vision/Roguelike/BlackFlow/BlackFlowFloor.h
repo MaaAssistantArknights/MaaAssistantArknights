@@ -35,6 +35,16 @@ inline constexpr std::array<FloorProfile, 2> Floor5Profiles = {
     return std::span<const FloorProfile>(FloorProfiles).subspan(static_cast<std::size_t>(floor - 1), 1);
 }
 
+[[nodiscard]] constexpr bool is_supported_floor_grid(int floor, int rows, int columns) noexcept
+{
+    for (const auto& profile : floor_profiles(floor)) {
+        if (profile.rows == rows && profile.columns == columns) {
+            return true;
+        }
+    }
+    return false;
+}
+
 [[nodiscard]] constexpr std::optional<FloorProfile> floor_profile(int floor) noexcept
 {
     if (floor < 1 || floor > static_cast<int>(FloorProfiles.size())) {

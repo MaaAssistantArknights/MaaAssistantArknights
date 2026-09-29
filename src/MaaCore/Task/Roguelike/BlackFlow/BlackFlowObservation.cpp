@@ -94,10 +94,7 @@ std::optional<NormalizedPerceptionObservation>
     }
 
     if (source.rows != 0 || source.columns != 0) {
-        const auto profiles = perception::floor_profiles(source.floor);
-        if (!std::ranges::any_of(profiles, [&](const auto& profile) {
-                return profile.rows == source.rows && profile.columns == source.columns;
-            })) {
+        if (!perception::is_supported_floor_grid(source.floor, source.rows, source.columns)) {
             if (error != nullptr) {
                 *error = "perception result has unsupported grid dimensions";
             }
