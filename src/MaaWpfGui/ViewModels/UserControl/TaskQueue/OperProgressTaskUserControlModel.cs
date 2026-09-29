@@ -91,6 +91,9 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
     /// <summary>可选择的干员名列表，按稀有度降序、名称升序排列，实时取自干员数据</summary>
     public List<GenericCombinedData<OperItem>> OperatorNames => [.. DataHelper.Operators.Values
+
+        // 暂时屏蔽三个阿米娅形态（本体/近卫/医疗），培养流程未验证前不可选。
+        .Where(oper => oper.Id is not ("char_002_amiya" or "char_1001_amiya2" or "char_1037_amiya3"))
         .GroupBy(oper => oper.Name)
         .SelectMany(group => group.Select(oper => new OperItem(oper.Id, oper.Role, oper.Name!, DataHelper.GetLocalizedCharacterName(oper) ?? oper.Name!, oper.Rarity, group.Count() > 1)).Distinct())
         .OrderByDescending(entry => entry.Rarity)
