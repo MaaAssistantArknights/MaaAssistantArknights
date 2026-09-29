@@ -18,6 +18,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -49,9 +50,9 @@ public static class OperAvatarHelper
     /// </summary>
     internal const char OperBadgeTagSeparator = '\u0001';
 
-    private static readonly object _avatarCacheLock = new();
-    private static readonly ConcurrentDictionary<string, BitmapSource?> _avatarCache = new();
-    private static readonly ConcurrentDictionary<string, BitmapSource?> _desaturatedAvatarCache = new();
+    // per-key Lazy single-flight：同一 key 并发只解码一次，加载失败（null）同样被缓存，不在工厂外判空重试
+    private static readonly ConcurrentDictionary<string, Lazy<BitmapSource?>> _avatarCache = new();
+    private static readonly ConcurrentDictionary<string, Lazy<BitmapSource?>> _desaturatedAvatarCache = new();
     private static readonly ConcurrentDictionary<OperatorRole, BitmapSource?> _roleIconCache = new();
 
     // 与 MaaCore OperBoxImageAnalyzer 的职业旗标顺序保持一致
@@ -80,24 +81,23 @@ public static class OperAvatarHelper
             return null;
         }
 
-        var cache = desaturated ? _desaturatedAvatarCache : _avatarCache;
-        if (cache.TryGetValue(operId, out var cached))
+        if (!desaturated)
         {
-            return cached;
+            return _avatarCache.GetOrAdd(operId, CreateAvatarLazy).Value;
         }
 
-        lock (_avatarCacheLock)
-        {
-            if (cache.TryGetValue(operId, out cached))
-            {
-                return cached;
-            }
+        return _desaturatedAvatarCache.GetOrAdd(
+            operId,
+            id => new Lazy<BitmapSource?>(
+                () =>
+                {
+                    var normal = _avatarCache.GetOrAdd(id, CreateAvatarLazy).Value;
+                    return normal != null ? Desaturate(normal, DesaturatedColorKeep) : normal;
+                },
+                LazyThreadSafetyMode.ExecutionAndPublication)).Value;
 
-            var normal = LoadAndCacheAvatar(operId);
-            var avatar = desaturated && normal != null ? Desaturate(normal, DesaturatedColorKeep) : normal;
-            cache.TryAdd(operId, avatar);
-            return avatar;
-        }
+        static Lazy<BitmapSource?> CreateAvatarLazy(string id)
+            => new(() => LoadAvatar(id), LazyThreadSafetyMode.ExecutionAndPublication);
     }
 
     /// <summary>
@@ -121,8 +121,15 @@ public static class OperAvatarHelper
         return _roleIconCache.GetOrAdd(role, LoadRoleIcon);
     }
 
-    private static BitmapSource? _maaIcon;
-    private static BitmapSource? _desaturatedMaaIcon;
+    private static readonly Lazy<BitmapSource?> _maaIcon = new(DecodeMaaIconCore, LazyThreadSafetyMode.ExecutionAndPublication);
+
+    private static readonly Lazy<BitmapSource?> _desaturatedMaaIcon = new(
+        () =>
+        {
+            var normal = _maaIcon.Value;
+            return normal != null ? Desaturate(normal, DesaturatedColorKeep) : normal;
+        },
+        LazyThreadSafetyMode.ExecutionAndPublication);
 
     /// <summary>
     /// 获取 MAA 应用图标（打包资源 <c>newlogo.ico</c>），供干员识别中的特殊干员展示使用。
@@ -131,41 +138,7 @@ public static class OperAvatarHelper
     /// <returns>MAA 图标；解码失败时返回 <c>null</c></returns>
     public static BitmapSource? GetMaaIcon(bool desaturated = false)
     {
-        if (desaturated)
-        {
-            if (_desaturatedMaaIcon != null)
-            {
-                return _desaturatedMaaIcon;
-            }
-        }
-        else if (_maaIcon != null)
-        {
-            return _maaIcon;
-        }
-
-        lock (_avatarCacheLock)
-        {
-            if (desaturated)
-            {
-                if (_desaturatedMaaIcon == null)
-                {
-                    var normal = GetMaaIcon();
-                    _desaturatedMaaIcon = normal != null ? Desaturate(normal, DesaturatedColorKeep) : null;
-                }
-
-                return _desaturatedMaaIcon;
-            }
-
-            if (_maaIcon == null)
-            {
-                var dispatcher = Application.Current?.Dispatcher;
-                _maaIcon = dispatcher != null && !dispatcher.CheckAccess()
-                    ? dispatcher.Invoke(DecodeMaaIconCore)
-                    : DecodeMaaIconCore();
-            }
-
-            return _maaIcon;
-        }
+        return (desaturated ? _desaturatedMaaIcon : _maaIcon).Value;
     }
 
     private static BitmapSource? DecodeMaaIconCore()
@@ -268,19 +241,12 @@ public static class OperAvatarHelper
         return null;
     }
 
-    private static BitmapSource? LoadAndCacheAvatar(string operId)
+    private static BitmapSource? LoadAvatar(string operId)
     {
-        if (_avatarCache.TryGetValue(operId, out var cached))
-        {
-            return cached;
-        }
-
         var avatarDir = Path.Combine(PathsHelper.ResourceDir, "template", "avatar");
         var canonicalId = DataHelper.GetCanonicalOperId(operId);
-        var avatar = DecodeImage(Path.Combine(avatarDir, $"{operId}.png"))
+        return DecodeImage(Path.Combine(avatarDir, $"{operId}.png"))
             ?? (canonicalId == operId ? null : DecodeImage(Path.Combine(avatarDir, $"{canonicalId}.png")));
-        _avatarCache.TryAdd(operId, avatar);
-        return avatar;
     }
 
     private static BitmapSource? LoadRoleIcon(OperatorRole role)
@@ -301,7 +267,7 @@ public static class OperAvatarHelper
     }
 
     /// <summary>
-    /// 在 UI 线程同步解码图片。
+    /// 在调用线程解码图片并冻结，冻结后的位图可跨线程用于 UI 绑定。
     /// </summary>
     /// <param name="imagePath">图片路径</param>
     /// <returns>解码并冻结的位图；失败时返回 <c>null</c></returns>
@@ -312,10 +278,7 @@ public static class OperAvatarHelper
             return null;
         }
 
-        var dispatcher = Application.Current?.Dispatcher;
-        return dispatcher != null && !dispatcher.CheckAccess()
-            ? dispatcher.Invoke(() => DecodeImageCore(imagePath))
-            : DecodeImageCore(imagePath);
+        return DecodeImageCore(imagePath);
     }
 
     private static BitmapSource? DecodeImageCore(string imagePath)
