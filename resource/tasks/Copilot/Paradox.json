@@ -24,6 +24,11 @@
         "postDelay": 500,
         "Doc": "必须匹配蓝色激活文字；灰色悖论模拟标签仍可能显示，但不代表已选择此排序"
     },
+    "OperBoxSwipeToTheLeft": {
+        "baseTask": "SwipeToTheLeft",
+        "specificRect": [100, 350, 20, 20],
+        "rectMove": [1090, 350, 20, 20]
+    },
     "OperBoxOpenParadoxMenu": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
