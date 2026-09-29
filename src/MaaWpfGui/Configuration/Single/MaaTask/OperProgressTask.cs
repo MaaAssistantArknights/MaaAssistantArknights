@@ -33,7 +33,7 @@ public class OperProgressTask : BaseTask
 
     public List<Plan> Plans { get; set; } = [];
 
-    public record Plan(OperatorRole Role, string Name, int Elite, int SkillLevel, SkillMastery SkillMastery);
+    public record Plan(OperatorRole Role, string Name, int Elite, int SkillLevel, SkillMastery SkillMastery, bool ShowRole);
 
     /// <summary>
     /// 干员技能 1/2/3 的专精等级，未设定的技能为 0。

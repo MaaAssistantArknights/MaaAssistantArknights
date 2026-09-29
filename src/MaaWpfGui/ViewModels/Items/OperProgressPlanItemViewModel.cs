@@ -37,7 +37,8 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
     /// <param name="elite">精英化目标，0 表示不设定。</param>
     /// <param name="mainSkillLevel">技能等级目标，0 表示不设定。</param>
     /// <param name="specializationSkillLevel">专精目标，未设定的技能为 0。</param>
-    public OperProgressPlanItemViewModel(int index, OperatorRole role, string name, int elite, int mainSkillLevel, SkillMastery specializationSkillLevel)
+    /// <param name="showRole">是否显示干员职业。</param>
+    public OperProgressPlanItemViewModel(int index, OperatorRole role, string name, int elite, int mainSkillLevel, SkillMastery specializationSkillLevel, bool showRole)
     {
         Index = index;
         Role = role;
@@ -52,11 +53,12 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
         SpecializationSkill1 = specializationSkillLevel[0];
         SpecializationSkill2 = specializationSkillLevel[1];
         SpecializationSkill3 = specializationSkillLevel[2];
+        ShowRole = showRole;
 
         var oper = DataHelper.Characters.Values.FirstOrDefault(c => (role == OperatorRole.Unknown || c.Role == role) && c.Name == name);
         if (oper is not null)
         {
-            DisplayName = DataHelper.GetLocalizedCharacterName(oper) ?? name;
+            DisplayName = (DataHelper.GetLocalizedCharacterName(oper) ?? name) + (ShowRole ? $"({RoleString})" : string.Empty);
             if (Role == OperatorRole.Unknown)
             {
                 Role = oper.Role;
@@ -82,7 +84,7 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
         {
             Log.Warning("Operator {Name} not found in data, cannot resolve role and skill count", name);
             SkillCount = 3;
-            DisplayName = name;
+            DisplayName = name + (ShowRole ? $"({RoleString})" : string.Empty);
         }
     }
 
@@ -90,9 +92,13 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
 
     public OperatorRole Role { get; set => SetAndNotify(ref field, value); }
 
+    public string RoleString => LocalizationHelper.GetString(Role.ToString());
+
     public string Name { get; set => SetAndNotify(ref field, value); }
 
     public bool IsExpanded { get; set => SetAndNotify(ref field, value); }
+
+    public bool ShowRole { get; set => SetAndNotify(ref field, value); }
 
     /// <summary>
     /// Gets 本地化干员名，语言切换后由 <see cref="RefreshLocalizedText"/>
@@ -210,7 +216,7 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
     /// <summary>语言切换后刷新本地化文本（干员名、专精行标签与目标描述）。</summary>
     public void RefreshLocalizedText()
     {
-        DisplayName = ResolveDisplayName(Name);
+        DisplayName = ResolveDisplayName(Name) + (ShowRole ? $"({RoleString})" : string.Empty);
         NotifyOfPropertyChange(nameof(SkillLabel1));
         NotifyOfPropertyChange(nameof(SkillLabel2));
         NotifyOfPropertyChange(nameof(SkillLabel3));

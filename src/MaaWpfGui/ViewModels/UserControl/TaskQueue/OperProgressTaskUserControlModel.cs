@@ -66,7 +66,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
             int elite = plan.Elite;
             int mainSkillLevel = plan.SkillLevel;
             var specializationLevel = plan.SkillMastery;
-            return new OperProgressPlanItemViewModel(index, plan.Role, plan.Name, elite, mainSkillLevel, specializationLevel);
+            return new OperProgressPlanItemViewModel(index, plan.Role, plan.Name, elite, mainSkillLevel, specializationLevel, plan.ShowRole);
         }).ToList();
         PlanItems = [.. list];
         PlanItems.CollectionChanged += PlanItems_CollectionChanged;
@@ -82,19 +82,20 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
             var elite = item.IsEliteSelected ? item.Elite : 0;
             var mainSkillLevel = item.IsMainSkillLevelSelected ? item.MainSkillLevel : 0;
             var mastery = SkillMastery.Of(item.SpecializationSkillLevel[0], item.SpecializationSkillLevel[1], item.SpecializationSkillLevel[2]);
-            return new Plan(item.Role, item.Name, elite, mainSkillLevel, mastery);
+            return new Plan(item.Role, item.Name, elite, mainSkillLevel, mastery, item.ShowRole);
         }).ToList();
         SetTaskConfig<OperProgressTask>(t => t.Plans.SequenceEqual(list), t => t.Plans = list);
     }
 
-    public record class OperItem(string Id, OperatorRole Role, string Name, string NameDisplay, int Rarity);
+    public record class OperItem(string Id, OperatorRole Role, string Name, string NameDisplay, int Rarity, bool HasSameRoleOpers);
 
     /// <summary>可选择的干员名列表，按稀有度降序、名称升序排列，实时取自干员数据</summary>
     public List<GenericCombinedData<OperItem>> OperatorNames => [.. DataHelper.Operators.Values
-        .Select(character => new OperItem(character.Id, character.Role, character.Name!, DataHelper.GetLocalizedCharacterName(character) ?? character.Name!, character.Rarity))
+        .GroupBy(oper => oper.Name)
+        .SelectMany(group => group.Select(oper => new OperItem(oper.Id, oper.Role, oper.Name!, DataHelper.GetLocalizedCharacterName(oper) ?? oper.Name!, oper.Rarity, group.Count() > 1)).Distinct())
         .OrderByDescending(entry => entry.Rarity)
-        .ThenBy(entry => entry.Name, StringComparer.CurrentCulture)
-        .Select(oper => new GenericCombinedData<OperItem>($"{oper.NameDisplay}[{oper.Rarity}★]",  oper))];
+        .ThenBy(entry => entry.NameDisplay, StringComparer.CurrentCultureIgnoreCase)
+        .Select(oper => new GenericCombinedData<OperItem>($"{oper.NameDisplay}{(oper.HasSameRoleOpers ? "-" + LocalizationHelper.GetString(oper.Role.ToString()) : string.Empty)}",  oper))];
 
     public OperItem? OperSelect { get; set => SetAndNotify(ref field, value); }
 
@@ -172,7 +173,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ParseFailed") + $"\nunknown oper: {plan.Role}-{plan.Name}", UiLogColor.Error);
                         return;
                     }
-                    list.Add(new Plan(plan.Role, plan.Name, plan.Elite ?? 0, plan.MainSkillLevel ?? 0, plan.SkillMastery ?? SkillMastery.Of(0, 0, 0)));
+                    list.Add(new Plan(plan.Role, plan.Name, plan.Elite ?? 0, plan.MainSkillLevel ?? 0, plan.SkillMastery ?? SkillMastery.Of(0, 0, 0), false));
                 }
                 SetTaskConfig<OperProgressTask>(t => t.Plans.SequenceEqual(list), t => t.Plans = list);
                 RefreshUI(TaskSettingVisibilityInfo.CurrentTask);
@@ -195,7 +196,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
             return;
         }
 
-        PlanItems.Add(new OperProgressPlanItemViewModel(PlanItems.Count, OperSelect.Role, OperSelect.Name, 2, 7, SkillMastery.Of(3, 3, 3)) { IsExpanded = true });
+        PlanItems.Add(new OperProgressPlanItemViewModel(PlanItems.Count, OperSelect.Role, OperSelect.Name, 2, 7, SkillMastery.Of(3, 3, 3), OperSelect.HasSameRoleOpers) { IsExpanded = true });
     }
 
     /// <summary>
