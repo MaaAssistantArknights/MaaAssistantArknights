@@ -222,9 +222,10 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         {
             await Task.Run(Instances.AsstProxy.Init);
         }
-        catch
+        catch (Exception e)
         {
-            // ignored
+            // 初始化失败除 Link Start 保持置灰外无任何表现，不落日志则无从定位（如 Core 与资源版本不匹配）
+            _logger.Error(e, "Failed to init AsstProxy");
         }
     }
 
