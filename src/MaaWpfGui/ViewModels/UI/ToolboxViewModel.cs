@@ -1947,6 +1947,17 @@ public class ToolboxViewModel : Screen
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 干员识别卡片以干员头像为底板展示（重启后保留）。
+    /// </summary>
+    public bool OperBoxAvatarMode
+    {
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.OperBoxAvatarMode = value;
+        }
+    } = ConfigFactory.CurrentConfig.Toolbox.OperBoxAvatarMode;
+
+    /// <summary>
     /// Gets 干员识别导出格式选项，文案随语言热切换自动刷新。
     /// </summary>
     public LocalizedObservableList<OperBoxExportFormat> OperBoxExportOptionList { get; } = new(
