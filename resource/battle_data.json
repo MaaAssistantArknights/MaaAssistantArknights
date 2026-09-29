@@ -101,7 +101,7 @@
             "profession": "SUPPORT",
             "rangeId": ["x-4", "x-1", "x-1"],
             "rarity": 6,
-            "sortIndex": 1353,
+            "sortIndex": 1354,
             "subProfessionId": "bard"
         },
         "char_1013_chen2": {
@@ -251,7 +251,7 @@
             "profession": "MEDIC",
             "rangeId": ["3-1", "3-3", "3-3"],
             "rarity": 5,
-            "sortIndex": 1350,
+            "sortIndex": 1351,
             "subProfessionId": "incantationmedic"
         },
         "char_1026_gvial2": {
@@ -475,7 +475,7 @@
             "profession": "CASTER",
             "rangeId": ["3-6", "3-1", "3-1"],
             "rarity": 6,
-            "sortIndex": 1347,
+            "sortIndex": 1348,
             "subProfessionId": "primcaster"
         },
         "char_1041_angel2": {
@@ -529,7 +529,7 @@
             "profession": "TANK",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 6,
-            "sortIndex": 1301,
+            "sortIndex": 1302,
             "subProfessionId": "artsprotector"
         },
         "char_1045_svash2": {
@@ -859,7 +859,7 @@
             "profession": "SNIPER",
             "rangeId": ["3-1", "3-3", "3-3"],
             "rarity": 4,
-            "sortIndex": 633,
+            "sortIndex": 634,
             "subProfessionId": "fastshot"
         },
         "char_127_estell": {
@@ -1041,7 +1041,7 @@
             "profession": "SPECIAL",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 5,
-            "sortIndex": 379,
+            "sortIndex": 380,
             "subProfessionId": "executor"
         },
         "char_145_prove": {
@@ -1444,7 +1444,7 @@
             "profession": "SUPPORT",
             "rangeId": ["y-2", "y-2", "y-2"],
             "rarity": 5,
-            "sortIndex": 1316,
+            "sortIndex": 1317,
             "subProfessionId": "slower"
         },
         "char_196_sunbr": {
@@ -1470,7 +1470,7 @@
             "profession": "SNIPER",
             "rangeId": ["4-4", "4-3", "4-3"],
             "rarity": 6,
-            "sortIndex": 1279,
+            "sortIndex": 1280,
             "subProfessionId": "siegesniper"
         },
         "char_198_blackd": {
@@ -1850,7 +1850,7 @@
             "profession": "TANK",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 5,
-            "sortIndex": 380,
+            "sortIndex": 379,
             "subProfessionId": "guardian"
         },
         "char_230_savage": {
@@ -2203,7 +2203,7 @@
             "profession": "SUPPORT",
             "rangeId": ["y-2", "y-2", "y-2"],
             "rarity": 3,
-            "sortIndex": 1356,
+            "sortIndex": 1357,
             "subProfessionId": "slower"
         },
         "char_279_excu": {
@@ -2554,7 +2554,7 @@
             "profession": "WARRIOR",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 5,
-            "sortIndex": 1354,
+            "sortIndex": 1355,
             "subProfessionId": "artsfghter"
         },
         "char_336_folivo": {
@@ -2998,7 +2998,7 @@
             "profession": "SNIPER",
             "rangeId": ["3-1", "3-1", "3-1"],
             "rarity": 1,
-            "sortIndex": 1313,
+            "sortIndex": 1314,
             "subProfessionId": "fastshot"
         },
         "char_4004_pudd": {
@@ -3076,7 +3076,7 @@
             "profession": "WARRIOR",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 6,
-            "sortIndex": 1336,
+            "sortIndex": 1337,
             "subProfessionId": "fearless"
         },
         "char_4013_kjera": {
@@ -3102,7 +3102,7 @@
             "profession": "SNIPER",
             "rangeId": ["3-3", "3-9", "3-9"],
             "rarity": 5,
-            "sortIndex": 1361,
+            "sortIndex": 1362,
             "subProfessionId": "longrange"
         },
         "char_4015_spuria": {
@@ -3181,7 +3181,7 @@
             "profession": "PIONEER",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 5,
-            "sortIndex": 385,
+            "sortIndex": 386,
             "subProfessionId": "pioneer"
         },
         "char_4025_aprot2": {
@@ -3443,7 +3443,7 @@
             "profession": "CASTER",
             "rangeId": ["3-6", "3-1", "3-1"],
             "rarity": 5,
-            "sortIndex": 1323,
+            "sortIndex": 1324,
             "subProfessionId": "funnel"
         },
         "char_4055_bgsnow": {
@@ -3939,7 +3939,7 @@
             "profession": "WARRIOR",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 6,
-            "sortIndex": 1369,
+            "sortIndex": 1370,
             "subProfessionId": "musha"
         },
         "char_4122_grabds": {
@@ -4278,7 +4278,7 @@
             "profession": "WARRIOR",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 5,
-            "sortIndex": 943,
+            "sortIndex": 942,
             "subProfessionId": "fighter"
         },
         "char_4162_cathy": {
@@ -4356,7 +4356,7 @@
             "profession": "TANK",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 6,
-            "sortIndex": 830,
+            "sortIndex": 829,
             "subProfessionId": "duelist"
         },
         "char_4171_wulfen": {
@@ -4656,7 +4656,7 @@
             "profession": "CASTER",
             "rangeId": ["3-6", "3-1", "3-1"],
             "rarity": 6,
-            "sortIndex": 1318,
+            "sortIndex": 1319,
             "subProfessionId": "primcaster"
         },
         "char_4207_branch": {
@@ -4669,7 +4669,7 @@
             "profession": "TANK",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 5,
-            "sortIndex": 1319,
+            "sortIndex": 1320,
             "subProfessionId": "unyield"
         },
         "char_4208_wintim": {
@@ -5317,7 +5317,7 @@
             "profession": "TANK",
             "rangeId": ["2-2", "2-2", "2-2"],
             "rarity": 5,
-            "sortIndex": 840,
+            "sortIndex": 839,
             "subProfessionId": "shotprotector"
         },
         "char_458_rfrost": {
@@ -5343,7 +5343,7 @@
             "profession": "WARRIOR",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 5,
-            "sortIndex": 1287,
+            "sortIndex": 1288,
             "subProfessionId": "sword"
         },
         "char_464_cement": {
@@ -5395,7 +5395,7 @@
             "profession": "CASTER",
             "rangeId": ["3-6", "3-1", "3-1"],
             "rarity": 6,
-            "sortIndex": 1177,
+            "sortIndex": 1178,
             "subProfessionId": "chain"
         },
         "char_473_mberry": {
@@ -5655,7 +5655,7 @@
             "profession": "CASTER",
             "rangeId": ["3-6", "3-1", "3-1"],
             "rarity": 5,
-            "sortIndex": 1307,
+            "sortIndex": 1308,
             "subProfessionId": "primcaster"
         },
         "char_500_noirc": {
@@ -5733,7 +5733,7 @@
             "profession": "CASTER",
             "rangeId": ["3-6", "3-1", "3-6"],
             "rarity": 3,
-            "sortIndex": 1249,
+            "sortIndex": 1248,
             "subProfessionId": "corecaster"
         },
         "char_506_rmedic": {
@@ -5759,7 +5759,7 @@
             "profession": "SNIPER",
             "rangeId": ["3-1", "3-3", "3-1"],
             "rarity": 3,
-            "sortIndex": 1246,
+            "sortIndex": 1247,
             "subProfessionId": "fastshot"
         },
         "char_508_aguard": {
@@ -5772,7 +5772,7 @@
             "profession": "WARRIOR",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 5,
-            "sortIndex": 846,
+            "sortIndex": 845,
             "subProfessionId": "fearless"
         },
         "char_509_acast": {
@@ -5785,7 +5785,7 @@
             "profession": "CASTER",
             "rangeId": ["2-3", "3-6", "3-6"],
             "rarity": 5,
-            "sortIndex": 767,
+            "sortIndex": 768,
             "subProfessionId": "splashcaster"
         },
         "char_510_amedic": {
@@ -5811,7 +5811,7 @@
             "profession": "SNIPER",
             "rangeId": ["3-1", "3-3", "3-3"],
             "rarity": 5,
-            "sortIndex": 936,
+            "sortIndex": 934,
             "subProfessionId": "fastshot"
         },
         "char_512_aprot": {
@@ -5850,7 +5850,7 @@
             "profession": "TANK",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 3,
-            "sortIndex": 1253,
+            "sortIndex": 1254,
             "subProfessionId": "protector"
         },
         "char_600_cpione": {
@@ -5889,7 +5889,7 @@
             "profession": "TANK",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 4,
-            "sortIndex": 1254,
+            "sortIndex": 1253,
             "subProfessionId": "protector"
         },
         "char_603_csnipe": {
@@ -5902,7 +5902,7 @@
             "profession": "SNIPER",
             "rangeId": ["3-1", "3-3", "3-3"],
             "rarity": 4,
-            "sortIndex": 1247,
+            "sortIndex": 1246,
             "subProfessionId": "fastshot"
         },
         "char_604_ccast": {
@@ -5915,7 +5915,7 @@
             "profession": "CASTER",
             "rangeId": ["3-6", "3-1", "3-1"],
             "rarity": 4,
-            "sortIndex": 1248,
+            "sortIndex": 1249,
             "subProfessionId": "corecaster"
         },
         "char_605_cmedic": {
@@ -5980,7 +5980,7 @@
             "profession": "WARRIOR",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 6,
-            "sortIndex": 845,
+            "sortIndex": 846,
             "subProfessionId": "fearless"
         },
         "char_610_acfend": {
@@ -6006,7 +6006,7 @@
             "profession": "SNIPER",
             "rangeId": ["3-1", "3-3", "3-3"],
             "rarity": 6,
-            "sortIndex": 934,
+            "sortIndex": 935,
             "subProfessionId": "fastshot"
         },
         "char_612_accast": {
@@ -6019,7 +6019,7 @@
             "profession": "CASTER",
             "rangeId": ["2-3", "3-6", "3-6"],
             "rarity": 6,
-            "sortIndex": 768,
+            "sortIndex": 767,
             "subProfessionId": "splashcaster"
         },
         "char_613_acmedc": {
@@ -6201,7 +6201,7 @@
             "profession": "TOKEN",
             "rangeId": ["x-4", "x-4", "x-4"],
             "rarity": 5,
-            "sortIndex": 1373,
+            "sortIndex": 1374,
             "subProfessionId": "notchar1"
         },
         "token_10007_phatom_twin": {
@@ -6435,7 +6435,7 @@
             "profession": "TOKEN",
             "rangeId": ["x-4", "x-4", "x-4"],
             "rarity": 5,
-            "sortIndex": 1332,
+            "sortIndex": 1333,
             "subProfessionId": "notchar1"
         },
         "token_10023_windft_wrench": {
@@ -6500,7 +6500,7 @@
             "profession": "TOKEN",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 6,
-            "sortIndex": 41,
+            "sortIndex": 40,
             "subProfessionId": "notchar1"
         },
         "token_10027_ironmn_pile2": {
@@ -6513,7 +6513,7 @@
             "profession": "TOKEN",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 6,
-            "sortIndex": 40,
+            "sortIndex": 41,
             "subProfessionId": "notchar1"
         },
         "token_10027_ironmn_pile3": {
@@ -6565,7 +6565,7 @@
             "profession": "TOKEN",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 6,
-            "sortIndex": 634,
+            "sortIndex": 633,
             "subProfessionId": "notchar1"
         },
         "token_10031_swire2_gdtrap": {
@@ -6760,7 +6760,7 @@
             "profession": "TOKEN",
             "rangeId": ["x-4", "x-4", "x-4"],
             "rarity": 6,
-            "sortIndex": 1337,
+            "sortIndex": 1338,
             "subProfessionId": "notchar1"
         },
         "token_10051_radian_tower1": {
@@ -6864,7 +6864,7 @@
             "profession": "TOKEN",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 6,
-            "sortIndex": 285,
+            "sortIndex": 286,
             "subProfessionId": "notchar1"
         },
         "token_10057_svash2_eagle3": {
@@ -6877,7 +6877,7 @@
             "profession": "TOKEN",
             "rangeId": ["3-1", "3-1", "3-1"],
             "rarity": 6,
-            "sortIndex": 286,
+            "sortIndex": 285,
             "subProfessionId": "notchar1"
         },
         "token_10058_sbell2_icetgt": {
@@ -6903,7 +6903,7 @@
             "profession": "TOKEN",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 6,
-            "sortIndex": 1324,
+            "sortIndex": 1325,
             "subProfessionId": "notchar1"
         },
         "token_10060_nasti_nstchr": {
@@ -6989,7 +6989,7 @@
             "profession": "TOKEN",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 6,
-            "sortIndex": 1322,
+            "sortIndex": 1323,
             "subProfessionId": "notchar1"
         },
         "token_10068_kalts2_mtship": {
@@ -7006,7 +7006,7 @@
             "profession": "TOKEN",
             "rangeId": ["y-2", "y-6", "y-6"],
             "rarity": 6,
-            "sortIndex": 1297,
+            "sortIndex": 1298,
             "subProfessionId": "notchar1"
         },
         "token_10069_mcnist_mcgraf": {
@@ -7040,7 +7040,7 @@
             "profession": "TOKEN",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 6,
-            "sortIndex": 1338,
+            "sortIndex": 1339,
             "subProfessionId": "notchar1"
         },
         "token_10071_aglna2_agairp": {
@@ -7070,7 +7070,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1292,
+            "sortIndex": 1293,
             "subProfessionId": "notchar2"
         },
         "trap_002_emp": {
@@ -7083,7 +7083,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1315,
+            "sortIndex": 1316,
             "subProfessionId": "notchar2"
         },
         "trap_003_gate": {
@@ -7096,7 +7096,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1281,
+            "sortIndex": 1282,
             "subProfessionId": "notchar2"
         },
         "trap_005_sensor": {
@@ -7109,7 +7109,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1308,
+            "sortIndex": 1309,
             "subProfessionId": "notchar2"
         },
         "trap_006_antidr": {
@@ -7148,7 +7148,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1321,
+            "sortIndex": 1322,
             "subProfessionId": "notchar2"
         },
         "trap_009_battery": {
@@ -7174,7 +7174,7 @@
             "profession": "TRAP",
             "rangeId": ["x-1", "x-1", "x-1"],
             "rarity": 1,
-            "sortIndex": 1226,
+            "sortIndex": 1227,
             "subProfessionId": "notchar2"
         },
         "trap_011_ore": {
@@ -7226,7 +7226,7 @@
             "profession": "TRAP",
             "rangeId": ["x-2", "x-2", "x-2"],
             "rarity": 1,
-            "sortIndex": 637,
+            "sortIndex": 638,
             "subProfessionId": "notchar2"
         },
         "trap_015_tree": {
@@ -7278,7 +7278,7 @@
             "profession": "TRAP",
             "rangeId": ["x-2", "x-2", "x-2"],
             "rarity": 1,
-            "sortIndex": 674,
+            "sortIndex": 675,
             "subProfessionId": "notchar2"
         },
         "trap_020_roadblock": {
@@ -7382,7 +7382,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 942,
+            "sortIndex": 943,
             "subProfessionId": "notchar2"
         },
         "trap_028_cannon": {
@@ -7538,7 +7538,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1355,
+            "sortIndex": 1356,
             "subProfessionId": "notchar2"
         },
         "trap_040_canoe": {
@@ -7577,7 +7577,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1294,
+            "sortIndex": 1295,
             "subProfessionId": "notchar2"
         },
         "trap_043_dupilr": {
@@ -7603,7 +7603,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1284,
+            "sortIndex": 1285,
             "subProfessionId": "notchar2"
         },
         "trap_045_dublst": {
@@ -7733,7 +7733,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 289,
+            "sortIndex": 288,
             "subProfessionId": "notchar2"
         },
         "trap_056_sfsuifire": {
@@ -7876,7 +7876,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 428,
+            "sortIndex": 429,
             "subProfessionId": "notchar2"
         },
         "trap_067_dice": {
@@ -7915,7 +7915,7 @@
             "profession": "TRAP",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 1,
-            "sortIndex": 1283,
+            "sortIndex": 1284,
             "subProfessionId": "notchar2"
         },
         "trap_070_supplycard": {
@@ -8058,7 +8058,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1362,
+            "sortIndex": 1363,
             "subProfessionId": "notchar2"
         },
         "trap_081_turngear": {
@@ -8071,7 +8071,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1363,
+            "sortIndex": 1364,
             "subProfessionId": "notchar2"
         },
         "trap_082_salecard": {
@@ -8162,7 +8162,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 682,
+            "sortIndex": 683,
             "subProfessionId": "notchar2"
         },
         "trap_089_dice3": {
@@ -8175,7 +8175,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 683,
+            "sortIndex": 682,
             "subProfessionId": "notchar2"
         },
         "trap_090_recodr": {
@@ -8292,7 +8292,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1302,
+            "sortIndex": 1303,
             "subProfessionId": "notchar2"
         },
         "trap_099_mhflsb": {
@@ -8409,7 +8409,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1238,
+            "sortIndex": 1237,
             "subProfessionId": "notchar2"
         },
         "trap_1008_acarm008": {
@@ -8422,7 +8422,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 482,
+            "sortIndex": 483,
             "subProfessionId": "notchar2"
         },
         "trap_1009_acarm009": {
@@ -8500,7 +8500,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 279,
+            "sortIndex": 278,
             "subProfessionId": "notchar2"
         },
         "trap_1014_acarm014": {
@@ -8513,7 +8513,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 491,
+            "sortIndex": 492,
             "subProfessionId": "notchar2"
         },
         "trap_1015_acarm015": {
@@ -8552,7 +8552,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1285,
+            "sortIndex": 1286,
             "subProfessionId": "notchar2"
         },
         "trap_1018_acarm018": {
@@ -8565,7 +8565,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1314,
+            "sortIndex": 1315,
             "subProfessionId": "notchar2"
         },
         "trap_1019_acarm019": {
@@ -8578,7 +8578,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1335,
+            "sortIndex": 1336,
             "subProfessionId": "notchar2"
         },
         "trap_101_mhshok": {
@@ -8604,7 +8604,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1333,
+            "sortIndex": 1334,
             "subProfessionId": "notchar2"
         },
         "trap_1021_acarm021": {
@@ -8617,7 +8617,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1334,
+            "sortIndex": 1335,
             "subProfessionId": "notchar2"
         },
         "trap_1022_acarm022": {
@@ -8669,7 +8669,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1095,
+            "sortIndex": 1094,
             "subProfessionId": "notchar2"
         },
         "trap_1026_acarm026": {
@@ -8734,7 +8734,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1326,
+            "sortIndex": 1327,
             "subProfessionId": "notchar2"
         },
         "trap_1030_acarm030": {
@@ -8786,7 +8786,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 327,
+            "sortIndex": 328,
             "subProfessionId": "notchar2"
         },
         "trap_1034_acarm034": {
@@ -8838,7 +8838,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1218,
+            "sortIndex": 1219,
             "subProfessionId": "notchar2"
         },
         "trap_1038_acarm038": {
@@ -8864,7 +8864,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 100,
+            "sortIndex": 99,
             "subProfessionId": "notchar2"
         },
         "trap_103_ymdgct": {
@@ -8916,7 +8916,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1351,
+            "sortIndex": 1352,
             "subProfessionId": "notchar2"
         },
         "trap_1043_acarm043": {
@@ -8955,7 +8955,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1296,
+            "sortIndex": 1297,
             "subProfessionId": "notchar2"
         },
         "trap_1046_acarm046": {
@@ -9007,7 +9007,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 328,
+            "sortIndex": 327,
             "subProfessionId": "notchar2"
         },
         "trap_104_dplant": {
@@ -9059,7 +9059,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1219,
+            "sortIndex": 1218,
             "subProfessionId": "notchar2"
         },
         "trap_1053_acarm053": {
@@ -9072,7 +9072,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 483,
+            "sortIndex": 482,
             "subProfessionId": "notchar2"
         },
         "trap_1054_acarm054": {
@@ -9085,7 +9085,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 278,
+            "sortIndex": 279,
             "subProfessionId": "notchar2"
         },
         "trap_1055_acarm055": {
@@ -9163,7 +9163,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1325,
+            "sortIndex": 1326,
             "subProfessionId": "notchar2"
         },
         "trap_1060_acarm060": {
@@ -9241,7 +9241,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1094,
+            "sortIndex": 1095,
             "subProfessionId": "notchar2"
         },
         "trap_1066_acarm066": {
@@ -9332,7 +9332,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 99,
+            "sortIndex": 100,
             "subProfessionId": "notchar2"
         },
         "trap_1072_acarm072": {
@@ -9436,7 +9436,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1312,
+            "sortIndex": 1313,
             "subProfessionId": "notchar2"
         },
         "trap_107_smpow": {
@@ -9592,7 +9592,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 57,
+            "sortIndex": 56,
             "subProfessionId": "notchar2"
         },
         "trap_1090_acspell011": {
@@ -9722,7 +9722,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 429,
+            "sortIndex": 428,
             "subProfessionId": "notchar2"
         },
         "trap_1100_acreddoor": {
@@ -9800,7 +9800,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1366,
+            "sortIndex": 1367,
             "subProfessionId": "notchar2"
         },
         "trap_1106_achplat": {
@@ -9826,7 +9826,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 288,
+            "sortIndex": 290,
             "subProfessionId": "notchar2"
         },
         "trap_1108_acdisney": {
@@ -9917,7 +9917,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 492,
+            "sortIndex": 491,
             "subProfessionId": "notchar2"
         },
         "trap_1114_acarm114": {
@@ -10086,7 +10086,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1237,
+            "sortIndex": 1238,
             "subProfessionId": "notchar2"
         },
         "trap_112_crsbow": {
@@ -10216,7 +10216,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1339,
+            "sortIndex": 1340,
             "subProfessionId": "notchar2"
         },
         "trap_122_stmpq": {
@@ -10281,7 +10281,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1280,
+            "sortIndex": 1281,
             "subProfessionId": "notchar2"
         },
         "trap_127_bldore": {
@@ -10346,7 +10346,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1286,
+            "sortIndex": 1287,
             "subProfessionId": "notchar2"
         },
         "trap_132_toolinvert": {
@@ -10450,7 +10450,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1367,
+            "sortIndex": 1368,
             "subProfessionId": "notchar2"
         },
         "trap_140_dhsb": {
@@ -10801,7 +10801,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1278,
+            "sortIndex": 1279,
             "subProfessionId": "notchar2"
         },
         "trap_1518_lhdoor": {
@@ -10840,7 +10840,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1303,
+            "sortIndex": 1304,
             "subProfessionId": "notchar2"
         },
         "trap_1520_lhcolb": {
@@ -10892,7 +10892,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1309,
+            "sortIndex": 1310,
             "subProfessionId": "notchar2"
         },
         "trap_1524_lhport": {
@@ -10905,7 +10905,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1344,
+            "sortIndex": 1345,
             "subProfessionId": "notchar2"
         },
         "trap_1525_lhswer": {
@@ -10983,7 +10983,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1304,
+            "sortIndex": 1305,
             "subProfessionId": "notchar2"
         },
         "trap_1530_lhcamp": {
@@ -11139,7 +11139,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1310,
+            "sortIndex": 1311,
             "subProfessionId": "notchar2"
         },
         "trap_155_aegiret": {
@@ -11165,7 +11165,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1349,
+            "sortIndex": 1350,
             "subProfessionId": "notchar2"
         },
         "trap_157_bounc2": {
@@ -11370,7 +11370,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1327,
+            "sortIndex": 1328,
             "subProfessionId": "notchar2"
         },
         "trap_1611_akdogt": {
@@ -11553,7 +11553,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1352,
+            "sortIndex": 1353,
             "subProfessionId": "notchar2"
         },
         "trap_1626_aktelet": {
@@ -11766,7 +11766,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1291,
+            "sortIndex": 1294,
             "subProfessionId": "notchar2"
         },
         "trap_1640_akbtst": {
@@ -11783,7 +11783,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1293,
+            "sortIndex": 1292,
             "subProfessionId": "notchar2"
         },
         "trap_1641_akbtel": {
@@ -11800,7 +11800,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 673,
+            "sortIndex": 674,
             "subProfessionId": "notchar2"
         },
         "trap_1642_akbtjt": {
@@ -11834,7 +11834,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1227,
+            "sortIndex": 1226,
             "subProfessionId": "notchar2"
         },
         "trap_1644_akbowf": {
@@ -11851,7 +11851,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 747,
+            "sortIndex": 749,
             "subProfessionId": "notchar2"
         },
         "trap_1645_akmndx": {
@@ -11949,7 +11949,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1311,
+            "sortIndex": 1312,
             "subProfessionId": "notchar2"
         },
         "trap_1650_aktstn": {
@@ -11996,7 +11996,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1372,
+            "sortIndex": 1373,
             "subProfessionId": "notchar2"
         },
         "trap_166_muwork": {
@@ -12022,7 +12022,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1306,
+            "sortIndex": 1307,
             "subProfessionId": "notchar2"
         },
         "trap_169_muruinb": {
@@ -12035,7 +12035,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1305,
+            "sortIndex": 1306,
             "subProfessionId": "notchar2"
         },
         "trap_171_trpot": {
@@ -12061,7 +12061,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 54,
+            "sortIndex": 57,
             "subProfessionId": "notchar2"
         },
         "trap_173_slfrut": {
@@ -12139,7 +12139,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 56,
+            "sortIndex": 55,
             "subProfessionId": "notchar2"
         },
         "trap_179_muctrl": {
@@ -12165,7 +12165,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 290,
+            "sortIndex": 289,
             "subProfessionId": "notchar2"
         },
         "trap_181_sgray": {
@@ -12204,7 +12204,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1371,
+            "sortIndex": 1372,
             "subProfessionId": "notchar2"
         },
         "trap_184_vtarsn": {
@@ -12594,7 +12594,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 749,
+            "sortIndex": 747,
             "subProfessionId": "notchar2"
         },
         "trap_215_dqcrsbow": {
@@ -12620,7 +12620,7 @@
             "profession": "TRAP",
             "rangeId": ["x-2", "x-2", "x-2"],
             "rarity": 1,
-            "sortIndex": 675,
+            "sortIndex": 673,
             "subProfessionId": "notchar2"
         },
         "trap_218_fttree": {
@@ -12906,7 +12906,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1046,
+            "sortIndex": 1047,
             "subProfessionId": "notchar2"
         },
         "trap_240_dyffdd": {
@@ -12919,7 +12919,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1047,
+            "sortIndex": 1046,
             "subProfessionId": "notchar2"
         },
         "trap_241_dyldlz": {
@@ -13049,7 +13049,7 @@
             "profession": "TRAP",
             "rangeId": ["x-7", "x-7", "x-7"],
             "rarity": 1,
-            "sortIndex": 1282,
+            "sortIndex": 1283,
             "subProfessionId": "notchar2"
         },
         "trap_257_muulct": {
@@ -13244,7 +13244,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1364,
+            "sortIndex": 1365,
             "subProfessionId": "notchar2"
         },
         "trap_273_pycgp": {
@@ -13453,7 +13453,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 839,
+            "sortIndex": 840,
             "subProfessionId": "notchar2"
         },
         "trap_286_tjgsd": {
@@ -13492,7 +13492,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1317,
+            "sortIndex": 1318,
             "subProfessionId": "notchar2"
         },
         "trap_289_zicai": {
@@ -13821,7 +13821,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1328,
+            "sortIndex": 1329,
             "subProfessionId": "notchar2"
         },
         "trap_316_ubtower": {
@@ -14096,6 +14096,23 @@
             "sortIndex": 797,
             "subProfessionId": "notchar2"
         },
+        "trap_339_tchray": {
+            "name": "“再度绽放”",
+            "name_en": "“再度绽放”",
+            "name_en_unavailable": true,
+            "name_jp": "“再度绽放”",
+            "name_jp_unavailable": true,
+            "name_kr": "“再度绽放”",
+            "name_kr_unavailable": true,
+            "name_tw": "“再度绽放”",
+            "name_tw_unavailable": true,
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["x-4", "x-4", "x-4"],
+            "rarity": 1,
+            "sortIndex": 1274,
+            "subProfessionId": "notchar2"
+        },
         "trap_400_xbfarm": {
             "name": "便携式种植槽",
             "name_en": "Portable Planting Trough",
@@ -14132,7 +14149,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1072,
+            "sortIndex": 1073,
             "subProfessionId": "notchar2"
         },
         "trap_404_xbfortress": {
@@ -14197,7 +14214,7 @@
             "profession": "TRAP",
             "rangeId": ["x-5", "x-5", "x-5"],
             "rarity": 1,
-            "sortIndex": 1274,
+            "sortIndex": 1276,
             "subProfessionId": "notchar2"
         },
         "trap_410_xbstone": {
@@ -14210,7 +14227,7 @@
             "profession": "TRAP",
             "rangeId": ["x-5", "x-5", "x-5"],
             "rarity": 1,
-            "sortIndex": 531,
+            "sortIndex": 530,
             "subProfessionId": "notchar2"
         },
         "trap_411_xbiron": {
@@ -14223,7 +14240,7 @@
             "profession": "TRAP",
             "rangeId": ["x-5", "x-5", "x-5"],
             "rarity": 1,
-            "sortIndex": 794,
+            "sortIndex": 793,
             "subProfessionId": "notchar2"
         },
         "trap_412_redtower": {
@@ -14288,7 +14305,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 663,
+            "sortIndex": 661,
             "subProfessionId": "notchar2"
         },
         "trap_417_shielder": {
@@ -14431,7 +14448,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1360,
+            "sortIndex": 1361,
             "subProfessionId": "notchar2"
         },
         "trap_428_xblrsh": {
@@ -14626,7 +14643,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1370,
+            "sortIndex": 1371,
             "subProfessionId": "notchar2"
         },
         "trap_444_xbexbi": {
@@ -14743,7 +14760,7 @@
             "profession": "TRAP",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 1,
-            "sortIndex": 116,
+            "sortIndex": 117,
             "subProfessionId": "notchar2"
         },
         "trap_453_xbbee": {
@@ -14795,7 +14812,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1341,
+            "sortIndex": 1342,
             "subProfessionId": "notchar2"
         },
         "trap_457_xbfort": {
@@ -14847,7 +14864,7 @@
             "profession": "TRAP",
             "rangeId": ["x-5", "x-5", "x-5"],
             "rarity": 1,
-            "sortIndex": 144,
+            "sortIndex": 145,
             "subProfessionId": "notchar2"
         },
         "trap_461_xbhydr": {
@@ -14925,7 +14942,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 829,
+            "sortIndex": 830,
             "subProfessionId": "notchar2"
         },
         "trap_467_ttuye": {
@@ -14964,7 +14981,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1178,
+            "sortIndex": 1177,
             "subProfessionId": "notchar2"
         },
         "trap_470_tmantic": {
@@ -15003,7 +15020,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 386,
+            "sortIndex": 385,
             "subProfessionId": "notchar2"
         },
         "trap_473_trmedic": {
@@ -15042,7 +15059,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 606,
+            "sortIndex": 607,
             "subProfessionId": "notchar2"
         },
         "trap_476_mscskt": {
@@ -15120,7 +15137,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 662,
+            "sortIndex": 660,
             "subProfessionId": "notchar2"
         },
         "trap_482_xbblure": {
@@ -15276,7 +15293,7 @@
             "profession": "TRAP",
             "rangeId": ["4-6", "4-6", "4-6"],
             "rarity": 1,
-            "sortIndex": 1348,
+            "sortIndex": 1349,
             "subProfessionId": "notchar2"
         },
         "trap_494_xbasky": {
@@ -15574,7 +15591,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1275,
+            "sortIndex": 1277,
             "subProfessionId": "notchar2"
         },
         "trap_516_xb2wod": {
@@ -15591,7 +15608,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1276,
+            "sortIndex": 1275,
             "subProfessionId": "notchar2"
         },
         "trap_517_xb2stn": {
@@ -15608,7 +15625,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 530,
+            "sortIndex": 531,
             "subProfessionId": "notchar2"
         },
         "trap_518_xb2irn": {
@@ -15625,7 +15642,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 793,
+            "sortIndex": 794,
             "subProfessionId": "notchar2"
         },
         "trap_519_xb2dmn": {
@@ -15642,7 +15659,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 145,
+            "sortIndex": 144,
             "subProfessionId": "notchar2"
         },
         "trap_520_xb2cve": {
@@ -15829,7 +15846,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 661,
+            "sortIndex": 662,
             "subProfessionId": "notchar2"
         },
         "trap_531_xb2str": {
@@ -15999,7 +16016,7 @@
             "profession": "TRAP",
             "rangeId": ["2-2", "2-2", "2-2"],
             "rarity": 1,
-            "sortIndex": 1277,
+            "sortIndex": 1278,
             "subProfessionId": "notchar2"
         },
         "trap_542_xb2rgs": {
@@ -16050,7 +16067,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 192,
+            "sortIndex": 191,
             "subProfessionId": "notchar2"
         },
         "trap_545_xb2fmf": {
@@ -16084,7 +16101,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 190,
+            "sortIndex": 189,
             "subProfessionId": "notchar2"
         },
         "trap_547_xb2fmf2": {
@@ -16152,7 +16169,7 @@
             "profession": "TRAP",
             "rangeId": ["4-12", "4-12", "4-12"],
             "rarity": 1,
-            "sortIndex": 1200,
+            "sortIndex": 1201,
             "subProfessionId": "notchar2"
         },
         "trap_551_xb2fnc": {
@@ -16186,7 +16203,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 199,
+            "sortIndex": 198,
             "subProfessionId": "notchar2"
         },
         "trap_553_xb2wfty": {
@@ -16203,7 +16220,7 @@
             "profession": "TRAP",
             "rangeId": ["x-4", "x-4", "x-4"],
             "rarity": 1,
-            "sortIndex": 1073,
+            "sortIndex": 1072,
             "subProfessionId": "notchar2"
         },
         "trap_555_xb2cbp": {
@@ -16271,7 +16288,7 @@
             "profession": "TRAP",
             "rangeId": ["x-5", "x-5", "x-5"],
             "rarity": 1,
-            "sortIndex": 782,
+            "sortIndex": 783,
             "subProfessionId": "notchar2"
         },
         "trap_559_xb2bch": {
@@ -16288,7 +16305,7 @@
             "profession": "TRAP",
             "rangeId": ["x-5", "x-5", "x-5"],
             "rarity": 1,
-            "sortIndex": 447,
+            "sortIndex": 448,
             "subProfessionId": "notchar2"
         },
         "trap_560_xb2mil": {
@@ -16339,7 +16356,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1320,
+            "sortIndex": 1321,
             "subProfessionId": "notchar2"
         },
         "trap_564_xb2txtl": {
@@ -16492,7 +16509,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1205,
+            "sortIndex": 1204,
             "subProfessionId": "notchar2"
         },
         "trap_583_xb2fstr": {
@@ -16560,7 +16577,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1342,
+            "sortIndex": 1344,
             "subProfessionId": "notchar2"
         },
         "trap_587_xb2sqr": {
@@ -16577,7 +16594,7 @@
             "profession": "TRAP",
             "rangeId": ["x-1", "x-1", "x-1"],
             "rarity": 1,
-            "sortIndex": 1187,
+            "sortIndex": 1188,
             "subProfessionId": "notchar2"
         },
         "trap_588_xb2ord": {
@@ -16815,7 +16832,7 @@
             "profession": "TRAP",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 1,
-            "sortIndex": 117,
+            "sortIndex": 116,
             "subProfessionId": "notchar2"
         },
         "trap_598_xb2ofmr2": {
@@ -16849,7 +16866,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 191,
+            "sortIndex": 192,
             "subProfessionId": "notchar2"
         },
         "trap_600_xb2ofmr": {
@@ -16866,7 +16883,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 189,
+            "sortIndex": 190,
             "subProfessionId": "notchar2"
         },
         "trap_601_xb2ofmf": {
@@ -16917,7 +16934,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 198,
+            "sortIndex": 199,
             "subProfessionId": "notchar2"
         },
         "trap_604_xb2ofb2": {
@@ -17036,7 +17053,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1204,
+            "sortIndex": 1205,
             "subProfessionId": "notchar2"
         },
         "trap_609_xb2opwr": {
@@ -17104,7 +17121,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 783,
+            "sortIndex": 782,
             "subProfessionId": "notchar2"
         },
         "trap_612_xb2obch": {
@@ -17121,7 +17138,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 448,
+            "sortIndex": 447,
             "subProfessionId": "notchar2"
         },
         "trap_613_xb2osqr": {
@@ -17138,7 +17155,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1188,
+            "sortIndex": 1187,
             "subProfessionId": "notchar2"
         },
         "trap_614_xb2oltr": {
@@ -17155,7 +17172,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1201,
+            "sortIndex": 1200,
             "subProfessionId": "notchar2"
         },
         "trap_615_xb2osta": {
@@ -17308,7 +17325,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 660,
+            "sortIndex": 663,
             "subProfessionId": "notchar2"
         },
         "trap_624_xb2mtr": {
@@ -17342,7 +17359,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 935,
+            "sortIndex": 936,
             "subProfessionId": "notchar2"
         },
         "trap_626_xb2tex": {
@@ -17597,7 +17614,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 607,
+            "sortIndex": 606,
             "subProfessionId": "notchar2"
         },
         "trap_700_cdabyss": {
@@ -17610,7 +17627,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1,
+            "sortIndex": 3,
             "subProfessionId": "notchar2"
         },
         "trap_701_cdabyssa": {
@@ -17623,7 +17640,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 3,
+            "sortIndex": 2,
             "subProfessionId": "notchar2"
         },
         "trap_702_cdabyssb": {
@@ -17636,7 +17653,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 2,
+            "sortIndex": 1,
             "subProfessionId": "notchar2"
         },
         "trap_703_cdcredit": {
@@ -17649,7 +17666,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1359,
+            "sortIndex": 1360,
             "subProfessionId": "notchar2"
         },
         "trap_704_cdcredita": {
@@ -17662,7 +17679,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1358,
+            "sortIndex": 1359,
             "subProfessionId": "notchar2"
         },
         "trap_705_cdcreditb": {
@@ -17675,7 +17692,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1357,
+            "sortIndex": 1358,
             "subProfessionId": "notchar2"
         },
         "trap_706_cdshield": {
@@ -17701,7 +17718,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1340,
+            "sortIndex": 1341,
             "subProfessionId": "notchar2"
         },
         "trap_708_cdshieldb": {
@@ -17740,7 +17757,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1365,
+            "sortIndex": 1366,
             "subProfessionId": "notchar2"
         },
         "trap_711_cdbeaconb": {
@@ -17792,7 +17809,7 @@
             "profession": "TRAP",
             "rangeId": ["x-1", "x-1", "x-1"],
             "rarity": 1,
-            "sortIndex": 728,
+            "sortIndex": 730,
             "subProfessionId": "notchar2"
         },
         "trap_715_cdaltara": {
@@ -17805,7 +17822,7 @@
             "profession": "TRAP",
             "rangeId": ["x-1", "x-1", "x-1"],
             "rarity": 1,
-            "sortIndex": 729,
+            "sortIndex": 728,
             "subProfessionId": "notchar2"
         },
         "trap_716_cdaltarb": {
@@ -17818,7 +17835,7 @@
             "profession": "TRAP",
             "rangeId": ["x-1", "x-1", "x-1"],
             "rarity": 1,
-            "sortIndex": 730,
+            "sortIndex": 729,
             "subProfessionId": "notchar2"
         },
         "trap_717_cddiff": {
@@ -17831,7 +17848,7 @@
             "profession": "TRAP",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 1,
-            "sortIndex": 1299,
+            "sortIndex": 1301,
             "subProfessionId": "notchar2"
         },
         "trap_718_cddiffa": {
@@ -17844,7 +17861,7 @@
             "profession": "TRAP",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 1,
-            "sortIndex": 1298,
+            "sortIndex": 1299,
             "subProfessionId": "notchar2"
         },
         "trap_719_cddiffb": {
@@ -17883,7 +17900,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 79,
+            "sortIndex": 80,
             "subProfessionId": "notchar2"
         },
         "trap_722_cdhealb": {
@@ -17896,7 +17913,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 80,
+            "sortIndex": 79,
             "subProfessionId": "notchar2"
         },
         "trap_723_cdcvrt": {
@@ -17909,7 +17926,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1183,
+            "sortIndex": 1185,
             "subProfessionId": "notchar2"
         },
         "trap_724_cdcvrta": {
@@ -17922,7 +17939,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1184,
+            "sortIndex": 1183,
             "subProfessionId": "notchar2"
         },
         "trap_725_cdcvrtb": {
@@ -17935,7 +17952,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1185,
+            "sortIndex": 1184,
             "subProfessionId": "notchar2"
         },
         "trap_726_cdrone": {
@@ -17961,7 +17978,7 @@
             "profession": "TRAP",
             "rangeId": ["x-1", "x-1", "x-1"],
             "rarity": 1,
-            "sortIndex": 1288,
+            "sortIndex": 1291,
             "subProfessionId": "notchar2"
         },
         "trap_728_cdroneb": {
@@ -17987,7 +18004,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 499,
+            "sortIndex": 500,
             "subProfessionId": "notchar2"
         },
         "trap_730_truamr": {
@@ -18026,7 +18043,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 498,
+            "sortIndex": 499,
             "subProfessionId": "notchar2"
         },
         "trap_734_cdkzmrb": {
@@ -18039,7 +18056,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 500,
+            "sortIndex": 498,
             "subProfessionId": "notchar2"
         },
         "trap_735_platre": {
@@ -18065,7 +18082,7 @@
             "profession": "TRAP",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 1,
-            "sortIndex": 555,
+            "sortIndex": 554,
             "subProfessionId": "notchar2"
         },
         "trap_737_merchaa": {
@@ -18091,7 +18108,7 @@
             "profession": "TRAP",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 1,
-            "sortIndex": 554,
+            "sortIndex": 555,
             "subProfessionId": "notchar2"
         },
         "trap_739_sniper": {
@@ -18104,7 +18121,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1331,
+            "sortIndex": 1330,
             "subProfessionId": "notchar2"
         },
         "trap_740_snipera": {
@@ -18117,7 +18134,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1330,
+            "sortIndex": 1331,
             "subProfessionId": "notchar2"
         },
         "trap_741_sniperb": {
@@ -18130,7 +18147,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1329,
+            "sortIndex": 1332,
             "subProfessionId": "notchar2"
         },
         "trap_742_gasbot": {
@@ -18143,7 +18160,7 @@
             "profession": "TRAP",
             "rangeId": ["x-1", "x-1", "x-1"],
             "rarity": 1,
-            "sortIndex": 945,
+            "sortIndex": 947,
             "subProfessionId": "notchar2"
         },
         "trap_743_gasbota": {
@@ -18156,7 +18173,7 @@
             "profession": "TRAP",
             "rangeId": ["x-1", "x-1", "x-1"],
             "rarity": 1,
-            "sortIndex": 947,
+            "sortIndex": 946,
             "subProfessionId": "notchar2"
         },
         "trap_744_gasbotb": {
@@ -18169,7 +18186,7 @@
             "profession": "TRAP",
             "rangeId": ["x-1", "x-1", "x-1"],
             "rarity": 1,
-            "sortIndex": 946,
+            "sortIndex": 945,
             "subProfessionId": "notchar2"
         },
         "trap_745_beer": {
@@ -18208,7 +18225,7 @@
             "profession": "TRAP",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 1,
-            "sortIndex": 431,
+            "sortIndex": 430,
             "subProfessionId": "notchar2"
         },
         "trap_748_cdrhineb": {
@@ -18221,7 +18238,7 @@
             "profession": "TRAP",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 1,
-            "sortIndex": 430,
+            "sortIndex": 431,
             "subProfessionId": "notchar2"
         },
         "trap_749_cd1punch": {
@@ -18234,7 +18251,7 @@
             "profession": "TRAP",
             "rangeId": ["4-1", "4-1", "4-1"],
             "rarity": 1,
-            "sortIndex": 852,
+            "sortIndex": 853,
             "subProfessionId": "notchar2"
         },
         "trap_750_cd1puncha": {
@@ -18247,7 +18264,7 @@
             "profession": "TRAP",
             "rangeId": ["4-1", "4-1", "4-1"],
             "rarity": 1,
-            "sortIndex": 853,
+            "sortIndex": 854,
             "subProfessionId": "notchar2"
         },
         "trap_751_cd1punchb": {
@@ -18260,7 +18277,7 @@
             "profession": "TRAP",
             "rangeId": ["4-1", "4-1", "4-1"],
             "rarity": 1,
-            "sortIndex": 854,
+            "sortIndex": 852,
             "subProfessionId": "notchar2"
         },
         "trap_752_cdcaster": {
@@ -18273,7 +18290,7 @@
             "profession": "TRAP",
             "rangeId": ["x-2", "x-2", "x-2"],
             "rarity": 1,
-            "sortIndex": 253,
+            "sortIndex": 254,
             "subProfessionId": "notchar2"
         },
         "trap_753_cdcastera": {
@@ -18286,7 +18303,7 @@
             "profession": "TRAP",
             "rangeId": ["x-2", "x-2", "x-2"],
             "rarity": 1,
-            "sortIndex": 252,
+            "sortIndex": 253,
             "subProfessionId": "notchar2"
         },
         "trap_754_cdcasterb": {
@@ -18299,7 +18316,7 @@
             "profession": "TRAP",
             "rangeId": ["x-2", "x-2", "x-2"],
             "rarity": 1,
-            "sortIndex": 254,
+            "sortIndex": 252,
             "subProfessionId": "notchar2"
         },
         "trap_755_cdsoul": {
@@ -18338,7 +18355,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 55,
+            "sortIndex": 54,
             "subProfessionId": "notchar2"
         },
         "trap_758_skzmbx": {
@@ -18390,7 +18407,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1368,
+            "sortIndex": 1369,
             "subProfessionId": "notchar2"
         },
         "trap_762_skztxy": {
@@ -18455,7 +18472,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1045,
+            "sortIndex": 1044,
             "subProfessionId": "notchar2"
         },
         "trap_767_duelcdt": {
@@ -18468,7 +18485,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1044,
+            "sortIndex": 1045,
             "subProfessionId": "notchar2"
         },
         "trap_768_godch": {
@@ -18533,7 +18550,7 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1,
-            "sortIndex": 1345,
+            "sortIndex": 1346,
             "subProfessionId": "notchar2"
         },
         "trap_773_bqrngeb": {
@@ -18585,7 +18602,7 @@
             "profession": "TRAP",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 1,
-            "sortIndex": 1295,
+            "sortIndex": 1296,
             "subProfessionId": "notchar2"
         },
         "trap_777_giacan": {
@@ -18611,7 +18628,7 @@
             "profession": "TRAP",
             "rangeId": ["x-2", "x-2", "x-2"],
             "rarity": 1,
-            "sortIndex": 638,
+            "sortIndex": 637,
             "subProfessionId": "notchar2"
         },
         "trap_779_skzth": {
@@ -18797,7 +18814,7 @@
             "profession": "TRAP",
             "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 1,
-            "sortIndex": 1346,
+            "sortIndex": 1347,
             "subProfessionId": "notchar2"
         },
         "trap_793_healbfa": {

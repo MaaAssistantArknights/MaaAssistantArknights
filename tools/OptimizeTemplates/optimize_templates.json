@@ -4531,5 +4531,6 @@
     "resource/template/Award/SignInEventClaimedCheck": "89f8fe393c8c702435b440575604fe00c922532c7fa58349bb36b75427e9cc31",
     "resource/template/Award/SignInEventCostumeWear": "4c4469e181e2e41454e6e29beb904a8d0cb2a9066c0cfaaf9d0f8d8a9b8f2757",
     "resource/template/Award/SignInEventEntryIcon": "f5d2367bceaf13e3f8a20093f4bfdc2900355591135aad736d025f0151fad952",
-    "resource/template/items/act1dp_milestone_point": "05870afe52667756aaf470322687ff21ffeabb6afefc3fe4f5e6fa507449c39a"
+    "resource/template/items/act1dp_milestone_point": "05870afe52667756aaf470322687ff21ffeabb6afefc3fe4f5e6fa507449c39a",
+    "resource/template/items/act3break_milestone_point": "49055468a05329a54d70a9312bd7c3198093e9e8e963684958656eff5a7bcb00"
 }
