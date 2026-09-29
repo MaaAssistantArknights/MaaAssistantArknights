@@ -1425,6 +1425,15 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MainStageStoryCollectionSideStory">{key=MainStage}/{key=StoryCollection}/{key=SideStory}</system:String>
     <system:String x:Key="SSS">保全派驻</system:String>
     <system:String x:Key="ParadoxSimulation">悖论模拟</system:String>
+    <system:String x:Key="ParadoxAutoSelect">自动选择作业</system:String>
+    <system:String x:Key="ParadoxAutoSelectTip" xml:space="preserve">从干员列表启动，自动执行已解锁且未通过的悖论模拟。&#10;按评分与热度选择每关最多 3 份作业，失败时尝试备选。&#10;目前仅支持官服和 B 服；社区作业不保证通关。</system:String>
+    <system:String x:Key="ParadoxAutoClientUnsupported">自动选择悖论作业目前仅支持官服和 B 服。</system:String>
+    <system:String x:Key="ParadoxAutoDownloading">正在获取悖论模拟作业…</system:String>
+    <system:String x:Key="ParadoxAutoAttempt">正在尝试悖论作业：</system:String>
+    <system:String x:Key="ParadoxAutoCompleted">悖论模拟已通过：</system:String>
+    <system:String x:Key="ParadoxAutoCandidateFailed">悖论作业未通过，尝试备选：</system:String>
+    <system:String x:Key="ParadoxAutoStageFailed">该干员的候选作业均未通过：</system:String>
+    <system:String x:Key="ParadoxAutoRecognitionFailed">悖论列表或干员详情识别失败，已停止：</system:String>
     <system:String x:Key="OtherActivityStage">其他活动</system:String>
     <!--  日志  -->
     <system:String x:Key="CopilotTip">

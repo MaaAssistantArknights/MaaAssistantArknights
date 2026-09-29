@@ -1424,6 +1424,15 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MainStageStoryCollectionSideStory">{key=MainStage}/{key=StoryCollection}/{key=SideStory}</system:String>
     <system:String x:Key="SSS">保全派駐</system:String>
     <system:String x:Key="ParadoxSimulation">悖論模擬</system:String>
+    <system:String x:Key="ParadoxAutoSelect">自動選擇作業</system:String>
+    <system:String x:Key="ParadoxAutoSelectTip" xml:space="preserve">從幹員列表啟動，自動執行已解鎖且未通過的悖論模擬。&#10;按評分與熱度選擇每關最多 3 份作業，失敗時嘗試備選。&#10;目前僅支援中國官服和 B 服；社群作業不保證通關。</system:String>
+    <system:String x:Key="ParadoxAutoClientUnsupported">自動選擇悖論作業目前僅支援中國官服和 B 服。</system:String>
+    <system:String x:Key="ParadoxAutoDownloading">正在取得悖論模擬作業…</system:String>
+    <system:String x:Key="ParadoxAutoAttempt">正在嘗試悖論作業：</system:String>
+    <system:String x:Key="ParadoxAutoCompleted">悖論模擬已通過：</system:String>
+    <system:String x:Key="ParadoxAutoCandidateFailed">悖論作業未通過，嘗試備選：</system:String>
+    <system:String x:Key="ParadoxAutoStageFailed">該幹員的候選作業均未通過：</system:String>
+    <system:String x:Key="ParadoxAutoRecognitionFailed">悖論列表或幹員詳情辨識失敗，已停止：</system:String>
     <system:String x:Key="OtherActivityStage">其他活動</system:String>
     <!--  日誌  -->
     <system:String x:Key="CopilotTip">

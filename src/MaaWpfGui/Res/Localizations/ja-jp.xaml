@@ -1426,6 +1426,15 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MainStageStoryCollectionSideStory">{key=MainStage}/{key=StoryCollection}/{key=SideStory}</system:String>
     <system:String x:Key="SSS">保全駐在</system:String>
     <system:String x:Key="ParadoxSimulation">逆理演算</system:String>
+    <system:String x:Key="ParadoxAutoSelect">作戦を自動選択</system:String>
+    <system:String x:Key="ParadoxAutoSelectTip" xml:space="preserve">オペレーター一覧から開始し、解放済み・未クリアの逆理演算を実行します。&#10;評価と人気順で各ステージ最大 3 件の作戦を選び、失敗時は別の作戦を試します。&#10;現在は中国公式・Bilibili サーバーのみ対応。作戦のクリアは保証されません。</system:String>
+    <system:String x:Key="ParadoxAutoClientUnsupported">逆理演算の作戦自動選択は現在、中国公式・Bilibili サーバーのみ対応しています。</system:String>
+    <system:String x:Key="ParadoxAutoDownloading">逆理演算の作戦を取得中…</system:String>
+    <system:String x:Key="ParadoxAutoAttempt">逆理演算の作戦を実行中：</system:String>
+    <system:String x:Key="ParadoxAutoCompleted">逆理演算クリア：</system:String>
+    <system:String x:Key="ParadoxAutoCandidateFailed">作戦失敗。別の作戦を試します：</system:String>
+    <system:String x:Key="ParadoxAutoStageFailed">このオペレーターの候補作戦はすべて失敗しました：</system:String>
+    <system:String x:Key="ParadoxAutoRecognitionFailed">逆理演算一覧またはオペレーター詳細を認識できないため停止：</system:String>
     <system:String x:Key="OtherActivityStage">別のイベント</system:String>
     <!--  Logs  -->
     <system:String x:Key="CopilotTip">

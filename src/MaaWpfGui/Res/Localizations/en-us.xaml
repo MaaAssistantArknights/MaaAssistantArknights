@@ -1423,6 +1423,15 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="MainStageStoryCollectionSideStory">{key=MainStage} / {key=StoryCollection} / {key=SideStory}</system:String>
     <system:String x:Key="SSS">SSS</system:String>
     <system:String x:Key="ParadoxSimulation">Paradox Simulation</system:String>
+    <system:String x:Key="ParadoxAutoSelect">Automatically select strategies</system:String>
+    <system:String x:Key="ParadoxAutoSelectTip" xml:space="preserve">Start from the operator list to run unlocked, uncleared Paradox Simulations.&#10;Select up to 3 strategies per stage by rating and popularity, trying backups on failure.&#10;Currently supports the Chinese Official and Bilibili servers only; community strategies may fail.</system:String>
+    <system:String x:Key="ParadoxAutoClientUnsupported">Automatic Paradox strategies currently support the Chinese Official and Bilibili servers only.</system:String>
+    <system:String x:Key="ParadoxAutoDownloading">Downloading Paradox Simulation strategies…</system:String>
+    <system:String x:Key="ParadoxAutoAttempt">Trying Paradox strategy:</system:String>
+    <system:String x:Key="ParadoxAutoCompleted">Paradox Simulation cleared:</system:String>
+    <system:String x:Key="ParadoxAutoCandidateFailed">Paradox strategy failed; trying a backup:</system:String>
+    <system:String x:Key="ParadoxAutoStageFailed">All candidate strategies failed for operator:</system:String>
+    <system:String x:Key="ParadoxAutoRecognitionFailed">Stopped: could not recognize the Paradox list or operator details:</system:String>
     <system:String x:Key="OtherActivityStage">Other Activities</system:String>
     <!--  Logs  -->
     <system:String x:Key="CopilotTip">
