@@ -1,5 +1,7 @@
 #include "BlackFlowSession.h"
 
+#include "BlackFlowMapTemplateMatcher.h"
+
 #include "BlackFlowRoutingLoop.h"
 
 #include <algorithm>
@@ -167,8 +169,7 @@ bool BlackFlowSession::initialize(std::string profile, std::string* error)
         }
     }
     m_mission = MissionState {};
-    m_map.reset();
-    m_viewport.clear(0, 0);
+    m_map_version = MapVersion {};
     m_run = RunState {};
     m_current_floor.reset();
     m_cultivated_animal_types.clear();
@@ -390,7 +391,7 @@ std::string BlackFlowSession::resolve_page_intent(const PageIdentityResolution& 
         return "default";
     }
     Node probe;
-    if (const Node* stored = m_map.snapshot().find_node(node); stored != nullptr) {
+    if (const Node* stored = m_map_version.map.snapshot().find_node(node); stored != nullptr) {
         probe = *stored;
     }
     probe.id = node;
@@ -606,55 +607,64 @@ bool BlackFlowSession::apply_run_observation(const RunObservation& observation, 
     return true;
 }
 
-void BlackFlowSession::queue_map_summary(const PerceptionSummary& summary)
+void BlackFlowSession::queue_map_summary(std::optional<NodeId> corrected_node)
 {
+    const auto& summary = m_map_version.observation;
+    const auto& map = m_map_version.map.snapshot();
+    const int rows = summary.rows;
+    const int columns = summary.columns;
+    json::array exits;
+    for (const auto& position : m_map_version.final_exits) {
+        exits.emplace_back(json::array { position.row, position.column });
+    }
+    const auto confirmed_edges = std::ranges::count(map.edges(), EdgeKnowledge::Confirmed, &Edge::knowledge);
+    const auto inferred_edges = std::ranges::count_if(map.edges(), [](const Edge& edge) {
+        return edge.knowledge != EdgeKnowledge::Absent && edge.evidence.forced_by_connectivity_constraint;
+    });
+    const auto unclassified = std::ranges::count_if(map.nodes(), [](const auto& entry) {
+        return entry.second.identity_state == NodeIdentityState::Unclassified;
+    });
+    const std::string source = corrected_node ? "preview" : "recognition";
     json::object details {
         { "run_revision", m_run_revision },
+        { "supplemented_exits", std::move(exits) },
+        { "source", source },
         { "observation_id", summary.observation_id },
-        { "map_revision", m_map.snapshot().revision },
+        { "rows", rows },
+        { "columns", columns },
+        { "map_revision", m_map_version.map.snapshot().revision },
         { "floor", summary.floor },
         { "floor_from_ocr", summary.floor_from_ocr },
         { "current_node", summary.current_node },
-        { "node_count", summary.node_count },
-        { "confirmed_edge_count", summary.confirmed_edge_count },
-        { "forced_edge_count", summary.forced_edge_count },
-        { "unclassified_count", summary.unclassified_count },
+        { "node_count", map.nodes().size() },
+        { "confirmed_edge_count", confirmed_edges },
+        { "forced_edge_count", inferred_edges },
+        { "unclassified_count", unclassified },
         { "screenshot_us", summary.screenshot_us },
         { "recognition_us", summary.recognition_us },
         { "attempt_count", summary.attempt_count },
         { "retry_count", summary.retry_count },
     };
-    Log.info(
-        "BlackFlow map summary",
-        "observation",
-        summary.observation_id,
-        "floor",
-        summary.floor,
-        "floor source",
-        summary.floor_from_ocr ? "ocr" : "fallback",
-        "current",
-        summary.current_node,
-        "nodes",
-        summary.node_count,
-        "confirmed edges",
-        summary.confirmed_edge_count,
-        "inferred edges",
-        summary.forced_edge_count,
-        "unclassified",
-        summary.unclassified_count,
-        "attempts",
-        summary.attempt_count,
-        "retries",
-        summary.retry_count,
-        "screenshot us",
-        summary.screenshot_us,
-        "recognition us",
-        summary.recognition_us);
+    if (corrected_node) {
+        details["updated_node"] = *corrected_node;
+    }
+    LogInfo << __FUNCTION__ << "Map" << "version" << map.revision << "source" << source << "observation"
+            << summary.observation_id << "floor" << summary.floor << "grid" << rows << columns << "current"
+            << summary.current_node << "nodes" << map.nodes().size() << "confirmed edges" << confirmed_edges
+            << "inferred edges" << inferred_edges << "supplemented exits" << m_map_version.final_exits.size();
     m_telemetry_events.emplace_back(BlackFlowTelemetryEvent { "BlackFlowMapSummary", details });
 
     std::vector<json::value> nodes;
-    nodes.reserve(m_map.snapshot().nodes().size());
-    for (const auto& [id, node] : m_map.snapshot().nodes()) {
+    nodes.reserve(m_map_version.map.snapshot().nodes().size());
+    std::vector<NodeId> ordered_nodes;
+    for (const auto& [id, node] : map.nodes()) {
+        ordered_nodes.emplace_back(id);
+    }
+    std::ranges::sort(ordered_nodes, [&](NodeId first, NodeId second) {
+        return map.find_node(first)->position < map.find_node(second)->position;
+    });
+    for (const NodeId id : ordered_nodes) {
+        const Node& node = *map.find_node(id);
         nodes.emplace_back(
             json::object {
                 { "id", id },
@@ -674,8 +684,12 @@ void BlackFlowSession::queue_map_summary(const PerceptionSummary& summary)
             });
     }
     std::vector<json::value> edges;
-    edges.reserve(m_map.snapshot().edges().size());
-    for (const Edge& edge : m_map.snapshot().edges()) {
+    edges.reserve(m_map_version.map.snapshot().edges().size());
+    auto ordered_edges = map.edges();
+    std::ranges::sort(ordered_edges, [](const Edge& first, const Edge& second) {
+        return std::tie(first.first, first.second) < std::tie(second.first, second.second);
+    });
+    for (const Edge& edge : ordered_edges) {
         edges.emplace_back(
             json::object {
                 { "first", edge.first },
@@ -693,16 +707,16 @@ void BlackFlowSession::queue_map_summary(const PerceptionSummary& summary)
     json::object diagnostic = details;
     diagnostic["nodes"] = json::array(std::move(nodes));
     diagnostic["edges"] = json::array(std::move(edges));
-    request_diagnostics(DiagnosticTrigger::RoutineObservation, std::move(diagnostic));
+    request_diagnostics(DiagnosticTrigger::RoutineObservation, std::move(diagnostic), !corrected_node.has_value());
 }
 
-void BlackFlowSession::request_diagnostics(DiagnosticTrigger trigger, json::object snapshot)
+void BlackFlowSession::request_diagnostics(DiagnosticTrigger trigger, json::object snapshot, bool allow_images)
 {
     const bool routine = trigger == DiagnosticTrigger::RoutineObservation;
     if (routine && m_diagnostics.level == DiagnosticLevel::Normal) {
         return;
     }
-    bool include_images = !routine || m_diagnostics.level == DiagnosticLevel::Full;
+    bool include_images = allow_images && (!routine || m_diagnostics.level == DiagnosticLevel::Full);
     if (include_images && m_persisted_image_packages >= m_diagnostics.image_package_limit) {
         include_images = false;
     }
@@ -713,7 +727,7 @@ void BlackFlowSession::request_diagnostics(DiagnosticTrigger trigger, json::obje
         "BF-A" + std::to_string(m_run_revision) + "-" + std::to_string(++m_artifact_sequence);
     snapshot["trigger"] = std::string(to_string(trigger));
     snapshot["run_revision"] = m_run_revision;
-    snapshot["map_revision"] = m_map.snapshot().revision;
+    snapshot["map_revision"] = m_map_version.map.snapshot().revision;
     m_diagnostic_requests.emplace_back(
         DiagnosticArtifactRequest {
             trigger,
@@ -736,7 +750,7 @@ void BlackFlowSession::queue_warning(std::string code, std::string message, Diag
         { "observation_id", m_observation_id },
         { "decision_id", m_decision_id },
         { "transaction_id", m_transaction_id },
-        { "map_revision", m_map.snapshot().revision },
+        { "map_revision", m_map_version.map.snapshot().revision },
         { "code", code },
         { "message", message },
     };
@@ -751,7 +765,7 @@ void BlackFlowSession::queue_decision()
         return;
     }
     const MoveCandidate& move = m_transaction->proposal();
-    const Node* target = m_map.snapshot().find_node(move.target);
+    const Node* target = m_map_version.map.snapshot().find_node(move.target);
     const int cost = m_transaction->authoritative_cost();
     const int expected_after =
         action_points_after(m_run.resources.action_points, cost, move.predicted_action_point_gain);
@@ -786,7 +800,7 @@ void BlackFlowSession::queue_decision()
 
     std::vector<json::value> runners_up;
     for (const MoveCandidate& runner : decision.runners_up) {
-        const Node* runner_target = m_map.snapshot().find_node(runner.target);
+        const Node* runner_target = m_map_version.map.snapshot().find_node(runner.target);
         runners_up.emplace_back(
             json::object {
                 { "action_id", runner.action_id },
@@ -821,7 +835,7 @@ void BlackFlowSession::queue_decision()
         { "decision_id", m_decision_id },
         { "profile", m_profile },
         { "transaction_id", m_transaction_id },
-        { "map_revision", m_map.snapshot().revision },
+        { "map_revision", m_map_version.map.snapshot().revision },
         { "floor", m_run.floor },
         { "source", move.source },
         { "target", move.target },
@@ -856,7 +870,7 @@ void BlackFlowSession::queue_decision()
     };
     if (includes_full_routing_details(m_diagnostics.level)) {
         const auto node_details = [&](NodeId id) {
-            const Node* node = m_map.snapshot().find_node(id);
+            const Node* node = m_map_version.map.snapshot().find_node(id);
             if (node == nullptr) {
                 return json::object { { "id", id } };
             }
@@ -945,6 +959,21 @@ bool BlackFlowSession::merge_perception(
         return false;
     }
 
+    if (m_map_version.map.floor() != normalized->map.floor) {
+        m_map_version.final_exits.clear();
+        const auto* matched = observation.allow_exit_supplement
+                                  ? match_map_template(normalized->map, BlackFlowMapTemplates.templates())
+                                  : nullptr;
+        // 匹配只在首次接收本层地图时进行；模板不可用也不影响地图更新和规划。
+        if (matched) {
+            const auto& definition = *matched;
+            if (definition.terminal_type == NodeType::Final) {
+                m_map_version.final_exits = definition.terminals;
+            }
+            LogInfo << __FUNCTION__ << "Map template selected" << to_string(definition.id) << "exit count"
+                    << m_map_version.final_exits.size();
+        }
+    }
     const NodeId previous_current_node = m_observed_current_node;
     const bool new_floor = m_run.floor != 0 && m_run.floor != normalized->map.floor;
     if (new_floor) {
@@ -962,10 +991,11 @@ bool BlackFlowSession::merge_perception(
     else {
         m_facts.begin_page();
     }
-    if (!m_map.merge(normalized->map, error)) {
+    supplement_map_exits(normalized->map, m_map_version.final_exits);
+    if (!m_map_version.map.merge(normalized->map, error)) {
         return false;
     }
-    if (m_map.snapshot().find_node(normalized->current_node) == nullptr) {
+    if (m_map_version.map.snapshot().find_node(normalized->current_node) == nullptr) {
         if (error != nullptr) {
             *error = "normalized current node is absent from the merged map";
         }
@@ -977,7 +1007,10 @@ bool BlackFlowSession::merge_perception(
                            ? "BF-O" + std::to_string(m_run_revision) + "-" + std::to_string(observation.sequence)
                            : normalized->summary.observation_id;
     normalized->summary.observation_id = m_observation_id;
-    m_viewport.replace(std::move(normalized->viewport), m_map.snapshot().revision, normalized->viewport_revision);
+    m_map_version.coordinates.replace(
+        std::move(normalized->viewport),
+        m_map_version.map.snapshot().revision,
+        normalized->viewport_revision);
     const bool routing_context_changed =
         !reconcile_move && previous_current_node != InvalidNodeId && previous_current_node != normalized->current_node;
     if (routing_context_changed) {
@@ -1011,29 +1044,34 @@ bool BlackFlowSession::merge_perception(
         }
     }
 
-    for (const auto& [node_id, node] : m_map.snapshot().nodes()) {
-        if (node.identity_revealed) {
-            m_run.revealed_nodes.emplace(node_id);
-        }
-        if (node.type == NodeType::Light) {
-            const auto statically_revealed = m_map.snapshot().nodes_within_manhattan(node_id, 1);
-            m_run.revealed_nodes.insert(statically_revealed.begin(), statically_revealed.end());
-        }
-    }
     if (!apply_observed_facts(observed_facts, error) ||
         !set_fact("map_full_coverage", normalized->map.coverage == ObservationCoverage::FullMap, error) ||
-        !set_fact("portal_available", has_node_type(m_map.snapshot(), NodeType::Portal), error) ||
-        !set_fact("scrap_shop_available", has_node_type(m_map.snapshot(), NodeType::ScrapShop), error)) {
+        !synchronize_map_facts(error)) {
         return false;
     }
-    queue_map_summary(normalized->summary);
+    m_map_version.observation = normalized->summary;
     return true;
+}
+
+bool BlackFlowSession::synchronize_map_facts(std::string* error)
+{
+    for (const auto& [id, node] : m_map_version.map.snapshot().nodes()) {
+        if (node.identity_revealed) {
+            m_run.revealed_nodes.emplace(id);
+        }
+        if (node.type == NodeType::Light) {
+            const auto revealed = m_map_version.map.snapshot().nodes_within_manhattan(id, 1);
+            m_run.revealed_nodes.insert(revealed.begin(), revealed.end());
+        }
+    }
+    return set_fact("portal_available", has_node_type(m_map_version.map.snapshot(), NodeType::Portal), error) &&
+           set_fact("scrap_shop_available", has_node_type(m_map_version.map.snapshot(), NodeType::ScrapShop), error);
 }
 
 void BlackFlowSession::finalize_entered_node(const PageExecutionContext& context, bool page_completed)
 {
     Node entered;
-    if (const Node* stored = m_map.snapshot().find_node(context.node);
+    if (const Node* stored = m_map_version.map.snapshot().find_node(context.node);
         stored != nullptr && stored->floor == context.floor) {
         entered = *stored;
     }
@@ -1084,7 +1122,7 @@ void BlackFlowSession::finalize_entered_node(const PageExecutionContext& context
     }
 
     if (context.floor == m_run.floor) {
-        const Node* observed = m_map.snapshot().find_node(context.node);
+        const Node* observed = m_map_version.map.snapshot().find_node(context.node);
         if (observed != nullptr) {
             Node updated = *observed;
             if (context.result.has_value() && context.result->actual_type.has_value()) {
@@ -1107,7 +1145,7 @@ void BlackFlowSession::finalize_entered_node(const PageExecutionContext& context
                 updated.traversal.blocks_walk = false;
                 updated.traversal.blocks_vision = false;
             }
-            m_map.snapshot().upsert_node(std::move(updated));
+            m_map_version.map.snapshot().upsert_node(std::move(updated));
         }
     }
 
@@ -1143,9 +1181,9 @@ bool BlackFlowSession::reconcile_committed_move(const BlackFlowPerceptionSnapsho
 
     MoveObservation observation;
     observation.current_node = m_observed_current_node;
-    observation.floor = m_map.floor();
-    observation.map_revision = m_map.snapshot().revision;
-    observation.viewport_revision = m_viewport.viewport_revision();
+    observation.floor = m_map_version.map.floor();
+    observation.map_revision = m_map_version.map.snapshot().revision;
+    observation.viewport_revision = m_map_version.coordinates.viewport_revision();
     if (snapshot.run.action_points.has_value()) {
         observation.action_points = *snapshot.run.action_points;
     }
@@ -1165,7 +1203,8 @@ bool BlackFlowSession::reconcile_committed_move(const BlackFlowPerceptionSnapsho
 
     if (m_page_context.has_value()) {
         if (observation.floor == m_page_context->floor) {
-            if (const Node* landed = m_map.snapshot().find_node(observation.current_node); landed != nullptr) {
+            if (const Node* landed = m_map_version.map.snapshot().find_node(observation.current_node);
+                landed != nullptr) {
                 observation.landed_type = landed->type;
                 observation.target_progress = landed->progress;
             }
@@ -1178,7 +1217,7 @@ bool BlackFlowSession::reconcile_committed_move(const BlackFlowPerceptionSnapsho
                     : NodeProgress::Completed;
         }
     }
-    else if (const Node* landed = m_map.snapshot().find_node(observation.current_node); landed != nullptr) {
+    else if (const Node* landed = m_map_version.map.snapshot().find_node(observation.current_node); landed != nullptr) {
         observation.landed_type = landed->type;
         observation.target_progress = landed->progress;
     }
@@ -1316,7 +1355,11 @@ bool BlackFlowSession::update(const BlackFlowPerceptionSnapshot& snapshot, std::
     if (!staged.update_in_place(snapshot, error)) {
         return false;
     }
+    const auto& previous = m_map_version.map.snapshot();
+    staged.m_map_version.map.finalize_revision(previous);
+    staged.m_map_version.coordinates.associate_map(staged.m_map_version.map.snapshot().revision);
     *this = std::move(staged);
+    queue_map_summary();
     return true;
 }
 
@@ -1356,12 +1399,13 @@ BlackFlowPlan BlackFlowSession::plan(std::string* error)
     else {
         const FactStore merged = m_facts.merged();
         BlackFlowPlanRequest request;
-        request.map = &m_map.snapshot();
+        request.map = &m_map_version.map.snapshot();
         request.run = &m_run;
         request.policy = &*m_policy;
         request.facts = &merged;
         request.mission = &m_mission;
-        const StrategyGoals goals = strategy_goals_for(*m_policy, m_mission, merged, m_map.snapshot(), m_run.floor);
+        const StrategyGoals goals =
+            strategy_goals_for(*m_policy, m_mission, merged, m_map_version.map.snapshot(), m_run.floor);
         request.strategy_terminal_nodes = goals.terminal_nodes;
         request.binding_milestone_candidates = goals.binding_candidates;
         request.undemotable_binding_count = goals.undemotable_count;
@@ -1405,7 +1449,7 @@ bool BlackFlowSession::save_pending_candidate(const MoveCandidate& candidate, st
         }
         return false;
     }
-    if (candidate.source != m_run.current_node || m_map.snapshot().find_node(candidate.source) == nullptr) {
+    if (candidate.source != m_run.current_node || m_map_version.map.snapshot().find_node(candidate.source) == nullptr) {
         if (error != nullptr) {
             *error = "pending candidate does not start at the current node";
         }
@@ -1426,9 +1470,12 @@ bool BlackFlowSession::save_pending_candidate(const MoveCandidate& candidate, st
             return false;
         }
     }
-    if (candidate.controllable &&
-        !m_viewport.clickable_rect(candidate.target, m_map.snapshot().revision, m_viewport.viewport_revision())
-             .has_value()) {
+    if (candidate.controllable && !m_map_version.coordinates
+                                       .clickable_rect(
+                                           candidate.target,
+                                           m_map_version.map.snapshot().revision,
+                                           m_map_version.coordinates.viewport_revision())
+                                       .has_value()) {
         if (error != nullptr) {
             *error = "pending candidate has no current viewport coordinate";
         }
@@ -1437,10 +1484,10 @@ bool BlackFlowSession::save_pending_candidate(const MoveCandidate& candidate, st
     m_pending_candidate = PendingMoveCandidate {
         candidate,
         m_run_revision,
-        m_map.snapshot().revision,
+        m_map_version.map.snapshot().revision,
         m_run.costs.revision,
         m_run.resources_revision,
-        m_viewport.viewport_revision(),
+        m_map_version.coordinates.viewport_revision(),
     };
     return true;
 }
@@ -1454,9 +1501,9 @@ bool BlackFlowSession::validate_pending_candidate(std::string* error) const
         return false;
     }
     const PendingMoveCandidate& pending = *m_pending_candidate;
-    if (pending.run_revision != m_run_revision || pending.map_revision != m_map.snapshot().revision ||
+    if (pending.run_revision != m_run_revision || pending.map_revision != m_map_version.map.snapshot().revision ||
         pending.cost_revision != m_run.costs.revision || pending.resources_revision != m_run.resources_revision ||
-        pending.viewport_revision != m_viewport.viewport_revision()) {
+        pending.viewport_revision != m_map_version.coordinates.viewport_revision()) {
         if (error != nullptr) {
             *error = "pending movement candidate revisions no longer match the session";
         }
@@ -1484,7 +1531,8 @@ bool BlackFlowSession::validate_pending_candidate(std::string* error) const
         }
     }
     if (pending.candidate.controllable &&
-        !m_viewport.clickable_rect(pending.candidate.target, pending.map_revision, pending.viewport_revision)
+        !m_map_version.coordinates
+             .clickable_rect(pending.candidate.target, pending.map_revision, pending.viewport_revision)
              .has_value()) {
         if (error != nullptr) {
             *error = "pending movement candidate viewport coordinate is stale";
@@ -1509,7 +1557,7 @@ bool BlackFlowSession::begin_pending_transaction(std::string* error)
 
 bool BlackFlowSession::begin_transaction(const MoveCandidate& candidate, std::string* error)
 {
-    auto proposed = MoveTransaction::propose(candidate, m_map.snapshot(), m_viewport, error);
+    auto proposed = MoveTransaction::propose(candidate, m_map_version.map.snapshot(), m_map_version.coordinates, error);
     if (!proposed.has_value()) {
         return false;
     }
@@ -1521,6 +1569,16 @@ bool BlackFlowSession::begin_transaction(const MoveCandidate& candidate, std::st
 }
 
 PreviewDisposition BlackFlowSession::accept_preview(MovePreview preview, std::string* error)
+{
+    BlackFlowSession staged = *this;
+    const auto result = staged.accept_preview_in_place(std::move(preview), error);
+    if (result != PreviewDisposition::Failed) {
+        *this = std::move(staged);
+    }
+    return result;
+}
+
+PreviewDisposition BlackFlowSession::accept_preview_in_place(MovePreview preview, std::string* error)
 {
     if (!m_transaction.has_value()) {
         if (error != nullptr) {
@@ -1534,7 +1592,7 @@ PreviewDisposition BlackFlowSession::accept_preview(MovePreview preview, std::st
     }
     const PreviewReachability reachability = preview.reachability;
     const MoveCandidate proposal = m_transaction->proposal();
-    const Node* existing = proposal.target == InvalidNodeId ? nullptr : m_map.snapshot().find_node(proposal.target);
+    const Node* existing = proposal.target == InvalidNodeId ? nullptr : m_map_version.map.snapshot().find_node(proposal.target);
     if (preview.reachability == PreviewReachability::Reachable && existing != nullptr &&
         existing->type == NodeType::HideBattle && preview.displayed_type == NodeType::BattleNormal) {
         preview.displayed_type = existing->type;
@@ -1543,6 +1601,21 @@ PreviewDisposition BlackFlowSession::accept_preview(MovePreview preview, std::st
     }
     if (!m_transaction->record_preview(preview, error)) {
         return PreviewDisposition::Failed;
+    }
+    bool changed = false;
+    if (proposal.controllable) {
+        if (!m_map_version.map.accept_preview(proposal.target, preview, changed, error)) {
+            return PreviewDisposition::Failed;
+        }
+        if (changed) {
+            m_verified_move_arc.reset();
+            m_map_version.coordinates.associate_map(m_map_version.map.snapshot().revision);
+            if (!synchronize_map_facts(error)) {
+                return PreviewDisposition::Failed;
+            }
+            refresh_mission();
+            queue_map_summary(proposal.target);
+        }
     }
     if (m_transaction->stage() == MoveTransactionStage::Cancelled) {
         m_unreachable_actions.emplace(proposal.action_id);
@@ -1577,50 +1650,6 @@ PreviewDisposition BlackFlowSession::accept_preview(MovePreview preview, std::st
         return PreviewDisposition::ReplanAfterDismiss;
     }
 
-    bool changed = false;
-    if (proposal.controllable && existing == nullptr) {
-        if (error != nullptr) {
-            *error = "preview target disappeared from normalized map";
-        }
-        return PreviewDisposition::Failed;
-    }
-    if (existing != nullptr && preview.displayed_type != NodeType::Unknown) {
-        const bool identity_conflict =
-            existing->identity_revealed && preview.identity_revealed && existing->type != preview.displayed_type;
-        if (identity_conflict) {
-            queue_warning(
-                "identity_conflict",
-                "preview node identity conflicts with the current normalized map",
-                DiagnosticTrigger::IdentityConflict);
-        }
-        const bool identity_unresolved = existing->type == NodeType::Unknown ||
-                                         existing->type == NodeType::HideInvisible ||
-                                         existing->type == NodeType::HideBattle;
-        if (identity_unresolved &&
-            (existing->type != preview.displayed_type || existing->name != preview.displayed_name ||
-             existing->identity_revealed != preview.identity_revealed)) {
-            Node updated = *existing;
-            updated.type = preview.displayed_type;
-            updated.name = preview.displayed_name;
-            updated.identity_revealed = preview.identity_revealed;
-            updated.identity_state =
-                preview.identity_revealed ? NodeIdentityState::Classified : NodeIdentityState::Hidden;
-            if (!updated.traversal.repeatable && updated.progress == NodeProgress::Active) {
-                updated.traversal = default_traversal_for(updated.type);
-            }
-            changed = m_map.snapshot().upsert_node(std::move(updated));
-            if (changed) {
-                std::vector<NodeObservation> observations;
-                observations.reserve(m_viewport.nodes().size());
-                for (const auto& [id, observation] : m_viewport.nodes()) {
-                    (void)id;
-                    observations.emplace_back(observation);
-                }
-                m_viewport.replace(std::move(observations), m_map.snapshot().revision, m_viewport.viewport_revision());
-            }
-        }
-    }
-
     if (preview.exact_action_point_cost != proposal.predicted_action_point_cost) {
         queue_warning(
             "preview_cost_changed",
@@ -1642,12 +1671,13 @@ PreviewDisposition BlackFlowSession::accept_preview(MovePreview preview, std::st
     if (proposal.requires_preview_verification) {
         const FactStore merged = m_facts.merged();
         BlackFlowPlanRequest request;
-        request.map = &m_map.snapshot();
+        request.map = &m_map_version.map.snapshot();
         request.run = &m_run;
         request.policy = &*m_policy;
         request.facts = &merged;
         request.mission = &m_mission;
-        const StrategyGoals goals = strategy_goals_for(*m_policy, m_mission, merged, m_map.snapshot(), m_run.floor);
+        const StrategyGoals goals =
+            strategy_goals_for(*m_policy, m_mission, merged, m_map_version.map.snapshot(), m_run.floor);
         request.strategy_terminal_nodes = goals.terminal_nodes;
         // 预览验证沿用上一次规划锁定的目标，锁定集合的变化留给下一次规划。
         if (m_last_plan.has_value()) {
@@ -1687,10 +1717,10 @@ PreviewDisposition BlackFlowSession::accept_preview(MovePreview preview, std::st
             preview.exact_action_point_cost,
             verification.required_action_points_after,
             verification.proof_depth,
-            m_map.snapshot().revision,
+            m_map_version.map.snapshot().revision,
             m_run.costs.revision,
             m_run.resources_revision,
-            m_viewport.viewport_revision(),
+            m_map_version.coordinates.viewport_revision(),
         };
     }
     if (!set_fact("page_kind", std::string(to_string(preview.displayed_type)), error)) {
@@ -1714,8 +1744,8 @@ bool BlackFlowSession::validate_commit(std::string* error) const
         }
         return false;
     }
-    if (m_transaction->map_revision() != m_map.snapshot().revision ||
-        m_transaction->viewport_revision() != m_viewport.viewport_revision()) {
+    if (m_transaction->map_revision() != m_map_version.map.snapshot().revision ||
+        m_transaction->viewport_revision() != m_map_version.coordinates.viewport_revision()) {
         if (error != nullptr) {
             *error = "map or viewport revision changed before commit";
         }
@@ -1730,10 +1760,10 @@ bool BlackFlowSession::validate_commit(std::string* error) const
         m_verified_move_arc.has_value() && m_verified_move_arc->action_id == pending.action_id &&
         m_verified_move_arc->source == pending.source && m_verified_move_arc->target == pending.target &&
         m_verified_move_arc->landing == pending.landing && m_verified_move_arc->movement == pending.movement &&
-        m_verified_move_arc->map_revision == m_map.snapshot().revision &&
+        m_verified_move_arc->map_revision == m_map_version.map.snapshot().revision &&
         m_verified_move_arc->cost_revision == m_run.costs.revision &&
         m_verified_move_arc->resources_revision == m_run.resources_revision &&
-        m_verified_move_arc->viewport_revision == m_viewport.viewport_revision() &&
+        m_verified_move_arc->viewport_revision == m_map_version.coordinates.viewport_revision() &&
         m_verified_move_arc->exact_action_point_cost == m_transaction->preview()->exact_action_point_cost;
     if (!verified && error != nullptr) {
         *error = "preview-verified move arc expired before commit";
@@ -1755,10 +1785,10 @@ bool BlackFlowSession::commit(EnteredPageObservation entered_page, std::string* 
             m_verified_move_arc.has_value() && m_verified_move_arc->action_id == pending.action_id &&
             m_verified_move_arc->source == pending.source && m_verified_move_arc->target == pending.target &&
             m_verified_move_arc->landing == pending.landing && m_verified_move_arc->movement == pending.movement &&
-            m_verified_move_arc->map_revision == m_map.snapshot().revision &&
+            m_verified_move_arc->map_revision == m_map_version.map.snapshot().revision &&
             m_verified_move_arc->cost_revision == m_run.costs.revision &&
             m_verified_move_arc->resources_revision == m_run.resources_revision &&
-            m_verified_move_arc->viewport_revision == m_viewport.viewport_revision() &&
+            m_verified_move_arc->viewport_revision == m_map_version.coordinates.viewport_revision() &&
             m_transaction->preview().has_value() &&
             m_verified_move_arc->exact_action_point_cost == m_transaction->preview()->exact_action_point_cost;
         if (!verified) {
@@ -1770,14 +1800,17 @@ bool BlackFlowSession::commit(EnteredPageObservation entered_page, std::string* 
         }
     }
 
-    const bool committed = m_transaction->commit(m_map.snapshot().revision, m_viewport.viewport_revision(), error);
+    const bool committed = m_transaction->commit(
+        m_map_version.map.snapshot().revision,
+        m_map_version.coordinates.viewport_revision(),
+        error);
     if (!committed) {
         return false;
     }
 
     const MoveCandidate& proposal = m_transaction->proposal();
     const NodeId page_node = proposal.controllable ? proposal.target : InvalidNodeId;
-    const Node* target = page_node == InvalidNodeId ? nullptr : m_map.snapshot().find_node(page_node);
+    const Node* target = page_node == InvalidNodeId ? nullptr : m_map_version.map.snapshot().find_node(page_node);
     if (target != nullptr && (target->type == NodeType::Empty || is_transfer_node(target->type))) {
         if (!m_transaction->mark_page_resolved(error)) {
             return false;
@@ -1892,7 +1925,7 @@ bool BlackFlowSession::completed_page_changes_floor() const noexcept
 std::optional<int> BlackFlowSession::remaining_route_battles(const MoveCandidate& move) const
 {
     if (!m_last_plan.has_value() || !m_policy.has_value() || !move.controllable ||
-        m_last_plan->map_revision != m_map.snapshot().revision || m_last_plan->cost_revision != m_run.costs.revision) {
+        m_last_plan->map_revision != m_map_version.map.snapshot().revision || m_last_plan->cost_revision != m_run.costs.revision) {
         return std::nullopt;
     }
     const PolicyDecision& decision = m_last_plan->decision;
@@ -1914,7 +1947,7 @@ std::optional<int> BlackFlowSession::remaining_route_battles(const MoveCandidate
     int battles = 0;
     for (std::size_t index = 0; index < steps.size(); ++index) {
         const MoveCandidate& step = steps[index].move;
-        const Node* node = m_map.snapshot().find_node(step.target);
+        const Node* node = m_map_version.map.snapshot().find_node(step.target);
         if (!step.controllable || step.source != previous || node == nullptr || node->floor != m_run.floor ||
             (index > 0 && node->identity_state != NodeIdentityState::Classified)) {
             return std::nullopt;
@@ -1927,9 +1960,9 @@ std::optional<int> BlackFlowSession::remaining_route_battles(const MoveCandidate
         previous = step.landing;
     }
     const MoveCandidate& last = steps.back().move;
-    const Node* endpoint = m_map.snapshot().find_node(last.target);
+    const Node* endpoint = m_map_version.map.snapshot().find_node(last.target);
     const StrategyGoals goals =
-        strategy_goals_for(*m_policy, m_mission, m_facts.merged(), m_map.snapshot(), m_run.floor);
+        strategy_goals_for(*m_policy, m_mission, m_facts.merged(), m_map_version.map.snapshot(), m_run.floor);
     if (!last.terminal_on_completion && !is_exit_node_type(endpoint->type) &&
         !goals.terminal_nodes.contains(last.target)) {
         return std::nullopt;

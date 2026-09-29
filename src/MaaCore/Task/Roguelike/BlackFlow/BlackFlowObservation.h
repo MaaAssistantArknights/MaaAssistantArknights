@@ -51,6 +51,7 @@ struct BlackFlowMapObservation
     ObservationCoverage coverage = ObservationCoverage::FullMap;
     std::vector<GridPosition> covered_positions;
     bool recognition_ok = false;
+    bool allow_exit_supplement = true;
     bool graph_connected = false;
     int current_marker_temporary_id = -1;
     double current_marker_score = 0.0;
@@ -61,6 +62,8 @@ struct BlackFlowMapObservation
     std::int64_t artifact_io_us = 0;
     int attempt_count = 0;
     int retry_count = 0;
+    int rows = 0;
+    int columns = 0;
 };
 
 struct PerceptionSummary
@@ -68,15 +71,13 @@ struct PerceptionSummary
     std::string observation_id;
     int floor = 0;
     bool floor_from_ocr = false;
-    std::size_t node_count = 0;
-    std::size_t confirmed_edge_count = 0;
-    std::size_t forced_edge_count = 0;
-    std::size_t unclassified_count = 0;
     NodeId current_node = InvalidNodeId;
     std::int64_t screenshot_us = 0;
     std::int64_t recognition_us = 0;
     int attempt_count = 0;
     int retry_count = 0;
+    int rows = 0;
+    int columns = 0;
 };
 
 struct NormalizedPerceptionObservation
@@ -96,6 +97,6 @@ public:
         normalize(const BlackFlowMapObservation& source, std::string* error = nullptr) const;
 
     [[nodiscard]] static std::optional<NodeType> map_node_type(std::string_view perception_type) noexcept;
-    [[nodiscard]] static std::vector<GridPosition> expected_grid_positions(int floor);
+    [[nodiscard]] static std::vector<GridPosition> expected_grid_positions(int floor, int columns = 0);
 };
 } // namespace asst::blackflow

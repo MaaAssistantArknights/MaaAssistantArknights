@@ -56,10 +56,15 @@ std::optional<NodeType> BlackFlowObservationAdapter::map_node_type(std::string_v
     return node_type_from_string(type);
 }
 
-std::vector<GridPosition> BlackFlowObservationAdapter::expected_grid_positions(int floor)
+std::vector<GridPosition> BlackFlowObservationAdapter::expected_grid_positions(int floor, int columns)
 {
     std::vector<GridPosition> result;
-    const auto profile = perception::floor_profile(floor);
+    auto profile = perception::floor_profile(floor);
+    if (columns != 0) {
+        const auto profiles = perception::floor_profiles(floor);
+        const auto found = std::ranges::find(profiles, columns, &perception::FloorProfile::columns);
+        profile = found == profiles.end() ? std::nullopt : std::optional(*found);
+    }
     if (!profile.has_value()) {
         return result;
     }
@@ -88,12 +93,20 @@ std::optional<NormalizedPerceptionObservation>
         return std::nullopt;
     }
 
+    if (source.rows != 0 || source.columns != 0) {
+        if (!perception::is_supported_floor_grid(source.floor, source.rows, source.columns)) {
+            if (error != nullptr) {
+                *error = "perception result has unsupported grid dimensions";
+            }
+            return std::nullopt;
+        }
+    }
     NormalizedPerceptionObservation result;
     result.map.floor = source.floor;
     result.map.coverage = source.coverage;
     result.map.covered_positions = source.covered_positions;
     if (result.map.coverage == ObservationCoverage::FullMap && result.map.covered_positions.empty()) {
-        result.map.covered_positions = expected_grid_positions(source.floor);
+        result.map.covered_positions = expected_grid_positions(source.floor, source.columns);
     }
     result.hud_action_points = source.hud_action_points;
     result.viewport_revision = source.viewport_revision;
@@ -104,6 +117,8 @@ std::optional<NormalizedPerceptionObservation>
     result.summary.recognition_us = source.recognition_us;
     result.summary.attempt_count = source.attempt_count;
     result.summary.retry_count = source.retry_count;
+    result.summary.rows = source.rows;
+    result.summary.columns = source.columns;
 
     const PerceptionNodeObservation* inferred_shop = infer_first_floor_shop(source);
     std::unordered_map<int, const PerceptionNodeObservation*> by_temporary_id;
@@ -155,10 +170,6 @@ std::optional<NormalizedPerceptionObservation>
                     source_node.confidence,
                 });
         }
-        ++result.summary.node_count;
-        if (source_node.type == "unclassified") {
-            ++result.summary.unclassified_count;
-        }
     }
 
     const auto current = stable_ids.find(source.current_marker_temporary_id);
@@ -197,12 +208,6 @@ std::optional<NormalizedPerceptionObservation>
                     source_edge.decision_source,
                 },
             });
-        if (knowledge == EdgeKnowledge::Confirmed) {
-            ++result.summary.confirmed_edge_count;
-        }
-        if (source_edge.forced_by_connectivity_constraint) {
-            ++result.summary.forced_edge_count;
-        }
     }
     return result;
 }
