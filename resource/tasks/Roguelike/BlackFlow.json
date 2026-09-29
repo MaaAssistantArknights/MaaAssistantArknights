@@ -520,7 +520,8 @@
     },
     "BlackFlow@Roguelike@EnterAfterRecruit": {
         "template": "BlackFlow@Roguelike@EnterAfterRecruit.png",
-        "roi": [1040, 240, 240, 179]
+        "roi": [1040, 240, 240, 179],
+        "next": ["#self", "BlackFlow@Roguelike@NextLevel-Enter#next"]
     },
     "BlackFlow@Roguelike@EnteredPageClassification": {
         "algorithm": "OcrDetect",
