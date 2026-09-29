@@ -1431,12 +1431,22 @@ bool update_oper_avatars(const fs::path& avatar_dir, const std::set<std::string>
     }
 
     // 上游已不存在的干员头像一并移除，避免资源目录残留
+    // kept 为空或删除量达到保留量时判定上游数据异常，中止并报错，防止把大量正常头像当孤儿误删
+    if (kept_ids.empty()) {
+        std::cerr << "No valid operator avatars kept, upstream data may be broken, aborting orphan removal\n";
+        return false;
+    }
     int removed = 0;
     for (const auto& entry : fs::directory_iterator(output_dir)) {
         if (!entry.is_regular_file() || entry.path().extension() != ".png") {
             continue;
         }
         if (!kept_ids.contains(entry.path().stem().string())) {
+            if (removed >= static_cast<int>(kept_ids.size())) {
+                std::cerr << "Orphan avatar removal reached kept avatar count (" << kept_ids.size()
+                          << "), upstream data may be broken, aborting orphan removal\n";
+                return false;
+            }
             std::error_code remove_ec;
             if (fs::remove(entry.path(), remove_ec) && !remove_ec) {
                 ++removed;
