@@ -1597,7 +1597,7 @@ public class AsstProxy
                     }
 
                     // Instances.TaskQueueViewModel.CheckAndShutdown();
-                    _ = Instances.TaskQueueViewModel.CheckAfterCompleted();
+                    _ = Instances.TaskQueueViewModel.CheckAfterCompleted(hasTaskErrors);
 
                     if (Instances.OverlayViewModel.IsCreated)
                     {

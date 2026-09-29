@@ -539,14 +539,15 @@ public class TaskQueueViewModel : Screen
     /// 自然完成后的收尾：执行结束脚本后执行完成后动作。仅由 <see cref="AsstProxy"/> 的
     /// <c>AllTasksCompleted</c> 回调调用，结束脚本恒执行。
     /// </summary>
+    /// <param name="hasErrorTask">存在出错的任务</param>
     /// <returns>Task</returns>
-    public async Task CheckAfterCompleted()
+    public async Task CheckAfterCompleted(bool hasErrorTask = false)
     {
         RunningState.Instance.LockInterrupt();
         try
         {
             await RunStopScriptOnceAsync();
-            await RunPostActionsCoreAsync();
+            await RunPostActionsCoreAsync(hasErrorTask);
         }
         finally
         {
@@ -571,7 +572,7 @@ public class TaskQueueViewModel : Screen
         }
     }
 
-    private async Task RunPostActionsCoreAsync()
+    private async Task RunPostActionsCoreAsync(bool hasErrorTask = false)
     {
         // per-run 幂等：时长上限到点停止与 AllTasksCompleted 自然完成赛跑时只执行一次
         if (Interlocked.CompareExchange(ref _postActionsLaunched, 1, 0) is not 0)
@@ -582,12 +583,10 @@ public class TaskQueueViewModel : Screen
         var actions = PostActionSetting;
         _logger.Information("Post actions: " + actions.ActionDescription);
 
-        var failedTasks = GetFailedTaskNames();
-        if (actions.SkipOnError && failedTasks.Length > 0)
+        if (actions.SkipOnError && hasErrorTask)
         {
-            var failedTasksText = string.Join(", ", failedTasks);
-            _logger.Information("Post actions skipped, failed tasks: {FailedTasks}", failedTasksText);
-            AddLog(LocalizationHelper.GetStringFormat("PostActionSkippedDueToError", failedTasksText), UiLogColor.Warning);
+            _logger.Information("Post actions skipped, due to error tasks");
+            AddLog(LocalizationHelper.GetStringFormat("PostActionSkippedDueToError"), UiLogColor.Warning);
 
             // 仍需还原 ｢仅当次｣ 的临时勾选，保持与正常路径一致
             actions.LoadPostActions();
