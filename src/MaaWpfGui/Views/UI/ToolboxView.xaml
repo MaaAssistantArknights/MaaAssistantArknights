@@ -440,7 +440,7 @@
                                                                     HorizontalAlignment="Left"
                                                                     Background="#AA1F1F1F"
                                                                     CornerRadius="3"
-                                                                    ToolTip="{Binding Role}">
+                                                                    ToolTip="{Binding RoleString}">
                                                                     <Image Margin="1" Source="{Binding RoleIcon}" Stretch="Uniform" />
                                                                 </Border>
                                                                 <controls:TextBlock
@@ -554,7 +554,7 @@
                                                                     HorizontalAlignment="Left"
                                                                     Background="#AA1F1F1F"
                                                                     CornerRadius="3"
-                                                                    ToolTip="{Binding Role}">
+                                                                    ToolTip="{Binding RoleString}">
                                                                     <Image Margin="1" Source="{Binding RoleIcon}" Stretch="Uniform" />
                                                                 </Border>
                                                                 <controls:TextBlock

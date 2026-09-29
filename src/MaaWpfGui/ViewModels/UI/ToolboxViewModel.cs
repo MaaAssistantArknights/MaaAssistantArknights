@@ -1339,6 +1339,11 @@ public class ToolboxViewModel : Screen
         public OperatorRole Role => DataHelper.GetCharacterById(Id)?.Role ?? OperatorRole.Unknown;
 
         /// <summary>
+        /// Gets 职业的本地化名称（供职业图标 tooltip 等展示），职业无法识别（Unknown）时为 <c>null</c>（不显示 tooltip）
+        /// </summary>
+        public string? RoleString => Role == OperatorRole.Unknown ? null : LocalizationHelper.GetString(Role.ToString());
+
+        /// <summary>
         /// Gets 职业图标（复用识别用职业旗标模板，无图标时为 null）
         /// </summary>
         public BitmapSource? RoleIcon => OperAvatarHelper.GetRoleIcon(Role);
