@@ -1309,6 +1309,11 @@ public class ToolboxViewModel : Screen
         public string RarityStars => (IsPallas && Level > 0) ? LocalizationHelper.GetPallasString(6, 6) : new('★', Rarity);
 
         /// <summary>
+        /// Gets 星级文本的字号：帕拉斯的星级为 6 个 emoji，宽度远超同字号的星字符——文字模式会经共享卡宽行为抬升整行卡宽，头像模式则撑爆顶行，故帕拉斯单独缩小
+        /// </summary>
+        public double RarityStarsFontSize => IsPallas ? 7 : 10;
+
+        /// <summary>
         /// Gets the path to the Elite icon image
         /// </summary>
         public string EliteIconPath => $"/Res/Img/Operator/Elite_{Elite}.png";
@@ -1447,6 +1452,16 @@ public class ToolboxViewModel : Screen
 
     private const int OperBoxRowSize = 5;
 
+    /// <summary>
+    /// 头像卡片每行列数：格子比纯文字卡片小，同宽一行可多容纳一列。
+    /// </summary>
+    private const int OperBoxAvatarRowSize = 6;
+
+    /// <summary>
+    /// Gets 当前模式的每行元素数，行分组与 UniformGrid 列数共用：两者必须同源，否则行末会留空格。
+    /// </summary>
+    private int OperBoxCurrentRowSize => OperBoxAvatarMode ? OperBoxAvatarRowSize : OperBoxRowSize;
+
     private ObservableCollection<Operator> _operBoxHaveList = [];
 
     public ObservableCollection<Operator> OperBoxHaveList
@@ -1474,7 +1489,7 @@ public class ToolboxViewModel : Screen
         private set => SetAndNotify(ref _operBoxHaveRows, value);
     }
 
-    public int OperBoxHaveColumnCount => GetColumnCount(OperBoxHaveList.Count, OperBoxRowSize);
+    public int OperBoxHaveColumnCount => GetColumnCount(OperBoxHaveList.Count, OperBoxCurrentRowSize);
 
     private ObservableCollection<Operator> _operBoxNotHaveList = [];
 
@@ -1503,7 +1518,7 @@ public class ToolboxViewModel : Screen
         private set => SetAndNotify(ref _operBoxNotHaveRows, value);
     }
 
-    public int OperBoxNotHaveColumnCount => GetColumnCount(OperBoxNotHaveList.Count, OperBoxRowSize);
+    public int OperBoxNotHaveColumnCount => GetColumnCount(OperBoxNotHaveList.Count, OperBoxCurrentRowSize);
 
     private void InitializeOperBoxRowPresentation()
     {
@@ -1511,27 +1526,71 @@ public class ToolboxViewModel : Screen
         _operBoxNotHaveList.CollectionChanged += OperBoxNotHaveListCollectionChanged;
         RefreshOperBoxHaveRows();
         RefreshOperBoxNotHaveRows();
+
+        // 缓存加载发生在订阅 CollectionChanged 之前，启动路径不会触发预热，这里补一次
+        ScheduleOperBoxAvatarWarmUp();
     }
 
     private void OperBoxHaveListCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         RefreshOperBoxHaveRows();
+        ScheduleOperBoxAvatarWarmUp();
     }
 
     private void OperBoxNotHaveListCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         RefreshOperBoxNotHaveRows();
+        ScheduleOperBoxAvatarWarmUp();
+    }
+
+    private CancellationTokenSource? _operBoxAvatarWarmUpCts;
+
+    /// <summary>
+    /// 列表就绪或变化后在后台预解码全部干员头像填充缓存，滚动新行实例化时绑定只走缓存，
+    /// 避免头像按需解码（磁盘 IO + PNG 解码）落在 UI 线程造成滚动卡顿。
+    /// </summary>
+    private void ScheduleOperBoxAvatarWarmUp()
+    {
+        // 先在 UI 线程快照 id 再后台解码，避免后台枚举正被 UI 修改的集合
+        var haveIds = OperBoxHaveList.Select(o => o.Id).ToList();
+        var notHaveIds = OperBoxNotHaveList.Select(o => o.Id).ToList();
+        _operBoxAvatarWarmUpCts?.Cancel();
+        var token = (_operBoxAvatarWarmUpCts = new CancellationTokenSource()).Token;
+        _ = Task.Run(
+            () =>
+            {
+                foreach (var id in haveIds)
+                {
+                    if (token.IsCancellationRequested)
+                    {
+                        return;
+                    }
+
+                    OperAvatarHelper.GetOperAvatar(id);
+                }
+
+                foreach (var id in notHaveIds)
+                {
+                    if (token.IsCancellationRequested)
+                    {
+                        return;
+                    }
+
+                    OperAvatarHelper.GetOperAvatar(id, desaturated: true);
+                }
+            },
+            token);
     }
 
     private void RefreshOperBoxHaveRows()
     {
-        OperBoxHaveRows = BuildRows(OperBoxHaveList, OperBoxRowSize);
+        OperBoxHaveRows = BuildRows(OperBoxHaveList, OperBoxCurrentRowSize);
         NotifyOfPropertyChange(nameof(OperBoxHaveColumnCount));
     }
 
     private void RefreshOperBoxNotHaveRows()
     {
-        OperBoxNotHaveRows = BuildRows(OperBoxNotHaveList, OperBoxRowSize);
+        OperBoxNotHaveRows = BuildRows(OperBoxNotHaveList, OperBoxCurrentRowSize);
         NotifyOfPropertyChange(nameof(OperBoxNotHaveColumnCount));
     }
 
@@ -1959,6 +2018,8 @@ public class ToolboxViewModel : Screen
         get; set {
             SetAndNotify(ref field, value);
             ConfigFactory.CurrentConfig.Toolbox.OperBoxAvatarMode = value;
+            RefreshOperBoxHaveRows();
+            RefreshOperBoxNotHaveRows();
         }
     } = ConfigFactory.CurrentConfig.Toolbox.OperBoxAvatarMode;
 

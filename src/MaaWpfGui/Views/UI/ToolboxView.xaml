@@ -18,21 +18,15 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <!--  头像卡片的 16px 专精品字圆标（与其他信息 chip 匹配）：按 0.5 像素对齐网格直绘，勿改值或换回 Viewbox 缩放（小圆会渲染成椭圆）  -->
+        <!--  头像卡片的 12px 专精品字圆标：按 0.5 像素对齐网格直绘，勿改值或换回 Viewbox 缩放（小圆会渲染成椭圆）  -->
         <DataTemplate x:Key="OperMasteryBadgeLargeTemplate">
             <Canvas
-                Width="16"
-                Height="16"
+                Width="12"
+                Height="12"
                 Margin="2,0"
                 SnapsToDevicePixels="True"
                 UseLayoutRounding="True">
-                <Canvas.Effect>
-                    <DropShadowEffect
-                        BlurRadius="8"
-                        Opacity="0.5"
-                        ShadowDepth="1"
-                        Color="Black" />
-                </Canvas.Effect>
+
                 <Canvas.Resources>
                     <Style x:Key="MasteryLargeTopDotStyle" TargetType="Ellipse">
                         <Setter Property="Fill" Value="{DynamicResource OperBox.MasteryOffBrush}" />
@@ -60,22 +54,22 @@
                     </Style>
                 </Canvas.Resources>
                 <Ellipse
-                    Canvas.Left="5"
+                    Canvas.Left="4"
                     Canvas.Top="1"
-                    Width="6"
-                    Height="6"
+                    Width="4"
+                    Height="4"
                     Style="{StaticResource MasteryLargeTopDotStyle}" />
                 <Ellipse
-                    Canvas.Left="9"
-                    Canvas.Top="9"
-                    Width="6"
-                    Height="6"
+                    Canvas.Left="7"
+                    Canvas.Top="6"
+                    Width="4"
+                    Height="4"
                     Style="{StaticResource MasteryLargeBottomRightDotStyle}" />
                 <Ellipse
                     Canvas.Left="1"
-                    Canvas.Top="9"
-                    Width="6"
-                    Height="6"
+                    Canvas.Top="6"
+                    Width="4"
+                    Height="4"
                     Style="{StaticResource MasteryLargeBottomLeftDotStyle}" />
             </Canvas>
         </DataTemplate>
@@ -109,6 +103,8 @@
             <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True" />
             <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel" />
             <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling" />
+            <Setter Property="VirtualizingPanel.CacheLength" Value="2" />
+            <Setter Property="VirtualizingPanel.CacheLengthUnit" Value="Page" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ListBox}">
@@ -369,24 +365,19 @@
                     <TabControl.ContentTemplate>
                         <DataTemplate>
                             <!--
-                                同外层：内容为内联 UIElement，需还原 DataContext 并单独从 ContentPresenter 取内容；
-                                方向由内层选中索引推导
+                                此处不用过渡动画控件：其内容处理成本随卡片数量增长，数百张卡时页签切换会冻结数十秒；
+                                透明度淡入实测也会拖累列表滚动，故直接呈现。DataContext 还原逻辑同外层 ContentTemplate
                             -->
-                            <controls:TransitioningContentControl
-                                HorizontalContentAlignment="Stretch"
-                                VerticalContentAlignment="Stretch"
+                            <ContentPresenter
                                 Content="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ContentPresenter}}"
-                                DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                IsTabStop="False"
-                                TransitionIndex="{Binding SelectedIndex, RelativeSource={RelativeSource AncestorType=TabControl}}"
-                                TransitionPriority="2" />
+                                DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}" />
                         </DataTemplate>
                     </TabControl.ContentTemplate>
                     <TabItem
                         Header="{c:Binding OperBoxNotHaveList.Count}"
                         HeaderStringFormat="{DynamicResource OperBoxNotHaveList}"
                         Visibility="{c:Binding 'OperBoxNotHaveList.Count != 0'}">
-                        <ListBox
+                        <controls:AutomationSuppressedListBox
                             d:ItemsSource="{d:SampleData ItemCount=3}"
                             uiBehaviors:SharedCardWidthBehavior.ColumnCount="{Binding OperBoxNotHaveColumnCount}"
                             uiBehaviors:SharedCardWidthBehavior.EnableScope="True"
@@ -407,27 +398,31 @@
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <Border
+                                                <controls:OperCardBorder
                                                     x:Name="OperCard"
                                                     MinWidth="{Binding Path=(uiBehaviors:SharedCardWidthBehavior.SharedMinWidth), RelativeSource={RelativeSource AncestorType=ListBox}}"
                                                     MinHeight="70"
                                                     MaxWidth="{Binding Path=(uiBehaviors:SharedCardWidthBehavior.WidthLimit), RelativeSource={RelativeSource AncestorType=ListBox}}"
                                                     Margin="5"
                                                     Padding="10,5"
-                                                    uiBehaviors:SharedCardWidthBehavior.TrackWidth="True"
                                                     Background="{DynamicResource RegionBrushOpacity50}"
                                                     BorderBrush="{DynamicResource BorderBrush}"
                                                     BorderThickness="1"
                                                     CornerRadius="4">
                                                     <Grid>
                                                         <!--  未拥有干员用半透明灰底 + 降饱和头像  -->
-                                                        <Grid x:Name="AvatarLayout" Visibility="Collapsed" ToolTip="{Binding Name}">
+                                                        <!--  头像层固定宽度 92：头像 72 居中，右缘约 20 留给竖排模组徽章；头像卡宽度由此层撑起  -->
+                                                        <Grid
+                                                            Width="92"
+                                                            x:Name="AvatarLayout"
+                                                            Visibility="Collapsed"
+                                                            ToolTip="{Binding Name}">
                                                             <Border
                                                                 Background="#99808080"
                                                                 CornerRadius="3" />
                                                             <Image
-                                                                Width="96"
-                                                                Height="96"
+                                                                Width="72"
+                                                                Height="72"
                                                                 HorizontalAlignment="Center"
                                                                 VerticalAlignment="Center"
                                                                 Source="{Binding Avatar}"
@@ -435,8 +430,8 @@
                                                             <!--  顶行：职业 + 星级  -->
                                                             <Grid VerticalAlignment="Top" Margin="4,3">
                                                                 <Border
-                                                                    Width="18"
-                                                                    Height="18"
+                                                                    Width="14"
+                                                                    Height="14"
                                                                     HorizontalAlignment="Left"
                                                                     Background="#AA1F1F1F"
                                                                     CornerRadius="3"
@@ -445,7 +440,7 @@
                                                                 </Border>
                                                                 <controls:TextBlock
                                                                     HorizontalAlignment="Center"
-                                                                    FontSize="10"
+                                                                    FontSize="{Binding RarityStarsFontSize}"
                                                                     Foreground="White"
                                                                     Text="{Binding RarityStars}">
                                                                     <controls:TextBlock.Effect>
@@ -471,18 +466,22 @@
                                                         <controls:TextBlock
                                                             HorizontalAlignment="Center"
                                                             uiBehaviors:ResourceReferenceHelper.ForegroundResourceKey="{Binding RarityColorResourceKey}"
-                                                            FontSize="11"
+                                                            FontSize="{Binding RarityStarsFontSize}"
                                                             Text="{Binding RarityStars}"
                                                             TextAlignment="Center" />
                                                     </StackPanel>
                                                     </Grid>
-                                                </Border>
+                                                </controls:OperCardBorder>
                                                 <DataTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding DataContext.OperBoxAvatarMode, RelativeSource={RelativeSource AncestorType=ListBox}}" Value="False">
+                                                        <!--  仅文字卡参与共享宽度追踪：头像卡宽度由头像层固定，且滚动新行实例化的中间态会污染 ActualWidth 导致列表越滚越宽，故头像模式不启用  -->
+                                                        <Setter TargetName="OperCard" Property="uiBehaviors:SharedCardWidthBehavior.TrackWidth" Value="True" />
+                                                    </DataTrigger>
                                                     <DataTrigger Binding="{Binding DataContext.OperBoxAvatarMode, RelativeSource={RelativeSource AncestorType=ListBox}}" Value="True">
                                                         <Setter TargetName="ContentPanel" Property="Visibility" Value="Collapsed" />
                                                         <Setter TargetName="AvatarLayout" Property="Visibility" Value="Visible" />
                                                         <Setter TargetName="OperCard" Property="Padding" Value="0" />
-                                                        <Setter TargetName="OperCard" Property="MinHeight" Value="100" />
+                                                        <Setter TargetName="OperCard" Property="MinHeight" Value="82" />
                                                     </DataTrigger>
                                                     <!--  置于末尾以获得最高优先级：头像缺失时回退纯文字卡片  -->
                                                     <DataTrigger Binding="{Binding Avatar}" Value="{x:Null}">
@@ -497,10 +496,10 @@
                                     </ItemsControl>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
-                        </ListBox>
+                        </controls:AutomationSuppressedListBox>
                     </TabItem>
                     <TabItem Header="{c:Binding OperBoxHaveList.Count}" HeaderStringFormat="{DynamicResource OperBoxHaveList}">
-                        <ListBox
+                        <controls:AutomationSuppressedListBox
                             d:ItemsSource="{d:SampleData ItemCount=3}"
                             uiBehaviors:SharedCardWidthBehavior.ColumnCount="{Binding OperBoxHaveColumnCount}"
                             uiBehaviors:SharedCardWidthBehavior.EnableScope="True"
@@ -521,27 +520,31 @@
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <Border
+                                                <controls:OperCardBorder
                                                     x:Name="OperCard"
                                                     MinWidth="{Binding Path=(uiBehaviors:SharedCardWidthBehavior.SharedMinWidth), RelativeSource={RelativeSource AncestorType=ListBox}}"
                                                     MinHeight="70"
                                                     MaxWidth="{Binding Path=(uiBehaviors:SharedCardWidthBehavior.WidthLimit), RelativeSource={RelativeSource AncestorType=ListBox}}"
                                                     Margin="5"
                                                     Padding="10,5"
-                                                    uiBehaviors:SharedCardWidthBehavior.TrackWidth="True"
                                                     Background="{DynamicResource RegionBrushOpacity25}"
                                                     BorderBrush="{DynamicResource BorderBrush}"
                                                     BorderThickness="1"
                                                     CornerRadius="4">
                                                     <Grid>
                                                         <!--  稀有度底色 + 居中头像 + 一图流式布局  -->
-                                                        <Grid x:Name="AvatarLayout" Visibility="Collapsed" ToolTip="{Binding Name}">
+                                                        <!--  头像层固定宽度 92：头像 72 居中，右缘约 20 留给竖排模组徽章；头像卡宽度由此层撑起  -->
+                                                        <Grid
+                                                            Width="92"
+                                                            x:Name="AvatarLayout"
+                                                            Visibility="Collapsed"
+                                                            ToolTip="{Binding Name}">
                                                             <Border
                                                                 CornerRadius="3"
                                                                 uiBehaviors:ResourceReferenceHelper.BackgroundResourceKey="{Binding RarityColorResourceKey}" />
                                                             <Image
-                                                                Width="96"
-                                                                Height="96"
+                                                                Width="72"
+                                                                Height="72"
                                                                 HorizontalAlignment="Center"
                                                                 VerticalAlignment="Center"
                                                                 Source="{Binding Avatar}"
@@ -549,8 +552,8 @@
                                                             <!--  顶行：职业 + 星级  -->
                                                             <Grid VerticalAlignment="Top" Margin="4,3">
                                                                 <Border
-                                                                    Width="18"
-                                                                    Height="18"
+                                                                    Width="14"
+                                                                    Height="14"
                                                                     HorizontalAlignment="Left"
                                                                     Background="#AA1F1F1F"
                                                                     CornerRadius="3"
@@ -559,7 +562,7 @@
                                                                 </Border>
                                                                 <controls:TextBlock
                                                                     HorizontalAlignment="Center"
-                                                                    FontSize="10"
+                                                                    FontSize="{Binding RarityStarsFontSize}"
                                                                     Foreground="White"
                                                                     Text="{Binding RarityStars}">
                                                                     <controls:TextBlock.Effect>
@@ -583,8 +586,8 @@
                                                                     CornerRadius="3"
                                                                     ToolTip="{Binding Potential}">
                                                                     <Image
-                                                                        Width="14"
-                                                                        Height="14"
+                                                                        Width="11"
+                                                                        Height="11"
                                                                         Source="{Binding PotentialIconPath}" />
                                                                 </Border>
                                                                 <Border
@@ -595,8 +598,8 @@
                                                                     CornerRadius="3"
                                                                     ToolTip="{Binding Elite}">
                                                                     <Image
-                                                                        Width="14"
-                                                                        Height="14"
+                                                                        Width="11"
+                                                                        Height="11"
                                                                         Source="{Binding EliteIconPath}" />
                                                                 </Border>
                                                                 <Border
@@ -605,8 +608,8 @@
                                                                     Background="#AA1F1F1F"
                                                                     CornerRadius="3">
                                                                     <controls:TextBlock
-                                                                        Margin="4,1"
-                                                                        FontSize="11"
+                                                                        Margin="2,1"
+                                                                        FontSize="8"
                                                                         Foreground="White"
                                                                         Text="{Binding Level, StringFormat={}Lv.{0}}" />
                                                                 </Border>
@@ -617,23 +620,24 @@
                                                                 HorizontalAlignment="Right"
                                                                 Margin="0,0,4,4">
                                                                 <ItemsControl
-                                                                    HorizontalAlignment="Center"
+                                                                    HorizontalAlignment="Right"
                                                                     ItemsSource="{Binding ModBadges}"
                                                                     Visibility="{c:Binding HasMods}">
                                                                     <ItemsControl.ItemsPanel>
                                                                         <ItemsPanelTemplate>
-                                                                            <StackPanel Orientation="Horizontal" />
+                                                                            <!--  模组徽章沿头像右缘竖排，避免横排换行遮挡头像主体  -->
+                                                                            <StackPanel Orientation="Vertical" />
                                                                         </ItemsPanelTemplate>
                                                                     </ItemsControl.ItemsPanel>
                                                                     <ItemsControl.ItemTemplate>
                                                                         <DataTemplate>
                                                                             <Border
-                                                                                Margin="0,0,1,1"
+                                                                                Margin="0,0,1,0"
                                                                                 Background="#AA1F1F1F"
                                                                                 CornerRadius="3">
                                                                                 <controls:TextBlock
-                                                                                    Margin="4,1"
-                                                                                    FontSize="11"
+                                                                                    Margin="2,1"
+                                                                                    FontSize="8"
                                                                                     FontWeight="SemiBold"
                                                                                     Foreground="White"
                                                                                     Text="{Binding}"
@@ -649,8 +653,8 @@
                                                                     CornerRadius="3"
                                                                     Visibility="{c:Binding ShowRankBadge}">
                                                                     <controls:TextBlock
-                                                                        Margin="4,1"
-                                                                        FontSize="11"
+                                                                        Margin="2,1"
+                                                                        FontSize="8"
                                                                         FontWeight="SemiBold"
                                                                         Foreground="White"
                                                                         Text="{Binding RankText}"
@@ -689,7 +693,7 @@
                                                         <controls:TextBlock
                                                             HorizontalAlignment="Center"
                                                             uiBehaviors:ResourceReferenceHelper.ForegroundResourceKey="{Binding RarityColorResourceKey}"
-                                                            FontSize="11"
+                                                            FontSize="{Binding RarityStarsFontSize}"
                                                             Text="{Binding RarityStars}"
                                                             TextAlignment="Center" />
                                                         <StackPanel
@@ -842,13 +846,17 @@
                                                         </StackPanel>
                                                     </StackPanel>
                                                     </Grid>
-                                                </Border>
+                                                </controls:OperCardBorder>
                                                 <DataTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding DataContext.OperBoxAvatarMode, RelativeSource={RelativeSource AncestorType=ListBox}}" Value="False">
+                                                        <!--  仅文字卡参与共享宽度追踪：头像卡宽度由头像层固定，且滚动新行实例化的中间态会污染 ActualWidth 导致列表越滚越宽，故头像模式不启用  -->
+                                                        <Setter TargetName="OperCard" Property="uiBehaviors:SharedCardWidthBehavior.TrackWidth" Value="True" />
+                                                    </DataTrigger>
                                                     <DataTrigger Binding="{Binding DataContext.OperBoxAvatarMode, RelativeSource={RelativeSource AncestorType=ListBox}}" Value="True">
                                                         <Setter TargetName="ContentPanel" Property="Visibility" Value="Collapsed" />
                                                         <Setter TargetName="AvatarLayout" Property="Visibility" Value="Visible" />
                                                         <Setter TargetName="OperCard" Property="Padding" Value="0" />
-                                                        <Setter TargetName="OperCard" Property="MinHeight" Value="100" />
+                                                        <Setter TargetName="OperCard" Property="MinHeight" Value="82" />
                                                     </DataTrigger>
                                                     <!--  置于末尾以获得最高优先级：头像缺失时回退纯文字卡片  -->
                                                     <DataTrigger Binding="{Binding Avatar}" Value="{x:Null}">
@@ -863,7 +871,7 @@
                                     </ItemsControl>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
-                        </ListBox>
+                        </controls:AutomationSuppressedListBox>
                     </TabItem>
                 </TabControl>
                 <StackPanel
