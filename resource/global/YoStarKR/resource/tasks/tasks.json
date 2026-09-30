@@ -68,7 +68,6 @@
         "text": ["노멀모드", "노멀", "작전진입"]
     },
     "CharsNameOcrReplace": {
-        "Doc": "이 작업의 'ocrReplace'는 오퍼레이터 이름과 관련된 모든 인식 작업에서 사용됩니다",
         "ocrReplace": [
             ["[ $().\"/'—_\\-+=,:《》■~シ]", ""],
             ["드래곤플라이L", "龙腾.L"],
@@ -1183,7 +1182,8 @@
             ["보타니", "伯塔尼"],
             ["우쿠시크", "乌啾"],
             ["지마더레이.{2,4}", "怒潮凛冬"]
-        ]
+        ],
+        "Doc": "이 작업의 'ocrReplace'는 오퍼레이터 이름과 관련된 모든 인식 작업에서 사용됩니다"
     },
     "SwitchAccount@StartUpBegin": {
         "Doc": "Unlike CN, Yostar has no account manager button on the title screen. If already logged in, it must route through YostarUserCenter first to log out.",
@@ -1885,8 +1885,8 @@
         "roi": [62, 90, 46, 22]
     },
     "NumberOcrReplace": {
-        "Doc": "On some emulator/resolution setups, greyed-out Roguelike recruit cards' level digits exceed the default binarization floor and read as recruitable. Raised it from 140 to 160.",
-        "binThreshold": [160, 255]
+        "binThreshold": [160, 255],
+        "Doc": "On some emulator/resolution setups, greyed-out Roguelike recruit cards' level digits exceed the default binarization floor and read as recruitable. Raised it from 140 to 160."
     },
     "DepotMaterialTab": {
         "Doc": "This task should be removed when updating the Depot UI. da5ccfe4edcc3fae14d8a91ec2e19ea6b8241bf2",
