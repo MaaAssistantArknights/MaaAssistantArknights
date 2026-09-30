@@ -1004,7 +1004,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["敌人（1"],
-        "ocrReplace": [["(", "（"]],
+        "ocrReplace": [["\\(", "（"]],
         "roi": [80, 231, 205, 27],
         "next": ["RelaunchAnchor@RA@RA4-SettleNow"]
     },
