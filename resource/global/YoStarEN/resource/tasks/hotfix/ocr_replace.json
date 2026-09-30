@@ -1092,7 +1092,6 @@
     },
     "BattleStageNameHotfix": {
         "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
-        "roi": [250, 435, 800, 100],
         "ocrReplace": [
             ["Mind the Doors", "开门请当心"],
             ["Theft from Above", "大盗当头"],
