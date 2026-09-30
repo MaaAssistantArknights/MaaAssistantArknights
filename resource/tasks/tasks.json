@@ -6476,8 +6476,8 @@
         "roi": [570, 327, 519, 313],
         "rectMove": [314, 4, 84, 23],
         "postDelay": 1000,
-        "doc": "干员精英化第一个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
-        "next": ["MiniGame@MaterialSynthesis@Workshop", "OperProgress@EliteUpMaterial1JumpProcessingSwipe"]
+        "doc": "干员精英化第一个材料跳转加工站按钮",
+        "next": ["MiniGame@MaterialSynthesis@Workshop"]
     },
     "OperProgress@EliteUpMaterial1JumpProcessingSwipe": {
         "algorithm": "JustReturn",
@@ -6498,8 +6498,8 @@
         "baseTask": "OperProgress@EliteUpMaterial1JumpProcessing",
         "template": "QuickJumpProcessing.png",
         "roi": [76, 328, 519, 313],
-        "doc": "干员精英化第二个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
-        "next": ["MiniGame@MaterialSynthesis@Workshop", "OperProgress@EliteUpMaterial2JumpProcessingSwipe"]
+        "doc": "干员精英化第二个材料跳转加工站按钮",
+        "next": ["MiniGame@MaterialSynthesis@Workshop"]
     },
     "OperProgress@EliteUpMaterial2JumpProcessingSwipe": {
         "algorithm": "JustReturn",
@@ -6575,8 +6575,8 @@
         "baseTask": "OperProgress@EliteUpMaterial1JumpProcessing",
         "template": "QuickJumpProcessing.png",
         "roi": [279, 376, 539, 271],
-        "doc": "干员技能升级的技能书跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
-        "next": ["MiniGame@MaterialSynthesis@Workshop", "OperProgress@SkillUpMaterial0JumpProcessingSwipe"]
+        "doc": "干员技能升级的技能书跳转加工站按钮",
+        "next": ["MiniGame@MaterialSynthesis@Workshop"]
     },
     "OperProgress@SkillUpMaterial0JumpProcessingSwipe": {
         "algorithm": "JustReturn",
@@ -6597,8 +6597,8 @@
         "baseTask": "OperProgress@EliteUpMaterial1JumpProcessing",
         "template": "QuickJumpProcessing.png",
         "roi": [417, 331, 539, 300],
-        "doc": "干员技能升级第一个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
-        "next": ["MiniGame@MaterialSynthesis@Workshop", "OperProgress@SkillUpMaterial1JumpProcessingSwipe"]
+        "doc": "干员技能升级第一个材料跳转加工站按钮",
+        "next": ["MiniGame@MaterialSynthesis@Workshop"]
     },
     "OperProgress@SkillUpMaterial1JumpProcessingSwipe": {
         "algorithm": "JustReturn",
@@ -6619,8 +6619,8 @@
         "baseTask": "OperProgress@EliteUpMaterial1JumpProcessing",
         "template": "QuickJumpProcessing.png",
         "roi": [555, 324, 539, 317],
-        "doc": "干员技能升级第二个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
-        "next": ["MiniGame@MaterialSynthesis@Workshop", "OperProgress@SkillUpMaterial2JumpProcessingSwipe"]
+        "doc": "干员技能升级第二个材料跳转加工站按钮",
+        "next": ["MiniGame@MaterialSynthesis@Workshop"]
     },
     "OperProgress@SkillUpMaterial2JumpProcessingSwipe": {
         "algorithm": "JustReturn",
@@ -6693,8 +6693,8 @@
         "baseTask": "OperProgress@EliteUpMaterial1JumpProcessing",
         "template": "QuickJumpProcessing.png",
         "roi": [415, 381, 539, 264],
-        "doc": "干员技能专精的技能书跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
-        "next": ["MiniGame@MaterialSynthesis@Workshop", "OperProgress@MasteryMaterial0JumpProcessingSwipe"]
+        "doc": "干员技能专精的技能书跳转加工站按钮",
+        "next": ["MiniGame@MaterialSynthesis@Workshop"]
     },
     "OperProgress@MasteryMaterial0JumpProcessingSwipe": {
         "algorithm": "JustReturn",
@@ -6715,8 +6715,8 @@
         "baseTask": "OperProgress@EliteUpMaterial1JumpProcessing",
         "template": "QuickJumpProcessing.png",
         "roi": [559, 326, 539, 312],
-        "doc": "干员技能专精第一个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
-        "next": ["MiniGame@MaterialSynthesis@Workshop", "OperProgress@MasteryMaterial1JumpProcessingSwipe"]
+        "doc": "干员技能专精第一个材料跳转加工站按钮",
+        "next": ["MiniGame@MaterialSynthesis@Workshop"]
     },
     "OperProgress@MasteryMaterial1JumpProcessingSwipe": {
         "algorithm": "JustReturn",
@@ -6737,8 +6737,8 @@
         "baseTask": "OperProgress@EliteUpMaterial1JumpProcessing",
         "template": "QuickJumpProcessing.png",
         "roi": [68, 325, 539, 312],
-        "doc": "干员技能专精第二个材料跳转加工站按钮，可能存在材料兑换券导致需要滑动后点击",
-        "next": ["MiniGame@MaterialSynthesis@Workshop", "OperProgress@MasteryMaterial2JumpProcessingSwipe"]
+        "doc": "干员技能专精第二个材料跳转加工站按钮",
+        "next": ["MiniGame@MaterialSynthesis@Workshop"]
     },
     "OperProgress@MasteryMaterial2JumpProcessingSwipe": {
         "algorithm": "JustReturn",
