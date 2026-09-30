@@ -1072,7 +1072,7 @@ asst::OperProgressProcessTask::ResultDetail
         LogInfo << __FUNCTION__ << "| formula locked, skip synthesizing" << material_task;
         return ResultDetail::FormulaLocked;
     }
-    if (!run_task(material_task + "JumpProcessing")) {
+    if (!run_task({ material_task + "JumpProcessing", material_task + "JumpProcessingSwipe" })) {
         return ResultDetail::ResourceInsufficient;
     }
     // 加工站递归合成复用小游戏自动合成逻辑：插件入口校验加工站标志并驱动当前配方。
