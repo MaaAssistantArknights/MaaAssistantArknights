@@ -6372,6 +6372,7 @@
     "OperProgress@DualchipBadgeCount": {
         "baseTask": "NumberOcrReplace",
         "doc": "晋升页面芯片icon下方 x/y 的 x 段",
+        "binThreshold": [120, 255],
         "roi": [356, 658, 17, 26]
     },
     "OperProgress@MfgCatalystCount": {
