@@ -4049,7 +4049,7 @@
     },
     "InfrastTrainingCompleted2": {
         "action": "ClickSelf",
-        "roi": [1087, 779, 226, 174],
+        "roi": [725, 510, 155, 149],
         "postDelay": 600,
         "next": ["InfrastTrainingMasteryPage", "InfrastTrainingCompleted2"]
     },
@@ -6532,11 +6532,6 @@
         "action": "ClickSelf",
         "roi": [1150, 349, 87, 91],
         "postDelay": 800
-    },
-    "OperProgress@SkillMaterialMissing": {
-        "baseTask": "OperProgress@EliteUpMaterialMissing",
-        "template": "MaterialMissing.png",
-        "roi": [101, 1001, 713, 26]
     },
     "OperProgress@SkillUpSkillSummaryRequired": {
         "baseTask": "OperProgress@EliteUpMaterialMissing",
