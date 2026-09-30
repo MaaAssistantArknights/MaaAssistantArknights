@@ -6272,7 +6272,7 @@
         "baseTask": "RecruitSkip",
         "template": ["RecruitSkip.png"],
         "reduceOtherTimes": ["OperProgress@EliteUpRecruitSkipWithoutButton*10"],
-        "next": ["OperProgress@EliteUpRecruitSkip", "RecruitSkipWithoutButton"]
+        "next": ["OperProgress@EliteUpRecruitSkip", "OperProgress@EliteUpRecruitSkipWithoutButton"]
     },
     "OperProgress@EliteUpRecruitSkipWithoutButton": {
         "baseTask": "RecruitSkipWithoutButton",
