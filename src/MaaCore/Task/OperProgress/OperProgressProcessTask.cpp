@@ -1067,12 +1067,13 @@ asst::OperProgressProcessTask::ResultDetail
     if (!run_task(material_task)) {
         return ResultDetail::ResourceInsufficient;
     }
+    // TODO: 以后加上自动使用兑换券
     // 快速跳转弹窗内与跳转按钮同 roi 识别到不可用态,说明该材料配方尚未解锁,无法在加工站合成。
     if (run_task(material_task + "JumpProcessingUnable", 2)) {
         LogInfo << __FUNCTION__ << "| formula locked, skip synthesizing" << material_task;
         return ResultDetail::FormulaLocked;
     }
-    if (!run_task(material_task + "JumpProcessing")) {
+    if (!run_task({ material_task + "JumpProcessing", material_task + "JumpProcessingSwipe" })) {
         return ResultDetail::ResourceInsufficient;
     }
     // 加工站递归合成复用小游戏自动合成逻辑：插件入口校验加工站标志并驱动当前配方。
