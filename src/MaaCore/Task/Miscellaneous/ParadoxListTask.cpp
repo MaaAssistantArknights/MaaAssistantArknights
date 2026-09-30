@@ -31,10 +31,12 @@ bool asst::ParadoxListTask::prepare()
             return false;
         }
     }
-    if (!ensure_role_panel_expanded() ||
-        !ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).run()) {
+    if (!ensure_role_panel_expanded()) {
         return false;
     }
+    ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" })
+        .set_retry_times(0)
+        .run();
     if (!ProcessTask(*this, { "OperBoxParadoxSelected" }).set_retry_times(0).run() &&
         !ProcessTask(*this, { "OperBoxOpenParadoxMenu", "OperBoxSelectParadox" }).set_retry_times(3).run()) {
         return false;
