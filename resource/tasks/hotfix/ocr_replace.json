@@ -105,9 +105,10 @@
         ]
     },
     "BattleStageNameHotfix": {
-        "Doc": "结算界面关卡名 OCR 纠错数据体，经 tasks.json 的 BattleStageName 转发引用",
+        "Doc": "结算界面关卡名 OCR 纠错数据体，经 tasks.json 的 BattleStageName 转发引用；外服同名键缺省字段自此继承",
         "algorithm": "OcrDetect",
         "text": [],
+        "roi": [250, 435, 800, 100],
         "ocrReplace": [
             [".*前顾后", "瞻前顾后"],
             [".*命运的宠儿.*", "“命运的宠儿”"],

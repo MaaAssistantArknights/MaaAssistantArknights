@@ -4149,8 +4149,7 @@
         "postDelay": 500
     },
     "BattleStageName": {
-        "Doc": "结算界面关卡名识别；ocrReplace 数据体在 tasks/hotfix/ocr_replace.json（BattleStageNameHotfix），随资源更新分发",
-        "roi": [250, 435, 800, 100],
+        "Doc": "结算界面关卡名识别；ocrReplace 与 roi 数据体在 tasks/hotfix/ocr_replace.json（BattleStageNameHotfix），随资源更新分发",
         "baseTask": "BattleStageNameHotfix"
     },
     "BattleSelectFormation1": {
