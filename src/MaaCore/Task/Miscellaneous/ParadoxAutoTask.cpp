@@ -21,7 +21,7 @@ bool asst::ParadoxAutoTask::set_files(const std::vector<std::pair<int, std::stri
             LogError << "Invalid paradox stage:" << stage;
             return false;
         }
-        const auto suffix = "_" + stage.substr(4, stage.size() - 6);
+        const auto suffix = "_" + stage.substr(4, stage.size() - 7);
         std::string name;
         for (const auto& [char_id, oper] : BattleData.get_all_chars()) {
             if (oper && char_id.starts_with("char_") && char_id.ends_with(suffix) &&
