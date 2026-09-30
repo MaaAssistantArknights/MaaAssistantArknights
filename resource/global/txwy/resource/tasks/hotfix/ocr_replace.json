@@ -1,5 +1,6 @@
 {
     "CharsNameOcrReplaceHotfix": {
+        "Doc": "该任务的 ocrReplace 被所有涉及干员名的繁中识别任务复用，先全字符串匹配再部分匹配",
         "ocrReplace": [
             ["^[_<>]+", ""],
             ["[_<>]+$", ""],
@@ -851,8 +852,7 @@
             ["騎士儲蓄罐", "骑士储蓄罐"],
             ["騎士戒律", "骑士戒律"],
             ["緊急調度券", "紧急调度券"]
-        ],
-        "Doc": "该任务的 ocrReplace 被所有涉及干员名的繁中识别任务复用，先全字符串匹配再部分匹配"
+        ]
     },
     "BattleStageNameHotfix": {
         "Doc": "该任务的 ocrReplace 被所有涉及 Rouge-like 的繁中识别任务复用",
