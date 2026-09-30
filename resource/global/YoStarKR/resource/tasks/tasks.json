@@ -1493,7 +1493,6 @@
         "roi": [150, 585, 365, 70]
     },
     "BattleStageName": {
-        "Doc": "이 작업의 'ocrReplace'는 로그라이크 스테이지 이름과 관련된 모든 인식 작업에서 사용됩니다",
         "ocrReplace": [
             [" ", ""],
             ["원석충과함께", "与虫为伴"],
@@ -1836,7 +1835,8 @@
             ["^건곤$", "定乾坤"],
             ["외적방어", "御外侮"],
             ["곳곳의복음", "遍地福音"]
-        ]
+        ],
+        "Doc": "이 작업의 'ocrReplace'는 로그라이크 스테이지 이름과 관련된 모든 인식 작업에서 사용됩니다"
     },
     "BattleQuickFormationClear": {
         "docs": "Added as Vector Breakthrough formation clear differs from normal formation clear",

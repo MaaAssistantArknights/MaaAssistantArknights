@@ -1390,8 +1390,6 @@
         "roi": [155, 655, 95, 25]
     },
     "BattleStageName": {
-        "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
-        "roi": [250, 435, 800, 100],
         "ocrReplace": [
             ["Mind the Doors", "开门请当心"],
             ["Theft from Above", "大盗当头"],
@@ -1733,7 +1731,9 @@
             ["Defining the World", "定乾坤"],
             ["Repel the Outsiders", "御外侮"],
             ["Omnipresent Gospel", "遍地福音"]
-        ]
+        ],
+        "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
+        "roi": [250, 435, 800, 100]
     },
     "BattleQuickFormationClear": {
         "algorithm": "OcrDetect",

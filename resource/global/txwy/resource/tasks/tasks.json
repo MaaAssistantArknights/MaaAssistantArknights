@@ -1115,7 +1115,6 @@
         "text": ["訓練完成", "完成"]
     },
     "BattleStageName": {
-        "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的繁中识别任务复用",
         "ocrReplace": [
             ["永無.*頭", "永无尽头"],
             ["與蟲為伴", "与虫为伴"],
@@ -1384,7 +1383,8 @@
             ["止變", "止变"],
             ["錄憶", "录忆"],
             ["禦外侮", "御外侮"]
-        ]
+        ],
+        "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的繁中识别任务复用"
     },
     "BattleQuickFormationFilter-Cost": {
         "text": ["部署費用"]
