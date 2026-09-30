@@ -4149,19 +4149,9 @@
         "postDelay": 500
     },
     "BattleStageName": {
-        "algorithm": "OcrDetect",
-        "text": [],
+        "Doc": "结算界面关卡名识别；ocrReplace 数据体在 tasks/hotfix/ocr_replace.json（BattleStageNameHotfix），随资源更新分发",
         "roi": [250, 435, 800, 100],
-        "ocrReplace": [
-            [".*前顾后", "瞻前顾后"],
-            [".*命运的宠儿.*", "“命运的宠儿”"],
-            [".*骑士对决.*", "“骑士对决”"],
-            ["巍峨银.*", "巍峨银凇"],
-            ["猩红.*道", "猩红甬道"],
-            [".*之以利", "啖之以利"],
-            ["((睁)|(峰))蝶战功", "峥嵘战功"],
-            ["夕娅忆", "夕娥忆"]
-        ]
+        "baseTask": "BattleStageNameHotfix"
     },
     "BattleSelectFormation1": {
         "algorithm": "JustReturn",
