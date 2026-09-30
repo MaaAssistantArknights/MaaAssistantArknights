@@ -1003,7 +1003,7 @@
         "doc": "步骤 51：OCR 识别 <敌人(1> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["敌人(1"],
+        "text": ["敌人（1"],
         "ocrReplace": [["(", "（"]],
         "roi": [80, 231, 205, 27],
         "next": ["RelaunchAnchor@RA@RA4-SettleNow"]
