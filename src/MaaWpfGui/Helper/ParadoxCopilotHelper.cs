@@ -13,7 +13,6 @@
 
 #nullable enable
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -63,8 +62,10 @@ public static class ParadoxCopilotHelper
 
         var selected = SelectCandidates(summaries, stages);
         Directory.CreateDirectory(directory);
-        var downloaded = new ConcurrentDictionary<int, Candidate>();
-        await Parallel.ForEachAsync(selected, new ParallelOptions { MaxDegreeOfParallelism = 4, CancellationToken = token }, async (summary, cancellation) => {
+        var downloaded = new List<Candidate>(selected.Count);
+        foreach (var summary in selected)
+        {
+            token.ThrowIfCancellationRequested();
             int id = summary.Value<int>("id");
             string stage = ParseContent(summary)!.Value<string>("stage_name")!;
             string path = Path.GetFullPath(Path.Combine(directory, $"{id}.json"));
@@ -73,7 +74,7 @@ public static class ParadoxCopilotHelper
             {
                 try
                 {
-                    content = JObject.Parse(await File.ReadAllTextAsync(path, cancellation).ConfigureAwait(false));
+                    content = JObject.Parse(await File.ReadAllTextAsync(path, token).ConfigureAwait(false));
                 }
                 catch (JsonException)
                 {
@@ -86,29 +87,29 @@ public static class ParadoxCopilotHelper
 
             if (!IsValidContent(content, stage))
             {
-                var detail = await GetAsync(MaaUrls.PrtsPlusCopilotGet + id, cancellation).ConfigureAwait(false);
+                var detail = await GetAsync(MaaUrls.PrtsPlusCopilotGet + id, token).ConfigureAwait(false);
                 if (detail is not JObject job || !IsPublic(job))
                 {
-                    return;
+                    continue;
                 }
 
                 content = ParseContent(job);
                 if (content is null || content.Value<string>("stage_name") != stage)
                 {
-                    return;
+                    continue;
                 }
 
                 // Valid low-rarity jobs may have no actions (deploy nothing).
                 content["actions"] ??= new JArray();
                 if (!IsValidContent(content, stage))
                 {
-                    return;
+                    continue;
                 }
 
                 string temporary = path + ".tmp";
                 try
                 {
-                    await File.WriteAllTextAsync(temporary, content.ToString(Formatting.Indented), cancellation).ConfigureAwait(false);
+                    await File.WriteAllTextAsync(temporary, content.ToString(Formatting.Indented), token).ConfigureAwait(false);
                     File.Move(temporary, path, overwrite: true);
                 }
                 finally
@@ -117,12 +118,10 @@ public static class ParadoxCopilotHelper
                 }
             }
 
-            downloaded[id] = new Candidate(id, stage, path);
-        }).ConfigureAwait(false);
+            downloaded.Add(new Candidate(id, stage, path));
+        }
 
-        // Concurrent downloads must not change the preference order.
-        return selected.Select(job => job.Value<int>("id"))
-            .Where(downloaded.ContainsKey).Select(id => downloaded[id]).ToList();
+        return downloaded;
     }
 
     internal static List<JObject> SelectCandidates(IEnumerable<JObject> jobs, HashSet<string> stages)
