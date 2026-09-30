@@ -28,9 +28,9 @@ jobs:
           git show -s
 
       # tasks/hotfix 下的数据体随资源更新分发，但客户端按 version.json 的 last_updated 判断有无更新；
-      # 该目录变化时 bump 主仓库 version.json 后直接退出，由 bump commit 的 push 再触发本工作流完成同步
+      # 该目录变化时先把主仓库 version.json bump 并 push 回 dev-v2，再继续下方的正常同步。
+      # bump commit 由 GITHUB_TOKEN push，不会再触发本工作流（GitHub 防循环规则），第二跳不存在
       - name: Bump resource version on hotfix changes
-        id: bump
         env:
           BEFORE: ${{ github.event.before }}
         run: |
@@ -46,11 +46,9 @@ jobs:
               git add resource/version.json
               git commit -m "chore: bump resource version"
               git push
-              echo "bumped=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Checkout MaaResource
-        if: steps.bump.outputs.bumped != 'true'
         uses: actions/checkout@v7
         with:
           repository: MaaAssistantArknights/MaaResource
@@ -59,7 +57,6 @@ jobs:
           path: MaaResource
 
       - name: Update MaaResource
-        if: steps.bump.outputs.bumped != 'true'
         run: |
           export commit_msg=$(git show -s --format=%s)
           cd MaaResource
