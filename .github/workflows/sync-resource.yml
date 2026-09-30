@@ -27,7 +27,30 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git show -s
 
+      # tasks/hotfix 下的数据体随资源更新分发，但客户端按 version.json 的 last_updated 判断有无更新；
+      # 该目录变化时 bump 主仓库 version.json 后直接退出，由 bump commit 的 push 再触发本工作流完成同步
+      - name: Bump resource version on hotfix changes
+        id: bump
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          changed=""
+          if [ -n "$BEFORE" ] && [ "$BEFORE" != "0000000000000000000000000000000000000000" ]; then
+              git fetch origin "$BEFORE" --depth=1 --no-tags || true
+              changed=$(git diff --name-only "$BEFORE" "$GITHUB_SHA" -- resource/tasks/hotfix/ || true)
+          fi
+          if [ -n "$changed" ]; then
+              ts=$(date -u '+%Y-%m-%d %H:%M:%S.000')
+              jq --indent 4 --arg ts "$ts" '.last_updated = $ts' resource/version.json > resource/version.tmp.json
+              mv resource/version.tmp.json resource/version.json
+              git add resource/version.json
+              git commit -m "chore: bump resource version"
+              git push
+              echo "bumped=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Checkout MaaResource
+        if: steps.bump.outputs.bumped != 'true'
         uses: actions/checkout@v7
         with:
           repository: MaaAssistantArknights/MaaResource
@@ -36,6 +59,7 @@ jobs:
           path: MaaResource
 
       - name: Update MaaResource
+        if: steps.bump.outputs.bumped != 'true'
         run: |
           export commit_msg=$(git show -s --format=%s)
           cd MaaResource
