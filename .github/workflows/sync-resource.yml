@@ -27,8 +27,8 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git show -s
 
-      # tasks/hotfix 下的数据体随资源更新分发，但客户端按 version.json 的 last_updated 判断有无更新；
-      # 该目录变化时先把主仓库 version.json bump 并 push 回 dev-v2，再继续下方的正常同步。
+      # 国服与各外服 tasks/hotfix 下的数据体随资源更新分发，但客户端按 version.json 的 last_updated 判断有无更新；
+      # 这些目录变化时先把主仓库 version.json bump 并 push 回 dev-v2，再继续下方的正常同步。
       # bump commit 由 GITHUB_TOKEN push，不会再触发本工作流（GitHub 防循环规则），第二跳不存在
       - name: Bump resource version on hotfix changes
         env:
@@ -37,7 +37,7 @@ jobs:
           changed=""
           if [ -n "$BEFORE" ] && [ "$BEFORE" != "0000000000000000000000000000000000000000" ]; then
               git fetch origin "$BEFORE" --depth=1 --no-tags || true
-              changed=$(git diff --name-only "$BEFORE" "$GITHUB_SHA" -- resource/tasks/hotfix/ || true)
+              changed=$(git diff --name-only "$BEFORE" "$GITHUB_SHA" -- resource/tasks/hotfix/ "resource/global/*/resource/tasks/hotfix/" || true)
           fi
           if [ -n "$changed" ]; then
               ts=$(date -u '+%Y-%m-%d %H:%M:%S.000')

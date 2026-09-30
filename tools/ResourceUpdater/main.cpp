@@ -1989,13 +1989,14 @@ bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_base_
         char_names.emplace(id, name_buffer);
     }
 
-    auto tasks_path = tasks_base_path / "tasks.json";
-    auto tasks_opt = json::open(tasks_path);
-    if (!tasks_opt) {
-        std::cerr << "Failed to open tasks file: " << tasks_path << '\n';
+    // CharsNameOcrReplace / BattleStageName 的数据体在 hotfix/ocr_replace.json（随资源更新分发），tasks.json 只留转发
+    auto ocr_replace_path = tasks_base_path / "hotfix" / "ocr_replace.json";
+    auto ocr_replace_opt = json::open(ocr_replace_path);
+    if (!ocr_replace_opt) {
+        std::cerr << "Failed to open ocr replace hotfix file: " << ocr_replace_path << '\n';
         return false;
     }
-    auto& tasks_json = tasks_opt.value();
+    auto& ocr_replace_json = ocr_replace_opt.value();
 
     auto roguelike_path = tasks_base_path / "Roguelike" / "base.json";
     auto roguelike_opt = json::open(roguelike_path);
@@ -2039,8 +2040,8 @@ bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_base_
         }
     };
 
-    proc(tasks_json["BattleStageName"]["ocrReplace"].as_array(), base_stage_names, stage_names);
-    proc(tasks_json["CharsNameOcrReplace"]["ocrReplace"].as_array(), base_char_names, char_names);
+    proc(ocr_replace_json["BattleStageNameHotfix"]["ocrReplace"].as_array(), base_stage_names, stage_names);
+    proc(ocr_replace_json["CharsNameOcrReplaceHotfix"]["ocrReplace"].as_array(), base_char_names, char_names);
 
     proc(roguelike_json["RoguelikeTraderShoppingOcr"]["ocrReplace"].as_array(), base_item_names, item_names);
     proc(
@@ -2050,9 +2051,9 @@ bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_base_
     proc(roguelike_sami_json["Sami@Roguelike@FoldartalUseOcr"]["ocrReplace"].as_array(), base_totem_names, totem_names);
     proc(roguelike_json["Roguelike@StageEncounterOcr"]["ocrReplace"].as_array(), base_encounter_names, encounter_names);
 
-    std::ofstream tasks_ofs(tasks_path, std::ios::out);
-    tasks_ofs << tasks_json.format() << '\n';
-    tasks_ofs.close();
+    std::ofstream ocr_replace_ofs(ocr_replace_path, std::ios::out);
+    ocr_replace_ofs << ocr_replace_json.format() << '\n';
+    ocr_replace_ofs.close();
 
     std::ofstream roguelike_ofs(roguelike_path, std::ios::out);
     roguelike_ofs << roguelike_json.format() << '\n';
