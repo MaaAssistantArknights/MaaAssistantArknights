@@ -558,9 +558,21 @@ public class TaskQueueViewModel : Screen
             await Task.Delay(1000);
         }
 
-        if (actions.ExitSelf && !(actions.Hibernate || actions.Shutdown || actions.Sleep))
+        if (actions.ExitSelf && !(actions.LockScreen || actions.Hibernate || actions.Shutdown || actions.Sleep))
         {
             Bootstrapper.Shutdown();
+        }
+
+        if (actions.LockScreen)
+        {
+            if (actions.IfNoOtherMaa && HasOtherMaa())
+            {
+                Bootstrapper.Shutdown();
+            }
+            else
+            {
+                PowerManagement.LockScreen();
+            }
         }
 
         if (actions.Hibernate)

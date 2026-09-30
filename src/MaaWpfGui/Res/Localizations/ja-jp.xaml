@@ -973,6 +973,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Hibernate">休止状態にする</system:String>
     <system:String x:Key="HibernateTip">Windows の電源オプションで休止状態を有効にする必要があります。そうしないと、この機能は無効になります。</system:String>
     <system:String x:Key="Sleep">スリープ</system:String>
+    <system:String x:Key="LockScreen">画面をロック</system:String>
     <system:String x:Key="Shutdown">シャットダウン</system:String>
     <system:String x:Key="Once">今回のみ*</system:String>
     <system:String x:Key="PostActionOnceTip" xml:space="preserve">チェックすると、オプションの変更が保存されず、次回 MAA 起動時または {key=LinkStart} 後に復元されます
@@ -982,7 +983,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="SkipPostActionOnErrorTip">チェックすると、タスクリスト内の1つ以上のタスクが失敗した場合、上記のすべての動作をスキップします。</system:String>
     <system:String x:Key="PostActionSkippedDueToError">タスクが失敗したため、後続の処理はスキップされました。</system:String>
     <system:String x:Key="IfNoOtherMaa">他のMAAがない場合</system:String>
-    <system:String x:Key="IfNoOtherMaaTip">チェックすると、他の MAA インスタンスが実行されていない場合にのみ、スリープ/休止状態/シャットダウンを実行します</system:String>
+    <system:String x:Key="IfNoOtherMaaTip">チェックすると、他の MAA インスタンスが実行されていない場合にのみ、画面のロック/スリープ/休止状態/シャットダウンを実行します</system:String>
     <system:String x:Key="BackToAndroidHome">エミュレータのホーム画面に戻る</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>

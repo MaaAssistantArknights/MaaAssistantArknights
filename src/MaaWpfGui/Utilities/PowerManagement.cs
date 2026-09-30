@@ -80,4 +80,24 @@ public class PowerManagement
             return false;
         }
     }
+
+    public static bool LockScreen()
+    {
+        try
+        {
+            _logger.Information("Locking workstation.");
+            if (!PInvoke.LockWorkStation())
+            {
+                _logger.Error("Lock workstation failed.");
+                return false;
+            }
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _logger.Error("Lock workstation error: {ExMessage}", ex.Message);
+            return false;
+        }
+    }
 }
