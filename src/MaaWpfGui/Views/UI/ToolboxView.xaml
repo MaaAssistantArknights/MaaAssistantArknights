@@ -1361,7 +1361,7 @@
                                 <StackPanel
                                     Grid.Row="0"
                                     HorizontalAlignment="Stretch"
-                                    IsEnabled="{c:Binding '!PixelPaintParametersLocked'}">
+                                    IsEnabled="{c:Binding '!Run.Idle'}">
                                     <Grid HorizontalAlignment="Stretch">
                                         <Border
                                             Width="218"
@@ -1408,7 +1408,7 @@
                                 HorizontalScrollBarVisibility="Disabled"
                                 VerticalScrollBarVisibility="Auto"
                                 Visibility="{c:Binding 'SelectedMiniGameItem.IsPixelPaint'}">
-                                <StackPanel Margin="8,0" IsEnabled="{c:Binding '!PixelPaintParametersLocked'}">
+                                <StackPanel Margin="8,0" IsEnabled="{c:Binding '!Run.Idle'}">
                                     <Grid HorizontalAlignment="Center">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />

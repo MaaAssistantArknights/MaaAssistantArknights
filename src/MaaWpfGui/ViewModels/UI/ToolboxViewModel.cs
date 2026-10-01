@@ -68,11 +68,6 @@ public class ToolboxViewModel : Screen
         DisplayName = LocalizationHelper.GetString("Toolbox");
         _runningState = RunningState.Instance;
         _runningState.StateChanged += (__, e) => {
-            if (e.NewState.Idle)
-            {
-                PixelPaintParametersLocked = false;
-            }
-
             if (e.NewState.Stopping && Peeping && !IsPeepTransitioning)
             {
                 _ = Peep();
@@ -2848,14 +2843,6 @@ public class ToolboxViewModel : Screen
 
     private PixelPaintHelper.ConvertResult? _pixelPaintResult;
 
-    private bool _pixelPaintParametersLocked;
-
-    public bool PixelPaintParametersLocked
-    {
-        get => _pixelPaintParametersLocked;
-        private set => SetAndNotify(ref _pixelPaintParametersLocked, value);
-    }
-
     /// <summary>相对去边后内容图的归一化取景（0~1）。</summary>
     private System.Windows.Rect _pixelPaintView = new(0, 0, 1, 1);
 
@@ -2942,7 +2929,7 @@ public class ToolboxViewModel : Screen
 
     public void PixelPaintPickImage()
     {
-        if (PixelPaintParametersLocked)
+        if (!_runningState.GetIdle())
         {
             return;
         }
@@ -2962,7 +2949,7 @@ public class ToolboxViewModel : Screen
 
     public void PixelPaintDrop(object sender, DragEventArgs e)
     {
-        if (PixelPaintParametersLocked || e.Data == null)
+        if (!_runningState.GetIdle() || e.Data == null)
         {
             return;
         }
@@ -2982,7 +2969,7 @@ public class ToolboxViewModel : Screen
 
     public void PixelPaintDragOver(object sender, DragEventArgs e)
     {
-        e.Effects = (!PixelPaintParametersLocked && e.Data?.GetDataPresent(DataFormats.FileDrop) == true)
+        e.Effects = (_runningState.GetIdle() && e.Data?.GetDataPresent(DataFormats.FileDrop) == true)
             ? DragDropEffects.Copy
             : DragDropEffects.None;
         e.Handled = true;
@@ -2998,7 +2985,7 @@ public class ToolboxViewModel : Screen
     /// <param name="e">按键事件数据。</param>
     public void PixelPaintKeyDown(object sender, KeyEventArgs e)
     {
-        if (e.Key != Key.V || Keyboard.Modifiers != ModifierKeys.Control || !IsPixelPaintSelected || PixelPaintParametersLocked)
+        if (e.Key != Key.V || Keyboard.Modifiers != ModifierKeys.Control || !IsPixelPaintSelected || !_runningState.GetIdle())
         {
             return;
         }
@@ -3122,7 +3109,7 @@ public class ToolboxViewModel : Screen
 
     public void PixelPaintPreviewMouseWheel(object sender, MouseWheelEventArgs e)
     {
-        if (PixelPaintParametersLocked || _pixelPaintSourceImage == null)
+        if (!_runningState.GetIdle() || _pixelPaintSourceImage == null)
         {
             return;
         }
@@ -3142,7 +3129,7 @@ public class ToolboxViewModel : Screen
 
     public void PixelPaintPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        if (PixelPaintParametersLocked || _pixelPaintSourceImage == null)
+        if (!_runningState.GetIdle() || _pixelPaintSourceImage == null)
         {
             return;
         }
@@ -3160,7 +3147,7 @@ public class ToolboxViewModel : Screen
 
     public void PixelPaintPreviewMouseMove(object sender, MouseEventArgs e)
     {
-        if (_pixelPaintDragStart is null || PixelPaintParametersLocked)
+        if (_pixelPaintDragStart is null || !_runningState.GetIdle())
         {
             return;
         }
@@ -3195,7 +3182,7 @@ public class ToolboxViewModel : Screen
 
     public void PixelPaintResetView()
     {
-        if (PixelPaintParametersLocked)
+        if (!_runningState.GetIdle())
         {
             return;
         }
@@ -3206,7 +3193,7 @@ public class ToolboxViewModel : Screen
 
     public void PixelPaintResetParameters()
     {
-        if (PixelPaintParametersLocked)
+        if (!_runningState.GetIdle())
         {
             return;
         }
@@ -3256,7 +3243,7 @@ public class ToolboxViewModel : Screen
 
     private void ReconvertPixelPaint()
     {
-        if (PixelPaintParametersLocked || _pixelPaintSourceImage == null)
+        if (!_runningState.GetIdle() || _pixelPaintSourceImage == null)
         {
             return;
         }
@@ -3352,10 +3339,6 @@ public class ToolboxViewModel : Screen
         Instances.TaskQueueViewModel.ClearLog();
 
         _runningState.BeginRun(RunOwner.MiniGame);
-        if (isPixelPaint)
-        {
-            PixelPaintParametersLocked = true;
-        }
 
         string errMsg = string.Empty;
         bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
@@ -3363,14 +3346,12 @@ public class ToolboxViewModel : Screen
         {
             Instances.TaskQueueViewModel.AddLog(errMsg, UiLogColor.Error);
             _runningState.SetIdle(true);
-            PixelPaintParametersLocked = false;
             return;
         }
 
         if (_runningState.GetStopping())
         {
             Instances.TaskQueueViewModel.SetStopped();
-            PixelPaintParametersLocked = false;
             return;
         }
 
@@ -3396,7 +3377,6 @@ public class ToolboxViewModel : Screen
         if (!caught)
         {
             _runningState.SetIdle(true);
-            PixelPaintParametersLocked = false;
         }
         else
         {
