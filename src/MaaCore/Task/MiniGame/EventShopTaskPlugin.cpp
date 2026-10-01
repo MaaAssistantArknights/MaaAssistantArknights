@@ -7,7 +7,6 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/OCRer.h"
 
@@ -150,23 +149,24 @@ bool asst::EventShopTaskPlugin::is_blacklisted(std::string_view commodity_name) 
 
 asst::EventShopTaskPlugin::PurchaseResult asst::EventShopTaskPlugin::purchase_selected_commodity() const
 {
-    Matcher unlimited_analyzer(ctrler()->get_image());
-    unlimited_analyzer.set_task_info("SS@Store@CheckUnlimited");
-    if (unlimited_analyzer.analyze()) {
-        LogInfo << "Event shop reached an unlimited commodity";
-        return PurchaseResult::Finished;
+    ProcessTask purchase_task(*this, { "SS@Store@PurchaseSelected" });
+    if (!purchase_task.override_next("SS@Store@CheckUnlimited", {}) ||
+        !purchase_task.override_next("SS@Store@PurchasedConfirm", {}) ||
+        !purchase_task.override_next("SS@Store@RecruitSkipped", {}) ||
+        !purchase_task.override_next("SS@Store@Underfunded", {})) {
+        LogError << "Event shop failed to configure purchase flow";
+        return PurchaseResult::Failed;
     }
-
-    ProcessTask purchase_task(*this, { "SS@Store@ChooseMaxAmount", "SS@Store@Purchase" });
-    purchase_task.override_next("SS@Store@PurchasedConfirm", {});
-    purchase_task.override_next("SS@Store@RecruitSkipped", {});
-    purchase_task.override_next("SS@Store@Underfunded", {});
     if (!purchase_task.run()) {
         LogError << "Event shop purchase flow failed";
         return PurchaseResult::Failed;
     }
 
     const std::string& last_task = purchase_task.get_last_task_name();
+    if (last_task == "SS@Store@CheckUnlimited") {
+        LogInfo << "Event shop reached an unlimited commodity";
+        return PurchaseResult::Finished;
+    }
     if (last_task == "SS@Store@UnderfundedOCR" || last_task == "SS@Store@Underfunded" || last_task == "Stop") {
         LogInfo << "Event shop currency is insufficient";
         return PurchaseResult::Finished;

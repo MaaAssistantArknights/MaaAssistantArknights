@@ -36,6 +36,11 @@
         "roi": [0, 100, 1280, 610],
         "rectMove": [-135, -105, 280, 60]
     },
+    "SS@Store@PurchaseSelected": {
+        "doc": "黑名单插件点击商品后，复用 ClickItem 的 next 轮询无限标记、最大数量及支付按钮",
+        "algorithm": "JustReturn",
+        "next": ["SS@Store@ClickItem#next"]
+    },
     "SS@Store@CheckUnlimited": {
         "roi": [838, 402, 161, 125],
         "templThreshold": 0.95,
