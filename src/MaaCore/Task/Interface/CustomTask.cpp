@@ -1,6 +1,5 @@
 #include "CustomTask.h"
 
-#include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/TaskData.h"
 #include "Task/MiniGame/AutoRaisePotentialTaskPlugin.h"
 #include "Task/MiniGame/EventShopTaskPlugin.h"
@@ -132,22 +131,6 @@ bool asst::CustomTask::parse_and_register_event_shop(const std::string& task_nam
         }
     }
 
-    if (auto item_ids_opt = event_shop_opt->find<json::array>("blacklist_item_ids")) {
-        for (const auto& item : *item_ids_opt) {
-            if (!item.is_string()) {
-                LogError << "set_params failed, event shop blacklist item ID is not string";
-                return false;
-            }
-
-            const std::string item_id = item.as_string();
-            const std::string& item_name = ItemData.get_item_name(item_id);
-            if (item_id.empty() || item_name.empty()) {
-                LogError << "set_params failed, event shop blacklist item ID not found:" << item_id;
-                return false;
-            }
-            blacklist.emplace_back(item_name);
-        }
-    }
     if (blacklist.empty()) {
         return false;
     }

@@ -3491,7 +3491,7 @@ public class ToolboxViewModel : Screen
         return Instances.AsstProxy.AsstMiniGame(GetMiniGameTask());
     }
 
-    /// <summary>活动商店启动：提交自定义黑名单及预设商品 ID。</summary>
+    /// <summary>活动商店启动：提交自定义及游戏客户端语言下的预设黑名单关键词。</summary>
     /// <returns>任务是否成功提交。</returns>
     private bool StartEventShop()
     {
@@ -3501,28 +3501,38 @@ public class ToolboxViewModel : Screen
                 .Distinct()
                 .ToList()
             : [];
-        List<string> eventShopBlackListItemIds = [];
+
+        // 与信用商店一样直接提交关键词，不通过物品 ID 补成全名；匹配语言由游戏客户端而非 GUI 语言决定。
+        var (dataSupplementInstrument, dataSupplementStick, lmd, furniturePart) = SettingsViewModel.GameSettings.ClientType switch
+        {
+            ClientType.EN => ("Data Supplement Instrument", "Data Supplement Stick", "LMD", "Furniture Part"),
+            ClientType.JP => ("データ補完マシン", "データ補完チップ", "龍門幣", "家具"),
+            ClientType.KR => ("데이터 리더기", "데이터 메모리", "용문폐", "가구 부품"),
+            ClientType.Txwy => ("數據增補儀", "數據增補條", "龍門幣", "傢俱"),
+            _ => ("数据增补仪", "数据增补条", "龙门币", "家具"),
+        };
+
         if (EventShopBlackListDataSupplementInstrument)
         {
-            eventShopBlackListItemIds.Add(DataSupplementInstrumentItemId);
+            eventShopBlackList.Add(dataSupplementInstrument);
         }
 
         if (EventShopBlackListDataSupplementStick)
         {
-            eventShopBlackListItemIds.Add(DataSupplementStickItemId);
+            eventShopBlackList.Add(dataSupplementStick);
         }
 
         if (EventShopBlackListLmd)
         {
-            eventShopBlackListItemIds.Add(LmdItemId);
+            eventShopBlackList.Add(lmd);
         }
 
         if (EventShopBlackListFurniturePart)
         {
-            eventShopBlackListItemIds.Add(FurniturePartItemId);
+            eventShopBlackList.Add(furniturePart);
         }
 
-        return Instances.AsstProxy.AsstMiniGame(GetMiniGameTask(), eventShopBlackList, eventShopBlackListItemIds);
+        return Instances.AsstProxy.AsstMiniGame(GetMiniGameTask(), eventShopBlackList.Distinct().ToList());
     }
 
     /// <summary>像素画启动：提交分组点列，成功时输出统计日志。</summary>
