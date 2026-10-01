@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:converters="clr-namespace:MaaWpfGui.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
@@ -17,6 +18,9 @@
     d:DesignWidth="220"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:ItemImageConverter x:Key="ItemImageConverter" />
+    </UserControl.Resources>
     <Grid>
         <StackPanel Visibility="{c:Binding !EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
             <controls:TextBlock
@@ -161,7 +165,6 @@
                                             HorizontalContentAlignment="Stretch"
                                             VerticalContentAlignment="Center"
                                             s:View.ActionTarget="{Binding}"
-                                            DisplayMemberPath="Display"
                                             DropDownClosed="{s:Action DropsListDropDownClosed}"
                                             IsEditable="True"
                                             IsTextSearchEnabled="False"
@@ -170,7 +173,23 @@
                                                               Target={x:Type ui_vms:SettingsViewModel}}"
                                             SelectedValue="{Binding DropId}"
                                             SelectedValuePath="Value"
-                                            Text="{Binding DropName}" />
+                                            Text="{Binding DropName}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Image
+                                                            Width="18"
+                                                            Height="18"
+                                                            VerticalAlignment="Center"
+                                                            Source="{Binding Value, Converter={StaticResource ItemImageConverter}}" />
+                                                        <TextBlock
+                                                            Margin="4,0,0,0"
+                                                            VerticalAlignment="Center"
+                                                            Text="{Binding Display}" />
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
                                         <hc:NumericUpDown
                                             Grid.Column="1"
                                             Height="30"

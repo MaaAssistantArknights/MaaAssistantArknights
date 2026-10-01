@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:converters="clr-namespace:MaaWpfGui.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
@@ -18,6 +19,9 @@
     d:DesignWidth="220"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:ItemImageConverter x:Key="ItemImageConverter" />
+    </UserControl.Resources>
     <StackPanel>
         <Grid d:Visibility="Visible" Visibility="{c:Binding !EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
             <Grid.RowDefinitions>
@@ -148,7 +152,6 @@
                     Height="30"
                     Margin="6"
                     VerticalContentAlignment="Center"
-                    DisplayMemberPath="Display"
                     DropDownClosed="{s:Action DropsListDropDownClosed}"
                     IsEditable="True"
                     IsEnabled="{c:Binding !IsSpecifiedInventoryLocked}"
@@ -158,7 +161,23 @@
                                       Target={x:Type ui_vms:SettingsViewModel}}"
                     SelectedValue="{Binding DropsItemId}"
                     SelectedValuePath="Value"
-                    Text="{Binding DropsItemName}" />
+                    Text="{Binding DropsItemName}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image
+                                    Width="18"
+                                    Height="18"
+                                    VerticalAlignment="Center"
+                                    Source="{Binding Value, Converter={StaticResource ItemImageConverter}}" />
+                                <TextBlock
+                                    Margin="4,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Display}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
                 <StackPanel
                     Grid.Row="1"
                     Grid.Column="1"
