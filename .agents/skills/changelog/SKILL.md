@@ -39,6 +39,7 @@ description: 依据 git 提交、diff、现有 CHANGELOG 与 tag，生成符合 
 ## 3. 排序与文案
 
 - **中文在前，纯英文条目排最后**；按重要性排序：功能/接口变更 > 兼容性/优化 > 次要修复/杂项。
+- **PC 端条目统一放所在分类的中文区末尾、其他语言条目之前**（带 ｢PC 端｣ 前缀的直连/Win32 专属功能）：主流用户使用模拟器连接，PC 直连功能对他们不可用，靠后集中便于快速跳过；中文在前、其他语言在最后的规则优先级更高。
 - 列表前缀统一 `*`；中英文与数字间留空格（如"修复 3 个 bug"）。
 - 术语统一大小写：WPF、Json、Markdown、CSV、Info。
 - 保留作者与 PR 引用，格式 `([#12345](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/12345)) @author`；多条合并时引用合并括注。

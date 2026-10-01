@@ -14,9 +14,9 @@
 
 任务栏进度条改为按 Core 任务链计数，执行一轮任务时按本轮产生的任务链逐条推进，更准确反映整体执行进度。
 
-#### 界面显示干员头像
+#### 界面显示干员头像与物品图片
 
-干员识别、自动战斗作业预览与肉鸽开局设置等界面新增干员头像与职业图标显示，干员识别卡新增 ｢头像展示｣ 样式选项。
+干员识别、自动战斗作业预览、干员培养与肉鸽开局设置等界面新增干员头像与职业图标显示，干员识别卡新增 ｢头像展示｣ 样式选项；理智作战与库存保持的指定材料下拉、牛杂 ｢活动商店｣ 的黑名单多选框同步支持显示物品图片。
 
 <details>
 <summary><b>English</b></summary>
@@ -33,9 +33,9 @@ A "Run from Here" option is added to the task list context menu, letting you sta
 
 The taskbar progress bar now counts Core task chains: within a run, progress advances as each chain completes, giving a more accurate view of overall execution.
 
-#### Operator Avatars in the UI
+#### Operator Avatars and Item Images in the UI
 
-Operator avatars and class icons are now shown in the operator recognition view, copilot formation preview, and roguelike start-up settings; the recognition card gains an "Avatar View" style option.
+Operator avatars and class icons are now shown in the operator recognition view, copilot formation preview, operator progression, and roguelike start-up settings; the recognition card gains an "Avatar View" style option. The material dropdowns in Combat and Depot Maintain, as well as the event shop blacklist checkboxes, now display item images as well.
 
 </details>
 
@@ -48,7 +48,7 @@ Operator avatars and class icons are now shown in the operator recognition view,
 
 ### 新增 | New
 
-* 新增 ｢干员培养｣ 任务：为干员设定精英化、技能等级与专精目标后自动逐步完成培养流程，材料即缺即合自动合成，训练室专精自动选择协助者 ([#18137](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18137)) @Lancarus @youzibigg @HX3N @Constrat @status102 @Manicsteiner @momomochi987
+* 新增 ｢干员培养｣ 任务：为干员设定精英化、技能等级与专精目标后自动逐步完成培养流程，材料即缺即合自动合成，训练室专精自动选择协助者 ([#18137](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18137) [#18329](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18329) [#18413](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18413) [#18425](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18425)) @Lancarus @youzibigg @HX3N @Constrat @status102 @Manicsteiner @momomochi987
 * 任务列表支持右键 ｢从此处运行｣ ，从指定任务处开始执行任务队列，跳过其之前的任务；指定任务未启用时从其后首个已启用的任务开始 ([#18317](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18317)) @H2O-MERO
 * 干员识别、自动战斗作业预览与肉鸽开局设置等界面新增干员头像与职业图标显示，干员识别卡新增 ｢头像展示｣ 样式选项 ([#18352](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18352)) @Lancarus @youzibigg @ABA2396
 * 干员名、关卡名等 OCR 纠错规则拆分至独立热修复资源，此类修复随资源更新即时分发，无需等待完整版本更新 ([#18406](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18406)) @ABA2396
@@ -62,7 +62,7 @@ Operator avatars and class icons are now shown in the operator recognition view,
 * 黑流树海肉鸽新增地图拓扑模板识别，节点预览揭示节点实际身份后立即重新规划路线 ([#18368](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18368)) @ZiyinLin
 * 任务栏进度改为按 Core 任务链计数 ([#18338](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18338)) @ABA2396
 * 库存保持列表启用虚拟化、像素滚动与惯性滚动，操作按钮区固定显示 @ABA2396
-* 理智作战与库存保持的指定材料下拉、肉鸽开局干员下拉在收起状态显示已选物品图标或干员头像 @ABA2396
+* 干员培养的干员选择框、理智作战与库存保持的指定材料下拉、肉鸽开局干员下拉在收起状态显示已选物品图标或干员头像 @ABA2396
 * PC 端跳过掉落上报的提示改为指明具体三方平台，避免重复输出相同内容 ([#18311](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18311)) @H2O-MERO
 * PC 端截图测试结束后恢复游戏窗口位置 ([#18427](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18427)) @H2O-MERO
 * Rename the roguelike start-up item option from "Thought" to "Plan" in the English UI @Constrat
@@ -80,8 +80,8 @@ Operator avatars and class icons are now shown in the operator recognition view,
 * 补齐六个肉鸽主题中升变阿米娅术师与近卫形态的职业配置，修复使用对应形态时的配置缺失异常 ([#18414](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18414)) @ZiyinLin
 * 修复生息演算 RA4 完成识别在部分分辨率下失败的问题 @Saratoga-Official
 * 我是小猪（修正识别替换规则中半角括号的正则转义） @Saratoga-Official
-* 修复 PC 端任务结束后游戏静音未正常恢复的问题 ([#18411](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18411)) @H2O-MERO
 * 修复主窗口标题栏文本滚动启用后高度未恢复为单行的问题 ([#18422](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18422)) @H2O-MERO
+* 修复 PC 端任务结束后游戏静音未正常恢复的问题 ([#18411](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18411)) @H2O-MERO
 * YostarJP add the StageEncounterOptionUnknown template for the Sami roguelike ([#18277](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18277)) @LinYanxi0
 * YostarKR adjust the notification dot roi of AutoRaisePotential @HX3N
 
