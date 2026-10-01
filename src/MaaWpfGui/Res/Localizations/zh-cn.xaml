@@ -750,6 +750,7 @@ D:\
     <system:String x:Key="HighPriority">优先购买 子串即可 分号分隔</system:String>
     <system:String x:Key="Blacklist">黑名单 子串即可 分号分隔</system:String>
     <system:String x:Key="MiniGame@EventShop@BlacklistTip">勾选的商品将加入黑名单</system:String>
+    <system:String x:Key="MiniGame@EventShop@CommonItemsTip">下拉菜单选择常用商品</system:String>
     <system:String x:Key="MiniGame@EventShop@DataSupplementInstrument">数据增补仪</system:String>
     <system:String x:Key="MiniGame@EventShop@DataSupplementStick">数据增补条</system:String>
     <system:String x:Key="MiniGame@EventShop@Lmd">龙门币</system:String>

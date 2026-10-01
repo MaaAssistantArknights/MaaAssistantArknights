@@ -1596,6 +1596,7 @@
                                 <hc:CheckComboBox
                                     MinWidth="180"
                                     HorizontalAlignment="Stretch"
+                                    hc:InfoElement.Placeholder="{DynamicResource MiniGame@EventShop@CommonItemsTip}"
                                     hc:ListBoxAttach.SelectedItems="{Binding EventShopBlackListSelectedItems}"
                                     DisplayMemberPath="Display"
                                     ItemsSource="{Binding EventShopBlackListItems}"

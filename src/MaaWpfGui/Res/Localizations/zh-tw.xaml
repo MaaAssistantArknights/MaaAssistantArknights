@@ -751,6 +751,7 @@ D:\
     <system:String x:Key="HighPriority">優先購買（子字串即可，分號分隔）</system:String>
     <system:String x:Key="Blacklist">黑名單（子字串即可，分號分隔）</system:String>
     <system:String x:Key="MiniGame@EventShop@BlacklistTip">勾選的商品將加入黑名單</system:String>
+    <system:String x:Key="MiniGame@EventShop@CommonItemsTip">下拉選單選擇常用商品</system:String>
     <system:String x:Key="MiniGame@EventShop@DataSupplementInstrument">數據增補儀</system:String>
     <system:String x:Key="MiniGame@EventShop@DataSupplementStick">數據增補條</system:String>
     <system:String x:Key="MiniGame@EventShop@Lmd">龍門幣</system:String>

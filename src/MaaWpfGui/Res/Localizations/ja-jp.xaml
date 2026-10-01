@@ -752,6 +752,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="HighPriority">優先購入（セミコロンで区切）</system:String>
     <system:String x:Key="Blacklist">ブラックリスト（セミコロンで区切）</system:String>
     <system:String x:Key="MiniGame@EventShop@BlacklistTip">チェックした商品をブラックリストに追加します</system:String>
+    <system:String x:Key="MiniGame@EventShop@CommonItemsTip">ドロップダウンでよく使う商品を選択</system:String>
     <system:String x:Key="MiniGame@EventShop@DataSupplementInstrument">データ補完マシン</system:String>
     <system:String x:Key="MiniGame@EventShop@DataSupplementStick">データ補完チップ</system:String>
     <system:String x:Key="MiniGame@EventShop@Lmd">龍門幣</system:String>

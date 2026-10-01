@@ -752,6 +752,7 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="HighPriority">Whitelist (split by semicolon)</system:String>
     <system:String x:Key="Blacklist">Blacklist (split by semicolon)</system:String>
     <system:String x:Key="MiniGame@EventShop@BlacklistTip">Checked items will be added to the blacklist</system:String>
+    <system:String x:Key="MiniGame@EventShop@CommonItemsTip">Select common items from the dropdown</system:String>
     <system:String x:Key="MiniGame@EventShop@DataSupplementInstrument">Data Supplement Instrument</system:String>
     <system:String x:Key="MiniGame@EventShop@DataSupplementStick">Data Supplement Stick</system:String>
     <system:String x:Key="MiniGame@EventShop@Lmd">LMD</system:String>
