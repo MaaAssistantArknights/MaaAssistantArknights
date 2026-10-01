@@ -1137,6 +1137,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="SetSuccessfully">설정 성공</system:String>
     <system:String x:Key="SetFailed">설정 실패</system:String>
     <system:String x:Key="CloseArknightsFailed">게임 종료 실패</system:String>
+    <system:String x:Key="LockScreenFailed">화면 잠금 실패</system:String>
     <system:String x:Key="ExitEmulatorFailed">에뮬레이터 종료 실패</system:String>
     <system:String x:Key="AboutToShutdown">작업을 완료했습니다. 시스템이 곧 종료됩니다. 취소하시겠습니까?</system:String>
     <system:String x:Key="ShutdownPrompt">알림</system:String>

@@ -1136,6 +1136,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="SetSuccessfully">设置成功</system:String>
     <system:String x:Key="SetFailed">设置失败</system:String>
     <system:String x:Key="CloseArknightsFailed">关闭游戏失败</system:String>
+    <system:String x:Key="LockScreenFailed">锁屏失败</system:String>
     <system:String x:Key="ExitEmulatorFailed">模拟器关闭失败</system:String>
     <system:String x:Key="AboutToShutdown">已刷完，即将关机，是否取消？</system:String>
     <system:String x:Key="ShutdownPrompt">提示</system:String>

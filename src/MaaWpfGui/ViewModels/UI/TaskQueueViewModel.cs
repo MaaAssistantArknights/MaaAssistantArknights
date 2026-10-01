@@ -569,9 +569,9 @@ public class TaskQueueViewModel : Screen
             {
                 Bootstrapper.Shutdown();
             }
-            else
+            else if (!PowerManagement.LockScreen())
             {
-                PowerManagement.LockScreen();
+                AddLog(LocalizationHelper.GetString("LockScreenFailed"), UiLogColor.Error);
             }
         }
 
