@@ -88,6 +88,10 @@ public class ToolboxViewModel : Screen
             PixelPaintDitherModeList.RefreshLocalization();
             SecretFrontEventList.RefreshLocalization();
             EventShopBlackListItems.RefreshLocalization();
+
+            // CheckComboBox 未设 DisplayMemberPath（WPF 禁止与 ItemTemplate 并存），选中 tag 显示的是
+            // ToString 快照；重赋选中数组触发 tag 重建，使 tag 文字跟随切换后的语言
+            RebuildEventShopBlackListSelectedItems();
             ExportOptionList.RefreshLocalization();
             OperBoxExportOptionList.RefreshLocalization();
             Application.Current.Dispatcher.InvokeAsync(
@@ -113,6 +117,14 @@ public class ToolboxViewModel : Screen
         OperBoxSelectedIndex = OperBoxNotHaveList.Count > 0 ? 0 : 1;
 
         UpdateMiniGameTaskList();
+        RebuildEventShopBlackListSelectedItems();
+    }
+
+    /// <summary>
+    /// 按各黑名单勾选状态重建活动商店黑名单的选中数组；语言切换时也调用，以触发 CheckComboBox 重建选中 tag。
+    /// </summary>
+    private void RebuildEventShopBlackListSelectedItems()
+    {
         EventShopBlackListSelectedItems = [.. EventShopBlackListItems.Where(item => item.Value switch
         {
             DataSupplementInstrumentItemId => EventShopBlackListDataSupplementInstrument,
