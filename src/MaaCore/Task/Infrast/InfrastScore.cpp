@@ -1431,6 +1431,11 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
     // --- 制造加速(153) ---
     // 在153布局中，制造加速干员优先于贸易加速干员
     if (context.trading_station_num == 1) {
+        // 制造加速优先选择有笑脸技能的M3
+        if (best.size() < ControlSlotCount && !manu_acc && add_first([](const ScoreOper& oper) {
+                return has_skill(oper, "bskill_ctrl_p_spd") && has_skill(oper, "bskill_ctrl_cost"); })) { // 最高权限 + 博识生手：Mon3tr
+            manu_acc = true;
+        }
         if (best.size() < ControlSlotCount && !manu_acc &&
             add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_p_spd"); })) {
             // 最高权限：凯尔希；同类制造加速只选择一次。
@@ -1443,12 +1448,43 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
         }
     }
 
-    // 合作协议 / 大小姐 / 朝气蓬勃 / 情报主脑：阿米娅、诗怀雅、明椒、阿斯卡纶；
-    // 权变：望。两类技能均只占用一次贸易加速名额。
-    if (best.size() < ControlSlotCount && !trading_acc && add_first([](const ScoreOper& oper) {
-            return has_any_skill(oper, { "bskill_ctrl_t_spd", "bskill_ctrl_tra&prod" });
-        })) {
+    // --- 贸易加速 ---
+    // 桑葚在办公室时，贸易加速优先选择望
+    if (best.size() < ControlSlotCount && !trading_acc && worldly_plight && add_first([](const ScoreOper& oper) {
+        return has_skill(oper, "bskill_ctrl_tra&prod"); })) { // 权变：望
         trading_acc = true;
+    }
+
+    // 阿斯卡纶额外拥有训练室加速技能，因此贸易加速优先选择阿斯卡纶
+    if (best.size() < ControlSlotCount && !trading_acc && add_first([](const ScoreOper& oper) {
+            return has_skill(oper, "bskill_ctrl_t_spd") && has_skill(oper, "bskill_ctrl_train_spd1"); })) { // 情报主脑 + S.W.E.E.P.主管：阿斯卡纶
+        trading_acc = true;
+    }
+
+    // 诗怀雅与斩业星熊共同入驻有额外加成，因此当有其他贸易加速干员可用时，优先保留诗怀雅的心情
+    if (best.size() < ControlSlotCount && !trading_acc && add_first([](const ScoreOper& oper) {
+        return has_skill(oper, "bskill_ctrl_t_spd") && // 合作协议 / 大小姐 / 朝气蓬勃 / 情报主脑：阿米娅、诗怀雅、明椒、阿斯卡纶
+            !is_operator(oper, { "char_308_swire" }); })) { // 诗怀雅与其他干员共用技能图标，因此根据干员ID排除诗怀雅
+        trading_acc = true;
+    }
+
+    // 桑葚不在办公室时，望的优先级低于其他贸易加速干员
+    if (best.size() < ControlSlotCount && !trading_acc && add_first([](const ScoreOper& oper) {
+        return has_skill(oper, "bskill_ctrl_tra&prod"); })) { // 权变：望
+        trading_acc = true;
+    }
+
+    // 若无其他贸易加速干员可选，则选择诗怀雅提供贸易加速
+    if (best.size() < ControlSlotCount && !trading_acc && add_first([](const ScoreOper& oper) {
+        return has_skill(oper, "bskill_ctrl_t_spd") && is_operator(oper, { "char_308_swire" }); })) { // 大小姐：诗怀雅
+        trading_acc = true;
+    }
+
+    // --- 制造加速 ---
+    // 制造加速优先选择有笑脸技能的M3
+    if (best.size() < ControlSlotCount && !manu_acc && add_first([](const ScoreOper& oper) {
+            return has_skill(oper, "bskill_ctrl_p_spd") && has_skill(oper, "bskill_ctrl_cost"); })) { // 最高权限 + 博识生手：Mon3tr
+        manu_acc = true;
     }
 
     if (best.size() < ControlSlotCount && !manu_acc &&
