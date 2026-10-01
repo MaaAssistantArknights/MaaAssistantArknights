@@ -59,6 +59,12 @@ internal static class GameAudioMuteManager
         long version;
         lock (_syncRoot)
         {
+            // Completion actions can start Core tasks while the GUI is already idle.
+            if (!shouldContinue())
+            {
+                return false;
+            }
+
             version = ++_version;
             RestoreCore();
             _windowHwnd = hwnd;
@@ -91,7 +97,7 @@ internal static class GameAudioMuteManager
     }
 
     /// <summary>
-    /// Restores the window and audio after Core stops moving the window.
+    /// Restores audio immediately and the window after Core stops moving it.
     /// </summary>
     /// <param name="isCoreRunning">Returns whether Core is still running tasks.</param>
     /// <returns>A task representing the delayed window restoration.</returns>
@@ -106,6 +112,13 @@ internal static class GameAudioMuteManager
             }
 
             version = ++_version;
+
+            // Restore audio before completion actions can close the game process.
+            RestoreAudioCore();
+            if (_windowHwnd == IntPtr.Zero)
+            {
+                return;
+            }
         }
 
         const int MaxAttempts = 1200;
@@ -128,7 +141,7 @@ internal static class GameAudioMuteManager
         {
             if (version == _version)
             {
-                RestoreCore();
+                RestoreWindowCore();
             }
         }
     }
@@ -164,14 +177,9 @@ internal static class GameAudioMuteManager
             while (true)
             {
                 await Task.Delay(5000).ConfigureAwait(false);
-                if (!shouldContinue())
-                {
-                    return;
-                }
-
                 lock (_syncRoot)
                 {
-                    if (version != _version)
+                    if (version != _version || !shouldContinue())
                     {
                         return;
                     }
