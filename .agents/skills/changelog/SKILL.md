@@ -14,7 +14,8 @@ description: 依据 git 提交、diff、现有 CHANGELOG 与 tag，生成符合 
 ## 1. 净变更优先
 
 - 同一功能/问题的多条相关 commit **合并为单条**，描述最终效果。
-- commit 标题含糊/口语化/玩梗时**必须查看 diff 后改写**为专业描述。
+- **首次对用户可见的功能只留功能本体条目**：功能在本版本第一次开放/出现时，其开发过程中的全部中间条目（内部修复、打磨、布局调整、参数默认值变化等）一律并入功能本体，只描述最终形态。用户没见过旧版本，｢修复 XX 功能的问题｣ 对他们无从谈起；逐条罗列只会稀释本体条目。注意区分：对**已发布功能**的修复仍照常写修复条目。
+- commit 标题含糊/口语化时**必须查看 diff 后改写**为专业描述。作者刻意整活/玩梗的标题保留原文，仅在含糊到读者无法理解实际内容时括注补充（如 `我是小猪（修正识别替换规则中半角括号的正则转义）`）；若玩梗提交与其余净变更同链、合并会洗掉原文，则该提交单列保留。
 - **Revert**：完整撤销则删除；部分保留则合并为一条准确描述最终结果的条目。
 - "review""typo""日志顺序""调整坐标""build warning" 等不单独保留，除非 diff 证明修复了用户可感知问题。
 - **多服合并**：按**单项改动**拆分（而非 commit/PR 整体），每项再跨服合并。服务器名用 `/` 连接（如 `YostarEN/JP/KR`），多位作者依次排列。
@@ -28,7 +29,7 @@ description: 依据 git 提交、diff、现有 CHANGELOG 与 tag，生成符合 
 | **改进 \| Improved** | 能力增强、性能/稳定性/体验/识别优化、重构收益 |
 | **修复 \| Fix** | 缺陷修正、兼容性/异常/回归修复 |
 | **文档 \| Docs** | 纯文档变更 |
-| **其他 \| Other** | 仅内部维护、CI、脚本等（不适合省略时） |
+| **其他 \| Other** | 内部维护、CI、脚本、工具链约定、开发规范、工程化开关等开发者向内容 |
 | **MaaMacGui** | 子仓库独立区块，放在 `### 其他 \| Other` 之后，内部复用相同分类，PR 格式 `([#数字](https://github.com/MaaAssistantArknights/MaaMacGui/pull/数字))` |
 
 仅保留有内容的模块，空模块省略。
@@ -44,6 +45,8 @@ description: 依据 git 提交、diff、现有 CHANGELOG 与 tag，生成符合 
 - **作者归属**：从 commit 的 `%an`（author）字段获取，**不要**用 `%cn`（committer）——squash merge 的 committer 通常是 GitHub 或执行合并的人，而非贡献者。对于多贡献者 PR（squash 后协作者信息丢失），需访问 PR 页面确认发起人与协作者，全部列出（用空格分隔，如 `@author1 @author2`）。
 - **显示名 → GitHub login 映射**：条目里的 `@作者` 必须是 GitHub login，而 `%an` 给出的常是显示名。已确认的映射：墨染 → @moranfanhua、Ziyi Huang → @yali-hzy、uye → @ABA2396、status102 / Status102 → @status102、Rin → @ZiyinLin、HY → @momomochi987、H2O_MERO → @H2O-MERO、Zian Wen → @wzacolemak；Constrat、youzibigg 与 login 同名。表外名字用 `gh pr view <N> --json author` 核实；`gh` 间歇性 TLS handshake timeout 时，用 commit 的 `%ae` 邮箱前缀、`Co-authored-by` trailer、以及历史 CHANGELOG 中同一 PR 的既有归属相互印证。
 - **条件生效的功能把限定写进条目**：功能若依赖输入方式、截图方式、连接类型、服务器等条件才生效（如仅在 PC 端 win32 连接下生效、仅特定截图方式下行为不同），条目必须写明限定，不能只写笼统效果；拿不准时查 squash commit 信息与最终代码里的实际分支逻辑再落笔。
+- **功能与机制名称用 UI 正式名称，不用开发者别称**：条目里出现的功能名、界面项、游戏机制名，以本地化资源 key 的实际值或游戏内 UI 术语为准（如任务 `OperProgress` 的 UI 名是 ｢干员培养｣ 就不写 ｢培养计划｣；训练室协助专精的干员游戏内叫 ｢协助者｣，就不沿用代码注释/PR 描述里的 ｢导师｣｢助教｣）。拿不准时查 `src/MaaWpfGui/Res/Localizations/zh-cn.xaml` 或问作者，不从 Sourcery 总结、代码注释脑补。
+- **Sourcery 总结仅作线索，不作事实依据**：PR body 里的 ｢## Sourcery 摘要 / Summary by Sourcery｣ 是低思考等级的 AI 生成内容，常见术语俗称、界面归属错乱、行为概括失真。它只用于快速定位 PR 改动范围；条目事实必须落到 diff、作者手写的 PR 正文、issue 标题或作者口述上，Sourcery 与 diff 冲突时一律以 diff 为准。
 
 ## 4. 版本历史与折叠块
 
@@ -76,12 +79,13 @@ description: 依据 git 提交、diff、现有 CHANGELOG 与 tag，生成符合 
     3. 追加后若总数偏多（通常 >4 条），逐条审视：可合并同类项，也可**将前驱版本中相对凑数/次要的条目直接替换为更重要新亮点**（替换 ≠ 整体丢弃，而是逐条权衡）。
     4. **绝对禁止**整体丢弃前驱版本 curation——即不可仅保留当前版本增量亮点、删除全部前驱亮点。但逐条替换凑数条目是允许的。
 - **由测试版晋升的正式版**：判定基准是最后一个测试版。若最后一个测试版到正式版之间只有 CI、chore、内部维护等，Highlights 一字不改复用，只更新顶部版本号标题。
+- **测试/实验性功能条目注明性质并引导反馈入口**：标注 ｢测试功能｣ 并可能存在未发现问题时，附上反馈路径（中文 ｢设置 - 问题反馈｣、英文 `Settings - Issue Report`，以界面实际文案为准），避免用户遇到问题后到处询问。
 
-## 6. 噪音过滤
+## 6. 噪音过滤与内部内容收录
 
-**删除**：bot 自动生成（`Auto Update Game Resources`、`Auto Templates Optimization`）、`Release vX.Y.Z`、`Auto Update/Generate Changelog`、`Update CHANGELOG`、`Bump version`、带 `[skip changelog]` 标记的提交。
+**删除**：bot 自动生成（`Auto Update Game Resources`、`Auto Templates Optimization` 及其附带的产物重生成）、`Release vX.Y.Z`、`Auto Update/Generate Changelog`、`Update CHANGELOG`、`Bump version`、带 `[skip changelog]` 标记的提交。
 
-**不过滤**：chore、perf 或看似内部的提交——只要有用户可感知效果（启动体验、性能、稳定性等），一律保留。
+**收录进 ｢其他 | Other｣**：其余内部维护改动——工具链约定、工程化开关（如 TreatWarningsAsErrors）、开发规范更新、CI 依赖升级、构建/资源同步脚本机制、格式统一、版权年份等。两个受众分层：**Highlights 是面向用户的精选层**，从用户价值出发筛选；**详细内容的读者也包括开发者与集成者**，内部维护改动对他们有参考价值，按 Other 收录而不是按 ｢用户可感知性｣ 扔掉。仅真正的噪音（上述删除项）不入文档。
 
 ## 7. 翻译判断
 
@@ -110,8 +114,14 @@ description: 依据 git 提交、diff、现有 CHANGELOG 与 tag，生成符合 
 仓库默认使用 squash merge，squash 后的 commit 会丢失原始分支上的多提交者信息：
 
 - **`%an`（author）= PR 发起人**，是默认归属依据。**不要**用 `%cn`（committer），squash 的 committer 通常是 GitHub 或执行合并维护者。
-- **多贡献者 PR**：如果 PR 有其他协作者（Co-authored-by、分支上有他人 commit），squash 后这些信息可能被压缩或仅保留在 PR 页面的 contributor 列表中。对无法确认的 PR，**必须访问 PR 页面**（如 `https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/12345`）核对发起人与 contributor 列表。
-- 作者格式：单作者 `@author`；多作者用空格分隔 `@author1 @author2`。显示名 → GitHub login 的已确认映射与 `gh` 超时回退办法见 §3 作者归属。
+- **逐 PR 核对协作者，不得默认单作者**：`%an` 只反映发起人，分支上有他人 commit 的 PR 标发起人会漏标。主判据是本地 squash commit 的 `Co-authored-by` trailer（GitHub squash 自动保留、不依赖网络），对范围内全部 PR 批量执行：
+
+  ```bash
+  git log -1 --format=%b <dev-v2上的squash-commit> | grep -i "Co-authored-by"
+  ```
+
+  trailer 非空 → 按 trailer 列出协作者；trailer 为空且存疑时，用 `gh api repos/.../pulls/<N>/commits` 看分支 commit 作者列表佐证；仍无法确认才访问 PR 页面核对 contributor 列表。本地 trailer 判据优先于 gh 网络请求——`gh` 有间歇性 TLS 超时，批量核对时本地先行能省掉大量重试。
+- **作者顺序**：发起人在前，协作者按 trailer 顺序随后，如 `@author1 @author2 @author3`。单作者 `@author`。显示名 → GitHub login 的已确认映射与 `gh` 超时回退办法见 §3 作者归属。
 
 ## 文件结构（自上而下）
 
@@ -191,6 +201,16 @@ English paragraph.
 4. **详细内容**：各测试版条目按模块汇总去重，补入增量，排序。
 5. 跨次版本号不保留历史折叠块；patch 正式版保留。
 
+### 测试版发布后的增量补充（常见循环）
+
+beta 的 CHANGELOG 已写入并推送、但版本尚未发布期间，dev-v2 会持续有新提交合并。用户常说 ｢补充一下之后新提交的 changelog｣ ｢再拉一下新提交｣，此时**不做全量重分析**，按增量循环：
+
+1. **确定增量范围**：以 CHANGELOG 已覆盖的最后一个提交为界（即上次写入/推送 changelog 时的 dev-v2 顶点），`git fetch` 后分析 `上界..origin/dev-v2`。
+2. 新提交照常走 §6 过滤/收录、§1 合并、§9 作者核对（trailer 逐 PR 查）。
+3. 条目叠加进当前版本的对应分类区块，统一排序；新增亮点按 §5 累计规则处理，是否进 Highlights 交用户裁定。
+4. 用户过程中的逐条裁定（如某功能入口未开放暂不写、某条目定性）在后续增量轮次中继续沿用，不得悄悄回退；功能状态发生变化（如入口开放）时按新裁定重新定性，并按 §1 ｢首次可见功能｣ 规则合并。
+5. 推送若被拒（远端又进了新提交，多为 bot），`git pull --rebase` 后重推。
+
 ## 常见错误
 
 - ❌ 旧版本条目整段复制到当前版本 / Revert 原样保留
@@ -201,8 +221,13 @@ English paragraph.
 - ❌ chore/perf 默认当噪音过滤（应判断用户可感知效果）
 - ❌ 从 git tag 自行推测版本号（应从 PR 标题/用户输入获取；`gh` 失败时用 URL 访问 PR 页面）
 - ❌ 外服专有条目整条译成中文 / git 历史未指定编码导致乱码
-- ❌ squash PR 作者取 `%cn`（committer/合并者）而非 `%an`（author/发起人）；多贡献者 PR 未访问 PR 页面核对 contributor
+- ❌ squash PR 作者取 `%cn`（committer/合并者）而非 `%an`（author/发起人）；多贡献者 PR 未核对 contributor（默认单作者直接落笔——应逐 PR 查 trailer）
 - ❌ 条件生效的功能写成无条件生效（应查代码把输入/截图/连接方式等限定写进条目）
+- ❌ 首次可见功能的中间打磨/修复条目单列罗列（应并入功能本体条目）
+- ❌ 内部维护提交按 ｢用户不可感知｣ 一律过滤（应收录进 Other——详细内容面向开发者；Highlights 才是用户精选层）
+- ❌ 条目沿用开发者俗称而非游戏/UI 正式术语（如 ｢导师｣ 应为 ｢协助者｣、｢培养计划｣ 应为 ｢干员培养｣）
+- ❌ 把 Sourcery 摘要直接当条目事实来源（低思考等级 AI 输出，仅作线索，事实须落到 diff/作者正文/issue）
+- ❌ 测试功能条目不注明测试性质与反馈入口（应写 ｢设置 - 问题反馈｣）
 
 ## 最终检查
 
@@ -216,4 +241,8 @@ English paragraph.
 - [ ] 子仓库 MaaMacGui 放在 `### 其他 | Other` 之后？
 - [ ] 版本号从 PR 标题/用户输入获取，未从 git tag 推测？
 - [ ] squash PR 作者取 `%an`（发起人），非 `%cn`（合并者）？多贡献者 PR 已核对 contributor 列表？`@作者` 均为 GitHub login 而非显示名？
+- [ ] 首次可见功能已合并为功能本体条目，无中间打磨条目残留？
+- [ ] 内部维护改动已收录 Other（bot/Release/[skip changelog] 除外）？
+- [ ] 功能与机制名称为 UI 正式名称（本地化 key 值/游戏内术语），无开发者别称？
+- [ ] 测试功能条目注明性质并附 ｢设置 - 问题反馈｣ 引导？
 - [ ] 外服专有条目保留英文原文？git 历史已指定编码？
