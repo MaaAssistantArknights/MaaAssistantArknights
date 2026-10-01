@@ -109,8 +109,10 @@
 
                 <hc:RunningBlock
                     Grid.Column="1"
-                    Margin="10,-2.5"
+                    Margin="10,0"
+                    Padding="0"
                     HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
                     BorderThickness="0"
                     Content="{Binding WindowTitle}"
                     IsHitTestVisible="False"
