@@ -105,7 +105,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         (ConnectConfig.WSA, "WSA"),
         (ConnectConfig.Compatible, "Compatible"),
         (ConnectConfig.SecondResolution, "SecondResolution"),
-        (ConnectConfig.GeneralWithoutScreencapErr, "GeneralWithoutScreencapErr"));
+        (ConnectConfig.GeneralWithoutScreencapErr, "GeneralWithoutScreencapErr"),
+        (ConnectConfig.ARPS, "ARPS"));
 
     public static string TouchModeVideoPath => Path.Combine(PathsHelper.BaseDir, "Res", "Video", "TouchMode.mp4");
 
@@ -259,6 +260,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         ConnectConfig.LDPlayer => Extras.LdPlayer,
         ConnectConfig.MuMuEmulator12 => Extras.Mumu12,
         ConnectConfig.PC => Extras.Win32,
+        ConnectConfig.ARPS => Extras.Arps,
         _ => null,
     };
 
@@ -271,6 +273,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         public MuMu12Extra Mumu12 { get; set; } = new();
 
         public Models.EmulatorConnectionExtra.Win32Extra Win32 { get; set; } = new();
+
+        public ArpsExtra Arps { get; set; } = new();
 
         public Bluestacks BluestacksExtra { get; set; } = new();
 
@@ -611,6 +615,15 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                         ? LocalizationHelper.GetString("LdEmulatorPathEmptyError")
                         : LocalizationHelper.GetString("LdExtrasNotEnabledMessage");
                     TestLinkInfo = $"{ldExtrasMsg}\n{ScreencapTestCost}";
+                    return;
+                }
+
+                break;
+
+            case ConnectConfig.ARPS:
+                if (ScreencapMethod != "ARPS")
+                {
+                    TestLinkInfo = $"{LocalizationHelper.GetString("ArpsNotEnabledMessage")}\n{ScreencapTestCost}";
                     return;
                 }
 

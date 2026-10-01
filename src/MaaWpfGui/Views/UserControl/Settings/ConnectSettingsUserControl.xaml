@@ -251,6 +251,56 @@
                                 </StackPanel>
                             </StackPanel>
                         </DataTemplate>
+                        <DataTemplate DataType="{x:Type extra:ArpsExtra}">
+                            <StackPanel HorizontalAlignment="Center" d:DataContext="{d:DesignInstance {x:Type extra:ArpsExtra}}">
+                                <StackPanel Margin="10,5" Orientation="Horizontal">
+                                    <hc:ComboBox
+                                        Width="190"
+                                        Height="30"
+                                        hc:TitleElement.Title="{DynamicResource ArpsCompression}"
+                                        hc:TitleElement.TitlePlacement="Left"
+                                        DisplayMemberPath="Display"
+                                        ItemsSource="{Binding CompressionOptions}"
+                                        SelectedValue="{Binding Compression}"
+                                        SelectedValuePath="Value" />
+                                    <hc:NumericUpDown
+                                        Width="160"
+                                        Height="30"
+                                        Margin="10,0,0,0"
+                                        hc:InfoElement.Title="{DynamicResource ArpsMaxFps}"
+                                        hc:TitleElement.TitlePlacement="Left"
+                                        Maximum="240"
+                                        Minimum="0"
+                                        Value="{Binding MaxFps}" />
+                                </StackPanel>
+                                <StackPanel Margin="10,5" Orientation="Horizontal">
+                                    <hc:ComboBox
+                                        Width="190"
+                                        Height="30"
+                                        hc:TitleElement.Title="{DynamicResource ArpsCaptureMode}"
+                                        hc:TitleElement.TitlePlacement="Left"
+                                        DisplayMemberPath="Display"
+                                        ItemsSource="{Binding CaptureModeOptions}"
+                                        SelectedValue="{Binding CaptureMode}"
+                                        SelectedValuePath="Value" />
+                                    <hc:ComboBox
+                                        Width="220"
+                                        Height="30"
+                                        Margin="10,0,0,0"
+                                        hc:TitleElement.Title="{DynamicResource ArpsExitPowerMode}"
+                                        hc:TitleElement.TitlePlacement="Left"
+                                        DisplayMemberPath="Display"
+                                        ItemsSource="{Binding ExitPowerModeOptions}"
+                                        SelectedValue="{Binding ExitPowerMode}"
+                                        SelectedValuePath="Value" />
+                                </StackPanel>
+                                <WrapPanel Margin="10,5" HorizontalAlignment="Center" Orientation="Horizontal">
+                                    <CheckBox Margin="10,5" Content="{DynamicResource ArpsPowerOnIfScreenOff}" IsChecked="{Binding PowerOnIfScreenOff}" />
+                                    <CheckBox Margin="10,5" Content="{DynamicResource ArpsTurnScreenOff}" IsChecked="{Binding TurnScreenOff}" />
+                                    <CheckBox Margin="10,5" Content="{DynamicResource ArpsKeepScreenOn}" IsChecked="{Binding KeepScreenOn}" />
+                                </WrapPanel>
+                            </StackPanel>
+                        </DataTemplate>
                         <DataTemplate DataType="{x:Type extra:Win32Extra}">
                             <StackPanel d:DataContext="{d:DesignInstance {x:Type extra:Win32Extra}}">
                                 <StackPanel
