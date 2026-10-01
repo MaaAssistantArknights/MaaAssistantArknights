@@ -74,10 +74,12 @@
                 </WrapPanel>
             </StackPanel>
 
-            <!--  计划列表：容器与交互对齐 OperProgressTaskUserControl 的 ListBox。
-                  宿主链最外层是设置面板的 ScrollViewer，经 SimpleStackPanel 透传给列表的高度约束无限，
-                  MaxHeight 绑 ｢视口 - 固定区实际高度｣ 建立有界视口，虚拟化方能生效；
-                  固定区随语言换行增高时列表自动收缩，固定区超出视口时列表归零、由外层面板滚动兜底  -->
+            <!--
+                计划列表：容器与交互对齐 OperProgressTaskUserControl 的 ListBox。
+                宿主链最外层是设置面板的 ScrollViewer，经 SimpleStackPanel 透传给列表的高度约束无限，
+                MaxHeight 绑 ｢视口 - 固定区实际高度｣ 建立有界视口，虚拟化方能生效；
+                固定区随语言换行增高时列表自动收缩，固定区超出视口时列表归零、由外层面板滚动兜底
+            -->
             <ListBox
                 Padding="0"
                 HorizontalContentAlignment="Stretch"
@@ -97,7 +99,7 @@
                 <ListBox.MaxHeight>
                     <MultiBinding Converter="{StaticResource SubtractConverter}">
                         <Binding Path="ViewportHeight" RelativeSource="{RelativeSource AncestorType=ScrollViewer}" />
-                        <Binding Path="ActualHeight" ElementName="FixedHeaderPanel" />
+                        <Binding ElementName="FixedHeaderPanel" Path="ActualHeight" />
                     </MultiBinding>
                 </ListBox.MaxHeight>
                 <ListBox.ItemContainerStyle>
