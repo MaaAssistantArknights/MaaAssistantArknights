@@ -2868,8 +2868,7 @@ public class AsstProxy
             return;
         }
 
-        string? reportTargetKey = subTask switch
-        {
+        string? reportTargetKey = subTask switch {
             "ReportToPenguinStats" => "ThirdPartyGroupPenguin",
             "ReportToYituliu" => "ThirdPartyGroupYituliu",
             _ => null,
@@ -3081,6 +3080,27 @@ public class AsstProxy
             SET_WINDOW_POS_FLAGS.SWP_NOSIZE | SET_WINDOW_POS_FLAGS.SWP_NOZORDER | SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE);
 
         _logger.Information("RestoreGameWindowPosition: moved window to screen center, hwnd: {Hwnd}", hwnd);
+    }
+
+    /// <summary>
+    /// Minimizes the attached game window without waiting for its UI thread.
+    /// </summary>
+    public void MinimizeGameWindow()
+    {
+        var hwnd = (HWND)_attachWindowHwnd;
+        if (_attachWindowHwnd == IntPtr.Zero || !PInvoke.IsWindow(hwnd))
+        {
+            _logger.Warning("Cannot minimize game window: no valid attached window, connect first");
+            return;
+        }
+
+        if (!PInvoke.ShowWindowAsync(hwnd, SHOW_WINDOW_CMD.SW_FORCEMINIMIZE))
+        {
+            _logger.Warning("Failed to request game window minimization for HWND {Hwnd}, error: {Error}", hwnd, Marshal.GetLastWin32Error());
+            return;
+        }
+
+        _logger.Information("Requested game window minimization for HWND {Hwnd}", hwnd);
     }
 
     /// <summary>
