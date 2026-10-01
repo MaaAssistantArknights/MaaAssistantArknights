@@ -28,6 +28,7 @@
 
 ## XAML 与本地化
 
+- 格式化统一走 XAML Styler 默认设置（VS 插件与命令行 `xstyler` 同引擎同默认设置），命令行 `xstyler -f <文件>`（多文件逗号分隔）或 `xstyler -d <目录> -r`，安装 `dotnet tool install -g xamlstyler.console`；勿传 `-c` 或另行引入 `.xamlstyler` 配置文件，格式规范以默认设置为准。
 - 界面文本一律用 `controls:TextBlock` 而非原版 `TextBlock`；例外是文本样式需跟随宿主控件模板的场景（超链接、下拉选中项、按钮 Content、DataTemplate 内部等），这些用原版 `TextBlock`，不要套统一样式，保持原生表现。
 - 本地化 key 与主题 Brush 一律 `{DynamicResource ...}`，StaticResource 在语言或主题热切换后不刷新；引用本仓库自定义样式等不随主题/语言热切换的资源时用 StaticResource。
 - 提示文案 key 加 `Tip` 后缀（`ForceScheduledStart` 与 `ForceScheduledStartTip`），句内复用其他 key 写 `{key=Xxx}` 内联。

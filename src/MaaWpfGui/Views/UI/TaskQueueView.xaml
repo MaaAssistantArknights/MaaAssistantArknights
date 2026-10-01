@@ -589,8 +589,10 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" MaxHeight="250" />
                 </Grid.RowDefinitions>
-                <!--  本视口高度撑满所在行（勿改 VerticalAlignment=Top）：面板内列表类控件的 MaxHeight 绑定此视口高度，
-                      Top 对齐会使视口高度随内容收缩，与列表 MaxHeight 形成反馈循环，导致列表高度反复振荡  -->
+                <!--
+                    本视口高度撑满所在行（勿改 VerticalAlignment=Top）：面板内列表类控件的 MaxHeight 绑定此视口高度，
+                    Top 对齐会使视口高度随内容收缩，与列表 MaxHeight 形成反馈循环，导致列表高度反复振荡
+                -->
                 <hc:ScrollViewer
                     Grid.Row="0"
                     Grid.RowSpan="{c:Binding 'TaskSettingVisibilities.PostAction ? 2:1'}"
