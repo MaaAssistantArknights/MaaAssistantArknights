@@ -86,6 +86,13 @@ public static class ConfigurationKeys
     public const string KillAdbOnExit = "Connect.KillAdbOnExit"; // √
     public const string TouchMode = "Connect.TouchMode"; // √
     public const string AdbReplaced = "Connect.AdbReplaced"; // √
+    public const string ArpsCompression = "Connect.ARPS.Compression";
+    public const string ArpsMaxFps = "Connect.ARPS.MaxFps";
+    public const string ArpsCaptureMode = "Connect.ARPS.CaptureMode";
+    public const string ArpsPowerOnIfScreenOff = "Connect.ARPS.PowerOnIfScreenOff";
+    public const string ArpsTurnScreenOff = "Connect.ARPS.TurnScreenOff";
+    public const string ArpsKeepScreenOn = "Connect.ARPS.KeepScreenOn";
+    public const string ArpsExitPowerMode = "Connect.ARPS.ExitPowerMode";
 
     // AttachWindow (Win32窗口绑定) 配置
     public const string UseAttachWindow = "Connect.UseAttachWindow"; // 废弃
