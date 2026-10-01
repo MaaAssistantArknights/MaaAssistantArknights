@@ -1420,6 +1420,21 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
         }
     }
 
+    // --- 制造加速(153) ---
+    // 在153布局中，制造加速干员优先于贸易加速干员
+    if (context.trading_station_num == 1) {
+        if (best.size() < ControlSlotCount && !manu_acc &&
+            add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_p_spd"); })) {
+            // 最高权限：凯尔希；同类制造加速只选择一次。
+            manu_acc = true;
+        }
+
+        if (best.size() < ControlSlotCount && !manu_acc && context.workbench_num > 1 &&
+            add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_token_p_spd"); })) { // 超频：布丁
+            manu_acc = true;
+        }
+    }
+
     // 合作协议 / 大小姐 / 朝气蓬勃 / 情报主脑：阿米娅、诗怀雅、明椒、阿斯卡纶；
     // 权变：望。两类技能均只占用一次贸易加速名额。
     if (best.size() < ControlSlotCount && !trading_acc && add_first([](const ScoreOper& oper) {
