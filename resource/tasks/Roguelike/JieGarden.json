@@ -256,7 +256,8 @@
         "algorithm": "OcrDetect",
         "text": ["交换"],
         "roi": [575, 558, 127, 50],
-        "preDelay": 1000
+        "preDelay": 1000,
+        "next": ["#self"]
     },
     "JieGarden@Roguelike@CoppersListDialogConfirm": {
         "Doc": "通宝列表界面弹出的确认按钮",
