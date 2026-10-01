@@ -18,6 +18,7 @@ protected:
 
     bool swipe_and_analyze();
     bool analyze_basic_items();
+    void callback_invalid_templates(const std::vector<std::string>& item_ids);
     void callback_analyze_result(bool done);
     void swipe();
     std::unordered_map<std::string, ItemInfo> m_all_items;

@@ -44,7 +44,10 @@ bool asst::DepotRecognitionTask::analyze_basic_items()
     DepotImageAnalyzer analyzer(ctrler()->get_image());
     analyzer.set_item_ids({ "4002", "4003", "4001", "3003", "4006" }); // 源石 合成玉 龙门币 赤金 采购凭证（红票）
     analyzer.set_is_basic(true);
-    if (!analyzer.analyze()) {
+    const bool analyzed = analyzer.analyze();
+    callback_invalid_templates(analyzer.get_invalid_template_ids());
+    if (!analyzed) {
+        DepotImageAnalyzer::clear_cached_templates();
         return false;
     }
 
@@ -72,7 +75,9 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
         // 因为滑动不是完整的一页，有可能上一次识别过的物品，这次仍然在页面中
         // 所以这个 begin pos 不能设置
         // analyzer.set_match_begin_pos(pre_pos);
-        if (!analyzer.analyze()) {
+        const bool analyzed = analyzer.analyze();
+        callback_invalid_templates(analyzer.get_invalid_template_ids());
+        if (!analyzed) {
             break;
         }
         size_t cur_pos = analyzer.get_match_begin_pos();
@@ -89,6 +94,17 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
     }
     DepotImageAnalyzer::clear_cached_templates();
     return !m_all_items.empty();
+}
+
+void asst::DepotRecognitionTask::callback_invalid_templates(const std::vector<std::string>& item_ids)
+{
+    if (item_ids.empty()) {
+        return;
+    }
+
+    json::value info = basic_info_with_what("DepotTemplateLoadError");
+    info["details"]["item_ids"] = json::array(item_ids);
+    callback(AsstMsg::SubTaskError, info);
 }
 
 void asst::DepotRecognitionTask::callback_analyze_result(bool done)
