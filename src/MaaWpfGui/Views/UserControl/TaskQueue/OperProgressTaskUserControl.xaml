@@ -113,6 +113,7 @@
                 Padding="0"
                 HorizontalContentAlignment="Stretch"
                 d:IsHitTestVisible="True"
+                hc:ScrollViewer.IsInertiaEnabled="True"
                 BorderThickness="0"
                 ClipToBounds="False"
                 IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
@@ -121,6 +122,7 @@
                 PreviewMouseWheel="{s:Action RouteMouseWheelToParentExceptScrollable,
                                              Target={x:Type helper:MouseWheelHelper}}"
                 VirtualizingPanel.IsVirtualizing="True"
+                VirtualizingPanel.ScrollUnit="Pixel"
                 VirtualizingPanel.VirtualizationMode="Recycling">
                 <ListBox.MaxHeight>
                     <MultiBinding Converter="{StaticResource SubtractConverter}">

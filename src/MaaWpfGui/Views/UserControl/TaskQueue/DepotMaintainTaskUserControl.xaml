@@ -85,12 +85,14 @@
                 dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
                 dd:DragDrop.IsDragSource="True"
                 dd:DragDrop.IsDropTarget="True"
+                hc:ScrollViewer.IsInertiaEnabled="True"
                 BorderThickness="0"
                 ClipToBounds="False"
                 ItemsSource="{Binding Path=PlanList}"
                 PreviewMouseWheel="{s:Action RouteMouseWheelToParentExceptScrollable,
                                              Target={x:Type helper:MouseWheelHelper}}"
                 VirtualizingPanel.IsVirtualizing="True"
+                VirtualizingPanel.ScrollUnit="Pixel"
                 VirtualizingPanel.VirtualizationMode="Recycling">
                 <ListBox.MaxHeight>
                     <MultiBinding Converter="{StaticResource SubtractConverter}">
