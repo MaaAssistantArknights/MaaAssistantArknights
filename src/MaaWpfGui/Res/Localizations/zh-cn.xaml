@@ -754,7 +754,7 @@ D:\
     <system:String x:Key="MiniGame@EventShop@DataSupplementStick">数据增补条</system:String>
     <system:String x:Key="MiniGame@EventShop@Lmd">龙门币</system:String>
     <system:String x:Key="MiniGame@EventShop@FurniturePart">家具零件</system:String>
-    <system:String x:Key="MiniGame@EventShop@Other">其他</system:String>
+    <system:String x:Key="MiniGame@EventShop@Other">其他自定义商品</system:String>
     <system:String x:Key="HighPriorityDefault">招聘许可</system:String>
     <system:String x:Key="BlacklistDefault">碳;家具;加急许可</system:String>
     <system:String x:Key="Drink">要来一杯美酒吗🍷？博士</system:String>

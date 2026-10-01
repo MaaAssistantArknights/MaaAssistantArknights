@@ -756,7 +756,7 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="MiniGame@EventShop@DataSupplementStick">Data Supplement Stick</system:String>
     <system:String x:Key="MiniGame@EventShop@Lmd">LMD</system:String>
     <system:String x:Key="MiniGame@EventShop@FurniturePart">Furniture Part</system:String>
-    <system:String x:Key="MiniGame@EventShop@Other">Other</system:String>
+    <system:String x:Key="MiniGame@EventShop@Other">Other custom items</system:String>
     <system:String x:Key="HighPriorityDefault">Recruitment Permit</system:String>
     <system:String x:Key="BlacklistDefault">Carbon;Furniture Part;Expedited Plan</system:String>
     <system:String x:Key="Drink">Would you like a drink🍷? doctor</system:String>

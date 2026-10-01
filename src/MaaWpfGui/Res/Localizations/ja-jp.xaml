@@ -756,7 +756,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="MiniGame@EventShop@DataSupplementStick">データ補完チップ</system:String>
     <system:String x:Key="MiniGame@EventShop@Lmd">龍門幣</system:String>
     <system:String x:Key="MiniGame@EventShop@FurniturePart">家具パーツ</system:String>
-    <system:String x:Key="MiniGame@EventShop@Other">その他</system:String>
+    <system:String x:Key="MiniGame@EventShop@Other">その他のカスタム商品</system:String>
     <system:String x:Key="HighPriorityDefault">求人票</system:String>
     <system:String x:Key="BlacklistDefault">炭素材;家具;緊急招集票</system:String>
     <system:String x:Key="Drink">飲み物はいかがですか🍷？ドクター</system:String>

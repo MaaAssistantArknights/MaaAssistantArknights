@@ -87,6 +87,7 @@ public class ToolboxViewModel : Screen
             PixelPaintFitModeList.RefreshLocalization();
             PixelPaintDitherModeList.RefreshLocalization();
             SecretFrontEventList.RefreshLocalization();
+            EventShopBlackListItems.RefreshLocalization();
             ExportOptionList.RefreshLocalization();
             OperBoxExportOptionList.RefreshLocalization();
             Application.Current.Dispatcher.InvokeAsync(
@@ -112,6 +113,14 @@ public class ToolboxViewModel : Screen
         OperBoxSelectedIndex = OperBoxNotHaveList.Count > 0 ? 0 : 1;
 
         UpdateMiniGameTaskList();
+        EventShopBlackListSelectedItems = [.. EventShopBlackListItems.Where(item => item.Value switch
+        {
+            DataSupplementInstrumentItemId => EventShopBlackListDataSupplementInstrument,
+            DataSupplementStickItemId => EventShopBlackListDataSupplementStick,
+            LmdItemId => EventShopBlackListLmd,
+            FurniturePartItemId => EventShopBlackListFurniturePart,
+            _ => false,
+        })];
     }
 
     /// <summary>
@@ -2824,6 +2833,25 @@ public class ToolboxViewModel : Screen
     /// Gets or sets 自动提升潜能：中坚信物不足时是否消耗普通信物继续提升（不勾选时点 × 跳过该次提升）。
     /// </summary>
     public bool MiniGameUseNormalToken { get; set => SetAndNotify(ref field, value); }
+
+    public LocalizedObservableList<string> EventShopBlackListItems { get; } = new(
+        (DataSupplementInstrumentItemId, "MiniGame@EventShop@DataSupplementInstrument"),
+        (DataSupplementStickItemId, "MiniGame@EventShop@DataSupplementStick"),
+        (LmdItemId, "MiniGame@EventShop@Lmd"),
+        (FurniturePartItemId, "MiniGame@EventShop@FurniturePart"));
+
+    public object[] EventShopBlackListSelectedItems
+    {
+        get;
+        set {
+            SetAndNotify(ref field, value);
+            var selectedIds = value.Cast<GenericCombinedData<string>>().Select(item => item.Value).ToHashSet();
+            EventShopBlackListDataSupplementInstrument = selectedIds.Contains(DataSupplementInstrumentItemId);
+            EventShopBlackListDataSupplementStick = selectedIds.Contains(DataSupplementStickItemId);
+            EventShopBlackListLmd = selectedIds.Contains(LmdItemId);
+            EventShopBlackListFurniturePart = selectedIds.Contains(FurniturePartItemId);
+        }
+    } = [];
 
     public bool EventShopBlackListDataSupplementInstrument
     {

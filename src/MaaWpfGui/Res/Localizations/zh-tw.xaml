@@ -755,7 +755,7 @@ D:\
     <system:String x:Key="MiniGame@EventShop@DataSupplementStick">數據增補條</system:String>
     <system:String x:Key="MiniGame@EventShop@Lmd">龍門幣</system:String>
     <system:String x:Key="MiniGame@EventShop@FurniturePart">傢俱零件</system:String>
-    <system:String x:Key="MiniGame@EventShop@Other">其他</system:String>
+    <system:String x:Key="MiniGame@EventShop@Other">其他自訂商品</system:String>
     <system:String x:Key="HighPriorityDefault">招聘許可</system:String>
     <system:String x:Key="BlacklistDefault">碳;傢俱;加急許可</system:String>
     <system:String x:Key="Drink">要來一杯美酒嗎🍷？博士</system:String>

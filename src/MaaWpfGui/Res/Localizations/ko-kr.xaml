@@ -756,7 +756,7 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="MiniGame@EventShop@DataSupplementStick">데이터 메모리</system:String>
     <system:String x:Key="MiniGame@EventShop@Lmd">용문폐</system:String>
     <system:String x:Key="MiniGame@EventShop@FurniturePart">가구 부품</system:String>
-    <system:String x:Key="MiniGame@EventShop@Other">기타</system:String>
+    <system:String x:Key="MiniGame@EventShop@Other">기타 사용자 지정 상품</system:String>
     <system:String x:Key="HighPriorityDefault">모집 허가증</system:String>
     <system:String x:Key="BlacklistDefault">카본;가구 부품;즉시 완료 허가증</system:String>
     <system:String x:Key="Drink">술 한잔은 어떠십니까🍷? 박사님</system:String>

@@ -1593,21 +1593,13 @@
                                     Margin="0,0,0,8"
                                     Text="{DynamicResource MiniGame@EventShop@BlacklistTip}"
                                     TextWrapping="Wrap" />
-                                <CheckBox
-                                    Content="{DynamicResource MiniGame@EventShop@DataSupplementInstrument}"
-                                    IsChecked="{Binding EventShopBlackListDataSupplementInstrument}" />
-                                <CheckBox
-                                    Margin="0,8,0,0"
-                                    Content="{DynamicResource MiniGame@EventShop@DataSupplementStick}"
-                                    IsChecked="{Binding EventShopBlackListDataSupplementStick}" />
-                                <CheckBox
-                                    Margin="0,8,0,0"
-                                    Content="{DynamicResource MiniGame@EventShop@Lmd}"
-                                    IsChecked="{Binding EventShopBlackListLmd}" />
-                                <CheckBox
-                                    Margin="0,8,0,0"
-                                    Content="{DynamicResource MiniGame@EventShop@FurniturePart}"
-                                    IsChecked="{Binding EventShopBlackListFurniturePart}" />
+                                <hc:CheckComboBox
+                                    MinWidth="180"
+                                    HorizontalAlignment="Stretch"
+                                    hc:ListBoxAttach.SelectedItems="{Binding EventShopBlackListSelectedItems}"
+                                    DisplayMemberPath="Display"
+                                    ItemsSource="{Binding EventShopBlackListItems}"
+                                    SelectionMode="Multiple" />
                                 <CheckBox
                                     Margin="0,8,0,0"
                                     Content="{DynamicResource MiniGame@EventShop@Other}"
