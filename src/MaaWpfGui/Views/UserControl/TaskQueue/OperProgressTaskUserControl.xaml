@@ -20,6 +20,7 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <converters:OperBadgeMultiConverter x:Key="OperBadgeMultiConverter" />
+        <converters:SubtractConverter x:Key="SubtractConverter" />
     </UserControl.Resources>
     <StackPanel>
         <!--  常规设置  -->
@@ -30,81 +31,86 @@
                     Cursor="Hand"
                     NavigateUri="{Binding Source={x:Static constants:MaaUrls.ArknightsToolbox}}"
                     TextDecorations="None">
-                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource OperProgressOnlineEditor}" />
+                    <TextBlock
+                        Style="{StaticResource HyperlinkTextBlockStyle}"
+                        Text="{DynamicResource OperProgressOnlineEditor}"
+                        TextWrapping="Wrap" />
                 </Hyperlink>
             </controls:TextBlock>
 
-            <StackPanel
-                Margin="0,5,0,0"
-                HorizontalAlignment="Center"
-                Orientation="Horizontal">
-                <Button
-                    MinWidth="50"
-                    Margin="0"
-                    hc:BorderElement.CornerRadius="4,0,0,4"
-                    Command="{s:Action CollapseAll}"
-                    Content="{DynamicResource CollapseAll}" />
-                <Button
-                    MinWidth="50"
-                    Margin="-1,0,0,0"
-                    hc:BorderElement.CornerRadius="0"
-                    Command="{s:Action ClearPlan}"
-                    Content="{DynamicResource Clear}" />
-                <Button
-                    Margin="-1,0,0,0"
-                    HorizontalAlignment="Left"
-                    hc:BorderElement.CornerRadius="0,4,4,0"
-                    Command="{s:Action ParsePlan}"
-                    Content="{DynamicResource ParseClipboard}" />
+            <!--  固定区：操作按钮行与干员选择添加行；链接随外层面板滚动  -->
+            <StackPanel x:Name="FixedHeaderPanel">
+                <WrapPanel
+                    Margin="0,5,0,5"
+                    HorizontalAlignment="Center">
+                    <Button
+                        MinWidth="50"
+                        Margin="0,0,-1,0"
+                        hc:BorderElement.CornerRadius="4,0,0,4"
+                        Command="{s:Action CollapseAll}"
+                        Content="{DynamicResource CollapseAll}" />
+                    <Button
+                        MinWidth="50"
+                        Margin="0,0,-1,0"
+                        hc:BorderElement.CornerRadius="0"
+                        Command="{s:Action ClearPlan}"
+                        Content="{DynamicResource Clear}" />
+                    <Button
+                        Margin="0,0,-1,0"
+                        hc:BorderElement.CornerRadius="0,4,4,0"
+                        Command="{s:Action ParsePlan}"
+                        Content="{DynamicResource ParseClipboard}" />
+                </WrapPanel>
+                <!--  干员选择与添加培养目标  -->
+                <Grid Margin="0,5,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
+                    <hc:ComboBox
+                        Grid.Column="0"
+                        HorizontalContentAlignment="Stretch"
+                        hc:BorderElement.CornerRadius="4,0,0,4"
+                        IsEditable="True"
+                        IsTextSearchEnabled="False"
+                        ItemsSource="{Binding OperatorNames}"
+                        Loaded="{s:Action MakeComboBoxSearchable,
+                                          Target={x:Type ui_vms:SettingsViewModel}}"
+                        SelectedValue="{Binding OperSelect}"
+                        SelectedValuePath="Value">
+                        <hc:ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <ContentControl>
+                                    <ContentControl.Content>
+                                        <MultiBinding Converter="{StaticResource OperBadgeMultiConverter}">
+                                            <Binding Path="Value.Id" />
+                                            <Binding Path="Display" />
+                                        </MultiBinding>
+                                    </ContentControl.Content>
+                                </ContentControl>
+                            </DataTemplate>
+                        </hc:ComboBox.ItemTemplate>
+                    </hc:ComboBox>
+                    <Button
+                        x:Name="AddTargetButton"
+                        Grid.Column="1"
+                        MinWidth="60"
+                        Margin="-1,0,0,0"
+                        hc:BorderElement.CornerRadius="0,4,4,0"
+                        BorderThickness="0,1,1,1"
+                        Command="{s:Action AddOperator}"
+                        Content="{DynamicResource Add}" />
+                </Grid>
             </StackPanel>
-            <!--  干员选择与添加培养目标  -->
-            <Grid Margin="0,5,0,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
 
-                <hc:ComboBox
-                    Grid.Column="0"
-                    HorizontalContentAlignment="Stretch"
-                    hc:BorderElement.CornerRadius="4,0,0,4"
-                    IsEditable="True"
-                    IsTextSearchEnabled="False"
-                    ItemsSource="{Binding OperatorNames}"
-                    Loaded="{s:Action MakeComboBoxSearchable,
-                                      Target={x:Type ui_vms:SettingsViewModel}}"
-                    SelectedValue="{Binding OperSelect}"
-                    SelectedValuePath="Value">
-                    <hc:ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <ContentControl>
-                                <ContentControl.Content>
-                                    <MultiBinding Converter="{StaticResource OperBadgeMultiConverter}">
-                                        <Binding Path="Value.Id" />
-                                        <Binding Path="Display" />
-                                    </MultiBinding>
-                                </ContentControl.Content>
-                            </ContentControl>
-                        </DataTemplate>
-                    </hc:ComboBox.ItemTemplate>
-                </hc:ComboBox>
-                <Button
-                    x:Name="AddTargetButton"
-                    Grid.Column="1"
-                    MinWidth="60"
-                    Margin="-1,0,0,0"
-                    hc:BorderElement.CornerRadius="0,4,4,0"
-                    BorderThickness="0,1,1,1"
-                    Command="{s:Action AddOperator}"
-                    Content="{DynamicResource Add}" />
-            </Grid>
-
-            <!--  干员计划列表：容器与交互对齐 DepotMaintainTaskUserControl 的 ListBox  -->
+            <!--  干员计划列表：容器与交互对齐 DepotMaintainTaskUserControl 的 ListBox。
+                  宿主链最外层是设置面板的 ScrollViewer，经 SimpleStackPanel 透传给列表的高度约束无限，
+                  MaxHeight 绑 ｢视口 - 固定区实际高度｣ 建立有界视口，虚拟化方能生效；
+                  固定区随语言换行增高时列表自动收缩，固定区超出视口时列表归零、由外层面板滚动兜底  -->
             <ListBox
                 Margin="0,5,0,0"
                 Padding="0"
-                VerticalAlignment="Top"
                 HorizontalContentAlignment="Stretch"
                 d:IsHitTestVisible="True"
                 BorderThickness="0"
@@ -113,7 +119,15 @@
                                              Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                 ItemsSource="{Binding PlanItems}"
                 PreviewMouseWheel="{s:Action RouteMouseWheelToParentExceptScrollable,
-                                             Target={x:Type helper:MouseWheelHelper}}">
+                                             Target={x:Type helper:MouseWheelHelper}}"
+                VirtualizingPanel.IsVirtualizing="True"
+                VirtualizingPanel.VirtualizationMode="Recycling">
+                <ListBox.MaxHeight>
+                    <MultiBinding Converter="{StaticResource SubtractConverter}">
+                        <Binding Path="ViewportHeight" RelativeSource="{RelativeSource AncestorType=ScrollViewer}" />
+                        <Binding Path="ActualHeight" ElementName="FixedHeaderPanel" />
+                    </MultiBinding>
+                </ListBox.MaxHeight>
                 <ListBox.ItemContainerStyle>
                     <Style BasedOn="{StaticResource NoSelectedHighlightListBoxItemStyle}" TargetType="{x:Type ListBoxItem}">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
