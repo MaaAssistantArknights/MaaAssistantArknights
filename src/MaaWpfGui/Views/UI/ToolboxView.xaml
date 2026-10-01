@@ -1584,6 +1584,36 @@
                                 </StackPanel>
                             </Grid>
 
+                            <!--  活动商店  -->
+                            <StackPanel
+                                Grid.Row="0"
+                                Margin="0"
+                                Visibility="{c:Binding 'SelectedMiniGameItem.IsEventShop'}">
+                                <controls:TextBlock
+                                    Margin="0,0,0,8"
+                                    HorizontalAlignment="Left"
+                                    Text="{DynamicResource MiniGame@EventShop@BlacklistTip}"
+                                    TextWrapping="Wrap" />
+                                <hc:CheckComboBox
+                                    MinWidth="180"
+                                    HorizontalAlignment="Stretch"
+                                    hc:InfoElement.Placeholder="{DynamicResource MiniGame@EventShop@CommonItemsTip}"
+                                    hc:ListBoxAttach.SelectedItems="{Binding EventShopBlackListSelectedItems}"
+                                    DisplayMemberPath="Display"
+                                    ItemsSource="{Binding EventShopBlackListItems}"
+                                    SelectionMode="Multiple" />
+                                <CheckBox
+                                    Margin="0,8,0,0"
+                                    Content="{DynamicResource MiniGame@EventShop@Other}"
+                                    IsChecked="{Binding EventShopBlackListOther}" />
+                                <TextBox
+                                    Margin="0,8,0,0"
+                                    hc:InfoElement.Title="{DynamicResource Blacklist}"
+                                    Style="{StaticResource TextBoxExtend}"
+                                    Text="{Binding EventShopBlackList, UpdateSourceTrigger=PropertyChanged}"
+                                    Visibility="{c:Binding EventShopBlackListOther}" />
+                            </StackPanel>
+
                             <Viewbox
                                 Grid.Row="1"
                                 Margin="0,12,0,0"

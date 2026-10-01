@@ -56,6 +56,11 @@ namespace MaaWpfGui.ViewModels.UI;
 /// </summary>
 public class ToolboxViewModel : Screen
 {
+    private const string DataSupplementInstrumentItemId = "mod_update_token_2";
+    private const string DataSupplementStickItemId = "mod_update_token_1";
+    private const string LmdItemId = "4001";
+    private const string FurniturePartItemId = "3401";
+
     private readonly RunningState _runningState;
     private static readonly ILogger _logger = Log.ForContext<ToolboxViewModel>();
 
@@ -82,6 +87,7 @@ public class ToolboxViewModel : Screen
             PixelPaintFitModeList.RefreshLocalization();
             PixelPaintDitherModeList.RefreshLocalization();
             SecretFrontEventList.RefreshLocalization();
+            EventShopBlackListItems.RefreshLocalization();
             ExportOptionList.RefreshLocalization();
             OperBoxExportOptionList.RefreshLocalization();
             Application.Current.Dispatcher.InvokeAsync(
@@ -107,6 +113,14 @@ public class ToolboxViewModel : Screen
         OperBoxSelectedIndex = OperBoxNotHaveList.Count > 0 ? 0 : 1;
 
         UpdateMiniGameTaskList();
+        EventShopBlackListSelectedItems = [.. EventShopBlackListItems.Where(item => item.Value switch
+        {
+            DataSupplementInstrumentItemId => EventShopBlackListDataSupplementInstrument,
+            DataSupplementStickItemId => EventShopBlackListDataSupplementStick,
+            LmdItemId => EventShopBlackListLmd,
+            FurniturePartItemId => EventShopBlackListFurniturePart,
+            _ => false,
+        })];
     }
 
     /// <summary>
@@ -2644,6 +2658,8 @@ public class ToolboxViewModel : Screen
         public bool IsAutoRaisePotential => Value == "MiniGame@AutoRaisePotential@Begin";
 
         public bool IsMaterialSynthesis => Value == "MiniGame@MaterialSynthesis@Begin";
+
+        public bool IsEventShop => Value == "SS@Store@Begin";
     }
 
     public static string MaterialSynthesisVideoPath => Path.Combine(PathsHelper.BaseDir, "Res", "Video", "MaterialSynthesis.mp4");
@@ -2817,6 +2833,80 @@ public class ToolboxViewModel : Screen
     /// Gets or sets 自动提升潜能：中坚信物不足时是否消耗普通信物继续提升（不勾选时点 × 跳过该次提升）。
     /// </summary>
     public bool MiniGameUseNormalToken { get; set => SetAndNotify(ref field, value); }
+
+    public LocalizedObservableList<string> EventShopBlackListItems { get; } = new(
+        (DataSupplementInstrumentItemId, "MiniGame@EventShop@DataSupplementInstrument"),
+        (DataSupplementStickItemId, "MiniGame@EventShop@DataSupplementStick"),
+        (LmdItemId, "MiniGame@EventShop@Lmd"),
+        (FurniturePartItemId, "MiniGame@EventShop@FurniturePart"));
+
+    public object[] EventShopBlackListSelectedItems
+    {
+        get;
+        set {
+            SetAndNotify(ref field, value);
+            var selectedIds = value.Cast<GenericCombinedData<string>>().Select(item => item.Value).ToHashSet();
+            EventShopBlackListDataSupplementInstrument = selectedIds.Contains(DataSupplementInstrumentItemId);
+            EventShopBlackListDataSupplementStick = selectedIds.Contains(DataSupplementStickItemId);
+            EventShopBlackListLmd = selectedIds.Contains(LmdItemId);
+            EventShopBlackListFurniturePart = selectedIds.Contains(FurniturePartItemId);
+        }
+    } = [];
+
+    public bool EventShopBlackListDataSupplementInstrument
+    {
+        get;
+        set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListDataSupplementInstrument = value;
+        }
+    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListDataSupplementInstrument;
+
+    public bool EventShopBlackListDataSupplementStick
+    {
+        get;
+        set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListDataSupplementStick = value;
+        }
+    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListDataSupplementStick;
+
+    public bool EventShopBlackListLmd
+    {
+        get;
+        set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListLmd = value;
+        }
+    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListLmd;
+
+    public bool EventShopBlackListFurniturePart
+    {
+        get;
+        set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListFurniturePart = value;
+        }
+    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListFurniturePart;
+
+    public bool EventShopBlackListOther
+    {
+        get;
+        set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListOther = value;
+        }
+    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListOther;
+
+    public string EventShopBlackList
+    {
+        get;
+        set {
+            value = value.Replace("；", ";").Trim();
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackList = value;
+        }
+    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackList;
 
     #region PixelPaint
 
@@ -3393,7 +3483,56 @@ public class ToolboxViewModel : Screen
             return Instances.AsstProxy.AsstAutoRaisePotential(MiniGameUseNormalToken);
         }
 
+        if (SelectedMiniGameItem?.IsEventShop == true)
+        {
+            return StartEventShop();
+        }
+
         return Instances.AsstProxy.AsstMiniGame(GetMiniGameTask());
+    }
+
+    /// <summary>活动商店启动：提交自定义及游戏客户端语言下的预设黑名单关键词。</summary>
+    /// <returns>任务是否成功提交。</returns>
+    private bool StartEventShop()
+    {
+        var eventShopBlackList = EventShopBlackListOther
+            ? EventShopBlackList
+                .Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Distinct()
+                .ToList()
+            : [];
+
+        // 与信用商店一样直接提交关键词，不通过物品 ID 补成全名；匹配语言由游戏客户端而非 GUI 语言决定。
+        var (dataSupplementInstrument, dataSupplementStick, lmd, furniturePart) = SettingsViewModel.GameSettings.ClientType switch
+        {
+            ClientType.EN => ("Data Supplement Instrument", "Data Supplement Stick", "LMD", "Furniture Part"),
+            ClientType.JP => ("データ補完マシン", "データ補完チップ", "龍門幣", "家具"),
+            ClientType.KR => ("데이터 리더기", "데이터 메모리", "용문폐", "가구 부품"),
+            ClientType.Txwy => ("數據增補儀", "數據增補條", "龍門幣", "傢俱"),
+            _ => ("数据增补仪", "数据增补条", "龙门币", "家具"),
+        };
+
+        if (EventShopBlackListDataSupplementInstrument)
+        {
+            eventShopBlackList.Add(dataSupplementInstrument);
+        }
+
+        if (EventShopBlackListDataSupplementStick)
+        {
+            eventShopBlackList.Add(dataSupplementStick);
+        }
+
+        if (EventShopBlackListLmd)
+        {
+            eventShopBlackList.Add(lmd);
+        }
+
+        if (EventShopBlackListFurniturePart)
+        {
+            eventShopBlackList.Add(furniturePart);
+        }
+
+        return Instances.AsstProxy.AsstMiniGame(GetMiniGameTask(), eventShopBlackList.Distinct().ToList());
     }
 
     /// <summary>像素画启动：提交分组点列，成功时输出统计日志。</summary>

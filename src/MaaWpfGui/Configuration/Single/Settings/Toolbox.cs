@@ -54,4 +54,16 @@ public partial class Toolbox : NotifyPropertyChangedWithValue
     /// 干员识别卡片是否以干员头像为底板展示
     /// </summary>
     public bool OperBoxAvatarMode { get; set; }
+
+    public bool EventShopBlackListDataSupplementInstrument { get; set; }
+
+    public bool EventShopBlackListDataSupplementStick { get; set; }
+
+    public bool EventShopBlackListLmd { get; set; }
+
+    public bool EventShopBlackListFurniturePart { get; set; }
+
+    public bool EventShopBlackListOther { get; set; } = true;
+
+    public string EventShopBlackList { get; set; } = string.Empty;
 }

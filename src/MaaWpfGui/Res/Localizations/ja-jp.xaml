@@ -751,6 +751,13 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="CreditFightWhenOF-1Warning">｢{key=Fight}｣ タスクのステージリストに ｢{key=DefaultStage}｣ が存在するし、 ｢{key=Mall}｣ タスクはOF-1での戦友サポート借用の戦闘をスキップします。タスク名: {0} (シーケンス番号 {1})、レベル シーケンス番号 {2}</system:String>
     <system:String x:Key="HighPriority">優先購入（セミコロンで区切）</system:String>
     <system:String x:Key="Blacklist">ブラックリスト（セミコロンで区切）</system:String>
+    <system:String x:Key="MiniGame@EventShop@BlacklistTip">チェックした商品をブラックリストに追加します</system:String>
+    <system:String x:Key="MiniGame@EventShop@CommonItemsTip">ドロップダウンでよく使う商品を選択</system:String>
+    <system:String x:Key="MiniGame@EventShop@DataSupplementInstrument">データ補完マシン</system:String>
+    <system:String x:Key="MiniGame@EventShop@DataSupplementStick">データ補完チップ</system:String>
+    <system:String x:Key="MiniGame@EventShop@Lmd">龍門幣</system:String>
+    <system:String x:Key="MiniGame@EventShop@FurniturePart">家具パーツ</system:String>
+    <system:String x:Key="MiniGame@EventShop@Other">その他のカスタム商品</system:String>
     <system:String x:Key="HighPriorityDefault">求人票</system:String>
     <system:String x:Key="BlacklistDefault">炭素材;家具;緊急招集票</system:String>
     <system:String x:Key="Drink">飲み物はいかがですか🍷？ドクター</system:String>
