@@ -1346,7 +1346,7 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
         office_acc = true;
     }
 
-    if (best.size() <= 4) {
+    if (context.use_pinus_sylvestris && has_room_for(2)) {
         add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_psk"); }); // 红松的骑士：焰尾
         add_first([](const ScoreOper& oper) {
             return has_skill(oper, "bskill_ctrl_fraction_knight");                           // 烛骑士微光：薇薇安娜
@@ -1387,7 +1387,7 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
 
     // 诗怀雅与斩业星熊的龙门近卫局制造加速必须同时存在，否则整组放弃。
     // 诗怀雅的 bskill_ctrl_t_spd 与多名干员共用，必须依赖姓名 OCR 得到稳定角色 ID。
-    if (best.size() < 2 && has_room_for(2)) {
+    if (has_room_for(2)) {
         const auto swire = std::ranges::find_if(eligible, [&](size_t index) {
             return is_operator(opers[index], { "char_308_swire" });
         });
@@ -1403,7 +1403,7 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
     }
 
     // 麒麟R夜刀与火龙S黑角组合：前者固定制造加速，后者按技能阶段提供贸易加速。
-    if (best.size() <= 2 && !manu_acc && !trading_acc && has_room_for(2)) {
+    if (!manu_acc && !trading_acc && has_room_for(2)) {
         const auto yato = std::ranges::find_if(eligible, [&](size_t index) {
             return has_skill(opers[index], "bskill_ctrl_token_p_spd2") && // 以身作则
                    has_skill(opers[index], "bskill_ctrl_cost_felyne");    // 耐力回复
@@ -1422,7 +1422,7 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
 
     // 合作协议 / 大小姐 / 朝气蓬勃 / 情报主脑：阿米娅、诗怀雅、明椒、阿斯卡纶；
     // 权变：望。两类技能均只占用一次贸易加速名额。
-    if (best.size() <= 3 && !trading_acc && add_first([](const ScoreOper& oper) {
+    if (best.size() < ControlSlotCount && !trading_acc && add_first([](const ScoreOper& oper) {
             return has_any_skill(oper, { "bskill_ctrl_t_spd", "bskill_ctrl_tra&prod" });
         })) {
         trading_acc = true;
