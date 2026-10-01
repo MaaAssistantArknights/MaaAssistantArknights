@@ -19,6 +19,7 @@
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <UserControl.Resources>
+        <converters:OperAvatarConverter x:Key="OperAvatarConverter" />
         <converters:OperBadgeMultiConverter x:Key="OperBadgeMultiConverter" />
         <converters:SubtractConverter x:Key="SubtractConverter" />
     </UserControl.Resources>
@@ -68,6 +69,7 @@
 
                     <hc:ComboBox
                         Grid.Column="0"
+                        Padding="28,5,10,5"
                         HorizontalContentAlignment="Stretch"
                         hc:BorderElement.CornerRadius="4,0,0,4"
                         IsEditable="True"
@@ -90,6 +92,16 @@
                             </DataTemplate>
                         </hc:ComboBox.ItemTemplate>
                     </hc:ComboBox>
+                    <!--  选中干员头像：IsEditable ComboBox 收起态显示区是纯文本 TextBox 无法内嵌图片，以不命中浮层贴在框内左侧，ComboBox 用 Padding 为其让出文本起点  -->
+                    <Image
+                        Grid.Column="0"
+                        Width="16"
+                        Height="16"
+                        Margin="6,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        IsHitTestVisible="False"
+                        Source="{Binding OperSelect.Name, Converter={StaticResource OperAvatarConverter}}" />
                     <Button
                         x:Name="AddTargetButton"
                         Grid.Column="1"

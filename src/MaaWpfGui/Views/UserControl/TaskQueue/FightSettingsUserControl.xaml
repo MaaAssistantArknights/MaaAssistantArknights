@@ -147,37 +147,48 @@
                         Content="{DynamicResource TargetInventory}"
                         IsChecked="{Binding UseTargetInventoryMode}" />
                 </hc:ButtonGroup>
-                <ComboBox
-                    Grid.Column="1"
-                    Height="30"
-                    Margin="6"
-                    VerticalContentAlignment="Center"
-                    DropDownClosed="{s:Action DropsListDropDownClosed}"
-                    IsEditable="True"
-                    IsEnabled="{c:Binding !IsSpecifiedInventoryLocked}"
-                    IsTextSearchEnabled="False"
-                    ItemsSource="{Binding DropsList}"
-                    Loaded="{s:Action MakeComboBoxSearchable,
-                                      Target={x:Type ui_vms:SettingsViewModel}}"
-                    SelectedValue="{Binding DropsItemId}"
-                    SelectedValuePath="Value"
-                    Text="{Binding DropsItemName}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image
-                                    Width="18"
-                                    Height="18"
-                                    VerticalAlignment="Center"
-                                    Source="{Binding Value, Converter={StaticResource ItemImageConverter}}" />
-                                <TextBlock
-                                    Margin="4,0,0,0"
-                                    VerticalAlignment="Center"
-                                    Text="{Binding Display}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
+                <Grid Grid.Column="1">
+                    <ComboBox
+                        Height="30"
+                        Margin="6"
+                        Padding="28,5,10,5"
+                        VerticalContentAlignment="Center"
+                        DropDownClosed="{s:Action DropsListDropDownClosed}"
+                        IsEditable="True"
+                        IsEnabled="{c:Binding !IsSpecifiedInventoryLocked}"
+                        IsTextSearchEnabled="False"
+                        ItemsSource="{Binding DropsList}"
+                        Loaded="{s:Action MakeComboBoxSearchable,
+                                          Target={x:Type ui_vms:SettingsViewModel}}"
+                        SelectedValue="{Binding DropsItemId}"
+                        SelectedValuePath="Value"
+                        Text="{Binding DropsItemName}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image
+                                        Width="18"
+                                        Height="18"
+                                        VerticalAlignment="Center"
+                                        Source="{Binding Value, Converter={StaticResource ItemImageConverter}}" />
+                                    <TextBlock
+                                        Margin="4,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Display}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <!--  选中材料缩略图：IsEditable ComboBox 收起态显示区是纯文本 TextBox 无法内嵌图片，以不命中浮层贴在框内左侧，ComboBox 用 Padding 为其让出文本起点  -->
+                    <Image
+                        Width="16"
+                        Height="16"
+                        Margin="12,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        IsHitTestVisible="False"
+                        Source="{Binding DropsItemId, Converter={StaticResource ItemImageConverter}}" />
+                </Grid>
                 <StackPanel
                     Grid.Row="1"
                     Grid.Column="1"
