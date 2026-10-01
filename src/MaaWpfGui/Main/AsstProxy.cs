@@ -3637,17 +3637,21 @@ public class AsstProxy
     /// </summary>
     /// <param name="taskName">任务名（tasks.json 中的 key）</param>
     /// <param name="eventShopBlackList">活动商店商品黑名单。</param>
+    /// <param name="eventShopBlackListItemIds">活动商店商品黑名单物品 ID。</param>
     /// <returns>是否成功。</returns>
     public bool AsstMiniGame(
         string taskName,
-        IReadOnlyCollection<string>? eventShopBlackList = null)
+        IReadOnlyCollection<string>? eventShopBlackList = null,
+        IReadOnlyCollection<string>? eventShopBlackListItemIds = null)
     {
         var task = new AsstCustomTask() {
             CustomTasks = [taskName],
-            Params = taskName == "SS@Store@Begin" && eventShopBlackList?.Count > 0
+            Params = taskName == "SS@Store@Begin" &&
+                     (eventShopBlackList?.Count > 0 || eventShopBlackListItemIds?.Count > 0)
                 ? JObject.FromObject(new {
                     event_shop = new {
-                        blacklist = eventShopBlackList,
+                        blacklist = eventShopBlackList ?? Array.Empty<string>(),
+                        blacklist_item_ids = eventShopBlackListItemIds ?? Array.Empty<string>(),
                     },
                 })
                 : null,

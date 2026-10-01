@@ -1585,13 +1585,40 @@
                             </Grid>
 
                             <!--  活动商店  -->
-                            <TextBox
+                            <StackPanel
                                 Grid.Row="0"
                                 Margin="0"
-                                hc:InfoElement.Title="{DynamicResource Blacklist}"
-                                Style="{StaticResource TextBoxExtend}"
-                                Text="{Binding EventShopBlackList, UpdateSourceTrigger=PropertyChanged}"
-                                Visibility="{c:Binding 'SelectedMiniGameItem.IsEventShop'}" />
+                                Visibility="{c:Binding 'SelectedMiniGameItem.IsEventShop'}">
+                                <controls:TextBlock
+                                    Margin="0,0,0,8"
+                                    Text="{DynamicResource MiniGame@EventShop@BlacklistTip}"
+                                    TextWrapping="Wrap" />
+                                <CheckBox
+                                    Content="{DynamicResource MiniGame@EventShop@DataSupplementInstrument}"
+                                    IsChecked="{Binding EventShopBlackListDataSupplementInstrument}" />
+                                <CheckBox
+                                    Margin="0,8,0,0"
+                                    Content="{DynamicResource MiniGame@EventShop@DataSupplementStick}"
+                                    IsChecked="{Binding EventShopBlackListDataSupplementStick}" />
+                                <CheckBox
+                                    Margin="0,8,0,0"
+                                    Content="{DynamicResource MiniGame@EventShop@Lmd}"
+                                    IsChecked="{Binding EventShopBlackListLmd}" />
+                                <CheckBox
+                                    Margin="0,8,0,0"
+                                    Content="{DynamicResource MiniGame@EventShop@FurniturePart}"
+                                    IsChecked="{Binding EventShopBlackListFurniturePart}" />
+                                <CheckBox
+                                    Margin="0,8,0,0"
+                                    Content="{DynamicResource MiniGame@EventShop@Other}"
+                                    IsChecked="{Binding EventShopBlackListOther}" />
+                                <TextBox
+                                    Margin="0,8,0,0"
+                                    hc:InfoElement.Title="{DynamicResource Blacklist}"
+                                    Style="{StaticResource TextBoxExtend}"
+                                    Text="{Binding EventShopBlackList, UpdateSourceTrigger=PropertyChanged}"
+                                    Visibility="{c:Binding EventShopBlackListOther}" />
+                            </StackPanel>
 
                             <Viewbox
                                 Grid.Row="1"

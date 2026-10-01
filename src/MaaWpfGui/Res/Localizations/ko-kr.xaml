@@ -751,6 +751,12 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="CreditFightWhenOF-1Warning">｢{key=Fight}｣ 작업의 스테이지 목록에 ｢{key=DefaultStage}｣가 존재하여, ｢{key=Mall}｣ 작업은 OF-1에서 지원 유닛을 사용한 전투를 건너뜁니다. 작업 이름: {0} (순서 {1}), 스테이지 순서 {2}</system:String>
     <system:String x:Key="HighPriority">구매 우선 항목 (｢;｣ 로 구분)</system:String>
     <system:String x:Key="Blacklist">무시 항목 (｢;｣ 로 구분)</system:String>
+    <system:String x:Key="MiniGame@EventShop@BlacklistTip">선택한 상품은 무시 목록에 추가됩니다</system:String>
+    <system:String x:Key="MiniGame@EventShop@DataSupplementInstrument">데이터 리더기</system:String>
+    <system:String x:Key="MiniGame@EventShop@DataSupplementStick">데이터 메모리</system:String>
+    <system:String x:Key="MiniGame@EventShop@Lmd">용문폐</system:String>
+    <system:String x:Key="MiniGame@EventShop@FurniturePart">가구 부품</system:String>
+    <system:String x:Key="MiniGame@EventShop@Other">기타</system:String>
     <system:String x:Key="HighPriorityDefault">모집 허가증</system:String>
     <system:String x:Key="BlacklistDefault">카본;가구 부품;즉시 완료 허가증</system:String>
     <system:String x:Key="Drink">술 한잔은 어떠십니까🍷? 박사님</system:String>

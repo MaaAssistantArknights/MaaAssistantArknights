@@ -56,6 +56,11 @@ namespace MaaWpfGui.ViewModels.UI;
 /// </summary>
 public class ToolboxViewModel : Screen
 {
+    private const string DataSupplementInstrumentItemId = "mod_update_token_2";
+    private const string DataSupplementStickItemId = "mod_update_token_1";
+    private const string LmdItemId = "4001";
+    private const string FurniturePartItemId = "3401";
+
     private readonly RunningState _runningState;
     private static readonly ILogger _logger = Log.ForContext<ToolboxViewModel>();
 
@@ -2820,6 +2825,51 @@ public class ToolboxViewModel : Screen
     /// </summary>
     public bool MiniGameUseNormalToken { get; set => SetAndNotify(ref field, value); }
 
+    public bool EventShopBlackListDataSupplementInstrument
+    {
+        get;
+        set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListDataSupplementInstrument = value;
+        }
+    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListDataSupplementInstrument;
+
+    public bool EventShopBlackListDataSupplementStick
+    {
+        get;
+        set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListDataSupplementStick = value;
+        }
+    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListDataSupplementStick;
+
+    public bool EventShopBlackListLmd
+    {
+        get;
+        set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListLmd = value;
+        }
+    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListLmd;
+
+    public bool EventShopBlackListFurniturePart
+    {
+        get;
+        set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListFurniturePart = value;
+        }
+    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListFurniturePart;
+
+    public bool EventShopBlackListOther
+    {
+        get;
+        set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListOther = value;
+        }
+    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListOther;
+
     public string EventShopBlackList
     {
         get;
@@ -3407,14 +3457,44 @@ public class ToolboxViewModel : Screen
 
         if (SelectedMiniGameItem?.IsEventShop == true)
         {
-            var eventShopBlackList = EventShopBlackList
-                .Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                .Distinct()
-                .ToList();
-            return Instances.AsstProxy.AsstMiniGame(GetMiniGameTask(), eventShopBlackList);
+            return StartEventShop();
         }
 
         return Instances.AsstProxy.AsstMiniGame(GetMiniGameTask());
+    }
+
+    /// <summary>活动商店启动：提交自定义黑名单及预设商品 ID。</summary>
+    /// <returns>任务是否成功提交。</returns>
+    private bool StartEventShop()
+    {
+        var eventShopBlackList = EventShopBlackListOther
+            ? EventShopBlackList
+                .Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Distinct()
+                .ToList()
+            : [];
+        List<string> eventShopBlackListItemIds = [];
+        if (EventShopBlackListDataSupplementInstrument)
+        {
+            eventShopBlackListItemIds.Add(DataSupplementInstrumentItemId);
+        }
+
+        if (EventShopBlackListDataSupplementStick)
+        {
+            eventShopBlackListItemIds.Add(DataSupplementStickItemId);
+        }
+
+        if (EventShopBlackListLmd)
+        {
+            eventShopBlackListItemIds.Add(LmdItemId);
+        }
+
+        if (EventShopBlackListFurniturePart)
+        {
+            eventShopBlackListItemIds.Add(FurniturePartItemId);
+        }
+
+        return Instances.AsstProxy.AsstMiniGame(GetMiniGameTask(), eventShopBlackList, eventShopBlackListItemIds);
     }
 
     /// <summary>像素画启动：提交分组点列，成功时输出统计日志。</summary>

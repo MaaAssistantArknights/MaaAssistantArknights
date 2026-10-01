@@ -55,5 +55,15 @@ public partial class Toolbox : NotifyPropertyChangedWithValue
     /// </summary>
     public bool OperBoxAvatarMode { get; set; }
 
+    public bool EventShopBlackListDataSupplementInstrument { get; set; }
+
+    public bool EventShopBlackListDataSupplementStick { get; set; }
+
+    public bool EventShopBlackListLmd { get; set; }
+
+    public bool EventShopBlackListFurniturePart { get; set; }
+
+    public bool EventShopBlackListOther { get; set; } = true;
+
     public string EventShopBlackList { get; set; } = string.Empty;
 }

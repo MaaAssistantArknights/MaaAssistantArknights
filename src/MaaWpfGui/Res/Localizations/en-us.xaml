@@ -751,6 +751,12 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="CreditFightWhenOF-1Warning">A ｢{key=Fight}｣ task has ｢{key=DefaultStage}｣ in its stage list, ｢{key=Mall}｣ task will skip the Combat with Support Unit in OF-1. Task: {0} (index: {1}), Stage index in list: {2}</system:String>
     <system:String x:Key="HighPriority">Whitelist (split by semicolon)</system:String>
     <system:String x:Key="Blacklist">Blacklist (split by semicolon)</system:String>
+    <system:String x:Key="MiniGame@EventShop@BlacklistTip">Checked items will be added to the blacklist</system:String>
+    <system:String x:Key="MiniGame@EventShop@DataSupplementInstrument">Data Supplement Instrument</system:String>
+    <system:String x:Key="MiniGame@EventShop@DataSupplementStick">Data Supplement Stick</system:String>
+    <system:String x:Key="MiniGame@EventShop@Lmd">LMD</system:String>
+    <system:String x:Key="MiniGame@EventShop@FurniturePart">Furniture Part</system:String>
+    <system:String x:Key="MiniGame@EventShop@Other">Other</system:String>
     <system:String x:Key="HighPriorityDefault">Recruitment Permit</system:String>
     <system:String x:Key="BlacklistDefault">Carbon;Furniture Part;Expedited Plan</system:String>
     <system:String x:Key="Drink">Would you like a drink🍷? doctor</system:String>
