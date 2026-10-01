@@ -256,7 +256,13 @@
         "algorithm": "OcrDetect",
         "text": ["交换"],
         "roi": [575, 558, 127, 50],
-        "preDelay": 1000
+        "preDelay": 1000,
+        "next": ["JieGarden@Roguelike@CoppersExchangeFinishReCheck", "Stop"]
+    },
+    "JieGarden@Roguelike@CoppersExchangeFinishReCheck": {
+        "Doc": "通宝交换完成后的交换按钮 (兜底检查)",
+        "baseTask": "JieGarden@Roguelike@CoppersExchangeFinish",
+        "next": ["JieGarden@Roguelike@CoppersExchangeFinish#next"]
     },
     "JieGarden@Roguelike@CoppersListDialogConfirm": {
         "Doc": "通宝列表界面弹出的确认按钮",
