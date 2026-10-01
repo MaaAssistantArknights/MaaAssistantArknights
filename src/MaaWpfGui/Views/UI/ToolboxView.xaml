@@ -1591,6 +1591,7 @@
                                 Visibility="{c:Binding 'SelectedMiniGameItem.IsEventShop'}">
                                 <controls:TextBlock
                                     Margin="0,0,0,8"
+                                    HorizontalAlignment="Left"
                                     Text="{DynamicResource MiniGame@EventShop@BlacklistTip}"
                                     TextWrapping="Wrap" />
                                 <hc:CheckComboBox
