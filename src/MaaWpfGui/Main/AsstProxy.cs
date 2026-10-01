@@ -1,6 +1,6 @@
 // <copyright file="AsstProxy.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -11,6 +11,8 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#pragma warning disable SA1121, SA1300 // using 别名保留完整类型名，strlen 等 P/Invoke 函数名镜像 C 符号，对照 AsstCaller.h
+
 #nullable enable
 
 using System;
@@ -18,7 +20,6 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -719,7 +720,6 @@ public class AsstProxy
         }
 
         // TODO: 之后把这个 OnUIThread 拆出来
-        // ReSharper disable once AsyncVoidLambda
         Execute.OnUIThread(
             async () => {
                 bool runDirectly = SettingsViewModel.StartSettings.RunDirectly;
@@ -766,7 +766,6 @@ public class AsstProxy
                     return;
                 }
 
-                // ReSharper disable once InvertIf
                 if (runDirectly)
                 {
                     // 重置按钮状态，不影响LinkStart判断
@@ -1383,7 +1382,6 @@ public class AsstProxy
                         // 以 Core 任务 id 为准去重记录；任务名只是出错当时的快照（取不到时以任务链名兜底），仅用于日志
                         var failedTaskName = failedTask?.NameOrTaskType ?? $"({LocalizationHelper.GetString(taskChain)})";
                         failedTaskName += GetMultiChainTaskNameSuffix(failedTask, taskChain, taskId);
-                        Instances.TaskQueueViewModel.RecordFailedTask(taskId, failedTaskName);
                     }
 
                     // details.error 为 Core 侧 TaskExceptionKind 名（如 OutOfMemory），普通识别错误无此字段
@@ -1429,15 +1427,7 @@ public class AsstProxy
 
             case AsstMsg.TaskChainCompleted:
                 {
-                    // 判断 _latestTaskId 中是否有元素的值和 details["taskid"] 相等，如果有再判断这个 id 对应的任务是否在 _mainTaskTypes 中
                     UpdateTaskStatus(taskId, TaskStatus.Completed);
-                    if (_tasksStatus.TryGetValue(taskId, out var taskInfo))
-                    {
-                        if (_mainTaskTypes.Contains(taskInfo.Type))
-                        {
-                            Instances.TaskQueueViewModel.UpdateMainTasksProgress();
-                        }
-                    }
 
                     var taskIndex = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index ?? -1;
                     var task = taskIndex >= 0 && taskIndex < ConfigFactory.CurrentConfig.TaskQueue.Count
@@ -1513,8 +1503,6 @@ public class AsstProxy
                 // （更新数据/仓库维护展开的链不在白名单、copilot 启动失败残留条目误判轮次归属）。
                 // 归属快照须在 SetIdle(true) 清零之前取得
                 var runOwner = _runningState.Owner;
-                bool isMainTaskQueueAllCompleted = taskList?.Length > 0 && runOwner == RunOwner.TaskQueue;
-
                 if (runOwner == RunOwner.Copilot)
                 {
                     if (SettingsViewModel.GameSettings.CopilotWithScript)
@@ -1532,25 +1520,26 @@ public class AsstProxy
 
                 // 失败名单复用 ｢出错时跳过完成后动作｣ 的记录（TaskChainError 时点快照，自带任务名与多链后缀），
                 // 同样覆盖 RemoteControlService 等绕过 LinkStartWithTasks 的启动入口；名单在下一轮开始时才清空，此处仍可读
-                var failedTaskNames = Instances.TaskQueueViewModel.GetFailedTaskNames();
+                var failedTaskNames = Instances.TaskQueueViewModel.TaskItemViewModels.Where(i => i.StatusDisplay == TaskItemStatus.Error).Select(i => i.Name).ToArray();
                 bool hasTaskErrors = failedTaskNames.Length > 0;
-                var taskErrorSummary = BuildTaskErrorSummaryLog(failedTaskNames);
                 _tasksStatus.Clear();
 
                 Instances.TaskQueueViewModel.ResetAllTemporaryVariable();
                 _runningState.SetIdle(true);
 
-                if (isMainTaskQueueAllCompleted)
+                if (runOwner == RunOwner.TaskQueue && taskList?.Length > 0)
                 {
                     var dateTimeNow = DateTimeOffset.Now;
                     var diffTaskTime = (dateTimeNow - StartTaskTime).ToString(@"h\h\ m\m\ s\s");
 
-                    var allTaskCompleteTitle = LocalizationHelper.GetStringFormat(hasTaskErrors ? "TaskCompletedWithErrors" : "AllTasksComplete", diffTaskTime);
-                    var allTaskCompleteMessage = LocalizationHelper.GetString("AllTaskCompleteContent");
+                    var allTaskCompleteTitle = hasTaskErrors ?
+                        LocalizationHelper.GetStringFormat("TaskCompletedWithErrors", string.Join(", ", failedTaskNames), diffTaskTime) :
+                        LocalizationHelper.GetStringFormat("AllTasksComplete", diffTaskTime);
                     var sanityReport = string.Empty;
 
                     var configurationPreset = ConfigFactory.Root.Current;
 
+                    var allTaskCompleteMessage = LocalizationHelper.GetString("AllTaskCompleteContent");
                     allTaskCompleteMessage = allTaskCompleteMessage
                         .Replace("{DateTime}", dateTimeNow.ToString("yyyy-MM-dd HH:mm:ss"))
                         .Replace("{Preset}", configurationPreset)
@@ -1583,7 +1572,7 @@ public class AsstProxy
 
                     // 出错时保留完成上下文（时间/配置等）再附错误清单，避免通知正文只剩清单
                     var allTaskCompleteContent = hasTaskErrors
-                        ? allTaskCompleteMessage + Environment.NewLine + taskErrorSummary
+                        ? allTaskCompleteMessage + Environment.NewLine + BuildTaskErrorSummaryLog(failedTaskNames)
                         : allTaskCompleteMessage;
                     ExternalNotificationService.Event.AllTaskComplete(allTaskCompleteTitle, allTaskCompleteContent, sanityReport);
                     using (var toast = new ToastNotification(allTaskCompleteTitle))
@@ -1606,16 +1595,11 @@ public class AsstProxy
                     }
 
                     // Instances.TaskQueueViewModel.CheckAndShutdown();
-                    _ = Instances.TaskQueueViewModel.CheckAfterCompleted();
+                    _ = Instances.TaskQueueViewModel.CheckAfterCompleted(hasTaskErrors);
 
                     if (Instances.OverlayViewModel.IsCreated)
                     {
                         AchievementTrackerHelper.Instance.Unlock(AchievementIds.LogSupervisor);
-                    }
-
-                    if (!string.IsNullOrWhiteSpace(taskErrorSummary))
-                    {
-                        Instances.TaskQueueViewModel.AddLog(taskErrorSummary, UiLogColor.Error, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
                     }
                 }
                 else if (runOwner == RunOwner.Copilot)
@@ -1857,8 +1841,7 @@ public class AsstProxy
     /// <returns>当前语言的原因文本</returns>
     private static string GetLocalizedWhy(string why)
     {
-        return why switch
-        {
+        return why switch {
             "recognition error" => LocalizationHelper.GetString("IdentifyTheMistakes"),
             "refresh count reached the limit" => LocalizationHelper.GetString("RecruitRefreshLimitReached"),
             "UnknownStage" => LocalizationHelper.GetString("PenguinUploadUnknownStage"),
@@ -2885,9 +2868,16 @@ public class AsstProxy
             return;
         }
 
-        if (SettingsViewModel.ConnectSettings.IsPCConnectConfig && (subTask == "ReportToPenguinStats" || subTask == "ReportToYituliu"))
+        string? reportTargetKey = subTask switch {
+            "ReportToPenguinStats" => "ThirdPartyGroupPenguin",
+            "ReportToYituliu" => "ThirdPartyGroupYituliu",
+            _ => null,
+        };
+        if (SettingsViewModel.ConnectSettings.IsPCConnectConfig && reportTargetKey is not null)
         {
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ReportSkippedForPcClient"), UiLogColor.Warning);
+            Instances.TaskQueueViewModel.AddLog(
+                LocalizationHelper.GetStringFormat("ReportSkippedForPcClient", LocalizationHelper.GetString(reportTargetKey)),
+                UiLogColor.Warning);
             return;
         }
 
@@ -3090,6 +3080,27 @@ public class AsstProxy
             SET_WINDOW_POS_FLAGS.SWP_NOSIZE | SET_WINDOW_POS_FLAGS.SWP_NOZORDER | SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE);
 
         _logger.Information("RestoreGameWindowPosition: moved window to screen center, hwnd: {Hwnd}", hwnd);
+    }
+
+    /// <summary>
+    /// Minimizes the attached game window without waiting for its UI thread.
+    /// </summary>
+    public void MinimizeGameWindow()
+    {
+        var hwnd = (HWND)_attachWindowHwnd;
+        if (_attachWindowHwnd == IntPtr.Zero || !PInvoke.IsWindow(hwnd))
+        {
+            _logger.Warning("Cannot minimize game window: no valid attached window, connect first");
+            return;
+        }
+
+        if (!PInvoke.ShowWindowAsync(hwnd, SHOW_WINDOW_CMD.SW_FORCEMINIMIZE))
+        {
+            _logger.Warning("Failed to request game window minimization for HWND {Hwnd}, error: {Error}", hwnd, Marshal.GetLastWin32Error());
+            return;
+        }
+
+        _logger.Information("Requested game window minimization for HWND {Hwnd}", hwnd);
     }
 
     /// <summary>
@@ -3475,20 +3486,6 @@ public class AsstProxy
         Custom,
     }
 
-    private readonly HashSet<TaskType> _mainTaskTypes =
-    [
-        TaskType.StartUp,
-        TaskType.Fight,
-        TaskType.OperProgress,
-        TaskType.Infrast,
-        TaskType.Recruit,
-        TaskType.Mall,
-        TaskType.Award,
-        TaskType.Roguelike,
-        TaskType.Reclamation,
-        TaskType.UserDataUpdate,
-    ];
-
     private readonly ObservableDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> _tasksStatus = [];
 
     public IReadOnlyDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> TasksStatus => new Dictionary<AsstTaskId, (TaskType, TaskStatus)>(_tasksStatus);
@@ -3532,15 +3529,7 @@ public class AsstProxy
             return string.Empty;
         }
 
-        StringBuilder builder = new();
-        builder.AppendLine(LocalizationHelper.GetString("TaskErrorSummaryTitle"));
-
-        foreach (var taskName in failedTaskNames)
-        {
-            builder.AppendLine(LocalizationHelper.GetStringFormat("TaskErrorSummaryItem", taskName));
-        }
-
-        return builder.ToString().TrimEnd();
+        return string.Join('\n', failedTaskNames.Prepend(LocalizationHelper.GetString("TaskErrorSummaryTitle")));
     }
 
     private void AddTaskCompletionLog(string completionLog, bool hasTaskErrors)
@@ -3570,7 +3559,7 @@ public class AsstProxy
             return (string.Empty, string.Empty);
         }
 
-        int firstLineEnd = completionLog.IndexOf('\n');
+        int firstLineEnd = completionLog.LastIndexOf('\n');
         if (firstLineEnd < 0)
         {
             return (completionLog, string.Empty);
@@ -3647,21 +3636,44 @@ public class AsstProxy
     /// 小游戏。
     /// </summary>
     /// <param name="taskName">任务名（tasks.json 中的 key）</param>
-    /// <param name="useNormalToken">自动提升潜能：中坚信物不足时是否消耗普通信物（仅 AutoRaisePotential 生效）。</param>
+    /// <param name="eventShopBlackList">活动商店商品黑名单关键词。</param>
     /// <returns>是否成功。</returns>
-    public bool AsstMiniGame(string taskName, bool useNormalToken = false)
+    public bool AsstMiniGame(
+        string taskName,
+        IReadOnlyCollection<string>? eventShopBlackList = null)
     {
         var task = new AsstCustomTask() {
             CustomTasks = [taskName],
+            Params = taskName == "SS@Store@Begin" && eventShopBlackList?.Count > 0
+                ? JObject.FromObject(new {
+                    event_shop = new {
+                        blacklist = eventShopBlackList ?? Array.Empty<string>(),
+                    },
+                })
+                : null,
         };
-        if (useNormalToken)
-        {
-            task.Params = JObject.FromObject(new {
-                auto_raise_potential = new {
-                    use_normal_token = true,
-                },
-            });
-        }
+
+        var (type, param) = task.Serialize();
+        return AsstAppendTaskWithEncoding(TaskType.MiniGame, type, param) && AsstStart();
+    }
+
+    /// <summary>
+    /// 自动提升潜能（牛杂）。
+    /// </summary>
+    /// <param name="useNormalToken">中坚信物不足时是否消耗普通信物。</param>
+    /// <returns>是否成功启动。</returns>
+    public bool AsstAutoRaisePotential(bool useNormalToken = false)
+    {
+        var task = new AsstCustomTask {
+            CustomTasks = ["MiniGame@AutoRaisePotential@Begin"],
+            Params = useNormalToken
+                ? JObject.FromObject(new {
+                    auto_raise_potential = new {
+                        use_normal_token = true,
+                    },
+                })
+                : null,
+        };
 
         var (type, param) = task.Serialize();
         return AsstAppendTaskWithEncoding(TaskType.MiniGame, type, param) && AsstStart();
@@ -3821,7 +3833,6 @@ public class AsstProxy
 /// <summary>
 /// MaaCore 消息。
 /// </summary>
-[SuppressMessage("ReSharper", "UnusedMember.Global")]
 public enum AsstMsg
 {
     /* Global Info */

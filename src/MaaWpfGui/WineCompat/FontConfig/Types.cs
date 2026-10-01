@@ -1,6 +1,6 @@
 // <copyright file="Types.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -11,7 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-#pragma warning disable CS0649, SA1307, SA1602, SA1649
+#pragma warning disable CS0649, SA1307, SA1649 // 镜像 fontconfig C API，由原生侧赋值、命名跟随 C
 namespace MaaWpfGui.WineCompat.FontConfig;
 
 internal enum FcResult

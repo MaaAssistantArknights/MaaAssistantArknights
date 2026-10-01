@@ -6,7 +6,7 @@
         TargetType="{x:Type ComboBox}">
         <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
         <Setter Property="uiBehaviors:ClipboardInterceptor.EnableSafeClipboard" Value="True" />
-        <!-- 隔离下拉打开/滚动期间对（设置页）外层滚动联动的干扰，见 MouseWheelHelper.IsolateComboBoxScroll -->
+        <!--  隔离下拉打开/滚动期间对（设置页）外层滚动联动的干扰，见 MouseWheelHelper.IsolateComboBoxScroll  -->
         <Setter Property="helper:MouseWheelHelper.IsolateComboBoxScroll" Value="True" />
         <EventSetter Event="Loaded" Handler="ComboBox_Loaded_SetCaretBrush" />
     </Style>
@@ -19,7 +19,7 @@
         TargetType="{x:Type hc:ComboBox}">
         <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
         <Setter Property="uiBehaviors:ClipboardInterceptor.EnableSafeClipboard" Value="True" />
-        <!-- 隔离下拉打开/滚动期间对（设置页）外层滚动联动的干扰，见 MouseWheelHelper.IsolateComboBoxScroll -->
+        <!--  隔离下拉打开/滚动期间对（设置页）外层滚动联动的干扰，见 MouseWheelHelper.IsolateComboBoxScroll  -->
         <Setter Property="helper:MouseWheelHelper.IsolateComboBoxScroll" Value="True" />
         <Setter Property="CaretBrush" Value="{DynamicResource PrimaryTextBrush}" />
     </Style>

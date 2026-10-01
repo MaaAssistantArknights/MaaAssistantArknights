@@ -25,11 +25,14 @@ struct CombinationScore
     std::unordered_set<std::string> only_need;
 };
 
-// 按心情阈值过滤干员
+// 按心情阈值过滤干员，并排除本轮已安排的已知身份干员
 std::vector<size_t> eligible_indices(const std::vector<ScoreOper>& opers, const ScoreContext& context)
 {
     std::vector<size_t> result;
     for (size_t index = 0; index < opers.size(); ++index) {
+        if (!opers[index].operator_id.empty() && context.selected_operator_ids.contains(opers[index].operator_id)) {
+            continue;
+        }
         if (opers[index].mood_ratio >= context.mood_threshold) {
             result.emplace_back(index);
         }
@@ -1136,7 +1139,7 @@ double processing_score(const ScoreOper& oper, const ScoreContext& context)
             // 训练有素：芯片副产品 +80%。
             score += 0.8;
         }
-        else if (icon == "bskill_hire_kalts2" || icon == "bskill_ws_p_kalts2") {
+        else if (icon == "bskill_ws_p_kalts2") {
             // “泰拉的方舟” / 理论革新：凯尔希·思衡托。
             score += 0.8;
         }
@@ -1720,6 +1723,7 @@ double training_score_impl(const ScoreOper& oper, battle::Role trainee_role, int
 {
     // 训练室导师技能按参考实现迁移：职业匹配、通用加成和目标等级专属加成叠加。
     // 训练室一次只启动一级专精，target_level 始终表示本次要启动的下一级。
+    // 阈值设定为16让逻各斯类陪练能够连续在专一专二触发
     if (oper.mood_ratio * 24.0 < 16.0) {
         return -1.0;
     }

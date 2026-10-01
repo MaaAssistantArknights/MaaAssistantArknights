@@ -527,14 +527,47 @@ bool NormalizedMap::merge(const MapObservationBatch& batch, std::string* error)
     for (const Edge& edge : missing_edges) {
         working.m_snapshot.upsert_edge(edge);
     }
+    working.finalize_revision(m_snapshot);
     *this = std::move(working);
     return true;
+}
+
+void NormalizedMap::finalize_revision(const MapSnapshot& previous)
+{
+    // 合并和节点结算完成后，整次更新只根据最终地图决定是否增加一个版本。
+    const bool changed = m_snapshot.nodes() != previous.nodes() || m_snapshot.edges() != previous.edges();
+    m_snapshot.revision = previous.revision + (changed ? 1 : 0);
 }
 
 void NormalizedMap::reset()
 {
     m_floor = 0;
     m_snapshot = MapSnapshot {};
+}
+
+bool NormalizedMap::accept_preview(NodeId target, const MovePreview& preview, bool& changed, std::string* error)
+{
+    changed = false;
+    const Node* current = m_snapshot.find_node(target);
+    if (current == nullptr) {
+        if (error != nullptr) {
+            *error = "preview target is absent from the map";
+        }
+        return false;
+    }
+    if (!preview.identity_revealed || preview.displayed_type == NodeType::Unknown) {
+        return true;
+    }
+    Node node = *current;
+    if (node.type != preview.displayed_type && node.progress == NodeProgress::Active) {
+        node.traversal = default_traversal_for(preview.displayed_type);
+    }
+    node.type = preview.displayed_type;
+    node.name = preview.displayed_name;
+    node.identity_state = NodeIdentityState::Classified;
+    node.identity_revealed = true;
+    changed = node != *current;
+    return m_snapshot.upsert_node(std::move(node));
 }
 
 void ViewportObservation::replace(

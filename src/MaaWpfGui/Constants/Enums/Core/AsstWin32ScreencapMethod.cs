@@ -1,6 +1,6 @@
 // <copyright file="AsstWin32ScreencapMethod.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -13,7 +13,6 @@
 
 namespace MaaWpfGui.Constants.Enums.Core;
 
-#pragma warning disable SA1602 // Enumeration items should be documented
 // 遵循 AsstCaller.h 中的定义，确保与 AsstCaller.h 中的枚举值对应
 public enum AsstWin32ScreencapMethod
 {
@@ -22,4 +21,3 @@ public enum AsstWin32ScreencapMethod
     ScreenDC = 32,
     DesktopDupWindow = 8,
 }
-#pragma warning restore SA1602 // Enumeration items should be documented

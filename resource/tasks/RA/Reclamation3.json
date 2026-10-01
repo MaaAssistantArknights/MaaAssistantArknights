@@ -1000,12 +1000,12 @@
         "next": ["RelaunchAnchor@RA@RA4-ClickMission3", "#self"]
     },
     "RelaunchAnchor@RA@RA4-ClickMission3": {
-        "doc": "步骤 51：OCR 识别 <1/1> 并点击",
+        "doc": "步骤 51：OCR 识别 <敌人(1> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["1/1"],
-        "ocrReplace": [["(1|l|i).*(1|l|i)", "1/1"]],
-        "roi": [247, 234, 31, 26],
+        "text": ["敌人（1"],
+        "ocrReplace": [["\\(", "（"]],
+        "roi": [80, 231, 205, 27],
         "next": ["RelaunchAnchor@RA@RA4-SettleNow"]
     },
     "RelaunchAnchor@RA@RA4-SettleNow": {

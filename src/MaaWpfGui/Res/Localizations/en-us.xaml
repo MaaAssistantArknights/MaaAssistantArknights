@@ -392,10 +392,16 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="Yes">Yes</system:String>
     <system:String x:Key="No">No</system:String>
     <system:String x:Key="Ok">OK</system:String>
+    <system:String x:Key="Success">Success</system:String>
+    <system:String x:Key="Failed">Failed</system:String>
+    <system:String x:Key="Skipped">Skipped</system:String>
     <system:String x:Key="Cancel">Cancel</system:String>
     <system:String x:Key="Confirm">Confirm</system:String>
     <system:String x:Key="Rename">Rename</system:String>
+    <system:String x:Key="Add">Add</system:String>
     <system:String x:Key="Delete">Delete</system:String>
+    <system:String x:Key="ParseClipboard">Read from Clipboard</system:String>
+    <system:String x:Key="ParseFailed">Parse failed</system:String>
     <system:String x:Key="RenameTask">Rename Task</system:String>
     <system:String x:Key="RenameTaskPrompt">Please enter a new task name:</system:String>
     <system:String x:Key="AddTaskQueueTask">Add New Task</system:String>
@@ -707,7 +713,7 @@ To enable this mechanism, make sure the selected difficulty is N3 or higher (exc
     <system:String x:Key="RoguelikeStartWithRandomReward">Random Reward</system:String>
     <system:String x:Key="RoguelikeStartWithKey">Key</system:String>
     <system:String x:Key="RoguelikeStartWithDice">Dice</system:String>
-    <system:String x:Key="RoguelikeStartWithIdea">Thought</system:String>
+    <system:String x:Key="RoguelikeStartWithIdea">Plan</system:String>
     <system:String x:Key="RoguelikeStartWithTicket">Coupon</system:String>
     <system:String x:Key="RefreshTraderWithDice">Refresh Rogue Trader with Dice</system:String>
     <system:String x:Key="PenguinId">Report ID (Number part)</system:String>
@@ -733,6 +739,7 @@ To enable this mechanism, make sure the selected difficulty is N3 or higher (exc
     <system:String x:Key="OperBoxExportHeaderMainSkillLevel">Skill level</system:String>
     <system:String x:Key="OperBoxExportHeaderSkills">Skill masteries</system:String>
     <system:String x:Key="OperBoxExportHeaderEquips">Modules</system:String>
+    <system:String x:Key="OperBoxAvatarMode">Avatar View</system:String>
     <system:String x:Key="DrGrandet">Dr. Grandet Mode</system:String>
     <system:String x:Key="DrGrandetTip">Wait on the sanity confirmation screen until the current sanity recovers to 1 point, then confirm immediately.</system:String>
     <system:String x:Key="SocialPtShop">Credit shopping</system:String>
@@ -744,6 +751,13 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="CreditFightWhenOF-1Warning">A ｢{key=Fight}｣ task has ｢{key=DefaultStage}｣ in its stage list, ｢{key=Mall}｣ task will skip the Combat with Support Unit in OF-1. Task: {0} (index: {1}), Stage index in list: {2}</system:String>
     <system:String x:Key="HighPriority">Whitelist (split by semicolon)</system:String>
     <system:String x:Key="Blacklist">Blacklist (split by semicolon)</system:String>
+    <system:String x:Key="MiniGame@EventShop@BlacklistTip">Checked items will be added to the blacklist</system:String>
+    <system:String x:Key="MiniGame@EventShop@CommonItemsTip">Select common items from the dropdown</system:String>
+    <system:String x:Key="MiniGame@EventShop@DataSupplementInstrument">Data Supplement Instrument</system:String>
+    <system:String x:Key="MiniGame@EventShop@DataSupplementStick">Data Supplement Stick</system:String>
+    <system:String x:Key="MiniGame@EventShop@Lmd">LMD</system:String>
+    <system:String x:Key="MiniGame@EventShop@FurniturePart">Furniture Part</system:String>
+    <system:String x:Key="MiniGame@EventShop@Other">Other custom items</system:String>
     <system:String x:Key="HighPriorityDefault">Recruitment Permit</system:String>
     <system:String x:Key="BlacklistDefault">Carbon;Furniture Part;Expedited Plan</system:String>
     <system:String x:Key="Drink">Would you like a drink🍷? doctor</system:String>
@@ -829,6 +843,7 @@ Only supports Official(CN), Bilibili, Traditional Chinese and YostarKR servers. 
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
     <system:String x:Key="ScreenshotTest">Screenshot test</system:String>
     <system:String x:Key="WindowRestore">Window restore</system:String>
+    <system:String x:Key="WindowMinimize">Minimize window</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">Enable MuMu's screenshot enhancement mode</system:String>
     <system:String x:Key="MuMuExtrasTouchEnabled">Enable MuMu touch enhancement (experimental, requires MuMu Emulator 6.3.2+, supports background keep-alive)</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">MuMu Emulator path not found.</system:String>
@@ -900,47 +915,20 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="Infrast">{key=Base}</system:String>
     <system:String x:Key="Combat">Combat</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
-    <system:String x:Key="OperProgress">Operator Development</system:String>
-    <!--  待确认移除（干员计划重构后 JSON 文本流程已废弃，以下键仅供已注释的 JSON 往返链路使用）  -->
-    <system:String x:Key="OperProgressParsePlan">Parse Plan</system:String>
-    <system:String x:Key="OperProgressPlanValid">The current text has been parsed successfully</system:String>
-    <system:String x:Key="OperProgressPlanPending">Text changed; runs still use the last successfully parsed plan</system:String>
-    <system:String x:Key="OperProgressPlanParsed">Plan parsed successfully: {0} entries</system:String>
-    <system:String x:Key="OperProgressJsonError">JSON error at line {0}, column {1}: {2}</system:String>
-    <system:String x:Key="OperProgressPlanMustBeArray">The plan must be a JSON array</system:String>
-    <system:String x:Key="OperProgressPlanMustBeObject">Plan entry {0} must be an object</system:String>
-    <system:String x:Key="OperProgressUnknownField">Plan entry {0} contains unknown field "{1}"</system:String>
-    <system:String x:Key="OperProgressUnknownOperator">Field "{1}" in plan entry {0} is not an available CN operator name</system:String>
-    <system:String x:Key="OperProgressExactlyOneAction">Plan entry {0} must contain exactly one development action</system:String>
-    <system:String x:Key="OperProgressMasteryPairRequired">Field "{1}" in plan entry {0} requires the other mastery field</system:String>
-    <system:String x:Key="OperProgressStringRequired">Field "{1}" in plan entry {0} must be a non-empty string</system:String>
-    <system:String x:Key="OperProgressIntegerRequired">Field "{1}" in plan entry {0} must be an integer</system:String>
-    <system:String x:Key="OperProgressFieldRange">Field "{1}" in plan entry {0} must be between {2} and {3}</system:String>
-    <!--  待确认移除结束  -->
-    <system:String x:Key="OperProgressSkillLevelTarget">Skill level {0}</system:String>
-    <system:String x:Key="OperProgressMasteryTarget">Skill {0}, mastery {1}</system:String>
-    <system:String x:Key="OperProgressEliteTarget">Elite {0}</system:String>
-    <system:String x:Key="OperProgressDeleteCompletedEntries">Remove completed entries when the chain finishes</system:String>
-    <system:String x:Key="OperProgressDeleteCompletedEntriesTip">After the development chain finishes, entries reported as "completed" or "already satisfied" are removed automatically; failed and skipped entries are kept</system:String>
-    <system:String x:Key="OperProgressTargetStartLog">Development plan entry {0}: {1}, {2}</system:String>
-    <system:String x:Key="OperProgressTargetResultLog">Development plan entry {0}: {1}, {2}, result: {3}</system:String>
-    <system:String x:Key="OperProgressRecognizedElite">(current elite {0})</system:String>
-    <system:String x:Key="OperProgressRecognizedSkillLevel">(current skill level {0})</system:String>
-    <system:String x:Key="OperProgressRecognizedMastery">(current mastery {0})</system:String>
-    <system:String x:Key="OperProgressSummaryLog">Operator development finished: {0} completed, {1} already satisfied, {2} failed, {3} skipped</system:String>
-    <system:String x:Key="OperProgressSelectOperator">Select operator</system:String>
-    <system:String x:Key="OperProgressAddTarget">Add</system:String>
-    <!--  待确认移除（弹窗专用：卡片内联编辑后不再使用）  -->
-    <system:String x:Key="OperProgressTargetTitle">{0} · Targets</system:String>
+    <system:String x:Key="OperProgress">Operator Progression</system:String>
+    <system:String x:Key="OperProgress.SkillLevelTarget">Skill level {0}</system:String>
+    <system:String x:Key="OperProgress.MasteryTarget">Skill {0}, mastery {1}</system:String>
+    <system:String x:Key="OperProgress.EliteTarget">Elite {0}</system:String>
+    <system:String x:Key="OperProgress.Summary">Operator progression finished: {0} completed, {1} failed, {2} skipped</system:String>
     <system:String x:Key="OperProgressElite">Elite</system:String>
     <system:String x:Key="OperProgressSkillUpgrade">Skill upgrade</system:String>
-    <system:String x:Key="OperProgressMastery">Mastery</system:String>
+    <system:String x:Key="OperProgressNotSet">---</system:String>
+    <system:String x:Key="OperProgressMastery1">Mastery 1</system:String>
+    <system:String x:Key="OperProgressMastery2">Mastery 2</system:String>
+    <system:String x:Key="OperProgressMastery3">Mastery 3</system:String>
     <system:String x:Key="OperProgressSkillNumber">Skill {0}</system:String>
-    <system:String x:Key="OperProgressInvalidOperatorInput">Invalid operator name. Please select one from the list</system:String>
-    <system:String x:Key="OperProgressOperatorLimit">At most 5 operators can be selected</system:String>
-    <!--  待确认移除（弹窗专用：卡片内联编辑后不再使用）  -->
-    <system:String x:Key="OperProgressEdit">Edit</system:String>
     <system:String x:Key="OperProgressOnlineEditor">Edit the plan online with Arknights Toolbox</system:String>
+    <system:String x:Key="OperProgress.Detail">{key=OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="Visiting">Visit Friends</system:String>
     <system:String x:Key="Mall">Credit Store</system:String>
     <system:String x:Key="Mission">Collect Rewards</system:String>
@@ -991,6 +979,7 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="Hibernate">Hibernate</system:String>
     <system:String x:Key="HibernateTip">You need to enable the hibernate feature in Windows power options, otherwise this feature will be invalid.</system:String>
     <system:String x:Key="Sleep">Sleep</system:String>
+    <system:String x:Key="LockScreen">Lock Screen</system:String>
     <system:String x:Key="Shutdown">Shutdown</system:String>
     <system:String x:Key="Once">Only this time*</system:String>
     <system:String x:Key="PostActionOnceTip" xml:space="preserve">When checked, option changes will not be saved and will revert the next time MAA starts or after {key=LinkStart}
@@ -998,9 +987,9 @@ After unchecking this option, other option states will be saved normally
 Right-clicking other options will check/uncheck this option simultaneously</system:String>
     <system:String x:Key="SkipPostActionOnError">Skip if any task failed</system:String>
     <system:String x:Key="SkipPostActionOnErrorTip">When checked, all actions above will be skipped if one or more tasks in the task list failed.</system:String>
-    <system:String x:Key="PostActionSkippedDueToError">Post actions skipped, failed task(s): {0}</system:String>
+    <system:String x:Key="PostActionSkippedDueToError">Post actions skipped, due to error tasks</system:String>
     <system:String x:Key="IfNoOtherMaa">If no other running MAA</system:String>
-    <system:String x:Key="IfNoOtherMaaTip">When checked, Sleep/Hibernate/Shutdown will only run when no other MAA instance is running</system:String>
+    <system:String x:Key="IfNoOtherMaaTip">When checked, Lock Screen/Sleep/Hibernate/Shutdown will only run when no other MAA instance is running</system:String>
     <system:String x:Key="BackToAndroidHome">Return to home screen of emulator</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">Stop</system:String>
@@ -1155,6 +1144,8 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="SetSuccessfully">Set successfully</system:String>
     <system:String x:Key="SetFailed">Setting failed</system:String>
     <system:String x:Key="CloseArknightsFailed">Shutdown Arknights failed</system:String>
+    <system:String x:Key="LockScreenFailed">Failed to lock the screen</system:String>
+    <system:String x:Key="LockScreenTip">Tasks completed, about to lock the screen</system:String>
     <system:String x:Key="ExitEmulatorFailed">Emulator shutdown failed</system:String>
     <system:String x:Key="AboutToShutdown">All tasks have been completed: shutting down. Do you want to cancel?</system:String>
     <system:String x:Key="ShutdownPrompt">Tip</system:String>
@@ -1418,6 +1409,7 @@ Right-click: select this job and exit multi-job mode</system:String>
 Right-click to clear inactive jobs</system:String>
     <system:String x:Key="Start">Start</system:String>
     <system:String x:Key="RunTaskOnce">Run Once</system:String>
+    <system:String x:Key="RunTasksFromHere">Run from Here</system:String>
     <system:String x:Key="VideoLink">Video Link</system:String>
     <system:String x:Key="CopilotFormationRequirement.Level">E{0} Lv.{1}</system:String>
     <system:String x:Key="CopilotSkill">Skill</system:String>
@@ -1555,14 +1547,13 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="RecruitRefreshLimitReached">Refresh count reached the limit</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">Task error:&#160;</system:String>
     <system:String x:Key="TaskErrorSummaryTitle">Errors occurred in this run:</system:String>
-    <system:String x:Key="TaskErrorSummaryItem">{0}</system:String>
     <system:String x:Key="OutOfMemoryError">The {0} task stopped due to insufficient memory. Close some programs or restart MAA and try again</system:String>
     <system:String x:Key="CombatError">Combat error</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">Start task:&#160;</system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">Complete task:&#160;</system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">Start combat:&#160;</system:String>
     <system:String x:Key="CompleteCombat">Complete combat</system:String>
-    <system:String x:Key="TaskCompletedWithErrors">All task(s) completed with errors!\n(in {0})</system:String>
+    <system:String x:Key="TaskCompletedWithErrors">The task has finished, but errors occurred in the following tasks:\n{0}\n(in {1})</system:String>
     <system:String x:Key="AllTasksComplete">All task(s) completed!\n(in {0})</system:String>
     <system:String x:Key="SanityReport">Sanity will be full at {DateTime} (in {TimeDiff})</system:String>
     <system:String x:Key="AllTaskCompleteContent">MAA has completed all tasks under the {Preset} configuration on {DateTime} (in {TimeDiff})</system:String>
@@ -1578,7 +1569,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="PenguinUploadUnknownDropType">Unknown drop type</system:String>
     <system:String x:Key="PenguinUploadUnknownDrops">Unknown drops</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Abort upload to Penguin Statistics</system:String>
-    <system:String x:Key="ReportSkippedForPcClient">The PC client cursor can obscure drop items and counts. This report was skipped to avoid polluting the data pool with inaccurate data</system:String>
+    <system:String x:Key="ReportSkippedForPcClient">The PC client cursor can obscure drop items and counts. This report to {0} was skipped to avoid polluting the data pool with inaccurate data</system:String>
     <system:String x:Key="TheEx">No bonus stage, stopped</system:String>
     <system:String x:Key="MissingOperators">None of the {key=Operator}s in the following groups are owned or satisfy the job requirements (only one is needed per group):\n{0}｢Favourite｣ marks may affect {key=Operator} recognition; if the {key=Operator}s are actually owned, you can remove the mark and retry, or turn off ｢{key=AutoSquad}｣ and add them manually. If they are really not owned, use ｢{key=SupportUnitUsage}｣ when only one group is missing, or use another job when two or more are missing.</system:String>
     <system:String x:Key="RecruitSupportOperator">Add support unit: {0}</system:String>
@@ -1807,6 +1798,9 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">Detected {0} options:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">Available option: {0}</system:String>
     <system:String x:Key="RoguelikeEncounterDisabledOption">Unavailable option: {0}</system:String>
+    <system:String x:Key="RoguelikeEventSelected">Selected: {0}</system:String>
+    <system:String x:Key="RoguelikeEventSelectedWithReason">Selected: {0} ({1})</system:String>
+    <system:String x:Key="RoguelikeEventSelectedFallback">Target unavailable, fallback selected: {0}</system:String>
     <system:String x:Key="EncounterOcrError">Event Name OCR Failed</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">Foldartal Foresee:&#160;</system:String>
     <system:String x:Key="RoguelikeInvestment">Invested {1}(+{0}), deposit: {2}</system:String>

@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:converters="clr-namespace:MaaWpfGui.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
@@ -17,6 +18,10 @@
     d:DesignWidth="220"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:ItemImageConverter x:Key="ItemImageConverter" />
+        <converters:SubtractConverter x:Key="SubtractConverter" />
+    </UserControl.Resources>
     <Grid>
         <StackPanel Visibility="{c:Binding !EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
             <controls:TextBlock
@@ -26,19 +31,77 @@
                 Text="{Binding PlanInfo}"
                 TextWrapping="Wrap"
                 Visibility="{c:Binding 'PlanInfo != &quot;&quot;'}" />
+            <!--  固定区：仅操作按钮行；计划摘要随外层面板滚动  -->
+            <StackPanel x:Name="FixedHeaderPanel">
+                <WrapPanel Margin="0,6,0,6" HorizontalAlignment="Center">
+                    <Button
+                        MinWidth="50"
+                        Margin="0,0,-1,0"
+                        hc:BorderElement.CornerRadius="4,0,0,4"
+                        Command="{s:Action CollapseAll}"
+                        Content="{DynamicResource CollapseAll}" />
+                    <Button
+                        MinWidth="50"
+                        Margin="0,0,-1,0"
+                        hc:BorderElement.CornerRadius="0"
+                        Command="{s:Action ClearPlans}"
+                        Content="{DynamicResource ClearPlans}" />
+                    <Button
+                        MinWidth="50"
+                        Margin="0,0,-1,0"
+                        hc:BorderElement.CornerRadius="0"
+                        Command="{s:Action AddPlan}"
+                        Content="{DynamicResource AddPlan}" />
+                    <hc:SplitButton
+                        hc:BorderElement.CornerRadius="0,4,4,0"
+                        Click="PresetSplitButton_Click"
+                        Content="{DynamicResource DepotPreset}">
+                        <hc:SplitButton.DropDownContent>
+                            <Menu ItemsSource="{Binding PresetList, Source={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}" MenuItem.Click="{s:Action PresetMenuClick}">
+                                <Menu.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Vertical" />
+                                    </ItemsPanelTemplate>
+                                </Menu.ItemsPanel>
+                                <Menu.ItemContainerStyle>
+                                    <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="MenuItem">
+                                        <Setter Property="Header" Value="{Binding Display}" />
+                                    </Style>
+                                </Menu.ItemContainerStyle>
+                            </Menu>
+                        </hc:SplitButton.DropDownContent>
+                    </hc:SplitButton>
+                </WrapPanel>
+            </StackPanel>
+
+            <!--
+                计划列表：容器与交互对齐 OperProgressTaskUserControl 的 ListBox。
+                宿主链最外层是设置面板的 ScrollViewer，经 SimpleStackPanel 透传给列表的高度约束无限，
+                MaxHeight 绑 ｢视口 - 固定区实际高度｣ 建立有界视口，虚拟化方能生效；
+                固定区随语言换行增高时列表自动收缩，固定区超出视口时列表归零、由外层面板滚动兜底
+            -->
             <ListBox
                 Padding="0"
-                VerticalAlignment="Top"
                 HorizontalContentAlignment="Stretch"
                 d:ItemsSource="{d:SampleData ItemCount=2}"
                 dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
                 dd:DragDrop.IsDragSource="True"
                 dd:DragDrop.IsDropTarget="True"
+                hc:ScrollViewer.IsInertiaEnabled="True"
                 BorderThickness="0"
                 ClipToBounds="False"
                 ItemsSource="{Binding Path=PlanList}"
                 PreviewMouseWheel="{s:Action RouteMouseWheelToParentExceptScrollable,
-                                             Target={x:Type helper:MouseWheelHelper}}">
+                                             Target={x:Type helper:MouseWheelHelper}}"
+                VirtualizingPanel.IsVirtualizing="True"
+                VirtualizingPanel.ScrollUnit="Pixel"
+                VirtualizingPanel.VirtualizationMode="Recycling">
+                <ListBox.MaxHeight>
+                    <MultiBinding Converter="{StaticResource SubtractConverter}">
+                        <Binding Path="ViewportHeight" RelativeSource="{RelativeSource AncestorType=ScrollViewer}" />
+                        <Binding ElementName="FixedHeaderPanel" Path="ActualHeight" />
+                    </MultiBinding>
+                </ListBox.MaxHeight>
                 <ListBox.ItemContainerStyle>
                     <Style BasedOn="{StaticResource NoSelectedHighlightListBoxItemStyle}" TargetType="{x:Type ListBoxItem}">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -154,23 +217,49 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <ComboBox
-                                            Grid.Column="0"
-                                            Height="30"
-                                            Margin="0,0,6,0"
-                                            HorizontalContentAlignment="Stretch"
-                                            VerticalContentAlignment="Center"
-                                            s:View.ActionTarget="{Binding}"
-                                            DisplayMemberPath="Display"
-                                            DropDownClosed="{s:Action DropsListDropDownClosed}"
-                                            IsEditable="True"
-                                            IsTextSearchEnabled="False"
-                                            ItemsSource="{Binding DropsList, Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
-                                            Loaded="{s:Action MakeComboBoxSearchable,
-                                                              Target={x:Type ui_vms:SettingsViewModel}}"
-                                            SelectedValue="{Binding DropId}"
-                                            SelectedValuePath="Value"
-                                            Text="{Binding DropName}" />
+                                        <Grid Grid.Column="0">
+                                            <ComboBox
+                                                Height="30"
+                                                Margin="0,0,6,0"
+                                                Padding="28,5,10,5"
+                                                HorizontalContentAlignment="Stretch"
+                                                VerticalContentAlignment="Center"
+                                                s:View.ActionTarget="{Binding}"
+                                                DropDownClosed="{s:Action DropsListDropDownClosed}"
+                                                IsEditable="True"
+                                                IsTextSearchEnabled="False"
+                                                ItemsSource="{Binding DropsList, Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
+                                                Loaded="{s:Action MakeComboBoxSearchable,
+                                                                  Target={x:Type ui_vms:SettingsViewModel}}"
+                                                SelectedValue="{Binding DropId}"
+                                                SelectedValuePath="Value"
+                                                Text="{Binding DropName}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Image
+                                                                Width="18"
+                                                                Height="18"
+                                                                VerticalAlignment="Center"
+                                                                Source="{Binding Value, Converter={StaticResource ItemImageConverter}}" />
+                                                            <TextBlock
+                                                                Margin="4,0,0,0"
+                                                                VerticalAlignment="Center"
+                                                                Text="{Binding Display}" />
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                            <!--  选中材料缩略图：IsEditable ComboBox 收起态显示区是纯文本 TextBox 无法内嵌图片，以不命中浮层贴在框内左侧，ComboBox 用 Padding 为其让出文本起点  -->
+                                            <Image
+                                                Width="16"
+                                                Height="16"
+                                                Margin="6,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                IsHitTestVisible="False"
+                                                Source="{Binding DropId, Converter={StaticResource ItemImageConverter}}" />
+                                        </Grid>
                                         <hc:NumericUpDown
                                             Grid.Column="1"
                                             Height="30"
@@ -242,45 +331,6 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <WrapPanel Margin="0,6,0,0" HorizontalAlignment="Center">
-                <Button
-                    MinWidth="50"
-                    Margin="0,0,-1,0"
-                    hc:BorderElement.CornerRadius="4,0,0,4"
-                    Command="{s:Action CollapseAll}"
-                    Content="{DynamicResource CollapseAll}" />
-                <Button
-                    MinWidth="50"
-                    Margin="0,0,-1,0"
-                    hc:BorderElement.CornerRadius="0"
-                    Command="{s:Action ClearPlans}"
-                    Content="{DynamicResource ClearPlans}" />
-                <Button
-                    MinWidth="50"
-                    Margin="0,0,-1,0"
-                    hc:BorderElement.CornerRadius="0"
-                    Command="{s:Action AddPlan}"
-                    Content="{DynamicResource AddPlan}" />
-                <hc:SplitButton
-                    hc:BorderElement.CornerRadius="0,4,4,0"
-                    Click="PresetSplitButton_Click"
-                    Content="{DynamicResource DepotPreset}">
-                    <hc:SplitButton.DropDownContent>
-                        <Menu ItemsSource="{Binding PresetList, Source={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}" MenuItem.Click="{s:Action PresetMenuClick}">
-                            <Menu.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Vertical" />
-                                </ItemsPanelTemplate>
-                            </Menu.ItemsPanel>
-                            <Menu.ItemContainerStyle>
-                                <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="MenuItem">
-                                    <Setter Property="Header" Value="{Binding Display}" />
-                                </Style>
-                            </Menu.ItemContainerStyle>
-                        </Menu>
-                    </hc:SplitButton.DropDownContent>
-                </hc:SplitButton>
-            </WrapPanel>
         </StackPanel>
 
         <!--  高级设置  -->

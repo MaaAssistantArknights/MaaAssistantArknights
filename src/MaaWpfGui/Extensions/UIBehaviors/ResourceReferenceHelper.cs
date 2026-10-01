@@ -1,6 +1,6 @@
 // <copyright file="ResourceReferenceHelper.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -45,9 +45,22 @@ public static class ResourceReferenceHelper
             typeof(ResourceReferenceHelper),
             new PropertyMetadata(null, (d, e) =>
             {
-                if (d is FrameworkElement fe && e.NewValue is string key)
+                if (e.NewValue is not string key)
                 {
-                    fe.SetResourceReference(Control.BackgroundProperty, key);
+                    return;
+                }
+
+                // Border/Panel 的 Background 定义在自身类型上，与 Control.Background 不是同一个属性
+                DependencyProperty property = d switch
+                {
+                    Border => Border.BackgroundProperty,
+                    Panel => Panel.BackgroundProperty,
+                    Control => Control.BackgroundProperty,
+                    _ => null,
+                };
+                if (property != null && d is FrameworkElement fe)
+                {
+                    fe.SetResourceReference(property, key);
                 }
             }));
 

@@ -77,6 +77,10 @@
         "specificRect": [1, 154, 45, 261],
         "postDelay": 100
     },
+    "BlackFlow@Roguelike@CancelNodeSelectionForReplan": {
+        "baseTask": "BlackFlow@Roguelike@CancelNodeSelection",
+        "next": ["BlackFlow@Roguelike@MapReplanReady"]
+    },
     "BlackFlow@Roguelike@CheckLevel": {
         "text": ["源流堆栈"]
     },
@@ -516,7 +520,8 @@
     },
     "BlackFlow@Roguelike@EnterAfterRecruit": {
         "template": "BlackFlow@Roguelike@EnterAfterRecruit.png",
-        "roi": [1040, 240, 240, 179]
+        "roi": [1040, 240, 240, 179],
+        "next": ["#self", "BlackFlow@Roguelike@NextLevel-Enter#next"]
     },
     "BlackFlow@Roguelike@EnteredPageClassification": {
         "algorithm": "OcrDetect",
@@ -931,6 +936,24 @@
         ],
         "onErrorNext": ["BlackFlow@Roguelike@RecoveryFailed"]
     },
+    "BlackFlow@Roguelike@MapPrepare-Floor5Swipe": {
+        "Doc": [
+            "第五层地图最右列会被界面遮挡，首次进层建图前沿 y=615 从 x=766 向左滑到 x=584 两次，把地图整体挪开。",
+            "地图有中心吸附，滑过头也会吸回左侧中心点，所以重复滑动是安全的；建图成功后 map().floor() 已是 5，之后的地图准备不再滑动。"
+        ],
+        "algorithm": "JustReturn",
+        "sub": ["BlackFlow@Roguelike@MapPrepare-Floor5SwipeOnce*2"],
+        "next": ["BlackFlow@Roguelike@Routing"],
+        "onErrorNext": ["BlackFlow@Roguelike@RecoveryFailed"]
+    },
+    "BlackFlow@Roguelike@MapPrepare-Floor5SwipeOnce": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [766, 615, 1, 1],
+        "rectMove": [584, 615, 1, 1],
+        "specialParams": [200, 0, 37, 1],
+        "postDelay": 500
+    },
     "BlackFlow@Roguelike@MapPrepare-FloorEnterZoom": {
         "Doc": "刚进入楼层时比例尺必定是大的，此刻两种放大镜状态分不清，所以不判状态直接切一次；比例尺缩小后节点不会压到顶部标题，楼层 OCR 才干净。",
         "baseTask": "BlackFlow@Roguelike@MapPrepare-Ready",
@@ -941,11 +964,19 @@
         "next": ["BlackFlow@Roguelike@NextLevel"]
     },
     "BlackFlow@Roguelike@MapPrepare-Ready": {
+        "Doc": [
+            "本任务的完成回调注册了 BlackFlowRoutingTaskPlugin，由它按楼层和建图状态改写 MapPrepare-ReadyAction 的 baseTask。",
+            "以本任务为 baseTask 的派生任务必须自己覆盖 next：派生任务以自己的名字执行，插件收不到回调，若沿用本任务的 next 会带着上一次改写结果进入 ReadyAction。"
+        ],
         "template": "BlackFlow@Roguelike@MapZoomIn.png",
         "templThreshold": 0.9,
         "roi": [24, 468, 62, 153],
-        "next": ["BlackFlow@Roguelike@Routing"],
+        "next": ["BlackFlow@Roguelike@MapPrepare-ReadyAction"],
         "reduceOtherTimes": ["BlackFlow@Roguelike@MapPrepare-ZoomOut*3", "BlackFlow@Roguelike@MovementInventoryClose*3"]
+    },
+    "BlackFlow@Roguelike@MapPrepare-ReadyAction": {
+        "Doc": "占位任务，默认转入 Routing-Enter；第五层首次建图前由插件改指 MapPrepare-Floor5Swipe。",
+        "baseTask": "BlackFlow@Roguelike@Routing-Enter"
     },
     "BlackFlow@Roguelike@MapPrepare-ZoomOut": {
         "template": "BlackFlow@Roguelike@MapZoomOut.png",
@@ -957,6 +988,12 @@
         "next": ["BlackFlow@Roguelike@MapPrepare"],
         "exceededNext": ["BlackFlow@Roguelike@RecoveryFailed"],
         "reduceOtherTimes": ["BlackFlow@Roguelike@MovementInventoryClose*3"]
+    },
+    "BlackFlow@Roguelike@MapReplanReady": {
+        "baseTask": "BlackFlow@Roguelike@MapPrepare-Ready",
+        "template": "BlackFlow@Roguelike@MapZoomIn.png",
+        "next": ["BlackFlow@Roguelike@RoutingReplan"],
+        "onErrorNext": ["BlackFlow@Roguelike@RecoveryFailed"]
     },
     "BlackFlow@Roguelike@MissionFailedFlag": {
         "template": "BlackFlow@Roguelike@MissionFailedFlag.png"
@@ -1040,7 +1077,10 @@
         "algorithm": "OcrDetect",
         "roi": [912, 101, 195, 96],
         "withoutDet": false,
-        "ocrReplace": [["^秘必境行商$", "秘境行商"]],
+        "ocrReplace": [
+            ["^秘必境行商$", "秘境行商"],
+            ["^必境行商$", "秘境行商"]
+        ],
         "fullMatch": true,
         "text": []
     },
@@ -1325,7 +1365,7 @@
         "baseTask": "BlackFlow@Roguelike@StageEncounterJudgeClick"
     },
     "BlackFlow@Roguelike@Page-Ending2SandtableA": {
-        "baseTask": "BlackFlow@Roguelike@NodeDispatch-Unconfigured"
+        "baseTask": "BlackFlow@Roguelike@Page-Encounter"
     },
     "BlackFlow@Roguelike@Page-Ending2SandtableB": {
         "baseTask": "BlackFlow@Roguelike@NodeDispatch-Unconfigured"
@@ -1461,8 +1501,18 @@
         "next": ["BlackFlow@Roguelike@RoutingAction"],
         "onErrorNext": ["BlackFlow@Roguelike@RecoveryFailed"]
     },
+    "BlackFlow@Roguelike@Routing-Enter": {
+        "Doc": "Routing 被插件监听，占位任务不能直接指向它，经本任务转发让它以自己的名字执行。",
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@Routing"]
+    },
     "BlackFlow@Roguelike@RoutingAction": {
         "baseTask": "BlackFlow@Roguelike@RecoveryFailed"
+    },
+    "BlackFlow@Roguelike@RoutingReplan": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@RoutingAction"],
+        "onErrorNext": ["BlackFlow@Roguelike@RecoveryFailed"]
     },
     "BlackFlow@Roguelike@RoutingResume": {
         "algorithm": "JustReturn",
@@ -1514,6 +1564,33 @@
     "BlackFlow@Roguelike@SquadDefault": {
         "template": "BlackFlow@Roguelike@SquadDefault.png"
     },
+    "BlackFlow@Roguelike@StageEncounterContinue": {
+        "algorithm": "JustReturn",
+        "next": [
+            "BlackFlow@Roguelike@StageEncounterContinue@LoadingText",
+            "BlackFlow@Roguelike@StageEncounterContinue@(BlackFlow@Roguelike@CloseCollectionContinue)",
+            "BlackFlow@Roguelike@StageEncounterContinue@(BlackFlow@Roguelike@CloseCollection)",
+            "BlackFlow@Roguelike@StageEncounterContinueMapReady",
+            "BlackFlow@Roguelike@StageEncounterContinueOptionsReady",
+            "BlackFlow@Roguelike@StageEncounterContinueClose"
+        ]
+    },
+    "BlackFlow@Roguelike@StageEncounterContinueClose": {
+        "baseTask": "BlackFlow@Roguelike@CloseEventAfterEncounter",
+        "template": "BlackFlow@Roguelike@CloseEvent.png",
+        "next": ["BlackFlow@Roguelike@StageEncounterContinue#next"]
+    },
+    "BlackFlow@Roguelike@StageEncounterContinueMapReady": {
+        "baseTask": "BlackFlow@Roguelike@MapPrepare-Ready",
+        "template": ["BlackFlow@Roguelike@MapZoomIn.png", "BlackFlow@Roguelike@MapZoomOut.png"],
+        "next": [],
+        "reduceOtherTimes": []
+    },
+    "BlackFlow@Roguelike@StageEncounterContinueOptionsReady": {
+        "baseTask": "BlackFlow@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar",
+        "template": "BlackFlow@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-40.png",
+        "next": []
+    },
     "BlackFlow@Roguelike@StageEncounterJudgeClick": {
         "baseTask": "Roguelike@StageEncounterJudgeClick",
         "next": ["BlackFlow@Roguelike@StageEncounterJudgeClick2"]
@@ -1530,6 +1607,7 @@
     "BlackFlow@Roguelike@StageEncounterLeaveConfirm": {
         "templThreshold": 0.7,
         "next": [
+            "BlackFlow@Roguelike@StageEncounterLeaveConfirm@LoadingText",
             "BlackFlow@Roguelike@StageEncounterLeaveConfirm",
             "BlackFlow@Roguelike@StageEncounterLeaveConfirmCompleted"
         ],
@@ -1579,10 +1657,14 @@
             "窥视箱中",
             "泪之聚落",
             "调谐仪式",
-            "行动奖励",
             "溯源"
         ],
         "ocrReplace": [["^临时介所$", "临时中介所"]]
+    },
+    "BlackFlow@Roguelike@StageEncounterOption-Enter": {
+        "Doc": "事件选项的转发入口，由 C++ 设置 next，使目标任务以自己的名称执行。",
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@RecoveryFailed"]
     },
     "BlackFlow@Roguelike@StageEncounterResult": {
         "baseTask": "BlackFlow@Roguelike@RecoveryFailed"

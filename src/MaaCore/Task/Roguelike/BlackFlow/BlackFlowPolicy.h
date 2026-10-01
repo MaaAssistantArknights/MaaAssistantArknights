@@ -283,6 +283,30 @@ struct GrantedScrap
     Condition when;
 };
 
+struct EncounterRule
+{
+    std::string id;
+    std::string description;
+    std::string event_name;
+    int rank = 0;
+    Condition when;
+    std::vector<std::string> option_text;
+    std::size_t option_num = 0;
+    std::size_t choose = 0;
+    bool allow_fallback = true;
+    std::unordered_map<std::string, FactValue> on_selected;
+};
+
+struct EncounterSelection
+{
+    std::string event_name;
+    std::size_t option_num = 0;
+    std::size_t choose = 0; // 与事件配置一致，从 1 开始编号。
+    std::string option_text;
+    std::string rule_id;
+    bool used_fallback = false;
+};
+
 struct PolicyModule
 {
     std::string id;
@@ -292,6 +316,7 @@ struct PolicyModule
     std::vector<ResourceReserve> reserves;
     std::vector<Milestone> milestones;
     std::vector<GrantedScrap> granted_scraps;
+    std::vector<EncounterRule> encounter_rules;
 };
 
 struct StrategyTerminalRule
@@ -338,6 +363,7 @@ struct ResolvedPolicy
     std::vector<ResourceReserve> reserves;
     std::vector<Milestone> milestones;
     std::vector<GrantedScrap> granted_scraps;
+    std::vector<EncounterRule> encounter_rules;
     std::vector<StrategyTerminalRule> terminal_rules;
     std::string failure_action = "stop_run";
     // 走出本层与耗尽行动力结局相同的层。这些层没有锁定目标的那几轮不再为出口预留行动力，
@@ -347,6 +373,9 @@ struct ResolvedPolicy
     // 区间表达不了这种层集合。必须抵达终点的层一律不要列进来。
     std::unordered_set<int> no_AP_is_terminal_floors;
 };
+
+[[nodiscard]] const EncounterRule*
+    resolve_encounter_rule(const ResolvedPolicy& policy, const FactStore& facts, std::string_view event_name);
 
 class ResourceRegistry
 {

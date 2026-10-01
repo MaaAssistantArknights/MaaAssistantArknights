@@ -578,11 +578,73 @@ GrantedScrap parse_granted_scrap(const json::value& value)
     return result;
 }
 
+EncounterRule parse_encounter_rule(const json::value& value)
+{
+    check_keys(
+        value,
+        { "id",
+          "description",
+          "event_name",
+          "rank",
+          "when",
+          "option_text",
+          "option_num",
+          "choose",
+          "allow_fallback",
+          "on_selected" },
+        { "id", "event_name" },
+        "encounter rule");
+    EncounterRule result;
+    result.id = value.at("id").as_string();
+    result.description = value.get("description", std::string());
+    result.event_name = value.at("event_name").as_string();
+    result.rank = value.get("rank", 0);
+    result.when = optional_condition(value, "when", true);
+    result.option_text = parse_string_array(value, "option_text");
+    result.allow_fallback = value.get("allow_fallback", true);
+    if (const auto assignments = value.find("on_selected"); assignments) {
+        if (!assignments->is_object()) {
+            invalid_config("encounter on_selected must be a fact-value object");
+        }
+        for (const auto& [name, assigned_value] : assignments->as_object()) {
+            result.on_selected.emplace(name, parse_fact_value(assigned_value));
+        }
+        if (!result.on_selected.empty() && result.option_text.empty()) {
+            invalid_config("encounter on_selected requires explicit option_text");
+        }
+    }
+    const int option_num = value.get("option_num", 0);
+    const int choose = value.get("choose", 0);
+    if (result.id.empty() || result.event_name.empty() || option_num < 0 || choose < 0) {
+        invalid_config("encounter rule has an invalid id, event name, or option index");
+    }
+    if (result.option_text.empty()) {
+        if (option_num == 0 || choose == 0 || choose > option_num) {
+            invalid_config("numbered encounter rule requires a valid option_num and choose");
+        }
+    }
+    else if (
+        value.contains("option_num") || value.contains("choose") ||
+        std::ranges::any_of(result.option_text, [](const std::string& text) { return text.empty(); })) {
+        invalid_config("text encounter rule requires nonempty texts and cannot contain numbered choices");
+    }
+    result.option_num = static_cast<std::size_t>(option_num);
+    result.choose = static_cast<std::size_t>(choose);
+    return result;
+}
+
 PolicyModule parse_module(const json::value& value)
 {
     check_keys(
         value,
-        { "id", "description", "route_preferences", "rules", "reserves", "milestones", "granted_scraps" },
+        { "id",
+          "description",
+          "route_preferences",
+          "rules",
+          "reserves",
+          "milestones",
+          "granted_scraps",
+          "encounter_rules" },
         { "id" },
         "module");
     PolicyModule result;
@@ -590,6 +652,14 @@ PolicyModule parse_module(const json::value& value)
     result.description = value.get("description", std::string());
     if (result.id.empty()) {
         invalid_config("module id must not be empty");
+    }
+    if (const auto rules = value.find("encounter_rules"); rules) {
+        if (!rules->is_array()) {
+            invalid_config("module encounter_rules must be an array");
+        }
+        for (const auto& rule : rules->as_array()) {
+            result.encounter_rules.emplace_back(parse_encounter_rule(rule));
+        }
     }
     for (const std::string& preference : parse_string_array(value, "route_preferences")) {
         const RoutePreference parsed = parse_route_preference(preference);
@@ -831,6 +901,19 @@ void validate_module(
     const std::unordered_map<std::string, ResourceDefinition>& resources)
 {
     std::unordered_set<std::string> ids;
+    for (const EncounterRule& rule : module.encounter_rules) {
+        if (!ids.emplace("encounter_rule:" + rule.id).second) {
+            invalid_config("module contains duplicate encounter rule id: " + rule.id);
+        }
+        validate_condition(rule.when, facts, false);
+        for (const auto& [name, value] : rule.on_selected) {
+            const auto definition = facts.find(name);
+            if (definition == facts.end() || definition->second.scope != FactScope::Run ||
+                name.starts_with("milestone.") || !fact_value_matches(definition->second.type, value)) {
+                invalid_config("encounter on_selected requires a declared run fact with a matching value: " + name);
+            }
+        }
+    }
     for (const auto& rule : module.rules) {
         if (!ids.emplace("rule:" + rule.id).second) {
             invalid_config("module contains duplicate rule id: " + rule.id);
@@ -918,13 +1001,20 @@ void validate_profile_definition(
     std::unordered_set<std::string> reserve_ids;
     std::unordered_set<std::string> milestone_ids;
     std::unordered_set<std::string> granted_scrap_ids;
+    std::unordered_set<std::string> encounter_rule_ids;
     std::string error;
     for (const auto& module_id : profile.modules) {
         const auto module = modules.find(module_id);
         if (module == modules.end()) {
             invalid_config("profile references unknown module: " + module_id);
         }
-        if (!append_unique(resolved.rules, module->second.rules, rule_ids, &error, "rule") ||
+        if (!append_unique(
+                resolved.encounter_rules,
+                module->second.encounter_rules,
+                encounter_rule_ids,
+                &error,
+                "encounter rule") ||
+            !append_unique(resolved.rules, module->second.rules, rule_ids, &error, "rule") ||
             !append_unique(resolved.reserves, module->second.reserves, reserve_ids, &error, "reserve") ||
             !append_unique(resolved.milestones, module->second.milestones, milestone_ids, &error, "milestone") ||
             !append_unique(
@@ -1024,9 +1114,17 @@ std::optional<blackflow::ResolvedPolicy>
     std::unordered_set<std::string> reserve_ids;
     std::unordered_set<std::string> milestone_ids;
     std::unordered_set<std::string> granted_scrap_ids;
+    std::unordered_set<std::string> encounter_rule_ids;
     for (const auto& module_id : profile->modules) {
         const blackflow::PolicyModule* module = get_module(module_id);
-        if (module == nullptr || !append_unique(result.rules, module->rules, rule_ids, error, "rule") ||
+        if (module == nullptr ||
+            !append_unique(
+                result.encounter_rules,
+                module->encounter_rules,
+                encounter_rule_ids,
+                error,
+                "encounter rule") ||
+            !append_unique(result.rules, module->rules, rule_ids, error, "rule") ||
             !append_unique(result.reserves, module->reserves, reserve_ids, error, "reserve") ||
             !append_unique(result.milestones, module->milestones, milestone_ids, error, "milestone") ||
             !append_unique(result.granted_scraps, module->granted_scraps, granted_scrap_ids, error, "granted scrap")) {
@@ -1092,6 +1190,25 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
         auto definition = parse_fact_definition(value);
         if (!facts.emplace(definition.name, definition).second) {
             invalid_config("duplicate fact name: " + definition.name);
+        }
+    }
+
+    // 事件事实由选项识别和实际选择结果提供，供模块条件与里程碑引用。
+    const std::vector<blackflow::FactDefinition> encounter_facts {
+        { "encounter.name", FactType::String, FactScope::Page, "当前识别到的事件标题" },
+        { "encounter.option_count", FactType::Integer, FactScope::Page, "实际选项数量" },
+        { "encounter.available_options", FactType::StringList, FactScope::Page, "当前可用选项文字" },
+        { "encounter.route_known", FactType::Boolean, FactScope::Page, "进入事件时的剩余路线是否明确" },
+        { "encounter.remaining_battles", FactType::Integer, FactScope::Page, "进入事件时剩余路线中的战斗数量" },
+        { "encounter.selected_option", FactType::Integer, FactScope::Page, "实际选中的选项序号，从 1 开始" },
+        { "encounter.selected_text", FactType::String, FactScope::Page, "实际选中的选项文字" },
+        { "encounter.used_fallback", FactType::Boolean, FactScope::Page, "实际选择是否使用兜底" },
+        { "encounter.rule_id", FactType::String, FactScope::Page, "本次选择请求命中的策略规则" },
+    };
+    for (const auto& definition : encounter_facts) {
+        const auto [it, inserted] = facts.emplace(definition.name, definition);
+        if (!inserted && (it->second.type != definition.type || it->second.scope != definition.scope)) {
+            invalid_config("encounter fact declaration has an incompatible type or scope: " + definition.name);
         }
     }
 

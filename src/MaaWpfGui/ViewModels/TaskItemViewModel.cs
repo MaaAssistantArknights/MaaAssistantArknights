@@ -1,6 +1,6 @@
 // <copyright file="TaskItemViewModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -103,6 +103,13 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
     private List<TaskItemStatus> StatusList { get; set; } = [];
 
     /// <summary>
+    /// Gets 本条目已处理（完成或出错）的 chain 数，作为任务栏进度分子的组成单元（Error chain 视作已处理一格）；
+    /// 与 <see cref="StatusDisplay"/> 的条目级聚合显示互不相干：聚合值不变（如部分 chain 完成后条目仍显示
+    /// InProgress）时本计数仍在推进。
+    /// </summary>
+    public int CompletedChainCount => StatusList.Count(s => s is TaskItemStatus.Completed or TaskItemStatus.Error);
+
+    /// <summary>
     /// Gets or sets 上次状态, 可能和当前不一致
     /// </summary>
     public TaskItemStatus StatusDisplay { get => field; set => SetAndNotify(ref field, value); }
@@ -119,6 +126,13 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
             return;
         }
         StatusList[index] = status;
+
+        // chain 级进度分子只由 StatusList 派生，随其变化在此显式重算（状态驱动的唯一触发点）；
+        // StatusDisplay 是 StatusList 的聚合显示，不在其 setter 里联动重算——那会令每次链状态变化
+        // 双重重算（TaskProgress setter 无同值短路，每次重算即一次任务栏 COM 调用），且空闲期写
+        // StatusDisplay 的路径（切勾选置 Idle、DemoShot 注入）会空转任务栏
+        Instances.TaskQueueViewModel?.RefreshMainTasksProgress();
+
         if (StatusList.Any(s => s == TaskItemStatus.Error))
         {
             StatusDisplay = TaskItemStatus.Error;

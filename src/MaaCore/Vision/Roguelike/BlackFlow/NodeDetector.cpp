@@ -173,6 +173,9 @@ std::optional<GridGeometry> NodeDetector::fixed_grid(int rows, int columns)
     if (rows == 5 && columns == 8) {
         return make_grid(rows, columns, 286.75, 145.0, 100.75, 99.5);
     }
+    if (rows == 5 && columns == 9) {
+        return make_grid(rows, columns, 252.0, 144.0, 100.75, 100.75);
+    }
     if (rows == 5 && columns == 10) {
         return make_grid(rows, columns, 121.0, 141.0, 100.75, 100.25);
     }

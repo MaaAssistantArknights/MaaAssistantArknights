@@ -1,6 +1,6 @@
 // <copyright file="PostActionSetting.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -78,6 +78,11 @@ public class PostActionSetting : PropertyChangedBase
         /// 任务出错时跳过所有完成后动作
         /// </summary>
         SkipOnError = 1 << 8,
+
+        /// <summary>
+        /// 锁屏
+        /// </summary>
+        LockScreen = 1 << 9,
     }
 
     private PostActions _postActions;
@@ -222,6 +227,32 @@ public class PostActionSetting : PropertyChangedBase
         }
     }
 
+    private bool _lockScreen;
+
+    public bool LockScreen
+    {
+        get => _lockScreen;
+        set {
+            if (!SetAndNotify(ref _lockScreen, value))
+            {
+                return;
+            }
+
+            if (value)
+            {
+                Hibernate = false;
+                Shutdown = false;
+                Sleep = false;
+            }
+            else if (!Hibernate && !Shutdown && !Sleep)
+            {
+                IfNoOtherMaa = false;
+            }
+
+            UpdatePostAction(PostActions.LockScreen, value);
+        }
+    }
+
     private bool _hibernate;
 
     public bool Hibernate
@@ -237,8 +268,9 @@ public class PostActionSetting : PropertyChangedBase
             {
                 Shutdown = false;
                 Sleep = false;
+                LockScreen = false;
             }
-            else if (!Shutdown && !Sleep)
+            else if (!Shutdown && !Sleep && !LockScreen)
             {
                 IfNoOtherMaa = false;
             }
@@ -264,8 +296,9 @@ public class PostActionSetting : PropertyChangedBase
                 BackToAndroidHome = false;
                 Hibernate = false;
                 Sleep = false;
+                LockScreen = false;
             }
-            else if (!Hibernate && !Sleep)
+            else if (!Hibernate && !Sleep && !LockScreen)
             {
                 IfNoOtherMaa = false;
             }
@@ -289,8 +322,9 @@ public class PostActionSetting : PropertyChangedBase
             {
                 Hibernate = false;
                 Shutdown = false;
+                LockScreen = false;
             }
-            else if (!Hibernate && !Shutdown)
+            else if (!Hibernate && !Shutdown && !LockScreen)
             {
                 IfNoOtherMaa = false;
             }
@@ -369,6 +403,7 @@ public class PostActionSetting : PropertyChangedBase
         ExitEmulator = false;
         ExitSelf = false;
         IfNoOtherMaa = false;
+        LockScreen = false;
         Hibernate = false;
         Shutdown = false;
         Sleep = false;
@@ -401,6 +436,11 @@ public class PostActionSetting : PropertyChangedBase
         }
 
         var prefix = IfNoOtherMaa ? LocalizationHelper.GetString("IfNoOtherMaa") : string.Empty;
+        if (LockScreen)
+        {
+            actions.Add(prefix + LocalizationHelper.GetString("LockScreen"));
+        }
+
         if (Hibernate)
         {
             actions.Add(prefix + LocalizationHelper.GetString("Hibernate"));
@@ -449,16 +489,20 @@ public class PostActionSetting : PropertyChangedBase
 
     public void LoadPostActions()
     {
-        _postActions = ConfigFactory.CurrentConfig.Gui.PostActions;
-        ExitArknights = _postActions.HasFlag(PostActions.ExitArknights);
-        BackToAndroidHome = _postActions.HasFlag(PostActions.BackToAndroidHome);
-        ExitEmulator = _postActions.HasFlag(PostActions.ExitEmulator);
-        ExitSelf = _postActions.HasFlag(PostActions.ExitSelf);
-        IfNoOtherMaa = _postActions.HasFlag(PostActions.IfNoOtherMaa);
-        Hibernate = _postActions.HasFlag(PostActions.Hibernate);
-        Shutdown = _postActions.HasFlag(PostActions.Shutdown);
-        Sleep = _postActions.HasFlag(PostActions.Sleep);
-        SkipOnError = _postActions.HasFlag(PostActions.SkipOnError);
+        var savedActions = ConfigFactory.CurrentConfig.Gui.PostActions;
+        _postActions = savedActions;
+        ExitArknights = savedActions.HasFlag(PostActions.ExitArknights);
+        BackToAndroidHome = savedActions.HasFlag(PostActions.BackToAndroidHome);
+        ExitEmulator = savedActions.HasFlag(PostActions.ExitEmulator);
+        ExitSelf = savedActions.HasFlag(PostActions.ExitSelf);
+        LockScreen = savedActions.HasFlag(PostActions.LockScreen);
+        Hibernate = savedActions.HasFlag(PostActions.Hibernate);
+        Shutdown = savedActions.HasFlag(PostActions.Shutdown);
+        Sleep = savedActions.HasFlag(PostActions.Sleep);
+
+        // 互斥选项切换可能清除条件标志，最后从配置快照恢复。
+        IfNoOtherMaa = savedActions.HasFlag(PostActions.IfNoOtherMaa);
+        SkipOnError = savedActions.HasFlag(PostActions.SkipOnError);
         Once = false;
         ClearUnsupportedPostActionsForAttachWindow();
     }

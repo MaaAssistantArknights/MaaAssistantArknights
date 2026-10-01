@@ -24,11 +24,13 @@ GetWindowText
 GetWindowTextLengthW
 GetWindowThreadProcessId
 IsIconic
+IsWindow
 IsWindowVisible
 GetWindowRect
 GetSystemMetrics
 SetWindowPos
 ShowWindow
+ShowWindowAsync
 SetWinEventHook
 UnhookWinEvent
 GetWindowLong
@@ -55,3 +57,4 @@ FlashWindowEx
 
 // PowerManagement
 SetSuspendState
+LockWorkStation

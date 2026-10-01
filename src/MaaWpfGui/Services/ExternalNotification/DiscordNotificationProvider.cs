@@ -1,6 +1,6 @@
 // <copyright file="DiscordNotificationProvider.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -97,8 +97,6 @@ public class DiscordNotificationProvider(IHttpService httpService, DiscordConfig
 
     private class ChannelsCreation
     {
-        // ReSharper disable UnusedMember.Local
-        // ReSharper disable UnusedAutoPropertyAccessor.Local
         [JsonPropertyName("recipient_id")]
         public string? RecipientId { get; set; }
 
@@ -107,8 +105,5 @@ public class DiscordNotificationProvider(IHttpService httpService, DiscordConfig
 
         [JsonPropertyName("nicks")]
         public string? Nicks { get; set; }
-
-        // ReSharper restore UnusedMember.Local
-        // ReSharper restore UnusedAutoPropertyAccessor.Local
     }
 }

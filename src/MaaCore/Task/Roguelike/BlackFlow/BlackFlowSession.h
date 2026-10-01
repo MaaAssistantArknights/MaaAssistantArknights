@@ -13,6 +13,7 @@
 
 #include "BlackFlowTaskPort.h"
 
+// 这部分实现类和相关类型统一放入 asst::blackflow，保持模块内组织一致。
 namespace asst::blackflow
 {
 enum class FailureDisposition
@@ -99,6 +100,16 @@ struct PageIdentityResolution
     const MovePreview* preview,
     const EnteredPageObservation& entered_page);
 
+struct EncounterContext
+{
+    std::uint64_t run_revision = 0;
+    std::uint64_t page_revision = 0;
+    std::uint64_t sequence = 0;
+    std::string event_name;
+    std::size_t option_num = 0;
+    std::optional<EncounterRule> rule;
+};
+
 struct PageExecutionContext
 {
     std::uint64_t run_revision = 0;
@@ -114,6 +125,9 @@ struct PageExecutionContext
     PageExecutionStage stage = PageExecutionStage::None;
     std::optional<NodeStateUpdate> result;
     bool resolution_reported = false;
+    std::optional<int> remaining_route_battles;
+    std::uint64_t encounter_sequence = 0;
+    std::optional<EncounterSelection> encounter_selection;
 };
 
 class BlackFlowSession
@@ -186,6 +200,16 @@ public:
         const json::value& callback_details,
         std::string* error = nullptr);
 
+    [[nodiscard]] std::optional<EncounterContext> prepare_encounter(
+        std::string event_name,
+        std::size_t option_num,
+        const std::vector<std::string>& available_options,
+        std::string* error = nullptr) const;
+    bool apply_encounter_selection(
+        const EncounterContext& context,
+        EncounterSelection selection,
+        std::string* error = nullptr);
+
     void fail(std::string outcome, std::string reason, FailureDisposition disposition = FailureDisposition::StopTask);
 
     [[nodiscard]] const std::optional<BlackFlowStrategyResult>& result() const noexcept { return m_result; }
@@ -194,11 +218,11 @@ public:
 
     bool claim_result_report() noexcept;
 
-    [[nodiscard]] const ViewportObservation& viewport() const noexcept { return m_viewport; }
+    [[nodiscard]] const ViewportObservation& viewport() const noexcept { return m_map_version.coordinates; }
 
     [[nodiscard]] const RunState& run() const noexcept { return m_run; }
 
-    [[nodiscard]] const NormalizedMap& map() const noexcept { return m_map; }
+    [[nodiscard]] const NormalizedMap& map() const noexcept { return m_map_version.map; }
 
     [[nodiscard]] FactStore facts() const { return m_facts.merged(); }
 
@@ -225,6 +249,7 @@ private:
     bool update_in_place(const BlackFlowPerceptionSnapshot& snapshot, std::string* error);
     bool synchronize_resource_facts(std::string* error);
     bool apply_granted_scraps(std::string* error);
+    [[nodiscard]] std::optional<int> remaining_route_battles(const MoveCandidate& move) const;
     void refresh_mission();
     void publish_milestone_facts();
     void evaluate_milestone_miss_actions();
@@ -239,14 +264,20 @@ private:
         std::string* error);
     bool reconcile_committed_move(const BlackFlowPerceptionSnapshot& snapshot, std::string* error);
     void finalize_entered_node(const PageExecutionContext& context, bool page_completed);
-    void queue_map_summary(const PerceptionSummary& summary);
+    void queue_map_summary(std::optional<NodeId> corrected_node = std::nullopt);
+    bool synchronize_map_facts(std::string* error);
+    PreviewDisposition accept_preview_in_place(MovePreview preview, std::string* error);
     void queue_warning(std::string code, std::string message, DiagnosticTrigger trigger);
     void queue_decision();
     void queue_node_resolution(const PageExecutionContext& context);
-    void request_diagnostics(DiagnosticTrigger trigger, json::object snapshot = {});
+    void request_diagnostics(DiagnosticTrigger trigger, json::object snapshot = {}, bool allow_images = true);
     bool apply_observed_facts(const FactStore& facts, std::string* error);
     bool set_fact(std::string_view name, FactValue value, std::string* error);
-    bool apply_node_signal(const NodeStrategySignal& signal, const json::value& callback_details, std::string* error);
+    bool apply_node_signal(
+        FactContext& facts,
+        const NodeStrategySignal& signal,
+        const json::value& callback_details,
+        std::string* error);
 
     std::string m_profile;
     std::string m_start_core_char;
@@ -258,8 +289,17 @@ private:
     FactContext m_facts;
     MissionState m_mission;
     BlackFlowObservationAdapter m_observation_adapter;
-    NormalizedMap m_map;
-    ViewportObservation m_viewport;
+
+    struct MapVersion
+    {
+        NormalizedMap map;
+        ViewportObservation coordinates;
+        // 本层沿用首次匹配得到的险路尽头位置；首领层为空。
+        std::vector<GridPosition> final_exits;
+        PerceptionSummary observation;
+    };
+
+    MapVersion m_map_version;
     RunState m_run;
     std::optional<int> m_current_floor;
     ResourceRegistry m_resources;

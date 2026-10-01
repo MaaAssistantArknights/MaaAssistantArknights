@@ -1,6 +1,6 @@
 // <copyright file="AsstOperProgressTask.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -13,11 +13,11 @@
 
 #nullable enable
 using System.Collections.Generic;
+using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using static MaaWpfGui.Configuration.Single.MaaTask.OperProgressTask.SkillLevel;
 
 namespace MaaWpfGui.Models.AsstTasks;
 
@@ -34,23 +34,26 @@ public class AsstOperProgressTask : AsstBaseTask
         foreach (var p in Plans)
         {
             var planObj = new JObject {
-                ["role"] = p.role.ToString(),
-                ["name"] = p.name,
+                ["role"] = p.Role.ToString(),
+                ["name"] = p.Name,
             };
-            if (p.elite > 0)
+            if (p.Elite > 0)
             {
-                planObj["elite"] = p.elite;
+                planObj["elite"] = p.Elite;
             }
-            if (p.skillLevel is BaseLevel @base)
+            if (p.SkillLevel > 0)
             {
-                planObj["skill_level"] = @base.Level;
+                planObj["skill_level"] = p.SkillLevel;
             }
-            else if (p.skillLevel is Specialization specialization)
+            if (p.SkillMastery.ToArray().Any(x => x > 0))
             {
-                planObj["skill_level"] = new JArray { specialization.Skill1, specialization.Skill2, specialization.Skill3 };
+                planObj["skill_mastery"] = JArray.FromObject(p.SkillMastery.ToArray());
             }
             list.Add(planObj);
         }
-        return (TaskType, JObject.FromObject(this));
+        var jObject = new JObject {
+            ["plans"] = list,
+        };
+        return (TaskType, jObject);
     }
 }

@@ -1,6 +1,6 @@
 // <copyright file="FontConfigIntegration.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -11,7 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-#pragma warning disable SA1312
+#pragma warning disable SA1312 // 局部变量 _dtor_* 前缀标记 RAII 析构守卫
 using System;
 using System.Diagnostics;
 using System.Numerics;

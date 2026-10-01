@@ -1,6 +1,6 @@
 // <copyright file="RemoteControlService.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -42,7 +42,6 @@ namespace MaaWpfGui.Services.RemoteControl;
 /// The view model of remote control.
 /// </summary>
 // 通过 container.Get<RemoteControlService>(); 实例化或获取实例
-// ReSharper disable once ClassNeverInstantiated.Global
 public class RemoteControlService
 {
     private Task _pollJobTask = Task.CompletedTask;
@@ -106,8 +105,6 @@ public class RemoteControlService
                     _logger.Error(ex, "RemoteControl service raises unknown error.");
                 }
             }
-
-            // ReSharper disable once FunctionNeverReturns
         });
 
         _executeSequentialJobTask = _executeSequentialJobTask.ContinueWith(async _ => {
@@ -129,8 +126,6 @@ public class RemoteControlService
                     _logger.Error(ex, "RemoteControl service raises unknown error.");
                 }
             }
-
-            // ReSharper disable once FunctionNeverReturns
         });
 
         _executeInstantJobTask = _executeInstantJobTask.ContinueWith(async _ => {
@@ -152,8 +147,6 @@ public class RemoteControlService
                     _logger.Error(ex, "RemoteControl service raises unknown error.");
                 }
             }
-
-            // ReSharper disable once FunctionNeverReturns
         });
     }
 

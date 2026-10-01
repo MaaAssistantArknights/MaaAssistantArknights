@@ -1,6 +1,6 @@
 // <copyright file="RootViewModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -222,9 +222,10 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         {
             await Task.Run(Instances.AsstProxy.Init);
         }
-        catch
+        catch (Exception e)
         {
-            // ignored
+            // 初始化失败除 Link Start 保持置灰外无任何表现，不落日志则无从定位（如 Core 与资源版本不匹配）
+            _logger.Error(e, "Failed to init AsstProxy");
         }
     }
 

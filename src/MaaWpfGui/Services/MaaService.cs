@@ -1,6 +1,6 @@
 // <copyright file="MaaService.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -10,6 +10,8 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+
+#pragma warning disable SA1121 // 别名指向内建类型会被 SA1121 穿透检查，保留全名对照 core API
 
 using System;
 using System.Runtime.InteropServices;
@@ -21,7 +23,6 @@ using AsstTaskId = System.Int32;
 
 namespace MaaWpfGui.Services;
 
-#pragma warning disable SA1601 // Partial elements should be documented
 internal static partial class MaaService
 {
     internal delegate void CallbackDelegate(int msg, IntPtr jsonBuffer, IntPtr customArg);
@@ -99,7 +100,6 @@ internal static partial class MaaService
     [LibraryImport("MaaCore.dll")]
     internal static unsafe partial void AsstSetConnectionExtras(byte* name, byte* extras);
 }
-#pragma warning restore SA1601 // Partial elements should be documented
 
 public enum AsstTaskType : byte
 {

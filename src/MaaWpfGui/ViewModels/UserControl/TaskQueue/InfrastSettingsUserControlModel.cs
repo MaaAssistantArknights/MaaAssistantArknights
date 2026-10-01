@@ -1,6 +1,6 @@
 // <copyright file="InfrastSettingsUserControlModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -31,11 +31,10 @@ using MaaWpfGui.Utilities.ValueType;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Serilog;
+using static MaaWpfGui.Main.AsstProxy;
+using Mode = MaaWpfGui.ViewModels.UserControl.TaskQueue.InfrastMode;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
-
-using static MaaWpfGui.Main.AsstProxy;
-using Mode = InfrastMode;
 
 /// <summary>
 /// 基建任务

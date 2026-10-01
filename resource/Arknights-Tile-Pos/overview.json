@@ -14534,6 +14534,294 @@
         "stageId": "act3bossrush_tm04",
         "width": 31
     },
+    "act3break_01-activities/act3break/level_act3break_01": {
+        "code": "VEC-01",
+        "filename": "act3break_01-activities-act3break-level_act3break_01.json",
+        "height": 7,
+        "levelId": "activities/act3break/level_act3break_01",
+        "name": "寂静螺旋",
+        "stageId": "act3break_01",
+        "width": 9
+    },
+    "act3break_02-activities/act3break/level_act3break_02": {
+        "code": "VEC-02",
+        "filename": "act3break_02-activities-act3break-level_act3break_02.json",
+        "height": 7,
+        "levelId": "activities/act3break/level_act3break_02",
+        "name": "波形扭曲",
+        "stageId": "act3break_02",
+        "width": 10
+    },
+    "act3break_03-activities/act3break/level_act3break_03": {
+        "code": "VEC-03",
+        "filename": "act3break_03-activities-act3break-level_act3break_03.json",
+        "height": 7,
+        "levelId": "activities/act3break/level_act3break_03",
+        "name": "极速赛道",
+        "stageId": "act3break_03",
+        "width": 10
+    },
+    "act3break_04-activities/act3break/level_act3break_04": {
+        "code": "VEC-04",
+        "filename": "act3break_04-activities-act3break-level_act3break_04.json",
+        "height": 7,
+        "levelId": "activities/act3break/level_act3break_04",
+        "name": "离子通道扰乱",
+        "stageId": "act3break_04",
+        "width": 11
+    },
+    "act3break_05-activities/act3break/level_act3break_05": {
+        "code": "VEC-05",
+        "filename": "act3break_05-activities-act3break-level_act3break_05.json",
+        "height": 7,
+        "levelId": "activities/act3break/level_act3break_05",
+        "name": "液压颂歌",
+        "stageId": "act3break_05",
+        "width": 10
+    },
+    "act3break_06-activities/act3break/level_act3break_06": {
+        "code": "VEC-06",
+        "filename": "act3break_06-activities-act3break-level_act3break_06.json",
+        "height": 7,
+        "levelId": "activities/act3break/level_act3break_06",
+        "name": "医源性感染",
+        "stageId": "act3break_06",
+        "width": 11
+    },
+    "act3break_07-activities/act3break/level_act3break_07": {
+        "code": "VEC-07",
+        "filename": "act3break_07-activities-act3break-level_act3break_07.json",
+        "height": 7,
+        "levelId": "activities/act3break/level_act3break_07",
+        "name": "萌芽之时",
+        "stageId": "act3break_07",
+        "width": 11
+    },
+    "act3break_08-activities/act3break/level_act3break_08": {
+        "code": "VEC-08",
+        "filename": "act3break_08-activities-act3break-level_act3break_08.json",
+        "height": 8,
+        "levelId": "activities/act3break/level_act3break_08",
+        "name": "磷脂层破坏",
+        "stageId": "act3break_08",
+        "width": 11
+    },
+    "act3break_09-activities/act3break/level_act3break_09": {
+        "code": "VEC-09",
+        "filename": "act3break_09-activities-act3break-level_act3break_09.json",
+        "height": 7,
+        "levelId": "activities/act3break/level_act3break_09",
+        "name": "浸漫花圃",
+        "stageId": "act3break_09",
+        "width": 12
+    },
+    "act3break_10-activities/act3break/level_act3break_10": {
+        "code": "VEC-10",
+        "filename": "act3break_10-activities-act3break-level_act3break_10.json",
+        "height": 8,
+        "levelId": "activities/act3break/level_act3break_10",
+        "name": "动捕影棚",
+        "stageId": "act3break_10",
+        "width": 10
+    },
+    "act3break_11-activities/act3break/level_act3break_11": {
+        "code": "VEC-11",
+        "filename": "act3break_11-activities-act3break-level_act3break_11.json",
+        "height": 7,
+        "levelId": "activities/act3break/level_act3break_11",
+        "name": "漂白剂",
+        "stageId": "act3break_11",
+        "width": 11
+    },
+    "act3break_12-activities/act3break/level_act3break_12": {
+        "code": "VEC-12",
+        "filename": "act3break_12-activities-act3break-level_act3break_12.json",
+        "height": 8,
+        "levelId": "activities/act3break/level_act3break_12",
+        "name": "实质组织萎缩",
+        "stageId": "act3break_12",
+        "width": 12
+    },
+    "act3break_h01-activities/act3break/level_act3break_h01": {
+        "code": "VEC-A",
+        "filename": "act3break_h01-activities-act3break-level_act3break_h01.json",
+        "height": 8,
+        "levelId": "activities/act3break/level_act3break_h01",
+        "name": "卓绝之巅",
+        "stageId": "act3break_h01",
+        "width": 11
+    },
+    "act3break_h02-activities/act3break/level_act3break_h02": {
+        "code": "VEC-B",
+        "filename": "act3break_h02-activities-act3break-level_act3break_h02.json",
+        "height": 7,
+        "levelId": "activities/act3break/level_act3break_h02",
+        "name": "高优先通道",
+        "stageId": "act3break_h02",
+        "width": 10
+    },
+    "act3break_h03-activities/act3break/level_act3break_h03": {
+        "code": "VEC-C",
+        "filename": "act3break_h03-activities-act3break-level_act3break_h03.json",
+        "height": 8,
+        "levelId": "activities/act3break/level_act3break_h03",
+        "name": "惊吓幕后",
+        "stageId": "act3break_h03",
+        "width": 11
+    },
+    "act3break_h04-activities/act3break/level_act3break_h04": {
+        "code": "VEC-D",
+        "filename": "act3break_h04-activities-act3break-level_act3break_h04.json",
+        "height": 8,
+        "levelId": "activities/act3break/level_act3break_h04",
+        "name": "挽救治疗",
+        "stageId": "act3break_h04",
+        "width": 11
+    },
+    "act3break_sp01-activities/act3break/level_act3break_sp01": {
+        "code": "VEC-SP01",
+        "filename": "act3break_sp01-activities-act3break-level_act3break_sp01.json",
+        "height": 6,
+        "levelId": "activities/act3break/level_act3break_sp01",
+        "name": "重力危机",
+        "stageId": "act3break_sp01",
+        "width": 8
+    },
+    "act3break_sp02-activities/act3break/level_act3break_sp02": {
+        "code": "VEC-SP02",
+        "filename": "act3break_sp02-activities-act3break-level_act3break_sp02.json",
+        "height": 5,
+        "levelId": "activities/act3break/level_act3break_sp02",
+        "name": "心中热火",
+        "stageId": "act3break_sp02",
+        "width": 10
+    },
+    "act3break_sp03-activities/act3break/level_act3break_sp03": {
+        "code": "VEC-SP03",
+        "filename": "act3break_sp03-activities-act3break-level_act3break_sp03.json",
+        "height": 6,
+        "levelId": "activities/act3break/level_act3break_sp03",
+        "name": "馆藏珍品",
+        "stageId": "act3break_sp03",
+        "width": 7
+    },
+    "act3break_sp04-activities/act3break/level_act3break_sp04": {
+        "code": "VEC-SP09",
+        "filename": "act3break_sp04-activities-act3break-level_act3break_sp04.json",
+        "height": 7,
+        "levelId": "activities/act3break/level_act3break_sp04",
+        "name": "人气巡演",
+        "stageId": "act3break_sp04",
+        "width": 9
+    },
+    "act3break_sp05-activities/act3break/level_act3break_sp05": {
+        "code": "VEC-SP10",
+        "filename": "act3break_sp05-activities-act3break-level_act3break_sp05.json",
+        "height": 6,
+        "levelId": "activities/act3break/level_act3break_sp05",
+        "name": "后院死局",
+        "stageId": "act3break_sp05",
+        "width": 11
+    },
+    "act3break_sp06-activities/act3break/level_act3break_sp06": {
+        "code": "VEC-SP04",
+        "filename": "act3break_sp06-activities-act3break-level_act3break_sp06.json",
+        "height": 6,
+        "levelId": "activities/act3break/level_act3break_sp06",
+        "name": "明星靶场",
+        "stageId": "act3break_sp06",
+        "width": 10
+    },
+    "act3break_sp07-activities/act3break/level_act3break_sp07": {
+        "code": "VEC-SP11",
+        "filename": "act3break_sp07-activities-act3break-level_act3break_sp07.json",
+        "height": 7,
+        "levelId": "activities/act3break/level_act3break_sp07",
+        "name": "影院出口",
+        "stageId": "act3break_sp07",
+        "width": 10
+    },
+    "act3break_sp08-activities/act3break/level_act3break_sp08": {
+        "code": "VEC-SP12",
+        "filename": "act3break_sp08-activities-act3break-level_act3break_sp08.json",
+        "height": 7,
+        "levelId": "activities/act3break/level_act3break_sp08",
+        "name": "四号站台",
+        "stageId": "act3break_sp08",
+        "width": 9
+    },
+    "act3break_sp09-activities/act3break/level_act3break_sp09": {
+        "code": "VEC-SP05",
+        "filename": "act3break_sp09-activities-act3break-level_act3break_sp09.json",
+        "height": 7,
+        "levelId": "activities/act3break/level_act3break_sp09",
+        "name": "难以相交",
+        "stageId": "act3break_sp09",
+        "width": 9
+    },
+    "act3break_sp10-activities/act3break/level_act3break_sp10": {
+        "code": "VEC-SP06",
+        "filename": "act3break_sp10-activities-act3break-level_act3break_sp10.json",
+        "height": 6,
+        "levelId": "activities/act3break/level_act3break_sp10",
+        "name": "林间小憩",
+        "stageId": "act3break_sp10",
+        "width": 9
+    },
+    "act3break_sp11-activities/act3break/level_act3break_sp11": {
+        "code": "VEC-SP07",
+        "filename": "act3break_sp11-activities-act3break-level_act3break_sp11.json",
+        "height": 7,
+        "levelId": "activities/act3break/level_act3break_sp11",
+        "name": "荒废矿道",
+        "stageId": "act3break_sp11",
+        "width": 10
+    },
+    "act3break_sp12-activities/act3break/level_act3break_sp12": {
+        "code": "VEC-SP13",
+        "filename": "act3break_sp12-activities-act3break-level_act3break_sp12.json",
+        "height": 7,
+        "levelId": "activities/act3break/level_act3break_sp12",
+        "name": "紧急夺还",
+        "stageId": "act3break_sp12",
+        "width": 9
+    },
+    "act3break_sp13-activities/act3break/level_act3break_sp13": {
+        "code": "VEC-SP14",
+        "filename": "act3break_sp13-activities-act3break-level_act3break_sp13.json",
+        "height": 7,
+        "levelId": "activities/act3break/level_act3break_sp13",
+        "name": "乙醇暴动",
+        "stageId": "act3break_sp13",
+        "width": 11
+    },
+    "act3break_sp14-activities/act3break/level_act3break_sp14": {
+        "code": "VEC-SP08",
+        "filename": "act3break_sp14-activities-act3break-level_act3break_sp14.json",
+        "height": 5,
+        "levelId": "activities/act3break/level_act3break_sp14",
+        "name": "一意孤行",
+        "stageId": "act3break_sp14",
+        "width": 9
+    },
+    "act3break_sp15-activities/act3break/level_act3break_sp15": {
+        "code": "VEC-SP15",
+        "filename": "act3break_sp15-activities-act3break-level_act3break_sp15.json",
+        "height": 7,
+        "levelId": "activities/act3break/level_act3break_sp15",
+        "name": "刺耳机床",
+        "stageId": "act3break_sp15",
+        "width": 9
+    },
+    "act3break_sp16-activities/act3break/level_act3break_sp16": {
+        "code": "VEC-SP16",
+        "filename": "act3break_sp16-activities-act3break-level_act3break_sp16.json",
+        "height": 7,
+        "levelId": "activities/act3break/level_act3break_sp16",
+        "name": "最终愿望",
+        "stageId": "act3break_sp16",
+        "width": 10
+    },
     "act3enemyduel_01a-activities/act3enemyduel/level_act3enemyduel_01a": {
         "code": "VS-1",
         "filename": "act3enemyduel_01a-activities-act3enemyduel-level_act3enemyduel_01a.json",

@@ -392,10 +392,16 @@
     <system:String x:Key="Yes">是</system:String>
     <system:String x:Key="No">否</system:String>
     <system:String x:Key="Ok">好的</system:String>
+    <system:String x:Key="Success">成功</system:String>
+    <system:String x:Key="Failed">失败</system:String>
+    <system:String x:Key="Skipped">跳过</system:String>
     <system:String x:Key="Cancel">取消</system:String>
     <system:String x:Key="Confirm">确认</system:String>
     <system:String x:Key="Rename">重命名</system:String>
+    <system:String x:Key="Add">添加</system:String>
     <system:String x:Key="Delete">删除</system:String>
+    <system:String x:Key="ParseClipboard">从剪贴板读取</system:String>
+    <system:String x:Key="ParseFailed">解析失败</system:String>
     <system:String x:Key="RenameTask">重命名任务</system:String>
     <system:String x:Key="RenameTaskPrompt">请输入新的任务名称：</system:String>
     <system:String x:Key="AddTaskQueueTask">添加新任务</system:String>
@@ -731,6 +737,7 @@ D:\
     <system:String x:Key="OperBoxExportHeaderMainSkillLevel">技能等级</system:String>
     <system:String x:Key="OperBoxExportHeaderSkills">技能专精</system:String>
     <system:String x:Key="OperBoxExportHeaderEquips">模组</system:String>
+    <system:String x:Key="OperBoxAvatarMode">头像展示</system:String>
     <system:String x:Key="DrGrandet">博朗台模式</system:String>
     <system:String x:Key="DrGrandetTip">在恢复理智确认界面等待，直到当前的 1 点理智恢复完成再立即确认。</system:String>
     <system:String x:Key="SocialPtShop">信用交易所自动购物</system:String>
@@ -742,6 +749,13 @@ D:\
     <system:String x:Key="CreditFightWhenOF-1Warning">存在 ｢{key=Fight}｣ 任务关卡列表中有 ｢{key=DefaultStage}｣, ｢{key=Mall}｣ 任务不再借助战打一把 OF-1. 任务名: {0} (序号{1}), 关卡序号 {2}</system:String>
     <system:String x:Key="HighPriority">优先购买 子串即可 分号分隔</system:String>
     <system:String x:Key="Blacklist">黑名单 子串即可 分号分隔</system:String>
+    <system:String x:Key="MiniGame@EventShop@BlacklistTip">勾选的商品将加入黑名单</system:String>
+    <system:String x:Key="MiniGame@EventShop@CommonItemsTip">下拉菜单选择常用商品</system:String>
+    <system:String x:Key="MiniGame@EventShop@DataSupplementInstrument">数据增补仪</system:String>
+    <system:String x:Key="MiniGame@EventShop@DataSupplementStick">数据增补条</system:String>
+    <system:String x:Key="MiniGame@EventShop@Lmd">龙门币</system:String>
+    <system:String x:Key="MiniGame@EventShop@FurniturePart">家具零件</system:String>
+    <system:String x:Key="MiniGame@EventShop@Other">其他自定义商品</system:String>
     <system:String x:Key="HighPriorityDefault">招聘许可</system:String>
     <system:String x:Key="BlacklistDefault">碳;家具;加急许可</system:String>
     <system:String x:Key="Drink">要来一杯美酒吗🍷？博士</system:String>
@@ -827,6 +841,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ConnectionPreset">连接配置</system:String>
     <system:String x:Key="ScreenshotTest">截图测试</system:String>
     <system:String x:Key="WindowRestore">窗口恢复</system:String>
+    <system:String x:Key="WindowMinimize">窗口最小化</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">启用 MuMu 截图增强</system:String>
     <system:String x:Key="MuMuExtrasTouchEnabled">启用 MuMu 触控增强（实验性，需 MuMu 模拟器 6.3.2+，支持后台保活）</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">未找到 MuMu 模拟器路径。</system:String>
@@ -901,46 +916,19 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="Ignore">忽略</system:String>
     <system:String x:Key="OperProgress">干员培养</system:String>
-    <!--  待确认移除（干员计划重构后 JSON 文本流程已废弃，以下键仅供已注释的 JSON 往返链路使用）  -->
-    <system:String x:Key="OperProgressParsePlan">解析计划</system:String>
-    <system:String x:Key="OperProgressPlanValid">当前文本已通过解析</system:String>
-    <system:String x:Key="OperProgressPlanPending">文本已修改；运行仍使用上次解析成功的计划</system:String>
-    <system:String x:Key="OperProgressPlanParsed">计划解析成功，共 {0} 项</system:String>
-    <system:String x:Key="OperProgressJsonError">JSON 第 {0} 行第 {1} 列错误：{2}</system:String>
-    <system:String x:Key="OperProgressPlanMustBeArray">计划必须是 JSON 数组</system:String>
-    <system:String x:Key="OperProgressPlanMustBeObject">计划第 {0} 项必须是对象</system:String>
-    <system:String x:Key="OperProgressUnknownField">计划第 {0} 项包含未知字段“{1}”</system:String>
-    <system:String x:Key="OperProgressUnknownOperator">计划第 {0} 项的字段“{1}”不是国服可用干员名</system:String>
-    <system:String x:Key="OperProgressExactlyOneAction">计划第 {0} 项必须且只能包含一种培养动作</system:String>
-    <system:String x:Key="OperProgressMasteryPairRequired">计划第 {0} 项的“{1}”字段必须与另一专精字段同时提供</system:String>
-    <system:String x:Key="OperProgressStringRequired">计划第 {0} 项的“{1}”字段必须是非空字符串</system:String>
-    <system:String x:Key="OperProgressIntegerRequired">计划第 {0} 项的“{1}”字段必须是整数</system:String>
-    <system:String x:Key="OperProgressFieldRange">计划第 {0} 项的“{1}”字段必须在 {2} 到 {3} 之间</system:String>
-    <!--  待确认移除结束  -->
-    <system:String x:Key="OperProgressSkillLevelTarget">技能等级 {0}</system:String>
-    <system:String x:Key="OperProgressMasteryTarget">技能 {0} 专精 {1}</system:String>
-    <system:String x:Key="OperProgressEliteTarget">精英化 {0}</system:String>
-    <system:String x:Key="OperProgressDeleteCompletedEntries">任务链结束后删除已完成条目</system:String>
-    <system:String x:Key="OperProgressDeleteCompletedEntriesTip">培养任务链结束后，自动删除结果为“成功”或“已满足”的条目；失败与跳过的条目会保留</system:String>
-    <system:String x:Key="OperProgressTargetStartLog">培养计划第 {0} 项：{1}，{2}</system:String>
-    <system:String x:Key="OperProgressTargetResultLog">培养计划第 {0} 项：{1}，{2}，结果 {3}</system:String>
-    <system:String x:Key="OperProgressRecognizedElite">（当前精英化 {0}）</system:String>
-    <system:String x:Key="OperProgressRecognizedSkillLevel">（当前技能等级 {0}）</system:String>
-    <system:String x:Key="OperProgressRecognizedMastery">（当前专精 {0}）</system:String>
-    <system:String x:Key="OperProgressSummaryLog">干员培养完成：成功 {0}，已满足 {1}，失败 {2}，跳过 {3}</system:String>
-    <system:String x:Key="OperProgressSelectOperator">选择干员</system:String>
-    <system:String x:Key="OperProgressAddTarget">添加</system:String>
-    <!--  待确认移除（弹窗专用：卡片内联编辑后不再使用）  -->
-    <system:String x:Key="OperProgressTargetTitle">{0} · 培养目标</system:String>
+    <system:String x:Key="OperProgress.SkillLevelTarget">技能等级 {0}</system:String>
+    <system:String x:Key="OperProgress.MasteryTarget">技能 {0} 专精 {1}</system:String>
+    <system:String x:Key="OperProgress.EliteTarget">精英化 {0}</system:String>
+    <system:String x:Key="OperProgress.Summary">干员培养完成：成功 {0}，失败 {1}，跳过 {2}</system:String>
     <system:String x:Key="OperProgressElite">精英化</system:String>
     <system:String x:Key="OperProgressSkillUpgrade">技能基础等级</system:String>
-    <system:String x:Key="OperProgressMastery">专精 {0}</system:String>
+    <system:String x:Key="OperProgressNotSet">---</system:String>
+    <system:String x:Key="OperProgressMastery1">专精 1</system:String>
+    <system:String x:Key="OperProgressMastery2">专精 2</system:String>
+    <system:String x:Key="OperProgressMastery3">专精 3</system:String>
     <system:String x:Key="OperProgressSkillNumber">技能 {0}</system:String>
-    <system:String x:Key="OperProgressInvalidOperatorInput">输入的干员名无效，请从列表中选择</system:String>
-    <system:String x:Key="OperProgressOperatorLimit">最多支持选择 5 名干员</system:String>
-    <!--  待确认移除（弹窗专用：卡片内联编辑后不再使用）  -->
-    <system:String x:Key="OperProgressEdit">修改</system:String>
     <system:String x:Key="OperProgressOnlineEditor">在明日方舟工具箱中在线编辑计划</system:String>
+    <system:String x:Key="OperProgress.Detail">{key=OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="Visiting">访问好友</system:String>
     <system:String x:Key="Mall">信用收支</system:String>
     <system:String x:Key="Mission">领取奖励</system:String>
@@ -991,6 +979,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Hibernate">休眠</system:String>
     <system:String x:Key="HibernateTip">需在 Windows 电源选项中启用休眠功能，否则该功能无效。</system:String>
     <system:String x:Key="Sleep">睡眠</system:String>
+    <system:String x:Key="LockScreen">锁屏</system:String>
     <system:String x:Key="Shutdown">关机</system:String>
     <system:String x:Key="Once">仅当次*</system:String>
     <system:String x:Key="PostActionOnceTip" xml:space="preserve">勾选后将不保存选项变化，下次 MAA 启动或 {key=LinkStart} 后复原
@@ -998,9 +987,9 @@ C:\leidian\LDPlayer9
 右键点击其他选项时，会同步勾选/取消勾选本选项</system:String>
     <system:String x:Key="SkipPostActionOnError">任务出错时跳过</system:String>
     <system:String x:Key="SkipPostActionOnErrorTip">勾选后，若任务列表中有一个或多个任务出错，将跳过以上全部动作。</system:String>
-    <system:String x:Key="PostActionSkippedDueToError">以下任务出错：{0}，已跳过完成后动作</system:String>
+    <system:String x:Key="PostActionSkippedDueToError">任务出错，已跳过完成后动作</system:String>
     <system:String x:Key="IfNoOtherMaa">无其他 MAA 时</system:String>
-    <system:String x:Key="IfNoOtherMaaTip">勾选后，仅当没有其他 MAA 实例在运行时，才会执行睡眠/休眠/关机</system:String>
+    <system:String x:Key="IfNoOtherMaaTip">勾选后，仅当没有其他 MAA 实例在运行时，才会执行锁屏/睡眠/休眠/关机</system:String>
     <system:String x:Key="BackToAndroidHome">返回 模拟器 主屏幕</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
@@ -1155,6 +1144,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="SetSuccessfully">设置成功</system:String>
     <system:String x:Key="SetFailed">设置失败</system:String>
     <system:String x:Key="CloseArknightsFailed">关闭游戏失败</system:String>
+    <system:String x:Key="LockScreenFailed">锁屏失败</system:String>
+    <system:String x:Key="LockScreenTip">任务已完成，即将锁屏</system:String>
     <system:String x:Key="ExitEmulatorFailed">模拟器关闭失败</system:String>
     <system:String x:Key="AboutToShutdown">已刷完，即将关机，是否取消？</system:String>
     <system:String x:Key="ShutdownPrompt">提示</system:String>
@@ -1420,6 +1411,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="WindowUpdateInfoTip">点击立即更新</system:String>
     <system:String x:Key="Start">开始</system:String>
     <system:String x:Key="RunTaskOnce">单次运行</system:String>
+    <system:String x:Key="RunTasksFromHere">从此处运行</system:String>
     <system:String x:Key="VideoLink">视频链接</system:String>
     <system:String x:Key="CopilotFormationRequirement.Level">精{0} {1}</system:String>
     <system:String x:Key="CopilotSkill">技能</system:String>
@@ -1557,14 +1549,13 @@ C:\leidian\LDPlayer9
     <system:String x:Key="RecruitRefreshLimitReached">刷新次数达到上限</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">任务出错: </system:String>
     <system:String x:Key="TaskErrorSummaryTitle">本轮任务出现以下错误：</system:String>
-    <system:String x:Key="TaskErrorSummaryItem">{0}</system:String>
     <system:String x:Key="OutOfMemoryError">{0}任务因内存不足停止，请关闭部分程序或重启 MAA 后重试</system:String>
     <system:String x:Key="CombatError">战斗出错</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">开始任务: </system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">完成任务: </system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">开始战斗: </system:String>
     <system:String x:Key="CompleteCombat">完成战斗</system:String>
-    <system:String x:Key="TaskCompletedWithErrors">任务已完成，但出现错误！\n(用时 {0})</system:String>
+    <system:String x:Key="TaskCompletedWithErrors">任务已结束，以下任务出现错误:\n{0}\n(用时 {1})</system:String>
     <system:String x:Key="AllTasksComplete">任务已全部完成！\n(用时 {0})</system:String>
     <system:String x:Key="SanityReport">理智将在 {DateTime} 回满。({TimeDiff} 后)</system:String>
     <system:String x:Key="AllTaskCompleteContent">MAA 已在 {DateTime} 完成了 {Preset} 配置下所有预设的任务。(用时 {TimeDiff})</system:String>
@@ -1580,7 +1571,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="PenguinUploadUnknownDropType">未识别掉落类型</system:String>
     <system:String x:Key="PenguinUploadUnknownDrops">未识别掉落物</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">放弃上传企鹅物流</system:String>
-    <system:String x:Key="ReportSkippedForPcClient">PC 端鼠标为独立渲染，可能遮挡掉落物及数量识别。为避免错误数据污染数据池，已自动跳过本次上报</system:String>
+    <system:String x:Key="ReportSkippedForPcClient">PC 端鼠标为独立渲染，可能遮挡掉落物及数量识别。为避免错误数据污染数据池，已自动跳过本次上报{0}</system:String>
     <system:String x:Key="TheEx">无奖励关卡，已停止</system:String>
     <system:String x:Key="MissingOperators">以下{key=Operator}组内的{key=Operator}均未拥有（每组只需其一）或未达到作业要求：\n{0}｢特别关注｣ 可能影响{key=Operator}识别，若实际已拥有，可移除 ｢特别关注｣ 后重试，或关闭 ｢{key=AutoSquad}｣ 手动补充；若确实未拥有，仅缺一组时可使用 ｢{key=SupportUnitUsage}｣，缺两组以上请更换作业。</system:String>
     <system:String x:Key="RecruitSupportOperator">编入助战{key=Operator}：{0}</system:String>
@@ -1809,6 +1800,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="RoguelikeEncounterOptions">识别到 {0} 个选项:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">可选选项: {0}</system:String>
     <system:String x:Key="RoguelikeEncounterDisabledOption">不可选选项: {0}</system:String>
+    <system:String x:Key="RoguelikeEventSelected">已选择: {0}</system:String>
+    <system:String x:Key="RoguelikeEventSelectedWithReason">已选择: {0}（{1}）</system:String>
+    <system:String x:Key="RoguelikeEventSelectedFallback">目标选项不可用，兜底选择: {0}</system:String>
     <system:String x:Key="EncounterOcrError">事件名识别错误</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">预见:</system:String>
     <system:String x:Key="RoguelikeInvestment">已投资 {1}(+{0}), 存款: {2}</system:String>

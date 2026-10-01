@@ -154,7 +154,7 @@
 
                                                                 <TextBlock FontWeight="SemiBold" Text="{DynamicResource RightClick}" />
                                                                 <TextBlock>
-                                                                    <Run Text="{DynamicResource RunTaskOnce}" /><Run Text="/" /><Run Text="{DynamicResource Copy}" /><Run Text="/" /><Run Text="{DynamicResource Rename}" /><Run Text="/" /><Run Text="{DynamicResource Delete}" />
+                                                                    <Run Text="{DynamicResource RunTaskOnce}" /><Run Text="/" /><Run Text="{DynamicResource RunTasksFromHere}" /><Run Text="/" /><Run Text="{DynamicResource Copy}" /><Run Text="/" /><Run Text="{DynamicResource Rename}" /><Run Text="/" /><Run Text="{DynamicResource Delete}" />
                                                                 </TextBlock>
                                                             </StackPanel>
                                                         </ToolTip>
@@ -166,6 +166,11 @@
                                                                                    Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                                 CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                                 Header="{DynamicResource RunTaskOnce}" />
+                                                            <MenuItem
+                                                                Command="{s:Action RunTasksFromHere,
+                                                                                   Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                Header="{DynamicResource RunTasksFromHere}" />
                                                             <MenuItem
                                                                 Command="{s:Action CopyTask,
                                                                                    Target={x:Static helper:Instances.TaskQueueViewModel}}"
@@ -378,8 +383,7 @@
                                             <MenuItem
                                                 Command="{s:Action AddTaskQueueTask}"
                                                 CommandParameter="{Binding TaskTypeList[6].Value}"
-                                                Header="{Binding TaskTypeList[6].Display}"
-                                                Visibility="Collapsed" />
+                                                Header="{Binding TaskTypeList[6].Display}" />
                                             <MenuItem
                                                 Command="{s:Action AddTaskQueueTask}"
                                                 CommandParameter="{Binding TaskTypeList[7].Value}"
@@ -490,7 +494,6 @@
                             TextWrapping="Wrap" />
                     </StackPanel>
                     <hc:ButtonGroup HorizontalAlignment="Right" VerticalAlignment="Center">
-                        <!--  ReSharper disable once Xaml.StaticResourceNotResolved  -->
                         <RadioButton
                             hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
                             hc:VisualElement.HighlightBackground="Transparent"
@@ -586,12 +589,15 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" MaxHeight="250" />
                 </Grid.RowDefinitions>
+                <!--
+                    本视口高度撑满所在行（勿改 VerticalAlignment=Top）：面板内列表类控件的 MaxHeight 绑定此视口高度，
+                    Top 对齐会使视口高度随内容收缩，与列表 MaxHeight 形成反馈循环，导致列表高度反复振荡
+                -->
                 <hc:ScrollViewer
                     Grid.Row="0"
                     Grid.RowSpan="{c:Binding 'TaskSettingVisibilities.PostAction ? 2:1'}"
                     Margin="10"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
                     HorizontalScrollBarVisibility="Auto"
                     IsInertiaEnabled="True"
                     PanningMode="Both"

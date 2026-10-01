@@ -16,8 +16,8 @@
     Height="600"
     MinWidth="800"
     MinHeight="600"
-    AllowDrop="True"
     d:DataContext="{d:DesignInstance {x:Type ui_vms:RootViewModel}}"
+    AllowDrop="True"
     Icon="../../newlogo.ico"
     PreviewDragOver="{s:Action ManualPackagePreviewDragOver}"
     PreviewDrop="{s:Action ManualPackageDrop}"
@@ -109,8 +109,10 @@
 
                 <hc:RunningBlock
                     Grid.Column="1"
-                    Margin="10,-2.5"
+                    Margin="10,0"
+                    Padding="0"
                     HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
                     BorderThickness="0"
                     Content="{Binding WindowTitle}"
                     IsHitTestVisible="False"
@@ -183,10 +185,10 @@
                             <controls:TransitioningContentControl
                                 HorizontalContentAlignment="Stretch"
                                 VerticalContentAlignment="Stretch"
+                                s:View.Model="{Binding}"
                                 IsTabStop="False"
                                 TransitionIndex="{Binding SelectedIndex, RelativeSource={RelativeSource AncestorType=TabControl}}"
-                                TransitionPriority="0"
-                                s:View.Model="{Binding}" />
+                                TransitionPriority="0" />
                         </DataTemplate>
                     </TabControl.ContentTemplate>
                     <TabControl.ItemContainerStyle>
@@ -203,7 +205,10 @@
                     d:Height="200"
                     d:Width="100"
                     VerticalScrollBarVisibility="Hidden">
-                    <StackPanel x:Name="AchievementGrowlPanel" Margin="0,0,0,5" hc:Growl.GrowlParent="True" />
+                    <StackPanel
+                        x:Name="AchievementGrowlPanel"
+                        Margin="0,0,0,5"
+                        hc:Growl.GrowlParent="True" />
                 </ScrollViewer>
                 <hc:GifImage
                     Width="100"

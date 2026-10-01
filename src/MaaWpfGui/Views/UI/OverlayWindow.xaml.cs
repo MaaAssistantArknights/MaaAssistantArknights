@@ -1,6 +1,6 @@
 // <copyright file="OverlayWindow.xaml.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -159,7 +159,7 @@ public partial class OverlayWindow : Window
 
     #region Win32
 
-#pragma warning disable SA1310 // Field names intentionally contain underscores for Win32 constants
+#pragma warning disable SA1310 // 字段名按 Win32 常量惯例保留下划线
     private const int WS_EX_TRANSPARENT = 0x20;
     private const int WS_EX_LAYERED = 0x80000;
     private const int WS_EX_NOACTIVATE = 0x08000000;

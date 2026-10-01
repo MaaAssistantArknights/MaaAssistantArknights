@@ -1,6 +1,6 @@
 // <copyright file="HotKeyEditorUserControl.xaml.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -82,12 +82,12 @@ public partial class HotKeyEditorUserControl : System.Windows.Controls.UserContr
     private static int CountModifierKeys(ModifierKeys modifiers)
     {
         int count = 0;
-#pragma warning disable SA1503 // Braces should not be omitted
+#pragma warning disable SA1503 // 单行计数保持紧凑
         if ((modifiers & ModifierKeys.Control) != 0) count++;
         if ((modifiers & ModifierKeys.Alt) != 0) count++;
         if ((modifiers & ModifierKeys.Shift) != 0) count++;
         if ((modifiers & ModifierKeys.Windows) != 0) count++;
-#pragma warning restore SA1503 // Braces should not be omitted
+#pragma warning restore SA1503 // 单行计数保持紧凑
         return count;
     }
 

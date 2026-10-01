@@ -1,12 +1,17 @@
 #include "Vision/Roguelike/BlackFlow/BlackFlowMapAnalyzer.h"
 
+#include <algorithm>
 #include <chrono>
 #include <fstream>
 #include <stdexcept>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
 #include <nlohmann/json.hpp>
+
+#include "Task/Roguelike/BlackFlow/BlackFlowMapTemplateMatcher.h"
+#include "Utils/Logger.hpp"
 
 namespace asst::blackflow::perception
 {
@@ -71,6 +76,27 @@ NodeDetectorConfig parse_node_config(const nlohmann::json& json)
     config.ocr_short_exact_length = json.value("ocr_short_exact_length", config.ocr_short_exact_length);
     return config;
 }
+
+const MapTemplate* match_recognized_map(const MapRecognitionResult& result)
+{
+    MapObservationBatch observation;
+    observation.floor = result.floor;
+    std::unordered_map<int, GridPosition> positions;
+    for (const auto& node : result.node_detection.nodes) {
+        positions.emplace(node.id, GridPosition { node.row, node.column });
+    }
+    for (const auto& edge : result.edge_detection.edges) {
+        if (edge.connected) {
+            ObservedEdge imported;
+            imported.first = positions.at(edge.node_a);
+            imported.second = positions.at(edge.node_b);
+            imported.knowledge = EdgeKnowledge::Confirmed;
+            observation.edges.emplace_back(std::move(imported));
+        }
+    }
+    const auto matched = match_map_template(observation, BlackFlowMapTemplates.templates());
+    return matched;
+}
 } // namespace
 
 bool BlackFlowMapAnalyzer::load(
@@ -107,6 +133,84 @@ bool BlackFlowMapAnalyzer::load(
         m_loaded = false;
         return false;
     }
+}
+
+bool trim_empty_map_borders(MapRecognitionResult& result)
+{
+    auto& detection = result.node_detection;
+    int top = result.rows;
+    int left = result.columns;
+    int bottom = -1;
+    int right = -1;
+    for (const auto& node : detection.nodes) {
+        if (node.exists) {
+            top = std::min(top, node.row);
+            left = std::min(left, node.column);
+            bottom = std::max(bottom, node.row);
+            right = std::max(right, node.column);
+        }
+    }
+    if (bottom < top || right < left) {
+        result.error = "map recognition produced no existing nodes";
+        return false;
+    }
+    const int rows = bottom - top + 1;
+    const int columns = right - left + 1;
+    std::unordered_map<int, int> ids;
+    std::vector<Node> nodes;
+    nodes.reserve(static_cast<std::size_t>(rows * columns));
+    for (const auto& original : detection.nodes) {
+        if (original.row < top || original.row > bottom || original.column < left || original.column > right) {
+            continue;
+        }
+        Node node = original;
+        node.row -= top;
+        node.column -= left;
+        node.id = node.row * columns + node.column;
+        ids.emplace(original.id, node.id);
+        nodes.emplace_back(std::move(node));
+    }
+    std::vector<Edge> edges;
+    for (const auto& original : result.edge_detection.edges) {
+        const auto first = ids.find(original.node_a);
+        const auto second = ids.find(original.node_b);
+        if (first == ids.end() || second == ids.end()) {
+            continue;
+        }
+        Edge edge = original;
+        edge.id = static_cast<int>(edges.size());
+        edge.node_a = first->second;
+        edge.node_b = second->second;
+        edges.emplace_back(std::move(edge));
+    }
+    const auto marker = ids.find(detection.current_marker_node_id);
+    detection.current_marker_node_id = marker == ids.end() ? -1 : marker->second;
+    auto& inferred = result.edge_detection.inferred_existing_node_ids;
+    std::erase_if(inferred, [&](int id) { return !ids.contains(id); });
+    for (int& id : inferred) {
+        id = ids.at(id);
+    }
+    const auto update_grid = [&](GridGeometry& grid) {
+        // 两份网格分别裁取原坐标，保留初始网格与平移后网格的差异。
+        std::vector<cv::Point2f> centers;
+        centers.reserve(static_cast<std::size_t>(rows * columns));
+        for (int row = top; row <= bottom; ++row) {
+            const auto first = grid.centers.begin() + row * grid.columns + left;
+            centers.insert(centers.end(), first, first + columns);
+        }
+        grid.rows = rows;
+        grid.columns = columns;
+        grid.origin_x += left * grid.spacing_x;
+        grid.origin_y += top * grid.spacing_y;
+        grid.centers = std::move(centers);
+    };
+    update_grid(detection.grid);
+    update_grid(detection.seed_grid);
+    detection.nodes = std::move(nodes);
+    result.edge_detection.edges = std::move(edges);
+    result.rows = rows;
+    result.columns = columns;
+    return true;
 }
 
 MapRecognitionResult BlackFlowMapAnalyzer::recognize(const cv::Mat& image, int floor, bool render_overlay) const
@@ -150,18 +254,62 @@ MapRecognitionResult BlackFlowMapAnalyzer::recognize(const cv::Mat& image, int f
 
         recognition_start = std::chrono::steady_clock::now();
         recognition_started = true;
-        result.node_detection = m_node_detector->detect(result.normalized_bgr, profile->rows, profile->columns);
-        result.edge_detection = m_edge_detector.detect(
-            std::vector<cv::Mat> { result.normalized_bgr },
-            result.node_detection.nodes,
-            profile->rows,
-            profile->columns);
-        if (!result.edge_detection.error.empty()) {
-            throw std::runtime_error(result.edge_detection.error);
+        bool recognized = false;
+        int matching_grids = 0;
+        for (const auto& grid : floor_profiles(floor)) {
+            MapRecognitionResult candidate;
+            candidate.floor = floor;
+            candidate.rows = grid.rows;
+            candidate.columns = grid.columns;
+            candidate.node_detection = m_node_detector->detect(result.normalized_bgr, grid.rows, grid.columns);
+            candidate.edge_detection = m_edge_detector.detect(
+                std::vector<cv::Mat> { result.normalized_bgr },
+                candidate.node_detection.nodes,
+                grid.rows,
+                grid.columns);
+            if (!candidate.edge_detection.error.empty()) {
+                result.error = candidate.edge_detection.error;
+                LogInfo << __FUNCTION__ << "Map grid" << grid.rows << grid.columns << "recognition failed"
+                        << candidate.edge_detection.error;
+                continue;
+            }
+            if (floor == 5 && !trim_empty_map_borders(candidate)) {
+                result.error = candidate.error;
+                continue;
+            }
+            // 先检查地图是否有效，再参与候选选择和模板匹配计数。
+            if (!is_supported_floor_grid(floor, candidate.rows, candidate.columns)) {
+                candidate.error = "map recognition produced unsupported grid dimensions";
+            }
+            else if (candidate.node_detection.current_marker_node_id < 0) {
+                candidate.error = "map recognition did not locate the current marker";
+            }
+            if (!candidate.error.empty()) {
+                result.error = candidate.error;
+                LogInfo << __FUNCTION__ << "Map grid" << grid.rows << grid.columns << "recognition failed"
+                        << candidate.error;
+                continue;
+            }
+            const auto* matched = floor == 5 ? match_recognized_map(candidate) : nullptr;
+            if (matched != nullptr) {
+                ++matching_grids;
+            }
+            if (!recognized || (matched != nullptr && matching_grids == 1)) {
+                result.rows = candidate.rows;
+                result.columns = candidate.columns;
+                result.node_detection = std::move(candidate.node_detection);
+                result.edge_detection = std::move(candidate.edge_detection);
+                recognized = true;
+            }
         }
-        result.ok = true;
-        if (render_overlay) {
-            result.overlay_bgr = draw_overlay(result);
+        // 无匹配或多份网格均匹配时保留识别地图，但不使用本次匹配补全终点。
+        result.allow_exit_supplement = floor != 5 || matching_grids == 1;
+        if (recognized) {
+            result.error.clear();
+            result.ok = true;
+            if (render_overlay) {
+                result.overlay_bgr = draw_overlay(result);
+            }
         }
     }
     catch (const std::exception& exception) {

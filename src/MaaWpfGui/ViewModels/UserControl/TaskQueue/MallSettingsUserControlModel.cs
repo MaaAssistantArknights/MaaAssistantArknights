@@ -1,6 +1,6 @@
 // <copyright file="MallSettingsUserControlModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -77,7 +77,6 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel, MallSettingsU
     /// <summary>
     /// Gets 设置选择的编队
     /// </summary>
-    // ReSharper disable once MemberCanBePrivate.Global
     public List<GenericCombinedData<int>> FormationSelectList { get; } =
     [
         new() { Display = LocalizationHelper.GetString("Current"), Value = 0 },

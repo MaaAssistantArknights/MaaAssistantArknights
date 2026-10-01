@@ -3,41 +3,27 @@
 #include <ranges>
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
+#include "Task/OperProgress/OperProgressProcessTask.h"
 #include "Utils/Logger.hpp"
 
 asst::OperProgressTask::OperProgressTask(const AsstCallback& callback, Assistant* inst) :
     InterfaceTask(callback, inst, TaskType),
-    m_process_task_ptr(std::make_shared<AutoRaiseProcessTask>(callback, inst, TaskType))
+    m_process_task_ptr(std::make_shared<OperProgressProcessTask>(callback, inst, TaskType))
 {
     m_process_task_ptr->set_retry_times(0);
     m_subtasks.emplace_back(m_process_task_ptr);
 }
 
-bool asst::OperProgressTask::set_params(const json::value& params)
-{
-    LogTraceFunction;
-    auto plan = parse_plan(params);
-    if (!plan) {
-        LogError << __FUNCTION__ << "invalid plans";
-        return false;
-    }
-    m_process_task_ptr->set_plan(std::move(*plan));
-    return true;
-}
-
 namespace json::ext
 {
 template <>
-class jsonization<asst::OperProgressTask::ProgressTargetDto>
+class jsonization<asst::OperProgressTask::ProgressPlan>
 {
 public:
     bool check_json(const json::value& json) const
     {
-        static constexpr std::array<const char*, 4> allowed_keys = {
-            "role",
-            "name",
-            "elite",
-            "skill_level",
+        static constexpr std::array<const char*, 5> allowed_keys = {
+            "role", "name", "elite", "skill_level", "skill_mastery",
         };
 
         if (!json.is_object()) {
@@ -65,11 +51,12 @@ public:
             return std::nullopt;
         };
         // 养成动作一律是整数，显式写 null 时 is<int>() 为假，与类型错误同等拒绝，不会被当成未配置。
-        const auto& role_opt = check_field.template operator()<asst::battle::Role>("role", false);
-        const auto& name_opt = check_field.template operator()<std::string>("name", true);
-        const auto& elite_opt = check_field.template operator()<int>("elite", false);
-        const auto& skill_level_opt =
-            check_field.template operator()<std::variant<int, std::array<int, 3>>>("skill_level", false);
+        [[maybe_unused]] const auto& role_opt = check_field.template operator()<asst::battle::Role>("role", false);
+        [[maybe_unused]] const auto& name_opt = check_field.template operator()<std::string>("name", true);
+        [[maybe_unused]] const auto& elite_opt = check_field.template operator()<int>("elite", false);
+        [[maybe_unused]] const auto& skill_level_opt = check_field.template operator()<int>("skill_level", false);
+        [[maybe_unused]] const auto& skill_mastery_opt =
+            check_field.template operator()<std::array<int, 3>>("skill_mastery", false);
 
         if (!ret) {
             return false;
@@ -83,31 +70,13 @@ public:
             LogError << __FUNCTION__ << "elite must be 1 or 2";
             return false;
         }
-        if (!skill_level_opt) {
+        if (skill_level_opt && (*skill_level_opt < 2 || *skill_level_opt > 7)) {
+            LogError << __FUNCTION__ << "skill_level must be between 2 and 7";
+            return false;
         }
-        else if (auto base_opt = std::get_if<int>(&skill_level_opt.value()); base_opt != nullptr) {
-            if (*base_opt < 2 || *base_opt > 7) {
-                LogError << __FUNCTION__ << "skill_level must be between 2 and 7";
-                return false;
-            }
-        }
-        else if (
-            auto specialization_opt = std::get_if<std::array<int, 3>>(&skill_level_opt.value());
-            specialization_opt != nullptr) {
-            if (std::ranges::any_of(*specialization_opt, [](int level) { return level < 0 || level > 3; })) {
-                LogError << __FUNCTION__ << "skill_level specialization must be between 0 and 3";
-                return false;
-            }
-        }
-        if (role_opt && *role_opt == asst::battle::Role::Unknown) {
-            const auto& role = asst::BattleData.get_roles(*name_opt, true);
-            if (role.empty() || role.size() > 1) {
-                LogError << __FUNCTION__ << "oper name:" << *name_opt << "with multi role, and not specific";
-                return false;
-            }
-        }
-        else if (asst::BattleData.find_opers(*role_opt, *name_opt).empty()) {
-            LogError << __FUNCTION__ << "unknown oper name: " << *name_opt << ", role:" << *role_opt;
+        if (skill_mastery_opt &&
+            std::ranges::any_of(*skill_mastery_opt, [](int level) { return level < 0 || level > 3; })) {
+            LogError << __FUNCTION__ << "skill_mastery must be between 0 and 3";
             return false;
         }
         return true;
@@ -115,36 +84,40 @@ public:
 };
 } // namespace json::ext
 
-std::optional<asst::AutoRaiseProcessTask::AutoRaisePlan> asst::OperProgressTask::parse_plan(const json::value& params)
+bool asst::OperProgressTask::set_params(const json::value& params)
 {
-    const auto& plans = params.find<std::vector<ProgressTargetDto>>("plans");
+    LogTraceFunction;
+
+    const auto& plans = params.find<std::vector<ProgressPlan>>("plans");
     if (!plans) {
         LogError << __FUNCTION__ << "missing plans, or format is error";
-        return std::nullopt;
+        return false;
     }
-
-    AutoRaiseProcessTask::AutoRaisePlan result;
-    result.reserve(plans->size());
+    std::vector<ProgressPlan> validated_plans;
     for (const auto& plan : *plans) {
         battle::Role role = plan.role;
         if (role == battle::Role::Unknown) {
             const auto& roles = BattleData.get_roles(plan.name, true);
             if (roles.empty() || roles.size() > 1) {
                 LogError << __FUNCTION__ << "oper name:" << plan.name << "with multi role, and not specific";
-                return std::nullopt;
+                return false;
             }
             role = *roles.begin();
         }
-        if (plan.elite) {
-            result.emplace_back(
-                AutoRaiseProcessTask::OperProgressTarget {
-                    .role = role,
-                    .name = plan.name,
-                    .action = AutoRaiseProcessTask::OperProgressAction::Elite,
-                    .target = *plan.elite,
-                });
+        else if (asst::BattleData.find_opers(role, plan.name).empty()) {
+            LogError << __FUNCTION__ << "unknown oper name: " << plan.name << ", role:" << role;
+            return false;
         }
-        // TODO 继续整理
+        validated_plans.emplace_back(
+            ProgressPlan {
+                .role = role,
+                .name = plan.name,
+                .elite = plan.elite,
+                .skill_level = plan.skill_level,
+                .skill_mastery = plan.skill_mastery,
+            });
     }
-    return result;
+
+    m_process_task_ptr->set_plan(std::move(validated_plans));
+    return true;
 }

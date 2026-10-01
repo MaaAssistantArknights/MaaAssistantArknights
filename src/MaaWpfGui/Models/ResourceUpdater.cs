@@ -1,6 +1,6 @@
 // <copyright file="ResourceUpdater.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -525,7 +525,7 @@ public static class ResourceUpdater
     }
 
     /// <summary>
-    /// 导入本地资源更新包并重载资源。重载采用 fire-and-forget，避免长时间占用 <see cref="VersionUpdateSettings.IsCheckingForUpdates"/>。
+    /// 导入本地资源更新包并重载资源。重载采用 fire-and-forget，避免长时间占用 <see cref="VersionUpdateSettingsUserControlModel.IsCheckingForUpdates"/>。
     /// </summary>
     /// <param name="packagePath">压缩包路径。</param>
     /// <param name="packageDateTime">由 <see cref="IsResourcePackage"/> 预检测得到的时间戳。</param>

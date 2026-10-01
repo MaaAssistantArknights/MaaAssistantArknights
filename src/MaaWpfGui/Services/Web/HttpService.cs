@@ -1,6 +1,6 @@
 // <copyright file="HttpService.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -38,7 +38,7 @@ namespace MaaWpfGui.Services.Web;
 
 public class HttpService : IHttpService
 {
-    private readonly string UserAgent;
+    private readonly string _userAgent;
 
     private static string Proxy
     {
@@ -61,7 +61,7 @@ public class HttpService : IHttpService
     public HttpService()
     {
         string uiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
-        UserAgent = $"MaaWpfGui/{uiVersion}";
+        _userAgent = $"MaaWpfGui/{uiVersion}";
 
         VersionUpdateSettingsUserControlModel.Instance.PropertyChanged += (sender, args) => {
             if (args.PropertyName != nameof(VersionUpdateSettingsUserControlModel.Proxy) && args.PropertyName != nameof(VersionUpdateSettingsUserControlModel.ProxyType))
@@ -350,7 +350,7 @@ public class HttpService : IHttpService
         }
 
         HttpClient client = new HttpClient(handler);
-        client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
+        client.DefaultRequestHeaders.Add("User-Agent", _userAgent);
         client.Timeout = TimeSpan.FromSeconds(15);
         return client;
     }

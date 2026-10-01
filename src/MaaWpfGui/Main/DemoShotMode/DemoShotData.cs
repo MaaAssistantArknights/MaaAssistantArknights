@@ -1,6 +1,6 @@
 // <copyright file="DemoShotData.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -120,7 +120,7 @@ public class DemoShotData
     }
 }
 
-#pragma warning disable SA1402 // File may only contain a single type
+#pragma warning disable SA1402 // 演示数据伴生小类集中放本文件
 
 /// <summary>
 /// 窗口标题版本段覆盖。

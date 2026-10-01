@@ -392,10 +392,16 @@
     <system:String x:Key="Yes">はい</system:String>
     <system:String x:Key="No">いいえ</system:String>
     <system:String x:Key="Ok">はい</system:String>
+    <system:String x:Key="Success">成功</system:String>
+    <system:String x:Key="Failed">失敗</system:String>
+    <system:String x:Key="Skipped">スキップ</system:String>
     <system:String x:Key="Cancel">キャンセル</system:String>
     <system:String x:Key="Confirm">認識する</system:String>
     <system:String x:Key="Rename">名前を変更</system:String>
+    <system:String x:Key="Add">追加</system:String>
     <system:String x:Key="Delete">削除</system:String>
+    <system:String x:Key="ParseClipboard">クリップボードから読み取り</system:String>
+    <system:String x:Key="ParseFailed">解析に失敗しました</system:String>
     <system:String x:Key="RenameTask">タスク名を変更</system:String>
     <system:String x:Key="RenameTaskPrompt">新しいタスク名を入力してください：</system:String>
     <system:String x:Key="AddTaskQueueTask">新しいタスクを追加</system:String>
@@ -733,6 +739,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="OperBoxExportHeaderMainSkillLevel">スキルLv</system:String>
     <system:String x:Key="OperBoxExportHeaderSkills">スキル特化</system:String>
     <system:String x:Key="OperBoxExportHeaderEquips">モジュール</system:String>
+    <system:String x:Key="OperBoxAvatarMode">アイコン表示</system:String>
     <system:String x:Key="DrGrandet">Dr.グランデモード</system:String>
     <system:String x:Key="DrGrandetTip">理性の回復画面で、現在の待機中の回復が完了するまで待ってから、理性剤などを使用します。</system:String>
     <system:String x:Key="SocialPtShop">FP交換</system:String>
@@ -744,6 +751,13 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="CreditFightWhenOF-1Warning">｢{key=Fight}｣ タスクのステージリストに ｢{key=DefaultStage}｣ が存在するし、 ｢{key=Mall}｣ タスクはOF-1での戦友サポート借用の戦闘をスキップします。タスク名: {0} (シーケンス番号 {1})、レベル シーケンス番号 {2}</system:String>
     <system:String x:Key="HighPriority">優先購入（セミコロンで区切）</system:String>
     <system:String x:Key="Blacklist">ブラックリスト（セミコロンで区切）</system:String>
+    <system:String x:Key="MiniGame@EventShop@BlacklistTip">チェックした商品をブラックリストに追加します</system:String>
+    <system:String x:Key="MiniGame@EventShop@CommonItemsTip">ドロップダウンでよく使う商品を選択</system:String>
+    <system:String x:Key="MiniGame@EventShop@DataSupplementInstrument">データ補完マシン</system:String>
+    <system:String x:Key="MiniGame@EventShop@DataSupplementStick">データ補完チップ</system:String>
+    <system:String x:Key="MiniGame@EventShop@Lmd">龍門幣</system:String>
+    <system:String x:Key="MiniGame@EventShop@FurniturePart">家具パーツ</system:String>
+    <system:String x:Key="MiniGame@EventShop@Other">その他のカスタム商品</system:String>
     <system:String x:Key="HighPriorityDefault">求人票</system:String>
     <system:String x:Key="BlacklistDefault">炭素材;家具;緊急招集票</system:String>
     <system:String x:Key="Drink">飲み物はいかがですか🍷？ドクター</system:String>
@@ -829,6 +843,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
     <system:String x:Key="ScreenshotTest">スクリーンショットテスト</system:String>
     <system:String x:Key="WindowRestore">ウィンドウ復元</system:String>
+    <system:String x:Key="WindowMinimize">ウィンドウ最小化</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu のスクリーンショット拡張モードを有効にする</system:String>
     <system:String x:Key="MuMuExtrasTouchEnabled">MuMu タッチ強化を有効化（実験的、MuMu エミュレータ 6.3.2+、バックグラウンド常駐対応）</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">MuMu エミュレータのパスが見つかりません。</system:String>
@@ -903,46 +918,19 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Combat">作戦</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="OperProgress">オペレーター育成</system:String>
-    <!--  待确认移除（干员计划重构后 JSON 文本流程已废弃，以下键仅供已注释的 JSON 往返链路使用）  -->
-    <system:String x:Key="OperProgressParsePlan">プランを解析</system:String>
-    <system:String x:Key="OperProgressPlanValid">現在のテキストは解析済みです</system:String>
-    <system:String x:Key="OperProgressPlanPending">テキストが変更されました。実行時は最後に解析成功したプランを使用します</system:String>
-    <system:String x:Key="OperProgressPlanParsed">プランを解析しました：{0} 件</system:String>
-    <system:String x:Key="OperProgressJsonError">JSON の {0} 行 {1} 列でエラー：{2}</system:String>
-    <system:String x:Key="OperProgressPlanMustBeArray">プランは JSON 配列である必要があります</system:String>
-    <system:String x:Key="OperProgressPlanMustBeObject">プラン {0} はオブジェクトである必要があります</system:String>
-    <system:String x:Key="OperProgressUnknownField">プラン {0} に不明なフィールド「{1}」があります</system:String>
-    <system:String x:Key="OperProgressUnknownOperator">プラン {0} の「{1}」は中国版の有効なオペレーター名ではありません</system:String>
-    <system:String x:Key="OperProgressExactlyOneAction">プラン {0} には育成操作を1種類だけ指定してください</system:String>
-    <system:String x:Key="OperProgressMasteryPairRequired">プラン {0} の「{1}」にはもう一方の特化フィールドが必要です</system:String>
-    <system:String x:Key="OperProgressStringRequired">プラン {0} の「{1}」は空でない文字列である必要があります</system:String>
-    <system:String x:Key="OperProgressIntegerRequired">プラン {0} の「{1}」は整数である必要があります</system:String>
-    <system:String x:Key="OperProgressFieldRange">プラン {0} の「{1}」は {2}～{3} の範囲で指定してください</system:String>
-    <!--  待確認移除結束  -->
-    <system:String x:Key="OperProgressSkillLevelTarget">スキルランク {0}</system:String>
-    <system:String x:Key="OperProgressMasteryTarget">スキル {0} 特化 {1}</system:String>
-    <system:String x:Key="OperProgressEliteTarget">昇進段階 {0}</system:String>
-    <system:String x:Key="OperProgressDeleteCompletedEntries">育成タスクチェーン終了後に完了した項目を削除</system:String>
-    <system:String x:Key="OperProgressDeleteCompletedEntriesTip">育成タスクチェーン終了後、「成功」または「達成済み」の項目を自動的に削除します。失敗とスキップの項目は残ります</system:String>
-    <system:String x:Key="OperProgressTargetStartLog">育成プラン {0}：{1}、{2}</system:String>
-    <system:String x:Key="OperProgressTargetResultLog">育成プラン {0}：{1}、{2}、結果 {3}</system:String>
-    <system:String x:Key="OperProgressRecognizedElite">（現在の昇進段階 {0}）</system:String>
-    <system:String x:Key="OperProgressRecognizedSkillLevel">（現在のスキルランク {0}）</system:String>
-    <system:String x:Key="OperProgressRecognizedMastery">（現在の特化 {0}）</system:String>
-    <system:String x:Key="OperProgressSummaryLog">オペレーター育成完了：成功 {0}、達成済み {1}、失敗 {2}、スキップ {3}</system:String>
-    <system:String x:Key="OperProgressSelectOperator">オペレーターを選択</system:String>
-    <system:String x:Key="OperProgressAddTarget">追加</system:String>
-    <!--  待确认移除（弹窗专用：卡片内联编辑后不再使用）  -->
-    <system:String x:Key="OperProgressTargetTitle">{0} · 育成目標</system:String>
+    <system:String x:Key="OperProgress.SkillLevelTarget">スキルランク {0}</system:String>
+    <system:String x:Key="OperProgress.MasteryTarget">スキル {0} 特化 {1}</system:String>
+    <system:String x:Key="OperProgress.EliteTarget">昇進段階 {0}</system:String>
+    <system:String x:Key="OperProgress.Summary">オペレーター育成完了：成功 {0}、失敗 {1}、スキップ {2}</system:String>
     <system:String x:Key="OperProgressElite">昇進段階</system:String>
     <system:String x:Key="OperProgressSkillUpgrade">スキルランクアップ</system:String>
-    <system:String x:Key="OperProgressMastery">スキル特化</system:String>
+    <system:String x:Key="OperProgressNotSet">---</system:String>
+    <system:String x:Key="OperProgressMastery1">特化 1</system:String>
+    <system:String x:Key="OperProgressMastery2">特化 2</system:String>
+    <system:String x:Key="OperProgressMastery3">特化 3</system:String>
     <system:String x:Key="OperProgressSkillNumber">スキル{0}</system:String>
-    <system:String x:Key="OperProgressInvalidOperatorInput">入力したオペレーター名が無効です。リストから選択してください</system:String>
-    <system:String x:Key="OperProgressOperatorLimit">選択できるオペレーターは最大 5 人です</system:String>
-    <!--  待确认移除（弹窗专用：卡片内联编辑后不再使用）  -->
-    <system:String x:Key="OperProgressEdit">変更</system:String>
     <system:String x:Key="OperProgressOnlineEditor">アークナイツツールボックスでオンライン編集</system:String>
+    <system:String x:Key="OperProgress.Detail">{key=OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="Visiting">戦友訪問</system:String>
     <system:String x:Key="Mall">FP獲得と交換</system:String>
     <system:String x:Key="Mission">報酬受取</system:String>
@@ -993,6 +981,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Hibernate">休止状態にする</system:String>
     <system:String x:Key="HibernateTip">Windows の電源オプションで休止状態を有効にする必要があります。そうしないと、この機能は無効になります。</system:String>
     <system:String x:Key="Sleep">スリープ</system:String>
+    <system:String x:Key="LockScreen">画面をロック</system:String>
     <system:String x:Key="Shutdown">シャットダウン</system:String>
     <system:String x:Key="Once">今回のみ*</system:String>
     <system:String x:Key="PostActionOnceTip" xml:space="preserve">チェックすると、オプションの変更が保存されず、次回 MAA 起動時または {key=LinkStart} 後に復元されます
@@ -1000,9 +989,9 @@ C:\leidian\LDPlayer9
 他のオプションを右クリックすると、このオプションも同時にチェック/チェック解除されます</system:String>
     <system:String x:Key="SkipPostActionOnError">タスク失敗時はスキップ</system:String>
     <system:String x:Key="SkipPostActionOnErrorTip">チェックすると、タスクリスト内の1つ以上のタスクが失敗した場合、上記のすべての動作をスキップします。</system:String>
-    <system:String x:Key="PostActionSkippedDueToError">タスクが失敗したため、完了後アクションをスキップしました：{0}</system:String>
+    <system:String x:Key="PostActionSkippedDueToError">タスクが失敗したため、後続の処理はスキップされました。</system:String>
     <system:String x:Key="IfNoOtherMaa">他のMAAがない場合</system:String>
-    <system:String x:Key="IfNoOtherMaaTip">チェックすると、他の MAA インスタンスが実行されていない場合にのみ、スリープ/休止状態/シャットダウンを実行します</system:String>
+    <system:String x:Key="IfNoOtherMaaTip">チェックすると、他の MAA インスタンスが実行されていない場合にのみ、画面のロック/スリープ/休止状態/シャットダウンを実行します</system:String>
     <system:String x:Key="BackToAndroidHome">エミュレータのホーム画面に戻る</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
@@ -1157,6 +1146,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="SetSuccessfully">設定に成功しました</system:String>
     <system:String x:Key="SetFailed">設定に失敗しました</system:String>
     <system:String x:Key="CloseArknightsFailed">ゲームの終了に失敗しました</system:String>
+    <system:String x:Key="LockScreenFailed">画面のロックに失敗しました</system:String>
+    <system:String x:Key="LockScreenTip">タスクが完了しました。まもなく画面をロックします</system:String>
     <system:String x:Key="ExitEmulatorFailed">エミュレータの終了に失敗しました</system:String>
     <system:String x:Key="AboutToShutdown">完了しました。シャットダウンしようとしています。キャンセルしますか？</system:String>
     <system:String x:Key="ShutdownPrompt">ヒント</system:String>
@@ -1421,6 +1412,7 @@ C:\leidian\LDPlayer9
 右クリックで非アクティブなタスクをクリア</system:String>
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="RunTaskOnce">1回実行</system:String>
+    <system:String x:Key="RunTasksFromHere">ここから実行</system:String>
     <system:String x:Key="VideoLink">映像へのハイパーリンク</system:String>
     <system:String x:Key="CopilotFormationRequirement.Level">昇進{0} レベル{1}</system:String>
     <system:String x:Key="CopilotSkill">スキル</system:String>
@@ -1558,14 +1550,13 @@ C:\leidian\LDPlayer9
     <system:String x:Key="RecruitRefreshLimitReached">更新回数が上限に達しました</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">タスクエラー: </system:String>
     <system:String x:Key="TaskErrorSummaryTitle">今回の実行で以下のエラーが発生しました：</system:String>
-    <system:String x:Key="TaskErrorSummaryItem">{0}</system:String>
     <system:String x:Key="OutOfMemoryError">メモリ不足により{0}タスクが停止しました。他のプログラムを閉じるか、MAA を再起動してもう一度お試しください</system:String>
     <system:String x:Key="CombatError">戦闘エラー</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">タスク開始: </system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">タスク完了: </system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">戦闘開始: </system:String>
     <system:String x:Key="CompleteCombat">戦闘完了</system:String>
-    <system:String x:Key="TaskCompletedWithErrors">すべてのタスクは完了しましたが、エラーが発生しました！\n({0} 後)</system:String>
+    <system:String x:Key="TaskCompletedWithErrors">タスクが終了しました。以下のタスクでエラーが発生しました！\n{0}\n({1} 後)</system:String>
     <system:String x:Key="AllTasksComplete">すべてのタスクが完了しました！\n({0} 後)</system:String>
     <system:String x:Key="SanityReport">({TimeDiff} 後)、{DateTime} に理性が完全回復します。</system:String>
     <system:String x:Key="AllTaskCompleteContent">({TimeDiff} 後) MAA は、{DateTime} の {Preset} 構成の下にあるすべてのプリセット タスクを完了しました。</system:String>
@@ -1581,7 +1572,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="PenguinUploadUnknownDropType">ドロップタイプを認識できませんでした</system:String>
     <system:String x:Key="PenguinUploadUnknownDrops">ドロップアイテムを認識できませんでした</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Penguin-Statsへのアップロードをあきらめました</system:String>
-    <system:String x:Key="ReportSkippedForPcClient">PC クライアントではカーソルがドロップ品や個数の認識を遮る場合があります。誤ったデータでデータプールを汚染しないよう、今回のレポートは自動的にスキップしました</system:String>
+    <system:String x:Key="ReportSkippedForPcClient">PC クライアントではカーソルがドロップ品や個数の認識を遮る場合があります。誤ったデータでデータプールを汚染しないよう、{0}への今回のレポートは自動的にスキップしました</system:String>
     <system:String x:Key="TheEx">ステージ報酬がないため停止します</system:String>
     <system:String x:Key="MissingOperators">以下の{key=Operator}グループの{key=Operator}を所有していません（各グループ1体で足ります）または作業要件を満たしていません：\n{0}｢戦術要員｣ マークは{key=Operator}の認識に影響する可能性があります。実際に所有している場合は、マークを解除して再試行するか、｢{key=AutoSquad}｣ をオフにして手動で補充してください。実際に所有していない場合は、不足グループが1つなら ｢{key=SupportUnitUsage}｣ で補えますが、2つ以上の場合は他の作業ファイルを使用してください。</system:String>
     <system:String x:Key="RecruitSupportOperator">サポートユニットを追加：{0}</system:String>

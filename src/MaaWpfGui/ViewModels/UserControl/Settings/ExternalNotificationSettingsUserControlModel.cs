@@ -1,6 +1,6 @@
 // <copyright file="ExternalNotificationSettingsUserControlModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -199,7 +199,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private static readonly List<GenericCombinedData<Type>> ExternalNotificationProviders =
+    private static readonly List<GenericCombinedData<Type>> _externalNotificationProviders =
         [
             new GenericCombinedData<Type> { Display = "ServerChan", Value = typeof(ServerChanConfig) },
             new GenericCombinedData<Type> { Display = "Telegram", Value = typeof(TelegramConfig) },
@@ -212,7 +212,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             new GenericCombinedData<Type> { Display = "Custom Webhook", Value = typeof(CustomWebhookConfig) }
         ];
 
-    public static List<GenericCombinedData<Type>> ExternalNotificationProviderList => ExternalNotificationProviders;
+    public static List<GenericCombinedData<Type>> ExternalNotificationProviderList => _externalNotificationProviders;
 
     public void AddConfig(object sender, RoutedEventArgs e)
     {

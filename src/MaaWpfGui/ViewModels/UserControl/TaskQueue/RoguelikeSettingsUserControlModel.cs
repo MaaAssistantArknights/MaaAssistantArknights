@@ -1,6 +1,6 @@
 // <copyright file="RoguelikeSettingsUserControlModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -1234,7 +1234,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 var options = (subTaskDetails!["options"]! as JArray) ?? [];
                 var logLines = new List<string>
                 {
-                    LocalizationHelper.GetStringFormat("RoguelikeEncounterOptions", options.Count, UiLogColor.EventIS),
+                    LocalizationHelper.GetStringFormat("RoguelikeEncounterOptions", options.Count),
                 };
 
                 foreach (var option in options)
@@ -1246,6 +1246,22 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
 
                 Instances.TaskQueueViewModel.AddLog(string.Join("\n", logLines), UiLogColor.EventIS, updateCardImage: true);
                 break;
+
+            case "RoguelikeEventSelected":
+                {
+                    var optionText = subTaskDetails?["option_text"]?.ToString() ?? string.Empty;
+                    var usedFallback = subTaskDetails?["used_fallback"]?.Value<bool>() ?? false;
+
+                    // 理由取自策略文件里命中规则的 description，随策略配置，兜底选择不显示。
+                    var reason = subTaskDetails?["rule_description"]?.ToString();
+                    var message = usedFallback
+                        ? LocalizationHelper.GetStringFormat("RoguelikeEventSelectedFallback", optionText)
+                        : string.IsNullOrWhiteSpace(reason)
+                            ? LocalizationHelper.GetStringFormat("RoguelikeEventSelected", optionText)
+                            : LocalizationHelper.GetStringFormat("RoguelikeEventSelectedWithReason", optionText, reason);
+                    Instances.TaskQueueViewModel.AddLog(message, UiLogColor.EventIS);
+                    break;
+                }
 
             case "BlackFlowRoutingDecision":
                 {

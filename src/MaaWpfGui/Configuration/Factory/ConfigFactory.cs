@@ -1,6 +1,6 @@
 // <copyright file="ConfigFactory.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -59,7 +59,6 @@ public static class ConfigFactory
 
     public delegate void ConfigurationUpdateEventHandler(string key, object? oldValue, object? newValue);
 
-    // ReSharper disable once EventNeverSubscribedTo.Global
     public static event ConfigurationUpdateEventHandler? ConfigurationUpdateEvent;
 
     private static readonly JsonSerializerOptions _options = new() { WriteIndented = true, Converters = { new DiscordWebhookFixConverter(), new GlobalGuiRenameConverter(), new ThirdPartyMigrationConverter(), new RecruitTaskHoldTagsConverter(), new FightTaskStageResetModeConverter(), new RoguelikeStartingOpersConverter(), new FaultTolerantRootConverter(), new TolerantEnumConverterFactory(), new FightTaskStageResetModeInvalidToIgnoreConverter() }, Encoder = JavaScriptEncoder.Create(UnicodeRanges.All), DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, TypeInfoResolver = new DefaultJsonTypeInfoResolver { Modifiers = { JsonPredictSerializationModifier.Modify } } };
@@ -304,7 +303,6 @@ public static class ConfigFactory
         }
     }
 
-    // ReSharper disable once MemberCanBePrivate.Global
     public static Root Root => _rootConfig.Value;
 
     public static SpecificConfig CurrentConfig => Root.CurrentConfig;

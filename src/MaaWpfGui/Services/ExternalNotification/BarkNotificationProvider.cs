@@ -1,6 +1,6 @@
 // <copyright file="BarkNotificationProvider.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -65,8 +65,6 @@ public class BarkNotificationProvider(IHttpService httpService, BarkConfig bark)
 
     private class BarkPostContent
     {
-        // ReSharper disable UnusedAutoPropertyAccessor.Local
-        // ReSharper disable UnusedMember.Local
         [JsonPropertyName("device_key")]
         public string? SendKey { get; set; }
 
@@ -82,9 +80,6 @@ public class BarkNotificationProvider(IHttpService httpService, BarkConfig bark)
 
         [JsonPropertyName("icon")]
         public string Icon { get; } = "https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/v2/icons/maa-logo_256x256.png";
-
-        // ReSharper restore UnusedAutoPropertyAccessor.Local
-        // ReSharper restore UnusedMember.Local
     }
 
     private class BarkResponse

@@ -156,11 +156,11 @@
                     </Paragraph>
                     <Paragraph Margin="8,0,0,0">
                         <controls:TextBlock
+                            properties:RainbowAnimationBehavior.IsActive="True"
                             FontSize="20"
                             Style="{StaticResource TextBlockDefaultBold}"
                             Text="{Binding PossibleSolution, ElementName=ErrorDialogViewWindow, Mode=OneWay}"
-                            TextWrapping="Wrap"
-                            properties:RainbowAnimationBehavior.IsActive="True">
+                            TextWrapping="Wrap">
                             <controls:TextBlock.Foreground>
                                 <DynamicResource ResourceKey="CongratulationsFlowBrush" />
                             </controls:TextBlock.Foreground>

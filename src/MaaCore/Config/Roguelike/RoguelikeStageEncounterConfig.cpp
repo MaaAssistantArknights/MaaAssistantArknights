@@ -54,6 +54,25 @@ bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
             return false;
         }
         event.next_event = event_json.get("next_event", "");
+        if (const auto option_tasks = event_json.find("option_tasks"); option_tasks) {
+            if (theme != RoguelikeTheme::BlackFlow || !option_tasks->is_object()) {
+                LogError << "Encounter option_tasks requires a BlackFlow event and an object";
+                return false;
+            }
+            for (const auto& [text, task] : option_tasks->as_object()) {
+                if (text.empty() || !task.is_string() || task.as_string().empty()) {
+                    LogError << "Encounter option_tasks contains an empty text or invalid task name";
+                    return false;
+                }
+                event.option_tasks.emplace(text, task.as_string());
+            }
+        }
+        event.continue_single_option = event_json.get("continue_single_option", false);
+        if (event.continue_single_option &&
+            (theme != RoguelikeTheme::BlackFlow || !event.next_event.empty() || !event.option_tasks.empty())) {
+            LogError << "Continuous encounter requires BlackFlow without next_event or option_tasks";
+            return false;
+        }
         if (auto fallback_array_opt = event_json.find("fallback_choices");
             fallback_array_opt && fallback_array_opt->is_array()) {
             for (const auto& pair_json : fallback_array_opt->as_array()) {

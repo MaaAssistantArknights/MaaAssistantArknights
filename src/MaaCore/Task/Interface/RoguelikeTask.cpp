@@ -88,8 +88,9 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
         ->set_retry_times(2)
         .set_ignore_error(true);
 
-    m_roguelike_task_ptr->register_plugin<RoguelikeStageEncounterTaskPlugin>(m_config_ptr, m_control_ptr)
-        ->set_retry_times(0);
+    const auto encounter_plugin =
+        m_roguelike_task_ptr->register_plugin<RoguelikeStageEncounterTaskPlugin>(m_config_ptr, m_control_ptr);
+    encounter_plugin->set_retry_times(0);
 
     m_roguelike_task_ptr->register_plugin<RoguelikeLastRewardTaskPlugin>(m_config_ptr, m_control_ptr);
 
@@ -126,6 +127,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     m_blackflow_session_ptr = std::make_shared<blackflow::BlackFlowSession>();
     m_blackflow_port_ptr =
         std::make_shared<blackflow::BlackFlowTaskPort>(callback, inst, TaskType, m_blackflow_map_source_ptr);
+    encounter_plugin->set_blackflow_session(m_blackflow_session_ptr);
     m_roguelike_task_ptr->register_plugin<blackflow::BlackFlowLifecycleTaskPlugin>(
         m_config_ptr,
         m_control_ptr,

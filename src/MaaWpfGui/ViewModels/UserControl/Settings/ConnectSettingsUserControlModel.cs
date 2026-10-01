@@ -1,6 +1,6 @@
 // <copyright file="ConnectSettingsUserControlModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -49,6 +49,8 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 /// </summary>
 public class ConnectSettingsUserControlModel : PropertyChangedBase
 {
+    private readonly RunningState _runningState = RunningState.Instance;
+
     static ConnectSettingsUserControlModel()
     {
         Instance = new();
@@ -56,7 +58,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
         // MuMu 触控勾选框的跨实例依赖须在 Instance 就绪后注册，
         // 放进构造链会因静态构造重入拿到 null 的 Instance 而静默失败
-        PropertyDependsOnUtility.InitializePropertyDependencies(Instance.Extras.Mumu12);
+        PropertyDependsOnUtility.InitializePropertyDependencies(Instance._extras.Mumu12);
     }
 
     private ConnectSettingsUserControlModel()
@@ -64,12 +66,13 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         PropertyDependsOnUtility.InitializePropertyDependencies(this);
 
         // 刷新截图方式选项的可用状态
-        Extras.Win32.UpdateScreencapMethodAvailability();
+        _extras.Win32.UpdateScreencapMethodAvailability();
 
-        Extras.Win32.PropertyChanged += (_, e) => {
+        _extras.Win32.PropertyChanged += (_, e) => {
             if (e.PropertyName == nameof(Win32Extra.MouseMethod))
             {
                 NotifyOfPropertyChange(nameof(ShowWindowRestoreButton));
+                NotifyOfPropertyChange(nameof(ShowWindowMinimizeButton));
             }
         };
 
@@ -86,8 +89,6 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public static ConnectSettingsUserControlModel Instance { get; }
 
     private static readonly ILogger _logger = Log.ForContext<ConnectSettingsUserControlModel>();
-
-    private static RunningState _runningState => RunningState.Instance;
 
     /// <summary>
     /// Gets the list of the configuration of connection.
@@ -256,13 +257,13 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
     [PropertyDependsOn(nameof(ConnectConfig))]
     public ExtraConfig? ExtraConfig => ConnectConfig switch {
-        ConnectConfig.LDPlayer => Extras.LdPlayer,
-        ConnectConfig.MuMuEmulator12 => Extras.Mumu12,
-        ConnectConfig.PC => Extras.Win32,
+        ConnectConfig.LDPlayer => _extras.LdPlayer,
+        ConnectConfig.MuMuEmulator12 => _extras.Mumu12,
+        ConnectConfig.PC => _extras.Win32,
         _ => null,
     };
 
-    private readonly ExtraConfigs Extras = new();
+    private readonly ExtraConfigs _extras = new();
 
     private class ExtraConfigs
     {
@@ -581,8 +582,19 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
-        TestLinkImage = await Instances.AsstProxy.AsstGetImageAsync(forceScreencap: true);
-        _runningState.SetIdle(true);
+        try
+        {
+            TestLinkImage = await Instances.AsstProxy.AsstGetImageAsync(forceScreencap: true);
+        }
+        finally
+        {
+            if (ShowWindowRestoreButton)
+            {
+                Instances.AsstProxy.RestoreGameWindowPosition();
+            }
+
+            _runningState.SetIdle(true);
+        }
 
         if (TestLinkImage is null)
         {
@@ -700,7 +712,6 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
         var allLines = File.ReadAllLines(_bluestacksConfig);
 
-        // ReSharper disable once InvertIf
         if (string.IsNullOrEmpty(_bluestacksKeyWord))
         {
             foreach (var line in allLines)
@@ -891,6 +902,13 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     [PropertyDependsOn(nameof(ConnectConfig))]
     public bool ShowWindowRestoreButton =>
         IsPCConnectConfig && ExtraConfig is Models.EmulatorConnectionExtra.Win32Extra { MouseMethod: AsstWin32InputMethod.SendMessageWithWindowPos or AsstWin32InputMethod.PostMessageWithWindowPos };
+
+    /// <summary>
+    /// Gets a value indicating whether to show the window minimize button for PC PostMsg-WindowPos input.
+    /// </summary>
+    [PropertyDependsOn(nameof(ConnectConfig))]
+    public bool ShowWindowMinimizeButton =>
+        IsPCConnectConfig && ExtraConfig is Models.EmulatorConnectionExtra.Win32Extra { MouseMethod: AsstWin32InputMethod.PostMessageWithWindowPos };
 
     [PropertyDependsOn(nameof(ConnectConfig))]
     public bool IsPCConnectConfig => ConnectConfig == ConnectConfig.PC;

@@ -1,6 +1,6 @@
 // <copyright file="AppIcon.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
-// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -19,7 +19,7 @@ namespace MaaWpfGui.Helper;
 
 public class AppIcon
 {
-    private static readonly Lazy<BitmapSource> lazyIcon = new(ExtractIcon);
+    private static readonly Lazy<BitmapSource> _lazyIcon = new(ExtractIcon);
 
     private static BitmapSource ExtractIcon()
     {
@@ -44,5 +44,5 @@ public class AppIcon
         }
     }
 
-    public static BitmapSource GetIcon() => lazyIcon.Value;
+    public static BitmapSource GetIcon() => _lazyIcon.Value;
 }
