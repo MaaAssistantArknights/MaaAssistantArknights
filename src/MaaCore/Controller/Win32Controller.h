@@ -73,10 +73,11 @@ public: // ControllerAPI 接口
 
 private:
     void callback(AsstMsg msg, const json::value& details);
-    // 记录窗口当前位置，任务结束是恢复
+    // 记录窗口当前位置，任务结束时恢复
     void save_window_position();
 
     // 封装 MaaWin32ControlUnit 的调用
+    bool prepare_window_for_input();
     bool unit_connect();
     bool unit_screencap(cv::Mat& image);
     bool unit_click(int x, int y);
@@ -85,6 +86,8 @@ private:
     bool unit_touch_move(int contact, int x, int y, int pressure);
     bool unit_touch_up(int contact);
     bool unit_input_text(const std::string& text);
+    bool unit_key_down(int key);
+    bool unit_key_up(int key);
     bool unit_click_key(int key);
 
 private:

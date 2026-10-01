@@ -72,6 +72,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             if (e.PropertyName == nameof(Win32Extra.MouseMethod))
             {
                 NotifyOfPropertyChange(nameof(ShowWindowRestoreButton));
+                NotifyOfPropertyChange(nameof(ShowWindowMinimizeButton));
             }
         };
 
@@ -890,6 +891,13 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     [PropertyDependsOn(nameof(ConnectConfig))]
     public bool ShowWindowRestoreButton =>
         IsPCConnectConfig && ExtraConfig is Models.EmulatorConnectionExtra.Win32Extra { MouseMethod: AsstWin32InputMethod.SendMessageWithWindowPos or AsstWin32InputMethod.PostMessageWithWindowPos };
+
+    /// <summary>
+    /// Gets a value indicating whether to show the window minimize button for PC PostMsg-WindowPos input.
+    /// </summary>
+    [PropertyDependsOn(nameof(ConnectConfig))]
+    public bool ShowWindowMinimizeButton =>
+        IsPCConnectConfig && ExtraConfig is Models.EmulatorConnectionExtra.Win32Extra { MouseMethod: AsstWin32InputMethod.PostMessageWithWindowPos };
 
     [PropertyDependsOn(nameof(ConnectConfig))]
     public bool IsPCConnectConfig => ConnectConfig == ConnectConfig.PC;
