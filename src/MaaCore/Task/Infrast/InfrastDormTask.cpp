@@ -457,6 +457,7 @@ bool asst::InfrastDormTask::select_dorm_managers()
         return false;
     }
     if (m_optimal_combs.empty()) {
+        switch_to_mood_sort();
         return true;
     }
     const bool selected = opers_choose();
