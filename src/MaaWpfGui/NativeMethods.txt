@@ -57,3 +57,4 @@ FlashWindowEx
 
 // PowerManagement
 SetSuspendState
+LockWorkStation

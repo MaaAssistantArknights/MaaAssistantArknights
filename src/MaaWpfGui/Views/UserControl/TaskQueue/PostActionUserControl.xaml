@@ -59,11 +59,18 @@
             </CheckBox>
             <hc:Divider Margin="0,3" />
             <StackPanel Margin="0,8" Orientation="Horizontal">
-                <CheckBox IsChecked="{Binding IfNoOtherMaa}" IsEnabled="{c:Binding 'Hibernate || Shutdown || Sleep'}">
+                <CheckBox IsChecked="{Binding IfNoOtherMaa}" IsEnabled="{c:Binding 'LockScreen || Hibernate || Shutdown || Sleep'}">
                     <controls:TextBlock Text="{DynamicResource IfNoOtherMaa}" TextWrapping="Wrap" />
                 </CheckBox>
                 <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource IfNoOtherMaaTip}" />
             </StackPanel>
+
+            <CheckBox
+                Margin="0,8"
+                IsChecked="{Binding LockScreen}"
+                MouseRightButtonUp="{s:Action PostActionsAndOnce}">
+                <controls:TextBlock Text="{DynamicResource LockScreen}" TextWrapping="Wrap" />
+            </CheckBox>
 
             <CheckBox
                 Margin="0,8"

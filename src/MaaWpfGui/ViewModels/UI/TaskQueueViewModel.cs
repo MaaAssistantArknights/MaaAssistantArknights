@@ -558,9 +558,21 @@ public class TaskQueueViewModel : Screen
             await Task.Delay(1000);
         }
 
-        if (actions.ExitSelf && !(actions.Hibernate || actions.Shutdown || actions.Sleep))
+        if (actions.ExitSelf && !(actions.LockScreen || actions.Hibernate || actions.Shutdown || actions.Sleep))
         {
             Bootstrapper.Shutdown();
+        }
+
+        if (actions.LockScreen)
+        {
+            if (actions.IfNoOtherMaa && HasOtherMaa())
+            {
+                Bootstrapper.Shutdown();
+            }
+            else
+            {
+                await DoLockScreen();
+            }
         }
 
         if (actions.Hibernate)
@@ -619,6 +631,25 @@ public class TaskQueueViewModel : Screen
             if (!EmulatorHelper.KillEmulatorModeSwitcher())
             {
                 AddLog(LocalizationHelper.GetString("ExitEmulatorFailed"), UiLogColor.Error);
+            }
+        }
+
+        async Task DoLockScreen()
+        {
+            await Execute.OnUIThreadAsync(() => Instances.MainWindowManager?.Show());
+            if (await TimerCanceledAsync(
+                    LocalizationHelper.GetString("LockScreen"),
+                    LocalizationHelper.GetString("LockScreenTip"),
+                    LocalizationHelper.GetString("Cancel"),
+                    60))
+            {
+                return;
+            }
+
+            _logger.Information("Lock screen not canceled, proceeding to lock workstation.");
+            if (!PowerManagement.LockScreen())
+            {
+                AddLog(LocalizationHelper.GetString("LockScreenFailed"), UiLogColor.Error);
             }
         }
 
