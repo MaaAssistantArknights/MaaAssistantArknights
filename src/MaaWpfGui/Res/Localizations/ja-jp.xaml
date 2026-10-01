@@ -1139,6 +1139,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="SetFailed">設定に失敗しました</system:String>
     <system:String x:Key="CloseArknightsFailed">ゲームの終了に失敗しました</system:String>
     <system:String x:Key="LockScreenFailed">画面のロックに失敗しました</system:String>
+    <system:String x:Key="LockScreenTip">タスクが完了しました。まもなく画面をロックします</system:String>
     <system:String x:Key="ExitEmulatorFailed">エミュレータの終了に失敗しました</system:String>
     <system:String x:Key="AboutToShutdown">完了しました。シャットダウンしようとしています。キャンセルしますか？</system:String>
     <system:String x:Key="ShutdownPrompt">ヒント</system:String>
