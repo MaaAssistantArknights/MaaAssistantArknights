@@ -2677,6 +2677,8 @@ public class ToolboxViewModel : Screen
 
     public bool IsPixelPaintSelected => SelectedMiniGameItem?.IsPixelPaint == true;
 
+    public bool IsAutoRaisePotentialSelected => SelectedMiniGameItem?.IsAutoRaisePotential == true;
+
     public static void UpdateMiniGameTaskList()
     {
         var categorizedItems = Instances.StageManager.MiniGameEntries
@@ -3369,9 +3371,13 @@ public class ToolboxViewModel : Screen
                     UiLogColor.Info);
             }
         }
+        else if (IsAutoRaisePotentialSelected)
+        {
+            caught = Instances.AsstProxy.AsstAutoRaisePotential(MiniGameUseNormalToken);
+        }
         else
         {
-            caught = Instances.AsstProxy.AsstMiniGame(GetMiniGameTask(), MiniGameUseNormalToken);
+            caught = Instances.AsstProxy.AsstMiniGame(GetMiniGameTask());
         }
 
         if (!caught)
