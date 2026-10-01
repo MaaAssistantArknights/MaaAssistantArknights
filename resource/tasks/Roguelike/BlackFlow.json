@@ -1077,7 +1077,10 @@
         "algorithm": "OcrDetect",
         "roi": [912, 101, 195, 96],
         "withoutDet": false,
-        "ocrReplace": [["^秘必境行商$", "秘境行商"]],
+        "ocrReplace": [
+            ["^秘必境行商$", "秘境行商"],
+            ["^必境行商$", "秘境行商"]
+        ],
         "fullMatch": true,
         "text": []
     },
