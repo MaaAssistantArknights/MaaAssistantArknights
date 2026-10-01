@@ -44,7 +44,7 @@ Operator avatars and class icons are now shown in the operator recognition view,
 以下是详细内容：
 
 <details open>
-<summary><b>v6.19.0-beta.1 (2026-09-28)</b></summary>
+<summary><b>v6.19.0-beta.1 (2026-10-02)</b></summary>
 
 ### 新增 | New
 
