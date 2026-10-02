@@ -43,7 +43,8 @@ Items in the plan list can be **dragged to reorder**. Plans are executed in orde
 - Plans with a sanity potion or Originium budget are never skipped for insufficient sanity: even when sanity is not enough, they still enter the stage and restore sanity with the budget to keep fighting.
 - Plans without a budget are skipped directly (without entering the stage) when the target inventory is already reached, or when the estimated current sanity is below the stage's minimum entry cost and expiring potions are unavailable (see "Use expiring sanity potions within 48 hours").
 - Decisions always use the latest state: after a middle plan restores sanity and reaches its target, the remaining sanity still flows to later plans.
-  :::
+
+:::
 
 ### Presets
 
