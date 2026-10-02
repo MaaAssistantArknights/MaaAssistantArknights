@@ -1043,6 +1043,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="UserDataUpdateIntervalNotReached">前回の同期から ｢{0}｣ の実行間隔に達していません</system:String>
     <!--  在庫維持  -->
     <system:String x:Key="DepotUpdateBeforeStart">タスク開始前に在庫データを更新</system:String>
+    <system:String x:Key="DepotUpdateBeforeStartTip" xml:space="preserve">タスク開始時、当時キャッシュされていた在庫データで各プランの不足を判定する処理を事前チェックと呼びます。事前チェックで既に充足しているプランは今回の周回リストに追加されず、その後も再判定されません。&#10;各プランは開始時に最新キャッシュで再判定され、前のステージのドロップはリアルタイムでキャッシュに加算されます。&#10;チェック時、プランの実行前に倉庫認識を 1 回実行し、キャッシュを実際の在庫に修正します。&#10;認識後にスキップされたプランの実際の在庫が不足していたことが判明した場合、事前チェックでスキップされたプランは実行中に追加できないため、ログに記録されるだけで、タスクを再実行すると周回されます。</system:String>
     <system:String x:Key="AddPlan">追加</system:String>
     <system:String x:Key="DepotPreset">プリセット</system:String>
     <system:String x:Key="DepotPresetChip1">低級チップ（全職業）</system:String>
@@ -1058,6 +1059,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPlanNoStage">#{0}：ステージ未指定または ｢現在/前回｣</system:String>
     <system:String x:Key="DepotPlanInventoryEnough">#{0}：{1} 十分 {2}/{3}</system:String>
     <system:String x:Key="DepotPlanInventoryInsufficient">#{0}：{1} 不足 {2}/{3}、{4} 個必要</system:String>
+    <system:String x:Key="DepotPlanCacheStaleSkipped">#{0}：{1} 実際 {2}/{3} 不足ですが、事前チェックでスキップされたプランは実行中に追加できません。タスクを再実行すると周回されます</system:String>
     <system:String x:Key="DepotPlanSanityInsufficient">#{0}：理性不足（現在 {1}、消費 {2} 未満）、スキップしました</system:String>
     <system:String x:Key="DepotPlanStageNotOpen">#{0}：ステージ ｢{1}｣ は公開されていません</system:String>
     <system:String x:Key="DepotPlanAddTaskFailed">#{0}：タスクの追加に失敗しました</system:String>

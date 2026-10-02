@@ -1041,6 +1041,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="UserDataUpdateIntervalNotReached">距上次同步未达到 ｢{0}｣ 触发间隔</system:String>
     <!--  库存保持  -->
     <system:String x:Key="DepotUpdateBeforeStart">任务开始前更新库存数据</system:String>
+    <system:String x:Key="DepotUpdateBeforeStartTip" xml:space="preserve">任务开始时会先用当时缓存的库存数据逐条计划判定缺口，这一步称为预检。预检中已充足的计划不会加入本轮刷取列表，之后也不再复查。&#10;每条计划开始时都会用最新缓存重新判定缺口，前序关卡的掉落会实时计入缓存。&#10;勾选后，计划执行前会先跑一次仓库识别，把缓存纠正为实际库存。&#10;识别后若发现已跳过的计划实际库存不足，因预检跳过的计划无法在运行中添加，仅记录提示，重新运行任务即可刷取。</system:String>
     <system:String x:Key="AddPlan">添加</system:String>
     <system:String x:Key="DepotPreset">预设</system:String>
     <system:String x:Key="DepotPresetChip1">低级芯片（全职业）</system:String>
@@ -1056,6 +1057,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPlanNoStage">#{0}：关卡未指定或为 ｢当前/上次｣</system:String>
     <system:String x:Key="DepotPlanInventoryEnough">#{0}：{1} 已充足 {2}/{3}</system:String>
     <system:String x:Key="DepotPlanInventoryInsufficient">#{0}：{1} 不足 {2}/{3}，需刷取 {4}</system:String>
+    <system:String x:Key="DepotPlanCacheStaleSkipped">#{0}：{1} 实际 {2}/{3} 不足，预检时已跳过的计划无法在运行中添加，重新运行任务即可刷取</system:String>
     <system:String x:Key="DepotPlanSanityInsufficient">#{0}：理智不足（当前 {1}，低于关卡消耗 {2}），已跳过</system:String>
     <system:String x:Key="DepotPlanStageNotOpen">#{0}：关卡 ｢{1}｣ 未开放</system:String>
     <system:String x:Key="DepotPlanAddTaskFailed">#{0}：添加任务失败</system:String>
