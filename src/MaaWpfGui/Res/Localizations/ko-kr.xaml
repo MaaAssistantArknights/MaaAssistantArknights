@@ -1553,6 +1553,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="CombatError">작전 오류</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">작업 시작: </system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">작업 완료: </system:String>
+    <system:String x:Key="TaskTime">\n(소요 시간: {0})</system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">작전 시작: </system:String>
     <system:String x:Key="CompleteCombat">작전 완료</system:String>
     <system:String x:Key="TaskCompletedWithErrors">작업이 완료되었으나, 다음 작업들에서 오류가 발생했습니다!\n{0}\n(소요 시간: {1})</system:String>

@@ -1552,6 +1552,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="CombatError">戰鬥出錯</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">開始任務: </system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">完成任務: </system:String>
+    <system:String x:Key="TaskTime">\n(耗時 {0})</system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">開始戰鬥: </system:String>
     <system:String x:Key="CompleteCombat">完成戰鬥</system:String>
     <system:String x:Key="TaskCompletedWithErrors">任務已結束，以下任務出現錯誤:\n{0}\n(耗時 {1})</system:String>
