@@ -220,6 +220,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
     /// </summary>
     public LocalizedObservableList<Mode> InfrastModeList { get; } = new(
         (Mode.Normal, "InfrastModeNormal"),
+        (Mode.Simple, "InfrastModeSimple"),
         (Mode.Rotation, "InfrastModeRotation"),
         (Mode.Custom, "InfrastModeCustom"));
 
@@ -742,4 +743,9 @@ public enum InfrastMode
     /// 轮换
     /// </summary>
     Rotation = 20000,
+
+    /// <summary>
+    /// 极简模式，仅收菜、使用无人机和处理会客室，不更换干员
+    /// </summary>
+    Simple = 30000,
 }

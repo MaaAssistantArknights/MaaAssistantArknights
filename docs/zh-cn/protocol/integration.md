@@ -472,16 +472,20 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 `10000` - `Custom`: 自定义换班模式，读取用户配置，可参考 [基建排班协议](./base-scheduling-schema.md)。
 <br>
-`20000` - `Rotation`: 一键轮换模式，会跳过控制中枢、发电站、宿舍以及办公室，其余设施不进行换班但保留基本操作（如使用无人机、会客室逻辑）。  
+`20000` - `Rotation`: 一键轮换模式，会跳过控制中枢、发电站、宿舍以及办公室，其余设施不进行换班但保留基本操作（如使用无人机、会客室逻辑）。
+<br>
+`30000` - `Simple`: 极简模式，仅收取产出、按 `drones` 使用无人机，并按会客室选项处理信用与线索；不更换任何干员，也不执行游戏内队列轮换。
 :::  
 ::: field facility  
 @type array<string>
-@required
+@optional
 要换班的设施。不支持运行中设置。
 <br>
 `mode = 0` 时该数组为启用集合，顺序与重复项不参与调度（换班顺序由算法统一安排）；`mode = 10000` / `20000` 时按数组顺序执行。
 <br>
-设施名：`Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training` | `AssistantChange`  
+设施名：`Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training` | `AssistantChange`
+<br>
+`mode = 30000` 时可省略该字段，传入的设施列表会被忽略：设施由 `drones` 和会客室选项自动决定。其他模式仍须提供该字段。
 :::  
 ::: field drones  
 @type string
@@ -489,7 +493,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 @optional
 无人机用途。`mode = 10000` 时该字段无效。
 <br>
-选项：`_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`  
+选项：`_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`
+<br>
+`mode = 30000` 时无需在 `facility` 中启用对应设施；`Money` / `SyntheticJade` 使用贸易站，其他有效用途使用制造站，`_NotUse` 跳过无人机。
 :::  
 ::: field threshold  
 @type number
@@ -499,25 +505,33 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 `mode = 10000` 时该字段仅针对 "autofill" 有效。
 <br>
-`mode = 20000` 时该字段无效。  
+`mode = 20000` 时该字段无效。
+<br>
+`mode = 30000` 时该字段无效。
 :::  
 ::: field replenish  
 @type boolean
 @default false
 @optional
-贸易站“源石碎片”是否自动补货。  
+贸易站“源石碎片”是否自动补货。
+<br>
+`mode = 30000` 时该字段无效。
 :::  
 ::: field dorm_notstationed_enabled  
 @type boolean
 @default false
 @optional
-是否启用宿舍“未进驻”选项。  
+是否启用宿舍“未进驻”选项。
+<br>
+`mode = 30000` 时该字段无效。
 :::  
 ::: field dorm_trust_enabled  
 @type boolean
 @default false
 @optional
-是否将宿舍剩余位置填入信赖未满干员。  
+是否将宿舍剩余位置填入信赖未满干员。
+<br>
+`mode = 30000` 时该字段无效。
 :::  
 ::: field fiammetta_targets  
 @type array<string>
@@ -561,7 +575,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 @type boolean
 @default true
 @optional
-是否领取会客室信息板信用。  
+是否领取会客室信息板信用。
+<br>
+`mode = 30000` 时，三个会客室选项任一为 true 即进入会客室领取线索并执行已启用的操作；全部为 false 时跳过会客室，与 `facility` 无关。
 :::  
 ::: field reception_clue_exchange  
 @type boolean
@@ -593,7 +609,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 @type boolean
 @default false
 @optional
-训练室是否继续未完成的专精训练。  
+训练室是否继续未完成的专精训练。
+<br>
+`mode = 30000` 时该字段无效。
 :::  
 ::::
 

@@ -1,19 +1,24 @@
 {
-  "runAllOnChanges": [
-    "unit_test/CMakeLists.txt",
-    "unit_test/test-suites.json",
-    ".github/workflows/unit-tests.yml"
-  ],
-  "suites": [
-    {
-      "id": "maa-algorithm-test",
-      "name": "Algorithm",
-      "buildTarget": "maa-algorithm-test",
-      "ctestRegex": "^algorithm::",
-      "paths": [
-        "src/MaaCore/Utils/Algorithm.hpp",
-        "unit_test/MaaCore/AlgorithmTest.cpp"
-      ]
-    }
-  ]
+    "runAllOnChanges": ["unit_test/CMakeLists.txt", "unit_test/test-suites.json", ".github/workflows/unit-tests.yml"],
+    "suites": [
+        {
+            "id": "maa-algorithm-test",
+            "name": "Algorithm",
+            "buildTarget": "maa-algorithm-test",
+            "ctestRegex": "^algorithm::",
+            "paths": ["src/MaaCore/Utils/Algorithm.hpp", "unit_test/MaaCore/AlgorithmTest.cpp"]
+        },
+        {
+            "id": "maa-infrast-test",
+            "name": "Infrastructure Simple Mode",
+            "buildTarget": "maa-infrast-test",
+            "ctestRegex": "^infrast::",
+            "paths": [
+                "src/MaaCore/Common/InfrastSimpleMode.h",
+                "src/MaaCore/Task/Interface/InfrastTask.cpp",
+                "src/MaaCore/Task/Interface/InfrastTask.h",
+                "unit_test/MaaCore/InfrastSimpleModeTest.cpp"
+            ]
+        }
+    ]
 }

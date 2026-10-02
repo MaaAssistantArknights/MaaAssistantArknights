@@ -75,7 +75,7 @@ bool asst::InfrastReceptionTask::_run()
         return shift();
     }
 
-    Log.info("skip shift in rotation mode");
+    LogInfo << "Operator shifting is disabled";
     return true;
 }
 

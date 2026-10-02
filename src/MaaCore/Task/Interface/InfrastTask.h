@@ -27,6 +27,7 @@ class InfrastTask final : public InterfaceTask
         Default = 0,
         Custom = 10'000,
         Rotation = 20'000,
+        Simple = 30'000,
     };
 
 public:
