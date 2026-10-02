@@ -2908,6 +2908,45 @@
         "specificRect": [250, 100, 50, 50],
         "next": ["Stop"]
     },
+    "InfrastSimple@InfrastBegin": {
+        "Doc": "复用普通入口导航和收菜，保留 PC 端主界面识别；收菜后重新打开通知栏处理快捷换班",
+        "sub": ["InfrastBegin"],
+        "next": ["InfrastSimple@InfrastNotification", "Stop"]
+    },
+    "InfrastSimple@InfrastExitReward": {
+        "action": "DoNothing",
+        "next": [
+            "InfrastSimple@InfrastReward",
+            "InfrastNotificationRotation",
+            "InfrastNotificationTrim",
+            "InfrastExitReward"
+        ]
+    },
+    "InfrastNotificationRotation": {
+        "template": "InfrastQueueRotation.png",
+        "templThreshold": 0.6,
+        "templThreshold_Doc": "复用轮换页面的原模板，通知栏图标尺寸不同，离线截图匹配得分约为 0.68",
+        "roi": [150, 650, 360, 70],
+        "roi_Doc": "通知栏底部按钮会左对齐；每次重新识别图标，不缓存点击位置",
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "maxTimes": 1,
+        "maxTimes_Doc": "与轮换模式一致，每次基建任务只执行一次队列轮换，避免按钮尚未消失时再次轮换",
+        "exceededNext": ["InfrastNotificationTrim", "InfrastExitReward"],
+        "next": ["InfrastSimple@InfrastExitReward"]
+    },
+    "InfrastNotificationTrim": {
+        "template": "InfrastOperatorTrim.png",
+        "templThreshold": 0.6,
+        "templThreshold_Doc": "复用休整页面的原模板，通知栏图标尺寸不同，离线截图匹配得分约为 0.65",
+        "roi": [150, 650, 360, 70],
+        "roi_Doc": "队列轮换消失后干员休整按钮会左移，识别区域覆盖两种位置",
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "maxTimes": 1,
+        "exceededNext": ["InfrastExitReward"],
+        "next": ["InfrastSimple@InfrastExitReward"]
+    },
     "InfrastEnterRotation": {
         "template": "InfrastOverviewEnter.png",
         "method": "RGBCount",

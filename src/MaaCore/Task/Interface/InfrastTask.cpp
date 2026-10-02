@@ -22,6 +22,7 @@
 asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst) :
     InterfaceTask(callback, inst, TaskType),
     m_infrast_begin_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
+    m_simple_begin_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
     m_queue_rotation_task(std::make_shared<ProcessTask>(callback, inst, TaskType)),
     m_info_task_ptr(std::make_shared<InfrastInfoTask>(callback, inst, TaskType)),
     m_mfg_task_ptr(std::make_shared<InfrastMfgTask>(callback, inst, TaskType)),
@@ -41,6 +42,8 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst) :
 
     m_infrast_begin_task_ptr->set_tasks({ "InfrastBegin" }).set_ignore_error(false);
     m_infrast_begin_task_ptr->register_plugin<ScreenshotTaskPlugin>();
+    m_simple_begin_task_ptr->set_tasks({ "InfrastSimple@InfrastBegin" }).set_ignore_error(false);
+    m_simple_begin_task_ptr->register_plugin<ScreenshotTaskPlugin>();
     m_queue_rotation_task->set_tasks({ "InfrastEnterRotation" }).set_ignore_error(true);
     m_replenish_task_ptr = m_mfg_task_ptr->register_plugin<ReplenishOriginiumShardTaskPlugin>();
     m_info_task_ptr->set_ignore_error(true);
@@ -137,7 +140,14 @@ bool asst::InfrastTask::set_params(const json::value& params)
         };
 
         m_subtasks.clear();
-        append_infrast_begin();
+        // 极简模式仅在开头处理通知栏里的队列轮换和干员休整。
+        // 设施之间仍使用普通入口收菜，避免重复触发这两项操作。
+        if (simple_mode) {
+            m_subtasks.emplace_back(m_simple_begin_task_ptr);
+        }
+        else {
+            append_infrast_begin();
+        }
 
         if (mode == Mode::Rotation) {
             m_subtasks.emplace_back(m_queue_rotation_task);
