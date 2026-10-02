@@ -60,8 +60,11 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
     /// <summary>为 true 时不响应集合变更，避免刷新期间把条目回写任务配置。</summary>
     private bool _isRefreshing;
 
+    private readonly HashSet<OperProgressPlanItemViewModel> _subscribedPlanItems = [];
+
     private void RefreshPlanItems(OperProgressTask task)
     {
+        PlanItems.CollectionChanged -= PlanItems_CollectionChanged;
         var list = task.Plans.Select((plan, index) => {
             int elite = plan.Elite;
             int mainSkillLevel = plan.SkillLevel;
@@ -70,10 +73,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         }).ToList();
         PlanItems = [.. list];
         PlanItems.CollectionChanged += PlanItems_CollectionChanged;
-        foreach (var item in PlanItems)
-        {
-            item.PropertyChanged += PlanItem_PropertyChanged;
-        }
+        UpdatePlanItemSubscriptions();
     }
 
     private void SavePlan()
@@ -216,10 +216,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
     private void PlanItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        foreach (var item in e.NewItems?.OfType<OperProgressPlanItemViewModel>() ?? [])
-        {
-            item.PropertyChanged += PlanItem_PropertyChanged;
-        }
+        UpdatePlanItemSubscriptions();
 
         if (_isRefreshing)
         {
@@ -228,6 +225,24 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
         ReindexPlanItems();
         SavePlan();
+    }
+
+    private void UpdatePlanItemSubscriptions()
+    {
+        var currentItems = PlanItems.ToHashSet();
+        foreach (var item in _subscribedPlanItems.Except(currentItems).ToList())
+        {
+            item.PropertyChanged -= PlanItem_PropertyChanged;
+            _subscribedPlanItems.Remove(item);
+        }
+
+        foreach (var item in currentItems)
+        {
+            if (_subscribedPlanItems.Add(item))
+            {
+                item.PropertyChanged += PlanItem_PropertyChanged;
+            }
+        }
     }
 
     private void PlanItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
