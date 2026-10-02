@@ -101,10 +101,17 @@ bool BlackFlowNodeTaskPlugin::_run()
             report_outputs();
             return true;
         }
+        // 每次分派都覆盖，上一页面选中的卖表不延续到这里
+        const auto shopping = m_session->shopping_rule();
+        auto& status = m_config->status();
+        status.shopping_buy_table = shopping ? shopping->get().buy_table : "default";
+        status.shopping_sell_table = shopping ? shopping->get().sell_table : std::string();
         Task.set_task_base("BlackFlow@Roguelike@NodeCompletionAction", route->get().completion_task);
         Task.set_task_base(route->get().alias, route->get().task);
         LogInfo << __FUNCTION__ << "BlackFlow node dispatch" << "floor" << page.floor << "node" << page.node << "event"
-                << page.node_name << "intent" << page.page_intent << "task" << route->get().task;
+                << page.node_name << "intent" << page.page_intent << "task" << route->get().task << "shopping rule"
+                << (shopping ? shopping->get().id : "default") << "buy table" << status.shopping_buy_table
+                << "sell table" << status.shopping_sell_table;
         report_outputs();
         return true;
     }

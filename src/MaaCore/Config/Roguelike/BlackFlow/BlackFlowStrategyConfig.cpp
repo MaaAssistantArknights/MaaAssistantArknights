@@ -7,6 +7,8 @@
 #include <unordered_set>
 #include <utility>
 
+#include "Config/Roguelike/RoguelikeShoppingConfig.h"
+
 namespace asst
 {
 namespace
@@ -633,6 +635,30 @@ EncounterRule parse_encounter_rule(const json::value& value)
     return result;
 }
 
+ShoppingRule parse_shopping_rule(const json::value& value)
+{
+    check_keys(
+        value,
+        { "id", "description", "page_intent", "rank", "when", "buy_table", "sell_table" },
+        { "id" },
+        "shopping rule");
+    ShoppingRule result;
+    result.id = value.at("id").as_string();
+    result.description = value.get("description", std::string());
+    result.page_intent = optional_page_intent(value);
+    result.rank = value.get("rank", 0);
+    result.when = optional_condition(value, "when", true);
+    result.buy_table = value.get("buy_table", std::string("default"));
+    result.sell_table = value.get("sell_table", std::string());
+    if (result.id.empty() || result.buy_table.empty()) {
+        invalid_config("shopping rule id and buy table must not be empty");
+    }
+    if (!RoguelikeShopping.has_tables("BlackFlow", result.buy_table, result.sell_table)) {
+        invalid_config("shopping rule references an unknown table: " + result.id);
+    }
+    return result;
+}
+
 PolicyModule parse_module(const json::value& value)
 {
     check_keys(
@@ -644,7 +670,8 @@ PolicyModule parse_module(const json::value& value)
           "reserves",
           "milestones",
           "granted_scraps",
-          "encounter_rules" },
+          "encounter_rules",
+          "shopping_rules" },
         { "id" },
         "module");
     PolicyModule result;
@@ -659,6 +686,14 @@ PolicyModule parse_module(const json::value& value)
         }
         for (const auto& rule : rules->as_array()) {
             result.encounter_rules.emplace_back(parse_encounter_rule(rule));
+        }
+    }
+    if (const auto rules = value.find("shopping_rules"); rules) {
+        if (!rules->is_array()) {
+            invalid_config("module shopping_rules must be an array");
+        }
+        for (const auto& rule : rules->as_array()) {
+            result.shopping_rules.emplace_back(parse_shopping_rule(rule));
         }
     }
     for (const std::string& preference : parse_string_array(value, "route_preferences")) {
@@ -901,6 +936,12 @@ void validate_module(
     const std::unordered_map<std::string, ResourceDefinition>& resources)
 {
     std::unordered_set<std::string> ids;
+    for (const ShoppingRule& rule : module.shopping_rules) {
+        if (!ids.emplace("shopping_rule:" + rule.id).second) {
+            invalid_config("module contains duplicate shopping rule id: " + rule.id);
+        }
+        validate_condition(rule.when, facts, false);
+    }
     for (const EncounterRule& rule : module.encounter_rules) {
         if (!ids.emplace("encounter_rule:" + rule.id).second) {
             invalid_config("module contains duplicate encounter rule id: " + rule.id);
@@ -1002,6 +1043,7 @@ void validate_profile_definition(
     std::unordered_set<std::string> milestone_ids;
     std::unordered_set<std::string> granted_scrap_ids;
     std::unordered_set<std::string> encounter_rule_ids;
+    std::unordered_set<std::string> shopping_rule_ids;
     std::string error;
     for (const auto& module_id : profile.modules) {
         const auto module = modules.find(module_id);
@@ -1009,6 +1051,12 @@ void validate_profile_definition(
             invalid_config("profile references unknown module: " + module_id);
         }
         if (!append_unique(
+                resolved.shopping_rules,
+                module->second.shopping_rules,
+                shopping_rule_ids,
+                &error,
+                "shopping rule") ||
+            !append_unique(
                 resolved.encounter_rules,
                 module->second.encounter_rules,
                 encounter_rule_ids,
@@ -1115,9 +1163,11 @@ std::optional<blackflow::ResolvedPolicy>
     std::unordered_set<std::string> milestone_ids;
     std::unordered_set<std::string> granted_scrap_ids;
     std::unordered_set<std::string> encounter_rule_ids;
+    std::unordered_set<std::string> shopping_rule_ids;
     for (const auto& module_id : profile->modules) {
         const blackflow::PolicyModule* module = get_module(module_id);
         if (module == nullptr ||
+            !append_unique(result.shopping_rules, module->shopping_rules, shopping_rule_ids, error, "shopping rule") ||
             !append_unique(
                 result.encounter_rules,
                 module->encounter_rules,
@@ -1163,7 +1213,7 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
         { "schema_version", "resources", "facts", "modules", "inventory_cleanup_policy", "profiles" },
         "root");
     const int schema_version = json.at("schema_version").as_integer();
-    if (schema_version != 14) {
+    if (schema_version != 15) {
         invalid_config("unsupported schema_version: " + std::to_string(schema_version));
     }
     for (const auto key : { "resources", "facts", "modules", "profiles" }) {

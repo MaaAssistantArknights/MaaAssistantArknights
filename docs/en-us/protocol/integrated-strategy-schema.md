@@ -691,6 +691,25 @@ The Encounter options can be modified to guide MAA towards special endings
         ...
 ```
 
+Besides `priority`, `shopping.json` can declare named buy tables and sell tables for themes that select tables by strategy:
+
+```json5
+{
+    "theme": "BlackFlow",
+    "priority": [ ... ],                     // The default buy table, named default
+    "buy_tables": {                          // Optional named buy tables; items use the same format as priority, and default is reserved for priority
+        "table_name": [ { "name": "..." } ]
+    },
+    "sell_tables": {                         // Optional named sell tables listing the names allowed to be sold; list order does not decide the selling order
+        "cultivation_final": [ "血蕈", "雾滚草", ... ]
+    }
+}
+```
+
+Item names must not be empty, and `roles` only accepts the uppercase class names above; any invalid item makes the whole file fail to parse.
+An empty buy table means there are no purchase candidates, and an empty sell table means nothing is sold.
+Only 黑流树海 currently selects tables by strategy; other themes keep using `priority`.
+
 ## Integrated Strategy Special Mechanisms
 
 ### Sami Integrated Strategy - Foldartals

@@ -6,6 +6,7 @@
 #include <utility>
 
 #include "Config/Roguelike/BlackFlow/BlackFlowNodeExecutionConfig.h"
+#include "Config/Roguelike/RoguelikeShoppingConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Utils/Logger.hpp"
@@ -17,12 +18,10 @@ namespace asst::blackflow
 {
 namespace
 {
-constexpr int LastFloor = 3;
 constexpr std::string_view EnterTask = "BlackFlow@Roguelike@CultivateEnter";
 constexpr std::string_view SellDecisionTask = "BlackFlow@Roguelike@CultivateSellDecision";
 constexpr std::string_view SellAction = "BlackFlow@Roguelike@CultivateSellAction";
 constexpr std::string_view SellItemsTask = "BlackFlow@Roguelike@CultivateSellItems";
-constexpr std::string_view SellItemsKeepMovementTask = "BlackFlow@Roguelike@CultivateSellItemsKeepMovement";
 constexpr std::string_view SellConfirmEntry = "BlackFlow@Roguelike@CultivateSellConfirm-Enter";
 constexpr std::string_view ToggleToBuyTask = "BlackFlow@Roguelike@CultivateToggleToBuy";
 constexpr std::string_view BuyDecisionTask = "BlackFlow@Roguelike@CultivateBuyDecision";
@@ -136,7 +135,13 @@ bool BlackFlowCultivationTaskPlugin::_run()
 
     if (work == PendingWork::SellDecision) {
         Task.set_task_base(std::string(SellAction), std::string(ToggleToBuyTask));
-        const auto items = recognize(ctrler()->get_image(), sell_items_task());
+        const auto& table = m_config->status().shopping_sell_table;
+        // 没有选中卖表时不出售，空名单交给 OCR 会匹配任意文字
+        if (table.empty()) {
+            return true;
+        }
+        const auto& names = RoguelikeShopping.get_sell_goods(m_config->get_theme(), table);
+        const auto items = recognize(ctrler()->get_image(), std::string(SellItemsTask), names);
         if (!items.empty()) {
             ctrler()->click(items.front().rect);
             Task.set_task_base(std::string(SellAction), std::string(SellConfirmEntry));
@@ -224,14 +229,6 @@ bool BlackFlowCultivationTaskPlugin::_run()
     return true;
 }
 
-// 加工品在最后一层已经没有残值，卖掉换来的源石锭还能再买几颗种子；在此之前它们是走到
-// 秘境行商本身所依赖的移动能力，卖掉会把留给培育的那次长距离移动一起卖出去。
-std::string BlackFlowCultivationTaskPlugin::sell_items_task() const
-{
-    const int floor = m_session == nullptr ? 0 : m_session->current_floor().value_or(0);
-    return std::string(floor >= LastFloor ? SellItemsTask : SellItemsKeepMovementTask);
-}
-
 std::vector<TextRect> BlackFlowCultivationTaskPlugin::recognize(const cv::Mat& image, const std::string& task) const
 {
     const auto task_info = Task.get<OcrTaskInfo>(task);
@@ -239,9 +236,20 @@ std::vector<TextRect> BlackFlowCultivationTaskPlugin::recognize(const cv::Mat& i
         return {};
     }
 
+    return recognize(image, task, task_info->text);
+}
+
+std::vector<TextRect> BlackFlowCultivationTaskPlugin::recognize(
+    const cv::Mat& image,
+    const std::string& task,
+    const std::vector<std::string>& names) const
+{
+    if (names.empty()) {
+        return {};
+    }
     OCRer analyzer(image);
-    analyzer.set_task_info(task_info);
-    analyzer.set_required(task_info->text);
+    analyzer.set_task_info(task);
+    analyzer.set_required(names);
     const auto results = analyzer.analyze();
     return results.has_value() ? std::move(*results) : std::vector<TextRect> {};
 }
