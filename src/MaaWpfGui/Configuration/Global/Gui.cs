@@ -98,6 +98,10 @@ public class Gui : NotifyPropertyChangedWithValue
 
     public int GuideStep { get; set; } = 0;
 
+    public bool ShowOperatorIcons { get; set; } = true;
+
+    public bool ShowMaterialIcons { get; set; } = true;
+
     public Background Background { get; set; } = new();
 
     // ===== 背景设置（莫奈取色） =====

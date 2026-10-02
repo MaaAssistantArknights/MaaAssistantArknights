@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
     x:Class="MaaWpfGui.Views.UserControl.TaskQueue.FightSettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -151,7 +151,6 @@
                     <ComboBox
                         Height="30"
                         Margin="6"
-                        Padding="28,5,10,5"
                         VerticalContentAlignment="Center"
                         DropDownClosed="{s:Action DropsListDropDownClosed}"
                         IsEditable="True"
@@ -162,6 +161,7 @@
                                           Target={x:Type ui_vms:SettingsViewModel}}"
                         SelectedValue="{Binding DropsItemId}"
                         SelectedValuePath="Value"
+                        Style="{StaticResource MaterialIconComboBoxStyle}"
                         Text="{Binding DropsItemName}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -170,7 +170,8 @@
                                         Width="18"
                                         Height="18"
                                         VerticalAlignment="Center"
-                                        Source="{Binding Value, Converter={StaticResource ItemImageConverter}}" />
+                                        Source="{Binding Value, Converter={StaticResource ItemImageConverter}}"
+                                        Style="{StaticResource MaterialIconStyle}" />
                                     <TextBlock
                                         Margin="4,0,0,0"
                                         VerticalAlignment="Center"
@@ -187,7 +188,8 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         IsHitTestVisible="False"
-                        Source="{Binding DropsItemId, Converter={StaticResource ItemImageConverter}}" />
+                        Source="{Binding DropsItemId, Converter={StaticResource ItemImageConverter}}"
+                        Style="{StaticResource MaterialIconStyle}" />
                 </Grid>
                 <StackPanel
                     Grid.Row="1"

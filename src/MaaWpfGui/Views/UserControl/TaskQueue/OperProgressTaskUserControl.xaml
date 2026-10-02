@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
     x:Class="MaaWpfGui.Views.UserControl.TaskQueue.OperProgressTaskUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -69,7 +69,6 @@
 
                     <hc:ComboBox
                         Grid.Column="0"
-                        Padding="28,5,10,5"
                         HorizontalContentAlignment="Stretch"
                         hc:BorderElement.CornerRadius="4,0,0,4"
                         IsEditable="True"
@@ -78,7 +77,8 @@
                         Loaded="{s:Action MakeComboBoxSearchable,
                                           Target={x:Type ui_vms:SettingsViewModel}}"
                         SelectedValue="{Binding OperSelect}"
-                        SelectedValuePath="Value">
+                        SelectedValuePath="Value"
+                        Style="{StaticResource OperatorIconComboBoxStyle}">
                         <hc:ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <ContentControl>
@@ -101,7 +101,8 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         IsHitTestVisible="False"
-                        Source="{Binding OperSelect.Name, Converter={StaticResource OperAvatarConverter}}" />
+                        Source="{Binding OperSelect.Name, Converter={StaticResource OperAvatarConverter}}"
+                        Style="{StaticResource OperatorIconStyle}" />
                     <Button
                         x:Name="AddTargetButton"
                         Grid.Column="1"
@@ -167,7 +168,8 @@
                                             Height="18"
                                             VerticalAlignment="Center"
                                             DockPanel.Dock="Left"
-                                            Source="{Binding Avatar}" />
+                                            Source="{Binding Avatar}"
+                                            Style="{StaticResource OperatorIconStyle}" />
                                         <TextBlock
                                             Margin="4,0,0,0"
                                             VerticalAlignment="Center"

@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
     x:Class="MaaWpfGui.Views.UI.SettingsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -274,10 +274,10 @@
                             BorderBrush="{DynamicResource BorderBrush}"
                             BorderThickness="1,0,1,1"
                             CornerRadius="0,0,4,4">
-                            <settings:BackgroundSettingsUserControl
+                            <settings:PersonalizationSettingsUserControl
                                 Margin="0,20"
                                 HorizontalAlignment="Center"
-                                DataContext="{Binding BackgroundSettings}" />
+                                DataContext="{Binding PersonalizationSettings}" />
                         </Border>
                     </Expander>
                 </Grid>

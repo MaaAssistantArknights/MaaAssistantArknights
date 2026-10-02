@@ -89,6 +89,8 @@ public class SettingsViewModel : Screen
     /// </summary>
     public static BackgroundSettingsUserControlModel BackgroundSettings { get; } = BackgroundSettingsUserControlModel.Instance;
 
+    public static PersonalizationSettingsUserControlModel PersonalizationSettings { get; } = PersonalizationSettingsUserControlModel.Instance;
+
     /// <summary>
     /// Gets 定时设置 model
     /// </summary>
@@ -209,21 +211,28 @@ public class SettingsViewModel : Screen
 
         var tempOrderList = new List<SettingItemViewModel?>();
 
-        bool isAdded = false;
+        bool isOrderUpdated = false;
         var orderList = ConfigFactory.Root.Gui.SettingOrders.ToList();
-        foreach (var key in keyList.Where(k => !orderList.Any(o => o == k)))
+        if (orderList.SequenceEqual(keyList))
         {
-            isAdded = true;
+            orderList.Remove(SettingKey.UiSettings);
+            orderList.Insert(0, SettingKey.UiSettings);
+            isOrderUpdated = true;
+        }
+
+        foreach (var key in keyList.OrderBy(k => k != SettingKey.UiSettings).Where(k => !orderList.Any(o => o == k)))
+        {
+            isOrderUpdated = true;
             orderList.Add(key);
         }
-        if (isAdded)
+        if (isOrderUpdated)
         {
             ConfigFactory.Root.Gui.SettingOrders = orderList;
         }
 
         foreach (var (i, key) in orderList.Select((key, index) => (index, key)))
         {
-            var item = new SettingItemViewModel(key.ToString(), LocalizationHelper.GetString(key.ToString()), i);
+            var item = new SettingItemViewModel(key.ToString(), LocalizationHelper.GetString(key == SettingKey.BackgroundSettings ? "PersonalizationSettings" : key.ToString()), i);
             tempOrderList.Add(item);
         }
 
@@ -238,7 +247,7 @@ public class SettingsViewModel : Screen
     {
         foreach (var item in Settings)
         {
-            item.Display = LocalizationHelper.GetString(item.Key);
+            item.Display = LocalizationHelper.GetString(item.Key == nameof(SettingKey.BackgroundSettings) ? "PersonalizationSettings" : item.Key);
         }
     }
 
