@@ -591,7 +591,6 @@ If you choose ｢{key=ManualRestart}｣ and start MAA manually later, ｢{key=Ru
     <system:String x:Key="UseWeeklySchedule">Enable Weekly Schedule</system:String>
     <system:String x:Key="UseWeeklyScheduleTip">The day of week here is based on in-game time, not real-world time. For example, if the game resets at 4:00, then 3:59 is still counted as the previous day.</system:String>
     <system:String x:Key="FightSkippedWeeklySchedule">Weekly schedule is not enabled for today</system:String>
-    <system:String x:Key="InfrastSkippedWeeklySchedule">Today is not selected in the weekly schedule, skipping base rotation</system:String>
     <system:String x:Key="FightSkippedEmptyStagePlan">Stage plan is empty</system:String>
     <system:String x:Key="FightSkippedNoOpenStage">No stage in the plan is open today</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">The adaptation for Overseas clients is very difficult and we need your help! No programming knowledge is required.</system:String>

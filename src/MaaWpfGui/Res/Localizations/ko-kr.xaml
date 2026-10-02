@@ -591,7 +591,6 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="UseWeeklySchedule">주간 일정 활성화</system:String>
     <system:String x:Key="UseWeeklyScheduleTip">여기서 요일은 게임 내 시간을 기준으로 하며, 실제 시간이 아닙니다. 예를 들어 게임이 4:00에 초기화되면 3:59는 여전히 전날로 계산됩니다.</system:String>
     <system:String x:Key="FightSkippedWeeklySchedule">주간 일정에서 오늘이 선택되지 않음</system:String>
-    <system:String x:Key="InfrastSkippedWeeklySchedule">주간 일정에서 오늘이 선택되지 않아 기반시설 교대를 건너뜁니다</system:String>
     <system:String x:Key="FightSkippedEmptyStagePlan">스테이지 계획이 비어 있습니다</system:String>
     <system:String x:Key="FightSkippedNoOpenStage">계획에 오늘 개방된 스테이지가 없습니다</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">해외 서버의 현지화는 어려운 작업입니다! 저희를 도와주세요! 전문 지식이 없어도 됩니다</system:String>
