@@ -2596,6 +2596,12 @@ public class ToolboxViewModel : Screen
             return;
         }
 
+        if (!Peeping && Bootstrapper.TryGetTaskBlockReason() is { } reason)
+        {
+            GachaInfo = reason;
+            return;
+        }
+
         IsPeepTransitioning = true;
 
         try
