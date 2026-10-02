@@ -1596,20 +1596,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
     #region UI Item
 
-    public class WeeklyScheduleItem(DayOfWeek dayOfWeek) : PropertyChangedBase
-    {
-        public string Display => LocalizationHelper.CustomCultureInfo.DateTimeFormat.GetDayName(DayOfWeek);
-
-        /// <summary>
-        /// 语言切换后通知 Display 回读新文化的星期名，Value（勾选状态）保持不变。
-        /// </summary>
-        public void RefreshLocalization() => NotifyOfPropertyChange(nameof(Display));
-
-        public DayOfWeek DayOfWeek { get; } = dayOfWeek;
-
-        public bool Value { get => field; set => SetAndNotify(ref field, value); } = true;
-    }
-
     public class StageSourceItem : PropertyChangedBase
     {
         public string Display { get => field; set => SetAndNotify(ref field, value); } = string.Empty;

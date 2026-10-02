@@ -114,6 +114,17 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
     /// </summary>
     public bool UseAbyssalHunter { get; set; } = false;
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 是否启用周计划。
+    /// </summary>
+    public bool UseWeeklySchedule { get; set; }
+
+    /// <summary>
+    /// Gets or sets 周计划。当 <see cref="UseWeeklySchedule"/> 为 false 时不参与序列化。
+    /// </summary>
+    [JsonPredict(nameof(UseWeeklySchedule))]
+    public Dictionary<DayOfWeek, bool> WeeklySchedule { get; set; } = Enum.GetValues<DayOfWeek>().ToDictionary(i => i, _ => true);
+
     public string CustomFileType { get; set; } = InfrastSettingsUserControlModel.UserDefined;
 
     /// <summary>
