@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+using System;
 using System.Collections.ObjectModel;
 using System.Windows.Documents;
 using MaaWpfGui.Configuration.Factory;
@@ -75,6 +76,23 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
     } = ConfigFactory.Root.Timers.CustomConfig;
 
     public ObservableCollection<Timer> TimerList => ConfigFactory.Root.Timers.List;
+
+    public bool NotifyBeforeScheduledStart
+    {
+        get; set {
+            ConfigFactory.Root.Timers.NotifyBeforeScheduledStart = value;
+            SetAndNotify(ref field, value);
+        }
+    } = ConfigFactory.Root.Timers.NotifyBeforeScheduledStart;
+
+    public int ScheduledStartNotificationMinutes
+    {
+        get; set {
+            value = Math.Clamp(value, 1, 1439);
+            ConfigFactory.Root.Timers.ScheduledStartNotificationMinutes = value;
+            SetAndNotify(ref field, value);
+        }
+    } = Math.Clamp(ConfigFactory.Root.Timers.ScheduledStartNotificationMinutes, 1, 1439);
 
     /// <summary>
     /// 订阅所有定时器的启用状态变化，用于触发「时间管理大师」成就检查。

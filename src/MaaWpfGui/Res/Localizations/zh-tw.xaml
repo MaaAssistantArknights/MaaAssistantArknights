@@ -562,6 +562,11 @@ D:\
     <system:String x:Key="ShowWindowBeforeForceScheduledStartTip">定時啟動前顯示主視窗，避免最小化時看不到倒數</system:String>
     <system:String x:Key="TimerCustomConfig">自訂設定檔選擇</system:String>
     <system:String x:Key="TimerCustomConfigTip">定時啟動前兩分鐘重新啟動遊戲並切換設定檔</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStart">定時執行前通知</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStartTip" xml:space="preserve">提前傳送桌面通知，並透過已設定的外部通知管道傳送提醒。&#10;外部通知管道請在通知設定中設定。</system:String>
+    <system:String x:Key="ScheduledStartNotificationMinutes">提前時間（分鐘）</system:String>
+    <system:String x:Key="ScheduledStartNotificationTitle">定時任務即將執行</system:String>
+    <system:String x:Key="ScheduledStartNotificationContent">定時 {0} 預計於 {1}（{2} 分鐘後）開始執行，請留意遊戲登入狀態。</system:String>
     <system:String x:Key="Timer">定時</system:String>
     <system:String x:Key="GlobalConfigTip">此選項分頁為全域設定</system:String>
     <system:String x:Key="MultiTasksShareTip">以下選項為多任務共用</system:String>

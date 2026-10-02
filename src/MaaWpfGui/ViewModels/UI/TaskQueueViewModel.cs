@@ -1106,8 +1106,43 @@ public class TaskQueueViewModel : Screen
         return (timeToStart, timeToChangeConfig, configIndex);
     }
 
+    private static void HandleScheduledStartNotifications(DateTime currentTime)
+    {
+        var settings = SettingsViewModel.TimerSettings;
+        if (!settings.NotifyBeforeScheduledStart)
+        {
+            return;
+        }
+
+        // 比较提前后的时刻，兼容跨午夜的定时任务。
+        var startTime = currentTime.AddMinutes(settings.ScheduledStartNotificationMinutes);
+        for (int i = 0; i < settings.TimerList.Count; ++i)
+        {
+            var timer = settings.TimerList[i];
+            if (timer.IsEnabled == false || timer.Hour != startTime.Hour || timer.Minute != startTime.Minute)
+            {
+                continue;
+            }
+
+            var title = LocalizationHelper.GetString("ScheduledStartNotificationTitle");
+            var content = string.Format(
+                LocalizationHelper.GetString("ScheduledStartNotificationContent"),
+                i + 1,
+                startTime.ToString("HH:mm"),
+                settings.ScheduledStartNotificationMinutes);
+
+            _logger.Information("Scheduled start notification: Timer Index: {TimerIndex}, Start Time: {StartTime}", i, startTime);
+            using var toast = new ToastNotification(title);
+            toast.AppendContentText(content).Show();
+            ExternalNotificationService.Send(title, content);
+        }
+    }
+
     private async Task HandleTimerLogic(DateTime currentTime)
     {
+        // 提前通知不受当前运行状态限制，实际启动仍沿用现有的中断检查。
+        await Execute.OnUIThreadAsync(() => HandleScheduledStartNotifications(currentTime));
+
         if (!_runningState.CanInterrupt() && !SettingsViewModel.TimerSettings.ForceScheduledStart)
         {
             return;
