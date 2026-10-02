@@ -145,6 +145,8 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
 
     public void OnDeserialized()
     {
+        WeeklySchedule ??= Enum.GetValues<DayOfWeek>().ToDictionary(i => i, _ => true);
+
         if (Mode != InfrastMode.Custom || string.IsNullOrWhiteSpace(Filename) || !File.Exists(Filename))
         {
             return;
