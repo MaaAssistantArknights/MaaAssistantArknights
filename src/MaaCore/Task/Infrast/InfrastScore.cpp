@@ -1279,11 +1279,12 @@ ScoreResult select_reception(const std::vector<ScoreOper>& opers, const ScoreCon
         else if (has_any_skill(oper, { "bskill_meet_bd_to_spd", "bskill_meet_spd_hast1" })) {
             preferred.emplace_back(index);
         }
-        
+
         // 第三优先级：通用 25% 技能
         // 排除伺夜，避免占用其贸易站联动。
         // 排除信仰搅拌机，因信仰搅拌机的通用 20% 技能错误地使用了"bskill_meet_spd3"图标。
-        else if (has_skill(oper, "bskill_meet_spd3") && !is_operator(oper, { "char_427_vigil" }) &&
+        else if (
+            has_skill(oper, "bskill_meet_spd3") && !is_operator(oper, { "char_427_vigil" }) &&
             !is_operator(oper, { "char_4194_rmixer" })) {
             tertiary.emplace_back(index);
         }
