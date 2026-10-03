@@ -78,6 +78,8 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
     /// </summary>
     public bool SendClue { get; set; } = true;
 
+    public string ClueRecipient { get; set; } = string.Empty;
+
     /// <summary>
     /// Gets or sets a value indicating whether 继续专精
     /// </summary>

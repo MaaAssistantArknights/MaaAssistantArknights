@@ -1,4 +1,5 @@
 #pragma once
+#include "ClueRecipient.h"
 #include "InfrastProductionTask.h"
 
 namespace asst
@@ -16,6 +17,8 @@ public:
     void set_enable_clue_exchange(bool value) noexcept { m_enable_clue_exchange = value; }
 
     void set_send_clue(bool value) noexcept { m_send_clue = value; }
+
+    void set_clue_recipient(std::string recipient) { m_clue_recipient = std::move(recipient); }
 
 protected:
     virtual bool _run() override;
@@ -35,6 +38,7 @@ private:
     bool unlock_clue_exchange();
     bool back_to_reception_main();
     bool send_clue();
+    bool run_clue_task(std::vector<std::string> tasks);
     bool shift();
 
     bool swipe_to_the_bottom_of_clue_list_on_the_right();
@@ -42,5 +46,7 @@ private:
     bool m_receive_message_board = true;
     bool m_enable_clue_exchange = true;
     bool m_send_clue = true;
+    std::string m_clue_recipient;
+    infrast::ClueRecipientRunState m_clue_recipient_state;
 };
 }
