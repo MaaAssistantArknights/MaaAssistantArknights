@@ -81,6 +81,11 @@ public enum ReclamationMode
     ProsperityInSave = 1,
 
     /// <summary>
+    /// #沙洲遗闻, 有存档，通过推进天数刷物资和生息点数
+    /// </summary>
+    AdvanceInSave = 2,
+
+    /// <summary>
     /// #重启锚点, RA-1
     /// </summary>
     RA1 = 1 << 4,
