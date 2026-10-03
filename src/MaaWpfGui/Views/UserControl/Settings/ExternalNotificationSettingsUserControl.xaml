@@ -105,6 +105,29 @@
                     <controls:TooltipBlock TooltipText="{DynamicResource ExternalNotificationSendWhenStalledTip}" />
                 </StackPanel>
             </StackPanel>
+            <StackPanel
+                Margin="0,5"
+                HorizontalAlignment="Center"
+                DataContext="{x:Static settings_vms:TimerSettingsUserControlModel.Instance}"
+                Orientation="Horizontal">
+                <CheckBox
+                    Height="30"
+                    Margin="5,0"
+                    VerticalContentAlignment="Center"
+                    Content="{DynamicResource NotifyBeforeScheduledStart}"
+                    IsChecked="{Binding NotifyBeforeScheduledStart}" />
+                <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource NotifyBeforeScheduledStartTip}" />
+                <hc:NumericUpDown
+                    Margin="5,0"
+                    hc:InfoElement.Title="{DynamicResource ScheduledStartNotificationMinutes}"
+                    hc:InfoElement.TitleWidth="Auto"
+                    hc:TitleElement.TitlePlacement="Left"
+                    InputMethod.IsInputMethodEnabled="False"
+                    Maximum="1439"
+                    Minimum="1"
+                    Visibility="{c:Binding NotifyBeforeScheduledStart}"
+                    Value="{Binding ScheduledStartNotificationMinutes}" />
+            </StackPanel>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Orientation="Vertical">
