@@ -69,7 +69,8 @@ public class Win32Extra : ExtraConfig
             (AsstWin32InputMethod.SendMessageWithCursorPos, "AttachWindowInputSendWithCursorDisabled", false),
             (AsstWin32InputMethod.PostMessageWithCursorPos, "AttachWindowInputPostWithCursor", true),
             (AsstWin32InputMethod.SendMessageWithWindowPos, "AttachWindowInputSendWithWindowPosDisabled", false),
-            (AsstWin32InputMethod.PostMessageWithWindowPos, "AttachWindowInputPostWithWindowPos", true));
+            (AsstWin32InputMethod.PostMessageWithWindowPos, "AttachWindowInputPostWithWindowPos", true),
+            (AsstWin32InputMethod.AnchoredTouch, "AttachWindowInputAnchoredTouch", true));
 
     public LocalizedObservableList<AsstWin32InputMethod> MouseMethodList => _mouseMethodList;
 
