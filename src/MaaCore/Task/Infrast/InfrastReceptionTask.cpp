@@ -120,7 +120,7 @@ bool asst::InfrastReceptionTask::get_self_clue()
     if (!ProcessTask(*this, { "InfrastClueSelfFull" }).set_retry_times(0).run()) {
         return run_with_retries({ "CloseCluePage", "ReceptionFlag" });
     }
-    if (m_enable_clue_exchange) {
+    if (m_enable_clue_exchange && m_send_clue) {
         return run_with_retries({ "CloseCluePageThenSendClue" });
     }
 
