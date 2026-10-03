@@ -432,7 +432,7 @@ bool asst::InfrastDormTask::fill_dorm_slots()
 bool asst::InfrastDormTask::select_dorm_managers()
 {
     // 宿管必须在技能排序下识别和选择，避免按心情等其他顺序扫描无关干员。
-    if (!ProcessTask(*this, { "InfrastOperListTabSkillUnClicked", "Stop" }).run()) {
+    if (!switch_to_skill_sort()) {
         return false;
     }
 
@@ -457,6 +457,7 @@ bool asst::InfrastDormTask::select_dorm_managers()
         return false;
     }
     if (m_optimal_combs.empty()) {
+        switch_to_mood_sort();
         return true;
     }
     const bool selected = opers_choose();
@@ -676,6 +677,11 @@ bool asst::InfrastDormTask::restore_list_sort_for_selection_phase(asst::infrast:
 bool asst::InfrastDormTask::switch_to_mood_sort()
 {
     return ProcessTask(*this, { "InfrastOperListTabMoodDoubleClickWhenUnclicked", "Stop" }).run();
+}
+
+bool asst::InfrastDormTask::switch_to_skill_sort()
+{
+    return ProcessTask(*this, { "InfrastOperListTabSkillUnClicked", "Stop" }).run();
 }
 
 bool asst::InfrastDormTask::switch_to_low_mood_sort()
