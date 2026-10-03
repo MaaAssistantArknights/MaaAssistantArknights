@@ -35,3 +35,12 @@ target_link_libraries(maa-algorithm-test PRIVATE Catch2::Catch2WithMain)
 target_include_directories(maa-algorithm-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../src/MaaCore)
 
 catch_discover_tests(maa-algorithm-test TEST_PREFIX "algorithm::")
+
+add_executable(maa-clue-recipient-test MaaCore/ClueRecipientTest.cpp)
+target_compile_features(maa-clue-recipient-test PRIVATE cxx_std_20)
+target_link_libraries(maa-clue-recipient-test PRIVATE Catch2::Catch2WithMain)
+target_include_directories(maa-clue-recipient-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../src/MaaCore)
+if(MSVC)
+    target_compile_options(maa-clue-recipient-test PRIVATE /utf-8)
+endif()
+catch_discover_tests(maa-clue-recipient-test TEST_PREFIX "clue-recipient::")

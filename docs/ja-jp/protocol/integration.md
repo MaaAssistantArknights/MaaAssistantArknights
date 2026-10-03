@@ -575,6 +575,12 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 @optional
 手がかりを譲り渡すかどうか。  
 :::  
+::: field reception_clue_recipient
+@type string
+@default ""
+@optional
+贈呈先の完全なゲーム内名（ニックネームと `#` に続く4桁の数字）。例：`ドクター#1234`。`reception_send_clue` が `true` の場合のみ有効です。空欄では標準の方法で贈り、指定した場合は現在贈れる自分の手がかりを相手に1枚ずつ贈ります。一覧を最後まで探しても見つからない状態が2回連続した場合、今回の応接室任務は標準の方法に切り替わり、別の戦友への贈呈や一括贈呈を行うことがあります。パラメーターは保持し、次の任務で再び探します。相手を確実に識別できない、受け取れない、またはページ送りが進まない場合は贈呈をスキップし、未発見の回数には数えません。
+:::
 ::: field filename  
 @type string
 @required
@@ -613,6 +619,7 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
    "reception_message_board": true,
    "reception_clue_exchange": true,
    "reception_send_clue": true,
+   "reception_clue_recipient": "",
    "filename": "schedules/base.json",
    "plan_index": 1
 }

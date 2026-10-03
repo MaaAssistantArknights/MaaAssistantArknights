@@ -12,8 +12,10 @@
 // </copyright>
 
 #nullable enable
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using MaaWpfGui.Helper;
 using MaaWpfGui.Services;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json.Linq;
@@ -91,6 +93,8 @@ public class AsstInfrastTask : AsstBaseTask
     /// </summary>
     public bool ReceptionSendClue { get; set; }
 
+    public string ReceptionClueRecipient { get; set; } = string.Empty;
+
     public List<string> FiammettaTargets { get; set; } = ["清流", "可露希尔", "但书"];
 
     /// <summary>
@@ -118,6 +122,18 @@ public class AsstInfrastTask : AsstBaseTask
 
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
+        var clueRecipient = ReceptionClueRecipient.Trim();
+        if (ReceptionSendClue && clueRecipient.Length > 0)
+        {
+            var separator = clueRecipient.LastIndexOf('#');
+            if (separator <= 0 || clueRecipient.Length - separator != 5 ||
+                clueRecipient.Any(char.IsControl) ||
+                !clueRecipient[(separator + 1)..].All(ch => ch is >= '0' and <= '9'))
+            {
+                throw new InvalidOperationException(LocalizationHelper.GetString("InfrastClueRecipientFormatError"));
+            }
+        }
+
         var fiammettaTargets = FiammettaTargets
             .Where(target => !string.IsNullOrWhiteSpace(target))
             .Distinct()
@@ -134,6 +150,7 @@ public class AsstInfrastTask : AsstBaseTask
             ["reception_message_board"] = ReceptionMessageBoard,
             ["reception_clue_exchange"] = ReceptionClueExchange,
             ["reception_send_clue"] = ReceptionSendClue,
+            ["reception_clue_recipient"] = ReceptionSendClue ? clueRecipient : string.Empty,
             ["fiammetta_targets"] = JArray.FromObject(fiammettaTargets),
             ["fiammetta_recovery_enabled"] = FiammettaRecoveryEnabled,
             ["use_pinus_sylvestris"] = UsePinusSylvestris,

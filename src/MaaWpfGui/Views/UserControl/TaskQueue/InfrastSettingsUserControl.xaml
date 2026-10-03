@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
     x:Class="MaaWpfGui.Views.UserControl.TaskQueue.InfrastSettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -246,6 +246,16 @@
             <CheckBox Margin="0,10" IsChecked="{Binding ReceptionSendClue}">
                 <controls:TextBlock Text="{DynamicResource InfrastReceptionSendClue}" TextWrapping="Wrap" />
             </CheckBox>
+            <StackPanel Margin="0,0,0,5" Visibility="{c:Binding ReceptionSendClue}">
+                <StackPanel Orientation="Horizontal">
+                    <controls:TextBlock
+                        MaxWidth="185"
+                        Text="{DynamicResource InfrastClueRecipient}"
+                        TextWrapping="Wrap" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource InfrastClueRecipientTip}" />
+                </StackPanel>
+                <TextBox Margin="0,5,0,0" Text="{Binding ReceptionClueRecipient, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
             <CheckBox Margin="0,10" IsChecked="{Binding ContinueTraining}">
                 <controls:TextBlock Text="{DynamicResource ContinueTraining}" TextWrapping="Wrap" />
             </CheckBox>

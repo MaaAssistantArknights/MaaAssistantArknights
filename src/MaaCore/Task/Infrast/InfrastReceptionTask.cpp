@@ -4,6 +4,7 @@
 
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "InfrastClueRecipientTaskPlugin.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
@@ -15,6 +16,7 @@
 bool asst::InfrastReceptionTask::_run()
 {
     m_all_available_opers.clear();
+    m_clue_recipient_state.begin_run(m_cur_retry != 0);
 
     swipe_to_the_left_of_main_ui();
 
@@ -42,7 +44,7 @@ bool asst::InfrastReceptionTask::_run()
         back_to_reception_main();
     }
 
-    if (m_send_clue) {
+    if (m_send_clue && m_clue_recipient_state.can_send()) {
         send_clue();
     }
 
@@ -108,23 +110,16 @@ bool asst::InfrastReceptionTask::get_friend_clue()
 
 bool asst::InfrastReceptionTask::get_self_clue()
 {
-    constexpr int kRetryTimesDefault = ProcessTask::RetryTimesDefault;
-    auto run_with_retries = [&](const std::vector<std::string>& tasks) {
-        ProcessTask task(*this, tasks);
-        task.set_retry_times(kRetryTimesDefault);
-        return task.run();
-    };
-
-    run_with_retries({ "InfrastClueSelfNew", "InfrastClueSelfMaybeFull", "ReceptionFlag" });
+    run_clue_task({ "InfrastClueSelfNew", "InfrastClueSelfMaybeFull", "ReceptionFlag" });
 
     if (!ProcessTask(*this, { "InfrastClueSelfFull" }).set_retry_times(0).run()) {
-        return run_with_retries({ "CloseCluePage", "ReceptionFlag" });
+        return run_clue_task({ "CloseCluePage", "ReceptionFlag" });
     }
-    if (m_enable_clue_exchange && m_send_clue) {
-        return run_with_retries({ "CloseCluePageThenSendClue" });
+    if (m_enable_clue_exchange && m_send_clue && m_clue_recipient_state.can_send()) {
+        return run_clue_task({ "CloseCluePageThenSendClue" });
     }
 
-    return run_with_retries({ "CloseCluePage", "ReceptionFlag" });
+    return run_clue_task({ "CloseCluePage", "ReceptionFlag" });
 }
 
 bool asst::InfrastReceptionTask::use_clue()
@@ -322,9 +317,40 @@ bool asst::InfrastReceptionTask::back_to_reception_main()
 
 bool asst::InfrastReceptionTask::send_clue()
 {
-    // 优先检测是否存在“快捷传递重复线索”按钮（官服特性），若存在则点击一次
-    ProcessTask task(*this, { "SendClues" });
-    return task.set_retry_times(20).run();
+    if (!m_send_clue || !m_clue_recipient_state.can_send()) {
+        return true;
+    }
+    return run_clue_task(
+        { m_clue_recipient.empty() || m_clue_recipient_state.is_using_default() ? "SendClues"
+                                                                                : "InfrastClueSendToNamedRecipient" });
+}
+
+bool asst::InfrastReceptionTask::run_clue_task(std::vector<std::string> tasks)
+{
+    ProcessTask task(*this, std::move(tasks));
+    std::shared_ptr<InfrastClueRecipientTaskPlugin> plugin;
+    if (!m_clue_recipient.empty() && m_clue_recipient_state.can_send() && !m_clue_recipient_state.is_using_default()) {
+        plugin = task.register_plugin<InfrastClueRecipientTaskPlugin>();
+        plugin->set_recipient(m_clue_recipient);
+        plugin->set_retry_times(0);
+        if (!task.override_next(
+                "CloseCluePageThenSendClue",
+                { "CloseCluePageThenSendClue", "InfrastClueSendToNamedRecipient" })) {
+            return false;
+        }
+    }
+    const bool result = task.set_retry_times(ProcessTask::RetryTimesDefault).run();
+    if (plugin && plugin->is_recipient_unavailable()) {
+        m_clue_recipient_state.skip();
+    }
+    if (plugin && plugin->is_using_default_strategy()) {
+        m_clue_recipient_state.use_default();
+    }
+    if (!task.get_enable() && !need_exit()) {
+        // 校验失败时插件会停用发送流程，关闭页面后仍允许继续换班。
+        return ProcessTask(*this, { "CloseSendClue", "ReceptionFlag" }).set_retry_times(0).run();
+    }
+    return result;
 }
 
 bool asst::InfrastReceptionTask::shift()

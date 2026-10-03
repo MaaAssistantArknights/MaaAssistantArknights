@@ -175,6 +175,9 @@
     <system:String x:Key="InfrastReceptionClueExchangeTips" xml:space="preserve">단서 공유를 개방할 수 없는 경우 교대 시 단서 판의 모든 단서를 회수하며, 개방할 수 있는 경우 일괄 배치를 사용합니다.&#10;개인 단서 보유 한도는 10장(응접실에 배치된 단서 포함)이며, 배치된 단서는 중복 판정에 포함되지 않습니다.&#10;미리 지나치게 많이 배치하면 한도에 도달했는데도 일괄 전달도 새 단서 획득도 할 수 없습니다.</system:String>
     <system:String x:Key="ClueExchangeUnlocked">단서 공유 개방</system:String>
     <system:String x:Key="InfrastReceptionSendClue">단서 전달</system:String>
+    <system:String x:Key="InfrastClueRecipient">단서 수신 친구</system:String>
+    <system:String x:Key="InfrastClueRecipientTip" xml:space="preserve">부계정에서 본계정으로 단서를 보내려면 본계정의 전체 게임 이름을 입력하세요. 예: 닥터#1234.&#10;비워 두면 기본 방식으로 전달합니다.&#10;전체 목록을 두 번 연속 검색해도 찾지 못하면 이번 작업은 기본 방식으로 전환하여 다른 친구에게 전달할 수 있습니다.&#10;다음 작업에서는 저장된 이름을 다시 검색합니다.</system:String>
+    <system:String x:Key="InfrastClueRecipientFormatError">단서 수신 친구의 전체 이름(닉네임#네 자리 번호)을 입력하세요. 예: 닥터#1234.</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">다음 기능들은 {key=Infrast}에서 설정 및 실행해야 합니다</system:String>
     <system:String x:Key="ContinueTraining">마스터리 훈련 완료 시 이어서 시도</system:String>
     <system:String x:Key="InfrastFiammettaRecovery">피아메타 컨디션 회복 활성화</system:String>

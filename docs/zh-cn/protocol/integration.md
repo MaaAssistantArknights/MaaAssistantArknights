@@ -575,6 +575,12 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 @optional
 是否赠送线索。  
 :::  
+::: field reception_clue_recipient
+@type string
+@default ""
+@optional
+线索接收好友的完整游戏名称（昵称及 `#` 后四位数字），如 `博士#1234`。仅在 `reception_send_clue` 为 `true` 时生效。留空使用默认赠送方式；非空时向该好友逐张赠送当前可赠送的自有线索。连续两次完整查找未找到时，本次会客室任务改用默认方式，可能赠送给其他好友或使用一键赠送；参数保持不变，下次任务重新查找。无法确认好友、对方不能接收或翻页无进展时跳过赠送，不计为未找到。
+:::
 ::: field filename  
 @type string
 @required
@@ -613,6 +619,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
    "reception_message_board": true,
    "reception_clue_exchange": true,
    "reception_send_clue": true,
+   "reception_clue_recipient": "",
    "filename": "schedules/base.json",
    "plan_index": 1
 }
