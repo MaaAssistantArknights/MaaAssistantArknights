@@ -1548,6 +1548,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="EmulatorFpsWarningTip">检测到模拟器设置帧率为 {0} FPS，低于游戏原生帧率（60 FPS），可能开启了后台降帧或帧率设置过低，建议将模拟器帧率设置为 60 FPS</system:String>
     <system:String x:Key="EmulatorFpsErrorTip">检测到模拟器设置帧率过低（{0} FPS），可能导致任务异常，请关闭模拟器后台降帧并将帧率设置为 60 FPS</system:String>
     <system:String x:Key="EmulatorFpsHighTip">检测到模拟器设置帧率为 {0} FPS，高于游戏原生帧率上限（60 FPS），可能是模拟器插帧功能，可能导致画面异常或识别不稳定，建议关闭插帧并将帧率设置为 60 FPS</system:String>
+    <system:String x:Key="EmulatorLowFpsWarningOnce">模拟器低帧运行时不再频繁警告</system:String>
+    <system:String x:Key="EmulatorLowFpsWarningOnceTip">开启后，同一轮运行中模拟器帧率过低（低于 60 FPS）的提示最多显示一次；关闭则不限制次数，与原行为一致</system:String>
     <system:String x:Key="IdentifyTheMistakes">识别错误</system:String>
     <system:String x:Key="RecruitRefreshLimitReached">刷新次数达到上限</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">任务出错: </system:String>

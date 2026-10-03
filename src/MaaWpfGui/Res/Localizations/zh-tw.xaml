@@ -1547,6 +1547,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="EmulatorFpsWarningTip">偵測到模擬器設定影格率為 {0} FPS，低於遊戲原生影格率（60 FPS），可能開啟了背景降幀或影格率設定過低，建議將模擬器影格率設定為 60 FPS</system:String>
     <system:String x:Key="EmulatorFpsErrorTip">偵測到模擬器設定影格率過低（{0} FPS），可能導致任務異常，請關閉模擬器背景降幀並將影格率設定為 60 FPS</system:String>
     <system:String x:Key="EmulatorFpsHighTip">偵測到模擬器設定影格率為 {0} FPS，高於遊戲原生影格率上限（60 FPS），可能是模擬器插幀功能，可能導致畫面異常或辨識不穩定，建議關閉插幀並將影格率設定為 60 FPS</system:String>
+    <system:String x:Key="EmulatorLowFpsWarningOnce">模擬器低幀執行時不再頻繁警告</system:String>
+    <system:String x:Key="EmulatorLowFpsWarningOnceTip">開啟後，同一輪執行中模擬器影格率過低（低於 60 FPS）的提示最多顯示一次；關閉則不限制次數，與原行為一致</system:String>
     <system:String x:Key="IdentifyTheMistakes">辨識錯誤</system:String>
     <system:String x:Key="RecruitRefreshLimitReached">刷新次數達到上限</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">任務出錯: </system:String>

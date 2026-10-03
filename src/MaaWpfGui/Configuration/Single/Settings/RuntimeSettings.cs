@@ -46,6 +46,11 @@ public partial class RuntimeSettings : NotifyPropertyChangedWithValue, IJsonOnDe
 
     public bool BlockSleepWithScreenOn { get; set; } = true;
 
+    /// <summary>
+    /// 模拟器帧率低于游戏原生帧率（60 FPS）时，同一轮运行内只提示一次
+    /// </summary>
+    public bool EmulatorLowFpsWarningOnce { get; set; }
+
     public bool EnableStallTimeout { get; set; } = true;
 
     public int StallTimeoutReminderIntervalMinutes { get; set; } = 30;

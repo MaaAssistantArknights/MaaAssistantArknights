@@ -44,6 +44,12 @@ public static class Instances
 
         public static bool HasPrintedFpsHighTip { get; set; } = false;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether 本轮运行是否已输出过模拟器低帧提示。
+        /// 仅在 ｢模拟器低帧运行时不再频繁警告｣ 开启时生效，队列开始时由 <see cref="ClearCache"/> 重置。
+        /// </summary>
+        public static bool HasPrintedFpsLowTip { get; set; } = false;
+
         public static int RecruitConfirmTime { get; set; } = 0;
 
         /// <summary>
@@ -63,6 +69,7 @@ public static class Instances
             ProvenExhaustedMedicineDays = 0;
             HasPrintedScreencapWarning = false;
             HasPrintedFpsHighTip = false;
+            HasPrintedFpsLowTip = false;
         }
     }
 

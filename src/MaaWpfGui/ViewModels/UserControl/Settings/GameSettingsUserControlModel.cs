@@ -265,6 +265,17 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 模拟器低帧提示同一轮运行内只显示一次
+    /// </summary>
+    public bool EmulatorLowFpsWarningOnce
+    {
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.EmulatorLowFpsWarningOnce = value;
+        }
+    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.EmulatorLowFpsWarningOnce;
+
     public bool BlockSleep
     {
         get; set {
