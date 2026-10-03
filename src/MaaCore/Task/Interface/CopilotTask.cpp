@@ -215,7 +215,11 @@ bool asst::CopilotTask::set_params(const json::value& params)
 
     const size_t loop_times = std::max<size_t>(params.get("loop_times", 1), 1);
     m_stop_task_ptr->set_enable(false); // 清除上一次 set_params 留下的结算任务启用状态
-    if (m_auto_restart || m_multi_copilot_plugin_ptr->get_enable()) {
+    if (m_auto_restart) {
+        m_stop_task_ptr->set_tasks({ "Copilot@WaitUntilEndOfAction-AutoRestart" });
+        m_stop_task_ptr->set_enable(true);
+    }
+    else if (m_multi_copilot_plugin_ptr->get_enable()) {
         // 如果没三星就中止
         // 悖论模拟不需要强制三星，因为练度等关系有概率不过，反正不消耗理智，走单独的退出逻辑
         // EDIT: UI 上取消勾选需要按顺序，非三星通关会导致取消的内容错误
@@ -248,8 +252,8 @@ bool asst::CopilotTask::set_params(const json::value& params)
     if (m_auto_restart) {
         // ProcessTask 会在多次尝试间复用并保留执行计数；下方状态机已经按作业限制重开次数，
         // 因此流程节点不能再使用一个跨作业累计的失败上限。
-        m_stop_task_ptr->set_times_limit("Copilot@FightMissionFailed", std::numeric_limits<int>::max());
-        m_stop_task_ptr->set_times_limit("Copilot@WaitUntilEndOfAction", std::numeric_limits<int>::max());
+        m_stop_task_ptr->set_times_limit("Copilot@FightMissionFailed-AutoRestart", std::numeric_limits<int>::max());
+        m_stop_task_ptr->set_times_limit("Copilot@WaitUntilEndOfAction-AutoRestart", std::numeric_limits<int>::max());
     }
     return true;
 }
@@ -564,7 +568,7 @@ asst::CopilotTask::StageAttemptResult asst::CopilotTask::run_stage_attempt(size_
     }
 
     const int task_delay = Config.get_options().task_delay;
-    const int failed_times_before = m_stop_task_ptr->get_exec_times("Copilot@FightMissionFailed");
+    const int failed_times_before = m_stop_task_ptr->get_exec_times("Copilot@FightMissionFailed-AutoRestart");
 
     for (size_t index = begin; index < end; ++index) {
         if (need_exit()) {
@@ -583,7 +587,7 @@ asst::CopilotTask::StageAttemptResult asst::CopilotTask::run_stage_attempt(size_
         const bool succeeded = task_ptr->run();
         // 即使流程图之后正常结束，也可能已经命中过失败节点，因此必须独立检查计数，不能只依赖返回值。
         if (task_ptr == m_stop_task_ptr &&
-            m_stop_task_ptr->get_exec_times("Copilot@FightMissionFailed") > failed_times_before) {
+            m_stop_task_ptr->get_exec_times("Copilot@FightMissionFailed-AutoRestart") > failed_times_before) {
             return StageAttemptResult::RetryAfterFailure;
         }
         if (!succeeded) {

@@ -5420,9 +5420,32 @@
             "Copilot@WaitUntilEndOfAction-Bypass"
         ]
     },
+    "Copilot@WaitUntilEndOfAction-AutoRestart": {
+        "baseTask": "Copilot@WaitUntilEndOfAction",
+        "next": [
+            "Copilot@SkipThePreBattlePlot-AutoRestart",
+            "Copilot@EndOfAction",
+            "Copilot@EndOfAction-Sandbox",
+            "Copilot@FightMissionFailed-AutoRestart",
+            "Copilot@WaitUntilEndOfAction-AutoRestart"
+        ]
+    },
     "Copilot@SkipThePreBattlePlotConfirm": {
         "template": "SkipThePreBattlePlotConfirm.png",
         "next": ["Copilot@WaitUntilEndOfAction"]
+    },
+    "Copilot@SkipThePreBattlePlot-AutoRestart": {
+        "baseTask": "Copilot@SkipThePreBattlePlot",
+        "template": "SkipThePreBattlePlot.png",
+        "next": [
+            "Copilot@SkipThePreBattlePlotConfirm-AutoRestart",
+            "Copilot@SkipThePreBattlePlot-AutoRestart"
+        ]
+    },
+    "Copilot@SkipThePreBattlePlotConfirm-AutoRestart": {
+        "baseTask": "Copilot@SkipThePreBattlePlotConfirm",
+        "template": "SkipThePreBattlePlotConfirm.png",
+        "next": ["Copilot@WaitUntilEndOfAction-AutoRestart"]
     },
     "Copilot@EndOfAction": {
         "template": "EndOfAction.png",
@@ -5440,13 +5463,19 @@
         ]
     },
     "Copilot@FightMissionFailed": {
-        "preDelay": 500,
         "exceededNext": [],
         "onErrorNext": [],
-        "next": []
+        "next": ["Copilot@EndOfAction", "Copilot@EndOfAction-Sandbox"]
     },
     "Copilot@FightMissionFailed-Bypass": {
         "baseTask": "Copilot@FightMissionFailed",
+        "next": ["Copilot@EndOfAction-Bypass", "Copilot@EndOfAction-Sandbox"]
+    },
+    "Copilot@FightMissionFailed-AutoRestart": {
+        "baseTask": "Copilot@FightMissionFailed",
+        "preDelay": 500,
+        "exceededNext": [],
+        "onErrorNext": [],
         "next": []
     },
     "Copilot@StageDrops-Stars-3": {
