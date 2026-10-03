@@ -83,6 +83,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Grid
@@ -278,6 +279,28 @@
                                 Margin="0,20"
                                 HorizontalAlignment="Center"
                                 DataContext="{Binding BackgroundSettings}" />
+                        </Border>
+                    </Expander>
+                </Grid>
+
+                <Grid
+                    Grid.Row="{Binding NotificationSettingsSetting.Value}"
+                    Margin="0,0,0,5"
+                    d:Grid.Row="9"
+                    Visibility="{c:Binding NotificationSettingsSetting.IsVisibleInSearch}">
+                    <Expander
+                        d:IsExpanded="True"
+                        Background="Transparent"
+                        Header="{Binding NotificationSettingsSetting.Display}"
+                        IsExpanded="{Binding IsNotificationSettingsExpanded}">
+                        <Border
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,4,4">
+                            <settings:NotificationSettingsUserControl
+                                Margin="0,20"
+                                HorizontalAlignment="Center"
+                                DataContext="{Binding NotificationSettings}" />
                         </Border>
                     </Expander>
                 </Grid>

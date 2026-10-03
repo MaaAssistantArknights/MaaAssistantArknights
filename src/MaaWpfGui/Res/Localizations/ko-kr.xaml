@@ -2666,4 +2666,23 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="PleaseSelectItem">항목을 선택하세요</system:String>
     <system:String x:Key="EmulatorSelectionCancelled">에뮬레이터 선택이 취소되었습니다</system:String>
     <!--  !ItemSelection  -->
+    <system:String x:Key="NotificationSettings">알림 설정</system:String>
+    <system:String x:Key="NotificationSettingsMaster">알림 설정</system:String>
+    <system:String x:Key="NotificationSettingsOverlay">로그 플로팅 창</system:String>
+    <system:String x:Key="NotificationSettingsSystemNotification">Windows 시스템 알림</system:String>
+    <system:String x:Key="NotificationSettingsExternal">외부 알림</system:String>
+    <system:String x:Key="NotificationSettingsTaskQueueLog">작업 로그 패널</system:String>
+    <system:String x:Key="NotificationSettingsUseIndependent">사용자 정의 설정 활성화</system:String>
+    <system:String x:Key="NotificationSettingsEnableNotification">이 알림 활성화</system:String>
+    <system:String x:Key="NotificationSettingsEnableBlacklist">블랙리스트 활성화</system:String>
+    <system:String x:Key="NotificationSettingsEnableWhitelist">화이트리스트 활성화</system:String>
+    <system:String x:Key="NotificationSettingsFilterList">필터 규칙 (한 줄에 하나의 정규식)</system:String>
+    <system:String x:Key="NotificationSettingsMaxEntries">첨부 로그 항목 수</system:String>
+    <system:String x:Key="NotificationSettingsTimeMinutes">로그 유효 시간 (분)</system:String>
+    <system:String x:Key="NotificationSettingsTimeMinutesTip" xml:space="preserve">유효 시간이 지난 로그는 표시하거나 알림에 첨부하지 않습니다.&#10;｢{key=NotificationSettingsTimeMinutes}｣가 0이면 시간으로 필터링하지 않습니다.</system:String>
+    <system:String x:Key="NotificationSettingsMaxEntriesTip" xml:space="preserve">로그 오버레이에 표시하거나 외부 알림에 첨부할 로그 항목 수를 제한합니다.&#10;외부 알림의 ｢{key=NotificationSettingsMaxEntries}｣가 0이면 로그를 첨부하지 않고 알림 본문만 보냅니다.&#10;로그 오버레이에서는 0이 항목 수 제한 없음을 뜻합니다.</system:String>
+    <system:String x:Key="NotificationSettingsFilterListTip" xml:space="preserve">줄마다 정규식을 입력하며, 어느 한 줄과 일치하면 해당됩니다.&#10;태그: &lt;TaskError&gt; 작업 오류, &lt;TaskComplete&gt; 작업 완료, &lt;Stalled&gt; 로그 출력 정지, &lt;Test&gt; 테스트.&#10;예: &lt;TaskError&gt;|&lt;Stalled&gt;. 빈 허용 목록은 모두 차단하고, 빈 차단 목록은 모두 허용합니다.</system:String>
+    <system:String x:Key="NotificationSettingsInvalidFilterTip" xml:space="preserve">올바르지 않은 정규식입니다. 필터 규칙을 확인해 주세요.</system:String>
+    <system:String x:Key="NotificationSettingsRestoreDefault">기본값 복원</system:String>
+    <system:String x:Key="NotificationSettingsExternalTip" xml:space="preserve">여기에서는 외부 알림의 전송 조건과 첨부할 로그 내용을 설정합니다.&#10;알림 채널을 선택하거나 전송 서비스를 설정하려면 ｢{key=ExternalNotificationSettings}｣ 설정으로 이동하세요.</system:String>
 </ResourceDictionary>

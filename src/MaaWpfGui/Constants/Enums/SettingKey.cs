@@ -70,6 +70,11 @@ public enum SettingKey
     ExternalNotificationSettings,
 
     /// <summary>
+    /// 通知设置。
+    /// </summary>
+    NotificationSettings,
+
+    /// <summary>
     /// 三方服务设置。
     /// </summary>
     ThirdPartyServiceSettings,

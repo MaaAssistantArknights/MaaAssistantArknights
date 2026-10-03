@@ -2668,4 +2668,23 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="PleaseSelectItem">項目を選択してください</system:String>
     <system:String x:Key="EmulatorSelectionCancelled">エミュレータの選択がキャンセルされました</system:String>
     <!--  !ItemSelection  -->
+    <system:String x:Key="NotificationSettings">通知設定</system:String>
+    <system:String x:Key="NotificationSettingsMaster">通知設定</system:String>
+    <system:String x:Key="NotificationSettingsOverlay">ログフローティングウィンドウ</system:String>
+    <system:String x:Key="NotificationSettingsSystemNotification">Windows システム通知</system:String>
+    <system:String x:Key="NotificationSettingsExternal">外部通知</system:String>
+    <system:String x:Key="NotificationSettingsTaskQueueLog">タスクログパネル</system:String>
+    <system:String x:Key="NotificationSettingsUseIndependent">カスタム設定を有効にする</system:String>
+    <system:String x:Key="NotificationSettingsEnableNotification">この通知を有効にする</system:String>
+    <system:String x:Key="NotificationSettingsEnableBlacklist">ブラックリストを有効にする</system:String>
+    <system:String x:Key="NotificationSettingsEnableWhitelist">ホワイトリストを有効にする</system:String>
+    <system:String x:Key="NotificationSettingsFilterList">フィルタールール（1行1正規表現）</system:String>
+    <system:String x:Key="NotificationSettingsMaxEntries">添付ログエントリ数</system:String>
+    <system:String x:Key="NotificationSettingsTimeMinutes">ログ有効時間（分）</system:String>
+    <system:String x:Key="NotificationSettingsTimeMinutesTip" xml:space="preserve">有効時間を過ぎたログは表示や通知への添付の対象外になります。&#10;｢{key=NotificationSettingsTimeMinutes}｣ が 0 の場合は、時間で絞り込みません。</system:String>
+    <system:String x:Key="NotificationSettingsMaxEntriesTip" xml:space="preserve">ログオーバーレイに表示する、または外部通知に添付するログエントリ数を制限します。&#10;外部通知の ｢{key=NotificationSettingsMaxEntries}｣ を 0 にすると、ログを添付せず通知本文のみ送信します。&#10;ログオーバーレイでは、0 は件数による制限なしを意味します。</system:String>
+    <system:String x:Key="NotificationSettingsFilterListTip" xml:space="preserve">各行に正規表現を入力します。いずれかの行に一致すると対象になります。&#10;タグ：&lt;TaskError&gt; タスクエラー、&lt;TaskComplete&gt; タスク完了、&lt;Stalled&gt; ログ出力停止、&lt;Test&gt; テスト。&#10;例：&lt;TaskError&gt;|&lt;Stalled&gt;。空のホワイトリストはすべて拒否し、空のブラックリストはすべて許可します。</system:String>
+    <system:String x:Key="NotificationSettingsInvalidFilterTip" xml:space="preserve">正規表現が無効です。フィルタールールを確認してください。</system:String>
+    <system:String x:Key="NotificationSettingsRestoreDefault">既定値に戻す</system:String>
+    <system:String x:Key="NotificationSettingsExternalTip" xml:space="preserve">ここでは外部通知の送信条件と添付するログ内容を設定します。&#10;通知先や通知サービスの設定は、｢{key=ExternalNotificationSettings}｣ 設定で行ってください。</system:String>
 </ResourceDictionary>

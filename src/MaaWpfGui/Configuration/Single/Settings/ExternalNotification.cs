@@ -26,14 +26,6 @@ public partial class ExternalNotification : NotifyPropertyChangedWithValue
     [JsonInclude]
     public ObservableCollection<Base> Configs { get; private set; } = [];
 
-    public bool SendWhenComplete { get; set; } = true;
-
-    public bool ShowWhenCompleteWithDetails { get; set; }
-
-    public bool SendWhenError { get; set; } = true;
-
-    public bool SendWhenStalled { get; set; }
-
     [JsonDerivedType(typeof(Smtp), typeDiscriminator: nameof(Smtp))]
     [JsonDerivedType(typeof(ServerChan), typeDiscriminator: nameof(ServerChan))]
     [JsonDerivedType(typeof(Discord), typeDiscriminator: nameof(Discord))]

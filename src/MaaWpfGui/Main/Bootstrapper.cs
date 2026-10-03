@@ -37,6 +37,7 @@ using MaaWpfGui.Properties;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
+using MaaWpfGui.Services.Notification;
 using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
@@ -900,6 +901,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         builder.Bind<IHttpService>().To<HttpService>().InSingletonScope();
         builder.Bind<IMaaApiService>().To<MaaApiService>().InSingletonScope();
+
+        builder.Bind<NotificationService>().ToSelf().InSingletonScope();
 
         builder.Bind<OverlayViewModel>().ToSelf().InSingletonScope();
     }

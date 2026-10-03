@@ -42,10 +42,7 @@
                                            FalseToVisibility=Collapsed}">
                     <controls:TextBlock Text="{DynamicResource MinimizeToTray}" TextWrapping="Wrap" />
                 </CheckBox>
-                <StackPanel Margin="8" Orientation="Horizontal">
-                    <CheckBox Content="{DynamicResource SystemNotification}" IsChecked="{Binding UseNotify}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource SystemNotificationInfo}" />
-                </StackPanel>
+
                 <CheckBox
                     Margin="8"
                     Content="{DynamicResource HideCloseButton}"

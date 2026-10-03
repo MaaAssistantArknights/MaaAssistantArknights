@@ -28,6 +28,7 @@ using MaaWpfGui.Constants.Enums.Core;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services.HotKeys;
+using MaaWpfGui.Services.Notification;
 using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -710,10 +711,26 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationCustomWebhookBody);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationCustomWebhookHeaders);
 
-                ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenComplete = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenComplete, true);
-                ConfigFactory.CurrentConfig.Gui.ExternalNotification.ShowWhenCompleteWithDetails = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnableDetails, false);
-                ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenError = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenError, true);
-                ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenStalled = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenStalled, false);
+                var notification = ConfigFactory.CurrentConfig.Gui.Notification.External;
+                notification.UseIndependent = true;
+                notification.FilterMode = MaaWpfGui.Constants.Enums.NotificationFilterMode.Whitelist;
+                var patterns = new List<string>();
+                if (ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenComplete, true))
+                {
+                    patterns.Add(NotificationMessage.FormatTag(NotificationTag.TaskComplete));
+                }
+                if (ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenError, true))
+                {
+                    patterns.Add(NotificationMessage.FormatTag(NotificationTag.TaskError));
+                }
+                if (ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenStalled, false))
+                {
+                    patterns.Add(NotificationMessage.FormatTag(NotificationTag.Stalled));
+                }
+                notification.Enable = patterns.Count != 0;
+                notification.FilterList = string.Join("|", patterns);
+                notification.MaxEntries = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnableDetails, false) ? 100 : 0;
+
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSendWhenError);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSendWhenComplete);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSendWhenStalled);
@@ -755,9 +772,9 @@ public class ConfigConverter
                 ConfigFactory.CurrentConfig.Gui.ThirdParty.ReportToPenguin = ConfigurationHelper.GetValue(ConfigurationKeys.EnablePenguin, true);
                 ConfigFactory.CurrentConfig.Gui.ThirdParty.ReportToYituliu = ConfigurationHelper.GetValue(ConfigurationKeys.EnableYituliu, true);
                 ConfigFactory.CurrentConfig.Gui.ThirdParty.PenguinId = ConfigurationHelper.GetValue(ConfigurationKeys.PenguinId, string.Empty);
-                ConfigFactory.CurrentConfig.Gui.RuntimeSettings.EnableStallTimeout = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutEnabled, true);
-                ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutMinutes, 25).Clamp(0, GameSettingsUserControlModel.TimeoutMaxMinutes);
-                ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutReminderIntervalMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.ReminderIntervalMinutes, 30).Clamp(1, GameSettingsUserControlModel.TimeoutMaxMinutes);
+                ConfigFactory.CurrentConfig.Gui.Notification.EnableStallTimeout = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutEnabled, true);
+                ConfigFactory.CurrentConfig.Gui.Notification.StallTimeoutMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.StallTimeoutMinutes, 25).Clamp(0, GameSettingsUserControlModel.TimeoutMaxMinutes);
+                ConfigFactory.CurrentConfig.Gui.Notification.ReminderIntervalMinutes = ConfigurationHelper.GetValue(ConfigurationKeys.ReminderIntervalMinutes, 30).Clamp(1, GameSettingsUserControlModel.TimeoutMaxMinutes);
                 ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StartGame = ConfigurationHelper.GetValue(ConfigurationKeys.StartGame, true);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.StartGame);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ClientType);

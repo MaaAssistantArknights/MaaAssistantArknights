@@ -32,8 +32,6 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
 public class GameSettingsUserControlModel : PropertyChangedBase
 {
-    private readonly RunningState _runningState = RunningState.Instance;
-
     static GameSettingsUserControlModel()
     {
         Instance = new();
@@ -283,40 +281,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
 
     #region 任务超时
 
-    /// <summary>
-    /// Gets or sets a value indicating whether是否启用停滞检测
-    /// </summary>
-    public bool EnableStallTimeout
-    {
-        get; set {
-            SetAndNotify(ref field, value);
-            _runningState.EnableStallTimeout = value;
-            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.EnableStallTimeout = value;
-        }
-    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.EnableStallTimeout;
-
-    public int StallTimeoutMinutes
-    {
-        get; set {
-            value = value.Clamp(0, TimeoutMaxMinutes);
-            SetAndNotify(ref field, value);
-            _runningState.StallTimeoutMinutes = value;
-            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutMinutes = value;
-        }
-    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutMinutes;
-
-    // 防止乘以 60000 毫秒时 int 溢出，int.MaxValue / 60000 ≈ 35791
     public const int TimeoutMaxMinutes = 11451;
-
-    public int ReminderIntervalMinutes
-    {
-        get; set {
-            value = value.Clamp(1, TimeoutMaxMinutes);
-            SetAndNotify(ref field, value);
-            _runningState.ReminderIntervalMinutes = value;
-            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutReminderIntervalMinutes = value;
-        }
-    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutReminderIntervalMinutes;
 
     /// <summary>
     /// Gets or sets a value indicating whether 是否启用运行时长上限，null 为右键半选，仅生效一次

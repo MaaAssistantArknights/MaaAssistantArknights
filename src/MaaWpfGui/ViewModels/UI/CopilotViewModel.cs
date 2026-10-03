@@ -35,6 +35,7 @@ using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Models.Copilot;
 using MaaWpfGui.Services;
+using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
@@ -164,17 +165,24 @@ public partial class CopilotViewModel : Screen
     /// <param name="color">The font color.</param>
     /// <param name="weight">The font weight.</param>
     /// <param name="showTime">Whether show time.</param>
-    public void AddLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true)
+    /// <param name="notification">Optional notification payload.</param>
+    /// <param name="notifyActivity">Whether to reset the stalled-output timer.</param>
+    public void AddLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true, NotificationMessage? notification = null, bool notifyActivity = true)
     {
         // Copilot 自动战斗期间也会启动停滞计时器（Start 通过 BeginRun 进入运行态），
         // 这里的日志同样属于"有输出活动"，需要重置计时器，否则会误报任务卡住。
-        RunningState.Instance.NotifyOutputActivity();
+        if (notifyActivity)
+        {
+            RunningState.Instance.NotifyOutputActivity();
+        }
 
         if (string.IsNullOrEmpty(content))
         {
             return;
         }
         Execute.OnUIThread(() => {
+            var notificationEvent = new NotificationEvent(DateTimeOffset.Now, NotificationSource.Copilot, content, color, notification, weight, showTime);
+            Instances.NotificationService.ProcessLog(notificationEvent);
             LogItemViewModels.Add(new LogItemViewModel(content, color, weight, "HH':'mm':'ss", showTime: showTime));
             if (showTime)
             {
@@ -205,7 +213,10 @@ public partial class CopilotViewModel : Screen
         }
 
         RunningState.Instance.NotifyOutputActivity();
-        Execute.OnUIThread(() => LogItemViewModels.Add(new OperPreviewLogItemViewModel(output)));
+        Execute.OnUIThread(() => {
+            Instances.NotificationService.ProcessLog(new NotificationEvent(DateTimeOffset.Now, NotificationSource.Copilot, output.Content, output.Color ?? UiLogColor.Message, ShowTime: false));
+            LogItemViewModels.Add(new OperPreviewLogItemViewModel(output));
+        });
     }
 
     /// <summary>
@@ -225,6 +236,7 @@ public partial class CopilotViewModel : Screen
                 }
             }
 
+            Instances.NotificationService.Clear(NotificationSource.Copilot);
             LogItemViewModels.Clear();
             AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
         });
@@ -1958,7 +1970,7 @@ public partial class CopilotViewModel : Screen
         }*/
         _runningState.BeginRun(RunOwner.Copilot);
 
-        Instances.OverlayViewModel.LogItemsSource = LogItemViewModels;
+        Instances.OverlayViewModel.LogItemsSource = Instances.NotificationService.CopilotOverlay;
 
         // if (_taskType == AsstTaskType.VideoRecognition)
         // {

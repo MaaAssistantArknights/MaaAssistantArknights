@@ -188,31 +188,6 @@
             </CheckBox>
         </StackPanel>
 
-        <CheckBox
-            Margin="10"
-            HorizontalAlignment="Center"
-            Content="{DynamicResource StallTimeoutEnabled}"
-            IsChecked="{Binding EnableStallTimeout}" />
-        <StackPanel
-            HorizontalAlignment="Center"
-            Orientation="Horizontal"
-            Visibility="{c:Binding EnableStallTimeout}">
-            <hc:NumericUpDown
-                Margin="5"
-                hc:InfoElement.Title="{DynamicResource StallTimeoutMinutes}"
-                hc:TitleElement.TitlePlacement="Left"
-                InputMethod.IsInputMethodEnabled="False"
-                Maximum="11451"
-                Minimum="1"
-                Value="{Binding StallTimeoutMinutes}" />
-            <hc:NumericUpDown
-                Margin="5"
-                hc:InfoElement.Title="{DynamicResource ReminderIntervalMinutes}"
-                hc:TitleElement.TitlePlacement="Left"
-                InputMethod.IsInputMethodEnabled="False"
-                Minimum="1"
-                Value="{Binding ReminderIntervalMinutes}" />
-        </StackPanel>
         <StackPanel
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
