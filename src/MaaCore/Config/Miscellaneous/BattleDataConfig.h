@@ -220,6 +220,8 @@ public:
         return Empty;
     }
 
+    std::vector<std::string> get_related_tokens(battle::Role role, const std::string& name) const;
+
     bool is_name_invalid(battle::Role role, const std::string& name) const
     {
         return name.empty() || find_first_oper(role, name) == nullptr;
