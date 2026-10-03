@@ -1258,28 +1258,41 @@ ScoreResult select_reception(const std::vector<ScoreOper>& opers, const ScoreCon
     // 会客室先选专属高收益技能，其余候选保持原识别顺序。
     std::vector<size_t> priority;
     std::vector<size_t> preferred;
+    std::vector<size_t> tertiary;
     std::vector<size_t> remain;
+
     for (const size_t index : eligible_indices(opers, context)) {
         const auto& oper = opers[index];
         if (has_skill(oper, "bskill_meet_spdowned1")) { // 显眼的调查者：U-Official
             continue;                                   // 禁用尤里卡
         }
-        // 见行者、跃跃固定优先；菲亚梅塔已入驻时，信仰搅拌机也进入最高优先级。
-        if (has_any_skill(oper, { "bskill_meet_spd&cost", "bskill_meet_exchange" }) ||
+
+        // 第一优先级：见行者、跃跃
+        // 菲亚梅塔已入驻时，信仰搅拌机也进入最高优先级。
+        if ((has_skill(oper, "bskill_meet_spd&cost") && oper.mood_ratio > 22.0 / 24.0) || // 见行者要求高心情
+            has_skill(oper, "bskill_meet_exchange") ||
             (has_skill(oper, "bskill_meet_spd_confes1") && is_selected(context, "char_300_phenxi"))) {
             priority.emplace_back(index);
         }
-        // 晓歌、伊内丝优先于普通干员；通用 25% 技能排除伺夜，避免占用其贸易站联动。
-        else if (
-            has_any_skill(oper, { "bskill_meet_spdnotowned2", "bskill_meet_spd_hast1" }) ||
-            (has_skill(oper, "bskill_meet_spd3") && !is_operator(oper, { "char_427_vigil" }))) {
+
+        // 第二优先级：赤刃明霄陈、伊内丝
+        else if (has_any_skill(oper, { "bskill_meet_bd_to_spd", "bskill_meet_spd_hast1" })) {
             preferred.emplace_back(index);
+        }
+        
+        // 第三优先级：通用 25% 技能
+        // 排除伺夜，避免占用其贸易站联动。
+        // 排除信仰搅拌机，因信仰搅拌机的通用 20% 技能错误地使用了"bskill_meet_spd3"图标。
+        else if (has_skill(oper, "bskill_meet_spd3") && !is_operator(oper, { "char_427_vigil" }) &&
+            !is_operator(oper, { "char_4194_rmixer" })) {
+            tertiary.emplace_back(index);
         }
         else {
             remain.emplace_back(index);
         }
     }
     priority.insert(priority.end(), preferred.begin(), preferred.end());
+    priority.insert(priority.end(), tertiary.begin(), tertiary.end());
     priority.insert(priority.end(), remain.begin(), remain.end());
     if (priority.size() > static_cast<size_t>(std::max(0, context.slots))) {
         priority.resize(context.slots);
