@@ -38,6 +38,7 @@ public:
     ProcessTask& set_times_limit(std::string name, int limit, TimesLimitType type = TimesLimitType::Pre);
     ProcessTask& set_post_delay(std::string name, int delay);
     ProcessTask& set_reusable_image(const cv::Mat& reusable);
+    ProcessTask& reset_exec_times(std::string_view name);
     // 设定某个任务的 next 列表, 返回值表示是否成功覆盖; 任务名需要为实际执行任务名, 不支持@, #next 等语法
     bool override_next(std::string_view name, std::vector<std::string> next_tasks);
     // 移除某个任务的 next 列表覆盖, 返回值表示是否成功移除; 任务名需要为实际执行任务名, 不支持@, #next 等语法
