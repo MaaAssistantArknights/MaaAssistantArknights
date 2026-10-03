@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsTestProject>true</IsTestProject>
+    <IsPackable>false</IsPackable>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" PrivateAssets="all" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <Compile Include="../../src/MaaWpfGui/Helper/ParadoxCopilotHelper.cs" Link="ParadoxCopilotHelper.cs" />
+    <Compile Include="../../src/MaaWpfGui/Constants/MaaUrls.cs" Link="MaaUrls.cs" />
+  </ItemGroup>
+</Project>

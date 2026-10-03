@@ -2,6 +2,7 @@
 
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Task/Miscellaneous/BattleProcessTask.h"
+#include "Task/Miscellaneous/ParadoxAutoTask.h"
 #include "Task/Miscellaneous/ParadoxRecognitionTask.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
@@ -31,6 +32,30 @@ bool asst::ParadoxCopilotTask::set_params(const json::value& params)
     LogTraceFunction;
 
     m_subtasks.clear();
+    m_paradox_task_ptr->set_from_detail(params.get("from_detail", false));
+    if (params.get("auto", false)) {
+        if (params.contains("filename")) {
+            return false;
+        }
+        std::vector<std::pair<int, std::string>> files;
+        if (auto configs = params.find<std::vector<CopilotConfig>>("list")) {
+            for (const auto& item : *configs) {
+                files.emplace_back(item.id, item.filename);
+            }
+        }
+        else if (auto filenames = params.find<std::vector<std::string>>("list")) {
+            for (const auto& filename : *filenames) {
+                files.emplace_back(-1, filename);
+            }
+        }
+        auto task = std::make_shared<ParadoxAutoTask>(m_callback, m_inst, TaskType);
+        task->set_retry_times(0);
+        if (!task->set_files(files)) {
+            return false;
+        }
+        m_subtasks.emplace_back(std::move(task));
+        return true;
+    }
     auto single_opt = params.find<std::string>("filename");
     if (single_opt) {
         m_battle_task_ptr->set_wait_until_end(false);

@@ -1,0 +1,78 @@
+{
+    "OperBoxSelectParadox": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["悖论模拟"],
+        "roi": [970, 70, 310, 150],
+        "postDelay": 500,
+        "next": ["OperBoxParadoxSelected", "OperBoxCloseParadoxMenu"]
+    },
+    "OperBoxParadoxSelected": {
+        "algorithm": "MatchTemplate",
+        "action": "DoNothing",
+        "template": "OperBoxParadoxSelected.png",
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [85, 100, 80],
+                [115, 255, 255]
+            ]
+        ],
+        "colorWithClose": false,
+        "templThreshold": 0.65,
+        "roi": [1024, 0, 90, 65],
+        "postDelay": 500,
+        "Doc": "必须匹配蓝色激活文字；灰色悖论模拟标签仍可能显示，但不代表已选择此排序"
+    },
+    "OperBoxSwipeToTheLeft": {
+        "baseTask": "SwipeToTheLeft",
+        "specificRect": [100, 350, 20, 20],
+        "rectMove": [1090, 350, 20, 20]
+    },
+    "OperBoxOpenParadoxMenu": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": ["OperBoxParadoxSelected", "OperBoxSelectParadox", "OperBoxClickParadoxMenu"]
+    },
+    "OperBoxClickParadoxMenu": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1128, 34, 8, 8],
+        "postDelay": 700,
+        "next": ["OperBoxSelectParadox"]
+    },
+    "OperBoxCloseParadoxMenu": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [650, 30, 30, 30],
+        "postDelay": 500,
+        "next": ["OperBoxParadoxSelected"]
+    },
+    "OperBoxParadoxCompletedOCR": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": ["已通过", "未通过", "未解锁", "暂无数据"],
+        "fullMatch": true,
+        "roi": [20, 258, 65, 32]
+    },
+    "ParadoxDetailOperatorNameEN": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "isAscii": true,
+        "fullMatch": true,
+        "roi": [15, 510, 500, 45]
+    },
+    "ParadoxStartSimulation": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["开始模拟", "开始模拟作战", "可开始模拟作战"],
+        "roi": [980, 560, 300, 160],
+        "postDelay": 1000
+    },
+    "ParadoxAlreadyCompleted": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": ["已完成模拟作战"],
+        "roi": [0, 620, 320, 100]
+    }
+}

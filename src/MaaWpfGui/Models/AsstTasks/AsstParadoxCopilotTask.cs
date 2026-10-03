@@ -28,12 +28,20 @@ public class AsstParadoxCopilotTask : AsstBaseTask
     [JsonProperty("list")]
     public List<MultiTask> MultiTasks { get; set; } = [];
 
+    [JsonProperty("auto")]
+    public bool Auto { get; set; }
+
     [JsonProperty("filename")]
     public string? FileName { get; set; }
 
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
         var json = new JObject();
+        if (Auto)
+        {
+            json["auto"] = true;
+        }
+
         if (FileName is not null)
         {
             json["filename"] = FileName;

@@ -25,7 +25,7 @@ Supports automatic combat for any `Squad Formation Stage` and `Stationary Securi
   - You need to unmark any specially focused operators that will be used in the auto squad.
   - You can add `custom operators` and `low-trust operators` to the auto squad as needed.
   - You can disable `Auto Squad` and manually form the squad before starting if needed (for example, when using `Friend Support`).
-  - For "Paradox Simulation" stages, you must disable `Auto Squad`, manually select skills, and start automatic combat from the screen with the **Start Simulation** button.
+  - In single-strategy mode, for "Paradox Simulation" stages, you must disable `Auto Squad`, manually select skills, and start automatic combat from the screen with the **Start Simulation** button.
   - For "Stationary Security Service" stages, `Auto Squad` is ineffective. You must manually complete the **initial** task preparation until the screen with the **Start Deployment** button appears before starting automatic combat.
 - You can set `Loop Times`, such as for Stationary Security Service. However, MAA will not borrow operators, so don't use this if you need to borrow operators.
 - You can use the `Multi-Job mode` feature for automatic continuous combat across stages in the same area.
@@ -36,6 +36,8 @@ Supports automatic combat for any `Squad Formation Stage` and `Stationary Securi
   - Ensure all stages in the list are in the same area (navigable by swiping the map screen left or right).
 - **Please remember to like high-quality operations to boost their ratings and encourage their creators.**  
   ![image](/images/zh-cn/copilot-click-like.png)
+
+Enable `Automatically select strategies` in **Auto Combat → Paradox Simulation** and start from the in-game operator list without importing strategies. MAA searches PRTS Plus, selects up to 3 candidates per stage by rating and popularity, reads the uncleared list, verifies operator details, and tries backups on failure. Cleared, locked, and unsupported operators are skipped. Strategies are cached for 24 hours; completion is read from the game. Currently only Chinese Official and Bilibili servers are supported. Search depends on authors including “悖论模拟” in the title or description, so coverage and successful clears are not guaranteed. Recognition errors stop the task; operators whose candidates all fail are not retried again in the same run.
 
 ## Creating Operations
 

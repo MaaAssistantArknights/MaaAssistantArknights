@@ -1440,6 +1440,15 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MainStageStoryCollectionSideStory">{key=MainStage} / {key=StoryCollection} / {key=SideStory}</system:String>
     <system:String x:Key="SSS">보안 파견</system:String>
     <system:String x:Key="ParadoxSimulation">패러독스</system:String>
+    <system:String x:Key="ParadoxAutoSelect">공략 자동 선택</system:String>
+    <system:String x:Key="ParadoxAutoSelectTip" xml:space="preserve">오퍼레이터 목록에서 시작하여 해금된 미완료 패러독스 시뮬레이션을 실행합니다.&#10;평점과 인기도에 따라 스테이지마다 최대 3개 공략을 선택하고 실패하면 다음 공략을 시도합니다.&#10;현재 중국 공식 및 Bilibili 서버만 지원하며, 공략 성공은 보장되지 않습니다.</system:String>
+    <system:String x:Key="ParadoxAutoClientUnsupported">패러독스 공략 자동 선택은 현재 중국 공식 및 Bilibili 서버만 지원합니다.</system:String>
+    <system:String x:Key="ParadoxAutoDownloading">패러독스 시뮬레이션 공략을 가져오는 중…</system:String>
+    <system:String x:Key="ParadoxAutoAttempt">패러독스 공략 시도 중:</system:String>
+    <system:String x:Key="ParadoxAutoCompleted">패러독스 시뮬레이션 완료:</system:String>
+    <system:String x:Key="ParadoxAutoCandidateFailed">공략 실패, 다음 공략 시도:</system:String>
+    <system:String x:Key="ParadoxAutoStageFailed">이 오퍼레이터의 모든 후보 공략 실패:</system:String>
+    <system:String x:Key="ParadoxAutoRecognitionFailed">패러독스 목록 또는 오퍼레이터 상세 인식 실패로 중지:</system:String>
     <system:String x:Key="OtherActivityStage">기타</system:String>
     <!--  Logs  -->
     <system:String x:Key="CopilotTip">

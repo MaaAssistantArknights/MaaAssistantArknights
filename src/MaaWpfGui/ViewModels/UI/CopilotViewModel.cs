@@ -75,6 +75,7 @@ public partial class CopilotViewModel : Screen
     /// 输入框逐字符推送时，用于取消上一轮仍在途的解析/网络请求的令牌源
     /// </summary>
     private CancellationTokenSource? _updateFilenameCts;
+    private CancellationTokenSource? _paradoxDownloadCts;
     private const string CopilotIdPrefix = "maa://";
     private const string CopilotNewIdPrefix = "prts://"; // 新格式前缀，prts://12345 为作业，prts://s12345 为作业集
     private const string CopilotNewSetIdPrefix = "prts://s"; // 新格式作业集前缀
@@ -243,6 +244,11 @@ public partial class CopilotViewModel : Screen
     /// Gets or sets a value indicating whether the start button is enabled.
     /// </summary>
     public bool StartEnabled { get => field; set => SetAndNotify(ref field, value); } = true;
+
+    public bool AutoParadox { get => field; set => SetAndNotify(ref field, value); }
+
+    [PropertyDependsOn(nameof(AutoParadox), nameof(CopilotTabIndex))]
+    public bool IsAutoParadox => CopilotTabIndex == 2 && AutoParadox;
 
     private int _copilotTabIndex = 0;
 
@@ -1902,6 +1908,11 @@ public partial class CopilotViewModel : Screen
     /// </summary>
     public void CopilotTaskSuccess()
     {
+        if (IsAutoParadox)
+        {
+            return;
+        }
+
         Execute.OnUIThread(() => {
             foreach (var model in CopilotItemViewModels)
             {
@@ -1998,6 +2009,12 @@ public partial class CopilotViewModel : Screen
         {
             ret = await AppendAndStartCopilotAsync(userAdditional);
         }
+        catch (OperationCanceledException)
+        {
+            Instances.TaskQueueViewModel.SetStopped();
+            AddLog(LocalizationHelper.GetString("Stopped"));
+            return;
+        }
         catch (Exception ex)
         {
             _logger.Error(ex, "Failed to start copilot task");
@@ -2023,6 +2040,17 @@ public partial class CopilotViewModel : Screen
 
     private async Task<bool> ValidateStartAsync()
     {
+        if (IsAutoParadox)
+        {
+            if (SettingsViewModel.GameSettings.ClientType is not (ClientType.Official or ClientType.Bilibili))
+            {
+                AddLog(LocalizationHelper.GetString("ParadoxAutoClientUnsupported"), UiLogColor.Error);
+                return false;
+            }
+
+            return true;
+        }
+
         if (UseCopilotList)
         {
             // 列表模式：只校验列表本身，不检查输入框里的单文件作业类型
@@ -2134,6 +2162,40 @@ public partial class CopilotViewModel : Screen
 
     private async Task<bool> AppendAndStartCopilotAsync(IEnumerable<UserAdditional> userAdditional)
     {
+        if (IsAutoParadox)
+        {
+            using var cancellation = new CancellationTokenSource();
+            _paradoxDownloadCts = cancellation;
+            try
+            {
+                AddLog(LocalizationHelper.GetString("ParadoxAutoDownloading"));
+                var candidates = await ParadoxCopilotHelper.DownloadAsync(Path.Combine(CacheDir, "paradox"), cancellation.Token);
+                cancellation.Token.ThrowIfCancellationRequested();
+                if (_runningState.GetStopping() || _runningState.GetIdle())
+                {
+                    return false;
+                }
+
+                if (candidates.Count == 0)
+                {
+                    AddLog(LocalizationHelper.GetString("CopilotStartWithEmptyList"), UiLogColor.Error);
+                    return false;
+                }
+
+                _copilotIdList.Clear();
+                var task = new AsstParadoxCopilotTask {
+                    Auto = true,
+                    MultiTasks = candidates.Select(candidate => new AsstParadoxCopilotTask.MultiTask(candidate.Id, candidate.FileName)).ToList(),
+                };
+                var result = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
+                return result.IsSuccess && Instances.AsstProxy.AsstStart();
+            }
+            finally
+            {
+                _paradoxDownloadCts = null;
+            }
+        }
+
         if (!UseCopilotList)
         {
         }
@@ -2254,6 +2316,12 @@ public partial class CopilotViewModel : Screen
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task Stop()
     {
+        if (_paradoxDownloadCts is { } download)
+        {
+            download.Cancel();
+            return;
+        }
+
         // 等待 Core 实际停止；回调或超时自动 SetStopped，结束脚本不经此发射
         AddLog(LocalizationHelper.GetString("Stopping"));
         await Instances.TaskQueueViewModel.Stop();

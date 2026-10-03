@@ -1307,6 +1307,12 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 <br>
 배열 요소는 두 가지 형식을 지원합니다: 객체 형식은 `id`(작전 식별자, `CopilotListLoadTaskFileSuccess` 콜백에 그대로 전달됨)와 `filename`(작전 JSON 파일 경로, 절대/상대 경로 모두 가능)을 포함하며, 작전 경로 문자열을 직접 사용할 수도 있습니다.  
 :::  
+::: field auto
+@type boolean
+@default false
+@optional
+게임 내 패러독스 목록을 검색합니다. `list` 모드 및 중국 공식/Bilibili 서버만 지원합니다. 호출 측에서 전체 공략을 다운로드하여 선호 순서대로 `list`에 전달하며, 같은 스테이지의 파일은 예비 공략입니다. Core는 완료 및 미해금 오퍼레이터를 건너뛰고 상세 화면의 신원과 스킬을 확인한 뒤 실행하며, 실패하면 다음 공략을 시도합니다. 인식 오류 시 중지합니다. 후보가 모두 실패하면 다른 오퍼레이터를 계속 실행하지만 최종 작업 결과는 실패입니다. Core는 네트워크 요청이나 완료 기록 저장을 하지 않습니다. 추가 정보 콜백은 `ParadoxAutoAttempt`, `ParadoxAutoCompleted`, `ParadoxAutoCandidateFailed`, `ParadoxAutoStageFailed`, `ParadoxAutoRecognitionFailed`이며 `details`에 `operator`와 `copilot_id`(없으면 -1)가 포함됩니다.
+:::
 ::::
 
 <details>
