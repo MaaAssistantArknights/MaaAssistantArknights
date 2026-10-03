@@ -34,6 +34,8 @@ public partial class ExternalNotification : NotifyPropertyChangedWithValue
 
     public bool SendWhenStalled { get; set; }
 
+    public bool SendBeforeScheduledStart { get; set; }
+
     [JsonDerivedType(typeof(Smtp), typeDiscriminator: nameof(Smtp))]
     [JsonDerivedType(typeof(ServerChan), typeDiscriminator: nameof(ServerChan))]
     [JsonDerivedType(typeof(Discord), typeDiscriminator: nameof(Discord))]

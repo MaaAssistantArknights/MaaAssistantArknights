@@ -1109,7 +1109,9 @@ public class TaskQueueViewModel : Screen
     private static void HandleScheduledStartNotifications(DateTime currentTime)
     {
         var settings = SettingsViewModel.TimerSettings;
-        if (!settings.NotifyBeforeScheduledStart)
+        var notifyDesktop = settings.NotifyBeforeScheduledStart;
+        var notifyExternal = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendBeforeScheduledStart;
+        if (!notifyDesktop && !notifyExternal)
         {
             return;
         }
@@ -1132,21 +1134,27 @@ public class TaskQueueViewModel : Screen
                 settings.ScheduledStartNotificationMinutes);
 
             _logger.Information("Scheduled start notification: Timer Index: {TimerIndex}, Start Time: {StartTime}", i, startTime);
-            using var toast = new ToastNotification(title);
-            toast.AppendContentText(content).Show();
-            ExternalNotificationService.Send(title, content);
+            if (notifyDesktop)
+            {
+                using var toast = new ToastNotification(title);
+                toast.AppendContentText(content).Show();
+            }
+
+            if (notifyExternal)
+            {
+                ExternalNotificationService.Send(title, content);
+            }
         }
     }
 
     private async Task HandleTimerLogic(DateTime currentTime)
     {
-        // 提前通知不受当前运行状态限制，实际启动仍沿用现有的中断检查。
-        await Execute.OnUIThreadAsync(() => HandleScheduledStartNotifications(currentTime));
-
         if (!_runningState.CanInterrupt() && !SettingsViewModel.TimerSettings.ForceScheduledStart)
         {
             return;
         }
+
+        await Execute.OnUIThreadAsync(() => HandleScheduledStartNotifications(currentTime));
 
         var (timeToStart, timeToChangeConfig, timerIndex) = CheckTimers(currentTime);
 

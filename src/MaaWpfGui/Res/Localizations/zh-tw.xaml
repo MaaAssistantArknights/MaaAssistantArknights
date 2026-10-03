@@ -56,6 +56,7 @@
     <system:String x:Key="ExternalNotificationSendWhenError">任務出錯時發送通知</system:String>
     <system:String x:Key="ExternalNotificationSendWhenStalled">任務日誌輸出停滯時發送通知</system:String>
     <system:String x:Key="ExternalNotificationSendWhenStalledTip">需在 ｢{key=GameSettings}｣ 中開啟 ｢{key=StallTimeoutEnabled}｣ 後才會生效</system:String>
+    <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">定時執行前傳送通知</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">發送成功</system:String>
     <system:String x:Key="ExternalNotificationSendFail">發送失敗</system:String>
     <system:String x:Key="ExternalNotificationSendTest">發送測試</system:String>
@@ -562,8 +563,8 @@ D:\
     <system:String x:Key="ShowWindowBeforeForceScheduledStartTip">定時啟動前顯示主視窗，避免最小化時看不到倒數</system:String>
     <system:String x:Key="TimerCustomConfig">自訂設定檔選擇</system:String>
     <system:String x:Key="TimerCustomConfigTip">定時啟動前兩分鐘重新啟動遊戲並切換設定檔</system:String>
-    <system:String x:Key="NotifyBeforeScheduledStart">定時執行前通知</system:String>
-    <system:String x:Key="NotifyBeforeScheduledStartTip" xml:space="preserve">提前傳送桌面通知，並透過已設定的外部通知管道傳送提醒。&#10;外部通知管道請在通知設定中設定。</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStart">定時執行前桌面提醒</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStartTip" xml:space="preserve">依提前時間傳送桌面提醒。&#10;外部推播可在 ｢{key=ExternalNotificationSettings}｣ 中單獨開啟，兩者共用提前時間。</system:String>
     <system:String x:Key="ScheduledStartNotificationMinutes">提前時間（分鐘）</system:String>
     <system:String x:Key="ScheduledStartNotificationTitle">定時任務即將執行</system:String>
     <system:String x:Key="ScheduledStartNotificationContent">定時 {0} 預計於 {1}（{2} 分鐘後）開始執行，請留意遊戲登入狀態。</system:String>
