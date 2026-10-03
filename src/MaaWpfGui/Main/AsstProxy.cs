@@ -633,7 +633,14 @@ public class AsstProxy
         if (GpuOption.GetCurrent() is GpuOption.EnableOption x)
         {
             LogGpuStatus();
-            AsstSetStaticOption(AsstStaticOptionKey.GpuOCR, x.DeviceSelector);
+            var backend = ConfigFactory.CurrentConfig.Gui.Performance.Backend;
+            var selector = backend switch
+            {
+                InferenceBackend.WebGPU => $"webgpu:{x.DeviceSelector}",
+                InferenceBackend.DirectML => $"directml:{x.DeviceSelector}",
+                _ => x.DeviceSelector,
+            };
+            AsstSetStaticOption(AsstStaticOptionKey.GpuOCR, selector);
         }
 
         // 上次更新失败的持久标志存在时跳过资源加载（安装可能处于半更新状态），视同资源损坏走修复流程；

@@ -1,1 +1,1 @@
-ch_PP-OCRv3_det_infer
+PP-OCRv6_small_det_infer

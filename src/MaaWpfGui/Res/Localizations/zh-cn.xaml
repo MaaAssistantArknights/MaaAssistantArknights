@@ -106,6 +106,11 @@
     <system:String x:Key="GpuDriverOutdatedMessage">当前选择的推理加速 GPU（{0}）的驱动版本（{1}，发布日期：{2}）距今已超过约 {3} 年，可能存在兼容性问题。\n建议更新显卡驱动或前往 ｢{key=Settings} - {key=PerformanceSettings}｣ 更换其他 GPU。</system:String>
     <system:String x:Key="GpuDriverInfoUnavailableMessage">当前选择的推理加速 GPU（{0}）的驱动信息无法读取，驱动可能未正确安装或状态异常，可能存在兼容性问题。\n建议更新或重新安装显卡驱动，或前往 ｢{key=Settings} - {key=PerformanceSettings}｣ 更换其他 GPU。</system:String>
     <system:String x:Key="GpuAllowDeprecated">允许使用不推荐的 GPU</system:String>
+    <system:String x:Key="InferenceBackend">推理后端</system:String>
+    <system:String x:Key="InferenceBackendTip" xml:space="preserve">选择模型推理计算后端。&#10;自动模式会选择最成熟稳定的后端（DirectML）；WebGPU 仍处于实验阶段。</system:String>
+    <system:String x:Key="InferenceBackendAuto">自动 (推荐)</system:String>
+    <system:String x:Key="InferenceBackendDirectML">DirectML</system:String>
+    <system:String x:Key="InferenceBackendWebGpu">WebGPU (实验性)</system:String>
     <system:String x:Key="Copy">复制</system:String>
     <!--  Toast 不可用  -->
     <system:String x:Key="ToastNotificationTest">通知测试</system:String>
