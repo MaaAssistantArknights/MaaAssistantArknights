@@ -70,6 +70,11 @@ bool asst::InfrastTask::set_params(const json::value& params)
     LogTraceFunction;
 
     auto mode = static_cast<Mode>(params.get("mode", 0));
+    const std::string drones = mode != Mode::Custom ? params.get("drones", "_NotUse") : "_NotUse";
+    const bool replenish = params.get("replenish", false);
+    const bool use_trade_drones = drones == "Money" || drones == "SyntheticJade";
+    const bool use_mfg_drones =
+        drones == "CombatRecord" || drones == "PureGold" || drones == "OriginStone" || drones == "Chip";
     // 仅常规模式支持菲亚梅塔配对；关闭时不把前置宿舍步骤纳入子任务序列。
     const bool fiammetta_recovery_enabled = mode == Mode::Default && params.get("fiammetta_recovery_enabled", false);
     const std::initializer_list<std::shared_ptr<InfrastProductionTask>> shift_tasks = { m_mfg_task_ptr,
@@ -186,6 +191,11 @@ bool asst::InfrastTask::set_params(const json::value& params)
             return false;
         }
         for (const auto step : *plan) {
+            // 队列轮换已完成换班，只为无人机或源石碎片补货进入生产设施。
+            if (mode == Mode::Rotation && ((step == infrast::FacilityStep::Mfg && !use_mfg_drones && !replenish) ||
+                                           (step == infrast::FacilityStep::Trade && !use_trade_drones))) {
+                continue;
+            }
             if (step == infrast::FacilityStep::DormPrepare && mode == Mode::Default && !fiammetta_recovery_enabled) {
                 continue;
             }
@@ -201,7 +211,6 @@ bool asst::InfrastTask::set_params(const json::value& params)
     m_training_task_ptr->set_continue_training(continue_training);
 
     if (mode != Mode::Custom) {
-        std::string drones = params.get("drones", "_NotUse");
         m_mfg_task_ptr->set_drones_usage_from_params(drones);
         m_trade_task_ptr->set_drones_usage_from_params(drones);
         m_trade_task_ptr->register_plugin<DronesForShamareTaskPlugin>()->set_retry_times(0);
@@ -253,7 +262,6 @@ bool asst::InfrastTask::set_params(const json::value& params)
     bool reception_send_clue = params.get("reception_send_clue", true);
     m_reception_task_ptr->set_send_clue(reception_send_clue);
 
-    bool replenish = params.get("replenish", false);
     m_replenish_task_ptr->set_enable(replenish);
 
     if (mode == Mode::Custom && !m_running) {
