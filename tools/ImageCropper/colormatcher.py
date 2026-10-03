@@ -45,6 +45,9 @@ def kmeansClusterColors(
     ret = []
     for i, center in enumerate(centers):
         colors = pixels[(labels == i).flatten()]
+        if colors.size == 0:
+            # 随机中心的 kmeans 在小样本/全同色图上可能产出空簇，空簇参与下游统计会 IndexError
+            continue
         ret.append((center, colors))
     return ret
 
@@ -191,6 +194,9 @@ def RGBDistance(cluster_colors, threshold: int = 50) -> list[tuple[list[int]]]:
             (((512 + rmean) * r**2) >> 8) + 4 * g**2 + (((767 - rmean) * b**2) >> 8)
         )
         matched = colors[distances < threshold]
+        if matched.size == 0:
+            # 阈值内没有成员的簇不产生可用上下界，跳过以免对空数组取分位数崩溃
+            continue
         lower, _, _, _, upper = __getBoxPlotValues(matched)
         ret.append((list(center), list(lower), list(upper)))
     return ret
