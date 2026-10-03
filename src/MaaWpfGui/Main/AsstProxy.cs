@@ -3202,10 +3202,14 @@ public class AsstProxy
         var mouseMethod = (ulong)win32Extra.MouseMethod;
         var keyboardMethod = (ulong)win32Extra.KeyboardMethod;
 
+        // Connecting Core takes screenshots that can already move or transparently restore the window.
+        GameAudioMuteManager.CaptureWindowPlacement(hwnd);
         bool ret = AsstAttachWindow(GetHandle(), hwnd, screencapMethod, mouseMethod, keyboardMethod);
 
         if (!ret)
         {
+            GameAudioMuteManager.Restore();
+
             // 等待回调完成以获取详细错误信息
             System.Threading.Thread.Sleep(1000);
 
