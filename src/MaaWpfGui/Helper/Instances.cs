@@ -46,7 +46,8 @@ public static class Instances
 
         /// <summary>
         /// Gets or sets a value indicating whether 本轮运行是否已输出过模拟器低帧提示。
-        /// 仅在 ｢模拟器低帧运行时不再频繁警告｣ 开启时生效，队列开始时由 <see cref="ClearCache"/> 重置。
+        /// 仅在 ｢模拟器低帧运行时不再频繁警告｣ 开启时生效，每轮运行开始（空闲 -> 非空闲）时重置，
+        /// 重置点在 <see cref="TaskQueueViewModel"/> 的状态订阅中，不随 <see cref="ClearCache"/> 一并刷新。
         /// </summary>
         public static bool HasPrintedFpsLowTip { get; set; } = false;
 
@@ -69,7 +70,6 @@ public static class Instances
             ProvenExhaustedMedicineDays = 0;
             HasPrintedScreencapWarning = false;
             HasPrintedFpsHighTip = false;
-            HasPrintedFpsLowTip = false;
         }
     }
 
