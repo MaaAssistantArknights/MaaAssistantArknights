@@ -76,6 +76,7 @@ public class AsstProxy
 {
     private readonly RunningState _runningState;
     private static readonly ILogger _logger = Log.ForContext<AsstProxy>();
+    private readonly Dictionary<AsstTaskId, long> _taskChainStartTimes = [];
 
     public DateTimeOffset StartTaskTime { get; set; }
 
@@ -1362,10 +1363,12 @@ public class AsstProxy
 
                 // UpdateTaskStatus(taskId, TaskStatus.Completed);
                 _tasksStatus.Clear();
+                _taskChainStartTimes.Clear();
                 break;
 
             case AsstMsg.TaskChainError:
                 {
+                    _taskChainStartTimes.Remove(taskId);
                     UpdateTaskStatus(taskId, TaskStatus.Error);
                     _tasksStatus.TryGetValue(taskId, out var value);
 
@@ -1407,6 +1410,7 @@ public class AsstProxy
 
             case AsstMsg.TaskChainStart:
                 {
+                    _taskChainStartTimes[taskId] = Stopwatch.GetTimestamp();
                     var taskIndex = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index ?? -1;
                     var task = taskIndex >= 0 && taskIndex < ConfigFactory.CurrentConfig.TaskQueue.Count
                         ? ConfigFactory.CurrentConfig.TaskQueue[taskIndex]
@@ -1427,6 +1431,10 @@ public class AsstProxy
 
             case AsstMsg.TaskChainCompleted:
                 {
+                    var completionLog = LocalizationHelper.GetString("CompleteTask");
+                    var taskTimeLog = _taskChainStartTimes.Remove(taskId, out var startTime)
+                        ? LocalizationHelper.GetStringFormat("TaskTime", Stopwatch.GetElapsedTime(startTime).ToString(@"h\h\ m\m\ s\s"))
+                        : string.Empty;
                     UpdateTaskStatus(taskId, TaskStatus.Completed);
 
                     var taskIndex = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index ?? -1;
@@ -1447,10 +1455,11 @@ public class AsstProxy
 
                     var taskName = task?.NameOrTaskType ?? $"({LocalizationHelper.GetString(taskChain)})";
                     taskName += GetMultiChainTaskNameSuffix(task, taskChain, taskId);
+                    completionLog += taskName + taskTimeLog;
                     if (taskChain == "Fight" && FightSetting.SanityReport is not null)
                     {
                         var sanityLog = "\n" + LocalizationHelper.GetStringFormat("CurrentSanity", FightSetting.SanityReport.SanityCurrent, FightSetting.SanityReport.SanityMax);
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskName + sanityLog);
+                        Instances.TaskQueueViewModel.AddLog(completionLog + sanityLog);
 
                         if (FightSetting.SanityReport.SanityCurrent == 0)
                         {
@@ -1459,7 +1468,7 @@ public class AsstProxy
                     }
                     else
                     {
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskName);
+                        Instances.TaskQueueViewModel.AddLog(completionLog);
                     }
 
                     _logger.Information("Completed Task Chain: {TaskChain}, Task ID: {TaskId}", taskChain, taskId);
@@ -1523,6 +1532,7 @@ public class AsstProxy
                 var failedTaskNames = Instances.TaskQueueViewModel.TaskItemViewModels.Where(i => i.StatusDisplay == TaskItemStatus.Error).Select(i => i.Name).ToArray();
                 bool hasTaskErrors = failedTaskNames.Length > 0;
                 _tasksStatus.Clear();
+                _taskChainStartTimes.Clear();
 
                 Instances.TaskQueueViewModel.ResetAllTemporaryVariable();
                 _runningState.SetIdle(true);
