@@ -199,6 +199,15 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    public bool ExternalNotificationSendBeforeScheduledStart
+    {
+        get => ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendBeforeScheduledStart;
+        set {
+            ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendBeforeScheduledStart = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
     private static readonly List<GenericCombinedData<Type>> _externalNotificationProviders =
         [
             new GenericCombinedData<Type> { Display = "ServerChan", Value = typeof(ServerChanConfig) },

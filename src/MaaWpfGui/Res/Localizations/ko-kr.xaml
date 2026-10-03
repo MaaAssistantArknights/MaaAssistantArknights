@@ -56,6 +56,7 @@
     <system:String x:Key="ExternalNotificationSendWhenError">작업 실패 시 알림 전송</system:String>
     <system:String x:Key="ExternalNotificationSendWhenStalled">작업 로그 출력 정지 시 알림 전송</system:String>
     <system:String x:Key="ExternalNotificationSendWhenStalledTip">｢{key=GameSettings}｣에서 ｢{key=StallTimeoutEnabled}｣를 활성화해야만 적용됩니다</system:String>
+    <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">예약 실행 전 알림 전송</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">전송 성공</system:String>
     <system:String x:Key="ExternalNotificationSendFail">전송 실패</system:String>
     <system:String x:Key="ExternalNotificationSendTest">테스트</system:String>
@@ -562,6 +563,11 @@ D:\
     <system:String x:Key="ShowWindowBeforeForceScheduledStartTip">예약 시작 전에 메인 창을 표시하여 최소화 시 카운트다운을 확인할 수 없는 문제를 방지합니다</system:String>
     <system:String x:Key="TimerCustomConfig">커스텀 구성 옵션</system:String>
     <system:String x:Key="TimerCustomConfigTip">예약 시작 2분 전에 게임을 재실행하고 설정을 전환합니다</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStart">예약 실행 전 데스크톱 알림</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStartTip" xml:space="preserve">설정된 사전 알림 시간에 데스크톱 알림을 보냅니다.&#10;외부 알림은 ｢{key=ExternalNotificationSettings}｣에서 별도로 활성화할 수 있으며 사전 알림 시간을 공유합니다.</system:String>
+    <system:String x:Key="ScheduledStartNotificationMinutes">사전 알림 시간(분)</system:String>
+    <system:String x:Key="ScheduledStartNotificationTitle">예약 작업이 곧 시작됩니다</system:String>
+    <system:String x:Key="ScheduledStartNotificationContent">예약 {0}은(는) {1}({2}분 후)에 시작될 예정입니다. 게임 로그인 상태에 주의해 주세요.</system:String>
     <system:String x:Key="Timer">타이머</system:String>
     <system:String x:Key="GlobalConfigTip">이 페이지는 전역(Global) 구성 설정입니다</system:String>
     <system:String x:Key="MultiTasksShareTip">다음 옵션은 여러 작업에 적용됩니다</system:String>
