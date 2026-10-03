@@ -315,6 +315,13 @@
         ],
         "roi": [845, 72, 220, 50]
     },
+    "Copilot@StageTitleWithoutDet": {
+        "doc": "多作业关卡详情页标题识别兜底，绕过短尾数字被检测器遗漏的问题",
+        "baseTask": "ClickedCorrectStage",
+        "withoutDet": true,
+        "ocrReplace": [],
+        "roi": [919, 84, 110, 21]
+    },
     "StageNavigationByTemplateMatchBegin": {
         "doc": "模板匹配导航入口（对应 OCR 的 StageNavigationBegin）",
         "algorithm": "JustReturn",

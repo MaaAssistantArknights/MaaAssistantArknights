@@ -209,21 +209,28 @@ bool asst::MultiCopilotTaskPlugin::confirm_stage_name(const cv::Mat& image, cons
         return ret_opt.has_value() &&
                std::ranges::any_of(ret_opt.value(), [&](const OcrPack::Result& r) { return r.text == stage_name; });
     };
-    OCRer ocr(image);
-    ocr.set_task_info("ClickedCorrectStage");
-    if (ocr_check(ocr.analyze())) {
+    const auto confirm_with_ocr = [&](const cv::Mat& current_image) {
+        OCRer ocr(current_image);
+        ocr.set_task_info("ClickedCorrectStage");
+        if (ocr_check(ocr.analyze())) {
+            return true;
+        }
+
+        OCRer fallback_ocr(current_image);
+        fallback_ocr.set_task_info("Copilot@StageTitleWithoutDet");
+        return ocr_check(fallback_ocr.analyze());
+    };
+
+    if (confirm_with_ocr(image)) {
         return true;
     }
 
     for (int i = 0; i < 3; ++i) {
         sleep(Config.get_options().task_delay);
-        OCRer re_OCR(ctrler()->get_image());
-        re_OCR.set_task_info("ClickedCorrectStage");
-        if (ocr_check(re_OCR.analyze())) {
+        if (confirm_with_ocr(ctrler()->get_image())) {
             return true;
         }
     }
     LogError << __FUNCTION__ << "confirm stage name failed after retrying 3 times, stage name:" << stage_name;
     return false;
 }
-
