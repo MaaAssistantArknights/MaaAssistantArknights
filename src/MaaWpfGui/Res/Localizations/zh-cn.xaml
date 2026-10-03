@@ -1516,6 +1516,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ResourceIntegrityCheckDesc">检测到 {0} 个安装文件缺失（{1}），部分功能可能无法使用。文件可能被某些安全软件拦截或删除，也可能被手动删除。若为安全软件导致，请前往对应软件的隔离区寻找并恢复文件，并{key=SecuritySoftwareWhitelistTips}\n\n也可按下方说明手动重装：\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityRepairYes">自动修复（下载完整包并在重启后恢复）</system:String>
     <system:String x:Key="ResourceIntegrityRepairNo">暂不处理，继续启动</system:String>
+    <system:String x:Key="CoreLoadingTip">MAA 内核尚未加载完成，请稍后再试。</system:String>
     <system:String x:Key="ResourceBrokenTaskBlocked">资源损坏，无法开始任务。请按启动时的提示修复资源，或重新下载完整安装包后重启 MAA。</system:String>
     <system:String x:Key="ResourceIntegrityRepairDownloading">正在下载完整包以修复安装…</system:String>
     <system:String x:Key="ResourceIntegrityRepairFailed">自动修复失败，请按提示手动处理。\n\n{key=FullPackageUpgradeTips}</system:String>

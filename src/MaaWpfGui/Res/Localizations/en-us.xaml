@@ -1514,6 +1514,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="ResourceIntegrityCheckDesc">{0} installation file(s) are missing ({1}), and some features may not work. The files may have been blocked or removed by security software, or deleted manually. If security software caused this, please check its quarantine area, restore the files, and {key=SecuritySoftwareWhitelistTips}\n\nYou can also reinstall manually as described below:\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityRepairYes">Repair automatically (download the full package and restore after restart)</system:String>
     <system:String x:Key="ResourceIntegrityRepairNo">Not now, continue starting</system:String>
+    <system:String x:Key="CoreLoadingTip">The MAA core is still loading. Please try again shortly.</system:String>
     <system:String x:Key="ResourceBrokenTaskBlocked">The resources are damaged, tasks cannot be started. Repair the resources as prompted at startup, or download the full package again and restart MAA.</system:String>
     <system:String x:Key="ResourceIntegrityRepairDownloading">Downloading the full package to repair the installation…</system:String>
     <system:String x:Key="ResourceIntegrityRepairFailed">Automatic repair failed. Please follow the instructions below to fix it manually.\n\n{key=FullPackageUpgradeTips}</system:String>

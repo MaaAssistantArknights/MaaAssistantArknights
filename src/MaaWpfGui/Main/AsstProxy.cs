@@ -692,10 +692,10 @@ public class AsstProxy
             }
         }
 
-        _runningState.SetInit(true);
         AsstSetInstanceOption(InstanceOptionKey.TouchMode, SettingsViewModel.ConnectSettings.TouchMode.ToCustomString());
         AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, SettingsViewModel.GameSettings.DeploymentWithPause ? "1" : "0");
         AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, SettingsViewModel.ConnectSettings.AdbLiteEnabled ? "1" : "0");
+        _runningState.SetInit(true);
 
         // Core 资源损坏待修复：修复完成重启前任务不可启动，也不进入启动自动运行
         if (Bootstrapper.IsResourceBroken)
