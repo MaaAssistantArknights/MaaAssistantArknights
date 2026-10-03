@@ -43,6 +43,7 @@ public class StageManager
 {
     private const string StageApi = "gui/StageActivityV2.json";
     private const string TasksApi = "resource/tasks.json";
+    private static readonly TimeSpan _activityBoundaryTolerance = TimeSpan.FromSeconds(1);
 
     private static readonly ILogger _logger = Log.ForContext<StageManager>();
 
@@ -88,6 +89,55 @@ public class StageManager
     {
         var time = DateTimeOffset.Now;
         return _activityList.Any(ss => ss.Value.Info.StartTimeUtc <= time && time <= ss.Value.Info.ExpireTimeUtc);
+    }
+
+    /// <summary>
+    /// 判断是否应根据 SideStory 活动排期跳过当前理智作战任务。
+    /// 当前有活动，且连续或重叠的后续活动会在本周结束前终止时跳过，为活动结束后的剿灭作战留出理智。
+    /// </summary>
+    /// <returns>若应跳过当前理智作战任务，则返回 <c>true</c>。</returns>
+    public bool ShouldSkipFightForActivitySchedule()
+    {
+        var now = DateTimeOffset.Now;
+        var gameTime = now.ToYjDateTime();
+        var activityPeriods = _activityList.Values
+            .Select(ss => (Start: ss.Info.StartTimeUtc.ToYjDateTime(), Expire: ss.Info.ExpireTimeUtc.ToYjDateTime()))
+            .OrderBy(activity => activity.Start)
+            .ToList();
+        var currentActivities = activityPeriods.Where(activity => activity.Start <= gameTime && gameTime <= activity.Expire).ToList();
+        if (currentActivities.Count == 0)
+        {
+            return false;
+        }
+
+        var daysUntilNextMonday = ((int)DayOfWeek.Monday - (int)gameTime.DayOfWeek + 7) % 7;
+        daysUntilNextMonday = daysUntilNextMonday == 0 ? 7 : daysUntilNextMonday;
+        var nextWeekStart = new DateTimeOffset(gameTime.Date.AddDays(daysUntilNextMonday), gameTime.Offset);
+        var continuousCoverageDeadline = nextWeekStart.Subtract(_activityBoundaryTolerance);
+        var coveredUntil = currentActivities.Max(activity => activity.Expire);
+        if (coveredUntil >= continuousCoverageDeadline)
+        {
+            return false;
+        }
+
+        foreach (var activity in activityPeriods.Where(activity => activity.Start > gameTime && activity.Start < nextWeekStart))
+        {
+            if (activity.Start - coveredUntil > _activityBoundaryTolerance)
+            {
+                return true;
+            }
+
+            if (activity.Expire > coveredUntil)
+            {
+                coveredUntil = activity.Expire;
+                if (coveredUntil >= continuousCoverageDeadline)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return coveredUntil < continuousCoverageDeadline;
     }
 
     /// <summary>

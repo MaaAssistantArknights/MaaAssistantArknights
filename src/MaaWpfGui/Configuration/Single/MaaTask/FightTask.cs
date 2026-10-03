@@ -141,6 +141,11 @@ public class FightTask : BaseTask, IJsonOnDeserialized
     public FightStageResetMode StageResetMode { get; set; } = FightStageResetMode.Current;
 
     /// <summary>
+    /// Gets or sets a value indicating whether 是否根据活动排期智能跳过
+    /// </summary>
+    public bool SkipBasedOnActivitySchedule { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 是否启用周计划
     /// </summary>
     public bool UseWeeklySchedule { get; set; }
