@@ -87,7 +87,7 @@ public class RunningState
                 _timeoutReminderTimer.Interval = value * 60 * 1000;
             }
         }
-    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutReminderIntervalMinutes;
+    } = 30;
 
     public int StallTimeoutMinutes
     {
@@ -108,7 +108,7 @@ public class RunningState
                 }
             }
         }
-    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.StallTimeoutMinutes;
+    } = 30;
 
     /// <summary>
     /// Gets or sets a value indicating whether 启用停滞检测
@@ -128,7 +128,7 @@ public class RunningState
                 }
             }
         }
-    } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.EnableStallTimeout;
+    } = true;
 
     public event EventHandler<string>? StallOccurred;
 

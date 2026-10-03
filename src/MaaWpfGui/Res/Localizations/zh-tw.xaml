@@ -2665,4 +2665,23 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="PleaseSelectItem">請選擇一項</system:String>
     <system:String x:Key="EmulatorSelectionCancelled">已取消選擇模擬器</system:String>
     <!--  !ItemSelection  -->
+    <system:String x:Key="NotificationSettings">通知設定</system:String>
+    <system:String x:Key="NotificationSettingsMaster">通知設定</system:String>
+    <system:String x:Key="NotificationSettingsOverlay">日誌浮動視窗</system:String>
+    <system:String x:Key="NotificationSettingsSystemNotification">Windows 系統通知</system:String>
+    <system:String x:Key="NotificationSettingsExternal">外部通知</system:String>
+    <system:String x:Key="NotificationSettingsTaskQueueLog">任務日誌面板</system:String>
+    <system:String x:Key="NotificationSettingsUseIndependent">啟用自訂設定</system:String>
+    <system:String x:Key="NotificationSettingsEnableNotification">啟用此項通知</system:String>
+    <system:String x:Key="NotificationSettingsEnableBlacklist">啟用黑名單</system:String>
+    <system:String x:Key="NotificationSettingsEnableWhitelist">啟用白名單</system:String>
+    <system:String x:Key="NotificationSettingsFilterList">過濾規則列表（每行一條，支援正則）</system:String>
+    <system:String x:Key="NotificationSettingsMaxEntries">附帶條目日誌數量</system:String>
+    <system:String x:Key="NotificationSettingsTimeMinutes">日誌有效時間（分鐘）</system:String>
+    <system:String x:Key="NotificationSettingsTimeMinutesTip" xml:space="preserve">超過有效時間的日誌不再顯示或附加至通知。&#10;｢{key=NotificationSettingsTimeMinutes}｣ 為 0 時，不按時間篩選。</system:String>
+    <system:String x:Key="NotificationSettingsMaxEntriesTip" xml:space="preserve">控制日誌懸浮窗顯示或外部通知附帶的日誌條目數量。&#10;外部通知的 ｢{key=NotificationSettingsMaxEntries}｣ 為 0 時，僅傳送通知本文，不附帶日誌。&#10;日誌懸浮窗中，0 表示不按數量篩選。</system:String>
+    <system:String x:Key="NotificationSettingsFilterListTip" xml:space="preserve">每行填寫一個正則表達式，任意一行符合即命中。&#10;標籤：&lt;TaskError&gt; 任務錯誤、&lt;TaskComplete&gt; 任務完成、&lt;Stalled&gt; 日誌停滯、&lt;Test&gt; 測試。&#10;例如：&lt;TaskError&gt;|&lt;Stalled&gt;。空白名單不接收通知，空黑名單接收全部通知。</system:String>
+    <system:String x:Key="NotificationSettingsInvalidFilterTip" xml:space="preserve">正則表達式無效，請檢查篩選規則。</system:String>
+    <system:String x:Key="NotificationSettingsRestoreDefault">恢復預設</system:String>
+    <system:String x:Key="NotificationSettingsExternalTip" xml:space="preserve">這裡設定外部通知的觸發條件及附帶的日誌內容。&#10;若要選擇通知管道或設定推播服務，請前往 ｢{key=ExternalNotificationSettings}｣ 設定。</system:String>
 </ResourceDictionary>

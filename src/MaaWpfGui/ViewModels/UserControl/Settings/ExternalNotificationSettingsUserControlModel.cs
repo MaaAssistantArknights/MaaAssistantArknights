@@ -163,42 +163,6 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    public bool ExternalNotificationSendWhenComplete
-    {
-        get => ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenComplete;
-        set {
-            ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenComplete = value;
-            NotifyOfPropertyChange();
-        }
-    }
-
-    public bool ExternalNotificationEnableDetails
-    {
-        get => ConfigFactory.CurrentConfig.Gui.ExternalNotification.ShowWhenCompleteWithDetails;
-        set {
-            ConfigFactory.CurrentConfig.Gui.ExternalNotification.ShowWhenCompleteWithDetails = value;
-            NotifyOfPropertyChange();
-        }
-    }
-
-    public bool ExternalNotificationSendWhenError
-    {
-        get => ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenError;
-        set {
-            ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenError = value;
-            NotifyOfPropertyChange();
-        }
-    }
-
-    public bool ExternalNotificationSendWhenStalled
-    {
-        get => ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenStalled;
-        set {
-            ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendWhenStalled = value;
-            NotifyOfPropertyChange();
-        }
-    }
-
     private static readonly List<GenericCombinedData<Type>> _externalNotificationProviders =
         [
             new GenericCombinedData<Type> { Display = "ServerChan", Value = typeof(ServerChanConfig) },
