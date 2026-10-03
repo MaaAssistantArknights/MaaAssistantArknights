@@ -42,6 +42,13 @@ In Normal Mode, the shift order is planned automatically by the algorithm (Dormi
 
 - This mode requires preset squads configured in-game. MAA will automatically rotate through them.
 
+## Simple Mode
+
+- Select `Simple Mode` as the base mode to collect production and perform queue rotation and operator rest. These follow the queues and rules configured in-game; MAA does not perform additional staffing.
+- Facility selection is unnecessary: drone usage automatically selects Trading Posts or Factories for acceleration. Selecting `Do not use drones` skips both facility types.
+- Enabling any reception option in advanced settings collects clues and performs the selected actions: collecting message board credits, exchanging clues, or sending clues. Disabling all three options skips reception.
+- Morale thresholds, dormitory staffing, Originium Shard replenishment, continued skill training, and base assistant changes are not used in Simple Mode.
+
 ## Custom Base Mode
 
 - The [Schedule Generator](https://ark.yituliu.cn/tools/scheduleV3) created by community experts can help you create custom schedules. Refer to the [Base Facility Protocol Documentation](../../protocol/base-scheduling-schema.md) for usage.

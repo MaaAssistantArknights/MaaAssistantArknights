@@ -8,6 +8,7 @@
 
 #include <meojson/json.hpp>
 
+#include "Common/MainScreenTask.h"
 #include "Config/GeneralConfig.h"
 #include "Config/ResourceLoader.h"
 #include "Config/TaskData.h"
@@ -48,13 +49,8 @@ const std::unordered_set<std::string>& get_main_screen_entry_tasks()
 
 bool is_main_screen_recognition(const std::string& name)
 {
-    // 任务链中位于主界面的入口
-    if (name == "Award" || name == "Mall" || name == "Visit" || name == "Infrast" || name == "Recruit" ||
-        name == "Fight" || name == "Depot" || name == "OperBox" || name == "Gacha") {
-        return true;
-    }
-    // 主界面入口按钮及其主题变体
-    return get_main_screen_entry_tasks().contains(name);
+    // 模板任务可以增加前缀，仍须识别其原始入口并启用 PC 主界面适配。
+    return is_main_screen_task(name, get_main_screen_entry_tasks());
 }
 
 bool is_main_screen_recognition(const TaskList& list)

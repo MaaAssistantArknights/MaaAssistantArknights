@@ -472,16 +472,20 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 <br>
 `10000` - `Custom`：カスタム シフト モード。ユーザー構成を読み込みます。[基地スケジューリング プロトコル](./base-scheduling-schema.md)を参照してください。
 <br>
-`20000` - `Rotation`：ワンキー ローテーション モード。制御中枢、発電所、宿舎、および事務室をスキップします。他の施設はシフトを変更しませんが、基本的な操作は保持されます（ドローン使用、応接室ロジックなど）。  
+`20000` - `Rotation`：ワンキー ローテーション モード。制御中枢、発電所、宿舎、および事務室をスキップします。他の施設はシフトを変更しませんが、基本的な操作は保持されます（ドローン使用、応接室ロジックなど）。
+<br>
+`30000` - `Simple`：生産物を受け取り、シフト交代とオペレーターの休息を実行し、`drones` に応じてドローンを使用し、応接室オプションに応じてクレジットと手がかりを処理します。MAA 独自の配置変更は行わず、交代と休息はゲーム内で設定したシフトとルールに従います。
 :::  
 ::: field facility  
 @type array<string>
-@required
+@optional
 シフト対象施設。実行中の設定はサポートされていません。
 <br>
 `mode = 0` の場合、この配列は有効化セットとして扱われ、順序と重複はスケジューリングに影響しません（交代順序はアルゴリズムが自動的に決定します）。`mode = 10000` / `20000` の場合は配列の順序で処理されます。
 <br>
-施設名：`Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training` | `AssistantChange`  
+施設名：`Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training` | `AssistantChange`
+<br>
+`mode = 30000` の場合、このフィールドは省略でき、指定した施設リストは無視されます。施設は `drones` と応接室オプションから自動選択されます。他のモードでは必須です。
 :::  
 ::: field drones  
 @type string
@@ -489,7 +493,9 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 @optional
 ドローン使用目的。`mode = 10000` の場合、このフィールドは無効です。
 <br>
-オプション：`_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`  
+オプション：`_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`
+<br>
+`mode = 30000` の場合、対応する施設を `facility` で有効にする必要はありません。`Money` / `SyntheticJade` は貿易所、その他の有効な用途は製造所を使用し、`_NotUse` はドローンを使用しません。
 :::  
 ::: field threshold  
 @type number
@@ -499,25 +505,33 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 <br>
 `mode = 10000` の場合、このフィールドは「自動入力」にのみ有効です。
 <br>
-`mode = 20000` の場合、このフィールドは無効です。  
+`mode = 20000` の場合、このフィールドは無効です。
+<br>
+`mode = 30000` の場合、このフィールドは無効です。
 :::  
 ::: field replenish  
 @type boolean
 @default false
 @optional
-貿易所の「源石の欠片」を自動補充するかどうか。  
+貿易所の「源石の欠片」を自動補充するかどうか。
+<br>
+`mode = 30000` の場合、このフィールドは無効です。
 :::  
 ::: field dorm_notstationed_enabled  
 @type boolean
 @default false
 @optional
-宿舎の「未配置」オプションを有効にするかどうか。  
+宿舎の「未配置」オプションを有効にするかどうか。
+<br>
+`mode = 30000` の場合、このフィールドは無効です。
 :::  
 ::: field dorm_trust_enabled  
 @type boolean
 @default false
 @optional
-宿舎の残りの位置を信頼が満たされていないオペレーターで追加するかどうか。  
+宿舎の残りの位置を信頼が満たされていないオペレーターで追加するかどうか。
+<br>
+`mode = 30000` の場合、このフィールドは無効です。
 :::  
 ::: field fiammetta_targets  
 @type array<string>
@@ -561,7 +575,9 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 @type boolean
 @default true
 @optional
-応接室の伝言板FPを受け取るかどうか。  
+応接室の伝言板FPを受け取るかどうか。
+<br>
+`mode = 30000` の場合、3つの応接室オプションを1つでも有効にすると、手がかりを受け取り、有効な操作を行います。すべて無効の場合は応接室をスキップし、`facility` に依存しません。
 :::  
 ::: field reception_clue_exchange  
 @type boolean
@@ -593,7 +609,9 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 @type boolean
 @default false
 @optional
-訓練室で未完了の専門化トレーニングを続行するかどうか。  
+訓練室で未完了の専門化トレーニングを続行するかどうか。
+<br>
+`mode = 30000` の場合、このフィールドは無効です。
 :::  
 ::::
 

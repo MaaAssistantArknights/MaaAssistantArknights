@@ -1,5 +1,6 @@
 #include "InfrastTask.h"
 
+#include "Common/InfrastSimpleMode.h"
 #include "Utils/Logger.hpp"
 
 #include "Task/Infrast/DronesForShamareTaskPlugin.h"
@@ -21,6 +22,7 @@
 asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst) :
     InterfaceTask(callback, inst, TaskType),
     m_infrast_begin_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
+    m_simple_begin_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
     m_queue_rotation_task(std::make_shared<ProcessTask>(callback, inst, TaskType)),
     m_info_task_ptr(std::make_shared<InfrastInfoTask>(callback, inst, TaskType)),
     m_mfg_task_ptr(std::make_shared<InfrastMfgTask>(callback, inst, TaskType)),
@@ -40,6 +42,8 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst) :
 
     m_infrast_begin_task_ptr->set_tasks({ "InfrastBegin" }).set_ignore_error(false);
     m_infrast_begin_task_ptr->register_plugin<ScreenshotTaskPlugin>();
+    m_simple_begin_task_ptr->set_tasks({ "InfrastSimple@InfrastBegin" }).set_ignore_error(false);
+    m_simple_begin_task_ptr->register_plugin<ScreenshotTaskPlugin>();
     m_queue_rotation_task->set_tasks({ "InfrastEnterRotation" }).set_ignore_error(true);
     m_replenish_task_ptr = m_mfg_task_ptr->register_plugin<ReplenishOriginiumShardTaskPlugin>();
     m_info_task_ptr->set_ignore_error(true);
@@ -69,7 +73,15 @@ bool asst::InfrastTask::set_params(const json::value& params)
 {
     LogTraceFunction;
 
-    auto mode = static_cast<Mode>(params.get("mode", 0));
+    const auto mode = static_cast<Mode>(params.get("mode", 0));
+    if (mode != Mode::Default && mode != Mode::Custom && mode != Mode::Rotation && mode != Mode::Simple) {
+        LogError << "Unknown infrastructure mode" << static_cast<int>(mode);
+        return false;
+    }
+    const bool simple_mode = mode == Mode::Simple;
+    const bool reception_message_board = params.get("reception_message_board", true);
+    const bool reception_clue_exchange = params.get("reception_clue_exchange", true);
+    const bool reception_send_clue = params.get("reception_send_clue", true);
     // 仅常规模式支持菲亚梅塔配对；关闭时不把前置宿舍步骤纳入子任务序列。
     const bool fiammetta_recovery_enabled = mode == Mode::Default && params.get("fiammetta_recovery_enabled", false);
     const std::initializer_list<std::shared_ptr<InfrastProductionTask>> shift_tasks = { m_mfg_task_ptr,
@@ -78,7 +90,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
 
     for (auto&& task : shift_tasks) {
         if (task) {
-            task->set_skip_shift(mode == Mode::Rotation);
+            task->set_skip_shift(mode == Mode::Rotation || simple_mode);
         }
     }
 
@@ -91,8 +103,8 @@ bool asst::InfrastTask::set_params(const json::value& params)
     }
 
     if (!m_running) {
-        auto facility_opt = params.find<json::array>("facility");
-        if (!facility_opt) {
+        auto facility_opt = simple_mode ? std::nullopt : params.find<json::array>("facility");
+        if (!simple_mode && !facility_opt) {
             return false;
         }
 
@@ -114,6 +126,13 @@ bool asst::InfrastTask::set_params(const json::value& params)
         };
         for (const auto& task : data_tasks) {
             task->set_task_data(m_task_data);
+            if (mode != Mode::Custom) {
+                task->clear_custom_config();
+            }
+        }
+        if (mode != Mode::Custom) {
+            m_mfg_task_ptr->clear_custom_drones_config();
+            m_trade_task_ptr->clear_custom_drones_config();
         }
 
         auto append_infrast_begin = [&]() {
@@ -121,13 +140,18 @@ bool asst::InfrastTask::set_params(const json::value& params)
         };
 
         m_subtasks.clear();
-        append_infrast_begin();
+        // 极简模式仅在开头处理通知栏里的队列轮换和干员休整。
+        // 设施之间仍使用普通入口收菜，避免重复触发这两项操作。
+        if (simple_mode) {
+            m_subtasks.emplace_back(m_simple_begin_task_ptr);
+        }
+        else {
+            append_infrast_begin();
+        }
 
         if (mode == Mode::Rotation) {
             m_subtasks.emplace_back(m_queue_rotation_task);
         }
-
-        m_subtasks.emplace_back(m_info_task_ptr);
 
         auto add_facility = [&](const std::shared_ptr<InfrastAbstractTask>& task) {
             m_subtasks.emplace_back(task);
@@ -165,14 +189,21 @@ bool asst::InfrastTask::set_params(const json::value& params)
         };
 
         std::vector<std::string> facilities;
-        facilities.reserve(facility_opt->size());
-        for (const auto& facility_json : facility_opt.value()) {
-            if (!facility_json.is_string()) {
-                m_subtasks.clear();
-                append_infrast_begin();
-                return false;
+        if (simple_mode) {
+            facilities = infrast::build_simple_facilities(
+                params.get("drones", "_NotUse"),
+                reception_message_board || reception_clue_exchange || reception_send_clue);
+        }
+        else {
+            facilities.reserve(facility_opt->size());
+            for (const auto& facility_json : facility_opt.value()) {
+                if (!facility_json.is_string()) {
+                    m_subtasks.clear();
+                    append_infrast_begin();
+                    return false;
+                }
+                facilities.emplace_back(facility_json.as_string());
             }
-            facilities.emplace_back(facility_json.as_string());
         }
 
         const auto plan_mode = mode == Mode::Default  ? infrast::FacilityPlanMode::Default
@@ -184,6 +215,9 @@ bool asst::InfrastTask::set_params(const json::value& params)
             m_subtasks.clear();
             append_infrast_begin();
             return false;
+        }
+        if (!simple_mode || !plan->empty()) {
+            m_subtasks.emplace_back(m_info_task_ptr);
         }
         for (const auto step : *plan) {
             if (step == infrast::FacilityStep::DormPrepare && mode == Mode::Default && !fiammetta_recovery_enabled) {
@@ -197,7 +231,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
         m_info_task_ptr->set_ignore_error(mode != Mode::Default);
     }
 
-    bool continue_training = params.get("continue_training", false);
+    bool continue_training = !simple_mode && params.get("continue_training", false);
     m_training_task_ptr->set_continue_training(continue_training);
 
     if (mode != Mode::Custom) {
@@ -244,16 +278,13 @@ bool asst::InfrastTask::set_params(const json::value& params)
         task->set_abyssal_hunter_enabled(abyssal_hunter_enabled);
     }
 
-    bool reception_message_board = params.get("reception_message_board", true);
     m_reception_task_ptr->set_receive_message_board(reception_message_board);
 
-    bool reception_clue_exchange = params.get("reception_clue_exchange", true);
     m_reception_task_ptr->set_enable_clue_exchange(reception_clue_exchange);
 
-    bool reception_send_clue = params.get("reception_send_clue", true);
     m_reception_task_ptr->set_send_clue(reception_send_clue);
 
-    bool replenish = params.get("replenish", false);
+    bool replenish = !simple_mode && params.get("replenish", false);
     m_replenish_task_ptr->set_enable(replenish);
 
     if (mode == Mode::Custom && !m_running) {

@@ -204,6 +204,8 @@
     <system:String x:Key="TrainingTimeLeft">남은 시간</system:String>
     <system:String x:Key="InfrastMode">기반시설 모드</system:String>
     <system:String x:Key="InfrastModeNormal">표준 모드</system:String>
+    <system:String x:Key="InfrastModeSimple">간단 모드</system:String>
+    <system:String x:Key="InfrastModeSimpleTip" xml:space="preserve">생산물을 수령하고 팀 교대와 오퍼레이터 휴식을 실행하며, MAA는 추가 배치를 수행하지 않습니다.&#10;｢{key=DroneUsage}｣에 따라 시설을 자동 선택합니다.&#10;고급 설정에서 응접실 옵션을 하나라도 활성화하면 단서를 수령하고 선택한 작업을 수행합니다. 모든 옵션을 비활성화하면 응접실에 들어가지 않습니다.</system:String>
     <system:String x:Key="InfrastModeRotation">일괄 교대</system:String>
     <system:String x:Key="InfrastModeRotationTip">일괄 교대 사용 전에 게임 내에서 {key=Operator} 대열을 수동으로 설정해 주세요</system:String>
     <system:String x:Key="InfrastModeRotationToolTip" xml:space="preserve">｢{key=InfrastModeRotation}｣의 교대 로직은 게임 내 기반시설 우하단의 ｢{key=InfrastModeRotation}｣ 와 완전히 동일합니다.

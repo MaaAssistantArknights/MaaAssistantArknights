@@ -116,10 +116,17 @@
                 TextWrapping="Wrap"
                 Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Rotation',
                                        Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}" />
+            <controls:TextBlock
+                Width="220"
+                Margin="0,4"
+                Text="{DynamicResource InfrastModeSimpleTip}"
+                TextWrapping="Wrap"
+                Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Simple',
+                                       Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}" />
             <StackPanel
                 Margin="0"
                 d:Visibility="Visible"
-                Visibility="{c:Binding 'InfrastMode != taskQueue_vms:InfrastMode.Rotation',
+                Visibility="{c:Binding 'InfrastMode != taskQueue_vms:InfrastMode.Rotation &amp;&amp; InfrastMode != taskQueue_vms:InfrastMode.Simple',
                                        Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
                 <StackPanel
                     Margin="0,5"
@@ -140,7 +147,7 @@
                     Minimum="0"
                     Value="{Binding DormThreshold}" />
             </StackPanel>
-            <StackPanel>
+            <StackPanel Visibility="{c:Binding 'InfrastMode != taskQueue_vms:InfrastMode.Simple', Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
                 <StackPanel
                     Margin="0,5,0,0"
                     HorizontalAlignment="Left"
@@ -218,20 +225,24 @@
                 d:Visibility="Visible"
                 Content="{DynamicResource DormTrustEnabled}"
                 IsChecked="{Binding DormTrustEnabled}"
-                Visibility="{c:Binding 'InfrastMode != taskQueue_vms:InfrastMode.Rotation',
+                Visibility="{c:Binding 'InfrastMode != taskQueue_vms:InfrastMode.Rotation &amp;&amp; InfrastMode != taskQueue_vms:InfrastMode.Simple',
                                        Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}" />
             <StackPanel
                 Margin="0,10"
                 d:Visibility="Visible"
                 Orientation="Horizontal"
-                Visibility="{c:Binding 'InfrastMode != taskQueue_vms:InfrastMode.Rotation',
+                Visibility="{c:Binding 'InfrastMode != taskQueue_vms:InfrastMode.Rotation &amp;&amp; InfrastMode != taskQueue_vms:InfrastMode.Simple',
                                        Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
                 <CheckBox MaxWidth="{c:Binding '220 - ActualWidth', ElementName=DormFilterNotStationedTipsTooltipBlock}" IsChecked="{c:Binding DormFilterNotStationedEnabled}">
                     <controls:TextBlock Text="{DynamicResource DormFilterNotStationedEnabled}" TextWrapping="Wrap" />
                 </CheckBox>
                 <controls:TooltipBlock x:Name="DormFilterNotStationedTipsTooltipBlock" TooltipText="{DynamicResource DormFilterNotStationedTips}" />
             </StackPanel>
-            <CheckBox Margin="0,10" IsChecked="{Binding OriginiumShardAutoReplenishment}">
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding OriginiumShardAutoReplenishment}"
+                Visibility="{c:Binding 'InfrastMode != taskQueue_vms:InfrastMode.Simple',
+                                       Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
                 <controls:TextBlock Text="{DynamicResource OriginiumShardAutoReplenishment}" TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox Margin="0,10" IsChecked="{Binding ReceptionMessageBoardReceive}">
@@ -246,7 +257,11 @@
             <CheckBox Margin="0,10" IsChecked="{Binding ReceptionSendClue}">
                 <controls:TextBlock Text="{DynamicResource InfrastReceptionSendClue}" TextWrapping="Wrap" />
             </CheckBox>
-            <CheckBox Margin="0,10" IsChecked="{Binding ContinueTraining}">
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding ContinueTraining}"
+                Visibility="{c:Binding 'InfrastMode != taskQueue_vms:InfrastMode.Simple',
+                                       Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
                 <controls:TextBlock Text="{DynamicResource ContinueTraining}" TextWrapping="Wrap" />
             </CheckBox>
             <StackPanel HorizontalAlignment="Left" Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Normal', Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
