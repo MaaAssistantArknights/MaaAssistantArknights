@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
     x:Class="MaaWpfGui.Views.UserControl.TaskQueue.RoguelikeSettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -119,13 +119,13 @@
                     <hc:ComboBox
                         Name="StartingCoreCharComboBox"
                         Margin="0,3"
-                        Padding="28,5,10,5"
                         DropDownClosed="CoreCharComboBox_DropDownClosed"
                         IsEditable="True"
                         IsTextSearchEnabled="False"
                         ItemsSource="{Binding RoguelikeCoreCharList}"
                         Loaded="{s:Action MakeComboBoxSearchable,
-                                          Target={x:Type ui_vms:SettingsViewModel}}">
+                                          Target={x:Type ui_vms:SettingsViewModel}}"
+                        Style="{StaticResource OperatorIconComboBoxStyle}">
                         <hc:ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <ContentControl Content="{Binding Converter={StaticResource OperNameBadgeConverter}}" />
@@ -147,14 +147,14 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         IsHitTestVisible="False"
-                        Source="{Binding RoguelikeCoreChar, Converter={StaticResource OperAvatarConverter}}" />
+                        Source="{Binding RoguelikeCoreChar, Converter={StaticResource OperAvatarConverter}}"
+                        Style="{StaticResource OperatorIconStyle}" />
                 </Grid>
             </StackPanel>
             <Grid>
                 <hc:ComboBox
                     Name="StartingCoreChar2ComboBox"
                     Margin="0,3"
-                    Padding="28,5,10,5"
                     hc:InfoElement.Title="{DynamicResource StartingCoreChar2}"
                     DropDownClosed="CoreCharComboBox_DropDownClosed"
                     IsEditable="True"
@@ -163,6 +163,7 @@
                     ItemsSource="{Binding RoguelikeCoreCharList}"
                     Loaded="{s:Action MakeComboBoxSearchable,
                                       Target={x:Type ui_vms:SettingsViewModel}}"
+                    Style="{StaticResource OperatorIconComboBoxStyle}"
                     Visibility="{c:Binding RoguelikeEnableAdditionalCoreChars}">
                     <hc:ComboBox.ItemTemplate>
                         <DataTemplate>
@@ -185,13 +186,13 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     IsHitTestVisible="False"
-                    Source="{Binding RoguelikeCoreChar2, Converter={StaticResource OperAvatarConverter}}" />
+                    Source="{Binding RoguelikeCoreChar2, Converter={StaticResource OperAvatarConverter}}"
+                    Style="{StaticResource OperatorIconStyle}" />
             </Grid>
             <Grid>
                 <hc:ComboBox
                     Name="StartingCoreChar3ComboBox"
                     Margin="0,3"
-                    Padding="28,5,10,5"
                     hc:InfoElement.Title="{DynamicResource StartingCoreChar3}"
                     DropDownClosed="CoreCharComboBox_DropDownClosed"
                     IsEditable="True"
@@ -200,6 +201,7 @@
                     ItemsSource="{Binding RoguelikeCoreCharList}"
                     Loaded="{s:Action MakeComboBoxSearchable,
                                       Target={x:Type ui_vms:SettingsViewModel}}"
+                    Style="{StaticResource OperatorIconComboBoxStyle}"
                     Visibility="{c:Binding RoguelikeEnableAdditionalCoreChars}">
                     <hc:ComboBox.ItemTemplate>
                         <DataTemplate>
@@ -222,7 +224,8 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     IsHitTestVisible="False"
-                    Source="{Binding RoguelikeCoreChar3, Converter={StaticResource OperAvatarConverter}}" />
+                    Source="{Binding RoguelikeCoreChar3, Converter={StaticResource OperAvatarConverter}}"
+                    Style="{StaticResource OperatorIconStyle}" />
             </Grid>
         </StackPanel>
 

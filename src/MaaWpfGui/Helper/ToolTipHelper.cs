@@ -169,7 +169,7 @@ public static class ToolTipHelper
             MaxWidth = (64 * 5) + (4 * 10),
         };
 
-        foreach (var (itemId, _, total, add) in drops)
+        foreach (var (itemId, itemName, total, add) in drops)
         {
             var image = new Image
             {
@@ -179,6 +179,8 @@ public static class ToolTipHelper
                 Margin = new(2),
                 HorizontalAlignment = HorizontalAlignment.Center,
             };
+
+            image.SetResourceReference(FrameworkElement.StyleProperty, "MaterialIconStyle");
 
             var text = new TextBlock
             {
@@ -199,6 +201,14 @@ public static class ToolTipHelper
                 Margin = new(4, 0, 4, 0),
             };
             itemStack.Children.Add(image);
+            var name = new TextBlock {
+                Text = itemName,
+                TextAlignment = TextAlignment.Center,
+                TextWrapping = TextWrapping.Wrap,
+                MaxWidth = 64,
+            };
+            name.SetResourceReference(FrameworkElement.StyleProperty, "MaterialIconNameStyle");
+            itemStack.Children.Add(name);
             itemStack.Children.Add(text);
 
             if (add > 0)

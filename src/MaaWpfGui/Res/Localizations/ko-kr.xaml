@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  설정  -->
     <system:String x:Key="Settings">설정</system:String>
     <system:String x:Key="GeneralSettings">일반 설정</system:String>
@@ -13,13 +13,24 @@
     <system:String x:Key="ConnectionSettings">연결 설정</system:String>
     <system:String x:Key="StartupSettings">시작 설정</system:String>
     <system:String x:Key="ScheduleSettings">예약 설정</system:String>
-    <system:String x:Key="UiSettings">UI 설정</system:String>
+    <system:String x:Key="UiSettings">일반 설정</system:String>
     <system:String x:Key="UiTheme">UI 테마</system:String>
     <system:String x:Key="TransitionSpeed">전환 애니메이션</system:String>
     <system:String x:Key="TransitionSpeedNormal">기본</system:String>
     <system:String x:Key="TransitionSpeedFast">빠르게</system:String>
     <system:String x:Key="TransitionSpeedNone">애니메이션 없음</system:String>
     <system:String x:Key="BackgroundSettings">배경 설정</system:String>
+    <system:String x:Key="PersonalizationSettings">외관 설정</system:String>
+    <system:String x:Key="LanguageSettings">언어 설정</system:String>
+    <system:String x:Key="WindowAndNotificationSettings">창 및 알림</system:String>
+    <system:String x:Key="OperationAndGuideSettings">조작 및 안내</system:String>
+    <system:String x:Key="CompatibilitySettings">호환성 설정</system:String>
+    <system:String x:Key="ThemeAndAnimationSettings">테마 및 애니메이션</system:String>
+    <system:String x:Key="TitleBarSettings">제목 표시줄 설정</system:String>
+    <system:String x:Key="LogDisplaySettings">로그 표시 설정</system:String>
+    <system:String x:Key="IconDisplaySettings">썸네일 표시 설정</system:String>
+    <system:String x:Key="ShowOperatorIcons">오퍼레이터 초상화 표시</system:String>
+    <system:String x:Key="ShowMaterialIcons">재료 아이콘 표시</system:String>
     <system:String x:Key="BackgroundImage">배경 이미지</system:String>
     <system:String x:Key="BackgroundOpacity">배경 불투명도</system:String>
     <system:String x:Key="BackgroundBlurRadius">배경 흐림 반경</system:String>

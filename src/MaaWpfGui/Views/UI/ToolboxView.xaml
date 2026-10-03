@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
     x:Class="MaaWpfGui.Views.UI.ToolboxView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -424,7 +424,8 @@
                                                                 HorizontalAlignment="Center"
                                                                 VerticalAlignment="Center"
                                                                 Source="{Binding Avatar}"
-                                                                Stretch="Uniform" />
+                                                                Stretch="Uniform"
+                                                                Style="{StaticResource OperatorIconStyle}" />
                                                             <!--  顶行：职业 + 星级  -->
                                                             <Grid Margin="4,3" VerticalAlignment="Top">
                                                                 <Border
@@ -483,6 +484,13 @@
                                                         <Setter TargetName="AvatarLayout" Property="Visibility" Value="Visible" />
                                                         <Setter TargetName="OperCard" Property="Padding" Value="0" />
                                                         <Setter TargetName="OperCard" Property="MinHeight" Value="82" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding ShowOperatorIcons, Source={x:Static ui_vms:SettingsViewModel.PersonalizationSettings}}" Value="False">
+                                                        <Setter TargetName="AvatarLayout" Property="Visibility" Value="Collapsed" />
+                                                        <Setter TargetName="ContentPanel" Property="Visibility" Value="Visible" />
+                                                        <Setter TargetName="OperCard" Property="Padding" Value="10,5" />
+                                                        <Setter TargetName="OperCard" Property="MinHeight" Value="70" />
+                                                        <Setter TargetName="OperCard" Property="uiBehaviors:SharedCardWidthBehavior.TrackWidth" Value="True" />
                                                     </DataTrigger>
                                                     <!--  置于末尾以获得最高优先级：头像缺失时回退纯文字卡片  -->
                                                     <DataTrigger Binding="{Binding Avatar}" Value="{x:Null}">
@@ -547,7 +555,8 @@
                                                                 HorizontalAlignment="Center"
                                                                 VerticalAlignment="Center"
                                                                 Source="{Binding Avatar}"
-                                                                Stretch="Uniform" />
+                                                                Stretch="Uniform"
+                                                                Style="{StaticResource OperatorIconStyle}" />
                                                             <!--  顶行：职业 + 星级  -->
                                                             <Grid Margin="4,3" VerticalAlignment="Top">
                                                                 <Border
@@ -860,6 +869,13 @@
                                                         <Setter TargetName="OperCard" Property="Padding" Value="0" />
                                                         <Setter TargetName="OperCard" Property="MinHeight" Value="82" />
                                                     </DataTrigger>
+                                                    <DataTrigger Binding="{Binding ShowOperatorIcons, Source={x:Static ui_vms:SettingsViewModel.PersonalizationSettings}}" Value="False">
+                                                        <Setter TargetName="AvatarLayout" Property="Visibility" Value="Collapsed" />
+                                                        <Setter TargetName="ContentPanel" Property="Visibility" Value="Visible" />
+                                                        <Setter TargetName="OperCard" Property="Padding" Value="10,5" />
+                                                        <Setter TargetName="OperCard" Property="MinHeight" Value="70" />
+                                                        <Setter TargetName="OperCard" Property="uiBehaviors:SharedCardWidthBehavior.TrackWidth" Value="True" />
+                                                    </DataTrigger>
                                                     <!--  置于末尾以获得最高优先级：头像缺失时回退纯文字卡片  -->
                                                     <DataTrigger Binding="{Binding Avatar}" Value="{x:Null}">
                                                         <Setter TargetName="AvatarLayout" Property="Visibility" Value="Collapsed" />
@@ -882,7 +898,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top"
                     Content="{DynamicResource OperBoxAvatarMode}"
-                    IsChecked="{Binding OperBoxAvatarMode}" />
+                    IsChecked="{Binding OperBoxAvatarMode}"
+                    IsEnabled="{Binding ShowOperatorIcons, Source={x:Static ui_vms:SettingsViewModel.PersonalizationSettings}}" />
                 <StackPanel
                     Grid.Row="3"
                     Margin="0,10,0,0"
@@ -979,7 +996,8 @@
                                                 <Image
                                                     Width="50"
                                                     Height="50"
-                                                    Source="{Binding Image}" />
+                                                    Source="{Binding Image}"
+                                                    Style="{StaticResource MaterialIconStyle}" />
                                                 <controls:TextBlock
                                                     HorizontalAlignment="Center"
                                                     FontSize="12"
@@ -1609,7 +1627,8 @@
                                                     Width="18"
                                                     Height="18"
                                                     VerticalAlignment="Center"
-                                                    Source="{Binding Value, Converter={StaticResource ItemImageConverter}}" />
+                                                    Source="{Binding Value, Converter={StaticResource ItemImageConverter}}"
+                                                    Style="{StaticResource MaterialIconStyle}" />
                                                 <TextBlock
                                                     Margin="4,0,0,0"
                                                     VerticalAlignment="Center"

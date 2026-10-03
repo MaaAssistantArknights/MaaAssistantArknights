@@ -1,0 +1,24 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI">
+    <Style x:Key="OperatorIconStyle" TargetType="Image">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ShowOperatorIcons, Source={x:Static ui_vms:SettingsViewModel.PersonalizationSettings}}" Value="False">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="MaterialIconStyle" TargetType="Image">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ShowMaterialIcons, Source={x:Static ui_vms:SettingsViewModel.PersonalizationSettings}}" Value="False">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="MaterialIconNameStyle" TargetType="TextBlock">
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ShowMaterialIcons, Source={x:Static ui_vms:SettingsViewModel.PersonalizationSettings}}" Value="False">
+                <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

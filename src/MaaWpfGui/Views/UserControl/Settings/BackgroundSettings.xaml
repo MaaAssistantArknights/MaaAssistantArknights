@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
     x:Class="MaaWpfGui.Views.UserControl.Settings.BackgroundSettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -17,7 +17,6 @@
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <StackPanel>
-        <controls:GlobalConfigTip />
         <StackPanel Margin="5">
             <controls:TextBlock
                 Margin="0,0,0,5"

@@ -177,20 +177,21 @@ public static class OperAvatarHelper
         var avatar = GetOperAvatar(operId);
         if (avatar != null)
         {
-            badge.Children.Add(new Image
-            {
+            var image = new Image {
                 Source = avatar,
                 Width = avatarSize,
                 Height = avatarSize,
                 VerticalAlignment = VerticalAlignment.Center,
-            });
+                Margin = new Thickness(0, 0, 3, 0),
+            };
+            image.SetResourceReference(FrameworkElement.StyleProperty, "OperatorIconStyle");
+            badge.Children.Add(image);
         }
 
         var name = new TextBlock
         {
             Text = displayName,
             VerticalAlignment = VerticalAlignment.Center,
-            Margin = avatar == null ? default : new Thickness(3, 0, 0, 0),
         };
         if (!string.IsNullOrEmpty(foregroundResourceKey))
         {
