@@ -249,6 +249,10 @@ bool asst::InfrastDormTask::fill_dorm_slots()
     size_t num_of_selected = m_is_custom ? current_room_config().selected : 0;
     size_t num_of_fulltrust = 0;
     bool fill_remaining_slots = false;
+    // 自定义宿舍的黑名单干员在所有选人阶段（低心情优先/补位/信任重排）均不选中
+    static const std::vector<std::string> kEmptyBlacklist;
+    const std::vector<std::string>& blacklist = m_is_custom ? current_room_config().blacklist : kEmptyBlacklist;
+    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
 
     while (num_of_selected < max_num_of_opers()) {
         if (need_exit()) {
@@ -277,6 +281,22 @@ bool asst::InfrastDormTask::fill_dorm_slots()
             if (num_of_selected >= max_num_of_opers()) {
                 Log.info("num_of_selected:", num_of_selected, ", just break");
                 break;
+            }
+            // 在黑名单不为空时，跳过黑名单中的干员
+            if (!blacklist.empty()) {
+                RegionOCRer name_analyzer;
+                name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
+                name_analyzer.set_image(oper.name_img);
+                name_analyzer.set_bin_expansion(0);
+                if (!name_analyzer.analyze()) {
+                    Log.trace("operator name analyze failed, skip blacklist check");
+                    continue;
+                }
+                const std::string& name = name_analyzer.get_result().text;
+                if (std::any_of(blacklist.begin(), blacklist.end(), [&](const std::string& s) { return s == name; })) {
+                    Log.trace("Skip operator", name, "in blacklist");
+                    continue;
+                }
             }
             if (fill_remaining_slots) {
                 if (oper.doing != infrast::Doing::Working && !oper.selected) {
