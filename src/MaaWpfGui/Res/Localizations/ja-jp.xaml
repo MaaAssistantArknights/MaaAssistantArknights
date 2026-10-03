@@ -170,6 +170,7 @@
     <system:String x:Key="DormFilterNotStationedEnabled">作業中の{key=Operator}を宿舎に移動しない（例:訓練所でのアイリーニなど）</system:String>
     <system:String x:Key="DormFilterNotStationedTips">チェックした場合、アイリーニのような{key=Operator}が訓練室から外れなくなり、また、加工所の{key=Operator}が宿舎に送られることを防止します。</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">源石の欠片を自動で補充</system:String>
+    <system:String x:Key="OriginiumShardUseDevice">装置を使用した源石の欠片の製造を許可</system:String>
     <system:String x:Key="InfrastReceptionMessageBoardReceive">受付室の掲示板からのクレジット収集</system:String>
     <system:String x:Key="InfrastReceptionClueExchange">手がかり交換を実施</system:String>
     <system:String x:Key="InfrastReceptionClueExchangeTips" xml:space="preserve">手がかり交換を開始できない場合、シフト交代時に手がかりボード上のすべての手がかりを取り下げます。開始できる場合は一括配置を使用します。&#10;個人の手がかり所持上限は10枚（応接室に配置済みのものを含む）で、配置済みの手がかりは重複判定に含まれません。&#10;事前に多くを配置しすぎると、上限に達したのに一括送信も新しい手がかりの獲得もできなくなります。</system:String>
