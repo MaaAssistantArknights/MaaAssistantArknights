@@ -474,7 +474,7 @@ Shift mode. Editing in run-time is not supported.
 <br>
 `20000` - `Rotation`: One-key rotation mode, skips control center, power station, dormitory and office, other facilities do not change shifts but retain basic operations (such as using drones, reception room logic).
 <br>
-`30000` - `Simple`: Collects production and uses the notification bar's queue rotation and operator rest actions, uses drones according to `drones`, and processes credits and clues according to reception options. MAA does not perform additional staffing; rotation and rest follow the queues and rules configured in-game.
+`30000` - `Simple`: Collects production and performs queue rotation and operator rest, uses drones according to `drones`, and processes credits and clues according to reception options. MAA does not perform additional staffing; rotation and rest follow the queues and rules configured in-game.
 :::  
 ::: field facility  
 @type array<string>

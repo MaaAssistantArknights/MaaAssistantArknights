@@ -205,7 +205,7 @@
     <system:String x:Key="InfrastMode">基建模式</system:String>
     <system:String x:Key="InfrastModeNormal">常规模式</system:String>
     <system:String x:Key="InfrastModeSimple">极简模式</system:String>
-    <system:String x:Key="InfrastModeSimpleTip" xml:space="preserve">收取产出，并点击游戏内｢队列轮换｣与｢干员休整｣。&#10;MAA 不额外安排换班。&#10;按｢{key=DroneUsage}｣自动选择设施。&#10;高级设置中会客室任一选项开启时，领取线索并执行对应操作；全部关闭则不进入会客室。</system:String>
+    <system:String x:Key="InfrastModeSimpleTip" xml:space="preserve">收取产出，并进行队列轮换和干员休整，MAA不额外安排换班。&#10;按「{key=DroneUsage}」自动选择设施。&#10;高级设置中会客室任一选项开启时，领取线索并执行对应操作；全部关闭则不进入会客室。</system:String>
     <system:String x:Key="InfrastModeRotation">队列轮换</system:String>
     <system:String x:Key="InfrastModeRotationTip">使用队列轮换需提前在游戏中设置好队列</system:String>
     <system:String x:Key="InfrastModeRotationToolTip" xml:space="preserve">｢{key=InfrastModeRotation}｣ 的换班逻辑与游戏内基建右下角的 ｢{key=InfrastModeRotation}｣ 完全一致：

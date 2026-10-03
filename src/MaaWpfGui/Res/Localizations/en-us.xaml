@@ -205,7 +205,7 @@
     <system:String x:Key="InfrastMode">Base Mode</system:String>
     <system:String x:Key="InfrastModeNormal">Normal Mode</system:String>
     <system:String x:Key="InfrastModeSimple">Simple Mode</system:String>
-    <system:String x:Key="InfrastModeSimpleTip" xml:space="preserve">Collects production and uses the in-game queue rotation and operator rest actions.&#10;MAA does not perform additional staffing.&#10;Selects facilities automatically based on ｢{key=DroneUsage}｣.&#10;Enabling any reception option in advanced settings collects clues and performs the selected actions; disabling all options skips reception.</system:String>
+    <system:String x:Key="InfrastModeSimpleTip" xml:space="preserve">Collects production and performs queue rotation and operator rest; MAA does not perform additional staffing.&#10;Selects facilities automatically based on ｢{key=DroneUsage}｣.&#10;Enabling any reception option in advanced settings collects clues and performs the selected actions; disabling all options skips reception.</system:String>
     <system:String x:Key="InfrastModeRotation">One-click Rotation Mode</system:String>
     <system:String x:Key="InfrastModeRotationTip">Please manually set up {key=Operator} queues in game before using One-click Rotation Mode</system:String>
     <system:String x:Key="InfrastModeRotationToolTip" xml:space="preserve">The shift rotation logic of ｢{key=InfrastModeRotation}｣ is identical to the ｢{key=InfrastModeRotation}｣ in the base facility:
