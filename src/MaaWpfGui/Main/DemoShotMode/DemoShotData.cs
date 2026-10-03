@@ -158,6 +158,13 @@ public class DemoTaskQueueData
     /// </summary>
     [JsonProperty("stages")]
     public List<string> Stages { get; set; } = [];
+
+    /// <summary>
+    /// Gets or sets 理智作战 ｢指定材料｣ 下拉显示的材料 ID（resource/item_index.json 的 key，如 30012 固源岩）；
+    /// null 或空串保持默认的 ｢不选择｣。仅设置下拉显示，不勾选 ｢指定材料｣，不出现数量框。
+    /// </summary>
+    [JsonProperty("specifiedDrops")]
+    public string? SpecifiedDrops { get; set; }
 }
 
 /// <summary>

@@ -300,6 +300,29 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
     }
 
+    /// <summary>
+    /// README 截图演示模式专用：设置 ｢指定材料｣ 下拉显示的材料，不勾选 ｢指定材料｣（避免带出数量框）。
+    /// 语言切换经 <see cref="RebuildDropsList"/> 自动保留选中并刷新显示名，随语言组重复调用幂等。
+    /// </summary>
+    /// <param name="itemId">材料 ID（resource/item_index.json 的 key，如 30012 固源岩）。</param>
+    public void InjectDemoSpecifiedDrops(string itemId)
+    {
+        if (TaskSettingVisibilityInfo.CurrentTask is not FightTask)
+        {
+            _logger.Warning("InjectDemoSpecifiedDrops skipped: current task is not FightTask");
+            return;
+        }
+
+        if (AllDrops.All(i => i.Value != itemId))
+        {
+            _logger.Warning("Demo specified drops item {ItemId} not in drops list, skipped", itemId);
+            return;
+        }
+
+        DropsItemId = itemId;
+        RefreshDropName();
+    }
+
     // UI 绑定的方法
     [UsedImplicitly]
     public void RemoveStageFromPlan(StagePlanItem plan)

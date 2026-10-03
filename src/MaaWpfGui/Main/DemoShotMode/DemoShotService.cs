@@ -416,6 +416,12 @@ public static class DemoShotService
             FightSettingsUserControlModel.Instance.InjectDemoStages(data.TaskQueue.Stages);
         }
 
+        // 指定材料下拉的显示名由 RefreshDropName 随各语言材料列表自动本地化，重注入只负责写入选中项，幂等
+        if (!string.IsNullOrEmpty(data.TaskQueue.SpecifiedDrops))
+        {
+            FightSettingsUserControlModel.Instance.InjectDemoSpecifiedDrops(data.TaskQueue.SpecifiedDrops);
+        }
+
         InjectTaskQueueLogs(data, lang, dataDir);
         InjectCopilotLogs(data.Copilot, lang);
     }
