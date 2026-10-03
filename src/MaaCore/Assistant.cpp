@@ -297,7 +297,7 @@ bool asst::Assistant::ctrl_click(int x, int y)
 
 bool asst::Assistant::ctrl_screencap()
 {
-    return m_ctrler->screencap();
+    return m_ctrler->screencap_for_preview();
 }
 
 asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, const std::string& params)
@@ -402,7 +402,7 @@ std::vector<uchar> asst::Assistant::get_image() const
     if (!inited()) {
         return {};
     }
-    cv::Mat img = m_ctrler->get_image_cache();
+    cv::Mat img = m_ctrler->get_preview_image_cache();
     std::vector<uchar> buf;
     cv::imencode(".png", img, buf);
     return buf;
@@ -414,7 +414,7 @@ std::vector<uchar> asst::Assistant::get_image_bgr() const
         return {};
     }
 
-    cv::Mat img = m_ctrler->get_image_cache();
+    cv::Mat img = m_ctrler->get_preview_image_cache();
 
     if (!img.isContinuous()) {
         img = img.clone();

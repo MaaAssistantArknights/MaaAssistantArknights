@@ -143,13 +143,23 @@ const std::string& Win32Controller::get_uuid() const
 
 bool Win32Controller::screencap(cv::Mat& image_payload, bool allow_reconnect [[maybe_unused]])
 {
+    return screencap_impl(image_payload, true);
+}
+
+bool Win32Controller::screencap_for_preview(cv::Mat& image_payload, bool allow_reconnect [[maybe_unused]])
+{
+    return screencap_impl(image_payload, false);
+}
+
+bool Win32Controller::screencap_impl(cv::Mat& image_payload, bool move_cursor)
+{
     LogTraceFunction;
 
     // 截图前把鼠标移走，避免光标出现在截图中影响识别
     POINT original_cursor_pos = { 0, 0 };
     bool cursor_pos_saved = false;
     bool input_blocked = false;
-    if (m_screen_size.second > 0) {
+    if (move_cursor && m_screen_size.second > 0) {
         const bool with_window_pos =
             (m_mouse_method & (Win32Input::SendMessageWithWindowPos | Win32Input::PostMessageWithWindowPos)) != 0;
         // 仅 WithCursorPos 两种方式挪的是真实光标；Seize 本就强制接管鼠标，纯消息模式不动真实光标
