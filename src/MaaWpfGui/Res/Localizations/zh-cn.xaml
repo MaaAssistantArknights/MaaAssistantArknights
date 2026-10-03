@@ -590,6 +590,7 @@ D:\
     <system:String x:Key="UseWeeklySchedule">启用周计划</system:String>
     <system:String x:Key="UseWeeklyScheduleTip">此处星期根据游戏时间计算，并非现实时间。例如游戏在 4:00 刷新，则 3:59 仍算作前一天。</system:String>
     <system:String x:Key="FightSkippedWeeklySchedule">周计划今日未勾选</system:String>
+    <system:String x:Key="InfrastSkippedWeeklySchedule">周计划今日未勾选</system:String>
     <system:String x:Key="FightSkippedEmptyStagePlan">关卡计划为空</system:String>
     <system:String x:Key="FightSkippedNoOpenStage">关卡计划内没有当日开放的关卡</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">外服适配滞销，帮帮我们！不会编程也可以。</system:String>
