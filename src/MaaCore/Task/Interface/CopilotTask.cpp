@@ -2,8 +2,10 @@
 
 #include "Arknights-Tile-Pos/TileCalc2.hpp"
 
+#include "Common/AsstBattleDef.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/CopilotConfig.h"
+#include "Config/Miscellaneous/OperBoxDataConfig.h"
 #include "Config/TaskData.h"
 #include "Task/Fight/MedicineCounterTaskPlugin.h"
 #include "Task/Miscellaneous/BattleFormationTask.h"
@@ -23,6 +25,7 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst) :
     LogTraceFunction;
 
     m_multi_copilot_plugin_ptr->set_retry_times(0);
+    m_multi_copilot_plugin_ptr->set_formation_task_ptr(m_formation_task_ptr);
     m_multi_copilot_plugin_ptr->set_battle_task_ptr(m_battle_task_ptr);
     m_subtasks.emplace_back(m_multi_copilot_plugin_ptr);
 
@@ -58,6 +61,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     LogTraceFunction;
 
     using SupportUnitUsage = BattleFormationTask::SupportUnitUsage;
+    using OperUsageGroups = battle::copilot::OperUsageGroups;
 
     if (m_has_subtasks_duplicate) {
         Log.error(__FUNCTION__, "CopilotTask set_params failed, already set params");
@@ -73,6 +77,19 @@ bool asst::CopilotTask::set_params(const json::value& params)
     auto support_unit_usage = static_cast<SupportUnitUsage>(
         params.get("support_unit_usage", static_cast<int>(SupportUnitUsage::None))); // 助战干员使用模式
     std::string support_unit_name = params.get("support_unit_name", std::string());
+    std::string operbox_data_path = params.get("operbox_data_path", std::string());  // 干员辅助编队数据路径, 为空则禁用
+    bool use_operbox = !operbox_data_path.empty();
+
+    if (use_operbox) {
+        OperBoxData.set_task(this);
+        OperBoxData.set_ignore_requirements(ignore_requirements);
+        if (!OperBoxData.load(utils::path(operbox_data_path))) {
+            LogError << __FUNCTION__ << "| OperBox data is empty or invalid, cannot perform precheck";
+            json::value info = basic_info_with_what("OperboxDataParseFailed");
+            callback(AsstMsg::SubTaskError, info);
+            return false;
+        }
+    }
 
     auto filename_opt = params.find<std::string>("filename");
     auto multi_tasks_opt = params.find<json::array>("copilot_list"); // 多任务列表
@@ -88,6 +105,17 @@ bool asst::CopilotTask::set_params(const json::value& params)
         if (!copilot_opt) {
             return false;
         }
+        if (use_operbox) {
+            auto assignment_opt =
+                OperBoxData.precheck(Copilot.get_data().groups, support_unit_usage != SupportUnitUsage::None);
+            if (!assignment_opt) {
+                return false;
+            }
+            m_formation_task_ptr->set_assigned_groups(std::move(*assignment_opt));
+        }
+        else {
+            m_formation_task_ptr->set_assigned_groups(std::nullopt);
+        }
         m_stage_name = Copilot.get_stage_name();
         if (!m_battle_task_ptr->set_stage_name(m_stage_name)) {
             Log.error("Not support stage");
@@ -99,11 +127,27 @@ bool asst::CopilotTask::set_params(const json::value& params)
         m_battle_task_ptr->set_wait_until_end(true);
         auto configs = static_cast<std::vector<MultiCopilotConfig>>(*multi_tasks_opt);
         std::vector<MultiCopilotTaskPlugin::MultiCopilotConfig> configs_cvt;
+        std::unordered_map<std::string, std::shared_ptr<OperUsageGroups>> operbox_assignments;
         for (const auto& [id, filename, nav_name, is_raid] : configs) {
             MultiCopilotTaskPlugin::MultiCopilotConfig config_cvt;
             auto copilot_opt = parse_copilot_filename(filename);
             if (!copilot_opt) {
                 return false;
+            }
+            config_cvt.assigned_groups = nullptr;
+            if (use_operbox) {
+                if (operbox_assignments.find(filename) != operbox_assignments.end()) {
+                    config_cvt.assigned_groups = operbox_assignments[filename];
+                }
+                else {
+                    auto assignment_opt =
+                        OperBoxData.precheck(Copilot.get_data().groups, support_unit_usage != SupportUnitUsage::None);
+                    if (!assignment_opt) {
+                        return false;
+                    }
+                    config_cvt.assigned_groups = std::make_shared<OperUsageGroups>(std::move(*assignment_opt));
+                    operbox_assignments[filename] = config_cvt.assigned_groups;
+                }
             }
             const auto& stage_name = Copilot.get_stage_name();
             const auto& map_data = Tile.find(stage_name);
