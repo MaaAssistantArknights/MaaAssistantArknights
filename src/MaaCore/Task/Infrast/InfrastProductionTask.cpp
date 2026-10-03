@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <array>
 #include <ranges>
+#include <string_view>
 
 #include <calculator/calculator.hpp>
 
@@ -240,6 +241,9 @@ bool asst::InfrastProductionTask::shift_facility_list()
     if (!facility_list_detect() || need_exit()) {
         return false;
     }
+    // 未访问或识别失败的设施保留空值，不作为订单类型的判断依据。
+    std::vector<std::string> facility_products(m_facility_list_tabs.size());
+
     const auto tab_task_ptr = Task.get("InfrastFacilityListTab" + facility_name());
 
     for (; static_cast<size_t>(m_cur_facility_index) < m_facility_list_tabs.size(); ++m_cur_facility_index) {
@@ -388,6 +392,10 @@ bool asst::InfrastProductionTask::shift_facility_list()
             }
         }
 
+        if (cur_product_detection_valid) {
+            facility_products.at(m_cur_facility_index) = cur_product_for_non_custom_drone;
+        }
+
         /* 进入干员选择页面 */
         if (!m_skip_shift) {
             ctrler()->click(add_button);
@@ -468,6 +476,17 @@ bool asst::InfrastProductionTask::shift_facility_list()
             if (use_drone()) {
                 m_drones_usage_from_params = "_Used";
             }
+        }
+    }
+    if (!m_is_custom && !m_is_use_drones_from_custom && !m_inspect_only && facility_name() == "Trade" &&
+        !facility_products.empty() &&
+        (m_drones_usage_from_params == "Money" || m_drones_usage_from_params == "SyntheticJade")) {
+        const std::string_view opposite_product = m_drones_usage_from_params == "Money" ? "SyntheticJade" : "Money";
+        // 至少识别到一个相反订单，且没有匹配订单时才提醒，避免把无人机操作失败误判为用途不匹配。
+        if (std::ranges::find(facility_products, opposite_product) != facility_products.end() &&
+            std::ranges::find(facility_products, m_drones_usage_from_params) == facility_products.end()) {
+            LogInfo << "No recognized trade order matches drone usage:" << m_drones_usage_from_params;
+            callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("TradeDronesUsageNotUsed"));
         }
     }
     return true;
