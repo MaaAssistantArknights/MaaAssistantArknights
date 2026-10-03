@@ -1209,13 +1209,11 @@ public class AsstProxy
 
                 if (fpsInt < 30)
                 {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("EmulatorFpsErrorTip", fpsInt), UiLogColor.Error);
-                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("EmulatorFpsErrorTip", fpsInt), UiLogColor.Error, showTime: false);
+                    AddEmulatorLowFpsLog(LocalizationHelper.GetStringFormat("EmulatorFpsErrorTip", fpsInt), UiLogColor.Error);
                 }
                 else if (fpsInt < 60)
                 {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("EmulatorFpsWarningTip", fpsInt), UiLogColor.Warning);
-                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("EmulatorFpsWarningTip", fpsInt), UiLogColor.Warning, showTime: false);
+                    AddEmulatorLowFpsLog(LocalizationHelper.GetStringFormat("EmulatorFpsWarningTip", fpsInt), UiLogColor.Warning);
                 }
                 else if (fpsInt > 60 && !HasPrintedFpsHighTip)
                 {
@@ -1253,6 +1251,28 @@ public class AsstProxy
         _sanityRecoveryTimer.Stop();
         _sanityRecoveryTimer.Tick -= OnSanityRecoveryTimer;
         _sanityRecoveryTimer = null;
+    }
+
+    /// <summary>
+    /// 输出模拟器低帧提示（帧率低于游戏原生帧率 60 FPS）。
+    /// 开启 ｢模拟器低帧运行时不再频繁警告｣ 时，同一轮运行内只输出一次；关闭时每次均输出。
+    /// </summary>
+    /// <param name="message">已本地化的提示文案。</param>
+    /// <param name="color">日志颜色。</param>
+    private static void AddEmulatorLowFpsLog(string message, string color)
+    {
+        if (SettingsViewModel.GameSettings.EmulatorLowFpsWarningOnce)
+        {
+            if (HasPrintedFpsLowTip)
+            {
+                return;
+            }
+
+            HasPrintedFpsLowTip = true;
+        }
+
+        Instances.TaskQueueViewModel.AddLog(message, color);
+        Instances.CopilotViewModel.AddLog(message, color, showTime: false);
     }
 
     private void HandleScreencapCost(string min, string avg, string max)

@@ -1549,6 +1549,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="EmulatorFpsWarningTip">エミュレータの設定フレームレートが {0} FPS で、ゲームのネイティブフレームレート（60 FPS）を下回っています。バックグラウンドのフレームレート低下が有効になっているか、フレームレートの設定が低すぎる可能性があります。エミュレータのフレームレートを 60 FPS に設定することを推奨します</system:String>
     <system:String x:Key="EmulatorFpsErrorTip">エミュレータの設定フレームレートが低すぎます（{0} FPS）。タスクが異常になる可能性があります。エミュレータの設定でバックグラウンドのフレームレート低下をオフにし、フレームレートを 60 FPS に設定してください</system:String>
     <system:String x:Key="EmulatorFpsHighTip">エミュレータの設定フレームレートが {0} FPS で、ゲームのネイティブフレームレート上限（60 FPS）を上回っています。これはエミュレータのフレーム補間機能の可能性があり、画面の異常や認識の不安定化を招くことがあります。フレーム補間を無効にし、フレームレートを 60 FPS に設定することを推奨します</system:String>
+    <system:String x:Key="EmulatorLowFpsWarningOnce">エミュレータの低フレームレート時に何度も警告しない</system:String>
+    <system:String x:Key="EmulatorLowFpsWarningOnceTip">有効にすると、1 回の実行中にエミュレータのフレームレート低下（60 FPS 未満）の通知は最大 1 回のみ表示されます。無効にすると回数制限はなく、従来の動作のままです</system:String>
     <system:String x:Key="IdentifyTheMistakes">認識エラー</system:String>
     <system:String x:Key="RecruitRefreshLimitReached">更新回数が上限に達しました</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">タスクエラー: </system:String>

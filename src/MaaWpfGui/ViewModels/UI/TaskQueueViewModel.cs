@@ -737,6 +737,10 @@ public class TaskQueueViewModel : Screen
             {
                 Interlocked.Exchange(ref _stopScriptLaunched, 0);
                 Interlocked.Exchange(ref _postActionsLaunched, 0);
+
+                // 低帧提示的 ｢每轮只提示一次｣ 也只在真正的运行起点重置：
+                // 非空闲状态之间的广播（Inited / Stopping / Owner 变化）不得重置，否则同轮运行内会再次提示
+                Instances.Data.HasPrintedFpsLowTip = false;
             }
 
             if (e.NewState.Idle && _runDurationLimitOnce)
