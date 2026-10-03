@@ -591,6 +591,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="UseWeeklySchedule">週次スケジュールを有効にする</system:String>
     <system:String x:Key="UseWeeklyScheduleTip">ここでの曜日はゲーム内時間に基づいており、現実時間ではありません。例えば、ゲームが4:00にリセットされる場合、3:59は前日としてカウントされます。</system:String>
     <system:String x:Key="FightSkippedWeeklySchedule">週次スケジュールで今日が未選択</system:String>
+    <system:String x:Key="InfrastSkippedWeeklySchedule">週次スケジュールで今日が未選択</system:String>
     <system:String x:Key="FightSkippedEmptyStagePlan">ステージ計画が空です</system:String>
     <system:String x:Key="FightSkippedNoOpenStage">計画内に本日開放中のステージがありません</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">グローバルサーバーの対応は非常に大変で、皆様の協力が必要です！プログラミングの知識は必要ありません。</system:String>

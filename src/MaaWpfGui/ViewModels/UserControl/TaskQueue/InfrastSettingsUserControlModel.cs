@@ -720,6 +720,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
 
             if (infrast.UseWeeklySchedule && infrast.WeeklySchedule.TryGetValue(Instances.TaskQueueViewModel.CurDayOfWeek, out var isEnabled) && !isEnabled)
             {
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("InfrastSkippedWeeklySchedule"), UiLogColor.Info);
                 return (null, []);
             }
 
