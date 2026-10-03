@@ -548,7 +548,7 @@ bool asst::CopilotTask::stage_text_matches(const std::string& text, const std::s
 
     const std::string normalized_text = normalize(text);
     const std::string normalized_stage_name = normalize(stage_name);
-    return !normalized_stage_name.empty() && normalized_text.ends_with(normalized_stage_name);
+    return !normalized_stage_name.empty() && normalized_text == normalized_stage_name;
 }
 
 asst::CopilotTask::StageAttemptResult asst::CopilotTask::run_stage_attempt(size_t run_index)
