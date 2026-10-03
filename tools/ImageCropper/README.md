@@ -37,3 +37,21 @@ python -m pip install -r requirements.txt
     - 按 <kbd>任意键</kbd> 跳过 / 刷新当前截图
 
 5. 目标区域截图保存在 `./dst/` 路径下，文件名为 `src` 中的文件名 / 截图的时间 + ROI + 放大后的 ROI
+
+## 无头 CLI（cli.py）
+
+`main.py` 的鼠标框选交互不适合脚本/agent 调用，`cli.py` 以子命令形式提供无头等价能力。所有坐标基于 ｢等比标准化到短边 720｣ 的图像（与 GUI 框选、MAA 运行时 roi 同一空间）；`--raw` 跳过标准化保持输入原分辨率（对裁剪产物等小图做二次操作时必须加，否则小图会被放大、坐标系改变，CLI 会打印警告）。
+
+```shell
+# 生成网格标注图供读数定位：40px 粗格全图；--region 先裁区域、--zoom 最近邻放大、
+# --cell 格距（缩放前坐标）；数字标在边距区且起始位置对齐基准线，相邻基准线红蓝交替
+python cli.py grid <图> [-o 输出.png] [--cell 40] [--region x,y,w,h] [--zoom 1] [--raw]
+
+# 按 roi 裁剪；--box 时输入为 x1,y1,x2,y2 两点式；--amp 额外输出 ±50px 扩边图
+python cli.py crop <图> x,y,w,h [--box] [--amp] [-o 输出目录] [--raw]
+
+# 对 roi 聚类主色，输出 ColorMatch 参数 JSON 草稿（覆盖全部聚类主色）
+python cli.py color <图> x,y,w,h [--box] [--connected] [--raw]
+```
+
+典型工作流：粗格定位区域带 → 小窗高倍细格（`--region` + `--zoom 16~32` + `--cell 1`）读出候选 roi → 裁已知原点的略大标定窗回读量四边留白定下无歧义边界 → 仅对淡灰抗锯齿/边缘光等歧义边用更高倍细格裁决 → 终裁并回读验证内容完整、无背景残留。模板必须纯净（内容充满画面），roi 才有容差。

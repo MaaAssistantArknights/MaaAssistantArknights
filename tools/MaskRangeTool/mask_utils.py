@@ -31,14 +31,14 @@ def calc_mask_from_ranges(image, mask_ranges, color=None, mask_close=False):
         else:
             mask = cv2.inRange(image_for_mask, (l0, l1, l2), (u0, u1, u2))
 
-    if mask_close:
+    if mask_close and mask is not None:
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
         mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
 
     return mask
 
 
-def show_image_mask(image, mask, color, hist_mask=None):
+def show_image_mask(image, mask, color, hist_mask=None, save=None, show=True):
     image_for_hist = convert_color(image, color)
     image_with_mask = cv2.bitwise_and(image, image, mask=mask)
 
@@ -103,10 +103,19 @@ def show_image_mask(image, mask, color, hist_mask=None):
     axs[1, 2].axis("off")
 
     plt.tight_layout()
-    plt.show()
+    # save 优先：保存预览图供无头调用（脚本/agent）读图复核，不弹窗
+    if save:
+        fig.savefig(save, bbox_inches="tight", dpi=120)
+        plt.close(fig)
+    elif show:
+        plt.show()
+    else:
+        plt.close(fig)
 
 
-def generate_mask_ranges(image, color, base_mask_ranges=None, thresholds=None):
+def generate_mask_ranges(
+    image, color, base_mask_ranges=None, thresholds=None, show=True, save=None
+):
     image_for_mask = convert_color(image, color)
 
     if thresholds is None:
@@ -145,21 +154,29 @@ def generate_mask_ranges(image, color, base_mask_ranges=None, thresholds=None):
         )
 
     print(f"Recommend {color.upper()} Mask Range: {mask_ranges}")
-    show_image_mask(
-        image, calc_mask_from_ranges(image, mask_ranges, color), color, base_mask
-    )
+    # 空结果（阈值全部失败）时无可预览内容，跳过 show/save 避免 imshow 收到 None 崩溃
+    if mask_ranges and (show or save):
+        show_image_mask(
+            image,
+            calc_mask_from_ranges(image, mask_ranges, color),
+            color,
+            base_mask,
+            save,
+        )
 
     return mask_ranges
 
 
 def compare_2_image_with_mask_ranges(
-    image1, image2, mask_ranges, color, mask_close=False
+    image1, image2, mask_ranges, color, mask_close=False, show=True, save=None
 ):
     image1_for_mask = convert_color(image1, color)
     image2_for_mask = convert_color(image2, color)
 
     mask1 = calc_mask_from_ranges(image1_for_mask, mask_ranges, None, mask_close)
     mask2 = calc_mask_from_ranges(image2_for_mask, mask_ranges, None, mask_close)
+    if mask1 is None or mask2 is None:
+        raise RuntimeError("mask_ranges produced an empty mask, nothing to compare")
 
     image1_with_mask = cv2.bitwise_and(image1, image1, mask=mask1)
     image2_with_mask = cv2.bitwise_and(image2, image2, mask=mask2)
@@ -197,4 +214,10 @@ def compare_2_image_with_mask_ranges(
     axs[1, 2].axis("off")
 
     plt.tight_layout()
-    plt.show()
+    if save:
+        fig.savefig(save, bbox_inches="tight", dpi=120)
+        plt.close(fig)
+    elif show:
+        plt.show()
+    else:
+        plt.close(fig)

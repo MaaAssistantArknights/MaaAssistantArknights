@@ -1,6 +1,0 @@
-*.png
-*.jpg
-
-!coordinate.py
-!drag_here_win.bat
-!.gitignore
