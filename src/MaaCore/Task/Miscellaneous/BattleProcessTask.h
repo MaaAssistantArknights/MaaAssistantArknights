@@ -15,13 +15,14 @@ public:
     virtual ~BattleProcessTask() override = default;
 
     virtual bool set_stage_name(const std::string& stage_name) override;
+
     void set_wait_until_end(bool wait_until_end) { m_need_to_wait_until_end = wait_until_end; };
 
     // 启用后，一旦识别到战斗中的红色漏怪标记，就在结算前退出战斗。
     void set_abort_on_leak(bool abort_on_leak) noexcept { m_abort_on_leak = abort_on_leak; }
 
-    // CopilotTask 根据本次尝试的漏怪状态，判断是否可以重开同一作业。
-    bool has_leaked() const noexcept { return m_has_leaked; }
+    // 是否已经因漏怪成功退出战斗，用于判断上层是否可以自动重开。
+    bool can_retry_after_leak() const noexcept { return m_leak_abandoned; }
 
     void set_formation_task_ptr(std::shared_ptr<std::unordered_map<battle::OperNameTag, std::string>> value);
 
@@ -31,6 +32,7 @@ protected:
     virtual AbstractTask& this_task() override { return *this; }
 
     virtual void clear() override;
+    virtual bool check_in_battle(const cv::Mat& reusable = cv::Mat(), bool weak = true) override;
     virtual bool do_strategic_action(const cv::Mat& reusable = cv::Mat()) override;
 
     virtual bool
@@ -53,7 +55,7 @@ protected:
     bool enter_bullet_time(battle::Role role, const std::string& name, const std::optional<Point>& location);
     void sleep_and_do_strategy(unsigned millisecond);
 
-    // 只有识别到漏怪且放弃战斗流程成功完成后才返回 true。
+    // 识别到漏怪后返回 true，并在上限内重试放弃战斗；成功后才允许自动重开。
     bool check_and_abandon_on_leak(const cv::Mat& image);
 
     battle::copilot::CombatData m_combat_data;
@@ -62,7 +64,8 @@ protected:
     bool m_in_bullet_time = false;
     bool m_need_to_wait_until_end = false;
     bool m_abort_on_leak = false;
-    bool m_has_leaked = false;
+    bool m_leak_detected = false;
+    bool m_leak_abandoned = false;
     std::shared_ptr<std::unordered_map<battle::OperNameTag, std::string>> m_formation_ptr = nullptr;
 };
 }
