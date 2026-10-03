@@ -1260,18 +1260,21 @@ ScoreResult select_reception(const std::vector<ScoreOper>& opers, const ScoreCon
     std::vector<size_t> preferred;
     std::vector<size_t> tertiary;
     std::vector<size_t> remain;
+
     for (const size_t index : eligible_indices(opers, context)) {
         const auto& oper = opers[index];
         if (has_skill(oper, "bskill_meet_spdowned1")) { // 显眼的调查者：U-Official
             continue;                                   // 禁用尤里卡
         }
-        // 见行者、跃跃固定优先；菲亚梅塔已入驻时，信仰搅拌机也进入最高优先级。
-        // 见行者要求高心情
-        if ((has_skill(oper, "bskill_meet_spd&cost") && oper.mood_ratio > 22.0 / 24.0) ||
+
+        // 第一优先级：见行者、跃跃
+        // 菲亚梅塔已入驻时，信仰搅拌机也进入最高优先级。
+        if ((has_skill(oper, "bskill_meet_spd&cost") && oper.mood_ratio > 22.0 / 24.0) || // 见行者要求高心情
             has_skill(oper, "bskill_meet_exchange") ||
             (has_skill(oper, "bskill_meet_spd_confes1") && is_selected(context, "char_300_phenxi"))) {
             priority.emplace_back(index);
         }
+
         // 第二优先级：赤刃明霄陈、伊内丝
         else if (has_any_skill(oper, { "bskill_meet_bd_to_spd", "bskill_meet_spd_hast1" })) {
             preferred.emplace_back(index);
