@@ -1280,6 +1280,9 @@
         "next": ["Roguelike@StageEncounterOptions#next", "Roguelike@Stages#next"],
         "onErrorNext": ["Roguelike@ExitThenAbandon"]
     },
+    "Roguelike@StageEncounterLoadingCompleted": {
+        "algorithm": "JustReturn"
+    },
     "Roguelike@StageEncounterLeaveConfirm": {
         "Doc": "base_task",
         "template": "empty.png",
