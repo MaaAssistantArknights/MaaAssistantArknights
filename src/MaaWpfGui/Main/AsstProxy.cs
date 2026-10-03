@@ -3358,6 +3358,11 @@ public class AsstProxy
 
     private static bool AutoDetectConnection(ref string error)
     {
+        if (SettingsViewModel.ConnectSettings.ConnectConfig == ConnectConfig.MuMuArm)
+        {
+            return SettingsViewModel.ConnectSettings.DetectAdbConfig(ref error);
+        }
+
         var adbPath = SettingsViewModel.ConnectSettings.AdbPath;
         bool adbResult = !string.IsNullOrEmpty(adbPath) &&
                          File.Exists(adbPath) &&
