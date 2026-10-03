@@ -32,6 +32,7 @@
 #include "Task/Interface/SwitchThemeTask.h"
 #include "Task/Interface/VideoRecognitionTask.h"
 #include "Utils/Logger.hpp"
+#include "Vision/Config/MatcherConfig.h"
 #ifdef ASST_DEBUG
 #include "Task/Interface/DebugTask.h"
 #endif
@@ -183,6 +184,12 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
             m_ctrler->set_touch_mode(TouchMode::MacPlayTools);
             return true;
         }
+#if defined(__APPLE__) && ASST_WITH_MAC_NATIVE
+        else if (constexpr std::string_view MacNative = "MacNative"; value == MacNative) {
+            m_ctrler->set_touch_mode(TouchMode::MacNative);
+            return true;
+        }
+#endif
         else if (constexpr std::string_view MaaFwAdb = "MaaFwAdb"; value == MaaFwAdb) {
             m_ctrler->set_touch_mode(TouchMode::MaaFwAdb);
             return true;
@@ -587,6 +594,11 @@ void Assistant::working_proc()
 
             bool ret = false;
             TaskExceptionKind exception_kind = TaskExceptionKind::None;
+            const bool mac_native = m_ctrler->get_controller_type() == ControllerType::MacNative;
+            MatcherConfig::set_thread_threshold_scale(mac_native ? 0.9 : 1.0);
+            if (mac_native) {
+                LogDebug << "MacNative template threshold scale" << 0.9;
+            }
             try {
                 ret = task_ptr->run();
             }
@@ -631,6 +643,7 @@ void Assistant::working_proc()
                 exception_kind = TaskExceptionKind::Unknown;
                 best_effort([&] { Log.error("Unknown exception in task thread"); });
             }
+            MatcherConfig::set_thread_threshold_scale(1.0);
 
             lock.lock();
             if (!m_tasks_list.empty()) {

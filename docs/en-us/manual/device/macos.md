@@ -33,6 +33,14 @@ Note: Due to macOS system limitations, screenshot issues may occur when minimizi
 
 :::
 
+### App Store version of Arknights (experimental MacNative mode)
+
+MAA supports the App Store version of Arknights through the experimental MacNative mode on Apple Silicon Macs running macOS 14 or later.
+
+Launch the App Store version of Arknights, then select `Native macOS Control (Experimental)` under `Settings` - `Connection Settings`. Check the Bundle ID and grant Screen Recording and Accessibility permissions when prompted.
+
+Keep the game window open; minimized or hidden windows are unsupported. The mode supports screenshots, clicks, and swipes. Starting and closing the game requires `/Applications/Arknights.app`. Text input, account switching, and deployment pauses are unsupported.
+
 ### ✅ [MuMu Emulator Pro](https://mumu.163.com/mac/)
 
 Supported, but less thoroughly tested. Requires using a touch mode other than `MacPlayTools`. Related issue: [#8098](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8098)

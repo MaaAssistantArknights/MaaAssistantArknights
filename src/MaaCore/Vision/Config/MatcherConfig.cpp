@@ -4,6 +4,18 @@
 
 using namespace asst;
 
+static thread_local double current_threshold_scale = 1.0;
+
+void MatcherConfig::set_thread_threshold_scale(double scale) noexcept
+{
+    current_threshold_scale = scale;
+}
+
+double MatcherConfig::effective_threshold(double threshold) noexcept
+{
+    return threshold > 0.0 && threshold <= 1.0 ? threshold * current_threshold_scale : threshold;
+}
+
 void MatcherConfig::set_params(Params params)
 {
     m_params = std::move(params);

@@ -33,6 +33,14 @@ icon: basil:apple-solid
 
 :::
 
+### App Store 版《明日方舟》（MacNative 實驗模式）
+
+MAA 透過 MacNative 實驗模式支援 Apple Silicon Mac 上的 App Store 版《明日方舟》，需要 macOS 14 或更新版本。
+
+啟動 App Store 版《明日方舟》後，在 MAA 的 `設定` - `連線設定` 選擇 `macOS 原生控制（实验）`，確認 Bundle ID，並依照畫面提示授予螢幕錄製及輔助使用權限。
+
+遊戲視窗必須保持開啟，不能最小化或隱藏。此模式支援截圖、點擊和滑動；啟動及關閉遊戲要求遊戲位於 `/Applications/Arknights.app`。暫不支援文字輸入、帳號切換或暫停部署。
+
 ### ✅ [MuMu 模擬器 Pro](https://mumu.163.com/mac/)
 
 支援，但測試較少，需使用除 `MacPlayTools` 以外的觸控模式。相關 Issue [#8098](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8098)
