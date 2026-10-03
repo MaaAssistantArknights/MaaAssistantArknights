@@ -107,6 +107,11 @@ public class SettingsViewModel : Screen
     public static VersionUpdateSettingsUserControlModel VersionUpdateSettings { get; } = VersionUpdateSettingsUserControlModel.Instance;
 
     /// <summary>
+    /// Gets 通知设置 model
+    /// </summary>
+    public static NotificationSettingsUserControlModel NotificationSettings { get; } = new();
+
+    /// <summary>
     /// Gets 外部通知 model
     /// </summary>
     public static ExternalNotificationSettingsUserControlModel ExternalNotificationSettings { get; } = ExternalNotificationSettingsUserControlModel.Instance;
@@ -194,6 +199,8 @@ public class SettingsViewModel : Screen
 
     public SettingItemViewModel BackgroundSettingsSetting => GetSettingItemByKey("BackgroundSettings");
 
+    public SettingItemViewModel NotificationSettingsSetting => GetSettingItemByKey("NotificationSettings");
+
     public SettingItemViewModel ExternalNotificationSettingsSetting => GetSettingItemByKey("ExternalNotificationSettings");
 
     public SettingItemViewModel ThirdPartyServiceSettingsSetting => GetSettingItemByKey("ThirdPartyServiceSettings");
@@ -219,7 +226,14 @@ public class SettingsViewModel : Screen
         foreach (var key in keyList.Where(k => !orderList.Any(o => o == k)))
         {
             isAdded = true;
-            orderList.Add(key);
+            if (key == SettingKey.NotificationSettings && orderList.Contains(SettingKey.ExternalNotificationSettings))
+            {
+                orderList.Insert(orderList.IndexOf(SettingKey.ExternalNotificationSettings), key);
+            }
+            else
+            {
+                orderList.Add(key);
+            }
         }
         if (isAdded)
         {
@@ -1246,6 +1260,12 @@ public class SettingsViewModel : Screen
     {
         get => GetExpanderState(SettingKey.BackgroundSettings);
         set => SetExpanderState(SettingKey.BackgroundSettings, value);
+    }
+
+    public bool IsNotificationSettingsExpanded
+    {
+        get => GetExpanderState(SettingKey.NotificationSettings);
+        set => SetExpanderState(SettingKey.NotificationSettings, value);
     }
 
     public bool IsExternalNotificationSettingsExpanded

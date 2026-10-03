@@ -37,7 +37,7 @@ using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
-using MaaWpfGui.Services.ExternalNotification;
+using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
@@ -761,14 +761,14 @@ public class TaskQueueViewModel : Screen
 
     private void RunningState_Stalled(object? sender, string message)
     {
-        AddLog(message, UiLogColor.Warning, notifyActivity: false);
-        ToastNotification.ShowDirect(message);
-        if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenStalled)
+        var notification = new NotificationMessage(NotificationTag.Stalled, message, message);
+        if (_runningState.Owner == RunOwner.Copilot)
         {
-            var lastLogs = LogItemViewModels
-                .TakeLast(5)
-                .Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n");
-            ExternalNotificationService.Send(message, lastLogs);
+            Instances.CopilotViewModel.AddLog(message, UiLogColor.Warning, notification: notification, notifyActivity: false);
+        }
+        else
+        {
+            AddLog(message, UiLogColor.Warning, notifyActivity: false, notification: notification);
         }
     }
 
@@ -1575,6 +1575,7 @@ public class TaskQueueViewModel : Screen
     /// <param name="useCardImageAsToolTip">Whether to use the current card's image as toolTip.</param>
     /// <param name="splitMode">Whether to split cards before/after this log.</param>
     /// <param name="notifyActivity">Whether this log should notify activity (and reset idle timer).</param>
+    /// <param name="notification">Optional notification payload, independent of card presentation.</param>
     public void AddLog(string? content,
         string color = UiLogColor.Trace,
         string weight = "Regular",
@@ -1583,7 +1584,8 @@ public class TaskQueueViewModel : Screen
         bool fetchLatestImage = false,
         bool useCardImageAsToolTip = false,
         LogCardSplitMode splitMode = LogCardSplitMode.None,
-        bool notifyActivity = true)
+        bool notifyActivity = true,
+        NotificationMessage? notification = null)
     {
         if (notifyActivity)
         {
@@ -1612,6 +1614,12 @@ public class TaskQueueViewModel : Screen
         }
 
         Execute.OnUIThread(() => {
+            var notificationEvent = isEmpty ? null : new NotificationEvent(DateTimeOffset.Now, NotificationSource.TaskQueue, content!, color, notification, weight);
+            if (notificationEvent is not null && !Instances.NotificationService.ProcessLog(notificationEvent))
+            {
+                return;
+            }
+
             if (needsBeforeSplit)
             {
                 CreateNewCard();
@@ -1674,6 +1682,11 @@ public class TaskQueueViewModel : Screen
             var plainText = header is null
                 ? "-----"
                 : decoratePlainText ? $"-----{header}-----" : header;
+            var notificationEvent = new NotificationEvent(DateTimeOffset.Now, NotificationSource.TaskQueue, plainText, UiLogColor.Trace);
+            if (!Instances.NotificationService.ProcessLog(notificationEvent))
+            {
+                return;
+            }
             LogItemViewModels.Add(new LogItemViewModel(plainText));
 
             // Card log style: render a real hc:Divider as its own card.
@@ -1689,6 +1702,7 @@ public class TaskQueueViewModel : Screen
     public void ClearLog()
     {
         Execute.OnUIThread(() => {
+            Instances.NotificationService.Clear(NotificationSource.TaskQueue);
             LogItemViewModels.Clear();
             LogCardViewModels.Clear();
             DownloadLogItemViewModel = new(string.Empty);
@@ -2419,7 +2433,7 @@ public class TaskQueueViewModel : Screen
     private async Task RunLogVirtualizationStressTestAsync()
     {
         ClearLog();
-        Instances.OverlayViewModel.LogItemsSource = LogItemViewModels;
+        Instances.OverlayViewModel.LogItemsSource = Instances.NotificationService.TaskQueueOverlay;
 
         const int cardCount = 500;        // 卡片数量
         const int logsPerCard = 5;        // 每张卡片日志条数
@@ -2473,7 +2487,7 @@ public class TaskQueueViewModel : Screen
         _taskStartTime = DateTime.Now;
         ClearLog();
 
-        Instances.OverlayViewModel.LogItemsSource = LogItemViewModels;
+        Instances.OverlayViewModel.LogItemsSource = Instances.NotificationService.TaskQueueOverlay;
 
         var buildDateTimeLong = VersionUpdateSettingsUserControlModel.BuildDateTimeCurrentCultureString;
         var resourceDateTimeLong = SettingsViewModel.VersionUpdateSettings.ResourceDateTimeCurrentCultureString;

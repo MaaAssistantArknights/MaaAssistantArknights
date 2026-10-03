@@ -2698,4 +2698,23 @@ These directories are not suitable places to keep MAA; files there can be easily
     <system:String x:Key="PleaseSelectItem">Please select an item</system:String>
     <system:String x:Key="EmulatorSelectionCancelled">Emulator selection cancelled</system:String>
     <!--  !ItemSelection  -->
+    <system:String x:Key="NotificationSettings">Notification Settings</system:String>
+    <system:String x:Key="NotificationSettingsMaster">Notification Settings</system:String>
+    <system:String x:Key="NotificationSettingsOverlay">Log Floating Window</system:String>
+    <system:String x:Key="NotificationSettingsSystemNotification">Windows System Notification</system:String>
+    <system:String x:Key="NotificationSettingsExternal">External Notification</system:String>
+    <system:String x:Key="NotificationSettingsTaskQueueLog">Task Log Panel</system:String>
+    <system:String x:Key="NotificationSettingsUseIndependent">Enable Custom Settings</system:String>
+    <system:String x:Key="NotificationSettingsEnableNotification">Enable This Notification</system:String>
+    <system:String x:Key="NotificationSettingsEnableBlacklist">Enable Blacklist</system:String>
+    <system:String x:Key="NotificationSettingsEnableWhitelist">Enable Whitelist</system:String>
+    <system:String x:Key="NotificationSettingsFilterList">Filter Rules (one regex per line)</system:String>
+    <system:String x:Key="NotificationSettingsMaxEntries">Attached Log Entry Count</system:String>
+    <system:String x:Key="NotificationSettingsTimeMinutes">Log Validity (Minutes)</system:String>
+    <system:String x:Key="NotificationSettingsTimeMinutesTip" xml:space="preserve">Expired logs are no longer displayed or attached to notifications.&#10;Set ｢{key=NotificationSettingsTimeMinutes}｣ to 0 to disable time filtering.</system:String>
+    <system:String x:Key="NotificationSettingsMaxEntriesTip" xml:space="preserve">Limit how many log entries are displayed in the overlay or attached to external notifications.&#10;Setting ｢{key=NotificationSettingsMaxEntries}｣ to 0 for external notifications sends only the notification body, without logs.&#10;For the overlay, 0 disables count filtering.</system:String>
+    <system:String x:Key="NotificationSettingsFilterListTip" xml:space="preserve">Enter one regular expression per line; a match on any line counts.&#10;Tags: &lt;TaskError&gt; task error, &lt;TaskComplete&gt; task completion, &lt;Stalled&gt; stalled output, &lt;Test&gt; test.&#10;Example: &lt;TaskError&gt;|&lt;Stalled&gt;. An empty whitelist blocks all notifications; an empty blacklist allows all.</system:String>
+    <system:String x:Key="NotificationSettingsInvalidFilterTip" xml:space="preserve">Invalid regular expression. Check the filter rules.</system:String>
+    <system:String x:Key="NotificationSettingsRestoreDefault">Restore Defaults</system:String>
+    <system:String x:Key="NotificationSettingsExternalTip" xml:space="preserve">Set when external notifications are sent and which logs they include here.&#10;To select notification channels or configure delivery services, go to the ｢{key=ExternalNotificationSettings}｣ settings.</system:String>
 </ResourceDictionary>

@@ -69,48 +69,12 @@
                     Content="{DynamicResource ExternalNotificationSendTest}"
                     IsEnabled="{c:Binding 'ConfigCount > 0'}" />
             </StackPanel>
-            <StackPanel HorizontalAlignment="Center" Visibility="{c:Binding 'ConfigCount > 0'}">
-                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <CheckBox
-                        Margin="5"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Content="{DynamicResource ExternalNotificationSendWhenComplete}"
-                        IsChecked="{Binding ExternalNotificationSendWhenComplete}" />
-                    <StackPanel
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Orientation="Horizontal"
-                        Visibility="{c:Binding ExternalNotificationSendWhenComplete}">
-                        <controls:TextBlock Margin="7.5,0" Text="└" />
-                        <CheckBox
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Content="{DynamicResource ExternalNotificationEnableDetails}"
-                            IsChecked="{Binding ExternalNotificationEnableDetails}" />
-                    </StackPanel>
-                </StackPanel>
-                <CheckBox
-                    Margin="5"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="{DynamicResource ExternalNotificationSendWhenError}"
-                    IsChecked="{Binding ExternalNotificationSendWhenError}" />
-                <StackPanel Margin="5" Orientation="Horizontal">
-                    <CheckBox
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Content="{DynamicResource ExternalNotificationSendWhenStalled}"
-                        IsChecked="{Binding ExternalNotificationSendWhenStalled}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource ExternalNotificationSendWhenStalledTip}" />
-                </StackPanel>
-                <CheckBox
-                    Margin="5"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Content="{DynamicResource ExternalNotificationSendBeforeScheduledStart}"
-                    IsChecked="{Binding ExternalNotificationSendBeforeScheduledStart}" />
-            </StackPanel>
+            <CheckBox
+                Margin="5"
+                HorizontalAlignment="Center"
+                Content="{DynamicResource ExternalNotificationSendBeforeScheduledStart}"
+                IsChecked="{Binding ExternalNotificationSendBeforeScheduledStart}"
+                Visibility="{c:Binding 'ConfigCount > 0'}" />
         </StackPanel>
 
         <StackPanel Grid.Row="2" Orientation="Vertical">

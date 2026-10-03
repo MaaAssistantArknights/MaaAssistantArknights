@@ -12,7 +12,6 @@
 // </copyright>
 #nullable enable
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MaaWpfGui.Helper;
@@ -24,13 +23,10 @@ namespace MaaWpfGui.Services.ExternalNotification;
 
 public static class ExternalNotificationService
 {
-    private static readonly List<Task> _taskContainers = [];
+    private static readonly ILogger _logger = Log.ForContext(typeof(ExternalNotificationService));
 
-    private static readonly ILogger _logger = Log.Logger;
-
-    private static async Task SendAsync(string title, string content, bool isTest = false)
+    private static async Task SendAsync(string title, string content, BaseConfig[] notificationList, bool isTest)
     {
-        var notificationList = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationConfigs.AsReadOnly();
         foreach (var config in notificationList)
         {
             IExternalNotificationProvider provider = config switch {
@@ -49,7 +45,7 @@ public static class ExternalNotificationService
             var result = false;
             try
             {
-                result = await provider.SendAsync(title, content);
+                result = await provider.SendAsync(title, content).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -61,23 +57,25 @@ public static class ExternalNotificationService
                 continue;
             }
 
-            // 渠道显示名与设置页各渠道卡片标题一致：品牌名无需本地化，自定义 Webhook 用本地化 key
-            var providerName = config switch {
-                ServerChanConfig => "Server Chan",
-                TelegramConfig => "Telegram",
-                DiscordConfig => "Discord",
-                DingTalkConfig => "DingTalk",
-                SmtpConfig => "SMTP",
-                BarkConfig => "Bark",
-                QmsgConfig => "Qmsg",
-                GotifyConfig => "Gotify",
-                CustomWebhookConfig => LocalizationHelper.GetString("ExternalNotificationCustomWebhook"),
-                _ => config.GetType().Name,
-            };
+            await Stylet.Execute.OnUIThreadAsync(() => {
+                // 渠道显示名与设置页各渠道卡片标题一致：品牌名无需本地化，自定义 Webhook 用本地化 key
+                var providerName = config switch {
+                    ServerChanConfig => "Server Chan",
+                    TelegramConfig => "Telegram",
+                    DiscordConfig => "Discord",
+                    DingTalkConfig => "DingTalk",
+                    SmtpConfig => "SMTP",
+                    BarkConfig => "Bark",
+                    QmsgConfig => "Qmsg",
+                    GotifyConfig => "Gotify",
+                    CustomWebhookConfig => LocalizationHelper.GetString("ExternalNotificationCustomWebhook"),
+                    _ => config.GetType().Name,
+                };
 
-            ToastNotification.ShowDirect(
-                providerName + " " +
-                LocalizationHelper.GetString(result ? "ExternalNotificationSendSuccess" : "ExternalNotificationSendFail"));
+                ToastNotification.ShowDirect(
+                    providerName + " " +
+                    LocalizationHelper.GetString(result ? "ExternalNotificationSendSuccess" : "ExternalNotificationSendFail"));
+            }).ConfigureAwait(false);
         }
     }
 
@@ -89,30 +87,8 @@ public static class ExternalNotificationService
     /// <param name="isTest">Indicate if it is a test or not.</param>
     public static void Send(string title, string content, bool isTest = false)
     {
-        var task = SendAsync("[MAA] " + title, content, isTest);
-        _taskContainers.RemoveAll(x => x.Status != TaskStatus.Running);
-        _taskContainers.Add(task);
-    }
-
-    public static class Event
-    {
-        public static void AllTaskComplete(string title, string content, string? sanityReport)
-        {
-            if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenComplete)
-            {
-                var logs = string.Empty;
-                if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationEnableDetails)
-                {
-                    logs = string.Join("\n", Instances.TaskQueueViewModel.LogItemViewModels.Select(logItem => $"[{logItem.Time}][{logItem.Color}]{logItem.Content}"));
-                }
-                logs += content;
-                if (!string.IsNullOrEmpty(sanityReport))
-                {
-                    logs += Environment.NewLine + sanityReport;
-                }
-
-                Send(title, logs);
-            }
-        }
+        // Snapshot on the UI thread before asynchronous provider delivery.
+        var configurations = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationConfigs.ToArray();
+        _ = SendAsync("[MAA] " + title, content, configurations, isTest);
     }
 }

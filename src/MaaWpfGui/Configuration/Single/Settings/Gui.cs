@@ -28,6 +28,7 @@ public partial class Gui : NotifyPropertyChangedWithValue
     {
         PropertyChanged += Handler.OnPropertyChangedFactory(prefix);
         Performance.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(Performance) + ".");
+        Notification.EventBinding(prefix + nameof(Notification) + ".");
         ExternalNotification.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(ExternalNotification) + ".");
         ExternalNotification.Configs.CollectionChanged += Handler.OnCollectionChangedFactory<Base>(prefix + nameof(ExternalNotification) + ".");
         RemoteControl.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(RemoteControl) + ".");
@@ -42,6 +43,9 @@ public partial class Gui : NotifyPropertyChangedWithValue
 
     [JsonInclude]
     public Performance Performance { get; private set; } = new();
+
+    [JsonInclude]
+    public NotificationSettings Notification { get; private set; } = new();
 
     [JsonInclude]
     public ExternalNotification ExternalNotification { get; private set; } = new();

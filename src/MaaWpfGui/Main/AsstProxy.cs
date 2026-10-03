@@ -43,7 +43,7 @@ using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Models.EmulatorConnectionExtra;
 using MaaWpfGui.Services;
-using MaaWpfGui.Services.ExternalNotification;
+using MaaWpfGui.Services.Notification;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
@@ -1401,7 +1401,6 @@ public class AsstProxy
                 {
                     _taskChainStartTimes.Remove(taskId);
                     UpdateTaskStatus(taskId, TaskStatus.Error);
-                    _tasksStatus.TryGetValue(taskId, out var value);
 
                     // 只统计主任务队列轮次的失败（工具箱 / Copilot / 小游戏各有独立归属），
                     // Copilot / 小工具（如公招识别）的报错不应阻止完成后动作。
@@ -1422,17 +1421,12 @@ public class AsstProxy
                     var log = details["error"]?.ToString() == "OutOfMemory"
                         ? LocalizationHelper.GetStringFormat("OutOfMemoryError", LocalizationHelper.GetString(taskChain))
                         : LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(taskChain);
-                    Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error, updateCardImage: true, fetchLatestImage: true, useCardImageAsToolTip: true);
+                    Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error, updateCardImage: true, fetchLatestImage: true, useCardImageAsToolTip: true,
+                        notification: isCopilotTaskChain ? null : new(NotificationTag.TaskError, log, log));
 
-                    ToastNotification.ShowDirect(log);
-                    if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenError)
+                    if (isCopilotTaskChain)
                     {
-                        ExternalNotificationService.Send(log, log);
-                    }
-
-                    if (value is { Type: TaskType.Copilot })
-                    {
-                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
+                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error, notification: new(NotificationTag.TaskError, log, log));
                         AchievementTrackerHelper.Instance.Unlock(AchievementIds.CopilotError);
                     }
 
@@ -1454,8 +1448,8 @@ public class AsstProxy
 
                     // LinkStart 按钮也会修改，但小工具中的日志源需要在这里修改
                     Instances.OverlayViewModel.LogItemsSource = (taskChain is "Copilot" or "SSSCopilot") /* or "VideoRecognition") */
-                        ? Instances.CopilotViewModel.LogItemViewModels
-                        : Instances.TaskQueueViewModel.LogItemViewModels;
+                        ? Instances.NotificationService.CopilotOverlay
+                        : Instances.NotificationService.TaskQueueOverlay;
 
                     break;
                 }
@@ -1609,22 +1603,16 @@ public class AsstProxy
                             _sanityRecoveryTimer.Start();
                         }
                     }
-                    AddTaskCompletionLog(allTaskCompleteLog, hasTaskErrors);
 
                     // 出错时保留完成上下文（时间/配置等）再附错误清单，避免通知正文只剩清单
                     var allTaskCompleteContent = hasTaskErrors
                         ? allTaskCompleteMessage + Environment.NewLine + BuildTaskErrorSummaryLog(failedTaskNames)
                         : allTaskCompleteMessage;
-                    ExternalNotificationService.Event.AllTaskComplete(allTaskCompleteTitle, allTaskCompleteContent, sanityReport);
-                    using (var toast = new ToastNotification(allTaskCompleteTitle))
-                    {
-                        if (FightSetting.SanityReport is not null)
-                        {
-                            toast.AppendContentText(sanityReport);
-                        }
-
-                        toast.Show();
-                    }
+                    var notificationContent = string.IsNullOrEmpty(sanityReport)
+                        ? allTaskCompleteContent
+                        : allTaskCompleteContent + Environment.NewLine + sanityReport;
+                    AddTaskCompletionLog(allTaskCompleteLog, hasTaskErrors,
+                        new(NotificationTag.TaskComplete, allTaskCompleteTitle, notificationContent));
 
                     if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
                     {
@@ -1645,7 +1633,8 @@ public class AsstProxy
                 }
                 else if (runOwner == RunOwner.Copilot)
                 {
-                    ToastNotification.ShowDirect(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(taskChain));
+                    var message = LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(taskChain);
+                    Instances.CopilotViewModel.AddLog(message, notification: new(NotificationTag.TaskComplete, message, message));
                 }
 
                 if (buyWine)
@@ -1951,8 +1940,8 @@ public class AsstProxy
                             break;
 
                         case "FightMissionFailedAndStop":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightMissionFailedAndStop"), UiLogColor.Error);
-                            ToastNotification.ShowDirect(LocalizationHelper.GetString("FightMissionFailedAndStop"));
+                            var fightError = LocalizationHelper.GetString("FightMissionFailedAndStop");
+                            Instances.TaskQueueViewModel.AddLog(fightError, UiLogColor.Error, notification: new(NotificationTag.TaskError, fightError, fightError));
                             break;
 
                         case "CheckEncounter-Uncollected":
@@ -1960,14 +1949,8 @@ public class AsstProxy
                                 var title = LocalizationHelper.GetString("MiniGame@InteractiveExhibition@UncollectedNotificationTitle");
                                 var content = LocalizationHelper.GetString("MiniGame@InteractiveExhibition@UncollectedNotificationContent");
 
-                                Instances.TaskQueueViewModel.AddLog(content, UiLogColor.Warning, updateCardImage: true);
-
-                                ToastNotification.ShowDirect($"{title}\n{content}");
-
-                                if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenComplete)
-                                {
-                                    ExternalNotificationService.Send(title, content);
-                                }
+                                Instances.TaskQueueViewModel.AddLog(content, UiLogColor.Warning, updateCardImage: true,
+                                    notification: new(NotificationTag.TaskComplete, title, content));
 
                                 break;
                             }
@@ -2049,12 +2032,8 @@ public class AsstProxy
                             }
 
                             var log = LocalizationHelper.GetString("GameDrop");
-                            Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error);
-                            ToastNotification.ShowDirect(log);
-                            if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenError)
-                            {
-                                ExternalNotificationService.Send(log, log);
-                            }
+                            Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error,
+                                notification: new(NotificationTag.TaskError, log, log));
                             _ = Instances.TaskQueueViewModel.Stop();
                             break;
 
@@ -3582,24 +3561,24 @@ public class AsstProxy
         return string.Join('\n', failedTaskNames.Prepend(LocalizationHelper.GetString("TaskErrorSummaryTitle")));
     }
 
-    private void AddTaskCompletionLog(string completionLog, bool hasTaskErrors)
+    private void AddTaskCompletionLog(string completionLog, bool hasTaskErrors, NotificationMessage notification)
     {
         // 有错误时标题行标红单独成段，理智报告等后续内容留在下一段，避免整卡变红
         if (!hasTaskErrors)
         {
-            Instances.TaskQueueViewModel.AddLog(completionLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
+            Instances.TaskQueueViewModel.AddLog(completionLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both, notification: notification);
             return;
         }
 
         var (errorHeadline, extraContent) = SplitTaskCompletionLog(completionLog);
         if (string.IsNullOrWhiteSpace(extraContent))
         {
-            Instances.TaskQueueViewModel.AddLog(errorHeadline, UiLogColor.Error, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
+            Instances.TaskQueueViewModel.AddLog(errorHeadline, UiLogColor.Error, splitMode: TaskQueueViewModel.LogCardSplitMode.Both, notification: notification);
             return;
         }
 
         Instances.TaskQueueViewModel.AddLog(errorHeadline, UiLogColor.Error, splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
-        Instances.TaskQueueViewModel.AddLog(extraContent, splitMode: TaskQueueViewModel.LogCardSplitMode.After);
+        Instances.TaskQueueViewModel.AddLog(extraContent, splitMode: TaskQueueViewModel.LogCardSplitMode.After, notification: notification);
     }
 
     private static (string ErrorHeadline, string ExtraContent) SplitTaskCompletionLog(string completionLog)
