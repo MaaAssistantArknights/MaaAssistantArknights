@@ -249,12 +249,6 @@ bool asst::CopilotTask::set_params(const json::value& params)
         }
     }
 
-    if (m_auto_restart) {
-        // ProcessTask 会在多次尝试间复用并保留执行计数；下方状态机已经按作业限制重开次数，
-        // 因此流程节点不能再使用一个跨作业累计的失败上限。
-        m_stop_task_ptr->set_times_limit("Copilot@FightMissionFailed-AutoRestart", std::numeric_limits<int>::max());
-        m_stop_task_ptr->set_times_limit("Copilot@WaitUntilEndOfAction-AutoRestart", std::numeric_limits<int>::max());
-    }
     return true;
 }
 
@@ -568,7 +562,10 @@ asst::CopilotTask::StageAttemptResult asst::CopilotTask::run_stage_attempt(size_
     }
 
     const int task_delay = Config.get_options().task_delay;
-    const int failed_times_before = m_stop_task_ptr->get_exec_times("Copilot@FightMissionFailed-AutoRestart");
+    // ProcessTask 会在多次尝试间复用并保留执行计数；每次尝试重置 AutoRestart 节点，
+    // 使等待自环仍受资源中的 maxTimes 保护，同时避免上一次尝试的计数干扰失败检测。
+    m_stop_task_ptr->reset_exec_times("Copilot@FightMissionFailed-AutoRestart")
+        .reset_exec_times("Copilot@WaitUntilEndOfAction-AutoRestart");
 
     for (size_t index = begin; index < end; ++index) {
         if (need_exit()) {
@@ -587,11 +584,11 @@ asst::CopilotTask::StageAttemptResult asst::CopilotTask::run_stage_attempt(size_
         const bool succeeded = task_ptr->run();
         // 即使流程图之后正常结束，也可能已经命中过失败节点，因此必须独立检查计数，不能只依赖返回值。
         if (task_ptr == m_stop_task_ptr &&
-            m_stop_task_ptr->get_exec_times("Copilot@FightMissionFailed-AutoRestart") > failed_times_before) {
+            m_stop_task_ptr->get_exec_times("Copilot@FightMissionFailed-AutoRestart") > 0) {
             return StageAttemptResult::RetryAfterFailure;
         }
         if (!succeeded) {
-            if (task_ptr == m_battle_task_ptr && m_battle_task_ptr->has_leaked()) {
+            if (task_ptr == m_battle_task_ptr && m_battle_task_ptr->can_retry_after_leak()) {
                 return StageAttemptResult::RetryAfterLeak;
             }
             if (!task_ptr->get_ignore_error()) {

@@ -113,6 +113,12 @@ ProcessTask& ProcessTask::set_reusable_image(const cv::Mat& reusable)
     return *this;
 }
 
+ProcessTask& ProcessTask::reset_exec_times(std::string_view name)
+{
+    m_exec_times.erase(std::string(name));
+    return *this;
+}
+
 ProcessTask& asst::ProcessTask::set_override_next(std::unordered_map<std::string, TaskList> next_override)
 {
     m_next_override = std::move(next_override);
