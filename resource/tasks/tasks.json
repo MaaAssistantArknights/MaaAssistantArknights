@@ -6384,8 +6384,18 @@
         "roi": [485, 425, 84, 20]
     },
     "OperProgress@MfgCatalystMissing": {
-        "baseTask": "OperProgress@EliteUpMaterialMissing",
-        "template": "MaterialMissing.png"
+        "algorithm": "MatchTemplate",
+        "method": "HSVCount",
+        "template": "MfgCatalystMissing.png",
+        "pureColor": true,
+        "roi": [534, 89, 19, 151],
+        "colorScales": [
+            [
+                [0, 160, 100],
+                [3, 190, 135]
+            ]
+        ],
+        "doc": "制造站芯片列表首行芯片助剂不足时的深红色背景"
     },
     "OperProgress@ReturnToMfgPage": {
         "baseTask": "Return",
