@@ -32,6 +32,7 @@ public:
     void release(const std::string& name);
     bool use_cpu();
     bool use_gpu(GpuDeviceSelector selector);
+    bool recover_from_gpu_device_removed();
 
 private:
     // 以下内部函数均要求调用方已持有 m_mutex

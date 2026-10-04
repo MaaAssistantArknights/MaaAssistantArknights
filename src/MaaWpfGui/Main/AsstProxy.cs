@@ -1384,10 +1384,19 @@ public class AsstProxy
                         failedTaskName += GetMultiChainTaskNameSuffix(failedTask, taskChain, taskId);
                     }
 
-                    // details.error 为 Core 侧 TaskExceptionKind 名（如 OutOfMemory），普通识别错误无此字段
-                    var log = details["error"]?.ToString() == "OutOfMemory"
-                        ? LocalizationHelper.GetStringFormat("OutOfMemoryError", LocalizationHelper.GetString(taskChain))
-                        : LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(taskChain);
+                    // details.details.error 为 Core 侧 TaskExceptionKind 名，普通识别错误无此字段
+                    var exceptionDetails = details["details"];
+                    var exceptionKind = exceptionDetails?["error"]?.ToString();
+                    var localizedTaskChain = LocalizationHelper.GetString(taskChain);
+                    var log = exceptionKind switch
+                    {
+                        "OutOfMemory" => LocalizationHelper.GetStringFormat("OutOfMemoryError", localizedTaskChain),
+                        "GpuDeviceRemoved" when exceptionDetails?["recovered"]?.ToObject<bool>() == true
+                            => LocalizationHelper.GetStringFormat("GpuDeviceRemovedRecovered", localizedTaskChain),
+                        "GpuDeviceRemoved"
+                            => LocalizationHelper.GetStringFormat("GpuDeviceRemovedRestartRequired", localizedTaskChain),
+                        _ => LocalizationHelper.GetString("TaskError") + localizedTaskChain,
+                    };
                     Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error, updateCardImage: true, fetchLatestImage: true, useCardImageAsToolTip: true);
 
                     ToastNotification.ShowDirect(log);

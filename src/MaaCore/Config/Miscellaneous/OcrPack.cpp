@@ -49,6 +49,21 @@ OcrPack::~OcrPack()
     }
 }
 
+void OcrPack::recover_from_gpu_device_removed() noexcept
+{
+    m_gpu_selector = std::nullopt;
+    if (!m_gpu_active) {
+        return;
+    }
+
+    // Destroying FastDeploy DirectML objects is known to crash in some environments. Abandon the invalid objects just
+    // as the destructor does; check_and_load() will lazily create a fresh CPU pipeline from the retained model paths.
+    (void)m_impl->det.release();
+    (void)m_impl->rec.release();
+    (void)m_impl->ocr.release();
+    m_gpu_active = false;
+}
+
 bool OcrPack::load(const std::filesystem::path& path)
 {
     LogTraceFunction;

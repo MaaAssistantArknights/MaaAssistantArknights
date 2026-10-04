@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <filesystem>
+#include <memory>
 #include <string_view>
 #include <thread>
 
@@ -160,6 +161,31 @@ bool asst::OnnxSessions::use_gpu_locked(GpuDeviceSelector selector)
     gpu_enabled = true;
     gpu_options_initialized = false;
     return true;
+}
+
+bool asst::OnnxSessions::recover_from_gpu_device_removed()
+{
+    std::lock_guard lock(m_mutex);
+    if (!gpu_enabled) {
+        return true;
+    }
+
+    if (!m_session_users.empty()) {
+        Log.error(__FUNCTION__, "Cannot recover while ONNX sessions are acquired", m_session_users.size());
+        return false;
+    }
+
+    // Ort objects are intentionally leaked at process shutdown because destroying DirectML sessions may crash. Apply
+    // the same bounded policy to the invalid device generation, then build fresh CPU sessions lazily.
+    auto abandoned_sessions = std::make_unique<decltype(m_sessions)>();
+    auto abandoned_options = std::make_unique<Ort::SessionOptions>(nullptr);
+    abandoned_sessions->swap(m_sessions);
+    *abandoned_options = std::move(m_options);
+    (void)abandoned_sessions.release();
+    (void)abandoned_options.release();
+    m_pending_reload.clear();
+
+    return use_cpu_locked();
 }
 
 bool asst::OnnxSessions::initialize_gpu_options()
