@@ -610,7 +610,7 @@ D:\
     <system:String x:Key="SelectPcClientTip">可选择 PC 客户端本体或其快捷方式，并可通过 ｢{key=AdditionCommand}｣ 补充启动参数。</system:String>
     <system:String x:Key="PcClientPathEmptyError">PC 客户端路径为空，请先选择客户端程序。</system:String>
     <system:String x:Key="PcClientPathNotExist">PC 客户端路径不存在</system:String>
-    <system:String x:Key="PcClientPathEmptyWarning">PC 客户端路径为空，自动启动与连接失败重试选项已被还原</system:String>
+    <system:String x:Key="PcClientPathEmptyWarning">PC 客户端路径为空，｢{key=RetryOnPcDisconnected}｣ 与 ｢{key=OpenPcClientAfterLaunch}｣ 勾选状态已被还原</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorPrompt">你也想在酒吧里点酒吧？</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">我确定没选错</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">好的，我会重新选择</system:String>

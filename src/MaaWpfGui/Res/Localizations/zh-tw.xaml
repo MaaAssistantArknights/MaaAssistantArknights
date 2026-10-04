@@ -611,7 +611,7 @@ D:\
     <system:String x:Key="SelectPcClientTip">可選擇 PC 客戶端主程式或其捷徑，並可透過 ｢{key=AdditionCommand}｣ 補充啟動參數。</system:String>
     <system:String x:Key="PcClientPathEmptyError">PC 客戶端路徑為空，請先選擇客戶端程式。</system:String>
     <system:String x:Key="PcClientPathNotExist">PC 客戶端路徑不存在</system:String>
-    <system:String x:Key="PcClientPathEmptyWarning">PC 客戶端路徑為空，自動啟動與連線失敗重試選項已被還原</system:String>
+    <system:String x:Key="PcClientPathEmptyWarning">PC 客戶端路徑為空，｢{key=RetryOnPcDisconnected}｣ 與 ｢{key=OpenPcClientAfterLaunch}｣ 勾選狀態已被還原</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorPrompt">你也想在酒吧裡點酒吧？</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">我確定沒選錯</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">好的，我會重新選擇</system:String>

@@ -611,7 +611,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="SelectPcClientTip">PC クライアント本体またはショートカットを選択できます。｢{key=AdditionCommand}｣ で起動引数を追加できます。</system:String>
     <system:String x:Key="PcClientPathEmptyError">PC クライアントのパスが空です。先にクライアントを選択してください。</system:String>
     <system:String x:Key="PcClientPathNotExist">PC クライアントのパスが存在しません</system:String>
-    <system:String x:Key="PcClientPathEmptyWarning">PC クライアントのパスが空のため、自動起動と接続再試行を無効にしました</system:String>
+    <system:String x:Key="PcClientPathEmptyWarning">PC クライアントのパスが空です。｢{key=RetryOnPcDisconnected}｣ と ｢{key=OpenPcClientAfterLaunch}｣ のチェック状態がリセットされました</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorPrompt">バーでバーを注文したいですか？</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">確かに間違って選択していないと思います</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">はい、もう一度選択します</system:String>

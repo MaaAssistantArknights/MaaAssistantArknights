@@ -240,6 +240,25 @@ public class StartSettingsUserControlModel : PropertyChangedBase
                 return;
             }
 
+            if (Path.GetFileName(value).Contains("maa", StringComparison.OrdinalIgnoreCase))
+            {
+                int count = 3;
+                while (count-- > 0)
+                {
+                    var result = MessageBoxHelper.Show(
+                        LocalizationHelper.GetString("EmulatorPathSelectionErrorPrompt"),
+                        LocalizationHelper.GetString("Tip"),
+                        MessageBoxButton.OKCancel,
+                        MessageBoxImage.Warning,
+                        ok: LocalizationHelper.GetString("EmulatorPathSelectionErrorImSure") + $"({count + 1})",
+                        cancel: LocalizationHelper.GetString("EmulatorPathSelectionErrorSelectAgain"));
+                    if (result == MessageBoxResult.Cancel)
+                    {
+                        return;
+                    }
+                }
+            }
+
             if (string.IsNullOrEmpty(value))
             {
                 if (ConnectSettings.RetryPcClientOnDisconnected || OpenPcClientAfterLaunch)
@@ -353,7 +372,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         return (fileName, arguments);
     }
 
-    private static void WaitForConnectionTargetStart(int delay, ConnectionTargetLaunchSettings settings)
+    private void WaitForConnectionTargetStart(int delay, ConnectionTargetLaunchSettings settings)
     {
         bool idle = _runningState.GetIdle();
         _runningState.SetIdle(false);
@@ -388,6 +407,8 @@ public class StartSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Starts the launch target associated with the current connection mode.
     /// </summary>
+    /// <param name="openWithMaaLaunch">Whether the target is being started automatically when MAA launches.</param>
+    /// <param name="test">Whether to test the launch without checking auto-start settings or waiting.</param>
     public void TryToStartConnectionTarget(bool openWithMaaLaunch = false, bool test = false)
     {
         TryToStartConnectionTarget(GetCurrentConnectionTargetLaunchSettings(), openWithMaaLaunch, test);
@@ -406,12 +427,14 @@ public class StartSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// 尝试启动 PC 客户端。
     /// </summary>
+    /// <param name="openWithMaaLaunch">启动 MAA 后自动开启 PC 客户端。</param>
+    /// <param name="test">测试启动 PC 客户端，即使配置中未设置自动启动，不读取等待时间。</param>
     public void TryToStartPcClient(bool openWithMaaLaunch = false, bool test = false)
     {
         TryToStartConnectionTarget(GetPcClientLaunchSettings(), openWithMaaLaunch, test);
     }
 
-    private static void TryToStartConnectionTarget(
+    private void TryToStartConnectionTarget(
         ConnectionTargetLaunchSettings settings,
         bool openWithMaaLaunch,
         bool test)
