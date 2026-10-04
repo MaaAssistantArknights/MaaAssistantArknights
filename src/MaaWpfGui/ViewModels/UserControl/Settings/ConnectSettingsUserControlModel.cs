@@ -576,7 +576,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     private static Window? _imagePopupWindow;
 
     /// <summary>
-    /// Detects the running MuMu ARM instance and tests its connection and screenshot.
+    /// Enables persistent detection of the running MuMu ARM instance and tests its connection and screenshot.
     /// </summary>
     /// <returns>Task</returns>
     [UsedImplicitly]
@@ -588,6 +588,9 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         }
 
         AutoDetectConnection = true;
+
+        // MuMu ARM can receive a new IP address when the instance restarts.
+        AlwaysAutoDetectConnection = true;
         await TestLinkAndGetImage();
     }
 
