@@ -1422,7 +1422,7 @@ public class AsstProxy
                         ? LocalizationHelper.GetStringFormat("OutOfMemoryError", LocalizationHelper.GetString(taskChain))
                         : LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(taskChain);
                     Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error, updateCardImage: true, fetchLatestImage: true, useCardImageAsToolTip: true,
-                        notification: isCopilotTaskChain ? null : new(NotificationTag.TaskError, log, log));
+                        notification: isCopilotTaskChain ? null : new(NotificationTag.TaskError, log, log), processNotifications: !isCopilotTaskChain);
 
                     if (isCopilotTaskChain)
                     {

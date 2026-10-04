@@ -12,9 +12,12 @@
 // </copyright>
 
 #nullable enable
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,14 +30,18 @@ using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.Settings;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Helper;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.ViewModels.Items;
+using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.Views.UserControl.Settings;
+using Stylet;
 
 namespace NotificationTests;
 
 // Run: dotnet run --project tools/NotificationTests -r win-x64
+// Include the GUI log producer: append -- --native-dir build/bin/Debug (requires MaaCore and its dependencies).
 internal static class Program
 {
     private static readonly DateTimeOffset Now = DateTimeOffset.Parse("2026-10-03T12:00:00+08:00");
@@ -51,6 +58,15 @@ internal static class Program
             Test("overlay eviction cannot delete external context", Overlay);
             Test("typed UI updates and customization survives toggling", Settings);
             Test("migration of all profiles and round-trip persistence", Migration);
+            if (args.Length == 2 && args[0] == "--native-dir")
+            {
+                var nativeDirectory = Path.GetFullPath(args[1]);
+                NativeLibrary.SetDllImportResolver(typeof(TaskQueueViewModel).Assembly,
+                    (name, assembly, searchPath) => name == "MaaCore.dll"
+                        ? NativeLibrary.Load(Path.Combine(nativeDirectory, name), assembly, searchPath)
+                        : IntPtr.Zero);
+                Test("mirrored logs stay visible without publishing notifications", MirroredLogs);
+            }
             if (args.Length == 2 && args[0] == "--render")
             {
                 Render(args[1]);
@@ -283,6 +299,51 @@ internal static class Program
         Check(partial.Overlay is not null && partial.External.FilterList == string.Empty
               && partial.External.MaxEntries == 0 && partial.External.TimeMinutes == 10080,
             "Partial notification configuration was not normalized");
+    }
+
+    private static void MirroredLogs()
+    {
+        // Isolate the log producer from task startup, thumbnails and transports.
+        // Leaving the service unset makes any accidental publication fail.
+        var queue = (TaskQueueViewModel)RuntimeHelpers.GetUninitializedObject(typeof(TaskQueueViewModel));
+        typeof(TaskQueueViewModel).GetProperty(nameof(TaskQueueViewModel.LogItemViewModels))!
+            .SetValue(queue, new ObservableCollection<LogItemViewModel>());
+        typeof(TaskQueueViewModel).GetProperty(nameof(TaskQueueViewModel.LogCardViewModels))!
+            .SetValue(queue, new ObservableCollection<LogCardItemViewModel>());
+        var serviceProperty = typeof(Instances).GetProperty(nameof(Instances.NotificationService))!;
+        var previousService = serviceProperty.GetValue(null);
+        var previousDispatcher = Execute.Dispatcher;
+        Execute.Dispatcher = SynchronousDispatcher.Instance;
+        serviceProperty.SetValue(null, null);
+        try
+        {
+            queue.AddLog("Copilot error mirror", UiLogColor.Error, notifyActivity: false, processNotifications: false);
+            queue.AddLog("Copilot error with payload", UiLogColor.Error, notifyActivity: false,
+                notification: new(NotificationTag.TaskError, "Error", "Error details"), processNotifications: false);
+            Check(queue.LogItemViewModels.Count == 2
+                  && queue.LogItemViewModels[0].Content == "Copilot error mirror"
+                  && queue.LogItemViewModels[1].Content == "Copilot error with payload",
+                "Mirrored error was hidden or published to notification channels");
+            Check(queue.LogCardViewModels.SelectMany(card => card.Items).Count() == 2,
+                "Mirrored logs did not preserve card display");
+
+            var publicationAttempted = false;
+            try
+            {
+                queue.AddLog("Normal task queue log", notifyActivity: false);
+            }
+            catch (NullReferenceException)
+            {
+                publicationAttempted = true;
+            }
+
+            Check(publicationAttempted, "Normal logs stopped entering the notification pipeline");
+        }
+        finally
+        {
+            serviceProperty.SetValue(null, previousService);
+            Execute.Dispatcher = previousDispatcher;
+        }
     }
 
     private static void Render(string outputDirectory)

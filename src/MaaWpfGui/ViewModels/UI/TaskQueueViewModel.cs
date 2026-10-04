@@ -1576,6 +1576,7 @@ public class TaskQueueViewModel : Screen
     /// <param name="splitMode">Whether to split cards before/after this log.</param>
     /// <param name="notifyActivity">Whether this log should notify activity (and reset idle timer).</param>
     /// <param name="notification">Optional notification payload, independent of card presentation.</param>
+    /// <param name="processNotifications">Whether to include this log in notification history and channels.</param>
     public void AddLog(string? content,
         string color = UiLogColor.Trace,
         string weight = "Regular",
@@ -1585,7 +1586,8 @@ public class TaskQueueViewModel : Screen
         bool useCardImageAsToolTip = false,
         LogCardSplitMode splitMode = LogCardSplitMode.None,
         bool notifyActivity = true,
-        NotificationMessage? notification = null)
+        NotificationMessage? notification = null,
+        bool processNotifications = true)
     {
         if (notifyActivity)
         {
@@ -1614,7 +1616,8 @@ public class TaskQueueViewModel : Screen
         }
 
         Execute.OnUIThread(() => {
-            var notificationEvent = isEmpty ? null : new NotificationEvent(DateTimeOffset.Now, NotificationSource.TaskQueue, content!, color, notification, weight);
+            // A mirror belongs to its original producer; display it without publishing another event.
+            var notificationEvent = isEmpty || !processNotifications ? null : new NotificationEvent(DateTimeOffset.Now, NotificationSource.TaskQueue, content!, color, notification, weight);
             if (notificationEvent is not null && !Instances.NotificationService.ProcessLog(notificationEvent))
             {
                 return;
