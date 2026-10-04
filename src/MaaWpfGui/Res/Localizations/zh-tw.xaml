@@ -609,6 +609,7 @@ D:\
     <system:String x:Key="PcClientPath">PC 客戶端路徑</system:String>
     <system:String x:Key="SelectShortcutTip" xml:space="preserve">可選擇模擬器本體（配合 ｢{key=AdditionCommand}｣ 啟動參數可指定啟動模擬器實例），也可直接選擇模擬器或遊戲的捷徑。&#10;如因模擬器啟動時間過長導致 ｢{key=WakeUp}｣ 任務失敗，推薦填寫遊戲捷徑並延長 ｢{key=WaitForEmulator}｣。</system:String>
     <system:String x:Key="SelectPcClientTip">可選擇 PC 客戶端主程式或其捷徑，並可透過 ｢{key=AdditionCommand}｣ 補充啟動參數。</system:String>
+    <system:String x:Key="PcClientAddCommandTip" xml:space="preserve">附加命令用於指定 PC 客戶端的啟動參數，具體格式請參考客戶端或啟動器說明文件。&#10;使用捷徑時，將使用捷徑中儲存的參數。</system:String>
     <system:String x:Key="PcClientPathEmptyError">PC 客戶端路徑為空，請先選擇客戶端程式。</system:String>
     <system:String x:Key="PcClientPathNotExist">PC 客戶端路徑不存在</system:String>
     <system:String x:Key="PcClientPathEmptyWarning">PC 客戶端路徑為空，｢{key=RetryOnPcDisconnected}｣ 與 ｢{key=OpenPcClientAfterLaunch}｣ 勾選狀態已被還原</system:String>

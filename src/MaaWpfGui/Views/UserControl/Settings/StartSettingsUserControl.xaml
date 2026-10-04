@@ -53,7 +53,8 @@
             <StackPanel
                 Margin="10"
                 Orientation="Horizontal"
-                Visibility="{c:Binding '!IsPCConnectConfig', Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
+                Visibility="{c:Binding '!IsPCConnectConfig',
+                                       Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
                 <CheckBox
                     HorizontalAlignment="Left"
                     Block.TextAlignment="Center"
@@ -64,7 +65,8 @@
             <StackPanel
                 Margin="10"
                 Orientation="Horizontal"
-                Visibility="{c:Binding IsPCConnectConfig, Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
+                Visibility="{c:Binding IsPCConnectConfig,
+                                       Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
                 <CheckBox
                     HorizontalAlignment="Left"
                     Block.TextAlignment="Center"
@@ -81,7 +83,8 @@
             <StackPanel
                 Margin="10"
                 Orientation="Horizontal"
-                Visibility="{c:Binding '!IsPCConnectConfig', Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
+                Visibility="{c:Binding '!IsPCConnectConfig',
+                                       Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
                 <CheckBox MaxWidth="210" IsChecked="{Binding RetryOnDisconnected, Source={x:Static ui_vms:SettingsViewModel.ConnectSettings}}">
                     <controls:TextBlock Text="{DynamicResource RetryOnDisconnected}" TextWrapping="Wrap" />
                 </CheckBox>
@@ -90,7 +93,8 @@
             <StackPanel
                 Margin="10"
                 Orientation="Horizontal"
-                Visibility="{c:Binding IsPCConnectConfig, Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
+                Visibility="{c:Binding IsPCConnectConfig,
+                                       Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
                 <CheckBox MaxWidth="210" IsChecked="{Binding RetryPcClientOnDisconnected, Source={x:Static ui_vms:SettingsViewModel.ConnectSettings}}">
                     <controls:TextBlock Text="{DynamicResource RetryOnPcDisconnected}" TextWrapping="Wrap" />
                 </CheckBox>
@@ -101,7 +105,8 @@
         <StackPanel
             Grid.Column="1"
             VerticalAlignment="Center"
-            Visibility="{c:Binding '!IsPCConnectConfig', Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
+            Visibility="{c:Binding '!IsPCConnectConfig',
+                                   Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
             <StackPanel Margin="10">
                 <StackPanel
                     HorizontalAlignment="Center"
@@ -157,7 +162,8 @@
         <StackPanel
             Grid.Column="1"
             VerticalAlignment="Center"
-            Visibility="{c:Binding IsPCConnectConfig, Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
+            Visibility="{c:Binding IsPCConnectConfig,
+                                   Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
             <StackPanel Margin="10">
                 <StackPanel
                     HorizontalAlignment="Center"
@@ -189,7 +195,7 @@
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
                     <controls:TextBlock Block.TextAlignment="Center" Text="{DynamicResource AdditionCommand}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource AdditionCommandTip}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource PcClientAddCommandTip}" />
                 </StackPanel>
                 <TextBox IsEnabled="{Binding PcClientPath.Length}" Text="{Binding PcClientAddCommand}" />
             </StackPanel>

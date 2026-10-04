@@ -609,6 +609,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="PcClientPath">PC クライアントのパス</system:String>
     <system:String x:Key="SelectShortcutTip" xml:space="preserve">エミュレーター本体を選択（ ｢{key=AdditionCommand}｣ 起動パラメータでインスタンス指定可能）、または直接エミュレーター/ゲームのショートカットを選択できます。&#10; ｢{key=WakeUp}｣ タスクがエミュレーター起動遅延で失敗する場合、ゲームショートカットを使用し ｢{key=WaitForEmulator}｣ を延長することを推奨します。</system:String>
     <system:String x:Key="SelectPcClientTip">PC クライアント本体またはショートカットを選択できます。｢{key=AdditionCommand}｣ で起動引数を追加できます。</system:String>
+    <system:String x:Key="PcClientAddCommandTip" xml:space="preserve">PC クライアント起動時に渡す追加引数です。&#10;対応する引数の形式は、クライアントまたはランチャーのドキュメントを参照してください。&#10;ショートカットを使用する場合は、そのショートカットに保存された引数が使用されます。</system:String>
     <system:String x:Key="PcClientPathEmptyError">PC クライアントのパスが空です。先にクライアントを選択してください。</system:String>
     <system:String x:Key="PcClientPathNotExist">PC クライアントのパスが存在しません</system:String>
     <system:String x:Key="PcClientPathEmptyWarning">PC クライアントのパスが空です。｢{key=RetryOnPcDisconnected}｣ と ｢{key=OpenPcClientAfterLaunch}｣ のチェック状態がリセットされました</system:String>

@@ -609,6 +609,7 @@ If you choose ｢{key=ManualRestart}｣ and start MAA manually later, ｢{key=Ru
     <system:String x:Key="PcClientPath">PC client path</system:String>
     <system:String x:Key="SelectShortcutTip" xml:space="preserve">You may select the emulator executable (with ｢{key=AdditionCommand}｣ launch parameters to specify the instance), or directly choose the emulator/game shortcut.&#10;If the ｢{key=WakeUp}｣ task fails due to prolonged emulator startup, it's recommended to use the game shortcut and increase ｢{key=WaitForEmulator}｣.</system:String>
     <system:String x:Key="SelectPcClientTip">Select the PC client executable or shortcut. Extra launch parameters can be supplied through ｢{key=AdditionCommand}｣.</system:String>
+    <system:String x:Key="PcClientAddCommandTip" xml:space="preserve">Additional arguments are passed when starting the PC client.&#10;Refer to the client's or launcher's documentation for supported arguments.&#10;When using a shortcut, the arguments saved in that shortcut are used.</system:String>
     <system:String x:Key="PcClientPathEmptyError">The PC client path is empty. Select the client executable first.</system:String>
     <system:String x:Key="PcClientPathNotExist">The PC client path does not exist</system:String>
     <system:String x:Key="PcClientPathEmptyWarning">The PC client path is empty, ｢{key=RetryOnPcDisconnected}｣ and ｢{key=OpenPcClientAfterLaunch}｣ check states have been reset</system:String>

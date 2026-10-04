@@ -2081,7 +2081,7 @@ public class TaskQueueViewModel : Screen
         ResetTaskSelection();
     }
 
-    private async Task<bool> ConnectToConnectionTarget()
+    internal async Task<bool> ConnectToConnectionTarget()
     {
         string errMsg = string.Empty;
         bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));

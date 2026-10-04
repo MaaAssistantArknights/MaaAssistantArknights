@@ -204,27 +204,6 @@ public class RemoteControlService
         return (T)methodInfo.Invoke(instance, null);
     }
 
-    private static async Task<T> InvokeInstanceAsyncFunction<T>(object instance, string methodName)
-    {
-        ArgumentNullException.ThrowIfNull(instance);
-
-        if (string.IsNullOrEmpty(methodName))
-        {
-            throw new ArgumentNullException(nameof(methodName));
-        }
-
-        Type type = instance.GetType();
-        MethodInfo methodInfo = type.GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance) ?? throw new ArgumentException($"Method '{methodName}' not found in type '{type.FullName}'.");
-
-        // 检查方法是否是异步方法 (返回Task或Task<T>)
-        if (!typeof(Task).IsAssignableFrom(methodInfo.ReturnType))
-        {
-            throw new ArgumentException($"Method '{methodName}' is not asynchronous.");
-        }
-
-        return await (Task<T>)methodInfo.Invoke(instance, null);
-    }
-
     private static TResult InvokeStaticFunction<TResult>(Type staticType, string methodName)
     {
         ArgumentNullException.ThrowIfNull(staticType);
@@ -580,7 +559,7 @@ public class RemoteControlService
                 return;
             }
 
-            if (!await InvokeInstanceAsyncFunction<bool>(Instances.TaskQueueViewModel, "ConnectToEmulator"))
+            if (!await Instances.TaskQueueViewModel.ConnectToConnectionTarget())
             {
                 return;
             }

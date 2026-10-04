@@ -608,6 +608,7 @@ D:\
     <system:String x:Key="PcClientPath">PC 客户端路径</system:String>
     <system:String x:Key="SelectShortcutTip" xml:space="preserve">可选择模拟器本体（配合 ｢{key=AdditionCommand}｣ 启动参数可指定启动模拟器实例），也可直接选择模拟器或游戏的快捷方式。&#10;如因模拟器启动时间过长导致 ｢{key=WakeUp}｣ 任务失败，推荐填写游戏快捷方式并延长 ｢{key=WaitForEmulator}｣。</system:String>
     <system:String x:Key="SelectPcClientTip">可选择 PC 客户端本体或其快捷方式，并可通过 ｢{key=AdditionCommand}｣ 补充启动参数。</system:String>
+    <system:String x:Key="PcClientAddCommandTip" xml:space="preserve">附加命令用于指定 PC 客户端的启动参数，具体格式请参考客户端或启动器文档。&#10;使用快捷方式时，将使用快捷方式中保存的参数。</system:String>
     <system:String x:Key="PcClientPathEmptyError">PC 客户端路径为空，请先选择客户端程序。</system:String>
     <system:String x:Key="PcClientPathNotExist">PC 客户端路径不存在</system:String>
     <system:String x:Key="PcClientPathEmptyWarning">PC 客户端路径为空，｢{key=RetryOnPcDisconnected}｣ 与 ｢{key=OpenPcClientAfterLaunch}｣ 勾选状态已被还原</system:String>

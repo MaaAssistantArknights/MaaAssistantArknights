@@ -609,6 +609,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="PcClientPath">PC 클라이언트 경로</system:String>
     <system:String x:Key="SelectShortcutTip" xml:space="preserve">에뮬레이터 실행 파일 선택 (｢{key=AdditionCommand}｣ 매개변수로 인스턴스 지정 가능) 또는 직접 에뮬레이터/게임 바로 가기 선택 가능합니다.&#10;｢{key=WakeUp}｣ 작업이 에뮬레이터 시작 지연으로 실패할 경우, 게임 바로 가기 사용 후 ｢{key=WaitForEmulator}｣ 시간 연장을 권장합니다.</system:String>
     <system:String x:Key="SelectPcClientTip">PC 클라이언트 실행 파일이나 바로 가기를 선택하고 ｢{key=AdditionCommand}｣에서 실행 매개변수를 추가할 수 있습니다.</system:String>
+    <system:String x:Key="PcClientAddCommandTip" xml:space="preserve">PC 클라이언트를 실행할 때 전달할 추가 인수입니다.&#10;지원되는 인수 형식은 클라이언트 또는 실행 프로그램의 문서를 참고하세요.&#10;바로 가기를 사용하면 해당 바로 가기에 저장된 인수가 사용됩니다.</system:String>
     <system:String x:Key="PcClientPathEmptyError">PC 클라이언트 경로가 비어 있습니다. 먼저 클라이언트를 선택하세요.</system:String>
     <system:String x:Key="PcClientPathNotExist">PC 클라이언트 경로가 존재하지 않습니다</system:String>
     <system:String x:Key="PcClientPathEmptyWarning">PC 클라이언트 경로가 비어 있습니다. ｢{key=RetryOnPcDisconnected}｣ 및 ｢{key=OpenPcClientAfterLaunch}｣ 선택 상태가 초기화되었습니다</system:String>
