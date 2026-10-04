@@ -163,9 +163,10 @@ bool asst::OperProgressProcessTask::_run()
                 if (arr[i] <= 0) {
                     continue;
                 }
-                auto skill_ret = execute_mastery(target.role, target.name, i + 1, arr[i]);
+                int training_level = 0;
+                auto skill_ret = execute_mastery(target.role, target.name, i + 1, arr[i], training_level);
                 std::array<int, 3> skill_levels { 0, 0, 0 };
-                skill_levels[i] = arr[i];
+                skill_levels[i] = skill_ret == ResultDetail::Completed ? training_level : arr[i];
                 report_skill_result(target.role, target.name, skill_ret, skill_levels);
                 if (skill_ret == ResultDetail::TrainingRoomBusy || skill_ret == ResultDetail::Completed) {
                     training_room_busy = true;
@@ -485,7 +486,8 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
     battle::Role role,
     std::string_view name,
     int skill,
-    int specialization)
+    int specialization,
+    int& training_level)
 {
     // 档案页技能等级 OCR、精英阶段与专精图标识别共用一张截图
     const cv::Mat& image = ctrler()->get_image();
@@ -519,7 +521,7 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
     }
 
     // 本次将启动的专精等级,导师评分用的应该是这个等级,而不是计划目标等级。
-    int training_level = master_current + 1;
+    training_level = master_current + 1;
 
     // 从干员档案页的训练按钮直接进入训练室专精页面,保留当前目标干员的上下文。
     if (!run_task("OperProgress@MasteryPageEnter")) {
