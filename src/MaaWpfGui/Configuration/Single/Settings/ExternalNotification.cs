@@ -12,21 +12,61 @@
 // </copyright>
 
 #nullable enable
+using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text.Json.Serialization;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Models;
+using MaaWpfGui.Services.Notification;
+using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 
 namespace MaaWpfGui.Configuration.Single.Settings;
 
 /// <summary>
 /// 外部通知设置
 /// </summary>
-public partial class ExternalNotification : NotifyPropertyChangedWithValue
+public partial class ExternalNotification : NotifyPropertyChangedWithValue, IJsonOnDeserialized
 {
     [JsonInclude]
     public ObservableCollection<Base> Configs { get; private set; } = [];
 
     public bool SendBeforeScheduledStart { get; set; }
+
+    [JsonInclude]
+    public ContentSettings Content { get; private set; } = new();
+
+    public void EventBinding(string prefix)
+    {
+        PropertyChanged += Handler.OnPropertyChangedFactory(prefix);
+        Content.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(Content) + ".");
+        Configs.CollectionChanged += Handler.OnCollectionChangedFactory<Base>(prefix);
+    }
+
+    public void OnDeserialized() => Content ??= new();
+
+    public class ContentSettings : NotifyPropertyChangedWithValue, IJsonOnDeserialized
+    {
+        public bool UseIndependent { get; set; }
+
+        public bool Enable { get; set; } = true;
+
+        public NotificationFilterMode FilterMode { get; set; } = NotificationFilterMode.Whitelist;
+
+        public string FilterList { get; set; } = string.Join("|",
+            new[] { NotificationTag.TaskError, NotificationTag.TaskComplete, NotificationTag.Stalled }.Select(NotificationMessage.FormatTag));
+
+        public int MaxEntries { get; set; } = 100;
+
+        public int TimeMinutes { get; set; } = 60;
+
+        public void OnDeserialized()
+        {
+            FilterList ??= string.Empty;
+            MaxEntries = Math.Clamp(MaxEntries, 0, 10000);
+            TimeMinutes = Math.Clamp(TimeMinutes, 0, 10080);
+        }
+    }
 
     [JsonDerivedType(typeof(Smtp), typeDiscriminator: nameof(Smtp))]
     [JsonDerivedType(typeof(ServerChan), typeDiscriminator: nameof(ServerChan))]

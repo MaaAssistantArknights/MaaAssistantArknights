@@ -22,9 +22,7 @@ public sealed record NotificationEvent(
     NotificationSource Source,
     string Content,
     string Color,
-    NotificationMessage? Message = null,
-    string Weight = "Regular",
-    bool ShowTime = true)
+    NotificationMessage? Message = null)
 {
     public string FilterContent => Message is null ? Content : $"{NotificationMessage.FormatTag(Message.Tag)} {Content}";
 }

@@ -46,6 +46,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
 
     public ExternalNotificationSettingsUserControlModel()
     {
+        ContentSettings = new(ConfigFactory.CurrentConfig.Gui.ExternalNotification.Content);
         ExternalNotificationConfigs = new(ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs
             .Select(config => ExternalNotificationChannel.ForConfig(config).ReadConfig(config)));
         ExternalNotificationConfigs.CollectionChanged += OnConfigsChanged;
@@ -54,6 +55,8 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     }
 
     public static ExternalNotificationSettingsUserControlModel Instance { get; }
+
+    public ExternalNotificationContentSettingsModel ContentSettings { get; }
 
     public LocalizedObservableList<ExternalNotificationChannel> ExternalNotificationProviderList { get; } = new(
         ExternalNotificationChannel.All.Select(channel => (channel, channel.LocalizationKey)).ToArray());

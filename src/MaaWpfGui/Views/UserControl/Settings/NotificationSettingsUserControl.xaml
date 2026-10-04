@@ -13,158 +13,39 @@
     d:DataContext="{d:DesignInstance {x:Type settings_vms:NotificationSettingsUserControlModel}}"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <DataTemplate x:Key="NotificationChannelTemplate">
-            <StackPanel s:View.ActionTarget="{Binding}">
-                <CheckBox
-                    Margin="5"
-                    HorizontalAlignment="Center"
-                    Content="{DynamicResource NotificationSettingsUseIndependent}"
-                    IsChecked="{Binding UseIndependent}" />
-                <StackPanel Visibility="{c:Binding 'UseIndependent', FalseToVisibility=Collapsed}">
-                    <CheckBox
-                        Margin="5"
-                        HorizontalAlignment="Center"
-                        Content="{DynamicResource NotificationSettingsEnableNotification}"
-                        IsChecked="{Binding Enable}" />
-                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                        <CheckBox
-                            Width="150"
-                            Margin="5"
-                            Content="{DynamicResource NotificationSettingsEnableBlacklist}"
-                            IsChecked="{Binding EnableBlacklist}" />
-                        <CheckBox
-                            Margin="5"
-                            Content="{DynamicResource NotificationSettingsEnableWhitelist}"
-                            IsChecked="{Binding EnableWhitelist}" />
-                    </StackPanel>
-                    <StackPanel HorizontalAlignment="Center" Visibility="{c:Binding ShowFilterList}">
-                        <Grid Width="400" Margin="0,10,0,5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                                <controls:TextBlock Text="{DynamicResource NotificationSettingsFilterList}" />
-                                <controls:TooltipBlock TooltipText="{DynamicResource NotificationSettingsFilterListTip}" />
-                            </StackPanel>
-                            <Button
-                                Grid.Column="1"
-                                Padding="8,3"
-                                Command="{s:Action RestoreDefaultFilterList}"
-                                Content="{DynamicResource NotificationSettingsRestoreDefault}" />
-                        </Grid>
-                        <TextBox
-                            Width="400"
-                            MinHeight="80"
-                            Margin="0,0,0,10"
-                            AcceptsReturn="True"
-                            Text="{Binding FilterList, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                            TextWrapping="Wrap"
-                            ToolTip="{DynamicResource NotificationSettingsFilterListTip}" />
-                    </StackPanel>
-                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                        <Label
-                            Margin="0"
-                            Padding="0"
-                            VerticalAlignment="Center"
-                            BorderThickness="0"
-                            Content="{DynamicResource NotificationSettingsMaxEntries}" />
-                        <controls:TooltipBlock Margin="0,0,5,0" TooltipText="{DynamicResource NotificationSettingsMaxEntriesTip}" />
-                        <hc:NumericUpDown
-                            Width="100"
-                            hc:InfoElement.TitleWidth="0"
-                            Maximum="10000"
-                            Minimum="0"
-                            Value="{Binding MaxEntries}" />
-                        <Label
-                            Margin="10,0,0,0"
-                            Padding="0"
-                            VerticalAlignment="Center"
-                            BorderThickness="0"
-                            Content="{DynamicResource NotificationSettingsTimeMinutes}" />
-                        <controls:TooltipBlock TooltipText="{DynamicResource NotificationSettingsTimeMinutesTip}" />
-                        <hc:NumericUpDown
-                            Width="100"
-                            hc:InfoElement.TitleWidth="0"
-                            Maximum="10080"
-                            Minimum="0"
-                            Value="{Binding TimeMinutes}" />
-                    </StackPanel>
-                </StackPanel>
-            </StackPanel>
-        </DataTemplate>
-    </UserControl.Resources>
-
-    <Grid MinWidth="500">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-
-        <!--  日志输出停滞检测  -->
-        <StackPanel Grid.Row="0" Orientation="Vertical">
-            <CheckBox
+    <StackPanel MinWidth="500">
+        <CheckBox
+            Margin="5"
+            HorizontalAlignment="Center"
+            Content="{DynamicResource StallTimeoutEnabled}"
+            IsChecked="{Binding StallTimeoutEnabled}" />
+        <StackPanel
+            HorizontalAlignment="Center"
+            Orientation="Horizontal"
+            Visibility="{c:Binding StallTimeoutEnabled}">
+            <hc:NumericUpDown
                 Margin="5"
-                HorizontalAlignment="Center"
-                Content="{DynamicResource StallTimeoutEnabled}"
-                IsChecked="{Binding StallTimeoutEnabled}" />
-            <StackPanel
-                HorizontalAlignment="Center"
-                Orientation="Horizontal"
-                Visibility="{c:Binding StallTimeoutEnabled}">
-                <hc:NumericUpDown
-                    Margin="5"
-                    hc:InfoElement.Title="{DynamicResource StallTimeoutMinutes}"
-                    hc:TitleElement.TitlePlacement="Left"
-                    InputMethod.IsInputMethodEnabled="False"
-                    Maximum="11451"
-                    Minimum="1"
-                    Value="{Binding StallTimeoutMinutes}" />
-                <hc:NumericUpDown
-                    Margin="5"
-                    hc:InfoElement.Title="{DynamicResource ReminderIntervalMinutes}"
-                    hc:TitleElement.TitlePlacement="Left"
-                    InputMethod.IsInputMethodEnabled="False"
-                    Minimum="1"
-                    Value="{Binding ReminderIntervalMinutes}" />
-            </StackPanel>
+                hc:InfoElement.Title="{DynamicResource StallTimeoutMinutes}"
+                hc:TitleElement.TitlePlacement="Left"
+                InputMethod.IsInputMethodEnabled="False"
+                Maximum="11451"
+                Minimum="1"
+                Value="{Binding StallTimeoutMinutes}" />
+            <hc:NumericUpDown
+                Margin="5"
+                hc:InfoElement.Title="{DynamicResource ReminderIntervalMinutes}"
+                hc:TitleElement.TitlePlacement="Left"
+                InputMethod.IsInputMethodEnabled="False"
+                Maximum="11451"
+                Minimum="1"
+                Value="{Binding ReminderIntervalMinutes}" />
         </StackPanel>
-
-        <!--  日志悬浮窗  -->
-        <StackPanel Grid.Row="1" Orientation="Vertical">
-            <hc:Divider Content="{DynamicResource NotificationSettingsOverlay}" />
-            <ContentControl
-                HorizontalContentAlignment="Stretch"
-                Content="{Binding Overlay}"
-                ContentTemplate="{StaticResource NotificationChannelTemplate}" />
+        <StackPanel
+            Margin="0,10,0,0"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <CheckBox Content="{DynamicResource SystemNotification}" IsChecked="{Binding UseNotify}" />
+            <controls:TooltipBlock TooltipText="{DynamicResource SystemNotificationInfo}" />
         </StackPanel>
-
-        <!--  Windows系统通知  -->
-        <StackPanel Grid.Row="2" Orientation="Vertical">
-            <hc:Divider Margin="0,20,0,10" Content="{DynamicResource NotificationSettingsSystemNotification}" />
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource SystemNotification}" IsChecked="{Binding UseNotify}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource SystemNotificationInfo}" />
-            </StackPanel>
-        </StackPanel>
-
-        <!--  外部通知  -->
-        <StackPanel Grid.Row="3" Orientation="Vertical">
-            <hc:Divider Margin="0,20,0,10">
-                <hc:Divider.Content>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{DynamicResource NotificationSettingsExternal}" />
-                        <controls:TooltipBlock TooltipText="{DynamicResource NotificationSettingsExternalTip}" />
-                    </StackPanel>
-                </hc:Divider.Content>
-            </hc:Divider>
-            <ContentControl
-                HorizontalContentAlignment="Stretch"
-                Content="{Binding External}"
-                ContentTemplate="{StaticResource NotificationChannelTemplate}" />
-        </StackPanel>
-    </Grid>
+    </StackPanel>
 </UserControl>

@@ -14,7 +14,6 @@
 #nullable enable
 using System;
 using MaaWpfGui.Configuration.Factory;
-using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.States;
 using Stylet;
@@ -25,17 +24,10 @@ public sealed class NotificationSettingsUserControlModel : PropertyChangedBase
 {
     public NotificationSettingsUserControlModel()
     {
-        var config = ConfigFactory.CurrentConfig.Gui.Notification;
-        Overlay = new(config.Overlay, NotificationChannel.Overlay);
-        External = new(config.External, NotificationChannel.External);
         RunningState.Instance.EnableStallTimeout = StallTimeoutEnabled;
         RunningState.Instance.StallTimeoutMinutes = StallTimeoutMinutes;
         RunningState.Instance.ReminderIntervalMinutes = ReminderIntervalMinutes;
     }
-
-    public NotificationSettingsItem Overlay { get; }
-
-    public NotificationSettingsItem External { get; }
 
     public bool UseNotify
     {

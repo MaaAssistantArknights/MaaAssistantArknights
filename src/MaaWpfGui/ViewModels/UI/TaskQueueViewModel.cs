@@ -37,6 +37,7 @@ using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
+using MaaWpfGui.Services.ExternalNotification;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
@@ -1577,7 +1578,7 @@ public class TaskQueueViewModel : Screen
         }
 
         Instances.NotificationService.PublishLog(NotificationSource.TaskQueue, content,
-            () => DisplayLog(content, color, weight, toolTip, updateCardImage, fetchLatestImage, useCardImageAsToolTip, splitMode), color, weight);
+            () => DisplayLog(content, color, weight, toolTip, updateCardImage, fetchLatestImage, useCardImageAsToolTip, splitMode), color);
     }
 
     // Presentation only: mirrors and notification callbacks do not publish another event.
@@ -2417,7 +2418,7 @@ public class TaskQueueViewModel : Screen
     private async Task RunLogVirtualizationStressTestAsync()
     {
         ClearLog();
-        Instances.OverlayViewModel.LogItemsSource = Instances.NotificationService.TaskQueueOverlay;
+        Instances.OverlayViewModel.LogItemsSource = LogItemViewModels;
 
         const int cardCount = 500;        // 卡片数量
         const int logsPerCard = 5;        // 每张卡片日志条数
@@ -2471,7 +2472,7 @@ public class TaskQueueViewModel : Screen
         _taskStartTime = DateTime.Now;
         ClearLog();
 
-        Instances.OverlayViewModel.LogItemsSource = Instances.NotificationService.TaskQueueOverlay;
+        Instances.OverlayViewModel.LogItemsSource = LogItemViewModels;
 
         var buildDateTimeLong = VersionUpdateSettingsUserControlModel.BuildDateTimeCurrentCultureString;
         var resourceDateTimeLong = SettingsViewModel.VersionUpdateSettings.ResourceDateTimeCurrentCultureString;

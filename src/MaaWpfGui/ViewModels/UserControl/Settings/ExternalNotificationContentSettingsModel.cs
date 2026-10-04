@@ -1,4 +1,4 @@
-// <copyright file="NotificationSettingsItem.cs" company="MaaAssistantArknights">
+// <copyright file="ExternalNotificationContentSettingsModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -23,15 +23,14 @@ using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
-public sealed class NotificationSettingsItem : PropertyChangedBase, IDataErrorInfo
+public sealed class ExternalNotificationContentSettingsModel : PropertyChangedBase, IDataErrorInfo
 {
-    private readonly NotificationSettings.Channel _config;
-    private readonly NotificationSettings.Channel _defaults;
+    private readonly ExternalNotification.ContentSettings _config;
+    private readonly ExternalNotification.ContentSettings _defaults = new();
 
-    public NotificationSettingsItem(NotificationSettings.Channel config, NotificationChannel channel)
+    public ExternalNotificationContentSettingsModel(ExternalNotification.ContentSettings config)
     {
         _config = config;
-        _defaults = NotificationSettings.Channel.CreateDefault(channel);
         _config.PropertyChanged += (_, _) => {
             NotifyOfPropertyChange(nameof(UseIndependent));
             NotifyOfPropertyChange(nameof(Enable));
@@ -44,7 +43,7 @@ public sealed class NotificationSettingsItem : PropertyChangedBase, IDataErrorIn
         PropertyDependsOnUtility.InitializePropertyDependencies(this);
     }
 
-    public NotificationSettings.Channel Effective => UseIndependent ? _config : _defaults;
+    public ExternalNotification.ContentSettings Effective => UseIndependent ? _config : _defaults;
 
     public bool UseIndependent
     {

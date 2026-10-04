@@ -48,7 +48,6 @@
     <system:String x:Key="ResourceVersion">リソースバーション</system:String>
     <system:String x:Key="ResourceDateTime">リソース日付</system:String>
     <system:String x:Key="Off">シャットダウン</system:String>
-    <system:String x:Key="ExternalNotificationTips">注:外部通知機能は現在、 ｢すべてのタスクが完了しました｣ という通知のみを送信します。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
     <system:String x:Key="ExternalNotificationEnabled">通知構成の有効化</system:String>
     <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">定時実行前に通知を送信</system:String>
@@ -2191,7 +2190,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <!-- <system:String x:Key="TaskTimeoutMinutes">タスクのタイムアウト時間（分）</system:String> -->
     <system:String x:Key="ReminderIntervalMinutes">リマインダー間隔時間（分）</system:String>
     <system:String x:Key="StallTimeoutMinutes">ログ出力停滞タイムアウト（分）</system:String>
-    <system:String x:Key="StallTimeoutEnabled">停滞検出を有効にする</system:String>
+    <system:String x:Key="StallTimeoutEnabled">ログ更新の停滞検出を有効にする</system:String>
     <system:String x:Key="TaskStallWarning">タスクログ出力が {0} 分間更新されていません（現在 {1} 分間停滞）。タスクが正常に実行中か確認してください。正常であればこの警告は無視できます。応答がない場合は、手動での操作が必要になる可能性があります。</system:String>
     <system:String x:Key="RunDurationLimitEnabled">1回の実行時間を制限する</system:String>
     <system:String x:Key="RunDurationLimitMinutes">実行時間の上限（分）</system:String>
@@ -2694,21 +2693,16 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="EmulatorSelectionCancelled">エミュレータの選択がキャンセルされました</system:String>
     <!--  !ItemSelection  -->
     <system:String x:Key="NotificationSettings">通知設定</system:String>
-    <system:String x:Key="NotificationSettingsMaster">通知設定</system:String>
-    <system:String x:Key="NotificationSettingsOverlay">ログフローティングウィンドウ</system:String>
-    <system:String x:Key="NotificationSettingsSystemNotification">Windows システム通知</system:String>
-    <system:String x:Key="NotificationSettingsExternal">外部通知</system:String>
-    <system:String x:Key="NotificationSettingsUseIndependent">カスタム設定を有効にする</system:String>
+    <system:String x:Key="NotificationSettingsUseIndependent">通知内容のカスタム設定を有効にする</system:String>
     <system:String x:Key="NotificationSettingsEnableNotification">この通知を有効にする</system:String>
     <system:String x:Key="NotificationSettingsEnableBlacklist">ブラックリストを有効にする</system:String>
     <system:String x:Key="NotificationSettingsEnableWhitelist">ホワイトリストを有効にする</system:String>
     <system:String x:Key="NotificationSettingsFilterList">フィルタールール（1行1正規表現）</system:String>
     <system:String x:Key="NotificationSettingsMaxEntries">添付ログエントリ数</system:String>
     <system:String x:Key="NotificationSettingsTimeMinutes">ログ有効時間（分）</system:String>
-    <system:String x:Key="NotificationSettingsTimeMinutesTip" xml:space="preserve">有効時間を過ぎたログは表示や通知への添付の対象外になります。&#10;｢{key=NotificationSettingsTimeMinutes}｣ が 0 の場合は、時間で絞り込みません。</system:String>
-    <system:String x:Key="NotificationSettingsMaxEntriesTip" xml:space="preserve">ログオーバーレイに表示する、または外部通知に添付するログエントリ数を制限します。&#10;外部通知の ｢{key=NotificationSettingsMaxEntries}｣ を 0 にすると、ログを添付せず通知本文のみ送信します。&#10;ログオーバーレイでは、0 は件数による制限なしを意味します。</system:String>
+    <system:String x:Key="NotificationSettingsTimeMinutesTip" xml:space="preserve">有効時間を過ぎたログは通知への添付の対象外になります。&#10;｢{key=NotificationSettingsTimeMinutes}｣ が 0 の場合は、時間で絞り込みません。</system:String>
+    <system:String x:Key="NotificationSettingsMaxEntriesTip" xml:space="preserve">外部通知に添付するログエントリ数を制限します。&#10;｢{key=NotificationSettingsMaxEntries}｣ を 0 にすると、ログを添付せず通知本文のみ送信します。</system:String>
     <system:String x:Key="NotificationSettingsFilterListTip" xml:space="preserve">各行に正規表現を入力します。いずれかの行に一致すると対象になります。&#10;タグ：&lt;TaskError&gt; タスクエラー、&lt;TaskComplete&gt; タスク完了、&lt;Stalled&gt; ログ出力停止、&lt;Test&gt; テスト。&#10;例：&lt;TaskError&gt;|&lt;Stalled&gt;。空のホワイトリストはすべて拒否し、空のブラックリストはすべて許可します。</system:String>
     <system:String x:Key="NotificationSettingsInvalidFilterTip" xml:space="preserve">正規表現が無効です。フィルタールールを確認してください。</system:String>
     <system:String x:Key="NotificationSettingsRestoreDefault">既定値に戻す</system:String>
-    <system:String x:Key="NotificationSettingsExternalTip" xml:space="preserve">ここでは外部通知の送信条件と添付するログ内容を設定します。&#10;通知先や通知サービスの設定は、｢{key=ExternalNotificationSettings}｣ 設定で行ってください。</system:String>
 </ResourceDictionary>

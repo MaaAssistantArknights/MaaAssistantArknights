@@ -176,7 +176,7 @@ public partial class CopilotViewModel : Screen
         }
 
         Instances.NotificationService.PublishLog(NotificationSource.Copilot, content,
-            () => DisplayLog(content, color, weight, showTime), color, weight, showTime);
+            () => DisplayLog(content, color, weight, showTime), color);
     }
 
     internal void DisplayLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true)
@@ -215,7 +215,7 @@ public partial class CopilotViewModel : Screen
 
         RunningState.Instance.NotifyOutputActivity();
         Instances.NotificationService.PublishLog(NotificationSource.Copilot, output.Content,
-            () => LogItemViewModels.Add(new OperPreviewLogItemViewModel(output)), output.Color ?? UiLogColor.Message, showTime: false);
+            () => LogItemViewModels.Add(new OperPreviewLogItemViewModel(output)), output.Color ?? UiLogColor.Message);
     }
 
     /// <summary>
@@ -1972,7 +1972,7 @@ public partial class CopilotViewModel : Screen
         }*/
         _runningState.BeginRun(RunOwner.Copilot);
 
-        Instances.OverlayViewModel.LogItemsSource = Instances.NotificationService.CopilotOverlay;
+        Instances.OverlayViewModel.LogItemsSource = LogItemViewModels;
 
         // if (_taskType == AsstTaskType.VideoRecognition)
         // {

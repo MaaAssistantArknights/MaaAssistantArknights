@@ -13,16 +13,11 @@
 
 #nullable enable
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows.Threading;
-using MaaWpfGui.Configuration.Single.Settings;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services.ExternalNotification;
 using MaaWpfGui.States;
-using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
 
@@ -32,28 +27,10 @@ namespace MaaWpfGui.Services.Notification;
 // deliver already selected payloads and do not call this service again.
 public sealed class NotificationService
 {
-    private readonly Dictionary<NotificationChannel, NotificationFilter> _filters = new();
+    private readonly NotificationFilter _externalFilter = new();
     private readonly NotificationHistory _history = new();
-    private readonly NotificationSettings.Channel _systemPolicy = NotificationSettings.Channel.CreateDefault(NotificationChannel.SystemNotification);
-    private readonly NotificationLogBuffer _taskQueueOverlay = new();
-    private readonly NotificationLogBuffer _copilotOverlay = new();
-    private readonly DispatcherTimer _trimTimer = new() { Interval = TimeSpan.FromSeconds(30) };
 
-    public NotificationService()
-    {
-        foreach (var channel in Enum.GetValues<NotificationChannel>())
-        {
-            _filters.Add(channel, new NotificationFilter());
-        }
-
-        _trimTimer.Tick += (_, _) => TrimOverlays();
-        _trimTimer.Start();
-        RunningState.Instance.StallOccurred += OnStalled;
-    }
-
-    public ObservableCollection<LogItemViewModel> TaskQueueOverlay => _taskQueueOverlay.Items;
-
-    public ObservableCollection<LogItemViewModel> CopilotOverlay => _copilotOverlay.Items;
+    public NotificationService() => RunningState.Instance.StallOccurred += OnStalled;
 
     private void OnStalled(RunOwner owner, int initialMinutes, int accumulatedMinutes)
     {
@@ -65,8 +42,7 @@ public sealed class NotificationService
     }
 
     public void PublishLog(NotificationSource source, string? content, Action display,
-        string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true) =>
-        Publish(source, content, display, color, weight, showTime);
+        string color = UiLogColor.Trace) => Publish(source, content, display, color);
 
     public void Notify(NotificationSource source, NotificationMessage message,
         string color = UiLogColor.Trace, string? logContent = null, Action? display = null)
@@ -100,12 +76,12 @@ public sealed class NotificationService
     }
 
     private void Publish(NotificationSource source, string? content, Action display,
-        string color, string weight = "Regular", bool showTime = true, NotificationMessage? message = null)
+        string color, NotificationMessage? message = null)
     {
         Execute.OnUIThread(() => {
             if (!string.IsNullOrEmpty(content))
             {
-                ProcessLog(new(DateTimeOffset.Now, source, content, color, message, weight, showTime));
+                ProcessLog(new(DateTimeOffset.Now, source, content, color, message));
             }
 
             display();
@@ -116,17 +92,8 @@ public sealed class NotificationService
     {
         // Publication owns UI dispatch; a display callback never republishes the event.
         _history.Add(notification);
-        var overlayPolicy = SettingsViewModel.NotificationSettings.Overlay.Effective;
-        if (_filters[NotificationChannel.Overlay].ShouldSend(overlayPolicy, notification))
-        {
-            var overlay = notification.Source == NotificationSource.Copilot ? _copilotOverlay : _taskQueueOverlay;
-            var item = new LogItemViewModel(notification.Content, notification.Color, notification.Weight, showTime: notification.ShowTime);
-            overlay.Add(notification.Timestamp, item);
-            overlay.Trim(overlayPolicy, notification.Timestamp);
-        }
-
         if (SettingsViewModel.NotificationSettings.UseNotify
-            && _filters[NotificationChannel.SystemNotification].ShouldSend(_systemPolicy, notification))
+            && notification.Message?.Tag is NotificationTag.TaskError or NotificationTag.TaskComplete or NotificationTag.Test)
         {
             using var toast = new ToastNotification(notification.Message?.Title ?? notification.Content);
             if (notification.Message is { } message && message.Content != message.Title)
@@ -137,8 +104,8 @@ public sealed class NotificationService
             toast.Show();
         }
 
-        var externalPolicy = SettingsViewModel.NotificationSettings.External.Effective;
-        if (_filters[NotificationChannel.External].ShouldSend(externalPolicy, notification))
+        var externalPolicy = SettingsViewModel.ExternalNotificationSettings.ContentSettings.Effective;
+        if (_externalFilter.ShouldSend(externalPolicy, notification))
         {
             ExternalNotificationService.Send(
                 notification.Message?.Title ?? notification.Content,
@@ -146,19 +113,5 @@ public sealed class NotificationService
         }
     }
 
-    public void Clear(NotificationSource source)
-    {
-        Execute.OnUIThread(() => {
-            _history.Clear(source);
-            (source == NotificationSource.Copilot ? _copilotOverlay : _taskQueueOverlay).Clear();
-        });
-    }
-
-    private void TrimOverlays()
-    {
-        var policy = SettingsViewModel.NotificationSettings.Overlay.Effective;
-        var now = DateTimeOffset.Now;
-        _taskQueueOverlay.Trim(policy, now);
-        _copilotOverlay.Trim(policy, now);
-    }
+    public void Clear(NotificationSource source) => Execute.OnUIThread(() => _history.Clear(source));
 }

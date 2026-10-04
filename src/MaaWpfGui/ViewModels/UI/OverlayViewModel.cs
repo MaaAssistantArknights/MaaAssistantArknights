@@ -30,7 +30,7 @@ public class OverlayViewModel : PropertyChangedBase
 {
     public OverlayViewModel()
     {
-        _logItemsSource = Instances.NotificationService.TaskQueueOverlay;
+        _logItemsSource = Instances.TaskQueueViewModel.LogItemViewModels;
     }
 
     private OverlayWindow? _overlay;

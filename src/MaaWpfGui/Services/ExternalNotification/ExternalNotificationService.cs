@@ -30,14 +30,19 @@ public static class ExternalNotificationService
         foreach (var config in notificationList)
         {
             var channel = ExternalNotificationChannel.ForEditor(config);
-            var provider = channel?.CreateProvider(config) ?? new DummyNotificationProvider();
-
             var result = false;
             _logger.Debug("Sending external notification via {Provider} (test: {IsTest}, title length: {TitleLength}, content length: {ContentLength})",
                 config.GetType().Name, isTest, title.Length, content.Length);
             try
             {
-                result = await provider.SendAsync(title, content).ConfigureAwait(false);
+                if (channel is null)
+                {
+                    _logger.Error("Unsupported external notification configuration {ConfigType}", config.GetType().Name);
+                }
+                else
+                {
+                    result = await channel.CreateProvider(config).SendAsync(title, content).ConfigureAwait(false);
+                }
             }
             catch (Exception ex)
             {

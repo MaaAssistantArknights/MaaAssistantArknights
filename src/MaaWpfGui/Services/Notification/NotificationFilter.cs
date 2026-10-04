@@ -15,13 +15,13 @@
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using MaaWpfGui.Configuration.Single.Settings;
 using MaaWpfGui.Constants.Enums;
 using Serilog;
+using ExternalNotificationContentSettings = MaaWpfGui.Configuration.Single.Settings.ExternalNotification.ContentSettings;
 
 namespace MaaWpfGui.Services.Notification;
 
-// Each channel owns one cache. User expressions never run without a timeout.
+// External notification rules are cached. User expressions always have a timeout.
 public sealed class NotificationFilter
 {
     private static readonly ILogger _logger = Log.ForContext<NotificationFilter>();
@@ -30,7 +30,7 @@ public sealed class NotificationFilter
     private Regex[] _patterns = [];
     private bool _valid = true;
 
-    public bool ShouldSend(NotificationSettings.Channel policy, NotificationEvent notification)
+    public bool ShouldSend(ExternalNotificationContentSettings policy, NotificationEvent notification)
     {
         if (!policy.Enable)
         {

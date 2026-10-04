@@ -15,11 +15,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MaaWpfGui.Configuration.Single.Settings;
+using ExternalNotificationContentSettings = MaaWpfGui.Configuration.Single.Settings.ExternalNotification.ContentSettings;
 
 namespace MaaWpfGui.Services.Notification;
 
-// History has its own bounded retention; trimming an overlay never removes context.
+// External notification context has bounded retention, independent of displayed logs.
 public sealed class NotificationHistory
 {
     private const int Capacity = 10000;
@@ -35,7 +35,7 @@ public sealed class NotificationHistory
         }
     }
 
-    public string Bundle(NotificationEvent current, NotificationSettings.Channel policy)
+    public string Bundle(NotificationEvent current, ExternalNotificationContentSettings policy)
     {
         if (policy.MaxEntries == 0)
         {

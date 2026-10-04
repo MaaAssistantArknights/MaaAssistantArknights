@@ -1455,8 +1455,8 @@ public class AsstProxy
 
                     // LinkStart 按钮也会修改，但小工具中的日志源需要在这里修改
                     Instances.OverlayViewModel.LogItemsSource = (taskChain is "Copilot" or "SSSCopilot") /* or "VideoRecognition") */
-                        ? Instances.NotificationService.CopilotOverlay
-                        : Instances.NotificationService.TaskQueueOverlay;
+                        ? Instances.CopilotViewModel.LogItemViewModels
+                        : Instances.TaskQueueViewModel.LogItemViewModels;
 
                     break;
                 }
