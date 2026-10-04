@@ -557,7 +557,7 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
     if (!run_task("BattleQuickFormationConfirm") || !run_task("InfrastTrainingMasteryPage")) {
         return ResultDetail::RecognitionFailed;
     }
-    if (run_task("OperProgress@MasterySelectSkillMaxAlready" + std::to_string(skill))) {
+    if (run_task("OperProgress@MasterySelectSkillMaxAlready" + std::to_string(skill), 2)) {
         return ResultDetail::AlreadySatisfied;
     }
 
