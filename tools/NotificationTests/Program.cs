@@ -31,7 +31,9 @@ using MaaWpfGui.Configuration.Single.Settings;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Models.ExternalNotification;
 using MaaWpfGui.Services.Notification;
+using MaaWpfGui.Services.Web;
 using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
@@ -66,6 +68,7 @@ internal static class Program
                         ? NativeLibrary.Load(Path.Combine(nativeDirectory, name), assembly, searchPath)
                         : IntPtr.Zero);
                 Test("mirrored logs stay visible without publishing notifications", MirroredLogs);
+                Test("ordinary whitelist matches reach the Bark transport", ExternalLogDelivery);
             }
             if (args.Length == 2 && args[0] == "--render")
             {
@@ -316,11 +319,7 @@ internal static class Program
     {
         // Isolate the log producer from task startup, thumbnails and transports.
         // Leaving the service unset makes any accidental publication fail.
-        var queue = (TaskQueueViewModel)RuntimeHelpers.GetUninitializedObject(typeof(TaskQueueViewModel));
-        typeof(TaskQueueViewModel).GetProperty(nameof(TaskQueueViewModel.LogItemViewModels))!
-            .SetValue(queue, new ObservableCollection<LogItemViewModel>());
-        typeof(TaskQueueViewModel).GetProperty(nameof(TaskQueueViewModel.LogCardViewModels))!
-            .SetValue(queue, new ObservableCollection<LogCardItemViewModel>());
+        var queue = CreateLogQueue();
         var serviceProperty = typeof(Instances).GetProperty(nameof(Instances.NotificationService))!;
         var previousService = serviceProperty.GetValue(null);
         var previousDispatcher = Execute.Dispatcher;
@@ -354,6 +353,91 @@ internal static class Program
         {
             serviceProperty.SetValue(null, previousService);
             Execute.Dispatcher = previousDispatcher;
+        }
+    }
+
+    private static TaskQueueViewModel CreateLogQueue()
+    {
+        var queue = (TaskQueueViewModel)RuntimeHelpers.GetUninitializedObject(typeof(TaskQueueViewModel));
+        typeof(TaskQueueViewModel).GetProperty(nameof(TaskQueueViewModel.LogItemViewModels))!
+            .SetValue(queue, new ObservableCollection<LogItemViewModel>());
+        typeof(TaskQueueViewModel).GetProperty(nameof(TaskQueueViewModel.LogCardViewModels))!
+            .SetValue(queue, new ObservableCollection<LogCardItemViewModel>());
+        return queue;
+    }
+
+    private static void ExternalLogDelivery()
+    {
+        const string recommendation = "7. 推荐鼠标输入方式使用 PostMsg-WindowPos，使用此方式可以很大程度解决 PC 端识别错误和卡住的问题";
+        var queue = CreateLogQueue();
+        var http = DispatchProxy.Create<IHttpService, RecordingHttpService>();
+        var requests = ((RecordingHttpService)http).Requests;
+        var httpProperty = typeof(Instances).GetProperty(nameof(Instances.HttpService))!;
+        var serviceProperty = typeof(Instances).GetProperty(nameof(Instances.NotificationService))!;
+        var previousHttp = httpProperty.GetValue(null);
+        var previousService = serviceProperty.GetValue(null);
+        var previousDispatcher = Execute.Dispatcher;
+        var policy = SettingsViewModel.NotificationSettings.External;
+        var previousPolicy = (policy.UseIndependent, policy.Enable, policy.EnableBlacklist, policy.EnableWhitelist,
+            policy.FilterList, policy.MaxEntries);
+        var providers = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationConfigs;
+        var previousProviders = providers.ToArray();
+        Execute.Dispatcher = SynchronousDispatcher.Instance;
+        httpProperty.SetValue(null, http);
+        var service = new NotificationService();
+        serviceProperty.SetValue(null, service);
+        try
+        {
+            providers.Clear();
+            providers.Add(new BarkConfig("test-device", "https://bark.invalid"));
+            policy.UseIndependent = true;
+            policy.Enable = true;
+            policy.EnableWhitelist = true;
+            policy.FilterList = "推荐";
+            policy.MaxEntries = 0;
+            queue.AddLog("Connecting", notifyActivity: false);
+            queue.AddLog(recommendation, UiLogColor.Rainbow, notifyActivity: false);
+            Check(requests.Count == 1, "An ordinary whitelist match did not reach Bark exactly once");
+            Check(requests[0].GetProperty("body").GetString() == recommendation,
+                "Zero context entries discarded or changed the matching log body");
+            Check(requests[0].GetProperty("title").GetString() == "[MAA] " + recommendation,
+                "Matching log title did not reach the provider");
+            Check(service.TaskQueueOverlay.Any(item => item.Content == recommendation),
+                "External dispatch prevented overlay delivery");
+        }
+        finally
+        {
+            policy.UseIndependent = previousPolicy.UseIndependent;
+            policy.Enable = previousPolicy.Enable;
+            policy.EnableBlacklist = previousPolicy.EnableBlacklist;
+            policy.EnableWhitelist = previousPolicy.EnableWhitelist;
+            policy.FilterList = previousPolicy.FilterList;
+            policy.MaxEntries = previousPolicy.MaxEntries;
+            providers.Clear();
+            foreach (var provider in previousProviders)
+            {
+                providers.Add(provider);
+            }
+            httpProperty.SetValue(null, previousHttp);
+            serviceProperty.SetValue(null, previousService);
+            Execute.Dispatcher = previousDispatcher;
+            ((DispatcherTimer)typeof(NotificationService).GetField("_trimTimer", BindingFlags.NonPublic | BindingFlags.Instance)!
+                .GetValue(service)!).Stop();
+        }
+    }
+
+    public class RecordingHttpService : DispatchProxy
+    {
+        public List<JsonElement> Requests { get; } = [];
+
+        protected override object? Invoke(MethodInfo? targetMethod, object?[]? args)
+        {
+            if (targetMethod?.Name != nameof(IHttpService.PostAsJsonAsync) || args is null)
+            {
+                throw new InvalidOperationException("Unexpected HTTP operation");
+            }
+            Requests.Add(JsonSerializer.SerializeToElement(args[1], args[1]!.GetType()));
+            return Task.FromResult<string?>("{\"code\":200,\"message\":\"success\"}");
         }
     }
 

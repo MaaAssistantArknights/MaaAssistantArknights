@@ -43,6 +43,8 @@ public static class ExternalNotificationService
             };
 
             var result = false;
+            _logger.Debug("Sending external notification via {Provider} (test: {IsTest}, title length: {TitleLength}, content length: {ContentLength})",
+                config.GetType().Name, isTest, title.Length, content.Length);
             try
             {
                 result = await provider.SendAsync(title, content).ConfigureAwait(false);
@@ -52,6 +54,7 @@ public static class ExternalNotificationService
                 _logger.Error(ex, "Failed to send External Notifications");
             }
 
+            _logger.Information("External notification provider {Provider} returned {Success}", config.GetType().Name, result);
             if (!isTest && result)
             {
                 continue;
