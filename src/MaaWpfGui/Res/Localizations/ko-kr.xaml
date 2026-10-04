@@ -51,11 +51,6 @@
     <system:String x:Key="ExternalNotificationTips">팁: 외부 알림 기능은 현재 ｢모든 작업 완료｣ 알림만 보냅니다.</system:String>
     <system:String x:Key="ExternalNotificationSettings">외부 알림</system:String>
     <system:String x:Key="ExternalNotificationEnabled">알림 구성 사용</system:String>
-    <system:String x:Key="ExternalNotificationEnableDetails">상세 정보 출력</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenComplete">작업 완료 시 알림 전송</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenError">작업 실패 시 알림 전송</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenStalled">작업 로그 출력 정지 시 알림 전송</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenStalledTip">｢{key=GameSettings}｣에서 ｢{key=StallTimeoutEnabled}｣를 활성화해야만 적용됩니다</system:String>
     <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">예약 실행 전 알림 전송</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">전송 성공</system:String>
     <system:String x:Key="ExternalNotificationSendFail">전송 실패</system:String>
@@ -2701,7 +2696,6 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="NotificationSettingsOverlay">로그 플로팅 창</system:String>
     <system:String x:Key="NotificationSettingsSystemNotification">Windows 시스템 알림</system:String>
     <system:String x:Key="NotificationSettingsExternal">외부 알림</system:String>
-    <system:String x:Key="NotificationSettingsTaskQueueLog">작업 로그 패널</system:String>
     <system:String x:Key="NotificationSettingsUseIndependent">사용자 정의 설정 활성화</system:String>
     <system:String x:Key="NotificationSettingsEnableNotification">이 알림 활성화</system:String>
     <system:String x:Key="NotificationSettingsEnableBlacklist">블랙리스트 활성화</system:String>

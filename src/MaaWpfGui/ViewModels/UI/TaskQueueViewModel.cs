@@ -1617,10 +1617,9 @@ public class TaskQueueViewModel : Screen
 
         Execute.OnUIThread(() => {
             // A mirror belongs to its original producer; display it without publishing another event.
-            var notificationEvent = isEmpty || !processNotifications ? null : new NotificationEvent(DateTimeOffset.Now, NotificationSource.TaskQueue, content!, color, notification, weight);
-            if (notificationEvent is not null && !Instances.NotificationService.ProcessLog(notificationEvent))
+            if (!isEmpty && processNotifications)
             {
-                return;
+                Instances.NotificationService.ProcessLog(new(DateTimeOffset.Now, NotificationSource.TaskQueue, content!, color, notification, weight));
             }
 
             if (needsBeforeSplit)
@@ -1685,11 +1684,7 @@ public class TaskQueueViewModel : Screen
             var plainText = header is null
                 ? "-----"
                 : decoratePlainText ? $"-----{header}-----" : header;
-            var notificationEvent = new NotificationEvent(DateTimeOffset.Now, NotificationSource.TaskQueue, plainText, UiLogColor.Trace);
-            if (!Instances.NotificationService.ProcessLog(notificationEvent))
-            {
-                return;
-            }
+            Instances.NotificationService.ProcessLog(new(DateTimeOffset.Now, NotificationSource.TaskQueue, plainText, UiLogColor.Trace));
             LogItemViewModels.Add(new LogItemViewModel(plainText));
 
             // Card log style: render a real hc:Divider as its own card.

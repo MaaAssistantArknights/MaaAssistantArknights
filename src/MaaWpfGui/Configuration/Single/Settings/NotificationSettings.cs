@@ -36,15 +36,11 @@ public class NotificationSettings : NotifyPropertyChangedWithValue, IJsonOnDeser
     [JsonInclude]
     public Channel External { get; private set; } = Channel.CreateDefault(NotificationChannel.External);
 
-    [JsonInclude]
-    public Channel TaskQueueLog { get; private set; } = Channel.CreateDefault(NotificationChannel.TaskQueueLog);
-
     public void EventBinding(string prefix)
     {
         PropertyChanged += Handler.OnPropertyChangedFactory(prefix);
         Overlay.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(Overlay) + ".");
         External.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(External) + ".");
-        TaskQueueLog.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(TaskQueueLog) + ".");
     }
 
     public void OnDeserialized()
@@ -53,7 +49,6 @@ public class NotificationSettings : NotifyPropertyChangedWithValue, IJsonOnDeser
         ReminderIntervalMinutes = Math.Clamp(ReminderIntervalMinutes, 1, 11451);
         Overlay ??= Channel.CreateDefault(NotificationChannel.Overlay);
         External ??= Channel.CreateDefault(NotificationChannel.External);
-        TaskQueueLog ??= Channel.CreateDefault(NotificationChannel.TaskQueueLog);
     }
 
     public class Channel : NotifyPropertyChangedWithValue, IJsonOnDeserialized

@@ -52,7 +52,7 @@ public sealed class NotificationService
 
     public ObservableCollection<LogItemViewModel> CopilotOverlay => _copilotOverlay.Items;
 
-    public bool ProcessLog(NotificationEvent notification)
+    public void ProcessLog(NotificationEvent notification)
     {
         // All producers already marshal UI work. Keeping history and view
         // collections on one thread eliminates shared locks and ordering races.
@@ -85,9 +85,6 @@ public sealed class NotificationService
                 notification.Message?.Title ?? notification.Content,
                 _history.Bundle(notification, externalPolicy));
         }
-
-        return _filters[NotificationChannel.TaskQueueLog].ShouldSend(
-            SettingsViewModel.NotificationSettings.TaskQueueLog.Effective, notification);
     }
 
     public void Clear(NotificationSource source)

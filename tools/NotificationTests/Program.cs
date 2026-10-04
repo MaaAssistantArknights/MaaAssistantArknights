@@ -120,7 +120,7 @@ internal static class Program
             }
 
             Check(filter.ShouldSend(policy, Event("ordinary log")) ==
-                  (channel is NotificationChannel.Overlay or NotificationChannel.TaskQueueLog),
+                  (channel == NotificationChannel.Overlay),
                 $"Unexpected untagged routing: {channel}");
             policy.Enable = false;
             Check(!filter.ShouldSend(policy, Event("completed", NotificationTag.TaskComplete)), "Disabled channel sent an event");
@@ -251,6 +251,7 @@ internal static class Program
               "two":{"Gui":{
                 "RuntimeSettings":{"StallTimeoutMinutes":0},
                 "ExternalNotification":{"SendWhenComplete":false,"SendWhenError":false,"SendWhenStalled":false}}},
+              "details":{"Gui":{"ExternalNotification":{"ShowWhenCompleteWithDetails":true}}},
               "new":{"Gui":{"Notification":{"StallTimeoutMinutes":19,"External":{
                 "UseIndependent":true,"FilterMode":1,"FilterList":"custom","MaxEntries":6}},
                 "ExternalNotification":{"SendWhenError":false}}},
@@ -258,7 +259,9 @@ internal static class Program
                 "Overlay":{"UseIndependent":true,"FilterMode":2,
                   "FilterList":"^\\[TaskError\\]|\\[TaskComplete\\]|\\[Stalled\\]|\\[Test\\]\nordinary.*|\\[Other\\]"},
                 "External":{"FilterList":"[TaskError]"},
-                "TaskQueueLog":{"UseIndependent":true,"FilterMode":1,"FilterList":"\\[Stalled\\]"}}}}
+                "TaskQueueLog":{"UseIndependent":true,"FilterMode":1,"FilterList":"\\[Stalled\\]"}}}},
+              "tag-blacklist":{"Gui":{"Notification":{"Overlay":{
+                "UseIndependent":true,"FilterMode":1,"FilterList":"\\[Stalled\\]"}}}}
             }}
             """;
         var root = JsonSerializer.Deserialize<Root>(oldJson, options)!;
@@ -272,13 +275,20 @@ internal static class Program
         Check(filter.ShouldSend(first.External, Event("stalled", NotificationTag.Stalled)), "Stall choice lost");
         Check(!root.Configurations["two"].Gui.Notification.External.Enable, "All-off profile re-enabled notifications");
         Check(root.Configurations["two"].Gui.Notification.StallTimeoutMinutes == 0, "Legacy disabled timeout lost");
+        var withDetails = root.Configurations["details"].Gui.Notification.External;
+        Check(withDetails.UseIndependent && withDetails.MaxEntries == 100
+              && filter.ShouldSend(withDetails, Event("complete", NotificationTag.TaskComplete))
+              && filter.ShouldSend(withDetails, Event("error", NotificationTag.TaskError))
+              && !filter.ShouldSend(withDetails, Event("stalled", NotificationTag.Stalled)),
+            "Partial legacy configuration lost defaults or details preference");
         Check(root.Configurations["new"].Gui.Notification.External.FilterList == "custom", "Migration overwrote new settings");
         var tagRules = root.Configurations["tag-rules"].Gui.Notification;
         Check(tagRules.Overlay.FilterList == "^<TaskError>|<TaskComplete>|<Stalled>|<Test>\nordinary.*|\\[Other\\]",
             "Tag migration changed unrelated regex rules");
         Check(tagRules.External.FilterList == "[TaskError]", "Tag migration changed a regex character class");
-        Check(tagRules.TaskQueueLog.FilterList == "<Stalled>"
-              && !filter.ShouldSend(tagRules.TaskQueueLog, Event("stalled", NotificationTag.Stalled)),
+        var blacklist = root.Configurations["tag-blacklist"].Gui.Notification.Overlay;
+        Check(blacklist.FilterList == "<Stalled>"
+              && !filter.ShouldSend(blacklist, Event("stalled", NotificationTag.Stalled)),
             "Inactive profile's blacklist did not migrate");
         foreach (var tag in Enum.GetValues<NotificationTag>())
         {
@@ -286,7 +296,8 @@ internal static class Program
         }
 
         var serialized = JsonSerializer.Serialize(root, options);
-        Check(!serialized.Contains("SendWhenError") && !serialized.Contains("StallTimeoutReminderIntervalMinutes"),
+        Check(!serialized.Contains("SendWhenError") && !serialized.Contains("StallTimeoutReminderIntervalMinutes")
+              && !serialized.Contains("TaskQueueLog"),
             "Retired properties were written back");
         var restored = JsonSerializer.Deserialize<Root>(serialized, options)!;
         Check(restored.Configurations["one"].Gui.Notification.External.FilterList == first.External.FilterList,

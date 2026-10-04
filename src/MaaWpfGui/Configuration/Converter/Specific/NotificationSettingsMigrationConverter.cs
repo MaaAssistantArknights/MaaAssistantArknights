@@ -13,7 +13,7 @@
 
 #nullable enable
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -49,30 +49,13 @@ internal sealed class NotificationSettingsMigrationConverter : JsonConverter<Gui
                 && (external.ContainsKey("SendWhenComplete") || external.ContainsKey("SendWhenError")
                     || external.ContainsKey("SendWhenStalled") || external.ContainsKey("ShowWhenCompleteWithDetails")))
             {
-                var patterns = new List<string>();
-                if (ReadBoolean(external, "SendWhenComplete", true))
-                {
-                    patterns.Add(NotificationMessage.FormatTag(NotificationTag.TaskComplete));
-                }
-
-                if (ReadBoolean(external, "SendWhenError", true))
-                {
-                    patterns.Add(NotificationMessage.FormatTag(NotificationTag.TaskError));
-                }
-
-                if (ReadBoolean(external, "SendWhenStalled", false))
-                {
-                    patterns.Add(NotificationMessage.FormatTag(NotificationTag.Stalled));
-                }
-
-                notification["External"] = new JsonObject {
-                    ["UseIndependent"] = true,
-                    ["Enable"] = patterns.Count != 0,
-                    ["FilterMode"] = (int)NotificationFilterMode.Whitelist,
-                    ["FilterList"] = string.Join("|", patterns),
-                    ["MaxEntries"] = ReadBoolean(external, "ShowWhenCompleteWithDetails", false) ? 100 : 0,
-                    ["TimeMinutes"] = 60,
-                };
+                var channel = NotificationSettings.Channel.CreateDefault(NotificationChannel.External);
+                MigrateExternal(channel,
+                    ReadBoolean(external, "SendWhenComplete", true),
+                    ReadBoolean(external, "SendWhenError", true),
+                    ReadBoolean(external, "SendWhenStalled", false),
+                    ReadBoolean(external, "ShowWhenCompleteWithDetails", false));
+                notification["External"] = JsonSerializer.SerializeToNode(channel, options);
             }
 
             gui["Notification"] = notification;
@@ -84,6 +67,22 @@ internal sealed class NotificationSettingsMigrationConverter : JsonConverter<Gui
 
     public override void Write(Utf8JsonWriter writer, Gui value, JsonSerializerOptions options) =>
         JsonSerializer.Serialize(writer, value, WithoutThisConverter(options));
+
+    // Both legacy configuration formats use the same boolean-to-policy mapping.
+    internal static void MigrateExternal(NotificationSettings.Channel channel,
+        bool sendWhenComplete, bool sendWhenError, bool sendWhenStalled, bool includeDetails)
+    {
+        var tags = new[] {
+            (Tag: NotificationTag.TaskComplete, Enabled: sendWhenComplete),
+            (Tag: NotificationTag.TaskError, Enabled: sendWhenError),
+            (Tag: NotificationTag.Stalled, Enabled: sendWhenStalled),
+        }.Where(item => item.Enabled).Select(item => NotificationMessage.FormatTag(item.Tag)).ToArray();
+        channel.UseIndependent = true;
+        channel.Enable = tags.Length != 0;
+        channel.FilterMode = NotificationFilterMode.Whitelist;
+        channel.FilterList = string.Join("|", tags);
+        channel.MaxEntries = includeDetails ? 100 : 0;
+    }
 
     private static void MigrateTagFilters(JsonObject notification)
     {

@@ -51,11 +51,6 @@
     <system:String x:Key="ExternalNotificationTips">Please note: The external notification feature currently only sends ｢All tasks completed｣ notifications.</system:String>
     <system:String x:Key="ExternalNotificationSettings">External notifications</system:String>
     <system:String x:Key="ExternalNotificationEnabled">Enabled configuration</system:String>
-    <system:String x:Key="ExternalNotificationEnableDetails">Output Detailed Information</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenComplete">Send notification when complete</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenError">Send notification when task fails</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenStalled">Send notification when task log output stalls</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenStalledTip">Only takes effect after enabling ｢{key=StallTimeoutEnabled}｣ in ｢{key=GameSettings}｣</system:String>
     <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">Send notification before scheduled start</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">Send successfully</system:String>
     <system:String x:Key="ExternalNotificationSendFail">Send failed</system:String>
@@ -2703,7 +2698,6 @@ These directories are not suitable places to keep MAA; files there can be easily
     <system:String x:Key="NotificationSettingsOverlay">Log Floating Window</system:String>
     <system:String x:Key="NotificationSettingsSystemNotification">Windows System Notification</system:String>
     <system:String x:Key="NotificationSettingsExternal">External Notification</system:String>
-    <system:String x:Key="NotificationSettingsTaskQueueLog">Task Log Panel</system:String>
     <system:String x:Key="NotificationSettingsUseIndependent">Enable Custom Settings</system:String>
     <system:String x:Key="NotificationSettingsEnableNotification">Enable This Notification</system:String>
     <system:String x:Key="NotificationSettingsEnableBlacklist">Enable Blacklist</system:String>

@@ -92,8 +92,6 @@ public sealed class NotificationSettingsItem : PropertyChangedBase, IDataErrorIn
         set => _config.TimeMinutes = Math.Clamp(value, 0, 10080);
     }
 
-    public bool ShowLimitFields => true;
-
     [PropertyDependsOn(nameof(UseIndependent))]
     [PropertyDependsOn(nameof(EnableBlacklist))]
     [PropertyDependsOn(nameof(EnableWhitelist))]

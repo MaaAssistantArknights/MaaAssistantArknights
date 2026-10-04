@@ -16,7 +16,6 @@ namespace MaaWpfGui.Constants.Enums;
 
 public enum NotificationChannel
 {
-    TaskQueueLog,
     Overlay,
     SystemNotification,
     External,

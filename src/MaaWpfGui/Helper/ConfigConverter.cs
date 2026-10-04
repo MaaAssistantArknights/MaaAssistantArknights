@@ -18,6 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media;
+using MaaWpfGui.Configuration.Converter.Specific;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Configuration.Single.MaaTask;
@@ -28,7 +29,6 @@ using MaaWpfGui.Constants.Enums.Core;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services.HotKeys;
-using MaaWpfGui.Services.Notification;
 using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -711,25 +711,11 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationCustomWebhookBody);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationCustomWebhookHeaders);
 
-                var notification = ConfigFactory.CurrentConfig.Gui.Notification.External;
-                notification.UseIndependent = true;
-                notification.FilterMode = MaaWpfGui.Constants.Enums.NotificationFilterMode.Whitelist;
-                var patterns = new List<string>();
-                if (ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenComplete, true))
-                {
-                    patterns.Add(NotificationMessage.FormatTag(NotificationTag.TaskComplete));
-                }
-                if (ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenError, true))
-                {
-                    patterns.Add(NotificationMessage.FormatTag(NotificationTag.TaskError));
-                }
-                if (ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenStalled, false))
-                {
-                    patterns.Add(NotificationMessage.FormatTag(NotificationTag.Stalled));
-                }
-                notification.Enable = patterns.Count != 0;
-                notification.FilterList = string.Join("|", patterns);
-                notification.MaxEntries = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnableDetails, false) ? 100 : 0;
+                NotificationSettingsMigrationConverter.MigrateExternal(ConfigFactory.CurrentConfig.Gui.Notification.External,
+                    ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenComplete, true),
+                    ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenError, true),
+                    ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenStalled, false),
+                    ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnableDetails, false));
 
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSendWhenError);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSendWhenComplete);

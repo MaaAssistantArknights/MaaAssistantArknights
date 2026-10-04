@@ -51,11 +51,6 @@
     <system:String x:Key="ExternalNotificationTips">請注意：外部通知功能目前僅會發送 ｢所有任務完成｣ 的通知。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
     <system:String x:Key="ExternalNotificationEnabled">啟用的通知設定</system:String>
-    <system:String x:Key="ExternalNotificationEnableDetails">輸出詳細資訊</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenComplete">任務完成後發送通知</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenError">任務出錯時發送通知</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenStalled">任務日誌輸出停滯時發送通知</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenStalledTip">需在 ｢{key=GameSettings}｣ 中開啟 ｢{key=StallTimeoutEnabled}｣ 後才會生效</system:String>
     <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">定時執行前傳送通知</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">發送成功</system:String>
     <system:String x:Key="ExternalNotificationSendFail">發送失敗</system:String>
@@ -2701,7 +2696,6 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="NotificationSettingsOverlay">日誌浮動視窗</system:String>
     <system:String x:Key="NotificationSettingsSystemNotification">Windows 系統通知</system:String>
     <system:String x:Key="NotificationSettingsExternal">外部通知</system:String>
-    <system:String x:Key="NotificationSettingsTaskQueueLog">任務日誌面板</system:String>
     <system:String x:Key="NotificationSettingsUseIndependent">啟用自訂設定</system:String>
     <system:String x:Key="NotificationSettingsEnableNotification">啟用此項通知</system:String>
     <system:String x:Key="NotificationSettingsEnableBlacklist">啟用黑名單</system:String>
