@@ -1044,6 +1044,18 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether AUTO 代理倍率使用理智药剂时允许超出理智上限。
+    /// </summary>
+    public bool AllowAutoSeriesSanityOverflow
+    {
+        get => GetTaskConfig<FightTask>().AllowAutoSeriesSanityOverflow;
+        set {
+            SetTaskConfig<FightTask>(t => t.AllowAutoSeriesSanityOverflow == value, t => t.AllowAutoSeriesSanityOverflow = value);
+            SetFightParams();
+        }
+    }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 使用备选关卡。
     /// </summary>
     public bool UseAlternateStage
@@ -1353,6 +1365,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
             Medicine = fight.UseMedicine != false ? fight.MedicineCount : 0,
             Stone = fight.UseStone != false ? fight.StoneCount : 0,
             Series = fight.Series,
+            AllowAutoSeriesSanityOverflow = fight.AllowAutoSeriesSanityOverflow,
             MaxTimes = maxTimes,
             MedicineExpireDays = Math.Max(expireDays, activityExpireDays),
             IsDrGrandet = fight.IsDrGrandet,

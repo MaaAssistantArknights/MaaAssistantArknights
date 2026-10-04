@@ -109,7 +109,10 @@ bool asst::MedicineCounterTaskPlugin::_run()
         return sanity_target && sanity_max;
     };
 
-    if (!analyze_sanity()) [[unlikely]] {
+    if (m_allow_sanity_overflow) {
+        LogTrace << __FUNCTION__ << "Skip sanity overflow check for AUTO series";
+    }
+    else if (!analyze_sanity()) [[unlikely]] {
         LogError << __FUNCTION__ << "unable to analyze sanity";
     }
     else if (*sanity_target >= *sanity_max) [[unlikely]] {

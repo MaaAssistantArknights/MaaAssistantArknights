@@ -205,6 +205,11 @@ v6.8.0부터 폐기됨. 대신 `medicine_expire_days`를 사용하세요.
 
 해외 서버는 약 반년 후 따를 예정이며, 그때 상한은 리소스에 맞춰 10이 됩니다. Windows GUI의 연속 전투 드롭다운은 현재 고정으로 10까지 제공합니다. 해외에서 수동으로 7~10을 선택하면 작업 전달 시 Core에서 거부됩니다.
 :::  
+::: field allow_auto_series_sanity_overflow
+@type boolean
+@default false
+@optional
+`series`가 `0`(AUTO)일 때만 적용됩니다. `true`로 설정하면 회복제 사용 후 이성 상한을 초과하더라도 현재 연속 전투 횟수에 필요한 이성을 채울 수 있습니다. 일반 회복제 사용 개수 제한과 만료 임박 회복제 설정은 그대로 적용됩니다.
 ::: field drops  
  @type object
 @optional

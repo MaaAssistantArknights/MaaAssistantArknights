@@ -62,6 +62,12 @@ public class AsstFightTask : AsstBaseTask
     public int Series { get; set; } = 1;
 
     /// <summary>
+    /// Gets or sets a value indicating whether AUTO 代理倍率使用理智药剂时允许超出理智上限。
+    /// </summary>
+    [JsonProperty("allow_auto_series_sanity_overflow")]
+    public bool AllowAutoSeriesSanityOverflow { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 葛朗台
     /// </summary>
     [JsonProperty("DrGrandet")]

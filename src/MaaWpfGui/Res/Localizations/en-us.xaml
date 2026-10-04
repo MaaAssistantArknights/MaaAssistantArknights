@@ -807,6 +807,11 @@ Then delete the entries corresponding to the paths.</system:String>
     <system:String x:Key="AllowUseStoneSaveTip">By default, ｢{key=UseOriginitePrime}｣ is effective only once; when checked, its state will be saved, the left-click toggles it normally, and a right-click selection still takes effect only once</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">This function is considered dangerous. Pressing the ｢{key=Confirm}｣ button indicates that you understand and are willing to accept the potential risks.</system:String>
     <system:String x:Key="UseAlternateStage">Use alternative stage</system:String>
+    <system:String x:Key="AllowAutoSeriesSanityOverflow">Allow AUTO series to exceed the sanity cap when using potions</system:String>
+    <system:String x:Key="AllowAutoSeriesSanityOverflowTip" xml:space="preserve">Only applies when {key=Series} is AUTO.
+When enabled, sanity potions may replenish enough sanity for the current multiplier, even if this exceeds the sanity cap.
+Normal potion limits and expiring potion settings still apply; AUTO can still lower the multiplier if eligible potions are insufficient.
+When disabled, the existing behavior that avoids sanity overflow is retained.</system:String>
     <system:String x:Key="UseExpiringMedicine">Unlimited use of sanity potion expiring in &lt;N days</system:String>
     <system:String x:Key="MedicineExpireDaysTip">Only uses medicine displayed as less than "N days" in-game; anything displayed as "N days" or more will not be used.</system:String>
     <system:String x:Key="UseExpireMedicineForActivity">Use sanity potions that expire this week within 48 hours before the activity ends</system:String>
@@ -1008,7 +1013,8 @@ Right-clicking other options will check/uncheck this option simultaneously</syst
     <system:String x:Key="TargetInventory">Goal</system:String>
     <system:String x:Key="Series">Series</system:String>
     <system:String x:Key="SeriesTip" xml:space="preserve">• AUTO:
-Automatically identify the maximum proxy multiplier of the level, maintain the maximum proxy multiplier and do not overflow sanity after using sanity potion
+Automatically identifies the stage's maximum multiplier and avoids sanity overflow after using potions by default.
+Enable 「{key=AllowAutoSeriesSanityOverflow}」 in advanced settings to allow exceeding the sanity cap.
 
 • Value (1~10):
 Execute proxy according to the set multiplier

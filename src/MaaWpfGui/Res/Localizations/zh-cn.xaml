@@ -805,6 +805,11 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AllowUseStoneSaveTip">默认 ｢{key=UseOriginitePrime}｣ 仅生效一次；勾选后其状态将保存，左键可正常切换，右键选中时仍仅生效一次</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">该功能属于危险功能。按下 ｢{key=Confirm}｣ 键即视为你了解并愿意承担可能出现的风险。</system:String>
     <system:String x:Key="UseAlternateStage">使用备选关卡</system:String>
+    <system:String x:Key="AllowAutoSeriesSanityOverflow">允许AUTO代理倍率使用理智药剂时超出理智上限</system:String>
+    <system:String x:Key="AllowAutoSeriesSanityOverflowTip" xml:space="preserve">仅在{key=Series}为 AUTO 时生效。
+勾选后，允许使用理智药剂补足当前代理倍率所需的理智，即使吃药后超过理智上限。
+普通药剂数量与临期药范围仍按原设置执行；可用药剂不足时，AUTO 仍会降低倍率。
+未勾选时，保持原有避免理智溢出的行为。</system:String>
     <system:String x:Key="UseExpiringMedicine">无限吃 N 天内过期的理智药</system:String>
     <system:String x:Key="MedicineExpireDaysTip">只吃游戏内显示不足 N 天的理智药，显示“N 天”及以上的不吃。</system:String>
     <system:String x:Key="UseExpireMedicineForActivity">活动结束前 48H 吃当周过期理智药</system:String>
@@ -1008,7 +1013,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="TargetInventory">目标库存</system:String>
     <system:String x:Key="Series">代理倍率</system:String>
     <system:String x:Key="SeriesTip" xml:space="preserve">• AUTO:
-自动识别关卡最大代理倍率, 保持最大代理倍率且使用理智药后理智不溢出
+自动识别关卡最大代理倍率，默认避免吃药后理智溢出。
+可在高级设置中开启「{key=AllowAutoSeriesSanityOverflow}」以允许超出理智上限。
 
 • 数值 (1~10):
 按设定倍率执行代理

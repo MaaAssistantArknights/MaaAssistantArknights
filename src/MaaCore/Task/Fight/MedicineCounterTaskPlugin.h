@@ -20,6 +20,8 @@ public:
 
     void set_reduce_when_exceed(bool reduce) { m_reduce_when_exceed = reduce; }
 
+    void set_allow_sanity_overflow(bool allow) { m_allow_sanity_overflow = allow; }
+
     int get_used_count() const { return m_used_count; }
 
     static std::optional<int> get_target_of_sanity(const cv::Mat& image);
@@ -54,5 +56,6 @@ private:
     int m_max_count = 0;
     mutable bool m_has_used_medicine = false; // 是否开过药品页面
     bool m_reduce_when_exceed = false;        // 第一次开药品页面时, 超理智上限减少用药
+    bool m_allow_sanity_overflow = false;     // AUTO 代理倍率允许使用药品后超出理智上限
 };
 }

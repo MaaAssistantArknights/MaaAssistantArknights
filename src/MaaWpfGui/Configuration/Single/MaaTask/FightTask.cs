@@ -85,6 +85,11 @@ public class FightTask : BaseTask, IJsonOnDeserialized
     public int Series { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether AUTO 代理倍率使用理智药剂时允许超出理智上限。
+    /// </summary>
+    public bool AllowAutoSeriesSanityOverflow { get; set; }
+
+    /// <summary>
     /// Gets or sets 关卡列表, 从上往下选择第一个可用关卡
     /// </summary>
     public List<string> StagePlan { get; set; } = [string.Empty];

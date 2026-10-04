@@ -210,6 +210,11 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 
   海外サーバーは約半年後に追従予定で、その際に上限はリソースに合わせて 10 になります。Windows GUI の連戦回数ドロップダウンは現在固定で 10 まで表示されます。海外で手動で 7～10 を選ぶと、タスク投入時に Core に拒否されます。
   :::  
+  ::: field allow_auto_series_sanity_overflow
+  @type boolean
+  @default false
+  @optional
+  `series` が `0`（AUTO）の場合のみ有効です。`true` にすると、回復薬使用後に理性上限を超えても、現在の連戦回数に必要な理性を補充できます。通常の回復薬の使用数制限と期限間近の回復薬の設定は引き続き適用されます。
   ::: field drops  
   @type object
   @optional

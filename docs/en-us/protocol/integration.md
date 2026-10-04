@@ -210,6 +210,11 @@ Currently supported stages for navigation include:
 
   Overseas servers are expected to follow in about six months, after which the limit becomes 10 with the resource update. The Windows GUI series dropdown currently always offers up to 10; on overseas clients, manually selecting 7~10 will be rejected by Core when the task is submitted.
   :::  
+  ::: field allow_auto_series_sanity_overflow
+  @type boolean
+  @default false
+  @optional
+  Only applies when `series` is `0` (AUTO). When `true`, sanity potions may replenish enough sanity for the current multiplier even if this exceeds the sanity cap. Normal potion limits and expiring potion settings still apply.
   ::: field drops  
   @type object
   @optional

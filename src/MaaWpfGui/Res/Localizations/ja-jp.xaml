@@ -807,6 +807,11 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AllowUseStoneSaveTip">デフォルトでは ｢{key=UseOriginitePrime}｣ は一度だけ有効です。チェックするとその状態が保存され、左クリックで通常どおり切り替えられ、右クリックで選択した場合も一度だけ有効になります</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">この機能は危険な機能と見なされます。 ｢{key=Confirm}｣ ボタンを押すと、リスクを理解し、受け入れることに同意したと見なされます。</system:String>
     <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
+    <system:String x:Key="AllowAutoSeriesSanityOverflow">AUTO連戦で理性回復薬使用時に理性上限の超過を許可</system:String>
+    <system:String x:Key="AllowAutoSeriesSanityOverflowTip" xml:space="preserve">{key=Series}が AUTO の場合のみ有効です。
+有効にすると、理性回復薬使用後に理性上限を超えても、現在の連戦回数に必要な理性を補充できます。
+通常の回復薬の使用数制限と期限間近の回復薬の設定は引き続き適用され、使用可能な回復薬が不足する場合は AUTO が連戦回数を減らします。
+無効の場合は、理性の超過を避ける従来の動作を維持します。</system:String>
     <system:String x:Key="UseExpiringMedicine">N日未満で期限が切れる回復剤を無制限に使用</system:String>
     <system:String x:Key="MedicineExpireDaysTip">ゲーム内で「N日」未満と表示される回復剤のみ使用し、「N日」以上は使用しません。</system:String>
     <system:String x:Key="UseExpireMedicineForActivity">今週中に期限切れとなる正気回復ポーションは、アクティビティ終了の48時間以内に使用してください。</system:String>
@@ -1010,7 +1015,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="TargetInventory">目標在庫</system:String>
     <system:String x:Key="Series">連戦回数</system:String>
     <system:String x:Key="SeriesTip" xml:space="preserve">• 自動:
-レベルの最大代理乗数を自動で判別し、最大代理乗数を維持し、正気ポーション使用後に正気度オーバーフローが発生しないようにします。
+ステージの最大連戦回数を自動で判別し、既定では回復薬使用後の理性の超過を避けます。
+詳細設定で「{key=AllowAutoSeriesSanityOverflow}」を有効にすると、理性上限の超過を許可します。
 
 • 値 (1～10):
 設定された乗数に従って代理を実行します。

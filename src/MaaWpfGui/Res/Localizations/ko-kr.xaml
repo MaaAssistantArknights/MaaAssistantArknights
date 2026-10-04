@@ -807,6 +807,11 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AllowUseStoneSaveTip">기본적으로 ｢{key=UseOriginitePrime}｣는 한 번만 유효합니다. 체크하면 상태가 저장되어 좌클릭으로 정상적으로 전환할 수 있으며, 우클릭으로 선택한 경우에도 한 번만 유효합니다</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">이 기능은 위험할 수 있습니다. ｢{key=Confirm}｣ 버튼을 누르면 잠재적인 위험을 이해하고 감수하는 것으로 간주됩니다.</system:String>
     <system:String x:Key="UseAlternateStage">대체 스테이지 사용</system:String>
+    <system:String x:Key="AllowAutoSeriesSanityOverflow">AUTO 연속 전투에서 회복제 사용 시 이성 상한 초과 허용</system:String>
+    <system:String x:Key="AllowAutoSeriesSanityOverflowTip" xml:space="preserve">{key=Series}가 AUTO일 때만 적용됩니다.
+활성화하면 회복제 사용 후 이성 상한을 초과하더라도 현재 연속 전투 횟수에 필요한 이성을 채울 수 있습니다.
+일반 회복제 사용 개수 제한과 만료 임박 회복제 설정은 그대로 적용되며, 사용 가능한 회복제가 부족하면 AUTO가 연속 전투 횟수를 줄입니다.
+비활성화하면 이성 초과를 방지하는 기존 동작을 유지합니다.</system:String>
     <system:String x:Key="UseExpiringMedicine">N 일 미만 이성 회복제 사용</system:String>
     <system:String x:Key="MedicineExpireDaysTip">게임 내에서 N일 미만으로 표시되는 이성 회복제만 사용하며, ｢N일｣ 이상은 사용하지 않습니다.</system:String>
     <system:String x:Key="UseExpireMedicineForActivity">이벤트 종료 48시간 전, 이번 주 만료되는 이성 회복제 사용</system:String>
@@ -1009,7 +1014,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="TargetInventory">목표 재고</system:String>
     <system:String x:Key="Series">연속 전투</system:String>
     <system:String x:Key="SeriesTip" xml:space="preserve">• AUTO:
-스테이지의 가능한 최대 대리 지휘 횟수의 배수를 감지하고, 자동으로 최대 대리 지휘 횟수를 유지하며, 이성 회복제 사용 후 이성이 남지 않도록 합니다.
+스테이지의 최대 연속 전투 횟수를 자동으로 감지하며, 기본적으로 회복제 사용 후 이성 상한 초과를 방지합니다.
+고급 설정에서 「{key=AllowAutoSeriesSanityOverflow}」를 활성화하면 이성 상한 초과를 허용합니다.
 
 • 단순 배수 (1~10):
 설정된 배수에 따라 대리 지휘 횟수를 실행합니다.

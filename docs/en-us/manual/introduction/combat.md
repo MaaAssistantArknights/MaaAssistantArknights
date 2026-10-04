@@ -108,6 +108,7 @@ MAA will use the specified Series setting:
 
 - **AUTO mode** (0):
   - Automatically selects a multiplier based on remaining battle count (capped at the stage's maximum); reduces medicine usage to avoid sanity overflow, while Originium is used one at a time per setting
+  - Enable 「Allow AUTO series to exceed the sanity cap when using potions」 in advanced settings to replenish enough sanity for the current multiplier even if this exceeds the sanity cap; potion limits and expiring potion settings still apply, and AUTO can still lower the multiplier if eligible potions are insufficient
   - If sanity is insufficient for a full run of that multiplier, recovers sanity as configured (medicines first, then Originium); ends the task if none are set or exhausted
 
 - **Fixed value mode** (1-10 for CN, 1-6 for overseas servers):

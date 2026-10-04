@@ -89,6 +89,7 @@ bool asst::FightTask::set_params(const json::value& params)
     const int stone = params.get("stone", 0);
     const int times = params.get("times", INT_MAX);
     const int series = params.get("series", 1);
+    const bool allow_auto_series_sanity_overflow = params.get("allow_auto_series_sanity_overflow", false);
 
     m_fight_times_prt->set_fight_times(times);
 
@@ -99,6 +100,7 @@ bool asst::FightTask::set_params(const json::value& params)
     }
     else {
         m_medicine_plugin->set_reduce_when_exceed(series == 0);
+        m_medicine_plugin->set_allow_sanity_overflow(series == 0 && allow_auto_series_sanity_overflow);
         m_fight_times_prt->set_series(series);
     }
 

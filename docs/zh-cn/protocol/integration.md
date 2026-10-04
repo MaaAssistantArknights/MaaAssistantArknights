@@ -210,6 +210,11 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 
   外服预计约半年后跟进，届时上限随资源变为 10。Windows GUI 的代理倍率下拉目前固定提供到 10；外服若手动选择 7~10，任务下发时会被 Core 拒绝。
   :::  
+  ::: field allow_auto_series_sanity_overflow
+  @type boolean
+  @default false
+  @optional
+  仅在 `series` 为 `0`（AUTO）时生效。设为 `true` 后，允许使用理智药剂补足当前代理倍率所需的理智，即使吃药后超过理智上限。普通药剂数量与临期药范围仍按原设置执行。
   ::: field drops  
   @type object
   @optional
