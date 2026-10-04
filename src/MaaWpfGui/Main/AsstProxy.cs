@@ -1421,13 +1421,20 @@ public class AsstProxy
                     var log = details["error"]?.ToString() == "OutOfMemory"
                         ? LocalizationHelper.GetStringFormat("OutOfMemoryError", LocalizationHelper.GetString(taskChain))
                         : LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(taskChain);
-                    Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error, updateCardImage: true, fetchLatestImage: true, useCardImageAsToolTip: true,
-                        notification: isCopilotTaskChain ? null : new(NotificationTag.TaskError, log, log), processNotifications: !isCopilotTaskChain);
+                    void DisplayErrorLog() => Instances.TaskQueueViewModel.DisplayLog(log, UiLogColor.Error,
+                        updateCardImage: true, fetchLatestImage: true, useCardImageAsToolTip: true);
 
                     if (isCopilotTaskChain)
                     {
-                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error, notification: new(NotificationTag.TaskError, log, log));
+                        DisplayErrorLog();
+                        Instances.NotificationService.Notify(NotificationSource.Copilot, new(NotificationTag.TaskError, log, log),
+                            UiLogColor.Error, logContent: LocalizationHelper.GetString("CombatError"));
                         AchievementTrackerHelper.Instance.Unlock(AchievementIds.CopilotError);
+                    }
+                    else
+                    {
+                        Instances.NotificationService.Notify(NotificationSource.TaskQueue, new(NotificationTag.TaskError, log, log),
+                            UiLogColor.Error, display: DisplayErrorLog);
                     }
 
                     break;
@@ -1634,7 +1641,7 @@ public class AsstProxy
                 else if (runOwner == RunOwner.Copilot)
                 {
                     var message = LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(taskChain);
-                    Instances.CopilotViewModel.AddLog(message, notification: new(NotificationTag.TaskComplete, message, message));
+                    Instances.NotificationService.Notify(NotificationSource.Copilot, new(NotificationTag.TaskComplete, message, message));
                 }
 
                 if (buyWine)
@@ -1941,7 +1948,7 @@ public class AsstProxy
 
                         case "FightMissionFailedAndStop":
                             var fightError = LocalizationHelper.GetString("FightMissionFailedAndStop");
-                            Instances.TaskQueueViewModel.AddLog(fightError, UiLogColor.Error, notification: new(NotificationTag.TaskError, fightError, fightError));
+                            Instances.NotificationService.Notify(NotificationSource.TaskQueue, new(NotificationTag.TaskError, fightError, fightError), UiLogColor.Error);
                             break;
 
                         case "CheckEncounter-Uncollected":
@@ -1949,8 +1956,8 @@ public class AsstProxy
                                 var title = LocalizationHelper.GetString("MiniGame@InteractiveExhibition@UncollectedNotificationTitle");
                                 var content = LocalizationHelper.GetString("MiniGame@InteractiveExhibition@UncollectedNotificationContent");
 
-                                Instances.TaskQueueViewModel.AddLog(content, UiLogColor.Warning, updateCardImage: true,
-                                    notification: new(NotificationTag.TaskComplete, title, content));
+                                Instances.NotificationService.Notify(NotificationSource.TaskQueue, new(NotificationTag.TaskComplete, title, content),
+                                    UiLogColor.Warning, display: () => Instances.TaskQueueViewModel.DisplayLog(content, UiLogColor.Warning, updateCardImage: true));
 
                                 break;
                             }
@@ -2032,8 +2039,7 @@ public class AsstProxy
                             }
 
                             var log = LocalizationHelper.GetString("GameDrop");
-                            Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error,
-                                notification: new(NotificationTag.TaskError, log, log));
+                            Instances.NotificationService.Notify(NotificationSource.TaskQueue, new(NotificationTag.TaskError, log, log), UiLogColor.Error);
                             _ = Instances.TaskQueueViewModel.Stop();
                             break;
 
@@ -3566,19 +3572,22 @@ public class AsstProxy
         // 有错误时标题行标红单独成段，理智报告等后续内容留在下一段，避免整卡变红
         if (!hasTaskErrors)
         {
-            Instances.TaskQueueViewModel.AddLog(completionLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both, notification: notification);
+            Instances.NotificationService.Notify(NotificationSource.TaskQueue, notification, logContent: completionLog,
+                display: () => Instances.TaskQueueViewModel.DisplayLog(completionLog, splitMode: TaskQueueViewModel.LogCardSplitMode.Both));
             return;
         }
 
         var (errorHeadline, extraContent) = SplitTaskCompletionLog(completionLog);
         if (string.IsNullOrWhiteSpace(extraContent))
         {
-            Instances.TaskQueueViewModel.AddLog(errorHeadline, UiLogColor.Error, splitMode: TaskQueueViewModel.LogCardSplitMode.Both, notification: notification);
+            Instances.NotificationService.Notify(NotificationSource.TaskQueue, notification, UiLogColor.Error, logContent: errorHeadline,
+                display: () => Instances.TaskQueueViewModel.DisplayLog(errorHeadline, UiLogColor.Error, splitMode: TaskQueueViewModel.LogCardSplitMode.Both));
             return;
         }
 
         Instances.TaskQueueViewModel.AddLog(errorHeadline, UiLogColor.Error, splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
-        Instances.TaskQueueViewModel.AddLog(extraContent, splitMode: TaskQueueViewModel.LogCardSplitMode.After, notification: notification);
+        Instances.NotificationService.Notify(NotificationSource.TaskQueue, notification, logContent: extraContent,
+            display: () => Instances.TaskQueueViewModel.DisplayLog(extraContent, splitMode: TaskQueueViewModel.LogCardSplitMode.After));
     }
 
     private static (string ErrorHeadline, string ExtraContent) SplitTaskCompletionLog(string completionLog)

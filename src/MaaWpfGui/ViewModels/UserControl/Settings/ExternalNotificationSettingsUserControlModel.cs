@@ -12,10 +12,10 @@
 // </copyright>
 
 #nullable enable
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,7 +28,6 @@ using MaaWpfGui.Services.ExternalNotification;
 using MaaWpfGui.Utilities.ValueType;
 using Serilog;
 using Stylet;
-using static MaaWpfGui.Configuration.Single.Settings.ExternalNotification;
 
 namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
@@ -38,6 +37,7 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
 {
     private static readonly ILogger _logger = Log.ForContext<ExternalNotificationSettingsUserControlModel>();
+    private readonly HashSet<BaseConfig> _subscribedConfigs = [];
 
     static ExternalNotificationSettingsUserControlModel()
     {
@@ -46,122 +46,21 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
 
     public ExternalNotificationSettingsUserControlModel()
     {
-        var config = ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs;
-        var list = new List<BaseConfig>();
-        foreach (var configItem in config)
-        {
-            BaseConfig c = configItem switch {
-                Smtp smtp => new SmtpConfig(smtp),
-                ServerChan serverChan => new ServerChanConfig(serverChan),
-                Discord discord => new DiscordConfig(discord),
-                DingTalk dingTalk => new DingTalkConfig(dingTalk),
-                Telegram telegram => new TelegramConfig(telegram),
-                Bark bark => new BarkConfig(bark),
-                Qmsg qmsg => new QmsgConfig(qmsg),
-                Gotify gotify => new GotifyConfig(gotify),
-                CustomWebhook customWebhook => new CustomWebhookConfig(customWebhook),
-                _ => throw new NotSupportedException($"Unsupported config type: {configItem.GetType()}"),
-            };
-            list.Add(c);
-        }
-        ExternalNotificationConfigs = new ObservableCollection<BaseConfig>(list);
-        ExternalNotificationConfigs.CollectionChanged += (o, e) => {
-            if (e.Action == NotifyCollectionChangedAction.Reset)
-            {
-                ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Clear();
-            }
-            else if (e.Action is NotifyCollectionChangedAction.Remove)
-            {
-                ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.RemoveAt(e.OldStartingIndex);
-            }
-            else if (e.Action is NotifyCollectionChangedAction.Move)
-            {
-                var item = ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs[e.OldStartingIndex];
-                ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.RemoveAt(e.OldStartingIndex);
-                ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Insert(e.NewStartingIndex, item);
-            }
-            else if (e.Action is NotifyCollectionChangedAction.Add)
-            {
-                e.NewItems?.OfType<BaseConfig>().ToList().ForEach(item => {
-                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(item.ToConfig());
-                });
-            }
-
-            if (e.Action is NotifyCollectionChangedAction.Add or NotifyCollectionChangedAction.Replace)
-            {
-                e.NewItems?.OfType<BaseConfig>().ToList().ForEach(item => {
-                    item.PropertyChanged += (s, e) => {
-                        var index = ExternalNotificationConfigs.IndexOf(item);
-                        if (index < 0 || index >= ExternalNotificationConfigs.Count || ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Count != ExternalNotificationConfigs.Count)
-                        {
-                            _logger.Error("ExternalNotificationConfigs index out of range or count mismatch. Index: {Index}, ExternalNotificationConfigs Count: {ExternalNotificationConfigsCount}, Config Count: {ConfigCount}", index, ExternalNotificationConfigs.Count, ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Count);
-                            return;
-                        }
-
-                        ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs[index] = item.ToConfig();
-                    };
-                });
-            }
-            NotifyOfPropertyChange(nameof(ConfigCount));
-            CheckAllChannelBroadcast();
-        };
-        foreach (var item in ExternalNotificationConfigs)
-        {
-            item.PropertyChanged += (s, e) => {
-                var index = ExternalNotificationConfigs.IndexOf(item);
-                if (index < 0 || index >= ExternalNotificationConfigs.Count || ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Count != ExternalNotificationConfigs.Count)
-                {
-                    _logger.Error("ExternalNotificationConfigs index out of range or count mismatch. Index: {Index}, ExternalNotificationConfigs Count: {ExternalNotificationConfigsCount}, Config Count: {ConfigCount}", index, ExternalNotificationConfigs.Count, ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Count);
-                    return;
-                }
-                ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs[index] = item.ToConfig();
-            };
-        }
+        ExternalNotificationConfigs = new(ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs
+            .Select(config => ExternalNotificationChannel.ForConfig(config).ReadConfig(config)));
+        ExternalNotificationConfigs.CollectionChanged += OnConfigsChanged;
+        SynchronizeSubscriptions();
+        LocalizationHelper.LanguageChanged += ExternalNotificationProviderList.RefreshLocalization;
     }
 
     public static ExternalNotificationSettingsUserControlModel Instance { get; }
 
-    // UI 绑定的方法
-    [UsedImplicitly]
-    public static void ExternalNotificationSendTest()
-    {
-        ExternalNotificationService.Send(LocalizationHelper.GetString("ExternalNotificationSendTestTitle"), LocalizationHelper.GetString("ExternalNotificationSendTestContent"), true);
-    }
+    public LocalizedObservableList<ExternalNotificationChannel> ExternalNotificationProviderList { get; } = new(
+        ExternalNotificationChannel.All.Select(channel => (channel, channel.LocalizationKey)).ToArray());
+
+    public ObservableCollection<BaseConfig> ExternalNotificationConfigs { get; private set => SetAndNotify(ref field, value); }
 
     public int ConfigCount => ExternalNotificationConfigs.Count;
-
-    /// <summary>
-    /// 外部通知支持的全部 provider 配置类型（与 <see cref="Base"/> 的派生 record 一一对应）。
-    /// </summary>
-    private static readonly HashSet<Type> _allProviderTypes =
-    [
-        typeof(Smtp),
-        typeof(ServerChan),
-        typeof(Discord),
-        typeof(DingTalk),
-        typeof(Telegram),
-        typeof(Bark),
-        typeof(Qmsg),
-        typeof(Gotify),
-        typeof(CustomWebhook),
-    ];
-
-    /// <summary>
-    /// 当配置项覆盖了全部支持的 provider 类型时，解锁「全频道广播」成就。
-    /// </summary>
-    private static void CheckAllChannelBroadcast()
-    {
-        var covered = ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs
-            .Select(c => c.GetType())
-            .Where(t => _allProviderTypes.Contains(t))
-            .Distinct()
-            .Count();
-
-        if (covered == _allProviderTypes.Count)
-        {
-            AchievementTrackerHelper.Instance.Unlock(AchievementIds.AllChannelBroadcast);
-        }
-    }
 
     public bool ExternalNotificationSendBeforeScheduledStart
     {
@@ -172,58 +71,94 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private static readonly List<GenericCombinedData<Type>> _externalNotificationProviders =
-        [
-            new GenericCombinedData<Type> { Display = "ServerChan", Value = typeof(ServerChanConfig) },
-            new GenericCombinedData<Type> { Display = "Telegram", Value = typeof(TelegramConfig) },
-            new GenericCombinedData<Type> { Display = "Discord", Value = typeof(DiscordConfig) },
-            new GenericCombinedData<Type> { Display = "DingTalk", Value = typeof(DingTalkConfig) },
-            new GenericCombinedData<Type> { Display = "SMTP", Value = typeof(SmtpConfig) },
-            new GenericCombinedData<Type> { Display = "Bark", Value = typeof(BarkConfig) },
-            new GenericCombinedData<Type> { Display = "Qmsg", Value = typeof(QmsgConfig) },
-            new GenericCombinedData<Type> { Display = "Gotify", Value = typeof(GotifyConfig) },
-            new GenericCombinedData<Type> { Display = "Custom Webhook", Value = typeof(CustomWebhookConfig) }
-        ];
-
-    public static List<GenericCombinedData<Type>> ExternalNotificationProviderList => _externalNotificationProviders;
+    [UsedImplicitly]
+    public static void ExternalNotificationSendTest() =>
+        ExternalNotificationService.Send(LocalizationHelper.GetString("ExternalNotificationSendTestTitle"),
+            LocalizationHelper.GetString("ExternalNotificationSendTestContent"), true);
 
     public void AddConfig(object sender, RoutedEventArgs e)
     {
-        if (e.OriginalSource is not MenuItem item || item.DataContext is not GenericCombinedData<Type> data)
+        if (e.OriginalSource is MenuItem { DataContext: GenericCombinedData<ExternalNotificationChannel> data })
+        {
+            ExternalNotificationConfigs.Add(data.Value.CreateEditor());
+        }
+    }
+
+    public void RemoveConfig(BaseConfig config) => ExternalNotificationConfigs.Remove(config);
+
+    private void OnConfigsChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        var saved = ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs;
+        switch (e.Action)
+        {
+            case NotifyCollectionChangedAction.Reset:
+                saved.Clear();
+                break;
+            case NotifyCollectionChangedAction.Add:
+                for (var index = 0; index < e.NewItems!.Count; ++index)
+                {
+                    saved.Insert(e.NewStartingIndex + index, ((BaseConfig)e.NewItems[index]!).ToConfig());
+                }
+                break;
+            case NotifyCollectionChangedAction.Replace:
+                for (var index = 0; index < e.NewItems!.Count; ++index)
+                {
+                    saved[e.NewStartingIndex + index] = ((BaseConfig)e.NewItems[index]!).ToConfig();
+                }
+                break;
+            case NotifyCollectionChangedAction.Remove:
+                for (var index = 0; index < e.OldItems!.Count; ++index)
+                {
+                    saved.RemoveAt(e.OldStartingIndex);
+                }
+                break;
+            case NotifyCollectionChangedAction.Move:
+                var moved = saved[e.OldStartingIndex];
+                saved.RemoveAt(e.OldStartingIndex);
+                saved.Insert(e.NewStartingIndex, moved);
+                break;
+        }
+
+        SynchronizeSubscriptions();
+        NotifyOfPropertyChange(nameof(ConfigCount));
+        if (ExternalNotificationChannel.All.All(channel =>
+            ExternalNotificationConfigs.Any(config => config.GetType() == channel.EditorType)))
+        {
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.AllChannelBroadcast);
+        }
+    }
+
+    private void SynchronizeSubscriptions()
+    {
+        foreach (var item in _subscribedConfigs.Except(ExternalNotificationConfigs).ToArray())
+        {
+            item.PropertyChanged -= OnConfigChanged;
+            _subscribedConfigs.Remove(item);
+        }
+        foreach (var item in ExternalNotificationConfigs.Except(_subscribedConfigs))
+        {
+            item.PropertyChanged += OnConfigChanged;
+            _subscribedConfigs.Add(item);
+        }
+    }
+
+    private void OnConfigChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (sender is not BaseConfig item)
         {
             return;
         }
-        if (CreateInstance(data.Value) is BaseConfig config)
+        var index = ExternalNotificationConfigs.IndexOf(item);
+        var saved = ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs;
+        if (index < 0 || index >= saved.Count || saved.Count != ExternalNotificationConfigs.Count)
         {
-            ExternalNotificationConfigs.Add(config);
-        }
-        else
-        {
-            throw new ArgumentException($"Invalid Config: {data.Display}");
+            _logger.Error("External notification configuration count mismatch. Index: {Index}, editor count: {EditorCount}, saved count: {SavedCount}",
+                index, ExternalNotificationConfigs.Count, saved.Count);
+            return;
         }
 
-        static object? CreateInstance(Type type)
-        {
-            foreach (var ctor in type.GetConstructors())
-            {
-                var ps = ctor.GetParameters();
-                if (ps.All(p => p.HasDefaultValue))
-                {
-                    var args = ps.Select(p => p.DefaultValue).ToArray();
-                    return ctor.Invoke(args);
-                }
-            }
-
-            return null;
-        }
+        saved[index] = item.ToConfig();
     }
-
-    public void RemoveConfig(BaseConfig config)
-    {
-        ExternalNotificationConfigs.Remove(config);
-    }
-
-    public ObservableCollection<BaseConfig> ExternalNotificationConfigs { get; private set => SetAndNotify(ref field, value); }
 
     #region External Notification Config
 

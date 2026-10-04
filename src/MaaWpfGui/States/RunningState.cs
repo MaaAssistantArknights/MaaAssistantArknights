@@ -130,7 +130,8 @@ public class RunningState
         }
     } = true;
 
-    public event EventHandler<string>? StallOccurred;
+    // Reports the run owner, initial timeout and accumulated timeout in minutes.
+    public event Action<RunOwner, int, int>? StallOccurred;
 
     public void NotifyOutputActivity()
     {
@@ -252,12 +253,16 @@ public class RunningState
 
     private void StallTimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
     {
+        RunOwner owner;
+        int initialMinutes;
         int accumulatedMinutes;
         lock (_timerLock)
         {
+            owner = Owner;
+            initialMinutes = StallTimeoutMinutes;
             _stallTimer.Stop();
             _stallAccumulatedCount++;
-            accumulatedMinutes = StallTimeoutMinutes + ((_stallAccumulatedCount - 1) * ReminderIntervalMinutes);
+            accumulatedMinutes = initialMinutes + ((_stallAccumulatedCount - 1) * ReminderIntervalMinutes);
             if (EnableStallTimeout && StallTimeoutMinutes > 0)
             {
                 if (_stallIsFirstFire)
@@ -271,11 +276,7 @@ public class RunningState
         }
 
         // 事件与成就在锁外触发：订阅者回调链可能重入本类的计时方法
-        var message = LocalizationHelper.GetStringFormat(
-            "TaskStallWarning",
-            StallTimeoutMinutes,
-            accumulatedMinutes);
-        StallOccurred?.Invoke(this, message);
+        StallOccurred?.Invoke(owner, initialMinutes, accumulatedMinutes);
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.LongTaskTimeout);
     }
 

@@ -15,8 +15,8 @@
 using System;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Helper;
 using MaaWpfGui.States;
-using MaaWpfGui.ViewModels.UI;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.Settings;
@@ -31,12 +31,6 @@ public sealed class NotificationSettingsUserControlModel : PropertyChangedBase
         RunningState.Instance.EnableStallTimeout = StallTimeoutEnabled;
         RunningState.Instance.StallTimeoutMinutes = StallTimeoutMinutes;
         RunningState.Instance.ReminderIntervalMinutes = ReminderIntervalMinutes;
-        SettingsViewModel.GuiSettings.PropertyChanged += (_, args) => {
-            if (args.PropertyName == nameof(UseNotify))
-            {
-                NotifyOfPropertyChange(nameof(UseNotify));
-            }
-        };
     }
 
     public NotificationSettingsItem Overlay { get; }
@@ -45,8 +39,15 @@ public sealed class NotificationSettingsUserControlModel : PropertyChangedBase
 
     public bool UseNotify
     {
-        get => SettingsViewModel.GuiSettings.UseNotify;
-        set => SettingsViewModel.GuiSettings.UseNotify = value;
+        get => ConfigFactory.Root.Gui.UseNotify;
+        set {
+            ConfigFactory.Root.Gui.UseNotify = value;
+            NotifyOfPropertyChange();
+            if (value)
+            {
+                Instances.NotificationService.TestSystemNotification();
+            }
+        }
     }
 
     public bool StallTimeoutEnabled

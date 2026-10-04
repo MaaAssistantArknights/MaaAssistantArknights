@@ -747,7 +747,6 @@ public class TaskQueueViewModel : Screen
                 SettingsViewModel.GameSettings.EnableRunDurationLimit ??= false;
             }
         };
-        _runningState.StallOccurred += RunningState_Stalled;
 
         if (Instances.VersionUpdateDialogViewModel.IsDebugVersion() || File.Exists("DEBUG") || File.Exists("DEBUG.txt"))
         {
@@ -757,19 +756,6 @@ public class TaskQueueViewModel : Screen
         }
 
         UpdateTaskTypeBadges();
-    }
-
-    private void RunningState_Stalled(object? sender, string message)
-    {
-        var notification = new NotificationMessage(NotificationTag.Stalled, message, message);
-        if (_runningState.Owner == RunOwner.Copilot)
-        {
-            Instances.CopilotViewModel.AddLog(message, UiLogColor.Warning, notification: notification, notifyActivity: false);
-        }
-        else
-        {
-            AddLog(message, UiLogColor.Warning, notifyActivity: false, notification: notification);
-        }
     }
 
     protected override void OnInitialActivate()
@@ -1575,8 +1561,6 @@ public class TaskQueueViewModel : Screen
     /// <param name="useCardImageAsToolTip">Whether to use the current card's image as toolTip.</param>
     /// <param name="splitMode">Whether to split cards before/after this log.</param>
     /// <param name="notifyActivity">Whether this log should notify activity (and reset idle timer).</param>
-    /// <param name="notification">Optional notification payload, independent of card presentation.</param>
-    /// <param name="processNotifications">Whether to include this log in notification history and channels.</param>
     public void AddLog(string? content,
         string color = UiLogColor.Trace,
         string weight = "Regular",
@@ -1585,15 +1569,27 @@ public class TaskQueueViewModel : Screen
         bool fetchLatestImage = false,
         bool useCardImageAsToolTip = false,
         LogCardSplitMode splitMode = LogCardSplitMode.None,
-        bool notifyActivity = true,
-        NotificationMessage? notification = null,
-        bool processNotifications = true)
+        bool notifyActivity = true)
     {
         if (notifyActivity)
         {
             RunningState.Instance.NotifyOutputActivity();
         }
 
+        Instances.NotificationService.PublishLog(NotificationSource.TaskQueue, content,
+            () => DisplayLog(content, color, weight, toolTip, updateCardImage, fetchLatestImage, useCardImageAsToolTip, splitMode), color, weight);
+    }
+
+    // Presentation only: mirrors and notification callbacks do not publish another event.
+    internal void DisplayLog(string? content,
+        string color = UiLogColor.Trace,
+        string weight = "Regular",
+        ToolTip? toolTip = null,
+        bool updateCardImage = false,
+        bool fetchLatestImage = false,
+        bool useCardImageAsToolTip = false,
+        LogCardSplitMode splitMode = LogCardSplitMode.None)
+    {
         bool isEmpty = string.IsNullOrEmpty(content);
         bool needsBeforeSplit = splitMode == LogCardSplitMode.Before || splitMode == LogCardSplitMode.Both;
         bool needsAfterSplit = splitMode == LogCardSplitMode.After || splitMode == LogCardSplitMode.Both;
@@ -1616,12 +1612,6 @@ public class TaskQueueViewModel : Screen
         }
 
         Execute.OnUIThread(() => {
-            // A mirror belongs to its original producer; display it without publishing another event.
-            if (!isEmpty && processNotifications)
-            {
-                Instances.NotificationService.ProcessLog(new(DateTimeOffset.Now, NotificationSource.TaskQueue, content!, color, notification, weight));
-            }
-
             if (needsBeforeSplit)
             {
                 CreateNewCard();
@@ -1679,12 +1669,8 @@ public class TaskQueueViewModel : Screen
     {
         RunningState.Instance.NotifyOutputActivity();
         _logger.Information("{Header}", header);
-        Execute.OnUIThread(() => {
-            // Plain-text log style: either a decorated "-----{header}-----" line or the header verbatim.
-            var plainText = header is null
-                ? "-----"
-                : decoratePlainText ? $"-----{header}-----" : header;
-            Instances.NotificationService.ProcessLog(new(DateTimeOffset.Now, NotificationSource.TaskQueue, plainText, UiLogColor.Trace));
+        var plainText = header is null ? "-----" : decoratePlainText ? $"-----{header}-----" : header;
+        Instances.NotificationService.PublishLog(NotificationSource.TaskQueue, plainText, () => {
             LogItemViewModels.Add(new LogItemViewModel(plainText));
 
             // Card log style: render a real hc:Divider as its own card.

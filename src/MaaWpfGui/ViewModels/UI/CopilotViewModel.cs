@@ -165,9 +165,8 @@ public partial class CopilotViewModel : Screen
     /// <param name="color">The font color.</param>
     /// <param name="weight">The font weight.</param>
     /// <param name="showTime">Whether show time.</param>
-    /// <param name="notification">Optional notification payload.</param>
     /// <param name="notifyActivity">Whether to reset the stalled-output timer.</param>
-    public void AddLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true, NotificationMessage? notification = null, bool notifyActivity = true)
+    public void AddLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true, bool notifyActivity = true)
     {
         // Copilot 自动战斗期间也会启动停滞计时器（Start 通过 BeginRun 进入运行态），
         // 这里的日志同样属于"有输出活动"，需要重置计时器，否则会误报任务卡住。
@@ -176,13 +175,17 @@ public partial class CopilotViewModel : Screen
             RunningState.Instance.NotifyOutputActivity();
         }
 
+        Instances.NotificationService.PublishLog(NotificationSource.Copilot, content,
+            () => DisplayLog(content, color, weight, showTime), color, weight, showTime);
+    }
+
+    internal void DisplayLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true)
+    {
         if (string.IsNullOrEmpty(content))
         {
             return;
         }
         Execute.OnUIThread(() => {
-            var notificationEvent = new NotificationEvent(DateTimeOffset.Now, NotificationSource.Copilot, content, color, notification, weight, showTime);
-            Instances.NotificationService.ProcessLog(notificationEvent);
             LogItemViewModels.Add(new LogItemViewModel(content, color, weight, "HH':'mm':'ss", showTime: showTime));
             if (showTime)
             {
@@ -200,8 +203,6 @@ public partial class CopilotViewModel : Screen
                 }
             }
         });
-
-        // LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
     }
 
     private void AddCopilotPreview(CopilotOutput output)
@@ -213,10 +214,8 @@ public partial class CopilotViewModel : Screen
         }
 
         RunningState.Instance.NotifyOutputActivity();
-        Execute.OnUIThread(() => {
-            Instances.NotificationService.ProcessLog(new NotificationEvent(DateTimeOffset.Now, NotificationSource.Copilot, output.Content, output.Color ?? UiLogColor.Message, ShowTime: false));
-            LogItemViewModels.Add(new OperPreviewLogItemViewModel(output));
-        });
+        Instances.NotificationService.PublishLog(NotificationSource.Copilot, output.Content,
+            () => LogItemViewModels.Add(new OperPreviewLogItemViewModel(output)), output.Color ?? UiLogColor.Message, showTime: false);
     }
 
     /// <summary>

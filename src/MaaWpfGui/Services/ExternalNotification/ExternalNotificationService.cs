@@ -29,18 +29,8 @@ public static class ExternalNotificationService
     {
         foreach (var config in notificationList)
         {
-            IExternalNotificationProvider provider = config switch {
-                GotifyConfig gotify => new GotifyNotificationProvider(Instances.HttpService, gotify),
-                ServerChanConfig serverChan => new ServerChanNotificationProvider(Instances.HttpService, serverChan),
-                TelegramConfig telegram => new TelegramNotificationProvider(Instances.HttpService, telegram),
-                DiscordConfig discord => new DiscordNotificationProvider(Instances.HttpService, discord),
-                DingTalkConfig dingTalk => new DingTalkNotificationProvider(Instances.HttpService, dingTalk),
-                CustomWebhookConfig custom => new CustomWebhookNotificationProvider(Instances.HttpService, custom),
-                SmtpConfig smtp => new SmtpNotificationProvider(smtp),
-                BarkConfig bark => new BarkNotificationProvider(Instances.HttpService, bark),
-                QmsgConfig qmsg => new QmsgNotificationProvider(Instances.HttpService, qmsg),
-                _ => new DummyNotificationProvider(),
-            };
+            var channel = ExternalNotificationChannel.ForEditor(config);
+            var provider = channel?.CreateProvider(config) ?? new DummyNotificationProvider();
 
             var result = false;
             _logger.Debug("Sending external notification via {Provider} (test: {IsTest}, title length: {TitleLength}, content length: {ContentLength})",
@@ -61,20 +51,7 @@ public static class ExternalNotificationService
             }
 
             await Stylet.Execute.OnUIThreadAsync(() => {
-                // 渠道显示名与设置页各渠道卡片标题一致：品牌名无需本地化，自定义 Webhook 用本地化 key
-                var providerName = config switch {
-                    ServerChanConfig => "Server Chan",
-                    TelegramConfig => "Telegram",
-                    DiscordConfig => "Discord",
-                    DingTalkConfig => "DingTalk",
-                    SmtpConfig => "SMTP",
-                    BarkConfig => "Bark",
-                    QmsgConfig => "Qmsg",
-                    GotifyConfig => "Gotify",
-                    CustomWebhookConfig => LocalizationHelper.GetString("ExternalNotificationCustomWebhook"),
-                    _ => config.GetType().Name,
-                };
-
+                var providerName = channel?.DisplayName ?? config.GetType().Name;
                 ToastNotification.ShowDirect(
                     providerName + " " +
                     LocalizationHelper.GetString(result ? "ExternalNotificationSendSuccess" : "ExternalNotificationSendFail"));

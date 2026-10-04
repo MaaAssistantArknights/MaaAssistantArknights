@@ -17,9 +17,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
 using MaaWpfGui.Configuration.Single.Settings;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services.ExternalNotification;
+using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
@@ -46,16 +48,73 @@ public sealed class NotificationService
 
         _trimTimer.Tick += (_, _) => TrimOverlays();
         _trimTimer.Start();
+        RunningState.Instance.StallOccurred += OnStalled;
     }
 
     public ObservableCollection<LogItemViewModel> TaskQueueOverlay => _taskQueueOverlay.Items;
 
     public ObservableCollection<LogItemViewModel> CopilotOverlay => _copilotOverlay.Items;
 
-    public void ProcessLog(NotificationEvent notification)
+    private void OnStalled(RunOwner owner, int initialMinutes, int accumulatedMinutes)
     {
-        // All producers already marshal UI work. Keeping history and view
-        // collections on one thread eliminates shared locks and ordering races.
+        Execute.OnUIThread(() => {
+            var message = LocalizationHelper.GetStringFormat("TaskStallWarning", initialMinutes, accumulatedMinutes);
+            Notify(owner == RunOwner.Copilot ? NotificationSource.Copilot : NotificationSource.TaskQueue,
+                new(NotificationTag.Stalled, message, message), UiLogColor.Warning);
+        });
+    }
+
+    public void PublishLog(NotificationSource source, string? content, Action display,
+        string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true) =>
+        Publish(source, content, display, color, weight, showTime);
+
+    public void Notify(NotificationSource source, NotificationMessage message,
+        string color = UiLogColor.Trace, string? logContent = null, Action? display = null)
+    {
+        if (message.Tag != NotificationTag.Stalled)
+        {
+            RunningState.Instance.NotifyOutputActivity();
+        }
+
+        var content = logContent ?? message.Content;
+        Publish(source, content, display ?? (() => {
+            if (source == NotificationSource.Copilot)
+            {
+                Instances.CopilotViewModel.DisplayLog(content, color);
+            }
+            else
+            {
+                Instances.TaskQueueViewModel.DisplayLog(content, color);
+            }
+        }), color, message: message);
+    }
+
+    public void TestSystemNotification()
+    {
+        ToastNotification.ShowDirect(LocalizationHelper.GetString("ToastNotificationTest"));
+        var (available, detail) = ToastNotification.ToastNotificationCheck();
+        if (!available)
+        {
+            HandyControl.Controls.Growl.Error(LocalizationHelper.GetStringFormat("ToastNotificationUnavailable", detail));
+        }
+    }
+
+    private void Publish(NotificationSource source, string? content, Action display,
+        string color, string weight = "Regular", bool showTime = true, NotificationMessage? message = null)
+    {
+        Execute.OnUIThread(() => {
+            if (!string.IsNullOrEmpty(content))
+            {
+                ProcessLog(new(DateTimeOffset.Now, source, content, color, message, weight, showTime));
+            }
+
+            display();
+        });
+    }
+
+    private void ProcessLog(NotificationEvent notification)
+    {
+        // Publication owns UI dispatch; a display callback never republishes the event.
         _history.Add(notification);
         var overlayPolicy = SettingsViewModel.NotificationSettings.Overlay.Effective;
         if (_filters[NotificationChannel.Overlay].ShouldSend(overlayPolicy, notification))

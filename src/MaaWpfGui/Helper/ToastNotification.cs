@@ -21,8 +21,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Interop;
 using HandyControl.Controls;
-using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper.Notification;
+using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.WineCompat;
 using Microsoft.Win32;
 using Notification.Wpf.Constants;
@@ -291,7 +291,7 @@ public class ToastNotification : IDisposable
     {
         Execute.OnUIThread(() => {
             // TODO: 整理过时代码
-            if (!ConfigFactory.Root.Gui.UseNotify || !ToastNotificationCheck().IsAvailable)
+            if (!SettingsViewModel.NotificationSettings.UseNotify || !ToastNotificationCheck().IsAvailable)
             {
                 Growl.Info(_notificationTitle + _contentCollection);
                 return;

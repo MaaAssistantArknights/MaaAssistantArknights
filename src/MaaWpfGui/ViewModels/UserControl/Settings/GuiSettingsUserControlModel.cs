@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using HandyControl.Controls;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
@@ -141,27 +140,6 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             rvm.ShowCloseButton = !value;
         }
     } = ConfigFactory.Root.Gui.HideCloseButton;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to use notification.
-    /// </summary>
-    public bool UseNotify
-    {
-        get => ConfigFactory.Root.Gui.UseNotify;
-        set {
-            ConfigFactory.Root.Gui.UseNotify = value;
-            NotifyOfPropertyChange();
-            if (value)
-            {
-                ToastNotification.ShowDirect(LocalizationHelper.GetString("ToastNotificationTest"));
-                var (isAvailable, detail) = ToastNotification.ToastNotificationCheck();
-                if (!isAvailable)
-                {
-                    Growl.Error(LocalizationHelper.GetStringFormat("ToastNotificationUnavailable", detail));
-                }
-            }
-        }
-    }
 
     public bool MainTasksInvertNullFunction
     {
