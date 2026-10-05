@@ -60,3 +60,4 @@
 - MaaCore 本地测试一律 Debug 构建：加载期检查整体在 `ASST_DEBUG` 内，Release 下零错误是假象。
 - MSB3026/MSB3021 构建复制失败时，挡构建的是占用仓库构建版 `build\bin\Debug\MAA.exe` 的进程（与安装版无关），临时验证程序引用 MaaWpfGui 时同理。
 - 文档站在主仓库 `docs/` 下直接跑，日常验证改完文件看 `pnpm dev` 热重载即可，无必要不跑 build；非交互 install 加 `CI=true`。
+- 纯 UI 验证（改 XAML、文案、截图）用 `MAA.exe --skip-core-init` 启动：安静预览态，无需编译布置 MaaCore 及其运行时依赖；验证涉及内核的链路时不适用。
