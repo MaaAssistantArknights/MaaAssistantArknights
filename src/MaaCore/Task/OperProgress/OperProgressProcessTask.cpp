@@ -1169,7 +1169,7 @@ bool asst::OperProgressProcessTask::manufacture_dual_chip(battle::Role role, con
 
     int catalyst_owned = shortfall;
     int catalyst_stock = shortfall;
-    if (run_task("OperProgress@MfgPage")) {
+    if (run_task("OperProgress@MfgPage", 2)) {
         // 因为没有对紫色芯片数量做识别,如果是没有紫色芯片,就会每次都买胶水
         // 没识别出来的时候就不买芯片(强制识别结果为shortfall)
         catalyst_owned = ocr_number("OperProgress@MfgCatalystCount").value_or(shortfall);
