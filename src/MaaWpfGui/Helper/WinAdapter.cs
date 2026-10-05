@@ -222,8 +222,10 @@ public class WinAdapter
     {
         try
         {
-            var process = new Process {
-                StartInfo = new() {
+            var process = new Process
+            {
+                StartInfo = new()
+                {
                     FileName = adbPath,
                     Arguments = command,
                     RedirectStandardOutput = true,
