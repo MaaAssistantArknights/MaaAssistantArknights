@@ -590,6 +590,12 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
+        if (Bootstrapper.TryGetTaskBlockReason() is { } reason)
+        {
+            TestLinkInfo = reason;
+            return;
+        }
+
         _runningState.SetIdle(false);
 
         var errMsg = string.Empty;

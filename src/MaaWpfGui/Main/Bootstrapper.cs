@@ -52,6 +52,7 @@ using Serilog.Core;
 using Serilog.Events;
 using Stylet;
 using StyletIoC;
+using Growl = HandyControl.Controls.Growl;
 
 namespace MaaWpfGui.Main;
 
@@ -1152,6 +1153,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     /// <summary>
     /// 获取当前禁止开始新任务的原因文案；null 表示可启动。所有下发 Core 任务的入口统一经此判定：
     /// 资源损坏（缺任务时 Core 进程直接崩溃）优先于需重启（停止超时后 Core 状态不可信）。
+    /// 内核尚未初始化时同时显示右上角通知，提示稍后重试。
     /// </summary>
     /// <returns>拦截原因的本地化文案；可启动时为 null。</returns>
     public static string? TryGetTaskBlockReason()
@@ -1173,6 +1175,14 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         {
             _logger.Warning("Task blocked: restart required");
             return LocalizationHelper.GetString("RestartRecommendation");
+        }
+
+        if (!RunningState.Instance.GetInit())
+        {
+            _logger.Warning("Task blocked: core is still loading");
+            var reason = LocalizationHelper.GetString("CoreLoadingTip");
+            Execute.OnUIThread(() => Growl.Warning(reason));
+            return reason;
         }
 
         return null;

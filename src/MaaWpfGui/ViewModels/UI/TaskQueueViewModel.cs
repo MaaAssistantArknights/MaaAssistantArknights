@@ -2295,15 +2295,15 @@ public class TaskQueueViewModel : Screen
             return;
         }
 
-        _taskStartTime = DateTime.Now;
-        ClearLog();
-
         // 拦截判定收敛于 Bootstrapper.TryGetTaskBlockReason；热键/托盘/远程等入口汇入于此（启动自动运行在 AsstProxy 另有前置检查）
         if (Bootstrapper.TryGetTaskBlockReason() is { } reason)
         {
             AddLog(reason, UiLogColor.Error);
             return;
         }
+
+        _taskStartTime = DateTime.Now;
+        ClearLog();
 
         Instances.OverlayViewModel.LogItemsSource = LogItemViewModels;
 
