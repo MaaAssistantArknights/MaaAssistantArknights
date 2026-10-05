@@ -559,7 +559,7 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
     if (!run_task("BattleQuickFormationConfirm") || !run_task("InfrastTrainingMasteryPage")) {
         return ResultDetail::RecognitionFailed;
     }
-    if (run_task("OperProgress@MasterySelectSkillMaxAlready" + std::to_string(skill))) {
+    if (run_task("OperProgress@MasterySelectSkillMaxAlready" + std::to_string(skill), 2)) {
         return ResultDetail::AlreadySatisfied;
     }
 
@@ -1171,7 +1171,7 @@ bool asst::OperProgressProcessTask::manufacture_dual_chip(battle::Role role, con
 
     int catalyst_owned = shortfall;
     int catalyst_stock = shortfall;
-    if (run_task("OperProgress@MfgPage")) {
+    if (run_task("OperProgress@MfgPage", 2)) {
         // 因为没有对紫色芯片数量做识别,如果是没有紫色芯片,就会每次都买胶水
         // 没识别出来的时候就不买芯片(强制识别结果为shortfall)
         catalyst_owned = ocr_number("OperProgress@MfgCatalystCount").value_or(shortfall);
@@ -1179,7 +1179,7 @@ bool asst::OperProgressProcessTask::manufacture_dual_chip(battle::Role role, con
     }
     // 点击芯片后会若没有紫色芯片或者胶水,这时候无法跳转,还停留在配方选择页
     // 助剂数量与库存识别:出现红色视为0
-    else if (run_task("ChooseChipTabSelected") && run_task("OperProgress@MfgCatalystMissing")) {
+    else if (run_task("ChooseChipTabSelected") && run_task("OperProgress@MfgCatalystMissing", 2)) {
         catalyst_owned = 0;
         catalyst_stock = 0;
     }
