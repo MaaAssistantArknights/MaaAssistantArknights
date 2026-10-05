@@ -487,8 +487,8 @@ public partial class CopilotViewModel : Screen
                 return string.Empty;
             }
             try {
-                if (!string.IsNullOrEmpty(OperBoxDataJsonPath) && File.Exists(OperBoxDataJsonPath)) {
-                    var json = JObject.Parse(File.ReadAllText(OperBoxDataJsonPath));
+                if (!string.IsNullOrEmpty(_operBoxDataJsonPath) && File.Exists(_operBoxDataJsonPath)) {
+                    var json = JObject.Parse(File.ReadAllText(_operBoxDataJsonPath));
                     var syncTime = json["syncTime"]?.Value<string>();
                     if (!string.IsNullOrEmpty(syncTime) && DateTimeOffset.TryParse(syncTime, out var dto)) {
                         return Extensions.DateTimeExtension.ToLocalTimeString(dto);
@@ -497,7 +497,7 @@ public partial class CopilotViewModel : Screen
                 }
             }
             catch (Exception ex) {
-                _logger.Warning(ex, "Failed to read OperBox syncTime from {Path}", OperBoxDataJsonPath);
+                _logger.Warning(ex, "Failed to read OperBox syncTime from {Path}", _operBoxDataJsonPath);
             }
             return string.Empty;
         }
@@ -507,15 +507,15 @@ public partial class CopilotViewModel : Screen
     {
         try
         {
-            if (File.Exists(OperBoxDataJsonPath))
+            if (File.Exists(_operBoxDataJsonPath))
             {
-                var json = JObject.Parse(File.ReadAllText(OperBoxDataJsonPath));
+                var json = JObject.Parse(File.ReadAllText(_operBoxDataJsonPath));
                 return json["source"]?.Value<string>() == "yituliu";
             }
         }
         catch (Exception ex)
         {
-            _logger.Warning(ex, "Failed to read OperBox source from {Path}", OperBoxDataJsonPath);
+            _logger.Warning(ex, "Failed to read OperBox source from {Path}", _operBoxDataJsonPath);
         }
 
         return false;
@@ -2222,7 +2222,7 @@ public partial class CopilotViewModel : Screen
                 UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
                 UseSanityPotion = UseSanityPotion,
                 FormationIndex = UseFormation ? FormationIndex : 0,
-                OperBoxDataPath = EffectiveOperBoxAssist ? OperBoxDataJsonPath : string.Empty,
+                OperBoxDataPath = EffectiveOperBoxAssist ? _operBoxDataJsonPath : string.Empty,
             };
 
             // 能用列表的是主线/ss/故事集/悖论，都是 Copilot 类型
@@ -2278,7 +2278,7 @@ public partial class CopilotViewModel : Screen
                 LoopTimes = Loop ? LoopTimes : 1,
                 UseSanityPotion = false,
                 FormationIndex = UseFormation ? FormationIndex : 0,
-                OperBoxDataPath = EffectiveOperBoxAssist ? OperBoxDataJsonPath : string.Empty,
+                OperBoxDataPath = EffectiveOperBoxAssist ? _operBoxDataJsonPath : string.Empty,
             };
 
             // 单作业需要区分 Copilot / SSSCopilot
