@@ -279,15 +279,6 @@
         ],
         "specialParams": [0, 0, 160, 180, 30, 255]
     },
-    "Copilot@SingleStageCodeOCR": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "roi": [0, 0, 1280, 720],
-        "fullMatch": true,
-        "isAscii": true,
-        "text": [],
-        "Doc": "单作业自动重开专用的非耦合关卡编号 OCR；不预先注入或改写目标关卡名"
-    },
     "Copilot@SingleStageModeOCR": {
         "algorithm": "OcrDetect",
         "action": "DoNothing",
@@ -5437,10 +5428,7 @@
     "Copilot@SkipThePreBattlePlot-AutoRestart": {
         "baseTask": "Copilot@SkipThePreBattlePlot",
         "template": "SkipThePreBattlePlot.png",
-        "next": [
-            "Copilot@SkipThePreBattlePlotConfirm-AutoRestart",
-            "Copilot@SkipThePreBattlePlot-AutoRestart"
-        ]
+        "next": ["Copilot@SkipThePreBattlePlotConfirm-AutoRestart", "Copilot@SkipThePreBattlePlot-AutoRestart"]
     },
     "Copilot@SkipThePreBattlePlotConfirm-AutoRestart": {
         "baseTask": "Copilot@SkipThePreBattlePlotConfirm",
@@ -5495,6 +5483,28 @@
         "isAscii": true,
         "ocrReplace": [["l", "I"]],
         "next": ["Copilot@ClickCornerUntilStartButton"]
+    },
+    "Copilot@AutoRestartRecovery": {
+        "Doc": "重开前先确认编队或关卡页；每次推进结算后重新识别，避免在编队页盲点右上角",
+        "algorithm": "JustReturn",
+        "maxTimes": 20,
+        "exceededNext": [],
+        "next": [
+            "BattleStartPre@BattleQuickFormation",
+            "Copilot@BattleStartPreFlag",
+            "Copilot@AutoRestartRecoveryLoading",
+            "Copilot@BattleStartPreFlag-Return",
+            "Copilot@AutoRestartRecoveryClick"
+        ]
+    },
+    "Copilot@AutoRestartRecoveryLoading": {
+        "baseTask": "LoadingIcon",
+        "template": "LoadingIcon.png",
+        "next": ["Copilot@AutoRestartRecovery"]
+    },
+    "Copilot@AutoRestartRecoveryClick": {
+        "baseTask": "ClickCornerUntilStartButton",
+        "next": ["Copilot@AutoRestartRecovery"]
     },
     "Copilot@ClickCornerUntilStartButton": {
         "Doc": "三星之后",

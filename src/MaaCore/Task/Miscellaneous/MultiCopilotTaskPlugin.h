@@ -29,6 +29,9 @@ public:
 
     void set_battle_task_ptr(const std::shared_ptr<BattleProcessTask>& ptr) { m_battle_task_ptr = ptr; }
 
+    // 单作业自动重开同样复用这条导航与关卡名复核链路。
+    bool navigate_to_stage(const std::string& stage_name);
+
     // _run() 会在作业开始前推进游标；重试同一作业时仅回退一次。
     bool retry_current_config() noexcept
     {
@@ -41,7 +44,6 @@ public:
 
 private:
     virtual bool _run() override;
-    bool navigate_to_stage(const std::string& stage_name);
     bool enter_stage(const Rect rect, const std::string& stage_name);
     OCRer::ResultsVec find_stage(
         const cv::Mat& image,

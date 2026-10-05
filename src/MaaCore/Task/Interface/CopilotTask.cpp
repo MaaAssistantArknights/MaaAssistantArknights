@@ -1,8 +1,6 @@
 #include "CopilotTask.h"
 
 #include <algorithm>
-#include <boost/regex.hpp>
-#include <limits>
 
 #include "Arknights-Tile-Pos/TileCalc2.hpp"
 
@@ -122,6 +120,12 @@ bool asst::CopilotTask::set_params(const json::value& params)
             return false;
         }
         m_stage_name = Copilot.get_stage_name();
+        const auto& map_data = Tile.find(m_stage_name);
+        if (!map_data || map_data->first.code.empty()) {
+            LogError << __FUNCTION__ << "Failed to resolve copilot navigation name" << m_stage_name;
+            return false;
+        }
+        m_single_stage_nav_name = map_data->first.code;
         if (!m_battle_task_ptr->set_stage_name(m_stage_name)) {
             Log.error("Not support stage");
             return false;
@@ -259,20 +263,18 @@ bool asst::CopilotTask::run_with_auto_restart()
         return true;
     }
     m_running = true;
-    notify_auto_restart(AutoRestartState::Enabled, 0);
 
-    // 单作业没有用于导航的关卡名。首次开打前从已展开的详情面板读取当前显示编号，
-    // 之后只用它在当前地图画面重新点开关卡，不进入多作业的跨页导航流程。
+    // 单作业从作业地图数据取得导航名，只需缓存当前详情页上的难度状态。
     if (!m_multi_copilot_plugin_ptr->get_enable()) {
-        if (!cache_single_stage_display_name() || !cache_single_stage_mode(ctrler()->get_image())) {
-            return false;
-        }
+        cache_single_stage_mode(ctrler()->get_image());
     }
+    notify_auto_restart(AutoRestartState::Enabled, 0);
 
     for (size_t run_index = 0; run_index < m_run_count; ++run_index) {
         size_t restart_times = 0;
+        bool skip_stage_navigation = false;
         while (!need_exit()) {
-            const auto result = run_stage_attempt(run_index);
+            const auto result = run_stage_attempt(run_index, skip_stage_navigation);
             if (result == StageAttemptResult::Success) {
                 if (restart_times > 0) {
                     notify_auto_restart(AutoRestartState::Recovered, run_index, restart_times);
@@ -290,9 +292,20 @@ bool asst::CopilotTask::run_with_auto_restart()
             ++restart_times;
             notify_auto_restart(AutoRestartState::Restarting, run_index, restart_times, result);
 
-            // 无论是自然失败还是漏怪后主动放弃，游戏都会先进入失败结算页；
-            // 必须返回关卡页后才能开始下一次尝试。
-            if (!ProcessTask(*this, { "Copilot@ClickCornerUntilStartButton" }).set_retry_times(20).run()) {
+            // 先识别编队/关卡页面，再推进结算；每次点击后都重新识别，避免误点编队页右上角。
+            ProcessTask recovery(*this, { "Copilot@AutoRestartRecovery" });
+            if (!recovery.set_retry_times(20).run()) {
+                return false;
+            }
+            skip_stage_navigation = recovery.get_last_task_name() == "BattleStartPre@BattleQuickFormation";
+            if (skip_stage_navigation) {
+                // 仍在当前关卡的编队页，直接进入下一轮 BattleStartPre。
+                // 多作业保留已加载配置和游标，既不回退也不再次加载/导航。
+                continue;
+            }
+            if (recovery.get_last_task_name() != "Copilot@BattleStartPreFlag" &&
+                recovery.get_last_task_name() != "Copilot@BattleStartPreFlag-Return") {
+                LogError << __FUNCTION__ << "Failed to recover a stage or formation page";
                 return false;
             }
 
@@ -304,7 +317,8 @@ bool asst::CopilotTask::run_with_auto_restart()
                 }
             }
             else {
-                if (!reopen_single_stage() || !restore_single_stage_mode()) {
+                if (!m_multi_copilot_plugin_ptr->navigate_to_stage(m_single_stage_nav_name) ||
+                    !restore_single_stage_mode()) {
                     return false;
                 }
             }
@@ -316,19 +330,18 @@ bool asst::CopilotTask::run_with_auto_restart()
     return true;
 }
 
-bool asst::CopilotTask::cache_single_stage_mode(const cv::Mat& image)
+void asst::CopilotTask::cache_single_stage_mode(const cv::Mat& image)
 {
     const auto mode = detect_single_stage_mode(image);
     if (!mode) {
         // 地图级难度在失败后仍处于原环境；没有详情页切换控件时无需主动切换。
         LogInfo << __FUNCTION__ << "No local stage mode switch detected; keep the inherited map mode";
         m_single_stage_mode.clear();
-        return true;
+        return;
     }
 
     m_single_stage_mode = mode->text;
     LogInfo << __FUNCTION__ << "Cached single copilot stage mode" << m_single_stage_mode;
-    return true;
 }
 
 std::optional<asst::CopilotTask::SingleStageModeSwitch>
@@ -374,184 +387,7 @@ bool asst::CopilotTask::restore_single_stage_mode()
     return false;
 }
 
-bool asst::CopilotTask::cache_single_stage_display_name()
-{
-    const auto image = ctrler()->get_image();
-    OCRer stage_ocr(image);
-    stage_ocr.set_task_info("Copilot@SingleStageCodeOCR");
-    const auto results = stage_ocr.analyze();
-    if (!results) {
-        LogError << __FUNCTION__ << "Failed to recognize stage code candidates";
-        return false;
-    }
-
-    constexpr int P3StageListRight = 640;
-    constexpr int DetailPanelLeft = 800;
-    constexpr int DetailPanelBottom = 160;
-
-    // P3 的列表页有独立的 SELECTED 标签。先由标签定位左侧选中行，再要求同一编号也出现在右侧详情中。
-    // 这一分支不复用传统关卡图的详情区域和节点布局。
-    for (const auto& selected : *results) {
-        if (!selected.text.ends_with("ELECTED") || selected.rect.x >= P3StageListRight) {
-            continue;
-        }
-
-        const OcrPack::Result* best = nullptr;
-        int best_distance = std::numeric_limits<int>::max();
-        for (const auto& candidate : *results) {
-            const int vertical_distance = selected.rect.y - (candidate.rect.y + candidate.rect.height);
-            const int horizontal_distance =
-                std::abs((selected.rect.x + selected.rect.width / 2) - (candidate.rect.x + candidate.rect.width / 2));
-            if (!is_stage_code_candidate(candidate.text) || candidate.rect.x >= P3StageListRight ||
-                vertical_distance < 0 || vertical_distance > 60 || horizontal_distance > 120) {
-                continue;
-            }
-
-            const bool also_in_detail = std::ranges::any_of(*results, [&](const OcrPack::Result& detail) {
-                return stage_text_matches(detail.text, candidate.text) && detail.rect.x >= DetailPanelLeft &&
-                       detail.rect.y < DetailPanelBottom;
-            });
-            if (also_in_detail && vertical_distance < best_distance) {
-                best = &candidate;
-                best_distance = vertical_distance;
-            }
-        }
-
-        if (best) {
-            m_single_stage_page_type = SingleStagePageType::P3StageList;
-            m_single_stage_display_name = best->text;
-            LogInfo << __FUNCTION__ << "Cached P3 single copilot stage" << m_single_stage_display_name;
-            return true;
-        }
-    }
-
-    // 传统关卡图没有 SELECTED 标签：以左侧地图节点的完整编号为准，右上详情 OCR 允许粘连前缀。
-    // 突袭页的 OPERATION 图标可能与编号合并成 ERATIoNR8-8，不能要求两侧 OCR 文本完全相等。
-    constexpr int StageMapRight = 800;
-    for (const auto& candidate : *results) {
-        if (!is_stage_code_candidate(candidate.text) || candidate.rect.x >= StageMapRight) {
-            continue;
-        }
-        const bool also_in_detail = std::ranges::any_of(*results, [&](const OcrPack::Result& detail) {
-            return stage_text_matches(detail.text, candidate.text) && detail.rect.x >= DetailPanelLeft &&
-                   detail.rect.y < DetailPanelBottom;
-        });
-        if (also_in_detail) {
-            m_single_stage_page_type = SingleStagePageType::StageMap;
-            m_single_stage_display_name = candidate.text;
-            LogInfo << __FUNCTION__ << "Cached stage-map single copilot stage" << m_single_stage_display_name;
-            return true;
-        }
-    }
-
-    LogError << __FUNCTION__ << "Failed to determine the current single copilot stage page";
-    return false;
-}
-
-bool asst::CopilotTask::reopen_single_stage()
-{
-    constexpr int MaxAttempts = 3;
-    for (int attempt = 1; attempt <= MaxAttempts && !need_exit(); ++attempt) {
-        const auto image = ctrler()->get_image();
-        if (confirm_single_stage(image)) {
-            return true;
-        }
-
-        const auto stage_rect = find_stage_on_current_page(image, m_single_stage_display_name);
-        if (!stage_rect) {
-            LogWarn << __FUNCTION__ << "Stage is not visible on the current page" << m_single_stage_display_name
-                    << "attempt" << attempt << "/" << MaxAttempts;
-            sleep(Config.get_options().task_delay);
-            continue;
-        }
-
-        ctrler()->click(*stage_rect);
-        sleep(Config.get_options().task_delay);
-        if (confirm_single_stage(ctrler()->get_image())) {
-            LogInfo << __FUNCTION__ << "Reopened single copilot stage" << m_single_stage_display_name;
-            return true;
-        }
-    }
-
-    LogError << __FUNCTION__ << "Failed to reopen single copilot stage" << m_single_stage_display_name;
-    return false;
-}
-
-std::optional<asst::Rect>
-    asst::CopilotTask::find_stage_on_current_page(const cv::Mat& image, const std::string& stage_name) const
-{
-    OCRer ocr(image);
-    ocr.set_task_info("Copilot@SingleStageCodeOCR");
-    const auto results = ocr.analyze();
-    if (!results) {
-        return std::nullopt;
-    }
-
-    const int stage_area_right = m_single_stage_page_type == SingleStagePageType::P3StageList ? 640 : 800;
-    for (const auto& result : *results) {
-        if (is_stage_code_candidate(result.text) && stage_text_matches(result.text, stage_name) &&
-            result.rect.x < stage_area_right && result.score >= 0.5) {
-            return result.rect;
-        }
-    }
-    return std::nullopt;
-}
-
-bool asst::CopilotTask::confirm_single_stage(const cv::Mat& image) const
-{
-    OCRer stage_ocr(image);
-    stage_ocr.set_task_info("Copilot@SingleStageCodeOCR");
-    const auto results = stage_ocr.analyze();
-    constexpr int DetailAreaLeft = 800;
-    const int stage_area_right = m_single_stage_page_type == SingleStagePageType::P3StageList ? 640 : 800;
-    if (!results) {
-        return false;
-    }
-
-    const bool in_detail = std::ranges::any_of(*results, [&](const OcrPack::Result& result) {
-        return stage_text_matches(result.text, m_single_stage_display_name) && result.rect.x >= DetailAreaLeft &&
-               result.rect.y < 160;
-    });
-    const bool on_stage_page = std::ranges::any_of(*results, [&](const OcrPack::Result& result) {
-        return is_stage_code_candidate(result.text) && stage_text_matches(result.text, m_single_stage_display_name) &&
-               result.rect.x < stage_area_right;
-    });
-    return in_detail && on_stage_page;
-}
-
-bool asst::CopilotTask::is_stage_code_candidate(const std::string& text)
-{
-    // 只约束关卡编号由多个 ASCII 段组成，不枚举主线、活动、EX、S 等具体命名规则。
-    // 当前关卡最终仍由页面布局中的选中关系和左右重复文本共同确认。
-    static const boost::regex StageCodeRegex(R"(^[A-Za-z0-9]+(?:[-_.][A-Za-z0-9]+)+$)");
-    return boost::regex_match(text, StageCodeRegex);
-}
-
-bool asst::CopilotTask::stage_text_matches(const std::string& text, const std::string& stage_name)
-{
-    const auto normalize = [](const std::string& value) {
-        std::string normalized;
-        normalized.reserve(value.size());
-        for (const unsigned char ch : value) {
-            if (ch >= '0' && ch <= '9') {
-                normalized.push_back(static_cast<char>(ch));
-            }
-            else if (ch >= 'A' && ch <= 'Z') {
-                normalized.push_back(static_cast<char>(ch));
-            }
-            else if (ch >= 'a' && ch <= 'z') {
-                normalized.push_back(static_cast<char>(ch - 'a' + 'A'));
-            }
-        }
-        return normalized;
-    };
-
-    const std::string normalized_text = normalize(text);
-    const std::string normalized_stage_name = normalize(stage_name);
-    return !normalized_stage_name.empty() && normalized_text == normalized_stage_name;
-}
-
-asst::CopilotTask::StageAttemptResult asst::CopilotTask::run_stage_attempt(size_t run_index)
+asst::CopilotTask::StageAttemptResult asst::CopilotTask::run_stage_attempt(size_t run_index, bool skip_stage_navigation)
 {
     // m_subtasks 中的重复分组共享任务对象；每次尝试只运行当前执行轮次，避免重试时跳入下一轮。
     const size_t begin = run_index * m_subtasks_per_run;
@@ -573,7 +409,7 @@ asst::CopilotTask::StageAttemptResult asst::CopilotTask::run_stage_attempt(size_
         }
 
         const auto& task_ptr = m_subtasks.at(index);
-        if (!task_ptr->get_enable()) {
+        if (!task_ptr->get_enable() || (skip_stage_navigation && task_ptr == m_multi_copilot_plugin_ptr)) {
             continue;
         }
 
