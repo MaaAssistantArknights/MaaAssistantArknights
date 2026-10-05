@@ -1177,7 +1177,7 @@ bool asst::OperProgressProcessTask::manufacture_dual_chip(battle::Role role, con
     }
     // 点击芯片后会若没有紫色芯片或者胶水,这时候无法跳转,还停留在配方选择页
     // 助剂数量与库存识别:出现红色视为0
-    else if (run_task("ChooseChipTabSelected") && run_task("OperProgress@MfgCatalystMissing")) {
+    else if (run_task("ChooseChipTabSelected") && run_task("OperProgress@MfgCatalystMissing", 2)) {
         catalyst_owned = 0;
         catalyst_stock = 0;
     }
