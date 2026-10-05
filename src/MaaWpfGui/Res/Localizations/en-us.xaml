@@ -563,8 +563,8 @@ Continue only after you have verified the directory layout and finished a manual
     <system:String x:Key="ShowWindowBeforeForceScheduledStartTip">Show the main window before the scheduled start so the countdown isn't missed while minimized</system:String>
     <system:String x:Key="TimerCustomConfig">Custom config</system:String>
     <system:String x:Key="TimerCustomConfigTip">Restart the game and switch the configuration two minutes before the scheduled start</system:String>
-    <system:String x:Key="NotifyBeforeScheduledStart">Desktop reminder before scheduled start</system:String>
-    <system:String x:Key="NotifyBeforeScheduledStartTip" xml:space="preserve">Send a desktop reminder at the configured advance notice time.&#10;External notifications can be enabled separately in ｢{key=ExternalNotificationSettings}｣ and use the same advance notice time.</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStart">Send system notification before scheduled start</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStartTip" xml:space="preserve">Send a system notification at the configured advance notice time.&#10;External notifications can be enabled separately in ｢{key=ExternalNotificationSettings}｣ and use the same advance notice time.</system:String>
     <system:String x:Key="ScheduledStartNotificationMinutes">Advance notice (minutes)</system:String>
     <system:String x:Key="ScheduledStartNotificationTitle">Scheduled task starting soon</system:String>
     <system:String x:Key="ScheduledStartNotificationContent">Timer {0} is scheduled to start at {1} (in {2} minutes). Please be aware that this may affect your game login.</system:String>

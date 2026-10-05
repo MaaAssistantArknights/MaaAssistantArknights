@@ -86,6 +86,7 @@
                 InputMethod.IsInputMethodEnabled="False"
                 Maximum="1439"
                 Minimum="1"
+                Visibility="{c:Binding NotifyBeforeScheduledStart}"
                 Value="{Binding ScheduledStartNotificationMinutes}" />
         </StackPanel>
 

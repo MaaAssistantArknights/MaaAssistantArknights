@@ -562,8 +562,8 @@ D:\
     <system:String x:Key="ShowWindowBeforeForceScheduledStartTip">定时启动前显示主窗口，避免最小化时看不到倒计时</system:String>
     <system:String x:Key="TimerCustomConfig">自定义配置选择</system:String>
     <system:String x:Key="TimerCustomConfigTip">定时启动前两分钟重启游戏并切换配置</system:String>
-    <system:String x:Key="NotifyBeforeScheduledStart">定时执行前桌面提醒</system:String>
-    <system:String x:Key="NotifyBeforeScheduledStartTip" xml:space="preserve">按提前时间发送桌面提醒。&#10;外部推送可在 ｢{key=ExternalNotificationSettings}｣ 中单独开启，两者共用提前时间。</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStart">定时执行前发送系统通知</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStartTip" xml:space="preserve">按提前时间发送系统通知。&#10;外部推送可在 ｢{key=ExternalNotificationSettings}｣ 中单独开启，两者共用提前时间。</system:String>
     <system:String x:Key="ScheduledStartNotificationMinutes">提前时间（分钟）</system:String>
     <system:String x:Key="ScheduledStartNotificationTitle">定时任务即将执行</system:String>
     <system:String x:Key="ScheduledStartNotificationContent">定时 {0} 计划于 {1}（{2} 分钟后）开始执行，请留意游戏登录状态。</system:String>
