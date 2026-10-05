@@ -1389,7 +1389,10 @@ public class SettingsViewModel : Screen
             ? demoUiVersion
             : LocalizationHelper.FormatVersion(uiVersion, VersionUpdateSettingsUserControlModel.BuildDateTime);
         string adminTag = Bootstrapper.IsAdministratorWithUac() ? $" ({LocalizationHelper.GetString("Administrator")})" : string.Empty;
-        rvm.WindowTitle = $"{prefix}MAA{adminTag}{currentConfiguration} - {uiVersionDisplay}{resourceVersionDisplay}{connectConfigName}{connectAddress}{clientName}";
+
+        // 常驻预览标记：防止带参数预览后忘记本进程未加载 Core
+        string previewTag = Bootstrapper.IsCoreInitSkipped ? $" ({LocalizationHelper.GetString("UiPreviewMode")})" : string.Empty;
+        rvm.WindowTitle = $"{prefix}MAA{adminTag}{currentConfiguration} - {uiVersionDisplay}{resourceVersionDisplay}{connectConfigName}{connectAddress}{clientName}{previewTag}";
     }
 
     /// <summary>

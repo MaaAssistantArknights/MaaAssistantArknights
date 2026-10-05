@@ -64,6 +64,13 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
             return;
         }
 
+        if (Bootstrapper.IsCoreInitSkipped)
+        {
+            // UI 预览模式：Core 未加载时版本号比对必然触发版本不匹配错误弹窗，
+            // 更新/公告/完整性检查等联网弹窗同样干扰界面预览，一并跳过
+            return;
+        }
+
         ShowVersionMismatchWarningOnStartup();
         if (SettingsViewModel.VersionUpdateSettings.VersionType == VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly &&
             !SettingsViewModel.VersionUpdateSettings.HasAcknowledgedNightlyWarning)

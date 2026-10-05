@@ -506,6 +506,13 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             _logger.Information("Startup auto-run will be skipped due to {Arg}", SkipStartupAutoRunArg);
         }
 
+        // 尽早解析预览参数：AsstProxy 等构造期即需据此跳过全部 native 调用
+        _skipCoreInit = args.Any(arg => string.Equals(arg, SkipCoreInitArg, StringComparison.OrdinalIgnoreCase));
+        if (_skipCoreInit)
+        {
+            _logger.Information("Core init will be skipped due to {Arg}, UI preview mode", SkipCoreInitArg);
+        }
+
         // 解析 README 截图演示模式参数
         var demoArgs = ParseArgs(args, DemoDataArg, ShotsDirArg);
         if (demoArgs.TryGetValue(DemoDataArg, out string demoDataPath))
@@ -622,10 +629,15 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             _logger.Information("Using software rendering mode due to user preference (bad modules detected)");
         }
 
-        // 检查 MaaCore.dll 是否存在
-        if (!File.Exists("MaaCore.dll"))
+        // UI 预览模式不加载 Core：跳过 Core 存在性检查（本会话不触碰任何 native，
+        // DLL 缺失或依赖不全都不是预览模式的错误）
+        if (!IsCoreInitSkipped)
         {
-            throw new FileNotFoundException("MaaCore.dll not found!");
+            // 检查 MaaCore.dll 是否存在
+            if (!File.Exists("MaaCore.dll"))
+            {
+                throw new FileNotFoundException("MaaCore.dll not found!");
+            }
         }
 
         // 检查 resource 文件夹是否存在
@@ -651,7 +663,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             }
         }
 
-        if (!IsVCppInstalled())
+        // VC++ 探测本身通过加载 MaaCore.dll 实现，预览模式同样跳过
+        if (!IsCoreInitSkipped && !IsVCppInstalled())
         {
             var ret = MessageBoxHelper.Show(
                 LocalizationHelper.GetString("VC++NotInstalled"),
@@ -1072,6 +1085,12 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     public const string SkipStartupAutoRunArg = "--skip-startup-auto-run";
 
     /// <summary>
+    /// UI 预览模式启动参数：跳过 MaaCore 加载与资源读取，仅渲染界面。
+    /// 开发者调试用（改 XAML / 文案 / 截图验证），不进用户手册。
+    /// </summary>
+    public const string SkipCoreInitArg = "--skip-core-init";
+
+    /// <summary>
     /// README 截图演示模式参数：值为演示数据 JSON 路径。
     /// 演示模式跳过常规联网与模拟器连接，加载演示数据填充界面并自动截图退出；
     /// 仅标题版本段取 latest 时联网查询一次 GitHub 最新 Release。
@@ -1118,6 +1137,14 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     /// </summary>
     public static bool ShouldSkipStartupAutoRun => _skipStartupAutoRun;
 
+    private static bool _skipCoreInit;
+
+    /// <summary>
+    /// Gets a value indicating whether the current process runs in UI preview mode
+    /// (no MaaCore loading, no resource reading; task entries stay disabled).
+    /// </summary>
+    public static bool IsCoreInitSkipped => _skipCoreInit;
+
     private static bool _isResourceBroken;
 
     /// <summary>
@@ -1163,6 +1190,13 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             // 演示模式禁止一切真实任务：热键/托盘/远程等入口统一汇入于此
             _logger.Warning("Task blocked: demo shot mode is active");
             return "README demo shot mode is active; task execution is disabled";
+        }
+
+        if (IsCoreInitSkipped)
+        {
+            // 预览模式禁止一切真实任务：Core 未加载，句柄为空；静默拦截，不弹「正在加载」误导提示
+            _logger.Warning("Task blocked: UI preview mode is active");
+            return "UI preview mode (--skip-core-init) is active; task execution is disabled";
         }
 
         if (IsResourceBroken)
