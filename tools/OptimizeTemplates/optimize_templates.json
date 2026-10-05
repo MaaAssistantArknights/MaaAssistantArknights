@@ -5064,5 +5064,12 @@
     "resource/template/InfrastPic/Product/ChooseDualchip-Special": "9a6dfd649adcc2ad7517897829d1bff735a9785f219c69dc202ac7d98da8753a",
     "resource/template/InfrastPic/Product/ChooseDualchip-Caster": "9b169cee2380ee85cfa939d96f9f56e1a5c526c25af8cb8eafeb865497fba7eb",
     "resource/template/InfrastPic/Product/ChooseChipTab": "8d91a183c591fa278bd5b7958b6bf9311e990e8f79bd42f1c3fea6df4b560349",
-    "resource/template/InfrastPic/Product/ChooseDualchip-Pioneer": "2642f0fc18bcf0a1ff1d130a5a8b25a92809dd286de0c1ed8dcff1ec85daae5b"
+    "resource/template/InfrastPic/Product/ChooseDualchip-Pioneer": "2642f0fc18bcf0a1ff1d130a5a8b25a92809dd286de0c1ed8dcff1ec85daae5b",
+    "resource/global/YoStarKR/resource/template/UiTheme/Reconstruct/Recruit": "3bc66146d074ea9ba4744810c294dd384b892b474851da19a22430c612019828",
+    "resource/global/YoStarKR/resource/template/UiTheme/Reconstruct/DepotEnter": "d38b340a994af65a7e8c3f8dfccdad730d9c6ecf3a429e8543f6d86cd56b3d8d",
+    "resource/global/YoStarKR/resource/template/UiTheme/Reconstruct/Mall": "e2bfb17692cc49281ca81e64d35fd50888ee0bbe4655e4f5ff7380682298f20b",
+    "resource/global/YoStarKR/resource/template/UiTheme/Reconstruct/GachaEnter": "e9affdf3520d8d294c0bde37c7ec9cbd7fe306808e1c7dd53b0dd89884e50d08",
+    "resource/global/YoStarKR/resource/template/UiTheme/Reconstruct/Friends": "5b5f5e750d6853f41cbf1b9190be660af618e77747fbac7ac76488615f682da4",
+    "resource/global/YoStarKR/resource/template/UiTheme/Reconstruct/Terminal": "41999bc0cb431bdf34f551c9a280b83ad158d7ca04cd89b2f05adf52f3e69c3d",
+    "resource/template/OperBox/OperFiles/MfgCatalystMissing": "12782099794395809c4eb9a26479a0dcaeea08b920f7990963e48c5abfececf8"
 }
