@@ -448,6 +448,16 @@ public class AsstProxy
             }
         };
 
+        if (Bootstrapper.IsCoreInitSkipped)
+        {
+            // UI 预览模式：本会话不加载 MaaCore，任何 native 调用（含缺失 DLL 时的 P/Invoke 解析）都必须避开；
+            // cache 目录在日常链路由 Core 用户目录初始化或联网缓存写入隐式创建，预览模式跳过这些链路，
+            // 由 UI 自建以保证退出时 ETagCache 等落盘写入不因目录缺失而失败
+            Directory.CreateDirectory(PathsHelper.CacheDir);
+            _logger.Information("Skip AsstSetUserDir: UI preview mode");
+            return;
+        }
+
         AsstSetUserDir(PathsHelper.BaseDir);
     }
 
@@ -631,6 +641,14 @@ public class AsstProxy
     /// </summary>
     public void Init()
     {
+        if (Bootstrapper.IsCoreInitSkipped)
+        {
+            // UI 预览模式：不加载 Core 与资源、不创建实例，Inited 保持 false（任务入口由 CanStart 置灰）；
+            // 非 ResourceBroken/RequiresRestart 语义：无错误弹窗与修复引导，预览是安静的显式选择
+            _logger.Information("Skip core init: UI preview mode");
+            return;
+        }
+
         if (GpuOption.GetCurrent() is GpuOption.EnableOption x)
         {
             LogGpuStatus();

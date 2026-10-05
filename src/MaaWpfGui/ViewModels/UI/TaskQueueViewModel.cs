@@ -1038,6 +1038,12 @@ public class TaskQueueViewModel : Screen
 
     private void HandleCheckForUpdates()
     {
+        if (Bootstrapper.IsCoreInitSkipped)
+        {
+            // UI 预览模式：跳过版本与资源更新检查，避免联网弹窗与 Core 资源重载
+            return;
+        }
+
         if (!SettingsViewModel.VersionUpdateSettings.UpdateAutoCheck)
         {
             return;
@@ -1440,9 +1446,9 @@ public class TaskQueueViewModel : Screen
     /// <returns>可等待</returns>
     public async Task UpdateDatePromptAndStagesWeb()
     {
-        if (Bootstrapper.IsDemoMode)
+        if (Bootstrapper.IsDemoMode || Bootstrapper.IsCoreInitSkipped)
         {
-            // README 截图演示模式：跳过活动关卡联网更新，仅做本地刷新
+            // README 截图演示模式 / UI 预览模式：跳过活动关卡联网更新，仅做本地刷新
             UpdateDatePromptAndStagesLocally();
             return;
         }

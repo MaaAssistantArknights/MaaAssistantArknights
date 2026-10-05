@@ -1919,6 +1919,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="AttachWindowMultipleFound">Found {0} "{1}" windows, using the first one</system:String>
     <system:String x:Key="AttachWindowFound">Found window "{0}"</system:String>
     <system:String x:Key="Administrator">Admin</system:String>
+    <system:String x:Key="UiPreviewMode">UI Preview</system:String>
     <system:String x:Key="AttachWindowNeedAdmin">PC connection requires administrator privileges.\nRestart MAA as administrator?</system:String>
     <system:String x:Key="RestartingAsAdmin">Restarting as administrator…</system:String>
     <system:String x:Key="RestartAsAdminFailed">Please run MAA as administrator manually.</system:String>

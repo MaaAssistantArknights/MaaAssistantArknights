@@ -1917,6 +1917,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="AttachWindowMultipleFound">找到 {0} 個 "{1}" 視窗，將使用第一個</system:String>
     <system:String x:Key="AttachWindowFound">找到視窗 "{0}"</system:String>
     <system:String x:Key="Administrator">系統管理員</system:String>
+    <system:String x:Key="UiPreviewMode">UI 預覽</system:String>
     <system:String x:Key="AttachWindowNeedAdmin">PC 端連線需要系統管理員權限。\n是否以系統管理員身分重新啟動 MAA？</system:String>
     <system:String x:Key="RestartingAsAdmin">正在以系統管理員身分重新啟動…</system:String>
     <system:String x:Key="RestartAsAdminFailed">請手動以系統管理員身分執行 MAA</system:String>

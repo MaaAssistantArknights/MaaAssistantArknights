@@ -71,9 +71,11 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// Gets the core version.
+    /// Gets the core version. UI 预览模式下 Core 未加载，不触碰 native，降级为占位值。
     /// </summary>
-    private static readonly string _coreVersion = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()) ?? "0.0.1";
+    private static readonly string _coreVersion = Main.Bootstrapper.IsCoreInitSkipped
+        ? "N/A"
+        : Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()) ?? "0.0.1";
 
     public static string CoreVersion => FakeUpdateHelper.IsEnabled ? FakeUpdateHelper.CurrentVersion : _coreVersion;
 
