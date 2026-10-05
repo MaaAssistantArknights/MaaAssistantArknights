@@ -390,7 +390,10 @@ bool asst::BattleFormationTask::add_trust_operators()
         return true;
     }
 
-    ProcessTask(*this, { "BattleQuickFormationFilter" }).run();
+    bool ret = ProcessTask(*this, { "BattleQuickFormationFilter" }).set_retry_times(3).run();
+    if (!ret) {
+        return false; // 无法打开筛选界面
+    }
     // 双击信赖
     ProcessTask(*this, { "BattleQuickFormationFilter-Trust" }).run();
     ProcessTask(*this, { "BattleQuickFormationFilterClose" }).run();
