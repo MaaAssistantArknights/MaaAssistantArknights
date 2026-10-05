@@ -32,7 +32,10 @@
             Grid.Row="0"
             Margin="0,0,0,20"
             s:View.ActionTarget="{Binding}"
-            DataContext="{Binding ContentSettings}">
+            DataContext="{Binding ContentSettings}"
+            Visibility="{c:Binding 'DataContext.ConfigCount > 0',
+                                   RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
+                                   FalseToVisibility=Collapsed}">
             <CheckBox
                 Margin="5"
                 HorizontalAlignment="Center"
