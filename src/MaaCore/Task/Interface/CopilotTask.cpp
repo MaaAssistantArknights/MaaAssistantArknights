@@ -64,12 +64,7 @@ bool asst::CopilotTask::run()
         return InterfaceTask::run();
     }
 
-    if (run_with_auto_restart()) {
-        return true;
-    }
-
-    save_img(utils::path("debug") / utils::path("interface"));
-    return false;
+    return run_with_auto_restart();
 }
 
 bool asst::CopilotTask::set_params(const json::value& params)

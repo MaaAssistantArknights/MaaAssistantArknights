@@ -279,15 +279,6 @@
         ],
         "specialParams": [0, 0, 160, 180, 30, 255]
     },
-    "Copilot@SingleStageModeOCR": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "roi": [600, 610, 220, 110],
-        "fullMatch": true,
-        "text": [],
-        "ocrReplace": [["\\s+", ""]],
-        "Doc": "缓存当前详情页难度切换控件的显示文本；不枚举具体难度名称"
-    },
     "StageNavigationSlowlySwipeLeft": {
         "baseTask": "ChapterSlowlySwipeToTheLeft",
         "next": ["FullStageNavigation"],
@@ -5370,6 +5361,15 @@
         "action": "ClickSelf",
         "templThreshold": 0.7,
         "roi": [716, 410, 254, 163]
+    },
+    "Copilot@SingleStageModeOCR": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "roi": [600, 610, 220, 110],
+        "fullMatch": true,
+        "text": [],
+        "ocrReplace": [["\\s+", ""]],
+        "Doc": "缓存当前详情页难度切换控件的显示文本；不枚举具体难度名称"
     },
     "Copilot@StageNavigationSlowlySwipeLeft": {
         "doc": "禁掉copilot的找不到关卡返回",
