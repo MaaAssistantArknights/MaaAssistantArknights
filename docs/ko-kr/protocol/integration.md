@@ -1475,12 +1475,13 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 ::: field params  
 @type object
 @optional
-작업 추가 파라미터. 현재는 픽셀 아트 작업(`MiniGame@PixelPaint@Begin`)과 잠재능력 자동 강화 작업(`MiniGame@AutoRaisePotential@Begin`)에서 사용:
+작업 추가 파라미터. 현재는 픽셀 아트 작업(`MiniGame@PixelPaint@Begin`), 잠재능력 자동 강화 작업(`MiniGame@AutoRaisePotential@Begin`), 이벤트 상점 교환 작업(`SS@Store@Begin`)에서 사용:
 
 - `params.pixel_paint.groups`: 색상별 칸 좌표 목록. `color`는 팔레트 슬롯 번호(0~39, 게임 오른쪽 팔레트 순서와 동일), `points`는 `[x, y]` 칸 좌표 배열(0~23, 왼쪽 위 원점).
 - `params.pixel_paint.swipe`(bool, 선택, 기본 true): 같은 색 연속 칸을 한 번의 드래그로 그려 속도를 높임. 일부 터치 방식에서는 이상 동작이 있을 수 있음.
 - `params.pixel_paint.grid_delay`(int, 선택, 기본 0): 칸당 추가 대기 시간(ms). 클릭 후 대기와 드래그 시간에 모두 가산됩니다. 각 터치 방식에 기본 간격이 있어 보통 조정 불필요. 구 키 `grid_click_delay` 도 호환됩니다.
 - `params.auto_raise_potential.use_normal_token`(bool, 선택, 기본 false): 증표가 부족할 때 확인 팝업은 기본적으로 ×를 눌러 포기함. true로 설정하면 √를 눌러 일반 증표를 소비하여 계속 진행함.
+- `params.event_shop.blacklist`(string 배열, 선택): 이벤트 상점 교환 작업(`SS@Store@Begin`) 구매 시 상품명 블랙리스트. 인식된 상품명에 항목이 하나라도 포함되면 해당 상품을 건너뛰고, 넘겨 가며 나머지 상품을 계속 구매함. 비어 있으면 효과가 없음.
 
 :::  
 ::::
