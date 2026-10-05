@@ -156,10 +156,13 @@ bool Win32Controller::screencap_impl(cv::Mat& image_payload, bool move_cursor)
     LogTraceFunction;
 
     // 截图前把鼠标移走，避免光标出现在截图中影响识别
+    // AnchoredTouch 注入合成触控，全程不移动真实光标，游戏自绘光标也不随合成触控移动，
+    // 挪光标逻辑对其无意义，且底层 touch_move 在无活动接触点时会直接失败，整体跳过
     POINT original_cursor_pos = { 0, 0 };
     bool cursor_pos_saved = false;
     bool input_blocked = false;
-    if (move_cursor && m_screen_size.second > 0) {
+    // preview 截图（move_cursor == false）与 AnchoredTouch 都不需要挪动窗口/光标，整体跳过
+    if (move_cursor && m_screen_size.second > 0 && (m_mouse_method & Win32Input::AnchoredTouch) == 0) {
         const bool with_window_pos =
             (m_mouse_method & (Win32Input::SendMessageWithWindowPos | Win32Input::PostMessageWithWindowPos)) != 0;
         // 仅 WithCursorPos 两种方式挪的是真实光标；Seize 本就强制接管鼠标，纯消息模式不动真实光标
@@ -416,12 +419,17 @@ bool Win32Controller::swipe(
 
     // Win32 输入（如 Seize 的 SendInput）为异步注入且无内置节拍，不等待会使整段滑动在
     // 毫秒级完成，被游戏判定为点击。按绝对节拍控制：以本段滑动起点为基准，
-    // 第 k 步对齐 start + k * SwipeIntervalMs，调用耗时吃进预算，超时不补立即继续
+    // 第 k 步对齐 start + k * interval_ms，调用耗时吃进预算，超时不补立即继续
+    // AnchoredTouch 底层 touch_move 每步需等待一帧注入提交（约 12ms 节拍），沿用 2ms 步距
+    // 会让实际耗时随步数成倍膨胀，步距与底层节拍对齐后实际耗时≈计划时长
+    static constexpr int AnchoredTouchSwipeIntervalMs = 13;
+    const int interval_ms =
+        (m_mouse_method & Win32Input::AnchoredTouch) != 0 ? AnchoredTouchSwipeIntervalMs : SwipeIntervalMs;
     auto tick_start = std::chrono::steady_clock::now();
     int move_step = 0;
-    auto move_func = [this, &tick_start, &move_step](int x, int y) {
+    auto move_func = [this, &tick_start, &move_step, &interval_ms](int x, int y) {
         bool ret = unit_touch_move(0, x, y, 0);
-        high_res_sleep_until(tick_start + ++move_step * std::chrono::milliseconds(SwipeIntervalMs));
+        high_res_sleep_until(tick_start + ++move_step * std::chrono::milliseconds(interval_ms));
         return ret;
     };
 
@@ -446,7 +454,7 @@ bool Win32Controller::swipe(
                 _x2,
                 _y2,
                 _duration,
-                SwipeIntervalMs,
+                interval_ms,
                 slope_in,
                 slope_out,
                 move_func,
@@ -463,7 +471,7 @@ bool Win32Controller::swipe(
             _x2,
             _y2,
             _duration,
-            SwipeIntervalMs,
+            interval_ms,
             slope_in,
             slope_out,
             move_func,

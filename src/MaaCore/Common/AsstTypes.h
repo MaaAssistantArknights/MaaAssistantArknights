@@ -137,6 +137,10 @@ constexpr Win32InputMethod SendMessageWithCursorPos = 1ULL << 5;
 constexpr Win32InputMethod PostMessageWithCursorPos = 1ULL << 6;
 constexpr Win32InputMethod SendMessageWithWindowPos = 1ULL << 7;
 constexpr Win32InputMethod PostMessageWithWindowPos = 1ULL << 8;
+// 与 MaaFramework 的 MaaWin32InputMethod_Interception 对应，本仓库未使用，仅为占位对齐
+constexpr Win32InputMethod Interception = 1ULL << 9;
+// 合成触控注入（Win10 1809+），仅实现点击与滑动，键盘需另选输入方式
+constexpr Win32InputMethod AnchoredTouch = 1ULL << 10;
 } // namespace Win32Input
 
 #endif // _WIN32
