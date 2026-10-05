@@ -1106,12 +1106,55 @@ public class TaskQueueViewModel : Screen
         return (timeToStart, timeToChangeConfig, configIndex);
     }
 
+    private static void HandleScheduledStartNotifications(DateTime currentTime)
+    {
+        var settings = SettingsViewModel.TimerSettings;
+        var notifyDesktop = settings.NotifyBeforeScheduledStart;
+        var notifyExternal = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendBeforeScheduledStart;
+        if (!notifyDesktop && !notifyExternal)
+        {
+            return;
+        }
+
+        // 比较提前后的时刻，兼容跨午夜的定时任务。
+        var startTime = currentTime.AddMinutes(settings.ScheduledStartNotificationMinutes);
+        for (int i = 0; i < settings.TimerList.Count; ++i)
+        {
+            var timer = settings.TimerList[i];
+            if (timer.IsEnabled == false || timer.Hour != startTime.Hour || timer.Minute != startTime.Minute)
+            {
+                continue;
+            }
+
+            var title = LocalizationHelper.GetString("ScheduledStartNotificationTitle");
+            var content = string.Format(
+                LocalizationHelper.GetString("ScheduledStartNotificationContent"),
+                i + 1,
+                startTime.ToString("HH:mm"),
+                settings.ScheduledStartNotificationMinutes);
+
+            _logger.Information("Scheduled start notification: Timer Index: {TimerIndex}, Start Time: {StartTime}", i, startTime);
+            if (notifyDesktop)
+            {
+                using var toast = new ToastNotification(title);
+                toast.AppendContentText(content).Show();
+            }
+
+            if (notifyExternal)
+            {
+                ExternalNotificationService.Send(title, content);
+            }
+        }
+    }
+
     private async Task HandleTimerLogic(DateTime currentTime)
     {
         if (!_runningState.CanInterrupt() && !SettingsViewModel.TimerSettings.ForceScheduledStart)
         {
             return;
         }
+
+        await Execute.OnUIThreadAsync(() => HandleScheduledStartNotifications(currentTime));
 
         var (timeToStart, timeToChangeConfig, timerIndex) = CheckTimers(currentTime);
 
