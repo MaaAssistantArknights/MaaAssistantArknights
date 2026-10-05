@@ -7,6 +7,7 @@
 
 #include "Config/GeneralConfig.h"
 #include "Config/GpuDeviceSelector.h"
+#include "Config/InferenceDeviceRecovery.h"
 #include "Config/Miscellaneous/OcrPack.h"
 #include "Config/OnnxSessions.h"
 #include "Config/ResourceLoader.h"
@@ -45,6 +46,7 @@ enum class TaskExceptionKind
     None,
     OpenCV,
     OutOfMemory,
+    GpuDeviceRemoved,
     Standard,
     Unknown,
 };
@@ -56,6 +58,8 @@ const char* task_exception_name(TaskExceptionKind kind) noexcept
         return "OpenCVException";
     case TaskExceptionKind::OutOfMemory:
         return "OutOfMemory";
+    case TaskExceptionKind::GpuDeviceRemoved:
+        return "GpuDeviceRemoved";
     case TaskExceptionKind::Standard:
         return "UnhandledException";
     case TaskExceptionKind::Unknown:
@@ -587,6 +591,7 @@ void Assistant::working_proc()
 
             bool ret = false;
             TaskExceptionKind exception_kind = TaskExceptionKind::None;
+            auto inference_recovery = InferenceDeviceRecoveryResult::RestartRequired;
             try {
                 ret = task_ptr->run();
             }
@@ -624,8 +629,15 @@ void Assistant::working_proc()
                 exception_kind = TaskExceptionKind::OutOfMemory;
             }
             catch (const std::exception& e) {
-                exception_kind = TaskExceptionKind::Standard;
-                best_effort([&] { Log.error("Unhandled exception in task thread", e.what()); });
+                if (InferenceDeviceRecovery::is_directml_device_removed(e.what())) {
+                    exception_kind = TaskExceptionKind::GpuDeviceRemoved;
+                    best_effort([&] { Log.error("DirectML device removed in task thread", e.what()); });
+                    inference_recovery = InferenceDeviceRecovery::recover_to_cpu();
+                }
+                else {
+                    exception_kind = TaskExceptionKind::Standard;
+                    best_effort([&] { Log.error("Unhandled exception in task thread", e.what()); });
+                }
             }
             catch (...) {
                 exception_kind = TaskExceptionKind::Unknown;
@@ -643,12 +655,16 @@ void Assistant::working_proc()
             }
 
             if (exception_kind != TaskExceptionKind::None) {
-                if (exception_kind == TaskExceptionKind::OutOfMemory) {
+                const bool restart_required = exception_kind == TaskExceptionKind::GpuDeviceRemoved &&
+                                              inference_recovery == InferenceDeviceRecoveryResult::RestartRequired;
+                if (exception_kind == TaskExceptionKind::OutOfMemory || restart_required) {
                     lock.lock();
                     m_thread_idle = true;
                     m_tasks_list.clear();
                     lock.unlock();
-                    best_effort([&] { Log.error("Unhandled out of memory in task thread"); });
+                    if (exception_kind == TaskExceptionKind::OutOfMemory) {
+                        best_effort([&] { Log.error("Unhandled out of memory in task thread"); });
+                    }
                 }
 
                 const auto append_error = [&] {
@@ -656,6 +672,9 @@ void Assistant::working_proc()
                     error_json["details"] = json::object {
                         { "error", task_exception_name(exception_kind) },
                     };
+                    if (exception_kind == TaskExceptionKind::GpuDeviceRemoved) {
+                        error_json["details"]["recovered"] = !restart_required;
+                    }
                     append_callback(AsstMsg::TaskChainError, error_json);
                 };
                 if (exception_kind == TaskExceptionKind::OutOfMemory) {

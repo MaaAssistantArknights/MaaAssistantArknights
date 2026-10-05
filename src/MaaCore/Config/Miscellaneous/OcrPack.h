@@ -35,6 +35,10 @@ public:
 
     void use_gpu(GpuDeviceSelector selector) { m_gpu_selector = std::move(selector); }
 
+    // The DirectML objects cannot be reused after device removal. Their destruction is intentionally avoided for the
+    // same reason as in the destructor; the next recognize() lazily creates CPU-backed objects.
+    void recover_from_gpu_device_removed() noexcept;
+
     ResultsVec recognize(const cv::Mat& image, bool without_det = false, const std::optional<Rect>& base_roi = {});
 
 protected:

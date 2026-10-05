@@ -38,6 +38,12 @@ OcrPack::~OcrPack()
     LogTraceFunction;
 }
 
+void OcrPack::recover_from_gpu_device_removed() noexcept
+{
+    m_gpu_selector = std::nullopt;
+    m_gpu_active = false;
+}
+
 bool OcrPack::load(const std::filesystem::path& path)
 {
     LogTraceFunction;

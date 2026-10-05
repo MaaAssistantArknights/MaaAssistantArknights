@@ -1551,6 +1551,8 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">Task error:&#160;</system:String>
     <system:String x:Key="TaskErrorSummaryTitle">Errors occurred in this run:</system:String>
     <system:String x:Key="OutOfMemoryError">The {0} task stopped due to insufficient memory. Close some programs or restart MAA and try again</system:String>
+    <system:String x:Key="GpuDeviceRemovedRecovered">The GPU inference device became unavailable during the {0} task. MAA switched to CPU; retry this task</system:String>
+    <system:String x:Key="GpuDeviceRemovedRestartRequired">The GPU inference device became unavailable during the {0} task and MAA could not safely switch to CPU. Restart MAA and try again</system:String>
     <system:String x:Key="CombatError">Combat error</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">Start task:&#160;</system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">Complete task:&#160;</system:String>
