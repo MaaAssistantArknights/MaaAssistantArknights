@@ -1421,8 +1421,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="CopilotList">作业列表</system:String>
     <system:String x:Key="UseCopilotList">多作业模式</system:String>
     <system:String x:Key="AutoRestart">自动重开</system:String>
-    <system:String x:Key="AutoRestartTimes">最大重开次数</system:String>
-    <system:String x:Key="AutoRestartTip" xml:space="preserve">单作业和多作业模式均可使用。漏怪后会在结算前退出，避免以非三星结果结算。&#10;每次执行最多可重开 1 至 999 次。</system:String>
+    <system:String x:Key="AutoRestartTimes">最大次数</system:String>
+    <system:String x:Key="AutoRestartTip" xml:space="preserve">部分活动作业可能依赖放生。&#10;漏怪后会在结算前退出，避免以非三星结果结算。&#10;每次执行最多可重开 1 至 999 次。</system:String>
     <system:String x:Key="CopilotAutoRestartEnabledLog">自动重开已启用：共 {0} 轮执行，每轮最多重开 {1} 次</system:String>
     <system:String x:Key="CopilotAutoRestartReasonEnemyLeak">漏怪</system:String>
     <system:String x:Key="CopilotAutoRestartReasonBattleFailed">战斗失败</system:String>

@@ -1423,8 +1423,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="CopilotList">ジョブリスト</system:String>
     <system:String x:Key="UseCopilotList">マルチジョブモード</system:String>
     <system:String x:Key="AutoRestart">自動再開</system:String>
-    <system:String x:Key="AutoRestartTimes">最大再開回数</system:String>
-    <system:String x:Key="AutoRestartTip" xml:space="preserve">単一作業とマルチジョブの両方で使用できます。敵を通した場合は、非★3の結果を避けるためリザルト前に戦闘を中止します。&#10;1 回の実行につき最大再開回数は1～999回に設定できます。</system:String>
+    <system:String x:Key="AutoRestartTimes">最大回数</system:String>
+    <system:String x:Key="AutoRestartTip" xml:space="preserve">一部のイベントステージは敵を通すことを前提としている場合があります。&#10;敵を通した場合は、非★3の結果を避けるためリザルト前に戦闘を中止します。&#10;1 回の実行につき最大再開回数は1～999回に設定できます。</system:String>
     <system:String x:Key="CopilotAutoRestartEnabledLog">自動再開を有効にしました。全 {0} 回の実行で、それぞれ最大 {1} 回再開します。</system:String>
     <system:String x:Key="CopilotAutoRestartReasonEnemyLeak">敵の通過</system:String>
     <system:String x:Key="CopilotAutoRestartReasonBattleFailed">戦闘失敗</system:String>
