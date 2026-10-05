@@ -190,10 +190,10 @@ asst::OperProgressProcessTask::ResultDetail
     else {
         // 首条目标可能停在主页等任意页面,走完整入口链(主页入口/快捷切换/返回链,到列表页即停)。
         // 入口链在上一轮遗留的编队选人等相似页面上可能误命中,先逐层返回脱离再重试一次。
-        entered = run_task("OperBoxBegin", 3);
+        entered = run_task("OperProgress@OperBoxBegin", 3);
         if (!entered) {
             run_task("OperProgress@ReturnToOperBoxWalk", 3);
-            entered = run_task("OperBoxBegin", 3);
+            entered = run_task("OperProgress@OperBoxBegin", 3);
         }
         m_entry_completed = true;
     }

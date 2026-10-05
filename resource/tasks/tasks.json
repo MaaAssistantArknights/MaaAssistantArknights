@@ -6158,6 +6158,9 @@
         "maxTimes": 10,
         "next": ["RedTicket@Store@ChooseTicketTypeSelected", "RedTicket@Store@PurchasedConfirm"]
     },
+    "OperProgress@OperBoxRoleTab": {
+        "template": ["BattleQuickFormationExpandRole.png", "BattleQuickFormationRoleFiltering.png"]
+    },
     "OperProgress@OperFiles": {
         "baseTask": "OperOpenInformationMenu",
         "template": "OperInformationMenu.png",
