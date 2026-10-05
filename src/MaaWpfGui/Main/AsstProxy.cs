@@ -469,6 +469,14 @@ public class AsstProxy
     {
         using var log = new LogScope(_logger);
 
+        // 切客户端类型 / 资源更新 / 关卡列表等入口都会经此处触发重载；预览模式不触碰 native，
+        // 返回成功以避免调用方的失败提示分支在预览态弹窗
+        if (Bootstrapper.IsCoreInitSkipped)
+        {
+            _logger.Information("Skip LoadResource: UI preview mode");
+            return true;
+        }
+
         var clientType = SettingsViewModel.GameSettings.ClientType;
 
         string mainRes = PathsHelper.ResourceDir;
