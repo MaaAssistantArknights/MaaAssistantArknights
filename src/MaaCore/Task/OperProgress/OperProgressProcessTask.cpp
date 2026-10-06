@@ -163,12 +163,13 @@ bool asst::OperProgressProcessTask::_run()
                 if (arr[i] <= 0) {
                     continue;
                 }
-                int training_level = -1;
+                int training_level = 0;
                 auto skill_ret = execute_mastery(target.role, target.name, i + 1, arr[i], training_level);
                 std::array<int, 3> skill_levels { 0, 0, 0 };
-                skill_levels[i] = skill_ret == ResultDetail::Completed ? training_level : arr[i];
+                skill_levels[i] = skill_ret == ResultDetail::Completed ? arr[i] : training_level;
                 report_skill_result(target.role, target.name, skill_ret, skill_levels);
-                if (skill_ret == ResultDetail::TrainingRoomBusy || skill_ret == ResultDetail::Completed) {
+                if (skill_ret == ResultDetail::TrainingRoomBusy || skill_ret == ResultDetail::PrerequisiteTraining ||
+                    skill_ret == ResultDetail::Completed) {
                     training_room_busy = true;
                     break;
                 }
@@ -448,9 +449,6 @@ void asst::OperProgressProcessTask::report_skill_result(
         case ResultDetail::AlreadySatisfied:
             m_success++;
             return Result::Success; // 目标已达成
-        case ResultDetail::TrainingRoomBusy:
-            m_skipped++;
-            return Result::Skipped;
         default:
             m_failed++;
             return Result::Failed;
@@ -618,7 +616,7 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
     if (!run_task("OperProgress@MasterySelectTrainer") || !select_training_trainer(role, current_level)) {
         LogWarn << __FUNCTION__ << "| trainer selection failed, training already started";
     }
-    return ResultDetail::Completed;
+    return current_level == target_level ? ResultDetail::Completed : ResultDetail::PrerequisiteTraining;
 }
 
 void asst::OperProgressProcessTask::report_skill_result(
@@ -631,8 +629,9 @@ void asst::OperProgressProcessTask::report_skill_result(
         switch (result) {
         case ResultDetail::Completed:
         case ResultDetail::AlreadySatisfied:
+        case ResultDetail::PrerequisiteTraining: // 目标未达成, 但已启动前置专精
             m_success++;
-            return Result::Success; // 目标已达成
+            return Result::Success;              // 目标已达成
         case ResultDetail::TrainingRoomBusy:
             m_skipped++;
             return Result::Skipped;

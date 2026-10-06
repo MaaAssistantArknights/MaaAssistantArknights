@@ -32,7 +32,7 @@ protected:
 private:
     enum class ResultDetail
     {
-        Completed,            // 培养动作已执行完成（精英化/技能升级/专精实际推进成功）
+        Completed,            // 培养动作已执行完成（精英化/技能升级/专精实际达成目标）
         AlreadySatisfied,     // 档案页现场识别到当前进度已达到计划目标，无需操作
         ResourceInsufficient, // 材料不足且加工站合成/制造站补产均无法补齐
         OperatorNotFound,     // 翻遍干员列表所有页仍未找到该干员
@@ -42,12 +42,13 @@ private:
         Unsupported,          // 计划条目的 action 或参数不被支持，不执行
         RecognitionFailed,    // 页面识别或流程步骤失败，无法确认培养结果
         TrainingRoomBusy,     // 训练室已被其他干员占用
+        PrerequisiteTraining, // 执行前置专精训练, 如要求专三, 正在进行专二
         Interrupt,            // 任务中断
     };
 
     enum class Result
     {
-        Success, // 执行成功; 目标已达成、精英化 / 技能升级 / 专精实际推进成功
+        Success, // 执行成功; 目标已达成、精英化 / 技能升级 / 专精实际达成目标
         Failed,  // 执行失败; 识别失败、无法合成、前置不满足等
         Skipped, // 跳过本条; 训练室被占用
     };
