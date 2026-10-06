@@ -1283,7 +1283,7 @@ bool asst::OperProgressProcessTask::buy_catalyst(int count)
         return false;
     }
     // 购买后返回制造站重新进入芯片产品页或生产详情页
-    return run_task("OperProgress@ReturnToMfg");
+    return run_task("OperProgress@ReturnToMfgPage");
 }
 
 bool asst::OperProgressProcessTask::run_task(const std::string& task_name, int retry_times)
