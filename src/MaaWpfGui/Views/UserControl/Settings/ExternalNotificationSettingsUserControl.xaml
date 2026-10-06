@@ -78,51 +78,56 @@
                                 Content="{DynamicResource ExternalNotificationCustomConditions}"
                                 IsChecked="{Binding UseCustomConditions}" />
                             <StackPanel Margin="0,12,0,0" Visibility="{c:Binding UseCustomConditions, FalseToVisibility=Collapsed}">
-                                <Grid Margin="0,0,0,12" HorizontalAlignment="Center">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="20" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                                        <CheckBox Content="{DynamicResource ExternalNotificationNewLogCount}" IsChecked="{Binding SendAfterLogCount}" />
-                                        <controls:TooltipBlock TooltipText="{DynamicResource ExternalNotificationNewLogCountTip}" />
-                                    </StackPanel>
+                                <StackPanel
+                                    Margin="0,0,0,12"
+                                    HorizontalAlignment="Center"
+                                    Orientation="Horizontal">
+                                    <controls:TooltipBlock Visibility="Hidden" />
+                                    <CheckBox
+                                        VerticalAlignment="Center"
+                                        Content="{DynamicResource ExternalNotificationNewLogCount}"
+                                        IsChecked="{Binding SendAfterLogCount}" />
                                     <hc:NumericUpDown
-                                        Grid.Column="2"
                                         Width="100"
+                                        Margin="12,0,0,0"
                                         hc:InfoElement.TitleWidth="0"
                                         IsEnabled="{Binding SendAfterLogCount}"
                                         Maximum="10000"
                                         Minimum="1"
                                         Value="{Binding NewLogCount}" />
-                                </Grid>
+                                    <controls:TooltipBlock TooltipText="{DynamicResource ExternalNotificationNewLogCountTip}" />
+                                </StackPanel>
                                 <CheckBox
                                     HorizontalAlignment="Center"
                                     Content="{DynamicResource ExternalNotificationContentMatches}"
                                     IsChecked="{Binding SendWhenContentMatches}" />
                                 <StackPanel Margin="0,12,0,0" Visibility="{c:Binding SendWhenContentMatches, FalseToVisibility=Collapsed}">
-                                    <StackPanel
+                                    <controls:TextBlock
                                         Margin="0,0,0,8"
                                         HorizontalAlignment="Center"
-                                        Orientation="Horizontal">
-                                        <controls:TextBlock
-                                            HorizontalAlignment="Center"
-                                            Text="{DynamicResource ExternalNotificationWhitelist}"
-                                            TextAlignment="Center"
-                                            TextWrapping="Wrap" />
-                                        <controls:TooltipBlock TooltipText="{DynamicResource ExternalNotificationWhitelistTip}" />
-                                    </StackPanel>
-                                    <TextBox
-                                        Height="Auto"
-                                        Padding="12,8"
-                                        VerticalContentAlignment="Top"
-                                        hc:InfoElement.TitleWidth="0"
-                                        AcceptsReturn="True"
-                                        MinLines="1"
-                                        Text="{Binding Whitelist, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                        TextWrapping="Wrap"
-                                        VerticalScrollBarVisibility="Disabled" />
+                                        Text="{DynamicResource ExternalNotificationWhitelist}"
+                                        TextAlignment="Center"
+                                        TextWrapping="Wrap" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <controls:TooltipBlock Visibility="Hidden" />
+                                        <TextBox
+                                            Grid.Column="1"
+                                            Height="Auto"
+                                            Padding="12,8"
+                                            VerticalContentAlignment="Top"
+                                            hc:InfoElement.TitleWidth="0"
+                                            AcceptsReturn="True"
+                                            MinLines="1"
+                                            Text="{Binding Whitelist, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                            TextWrapping="Wrap"
+                                            VerticalScrollBarVisibility="Disabled" />
+                                        <controls:TooltipBlock Grid.Column="2" TooltipText="{DynamicResource ExternalNotificationWhitelistTip}" />
+                                    </Grid>
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
@@ -156,35 +161,43 @@
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="12" />
                                 <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                <controls:TextBlock VerticalAlignment="Center" Text="{DynamicResource ExternalNotificationPreviousLogCount}" />
-                                <controls:TooltipBlock TooltipText="{DynamicResource ExternalNotificationPreviousLogCountTip}" />
-                            </StackPanel>
+                            <controls:TooltipBlock Grid.RowSpan="3" Visibility="Hidden" />
+                            <controls:TextBlock
+                                Grid.Column="1"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Text="{DynamicResource ExternalNotificationPreviousLogCount}" />
                             <hc:NumericUpDown
-                                Grid.Column="2"
+                                Grid.Column="3"
                                 Width="100"
                                 hc:InfoElement.TitleWidth="0"
                                 Maximum="10000"
                                 Minimum="0"
                                 Value="{Binding MaxEntries}" />
-                            <StackPanel
+                            <controls:TooltipBlock Grid.Column="4" TooltipText="{DynamicResource ExternalNotificationPreviousLogCountTip}" />
+                            <controls:TextBlock
                                 Grid.Row="2"
+                                Grid.Column="1"
                                 HorizontalAlignment="Right"
-                                Orientation="Horizontal">
-                                <controls:TextBlock VerticalAlignment="Center" Text="{DynamicResource NotificationSettingsTimeMinutes}" />
-                                <controls:TooltipBlock TooltipText="{DynamicResource NotificationSettingsTimeMinutesTip}" />
-                            </StackPanel>
+                                VerticalAlignment="Center"
+                                Text="{DynamicResource NotificationSettingsTimeMinutes}" />
                             <hc:NumericUpDown
                                 Grid.Row="2"
-                                Grid.Column="2"
+                                Grid.Column="3"
                                 Width="100"
                                 hc:InfoElement.TitleWidth="0"
                                 Maximum="10080"
                                 Minimum="0"
                                 Value="{Binding TimeMinutes}" />
+                            <controls:TooltipBlock
+                                Grid.Row="2"
+                                Grid.Column="4"
+                                TooltipText="{DynamicResource NotificationSettingsTimeMinutesTip}" />
                         </Grid>
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                             <CheckBox Content="{DynamicResource ExternalNotificationFilterPreviousLogs}" IsChecked="{Binding FilterPreviousLogs}" />
@@ -197,16 +210,26 @@
                                 Text="{DynamicResource ExternalNotificationBlacklist}"
                                 TextAlignment="Center"
                                 TextWrapping="Wrap" />
-                            <TextBox
-                                Height="Auto"
-                                Padding="12,8"
-                                VerticalContentAlignment="Top"
-                                hc:InfoElement.TitleWidth="0"
-                                AcceptsReturn="True"
-                                MinLines="1"
-                                Text="{Binding Blacklist, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                TextWrapping="Wrap"
-                                VerticalScrollBarVisibility="Disabled" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <controls:TooltipBlock Visibility="Hidden" />
+                                <TextBox
+                                    Grid.Column="1"
+                                    Height="Auto"
+                                    Padding="12,8"
+                                    VerticalContentAlignment="Top"
+                                    hc:InfoElement.TitleWidth="0"
+                                    AcceptsReturn="True"
+                                    MinLines="1"
+                                    Text="{Binding Blacklist, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                    TextWrapping="Wrap"
+                                    VerticalScrollBarVisibility="Disabled" />
+                                <controls:TooltipBlock Grid.Column="2" Visibility="Hidden" />
+                            </Grid>
                         </StackPanel>
                     </StackPanel>
                 </Border>

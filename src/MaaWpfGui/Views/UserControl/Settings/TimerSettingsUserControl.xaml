@@ -75,11 +75,11 @@
                 Margin="10,5"
                 HorizontalAlignment="Center"
                 Orientation="Horizontal">
+                <controls:TooltipBlock Visibility="Hidden" />
                 <CheckBox
                     VerticalContentAlignment="Center"
                     Content="{DynamicResource NotifyBeforeScheduledStart}"
                     IsChecked="{Binding NotifyBeforeScheduledStart}" />
-                <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource NotifyBeforeScheduledStartTip}" />
                 <hc:NumericUpDown
                     Height="30"
                     Margin="10,-10"
@@ -91,6 +91,7 @@
                     Minimum="1"
                     Visibility="{c:Binding 'NotifyBeforeScheduledStart || (ExternalNotificationSettings.DeliverySettings.Enable &amp;&amp; ExternalNotificationSettings.DeliverySettings.SendBeforeScheduledStart &amp;&amp; ExternalNotificationSettings.ConfigCount > 0)'}"
                     Value="{Binding ScheduledStartNotificationMinutes}" />
+                <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource NotifyBeforeScheduledStartTip}" />
             </StackPanel>
 
             <StackPanel
