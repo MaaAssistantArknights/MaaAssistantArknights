@@ -47,6 +47,13 @@ bool asst::RoguelikeShoppingConfig::parse_goods(const json::array& json, std::ve
         item.no_longer_buy = goods_json.get("no_longer_buy", false);
         item.ignore_no_longer_buy = goods_json.get("ignore_no_longer_buy", false);
         item.decrease_collapse = goods_json.get("decrease_collapse", false);
+        if (const auto price = goods_json.find<int>("price")) {
+            if (*price <= 0) {
+                LogError << __FUNCTION__ << "Shopping item price must be positive" << item.name;
+                return false;
+            }
+            item.price = *price;
+        }
         goods.emplace_back(std::move(item));
     }
     return true;

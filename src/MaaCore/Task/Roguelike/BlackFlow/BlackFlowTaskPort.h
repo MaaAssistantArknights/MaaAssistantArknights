@@ -216,6 +216,7 @@ private:
     class ProcessTaskContext;
 
     [[nodiscard]] std::optional<int> recognize_action_points(const cv::Mat& image) const;
+    [[nodiscard]] std::optional<int> recognize_ingots(const cv::Mat& image) const;
     bool classify_entered_page(const cv::Mat& image, EnteredPageObservation& observation, std::string* error) const;
 
     std::unique_ptr<ProcessTaskContext> m_task_context;

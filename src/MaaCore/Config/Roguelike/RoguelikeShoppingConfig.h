@@ -2,6 +2,7 @@
 
 #include "Config/AbstractConfig.h"
 
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -20,6 +21,7 @@ struct RoguelikeGoods
     bool no_longer_buy = false;
     bool ignore_no_longer_buy = false;
     bool decrease_collapse = false;
+    std::optional<int> price; // 填写时余额不足就跳过，去看下一件
 };
 
 class RoguelikeShoppingConfig final : public MAA_NS::SingletonHolder<RoguelikeShoppingConfig>, public AbstractConfig

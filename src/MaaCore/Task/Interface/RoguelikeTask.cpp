@@ -52,6 +52,7 @@
 #include "Task/Roguelike/BlackFlow/BlackFlowMovementTaskPlugin.h"
 #include "Task/Roguelike/BlackFlow/BlackFlowNodeTaskPlugin.h"
 #include "Task/Roguelike/BlackFlow/BlackFlowRoutingTaskPlugin.h"
+#include "Task/Roguelike/BlackFlow/BlackFlowScrapTradeTaskPlugin.h"
 #include "Task/Roguelike/BlackFlow/BlackFlowTaskPort.h"
 
 #include "Utils/Logger.hpp"
@@ -75,7 +76,9 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
 
     m_debug_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeDebugTaskPlugin>(m_config_ptr, m_control_ptr);
     m_custom_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeCustomStartTaskPlugin>(m_config_ptr, m_control_ptr);
-    m_roguelike_task_ptr->register_plugin<RoguelikeShoppingTaskPlugin>(m_config_ptr, m_control_ptr)->set_retry_times(0);
+    const auto shopping_plugin =
+        m_roguelike_task_ptr->register_plugin<RoguelikeShoppingTaskPlugin>(m_config_ptr, m_control_ptr);
+    shopping_plugin->set_retry_times(0);
 
     m_roguelike_task_ptr->register_plugin<RoguelikeBattleTaskPlugin>(m_config_ptr, m_control_ptr)
         ->set_retry_times(0)
@@ -128,6 +131,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     m_blackflow_port_ptr =
         std::make_shared<blackflow::BlackFlowTaskPort>(callback, inst, TaskType, m_blackflow_map_source_ptr);
     encounter_plugin->set_blackflow_session(m_blackflow_session_ptr);
+    shopping_plugin->set_blackflow_session(m_blackflow_session_ptr);
     m_roguelike_task_ptr->register_plugin<blackflow::BlackFlowLifecycleTaskPlugin>(
         m_config_ptr,
         m_control_ptr,
@@ -144,6 +148,11 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
         m_blackflow_session_ptr,
         m_blackflow_port_ptr);
     m_roguelike_task_ptr->register_plugin<blackflow::BlackFlowCultivationTaskPlugin>(
+        m_config_ptr,
+        m_control_ptr,
+        m_blackflow_session_ptr,
+        m_blackflow_port_ptr);
+    m_roguelike_task_ptr->register_plugin<blackflow::BlackFlowScrapTradeTaskPlugin>(
         m_config_ptr,
         m_control_ptr,
         m_blackflow_session_ptr,

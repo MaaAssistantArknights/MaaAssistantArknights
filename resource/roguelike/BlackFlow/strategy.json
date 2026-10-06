@@ -382,46 +382,20 @@
         {
             "id": "common_navigation",
             "description": "公共安全、出口时机、商店回避和加工品触发规则",
-            "rules": [
+            "shopping_rules": [
                 {
-                    "id": "avoid_empty_scrap_shop",
-                    "kind": "forbid",
-                    "tier": "legality",
-                    "rank": 0,
+                    "id": "floor5_shop_purchase",
+                    "description": "第五层诡意行商有什么买什么",
+                    "rank": 1,
                     "when": {
-                        "all": [
-                            {
-                                "fact": "ingots",
-                                "op": "le",
-                                "value": 0
-                            },
-                            {
-                                "fact": "seeds",
-                                "op": "le",
-                                "value": 0
-                            },
-                            {
-                                "fact": "sellable_scraps",
-                                "op": "le",
-                                "value": 0
-                            }
-                        ]
+                        "fact": "current_floor",
+                        "op": "eq",
+                        "value": 5
                     },
-                    "candidate_if": {
-                        "all": [
-                            {
-                                "fact": "candidate.node_type",
-                                "op": "eq",
-                                "value": "scrap_shop"
-                            },
-                            {
-                                "fact": "candidate.strategy_end",
-                                "op": "eq",
-                                "value": false
-                            }
-                        ]
-                    }
-                },
+                    "buy_table": "final_relics"
+                }
+            ],
+            "rules": [
                 {
                     "id": "light_reveals_three",
                     "kind": "prefer",
@@ -506,6 +480,19 @@
         },
         {
             "id": "ending_development",
+            "shopping_rules": [
+                {
+                    "id": "floor3_shop_purchase",
+                    "description": "第三层诡意行商购买藏品，二结局先买沙盘",
+                    "rank": 1,
+                    "when": {
+                        "fact": "current_floor",
+                        "op": "eq",
+                        "value": 3
+                    },
+                    "buy_table": "final_relics"
+                }
+            ],
             "reserves": [
                 {
                     "id": "keep_processing_move_for_boss",
@@ -646,18 +633,6 @@
                     }
                 },
                 {
-                    "id": "ending1_floor2_scrap_shop",
-                    "description": "第二层优先经过秘境行商",
-                    "kind": "preferred",
-                    "floor_window": [2, 2],
-                    "rank": 0,
-                    "count": 1,
-                    "weight": 6,
-                    "selector": {
-                        "node_types": ["scrap_shop"]
-                    }
-                },
-                {
                     "id": "ending1_floor2_hidden",
                     "description": "第二层在核心节点之外尽量探索未知事件",
                     "kind": "preferred",
@@ -728,18 +703,6 @@
                     "weight": 6,
                     "selector": {
                         "node_types": ["expedition"]
-                    }
-                },
-                {
-                    "id": "ending1_late_scrap_shop",
-                    "description": "第三至第五层优先经过秘境行商",
-                    "kind": "preferred",
-                    "floor_window": [3, 5],
-                    "rank": 0,
-                    "count": 99,
-                    "weight": 6,
-                    "selector": {
-                        "node_types": ["scrap_shop"]
                     }
                 },
                 {
@@ -817,6 +780,93 @@
                 }
             ],
             "description": "各结局共享的一至五层发育偏好"
+        },
+        {
+            "id": "ending1_scrap_trade",
+            "description": "秘境行商中持有板藤或多生苔藓时买入卖回让它们增值，第五层兑现自然物",
+            "shopping_rules": [
+                {
+                    "id": "scrap_trade_accumulate",
+                    "description": "第五层之前优先补喷气背包、玉米和雾滚草，保留可继续增值的自然物",
+                    "page_intent": "scrap_shop.trade",
+                    "when": {
+                        "fact": "current_floor",
+                        "op": "lt",
+                        "value": 5
+                    },
+                    "buy_table": "scrap_accumulate",
+                    "sell_table": "idle_naturals"
+                },
+                {
+                    "id": "scrap_trade_liquidate",
+                    "page_intent": "scrap_shop.trade",
+                    "when": {
+                        "fact": "current_floor",
+                        "op": "eq",
+                        "value": 5
+                    },
+                    "buy_table": "scrap_movement",
+                    "sell_table": "floor5_liquidation"
+                }
+            ],
+            "milestones": [
+                {
+                    "id": "ending1_floor2_scrap_shop",
+                    "description": "第二层优先经过秘境行商",
+                    "kind": "preferred",
+                    "floor_window": [2, 2],
+                    "rank": 0,
+                    "count": 1,
+                    "weight": 6,
+                    "selector": {
+                        "node_types": ["scrap_shop"]
+                    },
+                    "page_intent": "scrap_shop.trade"
+                },
+                {
+                    "id": "ending1_late_scrap_shop",
+                    "description": "第三至第五层优先经过秘境行商",
+                    "kind": "preferred",
+                    "floor_window": [3, 5],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 6,
+                    "selector": {
+                        "node_types": ["scrap_shop"]
+                    },
+                    "page_intent": "scrap_shop.trade"
+                }
+            ]
+        },
+        {
+            "id": "ending_scrap_shop_visit",
+            "description": "二、三结局经过秘境行商的偏好，进店后直接离开",
+            "milestones": [
+                {
+                    "id": "ending1_floor2_scrap_shop",
+                    "description": "第二层优先经过秘境行商",
+                    "kind": "preferred",
+                    "floor_window": [2, 2],
+                    "rank": 0,
+                    "count": 1,
+                    "weight": 6,
+                    "selector": {
+                        "node_types": ["scrap_shop"]
+                    }
+                },
+                {
+                    "id": "ending1_late_scrap_shop",
+                    "description": "第三至第五层优先经过秘境行商",
+                    "kind": "preferred",
+                    "floor_window": [3, 5],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 6,
+                    "selector": {
+                        "node_types": ["scrap_shop"]
+                    }
+                }
+            ]
         },
         {
             "id": "ending1_exit",
@@ -1150,7 +1200,65 @@
         },
         {
             "id": "baby_animal_route",
+            "shopping_rules": [
+                {
+                    "id": "seed_shop_floor2",
+                    "description": "第二层诡意行商只买种子",
+                    "page_intent": "shop.seed_priority",
+                    "when": {
+                        "fact": "current_floor",
+                        "op": "eq",
+                        "value": 2
+                    },
+                    "buy_table": "seed"
+                },
+                {
+                    "id": "seed_shop_floor3",
+                    "description": "第三层诡意行商只买种子",
+                    "page_intent": "shop.seed_priority_floor3",
+                    "buy_table": "seed"
+                }
+            ],
             "rules": [
+                {
+                    "id": "avoid_empty_scrap_shop",
+                    "kind": "forbid",
+                    "tier": "legality",
+                    "rank": 0,
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "ingots",
+                                "op": "le",
+                                "value": 0
+                            },
+                            {
+                                "fact": "seeds",
+                                "op": "le",
+                                "value": 0
+                            },
+                            {
+                                "fact": "sellable_scraps",
+                                "op": "le",
+                                "value": 0
+                            }
+                        ]
+                    },
+                    "candidate_if": {
+                        "all": [
+                            {
+                                "fact": "candidate.node_type",
+                                "op": "eq",
+                                "value": "scrap_shop"
+                            },
+                            {
+                                "fact": "candidate.strategy_end",
+                                "op": "eq",
+                                "value": false
+                            }
+                        ]
+                    }
+                },
                 {
                     "id": "baby_use_processing_item_for_floor1_shop",
                     "description": "第一层优先使用当前背包中的可用加工品抵达普通商店",
@@ -1554,6 +1662,29 @@
         },
         {
             "id": "ending2_route",
+            "shopping_rules": [
+                {
+                    "id": "ending2_sandtable_shop",
+                    "page_intent": "shop.ending2_sandtable_b",
+                    "when": {
+                        "not": {
+                            "all": [
+                                {
+                                    "fact": "current_floor",
+                                    "op": "eq",
+                                    "value": 3
+                                },
+                                {
+                                    "fact": "sandtable_b",
+                                    "op": "eq",
+                                    "value": true
+                                }
+                            ]
+                        }
+                    },
+                    "buy_table": "ending2_sandtable"
+                }
+            ],
             "encounter_rules": [
                 {
                     "id": "ending2_informant",
@@ -1730,7 +1861,7 @@
         {
             "id": "ending1",
             "description": "一结局保底",
-            "modules": ["common_navigation", "ending_development", "ending1_exit"],
+            "modules": ["common_navigation", "ending_development", "ending1_scrap_trade", "ending1_exit"],
             "failure_action": "restart_current_run"
         },
         {
@@ -1969,7 +2100,7 @@
         {
             "id": "ending2",
             "description": "沙盘发育并在第五层进入命运所指",
-            "modules": ["common_navigation", "ending_development", "ending2_route"],
+            "modules": ["common_navigation", "ending_development", "ending_scrap_shop_visit", "ending2_route"],
             "terminal_rules": [
                 {
                     "id": "ending2_completed",
@@ -2046,7 +2177,7 @@
         {
             "id": "ending3",
             "description": "先行一步第二选项、减难藏品、第五层首领和第六层结局",
-            "modules": ["common_navigation", "ending_development", "ending3_route"],
+            "modules": ["common_navigation", "ending_development", "ending_scrap_shop_visit", "ending3_route"],
             "terminal_rules": [
                 {
                     "id": "ending3_completed",

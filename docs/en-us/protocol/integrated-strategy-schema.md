@@ -710,6 +710,8 @@ Item names must not be empty, and `roles` only accepts the uppercase class names
 An empty buy table means there are no purchase candidates, and an empty sell table means nothing is sold.
 Only 黑流树海 currently selects tables by strategy; other themes keep using `priority`.
 
+An item can set a positive integer `price`. When the shop balance can be read, items the balance cannot afford are skipped and the next item is checked; without `price` the behavior is unchanged.
+
 ### Strategy-based shopping table selection in 黑流树海
 
 The 黑流树海 strategy module supports `shopping_rules`. When a page is dispatched, it selects a pair of buy and sell tables based on the current page intent and facts:
