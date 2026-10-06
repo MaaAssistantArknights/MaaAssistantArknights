@@ -6397,10 +6397,10 @@
         ],
         "doc": "制造站芯片列表首行芯片助剂不足时的深红色背景"
     },
-    "OperProgress@ReturnToMfgAfterPurchase": {
+    "OperProgress@ReturnToMfg": {
         "baseTask": "Return",
         "template": "Return.png",
-        "next": ["ChooseChipTabSelected", "OperProgress@MfgPage", "OperProgress@ReturnToMfgAfterPurchase"]
+        "next": ["ChooseChipTabSelected", "OperProgress@MfgPage", "OperProgress@ReturnToMfg"]
     },
     "OperProgress@SkillUpPage": {
         "baseTask": "OperProgress@SkillUpConfirm",
