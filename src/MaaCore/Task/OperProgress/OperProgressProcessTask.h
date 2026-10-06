@@ -58,7 +58,7 @@ private:
     void report_skill_result(battle::Role role, std::string_view name, ResultDetail result, int level);
     // 返回 Completed 时 training_level 为本次训练完成后达到的专精等级；专精需要训练时长，启动不代表达到计划目标。
     ResultDetail
-        execute_mastery(battle::Role role, std::string_view name, int skill, int specialization, int& training_level);
+        execute_mastery(battle::Role role, std::string_view name, int skill, int target_level, int& current_level);
     void report_skill_result(battle::Role role, std::string_view name, ResultDetail result, std::array<int, 3> level);
     ResultDetail find_and_open_operator(battle::Role role, std::string_view name);
     bool select_role(battle::Role role);

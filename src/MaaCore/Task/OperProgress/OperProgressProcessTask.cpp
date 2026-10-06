@@ -163,7 +163,7 @@ bool asst::OperProgressProcessTask::_run()
                 if (arr[i] <= 0) {
                     continue;
                 }
-                int training_level = 0;
+                int training_level = -1;
                 auto skill_ret = execute_mastery(target.role, target.name, i + 1, arr[i], training_level);
                 std::array<int, 3> skill_levels { 0, 0, 0 };
                 skill_levels[i] = skill_ret == ResultDetail::Completed ? training_level : arr[i];
@@ -486,8 +486,8 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
     battle::Role role,
     std::string_view name,
     int skill,
-    int specialization,
-    int& training_level)
+    int target_level,
+    int& current_level)
 {
     // 档案页技能等级 OCR、精英阶段与专精图标识别共用一张截图
     const cv::Mat& image = ctrler()->get_image();
@@ -515,13 +515,14 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
     // 模板匹配分不出来,判级交给 OperFilesImageAnalyzer 按点亮圆点数统计。
     // 识别失败按 0 级处理,与历史行为一致。
     const auto& master_current_opt = OperFilesImageAnalyzer(image).mastery_level(skill);
-    const int master_current = master_current_opt.value_or(0);
-    if (master_current >= specialization) {
+    if (!master_current_opt) {
+        LogError << __FUNCTION__ << "| failed to recognize mastery level for skill" << skill;
+        return ResultDetail::RecognitionFailed;
+    }
+    current_level = *master_current_opt;
+    if (current_level >= target_level) {
         return ResultDetail::AlreadySatisfied;
     }
-
-    // 本次将启动的专精等级,导师评分用的应该是这个等级,而不是计划目标等级。
-    training_level = master_current + 1;
 
     // 从干员档案页的训练按钮直接进入训练室专精页面,保留当前目标干员的上下文。
     if (!run_task("OperProgress@MasteryPageEnter")) {
@@ -560,6 +561,7 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
         return ResultDetail::RecognitionFailed;
     }
     if (run_task("OperProgress@MasterySelectSkillMaxAlready" + std::to_string(skill), 2)) {
+        current_level = 3;
         return ResultDetail::AlreadySatisfied;
     }
 
@@ -571,12 +573,12 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
             return ResultDetail::RecognitionFailed;
         }
         LogInfo << __FUNCTION__ << "| re-recognized mastery level after claim" << *re_recognized_opt;
-        if (*re_recognized_opt >= specialization) {
+        current_level = *re_recognized_opt;
+        if (*re_recognized_opt >= target_level) {
             // 领取后专精等级已达到计划目标,不再启动下一级。
             run_task("OperProgress@ReturnToOperFilesPage");
             return ResultDetail::AlreadySatisfied;
         }
-        training_level = *re_recognized_opt + 1;
     }
 
     if (!run_task("OperProgress@MasterySelectSkill" + std::to_string(skill))) {
@@ -611,8 +613,9 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
     if (!run_task("InfrastTrainingConfirm") || !run_task("InfrastTrainingMasteryPage", 10)) {
         return ResultDetail::RecognitionFailed;
     }
+    current_level = current_level + 1; // 开始专精后当前等级 +1
     // 选好技能之后再选陪练，这样能确保逻各斯类技能触发
-    if (!run_task("OperProgress@MasterySelectTrainer") || !select_training_trainer(role, training_level)) {
+    if (!run_task("OperProgress@MasterySelectTrainer") || !select_training_trainer(role, current_level)) {
         LogWarn << __FUNCTION__ << "| trainer selection failed, training already started";
     }
     return ResultDetail::Completed;
