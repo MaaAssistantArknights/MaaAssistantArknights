@@ -87,7 +87,6 @@ bool asst::BattleProcessTask::set_stage_name(const std::string& stage_name)
     return true;
 }
 
-
 void asst::BattleProcessTask::set_formation_task_ptr(
     std::shared_ptr<std::unordered_map<battle::OperNameTag, std::string>> value)
 {

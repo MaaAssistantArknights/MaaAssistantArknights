@@ -570,10 +570,9 @@ std::optional<asst::RoguelikeStageEncounterTaskPlugin::SelectedOption>
     bool used_fallback = false;
     if (!plan.option_text.empty()) {
         for (const std::string& target : plan.option_text) {
-            const auto option_it =
-                std::ranges::find_if(m_option_list, [&target](const OptionAnalyzer::Option& option) {
-                    return option.text == target && option.enabled;
-                });
+            const auto option_it = std::ranges::find_if(m_option_list, [&target](const OptionAnalyzer::Option& option) {
+                return option.text == target && option.enabled;
+            });
             if (option_it != m_option_list.end()) {
                 choice = std::distance(m_option_list.begin(), option_it) + 1;
                 break;
@@ -824,8 +823,8 @@ bool asst::RoguelikeStageEncounterTaskPlugin::move_to_option_list_head()
 {
     LogTraceFunction;
 
-    return !need_exit() &&
-           ProcessTask(*this, { m_config->get_theme() + "@RoguelikeEncounter-InitialMoveUp" }).run() && !need_exit();
+    return !need_exit() && ProcessTask(*this, { m_config->get_theme() + "@RoguelikeEncounter-InitialMoveUp" }).run() &&
+           !need_exit();
 }
 
 bool asst::RoguelikeStageEncounterTaskPlugin::move_forward()
