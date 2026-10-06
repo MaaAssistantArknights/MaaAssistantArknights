@@ -171,6 +171,10 @@ For specific differences, see the [source code](https://github.com/MaaAssistantA
 
 ### MuMu Screenshot Enhanced Mode
 
+::: tip
+The screenshot and touch enhancements described here apply to MuMu for Windows x64.
+:::
+
 **Version Requirement**: Official/Arknights-specific MuMu V4.1.26 or above, or Global MuMu V5.21.3 or above. <!-- Official V3.8.13 supports initial enhanced screenshots -->
 
 1. In `Settings` - `Connection Settings`, check `Enable MuMu Screenshot Enhanced Mode`. MAA will automatically try to get the installation path from the registry when you check this option.

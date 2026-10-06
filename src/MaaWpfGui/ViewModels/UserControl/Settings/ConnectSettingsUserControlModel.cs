@@ -97,6 +97,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         (ConnectConfig.General, "General"),
         (ConnectConfig.BlueStacks, "BlueStacks"),
         (ConnectConfig.MuMuEmulator12, "MuMuEmulator12"),
+        (ConnectConfig.MuMuArm, "MuMuArm"),
         (ConnectConfig.LDPlayer, "LDPlayer"),
         (ConnectConfig.Androws, "Androws"),
         (ConnectConfig.AVD, "AVD"),
@@ -383,6 +384,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public Dictionary<string, List<string>> DefaultAddress { get; } = new()
         {
             { "General", [string.Empty] },
+            { "MuMuArm", [] },
             { "BlueStacks", ["127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5565", "127.0.0.1:5575", "127.0.0.1:5585", "127.0.0.1:5595", "127.0.0.1:5554"] },
             { "MuMuEmulator12", ["127.0.0.1:16384", "127.0.0.1:16416", "127.0.0.1:16448", "127.0.0.1:16480", "127.0.0.1:16512", "127.0.0.1:16544", "127.0.0.1:16576"] },
             { "LDPlayer", ["emulator-5554", "emulator-5556", "emulator-5558", "emulator-5560", "127.0.0.1:5555", "127.0.0.1:5557", "127.0.0.1:5559", "127.0.0.1:5561"] },
@@ -436,6 +438,10 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         try
         {
             emulators = adapter.RefreshEmulatorsInfo();
+            if (ConnectConfig == ConnectConfig.MuMuArm)
+            {
+                emulators.RemoveAll(emulator => emulator.EmulatorName != ConnectConfig.MuMuArm);
+            }
         }
         catch (Exception e)
         {
@@ -479,6 +485,20 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         {
             error = LocalizationHelper.GetString("AdbException");
             return false;
+        }
+
+        // MuMu ARM exposes its endpoint in the running instance's state file,
+        // even before it appears in `adb devices`. Never select an unrelated device.
+        if (selectedEmulator?.EmulatorName == ConnectConfig.MuMuArm)
+        {
+            if (string.IsNullOrEmpty(selectedEmulator.Address))
+            {
+                error = LocalizationHelper.GetString("MuMuArmConnectionNotReady");
+                return false;
+            }
+
+            ConnectAddress = selectedEmulator.Address;
+            return true;
         }
 
         var addresses = WinAdapter.GetAdbAddresses(AdbPath);
@@ -578,8 +598,26 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     private static Window? _imagePopupWindow;
 
     /// <summary>
+    /// Enables persistent detection of the running MuMu ARM instance and tests its connection and screenshot.
+    /// </summary>
+    /// <returns>Task</returns>
+    [UsedImplicitly]
+    public async Task DetectMuMuArmConnection()
+    {
+        if (!_runningState.GetIdle())
+        {
+            return;
+        }
+
+        AutoDetectConnection = true;
+
+        // MuMu ARM can receive a new IP address when the instance restarts.
+        AlwaysAutoDetectConnection = true;
+        await TestLinkAndGetImage();
+    }
+
+    /// <summary>
     /// Test Link And Get Image.
-    /// UI 绑定的方法
     /// </summary>
     /// <returns>Task</returns>
     [UsedImplicitly]

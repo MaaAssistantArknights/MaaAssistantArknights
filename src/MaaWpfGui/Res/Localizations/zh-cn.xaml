@@ -234,6 +234,9 @@
     <system:String x:Key="General">通用模式</system:String>
     <system:String x:Key="BlueStacks">蓝叠模拟器</system:String>
     <system:String x:Key="MuMuEmulator12">MuMu 模拟器</system:String>
+    <system:String x:Key="MuMuArm">MuMu 模拟器（Windows ARM）</system:String>
+    <system:String x:Key="MuMuArmDetectAndTest">自动检测并测试</system:String>
+    <system:String x:Key="MuMuArmConnectionNotReady">无法读取 MuMu ARM 的 ADB 地址。请等待模拟器启动完成后重试，或关闭自动检测并手动填写连接地址。</system:String>
     <system:String x:Key="AVD">Android 虚拟设备（AVD）</system:String>
     <system:String x:Key="LDPlayer">雷电模拟器</system:String>
     <system:String x:Key="Androws">应用宝模拟器</system:String>
