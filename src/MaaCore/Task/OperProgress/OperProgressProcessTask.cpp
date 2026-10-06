@@ -443,11 +443,11 @@ void asst::OperProgressProcessTask::report_skill_result(
     int level)
 {
     const auto process_result = [&]() {
-        switch (result) {
-        case ResultDetail::Completed:
+        switch (result) {        
         case ResultDetail::AlreadySatisfied:
             m_success++;
             return Result::Success; // 目标已达成
+        case ResultDetail::Completed:
         case ResultDetail::TrainingRoomBusy:
             m_skipped++;
             return Result::Skipped;
