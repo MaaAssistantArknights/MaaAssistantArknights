@@ -13,13 +13,10 @@
 
 #nullable enable
 using System;
-using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using MaaWpfGui.Configuration.Single.Settings;
-using MaaWpfGui.Constants.Enums;
-using MaaWpfGui.Services.Notification;
 
 namespace MaaWpfGui.Configuration.Converter.Specific;
 
@@ -55,17 +52,23 @@ internal sealed class NotificationSettingsMigrationConverter : JsonConverter<Gui
         }
 
         // Preserve current settings; migrate only the pre-branch boolean options.
-        if (external["Content"] is not JsonObject
-            && (external.ContainsKey("SendWhenComplete") || external.ContainsKey("SendWhenError")
-                || external.ContainsKey("SendWhenStalled") || external.ContainsKey("ShowWhenCompleteWithDetails")))
+        if (external["Delivery"] is not JsonObject)
         {
-            var content = new ExternalNotification.ContentSettings();
-            MigrateExternal(content,
-                ReadBoolean(external, "SendWhenComplete", true),
-                ReadBoolean(external, "SendWhenError", true),
-                ReadBoolean(external, "SendWhenStalled", false),
-                ReadBoolean(external, "ShowWhenCompleteWithDetails", false));
-            external["Content"] = JsonSerializer.SerializeToNode(content, options);
+            var delivery = new ExternalNotification.DeliverySettings {
+                Enable = external["Configs"] is JsonArray { Count: > 0 },
+                SendBeforeScheduledStart = ReadBoolean(external, "SendBeforeScheduledStart", false),
+            };
+            if (external.ContainsKey("SendWhenComplete") || external.ContainsKey("SendWhenError")
+                || external.ContainsKey("SendWhenStalled") || external.ContainsKey("ShowWhenCompleteWithDetails"))
+            {
+                MigrateExternal(delivery,
+                    ReadBoolean(external, "SendWhenComplete", true),
+                    ReadBoolean(external, "SendWhenError", true),
+                    ReadBoolean(external, "SendWhenStalled", false),
+                    ReadBoolean(external, "ShowWhenCompleteWithDetails", false));
+            }
+
+            external["Delivery"] = JsonSerializer.SerializeToNode(delivery, options);
         }
 
         return gui.Deserialize<Gui>(WithoutThisConverter(options));
@@ -75,19 +78,14 @@ internal sealed class NotificationSettingsMigrationConverter : JsonConverter<Gui
         JsonSerializer.Serialize(writer, value, WithoutThisConverter(options));
 
     // The pre-branch configuration and its gui.json importer share this mapping.
-    internal static void MigrateExternal(ExternalNotification.ContentSettings channel,
+    internal static void MigrateExternal(ExternalNotification.DeliverySettings delivery,
         bool sendWhenComplete, bool sendWhenError, bool sendWhenStalled, bool includeDetails)
     {
-        var tags = new[] {
-            (Tag: NotificationTag.TaskComplete, Enabled: sendWhenComplete),
-            (Tag: NotificationTag.TaskError, Enabled: sendWhenError),
-            (Tag: NotificationTag.Stalled, Enabled: sendWhenStalled),
-        }.Where(item => item.Enabled).Select(item => NotificationMessage.FormatTag(item.Tag)).ToArray();
-        channel.UseIndependent = true;
-        channel.Enable = tags.Length != 0;
-        channel.FilterMode = NotificationFilterMode.Whitelist;
-        channel.FilterList = string.Join("|", tags);
-        channel.MaxEntries = includeDetails ? 100 : 0;
+        delivery.SendWhenComplete = sendWhenComplete;
+        delivery.SendWhenError = sendWhenError;
+        delivery.SendWhenStalled = sendWhenStalled;
+        delivery.IncludePreviousLogs = includeDetails;
+        delivery.MaxEntries = includeDetails ? 100 : 2;
     }
 
     private static void Copy(JsonObject source, JsonObject target, string oldName, string newName)

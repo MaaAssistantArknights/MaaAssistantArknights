@@ -14,8 +14,9 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using ExternalNotificationContentSettings = MaaWpfGui.Configuration.Single.Settings.ExternalNotification.ContentSettings;
+using ExternalNotificationDeliverySettings = MaaWpfGui.Configuration.Single.Settings.ExternalNotification.DeliverySettings;
 
 namespace MaaWpfGui.Services.Notification;
 
@@ -24,35 +25,70 @@ public sealed class NotificationHistory
 {
     private const int Capacity = 10000;
     private readonly Queue<NotificationEvent> _events = new();
+    private readonly NotificationFilter _blacklist = new();
 
     public void Add(NotificationEvent notification)
     {
         _events.Enqueue(notification);
-        var cutoff = notification.Timestamp.AddMinutes(-10080);
-        while (_events.Count > Capacity || (_events.TryPeek(out var first) && first.Timestamp < cutoff))
+        while (_events.Count > Capacity)
         {
             _events.Dequeue();
         }
     }
 
-    public string Bundle(NotificationEvent current, ExternalNotificationContentSettings policy)
+    public string Bundle(NotificationEvent current, ExternalNotificationDeliverySettings policy)
     {
-        if (policy.MaxEntries == 0)
+        var body = current.Message?.Content ?? current.Content;
+        var maxEntries = Math.Clamp(policy.MaxEntries, 0, Capacity);
+        if (!policy.IncludePreviousLogs || maxEntries == 0)
         {
-            return current.Message?.Content ?? current.Content;
+            return body;
         }
 
         var cutoff = policy.TimeMinutes == 0
             ? DateTimeOffset.MinValue
             : current.Timestamp.AddMinutes(-policy.TimeMinutes);
 
-        // The dispatch rule selects the trigger, not its context. Preserve each
-        // event's real tag and append the payload once, with its original title.
-        var context = _events
-            .Where(item => item.Source == current.Source && item.Timestamp >= cutoff && !ReferenceEquals(item, current))
-            .TakeLast(Math.Clamp(policy.MaxEntries, 0, Capacity))
-            .Select(item => $"[{item.Timestamp:HH:mm:ss}][{item.Color}] {item.Content}");
-        return string.Join(Environment.NewLine, context.Append(current.Message?.Content ?? current.Content));
+        // Scan from newest to oldest. Only unfiltered, unexpired logs count
+        // toward the attachment limit; the current payload is always kept.
+        var previous = new List<NotificationEvent>();
+        var started = Stopwatch.GetTimestamp();
+        foreach (var item in _events.Reverse())
+        {
+            if (item.Timestamp < cutoff || ReferenceEquals(item, current))
+            {
+                continue;
+            }
+
+            if (policy.FilterPreviousLogs)
+            {
+                if (Stopwatch.GetElapsedTime(started) > TimeSpan.FromMilliseconds(100))
+                {
+                    return body;
+                }
+
+                var matches = _blacklist.Matches(policy.Blacklist, item.Content);
+                if (matches is null)
+                {
+                    return body;
+                }
+
+                if (matches.Value)
+                {
+                    continue;
+                }
+            }
+
+            previous.Add(item);
+            if (previous.Count == maxEntries)
+            {
+                break;
+            }
+        }
+
+        previous.Reverse();
+        var context = previous.Select(item => $"[{item.Timestamp:HH:mm:ss}][{item.Color}] {item.Content}");
+        return string.Join(Environment.NewLine, context.Append(body));
     }
 
     public void Clear(NotificationSource source)

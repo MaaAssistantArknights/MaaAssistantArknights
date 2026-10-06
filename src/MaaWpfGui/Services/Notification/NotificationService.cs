@@ -20,6 +20,7 @@ using MaaWpfGui.Services.ExternalNotification;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
+using ExternalNotificationDeliverySettings = MaaWpfGui.Configuration.Single.Settings.ExternalNotification.DeliverySettings;
 
 namespace MaaWpfGui.Services.Notification;
 
@@ -27,7 +28,7 @@ namespace MaaWpfGui.Services.Notification;
 // deliver already selected payloads and do not call this service again.
 public sealed class NotificationService
 {
-    private readonly NotificationFilter _externalFilter = new();
+    private readonly NotificationTrigger _externalTrigger = new();
     private readonly NotificationHistory _history = new();
 
     public NotificationService() => RunningState.Instance.StallOccurred += OnStalled;
@@ -37,7 +38,7 @@ public sealed class NotificationService
         Execute.OnUIThread(() => {
             var message = LocalizationHelper.GetStringFormat("TaskStallWarning", initialMinutes, accumulatedMinutes);
             Notify(owner == RunOwner.Copilot ? NotificationSource.Copilot : NotificationSource.TaskQueue,
-                new(NotificationTag.Stalled, message, message), UiLogColor.Warning);
+                new(NotificationKind.Stalled, message, message), UiLogColor.Warning);
         });
     }
 
@@ -47,7 +48,7 @@ public sealed class NotificationService
     public void Notify(NotificationSource source, NotificationMessage message,
         string color = UiLogColor.Trace, string? logContent = null, Action? display = null)
     {
-        if (message.Tag != NotificationTag.Stalled)
+        if (message.Kind != NotificationKind.Stalled)
         {
             RunningState.Instance.NotifyOutputActivity();
         }
@@ -75,6 +76,32 @@ public sealed class NotificationService
         }
     }
 
+    public void TestExternalNotification() => Execute.OnUIThread(() => {
+        if (!CanSendExternal)
+        {
+            return;
+        }
+
+        SendExternal(LocalizationHelper.GetString("ExternalNotificationSendTestTitle"),
+            LocalizationHelper.GetString("ExternalNotificationSendTestContent"), true);
+    });
+
+    public void NotifyScheduledStart(string title, string content) => Execute.OnUIThread(() => {
+        var policy = ExternalPolicy;
+        if (!CanSendExternal || !policy.SendBeforeScheduledStart)
+        {
+            return;
+        }
+
+        // A scheduled notification is not a new displayed log entry.
+        var notification = new NotificationEvent(DateTimeOffset.Now, NotificationSource.TaskQueue, content, UiLogColor.Trace);
+        SendExternal(title, _history.Bundle(notification, policy));
+    });
+
+    private static ExternalNotificationDeliverySettings ExternalPolicy => SettingsViewModel.ExternalNotificationSettings.DeliverySettings.Settings;
+
+    private static bool CanSendExternal => ExternalPolicy.Enable && SettingsViewModel.ExternalNotificationSettings.ConfigCount > 0;
+
     private void Publish(NotificationSource source, string? content, Action display,
         string color, NotificationMessage? message = null)
     {
@@ -93,7 +120,7 @@ public sealed class NotificationService
         // Publication owns UI dispatch; a display callback never republishes the event.
         _history.Add(notification);
         if (SettingsViewModel.NotificationSettings.UseNotify
-            && notification.Message?.Tag is NotificationTag.TaskError or NotificationTag.TaskComplete or NotificationTag.Test)
+            && notification.Message?.Kind is NotificationKind.TaskError or NotificationKind.TaskComplete)
         {
             using var toast = new ToastNotification(notification.Message?.Title ?? notification.Content);
             if (notification.Message is { } message && message.Content != message.Title)
@@ -104,13 +131,19 @@ public sealed class NotificationService
             toast.Show();
         }
 
-        var externalPolicy = SettingsViewModel.ExternalNotificationSettings.ContentSettings.Effective;
-        if (_externalFilter.ShouldSend(externalPolicy, notification))
+        var externalPolicy = ExternalPolicy;
+        if (_externalTrigger.ShouldSend(externalPolicy, notification, SettingsViewModel.ExternalNotificationSettings.ConfigCount > 0))
         {
-            ExternalNotificationService.Send(
+            SendExternal(
                 notification.Message?.Title ?? notification.Content,
                 _history.Bundle(notification, externalPolicy));
         }
+    }
+
+    private void SendExternal(string title, string content, bool isTest = false)
+    {
+        _externalTrigger.Reset();
+        ExternalNotificationService.Send(title, content, isTest);
     }
 
     public void Clear(NotificationSource source) => Execute.OnUIThread(() => _history.Clear(source));

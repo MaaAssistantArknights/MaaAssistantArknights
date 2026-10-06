@@ -37,7 +37,6 @@ using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
-using MaaWpfGui.Services.ExternalNotification;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
@@ -1107,7 +1106,8 @@ public class TaskQueueViewModel : Screen
     {
         var settings = SettingsViewModel.TimerSettings;
         var notifyDesktop = settings.NotifyBeforeScheduledStart;
-        var notifyExternal = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendBeforeScheduledStart;
+        var delivery = SettingsViewModel.ExternalNotificationSettings.DeliverySettings;
+        var notifyExternal = delivery.Enable && delivery.SendBeforeScheduledStart;
         if (!notifyDesktop && !notifyExternal)
         {
             return;
@@ -1139,7 +1139,7 @@ public class TaskQueueViewModel : Screen
 
             if (notifyExternal)
             {
-                ExternalNotificationService.Send(title, content);
+                Instances.NotificationService.NotifyScheduledStart(title, content);
             }
         }
     }

@@ -29,6 +29,11 @@ public static class ExternalNotificationService
     {
         foreach (var config in notificationList)
         {
+            if (!SettingsViewModel.ExternalNotificationSettings.DeliverySettings.Enable)
+            {
+                return;
+            }
+
             var channel = ExternalNotificationChannel.ForEditor(config);
             var result = false;
             _logger.Debug("Sending external notification via {Provider} (test: {IsTest}, title length: {TitleLength}, content length: {ContentLength})",
@@ -72,8 +77,15 @@ public static class ExternalNotificationService
     /// <param name="isTest">Indicate if it is a test or not.</param>
     public static void Send(string title, string content, bool isTest = false)
     {
+        if (!SettingsViewModel.ExternalNotificationSettings.DeliverySettings.Enable)
+        {
+            return;
+        }
+
         // Snapshot on the UI thread before asynchronous provider delivery.
-        var configurations = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationConfigs.ToArray();
+        var configurations = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationConfigs
+            .Select(config => ExternalNotificationChannel.ForEditor(config)?.ReadConfig(config.ToConfig()) ?? config)
+            .ToArray();
         _ = SendAsync("[MAA] " + title, content, configurations, isTest);
     }
 }

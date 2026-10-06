@@ -46,7 +46,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
 
     public ExternalNotificationSettingsUserControlModel()
     {
-        ContentSettings = new(ConfigFactory.CurrentConfig.Gui.ExternalNotification.Content);
+        DeliverySettings = new(ConfigFactory.CurrentConfig.Gui.ExternalNotification.Delivery);
         ExternalNotificationConfigs = new(ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs
             .Select(config => ExternalNotificationChannel.ForConfig(config).ReadConfig(config)));
         ExternalNotificationConfigs.CollectionChanged += OnConfigsChanged;
@@ -56,7 +56,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
 
     public static ExternalNotificationSettingsUserControlModel Instance { get; }
 
-    public ExternalNotificationContentSettingsModel ContentSettings { get; }
+    public ExternalNotificationDeliverySettingsModel DeliverySettings { get; }
 
     public LocalizedObservableList<ExternalNotificationChannel> ExternalNotificationProviderList { get; } = new(
         ExternalNotificationChannel.All.Select(channel => (channel, channel.LocalizationKey)).ToArray());
@@ -65,19 +65,8 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
 
     public int ConfigCount => ExternalNotificationConfigs.Count;
 
-    public bool ExternalNotificationSendBeforeScheduledStart
-    {
-        get => ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendBeforeScheduledStart;
-        set {
-            ConfigFactory.CurrentConfig.Gui.ExternalNotification.SendBeforeScheduledStart = value;
-            NotifyOfPropertyChange();
-        }
-    }
-
     [UsedImplicitly]
-    public static void ExternalNotificationSendTest() =>
-        ExternalNotificationService.Send(LocalizationHelper.GetString("ExternalNotificationSendTestTitle"),
-            LocalizationHelper.GetString("ExternalNotificationSendTestContent"), true);
+    public static void ExternalNotificationSendTest() => Instances.NotificationService.TestExternalNotification();
 
     public void AddConfig(object sender, RoutedEventArgs e)
     {

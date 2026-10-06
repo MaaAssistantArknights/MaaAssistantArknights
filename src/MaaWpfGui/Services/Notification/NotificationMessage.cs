@@ -14,12 +14,11 @@
 #nullable enable
 namespace MaaWpfGui.Services.Notification;
 
-public enum NotificationTag
+public enum NotificationKind
 {
     TaskError,
     TaskComplete,
     Stalled,
-    Test,
 }
 
 public enum NotificationSource
@@ -29,8 +28,4 @@ public enum NotificationSource
 }
 
 // A notification's payload is independent of its log presentation.
-public sealed record NotificationMessage(NotificationTag Tag, string Title, string Content)
-{
-    // Angle brackets are literal characters in regex rules.
-    public static string FormatTag(NotificationTag tag) => $"<{tag}>";
-}
+public sealed record NotificationMessage(NotificationKind Kind, string Title, string Content);

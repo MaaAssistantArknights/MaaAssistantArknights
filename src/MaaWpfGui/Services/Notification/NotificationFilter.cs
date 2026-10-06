@@ -13,11 +13,10 @@
 
 #nullable enable
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
-using MaaWpfGui.Constants.Enums;
 using Serilog;
-using ExternalNotificationContentSettings = MaaWpfGui.Configuration.Single.Settings.ExternalNotification.ContentSettings;
 
 namespace MaaWpfGui.Services.Notification;
 
@@ -25,37 +24,44 @@ namespace MaaWpfGui.Services.Notification;
 public sealed class NotificationFilter
 {
     private static readonly ILogger _logger = Log.ForContext<NotificationFilter>();
+    private static readonly TimeSpan _matchTimeout = TimeSpan.FromMilliseconds(50);
 
     private string? _patternText;
     private Regex[] _patterns = [];
     private bool _valid = true;
 
-    public bool ShouldSend(ExternalNotificationContentSettings policy, NotificationEvent notification)
+    // Null means that the expression is invalid or timed out. Callers can handle
+    // invalid trigger rules and invalid attachment rules independently.
+    public bool? Matches(string patterns, string content)
     {
-        if (!policy.Enable)
+        if (!UpdatePatterns(patterns))
         {
-            return false;
-        }
-
-        if (policy.FilterMode == NotificationFilterMode.None)
-        {
-            return true;
-        }
-
-        if (!UpdatePatterns(policy.FilterList))
-        {
-            return false;
+            return null;
         }
 
         try
         {
-            var matches = _patterns.Any(pattern => pattern.IsMatch(notification.FilterContent));
-            return policy.FilterMode == NotificationFilterMode.Blacklist ? !matches : matches;
+            var started = Stopwatch.GetTimestamp();
+            foreach (var pattern in _patterns)
+            {
+                if (Stopwatch.GetElapsedTime(started) > _matchTimeout)
+                {
+                    _logger.Warning("Notification filter exceeded the matching time budget");
+                    return null;
+                }
+
+                if (pattern.IsMatch(content))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
         catch (RegexMatchTimeoutException ex)
         {
             _logger.Warning(ex, "Notification filter timed out");
-            return false;
+            return null;
         }
     }
 
@@ -97,6 +103,6 @@ public sealed class NotificationFilter
 
     private static Regex[] Parse(string patterns) => patterns
         .Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-        .Select(pattern => new Regex(pattern, RegexOptions.CultureInvariant, TimeSpan.FromMilliseconds(50)))
+        .Select(pattern => new Regex(pattern, RegexOptions.CultureInvariant, _matchTimeout))
         .ToArray();
 }

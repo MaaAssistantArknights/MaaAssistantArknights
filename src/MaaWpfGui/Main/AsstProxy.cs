@@ -1427,13 +1427,13 @@ public class AsstProxy
                     if (isCopilotTaskChain)
                     {
                         DisplayErrorLog();
-                        Instances.NotificationService.Notify(NotificationSource.Copilot, new(NotificationTag.TaskError, log, log),
+                        Instances.NotificationService.Notify(NotificationSource.Copilot, new(NotificationKind.TaskError, log, log),
                             UiLogColor.Error, logContent: LocalizationHelper.GetString("CombatError"));
                         AchievementTrackerHelper.Instance.Unlock(AchievementIds.CopilotError);
                     }
                     else
                     {
-                        Instances.NotificationService.Notify(NotificationSource.TaskQueue, new(NotificationTag.TaskError, log, log),
+                        Instances.NotificationService.Notify(NotificationSource.TaskQueue, new(NotificationKind.TaskError, log, log),
                             UiLogColor.Error, display: DisplayErrorLog);
                     }
 
@@ -1619,7 +1619,7 @@ public class AsstProxy
                         ? allTaskCompleteContent
                         : allTaskCompleteContent + Environment.NewLine + sanityReport;
                     AddTaskCompletionLog(allTaskCompleteLog, hasTaskErrors,
-                        new(NotificationTag.TaskComplete, allTaskCompleteTitle, notificationContent));
+                        new(NotificationKind.TaskComplete, allTaskCompleteTitle, notificationContent));
 
                     if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
                     {
@@ -1641,7 +1641,7 @@ public class AsstProxy
                 else if (runOwner == RunOwner.Copilot)
                 {
                     var message = LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(taskChain);
-                    Instances.NotificationService.Notify(NotificationSource.Copilot, new(NotificationTag.TaskComplete, message, message));
+                    Instances.NotificationService.Notify(NotificationSource.Copilot, new(NotificationKind.TaskComplete, message, message));
                 }
 
                 if (buyWine)
@@ -1948,7 +1948,7 @@ public class AsstProxy
 
                         case "FightMissionFailedAndStop":
                             var fightError = LocalizationHelper.GetString("FightMissionFailedAndStop");
-                            Instances.NotificationService.Notify(NotificationSource.TaskQueue, new(NotificationTag.TaskError, fightError, fightError), UiLogColor.Error);
+                            Instances.NotificationService.Notify(NotificationSource.TaskQueue, new(NotificationKind.TaskError, fightError, fightError), UiLogColor.Error);
                             break;
 
                         case "CheckEncounter-Uncollected":
@@ -1956,7 +1956,7 @@ public class AsstProxy
                                 var title = LocalizationHelper.GetString("MiniGame@InteractiveExhibition@UncollectedNotificationTitle");
                                 var content = LocalizationHelper.GetString("MiniGame@InteractiveExhibition@UncollectedNotificationContent");
 
-                                Instances.NotificationService.Notify(NotificationSource.TaskQueue, new(NotificationTag.TaskComplete, title, content),
+                                Instances.NotificationService.Notify(NotificationSource.TaskQueue, new(NotificationKind.TaskComplete, title, content),
                                     UiLogColor.Warning, display: () => Instances.TaskQueueViewModel.DisplayLog(content, UiLogColor.Warning, updateCardImage: true));
 
                                 break;
@@ -2039,7 +2039,7 @@ public class AsstProxy
                             }
 
                             var log = LocalizationHelper.GetString("GameDrop");
-                            Instances.NotificationService.Notify(NotificationSource.TaskQueue, new(NotificationTag.TaskError, log, log), UiLogColor.Error);
+                            Instances.NotificationService.Notify(NotificationSource.TaskQueue, new(NotificationKind.TaskError, log, log), UiLogColor.Error);
                             _ = Instances.TaskQueueViewModel.Stop();
                             break;
 

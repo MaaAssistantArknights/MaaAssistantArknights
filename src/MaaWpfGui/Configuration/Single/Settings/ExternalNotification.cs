@@ -14,11 +14,8 @@
 #nullable enable
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text.Json.Serialization;
-using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Models;
-using MaaWpfGui.Services.Notification;
 using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 
 namespace MaaWpfGui.Configuration.Single.Settings;
@@ -31,38 +28,55 @@ public partial class ExternalNotification : NotifyPropertyChangedWithValue, IJso
     [JsonInclude]
     public ObservableCollection<Base> Configs { get; private set; } = [];
 
-    public bool SendBeforeScheduledStart { get; set; }
-
     [JsonInclude]
-    public ContentSettings Content { get; private set; } = new();
+    public DeliverySettings Delivery { get; private set; } = new();
 
     public void EventBinding(string prefix)
     {
         PropertyChanged += Handler.OnPropertyChangedFactory(prefix);
-        Content.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(Content) + ".");
+        Delivery.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(Delivery) + ".");
         Configs.CollectionChanged += Handler.OnCollectionChangedFactory<Base>(prefix);
     }
 
-    public void OnDeserialized() => Content ??= new();
+    public void OnDeserialized() => Delivery ??= new();
 
-    public class ContentSettings : NotifyPropertyChangedWithValue, IJsonOnDeserialized
+    public class DeliverySettings : NotifyPropertyChangedWithValue, IJsonOnDeserialized
     {
-        public bool UseIndependent { get; set; }
+        public bool Enable { get; set; }
 
-        public bool Enable { get; set; } = true;
+        public bool SendWhenComplete { get; set; } = true;
 
-        public NotificationFilterMode FilterMode { get; set; } = NotificationFilterMode.Whitelist;
+        public bool SendWhenError { get; set; } = true;
 
-        public string FilterList { get; set; } = string.Join("|",
-            new[] { NotificationTag.TaskError, NotificationTag.TaskComplete, NotificationTag.Stalled }.Select(NotificationMessage.FormatTag));
+        public bool SendWhenStalled { get; set; }
 
-        public int MaxEntries { get; set; } = 100;
+        public bool SendBeforeScheduledStart { get; set; }
+
+        public bool UseCustomConditions { get; set; }
+
+        public bool SendAfterLogCount { get; set; }
+
+        public int NewLogCount { get; set; } = 10;
+
+        public bool SendWhenContentMatches { get; set; }
+
+        public string Whitelist { get; set; } = string.Empty;
+
+        public bool IncludePreviousLogs { get; set; }
+
+        public int MaxEntries { get; set; } = 2;
 
         public int TimeMinutes { get; set; } = 60;
 
+        public bool FilterPreviousLogs { get; set; }
+
+        public string Blacklist { get; set; } = string.Empty;
+
         public void OnDeserialized()
         {
-            FilterList ??= string.Empty;
+            Whitelist ??= string.Empty;
+            Blacklist ??= string.Empty;
+            NewLogCount = Math.Clamp(NewLogCount, 1, 10000);
             MaxEntries = Math.Clamp(MaxEntries, 0, 10000);
             TimeMinutes = Math.Clamp(TimeMinutes, 0, 10080);
         }

@@ -16,13 +16,10 @@ using System;
 
 namespace MaaWpfGui.Services.Notification;
 
-// Immutable history preserves original text and tags even when a UI log changes.
+// Immutable history preserves original log text even when its UI presentation changes.
 public sealed record NotificationEvent(
     DateTimeOffset Timestamp,
     NotificationSource Source,
     string Content,
     string Color,
-    NotificationMessage? Message = null)
-{
-    public string FilterContent => Message is null ? Content : $"{NotificationMessage.FormatTag(Message.Tag)} {Content}";
-}
+    NotificationMessage? Message = null);

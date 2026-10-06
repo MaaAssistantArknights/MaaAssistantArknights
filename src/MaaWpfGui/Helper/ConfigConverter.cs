@@ -711,7 +711,8 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationCustomWebhookBody);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationCustomWebhookHeaders);
 
-                NotificationSettingsMigrationConverter.MigrateExternal(ConfigFactory.CurrentConfig.Gui.ExternalNotification.Content,
+                ConfigFactory.CurrentConfig.Gui.ExternalNotification.Delivery.Enable = ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Count > 0;
+                NotificationSettingsMigrationConverter.MigrateExternal(ConfigFactory.CurrentConfig.Gui.ExternalNotification.Delivery,
                     ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenComplete, true),
                     ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenError, true),
                     ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenStalled, false),
