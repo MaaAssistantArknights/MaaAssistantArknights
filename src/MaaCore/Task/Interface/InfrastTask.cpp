@@ -341,8 +341,8 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
                     room_config.product = iter->second;
                 }
                 else {
-                    Log.error("Unknown product", product);
-                    return false;
+                    // 兼容配置表先于 Core 更新，未知产物保留默认 Unknown，该房间照常换人但不校验、不更换产物
+                    Log.warn(__FUNCTION__, "Unknown product, keep as Unknown:", product);
                 }
             }
 
@@ -411,8 +411,9 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
             m_dorm_task_ptr->set_custom_config(facility_config);
         }
         else {
-            Log.error(__FUNCTION__, "unknown facility", facility);
-            return false;
+            // 兼容游戏新增设施、配置表先于 MAA 适配的场景，不认识的设施类型直接跳过，不影响已知设施
+            Log.warn(__FUNCTION__, "unknown facility, skip:", facility);
+            continue;
         }
     }
 
