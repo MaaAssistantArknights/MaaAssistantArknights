@@ -50,7 +50,7 @@
     <system:String x:Key="Off">シャットダウン</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
     <system:String x:Key="ExternalNotificationEnabled">通知構成の有効化</system:String>
-    <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">定時実行前に通知を送信</system:String>
+    <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">定時実行前</system:String>
     <system:String x:Key="ExternalNotificationSendBeforeScheduledStartTip" xml:space="preserve">定時タスクの開始前に外部通知を送信します。&#10;通知するタイミングは ｢{key=ScheduleSettings}｣ の ｢{key=ScheduledStartNotificationMinutes}｣ 設定を使用します。</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">正常に送信</system:String>
     <system:String x:Key="ExternalNotificationSendFail">送信に失敗しました</system:String>
@@ -2703,7 +2703,6 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="ExternalNotificationWhenError">タスクエラー発生時</system:String>
     <system:String x:Key="ExternalNotificationWhenStalled">タスクのログ出力停止時</system:String>
     <system:String x:Key="ExternalNotificationWhenStalledTip" xml:space="preserve">｢{key=NotificationSettings}｣で｢{key=StallTimeoutEnabled}｣を有効にしてください。&#10;設定した時間内に新しいログが出力されない場合に送信します。</system:String>
-    <system:String x:Key="ExternalNotificationCustomConditions">その他のカスタム条件</system:String>
     <system:String x:Key="ExternalNotificationNewLogCount">新規ログ数</system:String>
     <system:String x:Key="ExternalNotificationNewLogCountTip" xml:space="preserve">前回の外部通知が送信された後、新しいログ項目を数えます。&#10;指定した数に達すると送信します。&#10;タスク完了やエラーなど、他の条件で通知が送信された場合もカウントをリセットします。</system:String>
     <system:String x:Key="ExternalNotificationContentMatches">ログに特定の内容を含む場合</system:String>
@@ -2711,7 +2710,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="ExternalNotificationWhitelistTip" xml:space="preserve">各行に正規表現を入力します。&#10;現在のログがいずれかの行に一致すると通知を送信します。&#10;空のホワイトリストではこの条件は発動しません。</system:String>
     <system:String x:Key="ExternalNotificationIncludePreviousLogs">過去のログを添付</system:String>
     <system:String x:Key="ExternalNotificationIncludePreviousLogsTip" xml:space="preserve">現在のログに加えて過去のログを添付します。&#10;ログ数と有効時間で添付する範囲を指定します。</system:String>
-    <system:String x:Key="ExternalNotificationPreviousLogCount">ログ数</system:String>
+    <system:String x:Key="ExternalNotificationPreviousLogCount">添付ログ数</system:String>
     <system:String x:Key="ExternalNotificationPreviousLogCountTip" xml:space="preserve">現在のログを除き、指定した件数までの過去のログを添付します。&#10;0の場合は現在のログのみを送信します。</system:String>
     <system:String x:Key="ExternalNotificationFilterPreviousLogs">添付ログの内容をフィルタリング</system:String>
     <system:String x:Key="ExternalNotificationFilterPreviousLogsTip" xml:space="preserve">ブラックリストに一致するログを除外し、残りから件数と有効時間の範囲内で最新のログを選びます。&#10;現在のログは必ず残します。</system:String>

@@ -39,9 +39,9 @@ public sealed class NotificationTrigger
             NotificationKind.Stalled => policy.SendWhenStalled,
             _ => false,
         };
-        return selectedEvent || (policy.UseCustomConditions
-            && ((policy.SendAfterLogCount && _newLogs >= policy.NewLogCount)
-                || (policy.SendWhenContentMatches && _whitelist.Matches(policy.Whitelist, notification.Content) == true)));
+        return selectedEvent
+            || (policy.SendAfterLogCount && _newLogs >= policy.NewLogCount)
+            || (policy.SendWhenContentMatches && _whitelist.Matches(policy.Whitelist, notification.Content) == true);
     }
 
     public void Reset() => _newLogs = 0;

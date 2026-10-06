@@ -50,7 +50,7 @@
     <system:String x:Key="Off">關閉</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
     <system:String x:Key="ExternalNotificationEnabled">啟用的通知設定</system:String>
-    <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">定時執行前傳送通知</system:String>
+    <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">定時執行前</system:String>
     <system:String x:Key="ExternalNotificationSendBeforeScheduledStartTip" xml:space="preserve">在定時任務開始前傳送外部通知。&#10;提前時間使用 ｢{key=ScheduleSettings}｣ 中的 ｢{key=ScheduledStartNotificationMinutes}｣ 設定。</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">發送成功</system:String>
     <system:String x:Key="ExternalNotificationSendFail">發送失敗</system:String>
@@ -2701,15 +2701,14 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="ExternalNotificationWhenError">任務出錯時</system:String>
     <system:String x:Key="ExternalNotificationWhenStalled">任務日誌輸出停滯時</system:String>
     <system:String x:Key="ExternalNotificationWhenStalledTip" xml:space="preserve">需在 ｢{key=NotificationSettings}｣ 中開啟 ｢{key=StallTimeoutEnabled}｣。&#10;超過設定時間沒有新增日誌時傳送。</system:String>
-    <system:String x:Key="ExternalNotificationCustomConditions">其他自訂條件</system:String>
     <system:String x:Key="ExternalNotificationNewLogCount">新增日誌條數</system:String>
     <system:String x:Key="ExternalNotificationNewLogCountTip" xml:space="preserve">自上次觸發傳送外部通知後，每新增一條日誌就計數一次。&#10;累計到指定條數時傳送通知；任務完成、出錯等其他條件觸發通知後，也會重新計數。</system:String>
-    <system:String x:Key="ExternalNotificationContentMatches">日誌包含特定內容</system:String>
+    <system:String x:Key="ExternalNotificationContentMatches">日誌包含特定內容時</system:String>
     <system:String x:Key="ExternalNotificationWhitelist">白名單（每行一條，支援正則）</system:String>
     <system:String x:Key="ExternalNotificationWhitelistTip" xml:space="preserve">每行填寫一個正則表達式，任意一行符合目前日誌就觸發傳送。&#10;白名單為空時，此條件不會觸發通知。</system:String>
     <system:String x:Key="ExternalNotificationIncludePreviousLogs">附帶先前日誌</system:String>
     <system:String x:Key="ExternalNotificationIncludePreviousLogsTip" xml:space="preserve">勾選後，在目前日誌的基礎上附帶歷史日誌。&#10;附帶範圍由日誌數量及有效時間控制。</system:String>
-    <system:String x:Key="ExternalNotificationPreviousLogCount">日誌數量</system:String>
+    <system:String x:Key="ExternalNotificationPreviousLogCount">附帶日誌數量</system:String>
     <system:String x:Key="ExternalNotificationPreviousLogCountTip" xml:space="preserve">最多附帶指定條數的歷史日誌，不計目前日誌。&#10;為 0 時，僅傳送目前日誌。</system:String>
     <system:String x:Key="ExternalNotificationFilterPreviousLogs">篩選附帶日誌內容</system:String>
     <system:String x:Key="ExternalNotificationFilterPreviousLogsTip" xml:space="preserve">先排除符合黑名單的日誌，再依數量及有效時間選取最近的日誌。&#10;目前日誌始終保留。</system:String>

@@ -52,8 +52,6 @@ public partial class ExternalNotification : NotifyPropertyChangedWithValue, IJso
 
         public bool SendBeforeScheduledStart { get; set; }
 
-        public bool UseCustomConditions { get; set; }
-
         public bool SendAfterLogCount { get; set; }
 
         public int NewLogCount { get; set; } = 10;

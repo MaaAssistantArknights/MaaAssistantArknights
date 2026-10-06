@@ -61,12 +61,6 @@ public sealed class ExternalNotificationDeliverySettingsModel : PropertyChangedB
         set => Settings.SendBeforeScheduledStart = value;
     }
 
-    public bool UseCustomConditions
-    {
-        get => Settings.UseCustomConditions;
-        set => Settings.UseCustomConditions = value;
-    }
-
     public bool SendAfterLogCount
     {
         get => Settings.SendAfterLogCount;

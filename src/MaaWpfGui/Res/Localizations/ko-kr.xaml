@@ -50,7 +50,7 @@
     <system:String x:Key="Off">끄기</system:String>
     <system:String x:Key="ExternalNotificationSettings">외부 알림</system:String>
     <system:String x:Key="ExternalNotificationEnabled">알림 구성 사용</system:String>
-    <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">예약 실행 전 알림 전송</system:String>
+    <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">예약 실행 전</system:String>
     <system:String x:Key="ExternalNotificationSendBeforeScheduledStartTip" xml:space="preserve">예약 작업이 시작되기 전에 외부 알림을 전송합니다.&#10;｢{key=ScheduleSettings}｣의 ｢{key=ScheduledStartNotificationMinutes}｣ 설정을 사용합니다.</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">전송 성공</system:String>
     <system:String x:Key="ExternalNotificationSendFail">전송 실패</system:String>
@@ -2701,7 +2701,6 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="ExternalNotificationWhenError">작업 오류 발생 시</system:String>
     <system:String x:Key="ExternalNotificationWhenStalled">작업 로그 출력 정지 시</system:String>
     <system:String x:Key="ExternalNotificationWhenStalledTip" xml:space="preserve">｢{key=NotificationSettings}｣에서 ｢{key=StallTimeoutEnabled}｣를 활성화하세요.&#10;설정한 시간 동안 새 로그가 없으면 알림을 전송합니다.</system:String>
-    <system:String x:Key="ExternalNotificationCustomConditions">기타 사용자 정의 조건</system:String>
     <system:String x:Key="ExternalNotificationNewLogCount">새 로그 개수</system:String>
     <system:String x:Key="ExternalNotificationNewLogCountTip" xml:space="preserve">마지막 외부 알림이 발생한 이후 새 로그 항목을 셉니다.&#10;지정한 개수에 도달하면 전송하며, 작업 완료나 오류 등 다른 조건으로 알림이 발생해도 개수를 초기화합니다.</system:String>
     <system:String x:Key="ExternalNotificationContentMatches">로그에 특정 내용이 있을 때</system:String>
@@ -2709,7 +2708,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="ExternalNotificationWhitelistTip" xml:space="preserve">줄마다 정규식을 입력하며, 현재 로그가 어느 한 줄과 일치하면 알림을 전송합니다.&#10;빈 화이트리스트에서는 이 조건이 동작하지 않습니다.</system:String>
     <system:String x:Key="ExternalNotificationIncludePreviousLogs">이전 로그 첨부</system:String>
     <system:String x:Key="ExternalNotificationIncludePreviousLogsTip" xml:space="preserve">현재 로그와 함께 이전 로그를 첨부합니다.&#10;로그 개수와 유효 시간으로 첨부할 범위를 정합니다.</system:String>
-    <system:String x:Key="ExternalNotificationPreviousLogCount">로그 개수</system:String>
+    <system:String x:Key="ExternalNotificationPreviousLogCount">첨부 로그 개수</system:String>
     <system:String x:Key="ExternalNotificationPreviousLogCountTip" xml:space="preserve">현재 로그를 제외하고 지정한 개수까지 이전 로그를 첨부합니다.&#10;0이면 현재 로그만 전송합니다.</system:String>
     <system:String x:Key="ExternalNotificationFilterPreviousLogs">첨부 로그 내용 필터링</system:String>
     <system:String x:Key="ExternalNotificationFilterPreviousLogsTip" xml:space="preserve">블랙리스트와 일치하는 로그를 제외한 뒤 개수와 유효 시간 범위 내에서 가장 최근 로그를 선택합니다.&#10;현재 로그는 항상 유지합니다.</system:String>
