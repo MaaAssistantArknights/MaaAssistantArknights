@@ -366,6 +366,19 @@ Todo
   }
   ```
 
+- `CopilotAutoRestart`
+  The Copilot automatic restart state has changed. The `details` field contains:
+  - `state` (string, required): Current state. Possible values:
+    - `Enabled`: Automatic restart is enabled.
+    - `Restarting`: The current job is being restarted.
+    - `Recovered`: The current job completed successfully after one or more restarts.
+    - `LimitReached`: The restart limit for the current job has been reached.
+  - `times` (number, required): Number of restarts used by the current job; `0` when `state` is `Enabled`.
+  - `max_times` (number, required): Maximum number of restarts allowed for the current job.
+  - `reason` (string, required): Reason for the state change: `EnemyLeak`, `BattleFailed`, or `None` when there is no specific failure reason.
+  - `run_index` (number, required): One-based index of the current job execution.
+  - `run_count` (number, required): Total number of job executions in this task.
+
 - `RecruitTagsDetected`  
   Recruitment tags detected
 
