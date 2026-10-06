@@ -129,6 +129,11 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         // 开局指定招募：顺位无论成败都消耗，本次没招到则落入下方默认优先级遍历
         const RoguelikeStartOper* start_oper = m_config->get_current_start_oper();
         if (start_oper != nullptr) {
+            // 自有干员招募是从左往右滑动的，要求列表已位于最左侧（见 recruit_appointed_char 的声明注释），
+            // 而进入招募界面时列表位置不定（见下方常规遍历的同名处理），不归位会漏掉列表前段的指定干员
+            if (!start_oper->use_support) {
+                swipe_to_the_left_of_operlist();
+            }
             const int max_refresh = Task.get("RoguelikeRefreshSupportBtnOcr")->special_params.front();
             const bool recruited = start_oper->use_support ? recruit_support_char(start_oper->name, max_refresh)
                                                            : recruit_own_char(start_oper->name);
@@ -381,9 +386,11 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             break;
         }
 
-        // 每列4个干员，未滑动时可以显示2列，滑动后至少可以显示1列
+        // 每列4个干员，未滑动时可以显示2列，滑动后至少可以显示1列；
+        // 识别抖动可能让某页少识别出一两个干员，不能只凭单页数量就判定已到达列表末尾，
+        // 否则会因少识别一个干员而提前终止遍历，漏掉后面的候选干员
         const size_t oper_count = oper_list.size();
-        if ((i == 0 && oper_count < 8) || (oper_count != 4 && oper_count != 8)) {
+        if ((i == 0 && oper_count < 6) || oper_count < 4) {
             Log.trace(__FUNCTION__, "| Page", i, "oper count:", oper_count, "- stop swiping");
             break;
         }
@@ -502,8 +509,11 @@ bool asst::RoguelikeRecruitTaskPlugin::lazy_recruit()
 bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string& char_name, bool is_rtl)
 {
     LogTraceFunction;
-    // 最大滑动次数
-    int SwipeTimes = Task.get("RoguelikeRecruitSwipeMaxTime")->max_times;
+    // 最大滑动次数。指定招募要在整个候选列表里定位某一个干员，而单个职业的候选池随干员总数
+    // 不断增大（界园等多个主题一次可达数十人），沿用默认上限会在翻完列表前放弃，
+    // 把「还在后面」误判成「找不到」。多翻的部分会在列表不变时提前退出，只有大列表才会真正用满
+    constexpr int SwipeTimesMultiplier = 2;
+    int SwipeTimes = Task.get("RoguelikeRecruitSwipeMaxTime")->max_times * SwipeTimesMultiplier;
     std::unordered_set<std::string> pre_oper_names;
     bool has_been_same = false;
     int i = 0;
@@ -511,6 +521,10 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
     bool start_with_elite_two = m_config->get_start_with_elite_two();
     bool only_start_with_elite_two = m_config->get_only_start_with_elite_two();
 
+    // 向右滑动的步长基准：记住上一次识别到的最右干员位置。
+    // 单帧识别失败时若退回初始基准，本次滑动距离会明显变短，翻页步长忽大忽小会拖慢覆盖进度，
+    // 同样的最大滑动次数就翻不完列表，导致目标干员被误判为「找不到」
+    int max_oper_x = 700;
     for (; i != SwipeTimes; ++i) {
         if (need_exit()) {
             return false;
@@ -518,7 +532,6 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
         auto image = ctrler()->get_image();
         RoguelikeRecruitImageAnalyzer analyzer(image);
 
-        int max_oper_x = 700;
         // 只处理识别成功的情况，失败(无任何结果)时继续滑动
         if (analyzer.analyze()) {
             const auto& chars = analyzer.get_result();
