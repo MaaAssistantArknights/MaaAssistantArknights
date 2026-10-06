@@ -458,6 +458,19 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   - `cur_times` (number, optional): 결산 화면에서 인식된 연속 전투 횟수 (인식된 경우에만 존재).
   - `annihilation_weekly_process` (array, optional): 섬멸 모드의 이번 주 획득 진행도, 형식은 `[완료 수, 상한]` (섬멸 노드에서만 존재).
 
+- `CopilotAutoRestart`
+  자동 전투의 자동 재시작 상태가 변경되었습니다. `details` 필드 구조는 다음과 같습니다:
+  - `state` (string, required): 현재 상태. 가능한 값:
+    - `Enabled`: 자동 재시작이 활성화되었습니다.
+    - `Restarting`: 현재 작업을 재시작하고 있습니다.
+    - `Recovered`: 재시작 후 현재 작업을 성공적으로 완료했습니다.
+    - `LimitReached`: 현재 작업의 재시작 횟수 상한에 도달했습니다.
+  - `times` (number, required): 현재 작업에서 사용한 재시작 횟수. `Enabled` 상태에서는 `0`입니다.
+  - `max_times` (number, required): 현재 작업에 허용된 최대 재시작 횟수.
+  - `reason` (string, required): 상태 변경 사유. `EnemyLeak`(적 누락), `BattleFailed`(전투 실패), 또는 특정 실패 사유가 없는 경우 `None`입니다.
+  - `run_index` (number, required): 현재 작업의 실행 순번(`1`부터 시작).
+  - `run_count` (number, required): 이번 작업에 포함된 총 작업 실행 횟수.
+
 - `RecruitTagsDetected`  
   공개모집 태그를 식별했습니다. `details` 필드 내용은 다음과 같습니다:
 
