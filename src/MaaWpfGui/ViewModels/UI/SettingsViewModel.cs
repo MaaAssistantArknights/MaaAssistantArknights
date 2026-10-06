@@ -768,8 +768,7 @@ public class SettingsViewModel : Screen
         GuideConfirmEnabled = false;
         GuideConfirmCountdown = GuideConfirmDelaySeconds;
         var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
-        timer.Tick += (_, _) =>
-        {
+        timer.Tick += (_, _) => {
             if (--GuideConfirmCountdown <= 0)
             {
                 timer.Stop();
@@ -947,8 +946,7 @@ public class SettingsViewModel : Screen
         var dialog = new Views.Dialogs.TextDialogView(
             LocalizationHelper.GetString("RenameTask"),
             LocalizationHelper.GetString("RenameTaskPrompt"),
-            taskItem.Name)
-        {
+            taskItem.Name) {
             Owner = Application.Current.MainWindow,
         };
 
@@ -1118,11 +1116,6 @@ public class SettingsViewModel : Screen
     {
         get => _scrollOffset;
         set {
-            if (!AllowScrollOffsetChange)
-            {
-                return;
-            }
-
             // 平滑滚动动画落地的回写（ScrollViewerBinding 在动画结束后把目标值路由回绑定源）：
             // 与动画目标一致说明本次滚动源于导航定位，同步值即可，不反向重算导航高亮——
             // 目标偏移被 ScrollViewer 钳制时（分节下方内容不足一屏，实际停不到目标），
@@ -1174,8 +1167,6 @@ public class SettingsViewModel : Screen
             }
         }
     }
-
-    public bool AllowScrollOffsetChange { get; set; } = true;
 
     private double _scrollAnimationTarget = double.NaN;
 

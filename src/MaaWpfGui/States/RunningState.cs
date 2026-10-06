@@ -16,7 +16,6 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
@@ -94,19 +93,7 @@ public class RunningState
         get; set {
             value = value.Clamp(0, MaxMinutes);
             field = value;
-            lock (_timerLock)
-            {
-                _stallIsFirstFire = true;
-                if (_stallTimer.Enabled)
-                {
-                    _stallTimer.Stop();
-                    if (value > 0)
-                    {
-                        _stallTimer.Interval = value * 60 * 1000;
-                        _stallTimer.Start();
-                    }
-                }
-            }
+            ResetStallTimer();
         }
     } = 30;
 
@@ -117,32 +104,25 @@ public class RunningState
     {
         get; set {
             field = value;
-            if (!value)
-            {
-                lock (_timerLock)
-                {
-                    if (_stallTimer.Enabled)
-                    {
-                        _stallTimer.Stop();
-                    }
-                }
-            }
+            ResetStallTimer();
         }
     } = true;
 
     // Reports the run owner, initial timeout and accumulated timeout in minutes.
     public event Action<RunOwner, int, int>? StallOccurred;
 
-    public void NotifyOutputActivity()
+    public void NotifyOutputActivity() => ResetStallTimer();
+
+    private void ResetStallTimer()
     {
         lock (_timerLock)
         {
+            _stallTimer.Stop();
             _stallAccumulatedCount = 0;
             _stallIsFirstFire = true;
-            if (_stallTimer.Enabled && EnableStallTimeout && StallTimeoutMinutes > 0)
+            if (!_idle && _taskStartTime is not null && EnableStallTimeout && StallTimeoutMinutes > 0)
             {
                 _stallTimer.Interval = StallTimeoutMinutes * 60 * 1000;
-                _stallTimer.Stop();
                 _stallTimer.Start();
             }
         }
@@ -155,13 +135,7 @@ public class RunningState
         {
             _taskStartTime = DateTime.Now;
             _timeoutReminderTimer.Start();
-            _stallAccumulatedCount = 0;
-            _stallIsFirstFire = true;
-            if (EnableStallTimeout && StallTimeoutMinutes > 0)
-            {
-                _stallTimer.Interval = StallTimeoutMinutes * 60 * 1000;
-                _stallTimer.Start();
-            }
+            ResetStallTimer();
         }
     }
 
@@ -170,10 +144,8 @@ public class RunningState
         lock (_timerLock)
         {
             _timeoutReminderTimer.Stop();
-            _stallTimer.Stop();
-            _stallAccumulatedCount = 0;
-            _stallIsFirstFire = true;
             _taskStartTime = null;
+            ResetStallTimer();
         }
     }
 
@@ -258,6 +230,12 @@ public class RunningState
         int accumulatedMinutes;
         lock (_timerLock)
         {
+            // An Elapsed callback may already be queued when the timer is stopped.
+            if (_idle || _taskStartTime is null || !_stallTimer.Enabled || !EnableStallTimeout || StallTimeoutMinutes <= 0)
+            {
+                return;
+            }
+
             owner = Owner;
             initialMinutes = StallTimeoutMinutes;
             _stallTimer.Stop();

@@ -36,6 +36,13 @@ public sealed class NotificationService
     private void OnStalled(RunOwner owner, int initialMinutes, int accumulatedMinutes)
     {
         Execute.OnUIThread(() => {
+            // The run may have ended while this timer callback waited for the UI thread.
+            var state = RunningState.Instance;
+            if (state.GetIdle() || state.Owner != owner || !state.EnableStallTimeout || state.StallTimeoutMinutes <= 0)
+            {
+                return;
+            }
+
             var message = LocalizationHelper.GetStringFormat("TaskStallWarning", initialMinutes, accumulatedMinutes);
             Notify(owner == RunOwner.Copilot ? NotificationSource.Copilot : NotificationSource.TaskQueue,
                 new(NotificationKind.Stalled, message, message), UiLogColor.Warning);

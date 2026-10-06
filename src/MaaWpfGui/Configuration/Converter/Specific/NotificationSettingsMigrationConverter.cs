@@ -58,15 +58,11 @@ internal sealed class NotificationSettingsMigrationConverter : JsonConverter<Gui
                 Enable = external["Configs"] is JsonArray { Count: > 0 },
                 SendBeforeScheduledStart = ReadBoolean(external, "SendBeforeScheduledStart", false),
             };
-            if (external.ContainsKey("SendWhenComplete") || external.ContainsKey("SendWhenError")
-                || external.ContainsKey("SendWhenStalled") || external.ContainsKey("ShowWhenCompleteWithDetails"))
-            {
-                MigrateExternal(delivery,
-                    ReadBoolean(external, "SendWhenComplete", true),
-                    ReadBoolean(external, "SendWhenError", true),
-                    ReadBoolean(external, "SendWhenStalled", false),
-                    ReadBoolean(external, "ShowWhenCompleteWithDetails", false));
-            }
+            MigrateExternal(delivery,
+                ReadBoolean(external, "SendWhenComplete", true),
+                ReadBoolean(external, "SendWhenError", true),
+                ReadBoolean(external, "SendWhenStalled", false),
+                ReadBoolean(external, "ShowWhenCompleteWithDetails", false));
 
             external["Delivery"] = JsonSerializer.SerializeToNode(delivery, options);
         }
