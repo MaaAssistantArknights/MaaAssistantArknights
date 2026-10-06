@@ -166,7 +166,10 @@ bool asst::OperProgressProcessTask::_run()
                 int training_level = 0;
                 auto skill_ret = execute_mastery(target.role, target.name, i + 1, arr[i], training_level);
                 std::array<int, 3> skill_levels { 0, 0, 0 };
-                skill_levels[i] = skill_ret == ResultDetail::Completed ? arr[i] : training_level;
+                if (skill_ret == ResultDetail::AlreadySatisfied || skill_ret == ResultDetail::Completed ||
+                    skill_ret == ResultDetail::PrerequisiteTraining || skill_ret == ResultDetail::TrainingRoomBusy) {
+                    skill_levels[i] = training_level;
+                }
                 report_skill_result(target.role, target.name, skill_ret, skill_levels);
                 if (skill_ret == ResultDetail::TrainingRoomBusy || skill_ret == ResultDetail::PrerequisiteTraining ||
                     skill_ret == ResultDetail::Completed) {
