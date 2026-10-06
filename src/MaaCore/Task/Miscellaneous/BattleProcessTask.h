@@ -15,7 +15,9 @@ public:
     virtual ~BattleProcessTask() override = default;
 
     virtual bool set_stage_name(const std::string& stage_name) override;
-    void set_wait_until_end(bool wait_until_end);
+
+    void set_wait_until_end(bool wait_until_end) { m_need_to_wait_until_end = wait_until_end; };
+
     void set_formation_task_ptr(std::shared_ptr<std::unordered_map<battle::OperNameTag, std::string>> value);
 
 protected:

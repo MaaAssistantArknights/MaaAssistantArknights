@@ -81,7 +81,7 @@ protected:
     bool check_in_speedup(const cv::Mat& reusable = cv::Mat());
     virtual bool check_in_battle(const cv::Mat& reusable = cv::Mat(), bool weak = true);
     virtual bool wait_until_start(bool weak = true);
-    bool wait_until_end(bool weak = true);
+    bool wait_until_end(bool weak = true, bool do_strategy = true);
     bool use_all_ready_skill(const cv::Mat& reusable = cv::Mat());
     bool check_and_use_skill(const std::string& name, bool& has_error, const cv::Mat& reusable = cv::Mat());
     bool check_and_use_skill(

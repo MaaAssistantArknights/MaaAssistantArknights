@@ -55,7 +55,7 @@ bool asst::BattleProcessTask::_run()
     }
 
     if (need_to_wait_until_end()) {
-        wait_until_end();
+        wait_until_end(true, false);
     }
 
     return true;
@@ -87,10 +87,6 @@ bool asst::BattleProcessTask::set_stage_name(const std::string& stage_name)
     return true;
 }
 
-void asst::BattleProcessTask::set_wait_until_end(bool wait_until_end)
-{
-    m_need_to_wait_until_end = wait_until_end;
-}
 
 void asst::BattleProcessTask::set_formation_task_ptr(
     std::shared_ptr<std::unordered_map<battle::OperNameTag, std::string>> value)

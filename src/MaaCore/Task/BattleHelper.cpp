@@ -773,13 +773,15 @@ bool asst::BattleHelper::wait_until_start(bool weak)
     return true;
 }
 
-bool asst::BattleHelper::wait_until_end(bool weak)
+bool asst::BattleHelper::wait_until_end(bool weak, bool do_strategy)
 {
     LogTraceFunction;
 
     cv::Mat image = m_inst_helper.ctrler()->get_image();
     while (!m_inst_helper.need_exit() && check_in_battle(image, weak)) {
-        do_strategic_action(image);
+        if (do_strategy) {
+            do_strategic_action(image);
+        }
         std::this_thread::yield();
 
         image = m_inst_helper.ctrler()->get_image();
