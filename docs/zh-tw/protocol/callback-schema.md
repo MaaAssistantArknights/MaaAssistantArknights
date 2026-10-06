@@ -463,6 +463,19 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   - `cur_times` (number, optional)：結算畫面辨識到的連戰次數（辨識到時存在）。
   - `annihilation_weekly_process` (array, optional)：剿滅模式的本週獲取進度，格式為 `[已完成數, 上限]`（僅剿滅關卡存在）。
 
+- `CopilotAutoRestart`
+  自動戰鬥的自動重開狀態發生變化。`details` 欄位結構如下：
+  - `state` (string, required)：目前狀態，可選值為：
+    - `Enabled`：已啟用自動重開。
+    - `Restarting`：正在重開目前作業。
+    - `Recovered`：目前作業已在重開後成功完成。
+    - `LimitReached`：已達到目前作業的重開次數上限。
+  - `times` (number, required)：目前作業已使用的重開次數；`Enabled` 狀態下為 `0`。
+  - `max_times` (number, required)：目前作業允許的最大重開次數。
+  - `reason` (string, required)：觸發狀態的原因，可選值為 `EnemyLeak`（漏怪）、`BattleFailed`（戰鬥失敗）或 `None`（無特定失敗原因）。
+  - `run_index` (number, required)：目前作業執行序號，從 `1` 開始。
+  - `run_count` (number, required)：本次任務包含的作業執行總數。
+
 - `RecruitTagsDetected`  
   公招辨識到了 Tags。`details` 欄位內容如下：
 

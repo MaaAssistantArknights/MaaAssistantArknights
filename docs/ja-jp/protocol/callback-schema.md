@@ -369,6 +369,19 @@ Todo
   }
   ```
 
+- `CopilotAutoRestart`
+  自動戦闘の自動再開状態が変化したことを示します。`details` フィールドの構造は次のとおりです：
+  - `state` (string, required)：現在の状態。次の値があります：
+    - `Enabled`：自動再開が有効になりました。
+    - `Restarting`：現在の作業を再開しています。
+    - `Recovered`：再開後、現在の作業が正常に完了しました。
+    - `LimitReached`：現在の作業の再開回数が上限に達しました。
+  - `times` (number, required)：現在の作業で使用した再開回数。`Enabled` 状態では `0` です。
+  - `max_times` (number, required)：現在の作業で許可される最大再開回数。
+  - `reason` (string, required)：状態変化の理由。`EnemyLeak`（敵の通過）、`BattleFailed`（戦闘失敗）、または特定の失敗理由がない場合の `None` のいずれかです。
+  - `run_index` (number, required)：現在の作業の実行番号（`1` から開始）。
+  - `run_count` (number, required)：このタスクに含まれる作業の総実行回数。
+
 - `RecruitTagsDetected`  
    採用タグの検出
 
