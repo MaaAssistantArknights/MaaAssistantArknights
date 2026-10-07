@@ -571,6 +571,8 @@ D:\
     <system:String x:Key="ScheduledStartNotificationMinutes">사전 알림 시간(분)</system:String>
     <system:String x:Key="ScheduledStartNotificationTitle">예약 작업이 곧 시작됩니다</system:String>
     <system:String x:Key="ScheduledStartNotificationContent">예약 {0}은(는) {1}({2}분 후)에 시작될 예정입니다. 게임 로그인 상태에 주의해 주세요.</system:String>
+    <system:String x:Key="ScheduledWakeUp">예약 시작 전 컴퓨터를 깨우고 MAA 실행 시도</system:String>
+    <system:String x:Key="ScheduledWakeUpTip" xml:space="preserve">이 기능은 Windows 작업 스케줄러에 예약된 작업을 등록하여, 활성화된 각 타이머 5분 전에 컴퓨터를 깨우고 MAA 실행을 시도합니다. 이후 앱 내 예약 시작 로직이 이어받습니다.&#10;절전 모드 해제로 실행될 때는 시작 설정의 자동 실행 항목(시작 후 바로 실행, 에뮬레이터 자동 열기 등)을 건너뜁니다.&#10;MAA 종료 후에도 예약된 작업은 유지되며, 이 스위치를 끄면 삭제됩니다.&#10;최대 절전 모드에서의 해제는 장치 펌웨어 지원에 따라 다르며, 일부 장치는 절전 모드에서만 해제를 지원합니다.</system:String>
     <system:String x:Key="Timer">타이머</system:String>
     <system:String x:Key="GlobalConfigTip">이 페이지는 전역(Global) 구성 설정입니다</system:String>
     <system:String x:Key="MultiTasksShareTip">다음 옵션은 여러 작업에 적용됩니다</system:String>

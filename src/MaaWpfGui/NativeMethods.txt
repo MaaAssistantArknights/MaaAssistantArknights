@@ -58,3 +58,22 @@ FlashWindowEx
 // PowerManagement
 SetSuspendState
 LockWorkStation
+
+// ScheduledWakeUp
+ITaskService
+ITaskFolder
+ITaskDefinition
+ITaskSettings
+IRegistrationInfo
+ITriggerCollection
+IActionCollection
+IExecAction
+IRegisteredTask
+IDailyTrigger
+ITaskNamedValueCollection
+TASK_LOGON_TYPE
+TASK_RUNLEVEL_TYPE
+TASK_CREATION
+TASK_TRIGGER_TYPE2
+TASK_ACTION_TYPE
+CoCreateInstance

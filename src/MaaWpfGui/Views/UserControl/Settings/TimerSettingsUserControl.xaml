@@ -22,6 +22,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <controls:GlobalConfigTip Grid.Row="0" />
@@ -76,11 +77,25 @@
                 Height="30"
                 Margin="5,0"
                 VerticalContentAlignment="Center"
+                Content="{DynamicResource ScheduledWakeUp}"
+                IsChecked="{Binding ScheduledWakeUp}" />
+            <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource ScheduledWakeUpTip}" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="4"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <CheckBox
+                Height="30"
+                Margin="5,0"
+                VerticalContentAlignment="Center"
                 Content="{DynamicResource NotifyBeforeScheduledStart}"
                 IsChecked="{Binding NotifyBeforeScheduledStart}" />
             <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource NotifyBeforeScheduledStartTip}" />
             <hc:NumericUpDown
-                Margin="5,0"
+                Height="30"
+                Margin="5,-10,5,-10"
                 hc:InfoElement.Title="{DynamicResource ScheduledStartNotificationMinutes}"
                 hc:TitleElement.TitlePlacement="Left"
                 InputMethod.IsInputMethodEnabled="False"
@@ -90,7 +105,7 @@
                 Value="{Binding ScheduledStartNotificationMinutes}" />
         </StackPanel>
 
-        <Grid Grid.Row="4">
+        <Grid Grid.Row="5">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
