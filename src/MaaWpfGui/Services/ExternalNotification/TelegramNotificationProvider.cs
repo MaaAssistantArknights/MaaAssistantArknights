@@ -37,34 +37,84 @@ public class TelegramNotificationProvider(IHttpService httpService, TelegramConf
 
     private const string TruncatedMark = "[...]\n";
 
-    public async Task<bool> SendAsync(string title, string content)
+    public Task<bool> SendAsync(string title, string content)
     {
-        var botToken = telegram.BotToken;
-        var chatId = telegram.ChatId;
-        var topicId = telegram.TopicId;
+        return SendMessageAsync(Snapshot(), Truncate($"{title}: {content}"));
+    }
 
-        var uri = $"https://api.telegram.org/bot{botToken}/sendMessage";
+    public async Task<bool> SendAsync(string title, string content, string details)
+    {
+        var target = Snapshot();
+        var full = $"{title}: {details}{content}";
+        if (full.Length <= MaxTextLength)
+        {
+            return await SendMessageAsync(target, full);
+        }
 
+        // 一条消息装不下详细日志：完整内容（含日志）作为 .txt 附件，消息退回不带详细日志的样子。
+        // 附件发不出去时不能丢日志，消息仍带日志并裁到上限
+        return await SendDocumentAsync(target, full)
+            ? await SendMessageAsync(target, Truncate($"{title}: {content}"))
+            : await SendMessageAsync(target, Truncate(full));
+    }
+
+    /// <summary>
+    /// 一次通知的两个请求要发往同一个机器人、聊天与话题，所以开头就取一份，不能让用户中途改设置把它们拆开。
+    /// </summary>
+    /// <returns>当前配置的快照</returns>
+    private Target Snapshot() => new(telegram.BotToken, telegram.ChatId, telegram.TopicId);
+
+    private Task<bool> SendMessageAsync(Target target, string text)
+    {
         var postContent = new TelegramPostContent
         {
-            ChatId = chatId,
-            Content = Truncate($"{title}: {content}"),
+            ChatId = target.ChatId,
+            Content = text,
         };
 
         // Only add the topic ID if one is provided
-        if (!string.IsNullOrEmpty(topicId))
+        if (!string.IsNullOrEmpty(target.TopicId))
         {
-            postContent.TopicId = topicId;
+            postContent.TopicId = target.TopicId;
         }
+
+        return PostAsync(target, "sendMessage", new StringContent(JsonSerializer.Serialize(postContent), Encoding.UTF8, "application/json"));
+    }
+
+    /// <summary>
+    /// 把完整消息作为 .txt 文件发出去。sendDocument 的文件上限是 50 MB，远大于任何一次任务的日志。
+    /// </summary>
+    /// <param name="target">发送目标</param>
+    /// <param name="text">完整消息</param>
+    /// <returns>是否发送成功</returns>
+    private Task<bool> SendDocumentAsync(Target target, string text)
+    {
+        var form = new MultipartFormDataContent
+        {
+            { new StringContent(target.ChatId), "chat_id" },
+            { new StringContent(text, Encoding.UTF8, "text/plain"), "document", $"MAA-{DateTime.Now:yyyyMMdd-HHmmss}.txt" },
+        };
+
+        if (!string.IsNullOrEmpty(target.TopicId))
+        {
+            form.Add(new StringContent(target.TopicId), "message_thread_id");
+        }
+
+        return PostAsync(target, "sendDocument", form);
+    }
+
+    private async Task<bool> PostAsync(Target target, string method, HttpContent content)
+    {
+        var uri = $"https://api.telegram.org/bot{target.BotToken}/{method}";
 
         try
         {
-            var response = await httpService.PostAsync(new(uri), new StringContent(JsonSerializer.Serialize(postContent), Encoding.UTF8, "application/json"), uriPartial: UriPartial.Authority);
+            var response = await httpService.PostAsync(new(uri), content, uriPartial: UriPartial.Authority);
             var str = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
                 // 失败原因只在响应体里（如 message is too long），不记下来无从排查
-                _logger.Warning("Telegram API returned {StatusCode}: {Body}", (int)response.StatusCode, str);
+                _logger.Warning("Telegram API {Method} returned {StatusCode}: {Body}", method, (int)response.StatusCode, str);
                 return false;
             }
 
@@ -73,10 +123,8 @@ public class TelegramNotificationProvider(IHttpService httpService, TelegramConf
         catch (Exception e)
         {
             _logger.Error(e, "Failed to send POST request to {Uri}", new Uri(uri).GetLeftPart(UriPartial.Authority));
+            return false;
         }
-
-        _logger.Warning("Failed to send message.");
-        return false;
     }
 
     /// <summary>
@@ -101,6 +149,8 @@ public class TelegramNotificationProvider(IHttpService httpService, TelegramConf
 
         return TruncatedMark + text[suffixStart..];
     }
+
+    private readonly record struct Target(string BotToken, string ChatId, string TopicId);
 
     private class TelegramPostContent
     {
