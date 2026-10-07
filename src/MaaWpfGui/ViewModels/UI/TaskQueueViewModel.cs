@@ -45,8 +45,10 @@ using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using MaaWpfGui.Views.Dialogs;
+using Semver;
 using Serilog;
 using Stylet;
+using Stylet.Xaml;
 using static MaaWpfGui.Configuration.Global.Gui;
 using static MaaWpfGui.Main.AsstProxy;
 using Application = System.Windows.Application;
@@ -753,6 +755,8 @@ public class TaskQueueViewModel : Screen
             CanShowAutoReload = !Bootstrapper.IsDemoMode;
             ShowDebugTask = true;
         }
+
+        UpdateTaskTypeBadges();
     }
 
     private void RunningState_Stalled(object? sender, string message)
@@ -1741,21 +1745,21 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     public int StartUpTaskCount => ConfigFactory.CurrentConfig.TaskQueue.Count(t => t is StartUpTask);
 
-    public static ReadOnlyCollection<GenericCombinedData<Type>> TaskTypeList { get; } = Array.AsReadOnly(
+    public static ReadOnlyCollection<TaskTypeItem> TaskTypeList { get; } = Array.AsReadOnly(
         [
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("StartUp"), Value = typeof(StartUpTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Fight"), Value = typeof(FightTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Infrast"), Value = typeof(InfrastTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Recruit"), Value = typeof(RecruitTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Mall"), Value = typeof(MallTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Award"), Value = typeof(AwardTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("OperProgress"), Value = typeof(OperProgressTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Roguelike"), Value = typeof(RoguelikeTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Reclamation"), Value = typeof(ReclamationTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("UserDataUpdate"), Value = typeof(UserDataUpdateTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("DepotMaintain"), Value = typeof(DepotMaintainTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("SwitchTheme"), Value = typeof(SwitchThemeTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Custom"), Value = typeof(CustomTask) },
+            new TaskTypeItem(LocalizationHelper.GetString("StartUp"), typeof(StartUpTask)),
+            new TaskTypeItem(LocalizationHelper.GetString("Fight"), typeof(FightTask)),
+            new TaskTypeItem(LocalizationHelper.GetString("Infrast"), typeof(InfrastTask)),
+            new TaskTypeItem(LocalizationHelper.GetString("Recruit"), typeof(RecruitTask)),
+            new TaskTypeItem(LocalizationHelper.GetString("Mall"), typeof(MallTask)),
+            new TaskTypeItem(LocalizationHelper.GetString("Award"), typeof(AwardTask)),
+            new TaskTypeItem(LocalizationHelper.GetString("OperProgress"), typeof(OperProgressTask), introducedVersion: "6.19.0"),
+            new TaskTypeItem(LocalizationHelper.GetString("Roguelike"), typeof(RoguelikeTask)),
+            new TaskTypeItem(LocalizationHelper.GetString("Reclamation"), typeof(ReclamationTask)),
+            new TaskTypeItem(LocalizationHelper.GetString("UserDataUpdate"), typeof(UserDataUpdateTask)),
+            new TaskTypeItem(LocalizationHelper.GetString("DepotMaintain"), typeof(DepotMaintainTask)),
+            new TaskTypeItem(LocalizationHelper.GetString("SwitchTheme"), typeof(SwitchThemeTask), introducedVersion: "6.19.0"),
+            new TaskTypeItem(LocalizationHelper.GetString("Custom"), typeof(CustomTask), isDebugOnly: true),
         ]);
 
     private void RefreshTaskTypeListLocalization()
@@ -1781,6 +1785,95 @@ public class TaskQueueViewModel : Screen
         }
     }
 
+    private CommandAction? _addTaskQueueTaskCommand;
+
+    /// <summary>
+    /// Gets ｢添加任务｣ 菜单命令，包装 <see cref="AddTaskQueueTask"/>。生成式菜单的容器样式里 Setter.Value
+    /// 不接受 s:Action（WPF 仅放行 DynamicResource 与 Binding），故以显式 target 构造 Stylet 的 CommandAction（s:Action 的底层实现）经 Binding 绑定。
+    /// </summary>
+    public CommandAction AddTaskQueueTaskCommand => _addTaskQueueTaskCommand ??= new CommandAction(
+        this,
+        nameof(AddTaskQueueTask),
+        ActionUnavailableBehaviour.Throw,
+        ActionUnavailableBehaviour.Throw);
+
+    private bool _isAddTaskMenuOpen;
+
+    /// <summary>
+    /// Gets or sets ｢添加任务｣ 下拉弹层的开合状态，双向绑定 MenuButton.IsPopupOpen。
+    /// 从 true 变为 false（弹层关闭）即视为浏览过菜单：记下当前版本为基准并刷新红点。
+    /// </summary>
+    public bool IsAddTaskMenuOpen
+    {
+        get => _isAddTaskMenuOpen;
+        set {
+            if (!SetAndNotify(ref _isAddTaskMenuOpen, value) || value)
+            {
+                return;
+            }
+
+            // 版本号不可解析（本地 dev 的 DEBUG_VERSION）时不写基准——写入会让共享同一配置的
+            // 正式版按 ｢基准解析失败恒不亮｣ 静默失效；跳过写入则 dev 下红点常亮（可测），无碍
+            if (SemVersion.TryParse(VersionUpdateSettingsUserControlModel.UiVersion, SemVersionStyles.Any, out _))
+            {
+                ConfigFactory.Root.Gui.AddTaskMenuSeenVersion = VersionUpdateSettingsUserControlModel.UiVersion;
+            }
+
+            UpdateTaskTypeBadges();
+        }
+    }
+
+    private bool _hasNewTaskType;
+
+    /// <summary>
+    /// Gets ｢添加任务｣ 按钮是否显示新任务红点：任一任务条目相对上次浏览菜单的版本为新。
+    /// </summary>
+    public bool HasNewTaskType
+    {
+        get => _hasNewTaskType;
+        set => SetAndNotify(ref _hasNewTaskType, value);
+    }
+
+    /// <summary>
+    /// 按基准版本（Root.Gui.AddTaskMenuSeenVersion）重算各任务条目的 <see cref="TaskTypeItem.IsNew"/>
+    /// 与 <see cref="HasNewTaskType"/>。基准为空（从未记录）时按当前运行版本正常比较并特判
+    /// v6.19，见 <see cref="IsNewerThanBaseline"/>。
+    /// </summary>
+    private void UpdateTaskTypeBadges()
+    {
+        var seen = ConfigFactory.Root.Gui.AddTaskMenuSeenVersion;
+        foreach (var item in TaskTypeList)
+        {
+            item.IsNew = item.IntroducedVersion is { } introduced && IsNewerThanBaseline(introduced, seen);
+        }
+
+        HasNewTaskType = TaskTypeList.Any(item => item.IsNew);
+    }
+
+    // 引入版本相对基准是否算 ｢新｣ ：
+    // - 有基准：引入版本晚于基准即新（语义化版本的优先级比较，忽略 build 元数据）
+    // - 空基准（首次启动，从未浏览过菜单）：按当前运行版本正常比较（视为已浏览过当前版本）；
+    //   特判 v6.19——红点功能于 6.19.0-beta.2 上线，期间首启的用户属 6.19 系列，本系列
+    //   登记的任务（6.19.0）直接显示；6.20 及以后空基准无此豁免
+    // 任一侧版本无法解析（如本地 dev 的 DEBUG_VERSION）时返回 false——宁可漏标不误标；
+    // 例外是 dev 的当前版本解析失败时全亮，保持本地可测
+    private static bool IsNewerThanBaseline(string introduced, string seen)
+    {
+        if (!SemVersion.TryParse(introduced, SemVersionStyles.Any, out var v))
+        {
+            return false;
+        }
+
+        if (string.IsNullOrEmpty(seen))
+        {
+            return !SemVersion.TryParse(VersionUpdateSettingsUserControlModel.UiVersion, SemVersionStyles.Any, out var current)
+                || v.ComparePrecedenceTo(current) > 0
+                || (current.Major == 6 && current.Minor == 19 && v.Major == 6 && v.Minor == 19);
+        }
+
+        return SemVersion.TryParse(seen, SemVersionStyles.Any, out var b) && v.ComparePrecedenceTo(b) > 0;
+    }
+
     public void AddTaskQueueTask(Type taskName)
     {
         // 开始唤醒任务至多一个，菜单项禁用之外的行为兜底
@@ -1796,7 +1889,7 @@ public class TaskQueueViewModel : Screen
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.QueueExpansion);
             AchievementTrackerHelper.Instance.TrackManualTaskAddition(
                 task.TaskType.ToString(),
-                ShowDebugTask ? TaskTypeList.Count : TaskTypeList.Count - 1);
+                TaskTypeList.Count(item => ShowDebugTask || !item.IsDebugOnly));
         }
         else
         {

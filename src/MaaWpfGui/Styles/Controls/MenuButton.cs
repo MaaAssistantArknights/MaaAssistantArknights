@@ -59,6 +59,15 @@ public class MenuButton : Button
         nameof(PopupContent), typeof(UIElement), typeof(MenuButton), new PropertyMetadata(null));
 
     /// <summary>
+    /// The is popup open property. 下拉弹层的开合状态，双向绑定给 ViewModel
+    /// （如弹层关闭时触发 ｢已浏览菜单｣ 之类的回调）；弹层的实际开合仍完全由本类与
+    /// <see cref="PopupDismissController"/> 判定，此属性仅单向回写同步。
+    /// </summary>
+    public static readonly DependencyProperty IsPopupOpenProperty = DependencyProperty.Register(
+        nameof(IsPopupOpen), typeof(bool), typeof(MenuButton),
+        new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnIsPopupOpenChanged));
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="MenuButton"/> class.
     /// </summary>
     public MenuButton()
@@ -74,6 +83,20 @@ public class MenuButton : Button
         get => (UIElement?)GetValue(PopupContentProperty);
         set => SetValue(PopupContentProperty, value);
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the popup is open.
+    /// </summary>
+    public bool IsPopupOpen
+    {
+        get => (bool)GetValue(IsPopupOpenProperty);
+        set => SetValue(IsPopupOpenProperty, value);
+    }
+
+    // 绑定侧改值时同步到弹层；弹层事件侧用 SetCurrentValue 回写（不破坏绑定），
+    // 两侧设置同值均为 no-op，不构成回环
+    private static void OnIsPopupOpenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        => ((MenuButton)d).MenuPopup.IsOpen = (bool)e.NewValue;
 
     protected override void OnClick()
     {
@@ -146,6 +169,7 @@ public class MenuButton : Button
                     AllowsTransparency = true,
                 };
                 popup.Opened += OnPopupOpened;
+                popup.Closed += OnPopupClosed;
                 _dismiss = new PopupDismissController(
                     popup,
                     this,
@@ -157,5 +181,11 @@ public class MenuButton : Button
         }
     }
 
-    private void OnPopupOpened(object? sender, EventArgs e) => _openedAt = Environment.TickCount64;
+    private void OnPopupOpened(object? sender, EventArgs e)
+    {
+        _openedAt = Environment.TickCount64;
+        SetCurrentValue(IsPopupOpenProperty, true);
+    }
+
+    private void OnPopupClosed(object? sender, EventArgs e) => SetCurrentValue(IsPopupOpenProperty, false);
 }

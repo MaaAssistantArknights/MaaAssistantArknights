@@ -56,7 +56,7 @@
                                 Grid.Column="1"
                                 Margin="-8,-5,-5,0"
                                 Padding="5"
-                                Foreground="Red"
+                                Foreground="{DynamicResource NewBadgeBrush}"
                                 Text="•"
                                 Visibility="{c:Binding IsNew}" />
                         </Grid>

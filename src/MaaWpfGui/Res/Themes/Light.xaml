@@ -3,6 +3,8 @@
     <!--  Custom Brush  -->
     <SolidColorBrush x:Key="PallasBrush" Color="#6969AA" />
     <SolidColorBrush x:Key="SettingsSearchHighlightBrush" Color="#80FFD54F" />
+    <!--  新任务红点 / 公告新标记共用（亮暗同色）  -->
+    <SolidColorBrush x:Key="NewBadgeBrush" Color="#F74C30" />
 
     <!--  HandyControl Brush  -->
     <!--  文字颜色  -->

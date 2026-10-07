@@ -59,6 +59,10 @@ public class Gui : NotifyPropertyChangedWithValue
 
     public bool SaveWindowPlacement { get; set; } = true;
 
+    // 用户上次浏览任务队列 ｢添加任务｣ 菜单时的版本号；空表示从未记录（首次启动），
+    // 此时按当前运行版本正常比较并特判 v6.19 系列（见 TaskQueueViewModel.IsNewerThanBaseline）
+    public string AddTaskMenuSeenVersion { get; set; } = string.Empty;
+
     public InverseClearType InverseClearMode { get; set; } = InverseClearType.Clear;
 
     public TransitionSpeedType TransitionSpeed { get; set; } = TransitionSpeedType.Normal;
