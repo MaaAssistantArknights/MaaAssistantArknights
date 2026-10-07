@@ -572,7 +572,7 @@ D:\
     <system:String x:Key="ScheduledStartNotificationTitle">まもなく定時タスクを実行します</system:String>
     <system:String x:Key="ScheduledStartNotificationContent">タイマー {0} は {1}（{2} 分後）に実行開始予定です。ゲームのログイン状態にご注意ください。</system:String>
     <system:String x:Key="ScheduledWakeUp">スケジュール起動前にコンピュータのスリープ解除と MAA の起動を試みる</system:String>
-    <system:String x:Key="ScheduledWakeUpTip" xml:space="preserve">この機能は Windows タスクスケジューラにタスクを登録し、有効化された各タイマーの 5 分前にコンピュータのスリープ解除と MAA の起動を試みます。その後はアプリ内の定時起動ロジックに引き継がれます。&#10;スリープ解除による起動時は、起動設定の起動時自動実行項目（起動後すぐに実行、エミュレーターの自動起動など）はスキップされます。&#10;MAA 終了後もタスクは保持され、このスイッチをオフにすると削除されます。&#10;休止状態からのスリープ解除はデバイスのファームウェア対応に依存し、一部のデバイスはスリープからの解除のみに対応しています。</system:String>
+    <system:String x:Key="ScheduledWakeUpTip" xml:space="preserve">この機能は Windows タスクスケジューラにタスクを登録し、有効化された各タイマーの 5 分前にコンピュータのスリープ解除と MAA の起動を試みます。その後はアプリ内の定時起動ロジックに引き継がれます。&#10;スリープ解除による起動時は、｢{key=StartupSettings}｣ の起動時自動実行項目（{key=RunTaskAfterLaunch}、{key=OpenEmulatorAfterLaunch}など）はスキップされます。&#10;MAA 終了後もタスクは保持され、このスイッチをオフにすると削除されます。&#10;休止状態からのスリープ解除はデバイスのファームウェア対応に依存し、一部のデバイスはスリープからの解除のみに対応しています。</system:String>
     <system:String x:Key="Timer">タイマー</system:String>
     <system:String x:Key="GlobalConfigTip">このオプション ページはグローバル設定用です</system:String>
     <system:String x:Key="MultiTasksShareTip">以下のオプションは複数のタスクで共有されます</system:String>
