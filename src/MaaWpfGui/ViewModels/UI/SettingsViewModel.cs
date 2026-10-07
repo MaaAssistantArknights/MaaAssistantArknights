@@ -729,6 +729,13 @@ public class SettingsViewModel : Screen
         _ => null,
     };
 
+    /// <summary>
+    /// Gets 设置指引 ｢添加任务｣ 按钮的红点是否显示：教程要求添加过任务才能进入下一步，
+    /// 未添加时以红点引导用户注意该按钮。
+    /// </summary>
+    [PropertyDependsOn(nameof(GuideDemoTaskAdded))]
+    public bool GuideAddTaskBadgeVisible => !GuideDemoTaskAdded;
+
     // 最后一步停留 5 秒后才允许点完成，避免一路连点跳过说明
     private const int GuideConfirmDelaySeconds = 5;
 

@@ -389,50 +389,64 @@
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
-                                            <controls:MenuButton
+                                            <Grid
                                                 Grid.Column="0"
                                                 Width="30"
                                                 Height="30"
-                                                Padding="0"
-                                                VerticalAlignment="Top"
-                                                hc:BorderElement.CornerRadius="4,0,0,4"
-                                                hc:IconElement.Geometry="{StaticResource TaskQueueAddTaskIcon}"
-                                                Foreground="{DynamicResource PrimaryTextBrush}"
-                                                Style="{StaticResource MaaButtonDefaultStyle}"
-                                                ToolTip="{DynamicResource AddTaskQueueTask}">
-                                                <controls:MenuButton.PopupContent>
-                                                    <Border
-                                                        Width="190"
-                                                        Margin="8"
-                                                        Padding="2,2,2,0"
-                                                        Background="{DynamicResource RegionBrush}"
-                                                        BorderBrush="{DynamicResource BorderBrush}"
-                                                        BorderThickness="1"
-                                                        CornerRadius="4"
-                                                        Effect="{DynamicResource EffectShadow2}">
-                                                        <!--
-                                                            本版 HandyControls 移除了原版 MenuAttach.ItemMinHeight（原 ContextMenu
-                                                            隐式样式靠它把项撑到标准控件高度），Menu 的顶级项模板默认无最小高度，
-                                                            需在容器样式显式补 MinHeight
-                                                        -->
-                                                        <Menu Padding="0" ItemsSource="{Binding TaskTypeList, Source={x:Static helper:Instances.TaskQueueViewModel}}">
-                                                            <Menu.ItemContainerStyle>
-                                                                <Style BasedOn="{StaticResource MaaMenuItemDefaultStyle}" TargetType="MenuItem">
-                                                                    <Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}" />
-                                                                    <Setter Property="Command" Value="{Binding AddGuideDemoTaskCommand, Source={x:Static helper:Instances.SettingsViewModel}}" />
-                                                                    <Setter Property="CommandParameter" Value="{Binding Value}" />
-                                                                    <Setter Property="Header" Value="{Binding Display}" />
-                                                                </Style>
-                                                            </Menu.ItemContainerStyle>
-                                                            <Menu.ItemsPanel>
-                                                                <ItemsPanelTemplate>
-                                                                    <StackPanel Orientation="Vertical" />
-                                                                </ItemsPanelTemplate>
-                                                            </Menu.ItemsPanel>
-                                                        </Menu>
-                                                    </Border>
-                                                </controls:MenuButton.PopupContent>
-                                            </controls:MenuButton>
+                                                VerticalAlignment="Top">
+                                                <controls:MenuButton
+                                                    Width="30"
+                                                    Height="30"
+                                                    Padding="0"
+                                                    hc:BorderElement.CornerRadius="4,0,0,4"
+                                                    hc:IconElement.Geometry="{StaticResource TaskQueueAddTaskIcon}"
+                                                    Foreground="{DynamicResource PrimaryTextBrush}"
+                                                    Style="{StaticResource MaaButtonDefaultStyle}"
+                                                    ToolTip="{DynamicResource AddTaskQueueTask}">
+                                                    <controls:MenuButton.PopupContent>
+                                                        <Border
+                                                            Width="190"
+                                                            Margin="8"
+                                                            Padding="2,2,2,0"
+                                                            Background="{DynamicResource RegionBrush}"
+                                                            BorderBrush="{DynamicResource BorderBrush}"
+                                                            BorderThickness="1"
+                                                            CornerRadius="4"
+                                                            Effect="{DynamicResource EffectShadow2}">
+                                                            <!--
+                                                                本版 HandyControls 移除了原版 MenuAttach.ItemMinHeight（原 ContextMenu
+                                                                隐式样式靠它把项撑到标准控件高度），Menu 的顶级项模板默认无最小高度，
+                                                                需在容器样式显式补 MinHeight
+                                                            -->
+                                                            <Menu Padding="0" ItemsSource="{Binding TaskTypeList, Source={x:Static helper:Instances.TaskQueueViewModel}}">
+                                                                <Menu.ItemContainerStyle>
+                                                                    <Style BasedOn="{StaticResource MaaMenuItemDefaultStyle}" TargetType="MenuItem">
+                                                                        <Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}" />
+                                                                        <Setter Property="Command" Value="{Binding AddGuideDemoTaskCommand, Source={x:Static helper:Instances.SettingsViewModel}}" />
+                                                                        <Setter Property="CommandParameter" Value="{Binding Value}" />
+                                                                        <Setter Property="Header" Value="{Binding Display}" />
+                                                                    </Style>
+                                                                </Menu.ItemContainerStyle>
+                                                                <Menu.ItemsPanel>
+                                                                    <ItemsPanelTemplate>
+                                                                        <StackPanel Orientation="Vertical" />
+                                                                    </ItemsPanelTemplate>
+                                                                </Menu.ItemsPanel>
+                                                            </Menu>
+                                                        </Border>
+                                                    </controls:MenuButton.PopupContent>
+                                                </controls:MenuButton>
+                                                <!--  教程要求先添加任务才能进入下一步，未添加时红点引导（与任务队列按钮同视觉）  -->
+                                                <Ellipse
+                                                    Width="7"
+                                                    Height="7"
+                                                    Margin="0,1,1,0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    Fill="{DynamicResource NewBadgeBrush}"
+                                                    IsHitTestVisible="False"
+                                                    Visibility="{c:Binding GuideAddTaskBadgeVisible}" />
+                                            </Grid>
                                             <Button
                                                 Grid.Column="1"
                                                 Height="30"
