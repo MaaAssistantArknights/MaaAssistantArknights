@@ -79,7 +79,7 @@
                             Command="{s:Action NextGuide}"
                             CommandParameter="{Binding ElementName=GuideStepBar}"
                             Content="{DynamicResource NextGuide}"
-                            IsEnabled="{Binding GuideNextEnabled}"
+                            IsEnabled="{c:Binding 'GuideNextGateTip == null'}"
                             Style="{StaticResource ButtonDashedPrimary}"
                             Visibility="{c:Binding 'GuideStepIndex less GuideMaxStep - 1'}" />
                         <Button
@@ -94,8 +94,6 @@
                     </StackPanel>
                     <Grid Grid.Row="2" MaxWidth="{Binding ElementName=GuideButtonPanel, Path=ActualWidth}">
                         <controls:TextBlock
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Bottom"
                             FontSize="12"
                             Foreground="{DynamicResource ThirdlyTextBrush}"
                             Visibility="{c:Binding '!GuideConfirmEnabled'}">
@@ -105,7 +103,7 @@
                             Foreground="{DynamicResource ThirdlyTextBrush}"
                             Text="{Binding GuideNextGateTip}"
                             TextWrapping="Wrap"
-                            Visibility="{c:Binding '!GuideNextEnabled'}" />
+                            Visibility="{c:Binding 'GuideNextGateTip != null'}" />
                     </Grid>
                 </Grid>
                 <ScrollViewer Margin="10,20,10,20" VerticalScrollBarVisibility="Auto">
