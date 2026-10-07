@@ -17,6 +17,21 @@ asst::OperProgressTask::OperProgressTask(const AsstCallback& callback, Assistant
 namespace json::ext
 {
 template <>
+class jsonization<asst::OperProgressTask::RefillStage>
+{
+public:
+    bool check_json(const json::value& value) const
+    {
+        if (!value.is_object()) {
+            return false;
+        }
+        const auto stage = value.find<std::string>("stage");
+        const auto deadline = value.find<int64_t>("valid_until_utc");
+        return stage && !stage->empty() && deadline && *deadline > 0 && *deadline <= 4'102'444'800;
+    }
+};
+
+template <>
 class jsonization<asst::OperProgressTask::ProgressPlan>
 {
 public:
@@ -118,6 +133,20 @@ bool asst::OperProgressTask::set_params(const json::value& params)
             });
     }
 
+    const auto auto_refill = params.find_value("auto_refill");
+    const auto client_type = params.find_value("client_type");
+    const auto routes = params.find_value("refill_stages");
+    const auto medicine = params.find_value("medicine");
+    if ((auto_refill && !auto_refill->is_boolean()) || (client_type && !client_type->is_string()) ||
+        (routes && !routes->is<RefillStages>()) || (medicine && (!medicine->is<int>() || medicine->as<int>() < 0))) {
+        LogError << __FUNCTION__ << "invalid refill parameters";
+        return false;
+    }
     m_process_task_ptr->set_plan(std::move(validated_plans));
+    m_process_task_ptr->set_refill_options(
+        auto_refill ? auto_refill->as_boolean() : false,
+        routes ? routes->as<RefillStages>() : RefillStages {},
+        client_type ? client_type->as_string() : std::string {},
+        medicine ? medicine->as<int>() : 0);
     return true;
 }

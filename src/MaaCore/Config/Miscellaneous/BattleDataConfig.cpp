@@ -1,5 +1,7 @@
 #include "BattleDataConfig.h"
 
+#include <limits>
+
 #include "Utils/Logger.hpp"
 #include <meojson/json.hpp>
 
@@ -11,6 +13,47 @@ bool asst::BattleDataConfig::parse(const json::value& json)
     m_ranges.clear();
     m_opers.clear();
     m_drones_confusing.clear();
+    m_character_max_levels.clear();
+    for (auto& curve : m_character_exp_map) {
+        curve.clear();
+    }
+    // Older resource bundles may omit leveling data. Their existing battle consumers remain usable.
+    if (const auto exp_map = json.find("characterExpMap")) {
+        if (!exp_map->is_array() || exp_map->as_array().size() != m_character_exp_map.size()) {
+            LogError << __FUNCTION__ << "Invalid operator EXP map";
+            return false;
+        }
+        for (size_t phase = 0; phase < m_character_exp_map.size(); ++phase) {
+            const auto& phase_json = exp_map->as_array().at(phase);
+            if (!phase_json.is_array() || phase_json.as_array().empty()) {
+                LogError << __FUNCTION__ << "Invalid operator EXP phase" << phase;
+                return false;
+            }
+            bool ended = false;
+            for (const auto& exp_json : phase_json.as_array()) {
+                if (!exp_json.is<int>() || exp_json.as_integer() > std::numeric_limits<int>::max() ||
+                    exp_json.as_integer() < -1) {
+                    LogError << __FUNCTION__ << "Invalid operator EXP value" << phase;
+                    return false;
+                }
+                const int exp = exp_json.as_integer();
+                if (exp == -1) {
+                    ended = true;
+                }
+                else if (exp <= 0 || ended) {
+                    LogError << __FUNCTION__ << "Invalid operator EXP curve" << phase << exp;
+                    return false;
+                }
+                else {
+                    m_character_exp_map.at(phase).emplace_back(exp);
+                }
+            }
+            if (m_character_exp_map.at(phase).empty()) {
+                LogError << __FUNCTION__ << "Empty operator EXP curve" << phase;
+                return false;
+            }
+        }
+    }
     for (const auto& [id, char_data_json] : json.at("chars").as_object()) {
         std::shared_ptr<battle::OperProps> data_ptr = std::make_shared<battle::OperProps>();
         data_ptr->id = id;
@@ -34,6 +77,26 @@ bool asst::BattleDataConfig::parse(const json::value& json)
 
         auto role_str = char_data_json.get("profession", "");
         data_ptr->role = battle::parse_role_type(role_str, battle::Role::Drone);
+        if (const auto caps = char_data_json.find("maxLevel")) {
+            if (data_ptr->role == battle::Role::Drone || !caps->is_array() || caps->as_array().empty() ||
+                caps->as_array().size() > m_character_exp_map.size()) {
+                LogError << __FUNCTION__ << "Invalid operator maximum levels" << id;
+                return false;
+            }
+            std::vector<int> levels;
+            for (size_t phase = 0; phase < caps->as_array().size(); ++phase) {
+                const auto& cap_json = caps->as_array().at(phase);
+                if (!cap_json.is<int>() || cap_json.as_integer() <= 0 ||
+                    cap_json.as_integer() > std::numeric_limits<int>::max() ||
+                    (!m_character_exp_map.at(phase).empty() &&
+                     static_cast<size_t>(cap_json.as_integer() - 1) > m_character_exp_map.at(phase).size())) {
+                    LogError << __FUNCTION__ << "Invalid operator phase maximum level" << id << phase;
+                    return false;
+                }
+                levels.emplace_back(cap_json.as_integer());
+            }
+            m_character_max_levels.emplace(id, std::move(levels));
+        }
         if (data_ptr->role != battle::Role::Drone) {
             m_opers.emplace(name); // 所有干员名
         };
@@ -86,6 +149,50 @@ bool asst::BattleDataConfig::parse(const json::value& json)
     }
 
     return true;
+}
+
+std::optional<asst::BattleDataConfig::LevelUpRequirements> asst::BattleDataConfig::get_level_up_requirements(
+    battle::Role role,
+    const std::string& name,
+    int phase,
+    int level,
+    int current_exp) const
+{
+    const auto fail = [&, function = __FUNCTION__]() -> std::optional<LevelUpRequirements> {
+        LogWarn << function << "Invalid or unavailable leveling observation" << name << phase << level << current_exp;
+        return std::nullopt;
+    };
+    if (phase < 0 || static_cast<size_t>(phase) >= m_character_exp_map.size() || level <= 0 || current_exp < 0) {
+        return fail();
+    }
+    const auto oper = find_first_oper(role, name);
+    if (!oper) {
+        return fail();
+    }
+    const auto caps = m_character_max_levels.find(oper->id);
+    if (caps == m_character_max_levels.cend() || static_cast<size_t>(phase) >= caps->second.size()) {
+        return fail();
+    }
+    const int max_level = caps->second.at(phase);
+    const auto& curve = m_character_exp_map.at(phase);
+    if (level >= max_level || static_cast<size_t>(max_level - 1) > curve.size()) {
+        return fail();
+    }
+    const int next_level_exp = curve.at(level - 1);
+    if (next_level_exp <= 0 || current_exp >= next_level_exp) {
+        return fail();
+    }
+    int required_exp = next_level_exp - current_exp;
+    for (int index = level; index < max_level - 1; ++index) {
+        const int exp = curve.at(index);
+        if (exp <= 0 || required_exp > std::numeric_limits<int>::max() - exp) {
+            return fail();
+        }
+        required_exp += exp;
+    }
+    return LevelUpRequirements { .max_level = max_level,
+                                 .next_level_exp = next_level_exp,
+                                 .required_exp = required_exp };
 }
 
 asst::battle::SubRole asst::BattleDataConfig::get_subrole_type(const std::string& subrole_name)

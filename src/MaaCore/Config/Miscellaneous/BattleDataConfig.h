@@ -1,6 +1,7 @@
 #pragma once
 #include "Config/AbstractConfig.h"
 
+#include <array>
 #include <optional>
 #include <ranges>
 #include <unordered_map>
@@ -15,7 +16,19 @@ namespace asst
 class BattleDataConfig final : public MAA_NS::SingletonHolder<BattleDataConfig>, public AbstractConfig
 {
 public:
+    struct LevelUpRequirements
+    {
+        int max_level = 0;
+        int next_level_exp = 0;
+        int required_exp = 0;
+    };
+
     virtual ~BattleDataConfig() override = default;
+
+    // Only the currently observed phase is considered. A capped level has no next-level EXP requirement.
+    std::optional<LevelUpRequirements>
+        get_level_up_requirements(battle::Role role, const std::string& name, int phase, int level, int current_exp)
+            const;
 
     std::optional<std::string> get_first_id(battle::Role role, const std::string& name) const
     {
@@ -245,6 +258,8 @@ private:
     std::unordered_map<std::string, std::shared_ptr<battle::OperProps>> m_chars; // id -> oper
 
     std::unordered_map<std::string, battle::AttackRange> m_ranges;
+    std::array<std::vector<int>, 3> m_character_exp_map;
+    std::unordered_map<std::string, std::vector<int>> m_character_max_levels;
     std::unordered_set<std::string> m_opers;
     std::unordered_set<std::string> m_drones_confusing; // confused summons: multiple summons of same oper
 

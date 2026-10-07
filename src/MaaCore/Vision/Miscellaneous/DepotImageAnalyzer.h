@@ -1,6 +1,8 @@
 #pragma once
 #include "Vision/VisionHelper.h"
 
+#include <optional>
+
 namespace asst
 {
 struct ItemInfo
@@ -28,10 +30,16 @@ public:
     // 手动设置要识别的物品字典，不设置则默认使用 get_ordered_material_item_id
     void set_item_ids(std::vector<std::string> ids) noexcept { m_item_ids = std::move(ids); }
 
-    // 设置为 true 时，遇到匹配不到的槽位会跳过而不是中断（用于基础物品识别）
+    // 基础物品识别只查指定物品，跳过其他合法物品。
     void set_is_basic(bool is_basic) noexcept { m_is_basic = is_basic; }
 
     const auto& get_result() const noexcept { return m_result; }
+
+    bool is_quantity_recognition_complete() const noexcept { return m_quantity_recognition_complete; }
+
+    bool has_reached_last_item() const noexcept { return m_reached_last_item; }
+
+    const std::optional<Rect>& get_unrecognized_item_rect() const noexcept { return m_unrecognized_item_rect; }
 
     static void clear_cached_templates()
     {
@@ -52,10 +60,9 @@ private:
     bool analyze_base_rect();
     bool analyze_all_items();
 
-    bool check_roi_empty(const Rect& roi);
     size_t
         match_item(const Rect& roi, /* out */ ItemInfo& item_info, size_t begin_index = 0ULL, bool with_enlarge = true);
-    int match_quantity(const ItemInfo& item);
+    std::optional<int> match_quantity(const ItemInfo& item);
     Rect resize_rect_to_raw_size(const Rect& rect);
 
     template <typename F>
@@ -64,6 +71,9 @@ private:
     size_t m_match_begin_pos = 0ULL;
     std::vector<std::string> m_item_ids; // 为空时使用 get_ordered_material_item_id
     bool m_is_basic = false;             // 为 true 时匹配不到不中断
+    bool m_quantity_recognition_complete = true;
+    bool m_reached_last_item = false;
+    std::optional<Rect> m_unrecognized_item_rect;
     Rect m_resized_rect;
     cv::Mat m_image_resized;
 #ifdef ASST_DEBUG

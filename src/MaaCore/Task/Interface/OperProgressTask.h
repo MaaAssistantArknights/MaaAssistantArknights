@@ -2,7 +2,9 @@
 #include "Task/InterfaceTask.h"
 
 #include <array>
+#include <cstdint>
 #include <optional>
+#include <unordered_map>
 #include <variant>
 
 #include "Common/AsstBattleDef.h"
@@ -27,6 +29,17 @@ public:
         MEO_TOJSON(MEO_OPT role, name, MEO_OPT elite, MEO_OPT skill_level, MEO_OPT skill_mastery);
         MEO_FROMJSON(MEO_OPT role, name, MEO_OPT elite, MEO_OPT skill_level, MEO_OPT skill_mastery);
     };
+
+    struct RefillStage
+    {
+        std::string stage;
+        int64_t valid_until_utc = 0;
+
+        MEO_TOJSON(stage, valid_until_utc);
+        MEO_FROMJSON(stage, valid_until_utc);
+    };
+
+    using RefillStages = std::unordered_map<std::string, std::vector<RefillStage>>;
 
 public:
     inline static constexpr std::string_view TaskType = "OperProgress";

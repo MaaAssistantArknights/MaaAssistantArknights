@@ -1,6 +1,10 @@
 #include "OperProgressProcessTask.h"
 
 #include <algorithm>
+#include <cctype>
+#include <charconv>
+#include <chrono>
+#include <limits>
 #include <optional>
 #include <ranges>
 #include <tuple>
@@ -9,11 +13,14 @@
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/InfrastConfig.h"
+#include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "MaaUtils/NoWarningCV.hpp"
 #include "Status.h"
 #include "Task/Infrast/InfrastScore.h"
+#include "Task/Interface/DepotTask.h"
+#include "Task/Interface/FightTask.h"
 #include "Task/MiniGame/MaterialSynthesisTaskPlugin.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
@@ -21,7 +28,9 @@
 #include "Vision/BestMatcher.h"
 #include "Vision/Hasher.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
+#include "Vision/Miscellaneous/MaterialSynthesisImageAnalyzer.h"
 #include "Vision/MultiMatcher.h"
+#include "Vision/OCRer.h"
 #include "Vision/Oper/OperBoxImageAnalyzer.h"
 #include "Vision/Oper/OperFilesImageAnalyzer.h"
 #include "Vision/Oper/OperNameAnalyzer.h"
@@ -31,8 +40,28 @@
 namespace asst::oper_progress
 {
 constexpr int MaxOperatorPages = 20;
+constexpr int MaxRefillRounds = 16;
 // 制造站产线当前产品写入 Status 的键,RestoreFactoryState 读取后恢复原产品。
 constexpr std::string_view FactoryProductStatusKey = "OperProgressFactoryProduct";
+
+std::optional<std::string> chip_item_id(battle::Role role, int tier)
+{
+    if (tier < 1 || tier > 3) {
+        return std::nullopt;
+    }
+    static const std::unordered_map<battle::Role, std::string> chip_ids {
+        { battle::Role::Pioneer, "3211" }, { battle::Role::Warrior, "3221" }, { battle::Role::Tank, "3231" },
+        { battle::Role::Sniper, "3241" },  { battle::Role::Caster, "3251" },  { battle::Role::Medic, "3261" },
+        { battle::Role::Support, "3271" }, { battle::Role::Special, "3281" },
+    };
+    const auto item = chip_ids.find(role);
+    if (item == chip_ids.end()) {
+        return std::nullopt;
+    }
+    auto id = item->second;
+    id.back() = static_cast<char>('0' + tier);
+    return id;
+}
 
 // 快速编队卡片识别结果,参照 BattleFormationTask::QuickFormationOper 裁剪出选人所需字段。
 struct QuickFormationOperInfo
@@ -132,12 +161,16 @@ std::string role_task_name(asst::battle::Role role)
 
 bool asst::OperProgressProcessTask::_run()
 {
+    m_medicine_remaining = m_medicine_limit;
     bool training_room_busy = false;
     for (size_t index = 0; index < m_plan.size() && !need_exit(); ++index) {
         const auto& target = m_plan[index];
 
         const ResultDetail located = find_and_open_operator(target.role, target.name);
         if (located != ResultDetail::Completed) {
+            if (located == ResultDetail::RecognitionFailed) {
+                m_can_sync_inventory = false;
+            }
             auto info = basic_info_with_what("OperProgressDetail");
             info["details"] |= json::object {
                 { "role", target.role },
@@ -150,12 +183,23 @@ bool asst::OperProgressProcessTask::_run()
             continue;
         }
         if (target.elite) {
-            auto elite_ret = execute_elite(target.role, target.name, *target.elite);
+            auto elite_ret =
+                execute_with_refill(target, [&]() { return execute_elite(target.role, target.name, *target.elite); });
             report_elite_result(target.role, target.name, elite_ret, *target.elite);
         }
+        if (need_exit()) {
+            break;
+        }
         if (target.skill_level) {
-            auto main_ret = execute_skill(*target.skill_level);
+            if (find_and_open_operator(target.role, target.name) != ResultDetail::Completed) {
+                m_can_sync_inventory = false;
+                continue;
+            }
+            auto main_ret = execute_with_refill(target, [&]() { return execute_skill(*target.skill_level); });
             report_skill_result(target.role, target.name, main_ret, *target.skill_level);
+        }
+        if (need_exit()) {
+            break;
         }
         if (!training_room_busy && target.skill_mastery) {
             const auto& arr = *target.skill_mastery;
@@ -164,7 +208,13 @@ bool asst::OperProgressProcessTask::_run()
                     continue;
                 }
                 int training_level = 0;
-                auto skill_ret = execute_mastery(target.role, target.name, i + 1, arr[i], training_level);
+                if (find_and_open_operator(target.role, target.name) != ResultDetail::Completed) {
+                    m_can_sync_inventory = false;
+                    break;
+                }
+                auto skill_ret = execute_with_refill(target, [&]() {
+                    return execute_mastery(target.role, target.name, i + 1, arr[i], training_level);
+                });
                 std::array<int, 3> skill_levels { 0, 0, 0 };
                 if (skill_ret == ResultDetail::AlreadySatisfied || skill_ret == ResultDetail::Completed ||
                     skill_ret == ResultDetail::PrerequisiteTraining || skill_ret == ResultDetail::TrainingRoomBusy) {
@@ -179,8 +229,176 @@ bool asst::OperProgressProcessTask::_run()
             }
         }
     }
+    if (m_inventory_changed && m_can_sync_inventory && !need_exit() &&
+        (run_task("QuickSwitch@ToOperBox", 3) || run_task("OperProgress@ReturnToOperBox", 3)) && !need_exit()) {
+        DepotTask depot(m_callback, m_inst);
+        depot.set_task_id(m_task_id).set_retry_times(0);
+        depot.run();
+    }
+    if (need_exit()) {
+        return false;
+    }
     report_summary();
     return true;
+}
+
+void asst::OperProgressProcessTask::mark_inventory_changed()
+{
+    if (m_inventory_changed) {
+        return;
+    }
+    m_inventory_changed = true;
+    callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("OperProgressInventoryChanged"));
+}
+
+asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execute_with_refill(
+    const OperProgressTask::ProgressPlan& target,
+    const std::function<ResultDetail()>& action)
+{
+    std::optional<MissingMaterial> previous;
+    std::string previous_context;
+    size_t previous_revision = 0;
+    bool verifying_progress = false;
+    int refill_rounds = 0;
+    while (!need_exit()) {
+        m_missing_material.reset();
+        m_missing_context.clear();
+        const auto result = action();
+        if (need_exit()) {
+            return ResultDetail::Interrupt;
+        }
+        if (result == ResultDetail::RecognitionFailed) {
+            m_can_sync_inventory = false;
+        }
+        if (result != ResultDetail::ResourceInsufficient || !m_auto_refill || !m_missing_material) {
+            return result;
+        }
+        const auto missing = *m_missing_material;
+        if (missing.item_id.empty() || missing.owned < 0 || missing.required <= missing.owned) {
+            m_can_sync_inventory = false;
+            return ResultDetail::RecognitionFailed;
+        }
+        const bool unchanged = previous && previous->item_id == missing.item_id && previous->owned == missing.owned &&
+                               previous->required == missing.required && previous_context == m_missing_context &&
+                               previous_revision == m_progress_revision;
+        if (unchanged) {
+            if (verifying_progress) {
+                LogWarn << __FUNCTION__ << "refill made no confirmed progress" << missing.item_id;
+                return ResultDetail::ResourceInsufficient;
+            }
+            verifying_progress = true;
+        }
+        else {
+            verifying_progress = false;
+            if (refill_rounds >= oper_progress::MaxRefillRounds) {
+                LogWarn << __FUNCTION__ << "refill round limit reached";
+                return ResultDetail::ResourceInsufficient;
+            }
+            previous = missing;
+            previous_context = m_missing_context;
+            previous_revision = m_progress_revision;
+            ++refill_rounds;
+            const auto refill_result = refill_material(missing);
+            if (refill_result != ResultDetail::Completed) {
+                return refill_result;
+            }
+        }
+        if (need_exit()) {
+            return ResultDetail::Interrupt;
+        }
+        const auto located = find_and_open_operator(target.role, target.name);
+        if (located != ResultDetail::Completed) {
+            m_can_sync_inventory = false;
+            return located;
+        }
+    }
+    return ResultDetail::Interrupt;
+}
+
+asst::OperProgressProcessTask::ResultDetail
+    asst::OperProgressProcessTask::refill_material(const MissingMaterial& material)
+{
+    const auto routes = m_refill_stages.find(material.item_id);
+    if (routes == m_refill_stages.end()) {
+        return ResultDetail::ResourceInsufficient;
+    }
+    for (const auto& route : routes->second) {
+        const auto deadline = std::chrono::system_clock::time_point(std::chrono::seconds(route.valid_until_utc));
+        if (std::chrono::system_clock::now() >= deadline) {
+            continue;
+        }
+        FightTask fight(m_callback, m_inst);
+        fight.set_task_id(m_task_id);
+        fight.set_refill_mode();
+        fight.set_valid_until(deadline);
+        const std::string server = m_client_type == "YoStarEN"   ? "US"
+                                   : m_client_type == "YoStarJP" ? "JP"
+                                   : m_client_type == "YoStarKR" ? "KR"
+                                                                 : "CN";
+        if (!fight.set_params(
+                json::object {
+                    { "stage", route.stage },
+                    { "client_type", m_client_type },
+                    { "server", server },
+                    { "medicine", m_medicine_remaining },
+                    { "stone", 0 },
+                    { "medicine_expire_days", 0 },
+                    { "report_to_penguin", false },
+                    { "report_to_yituliu", false },
+                    { "drops", json::object { { material.item_id, material.required - material.owned } } },
+                })) {
+            continue;
+        }
+        // The existing return chain confirms a stable page before Fight takes over navigation.
+        if (!(run_task("QuickSwitch@ToOperBox", 3) || run_task("OperProgress@ReturnToOperBox", 3)) || need_exit()) {
+            m_can_sync_inventory = false;
+            return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+        }
+        auto info = basic_info_with_what("OperProgressRefill");
+        info["details"] |= json::object {
+            { "item_id", material.item_id },
+            { "owned", material.owned },
+            { "required", material.required },
+            { "stage", route.stage },
+        };
+        mark_inventory_changed();
+        callback(AsstMsg::SubTaskExtraInfo, info);
+        fight.run();
+        const auto& result = fight.get_result();
+        if (result.medicine_used < 0 || result.medicine_used > m_medicine_remaining) {
+            LogError << __FUNCTION__ << "Invalid material refill medicine consumption" << result.medicine_used;
+            m_medicine_remaining = 0;
+            return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+        }
+        m_medicine_remaining -= result.medicine_used;
+        if (!result.medicine_usage_known) {
+            LogWarn << __FUNCTION__ << "Material refill medicine usage is uncertain, disabling further recovery";
+            m_medicine_remaining = 0;
+        }
+        if (need_exit()) {
+            return ResultDetail::Interrupt;
+        }
+        info["details"]["result_detail"] = result.reason;
+        callback(AsstMsg::SubTaskExtraInfo, info);
+        if (!result.medicine_usage_known) {
+            m_can_sync_inventory = false;
+            return ResultDetail::RecognitionFailed;
+        }
+        if (result.reason == FightTask::StopReason::AutoDeployUnavailable && result.medicine_usage_known &&
+            result.medicine_used == 0 && result.drops.empty()) {
+            continue;
+        }
+        if (result.target_reached && result.reason == FightTask::StopReason::TargetReached) {
+            return ResultDetail::Completed;
+        }
+        if (result.reason == FightTask::StopReason::SanityInsufficient ||
+            result.reason == FightTask::StopReason::DeadlineReached) {
+            return ResultDetail::ResourceInsufficient;
+        }
+        m_can_sync_inventory = false;
+        return ResultDetail::RecognitionFailed;
+    }
+    return ResultDetail::ResourceInsufficient;
 }
 
 asst::OperProgressProcessTask::ResultDetail
@@ -291,23 +509,37 @@ asst::OperProgressProcessTask::ResultDetail
         if (need_exit()) {
             return ResultDetail::Interrupt;
         }
+        m_step_context = "elite:" + std::to_string(phase);
         // 精英化前必须先把当前阶段升至满级；晋升成功后停在新阶段 1 级。
-        if (!run_task("OperProgress@CurrentElite" + std::to_string(phase)) || !run_task("OperProgress@LevelUp")) {
+        mark_inventory_changed();
+        if (!run_task("OperProgress@CurrentElite" + std::to_string(phase))) {
             return ResultDetail::RecognitionFailed;
+        }
+        const auto level_result = m_auto_refill                      ? execute_level_up(role, name, phase)
+                                  : run_task("OperProgress@LevelUp") ? ResultDetail::Completed
+                                                                     : ResultDetail::RecognitionFailed;
+        if (level_result != ResultDetail::Completed) {
+            return level_result;
         }
         // 档案页不展示材料行,缺料复核以晋升页面上的红色数量文字为准；
         // 弹窗链在 EliteUpPage 标志处停止,缺料探测与确认点击由本任务依次驱动。
         if (!run_task("OperProgress@EliteUp")) {
             return ResultDetail::RecognitionFailed;
         }
+        if (m_auto_refill) {
+            const auto coins_result = prepare_elite_coins(role, name);
+            if (coins_result != ResultDetail::Completed) {
+                return coins_result;
+            }
+        }
         // 存在性探测带少量重试即可：弹窗已由 EliteUpPage 标志确认渲染完成,充足时不必空烧 20 次截图。
         if (run_task("OperProgress@EliteUpMaterialMissing", 2)) {
             if (run_task("OperProgress@DualchipRequired", 2)) {
-                // 加工站无法合成芯片。只有 5/6 星晋升二阶所需的双芯片有制造站产线；
-                // 判定依据是本次晋升的阶段（phase+1）而非总目标,E0→E1 缺的是普通芯片,直接报错转下一条。
+                // 双芯片沿用制造站产线；普通芯片与芯片组交给同一补料闭环。
                 const bool dual_chip = phase + 1 == 2 && BattleData.get_rarity(role, name) > 4;
-                if (!dual_chip || !manufacture_dual_chip(role, name)) {
-                    return dual_chip ? ResultDetail::ResourceInsufficient : ResultDetail::ChipNotCraftable;
+                const auto chip_result = dual_chip ? manufacture_dual_chip(role, name) : prepare_chip(role, phase + 1);
+                if (chip_result != ResultDetail::Completed) {
+                    return chip_result;
                 }
             }
             // 材料 1/2 依次跳转加工站复用小游戏自动合成；当前槽位修复后再处理下一槽。
@@ -324,13 +556,266 @@ asst::OperProgressProcessTask::ResultDetail
                 }
             }
         }
+        if (m_auto_refill) {
+            // Workshop processing can consume LMD after the initial promotion check.
+            const auto coins_result = prepare_elite_coins(role, name);
+            if (coins_result != ResultDetail::Completed) {
+                return coins_result;
+            }
+        }
         // 复核仍缺料则不点击晋升；材料齐备则点击晋升确认,再以新阶段标志确认晋升成功。
-        if (run_task("OperProgress@EliteUpMaterialMissing", 3) || !run_task("OperProgress@EliteUpPageConfirm") ||
+        if (run_task("OperProgress@EliteUpMaterialMissing", 3)) {
+            return ResultDetail::RecognitionFailed;
+        }
+        mark_inventory_changed();
+        if (!run_task("OperProgress@EliteUpPageConfirm") ||
             !run_task("OperProgress@CurrentElite" + std::to_string(phase + 1))) {
             return ResultDetail::RecognitionFailed;
         }
+        ++m_progress_revision;
     }
     return ResultDetail::Completed;
+}
+
+asst::OperProgressProcessTask::ResultDetail
+    asst::OperProgressProcessTask::execute_level_up(battle::Role role, const std::string& name, int phase)
+{
+    if (run_task("OperProgress@LevelMax", 0)) {
+        return ResultDetail::Completed;
+    }
+    const auto files_image = ctrler()->get_image();
+    const auto current_level = ocr_integer(files_image, "OperProgress@CurrentLevel");
+    const auto current_exp = ocr_current_exp(files_image);
+    if (!current_level || !current_exp) {
+        return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+    }
+    const auto requirements =
+        BattleData.get_level_up_requirements(role, name, phase, *current_level, current_exp->first);
+    if (!requirements || requirements->next_level_exp != current_exp->second) {
+        return ResultDetail::RecognitionFailed;
+    }
+    const auto inventory = scan_inventory();
+    if (!inventory) {
+        return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+    }
+    const auto& record_items = ItemData.get_record_exp_items();
+    const auto refill_record_exp = ItemData.get_record_exp("2004");
+    if (record_items.size() != 4 || !refill_record_exp || *refill_record_exp <= 0) {
+        return ResultDetail::RecognitionFailed;
+    }
+    int64_t available_exp = 0;
+    for (const auto& [id, exp] : record_items) {
+        const auto record = inventory->find(id);
+        if (record != inventory->end()) {
+            const int64_t record_exp = static_cast<int64_t>(record->second) * exp;
+            if (available_exp > std::numeric_limits<int64_t>::max() - record_exp) {
+                return ResultDetail::RecognitionFailed;
+            }
+            available_exp += record_exp;
+        }
+    }
+    if (available_exp < requirements->required_exp) {
+        const auto record = inventory->find("2004");
+        const int owned = record == inventory->end() ? 0 : record->second;
+        const int64_t shortfall = requirements->required_exp - available_exp;
+        const int64_t needed = (shortfall + *refill_record_exp - 1) / *refill_record_exp;
+        if (needed <= 0 || needed > std::numeric_limits<int>::max() - owned) {
+            return ResultDetail::RecognitionFailed;
+        }
+        m_missing_material =
+            MissingMaterial { .item_id = "2004", .owned = owned, .required = owned + static_cast<int>(needed) };
+        m_missing_context = m_step_context + ":level:" + std::to_string(*current_level) + ":" +
+                            std::to_string(current_exp->first) + ":exp";
+        return ResultDetail::ResourceInsufficient;
+    }
+    const auto located = find_and_open_operator(role, name);
+    if (located != ResultDetail::Completed) {
+        return located;
+    }
+    const auto restored_image = ctrler()->get_image();
+    if (OperFilesImageAnalyzer(restored_image).elite_level() != phase ||
+        ocr_integer(restored_image, "OperProgress@CurrentLevel") != current_level ||
+        ocr_current_exp(restored_image) != current_exp) {
+        return ResultDetail::RecognitionFailed;
+    }
+    ProcessTask level(*this, { "OperProgress@RefillLevelUp" });
+    if (!level.run()) {
+        return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+    }
+    // MAX can be limited by LMD. Select the actual cap before observing the full price.
+    if (!select_level_up_cap(*current_level, requirements->max_level)) {
+        return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+    }
+    if (need_exit()) {
+        return ResultDetail::Interrupt;
+    }
+    const auto image = ctrler()->get_image();
+    const auto selected_level = ocr_integer(image, "OperProgress@LevelUpTargetLevel");
+    const auto selected_exp = ocr_integer(image, "OperProgress@LevelUpExp");
+    const auto cost = ocr_integer(image, "OperProgress@LevelUpCoinsCost");
+    const auto gap = ocr_integer(image, "OperProgress@LevelUpCoinsGap");
+    const auto coins = inventory->find("4001");
+    // Selecting a whole final record may leave less than one record's EXP unused at the cap.
+    const int largest_record_exp = std::ranges::max(record_items | std::views::values);
+    if (!selected_level || *selected_level != requirements->max_level || !selected_exp ||
+        *selected_exp < requirements->required_exp ||
+        *selected_exp - requirements->required_exp >= largest_record_exp || *selected_exp > available_exp || !cost ||
+        *cost <= 0 || coins == inventory->end()) {
+        LogWarn << __FUNCTION__ << "Level-up selection does not match the observed phase requirements";
+        return ResultDetail::RecognitionFailed;
+    }
+    if (gap && *gap > 0 && *gap <= *cost) {
+        // The exact shortfall and price belong to one frame; the balance label may be abbreviated.
+        m_missing_material = MissingMaterial { .item_id = "4001", .owned = *cost - *gap, .required = *cost };
+        m_missing_context = m_step_context + ":level:" + std::to_string(*current_level) + ":" +
+                            std::to_string(current_exp->first) + ":coins";
+        return ResultDetail::ResourceInsufficient;
+    }
+    if (gap || coins->second < *cost) {
+        LogWarn << __FUNCTION__ << "Unable to confirm sufficient LMD for level-up";
+        return ResultDetail::RecognitionFailed;
+    }
+    mark_inventory_changed();
+    if (!run_task("OperProgress@LevelUpPageConfirm") || !run_task("OperProgress@LevelMax", 0) ||
+        !run_task("OperProgress@CurrentElite" + std::to_string(phase), 0)) {
+        return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+    }
+    ++m_progress_revision;
+    return ResultDetail::Completed;
+}
+
+bool asst::OperProgressProcessTask::select_level_up_cap(int current_level, int max_level)
+{
+    int previous_level = current_level;
+    for (int attempt = 0; attempt < max_level && !need_exit(); ++attempt) {
+        const auto image = ctrler()->get_image();
+        const auto selected = ocr_integer(image, "OperProgress@LevelUpTargetLevel");
+        if (!selected || *selected < current_level || *selected > max_level ||
+            (attempt > 0 && *selected <= previous_level)) {
+            return false;
+        }
+        if (*selected == max_level) {
+            return true;
+        }
+        previous_level = *selected;
+        OCRer choice(image);
+        choice.set_task_info("OperProgress@LevelUpDialChoice");
+        choice.set_required({ std::to_string(max_level) });
+        const auto matches = choice.analyze();
+        if (matches && matches->size() == 1 && matches->front().score >= 0.9) {
+            if (!ctrler()->click(matches->front().rect) || !run_task("OperProgress@RefillLevelUpPage", 0)) {
+                return false;
+            }
+        }
+        else if (!run_task("OperProgress@LevelUpDialHigher", 0)) {
+            return false;
+        }
+    }
+    return false;
+}
+
+std::optional<std::pair<int, int>> asst::OperProgressProcessTask::ocr_current_exp(const cv::Mat& image)
+{
+    RegionOCRer analyzer(image);
+    analyzer.set_task_info("OperProgress@CurrentExp");
+    analyzer.set_use_raw(true);
+    const auto result = analyzer.analyze();
+    if (!result || result->score < 0.9) {
+        return std::nullopt;
+    }
+    const auto& text = result->text;
+    const auto separator = text.find('/');
+    if (separator == std::string::npos) {
+        return std::nullopt;
+    }
+    int current = 0;
+    int next = 0;
+    const auto current_parsed = std::from_chars(text.data(), text.data() + separator, current);
+    const auto next_parsed = std::from_chars(text.data() + separator + 1, text.data() + text.size(), next);
+    if (current_parsed.ec != std::errc() || current_parsed.ptr != text.data() + separator ||
+        next_parsed.ec != std::errc() || next_parsed.ptr != text.data() + text.size() || current < 0 ||
+        next <= current) {
+        LogWarn << __FUNCTION__ << "Invalid current EXP observation" << text;
+        return std::nullopt;
+    }
+    return std::pair { current, next };
+}
+
+std::optional<int> asst::OperProgressProcessTask::ocr_integer(const cv::Mat& image, const std::string& task_name)
+{
+    const auto task = Task.get<OcrTaskInfo>(task_name);
+    if (!task) {
+        return std::nullopt;
+    }
+    const auto observation = [&]() -> std::optional<OcrPack::Result> {
+        if (task->without_det) {
+            RegionOCRer analyzer(image);
+            analyzer.set_task_info(task);
+            analyzer.set_use_raw(true);
+            return analyzer.analyze();
+        }
+        OCRer analyzer(image);
+        analyzer.set_task_info(task);
+        analyzer.set_use_raw(true);
+        const auto result = analyzer.analyze();
+        if (!result || result->size() != 1) {
+            return std::nullopt;
+        }
+        return result->front();
+    }();
+    if (!observation) {
+        return std::nullopt;
+    }
+    if (observation->score < 0.9) {
+        LogWarn << __FUNCTION__ << "Uncertain integer observation" << task_name << observation->score;
+        return std::nullopt;
+    }
+    const auto& text = observation->text;
+    int value = 0;
+    const auto parsed = std::from_chars(text.data(), text.data() + text.size(), value);
+    if (parsed.ec != std::errc() || parsed.ptr != text.data() + text.size() || value < 0) {
+        LogWarn << __FUNCTION__ << "Invalid integer observation" << task_name << text;
+        return std::nullopt;
+    }
+    return value;
+}
+
+asst::OperProgressProcessTask::ResultDetail
+    asst::OperProgressProcessTask::prepare_elite_coins(battle::Role role, const std::string& name)
+{
+    // The promotion panel only shows the LMD cost. Obtain its owned count from a complete, fresh Depot scan.
+    if (!run_task("OperProgress@EliteUpCoinsMissing", 0)) {
+        return need_exit() ? ResultDetail::Interrupt : ResultDetail::Completed;
+    }
+    const auto cost = ocr_integer(ctrler()->get_image(), "OperProgress@EliteUpCoinsCost");
+    if (!cost || *cost <= 0) {
+        return ResultDetail::RecognitionFailed;
+    }
+    const auto inventory = scan_inventory();
+    if (!inventory) {
+        return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+    }
+    if (find_and_open_operator(role, name) != ResultDetail::Completed || !run_task("OperProgress@EliteUp")) {
+        return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+    }
+    const auto confirmed_cost = ocr_integer(ctrler()->get_image(), "OperProgress@EliteUpCoinsCost");
+    const auto coins = inventory->find("4001");
+    if (!confirmed_cost || *confirmed_cost != *cost || coins == inventory->end() || coins->second < 0) {
+        return ResultDetail::RecognitionFailed;
+    }
+    const bool missing = run_task("OperProgress@EliteUpCoinsMissing", 0);
+    if (need_exit()) {
+        return ResultDetail::Interrupt;
+    }
+    if (coins->second >= *cost) {
+        return missing ? ResultDetail::RecognitionFailed : ResultDetail::Completed;
+    }
+    if (!missing) {
+        return ResultDetail::RecognitionFailed;
+    }
+    m_missing_material = MissingMaterial { .item_id = "4001", .owned = coins->second, .required = *cost };
+    m_missing_context = m_step_context + ":coins";
+    return ResultDetail::ResourceInsufficient;
 }
 
 void asst::OperProgressProcessTask::report_elite_result(
@@ -380,9 +865,12 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
     // 档案页技能等级 OCR 与精英阶段识别共用一张截图
     const cv::Mat& image = ctrler()->get_image();
 
-    // 当前技能等级以档案页 RANK 数字 OCR 为准（OperProgress@CurrentSkillLevel）,识别失败按 1 级处理。
+    // Unknown levels must not repeat a potentially completed, material-consuming action.
     const auto& current_opt = ocr_number(image, "OperProgress@CurrentSkillLevel");
-    const int current = current_opt.value_or(1);
+    if (!current_opt || *current_opt < 1 || *current_opt > 7) {
+        return ResultDetail::RecognitionFailed;
+    }
+    const int current = *current_opt;
     if (current >= target) {
         return ResultDetail::AlreadySatisfied;
     }
@@ -401,11 +889,12 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
         if (need_exit()) {
             return ResultDetail::Interrupt;
         }
+        m_step_context = "skill:" + std::to_string(level);
         // 面板缺料槽逐个检测（对接方式同 execute_elite 的槽位分派）：
         // 技能书/材料1/材料2 均跳加工站走自动合成,当前槽位修复后再检测下一槽；
-        // 2-3 级的技能书不可合成,缺料时合成步骤失败即终止本轮培养。
+        // 2-3 级所需卷一不可合成；未启用自动补料时结束本轮培养。
         if (run_task("OperProgress@SkillUpSkillSummaryRequired", 1)) {
-            if (level <= 3) {
+            if (level <= 3 && !m_auto_refill) {
                 return ResultDetail::ResourceInsufficient;
             }
             const ResultDetail& synth_result = synthesize_missing_material(OperProgressAction::MainSkillLevel, 0);
@@ -426,6 +915,7 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
                 return synth_result;
             }
         }
+        mark_inventory_changed();
         if (!run_task("OperProgress@SkillUpConfirm")) {
             return ResultDetail::RecognitionFailed;
         }
@@ -434,7 +924,8 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
         run_task("OperProgress@ReturnToOperFilesPage");
     }
     // 目标级确认后游戏返回档案页,以 RANK 数字复核最终等级。
-    if (ocr_number("OperProgress@CurrentSkillLevel").value_or(0) < target) {
+    const auto final_level = ocr_number("OperProgress@CurrentSkillLevel");
+    if (!final_level || *final_level < target || *final_level > 7) {
         return ResultDetail::RecognitionFailed;
     }
     return ResultDetail::Completed;
@@ -504,7 +995,7 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
 
     // 专精任务前置要求通用等级7级,不满足的情况下直接返回
     const auto& rank = ocr_number(image, "OperProgress@CurrentSkillLevel");
-    if (!rank) {
+    if (!rank || *rank < 1 || *rank > 7) {
         return ResultDetail::RecognitionFailed;
     }
     else if (*rank < 7) {
@@ -530,11 +1021,13 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
         return ResultDetail::RecognitionFailed;
     }
 
-    // 若领取会使正在专精的技能等级产生变化,或者领取到非目标干员的专精完成,需要选完人后重新识别。
-    bool need_re_recognize_mastery = false;
-    if (run_task("InfrastTrainingCompleted2", 10)) {
-        need_re_recognize_mastery = true;
+    // 领取节点可能已经执行,但后续页面识别失败。不能用整条任务链的返回值判断是否产生了副作用。
+    ProcessTask claim_task(*this, { "InfrastTrainingCompleted2" });
+    claim_task.set_retry_times(10).run();
+    if (need_exit()) {
+        return ResultDetail::Interrupt;
     }
+    const bool may_have_claimed = !claim_task.get_last_task_name().empty();
 
     if (!run_task("InfrastTrainingMasteryPage")) {
         return ResultDetail::RecognitionFailed;
@@ -553,6 +1046,26 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
         run_task("OperProgress@ReturnToOperFilesPage");
         return ResultDetail::TrainingRoomBusy;
     }
+
+    if (may_have_claimed) {
+        // 领取后原等级失效。重新定位目标干员并复用档案页的圆点识别,不把训练页未匹配当成零级。
+        const ResultDetail locate_result = find_and_open_operator(role, name);
+        if (locate_result != ResultDetail::Completed) {
+            return locate_result;
+        }
+        const auto actual_level = OperFilesImageAnalyzer(ctrler()->get_image()).mastery_level(skill);
+        if (!actual_level) {
+            return ResultDetail::RecognitionFailed;
+        }
+        current_level = *actual_level;
+        LogInfo << __FUNCTION__ << "| re-recognized mastery level after claim" << current_level;
+        if (current_level >= target_level) {
+            return ResultDetail::AlreadySatisfied;
+        }
+        if (!run_task("OperProgress@MasteryPageEnter") || !run_task("InfrastTrainingMasteryPage")) {
+            return ResultDetail::RecognitionFailed;
+        }
+    }
     // 专精会长期占用训练室,一次运行只启动下一级；导师选择任务负责结合职业、等级、技能与心情评分。
     // 该 task 只负责打开受训干员列表；列表内的目标查找、翻页和点击复用编队识别能力。
     if (!run_task("InfrastTrainingSelectTrainee") || !select_training_trainee(role, name)) {
@@ -566,25 +1079,10 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
         return ResultDetail::AlreadySatisfied;
     }
 
-    // 领取已完成训练可能使目标技能的专精等级变化,进训练室前档案页的识别值已不可信,
-    // 选完人在专精页现场复核；本次将启动的专精等级取"当前等级 + 1"。
-    if (need_re_recognize_mastery) {
-        const auto& re_recognized_opt = training_skill_mastery_level(ctrler()->get_image(), skill);
-        if (!re_recognized_opt) {
-            return ResultDetail::RecognitionFailed;
-        }
-        LogInfo << __FUNCTION__ << "| re-recognized mastery level after claim" << *re_recognized_opt;
-        current_level = *re_recognized_opt;
-        if (*re_recognized_opt >= target_level) {
-            // 领取后专精等级已达到计划目标,不再启动下一级。
-            run_task("OperProgress@ReturnToOperFilesPage");
-            return ResultDetail::AlreadySatisfied;
-        }
-    }
-
     if (!run_task("OperProgress@MasterySelectSkill" + std::to_string(skill))) {
         return ResultDetail::RecognitionFailed;
     }
+    m_step_context = "mastery:" + std::to_string(skill) + ":" + std::to_string(current_level);
 
     // 选定受训干员与技能后确认面板展示材料行；逐槽检测（同 execute_elite 槽位分派）：
     // 技能书/材料1/材料2 依次跳加工站走自动合成,全部修复后复核仍缺料则不启动专精。
@@ -611,15 +1109,16 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
     }
     // 材料齐备后先点确认弹窗的蓝色确认启动专精,
     // 再以头像"训练中"角标复核训练确实开始（协助者 OCR 只能证明在本页面,空闲态同样命中）。
+    mark_inventory_changed();
     if (!run_task("InfrastTrainingConfirm") || !run_task("InfrastTrainingMasteryPage", 10)) {
         return ResultDetail::RecognitionFailed;
     }
-    current_level = current_level + 1; // 开始专精后当前等级 +1
+    const int training_level = current_level + 1;
     // 选好技能之后再选陪练，这样能确保逻各斯类技能触发
-    if (!run_task("OperProgress@MasterySelectTrainer") || !select_training_trainer(role, current_level)) {
+    if (!run_task("OperProgress@MasterySelectTrainer") || !select_training_trainer(role, training_level)) {
         LogWarn << __FUNCTION__ << "| trainer selection failed, training already started";
     }
-    return current_level == target_level ? ResultDetail::Completed : ResultDetail::PrerequisiteTraining;
+    return ResultDetail::PrerequisiteTraining;
 }
 
 void asst::OperProgressProcessTask::report_skill_result(
@@ -634,7 +1133,7 @@ void asst::OperProgressProcessTask::report_skill_result(
         case ResultDetail::AlreadySatisfied:
         case ResultDetail::PrerequisiteTraining: // 目标未达成, 但已启动前置专精
             m_success++;
-            return Result::Success;              // 目标已达成
+            return Result::Success;              // 本次操作成功，目标完成由现场等级判定
         case ResultDetail::TrainingRoomBusy:
             m_skipped++;
             return Result::Skipped;
@@ -717,47 +1216,6 @@ bool asst::OperProgressProcessTask::analyze_training_context(
 
     const auto& template_name = level_analyzer.get_result().templ_info.name;
     return utils::chars_to_number(template_name.substr(std::string("InfrastTrainingLevel").size(), 1), level);
-}
-
-std::optional<int> asst::OperProgressProcessTask::training_skill_mastery_level(const cv::Mat& image, int skill)
-{
-    LogTraceFunction;
-
-    if (skill < 1 || skill > 3) {
-        LogError << __FUNCTION__ << "| invalid skill index" << skill;
-        return std::nullopt;
-    }
-
-    const std::string task_name = "OperProgress@TrainingSkill" + std::to_string(skill) + "MasterLevel";
-    const auto task_ptr = Task.get<MatchTaskInfo>(task_name);
-    if (!task_ptr || task_ptr->templ_thresholds.empty()) {
-        LogError << __FUNCTION__ << "| task not found" << task_name;
-        return std::nullopt;
-    }
-
-    // 三角标 0 级(全灰)与 3 级(全白)仅亮度不同,任务声明 HSVCount + colorScales(纯白点亮菱形)
-    // 未点亮区域会被背景立绘透光干扰,故模板只留 1-3 级(见任务 doc),
-    // 三个模板均未命中即无点亮菱形,按 0 级返回;调用点已由前置任务确认位于专精页。
-    BestMatcher analyzer(image);
-    analyzer.set_task_info(task_ptr);
-    for (int level = 0; level <= 3; ++level) {
-        analyzer.append_templ("TrainingCurrentLevel" + std::to_string(level) + ".png");
-    }
-    const auto result_opt = analyzer.analyze();
-    if (!result_opt) {
-        LogInfo << __FUNCTION__ << "| no lit mastery cell, treat as level 0, task" << task_name;
-        return 0;
-    }
-
-    // 模板由本函数显式加入,名字必然是 TrainingCurrentLevel{1-3}.png,取尾数字即等级
-    // (参照 analyze_training_context 对 InfrastTrainingLevel 的解析)。
-    int level = 0;
-    const std::string& templ_name = result_opt->templ_info.name;
-    if (!utils::chars_to_number(templ_name.substr(std::string("TrainingCurrentLevel").size(), 1), level)) {
-        LogError << __FUNCTION__ << "| unexpected template name" << templ_name;
-        return std::nullopt;
-    }
-    return level;
 }
 
 bool asst::OperProgressProcessTask::select_training_trainee(battle::Role role, std::string_view name)
@@ -1071,8 +1529,43 @@ asst::OperProgressProcessTask::ResultDetail
 
     const std::string material_task =
         "OperProgress@" + std::string(task_type_name) + "Material" + std::to_string(material_index);
+    if (m_auto_refill) {
+        // Reuse the existing, per-page slot anchors instead of maintaining a second set of slot coordinates.
+        const auto item_task = Task.get<MatchTaskInfo>("OperProgress@RefillMaterialItem");
+        const auto quantity_task = Task.get<OcrTaskInfo>("OperProgress@RefillMaterialQuantity");
+        const auto slot_task = Task.get(material_task);
+        const auto required_task = Task.get(
+            material_index == 0 ? "OperProgress@" + std::string(task_type_name) + "SkillSummaryRequired"
+                                : material_task + "Required");
+        if (!item_task || !quantity_task || !slot_task || !required_task || item_task->special_params.size() < 2) {
+            return ResultDetail::RecognitionFailed;
+        }
+        const auto image = ctrler()->get_image();
+        const auto item_roi =
+            slot_task->specific_rect.center_zoom(item_task->special_params[1], image.cols, image.rows);
+        const auto& slot = slot_task->specific_rect;
+        const auto& count = required_task->roi;
+        const auto& size = quantity_task->roi;
+        const Rect quantity_roi {
+            slot.x + (slot.width - size.width) / 2,
+            count.y + (count.height - size.height) / 2,
+            size.width,
+            size.height,
+        };
+        const auto missing = MaterialSynthesisImageAnalyzer::observe_missing_material(
+            image,
+            "OperProgress@RefillMaterial",
+            ItemData.get_non_chip_material_item_id(),
+            item_roi,
+            quantity_roi);
+        if (missing && ItemData.get_item_formula(missing->item_id).empty()) {
+            m_missing_material = missing;
+            m_missing_context = m_step_context + ":" + material_task;
+            return ResultDetail::ResourceInsufficient;
+        }
+    }
     if (!run_task(material_task)) {
-        return ResultDetail::ResourceInsufficient;
+        return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
     }
     // TODO: 以后加上自动使用兑换券
     // 快速跳转弹窗内与跳转按钮同 roi 识别到不可用态,说明该材料配方尚未解锁,无法在加工站合成。
@@ -1081,17 +1574,36 @@ asst::OperProgressProcessTask::ResultDetail
         return ResultDetail::FormulaLocked;
     }
     if (!run_task({ material_task + "JumpProcessing", material_task + "JumpProcessingSwipe" })) {
-        return ResultDetail::ResourceInsufficient;
+        return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
     }
     // 加工站递归合成复用小游戏自动合成逻辑：插件入口校验加工站标志并驱动当前配方。
     MaterialSynthesisTaskPlugin synthesis(m_callback, m_inst, m_task_chain);
     synthesis.set_task_id(m_task_id).set_retry_times(0);
-    if (!synthesis.run()) {
-        return ResultDetail::ResourceInsufficient;
+    synthesis.set_check_processing_coins(m_auto_refill);
+    mark_inventory_changed();
+    const bool synthesized = synthesis.run();
+    m_progress_revision += synthesis.get_completed_operations();
+    if (need_exit()) {
+        return ResultDetail::Interrupt;
     }
-    return run_task("OperProgress@ReturnTo" + std::string(task_type_name) + "Page")
-               ? ResultDetail::Completed
-               : ResultDetail::ResourceInsufficient;
+    if (!synthesized) {
+        m_missing_material = synthesis.get_missing_material();
+        m_missing_context = m_step_context + ":" + synthesis.get_missing_context();
+        switch (synthesis.get_result()) {
+        case MaterialSynthesisTaskPlugin::Result::MissingMaterial:
+            return ResultDetail::ResourceInsufficient;
+        case MaterialSynthesisTaskPlugin::Result::Cancelled:
+            return ResultDetail::Interrupt;
+        case MaterialSynthesisTaskPlugin::Result::NavigationFailed:
+        case MaterialSynthesisTaskPlugin::Result::RecognitionFailed:
+            return ResultDetail::RecognitionFailed;
+        default:
+            m_missing_material.reset();
+            return ResultDetail::ResourceInsufficient;
+        }
+    }
+    return run_task("OperProgress@ReturnTo" + std::string(task_type_name) + "Page") ? ResultDetail::Completed
+                                                                                    : ResultDetail::RecognitionFailed;
 }
 
 bool asst::OperProgressProcessTask::record_factory_state()
@@ -1136,88 +1648,328 @@ std::optional<int> asst::OperProgressProcessTask::ocr_number(const cv::Mat& imag
     RegionOCRer analyzer(image);
     analyzer.set_task_info(task_name);
     analyzer.set_use_raw(true);
-    if (!analyzer.analyze()) {
+    const auto observation = analyzer.analyze();
+    if (!observation || observation->score < 0.9) {
+        LogWarn << __FUNCTION__ << "Uncertain integer observation" << task_name;
         return std::nullopt;
     }
-    const std::string& text = analyzer.get_result().text;
+    const auto& text = observation->text;
     int value = 0;
-    // chars_to_number 默认部分匹配,取前导数字（徽标 "0/4" → 0）。
-    if (!utils::chars_to_number(text, value)) {
+    const auto [end, error] = std::from_chars(text.data(), text.data() + text.size(), value);
+    if (error != std::errc {} || end != text.data() + text.size() || value < 0) {
+        LogWarn << __FUNCTION__ << "Invalid integer observation" << task_name << text;
         return std::nullopt;
     }
     return value;
 }
 
-bool asst::OperProgressProcessTask::manufacture_dual_chip(battle::Role role, const std::string& name)
+std::optional<asst::MissingMaterial> asst::OperProgressProcessTask::observe_elite_chip(battle::Role role, int tier)
 {
-    // 弹窗徽标 OCR 已有/所需数量算缺口 → 跳制造站进芯片产线并记录当前产品 →
-    // 选芯片类按职业选双芯片 → 助剂数量/库存不足时经凭证商店补购 → 制造站加 ×(缺口-1) →
-    // 执行更改+右确认 → 等待生产 → 返回前按记录恢复产线 → 返回晋升页面。
-    // 生产为排队制：制造完成后当次晋升仍会因材料未到账而复核失败,由外层计划重试。
+    const auto expected = oper_progress::chip_item_id(role, tier);
+    if (!expected) {
+        return std::nullopt;
+    }
+    const auto missing = MaterialSynthesisImageAnalyzer::observe_missing_material(
+        ctrler()->get_image(),
+        "OperProgress@RefillChip",
+        { *expected });
+    if (!missing || missing->item_id != *expected) {
+        LogWarn << __FUNCTION__ << "Unable to confirm requested chip shortfall" << *expected;
+        return std::nullopt;
+    }
+    return missing;
+}
 
-    const int rarity = BattleData.get_rarity(role, name);
-    const int need = rarity >= 6 ? 4 : 3; // 所需数量按稀有度取值：6★ 晋升二阶需 4 枚、5★ 需 3 枚。
-    const int owned = ocr_number("OperProgress@DualchipBadgeCount").value_or(0);
-    const int shortfall = std::max(need - owned, 0);
-    LogInfo << __FUNCTION__ << "| Dualchip shortfall" << "owned:" << owned << "need:" << need
-            << "shortfall:" << shortfall;
-    if (shortfall == 0) {
-        return true;
+asst::OperProgressProcessTask::ResultDetail
+    asst::OperProgressProcessTask::prepare_chip(battle::Role role, int target_elite)
+{
+    if (!m_auto_refill) {
+        return ResultDetail::ChipNotCraftable;
+    }
+    const auto missing = observe_elite_chip(role, target_elite);
+    if (!missing) {
+        return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+    }
+    m_missing_material = missing;
+    m_missing_context = m_step_context + ":chip";
+    return ResultDetail::ResourceInsufficient;
+}
+
+std::optional<std::unordered_map<std::string, int>> asst::OperProgressProcessTask::scan_inventory()
+{
+    std::optional<std::unordered_map<std::string, int>> inventory;
+    const AsstCallback depot_callback = [&](AsstMsg msg, const json::value& details, Assistant* inst) {
+        if (msg == AsstMsg::SubTaskExtraInfo && details.get("what", std::string()) == "DepotInfo" &&
+            details.get("details", "done", false) && details.get("details", "success", false)) {
+            const auto data = json::parse(details.get("details", "data", std::string()));
+            if (data && data->is_object()) {
+                std::unordered_map<std::string, int> observed;
+                bool valid = true;
+                for (const auto& [id, count] : data->as_object()) {
+                    if (!count.is<int>() || count.as<int>() < 0) {
+                        valid = false;
+                        break;
+                    }
+                    observed.emplace(id, count.as<int>());
+                }
+                if (valid && !observed.empty()) {
+                    inventory = std::move(observed);
+                }
+            }
+        }
+        if (m_callback) {
+            m_callback(msg, details, inst);
+        }
+    };
+    DepotTask depot(depot_callback, m_inst);
+    depot.set_task_id(m_task_id).set_retry_times(0);
+    if (!depot.run() || need_exit() || !inventory) {
+        LogWarn << __FUNCTION__ << "Unable to obtain a complete inventory scan";
+        return std::nullopt;
+    }
+    m_inventory_changed = false;
+    return inventory;
+}
+
+std::optional<int>
+    asst::OperProgressProcessTask::ocr_inventory_number(const cv::Mat& image, const std::string& task_name)
+{
+    const auto task = Task.get<OcrTaskInfo>(task_name);
+    if (!task) {
+        LogError << __FUNCTION__ << "Missing inventory OCR configuration" << task_name;
+        return std::nullopt;
+    }
+    RegionOCRer analyzer(image);
+    analyzer.set_task_info(task);
+    analyzer.set_use_raw(true);
+    const auto result = analyzer.analyze();
+    if (!result || result->score < 0.9) {
+        return std::nullopt;
+    }
+    std::string digits;
+    for (const unsigned char character : result->text) {
+        if (!std::isspace(character)) {
+            if (!std::isdigit(character)) {
+                LogWarn << __FUNCTION__ << "Invalid inventory quantity" << task_name << result->text;
+                return std::nullopt;
+            }
+            digits.push_back(static_cast<char>(character));
+        }
+    }
+    int quantity = 0;
+    const auto [end, error] = std::from_chars(digits.data(), digits.data() + digits.size(), quantity);
+    if (digits.empty() || error != std::errc {} || end != digits.data() + digits.size()) {
+        return std::nullopt;
+    }
+    return quantity;
+}
+
+asst::OperProgressProcessTask::ResultDetail
+    asst::OperProgressProcessTask::manufacture_dual_chip(battle::Role role, const std::string& name)
+{
+    auto missing = observe_elite_chip(role, 3);
+    if (!missing || missing->required != (BattleData.get_rarity(role, name) >= 6 ? 4 : 3)) {
+        return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+    }
+    int shortfall = missing->required - missing->owned;
+    LogInfo << __FUNCTION__ << "Dualchip shortfall" << "owned:" << missing->owned << "required:" << missing->required;
+
+    if (m_auto_refill) {
+        // A previous interrupted run may have completed chips waiting in the factory.
+        // Collect them before computing ingredient deficits, so reserved ingredients are not farmed twice.
+        if (!run_task("OperProgress@Dualchip") || !run_task("OperProgress@DualchipJumpMfg") ||
+            !record_factory_state()) {
+            return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+        }
+        mark_inventory_changed();
+        if (!run_task("OperProgress@MfgCollect")) {
+            return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+        }
+        if (status()->get_str(std::string(oper_progress::FactoryProductStatusKey)) == "Chip") {
+            if (!sleep(6000)) {
+                return ResultDetail::Interrupt;
+            }
+            if (!run_task("OperProgress@MfgPage") || !run_task("OperProgress@MfgCollect")) {
+                return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+            }
+        }
+        if (!run_task("OperProgress@ReturnToEliteUpPage")) {
+            return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+        }
+        if (confirm_elite_chips(missing->required)) {
+            ++m_progress_revision;
+            return ResultDetail::Completed;
+        }
+        const auto observed = observe_elite_chip(role, 3);
+        if (!observed || observed->required != missing->required) {
+            return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+        }
+        missing = observed;
+        shortfall = missing->required - missing->owned;
+        const auto group_id = oper_progress::chip_item_id(role, 2);
+        const auto& formula = ItemData.get_item_formula(missing->item_id);
+        if (!group_id || formula.size() != 2 || !formula.contains(*group_id) || !formula.contains("32001") ||
+            std::ranges::any_of(formula, [shortfall](const auto& ingredient) {
+                return ingredient.second <= 0 || ingredient.second > std::numeric_limits<int>::max() / shortfall;
+            })) {
+            return ResultDetail::Unsupported;
+        }
+        const auto inventory = scan_inventory();
+        if (!inventory) {
+            return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+        }
+        // Only a complete, successful scan establishes that an absent item has zero stock.
+        const auto stock = [&](const std::string& id) {
+            const auto item = inventory->find(id);
+            return item == inventory->end() ? 0 : item->second;
+        };
+        const int group_required = shortfall * formula.at(*group_id);
+        const int group_owned = stock(*group_id);
+        if (group_owned < group_required) {
+            m_missing_material = MissingMaterial { *group_id, group_owned, group_required };
+            m_missing_context = m_step_context + ":dualchip:" + missing->item_id;
+            return ResultDetail::ResourceInsufficient;
+        }
+        const int catalyst_required = shortfall * formula.at("32001");
+        const int catalyst_owned = stock("32001");
+        if (catalyst_owned < catalyst_required) {
+            const auto purchased = buy_catalyst(catalyst_required - catalyst_owned, stock("4006"));
+            if (purchased != ResultDetail::Completed) {
+                return purchased;
+            }
+        }
+        // Depot and the store changed page context; reopen the original promotion before entering its factory.
+        if (find_and_open_operator(role, name) != ResultDetail::Completed || !run_task("OperProgress@EliteUp")) {
+            return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+        }
     }
 
     if (!run_task("OperProgress@Dualchip") || !run_task("OperProgress@DualchipJumpMfg") || !record_factory_state()) {
-        return false;
+        return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+    }
+    // A full warehouse prevents chip production even after the product change has been confirmed.
+    // Collect only this factory's existing products before allocating ingredients to the new batch.
+    mark_inventory_changed();
+    if (!run_task("OperProgress@MfgCollect") || !run_task("OperProgress@MfgPage")) {
+        return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
     }
     // 打开芯片类产品列表,按目标职业选择双芯片产品（ChooseDualchip-{职业}）。
     const std::string product_task = "ChooseDualchip-" + enum_to_string(role, true);
     if (!run_task("ChooseProductList") || !run_task("ChooseChipTab") || !run_task(product_task)) {
-        return false;
+        return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
     }
 
-    int catalyst_owned = shortfall;
-    int catalyst_stock = shortfall;
-    if (run_task("OperProgress@MfgPage", 2)) {
-        // 因为没有对紫色芯片数量做识别,如果是没有紫色芯片,就会每次都买胶水
-        // 没识别出来的时候就不买芯片(强制识别结果为shortfall)
-        catalyst_owned = ocr_number("OperProgress@MfgCatalystCount").value_or(shortfall);
-        catalyst_stock = ocr_number("OperProgress@MfgCatalystStock").value_or(shortfall);
+    const bool mfg_page = run_task("OperProgress@MfgPage", 2);
+    if (m_auto_refill) {
+        if (!mfg_page) {
+            return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+        }
     }
-    // 点击芯片后会若没有紫色芯片或者胶水,这时候无法跳转,还停留在配方选择页
-    // 助剂数量与库存识别:出现红色视为0
-    else if (run_task("ChooseChipTabSelected") && run_task("OperProgress@MfgCatalystMissing", 2)) {
-        catalyst_owned = 0;
-        catalyst_stock = 0;
-    }
-    const int catalyst_short = shortfall - catalyst_owned - catalyst_stock;
-    LogInfo << __FUNCTION__ << "| Catalyst shortfall" << "owned:" << catalyst_owned << "stock:" << catalyst_stock
-            << "shortfall:" << catalyst_short;
-    if (catalyst_short > 0 && !buy_catalyst(catalyst_short)) {
-        return false;
+    else {
+        int catalyst_allocated = 0;
+        int catalyst_stock = 0;
+        if (mfg_page) {
+            const auto image = ctrler()->get_image();
+            const auto allocated = ocr_inventory_number(image, "OperProgress@MfgCatalystCount");
+            const auto stock = ocr_inventory_number(image, "OperProgress@MfgCatalystStock");
+            if (!allocated || !stock || *allocated > shortfall) {
+                return ResultDetail::RecognitionFailed;
+            }
+            catalyst_allocated = *allocated;
+            catalyst_stock = *stock;
+        }
+        else if (!run_task("ChooseChipTabSelected", 0) || !run_task("OperProgress@MfgCatalystMissing", 2)) {
+            return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+        }
+        // With no catalyst, selecting the recipe leaves the product list open instead of entering its factory page.
+        const int catalyst_short = shortfall - catalyst_allocated - catalyst_stock;
+        if (catalyst_short > 0) {
+            const auto purchased = buy_catalyst(catalyst_short, -1);
+            if (purchased != ResultDetail::Completed) {
+                return purchased;
+            }
+        }
     }
 
-    if (run_task("ChooseChipTabSelected", 0)) {
-        // 补购后回产品页需重新选中双芯片
+    if (!m_auto_refill && run_task("ChooseChipTabSelected", 0)) {
         if (!run_task(product_task) || !run_task("OperProgress@MfgPage")) {
-            return false;
+            return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
         }
     }
     // 生产数量设为缺口：默认 1 次 + 制造站加 ×(缺口-1)
     for (int i = 1; i < shortfall && !need_exit(); ++i) {
         if (!run_task("ClickProductIncrease")) {
-            return false;
+            return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
         }
     }
-    if (!run_task("ConfirmProductChange")) {
-        return false;
+    if (need_exit()) {
+        return ResultDetail::Interrupt;
     }
-    sleep(6000); // 最多4个芯片,休眠6s应该足够
+    // Each dual chip consumes one catalyst. Confirm the allocated batch rather than trusting increase clicks.
+    const auto allocated = ocr_inventory_number(ctrler()->get_image(), "OperProgress@MfgCatalystCount");
+    if (!allocated || *allocated != shortfall) {
+        LogWarn << __FUNCTION__ << "Unable to confirm dual chip batch" << shortfall;
+        return ResultDetail::RecognitionFailed;
+    }
+    mark_inventory_changed();
+    if (!run_task("ConfirmProductChange")) {
+        return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+    }
+    if (!sleep(6000)) { // 最多4个芯片,休眠6s应该足够
+        return ResultDetail::Interrupt;
+    }
+    // Finished products remain in the factory until collected; restore its product only after collecting the batch.
+    if (!run_task("OperProgress@MfgPage") || !run_task("OperProgress@MfgCollect")) {
+        return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+    }
 
     if (!restore_factory_state()) {
-        return false;
+        return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
     }
 
     // 返回晋升页面：先退回材料详情,再点击芯片槽关闭详情
-    return run_task("OperProgress@ReturnToEliteUpPage");
+    if (!run_task("OperProgress@ReturnToEliteUpPage")) {
+        return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+    }
+    if (!confirm_elite_chips(missing->required)) {
+        return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+    }
+    ++m_progress_revision;
+    return ResultDetail::Completed;
+}
+
+bool asst::OperProgressProcessTask::confirm_elite_chips(int required)
+{
+    RegionOCRer quantity_analyzer(ctrler()->get_image());
+    quantity_analyzer.set_task_info("OperProgress@RefillChipQuantity");
+    quantity_analyzer.set_use_raw(true);
+    const auto quantity = quantity_analyzer.analyze();
+    if (!quantity || quantity->score < 0.9) {
+        return false;
+    }
+    const auto& observed = quantity->text;
+    LogInfo << __FUNCTION__ << "Promotion chip quantity observed" << observed;
+    const auto separator = observed.find('/');
+    if (separator == std::string::npos || required <= 0) {
+        return false;
+    }
+    const auto parse_number = [](std::string_view text) -> std::optional<int> {
+        while (!text.empty() && std::isspace(static_cast<unsigned char>(text.front()))) {
+            text.remove_prefix(1);
+        }
+        while (!text.empty() && std::isspace(static_cast<unsigned char>(text.back()))) {
+            text.remove_suffix(1);
+        }
+        int value = 0;
+        const auto [end, error] = std::from_chars(text.data(), text.data() + text.size(), value);
+        if (text.empty() || error != std::errc {} || end != text.data() + text.size() || value < 0) {
+            return std::nullopt;
+        }
+        return value;
+    };
+    const auto owned = parse_number(std::string_view(observed).substr(0, separator));
+    const auto target = parse_number(std::string_view(observed).substr(separator + 1));
+    return owned && target && *target == required && *owned >= required;
 }
 
 bool asst::OperProgressProcessTask::restore_factory_state()
@@ -1251,44 +2003,75 @@ bool asst::OperProgressProcessTask::restore_factory_state()
     return selected && run_task("VerifyProductChangedTo" + *product);
 }
 
-bool asst::OperProgressProcessTask::buy_catalyst(int count)
+asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::buy_catalyst(int count, int voucher_owned)
 {
     // 凭证交易所导航 → 红票区页签 → 滚动查找芯片助剂（可能不在第一屏）→ 打开购买面板 →
     // 商品加 ×(count-1) → 支付 → 领取获得物资 → 返回制造站芯片产品页。
 
-    if (!run_task("Store@QuickSwitchEnterStore") || !run_task("RedTicket@Store@ChooseTicketType")) {
-        return false;
+    if (count <= 0 || count > 4 || voucher_owned < -1) {
+        return ResultDetail::Unsupported;
+    }
+    if (!run_task("OperProgress@EnterCatalystStore")) {
+        return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
     }
 
     // 滚动查找助剂商品
     bool found = false;
     for (int swipe = 0; swipe < 5 && !need_exit(); ++swipe) {
-        if (run_task("RedTicket@Store@ClickItem_Catalyst", 0)) {
+        if (run_task("OperProgress@ClickCatalyst", 0)) {
             found = true;
             break;
         }
+        // A partially visible icon can match without opening its purchase dialog. Only swipe the confirmed store page.
+        if (need_exit() || !run_task("RedTicket@Store@ChooseTicketTypeSelected", 0)) {
+            return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+        }
         if (!run_task("RedTicket@Store@Swipe")) {
-            return false;
+            return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
         }
     }
     if (!found) {
         LogError << __FUNCTION__ << "| catalyst item not found in red ticket store";
         save_img(utils::path("debug") / utils::path("oper_progress"), false);
-        return false;
+        return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
     }
 
     // 购买数量设为缺口：默认 1 件 + 商品加 ×(count-1)
     for (int i = 1; i < count && !need_exit(); ++i) {
         if (!run_task("Store@Increase")) {
-            return false;
+            return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
         }
     }
-    // 购买后如果没有出现获得物资说明没有购买成功,需要点一下返回
-    if (!run_task("RedTicket@Store@Purchase")) {
-        return false;
+    if (need_exit()) {
+        return ResultDetail::Interrupt;
     }
+    const auto image = ctrler()->get_image();
+    const auto price = ocr_inventory_number(image, "OperProgress@CatalystPurchaseTotalPrice");
+    const auto selected = ocr_inventory_number(image, "OperProgress@CatalystPurchaseQuantity");
+    if (!price || *price <= 0 || !selected || *selected != count) {
+        return ResultDetail::RecognitionFailed;
+    }
+    if (voucher_owned == -1) {
+        const auto balance = ocr_inventory_number(image, "OperProgress@CatalystPurchaseVoucherBalance");
+        if (!balance) {
+            return ResultDetail::RecognitionFailed;
+        }
+        voucher_owned = *balance;
+    }
+    if (voucher_owned < *price) {
+        m_missing_material = MissingMaterial { "4006", voucher_owned, *price };
+        m_missing_context = m_step_context + ":catalyst:" + std::to_string(count);
+        return ResultDetail::ResourceInsufficient;
+    }
+    // 购买后如果没有出现获得物资说明没有购买成功,需要点一下返回
+    mark_inventory_changed();
+    if (!run_task("RedTicket@Store@Purchase")) {
+        return need_exit() ? ResultDetail::Interrupt : ResultDetail::RecognitionFailed;
+    }
+    ++m_progress_revision;
     // 购买后返回制造站重新进入芯片产品页或生产详情页
-    return run_task("OperProgress@ReturnToMfgPage");
+    return m_auto_refill || run_task("OperProgress@ReturnToMfgPage") ? ResultDetail::Completed
+                                                                     : ResultDetail::RecognitionFailed;
 }
 
 bool asst::OperProgressProcessTask::run_task(const std::string& task_name, int retry_times)

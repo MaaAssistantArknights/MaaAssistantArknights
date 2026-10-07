@@ -10,7 +10,11 @@
 #include "Vision/RegionOCRer.h"
 
 #include <algorithm>
+#include <charconv>
+#include <cmath>
+#include <limits>
 #include <numbers>
+#include <string_view>
 
 bool asst::DepotImageAnalyzer::analyze()
 {
@@ -18,6 +22,9 @@ bool asst::DepotImageAnalyzer::analyze()
 
     m_all_items_roi.clear();
     m_result.clear();
+    m_quantity_recognition_complete = true;
+    m_reached_last_item = false;
+    m_unrecognized_item_rect.reset();
 
     if (m_cached_templs.empty()) {
         prepare_cached_templates();
@@ -186,15 +193,13 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
     LogTraceFunction;
 
     for (const Rect& roi : m_all_items_roi) {
-        if (check_roi_empty(roi)) { // roi 是竖着有序的
-            break;
-        }
         ItemInfo info;
         size_t cur_pos = match_item(roi, info, m_match_begin_pos);
         if (cur_pos == NPos) {
             if (m_is_basic) {
-                continue; // 基础物品可能不连续，跳过空槽位
+                continue;
             }
+            m_unrecognized_item_rect = resize_rect_to_raw_size(roi);
             break;
         }
         std::string item_id = info.item_id;
@@ -202,8 +207,17 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
         if (!m_is_basic) {
             m_match_begin_pos = cur_pos + 1;
         }
-        info.quantity = match_quantity(info);
         info.item_name = ItemData.get_item_name(item_id);
+        const auto quantity = match_quantity(info);
+        if (!quantity || (!m_is_basic && *quantity == 0)) {
+            LogWarn << "Failed to recognize depot item quantity" << VAR(item_id) << VAR(info.item_name);
+            m_quantity_recognition_complete = false;
+            continue;
+        }
+        info.quantity = *quantity;
+        if (!m_is_basic && m_match_begin_pos == get_ordered_item_ids().size()) {
+            m_reached_last_item = true;
+        }
 #ifdef ASST_DEBUG
         cv::putText(
             m_image_draw_resized,
@@ -222,10 +236,6 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
             cv::Scalar(0, 0, 255),
             2);
 #endif
-        if (item_id.empty() || info.quantity == 0) {
-            Log.error(__FUNCTION__, item_id, info.item_name, " quantity is zero");
-            continue;
-        }
         info.rect = resize_rect_to_raw_size(info.rect);
         m_result.emplace(std::move(item_id), std::move(info));
     }
@@ -234,14 +244,7 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
     cv::cvtColor(m_image_resized, hsv, cv::COLOR_BGR2HSV);
 #endif
 
-    return !m_result.empty();
-}
-
-bool asst::DepotImageAnalyzer::check_roi_empty(const Rect& roi)
-{
-    // TODO
-    std::ignore = roi;
-    return false;
+    return !m_result.empty() || m_unrecognized_item_rect.has_value();
 }
 
 size_t asst::DepotImageAnalyzer::match_item(
@@ -319,10 +322,19 @@ size_t asst::DepotImageAnalyzer::match_item(
     return matched_index;
 }
 
-int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
+std::optional<int> asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
 {
+    LogTraceFunction;
+
     auto task_ptr = Task.get<MatchTaskInfo>("DepotQuantity");
     auto item_templ = TemplResource::get_instance().get_templ(item.item_id);
+    const Rect image_rect { 0, 0, m_image_resized.cols, m_image_resized.rows };
+    if (item.rect.width <= 0 || item.rect.height <= 0 || !image_rect.include(item.rect) ||
+        item_templ.size() != cv::Size(item.rect.width, item.rect.height) ||
+        item_templ.type() != m_image_resized.type()) {
+        LogWarn << "Invalid depot quantity item region" << VAR(item.item_id) << VAR(item.rect);
+        return std::nullopt;
+    }
     auto item_image = m_image_resized(make_rect<cv::Rect>(item.rect));
     cv::Mat quotient;
     cv::divide(
@@ -345,6 +357,10 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
 
     cv::morphologyEx(mask, mask, cv::MORPH_OPEN, cv::getStructuringElement(cv::MORPH_RECT, { 4, 4 }));
     auto mask_rect = cv::boundingRect(mask);
+    if (mask_rect.empty()) {
+        LogWarn << "Depot quantity mask is empty" << VAR(item.item_id);
+        return std::nullopt;
+    }
     mask_rect.width -= 1;
     mask_rect.height -= 1;
 
@@ -354,34 +370,59 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
         mask_rect.width = mid_x + 30 - mask_rect.x;
     }
 
-    // minus 2 to trim white pixels
-    Rect ocr_roi { item.rect.x + mask_rect.x, item.rect.y + mask_rect.y, mask_rect.width - 2, mask_rect.height - 2 };
+    // Trim the bottom border, but keep the right edge so the last digit is not truncated.
+    Rect ocr_roi { item.rect.x + mask_rect.x, item.rect.y + mask_rect.y, mask_rect.width, mask_rect.height - 2 };
+    if (ocr_roi.width <= 0 || ocr_roi.height <= 0 || !image_rect.include(ocr_roi)) {
+        LogWarn << "Invalid depot quantity OCR region" << VAR(item.item_id) << VAR(ocr_roi);
+        return std::nullopt;
+    }
 
-    cv::Mat ocr_img = m_image_resized.clone();
-    cv::subtract(
-        m_image_resized(make_rect<cv::Rect>(item.rect)),
-        item_templ * 0.41,
-        ocr_img(make_rect<cv::Rect>(item.rect)));
+    // Keep the original pixels for the small quantity text; only icon matching needs the resized image.
+    const Rect raw_ocr_roi = resize_rect_to_raw_size(ocr_roi);
+    const Rect raw_image_rect { 0, 0, m_image.cols, m_image.rows };
+    if (raw_ocr_roi.width <= 0 || raw_ocr_roi.height <= 0 || !raw_image_rect.include(raw_ocr_roi)) {
+        LogWarn << "Invalid depot quantity raw OCR region" << VAR(item.item_id) << VAR(raw_ocr_roi);
+        return std::nullopt;
+    }
 
-    RegionOCRer analyzer(m_image_resized);
+    RegionOCRer analyzer(m_image);
     analyzer.set_task_info("NumberOcrReplace");
-    analyzer.set_roi(ocr_roi);
+    analyzer.set_roi(raw_ocr_roi);
     analyzer.set_bin_threshold(task_ptr->special_params[0], task_ptr->special_params[1]);
     analyzer.set_use_char_model(false);
     analyzer.set_use_raw(false);
 
     if (!analyzer.analyze()) {
-        return 0;
+        return std::nullopt;
     }
 
-    const auto& result = analyzer.get_result();
+    auto result = analyzer.get_result();
+    constexpr double MinimumQuantityScore = 0.9;
+    if (!(result.score >= MinimumQuantityScore)) {
+        if (!std::isfinite(result.score) || result.text.empty() ||
+            !std::ranges::all_of(result.text, [](const unsigned char c) { return c >= '0' && c <= '9'; })) {
+            LogWarn << "Depot quantity OCR confidence is insufficient" << VAR(item.item_id) << VAR(result.score);
+            return std::nullopt;
+        }
+
+        // The numeric model cannot read localized units. Only reread plain integers and require agreement.
+        analyzer.set_use_char_model(true);
+        analyzer.set_use_raw(true);
+        const auto reread = analyzer.analyze();
+        if (!reread || !(reread->score >= MinimumQuantityScore) || reread->text != result.text) {
+            LogWarn << "Depot quantity numeric reread was not confirmed" << VAR(item.item_id) << VAR(result.text);
+            return std::nullopt;
+        }
+        LogInfo << "Depot quantity numeric reread confirmed" << VAR(item.item_id) << VAR(reread->score);
+        result = *reread;
+    }
 
 #ifdef ASST_DEBUG
-    cv::rectangle(m_image_draw_resized, make_rect<cv::Rect>(result.rect), cv::Scalar(0, 0, 255));
+    cv::rectangle(m_image_draw_resized, make_rect<cv::Rect>(ocr_roi), cv::Scalar(0, 0, 255));
     cv::putText(
         m_image_draw_resized,
         result.text,
-        cv::Point(result.rect.x, result.rect.y - 5),
+        cv::Point(ocr_roi.x, ocr_roi.y - 5),
         cv::FONT_HERSHEY_SIMPLEX,
         0.5,
         cv::Scalar(0, 255, 0),
@@ -390,9 +431,9 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
 
     std::string digit_str = result.text;
     int multiple = 1;
-    if (size_t w_pos = digit_str.find("万"); w_pos != std::string::npos) {
+    if (digit_str.ends_with("万")) {
         multiple = 10'000;
-        digit_str.erase(w_pos, digit_str.size());
+        digit_str.resize(digit_str.size() - std::string_view("万").size());
     }
     /*
     // 更新：这个模型改成了 ASCII 识别，所以识别不到万了，得到的结果是 1.35 这种形式，表示 1.3 万
@@ -407,40 +448,47 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
         digit_str.erase(digit_str.size() - 1);
     }
     */
-    else if (size_t k_pos = digit_str.find('K'); k_pos != std::string::npos) {
+    else if (digit_str.ends_with('K')) {
         multiple = 1000;
-        digit_str.erase(k_pos, digit_str.size());
+        digit_str.pop_back();
     }
-    else if (size_t e_pos = digit_str.find("亿"); e_pos != std::string::npos) {
+    else if (digit_str.ends_with("亿")) {
         multiple = 100'000'000;
-        digit_str.erase(e_pos, digit_str.size());
+        digit_str.resize(digit_str.size() - std::string_view("亿").size());
     }
-    else if (size_t m_pos = digit_str.find('M'); m_pos != std::string::npos) {
+    else if (digit_str.ends_with('M')) {
         multiple = 1'000'000;
-        digit_str.erase(m_pos, digit_str.size());
+        digit_str.pop_back();
     }
-    else if (size_t n_pos = digit_str.find("만"); n_pos != std::string::npos) {
+    else if (digit_str.ends_with("만")) {
         multiple = 10'000;
-        digit_str.erase(n_pos, digit_str.size());
+        digit_str.resize(digit_str.size() - std::string_view("만").size());
     }
-    else if (size_t o_pos = digit_str.find("억"); o_pos != std::string::npos) {
+    else if (digit_str.ends_with("억")) {
         multiple = 100'000'000;
-        digit_str.erase(o_pos, digit_str.size());
+        digit_str.resize(digit_str.size() - std::string_view("억").size());
     }
 
     constexpr char Dot = '.';
     if (digit_str.empty() ||
-        !std::ranges::all_of(digit_str, [](const char& c) -> bool { return std::isdigit(c) || c == Dot; })) {
-        return 0;
+        !std::ranges::all_of(digit_str, [](const unsigned char c) -> bool { return std::isdigit(c) || c == Dot; })) {
+        return std::nullopt;
     }
     if (auto dot_pos = digit_str.find(Dot); dot_pos != std::string::npos) {
-        if (dot_pos == 0 || dot_pos == digit_str.size() - 1 || digit_str.find(Dot, dot_pos + 1) != std::string::npos) {
-            return 0;
+        if (multiple == 1 || dot_pos == 0 || dot_pos == digit_str.size() - 1 ||
+            digit_str.find(Dot, dot_pos + 1) != std::string::npos) {
+            return std::nullopt;
         }
     }
 
-    int quantity = static_cast<int>(std::stod(digit_str) * multiple);
-    Log.info("Quantity:", quantity);
+    double number = 0;
+    const auto [ptr, ec] = std::from_chars(digit_str.data(), digit_str.data() + digit_str.size(), number);
+    if (ec != std::errc() || ptr != digit_str.data() + digit_str.size() ||
+        number * multiple > std::numeric_limits<int>::max()) {
+        return std::nullopt;
+    }
+    int quantity = static_cast<int>(number * multiple);
+    LogInfo << "Depot item quantity" << VAR(quantity);
     return quantity;
 }
 

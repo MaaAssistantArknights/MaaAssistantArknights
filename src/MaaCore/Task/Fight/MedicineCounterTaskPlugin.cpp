@@ -174,7 +174,9 @@ bool asst::MedicineCounterTaskPlugin::_run()
         }
     }
 
-    if (!ProcessTask(*this, { "MedicineConfirm" }).set_retry_times(5).run()) {
+    ProcessTask confirmation(*this, { "MedicineConfirm" });
+    confirmation.set_retry_times(5);
+    if (!confirmation.run() || need_exit() || !confirmation.get_last_task_name().ends_with("MedicineConfirmed")) {
         LogError << __FUNCTION__ << "unable to run medicine confirm";
         return false;
     }

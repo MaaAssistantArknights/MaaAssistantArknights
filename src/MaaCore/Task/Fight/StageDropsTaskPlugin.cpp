@@ -92,6 +92,11 @@ bool asst::StageDropsTaskPlugin::_run()
     // set_start_button_delay();
 
     if (!recognize_drops()) {
+        m_recognition_failed = true;
+        if (m_stop_on_recognition_error) {
+            LogError << __FUNCTION__ << "Stopping material refill after drop recognition failure";
+            m_cast_ptr->set_enable(false);
+        }
         if (!check_stage_valid()) {
             stop_task();
         }

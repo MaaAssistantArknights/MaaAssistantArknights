@@ -3,6 +3,7 @@
 #include <utility>
 
 #include "Config/TaskData.h"
+#include "Controller/Controller.h"
 #include "Task/Fight/DrGrandetTaskPlugin.h"
 #include "Task/Fight/FightTimesTaskPlugin.h"
 #include "Task/Fight/MedicineCounterTaskPlugin.h"
@@ -12,16 +13,24 @@
 #include "Task/Miscellaneous/ScreenshotTaskPlugin.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Vision/Matcher.h"
 #include <ranges>
 
 asst::FightTask::FightTask(const AsstCallback& callback, Assistant* inst) :
-    InterfaceTask(callback, inst, TaskType),
-    m_start_up_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
-    m_stage_navigation_task_ptr(std::make_shared<StageNavigationTask>(m_callback, m_inst, TaskType)),
-    m_fight_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
-    m_sidestory_reopen_task_ptr(std::make_shared<SideStoryReopenTask>(m_callback, m_inst, TaskType))
+    InterfaceTask(callback, inst, TaskType)
 {
     LogTraceFunction;
+
+    const AsstCallback navigation_callback = [this](AsstMsg msg, const json::value& details, Assistant*) {
+        observe_callback(msg, details, Phase::Navigation);
+    };
+    const AsstCallback fight_callback = [this](AsstMsg msg, const json::value& details, Assistant*) {
+        observe_callback(msg, details, Phase::Fight);
+    };
+    m_start_up_task_ptr = std::make_shared<ProcessTask>(navigation_callback, m_inst, TaskType);
+    m_stage_navigation_task_ptr = std::make_shared<StageNavigationTask>(navigation_callback, m_inst, TaskType);
+    m_fight_task_ptr = std::make_shared<ProcessTask>(fight_callback, m_inst, TaskType);
+    m_sidestory_reopen_task_ptr = std::make_shared<SideStoryReopenTask>(fight_callback, m_inst, TaskType);
 
     // 进入选关界面
     // 对于指定关卡，就是主界面的“终端”点进去
@@ -62,11 +71,138 @@ asst::FightTask::FightTask(const AsstCallback& callback, Assistant* inst) :
     m_subtasks.emplace_back(m_sidestory_reopen_task_ptr);
 }
 
+bool asst::FightTask::run()
+{
+    LogTraceFunction;
+
+    m_result = {};
+    m_execution_failed = false;
+    m_recovery_exhausted = false;
+    m_battle_start_attempted = false;
+    m_recovery_attempted = false;
+    m_last_phase = Phase::Navigation;
+    if (need_exit()) {
+        m_result.reason = StopReason::Cancelled;
+        return false;
+    }
+    if (m_refill_mode && deadline_reached()) {
+        m_result.reason = StopReason::DeadlineReached;
+        m_result.medicine_usage_known = true;
+        return true;
+    }
+
+    const bool succeeded = InterfaceTask::run();
+    m_result.drops = m_stage_drops_plugin_ptr->get_drops();
+    m_result.target_reached = m_stage_drops_plugin_ptr->is_target_reached();
+    m_result.medicine_used = m_medicine_plugin->get_used_count();
+    m_result.medicine_usage_known = !m_recovery_attempted || (succeeded && !m_execution_failed);
+    if (need_exit()) {
+        m_result.reason = StopReason::Cancelled;
+    }
+    else if (m_stage_drops_plugin_ptr->has_recognition_failed()) {
+        m_result.reason = StopReason::DropRecognitionFailed;
+    }
+    else if (!succeeded && m_last_phase == Phase::Navigation) {
+        m_result.reason = StopReason::NavigationFailed;
+    }
+    else if (m_result.reason == StopReason::Unknown && !m_execution_failed) {
+        if (m_result.target_reached) {
+            m_result.reason = StopReason::TargetReached;
+        }
+        else if (m_recovery_exhausted) {
+            m_result.reason = StopReason::SanityInsufficient;
+        }
+        else if (succeeded) {
+            m_result.reason = StopReason::Completed;
+        }
+    }
+    return m_refill_mode ? succeeded && !need_exit() && !m_execution_failed : succeeded;
+}
+
+void asst::FightTask::set_refill_mode(bool enabled)
+{
+    m_refill_mode = enabled;
+    m_medicine_plugin->set_retry_times(enabled ? 0 : RetryTimesDefault);
+    m_stage_drops_plugin_ptr->set_stop_on_recognition_error(enabled);
+    m_fight_task_ptr->set_times_limit(
+        "FightMissionFailed",
+        enabled ? 0 : Task.get("Fight@FightMissionFailed")->max_times);
+}
+
+bool asst::FightTask::deadline_reached(std::chrono::milliseconds delay) const
+{
+    return m_valid_until && std::chrono::system_clock::now() + delay >= *m_valid_until;
+}
+
+void asst::FightTask::observe_callback(AsstMsg msg, const json::value& details, Phase phase)
+{
+    m_last_phase = phase;
+    const std::string task = details.get("details", "task", "");
+    if (phase == Phase::Fight && msg == AsstMsg::SubTaskStart &&
+        details.get("subtask", std::string()) == "ProcessTask") {
+        if (task == "StartButton1" || task == "StartButton1TryAgain" || task == "StartButton2" ||
+            task == "StartButton2TryAgain" || task == "PRTS1" || task == "PRTS2" || task == "PRTS3" ||
+            task == "EndOfAction" || task == "EndOfActionAnnihilation" || task == "AnnihilationConfirm") {
+            // Once a start action was attempted, another stage cannot be assumed to cost no sanity.
+            m_battle_start_attempted = true;
+        }
+        if (task == "UseMedicine" || task == "UseStone" || task == "MedicineConfirm" || task == "StoneConfirm") {
+            m_recovery_attempted = true;
+        }
+        if (task == "StartButton1" || task == "StartButton1TryAgain" || task == "StartButton2" ||
+            task == "StartButton2TryAgain") {
+            const auto task_info = Task.get("Fight@" + task);
+            const auto delay = std::chrono::milliseconds(task_info ? task_info->pre_delay : 0);
+            if (m_refill_mode && deadline_reached(delay) && m_result.reason == StopReason::Unknown) {
+                LogInfo << __FUNCTION__ << "Material refill deadline reached before next battle";
+                m_result.reason = StopReason::DeadlineReached;
+                m_fight_task_ptr->set_enable(false);
+            }
+            else if (task == "StartButton2") {
+                m_recovery_exhausted = false;
+            }
+        }
+        else if (task == "CloseStonePage") {
+            m_recovery_exhausted = true;
+        }
+        else if (task == "CloseStonePageExceeded") {
+            m_result.reason = StopReason::SanityInsufficient;
+        }
+        else if (task == "FightMissionFailedAndStop") {
+            m_result.reason = StopReason::AutoDeployFailed;
+        }
+    }
+    if (phase == Phase::Fight && msg == AsstMsg::SubTaskExtraInfo && m_refill_mode &&
+        details.get("what", std::string()) == "ExceededLimit" && task == "UsePrts" && !m_battle_start_attempted &&
+        !m_recovery_attempted && m_result.reason == StopReason::Unknown) {
+        // Failure to enable the checkbox alone is not evidence that auto-deploy is unavailable.
+        Matcher locked(ctrler()->get_image());
+        locked.set_task_info("UnableToAgent2");
+        if (locked.analyze()) {
+            LogInfo << __FUNCTION__ << "Auto-deploy is locked before starting a material refill battle";
+            m_result.reason = StopReason::AutoDeployUnavailable;
+            m_fight_task_ptr->set_enable(false);
+        }
+    }
+    if (phase == Phase::Fight && msg == AsstMsg::SubTaskError && m_refill_mode) {
+        m_execution_failed = true;
+        m_fight_task_ptr->set_enable(false);
+        LogError << __FUNCTION__ << "Stopping material refill after task error" << details.to_string();
+    }
+    if (m_callback) {
+        m_callback(msg, details, m_inst);
+    }
+}
+
 bool asst::FightTask::set_params(const json::value& params)
 {
     LogTraceFunction;
 
     const std::string stage = params.get("stage", "");
+    if (m_refill_mode && stage.starts_with("SSReopen-")) {
+        LogError << __FUNCTION__ << "Material refill requires a single stage" << stage;
+        return false;
+    }
     const int medicine = params.get("medicine", 0);
     int medicine_expire_days = 0;
     if (auto expiring_day_opt = params.find<int>("medicine_expire_days"); !expiring_day_opt) {

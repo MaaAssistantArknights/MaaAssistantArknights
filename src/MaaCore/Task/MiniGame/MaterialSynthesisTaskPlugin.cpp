@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cctype>
 #include <charconv>
+#include <limits>
 #include <unordered_set>
 
 #include "Config/Miscellaneous/ItemConfig.h"
@@ -11,10 +12,11 @@
 #include "Task/Infrast/InfrastProcessingTask.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/MaterialSynthesisImageAnalyzer.h"
 #include "Vision/RegionOCRer.h"
 
-namespace
+namespace asst::material_synthesis
 {
 constexpr int MaxMaterialDepth = 8;
 constexpr int MaxMaterialOperations = 64;
@@ -35,6 +37,10 @@ bool asst::MaterialSynthesisTaskPlugin::verify(AsstMsg msg, const json::value& d
 bool asst::MaterialSynthesisTaskPlugin::_run()
 {
     LogTraceFunction;
+    m_result = Result::Cancelled;
+    m_missing_material.reset();
+    m_missing_context.clear();
+    m_completed_operations = 0;
     if (need_exit()) {
         return false;
     }
@@ -46,7 +52,8 @@ bool asst::MaterialSynthesisTaskPlugin::_run()
         }
         Log.error("MaterialSynthesis | start from the material synthesis page");
         save_img(utils::path("debug") / utils::path("material_synthesis"), false);
-        report_result(Result::NavigationFailed);
+        m_result = Result::NavigationFailed;
+        report_result(m_result);
         return false;
     }
 
@@ -54,18 +61,18 @@ bool asst::MaterialSynthesisTaskPlugin::_run()
     InfrastProcessingTask processing_task(m_callback, m_inst, m_task_chain);
     processing_task.set_task_id(m_task_id);
     std::unordered_set<std::string> material_stack;
-    int operation_budget = MaxMaterialOperations;
+    int operation_budget = material_synthesis::MaxMaterialOperations;
     bool operator_selection_initialized = false;
-    const Result result =
+    m_result =
         synthesize_material(0, material_stack, operation_budget, processing_task, operator_selection_initialized);
-    Log.info("MaterialSynthesis | finished", result_name(result), "remaining operations", operation_budget);
-    if (result != Result::Cancelled && !need_exit()) {
-        if (result != Result::Completed) {
+    LogInfo << __FUNCTION__ << "finished" << result_name(m_result) << "remaining operations" << operation_budget;
+    if (m_result != Result::Cancelled && !need_exit()) {
+        if (m_result != Result::Completed) {
             save_img(utils::path("debug") / utils::path("material_synthesis"), false);
         }
-        report_result(result);
+        report_result(m_result);
     }
-    return result == Result::Completed;
+    return m_result == Result::Completed;
 }
 
 asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::synthesize_material(
@@ -78,9 +85,9 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
     if (need_exit()) {
         return Result::Cancelled;
     }
-    if (depth >= MaxMaterialDepth || operation_budget <= 0) {
+    if (depth >= material_synthesis::MaxMaterialDepth || operation_budget <= 0) {
         Log.warn("MaterialSynthesis | recursion limit reached", depth, operation_budget);
-        return Result::InsufficientResources;
+        return Result::OperationLimit;
     }
     if (!detect_task("MiniGame@MaterialSynthesis@Workshop")) {
         return Result::NavigationFailed;
@@ -88,7 +95,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
 
     const auto first_material_id = recognize_material();
     if (!first_material_id) {
-        return Result::Unsupported;
+        return Result::RecognitionFailed;
     }
     const std::string& material_id = *first_material_id;
     const std::string& first_material_name = ItemData.get_item_name(material_id);
@@ -99,7 +106,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
     }
     if (!material_stack.emplace(material_id).second) {
         Log.warn("MaterialSynthesis | recipe cycle detected", material_id);
-        return Result::InsufficientResources;
+        return Result::Unsupported;
     }
 
     // 根配方由用户手动打开；递归进入的材料必然有父配方，只在完成时识别并点击返回。
@@ -110,7 +117,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
             break;
         }
         if (operation_budget <= 0) {
-            result = Result::InsufficientResources;
+            result = Result::OperationLimit;
             break;
         }
         --operation_budget;
@@ -120,9 +127,11 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
         }
 
         const auto current_material_id = recognize_material();
-        const auto count = read_number("MiniGame@MaterialSynthesis@RequiredCount");
+        const auto count = m_check_processing_coins
+                               ? read_exact_number("MiniGame@MaterialSynthesis@RequiredCount", ctrler()->get_image())
+                               : read_number("MiniGame@MaterialSynthesis@RequiredCount");
         if (!current_material_id || *current_material_id != material_id || !count || *count <= 0) {
-            result = Result::Unsupported;
+            result = Result::RecognitionFailed;
             break;
         }
         report_status(
@@ -173,7 +182,43 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
                         { "depth", depth },
                         { "ingredient", ingredient },
                     });
-                result = Result::InsufficientResources;
+                const auto& formula = ItemData.get_item_formula(material_id);
+                std::vector<std::string> ingredient_ids;
+                ingredient_ids.reserve(formula.size());
+                for (const auto& [item_id, quantity] : formula) {
+                    ingredient_ids.emplace_back(item_id);
+                }
+                const auto image = ctrler()->get_image();
+                const auto missing =
+                    MaterialSynthesisImageAnalyzer::observe_missing_material(image, prefix, ingredient_ids);
+                if (!missing) {
+                    result = Result::RecognitionFailed;
+                }
+                else if (!ItemData.get_item_formula(missing->item_id).empty()) {
+                    result = Result::FormulaLocked;
+                }
+                else {
+                    const auto remaining = m_check_processing_coins
+                                               ? read_exact_number("MiniGame@MaterialSynthesis@RequiredCount", image)
+                                               : read_number("MiniGame@MaterialSynthesis@RequiredCount", image);
+                    const auto per_craft = formula.find(missing->item_id);
+                    // 配方槽显示 owned/单份消耗；需加工数量来自同一画面，不能把单份缺口当作本层总缺口。
+                    if (!remaining || *remaining <= 0 || per_craft == formula.end() ||
+                        missing->required != per_craft->second ||
+                        *remaining > std::numeric_limits<int>::max() / per_craft->second) {
+                        result = Result::RecognitionFailed;
+                    }
+                    else {
+                        m_missing_material = MissingMaterial {
+                            missing->item_id,
+                            missing->owned,
+                            *remaining * per_craft->second,
+                        };
+                        m_missing_context =
+                            material_id + ":" + std::to_string(ingredient) + ":" + std::to_string(depth);
+                        result = Result::MissingMaterial;
+                    }
+                }
                 break;
             }
         }
@@ -181,7 +226,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
             break;
         }
 
-        const int batch_count = std::min(*count, MaxMaterialBatch);
+        const int batch_count = std::min(*count, material_synthesis::MaxMaterialBatch);
         int selected_count = 1;
         for (; selected_count < batch_count; ++selected_count) {
             if (need_exit()) {
@@ -249,7 +294,8 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
                 }
 
                 ++increase_clicks_without_low_mood;
-                if (increase_clicks_without_low_mood >= MaxMoodProbeIncreaseClicks && selected_count < batch_count) {
+                if (increase_clicks_without_low_mood >= material_synthesis::MaxMoodProbeIncreaseClicks &&
+                    selected_count < batch_count) {
                     Log.info("MaterialSynthesis | mood probe increase limit reached", selected_count, batch_count);
                     break;
                 }
@@ -279,6 +325,13 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
             break;
         }
 
+        if (m_check_processing_coins) {
+            result = check_processing_coins(material_id, depth, selected_count);
+            if (result != Result::Completed) {
+                break;
+            }
+        }
+
         report_status(
             "MaterialSynthesisCraft",
             json::object {
@@ -290,6 +343,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
             result = Result::NavigationFailed;
             break;
         }
+        ++m_completed_operations;
         if (detect_task("MiniGame@MaterialSynthesis@Satisfied")) {
             break;
         }
@@ -369,9 +423,9 @@ bool asst::MaterialSynthesisTaskPlugin::return_to_workshop()
     return detect_task("MiniGame@MaterialSynthesis@Workshop");
 }
 
-std::optional<int> asst::MaterialSynthesisTaskPlugin::read_number(const std::string& task_name)
+std::optional<int> asst::MaterialSynthesisTaskPlugin::read_number(const std::string& task_name, const cv::Mat& image)
 {
-    RegionOCRer analyzer(ctrler()->get_image());
+    RegionOCRer analyzer(image.empty() ? ctrler()->get_image() : image);
     analyzer.set_task_info(task_name);
     analyzer.set_use_raw(true);
     if (!analyzer.analyze()) {
@@ -399,13 +453,65 @@ std::optional<int> asst::MaterialSynthesisTaskPlugin::read_number(const std::str
     return value;
 }
 
-std::optional<std::string> asst::MaterialSynthesisTaskPlugin::recognize_material()
+std::optional<int>
+    asst::MaterialSynthesisTaskPlugin::read_exact_number(const std::string& task_name, const cv::Mat& image)
 {
-    MaterialSynthesisImageAnalyzer analyzer(ctrler()->get_image());
+    RegionOCRer analyzer(image);
+    analyzer.set_task_info(task_name);
+    analyzer.set_use_raw(true);
+    const auto observation = analyzer.analyze();
+    if (!observation || observation->score < 0.9) {
+        LogWarn << __FUNCTION__ << "uncertain integer observation" << task_name;
+        return std::nullopt;
+    }
+
+    int value = 0;
+    const auto& text = observation->text;
+    const auto [end, error] = std::from_chars(text.data(), text.data() + text.size(), value);
+    if (error != std::errc {} || end != text.data() + text.size() || value < 0) {
+        LogWarn << __FUNCTION__ << "invalid integer observation" << task_name << text;
+        return std::nullopt;
+    }
+    return value;
+}
+
+std::optional<std::string> asst::MaterialSynthesisTaskPlugin::recognize_material(const cv::Mat& image)
+{
+    MaterialSynthesisImageAnalyzer analyzer(image.empty() ? ctrler()->get_image() : image);
     if (!analyzer.analyze()) {
         return std::nullopt;
     }
     return analyzer.get_result().templ_name;
+}
+
+asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::check_processing_coins(
+    const std::string& material_id,
+    int depth,
+    int selected_count)
+{
+    if (need_exit()) {
+        return Result::Cancelled;
+    }
+    const auto image = ctrler()->get_image();
+    Matcher workshop(image);
+    workshop.set_task_info("MiniGame@MaterialSynthesis@Workshop");
+    const auto current_material = recognize_material(image);
+    const auto count = read_exact_number("MiniGame@MaterialSynthesis@SelectedCount", image);
+    const auto owned = read_exact_number("MiniGame@MaterialSynthesis@CoinsOwned", image);
+    const auto cost = read_exact_number("MiniGame@MaterialSynthesis@CoinsCost", image);
+    if (!workshop.analyze() || !current_material || *current_material != material_id || !count || !owned || !cost ||
+        *count != selected_count || *count <= 0 || *count > material_synthesis::MaxMaterialBatch) {
+        LogWarn << __FUNCTION__ << "unconfirmed processing cost" << material_id << selected_count;
+        return Result::RecognitionFailed;
+    }
+    LogInfo << __FUNCTION__ << "processing cost observed" << material_id << "count" << *count << "owned" << *owned
+            << "cost" << *cost;
+    if (*owned >= *cost) {
+        return Result::Completed;
+    }
+    m_missing_material = MissingMaterial { "4001", *owned, *cost };
+    m_missing_context = material_id + ":coins:" + std::to_string(depth) + ":" + std::to_string(*count);
+    return Result::MissingMaterial;
 }
 
 void asst::MaterialSynthesisTaskPlugin::report_status(std::string what, json::value details)
@@ -433,8 +539,12 @@ std::string_view asst::MaterialSynthesisTaskPlugin::result_name(Result result)
     switch (result) {
     case Result::Completed:
         return "completed";
-    case Result::InsufficientResources:
+    case Result::MissingMaterial:
+    case Result::FormulaLocked:
+    case Result::OperationLimit:
         return "insufficient_resources";
+    case Result::RecognitionFailed:
+        return "unsupported";
     case Result::OperatorUnavailable:
         return "operator_unavailable";
     case Result::Unsupported:
