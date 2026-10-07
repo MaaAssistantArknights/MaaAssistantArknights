@@ -415,10 +415,13 @@
                                                             隐式样式靠它把项撑到标准控件高度），Menu 的顶级项模板默认无最小高度，
                                                             需在容器样式显式补 MinHeight
                                                         -->
-                                                        <Menu Padding="0">
+                                                        <Menu Padding="0" ItemsSource="{Binding TaskTypeList, Source={x:Static helper:Instances.TaskQueueViewModel}}">
                                                             <Menu.ItemContainerStyle>
                                                                 <Style BasedOn="{StaticResource MaaMenuItemDefaultStyle}" TargetType="MenuItem">
                                                                     <Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}" />
+                                                                    <Setter Property="Command" Value="{Binding AddGuideDemoTaskCommand, Source={x:Static helper:Instances.SettingsViewModel}}" />
+                                                                    <Setter Property="CommandParameter" Value="{Binding Value}" />
+                                                                    <Setter Property="Header" Value="{Binding Display}" />
                                                                 </Style>
                                                             </Menu.ItemContainerStyle>
                                                             <Menu.ItemsPanel>
@@ -426,61 +429,6 @@
                                                                     <StackPanel Orientation="Vertical" />
                                                                 </ItemsPanelTemplate>
                                                             </Menu.ItemsPanel>
-                                                            <MenuItem
-                                                                Command="{s:Action AddGuideDemoTask,
-                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                CommandParameter="{Binding TaskTypeList[0].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                Header="{Binding TaskTypeList[0].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
-                                                            <MenuItem
-                                                                Command="{s:Action AddGuideDemoTask,
-                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                CommandParameter="{Binding TaskTypeList[1].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                Header="{Binding TaskTypeList[1].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
-                                                            <MenuItem
-                                                                Command="{s:Action AddGuideDemoTask,
-                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                CommandParameter="{Binding TaskTypeList[2].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                Header="{Binding TaskTypeList[2].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
-                                                            <MenuItem
-                                                                Command="{s:Action AddGuideDemoTask,
-                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                CommandParameter="{Binding TaskTypeList[3].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                Header="{Binding TaskTypeList[3].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
-                                                            <MenuItem
-                                                                Command="{s:Action AddGuideDemoTask,
-                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                CommandParameter="{Binding TaskTypeList[4].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                Header="{Binding TaskTypeList[4].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
-                                                            <MenuItem
-                                                                Command="{s:Action AddGuideDemoTask,
-                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                CommandParameter="{Binding TaskTypeList[5].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                Header="{Binding TaskTypeList[5].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
-                                                            <MenuItem
-                                                                Command="{s:Action AddGuideDemoTask,
-                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                CommandParameter="{Binding TaskTypeList[6].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                Header="{Binding TaskTypeList[6].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
-                                                            <MenuItem
-                                                                Command="{s:Action AddGuideDemoTask,
-                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                CommandParameter="{Binding TaskTypeList[7].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                Header="{Binding TaskTypeList[7].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
-                                                            <MenuItem
-                                                                Command="{s:Action AddGuideDemoTask,
-                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                CommandParameter="{Binding TaskTypeList[8].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                Header="{Binding TaskTypeList[8].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
-                                                            <MenuItem
-                                                                Command="{s:Action AddGuideDemoTask,
-                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                CommandParameter="{Binding TaskTypeList[9].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                Header="{Binding TaskTypeList[9].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
-                                                            <MenuItem
-                                                                Command="{s:Action AddGuideDemoTask,
-                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                CommandParameter="{Binding TaskTypeList[10].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                Header="{Binding TaskTypeList[10].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
                                                         </Menu>
                                                     </Border>
                                                 </controls:MenuButton.PopupContent>

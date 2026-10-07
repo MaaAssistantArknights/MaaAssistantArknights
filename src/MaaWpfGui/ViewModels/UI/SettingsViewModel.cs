@@ -41,6 +41,7 @@ using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Serilog;
 using Stylet;
+using Stylet.Xaml;
 using ComboBox = System.Windows.Controls.ComboBox;
 using Timer = System.Timers.Timer;
 
@@ -858,6 +859,18 @@ public class SettingsViewModel : Screen
 
         GuideDemoTaskAdded = false;
     }
+
+    private CommandAction? _addGuideDemoTaskCommand;
+
+    /// <summary>
+    /// Gets ｢添加任务｣ 菜单命令，包装 <see cref="AddGuideDemoTask"/>。生成式菜单的容器样式里 Setter.Value
+    /// 不接受 s:Action（WPF 仅放行 DynamicResource 与 Binding），故以显式 target 构造 Stylet 的 CommandAction（s:Action 的底层实现）经 Binding 绑定。
+    /// </summary>
+    public CommandAction AddGuideDemoTaskCommand => _addGuideDemoTaskCommand ??= new CommandAction(
+        Instances.SettingsViewModel,
+        nameof(AddGuideDemoTask),
+        ActionUnavailableBehaviour.Throw,
+        ActionUnavailableBehaviour.Throw);
 
     // UI 绑定的方法
     [UsedImplicitly]
