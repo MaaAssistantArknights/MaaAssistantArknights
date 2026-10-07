@@ -2551,6 +2551,18 @@ public class TaskQueueViewModel : Screen
 
         bool taskRet = true;
 
+        if (tasks.Any(item => item is OperProgressTask { AutoRefill: true } operProgress && operProgress.Plans.Count > 0 &&
+                              IsTaskEnable(item) && (startIndex is not int firstIndex || ConfigFactory.CurrentConfig.TaskQueue.IndexOf(item) >= firstIndex)))
+        {
+            await OperProgressTaskUserControlModel.PrepareRefillStagesAsync();
+            if (_runningState.GetStopping())
+            {
+                Instances.AsstProxy.AsstStop();
+                SetStopped();
+                return;
+            }
+        }
+
         // 直接遍历TaskItemViewModels里面的内容，是排序后的
         int count = 0;
         int participatingChainCount = 0;

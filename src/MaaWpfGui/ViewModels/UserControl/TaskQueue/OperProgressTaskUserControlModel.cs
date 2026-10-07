@@ -19,14 +19,18 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
+using MaaWpfGui.States;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UI;
@@ -41,6 +45,8 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 {
     private static readonly ILogger _logger = Log.ForContext<OperProgressTaskUserControlModel>();
 
+    private static Dictionary<string, List<AsstOperProgressTask.RefillStage>> _refillStages = [];
+
     static OperProgressTaskUserControlModel() => Instance = new();
 
     public OperProgressTaskUserControlModel()
@@ -53,6 +59,66 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
     }
 
     public static OperProgressTaskUserControlModel Instance { get; }
+
+    public bool AutoRefill
+    {
+        get => GetTaskConfig<OperProgressTask>()?.AutoRefill ?? false;
+        set => SetTaskConfig<OperProgressTask>(t => t.AutoRefill == value, t => t.AutoRefill = value);
+    }
+
+    public int RefillingMedicine
+    {
+        get => GetTaskConfig<OperProgressTask>()?.RefillingMedicine ?? 0;
+        set => SetTaskConfig<OperProgressTask>(t => t.RefillingMedicine == value, t => t.RefillingMedicine = value);
+    }
+
+    public static async Task PrepareRefillStagesAsync()
+    {
+        _refillStages = [];
+        using var cancellation = new CancellationTokenSource();
+        var cancellationLock = new object();
+        bool completed = false;
+        var runningState = RunningState.Instance;
+        void OnRunStateChanged(object? sender, RunningState.RunningStateChangedEventArgs args)
+        {
+            lock (cancellationLock)
+            {
+                if (!completed && args.NewState.Stopping)
+                {
+                    cancellation.Cancel();
+                }
+            }
+        }
+
+        runningState.StateChanged += OnRunStateChanged;
+        try
+        {
+            if (runningState.GetStopping())
+            {
+                cancellation.Cancel();
+            }
+
+            _refillStages = await OperProgressRefillHelper.LoadAsync(cancellation.Token);
+            cancellation.Token.ThrowIfCancellationRequested();
+            if (_refillStages.Count == 0)
+            {
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("OperProgressRefillRoutesUnavailable"), UiLogColor.Warning);
+            }
+        }
+        catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
+        {
+            // The task queue's existing stopping check closes this startup attempt.
+        }
+        finally
+        {
+            runningState.StateChanged -= OnRunStateChanged;
+            lock (cancellationLock)
+            {
+                // An already-dispatched event must not cancel the source after it is disposed.
+                completed = true;
+            }
+        }
+    }
 
     /// <summary>干员培养计划条目，每项对应一名干员。</summary>
     public ObservableCollection<OperProgressPlanItemViewModel> PlanItems { get; private set => SetAndNotify(ref field, value); } = [];
@@ -290,7 +356,13 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                 return (null, []);
             }
 
-            var task = new AsstOperProgressTask { Plans = operProgress.Plans };
+            var task = new AsstOperProgressTask {
+                Plans = operProgress.Plans,
+                AutoRefill = operProgress.AutoRefill,
+                RefillingMedicine = operProgress.RefillingMedicine,
+                ClientType = SettingsViewModel.GameSettings.ClientType.ToCustomString(),
+                RefillStages = operProgress.AutoRefill ? _refillStages : [],
+            };
             return taskId switch {
                 int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]),
                 null => FromSingle(Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.OperProgress, task)),
@@ -307,6 +379,48 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         }
         switch (msg.What)
         {
+            case "OperProgressRefill":
+                {
+                    var result = msg.Details?.Value<string>("result_detail");
+                    if (result == null)
+                    {
+                        var itemId = msg.Details?.Value<string>("item_id") ?? string.Empty;
+                        Instances.TaskQueueViewModel.AddLog(
+                            LocalizationHelper.GetStringFormat(
+                                "OperProgressRefill.Start",
+                                ItemListHelper.GetItemName(itemId) ?? itemId,
+                                msg.Details?.Value<int>("owned") ?? 0,
+                                msg.Details?.Value<int>("required") ?? 0,
+                                msg.Details?.Value<string>("stage") ?? string.Empty),
+                            UiLogColor.Info);
+                    }
+                    else if (result == "AutoDeployUnavailable")
+                    {
+                        Instances.TaskQueueViewModel.AddLog(
+                            LocalizationHelper.GetStringFormat(
+                                "OperProgressRefill.AutoDeployUnavailable",
+                                msg.Details?.Value<string>("stage") ?? string.Empty),
+                            UiLogColor.Warning);
+                    }
+                    else if (result != "TargetReached")
+                    {
+                        var reasonKey = result switch {
+                            "SanityInsufficient" => "OperProgressRefill.SanityInsufficient",
+                            "DeadlineReached" => "OperProgressRefill.DeadlineReached",
+                            "NavigationFailed" => "MiniGame@MaterialSynthesis@NavigationFailed",
+                            "AutoDeployFailed" => "ActingCommandError",
+                            "DropRecognitionFailed" => "DropRecognitionError",
+                            "Cancelled" => "Stopped",
+                            _ => "UnknownErrorOccurs",
+                        };
+                        Instances.TaskQueueViewModel.AddLog(
+                            LocalizationHelper.GetStringFormat("OperProgressRefill.Stopped", LocalizationHelper.GetString(reasonKey)),
+                            UiLogColor.Warning);
+                    }
+
+                    break;
+                }
+
             case "OperProgressSummary":
                 var summary = msg.Details?.ToObject<ProgressSummary>();
                 Instances.TaskQueueViewModel.AddLog(

@@ -489,6 +489,19 @@ public class ToolboxViewModel : Screen
     /// </summary>
     public DateTimeOffset? LastDepotSyncTime { get => field; set => SetAndNotify(ref field, value); }
 
+    public bool IsDepotDataStale { get => field; private set => SetAndNotify(ref field, value); }
+
+    public void MarkDepotDataStale()
+    {
+        if (IsDepotDataStale)
+        {
+            return;
+        }
+
+        IsDepotDataStale = true;
+        SaveDepotDetails();
+    }
+
     /// <summary>
     /// Gets 上次仓库同步时间的显示文本（本地时间）
     /// </summary>
@@ -638,6 +651,7 @@ public class ToolboxViewModel : Screen
         // 构建简化格式：{"itemId": count}
         var details = new JObject {
             ["done"] = true,
+            ["IsDepotDataStale"] = IsDepotDataStale,
             ["data"] = JObject.FromObject(DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count)),
         };
 
@@ -758,6 +772,16 @@ public class ToolboxViewModel : Screen
             ResetDepotRecognitionState();
         }
 
+        if (updateSyncTime)
+        {
+            MarkDepotDataStale();
+        }
+        else
+        {
+            IsDepotDataStale = (bool?)details["IsDepotDataStale"] ?? false;
+            LastDepotSyncTime = null;
+        }
+
         DepotResult.Clear();
 
         Dictionary<string, int> depotItems = [];
@@ -846,9 +870,16 @@ public class ToolboxViewModel : Screen
 
         if (updateSyncTime)
         {
+            if ((bool?)details["success"] != true)
+            {
+                SaveDepotDetails();
+                return false;
+            }
+
             // 从 Core 获取新数据，更新为当前 UTC 时间
             AchievementTrackerHelper.Instance.CheckResyncAfterDays(LastDepotSyncTime?.UtcDateTime, 7, AchievementIds.ResumeRecord);
             LastDepotSyncTime = DateTimeOffset.UtcNow;
+            IsDepotDataStale = false;
         }
         else
         {
@@ -1163,9 +1194,7 @@ public class ToolboxViewModel : Screen
     /// </summary>
     public void ResetDepotRecognitionState()
     {
-        // DepotParse 方法已经处理了数据清除和缓存失效，这里不需要重复调用
-        // DepotClear();
-        LastDepotSyncTime = null;
+        MarkDepotDataStale();
     }
 
     /// <summary>

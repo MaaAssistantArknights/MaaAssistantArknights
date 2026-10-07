@@ -27,6 +27,31 @@
     <StackPanel>
         <!--  常规设置  -->
         <StackPanel Visibility="{c:Binding '!EnableAdvancedSettings', Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
+            <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                <CheckBox Content="{DynamicResource OperProgressAutoRefill}" IsChecked="{Binding AutoRefill}" />
+                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource OperProgressAutoRefillTip}" />
+            </StackPanel>
+            <Grid Margin="0,0,0,5" IsEnabled="{Binding AutoRefill}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <controls:TextBlock Text="{DynamicResource OperProgressMedicine}" />
+                    <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource OperProgressMedicineTip}" />
+                </StackPanel>
+                <hc:NumericUpDown
+                    Grid.Column="1"
+                    Width="70"
+                    Height="30"
+                    Margin="6,0,0,0"
+                    Maximum="999"
+                    Minimum="0"
+                    Value="{Binding RefillingMedicine, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
             <!--  在线编辑计划链接  -->
             <controls:TextBlock>
                 <Hyperlink

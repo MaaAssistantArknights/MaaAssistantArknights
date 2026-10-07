@@ -100,7 +100,8 @@ public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, Use
             }
 
             bool operBoxTriggerDue = updateTask.UpdateOperBox && IsTriggerDue(Instances.ToolboxViewModel.LastOperBoxSyncTime, updateTask.TriggerInterval);
-            bool depotTriggerDue = updateTask.UpdateDepot && IsTriggerDue(Instances.ToolboxViewModel.LastDepotSyncTime, updateTask.TriggerInterval);
+            bool depotTriggerDue = updateTask.UpdateDepot &&
+                (Instances.ToolboxViewModel.IsDepotDataStale || IsTriggerDue(Instances.ToolboxViewModel.LastDepotSyncTime, updateTask.TriggerInterval));
 
             if (!operBoxTriggerDue && !depotTriggerDue)
             {

@@ -940,6 +940,18 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Combat">刷理智</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="OperProgress">幹員培養</system:String>
+    <system:String x:Key="OperProgressAutoRefill">自動刷取缺少材料</system:String>
+    <system:String x:Key="OperProgressRefill.SanityInsufficient">理智不足</system:String>
+    <system:String x:Key="OperProgressRefill.DeadlineReached">關卡計畫已過期</system:String>
+    <system:String x:Key="OperProgressRefill.Start">缺少 {0}（{1}/{2}），刷取 {3} 後繼續培養。</system:String>
+    <system:String x:Key="OperProgressRefill.AutoDeployUnavailable">{0} 無可用代理，嘗試其他補料關卡。</system:String>
+    <system:String x:Key="OperProgressRefill.Stopped">補料停止：{0}。培養目標已保留。</system:String>
+    <system:String x:Key="OperProgressAutoRefillTip" xml:space="preserve">預設關閉，開啟後優先合成目前步驟缺少的材料與技巧概要，再刷取目前開放的關卡補齊材料、晶片、晶片組或採購憑證。&#10;雙晶片沿用製造站生產，缺少晶片助劑時使用採購憑證購買。&#10;升級或晉升缺少龍門幣、作戰紀錄時，分別透過 CE-6、LS-6 補充。&#10;僅在設定的藥劑額度內恢復理智，不使用源石。&#10;理智不足時保留培養目標，下次任務執行時繼續。</system:String>
+
+    <system:String x:Key="OperProgressMedicine">補料藥劑上限</system:String>
+    <system:String x:Key="OperProgressMedicineTip" xml:space="preserve">本次幹員培養的所有補料作戰共用此藥劑額度，0 表示不使用。&#10;不使用源石恢復理智。</system:String>
+    <system:String x:Key="OperProgressRefillRoutesUnavailable">無法產生可靠的補料關卡清單，本次幹員培養將無法自動刷取缺少的材料。</system:String>
+    <system:String x:Key="DepotDataStale">庫存資料可能已發生變化，已跳過依賴庫存的刷取；請先重新辨識倉庫。</system:String>
     <system:String x:Key="OperProgress.SkillLevelTarget">技能等級 {0}</system:String>
     <system:String x:Key="OperProgress.MasteryTarget">技能 {0} 專精 {1}</system:String>
     <system:String x:Key="OperProgress.EliteTarget">精英化 {0}</system:String>

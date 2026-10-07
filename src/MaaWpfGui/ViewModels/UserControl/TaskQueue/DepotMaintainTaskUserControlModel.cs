@@ -69,6 +69,12 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             toolbox.DepotResult.CollectionChanged += (in NotifyCollectionChangedEventArgs<ToolboxViewModel.DepotResultDate> _) => {
                 NotifyOfPropertyChange(nameof(PlanInfo));
             };
+            toolbox.PropertyChanged += (_, e) => {
+                if (e.PropertyName == nameof(ToolboxViewModel.IsDepotDataStale))
+                {
+                    NotifyOfPropertyChange(nameof(PlanInfo));
+                }
+            };
         }
 
         // 任务开始时用最新库存重算该 plan 的缺口；任务正常结束但未达标时记录临期药耗尽证明
@@ -167,6 +173,11 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     /// </summary>
     private static void ReviewSkippedPlansAfterDepotSync()
     {
+        if (Instances.ToolboxViewModel?.IsDepotDataStale == true)
+        {
+            return;
+        }
+
         foreach (var task in _serializedDepotMaintainTasks.ToList())
         {
             _serializedDepotMaintainTasks.Remove(task);
@@ -409,7 +420,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     /// </summary>
     private static string GetCurrentInventoryCount(string dropId)
     {
-        if (string.IsNullOrEmpty(dropId))
+        if (string.IsNullOrEmpty(dropId) || Instances.ToolboxViewModel?.IsDepotDataStale == true)
         {
             return "--";
         }
@@ -633,6 +644,13 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
             // 登记本轮参与评估，任意识别完成后复查未下发计划的缓存翻转（含 UpdateDepot=false 的场景）
             _ = _serializedDepotMaintainTasks.Add(depot);
+
+            if (Instances.ToolboxViewModel?.IsDepotDataStale == true)
+            {
+                depot.PlanList = depot.PlanList.Select(plan => plan with { TaskId = 0 }).ToList();
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DepotDataStale"), UiLogColor.Warning);
+                return taskIds.Count > 0 ? (true, taskIds) : (null, []);
+            }
 
             var depotList = Instances.ToolboxViewModel?.DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count) ?? [];
             for (int i = 0; i < depot.PlanList.Count; i++)

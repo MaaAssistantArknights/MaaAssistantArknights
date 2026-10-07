@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Serilog;
@@ -120,7 +121,7 @@ public class ETagCache
         Save();
     }
 
-    public static async Task<HttpResponseMessage?> FetchResponseWithEtag(string url, bool force = false)
+    public static async Task<HttpResponseMessage?> FetchResponseWithEtag(string url, bool force = false, CancellationToken token = default)
     {
         var headers = new Dictionary<string, string>
         {
@@ -146,8 +147,12 @@ public class ETagCache
 
         try
         {
-            var response = await Instances.HttpService.GetAsync(new Uri(url), headers);
+            var response = await Instances.HttpService.GetAsync(new Uri(url), headers, token: token);
             return response;
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested)
+        {
+            throw;
         }
         catch (Exception e)
         {

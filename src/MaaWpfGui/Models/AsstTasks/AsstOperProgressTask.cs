@@ -28,6 +28,18 @@ public class AsstOperProgressTask : AsstBaseTask
     [JsonProperty("plans")]
     public List<OperProgressTask.Plan> Plans { get; set; } = [];
 
+    public bool AutoRefill { get; set; }
+
+    public int RefillingMedicine { get; set; }
+
+    public string ClientType { get; set; } = string.Empty;
+
+    public Dictionary<string, List<RefillStage>> RefillStages { get; set; } = [];
+
+    public record RefillStage(
+        [property: JsonProperty("stage")] string Stage,
+        [property: JsonProperty("valid_until_utc")] long ValidUntilUtc);
+
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
         var list = new JArray();
@@ -54,6 +66,13 @@ public class AsstOperProgressTask : AsstBaseTask
         var jObject = new JObject {
             ["plans"] = list,
         };
+        if (AutoRefill)
+        {
+            jObject["auto_refill"] = true;
+            jObject["medicine"] = RefillingMedicine;
+            jObject["client_type"] = ClientType;
+            jObject["refill_stages"] = JObject.FromObject(RefillStages);
+        }
         return (TaskType, jObject);
     }
 }

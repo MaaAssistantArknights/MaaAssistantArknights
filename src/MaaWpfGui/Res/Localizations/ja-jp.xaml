@@ -942,6 +942,18 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Combat">作戦</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="OperProgress">オペレーター育成</system:String>
+    <system:String x:Key="OperProgressAutoRefill">不足素材を自動周回で入手</system:String>
+    <system:String x:Key="OperProgressRefill.SanityInsufficient">理性不足</system:String>
+    <system:String x:Key="OperProgressRefill.DeadlineReached">ステージ計画の有効期限切れ</system:String>
+    <system:String x:Key="OperProgressRefill.Start">{0} が不足しています（{1}/{2}）。{3} を周回してから育成を再開します。</system:String>
+    <system:String x:Key="OperProgressRefill.AutoDeployUnavailable">{0} では自動指揮を使用できないため、別の素材補充ステージを試します。</system:String>
+    <system:String x:Key="OperProgressRefill.Stopped">補充停止：{0}。育成目標は保持されています。</system:String>
+    <system:String x:Key="OperProgressAutoRefillTip" xml:space="preserve">初期設定では無効です。&#10;現在の育成段階に不足する素材とアーツ学は合成を優先し、その後に現在開放中のステージで素材、初級・中級SoC、購買資格証を補充します。&#10;上級SoCは製造所で生産し、不足するSoC強化剤は購買資格証で購入します。&#10;レベル上げや昇進に必要な龍門幣はCE-6、作戦記録はLS-6で補充します。&#10;設定した上限内でのみ理性剤を使用し、源石は使用しません。&#10;理性不足の場合は育成目標を保持し、次回のタスク実行時に続行します。</system:String>
+
+    <system:String x:Key="OperProgressMedicine">素材補充の理性剤上限</system:String>
+    <system:String x:Key="OperProgressMedicineTip" xml:space="preserve">今回の育成タスク内の全素材補充作戦で、この理性剤の使用上限を共有します。&#10;0 は使用しません。&#10;源石による理性回復は行いません。</system:String>
+    <system:String x:Key="OperProgressRefillRoutesUnavailable">信頼できる周回先を取得できないため、今回のオペレーター育成では不足素材を自動周回で補充できません。</system:String>
+    <system:String x:Key="DepotDataStale">在庫が変化した可能性があるため、在庫に基づく周回をスキップしました。先に倉庫を再認識してください。</system:String>
     <system:String x:Key="OperProgress.SkillLevelTarget">スキルランク {0}</system:String>
     <system:String x:Key="OperProgress.MasteryTarget">スキル {0} 特化 {1}</system:String>
     <system:String x:Key="OperProgress.EliteTarget">昇進段階 {0}</system:String>

@@ -72,6 +72,12 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         if (Instances.ToolboxViewModel is { } toolboxViewModel)
         {
             toolboxViewModel.DepotResult.CollectionChanged += OnDepotResultCollectionChanged;
+            toolboxViewModel.PropertyChanged += (_, e) => {
+                if (e.PropertyName == nameof(ToolboxViewModel.IsDepotDataStale))
+                {
+                    Execute.OnUIThread(NotifySpecifiedDropsStateChanged);
+                }
+            };
         }
 
         foreach (var i in WeeklyScheduleSource)
@@ -164,7 +170,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         {
             // 每次任务开始时用最新库存重算缺口（前序任务可能已经刷出了该材料）
             var stage = GetFightStage(startedFight.StagePlan);
-            if (!string.IsNullOrEmpty(stage))
+            if (stage is not null)
             {
                 // 与 append 序列化共用构建方法与次数口径（或门：次数限制与库存目标先到先停），
                 // 库存已达标时由 RefreshFightTaskDrops 置 0 跳过
@@ -608,6 +614,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     /// </summary>
     private static Dictionary<string, int>? GetCurrentInventoryCounts()
     {
+        if (Instances.ToolboxViewModel?.IsDepotDataStale == true)
+        {
+            return null;
+        }
+
         var depotResult = Instances.ToolboxViewModel?.DepotResult;
         if (depotResult == null || depotResult.Count == 0)
         {
@@ -1233,7 +1244,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
     /// <param name="dropCount">目标库存。</param>
     public static void UpdateProvenExhaustedMedicineDays(int expireDays, string dropId, int dropCount)
     {
-        if (expireDays <= 0 || string.IsNullOrEmpty(dropId) || dropCount <= 0)
+        if (expireDays <= 0 || string.IsNullOrEmpty(dropId) || dropCount <= 0 || Instances.ToolboxViewModel?.IsDepotDataStale == true)
         {
             return;
         }
@@ -1266,6 +1277,13 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         if (taskId <= 0 || string.IsNullOrEmpty(dropId) || dropCount <= 0)
         {
             return false;
+        }
+
+        if (Instances.ToolboxViewModel?.IsDepotDataStale == true)
+        {
+            task.MaxTimes = 0;
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DepotDataStale"), UiLogColor.Warning);
+            return Instances.AsstProxy.AsstSetTaskParamsEncoded(taskId, task);
         }
 
         var depotList = Instances.ToolboxViewModel?.DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count) ?? [];
@@ -1720,6 +1738,18 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
 
             if (IsInventoryTargetDropEnabled(fight))
             {
+                if (Instances.ToolboxViewModel?.IsDepotDataStale == true)
+                {
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DepotDataStale"), UiLogColor.Warning);
+                    if (taskId is int staleTaskId and > 0)
+                    {
+                        var stoppedTask = BuildAsstFightTask(fight, stage, 0);
+                        return (Instances.AsstProxy.AsstSetTaskParamsEncoded(staleTaskId, stoppedTask), [staleTaskId]);
+                    }
+
+                    return (null, []);
+                }
+
                 if (taskId is int existingTaskId and > 0 && Instance.GetInventoryTargetRuntimeState(existingTaskId) is { } existingRuntimeState)
                 {
                     inventoryTargetRuntimeState = existingRuntimeState;

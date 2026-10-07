@@ -2243,6 +2243,10 @@ public class AsstProxy
         string what = details["what"]?.ToString() ?? string.Empty;
         switch (what)
         {
+            case "OperProgressInventoryChanged":
+                Instances.ToolboxViewModel.MarkDepotDataStale();
+                break;
+
             case "StageDrops":
                 {
                     string allDrops = string.Empty;
@@ -2695,6 +2699,7 @@ public class AsstProxy
 
             case "FightTimes":
                 {
+                    bool isRefill = Instances.AsstProxy.TasksStatus.TryGetValue(taskId, out var parentTask) && parentTask.Type == TaskType.OperProgress;
                     FightSetting.FightReport = null;
                     if ((subTaskDetails?.Children())?.Any() is true)
                     {
@@ -2704,7 +2709,7 @@ public class AsstProxy
                             AchievementTrackerHelper.Instance.SetProgress(AchievementIds.OverLimitAgent, FightSetting.FightReport.TimesFinished);
                         }
 
-                        if (FightSetting.Instance.HasTimesLimited != false && FightSetting.FightReport.IsFinished && FightSetting.FightReport.TimesFinished < FightSetting.Instance.MaxTimes)
+                        if (!isRefill && FightSetting.Instance.HasTimesLimited != false && FightSetting.FightReport.IsFinished && FightSetting.FightReport.TimesFinished < FightSetting.Instance.MaxTimes)
                         {
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("FightTimesUnused", FightSetting.FightReport.TimesFinished, FightSetting.FightReport.Series, FightSetting.FightReport.TimesFinished + FightSetting.FightReport.Series, FightSetting.Instance.MaxTimes), UiLogColor.Warning);
                         }

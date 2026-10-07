@@ -940,6 +940,18 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="Combat">Combat</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="OperProgress">Operator Progression</system:String>
+    <system:String x:Key="OperProgressAutoRefill">Automatically farm missing materials</system:String>
+    <system:String x:Key="OperProgressRefill.SanityInsufficient">Insufficient sanity</system:String>
+    <system:String x:Key="OperProgressRefill.DeadlineReached">The stage plan has expired</system:String>
+    <system:String x:Key="OperProgressRefill.Start">Missing {0} ({1}/{2}). Farming {3} before resuming progression.</system:String>
+    <system:String x:Key="OperProgressRefill.AutoDeployUnavailable">Auto Deploy is unavailable for {0}. Trying another stage for material refilling.</system:String>
+    <system:String x:Key="OperProgressRefill.Stopped">Refilling stopped: {0}. The progression target has been kept.</system:String>
+    <system:String x:Key="OperProgressAutoRefillTip" xml:space="preserve">Disabled by default.&#10;Crafts missing materials and Skill Summaries for the current step first, then farms open stages for materials, Chips, Chip Packs or Purchase Certificates.&#10;Produces Dualchips in the Factory and buys missing Chip Catalysts with Purchase Certificates.&#10;Farms CE-6 for missing LMD and LS-6 for missing Battle Records needed for leveling or promotion.&#10;Uses sanity potions only within the configured allowance; never uses Originium.&#10;If sanity runs out, keeps the progression target for the next task run.</system:String>
+
+    <system:String x:Key="OperProgressMedicine">Refill potion limit</system:String>
+    <system:String x:Key="OperProgressMedicineTip" xml:space="preserve">All material-refill battles in this operator progression task share this potion allowance.&#10;0 disables potion use.&#10;Never uses Originium to restore sanity.</system:String>
+    <system:String x:Key="OperProgressRefillRoutesUnavailable">No reliable farming routes could be generated; operator progression cannot automatically farm missing materials this run.</system:String>
+    <system:String x:Key="DepotDataStale">Your inventory data may have changed. Inventory-dependent farming was skipped; please recognize the depot again.</system:String>
     <system:String x:Key="OperProgress.SkillLevelTarget">Skill level {0}</system:String>
     <system:String x:Key="OperProgress.MasteryTarget">Skill {0}, mastery {1}</system:String>
     <system:String x:Key="OperProgress.EliteTarget">Elite {0}</system:String>
