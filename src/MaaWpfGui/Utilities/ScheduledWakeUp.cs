@@ -52,7 +52,7 @@ public static class ScheduledWakeUp
     private static CancellationTokenSource? _debounceCts;
 
     // 删任务与注册的序列不可交错，否则并发的 SyncAll 可能留下与开关终态相反的任务
-    private static readonly object _syncLock = new();
+    private static readonly Lock _syncLock = new();
 
     /// <summary>
     /// Rebuilds all scheduled wake-up tasks of this instance to match the current settings:
