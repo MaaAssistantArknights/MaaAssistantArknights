@@ -6158,7 +6158,7 @@
         "algorithm": "JustReturn",
         "action": "Swipe",
         "postDelay": 1500,
-        "specificRect": [957, 355, 20, 20],
+        "specificRect": [1057, 355, 20, 20],
         "rectMove": [286, 355, 20, 20],
         "specialParams": [400, 1, 2, 0],
         "maxTimes": 20
@@ -6416,7 +6416,7 @@
     "OperProgress@ReturnToMfgPage": {
         "baseTask": "Return",
         "template": "Return.png",
-        "next": ["OperProgress@MfgPage", "OperProgress@ReturnToMfgPage"]
+        "next": ["ChooseChipTabSelected", "OperProgress@MfgPage", "OperProgress@ReturnToMfgPage"]
     },
     "OperProgress@SkillUpPage": {
         "baseTask": "OperProgress@SkillUpConfirm",
