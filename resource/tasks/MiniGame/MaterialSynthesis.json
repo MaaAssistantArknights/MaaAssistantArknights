@@ -15,6 +15,30 @@
         "roi": [1172, 362, 83, 23],
         "isAscii": false
     },
+    "MiniGame@MaterialSynthesis@SelectedCount": {
+        "baseTask": "NumberOcrReplace",
+        "withoutDet": true,
+        "isAscii": true,
+        "binThreshold": [0, 255],
+        "roi": [1056, 336, 96, 72],
+        "doc": "最终选人和心情调整后的实际加工份数，须与本次操作数量一致"
+    },
+    "MiniGame@MaterialSynthesis@CoinsOwned": {
+        "baseTask": "NumberOcrReplace",
+        "withoutDet": true,
+        "isAscii": true,
+        "binThreshold": [0, 255],
+        "roi": [1152, 16, 128, 32],
+        "doc": "加工页面右上角的当前龙门币数量，金额缩写或不完整识别不能作为缺口"
+    },
+    "MiniGame@MaterialSynthesis@CoinsCost": {
+        "baseTask": "NumberOcrReplace",
+        "withoutDet": true,
+        "isAscii": true,
+        "binThreshold": [0, 255],
+        "roi": [992, 208, 96, 32],
+        "doc": "本次选人和数量对应的实际总加工费用，保留蓝色或红色金额，不按配方费用推算"
+    },
     "MiniGame@MaterialSynthesis@Material": {
         "template": "empty.png",
         "roi": [534, 408, 140, 140],
@@ -37,6 +61,19 @@
         "template": "ProcessingUnavailable.png",
         "roi": [609, 241, 182, 128]
     },
+    "MiniGame@MaterialSynthesis@Ingredient1Item": {
+        "baseTask": "MiniGame@MaterialSynthesis@Material",
+        "template": "empty.png",
+        "roi": [560, 208, 128, 128],
+        "specialParams": [100],
+        "specialParams_Doc": "材料图标模板缩放百分比；配方槽小于中央目标材料图标"
+    },
+    "MiniGame@MaterialSynthesis@Ingredient1Quantity": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [560, 288, 112, 40],
+        "binThreshold": [0, 255],
+        "Doc": "完整 owned/单份配方消耗；保留红色库存分子，不能只按白色分母裁剪"
+    },
     "MiniGame@MaterialSynthesis@Ingredient2Available": {
         "template": "ProcessingAvailable.png",
         "roi": [433, 554, 181, 127],
@@ -47,6 +84,15 @@
         "template": "ProcessingUnavailable.png",
         "roi": [433, 554, 181, 127]
     },
+    "MiniGame@MaterialSynthesis@Ingredient2Item": {
+        "baseTask": "MiniGame@MaterialSynthesis@Ingredient1Item",
+        "template": "empty.png",
+        "roi": [368, 512, 128, 128]
+    },
+    "MiniGame@MaterialSynthesis@Ingredient2Quantity": {
+        "baseTask": "MiniGame@MaterialSynthesis@Ingredient1Quantity",
+        "roi": [368, 608, 128, 32]
+    },
     "MiniGame@MaterialSynthesis@Ingredient3Available": {
         "template": "ProcessingAvailable.png",
         "roi": [794, 553, 181, 127],
@@ -56,6 +102,15 @@
     "MiniGame@MaterialSynthesis@Ingredient3Unavailable": {
         "template": "ProcessingUnavailable.png",
         "roi": [794, 553, 181, 127]
+    },
+    "MiniGame@MaterialSynthesis@Ingredient3Item": {
+        "baseTask": "MiniGame@MaterialSynthesis@Ingredient1Item",
+        "template": "empty.png",
+        "roi": [736, 512, 128, 128]
+    },
+    "MiniGame@MaterialSynthesis@Ingredient3Quantity": {
+        "baseTask": "MiniGame@MaterialSynthesis@Ingredient1Quantity",
+        "roi": [736, 608, 128, 32]
     },
     "MiniGame@MaterialSynthesis@Increase": {
         "template": "ProcessingIncrease.png",

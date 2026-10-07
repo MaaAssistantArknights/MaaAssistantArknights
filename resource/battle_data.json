@@ -1,6 +1,29 @@
 {
+    "characterExpMap": [
+        [
+            100, 117, 134, 151, 168, 185, 202, 219, 236, 253, 270, 287, 304, 321, 338, 355, 372, 389, 406, 423, 440,
+            457, 474, 491, 508, 525, 542, 559, 574, 589, 605, 621, 637, 653, 669, 685, 701, 716, 724, 739, 749, 759,
+            770, 783, 804, 820, 836, 852, 888
+        ],
+        [
+            120, 172, 224, 276, 328, 380, 432, 484, 536, 588, 640, 692, 744, 796, 848, 900, 952, 1004, 1056, 1108, 1160,
+            1212, 1264, 1316, 1368, 1420, 1472, 1524, 1576, 1628, 1706, 1784, 1862, 1940, 2018, 2096, 2174, 2252, 2330,
+            2408, 2584, 2760, 2936, 3112, 3288, 3464, 3640, 3816, 3992, 4168, 4344, 4520, 4696, 4890, 5326, 6019, 6312,
+            6505, 6838, 7391, 7657, 7823, 8089, 8355, 8621, 8887, 9153, 9419, 9605, 9951, 10448, 10945, 11442, 11939,
+            12436, 12933, 13430, 13927, 14549
+        ],
+        [
+            191, 303, 415, 527, 639, 751, 863, 975, 1087, 1199, 1311, 1423, 1535, 1647, 1759, 1871, 1983, 2095, 2207,
+            2319, 2431, 2543, 2655, 2767, 2879, 2991, 3103, 3215, 3327, 3439, 3602, 3765, 3928, 4091, 4254, 4417, 4580,
+            4743, 4906, 5069, 5232, 5395, 5558, 5721, 5884, 6047, 6210, 6373, 6536, 6699, 6902, 7105, 7308, 7511, 7714,
+            7917, 8120, 8323, 8526, 8729, 9163, 9597, 10031, 10465, 10899, 11333, 11767, 12201, 12729, 13069, 13747,
+            14425, 15103, 15781, 16459, 17137, 17815, 18493, 19171, 19849, 21105, 22361, 23617, 24873, 26129, 27385,
+            28641, 29897, 31143
+        ]
+    ],
     "chars": {
         "char_002_amiya": {
+            "maxLevel": [50, 70, 80],
             "name": "阿米娅",
             "name_en": "Amiya",
             "name_jp": "アーミヤ",
@@ -14,6 +37,7 @@
             "subProfessionId": "corecaster"
         },
         "char_003_kalts": {
+            "maxLevel": [50, 80, 90],
             "name": "凯尔希",
             "name_en": "Kal'tsit",
             "name_jp": "ケルシー",
@@ -27,6 +51,7 @@
             "subProfessionId": "physician"
         },
         "char_009_12fce": {
+            "maxLevel": [30],
             "name": "12F",
             "name_en": "12F",
             "name_jp": "12F",
@@ -40,6 +65,7 @@
             "subProfessionId": "splashcaster"
         },
         "char_010_chen": {
+            "maxLevel": [50, 80, 90],
             "name": "陈",
             "name_en": "Ch'en",
             "name_jp": "チェン",
@@ -53,6 +79,7 @@
             "subProfessionId": "sword"
         },
         "char_017_huang": {
+            "maxLevel": [50, 80, 90],
             "name": "煌",
             "name_en": "Blaze",
             "name_jp": "ブレイズ",
@@ -66,6 +93,7 @@
             "subProfessionId": "centurion"
         },
         "char_1001_amiya2": {
+            "maxLevel": [50, 70, 80],
             "name": "阿米娅",
             "name_en": "Amiya",
             "name_jp": "アーミヤ",
@@ -79,6 +107,7 @@
             "subProfessionId": "artsfghter"
         },
         "char_1011_lava2": {
+            "maxLevel": [50, 70, 80],
             "name": "炎狱炎熔",
             "name_en": "Lava the Purgatory",
             "name_jp": "炎獄ラヴァ",
@@ -92,6 +121,7 @@
             "subProfessionId": "splashcaster"
         },
         "char_1012_skadi2": {
+            "maxLevel": [50, 80, 90],
             "name": "浊心斯卡蒂",
             "name_en": "Skadi the Corrupting Heart",
             "name_jp": "濁心スカジ",
@@ -105,6 +135,7 @@
             "subProfessionId": "bard"
         },
         "char_1013_chen2": {
+            "maxLevel": [50, 80, 90],
             "name": "假日威龙陈",
             "name_en": "Ch'en the Holungday",
             "name_jp": "遊龍チェン",
@@ -118,6 +149,7 @@
             "subProfessionId": "reaperrange"
         },
         "char_1014_nearl2": {
+            "maxLevel": [50, 80, 90],
             "name": "耀骑士临光",
             "name_en": "Nearl the Radiant Knight",
             "name_jp": "耀騎士ニアール",
@@ -132,6 +164,7 @@
             "tokens": ["“耀阳”"]
         },
         "char_1015_aglna2": {
+            "maxLevel": [50, 80, 90],
             "name": "予愿安洁莉娜",
             "name_en": "予愿安洁莉娜",
             "name_en_unavailable": true,
@@ -150,6 +183,7 @@
             "tokens": ["“一会儿见！”"]
         },
         "char_1016_agoat2": {
+            "maxLevel": [50, 80, 90],
             "name": "纯烬艾雅法拉",
             "name_en": "Eyjafjalla the Hvít Aska",
             "name_jp": "純燼エイヤフィヤトラ",
@@ -163,6 +197,7 @@
             "subProfessionId": "wandermedic"
         },
         "char_1019_siege2": {
+            "maxLevel": [50, 80, 90],
             "name": "维娜·维多利亚",
             "name_en": "Vina Victoria",
             "name_jp": "ヴィーナ・ヴィクトリア",
@@ -177,6 +212,7 @@
             "tokens": ["黄金盟誓"]
         },
         "char_101_sora": {
+            "maxLevel": [50, 70, 80],
             "name": "空",
             "name_en": "Sora",
             "name_jp": "ソラ",
@@ -190,6 +226,7 @@
             "subProfessionId": "bard"
         },
         "char_1020_reed2": {
+            "maxLevel": [50, 80, 90],
             "name": "焰影苇草",
             "name_en": "Reed the Flame Shadow",
             "name_jp": "焔影リード",
@@ -203,6 +240,7 @@
             "subProfessionId": "incantationmedic"
         },
         "char_1021_kroos2": {
+            "maxLevel": [50, 70, 80],
             "name": "寒芒克洛丝",
             "name_en": "Kroos the Keen Glint",
             "name_jp": "寒芒クルース",
@@ -216,6 +254,7 @@
             "subProfessionId": "fastshot"
         },
         "char_1022_flwr2": {
+            "maxLevel": [50, 70, 80],
             "name": "撷英调香师",
             "name_en": "Perfumer the Distilled",
             "name_jp": "萃香パフューマー",
@@ -229,6 +268,7 @@
             "subProfessionId": "blessing"
         },
         "char_1023_ghost2": {
+            "maxLevel": [50, 80, 90],
             "name": "归溟幽灵鲨",
             "name_en": "Specter the Unchained",
             "name_jp": "帰溟スペクター",
@@ -242,6 +282,7 @@
             "subProfessionId": "dollkeeper"
         },
         "char_1024_hbisc2": {
+            "maxLevel": [50, 70, 80],
             "name": "濯尘芙蓉",
             "name_en": "Hibiscus the Purifier",
             "name_jp": "濯塵ハイビスカス",
@@ -255,6 +296,7 @@
             "subProfessionId": "incantationmedic"
         },
         "char_1026_gvial2": {
+            "maxLevel": [50, 80, 90],
             "name": "百炼嘉维尔",
             "name_en": "Gavial the Invincible",
             "name_jp": "百錬ガヴィル",
@@ -268,6 +310,7 @@
             "subProfessionId": "centurion"
         },
         "char_1027_greyy2": {
+            "maxLevel": [50, 70, 80],
             "name": "承曦格雷伊",
             "name_en": "Greyy the Lightningbearer",
             "name_jp": "承曦グレイ",
@@ -281,6 +324,7 @@
             "subProfessionId": "bombarder"
         },
         "char_1028_texas2": {
+            "maxLevel": [50, 80, 90],
             "name": "缄默德克萨斯",
             "name_en": "Texas the Omertosa",
             "name_jp": "血掟テキサス",
@@ -294,6 +338,7 @@
             "subProfessionId": "executor"
         },
         "char_1029_yato2": {
+            "maxLevel": [50, 80, 90],
             "name": "麒麟R夜刀",
             "name_en": "Kirin R Yato",
             "name_jp": "キリンRヤトウ",
@@ -307,6 +352,7 @@
             "subProfessionId": "executor"
         },
         "char_102_texas": {
+            "maxLevel": [50, 70, 80],
             "name": "德克萨斯",
             "name_en": "Texas",
             "name_jp": "テキサス",
@@ -320,6 +366,7 @@
             "subProfessionId": "pioneer"
         },
         "char_1030_noirc2": {
+            "maxLevel": [50, 70, 80],
             "name": "火龙S黑角",
             "name_en": "Rathalos S Noir Corne",
             "name_jp": "レウスSノイルホーン",
@@ -333,6 +380,7 @@
             "subProfessionId": "musha"
         },
         "char_1031_slent2": {
+            "maxLevel": [50, 80, 90],
             "name": "淬羽赫默",
             "name_en": "Silence the Paradigmatic",
             "name_jp": "淬羽サイレンス",
@@ -347,6 +395,7 @@
             "tokens": ["夜灯"]
         },
         "char_1032_excu2": {
+            "maxLevel": [50, 80, 90],
             "name": "圣约送葬人",
             "name_en": "Executor the Ex Foedere",
             "name_jp": "聖約イグゼキュター",
@@ -360,6 +409,7 @@
             "subProfessionId": "reaper"
         },
         "char_1033_swire2": {
+            "maxLevel": [50, 80, 90],
             "name": "琳琅诗怀雅",
             "name_en": "Swire the Elegant Wit",
             "name_jp": "琳琅スワイヤー",
@@ -374,6 +424,7 @@
             "tokens": ["香槟炸弹"]
         },
         "char_1034_jesca2": {
+            "maxLevel": [50, 80, 90],
             "name": "涤火杰西卡",
             "name_en": "Jessica the Liberated",
             "name_jp": "滌火ジェシカ",
@@ -387,6 +438,7 @@
             "subProfessionId": "shotprotector"
         },
         "char_1035_wisdel": {
+            "maxLevel": [50, 80, 90],
             "name": "维什戴尔",
             "name_en": "Wiš'adel",
             "name_jp": "ウィシャデル",
@@ -401,6 +453,7 @@
             "tokens": ["魂灵之影"]
         },
         "char_1036_fang2": {
+            "maxLevel": [50, 70, 80],
             "name": "历阵锐枪芬",
             "name_en": "Fang the Fire-Sharpened",
             "name_jp": "歴陣鋭槍フェン",
@@ -414,6 +467,7 @@
             "subProfessionId": "charger"
         },
         "char_1037_amiya3": {
+            "maxLevel": [50, 70, 80],
             "name": "阿米娅",
             "name_en": "Amiya",
             "name_jp": "アーミヤ",
@@ -427,6 +481,7 @@
             "subProfessionId": "incantationmedic"
         },
         "char_1038_whitw2": {
+            "maxLevel": [50, 80, 90],
             "name": "荒芜拉普兰德",
             "name_en": "Lappland the Decadenza",
             "name_jp": "荒蕪ラップランド",
@@ -440,6 +495,7 @@
             "subProfessionId": "funnel"
         },
         "char_1039_thorn2": {
+            "maxLevel": [50, 80, 90],
             "name": "引星棘刺",
             "name_en": "Thorns the Lodestar",
             "name_jp": "引星ソーンズ",
@@ -453,6 +509,7 @@
             "subProfessionId": "alchemist"
         },
         "char_103_angel": {
+            "maxLevel": [50, 80, 90],
             "name": "能天使",
             "name_en": "Exusiai",
             "name_jp": "エクシア",
@@ -466,6 +523,7 @@
             "subProfessionId": "fastshot"
         },
         "char_1040_blaze2": {
+            "maxLevel": [50, 80, 90],
             "name": "烛煌",
             "name_en": "Blaze the Igniting Spark",
             "name_jp": "熾炎ブレイズ",
@@ -479,6 +537,7 @@
             "subProfessionId": "primcaster"
         },
         "char_1041_angel2": {
+            "maxLevel": [50, 80, 90],
             "name": "新约能天使",
             "name_en": "Exusiai the New Covenant",
             "name_jp": "新約エクシア",
@@ -493,6 +552,7 @@
             "tokens": ["投递坐标"]
         },
         "char_1042_phatm2": {
+            "maxLevel": [50, 80, 90],
             "name": "酒神",
             "name_en": "Tragodia",
             "name_jp": "トラゴーディア",
@@ -507,6 +567,7 @@
             "tokens": ["本能的召唤", "迷狂牢笼"]
         },
         "char_1043_leizi2": {
+            "maxLevel": [50, 80, 90],
             "name": "司霆惊蛰",
             "name_en": "Leizi the Thunderbringer",
             "name_jp": "司霆レイズ",
@@ -520,6 +581,7 @@
             "subProfessionId": "librator"
         },
         "char_1044_hsgma2": {
+            "maxLevel": [50, 80, 90],
             "name": "斩业星熊",
             "name_en": "Hoshiguma the Breacher",
             "name_jp": "斬業ホシグマ",
@@ -533,6 +595,7 @@
             "subProfessionId": "artsprotector"
         },
         "char_1045_svash2": {
+            "maxLevel": [50, 80, 90],
             "name": "凛御银灰",
             "name_en": "SilverAsh the Reignfrost",
             "name_jp": "凛御シルバーアッシュ",
@@ -547,6 +610,7 @@
             "tokens": ["风雪之眼", "风雪之眼", "风雪之眼"]
         },
         "char_1046_sbell2": {
+            "maxLevel": [50, 80, 90],
             "name": "圣聆初雪",
             "name_en": "Pramanix the Prerita",
             "name_jp": "聖聆プラマニクス",
@@ -561,6 +625,7 @@
             "tokens": ["保护目标（冻结状态）"]
         },
         "char_1047_halo2": {
+            "maxLevel": [50, 80, 90],
             "name": "溯光星源",
             "name_en": "Astgenne the Lightchaser",
             "name_jp": "溯光アステジーニ",
@@ -574,6 +639,7 @@
             "subProfessionId": "slower"
         },
         "char_1048_orchd2": {
+            "maxLevel": [50, 80, 90],
             "name": "焰狐龙梓兰",
             "name_en": "焰狐龙梓兰",
             "name_en_unavailable": true,
@@ -591,6 +657,7 @@
             "subProfessionId": "closerange"
         },
         "char_1049_catap2": {
+            "maxLevel": [50, 70, 80],
             "name": "雷狼龙S空爆",
             "name_en": "雷狼龙S空爆",
             "name_en_unavailable": true,
@@ -608,6 +675,7 @@
             "subProfessionId": "mercenary"
         },
         "char_1050_chen3": {
+            "maxLevel": [50, 80, 90],
             "name": "赤刃明霄陈",
             "name_en": "Ch'en the Dawnstreak",
             "name_jp": "赤刃明霄チェン",
@@ -621,6 +689,7 @@
             "subProfessionId": "artsfghter"
         },
         "char_1051_headb2": {
+            "maxLevel": [50, 80, 90],
             "name": "怒潮凛冬",
             "name_en": "Zima the Raging Tide",
             "name_jp": "怒潮ズィマー",
@@ -635,6 +704,7 @@
             "subProfessionId": "hammer"
         },
         "char_1052_kalts2": {
+            "maxLevel": [50, 80, 90],
             "name": "凯尔希·思衡托",
             "name_en": "凯尔希·思衡托",
             "name_en_unavailable": true,
@@ -653,6 +723,7 @@
             "tokens": ["战术锚点"]
         },
         "char_106_franka": {
+            "maxLevel": [50, 70, 80],
             "name": "芙兰卡",
             "name_en": "Franka",
             "name_jp": "フランカ",
@@ -666,6 +737,7 @@
             "subProfessionId": "fearless"
         },
         "char_107_liskam": {
+            "maxLevel": [50, 70, 80],
             "name": "雷蛇",
             "name_en": "Liskarm",
             "name_jp": "リスカム",
@@ -679,6 +751,7 @@
             "subProfessionId": "shotprotector"
         },
         "char_108_silent": {
+            "maxLevel": [50, 70, 80],
             "name": "赫默",
             "name_en": "Silence",
             "name_jp": "サイレンス",
@@ -693,6 +766,7 @@
             "tokens": ["医疗探机"]
         },
         "char_109_fmout": {
+            "maxLevel": [45, 60, 70],
             "name": "远山",
             "name_en": "Gitano",
             "name_jp": "ギターノ",
@@ -706,6 +780,7 @@
             "subProfessionId": "splashcaster"
         },
         "char_110_deepcl": {
+            "maxLevel": [45, 60, 70],
             "name": "深海色",
             "name_en": "Deepcolor",
             "name_jp": "ディピカ",
@@ -719,6 +794,7 @@
             "subProfessionId": "summoner"
         },
         "char_112_siege": {
+            "maxLevel": [50, 80, 90],
             "name": "推进之王",
             "name_en": "Siege",
             "name_jp": "シージ",
@@ -732,6 +808,7 @@
             "subProfessionId": "pioneer"
         },
         "char_113_cqbw": {
+            "maxLevel": [50, 80, 90],
             "name": "W",
             "name_en": "W",
             "name_jp": "W",
@@ -746,6 +823,7 @@
             "tokens": ["此面向敌"]
         },
         "char_115_headbr": {
+            "maxLevel": [50, 70, 80],
             "name": "凛冬",
             "name_en": "Zima",
             "name_jp": "ズィマー",
@@ -759,6 +837,7 @@
             "subProfessionId": "pioneer"
         },
         "char_117_myrrh": {
+            "maxLevel": [45, 60, 70],
             "name": "末药",
             "name_en": "Myrrh",
             "name_jp": "ミルラ",
@@ -772,6 +851,7 @@
             "subProfessionId": "physician"
         },
         "char_118_yuki": {
+            "maxLevel": [45, 60, 70],
             "name": "白雪",
             "name_en": "Shirayuki",
             "name_jp": "シラユキ",
@@ -785,6 +865,7 @@
             "subProfessionId": "aoesniper"
         },
         "char_120_hibisc": {
+            "maxLevel": [40, 55],
             "name": "芙蓉",
             "name_en": "Hibiscus",
             "name_jp": "ハイビスカス",
@@ -798,6 +879,7 @@
             "subProfessionId": "physician"
         },
         "char_121_lava": {
+            "maxLevel": [40, 55],
             "name": "炎熔",
             "name_en": "Lava",
             "name_jp": "ラヴァ",
@@ -811,6 +893,7 @@
             "subProfessionId": "splashcaster"
         },
         "char_122_beagle": {
+            "maxLevel": [40, 55],
             "name": "米格鲁",
             "name_en": "Beagle",
             "name_jp": "ビーグル",
@@ -824,6 +907,7 @@
             "subProfessionId": "protector"
         },
         "char_123_fang": {
+            "maxLevel": [40, 55],
             "name": "芬",
             "name_en": "Fang",
             "name_jp": "フェン",
@@ -837,6 +921,7 @@
             "subProfessionId": "pioneer"
         },
         "char_124_kroos": {
+            "maxLevel": [40, 55],
             "name": "克洛丝",
             "name_en": "Kroos",
             "name_jp": "クルース",
@@ -850,6 +935,7 @@
             "subProfessionId": "fastshot"
         },
         "char_126_shotst": {
+            "maxLevel": [45, 60, 70],
             "name": "流星",
             "name_en": "Meteor",
             "name_jp": "メテオ",
@@ -863,6 +949,7 @@
             "subProfessionId": "fastshot"
         },
         "char_127_estell": {
+            "maxLevel": [45, 60, 70],
             "name": "艾丝黛尔",
             "name_en": "Estelle",
             "name_jp": "エステル",
@@ -876,6 +963,7 @@
             "subProfessionId": "centurion"
         },
         "char_128_plosis": {
+            "maxLevel": [50, 70, 80],
             "name": "白面鸮",
             "name_en": "Ptilopsis",
             "name_jp": "フィリオプシス",
@@ -889,6 +977,7 @@
             "subProfessionId": "ringhealer"
         },
         "char_129_bluep": {
+            "maxLevel": [50, 70, 80],
             "name": "蓝毒",
             "name_en": "Blue Poison",
             "name_jp": "アズリウス",
@@ -902,6 +991,7 @@
             "subProfessionId": "fastshot"
         },
         "char_130_doberm": {
+            "maxLevel": [45, 60, 70],
             "name": "杜宾",
             "name_en": "Dobermann",
             "name_jp": "ドーベルマン",
@@ -915,6 +1005,7 @@
             "subProfessionId": "instructor"
         },
         "char_131_flameb": {
+            "maxLevel": [50, 70, 80],
             "name": "炎客",
             "name_en": "Flamebringer",
             "name_jp": "エンカク",
@@ -928,6 +1019,7 @@
             "subProfessionId": "fearless"
         },
         "char_133_mm": {
+            "maxLevel": [45, 60, 70],
             "name": "梅",
             "name_en": "May",
             "name_jp": "メイ",
@@ -941,6 +1033,7 @@
             "subProfessionId": "fastshot"
         },
         "char_134_ifrit": {
+            "maxLevel": [50, 80, 90],
             "name": "伊芙利特",
             "name_en": "Ifrit",
             "name_jp": "イフリータ",
@@ -954,6 +1047,7 @@
             "subProfessionId": "blastcaster"
         },
         "char_135_halo": {
+            "maxLevel": [50, 70, 80],
             "name": "星源",
             "name_en": "Astgenne",
             "name_jp": "アステジーニ",
@@ -967,6 +1061,7 @@
             "subProfessionId": "chain"
         },
         "char_136_hsguma": {
+            "maxLevel": [50, 80, 90],
             "name": "星熊",
             "name_en": "Hoshiguma",
             "name_jp": "ホシグマ",
@@ -980,6 +1075,7 @@
             "subProfessionId": "protector"
         },
         "char_137_brownb": {
+            "maxLevel": [45, 60, 70],
             "name": "猎蜂",
             "name_en": "Beehunter",
             "name_jp": "ビーハンター",
@@ -993,6 +1089,7 @@
             "subProfessionId": "fighter"
         },
         "char_140_whitew": {
+            "maxLevel": [50, 70, 80],
             "name": "拉普兰德",
             "name_en": "Lappland",
             "name_jp": "ラップランド",
@@ -1006,6 +1103,7 @@
             "subProfessionId": "lord"
         },
         "char_141_nights": {
+            "maxLevel": [45, 60, 70],
             "name": "夜烟",
             "name_en": "Haze",
             "name_jp": "ヘイズ",
@@ -1019,6 +1117,7 @@
             "subProfessionId": "corecaster"
         },
         "char_143_ghost": {
+            "maxLevel": [50, 70, 80],
             "name": "幽灵鲨",
             "name_en": "Specter",
             "name_jp": "スペクター",
@@ -1032,6 +1131,7 @@
             "subProfessionId": "centurion"
         },
         "char_144_red": {
+            "maxLevel": [50, 70, 80],
             "name": "红",
             "name_en": "Projekt Red",
             "name_jp": "レッド",
@@ -1045,6 +1145,7 @@
             "subProfessionId": "executor"
         },
         "char_145_prove": {
+            "maxLevel": [50, 70, 80],
             "name": "普罗旺斯",
             "name_en": "Provence",
             "name_jp": "プロヴァンス",
@@ -1058,6 +1159,7 @@
             "subProfessionId": "closerange"
         },
         "char_147_shining": {
+            "maxLevel": [50, 80, 90],
             "name": "闪灵",
             "name_en": "Shining",
             "name_jp": "シャイニング",
@@ -1071,6 +1173,7 @@
             "subProfessionId": "physician"
         },
         "char_148_nearl": {
+            "maxLevel": [50, 70, 80],
             "name": "临光",
             "name_en": "Nearl",
             "name_jp": "ニアール",
@@ -1084,6 +1187,7 @@
             "subProfessionId": "guardian"
         },
         "char_149_scave": {
+            "maxLevel": [45, 60, 70],
             "name": "清道夫",
             "name_en": "Scavenger",
             "name_jp": "スカベンジャー",
@@ -1097,6 +1201,7 @@
             "subProfessionId": "pioneer"
         },
         "char_1502_crosly": {
+            "maxLevel": [50, 80, 90],
             "name": "弑君者",
             "name_en": "Crownslayer",
             "name_jp": "クラウンスレイヤー",
@@ -1110,6 +1215,7 @@
             "subProfessionId": "executor"
         },
         "char_150_snakek": {
+            "maxLevel": [45, 60, 70],
             "name": "蛇屠箱",
             "name_en": "Cuora",
             "name_jp": "クオーラ",
@@ -1123,6 +1229,7 @@
             "subProfessionId": "protector"
         },
         "char_151_myrtle": {
+            "maxLevel": [45, 60, 70],
             "name": "桃金娘",
             "name_en": "Myrtle",
             "name_jp": "テンニンカ",
@@ -1136,6 +1243,7 @@
             "subProfessionId": "bearer"
         },
         "char_154_morgan": {
+            "maxLevel": [50, 70, 80],
             "name": "摩根",
             "name_en": "Morgan",
             "name_jp": "モーガン",
@@ -1149,6 +1257,7 @@
             "subProfessionId": "fearless"
         },
         "char_155_tiger": {
+            "maxLevel": [50, 70, 80],
             "name": "因陀罗",
             "name_en": "Indra",
             "name_jp": "インドラ",
@@ -1162,6 +1271,7 @@
             "subProfessionId": "fighter"
         },
         "char_157_dagda": {
+            "maxLevel": [50, 70, 80],
             "name": "达格达",
             "name_en": "Dagda",
             "name_jp": "ダグザ",
@@ -1175,6 +1285,7 @@
             "subProfessionId": "fighter"
         },
         "char_158_milu": {
+            "maxLevel": [50, 70, 80],
             "name": "守林人",
             "name_en": "Firewatch",
             "name_jp": "ファイヤーウォッチ",
@@ -1188,6 +1299,7 @@
             "subProfessionId": "longrange"
         },
         "char_159_peacok": {
+            "maxLevel": [45, 60, 70],
             "name": "断罪者",
             "name_en": "Conviction",
             "name_jp": "コンビクション",
@@ -1201,6 +1313,7 @@
             "subProfessionId": "fearless"
         },
         "char_163_hpsts": {
+            "maxLevel": [50, 70, 80],
             "name": "火神",
             "name_en": "Vulcan",
             "name_jp": "ヴァルカン",
@@ -1214,6 +1327,7 @@
             "subProfessionId": "unyield"
         },
         "char_164_nightm": {
+            "maxLevel": [50, 70, 80],
             "name": "夜魔",
             "name_en": "Nightmare",
             "name_jp": "ナイトメア",
@@ -1227,6 +1341,7 @@
             "subProfessionId": "corecaster"
         },
         "char_166_skfire": {
+            "maxLevel": [50, 70, 80],
             "name": "天火",
             "name_en": "Skyfire",
             "name_jp": "スカイフレア",
@@ -1240,6 +1355,7 @@
             "subProfessionId": "splashcaster"
         },
         "char_171_bldsk": {
+            "maxLevel": [50, 70, 80],
             "name": "华法琳",
             "name_en": "Warfarin",
             "name_jp": "ワルファリン",
@@ -1253,6 +1369,7 @@
             "subProfessionId": "physician"
         },
         "char_172_svrash": {
+            "maxLevel": [50, 80, 90],
             "name": "银灰",
             "name_en": "SilverAsh",
             "name_jp": "シルバーアッシュ",
@@ -1266,6 +1383,7 @@
             "subProfessionId": "lord"
         },
         "char_173_slchan": {
+            "maxLevel": [50, 70, 80],
             "name": "崖心",
             "name_en": "Cliffheart",
             "name_jp": "クリフハート",
@@ -1279,6 +1397,7 @@
             "subProfessionId": "hookmaster"
         },
         "char_174_slbell": {
+            "maxLevel": [50, 70, 80],
             "name": "初雪",
             "name_en": "Pramanix",
             "name_jp": "プラマニクス",
@@ -1292,6 +1411,7 @@
             "subProfessionId": "underminer"
         },
         "char_179_cgbird": {
+            "maxLevel": [50, 80, 90],
             "name": "夜莺",
             "name_en": "Nightingale",
             "name_jp": "ナイチンゲール",
@@ -1305,6 +1425,7 @@
             "subProfessionId": "ringhealer"
         },
         "char_180_amgoat": {
+            "maxLevel": [50, 80, 90],
             "name": "艾雅法拉",
             "name_en": "Eyjafjalla",
             "name_jp": "エイヤフィヤトラ",
@@ -1318,6 +1439,7 @@
             "subProfessionId": "corecaster"
         },
         "char_181_flower": {
+            "maxLevel": [45, 60, 70],
             "name": "调香师",
             "name_en": "Perfumer",
             "name_jp": "パフューマー",
@@ -1331,6 +1453,7 @@
             "subProfessionId": "ringhealer"
         },
         "char_183_skgoat": {
+            "maxLevel": [45, 60, 70],
             "name": "地灵",
             "name_en": "Earthspirit",
             "name_jp": "アーススピリット",
@@ -1344,6 +1467,7 @@
             "subProfessionId": "slower"
         },
         "char_185_frncat": {
+            "maxLevel": [45, 60, 70],
             "name": "慕斯",
             "name_en": "Mousse",
             "name_jp": "ムース",
@@ -1357,6 +1481,7 @@
             "subProfessionId": "artsfghter"
         },
         "char_187_ccheal": {
+            "maxLevel": [45, 60, 70],
             "name": "嘉维尔",
             "name_en": "Gavial",
             "name_jp": "ガヴィル",
@@ -1370,6 +1495,7 @@
             "subProfessionId": "physician"
         },
         "char_188_helage": {
+            "maxLevel": [50, 80, 90],
             "name": "赫拉格",
             "name_en": "Hellagur",
             "name_jp": "ヘラグ",
@@ -1383,6 +1509,7 @@
             "subProfessionId": "musha"
         },
         "char_190_clour": {
+            "maxLevel": [45, 60, 70],
             "name": "红云",
             "name_en": "Vermeil",
             "name_jp": "ヴァーミル",
@@ -1396,6 +1523,7 @@
             "subProfessionId": "fastshot"
         },
         "char_192_falco": {
+            "maxLevel": [40, 55],
             "name": "翎羽",
             "name_en": "Plume",
             "name_jp": "プリュム",
@@ -1409,6 +1537,7 @@
             "subProfessionId": "charger"
         },
         "char_193_frostl": {
+            "maxLevel": [45, 60, 70],
             "name": "霜叶",
             "name_en": "Frostleaf",
             "name_jp": "フロストリーフ",
@@ -1422,6 +1551,7 @@
             "subProfessionId": "lord"
         },
         "char_194_leto": {
+            "maxLevel": [50, 70, 80],
             "name": "烈夏",
             "name_en": "Leto",
             "name_jp": "リェータ",
@@ -1435,6 +1565,7 @@
             "subProfessionId": "lord"
         },
         "char_195_glassb": {
+            "maxLevel": [50, 70, 80],
             "name": "真理",
             "name_en": "Istina",
             "name_jp": "イースチナ",
@@ -1448,6 +1579,7 @@
             "subProfessionId": "slower"
         },
         "char_196_sunbr": {
+            "maxLevel": [45, 60, 70],
             "name": "古米",
             "name_en": "Gummy",
             "name_jp": "グム",
@@ -1461,6 +1593,7 @@
             "subProfessionId": "guardian"
         },
         "char_197_poca": {
+            "maxLevel": [50, 80, 90],
             "name": "早露",
             "name_en": "Rosa",
             "name_jp": "ロサ",
@@ -1474,6 +1607,7 @@
             "subProfessionId": "siegesniper"
         },
         "char_198_blackd": {
+            "maxLevel": [45, 60, 70],
             "name": "讯使",
             "name_en": "Courier",
             "name_jp": "クーリエ",
@@ -1487,6 +1621,7 @@
             "subProfessionId": "pioneer"
         },
         "char_199_yak": {
+            "maxLevel": [45, 60, 70],
             "name": "角峰",
             "name_en": "Matterhorn",
             "name_jp": "マッターホルン",
@@ -1500,6 +1635,7 @@
             "subProfessionId": "protector"
         },
         "char_2012_typhon": {
+            "maxLevel": [50, 80, 90],
             "name": "提丰",
             "name_en": "Typhon",
             "name_jp": "ティフォン",
@@ -1513,6 +1649,7 @@
             "subProfessionId": "siegesniper"
         },
         "char_2013_cerber": {
+            "maxLevel": [50, 80, 90],
             "name": "刻俄柏",
             "name_en": "Ceobe",
             "name_jp": "ケオベ",
@@ -1526,6 +1663,7 @@
             "subProfessionId": "corecaster"
         },
         "char_2014_nian": {
+            "maxLevel": [50, 80, 90],
             "name": "年",
             "name_en": "Nian",
             "name_jp": "ニェン",
@@ -1539,6 +1677,7 @@
             "subProfessionId": "protector"
         },
         "char_2015_dusk": {
+            "maxLevel": [50, 80, 90],
             "name": "夕",
             "name_en": "Dusk",
             "name_jp": "シー",
@@ -1553,6 +1692,7 @@
             "tokens": ["“小自在”"]
         },
         "char_201_moeshd": {
+            "maxLevel": [50, 70, 80],
             "name": "可颂",
             "name_en": "Croissant",
             "name_jp": "クロワッサン",
@@ -1566,6 +1706,7 @@
             "subProfessionId": "protector"
         },
         "char_2023_ling": {
+            "maxLevel": [50, 80, 90],
             "name": "令",
             "name_en": "Ling",
             "name_jp": "リィン",
@@ -1580,6 +1721,7 @@
             "tokens": ["“清平”", "“逍遥”", "“弦惊”"]
         },
         "char_2024_chyue": {
+            "maxLevel": [50, 80, 90],
             "name": "重岳",
             "name_en": "Chongyue",
             "name_jp": "チョンユエ",
@@ -1593,6 +1735,7 @@
             "subProfessionId": "fighter"
         },
         "char_2025_shu": {
+            "maxLevel": [50, 80, 90],
             "name": "黍",
             "name_en": "Shu",
             "name_jp": "シュウ",
@@ -1606,6 +1749,7 @@
             "subProfessionId": "guardian"
         },
         "char_2026_yu": {
+            "maxLevel": [50, 80, 90],
             "name": "余",
             "name_en": "Yu",
             "name_jp": "ユー",
@@ -1619,6 +1763,7 @@
             "subProfessionId": "primprotector"
         },
         "char_2027_wang": {
+            "maxLevel": [50, 80, 90],
             "name": "望",
             "name_en": "Wang",
             "name_jp": "ウァン",
@@ -1633,6 +1778,7 @@
             "tokens": ["棋子", "棋子", "棋子"]
         },
         "char_202_demkni": {
+            "maxLevel": [50, 80, 90],
             "name": "塞雷娅",
             "name_en": "Saria",
             "name_jp": "サリア",
@@ -1646,6 +1792,7 @@
             "subProfessionId": "guardian"
         },
         "char_204_platnm": {
+            "maxLevel": [50, 70, 80],
             "name": "白金",
             "name_en": "Platinum",
             "name_jp": "プラチナ",
@@ -1659,6 +1806,7 @@
             "subProfessionId": "fastshot"
         },
         "char_206_gnosis": {
+            "maxLevel": [50, 80, 90],
             "name": "灵知",
             "name_en": "Gnosis",
             "name_jp": "ノーシス",
@@ -1672,6 +1820,7 @@
             "subProfessionId": "underminer"
         },
         "char_208_melan": {
+            "maxLevel": [40, 55],
             "name": "玫兰莎",
             "name_en": "Melantha",
             "name_jp": "メランサ",
@@ -1685,6 +1834,7 @@
             "subProfessionId": "fearless"
         },
         "char_209_ardign": {
+            "maxLevel": [40, 55],
             "name": "卡缇",
             "name_en": "Cardigan",
             "name_jp": "カーディ",
@@ -1698,6 +1848,7 @@
             "subProfessionId": "protector"
         },
         "char_210_stward": {
+            "maxLevel": [40, 55],
             "name": "史都华德",
             "name_en": "Steward",
             "name_jp": "スチュワード",
@@ -1711,6 +1862,7 @@
             "subProfessionId": "corecaster"
         },
         "char_211_adnach": {
+            "maxLevel": [40, 55],
             "name": "安德切尔",
             "name_en": "Adnachiel",
             "name_jp": "アドナキエル",
@@ -1724,6 +1876,7 @@
             "subProfessionId": "fastshot"
         },
         "char_212_ansel": {
+            "maxLevel": [40, 55],
             "name": "安赛尔",
             "name_en": "Ansel",
             "name_jp": "アンセル",
@@ -1737,6 +1890,7 @@
             "subProfessionId": "physician"
         },
         "char_213_mostma": {
+            "maxLevel": [50, 80, 90],
             "name": "莫斯提马",
             "name_en": "Mostima",
             "name_jp": "モスティマ",
@@ -1750,6 +1904,7 @@
             "subProfessionId": "splashcaster"
         },
         "char_214_kafka": {
+            "maxLevel": [50, 70, 80],
             "name": "卡夫卡",
             "name_en": "Kafka",
             "name_jp": "カフカ",
@@ -1763,6 +1918,7 @@
             "subProfessionId": "executor"
         },
         "char_215_mantic": {
+            "maxLevel": [50, 70, 80],
             "name": "狮蝎",
             "name_en": "Manticore",
             "name_jp": "マンティコア",
@@ -1776,6 +1932,7 @@
             "subProfessionId": "stalker"
         },
         "char_218_cuttle": {
+            "maxLevel": [50, 70, 80],
             "name": "安哲拉",
             "name_en": "Andreana",
             "name_jp": "アンドレアナ",
@@ -1789,6 +1946,7 @@
             "subProfessionId": "longrange"
         },
         "char_219_meteo": {
+            "maxLevel": [50, 70, 80],
             "name": "陨星",
             "name_en": "Meteorite",
             "name_jp": "メテオリーテ",
@@ -1802,6 +1960,7 @@
             "subProfessionId": "aoesniper"
         },
         "char_220_grani": {
+            "maxLevel": [50, 70, 80],
             "name": "格拉尼",
             "name_en": "Grani",
             "name_jp": "グラニ",
@@ -1815,6 +1974,7 @@
             "subProfessionId": "charger"
         },
         "char_222_bpipe": {
+            "maxLevel": [50, 80, 90],
             "name": "风笛",
             "name_en": "Bagpipe",
             "name_jp": "バグパイプ",
@@ -1828,6 +1988,7 @@
             "subProfessionId": "charger"
         },
         "char_225_haak": {
+            "maxLevel": [50, 80, 90],
             "name": "阿",
             "name_en": "Aak",
             "name_jp": "ア",
@@ -1841,6 +2002,7 @@
             "subProfessionId": "geek"
         },
         "char_226_hmau": {
+            "maxLevel": [50, 70, 80],
             "name": "吽",
             "name_en": "Hung",
             "name_jp": "ウン",
@@ -1854,6 +2016,7 @@
             "subProfessionId": "guardian"
         },
         "char_230_savage": {
+            "maxLevel": [50, 70, 80],
             "name": "暴行",
             "name_en": "Savage",
             "name_jp": "サベージ",
@@ -1867,6 +2030,7 @@
             "subProfessionId": "centurion"
         },
         "char_235_jesica": {
+            "maxLevel": [45, 60, 70],
             "name": "杰西卡",
             "name_en": "Jessica",
             "name_jp": "ジェシカ",
@@ -1880,6 +2044,7 @@
             "subProfessionId": "fastshot"
         },
         "char_236_rope": {
+            "maxLevel": [45, 60, 70],
             "name": "暗索",
             "name_en": "Rope",
             "name_jp": "ロープ",
@@ -1893,6 +2058,7 @@
             "subProfessionId": "hookmaster"
         },
         "char_237_gravel": {
+            "maxLevel": [45, 60, 70],
             "name": "砾",
             "name_en": "Gravel",
             "name_jp": "グラベル",
@@ -1906,6 +2072,7 @@
             "subProfessionId": "executor"
         },
         "char_240_wyvern": {
+            "maxLevel": [40, 55],
             "name": "香草",
             "name_en": "Vanilla",
             "name_jp": "バニラ",
@@ -1919,6 +2086,7 @@
             "subProfessionId": "pioneer"
         },
         "char_241_panda": {
+            "maxLevel": [50, 70, 80],
             "name": "食铁兽",
             "name_en": "FEater",
             "name_jp": "エフイーター",
@@ -1932,6 +2100,7 @@
             "subProfessionId": "pusher"
         },
         "char_242_otter": {
+            "maxLevel": [50, 70, 80],
             "name": "梅尔",
             "name_en": "Mayer",
             "name_jp": "メイヤー",
@@ -1945,6 +2114,7 @@
             "subProfessionId": "summoner"
         },
         "char_243_waaifu": {
+            "maxLevel": [50, 70, 80],
             "name": "槐琥",
             "name_en": "Waai Fu",
             "name_jp": "ワイフー",
@@ -1958,6 +2128,7 @@
             "subProfessionId": "executor"
         },
         "char_245_cello": {
+            "maxLevel": [50, 80, 90],
             "name": "塑心",
             "name_en": "Virtuosa",
             "name_jp": "ヴィルトゥオーサ",
@@ -1971,6 +2142,7 @@
             "subProfessionId": "ritualist"
         },
         "char_248_mgllan": {
+            "maxLevel": [50, 80, 90],
             "name": "麦哲伦",
             "name_en": "Magallan",
             "name_jp": "マゼラン",
@@ -1985,6 +2157,7 @@
             "tokens": ["龙腾.F", "龙腾.L", "龙腾.A"]
         },
         "char_249_mlyss": {
+            "maxLevel": [50, 80, 90],
             "name": "缪尔赛思",
             "name_en": "Muelsyse",
             "name_jp": "ミュルジス",
@@ -1998,6 +2171,7 @@
             "subProfessionId": "tactician"
         },
         "char_250_phatom": {
+            "maxLevel": [50, 80, 90],
             "name": "傀影",
             "name_en": "Phantom",
             "name_jp": "ファントム",
@@ -2011,6 +2185,7 @@
             "subProfessionId": "executor"
         },
         "char_252_bibeak": {
+            "maxLevel": [50, 70, 80],
             "name": "柏喙",
             "name_en": "Bibeak",
             "name_jp": "バイビーク",
@@ -2024,6 +2199,7 @@
             "subProfessionId": "sword"
         },
         "char_253_greyy": {
+            "maxLevel": [45, 60, 70],
             "name": "格雷伊",
             "name_en": "Greyy",
             "name_jp": "グレイ",
@@ -2037,6 +2213,7 @@
             "subProfessionId": "splashcaster"
         },
         "char_254_vodfox": {
+            "maxLevel": [50, 70, 80],
             "name": "巫恋",
             "name_en": "Shamare",
             "name_jp": "シャマレ",
@@ -2051,6 +2228,7 @@
             "tokens": ["诅咒娃娃"]
         },
         "char_258_podego": {
+            "maxLevel": [45, 60, 70],
             "name": "波登可",
             "name_en": "Podenco",
             "name_jp": "ポデンコ",
@@ -2064,6 +2242,7 @@
             "subProfessionId": "slower"
         },
         "char_260_durnar": {
+            "maxLevel": [45, 60, 70],
             "name": "坚雷",
             "name_en": "Dur-nar",
             "name_jp": "ジュナー",
@@ -2077,6 +2256,7 @@
             "subProfessionId": "artsprotector"
         },
         "char_261_sddrag": {
+            "maxLevel": [50, 70, 80],
             "name": "苇草",
             "name_en": "Reed",
             "name_jp": "リード",
@@ -2090,6 +2270,7 @@
             "subProfessionId": "charger"
         },
         "char_263_skadi": {
+            "maxLevel": [50, 80, 90],
             "name": "斯卡蒂",
             "name_en": "Skadi",
             "name_jp": "スカジ",
@@ -2103,6 +2284,7 @@
             "subProfessionId": "fearless"
         },
         "char_264_f12yin": {
+            "maxLevel": [50, 80, 90],
             "name": "山",
             "name_en": "Mountain",
             "name_jp": "マウンテン",
@@ -2116,6 +2298,7 @@
             "subProfessionId": "fighter"
         },
         "char_265_sophia": {
+            "maxLevel": [50, 70, 80],
             "name": "鞭刃",
             "name_en": "Whislash",
             "name_jp": "ウィスラッシュ",
@@ -2129,6 +2312,7 @@
             "subProfessionId": "instructor"
         },
         "char_271_spikes": {
+            "maxLevel": [45, 60, 70],
             "name": "芳汀",
             "name_en": "Arene",
             "name_jp": "アレーン",
@@ -2142,6 +2326,7 @@
             "subProfessionId": "lord"
         },
         "char_272_strong": {
+            "maxLevel": [45, 60, 70],
             "name": "孑",
             "name_en": "Jaye",
             "name_jp": "ジェイ",
@@ -2155,6 +2340,7 @@
             "subProfessionId": "merchant"
         },
         "char_274_astesi": {
+            "maxLevel": [50, 70, 80],
             "name": "星极",
             "name_en": "Astesia",
             "name_jp": "アステシア",
@@ -2168,6 +2354,7 @@
             "subProfessionId": "artsfghter"
         },
         "char_275_breeze": {
+            "maxLevel": [50, 70, 80],
             "name": "微风",
             "name_en": "Breeze",
             "name_jp": "ブリーズ",
@@ -2181,6 +2368,7 @@
             "subProfessionId": "ringhealer"
         },
         "char_277_sqrrel": {
+            "maxLevel": [45, 60, 70],
             "name": "阿消",
             "name_en": "Shaw",
             "name_jp": "ショウ",
@@ -2194,6 +2382,7 @@
             "subProfessionId": "pusher"
         },
         "char_278_orchid": {
+            "maxLevel": [40, 55],
             "name": "梓兰",
             "name_en": "Orchid",
             "name_jp": "オーキッド",
@@ -2207,6 +2396,7 @@
             "subProfessionId": "slower"
         },
         "char_279_excu": {
+            "maxLevel": [50, 70, 80],
             "name": "送葬人",
             "name_en": "Executor",
             "name_jp": "イグゼキュター",
@@ -2220,6 +2410,7 @@
             "subProfessionId": "reaperrange"
         },
         "char_281_popka": {
+            "maxLevel": [40, 55],
             "name": "泡普卡",
             "name_en": "Popukar",
             "name_jp": "ポプカル",
@@ -2233,6 +2424,7 @@
             "subProfessionId": "centurion"
         },
         "char_282_catap": {
+            "maxLevel": [40, 55],
             "name": "空爆",
             "name_en": "Catapult",
             "name_jp": "カタパルト",
@@ -2246,6 +2438,7 @@
             "subProfessionId": "aoesniper"
         },
         "char_283_midn": {
+            "maxLevel": [40, 55],
             "name": "月见夜",
             "name_en": "Midnight",
             "name_jp": "ミッドナイト",
@@ -2259,6 +2452,7 @@
             "subProfessionId": "lord"
         },
         "char_284_spot": {
+            "maxLevel": [40, 55],
             "name": "斑点",
             "name_en": "Spot",
             "name_jp": "スポット",
@@ -2272,6 +2466,7 @@
             "subProfessionId": "guardian"
         },
         "char_285_medic2": {
+            "maxLevel": [30],
             "name": "Lancet-2",
             "name_en": "Lancet-2",
             "name_jp": "Lancet-2",
@@ -2285,6 +2480,7 @@
             "subProfessionId": "physician"
         },
         "char_286_cast3": {
+            "maxLevel": [30],
             "name": "Castle-3",
             "name_en": "Castle-3",
             "name_jp": "Castle-3",
@@ -2298,6 +2494,7 @@
             "subProfessionId": "fearless"
         },
         "char_289_gyuki": {
+            "maxLevel": [45, 60, 70],
             "name": "缠丸",
             "name_en": "Matoimaru",
             "name_jp": "マトイマル",
@@ -2311,6 +2508,7 @@
             "subProfessionId": "fearless"
         },
         "char_290_vigna": {
+            "maxLevel": [45, 60, 70],
             "name": "红豆",
             "name_en": "Vigna",
             "name_jp": "ヴィグナ",
@@ -2324,6 +2522,7 @@
             "subProfessionId": "charger"
         },
         "char_291_aglina": {
+            "maxLevel": [50, 80, 90],
             "name": "安洁莉娜",
             "name_en": "Angelina",
             "name_jp": "アンジェリーナ",
@@ -2337,6 +2536,7 @@
             "subProfessionId": "slower"
         },
         "char_293_thorns": {
+            "maxLevel": [50, 80, 90],
             "name": "棘刺",
             "name_en": "Thorns",
             "name_jp": "ソーンズ",
@@ -2350,6 +2550,7 @@
             "subProfessionId": "lord"
         },
         "char_294_ayer": {
+            "maxLevel": [50, 70, 80],
             "name": "断崖",
             "name_en": "Ayerscarpe",
             "name_jp": "エアースカーペ",
@@ -2363,6 +2564,7 @@
             "subProfessionId": "lord"
         },
         "char_297_hamoni": {
+            "maxLevel": [50, 70, 80],
             "name": "和弦",
             "name_en": "Harmonie",
             "name_jp": "ハーモニー",
@@ -2376,6 +2578,7 @@
             "subProfessionId": "mystic"
         },
         "char_298_susuro": {
+            "maxLevel": [45, 60, 70],
             "name": "苏苏洛",
             "name_en": "Sussurro",
             "name_jp": "ススーロ",
@@ -2389,6 +2592,7 @@
             "subProfessionId": "physician"
         },
         "char_300_phenxi": {
+            "maxLevel": [50, 80, 90],
             "name": "菲亚梅塔",
             "name_en": "Fiammetta",
             "name_jp": "フィアメッタ",
@@ -2402,6 +2606,7 @@
             "subProfessionId": "aoesniper"
         },
         "char_301_cutter": {
+            "maxLevel": [45, 60, 70],
             "name": "刻刀",
             "name_en": "Cutter",
             "name_jp": "カッター",
@@ -2415,6 +2620,7 @@
             "subProfessionId": "sword"
         },
         "char_302_glaze": {
+            "maxLevel": [45, 60, 70],
             "name": "安比尔",
             "name_en": "Ambriel",
             "name_jp": "アンブリエル",
@@ -2428,6 +2634,7 @@
             "subProfessionId": "longrange"
         },
         "char_304_zebra": {
+            "maxLevel": [50, 70, 80],
             "name": "暴雨",
             "name_en": "Heavyrain",
             "name_jp": "ヘビーレイン",
@@ -2441,6 +2648,7 @@
             "subProfessionId": "protector"
         },
         "char_306_leizi": {
+            "maxLevel": [50, 70, 80],
             "name": "惊蛰",
             "name_en": "Leizi",
             "name_jp": "レイズ",
@@ -2454,6 +2662,7 @@
             "subProfessionId": "chain"
         },
         "char_308_swire": {
+            "maxLevel": [50, 70, 80],
             "name": "诗怀雅",
             "name_en": "Swire",
             "name_jp": "スワイヤー",
@@ -2467,6 +2676,7 @@
             "subProfessionId": "instructor"
         },
         "char_311_mudrok": {
+            "maxLevel": [50, 80, 90],
             "name": "泥岩",
             "name_en": "Mudrock",
             "name_jp": "マドロック",
@@ -2480,6 +2690,7 @@
             "subProfessionId": "unyield"
         },
         "char_322_lmlee": {
+            "maxLevel": [50, 80, 90],
             "name": "老鲤",
             "name_en": "Lee",
             "name_jp": "リー",
@@ -2493,6 +2704,7 @@
             "subProfessionId": "merchant"
         },
         "char_325_bison": {
+            "maxLevel": [50, 70, 80],
             "name": "拜松",
             "name_en": "Bison",
             "name_jp": "バイソン",
@@ -2506,6 +2718,7 @@
             "subProfessionId": "protector"
         },
         "char_326_glacus": {
+            "maxLevel": [50, 70, 80],
             "name": "格劳克斯",
             "name_en": "Glaucus",
             "name_jp": "グラウコス",
@@ -2519,6 +2732,7 @@
             "subProfessionId": "slower"
         },
         "char_328_cammou": {
+            "maxLevel": [45, 60, 70],
             "name": "卡达",
             "name_en": "Click",
             "name_jp": "カシャ",
@@ -2532,6 +2746,7 @@
             "subProfessionId": "funnel"
         },
         "char_332_archet": {
+            "maxLevel": [50, 80, 90],
             "name": "空弦",
             "name_en": "Archetto",
             "name_jp": "アルケット",
@@ -2545,6 +2760,7 @@
             "subProfessionId": "fastshot"
         },
         "char_333_sidero": {
+            "maxLevel": [50, 70, 80],
             "name": "铸铁",
             "name_en": "Sideroca",
             "name_jp": "シデロカ",
@@ -2558,6 +2774,7 @@
             "subProfessionId": "artsfghter"
         },
         "char_336_folivo": {
+            "maxLevel": [50, 70, 80],
             "name": "稀音",
             "name_en": "Scene",
             "name_jp": "シーン",
@@ -2571,6 +2788,7 @@
             "subProfessionId": "summoner"
         },
         "char_337_utage": {
+            "maxLevel": [45, 60, 70],
             "name": "宴",
             "name_en": "Utage",
             "name_jp": "ウタゲ",
@@ -2584,6 +2802,7 @@
             "subProfessionId": "musha"
         },
         "char_338_iris": {
+            "maxLevel": [50, 70, 80],
             "name": "爱丽丝",
             "name_en": "Iris",
             "name_jp": "アイリス",
@@ -2597,6 +2816,7 @@
             "subProfessionId": "mystic"
         },
         "char_340_shwaz": {
+            "maxLevel": [50, 80, 90],
             "name": "黑",
             "name_en": "Schwarz",
             "name_jp": "シュヴァルツ",
@@ -2610,6 +2830,7 @@
             "subProfessionId": "closerange"
         },
         "char_341_sntlla": {
+            "maxLevel": [50, 70, 80],
             "name": "寒檀",
             "name_en": "Santalla",
             "name_jp": "サンタラ",
@@ -2623,6 +2844,7 @@
             "subProfessionId": "splashcaster"
         },
         "char_343_tknogi": {
+            "maxLevel": [50, 70, 80],
             "name": "月禾",
             "name_en": "Tsukinogi",
             "name_jp": "ツキノギ",
@@ -2636,6 +2858,7 @@
             "subProfessionId": "blessing"
         },
         "char_344_beewax": {
+            "maxLevel": [50, 70, 80],
             "name": "蜜蜡",
             "name_en": "Beeswax",
             "name_jp": "ビーズワクス",
@@ -2650,6 +2873,7 @@
             "tokens": ["沙之碑"]
         },
         "char_345_folnic": {
+            "maxLevel": [50, 70, 80],
             "name": "亚叶",
             "name_en": "Folinic",
             "name_jp": "フォリニック",
@@ -2663,6 +2887,7 @@
             "subProfessionId": "physician"
         },
         "char_346_aosta": {
+            "maxLevel": [50, 70, 80],
             "name": "奥斯塔",
             "name_en": "Aosta",
             "name_jp": "アオスタ",
@@ -2676,6 +2901,7 @@
             "subProfessionId": "reaperrange"
         },
         "char_347_jaksel": {
+            "maxLevel": [45, 60, 70],
             "name": "杰克",
             "name_en": "Jackie",
             "name_jp": "ジャッキー",
@@ -2689,6 +2915,7 @@
             "subProfessionId": "fighter"
         },
         "char_348_ceylon": {
+            "maxLevel": [50, 70, 80],
             "name": "锡兰",
             "name_en": "Ceylon",
             "name_jp": "セイロン",
@@ -2702,6 +2929,7 @@
             "subProfessionId": "healer"
         },
         "char_349_chiave": {
+            "maxLevel": [50, 70, 80],
             "name": "贾维",
             "name_en": "Chiave",
             "name_jp": "キアーベ",
@@ -2715,6 +2943,7 @@
             "subProfessionId": "pioneer"
         },
         "char_350_surtr": {
+            "maxLevel": [50, 80, 90],
             "name": "史尔特尔",
             "name_en": "Surtr",
             "name_jp": "スルト",
@@ -2728,6 +2957,7 @@
             "subProfessionId": "artsfghter"
         },
         "char_355_ethan": {
+            "maxLevel": [45, 60, 70],
             "name": "伊桑",
             "name_en": "Ethan",
             "name_jp": "イーサン",
@@ -2741,6 +2971,7 @@
             "subProfessionId": "stalker"
         },
         "char_356_broca": {
+            "maxLevel": [50, 70, 80],
             "name": "布洛卡",
             "name_en": "Broca",
             "name_jp": "ブローカ",
@@ -2754,6 +2985,7 @@
             "subProfessionId": "centurion"
         },
         "char_358_lisa": {
+            "maxLevel": [50, 80, 90],
             "name": "铃兰",
             "name_en": "Suzuran",
             "name_jp": "スズラン",
@@ -2767,6 +2999,7 @@
             "subProfessionId": "slower"
         },
         "char_362_saga": {
+            "maxLevel": [50, 80, 90],
             "name": "嵯峨",
             "name_en": "Saga",
             "name_jp": "サガ",
@@ -2780,6 +3013,7 @@
             "subProfessionId": "pioneer"
         },
         "char_363_toddi": {
+            "maxLevel": [50, 70, 80],
             "name": "熔泉",
             "name_en": "Toddifons",
             "name_jp": "トギフォンス",
@@ -2793,6 +3027,7 @@
             "subProfessionId": "siegesniper"
         },
         "char_365_aprl": {
+            "maxLevel": [50, 70, 80],
             "name": "四月",
             "name_en": "April",
             "name_jp": "エイプリル",
@@ -2806,6 +3041,7 @@
             "subProfessionId": "fastshot"
         },
         "char_366_acdrop": {
+            "maxLevel": [45, 60, 70],
             "name": "酸糖",
             "name_en": "Aciddrop",
             "name_jp": "アシッドドロップ",
@@ -2819,6 +3055,7 @@
             "subProfessionId": "closerange"
         },
         "char_367_swllow": {
+            "maxLevel": [50, 70, 80],
             "name": "灰喉",
             "name_en": "GreyThroat",
             "name_jp": "グレースロート",
@@ -2832,6 +3069,7 @@
             "subProfessionId": "fastshot"
         },
         "char_369_bena": {
+            "maxLevel": [50, 70, 80],
             "name": "贝娜",
             "name_en": "Bena",
             "name_jp": "ベナ",
@@ -2845,6 +3083,7 @@
             "subProfessionId": "dollkeeper"
         },
         "char_373_lionhd": {
+            "maxLevel": [50, 70, 80],
             "name": "莱恩哈特",
             "name_en": "Leonhardt",
             "name_jp": "レオンハルト",
@@ -2858,6 +3097,7 @@
             "subProfessionId": "splashcaster"
         },
         "char_376_therex": {
+            "maxLevel": [30],
             "name": "THRM-EX",
             "name_en": "THRM-EX",
             "name_jp": "THRM-EX",
@@ -2871,6 +3111,7 @@
             "subProfessionId": "executor"
         },
         "char_377_gdglow": {
+            "maxLevel": [50, 80, 90],
             "name": "澄闪",
             "name_en": "Goldenglow",
             "name_jp": "ゴールデングロー",
@@ -2884,6 +3125,7 @@
             "subProfessionId": "funnel"
         },
         "char_378_asbest": {
+            "maxLevel": [50, 70, 80],
             "name": "石棉",
             "name_en": "Asbestos",
             "name_jp": "アスベストス",
@@ -2897,6 +3139,7 @@
             "subProfessionId": "artsprotector"
         },
         "char_379_sesa": {
+            "maxLevel": [50, 70, 80],
             "name": "慑砂",
             "name_en": "Sesa",
             "name_jp": "シェーシャ",
@@ -2910,6 +3153,7 @@
             "subProfessionId": "aoesniper"
         },
         "char_381_bubble": {
+            "maxLevel": [45, 60, 70],
             "name": "泡泡",
             "name_en": "Bubble",
             "name_jp": "バブル",
@@ -2923,6 +3167,7 @@
             "subProfessionId": "protector"
         },
         "char_383_snsant": {
+            "maxLevel": [50, 70, 80],
             "name": "雪雉",
             "name_en": "Snowsant",
             "name_jp": "スノーズント",
@@ -2936,6 +3181,7 @@
             "subProfessionId": "hookmaster"
         },
         "char_385_finlpp": {
+            "maxLevel": [45, 60, 70],
             "name": "清流",
             "name_en": "Purestream",
             "name_jp": "セイリュウ",
@@ -2949,6 +3195,7 @@
             "subProfessionId": "healer"
         },
         "char_388_mint": {
+            "maxLevel": [50, 70, 80],
             "name": "薄绿",
             "name_en": "Mint",
             "name_jp": "ミント",
@@ -2962,6 +3209,7 @@
             "subProfessionId": "phalanx"
         },
         "char_391_rosmon": {
+            "maxLevel": [50, 80, 90],
             "name": "迷迭香",
             "name_en": "Rosmontis",
             "name_jp": "ロスモンティス",
@@ -2976,6 +3224,7 @@
             "tokens": ["迷迭香的战术装备"]
         },
         "char_394_hadiya": {
+            "maxLevel": [50, 70, 80],
             "name": "哈蒂娅",
             "name_en": "Hadiya",
             "name_jp": "ハディヤ",
@@ -2989,6 +3238,7 @@
             "subProfessionId": "mercenary"
         },
         "char_4000_jnight": {
+            "maxLevel": [30],
             "name": "正义骑士号",
             "name_en": "'Justice Knight'",
             "name_jp": "ジャスティスナイト",
@@ -3002,6 +3252,7 @@
             "subProfessionId": "fastshot"
         },
         "char_4004_pudd": {
+            "maxLevel": [45, 60, 70],
             "name": "布丁",
             "name_en": "Pudding",
             "name_jp": "プリン",
@@ -3015,6 +3266,7 @@
             "subProfessionId": "chain"
         },
         "char_4006_melnte": {
+            "maxLevel": [50, 70, 80],
             "name": "玫拉",
             "name_en": "Melanite",
             "name_jp": "メラナイト",
@@ -3028,6 +3280,7 @@
             "subProfessionId": "closerange"
         },
         "char_4009_irene": {
+            "maxLevel": [50, 80, 90],
             "name": "艾丽妮",
             "name_en": "Irene",
             "name_jp": "アイリーニ",
@@ -3041,6 +3294,7 @@
             "subProfessionId": "sword"
         },
         "char_400_weedy": {
+            "maxLevel": [50, 80, 90],
             "name": "温蒂",
             "name_en": "Weedy",
             "name_jp": "ウィーディ",
@@ -3054,6 +3308,7 @@
             "subProfessionId": "pusher"
         },
         "char_4010_etlchi": {
+            "maxLevel": [50, 80, 90],
             "name": "隐德来希",
             "name_en": "Entelechia",
             "name_jp": "エンテレケイア",
@@ -3067,6 +3322,7 @@
             "subProfessionId": "reaper"
         },
         "char_4011_lessng": {
+            "maxLevel": [50, 80, 90],
             "name": "止颂",
             "name_en": "Lessing",
             "name_jp": "レッシング",
@@ -3080,6 +3336,7 @@
             "subProfessionId": "fearless"
         },
         "char_4013_kjera": {
+            "maxLevel": [50, 70, 80],
             "name": "耶拉",
             "name_en": "Kjera",
             "name_jp": "イェラ",
@@ -3093,6 +3350,7 @@
             "subProfessionId": "funnel"
         },
         "char_4014_lunacu": {
+            "maxLevel": [50, 70, 80],
             "name": "子月",
             "name_en": "Lunacub",
             "name_jp": "ルナカブ",
@@ -3106,6 +3364,7 @@
             "subProfessionId": "longrange"
         },
         "char_4015_spuria": {
+            "maxLevel": [50, 70, 80],
             "name": "空构",
             "name_en": "Spuria",
             "name_jp": "スプリア",
@@ -3119,6 +3378,7 @@
             "subProfessionId": "geek"
         },
         "char_4016_kazema": {
+            "maxLevel": [50, 70, 80],
             "name": "风丸",
             "name_en": "Kazemaru",
             "name_jp": "カゼマル",
@@ -3133,6 +3393,7 @@
             "tokens": ["纸偶"]
         },
         "char_4017_puzzle": {
+            "maxLevel": [50, 70, 80],
             "name": "谜图",
             "name_en": "Puzzle",
             "name_jp": "パズル",
@@ -3146,6 +3407,7 @@
             "subProfessionId": "agent"
         },
         "char_4019_ncdeer": {
+            "maxLevel": [50, 70, 80],
             "name": "九色鹿",
             "name_en": "Nine-Colored Deer",
             "name_jp": "九色鹿",
@@ -3159,6 +3421,7 @@
             "subProfessionId": "blessing"
         },
         "char_401_elysm": {
+            "maxLevel": [50, 70, 80],
             "name": "极境",
             "name_en": "Elysium",
             "name_jp": "エリジウム",
@@ -3172,6 +3435,7 @@
             "subProfessionId": "bearer"
         },
         "char_4023_rfalcn": {
+            "maxLevel": [50, 70, 80],
             "name": "红隼",
             "name_en": "Kestrel",
             "name_jp": "ケストレル",
@@ -3185,6 +3449,7 @@
             "subProfessionId": "pioneer"
         },
         "char_4025_aprot2": {
+            "maxLevel": [50, 70, 80],
             "name": "暮落",
             "name_en": "Shalem",
             "name_jp": "シャレム",
@@ -3198,6 +3463,7 @@
             "subProfessionId": "artsprotector"
         },
         "char_4026_vulpis": {
+            "maxLevel": [50, 80, 90],
             "name": "忍冬",
             "name_en": "Vulpisfoglia",
             "name_jp": "ウルピスフォリア",
@@ -3211,6 +3477,7 @@
             "subProfessionId": "pioneer"
         },
         "char_4027_heyak": {
+            "maxLevel": [50, 80, 90],
             "name": "霍尔海雅",
             "name_en": "Ho'olheyak",
             "name_jp": "ホルハイヤ",
@@ -3224,6 +3491,7 @@
             "subProfessionId": "corecaster"
         },
         "char_402_tuye": {
+            "maxLevel": [50, 70, 80],
             "name": "图耶",
             "name_en": "Tuye",
             "name_jp": "トゥイエ",
@@ -3237,6 +3505,7 @@
             "subProfessionId": "physician"
         },
         "char_4031_liesel": {
+            "maxLevel": [50, 70, 80],
             "name": "复奏",
             "name_en": "Ripresa",
             "name_jp": "リプレーザ",
@@ -3250,6 +3519,7 @@
             "subProfessionId": "splashcaster"
         },
         "char_4032_provs": {
+            "maxLevel": [50, 70, 80],
             "name": "但书",
             "name_en": "Proviso",
             "name_jp": "プロヴァイゾ",
@@ -3263,6 +3533,7 @@
             "subProfessionId": "slower"
         },
         "char_4036_forcer": {
+            "maxLevel": [50, 70, 80],
             "name": "见行者",
             "name_en": "Enforcer",
             "name_jp": "エンフォーサー",
@@ -3276,6 +3547,7 @@
             "subProfessionId": "pusher"
         },
         "char_4037_demetr": {
+            "maxLevel": [50, 80, 90],
             "name": "贝洛内",
             "name_en": "Bellone",
             "name_jp": "ベッローネ",
@@ -3290,6 +3562,7 @@
             "tokens": ["牵绊"]
         },
         "char_4039_horn": {
+            "maxLevel": [50, 80, 90],
             "name": "号角",
             "name_en": "Horn",
             "name_jp": "ホルン",
@@ -3303,6 +3576,7 @@
             "subProfessionId": "fortress"
         },
         "char_4040_rockr": {
+            "maxLevel": [50, 70, 80],
             "name": "洛洛",
             "name_en": "Rockrock",
             "name_jp": "ロックロック",
@@ -3316,6 +3590,7 @@
             "subProfessionId": "funnel"
         },
         "char_4041_chnut": {
+            "maxLevel": [45, 60, 70],
             "name": "褐果",
             "name_en": "Chestnut",
             "name_jp": "チェストナット",
@@ -3329,6 +3604,7 @@
             "subProfessionId": "wandermedic"
         },
         "char_4042_lumen": {
+            "maxLevel": [50, 80, 90],
             "name": "流明",
             "name_en": "Lumen",
             "name_jp": "ルーメン",
@@ -3342,6 +3618,7 @@
             "subProfessionId": "healer"
         },
         "char_4043_erato": {
+            "maxLevel": [50, 70, 80],
             "name": "埃拉托",
             "name_en": "Erato",
             "name_jp": "エラト",
@@ -3355,6 +3632,7 @@
             "subProfessionId": "siegesniper"
         },
         "char_4045_heidi": {
+            "maxLevel": [50, 70, 80],
             "name": "海蒂",
             "name_en": "Heidi",
             "name_jp": "ハイディ",
@@ -3368,6 +3646,7 @@
             "subProfessionId": "bard"
         },
         "char_4046_ebnhlz": {
+            "maxLevel": [50, 80, 90],
             "name": "黑键",
             "name_en": "Ebenholz",
             "name_jp": "エーベンホルツ",
@@ -3382,6 +3661,7 @@
             "tokens": ["旧日残影"]
         },
         "char_4047_pianst": {
+            "maxLevel": [50, 70, 80],
             "name": "车尔尼",
             "name_en": "Czerny",
             "name_jp": "ツェルニー",
@@ -3395,6 +3675,7 @@
             "subProfessionId": "artsprotector"
         },
         "char_4048_doroth": {
+            "maxLevel": [50, 80, 90],
             "name": "多萝西",
             "name_en": "Dorothy",
             "name_jp": "ドロシー",
@@ -3408,6 +3689,7 @@
             "subProfessionId": "traper"
         },
         "char_4051_akkord": {
+            "maxLevel": [45, 60, 70],
             "name": "协律",
             "name_en": "Akkord",
             "name_jp": "アコルト",
@@ -3421,6 +3703,7 @@
             "subProfessionId": "blastcaster"
         },
         "char_4052_surfer": {
+            "maxLevel": [50, 70, 80],
             "name": "寻澜",
             "name_en": "Surfer",
             "name_jp": "サーファー",
@@ -3434,6 +3717,7 @@
             "subProfessionId": "agent"
         },
         "char_4054_malist": {
+            "maxLevel": [50, 70, 80],
             "name": "至简",
             "name_en": "Minimalist",
             "name_jp": "ミニマリスト",
@@ -3447,6 +3731,7 @@
             "subProfessionId": "funnel"
         },
         "char_4055_bgsnow": {
+            "maxLevel": [50, 80, 90],
             "name": "鸿雪",
             "name_en": "Pozëmka",
             "name_jp": "パゼオンカ",
@@ -3460,6 +3745,7 @@
             "subProfessionId": "closerange"
         },
         "char_4056_titi": {
+            "maxLevel": [50, 80, 90],
             "name": "缇缇",
             "name_en": "Titi",
             "name_jp": "ティティ",
@@ -3473,6 +3759,7 @@
             "subProfessionId": "incantationmedic"
         },
         "char_4058_pepe": {
+            "maxLevel": [50, 80, 90],
             "name": "佩佩",
             "name_en": "Pepe",
             "name_jp": "ペペ",
@@ -3486,6 +3773,7 @@
             "subProfessionId": "hammer"
         },
         "char_405_absin": {
+            "maxLevel": [50, 70, 80],
             "name": "苦艾",
             "name_en": "Absinthe",
             "name_jp": "アブサント",
@@ -3499,6 +3787,7 @@
             "subProfessionId": "corecaster"
         },
         "char_4062_totter": {
+            "maxLevel": [45, 60, 70],
             "name": "铅踝",
             "name_en": "Totter",
             "name_jp": "トター",
@@ -3512,6 +3801,7 @@
             "subProfessionId": "siegesniper"
         },
         "char_4063_quartz": {
+            "maxLevel": [45, 60, 70],
             "name": "石英",
             "name_en": "Quartz",
             "name_jp": "クォーツ",
@@ -3525,6 +3815,7 @@
             "subProfessionId": "crusher"
         },
         "char_4064_mlynar": {
+            "maxLevel": [50, 80, 90],
             "name": "玛恩纳",
             "name_en": "Młynar",
             "name_jp": "ムリナール",
@@ -3538,6 +3829,7 @@
             "subProfessionId": "librator"
         },
         "char_4065_judge": {
+            "maxLevel": [50, 80, 90],
             "name": "斥罪",
             "name_en": "Penance",
             "name_jp": "ペナンス",
@@ -3551,6 +3843,7 @@
             "subProfessionId": "unyield"
         },
         "char_4066_highmo": {
+            "maxLevel": [50, 70, 80],
             "name": "海沫",
             "name_en": "Highmore",
             "name_jp": "ハイモア",
@@ -3564,6 +3857,7 @@
             "subProfessionId": "reaper"
         },
         "char_4067_lolxh": {
+            "maxLevel": [45, 60, 70],
             "name": "罗小黑",
             "name_en": "Luo Xiaohei",
             "name_jp": "羅小黒",
@@ -3577,6 +3871,7 @@
             "subProfessionId": "lord"
         },
         "char_4071_peper": {
+            "maxLevel": [50, 70, 80],
             "name": "明椒",
             "name_en": "Paprika",
             "name_jp": "パプリカ",
@@ -3590,6 +3885,7 @@
             "subProfessionId": "chainhealer"
         },
         "char_4072_ironmn": {
+            "maxLevel": [50, 80, 90],
             "name": "白铁",
             "name_en": "Stainless",
             "name_jp": "ステインレス",
@@ -3604,6 +3900,7 @@
             "tokens": ["白铁™多功能平台", "白铁™多功能平台", "铁钳号·原型机"]
         },
         "char_4077_palico": {
+            "maxLevel": [30],
             "name": "泰拉大陆调查团",
             "name_en": "Terra Research Commission",
             "name_jp": "テラ大陸調査団",
@@ -3617,6 +3914,7 @@
             "subProfessionId": "bombarder"
         },
         "char_4078_bdhkgt": {
+            "maxLevel": [50, 70, 80],
             "name": "截云",
             "name_en": "Jieyun",
             "name_jp": "ジエユン",
@@ -3630,6 +3928,7 @@
             "subProfessionId": "aoesniper"
         },
         "char_4079_haini": {
+            "maxLevel": [50, 70, 80],
             "name": "海霓",
             "name_en": "Lucilla",
             "name_jp": "ルシーラ",
@@ -3643,6 +3942,7 @@
             "subProfessionId": "underminer"
         },
         "char_4080_lin": {
+            "maxLevel": [50, 80, 90],
             "name": "林",
             "name_en": "Lin",
             "name_jp": "リン",
@@ -3656,6 +3956,7 @@
             "subProfessionId": "phalanx"
         },
         "char_4081_warmy": {
+            "maxLevel": [50, 70, 80],
             "name": "温米",
             "name_en": "Warmy",
             "name_jp": "ウォーミー",
@@ -3669,6 +3970,7 @@
             "subProfessionId": "primcaster"
         },
         "char_4082_qiubai": {
+            "maxLevel": [50, 80, 90],
             "name": "仇白",
             "name_en": "Qiubai",
             "name_jp": "チューバイ",
@@ -3682,6 +3984,7 @@
             "subProfessionId": "lord"
         },
         "char_4083_chimes": {
+            "maxLevel": [50, 70, 80],
             "name": "铎铃",
             "name_en": "Wind Chimes",
             "name_jp": "ウィンドチャイム",
@@ -3695,6 +3998,7 @@
             "subProfessionId": "crusher"
         },
         "char_4087_ines": {
+            "maxLevel": [50, 80, 90],
             "name": "伊内丝",
             "name_en": "Ines",
             "name_jp": "イネス",
@@ -3708,6 +4012,7 @@
             "subProfessionId": "agent"
         },
         "char_4088_hodrer": {
+            "maxLevel": [50, 80, 90],
             "name": "赫德雷",
             "name_en": "Hoederer",
             "name_jp": "ヘドリー",
@@ -3721,6 +4026,7 @@
             "subProfessionId": "crusher"
         },
         "char_4091_ulika": {
+            "maxLevel": [30],
             "name": "U-Official",
             "name_en": "U-Official",
             "name_jp": "U-Official",
@@ -3734,6 +4040,7 @@
             "subProfessionId": "bard"
         },
         "char_4093_frston": {
+            "maxLevel": [30],
             "name": "Friston-3",
             "name_en": "Friston-3",
             "name_jp": "Friston-3",
@@ -3747,6 +4054,7 @@
             "subProfessionId": "protector"
         },
         "char_4098_vvana": {
+            "maxLevel": [50, 80, 90],
             "name": "薇薇安娜",
             "name_en": "Viviana",
             "name_jp": "ヴィヴィアナ",
@@ -3760,6 +4068,7 @@
             "subProfessionId": "artsfghter"
         },
         "char_4100_caper": {
+            "maxLevel": [45, 60, 70],
             "name": "跃跃",
             "name_en": "Caper",
             "name_jp": "ケイパー",
@@ -3773,6 +4082,7 @@
             "subProfessionId": "loopshooter"
         },
         "char_4102_threye": {
+            "maxLevel": [50, 70, 80],
             "name": "凛视",
             "name_en": "Valarqvin",
             "name_jp": "ヴァラルクビン",
@@ -3786,6 +4096,7 @@
             "subProfessionId": "ritualist"
         },
         "char_4104_coldst": {
+            "maxLevel": [50, 70, 80],
             "name": "冰酿",
             "name_en": "Coldshot",
             "name_jp": "コールドショット",
@@ -3799,6 +4110,7 @@
             "subProfessionId": "hunter"
         },
         "char_4105_almond": {
+            "maxLevel": [50, 70, 80],
             "name": "杏仁",
             "name_en": "Almond",
             "name_jp": "アーモンド",
@@ -3812,6 +4124,7 @@
             "subProfessionId": "hookmaster"
         },
         "char_4106_bryota": {
+            "maxLevel": [50, 70, 80],
             "name": "苍苔",
             "name_en": "Bryophyta",
             "name_jp": "ブライオファイタ",
@@ -3825,6 +4138,7 @@
             "subProfessionId": "instructor"
         },
         "char_4107_vrdant": {
+            "maxLevel": [45, 60, 70],
             "name": "维荻",
             "name_en": "Verdant",
             "name_jp": "ヴァーダント",
@@ -3838,6 +4152,7 @@
             "subProfessionId": "dollkeeper"
         },
         "char_4109_baslin": {
+            "maxLevel": [50, 70, 80],
             "name": "深律",
             "name_en": "Bassline",
             "name_jp": "ベースライン",
@@ -3851,6 +4166,7 @@
             "subProfessionId": "guardian"
         },
         "char_4110_delphn": {
+            "maxLevel": [50, 70, 80],
             "name": "戴菲恩",
             "name_en": "Delphine",
             "name_jp": "デルフィーン",
@@ -3864,6 +4180,7 @@
             "subProfessionId": "mystic"
         },
         "char_4114_harold": {
+            "maxLevel": [50, 70, 80],
             "name": "哈洛德",
             "name_en": "Harold",
             "name_jp": "ハロルド",
@@ -3877,6 +4194,7 @@
             "subProfessionId": "wandermedic"
         },
         "char_4116_blkkgt": {
+            "maxLevel": [50, 80, 90],
             "name": "锏",
             "name_en": "Degenbrecher",
             "name_jp": "デーゲンブレヒャー",
@@ -3890,6 +4208,7 @@
             "subProfessionId": "sword"
         },
         "char_4117_ray": {
+            "maxLevel": [50, 80, 90],
             "name": "莱伊",
             "name_en": "Ray",
             "name_jp": "レイ",
@@ -3904,6 +4223,7 @@
             "tokens": ["沙地兽"]
         },
         "char_4119_wanqin": {
+            "maxLevel": [50, 70, 80],
             "name": "万顷",
             "name_en": "Wanqing",
             "name_jp": "ワンチィン",
@@ -3917,6 +4237,7 @@
             "subProfessionId": "bearer"
         },
         "char_411_tomimi": {
+            "maxLevel": [50, 70, 80],
             "name": "特米米",
             "name_en": "Tomimi",
             "name_jp": "トミミ",
@@ -3930,6 +4251,7 @@
             "subProfessionId": "corecaster"
         },
         "char_4121_zuole": {
+            "maxLevel": [50, 80, 90],
             "name": "左乐",
             "name_en": "Zuo Le",
             "name_jp": "ズオ・ラウ",
@@ -3943,6 +4265,7 @@
             "subProfessionId": "musha"
         },
         "char_4122_grabds": {
+            "maxLevel": [50, 70, 80],
             "name": "小满",
             "name_en": "Grain Buds",
             "name_jp": "グレインバッズ",
@@ -3956,6 +4279,7 @@
             "subProfessionId": "slower"
         },
         "char_4123_ela": {
+            "maxLevel": [50, 80, 90],
             "name": "艾拉",
             "name_en": "Ela",
             "name_jp": "Ela",
@@ -3969,6 +4293,7 @@
             "subProfessionId": "traper"
         },
         "char_4124_iana": {
+            "maxLevel": [50, 70, 80],
             "name": "双月",
             "name_en": "Iana",
             "name_jp": "Iana",
@@ -3982,6 +4307,7 @@
             "subProfessionId": "dollkeeper"
         },
         "char_4125_rdoc": {
+            "maxLevel": [50, 70, 80],
             "name": "医生",
             "name_en": "Doc",
             "name_jp": "Doc",
@@ -3995,6 +4321,7 @@
             "subProfessionId": "instructor"
         },
         "char_4126_fuze": {
+            "maxLevel": [50, 70, 80],
             "name": "导火索",
             "name_en": "Fuze",
             "name_jp": "Fuze",
@@ -4008,6 +4335,7 @@
             "subProfessionId": "centurion"
         },
         "char_4130_luton": {
+            "maxLevel": [45, 60, 70],
             "name": "露托",
             "name_en": "Lutonada",
             "name_jp": "ルトナダ",
@@ -4021,6 +4349,7 @@
             "subProfessionId": "unyield"
         },
         "char_4131_odda": {
+            "maxLevel": [50, 70, 80],
             "name": "奥达",
             "name_en": "Odda",
             "name_jp": "オッダ",
@@ -4034,6 +4363,7 @@
             "subProfessionId": "hammer"
         },
         "char_4132_ascln": {
+            "maxLevel": [50, 80, 90],
             "name": "阿斯卡纶",
             "name_en": "Ascalon",
             "name_jp": "アスカロン",
@@ -4047,6 +4377,7 @@
             "subProfessionId": "stalker"
         },
         "char_4133_logos": {
+            "maxLevel": [50, 80, 90],
             "name": "逻各斯",
             "name_en": "Logos",
             "name_jp": "ロゴス",
@@ -4060,6 +4391,7 @@
             "subProfessionId": "corecaster"
         },
         "char_4134_cetsyr": {
+            "maxLevel": [50, 80, 90],
             "name": "魔王",
             "name_en": "Civilight Eterna",
             "name_jp": "シヴィライト・エテルナ",
@@ -4073,6 +4405,7 @@
             "subProfessionId": "bard"
         },
         "char_4136_phonor": {
+            "maxLevel": [30],
             "name": "PhonoR-0",
             "name_en": "PhonoR-0",
             "name_jp": "PhonoR-0",
@@ -4086,6 +4419,7 @@
             "subProfessionId": "ritualist"
         },
         "char_4137_udflow": {
+            "maxLevel": [50, 70, 80],
             "name": "深巡",
             "name_en": "Underflow",
             "name_jp": "アンダーフロー",
@@ -4099,6 +4433,7 @@
             "subProfessionId": "shotprotector"
         },
         "char_4138_narant": {
+            "maxLevel": [50, 80, 90],
             "name": "娜仁图亚",
             "name_en": "Narantuya",
             "name_jp": "ナラントゥヤ",
@@ -4112,6 +4447,7 @@
             "subProfessionId": "loopshooter"
         },
         "char_4139_papyrs": {
+            "maxLevel": [50, 70, 80],
             "name": "莎草",
             "name_en": "Papyrus",
             "name_jp": "パピルス",
@@ -4125,6 +4461,7 @@
             "subProfessionId": "chainhealer"
         },
         "char_4140_lasher": {
+            "maxLevel": [50, 70, 80],
             "name": "衡沙",
             "name_en": "Sand Reckoner",
             "name_jp": "サンドレコナー",
@@ -4138,6 +4475,7 @@
             "subProfessionId": "summoner"
         },
         "char_4141_marcil": {
+            "maxLevel": [50, 80, 90],
             "name": "玛露西尔",
             "name_en": "Marcille",
             "name_jp": "マルシル",
@@ -4151,6 +4489,7 @@
             "subProfessionId": "splashcaster"
         },
         "char_4142_laios": {
+            "maxLevel": [50, 70, 80],
             "name": "莱欧斯",
             "name_en": "Laios",
             "name_jp": "ライオス",
@@ -4164,6 +4503,7 @@
             "subProfessionId": "fearless"
         },
         "char_4143_sensi": {
+            "maxLevel": [50, 70, 80],
             "name": "森西",
             "name_en": "Senshi",
             "name_jp": "センシ",
@@ -4177,6 +4517,7 @@
             "subProfessionId": "guardian"
         },
         "char_4144_chilc": {
+            "maxLevel": [50, 70, 80],
             "name": "齐尔查克",
             "name_en": "Chilchuck",
             "name_jp": "チルチャック",
@@ -4190,6 +4531,7 @@
             "subProfessionId": "agent"
         },
         "char_4145_ulpia": {
+            "maxLevel": [50, 80, 90],
             "name": "乌尔比安",
             "name_en": "Ulpianus",
             "name_jp": "ウルピアヌス",
@@ -4204,6 +4546,7 @@
             "tokens": ["从不混淆的方向"]
         },
         "char_4146_nymph": {
+            "maxLevel": [50, 80, 90],
             "name": "妮芙",
             "name_en": "Nymph",
             "name_jp": "ニンフ",
@@ -4217,6 +4560,7 @@
             "subProfessionId": "primcaster"
         },
         "char_4147_mitm": {
+            "maxLevel": [50, 70, 80],
             "name": "渡桥",
             "name_en": "Mitm",
             "name_jp": "ミトム",
@@ -4230,6 +4574,7 @@
             "subProfessionId": "tactician"
         },
         "char_4148_philae": {
+            "maxLevel": [50, 70, 80],
             "name": "菲莱",
             "name_en": "Philae",
             "name_jp": "フィラエ",
@@ -4243,6 +4588,7 @@
             "subProfessionId": "primprotector"
         },
         "char_4151_tinman": {
+            "maxLevel": [50, 70, 80],
             "name": "锡人",
             "name_en": "Tin Man",
             "name_jp": "ブリキ",
@@ -4256,6 +4602,7 @@
             "subProfessionId": "alchemist"
         },
         "char_4155_talr": {
+            "maxLevel": [50, 70, 80],
             "name": "裁度",
             "name_en": "Figurino",
             "name_jp": "フィグリーノ",
@@ -4269,6 +4616,7 @@
             "subProfessionId": "merchant"
         },
         "char_415_flint": {
+            "maxLevel": [50, 70, 80],
             "name": "燧石",
             "name_en": "Flint",
             "name_jp": "フリント",
@@ -4282,6 +4630,7 @@
             "subProfessionId": "fighter"
         },
         "char_4162_cathy": {
+            "maxLevel": [50, 70, 80],
             "name": "凯瑟琳",
             "name_en": "Catherine",
             "name_jp": "キャサリン",
@@ -4295,6 +4644,7 @@
             "subProfessionId": "craftsman"
         },
         "char_4163_rosesa": {
+            "maxLevel": [50, 70, 80],
             "name": "瑰盐",
             "name_en": "Rose Salt",
             "name_jp": "ローズソルト",
@@ -4308,6 +4658,7 @@
             "subProfessionId": "ringhealer"
         },
         "char_4164_tecno": {
+            "maxLevel": [50, 70, 80],
             "name": "特克诺",
             "name_en": "Tecno",
             "name_jp": "テクノ",
@@ -4321,6 +4672,7 @@
             "subProfessionId": "soulcaster"
         },
         "char_4165_ctrail": {
+            "maxLevel": [45, 60, 70],
             "name": "云迹",
             "name_en": "Contrail",
             "name_jp": "コントレイル",
@@ -4334,6 +4686,7 @@
             "subProfessionId": "skywalker"
         },
         "char_4166_varkis": {
+            "maxLevel": [50, 70, 80],
             "name": "摆渡人",
             "name_en": "Varkáris",
             "name_jp": "ヴァルカリス",
@@ -4347,6 +4700,7 @@
             "subProfessionId": "centurion"
         },
         "char_416_zumama": {
+            "maxLevel": [50, 80, 90],
             "name": "森蚺",
             "name_en": "Eunectes",
             "name_jp": "ユーネクテス",
@@ -4360,6 +4714,7 @@
             "subProfessionId": "duelist"
         },
         "char_4171_wulfen": {
+            "maxLevel": [50, 70, 80],
             "name": "钼铅",
             "name_en": "Wulfenite",
             "name_jp": "ウルフェナイト",
@@ -4373,6 +4728,7 @@
             "subProfessionId": "traper"
         },
         "char_4172_xingzh": {
+            "maxLevel": [50, 70, 80],
             "name": "行箸",
             "name_en": "Xingzhu",
             "name_jp": "シィンズゥ",
@@ -4386,6 +4742,7 @@
             "subProfessionId": "blessing"
         },
         "char_4173_nowell": {
+            "maxLevel": [50, 70, 80],
             "name": "诺威尔",
             "name_en": "Nowell",
             "name_jp": "ノウエル",
@@ -4399,6 +4756,7 @@
             "subProfessionId": "healer"
         },
         "char_4177_brigid": {
+            "maxLevel": [50, 70, 80],
             "name": "水灯心",
             "name_en": "Brigid",
             "name_jp": "ブリギッド",
@@ -4412,6 +4770,7 @@
             "subProfessionId": "loopshooter"
         },
         "char_4178_alanna": {
+            "maxLevel": [50, 70, 80],
             "name": "阿兰娜",
             "name_en": "Alanna",
             "name_jp": "アランナ",
@@ -4425,6 +4784,7 @@
             "subProfessionId": "craftsman"
         },
         "char_4179_monstr": {
+            "maxLevel": [50, 80, 90],
             "name": "Mon3tr",
             "name_en": "Mon3tr",
             "name_jp": "Mon3tr",
@@ -4438,6 +4798,7 @@
             "subProfessionId": "chainhealer"
         },
         "char_4182_oblvns": {
+            "maxLevel": [50, 80, 90],
             "name": "丰川祥子",
             "name_en": "Sakiko Togawa",
             "name_jp": "豊川祥子",
@@ -4451,6 +4812,7 @@
             "subProfessionId": "lord"
         },
         "char_4183_mortis": {
+            "maxLevel": [50, 70, 80],
             "name": "若叶睦",
             "name_en": "Mutsumi Wakaba",
             "name_jp": "若葉睦",
@@ -4464,6 +4826,7 @@
             "subProfessionId": "dollkeeper"
         },
         "char_4184_dolris": {
+            "maxLevel": [50, 70, 80],
             "name": "三角初华",
             "name_en": "Uika Misumi",
             "name_jp": "三角初華",
@@ -4477,6 +4840,7 @@
             "subProfessionId": "bard"
         },
         "char_4185_amoris": {
+            "maxLevel": [50, 70, 80],
             "name": "祐天寺若麦",
             "name_en": "Nyamu Yūtenji",
             "name_jp": "祐天寺にゃむ",
@@ -4490,6 +4854,7 @@
             "subProfessionId": "hammer"
         },
         "char_4186_tmoris": {
+            "maxLevel": [50, 70, 80],
             "name": "八幡海铃",
             "name_en": "Umiri Yahata",
             "name_jp": "八幡海鈴",
@@ -4503,6 +4868,7 @@
             "subProfessionId": "stalker"
         },
         "char_4187_graceb": {
+            "maxLevel": [50, 70, 80],
             "name": "聆音",
             "name_en": "Gracebearer",
             "name_jp": "グレースベアラー",
@@ -4516,6 +4882,7 @@
             "subProfessionId": "primguard"
         },
         "char_4188_confes": {
+            "maxLevel": [30],
             "name": "CONFESS-47",
             "name_en": "CONFESS-47",
             "name_jp": "CONFESS-47",
@@ -4529,6 +4896,7 @@
             "subProfessionId": "pioneer"
         },
         "char_4191_tippi": {
+            "maxLevel": [50, 70, 80],
             "name": "蒂比",
             "name_en": "Tippi",
             "name_jp": "ティッピ",
@@ -4542,6 +4910,7 @@
             "subProfessionId": "skywalker"
         },
         "char_4193_lemuen": {
+            "maxLevel": [50, 80, 90],
             "name": "蕾缪安",
             "name_en": "Lemuen",
             "name_jp": "レミュアン",
@@ -4555,6 +4924,7 @@
             "subProfessionId": "longrange"
         },
         "char_4194_rmixer": {
+            "maxLevel": [50, 80, 90],
             "name": "信仰搅拌机",
             "name_en": "Sankta Miksaparato",
             "name_jp": "サンクタ・ミキサー",
@@ -4568,6 +4938,7 @@
             "subProfessionId": "shotprotector"
         },
         "char_4195_radian": {
+            "maxLevel": [50, 80, 90],
             "name": "电弧",
             "name_en": "Raidian",
             "name_jp": "レイディアン",
@@ -4582,6 +4953,7 @@
             "tokens": ["戴乌", "赛柯", "桑特拉"]
         },
         "char_4196_reckpr": {
+            "maxLevel": [50, 70, 80],
             "name": "录武官",
             "name_en": "Record Keeper",
             "name_jp": "レコードキーパー",
@@ -4595,6 +4967,7 @@
             "subProfessionId": "physician"
         },
         "char_4198_christ": {
+            "maxLevel": [50, 70, 80],
             "name": "Miss.Christine",
             "name_en": "Miss.Christine",
             "name_jp": "ミス・クリスティーン",
@@ -4608,6 +4981,7 @@
             "subProfessionId": "primcaster"
         },
         "char_4199_makiri": {
+            "maxLevel": [50, 70, 80],
             "name": "松桐",
             "name_en": "Matsukiri",
             "name_jp": "マツキリ",
@@ -4621,6 +4995,7 @@
             "subProfessionId": "counsellor"
         },
         "char_4202_haruka": {
+            "maxLevel": [50, 80, 90],
             "name": "遥",
             "name_en": "Haruka",
             "name_jp": "ハルカ",
@@ -4634,6 +5009,7 @@
             "subProfessionId": "blessing"
         },
         "char_4203_kichi": {
+            "maxLevel": [50, 70, 80],
             "name": "吉星",
             "name_en": "Kichisei",
             "name_jp": "キチセイ",
@@ -4647,6 +5023,7 @@
             "subProfessionId": "reaperrange"
         },
         "char_4204_mantra": {
+            "maxLevel": [50, 80, 90],
             "name": "真言",
             "name_en": "Mantra",
             "name_jp": "マントラ",
@@ -4660,6 +5037,7 @@
             "subProfessionId": "primcaster"
         },
         "char_4207_branch": {
+            "maxLevel": [50, 70, 80],
             "name": "折桠",
             "name_en": "Vetochki",
             "name_jp": "ヴェトチキ",
@@ -4673,6 +5051,7 @@
             "subProfessionId": "unyield"
         },
         "char_4208_wintim": {
+            "maxLevel": [45, 60, 70],
             "name": "冬时",
             "name_en": "Snegurochka",
             "name_jp": "スネグーラチカ",
@@ -4686,6 +5065,7 @@
             "subProfessionId": "agent"
         },
         "char_420_flamtl": {
+            "maxLevel": [50, 80, 90],
             "name": "焰尾",
             "name_en": "Flametail",
             "name_jp": "フレイムテイル",
@@ -4699,6 +5079,7 @@
             "subProfessionId": "pioneer"
         },
         "char_4211_snhunt": {
+            "maxLevel": [50, 70, 80],
             "name": "雪猎",
             "name_en": "Snow Hunter",
             "name_jp": "スノーハンター",
@@ -4712,6 +5093,7 @@
             "subProfessionId": "hunter"
         },
         "char_4212_nasti": {
+            "maxLevel": [50, 80, 90],
             "name": "娜斯提",
             "name_en": "Nasti",
             "name_jp": "ナスティ",
@@ -4726,6 +5108,7 @@
             "tokens": ["“质检专员”", "“监工专员”", "“应急承重小组”"]
         },
         "char_4213_skybx": {
+            "maxLevel": [50, 70, 80],
             "name": "天空盒",
             "name_en": "Skybox",
             "name_jp": "スカイボックス",
@@ -4739,6 +5122,7 @@
             "subProfessionId": "skybreaker"
         },
         "char_4214_cairn": {
+            "maxLevel": [50, 70, 80],
             "name": "响石",
             "name_en": "Cairn",
             "name_jp": "ケルン",
@@ -4752,6 +5136,7 @@
             "subProfessionId": "primprotector"
         },
         "char_4215_buddy": {
+            "maxLevel": [30],
             "name": "罗德岛隐秘队",
             "name_en": "罗德岛隐秘队",
             "name_en_unavailable": true,
@@ -4769,6 +5154,7 @@
             "subProfessionId": "tactician"
         },
         "char_4217_makoto": {
+            "maxLevel": [50, 80, 90],
             "name": "结城理",
             "name_en": "结城理",
             "name_en_unavailable": true,
@@ -4786,6 +5172,7 @@
             "subProfessionId": "dollkeeper"
         },
         "char_4218_aigis": {
+            "maxLevel": [50, 70, 80],
             "name": "埃癸斯",
             "name_en": "埃癸斯",
             "name_en_unavailable": true,
@@ -4803,6 +5190,7 @@
             "subProfessionId": "skybreaker"
         },
         "char_4219_yukari": {
+            "maxLevel": [50, 70, 80],
             "name": "岳羽由加莉",
             "name_en": "岳羽由加莉",
             "name_en_unavailable": true,
@@ -4820,6 +5208,7 @@
             "subProfessionId": "supportiveranger"
         },
         "char_421_crow": {
+            "maxLevel": [50, 70, 80],
             "name": "羽毛笔",
             "name_en": "La Pluma",
             "name_jp": "ラ・プルマ",
@@ -4833,6 +5222,7 @@
             "subProfessionId": "reaper"
         },
         "char_4220_kormr": {
+            "maxLevel": [30],
             "name": "虎狼丸",
             "name_en": "虎狼丸",
             "name_en_unavailable": true,
@@ -4850,6 +5240,7 @@
             "subProfessionId": "sword"
         },
         "char_4221_ju": {
+            "maxLevel": [50, 70, 80],
             "name": "矩",
             "name_en": "Ju",
             "name_jp": "ジュー",
@@ -4863,6 +5254,7 @@
             "subProfessionId": "siegesniper"
         },
         "char_4222_taraxa": {
+            "maxLevel": [50, 70, 80],
             "name": "风絮",
             "name_en": "Taraxacum",
             "name_jp": "タラクサカム",
@@ -4876,6 +5268,7 @@
             "subProfessionId": "watchman"
         },
         "char_4223_botany": {
+            "maxLevel": [50, 70, 80],
             "name": "伯塔尼",
             "name_en": "Botani",
             "name_jp": "ボタニ",
@@ -4890,6 +5283,7 @@
             "subProfessionId": "ritualist"
         },
         "char_4224_turdus": {
+            "maxLevel": [50, 70, 80],
             "name": "乌啾",
             "name_en": "Ukusik",
             "name_jp": "ウクシク",
@@ -4904,6 +5298,7 @@
             "subProfessionId": "chainhealer"
         },
         "char_4225_tanya": {
+            "maxLevel": [50, 70, 80],
             "name": "裂响",
             "name_en": "裂响",
             "name_en_unavailable": true,
@@ -4921,6 +5316,7 @@
             "subProfessionId": "primprotector"
         },
         "char_4226_veen": {
+            "maxLevel": [50, 80, 90],
             "name": "维伊",
             "name_en": "维伊",
             "name_en_unavailable": true,
@@ -4938,6 +5334,7 @@
             "subProfessionId": "mystic"
         },
         "char_4227_gallus": {
+            "maxLevel": [30],
             "name": "GALLUS²",
             "name_en": "GALLUS²",
             "name_en_unavailable": true,
@@ -4955,6 +5352,7 @@
             "subProfessionId": "corecaster"
         },
         "char_4228_closur": {
+            "maxLevel": [50, 80, 90],
             "name": "可露希尔",
             "name_en": "可露希尔",
             "name_en_unavailable": true,
@@ -4972,6 +5370,7 @@
             "subProfessionId": "tactician"
         },
         "char_4229_aphris": {
+            "maxLevel": [50, 80, 90],
             "name": "谬因",
             "name_en": "谬因",
             "name_en_unavailable": true,
@@ -4989,6 +5388,7 @@
             "subProfessionId": "blastcaster"
         },
         "char_422_aurora": {
+            "maxLevel": [50, 70, 80],
             "name": "极光",
             "name_en": "Aurora",
             "name_jp": "オーロラ",
@@ -5002,6 +5402,7 @@
             "subProfessionId": "duelist"
         },
         "char_4230_mcnist": {
+            "maxLevel": [50, 80, 90],
             "name": "机械师",
             "name_en": "机械师",
             "name_en_unavailable": true,
@@ -5019,6 +5420,7 @@
             "subProfessionId": "shotprotector"
         },
         "char_4234_pedro": {
+            "maxLevel": [50, 70, 80],
             "name": "佩德洛",
             "name_en": "佩德洛",
             "name_en_unavailable": true,
@@ -5036,6 +5438,7 @@
             "subProfessionId": "supportiveranger"
         },
         "char_4235_thumpy": {
+            "maxLevel": [50, 80, 90],
             "name": "珊比",
             "name_en": "珊比",
             "name_en_unavailable": true,
@@ -5053,6 +5456,7 @@
             "subProfessionId": "primprotector"
         },
         "char_4236_tmslot": {
+            "maxLevel": [50, 70, 80],
             "name": "时隙",
             "name_en": "时隙",
             "name_en_unavailable": true,
@@ -5070,6 +5474,7 @@
             "subProfessionId": "funnel"
         },
         "char_4237_jcinta": {
+            "maxLevel": [50, 70, 80],
             "name": "嘉辛塔",
             "name_en": "嘉辛塔",
             "name_en_unavailable": true,
@@ -5087,6 +5492,7 @@
             "subProfessionId": "bearer"
         },
         "char_423_blemsh": {
+            "maxLevel": [50, 80, 90],
             "name": "瑕光",
             "name_en": "Blemishine",
             "name_jp": "ブレミシャイン",
@@ -5100,6 +5506,7 @@
             "subProfessionId": "guardian"
         },
         "char_426_billro": {
+            "maxLevel": [50, 80, 90],
             "name": "卡涅利安",
             "name_en": "Carnelian",
             "name_jp": "カーネリアン",
@@ -5113,6 +5520,7 @@
             "subProfessionId": "phalanx"
         },
         "char_427_vigil": {
+            "maxLevel": [50, 80, 90],
             "name": "伺夜",
             "name_en": "Vigil",
             "name_jp": "ヴィジェル",
@@ -5126,6 +5534,7 @@
             "subProfessionId": "tactician"
         },
         "char_430_fartth": {
+            "maxLevel": [50, 80, 90],
             "name": "远牙",
             "name_en": "Fartooth",
             "name_jp": "ファートゥース",
@@ -5139,6 +5548,7 @@
             "subProfessionId": "longrange"
         },
         "char_431_ashlok": {
+            "maxLevel": [50, 70, 80],
             "name": "灰毫",
             "name_en": "Ashlock",
             "name_jp": "アッシュロック",
@@ -5152,6 +5562,7 @@
             "subProfessionId": "fortress"
         },
         "char_433_windft": {
+            "maxLevel": [50, 70, 80],
             "name": "掠风",
             "name_en": "Windflit",
             "name_jp": "ウインドフリット",
@@ -5165,6 +5576,7 @@
             "subProfessionId": "craftsman"
         },
         "char_436_whispr": {
+            "maxLevel": [50, 70, 80],
             "name": "絮雨",
             "name_en": "Whisperain",
             "name_jp": "ウィスパーレイン",
@@ -5178,6 +5590,7 @@
             "subProfessionId": "healer"
         },
         "char_437_mizuki": {
+            "maxLevel": [50, 80, 90],
             "name": "水月",
             "name_en": "Mizuki",
             "name_jp": "ミヅキ",
@@ -5191,6 +5604,7 @@
             "subProfessionId": "stalker"
         },
         "char_440_pinecn": {
+            "maxLevel": [45, 60, 70],
             "name": "松果",
             "name_en": "Pinecone",
             "name_jp": "パインコーン",
@@ -5204,6 +5618,7 @@
             "subProfessionId": "reaperrange"
         },
         "char_445_wscoot": {
+            "maxLevel": [45, 60, 70],
             "name": "骋风",
             "name_en": "Windscoot",
             "name_jp": "ウィンドスクート",
@@ -5217,6 +5632,7 @@
             "subProfessionId": "librator"
         },
         "char_446_aroma": {
+            "maxLevel": [50, 70, 80],
             "name": "阿罗玛",
             "name_en": "Aroma",
             "name_jp": "アロマ",
@@ -5230,6 +5646,7 @@
             "subProfessionId": "blastcaster"
         },
         "char_449_glider": {
+            "maxLevel": [50, 70, 80],
             "name": "蜜莓",
             "name_en": "Honeyberry",
             "name_jp": "ハニーベリー",
@@ -5243,6 +5660,7 @@
             "subProfessionId": "wandermedic"
         },
         "char_450_necras": {
+            "maxLevel": [50, 80, 90],
             "name": "死芒",
             "name_en": "Necrass",
             "name_jp": "ネクラス",
@@ -5256,6 +5674,7 @@
             "subProfessionId": "soulcaster"
         },
         "char_451_robin": {
+            "maxLevel": [50, 70, 80],
             "name": "罗宾",
             "name_en": "Robin",
             "name_jp": "ロビン",
@@ -5269,6 +5688,7 @@
             "subProfessionId": "traper"
         },
         "char_452_bstalk": {
+            "maxLevel": [45, 60, 70],
             "name": "豆苗",
             "name_en": "Beanstalk",
             "name_jp": "ビーンストーク",
@@ -5282,6 +5702,7 @@
             "subProfessionId": "tactician"
         },
         "char_455_nothin": {
+            "maxLevel": [50, 70, 80],
             "name": "乌有",
             "name_en": "Mr. Nothing",
             "name_jp": "ウユウ",
@@ -5295,6 +5716,7 @@
             "subProfessionId": "merchant"
         },
         "char_456_ash": {
+            "maxLevel": [50, 80, 90],
             "name": "灰烬",
             "name_en": "Ash",
             "name_jp": "Ash",
@@ -5308,6 +5730,7 @@
             "subProfessionId": "fastshot"
         },
         "char_457_blitz": {
+            "maxLevel": [50, 70, 80],
             "name": "闪击",
             "name_en": "Blitz",
             "name_jp": "Blitz",
@@ -5321,6 +5744,7 @@
             "subProfessionId": "shotprotector"
         },
         "char_458_rfrost": {
+            "maxLevel": [50, 70, 80],
             "name": "霜华",
             "name_en": "Frost",
             "name_jp": "Frost",
@@ -5334,6 +5758,7 @@
             "subProfessionId": "traper"
         },
         "char_459_tachak": {
+            "maxLevel": [50, 70, 80],
             "name": "战车",
             "name_en": "Tachanka",
             "name_jp": "Tachanka",
@@ -5347,6 +5772,7 @@
             "subProfessionId": "sword"
         },
         "char_464_cement": {
+            "maxLevel": [50, 70, 80],
             "name": "洋灰",
             "name_en": "Cement",
             "name_jp": "セメント",
@@ -5360,6 +5786,7 @@
             "subProfessionId": "duelist"
         },
         "char_466_qanik": {
+            "maxLevel": [50, 70, 80],
             "name": "雪绒",
             "name_en": "Qanipalaat",
             "name_jp": "カニパラート",
@@ -5373,6 +5800,7 @@
             "subProfessionId": "corecaster"
         },
         "char_469_indigo": {
+            "maxLevel": [45, 60, 70],
             "name": "深靛",
             "name_en": "Indigo",
             "name_jp": "インディゴ",
@@ -5386,6 +5814,7 @@
             "subProfessionId": "mystic"
         },
         "char_472_pasngr": {
+            "maxLevel": [50, 80, 90],
             "name": "异客",
             "name_en": "Passenger",
             "name_jp": "パッセンジャー",
@@ -5399,6 +5828,7 @@
             "subProfessionId": "chain"
         },
         "char_473_mberry": {
+            "maxLevel": [50, 70, 80],
             "name": "桑葚",
             "name_en": "Mulberry",
             "name_jp": "マルベリー",
@@ -5412,6 +5842,7 @@
             "subProfessionId": "wandermedic"
         },
         "char_474_glady": {
+            "maxLevel": [50, 80, 90],
             "name": "歌蕾蒂娅",
             "name_en": "Gladiia",
             "name_jp": "グレイディーア",
@@ -5425,6 +5856,7 @@
             "subProfessionId": "hookmaster"
         },
         "char_475_akafyu": {
+            "maxLevel": [50, 70, 80],
             "name": "赤冬",
             "name_en": "Akafuyu",
             "name_jp": "アカフユ",
@@ -5438,6 +5870,7 @@
             "subProfessionId": "musha"
         },
         "char_476_blkngt": {
+            "maxLevel": [50, 70, 80],
             "name": "夜半",
             "name_en": "Blacknight",
             "name_jp": "ブラックナイト",
@@ -5451,6 +5884,7 @@
             "subProfessionId": "tactician"
         },
         "char_478_kirara": {
+            "maxLevel": [50, 70, 80],
             "name": "绮良",
             "name_en": "Kirara",
             "name_jp": "キララ",
@@ -5464,6 +5898,7 @@
             "subProfessionId": "stalker"
         },
         "char_479_sleach": {
+            "maxLevel": [50, 80, 90],
             "name": "琴柳",
             "name_en": "Saileach",
             "name_jp": "サイラッハ",
@@ -5477,6 +5912,7 @@
             "subProfessionId": "bearer"
         },
         "char_484_robrta": {
+            "maxLevel": [45, 60, 70],
             "name": "罗比菈塔",
             "name_en": "Roberta",
             "name_jp": "ロベルタ",
@@ -5490,6 +5926,7 @@
             "subProfessionId": "craftsman"
         },
         "char_485_pallas": {
+            "maxLevel": [50, 80, 90],
             "name": "帕拉斯",
             "name_en": "Pallas",
             "name_jp": "パラス",
@@ -5503,6 +5940,7 @@
             "subProfessionId": "instructor"
         },
         "char_486_takila": {
+            "maxLevel": [50, 70, 80],
             "name": "龙舌兰",
             "name_en": "Tequila",
             "name_jp": "テキーラ",
@@ -5516,6 +5954,7 @@
             "subProfessionId": "librator"
         },
         "char_487_bobb": {
+            "maxLevel": [50, 70, 80],
             "name": "波卜",
             "name_en": "Bobbing",
             "name_jp": "ボビング",
@@ -5529,6 +5968,7 @@
             "subProfessionId": "ritualist"
         },
         "char_488_buildr": {
+            "maxLevel": [50, 70, 80],
             "name": "青枳",
             "name_en": "Poncirus",
             "name_jp": "ポンシラス",
@@ -5542,6 +5982,7 @@
             "subProfessionId": "pioneer"
         },
         "char_489_serum": {
+            "maxLevel": [50, 70, 80],
             "name": "蚀清",
             "name_en": "Corroserum",
             "name_jp": "コロセラム",
@@ -5555,6 +5996,7 @@
             "subProfessionId": "blastcaster"
         },
         "char_491_humus": {
+            "maxLevel": [45, 60, 70],
             "name": "休谟斯",
             "name_en": "Humus",
             "name_jp": "ヒューマス",
@@ -5568,6 +6010,7 @@
             "subProfessionId": "reaper"
         },
         "char_492_quercu": {
+            "maxLevel": [50, 70, 80],
             "name": "夏栎",
             "name_en": "Quercus",
             "name_jp": "クエルクス",
@@ -5581,6 +6024,7 @@
             "subProfessionId": "blessing"
         },
         "char_493_firwhl": {
+            "maxLevel": [50, 70, 80],
             "name": "火哨",
             "name_en": "Firewhistle",
             "name_jp": "ファイヤーホイッスル",
@@ -5594,6 +6038,7 @@
             "subProfessionId": "fortress"
         },
         "char_494_vendla": {
+            "maxLevel": [50, 70, 80],
             "name": "刺玫",
             "name_en": "Vendela",
             "name_jp": "ヴァンデラ",
@@ -5607,6 +6052,7 @@
             "subProfessionId": "incantationmedic"
         },
         "char_496_wildmn": {
+            "maxLevel": [50, 70, 80],
             "name": "野鬃",
             "name_en": "Wild Mane",
             "name_jp": "ワイルドメイン",
@@ -5620,6 +6066,7 @@
             "subProfessionId": "charger"
         },
         "char_497_ctable": {
+            "maxLevel": [50, 70, 80],
             "name": "晓歌",
             "name_en": "Cantabile",
             "name_jp": "カンタービレ",
@@ -5633,6 +6080,7 @@
             "subProfessionId": "agent"
         },
         "char_498_inside": {
+            "maxLevel": [50, 70, 80],
             "name": "隐现",
             "name_en": "Insider",
             "name_jp": "インサイダー",
@@ -5646,6 +6094,7 @@
             "subProfessionId": "fastshot"
         },
         "char_499_kaitou": {
+            "maxLevel": [50, 70, 80],
             "name": "折光",
             "name_en": "Diamante",
             "name_jp": "ディアマンテ",
@@ -5659,6 +6108,7 @@
             "subProfessionId": "primcaster"
         },
         "char_500_noirc": {
+            "maxLevel": [30],
             "name": "黑角",
             "name_en": "Noir Corne",
             "name_jp": "ノイルホーン",
@@ -5672,6 +6122,7 @@
             "subProfessionId": "protector"
         },
         "char_501_durin": {
+            "maxLevel": [30],
             "name": "杜林",
             "name_en": "Durin",
             "name_jp": "ドゥリン",
@@ -5685,6 +6136,7 @@
             "subProfessionId": "corecaster"
         },
         "char_502_nblade": {
+            "maxLevel": [30],
             "name": "夜刀",
             "name_en": "Yato",
             "name_jp": "ヤトウ",
@@ -5698,6 +6150,7 @@
             "subProfessionId": "pioneer"
         },
         "char_503_rang": {
+            "maxLevel": [30],
             "name": "巡林者",
             "name_en": "Rangers",
             "name_jp": "レンジャー",
@@ -5711,6 +6164,7 @@
             "subProfessionId": "fastshot"
         },
         "char_504_rguard": {
+            "maxLevel": [40, 55],
             "name": "预备干员-近战",
             "name_en": "Reserve Operator - Melee",
             "name_jp": "予備隊員-近距離",
@@ -5724,6 +6178,7 @@
             "subProfessionId": "pioneer"
         },
         "char_505_rcast": {
+            "maxLevel": [40, 55],
             "name": "预备干员-术师",
             "name_en": "Reserve Operator - Caster",
             "name_jp": "予備隊員-術師",
@@ -5737,6 +6192,7 @@
             "subProfessionId": "corecaster"
         },
         "char_506_rmedic": {
+            "maxLevel": [40, 55],
             "name": "预备干员-后勤",
             "name_en": "Reserve Operator - Logistics",
             "name_jp": "予備隊員-支援",
@@ -5750,6 +6206,7 @@
             "subProfessionId": "physician"
         },
         "char_507_rsnipe": {
+            "maxLevel": [40, 55],
             "name": "预备干员-狙击",
             "name_en": "Reserve Operator - Sniper",
             "name_jp": "予備隊員-狙撃",
@@ -5763,6 +6220,7 @@
             "subProfessionId": "fastshot"
         },
         "char_508_aguard": {
+            "maxLevel": [50, 70, 80],
             "name": "Sharp",
             "name_en": "Sharp",
             "name_jp": "Sharp",
@@ -5776,6 +6234,7 @@
             "subProfessionId": "fearless"
         },
         "char_509_acast": {
+            "maxLevel": [50, 70, 80],
             "name": "Pith",
             "name_en": "Pith",
             "name_jp": "Pith",
@@ -5789,6 +6248,7 @@
             "subProfessionId": "splashcaster"
         },
         "char_510_amedic": {
+            "maxLevel": [50, 70, 80],
             "name": "Touch",
             "name_en": "Touch",
             "name_jp": "Touch",
@@ -5802,6 +6262,7 @@
             "subProfessionId": "physician"
         },
         "char_511_asnipe": {
+            "maxLevel": [50, 70, 80],
             "name": "Stormeye",
             "name_en": "Stormeye",
             "name_jp": "Stormeye",
@@ -5815,6 +6276,7 @@
             "subProfessionId": "fastshot"
         },
         "char_512_aprot": {
+            "maxLevel": [50, 70, 80],
             "name": "暮落",
             "name_en": "Shalem",
             "name_jp": "シャレム",
@@ -5828,6 +6290,7 @@
             "subProfessionId": "artsprotector"
         },
         "char_513_apionr": {
+            "maxLevel": [50, 70, 80],
             "name": "郁金香",
             "name_en": "Tulip",
             "name_jp": "チューリップ",
@@ -5841,6 +6304,7 @@
             "subProfessionId": "pioneer"
         },
         "char_514_rdfend": {
+            "maxLevel": [40, 55],
             "name": "预备干员-重装",
             "name_en": "Reserve Operator - Defender",
             "name_jp": "予備隊員-重装",
@@ -5854,6 +6318,7 @@
             "subProfessionId": "protector"
         },
         "char_600_cpione": {
+            "maxLevel": [45, 60, 70],
             "name": "预备干员-先锋",
             "name_en": "Reserve Operator - Vanguard",
             "name_jp": "予備隊員-先鋒",
@@ -5867,6 +6332,7 @@
             "subProfessionId": "pioneer"
         },
         "char_601_cguard": {
+            "maxLevel": [45, 60, 70],
             "name": "预备干员-近卫",
             "name_en": "Reserve Operator - Guard",
             "name_jp": "予備隊員-前衛",
@@ -5880,6 +6346,7 @@
             "subProfessionId": "fearless"
         },
         "char_602_cdfend": {
+            "maxLevel": [45, 60, 70],
             "name": "预备干员-重装",
             "name_en": "Reserve Operator - Defender",
             "name_jp": "予備隊員-重装",
@@ -5893,6 +6360,7 @@
             "subProfessionId": "protector"
         },
         "char_603_csnipe": {
+            "maxLevel": [45, 60, 70],
             "name": "预备干员-狙击",
             "name_en": "Reserve Operator - Sniper",
             "name_jp": "予備隊員-狙撃",
@@ -5906,6 +6374,7 @@
             "subProfessionId": "fastshot"
         },
         "char_604_ccast": {
+            "maxLevel": [45, 60, 70],
             "name": "预备干员-术师",
             "name_en": "Reserve Operator - Caster",
             "name_jp": "予備隊員-術師",
@@ -5919,6 +6388,7 @@
             "subProfessionId": "corecaster"
         },
         "char_605_cmedic": {
+            "maxLevel": [45, 60, 70],
             "name": "预备干员-医疗",
             "name_en": "Reserve Operator - Medic",
             "name_jp": "予備隊員-医療",
@@ -5932,6 +6402,7 @@
             "subProfessionId": "physician"
         },
         "char_606_csuppo": {
+            "maxLevel": [45, 60, 70],
             "name": "预备干员-辅助",
             "name_en": "Reserve Operator - Supporter",
             "name_jp": "予備隊員-補助",
@@ -5945,6 +6416,7 @@
             "subProfessionId": "slower"
         },
         "char_607_cspec": {
+            "maxLevel": [45, 60, 70],
             "name": "预备干员-特种",
             "name_en": "Reserve Operator - Specialist",
             "name_jp": "予備隊員-特殊",
@@ -5958,6 +6430,7 @@
             "subProfessionId": "executor"
         },
         "char_608_acpion": {
+            "maxLevel": [50, 80, 90],
             "name": "郁金香",
             "name_en": "Tulip",
             "name_jp": "チューリップ",
@@ -5971,6 +6444,7 @@
             "subProfessionId": "pioneer"
         },
         "char_609_acguad": {
+            "maxLevel": [50, 80, 90],
             "name": "Sharp",
             "name_en": "Sharp",
             "name_jp": "Sharp",
@@ -5984,6 +6458,7 @@
             "subProfessionId": "fearless"
         },
         "char_610_acfend": {
+            "maxLevel": [50, 80, 90],
             "name": "Mechanist",
             "name_en": "Mechanist",
             "name_jp": "Mechanist",
@@ -5997,6 +6472,7 @@
             "subProfessionId": "protector"
         },
         "char_611_acnipe": {
+            "maxLevel": [50, 80, 90],
             "name": "Stormeye",
             "name_en": "Stormeye",
             "name_jp": "Stormeye",
@@ -6010,6 +6486,7 @@
             "subProfessionId": "fastshot"
         },
         "char_612_accast": {
+            "maxLevel": [50, 80, 90],
             "name": "Pith",
             "name_en": "Pith",
             "name_jp": "Pith",
@@ -6023,6 +6500,7 @@
             "subProfessionId": "splashcaster"
         },
         "char_613_acmedc": {
+            "maxLevel": [50, 80, 90],
             "name": "Touch",
             "name_en": "Touch",
             "name_jp": "Touch",
@@ -6036,6 +6514,7 @@
             "subProfessionId": "physician"
         },
         "char_614_acsupo": {
+            "maxLevel": [50, 80, 90],
             "name": "Raidian",
             "name_en": "Raidian",
             "name_jp": "Raidian",
@@ -6049,6 +6528,7 @@
             "subProfessionId": "slower"
         },
         "char_615_acspec": {
+            "maxLevel": [50, 80, 90],
             "name": "Misery",
             "name_en": "Misery",
             "name_jp": "Misery",
@@ -6062,6 +6542,7 @@
             "subProfessionId": "executor"
         },
         "char_616_pithst": {
+            "maxLevel": [45, 60, 70],
             "name": "盟约·辅助干员",
             "name_en": "Alliance/Supportive Operator",
             "name_jp": "盟約・補助オペレーター",
@@ -6075,6 +6556,7 @@
             "subProfessionId": "ritualist"
         },
         "char_617_sharp2": {
+            "maxLevel": [50, 80, 90],
             "name": "领主·Sharp",
             "name_en": "Lord/Sharp",
             "name_jp": "領主・Sharp",

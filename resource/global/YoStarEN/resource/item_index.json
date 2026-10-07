@@ -10,6 +10,7 @@
     "2001": {
         "classifyType": "MATERIAL",
         "description": "In such a hostile environment, every operation has the potential for a loss of life. We may be able to save more people if we are well prepared.\nA video record of several battles.",
+        "gainExp": 200,
         "icon": "2001.png",
         "name": "Drill Battle Record",
         "sortId": 70004,
@@ -18,6 +19,7 @@
     "2002": {
         "classifyType": "MATERIAL",
         "description": "In such a hostile environment, every operation has the potential for a loss of life. We may be able to save more people if we are well prepared.\nA video record of several battles, with detailed statistical analysis, plus 3 hours of additional materials and interviews.",
+        "gainExp": 400,
         "icon": "2002.png",
         "name": "Frontline Battle Record",
         "sortId": 70003,
@@ -26,6 +28,7 @@
     "2003": {
         "classifyType": "MATERIAL",
         "description": "In such a hostile environment, every operation has the potential for a loss of life. We may be able to save more people if we are well prepared.\nA video record of several battles, plus the signature of the one who recorded them.",
+        "gainExp": 1000,
         "icon": "2003.png",
         "name": "Tactical Battle Record",
         "sortId": 70002,
@@ -34,6 +37,7 @@
     "2004": {
         "classifyType": "MATERIAL",
         "description": "In such a hostile environment, every operation has the potential for a loss of life. We may be able to save more people if we are well prepared.\nComes with a collector's edition, a HD version, an HD remastered version, an Enhanced edition, a Director's cut edition, an Annual Gold edition...",
+        "gainExp": 2000,
         "icon": "2004.png",
         "name": "Strategic Battle Record",
         "sortId": 70001,

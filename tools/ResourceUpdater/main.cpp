@@ -6,6 +6,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iterator>
+#include <limits>
 #include <map>
 #include <set>
 #include <string_view>
@@ -525,6 +526,23 @@ bool update_items_data(const fs::path& input_dir, const fs::path& output_dir, bo
     }
 
     auto& input_json = parse_ret.value();
+    std::unordered_map<std::string, int> record_exp_items;
+    const auto exp_items = input_json.find<json::object>("expItems");
+    if (!exp_items) {
+        std::cerr << input_json_path << " has no operator battle record EXP data" << '\n';
+        return false;
+    }
+    for (const std::string& id :
+         { std::string("2001"), std::string("2002"), std::string("2003"), std::string("2004") }) {
+        const auto exp_item = exp_items->find<json::object>(id);
+        const auto gain_exp = exp_item ? exp_item->find("gainExp") : std::nullopt;
+        if (!gain_exp || !gain_exp->is<int>() || gain_exp->as_integer() <= 0 ||
+            gain_exp->as_integer() > std::numeric_limits<int>::max()) {
+            std::cerr << "Invalid operator battle record EXP: " << id << '\n';
+            return false;
+        }
+        record_exp_items.emplace(id, gain_exp->as_integer());
+    }
     const auto building_data_path = input_excel_dir / "building_data.json";
     auto building_data_ret = json::open(building_data_path);
     if (!building_data_ret || !building_data_ret->contains("workshopFormulas") ||
@@ -654,6 +672,9 @@ bool update_items_data(const fs::path& input_dir, const fs::path& output_dir, bo
         output["description"] = item_info["description"];
         output["sortId"] = item_info["sortId"];
         output["classifyType"] = item_info["classifyType"];
+        if (const auto record = record_exp_items.find(item_id); record != record_exp_items.cend()) {
+            output["gainExp"] = record->second;
+        }
         if (rarity_item_ids.contains(item_id)) {
             // Official rarity is an integer, overseas is a "TIER_n" string; ItemConfig reads integers only.
             const auto& rarity = item_info["rarity"];
@@ -1499,9 +1520,10 @@ bool update_battle_chars_info(
     auto chars_kr_opt = json::open(overseas_dir / "kr" / to_char_json);
     auto chars_tw_opt = json::open(overseas_dir / "tw" / to_char_json);
     auto chars_patch_opt = json::open(official_dir / "char_patch_table.json");
+    auto constants_opt = json::open(official_dir / "gamedata_const.json");
 
     if (!chars_cn_opt || !chars_en_opt || !chars_jp_opt || !chars_kr_opt || !chars_tw_opt || !range_opt ||
-        !chars_patch_opt) {
+        !chars_patch_opt || !constants_opt) {
         return false;
     }
 
@@ -1514,6 +1536,67 @@ bool update_battle_chars_info(
                                                                     { chars_tw_opt.value(), "name_tw" } };
 
     json::value result;
+    const auto exp_map = constants_opt->find<json::array>("characterExpMap");
+    if (!exp_map || exp_map->size() != 3) {
+        std::cerr << "Invalid operator EXP map" << '\n';
+        return false;
+    }
+    json::array normalized_exp_map;
+    for (const auto& phase_json : *exp_map) {
+        if (!phase_json.is_array()) {
+            std::cerr << "Invalid operator EXP phase" << '\n';
+            return false;
+        }
+        json::array curve;
+        bool ended = false;
+        for (const auto& exp_json : phase_json.as_array()) {
+            if (!exp_json.is<int>() || exp_json.as_integer() > std::numeric_limits<int>::max() ||
+                exp_json.as_integer() < -1) {
+                std::cerr << "Invalid operator EXP value" << '\n';
+                return false;
+            }
+            const int exp = exp_json.as_integer();
+            if (exp == -1) {
+                ended = true;
+            }
+            else if (exp <= 0 || ended) {
+                std::cerr << "Invalid operator EXP curve" << '\n';
+                return false;
+            }
+            else {
+                curve.emplace_back(exp);
+            }
+        }
+        if (curve.empty()) {
+            std::cerr << "Empty operator EXP curve" << '\n';
+            return false;
+        }
+        normalized_exp_map.emplace_back(std::move(curve));
+    }
+    result["characterExpMap"] = normalized_exp_map;
+    const auto add_max_levels = [&](const auto& source, json::value& output) {
+        if (!is_playable_oper_profession(source.get("profession", std::string()))) {
+            return true;
+        }
+        const auto phases = source.template find<json::array>("phases");
+        if (!phases || phases->empty() || phases->size() > normalized_exp_map.size()) {
+            std::cerr << "Invalid operator level phases" << '\n';
+            return false;
+        }
+        json::array levels;
+        for (size_t phase = 0; phase < phases->size(); ++phase) {
+            const auto cap = phases->at(phase).find("maxLevel");
+            if (!cap || !cap->is<int>() || cap->as_integer() <= 0 ||
+                cap->as_integer() > std::numeric_limits<int>::max() ||
+                static_cast<size_t>(cap->as_integer() - 1) > normalized_exp_map.at(phase).as_array().size()) {
+                std::cerr << "Invalid operator phase maximum level" << '\n';
+                return false;
+            }
+            levels.emplace_back(cap->as_integer());
+        }
+        output["maxLevel"] = std::move(levels);
+        return true;
+    };
     auto& range = result["ranges"].as_object();
     for (auto& [id, range_data] : range_json.as_object()) {
         if (int direction = range_data["direction"].as_integer(); direction != 1) {
@@ -1552,6 +1635,9 @@ bool update_battle_chars_info(
         char_new_data["sortIndex"] = static_cast<int>(char_data["sortIndex"]);
         char_new_data["rarity"] = static_cast<int>(char_data["rarity"]) + 1;
         char_new_data["position"] = char_data["position"];
+        if (!add_max_levels(char_data, char_new_data)) {
+            return false;
+        }
 
         if (auto token_opt = char_data.find<std::string>("tokenKey")) {
             tokens[id].emplace_back(*token_opt);
@@ -1595,6 +1681,9 @@ bool update_battle_chars_info(
             amiya2_opt->get("phases", 1, "rangeId", default_range),
             amiya2_opt->get("phases", 2, "rangeId", default_range),
         };
+        if (!add_max_levels(*amiya2_opt, Amiya_data)) {
+            return false;
+        }
     }
     chars.emplace("char_1001_amiya2", std::move(Amiya_data));
 
@@ -1616,6 +1705,9 @@ bool update_battle_chars_info(
             amiya3_opt->get("phases", 1, "rangeId", default_range),
             amiya3_opt->get("phases", 2, "rangeId", default_range),
         };
+        if (!add_max_levels(*amiya3_opt, Amiya_data3)) {
+            return false;
+        }
     }
     chars.emplace("char_1037_amiya3", std::move(Amiya_data3));
 

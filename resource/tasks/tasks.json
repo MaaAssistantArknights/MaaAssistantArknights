@@ -4981,6 +4981,20 @@
     "DepotMaterialTabClicked": {
         "roi": [945, 0, 300, 138]
     },
+    "DepotTokenDetail": {
+        "Doc": "Only recognize the detail title. Tokens sort after all indexed cultivation materials.",
+        "algorithm": "OcrDetect",
+        "text": ["信物"],
+        "roi": [224, 160, 576, 64],
+        "next": ["DepotCloseItemDetail"]
+    },
+    "DepotCloseItemDetail": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [620, 600, 40, 40],
+        "postDelay": 500,
+        "next": ["DepotMaterialTabClicked"]
+    },
     "InfrastOperListSlowlySwipeToTheRight": {
         "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [1000, 350, 20, 20],
@@ -5031,7 +5045,8 @@
     "DepotSlowlySwipeToTheRight": {
         "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [1150, 340, 20, 20],
-        "rectMove": [110, 340, 20, 20]
+        "rectMove": [650, 340, 20, 20],
+        "rectMove_Doc": "半页滑动保留完整材料列重叠，避免遗漏边缘材料；重复识别不能证明扫描结束"
     },
     "OperBoxBegin": {
         "algorithm": "JustReturn",
@@ -6136,6 +6151,62 @@
         "maxTimes": 10,
         "next": ["RedTicket@Store@EnterTicketStore@FirstGood", "RedTicket@Store@ChooseTicketType"]
     },
+    "OperProgress@EnterCatalystStore": {
+        "algorithm": "JustReturn",
+        "sub": ["Store@QuickSwitchEnterStore"],
+        "next": ["OperProgress@EnterCatalystTicketStore"],
+        "doc": "复用商店快捷导航，子链的 Loading/Stop 只结束导航；随后进入凭证交易所。"
+    },
+    "OperProgress@EnterCatalystTicketStore": {
+        "algorithm": "JustReturn",
+        "sub": ["OperProgress@CatalystTicketNavigation"],
+        "next": ["RedTicket@Store@ChooseTicketType"],
+        "doc": "凭证交易所导航完成后继续采购凭证页签，不让既有加载子链提前结束购买入口。"
+    },
+    "OperProgress@CatalystTicketNavigation": {
+        "algorithm": "JustReturn",
+        "next": ["RedTicket@Store@ChooseTicketTypeSelected", "Store@EnterTicketStore"],
+        "doc": "优先确认已经到达凭证交易所；只有仍在商店首页时才点击交易所入口。"
+    },
+    "OperProgress@CatalystPurchaseTotalPrice": {
+        "baseTask": "NumberOcrReplace",
+        "text": [],
+        "isAscii": true,
+        "withoutDet": true,
+        "binThreshold": [105, 255],
+        "roi": [944, 504, 64, 32],
+        "doc": "芯片助剂购买弹窗的实际总价，包含采购数量变化，不硬编码单价。"
+    },
+    "OperProgress@CatalystPurchasePage": {
+        "baseTask": "RedTicket@Store@Purchase",
+        "action": "DoNothing",
+        "next": [],
+        "doc": "只确认助剂购买弹窗已经打开，不执行付款；避免点击部分露出的商品图标后误认页面已跳转。"
+    },
+    "OperProgress@ClickCatalyst": {
+        "baseTask": "RedTicket@Store@ClickItem_Catalyst",
+        "template": "items/32001.png",
+        "next": ["OperProgress@CatalystPurchasePage"],
+        "doc": "复用助剂图标点击，只有 next 确认购买弹窗才算成功进入购买。"
+    },
+    "OperProgress@CatalystPurchaseQuantity": {
+        "baseTask": "NumberOcrReplace",
+        "text": [],
+        "isAscii": true,
+        "withoutDet": true,
+        "binThreshold": [0, 110],
+        "roi": [908, 416, 24, 32],
+        "doc": "芯片助剂购买弹窗已选择的数量；与请求数量一致才允许付款。"
+    },
+    "OperProgress@CatalystPurchaseVoucherBalance": {
+        "baseTask": "NumberOcrReplace",
+        "text": [],
+        "isAscii": true,
+        "withoutDet": true,
+        "binThreshold": [180, 255],
+        "roi": [1072, 16, 80, 48],
+        "doc": "采购凭证商店顶部当前余额，仅在没有本次完整仓库扫描结果时读取。"
+    },
     "RedTicket@Store@ChooseTicketTypeSelected": {
         "algorithm": "OcrDetect",
         "text": ["采购凭证区"],
@@ -6229,6 +6300,85 @@
     "OperProgress@LevelUp": {
         "algorithm": "JustReturn",
         "next": ["OperProgress@LevelMax", "OperProgress@LevelUpPageEnter"]
+    },
+    "OperProgress@RefillLevelUp": {
+        "algorithm": "JustReturn",
+        "next": ["OperProgress@LevelMax", "OperProgress@RefillLevelUpPageEnter"],
+        "doc": "自动补料升级入口，停在最高等级选择结果，观测缺口后才允许确认"
+    },
+    "OperProgress@RefillLevelUpPageEnter": {
+        "baseTask": "OperProgress@LevelUpPageEnter",
+        "template": "OperFilesEnterLevelUpButton.png",
+        "next": ["OperProgress@RefillLevelUpPageSelectMax", "OperProgress@CannotEnterLevelUpPage"]
+    },
+    "OperProgress@RefillLevelUpPageSelectMax": {
+        "baseTask": "OperProgress@LevelUpPageSelectMax",
+        "template": "LevelUpPageSelectMax.png",
+        "next": ["OperProgress@RefillLevelUpPage"]
+    },
+    "OperProgress@RefillLevelUpPage": {
+        "baseTask": "OperProgress@LevelUpPageConfirm",
+        "template": "LevelUpPageConfirm.png",
+        "action": "DoNothing",
+        "next": []
+    },
+    "OperProgress@CurrentLevel": {
+        "baseTask": "NumberOcrReplace",
+        "withoutDet": true,
+        "isAscii": true,
+        "binThreshold": [220, 255],
+        "roi": [880, 112, 96, 56]
+    },
+    "OperProgress@CurrentExp": {
+        "baseTask": "NumberOcrReplace",
+        "withoutDet": true,
+        "isAscii": true,
+        "binThreshold": [180, 255],
+        "roi": [984, 136, 160, 24]
+    },
+    "OperProgress@LevelUpTargetLevel": {
+        "baseTask": "NumberOcrReplace",
+        "withoutDet": true,
+        "isAscii": true,
+        "binThreshold": [0, 255],
+        "roi": [848, 288, 160, 96]
+    },
+    "OperProgress@LevelUpExp": {
+        "baseTask": "NumberOcrReplace",
+        "withoutDet": true,
+        "isAscii": true,
+        "binThreshold": [0, 255],
+        "roi": [400, 472, 176, 32]
+    },
+    "OperProgress@LevelUpCoinsCost": {
+        "baseTask": "NumberOcrReplace",
+        "withoutDet": true,
+        "isAscii": true,
+        "binThreshold": [0, 255],
+        "roi": [664, 536, 72, 24]
+    },
+    "OperProgress@LevelUpCoinsGap": {
+        "baseTask": "NumberOcrReplace",
+        "withoutDet": true,
+        "isAscii": true,
+        "binThreshold": [180, 255],
+        "roi": [676, 668, 96, 24]
+    },
+    "OperProgress@LevelUpDialChoice": {
+        "baseTask": "NumberOcrReplace",
+        "isAscii": true,
+        "fullMatch": true,
+        "roi": [768, 0, 320, 704]
+    },
+    "OperProgress@LevelUpDialHigher": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [848, 288, 160, 96],
+        "rectMove": [848, 512, 160, 96],
+        "specialParams": [500],
+        "postDelay": 800,
+        "next": ["OperProgress@RefillLevelUpPage"],
+        "doc": "升级目标转盘向下拖动，使更高等级进入可点击区域；培养任务限制次数并复核等级"
     },
     "OperProgress@LevelMax": {
         "template": "OperFilesLevelMax.png",
@@ -6331,6 +6481,20 @@
         "doc": "干员精英化芯片位置的材料缺料检测",
         "roi": [352, 664, 45, 17]
     },
+    "OperProgress@EliteUpCoinsMissing": {
+        "baseTask": "OperProgress@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
+        "roi": [192, 665, 80, 17],
+        "doc": "晋升页面龙门币不足时的橙红色花费数字"
+    },
+    "OperProgress@EliteUpCoinsCost": {
+        "baseTask": "NumberOcrReplace",
+        "withoutDet": true,
+        "isAscii": true,
+        "binThreshold": [0, 255],
+        "roi": [192, 656, 80, 32],
+        "doc": "晋升页面龙门币花费，不含已有数量，须与本次完整仓库识别结果比较"
+    },
     "OperProgress@EliteUpMaterial1Required": {
         "baseTask": "OperProgress@EliteUpMaterialMissing",
         "template": "MaterialMissing.png",
@@ -6384,6 +6548,14 @@
         "template": "FacilityListTabMfg.png",
         "postDelay": 300,
         "maxTimes": 20
+    },
+    "OperProgress@MfgCollect": {
+        "baseTask": "ReplenishToMax",
+        "template": "MfgCollect.png",
+        "maskRange": [1, 255],
+        "roi": [1040, 592, 80, 80],
+        "next": [],
+        "doc": "只收取当前制造站产品，调用方先确认制造站页面；语言无关图标模板排除按钮背景。"
     },
     "OperProgress@DualchipBadgeCount": {
         "baseTask": "NumberOcrReplace",
@@ -6496,6 +6668,31 @@
         "action": "DoNothing",
         "doc": "干员列表页排序页签，兜底到达标志；选中项为蓝字可能识别不佳，未选中项为白字",
         "next": []
+    },
+    "OperProgress@RefillMaterialItem": {
+        "baseTask": "MiniGame@MaterialSynthesis@Material",
+        "template": "empty.png",
+        "specialParams": [100, 4],
+        "specialParams_Doc": "物品模板缩放百分比；相对现有材料点击槽位中心扩展的识别区域倍数。根材料区域由各培养页面既有槽位确定，避免重复维护坐标。"
+    },
+    "OperProgress@RefillMaterialQuantity": {
+        "baseTask": "NumberOcrReplace",
+        "text": [],
+        "isAscii": true,
+        "binThreshold": [0, 255],
+        "roi": [0, 0, 96, 32],
+        "doc": "完整 owned/required 数字区域尺寸。实际位置由当前材料点击槽横向中心和既有缺料检测区域纵向中心确定。"
+    },
+    "OperProgress@RefillChipItem": {
+        "baseTask": "OperProgress@RefillMaterialItem",
+        "template": "empty.png",
+        "roi": [284, 505, 172, 180],
+        "doc": "晋升材料行芯片槽，由现有 Dualchip 点击位置中心扩展四倍；候选由当前职业和晋升阶段限定。"
+    },
+    "OperProgress@RefillChipQuantity": {
+        "baseTask": "OperProgress@RefillMaterialQuantity",
+        "roi": [322, 657, 96, 32],
+        "doc": "晋升芯片槽完整的库存/需求，包含红色缺料分子。"
     },
     "OperProgress@EliteUpMaterial1JumpProcessing": {
         "template": "QuickJumpProcessing.png",

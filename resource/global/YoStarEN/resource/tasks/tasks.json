@@ -1,4 +1,7 @@
 {
+    "DepotTokenDetail": {
+        "text": ["Token"]
+    },
     "BattleQuickFormationModulePage": {
         "text": ["Branch"]
     },

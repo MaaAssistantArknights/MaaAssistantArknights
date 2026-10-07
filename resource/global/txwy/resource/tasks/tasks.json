@@ -1,4 +1,7 @@
 {
+    "DepotTokenDetail": {
+        "text": ["信物"]
+    },
     "AccountManagerTxwy": {
         "roi": [500, 110, 290, 80]
     },

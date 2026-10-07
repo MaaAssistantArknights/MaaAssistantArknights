@@ -26,6 +26,8 @@ $jobs += Start-Job -ScriptBlock {
         "/gamedata/excel/building_data.json" `
         "/gamedata/excel/range_table.json" `
         "/gamedata/excel/character_table.json" `
+        "/gamedata/excel/gamedata_const.json" `
+        "/gamedata/excel/char_patch_table.json" `
         "/gamedata/excel/gacha_table.json" `
         "/gamedata/excel/roguelike_topic_table.json" `
         "/gamedata/excel/activity_table.json"

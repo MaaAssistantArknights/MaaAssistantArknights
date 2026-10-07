@@ -1,4 +1,7 @@
 {
+    "DepotTokenDetail": {
+        "text": ["증표"]
+    },
     "AccountManagerYostar": {
         "roi": [450, 150, 400, 110]
     },
