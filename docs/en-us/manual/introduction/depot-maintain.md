@@ -20,6 +20,8 @@ Depot Maintain is a task that **automatically farms materials to a target invent
 
 ::: tip Depot Data Sync
 Depot data is cached and may differ from your actual stock after manual farming, crafting, or material use. Sync it with [Update Doctor Data](./user-data-update.md) or [Depot Recognition](./tools.md#depot-recognition).
+
+Operator progression marks the depot cache as stale before an action that may consume materials, and this state persists across restarts. While stale, Depot Maintain and Fight tasks in Target Inventory mode skip inventory-dependent farming. Drops from refill fights do not clear this state. Complete a successful depot scan before using these features again.
 :::
 
 ## Plan Configuration

@@ -1384,6 +1384,52 @@ Whether to enable this task.
 
 </details>
 
+- `OperProgress`
+  Operator progression
+
+:::: field-group
+::: field plans
+@type array`<object>`
+@required
+Progression targets executed in order. Each entry is an object with the following fields. Omitted actions are not performed; do not use `null` instead of omitting a field.
+
+- `name`: Operator name; a non-empty string is required.
+- `role`: Optional class string. Inferred from the name when omitted; required when the name matches multiple classes. Values: `Pioneer`, `Warrior`, `Tank`, `Sniper`, `Caster`, `Medic`, `Support`, `Special`.
+- `elite`: Optional target promotion stage: integer `1` or `2`.
+- `skill_level`: Optional target base skill level: integer in `[2, 7]`.
+- `skill_mastery`: Optional array of three integers specifying the target mastery level of each skill. Each value is in `[0, 3]`; `0` skips that skill.
+
+:::
+::: field auto_refill
+@type boolean
+@default false
+@optional
+Whether to replenish materials missing from the current progression step. Supports ordinary materials, Skill Summaries, Chips and Chip Packs: tries the existing crafting flow first, then farms missing materials. Uses the existing Factory flow for Dualchips and buys missing Chip Catalysts with Purchase Certificates; farms AP-5 when certificates are insufficient and the stage is open. Farms CE-6 for missing LMD and LS-6 for missing Battle Records needed for leveling or promotion. Missing LMD for Workshop processing is also replenished through CE-6, using the actual total cost shown after the final operator and batch are selected. Disabling `auto_refill` preserves the existing flow. Sanity potions are limited by `medicine`; Originium is never used to restore sanity. Does not calculate the total requirements of the full progression target in advance.
+
+WPF generates default farming candidates for ordinary progression materials only from routes where current Penguin Statistics stage metadata labels that material `NORMAL_DROP` or `SPECIAL_DROP`; routes that only list it as an `EXTRA_DROP` byproduct are excluded. The fixed resource routes for AP-5 Purchase Certificates, LS-6 Strategic Battle Records and CE-6 LMD remain available. For a stage in Chapter 15 or later, WPF adds `-NORMAL` then `-HARD` candidates using the same drop statistics and `valid_until_utc`. It does not reuse the independent `-HARD` matrices from Chapters 10–14 for `-NORMAL`. This is WPF's default candidate policy and does not change Core's protocol requirements for candidates supplied by other frontends. If no suitable, executable candidate is available, WPF keeps the unfinished target.
+:::
+::: field medicine
+@type number
+@default 0
+@optional
+Non-negative integer limiting the total number of sanity potions used by this `OperProgress` task. All material-refill battles share the allowance; it is not reset for each material shortage. `0` disables potion use. This task never uses Originium or extra expiring potions outside this allowance.
+:::
+::: field refill_stages
+@type object
+@default {}
+@optional
+Map of material IDs to arrays of candidate stages, for example `{"30012": [{"stage": "1-7", "valid_until_utc": 1791417600}]}`. Each candidate must include a non-empty `stage` and an integer `valid_until_utc` (Unix seconds in UTC, range `[1, 4102444800]`; the upper bound is 2100-01-01 00:00:00 UTC). The caller provides currently open, navigable stages in preference order and limits their validity to the current opening period. Core tries candidates in order and ignores expired candidates. Core reports `AutoDeployUnavailable` and tries the next candidate only if it confirms Auto Deploy is unavailable, has attempted neither a battle start nor sanity recovery, confirms `0` potion consumption, and has no drops. An Auto Deploy battle that fails after starting (`AutoDeployFailed`) stops material refilling. Materials without reliable routes are not farmed automatically.
+:::
+::: field client_type
+@type string
+@default ""
+@optional
+Client version used for refill fights. Accepts the same values as `StartUp.client_type`.
+:::
+::::
+
+Replenishing materials, returning to the operator screen, and resuming the current step all run inside the same `OperProgress` task. Refilling stops when sanity is insufficient, the shortfall cannot be reliably recognized, or no route is available; the task does not wait for sanity to recover. WPF keeps unfinished targets for the next task run. Starting mastery training does not complete its target; the target is cleared only once the actual mastery level reaches it.
+
 - `Reclamation`  
    Reclamation Algorithm
 

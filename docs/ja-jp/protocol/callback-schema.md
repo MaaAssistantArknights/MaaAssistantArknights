@@ -580,14 +580,22 @@ Todo
 - `StageInfoError`  
    自動戦闘ステージの情報エラー
 
-- `DepotInfo`  
-   倉庫のアイテムの認識結果
+- `OperProgressInventoryChanged`
+  オペレーター育成で、在庫を消費する可能性のある最初の操作を行う直前に通知します。`details` に必須フィールドはありません。呼び出し側は在庫キャッシュを直ちに無効として扱ってください。ステージのドロップでは有効に戻りません。倉庫の完全な認識に成功した場合のみ有効に戻せます。
 
-  ```json
-  // 対応する詳細フィールドの例
-  "done": bool,   // 認識が完了したかどうか，false はまだ進行中かどうか（処理中のデータ）
-  "data": "{\"2001\":18000,\"31043\":317}"  // JSON文字列、形式: {"アイテムID": 数量, ...}
-  ```
+- `OperProgressRefill`
+  現在の育成段階に必要な素材を補充する作戦です。開始時のコールバックには `result_detail` がなく、結果のコールバックには含まれます。タスク中止時は結果のコールバックを受信できるとは限りません。`details` のフィールドは以下のとおりです：
+  - `item_id` (string, required): 素材 ID。
+  - `owned` (number, required): 補充前に認識した所持数。
+  - `required` (number, required): 現在の育成段階に必要な数。
+  - `stage` (string, required): 今回試行するステージ名。
+  - `result_detail` (string, optional): 作戦の停止理由。作戦から戻った後のみ含まれます。 `TargetReached`, `SanityInsufficient`, `DeadlineReached`, `NavigationFailed`, `AutoDeployUnavailable`, `AutoDeployFailed`, `DropRecognitionFailed`, `Cancelled`, `Completed`, `Unknown`。`AutoDeployUnavailable` は、作戦開始および理性剤や源石の使用前に、そのステージの自動指揮がロックされていることを現場で確認した場合です。Core はこの候補をスキップして次の候補を試すため、素材補充全体の停止を意味しません。`AutoDeployFailed` は開始済みの自動指揮作戦が失敗した場合で、素材補充を停止します。
+
+- `DepotInfo`
+  倉庫認識結果。`details` のフィールドは以下のとおりです：
+  - `done` (boolean, required): 認識が終了したかどうか。`true` でも完全な認識に成功したとは限りません。
+  - `success` (boolean, optional): `done` が `true` の場合のみ含まれ、完全な認識に成功したかどうかを示します。`done` と `success` がともに `true` の場合のみ、在庫キャッシュ全体を置き換えて無効フラグを解除できます。`success` がない場合も成功として扱わないでください。
+  - `data` (string, required): `{"itemId": 数量, ...}` 形式の JSON 文字列。例：`{"2001":18000,"31043":317}`。
 
 - `OperBoxInfo`  
    オペレーターボックス識別結果

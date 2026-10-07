@@ -27,6 +27,7 @@ This task includes two sub-items that can be independently toggled:
 - Recognizes in-game depot inventory and updates material quantity cache.
 - Results are used by [Depot Maintain](./depot-maintain.md) to calculate shortfalls.
 - Shares the same data as [Tools - Depot Recognition](./tools.md#depot-recognition). Last sync time is displayed after recognition.
+- Only a complete, successful depot scan makes the cache valid again and updates the sync time; partial, failed, or interrupted scans do not. Operator progression automatically marks the cache as stale when materials may be consumed, and this state persists across restarts.
 
 ::: tip
 The difference between this task and [Tools - Depot Recognition](./tools.md#depot-recognition): the Tools version requires manually navigating to the depot screen; this task automatically navigates to the depot and can be combined with trigger intervals for automation.
@@ -43,3 +44,5 @@ Set the execution frequency of the task:
 | Weekly     | Execute at most once per week.                                                           |
 
 Recommended to set to "Daily" for automatic daily data sync on first run, avoiding frequent OCR that impacts efficiency.
+
+When the depot cache is marked as stale, an enabled Depot Recognition runs the next time this task executes, regardless of the Daily or Weekly interval.

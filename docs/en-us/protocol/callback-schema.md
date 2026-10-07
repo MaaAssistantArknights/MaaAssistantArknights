@@ -560,14 +560,22 @@ Todo
 - `StageInfoError`  
   Auto combat stage recognition error
 
-- `DepotInfo`  
-  Depot recognition result
+- `OperProgressInventoryChanged`
+  Operator progression is about to perform its first action that may consume inventory. `details` has no required fields. The caller should immediately mark the depot cache as stale. Stage drops do not make it valid again; only a complete, successful depot scan does.
 
-  ```json
-  // Corresponding details field example
-  "done": bool,   // Whether recognition is complete, false means still in progress (data during process)
-  "data": "{\"2001\":18000,\"31043\":317}"  // JSON string, format: {"itemId": quantity, ...}
-  ```
+- `OperProgressRefill`
+  A refill fight for the current progression step. The start callback omits `result_detail`; the result callback includes it. A result callback is not guaranteed when the task is stopped. The `details` fields are:
+  - `item_id` (string, required): Material ID.
+  - `owned` (number, required): Owned quantity recognized before refilling.
+  - `required` (number, required): Quantity required by the current step.
+  - `stage` (string, required): Stage attempted in this fight.
+  - `result_detail` (string, optional): Reason the fight stopped; present only after the fight returns. `TargetReached`, `SanityInsufficient`, `DeadlineReached`, `NavigationFailed`, `AutoDeployUnavailable`, `AutoDeployFailed`, `DropRecognitionFailed`, `Cancelled`, `Completed`, `Unknown`. `AutoDeployUnavailable` means Core confirmed that Auto Deploy is locked for this stage before starting a battle or using any sanity potions or Originium. Core skips this candidate and tries the next one; material refilling has not necessarily stopped. `AutoDeployFailed` means an Auto Deploy battle failed after it started and stops material refilling.
+
+- `DepotInfo`
+  Depot recognition result. The `details` fields are:
+  - `done` (boolean, required): Whether recognition has ended; `true` does not imply a complete, successful scan.
+  - `success` (boolean, optional): Present only when `done` is `true`; indicates whether a complete scan succeeded. Replace the full depot cache and clear its stale flag only when both `done` and `success` are `true`. A missing `success` must not be treated as success either.
+  - `data` (string, required): JSON string in the format `{"itemId": quantity, ...}`, for example `{"2001":18000,"31043":317}`.
 
 - `OperBoxInfo`  
   Operator recognition result

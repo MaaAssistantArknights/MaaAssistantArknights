@@ -1384,6 +1384,52 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 </details>
 
+- `OperProgress`
+  幹員培養
+
+:::: field-group
+::: field plans
+@type array`<object>`
+@required
+依序執行的培養目標。每項為物件，支援以下欄位；未填寫的培養項目不執行，不能用 `null` 代替省略。
+
+- `name`: 幹員名稱，必填的非空字串。
+- `role`: 職業，可選字串。省略時根據名稱推斷；名稱對應多個職業時必須指定。可取 `Pioneer`、`Warrior`、`Tank`、`Sniper`、`Caster`、`Medic`、`Support`、`Special`。
+- `elite`: 目標精英階段，可選整數 `1` 或 `2`。
+- `skill_level`: 目標技能基礎等級，可選整數，範圍 `[2, 7]`。
+- `skill_mastery`: 三個技能的目標專精等級，可選的三個整數陣列，每項範圍 `[0, 3]`；`0` 表示不處理該技能。
+
+:::
+::: field auto_refill
+@type boolean
+@default false
+@optional
+是否在目前培養步驟缺料時自動補料。支援一般材料、技巧概要、晶片和晶片組：優先使用既有合成流程，再刷取缺少的材料。雙晶片沿用製造站流程，缺少晶片助劑時使用採購憑證購買；採購憑證不足時刷取目前開放的 AP-5。升級或晉升缺少龍門幣、作戰紀錄時，分別透過 CE-6、LS-6 補充。加工所需龍門幣也透過 CE-6 補充，缺口以最終選人和批量確定後現場顯示的實際總費用為準。關閉 `auto_refill` 時維持原有流程。理智藥受 `medicine` 額度限制，不使用源石恢復理智。不會預先計算整個培養目標的總需求。
+
+WPF 產生一般培養材料的預設刷取候選時，僅接受目前企鵝物流關卡資料將該材料標為 `NORMAL_DROP` 或 `SPECIAL_DROP` 的路線，不採用僅有 `EXTRA_DROP` 副產掉落的路線。AP-5 採購憑證、LS-6 高級作戰記錄和 CE-6 龍門幣的固定資源路線仍可使用。對 15 章及以後的同一關卡，WPF 依 `-NORMAL`、`-HARD` 順序產生候選，共用該關卡的掉落統計和 `valid_until_utc`；不將 10–14 章 `-HARD` 的獨立掉落矩陣用於 `-NORMAL`。這只是 WPF 預設候選的篩選策略，不改變 Core 對其他前端傳入候選的協定要求；沒有合理且可執行的候選時，WPF 保留未完成目標。
+:::
+::: field medicine
+@type number
+@default 0
+@optional
+本次 `OperProgress` 任務使用理智藥的總上限，非負整數。所有補料作戰共用此額度，不會為每次材料缺口重設；`0` 表示不使用藥劑。本任務不使用源石，也不額外使用額度以外的臨期理智藥。
+:::
+::: field refill_stages
+@type object
+@default {}
+@optional
+材料 ID 到候選關卡陣列的對應，例如 `{"30012": [{"stage": "1-7", "valid_until_utc": 1791417600}]}`。每個候選必須包含非空關卡名稱 `stage` 和整數 `valid_until_utc`（UTC Unix 秒，範圍 `[1, 4102444800]`，上限為 2100-01-01 00:00:00 UTC）。呼叫端應依偏好順序提供目前開放且可導航的關卡，並將有效期限制在本輪開放時段內；Core 依序嘗試且不使用已過期的候選。僅在現場確認代理不可用，且尚未嘗試開始戰鬥或恢復理智、藥劑消耗已確認為 `0` 並無掉落時，Core 才以 `AutoDeployUnavailable` 回報並嘗試下一條候選；已開始的代理作戰失敗（`AutoDeployFailed`）則停止補料。未提供可靠路線的材料不自動刷取。
+:::
+::: field client_type
+@type string
+@default ""
+@optional
+客戶端版本，用於補料作戰，取值與 `StartUp.client_type` 相同。
+:::
+::::
+
+補料、返回幹員介面和繼續目前步驟均在同一個 `OperProgress` 任務內執行。理智不足、無法可靠辨識缺口或沒有可用路線時停止補料，不自動等待理智恢復。WPF 會保留未完成目標，在下一次任務執行時重試。開始專精訓練不等於目標已完成，只有實際專精等級達到目標後才會清除該目標。
+
 - `Reclamation`  
    生息演算
 

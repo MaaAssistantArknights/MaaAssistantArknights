@@ -635,10 +635,22 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 - `StageInfoError`  
   自動作戰關卡辨識錯誤。`details` 欄位為空。
 
-- `DepotInfo`  
+- `OperProgressInventoryChanged`
+  幹員培養即將首次執行可能消耗庫存的操作。`details` 無必需欄位。呼叫端應立即將庫存快取標記為過期；刷取掉落不能恢復其有效性，只有完整成功的倉庫辨識才能恢復。
+
+- `OperProgressRefill`
+  目前培養步驟的補料作戰。開始回呼不含 `result_detail`，結果回呼包含該欄位；任務中止時不保證收到結果回呼。`details` 欄位如下：
+  - `item_id` (string, required): 材料 ID。
+  - `owned` (number, required): 開始補料前辨識到的持有數量。
+  - `required` (number, required): 目前步驟所需數量。
+  - `stage` (string, required): 本次嘗試的關卡名稱。
+  - `result_detail` (string, optional): 作戰停止原因，僅作戰返回後提供。 `TargetReached`, `SanityInsufficient`, `DeadlineReached`, `NavigationFailed`, `AutoDeployUnavailable`, `AutoDeployFailed`, `DropRecognitionFailed`, `Cancelled`, `Completed`, `Unknown`。`AutoDeployUnavailable` 表示開始戰鬥及使用理智藥或源石前，現場確認該關卡的代理處於鎖定狀態；Core 會跳過該候選並嘗試下一條，不代表整次補料已停止。`AutoDeployFailed` 表示已開始的代理作戰失敗，會停止補料。
+
+- `DepotInfo`
   倉庫辨識結果。`details` 欄位結構如下：
-  - `done` (boolean, required)：是否已經辨識完了，為 false 表示仍在辨識中（過程中的數據）。
-  - `data` (string, required)：JSON 字串，格式為 `{"物品ID": 數量, ...}`，例如 `{"2001":18000,"31043":317}`。
+  - `done` (boolean, required): 辨識是否已經結束；`true` 不代表完整成功。
+  - `success` (boolean, optional): 僅在 `done` 為 `true` 時提供，表示是否完整辨識成功。只有 `done` 和 `success` 均為 `true` 才能用本次結果替換完整庫存快取、清除過期標記；缺少 `success` 時也不能視為成功。
+  - `data` (string, required): JSON 字串，格式為 `{"物品ID": 數量, ...}`，例如 `{"2001":18000,"31043":317}`。
 
 - `OperBoxInfo`  
   幹員辨識結果。`details` 欄位結構如下：

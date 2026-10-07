@@ -635,9 +635,21 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 - `StageInfoError`  
   自动作战关卡识别错误。`details` 字段为空。
 
-- `DepotInfo`  
+- `OperProgressInventoryChanged`
+  干员培养即将首次执行可能消耗库存的操作。`details` 无必需字段。调用方应立即将库存缓存标记为过期；刷取掉落不能恢复其有效性，只有完整成功的仓库识别才能恢复。
+
+- `OperProgressRefill`
+  当前培养步骤的补料作战。开始回调不含 `result_detail`，结果回调包含该字段；任务中止时不保证收到结果回调。`details` 字段如下：
+  - `item_id` (string, required): 材料 ID。
+  - `owned` (number, required): 开始补料前识别到的持有数量。
+  - `required` (number, required): 当前步骤所需数量。
+  - `stage` (string, required): 本次尝试的关卡名。
+  - `result_detail` (string, optional): 作战停止原因，仅作战返回后提供。 `TargetReached`, `SanityInsufficient`, `DeadlineReached`, `NavigationFailed`, `AutoDeployUnavailable`, `AutoDeployFailed`, `DropRecognitionFailed`, `Cancelled`, `Completed`, `Unknown`。`AutoDeployUnavailable` 表示开始战斗及使用理智药或源石前，现场确认该关卡的代理处于锁定状态；Core 会跳过该候选并尝试下一条，不代表整次补料已停止。`AutoDeployFailed` 表示已开始的代理作战失败，会停止补料。
+
+- `DepotInfo`
   仓库识别结果。`details` 字段结构如下：
-  - `done` (boolean, required): 是否已经识别完了，为 `false` 表示仍在识别中（过程中的数据）。
+  - `done` (boolean, required): 识别是否已经结束；`true` 不代表完整成功。
+  - `success` (boolean, optional): 仅在 `done` 为 `true` 时提供，表示是否完整识别成功。只有 `done` 和 `success` 均为 `true` 才能用本次结果替换完整库存缓存、清除过期标记；缺少 `success` 时也不能视为成功。
   - `data` (string, required): JSON 字符串，格式为 `{"物品ID": 数量, ...}`，例如 `{"2001":18000,"31043":317}`。
 
 - `OperBoxInfo`  

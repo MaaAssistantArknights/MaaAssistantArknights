@@ -1383,6 +1383,52 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 
 </details>
 
+- `OperProgress`
+  干员培养
+
+:::: field-group
+::: field plans
+@type array`<object>`
+@required
+按顺序执行的培养目标。每项为对象，支持以下字段；未填写的培养项目不执行，不能用 `null` 代替省略。
+
+- `name`: 干员名称，必填非空字符串。
+- `role`: 职业，可选字符串。省略时根据名称推断；名称对应多个职业时必须指定。可取 `Pioneer`、`Warrior`、`Tank`、`Sniper`、`Caster`、`Medic`、`Support`、`Special`。
+- `elite`: 目标精英阶段，可选整数 `1` 或 `2`。
+- `skill_level`: 目标技能基础等级，可选整数，范围 `[2, 7]`。
+- `skill_mastery`: 三个技能的目标专精等级，可选的三个整数数组，每项范围 `[0, 3]`；`0` 表示不处理该技能。
+
+:::
+::: field auto_refill
+@type boolean
+@default false
+@optional
+是否在当前培养步骤缺料时自动补料。支持普通材料、技巧概要、芯片和芯片组：优先使用已有合成流程，再刷取缺少的材料。双芯片复用制造站流程，缺少芯片助剂时使用采购凭证购买；采购凭证不足时刷取当前开放的 AP-5。升级或晋升缺少龙门币、作战记录时，分别通过 CE-6、LS-6 补充。加工所需龙门币也通过 CE-6 补充，缺口以最终选人和批量确定后现场显示的实际总费用为准。关闭 `auto_refill` 时保持原有流程。理智药受 `medicine` 额度限制，不使用源石恢复理智。不会预先计算整个培养目标的总需求。
+
+WPF 生成普通培养材料的默认刷取候选时，仅接受当前企鹅物流关卡元数据将该材料标为 `NORMAL_DROP` 或 `SPECIAL_DROP` 的路线，不采用仅有 `EXTRA_DROP` 副产掉落的路线。AP-5 采购凭证、LS-6 高级作战记录和 CE-6 龙门币的固定资源路线仍可使用。对 15 章及以后的同一关卡，WPF 按 `-NORMAL`、`-HARD` 顺序生成候选，共用该关卡的掉落统计和 `valid_until_utc`；不将 10–14 章 `-HARD` 的独立掉落矩阵用于 `-NORMAL`。这只是 WPF 默认候选的筛选策略，不改变 Core 对其他前端传入候选的协议要求；没有合理且可执行的候选时，WPF 保留未完成目标。
+:::
+::: field medicine
+@type number
+@default 0
+@optional
+本次 `OperProgress` 任务使用理智药的总上限，非负整数。所有补料作战共享此额度，不会为每次材料缺口重置；`0` 表示不使用药剂。本任务不使用源石，也不额外使用额度以外的临期理智药。
+:::
+::: field refill_stages
+@type object
+@default {}
+@optional
+材料 ID 到候选关卡数组的映射，例如 `{"30012": [{"stage": "1-7", "valid_until_utc": 1791417600}]}`。每个候选必须包含非空关卡名 `stage` 和整数 `valid_until_utc`（UTC Unix 秒，范围 `[1, 4102444800]`，上限为 2100-01-01 00:00:00 UTC）。调用方应按偏好顺序提供当前开放且可导航的关卡，并将有效期限制在本轮开放时段内；Core 按顺序尝试且不使用已过期的候选。仅在现场确认代理不可用，且尚未尝试开始战斗或恢复理智、药剂消耗已确认为 `0` 并无掉落时，Core 才以 `AutoDeployUnavailable` 报告并尝试下一条候选；已开始的代理作战失败（`AutoDeployFailed`）则停止补料。未提供可靠路线的材料不自动刷取。
+:::
+::: field client_type
+@type string
+@default ""
+@optional
+客户端版本，用于补料作战，取值与 `StartUp.client_type` 相同。
+:::
+::::
+
+补料、返回干员界面和继续当前步骤均在同一个 `OperProgress` 任务内执行。理智不足、无法可靠识别缺口或没有可用路线时停止补料，不自动等待理智恢复。WPF 会保留未完成目标，在下一次任务执行时重试。开始专精训练不等于目标已完成，只有实际专精等级达到目标后才会清除该目标。
+
 - `Reclamation`  
    生息演算
 

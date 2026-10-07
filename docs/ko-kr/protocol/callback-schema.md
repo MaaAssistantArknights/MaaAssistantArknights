@@ -603,10 +603,22 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 - `StageInfoError`  
   자동 작전 노드 식별 오류. `details` 필드는 비어 있습니다
 
-- `DepotInfo`  
-  창고 인식 결과. `details` 필드 구조는 다음과 같습니다:
-  - `done` (boolean, required): 인식 완료 여부, `false`는 아직 인식 중임(진행 중 데이터)을 의미
-  - `data` (string, required): JSON 문자열, 형식은 `{"아이템ID": 수량, ...}`, 예: `{"2001":18000,"31043":317}`
+- `OperProgressInventoryChanged`
+  오퍼레이터 육성에서 재고를 소비할 수 있는 첫 번째 동작 직전에 알립니다. `details`에는 필수 필드가 없습니다. 호출자는 즉시 재고 캐시를 오래된 상태로 표시해야 합니다. 스테이지 드롭만으로 유효한 상태가 되지는 않으며, 전체 창고 인식에 성공해야 복구됩니다.
+
+- `OperProgressRefill`
+  현재 육성 단계의 재료 보충 작전입니다. 시작 콜백에는 `result_detail`이 없고, 결과 콜백에는 포함됩니다. 작업 중단 시 결과 콜백이 보장되지는 않습니다. `details` 필드는 다음과 같습니다:
+  - `item_id` (string, required): 재료 ID.
+  - `owned` (number, required): 보충 전에 인식한 보유 수량.
+  - `required` (number, required): 현재 단계에 필요한 수량.
+  - `stage` (string, required): 이번에 시도하는 스테이지 이름.
+  - `result_detail` (string, optional): 작전이 중지된 이유. 작전이 반환된 후에만 제공됩니다. `TargetReached`, `SanityInsufficient`, `DeadlineReached`, `NavigationFailed`, `AutoDeployUnavailable`, `AutoDeployFailed`, `DropRecognitionFailed`, `Cancelled`, `Completed`, `Unknown`. `AutoDeployUnavailable`은 전투 시작 및 이성 회복제나 순오리지늄 사용 전에 해당 스테이지의 자동 지휘가 잠겨 있음을 현장에서 확인한 경우입니다. Core는 해당 후보를 건너뛰고 다음 후보를 시도하므로 전체 재료 보충이 중지되었다는 뜻은 아닙니다. `AutoDeployFailed`는 시작한 자동 지휘 전투가 실패한 경우이며 재료 보충을 중지합니다.
+
+- `DepotInfo`
+  창고 인식 결과. `details` 필드는 다음과 같습니다:
+  - `done` (boolean, required): 인식이 종료되었는지 여부. `true`라고 해서 전체 인식에 성공한 것은 아닙니다.
+  - `success` (boolean, optional): `done`이 `true`일 때만 제공하며 전체 인식 성공 여부를 나타냅니다. `done`과 `success`가 모두 `true`일 때만 전체 재고 캐시를 교체하고 오래된 상태 표시를 해제할 수 있습니다. `success`가 없는 경우도 성공으로 처리해서는 안 됩니다.
+  - `data` (string, required): `{"itemId": 수량, ...}` 형식의 JSON 문자열입니다. 예: `{"2001":18000,"31043":317}`.
 
 - `OperBoxInfo`  
   오퍼레이터 보관함 인식 결과. `details` 필드 구조는 다음과 같습니다:
