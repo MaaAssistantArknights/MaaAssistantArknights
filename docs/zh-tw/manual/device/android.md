@@ -5,6 +5,47 @@ icon: mingcute:android-fill
 
 # Android 實體設備
 
+## 使用 MAA Android 版
+
+[MaaMeow](https://github.com/Aliothmoon/MAA-Meow) 是 MAA 的 Android 版，可直接在 Android 設備上執行 MAA，無需電腦或模擬器，並支援在背景執行。
+
+::: warning
+MaaMeow 仍在開發中，功能可能不穩定。使用中遇到的問題請前往 [MaaMeow 的 Issues](https://github.com/Aliothmoon/MAA-Meow/issues) 回報。
+:::
+
+### 執行需求
+
+- Android 9 及以上。
+- 設備架構為 `arm64-v8a` 或 `x86_64`。
+- [Shizuku](https://shizuku.rikka.app/) 已執行並為 MaaMeow 授權，或設備已 Root。
+
+### 安裝與使用
+
+::: steps
+
+1. 前往 [GitHub Releases](https://github.com/Aliothmoon/MAA-Meow/releases/latest) 下載並安裝 MaaMeow，不確定設備架構時請選擇 `universal` 版本的 apk。
+
+2. 安裝 Shizuku。MaaMeow 安裝包內附帶 Shizuku，也可從 [Shizuku 官網](https://shizuku.rikka.app/download/) 下載。
+   - 設備已 Root 時可跳過 Shizuku 相關步驟。
+
+3. 在 Shizuku 中透過 `無線偵錯` 配對並啟動服務，然後在 Shizuku 中為 MaaMeow 授權。
+   - 部分品牌設備需要額外設定，詳見 MaaMeow 文件中的 [安裝與授權](https://docs.maameow.com/faq/setup/)。
+   - Android 11 以下的設備無法使用 `無線偵錯`，需要連線電腦，透過 ADB 啟動 Shizuku。
+
+4. 開啟 MaaMeow，確認首頁的服務狀態正常後，設定任務並開始執行。
+
+:::
+
+::: tip
+
+- 建議使用背景模式執行。
+- 請將遊戲內設定中的 `螢幕 UI 調整` 調整為 0，並關閉護眼模式、省電模式、遊戲模式、自訂字型等會改變畫面或解析度的設定。
+- 更多使用說明及常見問題請參考 [MaaMeow 文件](https://docs.maameow.com/faq/getting-started/)。
+
+:::
+
+## 使用電腦版 MAA 連線
+
 ::: warning
 此方法涉及 ADB 命令列，穩定性較低且仍需與電腦連線，**不推薦**零基礎玩家嘗試。
 :::
@@ -24,7 +65,7 @@ icon: mingcute:android-fill
 典型的 `16:9` 比例解析度有 `3840*2160` (4K)、`2560*1440` (2K)、`1920*1080` (1080P)、`1280*720` (720P)。
 :::
 
-## 下載、執行 ADB 除錯工具並連線設備
+### 下載、執行 ADB 除錯工具並連線設備
 
 ::: steps
 
@@ -59,7 +100,7 @@ icon: mingcute:android-fill
 
 - 若無論如何都提示未授權或設備序號後顯示 `offline`，則需重啟設備及電腦後重試。如仍未解決問題，可刪除目前使用者個人資料夾下的 `.android` 資料夾並再次重啟後重試，具體位置請自行搜尋。
 
-## 更改解析度
+### 更改解析度
 
 ::: tip
 手機螢幕解析度為 `短邊*長邊`，而非電腦顯示器的 `長邊*短邊`。具體數值請根據目標設備自行確定。
@@ -116,7 +157,7 @@ icon: mingcute:android-fill
 
 :::
 
-## 自動化更改解析度
+### 自動化更改解析度
 
 ::: steps
 
@@ -147,9 +188,9 @@ icon: mingcute:android-fill
 
 :::
 
-## 連線 MAA
+### 連線 MAA
 
-### 有線連線
+#### 有線連線
 
 ::: tip
 使用有線連線不需要任何 IP 位址或連接埠，只需要 `adb devices` 提供的設備序號。
@@ -158,12 +199,12 @@ icon: mingcute:android-fill
 1. 將上文獲取到的目標設備序號填入 MAA `設定 - 連線設定 - 連線位址` 中。
 2. Link Start!
 
-### 無線連線
+#### 無線連線
 
 - 請確保設備與電腦處在同一區域網路環境下且能互相通訊。諸如 `AP 隔離`、`訪客網路` 等設定會阻止設備間通訊，具體請查閱對應路由器文件。
 - 無線除錯在設備重啟後會失效，需要重新設定。
 
-#### 使用 `adb tcpip` 開啟無線連接埠
+##### 使用 `adb tcpip` 開啟無線連接埠
 
 ::: steps
 
@@ -184,7 +225,7 @@ icon: mingcute:android-fill
 
 :::
 
-#### 使用 `adb pair` 開啟無線連接埠
+##### 使用 `adb pair` 開啟無線連接埠
 
 ::: tip
 `adb pair` 無線配對，即使用 Android 11 及更新版本中開發者選項內的 `無線偵錯` 進行配對後連線，與 `adb tcpip` 相比可以避免有線連線。
@@ -205,7 +246,7 @@ icon: mingcute:android-fill
 
 :::
 
-#### 使用 root 權限開啟無線連接埠
+##### 使用 root 權限開啟無線連接埠
 
 ~~都接觸到 Root 了還需要看這段文件嗎~~
 
