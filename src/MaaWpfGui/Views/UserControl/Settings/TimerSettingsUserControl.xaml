@@ -83,6 +83,7 @@
                 <hc:NumericUpDown
                     Height="30"
                     Margin="10,-10"
+                    VerticalAlignment="Center"
                     hc:InfoElement.Title="{DynamicResource ScheduledStartNotificationMinutes}"
                     hc:TitleElement.TitlePlacement="Left"
                     InputMethod.IsInputMethodEnabled="False"
@@ -106,7 +107,7 @@
 
         </Grid>
 
-        <!--  定时项区数据驱动：模板绑 TimerList 各项，不再逐个手写槽位  -->
+        <!--  定时项区数据驱动：模板绑 TimerList 各项  -->
         <ItemsControl
             Grid.Row="2"
             Width="500"
