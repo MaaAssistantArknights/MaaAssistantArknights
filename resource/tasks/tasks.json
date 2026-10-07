@@ -5044,9 +5044,11 @@
     },
     "DepotSlowlySwipeToTheRight": {
         "baseTask": "SlowlySwipeToTheRight",
+        "postDelay": 500,
         "specificRect": [1150, 340, 20, 20],
         "rectMove": [650, 340, 20, 20],
-        "rectMove_Doc": "半页滑动保留完整材料列重叠，避免遗漏边缘材料；重复识别不能证明扫描结束"
+        "rectMove_Doc": "半页滑动保留完整材料列重叠，避免遗漏边缘材料；重复识别不能证明扫描结束",
+        "specialParams": [600, 1, 0, 0]
     },
     "OperBoxBegin": {
         "algorithm": "JustReturn",

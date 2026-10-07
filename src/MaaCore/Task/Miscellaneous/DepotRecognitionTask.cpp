@@ -5,6 +5,7 @@
 #include <meojson/json.hpp>
 
 #include "Config/GeneralConfig.h"
+#include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
@@ -89,6 +90,7 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
     }
 
     constexpr size_t max_pages = 100;
+    const auto& material_ids = ItemData.get_ordered_material_item_id();
     size_t pre_pos = DepotImageAnalyzer::NPos;
     bool completed = false;
     for (size_t page = 0; page < max_pages && !need_exit(); ++page) {
@@ -111,6 +113,12 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
         }
 
         auto cur_result = analyzer.get_result();
+        // A later page must still contain the previous page's last material; otherwise the swipe skipped items.
+        if (pre_pos != DepotImageAnalyzer::NPos &&
+            (pre_pos == 0 || pre_pos > material_ids.size() || !cur_result.contains(material_ids[pre_pos - 1]))) {
+            LogWarn << "Depot pages did not overlap" << VAR(page) << VAR(pre_pos);
+            break;
+        }
         m_all_items.merge(std::move(cur_result));
         callback_analyze_result(false);
 
