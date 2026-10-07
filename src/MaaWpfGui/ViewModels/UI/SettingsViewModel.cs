@@ -152,6 +152,7 @@ public class SettingsViewModel : Screen
     {
         DisplayName = LocalizationHelper.GetString("Settings");
         RefreshSettingsList();
+        NotifyOfPropertyChange(nameof(GuideNextGateTip));
     }
 
     #region Init
@@ -679,6 +680,7 @@ public class SettingsViewModel : Screen
         get; set {
             ConfigFactory.Root.Gui.GuideStep = value;
             SetAndNotify(ref field, value);
+            NotifyGuideNextStateChanged();
             if (value == GuideMaxStep - 1)
             {
                 StartGuideConfirmDelay();
@@ -697,6 +699,34 @@ public class SettingsViewModel : Screen
     {
         get => _guideConfirmEnabled;
         set => SetAndNotify(ref _guideConfirmEnabled, value);
+    }
+
+    // ｢任务设置｣ 步骤在 StepBar 中的索引，与 GuideUserControl.xaml 步骤区的 Visibility 条件对应
+    private const int GuideTaskSettingsStepIndex = 3;
+
+    private bool _guideDemoTaskAdded;
+
+    /// <summary>
+    /// Gets ｢下一步｣ 按钮可用性，当前步骤存在未满足的前置条件时为 false。
+    /// </summary>
+    public bool GuideNextEnabled => GuideNextGateTip is null;
+
+    /// <summary>
+    /// Gets 当前步骤 ｢下一步｣ 前置条件的本地化提示，已满足或无前置条件时为 null。
+    /// 新增门槛在下面的 switch 注册：条件 + 提示资源 key，UI 与按钮无需改动。
+    /// ｢任务设置｣ 步骤要求先通过 ｢添加新任务｣ 菜单添加过任务：该菜单列出全部任务类型，
+    /// 添加过即视为看过完整列表；列表项的复制不展开该菜单，不计入。
+    /// </summary>
+    public string? GuideNextGateTip => GuideStepIndex switch
+    {
+        GuideTaskSettingsStepIndex when !_guideDemoTaskAdded => LocalizationHelper.GetString("GuideDemoTaskRequiredTip"),
+        _ => null,
+    };
+
+    private void NotifyGuideNextStateChanged()
+    {
+        NotifyOfPropertyChange(nameof(GuideNextEnabled));
+        NotifyOfPropertyChange(nameof(GuideNextGateTip));
     }
 
     // 最后一步停留 5 秒后才允许点完成，避免一路连点跳过说明
@@ -812,7 +842,7 @@ public class SettingsViewModel : Screen
     }
 
     /// <summary>
-    /// 重置指引演示任务列表为初始任务。名称项只存类型资源 key，显示名随语言热切换刷新。
+    /// 重置指引演示任务列表为初始任务，并清空 ｢添加新任务｣ 放行记录。名称项只存类型资源 key，显示名随语言热切换刷新。
     /// </summary>
     public void ResetGuideDemoTasks()
     {
@@ -826,6 +856,9 @@ public class SettingsViewModel : Screen
         {
             GuideDemoTasks.Add(new GuideDemoTaskItem { LocalizationKey = key });
         }
+
+        _guideDemoTaskAdded = false;
+        NotifyGuideNextStateChanged();
     }
 
     // UI 绑定的方法
@@ -841,6 +874,8 @@ public class SettingsViewModel : Screen
         // 任务类型资源 key 与类型名同构（XxxTask → Xxx）
         var key = taskType.Name.EndsWith("Task", StringComparison.Ordinal) ? taskType.Name[..^"Task".Length] : taskType.Name;
         GuideDemoTasks.Add(new GuideDemoTaskItem { LocalizationKey = key });
+        _guideDemoTaskAdded = true;
+        NotifyGuideNextStateChanged();
     }
 
     // UI 绑定的方法

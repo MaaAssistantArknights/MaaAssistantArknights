@@ -131,8 +131,6 @@
     <system:String x:Key="GuideConfirmCountdownSuffix">s</system:String>
     <system:String x:Key="ToolTipGuide">Prompt appears when hovered</system:String>
     <system:String x:Key="TaskGuide">↑ Task</system:String>
-    <system:String x:Key="OftenUsedGuide">↑ Often Used</system:String>
-    <system:String x:Key="SometimesUsedGuide">Sometimes Used ↑</system:String>
     <system:String x:Key="LinkStartGuide">← Start Tasks</system:String>
     <system:String x:Key="HoverActionButtons">Hover to Copy/Rename/Delete</system:String>
     <system:String x:Key="GearContextMenuTip">Right-click gear for more options ↓</system:String>
@@ -419,6 +417,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="TaskCopied">Task copied: {0}</system:String>
     <system:String x:Key="StartGuideDemo">Tasks won't actually run in the demo.</system:String>
     <system:String x:Key="GuideDemoTaskAddLimitTip">The demo list holds up to 5 tasks. Remove some before adding more.</system:String>
+    <system:String x:Key="GuideDemoTaskRequiredTip">Add a task with the ｢{key=AddTaskQueueTask}｣ button before moving to the next step.</system:String>
     <system:String x:Key="TaskCopyFailed">Task copy failed</system:String>
     <system:String x:Key="HotKeyShowGui">[HotKey] Show/collapse MAA</system:String>
     <system:String x:Key="HotKeyLinkStart">[HotKey] Link start/stop</system:String>

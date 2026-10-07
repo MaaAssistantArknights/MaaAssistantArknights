@@ -37,61 +37,77 @@
                 </hc:RelativePanel>
             </GroupBox.Header>
             <DockPanel>
-                <StackPanel
-                    Margin="10"
-                    VerticalAlignment="Center"
-                    DockPanel.Dock="Right">
-                    <Button
-                        MinWidth="100"
-                        hc:IconElement.Geometry="{StaticResource UpGeometry}"
-                        hc:IconElement.Width="18"
-                        Command="{s:Action PrevGuide}"
-                        CommandParameter="{Binding ElementName=GuideStepBar}"
-                        Content="{DynamicResource PrevGuide}"
-                        Style="{StaticResource ButtonDashedPrimary}" />
-                    <hc:StepBar
-                        Name="GuideStepBar"
-                        Margin="10"
-                        d:StepIndex="7"
-                        Dock="Right"
-                        StepIndex="{Binding GuideStepIndex}">
-                        <hc:StepBarItem Content="{DynamicResource UiSettings}" />
-                        <hc:StepBarItem Content="{DynamicResource GameSettings}" />
-                        <hc:StepBarItem Content="{DynamicResource ConnectionSettings}" />
-                        <hc:StepBarItem Content="{DynamicResource TaskSettings}" />
-                        <hc:StepBarItem Content="{DynamicResource PerformanceSettings}" />
-                        <hc:StepBarItem Content="{DynamicResource UpdateSettings}" />
-                        <hc:StepBarItem Content="{DynamicResource UserGuide}" />
-                    </hc:StepBar>
-                    <Button
-                        MinWidth="100"
-                        hc:IconElement.Geometry="{StaticResource DownGeometry}"
-                        hc:IconElement.Width="18"
-                        Command="{s:Action NextGuide}"
-                        CommandParameter="{Binding ElementName=GuideStepBar}"
-                        Content="{DynamicResource NextGuide}"
-                        Style="{StaticResource ButtonDashedPrimary}"
-                        Visibility="{c:Binding 'GuideStepIndex less GuideMaxStep - 1'}" />
-                    <Button
-                        MinWidth="100"
-                        hc:IconElement.Geometry="{StaticResource SuccessGeometry}"
-                        hc:IconElement.Width="18"
-                        Command="{s:Action DoneGuide}"
-                        Content="{DynamicResource DoneGuide}"
-                        IsEnabled="{Binding GuideConfirmEnabled}"
-                        Style="{StaticResource ButtonDashedPrimary}"
-                        Visibility="{c:Binding 'GuideStepIndex >= GuideMaxStep - 1'}" />
-                    <controls:TextBlock
-                        Margin="0,6,0,0"
-                        HorizontalAlignment="Center"
-                        FontSize="12"
-                        Foreground="{DynamicResource ThirdlyTextBrush}"
-                        Visibility="{c:Binding '!GuideConfirmEnabled',
-                                               FalseToVisibility=Hidden}">
-                        <Run Text="{DynamicResource GuideConfirmCountdownPrefix}" /><Run Text="{Binding GuideConfirmCountdown}" /><Run Text="{DynamicResource GuideConfirmCountdownSuffix}" />
-                    </controls:TextBlock>
-                </StackPanel>
-
+                <Grid VerticalAlignment="Stretch" DockPanel.Dock="Right">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel
+                        x:Name="GuideButtonPanel"
+                        Grid.Row="1"
+                        Margin="10,0"
+                        VerticalAlignment="Center">
+                        <Button
+                            MinWidth="100"
+                            HorizontalAlignment="Right"
+                            hc:IconElement.Geometry="{StaticResource UpGeometry}"
+                            hc:IconElement.Width="18"
+                            Command="{s:Action PrevGuide}"
+                            CommandParameter="{Binding ElementName=GuideStepBar}"
+                            Content="{DynamicResource PrevGuide}"
+                            Style="{StaticResource ButtonDashedPrimary}" />
+                        <hc:StepBar
+                            Name="GuideStepBar"
+                            Margin="10,0"
+                            d:StepIndex="7"
+                            Dock="Right"
+                            StepIndex="{Binding GuideStepIndex}">
+                            <hc:StepBarItem Content="{DynamicResource UiSettings}" />
+                            <hc:StepBarItem Content="{DynamicResource GameSettings}" />
+                            <hc:StepBarItem Content="{DynamicResource ConnectionSettings}" />
+                            <hc:StepBarItem Content="{DynamicResource TaskSettings}" />
+                            <hc:StepBarItem Content="{DynamicResource PerformanceSettings}" />
+                            <hc:StepBarItem Content="{DynamicResource UpdateSettings}" />
+                            <hc:StepBarItem Content="{DynamicResource UserGuide}" />
+                        </hc:StepBar>
+                        <Button
+                            MinWidth="100"
+                            HorizontalAlignment="Right"
+                            hc:IconElement.Geometry="{StaticResource DownGeometry}"
+                            hc:IconElement.Width="18"
+                            Command="{s:Action NextGuide}"
+                            CommandParameter="{Binding ElementName=GuideStepBar}"
+                            Content="{DynamicResource NextGuide}"
+                            IsEnabled="{Binding GuideNextEnabled}"
+                            Style="{StaticResource ButtonDashedPrimary}"
+                            Visibility="{c:Binding 'GuideStepIndex less GuideMaxStep - 1'}" />
+                        <Button
+                            MinWidth="100"
+                            hc:IconElement.Geometry="{StaticResource SuccessGeometry}"
+                            hc:IconElement.Width="18"
+                            Command="{s:Action DoneGuide}"
+                            Content="{DynamicResource DoneGuide}"
+                            IsEnabled="{Binding GuideConfirmEnabled}"
+                            Style="{StaticResource ButtonDashedPrimary}"
+                            Visibility="{c:Binding 'GuideStepIndex >= GuideMaxStep - 1'}" />
+                    </StackPanel>
+                    <Grid Grid.Row="2" MaxWidth="{Binding ElementName=GuideButtonPanel, Path=ActualWidth}">
+                        <controls:TextBlock
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            FontSize="12"
+                            Foreground="{DynamicResource ThirdlyTextBrush}"
+                            Visibility="{c:Binding '!GuideConfirmEnabled'}">
+                            <Run Text="{DynamicResource GuideConfirmCountdownPrefix}" /><Run Text="{Binding GuideConfirmCountdown}" /><Run Text="{DynamicResource GuideConfirmCountdownSuffix}" />
+                        </controls:TextBlock>
+                        <controls:TextBlock
+                            Foreground="{DynamicResource ThirdlyTextBrush}"
+                            Text="{Binding GuideNextGateTip}"
+                            TextWrapping="Wrap"
+                            Visibility="{c:Binding '!GuideNextEnabled'}" />
+                    </Grid>
+                </Grid>
                 <ScrollViewer Margin="10,20,10,20" VerticalScrollBarVisibility="Auto">
                     <hc:SimplePanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <hc:TransitioningContentControl
@@ -175,6 +191,7 @@
                             Visibility="{c:Binding 'GuideStepIndex == 3'}">
                             <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
@@ -368,7 +385,7 @@
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
                                         </ItemsControl>
-                                        <Grid Grid.Row="1">
+                                        <Grid Grid.Row="1" Margin="-1,0,-1,-1">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="*" />
@@ -492,8 +509,13 @@
                                         </Grid>
                                     </Grid>
                                 </Border>
-                                <StackPanel
+                                <controls:TextBlock
                                     Grid.Row="2"
+                                    Margin="8,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    FontSize="14"><Run Text="↑ " /><Run Text="{DynamicResource AddTaskQueueTask}" /></controls:TextBlock>
+                                <StackPanel
+                                    Grid.Row="3"
                                     Margin="0,10,0,0"
                                     HorizontalAlignment="Center"
                                     Orientation="Horizontal">
@@ -528,6 +550,7 @@
                                         <controls:TextBlock Text="←" TextWrapping="Wrap" />
                                         <controls:TextBlock
                                             MaxWidth="80"
+                                            Margin="0,-10"
                                             VerticalAlignment="Center"
                                             Text="{DynamicResource ToolTipGuide}"
                                             TextWrapping="Wrap" />
@@ -586,18 +609,6 @@
                                             Content="{DynamicResource AdvancedSettings}"
                                             IsChecked="{c:Binding GuideDemoAdvancedSettings}" />
                                     </hc:ButtonGroup>
-                                    <Grid Width="220" Margin="0,2,0,0">
-                                        <controls:TextBlock
-                                            Margin="8,0,0,0"
-                                            HorizontalAlignment="Left"
-                                            FontSize="14"
-                                            Text="{DynamicResource OftenUsedGuide}" />
-                                        <controls:TextBlock
-                                            Margin="0,0,8,0"
-                                            HorizontalAlignment="Right"
-                                            FontSize="14"
-                                            Text="{DynamicResource SometimesUsedGuide}" />
-                                    </Grid>
                                 </StackPanel>
                             </Grid>
                         </hc:TransitioningContentControl>
@@ -760,7 +771,6 @@
                                             Margin="0,2.5"
                                             HorizontalAlignment="Left"
                                             FontSize="13"
-                                            Foreground="{DynamicResource ThirdlyTextBrush}"
                                             Text="{DynamicResource GuideDocumentationPath}"
                                             TextWrapping="Wrap" />
                                     </StackPanel>
@@ -780,7 +790,6 @@
                                             Margin="0,2.5"
                                             HorizontalAlignment="Left"
                                             FontSize="13"
-                                            Foreground="{DynamicResource ThirdlyTextBrush}"
                                             Text="{DynamicResource GuideViewLog}"
                                             TextWrapping="Wrap" />
 
@@ -789,7 +798,6 @@
                                             Margin="0,2.5"
                                             HorizontalAlignment="Left"
                                             FontSize="13"
-                                            Foreground="{DynamicResource ThirdlyTextBrush}"
                                             Text="{DynamicResource GuideGenerateReport}"
                                             TextWrapping="Wrap" />
                                     </StackPanel>
@@ -807,7 +815,6 @@
                                             Margin="0,2.5"
                                             HorizontalAlignment="Left"
                                             FontSize="13"
-                                            Foreground="{DynamicResource ThirdlyTextBrush}"
                                             Text="{DynamicResource GuideGitHubIssueDescription}"
                                             TextWrapping="Wrap" />
                                     </StackPanel>
@@ -825,7 +832,6 @@
                                             Margin="0,2.5"
                                             HorizontalAlignment="Left"
                                             FontSize="13"
-                                            Foreground="{DynamicResource ThirdlyTextBrush}"
                                             Text="{DynamicResource GuideOpenSourceDescription}"
                                             TextWrapping="Wrap" />
                                     </StackPanel>
@@ -835,7 +841,6 @@
                                     <StackPanel>
                                         <controls:TextBlock
                                             HorizontalAlignment="Center"
-                                            Foreground="{DynamicResource ThirdlyTextBrush}"
                                             Text="{DynamicResource GuideUserAgreement}"
                                             TextWrapping="Wrap" />
                                     </StackPanel>

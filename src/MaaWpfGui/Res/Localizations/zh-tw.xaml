@@ -131,8 +131,6 @@
     <system:String x:Key="GuideConfirmCountdownSuffix" xml:space="preserve"> 秒</system:String>
     <system:String x:Key="ToolTipGuide">滑鼠移至此處會有提示喔</system:String>
     <system:String x:Key="TaskGuide">↑ 任務</system:String>
-    <system:String x:Key="OftenUsedGuide">↑ 常用的</system:String>
-    <system:String x:Key="SometimesUsedGuide">不常用的 ↑</system:String>
     <system:String x:Key="LinkStartGuide">← 開始任務</system:String>
     <system:String x:Key="HoverActionButtons">懸停顯示 複製/重新命名/刪除</system:String>
     <system:String x:Key="GearContextMenuTip">右鍵齒輪顯示更多操作 ↓</system:String>
@@ -419,6 +417,7 @@
     <system:String x:Key="TaskCopied">已複製任務：{0}</system:String>
     <system:String x:Key="StartGuideDemo">示範中不會真的執行任務</system:String>
     <system:String x:Key="GuideDemoTaskAddLimitTip">示範列表最多容納 5 個任務，可先刪除部分後再新增</system:String>
+    <system:String x:Key="GuideDemoTaskRequiredTip">先透過 ｢{key=AddTaskQueueTask}｣ 按鈕新增一個任務，再進入下一步</system:String>
     <system:String x:Key="TaskCopyFailed">任務複製失敗</system:String>
     <system:String x:Key="HotKeyShowGui">[熱鍵] 顯示/收起 MAA</system:String>
     <system:String x:Key="HotKeyLinkStart">[熱鍵] Link start/stop</system:String>

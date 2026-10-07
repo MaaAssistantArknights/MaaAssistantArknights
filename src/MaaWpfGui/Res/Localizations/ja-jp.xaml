@@ -131,8 +131,6 @@
     <system:String x:Key="GuideConfirmCountdownSuffix">秒</system:String>
     <system:String x:Key="ToolTipGuide">マウスを乗せるとヒントあり</system:String>
     <system:String x:Key="TaskGuide">↑ タスク</system:String>
-    <system:String x:Key="OftenUsedGuide">↑ よく使われる</system:String>
-    <system:String x:Key="SometimesUsedGuide">あまり使われていない ↑</system:String>
     <system:String x:Key="LinkStartGuide">← タスクを開始</system:String>
     <system:String x:Key="HoverActionButtons">ホバーでコピー/名前変更/削除</system:String>
     <system:String x:Key="GearContextMenuTip">歯車を右クリックで操作一覧 ↓</system:String>
@@ -419,6 +417,7 @@
     <system:String x:Key="TaskCopied">タスクをコピーしました: {0}</system:String>
     <system:String x:Key="StartGuideDemo">デモでは実際にタスクは実行されません</system:String>
     <system:String x:Key="GuideDemoTaskAddLimitTip">デモリストに追加できるタスクは最大 5 個です。追加する前に一部を削除してください</system:String>
+    <system:String x:Key="GuideDemoTaskRequiredTip">次に進むには、｢{key=AddTaskQueueTask}｣ ボタンでタスクを追加してください</system:String>
     <system:String x:Key="TaskCopyFailed">タスクのコピーに失敗しました</system:String>
     <system:String x:Key="HotKeyShowGui">[ホットキー] MAAの表示/最小化</system:String>
     <system:String x:Key="HotKeyLinkStart">[ホットキー] Link 開始/停止</system:String>
