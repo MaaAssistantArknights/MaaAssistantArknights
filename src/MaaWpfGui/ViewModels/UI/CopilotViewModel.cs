@@ -118,7 +118,7 @@ public partial class CopilotViewModel : Screen
     {
         PropertyDependsOnUtility.InitializePropertyDependencies(this);
         DisplayName = LocalizationHelper.GetString("Copilot");
-        AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
+        AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false, logToFile: false);
         _runningState = RunningState.Instance;
         LocalizationHelper.LanguageChanged += () => {
             DisplayName = LocalizationHelper.GetString("Copilot");
@@ -166,7 +166,8 @@ public partial class CopilotViewModel : Screen
     /// <param name="weight">The font weight.</param>
     /// <param name="showTime">Whether show time.</param>
     /// <param name="notifyActivity">Whether to reset the stalled-output timer.</param>
-    public void AddLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true, bool notifyActivity = true)
+    /// <param name="logToFile">Whether to write the entry to the gui log. Static hint lines (e.g. CopilotTip) pass <see langword="false"/>.</param>
+    public void AddLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true, bool notifyActivity = true, bool logToFile = true)
     {
         // Copilot 自动战斗期间也会启动停滞计时器（Start 通过 BeginRun 进入运行态），
         // 这里的日志同样属于"有输出活动"，需要重置计时器，否则会误报任务卡住。
@@ -176,10 +177,10 @@ public partial class CopilotViewModel : Screen
         }
 
         Instances.NotificationService.PublishLog(NotificationSource.Copilot, content,
-            () => DisplayLog(content, color, weight, showTime), color);
+            () => DisplayLog(content, color, weight, showTime, logToFile), color);
     }
 
-    internal void DisplayLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true)
+    internal void DisplayLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true, bool logToFile = true)
     {
         if (string.IsNullOrEmpty(content))
         {
@@ -187,7 +188,7 @@ public partial class CopilotViewModel : Screen
         }
         Execute.OnUIThread(() => {
             LogItemViewModels.Add(new LogItemViewModel(content, color, weight, "HH':'mm':'ss", showTime: showTime));
-            if (showTime)
+            if (logToFile)
             {
                 switch (color)
                 {
@@ -237,7 +238,7 @@ public partial class CopilotViewModel : Screen
 
             Instances.NotificationService.Clear(NotificationSource.Copilot);
             LogItemViewModels.Clear();
-            AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
+            AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false, logToFile: false);
         });
     }
 
