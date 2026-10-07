@@ -5,6 +5,12 @@ icon: mingcute:android-fill
 
 # Android Physical Devices
 
+::: tip
+If you want to run MAA directly on your Android device without a computer, see [Using the MAA Android App](#using-the-maa-android-app).
+
+The ADB-related content below applies to connecting the desktop version of MAA to a physical Android device.
+:::
+
 ::: warning
 This method involves ADB command-line usage, has lower stability, and still requires computer connection. **Not recommended** for beginners.
 :::
@@ -213,5 +219,44 @@ Wired connections don't need IP addresses or ports - just the device serial numb
 2. Open WADB and start wireless adb.
 3. Put the IP address and port provided by WADB into MAA `Settings` - `Connection` - `Connection Address`, such as `192.168.1.2:5555`.
 4. Link Start!
+
+:::
+
+## Using the MAA Android App
+
+[MaaMeow](https://github.com/Aliothmoon/MAA-Meow) is the Android version of MAA. It runs MAA directly on your Android device without a computer or emulator, and supports running in the background.
+
+::: warning
+MaaMeow is still under development and may be unstable. Please report any issues to [MaaMeow's Issues](https://github.com/Aliothmoon/MAA-Meow/issues).
+:::
+
+### Requirements
+
+- Android 9 or later.
+- Device architecture is `arm64-v8a` or `x86_64`.
+- [Shizuku](https://shizuku.rikka.app/) is running with MaaMeow authorized, or the device is rooted.
+
+### Installation and Usage
+
+::: steps
+
+1. Download and install MaaMeow from [GitHub Releases](https://github.com/Aliothmoon/MAA-Meow/releases/latest). If you are unsure of your device architecture, choose the `universal` apk.
+
+2. Install Shizuku. The MaaMeow package includes Shizuku, or you can download it from the [Shizuku website](https://shizuku.rikka.app/download/).
+   - If your device is rooted, you can skip the Shizuku steps.
+
+3. In Shizuku, pair via `Wireless debugging` and start the service, then authorize MaaMeow in Shizuku.
+   - Some device brands require additional settings. See [Installation and Authorization](https://docs.maameow.com/en/faq/setup/) in the MaaMeow documentation.
+   - Devices below Android 11 cannot use `Wireless debugging` and need to be connected to a computer to start Shizuku via ADB.
+
+4. Open MaaMeow, make sure the service status on the home page is normal, then configure your tasks and start.
+
+:::
+
+::: tip
+
+- Running in background mode is recommended.
+- Set `Notched Screen UI Adaptation` in the game settings to 0, and turn off any settings that change the display or resolution, such as eye comfort mode, power saving mode, game mode, and custom fonts.
+- For more usage instructions and FAQs, see the [MaaMeow documentation](https://docs.maameow.com/en/faq/getting-started/).
 
 :::

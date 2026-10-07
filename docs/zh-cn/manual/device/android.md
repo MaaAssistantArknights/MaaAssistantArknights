@@ -5,6 +5,12 @@ icon: mingcute:android-fill
 
 # Android 实体设备
 
+::: tip
+如果希望直接在 Android 设备上运行 MAA、无需连接电脑，请参阅 [使用 MAA 安卓版](#使用-maa-安卓版)。
+
+下文的 ADB 相关内容适用于使用电脑端 MAA 连接 Android 实体设备的情况。
+:::
+
 ::: warning
 此方法涉及 ADB 命令行，稳定性较低且仍需与电脑连接，**不推荐** 0 基础玩家尝试。
 :::
@@ -213,5 +219,44 @@ icon: mingcute:android-fill
 2. 打开 WADB，启动无线 adb。
 3. 将 WADB 提供的 IP 地址及端口填入 MAA `设置` - `连接设置` - `连接地址` 中，如 `192.168.1.2:5555`。
 4. Link Start!
+
+:::
+
+## 使用 MAA 安卓版
+
+[MaaMeow](https://github.com/Aliothmoon/MAA-Meow) 是 MAA 的安卓版，可直接在 Android 设备上运行 MAA，无需电脑或模拟器，并支持在后台运行。
+
+::: warning
+MaaMeow 仍在开发中，功能可能不稳定。使用中遇到的问题请前往 [MaaMeow 的 Issues](https://github.com/Aliothmoon/MAA-Meow/issues) 反馈。
+:::
+
+### 运行要求
+
+- Android 9 及以上。
+- 设备架构为 `arm64-v8a` 或 `x86_64`。
+- [Shizuku](https://shizuku.rikka.app/) 已运行并为 MaaMeow 授权，或设备已 root。
+
+### 安装与使用
+
+::: steps
+
+1. 前往 [GitHub Releases](https://github.com/Aliothmoon/MAA-Meow/releases/latest) 下载并安装 MaaMeow，不确定设备架构时请选择 `universal` 版本的 apk。
+
+2. 安装 Shizuku。MaaMeow 安装包内附带 Shizuku，也可从 [Shizuku 官网](https://shizuku.rikka.app/download/) 下载。
+   - 设备已 root 时可跳过 Shizuku 相关步骤。
+
+3. 在 Shizuku 中通过 `无线调试` 配对并启动服务，然后在 Shizuku 中为 MaaMeow 授权。
+   - 部分品牌设备需要额外设置，详见 MaaMeow 文档中的 [安装与授权](https://docs.maameow.com/faq/setup/)。
+   - Android 11 以下的设备无法使用 `无线调试`，需要连接电脑，通过 ADB 启动 Shizuku。
+
+4. 打开 MaaMeow，确认首页的服务状态正常后，配置任务并开始运行。
+
+:::
+
+::: tip
+
+- 推荐使用后台模式运行。
+- 请将游戏内设置中的 `异形屏UI适配` 调整为 0，并关闭护眼模式、省电模式、游戏模式、自定义字体等会改变画面或分辨率的设置。
+- 更多使用说明及常见问题请参阅 [MaaMeow 文档](https://docs.maameow.com/faq/getting-started/)。
 
 :::
