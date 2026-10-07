@@ -164,12 +164,13 @@ public static class ScheduledWakeUp
             ? TASK_RUNLEVEL_TYPE.TASK_RUNLEVEL_HIGHEST
             : TASK_RUNLEVEL_TYPE.TASK_RUNLEVEL_LUA;
 
-        // 每个启用的定时项一个每日触发器，Id 对应槽位号以保留排查时的对应关系
+        // 每个启用的定时项一个每日触发器，Id 对应槽位号以保留排查时的对应关系；
+        // null（右键清空的第三态）视为启用，与 TaskQueueViewModel.CheckTimers 的判定一致
         int triggerCount = 0;
         for (int slot = 0; slot < Math.Min(timers.Count, TimerSlotCount); slot++)
         {
             var timer = timers[slot];
-            if (timer?.IsEnabled != true)
+            if (timer.IsEnabled == false)
             {
                 continue;
             }
