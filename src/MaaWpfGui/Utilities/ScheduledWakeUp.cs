@@ -51,6 +51,9 @@ public static class ScheduledWakeUp
 
     private static CancellationTokenSource? _debounceCts;
 
+    // 删任务与注册的序列不可交错，否则并发的 SyncAll 可能留下与开关终态相反的任务
+    private static readonly object _syncLock = new();
+
     /// <summary>
     /// Rebuilds all scheduled wake-up tasks of this instance to match the current settings:
     /// removes every known slot task first, then registers one task per enabled timer when the
@@ -71,22 +74,25 @@ public static class ScheduledWakeUp
 
         try
         {
-            PInvoke.CoCreateInstance(ClsidTaskScheduler, null, CLSCTX.CLSCTX_ALL, out ITaskService taskService).ThrowOnFailure();
-            taskService.Connect(null, null, null, null);
-            ITaskFolder rootFolder = GetRootFolder(taskService);
-            var timers = ConfigFactory.Root.Timers;
-
-            // 一律覆盖式重建：先删本实例任务，再按当前状态决定是否注册
-            DeleteTask(rootFolder);
-
-            if (!timers.ScheduledWakeUp)
+            lock (_syncLock)
             {
-                _logger.Information("Scheduled wake-up is off, task removed");
+                PInvoke.CoCreateInstance(ClsidTaskScheduler, null, CLSCTX.CLSCTX_ALL, out ITaskService taskService).ThrowOnFailure();
+                taskService.Connect(null, null, null, null);
+                ITaskFolder rootFolder = GetRootFolder(taskService);
+                var timers = ConfigFactory.Root.Timers;
+
+                // 一律覆盖式重建：先删本实例任务，再按当前状态决定是否注册
+                DeleteTask(rootFolder);
+
+                if (!timers.ScheduledWakeUp)
+                {
+                    _logger.Information("Scheduled wake-up is off, task removed");
+                    return true;
+                }
+
+                RegisterTask(taskService, rootFolder, timers.List);
                 return true;
             }
-
-            RegisterTask(taskService, rootFolder, timers.List);
-            return true;
         }
         catch (COMException e)
         {
