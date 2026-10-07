@@ -347,6 +347,10 @@ public class RunningState
             else
             {
                 StartTimeoutTimer();
+
+                // 先清掉唤醒拉起持有的保活（非唤醒启动时为 no-op），
+                // 再按运行设置「阻止休眠」决定任务运行期间是否继续阻止睡眠
+                SleepManagement.AllowSleep();
                 SleepManagement.BlockSleep();
             }
 

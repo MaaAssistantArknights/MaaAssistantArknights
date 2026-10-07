@@ -506,6 +506,15 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             _logger.Information("Startup auto-run will be skipped due to {Arg}", SkipStartupAutoRunArg);
         }
 
+        // 定时唤醒拉起：无人值守唤醒默认 2 分钟会被系统的无人值守睡眠超时送回睡眠，
+        // 须保持唤醒到定时任务开始，之后由 RunningState 交还运行设置「阻止休眠」决定
+        _keepAwakeUntilTaskStart = args.Any(arg => string.Equals(arg, KeepAwakeUntilTaskStartArg, StringComparison.OrdinalIgnoreCase));
+        if (_keepAwakeUntilTaskStart)
+        {
+            _logger.Information("Keeping system awake until task starts due to {Arg}", KeepAwakeUntilTaskStartArg);
+            SleepManagement.BlockSleep(allowBlockSleep: true, blockSleepWithScreenOn: false);
+        }
+
         // 尽早解析预览参数：AsstProxy 等构造期即需据此跳过全部 native 调用
         _skipCoreInit = args.Any(arg => string.Equals(arg, SkipCoreInitArg, StringComparison.OrdinalIgnoreCase));
         if (_skipCoreInit)
@@ -1085,6 +1094,12 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     public const string SkipStartupAutoRunArg = "--skip-startup-auto-run";
 
     /// <summary>
+    /// 定时唤醒拉起时由计划任务写入的启动参数：保持系统唤醒到定时任务开始，
+    /// 防止无人值守唤醒被系统的无人值守睡眠超时送回睡眠；任务开始后交还运行设置「阻止休眠」决定。
+    /// </summary>
+    public const string KeepAwakeUntilTaskStartArg = "--keep-awake-until-task-start";
+
+    /// <summary>
     /// UI 预览模式启动参数：跳过 MaaCore 加载与资源读取，仅渲染界面。
     /// 开发者调试用（改 XAML / 文案 / 截图验证），不进用户手册。
     /// </summary>
@@ -1106,6 +1121,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     private static bool _isRestartingWithoutArgs;
     private static ProcessStartInfo _restartStartInfo;
     private static bool _skipStartupAutoRun;
+    private static bool _keepAwakeUntilTaskStart;
 
 #nullable enable
 
@@ -1249,12 +1265,23 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     }
 
     /// <summary>
-    /// 获取需要转发给下一进程的启动参数（当前仅转发 skip-startup-auto-run）。
+    /// 获取需要转发给下一进程的启动参数（当前转发 skip-startup-auto-run 与 keep-awake-until-task-start）。
     /// </summary>
     /// <returns>需要转发的参数数组；无需转发时为空数组。</returns>
     public static string[] GetForwardableRestartArgs()
     {
-        return ShouldSkipStartupAutoRun ? [SkipStartupAutoRunArg] : [];
+        List<string> forwardable = [];
+        if (ShouldSkipStartupAutoRun)
+        {
+            forwardable.Add(SkipStartupAutoRunArg);
+        }
+
+        if (_keepAwakeUntilTaskStart)
+        {
+            forwardable.Add(KeepAwakeUntilTaskStartArg);
+        }
+
+        return [.. forwardable];
     }
 
     /// <summary>

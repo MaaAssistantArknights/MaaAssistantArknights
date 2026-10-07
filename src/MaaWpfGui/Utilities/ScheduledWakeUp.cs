@@ -188,7 +188,9 @@ public static class ScheduledWakeUp
         definition.Actions.Create(TASK_ACTION_TYPE.TASK_ACTION_EXEC, out var action);
         var execAction = (IExecAction)action;
         WithBStr(_fileValue, path => execAction.Path = path);
-        WithBStr(Bootstrapper.SkipStartupAutoRunArg, arguments => execAction.Arguments = arguments);
+
+        // 唤醒拉起须带 keep-awake 参数：无人值守唤醒默认 2 分钟会被系统的无人值守睡眠超时送回睡眠
+        WithBStr($"{Bootstrapper.SkipStartupAutoRunArg} {Bootstrapper.KeepAwakeUntilTaskStartArg}", arguments => execAction.Arguments = arguments);
         WithBStr(Path.GetDirectoryName(_fileValue) ?? string.Empty, directory => execAction.WorkingDirectory = directory);
 
         ITaskSettings settings = definition.Settings;
