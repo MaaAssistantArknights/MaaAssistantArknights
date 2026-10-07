@@ -640,7 +640,7 @@ bool update_items_data(const fs::path& input_dir, const fs::path& output_dir, bo
         }
 
         for (const auto& black : BlackListSuffix) {
-            if (std::equal(black.rbegin(), black.rend(), item_id.rbegin())) {
+            if (item_id.ends_with(black)) {
                 is_blacklist = true;
                 break;
             }
