@@ -710,6 +710,28 @@ Item names must not be empty, and `roles` only accepts the uppercase class names
 An empty buy table means there are no purchase candidates, and an empty sell table means nothing is sold.
 Only 黑流树海 currently selects tables by strategy; other themes keep using `priority`.
 
+### Strategy-based shopping table selection in 黑流树海
+
+The 黑流树海 strategy module supports `shopping_rules`. When a page is dispatched, it selects a pair of buy and sell tables based on the current page intent and facts:
+
+```json5
+"shopping_rules": [
+    {
+        "id": "cultivation_final",                           // Unique within the strategy
+        "description": "Finish after cultivation on floor 3; sell processed items for seeds", // Optional
+        "page_intent": "scrap_shop.cultivate",               // Optional; if omitted, applies to all pages in this strategy
+        "rank": 0,                                           // Optional, defaults to 0; lower values take priority
+        "when": { "fact": "current_floor", "op": "eq", "value": 3 }, // Optional; uses the existing strategy condition syntax
+        "buy_table": "default",                              // Optional, defaults to default
+        "sell_table": "cultivation_final"                    // Optional; if omitted or empty, nothing is sold
+    }
+]
+```
+
+If multiple rules match, the rule with the lowest `rank` is selected; ties are resolved by the lexicographical order of `id`, as with `encounter_rules`. Both tables come from the same rule; fields from different rules are not combined. If no rule matches, the `default` buy table is used and nothing is sold. Tables are selected again for every page dispatch, so the previous page's selection is not carried over.
+
+`when` cannot access candidate route facts. Referenced table names must exist in 黑流树海's `shopping.json`; otherwise, the strategy configuration fails to parse. The shopping plugin uses the selected buy table, while 秘境行商 cultivation uses the selected sell table to filter items for sale.
+
 ## Integrated Strategy Special Mechanisms
 
 ### Sami Integrated Strategy - Foldartals
