@@ -507,12 +507,16 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         }
 
         // 定时唤醒拉起：无人值守唤醒默认 2 分钟会被系统的无人值守睡眠超时送回睡眠，
-        // 须保持唤醒到定时任务开始，之后由 RunningState 交还运行设置「阻止休眠」决定
-        _keepAwakeUntilTaskStart = args.Any(arg => string.Equals(arg, KeepAwakeUntilTaskStartArg, StringComparison.OrdinalIgnoreCase));
-        if (_keepAwakeUntilTaskStart)
+        // 须保持唤醒一段时间撑过该窗口；之后任务运行期间是否阻止睡眠由运行设置决定
+        if (args.Any(arg => string.Equals(arg, KeepAwakeArg, StringComparison.OrdinalIgnoreCase)))
         {
-            _logger.Information("Keeping system awake until task starts due to {Arg}", KeepAwakeUntilTaskStartArg);
-            SleepManagement.BlockSleep(allowBlockSleep: true, blockSleepWithScreenOn: false);
+            var keepAwakeArgs = ParseArgs(args, KeepAwakeArg);
+            _keepAwakeMinutes = keepAwakeArgs.TryGetValue(KeepAwakeArg, out string keepAwakeValue)
+                && int.TryParse(keepAwakeValue, out int parsedMinutes) && parsedMinutes > 0
+                ? parsedMinutes
+                : DefaultKeepAwakeMinutes;
+            _logger.Information("Keeping system awake for {Minutes} minutes due to {Arg}", _keepAwakeMinutes, KeepAwakeArg);
+            SleepManagement.KeepAwakeFor(TimeSpan.FromMinutes(_keepAwakeMinutes));
         }
 
         // 尽早解析预览参数：AsstProxy 等构造期即需据此跳过全部 native 调用
@@ -1094,10 +1098,16 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     public const string SkipStartupAutoRunArg = "--skip-startup-auto-run";
 
     /// <summary>
-    /// 定时唤醒拉起时由计划任务写入的启动参数：保持系统唤醒到定时任务开始，
-    /// 防止无人值守唤醒被系统的无人值守睡眠超时送回睡眠；任务开始后交还运行设置「阻止休眠」决定。
+    /// 定时唤醒拉起时由计划任务写入的启动参数：保持系统唤醒一段时间（值为分钟数，缺省
+    /// <see cref="DefaultKeepAwakeMinutes"/>），防止无人值守唤醒被系统的无人值守睡眠超时送回睡眠；
+    /// 之后是否阻止睡眠由运行设置决定。
     /// </summary>
-    public const string KeepAwakeUntilTaskStartArg = "--keep-awake-until-task-start";
+    public const string KeepAwakeArg = "--keep-awake";
+
+    /// <summary>
+    /// <see cref="KeepAwakeArg"/> 未显式给出时长时的缺省分钟数。
+    /// </summary>
+    public const int DefaultKeepAwakeMinutes = 5;
 
     /// <summary>
     /// UI 预览模式启动参数：跳过 MaaCore 加载与资源读取，仅渲染界面。
@@ -1121,7 +1131,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     private static bool _isRestartingWithoutArgs;
     private static ProcessStartInfo _restartStartInfo;
     private static bool _skipStartupAutoRun;
-    private static bool _keepAwakeUntilTaskStart;
+    private static int _keepAwakeMinutes;
 
 #nullable enable
 
@@ -1265,7 +1275,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     }
 
     /// <summary>
-    /// 获取需要转发给下一进程的启动参数（当前转发 skip-startup-auto-run 与 keep-awake-until-task-start）。
+    /// 获取需要转发给下一进程的启动参数（当前转发 skip-startup-auto-run 与 keep-awake 及其时长）。
     /// </summary>
     /// <returns>需要转发的参数数组；无需转发时为空数组。</returns>
     public static string[] GetForwardableRestartArgs()
@@ -1276,9 +1286,10 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             forwardable.Add(SkipStartupAutoRunArg);
         }
 
-        if (_keepAwakeUntilTaskStart)
+        if (_keepAwakeMinutes > 0)
         {
-            forwardable.Add(KeepAwakeUntilTaskStartArg);
+            forwardable.Add(KeepAwakeArg);
+            forwardable.Add(_keepAwakeMinutes.ToString(System.Globalization.CultureInfo.InvariantCulture));
         }
 
         return [.. forwardable];

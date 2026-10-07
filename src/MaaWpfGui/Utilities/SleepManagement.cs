@@ -15,6 +15,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
@@ -27,8 +28,51 @@ public static class SleepManagement
     [DllImport("kernel32.dll")]
     private static extern ExecutionState SetThreadExecutionState(ExecutionState esFlags);
 
+    // PowerRequest 系列不走 CsWin32：REASON_CONTEXT 的 union 形态生成器无法生成。
+    // PowerCreateRequest 在调用时复制 context 内的字符串，LPWStr 封送的临时内存生命周期即够用
+    [DllImport("kernel32.dll", SetLastError = true)]
+    private static extern nint PowerCreateRequest(ref PowerRequestContextSimple context);
+
+    [DllImport("kernel32.dll")]
+    private static extern bool PowerSetRequest(nint powerRequest, PowerRequestType requestType);
+
+    [DllImport("kernel32.dll")]
+    private static extern bool PowerClearRequest(nint powerRequest, PowerRequestType requestType);
+
+    [DllImport("kernel32.dll")]
+    private static extern bool CloseHandle(nint hObject);
+
+    private enum PowerRequestType
+    {
+        PowerRequestSystemRequired = 1,
+    }
+
+    // POWER_REQUEST_CONTEXT 的 SIMPLE 分支：Version=0 / Flags=1 / UNICODE_STRING，
+    // 嵌套 Sequential 布局由封送器按平台自行对齐
+    [StructLayout(LayoutKind.Sequential)]
+    private struct PowerRequestContextSimple
+    {
+        public uint Version;
+
+        public uint Flags;
+
+        public UnicodeStringSimple SimpleString;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct UnicodeStringSimple
+    {
+        public ushort Length;
+
+        public ushort MaximumLength;
+
+        [MarshalAs(UnmanagedType.LPWStr)]
+        public string Buffer;
+    }
+
     private static readonly ILogger _logger = Log.ForContext("SourceContext", "SleepManagement");
     private static bool _isBlockingSleep = false;
+    private static nint _keepAwakePowerRequest;
 
     [Flags]
     private enum ExecutionState : uint
@@ -65,6 +109,59 @@ public static class SleepManagement
         ExecutionState state = ExecutionState.Continuous | ExecutionState.SystemRequired |
             (keepDisplayOn ? ExecutionState.DisplayRequired : 0);
         SetThreadExecutionState(state);
+    }
+
+    /// <summary>
+    /// 在指定时长内保持系统唤醒，到期自动失效。
+    /// 走 PowerRequest 而非线程执行状态：进程级对象，与 <see cref="BlockSleep"/> 的
+    /// SetThreadExecutionState 通道互不干扰，也不受调用线程影响，进程退出时由系统回收。
+    /// </summary>
+    /// <param name="duration">保持唤醒的时长。</param>
+    public static void KeepAwakeFor(TimeSpan duration)
+    {
+        if (_keepAwakePowerRequest != 0)
+        {
+            return;
+        }
+
+        const string reasonString = "MAA keep awake after scheduled wake-up";
+        var context = new PowerRequestContextSimple
+        {
+            Version = 0,
+            Flags = 1,
+            SimpleString = new UnicodeStringSimple
+            {
+                Length = (ushort)(reasonString.Length * 2),
+                MaximumLength = (ushort)((reasonString.Length + 1) * 2),
+                Buffer = reasonString,
+            },
+        };
+        nint request = PowerCreateRequest(ref context);
+        if (request == 0 || request == -1)
+        {
+            _logger.Warning("PowerCreateRequest failed: {ErrorCode}", Marshal.GetLastWin32Error());
+            return;
+        }
+
+        _keepAwakePowerRequest = request;
+        PowerSetRequest(request, PowerRequestType.PowerRequestSystemRequired);
+        _logger.Information("Keeping system awake for {Duration}", duration);
+
+        _ = Task.Delay(duration).ContinueWith(_ => ClearKeepAwakeRequest(), TaskScheduler.Default);
+    }
+
+    private static void ClearKeepAwakeRequest()
+    {
+        nint request = _keepAwakePowerRequest;
+        _keepAwakePowerRequest = 0;
+        if (request == 0)
+        {
+            return;
+        }
+
+        PowerClearRequest(request, PowerRequestType.PowerRequestSystemRequired);
+        CloseHandle(request);
+        _logger.Information("Keep-awake window expired");
     }
 
     public static void ResetIdle(bool keepDisplayOn = true)
