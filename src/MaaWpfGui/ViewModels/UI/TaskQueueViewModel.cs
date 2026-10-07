@@ -1812,15 +1812,41 @@ public class TaskQueueViewModel : Screen
                 return;
             }
 
-            // 版本号不可解析（本地 dev 的 DEBUG_VERSION）时不写基准——写入会让共享同一配置的
-            // 正式版按 ｢基准解析失败恒不亮｣ 静默失效；跳过写入则 dev 下红点常亮（可测），无碍
-            if (SemVersion.TryParse(VersionUpdateSettingsUserControlModel.UiVersion, SemVersionStyles.Any, out _))
+            var seen = GetTaskMenuSeenVersionToRecord();
+            if (seen is not null)
             {
-                ConfigFactory.Root.Gui.AddTaskMenuSeenVersion = VersionUpdateSettingsUserControlModel.UiVersion;
+                ConfigFactory.Root.Gui.AddTaskMenuSeenVersion = seen;
             }
 
             UpdateTaskTypeBadges();
         }
+    }
+
+    /// <summary>
+    /// Gets 浏览菜单后应记录的基准版本；没有任何登记引入版本时返回 null（无可亮的红点，跳过写入）。
+    /// 正常取当前软件版本；版本号不可解析（本地 dev 的 DEBUG_VERSION）时改取已登记引入版本的最大值，
+    /// 代表 ｢已看过当前全部已登记任务｣ ——dev 下红点正常消失、将来登记新任务时会再亮，同时避免把
+    /// 不可解析的哨兵写进配置，让共享同一配置的正式版按 ｢基准解析失败恒不亮｣ 静默失效。
+    /// </summary>
+    /// <returns>要写入 Root.Gui.AddTaskMenuSeenVersion 的版本号，或 null 表示跳过写入。</returns>
+    private static string? GetTaskMenuSeenVersionToRecord()
+    {
+        var uiVersion = VersionUpdateSettingsUserControlModel.UiVersion;
+        if (SemVersion.TryParse(uiVersion, SemVersionStyles.Any, out _))
+        {
+            return uiVersion;
+        }
+
+        // SemVersion 不实现 IComparable（版本优先级与全序不同，库方有意为之），LINQ Max()
+        // 的运行时检查会抛 ArgumentException 且被绑定引擎吞掉，必须用 ComparePrecedenceTo 聚合
+        var versions = TaskTypeList
+            .Select(item => item.IntroducedVersion)
+            .Where(version => version is not null)
+            .Select(version => SemVersion.Parse(version!, SemVersionStyles.Any))
+            .ToList();
+        return versions.Count > 0
+            ? versions.Aggregate((max, v) => v.ComparePrecedenceTo(max) > 0 ? v : max).ToString()
+            : null;
     }
 
     private bool _hasNewTaskType;
