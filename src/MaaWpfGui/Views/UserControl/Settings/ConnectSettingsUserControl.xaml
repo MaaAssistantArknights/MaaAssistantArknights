@@ -14,6 +14,7 @@
     xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
+    xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
     x:Name="Root"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type settings_vms:ConnectSettingsUserControlModel}}"
@@ -34,9 +35,9 @@
         <StackPanel
             Grid.Row="0"
             HorizontalAlignment="Center"
-            IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
             VerticalAlignment="Center"
             d:Visibility="Visible"
+            IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
             Orientation="Horizontal"
             Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC'}">
             <StackPanel Margin="5" Orientation="Horizontal">
@@ -174,9 +175,7 @@
 
         </StackPanel>
 
-        <StackPanel
-            Grid.Row="2"
-            IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}">
+        <StackPanel Grid.Row="2" IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}">
             <StackPanel>
                 <ContentControl d:Content="{d:DesignInstance Type={x:Type extra:MuMu12Extra}}" Content="{Binding ExtraConfig}">
                     <ContentControl.Resources>
@@ -368,7 +367,8 @@
                     Margin="5"
                     Command="{s:Action DetectMuMuArmConnection}"
                     Content="{DynamicResource MuMuArmDetectAndTest}"
-                    Visibility="{c:Binding 'ConnectConfig == enums:ConnectConfig.MuMuArm'}" />
+                    Visibility="{c:Binding 'ConnectConfig == enums:ConnectConfig.MuMuArm',
+                                           Source={x:Static ui_vms:SettingsViewModel.ConnectSettings}}" />
                 <Button
                     Height="30"
                     Margin="5"
