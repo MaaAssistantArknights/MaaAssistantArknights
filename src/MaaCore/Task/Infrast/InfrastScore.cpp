@@ -1302,29 +1302,39 @@ ScoreResult select_reception(const std::vector<ScoreOper>& opers, const ScoreCon
 }
 
 // 控制中枢选择干员
+// 选择顺序：办公室加速, 特殊组合, 制造加速(153), 贸易加速, 制造加速, 其他设施心情减免
 ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreContext& context)
 {
-    // 按固定优先级选择；同类制造加速、贸易加速、办公室加速、其他设施心情减免顺序，每种效果进驻1人。
     auto eligible = eligible_indices(opers, context);
+    // 若未启用红松骑士团组合，移除相关技能与干员
     if (!context.use_pinus_sylvestris) {
         std::erase_if(eligible, [&](size_t index) {
             return has_any_skill(opers[index], { "bskill_ctrl_psk", "bskill_ctrl_fraction_knight" }) ||
                    is_operator(opers[index], { "char_420_flamtl", "char_4098_vvana" });
         });
     }
+    // 若未启用深海猎人组合，移除相关技能与干员
     if (!context.use_abyssal_hunter) {
         std::erase_if(eligible, [&](size_t index) {
             return has_skill(opers[index], "bskill_ctrl_aegir2") || is_operator(opers[index], { "char_474_glady" });
         });
     }
+
     std::vector<size_t> best;
+
+    // 制造加速、贸易加速、其他设施心情减免、办公室加速干员，均存在"同种效果取最高"词条，每种效果最多入驻一名干员
+    // 以下四个变量用于标记是否已选入对应效果的干员
     bool manu_acc = false;    // 制造加速
     bool trading_acc = false; // 贸易加速
     bool mood_reduce = false; // 其他设施心情减免
     bool office_acc = false;  // 办公室加速
+
+    // 感知信息/人间烟火组合选项开启，且办公室入驻絮雨/桑葚时，激活对应标记
     const bool perception_information = context.use_perception_information && is_selected(context, "char_436_whispr");
     const bool worldly_plight = context.use_worldly_plight && is_selected(context, "char_473_mberry");
+
     constexpr size_t ControlSlotCount = 5;
+
     // context.slots 在缺员复查时是本轮仍需补入的人数；控制中枢的实际槽位始终是 5。
     const size_t selection_limit = std::min(ControlSlotCount, static_cast<size_t>(std::max(0, context.slots)));
 
@@ -1347,11 +1357,44 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
         return true;
     };
 
+    // --- 办公室加速 ---
+    // 感知信息或人间烟火组合需要琴柳补办公室加速。
+    if (best.size() < ControlSlotCount && (perception_information || worldly_plight) &&
+        add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_h_spd"); })) { // 感染力：琴柳
+        office_acc = true;
+    }
+    if (best.size() < ControlSlotCount && !office_acc &&
+        (
+            // 可靠伙伴：八幡海铃；同时影响后续叙拉古干员的效率计算。
+            add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_hire_tmoris"); }) ||
+            // 办公室年度人物：焰狐龙梓兰
+            add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_orchd2"); }))) {
+        office_acc = true;
+    }
+
+    // --- 特殊组合 ---
+    // 红松骑士团组合启用时，入驻焰尾与薇薇安娜
+    if (context.use_pinus_sylvestris && has_room_for(2)) {
+        // 红松的骑士：焰尾
+        add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_psk"); });
+        // 烛骑士微光：薇薇安娜
+        add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_fraction_knight"); });
+    }
+
+    // 絮雨在办公室时，选择高心情的夕提供感知信息。
+    if (best.size() < ControlSlotCount && perception_information) {
+        add_first([](const ScoreOper& oper) {
+            return has_skill(oper, "bskill_ctrl_cost_bd1") && // “不以物喜”：夕
+                   has_skill(oper, "bskill_ctrl_cost_bd2") && // “不以己悲”：夕
+                   oper.mood_ratio > 22.0 / 24.0;             // 心情需大于22
+        });
+    }
+
     // 诗怀雅与斩业星熊的龙门近卫局制造加速必须同时存在，否则整组放弃。
-    // 诗怀雅的 bskill_ctrl_t_spd 与多名干员共用，必须依赖姓名 OCR 得到稳定角色 ID。
-    if (best.size() < 2 && has_room_for(2)) {
+    // 诗怀雅的 bskill_ctrl_t_spd 与多名干员共用，必须依赖姓名 OCR 得到稳定角色 ID
+    if (has_room_for(2)) {
         const auto swire = std::ranges::find_if(eligible, [&](size_t index) {
-            return is_operator(opers[index], { "char_308_swire" });
+            return is_operator(opers[index], { "char_308_swire" }); // 诗怀雅
         });
         const auto guard = std::ranges::find_if(eligible, [&](size_t index) {
             return has_skill(opers[index], "bskill_token_prod_spd3_lungmenguard"); // 共事情谊：斩业星熊
@@ -1364,14 +1407,38 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
         }
     }
 
+    // 桑葚在办公室时，选择高心情的令提供人间烟火。
+    if (best.size() < ControlSlotCount && worldly_plight) {
+        add_first([](const ScoreOper& oper) {
+            return has_skill(oper, "bskill_ctrl_cost_bd1&bd2") && // “山河远阔”：令
+                   oper.mood_ratio > 22.0 / 24.0;                 // 心情需大于22
+        });
+    }
+
+    // 桑葚在办公室时，重岳提供人间烟火并承担全局心情减免。
+    if (best.size() < ControlSlotCount && worldly_plight &&
+        add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_cost_bd3"); })) { // 知我为我：重岳
+        mood_reduce = true;
+    }
+
+    // 深海队只有在选项开启且不会挤掉完整发电/骑士联动时使用，高心情是必要条件。
+    if (best.size() < ControlSlotCount && context.use_abyssal_hunter &&
+        !(is_selected(context, "char_1027_greyy2") && is_selected(context, "char_420_flamtl") &&
+          is_selected(context, "char_4098_vvana"))) {
+        add_first([](const ScoreOper& oper) {
+            return has_skill(oper, "bskill_ctrl_aegir2") && // 集群狩猎·β：歌蕾蒂娅
+                   oper.mood_ratio > 22.0 / 24.0;           // 心情需大于22
+        });
+    }
+
     // 麒麟R夜刀与火龙S黑角组合：前者固定制造加速，后者按技能阶段提供贸易加速。
-    if (best.size() <= 2 && !manu_acc && !trading_acc && has_room_for(2)) {
+    if (!manu_acc && !trading_acc && has_room_for(2)) {
         const auto yato = std::ranges::find_if(eligible, [&](size_t index) {
-            return has_skill(opers[index], "bskill_ctrl_token_p_spd2") && // 以身作则
-                   has_skill(opers[index], "bskill_ctrl_cost_felyne");    // 耐力回复
+            return has_skill(opers[index], "bskill_ctrl_token_p_spd2") && // 以身作则：麒麟R夜刀
+                   has_skill(opers[index], "bskill_ctrl_cost_felyne");    // 耐力回复：麒麟R夜刀
         });
         const auto noir = std::ranges::find_if(eligible, [&](size_t index) {
-            // 秘传交涉术 / 团队合作。
+            // 秘传交涉术 / 团队合作：火龙S黑角
             return has_any_skill(opers[index], { "bskill_ctrl_token_t_spd", "bskill_ctrl_felyne" });
         });
         if (yato != eligible.end() && noir != eligible.end() && *yato != *noir) {
@@ -1382,75 +1449,91 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
         }
     }
 
-    // 合作协议 / 大小姐 / 朝气蓬勃 / 情报主脑：阿米娅、诗怀雅、明椒、阿斯卡纶；
-    // 权变：望。两类技能均只占用一次贸易加速名额。
-    if (best.size() <= 3 && !trading_acc && add_first([](const ScoreOper& oper) {
-            return has_any_skill(oper, { "bskill_ctrl_t_spd", "bskill_ctrl_tra&prod" });
+    // --- 制造加速(153) ---
+    // 在153布局中，制造加速干员优先于贸易加速干员
+    if (context.trading_station_num == 1) {
+        // 制造加速优先选择有笑脸技能的M3
+        if (best.size() < ControlSlotCount && !manu_acc && add_first([](const ScoreOper& oper) {
+                return has_skill(oper, "bskill_ctrl_p_spd") && // 最高权限：Mon3tr
+                       has_skill(oper, "bskill_ctrl_cost");    // 博识生手：Mon3tr
+            })) {
+            manu_acc = true;
+        }
+
+        if (best.size() < ControlSlotCount && !manu_acc &&
+            add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_p_spd"); })) { // 最高权限：凯尔希
+            manu_acc = true;
+        }
+
+        if (best.size() < ControlSlotCount && !manu_acc && context.workbench_num > 1 &&
+            add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_token_p_spd"); })) { // 超频：布丁
+            manu_acc = true;
+        }
+    }
+
+    // --- 贸易加速 ---
+
+    /* 暂时禁用望的控制中枢技能，以防与训练室冲突
+    // 桑葚在办公室时，贸易加速优先选择望
+    if (best.size() < ControlSlotCount && !trading_acc && worldly_plight &&
+        add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_tra&prod"); })) { // 权变：望
+        trading_acc = true;
+    }
+    */
+
+    // 阿斯卡纶额外拥有训练室加速技能，因此贸易加速优先选择阿斯卡纶
+    if (best.size() < ControlSlotCount && !trading_acc && add_first([](const ScoreOper& oper) {
+            return has_skill(oper, "bskill_ctrl_t_spd") &&    // 情报主脑：阿斯卡纶
+                   has_skill(oper, "bskill_ctrl_train_spd1"); // S.W.E.E.P.主管：阿斯卡纶
         })) {
         trading_acc = true;
     }
 
-    if (best.size() <= 4) {
-        add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_psk"); }); // 红松的骑士：焰尾
-        add_first([](const ScoreOper& oper) {
-            return has_skill(oper, "bskill_ctrl_fraction_knight");                           // 烛骑士微光：薇薇安娜
-        });
+    // 诗怀雅与斩业星熊共同入驻有额外加成，因此当有其他贸易加速干员可用时，优先保留诗怀雅的心情
+    if (best.size() < ControlSlotCount && !trading_acc && add_first([](const ScoreOper& oper) {
+            // 合作协议 / 大小姐 / 朝气蓬勃 / 情报主脑：阿米娅、诗怀雅、明椒、阿斯卡纶
+            return has_skill(oper, "bskill_ctrl_t_spd") && !is_operator(oper, { "char_308_swire" });
+        })) { // 诗怀雅与其他干员共用技能图标，因此根据干员ID排除诗怀雅
+        trading_acc = true;
     }
 
-    // 感知信息或人间烟火组合需要琴柳补办公室加速。
-    if (best.size() < ControlSlotCount && (perception_information || worldly_plight) &&
-        add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_h_spd"); })) { // 感染力：琴柳
-        office_acc = true;
+    /* 暂时禁用望的控制中枢技能，以防与训练室冲突
+    // 桑葚不在办公室时，望的优先级低于其他贸易加速干员
+    if (best.size() < ControlSlotCount && !trading_acc &&
+        add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_tra&prod"); })) { // 权变：望
+        trading_acc = true;
     }
-    if (best.size() < ControlSlotCount && !office_acc &&
-        ( // 可靠伙伴：八幡海铃；同时影响后续叙拉古干员的效率计算。
-            add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_hire_tmoris"); }) ||
-            // 办公室年度人物：焰狐龙梓兰
-            add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_orchd2"); }))) {
-        office_acc = true;
+    */
+
+    // 若无其他贸易加速干员可选，则选择诗怀雅提供贸易加速
+    if (best.size() < ControlSlotCount && !trading_acc && add_first([](const ScoreOper& oper) {
+            return has_skill(oper, "bskill_ctrl_t_spd") && is_operator(oper, { "char_308_swire" }); // 大小姐：诗怀雅
+        })) {
+        trading_acc = true;
     }
 
-    // 絮雨在办公室时，选择高心情的夕提供感知信息。
-    if (best.size() < ControlSlotCount && perception_information) {
-        add_first([](const ScoreOper& oper) {
-            // “不以物喜” + “不以己悲”：夕。
-            return has_skill(oper, "bskill_ctrl_cost_bd1") && has_skill(oper, "bskill_ctrl_cost_bd2") &&
-                   oper.mood_ratio > 22.0 / 24.0;
-        });
-    }
-    // 桑葚在办公室时，选择高心情的令提供人间烟火。
-    if (best.size() < ControlSlotCount && worldly_plight) {
-        add_first([](const ScoreOper& oper) {
-            return has_skill(oper, "bskill_ctrl_cost_bd1&bd2") && // “山河远阔”：令
-                   oper.mood_ratio > 22.0 / 24.0;
-        });
-    }
-
-    // 深海队只有在选项开启且不会挤掉完整发电/骑士联动时使用，高心情是必要条件。
-    if (best.size() < ControlSlotCount && context.use_abyssal_hunter &&
-        !(is_selected(context, "char_1027_greyy2") && is_selected(context, "char_420_flamtl") &&
-          is_selected(context, "char_4098_vvana"))) {
-        add_first([](const ScoreOper& oper) {
-            return has_skill(oper, "bskill_ctrl_aegir2") && // 集群狩猎·β：歌蕾蒂娅
-                   oper.mood_ratio > 22.0 / 24.0;
-        });
-    }
-
-    if (best.size() < ControlSlotCount && !manu_acc &&
-        add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_p_spd"); })) {
-        // 最高权限：凯尔希；同类制造加速只选择一次。
+    // --- 制造加速 ---
+    // 制造加速优先选择有笑脸技能的M3
+    if (best.size() < ControlSlotCount && !manu_acc && add_first([](const ScoreOper& oper) {
+            return has_skill(oper, "bskill_ctrl_p_spd") && // 最高权限：Mon3tr
+                   has_skill(oper, "bskill_ctrl_cost");    // 博识生手：Mon3tr
+        })) {
         manu_acc = true;
     }
 
-    // 桑葚在办公室时，重岳提供人间烟火并承担全局心情减免。
-    if (best.size() < ControlSlotCount && worldly_plight &&
-        add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_cost_bd3"); })) { // 知我为我：重岳
-        mood_reduce = true;
+    if (best.size() < ControlSlotCount && !manu_acc &&
+        add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_p_spd"); })) { // 最高权限：凯尔希
+        manu_acc = true;
     }
-    // 人间烟火组合已有重岳后，才继续补夕。
-    if (best.size() < ControlSlotCount &&
-        std::ranges::any_of(best, [&](size_t index) { return is_operator(opers[index], { "char_2024_chyue" }); })) {
-        add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_cost_bd1"); }); // “不以物喜”：夕
+
+    if (best.size() < ControlSlotCount && !manu_acc && context.workbench_num > 1 &&
+        add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_token_p_spd"); })) { // 超频：布丁
+        manu_acc = true;
+    }
+
+    // 感知信息与人间烟火均未启用时，才启用灵知
+    if (best.size() < ControlSlotCount && !perception_information && !worldly_plight) {
+        add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_t_limit&spd"); }); // 精密计算：灵知
     }
 
     // 丰川祥子技能可与制造加速叠加，后续同团成员按固定顺序补入。
@@ -1475,20 +1558,22 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
         }
     }
 
-    if (best.size() < ControlSlotCount && !manu_acc && context.workbench_num > 1 &&
-        add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_token_p_spd"); })) { // 超频：布丁
-        manu_acc = true;
-    }
-    if (best.size() < ControlSlotCount && !perception_information && !worldly_plight) {
-        add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_t_limit&spd"); }); // 精密计算：灵知
+    // 人间烟火组合已有重岳后，才继续补夕。
+    if (best.size() < ControlSlotCount &&
+        std::ranges::any_of(best, [&](size_t index) { return is_operator(opers[index], { "char_2024_chyue" }); })) {
+        add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_cost_bd1"); }); // “不以物喜”：夕
     }
 
+    // --- 其他设施心情减免 ---
     if (best.size() < ControlSlotCount && !mood_reduce) {
-        // 孤光共照：重岳；公事公办：玛恩纳；巴别塔之帜：维什戴尔。
         // 三者都承担全局心情减免，因此只选第一个可用者。
-        if (add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_cost_bd4"); }) ||
-            add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_lonely"); }) ||
-            add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_cost_expand"); })) {
+        if (add_first(
+                [](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_cost_bd4"); }) || // 孤光共照：重岳
+            add_first(
+                [](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_lonely"); }) ||   // 公事公办：玛恩纳
+            add_first([](const ScoreOper& oper) {
+                return has_skill(oper, "bskill_ctrl_cost_expand"); // 巴别塔之帜：维什戴尔
+            })) {
             mood_reduce = true;
         }
     }
