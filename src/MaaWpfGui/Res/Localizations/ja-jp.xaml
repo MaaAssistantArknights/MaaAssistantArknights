@@ -1390,7 +1390,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ParadoxCopilot">{key=ParadoxSimulation}</system:String>
     <system:String x:Key="CopilotLocation">攻略ファイルパス/ミステリーコード</system:String>
     <system:String x:Key="CopilotTaskName">ステージ</system:String>
-    <system:String x:Key="CopilotTaskNameTip">ステージコード, 例えば 1-7</system:String>
+    <system:String x:Key="CopilotTaskNameTip">ステージ, 例えば 1-7</system:String>
     <system:String x:Key="SelectTheFile">ファイル選択</system:String>
     <system:String x:Key="SelectTheFileTip">攻略ファイルはマウスで直接ドラッグして取り込むことがきます(oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">クリップボードを読み取り、作業/作業セットを自動識別</system:String>
