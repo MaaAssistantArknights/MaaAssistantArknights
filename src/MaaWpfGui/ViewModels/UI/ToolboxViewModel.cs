@@ -1646,6 +1646,7 @@ public class ToolboxViewModel : Screen
         }
 
         JsonDataHelper.Set(JsonDataKey.OperBoxData, data);
+        OperBoxAssistHelper.RaiseStateChanged();
     }
 
     private void SortOperBoxLists()
@@ -1884,58 +1885,102 @@ public class ToolboxViewModel : Screen
     }
 
     /// <summary>
-    /// 从一图流 OpenAPI 拉取干员练度数据并按识别结果填充，不依赖模拟器连接。
-    /// 拉取失败只报错不回退 core 本地识别：开关开着是用户显式选择，静默回退会突然要求连接模拟器，无人值守队列下不可预期。
-    /// 拉取成功后才重置旧识别数据，失败时保留；运行状态（Idle）由调用方负责收尾。
+    /// 从一图流 OpenAPI 拉取的结果，供各入口（工具箱拉取、设置页验证、Copilot 同步）统一映射提示。
     /// </summary>
-    /// <returns>是否成功。</returns>
-    public async Task<bool> StartOperBoxFromYituliuApiAsync()
+    public enum YituliuFetchResult
+    {
+        /// <summary>拉取成功且已落盘。</summary>
+        Success,
+
+        /// <summary>一图流 OpenAPI token 为空。</summary>
+        TokenEmpty,
+
+        /// <summary>token 有效但只有写入权限，无法读取。</summary>
+        WriteOnly,
+
+        /// <summary>token 无效或已失效。</summary>
+        Invalid,
+
+        /// <summary>网络请求失败。</summary>
+        NetworkError,
+
+        /// <summary>账号未绑定或未导入练度，接口返回空列表。</summary>
+        NoData,
+    }
+
+    /// <summary>
+    /// 从一图流 OpenAPI 拉取干员练度数据并落盘，不附带任何 UI 反馈，供工具箱拉取、设置页验证、Copilot 同步按钮共用。
+    /// 拉取失败不回退 core 本地识别：开关开着是用户显式选择，静默回退会突然要求连接模拟器，无人值守队列下不可预期。
+    /// 账号未绑定或未导入练度返回 <see cref="YituliuFetchResult.NoData"/> 并保留旧落盘数据，不覆盖。
+    /// </summary>
+    /// <returns>拉取结果与干员数量（仅 Success 时有意义）。</returns>
+    public async Task<(YituliuFetchResult Result, int OperatorCount)> FetchAndSaveYituliuOperBoxAsync()
     {
         var token = SettingsViewModel.ThirdPartyServiceSettings.YituliuOpenApiToken.Trim();
         if (string.IsNullOrEmpty(token))
         {
-            OperBoxInfo = LocalizationHelper.GetString("YituliuTokenEmpty");
-            Instances.TaskQueueViewModel.AddLog(OperBoxInfo, UiLogColor.Error);
-            return false;
+            return (YituliuFetchResult.TokenEmpty, 0);
         }
-
-        OperBoxInfo = LocalizationHelper.GetString("OperBoxFetchingFromYituliu");
 
         try
         {
             var (result, data) = await YituliuApiService.GetOperatorInfoAsync(token);
             if (result != YituliuApiService.TokenValidationResult.Valid || data is null)
             {
-                var reason = result switch {
-                    YituliuApiService.TokenValidationResult.WriteOnly => LocalizationHelper.GetString("YituliuTokenWriteOnly"),
-                    YituliuApiService.TokenValidationResult.Invalid => LocalizationHelper.GetString("YituliuTokenInvalid"),
-                    _ => LocalizationHelper.GetString("YituliuTokenNetworkError"),
-                };
-                OperBoxInfo = LocalizationHelper.GetStringFormat("YituliuFetchFailed", reason);
-                Instances.TaskQueueViewModel.AddLog(OperBoxInfo, UiLogColor.Error);
-                return false;
+                return (ToFetchResult(result), 0);
             }
 
             var details = ConvertYituliuDataToDetails(data);
-            if ((details["own_opers"] as JArray) is not { Count: > 0 })
+            if ((details["own_opers"] as JArray) is not { Count: > 0 } ownOpers)
             {
                 // 账号未绑定或未导入练度时接口返回空列表（本地资源过旧跳过全部干员时同样为空），此时保留本地数据，不落盘覆盖
-                OperBoxInfo = LocalizationHelper.GetString("YituliuNoOperBoxData");
-                Instances.TaskQueueViewModel.AddLog(OperBoxInfo, UiLogColor.Error);
-                return false;
+                return (YituliuFetchResult.NoData, 0);
             }
 
             // 拉取成功后才清空内存中的旧识别数据与同步时间，失败时原样保留
             ResetOperBoxRecognitionState();
-            return OperBoxParse(details, updateSyncTime: true);
+            var parsed = OperBoxParse(details, updateSyncTime: true);
+            return parsed ? (YituliuFetchResult.Success, ownOpers.Count) : (YituliuFetchResult.NetworkError, 0);
         }
         catch (Exception e)
         {
             _logger.Error("Failed to load operator box from yituliu open-api: {Message}", e.Message);
-            OperBoxInfo = LocalizationHelper.GetString("YituliuTokenNetworkError");
-            Instances.TaskQueueViewModel.AddLog(OperBoxInfo, UiLogColor.Error);
-            return false;
+            return (YituliuFetchResult.NetworkError, 0);
         }
+    }
+
+    private static YituliuFetchResult ToFetchResult(YituliuApiService.TokenValidationResult result)
+    {
+        return result switch {
+            YituliuApiService.TokenValidationResult.WriteOnly => YituliuFetchResult.WriteOnly,
+            YituliuApiService.TokenValidationResult.Invalid => YituliuFetchResult.Invalid,
+            _ => YituliuFetchResult.NetworkError,
+        };
+    }
+
+    /// <summary>
+    /// 从一图流 OpenAPI 拉取干员练度数据并按识别结果填充，不依赖模拟器连接。运行状态（Idle）由调用方负责收尾。
+    /// </summary>
+    /// <returns>是否成功。</returns>
+    public async Task<bool> StartOperBoxFromYituliuApiAsync()
+    {
+        OperBoxInfo = LocalizationHelper.GetString("OperBoxFetchingFromYituliu");
+
+        var (result, _) = await FetchAndSaveYituliuOperBoxAsync();
+        if (result == YituliuFetchResult.Success)
+        {
+            return true;
+        }
+
+        OperBoxInfo = result switch {
+            YituliuFetchResult.TokenEmpty => LocalizationHelper.GetString("YituliuTokenEmpty"),
+            YituliuFetchResult.WriteOnly => LocalizationHelper.GetStringFormat("YituliuFetchFailed", LocalizationHelper.GetString("YituliuTokenWriteOnly")),
+            YituliuFetchResult.Invalid => LocalizationHelper.GetStringFormat("YituliuFetchFailed", LocalizationHelper.GetString("YituliuTokenInvalid")),
+            YituliuFetchResult.NoData => LocalizationHelper.GetString("YituliuNoOperBoxData"),
+            _ => LocalizationHelper.GetString("YituliuTokenNetworkError"),
+        };
+        Instances.TaskQueueViewModel.AddLog(OperBoxInfo, UiLogColor.Error);
+        return false;
     }
 
     /// <summary>
