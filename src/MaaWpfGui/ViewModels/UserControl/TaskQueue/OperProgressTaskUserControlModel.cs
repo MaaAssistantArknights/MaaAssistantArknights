@@ -167,11 +167,12 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                 foreach (var item in json)
                 {
                     var plan = ParsePlan(item as JObject);
-                    if (plan.Role == OperatorRole.Unknown && DataHelper.Operators.FirstOrDefault(c => c.Value.Name == plan.Name) is { } character)
+                    var oper = FindOper(plan.Role, plan.Name);
+                    if (plan.Role == OperatorRole.Unknown && oper is { } character)
                     {
-                        plan = plan with { Role = character.Value.Role };
+                        plan = plan with { Role = oper.Role };
                     }
-                    if (plan.Role == OperatorRole.Unknown || string.IsNullOrEmpty(plan.Name))
+                    if (oper is null)
                     {
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ParseFailed") + $"\nunknown oper: {plan.Role}-{plan.Name}", UiLogColor.Error);
                         return;
@@ -187,6 +188,26 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                 return;
             }
         }
+        DataHelper.CharacterInfo? FindOper(OperatorRole role, string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return null;
+            }
+            if (role != OperatorRole.Unknown)
+            {
+                return DataHelper.Operators.Values.FirstOrDefault(oper => oper.Role == role && NameMatch(oper, name));
+            }
+            else
+            {
+                return DataHelper.Operators.Values.FirstOrDefault(oper => NameMatch(oper, name));
+            }
+        }
+        bool NameMatch(DataHelper.CharacterInfo oper, string name) => oper.Name == name ||
+            (!oper.NameEnUnavailable && oper.NameEn == name) ||
+            (!oper.NameTwUnavailable && oper.NameTw == name) ||
+            (!oper.NameJpUnavailable && oper.NameJp == name) ||
+            (!oper.NameKrUnavailable && oper.NameKr == name);
     }
 
     /// <summary>
