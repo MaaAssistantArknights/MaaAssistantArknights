@@ -1074,7 +1074,7 @@ asst::OperProgressProcessTask::ResultDetail
     if (!run_task(material_task)) {
         return ResultDetail::ResourceInsufficient;
     }
-    // TODO: 以后加上自动使用兑换券
+    // TODO: 以后加上识别缺口数量后上报、自动使用兑换券或者去凭证商店补购
     // 快速跳转弹窗内与跳转按钮同 roi 识别到不可用态,说明该材料配方尚未解锁,无法在加工站合成。
     if (run_task(material_task + "JumpProcessingUnable", 2)) {
         LogInfo << __FUNCTION__ << "| formula locked, skip synthesizing" << material_task;
