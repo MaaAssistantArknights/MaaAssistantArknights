@@ -15,10 +15,9 @@
 
 using System;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using MaaWpfGui.Configuration.Factory;
-using MaaWpfGui.Constants;
-using MaaWpfGui.Helper;
 using Serilog;
 
 namespace MaaWpfGui.Utilities;
@@ -28,12 +27,10 @@ public static class SleepManagement
     [DllImport("kernel32.dll")]
     private static extern ExecutionState SetThreadExecutionState(ExecutionState esFlags);
 
-    // PowerRequest 系列不走 CsWin32：REASON_CONTEXT 的 union 形态生成器无法生成。
-    // PowerCreateRequest 在调用时复制 context 内的字符串，LPWStr 封送的临时内存生命周期即够用
     [DllImport("kernel32.dll", SetLastError = true)]
     private static extern nint PowerCreateRequest(ref PowerRequestContextSimple context);
 
-    [DllImport("kernel32.dll")]
+    [DllImport("kernel32.dll", SetLastError = true)]
     private static extern bool PowerSetRequest(nint powerRequest, PowerRequestType requestType);
 
     [DllImport("kernel32.dll")]
@@ -47,8 +44,9 @@ public static class SleepManagement
         PowerRequestSystemRequired = 1,
     }
 
-    // POWER_REQUEST_CONTEXT 的 SIMPLE 分支：Version=0 / Flags=1 / UNICODE_STRING，
-    // 嵌套 Sequential 布局由封送器按平台自行对齐
+    // 用户态 REASON_CONTEXT 的 SIMPLE 分支：SimpleReasonString 就是普通 LPWSTR，
+    // 不是内核态 COUNTED_REASON_CONTEXT 的 UNICODE_STRING——写成 UNICODE_STRING 布局
+    // 会让系统把 Length/MaximumLength 字节当指针读，PowerCreateRequest 立即访问冲突崩溃
     [StructLayout(LayoutKind.Sequential)]
     private struct PowerRequestContextSimple
     {
@@ -56,22 +54,14 @@ public static class SleepManagement
 
         public uint Flags;
 
-        public UnicodeStringSimple SimpleString;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    private struct UnicodeStringSimple
-    {
-        public ushort Length;
-
-        public ushort MaximumLength;
-
         [MarshalAs(UnmanagedType.LPWStr)]
-        public string Buffer;
+        public string SimpleReasonString;
     }
 
     private static readonly ILogger _logger = Log.ForContext("SourceContext", "SleepManagement");
     private static bool _isBlockingSleep = false;
+    private static readonly Lock _keepAwakeLock = new();
+    private static int _keepAwakeGeneration;
     private static nint _keepAwakePowerRequest;
 
     [Flags]
@@ -112,56 +102,68 @@ public static class SleepManagement
     }
 
     /// <summary>
-    /// 在指定时长内保持系统唤醒，到期自动失效。
+    /// 在指定时长内保持系统唤醒，到期自动失效；窗口未结束时再次调用会以新时长重新开窗。
     /// 走 PowerRequest 而非线程执行状态：进程级对象，与 <see cref="BlockSleep"/> 的
     /// SetThreadExecutionState 通道互不干扰，也不受调用线程影响，进程退出时由系统回收。
     /// </summary>
     /// <param name="duration">保持唤醒的时长。</param>
     public static void KeepAwakeFor(TimeSpan duration)
     {
-        if (_keepAwakePowerRequest != 0)
+        lock (_keepAwakeLock)
         {
-            return;
-        }
-
-        const string reasonString = "MAA keep awake after scheduled wake-up";
-        var context = new PowerRequestContextSimple
-        {
-            Version = 0,
-            Flags = 1,
-            SimpleString = new UnicodeStringSimple
+            nint previous = _keepAwakePowerRequest;
+            if (previous != 0)
             {
-                Length = (ushort)(reasonString.Length * 2),
-                MaximumLength = (ushort)((reasonString.Length + 1) * 2),
-                Buffer = reasonString,
-            },
-        };
-        nint request = PowerCreateRequest(ref context);
-        if (request == 0 || request == -1)
-        {
-            _logger.Warning("PowerCreateRequest failed: {ErrorCode}", Marshal.GetLastWin32Error());
-            return;
+                _keepAwakePowerRequest = 0;
+                PowerClearRequest(previous, PowerRequestType.PowerRequestSystemRequired);
+                CloseHandle(previous);
+            }
+
+            int generation = ++_keepAwakeGeneration;
+
+            var context = new PowerRequestContextSimple
+            {
+                Version = 0,
+                Flags = 1,
+                SimpleReasonString = "MAA keep awake after scheduled wake-up",
+            };
+            nint request = PowerCreateRequest(ref context);
+            if (request == 0 || request == -1)
+            {
+                _logger.Warning("PowerCreateRequest failed: {ErrorCode}", Marshal.GetLastWin32Error());
+                return;
+            }
+
+            if (!PowerSetRequest(request, PowerRequestType.PowerRequestSystemRequired))
+            {
+                _logger.Warning("PowerSetRequest failed: {ErrorCode}", Marshal.GetLastWin32Error());
+                PowerClearRequest(request, PowerRequestType.PowerRequestSystemRequired);
+                CloseHandle(request);
+                return;
+            }
+
+            _keepAwakePowerRequest = request;
+            _logger.Information("Keeping system awake for {Duration}", duration);
+
+            _ = Task.Delay(duration).ContinueWith(_ => ClearKeepAwakeRequest(generation), TaskScheduler.Default);
         }
-
-        _keepAwakePowerRequest = request;
-        PowerSetRequest(request, PowerRequestType.PowerRequestSystemRequired);
-        _logger.Information("Keeping system awake for {Duration}", duration);
-
-        _ = Task.Delay(duration).ContinueWith(_ => ClearKeepAwakeRequest(), TaskScheduler.Default);
     }
 
-    private static void ClearKeepAwakeRequest()
+    private static void ClearKeepAwakeRequest(int generation)
     {
-        nint request = _keepAwakePowerRequest;
-        _keepAwakePowerRequest = 0;
-        if (request == 0)
+        lock (_keepAwakeLock)
         {
-            return;
-        }
+            nint request = _keepAwakePowerRequest;
+            if (request == 0 || generation != _keepAwakeGeneration)
+            {
+                return;
+            }
 
-        PowerClearRequest(request, PowerRequestType.PowerRequestSystemRequired);
-        CloseHandle(request);
-        _logger.Information("Keep-awake window expired");
+            _keepAwakePowerRequest = 0;
+            PowerClearRequest(request, PowerRequestType.PowerRequestSystemRequired);
+            CloseHandle(request);
+            _logger.Information("Keep-awake window expired");
+        }
     }
 
     public static void ResetIdle(bool keepDisplayOn = true)
