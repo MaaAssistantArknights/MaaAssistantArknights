@@ -1288,7 +1288,7 @@ ScoreResult select_reception(const std::vector<ScoreOper>& opers, const ScoreCon
 }
 
 // 控制中枢选择干员
-// 选择顺序：办公室加速, 专用加速（跨站组合）, 贸易&制造加速组合, 制造加速(153), 贸易加速, 制造加速, 其他设施心情减免
+// 选择顺序：办公室加速, 特殊组合, 制造加速(153), 贸易加速, 制造加速, 其他设施心情减免
 ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreContext& context)
 {
     auto eligible = eligible_indices(opers, context);
@@ -1358,7 +1358,7 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
         office_acc = true;
     }
 
-    // --- 专用加速（跨站组合）---
+    // --- 特殊组合 ---
     // 红松骑士团组合启用时，入驻焰尾与薇薇安娜
     if (context.use_pinus_sylvestris && has_room_for(2)) {
         // 红松的骑士：焰尾
@@ -1374,6 +1374,23 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
                    has_skill(oper, "bskill_ctrl_cost_bd2") && // “不以己悲”：夕
                    oper.mood_ratio > 22.0 / 24.0;             // 心情需大于22
         });
+    }
+
+    // 诗怀雅与斩业星熊的龙门近卫局制造加速必须同时存在，否则整组放弃。
+    // 诗怀雅的 bskill_ctrl_t_spd 与多名干员共用，必须依赖姓名 OCR 得到稳定角色 ID
+    if (has_room_for(2)) {
+        const auto swire = std::ranges::find_if(eligible, [&](size_t index) {
+            return is_operator(opers[index], { "char_308_swire" }); // 诗怀雅
+        });
+        const auto guard = std::ranges::find_if(eligible, [&](size_t index) {
+            return has_skill(opers[index], "bskill_token_prod_spd3_lungmenguard"); // 共事情谊：斩业星熊
+        });
+        if (swire != eligible.end() && guard != eligible.end() && *swire != *guard) {
+            best.emplace_back(*swire);
+            best.emplace_back(*guard);
+            trading_acc = true;
+            manu_acc = true;
+        }
     }
 
     // 桑葚在办公室时，选择高心情的令提供人间烟火。
@@ -1398,24 +1415,6 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
             return has_skill(oper, "bskill_ctrl_aegir2") && // 集群狩猎·β：歌蕾蒂娅
                    oper.mood_ratio > 22.0 / 24.0;           // 心情需大于22
         });
-    }
-
-    // --- 贸易&制造加速组合 ---
-    // 诗怀雅与斩业星熊的龙门近卫局制造加速必须同时存在，否则整组放弃。
-    // 诗怀雅的 bskill_ctrl_t_spd 与多名干员共用，必须依赖姓名 OCR 得到稳定角色 ID。
-    if (has_room_for(2)) {
-        const auto swire = std::ranges::find_if(eligible, [&](size_t index) {
-            return is_operator(opers[index], { "char_308_swire" }); // 诗怀雅
-        });
-        const auto guard = std::ranges::find_if(eligible, [&](size_t index) {
-            return has_skill(opers[index], "bskill_token_prod_spd3_lungmenguard"); // 共事情谊：斩业星熊
-        });
-        if (swire != eligible.end() && guard != eligible.end() && *swire != *guard) {
-            best.emplace_back(*swire);
-            best.emplace_back(*guard);
-            trading_acc = true;
-            manu_acc = true;
-        }
     }
 
     // 麒麟R夜刀与火龙S黑角组合：前者固定制造加速，后者按技能阶段提供贸易加速。
