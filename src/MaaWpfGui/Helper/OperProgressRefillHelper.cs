@@ -55,38 +55,47 @@ public static class OperProgressRefillHelper
             _ => null,
         };
 
-        // Penguin Statistics has no Taiwan data. Do not silently borrow another server's routes.
+        token.ThrowIfCancellationRequested();
+        var stageManager = Instances.StageManager;
+        var now = DateTimeOffset.UtcNow;
+        var gameTime = now.UtcDateTime.ToYjDateTime();
+        var nextGameDay = now.Add(gameTime.Date.AddDays(1) - gameTime);
+        var routes = BuildResourceRoutes(now, nextGameDay, gameTime.DayOfWeek, stageManager);
+
+        // Fixed resource routes do not need Penguin data. Do not borrow another server's material statistics.
         if (server == null)
         {
             _logger.Information("No refill statistics are available for client {ClientType}", clientType);
-            return [];
+            return routes;
         }
 
         try
         {
-            var materialIds = LoadMaterialIds(clientType, Instances.StageManager);
+            var materialIds = LoadMaterialIds(clientType);
             if (materialIds.Count == 0)
             {
-                return [];
+                return routes;
             }
 
             token.ThrowIfCancellationRequested();
             var stages = await FetchArrayAsync("stages", server, token);
             if (stages == null)
             {
-                return [];
+                return routes;
             }
 
             var matrix = await FetchArrayAsync("result/matrix", server, token);
             if (matrix == null)
             {
-                return [];
+                return routes;
             }
 
-            var now = DateTimeOffset.UtcNow;
-            var gameTime = now.UtcDateTime.ToYjDateTime();
-            var nextGameDay = now.Add(gameTime.Date.AddDays(1) - gameTime);
-            return BuildRoutes(stages, matrix, materialIds, server, now, nextGameDay, gameTime.DayOfWeek, Instances.StageManager);
+            foreach (var (itemId, candidates) in BuildRoutes(stages, matrix, materialIds, server, now, nextGameDay, gameTime.DayOfWeek, stageManager))
+            {
+                routes.TryAdd(itemId, candidates);
+            }
+
+            return routes;
         }
         catch (OperationCanceledException) when (token.IsCancellationRequested)
         {
@@ -95,11 +104,71 @@ public static class OperProgressRefillHelper
         catch (Exception ex)
         {
             _logger.Warning(ex, "Failed to prepare operator material refill routes");
-            return [];
+            return routes;
         }
     }
 
-    private static HashSet<string> LoadMaterialIds(ClientType clientType, StageManager stageManager)
+    private static Dictionary<string, List<AsstOperProgressTask.RefillStage>> BuildResourceRoutes(
+        DateTimeOffset now,
+        DateTimeOffset nextGameDay,
+        DayOfWeek dayOfWeek,
+        StageManager stageManager)
+    {
+        Dictionary<string, List<AsstOperProgressTask.RefillStage>> routes = [];
+        void AddRoute(string itemId, string stage)
+        {
+            if (!stageManager.IsStageInStageList(stage))
+            {
+                return;
+            }
+
+            var stageInfo = stageManager.GetStageInfo(stage);
+            if (!stageInfo.IsStageOpen(dayOfWeek))
+            {
+                return;
+            }
+
+            var deadline = nextGameDay.ToUnixTimeSeconds();
+            if (stageInfo.Activity is { BeingOpen: true } activity)
+            {
+                deadline = Math.Min(deadline, new DateTimeOffset(DateTime.SpecifyKind(activity.UtcExpireTime, DateTimeKind.Utc)).ToUnixTimeSeconds());
+            }
+
+            if (deadline > now.ToUnixTimeSeconds())
+            {
+                routes[itemId] = [new(stage, deadline)];
+            }
+        }
+
+        // These resource rewards need no drop statistics or estimated quantity.
+        AddRoute("4001", "CE-6");
+        AddRoute("4006", "AP-5");
+        AddRoute("2004", "LS-6");
+
+        foreach (var stage in stageManager.GetStageList())
+        {
+            if (stage.Activity is not { IsResourceCollection: true } || stage.DropGroups == null)
+            {
+                continue;
+            }
+
+            for (var group = 0; group < stage.DropGroups.Count; ++group)
+            {
+                // PR-X-1 stores both tiers: group zero belongs to -1 and group one to -2.
+                var code = stage.Value.StartsWith("PR-", StringComparison.Ordinal)
+                    ? stage.Value[..^1] + (group + 1)
+                    : stage.Value;
+                foreach (var itemId in stage.DropGroups[group])
+                {
+                    AddRoute(itemId, code);
+                }
+            }
+        }
+
+        return routes;
+    }
+
+    private static HashSet<string> LoadMaterialIds(ClientType clientType)
     {
         var path = clientType is ClientType.Official or ClientType.Bilibili
             ? Path.Combine(PathsHelper.ResourceDir, "item_index.json")
@@ -124,31 +193,10 @@ public static class OperProgressRefillHelper
             }
         }
 
-        // The existing stage list defines both chip tiers in each PR stage's drop groups.
-        foreach (var stage in stageManager.GetStageList())
-        {
-            foreach (var itemId in stage.DropGroups?.SelectMany(group => group) ?? [])
-            {
-                if (items.ContainsKey(itemId))
-                {
-                    materialIds.Add(itemId);
-                }
-            }
-        }
-
-        // Purchase certificates, LMD and advanced battle records support the existing purchase/level-up flows.
-        foreach (var itemId in new[] { "4006", "4001", "2004" })
-        {
-            if (items.ContainsKey(itemId))
-            {
-                materialIds.Add(itemId);
-            }
-        }
-
         return materialIds;
     }
 
-    internal static Dictionary<string, List<AsstOperProgressTask.RefillStage>> BuildRoutes(
+    private static Dictionary<string, List<AsstOperProgressTask.RefillStage>> BuildRoutes(
         JArray stages,
         JArray matrix,
         HashSet<string> materialIds,
@@ -201,10 +249,7 @@ public static class OperProgressRefillHelper
                 }
 
                 var stageInfo = stageManager.GetStageInfo(code);
-                bool isResourceStage = stage["stageType"]?.Value<string>() == "DAILY" &&
-                    stageInfo.Activity is { IsResourceCollection: true };
-                if (!stageInfo.IsStageOpen(dayOfWeek) ||
-                    (stageInfo.Activity is not { IsResourceCollection: false } && !isResourceStage))
+                if (!stageInfo.IsStageOpen(dayOfWeek) || stageInfo.Activity is not { IsResourceCollection: false })
                 {
                     continue;
                 }
@@ -239,9 +284,7 @@ public static class OperProgressRefillHelper
             if (itemId == null || !materialIds.Contains(itemId) || stageId == null ||
                 !availableStages.TryGetValue(stageId, out var stage) || times is null or < MinimumSamples ||
                 quantity is not > 0 || !IsCurrentInterval(row["start"], row["end"], now) ||
-                (itemId == "2004" && stage.Stage != "LS-6") || (itemId == "4001" && stage.Stage != "CE-6") ||
-                (itemId == "4006" && stage.Stage != "AP-5") ||
-                (itemId is not ("4006" or "2004" or "4001") && !stage.PrimaryDropItems.Contains(itemId)))
+                !stage.PrimaryDropItems.Contains(itemId))
             {
                 continue;
             }
@@ -253,52 +296,6 @@ public static class OperProgressRefillHelper
             }
 
             routes.Add((new(stage.Stage, stage.Deadline), stage.ApCost * times.Value / quantity.Value));
-        }
-
-        // Penguin exposes purchase certificates as recognition-only drops, without matrix statistics.
-        // Preserve the existing stage metadata without inventing a drop quantity or expected sanity cost.
-        foreach (var sourceStage in stages.OfType<JObject>())
-        {
-            var stageId = sourceStage["stageId"]?.Value<string>();
-            if (stageId == null || !availableStages.TryGetValue(stageId, out var stage))
-            {
-                continue;
-            }
-
-            foreach (var itemId in sourceStage["recognitionOnly"]?.Values<string>() ?? [])
-            {
-                if (itemId == null || !materialIds.Contains(itemId) ||
-                    (itemId == "2004" && stage.Stage != "LS-6") || (itemId == "4001" && stage.Stage != "CE-6") ||
-                    (itemId == "4006" && stage.Stage != "AP-5") ||
-                    (itemId is not ("4006" or "2004" or "4001") && !stage.PrimaryDropItems.Contains(itemId)))
-                {
-                    continue;
-                }
-
-                if (!ranked.TryGetValue(itemId, out var routes))
-                {
-                    routes = [];
-                    ranked.Add(itemId, routes);
-                }
-
-                if (routes.All(route => route.Route.Stage != stage.Stage))
-                {
-                    routes.Add((new(stage.Stage, stage.Deadline), double.PositiveInfinity));
-                }
-            }
-        }
-
-        // LMD is a basic stage reward and has no Penguin matrix row. Reuse the same CE-6 resource
-        // stage as inventory maintenance, after the common opening/server/deadline checks above.
-        if (materialIds.Contains("4001") && !ranked.ContainsKey("4001"))
-        {
-            var currencyRoutes = availableStages.Values.Where(stage => stage.Stage == "CE-6")
-                .Select(stage => (new AsstOperProgressTask.RefillStage(stage.Stage, stage.Deadline), double.PositiveInfinity))
-                .ToList();
-            if (currencyRoutes.Count > 0)
-            {
-                ranked.Add("4001", currencyRoutes);
-            }
         }
 
         return ranked.ToDictionary(
