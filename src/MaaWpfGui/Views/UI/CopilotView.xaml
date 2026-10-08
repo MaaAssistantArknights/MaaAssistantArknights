@@ -215,282 +215,308 @@
                                 ToolTip="{Binding Run.StopToolTip}"
                                 Visibility="{c:Binding '!Run.Idle'}" />
                         </Grid>
-                        <StackPanel
+                        <hc:ScrollViewer
                             Grid.Row="1"
+                            MaxWidth="180"
                             HorizontalAlignment="Center"
                             IsEnabled="{Binding Run.Idle}">
-                            <!--  AutoSquad  -->
-                            <StackPanel
-                                Margin="2.5,5"
-                                Orientation="Horizontal"
-                                Visibility="{c:Binding 'CopilotTabIndex == 0 or CopilotTabIndex == 3'}">
-                                <CheckBox
-                                    Height="20"
-                                    Content="{DynamicResource AutoSquad}"
-                                    IsChecked="{Binding Form}" />
-                                <controls:TooltipBlock TooltipText="{DynamicResource AutoSquadTip}" />
-                            </StackPanel>
+                            <StackPanel>
+                                <!--  AutoSquad  -->
+                                <StackPanel
+                                    Margin="0,5"
+                                    Orientation="Horizontal"
+                                    Visibility="{c:Binding 'CopilotTabIndex == 0 or CopilotTabIndex == 3'}">
+                                    <CheckBox
+                                        Height="20"
+                                        Content="{DynamicResource AutoSquad}"
+                                        IsChecked="{Binding Form}" />
+                                    <controls:TooltipBlock TooltipText="{DynamicResource AutoSquadTip}" />
+                                </StackPanel>
 
-                            <!--  UseFormation  -->
-                            <StackPanel
-                                Height="28"
-                                Orientation="Horizontal"
-                                Visibility="{c:Binding '(CopilotTabIndex == 0 or CopilotTabIndex == 3) and Form'}">
+                                <!--  UseFormation  -->
+                                <StackPanel
+                                    Height="28"
+                                    Orientation="Horizontal"
+                                    Visibility="{c:Binding '(CopilotTabIndex == 0 or CopilotTabIndex == 3) and Form'}">
+                                    <CheckBox
+                                        Margin="0,5"
+                                        Content="{DynamicResource UseFormation}"
+                                        IsChecked="{c:Binding UseFormation}" />
+                                    <ComboBox
+                                        DisplayMemberPath="Display"
+                                        ItemsSource="{Binding FormationSelectList}"
+                                        SelectedValue="{Binding FormationIndex}"
+                                        SelectedValuePath="Value"
+                                        Visibility="{c:Binding UseFormation}" />
+                                </StackPanel>
+
+                                <!--  IgnoreRequirements  -->
+                                <StackPanel
+                                    Margin="0,5"
+                                    Orientation="Horizontal"
+                                    Visibility="{c:Binding 'Form and (CopilotTabIndex == 0 or CopilotTabIndex == 3)'}">
+                                    <CheckBox MaxWidth="163" IsChecked="{Binding IgnoreRequirements}">
+                                        <TextBlock Text="{DynamicResource Copilot.IgnoreRequirements}" TextWrapping="Wrap" />
+                                    </CheckBox>
+                                    <controls:TooltipBlock TooltipText="{DynamicResource Copilot.IgnoreRequirements.Tip}" />
+                                </StackPanel>
+
+                                <!--  SupportUnitUsage  -->
+                                <WrapPanel Orientation="Vertical" Visibility="{c:Binding 'Form and (CopilotTabIndex == 0 or CopilotTabIndex == 3)'}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <CheckBox
+                                            Margin="0,5"
+                                            Content="{DynamicResource SupportUnitUsage}"
+                                            IsChecked="{Binding UseSupportUnitUsage}" />
+                                        <controls:TooltipBlock TooltipText="{DynamicResource SupportUnitUsage.Tip}" />
+                                    </StackPanel>
+                                    <hc:ComboBox
+                                        MinWidth="100"
+                                        Margin="24,0,0,0"
+                                        DisplayMemberPath="Display"
+                                        ItemsSource="{Binding SupportUnitUsageList}"
+                                        SelectedValue="{Binding SupportUnitUsage}"
+                                        SelectedValuePath="Value"
+                                        Visibility="{c:Binding UseSupportUnitUsage}" />
+                                </WrapPanel>
+
+                                <!--  AddTrust  -->
+                                <CheckBox
+                                    Margin="0,5"
+                                    Content="{DynamicResource AddTrust}"
+                                    IsChecked="{Binding AddTrust}"
+                                    Visibility="{c:Binding 'Form and (CopilotTabIndex == 0 or CopilotTabIndex == 3)'}" />
+
+                                <!--  AddUserAdditional  -->
+                                <StackPanel Orientation="Horizontal" Visibility="{c:Binding 'Form and (CopilotTabIndex == 0 or CopilotTabIndex == 3)'}">
+                                    <CheckBox
+                                        MaxWidth="138"
+                                        Margin="0,5"
+                                        IsChecked="{Binding AddUserAdditional}">
+                                        <TextBlock Text="{DynamicResource AddUserAdditional}" TextWrapping="Wrap" />
+                                    </CheckBox>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button
+                                            x:Name="UserAdditionalButton"
+                                            Width="15"
+                                            Height="15"
+                                            Margin="5,5,0,5"
+                                            Padding="0"
+                                            hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
+                                            BorderThickness="0"
+                                            Command="{s:Action OpenUserAdditionalPopup}"
+                                            ToolTip="{Binding UserAdditionalPrettyJson}"
+                                            ToolTipService.ShowOnDisabled="True" />
+                                        <controls:TooltipBlock TooltipText="{DynamicResource AddUserAdditionalTip}" />
+                                        <Popup
+                                            IsOpen="{Binding IsUserAdditionalPopupOpen}"
+                                            Placement="Center"
+                                            PlacementTarget="{Binding ElementName=UserAdditionalButton}"
+                                            PopupAnimation="Slide"
+                                            StaysOpen="False"
+                                            VerticalOffset="{Binding UserAdditionalPopupVerticalOffset}">
+                                            <Border
+                                                MaxWidth="600"
+                                                MaxHeight="500"
+                                                Padding="10"
+                                                Background="{DynamicResource RegionBrush}"
+                                                BorderBrush="{DynamicResource BorderBrush}"
+                                                BorderThickness="1"
+                                                CornerRadius="4">
+                                                <StackPanel>
+                                                    <TextBlock Margin="0,0,0,5" Text="{DynamicResource AddUserAdditional}" />
+                                                    <DataGrid
+                                                        x:Name="UserAdditionalDataGrid"
+                                                        Height="{Binding UserAdditionalGridHeight}"
+                                                        MaxHeight="{Binding UserAdditionalGridMaxHeight}"
+                                                        AutoGenerateColumns="False"
+                                                        Background="{DynamicResource RegionBrush}"
+                                                        CanUserAddRows="False"
+                                                        CanUserDeleteRows="False"
+                                                        CanUserResizeColumns="False"
+                                                        CanUserResizeRows="False"
+                                                        HeadersVisibility="Column"
+                                                        ItemsSource="{Binding UserAdditionalItems}"
+                                                        RowHeight="{Binding UserAdditionalRowHeight}"
+                                                        SelectionMode="Single">
+                                                        <DataGrid.RowStyle>
+                                                            <Style TargetType="DataGridRow">
+                                                                <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
+                                                                <Style.Triggers>
+                                                                    <Trigger Property="IsSelected" Value="True">
+                                                                        <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
+                                                                    </Trigger>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter Property="Background" Value="{DynamicResource MouseOverRegionBrushOpacity75}" />
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </DataGrid.RowStyle>
+                                                        <DataGrid.Columns>
+                                                            <DataGridTemplateColumn Width="36">
+                                                                <DataGridTemplateColumn.CellTemplate>
+                                                                    <DataTemplate>
+                                                                        <Image
+                                                                            Width="24"
+                                                                            Height="24"
+                                                                            HorizontalAlignment="Center"
+                                                                            VerticalAlignment="Center"
+                                                                            Source="{Binding Avatar}" />
+                                                                    </DataTemplate>
+                                                                </DataGridTemplateColumn.CellTemplate>
+                                                            </DataGridTemplateColumn>
+                                                            <DataGridTextColumn
+                                                                Width="Auto"
+                                                                Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                                                                Foreground="{DynamicResource PrimaryTextBrush}"
+                                                                Header="{DynamicResource UserAdditional.OperatorName}" />
+                                                            <DataGridTemplateColumn Width="80" Header="{DynamicResource UserAdditional.Skill}">
+                                                                <DataGridTemplateColumn.CellTemplate>
+                                                                    <DataTemplate>
+                                                                        <hc:NumericUpDown
+                                                                            Height="20"
+                                                                            InputMethod.IsInputMethodEnabled="False"
+                                                                            Maximum="3"
+                                                                            Minimum="0"
+                                                                            Value="{Binding Skill, UpdateSourceTrigger=PropertyChanged}" />
+                                                                    </DataTemplate>
+                                                                </DataGridTemplateColumn.CellTemplate>
+                                                            </DataGridTemplateColumn>
+                                                            <DataGridTemplateColumn Width="140" Header="{DynamicResource CopilotModule}">
+                                                                <DataGridTemplateColumn.CellTemplate>
+                                                                    <DataTemplate>
+                                                                        <ComboBox
+                                                                            Height="24"
+                                                                            DisplayMemberPath="Key"
+                                                                            ItemsSource="{Binding DataContext.ModuleMapping, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                                            SelectedValue="{Binding Module, UpdateSourceTrigger=PropertyChanged}"
+                                                                            SelectedValuePath="Value">
+                                                                            <!--  TODO: 后续可改为绑定到单独的 Module 选项列表  -->
+                                                                        </ComboBox>
+                                                                    </DataTemplate>
+                                                                </DataGridTemplateColumn.CellTemplate>
+                                                            </DataGridTemplateColumn>
+                                                            <DataGridTemplateColumn Width="Auto" Header="{DynamicResource UserAdditional.Action}">
+                                                                <DataGridTemplateColumn.CellTemplate>
+                                                                    <DataTemplate>
+                                                                        <Button
+                                                                            Width="20"
+                                                                            Height="20"
+                                                                            MinWidth="20"
+                                                                            Padding="0"
+                                                                            hc:IconElement.Geometry="{StaticResource CloseGeometry}"
+                                                                            BorderThickness="0"
+                                                                            Command="{s:Action RemoveUserAdditionalItem}"
+                                                                            CommandParameter="{Binding}" />
+                                                                    </DataTemplate>
+                                                                </DataGridTemplateColumn.CellTemplate>
+                                                            </DataGridTemplateColumn>
+                                                        </DataGrid.Columns>
+                                                    </DataGrid>
+                                                    <Grid Margin="0,5,0,0">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Button
+                                                            Grid.Column="0"
+                                                            Width="80"
+                                                            Height="25"
+                                                            Padding="0"
+                                                            HorizontalAlignment="Left"
+                                                            Command="{s:Action AddUserAdditionalItem}"
+                                                            Content="{DynamicResource UserAdditional.Add}" />
+                                                        <Button
+                                                            Grid.Column="1"
+                                                            Width="60"
+                                                            Height="25"
+                                                            Padding="0"
+                                                            Command="{s:Action SaveUserAdditional}"
+                                                            Content="{DynamicResource Ok}" />
+                                                        <Button
+                                                            Grid.Column="2"
+                                                            Width="60"
+                                                            Height="25"
+                                                            Margin="5,0,0,0"
+                                                            Padding="0"
+                                                            Command="{s:Action CancelUserAdditionalEdit}"
+                                                            Content="{DynamicResource Cancel}" />
+                                                    </Grid>
+                                                </StackPanel>
+                                            </Border>
+                                        </Popup>
+                                    </StackPanel>
+
+                                </StackPanel>
+
+                                <!--  UseOperBoxAssist  -->
+                                <StackPanel Visibility="{c:Binding 'Form and (CopilotTabIndex == 0 or CopilotTabIndex == 3)'}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <CheckBox
+                                            x:Name="EnableOperBoxAssistCheckBox"
+                                            MaxWidth="163"
+                                            Margin="0,5"
+                                            IsChecked="{Binding EnableOperBoxAssist}"
+                                            IsEnabled="{Binding CanUseOperBoxAssist}">
+                                            <controls:TextBlock Text="{DynamicResource Copilot.UseOperBoxAssist}" TextWrapping="Wrap" />
+                                        </CheckBox>
+                                        <controls:TooltipBlock TooltipText="{DynamicResource Copilot.UseOperBoxAssist.Tip}" />
+                                    </StackPanel>
+                                    <Grid MaxWidth="{Binding ActualWidth, ElementName=EnableOperBoxAssistCheckBox}" Visibility="{c:Binding EnableOperBoxAssist}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            Grid.Column="0"
+                                            Foreground="Gray"
+                                            TextWrapping="Wrap">
+                                            <Run Text="{DynamicResource LastSyncTime}" />
+                                            <Run Text=": " />
+                                            <Run Text="{Binding OperBoxLastSyncTimeText, Mode=OneWay}" />
+                                        </TextBlock>
+                                        <Button
+                                            Grid.Column="1"
+                                            Padding="10,2"
+                                            Command="{s:Action SyncOperBoxFromYituliu}"
+                                            Content="{DynamicResource Copilot.SyncOperBoxData}"
+                                            IsEnabled="{c:Binding '!SyncingOperBox'}" />
+                                    </Grid>
+                                </StackPanel>
+
+                                <!--  UseCopilotList  -->
+                                <StackPanel
+                                    Margin="2.5,5"
+                                    IsEnabled="{c:Binding 'CopilotTabIndex == 0 or CopilotTabIndex == 2'}"
+                                    Orientation="Horizontal">
+                                    <CheckBox Content="{DynamicResource UseCopilotList}" IsChecked="{Binding UseCopilotList}" />
+                                    <controls:TooltipBlock TooltipText="{DynamicResource UseCopilotListTip}" />
+                                </StackPanel>
+
+                                <!--  UseSanityPotion  -->
                                 <CheckBox
                                     Margin="2.5,5"
-                                    Content="{DynamicResource UseFormation}"
-                                    IsChecked="{c:Binding UseFormation}" />
-                                <ComboBox
-                                    DisplayMemberPath="Display"
-                                    ItemsSource="{Binding FormationSelectList}"
-                                    SelectedValue="{Binding FormationIndex}"
-                                    SelectedValuePath="Value"
-                                    Visibility="{c:Binding UseFormation}" />
-                            </StackPanel>
+                                    Content="{DynamicResource UseSanityPotion}"
+                                    IsChecked="{Binding UseSanityPotion}"
+                                    Visibility="{c:Binding 'UseCopilotList and CopilotTabIndex == 0'}" />
 
-                            <!--  IgnoreRequirements  -->
-                            <StackPanel
-                                Margin="2.5,5"
-                                Orientation="Horizontal"
-                                Visibility="{c:Binding 'Form and (CopilotTabIndex == 0 or CopilotTabIndex == 3)'}">
-                                <CheckBox Content="{DynamicResource Copilot.IgnoreRequirements}" IsChecked="{Binding IgnoreRequirements}" />
-                                <controls:TooltipBlock TooltipText="{DynamicResource Copilot.IgnoreRequirements.Tip}" />
-                            </StackPanel>
-
-                            <!--  SupportUnitUsage  -->
-                            <WrapPanel Orientation="Vertical" Visibility="{c:Binding 'Form and (CopilotTabIndex == 0 or CopilotTabIndex == 3)'}">
-                                <StackPanel Orientation="Horizontal">
+                                <!--  Loop / LoopTimes  -->
+                                <StackPanel Orientation="Horizontal" Visibility="{c:Binding '!UseCopilotList and CopilotTabIndex != 0 and CopilotTabIndex != 2'}">
                                     <CheckBox
                                         Margin="2.5,5"
-                                        Content="{DynamicResource SupportUnitUsage}"
-                                        IsChecked="{Binding UseSupportUnitUsage}" />
-                                    <controls:TooltipBlock TooltipText="{DynamicResource SupportUnitUsage.Tip}" />
+                                        Content="{DynamicResource LoopTimes}"
+                                        IsChecked="{Binding Loop}" />
+                                    <hc:NumericUpDown
+                                        Height="20"
+                                        InputMethod.IsInputMethodEnabled="False"
+                                        Maximum="9999"
+                                        Minimum="0"
+                                        Value="{Binding LoopTimes}" />
                                 </StackPanel>
-                                <hc:ComboBox
-                                    MinWidth="100"
-                                    Margin="24,0,0,0"
-                                    DisplayMemberPath="Display"
-                                    ItemsSource="{Binding SupportUnitUsageList}"
-                                    SelectedValue="{Binding SupportUnitUsage}"
-                                    SelectedValuePath="Value"
-                                    Visibility="{c:Binding UseSupportUnitUsage}" />
-                            </WrapPanel>
-
-                            <!--  AddTrust  -->
-                            <CheckBox
-                                Margin="2.5,5"
-                                Content="{DynamicResource AddTrust}"
-                                IsChecked="{Binding AddTrust}"
-                                Visibility="{c:Binding 'Form and (CopilotTabIndex == 0 or CopilotTabIndex == 3)'}" />
-
-                            <!--  AddUserAdditional  -->
-                            <WrapPanel Orientation="Horizontal" Visibility="{c:Binding 'Form and (CopilotTabIndex == 0 or CopilotTabIndex == 3)'}">
-                                <CheckBox
-                                    Margin="2.5,5"
-                                    Content="{DynamicResource AddUserAdditional}"
-                                    IsChecked="{Binding AddUserAdditional}" />
-                                <StackPanel Orientation="Horizontal">
-                                    <Button
-                                        x:Name="UserAdditionalButton"
-                                        Width="15"
-                                        Height="15"
-                                        MinWidth="20"
-                                        Margin="2.5,5,0,5"
-                                        Padding="0"
-                                        hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
-                                        BorderThickness="0"
-                                        Command="{s:Action OpenUserAdditionalPopup}"
-                                        ToolTip="{Binding UserAdditionalPrettyJson}"
-                                        ToolTipService.ShowOnDisabled="True" />
-                                    <controls:TooltipBlock TooltipText="{DynamicResource AddUserAdditionalTip}" />
-                                    <Popup
-                                        IsOpen="{Binding IsUserAdditionalPopupOpen}"
-                                        Placement="Center"
-                                        PlacementTarget="{Binding ElementName=UserAdditionalButton}"
-                                        PopupAnimation="Slide"
-                                        StaysOpen="False"
-                                        VerticalOffset="{Binding UserAdditionalPopupVerticalOffset}">
-                                        <Border
-                                            MaxWidth="600"
-                                            MaxHeight="500"
-                                            Padding="10"
-                                            Background="{DynamicResource RegionBrush}"
-                                            BorderBrush="{DynamicResource BorderBrush}"
-                                            BorderThickness="1"
-                                            CornerRadius="4">
-                                            <StackPanel>
-                                                <TextBlock Margin="0,0,0,5" Text="{DynamicResource AddUserAdditional}" />
-                                                <DataGrid
-                                                    x:Name="UserAdditionalDataGrid"
-                                                    Height="{Binding UserAdditionalGridHeight}"
-                                                    MaxHeight="{Binding UserAdditionalGridMaxHeight}"
-                                                    AutoGenerateColumns="False"
-                                                    Background="{DynamicResource RegionBrush}"
-                                                    CanUserAddRows="False"
-                                                    CanUserDeleteRows="False"
-                                                    CanUserResizeColumns="False"
-                                                    CanUserResizeRows="False"
-                                                    HeadersVisibility="Column"
-                                                    ItemsSource="{Binding UserAdditionalItems}"
-                                                    RowHeight="{Binding UserAdditionalRowHeight}"
-                                                    SelectionMode="Single">
-                                                    <DataGrid.RowStyle>
-                                                        <Style TargetType="DataGridRow">
-                                                            <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
-                                                            <Style.Triggers>
-                                                                <Trigger Property="IsSelected" Value="True">
-                                                                    <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
-                                                                </Trigger>
-                                                                <Trigger Property="IsMouseOver" Value="True">
-                                                                    <Setter Property="Background" Value="{DynamicResource MouseOverRegionBrushOpacity75}" />
-                                                                </Trigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </DataGrid.RowStyle>
-                                                    <DataGrid.Columns>
-                                                        <DataGridTemplateColumn Width="36">
-                                                            <DataGridTemplateColumn.CellTemplate>
-                                                                <DataTemplate>
-                                                                    <Image
-                                                                        Width="24"
-                                                                        Height="24"
-                                                                        HorizontalAlignment="Center"
-                                                                        VerticalAlignment="Center"
-                                                                        Source="{Binding Avatar}" />
-                                                                </DataTemplate>
-                                                            </DataGridTemplateColumn.CellTemplate>
-                                                        </DataGridTemplateColumn>
-                                                        <DataGridTextColumn
-                                                            Width="Auto"
-                                                            Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
-                                                            Foreground="{DynamicResource PrimaryTextBrush}"
-                                                            Header="{DynamicResource UserAdditional.OperatorName}" />
-                                                        <DataGridTemplateColumn Width="80" Header="{DynamicResource UserAdditional.Skill}">
-                                                            <DataGridTemplateColumn.CellTemplate>
-                                                                <DataTemplate>
-                                                                    <hc:NumericUpDown
-                                                                        Height="20"
-                                                                        InputMethod.IsInputMethodEnabled="False"
-                                                                        Maximum="3"
-                                                                        Minimum="0"
-                                                                        Value="{Binding Skill, UpdateSourceTrigger=PropertyChanged}" />
-                                                                </DataTemplate>
-                                                            </DataGridTemplateColumn.CellTemplate>
-                                                        </DataGridTemplateColumn>
-                                                        <DataGridTemplateColumn Width="140" Header="{DynamicResource CopilotModule}">
-                                                            <DataGridTemplateColumn.CellTemplate>
-                                                                <DataTemplate>
-                                                                    <ComboBox
-                                                                        Height="24"
-                                                                        DisplayMemberPath="Key"
-                                                                        ItemsSource="{Binding DataContext.ModuleMapping, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                                                        SelectedValue="{Binding Module, UpdateSourceTrigger=PropertyChanged}"
-                                                                        SelectedValuePath="Value">
-                                                                        <!--  TODO: 后续可改为绑定到单独的 Module 选项列表  -->
-                                                                    </ComboBox>
-                                                                </DataTemplate>
-                                                            </DataGridTemplateColumn.CellTemplate>
-                                                        </DataGridTemplateColumn>
-                                                        <DataGridTemplateColumn Width="Auto" Header="{DynamicResource UserAdditional.Action}">
-                                                            <DataGridTemplateColumn.CellTemplate>
-                                                                <DataTemplate>
-                                                                    <Button
-                                                                        Width="20"
-                                                                        Height="20"
-                                                                        MinWidth="20"
-                                                                        Padding="0"
-                                                                        hc:IconElement.Geometry="{StaticResource CloseGeometry}"
-                                                                        BorderThickness="0"
-                                                                        Command="{s:Action RemoveUserAdditionalItem}"
-                                                                        CommandParameter="{Binding}" />
-                                                                </DataTemplate>
-                                                            </DataGridTemplateColumn.CellTemplate>
-                                                        </DataGridTemplateColumn>
-                                                    </DataGrid.Columns>
-                                                </DataGrid>
-                                                <Grid Margin="0,5,0,0">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition />
-                                                        <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="Auto" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <Button
-                                                        Grid.Column="0"
-                                                        Width="80"
-                                                        Height="25"
-                                                        Padding="0"
-                                                        HorizontalAlignment="Left"
-                                                        Command="{s:Action AddUserAdditionalItem}"
-                                                        Content="{DynamicResource UserAdditional.Add}" />
-                                                    <Button
-                                                        Grid.Column="1"
-                                                        Width="60"
-                                                        Height="25"
-                                                        Padding="0"
-                                                        Command="{s:Action SaveUserAdditional}"
-                                                        Content="{DynamicResource Ok}" />
-                                                    <Button
-                                                        Grid.Column="2"
-                                                        Width="60"
-                                                        Height="25"
-                                                        Margin="5,0,0,0"
-                                                        Padding="0"
-                                                        Command="{s:Action CancelUserAdditionalEdit}"
-                                                        Content="{DynamicResource Cancel}" />
-                                                </Grid>
-                                            </StackPanel>
-                                        </Border>
-                                    </Popup>
-                                </StackPanel>
-
-                            </WrapPanel>
-
-                            <!--  UseOperBoxAssist  -->
-                            <WrapPanel Orientation="Vertical" Visibility="{c:Binding 'Form and (CopilotTabIndex == 0 or CopilotTabIndex == 3)'}">
-                                <CheckBox
-                                    Margin="2.5,5"
-                                    Content="{DynamicResource Copilot.UseOperBoxAssist}"
-                                    IsChecked="{Binding EnableOperBoxAssist}" />
-                                <TextBlock
-                                    Margin="0,2,0,0"
-                                    Foreground="Gray"
-                                    Visibility="{c:Binding EnableOperBoxAssist}">
-                                    <Run Text="{DynamicResource LastSyncTime}" />
-                                    <Run Text=": " />
-                                    <Run Text="{Binding OperBoxLastSyncTimeText, Mode=OneWay}" />
-                                </TextBlock>
-                            </WrapPanel>
-
-                            <!--  UseCopilotList  -->
-                            <StackPanel
-                                Margin="2.5,5"
-                                IsEnabled="{c:Binding 'CopilotTabIndex == 0 or CopilotTabIndex == 2'}"
-                                Orientation="Horizontal">
-                                <CheckBox Content="{DynamicResource UseCopilotList}" IsChecked="{Binding UseCopilotList}" />
-                                <controls:TooltipBlock TooltipText="{DynamicResource UseCopilotListTip}" />
                             </StackPanel>
+                        </hc:ScrollViewer>
 
-                            <!--  UseSanityPotion  -->
-                            <CheckBox
-                                Margin="2.5,5"
-                                Content="{DynamicResource UseSanityPotion}"
-                                IsChecked="{Binding UseSanityPotion}"
-                                Visibility="{c:Binding 'UseCopilotList and CopilotTabIndex == 0'}" />
-
-                            <!--  Loop / LoopTimes  -->
-                            <StackPanel Orientation="Horizontal" Visibility="{c:Binding '!UseCopilotList and CopilotTabIndex != 0 and CopilotTabIndex != 2'}">
-                                <CheckBox
-                                    Margin="2.5,5"
-                                    Content="{DynamicResource LoopTimes}"
-                                    IsChecked="{Binding Loop}" />
-                                <hc:NumericUpDown
-                                    Height="20"
-                                    InputMethod.IsInputMethodEnabled="False"
-                                    Maximum="9999"
-                                    Minimum="0"
-                                    Value="{Binding LoopTimes}" />
-                            </StackPanel>
-                        </StackPanel>
                     </Grid>
 
                     <Grid

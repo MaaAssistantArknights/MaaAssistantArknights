@@ -29,6 +29,7 @@ using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
@@ -84,7 +85,6 @@ public partial class CopilotViewModel : Screen
     // VideoRecognition 已不支持：仅保留 json 作业
     private static readonly string[] _supportExt = [".json"];
     private static readonly string _copilotJsonDir = Path.Combine(ConfigDir, "copilot");
-    private static readonly string _operBoxDataJsonPath = Path.Combine(DataDir, $"{JsonDataKey.OperBoxData}.json");
     private const string StageNameRegex = @"(?:[a-z]{0,3})(?:\d{0,2})-(?:(?:A|B|C|D|EX|S|TR|MO)-?)?(?:\d{1,2})";
     private const string InvalidStageNameChars = @"[:',\.\(\)\|\[\]\?，。【】｛｝；：]"; // 无效字符
 
@@ -153,12 +153,17 @@ public partial class CopilotViewModel : Screen
                 SaveCopilotTask();
             }
         };
+
+        // 干员识别数据落盘内容变化（本地识别覆盖、一图流拉取、重置）时重新判定可用性，
+        // 数据失效则收回勾选；事件触发点均在 UI 线程（Core 回调整体在 OnUIThread 内）
+        OperBoxAssistHelper.StateChanged += RefreshOperBoxAssistState;
+        RefreshOperBoxAssistState();
     }
 
     protected override void OnActivate()
     {
         base.OnActivate();
-        NotifyOfPropertyChange(nameof(OperBoxLastSyncTimeText));
+        RefreshOperBoxAssistState();
     }
 
     #region UI绑定及操作
@@ -484,47 +489,73 @@ public partial class CopilotViewModel : Screen
         set => SettingsViewModel.ThirdPartyServiceSettings.EnableOperBoxAssist = value;
     }
 
-    [PropertyDependsOn(nameof(EnableOperBoxAssist))]
-    public string OperBoxLastSyncTimeText
+    /// <summary>
+    /// Gets a value indicating whether 落盘干员识别数据满足辅助编队条件（yituliu 源且含技能信息），
+    /// 由 <see cref="RefreshOperBoxAssistState"/> 在落盘变更事件与页面激活时刷新。
+    /// </summary>
+    public bool OperBoxAssistDataUsable { get => field; private set => SetAndNotify(ref field, value); }
+
+    /// <summary>
+    /// Gets 上次同步时间文案（MM/dd HH:mm:ss），无数据时为空串；整行显隐由 XAML 绑定 EnableOperBoxAssist 控制。
+    /// </summary>
+    public string OperBoxLastSyncTimeText { get => field; private set => SetAndNotify(ref field, value); } = string.Empty;
+
+    /// <summary>
+    /// Gets a value indicating whether 辅助编队可用：一图流干员数据接口已启用且落盘数据可用。
+    /// 不可用时两处复选框禁用，勾选由 <see cref="RefreshOperBoxAssistState"/> 强制收回。
+    /// </summary>
+    [PropertyDependsOn(typeof(ThirdPartyServiceSettingsUserControlModel), nameof(ThirdPartyServiceSettingsUserControlModel.EnableOperBoxYituliuApi))]
+    [PropertyDependsOn(nameof(OperBoxAssistDataUsable))]
+    public bool CanUseOperBoxAssist => SettingsViewModel.ThirdPartyServiceSettings.EnableOperBoxYituliuApi && OperBoxAssistDataUsable;
+
+    /// <summary>
+    /// 重新读取落盘数据刷新可用性与同步时间；数据不可用时收回勾选，避免配置停留在不可用状态。
+    /// 只在落盘完成事件、页面激活等明确事件点调用，不做文件监听。
+    /// </summary>
+    private void RefreshOperBoxAssistState()
     {
-        get {
-            if (!EnableOperBoxAssist)
-            {
-                return string.Empty;
-            }
-            try {
-                if (!string.IsNullOrEmpty(_operBoxDataJsonPath) && File.Exists(_operBoxDataJsonPath)) {
-                    var json = JObject.Parse(File.ReadAllText(_operBoxDataJsonPath));
-                    var syncTime = json["syncTime"]?.Value<string>();
-                    if (!string.IsNullOrEmpty(syncTime) && DateTimeOffset.TryParse(syncTime, out var dto)) {
-                        return Extensions.DateTimeExtension.ToLocalTimeString(dto);
-                    }
-                    return syncTime ?? string.Empty;
-                }
-            }
-            catch (Exception ex) {
-                _logger.Warning(ex, "Failed to read OperBox syncTime from {Path}", _operBoxDataJsonPath);
-            }
-            return string.Empty;
+        var (usable, syncTime) = OperBoxAssistHelper.CheckData();
+        OperBoxAssistDataUsable = usable;
+        OperBoxLastSyncTimeText = syncTime?.ToLocalTimeString("MM/dd HH:mm:ss") ?? string.Empty;
+        if (!CanUseOperBoxAssist && EnableOperBoxAssist)
+        {
+            EnableOperBoxAssist = false;
         }
     }
 
-    private bool IsOperBoxDataFromYituliu()
+    /// <summary>
+    /// Gets or sets a value indicating whether 一图流数据同步进行中，用于禁用同步按钮防重复触发。
+    /// </summary>
+    public bool SyncingOperBox { get => field; set => SetAndNotify(ref field, value); }
+
+    /// <summary>
+    /// 从一图流拉取干员练度数据并落盘，结果反馈到 Copilot 日志区。
+    /// </summary>
+    /// <returns>异步任务。</returns>
+    public async Task SyncOperBoxFromYituliu()
     {
-        try
+        if (SyncingOperBox)
         {
-            if (File.Exists(_operBoxDataJsonPath))
-            {
-                var json = JObject.Parse(File.ReadAllText(_operBoxDataJsonPath));
-                return json["source"]?.Value<string>() == "yituliu";
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.Warning(ex, "Failed to read OperBox source from {Path}", _operBoxDataJsonPath);
+            return;
         }
 
-        return false;
+        SyncingOperBox = true;
+        try
+        {
+            var (result, operatorCount) = await Instances.ToolboxViewModel.FetchAndSaveYituliuOperBoxAsync();
+            AddLog(result switch {
+                ToolboxViewModel.YituliuFetchResult.Success => LocalizationHelper.GetStringFormat("Copilot.SyncOperBoxSuccess", operatorCount),
+                ToolboxViewModel.YituliuFetchResult.TokenEmpty => LocalizationHelper.GetString("YituliuTokenEmpty"),
+                ToolboxViewModel.YituliuFetchResult.NoData => LocalizationHelper.GetString("YituliuNoOperBoxData"),
+                ToolboxViewModel.YituliuFetchResult.WriteOnly => LocalizationHelper.GetString("YituliuTokenWriteOnly"),
+                ToolboxViewModel.YituliuFetchResult.Invalid => LocalizationHelper.GetString("YituliuTokenInvalid"),
+                _ => LocalizationHelper.GetString("YituliuTokenNetworkError"),
+            }, result == ToolboxViewModel.YituliuFetchResult.Success ? UiLogColor.Info : UiLogColor.Error);
+        }
+        finally
+        {
+            SyncingOperBox = false;
+        }
     }
 
     [PropertyDependsOn(nameof(EnableOperBoxAssist))]
@@ -2088,7 +2119,7 @@ public partial class CopilotViewModel : Screen
 
     private async Task<bool> ValidateStartAsync()
     {
-        if (EffectiveOperBoxAssist && !IsOperBoxDataFromYituliu())
+        if (EffectiveOperBoxAssist && !CanUseOperBoxAssist)
         {
             AddLog(LocalizationHelper.GetString("CopilotOperboxAssistRequiresYituliuData"), UiLogColor.Error, showTime: false);
             return false;
@@ -2226,7 +2257,7 @@ public partial class CopilotViewModel : Screen
                 UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
                 UseSanityPotion = UseSanityPotion,
                 FormationIndex = UseFormation ? FormationIndex : 0,
-                OperBoxDataPath = EffectiveOperBoxAssist ? _operBoxDataJsonPath : string.Empty,
+                OperBoxDataPath = EffectiveOperBoxAssist ? OperBoxAssistHelper.OperBoxDataJsonPath : string.Empty,
             };
 
             // 能用列表的是主线/ss/故事集/悖论，都是 Copilot 类型
@@ -2282,7 +2313,7 @@ public partial class CopilotViewModel : Screen
                 LoopTimes = Loop ? LoopTimes : 1,
                 UseSanityPotion = false,
                 FormationIndex = UseFormation ? FormationIndex : 0,
-                OperBoxDataPath = EffectiveOperBoxAssist ? _operBoxDataJsonPath : string.Empty,
+                OperBoxDataPath = EffectiveOperBoxAssist ? OperBoxAssistHelper.OperBoxDataJsonPath : string.Empty,
             };
 
             // 单作业需要区分 Copilot / SSSCopilot

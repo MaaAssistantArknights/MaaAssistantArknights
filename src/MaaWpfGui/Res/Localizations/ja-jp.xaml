@@ -1411,6 +1411,9 @@ C:\leidian\LDPlayer9
 この項目を選択するとこれらのチェックをスキップしますが、タスクが正常に動作しなくなる可能性があります。
 オペレーターのエリートレベルはスキップできません。いずれかの条件をスキップした場合、戦闘後にオペレーションは自動的に評価されなくなります。</system:String>
     <system:String x:Key="Copilot.UseOperBoxAssist">Yituliu のデータで編隊を支援</system:String>
+    <system:String x:Key="Copilot.UseOperBoxAssist.Tip" xml:space="preserve">自動編隊の前に、Yituliu のオペレーター育成データ（スキル・モジュール情報を含む）で編隊を事前マッチングします&#10;｢{key=Settings} - {key=ThirdPartyServiceSettings}｣ で Yituliu トークンを入力し、｢{key=EnableOperBoxYituliuApi}｣ を有効化してデータを取得してください</system:String>
+    <system:String x:Key="Copilot.SyncOperBoxData">同期</system:String>
+    <system:String x:Key="Copilot.SyncOperBoxSuccess">Yituliu のオペレーターデータ {0} 名分を同期しました</system:String>
     <system:String x:Key="AddUserAdditional">カスタム{key=Operator}追加</system:String>
     <system:String x:Key="AddUserAdditionalTip">横の設定ボタンをクリックして編集ウィンドウを開き、｢{key=UserAdditional.Add}｣ をクリックして1件ずつ追加し、各列に{key=Operator}名・スキル・操作を入力します</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator}名</system:String>
@@ -1889,7 +1892,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BattleFormationOperboxMatched">事前マッチした{key=Operator}（グループ）：</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">追加のカスタム{key=Operator}名が無効です: {0}、スペルを確認してください</system:String>
     <system:String x:Key="CopilotOperboxDataParseFailed">{key=OperBoxRecognition}データ解析失敗</system:String>
-    <system:String x:Key="CopilotOperboxAssistRequiresYituliuData">利用可能な Yituliu のオペレーターデータがないため、編隊を支援できません。先に Yituliu からオペレーターデータを取得するか、「{key=Copilot.UseOperBoxAssist}」を無効にしてください。</system:String>
+    <system:String x:Key="CopilotOperboxAssistRequiresYituliuData">利用可能な Yituliu のオペレーターデータがないため、編隊を支援できません。先に Yituliu からオペレーターデータを取得するか、｢{key=Copilot.UseOperBoxAssist}｣ を無効にしてください。</system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
     <system:String x:Key="ElapsedTime">経過時間: {0}ms</system:String>
     <system:String x:Key="Deploy">配置</system:String>

@@ -17,6 +17,8 @@ using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services.Web;
+using MaaWpfGui.Utilities;
+using MaaWpfGui.ViewModels.UI;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.Settings;
@@ -27,6 +29,15 @@ public class ThirdPartyServiceSettingsUserControlModel : PropertyChangedBase
     {
         Instance = new();
         LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
+
+        // 干员识别数据落盘内容变化时重新判定辅助编队可用性；触发点均在 UI 线程
+        OperBoxAssistHelper.StateChanged += Instance.RefreshOperBoxAssistState;
+        Instance.RefreshOperBoxAssistState();
+    }
+
+    private ThirdPartyServiceSettingsUserControlModel()
+    {
+        PropertyDependsOnUtility.InitializePropertyDependencies(this);
     }
 
     public static ThirdPartyServiceSettingsUserControlModel Instance { get; }
@@ -93,6 +104,7 @@ public class ThirdPartyServiceSettingsUserControlModel : PropertyChangedBase
         get; set {
             SetAndNotify(ref field, value);
             ConfigFactory.CurrentConfig.Gui.ThirdParty.OperBoxUseYituliuApi = value;
+            RefreshOperBoxAssistState();
         }
     } = ConfigFactory.CurrentConfig.Gui.ThirdParty.OperBoxUseYituliuApi;
 
@@ -106,6 +118,32 @@ public class ThirdPartyServiceSettingsUserControlModel : PropertyChangedBase
             ConfigFactory.CurrentConfig.Gui.ThirdParty.EnableOperBoxAssist = value;
         }
     } = ConfigFactory.CurrentConfig.Gui.ThirdParty.EnableOperBoxAssist;
+
+    /// <summary>
+    /// Gets a value indicating whether 落盘干员识别数据满足辅助编队条件（yituliu 源且含技能信息），
+    /// 由 <see cref="RefreshOperBoxAssistState"/> 在落盘变更事件与开关切换时刷新。
+    /// </summary>
+    public bool OperBoxAssistDataUsable { get => field; private set => SetAndNotify(ref field, value); }
+
+    /// <summary>
+    /// Gets a value indicating whether 辅助编队可用：一图流干员数据接口已启用且落盘数据可用，不可用时禁用复选框。
+    /// </summary>
+    [PropertyDependsOn(nameof(EnableOperBoxYituliuApi))]
+    [PropertyDependsOn(nameof(OperBoxAssistDataUsable))]
+    public bool CanUseOperBoxAssist => EnableOperBoxYituliuApi && OperBoxAssistDataUsable;
+
+    /// <summary>
+    /// 重新读取落盘数据刷新辅助编队可用性；接口关闭或数据不可用时收回勾选，避免配置停留在不可用状态。
+    /// 只在落盘完成事件、接口开关切换等明确事件点调用，不做文件监听。
+    /// </summary>
+    private void RefreshOperBoxAssistState()
+    {
+        OperBoxAssistDataUsable = OperBoxAssistHelper.CheckData().Usable;
+        if (!CanUseOperBoxAssist && EnableOperBoxAssist)
+        {
+            EnableOperBoxAssist = false;
+        }
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether token 验证进行中。
@@ -136,7 +174,8 @@ public class ThirdPartyServiceSettingsUserControlModel : PropertyChangedBase
     } = string.Empty;
 
     /// <summary>
-    /// 验证一图流 OpenAPI Token 是否具备干员数据读取权限。
+    /// 验证一图流 OpenAPI Token 是否具备干员数据读取权限；验证请求本身携带完整干员数据，
+    /// 验证通过且账号有数据时顺带拉取落盘（不产生额外请求），为辅助编队提供数据。
     /// 验证成功不自动打开 EnableOperBoxYituliuApi：自动改开关属隐藏行为，须由用户显式开启。
     /// UI 绑定的方法
     /// </summary>
@@ -154,13 +193,14 @@ public class ThirdPartyServiceSettingsUserControlModel : PropertyChangedBase
         IsVerifyingYituliuToken = true;
         try
         {
-            var validation = await YituliuApiService.ValidateTokenAsync(token);
+            var fetch = await Instances.ToolboxViewModel.FetchAndSaveYituliuOperBoxAsync();
             if (token != YituliuOpenApiToken.Trim())
             {
-                // 等待期间 token 已被修改，丢弃过期结果
+                // 等待期间 token 已被修改，丢弃过期结果；落盘数据对应点击时刻的 token，无需回滚
                 return;
             }
 
+            var validation = (Result: ToValidationResult(fetch.Result), OperatorCount: fetch.OperatorCount);
             _lastYituliuTokenValidation = validation;
             YituliuTokenValidationText = FormatYituliuTokenValidationText(validation);
         }
@@ -168,6 +208,18 @@ public class ThirdPartyServiceSettingsUserControlModel : PropertyChangedBase
         {
             IsVerifyingYituliuToken = false;
         }
+    }
+
+    private static YituliuApiService.TokenValidationResult ToValidationResult(ToolboxViewModel.YituliuFetchResult result)
+    {
+        return result switch {
+            // NoData：token 有效但账号未导入练度，按 ｢验证通过、无数据｣ 展示
+            ToolboxViewModel.YituliuFetchResult.Success or ToolboxViewModel.YituliuFetchResult.NoData
+                => YituliuApiService.TokenValidationResult.Valid,
+            ToolboxViewModel.YituliuFetchResult.WriteOnly => YituliuApiService.TokenValidationResult.WriteOnly,
+            ToolboxViewModel.YituliuFetchResult.Invalid => YituliuApiService.TokenValidationResult.Invalid,
+            _ => YituliuApiService.TokenValidationResult.NetworkError,
+        };
     }
 
     private static string FormatYituliuTokenValidationText((YituliuApiService.TokenValidationResult Result, int OperatorCount) validation)

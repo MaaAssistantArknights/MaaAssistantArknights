@@ -84,11 +84,16 @@
                 <CheckBox Content="{DynamicResource EnableOperBoxYituliuApi}" IsChecked="{Binding EnableOperBoxYituliuApi}" />
                 <controls:TooltipBlock TooltipText="{DynamicResource EnableOperBoxYituliuApiTip}" />
             </StackPanel>
-            <CheckBox
+            <StackPanel
                 Margin="10,5"
                 HorizontalAlignment="Left"
-                Content="{DynamicResource Copilot.UseOperBoxAssist}"
-                IsChecked="{Binding EnableOperBoxAssist}" />
+                Orientation="Horizontal">
+                <CheckBox
+                    Content="{DynamicResource Copilot.UseOperBoxAssist}"
+                    IsChecked="{Binding EnableOperBoxAssist}"
+                    IsEnabled="{Binding CanUseOperBoxAssist}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Copilot.UseOperBoxAssist.Tip}" />
+            </StackPanel>
         </StackPanel>
     </StackPanel>
 </UserControl>

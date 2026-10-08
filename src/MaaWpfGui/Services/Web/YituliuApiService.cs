@@ -124,26 +124,7 @@ public static class YituliuApiService
     }
 
     /// <summary>
-    /// 验证 token 是否具备干员数据读取权限。
-    /// </summary>
-    /// <param name="token">第三方 OpenAPI token</param>
-    /// <returns>验证结果与拥有干员数量（仅 Valid 时有意义）</returns>
-    public static async Task<(TokenValidationResult Result, int OperatorCount)> ValidateTokenAsync(string token)
-    {
-        var (response, body) = await RequestOperatorInfoAsync(token).ConfigureAwait(false);
-        if (response == null)
-        {
-            return (TokenValidationResult.NetworkError, 0);
-        }
-
-        return ParseValidationResult(body) switch {
-            TokenValidationResult.Valid => (TokenValidationResult.Valid, body!.Data?.Count ?? 0),
-            var result => (result, 0),
-        };
-    }
-
-    /// <summary>
-    /// 拉取干员练度数据。
+    /// 拉取干员练度数据，可用于验证 token 读取权限（返回结果的 Result 即验证结论）。
     /// </summary>
     /// <param name="token">第三方 OpenAPI token</param>
     /// <returns>成功时返回干员列表，失败时返回验证结果供提示</returns>
