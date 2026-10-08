@@ -2054,8 +2054,8 @@
     "BlackFlow@RoguelikeEncounterOptionAnalyzer-Option": {
         "Doc": ["匹配事件选项时用于 Matcher。", "specificRect 用于截取单个事件选项。"],
         "template": "empty.png",
-        "roi": [835, 50, 300, 585],
-        "specificRect": [835, 0, 300, 40],
+        "roi": [835, 50, 420, 585],
+        "specificRect": [835, 0, 420, 40],
         "specificRect_Doc": "供 RoguelikeEncounterOptionAnalyzer 截取单个事件选项，y 坐标由分析器按识别结果覆盖。"
     },
     "BlackFlow@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar": {
@@ -2068,9 +2068,22 @@
     "BlackFlow@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text": {
         "Doc": "识别事件选项文字时用于 RegionOCRer。",
         "algorithm": "OcrDetect",
-        "roi": [0, 0, 300, 40],
+        "roi": [0, 0, 420, 40],
         "text": [],
-        "withoutDet": true
+        "withoutDet": true,
+        "ocrReplace": [
+            ["^.*搬一个大桶.*$", "搬一个大桶"],
+            ["^.*接受它的提议.*$", "接受它的提议"],
+            ["^.*唱一首摇篮曲.*$", "唱一首摇篮曲"],
+            ["^.*敲一次.*$", "敲一次"],
+            ["^.*敲三次.*$", "敲三次"],
+            ["^[\\s_—,，.-]*离开[\\s_—,，.-]*$", "离开"],
+            ["^.*说服同伴.*$", "说服同伴"],
+            ["^.*召集同伴.*$", "召集同伴"],
+            ["^.*离开黑池.*$", "离开黑池"],
+            ["^.*采样金色泉水.*$", "采样金色泉水"],
+            ["^.*不应该冒进.*$", "不应该冒进"]
+        ]
     },
     "BlackFlow@RoguelikeRecruit-GiveUp": {
         "template": "BlackFlow@RoguelikeRecruit-GiveUp.png",
