@@ -11,7 +11,9 @@ icon: material-symbols:view-quilt-rounded
 请注意 JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直接复制使用
 :::
 
-[可视化排班生成工具](https://ark.yituliu.cn/tools/scheduleV3)
+[可视化排班表生成工具](https://ark.yituliu.cn/tools/scheduleV2)
+
+[可视化排班表自动生成工具](https://ark.yituliu.cn/tools/scheduleV3)
 
 [自动生成基建排班表工具](https://riic.autos/)
 
@@ -68,7 +70,8 @@ icon: material-symbols:view-quilt-rounded
             ],
             "rooms": {
                 // 房间信息，必选
-                // 取值范围 "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing"
+                // 取值范围 "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing" / "training" / "recycling"
+                // training / recycling 的 A/B 分组为草案，当前 MAA 自定义排班尚未支持
                 // 缺少某个则该设施使用默认算法进行换班。
                 // 若想不对某个房间换班请使用 skip 字段，或直接在软件 任务设置 - 基建换班 - 常规设置 中取消改设施的勾选
                 "control": [
@@ -126,6 +129,19 @@ icon: material-symbols:view-quilt-rounded
                     {
                         "autofill": true // 这个房间内整个 autofill
                     }
+                ],
+                "training": [ // 训练室
+                    {
+                        // 人数上限、缺省与空数组含义及与原有房间字段、干员编组的关系待定
+                        "operatorsA": ["阿米娅"], // 协助训练的干员名称数组（A 位），可选；名称要求同 operators
+                        "operatorsB": ["杜宾"] // 接受训练的干员名称数组（B 位），可选；名称要求同 operators
+                    }
+                ],
+                "recycling": [ // 回收站，键名暂定
+                    {
+                        "operatorsA": ["芬"], // 首个解锁位置的干员名称数组（A 位），可选；名称要求同 operators
+                        "operatorsB": ["克洛丝"] // 第二个解锁位置的干员名称数组（B 位），可选；名称要求同 operators
+                    }
                 ]
             }
         },
@@ -142,3 +158,76 @@ icon: material-symbols:view-quilt-rounded
 [243 极限效率，一天三换](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master-v2/resource/custom_infrast/243_layout_3_times_a_day.json)
 
 [153 极限效率，一天三换](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master-v2/resource/custom_infrast/153_layout_3_times_a_day.json)
+
+## 排班表扩充协议
+
+MAA 基础排班协议仅包括干员班次信息，排班表扩充协议在 MAA 排班协议的基础上，补充可选的基建布局 `layout`、干员信息 `operators` 和来源与版本信息 `metadata`，使 MAA、[**明日方舟一图流-排班表自动生成工具**](https://ark.yituliu.cn/tools/scheduleV3)、[**明日方舟一图流-排班表收益计算器**](https://ark.yituliu.cn/tools/maa-schedule-calculator)**等第三方应用可以**共用一份文件，实现数据双向互通。扩展字段均为可选内容，可根据第三方应用实际需求进行调整。
+
+| 顶层字段    | 作用                                                                   |
+| ----------- | ---------------------------------------------------------------------- |
+| `layout`    | 记录基建布局，包括设施类型、等级和位置                                 |
+| `operators` | 记录干员精英阶段和等级信息                                             |
+| `metadata`  | 记录协议版本、生成工具及模块版本等数据，也包括第三方工具所需的额外数据 |
+
+### 扩充字段一览
+
+示例需与基础协议的 `plans` 等字段合并使用，练度及版本号仅用于演示；实际 JSON 需去掉注释。
+
+```jsonc
+{
+    // 三个字段均为顶层可选字段，可分别提供，不影响 MAA 基础排班执行
+    // 工具导入、编辑和导出时应保留扩充信息
+    "layout": [ // 完整的已建造布局，可选；缺省表示未提供布局
+        // 未列出的设施视为未建造；plans[].rooms 中省略的设施沿用基础协议默认规则
+        // type：设施类型；level：设施等级；position：实际位置
+        { "type": "control", "level": 5 },
+        // 同类型房间顺序对应 plans[].rooms 中的顺序及无人机 index 编号
+        { "type": "trading", "level": 3, "position": "B101" },
+        { "type": "trading", "level": 3, "position": "B102" },
+        { "type": "trading", "level": 1, "position": "B103" },
+        { "type": "manufacture", "level": 3, "position": "B201" },
+        { "type": "manufacture", "level": 3, "position": "B202" },
+        { "type": "manufacture", "level": 2, "position": "B203" },
+        { "type": "manufacture", "level": 2, "position": "B301" },
+        { "type": "power", "level": 3, "position": "B302" },
+        { "type": "power", "level": 3, "position": "B303" },
+        { "type": "meeting", "level": 3 },
+        { "type": "processing", "level": 3, "position": "B105" },
+        { "type": "hire", "level": 3, "position": "B205" },
+        { "type": "training", "level": 3, "position": "B305" },
+        { "type": "dormitory", "level": 1, "position": "B104" },
+        { "type": "dormitory", "level": 1, "position": "B204" },
+        { "type": "dormitory", "level": 1, "position": "B304" },
+        { "type": "dormitory", "level": 1, "position": "B404" }
+    ],
+    "operators": { // 干员练度，可选；以游戏干员 ID 为键
+        // 不替代房间内的人员安排
+        "char_002_amiya": {
+            "name": "阿米娅", // 干员名称，可选
+            "elite": 2, // 精英阶段：0、1、2
+            "level": 80 // 当前精英阶段下的等级
+        },
+        "char_124_kroos": {
+            "name": "克洛丝",
+            "elite": 1,
+            "level": 55
+        }
+    },
+    "metadata": { // 来源与版本等附加信息，可选
+        "extensionVersion": "1.0", // 整套扩充协议的版本字符串，可选；缺省按无版本格式处理
+        "generator": { // 原始生成工具信息
+            "id": "yituliu-riic-schedule-generator",
+            "name": "明日方舟一图流-排班表自动生成工具",
+            "url": "https://ark.yituliu.cn/tools/scheduleV3"
+        },
+        "moduleVersions": { // 生成时的模块版本；模块标识由生成工具定义，结合 generator.id 解读
+            "layout": "v20260924.2314", // 布局模块
+            "data": "v20260924.2314", // 数据模块
+            "team": "v20260928.1118", // 班组模块
+            "assembler": "v20260822.2233", // 组装器
+            "yield": "v20261002.1334", // 收益计算器
+            "recommendation": "v20260928.1102" // 调试信息
+        }
+    }
+}
+```

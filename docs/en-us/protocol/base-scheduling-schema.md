@@ -11,7 +11,9 @@ Usage and field descriptions for `resource/custom_infrast/*.json`
 Please note that JSON files do not support comments. The comments in this document are for demonstration purposes only. Do not copy them directly into your JSON files.
 :::
 
-[Visual Schedule Generator Tool](https://ark.yituliu.cn/tools/scheduleV3)
+[Visual Schedule Generator Tool](https://ark.yituliu.cn/tools/scheduleV2)
+
+[Visual Tool for Automatic Schedule Generation](https://ark.yituliu.cn/tools/scheduleV3)
 
 [Automatic RIIC Schedule Generator](https://riic.autos/)
 
@@ -68,7 +70,8 @@ Please note that JSON files do not support comments. The comments in this docume
             ],
             "rooms": {
                 // Room information, required
-                // Values: "control"/"manufacture"/"trading"/"power"/"meeting"/"hire"/"dormitory"/"processing"
+                // Values: "control"/"manufacture"/"trading"/"power"/"meeting"/"hire"/"dormitory"/"processing" / "training" / "recycling"
+                // A/B groups for training / recycling are a draft, not yet supported by MAA custom scheduling
                 // Missing rooms use default algorithm for shift change.
                 // To skip a room, use skip field or uncheck the facility in software Task Settings - Base Management - General Settings
                 "control": [
@@ -126,6 +129,19 @@ Please note that JSON files do not support comments. The comments in this docume
                     {
                         "autofill": true // Completely autofill this room
                     }
+                ],
+                "training": [ // Training Room
+                    {
+                        // Capacities, omitted/empty fields and interactions with existing room fields and operator groups are undecided
+                        "operatorsA": ["Amiya"], // Training assistant names (slot A), optional array; naming requirements as in operators
+                        "operatorsB": ["Dobermann"] // Trainee names (slot B), optional array; naming requirements as in operators
+                    }
+                ],
+                "recycling": [ // 回收站, a planned facility with A/B slots; key provisional
+                    {
+                        "operatorsA": ["Fang"], // Operator names in the first unlocked position (slot A), optional array; naming requirements as in operators
+                        "operatorsB": ["Kroos"] // Operator names in the second unlocked position (slot B), optional array; naming requirements as in operators
+                    }
                 ]
             }
         },
@@ -142,3 +158,76 @@ Please note that JSON files do not support comments. The comments in this docume
 [243_layout_3_times_a_day](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master-v2/resource/custom_infrast/243_layout_3_times_a_day.json)
 
 [153_layout_3_times_a_day](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master-v2/resource/custom_infrast/153_layout_3_times_a_day.json)
+
+## Schedule Extension Protocol
+
+The MAA base scheduling protocol only includes operator shift information. The schedule extension protocol builds on the MAA scheduling protocol by adding optional base layout `layout`, operator information `operators`, and source and version metadata `metadata`, allowing MAA, the [**Arknights Yituliu - Automatic Base Schedule Generator**](https://ark.yituliu.cn/tools/scheduleV3), the [**Arknights Yituliu - Base Schedule Income Calculator**](https://ark.yituliu.cn/tools/maa-schedule-calculator), **and other third-party applications to** share one file and exchange data in both directions. All extension fields are optional and can be adjusted according to the actual needs of third-party applications.
+
+| Top-level field | Purpose                                                                                                                                  |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `layout`        | Record the base layout, including facility types, levels, and positions                                                                  |
+| `operators`     | Record operator promotion stages and levels                                                                                              |
+| `metadata`      | Record data such as the protocol version, generating tool, and module versions, as well as additional data required by third-party tools |
+
+### Extension Field Reference
+
+Combine the example with base protocol fields such as `plans`. Progression and version numbers are illustrative; remove comments from actual JSON.
+
+```jsonc
+{
+    // All three top-level fields are optional, can be provided independently, and do not affect MAA's base scheduling execution
+    // Tools should preserve extension information during import, editing, and export
+    "layout": [ // Complete built layout, optional; absence means no layout information is provided
+        // Unlisted facilities are unbuilt; facilities omitted from plans[].rooms retain the base protocol's default rules
+        // type: facility type; level: facility level; position: physical position
+        { "type": "control", "level": 5 },
+        // Same-type room order matches plans[].rooms and drone index numbering
+        { "type": "trading", "level": 3, "position": "B101" },
+        { "type": "trading", "level": 3, "position": "B102" },
+        { "type": "trading", "level": 1, "position": "B103" },
+        { "type": "manufacture", "level": 3, "position": "B201" },
+        { "type": "manufacture", "level": 3, "position": "B202" },
+        { "type": "manufacture", "level": 2, "position": "B203" },
+        { "type": "manufacture", "level": 2, "position": "B301" },
+        { "type": "power", "level": 3, "position": "B302" },
+        { "type": "power", "level": 3, "position": "B303" },
+        { "type": "meeting", "level": 3 },
+        { "type": "processing", "level": 3, "position": "B105" },
+        { "type": "hire", "level": 3, "position": "B205" },
+        { "type": "training", "level": 3, "position": "B305" },
+        { "type": "dormitory", "level": 1, "position": "B104" },
+        { "type": "dormitory", "level": 1, "position": "B204" },
+        { "type": "dormitory", "level": 1, "position": "B304" },
+        { "type": "dormitory", "level": 1, "position": "B404" }
+    ],
+    "operators": { // Operator progression, optional; keyed by in-game IDs
+        // Does not replace room assignments
+        "char_002_amiya": {
+            "name": "Amiya", // Operator name, optional
+            "elite": 2, // Promotion stage: 0, 1, or 2
+            "level": 80 // Level within the current promotion stage
+        },
+        "char_124_kroos": {
+            "name": "Kroos",
+            "elite": 1,
+            "level": 55
+        }
+    },
+    "metadata": { // Source and version metadata, optional
+        "extensionVersion": "1.0", // Optional version string for the entire extension protocol; absence means the unversioned format
+        "generator": { // Original generating tool information
+            "id": "yituliu-riic-schedule-generator",
+            "name": "明日方舟一图流-排班表自动生成工具",
+            "url": "https://ark.yituliu.cn/tools/scheduleV3"
+        },
+        "moduleVersions": { // Versions used during generation; module identifiers are defined by the generating tool and interpreted with generator.id
+            "layout": "v20260924.2314", // Layout module
+            "data": "v20260924.2314", // Data module
+            "team": "v20260928.1118", // Team module
+            "assembler": "v20260822.2233", // Schedule assembler
+            "yield": "v20261002.1334", // Income calculator
+            "recommendation": "v20260928.1102" // Debug information
+        }
+    }
+}
+```
