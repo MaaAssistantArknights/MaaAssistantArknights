@@ -1846,10 +1846,12 @@ public class AsstProxy
                     }
                     if (what == "OperboxDataParseFailed")
                     {
+                        Instances.CopilotViewModel.OperBoxPrecheckErrorReported = true;
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CopilotOperboxDataParseFailed"), UiLogColor.Error);
                     }
                     if (what == "OperboxMultipleUnmatched")
                     {
+                        Instances.CopilotViewModel.OperBoxPrecheckErrorReported = true;
                         var unmatched = details["details"]?["unmatched_groups"]?.ToObject<List<string>>() ?? [];
                         var sb = new StringBuilder();
                         sb.AppendLine(LocalizationHelper.GetString("OperboxMultipleUnmatched"));

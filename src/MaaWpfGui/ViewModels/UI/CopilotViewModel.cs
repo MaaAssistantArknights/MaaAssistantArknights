@@ -566,6 +566,12 @@ public partial class CopilotViewModel : Screen
         && (CopilotTabIndex == 0 || CopilotTabIndex == 3);
 
     /// <summary>
+    /// Gets or sets a value indicating whether Core 已在 append 阶段通过回调报告过 OperBox 预检错误；
+    /// 启动收尾时据此跳过通用的 CopilotFileReadError 日志，避免与已报告的具体原因矛盾。
+    /// </summary>
+    public bool OperBoxPrecheckErrorReported { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 真正有干员被忽略了要求
     /// </summary>
     public bool HasRequirementIgnored { get; set; } = false;
@@ -2113,7 +2119,11 @@ public partial class CopilotViewModel : Screen
             }
 
             Instances.TaskQueueViewModel.SetStopped();
-            AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error, showTime: false);
+            if (!OperBoxPrecheckErrorReported)
+            {
+                // OperBox 预检失败时 Core 已回调报告具体原因，通用读取失败文案与之矛盾
+                AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error, showTime: false);
+            }
         }
     }
 
@@ -2236,6 +2246,7 @@ public partial class CopilotViewModel : Screen
 
     private async Task<bool> AppendAndStartCopilotAsync(IEnumerable<UserAdditional> userAdditional)
     {
+        OperBoxPrecheckErrorReported = false;
         if (!UseCopilotList)
         {
         }
