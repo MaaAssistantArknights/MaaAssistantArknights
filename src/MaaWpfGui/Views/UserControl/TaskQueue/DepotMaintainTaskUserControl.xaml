@@ -237,11 +237,17 @@
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
-                                                            <Image
+                                                            <Grid
                                                                 Width="18"
                                                                 Height="18"
-                                                                VerticalAlignment="Center"
-                                                                Source="{Binding Value, Converter={StaticResource ItemImageConverter}}" />
+                                                                VerticalAlignment="Center">
+                                                                <!--  ｢不选择｣ 空值项无图标，以描边圆环占位，保持与图标项的文字对齐  -->
+                                                                <Ellipse
+                                                                    Stroke="{DynamicResource BorderBrush}"
+                                                                    StrokeThickness="1"
+                                                                    Visibility="{c:Binding 'Value.Length == 0'}" />
+                                                                <Image Source="{Binding Value, Converter={StaticResource ItemImageConverter}}" />
+                                                            </Grid>
                                                             <TextBlock
                                                                 Margin="4,0,0,0"
                                                                 VerticalAlignment="Center"
@@ -250,7 +256,17 @@
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
-                                            <!--  选中材料缩略图：IsEditable ComboBox 收起态显示区是纯文本 TextBox 无法内嵌图片，以不命中浮层贴在框内左侧，ComboBox 用 Padding 为其让出文本起点  -->
+                                            <!--  选中材料缩略图：IsEditable ComboBox 收起态显示区是纯文本 TextBox 无法内嵌图片，以不命中浮层贴在框内左侧，ComboBox 用 Padding 为其让出文本起点；｢不选择｣ 无图标，同位以描边圆环占位  -->
+                                            <Ellipse
+                                                Width="16"
+                                                Height="16"
+                                                Margin="7,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                IsHitTestVisible="False"
+                                                Stroke="{DynamicResource BorderBrush}"
+                                                StrokeThickness="1"
+                                                Visibility="{c:Binding 'DropId.Length == 0'}" />
                                             <Image
                                                 Width="16"
                                                 Height="16"
