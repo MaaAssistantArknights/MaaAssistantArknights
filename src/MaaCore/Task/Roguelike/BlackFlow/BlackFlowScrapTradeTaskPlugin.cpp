@@ -429,14 +429,21 @@ void BlackFlowScrapTradeTaskPlugin::on_purchase_confirmed()
     m_inventory.invalidate();
     if (purchase.keep) {
         m_kept.insert(purchase.name);
-        return;
     }
-    // 增长物留到兑现，其余买入物与附带零件立即卖回，零件总数回到买入前。
-    if (item->get().growth_per_acquisition == 0) {
-        m_sell_backs.emplace_back(purchase.name);
+    else {
+        // 增长物留到兑现，其余买入物与附带零件立即卖回，零件总数回到买入前。
+        if (item->get().growth_per_acquisition == 0) {
+            m_sell_backs.emplace_back(purchase.name);
+        }
+        for (const auto& [name, count] : item->get().bundle) {
+            m_sell_backs.insert(m_sell_backs.end(), static_cast<std::size_t>(count), name);
+        }
     }
-    for (const auto& [name, count] : item->get().bundle) {
-        m_sell_backs.insert(m_sell_backs.end(), static_cast<std::size_t>(count), name);
+    LogInfo << __FUNCTION__ << "BlackFlow scrap trade purchase confirmed" << purchase.name << "keep" << purchase.keep
+            << "pending sell backs" << m_sell_backs.size();
+    if (m_counted) {
+        LogInfo << "BlackFlow scrap trade held" << m_ledger.held(purchase.name) << "growth"
+                << m_ledger.growth(BlackFlowScrapMarket);
     }
 }
 
@@ -481,6 +488,7 @@ void BlackFlowScrapTradeTaskPlugin::on_refresh_confirmed()
     m_pending_refresh = false;
     ++m_refresh_count;
     m_purchased_rects.clear();
+    LogInfo << __FUNCTION__ << "BlackFlow scrap trade refresh confirmed" << "count" << m_refresh_count;
 }
 
 cv::Mat BlackFlowScrapTradeTaskPlugin::capture() const
