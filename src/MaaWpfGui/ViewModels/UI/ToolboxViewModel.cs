@@ -1746,6 +1746,12 @@ public class ToolboxViewModel : Screen
     /// 每次传进来的都是完整数据, 临时缓存去重
     /// </summary>
     private HashSet<string> _tempOperHaveSet = [];
+
+    /// <summary>
+    /// 已拥有干员的名字集合，未拥有列表判定用：升变形态同名不同 ID，按名字等价不依赖硬编码升变表
+    /// </summary>
+    private HashSet<string> _tempOperHaveNames = [];
+
     private readonly HashSet<int> _pendingOperBoxRecognitionResetTaskIds = [];
 
     public void MarkOperBoxRecognitionDataForReset(int taskId)
@@ -1761,6 +1767,7 @@ public class ToolboxViewModel : Screen
         OperBoxSelectedIndex = 1;
         _operBoxPotential = null;
         _tempOperHaveSet = [];
+        _tempOperHaveNames = [];
         OperBoxHaveList = [];
         OperBoxNotHaveList = [];
         LastOperBoxSyncTime = null;
@@ -1787,14 +1794,12 @@ public class ToolboxViewModel : Screen
 
         _operBoxDataSource = details["source"]?.ToString() == "yituliu" ? "yituliu" : "local";
 
-        // 阿米娅这类升变干员在 battle_data 里每个形态一条记录（基础/近卫/医疗），识别结果回传的是
-        // 玩家当前形态的 ID；拥有列表统一换回基础形态 ID，去重与落盘都只用基础 ID
+        // 阿米娅这类升变干员在 battle_data 里每个形态一条记录（基础/近卫/医疗……）。原始 ID 直接保留：
+        // 一图流数据含全部形态条目，拥有列表与落盘都如实展示/保存（预匹配按形态 ID 精确对位）。
+        // 未拥有判定按名字等价——升变形态同名不同 ID，且新的升变形态 ID 无法及时进
+        // DataHelper 的硬编码升变表，按 ID 归一化判定会在表滞后时把已拥有的基础形态当成未拥有
         var ownOpers = (details["own_opers"] as JArray)?.ToObject<List<OperBoxData.OperData>>()?
             .Where(o => !string.IsNullOrEmpty(o.Id))
-            .Select(o => {
-                o.Id = DataHelper.GetCanonicalOperId(o.Id);
-                return o;
-            })
             .ToList();
         if (ownOpers is null)
         {
@@ -1803,9 +1808,9 @@ public class ToolboxViewModel : Screen
 
         foreach (var oper in ownOpers)
         {
+            var name = DataHelper.GetLocalizedCharacterName(DataHelper.Operators.FirstOrDefault(i => i.Key == oper.Id).Value) ?? "???";
             if (_tempOperHaveSet.Add(oper.Id))
             {
-                var name = DataHelper.GetLocalizedCharacterName(DataHelper.Operators.FirstOrDefault(i => i.Key == oper.Id).Value) ?? "???";
                 OperBoxHaveList.Add(new Operator(oper.Id, name, oper.Rarity, oper.Elite, oper.Level, oper.Potential,
                     oper.MainSkillLevel, oper.Skills, oper.Equips));
                 if (oper.Id == "char_485_pallas")
@@ -1813,6 +1818,8 @@ public class ToolboxViewModel : Screen
                     AchievementTrackerHelper.Instance.Unlock(AchievementIds.WarehouseKeeper);
                 }
             }
+
+            _tempOperHaveNames.Add(name);
         }
 
         bool done = (bool)(details["done"] ?? false);
@@ -1823,9 +1830,8 @@ public class ToolboxViewModel : Screen
 
         foreach (var (id, oper) in DataHelper.Operators)
         {
-            // 跳过升变形态条目：阿米娅是否拥有只看基础形态，否则形态条目永远算没拥有，
-            // 未拥有列表会多出两个"阿米娅"
-            if (!_tempOperHaveSet.Contains(id) && !DataHelper.IsPromotedOperId(id) && DataHelper.IsCharacterAvailableInClient(oper, SettingsViewModel.GameSettings.ClientType.ToCustomString()))
+            // 未拥有判定走名字集合（见上方注释）；升变形态条目额外跳过，避免未拥有时每个形态各冒一条
+            if (!_tempOperHaveNames.Contains(oper.Name!) && !DataHelper.IsPromotedOperId(id) && DataHelper.IsCharacterAvailableInClient(oper, SettingsViewModel.GameSettings.ClientType.ToCustomString()))
             {
                 var name = DataHelper.GetLocalizedCharacterName(oper) ?? "???";
                 OperBoxNotHaveList.Add(new Operator(id, name, oper.Rarity, owned: false));
@@ -1856,6 +1862,7 @@ public class ToolboxViewModel : Screen
         OperBoxInfo = $"{LocalizationHelper.GetString("IdentificationCompleted")}  {LocalizationHelper.GetString("OperBoxRecognitionTip")}";
         SaveOperBoxDetails(ownOpers, _operBoxDataSource);
         _tempOperHaveSet = [];
+        _tempOperHaveNames = [];
         return true;
     }
 
