@@ -42,8 +42,10 @@ MAA では、公式サイトからのダウンロード、パッケージマネ�
 ターミナルで以下のコマンドを実行してください：
 
 ```bash
-winget install maa
+winget install --id MaaAssistantArknights.MaaAssistantArknights --exact --source winget
 ```
+
+`--source winget` を指定すると、winget ソースのみから MAA を検索します。一部のプロキシやゲームアクセラレータなどのネットワーク環境で、Microsoft Store（`msstore`）ソースの証明書検証に失敗し（エラーコード `0x8a15005e`）、インストールが中断されるのを防げます。
 
 この方法でインストールした場合、デフォルトのインストールパスは `C:\Users\ユーザー名\AppData\Local\Microsoft\WinGet\Packages` です。
 

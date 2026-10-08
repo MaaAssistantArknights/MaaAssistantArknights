@@ -36,8 +36,10 @@ MAA는 공식 홈페이지 다운로드, 패키지 관리자 설치, QQ 그룹 �
 터미널에서 다음 명령을 실행하세요:
 
 ```bash
-winget install maa
+winget install --id MaaAssistantArknights.MaaAssistantArknights --exact --source winget
 ```
+
+`--source winget`은 winget 소스에서만 MAA를 검색하도록 지정합니다. 일부 프록시나 게임 가속기 등의 네트워크 환경에서 Microsoft Store(`msstore`) 소스의 인증서 검증 실패(오류 코드 `0x8a15005e`)로 설치가 중단되는 것을 방지할 수 있습니다.
 
 이 방법으로 설치하는 경우 기본 설치 경로는 `C:\Users\사용자이름\AppData\Local\Microsoft\WinGet\Packages`입니다.
 
