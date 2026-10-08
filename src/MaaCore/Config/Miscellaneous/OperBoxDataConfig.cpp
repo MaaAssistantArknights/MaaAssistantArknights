@@ -155,6 +155,26 @@ std::vector<std::vector<size_t>> asst::OperBoxDataConfig::get_adjacency(
     return adjacency;
 }
 
+// 预检失败的组按编队缺干员协议上报，与 BattleFormationTask::report_missing_operators 同构，
+// GUI 侧文案与成就处理直接复用 OperatorMissing 分支
+void asst::OperBoxDataConfig::report_missing_operators(
+    const battle::copilot::OperUsageGroups& groups,
+    const std::vector<size_t>& unmatched_left) const
+{
+    json::value info = m_task_ptr->basic_info();
+    json::object oper_names;
+    for (size_t idx : unmatched_left) {
+        json::array opers_array;
+        for (const auto& oper : groups[idx].opers) {
+            opers_array.emplace_back(json::object { { "name", oper.name }, { "reason", "Missing" } });
+        }
+        oper_names.emplace(groups[idx].name, std::move(opers_array));
+    }
+    info["why"] = "OperatorMissing";
+    info["details"] = json::object { { "opers", std::move(oper_names) } };
+    m_task_ptr->callback(AsstMsg::SubTaskError, info);
+}
+
 std::optional<asst::battle::copilot::OperUsageGroups>
     asst::OperBoxDataConfig::precheck(const battle::copilot::OperUsageGroups& formation, bool use_support_unit)
 {
@@ -218,9 +238,7 @@ std::optional<asst::battle::copilot::OperUsageGroups>
     if (result.unmatched_left.size() == 1) {
         std::string unmatched_group_name = groups[result.unmatched_left[0]].name;
         if (!use_support_unit) {
-            json::value info = m_task_ptr->basic_info_with_what("BattleFormationOperbox1Unmatched");
-            info["details"]["group_name"] = unmatched_group_name;
-            m_task_ptr->callback(AsstMsg::SubTaskExtraInfo, info);
+            report_missing_operators(groups, result.unmatched_left);
             return std::nullopt;
         }
 
@@ -335,24 +353,17 @@ std::optional<asst::battle::copilot::OperUsageGroups>
                 return groups;
             }
         }
-        json::value info = m_task_ptr->basic_info_with_what("BattleFormationOperbox1Unmatched");
-        info["details"]["group_name"] = unmatched_group_name;
-        info["details"]["support_unit_tried"] = true;
-        m_task_ptr->callback(AsstMsg::SubTaskExtraInfo, info);
+        report_missing_operators(groups, result.unmatched_left);
         return std::nullopt;
     }
 
     // 多个未匹配的干员组
     {
-        json::array unmatched_groups;
         LogInfo << __FUNCTION__ << "|" << result.unmatched_left.size() << "slots unmatched, aborting formation";
         for (size_t idx : result.unmatched_left) {
             LogInfo << __FUNCTION__ << "| Unmatched slot:" << groups[idx].name;
-            unmatched_groups.emplace_back(groups[idx].name);
         }
-        json::value info = m_task_ptr->basic_info_with_what("OperboxMultipleUnmatched");
-        info["details"]["unmatched_groups"] = std::move(unmatched_groups);
-        m_task_ptr->callback(AsstMsg::SubTaskError, info);
+        report_missing_operators(groups, result.unmatched_left);
     }
     return std::nullopt;
 }

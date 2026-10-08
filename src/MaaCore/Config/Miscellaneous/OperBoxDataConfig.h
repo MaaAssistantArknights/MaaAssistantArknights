@@ -34,6 +34,9 @@ protected:
 
 private:
     bool can_match(const battle::OperUsage& usage, const OperBoxInfo& info) const;
+    void report_missing_operators(
+        const battle::copilot::OperUsageGroups& groups,
+        const std::vector<size_t>& unmatched_left) const;
     std::vector<std::vector<size_t>>
         get_adjacency(const battle::copilot::OperUsageGroups& formation, const std::vector<OperBoxInfo>& data) const;
     std::vector<std::vector<size_t>> get_adjacency(

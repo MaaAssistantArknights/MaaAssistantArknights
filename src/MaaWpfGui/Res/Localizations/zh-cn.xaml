@@ -1605,7 +1605,6 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ReportSkippedForPcClient">PC 端鼠标为独立渲染，可能遮挡掉落物及数量识别。为避免错误数据污染数据池，已自动跳过本次上报{0}</system:String>
     <system:String x:Key="TheEx">无奖励关卡，已停止</system:String>
     <system:String x:Key="MissingOperators">以下{key=Operator}组内的{key=Operator}均未拥有（每组只需其一）或未达到作业要求：\n{0}｢特别关注｣ 可能影响{key=Operator}识别，若实际已拥有，可移除 ｢特别关注｣ 后重试，或关闭 ｢{key=AutoSquad}｣ 手动补充；若确实未拥有，仅缺一组时可使用 ｢{key=SupportUnitUsage}｣，缺两组以上请更换作业。</system:String>
-    <system:String x:Key="OperboxMultipleUnmatched">多个{key=Operator}（组）不匹配：</system:String>
     <system:String x:Key="RecruitSupportOperator">编入助战{key=Operator}：{0}</system:String>
     <system:String x:Key="StageQueue">关卡队列:</system:String>
     <system:String x:Key="UnableToAgent">无法使用代理指挥</system:String>
@@ -1891,10 +1890,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BattleFormationOperUnavailable.Level">等级不足</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">技能等级不足</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Module">所需模组未解锁</system:String>
-    <system:String x:Key="BattleFormationOperbox1Unmatched.Base" xml:space="preserve">{key=Operator}（组） {0} 没有匹配的{key=Operator}</system:String>
-    <system:String x:Key="BattleFormationOperbox1Unmatched" xml:space="preserve">{key=BattleFormationOperbox1Unmatched.Base}，需要借助战{key=Operator}{1}</system:String>
-    <system:String x:Key="BattleFormationOperbox1UnmatchedNoSuggestion">{key=BattleFormationOperbox1Unmatched.Base}，可能需要借助战{key=Operator}</system:String>
-    <system:String x:Key="BattleFormationOperbox1Unmatchable">{key=BattleFormationOperbox1Unmatched.Base}，缺少至少两名{key=Operator}</system:String>
+    <system:String x:Key="BattleFormationOperbox1Unmatched" xml:space="preserve">{key=Operator}（组） {0} 没有匹配的{key=Operator}，需要借助战{key=Operator}{1}</system:String>
     <system:String x:Key="BattleFormationOperboxMatched">预匹配的{key=Operator}（组）：</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">追加自定{key=Operator}名称无效: {0}，请检查拼写</system:String>
     <system:String x:Key="CopilotOperboxDataParseFailed">{key=OperBoxRecognition}数据解析失败</system:String>

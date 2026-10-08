@@ -1808,6 +1808,8 @@ public class AsstProxy
                     var why = details.TryGetValue("why", out var whyObj) ? whyObj.ToString() : string.Empty;
                     if (why == "OperatorMissing")
                     {
+                        // OperBox 预检失败也走本协议，append 阶段即终止任务，置位避免收尾兜底日志与具体原因矛盾
+                        Instances.CopilotViewModel.CopilotFailureReasonReported = true;
                         var missingOpers = details["details"]?["opers"]?.ToObject<Dictionary<string, JArray>>();
                         var str = new StringBuilder();
                         if (missingOpers is not null)
@@ -1827,7 +1829,7 @@ public class AsstProxy
                             }
                         }
 
-                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("MissingOperators", str.ToString()), UiLogColor.Error);
+                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("MissingOperators", str.ToString()), UiLogColor.Error, showTime: false);
 
                         if (missingOpers is not null && missingOpers.Count >= 2)
                         {
@@ -1848,29 +1850,18 @@ public class AsstProxy
                     if (what == "CopilotFileReadError")
                     {
                         Instances.CopilotViewModel.CopilotFailureReasonReported = true;
-                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error);
+                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error, showTime: false);
                     }
                     if (what == "CopilotStageNotSupported")
                     {
                         Instances.CopilotViewModel.CopilotFailureReasonReported = true;
                         var stageName = details["details"]?["stage_name"]?.ToString();
-                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("UnsupportedStages", stageName ?? string.Empty), UiLogColor.Error);
+                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("UnsupportedStages", stageName ?? string.Empty), UiLogColor.Error, showTime: false);
                     }
                     if (what == "OperboxDataParseFailed")
                     {
                         Instances.CopilotViewModel.CopilotFailureReasonReported = true;
-                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CopilotOperboxDataParseFailed"), UiLogColor.Error);
-                    }
-                    if (what == "OperboxMultipleUnmatched")
-                    {
-                        Instances.CopilotViewModel.CopilotFailureReasonReported = true;
-                        var unmatched = details["details"]?["unmatched_groups"]?.ToObject<List<string>>() ?? [];
-                        var sb = new StringBuilder();
-                        sb.AppendLine(LocalizationHelper.GetString("OperboxMultipleUnmatched"));
-                        foreach (var g in unmatched) {
-                            sb.AppendLine($"{g}");
-                        }
-                        Instances.CopilotViewModel.AddLog(sb.ToString().TrimEnd(), UiLogColor.Error);
+                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CopilotOperboxDataParseFailed"), UiLogColor.Error, showTime: false);
                     }
                     break;
                 }
@@ -2568,20 +2559,17 @@ public class AsstProxy
                         var on = DataHelper.GetLocalizedCharacterName(group["oper_name"]?.ToString());
                         sb.AppendLine($"{gn} => {on}");
                     }
-                    Instances.CopilotViewModel.AddLog(sb.ToString().TrimEnd(), UiLogColor.Info);
+                    Instances.CopilotViewModel.AddLog(sb.ToString().TrimEnd(), UiLogColor.Info, showTime: false);
                     break;
                 }
 
             case "BattleFormationOperbox1Unmatched":
                 {
+                    // 仅借战模拟成功路径会带 may_borrow_oper 上报；无建议的失败统一走 OperatorMissing 协议
                     var groupName = subTaskDetails!["group_name"]?.ToString() ?? "Unknown Group";
                     var operName = DataHelper.GetLocalizedCharacterName(subTaskDetails["may_borrow_oper"]?.ToString()) ?? string.Empty;
-                    var message = operName != string.Empty
-                        ? LocalizationHelper.GetStringFormat("BattleFormationOperbox1Unmatched", groupName, operName)
-                        : subTaskDetails["support_unit_tried"]?.ToObject<bool>() == true
-                            ? LocalizationHelper.GetStringFormat("BattleFormationOperbox1Unmatchable", groupName)
-                            : LocalizationHelper.GetStringFormat("BattleFormationOperbox1UnmatchedNoSuggestion", groupName);
-                    Instances.CopilotViewModel.AddLog(message, operName == string.Empty ? UiLogColor.Error : UiLogColor.Warning);
+                    Instances.CopilotViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat("BattleFormationOperbox1Unmatched", groupName, operName), UiLogColor.Warning, showTime: false);
                     break;
                 }
 

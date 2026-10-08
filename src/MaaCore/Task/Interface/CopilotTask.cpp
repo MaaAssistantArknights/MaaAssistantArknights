@@ -81,7 +81,8 @@ bool asst::CopilotTask::set_params(const json::value& params)
     bool use_operbox = !operbox_data_path.empty();
 
     if (use_operbox) {
-        OperBoxData.set_task(this);
+        // 预检失败回调按编队缺干员协议从编队任务对象发出，GUI 侧直接复用 OperatorMissing 分支处理
+        OperBoxData.set_task(m_formation_task_ptr.get());
         OperBoxData.set_ignore_requirements(ignore_requirements);
         if (!OperBoxData.load(utils::path(operbox_data_path))) {
             LogError << __FUNCTION__ << "| OperBox data is empty or invalid, cannot perform precheck";
