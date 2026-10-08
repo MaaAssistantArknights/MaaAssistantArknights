@@ -1484,6 +1484,7 @@ C:\leidian\LDPlayer9
         • 遇到理智不足、战斗失败、未能三星结算时将自动中止。
     </system:String>
     <system:String x:Key="CopilotFileReadError">读取文件失败！</system:String>
+    <system:String x:Key="CopilotStartFailed">作业启动失败</system:String>
     <system:String x:Key="CopilotNoFound">未找到对应作业！</system:String>
     <system:String x:Key="NetworkServiceError">请求网络服务错误！</system:String>
     <system:String x:Key="CopilotJsonError">解析作业文件错误！</system:String>

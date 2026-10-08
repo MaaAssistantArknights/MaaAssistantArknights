@@ -1483,6 +1483,7 @@ C:\leidian\LDPlayer9
         • 遇到理智不足、戰鬥失敗、未能三星結算時將會自動中止。
     </system:String>
     <system:String x:Key="CopilotFileReadError">讀取檔案失敗！</system:String>
+    <system:String x:Key="CopilotStartFailed">作業啟動失敗</system:String>
     <system:String x:Key="CopilotNoFound">未找到對應作業！</system:String>
     <system:String x:Key="NetworkServiceError">網路服務請求錯誤！</system:String>
     <system:String x:Key="CopilotJsonError">解析作業檔案錯誤！</system:String>

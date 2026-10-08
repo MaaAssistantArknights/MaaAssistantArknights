@@ -1484,6 +1484,7 @@ C:\leidian\LDPlayer9
         • 이성 부족, 작전 실패, 또는 3성 클리어 실패 시 작전이 자동으로 중지됩니다.
     </system:String>
     <system:String x:Key="CopilotFileReadError">파일을 읽지 못했습니다!</system:String>
+    <system:String x:Key="CopilotStartFailed">작업 시작에 실패했습니다</system:String>
     <system:String x:Key="CopilotNoFound">해당 파일을 찾을 수 없습니다!</system:String>
     <system:String x:Key="NetworkServiceError">네트워크 요청 중 오류가 발생했습니다!</system:String>
     <system:String x:Key="CopilotJsonError">Copilot 파일 분석 중 오류가 발생했습니다!</system:String>

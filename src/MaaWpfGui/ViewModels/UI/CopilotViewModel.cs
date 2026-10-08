@@ -566,10 +566,10 @@ public partial class CopilotViewModel : Screen
         && (CopilotTabIndex == 0 || CopilotTabIndex == 3);
 
     /// <summary>
-    /// Gets or sets a value indicating whether Core 已在 append 阶段通过回调报告过 OperBox 预检错误；
-    /// 启动收尾时据此跳过通用的 CopilotFileReadError 日志，避免与已报告的具体原因矛盾。
+    /// Gets or sets a value indicating whether 本回合启动失败的具体原因已经过 Core 回调或本地日志报告；
+    /// 启动收尾时据此跳过通用兜底文案，避免与已报告的原因重复或矛盾。
     /// </summary>
-    public bool OperBoxPrecheckErrorReported { get; set; }
+    public bool CopilotFailureReasonReported { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether 真正有干员被忽略了要求
@@ -2119,10 +2119,10 @@ public partial class CopilotViewModel : Screen
             }
 
             Instances.TaskQueueViewModel.SetStopped();
-            if (!OperBoxPrecheckErrorReported)
+            if (!CopilotFailureReasonReported)
             {
-                // OperBox 预检失败时 Core 已回调报告具体原因，通用读取失败文案与之矛盾
-                AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error, showTime: false);
+                // 具体失败原因已由 Core 回调或本地日志报告过时只留一条，兜底仅覆盖未报告来源的失败
+                AddLog(LocalizationHelper.GetString("CopilotStartFailed"), UiLogColor.Error, showTime: false);
             }
         }
     }
@@ -2246,7 +2246,7 @@ public partial class CopilotViewModel : Screen
 
     private async Task<bool> AppendAndStartCopilotAsync(IEnumerable<UserAdditional> userAdditional)
     {
-        OperBoxPrecheckErrorReported = false;
+        CopilotFailureReasonReported = false;
         if (!UseCopilotList)
         {
         }
@@ -2301,6 +2301,7 @@ public partial class CopilotViewModel : Screen
             }
             catch
             {
+                CopilotFailureReasonReported = true;
                 AddLog(LocalizationHelper.GetString("CopilotCouldNotSaveFile") + _tempCopilotFile, UiLogColor.Error);
                 return false;
             }

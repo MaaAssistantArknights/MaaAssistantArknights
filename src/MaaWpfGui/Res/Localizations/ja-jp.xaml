@@ -1485,6 +1485,7 @@ C:\leidian\LDPlayer9
         • 理性不足の場合、戦闘が失敗した場合、または 3 つ星を解決できない場合、アクションは終了します。
     </system:String>
     <system:String x:Key="CopilotFileReadError">ファイルの読み取りに失敗しました！</system:String>
+    <system:String x:Key="CopilotStartFailed">攻略ファイルの起動に失敗しました</system:String>
     <system:String x:Key="CopilotNoFound">対応する攻略ファイルが見つかりません！</system:String>
     <system:String x:Key="NetworkServiceError">ネットワークサービスの要求中にエラーが発生しました！</system:String>
     <system:String x:Key="CopilotJsonError">攻略ファイルの解析中にエラーが発生しました！</system:String>

@@ -1482,6 +1482,7 @@ Right-click to clear inactive jobs</system:String>
         • Execution will stop automatically when sanity is insufficient, battle fails, or fails to achieve a 3★ clear.
     </system:String>
     <system:String x:Key="CopilotFileReadError">Failed to read file!</system:String>
+    <system:String x:Key="CopilotStartFailed">Failed to start the copilot task</system:String>
     <system:String x:Key="CopilotNoFound">No corresponding file found!</system:String>
     <system:String x:Key="NetworkServiceError">Network service error!</system:String>
     <system:String x:Key="CopilotJsonError">Copilot JSON Error!</system:String>

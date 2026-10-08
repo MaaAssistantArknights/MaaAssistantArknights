@@ -1841,17 +1841,29 @@ public class AsstProxy
                     var what = details["what"]?.ToString() ?? string.Empty;
                     if (what == "UserAdditionalOperInvalid")
                     {
+                        Instances.CopilotViewModel.CopilotFailureReasonReported = true;
                         var operName = details["details"]?["name"]?.ToString();
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("CopilotUserAdditionalNameInvalid", operName ?? string.Empty), UiLogColor.Error);
                     }
+                    if (what == "CopilotFileReadError")
+                    {
+                        Instances.CopilotViewModel.CopilotFailureReasonReported = true;
+                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error);
+                    }
+                    if (what == "CopilotStageNotSupported")
+                    {
+                        Instances.CopilotViewModel.CopilotFailureReasonReported = true;
+                        var stageName = details["details"]?["stage_name"]?.ToString();
+                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("UnsupportedStages", stageName ?? string.Empty), UiLogColor.Error);
+                    }
                     if (what == "OperboxDataParseFailed")
                     {
-                        Instances.CopilotViewModel.OperBoxPrecheckErrorReported = true;
+                        Instances.CopilotViewModel.CopilotFailureReasonReported = true;
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CopilotOperboxDataParseFailed"), UiLogColor.Error);
                     }
                     if (what == "OperboxMultipleUnmatched")
                     {
-                        Instances.CopilotViewModel.OperBoxPrecheckErrorReported = true;
+                        Instances.CopilotViewModel.CopilotFailureReasonReported = true;
                         var unmatched = details["details"]?["unmatched_groups"]?.ToObject<List<string>>() ?? [];
                         var sb = new StringBuilder();
                         sb.AppendLine(LocalizationHelper.GetString("OperboxMultipleUnmatched"));

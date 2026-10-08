@@ -119,6 +119,9 @@ bool asst::CopilotTask::set_params(const json::value& params)
         m_stage_name = Copilot.get_stage_name();
         if (!m_battle_task_ptr->set_stage_name(m_stage_name)) {
             Log.error("Not support stage");
+            json::value info = basic_info_with_what("CopilotStageNotSupported");
+            info["details"]["stage_name"] = m_stage_name;
+            callback(AsstMsg::SubTaskError, info);
             return false;
         }
     }
@@ -253,6 +256,9 @@ std::optional<std::filesystem::path> asst::CopilotTask::parse_copilot_filename(c
     auto path = utils::path(name);
     if (!Copilot.load(path)) {
         Log.error("CopilotConfig parse failed");
+        // 发结构化错误让 GUI 报准确原因，避免落到通用启动失败兜底
+        json::value info = basic_info_with_what("CopilotFileReadError");
+        callback(AsstMsg::SubTaskError, info);
         return std::nullopt;
     }
     return path;
