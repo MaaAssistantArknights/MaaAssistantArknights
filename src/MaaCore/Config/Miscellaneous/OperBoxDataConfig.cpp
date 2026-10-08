@@ -163,6 +163,10 @@ std::optional<asst::battle::copilot::OperUsageGroups>
 
     const std::vector<OperBoxInfo>& operbox_data = m_data;
     OperUsageGroups groups = formation;
+
+    // 空干员组没有候选可匹配，留在匹配问题里必然 unmatched 触发借助战或整单失败；
+    // 通用编队路径对空组是直接跳过，这里过滤后行为一致
+    std::erase_if(groups, [](const auto& group) { return group.opers.empty(); });
     if (groups.empty()) {
         return groups;
     }
