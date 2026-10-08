@@ -63,6 +63,7 @@ public static class SleepManagement
     private static readonly Lock _keepAwakeLock = new();
     private static int _keepAwakeGeneration;
     private static nint _keepAwakePowerRequest;
+    private static DateTime _keepAwakeDeadline;
 
     [Flags]
     private enum ExecutionState : uint
@@ -102,7 +103,24 @@ public static class SleepManagement
     }
 
     /// <summary>
-    /// 在指定时长内保持系统唤醒，到期自动失效；窗口未结束时再次调用会以新时长重新开窗。
+    /// Gets the remaining time of the current keep-awake window; <see cref="TimeSpan.Zero"/> when
+    /// no window is active. Restart chains forward the remaining time instead of the original
+    /// duration so that restarts never extend the window beyond its original deadline.
+    /// </summary>
+    public static TimeSpan KeepAwakeRemaining
+    {
+        get
+        {
+            lock (_keepAwakeLock)
+            {
+                var remaining = _keepAwakeDeadline - DateTime.UtcNow;
+                return _keepAwakePowerRequest != 0 && remaining > TimeSpan.Zero ? remaining : TimeSpan.Zero;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 在指定时长内保持系统唤醒，到期自动失效；窗口未结束时再次调用会顺延一个完整的新时长。
     /// 走 PowerRequest 而非线程执行状态：进程级对象，与 <see cref="BlockSleep"/> 的
     /// SetThreadExecutionState 通道互不干扰，也不受调用线程影响，进程退出时由系统回收。
     /// </summary>
@@ -111,38 +129,36 @@ public static class SleepManagement
     {
         lock (_keepAwakeLock)
         {
-            nint previous = _keepAwakePowerRequest;
-            if (previous != 0)
+            // 窗口未结束时复用已有句柄顺延，避免释放到重建之间的空档
+            if (_keepAwakePowerRequest == 0)
             {
-                _keepAwakePowerRequest = 0;
-                PowerClearRequest(previous, PowerRequestType.PowerRequestSystemRequired);
-                CloseHandle(previous);
+                var context = new PowerRequestContextSimple
+                {
+                    Version = 0,
+                    Flags = 1,
+                    SimpleReasonString = "MAA keep awake after scheduled wake-up",
+                };
+                nint request = PowerCreateRequest(ref context);
+                if (request == 0 || request == -1)
+                {
+                    _logger.Warning("PowerCreateRequest failed: {ErrorCode}", Marshal.GetLastWin32Error());
+                    return;
+                }
+
+                if (!PowerSetRequest(request, PowerRequestType.PowerRequestSystemRequired))
+                {
+                    _logger.Warning("PowerSetRequest failed: {ErrorCode}", Marshal.GetLastWin32Error());
+                    CloseHandle(request);
+                    return;
+                }
+
+                _keepAwakePowerRequest = request;
             }
 
+            _keepAwakeDeadline = DateTime.UtcNow + duration;
+
+            // 递增 generation 作废上一个到期回调，由新回调负责释放
             int generation = ++_keepAwakeGeneration;
-
-            var context = new PowerRequestContextSimple
-            {
-                Version = 0,
-                Flags = 1,
-                SimpleReasonString = "MAA keep awake after scheduled wake-up",
-            };
-            nint request = PowerCreateRequest(ref context);
-            if (request == 0 || request == -1)
-            {
-                _logger.Warning("PowerCreateRequest failed: {ErrorCode}", Marshal.GetLastWin32Error());
-                return;
-            }
-
-            if (!PowerSetRequest(request, PowerRequestType.PowerRequestSystemRequired))
-            {
-                _logger.Warning("PowerSetRequest failed: {ErrorCode}", Marshal.GetLastWin32Error());
-                PowerClearRequest(request, PowerRequestType.PowerRequestSystemRequired);
-                CloseHandle(request);
-                return;
-            }
-
-            _keepAwakePowerRequest = request;
             _logger.Information("Keeping system awake for {Duration}", duration);
 
             _ = Task.Delay(duration).ContinueWith(_ => ClearKeepAwakeRequest(generation), TaskScheduler.Default);
@@ -160,6 +176,7 @@ public static class SleepManagement
             }
 
             _keepAwakePowerRequest = 0;
+            _keepAwakeDeadline = default;
             PowerClearRequest(request, PowerRequestType.PowerRequestSystemRequired);
             CloseHandle(request);
             _logger.Information("Keep-awake window expired");

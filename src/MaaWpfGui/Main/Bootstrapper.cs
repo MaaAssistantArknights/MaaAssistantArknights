@@ -511,12 +511,12 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         if (args.Any(arg => string.Equals(arg, KeepAwakeArg, StringComparison.OrdinalIgnoreCase)))
         {
             var keepAwakeArgs = ParseArgs(args, KeepAwakeArg);
-            _keepAwakeMinutes = keepAwakeArgs.TryGetValue(KeepAwakeArg, out string keepAwakeValue)
+            int keepAwakeMinutes = keepAwakeArgs.TryGetValue(KeepAwakeArg, out string keepAwakeValue)
                 && int.TryParse(keepAwakeValue, out int parsedMinutes) && parsedMinutes > 0
                 ? parsedMinutes
                 : DefaultKeepAwakeMinutes;
-            _logger.Information("Keeping system awake for {Minutes} minutes due to {Arg}", _keepAwakeMinutes, KeepAwakeArg);
-            SleepManagement.KeepAwakeFor(TimeSpan.FromMinutes(_keepAwakeMinutes));
+            _logger.Information("Keeping system awake for {Minutes} minutes due to {Arg}", keepAwakeMinutes, KeepAwakeArg);
+            SleepManagement.KeepAwakeFor(TimeSpan.FromMinutes(keepAwakeMinutes));
         }
 
         // 尽早解析预览参数：AsstProxy 等构造期即需据此跳过全部 native 调用
@@ -922,7 +922,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
     private static void SignalKeepAwakeToRunningInstance(string keepAwakeEventName)
     {
-        if (_keepAwakeMinutes <= 0)
+        int remainingMinutes = (int)Math.Ceiling(SleepManagement.KeepAwakeRemaining.TotalMinutes);
+        if (remainingMinutes <= 0)
         {
             return;
         }
@@ -931,12 +932,12 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         {
             using var dataFile = MemoryMappedFile.OpenExisting(KeepAwakeDataName);
             using var view = dataFile.CreateViewAccessor();
-            view.Write(0, _keepAwakeMinutes);
+            view.Write(0, remainingMinutes);
             view.Flush();
 
             using var keepAwakeEvent = EventWaitHandle.OpenExisting(keepAwakeEventName);
             keepAwakeEvent.Set();
-            _logger.Information("Keep-awake signal ({Minutes} min) sent to existing instance", _keepAwakeMinutes);
+            _logger.Information("Keep-awake signal ({Minutes} min) sent to existing instance", remainingMinutes);
         }
         catch (Exception e)
         {
@@ -1244,12 +1245,9 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         ProcessStartInfo startInfo = new ProcessStartInfo { FileName = Environment.ProcessPath, };
 
-        // 切配置等无参重启（如定时点前 2 分钟的配置切换）不携带用户参数，
-        // 但唤醒保活窗口未走完时须转发给下一进程，否则与无人值守睡眠超时赛跑
-        foreach (string arg in GetForwardableRestartArgs())
-        {
-            startInfo.ArgumentList.Add(arg);
-        }
+        // 无参重启不携带用户参数（skip 等不转发），仅保活窗口仍有剩余时转发剩余时长，
+        // 重启不把窗口终点向后漂移；已过期的窗口不重新打开
+        AppendKeepAwakeForwardArgs(startInfo.ArgumentList);
 
         Process.Start(startInfo);
     }
@@ -1348,7 +1346,6 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     private static bool _isRestartingWithoutArgs;
     private static ProcessStartInfo _restartStartInfo;
     private static bool _skipStartupAutoRun;
-    private static int _keepAwakeMinutes;
 
 #nullable enable
 
@@ -1492,7 +1489,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     }
 
     /// <summary>
-    /// 获取需要转发给下一进程的启动参数（当前转发 skip-startup-auto-run 与 keep-awake 及其时长）。
+    /// 获取需要转发给下一进程的启动参数（当前转发 skip-startup-auto-run 与 keep-awake 及剩余时长）。
     /// </summary>
     /// <returns>需要转发的参数数组；无需转发时为空数组。</returns>
     public static string[] GetForwardableRestartArgs()
@@ -1503,13 +1500,26 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             forwardable.Add(SkipStartupAutoRunArg);
         }
 
-        if (_keepAwakeMinutes > 0)
-        {
-            forwardable.Add(KeepAwakeArg);
-            forwardable.Add(_keepAwakeMinutes.ToString(System.Globalization.CultureInfo.InvariantCulture));
-        }
+        AppendKeepAwakeForwardArgs(forwardable);
 
         return [.. forwardable];
+    }
+
+    /// <summary>
+    /// 保活窗口仍有剩余时，把剩余分钟数（向上取整）追加进转发参数；重启与保活信号都按剩余时长
+    /// 传递，保证窗口终点不随重启或实例接续向后漂移。
+    /// </summary>
+    /// <param name="args">待追加的目标集合。</param>
+    private static void AppendKeepAwakeForwardArgs(ICollection<string> args)
+    {
+        int remainingMinutes = (int)Math.Ceiling(SleepManagement.KeepAwakeRemaining.TotalMinutes);
+        if (remainingMinutes <= 0)
+        {
+            return;
+        }
+
+        args.Add(KeepAwakeArg);
+        args.Add(remainingMinutes.ToString(System.Globalization.CultureInfo.InvariantCulture));
     }
 
     /// <summary>
