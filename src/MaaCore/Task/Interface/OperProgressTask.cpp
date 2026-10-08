@@ -87,6 +87,10 @@ public:
 bool asst::OperProgressTask::set_params(const json::value& params)
 {
     LogTraceFunction;
+    if (m_running) {
+        LogError << __FUNCTION__ << "task is running, cannot set params";
+        return false;
+    }
 
     const auto& plans = params.find<std::vector<ProgressPlan>>("plans");
     if (!plans) {
