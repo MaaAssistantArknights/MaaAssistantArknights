@@ -438,74 +438,67 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             Directory.CreateDirectory("debug");
         }
 
-        if (File.Exists(UiLogFile) && new FileInfo(UiLogFile).Length > 4 * 1024 * 1024)
-        {
-            if (File.Exists(UiLogBakFile))
-            {
-                File.Delete(UiLogBakFile);
-            }
-
-            File.Move(UiLogFile, UiLogBakFile);
-        }
-
-        // Bootstrap serilog
-        var loggerConfiguration = new LoggerConfiguration()
-            .WriteTo.Debug(outputTemplate: "[{Timestamp:HH:mm:ss}][{Level:u3}]{ClassName} <{ThreadId}> {Message:lj}{NewLine}{Exception}")
-            .WriteTo.File(
-                UiLogFile,
-                outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}][{Level:u3}]{ClassName} <{ThreadId}> {Message:lj}{NewLine}{Exception}")
-            .Enrich.With<ClassNameEnricher>()
-            .Enrich.FromLogContext()
-            .Enrich.WithThreadId()
-            .Enrich.WithThreadName();
-
-        var uiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
-        uiVersion = uiVersion == "0.0.1" ? "DEBUG_VERSION" : uiVersion;
-        var builtDate = Assembly.GetExecutingAssembly().GetCustomAttribute<BuildDateTimeAttribute>()?.BuildTime.ToLocalTime() ?? DateTimeOffset.MinValue;
-        var maaEnv = Environment.GetEnvironmentVariable("MAA_ENVIRONMENT") == "Debug"
-            ? "Debug"
-            : "Production";
         var args = Environment.GetCommandLineArgs();
-        var withDebugFile = File.Exists("DEBUG") || File.Exists("DEBUG.txt");
-        loggerConfiguration = (maaEnv == "Debug" || withDebugFile)
-            ? loggerConfiguration.MinimumLevel.Verbose()
-            : loggerConfiguration.MinimumLevel.Information();
-        var workingDirectory = PathsHelper.BaseDir;
-        var folderName = Path.GetFileName(workingDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
-        var isBuildOutputFolder =
-            string.Equals(folderName, "Release", StringComparison.OrdinalIgnoreCase) ||
-            string.Equals(folderName, "Debug", StringComparison.OrdinalIgnoreCase) ||
-            string.Equals(folderName, "RelWithDebInfo", StringComparison.OrdinalIgnoreCase);
+        InitializeLogger(args);
 
-        Log.Logger = loggerConfiguration.CreateLogger();
-        _logger = Log.Logger.ForContext<Bootstrapper>();
-        _logger.Information("===================================");
-        _logger.Information("MaaAssistantArknights GUI started");
-        _logger.Information("Version {UiVersion}", uiVersion);
-        _logger.Information("Built at {BuiltDate:O}", builtDate);
-        _logger.Information("Maa ENV: {MaaEnv}", maaEnv);
-        _logger.Information("Command Line: {Join}", string.Join(' ', args));
-        _logger.Information("User Dir {BaseDirectory}", workingDirectory);
-        if (withDebugFile)
+        ParseEarlyLaunchArgs(args, launchDir);
+
+        ConfigurationHelper.Load();
+        LocalizationHelper.Load();
+
+        ConsumeDelegatedUpdateResult();
+
+        if (!VerifyInstallLocation() || !TryApplyPendingUpdatePackage())
         {
-            _logger.Information("Start with DEBUG file");
+            return;
         }
 
-        if (IsAdministratorWithUac())
-        {
-            _logger.Information("Run as Administrator");
-        }
+        ConfigConverter.ConvertConfig();
+        ETagCache.Load();
 
-        if (WineRuntimeInformation.IsRunningUnderWine)
+        ApplyDemoModeConfigOverrides();
+
+        if (ConfigFactory.Root.Gui.IgnoreBadModulesAndUseSoftwareRendering)
         {
-            _logger.Information("Running under Wine {WineVersion} on {HostSystemName}", WineRuntimeInformation.WineVersion, WineRuntimeInformation.HostSystemName);
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
-            _logger.Information("MaaWineBridge status: {WineBridgeAvailability}", MaaWineBridge.Availability);
-            _logger.Information("MaaDesktopIntegration available: {Available}", MaaDesktopIntegration.Available);
+            _logger.Information("Using software rendering mode due to user preference (bad modules detected)");
         }
 
-        _logger.Information("===================================");
+        if (!VerifyStartupEnvironment())
+        {
+            return;
+        }
 
+        if (!HandleMultipleInstances())
+        {
+            FlushLogAndExit();
+            return;
+        }
+
+        if (!IsWritable(PathsHelper.BaseDir))
+        {
+            Task.Run(() => MessageBoxHelper.Show(LocalizationHelper.GetString("SoftwareLocationWarning"), LocalizationHelper.GetString("Error"), MessageBoxButton.OK, MessageBoxImage.Error));
+        }
+
+        Task.Run(ParseCrashLog);
+
+        base.OnStart();
+        _hasMutex = true;
+
+        // --config <配置名>：启动时切换到指定配置（Config 内部会重启进程）
+        if (ParseArgs(args, "--config").TryGetValue("--config", out string configArgs))
+        {
+            Config(configArgs);
+        }
+    }
+
+    /// <summary>
+    /// 解析启动早期即生效的命令行参数：skip-startup-auto-run、keep-awake、skip-core-init 与 demo 截图模式。
+    /// </summary>
+    /// <param name="args">命令行参数。</param>
+    /// <param name="launchDir">启动时的工作目录，相对路径参数按此解析。</param>
+    private static void ParseEarlyLaunchArgs(string[] args, string launchDir)
+    {
         // 尽早解析 skip 参数：pending 更新早退重启需要原样转发
         _skipStartupAutoRun = args.Any(arg => string.Equals(arg, SkipStartupAutoRunArg, StringComparison.OrdinalIgnoreCase));
         if (_skipStartupAutoRun)
@@ -557,9 +550,100 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             // --demo 位于末位无值，或大小写不符（ParseArgs 的 flag 匹配区分大小写）
             _logger.Warning("{Arg} present but not recognized (flags are case-sensitive) or has no value; demo shot mode is not enabled", DemoDataArg);
         }
+    }
 
-        ConfigurationHelper.Load();
-        LocalizationHelper.Load();
+    /// <summary>
+    /// Gets the MAA build environment: <c>Debug</c> only when MAA_ENVIRONMENT=Debug, otherwise <c>Production</c>.
+    /// </summary>
+    private static string MaaEnv => Environment.GetEnvironmentVariable("MAA_ENVIRONMENT") == "Debug"
+        ? "Debug"
+        : "Production";
+
+    /// <summary>
+    /// Gets a value indicating whether the running directory is a CMake build output folder
+    /// (Debug/Release/RelWithDebInfo), where DLLs are unpacked and unknown-DLL detection is skipped.
+    /// </summary>
+    private static bool IsBuildOutputFolder
+    {
+        get
+        {
+            var folderName = Path.GetFileName(PathsHelper.BaseDir.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+            return string.Equals(folderName, "Release", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(folderName, "Debug", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(folderName, "RelWithDebInfo", StringComparison.OrdinalIgnoreCase);
+        }
+    }
+
+    /// <summary>
+    /// 建立全局日志器并输出启动横幅（版本、环境、命令行、管理员与 Wine 探测）。
+    /// </summary>
+    /// <param name="args">命令行参数，用于横幅记录。</param>
+    private static void InitializeLogger(string[] args)
+    {
+        if (File.Exists(UiLogFile) && new FileInfo(UiLogFile).Length > 4 * 1024 * 1024)
+        {
+            if (File.Exists(UiLogBakFile))
+            {
+                File.Delete(UiLogBakFile);
+            }
+
+            File.Move(UiLogFile, UiLogBakFile);
+        }
+
+        // Bootstrap serilog
+        var loggerConfiguration = new LoggerConfiguration()
+            .WriteTo.Debug(outputTemplate: "[{Timestamp:HH:mm:ss}][{Level:u3}]{ClassName} <{ThreadId}> {Message:lj}{NewLine}{Exception}")
+            .WriteTo.File(
+                UiLogFile,
+                outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}][{Level:u3}]{ClassName} <{ThreadId}> {Message:lj}{NewLine}{Exception}")
+            .Enrich.With<ClassNameEnricher>()
+            .Enrich.FromLogContext()
+            .Enrich.WithThreadId()
+            .Enrich.WithThreadName();
+
+        var uiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
+        uiVersion = uiVersion == "0.0.1" ? "DEBUG_VERSION" : uiVersion;
+        var builtDate = Assembly.GetExecutingAssembly().GetCustomAttribute<BuildDateTimeAttribute>()?.BuildTime.ToLocalTime() ?? DateTimeOffset.MinValue;
+        var withDebugFile = File.Exists("DEBUG") || File.Exists("DEBUG.txt");
+        loggerConfiguration = (MaaEnv == "Debug" || withDebugFile)
+            ? loggerConfiguration.MinimumLevel.Verbose()
+            : loggerConfiguration.MinimumLevel.Information();
+
+        Log.Logger = loggerConfiguration.CreateLogger();
+        _logger = Log.Logger.ForContext<Bootstrapper>();
+        _logger.Information("===================================");
+        _logger.Information("MaaAssistantArknights GUI started");
+        _logger.Information("Version {UiVersion}", uiVersion);
+        _logger.Information("Built at {BuiltDate:O}", builtDate);
+        _logger.Information("Maa ENV: {MaaEnv}", MaaEnv);
+        _logger.Information("Command Line: {Join}", string.Join(' ', args));
+        _logger.Information("User Dir {BaseDirectory}", PathsHelper.BaseDir);
+        if (withDebugFile)
+        {
+            _logger.Information("Start with DEBUG file");
+        }
+
+        if (IsAdministratorWithUac())
+        {
+            _logger.Information("Run as Administrator");
+        }
+
+        if (WineRuntimeInformation.IsRunningUnderWine)
+        {
+            _logger.Information("Running under Wine {WineVersion} on {HostSystemName}", WineRuntimeInformation.WineVersion, WineRuntimeInformation.HostSystemName);
+            RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+            _logger.Information("MaaWineBridge status: {WineBridgeAvailability}", MaaWineBridge.Availability);
+            _logger.Information("MaaDesktopIntegration available: {Available}", MaaDesktopIntegration.Available);
+        }
+
+        _logger.Information("===================================");
+    }
+
+    /// <summary>
+    /// 消费上次委托外部 updater 的结果标志（成功仅记日志，失败置资源损坏标志并放行启动）。
+    /// </summary>
+    private static void ConsumeDelegatedUpdateResult()
+    {
         if (PendingUpdateApplier.TryConsumeDelegatedUpdateSuccess())
         {
             _logger.Information("Delegated pending update completed successfully");
@@ -572,83 +656,108 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             _logger.Error("Delegated pending update failed. Reason: {Reason}", delegatedUpdateFailureReason);
             MarkResourceBroken();
         }
+    }
 
-        if (TryGetUnsupportedInstallLocation(out string unsupportedLocation))
+    /// <summary>
+    /// 检查安装位置是否受支持。
+    /// </summary>
+    /// <returns>是否继续启动；false 时已弹窗并请求退出。</returns>
+    private static bool VerifyInstallLocation()
+    {
+        if (!TryGetUnsupportedInstallLocation(out string unsupportedLocation))
         {
-            string currentBaseDirectory = NormalizeDirectoryPath(AppDomain.CurrentDomain.BaseDirectory);
-            _logger.Error(
-                "Blocked startup from unsupported install location: currentPath={CurrentPath}, matchedLocation={MatchedLocation}",
-                currentBaseDirectory,
-                unsupportedLocation);
-            MessageBoxHelper.Show(
-                LocalizationHelper.GetStringFormat("UnsupportedInstallLocationError", currentBaseDirectory, unsupportedLocation),
-                LocalizationHelper.GetString("Error"),
-                MessageBoxButton.OK,
-                MessageBoxImage.Error);
+            return true;
+        }
+
+        string currentBaseDirectory = NormalizeDirectoryPath(AppDomain.CurrentDomain.BaseDirectory);
+        _logger.Error(
+            "Blocked startup from unsupported install location: currentPath={CurrentPath}, matchedLocation={MatchedLocation}",
+            currentBaseDirectory,
+            unsupportedLocation);
+        MessageBoxHelper.Show(
+            LocalizationHelper.GetStringFormat("UnsupportedInstallLocationError", currentBaseDirectory, unsupportedLocation),
+            LocalizationHelper.GetString("Error"),
+            MessageBoxButton.OK,
+            MessageBoxImage.Error);
+        FlushLogAndExit();
+        return false;
+    }
+
+    /// <summary>
+    /// 应用待处理的更新包：委托外部 updater 或进程内应用，成功后早退重启。
+    /// </summary>
+    /// <returns>是否继续启动；false 时已请求退出或已触发重启。</returns>
+    private static bool TryApplyPendingUpdatePackage()
+    {
+        if (!PendingUpdateApplier.HasPendingUpdatePackage())
+        {
+            return true;
+        }
+
+        _logger.Information("Pending update package detected, applying before full startup");
+        var pendingUpdateResult = PendingUpdateApplier.TryApplyPendingUpdatePackage();
+        if (pendingUpdateResult.Delegated)
+        {
+            _logger.Information("Pending update package handed off to external updater, exiting current process");
             FlushLogAndExit();
+            return false;
+        }
+
+        if (pendingUpdateResult.Succeeded)
+        {
+            RestartAfterPendingUpdateEarly();
+            return false;
+        }
+
+        if (pendingUpdateResult.Status == PendingUpdateApplyResult.StatusKind.MissingUpdaterExecutable)
+        {
+            _logger.Error("Pending update package could not be delegated because MAA.Updater.exe is missing. Reason: {Reason}", pendingUpdateResult.FailureReason);
+            ShowPendingUpdateMissingUpdaterDialog();
+            FlushLogAndExit();
+            return false;
+        }
+
+        if (pendingUpdateResult.RequiresManualRecovery)
+        {
+            // 进程内应用失败且安装已变动：写入失败标志持久化，与委托更新失败共用
+            // 主窗口显示后的修复弹窗路径，此处不退出
+            _logger.Error("Pending update package left the installation in an incomplete state. Reason: {Reason}", pendingUpdateResult.FailureReason);
+            PendingUpdateApplier.MarkDelegatedUpdateFailure(pendingUpdateResult.FailureReason ?? string.Empty);
+            MarkResourceBroken();
+        }
+
+        _logger.Warning("Pending update package could not be applied, continuing with normal startup");
+        return true;
+    }
+
+    /// <summary>
+    /// 演示模式（README 截图）的配置整形。
+    /// </summary>
+    private static void ApplyDemoModeConfigOverrides()
+    {
+        if (!IsDemoMode)
+        {
             return;
         }
 
-        if (PendingUpdateApplier.HasPendingUpdatePackage())
-        {
-            _logger.Information("Pending update package detected, applying before full startup");
-            var pendingUpdateResult = PendingUpdateApplier.TryApplyPendingUpdatePackage();
-            if (pendingUpdateResult.Delegated)
-            {
-                _logger.Information("Pending update package handed off to external updater, exiting current process");
-                FlushLogAndExit();
-                return;
-            }
+        // 演示模式不落盘任何配置（ConfigFactory 保存链整体拦截），窗口位置由 DemoShotService
+        // 统一归位；客户端类型固定为官服（与演示数据 zh-cn 组一致），使 Core 资源加载与启动时的
+        // 关卡/活动解析都基于国服资源，不受运行目录遗留的外服配置影响；
+        // 置空自定义背景路径并关闭莫奈取色，截图不携带运行目录遗留的背景图与取色主题；
+        // 设置指引按已完成处理，避免全新配置首次启动时向导覆盖任务页截图。
+        // 必须在 ConvertConfig 之后执行，否则未迁移旧配置的转换结果会覆盖这里的设置
+        ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ClientType = MaaWpfGui.Constants.Enums.ClientType.Official;
+        ConfigFactory.Root.Gui.Background.ImagePath = string.Empty;
+        ConfigFactory.Root.Gui.BackgroundMonetEnabled = false;
+        ConfigFactory.Root.Gui.GuideStep = SettingsViewModel.GuideMaxStep;
+    }
 
-            if (pendingUpdateResult.Succeeded)
-            {
-                RestartAfterPendingUpdateEarly();
-                return;
-            }
-
-            if (pendingUpdateResult.Status == PendingUpdateApplyResult.StatusKind.MissingUpdaterExecutable)
-            {
-                _logger.Error("Pending update package could not be delegated because MAA.Updater.exe is missing. Reason: {Reason}", pendingUpdateResult.FailureReason);
-                ShowPendingUpdateMissingUpdaterDialog();
-                FlushLogAndExit();
-                return;
-            }
-
-            if (pendingUpdateResult.RequiresManualRecovery)
-            {
-                // 进程内应用失败且安装已变动：写入失败标志持久化，与委托更新失败共用
-                // 主窗口显示后的修复弹窗路径，此处不退出
-                _logger.Error("Pending update package left the installation in an incomplete state. Reason: {Reason}", pendingUpdateResult.FailureReason);
-                PendingUpdateApplier.MarkDelegatedUpdateFailure(pendingUpdateResult.FailureReason ?? string.Empty);
-                MarkResourceBroken();
-            }
-
-            _logger.Warning("Pending update package could not be applied, continuing with normal startup");
-        }
-
-        ConfigConverter.ConvertConfig();
-        ETagCache.Load();
-
-        if (IsDemoMode)
-        {
-            // 演示模式不落盘任何配置（ConfigFactory 保存链整体拦截），窗口位置由 DemoShotService
-            // 统一归位；客户端类型固定为官服（与演示数据 zh-cn 组一致），使 Core 资源加载与启动时的
-            // 关卡/活动解析都基于国服资源，不受运行目录遗留的外服配置影响；
-            // 置空自定义背景路径并关闭莫奈取色，截图不携带运行目录遗留的背景图与取色主题；
-            // 设置指引按已完成处理，避免全新配置首次启动时向导覆盖任务页截图。
-            // 必须在 ConvertConfig 之后执行，否则未迁移旧配置的转换结果会覆盖这里的设置
-            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ClientType = MaaWpfGui.Constants.Enums.ClientType.Official;
-            ConfigFactory.Root.Gui.Background.ImagePath = string.Empty;
-            ConfigFactory.Root.Gui.BackgroundMonetEnabled = false;
-            ConfigFactory.Root.Gui.GuideStep = SettingsViewModel.GuideMaxStep;
-        }
-
-        if (ConfigFactory.Root.Gui.IgnoreBadModulesAndUseSoftwareRendering)
-        {
-            RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
-            _logger.Information("Using software rendering mode due to user preference (bad modules detected)");
-        }
-
+    /// <summary>
+    /// 启动环境检查：MaaCore 与 resource 存在性、未知 DLL 与 VC++ 运行库探测。
+    /// </summary>
+    /// <returns>是否继续启动；false 时已弹窗并请求退出。</returns>
+    private static bool VerifyStartupEnvironment()
+    {
         // UI 预览模式不加载 Core：跳过 Core 存在性检查（本会话不触碰任何 native，
         // DLL 缺失或依赖不全都不是预览模式的错误）
         if (!IsCoreInitSkipped)
@@ -667,7 +776,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         }
 
         // Debug 模式下 DLL 是未打包的
-        if (maaEnv != "Debug" && !isBuildOutputFolder)
+        if (MaaEnv != "Debug" && !IsBuildOutputFolder)
         {
             var unknownDlls = UnknownDllDetected();
             if (unknownDlls.Count > 0)
@@ -679,7 +788,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
                     MessageBoxImage.Error);
                 _logger.Fatal("Unknown DLL(s) detected: {UnknownDlls}", string.Join(", ", unknownDlls));
                 FlushLogAndExit();
-                return;
+                return false;
             }
         }
 
@@ -705,34 +814,10 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             }
 
             FlushLogAndExit();
-            return;
+            return false;
         }
 
-        if (!HandleMultipleInstances())
-        {
-            FlushLogAndExit();
-            return;
-        }
-
-        if (!IsWritable(PathsHelper.BaseDir))
-        {
-            Task.Run(() => MessageBoxHelper.Show(LocalizationHelper.GetString("SoftwareLocationWarning"), LocalizationHelper.GetString("Error"), MessageBoxButton.OK, MessageBoxImage.Error));
-        }
-
-        Task.Run(ParseCrashLog);
-
-        base.OnStart();
-        _hasMutex = true;
-
-        const string ConfigFlag = "--config";
-        const string AnotherFlag = "--another"; // 示例，之后如果有其他参数，可以继续添加
-
-        var parsedArgs = ParseArgs(args, ConfigFlag, AnotherFlag);
-
-        if (parsedArgs.TryGetValue(ConfigFlag, out string configArgs) && Config(configArgs))
-        {
-            // return;
-        }
+        return true;
     }
 
     public class ClassNameEnricher : ILogEventEnricher
