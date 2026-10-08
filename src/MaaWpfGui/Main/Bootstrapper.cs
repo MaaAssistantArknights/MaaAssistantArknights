@@ -440,6 +440,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         var args = Environment.GetCommandLineArgs();
         InitializeLogger(args);
+        ConfigureWineEnvironment();
 
         ParseEarlyLaunchArgs(args, launchDir);
 
@@ -628,15 +629,23 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             _logger.Information("Run as Administrator");
         }
 
-        if (WineRuntimeInformation.IsRunningUnderWine)
+        _logger.Information("===================================");
+    }
+
+    /// <summary>
+    /// Wine 环境探测与渲染设置：软件渲染 + 桥接可用性日志。
+    /// </summary>
+    private static void ConfigureWineEnvironment()
+    {
+        if (!WineRuntimeInformation.IsRunningUnderWine)
         {
-            _logger.Information("Running under Wine {WineVersion} on {HostSystemName}", WineRuntimeInformation.WineVersion, WineRuntimeInformation.HostSystemName);
-            RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
-            _logger.Information("MaaWineBridge status: {WineBridgeAvailability}", MaaWineBridge.Availability);
-            _logger.Information("MaaDesktopIntegration available: {Available}", MaaDesktopIntegration.Available);
+            return;
         }
 
-        _logger.Information("===================================");
+        _logger.Information("Running under Wine {WineVersion} on {HostSystemName}", WineRuntimeInformation.WineVersion, WineRuntimeInformation.HostSystemName);
+        RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+        _logger.Information("MaaWineBridge status: {WineBridgeAvailability}", MaaWineBridge.Availability);
+        _logger.Information("MaaDesktopIntegration available: {Available}", MaaDesktopIntegration.Available);
     }
 
     /// <summary>
