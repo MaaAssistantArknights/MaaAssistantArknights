@@ -571,7 +571,7 @@ D:\
     <system:String x:Key="ScheduledStartNotificationTitle">定时任务即将执行</system:String>
     <system:String x:Key="ScheduledStartNotificationContent">定时 {0} 计划于 {1}（{2} 分钟后）开始执行，请留意游戏登录状态。</system:String>
     <system:String x:Key="ScheduledWakeUp">定时启动前尝试唤醒计算机并启动 MAA</system:String>
-    <system:String x:Key="ScheduledWakeUpTip" xml:space="preserve">该功能通过在 Windows 任务计划程序中注册计划任务实现，在每个启用的定时项前 5 分钟尝试唤醒计算机并启动 MAA，由定时启动逻辑接管。&#10;唤醒启动时将跳过 ｢{key=StartupSettings}｣ 中的启动自动运行项（如{key=RunTaskAfterLaunch}、{key=OpenEmulatorAfterLaunch}）。&#10;MAA 退出后计划任务仍会保留，关闭本开关时删除。&#10;休眠状态的定时唤醒依赖设备固件支持，部分设备仅支持从睡眠唤醒。</system:String>
+    <system:String x:Key="ScheduledWakeUpTip" xml:space="preserve">该功能通过在 Windows 任务计划程序中注册计划任务实现，在每个启用的定时项前 5 分钟尝试唤醒计算机并启动 MAA，由定时启动逻辑接管。&#10;唤醒启动时将跳过 ｢{key=StartupSettings}｣ 中的启动自动运行项（如{key=RunTaskAfterLaunch}、{key=OpenEmulatorAfterLaunch}）。&#10;MAA 退出后计划任务仍会保留，关闭本开关时删除。&#10;任务开始后的长时间运行不再由本功能保持唤醒，若任务耗时较长，建议在 ｢{key=GameSettings}｣ 中开启 ｢{key=BlockSleep}｣，避免任务执行期间系统睡眠。&#10;休眠状态的定时唤醒依赖设备固件支持，部分设备仅支持从睡眠唤醒。</system:String>
     <system:String x:Key="Timer">定时</system:String>
     <system:String x:Key="GlobalConfigTip">此选项页为全局配置</system:String>
     <system:String x:Key="MultiTasksShareTip">以下选项为多任务共用</system:String>
