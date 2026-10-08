@@ -1407,7 +1407,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">Some jobs require specific skill levels, Modules or other prerequisites.
 Enabling this will skip these checks, but may cause the job to fail.
 Operators' Elite level CANNOT be ignored. If any requirements are ignored, the operation will no longer be automatically rated after the battle.</system:String>
-    <system:String x:Key="Copilot.UseOperBoxAssist">Assist formation with OperBox data</system:String>
+    <system:String x:Key="Copilot.UseOperBoxAssist">Assist formation with Yituliu data</system:String>
     <system:String x:Key="AddUserAdditional">Add custom {key=Operator}s</system:String>
     <system:String x:Key="AddUserAdditionalTip">Click the settings button next to it to open the editing window, then click ｢{key=UserAdditional.Add}｣ to add entries one by one, and fill in the {key=Operator} name, skill, and action in each column</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator} Name</system:String>
@@ -1889,7 +1889,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BattleFormationOperboxMatched">Pre-matched {key=Operator} (groups):</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">Additional custom {key=Operator} name invalid: {0}, please check spelling</system:String>
     <system:String x:Key="CopilotOperboxDataParseFailed">{key=OperBoxRecognition} data parse failed</system:String>
-    <system:String x:Key="CopilotOperboxAssistRequiresIgnoreRequirements">Locally recognized {key=OperBoxRecognition} data has no skill or module info. To use OperBox formation assist, enable "{key=Copilot.IgnoreRequirements}" or use Yituliu data</system:String>
+    <system:String x:Key="CopilotOperboxAssistRequiresYituliuData">No Yituliu operator data is available for formation assist. Fetch operator data from Yituliu first, or disable ｢{key=Copilot.UseOperBoxAssist}｣.</system:String>
     <system:String x:Key="CurrentSteps">Step: {0} {1}</system:String>
     <system:String x:Key="ElapsedTime">Elapsed time: {0}ms</system:String>
     <system:String x:Key="Deploy">Deploy</system:String>

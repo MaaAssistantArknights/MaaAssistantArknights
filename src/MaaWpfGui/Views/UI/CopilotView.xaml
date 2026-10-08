@@ -446,16 +446,15 @@
                             </WrapPanel>
 
                             <!--  UseOperBoxAssist  -->
-                            <WrapPanel
-                                Orientation="Vertical"
-                                Visibility="{c:Binding 'Form and (CopilotTabIndex == 0 or CopilotTabIndex == 3)'}">
+                            <WrapPanel Orientation="Vertical" Visibility="{c:Binding 'Form and (CopilotTabIndex == 0 or CopilotTabIndex == 3)'}">
                                 <CheckBox
                                     Margin="2.5,5"
-                                    Content="{DynamicResource Copilot.UseOperBoxAssist}" IsChecked="{Binding EnableOperBoxAssist}" />
+                                    Content="{DynamicResource Copilot.UseOperBoxAssist}"
+                                    IsChecked="{Binding EnableOperBoxAssist}" />
                                 <TextBlock
-                                    Visibility="{c:Binding EnableOperBoxAssist}"
                                     Margin="0,2,0,0"
-                                    Foreground="Gray">
+                                    Foreground="Gray"
+                                    Visibility="{c:Binding EnableOperBoxAssist}">
                                     <Run Text="{DynamicResource LastSyncTime}" />
                                     <Run Text=": " />
                                     <Run Text="{Binding OperBoxLastSyncTimeText, Mode=OneWay}" />

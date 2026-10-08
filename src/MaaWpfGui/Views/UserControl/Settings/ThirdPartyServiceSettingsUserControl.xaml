@@ -75,13 +75,20 @@
             Text="{Binding YituliuTokenValidationText}"
             TextWrapping="Wrap"
             Visibility="{c:Binding 'YituliuTokenValidationText.Length > 0'}" />
-        <StackPanel
-            Margin="10"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Orientation="Horizontal">
-            <CheckBox Content="{DynamicResource EnableOperBoxYituliuApi}" IsChecked="{Binding EnableOperBoxYituliuApi}" />
-            <controls:TooltipBlock TooltipText="{DynamicResource EnableOperBoxYituliuApiTip}" />
+        <StackPanel HorizontalAlignment="Center">
+            <StackPanel
+                Margin="10,5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <CheckBox Content="{DynamicResource EnableOperBoxYituliuApi}" IsChecked="{Binding EnableOperBoxYituliuApi}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource EnableOperBoxYituliuApiTip}" />
+            </StackPanel>
+            <CheckBox
+                Margin="10,5"
+                HorizontalAlignment="Left"
+                Content="{DynamicResource Copilot.UseOperBoxAssist}"
+                IsChecked="{Binding EnableOperBoxAssist}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

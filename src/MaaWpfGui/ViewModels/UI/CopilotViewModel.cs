@@ -39,6 +39,7 @@ using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.Items;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -476,7 +477,12 @@ public partial class CopilotViewModel : Screen
     /// </summary>
     public bool IgnoreRequirements { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool EnableOperBoxAssist { get; set => SetAndNotify(ref field, value); }
+    [PropertyDependsOn(typeof(ThirdPartyServiceSettingsUserControlModel), nameof(ThirdPartyServiceSettingsUserControlModel.EnableOperBoxAssist))]
+    public bool EnableOperBoxAssist
+    {
+        get => SettingsViewModel.ThirdPartyServiceSettings.EnableOperBoxAssist;
+        set => SettingsViewModel.ThirdPartyServiceSettings.EnableOperBoxAssist = value;
+    }
 
     [PropertyDependsOn(nameof(EnableOperBoxAssist))]
     public string OperBoxLastSyncTimeText
@@ -522,11 +528,9 @@ public partial class CopilotViewModel : Screen
     }
 
     [PropertyDependsOn(nameof(EnableOperBoxAssist))]
-    [PropertyDependsOn(nameof(OperBoxLastSyncTimeText))]
     [PropertyDependsOn(nameof(Form))]
     [PropertyDependsOn(nameof(CopilotTabIndex))]
     public bool EffectiveOperBoxAssist => EnableOperBoxAssist
-        && !string.IsNullOrEmpty(OperBoxLastSyncTimeText)
         && Form
         && (CopilotTabIndex == 0 || CopilotTabIndex == 3);
 
@@ -2084,9 +2088,9 @@ public partial class CopilotViewModel : Screen
 
     private async Task<bool> ValidateStartAsync()
     {
-        if (EffectiveOperBoxAssist && !IgnoreRequirements && !IsOperBoxDataFromYituliu())
+        if (EffectiveOperBoxAssist && !IsOperBoxDataFromYituliu())
         {
-            AddLog(LocalizationHelper.GetString("CopilotOperboxAssistRequiresIgnoreRequirements"), UiLogColor.Error, showTime: false);
+            AddLog(LocalizationHelper.GetString("CopilotOperboxAssistRequiresYituliuData"), UiLogColor.Error, showTime: false);
             return false;
         }
 

@@ -97,6 +97,17 @@ public class ThirdPartyServiceSettingsUserControlModel : PropertyChangedBase
     } = ConfigFactory.CurrentConfig.Gui.ThirdParty.OperBoxUseYituliuApi;
 
     /// <summary>
+    /// Gets or sets a value indicating whether 使用一图流数据辅助自动编队。
+    /// </summary>
+    public bool EnableOperBoxAssist
+    {
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Gui.ThirdParty.EnableOperBoxAssist = value;
+        }
+    } = ConfigFactory.CurrentConfig.Gui.ThirdParty.EnableOperBoxAssist;
+
+    /// <summary>
     /// Gets or sets a value indicating whether token 验证进行中。
     /// </summary>
     public bool IsVerifyingYituliuToken
