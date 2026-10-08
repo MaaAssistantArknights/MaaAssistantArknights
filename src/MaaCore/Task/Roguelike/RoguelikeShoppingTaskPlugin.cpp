@@ -7,31 +7,79 @@
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
+#include "Task/Roguelike/BlackFlow/BlackFlowSession.h"
 #include "Utils/Logger.hpp"
+#include "Utils/StringMisc.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/OCRer.h"
+#include "Vision/RegionOCRer.h"
 
 bool asst::RoguelikeShoppingTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
-    if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
+    if (details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
 
-    if (!details.get("details", "task", "").ends_with("Roguelike@TraderRandomShopping")) {
+    const std::string task = details.get("details", "task", "");
+    const bool strategy_shopping = RoguelikeShopping.strategy_shopping_enabled(m_config->get_theme());
+    if (strategy_shopping && m_pending_purchase && m_blackflow_session) {
+        if (msg == AsstMsg::SubTaskCompleted && task.ends_with("Roguelike@TraderRandomShoppingConfirm")) {
+            m_pending = PendingWork::PurchaseConfirmed;
+            return true;
+        }
+        if (msg == AsstMsg::SubTaskStart &&
+            (task.ends_with("Roguelike@TraderRandomShoppingCancel") || task.ends_with("Roguelike@StageTraderLeave") ||
+             task.ends_with("Roguelike@StageTraderLeaveConfirm"))) {
+            m_pending = PendingWork::ClearPurchase;
+            return true;
+        }
+    }
+    if (msg != AsstMsg::SubTaskStart || !task.ends_with("Roguelike@TraderRandomShopping")) {
         return false;
     }
-    else if (m_config->get_mode() == RoguelikeMode::Investment) {
-        return m_config->get_invest_with_more_score();
+    if (m_config->get_mode() == RoguelikeMode::Investment && !m_config->get_invest_with_more_score()) {
+        return false;
     }
-    else if (m_config->get_mode() == RoguelikeMode::Collectible) {
-        return m_config->get_collectible_mode_shopping();
+    if (m_config->get_mode() == RoguelikeMode::Collectible && !m_config->get_collectible_mode_shopping()) {
+        return false;
+    }
+    if (strategy_shopping) {
+        m_pending = PendingWork::Buy;
     }
     return true;
+}
+
+void asst::RoguelikeShoppingTaskPlugin::reset_in_run_variables()
+{
+    m_pending = PendingWork::None;
+    m_pending_purchase.reset();
 }
 
 bool asst::RoguelikeShoppingTaskPlugin::_run()
 {
     LogTraceFunction;
+
+    const bool strategy_shopping = RoguelikeShopping.strategy_shopping_enabled(m_config->get_theme());
+    if (strategy_shopping) {
+        const PendingWork work = std::exchange(m_pending, PendingWork::None);
+        if (work == PendingWork::PurchaseConfirmed) {
+            const auto purchase = std::exchange(m_pending_purchase, std::nullopt);
+            std::string error;
+            if (purchase && !m_blackflow_session->apply_shopping_purchase(*purchase, &error)) {
+                LogError << __FUNCTION__ << "BlackFlow shopping purchase failed" << error;
+                return false;
+            }
+            return true;
+        }
+        if (work == PendingWork::ClearPurchase) {
+            m_pending_purchase.reset();
+            return true;
+        }
+        if (work != PendingWork::Buy) {
+            return true;
+        }
+        m_pending_purchase.reset();
+    }
 
     buy_once();
     const auto& theme = m_config->get_theme();
@@ -57,6 +105,17 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
 bool asst::RoguelikeShoppingTaskPlugin::buy_once()
 {
     LogTraceFunction;
+
+    const auto& theme = m_config->get_theme();
+    const bool strategy_shopping = RoguelikeShopping.strategy_shopping_enabled(theme);
+
+    if (strategy_shopping && m_blackflow_session) {
+        // 同店确认购买后事实可能变化，下一笔购买重新选表。
+        const auto shopping = m_blackflow_session->shopping_rule();
+        auto& status = m_config->status();
+        status.shopping_buy_table = shopping ? shopping->get().buy_table : "default";
+        status.shopping_sell_table = shopping ? shopping->get().sell_table : std::string();
+    }
 
     auto image = ctrler()->get_image();
     OCRer analyzer(image);
@@ -122,11 +181,10 @@ bool asst::RoguelikeShoppingTaskPlugin::buy_once()
     }
 
     // bool bought = false;
-    const auto& theme = m_config->get_theme();
-    const bool strategy_shopping = RoguelikeShopping.strategy_shopping_enabled(theme);
     const auto& all_goods = strategy_shopping
                                ? RoguelikeShopping.get_goods(theme, m_config->status().shopping_buy_table)
                                : RoguelikeShopping.get_goods(theme);
+    const auto wallet = strategy_shopping ? read_wallet(image) : std::nullopt;
     std::vector<std::string> all_foldartal = m_config->get_theme() == RoguelikeTheme::Sami
                                                  ? Task.get<OcrTaskInfo>("Sami@Roguelike@FoldartalGainOcr")->text
                                                  : std::vector<std::string>();
@@ -147,6 +205,12 @@ bool asst::RoguelikeShoppingTaskPlugin::buy_once()
             return tr.text.find(goods.name) != std::string::npos || goods.name.find(tr.text) != std::string::npos;
         });
         if (find_it == result.cend()) {
+            continue;
+        }
+
+        if (strategy_shopping && goods.price && wallet && *goods.price > *wallet) {
+            LogTrace << __FUNCTION__ << "Ready to buy" << goods.name << "but the wallet is not enough, skip"
+                     << *goods.price << *wallet;
             continue;
         }
 
@@ -212,6 +276,9 @@ bool asst::RoguelikeShoppingTaskPlugin::buy_once()
         // or 取消等等的逻辑
         Log.info("Ready to buy", goods.name);
         ctrler()->click(find_it->rect);
+        if (strategy_shopping && m_blackflow_session) {
+            m_pending_purchase = goods.name;
+        }
         // bought = true;
         if (m_config->get_theme() == RoguelikeTheme::Sami) {
             auto iter = std::find(all_foldartal.begin(), all_foldartal.end(), goods.name);
@@ -236,3 +303,17 @@ bool asst::RoguelikeShoppingTaskPlugin::buy_once()
     return true;
 }
 
+std::optional<int> asst::RoguelikeShoppingTaskPlugin::read_wallet(const cv::Mat& image) const
+{
+    const std::string themed_task = m_config->get_theme() + "@Roguelike@StageTraderInvest-Wallet";
+    const std::string task_name = Task.get(themed_task) != nullptr ? themed_task : "Roguelike@StageTraderInvest-Wallet";
+    RegionOCRer ocr(image);
+    ocr.set_task_info(task_name);
+    ocr.set_use_raw(false);
+    ocr.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
+    int wallet = 0;
+    if (!ocr.analyze() || !utils::chars_to_number(ocr.get_result().text, wallet)) {
+        return std::nullopt;
+    }
+    return wallet;
+}

@@ -28,6 +28,7 @@ namespace asst::blackflow
 namespace
 {
 constexpr std::string_view CurrentActionPointsTask = "BlackFlow@Roguelike@CurrentActionPoints";
+constexpr std::string_view CurrentIngotsTask = "BlackFlow@Roguelike@CurrentIngots";
 constexpr std::string_view MovePreviewWaitTask = "BlackFlow@Roguelike@MovePreviewWait";
 constexpr std::string_view MovePreviewEnterTask = "BlackFlow@Roguelike@MovePreviewEnter";
 constexpr std::string_view MovePreviewCannotEnterTask = "BlackFlow@Roguelike@MovePreviewCannotEnter";
@@ -250,6 +251,9 @@ bool BlackFlowTaskPort::refresh(
             next.run.action_points = *action_points;
             next.observation.hud_action_points = *action_points;
         }
+        if (const auto ingots = recognize_ingots(image); ingots.has_value()) {
+            next.run.ingots = *ingots;
+        }
         if (const auto movement = recognize_loaded_movement(image); movement.has_value()) {
             next.run.active_movement = *movement;
         }
@@ -401,6 +405,15 @@ std::optional<int> BlackFlowTaskPort::recognize_action_points(const cv::Mat& ima
 {
     const auto value = recognize_integer(image, CurrentActionPointsTask);
     if (!value.has_value() || *value < 0 || *value > 64) {
+        return std::nullopt;
+    }
+    return value;
+}
+
+std::optional<int> BlackFlowTaskPort::recognize_ingots(const cv::Mat& image) const
+{
+    const auto value = recognize_integer(image, CurrentIngotsTask);
+    if (!value.has_value() || *value < 0) {
         return std::nullopt;
     }
     return value;

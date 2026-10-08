@@ -59,6 +59,35 @@
             "id": "default_shop",
             "page_intent": "default",
             "node_types": ["shop"],
+            "rank": 1,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Shop",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "floor3_shop",
+            "page_intent": "default",
+            "floor_window": [3, 3],
+            "node_types": ["shop"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Purchase",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "floor5_shop",
+            "page_intent": "default",
+            "floor_window": [5, 5],
+            "node_types": ["shop"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Purchase",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "default_scrap_shop",
+            "page_intent": "default",
+            "node_types": ["scrap_shop"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
             "task": "BlackFlow@Roguelike@Page-Shop",
@@ -108,7 +137,7 @@
             "node_types": ["shop"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
-            "task": "BlackFlow@Roguelike@Page-Investment",
+            "task": "BlackFlow@Roguelike@Page-SeedPriority",
             "completion_task": "BlackFlow@Roguelike@LegacyCompletion-BabyShop"
         },
         {
@@ -118,7 +147,7 @@
             "node_types": ["shop"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
-            "task": "BlackFlow@Roguelike@Page-Investment",
+            "task": "BlackFlow@Roguelike@Page-SeedPriority",
             "completion_task": "BlackFlow@Roguelike@LegacyCompletion-BabyShop"
         },
         {
@@ -129,6 +158,16 @@
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
             "task": "BlackFlow@Roguelike@Page-Cultivate",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "trade_scrap_shop",
+            "page_intent": "scrap_shop.trade",
+            "floor_window": [2, 5],
+            "node_types": ["scrap_shop"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-ScrapTrade",
             "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
         },
         {

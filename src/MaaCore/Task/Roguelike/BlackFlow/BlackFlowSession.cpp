@@ -2071,6 +2071,27 @@ std::optional<std::reference_wrapper<const ShoppingRule>> BlackFlowSession::shop
     return resolve_shopping_rule(*m_policy, m_facts.merged(), m_page_context->page_intent);
 }
 
+bool BlackFlowSession::apply_shopping_purchase(std::string_view name, std::string* error)
+{
+    if (!m_page_context || m_page_context->stage != PageExecutionStage::Running ||
+        m_page_context->node_type != NodeType::Shop) {
+        if (error != nullptr) {
+            *error = "shopping purchase requires a running BlackFlow shop page";
+        }
+        return false;
+    }
+    if (name != "沙盘α" && name != "沙盘β") {
+        return true;
+    }
+    if (!set_fact("sandtable_b", true, error)) {
+        return false;
+    }
+    // 买到沙盘后更新目标状态，商店页面仍在运行，可以继续按新买表购物。
+    refresh_mission();
+    evaluate_terminal_rules();
+    return true;
+}
+
 bool BlackFlowSession::mark_page_running(std::string* error)
 {
     if (!m_page_context.has_value() || !m_transaction.has_value() ||

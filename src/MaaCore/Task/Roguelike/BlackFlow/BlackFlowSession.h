@@ -196,6 +196,7 @@ public:
     void set_cultivated_animal_types(std::vector<CultivatedAnimalType> types);
 
     [[nodiscard]] std::optional<std::reference_wrapper<const ShoppingRule>> shopping_rule() const;
+    bool apply_shopping_purchase(std::string_view name, std::string* error = nullptr);
 
     bool mark_page_running(std::string* error = nullptr);
     bool apply_node_task_result(
