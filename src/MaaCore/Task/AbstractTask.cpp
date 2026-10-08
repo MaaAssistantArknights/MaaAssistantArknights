@@ -75,6 +75,8 @@ AbstractTask& asst::AbstractTask::set_ignore_error(bool ignore) noexcept
 
 AbstractTask& asst::AbstractTask::set_task_id(int task_id) noexcept
 {
+    // set_params 阶段发出的回调可能已缓存含旧 taskid 的 basic_info，须作废后按新 taskid 重建
+    m_basic_info_cache = json::value();
     m_task_id = task_id;
     return *this;
 }
