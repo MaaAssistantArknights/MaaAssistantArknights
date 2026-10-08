@@ -1845,7 +1845,7 @@ public class AsstProxy
                     {
                         Instances.CopilotViewModel.CopilotFailureReasonReported = true;
                         var operName = details["details"]?["name"]?.ToString();
-                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("CopilotUserAdditionalNameInvalid", operName ?? string.Empty), UiLogColor.Error);
+                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("CopilotUserAdditionalNameInvalid", operName ?? string.Empty), UiLogColor.Error, showTime: false);
                     }
                     if (what == "CopilotFileReadError")
                     {
@@ -2503,7 +2503,7 @@ public class AsstProxy
                 break;
 
             case "BattleFormationParseFailed":
-                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleFormationParseFailed"));
+                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleFormationParseFailed"), showTime: false);
                 break;
 
             case "BattleFormationSelected":
@@ -2544,7 +2544,7 @@ public class AsstProxy
                             break;
                     }
 
-                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("BattleFormationOperUnavailable", oper_name ?? string.Empty, type), isError ? UiLogColor.Error : UiLogColor.Warning);
+                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("BattleFormationOperUnavailable", oper_name ?? string.Empty, type), isError ? UiLogColor.Error : UiLogColor.Warning, showTime: false);
                     break;
                 }
 

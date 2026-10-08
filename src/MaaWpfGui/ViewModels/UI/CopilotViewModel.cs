@@ -550,7 +550,7 @@ public partial class CopilotViewModel : Screen
                 ToolboxViewModel.YituliuFetchResult.WriteOnly => LocalizationHelper.GetString("YituliuTokenWriteOnly"),
                 ToolboxViewModel.YituliuFetchResult.Invalid => LocalizationHelper.GetString("YituliuTokenInvalid"),
                 _ => LocalizationHelper.GetString("YituliuTokenNetworkError"),
-            }, result == ToolboxViewModel.YituliuFetchResult.Success ? UiLogColor.Info : UiLogColor.Error);
+            }, result == ToolboxViewModel.YituliuFetchResult.Success ? UiLogColor.Info : UiLogColor.Error, showTime: false);
         }
         finally
         {
@@ -2049,7 +2049,7 @@ public partial class CopilotViewModel : Screen
     {
         if (Bootstrapper.TryGetTaskBlockReason() is { } reason)
         {
-            AddLog(reason, UiLogColor.Error);
+            AddLog(reason, UiLogColor.Error, showTime: false);
             return;
         }
 
@@ -2302,7 +2302,7 @@ public partial class CopilotViewModel : Screen
             catch
             {
                 CopilotFailureReasonReported = true;
-                AddLog(LocalizationHelper.GetString("CopilotCouldNotSaveFile") + _tempCopilotFile, UiLogColor.Error);
+                AddLog(LocalizationHelper.GetString("CopilotCouldNotSaveFile") + _tempCopilotFile, UiLogColor.Error, showTime: false);
                 return false;
             }
         }
