@@ -506,10 +506,8 @@ bool BlackFlowScrapTradeTaskPlugin::precise_swipe_supported() const
     return ControlFeat::support(ctrler()->support_features(), ControlFeat::PRECISE_SWIPE);
 }
 
-bool BlackFlowScrapTradeTaskPlugin::swipe_by(
-    std::string_view task_name,
-    std::optional<int> distance,
-    std::string* error)
+bool
+    BlackFlowScrapTradeTaskPlugin::swipe_by(std::string_view task_name, std::optional<int> distance, std::string* error)
 {
     const auto task = Task.get(std::string(task_name));
     bool succeeded = false;

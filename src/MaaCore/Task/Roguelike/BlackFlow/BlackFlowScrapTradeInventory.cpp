@@ -225,8 +225,8 @@ std::optional<BlackFlowScrapTradeInventory::View> BlackFlowScrapTradeInventory::
         }
         const auto shift = measure_shift(*previous, *current);
         stationary = shift && std::abs(*shift) < SettledShift && same_view(*previous, *current) ? stationary + 1 : 0;
-        LogInfo << "BlackFlow scrap inventory rewind" << "step" << step << "measured" << shift.has_value()
-                << "shift" << shift.value_or(0) << "stationary" << stationary;
+        LogInfo << "BlackFlow scrap inventory rewind" << "step" << step << "measured" << shift.has_value() << "shift"
+                << shift.value_or(0) << "stationary" << stationary;
         if (stationary >= 2) {
             if (at_top != nullptr) {
                 *at_top = true;
@@ -299,8 +299,8 @@ std::optional<std::vector<std::string>> BlackFlowScrapTradeInventory::survey(
                         << item.text.text << "indexed" << indexed;
             }
         }
-        LogInfo << "BlackFlow scrap inventory survey" << "step" << step << "offset" << offset << "total"
-                << cells.size() << "indexed" << indexed;
+        LogInfo << "BlackFlow scrap inventory survey" << "step" << step << "offset" << offset << "total" << cells.size()
+                << "indexed" << indexed;
         if (stationary >= 2) {
             if (!indexed) {
                 use_names();
@@ -449,8 +449,8 @@ std::optional<ScrapTradeInventoryTarget> BlackFlowScrapTradeInventory::find(
         }
         m_offset = *offset;
         for (const auto& visible : *view) {
-            const int row = static_cast<int>(
-                std::lround(static_cast<double>(visible.center_y + *offset - FirstRowY) / RowPitch));
+            const int row =
+                static_cast<int>(std::lround(static_cast<double>(visible.center_y + *offset - FirstRowY) / RowPitch));
             const auto index = static_cast<std::size_t>(row * Columns + visible.column - 1);
             if (index == target_index) {
                 return ScrapTradeInventoryTarget { visible.text, index };

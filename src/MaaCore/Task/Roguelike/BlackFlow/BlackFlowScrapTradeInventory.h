@@ -27,7 +27,9 @@ class ScrapTradeInventoryModel final
 {
 public:
     void reset(std::vector<std::string> names);
+
     [[nodiscard]] const std::vector<std::string>& items() const noexcept { return m_items; }
+
     [[nodiscard]] ScrapTradeInventoryItem item(std::size_t index) const;
     void erase(std::size_t index);
 
@@ -62,10 +64,8 @@ class BlackFlowScrapTradeInventory final
 {
 public:
     // 完整计数时返回数量并逐格回调；位置歧义返回空值，识别或操作失败另写入 error。
-    [[nodiscard]] std::optional<std::vector<std::string>> survey(
-        BlackFlowScrapTradeInventoryContext& context,
-        const std::vector<std::string>& names,
-        std::string* error);
+    [[nodiscard]] std::optional<std::vector<std::string>>
+        survey(BlackFlowScrapTradeInventoryContext& context, const std::vector<std::string>& names, std::string* error);
 
     // 位置有歧义时保留各段已经识别的物品；不同段的同名计数取最大值。
     [[nodiscard]] const std::vector<std::string>& observed_items() const noexcept { return m_observed; }
@@ -78,10 +78,8 @@ public:
         std::string* error);
 
     // 确认流程成功后才删除物品并补位；调用方随后更新交易账本。
-    bool sell(
-        BlackFlowScrapTradeInventoryContext& context,
-        const ScrapTradeInventoryTarget& target,
-        std::string* error);
+    bool
+        sell(BlackFlowScrapTradeInventoryContext& context, const ScrapTradeInventoryTarget& target, std::string* error);
     void invalidate();
     void forget_position();
 
@@ -99,6 +97,7 @@ private:
         int column = 0;
         int center_y = 0;
     };
+
     using View = std::vector<VisibleItem>;
 
     [[nodiscard]] std::optional<View> recognize(
@@ -107,7 +106,8 @@ private:
         std::string* error) const;
     [[nodiscard]] std::optional<int> measure_shift(const View& before, const View& after) const;
     [[nodiscard]] bool same_view(const View& before, const View& after) const;
-    bool advance(BlackFlowScrapTradeInventoryContext& context, const View& view, bool forward, std::string* error) const;
+    bool
+        advance(BlackFlowScrapTradeInventoryContext& context, const View& view, bool forward, std::string* error) const;
     [[nodiscard]] std::optional<View> rewind(
         BlackFlowScrapTradeInventoryContext& context,
         const std::vector<std::string>& names,
