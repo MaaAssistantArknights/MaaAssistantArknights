@@ -1459,11 +1459,14 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
     }
 
     // --- 贸易加速 ---
+
+    /* 暂时禁用望的控制中枢技能，以防与训练室冲突
     // 桑葚在办公室时，贸易加速优先选择望
     if (best.size() < ControlSlotCount && !trading_acc && worldly_plight &&
         add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_tra&prod"); })) { // 权变：望
         trading_acc = true;
     }
+    */
 
     // 阿斯卡纶额外拥有训练室加速技能，因此贸易加速优先选择阿斯卡纶
     if (best.size() < ControlSlotCount && !trading_acc && add_first([](const ScoreOper& oper) {
@@ -1481,11 +1484,13 @@ ScoreResult select_control(const std::vector<ScoreOper>& opers, const ScoreConte
         trading_acc = true;
     }
 
+    /* 暂时禁用望的控制中枢技能，以防与训练室冲突
     // 桑葚不在办公室时，望的优先级低于其他贸易加速干员
     if (best.size() < ControlSlotCount && !trading_acc &&
         add_first([](const ScoreOper& oper) { return has_skill(oper, "bskill_ctrl_tra&prod"); })) { // 权变：望
         trading_acc = true;
     }
+    */
 
     // 若无其他贸易加速干员可选，则选择诗怀雅提供贸易加速
     if (best.size() < ControlSlotCount && !trading_acc && add_first([](const ScoreOper& oper) {
