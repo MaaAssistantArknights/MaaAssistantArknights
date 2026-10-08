@@ -468,14 +468,14 @@
                                             <ColumnDefinition />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock
+                                        <controls:TextBlock
                                             Grid.Column="0"
-                                            Foreground="Gray"
+                                            Foreground="{DynamicResource SecondaryTextBrush}"
                                             TextWrapping="Wrap">
                                             <Run Text="{DynamicResource LastSyncTime}" />
                                             <Run Text=": " />
                                             <Run Text="{Binding OperBoxLastSyncTimeText, Mode=OneWay}" />
-                                        </TextBlock>
+                                        </controls:TextBlock>
                                         <Button
                                             Grid.Column="1"
                                             Padding="10,2"
