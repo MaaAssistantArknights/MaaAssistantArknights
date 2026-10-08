@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.MemoryMappedFiles;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -67,6 +68,12 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     private static bool _hasMutex;
     private static EventWaitHandle _instanceActivationEvent;
     private static CancellationTokenSource _instanceActivationListenerCancellation;
+    private static EventWaitHandle _instanceKeepAwakeEvent;
+    private static CancellationTokenSource _instanceKeepAwakeListenerCancellation;
+    private static MemoryMappedFile _keepAwakeDataFile;
+    private static MemoryMappedViewAccessor _keepAwakeDataView;
+
+    private static string KeepAwakeDataName => "MAA_KEEPAWAKEDATA_" + InstanceKey;
 
     public static readonly string UiLogFile = Path.Combine(PathsHelper.DebugDir, "gui.log");
     public static readonly string UiLogBakFile = Path.Combine(PathsHelper.DebugDir, "gui.bak.log");
@@ -752,6 +759,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     private static bool HandleMultipleInstances()
     {
         string activationEventName = "MAA_SHOW_" + InstanceKey;
+        string keepAwakeEventName = "MAA_KEEPAWAKE_" + InstanceKey;
         _mutex = new Mutex(true, MutexName, out var isOnlyInstance);
 
         try
@@ -759,11 +767,14 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             if (isOnlyInstance || _mutex.WaitOne(500))
             {
                 EnsureInstanceActivationEvent(activationEventName);
+                EnsureInstanceKeepAwakeEvent(keepAwakeEventName);
                 return true;
             }
 
             if (SignalExistingInstance(activationEventName))
             {
+                // 本次唤醒拉起的保活窗口随本进程退出被回收，由常驻实例自行开窗接续
+                SignalKeepAwakeToRunningInstance(keepAwakeEventName);
                 return false;
             }
 
@@ -775,6 +786,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             // 上一个程序没有正常释放互斥量
             // 即使捕获到这个异常，此时也已经获得了锁
             EnsureInstanceActivationEvent(activationEventName);
+            EnsureInstanceKeepAwakeEvent(keepAwakeEventName);
             return true;
         }
         catch (Exception e)
@@ -800,6 +812,51 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     private static void EnsureInstanceActivationEvent(string activationEventName)
     {
         _instanceActivationEvent ??= new EventWaitHandle(false, EventResetMode.AutoReset, activationEventName);
+    }
+
+    private static void EnsureInstanceKeepAwakeEvent(string keepAwakeEventName)
+    {
+        _instanceKeepAwakeEvent ??= new EventWaitHandle(false, EventResetMode.AutoReset, keepAwakeEventName);
+        if (_keepAwakeDataView != null)
+        {
+            return;
+        }
+
+        try
+        {
+            // 4 字节共享内存承载保活时长：唤醒拉起的第二个进程写入自己解析到的值后 Set 事件，
+            // 常驻实例读出开窗，手动 --keep-awake 30 之类非缺省时长才不会在传递中丢失
+            _keepAwakeDataFile = MemoryMappedFile.CreateOrOpen(KeepAwakeDataName, sizeof(int));
+            _keepAwakeDataView = _keepAwakeDataFile.CreateViewAccessor();
+        }
+        catch (Exception e)
+        {
+            _logger.Warning(e, "Failed to create keep-awake shared memory");
+        }
+    }
+
+    private static void SignalKeepAwakeToRunningInstance(string keepAwakeEventName)
+    {
+        if (_keepAwakeMinutes <= 0)
+        {
+            return;
+        }
+
+        try
+        {
+            using var dataFile = MemoryMappedFile.OpenExisting(KeepAwakeDataName);
+            using var view = dataFile.CreateViewAccessor();
+            view.Write(0, _keepAwakeMinutes);
+            view.Flush();
+
+            using var keepAwakeEvent = EventWaitHandle.OpenExisting(keepAwakeEventName);
+            keepAwakeEvent.Set();
+            _logger.Information("Keep-awake signal ({Minutes} min) sent to existing instance", _keepAwakeMinutes);
+        }
+        catch (Exception e)
+        {
+            _logger.Warning(e, "Failed to signal keep-awake to the existing instance");
+        }
     }
 
     private static bool SignalExistingInstance(string activationEventName)
@@ -832,6 +889,59 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         _instanceActivationListenerCancellation = new CancellationTokenSource();
         _ = Task.Run(() => ListenForInstanceActivation(_instanceActivationListenerCancellation.Token));
+    }
+
+    private static void StartInstanceKeepAwakeListener()
+    {
+        if (_instanceKeepAwakeEvent == null || _instanceKeepAwakeListenerCancellation != null)
+        {
+            return;
+        }
+
+        _instanceKeepAwakeListenerCancellation = new CancellationTokenSource();
+        _ = Task.Run(() => ListenForInstanceKeepAwake(_instanceKeepAwakeListenerCancellation.Token));
+    }
+
+    private static void ListenForInstanceKeepAwake(CancellationToken cancellationToken)
+    {
+        if (_instanceKeepAwakeEvent == null)
+        {
+            return;
+        }
+
+        WaitHandle[] waitHandles = [_instanceKeepAwakeEvent, cancellationToken.WaitHandle];
+
+        try
+        {
+            while (true)
+            {
+                int signaledIndex = WaitHandle.WaitAny(waitHandles);
+                if (signaledIndex != 0)
+                {
+                    return;
+                }
+
+                // 唤醒拉起的第二个进程即将退出，其保活窗口随进程回收，由常驻实例重新开窗接续
+                _logger.Information("Keep-awake signal received from another launch");
+                int minutes = 0;
+                _keepAwakeDataView?.Read(0, out minutes);
+                if (minutes <= 0)
+                {
+                    // 共享内存不可用或写入失败，退回计划任务写入的标准时长
+                    minutes = ScheduledWakeUp.KeepAwakeMinutes;
+                }
+
+                SleepManagement.KeepAwakeFor(TimeSpan.FromMinutes(minutes));
+            }
+        }
+        catch (ObjectDisposedException)
+        {
+            // ignored during shutdown
+        }
+        catch (Exception e)
+        {
+            _logger.Warning(e, "Keep-awake listener stopped unexpectedly");
+        }
     }
 
     private static void ListenForInstanceActivation(CancellationToken cancellationToken)
@@ -950,6 +1060,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         Instances.WindowManager.ShowWindow(rootViewModel);
         Instances.InstantiateOnRootViewDisplayed(Container);
         StartInstanceActivationListener();
+        StartInstanceKeepAwakeListener();
 
         // 如果 IsFirstBootAfterUpdate 从 false 变为 true，说明这次启动只是解压更新包，不用执行后续逻辑
         if (!wasFirstBoot && Instances.VersionUpdateDialogViewModel.IsFirstBootAfterUpdate)
@@ -1048,6 +1159,13 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         ProcessStartInfo startInfo = new ProcessStartInfo { FileName = Environment.ProcessPath, };
 
+        // 切配置等无参重启（如定时点前 2 分钟的配置切换）不携带用户参数，
+        // 但唤醒保活窗口未走完时须转发给下一进程，否则与无人值守睡眠超时赛跑
+        foreach (string arg in GetForwardableRestartArgs())
+        {
+            startInfo.ArgumentList.Add(arg);
+        }
+
         Process.Start(startInfo);
     }
 
@@ -1070,6 +1188,19 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         _instanceActivationEvent?.Dispose();
         _instanceActivationEvent = null;
+
+        _instanceKeepAwakeListenerCancellation?.Cancel();
+        _instanceKeepAwakeListenerCancellation?.Dispose();
+        _instanceKeepAwakeListenerCancellation = null;
+
+        _instanceKeepAwakeEvent?.Dispose();
+        _instanceKeepAwakeEvent = null;
+
+        _keepAwakeDataView?.Dispose();
+        _keepAwakeDataView = null;
+
+        _keepAwakeDataFile?.Dispose();
+        _keepAwakeDataFile = null;
 
         ETagCache.Save();
         Instances.SettingsViewModel.Sober();
@@ -1105,9 +1236,10 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     public const string KeepAwakeArg = "--keep-awake";
 
     /// <summary>
-    /// <see cref="KeepAwakeArg"/> 未显式给出时长时的缺省分钟数。
+    /// <see cref="KeepAwakeArg"/> 未显式给出时长时的缺省分钟数，供手动调用者兜底；
+    /// 定时唤醒链路显式传值，见 <see cref="Utilities.ScheduledWakeUp.KeepAwakeMinutes"/>。
     /// </summary>
-    public const int DefaultKeepAwakeMinutes = 5;
+    public const int DefaultKeepAwakeMinutes = 10;
 
     /// <summary>
     /// UI 预览模式启动参数：跳过 MaaCore 加载与资源读取，仅渲染界面。
@@ -1316,7 +1448,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     }
 
     /// <summary>
-    /// 重启，不带参数
+    /// 重启，不带用户启动参数（当前进程持有的 keep-awake 等内部可转发状态仍会带过去）。
     /// </summary>
     /// <param name="caller">Caller Member Name</param>
     public static void ShutdownAndRestartWithoutArgs([CallerMemberName] string caller = "")
