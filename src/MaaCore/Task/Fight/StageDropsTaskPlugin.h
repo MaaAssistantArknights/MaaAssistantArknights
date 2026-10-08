@@ -33,13 +33,7 @@ public:
 
     void set_target_stage(std::string stage_code) noexcept { m_target_stage = stage_code; }
 
-    void set_stop_on_recognition_error(bool enable) noexcept { m_stop_on_recognition_error = enable; }
-
-    const std::unordered_map<std::string, int>& get_drops() const noexcept { return m_drop_stats; }
-
     bool is_target_reached() const { return check_specify_quantity(); }
-
-    bool has_recognition_failed() const noexcept { return m_recognition_failed; }
 
 private:
     virtual bool _run() override;
@@ -72,8 +66,6 @@ private:
 
     mutable bool m_is_annihilation = false;
     bool m_start_button_delay_is_set = false;
-    bool m_stop_on_recognition_error = false;
-    bool m_recognition_failed = false;
     ProcessTask* m_cast_ptr = nullptr;
     std::shared_ptr<ReportDataTask> m_report_penguin_task_ptr = nullptr;
     std::shared_ptr<ReportDataTask> m_report_yituliu_task_ptr = nullptr;

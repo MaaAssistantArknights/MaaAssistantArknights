@@ -92,21 +92,16 @@ bool asst::FightTask::run()
     }
 
     const bool succeeded = InterfaceTask::run();
-    m_result.drops = m_stage_drops_plugin_ptr->get_drops();
-    m_result.target_reached = m_stage_drops_plugin_ptr->is_target_reached();
     m_result.medicine_used = m_medicine_plugin->get_used_count();
     m_result.medicine_usage_known = !m_recovery_attempted || (succeeded && !m_execution_failed);
     if (need_exit()) {
         m_result.reason = StopReason::Cancelled;
     }
-    else if (m_stage_drops_plugin_ptr->has_recognition_failed()) {
-        m_result.reason = StopReason::DropRecognitionFailed;
-    }
     else if (!succeeded && m_last_phase == Phase::Navigation) {
         m_result.reason = StopReason::NavigationFailed;
     }
     else if (m_result.reason == StopReason::Unknown && !m_execution_failed) {
-        if (m_result.target_reached) {
+        if (m_stage_drops_plugin_ptr->is_target_reached()) {
             m_result.reason = StopReason::TargetReached;
         }
         else if (m_recovery_exhausted) {
@@ -123,7 +118,6 @@ void asst::FightTask::set_refill_mode(bool enabled)
 {
     m_refill_mode = enabled;
     m_medicine_plugin->set_retry_times(enabled ? 0 : RetryTimesDefault);
-    m_stage_drops_plugin_ptr->set_stop_on_recognition_error(enabled);
     m_fight_task_ptr->set_times_limit(
         "FightMissionFailed",
         enabled ? 0 : Task.get("Fight@FightMissionFailed")->max_times);
@@ -185,6 +179,9 @@ void asst::FightTask::observe_callback(AsstMsg msg, const json::value& details, 
         }
     }
     if (phase == Phase::Fight && msg == AsstMsg::SubTaskError && m_refill_mode) {
+        if (details.get("subtask", std::string()) == "RecognizeDrops") {
+            m_result.reason = StopReason::DropRecognitionFailed;
+        }
         m_execution_failed = true;
         m_fight_task_ptr->set_enable(false);
         LogError << __FUNCTION__ << "Stopping material refill after task error" << details.to_string();

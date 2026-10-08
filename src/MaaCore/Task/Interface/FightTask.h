@@ -39,8 +39,6 @@ public:
     struct RunResult
     {
         StopReason reason = StopReason::Unknown;
-        std::unordered_map<std::string, int> drops;
-        bool target_reached = false;
         int medicine_used = 0;
         bool medicine_usage_known = false;
     };

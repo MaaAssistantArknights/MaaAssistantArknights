@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cctype>
-#include <charconv>
 #include <chrono>
 #include <limits>
 #include <optional>
@@ -385,10 +384,10 @@ asst::OperProgressProcessTask::ResultDetail
             return ResultDetail::RecognitionFailed;
         }
         if (result.reason == FightTask::StopReason::AutoDeployUnavailable && result.medicine_usage_known &&
-            result.medicine_used == 0 && result.drops.empty()) {
+            result.medicine_used == 0) {
             continue;
         }
-        if (result.target_reached && result.reason == FightTask::StopReason::TargetReached) {
+        if (result.reason == FightTask::StopReason::TargetReached) {
             return ResultDetail::Completed;
         }
         if (result.reason == FightTask::StopReason::SanityInsufficient ||
@@ -730,10 +729,8 @@ std::optional<std::pair<int, int>> asst::OperProgressProcessTask::ocr_current_ex
     }
     int current = 0;
     int next = 0;
-    const auto current_parsed = std::from_chars(text.data(), text.data() + separator, current);
-    const auto next_parsed = std::from_chars(text.data() + separator + 1, text.data() + text.size(), next);
-    if (current_parsed.ec != std::errc() || current_parsed.ptr != text.data() + separator ||
-        next_parsed.ec != std::errc() || next_parsed.ptr != text.data() + text.size() || current < 0 ||
+    if (!utils::chars_to_number<int, true>(std::string_view(text).substr(0, separator), current) ||
+        !utils::chars_to_number<int, true>(std::string_view(text).substr(separator + 1), next) || current < 0 ||
         next <= current) {
         LogWarn << __FUNCTION__ << "Invalid current EXP observation" << text;
         return std::nullopt;
@@ -772,8 +769,7 @@ std::optional<int> asst::OperProgressProcessTask::ocr_integer(const cv::Mat& ima
     }
     const auto& text = observation->text;
     int value = 0;
-    const auto parsed = std::from_chars(text.data(), text.data() + text.size(), value);
-    if (parsed.ec != std::errc() || parsed.ptr != text.data() + text.size() || value < 0) {
+    if (!utils::chars_to_number<int, true>(text, value) || value < 0) {
         LogWarn << __FUNCTION__ << "Invalid integer observation" << task_name << text;
         return std::nullopt;
     }
@@ -1113,12 +1109,12 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
     if (!run_task("InfrastTrainingConfirm") || !run_task("InfrastTrainingMasteryPage", 10)) {
         return ResultDetail::RecognitionFailed;
     }
-    const int training_level = current_level + 1;
+    current_level = current_level + 1; // 开始专精后当前等级 +1
     // 选好技能之后再选陪练，这样能确保逻各斯类技能触发
-    if (!run_task("OperProgress@MasterySelectTrainer") || !select_training_trainer(role, training_level)) {
+    if (!run_task("OperProgress@MasterySelectTrainer") || !select_training_trainer(role, current_level)) {
         LogWarn << __FUNCTION__ << "| trainer selection failed, training already started";
     }
-    return ResultDetail::PrerequisiteTraining;
+    return current_level == target_level ? ResultDetail::Completed : ResultDetail::PrerequisiteTraining;
 }
 
 void asst::OperProgressProcessTask::report_skill_result(
@@ -1133,7 +1129,7 @@ void asst::OperProgressProcessTask::report_skill_result(
         case ResultDetail::AlreadySatisfied:
         case ResultDetail::PrerequisiteTraining: // 目标未达成, 但已启动前置专精
             m_success++;
-            return Result::Success;              // 本次操作成功，目标完成由现场等级判定
+            return Result::Success;              // 已达到目标或启动前置专精
         case ResultDetail::TrainingRoomBusy:
             m_skipped++;
             return Result::Skipped;
@@ -1655,8 +1651,7 @@ std::optional<int> asst::OperProgressProcessTask::ocr_number(const cv::Mat& imag
     }
     const auto& text = observation->text;
     int value = 0;
-    const auto [end, error] = std::from_chars(text.data(), text.data() + text.size(), value);
-    if (error != std::errc {} || end != text.data() + text.size() || value < 0) {
+    if (!utils::chars_to_number<int, true>(text, value) || value < 0) {
         LogWarn << __FUNCTION__ << "Invalid integer observation" << task_name << text;
         return std::nullopt;
     }
@@ -1757,8 +1752,7 @@ std::optional<int>
         }
     }
     int quantity = 0;
-    const auto [end, error] = std::from_chars(digits.data(), digits.data() + digits.size(), quantity);
-    if (digits.empty() || error != std::errc {} || end != digits.data() + digits.size()) {
+    if (digits.empty() || !utils::chars_to_number<int, true>(digits, quantity)) {
         return std::nullopt;
     }
     return quantity;
@@ -1961,8 +1955,7 @@ bool asst::OperProgressProcessTask::confirm_elite_chips(int required)
             text.remove_suffix(1);
         }
         int value = 0;
-        const auto [end, error] = std::from_chars(text.data(), text.data() + text.size(), value);
-        if (text.empty() || error != std::errc {} || end != text.data() + text.size() || value < 0) {
+        if (text.empty() || !utils::chars_to_number<int, true>(text, value) || value < 0) {
             return std::nullopt;
         }
         return value;
