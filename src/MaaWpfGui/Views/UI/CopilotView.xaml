@@ -487,7 +487,7 @@
 
                                 <!--  UseCopilotList  -->
                                 <StackPanel
-                                    Margin="2.5,5"
+                                    Margin="0,5"
                                     IsEnabled="{c:Binding 'CopilotTabIndex == 0 or CopilotTabIndex == 2'}"
                                     Orientation="Horizontal">
                                     <CheckBox Content="{DynamicResource UseCopilotList}" IsChecked="{Binding UseCopilotList}" />
@@ -496,7 +496,7 @@
 
                                 <!--  UseSanityPotion  -->
                                 <CheckBox
-                                    Margin="2.5,5"
+                                    Margin="0,5"
                                     Content="{DynamicResource UseSanityPotion}"
                                     IsChecked="{Binding UseSanityPotion}"
                                     Visibility="{c:Binding 'UseCopilotList and CopilotTabIndex == 0'}" />
@@ -504,7 +504,7 @@
                                 <!--  Loop / LoopTimes  -->
                                 <StackPanel Orientation="Horizontal" Visibility="{c:Binding '!UseCopilotList and CopilotTabIndex != 0 and CopilotTabIndex != 2'}">
                                     <CheckBox
-                                        Margin="2.5,5"
+                                        Margin="0,5"
                                         Content="{DynamicResource LoopTimes}"
                                         IsChecked="{Binding Loop}" />
                                     <hc:NumericUpDown
