@@ -40,6 +40,18 @@ public static class ScheduledWakeUp
 {
     private const int TimerSlotCount = 8;
     private const int WakeUpLeadMinutes = 5;
+
+    /// <summary>
+    /// 定时 tick（30 秒一跳）与任务启动耗时的余量，叠加在 <see cref="WakeUpLeadMinutes"/> 之上
+    /// 构成保活窗口，避免窗口到期与任务接管间出现空档。
+    /// </summary>
+    private const int TaskStartGraceMinutes = 5;
+
+    /// <summary>
+    /// 唤醒拉起时写入计划任务的保活窗口时长；常驻实例收到保活信号但共享内存不可用时也按此兜底。
+    /// </summary>
+    public const int KeepAwakeMinutes = WakeUpLeadMinutes + TaskStartGraceMinutes;
+
     private const int DebounceMilliseconds = 500;
 
     private static readonly ILogger _logger = Log.ForContext("SourceContext", "ScheduledWakeUp");
@@ -189,8 +201,8 @@ public static class ScheduledWakeUp
         var execAction = (IExecAction)action;
         WithBStr(_fileValue, path => execAction.Path = path);
 
-        // 唤醒拉起带 keep-awake 参数（时长等于提前量）：无人值守唤醒默认 2 分钟会被系统的无人值守睡眠超时送回睡眠
-        WithBStr($"{Bootstrapper.SkipStartupAutoRunArg} {Bootstrapper.KeepAwakeArg} {WakeUpLeadMinutes}", arguments => execAction.Arguments = arguments);
+        // 唤醒拉起带 keep-awake 并显式声明时长：无人值守唤醒默认 2 分钟会被系统的无人值守睡眠超时送回睡眠
+        WithBStr($"{Bootstrapper.SkipStartupAutoRunArg} {Bootstrapper.KeepAwakeArg} {KeepAwakeMinutes}", arguments => execAction.Arguments = arguments);
         WithBStr(Path.GetDirectoryName(_fileValue) ?? string.Empty, directory => execAction.WorkingDirectory = directory);
 
         ITaskSettings settings = definition.Settings;
