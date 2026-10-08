@@ -27,7 +27,6 @@ public:
         int max_fps = 30;
         std::string capture_mode = "auto";
         bool power_on_if_screen_off = true;
-        bool turn_screen_off = false;
         bool keep_screen_on = true;
         std::string exit_power_mode = "restore_previous";
         std::uint32_t display_id = 0;

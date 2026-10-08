@@ -252,7 +252,6 @@
     <system:String x:Key="ArpsCaptureMode">采集模式</system:String>
     <system:String x:Key="ArpsExitPowerMode">退出电源策略</system:String>
     <system:String x:Key="ArpsPowerOnIfScreenOff">熄屏时点亮屏幕</system:String>
-    <system:String x:Key="ArpsTurnScreenOff">推流后关闭物理屏幕</system:String>
     <system:String x:Key="ArpsKeepScreenOn">保持屏幕常亮</system:String>
     <system:String x:Key="ArpsNotEnabledMessage">ARPS 截图后端未生效，请检查相关设置</system:String>
     <system:String x:Key="DormThreshold">基建工作心情阈值</system:String>

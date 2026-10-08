@@ -419,7 +419,6 @@ bool ArpsCapture::ensure_capture_started_locked()
     options.max_fps = static_cast<std::uint32_t>(std::clamp(cfg_.max_fps, 0, 240));
     options.max_packet_len = cfg_.max_packet_len;
     options.power_on_if_screen_off = cfg_.power_on_if_screen_off;
-    options.turn_screen_off = cfg_.turn_screen_off;
     options.keep_screen_on = cfg_.keep_screen_on;
     options.capture_mode = cfg_.capture_mode;
     options.exit_power_mode = cfg_.exit_power_mode;
@@ -527,9 +526,7 @@ bool ArpsCapture::send_power_control_locked(
         "screen_on:",
         state->screen_on,
         "wake_lock:",
-        state->wake_lock_held_by_arps,
-        "display_power:",
-        state->display_power_override);
+        state->wake_lock_held_by_arps);
     if (!state->ok) {
         Log.warn("ArpsCapture: POWER_CONTROL rejected:", state->error);
         return false;

@@ -106,21 +106,6 @@ public class ArpsExtra : ExtraConfig
         }
     }
 
-    public bool TurnScreenOff
-    {
-        get => Settings.TurnScreenOff;
-        set {
-            if (Settings.TurnScreenOff == value)
-            {
-                return;
-            }
-
-            Settings.TurnScreenOff = value;
-            NotifyOfPropertyChange();
-            Instances.AsstProxy.Connected = false;
-        }
-    }
-
     public bool KeepScreenOn
     {
         get => Settings.KeepScreenOn;
@@ -158,7 +143,6 @@ public class ArpsExtra : ExtraConfig
         ["max_fps"] = MaxFps,
         ["capture_mode"] = CaptureMode,
         ["power_on_if_screen_off"] = PowerOnIfScreenOff,
-        ["turn_screen_off"] = TurnScreenOff,
         ["keep_screen_on"] = KeepScreenOn,
         ["exit_power_mode"] = ExitPowerMode,
     });

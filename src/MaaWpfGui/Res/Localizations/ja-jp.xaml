@@ -252,7 +252,6 @@
     <system:String x:Key="ArpsCaptureMode">キャプチャモード</system:String>
     <system:String x:Key="ArpsExitPowerMode">終了時の電源モード</system:String>
     <system:String x:Key="ArpsPowerOnIfScreenOff">画面消灯時に点灯</system:String>
-    <system:String x:Key="ArpsTurnScreenOff">ストリーム開始後に物理画面を消灯</system:String>
     <system:String x:Key="ArpsKeepScreenOn">画面を常に点灯</system:String>
     <system:String x:Key="ArpsNotEnabledMessage">ARPS スクリーンショットバックエンドが有効ではありません。関連設定を確認してください</system:String>
     <system:String x:Key="DormThreshold">体力が設定した%以下になれば宿舎へ移動する</system:String>

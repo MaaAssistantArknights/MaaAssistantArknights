@@ -314,7 +314,6 @@
                                 </StackPanel>
                                 <WrapPanel Margin="10,5" HorizontalAlignment="Center" Orientation="Horizontal">
                                     <CheckBox Margin="10,5" Content="{DynamicResource ArpsPowerOnIfScreenOff}" IsChecked="{Binding PowerOnIfScreenOff}" />
-                                    <CheckBox Margin="10,5" Content="{DynamicResource ArpsTurnScreenOff}" IsChecked="{Binding TurnScreenOff}" />
                                     <CheckBox Margin="10,5" Content="{DynamicResource ArpsKeepScreenOn}" IsChecked="{Binding KeepScreenOn}" />
                                 </WrapPanel>
                             </StackPanel>

@@ -23,8 +23,6 @@ public class ArpsExtra : BaseExtra
 
     public bool PowerOnIfScreenOff { get; set; } = true;
 
-    public bool TurnScreenOff { get; set; }
-
     public bool KeepScreenOn { get; set; } = true;
 
     public string ExitPowerMode { get; set; } = "restore_previous";

@@ -403,7 +403,6 @@ void asst::AdbController::init_arps(const AdbCfg& adb_cfg)
     cfg.max_fps = adb_cfg.extras.get("max_fps", cfg.max_fps);
     cfg.capture_mode = adb_cfg.extras.get("capture_mode", cfg.capture_mode);
     cfg.power_on_if_screen_off = adb_cfg.extras.get("power_on_if_screen_off", cfg.power_on_if_screen_off);
-    cfg.turn_screen_off = adb_cfg.extras.get("turn_screen_off", cfg.turn_screen_off);
     cfg.keep_screen_on = adb_cfg.extras.get("keep_screen_on", cfg.keep_screen_on);
     cfg.exit_power_mode = adb_cfg.extras.get("exit_power_mode", cfg.exit_power_mode);
 
