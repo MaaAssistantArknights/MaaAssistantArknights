@@ -2564,8 +2564,12 @@ public class AsstProxy
                 {
                     var groupName = subTaskDetails!["group_name"]?.ToString() ?? "Unknown Group";
                     var operName = DataHelper.GetLocalizedCharacterName(subTaskDetails["may_borrow_oper"]?.ToString()) ?? string.Empty;
-                    Instances.CopilotViewModel.AddLog(
-                        LocalizationHelper.GetStringFormat("BattleFormationOperbox1Unmatched", groupName, operName), operName == string.Empty ? UiLogColor.Error : UiLogColor.Warning);
+                    var message = operName != string.Empty
+                        ? LocalizationHelper.GetStringFormat("BattleFormationOperbox1Unmatched", groupName, operName)
+                        : subTaskDetails["support_unit_tried"]?.ToObject<bool>() == true
+                            ? LocalizationHelper.GetStringFormat("BattleFormationOperbox1Unmatchable", groupName)
+                            : LocalizationHelper.GetStringFormat("BattleFormationOperbox1UnmatchedNoSuggestion", groupName);
+                    Instances.CopilotViewModel.AddLog(message, operName == string.Empty ? UiLogColor.Error : UiLogColor.Warning);
                     break;
                 }
 

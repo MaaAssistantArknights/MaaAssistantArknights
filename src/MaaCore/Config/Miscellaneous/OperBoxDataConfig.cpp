@@ -337,6 +337,7 @@ std::optional<asst::battle::copilot::OperUsageGroups>
         }
         json::value info = m_task_ptr->basic_info_with_what("BattleFormationOperbox1Unmatched");
         info["details"]["group_name"] = unmatched_group_name;
+        info["details"]["support_unit_tried"] = true;
         m_task_ptr->callback(AsstMsg::SubTaskExtraInfo, info);
         return std::nullopt;
     }

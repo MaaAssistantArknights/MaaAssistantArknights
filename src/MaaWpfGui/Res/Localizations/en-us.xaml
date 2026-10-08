@@ -1888,7 +1888,10 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Level">Level too low</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">Skill level too low</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Module">Required module not unlocked</system:String>
-    <system:String x:Key="BattleFormationOperbox1Unmatched" xml:space="preserve">{key=Operator} (group) {0} has no matching {key=Operator}, may need to borrow {key=Operator} {1}</system:String>
+    <system:String x:Key="BattleFormationOperbox1Unmatched.Base" xml:space="preserve">{key=Operator} (group) {0} has no matching {key=Operator}</system:String>
+    <system:String x:Key="BattleFormationOperbox1Unmatched" xml:space="preserve">{key=BattleFormationOperbox1Unmatched.Base}, needs to borrow {key=Operator} {1}</system:String>
+    <system:String x:Key="BattleFormationOperbox1UnmatchedNoSuggestion">{key=BattleFormationOperbox1Unmatched.Base}, may need to borrow {key=Operator}</system:String>
+    <system:String x:Key="BattleFormationOperbox1Unmatchable">{key=BattleFormationOperbox1Unmatched.Base}, missing at least two {key=Operator}s</system:String>
     <system:String x:Key="BattleFormationOperboxMatched">Pre-matched {key=Operator} (groups):</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">Additional custom {key=Operator} name invalid: {0}, please check spelling</system:String>
     <system:String x:Key="CopilotOperboxDataParseFailed">{key=OperBoxRecognition} data parse failed</system:String>
