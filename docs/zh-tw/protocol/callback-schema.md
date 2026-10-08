@@ -649,7 +649,7 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 - `DepotInfo`
   倉庫辨識結果。`details` 欄位結構如下：
   - `done` (boolean, required): 辨識是否已經結束；`true` 不代表完整成功。
-  - `success` (boolean, optional): 僅在 `done` 為 `true` 時提供，表示是否完整辨識成功。只有 `done` 和 `success` 均為 `true` 才能用本次結果替換完整庫存快取、清除過期標記；缺少 `success` 時也不能視為成功。
+  - `success` (boolean, optional): 僅在 `done` 為 `true` 時提供，表示是否完整辨識成功。部分結果可以用於顯示或儲存，但只有 `done` 和 `success` 均為 `true` 才能將本次結果視為完整庫存、清除過期標記；缺少 `success` 時也不能視為成功。
   - `data` (string, required): JSON 字串，格式為 `{"物品ID": 數量, ...}`，例如 `{"2001":18000,"31043":317}`。
 
 - `OperBoxInfo`  

@@ -594,7 +594,7 @@ Todo
 - `DepotInfo`
   倉庫認識結果。`details` のフィールドは以下のとおりです：
   - `done` (boolean, required): 認識が終了したかどうか。`true` でも完全な認識に成功したとは限りません。
-  - `success` (boolean, optional): `done` が `true` の場合のみ含まれ、完全な認識に成功したかどうかを示します。`done` と `success` がともに `true` の場合のみ、在庫キャッシュ全体を置き換えて無効フラグを解除できます。`success` がない場合も成功として扱わないでください。
+  - `success` (boolean, optional): `done` が `true` の場合のみ含まれ、完全な認識に成功したかどうかを示します。部分的な結果も表示や保存に使用できますが、完全な在庫として扱い無効フラグを解除できるのは、`done` と `success` がともに `true` の場合のみです。`success` がない場合も成功として扱わないでください。
   - `data` (string, required): `{"itemId": 数量, ...}` 形式の JSON 文字列。例：`{"2001":18000,"31043":317}`。
 
 - `OperBoxInfo`  

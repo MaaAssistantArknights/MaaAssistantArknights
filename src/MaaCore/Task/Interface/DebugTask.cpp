@@ -7,7 +7,6 @@
 
 #include "Common/AsstMsg.h"
 #include "Common/AsstTypes.h"
-#include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/TaskData.h"
 #include "Config/TemplResource.h"
 #include "MaaUtils/ImageIo.h"
@@ -19,7 +18,6 @@
 #include "Vision/FeatureMatcher.h"
 #include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/DepotImageAnalyzer.h"
-#include "Vision/Miscellaneous/MaterialSynthesisImageAnalyzer.h"
 #include "Vision/Miscellaneous/PipelineAnalyzer.h"
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
 #include "Vision/MultiMatcher.h"
@@ -47,12 +45,6 @@ bool asst::DebugTask::run()
     }
     if (m_image_test_mode == "templ") {
         return image_test_templ();
-    }
-    if (m_image_test_mode == "material") {
-        return image_test_material();
-    }
-    if (m_image_test_mode == "depot_page") {
-        return image_test_depot_page();
     }
     return true;
 }
@@ -119,17 +111,13 @@ json::object
 
 // 离线图片评估的参数协议（AsstAppendTask 的 params，type 固定为 "Debug"）。
 // 日常用配套的 python 驱动 tools/maa_core_eval.py 调用，无需手拼 json：
-// { "mode": "report" | "pipeline" | "ocr" | "templ" | "material" | "depot_page",
-//   "images": [图片路径], "tasks": [任务名],
+// { "mode": "report" | "pipeline" | "ocr" | "templ", "images": [图片路径], "tasks": [任务名],
 //   "templates": [模板名], "task": "任务名", "roi": [x, y, w, h], "threshold": 0.8, "resize": [w, h] }
 // images/tasks/templates 为 UTF-8 路径与名字（模板名也接受绝对路径图片文件）；roi 仅 ocr/templ
 // 模式使用，缺省全图；task 仅 templ 模式使用（mask/method/roi 等 Matcher 配置取自该任务，
 // 显式传 roi 可覆盖任务 roi；未显式给 threshold 时 hit 判定也取该任务阈值）；threshold/resize
 // 仅 templ 模式使用（内部匹配放开阈值恒报最佳得分；resize 为 1280x720 归一后的二级 INTER_AREA
 // 缩放尺寸，复刻线上识别器的尺度预处理）
-// material 模式的 tasks 为观察任务前缀（须存在 prefixItem / prefixQuantity）；templates 为物品 ID，
-// 缺省使用培养材料候选集；roi / quantity_roi 可覆盖图标 / 数量区域，缺省取任务配置。
-// depot_page 模式只接受 images，使用完整 DepotImageAnalyzer，不连接设备。
 bool asst::DebugTask::set_params(const json::value& params)
 {
     LogTraceFunction;
@@ -163,7 +151,6 @@ bool asst::DebugTask::set_params_impl(const json::value& params)
     std::vector<std::string> templates;
     std::string templ_task;
     Rect roi;
-    Rect quantity_roi;
     double threshold = TemplThresholdDefault;
     std::optional<std::pair<int, int>> resize;
 
@@ -186,52 +173,6 @@ bool asst::DebugTask::set_params_impl(const json::value& params)
                 return false;
             }
             tasks.emplace_back(std::move(task));
-        }
-    }
-    else if (mode == "material") {
-        auto tasks_opt = params.find<std::vector<std::string>>("tasks");
-        if (!tasks_opt || tasks_opt->empty()) {
-            LogError << __FUNCTION__ << "failed, material task prefixes not found";
-            return false;
-        }
-        for (const auto& task : *tasks_opt) {
-            if (!Task.get<MatchTaskInfo>(task + "Item") || !Task.get<OcrTaskInfo>(task + "Quantity")) {
-                LogError << __FUNCTION__ << "failed, material observation tasks not found:" << task;
-                return false;
-            }
-        }
-        tasks = std::move(*tasks_opt);
-        templates = ItemData.get_non_chip_material_item_id();
-        if (params.contains("templates")) {
-            auto templates_opt = params.find<std::vector<std::string>>("templates");
-            if (!templates_opt || templates_opt->empty()) {
-                LogError << __FUNCTION__ << "failed, material item IDs not found";
-                return false;
-            }
-            templates = std::move(*templates_opt);
-        }
-        for (const auto& item_id : templates) {
-            if (!ItemData.get_all_item_id().contains(item_id)) {
-                LogError << __FUNCTION__ << "failed, unknown material item ID:" << item_id;
-                return false;
-            }
-        }
-        for (const auto& key : { "roi", "quantity_roi" }) {
-            if (!params.contains(key)) {
-                continue;
-            }
-            const auto rect = params.find<Rect>(key);
-            if (!rect || rect->x < 0 || rect->y < 0 || rect->width <= 0 || rect->height <= 0 || rect->x >= 1280 ||
-                rect->y >= 720 || rect->width > 1280 - rect->x || rect->height > 720 - rect->y) {
-                LogError << __FUNCTION__ << "failed, invalid material observation region:" << key;
-                return false;
-            }
-            if (std::string_view(key) == "roi") {
-                roi = *rect;
-            }
-            else {
-                quantity_roi = *rect;
-            }
         }
     }
     else if (mode == "ocr" || mode == "templ") {
@@ -280,7 +221,7 @@ bool asst::DebugTask::set_params_impl(const json::value& params)
             }
         }
     }
-    else if (mode != "depot_page") {
+    else {
         LogError << __FUNCTION__ << "failed, unknown mode:" << mode;
         return false;
     }
@@ -291,7 +232,6 @@ bool asst::DebugTask::set_params_impl(const json::value& params)
     m_eval_templates = std::move(templates);
     m_eval_templ_task = std::move(templ_task);
     m_eval_roi = roi;
-    m_eval_quantity_roi = quantity_roi;
     m_eval_threshold = threshold;
     m_eval_resize = resize;
     return true;
@@ -341,91 +281,6 @@ bool asst::DebugTask::image_test_report()
             // ASST_DEBUG 下模板缺失/为空等会 throw，逐图兜住避免后续图静默缺结果
             all_ok = false;
             emit_eval_error("report", image_path, e.what());
-        }
-    }
-    return all_ok;
-}
-
-bool asst::DebugTask::image_test_material()
-{
-    bool all_ok = true;
-    for (const auto& image_path : m_eval_images) {
-        try {
-            const auto image = load_eval_image(image_path);
-            if (!image) {
-                all_ok = false;
-                emit_eval_error("material", image_path, "failed to load image");
-                continue;
-            }
-            json::array results;
-            for (const auto& task : m_eval_tasks) {
-                const auto missing = MaterialSynthesisImageAnalyzer::observe_missing_material(
-                    *image,
-                    task,
-                    m_eval_templates,
-                    m_eval_roi.empty() ? std::nullopt : std::optional(m_eval_roi),
-                    m_eval_quantity_roi.empty() ? std::nullopt : std::optional(m_eval_quantity_roi));
-                json::object result { { "task", task }, { "hit", missing.has_value() } };
-                if (missing) {
-                    result["item_id"] = missing->item_id;
-                    result["owned"] = missing->owned;
-                    result["required"] = missing->required;
-                }
-                LogInfo << __FUNCTION__ << image_path << result.dumps();
-                results.emplace_back(std::move(result));
-            }
-            callback(
-                AsstMsg::SubTaskExtraInfo,
-                json::object { { "what", "DebugImageTest" },
-                               { "details",
-                                 json::object { { "mode", "material" },
-                                                { "image", image_path },
-                                                { "results", std::move(results) } } } });
-        }
-        catch (const std::exception& e) {
-            all_ok = false;
-            emit_eval_error("material", image_path, e.what());
-        }
-    }
-    return all_ok;
-}
-
-bool asst::DebugTask::image_test_depot_page()
-{
-    bool all_ok = true;
-    for (const auto& image_path : m_eval_images) {
-        try {
-            auto image_opt = load_eval_image(image_path);
-            if (!image_opt) {
-                all_ok = false;
-                emit_eval_error("depot_page", image_path, "failed to load image");
-                continue;
-            }
-
-            DepotImageAnalyzer analyzer(*image_opt);
-            const bool analyzed = analyzer.analyze();
-            json::object items;
-            for (const auto& [item_id, item] : analyzer.get_result()) {
-                items[item_id] = item.quantity;
-            }
-            json::object detail { { "mode", "depot_page" },
-                                  { "image", image_path },
-                                  { "analyzed", analyzed },
-                                  { "quantities_complete", analyzer.is_quantity_recognition_complete() },
-                                  { "reached_last_item", analyzer.has_reached_last_item() },
-                                  { "unrecognized_rect", nullptr },
-                                  { "items", std::move(items) } };
-            if (const auto& rect = analyzer.get_unrecognized_item_rect(); rect) {
-                detail["unrecognized_rect"] = (json::value)*rect;
-            }
-            LogInfo << __FUNCTION__ << image_path << detail.dumps();
-            callback(
-                AsstMsg::SubTaskExtraInfo,
-                json::object { { "what", "DebugImageTest" }, { "details", std::move(detail) } });
-        }
-        catch (const std::exception& e) {
-            all_ok = false;
-            emit_eval_error("depot_page", image_path, e.what());
         }
     }
     return all_ok;

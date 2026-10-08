@@ -649,7 +649,7 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 - `DepotInfo`
   仓库识别结果。`details` 字段结构如下：
   - `done` (boolean, required): 识别是否已经结束；`true` 不代表完整成功。
-  - `success` (boolean, optional): 仅在 `done` 为 `true` 时提供，表示是否完整识别成功。只有 `done` 和 `success` 均为 `true` 才能用本次结果替换完整库存缓存、清除过期标记；缺少 `success` 时也不能视为成功。
+  - `success` (boolean, optional): 仅在 `done` 为 `true` 时提供，表示是否完整识别成功。部分结果可以用于显示或保存，但只有 `done` 和 `success` 均为 `true` 才能将本次结果视为完整库存、清除过期标记；缺少 `success` 时也不能视为成功。
   - `data` (string, required): JSON 字符串，格式为 `{"物品ID": 数量, ...}`，例如 `{"2001":18000,"31043":317}`。
 
 - `OperBoxInfo`  

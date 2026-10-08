@@ -19,14 +19,12 @@
     ev.report(images=["1.png"], tasks=["xxx@Roguelike@StageEnter"])
     ev.pipeline(images=["1.png"], tasks=["A", "B"])   # 首命中 + 命中任务的 next 列表
     ev.ocr(images=["1.png"], roi=[100, 200, 300, 50]) # OCR 原始识别文本
-    ev.depot_page(images=["depot.png"])              # 完整仓库页面、数量可信度与扫描终点
     ev.replay(images=["1.png", "2.png"], tasks=["A"]) # 按 next 链逐图推进
 
 用法二（命令行）::
 
     python tools/maa_core_eval.py --mode report --tasks "A,B" 1.png 2.png
     python tools/maa_core_eval.py --mode ocr --roi 100,200,300,50 1.png
-    python tools/maa_core_eval.py --mode depot_page depot.png
     python tools/maa_core_eval.py --mode replay --tasks "A" 1.png 2.png 3.png
 """
 
@@ -177,26 +175,6 @@ class CoreEval:
             {"mode": "report", "images": self._abs_images(images), "tasks": list(tasks)}
         )
 
-    def material(self, images, tasks, templates=None, roi=None, quantity_roi=None):
-        """复用培养缺口观察：[{image, results: [{task, hit, item_id, owned, required}]}]。
-
-        tasks 为 prefixItem / prefixQuantity 的公共前缀；templates 为物品 ID，
-        缺省使用当前客户端的培养材料候选集。roi / quantity_roi 缺省取任务配置。
-        只有完整且可信的缺口返回 hit=True；拒绝原因记录在 core 日志。
-        """
-        params = {
-            "mode": "material",
-            "images": self._abs_images(images),
-            "tasks": list(tasks),
-        }
-        if templates is not None:
-            params["templates"] = list(templates)
-        if roi is not None:
-            params["roi"] = list(roi)
-        if quantity_roi is not None:
-            params["quantity_roi"] = list(quantity_roi)
-        return self._run_task(params)
-
     def pipeline(self, images, tasks):
         """每张图按任务列表跑一次线上同款首命中匹配：[{image, hit, result, next}]。
 
@@ -265,17 +243,6 @@ class CoreEval:
         if task:
             params["task"] = task
         return self._run_task(params)
-
-    def depot_page(self, images):
-        """调用完整 DepotImageAnalyzer，返回实际数量与扫描可信状态。
-
-        每张图返回 analyzed、quantities_complete、reached_last_item、unrecognized_rect
-        和 items（物品 ID 到数量的映射）。识别失败或部分数量未知也保留结果供检查；
-        全部可信字段须共同判断，不将单页识别成功视为完整仓库扫描。
-        """
-        return self._run_task(
-            {"mode": "depot_page", "images": self._abs_images(images)}
-        )
 
     def depot_items(self, images, item_ids=None, threshold=None):
         """复刻线上 DepotImageAnalyzer 的仓库物品匹配（python 侧做自定义预处理）。
@@ -415,7 +382,7 @@ def main():
     parser.add_argument("images", nargs="+", help="图片路径（可多张）")
     parser.add_argument(
         "--mode",
-        choices=["report", "pipeline", "ocr", "templ", "depot", "depot_page", "replay"],
+        choices=["report", "pipeline", "ocr", "templ", "depot", "replay"],
         default="report",
     )
     parser.add_argument("--tasks", help="逗号分隔的任务名列表")
@@ -518,8 +485,6 @@ def _run_cli(ev, args):
                     print(
                         f"  {mark} {r['template']} score={r.get('score', 0):.4f} {r.get('rect', '')}"
                     )
-    elif args.mode == "depot_page":
-        print(json.dumps(ev.depot_page(args.images), ensure_ascii=False, indent=2))
     elif args.mode == "depot":
         item_ids = (
             [t.strip() for t in args.templates.split(",")] if args.templates else None

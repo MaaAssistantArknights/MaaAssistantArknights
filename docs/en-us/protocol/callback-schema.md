@@ -574,7 +574,7 @@ Todo
 - `DepotInfo`
   Depot recognition result. The `details` fields are:
   - `done` (boolean, required): Whether recognition has ended; `true` does not imply a complete, successful scan.
-  - `success` (boolean, optional): Present only when `done` is `true`; indicates whether a complete scan succeeded. Replace the full depot cache and clear its stale flag only when both `done` and `success` are `true`. A missing `success` must not be treated as success either.
+  - `success` (boolean, optional): Present only when `done` is `true`; indicates whether a complete scan succeeded. Partial results may be displayed or saved, but only when both `done` and `success` are `true` can the result be treated as a complete inventory snapshot and its stale flag cleared. A missing `success` must not be treated as success either.
   - `data` (string, required): JSON string in the format `{"itemId": quantity, ...}`, for example `{"2001":18000,"31043":317}`.
 
 - `OperBoxInfo`  

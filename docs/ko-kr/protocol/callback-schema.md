@@ -617,7 +617,7 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 - `DepotInfo`
   창고 인식 결과. `details` 필드는 다음과 같습니다:
   - `done` (boolean, required): 인식이 종료되었는지 여부. `true`라고 해서 전체 인식에 성공한 것은 아닙니다.
-  - `success` (boolean, optional): `done`이 `true`일 때만 제공하며 전체 인식 성공 여부를 나타냅니다. `done`과 `success`가 모두 `true`일 때만 전체 재고 캐시를 교체하고 오래된 상태 표시를 해제할 수 있습니다. `success`가 없는 경우도 성공으로 처리해서는 안 됩니다.
+  - `success` (boolean, optional): `done`이 `true`일 때만 제공하며 전체 인식 성공 여부를 나타냅니다. 부분 결과도 표시하거나 저장할 수 있지만, `done`과 `success`가 모두 `true`일 때만 결과를 전체 재고로 간주하고 오래된 상태 표시를 해제할 수 있습니다. `success`가 없는 경우도 성공으로 처리해서는 안 됩니다.
   - `data` (string, required): `{"itemId": 수량, ...}` 형식의 JSON 문자열입니다. 예: `{"2001":18000,"31043":317}`.
 
 - `OperBoxInfo`  
