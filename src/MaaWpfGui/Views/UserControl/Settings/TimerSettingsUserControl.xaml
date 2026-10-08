@@ -20,513 +20,157 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <controls:GlobalConfigTip Grid.Row="0" />
-        <StackPanel
+
+        <Grid
             Grid.Row="1"
-            HorizontalAlignment="Center"
-            Orientation="Horizontal">
-            <StackPanel Margin="5,0" Orientation="Horizontal">
-                <CheckBox
-                    Height="30"
-                    HorizontalAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    Content="{DynamicResource ForceScheduledStart}"
-                    IsChecked="{Binding ForceScheduledStart}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource ForceScheduledStartTip}" />
-            </StackPanel>
-
-            <StackPanel Margin="5,0" Orientation="Horizontal">
-                <CheckBox
-                    Height="30"
-                    HorizontalAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    Content="{DynamicResource TimerCustomConfig}"
-                    IsChecked="{Binding CustomConfig}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource TimerCustomConfigTip}" />
-            </StackPanel>
-        </StackPanel>
-
-        <StackPanel
-            Grid.Row="2"
-            HorizontalAlignment="Center"
-            Orientation="Horizontal">
-            <CheckBox
-                Height="30"
-                Margin="5,0"
-                HorizontalAlignment="Center"
-                VerticalContentAlignment="Center"
-                Content="{DynamicResource ShowWindowBeforeForceScheduledStart}"
-                IsChecked="{Binding ShowWindowBeforeForceScheduledStart}"
-                Visibility="{c:Binding ForceScheduledStart}" />
-            <controls:TooltipBlock
-                VerticalAlignment="Center"
-                TooltipText="{DynamicResource ShowWindowBeforeForceScheduledStartTip}"
-                Visibility="{c:Binding ForceScheduledStart}" />
-        </StackPanel>
-
-        <StackPanel
-            Grid.Row="3"
-            HorizontalAlignment="Center"
-            Orientation="Horizontal">
-            <CheckBox
-                Height="30"
-                Margin="5,0"
-                VerticalContentAlignment="Center"
-                Content="{DynamicResource NotifyBeforeScheduledStart}"
-                IsChecked="{Binding NotifyBeforeScheduledStart}" />
-            <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource NotifyBeforeScheduledStartTip}" />
-            <hc:NumericUpDown
-                Margin="5,0"
-                hc:InfoElement.Title="{DynamicResource ScheduledStartNotificationMinutes}"
-                hc:TitleElement.TitlePlacement="Left"
-                InputMethod.IsInputMethodEnabled="False"
-                Maximum="1439"
-                Minimum="1"
-                Visibility="{c:Binding NotifyBeforeScheduledStart}"
-                Value="{Binding ScheduledStartNotificationMinutes}" />
-        </StackPanel>
-
-        <Grid Grid.Row="4">
+            Margin="5"
+            HorizontalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
-                <RowDefinition />
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <StackPanel Grid.Row="0" Grid.Column="0">
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-                    <CheckBox
-                        Margin="10"
-                        IsChecked="{Binding TimerList[0].IsEnabled}"
-                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
-                                                      Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}">
-                        <TextBlock>
-                            <Run Text="{DynamicResource Timer}" />
-                            <Run xml:space="preserve" Text=" 1" />
-                        </TextBlock>
-                    </CheckBox>
-                    <StackPanel Orientation="Horizontal">
-                        <hc:NumericUpDown
-                            Width="55"
-                            Margin="10"
-                            d:Value="0"
-                            InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding 'TimerList[0].IsEnabled ?? &quot;True&quot;'}"
-                            Maximum="23"
-                            Minimum="0"
-                            ValueFormat="00"
-                            Value="{Binding TimerList[0].Hour}" />
-                        <controls:TextBlock Text=":" />
-                        <hc:NumericUpDown
-                            Width="55"
-                            Margin="10"
-                            d:Value="0"
-                            InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding 'TimerList[0].IsEnabled ?? &quot;True&quot;'}"
-                            Maximum="59"
-                            Minimum="0"
-                            ValueFormat="00"
-                            Value="{Binding TimerList[0].Minute}" />
-                    </StackPanel>
-                </StackPanel>
-                <ComboBox
-                    Width="150"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Focusable="False"
-                    IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    ItemsSource="{Binding ConfigurationList, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    SelectedValue="{Binding TimerList[0].Config}"
-                    SelectedValuePath="Value"
-                    ToolTip="{Binding TimerList[0].Config}"
-                    Visibility="{c:Binding CustomConfig}" />
+            <StackPanel
+                Margin="10,5"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <CheckBox
+                    VerticalContentAlignment="Center"
+                    Content="{DynamicResource ScheduledWakeUp}"
+                    IsChecked="{Binding ScheduledWakeUp}" />
+                <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource ScheduledWakeUpTip}" />
             </StackPanel>
 
-            <StackPanel Grid.Row="1" Grid.Column="0">
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
+            <StackPanel
+                Grid.Row="1"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <StackPanel Margin="10,5" Orientation="Horizontal">
                     <CheckBox
-                        Margin="10"
-                        IsChecked="{Binding TimerList[1].IsEnabled}"
-                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
-                                                      Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}">
-                        <TextBlock>
-                            <Run Text="{DynamicResource Timer}" />
-                            <Run xml:space="preserve" Text=" 2" />
-                        </TextBlock>
-                    </CheckBox>
-                    <StackPanel Orientation="Horizontal">
-                        <hc:NumericUpDown
-                            Width="55"
-                            Margin="10"
-                            d:Value="3"
-                            InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding 'TimerList[1].IsEnabled ?? &quot;True&quot;'}"
-                            Maximum="23"
-                            Minimum="0"
-                            ValueFormat="00"
-                            Value="{Binding TimerList[1].Hour}" />
-                        <controls:TextBlock Text=":" />
-                        <hc:NumericUpDown
-                            Width="55"
-                            Margin="10"
-                            d:Value="5"
-                            InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding 'TimerList[1].IsEnabled ?? &quot;True&quot;'}"
-                            Maximum="59"
-                            Minimum="0"
-                            ValueFormat="00"
-                            Value="{Binding TimerList[1].Minute}" />
-                    </StackPanel>
+                        VerticalContentAlignment="Center"
+                        Content="{DynamicResource ForceScheduledStart}"
+                        IsChecked="{Binding ForceScheduledStart}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource ForceScheduledStartTip}" />
                 </StackPanel>
-                <ComboBox
-                    Width="150"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Focusable="False"
-                    IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    ItemsSource="{Binding ConfigurationList, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    SelectedValue="{Binding TimerList[1].Config}"
-                    SelectedValuePath="Value"
-                    ToolTip="{Binding TimerList[1].Config}"
-                    Visibility="{c:Binding CustomConfig}" />
+
+                <StackPanel Margin="10,5" Orientation="Horizontal">
+                    <CheckBox
+                        VerticalContentAlignment="Center"
+                        Content="{DynamicResource ShowWindowBeforeForceScheduledStart}"
+                        IsChecked="{Binding ShowWindowBeforeForceScheduledStart}"
+                        Visibility="{c:Binding ForceScheduledStart}" />
+                    <controls:TooltipBlock
+                        VerticalAlignment="Center"
+                        TooltipText="{DynamicResource ShowWindowBeforeForceScheduledStartTip}"
+                        Visibility="{c:Binding ForceScheduledStart}" />
+                </StackPanel>
             </StackPanel>
 
-            <StackPanel Grid.Row="2" Grid.Column="0">
-                <StackPanel
-                    HorizontalAlignment="Center"
+            <StackPanel
+                Grid.Row="2"
+                Margin="10,5"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <CheckBox
+                    VerticalContentAlignment="Center"
+                    Content="{DynamicResource NotifyBeforeScheduledStart}"
+                    IsChecked="{Binding NotifyBeforeScheduledStart}" />
+                <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource NotifyBeforeScheduledStartTip}" />
+                <hc:NumericUpDown
+                    Height="30"
+                    Margin="10,-10"
                     VerticalAlignment="Center"
-                    Orientation="Horizontal">
-                    <CheckBox
-                        Margin="10"
-                        IsChecked="{Binding TimerList[2].IsEnabled}"
-                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
-                                                      Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}">
-                        <TextBlock>
-                            <Run Text="{DynamicResource Timer}" />
-                            <Run xml:space="preserve" Text=" 3" />
-                        </TextBlock>
-                    </CheckBox>
-                    <StackPanel Orientation="Horizontal">
-                        <hc:NumericUpDown
-                            Width="55"
-                            Margin="10"
-                            d:Value="6"
-                            InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding 'TimerList[2].IsEnabled ?? &quot;True&quot;'}"
-                            Maximum="23"
-                            Minimum="0"
-                            ValueFormat="00"
-                            Value="{Binding TimerList[2].Hour}" />
-                        <controls:TextBlock Text=":" />
-                        <hc:NumericUpDown
-                            Width="55"
-                            Margin="10"
-                            d:Value="10"
-                            InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding 'TimerList[2].IsEnabled ?? &quot;True&quot;'}"
-                            Maximum="59"
-                            Minimum="0"
-                            ValueFormat="00"
-                            Value="{Binding TimerList[2].Minute}" />
-                    </StackPanel>
-                </StackPanel>
-                <ComboBox
-                    Width="150"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Focusable="False"
-                    IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    ItemsSource="{Binding ConfigurationList, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    SelectedValue="{Binding TimerList[2].Config}"
-                    SelectedValuePath="Value"
-                    ToolTip="{Binding TimerList[2].Config}"
-                    Visibility="{c:Binding CustomConfig}" />
+                    hc:InfoElement.Title="{DynamicResource ScheduledStartNotificationMinutes}"
+                    hc:TitleElement.TitlePlacement="Left"
+                    InputMethod.IsInputMethodEnabled="False"
+                    Maximum="1439"
+                    Minimum="1"
+                    Visibility="{c:Binding NotifyBeforeScheduledStart}"
+                    Value="{Binding ScheduledStartNotificationMinutes}" />
             </StackPanel>
 
-            <StackPanel Grid.Row="3" Grid.Column="0">
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-                    <CheckBox
-                        Margin="10"
-                        IsChecked="{Binding TimerList[3].IsEnabled}"
-                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
-                                                      Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}">
-                        <TextBlock>
-                            <Run Text="{DynamicResource Timer}" />
-                            <Run xml:space="preserve" Text=" 4" />
-                        </TextBlock>
-                    </CheckBox>
-                    <StackPanel Orientation="Horizontal">
-                        <hc:NumericUpDown
-                            Width="55"
-                            Margin="10"
-                            d:Value="9"
-                            InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding 'TimerList[3].IsEnabled ?? &quot;True&quot;'}"
-                            Maximum="23"
-                            Minimum="0"
-                            ValueFormat="00"
-                            Value="{Binding TimerList[3].Hour}" />
-                        <controls:TextBlock Text=":" />
-                        <hc:NumericUpDown
-                            Width="55"
-                            Margin="10"
-                            d:Value="15"
-                            InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding 'TimerList[3].IsEnabled ?? &quot;True&quot;'}"
-                            Maximum="59"
-                            Minimum="0"
-                            ValueFormat="00"
-                            Value="{Binding TimerList[3].Minute}" />
-                    </StackPanel>
-                </StackPanel>
-                <ComboBox
-                    Width="150"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Focusable="False"
-                    IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    ItemsSource="{Binding ConfigurationList, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    SelectedValue="{Binding TimerList[3].Config}"
-                    SelectedValuePath="Value"
-                    ToolTip="{Binding TimerList[3].Config}"
-                    Visibility="{c:Binding CustomConfig}" />
-            </StackPanel>
-
-            <StackPanel Grid.Row="0" Grid.Column="1">
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-                    <CheckBox
-                        Margin="10"
-                        IsChecked="{Binding TimerList[4].IsEnabled}"
-                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
-                                                      Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}">
-                        <TextBlock>
-                            <Run Text="{DynamicResource Timer}" />
-                            <Run xml:space="preserve" Text=" 5" />
-                        </TextBlock>
-                    </CheckBox>
-                    <StackPanel Orientation="Horizontal">
-                        <hc:NumericUpDown
-                            Width="55"
-                            Margin="10"
-                            d:Value="12"
-                            InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding 'TimerList[4].IsEnabled ?? &quot;True&quot;'}"
-                            Maximum="23"
-                            Minimum="0"
-                            ValueFormat="00"
-                            Value="{Binding TimerList[4].Hour}" />
-                        <controls:TextBlock Text=":" />
-                        <hc:NumericUpDown
-                            Width="55"
-                            Margin="10"
-                            d:Value="20"
-                            InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding 'TimerList[4].IsEnabled ?? &quot;True&quot;'}"
-                            Maximum="59"
-                            Minimum="0"
-                            ValueFormat="00"
-                            Value="{Binding TimerList[4].Minute}" />
-                    </StackPanel>
-                </StackPanel>
-                <ComboBox
-                    Width="150"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Focusable="False"
-                    IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    ItemsSource="{Binding ConfigurationList, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    SelectedValue="{Binding TimerList[4].Config}"
-                    SelectedValuePath="Value"
-                    ToolTip="{Binding TimerList[4].Config}"
-                    Visibility="{c:Binding CustomConfig}" />
-            </StackPanel>
-
-            <StackPanel Grid.Row="1" Grid.Column="1">
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-                    <CheckBox
-                        Margin="10"
-                        IsChecked="{Binding TimerList[5].IsEnabled}"
-                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
-                                                      Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}">
-                        <TextBlock>
-                            <Run Text="{DynamicResource Timer}" />
-                            <Run xml:space="preserve" Text=" 6" />
-                        </TextBlock>
-                    </CheckBox>
-                    <StackPanel Orientation="Horizontal">
-                        <hc:NumericUpDown
-                            Width="55"
-                            Margin="10"
-                            d:Value="15"
-                            InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding 'TimerList[5].IsEnabled ?? &quot;True&quot;'}"
-                            Maximum="23"
-                            Minimum="0"
-                            ValueFormat="00"
-                            Value="{Binding TimerList[5].Hour}" />
-                        <controls:TextBlock Text=":" />
-                        <hc:NumericUpDown
-                            Width="55"
-                            Margin="10"
-                            d:Value="30"
-                            InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding 'TimerList[5].IsEnabled ?? &quot;True&quot;'}"
-                            Maximum="59"
-                            Minimum="0"
-                            ValueFormat="00"
-                            Value="{Binding TimerList[5].Minute}" />
-                    </StackPanel>
-                </StackPanel>
-                <ComboBox
-                    Width="150"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Focusable="False"
-                    IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    ItemsSource="{Binding ConfigurationList, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    SelectedValue="{Binding TimerList[5].Config}"
-                    SelectedValuePath="Value"
-                    ToolTip="{Binding TimerList[5].Config}"
-                    Visibility="{c:Binding CustomConfig}" />
-            </StackPanel>
-
-            <StackPanel Grid.Row="2" Grid.Column="1">
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-                    <CheckBox
-                        Margin="10"
-                        IsChecked="{Binding TimerList[6].IsEnabled}"
-                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
-                                                      Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}">
-                        <TextBlock>
-                            <Run Text="{DynamicResource Timer}" />
-                            <Run xml:space="preserve" Text=" 7" />
-                        </TextBlock>
-                    </CheckBox>
-                    <StackPanel Orientation="Horizontal">
-                        <hc:NumericUpDown
-                            Width="55"
-                            Margin="10"
-                            d:Value="18"
-                            InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding 'TimerList[6].IsEnabled ?? &quot;True&quot;'}"
-                            Maximum="23"
-                            Minimum="0"
-                            ValueFormat="00"
-                            Value="{Binding TimerList[6].Hour}" />
-                        <controls:TextBlock Text=":" />
-                        <hc:NumericUpDown
-                            Width="55"
-                            Margin="10"
-                            d:Value="40"
-                            InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding 'TimerList[6].IsEnabled ?? &quot;True&quot;'}"
-                            Maximum="59"
-                            Minimum="0"
-                            ValueFormat="00"
-                            Value="{Binding TimerList[6].Minute}" />
-                    </StackPanel>
-                </StackPanel>
-                <ComboBox
-                    Width="150"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Focusable="False"
-                    IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    ItemsSource="{Binding ConfigurationList, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    SelectedValue="{Binding TimerList[6].Config}"
-                    SelectedValuePath="Value"
-                    ToolTip="{Binding TimerList[6].Config}"
-                    Visibility="{c:Binding CustomConfig}" />
-            </StackPanel>
-
-            <StackPanel Grid.Row="3" Grid.Column="1">
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-                    <CheckBox
-                        Margin="10"
-                        IsChecked="{Binding TimerList[7].IsEnabled}"
-                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
-                                                      Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}">
-                        <TextBlock>
-                            <Run Text="{DynamicResource Timer}" />
-                            <Run xml:space="preserve" Text=" 8" />
-                        </TextBlock>
-                    </CheckBox>
-                    <StackPanel Orientation="Horizontal">
-                        <hc:NumericUpDown
-                            Width="55"
-                            Margin="10"
-                            d:Value="21"
-                            InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding 'TimerList[7].IsEnabled ?? &quot;True&quot;'}"
-                            Maximum="23"
-                            Minimum="0"
-                            ValueFormat="00"
-                            Value="{Binding TimerList[7].Hour}" />
-                        <controls:TextBlock Text=":" />
-                        <hc:NumericUpDown
-                            Width="55"
-                            Margin="10"
-                            d:Value="50"
-                            InputMethod.IsInputMethodEnabled="False"
-                            IsEnabled="{c:Binding 'TimerList[7].IsEnabled ?? &quot;True&quot;'}"
-                            Maximum="59"
-                            Minimum="0"
-                            ValueFormat="00"
-                            Value="{Binding TimerList[7].Minute}" />
-                    </StackPanel>
-                </StackPanel>
-                <ComboBox
-                    Width="150"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Focusable="False"
-                    IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    ItemsSource="{Binding ConfigurationList, Source={x:Static helper:Instances.SettingsViewModel}}"
-                    SelectedValue="{Binding TimerList[7].Config}"
-                    SelectedValuePath="Value"
-                    ToolTip="{Binding TimerList[7].Config}"
-                    Visibility="{c:Binding CustomConfig}" />
+            <StackPanel
+                Grid.Row="3"
+                Margin="10,5"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <CheckBox
+                    VerticalContentAlignment="Center"
+                    Content="{DynamicResource TimerCustomConfig}"
+                    IsChecked="{Binding CustomConfig}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource TimerCustomConfigTip}" />
             </StackPanel>
 
         </Grid>
+
+        <!--  定时项区数据驱动：模板绑 TimerList 各项  -->
+        <ItemsControl
+            Grid.Row="2"
+            Width="500"
+            Margin="0,5,0,0"
+            d:ItemsSource="{d:SampleData ItemCount=8}"
+            ItemsSource="{Binding TimerList}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="2" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <CheckBox
+                                Margin="10,5"
+                                IsChecked="{Binding IsEnabled}"
+                                MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                              Target={x:Type helper:CheckBoxHelper}}"
+                                ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}">
+                                <TextBlock><Run Text="{DynamicResource Timer}" /><Run xml:space="preserve" Text=" " /><Run Text="{c:Binding 'Id + 1'}" /></TextBlock>
+                            </CheckBox>
+                            <StackPanel Orientation="Horizontal">
+                                <hc:NumericUpDown
+                                    Width="55"
+                                    Margin="10,5"
+                                    InputMethod.IsInputMethodEnabled="False"
+                                    IsEnabled="{c:Binding 'IsEnabled ?? &quot;True&quot;'}"
+                                    Maximum="23"
+                                    Minimum="0"
+                                    ValueFormat="00"
+                                    Value="{Binding Hour}" />
+                                <controls:TextBlock Text=":" />
+                                <hc:NumericUpDown
+                                    Width="55"
+                                    Margin="10,5"
+                                    InputMethod.IsInputMethodEnabled="False"
+                                    IsEnabled="{c:Binding 'IsEnabled ?? &quot;True&quot;'}"
+                                    Maximum="59"
+                                    Minimum="0"
+                                    ValueFormat="00"
+                                    Value="{Binding Minute}" />
+                            </StackPanel>
+                        </StackPanel>
+                        <ComboBox
+                            Width="150"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Focusable="False"
+                            IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
+                            ItemsSource="{Binding ConfigurationList, Source={x:Static helper:Instances.SettingsViewModel}}"
+                            SelectedValue="{Binding Config}"
+                            SelectedValuePath="Value"
+                            ToolTip="{Binding Config}"
+                            Visibility="{c:Binding CustomConfig,
+                                                   Source={x:Static settings_vms:TimerSettingsUserControlModel.Instance}}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </UserControl>

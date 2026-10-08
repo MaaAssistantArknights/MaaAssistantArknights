@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.MemoryMappedFiles;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -67,6 +68,12 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     private static bool _hasMutex;
     private static EventWaitHandle _instanceActivationEvent;
     private static CancellationTokenSource _instanceActivationListenerCancellation;
+    private static EventWaitHandle _instanceKeepAwakeEvent;
+    private static CancellationTokenSource _instanceKeepAwakeListenerCancellation;
+    private static MemoryMappedFile _keepAwakeDataFile;
+    private static MemoryMappedViewAccessor _keepAwakeDataView;
+
+    private static string KeepAwakeDataName => "MAA_KEEPAWAKEDATA_" + InstanceKey;
 
     public static readonly string UiLogFile = Path.Combine(PathsHelper.DebugDir, "gui.log");
     public static readonly string UiLogBakFile = Path.Combine(PathsHelper.DebugDir, "gui.bak.log");
@@ -431,79 +438,86 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             Directory.CreateDirectory("debug");
         }
 
-        if (File.Exists(UiLogFile) && new FileInfo(UiLogFile).Length > 4 * 1024 * 1024)
-        {
-            if (File.Exists(UiLogBakFile))
-            {
-                File.Delete(UiLogBakFile);
-            }
-
-            File.Move(UiLogFile, UiLogBakFile);
-        }
-
-        // Bootstrap serilog
-        var loggerConfiguration = new LoggerConfiguration()
-            .WriteTo.Debug(outputTemplate: "[{Timestamp:HH:mm:ss}][{Level:u3}]{ClassName} <{ThreadId}> {Message:lj}{NewLine}{Exception}")
-            .WriteTo.File(
-                UiLogFile,
-                outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}][{Level:u3}]{ClassName} <{ThreadId}> {Message:lj}{NewLine}{Exception}")
-            .Enrich.With<ClassNameEnricher>()
-            .Enrich.FromLogContext()
-            .Enrich.WithThreadId()
-            .Enrich.WithThreadName();
-
-        var uiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
-        uiVersion = uiVersion == "0.0.1" ? "DEBUG_VERSION" : uiVersion;
-        var builtDate = Assembly.GetExecutingAssembly().GetCustomAttribute<BuildDateTimeAttribute>()?.BuildTime.ToLocalTime() ?? DateTimeOffset.MinValue;
-        var maaEnv = Environment.GetEnvironmentVariable("MAA_ENVIRONMENT") == "Debug"
-            ? "Debug"
-            : "Production";
         var args = Environment.GetCommandLineArgs();
-        var withDebugFile = File.Exists("DEBUG") || File.Exists("DEBUG.txt");
-        loggerConfiguration = (maaEnv == "Debug" || withDebugFile)
-            ? loggerConfiguration.MinimumLevel.Verbose()
-            : loggerConfiguration.MinimumLevel.Information();
-        var workingDirectory = PathsHelper.BaseDir;
-        var folderName = Path.GetFileName(workingDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
-        var isBuildOutputFolder =
-            string.Equals(folderName, "Release", StringComparison.OrdinalIgnoreCase) ||
-            string.Equals(folderName, "Debug", StringComparison.OrdinalIgnoreCase) ||
-            string.Equals(folderName, "RelWithDebInfo", StringComparison.OrdinalIgnoreCase);
+        InitializeLogger(args);
+        ConfigureWineEnvironment();
 
-        Log.Logger = loggerConfiguration.CreateLogger();
-        _logger = Log.Logger.ForContext<Bootstrapper>();
-        _logger.Information("===================================");
-        _logger.Information("MaaAssistantArknights GUI started");
-        _logger.Information("Version {UiVersion}", uiVersion);
-        _logger.Information("Built at {BuiltDate:O}", builtDate);
-        _logger.Information("Maa ENV: {MaaEnv}", maaEnv);
-        _logger.Information("Command Line: {Join}", string.Join(' ', args));
-        _logger.Information("User Dir {BaseDirectory}", workingDirectory);
-        if (withDebugFile)
+        ParseEarlyLaunchArgs(args, launchDir);
+
+        ConfigurationHelper.Load();
+        LocalizationHelper.Load();
+
+        ConsumeDelegatedUpdateResult();
+
+        if (!VerifyInstallLocation() || !TryApplyPendingUpdatePackage())
         {
-            _logger.Information("Start with DEBUG file");
+            return;
         }
 
-        if (IsAdministratorWithUac())
-        {
-            _logger.Information("Run as Administrator");
-        }
+        ConfigConverter.ConvertConfig();
+        ETagCache.Load();
 
-        if (WineRuntimeInformation.IsRunningUnderWine)
+        ApplyDemoModeConfigOverrides();
+
+        if (ConfigFactory.Root.Gui.IgnoreBadModulesAndUseSoftwareRendering)
         {
-            _logger.Information("Running under Wine {WineVersion} on {HostSystemName}", WineRuntimeInformation.WineVersion, WineRuntimeInformation.HostSystemName);
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
-            _logger.Information("MaaWineBridge status: {WineBridgeAvailability}", MaaWineBridge.Availability);
-            _logger.Information("MaaDesktopIntegration available: {Available}", MaaDesktopIntegration.Available);
+            _logger.Information("Using software rendering mode due to user preference (bad modules detected)");
         }
 
-        _logger.Information("===================================");
+        if (!VerifyStartupEnvironment())
+        {
+            return;
+        }
 
+        if (!HandleMultipleInstances())
+        {
+            FlushLogAndExit();
+            return;
+        }
+
+        if (!IsWritable(PathsHelper.BaseDir))
+        {
+            Task.Run(() => MessageBoxHelper.Show(LocalizationHelper.GetString("SoftwareLocationWarning"), LocalizationHelper.GetString("Error"), MessageBoxButton.OK, MessageBoxImage.Error));
+        }
+
+        Task.Run(ParseCrashLog);
+
+        base.OnStart();
+        _hasMutex = true;
+
+        // --config <配置名>：启动时切换到指定配置（Config 内部会重启进程）
+        if (ParseArgs(args, "--config").TryGetValue("--config", out string configArgs))
+        {
+            Config(configArgs);
+        }
+    }
+
+    /// <summary>
+    /// 解析启动早期即生效的命令行参数：skip-startup-auto-run、keep-awake、skip-core-init 与 demo 截图模式。
+    /// </summary>
+    /// <param name="args">命令行参数。</param>
+    /// <param name="launchDir">启动时的工作目录，相对路径参数按此解析。</param>
+    private static void ParseEarlyLaunchArgs(string[] args, string launchDir)
+    {
         // 尽早解析 skip 参数：pending 更新早退重启需要原样转发
         _skipStartupAutoRun = args.Any(arg => string.Equals(arg, SkipStartupAutoRunArg, StringComparison.OrdinalIgnoreCase));
         if (_skipStartupAutoRun)
         {
             _logger.Information("Startup auto-run will be skipped due to {Arg}", SkipStartupAutoRunArg);
+        }
+
+        // 定时唤醒拉起：无人值守唤醒默认 2 分钟会被系统的无人值守睡眠超时送回睡眠，
+        // 须保持唤醒一段时间撑过该窗口；之后任务运行期间是否阻止睡眠由运行设置决定
+        if (args.Any(arg => string.Equals(arg, KeepAwakeArg, StringComparison.OrdinalIgnoreCase)))
+        {
+            var keepAwakeArgs = ParseArgs(args, KeepAwakeArg);
+            int keepAwakeMinutes = keepAwakeArgs.TryGetValue(KeepAwakeArg, out string keepAwakeValue)
+                && int.TryParse(keepAwakeValue, out int parsedMinutes) && parsedMinutes > 0
+                ? parsedMinutes
+                : DefaultKeepAwakeMinutes;
+            _logger.Information("Keeping system awake for {Minutes} minutes due to {Arg}", keepAwakeMinutes, KeepAwakeArg);
+            SleepManagement.KeepAwakeFor(TimeSpan.FromMinutes(keepAwakeMinutes));
         }
 
         // 尽早解析预览参数：AsstProxy 等构造期即需据此跳过全部 native 调用
@@ -537,9 +551,108 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             // --demo 位于末位无值，或大小写不符（ParseArgs 的 flag 匹配区分大小写）
             _logger.Warning("{Arg} present but not recognized (flags are case-sensitive) or has no value; demo shot mode is not enabled", DemoDataArg);
         }
+    }
 
-        ConfigurationHelper.Load();
-        LocalizationHelper.Load();
+    /// <summary>
+    /// Gets the MAA build environment: <c>Debug</c> only when MAA_ENVIRONMENT=Debug, otherwise <c>Production</c>.
+    /// </summary>
+    private static string MaaEnv => Environment.GetEnvironmentVariable("MAA_ENVIRONMENT") == "Debug"
+        ? "Debug"
+        : "Production";
+
+    /// <summary>
+    /// Gets a value indicating whether the running directory is a CMake build output folder
+    /// (Debug/Release/RelWithDebInfo), where DLLs are unpacked and unknown-DLL detection is skipped.
+    /// </summary>
+    private static bool IsBuildOutputFolder
+    {
+        get
+        {
+            var folderName = Path.GetFileName(PathsHelper.BaseDir.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+            return string.Equals(folderName, "Release", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(folderName, "Debug", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(folderName, "RelWithDebInfo", StringComparison.OrdinalIgnoreCase);
+        }
+    }
+
+    /// <summary>
+    /// 建立全局日志器并输出启动横幅（版本、环境、命令行、管理员与 Wine 探测）。
+    /// </summary>
+    /// <param name="args">命令行参数，用于横幅记录。</param>
+    private static void InitializeLogger(string[] args)
+    {
+        if (File.Exists(UiLogFile) && new FileInfo(UiLogFile).Length > 4 * 1024 * 1024)
+        {
+            if (File.Exists(UiLogBakFile))
+            {
+                File.Delete(UiLogBakFile);
+            }
+
+            File.Move(UiLogFile, UiLogBakFile);
+        }
+
+        // Bootstrap serilog
+        var loggerConfiguration = new LoggerConfiguration()
+            .WriteTo.Debug(outputTemplate: "[{Timestamp:HH:mm:ss}][{Level:u3}]{ClassName} <{ThreadId}> {Message:lj}{NewLine}{Exception}")
+            .WriteTo.File(
+                UiLogFile,
+                outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}][{Level:u3}]{ClassName} <{ThreadId}> {Message:lj}{NewLine}{Exception}")
+            .Enrich.With<ClassNameEnricher>()
+            .Enrich.FromLogContext()
+            .Enrich.WithThreadId()
+            .Enrich.WithThreadName();
+
+        var uiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
+        uiVersion = uiVersion == "0.0.1" ? "DEBUG_VERSION" : uiVersion;
+        var builtDate = Assembly.GetExecutingAssembly().GetCustomAttribute<BuildDateTimeAttribute>()?.BuildTime.ToLocalTime() ?? DateTimeOffset.MinValue;
+        var withDebugFile = File.Exists("DEBUG") || File.Exists("DEBUG.txt");
+        loggerConfiguration = (MaaEnv == "Debug" || withDebugFile)
+            ? loggerConfiguration.MinimumLevel.Verbose()
+            : loggerConfiguration.MinimumLevel.Information();
+
+        Log.Logger = loggerConfiguration.CreateLogger();
+        _logger = Log.Logger.ForContext<Bootstrapper>();
+        _logger.Information("===================================");
+        _logger.Information("MaaAssistantArknights GUI started");
+        _logger.Information("Version {UiVersion}", uiVersion);
+        _logger.Information("Built at {BuiltDate:O}", builtDate);
+        _logger.Information("Maa ENV: {MaaEnv}", MaaEnv);
+        _logger.Information("Command Line: {Join}", string.Join(' ', args));
+        _logger.Information("User Dir {BaseDirectory}", PathsHelper.BaseDir);
+        if (withDebugFile)
+        {
+            _logger.Information("Start with DEBUG file");
+        }
+
+        if (IsAdministratorWithUac())
+        {
+            _logger.Information("Run as Administrator");
+        }
+
+        _logger.Information("===================================");
+    }
+
+    /// <summary>
+    /// Wine 环境探测与渲染设置：软件渲染 + 桥接可用性日志。
+    /// </summary>
+    private static void ConfigureWineEnvironment()
+    {
+        if (!WineRuntimeInformation.IsRunningUnderWine)
+        {
+            return;
+        }
+
+        _logger.Information("Running under Wine {WineVersion} on {HostSystemName}", WineRuntimeInformation.WineVersion, WineRuntimeInformation.HostSystemName);
+        RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+        _logger.Information("MaaWineBridge status: {WineBridgeAvailability}", MaaWineBridge.Availability);
+        _logger.Information("MaaDesktopIntegration available: {Available}", MaaDesktopIntegration.Available);
+    }
+
+    /// <summary>
+    /// 消费上次委托外部 updater 的结果标志（成功仅记日志，失败置资源损坏标志并放行启动）。
+    /// </summary>
+    private static void ConsumeDelegatedUpdateResult()
+    {
         if (PendingUpdateApplier.TryConsumeDelegatedUpdateSuccess())
         {
             _logger.Information("Delegated pending update completed successfully");
@@ -552,83 +665,108 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             _logger.Error("Delegated pending update failed. Reason: {Reason}", delegatedUpdateFailureReason);
             MarkResourceBroken();
         }
+    }
 
-        if (TryGetUnsupportedInstallLocation(out string unsupportedLocation))
+    /// <summary>
+    /// 检查安装位置是否受支持。
+    /// </summary>
+    /// <returns>是否继续启动；false 时已弹窗并请求退出。</returns>
+    private static bool VerifyInstallLocation()
+    {
+        if (!TryGetUnsupportedInstallLocation(out string unsupportedLocation))
         {
-            string currentBaseDirectory = NormalizeDirectoryPath(AppDomain.CurrentDomain.BaseDirectory);
-            _logger.Error(
-                "Blocked startup from unsupported install location: currentPath={CurrentPath}, matchedLocation={MatchedLocation}",
-                currentBaseDirectory,
-                unsupportedLocation);
-            MessageBoxHelper.Show(
-                LocalizationHelper.GetStringFormat("UnsupportedInstallLocationError", currentBaseDirectory, unsupportedLocation),
-                LocalizationHelper.GetString("Error"),
-                MessageBoxButton.OK,
-                MessageBoxImage.Error);
+            return true;
+        }
+
+        string currentBaseDirectory = NormalizeDirectoryPath(AppDomain.CurrentDomain.BaseDirectory);
+        _logger.Error(
+            "Blocked startup from unsupported install location: currentPath={CurrentPath}, matchedLocation={MatchedLocation}",
+            currentBaseDirectory,
+            unsupportedLocation);
+        MessageBoxHelper.Show(
+            LocalizationHelper.GetStringFormat("UnsupportedInstallLocationError", currentBaseDirectory, unsupportedLocation),
+            LocalizationHelper.GetString("Error"),
+            MessageBoxButton.OK,
+            MessageBoxImage.Error);
+        FlushLogAndExit();
+        return false;
+    }
+
+    /// <summary>
+    /// 应用待处理的更新包：委托外部 updater 或进程内应用，成功后早退重启。
+    /// </summary>
+    /// <returns>是否继续启动；false 时已请求退出或已触发重启。</returns>
+    private static bool TryApplyPendingUpdatePackage()
+    {
+        if (!PendingUpdateApplier.HasPendingUpdatePackage())
+        {
+            return true;
+        }
+
+        _logger.Information("Pending update package detected, applying before full startup");
+        var pendingUpdateResult = PendingUpdateApplier.TryApplyPendingUpdatePackage();
+        if (pendingUpdateResult.Delegated)
+        {
+            _logger.Information("Pending update package handed off to external updater, exiting current process");
             FlushLogAndExit();
+            return false;
+        }
+
+        if (pendingUpdateResult.Succeeded)
+        {
+            RestartAfterPendingUpdateEarly();
+            return false;
+        }
+
+        if (pendingUpdateResult.Status == PendingUpdateApplyResult.StatusKind.MissingUpdaterExecutable)
+        {
+            _logger.Error("Pending update package could not be delegated because MAA.Updater.exe is missing. Reason: {Reason}", pendingUpdateResult.FailureReason);
+            ShowPendingUpdateMissingUpdaterDialog();
+            FlushLogAndExit();
+            return false;
+        }
+
+        if (pendingUpdateResult.RequiresManualRecovery)
+        {
+            // 进程内应用失败且安装已变动：写入失败标志持久化，与委托更新失败共用
+            // 主窗口显示后的修复弹窗路径，此处不退出
+            _logger.Error("Pending update package left the installation in an incomplete state. Reason: {Reason}", pendingUpdateResult.FailureReason);
+            PendingUpdateApplier.MarkDelegatedUpdateFailure(pendingUpdateResult.FailureReason ?? string.Empty);
+            MarkResourceBroken();
+        }
+
+        _logger.Warning("Pending update package could not be applied, continuing with normal startup");
+        return true;
+    }
+
+    /// <summary>
+    /// 演示模式（README 截图）的配置整形。
+    /// </summary>
+    private static void ApplyDemoModeConfigOverrides()
+    {
+        if (!IsDemoMode)
+        {
             return;
         }
 
-        if (PendingUpdateApplier.HasPendingUpdatePackage())
-        {
-            _logger.Information("Pending update package detected, applying before full startup");
-            var pendingUpdateResult = PendingUpdateApplier.TryApplyPendingUpdatePackage();
-            if (pendingUpdateResult.Delegated)
-            {
-                _logger.Information("Pending update package handed off to external updater, exiting current process");
-                FlushLogAndExit();
-                return;
-            }
+        // 演示模式不落盘任何配置（ConfigFactory 保存链整体拦截），窗口位置由 DemoShotService
+        // 统一归位；客户端类型固定为官服（与演示数据 zh-cn 组一致），使 Core 资源加载与启动时的
+        // 关卡/活动解析都基于国服资源，不受运行目录遗留的外服配置影响；
+        // 置空自定义背景路径并关闭莫奈取色，截图不携带运行目录遗留的背景图与取色主题；
+        // 设置指引按已完成处理，避免全新配置首次启动时向导覆盖任务页截图。
+        // 必须在 ConvertConfig 之后执行，否则未迁移旧配置的转换结果会覆盖这里的设置
+        ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ClientType = MaaWpfGui.Constants.Enums.ClientType.Official;
+        ConfigFactory.Root.Gui.Background.ImagePath = string.Empty;
+        ConfigFactory.Root.Gui.BackgroundMonetEnabled = false;
+        ConfigFactory.Root.Gui.GuideStep = SettingsViewModel.GuideMaxStep;
+    }
 
-            if (pendingUpdateResult.Succeeded)
-            {
-                RestartAfterPendingUpdateEarly();
-                return;
-            }
-
-            if (pendingUpdateResult.Status == PendingUpdateApplyResult.StatusKind.MissingUpdaterExecutable)
-            {
-                _logger.Error("Pending update package could not be delegated because MAA.Updater.exe is missing. Reason: {Reason}", pendingUpdateResult.FailureReason);
-                ShowPendingUpdateMissingUpdaterDialog();
-                FlushLogAndExit();
-                return;
-            }
-
-            if (pendingUpdateResult.RequiresManualRecovery)
-            {
-                // 进程内应用失败且安装已变动：写入失败标志持久化，与委托更新失败共用
-                // 主窗口显示后的修复弹窗路径，此处不退出
-                _logger.Error("Pending update package left the installation in an incomplete state. Reason: {Reason}", pendingUpdateResult.FailureReason);
-                PendingUpdateApplier.MarkDelegatedUpdateFailure(pendingUpdateResult.FailureReason ?? string.Empty);
-                MarkResourceBroken();
-            }
-
-            _logger.Warning("Pending update package could not be applied, continuing with normal startup");
-        }
-
-        ConfigConverter.ConvertConfig();
-        ETagCache.Load();
-
-        if (IsDemoMode)
-        {
-            // 演示模式不落盘任何配置（ConfigFactory 保存链整体拦截），窗口位置由 DemoShotService
-            // 统一归位；客户端类型固定为官服（与演示数据 zh-cn 组一致），使 Core 资源加载与启动时的
-            // 关卡/活动解析都基于国服资源，不受运行目录遗留的外服配置影响；
-            // 置空自定义背景路径并关闭莫奈取色，截图不携带运行目录遗留的背景图与取色主题；
-            // 设置指引按已完成处理，避免全新配置首次启动时向导覆盖任务页截图。
-            // 必须在 ConvertConfig 之后执行，否则未迁移旧配置的转换结果会覆盖这里的设置
-            ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ClientType = MaaWpfGui.Constants.Enums.ClientType.Official;
-            ConfigFactory.Root.Gui.Background.ImagePath = string.Empty;
-            ConfigFactory.Root.Gui.BackgroundMonetEnabled = false;
-            ConfigFactory.Root.Gui.GuideStep = SettingsViewModel.GuideMaxStep;
-        }
-
-        if (ConfigFactory.Root.Gui.IgnoreBadModulesAndUseSoftwareRendering)
-        {
-            RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
-            _logger.Information("Using software rendering mode due to user preference (bad modules detected)");
-        }
-
+    /// <summary>
+    /// 启动环境检查：MaaCore 与 resource 存在性、未知 DLL 与 VC++ 运行库探测。
+    /// </summary>
+    /// <returns>是否继续启动；false 时已弹窗并请求退出。</returns>
+    private static bool VerifyStartupEnvironment()
+    {
         // UI 预览模式不加载 Core：跳过 Core 存在性检查（本会话不触碰任何 native，
         // DLL 缺失或依赖不全都不是预览模式的错误）
         if (!IsCoreInitSkipped)
@@ -647,7 +785,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         }
 
         // Debug 模式下 DLL 是未打包的
-        if (maaEnv != "Debug" && !isBuildOutputFolder)
+        if (MaaEnv != "Debug" && !IsBuildOutputFolder)
         {
             var unknownDlls = UnknownDllDetected();
             if (unknownDlls.Count > 0)
@@ -659,7 +797,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
                     MessageBoxImage.Error);
                 _logger.Fatal("Unknown DLL(s) detected: {UnknownDlls}", string.Join(", ", unknownDlls));
                 FlushLogAndExit();
-                return;
+                return false;
             }
         }
 
@@ -685,34 +823,10 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             }
 
             FlushLogAndExit();
-            return;
+            return false;
         }
 
-        if (!HandleMultipleInstances())
-        {
-            FlushLogAndExit();
-            return;
-        }
-
-        if (!IsWritable(PathsHelper.BaseDir))
-        {
-            Task.Run(() => MessageBoxHelper.Show(LocalizationHelper.GetString("SoftwareLocationWarning"), LocalizationHelper.GetString("Error"), MessageBoxButton.OK, MessageBoxImage.Error));
-        }
-
-        Task.Run(ParseCrashLog);
-
-        base.OnStart();
-        _hasMutex = true;
-
-        const string ConfigFlag = "--config";
-        const string AnotherFlag = "--another"; // 示例，之后如果有其他参数，可以继续添加
-
-        var parsedArgs = ParseArgs(args, ConfigFlag, AnotherFlag);
-
-        if (parsedArgs.TryGetValue(ConfigFlag, out string configArgs) && Config(configArgs))
-        {
-            // return;
-        }
+        return true;
     }
 
     public class ClassNameEnricher : ILogEventEnricher
@@ -739,6 +853,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     private static bool HandleMultipleInstances()
     {
         string activationEventName = "MAA_SHOW_" + InstanceKey;
+        string keepAwakeEventName = "MAA_KEEPAWAKE_" + InstanceKey;
         _mutex = new Mutex(true, MutexName, out var isOnlyInstance);
 
         try
@@ -746,11 +861,14 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             if (isOnlyInstance || _mutex.WaitOne(500))
             {
                 EnsureInstanceActivationEvent(activationEventName);
+                EnsureInstanceKeepAwakeEvent(keepAwakeEventName);
                 return true;
             }
 
             if (SignalExistingInstance(activationEventName))
             {
+                // 本次唤醒拉起的保活窗口随本进程退出被回收，由常驻实例自行开窗接续
+                SignalKeepAwakeToRunningInstance(keepAwakeEventName);
                 return false;
             }
 
@@ -762,6 +880,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             // 上一个程序没有正常释放互斥量
             // 即使捕获到这个异常，此时也已经获得了锁
             EnsureInstanceActivationEvent(activationEventName);
+            EnsureInstanceKeepAwakeEvent(keepAwakeEventName);
             return true;
         }
         catch (Exception e)
@@ -787,6 +906,52 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     private static void EnsureInstanceActivationEvent(string activationEventName)
     {
         _instanceActivationEvent ??= new EventWaitHandle(false, EventResetMode.AutoReset, activationEventName);
+    }
+
+    private static void EnsureInstanceKeepAwakeEvent(string keepAwakeEventName)
+    {
+        _instanceKeepAwakeEvent ??= new EventWaitHandle(false, EventResetMode.AutoReset, keepAwakeEventName);
+        if (_keepAwakeDataView != null)
+        {
+            return;
+        }
+
+        try
+        {
+            // 4 字节共享内存承载保活时长：唤醒拉起的第二个进程写入自己解析到的值后 Set 事件，
+            // 常驻实例读出开窗，手动 --keep-awake 30 之类非缺省时长才不会在传递中丢失
+            _keepAwakeDataFile = MemoryMappedFile.CreateOrOpen(KeepAwakeDataName, sizeof(int));
+            _keepAwakeDataView = _keepAwakeDataFile.CreateViewAccessor();
+        }
+        catch (Exception e)
+        {
+            _logger.Warning(e, "Failed to create keep-awake shared memory");
+        }
+    }
+
+    private static void SignalKeepAwakeToRunningInstance(string keepAwakeEventName)
+    {
+        int remainingMinutes = (int)Math.Ceiling(SleepManagement.KeepAwakeRemaining.TotalMinutes);
+        if (remainingMinutes <= 0)
+        {
+            return;
+        }
+
+        try
+        {
+            using var dataFile = MemoryMappedFile.OpenExisting(KeepAwakeDataName);
+            using var view = dataFile.CreateViewAccessor();
+            view.Write(0, remainingMinutes);
+            view.Flush();
+
+            using var keepAwakeEvent = EventWaitHandle.OpenExisting(keepAwakeEventName);
+            keepAwakeEvent.Set();
+            _logger.Information("Keep-awake signal ({Minutes} min) sent to existing instance", remainingMinutes);
+        }
+        catch (Exception e)
+        {
+            _logger.Warning(e, "Failed to signal keep-awake to the existing instance");
+        }
     }
 
     private static bool SignalExistingInstance(string activationEventName)
@@ -819,6 +984,59 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         _instanceActivationListenerCancellation = new CancellationTokenSource();
         _ = Task.Run(() => ListenForInstanceActivation(_instanceActivationListenerCancellation.Token));
+    }
+
+    private static void StartInstanceKeepAwakeListener()
+    {
+        if (_instanceKeepAwakeEvent == null || _instanceKeepAwakeListenerCancellation != null)
+        {
+            return;
+        }
+
+        _instanceKeepAwakeListenerCancellation = new CancellationTokenSource();
+        _ = Task.Run(() => ListenForInstanceKeepAwake(_instanceKeepAwakeListenerCancellation.Token));
+    }
+
+    private static void ListenForInstanceKeepAwake(CancellationToken cancellationToken)
+    {
+        if (_instanceKeepAwakeEvent == null)
+        {
+            return;
+        }
+
+        WaitHandle[] waitHandles = [_instanceKeepAwakeEvent, cancellationToken.WaitHandle];
+
+        try
+        {
+            while (true)
+            {
+                int signaledIndex = WaitHandle.WaitAny(waitHandles);
+                if (signaledIndex != 0)
+                {
+                    return;
+                }
+
+                // 唤醒拉起的第二个进程即将退出，其保活窗口随进程回收，由常驻实例重新开窗接续
+                _logger.Information("Keep-awake signal received from another launch");
+                int minutes = 0;
+                _keepAwakeDataView?.Read(0, out minutes);
+                if (minutes <= 0)
+                {
+                    // 共享内存不可用或写入失败，退回计划任务写入的标准时长
+                    minutes = ScheduledWakeUp.KeepAwakeMinutes;
+                }
+
+                SleepManagement.KeepAwakeFor(TimeSpan.FromMinutes(minutes));
+            }
+        }
+        catch (ObjectDisposedException)
+        {
+            // ignored during shutdown
+        }
+        catch (Exception e)
+        {
+            _logger.Warning(e, "Keep-awake listener stopped unexpectedly");
+        }
     }
 
     private static void ListenForInstanceActivation(CancellationToken cancellationToken)
@@ -937,6 +1155,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         Instances.WindowManager.ShowWindow(rootViewModel);
         Instances.InstantiateOnRootViewDisplayed(Container);
         StartInstanceActivationListener();
+        StartInstanceKeepAwakeListener();
 
         // 如果 IsFirstBootAfterUpdate 从 false 变为 true，说明这次启动只是解压更新包，不用执行后续逻辑
         if (!wasFirstBoot && Instances.VersionUpdateDialogViewModel.IsFirstBootAfterUpdate)
@@ -1035,6 +1254,10 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         ProcessStartInfo startInfo = new ProcessStartInfo { FileName = Environment.ProcessPath, };
 
+        // 无参重启不携带用户参数（skip 等不转发），仅保活窗口仍有剩余时转发剩余时长，
+        // 重启不把窗口终点向后漂移；已过期的窗口不重新打开
+        AppendKeepAwakeForwardArgs(startInfo.ArgumentList);
+
         Process.Start(startInfo);
     }
 
@@ -1057,6 +1280,19 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         _instanceActivationEvent?.Dispose();
         _instanceActivationEvent = null;
+
+        _instanceKeepAwakeListenerCancellation?.Cancel();
+        _instanceKeepAwakeListenerCancellation?.Dispose();
+        _instanceKeepAwakeListenerCancellation = null;
+
+        _instanceKeepAwakeEvent?.Dispose();
+        _instanceKeepAwakeEvent = null;
+
+        _keepAwakeDataView?.Dispose();
+        _keepAwakeDataView = null;
+
+        _keepAwakeDataFile?.Dispose();
+        _keepAwakeDataFile = null;
 
         ETagCache.Save();
         Instances.SettingsViewModel.Sober();
@@ -1083,6 +1319,19 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     /// 选择「稍后」再手动启动不会带此参数。
     /// </summary>
     public const string SkipStartupAutoRunArg = "--skip-startup-auto-run";
+
+    /// <summary>
+    /// 定时唤醒拉起时由计划任务写入的启动参数：保持系统唤醒一段时间（值为分钟数，缺省
+    /// <see cref="DefaultKeepAwakeMinutes"/>），防止无人值守唤醒被系统的无人值守睡眠超时送回睡眠；
+    /// 之后是否阻止睡眠由运行设置决定。
+    /// </summary>
+    public const string KeepAwakeArg = "--keep-awake";
+
+    /// <summary>
+    /// <see cref="KeepAwakeArg"/> 未显式给出时长时的缺省分钟数，供手动调用者兜底；
+    /// 定时唤醒链路显式传值，见 <see cref="Utilities.ScheduledWakeUp.KeepAwakeMinutes"/>。
+    /// </summary>
+    public const int DefaultKeepAwakeMinutes = 10;
 
     /// <summary>
     /// UI 预览模式启动参数：跳过 MaaCore 加载与资源读取，仅渲染界面。
@@ -1249,12 +1498,37 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     }
 
     /// <summary>
-    /// 获取需要转发给下一进程的启动参数（当前仅转发 skip-startup-auto-run）。
+    /// 获取需要转发给下一进程的启动参数（当前转发 skip-startup-auto-run 与 keep-awake 及剩余时长）。
     /// </summary>
     /// <returns>需要转发的参数数组；无需转发时为空数组。</returns>
     public static string[] GetForwardableRestartArgs()
     {
-        return ShouldSkipStartupAutoRun ? [SkipStartupAutoRunArg] : [];
+        List<string> forwardable = [];
+        if (ShouldSkipStartupAutoRun)
+        {
+            forwardable.Add(SkipStartupAutoRunArg);
+        }
+
+        AppendKeepAwakeForwardArgs(forwardable);
+
+        return [.. forwardable];
+    }
+
+    /// <summary>
+    /// 保活窗口仍有剩余时，把剩余分钟数（向上取整）追加进转发参数；重启与保活信号都按剩余时长
+    /// 传递，保证窗口终点不随重启或实例接续向后漂移。
+    /// </summary>
+    /// <param name="args">待追加的目标集合。</param>
+    private static void AppendKeepAwakeForwardArgs(ICollection<string> args)
+    {
+        int remainingMinutes = (int)Math.Ceiling(SleepManagement.KeepAwakeRemaining.TotalMinutes);
+        if (remainingMinutes <= 0)
+        {
+            return;
+        }
+
+        args.Add(KeepAwakeArg);
+        args.Add(remainingMinutes.ToString(System.Globalization.CultureInfo.InvariantCulture));
     }
 
     /// <summary>
@@ -1278,7 +1552,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     }
 
     /// <summary>
-    /// 重启，不带参数
+    /// 重启，不带用户启动参数（当前进程持有的 keep-awake 等内部可转发状态仍会带过去）。
     /// </summary>
     /// <param name="caller">Caller Member Name</param>
     public static void ShutdownAndRestartWithoutArgs([CallerMemberName] string caller = "")

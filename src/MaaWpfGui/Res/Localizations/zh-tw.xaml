@@ -571,6 +571,8 @@ D:\
     <system:String x:Key="ScheduledStartNotificationMinutes">提前時間（分鐘）</system:String>
     <system:String x:Key="ScheduledStartNotificationTitle">定時任務即將執行</system:String>
     <system:String x:Key="ScheduledStartNotificationContent">定時 {0} 預計於 {1}（{2} 分鐘後）開始執行，請留意遊戲登入狀態。</system:String>
+    <system:String x:Key="ScheduledWakeUp">定時啟動前嘗試喚醒電腦並啟動 MAA</system:String>
+    <system:String x:Key="ScheduledWakeUpTip" xml:space="preserve">該功能透過在 Windows 工作排程器中註冊排程工作實現，在每個啟用的定時項前 5 分鐘嘗試喚醒電腦並啟動 MAA，由定時啟動邏輯接管。&#10;喚醒啟動時將跳過 ｢{key=StartupSettings}｣ 中的啟動自動執行項（如{key=RunTaskAfterLaunch}、{key=OpenEmulatorAfterLaunch}）。&#10;MAA 退出後排程工作仍會保留，關閉本開關時刪除。&#10;任務開始後的長時間執行不再由本功能保持喚醒，若任務耗時較長，建議在 ｢{key=GameSettings}｣ 中開啟 ｢{key=BlockSleep}｣，避免任務執行期間系統睡眠。&#10;休眠狀態的定時喚醒依賴裝置韌體支援，部分裝置僅支援從睡眠喚醒。</system:String>
     <system:String x:Key="Timer">定時</system:String>
     <system:String x:Key="GlobalConfigTip">此選項分頁為全域設定</system:String>
     <system:String x:Key="MultiTasksShareTip">以下選項為多任務共用</system:String>
