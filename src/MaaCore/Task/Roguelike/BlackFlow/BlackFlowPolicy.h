@@ -307,6 +307,17 @@ struct EncounterSelection
     bool used_fallback = false;
 };
 
+struct ShoppingRule
+{
+    std::string id;
+    std::string description;
+    std::string page_intent;
+    int rank = 0;
+    Condition when;
+    std::string buy_table = "default";
+    std::string sell_table;
+};
+
 struct PolicyModule
 {
     std::string id;
@@ -317,6 +328,7 @@ struct PolicyModule
     std::vector<Milestone> milestones;
     std::vector<GrantedScrap> granted_scraps;
     std::vector<EncounterRule> encounter_rules;
+    std::vector<ShoppingRule> shopping_rules;
 };
 
 struct StrategyTerminalRule
@@ -364,6 +376,7 @@ struct ResolvedPolicy
     std::vector<Milestone> milestones;
     std::vector<GrantedScrap> granted_scraps;
     std::vector<EncounterRule> encounter_rules;
+    std::vector<ShoppingRule> shopping_rules;
     std::vector<StrategyTerminalRule> terminal_rules;
     std::string failure_action = "stop_run";
     // 走出本层与耗尽行动力结局相同的层。这些层没有锁定目标的那几轮不再为出口预留行动力，
@@ -376,6 +389,9 @@ struct ResolvedPolicy
 
 [[nodiscard]] const EncounterRule*
     resolve_encounter_rule(const ResolvedPolicy& policy, const FactStore& facts, std::string_view event_name);
+
+[[nodiscard]] std::optional<std::reference_wrapper<const ShoppingRule>>
+    resolve_shopping_rule(const ResolvedPolicy& policy, const FactStore& facts, std::string_view page_intent);
 
 class ResourceRegistry
 {

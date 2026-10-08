@@ -1,5 +1,5 @@
 {
-    "schema_version": 14,
+    "schema_version": 15,
     "inventory_cleanup_policy": {
         "discard_max_rank": 17,
         "extra_discards_after_clear": 1,
@@ -1480,6 +1480,30 @@
         {
             "id": "baby_cultivate_gated",
             "description": "培育出目标之后仍须进入第三层的秘境行商目标，用于猫、狗、羽蛇和三头犬",
+            "shopping_rules": [
+                {
+                    "id": "cultivation_keep_movement",
+                    "description": "第三层前保留加工品，到达第三层秘境行商仍要靠它们移动",
+                    "page_intent": "scrap_shop.cultivate",
+                    "when": {
+                        "fact": "current_floor",
+                        "op": "lt",
+                        "value": 3
+                    },
+                    "sell_table": "cultivation_keep_movement"
+                },
+                {
+                    "id": "cultivation_final",
+                    "description": "第三层培育后结束，加工品卖出换种子",
+                    "page_intent": "scrap_shop.cultivate",
+                    "when": {
+                        "fact": "current_floor",
+                        "op": "eq",
+                        "value": 3
+                    },
+                    "sell_table": "cultivation_final"
+                }
+            ],
             "milestones": [
                 {
                     "id": "baby_cultivate_scrap_shop_transit",

@@ -1043,5 +1043,20 @@ const EncounterRule*
     return selected;
 }
 
+std::optional<std::reference_wrapper<const ShoppingRule>>
+    resolve_shopping_rule(const ResolvedPolicy& policy, const FactStore& facts, std::string_view page_intent)
+{
+    std::optional<std::reference_wrapper<const ShoppingRule>> selected;
+    for (const ShoppingRule& rule : policy.shopping_rules) {
+        if ((!rule.page_intent.empty() && rule.page_intent != page_intent) || !rule.when.evaluate(facts)) {
+            continue;
+        }
+        if (!selected || std::tie(rule.rank, rule.id) < std::tie(selected->get().rank, selected->get().id)) {
+            selected = std::cref(rule);
+        }
+    }
+    return selected;
+}
+
 } // namespace asst::blackflow
 

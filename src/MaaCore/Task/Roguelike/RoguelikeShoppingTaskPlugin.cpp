@@ -122,7 +122,11 @@ bool asst::RoguelikeShoppingTaskPlugin::buy_once()
     }
 
     // bool bought = false;
-    auto& all_goods = RoguelikeShopping.get_goods(m_config->get_theme());
+    const auto& theme = m_config->get_theme();
+    const bool strategy_shopping = RoguelikeShopping.strategy_shopping_enabled(theme);
+    const auto& all_goods = strategy_shopping
+                               ? RoguelikeShopping.get_goods(theme, m_config->status().shopping_buy_table)
+                               : RoguelikeShopping.get_goods(theme);
     std::vector<std::string> all_foldartal = m_config->get_theme() == RoguelikeTheme::Sami
                                                  ? Task.get<OcrTaskInfo>("Sami@Roguelike@FoldartalGainOcr")->text
                                                  : std::vector<std::string>();

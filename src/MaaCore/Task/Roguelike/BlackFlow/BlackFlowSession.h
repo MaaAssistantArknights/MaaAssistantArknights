@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <optional>
 #include <string>
@@ -193,6 +194,8 @@ public:
     void set_cultivation_target(CultivatedAnimalType target) noexcept { m_cultivation_target = target; }
 
     void set_cultivated_animal_types(std::vector<CultivatedAnimalType> types);
+
+    [[nodiscard]] std::optional<std::reference_wrapper<const ShoppingRule>> shopping_rule() const;
 
     bool mark_page_running(std::string* error = nullptr);
     bool apply_node_task_result(

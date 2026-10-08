@@ -676,6 +676,46 @@ icon: ri:game-fill
         ...
 ```
 
+除 `priority` 外，`shopping.json` 還可以宣告具名的購買清單與出售清單，供依策略選擇清單的主題使用：
+
+```json5
+{
+    "theme": "BlackFlow",
+    "priority": [ ... ],                     // 預設購買清單，名稱為 default
+    "buy_tables": {                          // 選填，具名購買清單；商品項寫法與 priority 相同，default 保留給 priority
+        "清單名": [ { "name": "..." } ]
+    },
+    "sell_tables": {                         // 選填，具名出售清單，列出允許出售的名稱；清單順序不決定出售順序
+        "cultivation_final": [ "血蕈", "雾滚草", ... ]
+    }
+}
+```
+
+商品名稱不可為空，`roles` 只接受上文的大寫職業名，任一項不符時整個檔案解析失敗。空購買清單表示沒有購買候選，
+空出售清單表示不出售。目前只有黑流树海依策略選擇清單，其他主題繼續使用 `priority`。
+
+### 黑流树海依策略選擇買賣清單
+
+黑流策略模組支援 `shopping_rules`，在頁面分派時依目前的頁面意圖與事實選擇一對買賣清單：
+
+```json5
+"shopping_rules": [
+    {
+        "id": "cultivation_final",                           // 同一策略內唯一
+        "description": "第三層培育後結束，加工品賣出換種子",   // 選填
+        "page_intent": "scrap_shop.cultivate",               // 選填，省略時對該策略的所有頁面生效
+        "rank": 0,                                           // 選填，預設為0，數值小的優先
+        "when": { "fact": "current_floor", "op": "eq", "value": 3 }, // 選填，沿用策略條件語法
+        "buy_table": "default",                              // 選填，預設為default
+        "sell_table": "cultivation_final"                    // 選填，省略或為空時不出售
+    }
+]
+```
+
+多條規則同時符合時，先比較 `rank`，相同時依 `id` 的字典順序，與 `encounter_rules` 一致。每次只採用同一條規則的買賣清單，不混合不同規則的欄位；未符合任何規則時使用 `default` 購買清單且不出售。每次頁面分派都會重新選擇清單，上一頁面的選擇不會延續到下一頁面。
+
+`when` 不能讀取候選路線事實。規則引用的清單名稱必須存在於黑流的 `shopping.json`，否則策略設定解析失敗。通用購物使用選中的購買清單；秘境行商培育使用選中的出售清單篩選出售名稱。
+
 ## 肉鴿特殊機制
 
 ### 薩米肉鴿——密文板

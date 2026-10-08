@@ -2063,6 +2063,14 @@ bool BlackFlowSession::apply_encounter_selection(
     return true;
 }
 
+std::optional<std::reference_wrapper<const ShoppingRule>> BlackFlowSession::shopping_rule() const
+{
+    if (!m_policy || !m_page_context) {
+        return std::nullopt;
+    }
+    return resolve_shopping_rule(*m_policy, m_facts.merged(), m_page_context->page_intent);
+}
+
 bool BlackFlowSession::mark_page_running(std::string* error)
 {
     if (!m_page_context.has_value() || !m_transaction.has_value() ||

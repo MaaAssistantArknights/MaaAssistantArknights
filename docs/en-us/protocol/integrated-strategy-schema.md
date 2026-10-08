@@ -691,6 +691,47 @@ The Encounter options can be modified to guide MAA towards special endings
         ...
 ```
 
+Besides `priority`, `shopping.json` can declare named buy tables and sell tables for themes that select tables by strategy:
+
+```json5
+{
+    "theme": "BlackFlow",
+    "priority": [ ... ],                     // The default buy table, named default
+    "buy_tables": {                          // Optional named buy tables; items use the same format as priority, and default is reserved for priority
+        "table_name": [ { "name": "..." } ]
+    },
+    "sell_tables": {                         // Optional named sell tables listing the names allowed to be sold; list order does not decide the selling order
+        "cultivation_final": [ "血蕈", "雾滚草", ... ]
+    }
+}
+```
+
+Item names must not be empty, and `roles` only accepts the uppercase class names above; any invalid item makes the whole file fail to parse.
+An empty buy table means there are no purchase candidates, and an empty sell table means nothing is sold.
+Only 黑流树海 currently selects tables by strategy; other themes keep using `priority`.
+
+### Strategy-based shopping table selection in 黑流树海
+
+The 黑流树海 strategy module supports `shopping_rules`. When a page is dispatched, it selects a pair of buy and sell tables based on the current page intent and facts:
+
+```json5
+"shopping_rules": [
+    {
+        "id": "cultivation_final",                           // Unique within the strategy
+        "description": "Finish after cultivation on floor 3; sell processed items for seeds", // Optional
+        "page_intent": "scrap_shop.cultivate",               // Optional; if omitted, applies to all pages in this strategy
+        "rank": 0,                                           // Optional, defaults to 0; lower values take priority
+        "when": { "fact": "current_floor", "op": "eq", "value": 3 }, // Optional; uses the existing strategy condition syntax
+        "buy_table": "default",                              // Optional, defaults to default
+        "sell_table": "cultivation_final"                    // Optional; if omitted or empty, nothing is sold
+    }
+]
+```
+
+If multiple rules match, the rule with the lowest `rank` is selected; ties are resolved by the lexicographical order of `id`, as with `encounter_rules`. Both tables come from the same rule; fields from different rules are not combined. If no rule matches, the `default` buy table is used and nothing is sold. Tables are selected again for every page dispatch, so the previous page's selection is not carried over.
+
+`when` cannot access candidate route facts. Referenced table names must exist in 黑流树海's `shopping.json`; otherwise, the strategy configuration fails to parse. The shopping plugin uses the selected buy table, while 秘境行商 cultivation uses the selected sell table to filter items for sale.
+
 ## Integrated Strategy Special Mechanisms
 
 ### Sami Integrated Strategy - Foldartals

@@ -34,8 +34,9 @@ private:
         ApplyCultivationResult,
     };
 
-    [[nodiscard]] std::string sell_items_task() const;
     [[nodiscard]] std::vector<TextRect> recognize(const cv::Mat& image, const std::string& task) const;
+    [[nodiscard]] std::vector<TextRect>
+        recognize(const cv::Mat& image, const std::string& task, const std::vector<std::string>& names) const;
     [[nodiscard]] int read_number(const cv::Mat& image, const std::string& task) const;
     void bind_completion(const std::string& task) const;
     void apply_cultivation_result(const std::string& completion_task);
