@@ -39,6 +39,8 @@ public partial class Copilot : NotifyPropertyChangedWithValue
 
     public CopilotSupportMode SupportMode { get; set; } = CopilotSupportMode.WhenNeeded;
 
+    public bool UseFormation { get; set; } = false;
+
     public int SelectFormation { get; set; } = 1;
 
     public int LoopTimes { get; set; } = 1;
