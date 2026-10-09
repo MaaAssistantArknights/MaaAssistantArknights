@@ -36,8 +36,10 @@ This method applies only to Windows users.
 Run the following command in a terminal:
 
 ```bash
-winget install maa
+winget install --id MaaAssistantArknights.MaaAssistantArknights --exact --source winget
 ```
+
+`--source winget` restricts the search to the winget source. This keeps the installation from aborting with error `0x8a15005e` when certificate validation for the Microsoft Store (`msstore`) source fails, which can happen behind some proxies or game accelerators.
 
 When installed this way the default install path is `C:\Users\<username>\AppData\Local\Microsoft\WinGet\Packages`.
 

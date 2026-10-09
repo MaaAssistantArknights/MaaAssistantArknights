@@ -42,8 +42,10 @@ MAA 提供多种下载方式，包括官网下载，从包管理器安装，群�
 请在终端中运行以下命令：
 
 ```bash
-winget install maa
+winget install --id MaaAssistantArknights.MaaAssistantArknights --exact --source winget
 ```
+
+`--source winget` 表示只从 winget 源查找 MAA，可避免在部分代理、加速器等网络环境下，因 Microsoft Store（`msstore`）源证书校验失败（错误码 `0x8a15005e`）而中止安装。
 
 通过此方式安装的默认安装路径为 `C:\Users\用户名\AppData\Local\Microsoft\WinGet\Packages`。
 
