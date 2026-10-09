@@ -459,7 +459,7 @@
                                             Margin="0,5"
                                             IsChecked="{Binding EnableOperBoxAssist}"
                                             IsEnabled="{Binding CanUseOperBoxAssist}">
-                                            <controls:TextBlock Text="{DynamicResource Copilot.UseOperBoxAssist}" TextWrapping="Wrap" />
+                                            <TextBlock Text="{DynamicResource Copilot.UseOperBoxAssist}" TextWrapping="Wrap" />
                                         </CheckBox>
                                         <controls:TooltipBlock TooltipText="{DynamicResource Copilot.UseOperBoxAssist.Tip}" />
                                     </StackPanel>
