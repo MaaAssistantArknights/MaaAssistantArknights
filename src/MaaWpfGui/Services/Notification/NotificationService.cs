@@ -127,7 +127,7 @@ public sealed class NotificationService
         // Publication owns UI dispatch; a display callback never republishes the event.
         _history.Add(notification);
         if (SettingsViewModel.NotificationSettings.UseNotify
-            && notification.Message?.Kind is NotificationKind.TaskError or NotificationKind.TaskComplete)
+            && notification.Message?.Kind is NotificationKind.TaskError or NotificationKind.TaskComplete or NotificationKind.Stalled)
         {
             using var toast = new ToastNotification(notification.Message?.Title ?? notification.Content);
             if (notification.Message is { } message && message.Content != message.Title)
