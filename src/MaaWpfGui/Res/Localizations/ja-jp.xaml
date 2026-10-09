@@ -747,6 +747,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="ThirdPartyGroupYituliu">Yituliu</system:String>
     <system:String x:Key="YituliuOpenApiToken">OpenAPIトークン</system:String>
     <system:String x:Key="YituliuTokenVerify">検証</system:String>
+    <system:String x:Key="YituliuTokenLink">{key=ThirdPartyGroupYituliu}でトークンを取得</system:String>
     <system:String x:Key="YituliuTokenEmpty">先にトークンを入力してください</system:String>
     <system:String x:Key="YituliuTokenValid">トークンは有効です。合計 {0} 名のオペレーター</system:String>
     <system:String x:Key="YituliuTokenValidNoData">トークンは有効ですが、アカウントにまだオペレーターデータがありません</system:String>

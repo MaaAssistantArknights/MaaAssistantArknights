@@ -746,6 +746,7 @@ D:\
     <system:String x:Key="ThirdPartyGroupYituliu">一圖流</system:String>
     <system:String x:Key="YituliuOpenApiToken">OpenAPI Token</system:String>
     <system:String x:Key="YituliuTokenVerify">驗證</system:String>
+    <system:String x:Key="YituliuTokenLink">前往{key=ThirdPartyGroupYituliu}取得 Token</system:String>
     <system:String x:Key="YituliuTokenEmpty">請先填寫 Token</system:String>
     <system:String x:Key="YituliuTokenValid">Token 有效，共 {0} 名幹員</system:String>
     <system:String x:Key="YituliuTokenValidNoData">Token 有效，但帳號暫無幹員練度資料</system:String>

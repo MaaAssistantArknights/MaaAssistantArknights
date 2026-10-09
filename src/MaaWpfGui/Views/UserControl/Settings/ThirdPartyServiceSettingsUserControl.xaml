@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:constants="clr-namespace:MaaWpfGui.Constants"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
@@ -68,6 +69,14 @@
                     IsEnabled="{Binding CanVerifyYituliuToken}" />
             </Grid>
         </StackPanel>
+        <controls:TextBlock Margin="5" HorizontalAlignment="Center">
+            <Hyperlink
+                Cursor="Hand"
+                NavigateUri="{Binding Source={x:Static constants:MaaUrls.YituliuAccountHome}}"
+                TextDecorations="None">
+                <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource YituliuTokenLink}" />
+            </Hyperlink>
+        </controls:TextBlock>
         <controls:TextBlock
             MaxWidth="400"
             Margin="0"

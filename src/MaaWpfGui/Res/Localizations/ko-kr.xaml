@@ -747,6 +747,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="ThirdPartyGroupYituliu">Yituliu</system:String>
     <system:String x:Key="YituliuOpenApiToken">OpenAPI 토큰</system:String>
     <system:String x:Key="YituliuTokenVerify">확인</system:String>
+    <system:String x:Key="YituliuTokenLink">{key=ThirdPartyGroupYituliu}에서 토큰 받기</system:String>
     <system:String x:Key="YituliuTokenEmpty">먼저 토큰을 입력해 주세요</system:String>
     <system:String x:Key="YituliuTokenValid">토큰이 유효합니다. 총 {0}명의 오퍼레이터</system:String>
     <system:String x:Key="YituliuTokenValidNoData">토큰은 유효하지만 계정에 아직 오퍼레이터 데이터가 없습니다</system:String>

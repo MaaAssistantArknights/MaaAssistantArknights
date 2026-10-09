@@ -747,6 +747,7 @@ To enable this mechanism, make sure the selected difficulty is N3 or higher (exc
     <system:String x:Key="ThirdPartyGroupYituliu">Yituliu</system:String>
     <system:String x:Key="YituliuOpenApiToken">OpenAPI token</system:String>
     <system:String x:Key="YituliuTokenVerify">Verify</system:String>
+    <system:String x:Key="YituliuTokenLink">Get a token from {key=ThirdPartyGroupYituliu}</system:String>
     <system:String x:Key="YituliuTokenEmpty">Please enter a token first</system:String>
     <system:String x:Key="YituliuTokenValid">Token is valid, {0} operators found</system:String>
     <system:String x:Key="YituliuTokenValidNoData">Token is valid, but the account has no operator data yet</system:String>
