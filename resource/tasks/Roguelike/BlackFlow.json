@@ -962,7 +962,7 @@
             "显式设置 reduceOtherTimes 会覆盖 baseTask 的同名字段，因此这里同时保留 MovePreviewWait 的既有复位。"
         ],
         "baseTask": "BlackFlow@Roguelike@MovePreviewEnter",
-        "template": "BlackFlow@Roguelike@MovePreviewEnter.png",
+        "template": ["BlackFlow@Roguelike@MovePreviewEnterWalk.png", "BlackFlow@Roguelike@MovePreviewEnterCrafted.png"],
         "action": "ClickSelf",
         "rectMove": [0, 0, 50, 30],
         "next": [
@@ -995,7 +995,7 @@
     "BlackFlow@Roguelike@MovePreviewConfirmObserve": {
         "Doc": "maxTimes 为 2 时，第三次匹配会进入 exceededNext；随后经过一个 taskDelay 在第四个观察点识别 Confirm，默认配置下两次点击间隔约为两秒。",
         "baseTask": "BlackFlow@Roguelike@MovePreviewEnter",
-        "template": "BlackFlow@Roguelike@MovePreviewEnter.png",
+        "template": ["BlackFlow@Roguelike@MovePreviewEnterWalk.png", "BlackFlow@Roguelike@MovePreviewEnterCrafted.png"],
         "action": "DoNothing",
         "next": [
             "BlackFlow@Roguelike@InventoryCapacityConfirm",
@@ -1014,12 +1014,16 @@
     },
     "BlackFlow@Roguelike@MovePreviewCost": {
         "algorithm": "OcrDetect",
-        "roi": [1089, 544, 38, 27],
+        "roi": [1095, 545, 34, 25],
         "isAscii": true,
         "withoutDet": true,
         "text": ["0", "-0", "-1", "-2", "-3", "-4", "-5", "-6", "-7", "-8", "-9"],
         "ocrReplace": [["^.*([0-9])$", "-$1"]],
         "fullMatch": true
+    },
+    "BlackFlow@Roguelike@MovePreviewCostCrafted": {
+        "baseTask": "BlackFlow@Roguelike@MovePreviewCost",
+        "roi": [1072, 544, 31, 26]
     },
     "BlackFlow@Roguelike@MovePreviewDisplayedName": {
         "Doc": "候选词由 roguelike/BlackFlow/node_execution.json 的 preview_names 提供，那里同时给出对应的节点类型。",
@@ -1034,14 +1038,27 @@
         "text": []
     },
     "BlackFlow@Roguelike@MovePreviewEnter": {
-        "template": "BlackFlow@Roguelike@MovePreviewEnter.png",
-        "roi": [1122, 520, 153, 65],
+        "template": ["BlackFlow@Roguelike@MovePreviewEnterWalk.png", "BlackFlow@Roguelike@MovePreviewEnterCrafted.png"],
+        "roi": [1010, 488, 270, 131],
         "reduceOtherTimes": ["BlackFlow@Roguelike@MovePreviewWait*3"]
+    },
+    "BlackFlow@Roguelike@MovePreviewEnterCrafted": {
+        "baseTask": "BlackFlow@Roguelike@MovePreviewEnter",
+        "roi": [1020, 504, 260, 115]
+    },
+    "BlackFlow@Roguelike@MovePreviewEnterWalk": {
+        "baseTask": "BlackFlow@Roguelike@MovePreviewEnter",
+        "roi": [1010, 488, 270, 122]
     },
     "BlackFlow@Roguelike@MovePreviewWait": {
         "algorithm": "JustReturn",
         "postDelay": 3000,
-        "next": ["BlackFlow@Roguelike@MovePreviewEnter", "BlackFlow@Roguelike@MovePreviewCannotEnter", "#self"],
+        "next": [
+            "BlackFlow@Roguelike@MovePreviewEnterWalk",
+            "BlackFlow@Roguelike@MovePreviewEnterCrafted",
+            "BlackFlow@Roguelike@MovePreviewCannotEnter",
+            "#self"
+        ],
         "maxTimes": 3
     },
     "BlackFlow@Roguelike@MovementInventoryCheck": {
