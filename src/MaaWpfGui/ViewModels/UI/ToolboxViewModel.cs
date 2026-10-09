@@ -2141,6 +2141,12 @@ public class ToolboxViewModel : Screen
         var exportList = new List<OperBoxData.OperData>();
         var userOperMap = OperBoxHaveList.ToDictionary(op => op.Id);
 
+        // 同名归一用基准中文名（Id 反查）：条目展示名跟随干员名语言设置，外文名下与全表 operInfo.Name 永不相等
+        var ownedNames = OperBoxHaveList
+            .Select(op => DataHelper.Operators.TryGetValue(op.Id, out var info) ? info.Name : null)
+            .OfType<string>()
+            .ToHashSet();
+
         foreach (var (operId, operInfo) in DataHelper.Operators)
         {
             if (!DataHelper.IsCharacterAvailableInClient(operInfo, SettingsViewModel.GameSettings.ClientType.ToCustomString()))
@@ -2163,6 +2169,11 @@ public class ToolboxViewModel : Screen
                     Skills = value.Skills,
                     Equips = value.Equips,
                 });
+            }
+            else if (ownedNames.Contains(operInfo.Name!))
+            {
+                // 升变等同名形态条目已被拥有的形态覆盖（本地识别只含当前形态），不导出为未拥有，与列表显示同构
+                continue;
             }
             else
             {
