@@ -1037,7 +1037,12 @@ bool update_infrast_templates(const fs::path& input_dir, const fs::path& buildin
         std::cerr << building_data_file << " has no buffs" << '\n';
         return false;
     }
+    // infrast.json 只收录映射表内房间的技能，模板侧按同一口径收集，未知房间的技能不写模板
     for (const auto& [_, buff] : buffs_opt.value()) {
+        const std::string room_type = buff.get("roomType", std::string());
+        if (!InfrastRoomTypeMap.contains(room_type)) {
+            continue;
+        }
         const std::string skill_icon = buff.get("skillIcon", std::string());
         if (!skill_icon.empty()) {
             icon_ids.emplace(skill_icon);
