@@ -100,10 +100,11 @@ Please note that website publishing is tightly bound to releases. Regular modifi
 
 Uses regex matching to tag various Issues, categorizing and marking Issue content for easier viewing and management.
 
-`issue-checkbox-checker.yml`
+`issue-review.yml`
 
 Uses regex matching to automatically close Issues that check "I have not read carefully".
 If "I have not read carefully" is not checked, all checkboxes are collapsed.
+New issues that pass the check are automatically analyzed by AI; mentioning @MaaArknightsBot in an issue comment also triggers the analysis.
 
 `stale.yml`
 

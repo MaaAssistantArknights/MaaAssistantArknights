@@ -98,10 +98,11 @@ MAA는 GitHub Action을 활용하여 웹사이트 구축, 자동 리소스 업�
 
 정규 표현식 매칭을 통해 각 Issue에 태그를 달아 Issue 내용을 분류하고 표시하여 조회와 관리를 용이하게 합니다.
 
-`issue-checkbox-checker.yml`
+`issue-review.yml`
 
 정규 표현식 매칭을 통해 "주의 깊게 읽지 않음"을 체크한 Issue를 자동으로 닫습니다.
 "주의 깊게 읽지 않음"이 체크되지 않은 경우 모든 체크박스를 접습니다.
+검사를 통과한 신규 Issue는 자동으로 AI 분석되며, Issue 댓글에서 @MaaArknightsBot을 멘션하여 분석을 트리거할 수도 있습니다.
 
 `stale.yml`
 

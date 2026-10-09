@@ -3,14 +3,26 @@ name: Issue Review
 on:
   issues:
     types: [opened]
+  issue_comment:
+    types: [created]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: 'Issue number to analyze'
+        required: true
+        type: number
+
+permissions:
+  contents: read
+  issues: write
 
 jobs:
   check-then-close-or-fold:
     name: Review and Modify Issues
+    if: github.event_name == 'issues' && github.event.action == 'opened'
+    outputs:
+      blocked: ${{ steps.unread-checkbox-check.outputs.result }}
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
-
     steps:
       - name: Check for duplicate issues in last hour
         id: duplicate-check
@@ -151,3 +163,73 @@ jobs:
               issue_number: context.issue.number,
               body: foldedBody
             });
+
+  ai-analysis:
+    name: Analyze Issue with AI
+    needs: check-then-close-or-fold
+    # opened 需勾选框检查放行（blocked）；评论触发需 @bot 且 issue 未关闭；
+    # 手动触发直接放行。人工重开的 issue 不自动分析，需要时先重开再 @bot。
+    # !cancelled() 使评论/手动触发时上游 skipped 不阻断本 job 评估；
+    # 勾选框检查自身 failure 时 opened 不放行，宁可漏一次分析让人工 @ 补跑。
+    if: >-
+      !cancelled() && (
+      (github.event_name == 'issues' && github.event.action == 'opened'
+      && needs.check-then-close-or-fold.result == 'success'
+      && needs.check-then-close-or-fold.outputs.blocked != 'true')
+      || github.event_name == 'workflow_dispatch'
+      || (github.event_name == 'issue_comment' && github.event.action == 'created'
+      && contains(github.event.comment.body, '@MaaArknightsBot')
+      && github.event.comment.user.type != 'Bot')
+      )
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check issue state
+        id: issue-state
+        if: github.event_name == 'issue_comment'
+        uses: actions/github-script@v9
+        with:
+          script: |
+            // 被勾选框规则关闭的 issue，作者 @bot 不再触发分析；
+            // 需要分析时先重开 issue 再 @bot
+            const { data: issue } = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            core.setOutput('closed', issue.state === 'closed');
+
+      # 分析质量仍依赖配套的 issue/log analysis skill。
+      # 详细使用文档：https://github.com/MistEO/ai-issue-analysis
+      - name: Analyze issue with AI
+        id: analysis
+        if: steps.issue-state.outputs.closed != 'true'
+        continue-on-error: true
+        uses: MistEO/ai-issue-analysis@main
+        with:
+          agent: ${{ secrets.BOT_AI_AGENT }}
+          api-key: ${{ secrets.BOT_AI_API_KEY }}
+          api-base-url: ${{ secrets.BOT_AI_API_BASE_URL }}
+          model: ${{ secrets.BOT_AI_MODEL }}
+          github-token: ${{ secrets.MAA_BOT_TOKEN }}
+          bot-name: '@MaaArknightsBot'
+          initial-comment-body: |
+            🤖 **MaaBot 正在分析该 Issue...**  
+            
+            感谢您的反馈！AI 正在自动分析该问题，预计耗时约 10 分钟。
+          prompt-template: |
+            严格按照 .agents/skills/maa-issue-log-analysis/SKILL.md 中的规则，分析 GitHub Issue {{issue_number}}。把最终结论写到 {{answer_file}}。
+          extra-comment-content: |
+            <!-- Skip all labels -->
+
+      - name: 查看完整输入输出
+        if: always()
+        env:
+          ISSUE_NUMBER: ${{ steps.analysis.outputs.issue-number }}
+          COMMENT_ID: ${{ steps.analysis.outputs.comment-id }}
+          COMMENT_URL: ${{ steps.analysis.outputs.comment-url }}
+        run: |
+          echo "issue_number=$ISSUE_NUMBER"
+          echo "comment_id=$COMMENT_ID"
+          echo "comment_url=$COMMENT_URL"
+          echo "(Full agent-output and final-conclusion are available in the uploaded artifacts)"
