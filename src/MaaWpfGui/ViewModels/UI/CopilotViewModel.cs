@@ -118,7 +118,9 @@ public partial class CopilotViewModel : Screen
     {
         PropertyDependsOnUtility.InitializePropertyDependencies(this);
         DisplayName = LocalizationHelper.GetString("Copilot");
-        AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false, logToFile: false);
+
+        // 静态使用提示只参与界面展示，不进通知历史，也不算停滞计时器的输出活动
+        DisplayLog(LocalizationHelper.GetString("CopilotTip"), showTime: false, logToFile: false);
         _runningState = RunningState.Instance;
         LocalizationHelper.LanguageChanged += () => {
             DisplayName = LocalizationHelper.GetString("Copilot");
@@ -166,7 +168,7 @@ public partial class CopilotViewModel : Screen
     /// <param name="weight">The font weight.</param>
     /// <param name="showTime">Whether show time.</param>
     /// <param name="notifyActivity">Whether to reset the stalled-output timer.</param>
-    /// <param name="logToFile">Whether to write the entry to the gui log. Static hint lines (e.g. CopilotTip) pass <see langword="false"/>.</param>
+    /// <param name="logToFile">Whether to write the entry to the gui log.</param>
     public void AddLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true, bool notifyActivity = true, bool logToFile = true)
     {
         // Copilot 自动战斗期间也会启动停滞计时器（Start 通过 BeginRun 进入运行态），
@@ -238,7 +240,7 @@ public partial class CopilotViewModel : Screen
 
             Instances.NotificationService.Clear(NotificationSource.Copilot);
             LogItemViewModels.Clear();
-            AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false, logToFile: false);
+            DisplayLog(LocalizationHelper.GetString("CopilotTip"), showTime: false, logToFile: false);
         });
     }
 
