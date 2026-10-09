@@ -671,11 +671,23 @@
         "action": "ClickSelf",
         "roi": [20, 15, 55, 50],
         "maxTimes": 1,
-        "next": ["UserCenter", "ExitOld"]
+        "next": ["AccountLogout", "UserCenter", "ExitOld"]
+    },
+    "AccountLogout": {
+        "Doc": "设置页左栏「账号登出」",
+        "action": "ClickSelf",
+        "roi": [40, 610, 66, 75],
+        "next": ["AccountLogoutConfirm", "AccountLogout"]
+    },
+    "AccountLogoutConfirm": {
+        "Doc": "「即将返回登录界面，是否继续？」确认",
+        "baseTask": "LogoutConfirm",
+        "template": "PopupConfirm.png",
+        "roi": [630, 445, 650, 95]
     },
     "UserCenter": {
         "action": "ClickSelf",
-        "roi": [50, 470, 50, 75],
+        "roi": [42, 522, 63, 75],
         "next": ["Logout", "LogoutOCR"]
     },
     "Logout": {
@@ -721,7 +733,7 @@
     },
     "AccountManager": {
         "action": "ClickSelf",
-        "roi": [855, 660, 150, 40],
+        "roi": [697, 663, 144, 39],
         "next": ["LoginOther"]
     },
     "LoginOther": {
