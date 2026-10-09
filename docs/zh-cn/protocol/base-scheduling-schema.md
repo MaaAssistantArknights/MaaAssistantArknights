@@ -70,8 +70,8 @@ icon: material-symbols:view-quilt-rounded
             ],
             "rooms": {
                 // 房间信息，必选
-                // 取值范围 "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing" / "training" / "recycling"
-                // training / recycling 的 A/B 分组为草案，当前 MAA 自定义排班尚未支持
+                // 取值范围 "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing" / "training" / "recycle"
+                // training / recycle 的 A/B 分组为草案，当前 MAA 自定义排班尚未支持
                 // 缺少某个则该设施使用默认算法进行换班。
                 // 若想不对某个房间换班请使用 skip 字段，或直接在软件 任务设置 - 基建换班 - 常规设置 中取消改设施的勾选
                 "control": [
@@ -137,7 +137,7 @@ icon: material-symbols:view-quilt-rounded
                         "operatorsB": ["杜宾"] // 接受训练的干员名称数组（B 位），可选；名称要求同 operators
                     }
                 ],
-                "recycling": [ // 回收站，键名暂定
+                "recycle": [ // 回收站，键名暂定
                     {
                         "operatorsA": ["芬"], // 首个解锁位置的干员名称数组（A 位），可选；名称要求同 operators
                         "operatorsB": ["克洛丝"] // 第二个解锁位置的干员名称数组（B 位），可选；名称要求同 operators

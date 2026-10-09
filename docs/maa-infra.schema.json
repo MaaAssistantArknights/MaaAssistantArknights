@@ -186,9 +186,9 @@
                     },
                     "maxItems": 1
                 },
-                "recycling": {
+                "recycle": {
                     "type": "array",
-                    "description": "Planned facility 回收站 with A/B slots: A is the first unlocked position, B is the second. The recycling key is provisional; MAA custom scheduling does not yet support these groups.",
+                    "description": "Planned facility 回收站 with A/B slots: A is the first unlocked position, B is the second. The recycle key is provisional; MAA custom scheduling does not yet support these groups.",
                     "items": {
                         "$ref": "#/definitions/abRoomConfig"
                     }

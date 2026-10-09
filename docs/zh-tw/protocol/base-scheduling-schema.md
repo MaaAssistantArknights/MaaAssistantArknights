@@ -70,8 +70,8 @@ icon: material-symbols:view-quilt-rounded
             ],
             "rooms": {
                 // 房間資訊，必選
-                // 取值範圍 "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing" / "training" / "recycling"
-                // training / recycling 的 A/B 分組為草案，目前 MAA 自訂排班尚未支援
+                // 取值範圍 "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing" / "training" / "recycle"
+                // training / recycle 的 A/B 分組為草案，目前 MAA 自訂排班尚未支援
                 // 缺少某個則該設施使用預設演算法進行換班。
                 // 若想不對某個房間換班請使用 skip 欄位，或直接在 MAA 「任務設定 - 基建換班 - 進階設定」中取消該設施的勾選
                 "control": [
@@ -137,7 +137,7 @@ icon: material-symbols:view-quilt-rounded
                         "operatorsB": ["杜賓"] // 接受訓練的幹員名稱陣列（B 位），可選；名稱要求同 operators
                     }
                 ],
-                "recycling": [ // 回收站，規劃中的 A/B 位設施，鍵名暫定
+                "recycle": [ // 回收站，規劃中的 A/B 位設施，鍵名暫定
                     {
                         "operatorsA": ["芬"], // 首個解鎖位置的幹員名稱陣列（A 位），可選；名稱要求同 operators
                         "operatorsB": ["克洛絲"] // 第二個解鎖位置的幹員名稱陣列（B 位），可選；名稱要求同 operators

@@ -74,8 +74,8 @@ JSONファイルはコメントをサポートしていません。テキスト�
                 }
             ],
             "rooms": {              // 部屋情報，必須
-                                    // 引数 "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing" / "training" / "recycling"
-                                    // training / recycling の A/B グループは草案であり、現在の MAA カスタムスケジュールは未対応
+                                    // 引数 "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing" / "training" / "recycle"
+                                    // training / recycle の A/B グループは草案であり、現在の MAA カスタムスケジュールは未対応
                                     // 1つもないということは、その施設ではシフト変更にデフォルトのアルゴリズムが使用されていることを意味します。
                                     // 部屋のシフトを変更しない場合は、skip を使用するか、タスク設定 - 基地仕事 - 基地設定 で該当施設のチェックを外すだけです。
                 "control": [
@@ -147,7 +147,7 @@ JSONファイルはコメントをサポートしていません。テキスト�
                         "operatorsB": ["ドーベルマン"] // 訓練を受けるオペレーター名配列（B スロット）、任意。名前の要件は operators と同じ
                     }
                 ],
-                "recycling": [ // 回收站（A/B スロットを持つ予定の施設）、キー名は暫定
+                "recycle": [ // 回收站（A/B スロットを持つ予定の施設）、キー名は暫定
                     {
                         "operatorsA": ["フェン"], // 最初に解放される位置のオペレーター名配列（A スロット）、任意。名前の要件は operators と同じ
                         "operatorsB": ["クルース"] // 2 番目に解放される位置のオペレーター名配列（B スロット）、任意。名前の要件は operators と同じ

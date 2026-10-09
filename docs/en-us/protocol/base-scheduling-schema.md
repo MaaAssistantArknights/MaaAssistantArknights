@@ -70,8 +70,8 @@ Please note that JSON files do not support comments. The comments in this docume
             ],
             "rooms": {
                 // Room information, required
-                // Values: "control"/"manufacture"/"trading"/"power"/"meeting"/"hire"/"dormitory"/"processing" / "training" / "recycling"
-                // A/B groups for training / recycling are a draft, not yet supported by MAA custom scheduling
+                // Values: "control"/"manufacture"/"trading"/"power"/"meeting"/"hire"/"dormitory"/"processing" / "training" / "recycle"
+                // A/B groups for training / recycle are a draft, not yet supported by MAA custom scheduling
                 // Missing rooms use default algorithm for shift change.
                 // To skip a room, use skip field or uncheck the facility in software Task Settings - Base Management - General Settings
                 "control": [
@@ -137,7 +137,7 @@ Please note that JSON files do not support comments. The comments in this docume
                         "operatorsB": ["Dobermann"] // Trainee names (slot B), optional array; naming requirements as in operators
                     }
                 ],
-                "recycling": [ // 回收站, a planned facility with A/B slots; key provisional
+                "recycle": [ // 回收站, a planned facility with A/B slots; key provisional
                     {
                         "operatorsA": ["Fang"], // Operator names in the first unlocked position (slot A), optional array; naming requirements as in operators
                         "operatorsB": ["Kroos"] // Operator names in the second unlocked position (slot B), optional array; naming requirements as in operators

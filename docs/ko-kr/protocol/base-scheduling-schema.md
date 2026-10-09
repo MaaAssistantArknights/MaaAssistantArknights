@@ -70,8 +70,8 @@ JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 �
             ],
             "rooms": {
                 // 시설 정보, 필수
-                // 값 범위 "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing" / "training" / "recycling"
-                // training / recycling의 A/B 그룹은 초안이며 현재 MAA 사용자 정의 스케줄은 아직 지원하지 않음
+                // 값 범위 "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing" / "training" / "recycle"
+                // training / recycle의 A/B 그룹은 초안이며 현재 MAA 사용자 정의 스케줄은 아직 지원하지 않음
                 // 하나라도 빠지면 해당 시설은 기본 알고리즘을 사용하여 교대합니다.
                 // 특정 시설의 교대를 원하지 않으면 skip 필드를 사용하거나, 소프트웨어 '임무 설정 - 기반시설 교대 - 일반 설정'에서 해당 시설의 체크를 해제하세요
                 "control": [
@@ -137,7 +137,7 @@ JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 �
                         "operatorsB": ["杜宾"] // 훈련을 받는 오퍼레이터 이름 배열(B 슬롯), 선택 사항. 이름 요구 사항은 operators와 같음
                     }
                 ],
-                "recycling": [ // 回收站(A/B 슬롯을 갖춘 예정 시설), 키 이름은 임시
+                "recycle": [ // 回收站(A/B 슬롯을 갖춘 예정 시설), 키 이름은 임시
                     {
                         "operatorsA": ["芬"], // 첫 번째로 해금되는 위치의 오퍼레이터 이름 배열(A 슬롯), 선택 사항. 이름 요구 사항은 operators와 같음
                         "operatorsB": ["克洛丝"] // 두 번째로 해금되는 위치의 오퍼레이터 이름 배열(B 슬롯), 선택 사항. 이름 요구 사항은 operators와 같음
