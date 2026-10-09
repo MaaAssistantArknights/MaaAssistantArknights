@@ -694,29 +694,7 @@ public class AsstProxy
                     MessageBoxImage.Error);
             }
 
-            // Show 内部自行切 UI 线程，此处阻塞后台任务直至用户选择
-            var repair = MessageBoxHelper.Show(
-                LocalizationHelper.GetString("ResourceBroken"),
-                LocalizationHelper.GetString("Error"),
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Error,
-                iconKey: ResourceToken.FatalGeometry,
-                iconBrushKey: ResourceToken.DangerBrush,
-                yes: LocalizationHelper.GetString("ResourceIntegrityRepairYes"),
-                no: LocalizationHelper.GetString("ResourceIntegrityRepairNo"));
-            if (repair == MessageBoxResult.Yes)
-            {
-                _logger.Information("User chose auto repair on resource-broken dialog");
-
-                // 修复流程需要 UI 上下文；期间应用保持运行（任务启动已被标志拦截），
-                // 另一入口已在修复时由防重入兜底直接返回
-                _ = Execute.OnUIThreadAsync(() => _ = Instances.VersionUpdateDialogViewModel.RunIntegrityRepairAsync());
-            }
-            else
-            {
-                // 暂不处理：保持运行，保留拖入本地完整包等后续更新途径；任务入口已被标志拦截
-                _logger.Information("User declined auto repair on resource-broken dialog, continuing");
-            }
+            ShowResourceBrokenPrompt();
         }
 
         AsstSetInstanceOption(InstanceOptionKey.TouchMode, SettingsViewModel.ConnectSettings.TouchMode.ToCustomString());
@@ -805,6 +783,33 @@ public class AsstProxy
                     await Instances.TaskQueueViewModel.LinkStart();
                 }
             });
+    }
+
+    private static void ShowResourceBrokenPrompt()
+    {
+        // Show 内部自行切 UI 线程，此处阻塞后台任务直至用户选择
+        var repair = MessageBoxHelper.Show(
+            LocalizationHelper.GetString("ResourceBroken"),
+            LocalizationHelper.GetString("Error"),
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Error,
+            iconKey: ResourceToken.FatalGeometry,
+            iconBrushKey: ResourceToken.DangerBrush,
+            yes: LocalizationHelper.GetString("ResourceIntegrityRepairYes"),
+            no: LocalizationHelper.GetString("ResourceIntegrityRepairNo"));
+        if (repair == MessageBoxResult.Yes)
+        {
+            _logger.Information("User chose auto repair on resource-broken dialog");
+
+            // 修复流程需要 UI 上下文；期间应用保持运行（任务启动已被标志拦截），
+            // 另一入口已在修复时由防重入兜底直接返回
+            _ = Execute.OnUIThreadAsync(() => _ = Instances.VersionUpdateDialogViewModel.RunIntegrityRepairAsync());
+        }
+        else
+        {
+            // 暂不处理：保持运行，保留拖入本地完整包等后续更新途径；任务入口已被标志拦截
+            _logger.Information("User declined auto repair on resource-broken dialog, continuing");
+        }
     }
 
     /// <summary>
@@ -1804,6 +1809,28 @@ public class AsstProxy
             case "RecognizeDrops":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DropRecognitionError"), UiLogColor.Error);
                 break;
+
+            case "DepotRecognitionTask":
+                {
+                    if (details["what"]?.ToString() != "DepotTemplateLoadError")
+                    {
+                        break;
+                    }
+
+                    var itemIds = details["details"]?["item_ids"]?.Values<string>().Where(id => !string.IsNullOrEmpty(id)) ?? [];
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat("DepotTemplateLoadError", string.Join(", ", itemIds)),
+                        UiLogColor.Error);
+
+                    // 模板损坏按资源损坏处理：先置标志拦截任务，再弹修复弹窗
+                    if (!Bootstrapper.IsResourceBroken)
+                    {
+                        Bootstrapper.MarkResourceBroken();
+                        _ = Task.Run(ShowResourceBrokenPrompt);
+                    }
+
+                    break;
+                }
 
             case "ReportToPenguinStats":
                 {

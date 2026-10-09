@@ -18,8 +18,10 @@ protected:
 
     bool swipe_and_analyze();
     bool analyze_basic_items();
+    bool report_invalid_templates(const DepotImageAnalyzer& analyzer);
     void callback_analyze_result(bool done);
     void swipe();
     std::unordered_map<std::string, ItemInfo> m_all_items;
+    bool m_invalid_templates = false;
 };
 }
