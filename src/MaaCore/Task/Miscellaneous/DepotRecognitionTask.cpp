@@ -16,10 +16,18 @@ bool asst::DepotRecognitionTask::_run()
 {
     LogTraceFunction;
 
+    m_invalid_templates = false;
     bool ret = swipe_and_analyze();
 
     // 材料页扫完后，切到「全部」标签页识别基础物品（源石、合成玉、龙门币、赤金、采购凭证）
-    ret &= analyze_basic_items();
+    if (!m_invalid_templates) {
+        ret &= analyze_basic_items();
+    }
+
+    if (m_invalid_templates) {
+        DepotImageAnalyzer::clear_cached_templates();
+        return false;
+    }
 
     callback_analyze_result(true);
 
@@ -44,7 +52,8 @@ bool asst::DepotRecognitionTask::analyze_basic_items()
     DepotImageAnalyzer analyzer(ctrler()->get_image());
     analyzer.set_item_ids({ "4002", "4003", "4001", "3003", "4006" }); // 源石 合成玉 龙门币 赤金 采购凭证（红票）
     analyzer.set_is_basic(true);
-    if (!analyzer.analyze()) {
+    const bool analyzed = analyzer.analyze();
+    if (report_invalid_templates(analyzer) || !analyzed) {
         return false;
     }
 
@@ -72,7 +81,8 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
         // 因为滑动不是完整的一页，有可能上一次识别过的物品，这次仍然在页面中
         // 所以这个 begin pos 不能设置
         // analyzer.set_match_begin_pos(pre_pos);
-        if (!analyzer.analyze()) {
+        const bool analyzed = analyzer.analyze();
+        if (report_invalid_templates(analyzer) || !analyzed) {
             break;
         }
         size_t cur_pos = analyzer.get_match_begin_pos();
@@ -89,6 +99,20 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
     }
     DepotImageAnalyzer::clear_cached_templates();
     return !m_all_items.empty();
+}
+
+bool asst::DepotRecognitionTask::report_invalid_templates(const DepotImageAnalyzer& analyzer)
+{
+    const auto& item_ids = analyzer.get_invalid_template_ids();
+    if (item_ids.empty()) {
+        return false;
+    }
+
+    json::value info = basic_info_with_what("DepotTemplateLoadError");
+    info["details"]["item_ids"] = json::array(item_ids);
+    callback(AsstMsg::SubTaskError, info);
+    m_invalid_templates = true;
+    return true;
 }
 
 void asst::DepotRecognitionTask::callback_analyze_result(bool done)
