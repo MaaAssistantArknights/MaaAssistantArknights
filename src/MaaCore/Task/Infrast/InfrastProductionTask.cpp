@@ -584,7 +584,8 @@ bool asst::InfrastProductionTask::resolve_operator_identity(infrast::Oper& oper)
         return false;
     }
 
-    const std::string& operator_id = BattleData.get_first_id(battle::Role::Unknown, name->text).value_or(std::string());
+    const std::string& operator_id =
+        BattleData.get_first_id(battle::Role::Unknown, name->text, true).value_or(std::string());
     if (!infrast::operator_id_matches_candidates(oper.operator_ids, operator_id)) {
         if (!operator_id.empty()) {
             LogWarn << __FUNCTION__ << "infrastructure operator identity conflicts with skills" << name->text
