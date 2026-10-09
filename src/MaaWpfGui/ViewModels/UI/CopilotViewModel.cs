@@ -2104,6 +2104,7 @@ public partial class CopilotViewModel : Screen
         {
             _logger.Error(ex, "Failed to start copilot task");
             AddLog(LocalizationHelper.GetString("CopilotStartError") + ex.Message, UiLogColor.Error, showTime: false);
+            CopilotFailureReasonReported = true;
             ret = false;
         }
 
