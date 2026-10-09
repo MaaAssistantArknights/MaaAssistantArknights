@@ -299,8 +299,9 @@ jobs:
 
           run_url="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
-          git commit -m "$commit_msg" -m "$run_url" -m "[skip changelog]"
-          if [ $? -eq 0 ]; then
+          # staged 与 HEAD 无实际差异时跳过提交，避免 bash -e 把 nothing to commit 打成失败
+          if ! git diff --cached --quiet; then
+            git commit -m "$commit_msg" -m "$run_url" -m "[skip changelog]"
             echo "have_commits=True" >> $GITHUB_OUTPUT
           fi
 
