@@ -568,7 +568,7 @@ D:\
     <system:String x:Key="TimerCustomConfig">自訂設定檔選擇</system:String>
     <system:String x:Key="TimerCustomConfigTip">定時啟動前兩分鐘重新啟動遊戲並切換設定檔</system:String>
     <system:String x:Key="NotifyBeforeScheduledStart">定時執行前傳送系統通知</system:String>
-    <system:String x:Key="NotifyBeforeScheduledStartTip" xml:space="preserve">依提前時間傳送系統通知。&#10;外部推播可在 ｢{key=ExternalNotificationSettings}｣ 中單獨開啟，兩者共用提前時間。</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStartTip" xml:space="preserve">依提前時間傳送系統通知。&#10;外部推播可在 ｢{key=Settings} - {key=NotificationSettings} - {key=ExternalNotificationSettings}｣ 中單獨開啟，兩者共用提前時間。</system:String>
     <system:String x:Key="ScheduledStartNotificationMinutes">提前時間（分鐘）</system:String>
     <system:String x:Key="ScheduledStartNotificationTitle">定時任務即將執行</system:String>
     <system:String x:Key="ScheduledStartNotificationContent">定時 {0} 預計於 {1}（{2} 分鐘後）開始執行，請留意遊戲登入狀態。</system:String>
@@ -2640,7 +2640,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
 
     <system:String x:Key="Achievement.AllChannelBroadcast.Title">全頻道廣播</system:String>
     <system:String x:Key="Achievement.AllChannelBroadcast.Description">這下誰都別想錯過。</system:String>
-    <system:String x:Key="Achievement.AllChannelBroadcast.Conditions">同時啟用全部 ｢{key=ExternalNotificationSettings}｣ 頻道</system:String>
+    <system:String x:Key="Achievement.AllChannelBroadcast.Conditions">同時啟用全部 ｢{key=Settings} - {key=NotificationSettings} - {key=ExternalNotificationSettings}｣ 頻道</system:String>
 
     <system:String x:Key="Achievement.BackstageExplorer.Title">走進後台</system:String>
     <system:String x:Key="Achievement.BackstageExplorer.Description">讓我看看都記了點啥。</system:String>

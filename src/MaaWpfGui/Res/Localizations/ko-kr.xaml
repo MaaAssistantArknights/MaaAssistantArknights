@@ -568,7 +568,7 @@ D:\
     <system:String x:Key="TimerCustomConfig">커스텀 구성 옵션</system:String>
     <system:String x:Key="TimerCustomConfigTip">예약 시작 2분 전에 게임을 재실행하고 설정을 전환합니다</system:String>
     <system:String x:Key="NotifyBeforeScheduledStart">예약 실행 전 시스템 알림 전송</system:String>
-    <system:String x:Key="NotifyBeforeScheduledStartTip" xml:space="preserve">설정된 사전 알림 시간에 시스템 알림을 보냅니다.&#10;외부 알림은 ｢{key=ExternalNotificationSettings}｣에서 별도로 활성화할 수 있으며 사전 알림 시간을 공유합니다.</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStartTip" xml:space="preserve">설정된 사전 알림 시간에 시스템 알림을 보냅니다.&#10;외부 알림은 ｢{key=Settings} - {key=NotificationSettings} - {key=ExternalNotificationSettings}｣에서 별도로 활성화할 수 있으며 사전 알림 시간을 공유합니다.</system:String>
     <system:String x:Key="ScheduledStartNotificationMinutes">사전 알림 시간(분)</system:String>
     <system:String x:Key="ScheduledStartNotificationTitle">예약 작업이 곧 시작됩니다</system:String>
     <system:String x:Key="ScheduledStartNotificationContent">예약 {0}은(는) {1}({2}분 후)에 시작될 예정입니다. 게임 로그인 상태에 주의해 주세요.</system:String>
@@ -2640,7 +2640,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
 
     <system:String x:Key="Achievement.AllChannelBroadcast.Title">전 채널 방송</system:String>
     <system:String x:Key="Achievement.AllChannelBroadcast.Description">이제 누구도 못 놓치겠네요.</system:String>
-    <system:String x:Key="Achievement.AllChannelBroadcast.Conditions">모든 ｢{key=ExternalNotificationSettings}｣ 채널을 동시에 활성화</system:String>
+    <system:String x:Key="Achievement.AllChannelBroadcast.Conditions">모든 ｢{key=Settings} - {key=NotificationSettings} - {key=ExternalNotificationSettings}｣ 채널을 동시에 활성화</system:String>
 
     <system:String x:Key="Achievement.BackstageExplorer.Title">백스테이지 탐험가</system:String>
     <system:String x:Key="Achievement.BackstageExplorer.Description">뒤에서 뭘 기록했는지 좀 볼까요?</system:String>

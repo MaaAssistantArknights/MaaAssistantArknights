@@ -568,7 +568,7 @@ D:\
     <system:String x:Key="TimerCustomConfig">カスタム構成オプション</system:String>
     <system:String x:Key="TimerCustomConfigTip">起動時刻の2分前にゲームを再起動して設定を切り替えます</system:String>
     <system:String x:Key="NotifyBeforeScheduledStart">定時実行前にシステム通知を送信</system:String>
-    <system:String x:Key="NotifyBeforeScheduledStartTip" xml:space="preserve">設定したタイミングでシステム通知を送信します。&#10;外部通知は ｢{key=ExternalNotificationSettings}｣ で個別に有効にでき、通知するタイミングは共通です。</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStartTip" xml:space="preserve">設定したタイミングでシステム通知を送信します。&#10;外部通知は ｢{key=Settings} - {key=NotificationSettings} - {key=ExternalNotificationSettings}｣ で個別に有効にでき、通知するタイミングは共通です。</system:String>
     <system:String x:Key="ScheduledStartNotificationMinutes">通知するタイミング（分前）</system:String>
     <system:String x:Key="ScheduledStartNotificationTitle">まもなく定時タスクを実行します</system:String>
     <system:String x:Key="ScheduledStartNotificationContent">タイマー {0} は {1}（{2} 分後）に実行開始予定です。ゲームのログイン状態にご注意ください。</system:String>
@@ -2642,7 +2642,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 
     <system:String x:Key="Achievement.AllChannelBroadcast.Title">全チャンネル放送</system:String>
     <system:String x:Key="Achievement.AllChannelBroadcast.Description">これでもう誰も見逃せない。</system:String>
-    <system:String x:Key="Achievement.AllChannelBroadcast.Conditions">｢{key=ExternalNotificationSettings}｣ ですべてのプラットフォームを同時に有効にする</system:String>
+    <system:String x:Key="Achievement.AllChannelBroadcast.Conditions">｢{key=Settings} - {key=NotificationSettings} - {key=ExternalNotificationSettings}｣ ですべてのプラットフォームを同時に有効にする</system:String>
 
     <system:String x:Key="Achievement.BackstageExplorer.Title">バックヤード探検家</system:String>
     <system:String x:Key="Achievement.BackstageExplorer.Description">裏で何が記録されているか見てみよう。</system:String>
