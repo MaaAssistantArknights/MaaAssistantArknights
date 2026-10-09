@@ -96,6 +96,7 @@
         "template": "Hunting/DepotEnter.png"
     },
     "DepotBlackFlow": {
+        "baseTask": "DepotDefault",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["仓库"],
