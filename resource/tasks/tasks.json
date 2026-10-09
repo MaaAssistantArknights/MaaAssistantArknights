@@ -733,7 +733,7 @@
     },
     "AccountManager": {
         "action": "ClickSelf",
-        "roi": [697, 663, 144, 39],
+        "roi": [693, 655, 310, 54],
         "next": ["LoginOther"]
     },
     "LoginOther": {
