@@ -915,8 +915,8 @@
                 "efficient": {
                     "all": 0
                 },
-                "name": ["无瑕心·α"],
-                "operatorIds": ["char_4010_etlchi"],
+                "name": ["无瑕心·α", "忠实拥趸"],
+                "operatorIds": ["char_393_toledo", "char_4010_etlchi"],
                 "template": "Bskill_dorm_hiretorecall2.png"
             },
             "bskill_dorm_hiretorecall3": {
@@ -2877,8 +2877,8 @@
                 "efficient": {
                     "all": 20.1
                 },
-                "name": ["特殊渠道 ", "特殊渠道", "踏坊寻味·α"],
-                "operatorIds": ["char_4080_lin", "char_4172_xingzh"],
+                "name": ["特殊渠道 ", "特殊渠道", "踏坊寻味·α", "拉拢听众"],
+                "operatorIds": ["char_393_toledo", "char_4080_lin", "char_4172_xingzh"],
                 "template": "Bskill_hire_spd&cost4.png"
             },
             "bskill_hire_spd&cost5": {
@@ -2895,8 +2895,8 @@
                 "efficient": {
                     "all": 30.1
                 },
-                "name": ["威权谕使", "踏坊寻味·β"],
-                "operatorIds": ["char_4109_baslin", "char_4172_xingzh"],
+                "name": ["威权谕使", "踏坊寻味·β", "聚众宣讲"],
+                "operatorIds": ["char_393_toledo", "char_4109_baslin", "char_4172_xingzh"],
                 "template": "Bskill_hire_spd&cost6.png"
             },
             "bskill_hire_spd&cost7": {
@@ -3659,6 +3659,12 @@
                 "operatorIds": ["char_293_thorns"],
                 "template": "Bskill_ws_recovery.png"
             },
+            "bskill_ws_refractor": {
+                "desc": ["进驻加工站加工手性屈光体或重相位对映体时，副产物的产出概率提升90%"],
+                "name": ["指尖的光"],
+                "operatorIds": ["char_4232_hbound"],
+                "template": "Bskill_ws_Refractor.png"
+            },
             "bskill_ws_rub": {
                 "desc": ["进驻加工站加工原始心情消耗为2的精英材料时，副产品的产出概率额外提升40%"],
                 "name": ["省省能更多"],
@@ -4019,6 +4025,18 @@
                 "operatorIds": ["char_4036_forcer"],
                 "template": "Bskill_meet_spd&cost.png"
             },
+            "bskill_meet_spd&cost_char": {
+                "desc": ["与其他干员进驻会客室一起工作时，线索搜集速度提升15%，心情每小时消耗+1"],
+                "name": ["合作原则"],
+                "operatorIds": ["char_4231_clemnt"],
+                "template": "Bskill_meet_spd&cost_char.png"
+            },
+            "bskill_meet_spd&cost_clms": {
+                "desc": ["进驻会客室时，线索搜集速度提升20%，心情每小时消耗+1"],
+                "name": ["谈判技巧"],
+                "operatorIds": ["char_4231_clemnt"],
+                "template": "Bskill_meet_spd&cost_clms.png"
+            },
             "bskill_meet_spd&cost_condchar": {
                 "desc": ["进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升50%，心情每小时消耗+2"],
                 "efficient": {
@@ -4225,6 +4243,22 @@
             }
         },
         "skillsGroup": []
+    },
+    "Recycle": {
+        "skills": {
+            "bskill_recycle_spd&cost1": {
+                "desc": ["进驻回收站时，材料转化效率+20%"],
+                "name": ["拾荒者"],
+                "operatorIds": ["char_4232_hbound"],
+                "template": "Bskill_recycle_spd&cost1.png"
+            },
+            "bskill_recycle_spd&cost2": {
+                "desc": ["进驻回收站时，材料转化效率+30%"],
+                "name": ["捡海人"],
+                "operatorIds": ["char_4232_hbound"],
+                "template": "Bskill_recycle_spd&cost2.png"
+            }
+        }
     },
     "Trade": {
         "maxNumOfOpers": 3,
@@ -5840,5 +5874,5 @@
             }
         }
     },
-    "roomType": ["Power", "Reception", "Control", "Dorm", "Trade", "Office", "Mfg", "Processing", "Training"]
+    "roomType": ["Power", "Reception", "Control", "Dorm", "Trade", "Office", "Mfg", "Processing", "Training", "Recycle"]
 }

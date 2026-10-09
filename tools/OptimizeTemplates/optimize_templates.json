@@ -5071,5 +5071,16 @@
     "resource/global/YoStarKR/resource/template/UiTheme/Reconstruct/GachaEnter": "e9affdf3520d8d294c0bde37c7ec9cbd7fe306808e1c7dd53b0dd89884e50d08",
     "resource/global/YoStarKR/resource/template/UiTheme/Reconstruct/Friends": "5b5f5e750d6853f41cbf1b9190be660af618e77747fbac7ac76488615f682da4",
     "resource/global/YoStarKR/resource/template/UiTheme/Reconstruct/Terminal": "41999bc0cb431bdf34f551c9a280b83ad158d7ca04cd89b2f05adf52f3e69c3d",
-    "resource/template/OperBox/OperFiles/MfgCatalystMissing": "12782099794395809c4eb9a26479a0dcaeea08b920f7990963e48c5abfececf8"
+    "resource/template/OperBox/OperFiles/MfgCatalystMissing": "12782099794395809c4eb9a26479a0dcaeea08b920f7990963e48c5abfececf8",
+    "resource/template/items/SINGLE_78_0_1_GACHA_10": "56161b01f30fa93ffeb8a3b3204286b159d61599e05e94a2ddc4c1afc337e2a2",
+    "resource/template/items/SINGLE_78_0_1_GACHA": "a0e720c2d742d4d72536d0ce136478db68e8b32a27298db8bd88bf9fb04764ca",
+    "resource/template/items/act52side_token_scope": "48a5a9b74e334f2bb43f2fffbc9472ff71b9c37acb26e4ed211ff9f6366f2e72",
+    "resource/template/infrast/Bskill_ws_Refractor": "1791794b60fe7922860623e90953f732d32a20da789d1f586a0f6dc2d3a6cd69",
+    "resource/template/infrast/Bskill_meet_spd&cost_clms": "ff8539b34fda4e53f12799a62d64d6515d5a305a26c8df2e44fa437484ec1cf7",
+    "resource/template/infrast/Bskill_meet_spd&cost_char": "dada8729ac15560e0cfd755fb128de5397e86bba1b2ad1f1dd18f9f1423fac50",
+    "resource/template/infrast/Bskill_recycle_spd&cost2": "55f70d6fe89e80c7ebc9c9acd7c300bb0746cf80d782479b7b9c6b264c123f84",
+    "resource/template/infrast/Bskill_recycle_spd&cost1": "973cd745b3d37579f8b80f63284d998b26fd72ab9c808763545c346dfabf63e9",
+    "resource/template/avatar/char_4231_clemnt": "0c87ced3267d9c50c2e5e84d67db45e7633d5959d7d87896800b32d8077a56a1",
+    "resource/template/avatar/char_4232_hbound": "7104e09661c438841786ba7e27377090e7c5c24c0ec1fa8e68859c5d8d9104bc",
+    "resource/template/avatar/char_393_toledo": "66aab239896336e9c1164c4002efe0202f904081d0a3c744c394542eea413347"
 }
