@@ -1894,7 +1894,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BattleFormationOperboxMatched">预匹配的{key=Operator}（组）：</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">追加自定{key=Operator}名称无效: {0}，请检查拼写</system:String>
     <system:String x:Key="CopilotOperboxDataParseFailed">{key=OperBoxRecognition}数据解析失败</system:String>
-    <system:String x:Key="CopilotOperboxAssistRequiresYituliuData">当前没有可用的一图流干员数据，无法辅助编队。请先从一图流获取干员数据，或关闭 ｢{key=Copilot.UseOperBoxAssist}｣。</system:String>
+    <system:String x:Key="CopilotOperboxAssistRequiresYituliuData">当前没有可用的一图流干员数据，无法辅助编队。请先从一图流获取干员数据，或关闭 ｢{key=Copilot.UseOperBoxAssist}｣ 。</system:String>
     <system:String x:Key="CurrentSteps">当前步骤: {0} {1}</system:String>
     <system:String x:Key="ElapsedTime">当前计时器: {0}ms</system:String>
     <system:String x:Key="Deploy">部署</system:String>
