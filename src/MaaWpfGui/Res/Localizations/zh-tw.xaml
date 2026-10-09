@@ -14,6 +14,12 @@
     <system:String x:Key="StartupSettings">啟動設定</system:String>
     <system:String x:Key="ScheduleSettings">定時執行</system:String>
     <system:String x:Key="UiSettings">介面設定</system:String>
+    <system:String x:Key="LanguageSettings">語言</system:String>
+    <system:String x:Key="ThemeAndAnimationSettings">主題與動畫</system:String>
+    <system:String x:Key="TitleBarSettings">標題列設定</system:String>
+    <system:String x:Key="LogDisplaySettings">日誌顯示設定</system:String>
+    <system:String x:Key="TraySettings">工作列</system:String>
+    <system:String x:Key="OperationGuideSettings">操作與指引</system:String>
     <system:String x:Key="BackgroundSettings">背景設定</system:String>
     <system:String x:Key="BackgroundImage">背景圖片</system:String>
     <system:String x:Key="BackgroundOpacity">背景不透明度</system:String>
@@ -49,7 +55,7 @@
     <system:String x:Key="ResourceDateTime">資源日期</system:String>
     <system:String x:Key="Off">關閉</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
-    <system:String x:Key="ExternalNotificationEnabled">啟用的通知設定</system:String>
+    <system:String x:Key="ExternalNotificationEnabled">通知管道</system:String>
     <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">定時執行前</system:String>
     <system:String x:Key="ExternalNotificationSendBeforeScheduledStartTip" xml:space="preserve">在定時任務開始前傳送外部通知。&#10;提前時間使用 ｢{key=ScheduleSettings}｣ 中的 ｢{key=ScheduledStartNotificationMinutes}｣ 設定。</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">發送成功</system:String>

@@ -17,7 +17,6 @@
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <StackPanel>
-        <controls:GlobalConfigTip />
         <StackPanel Margin="5">
             <controls:TextBlock
                 Margin="0,0,0,5"
@@ -156,15 +155,16 @@
                 SelectedValuePath="Value" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Center">
-            <StackPanel Margin="5" Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal">
                 <CheckBox
+                    Margin="10"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Content="{DynamicResource BackgroundMonet}"
                     IsChecked="{Binding BackgroundMonetEnabled}" />
                 <!--  保持中性：勾选莫奈后出现在右侧，同行（同官方自动检测/每次重新检测写法）  -->
                 <StackPanel
-                    Margin="5,0,0,0"
+                    Margin="10"
                     IsEnabled="{Binding BackgroundMonetEnabled}"
                     Orientation="Horizontal"
                     Visibility="{c:Binding BackgroundMonetEnabled}">

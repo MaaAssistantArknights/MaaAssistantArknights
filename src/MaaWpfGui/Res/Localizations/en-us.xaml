@@ -14,6 +14,12 @@
     <system:String x:Key="StartupSettings">Startup</system:String>
     <system:String x:Key="ScheduleSettings">Schedule</system:String>
     <system:String x:Key="UiSettings">GUI</system:String>
+    <system:String x:Key="LanguageSettings">Language</system:String>
+    <system:String x:Key="ThemeAndAnimationSettings">Theme and Animations</system:String>
+    <system:String x:Key="TitleBarSettings">Title Bar Settings</system:String>
+    <system:String x:Key="LogDisplaySettings">Log Display Settings</system:String>
+    <system:String x:Key="TraySettings">Tray</system:String>
+    <system:String x:Key="OperationGuideSettings">Operations and Guide</system:String>
     <system:String x:Key="BackgroundSettings">Background Setting</system:String>
     <system:String x:Key="BackgroundImage">Background Image</system:String>
     <system:String x:Key="BackgroundOpacity">Background Opacity</system:String>
@@ -49,7 +55,7 @@
     <system:String x:Key="ResourceDateTime">Resource Date</system:String>
     <system:String x:Key="Off">Off</system:String>
     <system:String x:Key="ExternalNotificationSettings">External notifications</system:String>
-    <system:String x:Key="ExternalNotificationEnabled">Enabled configuration</system:String>
+    <system:String x:Key="ExternalNotificationEnabled">Notification Channels</system:String>
     <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">Before scheduled start</system:String>
     <system:String x:Key="ExternalNotificationSendBeforeScheduledStartTip" xml:space="preserve">Sends an external notification before a scheduled task starts.&#10;Uses the ｢{key=ScheduledStartNotificationMinutes}｣ setting in ｢{key=ScheduleSettings}｣.</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">Send successfully</system:String>

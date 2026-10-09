@@ -14,6 +14,12 @@
     <system:String x:Key="StartupSettings">시작 설정</system:String>
     <system:String x:Key="ScheduleSettings">예약 설정</system:String>
     <system:String x:Key="UiSettings">UI 설정</system:String>
+    <system:String x:Key="LanguageSettings">언어</system:String>
+    <system:String x:Key="ThemeAndAnimationSettings">테마 및 애니메이션</system:String>
+    <system:String x:Key="TitleBarSettings">제목 표시줄 설정</system:String>
+    <system:String x:Key="LogDisplaySettings">로그 표시 설정</system:String>
+    <system:String x:Key="TraySettings">트레이</system:String>
+    <system:String x:Key="OperationGuideSettings">조작 및 가이드</system:String>
     <system:String x:Key="UiTheme">UI 테마</system:String>
     <system:String x:Key="TransitionSpeed">전환 애니메이션</system:String>
     <system:String x:Key="TransitionSpeedNormal">기본</system:String>
@@ -49,7 +55,7 @@
     <system:String x:Key="ResourceDateTime">리소스 날짜</system:String>
     <system:String x:Key="Off">끄기</system:String>
     <system:String x:Key="ExternalNotificationSettings">외부 알림</system:String>
-    <system:String x:Key="ExternalNotificationEnabled">알림 구성 사용</system:String>
+    <system:String x:Key="ExternalNotificationEnabled">알림 채널</system:String>
     <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">예약 실행 전</system:String>
     <system:String x:Key="ExternalNotificationSendBeforeScheduledStartTip" xml:space="preserve">예약 작업이 시작되기 전에 외부 알림을 전송합니다.&#10;｢{key=ScheduleSettings}｣의 ｢{key=ScheduledStartNotificationMinutes}｣ 설정을 사용합니다.</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">전송 성공</system:String>
