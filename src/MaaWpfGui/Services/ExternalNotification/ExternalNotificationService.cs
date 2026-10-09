@@ -12,7 +12,6 @@
 // </copyright>
 #nullable enable
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MaaWpfGui.Helper;
@@ -24,60 +23,49 @@ namespace MaaWpfGui.Services.ExternalNotification;
 
 public static class ExternalNotificationService
 {
-    private static readonly List<Task> _taskContainers = [];
+    private static readonly ILogger _logger = Log.ForContext(typeof(ExternalNotificationService));
 
-    private static readonly ILogger _logger = Log.Logger;
-
-    private static async Task SendAsync(string title, string content, bool isTest = false)
+    private static async Task SendAsync(string title, string content, BaseConfig[] notificationList, bool isTest)
     {
-        var notificationList = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationConfigs.AsReadOnly();
         foreach (var config in notificationList)
         {
-            IExternalNotificationProvider provider = config switch {
-                GotifyConfig gotify => new GotifyNotificationProvider(Instances.HttpService, gotify),
-                ServerChanConfig serverChan => new ServerChanNotificationProvider(Instances.HttpService, serverChan),
-                TelegramConfig telegram => new TelegramNotificationProvider(Instances.HttpService, telegram),
-                DiscordConfig discord => new DiscordNotificationProvider(Instances.HttpService, discord),
-                DingTalkConfig dingTalk => new DingTalkNotificationProvider(Instances.HttpService, dingTalk),
-                CustomWebhookConfig custom => new CustomWebhookNotificationProvider(Instances.HttpService, custom),
-                SmtpConfig smtp => new SmtpNotificationProvider(smtp),
-                BarkConfig bark => new BarkNotificationProvider(Instances.HttpService, bark),
-                QmsgConfig qmsg => new QmsgNotificationProvider(Instances.HttpService, qmsg),
-                _ => new DummyNotificationProvider(),
-            };
+            if (!SettingsViewModel.ExternalNotificationSettings.DeliverySettings.Enable)
+            {
+                return;
+            }
 
+            var channel = ExternalNotificationChannel.ForEditor(config);
             var result = false;
+            _logger.Debug("Sending external notification via {Provider} (test: {IsTest}, title length: {TitleLength}, content length: {ContentLength})",
+                config.GetType().Name, isTest, title.Length, content.Length);
             try
             {
-                result = await provider.SendAsync(title, content);
+                if (channel is null)
+                {
+                    _logger.Error("Unsupported external notification configuration {ConfigType}", config.GetType().Name);
+                }
+                else
+                {
+                    result = await channel.CreateProvider(config).SendAsync(title, content).ConfigureAwait(false);
+                }
             }
             catch (Exception ex)
             {
                 _logger.Error(ex, "Failed to send External Notifications");
             }
 
+            _logger.Information("External notification provider {Provider} returned {Success}", config.GetType().Name, result);
             if (!isTest && result)
             {
                 continue;
             }
 
-            // 渠道显示名与设置页各渠道卡片标题一致：品牌名无需本地化，自定义 Webhook 用本地化 key
-            var providerName = config switch {
-                ServerChanConfig => "Server Chan",
-                TelegramConfig => "Telegram",
-                DiscordConfig => "Discord",
-                DingTalkConfig => "DingTalk",
-                SmtpConfig => "SMTP",
-                BarkConfig => "Bark",
-                QmsgConfig => "Qmsg",
-                GotifyConfig => "Gotify",
-                CustomWebhookConfig => LocalizationHelper.GetString("ExternalNotificationCustomWebhook"),
-                _ => config.GetType().Name,
-            };
-
-            ToastNotification.ShowDirect(
-                providerName + " " +
-                LocalizationHelper.GetString(result ? "ExternalNotificationSendSuccess" : "ExternalNotificationSendFail"));
+            await Stylet.Execute.OnUIThreadAsync(() => {
+                var providerName = channel?.DisplayName ?? config.GetType().Name;
+                ToastNotification.ShowDirect(
+                    providerName + " " +
+                    LocalizationHelper.GetString(result ? "ExternalNotificationSendSuccess" : "ExternalNotificationSendFail"));
+            }).ConfigureAwait(false);
         }
     }
 
@@ -89,30 +77,15 @@ public static class ExternalNotificationService
     /// <param name="isTest">Indicate if it is a test or not.</param>
     public static void Send(string title, string content, bool isTest = false)
     {
-        var task = SendAsync("[MAA] " + title, content, isTest);
-        _taskContainers.RemoveAll(x => x.Status != TaskStatus.Running);
-        _taskContainers.Add(task);
-    }
-
-    public static class Event
-    {
-        public static void AllTaskComplete(string title, string content, string? sanityReport)
+        if (!SettingsViewModel.ExternalNotificationSettings.DeliverySettings.Enable)
         {
-            if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenComplete)
-            {
-                var logs = string.Empty;
-                if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationEnableDetails)
-                {
-                    logs = string.Join("\n", Instances.TaskQueueViewModel.LogItemViewModels.Select(logItem => $"[{logItem.Time}][{logItem.Color}]{logItem.Content}"));
-                }
-                logs += content;
-                if (!string.IsNullOrEmpty(sanityReport))
-                {
-                    logs += Environment.NewLine + sanityReport;
-                }
-
-                Send(title, logs);
-            }
+            return;
         }
+
+        // Snapshot on the UI thread before asynchronous provider delivery.
+        var configurations = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationConfigs
+            .Select(config => ExternalNotificationChannel.ForEditor(config)?.ReadConfig(config.ToConfig()) ?? config)
+            .ToArray();
+        _ = SendAsync("[MAA] " + title, content, configurations, isTest);
     }
 }

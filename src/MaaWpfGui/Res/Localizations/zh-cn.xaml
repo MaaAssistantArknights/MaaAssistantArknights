@@ -48,15 +48,10 @@
     <system:String x:Key="ResourceVersion">资源版本</system:String>
     <system:String x:Key="ResourceDateTime">资源日期</system:String>
     <system:String x:Key="Off">关闭</system:String>
-    <system:String x:Key="ExternalNotificationTips">请注意：外部通知功能目前仅会发送 ｢所有任务完成｣ 的通知。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
     <system:String x:Key="ExternalNotificationEnabled">启用的通知配置</system:String>
-    <system:String x:Key="ExternalNotificationEnableDetails">输出详细信息</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenComplete">任务完成后发送通知</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenError">任务出错时发送通知</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenStalled">任务日志输出停滞时发送通知</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenStalledTip">需在 ｢{key=GameSettings}｣ 中开启 ｢{key=StallTimeoutEnabled}｣ 后才会生效</system:String>
-    <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">定时执行前发送通知</system:String>
+    <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">定时执行前</system:String>
+    <system:String x:Key="ExternalNotificationSendBeforeScheduledStartTip" xml:space="preserve">在定时任务开始前发送外部通知。&#10;提前时间使用 ｢{key=ScheduleSettings}｣ 中的 ｢{key=ScheduledStartNotificationMinutes}｣ 设置。</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">发送成功</system:String>
     <system:String x:Key="ExternalNotificationSendFail">发送失败</system:String>
     <system:String x:Key="ExternalNotificationSendTest">发送测试</system:String>
@@ -2208,7 +2203,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <!-- <system:String x:Key="TaskTimeoutMinutes">任务超时时间（分钟）</system:String> -->
     <system:String x:Key="ReminderIntervalMinutes">通知间隔时间（分钟）</system:String>
     <system:String x:Key="StallTimeoutMinutes">日志输出停滞超时时间（分钟）</system:String>
-    <system:String x:Key="StallTimeoutEnabled">启用停滞检测</system:String>
+    <system:String x:Key="StallTimeoutEnabled">启用日志更新停滞检测</system:String>
     <system:String x:Key="TaskStallWarning">任务日志输出已超过 {0} 分钟无更新（当前已停滞 {1} 分钟）。请确认任务是否正常运行，若任务正常可忽略此提示，若无响应则可能需要手动干预。</system:String>
     <system:String x:Key="RunDurationLimitEnabled">限制单次运行时长</system:String>
     <system:String x:Key="RunDurationLimitMinutes">运行时长上限（分钟）</system:String>
@@ -2711,4 +2706,26 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="PleaseSelectItem">请选择一项</system:String>
     <system:String x:Key="EmulatorSelectionCancelled">已取消选择模拟器</system:String>
     <!--  !ItemSelection  -->
+    <system:String x:Key="NotificationSettings">通知设置</system:String>
+    <system:String x:Key="NotificationSettingsTimeMinutes">日志有效时间（分钟）</system:String>
+    <system:String x:Key="NotificationSettingsTimeMinutesTip" xml:space="preserve">超过有效时间的日志不再附加到通知。&#10;为 0 时，不按时间过滤。</system:String>
+    <system:String x:Key="NotificationSettingsInvalidFilterTip" xml:space="preserve">正则表达式无效，请检查过滤规则。</system:String>
+    <system:String x:Key="ExternalNotificationEnable">启用外部通知</system:String>
+    <system:String x:Key="ExternalNotificationSendConditions">在以下条件下发送外部通知</system:String>
+    <system:String x:Key="ExternalNotificationWhenComplete">当任务完成后</system:String>
+    <system:String x:Key="ExternalNotificationWhenError">当任务出错时</system:String>
+    <system:String x:Key="ExternalNotificationWhenStalled">当任务日志输出停滞时</system:String>
+    <system:String x:Key="ExternalNotificationWhenStalledTip" xml:space="preserve">需在 ｢{key=NotificationSettings}｣ 中开启 ｢{key=StallTimeoutEnabled}｣。&#10;超过设定时间没有新增日志时发送。</system:String>
+    <system:String x:Key="ExternalNotificationNewLogCount">出现新日志条数</system:String>
+    <system:String x:Key="ExternalNotificationNewLogCountTip" xml:space="preserve">自上次触发发送外部通知后，每新增一条日志就计数一次。&#10;累计到指定条数时发送通知；任务完成、错误等其他条件触发通知后，也会重新计数。</system:String>
+    <system:String x:Key="ExternalNotificationContentMatches">日志中出现特定内容时</system:String>
+    <system:String x:Key="ExternalNotificationWhitelist">白名单（每行一条，支持正则）</system:String>
+    <system:String x:Key="ExternalNotificationWhitelistTip" xml:space="preserve">每行填写一个正则表达式，任意一行匹配当前日志就触发发送。&#10;白名单为空时，此条件不会触发通知。</system:String>
+    <system:String x:Key="ExternalNotificationIncludePreviousLogs">附带先前日志</system:String>
+    <system:String x:Key="ExternalNotificationIncludePreviousLogsTip" xml:space="preserve">勾选后，在当前日志的基础上附带历史日志。&#10;附带范围由日志数量和有效时间控制。</system:String>
+    <system:String x:Key="ExternalNotificationPreviousLogCount">附带日志数量</system:String>
+    <system:String x:Key="ExternalNotificationPreviousLogCountTip" xml:space="preserve">最多附带指定条数的历史日志，不计当前日志。&#10;为 0 时，仅发送当前日志。</system:String>
+    <system:String x:Key="ExternalNotificationFilterPreviousLogs">过滤附带日志内容</system:String>
+    <system:String x:Key="ExternalNotificationFilterPreviousLogsTip" xml:space="preserve">先排除命中黑名单的日志，再按数量和有效时间选取最近的日志。&#10;当前日志始终保留。</system:String>
+    <system:String x:Key="ExternalNotificationBlacklist">黑名单（每行一条，支持正则）</system:String>
 </ResourceDictionary>

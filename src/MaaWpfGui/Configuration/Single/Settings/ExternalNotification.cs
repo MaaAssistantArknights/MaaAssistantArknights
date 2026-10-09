@@ -12,29 +12,73 @@
 // </copyright>
 
 #nullable enable
+using System;
 using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 using MaaWpfGui.Models;
+using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 
 namespace MaaWpfGui.Configuration.Single.Settings;
 
 /// <summary>
 /// 外部通知设置
 /// </summary>
-public partial class ExternalNotification : NotifyPropertyChangedWithValue
+public partial class ExternalNotification : NotifyPropertyChangedWithValue, IJsonOnDeserialized
 {
     [JsonInclude]
     public ObservableCollection<Base> Configs { get; private set; } = [];
 
-    public bool SendWhenComplete { get; set; } = true;
+    [JsonInclude]
+    public DeliverySettings Delivery { get; private set; } = new();
 
-    public bool ShowWhenCompleteWithDetails { get; set; }
+    public void EventBinding(string prefix)
+    {
+        PropertyChanged += Handler.OnPropertyChangedFactory(prefix);
+        Delivery.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(Delivery) + ".");
+        Configs.CollectionChanged += Handler.OnCollectionChangedFactory<Base>(prefix);
+    }
 
-    public bool SendWhenError { get; set; } = true;
+    public void OnDeserialized() => Delivery ??= new();
 
-    public bool SendWhenStalled { get; set; }
+    public class DeliverySettings : NotifyPropertyChangedWithValue, IJsonOnDeserialized
+    {
+        public bool Enable { get; set; }
 
-    public bool SendBeforeScheduledStart { get; set; }
+        public bool SendWhenComplete { get; set; } = true;
+
+        public bool SendWhenError { get; set; } = true;
+
+        public bool SendWhenStalled { get; set; }
+
+        public bool SendBeforeScheduledStart { get; set; }
+
+        public bool SendAfterLogCount { get; set; }
+
+        public int NewLogCount { get; set; } = 10;
+
+        public bool SendWhenContentMatches { get; set; }
+
+        public string Whitelist { get; set; } = string.Empty;
+
+        public bool IncludePreviousLogs { get; set; }
+
+        public int MaxEntries { get; set; } = 2;
+
+        public int TimeMinutes { get; set; } = 60;
+
+        public bool FilterPreviousLogs { get; set; }
+
+        public string Blacklist { get; set; } = string.Empty;
+
+        public void OnDeserialized()
+        {
+            Whitelist ??= string.Empty;
+            Blacklist ??= string.Empty;
+            NewLogCount = Math.Clamp(NewLogCount, 1, 10000);
+            MaxEntries = Math.Clamp(MaxEntries, 0, 10000);
+            TimeMinutes = Math.Clamp(TimeMinutes, 0, 10080);
+        }
+    }
 
     [JsonDerivedType(typeof(Smtp), typeDiscriminator: nameof(Smtp))]
     [JsonDerivedType(typeof(ServerChan), typeDiscriminator: nameof(ServerChan))]

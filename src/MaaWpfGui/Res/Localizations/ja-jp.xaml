@@ -48,15 +48,10 @@
     <system:String x:Key="ResourceVersion">リソースバーション</system:String>
     <system:String x:Key="ResourceDateTime">リソース日付</system:String>
     <system:String x:Key="Off">シャットダウン</system:String>
-    <system:String x:Key="ExternalNotificationTips">注:外部通知機能は現在、 ｢すべてのタスクが完了しました｣ という通知のみを送信します。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
     <system:String x:Key="ExternalNotificationEnabled">通知構成の有効化</system:String>
-    <system:String x:Key="ExternalNotificationEnableDetails">詳細情報を出力</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenComplete">タスク完了時に通知を送信</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenError">タスクが失敗したときに通知を送信</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenStalled">タスクログ出力停滞時に通知を送信</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenStalledTip">｢{key=GameSettings}｣ で ｢{key=StallTimeoutEnabled}｣ を有効にした場合にのみ有効になります</system:String>
-    <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">定時実行前に通知を送信</system:String>
+    <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">定時実行前</system:String>
+    <system:String x:Key="ExternalNotificationSendBeforeScheduledStartTip" xml:space="preserve">定時タスクの開始前に外部通知を送信します。&#10;通知するタイミングは ｢{key=ScheduleSettings}｣ の ｢{key=ScheduledStartNotificationMinutes}｣ 設定を使用します。</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">正常に送信</system:String>
     <system:String x:Key="ExternalNotificationSendFail">送信に失敗しました</system:String>
     <system:String x:Key="ExternalNotificationSendTest">テストを送信する</system:String>
@@ -2207,7 +2202,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <!-- <system:String x:Key="TaskTimeoutMinutes">タスクのタイムアウト時間（分）</system:String> -->
     <system:String x:Key="ReminderIntervalMinutes">リマインダー間隔時間（分）</system:String>
     <system:String x:Key="StallTimeoutMinutes">ログ出力停滞タイムアウト（分）</system:String>
-    <system:String x:Key="StallTimeoutEnabled">停滞検出を有効にする</system:String>
+    <system:String x:Key="StallTimeoutEnabled">ログ更新の停滞検出を有効にする</system:String>
     <system:String x:Key="TaskStallWarning">タスクログ出力が {0} 分間更新されていません（現在 {1} 分間停滞）。タスクが正常に実行中か確認してください。正常であればこの警告は無視できます。応答がない場合は、手動での操作が必要になる可能性があります。</system:String>
     <system:String x:Key="RunDurationLimitEnabled">1回の実行時間を制限する</system:String>
     <system:String x:Key="RunDurationLimitMinutes">実行時間の上限（分）</system:String>
@@ -2709,4 +2704,26 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="PleaseSelectItem">項目を選択してください</system:String>
     <system:String x:Key="EmulatorSelectionCancelled">エミュレータの選択がキャンセルされました</system:String>
     <!--  !ItemSelection  -->
+    <system:String x:Key="NotificationSettings">通知設定</system:String>
+    <system:String x:Key="NotificationSettingsTimeMinutes">ログ有効時間（分）</system:String>
+    <system:String x:Key="NotificationSettingsTimeMinutesTip" xml:space="preserve">有効時間を過ぎたログは通知への添付の対象外になります。&#10;0 の場合は、時間で絞り込みません。</system:String>
+    <system:String x:Key="NotificationSettingsInvalidFilterTip" xml:space="preserve">正規表現が無効です。フィルタールールを確認してください。</system:String>
+    <system:String x:Key="ExternalNotificationEnable">外部通知を有効にする</system:String>
+    <system:String x:Key="ExternalNotificationSendConditions">以下の条件で外部通知を送信</system:String>
+    <system:String x:Key="ExternalNotificationWhenComplete">タスク完了時</system:String>
+    <system:String x:Key="ExternalNotificationWhenError">タスクエラー発生時</system:String>
+    <system:String x:Key="ExternalNotificationWhenStalled">タスクのログ出力停止時</system:String>
+    <system:String x:Key="ExternalNotificationWhenStalledTip" xml:space="preserve">｢{key=NotificationSettings}｣で｢{key=StallTimeoutEnabled}｣を有効にしてください。&#10;設定した時間内に新しいログが出力されない場合に送信します。</system:String>
+    <system:String x:Key="ExternalNotificationNewLogCount">新規ログ数</system:String>
+    <system:String x:Key="ExternalNotificationNewLogCountTip" xml:space="preserve">前回の外部通知が送信された後、新しいログ項目を数えます。&#10;指定した数に達すると送信します。&#10;タスク完了やエラーなど、他の条件で通知が送信された場合もカウントをリセットします。</system:String>
+    <system:String x:Key="ExternalNotificationContentMatches">ログに特定の内容を含む場合</system:String>
+    <system:String x:Key="ExternalNotificationWhitelist">ホワイトリスト（1行に1つの正規表現）</system:String>
+    <system:String x:Key="ExternalNotificationWhitelistTip" xml:space="preserve">各行に正規表現を入力します。&#10;現在のログがいずれかの行に一致すると通知を送信します。&#10;空のホワイトリストではこの条件は発動しません。</system:String>
+    <system:String x:Key="ExternalNotificationIncludePreviousLogs">過去のログを添付</system:String>
+    <system:String x:Key="ExternalNotificationIncludePreviousLogsTip" xml:space="preserve">現在のログに加えて過去のログを添付します。&#10;ログ数と有効時間で添付する範囲を指定します。</system:String>
+    <system:String x:Key="ExternalNotificationPreviousLogCount">添付ログ数</system:String>
+    <system:String x:Key="ExternalNotificationPreviousLogCountTip" xml:space="preserve">現在のログを除き、指定した件数までの過去のログを添付します。&#10;0の場合は現在のログのみを送信します。</system:String>
+    <system:String x:Key="ExternalNotificationFilterPreviousLogs">添付ログの内容をフィルタリング</system:String>
+    <system:String x:Key="ExternalNotificationFilterPreviousLogsTip" xml:space="preserve">ブラックリストに一致するログを除外し、残りから件数と有効時間の範囲内で最新のログを選びます。&#10;現在のログは必ず残します。</system:String>
+    <system:String x:Key="ExternalNotificationBlacklist">ブラックリスト（1行に1つの正規表現）</system:String>
 </ResourceDictionary>

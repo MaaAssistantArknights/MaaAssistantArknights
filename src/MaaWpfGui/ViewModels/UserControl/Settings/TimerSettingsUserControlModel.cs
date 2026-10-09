@@ -21,6 +21,7 @@ using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Utilities;
+using MaaWpfGui.ViewModels.UI;
 using Stylet;
 using ScheduledWakeUpRegistrar = MaaWpfGui.Utilities.ScheduledWakeUp;
 
@@ -86,6 +87,8 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
     } = ConfigFactory.Root.Timers.CustomConfig;
 
     public ObservableCollection<Timer> TimerList => ConfigFactory.Root.Timers.List;
+
+    public ExternalNotificationSettingsUserControlModel ExternalNotificationSettings => SettingsViewModel.ExternalNotificationSettings;
 
     public bool NotifyBeforeScheduledStart
     {

@@ -48,15 +48,10 @@
     <system:String x:Key="ResourceVersion">Resource Version</system:String>
     <system:String x:Key="ResourceDateTime">Resource Date</system:String>
     <system:String x:Key="Off">Off</system:String>
-    <system:String x:Key="ExternalNotificationTips">Please note: The external notification feature currently only sends ｢All tasks completed｣ notifications.</system:String>
     <system:String x:Key="ExternalNotificationSettings">External notifications</system:String>
     <system:String x:Key="ExternalNotificationEnabled">Enabled configuration</system:String>
-    <system:String x:Key="ExternalNotificationEnableDetails">Output Detailed Information</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenComplete">Send notification when complete</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenError">Send notification when task fails</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenStalled">Send notification when task log output stalls</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenStalledTip">Only takes effect after enabling ｢{key=StallTimeoutEnabled}｣ in ｢{key=GameSettings}｣</system:String>
-    <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">Send notification before scheduled start</system:String>
+    <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">Before scheduled start</system:String>
+    <system:String x:Key="ExternalNotificationSendBeforeScheduledStartTip" xml:space="preserve">Sends an external notification before a scheduled task starts.&#10;Uses the ｢{key=ScheduledStartNotificationMinutes}｣ setting in ｢{key=ScheduleSettings}｣.</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">Send successfully</system:String>
     <system:String x:Key="ExternalNotificationSendFail">Send failed</system:String>
     <system:String x:Key="ExternalNotificationSendTest">Send Test</system:String>
@@ -2207,7 +2202,7 @@ These directories are not suitable places to keep MAA; files there can be easily
     <!-- <system:String x:Key="TaskTimeoutMinutes">Task timeout duration (minutes)</system:String> -->
     <system:String x:Key="ReminderIntervalMinutes">Reminder interval (minutes)</system:String>
     <system:String x:Key="StallTimeoutMinutes">Log output stall timeout (min)</system:String>
-    <system:String x:Key="StallTimeoutEnabled">Enable stall detection</system:String>
+    <system:String x:Key="StallTimeoutEnabled">Detect stalled log updates</system:String>
     <system:String x:Key="TaskStallWarning">Task log output has not been updated for {0} minutes (currently stalled for {1} minutes). Please check whether the task is still running; if so, you can ignore this warning. If the task is unresponsive, manual intervention may be required.</system:String>
     <system:String x:Key="RunDurationLimitEnabled">Limit run duration</system:String>
     <system:String x:Key="RunDurationLimitMinutes">Run duration limit (min)</system:String>
@@ -2709,4 +2704,26 @@ These directories are not suitable places to keep MAA; files there can be easily
     <system:String x:Key="PleaseSelectItem">Please select an item</system:String>
     <system:String x:Key="EmulatorSelectionCancelled">Emulator selection cancelled</system:String>
     <!--  !ItemSelection  -->
+    <system:String x:Key="NotificationSettings">Notification Settings</system:String>
+    <system:String x:Key="NotificationSettingsTimeMinutes">Log Validity (Minutes)</system:String>
+    <system:String x:Key="NotificationSettingsTimeMinutesTip" xml:space="preserve">Expired logs are no longer attached to notifications.&#10;Set to 0 to disable time filtering.</system:String>
+    <system:String x:Key="NotificationSettingsInvalidFilterTip" xml:space="preserve">Invalid regular expression. Check the filter rules.</system:String>
+    <system:String x:Key="ExternalNotificationEnable">Enable External Notifications</system:String>
+    <system:String x:Key="ExternalNotificationSendConditions">Send external notifications when</system:String>
+    <system:String x:Key="ExternalNotificationWhenComplete">Tasks complete</system:String>
+    <system:String x:Key="ExternalNotificationWhenError">A task fails</system:String>
+    <system:String x:Key="ExternalNotificationWhenStalled">Task log output stalls</system:String>
+    <system:String x:Key="ExternalNotificationWhenStalledTip" xml:space="preserve">Enable ｢{key=StallTimeoutEnabled}｣ in ｢{key=NotificationSettings}｣.&#10;Sends a notification when no new logs appear within the configured timeout.</system:String>
+    <system:String x:Key="ExternalNotificationNewLogCount">New log entries</system:String>
+    <system:String x:Key="ExternalNotificationNewLogCountTip" xml:space="preserve">Counts each new log entry after the last external notification was triggered.&#10;Sends when the specified count is reached; notifications triggered by task completion, errors or other conditions also reset this count.</system:String>
+    <system:String x:Key="ExternalNotificationContentMatches">Log contains specific content</system:String>
+    <system:String x:Key="ExternalNotificationWhitelist">Whitelist (one regex per line)</system:String>
+    <system:String x:Key="ExternalNotificationWhitelistTip" xml:space="preserve">Enter one regular expression per line; a match on any line against the current log triggers a notification.&#10;An empty whitelist does not trigger this condition.</system:String>
+    <system:String x:Key="ExternalNotificationIncludePreviousLogs">Include previous logs</system:String>
+    <system:String x:Key="ExternalNotificationIncludePreviousLogsTip" xml:space="preserve">Includes previous logs alongside the current log.&#10;The log count and validity period control which previous logs are included.</system:String>
+    <system:String x:Key="ExternalNotificationPreviousLogCount">Included log count</system:String>
+    <system:String x:Key="ExternalNotificationPreviousLogCountTip" xml:space="preserve">Includes up to this many previous log entries, excluding the current log.&#10;Set to 0 to send only the current log.</system:String>
+    <system:String x:Key="ExternalNotificationFilterPreviousLogs">Filter attached log content</system:String>
+    <system:String x:Key="ExternalNotificationFilterPreviousLogsTip" xml:space="preserve">Removes logs matching the blacklist, then selects the most recent logs within the count and age limits.&#10;The current log is always kept.</system:String>
+    <system:String x:Key="ExternalNotificationBlacklist">Blacklist (one regex per line)</system:String>
 </ResourceDictionary>

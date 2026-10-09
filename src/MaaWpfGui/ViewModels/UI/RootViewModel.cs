@@ -196,7 +196,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
 
     private static void ToastNotificationCheck()
     {
-        if (!SettingsViewModel.GuiSettings.UseNotify)
+        if (!SettingsViewModel.NotificationSettings.UseNotify)
         {
             return;
         }

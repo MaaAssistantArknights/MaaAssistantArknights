@@ -37,7 +37,7 @@ using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
-using MaaWpfGui.Services.ExternalNotification;
+using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
@@ -747,7 +747,6 @@ public class TaskQueueViewModel : Screen
                 SettingsViewModel.GameSettings.EnableRunDurationLimit ??= false;
             }
         };
-        _runningState.StallOccurred += RunningState_Stalled;
 
         if (Instances.VersionUpdateDialogViewModel.IsDebugVersion() || File.Exists("DEBUG") || File.Exists("DEBUG.txt"))
         {
@@ -757,19 +756,6 @@ public class TaskQueueViewModel : Screen
         }
 
         UpdateTaskTypeBadges();
-    }
-
-    private void RunningState_Stalled(object? sender, string message)
-    {
-        AddLog(message, UiLogColor.Warning, notifyActivity: false);
-        ToastNotification.ShowDirect(message);
-        if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenStalled)
-        {
-            var lastLogs = LogItemViewModels
-                .TakeLast(5)
-                .Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n");
-            ExternalNotificationService.Send(message, lastLogs);
-        }
     }
 
     protected override void OnInitialActivate()
@@ -1120,7 +1106,8 @@ public class TaskQueueViewModel : Screen
     {
         var settings = SettingsViewModel.TimerSettings;
         var notifyDesktop = settings.NotifyBeforeScheduledStart;
-        var notifyExternal = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendBeforeScheduledStart;
+        var delivery = SettingsViewModel.ExternalNotificationSettings.DeliverySettings;
+        var notifyExternal = delivery.Enable && delivery.SendBeforeScheduledStart;
         if (!notifyDesktop && !notifyExternal)
         {
             return;
@@ -1152,7 +1139,7 @@ public class TaskQueueViewModel : Screen
 
             if (notifyExternal)
             {
-                ExternalNotificationService.Send(title, content);
+                Instances.NotificationService.NotifyScheduledStart(title, content);
             }
         }
     }
@@ -1590,6 +1577,20 @@ public class TaskQueueViewModel : Screen
             RunningState.Instance.NotifyOutputActivity();
         }
 
+        Instances.NotificationService.PublishLog(NotificationSource.TaskQueue, content,
+            () => DisplayLog(content, color, weight, toolTip, updateCardImage, fetchLatestImage, useCardImageAsToolTip, splitMode), color);
+    }
+
+    // Presentation only: mirrors and notification callbacks do not publish another event.
+    internal void DisplayLog(string? content,
+        string color = UiLogColor.Trace,
+        string weight = "Regular",
+        ToolTip? toolTip = null,
+        bool updateCardImage = false,
+        bool fetchLatestImage = false,
+        bool useCardImageAsToolTip = false,
+        LogCardSplitMode splitMode = LogCardSplitMode.None)
+    {
         bool isEmpty = string.IsNullOrEmpty(content);
         bool needsBeforeSplit = splitMode == LogCardSplitMode.Before || splitMode == LogCardSplitMode.Both;
         bool needsAfterSplit = splitMode == LogCardSplitMode.After || splitMode == LogCardSplitMode.Both;
@@ -1669,11 +1670,8 @@ public class TaskQueueViewModel : Screen
     {
         RunningState.Instance.NotifyOutputActivity();
         _logger.Information("{Header}", header);
-        Execute.OnUIThread(() => {
-            // Plain-text log style: either a decorated "-----{header}-----" line or the header verbatim.
-            var plainText = header is null
-                ? "-----"
-                : decoratePlainText ? $"-----{header}-----" : header;
+        var plainText = header is null ? "-----" : decoratePlainText ? $"-----{header}-----" : header;
+        Instances.NotificationService.PublishLog(NotificationSource.TaskQueue, plainText, () => {
             LogItemViewModels.Add(new LogItemViewModel(plainText));
 
             // Card log style: render a real hc:Divider as its own card.
@@ -1689,6 +1687,7 @@ public class TaskQueueViewModel : Screen
     public void ClearLog()
     {
         Execute.OnUIThread(() => {
+            Instances.NotificationService.Clear(NotificationSource.TaskQueue);
             LogItemViewModels.Clear();
             LogCardViewModels.Clear();
             DownloadLogItemViewModel = new(string.Empty);
