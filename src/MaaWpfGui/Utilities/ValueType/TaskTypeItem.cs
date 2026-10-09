@@ -26,7 +26,7 @@ namespace MaaWpfGui.Utilities.ValueType;
 
 /// <param name="display">显示文本。</param>
 /// <param name="value">任务类型。</param>
-/// <param name="introducedVersion">该任务类型引入的版本号（如 "6.19.0"）；null 表示早于红点机制的任务，永不标记。</param>
+/// <param name="introducedVersion">该任务类型引入的版本号，须用功能实际上线的首个版本号（如 "6.19.0-beta.2"；登记正式号会让上线前的预发布用户基准永远追不上登记值，红点无法消除）；null 表示早于红点机制的任务，永不标记。</param>
 /// <param name="isDebugOnly">是否仅在调试模式（ShowDebugTask）下显示。</param>
 public class TaskTypeItem(string display, Type value, string? introducedVersion = null, bool isDebugOnly = false)
     : GenericCombinedData<Type>(display, value)

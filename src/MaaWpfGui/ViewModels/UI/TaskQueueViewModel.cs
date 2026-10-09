@@ -1753,12 +1753,12 @@ public class TaskQueueViewModel : Screen
             new TaskTypeItem(LocalizationHelper.GetString("Recruit"), typeof(RecruitTask)),
             new TaskTypeItem(LocalizationHelper.GetString("Mall"), typeof(MallTask)),
             new TaskTypeItem(LocalizationHelper.GetString("Award"), typeof(AwardTask)),
-            new TaskTypeItem(LocalizationHelper.GetString("OperProgress"), typeof(OperProgressTask), introducedVersion: "6.19.0"),
+            new TaskTypeItem(LocalizationHelper.GetString("OperProgress"), typeof(OperProgressTask), introducedVersion: "6.19.0-beta.2"),
             new TaskTypeItem(LocalizationHelper.GetString("Roguelike"), typeof(RoguelikeTask)),
             new TaskTypeItem(LocalizationHelper.GetString("Reclamation"), typeof(ReclamationTask)),
             new TaskTypeItem(LocalizationHelper.GetString("UserDataUpdate"), typeof(UserDataUpdateTask)),
             new TaskTypeItem(LocalizationHelper.GetString("DepotMaintain"), typeof(DepotMaintainTask)),
-            new TaskTypeItem(LocalizationHelper.GetString("SwitchTheme"), typeof(SwitchThemeTask), introducedVersion: "6.19.0"),
+            new TaskTypeItem(LocalizationHelper.GetString("SwitchTheme"), typeof(SwitchThemeTask), introducedVersion: "6.19.0-beta.2"),
             new TaskTypeItem(LocalizationHelper.GetString("Custom"), typeof(CustomTask), isDebugOnly: true),
         ]);
 
@@ -1880,7 +1880,7 @@ public class TaskQueueViewModel : Screen
     // - 有基准：引入版本晚于基准即新（语义化版本的优先级比较，忽略 build 元数据）
     // - 空基准（首次启动，从未浏览过菜单）：按当前运行版本正常比较（视为已浏览过当前版本）；
     //   特判 v6.19——红点功能于 6.19.0-beta.2 上线，期间首启的用户属 6.19 系列，本系列
-    //   登记的任务（6.19.0）直接显示；6.20 及以后空基准无此豁免
+    //   登记的任务（6.19.0-beta.2）直接显示；6.20 及以后空基准无此豁免
     // 任一侧版本无法解析（如本地 dev 的 DEBUG_VERSION）时返回 false——宁可漏标不误标；
     // 例外是 dev 的当前版本解析失败时全亮，保持本地可测
     private static bool IsNewerThanBaseline(string introduced, string seen)
