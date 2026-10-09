@@ -1486,9 +1486,35 @@ public partial class CopilotViewModel : Screen
                     AddLog(LocalizationHelper.GetString("CopilotJsonError") + $", copilotId: {id}", UiLogColor.Error, showTime: false);
                     continue;
                 }
-                var opers = JArray.FromObject(copilot.Opers.Select(i => i.Name));
-                opers = JArray.FromObject(opers.Union(JArray.FromObject(copilot.Groups.Select(i => i.Opers.Select(op => op.Name)))));
-                AddLog(opers.ToString(Formatting.None), UiLogColor.Message, showTime: false);
+                var stageName = DataHelper.FindMap(copilot.StageName)?.Code ?? copilot.StageName;
+                var parts = new List<CopilotOutput.Part> { new(stageName + ": [") };
+                AddNames(copilot.Opers.Select(oper => oper.Name).Distinct());
+                foreach (var group in copilot.Groups)
+                {
+                    if (parts.Count > 1)
+                    {
+                        parts.Add(new(", "));
+                    }
+                    parts.Add(new(group.Name + ": ["));
+                    AddNames(group.Opers.Select(oper => oper.Name));
+                    parts.Add(new("]"));
+                }
+                parts.Add(new("]"));
+                AddCopilotPreview(new CopilotOutput(parts, UiLogColor.Message));
+
+                void AddNames(IEnumerable<string> names)
+                {
+                    var first = true;
+                    foreach (var name in names)
+                    {
+                        if (!first)
+                        {
+                            parts.Add(new(", "));
+                        }
+                        parts.Add(new(DataHelper.GetLocalizedCharacterName(name) ?? name, name));
+                        first = false;
+                    }
+                }
             }
             else if (payload is SSSCopilotModel sss)
             {
