@@ -62,7 +62,8 @@ public:
     // role 为 Unknown 时全表按名找，指定 role 时只在对应职业桶内找；同名多条时命中哪条取决于哈希序，
     // 不含业务序含义，需要全部同名条目用 find_opers。
     // oper_only 为 true 时跳过 Drone 装置/召唤物条目（装置可能与干员同名），仅影响 Unknown 查找
-    std::shared_ptr<battle::OperProps> find_first_oper(battle::Role role, const std::string& name, bool oper_only = false) const
+    std::shared_ptr<battle::OperProps>
+        find_first_oper(battle::Role role, const std::string& name, bool oper_only = false) const
     {
         if (name.empty()) {
             return nullptr;
