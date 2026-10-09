@@ -23,7 +23,8 @@
             "DepotLoneTrail",
             "DepotReconstruct",
             "DepotHunting",
-            "DepotBlackFlow"
+            "DepotBlackFlow",
+            "DepotAct"
         ],
         "onErrorNext": ["Depot-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -101,5 +102,9 @@
         "action": "ClickSelf",
         "text": ["仓库"],
         "roi": [1125, 588, 155, 132]
+    },
+    "DepotAct": {
+        "baseTask": "DepotDefault",
+        "template": "Act/DepotEnter.png"
     }
 }

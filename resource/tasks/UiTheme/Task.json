@@ -23,7 +23,8 @@
             "TaskLoneTrail",
             "TaskReconstruct",
             "TaskHunting",
-            "TaskBlackFlow"
+            "TaskBlackFlow",
+            "TaskAct"
         ],
         "onErrorNext": ["Task-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -101,5 +102,9 @@
     "TaskBlackFlow": {
         "baseTask": "TaskDefault",
         "template": "BlackFlow/Task.png"
+    },
+    "TaskAct": {
+        "baseTask": "TaskDefault",
+        "template": "Act/Task.png"
     }
 }

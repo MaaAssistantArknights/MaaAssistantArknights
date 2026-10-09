@@ -24,7 +24,8 @@
             "TerminalLoneTrail",
             "TerminalReconstruct",
             "TerminalHunting",
-            "TerminalBlackFlow"
+            "TerminalBlackFlow",
+            "TerminalAct"
         ],
         "onErrorNext": ["Terminal-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -100,5 +101,9 @@
     "TerminalBlackFlow": {
         "baseTask": "TerminalDefault",
         "template": "BlackFlow/Terminal.png"
+    },
+    "TerminalAct": {
+        "baseTask": "TerminalDefault",
+        "template": "Act/Terminal.png"
     }
 }

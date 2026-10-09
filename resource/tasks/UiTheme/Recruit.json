@@ -23,7 +23,8 @@
             "RecruitLoneTrail",
             "RecruitReconstruct",
             "RecruitHunting",
-            "RecruitBlackFlow"
+            "RecruitBlackFlow",
+            "RecruitAct"
         ],
         "onErrorNext": ["Recruit-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -98,5 +99,9 @@
     "RecruitBlackFlow": {
         "baseTask": "RecruitDefault",
         "template": "BlackFlow/Recruit.png"
+    },
+    "RecruitAct": {
+        "baseTask": "RecruitDefault",
+        "template": "Act/Recruit.png"
     }
 }
