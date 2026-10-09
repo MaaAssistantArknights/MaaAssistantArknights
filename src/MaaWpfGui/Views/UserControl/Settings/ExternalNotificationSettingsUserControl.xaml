@@ -149,26 +149,16 @@
                             Text="{DynamicResource ExternalNotificationBlacklist}"
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <controls:TooltipBlock Visibility="Hidden" />
-                            <TextBox
-                                Grid.Column="1"
-                                Height="Auto"
-                                Padding="12,8"
-                                VerticalContentAlignment="Top"
-                                hc:InfoElement.TitleWidth="0"
-                                AcceptsReturn="True"
-                                MinLines="1"
-                                Text="{Binding Blacklist, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                TextWrapping="Wrap"
-                                VerticalScrollBarVisibility="Disabled" />
-                            <controls:TooltipBlock Grid.Column="2" Visibility="Hidden" />
-                        </Grid>
+                        <TextBox
+                            Height="Auto"
+                            Padding="12,8"
+                            VerticalContentAlignment="Top"
+                            hc:InfoElement.TitleWidth="0"
+                            AcceptsReturn="True"
+                            MinLines="1"
+                            Text="{Binding Blacklist, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Disabled" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
