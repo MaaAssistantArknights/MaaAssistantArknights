@@ -77,7 +77,7 @@ bool asst::OperBoxDataConfig::can_match(const battle::OperUsage& usage, const Op
         return false;
     }
     // !!! 要用干员的 id 而不是 name，干员识别的 name 可能不是中文
-    if (BattleData.get_first_id(usage.role, usage.name) != info.id) {
+    if (BattleData.get_first_id(usage.role, usage.name, true) != info.id) {
         return false;
     }
     if (m_ignore_requirements) {
@@ -130,7 +130,7 @@ std::vector<std::vector<size_t>> asst::OperBoxDataConfig::get_adjacency(
     for (const auto& group : formation) {
         std::vector<size_t> row;
         for (const auto& usage : group.opers) {
-            auto usage_id = BattleData.get_first_id(usage.role, usage.name);
+            auto usage_id = BattleData.get_first_id(usage.role, usage.name, true);
             if (!usage_id.has_value()) {
                 continue;
             }
@@ -206,7 +206,7 @@ std::optional<asst::battle::copilot::OperUsageGroups>
             assigned[groups[left].name] = operbox_data[right].id;
             std::string oper_name = BattleData.find_oper_by_id(operbox_data[right].id)->name;
             auto req_it = std::ranges::find_if(groups[left].opers, [&](const battle::OperUsage& op) {
-                return BattleData.get_first_id(op.role, op.name) == operbox_data[right].id;
+                return BattleData.get_first_id(op.role, op.name, true) == operbox_data[right].id;
             });
             LogInfo << __FUNCTION__ << "| Matched group:" << groups[left].name << "with oper:" << oper_name
                     << ". Usage elite:" << req_it->requirements.elite << ", level:" << req_it->requirements.level
@@ -227,7 +227,7 @@ std::optional<asst::battle::copilot::OperUsageGroups>
     if (result.unmatched_left.empty()) {
         for (const auto& [left, right] : result.matched) {
             auto req_it = std::ranges::find_if(groups[left].opers, [&](const battle::OperUsage& op) {
-                return BattleData.get_first_id(op.role, op.name) == operbox_data[right].id;
+                return BattleData.get_first_id(op.role, op.name, true) == operbox_data[right].id;
             });
             groups[left].opers = { *req_it }; // 只保留匹配的干员
         }
@@ -249,7 +249,7 @@ std::optional<asst::battle::copilot::OperUsageGroups>
         std::unordered_set<std::string> candidate_ids;
         for (const auto& group : groups) {
             for (const auto& op : group.opers) {
-                auto id = BattleData.get_first_id(op.role, op.name);
+                auto id = BattleData.get_first_id(op.role, op.name, true);
                 if (id.has_value()) {
                     candidate_ids.insert(*id);
                 }
@@ -296,7 +296,7 @@ std::optional<asst::battle::copilot::OperUsageGroups>
                         operbox_data[right > insert_pos && right <= cur_pos ? right - 1 : right];
                     new_assigned[groups[left].name] = matched_oper.id;
                     auto req_it = std::ranges::find_if(groups[left].opers, [&](const battle::OperUsage& op) {
-                        return BattleData.get_first_id(op.role, op.name) == matched_oper.id;
+                        return BattleData.get_first_id(op.role, op.name, true) == matched_oper.id;
                     });
                     groups[left].opers = { *req_it }; // 只保留匹配的干员
                 }
@@ -312,7 +312,7 @@ std::optional<asst::battle::copilot::OperUsageGroups>
                     auto oper_it =
                         std::ranges::find_if(operbox_data, [&](const OperBoxInfo& op) { return op.id == oper_id; });
                     auto req_it = std::ranges::find_if(group.opers, [&](const battle::OperUsage& op) {
-                        return BattleData.get_first_id(op.role, op.name) == oper_id;
+                        return BattleData.get_first_id(op.role, op.name, true) == oper_id;
                     });
                     LogInfo << __FUNCTION__ << "| Matched group:" << group.name << "with oper:" << oper_it->name
                             << ". Usage elite:" << req_it->requirements.elite
@@ -338,7 +338,7 @@ std::optional<asst::battle::copilot::OperUsageGroups>
             if (m_task_ptr->need_exit()) {
                 break;
             }
-            auto borrow_id = BattleData.get_first_id(op.role, op.name);
+            auto borrow_id = BattleData.get_first_id(op.role, op.name, true);
             if (borrow_id == std::nullopt || !candidate_ids.erase(*borrow_id)) {
                 continue;
             }

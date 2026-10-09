@@ -17,31 +17,21 @@ class BattleDataConfig final : public MAA_NS::SingletonHolder<BattleDataConfig>,
 public:
     virtual ~BattleDataConfig() override = default;
 
-    std::optional<std::string> get_first_id(battle::Role role, const std::string& name) const
+    // 按名取第一个命中条目的 id，找不到返回 nullopt。
+    // role 为 Unknown 时全表按名找，指定 role 时只在对应职业桶内找；同名多条时命中哪条取决于哈希序，
+    // 不含业务序含义，需要全部同名条目用 get_ids。
+    // oper_only 为 true 时跳过 Drone 装置/召唤物条目（装置可能与干员同名），仅影响 Unknown 查找
+    std::optional<std::string> get_first_id(battle::Role role, const std::string& name, bool oper_only = false) const
     {
-        if (name.empty()) {
+        const auto& oper = find_first_oper(role, name, oper_only);
+        if (!oper) {
             return std::nullopt;
         }
-        if (role == battle::Role::Unknown) {
-            auto it = std::ranges::find_if(m_chars, [&name](const auto& pair) { return pair.second->name == name; });
-            if (it != m_chars.cend()) {
-                return it->first;
-            }
-        }
-        else {
-            auto role_it = m_chars_by_role.find(role);
-            if (role_it != m_chars_by_role.cend()) {
-                auto it = std::ranges::find_if(role_it->second, [&name](const auto& pair) {
-                    return pair.second->name == name;
-                });
-                if (it != role_it->second.cend()) {
-                    return it->first;
-                }
-            }
-        }
-        return std::nullopt;
+        return oper->id;
     }
 
+    // 按名取全部同名条目的 id。含 Drone 装置/召唤物条目（装置可能与干员同名），调用方按需过滤；
+    // role 为 Unknown 时搜全表，指定时只搜对应职业桶
     std::vector<std::string> get_ids(battle::Role role, const std::string& name) const
     {
         std::vector<std::string> ids;
@@ -68,13 +58,19 @@ public:
         return ids;
     }
 
-    std::shared_ptr<battle::OperProps> find_first_oper(battle::Role role, const std::string& name) const
+    // 按名取第一个命中条目的属性，找不到返回 nullptr。
+    // role 为 Unknown 时全表按名找，指定 role 时只在对应职业桶内找；同名多条时命中哪条取决于哈希序，
+    // 不含业务序含义，需要全部同名条目用 find_opers。
+    // oper_only 为 true 时跳过 Drone 装置/召唤物条目（装置可能与干员同名），仅影响 Unknown 查找
+    std::shared_ptr<battle::OperProps> find_first_oper(battle::Role role, const std::string& name, bool oper_only = false) const
     {
         if (name.empty()) {
             return nullptr;
         }
         if (role == battle::Role::Unknown) {
-            auto it = std::ranges::find_if(m_chars, [&name](const auto& pair) { return pair.second->name == name; });
+            auto it = std::ranges::find_if(m_chars, [&name, oper_only](const auto& pair) {
+                return pair.second->name == name && (!oper_only || pair.second->role != battle::Role::Drone);
+            });
             if (it != m_chars.cend()) {
                 return it->second;
             }
@@ -92,6 +88,8 @@ public:
         return nullptr;
     }
 
+    // 按名取全部同名条目的属性。含 Drone 装置/召唤物条目，调用方按需过滤；
+    // role 为 Unknown 时搜全表，指定时只搜对应职业桶
     std::vector<std::shared_ptr<battle::OperProps>> find_opers(battle::Role role, const std::string& name) const
     {
         std::vector<std::shared_ptr<battle::OperProps>> opers;
