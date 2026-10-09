@@ -91,7 +91,7 @@ bool asst::OperBoxDataConfig::can_match(const battle::OperUsage& usage, const Op
         return false;
     }
     if (usage.skill > 0) {
-        if (info.skills.size() < usage.skill) {
+        if (info.skills.size() < static_cast<size_t>(usage.skill)) {
             return false;
         }
         int info_skill_level = info.main_skill_level + info.skills[usage.skill - 1].level;
