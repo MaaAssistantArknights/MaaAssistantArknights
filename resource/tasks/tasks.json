@@ -675,7 +675,7 @@
     },
     "UserCenter": {
         "action": "ClickSelf",
-        "roi": [50, 470, 50, 75],
+        "roi": [42, 522, 63, 75],
         "next": ["Logout", "LogoutOCR"]
     },
     "Logout": {
@@ -721,7 +721,7 @@
     },
     "AccountManager": {
         "action": "ClickSelf",
-        "roi": [855, 660, 150, 40],
+        "roi": [697, 663, 144, 39],
         "next": ["LoginOther"]
     },
     "LoginOther": {
