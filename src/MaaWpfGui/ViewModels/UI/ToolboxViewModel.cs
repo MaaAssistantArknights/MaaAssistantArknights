@@ -1808,7 +1808,8 @@ public class ToolboxViewModel : Screen
 
         foreach (var oper in ownOpers)
         {
-            var name = DataHelper.GetLocalizedCharacterName(DataHelper.Operators.FirstOrDefault(i => i.Key == oper.Id).Value) ?? "???";
+            var operInfo = DataHelper.Operators.FirstOrDefault(i => i.Key == oper.Id).Value;
+            var name = DataHelper.GetLocalizedCharacterName(operInfo) ?? "???";
             if (_tempOperHaveSet.Add(oper.Id))
             {
                 OperBoxHaveList.Add(new Operator(oper.Id, name, oper.Rarity, oper.Elite, oper.Level, oper.Potential,
@@ -1819,7 +1820,8 @@ public class ToolboxViewModel : Screen
                 }
             }
 
-            _tempOperHaveNames.Add(name);
+            // 判定集合与下方 Contains 的 oper.Name 同用基准名；展示名跟随干员名语言设置，两者语言不同时不相等
+            _tempOperHaveNames.Add(operInfo?.Name ?? name);
         }
 
         bool done = (bool)(details["done"] ?? false);
