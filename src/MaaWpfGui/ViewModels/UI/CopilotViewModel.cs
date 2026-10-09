@@ -556,12 +556,6 @@ public partial class CopilotViewModel : Screen
         && (CopilotTabIndex == 0 || CopilotTabIndex == 3);
 
     /// <summary>
-    /// Gets or sets a value indicating whether 本回合启动失败的具体原因已经过 Core 回调或本地日志报告；
-    /// 启动收尾时据此跳过通用兜底文案，避免与已报告的原因重复或矛盾。
-    /// </summary>
-    public bool CopilotFailureReasonReported { get; set; }
-
-    /// <summary>
     /// Gets or sets a value indicating whether 真正有干员被忽略了要求
     /// </summary>
     public bool HasRequirementIgnored { get; set; } = false;
@@ -2094,7 +2088,6 @@ public partial class CopilotViewModel : Screen
         {
             _logger.Error(ex, "Failed to start copilot task");
             AddLog(LocalizationHelper.GetString("CopilotStartError") + ex.Message, UiLogColor.Error, showTime: false);
-            CopilotFailureReasonReported = true;
             ret = false;
         }
 
@@ -2110,11 +2103,9 @@ public partial class CopilotViewModel : Screen
             }
 
             Instances.TaskQueueViewModel.SetStopped();
-            if (!CopilotFailureReasonReported)
-            {
-                // 具体失败原因已由 Core 回调或本地日志报告过时只留一条，兜底仅覆盖未报告来源的失败
-                AddLog(LocalizationHelper.GetString("CopilotStartFailed"), UiLogColor.Error, showTime: false);
-            }
+
+            // 中性兜底与已报告的具体原因连打：原因在前、结论在后，互不冲突
+            AddLog(LocalizationHelper.GetString("CopilotStartFailed"), UiLogColor.Error, showTime: false);
         }
     }
 
@@ -2237,7 +2228,6 @@ public partial class CopilotViewModel : Screen
 
     private async Task<bool> AppendAndStartCopilotAsync(IEnumerable<UserAdditional> userAdditional)
     {
-        CopilotFailureReasonReported = false;
         if (!UseCopilotList)
         {
         }
@@ -2292,7 +2282,6 @@ public partial class CopilotViewModel : Screen
             }
             catch
             {
-                CopilotFailureReasonReported = true;
                 AddLog(LocalizationHelper.GetString("CopilotCouldNotSaveFile") + _tempCopilotFile, UiLogColor.Error, showTime: false);
                 return false;
             }

@@ -1808,8 +1808,6 @@ public class AsstProxy
                     var why = details.TryGetValue("why", out var whyObj) ? whyObj.ToString() : string.Empty;
                     if (why == "OperatorMissing")
                     {
-                        // OperBox 预检失败也走本协议，append 阶段即终止任务，置位避免收尾兜底日志与具体原因矛盾
-                        Instances.CopilotViewModel.CopilotFailureReasonReported = true;
                         var missingOpers = details["details"]?["opers"]?.ToObject<Dictionary<string, JArray>>();
                         var str = new StringBuilder();
                         if (missingOpers is not null)
@@ -1843,24 +1841,20 @@ public class AsstProxy
                     var what = details["what"]?.ToString() ?? string.Empty;
                     if (what == "UserAdditionalOperInvalid")
                     {
-                        Instances.CopilotViewModel.CopilotFailureReasonReported = true;
                         var operName = details["details"]?["name"]?.ToString();
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("CopilotUserAdditionalNameInvalid", operName ?? string.Empty), UiLogColor.Error, showTime: false);
                     }
                     if (what == "CopilotFileReadError")
                     {
-                        Instances.CopilotViewModel.CopilotFailureReasonReported = true;
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error, showTime: false);
                     }
                     if (what == "CopilotStageNotSupported")
                     {
-                        Instances.CopilotViewModel.CopilotFailureReasonReported = true;
                         var stageName = details["details"]?["stage_name"]?.ToString();
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("UnsupportedStages", stageName ?? string.Empty), UiLogColor.Error, showTime: false);
                     }
                     if (what == "OperboxDataParseFailed")
                     {
-                        Instances.CopilotViewModel.CopilotFailureReasonReported = true;
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CopilotOperboxDataParseFailed"), UiLogColor.Error, showTime: false);
                     }
                     break;
