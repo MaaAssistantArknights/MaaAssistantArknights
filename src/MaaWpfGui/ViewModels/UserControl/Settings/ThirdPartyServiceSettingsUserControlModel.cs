@@ -134,9 +134,9 @@ public class ThirdPartyServiceSettingsUserControlModel : PropertyChangedBase
 
     /// <summary>
     /// 重新读取落盘数据刷新辅助编队可用性；接口关闭或数据不可用时收回勾选，避免配置停留在不可用状态。
-    /// 只在落盘完成事件、接口开关切换等明确事件点调用，不做文件监听。
+    /// 只在落盘完成事件、接口开关切换、Copilot 页激活等明确事件点调用，不做文件监听。
     /// </summary>
-    private void RefreshOperBoxAssistState()
+    public void RefreshOperBoxAssistState()
     {
         OperBoxAssistDataUsable = OperBoxAssistHelper.CheckData().Usable;
         if (!CanUseOperBoxAssist && EnableOperBoxAssist)

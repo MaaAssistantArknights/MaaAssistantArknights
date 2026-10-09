@@ -154,16 +154,20 @@ public partial class CopilotViewModel : Screen
             }
         };
 
-        // 干员识别数据落盘内容变化（本地识别覆盖、一图流拉取、重置）时重新判定可用性，
-        // 数据失效则收回勾选；事件触发点均在 UI 线程（Core 回调整体在 OnUIThread 内）
-        OperBoxAssistHelper.StateChanged += RefreshOperBoxAssistState;
-        RefreshOperBoxAssistState();
+        // 干员识别数据落盘内容变化（本地识别覆盖、一图流拉取、重置）时刷新同步时间展示；
+        // 可用性判定与勾选收回的状态源在 ThirdPartyServiceSettingsUserControlModel，由其同名订阅承担。
+        // 事件触发点均在 UI 线程（Core 回调整体在 OnUIThread 内）
+        OperBoxAssistHelper.StateChanged += RefreshOperBoxLastSyncTime;
+        RefreshOperBoxLastSyncTime();
     }
 
     protected override void OnActivate()
     {
         base.OnActivate();
-        RefreshOperBoxAssistState();
+
+        // 激活时兜底判定无事件的数据变化（如手删文件）并收回失效勾选，同步时间随后就地刷新
+        ThirdPartyServiceSettingsUserControlModel.Instance.RefreshOperBoxAssistState();
+        RefreshOperBoxLastSyncTime();
     }
 
     #region UI绑定及操作
@@ -490,37 +494,23 @@ public partial class CopilotViewModel : Screen
     }
 
     /// <summary>
-    /// Gets a value indicating whether 落盘干员识别数据满足辅助编队条件（yituliu 源且含技能信息），
-    /// 由 <see cref="RefreshOperBoxAssistState"/> 在落盘变更事件与页面激活时刷新。
-    /// </summary>
-    public bool OperBoxAssistDataUsable { get => field; private set => SetAndNotify(ref field, value); }
-
-    /// <summary>
     /// Gets 上次同步时间文案（MM/dd HH:mm:ss），无数据时为空串；整行显隐由 XAML 绑定 EnableOperBoxAssist 控制。
     /// </summary>
     public string OperBoxLastSyncTimeText { get => field; private set => SetAndNotify(ref field, value); } = string.Empty;
 
     /// <summary>
     /// Gets a value indicating whether 辅助编队可用：一图流干员数据接口已启用且落盘数据可用。
-    /// 不可用时两处复选框禁用，勾选由 <see cref="RefreshOperBoxAssistState"/> 强制收回。
+    /// 判定与刷新收敛在 <see cref="ThirdPartyServiceSettingsUserControlModel.CanUseOperBoxAssist"/>，此处跨实例转发供本页绑定。
     /// </summary>
-    [PropertyDependsOn(typeof(ThirdPartyServiceSettingsUserControlModel), nameof(ThirdPartyServiceSettingsUserControlModel.EnableOperBoxYituliuApi))]
-    [PropertyDependsOn(nameof(OperBoxAssistDataUsable))]
-    public bool CanUseOperBoxAssist => SettingsViewModel.ThirdPartyServiceSettings.EnableOperBoxYituliuApi && OperBoxAssistDataUsable;
+    [PropertyDependsOn(typeof(ThirdPartyServiceSettingsUserControlModel), nameof(ThirdPartyServiceSettingsUserControlModel.CanUseOperBoxAssist))]
+    public bool CanUseOperBoxAssist => ThirdPartyServiceSettingsUserControlModel.Instance.CanUseOperBoxAssist;
 
     /// <summary>
-    /// 重新读取落盘数据刷新可用性与同步时间；数据不可用时收回勾选，避免配置停留在不可用状态。
-    /// 只在落盘完成事件、页面激活等明确事件点调用，不做文件监听。
+    /// 重新读取落盘数据刷新同步时间文案；只在落盘完成事件、页面激活等明确事件点调用，不做文件监听。
     /// </summary>
-    private void RefreshOperBoxAssistState()
+    private void RefreshOperBoxLastSyncTime()
     {
-        var (usable, syncTime) = OperBoxAssistHelper.CheckData();
-        OperBoxAssistDataUsable = usable;
-        OperBoxLastSyncTimeText = syncTime?.ToLocalTimeString("MM/dd HH:mm:ss") ?? string.Empty;
-        if (!CanUseOperBoxAssist && EnableOperBoxAssist)
-        {
-            EnableOperBoxAssist = false;
-        }
+        OperBoxLastSyncTimeText = OperBoxAssistHelper.CheckData().SyncTime?.ToLocalTimeString("MM/dd HH:mm:ss") ?? string.Empty;
     }
 
     /// <summary>
