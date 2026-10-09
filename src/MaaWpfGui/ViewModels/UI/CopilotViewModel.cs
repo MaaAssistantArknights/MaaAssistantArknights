@@ -29,6 +29,7 @@ using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
@@ -39,6 +40,7 @@ using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.Items;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -151,6 +153,21 @@ public partial class CopilotViewModel : Screen
                 SaveCopilotTask();
             }
         };
+
+        // 干员识别数据落盘内容变化（本地识别覆盖、一图流拉取、重置）时刷新同步时间展示；
+        // 可用性判定与勾选收回的状态源在 ThirdPartyServiceSettingsUserControlModel，由其同名订阅承担。
+        // 事件触发点均在 UI 线程（Core 回调整体在 OnUIThread 内）
+        OperBoxAssistHelper.StateChanged += RefreshOperBoxLastSyncTime;
+        RefreshOperBoxLastSyncTime();
+    }
+
+    protected override void OnActivate()
+    {
+        base.OnActivate();
+
+        // 激活时兜底判定无事件的数据变化（如手删文件）并收回失效勾选，同步时间随后就地刷新
+        ThirdPartyServiceSettingsUserControlModel.Instance.RefreshOperBoxAssistState();
+        RefreshOperBoxLastSyncTime();
     }
 
     #region UI绑定及操作
@@ -471,6 +488,75 @@ public partial class CopilotViewModel : Screen
     /// Gets or sets a value indicating whether to use auto-formation.
     /// </summary>
     public bool IgnoreRequirements { get => field; set => SetAndNotify(ref field, value); }
+
+    [PropertyDependsOn(typeof(ThirdPartyServiceSettingsUserControlModel), nameof(ThirdPartyServiceSettingsUserControlModel.EnableOperBoxAssist))]
+    public bool EnableOperBoxAssist
+    {
+        get => SettingsViewModel.ThirdPartyServiceSettings.EnableOperBoxAssist;
+        set => SettingsViewModel.ThirdPartyServiceSettings.EnableOperBoxAssist = value;
+    }
+
+    /// <summary>
+    /// Gets 上次同步时间文案（MM/dd HH:mm:ss），无数据时为空串；整行显隐由 XAML 绑定 EnableOperBoxAssist 控制。
+    /// </summary>
+    public string OperBoxLastSyncTimeText { get => field; private set => SetAndNotify(ref field, value); } = string.Empty;
+
+    /// <summary>
+    /// Gets a value indicating whether 辅助编队可用：一图流干员数据接口已启用且落盘数据可用。
+    /// 判定与刷新收敛在 <see cref="ThirdPartyServiceSettingsUserControlModel.CanUseOperBoxAssist"/>，此处跨实例转发供本页绑定。
+    /// </summary>
+    [PropertyDependsOn(typeof(ThirdPartyServiceSettingsUserControlModel), nameof(ThirdPartyServiceSettingsUserControlModel.CanUseOperBoxAssist))]
+    public bool CanUseOperBoxAssist => ThirdPartyServiceSettingsUserControlModel.Instance.CanUseOperBoxAssist;
+
+    /// <summary>
+    /// 重新读取落盘数据刷新同步时间文案；只在落盘完成事件、页面激活等明确事件点调用，不做文件监听。
+    /// </summary>
+    private void RefreshOperBoxLastSyncTime()
+    {
+        OperBoxLastSyncTimeText = OperBoxAssistHelper.CheckData().SyncTime?.ToLocalTimeString("MM/dd HH:mm:ss") ?? string.Empty;
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 一图流数据同步进行中，用于禁用同步按钮防重复触发。
+    /// </summary>
+    public bool SyncingOperBox { get => field; set => SetAndNotify(ref field, value); }
+
+    /// <summary>
+    /// 从一图流拉取干员练度数据并落盘，结果反馈到 Copilot 日志区。
+    /// </summary>
+    /// <returns>异步任务。</returns>
+    public async Task SyncOperBoxFromYituliu()
+    {
+        if (SyncingOperBox)
+        {
+            return;
+        }
+
+        SyncingOperBox = true;
+        try
+        {
+            var (result, operatorCount) = await Instances.ToolboxViewModel.FetchAndSaveYituliuOperBoxAsync();
+            AddLog(result switch {
+                ToolboxViewModel.YituliuFetchResult.Success => LocalizationHelper.GetStringFormat("Copilot.SyncOperBoxSuccess", operatorCount),
+                ToolboxViewModel.YituliuFetchResult.TokenEmpty => LocalizationHelper.GetString("YituliuTokenEmpty"),
+                ToolboxViewModel.YituliuFetchResult.NoData => LocalizationHelper.GetString("YituliuNoOperBoxData"),
+                ToolboxViewModel.YituliuFetchResult.WriteOnly => LocalizationHelper.GetString("YituliuTokenWriteOnly"),
+                ToolboxViewModel.YituliuFetchResult.Invalid => LocalizationHelper.GetString("YituliuTokenInvalid"),
+                _ => LocalizationHelper.GetString("YituliuTokenNetworkError"),
+            }, result == ToolboxViewModel.YituliuFetchResult.Success ? UiLogColor.Info : UiLogColor.Error, showTime: false);
+        }
+        finally
+        {
+            SyncingOperBox = false;
+        }
+    }
+
+    [PropertyDependsOn(nameof(EnableOperBoxAssist))]
+    [PropertyDependsOn(nameof(Form))]
+    [PropertyDependsOn(nameof(CopilotTabIndex))]
+    public bool EffectiveOperBoxAssist => EnableOperBoxAssist
+        && Form
+        && (CopilotTabIndex == 0 || CopilotTabIndex == 3);
 
     /// <summary>
     /// Gets or sets a value indicating whether 真正有干员被忽略了要求
@@ -1980,7 +2066,7 @@ public partial class CopilotViewModel : Screen
     {
         if (Bootstrapper.TryGetTaskBlockReason() is { } reason)
         {
-            AddLog(reason, UiLogColor.Error);
+            AddLog(reason, UiLogColor.Error, showTime: false);
             return;
         }
 
@@ -2050,12 +2136,20 @@ public partial class CopilotViewModel : Screen
             }
 
             Instances.TaskQueueViewModel.SetStopped();
-            AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error, showTime: false);
+
+            // 中性兜底与已报告的具体原因连打：原因在前、结论在后，互不冲突
+            AddLog(LocalizationHelper.GetString("CopilotStartFailed"), UiLogColor.Error, showTime: false);
         }
     }
 
     private async Task<bool> ValidateStartAsync()
     {
+        if (EffectiveOperBoxAssist && !CanUseOperBoxAssist)
+        {
+            AddLog(LocalizationHelper.GetString("CopilotOperboxAssistRequiresYituliuData"), UiLogColor.Error, showTime: false);
+            return false;
+        }
+
         if (UseCopilotList)
         {
             // 列表模式：只校验列表本身，不检查输入框里的单文件作业类型
@@ -2188,6 +2282,7 @@ public partial class CopilotViewModel : Screen
                 UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
                 UseSanityPotion = UseSanityPotion,
                 FormationIndex = UseFormation ? FormationIndex : 0,
+                OperBoxDataPath = EffectiveOperBoxAssist ? OperBoxAssistHelper.OperBoxDataJsonPath : string.Empty,
             };
 
             // 能用列表的是主线/ss/故事集/悖论，都是 Copilot 类型
@@ -2220,7 +2315,7 @@ public partial class CopilotViewModel : Screen
             }
             catch
             {
-                AddLog(LocalizationHelper.GetString("CopilotCouldNotSaveFile") + _tempCopilotFile, UiLogColor.Error);
+                AddLog(LocalizationHelper.GetString("CopilotCouldNotSaveFile") + _tempCopilotFile, UiLogColor.Error, showTime: false);
                 return false;
             }
         }
@@ -2243,6 +2338,7 @@ public partial class CopilotViewModel : Screen
                 LoopTimes = Loop ? LoopTimes : 1,
                 UseSanityPotion = false,
                 FormationIndex = UseFormation ? FormationIndex : 0,
+                OperBoxDataPath = EffectiveOperBoxAssist ? OperBoxAssistHelper.OperBoxDataJsonPath : string.Empty,
             };
 
             // 单作业需要区分 Copilot / SSSCopilot

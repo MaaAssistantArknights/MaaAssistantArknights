@@ -1646,6 +1646,7 @@ public class ToolboxViewModel : Screen
         }
 
         JsonDataHelper.Set(JsonDataKey.OperBoxData, data);
+        OperBoxAssistHelper.RaiseStateChanged();
     }
 
     private void SortOperBoxLists()
@@ -1745,6 +1746,12 @@ public class ToolboxViewModel : Screen
     /// 每次传进来的都是完整数据, 临时缓存去重
     /// </summary>
     private HashSet<string> _tempOperHaveSet = [];
+
+    /// <summary>
+    /// 已拥有干员的名字集合，未拥有列表判定用：升变形态同名不同 ID，按名字等价不依赖硬编码升变表
+    /// </summary>
+    private HashSet<string> _tempOperHaveNames = [];
+
     private readonly HashSet<int> _pendingOperBoxRecognitionResetTaskIds = [];
 
     public void MarkOperBoxRecognitionDataForReset(int taskId)
@@ -1760,6 +1767,7 @@ public class ToolboxViewModel : Screen
         OperBoxSelectedIndex = 1;
         _operBoxPotential = null;
         _tempOperHaveSet = [];
+        _tempOperHaveNames = [];
         OperBoxHaveList = [];
         OperBoxNotHaveList = [];
         LastOperBoxSyncTime = null;
@@ -1786,14 +1794,12 @@ public class ToolboxViewModel : Screen
 
         _operBoxDataSource = details["source"]?.ToString() == "yituliu" ? "yituliu" : "local";
 
-        // 阿米娅这类升变干员在 battle_data 里每个形态一条记录（基础/近卫/医疗），识别结果回传的是
-        // 玩家当前形态的 ID；拥有列表统一换回基础形态 ID，去重与落盘都只用基础 ID
+        // 阿米娅这类升变干员在 battle_data 里每个形态一条记录（基础/近卫/医疗……）。原始 ID 直接保留：
+        // 一图流数据含全部形态条目，拥有列表与落盘都如实展示/保存（预匹配按形态 ID 精确对位）。
+        // 未拥有判定按名字等价——升变形态同名不同 ID，且新的升变形态 ID 无法及时进
+        // DataHelper 的硬编码升变表，按 ID 归一化判定会在表滞后时把已拥有的基础形态当成未拥有
         var ownOpers = (details["own_opers"] as JArray)?.ToObject<List<OperBoxData.OperData>>()?
             .Where(o => !string.IsNullOrEmpty(o.Id))
-            .Select(o => {
-                o.Id = DataHelper.GetCanonicalOperId(o.Id);
-                return o;
-            })
             .ToList();
         if (ownOpers is null)
         {
@@ -1802,9 +1808,10 @@ public class ToolboxViewModel : Screen
 
         foreach (var oper in ownOpers)
         {
+            var operInfo = DataHelper.Operators.FirstOrDefault(i => i.Key == oper.Id).Value;
+            var name = DataHelper.GetLocalizedCharacterName(operInfo) ?? "???";
             if (_tempOperHaveSet.Add(oper.Id))
             {
-                var name = DataHelper.GetLocalizedCharacterName(DataHelper.Operators.FirstOrDefault(i => i.Key == oper.Id).Value) ?? "???";
                 OperBoxHaveList.Add(new Operator(oper.Id, name, oper.Rarity, oper.Elite, oper.Level, oper.Potential,
                     oper.MainSkillLevel, oper.Skills, oper.Equips));
                 if (oper.Id == "char_485_pallas")
@@ -1812,6 +1819,9 @@ public class ToolboxViewModel : Screen
                     AchievementTrackerHelper.Instance.Unlock(AchievementIds.WarehouseKeeper);
                 }
             }
+
+            // 判定集合与下方 Contains 的 oper.Name 同用基准名；展示名跟随干员名语言设置，两者语言不同时不相等
+            _tempOperHaveNames.Add(operInfo?.Name ?? name);
         }
 
         bool done = (bool)(details["done"] ?? false);
@@ -1822,9 +1832,8 @@ public class ToolboxViewModel : Screen
 
         foreach (var (id, oper) in DataHelper.Operators)
         {
-            // 跳过升变形态条目：阿米娅是否拥有只看基础形态，否则形态条目永远算没拥有，
-            // 未拥有列表会多出两个"阿米娅"
-            if (!_tempOperHaveSet.Contains(id) && !DataHelper.IsPromotedOperId(id) && DataHelper.IsCharacterAvailableInClient(oper, SettingsViewModel.GameSettings.ClientType.ToCustomString()))
+            // 未拥有判定走名字集合（见上方注释）；升变形态条目额外跳过，避免未拥有时每个形态各冒一条
+            if (!_tempOperHaveNames.Contains(oper.Name!) && !DataHelper.IsPromotedOperId(id) && DataHelper.IsCharacterAvailableInClient(oper, SettingsViewModel.GameSettings.ClientType.ToCustomString()))
             {
                 var name = DataHelper.GetLocalizedCharacterName(oper) ?? "???";
                 OperBoxNotHaveList.Add(new Operator(id, name, oper.Rarity, owned: false));
@@ -1855,6 +1864,7 @@ public class ToolboxViewModel : Screen
         OperBoxInfo = $"{LocalizationHelper.GetString("IdentificationCompleted")}  {LocalizationHelper.GetString("OperBoxRecognitionTip")}";
         SaveOperBoxDetails(ownOpers, _operBoxDataSource);
         _tempOperHaveSet = [];
+        _tempOperHaveNames = [];
         return true;
     }
 
@@ -1884,58 +1894,102 @@ public class ToolboxViewModel : Screen
     }
 
     /// <summary>
-    /// 从一图流 OpenAPI 拉取干员练度数据并按识别结果填充，不依赖模拟器连接。
-    /// 拉取失败只报错不回退 core 本地识别：开关开着是用户显式选择，静默回退会突然要求连接模拟器，无人值守队列下不可预期。
-    /// 拉取成功后才重置旧识别数据，失败时保留；运行状态（Idle）由调用方负责收尾。
+    /// 从一图流 OpenAPI 拉取的结果，供各入口（工具箱拉取、设置页验证、Copilot 同步）统一映射提示。
     /// </summary>
-    /// <returns>是否成功。</returns>
-    public async Task<bool> StartOperBoxFromYituliuApiAsync()
+    public enum YituliuFetchResult
+    {
+        /// <summary>拉取成功且已落盘。</summary>
+        Success,
+
+        /// <summary>一图流 OpenAPI token 为空。</summary>
+        TokenEmpty,
+
+        /// <summary>token 有效但只有写入权限，无法读取。</summary>
+        WriteOnly,
+
+        /// <summary>token 无效或已失效。</summary>
+        Invalid,
+
+        /// <summary>网络请求失败。</summary>
+        NetworkError,
+
+        /// <summary>账号未绑定或未导入练度，接口返回空列表。</summary>
+        NoData,
+    }
+
+    /// <summary>
+    /// 从一图流 OpenAPI 拉取干员练度数据并落盘，不附带任何 UI 反馈，供工具箱拉取、设置页验证、Copilot 同步按钮共用。
+    /// 拉取失败不回退 core 本地识别：开关开着是用户显式选择，静默回退会突然要求连接模拟器，无人值守队列下不可预期。
+    /// 账号未绑定或未导入练度返回 <see cref="YituliuFetchResult.NoData"/> 并保留旧落盘数据，不覆盖。
+    /// </summary>
+    /// <returns>拉取结果与干员数量（仅 Success 时有意义）。</returns>
+    public async Task<(YituliuFetchResult Result, int OperatorCount)> FetchAndSaveYituliuOperBoxAsync()
     {
         var token = SettingsViewModel.ThirdPartyServiceSettings.YituliuOpenApiToken.Trim();
         if (string.IsNullOrEmpty(token))
         {
-            OperBoxInfo = LocalizationHelper.GetString("YituliuTokenEmpty");
-            Instances.TaskQueueViewModel.AddLog(OperBoxInfo, UiLogColor.Error);
-            return false;
+            return (YituliuFetchResult.TokenEmpty, 0);
         }
-
-        OperBoxInfo = LocalizationHelper.GetString("OperBoxFetchingFromYituliu");
 
         try
         {
             var (result, data) = await YituliuApiService.GetOperatorInfoAsync(token);
             if (result != YituliuApiService.TokenValidationResult.Valid || data is null)
             {
-                var reason = result switch {
-                    YituliuApiService.TokenValidationResult.WriteOnly => LocalizationHelper.GetString("YituliuTokenWriteOnly"),
-                    YituliuApiService.TokenValidationResult.Invalid => LocalizationHelper.GetString("YituliuTokenInvalid"),
-                    _ => LocalizationHelper.GetString("YituliuTokenNetworkError"),
-                };
-                OperBoxInfo = LocalizationHelper.GetStringFormat("YituliuFetchFailed", reason);
-                Instances.TaskQueueViewModel.AddLog(OperBoxInfo, UiLogColor.Error);
-                return false;
+                return (ToFetchResult(result), 0);
             }
 
             var details = ConvertYituliuDataToDetails(data);
-            if ((details["own_opers"] as JArray) is not { Count: > 0 })
+            if ((details["own_opers"] as JArray) is not { Count: > 0 } ownOpers)
             {
                 // 账号未绑定或未导入练度时接口返回空列表（本地资源过旧跳过全部干员时同样为空），此时保留本地数据，不落盘覆盖
-                OperBoxInfo = LocalizationHelper.GetString("YituliuNoOperBoxData");
-                Instances.TaskQueueViewModel.AddLog(OperBoxInfo, UiLogColor.Error);
-                return false;
+                return (YituliuFetchResult.NoData, 0);
             }
 
             // 拉取成功后才清空内存中的旧识别数据与同步时间，失败时原样保留
             ResetOperBoxRecognitionState();
-            return OperBoxParse(details, updateSyncTime: true);
+            var parsed = OperBoxParse(details, updateSyncTime: true);
+            return parsed ? (YituliuFetchResult.Success, ownOpers.Count) : (YituliuFetchResult.NetworkError, 0);
         }
         catch (Exception e)
         {
             _logger.Error("Failed to load operator box from yituliu open-api: {Message}", e.Message);
-            OperBoxInfo = LocalizationHelper.GetString("YituliuTokenNetworkError");
-            Instances.TaskQueueViewModel.AddLog(OperBoxInfo, UiLogColor.Error);
-            return false;
+            return (YituliuFetchResult.NetworkError, 0);
         }
+    }
+
+    private static YituliuFetchResult ToFetchResult(YituliuApiService.TokenValidationResult result)
+    {
+        return result switch {
+            YituliuApiService.TokenValidationResult.WriteOnly => YituliuFetchResult.WriteOnly,
+            YituliuApiService.TokenValidationResult.Invalid => YituliuFetchResult.Invalid,
+            _ => YituliuFetchResult.NetworkError,
+        };
+    }
+
+    /// <summary>
+    /// 从一图流 OpenAPI 拉取干员练度数据并按识别结果填充，不依赖模拟器连接。运行状态（Idle）由调用方负责收尾。
+    /// </summary>
+    /// <returns>是否成功。</returns>
+    public async Task<bool> StartOperBoxFromYituliuApiAsync()
+    {
+        OperBoxInfo = LocalizationHelper.GetString("OperBoxFetchingFromYituliu");
+
+        var (result, _) = await FetchAndSaveYituliuOperBoxAsync();
+        if (result == YituliuFetchResult.Success)
+        {
+            return true;
+        }
+
+        OperBoxInfo = result switch {
+            YituliuFetchResult.TokenEmpty => LocalizationHelper.GetString("YituliuTokenEmpty"),
+            YituliuFetchResult.WriteOnly => LocalizationHelper.GetStringFormat("YituliuFetchFailed", LocalizationHelper.GetString("YituliuTokenWriteOnly")),
+            YituliuFetchResult.Invalid => LocalizationHelper.GetStringFormat("YituliuFetchFailed", LocalizationHelper.GetString("YituliuTokenInvalid")),
+            YituliuFetchResult.NoData => LocalizationHelper.GetString("YituliuNoOperBoxData"),
+            _ => LocalizationHelper.GetString("YituliuTokenNetworkError"),
+        };
+        Instances.TaskQueueViewModel.AddLog(OperBoxInfo, UiLogColor.Error);
+        return false;
     }
 
     /// <summary>
@@ -2087,6 +2141,12 @@ public class ToolboxViewModel : Screen
         var exportList = new List<OperBoxData.OperData>();
         var userOperMap = OperBoxHaveList.ToDictionary(op => op.Id);
 
+        // 同名归一用基准中文名（Id 反查）：条目展示名跟随干员名语言设置，外文名下与全表 operInfo.Name 永不相等
+        var ownedNames = OperBoxHaveList
+            .Select(op => DataHelper.Operators.TryGetValue(op.Id, out var info) ? info.Name : null)
+            .OfType<string>()
+            .ToHashSet();
+
         foreach (var (operId, operInfo) in DataHelper.Operators)
         {
             if (!DataHelper.IsCharacterAvailableInClient(operInfo, SettingsViewModel.GameSettings.ClientType.ToCustomString()))
@@ -2109,6 +2169,11 @@ public class ToolboxViewModel : Screen
                     Skills = value.Skills,
                     Equips = value.Equips,
                 });
+            }
+            else if (ownedNames.Contains(operInfo.Name!))
+            {
+                // 升变等同名形态条目已被拥有的形态覆盖（本地识别只含当前形态），不导出为未拥有，与列表显示同构
+                continue;
             }
             else
             {

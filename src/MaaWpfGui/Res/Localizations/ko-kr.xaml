@@ -1413,6 +1413,10 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">일부 작업은 특정 스킬 레벨, 모듈 또는 기타 요구 사항이 필요합니다.
 이 옵션을 활성화하면 해당 검사를 건너뛰지만, 작업이 정상적으로 동작하지 않을 수 있습니다.
 오퍼레이터의 정예화 등급은 무시할 수 없습니다. 요구 사항을 하나라도 무시할 경우, 전투 종료 후 자동으로 '좋아요'를 남기지 않습니다.</system:String>
+    <system:String x:Key="Copilot.UseOperBoxAssist">Yituliu 데이터로 편성 지원</system:String>
+    <system:String x:Key="Copilot.UseOperBoxAssist.Tip" xml:space="preserve">자동 편성 전 Yituliu 오퍼레이터 육성 데이터(스킬 및 모듈 정보 포함)로 편성을 사전 매칭합니다&#10;｢{key=Settings} - {key=ThirdPartyServiceSettings}｣에서 Yituliu 토큰을 입력하고 ｢{key=EnableOperBoxYituliuApi}｣을(를) 활성화하여 데이터를 가져와야 합니다</system:String>
+    <system:String x:Key="Copilot.SyncOperBoxData">동기화</system:String>
+    <system:String x:Key="Copilot.SyncOperBoxSuccess">Yituliu 오퍼레이터 데이터 {0}명을 동기화했습니다</system:String>
     <system:String x:Key="AddUserAdditional">커스텀 {key=Operator} 추가</system:String>
     <system:String x:Key="AddUserAdditionalTip">옆의 설정 버튼을 클릭해 편집 창을 연 후 ｢{key=UserAdditional.Add}｣를 클릭해 한 항목씩 추가하고, 각 열에 {key=Operator} 이름, 스킬, 작업을 입력합니다</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator} 이름</system:String>
@@ -1484,6 +1488,7 @@ C:\leidian\LDPlayer9
         • 이성 부족, 작전 실패, 또는 3성 클리어 실패 시 작전이 자동으로 중지됩니다.
     </system:String>
     <system:String x:Key="CopilotFileReadError">파일을 읽지 못했습니다!</system:String>
+    <system:String x:Key="CopilotStartFailed">작업 시작에 실패했습니다</system:String>
     <system:String x:Key="CopilotNoFound">해당 파일을 찾을 수 없습니다!</system:String>
     <system:String x:Key="NetworkServiceError">네트워크 요청 중 오류가 발생했습니다!</system:String>
     <system:String x:Key="CopilotJsonError">Copilot 파일 분석 중 오류가 발생했습니다!</system:String>
@@ -1886,7 +1891,11 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BattleFormationOperUnavailable.Level">레벨이 너무 낮음</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">스킬 레벨이 너무 낮음</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Module">필요한 모듈이 잠금 해제되지 않음</system:String>
+    <system:String x:Key="BattleFormationOperbox1Unmatched" xml:space="preserve">{key=Operator}(그룹) {0}에 일치하는 {key=Operator} 없음, 지원 유닛이 필요합니다(사전 매칭 추천: {1}, 실제 선택은 지원 유닛 목록에 따름)</system:String>
+    <system:String x:Key="BattleFormationOperboxMatched">사전 매칭된 {key=Operator}(그룹):</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">추가된 커스텀 {key=Operator} 이름이 유효하지 않음: {0}, 철자를 확인하세요</system:String>
+    <system:String x:Key="CopilotOperboxDataParseFailed">{key=OperBoxRecognition} 데이터 분석 실패</system:String>
+    <system:String x:Key="CopilotOperboxAssistRequiresYituliuData">사용 가능한 Yituliu 오퍼레이터 데이터가 없어 편성을 지원할 수 없습니다. 먼저 Yituliu에서 오퍼레이터 데이터를 가져오거나 ｢{key=Copilot.UseOperBoxAssist}｣을 비활성화하세요.</system:String>
     <system:String x:Key="CurrentSteps">현재 단계: {0} {1}</system:String>
     <system:String x:Key="ElapsedTime">경과 시간: {0}ms</system:String>
     <system:String x:Key="Deploy">배치</system:String>

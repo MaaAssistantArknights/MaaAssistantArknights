@@ -1411,6 +1411,10 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">Some jobs require specific skill levels, Modules or other prerequisites.
 Enabling this will skip these checks, but may cause the job to fail.
 Operators' Elite level CANNOT be ignored. If any requirements are ignored, the operation will no longer be automatically rated after the battle.</system:String>
+    <system:String x:Key="Copilot.UseOperBoxAssist">Assist formation with Yituliu data</system:String>
+    <system:String x:Key="Copilot.UseOperBoxAssist.Tip" xml:space="preserve">Pre-matches the operation squad against Yituliu operator data (including skills and modules) before auto-formation&#10;Requires a Yituliu token: fill it in under ｢{key=Settings} - {key=ThirdPartyServiceSettings}｣, enable ｢{key=EnableOperBoxYituliuApi}｣, then fetch data</system:String>
+    <system:String x:Key="Copilot.SyncOperBoxData">Sync</system:String>
+    <system:String x:Key="Copilot.SyncOperBoxSuccess">Synced Yituliu data for {0} operators</system:String>
     <system:String x:Key="AddUserAdditional">Add custom {key=Operator}s</system:String>
     <system:String x:Key="AddUserAdditionalTip">Click the settings button next to it to open the editing window, then click ｢{key=UserAdditional.Add}｣ to add entries one by one, and fill in the {key=Operator} name, skill, and action in each column</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator} Name</system:String>
@@ -1482,6 +1486,7 @@ Right-click to clear inactive jobs</system:String>
         • Execution will stop automatically when sanity is insufficient, battle fails, or fails to achieve a 3★ clear.
     </system:String>
     <system:String x:Key="CopilotFileReadError">Failed to read file!</system:String>
+    <system:String x:Key="CopilotStartFailed">Failed to start the copilot task</system:String>
     <system:String x:Key="CopilotNoFound">No corresponding file found!</system:String>
     <system:String x:Key="NetworkServiceError">Network service error!</system:String>
     <system:String x:Key="CopilotJsonError">Copilot JSON Error!</system:String>
@@ -1887,7 +1892,11 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Level">Level too low</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">Skill level too low</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Module">Required module not unlocked</system:String>
+    <system:String x:Key="BattleFormationOperbox1Unmatched" xml:space="preserve">{key=Operator} (group) {0} has no matching {key=Operator}, a support unit is needed (pre-matching suggests {1}; the actual pick follows the support unit list)</system:String>
+    <system:String x:Key="BattleFormationOperboxMatched">Pre-matched {key=Operator} (groups):</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">Additional custom {key=Operator} name invalid: {0}, please check spelling</system:String>
+    <system:String x:Key="CopilotOperboxDataParseFailed">{key=OperBoxRecognition} data parse failed</system:String>
+    <system:String x:Key="CopilotOperboxAssistRequiresYituliuData">No Yituliu operator data is available for formation assist. Fetch operator data from Yituliu first, or disable ｢{key=Copilot.UseOperBoxAssist}｣.</system:String>
     <system:String x:Key="CurrentSteps">Step: {0} {1}</system:String>
     <system:String x:Key="ElapsedTime">Elapsed time: {0}ms</system:String>
     <system:String x:Key="Deploy">Deploy</system:String>
