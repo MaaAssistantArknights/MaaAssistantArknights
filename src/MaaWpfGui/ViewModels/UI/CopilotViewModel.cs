@@ -1279,7 +1279,7 @@ public partial class CopilotViewModel : Screen
             var hasOper = action.Name is not null;
             if (hasLoc && hasOper)
             {
-                AddLog(LocalizationHelper.GetStringFormat("Copilot.ActionWithBothLocAndOper", $"{action.Type}[{action.Location}]"), UiLogColor.Warning, showTime: false);
+                AddLog(LocalizationHelper.GetStringFormat("Copilot.ActionWithBothLocAndOper", $"{action.Type}[{string.Join(",", action.Location!)}]"), UiLogColor.Warning, showTime: false);
                 action.Role = null;
                 action.Name = null;
                 is_corrected = true;
