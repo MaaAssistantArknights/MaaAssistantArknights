@@ -109,7 +109,7 @@
                         </ListBox>
                     </Grid>
                 </Border>
-                <Grid Margin="0,5">
+                <Grid Margin="0,5" IsEnabled="{c:Binding '!IsAutoParadox'}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
@@ -445,10 +445,21 @@
 
                             </WrapPanel>
 
+                            <StackPanel
+                                Margin="2.5,5"
+                                Orientation="Horizontal"
+                                Visibility="{c:Binding 'CopilotTabIndex == 2'}">
+                                <CheckBox
+                                    Content="{DynamicResource ParadoxAutoSelect}"
+                                    IsChecked="{Binding AutoParadox}"
+                                    IsEnabled="{Binding Run.Idle}" />
+                                <controls:TooltipBlock TooltipText="{DynamicResource ParadoxAutoSelectTip}" />
+                            </StackPanel>
+
                             <!--  UseCopilotList  -->
                             <StackPanel
                                 Margin="2.5,5"
-                                IsEnabled="{c:Binding 'CopilotTabIndex == 0 or CopilotTabIndex == 2'}"
+                                IsEnabled="{c:Binding '(CopilotTabIndex == 0 or CopilotTabIndex == 2) and !IsAutoParadox'}"
                                 Orientation="Horizontal">
                                 <CheckBox Content="{DynamicResource UseCopilotList}" IsChecked="{Binding UseCopilotList}" />
                                 <controls:TooltipBlock TooltipText="{DynamicResource UseCopilotListTip}" />

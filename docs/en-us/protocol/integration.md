@@ -1323,6 +1323,12 @@ List of jobs. Runtime editing not supported. Mutually exclusive with filename (r
 <br>
 Array elements support two forms: an object containing `id` (job identifier, passed as-is to the `CopilotListLoadTaskFileSuccess` callback) and `filename` (path to the job JSON file, both absolute and relative paths supported); or a job path string used directly.
 :::  
+::: field auto
+@type boolean
+@default false
+@optional
+Scan the in-game Paradox list. Only supported with `list` and the Chinese Official/Bilibili servers. The caller downloads complete strategies and supplies them in preference order; files for the same stage are backups. Core skips cleared and locked operators, verifies the detail-page identity, selects skills, and tries the next strategy on failure. Recognition errors stop the task. Exhausted candidates fail that operator and execution continues with others; the task ultimately reports failure. Core does not access the network or persist completion records. Extra-info callbacks are `ParadoxAutoAttempt`, `ParadoxAutoCompleted`, `ParadoxAutoCandidateFailed`, `ParadoxAutoStageFailed`, and `ParadoxAutoRecognitionFailed`; `details` contains `operator` and `copilot_id` (-1 when unavailable).
+:::
 ::::
 
 <details>

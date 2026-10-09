@@ -4,8 +4,10 @@
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Controller/Controller.h"
 #include "Task/Miscellaneous/BattleProcessTask.h"
+#include "Task/Miscellaneous/ParadoxListTask.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Vision/Miscellaneous/ParadoxDetailAnalyzer.h"
 
 bool asst::ParadoxRecognitionTask::_run()
 {
@@ -17,20 +19,19 @@ bool asst::ParadoxRecognitionTask::_run()
 
     const auto& [id, raw_path] = m_paradox_files.front();
     const auto& path = utils::path(raw_path);
-    std::string file_name;
     if (!Copilot.load(path)) {
-        Log.error("CopilotConfig parse failed");
+        LogError << "CopilotConfig parse failed";
         return false;
     }
-    file_name = utils::path_to_utf8_string(path);
+    const auto file_name = utils::path_to_utf8_string(path);
     const auto& stage_name = Copilot.get_stage_name();
     if (!m_battle_task_ptr->set_stage_name(stage_name)) {
-        Log.error("Not support stage");
+        LogError << "Not support stage";
         return false;
     }
 
     json::value info = basic_info_with_what("CopilotListLoadTaskFileSuccess");
-    info["details"]["stage_name"] = Copilot.get_stage_name();
+    info["details"]["stage_name"] = stage_name;
     info["details"]["file_name"] = file_name;
     info["details"]["id"] = id;
     callback(AsstMsg::SubTaskExtraInfo, info);
@@ -40,155 +41,119 @@ bool asst::ParadoxRecognitionTask::_run()
     m_paradox_files.erase(m_paradox_files.begin());
 
     const auto& all_oper_names = BattleData.get_all_chars();
-    const auto& it = std::find_if(all_oper_names.begin(), all_oper_names.end(), [&](const auto& pair) {
-        return pair.first.ends_with(m_navigate_name); // 应该没重复吧
+    const auto it = std::find_if(all_oper_names.begin(), all_oper_names.end(), [&](const auto& pair) {
+        return pair.second && pair.second->role != battle::Role::Drone && pair.first.ends_with(m_navigate_name);
     });
-
-    if (it != all_oper_names.end()) {
-        m_oper_name = {
-            it->second->role,    it->second->rarity,  it->second->name,    it->second->name_en,
-            it->second->name_jp, it->second->name_kr, it->second->name_tw,
-        };
+    if (it == all_oper_names.end()) {
+        report_status("ParadoxOperatorNotFound");
+        return false;
     }
+    m_oper_name = {
+        it->second->role,    it->second->rarity,  it->second->name,    it->second->name_en,
+        it->second->name_jp, it->second->name_kr, it->second->name_tw,
+    };
 
-    // 设置技能
     m_skill_num = 1;
-    auto* groups = &Copilot.get_data().groups;
-    for (const auto& [_, __, ___, opers_vec] : *groups) {
-        if (opers_vec.empty()) {
-            continue;
-        }
-        for (const auto& oper : opers_vec) {
-            if (match_oper(oper.name)) {
+    for (const auto& group : Copilot.get_data().groups) {
+        for (const auto& oper : group.opers) {
+            if (match_oper(oper.name) && oper.skill >= 1 && oper.skill <= 3) {
                 m_skill_num = oper.skill;
             }
         }
     }
+    LogInfo << __FUNCTION__ << "operator:" << m_oper_name.name << "rarity:" << m_oper_name.rarity
+            << "skill:" << m_skill_num;
 
-    return_initial_oper(); // 回干员列表（默认在最左侧）
-    if (!click_role_table(m_oper_name.role)) {
-        return_initial_oper();
+    if (m_from_detail) {
+        m_from_detail = false;
+        ParadoxDetailAnalyzer detail(ctrler()->get_image());
+        const auto name = detail.analyze();
+        if (!name || *name != m_oper_name.name) {
+            report_status(name ? "ParadoxOperatorMismatch" : "ParadoxRecognitionFailed");
+            return false;
+        }
+        return enter_paradox(m_skill_num, m_oper_name.rarity);
     }
 
-    if (swipe_and_analyze()) {
-        enter_paradox(m_skill_num, m_oper_name.rarity);
+    ParadoxListTask locate(m_callback, m_inst, m_task_chain);
+    locate.set_task_id(m_task_id).set_retry_times(0);
+    locate.set_target(m_oper_name.name);
+    if (!locate.run()) {
+        report_status("ParadoxRecognitionFailed");
+        return false;
     }
-
-    return true;
+    if (!locate.found_target()) {
+        report_status("ParadoxOperatorNotFound");
+        return false;
+    }
+    if (locate.target_completed()) {
+        report_status("ParadoxAlreadyCompleted");
+        return_to_oper_list();
+        return false;
+    }
+    return enter_paradox(m_skill_num, m_oper_name.rarity);
 }
 
 std::string asst::ParadoxRecognitionTask::standardize_name(const std::string& navigate_name)
 {
-    size_t length = navigate_name.length();
-    return navigate_name.substr(4, length - 6);
+    return navigate_name.substr(4, navigate_name.length() - 6);
 }
 
-void asst::ParadoxRecognitionTask::enter_paradox(const int skill_num, const int rarity) const
+bool asst::ParadoxRecognitionTask::enter_paradox(const int skill_num, const int rarity)
 {
-    ctrler()->click(m_navigate_rect);
-    ProcessTask(*this, { "OperParadoxBegin" }).run();
-    if (rarity > 2) {
-        ProcessTask(*this, { "OperOpenParadoxChooseSkill" }).run();
-        ProcessTask(*this, { "ParadoxChooseSkill" + std::to_string(skill_num) }).run();
+    if (ProcessTask(*this, { "ParadoxAlreadyCompleted" }).set_retry_times(0).run()) {
+        report_status("ParadoxAlreadyCompleted");
+        return_to_oper_list();
+        return false;
     }
+    if (!ProcessTask(*this, { "ParadoxStartSimulation" }).set_retry_times(1).run()) {
+        if (!ProcessTask(*this, { "OperParadoxBegin" }).set_retry_times(3).run()) {
+            report_status("ParadoxRecognitionFailed");
+            return_to_oper_list();
+            return false;
+        }
+        if (ProcessTask(*this, { "ParadoxAlreadyCompleted" }).set_retry_times(0).run()) {
+            report_status("ParadoxAlreadyCompleted");
+            return_to_oper_list();
+            return false;
+        }
+        if (!ProcessTask(*this, { "OperOpenParadoxChooseSkill" }).set_retry_times(3).run()) {
+            report_status("ParadoxSkillSelectFailed");
+            return_to_oper_list();
+            return false;
+        }
+    }
+    if (rarity > 2) {
+        if (!ProcessTask(*this, { "ParadoxChooseSkill" + std::to_string(skill_num) }).set_retry_times(3).run()) {
+            report_status("ParadoxSkillSelectFailed");
+            return_to_oper_list();
+            return false;
+        }
+        sleep(500);
+    }
+    report_status("ParadoxReady");
+    return true;
+}
+
+void asst::ParadoxRecognitionTask::return_to_oper_list() const
+{
+    if (!ProcessTask(*this, { "ParadoxReturnOperListFlag" }).set_retry_times(0).run()) {
+        ProcessTask(*this, { "ParadoxReturnUntilOperList" }).set_retry_times(3).run();
+    }
+    ProcessTask(*this, { "BattleQuickFormationExpandRole" }).set_retry_times(3).run();
+}
+
+void asst::ParadoxRecognitionTask::report_status(const std::string& status)
+{
+    json::value info = basic_info_with_what(status);
+    info["details"]["stage_name"] = Copilot.get_stage_name();
+    info["details"]["operator"] = m_oper_name.name;
+    callback(AsstMsg::SubTaskExtraInfo, info);
 }
 
 void asst::ParadoxRecognitionTask::add_file(int id, const std::string& navigate_name)
 {
     m_paradox_files.emplace_back(id, navigate_name);
-}
-
-void asst::ParadoxRecognitionTask::swipe_page() const
-{
-    ProcessTask(*this, { "OperBoxSlowlySwipeToTheRight" }).run();
-}
-
-void asst::ParadoxRecognitionTask::return_initial_oper() const
-{
-    if (!ProcessTask(*this, { "ParadoxReturnOperListFlag" }).set_retry_times(0).run()) {
-        ProcessTask(*this, { "ParadoxReturnUntilOperList" }).run();
-    }
-    ProcessTask(*this, { "BattleQuickFormationExpandRole" }).set_retry_times(3).run();
-    ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).run();
-    ProcessTask(
-        *this,
-        { "BattleQuickFormationRole-Pioneer",
-          "BattleQuickFormationRole-Warrior",
-          "BattleQuickFormationRole-Tank",
-          "BattleQuickFormationRole-Caster",
-          "BattleQuickFormationRole-Medic",
-          "BattleQuickFormationRole-Sniper",
-          "BattleQuickFormationRole-Special",
-          "BattleQuickFormationRole-Support" })
-        .run();
-    ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).run();
-}
-
-bool asst::ParadoxRecognitionTask::click_role_table(const battle::Role role) const
-{
-    static const std::unordered_map<battle::Role, std::string> role_name_type = {
-        { battle::Role::Caster, "Caster" }, { battle::Role::Medic, "Medic" },     { battle::Role::Pioneer, "Pioneer" },
-        { battle::Role::Sniper, "Sniper" }, { battle::Role::Special, "Special" }, { battle::Role::Support, "Support" },
-        { battle::Role::Tank, "Tank" },     { battle::Role::Warrior, "Warrior" },
-    };
-
-    const auto role_iter = role_name_type.find(role);
-
-    if (role_iter == role_name_type.cend()) {
-        return false;
-    }
-
-    ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).run();
-    return ProcessTask(*this, { "BattleQuickFormationRole-" + role_iter->second }).set_retry_times(0).run();
-}
-
-bool asst::ParadoxRecognitionTask::swipe_and_analyze()
-{
-    LogTraceFunction;
-    std::string pre_pre_last_oper;
-    std::string pre_last_oper;
-
-    while (!need_exit()) {
-        OperBoxImageAnalyzer analyzer(ctrler()->get_image());
-
-        if (!analyzer.analyze()) {
-            break;
-        }
-        const auto& opers_result = analyzer.get_result();
-
-        const std::string& last_oper = opers_result.back().name;
-        if (last_oper == pre_last_oper && pre_last_oper == pre_pre_last_oper) {
-            break;
-        }
-        pre_pre_last_oper = pre_last_oper;
-        pre_last_oper = last_oper;
-
-        if (auto rect = match_from_result(opers_result)) {
-            // 页尾有回弹动画
-            sleep(500);
-            OperBoxImageAnalyzer confirm_analyzer(ctrler()->get_image());
-            if (!confirm_analyzer.analyze()) {
-                continue;
-            }
-            if (auto rect2 = match_from_result(confirm_analyzer.get_result())) {
-                m_navigate_rect = *rect2;
-                return true;
-            }
-        }
-
-        swipe_page();
-    }
-    return false;
-}
-
-std::optional<asst::Rect> asst::ParadoxRecognitionTask::match_from_result(const std::vector<OperBoxInfo>& result) const
-{
-    for (const auto& box_info : result) {
-        if (match_oper(box_info.name)) {
-            return box_info.rect;
-        }
-    }
-    return std::nullopt;
 }
 
 bool asst::ParadoxRecognitionTask::match_oper(const std::string& name) const

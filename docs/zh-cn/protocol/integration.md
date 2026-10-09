@@ -1322,6 +1322,12 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 数组元素支持两种形式：对象形式包含 `id`（作业标识，会原样透传至 `CopilotListLoadTaskFileSuccess` 回调）与 `filename`（作业 JSON 文件的路径，绝对、相对路径均可）；也可直接使用作业路径字符串。  
 :::  
+::: field auto
+@type boolean
+@default false
+@optional
+启用游戏内悖论列表扫描，仅适用于 `list` 模式及官服/B 服。调用方负责下载完整作业，按优先顺序传入 `list`；同一关卡的文件作为备选。Core 自动跳过已通过及未解锁干员，核对详情页身份并选择技能，失败时尝试下一份作业。识别错误停止任务；候选全部失败后继续其他干员，最终任务报告失败。不会在 Core 内联网或持久化完成记录。额外信息回调包括 `ParadoxAutoAttempt`、`ParadoxAutoCompleted`、`ParadoxAutoCandidateFailed`、`ParadoxAutoStageFailed`、`ParadoxAutoRecognitionFailed`，`details` 包含 `operator` 和 `copilot_id`（无作业编号时为 -1）。
+:::
 ::::
 
 <details>

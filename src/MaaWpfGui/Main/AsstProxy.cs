@@ -2595,6 +2595,14 @@ public class AsstProxy
                 }
                 break;
 
+            case "ParadoxAutoAttempt":
+            case "ParadoxAutoCompleted":
+            case "ParadoxAutoCandidateFailed":
+            case "ParadoxAutoStageFailed":
+            case "ParadoxAutoRecognitionFailed":
+                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString(what) + " " + subTaskDetails?["operator"] + " " + subTaskDetails?["copilot_id"]);
+                break;
+
             case "SSSStage":
                 Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("CurrentStage", subTaskDetails!["stage"]), UiLogColor.Info);
                 break;

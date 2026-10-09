@@ -1322,6 +1322,12 @@ Sarkaz テーマ、Investment モード、「破棘成金分隊」または「�
 <br>
 配列の要素は 2 つの形式をサポートします：オブジェクト形式は `id`（作業識別子。`CopilotListLoadTaskFileSuccess` コールバックにそのまま透過される）と `filename`（作業 JSON ファイルのパス。絶対/相対パスの両方可）を含みます。作業パスの文字列を直接指定することもできます。  
 :::  
+::: field auto
+@type boolean
+@default false
+@optional
+ゲーム内の逆理演算一覧を走査します。`list` モードと中国公式/Bilibili サーバーのみ対応。呼び出し側が完全な作戦をダウンロードし、優先順に `list` へ渡します。同一ステージのファイルは代替候補になります。Core はクリア済み・未解放をスキップし、詳細画面の本人確認とスキル選択を行い、失敗時は次の作戦を試します。認識エラーで停止します。候補がすべて失敗した場合は他のオペレーターを続行し、最終的なタスク結果は失敗になります。Core は通信や完了記録の保存を行いません。追加情報コールバックは `ParadoxAutoAttempt`、`ParadoxAutoCompleted`、`ParadoxAutoCandidateFailed`、`ParadoxAutoStageFailed`、`ParadoxAutoRecognitionFailed`。`details` に `operator` と `copilot_id`（番号なしは -1）を含みます。
+:::
 ::::
 
 <details>

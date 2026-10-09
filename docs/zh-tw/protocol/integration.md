@@ -1323,6 +1323,12 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 <br>
 陣列元素支援兩種形式：物件形式包含 `id`（作業標識，會原樣透傳至 `CopilotListLoadTaskFileSuccess` 回呼）與 `filename`（作業 json 檔案路徑，支援絕對或相對路徑）；也可直接使用作業路徑字串。  
 :::  
+::: field auto
+@type boolean
+@default false
+@optional
+啟用遊戲內悖論列表掃描，僅適用於 `list` 模式及中國官服/B 服。呼叫端負責下載完整作業，按優先順序傳入 `list`；同一關卡的檔案作為備選。Core 自動跳過已通過及未解鎖幹員，核對詳情頁身分並選擇技能，失敗時嘗試下一份作業。辨識錯誤停止任務；候選全部失敗後繼續其他幹員，最終任務回報失敗。Core 不會連網或持久化完成記錄。額外資訊回呼包括 `ParadoxAutoAttempt`、`ParadoxAutoCompleted`、`ParadoxAutoCandidateFailed`、`ParadoxAutoStageFailed`、`ParadoxAutoRecognitionFailed`，`details` 包含 `operator` 和 `copilot_id`（無作業編號時為 -1）。
+:::
 ::::
 
 <details>

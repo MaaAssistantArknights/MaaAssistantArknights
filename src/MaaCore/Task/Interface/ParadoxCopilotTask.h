@@ -9,7 +9,7 @@ class ProcessTask;
 class ParadoxRecognitionTask;
 class BattleProcessTask;
 
-// 保全派驻抄作业任务
+// 悖论模拟抄作业任务
 class ParadoxCopilotTask final : public InterfaceTask
 {
 public:

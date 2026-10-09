@@ -5154,7 +5154,7 @@
         "template": "OperParadox.png",
         "roi": [904, 526, 249, 172],
         "preDelay": 500,
-        "postDelay": 500
+        "postDelay": 1000
     },
     "OperOpenParadoxChooseSkill": {
         "action": "ClickSelf",
