@@ -14,7 +14,10 @@
 #nullable enable
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
 
@@ -72,6 +75,48 @@ public class PerformanceUserControlModel : PropertyChangedBase
         set {
             GpuOption.AllowDeprecatedGpu = value;
             NotifyOfPropertyChange();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to ignore bad modules and use software rendering.
+    /// </summary>
+    public bool IgnoreBadModulesAndUseSoftwareRendering
+    {
+        get => ConfigFactory.Root.Gui.Performance.IgnoreBadModulesAndUseSoftwareRendering;
+        set {
+            ConfigFactory.Root.Gui.Performance.IgnoreBadModulesAndUseSoftwareRendering = value;
+            NotifyOfPropertyChange();
+            if (value)
+            {
+                MessageBoxHelper.Show(
+                    LocalizationHelper.GetString("BadModules.ResetWarning"),
+                    LocalizationHelper.GetString("Tip"),
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+            }
+            else
+            {
+                var mainWindow = Application.Current.MainWindow;
+                if (mainWindow != null)
+                {
+                    mainWindow.Show();
+                    mainWindow.WindowState = WindowState.Normal;
+                    mainWindow.Activate();
+                }
+
+                var result = MessageBoxHelper.Show(
+                    LocalizationHelper.GetString("BadModules.ResetSuccess"),
+                    LocalizationHelper.GetString("Tip"),
+                    MessageBoxButton.OKCancel,
+                    MessageBoxImage.Information,
+                    ok: LocalizationHelper.GetString("Ok"),
+                    cancel: LocalizationHelper.GetString("ManualRestart"));
+                if (result == MessageBoxResult.OK)
+                {
+                    Bootstrapper.ShutdownAndRestartWithoutArgs();
+                }
+            }
         }
     }
 }

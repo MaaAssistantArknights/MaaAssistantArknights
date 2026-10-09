@@ -81,8 +81,6 @@ public class Gui : NotifyPropertyChangedWithValue
 
     public string CustomCulture { get; set; } = string.Empty;
 
-    public bool IgnoreBadModulesAndUseSoftwareRendering { get; set; }
-
     public OverlayTargetInfo OverlayTarget { get; set; } = new();
 
     /// <summary>
@@ -103,6 +101,8 @@ public class Gui : NotifyPropertyChangedWithValue
     public int GuideStep { get; set; } = 0;
 
     public Background Background { get; set; } = new();
+
+    public Performance Performance { get; set; } = new();
 
     // ===== 背景设置（莫奈取色） =====
     public bool BackgroundMonetEnabled { get; set; } = false;

@@ -13,10 +13,10 @@
 #nullable enable
 using MaaWpfGui.Models;
 
-namespace MaaWpfGui.Configuration.Single.Settings;
+namespace MaaWpfGui.Configuration.Global;
 
 /// <summary>
-/// 性能设置
+/// 性能设置（全局，GPU 偏好与渲染模式为机器级语义，不随档案切换）
 /// </summary>
 public partial class Performance : NotifyPropertyChangedWithValue
 {
@@ -27,4 +27,6 @@ public partial class Performance : NotifyPropertyChangedWithValue
     public string GpuInstancePath { get; set; } = string.Empty;
 
     public bool AllowDeprecatedGpu { get; set; }
+
+    public bool IgnoreBadModulesAndUseSoftwareRendering { get; set; }
 }

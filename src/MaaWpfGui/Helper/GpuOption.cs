@@ -40,8 +40,8 @@ public abstract class GpuOption
 
     public static bool AllowDeprecatedGpu
     {
-        get => ConfigFactory.CurrentConfig.Gui.Performance.AllowDeprecatedGpu;
-        set => ConfigFactory.CurrentConfig.Gui.Performance.AllowDeprecatedGpu = value;
+        get => ConfigFactory.Root.Gui.Performance.AllowDeprecatedGpu;
+        set => ConfigFactory.Root.Gui.Performance.AllowDeprecatedGpu = value;
     }
 
     // use string literal to efficiently store uint16 array
@@ -415,11 +415,11 @@ public abstract class GpuOption
 
     public static GpuOption GetCurrent()
     {
-        var preferredGpuInstancePath = ConfigFactory.CurrentConfig.Gui.Performance.GpuInstancePath;
-        var preferredGpuDescription = ConfigFactory.CurrentConfig.Gui.Performance.GpuDescription;
+        var preferredGpuInstancePath = ConfigFactory.Root.Gui.Performance.GpuInstancePath;
+        var preferredGpuDescription = ConfigFactory.Root.Gui.Performance.GpuDescription;
 
         GpuOption result;
-        if (ConfigFactory.CurrentConfig.Gui.Performance.UseGpu)
+        if (ConfigFactory.Root.Gui.Performance.UseGpu)
         {
             var options = GetGpuOptions();
             if (ReferenceEquals(options, _unavailableOptions))
@@ -452,19 +452,19 @@ public abstract class GpuOption
         switch (option)
         {
             case DisableOption:
-                ConfigFactory.CurrentConfig.Gui.Performance.UseGpu = false;
-                ConfigFactory.CurrentConfig.Gui.Performance.GpuDescription = string.Empty;
-                ConfigFactory.CurrentConfig.Gui.Performance.GpuInstancePath = string.Empty;
+                ConfigFactory.Root.Gui.Performance.UseGpu = false;
+                ConfigFactory.Root.Gui.Performance.GpuDescription = string.Empty;
+                ConfigFactory.Root.Gui.Performance.GpuInstancePath = string.Empty;
                 break;
             case SystemDefaultOption:
-                ConfigFactory.CurrentConfig.Gui.Performance.UseGpu = true;
-                ConfigFactory.CurrentConfig.Gui.Performance.GpuDescription = string.Empty;
-                ConfigFactory.CurrentConfig.Gui.Performance.GpuInstancePath = string.Empty;
+                ConfigFactory.Root.Gui.Performance.UseGpu = true;
+                ConfigFactory.Root.Gui.Performance.GpuDescription = string.Empty;
+                ConfigFactory.Root.Gui.Performance.GpuInstancePath = string.Empty;
                 break;
             case SpecificGpuOption x:
-                ConfigFactory.CurrentConfig.Gui.Performance.UseGpu = true;
-                ConfigFactory.CurrentConfig.Gui.Performance.GpuDescription = x.GpuInfo.Description;
-                ConfigFactory.CurrentConfig.Gui.Performance.GpuInstancePath = x.InstancePath;
+                ConfigFactory.Root.Gui.Performance.UseGpu = true;
+                ConfigFactory.Root.Gui.Performance.GpuDescription = x.GpuInfo.Description;
+                ConfigFactory.Root.Gui.Performance.GpuInstancePath = x.InstancePath;
                 break;
         }
     }
