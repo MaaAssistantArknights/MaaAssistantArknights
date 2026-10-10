@@ -55,6 +55,13 @@ bool OcrPack::load(const std::filesystem::path& path)
         m_impl->det_model_path = det_model_file;
         m_impl->ncnn = nullptr;
     }
+    else if (m_impl->det_model_path.empty()) {
+        const auto fallback_det_file = path.parent_path() / "PaddleOCR" / "det" / "det.ncnn.param"_p;
+        if (std::filesystem::exists(fallback_det_file)) {
+            m_impl->det_model_path = fallback_det_file;
+            m_impl->ncnn = nullptr;
+        }
+    }
     if (std::filesystem::exists(rec_model_file) && m_impl->rec_model_path != rec_model_file) {
         m_impl->rec_model_path = rec_model_file;
         m_impl->ncnn = nullptr;
@@ -164,11 +171,11 @@ constexpr int kDetLimitSideLen = 960;
 constexpr float kDetMean[3] = { 0.485f * 255.f, 0.456f * 255.f, 0.406f * 255.f };
 constexpr float kDetNorm[3] = { 1.f / (0.229f * 255.f), 1.f / (0.224f * 255.f), 1.f / (0.225f * 255.f) };
 
-constexpr float kDetThresh = 0.3f;
-constexpr float kDetBoxThresh = 0.6f;
-constexpr float kDetUnclipRatio = 1.5f;
+constexpr float kDetThresh = 0.2f;
+constexpr float kDetBoxThresh = 0.45f;
+constexpr float kDetUnclipRatio = 1.4f;
 constexpr int kDetMinSize = 3;
-constexpr int kDetMaxCandidates = 1000;
+constexpr int kDetMaxCandidates = 3000;
 
 constexpr int kRecImgH = 48;
 constexpr int kRecImgW = 320;

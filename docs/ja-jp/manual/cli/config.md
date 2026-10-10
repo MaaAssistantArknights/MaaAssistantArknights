@@ -366,7 +366,7 @@ user_resource = true # ユーザーカスタムのリソースを読み込むか
 ```toml
 [static_options]
 cpu_ocr = false # CPU OCR を使用するかどうか。デフォルトでは CPU OCR を使用します
-gpu_ocr = 1 # GPU OCR 使用時の GPU ID。この値が空の場合、CPU OCR が使用されます
+gpu_ocr = 1 # GPU OCR 使用時の GPU ID。`webgpu:` を付けると実験的な WebGPU バックエンド（Windows / macOS / Linux）、`directml:` を付けると DirectML（Windows のみ）を強制します。この値が空の場合、CPU OCR が使用されます
 ```
 
 ### インスタンスオプション

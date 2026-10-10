@@ -5,8 +5,11 @@
 #include <filesystem>
 #include <string_view>
 #include <thread>
+#include <utility>
+#include <vector>
 
 #include "Utils/Logger.hpp"
+#include "WebGpuDevice.h"
 
 #if __has_include(<onnxruntime/dml_provider_factory.h>)
 #define WITH_DML
@@ -36,21 +39,85 @@ bool asst::OnnxSessions::load(const std::filesystem::path& path)
         }
     }
 
+    if (gpu_enabled && m_gpu_selector && m_gpu_selector->backend() == InferenceBackend::WebGPU &&
+        !m_sessions.contains(name)) {
+        warmup_locked(name);
+    }
+
     return true;
+}
+
+void asst::OnnxSessions::warmup_locked(const std::string& name)
+{
+    // WebGPU 的 shader 编译发生在 session 第一次推理上（实测 operators_det ~330ms、
+    // skill_ready_cls ~160ms、deploy_direction_cls ~157ms）。这些模型的输入 rank 在
+    // onnx 里没写，形状只能在这里给出，取值与各调用方喂进去的一致。
+    static const std::unordered_map<std::string, std::pair<int, int>> kInputSizes = {
+        { "operators_det", { 640, 640 } },
+        { "skill_ready_cls", { 64, 64 } },
+        { "deploy_direction_cls", { 96, 96 } },
+        { "BlackFlow_corridor_net", { 40, 160 } },
+    };
+
+    const auto size = kInputSizes.find(name);
+    if (size == kInputSizes.end()) {
+        Log.debug(__FUNCTION__, "| no warmup size recorded for", name);
+        return;
+    }
+
+    Ort::Session& session = get_or_create(name);
+
+    const std::array<int64_t, 4> shape { 1, 3, size->second.first, size->second.second };
+    std::vector<float> data(static_cast<std::size_t>(shape[0] * shape[1] * shape[2] * shape[3]), 0.0F);
+
+    Ort::AllocatorWithDefaultOptions allocator;
+    const auto input_name = session.GetInputNameAllocated(0, allocator);
+    const auto output_name = session.GetOutputNameAllocated(0, allocator);
+    const char* input_names[] = { input_name.get() };
+    const char* output_names[] = { output_name.get() };
+
+    auto memory_info = Ort::MemoryInfo::CreateCpu(OrtDeviceAllocator, OrtMemTypeDefault);
+    auto input = Ort::Value::CreateTensor<float>(memory_info, data.data(), data.size(), shape.data(), shape.size());
+
+    try {
+        session.Run(Ort::RunOptions { nullptr }, input_names, &input, 1, output_names, 1);
+        Log.info(__FUNCTION__, "| warmed up", name);
+    }
+    catch (const std::exception& e) {
+        Log.warn(__FUNCTION__, "| warmup failed", name, e.what());
+    }
 }
 
 Ort::Session& asst::OnnxSessions::get_or_create(const std::string& name)
 {
-    if (!m_sessions.contains(name)) {
-        if (gpu_enabled && !gpu_options_initialized && !initialize_gpu_options()) {
-            Log.error(__FUNCTION__, "Failed to initialize configured GPU; falling back to CPU mode");
-            use_cpu_locked();
+    if (m_sessions.contains(name)) {
+        return m_sessions.at(name);
+    }
+
+    if (gpu_enabled && !gpu_options_initialized && !initialize_gpu_options()) {
+        Log.error(__FUNCTION__, "Failed to initialize configured GPU; falling back to CPU mode");
+        use_cpu_locked();
+    }
+
+    Log.info(__FUNCTION__, "lazy load", name);
+    try {
+        m_sessions.emplace(name, Ort::Session(m_env, m_model_paths.at(name).c_str(), m_options));
+    }
+    catch (const Ort::Exception& ex) {
+        // GPU 后端的初始化错误（例如 WebGPU EP）可能到建 session 时才暴露，退回 CPU 重试一次
+        Log.error(__FUNCTION__, "Failed to create", name, "session:", ex.what());
+        if (!gpu_enabled) {
+            throw;
         }
 
-        Log.info(__FUNCTION__, "lazy load", name);
-        Ort::Session session(m_env, m_model_paths.at(name).c_str(), m_options);
-        m_sessions.emplace(name, std::move(session));
+        Log.error(__FUNCTION__, "Falling back to CPU mode");
+        reset_session_options();
+        m_gpu_selector = std::nullopt;
+        gpu_enabled = false;
+        gpu_options_initialized = false;
+        m_sessions.emplace(name, Ort::Session(m_env, m_model_paths.at(name).c_str(), m_options));
     }
+
     return m_sessions.at(name);
 }
 
@@ -173,6 +240,7 @@ bool asst::OnnxSessions::initialize_gpu_options()
         return false;
     }
 
+    const auto backend = m_gpu_selector->backend();
     auto all_providers = Ort::GetAvailableProviders();
     bool support_cuda = false;
 #ifdef WITH_DML
@@ -181,48 +249,102 @@ bool asst::OnnxSessions::initialize_gpu_options()
 #ifdef WITH_COREML
     bool support_coreml = false;
 #endif
+    bool support_webgpu = false;
     for (const auto& provider : all_providers) {
         if (provider == "CUDAExecutionProvider") {
             support_cuda = true;
         }
 #ifdef WITH_DML
-        if (provider == "DmlExecutionProvider") {
+        else if (provider == "DmlExecutionProvider") {
             support_dml = true;
         }
 #endif
 #ifdef WITH_COREML
-        if (provider == "CoreMLExecutionProvider") {
+        else if (provider == "CoreMLExecutionProvider") {
             support_coreml = true;
         }
 #endif
+        else if (provider == "WebGpuExecutionProvider") {
+            support_webgpu = true;
+        }
     }
 
     bool provider_configured = false;
 
-    if (support_cuda) {
-        OrtCUDAProviderOptions cuda_options {};
-        cuda_options.device_id = *device_id;
-        m_options.AppendExecutionProvider_CUDA(cuda_options);
-        provider_configured = true;
-    }
-#ifdef WITH_DML
-    else if (support_dml) {
-        if (!Ort::Status(OrtSessionOptionsAppendExecutionProvider_DML(m_options, *device_id)).IsOK()) {
+    if (backend == InferenceBackend::WebGPU) {
+        if (support_webgpu) {
+            // SessionOptionsAppendExecutionProvider prefixes the key with
+            // "ep.webgpuexecutionprovider." by itself, so a fully qualified key here would be ignored.
+            // deviceId > 0 时 ORT 要求自带 WebGPU instance/device，由 make_webgpu_provider_options 一并给出。
+            const auto ep_options = make_webgpu_provider_options(*m_gpu_selector);
+            if (!ep_options) {
+                LogError << "Failed to create the WebGPU device for device" << *device_id;
+                return false;
+            }
+
+            try {
+                m_options.AppendExecutionProvider("WebGPU", *ep_options);
+                provider_configured = true;
+                LogInfo << "WebGPU execution provider enabled for device" << *device_id;
+            }
+            catch (const Ort::Exception& ex) {
+                LogError << "Failed to append WebGPU execution provider:" << ex.what();
+                return false;
+            }
+        }
+        else {
+            LogError << "WebGPU execution provider requested but not available in this build";
             return false;
         }
-        provider_configured = true;
     }
+    else if (backend == InferenceBackend::DirectML) {
+#ifdef WITH_DML
+        if (support_dml) {
+            if (!Ort::Status(OrtSessionOptionsAppendExecutionProvider_DML(m_options, *device_id)).IsOK()) {
+                LogError << "Failed to append DirectML execution provider for device" << *device_id;
+                return false;
+            }
+            provider_configured = true;
+            LogInfo << "DirectML execution provider enabled for device" << *device_id;
+        }
+        else
+#endif
+        {
+            LogError << "DirectML execution provider requested but not available in this build";
+            return false;
+        }
+    }
+    else {
+        // Auto: 优先使用最成熟稳定的后端，跳过实验性的 WebGPU
+        if (support_cuda) {
+            OrtCUDAProviderOptions cuda_options {};
+            cuda_options.device_id = *device_id;
+            m_options.AppendExecutionProvider_CUDA(cuda_options);
+            provider_configured = true;
+            LogInfo << "CUDA execution provider enabled for device" << *device_id;
+        }
+#ifdef WITH_DML
+        else if (support_dml) {
+            if (!Ort::Status(OrtSessionOptionsAppendExecutionProvider_DML(m_options, *device_id)).IsOK()) {
+                return false;
+            }
+            provider_configured = true;
+            LogInfo << "DirectML execution provider enabled for device" << *device_id;
+        }
 #endif
 #ifdef WITH_COREML
-    else if (support_coreml) {
-        if (!Ort::Status(OrtSessionOptionsAppendExecutionProvider_CoreML((OrtSessionOptions*)m_options, 0)).IsOK()) {
-            return false;
+        else if (support_coreml) {
+            if (!Ort::Status(OrtSessionOptionsAppendExecutionProvider_CoreML((OrtSessionOptions*)m_options, 0)).IsOK()) {
+                return false;
+            }
+            provider_configured = true;
+            LogInfo << "CoreML execution provider enabled";
         }
-        provider_configured = true;
-    }
 #endif
+    }
+
     if (!provider_configured) {
-        Log.error(__FUNCTION__, "No GPU execution provider available");
+        LogError << "No GPU execution provider available";
         return false;
     }
 

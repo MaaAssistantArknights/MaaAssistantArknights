@@ -14,7 +14,10 @@
 #nullable enable
 using System.Collections.Generic;
 using System.Linq;
+using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
 
@@ -28,7 +31,7 @@ public class PerformanceUserControlModel : PropertyChangedBase
     static PerformanceUserControlModel()
     {
         Instance = new();
-        LocalizationHelper.LanguageChanged += Instance.RefreshGpuOptions;
+        LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
     }
 
     public static PerformanceUserControlModel Instance { get; }
@@ -50,12 +53,45 @@ public class PerformanceUserControlModel : PropertyChangedBase
             }
 
             GpuOption.SetCurrent(value.Value);
+            NotifyOfPropertyChange(nameof(IsGpuEnabled));
+            SettingsViewModel.AskRestartToApplySettings();
+        }
+    }
+
+    public bool IsGpuEnabled => ActiveGpuOption?.Value is not GpuOption.DisableOption;
+
+    public LocalizedObservableList<InferenceBackend> BackendOptions { get; } = new(
+        (InferenceBackend.Auto, "InferenceBackendAuto"),
+        (InferenceBackend.DirectML, "InferenceBackendDirectML"),
+        (InferenceBackend.WebGPU, "InferenceBackendWebGpu"));
+
+    public InferenceBackend ActiveBackend
+    {
+        get => ConfigFactory.CurrentConfig.Gui.Performance.Backend;
+        set
+        {
+            if (ConfigFactory.CurrentConfig.Gui.Performance.Backend == value)
+            {
+                return;
+            }
+
+            ConfigFactory.CurrentConfig.Gui.Performance.Backend = value;
+            NotifyOfPropertyChange();
             SettingsViewModel.AskRestartToApplySettings();
         }
     }
 
     /// <summary>
-    /// 刷新 GPU 选项的显示文本（语言切换时调用）。
+    /// 刷新本地化选项显示文本（语言切换时调用）。
+    /// </summary>
+    private void RefreshLocalization()
+    {
+        RefreshGpuOptions();
+        BackendOptions.RefreshLocalization();
+    }
+
+    /// <summary>
+    /// 刷新 GPU 选项的显示文本。
     /// 只更新每个 item 的 Display 字符串，选中项引用保持稳定，避免 ComboBox 选中框刷新问题。
     /// </summary>
     private void RefreshGpuOptions()

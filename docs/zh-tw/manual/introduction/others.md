@@ -15,6 +15,8 @@ icon: icon-park-solid:other
 
 經測試，部分顯示卡因缺少功能或效能較低，在使用本功能時會出現辨識問題。MAA 已內建了部分 GPU 黑名單 <sup>[PR1](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/9990)[PR2](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/12134)</sup>，若列表外的顯示卡在啟用本功能後也出現辨識問題，請發 Issue。
 
+在 `設定` - `效能設定` 中可選擇推論後端：`自動` 與 `DirectML` 沿用上述 DirectML 方案（僅 Windows），`WebGPU` 為實驗性選項，在 Windows / macOS / Linux 上皆可使用；若啟用 WebGPU 後出現辨識問題，請改回 `自動` 或 `DirectML`。
+
 ## 僅一次
 
 主介面和設定中的配置變更通常會自動儲存，但以下幾種會在 MAA 重啟後重置。
