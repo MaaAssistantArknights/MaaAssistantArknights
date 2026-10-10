@@ -569,6 +569,7 @@ D:\
     <system:String x:Key="TimerCustomConfigTip">定時啟動前兩分鐘重新啟動遊戲並切換設定檔</system:String>
     <system:String x:Key="NotifyBeforeScheduledStart">定時執行前傳送系統通知</system:String>
     <system:String x:Key="NotifyBeforeScheduledStartTip" xml:space="preserve">依提前時間傳送系統通知。&#10;外部推播可在 ｢{key=Settings} - {key=NotificationSettings} - {key=ExternalNotificationSettings}｣ 中單獨開啟，兩者共用提前時間。</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStartSharedTimeTip">外部推播與系統通知共用此提前時間。</system:String>
     <system:String x:Key="ScheduledStartNotificationMinutes">提前時間（分鐘）</system:String>
     <system:String x:Key="ScheduledStartNotificationTitle">定時任務即將執行</system:String>
     <system:String x:Key="ScheduledStartNotificationContent">定時 {0} 預計於 {1}（{2} 分鐘後）開始執行，請留意遊戲登入狀態。</system:String>

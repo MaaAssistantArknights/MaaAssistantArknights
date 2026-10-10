@@ -56,7 +56,16 @@
                 HorizontalAlignment="Center"
                 Orientation="Horizontal">
                 <CheckBox Content="{DynamicResource NotifyBeforeScheduledStart}" IsChecked="{Binding NotifyBeforeScheduledStart, Source={x:Static ui_vms:SettingsViewModel.TimerSettings}}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource NotifyBeforeScheduledStartTip}" />
+                <hc:NumericUpDown
+                    Height="30"
+                    Margin="10,-10,0,-10"
+                    hc:InfoElement.Title="{DynamicResource ScheduledStartNotificationMinutes}"
+                    hc:TitleElement.TitlePlacement="Left"
+                    InputMethod.IsInputMethodEnabled="False"
+                    Maximum="1439"
+                    Minimum="1"
+                    Value="{Binding ScheduledStartNotificationMinutes, Source={x:Static ui_vms:SettingsViewModel.TimerSettings}}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource NotifyBeforeScheduledStartSharedTimeTip}" />
             </StackPanel>
         </StackPanel>
 

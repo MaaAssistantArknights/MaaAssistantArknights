@@ -569,6 +569,7 @@ D:\
     <system:String x:Key="TimerCustomConfigTip">예약 시작 2분 전에 게임을 재실행하고 설정을 전환합니다</system:String>
     <system:String x:Key="NotifyBeforeScheduledStart">예약 실행 전 시스템 알림 전송</system:String>
     <system:String x:Key="NotifyBeforeScheduledStartTip" xml:space="preserve">설정된 사전 알림 시간에 시스템 알림을 보냅니다.&#10;외부 알림은 ｢{key=Settings} - {key=NotificationSettings} - {key=ExternalNotificationSettings}｣에서 별도로 활성화할 수 있으며 사전 알림 시간을 공유합니다.</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStartSharedTimeTip">외부 알림은 이 사전 알림 시간을 공유합니다.</system:String>
     <system:String x:Key="ScheduledStartNotificationMinutes">사전 알림 시간(분)</system:String>
     <system:String x:Key="ScheduledStartNotificationTitle">예약 작업이 곧 시작됩니다</system:String>
     <system:String x:Key="ScheduledStartNotificationContent">예약 {0}은(는) {1}({2}분 후)에 시작될 예정입니다. 게임 로그인 상태에 주의해 주세요.</system:String>
