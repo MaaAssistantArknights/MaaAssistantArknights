@@ -169,6 +169,9 @@
     <system:String x:Key="InfrastReceptionClueExchangeTips" xml:space="preserve">If Clue Exchange cannot be started, all clues on the clue board will be taken off during shift change; otherwise, one-click placement will be used.&#10;The personal clue limit is 10 (including clues already placed in the Reception Room), and placed clues do not count toward duplicate detection.&#10;Pre-placing too many clues may fill the limit while they can neither be one-click sent nor replaced with new ones — only friends picking them up can help.</system:String>
     <system:String x:Key="ClueExchangeUnlocked">Clue Exchange Unlocked</system:String>
     <system:String x:Key="InfrastReceptionSendClue">Send Clues</system:String>
+    <system:String x:Key="InfrastClueRecipient">Clue recipient</system:String>
+    <system:String x:Key="InfrastClueRecipientTip" xml:space="preserve">To send clues from an alternate account to your main account, enter the main account’s full in-game name, for example Doctor#1234.&#10;Leave blank to use default gifting.&#10;After two complete searches fail to find this friend, use default gifting for this task, which may send clues to other friends; search for the saved name again next task.</system:String>
+    <system:String x:Key="InfrastClueRecipientFormatError">Enter the full clue recipient name (nickname#four-digit number), for example Doctor#1234.</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">The following functions require configuration and execution within {key=Infrast}.</system:String>
     <system:String x:Key="ContinueTraining">After training is complete, try to continue mastering the current Skill</system:String>
     <system:String x:Key="InfrastFiammettaRecovery">Enable Fiammetta morale recovery</system:String>

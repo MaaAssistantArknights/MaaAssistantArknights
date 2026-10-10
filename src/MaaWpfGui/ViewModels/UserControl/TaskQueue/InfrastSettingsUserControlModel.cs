@@ -280,6 +280,12 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
         set => SetTaskConfig<InfrastTask>(t => t.SendClue == value, t => t.SendClue = value);
     }
 
+    public string ReceptionClueRecipient
+    {
+        get => GetTaskConfig<InfrastTask>().ClueRecipient;
+        set => SetTaskConfig<InfrastTask>(t => t.ClueRecipient == value, t => t.ClueRecipient = value);
+    }
+
     /// <summary>
     /// Gets or sets a value indicating whether to continue training after current training completed.
     /// </summary>
@@ -738,6 +744,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
                 ReceptionMessageBoard = infrast.ReceptionMessageBoard,
                 ReceptionClueExchange = infrast.ReceptionClueExchange,
                 ReceptionSendClue = infrast.SendClue,
+                ReceptionClueRecipient = infrast.ClueRecipient,
                 FiammettaTargets = [infrast.FiammettaTarget1, infrast.FiammettaTarget2, infrast.FiammettaTarget3],
                 FiammettaRecoveryEnabled = infrast.FiammettaRecoveryEnabled,
                 UsePinusSylvestris = infrast.UsePinusSylvestris,

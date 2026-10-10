@@ -169,6 +169,9 @@
     <system:String x:Key="InfrastReceptionClueExchangeTips" xml:space="preserve">若無法開啟線索交流，換班時會把線索板上的所有線索都取下來；若能開啟，則會使用一鍵放置。&#10;個人線索上限為 10 張（含已放入會客室的線索），且已放入會客室的線索不計入重複判斷。&#10;提前放入過多線索可能導致到達上限卻無法一鍵贈送或獲取新線索，只能靠好友撈起來。</system:String>
     <system:String x:Key="ClueExchangeUnlocked">已開啟線索交流</system:String>
     <system:String x:Key="InfrastReceptionSendClue">贈送線索</system:String>
+    <system:String x:Key="InfrastClueRecipient">線索接收好友</system:String>
+    <system:String x:Key="InfrastClueRecipientTip" xml:space="preserve">小號給大號送線索時，填寫大號的完整遊戲名稱，例如 博士#1234。&#10;留空按預設方式贈送。&#10;連續兩次完整查找未找到時，本次按預設方式贈送，可能送給其他好友；下次仍會查找填寫的好友。</system:String>
+    <system:String x:Key="InfrastClueRecipientFormatError">線索接收好友須填寫完整名稱（暱稱#四位編號），例如 博士#1234。</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">以下功能需在{key=Infrast}中設定並執行</system:String>
     <system:String x:Key="ContinueTraining">訓練完成後繼續嘗試專精目前技能</system:String>
     <system:String x:Key="InfrastFiammettaRecovery">啟用菲亞梅塔心情恢復</system:String>

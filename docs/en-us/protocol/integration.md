@@ -575,6 +575,12 @@ Whether to perform clue exchange.
 @optional
 Whether to send clues.  
 :::  
+::: field reception_clue_recipient
+@type string
+@default ""
+@optional
+Full in-game name of the clue recipient (nickname and `#` followed by four digits), for example `Doctor#1234`. Only effective when `reception_send_clue` is `true`. Leave blank to use default gifting; otherwise, send the currently giftable self-owned clues to this friend one at a time. After two consecutive complete searches fail to find the friend, this Reception task uses default gifting, which may send to other friends or use bulk gifting. The parameter is kept and searched again next task. If the friend cannot be identified, cannot receive clues, or pagination makes no progress, skip gifting without counting a failed search.
+:::
 ::: field filename  
 @type string
 @required
@@ -613,6 +619,7 @@ Whether to continue unfinished skill training in the Training Room.
    "reception_message_board": true,
    "reception_clue_exchange": true,
    "reception_send_clue": true,
+   "reception_clue_recipient": "",
    "filename": "schedules/base.json",
    "plan_index": 1
 }

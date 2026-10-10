@@ -2,6 +2,7 @@
 
 #include "Utils/Logger.hpp"
 
+#include "Task/Infrast/ClueRecipient.h"
 #include "Task/Infrast/DronesForShamareTaskPlugin.h"
 #include "Task/Infrast/InfrastAssistantChangeTask.h"
 #include "Task/Infrast/InfrastControlTask.h"
@@ -68,6 +69,16 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst) :
 bool asst::InfrastTask::set_params(const json::value& params)
 {
     LogTraceFunction;
+
+    std::string clue_recipient;
+    if (params.contains("reception_clue_recipient")) {
+        const auto recipient = params.find<std::string>("reception_clue_recipient");
+        if (!recipient || (!recipient->empty() && !infrast::is_valid_clue_recipient(*recipient))) {
+            LogError << __FUNCTION__ << "reception_clue_recipient must be empty or a full player name (nickname#1234)";
+            return false;
+        }
+        clue_recipient = *recipient;
+    }
 
     auto mode = static_cast<Mode>(params.get("mode", 0));
     // 仅常规模式支持菲亚梅塔配对；关闭时不把前置宿舍步骤纳入子任务序列。
@@ -252,6 +263,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
 
     bool reception_send_clue = params.get("reception_send_clue", true);
     m_reception_task_ptr->set_send_clue(reception_send_clue);
+    m_reception_task_ptr->set_clue_recipient(std::move(clue_recipient));
 
     bool replenish = params.get("replenish", false);
     m_replenish_task_ptr->set_enable(replenish);

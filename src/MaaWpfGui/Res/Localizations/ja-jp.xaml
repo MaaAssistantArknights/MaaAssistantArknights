@@ -169,6 +169,9 @@
     <system:String x:Key="InfrastReceptionClueExchangeTips" xml:space="preserve">手がかり交換を開始できない場合、シフト交代時に手がかりボード上のすべての手がかりを取り下げます。開始できる場合は一括配置を使用します。&#10;個人の手がかり所持上限は10枚（応接室に配置済みのものを含む）で、配置済みの手がかりは重複判定に含まれません。&#10;事前に多くを配置しすぎると、上限に達したのに一括送信も新しい手がかりの獲得もできなくなります。</system:String>
     <system:String x:Key="ClueExchangeUnlocked">手がかり交換を開始しました</system:String>
     <system:String x:Key="InfrastReceptionSendClue">手がかりを贈る</system:String>
+    <system:String x:Key="InfrastClueRecipient">手がかりの贈り先</system:String>
+    <system:String x:Key="InfrastClueRecipientTip" xml:space="preserve">サブアカウントからメインアカウントに手がかりを贈る場合、メインアカウントの完全なゲーム内名を入力してください（例：ドクター#1234）。&#10;空欄では標準の方法で贈ります。&#10;一覧を最後まで2回探しても見つからない場合、今回の任務では標準の方法に切り替わり、別の戦友に贈ることがあります。&#10;次の任務では保存した名前を再び探します。</system:String>
+    <system:String x:Key="InfrastClueRecipientFormatError">贈り先の完全な名前（ニックネーム#4桁の番号）を入力してください（例：ドクター#1234）。</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">{key=Infrast} で以下の関数を設定して実行する必要があります</system:String>
     <system:String x:Key="ContinueTraining">訓練完了後に現在スキルの継続特化を試みます</system:String>
     <system:String x:Key="InfrastFiammettaRecovery">フィアメッタの体力回復を有効化</system:String>

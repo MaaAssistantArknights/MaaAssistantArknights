@@ -169,6 +169,9 @@
     <system:String x:Key="InfrastReceptionClueExchangeTips" xml:space="preserve">若无法开启线索交流，换班时会把线索板上的所有线索都取下来；若能开启，则会使用一键放置。&#10;个人线索上限为 10 张（含已放入会客室的线索），且已放入会客室的线索不计入重复判断。&#10;提前放入过多线索可能导致到达上限却无法一键赠送或获取新线索，只能靠好友捞起来。</system:String>
     <system:String x:Key="ClueExchangeUnlocked">已开启线索交流</system:String>
     <system:String x:Key="InfrastReceptionSendClue">赠送线索</system:String>
+    <system:String x:Key="InfrastClueRecipient">线索接收好友</system:String>
+    <system:String x:Key="InfrastClueRecipientTip" xml:space="preserve">小号给大号送线索时，填写大号的完整游戏名称，例如 博士#1234。&#10;留空按默认方式赠送。&#10;连续两次完整查找未找到时，本次按默认方式赠送，可能送给其他好友；下次仍会查找填写的好友。</system:String>
+    <system:String x:Key="InfrastClueRecipientFormatError">线索接收好友须填写完整名称（昵称#四位编号），例如 博士#1234。</system:String>
     <system:String x:Key="ReceptionOptionsRequireInfrast">以下功能需在{key=Infrast}中设置并执行</system:String>
     <system:String x:Key="ContinueTraining">训练完成后继续尝试专精当前技能</system:String>
     <system:String x:Key="InfrastFiammettaRecovery">启用菲亚梅塔心情恢复</system:String>

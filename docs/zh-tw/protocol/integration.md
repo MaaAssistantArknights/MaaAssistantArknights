@@ -576,6 +576,12 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @optional
 是否贈送線索。  
 :::  
+::: field reception_clue_recipient
+@type string
+@default ""
+@optional
+線索接收好友的完整遊戲名稱（暱稱及 `#` 後四位數字），如 `博士#1234`。僅在 `reception_send_clue` 為 `true` 時生效。留空使用預設贈送方式；非空時向該好友逐張贈送目前可贈送的自有線索。連續兩次完整查找未找到時，本次會客室任務改用預設方式，可能贈送給其他好友或使用一鍵贈送；參數保持不變，下次任務重新查找。無法確認好友、對方無法接收或翻頁無進展時跳過贈送，不計為未找到。
+:::
 ::: field filename  
 @type string
 @required
@@ -614,6 +620,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
    "reception_message_board": true,
    "reception_clue_exchange": true,
    "reception_send_clue": true,
+   "reception_clue_recipient": "",
    "filename": "schedules/base.json",
    "plan_index": 1
 }

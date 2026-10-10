@@ -4039,6 +4039,153 @@
             "ClueGiveTo1stConfirm"
         ]
     },
+    "InfrastClueSendToNamedRecipient": {
+        "baseTask": "SendClues",
+        "template": "SendClues.png",
+        "Doc": "只向指定好友逐张赠送自有线索；库存上限为 10，允许发送后多打开一次检查库存耗尽。",
+        "maxTimes": 11,
+        "exceededNext": ["ReceptionFlag"],
+        "next": ["InfrastClueSelectForRecipient", "InfrastClueCloseRecipient"]
+    },
+    "InfrastClueSelectForRecipient": {
+        "baseTask": "SelectClue",
+        "template": "SelectClue.png",
+        "exceededNext": ["InfrastClueCloseRecipient"],
+        "next": ["InfrastClueSelectedForRecipient", "InfrastClueSelectForRecipient"]
+    },
+    "InfrastClueSelectedForRecipient": {
+        "baseTask": "ClueSelected",
+        "template": "ClueSelected.png",
+        "maxTimes": 10,
+        "reduceOtherTimes": [
+            "InfrastClueSelectForRecipient*3",
+            "InfrastClueFindRecipient*151",
+            "InfrastClueRecipientNextPage*150"
+        ],
+        "exceededNext": ["InfrastClueCloseRecipient"],
+        "next": ["InfrastClueFindRecipient"]
+    },
+    "InfrastClueFindRecipient": {
+        "algorithm": "JustReturn",
+        "Doc": "插件逐行精确匹配姓名，仅唯一命中时覆盖 next 为对应行的发送按钮；达到页数保护上限时跳过，不计完整未命中。",
+        "maxTimes": 151,
+        "exceededNext": ["InfrastClueCloseRecipient"],
+        "next": ["InfrastClueRecipientNextPage", "InfrastClueRecipientNotFound"]
+    },
+    "InfrastClueRecipientNextPage": {
+        "baseTask": "ClueGiveToNextPage",
+        "template": "ClueGiveToNextPage.png",
+        "maxTimes": 150,
+        "postDelay": 500,
+        "exceededNext": ["InfrastClueCloseRecipient"],
+        "next": ["InfrastClueFindRecipient"]
+    },
+    "InfrastClueRecipientNotFound": {
+        "baseTask": "CloseSendClue",
+        "template": "CloseSendClue.png",
+        "Doc": "一次完整查找未命中时关闭页面；插件累计两次后切换本次任务为默认赠送，不清空配置。",
+        "next": ["InfrastClueRetryRecipient"]
+    },
+    "InfrastClueRetryRecipient": {
+        "algorithm": "JustReturn",
+        "Doc": "从第一页重试同一张线索，不消耗成功赠送的库存额度；选中线索时重置翻页次数。",
+        "reduceOtherTimes": ["InfrastClueSendToNamedRecipient", "InfrastClueSelectedForRecipient"],
+        "next": ["InfrastClueSendToNamedRecipient", "ReceptionFlag"]
+    },
+    "InfrastClueFallbackRecipient": {
+        "algorithm": "JustReturn",
+        "Doc": "两次未找到指定好友后执行名称留空的完整原版流程，可能赠送给其他好友。",
+        "next": ["SendClues", "ReceptionFlag"]
+    },
+    "InfrastClueCloseRecipient": {
+        "baseTask": "CloseSendClue",
+        "template": "CloseSendClue.png"
+    },
+    "InfrastClueCloseAfterRecipientSend": {
+        "baseTask": "CloseSendClue",
+        "template": "CloseSendClue.png",
+        "Doc": "每次发送后重新打开赠送页面，从第一页核对下一次的目标。",
+        "next": ["InfrastClueSendToNamedRecipient", "ReceptionFlag", "InfrastClueCloseAfterRecipientSend"]
+    },
+    "InfrastClueSendToRecipient1": {
+        "baseTask": "ClueGiveTo1stConfirm",
+        "template": "SendClueConfirm.png",
+        "next": ["InfrastClueSendToRecipient1@LoadingText", "InfrastClueCloseAfterRecipientSend"]
+    },
+    "InfrastClueRecipientName1": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "fullMatch": true,
+        "withoutDet": false,
+        "roi": [588, 76, 320, 42],
+        "Doc": "检测昵称及完整名称，避免把名片背景直接作为整行文字识别；缺少编号时单独识别相邻编号。"
+    },
+    "InfrastClueRecipientRow1": {
+        "baseTask": "ClueGiveTo1stConfirm",
+        "template": "SendClueConfirm.png",
+        "Doc": "仅检测白色发送图标判断好友行是否存在；忽略可用与禁用按钮的背景，不执行点击。",
+        "action": "DoNothing",
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [160, 160, 160],
+                [255, 255, 255]
+            ]
+        ],
+        "pureColor": true,
+        "templThreshold": 0.75,
+        "next": []
+    },
+    "InfrastClueSendToRecipient2": {
+        "baseTask": "ClueGiveTo2ndConfirm",
+        "template": "SendClueConfirm.png",
+        "next": ["InfrastClueSendToRecipient2@LoadingText", "InfrastClueCloseAfterRecipientSend"]
+    },
+    "InfrastClueRecipientName2": {
+        "baseTask": "InfrastClueRecipientName1",
+        "roi": [588, 226, 320, 42]
+    },
+    "InfrastClueRecipientRow2": {
+        "baseTask": "InfrastClueRecipientRow1",
+        "template": "SendClueConfirm.png",
+        "roi": [1150, 200, 100, 160]
+    },
+    "InfrastClueSendToRecipient3": {
+        "baseTask": "ClueGiveTo3rdConfirm",
+        "template": "SendClueConfirm.png",
+        "next": ["InfrastClueSendToRecipient3@LoadingText", "InfrastClueCloseAfterRecipientSend"]
+    },
+    "InfrastClueRecipientName3": {
+        "baseTask": "InfrastClueRecipientName1",
+        "roi": [588, 376, 320, 42]
+    },
+    "InfrastClueRecipientRow3": {
+        "baseTask": "InfrastClueRecipientRow1",
+        "template": "SendClueConfirm.png",
+        "roi": [1150, 350, 100, 160]
+    },
+    "InfrastClueSendToRecipient4": {
+        "baseTask": "ClueGiveTo4thConfirm",
+        "template": "SendClueConfirm.png",
+        "next": ["InfrastClueSendToRecipient4@LoadingText", "InfrastClueCloseAfterRecipientSend"]
+    },
+    "InfrastClueRecipientName4": {
+        "baseTask": "InfrastClueRecipientName1",
+        "roi": [588, 526, 320, 42]
+    },
+    "InfrastClueRecipientRow4": {
+        "baseTask": "InfrastClueRecipientRow1",
+        "template": "SendClueConfirm.png",
+        "roi": [1150, 500, 100, 160]
+    },
+    "InfrastClueRecipientDiscriminator": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "fullMatch": true,
+        "withoutDet": true,
+        "isAscii": true,
+        "Doc": "使用字符模型读取昵称右侧的 #四位编号；插件根据昵称检测框指定 roi，不进行模糊替换。"
+    },
     "InfrastTrainingIdle": {
         "algorithm": "OcrDetect",
         "text": ["空闲中"],

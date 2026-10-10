@@ -561,6 +561,12 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 @optional
 단서 보내기 여부  
 :::  
+::: field reception_clue_recipient
+@type string
+@default ""
+@optional
+단서 수신 친구의 전체 게임 이름(닉네임과 `#` 뒤 네 자리 숫자). 예: `닥터#1234`. `reception_send_clue`가 `true`일 때만 적용됩니다. 비워 두면 기본 방식으로 전달하며, 지정하면 현재 전달할 수 있는 자신의 단서를 해당 친구에게 하나씩 전달합니다. 전체 목록을 두 번 연속 검색해도 찾지 못하면 이번 응접실 작업은 기본 방식으로 전환하여 다른 친구에게 전달하거나 일괄 전달할 수 있습니다. 매개변수는 유지되며 다음 작업에서 다시 검색합니다. 친구를 확실히 식별할 수 없거나, 상대가 단서를 받을 수 없거나, 페이지가 넘어가지 않으면 전달을 건너뛰며 검색 실패 횟수에 포함하지 않습니다.
+:::
 ::: field filename  
 @type string
 @required
@@ -599,6 +605,7 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
    "reception_message_board": true,
    "reception_clue_exchange": true,
    "reception_send_clue": true,
+   "reception_clue_recipient": "",
    "filename": "schedules/base.json",
    "plan_index": 1
 }
