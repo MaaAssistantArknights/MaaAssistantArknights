@@ -49,43 +49,43 @@ internal sealed class SettingsPageReorgMigrationConverter : JsonConverter<Root>
             return node?.Deserialize<Root>(WithoutThisConverter(options));
         }
 
-        if (root["Gui"] is not JsonObject globalGui)
+        if (root[nameof(Root.Gui)] is not JsonObject globalGui)
         {
-            root["Gui"] = globalGui = [];
+            root[nameof(Root.Gui)] = globalGui = [];
         }
 
-        if (root["Configurations"] is JsonObject configurations)
+        if (root[nameof(Root.Configurations)] is JsonObject configurations)
         {
             string? currentName = null;
-            if (root["Current"] is JsonValue current && current.TryGetValue<string>(out var currentNameValue))
+            if (root[nameof(Root.Current)] is JsonValue current && current.TryGetValue<string>(out var currentNameValue))
             {
                 currentName = currentNameValue;
             }
 
             foreach (var (name, configNode) in configurations)
             {
-                if (configNode is not JsonObject config || config["Gui"] is not JsonObject gui ||
-                    gui["Performance"] is not JsonObject performance)
+                if (configNode is not JsonObject config || config[nameof(Root.Gui)] is not JsonObject gui ||
+                    gui[nameof(Gui.Performance)] is not JsonObject performance)
                 {
                     continue;
                 }
 
                 if (name == currentName)
                 {
-                    gui.Remove("Performance");
-                    globalGui["Performance"] = performance;
+                    gui.Remove(nameof(Gui.Performance));
+                    globalGui[nameof(Gui.Performance)] = performance;
                 }
 
                 // 无法确定当前档案时不迁移，节点留在原位以免设置被静默重置
             }
         }
 
-        if (globalGui["IgnoreBadModulesAndUseSoftwareRendering"] is JsonValue softwareRendering)
+        if (globalGui[nameof(Gui.Performance.IgnoreBadModulesAndUseSoftwareRendering)] is JsonValue softwareRendering)
         {
-            globalGui.Remove("IgnoreBadModulesAndUseSoftwareRendering");
-            var performance = globalGui["Performance"] as JsonObject ?? [];
-            performance["IgnoreBadModulesAndUseSoftwareRendering"] = softwareRendering;
-            globalGui["Performance"] = performance;
+            globalGui.Remove(nameof(Gui.Performance.IgnoreBadModulesAndUseSoftwareRendering));
+            var performance = globalGui[nameof(Gui.Performance)] as JsonObject ?? [];
+            performance[nameof(Gui.Performance.IgnoreBadModulesAndUseSoftwareRendering)] = softwareRendering;
+            globalGui[nameof(Gui.Performance)] = performance;
         }
 
         foreach (var listName in new[] { nameof(Gui.SettingOrders), nameof(Gui.CollapesStates) })
@@ -95,9 +95,11 @@ internal sealed class SettingsPageReorgMigrationConverter : JsonConverter<Root>
                 continue;
             }
 
-            // 列表已含 NotificationSettings（如曾运行过更新版本）时直接移除废弃键，避免重命名产生重复项
+            // 列表已含 NotificationSettings（如曾运行过更新版本）时直接移除废弃键，避免重命名产生重复项；
+            // 大小写变体同样计入（含手改的小写形态），防止其绕过防重复检查
             var hasNotificationSettings = list.Any(item => item is JsonValue itemValue &&
-                itemValue.TryGetValue<string>(out var itemString) && itemString == "NotificationSettings");
+                itemValue.TryGetValue<string>(out var itemString) &&
+                string.Equals(itemString, nameof(SettingKey.NotificationSettings), StringComparison.OrdinalIgnoreCase));
 
             // 大小写宽容度对齐 TolerantEnumConverter 的 ignoreCase 解析：只删下游必死的键，不误删大小写变体
             for (var i = list.Count - 1; i >= 0; i--)
@@ -106,7 +108,8 @@ internal sealed class SettingsPageReorgMigrationConverter : JsonConverter<Root>
                     ? entryString
                     : null;
 
-                if (entry == RemovedExternalNotificationSettingsKey && listName == nameof(Gui.SettingOrders))
+                if (string.Equals(entry, RemovedExternalNotificationSettingsKey, StringComparison.OrdinalIgnoreCase) &&
+                    listName == nameof(Gui.SettingOrders))
                 {
                     if (hasNotificationSettings)
                     {
@@ -114,7 +117,7 @@ internal sealed class SettingsPageReorgMigrationConverter : JsonConverter<Root>
                     }
                     else
                     {
-                        list[i] = "NotificationSettings";
+                        list[i] = nameof(SettingKey.NotificationSettings);
                     }
 
                     continue;
