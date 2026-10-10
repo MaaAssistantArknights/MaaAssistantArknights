@@ -170,6 +170,7 @@
     <system:String x:Key="DormFilterNotStationedEnabled">업무 중 {key=Operator} 휴식 제한</system:String>
     <system:String x:Key="DormFilterNotStationedTips">체크할 경우 아이린과 같은 {key=Operator}를 훈련실에서 제거하지 않고, 가공소의 {key=Operator}가 숙소에 배치되는 것을 방지합니다.</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">오리지늄 조각 자동 보충</system:String>
+    <system:String x:Key="OriginiumShardUseDevice">장치를 사용한 오리지늄 조각 합성 허용</system:String>
     <system:String x:Key="InfrastReceptionMessageBoardReceive">응접실 게시판에서 크레딧 수집</system:String>
     <system:String x:Key="InfrastReceptionClueExchange">단서 공유 진행</system:String>
     <system:String x:Key="InfrastReceptionClueExchangeTips" xml:space="preserve">단서 공유를 개방할 수 없는 경우 교대 시 단서 판의 모든 단서를 회수하며, 개방할 수 있는 경우 일괄 배치를 사용합니다.&#10;개인 단서 보유 한도는 10장(응접실에 배치된 단서 포함)이며, 배치된 단서는 중복 판정에 포함되지 않습니다.&#10;미리 지나치게 많이 배치하면 한도에 도달했는데도 일괄 전달도 새 단서 획득도 할 수 없습니다.</system:String>
