@@ -2141,7 +2141,8 @@
             "Award",
             "AwardBegin@QuickSwitch@ToHome#next",
             "Award@ReturnButtons#next",
-            "Award@CloseAnnos#next"
+            "Award@CloseAnnos#next",
+            "Award@OfflineConfirm"
         ]
     },
     "Award": {
@@ -2313,7 +2314,8 @@
             "Mall#next",
             "MallBegin@QuickSwitch@ToMall#next",
             "Mall@ReturnButtons#next",
-            "Mall@CloseAnnos#next"
+            "Mall@CloseAnnos#next",
+            "Mall@OfflineConfirm"
         ]
     },
     "Mall": {
