@@ -250,7 +250,7 @@ void BlackFlowSession::set_cultivated_animal_types(std::vector<CultivatedAnimalT
 
     // 是否拿到目标动物必须在这里落成事实：培育插件先调本函数、再提交页面结果，而终止规则
     // 在页面结果提交的末尾求值，此刻写入才赶得上同一拍的结算。进店没能下种时收获为空，
-    // 事实置假，正好落进「培育已了结但没拿到目标」那一条终止规则。
+    // 事实置假，正好落进 ｢培育已了结但没拿到目标｣ 那一条终止规则。
     const bool obtained =
         std::find(m_cultivated_animal_types.begin(), m_cultivated_animal_types.end(), m_cultivation_target) !=
         m_cultivated_animal_types.end();

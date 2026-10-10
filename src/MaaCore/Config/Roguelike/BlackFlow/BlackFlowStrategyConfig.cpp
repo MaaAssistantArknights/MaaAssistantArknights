@@ -865,7 +865,7 @@ PolicyProfile parse_profile(const json::value& value)
     return result;
 }
 
-// 整条投影路线算出来的候选事实。它们回答的是「按本拍的计划，以后会经过什么」，而计划逐拍
+// 整条投影路线算出来的候选事实。它们回答的是 ｢按本拍的计划，以后会经过什么｣ ，而计划逐拍
 // 从零重算、从不提交，因此只能当转向依据，不能当许可依据。
 bool is_route_projection_fact(const std::string& name)
 {
@@ -900,7 +900,7 @@ void validate_condition(
     if (!allow_candidate && definition->second.scope == FactScope::Candidate) {
         invalid_config("non-candidate condition references candidate fact: " + condition.fact);
     }
-    // 资源预留一旦释放，那一份资源当拍就被花掉，收不回来。拿「以后会经过」去授权一次不可逆的
+    // 资源预留一旦释放，那一份资源当拍就被花掉，收不回来。拿 ｢以后会经过｣ 去授权一次不可逆的
     // 消耗，等于把单拍的计划当成了承诺；实测过的后果是留给秘境行商的最后一次长距离移动被用来
     // 飞别处。释放条件只能看这一步本身。
     if (!allow_route_projection && is_route_projection_fact(condition.fact)) {
@@ -1270,7 +1270,7 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
         }
     }
 
-    // 里程碑状态与进度自动登记成事实，终止规则和条件才能读到「这条目标错过了/不可能了」。
+    // 里程碑状态与进度自动登记成事实，终止规则和条件才能读到 ｢这条目标错过了/不可能了｣ 。
     // 必须在校验模块之前登记，否则引用了这些名字的条件会被判成未声明事实。
     for (const auto& [module_id, module] : modules) {
         (void)module_id;

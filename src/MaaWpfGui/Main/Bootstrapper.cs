@@ -1318,8 +1318,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     }
 
     /// <summary>
-    /// 更新后「立即重启」链写入的启动参数：本次进程跳过「启动后直接运行 / 启动模拟器」。
-    /// 选择「稍后」再手动启动不会带此参数。
+    /// 更新后 ｢立即重启｣ 链写入的启动参数：本次进程跳过 ｢启动后直接运行 / 启动模拟器｣ 。
+    /// 选择 ｢稍后｣ 再手动启动不会带此参数。
     /// </summary>
     public const string SkipStartupAutoRunArg = "--skip-startup-auto-run";
 
@@ -1446,7 +1446,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         if (IsCoreInitSkipped)
         {
-            // 预览模式禁止一切真实任务：Core 未加载，句柄为空；静默拦截，不弹「正在加载」误导提示
+            // 预览模式禁止一切真实任务：Core 未加载，句柄为空；静默拦截，不弹 ｢正在加载｣ 误导提示
             _logger.Warning("Task blocked: UI preview mode is active");
             return "UI preview mode (--skip-core-init) is active; task execution is disabled";
         }
@@ -1535,8 +1535,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     }
 
     /// <summary>
-    /// 若启动设置允许，返回「更新后立即重启」链应写入的参数；否则返回空。
-    /// 仅用于自动安装或更新提示中选择立即重启；「稍后」手动启动不调用此方法。
+    /// 若启动设置允许，返回 ｢更新后立即重启｣ 链应写入的参数；否则返回空。
+    /// 仅用于自动安装或更新提示中选择立即重启； ｢稍后｣ 手动启动不调用此方法。
     /// </summary>
     /// <returns>应写入的参数数组；选项关闭时为空数组。</returns>
     public static string[] GetUpdateRestartArgsIfEnabled()

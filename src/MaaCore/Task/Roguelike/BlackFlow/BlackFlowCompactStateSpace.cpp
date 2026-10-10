@@ -356,7 +356,7 @@ NodeId BlackFlowCompactStateSpace::resolve_landing(std::uint8_t target) const no
     return m_nodes[target].transfer_landing.has_value() ? m_nodes[*m_nodes[target].transfer_landing].id : InvalidNodeId;
 }
 
-// 端点只表示「走到这里就没有后继了」，因此只认物理出口。策略终点是可以再走开的收工点，
+// 端点只表示 ｢走到这里就没有后继了｣ ，因此只认物理出口。策略终点是可以再走开的收工点，
 // 不能掐掉它的后继。成功与否由 OnDemandStateGraph::intern 写入状态时统一判定。
 bool BlackFlowCompactStateSpace::is_endpoint(const PlannerState& state) const noexcept
 {

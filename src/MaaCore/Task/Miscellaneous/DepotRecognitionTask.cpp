@@ -19,7 +19,7 @@ bool asst::DepotRecognitionTask::_run()
     m_invalid_templates = false;
     bool ret = swipe_and_analyze();
 
-    // 材料页扫完后，切到「全部」标签页识别基础物品（源石、合成玉、龙门币、赤金、采购凭证）
+    // 材料页扫完后，切到 ｢全部｣ 标签页识别基础物品（源石、合成玉、龙门币、赤金、采购凭证）
     if (!m_invalid_templates) {
         ret &= analyze_basic_items();
     }
@@ -38,7 +38,7 @@ bool asst::DepotRecognitionTask::analyze_basic_items()
 {
     LogTraceFunction;
 
-    // 识别并点击「全部」标签页（此时在材料页，「全部」为白色可选状态）
+    // 识别并点击 ｢全部｣ 标签页（此时在材料页， ｢全部｣ 为白色可选状态）
     Matcher all_tab_matcher(ctrler()->get_image());
     all_tab_matcher.set_task_info("DepotAllTab");
     auto all_tab_result = all_tab_matcher.analyze();

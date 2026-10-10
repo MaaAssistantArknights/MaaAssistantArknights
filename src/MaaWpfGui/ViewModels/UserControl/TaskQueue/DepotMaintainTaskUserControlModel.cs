@@ -103,7 +103,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             return;
         }
 
-        // 任意仓库识别（库存保持自身前置的或独立的数据更新任务）完成后，复查被跳过计划是否出现「预检充足、实际不足」的翻转
+        // 任意仓库识别（库存保持自身前置的或独立的数据更新任务）完成后，复查被跳过计划是否出现 ｢预检充足、实际不足｣ 的翻转
         if (status == TaskItemStatus.Completed &&
             Instances.AsstProxy.TasksStatus.TryGetValue(taskId, out var taskInfo) && taskInfo.Type == TaskType.Depot)
         {
@@ -161,7 +161,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
     /// <summary>
     /// 仓库识别完成后复查本轮被预检跳过（未下发）的计划：
-    /// 预检基于识别前的缓存，若识别纠正后出现「预检充足、实际不足」的向下翻转，逐条提示，避免静默漏刷一轮。
+    /// 预检基于识别前的缓存，若识别纠正后出现 ｢预检充足、实际不足｣ 的向下翻转，逐条提示，避免静默漏刷一轮。
     /// 与预检同口径：配置无效或当日不可执行的计划不提示；仅执行第一个不足计划时，只提示第一个翻转的计划。
     /// 触发源不限于库存保持自身的前置识别，队列中独立数据更新任务的识别同样触发。
     /// </summary>
@@ -243,7 +243,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether 启用「使用药剂」勾选框。
+    /// Gets or sets a value indicating whether 启用 ｢使用药剂｣ 勾选框。
     /// 默认开启；关闭后各 Plan 不显示药剂行，序列化时强制传 0。
     /// </summary>
     public bool UseMedicine
@@ -253,7 +253,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether 启用「使用源石」勾选框。
+    /// Gets or sets a value indicating whether 启用 ｢使用源石｣ 勾选框。
     /// 默认开启；关闭后各 Plan 不显示源石行，序列化时强制传 0。
     /// </summary>
     public bool UseStone

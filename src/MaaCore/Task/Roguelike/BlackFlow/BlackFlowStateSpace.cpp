@@ -438,7 +438,7 @@ RunState OnDemandStateGraph::materialize(const PlannerState& state) const
     return materialize_run_state(*m_run, state, m_indexed_nodes, 1);
 }
 
-// 端点只回答「这里还有没有后继」，因此只认物理出口。策略终点虽然可以就地收工，但仍然走得开，
+// 端点只回答 ｢这里还有没有后继｣ ，因此只认物理出口。策略终点虽然可以就地收工，但仍然走得开，
 // 把它算成端点会让站在上面的状态一个动作都展开不出来。
 bool OnDemandStateGraph::state_is_endpoint(const PlannerState& state) const noexcept
 {
@@ -446,7 +446,7 @@ bool OnDemandStateGraph::state_is_endpoint(const PlannerState& state) const noex
     return node != nullptr && m_options.final_is_terminal && is_exit_node_type(node->type);
 }
 
-// 成功状态是「站在合法收工点」与「锁定目标已满足」的合取。
+// 成功状态是 ｢站在合法收工点｣ 与 ｢锁定目标已满足｣ 的合取。
 //
 // 少了合取，走到出口就算赢，为策略目标预留的行动力会被最近的出口顶掉；少了收工点这一项，
 // 目标一旦不在图上就没有任何成功状态，整层被判成无解——投影当初正是为了填这个洞而加的。
@@ -468,18 +468,18 @@ bool OnDemandStateGraph::is_terminal(SafetyStateId id) const noexcept
 }
 
 // 行动力耗尽是否构成合法收工。它无法写进 state_is_goal：PlannerState 不带行动力，
-// 而目标谓词只看状态，判不出「还剩几点」。
+// 而目标谓词只看状态，判不出 ｢还剩几点｣ 。
 //
 // 因此这里回答的是更粗的一问——本轮的安全层是否还有约束对象。锁定目标非空时安全层照常
 // 保证走到目标；锁定目标为空时，走到哪里停都算收工，安全层没有可证的命题，N 恒为零。
-// 调用方据此短路求解，并把「再也付不起任何一步」当作路线终点。
+// 调用方据此短路求解，并把 ｢再也付不起任何一步｣ 当作路线终点。
 bool OnDemandStateGraph::exhaustion_terminates() const noexcept
 {
     return m_options.no_AP_is_terminal &&
            (m_options.safety_goal == nullptr || !m_options.safety_goal->has_binding_goals());
 }
 
-// 路线搜索用它判断「走到这里路线是否就结束了」，因此只看端点，不看目标进度。
+// 路线搜索用它判断 ｢走到这里路线是否就结束了｣ ，因此只看端点，不看目标进度。
 bool OnDemandStateGraph::is_terminal_node(NodeId node_id) const noexcept
 {
     if (m_options.strategy_terminal_nodes.contains(node_id)) {

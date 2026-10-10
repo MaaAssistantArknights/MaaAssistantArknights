@@ -27,7 +27,7 @@ struct BlackFlowPlanRequest
     const ResolvedPolicy* policy = nullptr;
     const FactStore* facts = nullptr;
     const MissionState* mission = nullptr;
-    // 策略声明「达成即收工」的目标节点，与物理出口一起构成端点集合。
+    // 策略声明 ｢达成即收工｣ 的目标节点，与物理出口一起构成端点集合。
     std::unordered_set<NodeId> strategy_terminal_nodes;
     // 待锁定的强制目标，按优先级从高到低排好。plan() 会沿这个序做可行性阶梯：
     // 证得出安全解就锁定，证不出就从末尾降级一个再试，因此不会出现整层无解。

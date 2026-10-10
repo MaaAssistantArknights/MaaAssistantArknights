@@ -96,7 +96,7 @@ public static class ColorExtractorHelper
             return Colors.White;
         }
 
-        // 对每个桶计算「频率 × 鲜艳度」的综合得分，优先选高占比且鲜艳的颜色
+        // 对每个桶计算 ｢频率 × 鲜艳度｣ 的综合得分，优先选高占比且鲜艳的颜色
         Color bestColor = Colors.White;
         var bestScore = -1.0;
 

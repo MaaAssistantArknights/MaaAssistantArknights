@@ -402,8 +402,8 @@ void MissionState::refresh(const std::vector<Milestone>& definitions, int floor,
     }
 
     // 错过一条里程碑只说明这一层没按计划走，不代表整局作废：真正的失败判据由策略的
-    // terminal_rules 与里程碑自己的 on_miss 声明，那里才能区分「这局不值得再打」和
-    // 「继续按剩下的目标走」。
+    // terminal_rules 与里程碑自己的 on_miss 声明，那里才能区分 ｢这局不值得再打｣ 和
+    // ｢继续按剩下的目标走｣ 。
     const bool binding_complete = std::ranges::all_of(definitions, [&](const Milestone& milestone) {
         return !milestone.binding_candidate() || status(milestone.id) == MilestoneStatus::Satisfied;
     });
@@ -419,14 +419,14 @@ ResourceRegistry::ResourceRegistry()
     register_resource("sellable_scraps", [](const RunState& state) { return state.resources.sellable_scraps; });
     register_resource("white_model_bird", [](const RunState& state) { return state.resources.white_model_birds; });
     register_resource("painted_liberi", [](const RunState& state) { return state.resources.painted_liberi ? 1 : 0; });
-    // 跨层保留的全图移动。它服务的是「留给后面的楼层」这类目标，与落点无关，因此不筛目标类型。
+    // 跨层保留的全图移动。它服务的是 ｢留给后面的楼层｣ 这类目标，与落点无关，因此不筛目标类型。
     register_movement_group("persistent_full_map_movement", [](const MovementSpec& spec) {
         return spec.range == MovementRange::FullMap && !spec.expires_on_floor_end;
     });
 
-    // 「留一次移动给某类节点」是策略矩阵里反复出现的形状：襁褓动物留给秘境行商、结局策略留给
-    // 险路恶敌，将来还会有留给误入奇境和险路尽头的。真正要留住的性质是「从任何位置都能落到那类
-    // 节点上」，而不是射程本身——射程够远但落点白名单不含目标的加工品（老妈妈的融雪落不了战斗、
+    // ｢留一次移动给某类节点｣ 是策略矩阵里反复出现的形状：襁褓动物留给秘境行商、结局策略留给
+    // 险路恶敌，将来还会有留给误入奇境和险路尽头的。真正要留住的性质是 ｢从任何位置都能落到那类
+    // 节点上｣ ，而不是射程本身——射程够远但落点白名单不含目标的加工品（老妈妈的融雪落不了战斗、
     // 坎诺特的触须只落行商）留下来也够不着。因此按落点能力逐个节点类型登记，策略各取所需。
     for (const NodeType type : all_target_node_types()) {
         register_movement_group("persistent_reach_" + std::string(to_string(type)), [type](const MovementSpec& spec) {
@@ -443,7 +443,7 @@ ResourceRegistry::ResourceRegistry()
     }
 }
 
-// 组合资源的成员表只算一次，读数与「走完这一步还剩几次」共用同一份，两边不会漂移。
+// 组合资源的成员表只算一次，读数与 ｢走完这一步还剩几次｣ 共用同一份，两边不会漂移。
 bool ResourceRegistry::register_movement_group(std::string id, const std::function<bool(const MovementSpec&)>& member)
 {
     std::unordered_set<MovementKind> members;
@@ -666,7 +666,7 @@ PolicyDecision PolicyExecutor::choose(
     // 资源预留是硬过滤：一条预留若把候选全部毙光，这一拍就等于无路可走。手上只剩最后一件、
     // 而它正是唯一出路时就会这样。
     //
-    // 处置与里程碑的可行性阶梯同一个原则：先证明「加上这条约束仍有候选」，证不出就放弃这条预留。
+    // 处置与里程碑的可行性阶梯同一个原则：先证明 ｢加上这条约束仍有候选｣ ，证不出就放弃这条预留。
     // 逐条按声明顺序施加，因此先声明的预留优先保住；被放弃的记进 released_reserve_ids 供诊断。
     const ResourceReserve* decisive_reserve = nullptr;
     for (const auto& reserve : policy.reserves) {

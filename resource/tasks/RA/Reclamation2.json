@@ -1,6 +1,6 @@
 {
     "Reclamation2": {
-        "doc": "生息演算「沙洲遗闻」",
+        "doc": "生息演算 ｢沙洲遗闻｣",
         "algorithm": "JustReturn",
         "Doc": "此处为cpp入口，出口直接将任务的next设为空即可",
         "next": [

@@ -39,7 +39,7 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
 
     public TimerSettingsUserControlModel()
     {
-        // 订阅现有定时器，并在列表增删时重新订阅，用于触发「时间管理大师」成就
+        // 订阅现有定时器，并在列表增删时重新订阅，用于触发 ｢时间管理大师｣ 成就
         SubscribeTimerChanges();
         TimerList.CollectionChanged += (_, _) =>
         {
@@ -131,7 +131,7 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
     } = ConfigFactory.Root.Timers.ScheduledWakeUp;
 
     /// <summary>
-    /// 订阅所有定时器的启用状态变化，用于触发「时间管理大师」成就检查。
+    /// 订阅所有定时器的启用状态变化，用于触发 ｢时间管理大师｣ 成就检查。
     /// </summary>
     private void SubscribeTimerChanges()
     {

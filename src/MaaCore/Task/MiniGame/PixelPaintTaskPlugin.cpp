@@ -249,7 +249,7 @@ bool asst::PixelPaintTaskPlugin::draw_group(const Group& group, int& done_cells,
 
         // 每画满 CheckEveryGridClicks 格识别一次，防跑飞后继续乱点。
         // 拖动一次跨多格，按累计格数而非操作次数判断。
-        // 最后一组恰好整倍时由循环后的 report 统一收尾，避免「完成」打两遍。
+        // 最后一组恰好整倍时由循环后的 report 统一收尾，避免 ｢完成｣ 打两遍。
         if (done_cells - checked_at >= CheckEveryGridClicks && done_cells < total_cells) {
             checked_at = done_cells;
             report_progress(done_cells, total_cells, group.color);

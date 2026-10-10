@@ -21,7 +21,7 @@ using MaaWpfGui.Helper;
 namespace MaaWpfGui.Converters;
 
 /// <summary>
-/// 将 (干员 ID, 展示文本) 两个绑定值合成为「头像 + 干员名」一体的展示元素
+/// 将 (干员 ID, 展示文本) 两个绑定值合成为 ｢头像 + 干员名｣ 一体的展示元素
 /// （<see cref="OperAvatarHelper.CreateOperBadge"/>），用于下拉列表等条目同时持有干员 ID 与展示文本的场景。
 /// </summary>
 public class OperBadgeMultiConverter : IMultiValueConverter

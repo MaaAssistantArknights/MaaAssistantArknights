@@ -1093,16 +1093,16 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPlanAddTaskFailed">#{0}: 작업 추가 실패</system:String>
     <system:String x:Key="DepotPlanNoPlan">설정된 계획이 없습니다</system:String>
     <system:String x:Key="DepotSkipDuringActivity">이벤트 기간 중 건너뛰기</system:String>
-    <system:String x:Key="DepotSkipDuringResourceCollection">「물자 비축」 기간 한정 상시 개방 중 건너뛰기</system:String>
+    <system:String x:Key="DepotSkipDuringResourceCollection">｢물자 비축｣ 기간 한정 상시 개방 중 건너뛰기</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlan">재고 부족한 첫 번째 계획만 실행</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlanTip" xml:space="preserve">재고가 부족하고 당일 실행 가능한 첫 번째 계획만 실행합니다.&#10;로그는 해당 계획까지만 표시되며, 이후 계획은 이번 실행에서 생략됩니다.&#10;목표에 도달하면 다음 실행에서 자동으로 이후 계획을 진행합니다.</system:String>
     <system:String x:Key="DepotPlanSkippedActivity">이벤트 진행 중</system:String>
-    <system:String x:Key="DepotPlanSkippedResourceCollection">「물자 비축」 기간 한정 상시 개방 중</system:String>
+    <system:String x:Key="DepotPlanSkippedResourceCollection">｢물자 비축｣ 기간 한정 상시 개방 중</system:String>
     <system:String x:Key="DepotPlanUpdateDepotFailed">재고 데이터 업데이트에 실패했습니다.</system:String>
     <system:String x:Key="DepotUseAutoSeries">AUTO 대리 배수</system:String>
     <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">체크 해제 시 1배로 대리; 체크 시 현재 이성으로 가능한 최대 배수로 대리 작전하며, 1회 진행 시 목표 재고 상한을 초과할 수 있습니다.</system:String>
-    <system:String x:Key="DepotEnableUseMedicine">「{key=UseSanityPotion}」 체크박스 활성화</system:String>
-    <system:String x:Key="DepotEnableUseStone">「{key=UseOriginitePrime}」 체크박스 활성화</system:String>
+    <system:String x:Key="DepotEnableUseMedicine">｢{key=UseSanityPotion}｣ 체크박스 활성화</system:String>
+    <system:String x:Key="DepotEnableUseStone">｢{key=UseOriginitePrime}｣ 체크박스 활성화</system:String>
     <system:String x:Key="DepotUseExpiringMedicine">48시간 이내 만료되는 이성 회복제 사용</system:String>
     <system:String x:Key="DepotPlanBudgetTip" xml:space="preserve">이 스테이지의 이성 회복제/오리지늄 사용 한도이며 스테이지별로 독립적으로 계산됩니다.&#10;체크하고 수량을 설정하면 이 스테이지는 이성 부족으로 건너뛰지 않고, 이성이 부족해도 출격하여 이 수량만큼 회복제/오리지늄을 사용해 전투를 계속합니다.&#10;한도를 설정하지 않은 스테이지는 이성 부족 시 출격하지 않고 바로 건너뜁니다.</system:String>
     <system:String x:Key="DepotUseExpiringMedicineTip" xml:space="preserve">이성 회복제 한도를 설정하지 않은 스테이지를 포함한 모든 스테이지에 적용됩니다.&#10;활성화하면 한도 미설정 스테이지도 48시간 이내 만료되는 이성 회복제 사용을 시도합니다.&#10;한도 미설정 스테이지가 이성 부족으로 건너뛰어지는 것은, 이 큐 실행 중 이성 부족으로 종료된 전투 작업이 이미 있고 그 만료 임박 회복제 창이 이 설정 이상일 때(즉 이 창 내의 회복제를 모두 소진했을 때)뿐입니다.</system:String>

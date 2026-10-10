@@ -674,13 +674,13 @@
         "next": ["AccountLogout", "UserCenter", "ExitOld"]
     },
     "AccountLogout": {
-        "Doc": "设置页左栏「账号登出」",
+        "Doc": "设置页左栏 ｢账号登出｣",
         "action": "ClickSelf",
         "roi": [40, 610, 66, 75],
         "next": ["AccountLogoutConfirm", "AccountLogout"]
     },
     "AccountLogoutConfirm": {
-        "Doc": "「即将返回登录界面，是否继续？」确认",
+        "Doc": "｢即将返回登录界面，是否继续？｣ 确认",
         "baseTask": "LogoutConfirm",
         "template": "PopupConfirm.png",
         "roi": [630, 445, 650, 95]
@@ -3510,7 +3510,7 @@
     "InfrastFilterMenuAllButtonGone": {
         "baseTask": "InfrastFilterMenuAllButton",
         "action": "DoNothing",
-        "Doc": "点击“全部”后，通过检测“全部”是否仍可见判断菜单是否还打开；仍可见则补点，消失则认为取消完成。",
+        "Doc": "点击 ｢全部｣ 后，通过检测 ｢全部｣ 是否仍可见判断菜单是否还打开；仍可见则补点，消失则认为取消完成。",
         "postDelay": 300,
         "next": ["InfrastFilterMenuAllButton"],
         "onErrorNext": ["Stop"]

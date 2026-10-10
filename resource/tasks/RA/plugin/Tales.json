@@ -703,12 +703,12 @@
         "next": ["Tales@RA@PNS-RecogniseHeadquartersButton", "Tales@RA@PNS-WaitForHeadquartersButton"]
     },
     "Tales@RA@ProsperityInSave": {
-        "doc": "生息演算「沙洲遗闻」有存档刷生息点数 <ProsperityInSave> 任务入口",
+        "doc": "生息演算 ｢沙洲遗闻｣ 有存档刷生息点数 <ProsperityInSave> 任务入口",
         "algorithm": "JustReturn",
         "next": ["Tales@RA@PIS-Resume", "Tales@RA@PIS-Commence", "Tales@RA@PIS-Workbench", "Tales@RA@PIS-Navigation"]
     },
     "Tales@RA@ProsperityNoSave": {
-        "doc": "生息演算「沙洲遗闻」无存档刷生息点数 <ProsperityNoSave> 任务入口",
+        "doc": "生息演算 ｢沙洲遗闻｣ 无存档刷生息点数 <ProsperityNoSave> 任务入口",
         "algorithm": "JustReturn",
         "next": ["Tales@RA@PNS-Commence", "Tales@RA@PNS-Resume", "Tales@RA@PNS-Navigation"]
     },

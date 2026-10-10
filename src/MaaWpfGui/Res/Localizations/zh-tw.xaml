@@ -832,7 +832,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AllowUseStoneSaveWarning">該功能屬於危險功能。按下 ｢{key=Confirm}｣ 鍵即視為您了解並願意承擔可能出現的風險。</system:String>
     <system:String x:Key="UseAlternateStage">使用備選關卡</system:String>
     <system:String x:Key="UseExpiringMedicine">無限吃 N 天內過期的理智藥</system:String>
-    <system:String x:Key="MedicineExpireDaysTip">只吃遊戲內顯示不足 N 天的理智藥，顯示「N 天」及以上的不吃。</system:String>
+    <system:String x:Key="MedicineExpireDaysTip">只吃遊戲內顯示不足 N 天的理智藥，顯示 ｢N 天｣ 及以上的不吃。</system:String>
     <system:String x:Key="UseExpireMedicineForActivity">活動結束前 48H 吃當週過期理智藥</system:String>
     <system:String x:Key="NoActivity">暫無活動</system:String>
     <system:String x:Key="HideUnavailableStage">下拉選單中隱藏當日不開放關卡</system:String>
@@ -1100,8 +1100,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPlanUpdateDepotFailed">更新庫存數據失敗。</system:String>
     <system:String x:Key="DepotUseAutoSeries">AUTO 代理倍率</system:String>
     <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">未勾選時按單倍代理；勾選後按目前理智可刷的最大倍率代理，單次刷取可能超過目標庫存上限。</system:String>
-    <system:String x:Key="DepotEnableUseMedicine">啟用「{key=UseSanityPotion}」勾選框</system:String>
-    <system:String x:Key="DepotEnableUseStone">啟用「{key=UseOriginitePrime}」勾選框</system:String>
+    <system:String x:Key="DepotEnableUseMedicine">啟用 ｢{key=UseSanityPotion}｣ 勾選框</system:String>
+    <system:String x:Key="DepotEnableUseStone">啟用 ｢{key=UseOriginitePrime}｣ 勾選框</system:String>
     <system:String x:Key="DepotUseExpiringMedicine">使用 48 小時內過期的理智藥</system:String>
     <system:String x:Key="DepotPlanBudgetTip" xml:space="preserve">本關的藥劑/源石使用上限，各關卡獨立計算。&#10;勾選並設定數量後，本關不會因理智不足被跳過：理智不夠時仍會進圖，並按此數量使用藥劑/源石繼續作戰。&#10;未設定預算的關卡在理智不足時會被直接跳過，不進圖查看。</system:String>
     <system:String x:Key="DepotUseExpiringMedicineTip" xml:space="preserve">對全部關卡生效，包括未設藥劑預算的關卡。&#10;開啟後，未設預算的關卡也會嘗試使用 48 小時內過期的理智藥。&#10;未設預算的關卡被理智不足跳過的前提：本輪任務佇列中已有戰鬥任務因理智不足結束，且其臨期藥時限不小於本設定（本時限內的臨期藥已用完）。</system:String>
@@ -1374,7 +1374,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@AutoRaisePotential@PotentialFoundLog">第 {0}/{1} 位幹員：有待提升的潛能</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential@NoPotentialLog">第 {0}/{1} 位幹員：無可提升的潛能</system:String>
     <system:String x:Key="MiniGame@CursedRelic">刷傀影維多利亞皇冠</system:String>
-    <system:String x:Key="MiniGame@CursedRelicTip" xml:space="preserve">請從傀影肉鴿主選單中“探索”按鈕可見的狀態開始。</system:String>
+    <system:String x:Key="MiniGame@CursedRelicTip" xml:space="preserve">請從傀影肉鴿主選單中 ｢探索｣ 按鈕可見的狀態開始。</system:String>
 
     <system:String x:Key="MiniGameNameGreenTicketStore">綠票商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">第 1 層全買。&#10;第 2 層買 ｢尋訪憑證｣ 和 ｢招聘許可｣ 。</system:String>
@@ -2686,9 +2686,9 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <!--  BadModules  -->
     <system:String x:Key="BadModules.Warning.Heading">悲報</system:String>
     <system:String x:Key="BadModules.Warning.Prolog">偵測到以下第三方軟體向 MAA 注入了 DLL。這些注入的 DLL 會破壞 WPF 渲染和 ONNX/DML 推論，導致 MAA 閃退、介面渲染異常或 OCR 辨識失敗：</system:String>
-    <system:String x:Key="BadModules.Warning.Epilog" xml:space="preserve">建議透過 Windows 安全中心從系統層面阻止注入：應用程式與瀏覽器控制 → 入侵防護 → 入侵防護設定 → 程式設定 → 新增 MAA.exe → 將「停用擴充點」設為「覆寫系統設定 - 開啟」，啟用後重新啟動 MAA。&#x0a;&#x0a;您也可以嘗試將 MAA 加入相關軟體的排除名單，或解除安裝相關軟體後檢查問題是否仍然存在。</system:String>
+    <system:String x:Key="BadModules.Warning.Epilog" xml:space="preserve">建議透過 Windows 安全中心從系統層面阻止注入：應用程式與瀏覽器控制 → 入侵防護 → 入侵防護設定 → 程式設定 → 新增 MAA.exe → 將 ｢停用擴充點｣ 設為 ｢覆寫系統設定 - 開啟｣，啟用後重新啟動 MAA。&#x0a;&#x0a;您也可以嘗試將 MAA 加入相關軟體的排除名單，或解除安裝相關軟體後檢查問題是否仍然存在。</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">不再顯示此警告</system:String>
-    <system:String x:Key="BadModules.Warning.Fallback">此外，系統的彈出視窗元件已被破壞而失效，MAA 的後續彈出視窗均可能無法正常顯示，其他系統功能也可能受到影響。點擊「是」下次不再提醒，點擊「否」僅本次關閉。</system:String>
+    <system:String x:Key="BadModules.Warning.Fallback">此外，系統的彈出視窗元件已被破壞而失效，MAA 的後續彈出視窗均可能無法正常顯示，其他系統功能也可能受到影響。點擊 ｢是｣ 下次不再提醒，點擊 ｢否｣ 僅本次關閉。</system:String>
     <system:String x:Key="BadModules.Confirmation.Heading">警告：效能影響</system:String>
     <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">選擇不再顯示警告後，MAA 將使用軟體渲染而不是硬體渲染，這可以緩解介面渲染相關的問題，但不能保證解決所有問題（如彈出視窗失效等）。此外還將導致以下後果：&#x0a;&#x0a;• 效能下降&#x0a;• 介面卡頓&#x0a;• CPU 佔用率增高&#x0a;&#x0a;是否確認忽略警告並接受這些影響？</system:String>
     <system:String x:Key="BadModules.UseSoftwareRendering">使用軟體渲染</system:String>

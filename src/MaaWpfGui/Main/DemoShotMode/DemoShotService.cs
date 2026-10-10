@@ -392,7 +392,7 @@ public static class DemoShotService
     private static void ReinjectLanguageData(DemoShotData data, string lang, string dataDir)
     {
         // 关卡活动数据按当组客户端类型重新本地解析（构造时解析用的是启动配置的客户端类型），
-        // 随后重算「今日关卡小提示」
+        // 随后重算 ｢今日关卡小提示｣
         Instances.StageManager.UpdateStageLocal();
         Instances.TaskQueueViewModel.UpdateDatePrompt();
 
@@ -615,7 +615,7 @@ public static class DemoShotService
         await WaitUiSettledAsync();
         await CaptureAsync(Path.Combine(outDir, $"2-{themeSuffix}.png"));
 
-        // 页 3：小工具-干员识别，切到「已拥有」页。
+        // 页 3：小工具-干员识别，切到 ｢已拥有｣ 页。
         // Idle 切回空闲：小工具页的识别按钮呈可点观感（演示数据是识别完成的结果态），
         // 长草/自动战斗页则保持运行中（与日志的演示进度一致）
         States.RunningState.Instance.SetIdle(true);

@@ -831,7 +831,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AllowUseStoneSaveWarning">该功能属于危险功能。按下 ｢{key=Confirm}｣ 键即视为你了解并愿意承担可能出现的风险。</system:String>
     <system:String x:Key="UseAlternateStage">使用备选关卡</system:String>
     <system:String x:Key="UseExpiringMedicine">无限吃 N 天内过期的理智药</system:String>
-    <system:String x:Key="MedicineExpireDaysTip">只吃游戏内显示不足 N 天的理智药，显示“N 天”及以上的不吃。</system:String>
+    <system:String x:Key="MedicineExpireDaysTip">只吃游戏内显示不足 N 天的理智药，显示 ｢N 天｣ 及以上的不吃。</system:String>
     <system:String x:Key="UseExpireMedicineForActivity">活动结束前 48H 吃当周过期理智药</system:String>
     <system:String x:Key="NoActivity">暂无活动</system:String>
     <system:String x:Key="HideUnavailableStage">下拉框中隐藏当日不开放关卡</system:String>
@@ -1100,8 +1100,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPlanUpdateDepotFailed">更新库存数据失败。</system:String>
     <system:String x:Key="DepotUseAutoSeries">AUTO 代理倍率</system:String>
     <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">未勾选时按单倍代理；勾选后按当前理智可刷的最大倍率代理，单次刷取可能超过目标库存上限。</system:String>
-    <system:String x:Key="DepotEnableUseMedicine">启用「{key=UseSanityPotion}」勾选框</system:String>
-    <system:String x:Key="DepotEnableUseStone">启用「{key=UseOriginitePrime}」勾选框</system:String>
+    <system:String x:Key="DepotEnableUseMedicine">启用 ｢{key=UseSanityPotion}｣ 勾选框</system:String>
+    <system:String x:Key="DepotEnableUseStone">启用 ｢{key=UseOriginitePrime}｣ 勾选框</system:String>
     <system:String x:Key="DepotUseExpiringMedicine">使用 48 小时内过期的理智药</system:String>
     <system:String x:Key="DepotPlanBudgetTip" xml:space="preserve">本关的药剂/源石使用上限，各关卡独立计算。&#10;勾选并设置数量后，本关不会被理智不足跳过：理智不够时仍会进图，并按此数量使用药剂/源石继续作战。&#10;未设置预算的关卡在理智不足时会被直接跳过，不进图查看。</system:String>
     <system:String x:Key="DepotUseExpiringMedicineTip" xml:space="preserve">对全部关卡生效，包括未设药剂预算的关卡。&#10;开启后，未设预算的关卡也会尝试使用 48 小时内过期的理智药。&#10;未设预算的关卡被理智不足跳过的前提：本轮任务队列中已有战斗任务因理智不足结束，且其临期药窗口不小于本设置（本窗口内的临期药已用完）。</system:String>
@@ -1374,7 +1374,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@AutoRaisePotential@PotentialFoundLog">第 {0}/{1} 位干员：有待提升的潜能</system:String>
     <system:String x:Key="MiniGame@AutoRaisePotential@NoPotentialLog">第 {0}/{1} 位干员：无可提升的潜能</system:String>
     <system:String x:Key="MiniGame@CursedRelic">刷傀影维多利亚皇冠</system:String>
-    <system:String x:Key="MiniGame@CursedRelicTip" xml:space="preserve">请从傀影肉鸽主菜单中“探索”按钮可见的状态开始。</system:String>
+    <system:String x:Key="MiniGame@CursedRelicTip" xml:space="preserve">请从傀影肉鸽主菜单中 ｢探索｣ 按钮可见的状态开始。</system:String>
 
     <system:String x:Key="MiniGameNameGreenTicketStore">绿票商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1层全买。&#10;2层买寻访凭证和招聘许可。</system:String>
@@ -1723,7 +1723,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowNodeSacrifice">奉献节点</system:String>
     <system:String x:Key="BlackFlowNodeWish">得偿所愿</system:String>
     <system:String x:Key="BlackFlowNodeBoskyPassage">误入奇境</system:String>
-    <system:String x:Key="BlackFlowNodeResidentStronghold">“居民”据点</system:String>
+    <system:String x:Key="BlackFlowNodeResidentStronghold">｢居民｣ 据点</system:String>
     <system:String x:Key="BlackFlowNodeFinal">险路尽头</system:String>
     <system:String x:Key="BlackFlowNodeFate">命运所指</system:String>
     <system:String x:Key="BlackFlowNodeEvacuate">撤离点</system:String>
@@ -2120,7 +2120,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 
 前置步骤：推进主线至 RA-1 已通关状态
 
-在大地图打开 RA-1，右下角出现“开启建设”时启动任务，即可自动循环
+在大地图打开 RA-1，右下角出现 ｢开启建设｣ 时启动任务，即可自动循环
 
 注意：如果已解锁开局额外携带物品的相关科技，请将基地内会导致开局额外携带物品的设施拆除，如食品供给站、饮品供给站、兽栏等
 
@@ -2137,7 +2137,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 3. 如果自己有维什戴尔，请手动打开关卡并配队一次，保证为任意 5 个费用比维什戴尔低的干员+ 维什戴尔，且维什戴尔位于六号位即最后一个选的人，然后确认招募，放弃本次建设并在开始建设处开始
 4. 如果使用助战维什戴尔，请保证维什戴尔在狙击助战首页（考虑挚友），请手动打开关卡编入任意 5 个费用比维什戴尔低的干员，六号位选择维什戴尔助战后确认招募，放弃本次建设并在开始建设处开始（保证队伍前五位有人且六号位为空）
 
-在大地图打开 RA-4，右下角出现“开启建设”时启动任务，即可自动循环
+在大地图打开 RA-4，右下角出现 ｢开启建设｣ 时启动任务，即可自动循环
 
 注意：如果已解锁开局额外携带物品的相关科技，请将基地内会导致开局额外携带物品的设施拆除，如食品供给站、饮品供给站、兽栏等
 
@@ -2153,7 +2153,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 2. 如果自己有圣聆初雪，请手动打开关卡并配队一次，保证为五先锋（无练度要求）+ 初雪，且初雪位于六号位即最后一个选的人，然后保存配队并退出关卡
 3. 如果使用助战圣聆初雪，请保证圣聆初雪在术士助战首页（考虑挚友）
 
-在大地图打开 RA-15，右下角出现“开启建设”时启动任务，即可自动循环
+在大地图打开 RA-15，右下角出现 ｢开启建设｣ 时启动任务，即可自动循环
 
 注意：如果已解锁开局额外携带物品的相关科技，请将基地内会导致开局额外携带物品的设施拆除，如食品供给站、饮品供给站、兽栏等
 
@@ -2692,7 +2692,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="BadModules.Warning.Prolog">检测到以下第三方软件向 MAA 注入了 DLL。这些注入的 DLL 会破坏 WPF 渲染和 ONNX/DML 推理，导致 MAA 闪退、界面渲染异常或 OCR 识别失败：</system:String>
     <system:String x:Key="BadModules.Warning.Epilog" xml:space="preserve">建议通过 Windows 安全中心从系统层面阻止注入：应用和浏览器控制 → 攻击防护 → 攻击防护设置 → 程序设置 → 添加 MAA.exe → 将 ｢禁用扩展点｣ 设置为 ｢替代系统设置 - 开｣，启用后重启 MAA。&#x0a;&#x0a;您也可以尝试将 MAA 加入相关软件的排除名单，或卸载相关软件后检查问题是否仍然存在。</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">不再显示此警告</system:String>
-    <system:String x:Key="BadModules.Warning.Fallback">此外，系统的弹窗组件已被破坏并发生崩溃，MAA 的后续弹窗均可能无法正常显示，其他系统功能也可能受到影响。点击“是”下次不再提醒，点击“否”仅本次关闭。</system:String>
+    <system:String x:Key="BadModules.Warning.Fallback">此外，系统的弹窗组件已被破坏并发生崩溃，MAA 的后续弹窗均可能无法正常显示，其他系统功能也可能受到影响。点击 ｢是｣ 下次不再提醒，点击 ｢否｣ 仅本次关闭。</system:String>
     <system:String x:Key="BadModules.Confirmation.Heading">警告：性能影响</system:String>
     <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">选择不再显示警告后，MAA 将使用软件渲染而不是硬件渲染，这可以缓解界面渲染相关的问题，但不能保证解决所有问题（如弹窗崩溃等）。此外还将导致以下后果：&#x0a;&#x0a;• 性能下降&#x0a;• 界面卡顿&#x0a;• CPU 占用率增高&#x0a;&#x0a;是否确认忽略警告并接受这些影响？</system:String>
     <system:String x:Key="BadModules.UseSoftwareRendering">使用软件渲染</system:String>
