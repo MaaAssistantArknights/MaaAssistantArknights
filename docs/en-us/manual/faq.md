@@ -128,7 +128,7 @@ Some emulators come with outdated ADB versions that don't support `Minitouch` or
 
 Run MAA as administrator, close the emulator, restart MAA, and click `MAA Settings` - `Connection Settings` - `Force Replace ADB`.
 
-Emulator updates may overwrite the ADB file. If the issue returns after an update, try replacing again or use [alternative ADB](./connection.md#use-adb-provided-by-google).
+Emulator updates may overwrite the ADB file. If the issue returns after an update, try replacing again or use [alternative ADB](./connection.md#use-google-s-adb).
 
 ## Connected but operations are laggy, abnormal, or error-prone
 
