@@ -267,7 +267,7 @@ description = "a stage to fight" # 描述，選填
 
 # 當輸入的關卡是 1-7 時，需要輸入使用理智藥的數量
 [tasks.variants.params.medicine]
-# 參數可以「設定」為條件參數，這樣只有滿足條件時才需要輸入
+# 參數可以 ｢設定｣ 為條件參數，這樣只有滿足條件時才需要輸入
 # conditions 欄位是一個表，其中鍵是同一層級下其他參數名稱，值是期望的值
 # 這裡的條件是 stage 為 1-7，如果存在多個條件，那麼所有條件都必須滿足
 conditions = { stage = "1-7" }

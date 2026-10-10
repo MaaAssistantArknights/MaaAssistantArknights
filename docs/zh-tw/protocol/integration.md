@@ -218,7 +218,7 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
   <br>
   例如：`{ "30011": 10, "30062": 5 }`  
   <br>
-  上述所有條件（次數、掉落等）均為「或」的關係，任一條件達成即停止任務。  
+  上述所有條件（次數、掉落等）均為 ｢或｣ 的關係，任一條件達成即停止任務。  
   :::  
   ::: field report_to_penguin  
   @type boolean
@@ -506,13 +506,13 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @type boolean
 @default false
 @optional
-貿易站「源石碎片」是否自動補貨。  
+貿易站 ｢源石碎片｣ 是否自動補貨。  
 :::  
 ::: field dorm_notstationed_enabled  
 @type boolean
 @default false
 @optional
-是否啟用宿舍「未進駐」選項。  
+是否啟用宿舍 ｢未進駐｣ 選項。  
 :::  
 ::: field dorm_trust_enabled  
 @type boolean
@@ -736,19 +736,19 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @type boolean
 @default false
 @optional
-領取「限時尋訪」每日贈送的免費單抽。  
+領取 ｢限時尋訪｣ 每日贈送的免費單抽。  
 :::  
 ::: field orundum  
 @type boolean
 @default false
 @optional
-領取「幸運牆」的合成玉獎勵。  
+領取 ｢幸運牆｣ 的合成玉獎勵。  
 :::  
 ::: field mining  
 @type boolean
 @default false
 @optional
-領取「限時開採許可」的合成玉獎勵。  
+領取 ｢限時開採許可｣ 的合成玉獎勵。  
 :::  
 ::: field specialaccess  
 @type boolean
@@ -850,7 +850,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 <br>
 `3` - <Badge type="danger" text="未開放" /> 傳入會被拒絕。
 <br>
-`4` - 凹開局：先在難度 0 下到達第三層後重啟，再到指定難度下凹開局獎勵。若未獲得「熱水壺」或「希望」則回到難度 0 重新開始。在 Phantom 主題下則不切換難度，僅在目前難度下嘗試到達第三層、重開、凹開局。
+`4` - 凹開局：先在難度 0 下到達第三層後重啟，再到指定難度下凹開局獎勵。若未獲得 ｢熱水壺｣ 或 ｢希望｣ 則回到難度 0 重新開始。在 Phantom 主題下則不切換難度，僅在目前難度下嘗試到達第三層、重開、凹開局。
 <br>
 `5` - 刷坍縮範式：僅適用於 Sami 主題；透過戰鬥漏怪等方式加快累積坍縮值。若遇到的首個坍縮範式存在於 `expected_collapsal_paradigms` 清單中則停止任務，否則重啟。
 <br>
@@ -914,7 +914,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @type boolean
 @default false
 @optional
-是否在第 5 層「險路惡敵」節點前停止任務。僅適用於 **Phantom 以外**的主題。  
+是否在第 5 層 ｢險路惡敵｣ 節點前停止任務。僅適用於 **Phantom 以外**的主題。  
 :::  
 ::: field stop_at_max_level  
 @type boolean
@@ -967,7 +967,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 ::: field first_floor_foldartal  
 @type string
 @optional
-希望在第一層「遠見」階段獲得的密文板。僅適用於 Sami 主題（不限模式）；若成功凹到則停止任務。  
+希望在第一層 ｢遠見｣ 階段獲得的密文板。僅適用於 Sami 主題（不限模式）；若成功凹到則停止任務。  
 :::  
 ::: field start_foldartal_list  
 @type array<string>
@@ -977,7 +977,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 <br>
 開局獎勵階段，需擁有清單中所有的密文板才算凹開局成功。
 <br>
-請注意，此參數須與「生活至上分隊」同時使用，其他分隊在開局獎勵階段不會獲得密文板。  
+請注意，此參數須與 ｢生活至上分隊｣ 同時使用，其他分隊在開局獎勵階段不會獲得密文板。  
 :::  
 ::: field collectible_mode_start_list  
 @type object
@@ -1043,19 +1043,19 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @type boolean
 @default false
 @optional
-「燒水」時是否啟用購物。  
+｢燒水｣ 時是否啟用購物。  
 :::  
 ::: field collectible_mode_squad  
 @type string
 @optional
-燒水時使用的分隊。預設與 `squad` 同步；若 `squad` 為空且未指定 `collectible_mode_squad` 時，則預設為「指揮分隊」。  
+燒水時使用的分隊。預設與 `squad` 同步；若 `squad` 為空且未指定 `collectible_mode_squad` 時，則預設為 ｢指揮分隊｣ 。  
 :::  
 ::: field start_with_seed  
 @type string
 @optional
 使用種子刷錢時填入固定種子，留空則不啟用。
 <br>
-僅在 Sarkaz 主題中的 Investment 模式，且為「點刺成錠分隊」或「後勤分隊」時生效。  
+僅在 Sarkaz 主題中的 Investment 模式，且為 ｢點刺成錠分隊｣ 或 ｢後勤分隊｣ 時生效。  
 :::  
 ::: field blackflow_strategy  
 @type string
@@ -1641,7 +1641,7 @@ AsstBool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char*
 @type const char\*
 @required
 任務參數，json 字串，格式與 `AsstAppendTask` 介面相同。  
-未標註「不支援在執行中更改設定」的欄位皆支援即時修改；若該欄位不支援且目前任務正在執行，將忽略該欄位的變更。  
+未標註 ｢不支援在執行中更改設定｣ 的欄位皆支援即時修改；若該欄位不支援且目前任務正在執行，將忽略該欄位的變更。  
 :::  
 ::::
 

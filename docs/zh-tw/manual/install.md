@@ -64,7 +64,7 @@ MAA GUI **暫不支援** Linux 和其他作業系統。您可以使用 **maa-cli
 
 ::: warning
 
-1. 請不要將 MAA 解壓縮到如 `C:\` 或 `C:\Program Files\` 等受系統保護的路徑，以免因「管理員權限限制」導致程式執行失敗。
+1. 請不要將 MAA 解壓縮到如 `C:\` 或 `C:\Program Files\` 等受系統保護的路徑，以免因 ｢管理員權限限制｣ 導致程式執行失敗。
 2. MAA 已內建 .NET 執行環境（獨立發行版），但仍需要 Visual C++ Redistributable x64（VCRedist x64）。請在解壓縮後的 MAA 目錄中以系統管理員身分執行 `DependencySetup_依赖库安装.bat` 來安裝該相依元件，安裝完成後再執行 `MAA.exe`。
 
 更多資訊請參考 [常見問題](./faq.md) 置頂內容。

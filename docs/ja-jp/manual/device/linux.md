@@ -78,7 +78,7 @@ MAA Wine Bridge で生成された `MaaDesktopIntegration.so` を `MAA.exe` と�
 
    以下のいずれかの方法を選択してください：
    - [MAA 公式サイト](https://maa.plus/) からビルド済みの Linux 動的ライブラリ圧縮ファイルをダウンロードし、展開後に `Python/sample.py` ファイルを編集します
-   - AUR：[maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)、インストール後の「Alternative usage」の指示に従ってファイルを編集します
+   - AUR：[maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)、インストール後の ｢Alternative usage｣ の指示に従ってファイルを編集します
    - Nixpkgs: [maa-assistant-arknights](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
 
    ::: tip
@@ -111,7 +111,7 @@ MAA Wine Bridge で生成された `MaaDesktopIntegration.so` を `MAA.exe` と�
       if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "emulator-5554"):
       ```
 
-   4. ここでテストを実行できます：`$ python3 sample.py`。「连接成功」と返されれば基本的に準備完了です。
+   4. ここでテストを実行できます：`$ python3 sample.py`。 ｢连接成功｣ と返されれば基本的に準備完了です。
 
 3. タスク構成
 

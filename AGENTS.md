@@ -2,6 +2,8 @@
 
 格式由 `.pre-commit-config.yaml` 钩子机器强制，各钩子有 files 范围；本地不处理好的话 GitHub CI 会定时代跑并生成额外的机器修复 commit，为避免此副作用，改完文件后须本地跑对应格式化（如 C++ 的 clang-formatter）。
 
+界面文案、代码注释、文档正文（含代码块内注释）的角引号统一用半角 ｢｣，左括号前、右括号后各加一个空格（紧贴 Markdown 语法边界如链接方括号、加粗星号时不加），禁止全角「」；代码块内字符串值保留游戏原文，名称自带全角引号的（如召唤物「逍遥」）维持全角不动。
+
 ## C++（MaaCore）
 
 - 格式化用 `python tools/ClangFormatter/clang-formatter.py --input=<改动文件或其所在子目录>`（`--input` 收目录递归或单个文件），只传本次改动的范围，确需全仓库批量时才传 `src/MaaCore`（全量幂等但白扫全仓库）；版本需求：clang-format 23.1.1（对齐 `.pre-commit-config.yaml` 锁定版本）；5 位以上整数字面量加千分位撇（`65'535`，存量尚有漏改，勿照抄）。

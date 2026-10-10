@@ -9,7 +9,7 @@ icon: material-symbols:download-2-rounded
 
 ::: tip
 
-これは MAA GUI のダウンロードとインストールに関するドキュメントです。maa-cli のダウンロードとインストールについては、[インストールとコンパイル](./cli/install.md)を参照してください。現在、Android版「MAA-Meow（MAA Android版）」はテスト公開中です。詳細は [MAA-Meow](https://github.com/Aliothmoon/MAA-Meow)をご覧ください。（現在、このソフトウェアのUIは中国語のみサポートしています）
+これは MAA GUI のダウンロードとインストールに関するドキュメントです。maa-cli のダウンロードとインストールについては、[インストールとコンパイル](./cli/install.md)を参照してください。現在、Android版 ｢MAA-Meow（MAA Android版）｣ はテスト公開中です。詳細は [MAA-Meow](https://github.com/Aliothmoon/MAA-Meow)をご覧ください。（現在、このソフトウェアのUIは中国語のみサポートしています）
 
 :::
 
