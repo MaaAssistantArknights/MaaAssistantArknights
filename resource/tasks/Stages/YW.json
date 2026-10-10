@@ -14,6 +14,11 @@
         "sub": ["YW-8@YW-OpenOpt"],
         "next": ["YW-8@SideStoryStage", "YW-8@SwipeToStage"]
     },
+    "YW-4": {
+        "algorithm": "JustReturn",
+        "sub": ["YW-4@YW-OpenOpt"],
+        "next": ["YW-4@SideStoryStage", "YW-4@SwipeToStage"]
+    },
     "YW-6@SideStoryStage": {
         "text": ["YW-6"]
     },
@@ -22,6 +27,9 @@
     },
     "YW-8@SideStoryStage": {
         "text": ["YW-8"]
+    },
+    "YW-4@SideStoryStage": {
+        "text": ["YW-4"]
     },
     "YW-OpenOpt": {
         "algorithm": "JustReturn",
