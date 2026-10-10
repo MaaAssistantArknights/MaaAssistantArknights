@@ -23,7 +23,9 @@
             "TerminalTogether",
             "TerminalLoneTrail",
             "TerminalReconstruct",
-            "TerminalHunting"
+            "TerminalHunting",
+            "TerminalBlackFlow",
+            "TerminalAct"
         ],
         "onErrorNext": ["Terminal-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -95,5 +97,13 @@
         "baseTask": "TerminalDefault",
         "template": "Hunting/Terminal.png",
         "roi": [861, 74, 248, 127]
+    },
+    "TerminalBlackFlow": {
+        "baseTask": "TerminalDefault",
+        "template": "BlackFlow/Terminal.png"
+    },
+    "TerminalAct": {
+        "baseTask": "TerminalDefault",
+        "template": "Act/Terminal.png"
     }
 }

@@ -48,6 +48,7 @@ public: // ControllerAPI 接口
     virtual size_t get_version() const noexcept override { return 0; }
 
     virtual bool screencap(cv::Mat& image_payload, bool allow_reconnect = false) override;
+    virtual bool screencap_for_preview(cv::Mat& image_payload, bool allow_reconnect = false) override;
 
     virtual bool start_game(const std::string& client_type) override;
     virtual bool stop_game(const std::string& client_type) override;
@@ -72,6 +73,7 @@ public: // ControllerAPI 接口
     virtual std::pair<int, int> get_screen_res() const noexcept override;
 
 private:
+    bool screencap_impl(cv::Mat& image_payload, bool move_cursor);
     void callback(AsstMsg msg, const json::value& details);
     // 记录窗口当前位置，任务结束时恢复
     void save_window_position();

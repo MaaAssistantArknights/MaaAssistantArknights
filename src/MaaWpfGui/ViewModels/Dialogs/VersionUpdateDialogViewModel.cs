@@ -420,9 +420,12 @@ public class VersionUpdateDialogViewModel : Screen
         }
     }
 
+    // UI 预览模式下 Core 未加载，不触碰 native，降级为占位值（预览模式不做更新比较）
     private readonly string _curVersion = FakeUpdateHelper.IsEnabled
         ? FakeUpdateHelper.CurrentVersion
-        : Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()) ?? "0.0.1";
+        : Main.Bootstrapper.IsCoreInitSkipped
+            ? "N/A"
+            : Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()) ?? "0.0.1";
 
     private string _latestVersion = string.Empty;
 

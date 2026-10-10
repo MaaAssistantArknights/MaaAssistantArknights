@@ -18,6 +18,11 @@ class Updater:
     # API的地址
     Mirrors = ["https://api.maa.plus"]
     Summary_json = "/MaaAssistantArknights/api/version/summary.json"
+    # 完整包会整体提供的资源目录，MaaCore 会递归加载其中的文件且不允许重名
+    # 新版本删除或移动的文件若残留在这些目录中，会导致资源加载失败
+    Package_managed_dirs = re.compile(
+        r"^resource/(?:global/[^/]+/resource/)?(?:tasks|template)(?=/)"
+    )
 
     @staticmethod
     def custom_print(s):
@@ -171,6 +176,92 @@ class Updater:
                 return mirrors, assets_name
         return False, False
 
+    @staticmethod
+    def _remove_stale_resource_files(path, package_files):
+        """
+        删除完整包整体提供的资源目录中、新版本已不再包含的文件和空目录
+        只处理 Package_managed_dirs 匹配且位于安装目录内的目录，用户自定义基建配置等其他文件不受影响
+        返回被删除文件的相对路径列表
+        """
+        package_paths = set()
+        case_variants = {}
+        managed_dirs = set()
+        for name in package_files:
+            name = name.replace("\\", "/")
+            while name.startswith("./"):
+                name = name[2:]
+            name = name.rstrip("/")
+            if not name:
+                continue
+            package_paths.add(name)
+            case_variants.setdefault(name.lower(), []).append(name)
+            match = Updater.Package_managed_dirs.match(name)
+            if match:
+                managed_dirs.add(match.group(0))
+
+        def in_package(rel_path, full_path):
+            if rel_path in package_paths:
+                return True
+            # 大小写不敏感的文件系统上，仅大小写不同的路径就是新包中的同一个文件，不能删除
+            for variant in case_variants.get(rel_path.lower(), []):
+                try:
+                    if os.path.samefile(
+                        full_path, os.path.join(path, *variant.split("/"))
+                    ):
+                        return True
+                except OSError:
+                    pass
+            return False
+
+        errors = []
+
+        def on_walk_error(e):
+            errors.append(e)
+            Updater.custom_print(f"扫描旧资源目录失败: {e}")
+
+        real_path = os.path.realpath(path)
+        removed = []
+        for managed_dir in sorted(managed_dirs):
+            root = os.path.join(path, *managed_dir.split("/"))
+            # 资源目录经符号链接指向安装目录之外时跳过，避免误删其他数据
+            try:
+                inside = (
+                    os.path.commonpath([real_path, os.path.realpath(root)]) == real_path
+                )
+            except ValueError:
+                inside = False
+            if not inside:
+                Updater.custom_print(f"{managed_dir} 指向安装目录之外，跳过清理")
+                continue
+            for dirpath, _, filenames in os.walk(
+                root, topdown=False, onerror=on_walk_error
+            ):
+                for filename in filenames:
+                    full_path = os.path.join(dirpath, filename)
+                    rel_path = os.path.relpath(full_path, path).replace(os.sep, "/")
+                    if in_package(rel_path, full_path):
+                        continue
+                    try:
+                        os.remove(full_path)
+                        removed.append(rel_path)
+                    except OSError as e:
+                        errors.append(e)
+                        Updater.custom_print(f"删除旧资源文件失败: {rel_path}, {e}")
+                if dirpath == root:
+                    continue
+                rel_dir = os.path.relpath(dirpath, path).replace(os.sep, "/")
+                try:
+                    if not os.listdir(dirpath) and not in_package(rel_dir, dirpath):
+                        os.rmdir(dirpath)
+                except OSError as e:
+                    errors.append(e)
+                    Updater.custom_print(f"删除旧资源目录失败: {rel_dir}, {e}")
+        if errors:
+            Updater.custom_print(
+                "部分旧资源未能清理，如遇资源加载失败，请删除 resource 目录后重新解压更新包"
+            )
+        return removed
+
     def update(self):
         """
         主函数
@@ -231,19 +322,27 @@ class Updater:
             Updater.custom_print("开始安装更新，请不要关闭")
             file_extension = os.path.splitext(filename)[1]
             unzip = False
+            package_files = []
             # 根据拓展名选择解压算法
             # .zip(Windows)/.tar.gz(Linux)
             if file_extension == ".zip":
                 zfile = zipfile.ZipFile(file, "r")
+                package_files = zfile.namelist()
                 zfile.extractall(self.path)
                 zfile.close()
                 unzip = True
             # .tar.gz拓展名的情况（按照这个方式得到的拓展名是.gz，但是解压的是tar.gz
             elif file_extension == ".gz":
                 tfile = tarfile.open(file, "r:gz")
+                package_files = tfile.getnames()
                 tfile.extractall(self.path)
                 tfile.close()
                 unzip = True
+            if unzip:
+                # 解压只会覆盖文件，需要清理新版本已删除或移动的旧资源文件
+                removed = self._remove_stale_resource_files(self.path, package_files)
+                if removed:
+                    Updater.custom_print(f"已清理{len(removed)}个旧版本残留的资源文件")
             # 删除压缩包
             os.remove(file)
             if unzip:

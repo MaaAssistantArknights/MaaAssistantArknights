@@ -671,11 +671,23 @@
         "action": "ClickSelf",
         "roi": [20, 15, 55, 50],
         "maxTimes": 1,
-        "next": ["UserCenter", "ExitOld"]
+        "next": ["AccountLogout", "UserCenter", "ExitOld"]
+    },
+    "AccountLogout": {
+        "Doc": "设置页左栏「账号登出」",
+        "action": "ClickSelf",
+        "roi": [40, 610, 66, 75],
+        "next": ["AccountLogoutConfirm", "AccountLogout"]
+    },
+    "AccountLogoutConfirm": {
+        "Doc": "「即将返回登录界面，是否继续？」确认",
+        "baseTask": "LogoutConfirm",
+        "template": "PopupConfirm.png",
+        "roi": [630, 445, 650, 95]
     },
     "UserCenter": {
         "action": "ClickSelf",
-        "roi": [50, 470, 50, 75],
+        "roi": [42, 522, 63, 75],
         "next": ["Logout", "LogoutOCR"]
     },
     "Logout": {
@@ -721,7 +733,7 @@
     },
     "AccountManager": {
         "action": "ClickSelf",
-        "roi": [855, 660, 150, 40],
+        "roi": [693, 655, 310, 54],
         "next": ["LoginOther"]
     },
     "LoginOther": {
@@ -1406,7 +1418,7 @@
         "doc": "跳过可能出现的等级提升界面。另外还有个金圈升级动画的界面，可能还需要一次点击。很难验证，先把这个页面点了",
         "action": "ClickSelf",
         "roi": [1000, 250, 270, 200],
-        "next": ["AnnihilationPrtsRecordConfirm", "EndOfActionAnnihilation", "EndOfAction"]
+        "next": ["AnnihilationPrtsRecordConfirm", "EndOfActionAnnihilation", "EndOfAction", "ClickCornerAfterPRTS"]
     },
     "ClickCornerAfterPRTS": {
         "algorithm": "JustReturn",
@@ -3081,6 +3093,10 @@
             [
                 [225, 174, 0],
                 [255, 234, 30]
+            ],
+            [
+                [225, 174, 40],
+                [255, 234, 100]
             ]
         ],
         "templThreshold": 0.95,
@@ -3096,6 +3112,10 @@
             [
                 [225, 174, 0],
                 [255, 234, 30]
+            ],
+            [
+                [225, 174, 40],
+                [255, 234, 100]
             ]
         ],
         "templThreshold": 0.95,
@@ -3110,6 +3130,10 @@
             [
                 [21, 174, 225],
                 [81, 234, 255]
+            ],
+            [
+                [50, 150, 225],
+                [150, 234, 255]
             ]
         ],
         "templThreshold": 0.95,
@@ -3124,6 +3148,10 @@
             [
                 [21, 174, 225],
                 [81, 234, 255]
+            ],
+            [
+                [50, 150, 225],
+                [150, 234, 255]
             ]
         ],
         "templThreshold": 0.95,
@@ -6142,7 +6170,7 @@
         "algorithm": "JustReturn",
         "action": "Swipe",
         "postDelay": 1500,
-        "specificRect": [957, 355, 20, 20],
+        "specificRect": [1057, 355, 20, 20],
         "rectMove": [286, 355, 20, 20],
         "specialParams": [400, 1, 2, 0],
         "maxTimes": 20
@@ -6384,13 +6412,23 @@
         "roi": [485, 425, 84, 20]
     },
     "OperProgress@MfgCatalystMissing": {
-        "baseTask": "OperProgress@EliteUpMaterialMissing",
-        "template": "MaterialMissing.png"
+        "algorithm": "MatchTemplate",
+        "method": "HSVCount",
+        "template": "MfgCatalystMissing.png",
+        "pureColor": true,
+        "roi": [534, 89, 19, 151],
+        "colorScales": [
+            [
+                [0, 160, 100],
+                [3, 190, 135]
+            ]
+        ],
+        "doc": "制造站芯片列表首行芯片助剂不足时的深红色背景"
     },
     "OperProgress@ReturnToMfgPage": {
         "baseTask": "Return",
         "template": "Return.png",
-        "next": ["OperProgress@MfgPage", "OperProgress@ReturnToMfgPage"]
+        "next": ["ChooseChipTabSelected", "OperProgress@MfgPage", "OperProgress@ReturnToMfgPage"]
     },
     "OperProgress@SkillUpPage": {
         "baseTask": "OperProgress@SkillUpConfirm",

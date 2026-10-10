@@ -1,4 +1,4 @@
-// <copyright file="DummyNotificationProvider.cs" company="MaaAssistantArknights">
+// <copyright file="NotificationSettingsUserControl.xaml.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -11,14 +11,14 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System.Threading.Tasks;
+using System.Windows.Controls;
 
-namespace MaaWpfGui.Services.ExternalNotification;
+namespace MaaWpfGui.Views.UserControl.Settings;
 
-public class DummyNotificationProvider : IExternalNotificationProvider
+public partial class NotificationSettingsUserControl : System.Windows.Controls.UserControl
 {
-    public Task<bool> SendAsync(string title, string content)
+    public NotificationSettingsUserControl()
     {
-        return Task.FromResult(true);
+        InitializeComponent();
     }
 }

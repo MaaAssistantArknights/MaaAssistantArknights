@@ -1,0 +1,58 @@
+{
+    "YW-6": {
+        "algorithm": "JustReturn",
+        "sub": ["YW-6@YW-OpenOpt"],
+        "next": ["YW-6@SideStoryStage", "YW-6@SwipeToStage"]
+    },
+    "YW-7": {
+        "algorithm": "JustReturn",
+        "sub": ["YW-7@YW-OpenOpt"],
+        "next": ["YW-7@SideStoryStage", "YW-7@SwipeToStage"]
+    },
+    "YW-8": {
+        "algorithm": "JustReturn",
+        "sub": ["YW-8@YW-OpenOpt"],
+        "next": ["YW-8@SideStoryStage", "YW-8@SwipeToStage"]
+    },
+    "YW-4": {
+        "algorithm": "JustReturn",
+        "sub": ["YW-4@YW-OpenOpt"],
+        "next": ["YW-4@SideStoryStage", "YW-4@SwipeToStage"]
+    },
+    "YW-6@SideStoryStage": {
+        "text": ["YW-6"]
+    },
+    "YW-7@SideStoryStage": {
+        "text": ["YW-7"]
+    },
+    "YW-8@SideStoryStage": {
+        "text": ["YW-8"]
+    },
+    "YW-4@SideStoryStage": {
+        "text": ["YW-4"]
+    },
+    "YW-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["YW-OpenOcr", "YW-Open"]
+    },
+    "YW-Open": {
+        "baseTask": "SS-Open",
+        "postDelay": 5000,
+        "template": ["StageSideStory.png", "StageActivity.png"],
+        "next": ["YWChapterToYW"]
+    },
+    "YW-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["昨日海", "我们的伊比利亚"],
+        "postDelay": 5000,
+        "next": ["YWChapterToYW"]
+    },
+    "YWChapterToYW": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["伊比利亚"],
+        "roi": [870, 560, 120, 50],
+        "postDelay": 2000,
+        "next": ["#self", "SideStoryStage", "ChapterSwipeToTheRight"]
+    }
+}

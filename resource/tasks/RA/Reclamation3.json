@@ -997,16 +997,15 @@
     "RelaunchAnchor@RA@RA4-WaitMission3": {
         "doc": "步骤 51 前等待任务完成",
         "baseTask": "RelaunchAnchor@RA@Common-WaitSkip",
-        "next": ["RelaunchAnchor@RA@RA4-ClickMission3", "#self"]
+        "next": ["RelaunchAnchor@RA@RA4-SettleNow", "RelaunchAnchor@RA@RA4-ClickMission3", "#self"]
     },
     "RelaunchAnchor@RA@RA4-ClickMission3": {
-        "doc": "步骤 51：OCR 识别 <敌人(1> 并点击",
+        "doc": "步骤 51：OCR 识别 <累计击败领袖敌人> 并点击",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["敌人（1"],
-        "ocrReplace": [["\\(", "（"]],
+        "text": ["累计", "击败", "领袖", "敌人"],
         "roi": [80, 231, 205, 27],
-        "next": ["RelaunchAnchor@RA@RA4-SettleNow"]
+        "next": ["#self", "RelaunchAnchor@RA@RA4-WaitMission3"]
     },
     "RelaunchAnchor@RA@RA4-SettleNow": {
         "doc": "步骤 52：OCR 识别 <立即结算> 并点击",

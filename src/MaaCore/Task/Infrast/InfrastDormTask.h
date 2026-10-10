@@ -79,6 +79,7 @@ private:
     bool set_notstationed_filter(bool enabled);
     bool restore_list_sort_for_selection_phase(asst::infrast::CustomRoomConfig const& room_config);
     bool switch_to_mood_sort();
+    bool switch_to_skill_sort();
     bool switch_to_low_mood_sort();
     void switch_to_trust_autofill_phase();
     void advance_after_trust_sort();

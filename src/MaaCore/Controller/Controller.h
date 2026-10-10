@@ -69,7 +69,9 @@ public:
 
     cv::Mat get_image(bool raw = false);
     cv::Mat get_image_cache() const;
+    cv::Mat get_preview_image_cache() const;
     bool screencap(bool allow_reconnect = false);
+    bool screencap_for_preview(bool allow_reconnect = false);
 
     bool start_game(const std::string& client_type);
     bool stop_game(const std::string& client_type);
@@ -109,7 +111,7 @@ public:
     bool back_to_home();
 
 private:
-    cv::Mat get_resized_image_cache() const;
+    cv::Mat get_resized_image_cache(bool for_preview = false) const;
 
     void clear_info() noexcept;
     void callback(AsstMsg msg, const json::value& details);
@@ -140,5 +142,6 @@ private:
 
     mutable std::shared_mutex m_image_mutex;
     cv::Mat m_cache_image;
+    cv::Mat m_preview_image;
 };
 } // namespace asst

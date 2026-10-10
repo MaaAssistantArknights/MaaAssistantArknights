@@ -13,11 +13,10 @@ Depot Maintain is a task that **automatically farms materials to a target invent
 
 ## How It Works
 
-1. At the start of the task (if "Update depot data before starting" is checked), a depot recognition is performed to get the latest inventory.
-2. For each plan, the shortfall is calculated by subtracting the current quantity from the target.
-3. Fight tasks are automatically added for materials with shortfalls.
-4. After each stage drop, the depot cache is updated in real-time, so materials farmed by earlier plans affect the shortfall calculation of later plans.
-5. Right before each plan starts, MAA re-checks whether it needs to run: if the target inventory is already reached, or the current sanity estimated from the sanity reported by the most recent fight is below the stage's minimum entry cost and the plan has no potion/Originium budget, the plan is skipped entirely (no terminal, no navigation), with the reason logged. When expiring potions count as unavailable, see [Use expiring sanity potions within 48 hours](#use-expiring-sanity-potions-within-48-hours).
+1. When the task starts, MAA first checks each plan's shortfall against the inventory data cached at that moment; this step is called the pre-check. Plans already meeting their targets are logged and skipped in the pre-check, not added to this run's farming list, and never re-evaluated afterwards. The pre-check runs before depot recognition and uses the cache from before recognition.
+2. Fight tasks are automatically added for materials with shortfalls in the pre-check; if "Update depot data before starting" is checked, a depot recognition is performed before the plans run.
+3. After each stage drop, the depot cache is updated in real-time, so materials farmed by earlier plans affect the shortfall calculation of later plans.
+4. Right before each plan starts, MAA re-checks whether it needs to run: if the target inventory is already reached, or the current sanity estimated from the sanity reported by the most recent fight is below the stage's minimum entry cost and the plan has no potion/Originium budget, the plan is skipped entirely (no terminal, no navigation), with the reason logged. Data refreshed by depot recognition takes effect from this step. If a skipped plan turns out to be insufficient after recognition, it will be logged; re-running the task farms it based on the actual inventory. When expiring potions count as unavailable, see [Use expiring sanity potions within 48 hours](#use-expiring-sanity-potions-within-48-hours).
 
 ::: tip Depot Data Sync
 Depot data is cached and may differ from your actual stock after manual farming, crafting, or material use. Sync it with [Update Doctor Data](./user-data-update.md) or [Depot Recognition](./tools.md#depot-recognition).
@@ -43,7 +42,8 @@ Items in the plan list can be **dragged to reorder**. Plans are executed in orde
 - Plans with a sanity potion or Originium budget are never skipped for insufficient sanity: even when sanity is not enough, they still enter the stage and restore sanity with the budget to keep fighting.
 - Plans without a budget are skipped directly (without entering the stage) when the target inventory is already reached, or when the estimated current sanity is below the stage's minimum entry cost and expiring potions are unavailable (see "Use expiring sanity potions within 48 hours").
 - Decisions always use the latest state: after a middle plan restores sanity and reaches its target, the remaining sanity still flows to later plans.
-  :::
+
+:::
 
 ### Presets
 
@@ -59,7 +59,9 @@ Built-in presets for quick plan population:
 
 ### Update depot data before starting
 
-When checked, a depot recognition is performed at task start to get the latest inventory. Uncheck to use the last cached data.
+When checked, a depot recognition runs before the plans and corrects the inventory cache to the actual values. When unchecked, no recognition runs; the cache keeps its previous values and still accumulates drops from this run's stages in real time.
+
+Every plan is re-checked against the latest cache when it starts, regardless of this setting. The difference made by checking it is only the recognition correction, especially the downward correction of cache values inflated by manual consumption. However, plans that were sufficient during the pre-check are not added to this run's farming list, and skipped plans cannot be added while the task is running; if recognition reveals they are actually insufficient, they will only be logged. Re-running the task farms them based on the actual inventory. After manually consuming or using materials and items (e.g. shopping with Purchase Certificates, crafting materials), it is recommended to sync once via the [Data Update](./user-data-update.md) task or the [Depot Recognition](./tools.md#depot-recognition) tool before starting the task.
 
 Recommended to keep checked unless you are certain the cache is accurate or want to save recognition time.
 

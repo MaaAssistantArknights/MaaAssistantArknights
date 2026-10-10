@@ -60,8 +60,11 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
     /// <summary>为 true 时不响应集合变更，避免刷新期间把条目回写任务配置。</summary>
     private bool _isRefreshing;
 
+    private readonly HashSet<OperProgressPlanItemViewModel> _subscribedPlanItems = [];
+
     private void RefreshPlanItems(OperProgressTask task)
     {
+        PlanItems.CollectionChanged -= PlanItems_CollectionChanged;
         var list = task.Plans.Select((plan, index) => {
             int elite = plan.Elite;
             int mainSkillLevel = plan.SkillLevel;
@@ -70,10 +73,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         }).ToList();
         PlanItems = [.. list];
         PlanItems.CollectionChanged += PlanItems_CollectionChanged;
-        foreach (var item in PlanItems)
-        {
-            item.PropertyChanged += PlanItem_PropertyChanged;
-        }
+        UpdatePlanItemSubscriptions();
     }
 
     private void SavePlan()
@@ -167,11 +167,12 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                 foreach (var item in json)
                 {
                     var plan = ParsePlan(item as JObject);
-                    if (plan.Role == OperatorRole.Unknown && DataHelper.Operators.FirstOrDefault(c => c.Value.Name == plan.Name) is { } character)
+                    var oper = FindOper(plan.Role, plan.Name);
+                    if (plan.Role == OperatorRole.Unknown && oper is { } character)
                     {
-                        plan = plan with { Role = character.Value.Role };
+                        plan = plan with { Role = oper.Role };
                     }
-                    if (plan.Role == OperatorRole.Unknown || string.IsNullOrEmpty(plan.Name))
+                    if (oper is null)
                     {
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ParseFailed") + $"\nunknown oper: {plan.Role}-{plan.Name}", UiLogColor.Error);
                         return;
@@ -187,6 +188,26 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                 return;
             }
         }
+        DataHelper.CharacterInfo? FindOper(OperatorRole role, string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return null;
+            }
+            if (role != OperatorRole.Unknown)
+            {
+                return DataHelper.Operators.Values.FirstOrDefault(oper => oper.Role == role && NameMatch(oper, name));
+            }
+            else
+            {
+                return DataHelper.Operators.Values.FirstOrDefault(oper => NameMatch(oper, name));
+            }
+        }
+        bool NameMatch(DataHelper.CharacterInfo oper, string name) => oper.Name == name ||
+            (!oper.NameEnUnavailable && oper.NameEn == name) ||
+            (!oper.NameTwUnavailable && oper.NameTw == name) ||
+            (!oper.NameJpUnavailable && oper.NameJp == name) ||
+            (!oper.NameKrUnavailable && oper.NameKr == name);
     }
 
     /// <summary>
@@ -216,10 +237,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
     private void PlanItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        foreach (var item in e.NewItems?.OfType<OperProgressPlanItemViewModel>() ?? [])
-        {
-            item.PropertyChanged += PlanItem_PropertyChanged;
-        }
+        UpdatePlanItemSubscriptions();
 
         if (_isRefreshing)
         {
@@ -228,6 +246,24 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
         ReindexPlanItems();
         SavePlan();
+    }
+
+    private void UpdatePlanItemSubscriptions()
+    {
+        var currentItems = PlanItems.ToHashSet();
+        foreach (var item in _subscribedPlanItems.Except(currentItems).ToList())
+        {
+            item.PropertyChanged -= PlanItem_PropertyChanged;
+            _subscribedPlanItems.Remove(item);
+        }
+
+        foreach (var item in currentItems)
+        {
+            if (_subscribedPlanItems.Add(item))
+            {
+                item.PropertyChanged += PlanItem_PropertyChanged;
+            }
+        }
     }
 
     private void PlanItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)

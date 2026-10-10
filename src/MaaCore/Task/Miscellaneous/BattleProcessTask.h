@@ -15,7 +15,9 @@ public:
     virtual ~BattleProcessTask() override = default;
 
     virtual bool set_stage_name(const std::string& stage_name) override;
-    void set_wait_until_end(bool wait_until_end);
+
+    void set_wait_until_end(bool wait_until_end) { m_need_to_wait_until_end = wait_until_end; };
+
     void set_formation_task_ptr(std::shared_ptr<std::unordered_map<battle::OperNameTag, std::string>> value);
 
 protected:
@@ -34,6 +36,10 @@ protected:
     virtual battle::copilot::CombatData& get_combat_data() { return m_combat_data; }
 
     virtual bool need_to_wait_until_end() const { return m_need_to_wait_until_end; }
+
+    // 等待战斗结束期间是否继续策略轮询：经 set_wait_until_end 打开的等待是流程同步语义
+    // （等战斗结束再导航下一关），不应隐式挂机；依赖等待期轮询驱动战斗的模式由其 override 打开
+    virtual bool need_strategy_during_wait() const noexcept { return false; }
 
     bool to_group();
     bool do_action(const battle::copilot::Action& action, size_t index);

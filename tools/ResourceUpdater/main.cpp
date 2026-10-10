@@ -27,13 +27,13 @@ namespace fs = std::filesystem;
 namespace
 {
 const std::unordered_map<std::string, std::string> InfrastRoomTypeMap = {
-    { "POWER", "Power" },         { "CONTROL", "Control" }, { "DORMITORY", "Dorm" },
-    { "WORKSHOP", "Processing" }, { "MANUFACTURE", "Mfg" }, { "TRADING", "Trade" },
-    { "MEETING", "Reception" },   { "HIRE", "Office" },     { "TRAINING", "Training" },
+    { "POWER", "Power" },       { "CONTROL", "Control" }, { "DORMITORY", "Dorm" },    { "WORKSHOP", "Processing" },
+    { "MANUFACTURE", "Mfg" },   { "TRADING", "Trade" },   { "MEETING", "Reception" }, { "HIRE", "Office" },
+    { "TRAINING", "Training" }, { "RECYCLE", "Recycle" },
 };
 
-constexpr std::array<std::string_view, 9> InfrastRoomTypes = {
-    "Power", "Reception", "Control", "Dorm", "Trade", "Office", "Mfg", "Processing", "Training",
+constexpr std::array<std::string_view, 10> InfrastRoomTypes = {
+    "Power", "Reception", "Control", "Dorm", "Trade", "Office", "Mfg", "Processing", "Training", "Recycle",
 };
 
 // Size of per-operator avatar images written as template/avatar/<oper_id>.png, must be
@@ -1037,7 +1037,12 @@ bool update_infrast_templates(const fs::path& input_dir, const fs::path& buildin
         std::cerr << building_data_file << " has no buffs" << '\n';
         return false;
     }
+    // infrast.json 只收录映射表内房间的技能，模板侧按同一口径收集，未知房间的技能不写模板
     for (const auto& [_, buff] : buffs_opt.value()) {
+        const std::string room_type = buff.get("roomType", std::string());
+        if (!InfrastRoomTypeMap.contains(room_type)) {
+            continue;
+        }
         const std::string skill_icon = buff.get("skillIcon", std::string());
         if (!skill_icon.empty()) {
             icon_ids.emplace(skill_icon);
@@ -1345,6 +1350,19 @@ bool generate_english_roguelike_stage_name_replacement(const fs::path& ch_file, 
     return true;
 }
 
+bool mat_pixels_equal(const cv::Mat& lhs, const cv::Mat& rhs)
+{
+    if (lhs.size() != rhs.size() || lhs.type() != rhs.type()) {
+        return false;
+    }
+    for (int row = 0; row != lhs.rows; ++row) {
+        if (std::memcmp(lhs.ptr(row), rhs.ptr(row), lhs.cols * lhs.elemSize()) != 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
 bool update_oper_avatars(const fs::path& avatar_dir, const std::set<std::string>& oper_ids, const fs::path& output_dir)
 {
     std::error_code ec;
@@ -1403,13 +1421,12 @@ bool update_oper_avatars(const fs::path& avatar_dir, const std::set<std::string>
         }
 
         const auto output_file = output_dir / (id + ".png");
+        // 仓库文件已被 CI 的 oxipng 优化，压缩形态与 imencode 输出天然不同，按字节比较会
+        // 误判全部头像为已变化而重写，因此比较解码后的像素
         bool unchanged = false;
         if (fs::exists(output_file)) {
-            std::ifstream ifs(output_file, std::ios::binary);
-            const std::string existing((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
-            // std::equal 比较 signed char 与 unsigned char 会因符号扩展恒为不等，必须按原始字节比较
-            unchanged =
-                existing.size() == encoded.size() && std::memcmp(existing.data(), encoded.data(), encoded.size()) == 0;
+            const cv::Mat existing = cv::imread(output_file.string(), -1);
+            unchanged = mat_pixels_equal(existing, resized);
         }
 
         kept_ids.emplace(id);

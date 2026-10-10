@@ -50,6 +50,12 @@ public partial class TimerSettings : NotifyPropertyChangedWithValue
 
     public bool CustomConfig { get; set; }
 
+    public bool NotifyBeforeScheduledStart { get; set; }
+
+    public int ScheduledStartNotificationMinutes { get; set; } = 5;
+
+    public bool ScheduledWakeUp { get; set; }
+
     [JsonInclude]
     public ObservableCollection<Timer> List { get; private set; } = [];
 }

@@ -87,6 +87,10 @@ public:
 bool asst::OperProgressTask::set_params(const json::value& params)
 {
     LogTraceFunction;
+    if (m_running) {
+        LogError << __FUNCTION__ << "task is running, cannot set params";
+        return false;
+    }
 
     const auto& plans = params.find<std::vector<ProgressPlan>>("plans");
     if (!plans) {
@@ -103,6 +107,11 @@ bool asst::OperProgressTask::set_params(const json::value& params)
                 return false;
             }
             role = *roles.begin();
+        }
+        else if (role == battle::Role::Drone) {
+            // 专精对象只能是干员，装置/召唤物没有技能专精
+            LogError << __FUNCTION__ << "oper plan does not support drone:" << plan.name;
+            return false;
         }
         else if (asst::BattleData.find_opers(role, plan.name).empty()) {
             LogError << __FUNCTION__ << "unknown oper name: " << plan.name << ", role:" << role;

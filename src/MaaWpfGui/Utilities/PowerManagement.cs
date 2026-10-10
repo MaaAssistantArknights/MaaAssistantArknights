@@ -59,7 +59,8 @@ public class PowerManagement
     {
         try
         {
-            return PInvoke.SetSuspendState(true, true, true);
+            // 第三参数传 false 保持唤醒事件启用，与手动睡眠行为一致，不挡计划任务的唤醒定时器
+            return PInvoke.SetSuspendState(true, true, false);
         }
         catch (Exception ex)
         {
@@ -72,7 +73,8 @@ public class PowerManagement
     {
         try
         {
-            return PInvoke.SetSuspendState(false, true, true);
+            // 第三参数传 false 保持唤醒事件启用，与手动睡眠行为一致，不挡计划任务的唤醒定时器
+            return PInvoke.SetSuspendState(false, true, false);
         }
         catch (Exception ex)
         {

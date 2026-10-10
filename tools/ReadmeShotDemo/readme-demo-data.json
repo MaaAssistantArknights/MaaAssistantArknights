@@ -91,7 +91,8 @@
                 "enabled": false
             }
         ],
-        "stages": ["PA-8", "CE-6", "1-7"]
+        "stages": ["PA-8", "CE-6", "1-7"],
+        "specifiedDrops": "30012"
     },
     "thumbnails": ["thumbnails/thumb-2.png", "thumbnails/thumb-3.png", "thumbnails/thumb-4.png"],
     "taskQueueLogs": [

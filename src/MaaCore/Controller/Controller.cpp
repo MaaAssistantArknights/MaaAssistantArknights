@@ -111,6 +111,9 @@ void asst::Controller::clear_info() noexcept
     m_scale_size = { WindowWidthDefault, WindowHeightDefault };
     m_controller = nullptr;
     m_scale_proxy = nullptr;
+    std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
+    m_cache_image.release();
+    m_preview_image.release();
 }
 
 void asst::Controller::callback(AsstMsg msg, const json::value& details)
@@ -144,17 +147,18 @@ bool asst::Controller::back_to_home()
     return true;
 }
 
-cv::Mat asst::Controller::get_resized_image_cache() const
+cv::Mat asst::Controller::get_resized_image_cache(bool for_preview) const
 {
     const cv::Size d_size(m_scale_size.first, m_scale_size.second);
 
     std::shared_lock<std::shared_mutex> image_lock(m_image_mutex);
-    if (m_cache_image.empty()) {
+    const auto& image = for_preview && !m_preview_image.empty() ? m_preview_image : m_cache_image;
+    if (image.empty()) {
         Log.error("image is empty");
         return { d_size, CV_8UC3 };
     }
     cv::Mat resized_mat;
-    cv::resize(m_cache_image, resized_mat, d_size, 0.0, 0.0, cv::INTER_AREA);
+    cv::resize(image, resized_mat, d_size, 0.0, 0.0, cv::INTER_AREA);
     return resized_mat;
 }
 
@@ -351,8 +355,8 @@ bool asst::Controller::attach_window(
     m_controller_type = ControllerType::Win32;
     m_uuid = m_controller->get_uuid();
 
-    // 尝试截图
-    if (!screencap()) {
+    // 连接时只需要获取画面，识别前的输入操作由任务截图执行。
+    if (!screencap_for_preview()) {
         Log.error("Cannot screencap!");
         return false;
     }
@@ -522,9 +526,32 @@ cv::Mat asst::Controller::get_image_cache() const
     return get_resized_image_cache();
 }
 
+cv::Mat asst::Controller::get_preview_image_cache() const
+{
+    return get_resized_image_cache(true);
+}
+
 bool asst::Controller::screencap(bool allow_reconnect)
 {
     CHECK_EXIST(m_controller, false);
     std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
-    return m_controller->screencap(m_cache_image, allow_reconnect);
+    if (!m_controller->screencap(m_cache_image, allow_reconnect)) {
+        return false;
+    }
+    // 任务帧更新后，外部预览也应读取最新的画面。
+    m_preview_image.release();
+    return true;
+}
+
+bool asst::Controller::screencap_for_preview(bool allow_reconnect)
+{
+    CHECK_EXIST(m_controller, false);
+    std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
+    // 预览帧不能覆盖识别帧，也不能共享可能被截图后端原地改写的缓冲区。
+    cv::Mat image;
+    if (!m_controller->screencap_for_preview(image, allow_reconnect)) {
+        return false;
+    }
+    m_preview_image = std::move(image);
+    return true;
 }

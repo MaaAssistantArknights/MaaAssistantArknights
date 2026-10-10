@@ -28,10 +28,13 @@ namespace asst::blackflow
 namespace
 {
 constexpr std::string_view CurrentActionPointsTask = "BlackFlow@Roguelike@CurrentActionPoints";
+constexpr std::string_view CurrentIngotsTask = "BlackFlow@Roguelike@CurrentIngots";
 constexpr std::string_view MovePreviewWaitTask = "BlackFlow@Roguelike@MovePreviewWait";
-constexpr std::string_view MovePreviewEnterTask = "BlackFlow@Roguelike@MovePreviewEnter";
+constexpr std::string_view MovePreviewEnterWalkTask = "BlackFlow@Roguelike@MovePreviewEnterWalk";
+constexpr std::string_view MovePreviewEnterCraftedTask = "BlackFlow@Roguelike@MovePreviewEnterCrafted";
 constexpr std::string_view MovePreviewCannotEnterTask = "BlackFlow@Roguelike@MovePreviewCannotEnter";
 constexpr std::string_view MovePreviewCostTask = "BlackFlow@Roguelike@MovePreviewCost";
+constexpr std::string_view MovePreviewCostCraftedTask = "BlackFlow@Roguelike@MovePreviewCostCrafted";
 constexpr std::string_view MovePreviewDisplayedNameTask = "BlackFlow@Roguelike@MovePreviewDisplayedName";
 constexpr std::string_view MovePreviewConfirmTask = "BlackFlow@Roguelike@MovePreviewConfirm";
 constexpr std::string_view MovePreviewConfirmCompletedTask = "BlackFlow@Roguelike@MovePreviewConfirmCompleted";
@@ -250,6 +253,9 @@ bool BlackFlowTaskPort::refresh(
             next.run.action_points = *action_points;
             next.observation.hud_action_points = *action_points;
         }
+        if (const auto ingots = recognize_ingots(image); ingots.has_value()) {
+            next.run.ingots = *ingots;
+        }
         if (const auto movement = recognize_loaded_movement(image); movement.has_value()) {
             next.run.active_movement = *movement;
         }
@@ -300,7 +306,14 @@ bool BlackFlowTaskPort::preview(
         preview.exact_action_point_cost = candidate.predicted_action_point_cost;
         return true;
     }
-    if (!matched.ends_with(MovePreviewEnterTask)) {
+    std::string_view cost_task;
+    if (matched.ends_with(MovePreviewEnterWalkTask)) {
+        cost_task = MovePreviewCostTask;
+    }
+    else if (matched.ends_with(MovePreviewEnterCraftedTask)) {
+        cost_task = MovePreviewCostCraftedTask;
+    }
+    else {
         set_error(error, "move preview did not identify a reachable or blocked state");
         return false;
     }
@@ -308,7 +321,7 @@ bool BlackFlowTaskPort::preview(
     const std::shared_ptr<cv::Mat> matched_image = m_task_context->last_image();
     const cv::Mat image =
         matched_image != nullptr && !matched_image->empty() ? *matched_image : m_task_context->capture();
-    const auto displayed_cost = recognize_integer(image, MovePreviewCostTask);
+    const auto displayed_cost = recognize_integer(image, cost_task);
     if (!displayed_cost.has_value() || *displayed_cost > 0 || *displayed_cost < -9) {
         set_error(error, "move preview action point cost OCR failed");
         return false;
@@ -401,6 +414,15 @@ std::optional<int> BlackFlowTaskPort::recognize_action_points(const cv::Mat& ima
 {
     const auto value = recognize_integer(image, CurrentActionPointsTask);
     if (!value.has_value() || *value < 0 || *value > 64) {
+        return std::nullopt;
+    }
+    return value;
+}
+
+std::optional<int> BlackFlowTaskPort::recognize_ingots(const cv::Mat& image) const
+{
+    const auto value = recognize_integer(image, CurrentIngotsTask);
+    if (!value.has_value() || *value < 0) {
         return std::nullopt;
     }
     return value;

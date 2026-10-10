@@ -18152,6 +18152,87 @@
         "stageId": "act51side_tr01",
         "width": 9
     },
+    "act52side_01-activities/act52side/level_act52side_01": {
+        "code": "YW-1",
+        "filename": "act52side_01-activities-act52side-level_act52side_01.json",
+        "height": 7,
+        "levelId": "activities/act52side/level_act52side_01",
+        "name": "互助会",
+        "stageId": "act52side_01",
+        "width": 10
+    },
+    "act52side_02-activities/act52side/level_act52side_02": {
+        "code": "YW-2",
+        "filename": "act52side_02-activities-act52side-level_act52side_02.json",
+        "height": 7,
+        "levelId": "activities/act52side/level_act52side_02",
+        "name": "浮浮沉沉",
+        "stageId": "act52side_02",
+        "width": 10
+    },
+    "act52side_03-activities/act52side/level_act52side_03": {
+        "code": "YW-3",
+        "filename": "act52side_03-activities-act52side-level_act52side_03.json",
+        "height": 7,
+        "levelId": "activities/act52side/level_act52side_03",
+        "name": "破手铐",
+        "stageId": "act52side_03",
+        "width": 10
+    },
+    "act52side_04-activities/act52side/level_act52side_04": {
+        "code": "YW-4",
+        "filename": "act52side_04-activities-act52side-level_act52side_04.json",
+        "height": 7,
+        "levelId": "activities/act52side/level_act52side_04",
+        "name": "走上街道",
+        "stageId": "act52side_04",
+        "width": 11
+    },
+    "act52side_05-activities/act52side/level_act52side_05": {
+        "code": "YW-5",
+        "filename": "act52side_05-activities-act52side-level_act52side_05.json",
+        "height": 8,
+        "levelId": "activities/act52side/level_act52side_05",
+        "name": "三岔路口",
+        "stageId": "act52side_05",
+        "width": 11
+    },
+    "act52side_06-activities/act52side/level_act52side_06": {
+        "code": "YW-6",
+        "filename": "act52side_06-activities-act52side-level_act52side_06.json",
+        "height": 7,
+        "levelId": "activities/act52side/level_act52side_06",
+        "name": "大人物",
+        "stageId": "act52side_06",
+        "width": 11
+    },
+    "act52side_07-activities/act52side/level_act52side_07": {
+        "code": "YW-7",
+        "filename": "act52side_07-activities-act52side-level_act52side_07.json",
+        "height": 8,
+        "levelId": "activities/act52side/level_act52side_07",
+        "name": "殉葬品",
+        "stageId": "act52side_07",
+        "width": 12
+    },
+    "act52side_08-activities/act52side/level_act52side_08": {
+        "code": "YW-8",
+        "filename": "act52side_08-activities-act52side-level_act52side_08.json",
+        "height": 9,
+        "levelId": "activities/act52side/level_act52side_08",
+        "name": "鳞的记忆",
+        "stageId": "act52side_08",
+        "width": 13
+    },
+    "act52side_tr01-activities/act52side/level_act52side_tr01": {
+        "code": "YW-TR-1",
+        "filename": "act52side_tr01-activities-act52side-level_act52side_tr01.json",
+        "height": 7,
+        "levelId": "activities/act52side/level_act52side_tr01",
+        "name": "炼金术遗产考察",
+        "stageId": "act52side_tr01",
+        "width": 10
+    },
     "act53side_01-activities/act53side/level_act53side_01": {
         "code": "TO-1",
         "filename": "act53side_01-activities-act53side-level_act53side_01.json",
@@ -27422,6 +27503,15 @@
         "stageId": "mem_deepcl_1",
         "width": 9
     },
+    "mem_demetr_1-obt/memory/level_memory_demetr_1": {
+        "code": "mem_demetr_1",
+        "filename": "mem_demetr_1-obt-memory-level_memory_demetr_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_demetr_1",
+        "name": "信诺",
+        "stageId": "mem_demetr_1",
+        "width": 9
+    },
     "mem_demkni_1-obt/memory/level_memory_demkni_1": {
         "code": "mem_demkni_1",
         "filename": "mem_demkni_1-obt-memory-level_memory_demkni_1.json",
@@ -28214,6 +28304,15 @@
         "stageId": "mem_leto_1",
         "width": 11
     },
+    "mem_liesel_1-obt/memory/level_memory_liesel_1": {
+        "code": "mem_liesel_1",
+        "filename": "mem_liesel_1-obt-memory-level_memory_liesel_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_liesel_1",
+        "name": "齐奏落下",
+        "stageId": "mem_liesel_1",
+        "width": 8
+    },
     "mem_lin_1-obt/memory/level_memory_lin_1": {
         "code": "mem_lin_1",
         "filename": "mem_lin_1-obt-memory-level_memory_lin_1.json",
@@ -28312,6 +28411,15 @@
         "name": "看见她",
         "stageId": "mem_mantic_1",
         "width": 10
+    },
+    "mem_mantra_1-obt/memory/level_memory_mantra_1": {
+        "code": "mem_mantra_1",
+        "filename": "mem_mantra_1-obt-memory-level_memory_mantra_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_mantra_1",
+        "name": "无所遁形",
+        "stageId": "mem_mantra_1",
+        "width": 9
     },
     "mem_mberry_1-obt/memory/level_memory_mberry_1": {
         "code": "mem_mberry_1",
@@ -29275,6 +29383,15 @@
         "name": "伞下荫蔽",
         "stageId": "mem_tuye_1",
         "width": 9
+    },
+    "mem_udflow_1-obt/memory/level_memory_udflow_1": {
+        "code": "mem_udflow_1",
+        "filename": "mem_udflow_1-obt-memory-level_memory_udflow_1.json",
+        "height": 6,
+        "levelId": "obt/memory/level_memory_udflow_1",
+        "name": "“继续下潜！”",
+        "stageId": "mem_udflow_1",
+        "width": 7
     },
     "mem_utage_1-obt/memory/level_memory_utage_1": {
         "code": "mem_utage_1",

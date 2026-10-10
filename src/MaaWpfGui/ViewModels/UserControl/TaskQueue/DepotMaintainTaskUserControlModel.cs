@@ -47,6 +47,13 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 {
     private readonly ILogger _logger = Log.ForContext<DepotMaintainTaskUserControlModel>();
 
+    /// <summary>
+    /// 本轮已序列化（参与过计划评估）的库存保持任务。
+    /// 任何仓库识别（本任务前置识别或队列中独立的数据更新任务）完成后对其未下发计划复查缓存翻转，每任务只复查一次；
+    /// 新一轮运行重复登记幂等，任务从队列移除后的残留引用因无后续回调无副作用。
+    /// </summary>
+    private static readonly HashSet<DepotMaintainTask> _serializedDepotMaintainTasks = [];
+
     static DepotMaintainTaskUserControlModel()
     {
         Instance = new();
@@ -96,6 +103,13 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             return;
         }
 
+        // 任意仓库识别（库存保持自身前置的或独立的数据更新任务）完成后，复查被跳过计划是否出现「预检充足、实际不足」的翻转
+        if (status == TaskItemStatus.Completed &&
+            Instances.AsstProxy.TasksStatus.TryGetValue(taskId, out var taskInfo) && taskInfo.Type == TaskType.Depot)
+        {
+            ReviewSkippedPlansAfterDepotSync();
+        }
+
         var task = ConfigFactory.CurrentConfig.TaskQueue.OfType<DepotMaintainTask>().FirstOrDefault(t => t.PlanList.Any(p => p.TaskId == taskId));
         if (task == null || task.PlanList.FirstOrDefault(plan => plan.TaskId == taskId) is not { } plan)
         {
@@ -142,6 +156,44 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             RefreshFightTaskDrops(taskId, plan.DropId, plan.DropCount,
                 $"{task.PlanList.IndexOf(plan) + 1}",
                 fight);
+        }
+    }
+
+    /// <summary>
+    /// 仓库识别完成后复查本轮被预检跳过（未下发）的计划：
+    /// 预检基于识别前的缓存，若识别纠正后出现「预检充足、实际不足」的向下翻转，逐条提示，避免静默漏刷一轮。
+    /// 与预检同口径：配置无效或当日不可执行的计划不提示；仅执行第一个不足计划时，只提示第一个翻转的计划。
+    /// 触发源不限于库存保持自身的前置识别，队列中独立数据更新任务的识别同样触发。
+    /// </summary>
+    private static void ReviewSkippedPlansAfterDepotSync()
+    {
+        foreach (var task in _serializedDepotMaintainTasks.ToList())
+        {
+            _serializedDepotMaintainTasks.Remove(task);
+            var depotList = Instances.ToolboxViewModel?.DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count) ?? [];
+            foreach (var (plan, index) in task.PlanList.Select((plan, index) => (plan, index)))
+            {
+                if (plan.TaskId > 0 || string.IsNullOrEmpty(plan.DropId) || plan.DropCount <= 0 ||
+                    !Instances.StageManager.IsStageOpen(plan.Stage, Instances.TaskQueueViewModel.CurDayOfWeek))
+                {
+                    continue;
+                }
+
+                var currentCount = depotList.TryGetValue(plan.DropId, out var value) ? value : 0;
+                if (plan.DropCount - currentCount <= 0)
+                {
+                    continue;
+                }
+
+                var dropName = ItemListHelper.GetItemName(plan.DropId) ?? plan.DropId;
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetStringFormat("DepotPlanCacheStaleSkipped", (index + 1).ToString(), dropName, currentCount.ToString("N0"), plan.DropCount.ToString("N0")),
+                    UiLogColor.Warning);
+                if (task.OnlyFirstInsufficientPlan)
+                {
+                    break;
+                }
+            }
         }
     }
 
@@ -578,6 +630,9 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             }
 
             Instances.TaskQueueViewModel.AddLogSection(depot.NameOrTaskType);
+
+            // 登记本轮参与评估，任意识别完成后复查未下发计划的缓存翻转（含 UpdateDepot=false 的场景）
+            _ = _serializedDepotMaintainTasks.Add(depot);
 
             var depotList = Instances.ToolboxViewModel?.DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count) ?? [];
             for (int i = 0; i < depot.PlanList.Count; i++)

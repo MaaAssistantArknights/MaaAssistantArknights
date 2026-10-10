@@ -14,6 +14,12 @@
     <system:String x:Key="StartupSettings">啟動設定</system:String>
     <system:String x:Key="ScheduleSettings">定時執行</system:String>
     <system:String x:Key="UiSettings">介面設定</system:String>
+    <system:String x:Key="LanguageSettings">語言</system:String>
+    <system:String x:Key="ThemeAndAnimationSettings">主題與動畫</system:String>
+    <system:String x:Key="TitleBarSettings">標題列設定</system:String>
+    <system:String x:Key="LogDisplaySettings">日誌顯示設定</system:String>
+    <system:String x:Key="TraySettings">工作列</system:String>
+    <system:String x:Key="OperationGuideSettings">操作與指引</system:String>
     <system:String x:Key="BackgroundSettings">背景設定</system:String>
     <system:String x:Key="BackgroundImage">背景圖片</system:String>
     <system:String x:Key="BackgroundOpacity">背景不透明度</system:String>
@@ -48,14 +54,10 @@
     <system:String x:Key="ResourceVersion">資源版本</system:String>
     <system:String x:Key="ResourceDateTime">資源日期</system:String>
     <system:String x:Key="Off">關閉</system:String>
-    <system:String x:Key="ExternalNotificationTips">請注意：外部通知功能目前僅會發送 ｢所有任務完成｣ 的通知。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
-    <system:String x:Key="ExternalNotificationEnabled">啟用的通知設定</system:String>
-    <system:String x:Key="ExternalNotificationEnableDetails">輸出詳細資訊</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenComplete">任務完成後發送通知</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenError">任務出錯時發送通知</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenStalled">任務日誌輸出停滯時發送通知</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenStalledTip">需在 ｢{key=GameSettings}｣ 中開啟 ｢{key=StallTimeoutEnabled}｣ 後才會生效</system:String>
+    <system:String x:Key="ExternalNotificationEnabled">通知管道</system:String>
+    <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">定時執行前</system:String>
+    <system:String x:Key="ExternalNotificationSendBeforeScheduledStartTip" xml:space="preserve">在定時任務開始前傳送外部通知。&#10;提前時間使用 ｢{key=ScheduleSettings}｣ 中的 ｢{key=ScheduledStartNotificationMinutes}｣ 設定。</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">發送成功</system:String>
     <system:String x:Key="ExternalNotificationSendFail">發送失敗</system:String>
     <system:String x:Key="ExternalNotificationSendTest">發送測試</system:String>
@@ -130,8 +132,6 @@
     <system:String x:Key="GuideConfirmCountdownSuffix" xml:space="preserve"> 秒</system:String>
     <system:String x:Key="ToolTipGuide">滑鼠移至此處會有提示喔</system:String>
     <system:String x:Key="TaskGuide">↑ 任務</system:String>
-    <system:String x:Key="OftenUsedGuide">↑ 常用的</system:String>
-    <system:String x:Key="SometimesUsedGuide">不常用的 ↑</system:String>
     <system:String x:Key="LinkStartGuide">← 開始任務</system:String>
     <system:String x:Key="HoverActionButtons">懸停顯示 複製/重新命名/刪除</system:String>
     <system:String x:Key="GearContextMenuTip">右鍵齒輪顯示更多操作 ↓</system:String>
@@ -233,6 +233,9 @@
     <system:String x:Key="General">通用模式</system:String>
     <system:String x:Key="BlueStacks">藍疊模擬器</system:String>
     <system:String x:Key="MuMuEmulator12">MuMu 模擬器</system:String>
+    <system:String x:Key="MuMuArm">MuMu 模擬器（Windows ARM）</system:String>
+    <system:String x:Key="MuMuArmDetectAndTest">自動偵測並測試</system:String>
+    <system:String x:Key="MuMuArmConnectionNotReady">無法讀取 MuMu ARM 的 ADB 位址。請等待模擬器啟動完成後重試，或關閉自動偵測並手動填入連線位址。</system:String>
     <system:String x:Key="LDPlayer">雷電模擬器</system:String>
     <system:String x:Key="AVD">Android 虛擬裝置（AVD）</system:String>
     <system:String x:Key="Androws">應用寶模擬器</system:String>
@@ -381,6 +384,7 @@
     <system:String x:Key="EmulatorNotFound">未偵測到任何模擬器\n請確認已啟動模擬器\n若模擬器以系統管理員身分執行，則本軟體也需以系統管理員身分執行\n如仍無法偵測，請手動設定連線</system:String>
     <system:String x:Key="EmulatorTooMany">偵測到多個模擬器\n請關閉不需要的模擬器\n或手動設定連線</system:String>
     <system:String x:Key="EmulatorStartFailed">無法成功啟動模擬器\n請使用系統管理員權限開啟本軟體\n或手動啟動模擬器。</system:String>
+    <system:String x:Key="PcClientStartFailed">無法成功啟動 PC 客戶端\n請使用系統管理員權限開啟本軟體\n或手動啟動客戶端。</system:String>
     <system:String x:Key="SwitchLanguage">切換語言 🌐</system:String>
     <system:String x:Key="Language">語言</system:String>
     <system:String x:Key="LanguageChangedTip">語言設定已變更，部分內容可能需要重新啟動才能完全生效。</system:String>
@@ -414,6 +418,7 @@
     <system:String x:Key="TaskCopied">已複製任務：{0}</system:String>
     <system:String x:Key="StartGuideDemo">示範中不會真的執行任務</system:String>
     <system:String x:Key="GuideDemoTaskAddLimitTip">示範列表最多容納 5 個任務，可先刪除部分後再新增</system:String>
+    <system:String x:Key="GuideDemoTaskRequiredTip">先透過 ｢{key=AddTaskQueueTask}｣ 按鈕新增一個任務，再進入下一步</system:String>
     <system:String x:Key="TaskCopyFailed">任務複製失敗</system:String>
     <system:String x:Key="HotKeyShowGui">[熱鍵] 顯示/收起 MAA</system:String>
     <system:String x:Key="HotKeyLinkStart">[熱鍵] Link start/stop</system:String>
@@ -562,6 +567,14 @@ D:\
     <system:String x:Key="ShowWindowBeforeForceScheduledStartTip">定時啟動前顯示主視窗，避免最小化時看不到倒數</system:String>
     <system:String x:Key="TimerCustomConfig">自訂設定檔選擇</system:String>
     <system:String x:Key="TimerCustomConfigTip">定時啟動前兩分鐘重新啟動遊戲並切換設定檔</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStart">定時執行前傳送系統通知</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStartTip" xml:space="preserve">依提前時間傳送系統通知。&#10;外部推播可在 ｢{key=Settings} - {key=NotificationSettings} - {key=ExternalNotificationSettings}｣ 中單獨開啟，兩者共用提前時間。</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStartSharedTimeTip">外部推播與系統通知共用此提前時間。</system:String>
+    <system:String x:Key="ScheduledStartNotificationMinutes">提前時間（分鐘）</system:String>
+    <system:String x:Key="ScheduledStartNotificationTitle">定時任務即將執行</system:String>
+    <system:String x:Key="ScheduledStartNotificationContent">定時 {0} 預計於 {1}（{2} 分鐘後）開始執行，請留意遊戲登入狀態。</system:String>
+    <system:String x:Key="ScheduledWakeUp">定時啟動前嘗試喚醒電腦並啟動 MAA</system:String>
+    <system:String x:Key="ScheduledWakeUpTip" xml:space="preserve">該功能透過在 Windows 工作排程器中註冊排程工作實現，在每個啟用的定時項前 5 分鐘嘗試喚醒電腦並啟動 MAA，由定時啟動邏輯接管。&#10;喚醒啟動時將跳過 ｢{key=StartupSettings}｣ 中的啟動自動執行項（如{key=RunTaskAfterLaunch}、{key=OpenEmulatorAfterLaunch}）。&#10;MAA 退出後排程工作仍會保留，關閉本開關時刪除。&#10;任務開始後的長時間執行不再由本功能保持喚醒，若任務耗時較長，建議在 ｢{key=GameSettings}｣ 中開啟 ｢{key=BlockSleep}｣，避免任務執行期間系統睡眠。&#10;休眠狀態的定時喚醒依賴裝置韌體支援，部分裝置僅支援從睡眠喚醒。</system:String>
     <system:String x:Key="Timer">定時</system:String>
     <system:String x:Key="GlobalConfigTip">此選項分頁為全域設定</system:String>
     <system:String x:Key="MultiTasksShareTip">以下選項為多任務共用</system:String>
@@ -585,21 +598,33 @@ D:\
     <system:String x:Key="StartupAutoRunCountdownTaskOnly">即將自動執行任務，是否取消？</system:String>
     <system:String x:Key="StartupAutoRunCountdownEmulatorOnly">即將自動啟動模擬器，是否取消？</system:String>
     <system:String x:Key="StartupAutoRunCountdownTaskAndEmulator">即將自動執行任務並啟動模擬器，是否取消？</system:String>
+    <system:String x:Key="StartupAutoRunCountdownPcClientOnly">即將自動啟動 PC 客戶端，是否取消？</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskAndPcClient">即將自動執行任務並啟動 PC 客戶端，是否取消？</system:String>
     <system:String x:Key="MinimizeAfterLaunch">啟動 MAA 後直接最小化</system:String>
     <system:String x:Key="ClientType">用戶端類型</system:String>
     <system:String x:Key="StartGameLaunchClient">是否啟動用戶端</system:String>
     <system:String x:Key="UseWeeklySchedule">使用週計畫</system:String>
     <system:String x:Key="UseWeeklyScheduleTip">此處的星期是根據遊戲時間計算的，並非現實時間。例如遊戲在 4:00 刷新，則 3:59 仍算作前一天。</system:String>
     <system:String x:Key="FightSkippedWeeklySchedule">週計畫今日未勾選</system:String>
+    <system:String x:Key="InfrastSkippedWeeklySchedule">週計畫今日未勾選</system:String>
     <system:String x:Key="FightSkippedEmptyStagePlan">關卡計畫為空</system:String>
     <system:String x:Key="FightSkippedNoOpenStage">關卡計畫內沒有當日開放的關卡</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">外服支援人力吃緊，幫幫我們！不會寫程式也可以參與。</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">啟動 MAA 後自動開啟模擬器</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunchTip">僅在啟動 MAA 時開啟一次模擬器，點擊 ｢{key=LinkStart}｣ 時不會自動開啟；\n如有此需求，請勾選 ｢{key=RetryOnDisconnected}｣</system:String>
+    <system:String x:Key="OpenPcClientAfterLaunch">啟動 MAA 後自動開啟 PC 客戶端</system:String>
+    <system:String x:Key="OpenPcClientAfterLaunchTip">僅在啟動 MAA 時開啟一次 PC 客戶端，點擊 ｢{key=LinkStart}｣ 時不會自動開啟；\n如有此需求，請勾選 ｢{key=RetryOnPcDisconnected}｣</system:String>
     <system:String x:Key="WaitForEmulator">等待模擬器啟動時間（秒）</system:String>
+    <system:String x:Key="WaitForPcClient">等待 PC 客戶端啟動時間（秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">等待結束</system:String>
     <system:String x:Key="EmulatorPath">模擬器路徑</system:String>
-    <system:String x:Key="SelectShortcutTip" xml:space="preserve">可選擇模擬器本體（配合 ｢{key=AdditionCommand}｣ 啟動參數可指定要啟動的模擬器），也可直接選擇模擬器或遊戲的捷徑。&#10;如因模擬器啟動時間過長導致 ｢{key=WakeUp}｣ 任務失敗，推薦填寫遊戲捷徑並延長 ｢{key=WaitForEmulator}｣。</system:String>
+    <system:String x:Key="PcClientPath">PC 客戶端路徑</system:String>
+    <system:String x:Key="SelectShortcutTip" xml:space="preserve">可選擇模擬器本體（配合 ｢{key=AdditionCommand}｣ 啟動參數可指定啟動模擬器實例），也可直接選擇模擬器或遊戲的捷徑。&#10;如因模擬器啟動時間過長導致 ｢{key=WakeUp}｣ 任務失敗，推薦填寫遊戲捷徑並延長 ｢{key=WaitForEmulator}｣。</system:String>
+    <system:String x:Key="SelectPcClientTip">可選擇 PC 客戶端主程式或其捷徑，並可透過 ｢{key=AdditionCommand}｣ 補充啟動參數。</system:String>
+    <system:String x:Key="PcClientAddCommandTip" xml:space="preserve">附加命令用於指定 PC 客戶端的啟動參數，具體格式請參考客戶端或啟動器說明文件。&#10;使用捷徑時，將使用捷徑中儲存的參數。</system:String>
+    <system:String x:Key="PcClientPathEmptyError">PC 客戶端路徑為空，請先選擇客戶端程式。</system:String>
+    <system:String x:Key="PcClientPathNotExist">PC 客戶端路徑不存在</system:String>
+    <system:String x:Key="PcClientPathEmptyWarning">PC 客戶端路徑為空，｢{key=RetryOnPcDisconnected}｣ 與 ｢{key=OpenPcClientAfterLaunch}｣ 勾選狀態已被還原</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorPrompt">你也想在酒吧裡點酒吧？</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">我確定沒選錯</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">好的，我會重新選擇</system:String>
@@ -723,6 +748,7 @@ D:\
     <system:String x:Key="ThirdPartyGroupYituliu">一圖流</system:String>
     <system:String x:Key="YituliuOpenApiToken">OpenAPI Token</system:String>
     <system:String x:Key="YituliuTokenVerify">驗證</system:String>
+    <system:String x:Key="YituliuTokenLink">前往{key=ThirdPartyGroupYituliu}取得 Token</system:String>
     <system:String x:Key="YituliuTokenEmpty">請先填寫 Token</system:String>
     <system:String x:Key="YituliuTokenValid">Token 有效，共 {0} 名幹員</system:String>
     <system:String x:Key="YituliuTokenValidNoData">Token 有效，但帳號暫無幹員練度資料</system:String>
@@ -904,6 +930,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">模擬器路徑為空！請填寫 ｢{key=Settings} - {key=StartupSettings} - {key=EmulatorPath}｣ 後重新勾選。</system:String>
     <system:String x:Key="AllowAdbRestart">連線失敗後嘗試重新啟動 ADB 服務</system:String>
     <system:String x:Key="AllowAdbHardRestart">連線失敗後嘗試重新啟動 ADB</system:String>
+    <system:String x:Key="RetryOnPcDisconnected">PC 客戶端連線失敗時嘗試啟動客戶端</system:String>
+    <system:String x:Key="RetryOnPcDisconnectedTip">視窗連線失敗後啟動 PC 客戶端，並再次嘗試連線</system:String>
+    <system:String x:Key="RetryOnPcDisconnectedPathEmptyError">PC 客戶端路徑為空！請填寫 ｢{key=Settings} - {key=StartupSettings} - {key=PcClientPath}｣ 後重新勾選。</system:String>
     <!--  !設定  -->
     <!--  一鍵長草  -->
     <system:String x:Key="Farming">一鍵長草</system:String>
@@ -1041,6 +1070,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="UserDataUpdateIntervalNotReached">距上次同步未達到 ｢{0}｣ 觸發間隔</system:String>
     <!--  庫存保持  -->
     <system:String x:Key="DepotUpdateBeforeStart">任務開始前更新庫存數據</system:String>
+    <system:String x:Key="DepotUpdateBeforeStartTip" xml:space="preserve">任務開始時會先用當時快取的庫存數據逐條計劃判定缺口，這一步稱為預檢。預檢中已充足的計劃不會加入本輪刷取列表，之後也不再複查。&#10;每條計劃開始時都會用最新快取重新判定缺口，前序關卡的掉落會即時計入快取。&#10;勾選後，計劃執行前會先跑一次倉庫辨識，把快取糾正為實際庫存。&#10;辨識後若發現已跳過的計劃實際庫存不足，因預檢跳過的計劃無法在執行中加入，僅記錄提示，重新執行任務即可刷取。</system:String>
     <system:String x:Key="AddPlan">新增</system:String>
     <system:String x:Key="DepotPreset">預設</system:String>
     <system:String x:Key="DepotPresetChip1">低級晶片（全職業）</system:String>
@@ -1056,6 +1086,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPlanNoStage">#{0}：關卡未指定或為 ｢目前/上次｣</system:String>
     <system:String x:Key="DepotPlanInventoryEnough">#{0}：{1} 已充足 {2}/{3}</system:String>
     <system:String x:Key="DepotPlanInventoryInsufficient">#{0}：{1} 不足 {2}/{3}，需刷取 {4}</system:String>
+    <system:String x:Key="DepotPlanCacheStaleSkipped">#{0}：{1} 實際 {2}/{3} 不足，預檢時已跳過的計劃無法在執行中加入，重新執行任務即可刷取</system:String>
     <system:String x:Key="DepotPlanSanityInsufficient">#{0}：理智不足（目前 {1}，低於關卡消耗 {2}），已跳過</system:String>
     <system:String x:Key="DepotPlanStageNotOpen">#{0}：關卡 ｢{1}｣ 未開放</system:String>
     <system:String x:Key="DepotPlanAddTaskFailed">#{0}：新增任務失敗</system:String>
@@ -1179,6 +1210,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Depot">{key=DepotRecognition}</system:String>
     <system:String x:Key="LastSyncTime">上次同步時間</system:String>
     <system:String x:Key="DepotRecognitionTip">該功能尚處於測試階段，請檢查結果是否準確再行使用。若有誤，歡迎打包 debug/depot 資料夾後向我們提交 issue ~</system:String>
+    <system:String x:Key="DepotTemplateLoadError">{key=DepotRecognition}範本載入失敗（{0}），已停止辨識。</system:String>
     <system:String x:Key="StartToDepotRecognition">開始辨識</system:String>
     <system:String x:Key="ExportToArkplanner">企鵝物流刷圖規劃</system:String>
     <system:String x:Key="ExportToLolicon">明日方舟工具箱</system:String>
@@ -1384,6 +1416,10 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">部分作業需要特定技能等級、模組等作為前置條件。
 勾選此項將跳過這些檢查，但可能導致作業無法正常執行。
 幹員精英化等級無法跳過；若跳過任何需求，戰鬥完成後將不再為作業自動點贊。</system:String>
+    <system:String x:Key="Copilot.UseOperBoxAssist">使用一圖流資料輔助編隊</system:String>
+    <system:String x:Key="Copilot.UseOperBoxAssist.Tip" xml:space="preserve">自動編隊前，按一圖流幹員練度資料（含技能與模組資訊）預先匹配作業編隊&#10;需先在 ｢{key=Settings} - {key=ThirdPartyServiceSettings}｣ 填寫一圖流 token、啟用 ｢{key=EnableOperBoxYituliuApi}｣ 並取得資料</system:String>
+    <system:String x:Key="Copilot.SyncOperBoxData">同步</system:String>
+    <system:String x:Key="Copilot.SyncOperBoxSuccess">已同步 {0} 名{key=Operator}的一圖流練度資料</system:String>
     <system:String x:Key="AddUserAdditional">追加自訂{key=Operator}</system:String>
     <system:String x:Key="AddUserAdditionalTip">點擊旁邊的設定按鈕開啟編輯視窗，點擊 ｢{key=UserAdditional.Add}｣ 逐條新增，按欄位填寫{key=Operator}名稱、技能與操作</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator}名稱</system:String>
@@ -1455,6 +1491,7 @@ C:\leidian\LDPlayer9
         • 遇到理智不足、戰鬥失敗、未能三星結算時將會自動中止。
     </system:String>
     <system:String x:Key="CopilotFileReadError">讀取檔案失敗！</system:String>
+    <system:String x:Key="CopilotStartFailed">作業啟動失敗</system:String>
     <system:String x:Key="CopilotNoFound">未找到對應作業！</system:String>
     <system:String x:Key="NetworkServiceError">網路服務請求錯誤！</system:String>
     <system:String x:Key="CopilotJsonError">解析作業檔案錯誤！</system:String>
@@ -1512,6 +1549,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ResourceIntegrityCheckDesc">偵測到 {0} 個安裝檔案缺失（{1}），部分功能可能無法使用。檔案可能被某些安全軟體攔截或刪除，也可能被手動刪除。若為安全軟體所致，請前往對應軟體的隔離區尋找並還原檔案，並{key=SecuritySoftwareWhitelistTips}\n\n也可按下方說明手動重灌：\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityRepairYes">自動修復（下載完整安裝檔並在重新啟動後還原）</system:String>
     <system:String x:Key="ResourceIntegrityRepairNo">暫不處理，繼續啟動</system:String>
+    <system:String x:Key="CoreLoadingTip">MAA 核心尚未載入完成，請稍後再試。</system:String>
     <system:String x:Key="ResourceBrokenTaskBlocked">檔案損毀，無法開始任務。請依啟動時的提示修復檔案，或重新下載完整安裝檔後重新啟動 MAA。</system:String>
     <system:String x:Key="ResourceIntegrityRepairDownloading">正在下載完整安裝檔以修復安裝…</system:String>
     <system:String x:Key="ResourceIntegrityRepairFailed">自動修復失敗，請按提示手動處理。\n\n{key=FullPackageUpgradeTips}</system:String>
@@ -1552,6 +1590,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="CombatError">戰鬥出錯</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">開始任務: </system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">完成任務: </system:String>
+    <system:String x:Key="TaskTime">\n(耗時 {0})</system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">開始戰鬥: </system:String>
     <system:String x:Key="CompleteCombat">完成戰鬥</system:String>
     <system:String x:Key="TaskCompletedWithErrors">任務已結束，以下任務出現錯誤:\n{0}\n(耗時 {1})</system:String>
@@ -1855,7 +1894,11 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BattleFormationOperUnavailable.Level">等級不足</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">技能等級不足</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Module">所需模組未解鎖</system:String>
+    <system:String x:Key="BattleFormationOperbox1Unmatched" xml:space="preserve">{key=Operator}（組） {0} 沒有匹配的{key=Operator}，需要借助戰（預匹配建議 {1}，實際按助戰列表選擇）</system:String>
+    <system:String x:Key="BattleFormationOperboxMatched">預匹配的{key=Operator}（組）：</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">追加自訂{key=Operator}名稱無效：{0}，請檢查拼寫</system:String>
+    <system:String x:Key="CopilotOperboxDataParseFailed">{key=OperBoxRecognition}資料解析失敗</system:String>
+    <system:String x:Key="CopilotOperboxAssistRequiresYituliuData">目前沒有可用的一圖流幹員資料，無法輔助編隊。請先從一圖流取得幹員資料，或關閉 ｢{key=Copilot.UseOperBoxAssist}｣ 。</system:String>
     <system:String x:Key="CurrentSteps">目前步驟：{0} {1}</system:String>
     <system:String x:Key="ElapsedTime">經過時間：{0}ms</system:String>
     <system:String x:Key="Deploy">部署</system:String>
@@ -1883,6 +1926,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ConnectFailed">連線失敗</system:String>
     <system:String x:Key="TryToReconnectByAdb">正在嘗試重連</system:String>
     <system:String x:Key="TryToStartEmulator">正在嘗試啟動模擬器</system:String>
+    <system:String x:Key="TryToStartPcClient">正在嘗試啟動 PC 客戶端</system:String>
     <system:String x:Key="RestartAdb">正在嘗試重開 ADB 服務</system:String>
     <system:String x:Key="HardRestartAdb">正在嘗試重開 ADB</system:String>
     <system:String x:Key="CheckSettings">請 ｢檢查連線設定｣ → ｢嘗試重開模擬器與 ADB｣ → ｢重開電腦｣</system:String>
@@ -1890,6 +1934,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="AttachWindowMultipleFound">找到 {0} 個 "{1}" 視窗，將使用第一個</system:String>
     <system:String x:Key="AttachWindowFound">找到視窗 "{0}"</system:String>
     <system:String x:Key="Administrator">系統管理員</system:String>
+    <system:String x:Key="UiPreviewMode">UI 預覽</system:String>
     <system:String x:Key="AttachWindowNeedAdmin">PC 端連線需要系統管理員權限。\n是否以系統管理員身分重新啟動 MAA？</system:String>
     <system:String x:Key="RestartingAsAdmin">正在以系統管理員身分重新啟動…</system:String>
     <system:String x:Key="RestartAsAdminFailed">請手動以系統管理員身分執行 MAA</system:String>
@@ -1926,6 +1971,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="AttachWindowInputPostWithCursor">PostMsg-CursorPos（半背景，短暫搶滑鼠）</system:String>
     <system:String x:Key="AttachWindowInputSendWithWindowPosDisabled">SendMsg-WindowPos（延遲過高，已停用）</system:String>
     <system:String x:Key="AttachWindowInputPostWithWindowPos">PostMsg-WindowPos（推薦，全背景，不搶滑鼠，視窗可能亂飛，截圖方式僅 PrintWindow，建議最小化）</system:String>
+    <system:String x:Key="AttachWindowInputAnchoredTouch">AnchoredTouch（全背景，不搶滑鼠，合成觸控注入，需 Win10 1809+，被遮擋時視窗短暫閃爍）</system:String>
     <system:String x:Key="AttachWindowInputSendMsg">SendMsg（穩定）</system:String>
     <system:String x:Key="AttachWindowInputPostMsg">PostMsg（高效）</system:String>
     <!--  !AsstProxy  -->
@@ -2161,7 +2207,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <!-- <system:String x:Key="TaskTimeoutMinutes">任務逾時時間（分鐘）</system:String> -->
     <system:String x:Key="ReminderIntervalMinutes">通知間隔時間（分鐘）</system:String>
     <system:String x:Key="StallTimeoutMinutes">日誌輸出停滯逾時時間（分鐘）</system:String>
-    <system:String x:Key="StallTimeoutEnabled">啟用停滯偵測</system:String>
+    <system:String x:Key="StallTimeoutEnabled">啟用日誌更新停滯偵測</system:String>
     <system:String x:Key="TaskStallWarning">任務日誌輸出已超過 {0} 分鐘無更新（目前已停滯 {1} 分鐘）。請確認任務是否正常執行，若任務正常可忽略此提示，若無回應則可能需要手動干預。</system:String>
     <system:String x:Key="RunDurationLimitEnabled">限制單次運行時長</system:String>
     <system:String x:Key="RunDurationLimitMinutes">運行時長上限（分鐘）</system:String>
@@ -2595,7 +2641,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
 
     <system:String x:Key="Achievement.AllChannelBroadcast.Title">全頻道廣播</system:String>
     <system:String x:Key="Achievement.AllChannelBroadcast.Description">這下誰都別想錯過。</system:String>
-    <system:String x:Key="Achievement.AllChannelBroadcast.Conditions">同時啟用全部 ｢{key=ExternalNotificationSettings}｣ 頻道</system:String>
+    <system:String x:Key="Achievement.AllChannelBroadcast.Conditions">同時啟用全部 ｢{key=Settings} - {key=NotificationSettings} - {key=ExternalNotificationSettings}｣ 頻道</system:String>
 
     <system:String x:Key="Achievement.BackstageExplorer.Title">走進後台</system:String>
     <system:String x:Key="Achievement.BackstageExplorer.Description">讓我看看都記了點啥。</system:String>
@@ -2663,4 +2709,26 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="PleaseSelectItem">請選擇一項</system:String>
     <system:String x:Key="EmulatorSelectionCancelled">已取消選擇模擬器</system:String>
     <!--  !ItemSelection  -->
+    <system:String x:Key="NotificationSettings">通知設定</system:String>
+    <system:String x:Key="NotificationSettingsTimeMinutes">日誌有效時間（分鐘）</system:String>
+    <system:String x:Key="NotificationSettingsTimeMinutesTip" xml:space="preserve">超過有效時間的日誌不再附加至通知。&#10;為 0 時，不按時間篩選。</system:String>
+    <system:String x:Key="NotificationSettingsInvalidFilterTip" xml:space="preserve">正則表達式無效，請檢查篩選規則。</system:String>
+    <system:String x:Key="ExternalNotificationEnable">啟用外部通知</system:String>
+    <system:String x:Key="ExternalNotificationSendConditions">符合以下條件時傳送外部通知</system:String>
+    <system:String x:Key="ExternalNotificationWhenComplete">任務完成時</system:String>
+    <system:String x:Key="ExternalNotificationWhenError">任務出錯時</system:String>
+    <system:String x:Key="ExternalNotificationWhenStalled">任務日誌輸出停滯時</system:String>
+    <system:String x:Key="ExternalNotificationWhenStalledTip" xml:space="preserve">需在 ｢{key=NotificationSettings}｣ 中開啟 ｢{key=StallTimeoutEnabled}｣。&#10;超過設定時間沒有新增日誌時傳送。</system:String>
+    <system:String x:Key="ExternalNotificationNewLogCount">新增日誌條數</system:String>
+    <system:String x:Key="ExternalNotificationNewLogCountTip" xml:space="preserve">自上次觸發傳送外部通知後，每新增一條日誌就計數一次。&#10;累計到指定條數時傳送通知；任務完成、出錯等其他條件觸發通知後，也會重新計數。</system:String>
+    <system:String x:Key="ExternalNotificationContentMatches">日誌包含特定內容時</system:String>
+    <system:String x:Key="ExternalNotificationWhitelist">白名單（每行一條，支援正則）</system:String>
+    <system:String x:Key="ExternalNotificationWhitelistTip" xml:space="preserve">每行填寫一個正則表達式，任意一行符合目前日誌就觸發傳送。&#10;白名單為空時，此條件不會觸發通知。</system:String>
+    <system:String x:Key="ExternalNotificationIncludePreviousLogs">附帶先前日誌</system:String>
+    <system:String x:Key="ExternalNotificationIncludePreviousLogsTip" xml:space="preserve">勾選後，在目前日誌的基礎上附帶歷史日誌。&#10;附帶範圍由日誌數量及有效時間控制。</system:String>
+    <system:String x:Key="ExternalNotificationPreviousLogCount">附帶日誌數量</system:String>
+    <system:String x:Key="ExternalNotificationPreviousLogCountTip" xml:space="preserve">最多附帶指定條數的歷史日誌，不計目前日誌。&#10;為 0 時，僅傳送目前日誌。</system:String>
+    <system:String x:Key="ExternalNotificationFilterPreviousLogs">篩選附帶日誌內容</system:String>
+    <system:String x:Key="ExternalNotificationFilterPreviousLogsTip" xml:space="preserve">先排除符合黑名單的日誌，再依數量及有效時間選取最近的日誌。&#10;目前日誌始終保留。</system:String>
+    <system:String x:Key="ExternalNotificationBlacklist">黑名單（每行一條，支援正則）</system:String>
 </ResourceDictionary>

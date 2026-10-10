@@ -156,8 +156,8 @@ class Asst:
         buffer_type = ctypes.c_byte * size
         buffer = buffer_type()
         buffer.value = b"\000" * size
-        if (got := Asst.__lib.AsstGetImage(self.__ptr, buffer, size)) and got > 0:
-            return bytes(buffer)
+        if 0 < (got := Asst.__lib.AsstGetImage(self.__ptr, buffer, size)) <= size:
+            return bytes(buffer)[:got]
         else:
             return None
 

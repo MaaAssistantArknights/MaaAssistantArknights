@@ -5,6 +5,47 @@ icon: mingcute:android-fill
 
 # Android Physical Devices
 
+## Using the MAA Android App
+
+[MaaMeow](https://github.com/Aliothmoon/MAA-Meow) is the Android version of MAA. It runs MAA directly on your Android device without a computer or emulator, and supports running in the background.
+
+::: warning
+MaaMeow is still under development and may be unstable. Please report any issues to [MaaMeow's Issues](https://github.com/Aliothmoon/MAA-Meow/issues).
+:::
+
+### Requirements
+
+- Android 9 or later.
+- Device architecture is `arm64-v8a` or `x86_64`.
+- [Shizuku](https://shizuku.rikka.app/) is running with MaaMeow authorized, or the device is rooted.
+
+### Installation and Usage
+
+::: steps
+
+1. Download and install MaaMeow from [GitHub Releases](https://github.com/Aliothmoon/MAA-Meow/releases/latest). If you are unsure of your device architecture, choose the `universal` apk.
+
+2. Install Shizuku. The MaaMeow package includes Shizuku, or you can download it from the [Shizuku website](https://shizuku.rikka.app/download/).
+   - If your device is rooted, you can skip the Shizuku steps.
+
+3. In Shizuku, pair via `Wireless debugging` and start the service, then authorize MaaMeow in Shizuku.
+   - Some device brands require additional settings. See [Installation and Authorization](https://docs.maameow.com/en/faq/setup/) in the MaaMeow documentation.
+   - Devices below Android 11 cannot use `Wireless debugging` and need to be connected to a computer to start Shizuku via ADB.
+
+4. Open MaaMeow, make sure the service status on the home page is normal, then configure your tasks and start.
+
+:::
+
+::: tip
+
+- Running in background mode is recommended.
+- Set `Notched Screen UI Adaptation` in the game settings to 0, and turn off any settings that change the display or resolution, such as eye comfort mode, power saving mode, game mode, and custom fonts.
+- For more usage instructions and FAQs, see the [MaaMeow documentation](https://docs.maameow.com/en/faq/getting-started/).
+
+:::
+
+## Connecting via Desktop MAA
+
 ::: warning
 This method involves ADB command-line usage, has lower stability, and still requires computer connection. **Not recommended** for beginners.
 :::
@@ -24,7 +65,7 @@ This method involves ADB command-line usage, has lower stability, and still requ
 Typical `16:9` resolutions include `3840x2160` (4K), `2560x1440` (2K), `1920x1080` (1080P), and `1280x720` (720P).
 :::
 
-## Download and Run ADB Debug Tool to Connect Device
+### Download and Run ADB Debug Tool to Connect Device
 
 ::: steps
 
@@ -59,7 +100,7 @@ Typical `16:9` resolutions include `3840x2160` (4K), `2560x1440` (2K), `1920x108
 
 - If you consistently get "unauthorized" or "offline" status, restart both your device and computer. If that doesn't help, delete the `.android` folder in your user's personal directory and try again after restarting. Use search to find the exact location.
 
-## Change Resolution
+### Change Resolution
 
 ::: tip
 Mobile screen resolution is specified as `short edge × long edge`, not `long edge × short edge` as with computer monitors. Determine the appropriate values for your specific device.
@@ -116,7 +157,7 @@ It is strongly recommended to revert these changes **before the next device rebo
 
 :::
 
-## Automate Resolution Changes
+### Automate Resolution Changes
 
 ::: steps
 
@@ -147,9 +188,9 @@ It is strongly recommended to revert these changes **before the next device rebo
 
 :::
 
-## Connect to MAA
+### Connect to MAA
 
-### Wired Connection
+#### Wired Connection
 
 ::: tip
 Wired connections don't need IP addresses or ports - just the device serial number from `adb devices`.
@@ -158,12 +199,12 @@ Wired connections don't need IP addresses or ports - just the device serial numb
 1. Enter the target device serial number from above into MAA's `Settings` - `Connection Settings` - `Connection Address`.
 2. Link Start!
 
-### Wireless Connection
+#### Wireless Connection
 
 - Ensure your device and computer are on the same network and can communicate with each other. Router settings like `AP Isolation` or `Guest Network` can block device communication - check your router documentation.
 - Wireless debugging is disabled after device restart and must be re-enabled.
 
-#### Using `adb tcpip` for Wireless Debugging
+##### Using `adb tcpip` for Wireless Debugging
 
 ::: steps
 
@@ -183,7 +224,7 @@ Wired connections don't need IP addresses or ports - just the device serial numb
 
 :::
 
-#### Using `adb pair` for Wireless Debugging
+##### Using `adb pair` for Wireless Debugging
 
 ::: tip
 `adb pair` wireless pairing (available in Android 11 and later via Developer Options) allows connection without a physical USB connection, unlike `adb tcpip`.
@@ -203,7 +244,7 @@ Wired connections don't need IP addresses or ports - just the device serial numb
 
 :::
 
-#### Using Root to Enable Wireless ADB
+##### Using Root to Enable Wireless ADB
 
 ~~If you have access to root, why do you need to read this document~~
 

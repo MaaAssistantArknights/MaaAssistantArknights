@@ -15,8 +15,9 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Styles.Properties;
 
 namespace MaaWpfGui.Styles.Controls;
 
@@ -25,12 +26,27 @@ public class TextBlock : System.Windows.Controls.TextBlock
     static TextBlock()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(TextBlock), new FrameworkPropertyMetadata(typeof(TextBlock)));
+        ForegroundProperty.OverrideMetadata(typeof(TextBlock), new FrameworkPropertyMetadata(OnForegroundChanged));
+        RainbowAnimationBehavior.IsActiveProperty.OverrideMetadata(typeof(TextBlock), new FrameworkPropertyMetadata(true));
     }
 
     public TextBlock()
     {
-        Loaded += (_, _) => TryStartRainbowAnimation();
-        Unloaded += (_, _) => StopRainbowAnimation();
+        Loaded += OnLoaded;
+        Unloaded += OnUnloaded;
+    }
+
+    private static void OnLoaded(object sender, RoutedEventArgs e) => RainbowAnimationBehavior.RefreshAnimation((TextBlock)sender);
+
+    private static void OnUnloaded(object sender, RoutedEventArgs e) => RainbowAnimationBehavior.StopAnimation((TextBlock)sender);
+
+    private static void OnForegroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        // 动画只改变画刷内部的 Transform；相同画刷的子属性通知无需处理。
+        if (d is TextBlock { IsLoaded: true } element && !ReferenceEquals(e.OldValue, e.NewValue))
+        {
+            RainbowAnimationBehavior.RefreshAnimation(element);
+        }
     }
 
     public static readonly DependencyProperty ForegroundKeyProperty = DependencyProperty.Register(nameof(ForegroundKey), typeof(string), typeof(TextBlock), new PropertyMetadata(ThemeHelper.DefaultKey, OnForegroundKeyChanged));
@@ -40,7 +56,7 @@ public class TextBlock : System.Windows.Controls.TextBlock
         var element = (TextBlock)d;
         if (e.NewValue != null)
         {
-            element.ForegroundKey = (string)e.NewValue;
+            element.ApplyForegroundKey((string)e.NewValue);
         }
     }
 
@@ -52,53 +68,27 @@ public class TextBlock : System.Windows.Controls.TextBlock
 
         set {
             SetValue(ForegroundKeyProperty, value);
-
-            // `Application.Current.Resources.Contains(key)` 不会递归检查 MergedDictionaries，
-            // 而主题 Brush（如 ErrorLogBrush）通常来自合并字典；用 TryFindResource 才能稳定命中。
-            if (TryFindResource(value) is Brush)
-            {
-                SetResourceReference(ForegroundProperty, value);
-                if (IsLoaded)
-                {
-                    TryStartRainbowAnimation();
-                }
-
-                return;
-            }
-
-            var brush = ThemeHelper.String2Brush(value);
-            if (ThemeHelper.SimilarToBackground(brush.Color))
-            {
-                SetResourceReference(ForegroundProperty, ThemeHelper.DefaultKey);
-                return;
-            }
-
-            SetValue(ForegroundProperty, brush);
         }
     }
 
-    private void TryStartRainbowAnimation()
+    private void ApplyForegroundKey(string value)
     {
-        if (Foreground is not LinearGradientBrush { Transform: TranslateTransform translate })
+        // 彩虹资源使用 x:Shared="False"，预先查找会额外创建一个不会使用的画刷。
+        // 其余主题 Brush 仍用 TryFindResource，以支持 MergedDictionaries。
+        if (value == UiLogColor.Rainbow || TryFindResource(value) is Brush)
         {
+            SetResourceReference(ForegroundProperty, value);
             return;
         }
 
-        var anim = new DoubleAnimation {
-            From = 0,
-            To = 2000,
-            Duration = new Duration(System.TimeSpan.FromSeconds(60)),
-            EasingFunction = new PowerEase { Power = 3, EasingMode = EasingMode.EaseOut },
-        };
-        translate.BeginAnimation(TranslateTransform.XProperty, anim);
-    }
-
-    private void StopRainbowAnimation()
-    {
-        if (Foreground is LinearGradientBrush { Transform: TranslateTransform translate })
+        var brush = ThemeHelper.String2Brush(value);
+        if (ThemeHelper.SimilarToBackground(brush.Color))
         {
-            translate.BeginAnimation(TranslateTransform.XProperty, null);
+            SetResourceReference(ForegroundProperty, ThemeHelper.DefaultKey);
+            return;
         }
+
+        SetValue(ForegroundProperty, brush);
     }
 
     public static readonly DependencyProperty BindableInlinesProperty =

@@ -59,6 +59,10 @@ public class Gui : NotifyPropertyChangedWithValue
 
     public bool SaveWindowPlacement { get; set; } = true;
 
+    // 用户上次浏览任务队列 ｢添加任务｣ 菜单时的版本号；空表示从未记录（首次启动），
+    // 此时按当前运行版本正常比较并特判 v6.19 系列（见 TaskQueueViewModel.IsNewerThanBaseline）
+    public string AddTaskMenuSeenVersion { get; set; } = string.Empty;
+
     public InverseClearType InverseClearMode { get; set; } = InverseClearType.Clear;
 
     public TransitionSpeedType TransitionSpeed { get; set; } = TransitionSpeedType.Normal;
@@ -76,8 +80,6 @@ public class Gui : NotifyPropertyChangedWithValue
     public DateTimeOffset LastBuyWineTime { get; set; } = DateTimeOffset.MinValue;
 
     public string CustomCulture { get; set; } = string.Empty;
-
-    public bool IgnoreBadModulesAndUseSoftwareRendering { get; set; }
 
     public OverlayTargetInfo OverlayTarget { get; set; } = new();
 
@@ -99,6 +101,8 @@ public class Gui : NotifyPropertyChangedWithValue
     public int GuideStep { get; set; } = 0;
 
     public Background Background { get; set; } = new();
+
+    public Performance Performance { get; set; } = new();
 
     // ===== 背景设置（莫奈取色） =====
     public bool BackgroundMonetEnabled { get; set; } = false;

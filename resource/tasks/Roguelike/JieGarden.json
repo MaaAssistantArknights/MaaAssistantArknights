@@ -1461,7 +1461,7 @@
         "template": "Roguelike@QuickFormation.png"
     },
     "JieGarden@RoguelikeEncounter-ClickOption": {
-        "doc": "点击选项右侧位置以选择事件选项，再次点击可以确认选择",
+        "doc": "点击选项右侧位置以选择事件选项；插件观察确认出现后点击确认，连续无变化满3秒才重点击",
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [1175, 0, 100, 43]

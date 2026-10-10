@@ -1,4 +1,5 @@
 #pragma once
+#include "Common/AsstBattleDef.h"
 #include "Task/AbstractTask.h"
 
 #include <optional>
@@ -8,6 +9,7 @@
 
 namespace asst
 {
+class BattleFormationTask;
 class BattleProcessTask;
 
 class MultiCopilotTaskPlugin : public AbstractTask
@@ -19,6 +21,7 @@ public:
         std::string nav_name;               // 关卡名
         bool is_raid = false;               // 是否是突袭
         int id;
+        std::shared_ptr<battle::copilot::OperUsageGroups> assigned_groups;
     };
 
 public:
@@ -28,6 +31,8 @@ public:
     void set_multi_copilot_config(std::vector<MultiCopilotConfig> config) { m_copilot_configs = std::move(config); }
 
     void set_battle_task_ptr(const std::shared_ptr<BattleProcessTask>& ptr) { m_battle_task_ptr = ptr; }
+
+    void set_formation_task_ptr(const std::shared_ptr<BattleFormationTask>& ptr) { m_formation_task_ptr = ptr; }
 
 private:
     virtual bool _run() override;
@@ -43,6 +48,7 @@ private:
     std::vector<MultiCopilotConfig> m_copilot_configs;
     int m_index_current = 0; // 当前执行的索引
     std::shared_ptr<BattleProcessTask> m_battle_task_ptr = nullptr;
+    std::shared_ptr<BattleFormationTask> m_formation_task_ptr = nullptr;
     int m_max_retry = 20;
 };
 }

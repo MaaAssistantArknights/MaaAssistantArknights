@@ -38,6 +38,26 @@ internal static class GameAudioMuteManager
     private static long _version;
 
     /// <summary>
+    /// Retains the game window placement before connecting Core can move or restore it.
+    /// </summary>
+    /// <param name="hwnd">The game window handle.</param>
+    public static void CaptureWindowPlacement(IntPtr hwnd)
+    {
+        if (hwnd == IntPtr.Zero || !PInvoke.IsWindow((HWND)hwnd))
+        {
+            return;
+        }
+
+        lock (_syncRoot)
+        {
+            _version++;
+            RestoreCore();
+            _windowHwnd = hwnd;
+            CaptureWindowPlacementCore(hwnd);
+        }
+    }
+
+    /// <summary>
     /// Starts muting the process attached to the game window until the task ends.
     /// </summary>
     /// <param name="hwnd">The attached game window handle.</param>
@@ -66,10 +86,15 @@ internal static class GameAudioMuteManager
             }
 
             version = ++_version;
-            RestoreCore();
-            _windowHwnd = hwnd;
+            RestoreAudioCore();
+            if (_windowHwnd != hwnd)
+            {
+                RestoreWindowCore();
+                _windowHwnd = hwnd;
+                CaptureWindowPlacementCore(hwnd);
+            }
+
             _processId = processId;
-            CaptureWindowPlacementCore(hwnd);
             MuteNewSessionsCore();
         }
 

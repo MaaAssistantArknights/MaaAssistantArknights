@@ -55,7 +55,7 @@ bool asst::BattleProcessTask::_run()
     }
 
     if (need_to_wait_until_end()) {
-        wait_until_end();
+        wait_until_end(true, need_strategy_during_wait());
     }
 
     return true;
@@ -85,11 +85,6 @@ bool asst::BattleProcessTask::set_stage_name(const std::string& stage_name)
     m_combat_data = Copilot.get_data();
 
     return true;
-}
-
-void asst::BattleProcessTask::set_wait_until_end(bool wait_until_end)
-{
-    m_need_to_wait_until_end = wait_until_end;
 }
 
 void asst::BattleProcessTask::set_formation_task_ptr(

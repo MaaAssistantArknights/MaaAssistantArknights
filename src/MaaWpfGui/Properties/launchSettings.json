@@ -6,6 +6,14 @@
                 "MAA_ENVIRONMENT": "Debug"
             },
             "nativeDebugging": true
+        },
+        "MaaWpfGui (UI Preview)": {
+            "commandName": "Project",
+            "commandLineArgs": "--skip-core-init",
+            "environmentVariables": {
+                "MAA_ENVIRONMENT": "Debug"
+            },
+            "nativeDebugging": true
         }
     }
 }

@@ -37,7 +37,7 @@ using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
-using MaaWpfGui.Services.ExternalNotification;
+using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
@@ -45,8 +45,10 @@ using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using MaaWpfGui.Views.Dialogs;
+using Semver;
 using Serilog;
 using Stylet;
+using Stylet.Xaml;
 using static MaaWpfGui.Configuration.Global.Gui;
 using static MaaWpfGui.Main.AsstProxy;
 using Application = System.Windows.Application;
@@ -745,7 +747,6 @@ public class TaskQueueViewModel : Screen
                 SettingsViewModel.GameSettings.EnableRunDurationLimit ??= false;
             }
         };
-        _runningState.StallOccurred += RunningState_Stalled;
 
         if (Instances.VersionUpdateDialogViewModel.IsDebugVersion() || File.Exists("DEBUG") || File.Exists("DEBUG.txt"))
         {
@@ -753,19 +754,8 @@ public class TaskQueueViewModel : Screen
             CanShowAutoReload = !Bootstrapper.IsDemoMode;
             ShowDebugTask = true;
         }
-    }
 
-    private void RunningState_Stalled(object? sender, string message)
-    {
-        AddLog(message, UiLogColor.Warning, notifyActivity: false);
-        ToastNotification.ShowDirect(message);
-        if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenStalled)
-        {
-            var lastLogs = LogItemViewModels
-                .TakeLast(5)
-                .Aggregate(string.Empty, (current, logItem) => current + $"[{logItem.Time}][{logItem.Color}]{logItem.Content}\n");
-            ExternalNotificationService.Send(message, lastLogs);
-        }
+        UpdateTaskTypeBadges();
     }
 
     protected override void OnInitialActivate()
@@ -1038,6 +1028,12 @@ public class TaskQueueViewModel : Screen
 
     private void HandleCheckForUpdates()
     {
+        if (Bootstrapper.IsCoreInitSkipped)
+        {
+            // UI 预览模式：跳过版本与资源更新检查，避免联网弹窗与 Core 资源重载
+            return;
+        }
+
         if (!SettingsViewModel.VersionUpdateSettings.UpdateAutoCheck)
         {
             return;
@@ -1106,12 +1102,56 @@ public class TaskQueueViewModel : Screen
         return (timeToStart, timeToChangeConfig, configIndex);
     }
 
+    private static void HandleScheduledStartNotifications(DateTime currentTime)
+    {
+        var settings = SettingsViewModel.TimerSettings;
+        var notifyDesktop = settings.NotifyBeforeScheduledStart;
+        var delivery = SettingsViewModel.ExternalNotificationSettings.DeliverySettings;
+        var notifyExternal = delivery.Enable && delivery.SendBeforeScheduledStart;
+        if (!notifyDesktop && !notifyExternal)
+        {
+            return;
+        }
+
+        // 比较提前后的时刻，兼容跨午夜的定时任务。
+        var startTime = currentTime.AddMinutes(settings.ScheduledStartNotificationMinutes);
+        for (int i = 0; i < settings.TimerList.Count; ++i)
+        {
+            var timer = settings.TimerList[i];
+            if (timer.IsEnabled == false || timer.Hour != startTime.Hour || timer.Minute != startTime.Minute)
+            {
+                continue;
+            }
+
+            var title = LocalizationHelper.GetString("ScheduledStartNotificationTitle");
+            var content = string.Format(
+                LocalizationHelper.GetString("ScheduledStartNotificationContent"),
+                i + 1,
+                startTime.ToString("HH:mm"),
+                settings.ScheduledStartNotificationMinutes);
+
+            _logger.Information("Scheduled start notification: Timer Index: {TimerIndex}, Start Time: {StartTime}", i, startTime);
+            if (notifyDesktop)
+            {
+                using var toast = new ToastNotification(title);
+                toast.AppendContentText(content).Show();
+            }
+
+            if (notifyExternal)
+            {
+                Instances.NotificationService.NotifyScheduledStart(title, content);
+            }
+        }
+    }
+
     private async Task HandleTimerLogic(DateTime currentTime)
     {
         if (!_runningState.CanInterrupt() && !SettingsViewModel.TimerSettings.ForceScheduledStart)
         {
             return;
         }
+
+        await Execute.OnUIThreadAsync(() => HandleScheduledStartNotifications(currentTime));
 
         var (timeToStart, timeToChangeConfig, timerIndex) = CheckTimers(currentTime);
 
@@ -1397,9 +1437,9 @@ public class TaskQueueViewModel : Screen
     /// <returns>可等待</returns>
     public async Task UpdateDatePromptAndStagesWeb()
     {
-        if (Bootstrapper.IsDemoMode)
+        if (Bootstrapper.IsDemoMode || Bootstrapper.IsCoreInitSkipped)
         {
-            // README 截图演示模式：跳过活动关卡联网更新，仅做本地刷新
+            // README 截图演示模式 / UI 预览模式：跳过活动关卡联网更新，仅做本地刷新
             UpdateDatePromptAndStagesLocally();
             return;
         }
@@ -1537,6 +1577,20 @@ public class TaskQueueViewModel : Screen
             RunningState.Instance.NotifyOutputActivity();
         }
 
+        Instances.NotificationService.PublishLog(NotificationSource.TaskQueue, content,
+            () => DisplayLog(content, color, weight, toolTip, updateCardImage, fetchLatestImage, useCardImageAsToolTip, splitMode), color);
+    }
+
+    // Presentation only: mirrors and notification callbacks do not publish another event.
+    internal void DisplayLog(string? content,
+        string color = UiLogColor.Trace,
+        string weight = "Regular",
+        ToolTip? toolTip = null,
+        bool updateCardImage = false,
+        bool fetchLatestImage = false,
+        bool useCardImageAsToolTip = false,
+        LogCardSplitMode splitMode = LogCardSplitMode.None)
+    {
         bool isEmpty = string.IsNullOrEmpty(content);
         bool needsBeforeSplit = splitMode == LogCardSplitMode.Before || splitMode == LogCardSplitMode.Both;
         bool needsAfterSplit = splitMode == LogCardSplitMode.After || splitMode == LogCardSplitMode.Both;
@@ -1616,11 +1670,8 @@ public class TaskQueueViewModel : Screen
     {
         RunningState.Instance.NotifyOutputActivity();
         _logger.Information("{Header}", header);
-        Execute.OnUIThread(() => {
-            // Plain-text log style: either a decorated "-----{header}-----" line or the header verbatim.
-            var plainText = header is null
-                ? "-----"
-                : decoratePlainText ? $"-----{header}-----" : header;
+        var plainText = header is null ? "-----" : decoratePlainText ? $"-----{header}-----" : header;
+        Instances.NotificationService.PublishLog(NotificationSource.TaskQueue, plainText, () => {
             LogItemViewModels.Add(new LogItemViewModel(plainText));
 
             // Card log style: render a real hc:Divider as its own card.
@@ -1636,6 +1687,7 @@ public class TaskQueueViewModel : Screen
     public void ClearLog()
     {
         Execute.OnUIThread(() => {
+            Instances.NotificationService.Clear(NotificationSource.TaskQueue);
             LogItemViewModels.Clear();
             LogCardViewModels.Clear();
             DownloadLogItemViewModel = new(string.Empty);
@@ -1692,21 +1744,21 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     public int StartUpTaskCount => ConfigFactory.CurrentConfig.TaskQueue.Count(t => t is StartUpTask);
 
-    public static ReadOnlyCollection<GenericCombinedData<Type>> TaskTypeList { get; } = Array.AsReadOnly(
+    public static ReadOnlyCollection<TaskTypeItem> TaskTypeList { get; } = Array.AsReadOnly(
         [
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("StartUp"), Value = typeof(StartUpTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Fight"), Value = typeof(FightTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Infrast"), Value = typeof(InfrastTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Recruit"), Value = typeof(RecruitTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Mall"), Value = typeof(MallTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Award"), Value = typeof(AwardTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("OperProgress"), Value = typeof(OperProgressTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Roguelike"), Value = typeof(RoguelikeTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Reclamation"), Value = typeof(ReclamationTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("UserDataUpdate"), Value = typeof(UserDataUpdateTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("DepotMaintain"), Value = typeof(DepotMaintainTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("SwitchTheme"), Value = typeof(SwitchThemeTask) },
-            new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Custom"), Value = typeof(CustomTask) },
+            new TaskTypeItem(LocalizationHelper.GetString("StartUp"), typeof(StartUpTask)),
+            new TaskTypeItem(LocalizationHelper.GetString("Fight"), typeof(FightTask)),
+            new TaskTypeItem(LocalizationHelper.GetString("Infrast"), typeof(InfrastTask)),
+            new TaskTypeItem(LocalizationHelper.GetString("Recruit"), typeof(RecruitTask)),
+            new TaskTypeItem(LocalizationHelper.GetString("Mall"), typeof(MallTask)),
+            new TaskTypeItem(LocalizationHelper.GetString("Award"), typeof(AwardTask)),
+            new TaskTypeItem(LocalizationHelper.GetString("OperProgress"), typeof(OperProgressTask), introducedVersion: "6.19.0-beta.2"),
+            new TaskTypeItem(LocalizationHelper.GetString("Roguelike"), typeof(RoguelikeTask)),
+            new TaskTypeItem(LocalizationHelper.GetString("Reclamation"), typeof(ReclamationTask)),
+            new TaskTypeItem(LocalizationHelper.GetString("UserDataUpdate"), typeof(UserDataUpdateTask)),
+            new TaskTypeItem(LocalizationHelper.GetString("DepotMaintain"), typeof(DepotMaintainTask)),
+            new TaskTypeItem(LocalizationHelper.GetString("SwitchTheme"), typeof(SwitchThemeTask), introducedVersion: "6.19.0-beta.2"),
+            new TaskTypeItem(LocalizationHelper.GetString("Custom"), typeof(CustomTask), isDebugOnly: true),
         ]);
 
     private void RefreshTaskTypeListLocalization()
@@ -1732,6 +1784,121 @@ public class TaskQueueViewModel : Screen
         }
     }
 
+    private CommandAction? _addTaskQueueTaskCommand;
+
+    /// <summary>
+    /// Gets ｢添加任务｣ 菜单命令，包装 <see cref="AddTaskQueueTask"/>。生成式菜单的容器样式里 Setter.Value
+    /// 不接受 s:Action（WPF 仅放行 DynamicResource 与 Binding），故以显式 target 构造 Stylet 的 CommandAction（s:Action 的底层实现）经 Binding 绑定。
+    /// </summary>
+    public CommandAction AddTaskQueueTaskCommand => _addTaskQueueTaskCommand ??= new CommandAction(
+        this,
+        nameof(AddTaskQueueTask),
+        ActionUnavailableBehaviour.Throw,
+        ActionUnavailableBehaviour.Throw);
+
+    private bool _isAddTaskMenuOpen;
+
+    /// <summary>
+    /// Gets or sets ｢添加任务｣ 下拉弹层的开合状态，双向绑定 MenuButton.IsPopupOpen。
+    /// 从 true 变为 false（弹层关闭）即视为浏览过菜单：记下当前版本为基准并刷新红点。
+    /// </summary>
+    public bool IsAddTaskMenuOpen
+    {
+        get => _isAddTaskMenuOpen;
+        set {
+            if (!SetAndNotify(ref _isAddTaskMenuOpen, value) || value)
+            {
+                return;
+            }
+
+            var seen = GetTaskMenuSeenVersionToRecord();
+            if (seen is not null)
+            {
+                ConfigFactory.Root.Gui.AddTaskMenuSeenVersion = seen;
+            }
+
+            UpdateTaskTypeBadges();
+        }
+    }
+
+    /// <summary>
+    /// Gets 浏览菜单后应记录的基准版本；没有任何登记引入版本时返回 null（无可亮的红点，跳过写入）。
+    /// 正常取当前软件版本；版本号不可解析（本地 dev 的 DEBUG_VERSION）时改取已登记引入版本的最大值，
+    /// 代表 ｢已看过当前全部已登记任务｣ ——dev 下红点正常消失、将来登记新任务时会再亮，同时避免把
+    /// 不可解析的哨兵写进配置，让共享同一配置的正式版按 ｢基准解析失败恒不亮｣ 静默失效。
+    /// </summary>
+    /// <returns>要写入 Root.Gui.AddTaskMenuSeenVersion 的版本号，或 null 表示跳过写入。</returns>
+    private static string? GetTaskMenuSeenVersionToRecord()
+    {
+        var uiVersion = VersionUpdateSettingsUserControlModel.UiVersion;
+        if (SemVersion.TryParse(uiVersion, SemVersionStyles.Any, out _))
+        {
+            return uiVersion;
+        }
+
+        // SemVersion 不实现 IComparable（版本优先级与全序不同，库方有意为之），LINQ Max()
+        // 的运行时检查会抛 ArgumentException 且被绑定引擎吞掉，必须用 ComparePrecedenceTo 聚合
+        var versions = TaskTypeList
+            .Select(item => item.IntroducedVersion)
+            .Where(version => version is not null)
+            .Select(version => SemVersion.Parse(version!, SemVersionStyles.Any))
+            .ToList();
+        return versions.Count > 0
+            ? versions.Aggregate((max, v) => v.ComparePrecedenceTo(max) > 0 ? v : max).ToString()
+            : null;
+    }
+
+    private bool _hasNewTaskType;
+
+    /// <summary>
+    /// Gets ｢添加任务｣ 按钮是否显示新任务红点：任一任务条目相对上次浏览菜单的版本为新。
+    /// </summary>
+    public bool HasNewTaskType
+    {
+        get => _hasNewTaskType;
+        set => SetAndNotify(ref _hasNewTaskType, value);
+    }
+
+    /// <summary>
+    /// 按基准版本（Root.Gui.AddTaskMenuSeenVersion）重算各任务条目的 <see cref="TaskTypeItem.IsNew"/>
+    /// 与 <see cref="HasNewTaskType"/>。基准为空（从未记录）时按当前运行版本正常比较并特判
+    /// v6.19，见 <see cref="IsNewerThanBaseline"/>。
+    /// </summary>
+    private void UpdateTaskTypeBadges()
+    {
+        var seen = ConfigFactory.Root.Gui.AddTaskMenuSeenVersion;
+        foreach (var item in TaskTypeList)
+        {
+            item.IsNew = item.IntroducedVersion is { } introduced && IsNewerThanBaseline(introduced, seen);
+        }
+
+        HasNewTaskType = TaskTypeList.Any(item => item.IsNew);
+    }
+
+    // 引入版本相对基准是否算 ｢新｣ ：
+    // - 有基准：引入版本晚于基准即新（语义化版本的优先级比较，忽略 build 元数据）
+    // - 空基准（首次启动，从未浏览过菜单）：按当前运行版本正常比较（视为已浏览过当前版本）；
+    //   特判 v6.19——红点功能于 6.19.0-beta.2 上线，期间首启的用户属 6.19 系列，本系列
+    //   登记的任务（6.19.0-beta.2）直接显示；6.20 及以后空基准无此豁免
+    // 任一侧版本无法解析（如本地 dev 的 DEBUG_VERSION）时返回 false——宁可漏标不误标；
+    // 例外是 dev 的当前版本解析失败时全亮，保持本地可测
+    private static bool IsNewerThanBaseline(string introduced, string seen)
+    {
+        if (!SemVersion.TryParse(introduced, SemVersionStyles.Any, out var v))
+        {
+            return false;
+        }
+
+        if (string.IsNullOrEmpty(seen))
+        {
+            return !SemVersion.TryParse(VersionUpdateSettingsUserControlModel.UiVersion, SemVersionStyles.Any, out var current)
+                || v.ComparePrecedenceTo(current) > 0
+                || (current.Major == 6 && current.Minor == 19 && v.Major == 6 && v.Minor == 19);
+        }
+
+        return SemVersion.TryParse(seen, SemVersionStyles.Any, out var b) && v.ComparePrecedenceTo(b) > 0;
+    }
+
     public void AddTaskQueueTask(Type taskName)
     {
         // 开始唤醒任务至多一个，菜单项禁用之外的行为兜底
@@ -1747,7 +1914,7 @@ public class TaskQueueViewModel : Screen
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.QueueExpansion);
             AchievementTrackerHelper.Instance.TrackManualTaskAddition(
                 task.TaskType.ToString(),
-                ShowDebugTask ? TaskTypeList.Count : TaskTypeList.Count - 1);
+                TaskTypeList.Count(item => ShowDebugTask || !item.IsDebugOnly));
         }
         else
         {
@@ -2081,11 +2248,29 @@ public class TaskQueueViewModel : Screen
         ResetTaskSelection();
     }
 
-    private async Task<bool> ConnectToEmulator()
+    internal async Task<bool> ConnectToConnectionTarget()
     {
         string errMsg = string.Empty;
         bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
 
+        if (!connected
+            && SettingsViewModel.ConnectSettings.IsPCConnectConfig
+            && SettingsViewModel.ConnectSettings.RetryPcClientOnDisconnected)
+        {
+            AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToStartPcClient"));
+
+            await Task.Run(() => SettingsViewModel.StartSettings.TryToStartPcClient());
+
+            if (_runningState.GetStopping())
+            {
+                SetStopped();
+                return false;
+            }
+
+            connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+        }
+
+        // Window attachment does not use ADB recovery.
         if (!connected && SettingsViewModel.ConnectSettings.IsPCConnectConfig)
         {
             AddLog(errMsg, UiLogColor.Error);
@@ -2277,15 +2462,15 @@ public class TaskQueueViewModel : Screen
             return;
         }
 
-        _taskStartTime = DateTime.Now;
-        ClearLog();
-
         // 拦截判定收敛于 Bootstrapper.TryGetTaskBlockReason；热键/托盘/远程等入口汇入于此（启动自动运行在 AsstProxy 另有前置检查）
         if (Bootstrapper.TryGetTaskBlockReason() is { } reason)
         {
             AddLog(reason, UiLogColor.Error);
             return;
         }
+
+        _taskStartTime = DateTime.Now;
+        ClearLog();
 
         Instances.OverlayViewModel.LogItemsSource = LogItemViewModels;
 
@@ -2351,7 +2536,7 @@ public class TaskQueueViewModel : Screen
             return;
         }
 
-        if (!await ConnectToEmulator())
+        if (!await ConnectToConnectionTarget())
         {
             return;
         }

@@ -37,6 +37,9 @@ public static class MaaUrls
 
     public const string YituliuOpenApiOperatorInfo = "https://backend.yituliu.cn/open-api/operator/info";
 
+    // 一图流个人中心（第三方 API Token 生成处）
+    public const string YituliuAccountHome = "https://ark.yituliu.cn/account/home";
+
     public const string PrtsPlusCopilotGet = "https://prts.maa.plus/copilot/get/";
 
     public const string PrtsPlusCopilotRating = "https://prts.maa.plus/copilot/rating";

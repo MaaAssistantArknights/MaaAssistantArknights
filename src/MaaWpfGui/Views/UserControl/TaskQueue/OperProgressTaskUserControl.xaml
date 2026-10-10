@@ -7,6 +7,7 @@
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:converters="clr-namespace:MaaWpfGui.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -125,6 +126,11 @@
                 Padding="0"
                 HorizontalContentAlignment="Stretch"
                 d:IsHitTestVisible="True"
+                dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
+                dd:DragDrop.IsDragSource="{c:Binding !IsCurrentTaskRunning,
+                                                     Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
+                dd:DragDrop.IsDropTarget="{c:Binding !IsCurrentTaskRunning,
+                                                     Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                 hc:ScrollViewer.IsInertiaEnabled="True"
                 BorderThickness="0"
                 ClipToBounds="False"
@@ -133,6 +139,7 @@
                 ItemsSource="{Binding PlanItems}"
                 PreviewMouseWheel="{s:Action RouteMouseWheelToParentExceptScrollable,
                                              Target={x:Type helper:MouseWheelHelper}}"
+                ToolTip="{DynamicResource LabelSequenceTip}"
                 VirtualizingPanel.IsVirtualizing="True"
                 VirtualizingPanel.ScrollUnit="Pixel"
                 VirtualizingPanel.VirtualizationMode="Recycling">

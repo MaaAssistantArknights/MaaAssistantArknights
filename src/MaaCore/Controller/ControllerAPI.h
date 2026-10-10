@@ -53,6 +53,12 @@ public:
 
     virtual bool screencap(cv::Mat& image_payload, bool allow_reconnect = false) = 0;
 
+    // 预览只需要画面，不需要识别前的输入操作；无此区别的控制器沿用普通截图。
+    virtual bool screencap_for_preview(cv::Mat& image_payload, bool allow_reconnect = false)
+    {
+        return screencap(image_payload, allow_reconnect);
+    }
+
     virtual bool start_game(const std::string& client_type) = 0;
     virtual bool stop_game(const std::string& client_type) = 0;
 

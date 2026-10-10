@@ -297,7 +297,7 @@ bool asst::Assistant::ctrl_click(int x, int y)
 
 bool asst::Assistant::ctrl_screencap()
 {
-    return m_ctrler->screencap();
+    return m_ctrler->screencap_for_preview();
 }
 
 asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, const std::string& params)
@@ -402,7 +402,7 @@ std::vector<uchar> asst::Assistant::get_image() const
     if (!inited()) {
         return {};
     }
-    cv::Mat img = m_ctrler->get_image_cache();
+    cv::Mat img = m_ctrler->get_preview_image_cache();
     std::vector<uchar> buf;
     cv::imencode(".png", img, buf);
     return buf;
@@ -414,7 +414,7 @@ std::vector<uchar> asst::Assistant::get_image_bgr() const
         return {};
     }
 
-    cv::Mat img = m_ctrler->get_image_cache();
+    cv::Mat img = m_ctrler->get_preview_image_cache();
 
     if (!img.isContinuous()) {
         img = img.clone();
@@ -632,6 +632,13 @@ void Assistant::working_proc()
                 best_effort([&] { Log.error("Unknown exception in task thread"); });
             }
 
+            const auto save_fail_img = [&]() {
+                if (task_ptr == nullptr) {
+                    return;
+                }
+                best_effort([&] { task_ptr->save_fail_img(); });
+            };
+
             lock.lock();
             if (!m_tasks_list.empty()) {
                 m_tasks_list.pop_front();
@@ -643,6 +650,7 @@ void Assistant::working_proc()
             }
 
             if (exception_kind != TaskExceptionKind::None) {
+                save_fail_img();
                 if (exception_kind == TaskExceptionKind::OutOfMemory) {
                     lock.lock();
                     m_thread_idle = true;
@@ -668,6 +676,9 @@ void Assistant::working_proc()
             else {
                 auto msg = m_thread_idle ? AsstMsg::TaskChainStopped
                                          : (ret ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError);
+                if (msg == AsstMsg::TaskChainError) {
+                    save_fail_img();
+                }
                 append_callback(msg, callback_json);
             }
 

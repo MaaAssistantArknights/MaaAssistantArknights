@@ -1491,12 +1491,13 @@ Supports the Secret Front (`MiniGame@SecretFront`) concatenated form: `MiniGame@
 ::: field params  
 @type object
 @optional
-Additional task parameters. Currently used by the pixel paint task (`MiniGame@PixelPaint@Begin`) and the auto raise potential task (`MiniGame@AutoRaisePotential@Begin`):
+Additional task parameters. Currently used by the pixel paint task (`MiniGame@PixelPaint@Begin`), the auto raise potential task (`MiniGame@AutoRaisePotential@Begin`), and the event shop exchange task (`SS@Store@Begin`):
 
 - `params.pixel_paint.groups`: color-grouped cell list. `color` is the palette slot index (0~39, same order as the in-game right-side palette), `points` is an array of `[x, y]` grid coordinates (0~23, origin at top-left).
 - `params.pixel_paint.swipe` (bool, optional, default true): consecutive cells of the same color are drawn in a single drag for speed; some touch modes may behave abnormally.
 - `params.pixel_paint.grid_delay` (int, optional, default 0): extra per-cell wait (ms). Applied after clicks and added to drag duration. Each touch mode already has its own base interval; usually no need to adjust. Legacy key `grid_click_delay` is still accepted.
 - `params.auto_raise_potential.use_normal_token` (bool, optional, default false): when tokens are insufficient, the confirmation dialog clicks × to abort by default; set to true to click √ instead and consume normal tokens to continue.
+- `params.event_shop.blacklist` (string array, optional): product name blacklist for the event shop exchange task (`SS@Store@Begin`). A commodity is skipped when its recognized name contains any entry, and the shop keeps swiping to buy the remaining commodities. No effect when empty.
 
 :::  
 ::::

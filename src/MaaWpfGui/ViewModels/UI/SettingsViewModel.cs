@@ -35,11 +35,13 @@ using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.States;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Serilog;
 using Stylet;
+using Stylet.Xaml;
 using ComboBox = System.Windows.Controls.ComboBox;
 using Timer = System.Timers.Timer;
 
@@ -105,6 +107,11 @@ public class SettingsViewModel : Screen
     public static VersionUpdateSettingsUserControlModel VersionUpdateSettings { get; } = VersionUpdateSettingsUserControlModel.Instance;
 
     /// <summary>
+    /// Gets 通知设置 model
+    /// </summary>
+    public static NotificationSettingsUserControlModel NotificationSettings { get; } = new();
+
+    /// <summary>
     /// Gets 外部通知 model
     /// </summary>
     public static ExternalNotificationSettingsUserControlModel ExternalNotificationSettings { get; } = ExternalNotificationSettingsUserControlModel.Instance;
@@ -136,6 +143,8 @@ public class SettingsViewModel : Screen
     /// </summary>
     public SettingsViewModel()
     {
+        PropertyDependsOnUtility.InitializePropertyDependencies(this);
+
         DisplayName = LocalizationHelper.GetString("Settings");
 
         Init();
@@ -152,6 +161,7 @@ public class SettingsViewModel : Screen
     {
         DisplayName = LocalizationHelper.GetString("Settings");
         RefreshSettingsList();
+        NotifyOfPropertyChange(nameof(GuideNextGateTip));
     }
 
     #region Init
@@ -187,9 +197,7 @@ public class SettingsViewModel : Screen
 
     public SettingItemViewModel UiSettingsSetting => GetSettingItemByKey("UiSettings");
 
-    public SettingItemViewModel BackgroundSettingsSetting => GetSettingItemByKey("BackgroundSettings");
-
-    public SettingItemViewModel ExternalNotificationSettingsSetting => GetSettingItemByKey("ExternalNotificationSettings");
+    public SettingItemViewModel NotificationSettingsSetting => GetSettingItemByKey("NotificationSettings");
 
     public SettingItemViewModel ThirdPartyServiceSettingsSetting => GetSettingItemByKey("ThirdPartyServiceSettings");
 
@@ -210,6 +218,8 @@ public class SettingsViewModel : Screen
         var tempOrderList = new List<SettingItemViewModel?>();
 
         bool isAdded = false;
+
+        // 已删除设置项的死键由 SettingsPageReorgMigrationConverter 在反序列化前的 JsonNode 层剔除
         var orderList = ConfigFactory.Root.Gui.SettingOrders.ToList();
         foreach (var key in keyList.Where(k => !orderList.Any(o => o == k)))
         {
@@ -699,6 +709,38 @@ public class SettingsViewModel : Screen
         set => SetAndNotify(ref _guideConfirmEnabled, value);
     }
 
+    // ｢任务设置｣ 步骤在 StepBar 中的索引，与 GuideUserControl.xaml 步骤区的 Visibility 条件对应
+    private const int GuideTaskSettingsStepIndex = 3;
+
+    // 私有依赖源属性：变更通知经 PropertyDependsOn 转发给 GuideNextGateTip
+    private bool GuideDemoTaskAdded
+    {
+        get => _guideDemoTaskAdded;
+        set => SetAndNotify(ref _guideDemoTaskAdded, value);
+    }
+
+    private bool _guideDemoTaskAdded;
+
+    /// <summary>
+    /// Gets 当前步骤 ｢下一步｣ 前置条件的本地化提示，已满足或无前置条件时为 null（即放行）。
+    /// 新增门槛在下面的 switch 注册：条件 + 提示资源 key，UI 与按钮无需改动。
+    /// ｢任务设置｣ 步骤要求先通过 ｢添加新任务｣ 菜单添加过任务：
+    /// 该菜单列出全部任务类型，添加过即视为看过完整列表；列表项的复制不展开该菜单，不计入。
+    /// </summary>
+    [PropertyDependsOn(nameof(GuideStepIndex), nameof(GuideDemoTaskAdded))]
+    public string? GuideNextGateTip => GuideStepIndex switch
+    {
+        GuideTaskSettingsStepIndex when !GuideDemoTaskAdded => LocalizationHelper.GetString("GuideDemoTaskRequiredTip"),
+        _ => null,
+    };
+
+    /// <summary>
+    /// Gets 设置指引 ｢添加任务｣ 按钮的红点是否显示：教程要求添加过任务才能进入下一步，
+    /// 未添加时以红点引导用户注意该按钮。
+    /// </summary>
+    [PropertyDependsOn(nameof(GuideDemoTaskAdded))]
+    public bool GuideAddTaskBadgeVisible => !GuideDemoTaskAdded;
+
     // 最后一步停留 5 秒后才允许点完成，避免一路连点跳过说明
     private const int GuideConfirmDelaySeconds = 5;
 
@@ -717,8 +759,7 @@ public class SettingsViewModel : Screen
         GuideConfirmEnabled = false;
         GuideConfirmCountdown = GuideConfirmDelaySeconds;
         var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
-        timer.Tick += (_, _) =>
-        {
+        timer.Tick += (_, _) => {
             if (--GuideConfirmCountdown <= 0)
             {
                 timer.Stop();
@@ -812,7 +853,7 @@ public class SettingsViewModel : Screen
     }
 
     /// <summary>
-    /// 重置指引演示任务列表为初始任务。名称项只存类型资源 key，显示名随语言热切换刷新。
+    /// 重置指引演示任务列表为初始任务，并清空 ｢添加新任务｣ 放行记录。名称项只存类型资源 key，显示名随语言热切换刷新。
     /// </summary>
     public void ResetGuideDemoTasks()
     {
@@ -826,7 +867,21 @@ public class SettingsViewModel : Screen
         {
             GuideDemoTasks.Add(new GuideDemoTaskItem { LocalizationKey = key });
         }
+
+        GuideDemoTaskAdded = false;
     }
+
+    private CommandAction? _addGuideDemoTaskCommand;
+
+    /// <summary>
+    /// Gets ｢添加任务｣ 菜单命令，包装 <see cref="AddGuideDemoTask"/>。生成式菜单的容器样式里 Setter.Value
+    /// 不接受 s:Action（WPF 仅放行 DynamicResource 与 Binding），故以显式 target 构造 Stylet 的 CommandAction（s:Action 的底层实现）经 Binding 绑定。
+    /// </summary>
+    public CommandAction AddGuideDemoTaskCommand => _addGuideDemoTaskCommand ??= new CommandAction(
+        Instances.SettingsViewModel,
+        nameof(AddGuideDemoTask),
+        ActionUnavailableBehaviour.Throw,
+        ActionUnavailableBehaviour.Throw);
 
     // UI 绑定的方法
     [UsedImplicitly]
@@ -841,6 +896,7 @@ public class SettingsViewModel : Screen
         // 任务类型资源 key 与类型名同构（XxxTask → Xxx）
         var key = taskType.Name.EndsWith("Task", StringComparison.Ordinal) ? taskType.Name[..^"Task".Length] : taskType.Name;
         GuideDemoTasks.Add(new GuideDemoTaskItem { LocalizationKey = key });
+        GuideDemoTaskAdded = true;
     }
 
     // UI 绑定的方法
@@ -881,8 +937,7 @@ public class SettingsViewModel : Screen
         var dialog = new Views.Dialogs.TextDialogView(
             LocalizationHelper.GetString("RenameTask"),
             LocalizationHelper.GetString("RenameTaskPrompt"),
-            taskItem.Name)
-        {
+            taskItem.Name) {
             Owner = Application.Current.MainWindow,
         };
 
@@ -1052,11 +1107,6 @@ public class SettingsViewModel : Screen
     {
         get => _scrollOffset;
         set {
-            if (!AllowScrollOffsetChange)
-            {
-                return;
-            }
-
             // 平滑滚动动画落地的回写（ScrollViewerBinding 在动画结束后把目标值路由回绑定源）：
             // 与动画目标一致说明本次滚动源于导航定位，同步值即可，不反向重算导航高亮——
             // 目标偏移被 ScrollViewer 钳制时（分节下方内容不足一屏，实际停不到目标），
@@ -1108,8 +1158,6 @@ public class SettingsViewModel : Screen
             }
         }
     }
-
-    public bool AllowScrollOffsetChange { get; set; } = true;
 
     private double _scrollAnimationTarget = double.NaN;
 
@@ -1190,16 +1238,10 @@ public class SettingsViewModel : Screen
         set => SetExpanderState(SettingKey.UiSettings, value);
     }
 
-    public bool IsBackgroundSettingsExpanded
+    public bool IsNotificationSettingsExpanded
     {
-        get => GetExpanderState(SettingKey.BackgroundSettings);
-        set => SetExpanderState(SettingKey.BackgroundSettings, value);
-    }
-
-    public bool IsExternalNotificationSettingsExpanded
-    {
-        get => GetExpanderState(SettingKey.ExternalNotificationSettings);
-        set => SetExpanderState(SettingKey.ExternalNotificationSettings, value);
+        get => GetExpanderState(SettingKey.NotificationSettings);
+        set => SetExpanderState(SettingKey.NotificationSettings, value);
     }
 
     public bool IsThirdPartyServiceSettingsExpanded
@@ -1389,7 +1431,10 @@ public class SettingsViewModel : Screen
             ? demoUiVersion
             : LocalizationHelper.FormatVersion(uiVersion, VersionUpdateSettingsUserControlModel.BuildDateTime);
         string adminTag = Bootstrapper.IsAdministratorWithUac() ? $" ({LocalizationHelper.GetString("Administrator")})" : string.Empty;
-        rvm.WindowTitle = $"{prefix}MAA{adminTag}{currentConfiguration} - {uiVersionDisplay}{resourceVersionDisplay}{connectConfigName}{connectAddress}{clientName}";
+
+        // 常驻预览标记：防止带参数预览后忘记本进程未加载 Core
+        string previewTag = Bootstrapper.IsCoreInitSkipped ? $" ({LocalizationHelper.GetString("UiPreviewMode")})" : string.Empty;
+        rvm.WindowTitle = $"{prefix}MAA{adminTag}{currentConfiguration} - {uiVersionDisplay}{resourceVersionDisplay}{connectConfigName}{connectAddress}{clientName}{previewTag}";
     }
 
     /// <summary>

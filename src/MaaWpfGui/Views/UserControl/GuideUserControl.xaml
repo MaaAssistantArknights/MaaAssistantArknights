@@ -37,61 +37,75 @@
                 </hc:RelativePanel>
             </GroupBox.Header>
             <DockPanel>
-                <StackPanel
-                    Margin="10"
-                    VerticalAlignment="Center"
-                    DockPanel.Dock="Right">
-                    <Button
-                        MinWidth="100"
-                        hc:IconElement.Geometry="{StaticResource UpGeometry}"
-                        hc:IconElement.Width="18"
-                        Command="{s:Action PrevGuide}"
-                        CommandParameter="{Binding ElementName=GuideStepBar}"
-                        Content="{DynamicResource PrevGuide}"
-                        Style="{StaticResource ButtonDashedPrimary}" />
-                    <hc:StepBar
-                        Name="GuideStepBar"
-                        Margin="10"
-                        d:StepIndex="7"
-                        Dock="Right"
-                        StepIndex="{Binding GuideStepIndex}">
-                        <hc:StepBarItem Content="{DynamicResource UiSettings}" />
-                        <hc:StepBarItem Content="{DynamicResource GameSettings}" />
-                        <hc:StepBarItem Content="{DynamicResource ConnectionSettings}" />
-                        <hc:StepBarItem Content="{DynamicResource TaskSettings}" />
-                        <hc:StepBarItem Content="{DynamicResource PerformanceSettings}" />
-                        <hc:StepBarItem Content="{DynamicResource UpdateSettings}" />
-                        <hc:StepBarItem Content="{DynamicResource UserGuide}" />
-                    </hc:StepBar>
-                    <Button
-                        MinWidth="100"
-                        hc:IconElement.Geometry="{StaticResource DownGeometry}"
-                        hc:IconElement.Width="18"
-                        Command="{s:Action NextGuide}"
-                        CommandParameter="{Binding ElementName=GuideStepBar}"
-                        Content="{DynamicResource NextGuide}"
-                        Style="{StaticResource ButtonDashedPrimary}"
-                        Visibility="{c:Binding 'GuideStepIndex less GuideMaxStep - 1'}" />
-                    <Button
-                        MinWidth="100"
-                        hc:IconElement.Geometry="{StaticResource SuccessGeometry}"
-                        hc:IconElement.Width="18"
-                        Command="{s:Action DoneGuide}"
-                        Content="{DynamicResource DoneGuide}"
-                        IsEnabled="{Binding GuideConfirmEnabled}"
-                        Style="{StaticResource ButtonDashedPrimary}"
-                        Visibility="{c:Binding 'GuideStepIndex >= GuideMaxStep - 1'}" />
-                    <controls:TextBlock
-                        Margin="0,6,0,0"
-                        HorizontalAlignment="Center"
-                        FontSize="12"
-                        Foreground="{DynamicResource ThirdlyTextBrush}"
-                        Visibility="{c:Binding '!GuideConfirmEnabled',
-                                               FalseToVisibility=Hidden}">
-                        <Run Text="{DynamicResource GuideConfirmCountdownPrefix}" /><Run Text="{Binding GuideConfirmCountdown}" /><Run Text="{DynamicResource GuideConfirmCountdownSuffix}" />
-                    </controls:TextBlock>
-                </StackPanel>
-
+                <Grid VerticalAlignment="Stretch" DockPanel.Dock="Right">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel
+                        x:Name="GuideButtonPanel"
+                        Grid.Row="1"
+                        Margin="10,0"
+                        VerticalAlignment="Center">
+                        <Button
+                            MinWidth="100"
+                            HorizontalAlignment="Right"
+                            hc:IconElement.Geometry="{StaticResource UpGeometry}"
+                            hc:IconElement.Width="18"
+                            Command="{s:Action PrevGuide}"
+                            CommandParameter="{Binding ElementName=GuideStepBar}"
+                            Content="{DynamicResource PrevGuide}"
+                            Style="{StaticResource ButtonDashedPrimary}" />
+                        <hc:StepBar
+                            Name="GuideStepBar"
+                            Margin="10,0"
+                            d:StepIndex="7"
+                            Dock="Right"
+                            StepIndex="{Binding GuideStepIndex}">
+                            <hc:StepBarItem Content="{DynamicResource UiSettings}" />
+                            <hc:StepBarItem Content="{DynamicResource GameSettings}" />
+                            <hc:StepBarItem Content="{DynamicResource ConnectionSettings}" />
+                            <hc:StepBarItem Content="{DynamicResource TaskSettings}" />
+                            <hc:StepBarItem Content="{DynamicResource PerformanceSettings}" />
+                            <hc:StepBarItem Content="{DynamicResource UpdateSettings}" />
+                            <hc:StepBarItem Content="{DynamicResource UserGuide}" />
+                        </hc:StepBar>
+                        <Button
+                            MinWidth="100"
+                            HorizontalAlignment="Right"
+                            hc:IconElement.Geometry="{StaticResource DownGeometry}"
+                            hc:IconElement.Width="18"
+                            Command="{s:Action NextGuide}"
+                            CommandParameter="{Binding ElementName=GuideStepBar}"
+                            Content="{DynamicResource NextGuide}"
+                            IsEnabled="{c:Binding 'GuideNextGateTip == null'}"
+                            Style="{StaticResource ButtonDashedPrimary}"
+                            Visibility="{c:Binding 'GuideStepIndex less GuideMaxStep - 1'}" />
+                        <Button
+                            MinWidth="100"
+                            hc:IconElement.Geometry="{StaticResource SuccessGeometry}"
+                            hc:IconElement.Width="18"
+                            Command="{s:Action DoneGuide}"
+                            Content="{DynamicResource DoneGuide}"
+                            IsEnabled="{Binding GuideConfirmEnabled}"
+                            Style="{StaticResource ButtonDashedPrimary}"
+                            Visibility="{c:Binding 'GuideStepIndex >= GuideMaxStep - 1'}" />
+                    </StackPanel>
+                    <Grid Grid.Row="2" MaxWidth="{Binding ElementName=GuideButtonPanel, Path=ActualWidth}">
+                        <controls:TextBlock
+                            FontSize="12"
+                            Foreground="{DynamicResource ThirdlyTextBrush}"
+                            Visibility="{c:Binding '!GuideConfirmEnabled'}">
+                            <Run Text="{DynamicResource GuideConfirmCountdownPrefix}" /><Run Text="{Binding GuideConfirmCountdown}" /><Run Text="{DynamicResource GuideConfirmCountdownSuffix}" />
+                        </controls:TextBlock>
+                        <controls:TextBlock
+                            Foreground="{DynamicResource ThirdlyTextBrush}"
+                            Text="{Binding GuideNextGateTip}"
+                            TextWrapping="Wrap"
+                            Visibility="{c:Binding 'GuideNextGateTip != null'}" />
+                    </Grid>
+                </Grid>
                 <ScrollViewer Margin="10,20,10,20" VerticalScrollBarVisibility="Auto">
                     <hc:SimplePanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <hc:TransitioningContentControl
@@ -175,6 +189,7 @@
                             Visibility="{c:Binding 'GuideStepIndex == 3'}">
                             <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
@@ -368,108 +383,70 @@
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
                                         </ItemsControl>
-                                        <Grid Grid.Row="1">
+                                        <Grid Grid.Row="1" Margin="-1,0,-1,-1">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
-                                            <controls:MenuButton
+                                            <Grid
                                                 Grid.Column="0"
                                                 Width="30"
                                                 Height="30"
-                                                Padding="0"
-                                                VerticalAlignment="Top"
-                                                hc:BorderElement.CornerRadius="4,0,0,4"
-                                                hc:IconElement.Geometry="{StaticResource TaskQueueAddTaskIcon}"
-                                                Foreground="{DynamicResource PrimaryTextBrush}"
-                                                Style="{StaticResource MaaButtonDefaultStyle}"
-                                                ToolTip="{DynamicResource AddTaskQueueTask}">
-                                                <controls:MenuButton.PopupContent>
-                                                    <Border
-                                                        Width="190"
-                                                        Margin="8"
-                                                        Padding="2,2,2,0"
-                                                        Background="{DynamicResource RegionBrush}"
-                                                        BorderBrush="{DynamicResource BorderBrush}"
-                                                        BorderThickness="1"
-                                                        CornerRadius="4"
-                                                        Effect="{DynamicResource EffectShadow2}">
-                                                        <!--
-                                                            本版 HandyControls 移除了原版 MenuAttach.ItemMinHeight（原 ContextMenu
-                                                            隐式样式靠它把项撑到标准控件高度），Menu 的顶级项模板默认无最小高度，
-                                                            需在容器样式显式补 MinHeight
-                                                        -->
-                                                        <Menu Padding="0">
-                                                            <Menu.ItemContainerStyle>
-                                                                <Style BasedOn="{StaticResource MaaMenuItemDefaultStyle}" TargetType="MenuItem">
-                                                                    <Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}" />
-                                                                </Style>
-                                                            </Menu.ItemContainerStyle>
-                                                            <Menu.ItemsPanel>
-                                                                <ItemsPanelTemplate>
-                                                                    <StackPanel Orientation="Vertical" />
-                                                                </ItemsPanelTemplate>
-                                                            </Menu.ItemsPanel>
-                                                            <MenuItem
-                                                                Command="{s:Action AddGuideDemoTask,
-                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                CommandParameter="{Binding TaskTypeList[0].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                Header="{Binding TaskTypeList[0].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
-                                                            <MenuItem
-                                                                Command="{s:Action AddGuideDemoTask,
-                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                CommandParameter="{Binding TaskTypeList[1].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                Header="{Binding TaskTypeList[1].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
-                                                            <MenuItem
-                                                                Command="{s:Action AddGuideDemoTask,
-                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                CommandParameter="{Binding TaskTypeList[2].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                Header="{Binding TaskTypeList[2].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
-                                                            <MenuItem
-                                                                Command="{s:Action AddGuideDemoTask,
-                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                CommandParameter="{Binding TaskTypeList[3].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                Header="{Binding TaskTypeList[3].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
-                                                            <MenuItem
-                                                                Command="{s:Action AddGuideDemoTask,
-                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                CommandParameter="{Binding TaskTypeList[4].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                Header="{Binding TaskTypeList[4].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
-                                                            <MenuItem
-                                                                Command="{s:Action AddGuideDemoTask,
-                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                CommandParameter="{Binding TaskTypeList[5].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                Header="{Binding TaskTypeList[5].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
-                                                            <MenuItem
-                                                                Command="{s:Action AddGuideDemoTask,
-                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                CommandParameter="{Binding TaskTypeList[6].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                Header="{Binding TaskTypeList[6].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
-                                                            <MenuItem
-                                                                Command="{s:Action AddGuideDemoTask,
-                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                CommandParameter="{Binding TaskTypeList[7].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                Header="{Binding TaskTypeList[7].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
-                                                            <MenuItem
-                                                                Command="{s:Action AddGuideDemoTask,
-                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                CommandParameter="{Binding TaskTypeList[8].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                Header="{Binding TaskTypeList[8].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
-                                                            <MenuItem
-                                                                Command="{s:Action AddGuideDemoTask,
-                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                CommandParameter="{Binding TaskTypeList[9].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                Header="{Binding TaskTypeList[9].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
-                                                            <MenuItem
-                                                                Command="{s:Action AddGuideDemoTask,
-                                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                CommandParameter="{Binding TaskTypeList[10].Value, Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                                                                Header="{Binding TaskTypeList[10].Display, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
-                                                        </Menu>
-                                                    </Border>
-                                                </controls:MenuButton.PopupContent>
-                                            </controls:MenuButton>
+                                                VerticalAlignment="Top">
+                                                <controls:MenuButton
+                                                    Width="30"
+                                                    Height="30"
+                                                    Padding="0"
+                                                    hc:BorderElement.CornerRadius="4,0,0,4"
+                                                    hc:IconElement.Geometry="{StaticResource TaskQueueAddTaskIcon}"
+                                                    Foreground="{DynamicResource PrimaryTextBrush}"
+                                                    Style="{StaticResource MaaButtonDefaultStyle}"
+                                                    ToolTip="{DynamicResource AddTaskQueueTask}">
+                                                    <controls:MenuButton.PopupContent>
+                                                        <Border
+                                                            Width="190"
+                                                            Margin="8"
+                                                            Padding="2,2,2,0"
+                                                            Background="{DynamicResource RegionBrush}"
+                                                            BorderBrush="{DynamicResource BorderBrush}"
+                                                            BorderThickness="1"
+                                                            CornerRadius="4"
+                                                            Effect="{DynamicResource EffectShadow2}">
+                                                            <!--
+                                                                本版 HandyControls 移除了原版 MenuAttach.ItemMinHeight（原 ContextMenu
+                                                                隐式样式靠它把项撑到标准控件高度），Menu 的顶级项模板默认无最小高度，
+                                                                需在容器样式显式补 MinHeight
+                                                            -->
+                                                            <Menu Padding="0" ItemsSource="{Binding TaskTypeList, Source={x:Static helper:Instances.TaskQueueViewModel}}">
+                                                                <Menu.ItemContainerStyle>
+                                                                    <Style BasedOn="{StaticResource MaaMenuItemDefaultStyle}" TargetType="MenuItem">
+                                                                        <Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}" />
+                                                                        <Setter Property="Command" Value="{Binding AddGuideDemoTaskCommand, Source={x:Static helper:Instances.SettingsViewModel}}" />
+                                                                        <Setter Property="CommandParameter" Value="{Binding Value}" />
+                                                                        <Setter Property="Header" Value="{Binding Display}" />
+                                                                    </Style>
+                                                                </Menu.ItemContainerStyle>
+                                                                <Menu.ItemsPanel>
+                                                                    <ItemsPanelTemplate>
+                                                                        <StackPanel Orientation="Vertical" />
+                                                                    </ItemsPanelTemplate>
+                                                                </Menu.ItemsPanel>
+                                                            </Menu>
+                                                        </Border>
+                                                    </controls:MenuButton.PopupContent>
+                                                </controls:MenuButton>
+                                                <!--  教程要求先添加任务才能进入下一步，未添加时红点引导（与任务队列按钮同视觉）  -->
+                                                <Ellipse
+                                                    Width="7"
+                                                    Height="7"
+                                                    Margin="0,1,1,0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    Fill="{DynamicResource NewBadgeBrush}"
+                                                    IsHitTestVisible="False"
+                                                    Visibility="{c:Binding GuideAddTaskBadgeVisible}" />
+                                            </Grid>
                                             <Button
                                                 Grid.Column="1"
                                                 Height="30"
@@ -492,8 +469,13 @@
                                         </Grid>
                                     </Grid>
                                 </Border>
-                                <StackPanel
+                                <controls:TextBlock
                                     Grid.Row="2"
+                                    Margin="8,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    FontSize="14"><Run Text="↑ " /><Run Text="{DynamicResource AddTaskQueueTask}" /></controls:TextBlock>
+                                <StackPanel
+                                    Grid.Row="3"
                                     Margin="0,10,0,0"
                                     HorizontalAlignment="Center"
                                     Orientation="Horizontal">
@@ -528,6 +510,7 @@
                                         <controls:TextBlock Text="←" TextWrapping="Wrap" />
                                         <controls:TextBlock
                                             MaxWidth="80"
+                                            Margin="0,-10"
                                             VerticalAlignment="Center"
                                             Text="{DynamicResource ToolTipGuide}"
                                             TextWrapping="Wrap" />
@@ -586,18 +569,6 @@
                                             Content="{DynamicResource AdvancedSettings}"
                                             IsChecked="{c:Binding GuideDemoAdvancedSettings}" />
                                     </hc:ButtonGroup>
-                                    <Grid Width="220" Margin="0,2,0,0">
-                                        <controls:TextBlock
-                                            Margin="8,0,0,0"
-                                            HorizontalAlignment="Left"
-                                            FontSize="14"
-                                            Text="{DynamicResource OftenUsedGuide}" />
-                                        <controls:TextBlock
-                                            Margin="0,0,8,0"
-                                            HorizontalAlignment="Right"
-                                            FontSize="14"
-                                            Text="{DynamicResource SometimesUsedGuide}" />
-                                    </Grid>
                                 </StackPanel>
                             </Grid>
                         </hc:TransitioningContentControl>
@@ -760,7 +731,6 @@
                                             Margin="0,2.5"
                                             HorizontalAlignment="Left"
                                             FontSize="13"
-                                            Foreground="{DynamicResource ThirdlyTextBrush}"
                                             Text="{DynamicResource GuideDocumentationPath}"
                                             TextWrapping="Wrap" />
                                     </StackPanel>
@@ -780,7 +750,6 @@
                                             Margin="0,2.5"
                                             HorizontalAlignment="Left"
                                             FontSize="13"
-                                            Foreground="{DynamicResource ThirdlyTextBrush}"
                                             Text="{DynamicResource GuideViewLog}"
                                             TextWrapping="Wrap" />
 
@@ -789,7 +758,6 @@
                                             Margin="0,2.5"
                                             HorizontalAlignment="Left"
                                             FontSize="13"
-                                            Foreground="{DynamicResource ThirdlyTextBrush}"
                                             Text="{DynamicResource GuideGenerateReport}"
                                             TextWrapping="Wrap" />
                                     </StackPanel>
@@ -807,7 +775,6 @@
                                             Margin="0,2.5"
                                             HorizontalAlignment="Left"
                                             FontSize="13"
-                                            Foreground="{DynamicResource ThirdlyTextBrush}"
                                             Text="{DynamicResource GuideGitHubIssueDescription}"
                                             TextWrapping="Wrap" />
                                     </StackPanel>
@@ -825,7 +792,6 @@
                                             Margin="0,2.5"
                                             HorizontalAlignment="Left"
                                             FontSize="13"
-                                            Foreground="{DynamicResource ThirdlyTextBrush}"
                                             Text="{DynamicResource GuideOpenSourceDescription}"
                                             TextWrapping="Wrap" />
                                     </StackPanel>
@@ -835,7 +801,6 @@
                                     <StackPanel>
                                         <controls:TextBlock
                                             HorizontalAlignment="Center"
-                                            Foreground="{DynamicResource ThirdlyTextBrush}"
                                             Text="{DynamicResource GuideUserAgreement}"
                                             TextWrapping="Wrap" />
                                     </StackPanel>

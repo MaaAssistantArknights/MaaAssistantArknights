@@ -14,6 +14,12 @@
     <system:String x:Key="StartupSettings">Startup</system:String>
     <system:String x:Key="ScheduleSettings">Schedule</system:String>
     <system:String x:Key="UiSettings">GUI</system:String>
+    <system:String x:Key="LanguageSettings">Language</system:String>
+    <system:String x:Key="ThemeAndAnimationSettings">Theme and Animations</system:String>
+    <system:String x:Key="TitleBarSettings">Title Bar Settings</system:String>
+    <system:String x:Key="LogDisplaySettings">Log Display Settings</system:String>
+    <system:String x:Key="TraySettings">Tray</system:String>
+    <system:String x:Key="OperationGuideSettings">Operations and Guide</system:String>
     <system:String x:Key="BackgroundSettings">Background Setting</system:String>
     <system:String x:Key="BackgroundImage">Background Image</system:String>
     <system:String x:Key="BackgroundOpacity">Background Opacity</system:String>
@@ -48,14 +54,10 @@
     <system:String x:Key="ResourceVersion">Resource Version</system:String>
     <system:String x:Key="ResourceDateTime">Resource Date</system:String>
     <system:String x:Key="Off">Off</system:String>
-    <system:String x:Key="ExternalNotificationTips">Please note: The external notification feature currently only sends ｢All tasks completed｣ notifications.</system:String>
     <system:String x:Key="ExternalNotificationSettings">External notifications</system:String>
-    <system:String x:Key="ExternalNotificationEnabled">Enabled configuration</system:String>
-    <system:String x:Key="ExternalNotificationEnableDetails">Output Detailed Information</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenComplete">Send notification when complete</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenError">Send notification when task fails</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenStalled">Send notification when task log output stalls</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenStalledTip">Only takes effect after enabling ｢{key=StallTimeoutEnabled}｣ in ｢{key=GameSettings}｣</system:String>
+    <system:String x:Key="ExternalNotificationEnabled">Notification Channels</system:String>
+    <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">Before scheduled start</system:String>
+    <system:String x:Key="ExternalNotificationSendBeforeScheduledStartTip" xml:space="preserve">Sends an external notification before a scheduled task starts.&#10;Uses the ｢{key=ScheduledStartNotificationMinutes}｣ setting in ｢{key=ScheduleSettings}｣.</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">Send successfully</system:String>
     <system:String x:Key="ExternalNotificationSendFail">Send failed</system:String>
     <system:String x:Key="ExternalNotificationSendTest">Send Test</system:String>
@@ -130,8 +132,6 @@
     <system:String x:Key="GuideConfirmCountdownSuffix">s</system:String>
     <system:String x:Key="ToolTipGuide">Prompt appears when hovered</system:String>
     <system:String x:Key="TaskGuide">↑ Task</system:String>
-    <system:String x:Key="OftenUsedGuide">↑ Often Used</system:String>
-    <system:String x:Key="SometimesUsedGuide">Sometimes Used ↑</system:String>
     <system:String x:Key="LinkStartGuide">← Start Tasks</system:String>
     <system:String x:Key="HoverActionButtons">Hover to Copy/Rename/Delete</system:String>
     <system:String x:Key="GearContextMenuTip">Right-click gear for more options ↓</system:String>
@@ -233,6 +233,9 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="General">General Mode</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
     <system:String x:Key="MuMuEmulator12">MuMu Emulator</system:String>
+    <system:String x:Key="MuMuArm">MuMu Player (Windows ARM)</system:String>
+    <system:String x:Key="MuMuArmDetectAndTest">Detect and test</system:String>
+    <system:String x:Key="MuMuArmConnectionNotReady">Unable to read the MuMu ARM ADB address. Wait for the emulator to finish starting and retry, or disable auto detection and enter the connection address manually.</system:String>
     <system:String x:Key="LDPlayer">LD Player</system:String>
     <system:String x:Key="AVD">Android Virtual Device (AVD)</system:String>
     <system:String x:Key="Androws">Androws</system:String>
@@ -381,6 +384,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="EmulatorNotFound">No emulator detected\nPlease make sure the emulator is running\nIf the emulator is started with administrator privileges, please run this software as administrator\nIf still not detected, please set the connection manually</system:String>
     <system:String x:Key="EmulatorTooMany">Too many emulators detected\nPlease shutdown not needed emulators \nor set connection manually</system:String>
     <system:String x:Key="EmulatorStartFailed">Failed to start the emulator\nPlease open this software with administrator privileges \nor start the emulator manually.</system:String>
+    <system:String x:Key="PcClientStartFailed">Failed to start the PC client\nPlease open this software with administrator privileges\nor start the client manually.</system:String>
     <system:String x:Key="SwitchLanguage">Switch Language 🌐</system:String>
     <system:String x:Key="Language">Language</system:String>
     <system:String x:Key="LanguageChangedTip">Language settings have been changed. Some content may require a restart to take full effect.</system:String>
@@ -414,6 +418,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="TaskCopied">Task copied: {0}</system:String>
     <system:String x:Key="StartGuideDemo">Tasks won't actually run in the demo.</system:String>
     <system:String x:Key="GuideDemoTaskAddLimitTip">The demo list holds up to 5 tasks. Remove some before adding more.</system:String>
+    <system:String x:Key="GuideDemoTaskRequiredTip">Add a task with the ｢{key=AddTaskQueueTask}｣ button before moving to the next step.</system:String>
     <system:String x:Key="TaskCopyFailed">Task copy failed</system:String>
     <system:String x:Key="HotKeyShowGui">[HotKey] Show/collapse MAA</system:String>
     <system:String x:Key="HotKeyLinkStart">[HotKey] Link start/stop</system:String>
@@ -562,6 +567,14 @@ Continue only after you have verified the directory layout and finished a manual
     <system:String x:Key="ShowWindowBeforeForceScheduledStartTip">Show the main window before the scheduled start so the countdown isn't missed while minimized</system:String>
     <system:String x:Key="TimerCustomConfig">Custom config</system:String>
     <system:String x:Key="TimerCustomConfigTip">Restart the game and switch the configuration two minutes before the scheduled start</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStart">Send system notification before scheduled start</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStartTip" xml:space="preserve">Send a system notification at the configured advance notice time.&#10;External notifications can be enabled separately in ｢{key=Settings} - {key=NotificationSettings} - {key=ExternalNotificationSettings}｣ and use the same advance notice time.</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStartSharedTimeTip">External notifications share this advance notice time.</system:String>
+    <system:String x:Key="ScheduledStartNotificationMinutes">Advance notice (minutes)</system:String>
+    <system:String x:Key="ScheduledStartNotificationTitle">Scheduled task starting soon</system:String>
+    <system:String x:Key="ScheduledStartNotificationContent">Timer {0} is scheduled to start at {1} (in {2} minutes). Please be aware that this may affect your game login.</system:String>
+    <system:String x:Key="ScheduledWakeUp">Try to wake the computer and launch MAA before scheduled starts</system:String>
+    <system:String x:Key="ScheduledWakeUpTip" xml:space="preserve">This feature registers scheduled tasks in Windows Task Scheduler to try to wake the computer and launch MAA 5 minutes before each enabled timer, after which the in-app scheduled start logic takes over.&#10;Auto-run items in ｢{key=StartupSettings}｣ (e.g. {key=RunTaskAfterLaunch}, {key=OpenEmulatorAfterLaunch}) are skipped when launched by wake-up.&#10;The scheduled tasks remain after MAA exits and are removed when this switch is turned off.&#10;The keep-awake window only covers the wait before the task starts; for long-running tasks, enable ｢{key=BlockSleep}｣ in ｢{key=GameSettings}｣ to prevent the system from sleeping during execution.&#10;Waking from hibernate depends on device firmware support; some devices only support waking from sleep.</system:String>
     <system:String x:Key="Timer">Timer</system:String>
     <system:String x:Key="GlobalConfigTip">This option page is for global config</system:String>
     <system:String x:Key="MultiTasksShareTip">The following options are for multiple tasks.</system:String>
@@ -585,21 +598,33 @@ If you choose ｢{key=ManualRestart}｣ and start MAA manually later, ｢{key=Ru
     <system:String x:Key="StartupAutoRunCountdownTaskOnly">About to auto-run tasks. Cancel?</system:String>
     <system:String x:Key="StartupAutoRunCountdownEmulatorOnly">About to start the emulator automatically. Cancel?</system:String>
     <system:String x:Key="StartupAutoRunCountdownTaskAndEmulator">About to auto-run tasks and start the emulator. Cancel?</system:String>
+    <system:String x:Key="StartupAutoRunCountdownPcClientOnly">About to start the PC client automatically. Cancel?</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskAndPcClient">About to auto-run tasks and start the PC client. Cancel?</system:String>
     <system:String x:Key="MinimizeAfterLaunch">Auto Minimize after launched</system:String>
     <system:String x:Key="ClientType">Client Type</system:String>
     <system:String x:Key="StartGameLaunchClient">Launch Client on Start</system:String>
     <system:String x:Key="UseWeeklySchedule">Enable Weekly Schedule</system:String>
     <system:String x:Key="UseWeeklyScheduleTip">The day of week here is based on in-game time, not real-world time. For example, if the game resets at 4:00, then 3:59 is still counted as the previous day.</system:String>
     <system:String x:Key="FightSkippedWeeklySchedule">Weekly schedule is not enabled for today</system:String>
+    <system:String x:Key="InfrastSkippedWeeklySchedule">Today is not selected in the weekly schedule</system:String>
     <system:String x:Key="FightSkippedEmptyStagePlan">Stage plan is empty</system:String>
     <system:String x:Key="FightSkippedNoOpenStage">No stage in the plan is open today</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">The adaptation for Overseas clients is very difficult and we need your help! No programming knowledge is required.</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunchTip">The emulator is only started once when MAA launches, not every time you click ｢{key=LinkStart}｣.\nIf you need that, check ｢{key=RetryOnDisconnected}｣ instead</system:String>
+    <system:String x:Key="OpenPcClientAfterLaunch">Start PC client after MAA launches</system:String>
+    <system:String x:Key="OpenPcClientAfterLaunchTip">The PC client is only started once when MAA launches, not every time you click ｢{key=LinkStart}｣.\nIf you need that, check ｢{key=RetryOnPcDisconnected}｣ instead</system:String>
     <system:String x:Key="WaitForEmulator">Delay time (s)</system:String>
+    <system:String x:Key="WaitForPcClient">PC client startup delay (s)</system:String>
     <system:String x:Key="WaitForEmulatorFinish">End of wait</system:String>
     <system:String x:Key="EmulatorPath">Emulator path</system:String>
+    <system:String x:Key="PcClientPath">PC client path</system:String>
     <system:String x:Key="SelectShortcutTip" xml:space="preserve">You may select the emulator executable (with ｢{key=AdditionCommand}｣ launch parameters to specify the instance), or directly choose the emulator/game shortcut.&#10;If the ｢{key=WakeUp}｣ task fails due to prolonged emulator startup, it's recommended to use the game shortcut and increase ｢{key=WaitForEmulator}｣.</system:String>
+    <system:String x:Key="SelectPcClientTip">Select the PC client executable or shortcut. Extra launch parameters can be supplied through ｢{key=AdditionCommand}｣.</system:String>
+    <system:String x:Key="PcClientAddCommandTip" xml:space="preserve">Additional arguments are passed when starting the PC client.&#10;Refer to the client's or launcher's documentation for supported arguments.&#10;When using a shortcut, the arguments saved in that shortcut are used.</system:String>
+    <system:String x:Key="PcClientPathEmptyError">The PC client path is empty. Select the client executable first.</system:String>
+    <system:String x:Key="PcClientPathNotExist">The PC client path does not exist</system:String>
+    <system:String x:Key="PcClientPathEmptyWarning">The PC client path is empty, ｢{key=RetryOnPcDisconnected}｣ and ｢{key=OpenPcClientAfterLaunch}｣ check states have been reset</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorPrompt">Do you also want to order a bar in a bar?</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">I'm sure I haven't selected the wrong one</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">Okay, I will choose again</system:String>
@@ -724,6 +749,7 @@ To enable this mechanism, make sure the selected difficulty is N3 or higher (exc
     <system:String x:Key="ThirdPartyGroupYituliu">Yituliu</system:String>
     <system:String x:Key="YituliuOpenApiToken">OpenAPI token</system:String>
     <system:String x:Key="YituliuTokenVerify">Verify</system:String>
+    <system:String x:Key="YituliuTokenLink">Get a token from {key=ThirdPartyGroupYituliu}</system:String>
     <system:String x:Key="YituliuTokenEmpty">Please enter a token first</system:String>
     <system:String x:Key="YituliuTokenValid">Token is valid, {0} operators found</system:String>
     <system:String x:Key="YituliuTokenValidNoData">Token is valid, but the account has no operator data yet</system:String>
@@ -902,6 +928,9 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="RetryOnDisconnected">Retry launching the emulator when ADB connection fails</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">Try restarting the emulator after failed reconnect attempt, must be checked when using a background timed task and setting the task to close the emulator when finished</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">Emulator path is empty! Please fill in ｢{key=Settings} - {key=StartupSettings} - {key=EmulatorPath}｣ and reselect.</system:String>
+    <system:String x:Key="RetryOnPcDisconnected">Start the PC client when its connection fails</system:String>
+    <system:String x:Key="RetryOnPcDisconnectedTip">Start the PC client after a window connection failure, then try connecting again</system:String>
+    <system:String x:Key="RetryOnPcDisconnectedPathEmptyError">PC client path is empty! Please fill in ｢{key=Settings} - {key=StartupSettings} - {key=PcClientPath}｣ and reselect.</system:String>
     <system:String x:Key="AllowAdbRestart">Attempt to restart ADB Server after connection failure</system:String>
     <system:String x:Key="AllowAdbHardRestart">Attempt to kill and restart ADB process after connection failure</system:String>
     <!--  !Settings  -->
@@ -1041,6 +1070,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="UserDataUpdateIntervalNotReached">The ｢{0}｣ trigger interval has not been reached since the last sync</system:String>
     <!--  DepotMaintain  -->
     <system:String x:Key="DepotUpdateBeforeStart">Update inventory before starting</system:String>
+    <system:String x:Key="DepotUpdateBeforeStartTip" xml:space="preserve">When the task starts, MAA first checks each plan's shortfall against the inventory data cached at that moment; this step is called the pre-check. Plans already meeting their targets are not added to this run's farming list and will not be re-evaluated afterwards.&#10;Each plan is re-checked against the latest cache when it starts, and drops from earlier stages are added to the cache in real time.&#10;When enabled, a depot recognition runs before the plans and corrects the cache to the actual inventory.&#10;If a skipped plan turns out to be insufficient after recognition, it cannot be added while running; it is only logged, and re-running the task farms it.</system:String>
     <system:String x:Key="AddPlan">Add</system:String>
     <system:String x:Key="DepotPreset">Preset</system:String>
     <system:String x:Key="DepotPresetChip1">Chips (All Classes)</system:String>
@@ -1056,6 +1086,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="DepotPlanNoStage">#{0}: stage not specified or is "Current/Last"</system:String>
     <system:String x:Key="DepotPlanInventoryEnough">#{0}: {1} sufficient {2}/{3}</system:String>
     <system:String x:Key="DepotPlanInventoryInsufficient">#{0}: {1} insufficient {2}/{3}, need {4}</system:String>
+    <system:String x:Key="DepotPlanCacheStaleSkipped">#{0}: {1} actually insufficient ({2}/{3}); plans skipped by the pre-check cannot be added while running, re-run the task to farm it</system:String>
     <system:String x:Key="DepotPlanSanityInsufficient">#{0}: Insufficient sanity ({1}, below stage cost {2}), skipped</system:String>
     <system:String x:Key="DepotPlanStageNotOpen">#{0}: stage '{1}' is not open</system:String>
     <system:String x:Key="DepotPlanAddTaskFailed">#{0}: add task failed</system:String>
@@ -1179,6 +1210,7 @@ Right Click: Select Target Process</system:String>
     <system:String x:Key="Depot">{key=DepotRecognition}</system:String>
     <system:String x:Key="LastSyncTime">Last Sync Time</system:String>
     <system:String x:Key="DepotRecognitionTip">This function is still in testing. If you encounter any unexpected results, please zip the ｢debug/depot｣ folder in the installation path and submit an issue on GitHub</system:String>
+    <system:String x:Key="DepotTemplateLoadError">{key=DepotRecognition} templates failed to load ({0}). Recognition has been stopped.</system:String>
     <system:String x:Key="StartToDepotRecognition">Start to Identify</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplanner</system:String>
     <system:String x:Key="ExportToLolicon">Arkntools</system:String>
@@ -1383,6 +1415,10 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">Some jobs require specific skill levels, Modules or other prerequisites.
 Enabling this will skip these checks, but may cause the job to fail.
 Operators' Elite level CANNOT be ignored. If any requirements are ignored, the operation will no longer be automatically rated after the battle.</system:String>
+    <system:String x:Key="Copilot.UseOperBoxAssist">Assist formation with Yituliu data</system:String>
+    <system:String x:Key="Copilot.UseOperBoxAssist.Tip" xml:space="preserve">Pre-matches the operation squad against Yituliu operator data (including skills and modules) before auto-formation&#10;Requires a Yituliu token: fill it in under ｢{key=Settings} - {key=ThirdPartyServiceSettings}｣, enable ｢{key=EnableOperBoxYituliuApi}｣, then fetch data</system:String>
+    <system:String x:Key="Copilot.SyncOperBoxData">Sync</system:String>
+    <system:String x:Key="Copilot.SyncOperBoxSuccess">Synced Yituliu data for {0} operators</system:String>
     <system:String x:Key="AddUserAdditional">Add custom {key=Operator}s</system:String>
     <system:String x:Key="AddUserAdditionalTip">Click the settings button next to it to open the editing window, then click ｢{key=UserAdditional.Add}｣ to add entries one by one, and fill in the {key=Operator} name, skill, and action in each column</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator} Name</system:String>
@@ -1454,6 +1490,7 @@ Right-click to clear inactive jobs</system:String>
         • Execution will stop automatically when sanity is insufficient, battle fails, or fails to achieve a 3★ clear.
     </system:String>
     <system:String x:Key="CopilotFileReadError">Failed to read file!</system:String>
+    <system:String x:Key="CopilotStartFailed">Failed to start the copilot task</system:String>
     <system:String x:Key="CopilotNoFound">No corresponding file found!</system:String>
     <system:String x:Key="NetworkServiceError">Network service error!</system:String>
     <system:String x:Key="CopilotJsonError">Copilot JSON Error!</system:String>
@@ -1511,6 +1548,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="ResourceIntegrityCheckDesc">{0} installation file(s) are missing ({1}), and some features may not work. The files may have been blocked or removed by security software, or deleted manually. If security software caused this, please check its quarantine area, restore the files, and {key=SecuritySoftwareWhitelistTips}\n\nYou can also reinstall manually as described below:\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityRepairYes">Repair automatically (download the full package and restore after restart)</system:String>
     <system:String x:Key="ResourceIntegrityRepairNo">Not now, continue starting</system:String>
+    <system:String x:Key="CoreLoadingTip">The MAA core is still loading. Please try again shortly.</system:String>
     <system:String x:Key="ResourceBrokenTaskBlocked">The resources are damaged, tasks cannot be started. Repair the resources as prompted at startup, or download the full package again and restart MAA.</system:String>
     <system:String x:Key="ResourceIntegrityRepairDownloading">Downloading the full package to repair the installation…</system:String>
     <system:String x:Key="ResourceIntegrityRepairFailed">Automatic repair failed. Please follow the instructions below to fix it manually.\n\n{key=FullPackageUpgradeTips}</system:String>
@@ -1551,6 +1589,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="CombatError">Combat error</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">Start task:&#160;</system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">Complete task:&#160;</system:String>
+    <system:String x:Key="TaskTime">\n(in {0})</system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">Start combat:&#160;</system:String>
     <system:String x:Key="CompleteCombat">Complete combat</system:String>
     <system:String x:Key="TaskCompletedWithErrors">The task has finished, but errors occurred in the following tasks:\n{0}\n(in {1})</system:String>
@@ -1857,7 +1896,11 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Level">Level too low</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">Skill level too low</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Module">Required module not unlocked</system:String>
+    <system:String x:Key="BattleFormationOperbox1Unmatched" xml:space="preserve">{key=Operator} (group) {0} has no matching {key=Operator}, a support unit is needed (pre-matching suggests {1}; the actual pick follows the support unit list)</system:String>
+    <system:String x:Key="BattleFormationOperboxMatched">Pre-matched {key=Operator} (groups):</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">Additional custom {key=Operator} name invalid: {0}, please check spelling</system:String>
+    <system:String x:Key="CopilotOperboxDataParseFailed">{key=OperBoxRecognition} data parse failed</system:String>
+    <system:String x:Key="CopilotOperboxAssistRequiresYituliuData">No Yituliu operator data is available for formation assist. Fetch operator data from Yituliu first, or disable ｢{key=Copilot.UseOperBoxAssist}｣.</system:String>
     <system:String x:Key="CurrentSteps">Step: {0} {1}</system:String>
     <system:String x:Key="ElapsedTime">Elapsed time: {0}ms</system:String>
     <system:String x:Key="Deploy">Deploy</system:String>
@@ -1885,6 +1928,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToReconnectByAdb">Attempting to reconnect</system:String>
     <system:String x:Key="TryToStartEmulator">Trying to start the emulator</system:String>
+    <system:String x:Key="TryToStartPcClient">Trying to start the PC client</system:String>
     <system:String x:Key="RestartAdb">Trying to restart the ADB Server</system:String>
     <system:String x:Key="HardRestartAdb">Trying to kill and restart the ADB process</system:String>
     <system:String x:Key="CheckSettings">Please ｢Check connection settings｣ → ｢Try restarting the emulator and ADB｣ → ｢Restart the computer｣</system:String>
@@ -1892,6 +1936,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="AttachWindowMultipleFound">Found {0} "{1}" windows, using the first one</system:String>
     <system:String x:Key="AttachWindowFound">Found window "{0}"</system:String>
     <system:String x:Key="Administrator">Admin</system:String>
+    <system:String x:Key="UiPreviewMode">UI Preview</system:String>
     <system:String x:Key="AttachWindowNeedAdmin">PC connection requires administrator privileges.\nRestart MAA as administrator?</system:String>
     <system:String x:Key="RestartingAsAdmin">Restarting as administrator…</system:String>
     <system:String x:Key="RestartAsAdminFailed">Please run MAA as administrator manually.</system:String>
@@ -1928,6 +1973,7 @@ If you do need to use it, please ensure:
     <system:String x:Key="AttachWindowInputPostWithCursor">PostMsg-CursorPos (Semi-background, Briefly Captures Mouse)</system:String>
     <system:String x:Key="AttachWindowInputSendWithWindowPosDisabled">SendMsg-WindowPos (Excessive Latency, Disabled)</system:String>
     <system:String x:Key="AttachWindowInputPostWithWindowPos">PostMsg-WindowPos (Recommended, Full Background, No Mouse Capture, Window May Move, PrintWindow Screencap Only, Recommend Minimizing)</system:String>
+    <system:String x:Key="AttachWindowInputAnchoredTouch">AnchoredTouch (Full Background, No Mouse Capture, Synthetic Touch Injection, Requires Win10 1809+, Window Briefly Flashes When Occluded)</system:String>
     <system:String x:Key="AttachWindowInputSendMsg">SendMsg (Stable)</system:String>
     <system:String x:Key="AttachWindowInputPostMsg">PostMsg (Efficient)</system:String>
     <!--  !AsstProxy  -->
@@ -2163,7 +2209,7 @@ These directories are not suitable places to keep MAA; files there can be easily
     <!-- <system:String x:Key="TaskTimeoutMinutes">Task timeout duration (minutes)</system:String> -->
     <system:String x:Key="ReminderIntervalMinutes">Reminder interval (minutes)</system:String>
     <system:String x:Key="StallTimeoutMinutes">Log output stall timeout (min)</system:String>
-    <system:String x:Key="StallTimeoutEnabled">Enable stall detection</system:String>
+    <system:String x:Key="StallTimeoutEnabled">Detect stalled log updates</system:String>
     <system:String x:Key="TaskStallWarning">Task log output has not been updated for {0} minutes (currently stalled for {1} minutes). Please check whether the task is still running; if so, you can ignore this warning. If the task is unresponsive, manual intervention may be required.</system:String>
     <system:String x:Key="RunDurationLimitEnabled">Limit run duration</system:String>
     <system:String x:Key="RunDurationLimitMinutes">Run duration limit (min)</system:String>
@@ -2597,7 +2643,7 @@ These directories are not suitable places to keep MAA; files there can be easily
 
     <system:String x:Key="Achievement.AllChannelBroadcast.Title">Broadcast on All Platforms</system:String>
     <system:String x:Key="Achievement.AllChannelBroadcast.Description">Now nobody gets to miss it.</system:String>
-    <system:String x:Key="Achievement.AllChannelBroadcast.Conditions">Enable all platforms in ｢{key=ExternalNotificationSettings}｣ at the same time</system:String>
+    <system:String x:Key="Achievement.AllChannelBroadcast.Conditions">Enable all platforms in ｢{key=Settings} - {key=NotificationSettings} - {key=ExternalNotificationSettings}｣ at the same time</system:String>
 
     <system:String x:Key="Achievement.BackstageExplorer.Title">Backstage Explorer</system:String>
     <system:String x:Key="Achievement.BackstageExplorer.Description">Let me see what's written back there.</system:String>
@@ -2665,4 +2711,26 @@ These directories are not suitable places to keep MAA; files there can be easily
     <system:String x:Key="PleaseSelectItem">Please select an item</system:String>
     <system:String x:Key="EmulatorSelectionCancelled">Emulator selection cancelled</system:String>
     <!--  !ItemSelection  -->
+    <system:String x:Key="NotificationSettings">Notifications</system:String>
+    <system:String x:Key="NotificationSettingsTimeMinutes">Log Validity (Minutes)</system:String>
+    <system:String x:Key="NotificationSettingsTimeMinutesTip" xml:space="preserve">Expired logs are no longer attached to notifications.&#10;Set to 0 to disable time filtering.</system:String>
+    <system:String x:Key="NotificationSettingsInvalidFilterTip" xml:space="preserve">Invalid regular expression. Check the filter rules.</system:String>
+    <system:String x:Key="ExternalNotificationEnable">Enable External Notifications</system:String>
+    <system:String x:Key="ExternalNotificationSendConditions">Send external notifications when</system:String>
+    <system:String x:Key="ExternalNotificationWhenComplete">Tasks complete</system:String>
+    <system:String x:Key="ExternalNotificationWhenError">A task fails</system:String>
+    <system:String x:Key="ExternalNotificationWhenStalled">Task log output stalls</system:String>
+    <system:String x:Key="ExternalNotificationWhenStalledTip" xml:space="preserve">Enable ｢{key=StallTimeoutEnabled}｣ in ｢{key=NotificationSettings}｣.&#10;Sends a notification when no new logs appear within the configured timeout.</system:String>
+    <system:String x:Key="ExternalNotificationNewLogCount">New log entries</system:String>
+    <system:String x:Key="ExternalNotificationNewLogCountTip" xml:space="preserve">Counts each new log entry after the last external notification was triggered.&#10;Sends when the specified count is reached; notifications triggered by task completion, errors or other conditions also reset this count.</system:String>
+    <system:String x:Key="ExternalNotificationContentMatches">Log contains specific content</system:String>
+    <system:String x:Key="ExternalNotificationWhitelist">Whitelist (one regex per line)</system:String>
+    <system:String x:Key="ExternalNotificationWhitelistTip" xml:space="preserve">Enter one regular expression per line; a match on any line against the current log triggers a notification.&#10;An empty whitelist does not trigger this condition.</system:String>
+    <system:String x:Key="ExternalNotificationIncludePreviousLogs">Include previous logs</system:String>
+    <system:String x:Key="ExternalNotificationIncludePreviousLogsTip" xml:space="preserve">Includes previous logs alongside the current log.&#10;The log count and validity period control which previous logs are included.</system:String>
+    <system:String x:Key="ExternalNotificationPreviousLogCount">Included log count</system:String>
+    <system:String x:Key="ExternalNotificationPreviousLogCountTip" xml:space="preserve">Includes up to this many previous log entries, excluding the current log.&#10;Set to 0 to send only the current log.</system:String>
+    <system:String x:Key="ExternalNotificationFilterPreviousLogs">Filter attached log content</system:String>
+    <system:String x:Key="ExternalNotificationFilterPreviousLogsTip" xml:space="preserve">Removes logs matching the blacklist, then selects the most recent logs within the count and age limits.&#10;The current log is always kept.</system:String>
+    <system:String x:Key="ExternalNotificationBlacklist">Blacklist (one regex per line)</system:String>
 </ResourceDictionary>

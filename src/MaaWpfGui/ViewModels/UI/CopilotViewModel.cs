@@ -29,16 +29,19 @@ using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Models.Copilot;
 using MaaWpfGui.Services;
+using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.Items;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -117,7 +120,9 @@ public partial class CopilotViewModel : Screen
     {
         PropertyDependsOnUtility.InitializePropertyDependencies(this);
         DisplayName = LocalizationHelper.GetString("Copilot");
-        AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
+
+        // 静态使用提示只参与界面展示，不进通知历史，也不算停滞计时器的输出活动
+        DisplayLog(LocalizationHelper.GetString("CopilotTip"), showTime: false, logToFile: false);
         _runningState = RunningState.Instance;
         LocalizationHelper.LanguageChanged += () => {
             DisplayName = LocalizationHelper.GetString("Copilot");
@@ -151,6 +156,21 @@ public partial class CopilotViewModel : Screen
                 SaveCopilotTask();
             }
         };
+
+        // 干员识别数据落盘内容变化（本地识别覆盖、一图流拉取、重置）时刷新同步时间展示；
+        // 可用性判定与勾选收回的状态源在 ThirdPartyServiceSettingsUserControlModel，由其同名订阅承担。
+        // 事件触发点均在 UI 线程（Core 回调整体在 OnUIThread 内）
+        OperBoxAssistHelper.StateChanged += RefreshOperBoxLastSyncTime;
+        RefreshOperBoxLastSyncTime();
+    }
+
+    protected override void OnActivate()
+    {
+        base.OnActivate();
+
+        // 激活时兜底判定无事件的数据变化（如手删文件）并收回失效勾选，同步时间随后就地刷新
+        ThirdPartyServiceSettingsUserControlModel.Instance.RefreshOperBoxAssistState();
+        RefreshOperBoxLastSyncTime();
     }
 
     #region UI绑定及操作
@@ -164,19 +184,30 @@ public partial class CopilotViewModel : Screen
     /// <param name="color">The font color.</param>
     /// <param name="weight">The font weight.</param>
     /// <param name="showTime">Whether show time.</param>
-    public void AddLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true)
+    /// <param name="notifyActivity">Whether to reset the stalled-output timer.</param>
+    /// <param name="logToFile">Whether to write the entry to the gui log.</param>
+    public void AddLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true, bool notifyActivity = true, bool logToFile = true)
     {
         // Copilot 自动战斗期间也会启动停滞计时器（Start 通过 BeginRun 进入运行态），
         // 这里的日志同样属于"有输出活动"，需要重置计时器，否则会误报任务卡住。
-        RunningState.Instance.NotifyOutputActivity();
+        if (notifyActivity)
+        {
+            RunningState.Instance.NotifyOutputActivity();
+        }
 
+        Instances.NotificationService.PublishLog(NotificationSource.Copilot, content,
+            () => DisplayLog(content, color, weight, showTime, logToFile), color);
+    }
+
+    internal void DisplayLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true, bool logToFile = true)
+    {
         if (string.IsNullOrEmpty(content))
         {
             return;
         }
         Execute.OnUIThread(() => {
             LogItemViewModels.Add(new LogItemViewModel(content, color, weight, "HH':'mm':'ss", showTime: showTime));
-            if (showTime)
+            if (logToFile)
             {
                 switch (color)
                 {
@@ -192,8 +223,6 @@ public partial class CopilotViewModel : Screen
                 }
             }
         });
-
-        // LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
     }
 
     private void AddCopilotPreview(CopilotOutput output)
@@ -205,7 +234,8 @@ public partial class CopilotViewModel : Screen
         }
 
         RunningState.Instance.NotifyOutputActivity();
-        Execute.OnUIThread(() => LogItemViewModels.Add(new OperPreviewLogItemViewModel(output)));
+        Instances.NotificationService.PublishLog(NotificationSource.Copilot, output.Content,
+            () => LogItemViewModels.Add(new OperPreviewLogItemViewModel(output)), output.Color ?? UiLogColor.Message);
     }
 
     /// <summary>
@@ -225,8 +255,9 @@ public partial class CopilotViewModel : Screen
                 }
             }
 
+            Instances.NotificationService.Clear(NotificationSource.Copilot);
             LogItemViewModels.Clear();
-            AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
+            DisplayLog(LocalizationHelper.GetString("CopilotTip"), showTime: false, logToFile: false);
         });
     }
 
@@ -263,7 +294,10 @@ public partial class CopilotViewModel : Screen
                 UseCopilotList = false;
             }
 
-            SetAndNotify(ref _copilotTabIndex, value);
+            if (SetAndNotify(ref _copilotTabIndex, value))
+            {
+                Loop = false;
+            }
         }
     }
 
@@ -468,6 +502,75 @@ public partial class CopilotViewModel : Screen
     /// Gets or sets a value indicating whether to use auto-formation.
     /// </summary>
     public bool IgnoreRequirements { get => field; set => SetAndNotify(ref field, value); }
+
+    [PropertyDependsOn(typeof(ThirdPartyServiceSettingsUserControlModel), nameof(ThirdPartyServiceSettingsUserControlModel.EnableOperBoxAssist))]
+    public bool EnableOperBoxAssist
+    {
+        get => SettingsViewModel.ThirdPartyServiceSettings.EnableOperBoxAssist;
+        set => SettingsViewModel.ThirdPartyServiceSettings.EnableOperBoxAssist = value;
+    }
+
+    /// <summary>
+    /// Gets 上次同步时间文案（MM/dd HH:mm:ss），无数据时为空串；整行显隐由 XAML 绑定 EnableOperBoxAssist 控制。
+    /// </summary>
+    public string OperBoxLastSyncTimeText { get => field; private set => SetAndNotify(ref field, value); } = string.Empty;
+
+    /// <summary>
+    /// Gets a value indicating whether 辅助编队可用：一图流干员数据接口已启用且落盘数据可用。
+    /// 判定与刷新收敛在 <see cref="ThirdPartyServiceSettingsUserControlModel.CanUseOperBoxAssist"/>，此处跨实例转发供本页绑定。
+    /// </summary>
+    [PropertyDependsOn(typeof(ThirdPartyServiceSettingsUserControlModel), nameof(ThirdPartyServiceSettingsUserControlModel.CanUseOperBoxAssist))]
+    public bool CanUseOperBoxAssist => ThirdPartyServiceSettingsUserControlModel.Instance.CanUseOperBoxAssist;
+
+    /// <summary>
+    /// 重新读取落盘数据刷新同步时间文案；只在落盘完成事件、页面激活等明确事件点调用，不做文件监听。
+    /// </summary>
+    private void RefreshOperBoxLastSyncTime()
+    {
+        OperBoxLastSyncTimeText = OperBoxAssistHelper.CheckData().SyncTime?.ToLocalTimeString("MM/dd HH:mm:ss") ?? string.Empty;
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 一图流数据同步进行中，用于禁用同步按钮防重复触发。
+    /// </summary>
+    public bool SyncingOperBox { get => field; set => SetAndNotify(ref field, value); }
+
+    /// <summary>
+    /// 从一图流拉取干员练度数据并落盘，结果反馈到 Copilot 日志区。
+    /// </summary>
+    /// <returns>异步任务。</returns>
+    public async Task SyncOperBoxFromYituliu()
+    {
+        if (SyncingOperBox)
+        {
+            return;
+        }
+
+        SyncingOperBox = true;
+        try
+        {
+            var (result, operatorCount) = await Instances.ToolboxViewModel.FetchAndSaveYituliuOperBoxAsync();
+            AddLog(result switch {
+                ToolboxViewModel.YituliuFetchResult.Success => LocalizationHelper.GetStringFormat("Copilot.SyncOperBoxSuccess", operatorCount),
+                ToolboxViewModel.YituliuFetchResult.TokenEmpty => LocalizationHelper.GetString("YituliuTokenEmpty"),
+                ToolboxViewModel.YituliuFetchResult.NoData => LocalizationHelper.GetString("YituliuNoOperBoxData"),
+                ToolboxViewModel.YituliuFetchResult.WriteOnly => LocalizationHelper.GetString("YituliuTokenWriteOnly"),
+                ToolboxViewModel.YituliuFetchResult.Invalid => LocalizationHelper.GetString("YituliuTokenInvalid"),
+                _ => LocalizationHelper.GetString("YituliuTokenNetworkError"),
+            }, result == ToolboxViewModel.YituliuFetchResult.Success ? UiLogColor.Info : UiLogColor.Error, showTime: false);
+        }
+        finally
+        {
+            SyncingOperBox = false;
+        }
+    }
+
+    [PropertyDependsOn(nameof(EnableOperBoxAssist))]
+    [PropertyDependsOn(nameof(Form))]
+    [PropertyDependsOn(nameof(CopilotTabIndex))]
+    public bool EffectiveOperBoxAssist => EnableOperBoxAssist
+        && Form
+        && (CopilotTabIndex == 0 || CopilotTabIndex == 3);
 
     /// <summary>
     /// Gets or sets a value indicating whether 真正有干员被忽略了要求
@@ -702,9 +805,13 @@ public partial class CopilotViewModel : Screen
         public void RefreshLocalization() => NotifyOfPropertyChange(nameof(Module));
     }
 
-    private bool _useFormation;
-
-    public bool UseFormation { get => _useFormation; set => SetAndNotify(ref _useFormation, value); }
+    public bool UseFormation
+    {
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Copilot.UseFormation = value;
+        }
+    } = ConfigFactory.CurrentConfig.Copilot.UseFormation;
 
     public List<GenericCombinedData<int>> FormationSelectList { get; } =
     [
@@ -779,7 +886,7 @@ public partial class CopilotViewModel : Screen
         }
     }
 
-    public bool Loop { get; set; }
+    public bool Loop { get; set => SetAndNotify(ref field, value); }
 
     public int LoopTimes
     {
@@ -1272,7 +1379,7 @@ public partial class CopilotViewModel : Screen
             var hasOper = action.Name is not null;
             if (hasLoc && hasOper)
             {
-                AddLog(LocalizationHelper.GetStringFormat("Copilot.ActionWithBothLocAndOper", $"{action.Type}[{action.Location}]"), UiLogColor.Warning, showTime: false);
+                AddLog(LocalizationHelper.GetStringFormat("Copilot.ActionWithBothLocAndOper", $"{action.Type}[{string.Join(",", action.Location!)}]"), UiLogColor.Warning, showTime: false);
                 action.Role = null;
                 action.Name = null;
                 is_corrected = true;
@@ -1479,9 +1586,35 @@ public partial class CopilotViewModel : Screen
                     AddLog(LocalizationHelper.GetString("CopilotJsonError") + $", copilotId: {id}", UiLogColor.Error, showTime: false);
                     continue;
                 }
-                var opers = JArray.FromObject(copilot.Opers.Select(i => i.Name));
-                opers = JArray.FromObject(opers.Union(JArray.FromObject(copilot.Groups.Select(i => i.Opers.Select(op => op.Name)))));
-                AddLog(opers.ToString(Formatting.None), UiLogColor.Message, showTime: false);
+                var stageName = DataHelper.FindMap(copilot.StageName)?.Code ?? copilot.StageName;
+                var parts = new List<CopilotOutput.Part> { new(stageName + ": [") };
+                AddNames(copilot.Opers.Select(oper => oper.Name).Distinct());
+                foreach (var group in copilot.Groups)
+                {
+                    if (parts.Count > 1)
+                    {
+                        parts.Add(new(", "));
+                    }
+                    parts.Add(new(group.Name + ": ["));
+                    AddNames(group.Opers.Select(oper => oper.Name));
+                    parts.Add(new("]"));
+                }
+                parts.Add(new("]"));
+                AddCopilotPreview(new CopilotOutput(parts, UiLogColor.Message));
+
+                void AddNames(IEnumerable<string> names)
+                {
+                    var first = true;
+                    foreach (var name in names)
+                    {
+                        if (!first)
+                        {
+                            parts.Add(new(", "));
+                        }
+                        parts.Add(new(DataHelper.GetLocalizedCharacterName(name) ?? name, name));
+                        first = false;
+                    }
+                }
             }
             else if (payload is SSSCopilotModel sss)
             {
@@ -1947,7 +2080,7 @@ public partial class CopilotViewModel : Screen
     {
         if (Bootstrapper.TryGetTaskBlockReason() is { } reason)
         {
-            AddLog(reason, UiLogColor.Error);
+            AddLog(reason, UiLogColor.Error, showTime: false);
             return;
         }
 
@@ -2017,12 +2150,20 @@ public partial class CopilotViewModel : Screen
             }
 
             Instances.TaskQueueViewModel.SetStopped();
-            AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error, showTime: false);
+
+            // 中性兜底与已报告的具体原因连打：原因在前、结论在后，互不冲突
+            AddLog(LocalizationHelper.GetString("CopilotStartFailed"), UiLogColor.Error, showTime: false);
         }
     }
 
     private async Task<bool> ValidateStartAsync()
     {
+        if (EffectiveOperBoxAssist && !CanUseOperBoxAssist)
+        {
+            AddLog(LocalizationHelper.GetString("CopilotOperboxAssistRequiresYituliuData"), UiLogColor.Error, showTime: false);
+            return false;
+        }
+
         if (UseCopilotList)
         {
             // 列表模式：只校验列表本身，不检查输入框里的单文件作业类型
@@ -2155,6 +2296,7 @@ public partial class CopilotViewModel : Screen
                 UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
                 UseSanityPotion = UseSanityPotion,
                 FormationIndex = UseFormation ? FormationIndex : 0,
+                OperBoxDataPath = EffectiveOperBoxAssist ? OperBoxAssistHelper.OperBoxDataJsonPath : string.Empty,
             };
 
             // 能用列表的是主线/ss/故事集/悖论，都是 Copilot 类型
@@ -2187,7 +2329,7 @@ public partial class CopilotViewModel : Screen
             }
             catch
             {
-                AddLog(LocalizationHelper.GetString("CopilotCouldNotSaveFile") + _tempCopilotFile, UiLogColor.Error);
+                AddLog(LocalizationHelper.GetString("CopilotCouldNotSaveFile") + _tempCopilotFile, UiLogColor.Error, showTime: false);
                 return false;
             }
         }
@@ -2210,6 +2352,7 @@ public partial class CopilotViewModel : Screen
                 LoopTimes = Loop ? LoopTimes : 1,
                 UseSanityPotion = false,
                 FormationIndex = UseFormation ? FormationIndex : 0,
+                OperBoxDataPath = EffectiveOperBoxAssist ? OperBoxAssistHelper.OperBoxDataJsonPath : string.Empty,
             };
 
             // 单作业需要区分 Copilot / SSSCopilot

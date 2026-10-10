@@ -1294,6 +1294,9 @@
             "Roguelike@ClickToDrops"
         ]
     },
+    "Roguelike@StageEncounterLoadingCompleted": {
+        "algorithm": "JustReturn"
+    },
     "Roguelike@StageEncounterOcr": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",

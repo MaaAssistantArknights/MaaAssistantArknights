@@ -24,9 +24,11 @@ jobs:
             const regex = /^((build|chore|ci|docs?|feat!?|fix|perf|refactor|rft|style|test|i18n|typo|debug)[\:\.\(\,]|[Rr]evert|[Rr]elease|[Rr]eapply)/;
             const badTitleCommits = commits.filter(commit => !regex.test(commit.commit.message) && commit.parents.length <= 1);
             const mergeCommits = commits.filter(commit => commit.parents.length > 1);
+            const spacingRegex = /[一-鿿][A-Za-z0-9]|[A-Za-z0-9][一-鿿]/;
+            const badSpacingTitle = spacingRegex.test(context.payload.pull_request.title);
             const allInvalid = [...badTitleCommits, ...mergeCommits];
 
-            console.log(`Checked ${commits.length} commit(s), ${badTitleCommits.length} bad title(s), ${mergeCommits.length} merge commit(s)`);
+            console.log(`Checked ${commits.length} commit(s), ${badTitleCommits.length} bad title(s), ${mergeCommits.length} merge commit(s), PR title bad spacing: ${badSpacingTitle}`);
 
             const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,
@@ -36,18 +38,21 @@ jobs:
 
             const previousComment = comments.find(comment => comment.user.login === 'github-actions[bot]' && comment.body.includes('invalid commit(s)'));
 
-            if (allInvalid.length > 0) {
+            if (allInvalid.length > 0 || badSpacingTitle) {
               const formatList = (list) => list.map(commit => `- ${commit.commit.message.split("\n")[0]} [\`${commit.sha.substring(0, 7)}\`](${commit.html_url})`).join("\n");
 
               let bodySections = [];
               if (badTitleCommits.length > 0) {
                 bodySections.push(`### 不合规提交名 | Invalid Commit Title(s):\n\n${formatList(badTitleCommits)}`);
               }
+              if (badSpacingTitle) {
+                bodySections.push(`### PR 标题中英文/数字之间缺少空格 | Missing Space between CJK and Latin/Digit(s) in PR title:\n\n\`${context.payload.pull_request.title}\``);
+              }
               if (mergeCommits.length > 0) {
                 bodySections.push(`### 不应使用 Merge Commit | Merge Commit(s) Detected:\n\n${formatList(mergeCommits)}`);
               }
 
-              const newBody = `## ⚠️ 发现 ${allInvalid.length} 个不合规提交 | Found ${allInvalid.length} invalid commit(s):\n\n${bodySections.join("\n\n")}\n\n---\n请遵循 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) 格式，以及**不要**使用Merge Commit（修改 Commit Message 无法绕过检测）。\nPlease follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format, and **DO NOT** use merge commits.`;
+              const newBody = `## ⚠️ 发现 ${allInvalid.length + (badSpacingTitle ? 1 : 0)} 个不合规提交 | Found ${allInvalid.length + (badSpacingTitle ? 1 : 0)} invalid commit(s):\n\n${bodySections.join("\n\n")}\n\n---\n请遵循 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) 格式，**不要**使用Merge Commit（修改 Commit Message 无法绕过检测），中英文与数字相邻时请加空格（Squash 合并后 Commit Message 即 PR 标题）。\nPlease follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format, **DO NOT** use merge commits, and add spaces between CJK characters and Latin letters/digits (the commit message after squash merge is the PR title).`;
 
               if (previousComment && previousComment.body === newBody) {
                 console.log("Invalid commits unchanged, skipping comment update");
@@ -68,7 +73,10 @@ jobs:
               }
 
               const allInvalidNames = allInvalid.map(commit => commit.commit.message);
-              core.setFailed(`Found ${allInvalid.length} invalid commit(s):\n${allInvalidNames.join("\n-------------------\n")}`);
+              if (badSpacingTitle) {
+                allInvalidNames.push(`PR title: ${context.payload.pull_request.title}`);
+              }
+              core.setFailed(`Found ${allInvalid.length + (badSpacingTitle ? 1 : 0)} invalid commit(s):\n${allInvalidNames.join("\n-------------------\n")}`);
             } else {
               if (previousComment) {
                 await github.rest.issues.deleteComment({

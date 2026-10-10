@@ -14,6 +14,12 @@
     <system:String x:Key="StartupSettings">起動設定</system:String>
     <system:String x:Key="ScheduleSettings">スケジュール実行設定</system:String>
     <system:String x:Key="UiSettings">UI設定</system:String>
+    <system:String x:Key="LanguageSettings">言語</system:String>
+    <system:String x:Key="ThemeAndAnimationSettings">テーマとアニメーション</system:String>
+    <system:String x:Key="TitleBarSettings">タイトルバー設定</system:String>
+    <system:String x:Key="LogDisplaySettings">ログ表示設定</system:String>
+    <system:String x:Key="TraySettings">トレイ</system:String>
+    <system:String x:Key="OperationGuideSettings">操作とガイド</system:String>
     <system:String x:Key="BackgroundSettings">背景設定</system:String>
     <system:String x:Key="BackgroundImage">背景画像</system:String>
     <system:String x:Key="BackgroundOpacity">背景の不透明度</system:String>
@@ -48,14 +54,10 @@
     <system:String x:Key="ResourceVersion">リソースバーション</system:String>
     <system:String x:Key="ResourceDateTime">リソース日付</system:String>
     <system:String x:Key="Off">シャットダウン</system:String>
-    <system:String x:Key="ExternalNotificationTips">注:外部通知機能は現在、 ｢すべてのタスクが完了しました｣ という通知のみを送信します。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
-    <system:String x:Key="ExternalNotificationEnabled">通知構成の有効化</system:String>
-    <system:String x:Key="ExternalNotificationEnableDetails">詳細情報を出力</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenComplete">タスク完了時に通知を送信</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenError">タスクが失敗したときに通知を送信</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenStalled">タスクログ出力停滞時に通知を送信</system:String>
-    <system:String x:Key="ExternalNotificationSendWhenStalledTip">｢{key=GameSettings}｣ で ｢{key=StallTimeoutEnabled}｣ を有効にした場合にのみ有効になります</system:String>
+    <system:String x:Key="ExternalNotificationEnabled">通知チャネル</system:String>
+    <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">定時実行前</system:String>
+    <system:String x:Key="ExternalNotificationSendBeforeScheduledStartTip" xml:space="preserve">定時タスクの開始前に外部通知を送信します。&#10;通知するタイミングは ｢{key=ScheduleSettings}｣ の ｢{key=ScheduledStartNotificationMinutes}｣ 設定を使用します。</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">正常に送信</system:String>
     <system:String x:Key="ExternalNotificationSendFail">送信に失敗しました</system:String>
     <system:String x:Key="ExternalNotificationSendTest">テストを送信する</system:String>
@@ -130,8 +132,6 @@
     <system:String x:Key="GuideConfirmCountdownSuffix">秒</system:String>
     <system:String x:Key="ToolTipGuide">マウスを乗せるとヒントあり</system:String>
     <system:String x:Key="TaskGuide">↑ タスク</system:String>
-    <system:String x:Key="OftenUsedGuide">↑ よく使われる</system:String>
-    <system:String x:Key="SometimesUsedGuide">あまり使われていない ↑</system:String>
     <system:String x:Key="LinkStartGuide">← タスクを開始</system:String>
     <system:String x:Key="HoverActionButtons">ホバーでコピー/名前変更/削除</system:String>
     <system:String x:Key="GearContextMenuTip">歯車を右クリックで操作一覧 ↓</system:String>
@@ -233,6 +233,9 @@
     <system:String x:Key="General">一般モード</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
     <system:String x:Key="MuMuEmulator12">MuMu Player</system:String>
+    <system:String x:Key="MuMuArm">MuMu エミュレータ（Windows ARM）</system:String>
+    <system:String x:Key="MuMuArmDetectAndTest">自動検出してテスト</system:String>
+    <system:String x:Key="MuMuArmConnectionNotReady">MuMu ARM の ADB アドレスを読み取れません。エミュレータの起動完了後に再試行するか、自動検出を無効にして接続アドレスを手動で入力してください。</system:String>
     <system:String x:Key="LDPlayer">LDPlayer</system:String>
     <system:String x:Key="AVD">Android Virtual Device (AVD)</system:String>
     <system:String x:Key="Androws">Androws</system:String>
@@ -381,6 +384,7 @@
     <system:String x:Key="EmulatorNotFound">エミュレータが検出されません\nエミュレータが起動していることを確認してください\nエミュレータが管理者権限で起動されている場合、本ソフトも管理者権限で起動してください\nそれでも検出できない場合は、手動で接続設定を行ってください</system:String>
     <system:String x:Key="EmulatorTooMany">複数のシミュレータが検出されたため\n不要なエミュレータを閉じるか\n手動で接続設定を行ってください</system:String>
     <system:String x:Key="EmulatorStartFailed">エミュレータの起動に失敗しました\n管理者権限でこのソフトウェアを開いていただくか\n手動でエミュレータを起動してください。</system:String>
+    <system:String x:Key="PcClientStartFailed">PC クライアントの起動に失敗しました\n管理者権限でこのソフトウェアを開くか\n手動でクライアントを起動してください。</system:String>
     <system:String x:Key="SwitchLanguage">言語を切り替える 🌐</system:String>
     <system:String x:Key="Language">言語</system:String>
     <system:String x:Key="LanguageChangedTip">言語設定が変更されました。一部のコンテンツは再起動後に完全に反映されます。</system:String>
@@ -414,6 +418,7 @@
     <system:String x:Key="TaskCopied">タスクをコピーしました: {0}</system:String>
     <system:String x:Key="StartGuideDemo">デモでは実際にタスクは実行されません</system:String>
     <system:String x:Key="GuideDemoTaskAddLimitTip">デモリストに追加できるタスクは最大 5 個です。追加する前に一部を削除してください</system:String>
+    <system:String x:Key="GuideDemoTaskRequiredTip">次に進むには、｢{key=AddTaskQueueTask}｣ ボタンでタスクを追加してください</system:String>
     <system:String x:Key="TaskCopyFailed">タスクのコピーに失敗しました</system:String>
     <system:String x:Key="HotKeyShowGui">[ホットキー] MAAの表示/最小化</system:String>
     <system:String x:Key="HotKeyLinkStart">[ホットキー] Link 開始/停止</system:String>
@@ -562,6 +567,14 @@ D:\
     <system:String x:Key="ShowWindowBeforeForceScheduledStartTip">起動前にメインウィンドウを表示し、最小化中にカウントダウンが見えないのを防ぎます</system:String>
     <system:String x:Key="TimerCustomConfig">カスタム構成オプション</system:String>
     <system:String x:Key="TimerCustomConfigTip">起動時刻の2分前にゲームを再起動して設定を切り替えます</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStart">定時実行前にシステム通知を送信</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStartTip" xml:space="preserve">設定したタイミングでシステム通知を送信します。&#10;外部通知は ｢{key=Settings} - {key=NotificationSettings} - {key=ExternalNotificationSettings}｣ で個別に有効にでき、通知するタイミングは共通です。</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStartSharedTimeTip">外部通知はこの事前通知時間を共有します。</system:String>
+    <system:String x:Key="ScheduledStartNotificationMinutes">通知するタイミング（分前）</system:String>
+    <system:String x:Key="ScheduledStartNotificationTitle">まもなく定時タスクを実行します</system:String>
+    <system:String x:Key="ScheduledStartNotificationContent">タイマー {0} は {1}（{2} 分後）に実行開始予定です。ゲームのログイン状態にご注意ください。</system:String>
+    <system:String x:Key="ScheduledWakeUp">スケジュール起動前にコンピュータのスリープ解除と MAA の起動を試みる</system:String>
+    <system:String x:Key="ScheduledWakeUpTip" xml:space="preserve">この機能は Windows タスクスケジューラにタスクを登録し、有効化された各タイマーの 5 分前にコンピュータのスリープ解除と MAA の起動を試みます。その後はアプリ内の定時起動ロジックに引き継がれます。&#10;スリープ解除による起動時は、｢{key=StartupSettings}｣ の起動時自動実行項目（{key=RunTaskAfterLaunch}、{key=OpenEmulatorAfterLaunch}など）はスキップされます。&#10;MAA 終了後もタスクは保持され、このスイッチをオフにすると削除されます。&#10;タスク開始後の長時間実行はこの機能では保持されないため、実行時間が長いタスクでは、タスク実行中にシステムがスリープしないよう ｢{key=GameSettings}｣ の ｢{key=BlockSleep}｣ を有効にすることをおすすめします。&#10;休止状態からのスリープ解除はデバイスのファームウェア対応に依存し、一部のデバイスはスリープからの解除のみに対応しています。</system:String>
     <system:String x:Key="Timer">タイマー</system:String>
     <system:String x:Key="GlobalConfigTip">このオプション ページはグローバル設定用です</system:String>
     <system:String x:Key="MultiTasksShareTip">以下のオプションは複数のタスクで共有されます</system:String>
@@ -585,21 +598,33 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="StartupAutoRunCountdownTaskOnly">まもなくタスクを自動実行します。キャンセルしますか？</system:String>
     <system:String x:Key="StartupAutoRunCountdownEmulatorOnly">まもなくエミュレータを自動起動します。キャンセルしますか？</system:String>
     <system:String x:Key="StartupAutoRunCountdownTaskAndEmulator">まもなくタスクを自動実行し、エミュレータを起動します。キャンセルしますか？</system:String>
+    <system:String x:Key="StartupAutoRunCountdownPcClientOnly">まもなく PC クライアントを自動起動します。キャンセルしますか？</system:String>
+    <system:String x:Key="StartupAutoRunCountdownTaskAndPcClient">まもなくタスクを自動実行し、PC クライアントを起動します。キャンセルしますか？</system:String>
     <system:String x:Key="MinimizeAfterLaunch">アプリの起動時に自動的に最小化</system:String>
     <system:String x:Key="ClientType">クライアントバージョン</system:String>
     <system:String x:Key="StartGameLaunchClient">起動時にクライアントを開始する</system:String>
     <system:String x:Key="UseWeeklySchedule">週次スケジュールを有効にする</system:String>
     <system:String x:Key="UseWeeklyScheduleTip">ここでの曜日はゲーム内時間に基づいており、現実時間ではありません。例えば、ゲームが4:00にリセットされる場合、3:59は前日としてカウントされます。</system:String>
     <system:String x:Key="FightSkippedWeeklySchedule">週次スケジュールで今日が未選択</system:String>
+    <system:String x:Key="InfrastSkippedWeeklySchedule">週次スケジュールで今日が未選択</system:String>
     <system:String x:Key="FightSkippedEmptyStagePlan">ステージ計画が空です</system:String>
     <system:String x:Key="FightSkippedNoOpenStage">計画内に本日開放中のステージがありません</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">グローバルサーバーの対応は非常に大変で、皆様の協力が必要です！プログラミングの知識は必要ありません。</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">起動時にエミュレータ自動起動</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunchTip">エミュレータは MAA 起動時に一度だけ起動され、｢{key=LinkStart}｣ をクリックするたびに起動されるわけではありません。\nそのような動作が必要な場合は ｢{key=RetryOnDisconnected}｣ を有効にしてください</system:String>
+    <system:String x:Key="OpenPcClientAfterLaunch">MAA 起動後に PC クライアントを起動</system:String>
+    <system:String x:Key="OpenPcClientAfterLaunchTip">PC クライアントは MAA 起動時に一度だけ起動されます。｢{key=LinkStart}｣ のたびに起動する場合は ｢{key=RetryOnPcDisconnected}｣ を有効にしてください</system:String>
     <system:String x:Key="WaitForEmulator">エミュレータを待つ時間（秒）</system:String>
+    <system:String x:Key="WaitForPcClient">PC クライアントの起動待機時間（秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">待ち時間は終わりました</system:String>
     <system:String x:Key="EmulatorPath">エミュレータパス</system:String>
+    <system:String x:Key="PcClientPath">PC クライアントのパス</system:String>
     <system:String x:Key="SelectShortcutTip" xml:space="preserve">エミュレーター本体を選択（ ｢{key=AdditionCommand}｣ 起動パラメータでインスタンス指定可能）、または直接エミュレーター/ゲームのショートカットを選択できます。&#10; ｢{key=WakeUp}｣ タスクがエミュレーター起動遅延で失敗する場合、ゲームショートカットを使用し ｢{key=WaitForEmulator}｣ を延長することを推奨します。</system:String>
+    <system:String x:Key="SelectPcClientTip">PC クライアント本体またはショートカットを選択できます。｢{key=AdditionCommand}｣ で起動引数を追加できます。</system:String>
+    <system:String x:Key="PcClientAddCommandTip" xml:space="preserve">PC クライアント起動時に渡す追加引数です。&#10;対応する引数の形式は、クライアントまたはランチャーのドキュメントを参照してください。&#10;ショートカットを使用する場合は、そのショートカットに保存された引数が使用されます。</system:String>
+    <system:String x:Key="PcClientPathEmptyError">PC クライアントのパスが空です。先にクライアントを選択してください。</system:String>
+    <system:String x:Key="PcClientPathNotExist">PC クライアントのパスが存在しません</system:String>
+    <system:String x:Key="PcClientPathEmptyWarning">PC クライアントのパスが空です。｢{key=RetryOnPcDisconnected}｣ と ｢{key=OpenPcClientAfterLaunch}｣ のチェック状態がリセットされました</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorPrompt">バーでバーを注文したいですか？</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">確かに間違って選択していないと思います</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">はい、もう一度選択します</system:String>
@@ -724,6 +749,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="ThirdPartyGroupYituliu">Yituliu</system:String>
     <system:String x:Key="YituliuOpenApiToken">OpenAPIトークン</system:String>
     <system:String x:Key="YituliuTokenVerify">検証</system:String>
+    <system:String x:Key="YituliuTokenLink">{key=ThirdPartyGroupYituliu}でトークンを取得</system:String>
     <system:String x:Key="YituliuTokenEmpty">先にトークンを入力してください</system:String>
     <system:String x:Key="YituliuTokenValid">トークンは有効です。合計 {0} 名のオペレーター</system:String>
     <system:String x:Key="YituliuTokenValidNoData">トークンは有効ですが、アカウントにまだオペレーターデータがありません</system:String>
@@ -904,6 +930,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="RetryOnDisconnected">ADB接続が失敗した場合、エミュレータの起動を試みる</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">再接続に失敗した後、エミュレータを再起動してみてください，バックグラウンドのタイムドタスクを使用し、終了時にエミュレータを終了させるタスクを設定する場合は、必ずチェックを入れること</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">エミュレータのパスが空です！ ｢{key=Settings} - {key=StartupSettings} - {key=EmulatorPath}｣ を入力してから再度選択してください。</system:String>
+    <system:String x:Key="RetryOnPcDisconnected">PC クライアントの接続失敗時にクライアントを起動</system:String>
+    <system:String x:Key="RetryOnPcDisconnectedTip">ウィンドウ接続に失敗した後、PC クライアントを起動して再接続します</system:String>
+    <system:String x:Key="RetryOnPcDisconnectedPathEmptyError">PC クライアントのパスが空です！ ｢{key=Settings} - {key=StartupSettings} - {key=PcClientPath}｣ を入力してから再度選択してください。</system:String>
     <system:String x:Key="AllowAdbRestart">接続失敗後にADBサーバーの再起動を試みる</system:String>
     <system:String x:Key="AllowAdbHardRestart">接続失敗後にADBプロセスの再起動を試みる</system:String>
     <!--  !設定  -->
@@ -1043,6 +1072,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="UserDataUpdateIntervalNotReached">前回の同期から ｢{0}｣ の実行間隔に達していません</system:String>
     <!--  在庫維持  -->
     <system:String x:Key="DepotUpdateBeforeStart">タスク開始前に在庫データを更新</system:String>
+    <system:String x:Key="DepotUpdateBeforeStartTip" xml:space="preserve">タスク開始時、当時キャッシュされていた在庫データで各プランの不足を判定する処理を事前チェックと呼びます。事前チェックで既に充足しているプランは今回の周回リストに追加されず、その後も再判定されません。&#10;各プランは開始時に最新キャッシュで再判定され、前のステージのドロップはリアルタイムでキャッシュに加算されます。&#10;チェック時、プランの実行前に倉庫認識を 1 回実行し、キャッシュを実際の在庫に修正します。&#10;認識後にスキップされたプランの実際の在庫が不足していたことが判明した場合、事前チェックでスキップされたプランは実行中に追加できないため、ログに記録されるだけで、タスクを再実行すると周回されます。</system:String>
     <system:String x:Key="AddPlan">追加</system:String>
     <system:String x:Key="DepotPreset">プリセット</system:String>
     <system:String x:Key="DepotPresetChip1">低級チップ（全職業）</system:String>
@@ -1058,6 +1088,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPlanNoStage">#{0}：ステージ未指定または ｢現在/前回｣</system:String>
     <system:String x:Key="DepotPlanInventoryEnough">#{0}：{1} 十分 {2}/{3}</system:String>
     <system:String x:Key="DepotPlanInventoryInsufficient">#{0}：{1} 不足 {2}/{3}、{4} 個必要</system:String>
+    <system:String x:Key="DepotPlanCacheStaleSkipped">#{0}：{1} 実際 {2}/{3} 不足ですが、事前チェックでスキップされたプランは実行中に追加できません。タスクを再実行すると周回されます</system:String>
     <system:String x:Key="DepotPlanSanityInsufficient">#{0}：理性不足（現在 {1}、消費 {2} 未満）、スキップしました</system:String>
     <system:String x:Key="DepotPlanStageNotOpen">#{0}：ステージ ｢{1}｣ は公開されていません</system:String>
     <system:String x:Key="DepotPlanAddTaskFailed">#{0}：タスクの追加に失敗しました</system:String>
@@ -1181,6 +1212,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Depot">{key=DepotRecognition}</system:String>
     <system:String x:Key="LastSyncTime">前回同期時間</system:String>
     <system:String x:Key="DepotRecognitionTip">この機能はまだテスト版です。エラーが発生/統計情報に問題があれば、debug/depotフォルダを圧縮し、issueを提出してください~</system:String>
+    <system:String x:Key="DepotTemplateLoadError">{key=DepotRecognition}用テンプレートの読み込みに失敗しました（{0}）。認識を中止しました。</system:String>
     <system:String x:Key="StartToDepotRecognition">認識開始</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplanner</system:String>
     <system:String x:Key="ExportToLolicon">Arkntools</system:String>
@@ -1365,8 +1397,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="SSSCopilot">SSS {key=Copilot}</system:String>
     <system:String x:Key="ParadoxCopilot">{key=ParadoxSimulation}</system:String>
     <system:String x:Key="CopilotLocation">攻略ファイルパス/ミステリーコード</system:String>
-    <system:String x:Key="CopilotTaskName">ステージコード</system:String>
-    <system:String x:Key="CopilotTaskNameTip">ステージコード, 例えば 1-7</system:String>
+    <system:String x:Key="CopilotTaskName">ステージ</system:String>
+    <system:String x:Key="CopilotTaskNameTip">ステージ, 例えば 1-7</system:String>
     <system:String x:Key="SelectTheFile">ファイル選択</system:String>
     <system:String x:Key="SelectTheFileTip">攻略ファイルはマウスで直接ドラッグして取り込むことがきます(oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">クリップボードを読み取り、作業/作業セットを自動識別</system:String>
@@ -1386,6 +1418,10 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">一部の攻略は特定のモジュールなどを前提条件とします
 この項目を選択するとこれらのチェックをスキップしますが、タスクが正常に動作しなくなる可能性があります。
 オペレーターのエリートレベルはスキップできません。いずれかの条件をスキップした場合、戦闘後にオペレーションは自動的に評価されなくなります。</system:String>
+    <system:String x:Key="Copilot.UseOperBoxAssist">Yituliu のデータで編隊を支援</system:String>
+    <system:String x:Key="Copilot.UseOperBoxAssist.Tip" xml:space="preserve">自動編隊の前に、Yituliu のオペレーター育成データ（スキル・モジュール情報を含む）で編隊を事前マッチングします&#10;｢{key=Settings} - {key=ThirdPartyServiceSettings}｣ で Yituliu トークンを入力し、｢{key=EnableOperBoxYituliuApi}｣ を有効化してデータを取得してください</system:String>
+    <system:String x:Key="Copilot.SyncOperBoxData">同期</system:String>
+    <system:String x:Key="Copilot.SyncOperBoxSuccess">Yituliu のオペレーターデータ {0} 名分を同期しました</system:String>
     <system:String x:Key="AddUserAdditional">カスタム{key=Operator}追加</system:String>
     <system:String x:Key="AddUserAdditionalTip">横の設定ボタンをクリックして編集ウィンドウを開き、｢{key=UserAdditional.Add}｣ をクリックして1件ずつ追加し、各列に{key=Operator}名・スキル・操作を入力します</system:String>
     <system:String x:Key="UserAdditional.OperatorName">{key=Operator}名</system:String>
@@ -1457,6 +1493,7 @@ C:\leidian\LDPlayer9
         • 理性不足の場合、戦闘が失敗した場合、または 3 つ星を解決できない場合、アクションは終了します。
     </system:String>
     <system:String x:Key="CopilotFileReadError">ファイルの読み取りに失敗しました！</system:String>
+    <system:String x:Key="CopilotStartFailed">攻略ファイルの起動に失敗しました</system:String>
     <system:String x:Key="CopilotNoFound">対応する攻略ファイルが見つかりません！</system:String>
     <system:String x:Key="NetworkServiceError">ネットワークサービスの要求中にエラーが発生しました！</system:String>
     <system:String x:Key="CopilotJsonError">攻略ファイルの解析中にエラーが発生しました！</system:String>
@@ -1514,6 +1551,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ResourceIntegrityCheckDesc">{0} 個のインストールファイルが欠落していることが検出されました（{1}）。一部の機能が使用できない可能性があります。ファイルがセキュリティソフトによってブロックまたは削除されたか、手動で削除された可能性があります。セキュリティソフトが原因の場合は、その隔離領域を確認してファイルを復元し、{key=SecuritySoftwareWhitelistTips}\n\n以下の説明に従って手動で再インストールすることもできます：\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityRepairYes">自動修復（完全パッケージをダウンロードし、再起動後に復元）</system:String>
     <system:String x:Key="ResourceIntegrityRepairNo">後で行う</system:String>
+    <system:String x:Key="CoreLoadingTip">MAA のコアは読み込み中です。少し待ってから再度お試しください。</system:String>
     <system:String x:Key="ResourceBrokenTaskBlocked">リソースが破損しているためタスクを開始できません。起動時の案内に従ってリソースを修復するか、完全なパッケージを再ダウンロードして MAA を再起動してください。</system:String>
     <system:String x:Key="ResourceIntegrityRepairDownloading">インストールを修復するため、完全パッケージをダウンロードしています…</system:String>
     <system:String x:Key="ResourceIntegrityRepairFailed">自動修復に失敗しました。表示された手順に従って手動で処理してください。\n\n{key=FullPackageUpgradeTips}</system:String>
@@ -1554,6 +1592,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="CombatError">戦闘エラー</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">タスク開始: </system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">タスク完了: </system:String>
+    <system:String x:Key="TaskTime">\n(所要時間: {0})</system:String>
     <system:String x:Key="StartCombat" xml:space="preserve">戦闘開始: </system:String>
     <system:String x:Key="CompleteCombat">戦闘完了</system:String>
     <system:String x:Key="TaskCompletedWithErrors">タスクが終了しました。以下のタスクでエラーが発生しました！\n{0}\n({1} 後)</system:String>
@@ -1857,7 +1896,11 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BattleFormationOperUnavailable.Level">レベル不足</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.SkillLevel">スキルレベルが低すぎる</system:String>
     <system:String x:Key="BattleFormationOperUnavailable.Module">必要なモジュールが未解除</system:String>
+    <system:String x:Key="BattleFormationOperbox1Unmatched" xml:space="preserve">{key=Operator}（グループ） {0} に一致する{key=Operator}なし、サポートが必要です（事前マッチングでは{1}を想定、実際はサポート一覧から選択されます）</system:String>
+    <system:String x:Key="BattleFormationOperboxMatched">事前マッチした{key=Operator}（グループ）：</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">追加のカスタム{key=Operator}名が無効です: {0}、スペルを確認してください</system:String>
+    <system:String x:Key="CopilotOperboxDataParseFailed">{key=OperBoxRecognition}データ解析失敗</system:String>
+    <system:String x:Key="CopilotOperboxAssistRequiresYituliuData">利用可能な Yituliu のオペレーターデータがないため、編隊を支援できません。先に Yituliu からオペレーターデータを取得するか、｢{key=Copilot.UseOperBoxAssist}｣ を無効にしてください。</system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
     <system:String x:Key="ElapsedTime">経過時間: {0}ms</system:String>
     <system:String x:Key="Deploy">配置</system:String>
@@ -1885,6 +1928,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ConnectFailed">接続失敗</system:String>
     <system:String x:Key="TryToReconnectByAdb">再接続を試みています</system:String>
     <system:String x:Key="TryToStartEmulator">エミュレータを起動しようとしています</system:String>
+    <system:String x:Key="TryToStartPcClient">PC クライアントを起動しようとしています</system:String>
     <system:String x:Key="RestartAdb">ADBサーバーの再起動を試みています</system:String>
     <system:String x:Key="HardRestartAdb">ADBプロセスの再起動を試みています</system:String>
     <system:String x:Key="CheckSettings">｢接続設定を確認｣ → ｢エミュレーターとADBを再起動してみる｣ → ｢コンピュータを再起動｣ してください</system:String>
@@ -1892,6 +1936,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="AttachWindowMultipleFound">{0} 個の "{1}" ウィンドウが見つかりました。最初のものを使用します</system:String>
     <system:String x:Key="AttachWindowFound">ウィンドウ "{0}" が見つかりました</system:String>
     <system:String x:Key="Administrator">管理者</system:String>
+    <system:String x:Key="UiPreviewMode">UI プレビュー</system:String>
     <system:String x:Key="AttachWindowNeedAdmin">PC 接続には管理者権限が必要です。\n管理者として MAA を再起動しますか？</system:String>
     <system:String x:Key="RestartingAsAdmin">管理者として再起動しています…</system:String>
     <system:String x:Key="RestartAsAdminFailed">手動で管理者として MAA を実行してください。</system:String>
@@ -1928,6 +1973,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="AttachWindowInputPostWithCursor">PostMsg-CursorPos（半バックグラウンド、一時的にマウスを取得）</system:String>
     <system:String x:Key="AttachWindowInputSendWithWindowPosDisabled">SendMsg-WindowPos（遅延過大、無効）</system:String>
     <system:String x:Key="AttachWindowInputPostWithWindowPos">PostMsg-WindowPos（推奨、フルバックグラウンド、マウス不要、ウィンドウが動く可能性あり、PrintWindow のみ対応、最小化推奨）</system:String>
+    <system:String x:Key="AttachWindowInputAnchoredTouch">AnchoredTouch（フルバックグラウンド、マウス不要、合成タッチ注入、Win10 1809+ 必須、遮蔽時はウィンドウが一瞬点滅）</system:String>
     <system:String x:Key="AttachWindowInputSendMsg">SendMsg（安定）</system:String>
     <system:String x:Key="AttachWindowInputPostMsg">PostMsg（高効率）</system:String>
     <!--  !AsstProxy  -->
@@ -2163,7 +2209,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <!-- <system:String x:Key="TaskTimeoutMinutes">タスクのタイムアウト時間（分）</system:String> -->
     <system:String x:Key="ReminderIntervalMinutes">リマインダー間隔時間（分）</system:String>
     <system:String x:Key="StallTimeoutMinutes">ログ出力停滞タイムアウト（分）</system:String>
-    <system:String x:Key="StallTimeoutEnabled">停滞検出を有効にする</system:String>
+    <system:String x:Key="StallTimeoutEnabled">ログ更新の停滞検出を有効にする</system:String>
     <system:String x:Key="TaskStallWarning">タスクログ出力が {0} 分間更新されていません（現在 {1} 分間停滞）。タスクが正常に実行中か確認してください。正常であればこの警告は無視できます。応答がない場合は、手動での操作が必要になる可能性があります。</system:String>
     <system:String x:Key="RunDurationLimitEnabled">1回の実行時間を制限する</system:String>
     <system:String x:Key="RunDurationLimitMinutes">実行時間の上限（分）</system:String>
@@ -2597,7 +2643,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 
     <system:String x:Key="Achievement.AllChannelBroadcast.Title">全チャンネル放送</system:String>
     <system:String x:Key="Achievement.AllChannelBroadcast.Description">これでもう誰も見逃せない。</system:String>
-    <system:String x:Key="Achievement.AllChannelBroadcast.Conditions">｢{key=ExternalNotificationSettings}｣ ですべてのプラットフォームを同時に有効にする</system:String>
+    <system:String x:Key="Achievement.AllChannelBroadcast.Conditions">｢{key=Settings} - {key=NotificationSettings} - {key=ExternalNotificationSettings}｣ ですべてのプラットフォームを同時に有効にする</system:String>
 
     <system:String x:Key="Achievement.BackstageExplorer.Title">バックヤード探検家</system:String>
     <system:String x:Key="Achievement.BackstageExplorer.Description">裏で何が記録されているか見てみよう。</system:String>
@@ -2665,4 +2711,26 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="PleaseSelectItem">項目を選択してください</system:String>
     <system:String x:Key="EmulatorSelectionCancelled">エミュレータの選択がキャンセルされました</system:String>
     <!--  !ItemSelection  -->
+    <system:String x:Key="NotificationSettings">通知設定</system:String>
+    <system:String x:Key="NotificationSettingsTimeMinutes">ログ有効時間（分）</system:String>
+    <system:String x:Key="NotificationSettingsTimeMinutesTip" xml:space="preserve">有効時間を過ぎたログは通知への添付の対象外になります。&#10;0 の場合は、時間で絞り込みません。</system:String>
+    <system:String x:Key="NotificationSettingsInvalidFilterTip" xml:space="preserve">正規表現が無効です。フィルタールールを確認してください。</system:String>
+    <system:String x:Key="ExternalNotificationEnable">外部通知を有効にする</system:String>
+    <system:String x:Key="ExternalNotificationSendConditions">以下の条件で外部通知を送信</system:String>
+    <system:String x:Key="ExternalNotificationWhenComplete">タスク完了時</system:String>
+    <system:String x:Key="ExternalNotificationWhenError">タスクエラー発生時</system:String>
+    <system:String x:Key="ExternalNotificationWhenStalled">タスクのログ出力停止時</system:String>
+    <system:String x:Key="ExternalNotificationWhenStalledTip" xml:space="preserve">｢{key=NotificationSettings}｣で｢{key=StallTimeoutEnabled}｣を有効にしてください。&#10;設定した時間内に新しいログが出力されない場合に送信します。</system:String>
+    <system:String x:Key="ExternalNotificationNewLogCount">新規ログ数</system:String>
+    <system:String x:Key="ExternalNotificationNewLogCountTip" xml:space="preserve">前回の外部通知が送信された後、新しいログ項目を数えます。&#10;指定した数に達すると送信します。&#10;タスク完了やエラーなど、他の条件で通知が送信された場合もカウントをリセットします。</system:String>
+    <system:String x:Key="ExternalNotificationContentMatches">ログに特定の内容を含む場合</system:String>
+    <system:String x:Key="ExternalNotificationWhitelist">ホワイトリスト（1行に1つの正規表現）</system:String>
+    <system:String x:Key="ExternalNotificationWhitelistTip" xml:space="preserve">各行に正規表現を入力します。&#10;現在のログがいずれかの行に一致すると通知を送信します。&#10;空のホワイトリストではこの条件は発動しません。</system:String>
+    <system:String x:Key="ExternalNotificationIncludePreviousLogs">過去のログを添付</system:String>
+    <system:String x:Key="ExternalNotificationIncludePreviousLogsTip" xml:space="preserve">現在のログに加えて過去のログを添付します。&#10;ログ数と有効時間で添付する範囲を指定します。</system:String>
+    <system:String x:Key="ExternalNotificationPreviousLogCount">添付ログ数</system:String>
+    <system:String x:Key="ExternalNotificationPreviousLogCountTip" xml:space="preserve">現在のログを除き、指定した件数までの過去のログを添付します。&#10;0の場合は現在のログのみを送信します。</system:String>
+    <system:String x:Key="ExternalNotificationFilterPreviousLogs">添付ログの内容をフィルタリング</system:String>
+    <system:String x:Key="ExternalNotificationFilterPreviousLogsTip" xml:space="preserve">ブラックリストに一致するログを除外し、残りから件数と有効時間の範囲内で最新のログを選びます。&#10;現在のログは必ず残します。</system:String>
+    <system:String x:Key="ExternalNotificationBlacklist">ブラックリスト（1行に1つの正規表現）</system:String>
 </ResourceDictionary>

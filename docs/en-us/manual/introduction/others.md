@@ -146,7 +146,8 @@ If the dragged file is not one of the above update packages (e.g., software pack
 
 - **Software packages** (full / OTA): matched mainly by filename; the archive is **not** checked for the real architecture or version contents. Renaming (e.g. arm64 → x64) may still extract and install the wrong build. Do not change the original filename.
 - **Resource packages**: only checks for a GitHub direct-download zip layout and parses `version.json`; other resource files are **not** fully validated for completeness or correctness. Missing some files may still allow import.
-  :::
+
+:::
 
 ## Additional Notes
 

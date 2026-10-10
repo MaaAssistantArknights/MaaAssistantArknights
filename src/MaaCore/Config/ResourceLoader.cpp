@@ -21,6 +21,7 @@
 #include "Roguelike/BlackFlow/BlackFlowMapPerceptionResource.h"
 #include "Roguelike/BlackFlow/BlackFlowMapTemplateConfig.h"
 #include "Roguelike/BlackFlow/BlackFlowNodeExecutionConfig.h"
+#include "Roguelike/BlackFlow/BlackFlowScrapMarketConfig.h"
 #include "Roguelike/BlackFlow/BlackFlowStrategyConfig.h"
 #include "Roguelike/JieGarden/RoguelikeCoppersConfig.h"
 #include "Roguelike/RoguelikeCopilotConfig.h"
@@ -301,6 +302,18 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
             false,
             "BlackFlow node execution configuration is missing");
         LogError << __FUNCTION__ << " BlackFlow node execution configuration is missing; other themes remain available";
+    }
+
+    const auto blackflow_scrap_market_path = roguelike_path("BlackFlow", "scrap_market.json"_p);
+    if (std::filesystem::exists(path / blackflow_scrap_market_path)) {
+        if (!load_with_custom.template operator()<BlackFlowScrapMarketConfig>(
+                blackflow_scrap_market_path,
+                "BlackFlowScrapMarketConfig")) {
+            LogWarn << __FUNCTION__ << "BlackFlow scrap market failed to load; scrap shop trading is unavailable";
+        }
+    }
+    else if (!m_loaded) {
+        LogWarn << __FUNCTION__ << "BlackFlow scrap market is missing; scrap shop trading is unavailable";
     }
 
     const auto blackflow_map_templates_path = roguelike_path("BlackFlow", "map_templates.json"_p);

@@ -36,4 +36,9 @@ public partial class ThirdParty : NotifyPropertyChangedWithValue
     /// 干员识别改为从一图流 OpenAPI 获取，而不是连接模拟器本地识别
     /// </summary>
     public bool OperBoxUseYituliuApi { get; set; }
+
+    /// <summary>
+    /// 使用一图流数据辅助自动编队
+    /// </summary>
+    public bool EnableOperBoxAssist { get; set; }
 }
