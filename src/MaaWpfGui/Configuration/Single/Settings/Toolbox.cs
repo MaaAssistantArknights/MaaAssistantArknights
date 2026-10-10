@@ -63,7 +63,7 @@ public partial class Toolbox : NotifyPropertyChangedWithValue
 
     public bool EventShopBlackListFurniturePart { get; set; }
 
-    public bool EventShopBlackListOther { get; set; } = true;
+    public bool EventShopBlackListOther { get; set; }
 
     public string EventShopBlackList { get; set; } = string.Empty;
 }
