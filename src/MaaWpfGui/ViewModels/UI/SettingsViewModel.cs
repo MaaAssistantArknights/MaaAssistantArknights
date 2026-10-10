@@ -518,11 +518,11 @@ public class SettingsViewModel : Screen
             var result = Instances.MaaHotKeyManager.TryRegister(action, value);
             if (result == MaaHotKeyRegistrationResult.DuplicateHotKey)
             {
-                Growl.Warning(LocalizationHelper.GetString("HotKeyRegistrationFailedDuplicate"));
+                GrowlHelper.Warning(LocalizationHelper.GetString("HotKeyRegistrationFailedDuplicate"));
             }
             else if (result == MaaHotKeyRegistrationResult.OccupiedByOtherApp)
             {
-                Growl.Warning(LocalizationHelper.GetString("HotKeyRegistrationFailedOccupied"));
+                GrowlHelper.Warning(LocalizationHelper.GetString("HotKeyRegistrationFailedOccupied"));
             }
         }
         else
@@ -620,7 +620,7 @@ public class SettingsViewModel : Screen
 
         if (existsInFactory)
         {
-            Growl.Info(new GrowlInfo {
+            GrowlHelper.Info(new GrowlInfo {
                 IsCustom = true,
                 Message = LocalizationHelper.GetStringFormat("ConfigExists", NewConfigurationName),
                 IconKey = "HangoverGeometry",
@@ -631,7 +631,7 @@ public class SettingsViewModel : Screen
 
         if (!ConfigFactory.AddConfiguration(NewConfigurationName, CurrentConfiguration))
         {
-            Growl.Info(new GrowlInfo {
+            GrowlHelper.Info(new GrowlInfo {
                 IsCustom = true,
                 Message = LocalizationHelper.GetStringFormat("ConfigExists", NewConfigurationName),
                 IconKey = "HangoverGeometry",
@@ -645,7 +645,7 @@ public class SettingsViewModel : Screen
         // 配置数量大于 1 时，标题栏显示配置名
         UpdateWindowTitle();
 
-        Growl.Info(new GrowlInfo {
+        GrowlHelper.Info(new GrowlInfo {
             IsCustom = true,
             Message = LocalizationHelper.GetStringFormat("AddConfigSuccess", NewConfigurationName),
             IconKey = "HangoverGeometry",

@@ -61,11 +61,11 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
                 Message = $"{LocalizationHelper.GetString("AchievementBackupSuccess")} {Path.Combine(selectedPath, fileName)}.json",
                 StaysOpen = true,
             };
-            Growl.Success(growlInfo);
+            GrowlHelper.Success(growlInfo);
         }
         else
         {
-            Growl.Error(LocalizationHelper.GetString("AchievementRestoreFailed"));
+            GrowlHelper.Error(LocalizationHelper.GetString("AchievementRestoreFailed"));
         }
     }
 
@@ -101,11 +101,11 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
 
             AchievementTrackerHelper.Instance.Save();
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.LoadLastSave);
-            Growl.Success(LocalizationHelper.GetString("AchievementRestoreSuccess"));
+            GrowlHelper.Success(LocalizationHelper.GetString("AchievementRestoreSuccess"));
         }
         else
         {
-            Growl.Error(LocalizationHelper.GetString("AchievementRestoreFailed"));
+            GrowlHelper.Error(LocalizationHelper.GetString("AchievementRestoreFailed"));
         }
     }
 

@@ -79,7 +79,7 @@ public sealed class NotificationService
         var (available, detail) = ToastNotification.ToastNotificationCheck();
         if (!available)
         {
-            HandyControl.Controls.Growl.Error(LocalizationHelper.GetStringFormat("ToastNotificationUnavailable", detail));
+            GrowlHelper.Error(LocalizationHelper.GetStringFormat("ToastNotificationUnavailable", detail));
         }
     }
 

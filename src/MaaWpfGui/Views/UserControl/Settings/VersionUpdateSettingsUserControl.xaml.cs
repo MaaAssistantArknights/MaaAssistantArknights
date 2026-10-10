@@ -157,7 +157,7 @@ public partial class VersionUpdateSettingsUserControl : System.Windows.Controls.
             IconBrushKey = "TextIconBrush",
         };
 
-        Growl.Info(growlInfo);
+        GrowlHelper.Info(growlInfo);
         */
     }
 }

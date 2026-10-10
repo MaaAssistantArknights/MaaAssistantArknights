@@ -181,7 +181,7 @@ public class StageManager
                 growlInfo.Message = LocalizationHelper.GetString("ApiUpdateSuccess");
             }
 
-            Growl.Info(growlInfo);
+            GrowlHelper.Info(growlInfo);
         });
     }
 

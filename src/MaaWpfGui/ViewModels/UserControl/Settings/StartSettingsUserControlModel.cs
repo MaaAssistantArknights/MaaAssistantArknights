@@ -192,12 +192,12 @@ public class StartSettingsUserControlModel : PropertyChangedBase
                 {
                     ConnectSettings.RetryOnDisconnected = false;
                     OpenEmulatorAfterLaunch = false;
-                    Growl.Warning(LocalizationHelper.GetString("EmulatorPathEmptyWarning"));
+                    GrowlHelper.Warning(LocalizationHelper.GetString("EmulatorPathEmptyWarning"));
                 }
             }
             else if (!File.Exists(value))
             {
-                Growl.Warning(LocalizationHelper.GetString("EmulatorPathNotExist"));
+                GrowlHelper.Warning(LocalizationHelper.GetString("EmulatorPathNotExist"));
             }
 
             SetAndNotify(ref field, value);
@@ -265,12 +265,12 @@ public class StartSettingsUserControlModel : PropertyChangedBase
                 {
                     ConnectSettings.RetryPcClientOnDisconnected = false;
                     OpenPcClientAfterLaunch = false;
-                    Growl.Warning(LocalizationHelper.GetString("PcClientPathEmptyWarning"));
+                    GrowlHelper.Warning(LocalizationHelper.GetString("PcClientPathEmptyWarning"));
                 }
             }
             else if (!File.Exists(value))
             {
-                Growl.Warning(LocalizationHelper.GetString("PcClientPathNotExist"));
+                GrowlHelper.Warning(LocalizationHelper.GetString("PcClientPathNotExist"));
             }
 
             SetAndNotify(ref field, value);

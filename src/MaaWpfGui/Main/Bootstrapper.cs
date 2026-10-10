@@ -1467,7 +1467,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         {
             _logger.Warning("Task blocked: core is still loading");
             var reason = LocalizationHelper.GetString("CoreLoadingTip");
-            Execute.OnUIThread(() => Growl.Warning(reason));
+            Execute.OnUIThread(() => GrowlHelper.Warning(reason));
             return reason;
         }
 
