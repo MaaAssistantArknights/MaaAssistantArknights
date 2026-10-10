@@ -958,6 +958,10 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="OperProgressSkillNumber">Skill {0}</system:String>
     <system:String x:Key="OperProgressOnlineEditor">Edit the plan online with Arknights Toolbox</system:String>
     <system:String x:Key="OperProgress.Detail">{key=OperProgress} {0}:{1} {2}</system:String>
+    <system:String x:Key="OperProgress.ParseUnknownOperator">{key=ParseFailed}\nunknown oper: {0}-{1}</system:String>
+    <system:String x:Key="OperProgress.ParseNoTargetForOperator">{key=ParseFailed}\nno target set for oper: {0}-{1}</system:String>
+    <system:String x:Key="OperProgress.PlanNotFound">Could not find matching plan for OperProgressDetail</system:String>
+    <system:String x:Key="OperProgress.PlanHasBothIdAndName">Plan with both id and oper name</system:String>
     <system:String x:Key="Visiting">Visit Friends</system:String>
     <system:String x:Key="Mall">Credit Store</system:String>
     <system:String x:Key="Mission">Collect Rewards</system:String>

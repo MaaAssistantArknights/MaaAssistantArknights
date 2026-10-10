@@ -958,6 +958,10 @@ C:\leidian\LDPlayer9
     <system:String x:Key="OperProgressSkillNumber">技能 {0}</system:String>
     <system:String x:Key="OperProgressOnlineEditor">在明日方舟工具箱中在线编辑计划</system:String>
     <system:String x:Key="OperProgress.Detail">{key=OperProgress} {0}:{1} {2}</system:String>
+    <system:String x:Key="OperProgress.ParseUnknownOperator">{key=ParseFailed}\n未知干员：{0}-{1}</system:String>
+    <system:String x:Key="OperProgress.ParseNoTargetForOperator">{key=ParseFailed}\n干员 {0}-{1} 未设置培养目标</system:String>
+    <system:String x:Key="OperProgress.PlanNotFound">未找到与 OperProgressDetail 匹配的培养计划</system:String>
+    <system:String x:Key="OperProgress.PlanHasBothIdAndName">培养计划中不能同时指定 id 和干员名</system:String>
     <system:String x:Key="Visiting">访问好友</system:String>
     <system:String x:Key="Mall">信用收支</system:String>
     <system:String x:Key="Mission">领取奖励</system:String>
