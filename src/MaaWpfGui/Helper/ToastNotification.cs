@@ -21,8 +21,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Interop;
 using HandyControl.Controls;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper.Notification;
-using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.WineCompat;
 using Microsoft.Win32;
 using Notification.Wpf.Constants;
@@ -290,8 +290,11 @@ public class ToastNotification : IDisposable
         NotificationSounds sound = NotificationSounds.Notification, params NotificationHint[] hints)
     {
         Execute.OnUIThread(() => {
-            // TODO: 整理过时代码
-            if (!SettingsViewModel.NotificationSettings.UseNotify || !ToastNotificationCheck().IsAvailable)
+            // 启动早期（SettingsViewModel 静态构造、SimpleEncryptionHelper 解密失败提示、
+            // 配置迁移 converter 等）也会走到本方法，不可触碰 SettingsViewModel 静态成员，
+            // 否则循环触发其类型初始化器、在 NotificationSettings 赋值前拿到 null 导致启动崩溃，
+            // 故此处豁免“设置值一律走 SettingsViewModel.XxxSettings”约定，直读配置
+            if (!ConfigFactory.Root.Gui.UseNotify || !ToastNotificationCheck().IsAvailable)
             {
                 Growl.Info(_notificationTitle + _contentCollection);
                 return;
