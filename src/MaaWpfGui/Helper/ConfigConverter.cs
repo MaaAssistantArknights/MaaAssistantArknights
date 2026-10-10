@@ -561,7 +561,8 @@ public class ConfigConverter
                 throw new Exception($"Config migration failed, unable to switch to config: {configName}");
             }
 
-            // 性能设置
+            // 性能设置（仅读取当前档案，避免多档案循环互相覆盖全局值）
+            if (configName == currentConfigName)
             {
                 ConfigFactory.Root.Gui.Performance.UseGpu = ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceUseGpu, false);
                 ConfigFactory.Root.Gui.Performance.GpuDescription = ConfigurationHelper.GetValue(ConfigurationKeys.PerformancePreferredGpuDescription, string.Empty);

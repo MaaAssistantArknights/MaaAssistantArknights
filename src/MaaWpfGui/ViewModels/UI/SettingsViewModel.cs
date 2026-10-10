@@ -219,8 +219,8 @@ public class SettingsViewModel : Screen
 
         bool isAdded = false;
 
-        // 过滤持久化顺序表里已删除的设置项死键，避免渲染出空区块
-        var orderList = ConfigFactory.Root.Gui.SettingOrders.Where(k => keyList.Contains(k)).ToList();
+        // 已删除设置项的死键由 FaultTolerantRootConverter 在反序列化期捕获枚举转换异常并剔除
+        var orderList = ConfigFactory.Root.Gui.SettingOrders.ToList();
         foreach (var key in keyList.Where(k => !orderList.Any(o => o == k)))
         {
             isAdded = true;
