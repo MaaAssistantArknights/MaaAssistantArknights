@@ -397,7 +397,32 @@ asst::AutoRecruitTask::recruit_result asst::AutoRecruitTask::recruit_one(const R
         return recruit_result::failed;
     }
 
+    // the recruit home page keeps showing the old slot state until the game responds
+    if (!wait_until_slot_recruiting(slot_index_from_rect(button))) {
+        LogWarn << __FUNCTION__ << "slot" << slot_index_from_rect(button) << "is not shown as recruiting yet";
+    }
+
     return recruit_result::confirmed;
+}
+
+bool asst::AutoRecruitTask::wait_until_slot_recruiting(slot_index index)
+{
+    LogTraceFunction;
+
+    static constexpr int wait_limit = 10;
+    const int delay = Config.get_options().task_delay;
+
+    for (int i = 0; i < wait_limit && !need_exit(); ++i) {
+        OCRer analyzer(ctrler()->get_image());
+        analyzer.set_task_info("RecruitNow");
+        if (analyzer.analyze() && std::ranges::any_of(analyzer.get_result(), [&](const TextRect& r) {
+                return slot_index_from_rect(r.rect) == index;
+            })) {
+            return true;
+        }
+        sleep(delay);
+    }
+    return false;
 }
 
 // set recruit timer and tags only
