@@ -566,8 +566,10 @@ labels:
 comments:
   - name: Log upload failed
     regexes: '(?:\[Uploading asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)…\]\(\))|<!-- (?:Failed to upload|Uploading) "(log|report)[^"]*\.zip"(?:\.\.\.)? -->'
-    content: "你的日志没有上传成功，请重新上传。\n\n\
-      Your log did not upload successfully, please re-upload it."
+    content: "你的日志没有上传成功，请重新上传。\n\
+      如果日志压缩包过大，请不要上传整个大压缩包，改为上传同目录下对应 `_parts` 文件夹里的全部分卷压缩包。\n\n\
+      Your log did not upload successfully, please re-upload it.\n\
+      If the archive is too large, please do not upload the whole archive. Instead, upload all split archives from the corresponding `_parts` folder in the same directory."
     mode: add
   - name: Upload failed
     regexes: "^[^`]*(`[^`]+`[^`]*)*(\\[Uploading[^\\]]*…\\]\\(\\)|<!-- Failed to upload|<!-- Uploading)"
