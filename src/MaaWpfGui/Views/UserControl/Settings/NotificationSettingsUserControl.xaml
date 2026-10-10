@@ -9,6 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
+    xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type settings_vms:NotificationSettingsUserControlModel}}"
     s:View.ActionTarget="{Binding}"
@@ -54,7 +55,7 @@
                 Margin="10,10,10,0"
                 HorizontalAlignment="Center"
                 Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource NotifyBeforeScheduledStart}" IsChecked="{Binding NotifyBeforeScheduledStart, Source={x:Static settings_vms:TimerSettingsUserControlModel.Instance}}" />
+                <CheckBox Content="{DynamicResource NotifyBeforeScheduledStart}" IsChecked="{Binding NotifyBeforeScheduledStart, Source={x:Static ui_vms:SettingsViewModel.TimerSettings}}" />
                 <controls:TooltipBlock TooltipText="{DynamicResource NotifyBeforeScheduledStartTip}" />
             </StackPanel>
         </StackPanel>
