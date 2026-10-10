@@ -409,8 +409,8 @@ bool asst::AutoRecruitTask::wait_until_slot_recruiting(slot_index index)
 {
     LogTraceFunction;
 
-    static constexpr int wait_limit = 10;
-    const int delay = Config.get_options().task_delay;
+    static constexpr int wait_limit = 15;
+    static constexpr int delay = 200;
 
     for (int i = 0; i < wait_limit && !need_exit(); ++i) {
         OCRer analyzer(ctrler()->get_image());
