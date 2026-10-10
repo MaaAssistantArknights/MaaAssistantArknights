@@ -57,18 +57,51 @@
                         Click="PresetSplitButton_Click"
                         Content="{DynamicResource DepotPreset}">
                         <hc:SplitButton.DropDownContent>
-                            <Menu ItemsSource="{Binding PresetList, Source={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}" MenuItem.Click="{s:Action PresetMenuClick}">
-                                <Menu.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Vertical" />
-                                    </ItemsPanelTemplate>
-                                </Menu.ItemsPanel>
-                                <Menu.ItemContainerStyle>
-                                    <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="MenuItem">
+                            <StackPanel IsVisibleChanged="{s:Action PresetDropDownVisibilityChanged}">
+                                <StackPanel.Resources>
+                                    <Style
+                                        x:Key="PresetMenuItemStyle"
+                                        BasedOn="{StaticResource {x:Type MenuItem}}"
+                                        TargetType="MenuItem">
                                         <Setter Property="Header" Value="{Binding Display}" />
                                     </Style>
-                                </Menu.ItemContainerStyle>
-                            </Menu>
+                                </StackPanel.Resources>
+                                <controls:TextBlock
+                                    Margin="10,4,0,2"
+                                    HorizontalAlignment="Left"
+                                    FontWeight="Bold"
+                                    Foreground="{DynamicResource SecondaryTextBrush}"
+                                    Text="{DynamicResource DepotPresetPermanent}"
+                                    Visibility="{c:Binding 'ActivityPresetList.Count > 0'}" />
+                                <Menu
+                                    ItemContainerStyle="{StaticResource PresetMenuItemStyle}"
+                                    ItemsSource="{Binding PresetList, Source={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}"
+                                    MenuItem.Click="{s:Action PresetMenuClick}">
+                                    <Menu.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical" />
+                                        </ItemsPanelTemplate>
+                                    </Menu.ItemsPanel>
+                                </Menu>
+                                <StackPanel Visibility="{c:Binding 'ActivityPresetList.Count > 0'}">
+                                    <controls:TextBlock
+                                        Margin="10,4,0,2"
+                                        HorizontalAlignment="Left"
+                                        FontWeight="Bold"
+                                        Foreground="{DynamicResource SecondaryTextBrush}"
+                                        Text="{DynamicResource DepotPresetCurrentActivity}" />
+                                    <Menu
+                                        ItemContainerStyle="{StaticResource PresetMenuItemStyle}"
+                                        ItemsSource="{Binding ActivityPresetList, Source={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}"
+                                        MenuItem.Click="{s:Action PresetMenuClick}">
+                                        <Menu.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Vertical" />
+                                            </ItemsPanelTemplate>
+                                        </Menu.ItemsPanel>
+                                    </Menu>
+                                </StackPanel>
+                            </StackPanel>
                         </hc:SplitButton.DropDownContent>
                     </hc:SplitButton>
                 </WrapPanel>
@@ -367,6 +400,10 @@
             <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
                 <CheckBox Content="{DynamicResource DepotOnlyFirstInsufficientPlan}" IsChecked="{Binding OnlyFirstInsufficientPlan}" />
                 <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource DepotOnlyFirstInsufficientPlanTip}" />
+            </StackPanel>
+            <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
+                <CheckBox Content="{DynamicResource DepotSortByProgress}" IsChecked="{Binding SortByProgress}" />
+                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource DepotSortByProgressTip}" />
             </StackPanel>
 
             <hc:Divider Margin="0,12,0,0" Content="{DynamicResource DepotGroupStageAndBattle}" />

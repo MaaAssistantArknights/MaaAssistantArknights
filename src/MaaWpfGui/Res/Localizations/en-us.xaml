@@ -1078,6 +1078,9 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="DepotPresetLmd">LMD</system:String>
     <system:String x:Key="DepotPresetCertificate">Purchase Certificates</system:String>
     <system:String x:Key="DepotPresetSkillSummary">Skill Summary - III</system:String>
+    <system:String x:Key="DepotPresetPermanent">Permanent Stages</system:String>
+    <system:String x:Key="DepotPresetCurrentActivity">Current Event</system:String>
+    <system:String x:Key="DepotPresetActivitySkipConflict">｢{key=DepotSkipDuringActivity}｣ is enabled, imported plans will not run while an event is open</system:String>
     <system:String x:Key="CollapseAll">Collapse</system:String>
     <system:String x:Key="ClearPlans">Clear</system:String>
     <system:String x:Key="ClearPlansConfirm">Are you sure you want to clear all plans?</system:String>
@@ -1091,10 +1094,13 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="DepotPlanStageNotOpen">#{0}: stage '{1}' is not open</system:String>
     <system:String x:Key="DepotPlanAddTaskFailed">#{0}: add task failed</system:String>
     <system:String x:Key="DepotPlanNoPlan">No plans configured</system:String>
+    <system:String x:Key="DepotPlanSortedByProgress">Plans queued in ascending inventory progress order</system:String>
     <system:String x:Key="DepotSkipDuringActivity">Skip during event</system:String>
     <system:String x:Key="DepotSkipDuringResourceCollection">Skip during resource collection limited-time all-day open</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlan">Only execute the first insufficient plan</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlanTip" xml:space="preserve">Only the first insufficient plan that is open today will be queued.&#10;The log stops there; plans after it are not evaluated this run.&#10;Once it is stocked up, the next run continues with the rest.</system:String>
+    <system:String x:Key="DepotSortByProgress">Execute in inventory progress order</system:String>
+    <system:String x:Key="DepotSortByProgressTip" xml:space="preserve">When checked, plans are queued each run in ascending inventory progress order, so the plan with the largest shortfall ratio gets sanity first.&#10;The display order of the list is unchanged; drag-and-drop ordering only takes effect when unchecked.&#10;Ordering uses the cached inventory from the last scan; each plan still recalculates its shortfall from the latest inventory when it starts.</system:String>
     <system:String x:Key="DepotPlanSkippedActivity">An event is in progress</system:String>
     <system:String x:Key="DepotPlanSkippedResourceCollection">Resource collection limited-time all-day open is in progress</system:String>
     <system:String x:Key="DepotPlanUpdateDepotFailed">Failed to update inventory data.</system:String>

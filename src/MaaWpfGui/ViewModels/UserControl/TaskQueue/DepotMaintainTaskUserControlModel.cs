@@ -74,6 +74,10 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         // 任务开始时用最新库存重算该 plan 的缺口；任务正常结束但未达标时记录临期药耗尽证明
         Instances.AsstProxy.OnTaskStatusChanged += OnTaskStatusChanged;
 
+        // 关卡数据（本地缓存或 OTA）重载后刷新活动预设列表；触发可能在非 UI 线程，异步投递回 UI 线程
+        Instances.StageManager.StageDataChanged += (_, _) => _ = Execute.OnUIThreadAsync(RefreshActivityPresetList);
+        RefreshActivityPresetList();
+
         // 语言切换时由 FightSettings.RebuildDropsList 显式调用 OnLanguageChanged
     }
 
@@ -171,7 +175,15 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         {
             _serializedDepotMaintainTasks.Remove(task);
             var depotList = Instances.ToolboxViewModel?.DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count) ?? [];
-            foreach (var (plan, index) in task.PlanList.Select((plan, index) => (plan, index)))
+
+            // SortByProgress 开启时按下发口径（达成率升序）挑选提示对象，与实际执行顺序一致
+            var plans = task.PlanList.Select((plan, index) => (plan, index));
+            if (task.SortByProgress)
+            {
+                plans = plans.OrderBy(p => PlanProgress(p.plan, depotList));
+            }
+
+            foreach (var (plan, index) in plans)
             {
                 if (plan.TaskId > 0 || string.IsNullOrEmpty(plan.DropId) || plan.DropCount <= 0 ||
                     !Instances.StageManager.IsStageOpen(plan.Stage, Instances.TaskQueueViewModel.CurDayOfWeek))
@@ -230,6 +242,16 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     {
         get => GetTaskConfig<DepotMaintainTask>().OnlyFirstInsufficientPlan;
         set => SetTaskConfig<DepotMaintainTask>(t => t.OnlyFirstInsufficientPlan == value, t => t.OnlyFirstInsufficientPlan = value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 序列化时按库存达成率（当前÷目标，升序）临时排序下发计划。
+    /// 默认关闭（按列表顺序执行）；开启后缺口比例最大的计划优先获得理智，配置中的列表顺序保持不变。
+    /// </summary>
+    public bool SortByProgress
+    {
+        get => GetTaskConfig<DepotMaintainTask>().SortByProgress;
+        set => SetTaskConfig<DepotMaintainTask>(t => t.SortByProgress == value, t => t.SortByProgress = value);
     }
 
     /// <summary>
@@ -335,23 +357,80 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         ["CA5"] = [("CA-5", ["3303"], 400)],        // 技巧概要·卷3
     };
 
-    public void AddPresetPlan(string presetValue)
+    /// <summary>
+    /// 活动预设默认目标数量，导入后按个人兑换计划调整。
+    /// </summary>
+    private const int ActivityPresetDefaultCount = 200;
+
+    /// <summary>
+    /// 当前进行中活动的预设列表（Display 为活动名，Value 为 <see cref="StageManager.ActivityList"/> 的 key），
+    /// 随关卡数据重载刷新；无进行中活动时为空，菜单隐藏活动分组。
+    /// </summary>
+    public ObservableCollection<GenericCombinedData<string>> ActivityPresetList { get; private set => SetAndNotify(ref field, value); } = [];
+
+    /// <summary>
+    /// 刷新活动预设列表：筛当前进行中的活动，且至少含一个掉落为已知物品的关卡（其余为文案型 Drop，无可生成计划）。
+    /// </summary>
+    private void RefreshActivityPresetList()
     {
-        if (!PresetData.TryGetValue(presetValue, out var stages))
+        var time = DateTimeOffset.Now;
+        var list = Instances.StageManager.ActivityList
+            .Where(a => a.Value.Info.StartTimeUtc <= time && time <= a.Value.Info.ExpireTimeUtc)
+            .Where(a => a.Value.StageList.Any(s => !string.IsNullOrEmpty(s.Drop) && ItemListHelper.ArkItems.ContainsKey(s.Drop)))
+            .Select(a => new GenericCombinedData<string>(string.IsNullOrEmpty(a.Value.Info.StageName) ? a.Key : a.Value.Info.StageName, a.Key))
+            .ToList();
+        ActivityPresetList = [.. list];
+    }
+
+    /// <summary>
+    /// 导入指定进行中活动的预设：关卡表中掉落为已知物品的关卡一对一生成计划，目标数量为统一默认值。
+    /// </summary>
+    /// <param name="activityKey"><see cref="StageManager.ActivityList"/> 的活动 key。</param>
+    public void AddActivityPresetPlan(string activityKey)
+    {
+        var activityList = Instances.StageManager.ActivityList;
+        if (!activityList.TryGetValue(activityKey, out var activity))
         {
             return;
         }
 
-        var list = PlanList.ToList();
-        foreach (var (stage, drops, defaultCount) in stages)
+        var plans = activity.StageList
+            .Where(s => !string.IsNullOrEmpty(s.Drop) && ItemListHelper.ArkItems.ContainsKey(s.Drop))
+            .Select(s => (s.Value, DropId: s.Drop, Count: ActivityPresetDefaultCount));
+        AppendPlans(plans);
+
+        // 快捷导入不干预运行语义， ｢活动期间跳过｣ 开启时仅提示，导入的计划在活动期间不会执行
+        if (GetTaskConfig<DepotMaintainTask>().SkipDuringActivity)
         {
-            foreach (var dropId in drops)
-            {
-                var dropName = ItemListHelper.GetItemName(dropId) ?? LocalizationHelper.GetString("NotSelected");
-                var plan = new DepotPlanItemViewModel(stage, dropId, dropName, defaultCount);
-                plan.PropertyChanged += PlanItem_PropertyChanged;
-                list.Add(plan);
-            }
+            GrowlHelper.Warning(LocalizationHelper.GetString("DepotPresetActivitySkipConflict"));
+        }
+    }
+
+    public void AddPresetPlan(string presetValue)
+    {
+        if (PresetData.TryGetValue(presetValue, out var stages))
+        {
+            AppendPlans(stages.SelectMany(t => t.Drops.Select(dropId => (t.Stage, DropId: dropId, Count: t.DefaultCount))));
+            return;
+        }
+
+        // 静态预设未命中时按活动预设分发（预设菜单的统一入口）
+        AddActivityPresetPlan(presetValue);
+    }
+
+    /// <summary>
+    /// 批量追加计划并同步配置。
+    /// </summary>
+    /// <param name="plans">(关卡, 材料 id, 目标数量) 序列。</param>
+    private void AppendPlans(IEnumerable<(string Stage, string DropId, int Count)> plans)
+    {
+        var list = PlanList.ToList();
+        foreach (var (stage, dropId, count) in plans)
+        {
+            var dropName = ItemListHelper.GetItemName(dropId) ?? LocalizationHelper.GetString("NotSelected");
+            var plan = new DepotPlanItemViewModel(stage, dropId, dropName, count);
+            plan.PropertyChanged += PlanItem_PropertyChanged;
+            list.Add(plan);
         }
 
         PlanList = new(list);
@@ -361,6 +440,20 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         ReindexPlans();
         SyncPlanListToTaskConfig();
         NotifyOfPropertyChange(nameof(PlanInfo));
+    }
+
+    /// <summary>
+    /// 预设下拉打开时重估活动时间窗口：活动开始/结束时刻不触发关卡数据事件，以打开时刻的墙钟重查一次。
+    /// </summary>
+    /// <param name="sender">事件发送者。</param>
+    /// <param name="e">可见性变化参数。</param>
+    [UsedImplicitly]
+    public void PresetDropDownVisibilityChanged(object sender, DependencyPropertyChangedEventArgs e)
+    {
+        if (e.NewValue is true)
+        {
+            RefreshActivityPresetList();
+        }
     }
 
     /// <summary>
@@ -422,6 +515,24 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
         var item = depot.FirstOrDefault(i => i.Id == dropId);
         return item?.Count >= 0 ? item.Count.ToString() : "--";
+    }
+
+    /// <summary>
+    /// 计算计划的库存达成率（当前÷目标），供 <see cref="SortByProgress"/> 排序。
+    /// 无效计划（未选材料或目标为 0）排最后；未识别过的材料按 0 计，与预检口径一致，缺口最大优先。
+    /// </summary>
+    /// <param name="plan">计划。</param>
+    /// <param name="depotList">识别缓存的库存数量表。</param>
+    /// <returns>达成率，0 起步；无效计划返回 <see cref="double.MaxValue"/>。</returns>
+    private static double PlanProgress(DepotMaintainTask.Plan plan, IReadOnlyDictionary<string, int> depotList)
+    {
+        if (string.IsNullOrEmpty(plan.DropId) || plan.DropCount <= 0)
+        {
+            return double.MaxValue;
+        }
+
+        var currentCount = depotList.TryGetValue(plan.DropId, out var value) ? value : 0;
+        return (double)currentCount / plan.DropCount;
     }
 
     /// <summary>
@@ -635,7 +746,16 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             _ = _serializedDepotMaintainTasks.Add(depot);
 
             var depotList = Instances.ToolboxViewModel?.DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count) ?? [];
-            for (int i = 0; i < depot.PlanList.Count; i++)
+
+            // 按达成率排序时仅调整下发顺序（升序，缺口比例最大优先），配置中的列表顺序不变；写回 TaskId 与日志序号仍用原列表索引，与 UI 列表对应
+            var order = Enumerable.Range(0, depot.PlanList.Count).ToList();
+            if (depot.SortByProgress && depot.PlanList.Count > 1)
+            {
+                order = [.. order.OrderBy(i => PlanProgress(depot.PlanList[i], depotList))];
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DepotPlanSortedByProgress"), UiLogColor.Info);
+            }
+
+            foreach (var i in order)
             {
                 var plan = depot.PlanList[i];
                 depot.PlanList[i] = plan with { TaskId = 0 }; // 主动重置 TaskId

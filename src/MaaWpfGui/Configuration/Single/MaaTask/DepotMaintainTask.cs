@@ -47,6 +47,12 @@ public class DepotMaintainTask : BaseTask
     public bool OnlyFirstInsufficientPlan { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 序列化时按库存达成率（当前÷目标，升序）临时排序下发计划。
+    /// 默认关闭（按列表顺序执行）；开启后缺口比例最大的计划优先获得理智，配置中的列表顺序保持不变。
+    /// </summary>
+    public bool SortByProgress { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 使用 AUTO 代理倍率（Series = 0）。
     /// 默认关闭（按 1 倍刷取）；开启后单次进入可能因高倍率超过目标库存上限。
     /// </summary>

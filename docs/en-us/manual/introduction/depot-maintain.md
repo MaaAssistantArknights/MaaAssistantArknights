@@ -34,7 +34,7 @@ Each plan contains the following:
 | Use Sanity Potion | Check to set the number of sanity potions to use.                                                                      |
 | Use Originium     | Check to set the number of Originium to use.                                                                           |
 
-Items in the plan list can be **dragged to reorder**. Plans are executed in order during the task.
+Items in the plan list can be **dragged to reorder**. Plans are executed in order during the task; when "[Execute in inventory progress order](#execute-in-inventory-progress-order)" is enabled, plans are instead queued by inventory progress, and drag ordering only takes effect while it is disabled.
 
 ::: tip Skipping when sanity is insufficient
 
@@ -54,6 +54,12 @@ Built-in presets for quick plan population:
 - **LMD**: CE-6, target 5,000,000 (4x the development cost of a six-star operator)
 - **Purchase Certificates (Red Tickets)**: AP-5, target 8,000 (8 six-star tokens + 8 five-star tokens + monthly module data blocks)
 - **Skill Summary SP3**: CA-5, target 400 (4x the development cost of a six-star operator)
+
+### Current Event
+
+When a SideStory event is open, the preset menu also lists current events; reruns and new events running at the same time are listed separately. Clicking an event name creates one plan per stage in the event's stage table whose drop is a material, with a uniform target inventory of 200; adjust the targets to your own exchange plan after importing.
+
+If "[Skip during events](#skip-during-events)" is enabled, a notice appears on import: these plans will not run while the event is open.
 
 ## Advanced Settings
 
@@ -88,3 +94,9 @@ When checked, the entire Depot Maintain task is skipped if resource collection s
 ### Only execute the first insufficient plan
 
 When checked, each run only executes the first plan with insufficient stock that is open today, and the log stops at that plan; once it is stocked up, the next run automatically continues with the following plans. Plans not executable today (stage not open, invalid configuration) are skipped.
+
+### Execute in inventory progress order
+
+When checked, plans are queued each run in ascending inventory progress order, so the plan with the largest shortfall ratio gets sanity first; the display order of the list is unchanged, and drag ordering only takes effect while unchecked.
+
+Ordering uses the cached inventory from the last scan (same source as the pre-check). Each plan still recalculates its shortfall from the latest inventory when it starts: a plan queued ahead by stale data is simply skipped if it has actually reached its target, wasting no sanity. Materials never scanned count as 0, i.e. treated as the largest shortfall and farmed first; invalid plans (no material selected or target 0) go last. When combined with "[Only execute the first insufficient plan](#only-execute-the-first-insufficient-plan)", the "first" plan executed is the one with the largest shortfall ratio.

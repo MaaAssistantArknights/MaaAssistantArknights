@@ -1078,6 +1078,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPresetLmd">龙门币</system:String>
     <system:String x:Key="DepotPresetCertificate">采购凭证（红票）</system:String>
     <system:String x:Key="DepotPresetSkillSummary">技巧概要·卷3</system:String>
+    <system:String x:Key="DepotPresetPermanent">常驻关卡</system:String>
+    <system:String x:Key="DepotPresetCurrentActivity">当前活动</system:String>
+    <system:String x:Key="DepotPresetActivitySkipConflict">｢{key=DepotSkipDuringActivity}｣ 已开启，导入的计划在活动期间不会执行</system:String>
     <system:String x:Key="CollapseAll">折叠</system:String>
     <system:String x:Key="ClearPlans">清空</system:String>
     <system:String x:Key="ClearPlansConfirm">确认要清空所有计划吗？</system:String>
@@ -1091,10 +1094,13 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPlanStageNotOpen">#{0}：关卡 ｢{1}｣ 未开放</system:String>
     <system:String x:Key="DepotPlanAddTaskFailed">#{0}：添加任务失败</system:String>
     <system:String x:Key="DepotPlanNoPlan">未配置任何计划</system:String>
+    <system:String x:Key="DepotPlanSortedByProgress">已按库存达成率从低到高排序执行</system:String>
     <system:String x:Key="DepotSkipDuringActivity">活动期间跳过</system:String>
     <system:String x:Key="DepotSkipDuringResourceCollection">资源收集限时全天开放期间跳过</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlan">仅执行第一个库存不足的计划</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlanTip" xml:space="preserve">仅执行第一个库存不足且当日可执行的计划，日志也只显示到该计划为止。&#10;该计划补满后，下次运行自动继续后续计划，当日不可执行的会被跳过。</system:String>
+    <system:String x:Key="DepotSortByProgress">按库存达成率排序执行</system:String>
+    <system:String x:Key="DepotSortByProgressTip" xml:space="preserve">开启后，每次运行按库存达成率从低到高排序执行，缺口比例最大的计划优先获得理智。&#10;列表显示顺序不变，拖拽排序仅在关闭时生效。&#10;排序使用上次识别的缓存数据，每条计划开始时仍会按最新库存重算缺口。</system:String>
     <system:String x:Key="DepotPlanSkippedActivity">当前有活动进行中</system:String>
     <system:String x:Key="DepotPlanSkippedResourceCollection">当前处于资源收集限时全天开放期间</system:String>
     <system:String x:Key="DepotPlanUpdateDepotFailed">更新库存数据失败。</system:String>
