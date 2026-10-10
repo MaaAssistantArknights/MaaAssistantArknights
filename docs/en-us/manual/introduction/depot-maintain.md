@@ -6,7 +6,7 @@ icon: mdi:package-variant-closed
 # Depot Maintain
 
 ::: info UI-Only Feature
-This page covers UI-layer features. See [Getting Started](../newbie.md#about-this-documentation) for details.
+This page covers UI-layer features. See [Getting Started](../newbie.md) for details.
 :::
 
 Depot Maintain is a task that **automatically farms materials to a target inventory level**. It calculates the shortfall based on the cached depot data from [Depot Recognition](./tools.md#depot-recognition) and farms the specified stage until the target quantity is reached.

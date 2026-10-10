@@ -6,7 +6,7 @@ icon: icon-park-solid:other
 # 其他
 
 ::: info UI 專屬功能
-本頁多數功能由 UI 層實作，詳見[新手上路](../newbie.md#關於本文檔)中的說明。
+本頁多數功能由 UI 層實作，詳見[新手上路](../newbie.md)中的說明。
 :::
 
 ## GPU 加速推論
