@@ -139,8 +139,10 @@ def clamp_amplify(roi: list[int], width: int, height: int) -> list[int]:
     return [ax, ay, aw, ah]
 
 
-def draw_grid(image: np.ndarray, cell_x: int, cell_y: int, zoom: int = 1) -> np.ndarray:
-    """在（可能已放大的）图上叠加网格，图像居中、四周扩出边距标注线号。
+def draw_grid(
+    image: np.ndarray, cell_x: int, cell_y: int, factor: float = 1.0
+) -> np.ndarray:
+    """在（已按 factor 缩放的）图上叠加网格，图像居中、四周扩出边距标注线号。
 
     所有线只画在图内（黄色细分格线；基准线红/蓝交替，数线串行时颜色立即
     暴露），边距区标注每条线的 0-based 线号（N 格有 N+1 条线）且起始位置
@@ -148,11 +150,11 @@ def draw_grid(image: np.ndarray, cell_x: int, cell_y: int, zoom: int = 1) -> np.
     线 r = origin + r*cell_y（cell/origin 由命令行打印）。
     """
     height, width = image.shape[:2]
-    step_x = cell_x * zoom
-    step_y = cell_y * zoom
+    step_x = max(1, round(cell_x * factor))
+    step_y = max(1, round(cell_y * factor))
     line_color = (0, 230, 255)  # BGR 亮黄，细分格线
     font = cv2.FONT_HERSHEY_SIMPLEX
-    # 渲染规格与 zoom/step 全脱钩：字与线按固定像素绘制（1px 笔画在任何缩放下都清晰），
+    # 渲染规格与 step 全脱钩：字与线按固定像素绘制（1px 笔画在任何缩放下都清晰），
     # 仅当输出过宽、读图端会降采样展示时按输出宽度整体加粗（封顶 3px）保证降采样后存活
     font_scale = 0.5
     pad = 4
@@ -426,35 +428,36 @@ def draw_grid_cut(
     return canvas
 
 
-def fit_overlay(image: np.ndarray, cell_x: int, cell_y: int, zoom: int) -> np.ndarray:
-    """overlay 渲染的 720p 适配：输出=图+四周边距，超预算时按比例缩小图像。
+def fit_overlay(
+    image: np.ndarray, cell_x: int, cell_y: int, zoom: int
+) -> tuple[np.ndarray, float]:
+    """overlay 渲染的 720p 适配：zoom 为显示倍率下限，超预算时按比例缩小。
 
-    线密度（cell*zoom，两轴独立）不因此改变，序号密度由 draw_grid 内部的
-    label_every 稀疏化兜底。
+    线号语义不因缩放改变（线 c 恒对应原图 origin+c*cell，显示步长
+    =cell*factor），序号密度由 draw_grid 内部的 label_every 稀疏化兜底。
+    返回缩放后图像与实际 factor，调用方联动 draw_grid 线距与 stdout 打印。
     """
     height, width = image.shape[:2]
-    step_x = cell_x * zoom
-    step_y = cell_y * zoom
-    # 边距按 0.5 字号与最大序号位数保守估算（draw_grid 内部实际取值不会更大）
-    label_x = str(width // step_x)
-    label_y = str(height // step_y)
+    # 边距按 0.5 字号与最大序号位数保守估算（draw_grid 内部实际取值不会更大）；
+    # 线数 = 原图跨度 // cell，与 factor 无关（显示步长同比缩放）
     font = cv2.FONT_HERSHEY_SIMPLEX
-    (lwx, th), _ = cv2.getTextSize(label_x, font, 0.5, 1)
-    (lwy, _), _ = cv2.getTextSize(label_y, font, 0.5, 1)
+    (lwx, th), _ = cv2.getTextSize(str(width // cell_x), font, 0.5, 1)
+    (lwy, _), _ = cv2.getTextSize(str(height // cell_y), font, 0.5, 1)
     margin_x = max(lwx, lwy) + 8
     margin_y = th + 8
     factor = min(
-        1.0,
+        float(max(zoom, 1)),
         (DISPLAY_MAX_W - 2 * margin_x) / width,
         (DISPLAY_MAX_H - 2 * margin_y) / height,
     )
-    if factor < 1.0:
+    if factor != 1.0:
+        # 全局等比缩放：放大用最近邻保格子边界锐利，缩小用面积平均
         image = cv2.resize(
             image,
             (max(1, round(width * factor)), max(1, round(height * factor))),
-            interpolation=cv2.INTER_AREA,
+            interpolation=cv2.INTER_NEAREST if factor > 1 else cv2.INTER_AREA,
         )
-    return image
+    return image, factor
 
 
 def build_color_match(roi_image: np.ndarray, roi: list[int], connected: bool) -> dict:
@@ -696,12 +699,13 @@ def main() -> None:
             cell_info += f", region-cell={region_cell_x}x{region_cell_y}"
         if args.overlay:
             # 序号密度由 label_every 稀疏化兜底，仅需把输出压进 720p 预算
-            image = fit_overlay(image, cell_x, cell_y, args.zoom)
-            imwrite_unicode(str(out), draw_grid(image, cell_x, cell_y, args.zoom))
-            out_h, out_w = image.shape[:2]
+            image, overlay_factor = fit_overlay(image, cell_x, cell_y, args.zoom)
+            canvas = draw_grid(image, cell_x, cell_y, overlay_factor)
+            imwrite_unicode(str(out), canvas)
             print(
-                f"grid: {out.resolve()} ({out_w}x{out_h}, {cell_info}, "
-                f"zoom={args.zoom}, origin={origin}); line (c,r) -> pixel "
+                f"grid: {out.resolve()} ({canvas.shape[1]}x{canvas.shape[0]}, "
+                f"{cell_info}, factor={overlay_factor:g}, origin={origin}); "
+                f"line (c,r) -> pixel "
                 f"({origin[0]}+c*{cell_x}, {origin[1]}+r*{cell_y})"
             )
         else:
