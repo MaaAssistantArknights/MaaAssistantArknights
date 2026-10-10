@@ -1135,7 +1135,8 @@
             "(Fight@GoLastBattle)@QuickSwitch@ToTerminal#next",
             "Fight@ReturnButtons#next",
             "Fight",
-            "Fight@CloseAnnos#next"
+            "Fight@CloseAnnos#next",
+            "Fight@OfflineConfirm"
         ]
     },
     "FightBegin": {
@@ -1146,7 +1147,8 @@
             "Fight@UsePrts",
             "Fight@UsePrts-StageSN",
             "Fight@StartButton1",
-            "Fight@PRTS#next"
+            "Fight@PRTS#next",
+            "Fight@OfflineConfirm"
         ]
     },
     "LastOrCurBattleBegin": {
@@ -1160,7 +1162,8 @@
             "Fight@ReturnButtons#next",
             "Fight",
             "Fight@CloseAnnos#next",
-            "Fight@PRTS#next"
+            "Fight@PRTS#next",
+            "Fight@OfflineConfirm"
         ]
     },
     "UsePrts": {
@@ -1780,7 +1783,8 @@
             "MiningActivitiesReturnHome",
             "MiningActivitiesReturnHome@QuickSwitch@ToHome#next",
             "MiningActivitiesReturnHome@ReturnButtons#next",
-            "MiningActivities"
+            "MiningActivities",
+            "MiningActivities@OfflineConfirm"
         ]
     },
     "MiningActivitiesReturnHome": {
@@ -1820,7 +1824,8 @@
             "OrundumActivitiesReturnHome",
             "OrundumActivitiesReturnHome@QuickSwitch@ToHome#next",
             "OrundumActivitiesReturnHome@ReturnButtons#next",
-            "OrundumActivities"
+            "OrundumActivities",
+            "OrundumActivities@OfflineConfirm"
         ]
     },
     "OrundumActivitiesReturnHome": {
@@ -1893,7 +1898,8 @@
             "RecruitingActivitiesReturnHome",
             "RecruitingActivitiesReturnHome@QuickSwitch@ToHome#next",
             "RecruitingActivitiesReturnHome@ReturnButtons#next",
-            "RecruitingActivities"
+            "RecruitingActivities",
+            "RecruitingActivities@OfflineConfirm"
         ]
     },
     "RecruitingActivitiesReturnHome": {
@@ -1988,7 +1994,8 @@
             "SpecialAccessActivitiesReturnHome",
             "SpecialAccessActivitiesReturnHome@QuickSwitch@ToHome#next",
             "SpecialAccessActivitiesReturnHome@ReturnButtons#next",
-            "SpecialAccessActivities"
+            "SpecialAccessActivities",
+            "SpecialAccessActivities@OfflineConfirm"
         ]
     },
     "SpecialAccessActivitiesReturnHome": {
@@ -2036,7 +2043,8 @@
             "SignInEventReturnHome@QuickSwitch@ToHome#next",
             "SignInEventReturnHome@ReturnButtons#next",
             "SignInEventEnter",
-            "SignInEventEnterByIcon"
+            "SignInEventEnterByIcon",
+            "SignInEvent@OfflineConfirm"
         ]
     },
     "SignInEventReturnHome": {
@@ -2141,7 +2149,8 @@
             "Award",
             "AwardBegin@QuickSwitch@ToHome#next",
             "Award@ReturnButtons#next",
-            "Award@CloseAnnos#next"
+            "Award@CloseAnnos#next",
+            "Award@OfflineConfirm"
         ]
     },
     "Award": {
@@ -2195,7 +2204,8 @@
             "MailReturnToHome",
             "MailReturnToHome@QuickSwitch@ToHome#next",
             "MailReturnToHome@ReturnButtons#next",
-            "ReceiveMail"
+            "ReceiveMail",
+            "Mail@OfflineConfirm"
         ]
     },
     "MailReturnToHome": {
@@ -2244,7 +2254,8 @@
             "VisitNextBlack",
             "VisitBegin@QuickSwitch@ToHome#next",
             "Visit@ReturnButtons#next",
-            "Visit@CloseAnnos#next"
+            "Visit@CloseAnnos#next",
+            "Visit@OfflineConfirm"
         ]
     },
     "Visit": {
@@ -2313,7 +2324,8 @@
             "Mall#next",
             "MallBegin@QuickSwitch@ToMall#next",
             "Mall@ReturnButtons#next",
-            "Mall@CloseAnnos#next"
+            "Mall@CloseAnnos#next",
+            "Mall@OfflineConfirm"
         ]
     },
     "Mall": {
@@ -3911,7 +3923,7 @@
     "EndOfClueExchangeBegin": {
         "algorithm": "JustReturn",
         "postDelay": 1000,
-        "next": ["EndOfClueExchange", "ReceptionFlag"]
+        "next": ["EndOfClueExchange", "ReceptionFlag", "EndOfClueExchange@OfflineConfirm"]
     },
     "EndOfClueExchange": {
         "templThreshold": 0.7,
@@ -4970,7 +4982,8 @@
             "DepotAllTab",
             "DepotMaterialTabClicked",
             "DepotBegin@QuickSwitch@ToHome#next",
-            "Depot@ReturnButtons#next"
+            "Depot@ReturnButtons#next",
+            "Depot@OfflineConfirm"
         ]
     },
     "Depot": {
@@ -5054,7 +5067,8 @@
             "OperBoxRoleTab",
             "OperBoxRoleTabCollapsed",
             "OperBoxBegin@QuickSwitch@ToOperBox#next",
-            "OperBox@ReturnButtons#next"
+            "OperBox@ReturnButtons#next",
+            "OperBox@OfflineConfirm"
         ]
     },
     "OperBox": {
@@ -5149,7 +5163,7 @@
     },
     "OperParadoxBegin": {
         "algorithm": "JustReturn",
-        "next": ["OperOpenInformationMenu"],
+        "next": ["OperOpenInformationMenu", "OperParadox@OfflineConfirm"],
         "preDelay": 500,
         "postDelay": 500
     },
