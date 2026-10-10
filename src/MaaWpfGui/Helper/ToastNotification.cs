@@ -20,7 +20,6 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Interop;
-using HandyControl.Controls;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper.Notification;
 using MaaWpfGui.WineCompat;
@@ -296,7 +295,8 @@ public class ToastNotification : IDisposable
             // 故此处豁免“设置值一律走 SettingsViewModel.XxxSettings”约定，直读配置
             if (!ConfigFactory.Root.Gui.UseNotify || !ToastNotificationCheck().IsAvailable)
             {
-                Growl.Info(_notificationTitle + _contentCollection);
+                // 启动期主窗口可能尚未创建，经 GrowlHelper 暂存待窗口显示后补发
+                GrowlHelper.Info(_notificationTitle + _contentCollection);
                 return;
             }
 
