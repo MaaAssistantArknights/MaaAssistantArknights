@@ -50,7 +50,7 @@ Items in the plan list can be **dragged to reorder**. Plans are executed in orde
 Built-in presets for quick plan population:
 
 - **Low-tier Chips (all classes)**: PR-A/B/C/D-1, target 20 each
-- **High-tier Chip Packs (all classes)**: PR-A/B/C/D-2, target 20 each
+- **High-tier Chip Packs (all classes)**: PR-A/B/C/D-2, target 32 each
 - **LMD**: CE-6, target 2,000,000
 - **Purchase Certificates (Red Tickets)**: AP-5, target 5,000
 - **Skill Summary SP3**: CA-5, target 200
