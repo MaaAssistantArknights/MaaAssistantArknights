@@ -458,16 +458,20 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 <br>
 `10000` - `Custom`: 사용자 정의 교대 모드, 사용자 설정 로드. [기반시설 스케줄링 프로토콜](./base-scheduling-schema.md) 참고
 <br>
-`20000` - `Rotation`: 원터치 로테이션 모드. 제어 센터, 발전소, 숙소, 사무실은 건너뛰고, 나머지 시설은 교대하지 않지만 기본 조작(드론 사용, 응접실 로직 등)은 유지  
+`20000` - `Rotation`: 원터치 로테이션 모드. 제어 센터, 발전소, 숙소, 사무실은 건너뛰고, 나머지 시설은 교대하지 않지만 기본 조작(드론 사용, 응접실 로직 등)은 유지
+<br>
+`30000` - `Simple`: 생산물을 수령하고 팀 교대와 오퍼레이터 휴식을 실행하며 `drones`에 따라 드론을 사용하고 응접실 옵션에 따라 크레딧과 단서를 처리합니다. MAA는 추가 배치를 수행하지 않으며 교대와 휴식은 게임 내 설정된 팀과 규칙을 따릅니다.
 :::  
 ::: field facility  
 @type array<string>
-@required
+@optional
 교대할 시설. 실행 중 설정 불가
 <br>
 `mode = 0`일 때 이 배열은 활성화 집합으로 취급되며, 순서와 중복 항목은 스케줄링에 영향을 주지 않습니다(교대 순서는 알고리즘이 자동으로 결정). `mode = 10000` / `20000`일 때는 배열 순서대로 처리됩니다.
 <br>
-시설명: `Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training` | `AssistantChange`  
+시설명: `Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training` | `AssistantChange`
+<br>
+`mode = 30000`일 때 이 필드는 생략할 수 있으며 입력된 시설 목록은 무시됩니다. 시설은 `drones`와 응접실 옵션에 따라 자동 선택됩니다. 다른 모드에서는 필수입니다.
 :::  
 ::: field drones  
 @type string
@@ -475,7 +479,9 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 @optional
 드론 용도. `mode = 10000`일 때 이 필드는 무효
 <br>
-옵션: `_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`  
+옵션: `_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`
+<br>
+`mode = 30000`일 때 해당 시설을 `facility`에서 활성화할 필요가 없습니다. `Money` / `SyntheticJade`는 무역소, 다른 유효한 용도는 제조소를 사용하며 `_NotUse`는 드론을 사용하지 않습니다.
 :::  
 ::: field threshold  
 @type number
@@ -485,25 +491,33 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 <br>
 `mode = 10000`일 때 이 필드는 "autofill"에 대해서만 유효
 <br>
-`mode = 20000`일 때 이 필드는 무효  
+`mode = 20000`일 때 이 필드는 무효
+<br>
+`mode = 30000`일 때 이 필드는 무효입니다.
 :::  
 ::: field replenish  
 @type boolean
 @default false
 @optional
-무역소 "오리지늄 조각" 자동 보충 여부  
+무역소 "오리지늄 조각" 자동 보충 여부
+<br>
+`mode = 30000`일 때 이 필드는 무효입니다.
 :::  
 ::: field dorm_notstationed_enabled  
 @type boolean
 @default false
 @optional
-작업 오퍼레이터 숙소 "미배치" 옵션 활성화 여부  
+작업 오퍼레이터 숙소 "미배치" 옵션 활성화 여부
+<br>
+`mode = 30000`일 때 이 필드는 무효입니다.
 :::  
 ::: field dorm_trust_enabled  
 @type boolean
 @default false
 @optional
-숙소 남은 자리에 신뢰도 미만 오퍼레이터 배치 여부  
+숙소 남은 자리에 신뢰도 미만 오퍼레이터 배치 여부
+<br>
+`mode = 30000`일 때 이 필드는 무효입니다.
 :::  
 ::: field fiammetta_targets  
 @type array<string>
@@ -547,7 +561,9 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 @type boolean
 @default true
 @optional
-응접실 게시판 크레딧 수령 여부  
+응접실 게시판 크레딧 수령 여부
+<br>
+`mode = 30000`일 때 세 응접실 옵션 중 하나라도 활성화하면 단서를 수령하고 활성화된 작업을 수행합니다. 모두 비활성화하면 응접실을 건너뛰며 `facility`와 무관합니다.
 :::  
 ::: field reception_clue_exchange  
 @type boolean
@@ -579,7 +595,9 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 @type boolean
 @default false
 @optional
-훈련실에서 완료되지 않은 특화 훈련을 계속할지 여부  
+훈련실에서 완료되지 않은 특화 훈련을 계속할지 여부
+<br>
+`mode = 30000`일 때 이 필드는 무효입니다.
 :::  
 ::::
 

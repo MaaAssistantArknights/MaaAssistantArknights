@@ -472,16 +472,20 @@ Shift mode. Editing in run-time is not supported.
 <br>
 `10000` - `Custom`: Custom shift mode, reads user configuration, see [Base Scheduling Schema](./base-scheduling-schema.md).
 <br>
-`20000` - `Rotation`: One-key rotation mode, skips control center, power station, dormitory and office, other facilities do not change shifts but retain basic operations (such as using drones, reception room logic).  
+`20000` - `Rotation`: One-key rotation mode, skips control center, power station, dormitory and office, other facilities do not change shifts but retain basic operations (such as using drones, reception room logic).
+<br>
+`30000` - `Simple`: Collects production and performs queue rotation and operator rest, uses drones according to `drones`, and processes credits and clues according to reception options. MAA does not perform additional staffing; rotation and rest follow the queues and rules configured in-game.
 :::  
 ::: field facility  
 @type array<string>
-@required
+@optional
 Facilities for shifting. Editing in run-time is not supported.
 <br>
 When `mode = 0`, this array acts as an enabled set; the order and duplicates do not affect scheduling (the shift order is planned automatically by the algorithm). When `mode = 10000` / `20000`, facilities are processed in array order.
 <br>
-Facility name: `Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training` | `AssistantChange`  
+Facility name: `Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training` | `AssistantChange`
+<br>
+When `mode = 30000`, this field may be omitted and any supplied list is ignored: facilities are selected automatically from `drones` and reception options. This field remains required in other modes.
 :::  
 ::: field drones  
 @type string
@@ -489,7 +493,9 @@ Facility name: `Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | 
 @optional
 Usage of drones. This field is ignored when `mode = 10000`.
 <br>
-Options: `_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`  
+Options: `_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`
+<br>
+When `mode = 30000`, the corresponding facility need not be enabled in `facility`: `Money` / `SyntheticJade` use Trading Posts, other supported uses select Factories, and `_NotUse` skips drones.
 :::  
 ::: field threshold  
 @type number
@@ -499,25 +505,33 @@ Morale threshold, range [0, 1.0].
 <br>
 When `mode = 10000`, this field is only effective for "autofill".
 <br>
-This field is ignored when `mode = 20000`.  
+This field is ignored when `mode = 20000`.
+<br>
+This field is ignored when `mode = 30000`.
 :::  
 ::: field replenish  
 @type boolean
 @default false
 @optional
-Whether to replenish Originium Shard in trading post.  
+Whether to replenish Originium Shard in trading post.
+<br>
+This field is ignored when `mode = 30000`.
 :::  
 ::: field dorm_notstationed_enabled  
 @type boolean
 @default false
 @optional
-Whether to enable "Not Stationed in Dorm" option.  
+Whether to enable "Not Stationed in Dorm" option.
+<br>
+This field is ignored when `mode = 30000`.
 :::  
 ::: field dorm_trust_enabled  
 @type boolean
 @default false
 @optional
-Whether to fill dormitory with operators not at max trust.  
+Whether to fill dormitory with operators not at max trust.
+<br>
+This field is ignored when `mode = 30000`.
 :::  
 ::: field fiammetta_targets  
 @type array<string>
@@ -561,7 +575,9 @@ Whether to enable the ｢Abyssal Hunters｣ cross-facility team. Only effective 
 @type boolean
 @default true
 @optional
-Whether to collect credits from reception room message board.  
+Whether to collect credits from reception room message board.
+<br>
+When `mode = 30000`, enabling any of the three reception options collects clues and performs the enabled actions. Disabling all three skips reception, independently of `facility`.
 :::  
 ::: field reception_clue_exchange  
 @type boolean
@@ -593,7 +609,9 @@ Plan index number in the configuration. Editing in run-time is not supported.
 @type boolean
 @default false
 @optional
-Whether to continue unfinished skill training in the Training Room.  
+Whether to continue unfinished skill training in the Training Room.
+<br>
+This field is ignored when `mode = 30000`.
 :::  
 ::::
 

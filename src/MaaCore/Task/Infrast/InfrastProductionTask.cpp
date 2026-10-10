@@ -449,7 +449,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
             }
         }
         else if (m_skip_shift) {
-            Log.info("skip shift in rotation mode");
+            LogInfo << "Operator shifting is disabled";
         }
 
         // 自定义基建 Post 无人机

@@ -198,6 +198,8 @@
     <system:String x:Key="TrainingTimeLeft">残り時間</system:String>
     <system:String x:Key="InfrastMode">インフラモード</system:String>
     <system:String x:Key="InfrastModeNormal">通常モード</system:String>
+    <system:String x:Key="InfrastModeSimple">シンプルモード</system:String>
+    <system:String x:Key="InfrastModeSimpleTip" xml:space="preserve">生産物を受け取り、シフト交代とオペレーターの休息を実行し、MAA独自の配置変更は行いません。&#10;｢{key=DroneUsage}｣に応じて施設を自動選択します。&#10;詳細設定の応接室オプションを1つでも有効にすると、手がかりを受け取り、選択した操作を行います。すべて無効の場合は応接室に入りません。</system:String>
     <system:String x:Key="InfrastModeRotation">一括シフト休暇</system:String>
     <system:String x:Key="InfrastModeRotationTip">一括シフト休暇を使用する前に、ゲーム内で{key=Operator}のシフト編成を手動で設定してください</system:String>
     <system:String x:Key="InfrastModeRotationToolTip" xml:space="preserve"> ｢{key=InfrastModeRotation}｣ の交代ロジックは、ゲーム内の基地右下にある ｢{key=InfrastModeRotation}｣ と全く同じです。
