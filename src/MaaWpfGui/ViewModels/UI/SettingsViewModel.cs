@@ -219,7 +219,7 @@ public class SettingsViewModel : Screen
 
         bool isAdded = false;
 
-        // 已删除设置项的死键由 FaultTolerantRootConverter 在反序列化期捕获枚举转换异常并剔除
+        // 已删除设置项的死键由 SettingsPageReorgMigrationConverter 在反序列化前的 JsonNode 层剔除
         var orderList = ConfigFactory.Root.Gui.SettingOrders.ToList();
         foreach (var key in keyList.Where(k => !orderList.Any(o => o == k)))
         {

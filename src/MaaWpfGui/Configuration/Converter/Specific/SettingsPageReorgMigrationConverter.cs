@@ -96,16 +96,31 @@ internal sealed class SettingsPageReorgMigrationConverter : JsonConverter<Root>
             }
 
             // 列表已含 NotificationSettings（如曾运行过更新版本）时直接移除废弃键，避免重命名产生重复项
-            var hasNotificationSettings = list.Any(item => (string?)item == "NotificationSettings");
+            var hasNotificationSettings = list.Any(item => item is JsonValue itemValue &&
+                itemValue.TryGetValue<string>(out var itemString) && itemString == "NotificationSettings");
+
+            // 大小写宽容度对齐 TolerantEnumConverter 的 ignoreCase 解析：只删下游必死的键，不误删大小写变体
             for (var i = list.Count - 1; i >= 0; i--)
             {
-                var entry = (string?)list[i];
+                var entry = list[i] is JsonValue entryValue && entryValue.TryGetValue<string>(out var entryString)
+                    ? entryString
+                    : null;
+
                 if (entry == RemovedExternalNotificationSettingsKey && listName == nameof(Gui.SettingOrders))
                 {
-                    list[i] = hasNotificationSettings ? null : "NotificationSettings";
+                    if (hasNotificationSettings)
+                    {
+                        list.RemoveAt(i);
+                    }
+                    else
+                    {
+                        list[i] = "NotificationSettings";
+                    }
+
+                    continue;
                 }
 
-                if ((string?)list[i] is not string key || !Enum.TryParse<SettingKey>(key, out var settingKey) ||
+                if (entry is null || !Enum.TryParse(entry, ignoreCase: true, out SettingKey settingKey) ||
                     !Enum.IsDefined(settingKey))
                 {
                     list.RemoveAt(i);
