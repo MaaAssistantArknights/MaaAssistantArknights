@@ -467,6 +467,16 @@ std::pair<ProcessTask::NodeStatus, TaskConstPtr> ProcessTask::find_and_run_task(
     }
 
     if (hits.task_ptr == nullptr) {
+        // 重试耗尽后再找一次掉线弹窗：列表里没有 OfflineConfirm 的节点被弹窗挡住时只会重试到上限后报错，
+        // 命中则按 OfflineConfirm 处理（开始唤醒点击确认重连，其余任务由 GUI 按掉线停止）
+        const TaskList offline_list { get_task_chain() == "StartUp" ? "StartUp@OfflineConfirm" : "OfflineConfirm" };
+        hits = find_first(offline_list);
+        if (hits.task_ptr != nullptr) {
+            LogInfo << __FUNCTION__ << "| retry exhausted, found offline popup" << hits.task_ptr->name;
+        }
+    }
+
+    if (hits.task_ptr == nullptr) {
         return { NodeStatus::RetryFailed, nullptr };
     }
     else {
