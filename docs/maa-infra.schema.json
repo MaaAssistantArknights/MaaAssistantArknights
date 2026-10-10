@@ -178,6 +178,21 @@
                     },
                     "maxItems": 1
                 },
+                "training": {
+                    "type": "array",
+                    "description": "Training rooms. Slot A contains operators assisting with training; slot B contains operators receiving training. A/B operator groups are a protocol draft, not yet supported by MAA custom scheduling.",
+                    "items": {
+                        "$ref": "#/definitions/abRoomConfig"
+                    },
+                    "maxItems": 1
+                },
+                "recycle": {
+                    "type": "array",
+                    "description": "Planned facility 回收站 with A/B slots: A is the first unlocked position, B is the second. The recycle key is provisional; MAA custom scheduling does not yet support these groups.",
+                    "items": {
+                        "$ref": "#/definitions/abRoomConfig"
+                    }
+                },
                 "manufacture": {
                     "type": "array",
                     "items": {
@@ -205,6 +220,31 @@
                         "$ref": "#/definitions/roomConfig"
                     },
                     "maxItems": 4
+                }
+            }
+        },
+        "abRoomConfig": {
+            "type": "object",
+            "description": "Room with A/B operator groups. Capacities, execution semantics and interactions with existing room fields remain undecided.",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/roomConfig"
+                }
+            ],
+            "properties": {
+                "operatorsA": {
+                    "type": "array",
+                    "description": "Operator names in slot A. Optional; execution semantics remain undecided.",
+                    "items": {
+                        "$ref": "#/definitions/operator"
+                    }
+                },
+                "operatorsB": {
+                    "type": "array",
+                    "description": "Operator names in slot B. Optional; execution semantics remain undecided.",
+                    "items": {
+                        "$ref": "#/definitions/operator"
+                    }
                 }
             }
         },

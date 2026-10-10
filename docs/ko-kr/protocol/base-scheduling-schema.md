@@ -11,7 +11,9 @@ icon: material-symbols:view-quilt-rounded
 JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 예시용입니다. 직접 복사하여 사용하지 마세요.
 :::
 
-[기반시설 스케줄링 생성 도구](https://ark.yituliu.cn/tools/scheduleV3)
+[시각화 스케줄 생성 도구](https://ark.yituliu.cn/tools/scheduleV2)
+
+[시각화 스케줄 자동 생성 도구](https://ark.yituliu.cn/tools/scheduleV3)
 
 [기반시설 스케줄 자동 생성 도구](https://riic.autos/)
 
@@ -68,7 +70,8 @@ JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 �
             ],
             "rooms": {
                 // 시설 정보, 필수
-                // 값 범위 "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing"
+                // 값 범위 "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing" / "training" / "recycle"
+                // training / recycle의 A/B 그룹은 초안이며 현재 MAA 사용자 정의 스케줄은 아직 지원하지 않음
                 // 하나라도 빠지면 해당 시설은 기본 알고리즘을 사용하여 교대합니다.
                 // 특정 시설의 교대를 원하지 않으면 skip 필드를 사용하거나, 소프트웨어 '임무 설정 - 기반시설 교대 - 일반 설정'에서 해당 시설의 체크를 해제하세요
                 "control": [
@@ -126,6 +129,19 @@ JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 �
                     {
                         "autofill": true // 이 시설 전체 autofill
                     }
+                ],
+                "training": [ // 훈련실
+                    {
+                        // 인원 상한, 필드 생략·빈 배열의 의미, 기존 시설 필드 및 오퍼레이터 편성과의 관계는 미정
+                        "operatorsA": ["阿米娅"], // 훈련을 지원하는 오퍼레이터 이름 배열(A 슬롯), 선택 사항. 이름 요구 사항은 operators와 같음
+                        "operatorsB": ["杜宾"] // 훈련을 받는 오퍼레이터 이름 배열(B 슬롯), 선택 사항. 이름 요구 사항은 operators와 같음
+                    }
+                ],
+                "recycle": [ // 回收站(A/B 슬롯을 갖춘 예정 시설), 키 이름은 임시
+                    {
+                        "operatorsA": ["芬"], // 첫 번째로 해금되는 위치의 오퍼레이터 이름 배열(A 슬롯), 선택 사항. 이름 요구 사항은 operators와 같음
+                        "operatorsB": ["克洛丝"] // 두 번째로 해금되는 위치의 오퍼레이터 이름 배열(B 슬롯), 선택 사항. 이름 요구 사항은 operators와 같음
+                    }
                 ]
             }
         },
@@ -142,3 +158,76 @@ JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 �
 [243 극한 효율, 하루 3회 교대](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master-v2/resource/custom_infrast/243_layout_3_times_a_day.json)
 
 [153 극한 효율, 하루 3회 교대](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master-v2/resource/custom_infrast/153_layout_3_times_a_day.json)
+
+## 스케줄 확장 프로토콜
+
+MAA 기본 스케줄링 프로토콜에는 오퍼레이터의 근무 교대 정보만 포함됩니다. 스케줄 확장 프로토콜은 MAA 스케줄링 프로토콜을 기반으로 선택적인 시설 배치 `layout`, 오퍼레이터 정보 `operators`, 출처 및 버전 정보 `metadata`를 추가합니다. 이를 통해 MAA, [**明日方舟一图流-스케줄 자동 생성 도구**](https://ark.yituliu.cn/tools/scheduleV3), [**明日方舟一图流-스케줄 수익 계산기**](https://ark.yituliu.cn/tools/maa-schedule-calculator) **등 서드파티 애플리케이션이** 같은 파일을 공유하고 데이터를 양방향으로 교환할 수 있습니다. 확장 필드는 모두 선택 사항이며 서드파티 애플리케이션의 실제 요구 사항에 따라 조정할 수 있습니다.
+
+| 최상위 필드 | 용도                                                                                        |
+| ----------- | ------------------------------------------------------------------------------------------- |
+| `layout`    | 시설 유형, 레벨, 위치를 포함한 시설 배치를 기록                                             |
+| `operators` | 오퍼레이터 정예화 단계와 레벨 정보를 기록                                                   |
+| `metadata`  | 프로토콜 버전, 생성 도구, 모듈 버전 등의 데이터와 서드파티 도구에 필요한 추가 데이터를 기록 |
+
+### 확장 필드 일람
+
+예시는 기본 프로토콜의 `plans` 등의 필드와 함께 사용해야 합니다. 육성 정보와 버전 번호는 예시 값이며 실제 JSON에서는 주석을 삭제해야 합니다.
+
+```jsonc
+{
+    // 세 최상위 필드는 모두 선택 사항이며 각각 제공할 수 있고 MAA의 기본 스케줄 실행에는 영향을 주지 않음
+    // 도구는 가져오기, 편집, 내보내기 과정에서 확장 정보를 유지해야 함
+    "layout": [ // 전체 건설 시설 배치, 선택 사항. 생략하면 배치 정보가 없음
+        // 목록에 없는 시설은 미건설. plans[].rooms에서 생략한 시설은 기본 프로토콜의 기본 규칙을 따름
+        // type: 시설 유형, level: 시설 레벨, position: 실제 위치
+        { "type": "control", "level": 5 },
+        // 동일 유형 시설 순서는 plans[].rooms 및 드론 index 번호와 대응
+        { "type": "trading", "level": 3, "position": "B101" },
+        { "type": "trading", "level": 3, "position": "B102" },
+        { "type": "trading", "level": 1, "position": "B103" },
+        { "type": "manufacture", "level": 3, "position": "B201" },
+        { "type": "manufacture", "level": 3, "position": "B202" },
+        { "type": "manufacture", "level": 2, "position": "B203" },
+        { "type": "manufacture", "level": 2, "position": "B301" },
+        { "type": "power", "level": 3, "position": "B302" },
+        { "type": "power", "level": 3, "position": "B303" },
+        { "type": "meeting", "level": 3 },
+        { "type": "processing", "level": 3, "position": "B105" },
+        { "type": "hire", "level": 3, "position": "B205" },
+        { "type": "training", "level": 3, "position": "B305" },
+        { "type": "dormitory", "level": 1, "position": "B104" },
+        { "type": "dormitory", "level": 1, "position": "B204" },
+        { "type": "dormitory", "level": 1, "position": "B304" },
+        { "type": "dormitory", "level": 1, "position": "B404" }
+    ],
+    "operators": { // 육성 정보, 선택 사항. 게임 내 ID를 키로 사용
+        // 시설 내 오퍼레이터 배치를 대체하지 않음
+        "char_002_amiya": {
+            "name": "아미야", // 오퍼레이터 이름, 선택 사항
+            "elite": 2, // 정예화 단계: 0, 1, 2
+            "level": 80 // 현재 정예화 단계의 레벨
+        },
+        "char_124_kroos": {
+            "name": "크루스",
+            "elite": 1,
+            "level": 55
+        }
+    },
+    "metadata": { // 출처와 버전 등의 부가 정보, 선택 사항
+        "extensionVersion": "1.0", // 전체 확장 프로토콜의 버전 문자열, 선택 사항. 생략하면 버전 없는 형식
+        "generator": { // 원래 생성 도구 정보
+            "id": "yituliu-riic-schedule-generator",
+            "name": "明日方舟一图流-排班表自动生成工具",
+            "url": "https://ark.yituliu.cn/tools/scheduleV3"
+        },
+        "moduleVersions": { // 생성 당시 모듈 버전. 식별자는 생성 도구가 정의하며 generator.id와 함께 해석
+            "layout": "v20260924.2314", // 시설 배치 모듈
+            "data": "v20260924.2314", // 데이터 모듈
+            "team": "v20260928.1118", // 팀 모듈
+            "assembler": "v20260822.2233", // 스케줄 조립기
+            "yield": "v20261002.1334", // 수익 계산기
+            "recommendation": "v20260928.1102" // 디버그 정보
+        }
+    }
+}
+```

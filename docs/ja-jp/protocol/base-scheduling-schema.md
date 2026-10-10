@@ -13,7 +13,9 @@ icon: material-symbols:view-quilt-rounded
 JSONファイルはコメントをサポートしていません。テキスト内のコメントはプレゼンテーション用にのみ使用されます。直接コピーして使用しないでください。
 :::
 
-[ビジュアルスケジューリング生成ツール](https://ark.yituliu.cn/tools/scheduleV3)
+[ビジュアルスケジュール表生成ツール](https://ark.yituliu.cn/tools/scheduleV2)
+
+[ビジュアルスケジュール表自動生成ツール](https://ark.yituliu.cn/tools/scheduleV3)
 
 [基地スケジュール自動生成ツール](https://riic.autos/)
 
@@ -72,7 +74,8 @@ JSONファイルはコメントをサポートしていません。テキスト�
                 }
             ],
             "rooms": {              // 部屋情報，必須
-                                    // 引数 "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing"
+                                    // 引数 "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing" / "training" / "recycle"
+                                    // training / recycle の A/B グループは草案であり、現在の MAA カスタムスケジュールは未対応
                                     // 1つもないということは、その施設ではシフト変更にデフォルトのアルゴリズムが使用されていることを意味します。
                                     // 部屋のシフトを変更しない場合は、skip を使用するか、タスク設定 - 基地仕事 - 基地設定 で該当施設のチェックを外すだけです。
                 "control": [
@@ -136,6 +139,19 @@ JSONファイルはコメントをサポートしていません。テキスト�
                     {
                         "autofill": true // 応接室は autofill
                     }
+                ],
+                "training": [ // 訓練室
+                    {
+                        // 人数上限、省略・空配列の意味、既存の部屋フィールドとオペレーターグループとの関係は未定
+                        "operatorsA": ["アーミヤ"], // 訓練を補助するオペレーター名配列（A スロット）、任意。名前の要件は operators と同じ
+                        "operatorsB": ["ドーベルマン"] // 訓練を受けるオペレーター名配列（B スロット）、任意。名前の要件は operators と同じ
+                    }
+                ],
+                "recycle": [ // 回收站（A/B スロットを持つ予定の施設）、キー名は暫定
+                    {
+                        "operatorsA": ["フェン"], // 最初に解放される位置のオペレーター名配列（A スロット）、任意。名前の要件は operators と同じ
+                        "operatorsB": ["クルース"] // 2 番目に解放される位置のオペレーター名配列（B スロット）、任意。名前の要件は operators と同じ
+                    }
                 ]
             }
         },
@@ -152,3 +168,76 @@ JSONファイルはコメントをサポートしていません。テキスト�
 [243 有効率が最も高い 一日三回](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master-v2/resource/custom_infrast/243_layout_3_times_a_day.json)
 
 [153 有効率が最も高い 一日三回](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master-v2/resource/custom_infrast/153_layout_3_times_a_day.json)
+
+## スケジュール表の拡張プロトコル
+
+MAA の基本スケジュールプロトコルには、オペレーターのシフト情報のみが含まれます。スケジュール表の拡張プロトコルは MAA のスケジュール設定を基に、任意の基地配置 `layout`、オペレーター情報 `operators`、生成元とバージョン情報 `metadata` を追加します。これにより、MAA、[**明日方舟一图流-スケジュール自動生成ツール**](https://ark.yituliu.cn/tools/scheduleV3)、[**明日方舟一图流-スケジュール収益計算ツール**](https://ark.yituliu.cn/tools/maa-schedule-calculator)**などのサードパーティーアプリケーションで**同じファイルを共有し、双方向にデータを交換できます。拡張フィールドはすべて任意で、サードパーティーアプリケーションの実際の要件に応じて調整できます。
+
+| トップレベルのフィールド | 用途                                                                                                                         |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| `layout`                 | 施設の種類、レベル、位置を含む基地配置を記録                                                                                 |
+| `operators`              | オペレーターの昇進段階とレベルの情報を記録                                                                                   |
+| `metadata`               | プロトコルのバージョン、生成ツール、モジュールのバージョンなどのデータと、サードパーティーツールが必要とする追加データを記録 |
+
+### 拡張フィールド一覧
+
+この例は基本プロトコルの `plans` などと組み合わせて使用してください。育成状況とバージョン番号は説明用の値です。実際の JSON からはコメントを削除してください。
+
+```jsonc
+{
+    // 3 つともトップレベルの任意フィールドで、個別に指定でき、MAA の基本スケジュール実行には影響しない
+    // ツールはインポート、編集、エクスポート時に拡張情報を保持する
+    "layout": [ // 建造済みの基地配置全体、任意。省略は配置情報なしを意味する
+        // 記載のない施設は未建造。plans[].rooms で省略した施設には基本プロトコルの既定の規則を適用
+        // type：施設の種類、level：施設レベル、position：実際の位置
+        { "type": "control", "level": 5 },
+        // 同じ施設種類の部屋順序は plans[].rooms とドローンの index に対応
+        { "type": "trading", "level": 3, "position": "B101" },
+        { "type": "trading", "level": 3, "position": "B102" },
+        { "type": "trading", "level": 1, "position": "B103" },
+        { "type": "manufacture", "level": 3, "position": "B201" },
+        { "type": "manufacture", "level": 3, "position": "B202" },
+        { "type": "manufacture", "level": 2, "position": "B203" },
+        { "type": "manufacture", "level": 2, "position": "B301" },
+        { "type": "power", "level": 3, "position": "B302" },
+        { "type": "power", "level": 3, "position": "B303" },
+        { "type": "meeting", "level": 3 },
+        { "type": "processing", "level": 3, "position": "B105" },
+        { "type": "hire", "level": 3, "position": "B205" },
+        { "type": "training", "level": 3, "position": "B305" },
+        { "type": "dormitory", "level": 1, "position": "B104" },
+        { "type": "dormitory", "level": 1, "position": "B204" },
+        { "type": "dormitory", "level": 1, "position": "B304" },
+        { "type": "dormitory", "level": 1, "position": "B404" }
+    ],
+    "operators": { // 育成状況、任意。ゲーム内 ID をキーとして使用
+        // 部屋のオペレーター配置設定を置き換えない
+        "char_002_amiya": {
+            "name": "アーミヤ", // オペレーター名、任意
+            "elite": 2, // 昇進段階：0、1、2
+            "level": 80 // 現在の昇進段階でのレベル
+        },
+        "char_124_kroos": {
+            "name": "クルース",
+            "elite": 1,
+            "level": 55
+        }
+    },
+    "metadata": { // 生成元とバージョンなどの追加情報、任意
+        "extensionVersion": "1.0", // 拡張プロトコル全体のバージョン文字列、任意。省略時はバージョン情報なし
+        "generator": { // 元の生成ツールの情報
+            "id": "yituliu-riic-schedule-generator",
+            "name": "明日方舟一图流-排班表自动生成工具",
+            "url": "https://ark.yituliu.cn/tools/scheduleV3"
+        },
+        "moduleVersions": { // 生成時のモジュールバージョン。識別子は生成ツールが定義し、generator.id と合わせて解釈
+            "layout": "v20260924.2314", // 基地配置モジュール
+            "data": "v20260924.2314", // データモジュール
+            "team": "v20260928.1118", // チームモジュール
+            "assembler": "v20260822.2233", // スケジュール組み立て
+            "yield": "v20261002.1334", // 収益計算
+            "recommendation": "v20260928.1102" // デバッグ情報
+        }
+    }
+}
+```
