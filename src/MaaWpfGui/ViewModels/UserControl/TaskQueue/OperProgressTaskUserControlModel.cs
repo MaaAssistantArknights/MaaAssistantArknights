@@ -173,14 +173,14 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                         continue;
                     }
                     var oper = FindOper(plan.Role, plan.Name);
-                    if (plan.Role == OperatorRole.Unknown && oper is { } character)
-                    {
-                        plan = plan with { Role = character.Value.Role };
-                    }
                     if (oper is null)
                     {
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("OperProgress.ParseUnknownOperator", plan.Role, plan.Name), UiLogColor.Error);
                         return;
+                    }
+                    if (plan.Role == OperatorRole.Unknown && oper is { } character)
+                    {
+                        plan = plan with { Role = character.Role };
                     }
                     if (plan.Elite is null && plan.MainSkillLevel is null && plan.SkillMastery is null)
                     {
