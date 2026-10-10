@@ -26,7 +26,6 @@ public partial class Gui : NotifyPropertyChangedWithValue
     public void EventBinding(string prefix)
     {
         PropertyChanged += Handler.OnPropertyChangedFactory(prefix);
-        Performance.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(Performance) + ".");
         Notification.EventBinding(prefix + nameof(Notification) + ".");
         ExternalNotification.EventBinding(prefix + nameof(ExternalNotification) + ".");
         RemoteControl.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(RemoteControl) + ".");
@@ -38,9 +37,6 @@ public partial class Gui : NotifyPropertyChangedWithValue
 
     [JsonInclude]
     public ConnectSettings ConnectSettings { get; private set; } = new();
-
-    [JsonInclude]
-    public Performance Performance { get; private set; } = new();
 
     [JsonInclude]
     public NotificationSettings Notification { get; private set; } = new();

@@ -460,7 +460,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         ApplyDemoModeConfigOverrides();
 
-        if (ConfigFactory.Root.Gui.IgnoreBadModulesAndUseSoftwareRendering)
+        if (ConfigFactory.Root.Gui.Performance.IgnoreBadModulesAndUseSoftwareRendering)
         {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
             _logger.Information("Using software rendering mode due to user preference (bad modules detected)");

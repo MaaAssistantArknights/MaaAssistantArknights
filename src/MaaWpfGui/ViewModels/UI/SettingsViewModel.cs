@@ -197,11 +197,7 @@ public class SettingsViewModel : Screen
 
     public SettingItemViewModel UiSettingsSetting => GetSettingItemByKey("UiSettings");
 
-    public SettingItemViewModel BackgroundSettingsSetting => GetSettingItemByKey("BackgroundSettings");
-
     public SettingItemViewModel NotificationSettingsSetting => GetSettingItemByKey("NotificationSettings");
-
-    public SettingItemViewModel ExternalNotificationSettingsSetting => GetSettingItemByKey("ExternalNotificationSettings");
 
     public SettingItemViewModel ThirdPartyServiceSettingsSetting => GetSettingItemByKey("ThirdPartyServiceSettings");
 
@@ -222,18 +218,13 @@ public class SettingsViewModel : Screen
         var tempOrderList = new List<SettingItemViewModel?>();
 
         bool isAdded = false;
+
+        // 已删除设置项的死键由 SettingsPageReorgMigrationConverter 在反序列化前的 JsonNode 层剔除
         var orderList = ConfigFactory.Root.Gui.SettingOrders.ToList();
         foreach (var key in keyList.Where(k => !orderList.Any(o => o == k)))
         {
             isAdded = true;
-            if (key == SettingKey.NotificationSettings && orderList.Contains(SettingKey.ExternalNotificationSettings))
-            {
-                orderList.Insert(orderList.IndexOf(SettingKey.ExternalNotificationSettings), key);
-            }
-            else
-            {
-                orderList.Add(key);
-            }
+            orderList.Add(key);
         }
         if (isAdded)
         {
@@ -1247,22 +1238,10 @@ public class SettingsViewModel : Screen
         set => SetExpanderState(SettingKey.UiSettings, value);
     }
 
-    public bool IsBackgroundSettingsExpanded
-    {
-        get => GetExpanderState(SettingKey.BackgroundSettings);
-        set => SetExpanderState(SettingKey.BackgroundSettings, value);
-    }
-
     public bool IsNotificationSettingsExpanded
     {
         get => GetExpanderState(SettingKey.NotificationSettings);
         set => SetExpanderState(SettingKey.NotificationSettings, value);
-    }
-
-    public bool IsExternalNotificationSettingsExpanded
-    {
-        get => GetExpanderState(SettingKey.ExternalNotificationSettings);
-        set => SetExpanderState(SettingKey.ExternalNotificationSettings, value);
     }
 
     public bool IsThirdPartyServiceSettingsExpanded

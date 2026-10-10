@@ -82,8 +82,6 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Grid
@@ -261,31 +259,9 @@
                 </Grid>
 
                 <Grid
-                    Grid.Row="{Binding BackgroundSettingsSetting.Value}"
-                    Margin="0,0,0,5"
-                    d:Grid.Row="8"
-                    Visibility="{c:Binding BackgroundSettingsSetting.IsVisibleInSearch}">
-                    <Expander
-                        d:IsExpanded="True"
-                        Background="Transparent"
-                        Header="{Binding BackgroundSettingsSetting.Display}"
-                        IsExpanded="{Binding IsBackgroundSettingsExpanded}">
-                        <Border
-                            BorderBrush="{DynamicResource BorderBrush}"
-                            BorderThickness="1,0,1,1"
-                            CornerRadius="0,0,4,4">
-                            <settings:BackgroundSettingsUserControl
-                                Margin="0,20"
-                                HorizontalAlignment="Center"
-                                DataContext="{Binding BackgroundSettings}" />
-                        </Border>
-                    </Expander>
-                </Grid>
-
-                <Grid
                     Grid.Row="{Binding NotificationSettingsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="9"
+                    d:Grid.Row="8"
                     Visibility="{c:Binding NotificationSettingsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
@@ -296,32 +272,18 @@
                             BorderBrush="{DynamicResource BorderBrush}"
                             BorderThickness="1,0,1,1"
                             CornerRadius="0,0,4,4">
-                            <settings:NotificationSettingsUserControl
-                                Margin="0,20"
-                                HorizontalAlignment="Center"
-                                DataContext="{Binding NotificationSettings}" />
-                        </Border>
-                    </Expander>
-                </Grid>
-
-                <Grid
-                    Grid.Row="{Binding ExternalNotificationSettingsSetting.Value}"
-                    Margin="0,0,0,5"
-                    d:Grid.Row="9"
-                    Visibility="{c:Binding ExternalNotificationSettingsSetting.IsVisibleInSearch}">
-                    <Expander
-                        d:IsExpanded="True"
-                        Background="Transparent"
-                        Header="{Binding ExternalNotificationSettingsSetting.Display}"
-                        IsExpanded="{Binding IsExternalNotificationSettingsExpanded}">
-                        <Border
-                            BorderBrush="{DynamicResource BorderBrush}"
-                            BorderThickness="1,0,1,1"
-                            CornerRadius="0,0,4,4">
-                            <settings:ExternalNotificationSettingsUserControl
-                                Margin="0,20"
-                                HorizontalAlignment="Center"
-                                DataContext="{Binding ExternalNotificationSettings}" />
+                            <!--  外部通知渠道并入通知设置聚合展示  -->
+                            <StackPanel HorizontalAlignment="Center">
+                                <settings:NotificationSettingsUserControl
+                                    Margin="0,10"
+                                    HorizontalAlignment="Center"
+                                    DataContext="{Binding NotificationSettings}" />
+                                <hc:Divider Margin="10,0" Content="{DynamicResource ExternalNotificationSettings}" />
+                                <settings:ExternalNotificationSettingsUserControl
+                                    Margin="0,10"
+                                    HorizontalAlignment="Center"
+                                    DataContext="{Binding ExternalNotificationSettings}" />
+                            </StackPanel>
                         </Border>
                     </Expander>
                 </Grid>
@@ -329,7 +291,7 @@
                 <Grid
                     Grid.Row="{Binding ThirdPartyServiceSettingsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="10"
+                    d:Grid.Row="9"
                     Visibility="{c:Binding ThirdPartyServiceSettingsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
@@ -351,7 +313,7 @@
                 <Grid
                     Grid.Row="{Binding HotKeySettingsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="11"
+                    d:Grid.Row="10"
                     Visibility="{c:Binding HotKeySettingsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
@@ -370,7 +332,7 @@
                 <Grid
                     Grid.Row="{Binding AchievementSettingsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="12"
+                    d:Grid.Row="11"
                     Visibility="{c:Binding AchievementSettingsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
@@ -392,7 +354,7 @@
                 <Grid
                     Grid.Row="{Binding UpdateSettingsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="13"
+                    d:Grid.Row="12"
                     Visibility="{c:Binding UpdateSettingsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
@@ -414,7 +376,7 @@
                 <Grid
                     Grid.Row="{Binding IssueReportSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="14"
+                    d:Grid.Row="13"
                     Visibility="{c:Binding IssueReportSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"
@@ -436,7 +398,7 @@
                 <Grid
                     Grid.Row="{Binding AboutUsSetting.Value}"
                     Margin="0,0,0,5"
-                    d:Grid.Row="15"
+                    d:Grid.Row="14"
                     Visibility="{c:Binding AboutUsSetting.IsVisibleInSearch}">
                     <Expander
                         d:IsExpanded="True"

@@ -60,16 +60,6 @@ public enum SettingKey
     UiSettings,
 
     /// <summary>
-    /// 背景设置。
-    /// </summary>
-    BackgroundSettings,
-
-    /// <summary>
-    /// 外部通知设置。
-    /// </summary>
-    ExternalNotificationSettings,
-
-    /// <summary>
     /// 通知设置。
     /// </summary>
     NotificationSettings,

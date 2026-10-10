@@ -561,12 +561,13 @@ public class ConfigConverter
                 throw new Exception($"Config migration failed, unable to switch to config: {configName}");
             }
 
-            // 性能设置
+            // 性能设置（仅读取当前档案，避免多档案循环互相覆盖全局值）
+            if (configName == currentConfigName)
             {
-                ConfigFactory.CurrentConfig.Gui.Performance.UseGpu = ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceUseGpu, false);
-                ConfigFactory.CurrentConfig.Gui.Performance.GpuDescription = ConfigurationHelper.GetValue(ConfigurationKeys.PerformancePreferredGpuDescription, string.Empty);
-                ConfigFactory.CurrentConfig.Gui.Performance.GpuInstancePath = ConfigurationHelper.GetValue(ConfigurationKeys.PerformancePreferredGpuInstancePath, string.Empty);
-                ConfigFactory.CurrentConfig.Gui.Performance.AllowDeprecatedGpu = ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceAllowDeprecatedGpu, false);
+                ConfigFactory.Root.Gui.Performance.UseGpu = ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceUseGpu, false);
+                ConfigFactory.Root.Gui.Performance.GpuDescription = ConfigurationHelper.GetValue(ConfigurationKeys.PerformancePreferredGpuDescription, string.Empty);
+                ConfigFactory.Root.Gui.Performance.GpuInstancePath = ConfigurationHelper.GetValue(ConfigurationKeys.PerformancePreferredGpuInstancePath, string.Empty);
+                ConfigFactory.Root.Gui.Performance.AllowDeprecatedGpu = ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceAllowDeprecatedGpu, false);
 
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.PerformanceUseGpu);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.PerformancePreferredGpuDescription);

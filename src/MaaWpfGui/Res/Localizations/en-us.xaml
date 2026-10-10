@@ -14,6 +14,12 @@
     <system:String x:Key="StartupSettings">Startup</system:String>
     <system:String x:Key="ScheduleSettings">Schedule</system:String>
     <system:String x:Key="UiSettings">GUI</system:String>
+    <system:String x:Key="LanguageSettings">Language</system:String>
+    <system:String x:Key="ThemeAndAnimationSettings">Theme and Animations</system:String>
+    <system:String x:Key="TitleBarSettings">Title Bar Settings</system:String>
+    <system:String x:Key="LogDisplaySettings">Log Display Settings</system:String>
+    <system:String x:Key="TraySettings">Tray</system:String>
+    <system:String x:Key="OperationGuideSettings">Operations and Guide</system:String>
     <system:String x:Key="BackgroundSettings">Background Setting</system:String>
     <system:String x:Key="BackgroundImage">Background Image</system:String>
     <system:String x:Key="BackgroundOpacity">Background Opacity</system:String>
@@ -49,7 +55,7 @@
     <system:String x:Key="ResourceDateTime">Resource Date</system:String>
     <system:String x:Key="Off">Off</system:String>
     <system:String x:Key="ExternalNotificationSettings">External notifications</system:String>
-    <system:String x:Key="ExternalNotificationEnabled">Enabled configuration</system:String>
+    <system:String x:Key="ExternalNotificationEnabled">Notification Channels</system:String>
     <system:String x:Key="ExternalNotificationSendBeforeScheduledStart">Before scheduled start</system:String>
     <system:String x:Key="ExternalNotificationSendBeforeScheduledStartTip" xml:space="preserve">Sends an external notification before a scheduled task starts.&#10;Uses the ｢{key=ScheduledStartNotificationMinutes}｣ setting in ｢{key=ScheduleSettings}｣.</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">Send successfully</system:String>
@@ -562,7 +568,8 @@ Continue only after you have verified the directory layout and finished a manual
     <system:String x:Key="TimerCustomConfig">Custom config</system:String>
     <system:String x:Key="TimerCustomConfigTip">Restart the game and switch the configuration two minutes before the scheduled start</system:String>
     <system:String x:Key="NotifyBeforeScheduledStart">Send system notification before scheduled start</system:String>
-    <system:String x:Key="NotifyBeforeScheduledStartTip" xml:space="preserve">Send a system notification at the configured advance notice time.&#10;External notifications can be enabled separately in ｢{key=ExternalNotificationSettings}｣ and use the same advance notice time.</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStartTip" xml:space="preserve">Send a system notification at the configured advance notice time.&#10;External notifications can be enabled separately in ｢{key=Settings} - {key=NotificationSettings} - {key=ExternalNotificationSettings}｣ and use the same advance notice time.</system:String>
+    <system:String x:Key="NotifyBeforeScheduledStartSharedTimeTip">External notifications share this advance notice time.</system:String>
     <system:String x:Key="ScheduledStartNotificationMinutes">Advance notice (minutes)</system:String>
     <system:String x:Key="ScheduledStartNotificationTitle">Scheduled task starting soon</system:String>
     <system:String x:Key="ScheduledStartNotificationContent">Timer {0} is scheduled to start at {1} (in {2} minutes). Please be aware that this may affect your game login.</system:String>
@@ -2636,7 +2643,7 @@ These directories are not suitable places to keep MAA; files there can be easily
 
     <system:String x:Key="Achievement.AllChannelBroadcast.Title">Broadcast on All Platforms</system:String>
     <system:String x:Key="Achievement.AllChannelBroadcast.Description">Now nobody gets to miss it.</system:String>
-    <system:String x:Key="Achievement.AllChannelBroadcast.Conditions">Enable all platforms in ｢{key=ExternalNotificationSettings}｣ at the same time</system:String>
+    <system:String x:Key="Achievement.AllChannelBroadcast.Conditions">Enable all platforms in ｢{key=Settings} - {key=NotificationSettings} - {key=ExternalNotificationSettings}｣ at the same time</system:String>
 
     <system:String x:Key="Achievement.BackstageExplorer.Title">Backstage Explorer</system:String>
     <system:String x:Key="Achievement.BackstageExplorer.Description">Let me see what's written back there.</system:String>
@@ -2704,7 +2711,7 @@ These directories are not suitable places to keep MAA; files there can be easily
     <system:String x:Key="PleaseSelectItem">Please select an item</system:String>
     <system:String x:Key="EmulatorSelectionCancelled">Emulator selection cancelled</system:String>
     <!--  !ItemSelection  -->
-    <system:String x:Key="NotificationSettings">Notification Settings</system:String>
+    <system:String x:Key="NotificationSettings">Notifications</system:String>
     <system:String x:Key="NotificationSettingsTimeMinutes">Log Validity (Minutes)</system:String>
     <system:String x:Key="NotificationSettingsTimeMinutesTip" xml:space="preserve">Expired logs are no longer attached to notifications.&#10;Set to 0 to disable time filtering.</system:String>
     <system:String x:Key="NotificationSettingsInvalidFilterTip" xml:space="preserve">Invalid regular expression. Check the filter rules.</system:String>
