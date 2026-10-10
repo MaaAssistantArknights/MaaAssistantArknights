@@ -23,6 +23,9 @@ protected:
 
     virtual bool need_to_wait_until_end() const noexcept override { return true; }
 
+    // 内置作业 actions 全空，整场战斗的部署/技能/拾取/抽卡都由等待期的策略轮询驱动
+    virtual bool need_strategy_during_wait() const noexcept override { return true; }
+
     virtual bool wait_until_start(bool weak = true) override;
 
     bool update_deployment_with_skip(const cv::Mat& reusable = cv::Mat());

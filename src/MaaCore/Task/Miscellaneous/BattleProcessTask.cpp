@@ -55,7 +55,7 @@ bool asst::BattleProcessTask::_run()
     }
 
     if (need_to_wait_until_end()) {
-        wait_until_end(true, false);
+        wait_until_end(true, need_strategy_during_wait());
     }
 
     return true;

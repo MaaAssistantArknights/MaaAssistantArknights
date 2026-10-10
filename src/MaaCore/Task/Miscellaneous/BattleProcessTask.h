@@ -37,6 +37,10 @@ protected:
 
     virtual bool need_to_wait_until_end() const { return m_need_to_wait_until_end; }
 
+    // 等待战斗结束期间是否继续策略轮询：经 set_wait_until_end 打开的等待是流程同步语义
+    // （等战斗结束再导航下一关），不应隐式挂机；依赖等待期轮询驱动战斗的模式由其 override 打开
+    virtual bool need_strategy_during_wait() const noexcept { return false; }
+
     bool to_group();
     bool do_action(const battle::copilot::Action& action, size_t index);
 
