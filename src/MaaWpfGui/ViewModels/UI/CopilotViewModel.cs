@@ -294,7 +294,7 @@ public partial class CopilotViewModel : Screen
                 UseCopilotList = false;
             }
 
-            if (!SetAndNotify(ref _copilotTabIndex, value))
+            if (SetAndNotify(ref _copilotTabIndex, value))
             {
                 Loop = false;
             }
@@ -886,7 +886,10 @@ public partial class CopilotViewModel : Screen
         }
     }
 
-    public bool Loop { get; set; }
+    public bool Loop {
+        get => field;
+        set => SetAndNotify(ref field, value);
+    }
 
     public int LoopTimes
     {
