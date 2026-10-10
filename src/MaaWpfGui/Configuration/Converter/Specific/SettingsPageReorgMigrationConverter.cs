@@ -1,4 +1,4 @@
-// <copyright file="PerformanceMigrationConverter.cs" company="MaaAssistantArknights">
+// <copyright file="SettingsPageReorgMigrationConverter.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -17,6 +17,8 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
+using MaaWpfGui.Configuration.Global;
+using MaaWpfGui.Constants.Enums;
 
 namespace MaaWpfGui.Configuration.Converter.Specific;
 
@@ -27,13 +29,18 @@ namespace MaaWpfGui.Configuration.Converter.Specific;
 //    values of other profiles are kept in place and dropped as they may conflict with no
 //    merge semantics. Keeping migration here also covers inactive profiles and backup
 //    restoration.
-// 2. Rename SettingKey ExternalNotificationSettings to NotificationSettings in the persisted
-//    order/collapse lists. Release users never saw NotificationSettings (introduced after the
-//    last release), so it must inherit the position and collapse state of the removed key
-//    instead of being appended at the end.
-// Both are no-op when the legacy keys are absent, hence idempotent.
-internal sealed class PerformanceMigrationConverter : JsonConverter<Root>
+// 2. In the persisted order list, rename SettingKey ExternalNotificationSettings to
+//    NotificationSettings so the merged section inherits its position. Release users never
+//    saw NotificationSettings (introduced after the last release), so without the rename it
+//    would be appended at the end. The collapse list is not migrated: collapse state does
+//    not carry over to the merged section.
+// 3. Drop unknown or removed SettingKey entries from both lists here, so the tolerant
+//    deserialization fallback (exception per invalid key) is not triggered on first launch.
+// All are no-op when the legacy keys are absent, hence idempotent.
+internal sealed class SettingsPageReorgMigrationConverter : JsonConverter<Root>
 {
+    private const string RemovedExternalNotificationSettingsKey = "ExternalNotificationSettings";
+
     public override Root? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var node = JsonNode.Parse(ref reader);
@@ -81,7 +88,7 @@ internal sealed class PerformanceMigrationConverter : JsonConverter<Root>
             globalGui["Performance"] = performance;
         }
 
-        foreach (var listName in new[] { "SettingOrders", "CollapesStates" })
+        foreach (var listName in new[] { nameof(Gui.SettingOrders), nameof(Gui.CollapesStates) })
         {
             if (globalGui[listName] is not JsonArray list)
             {
@@ -89,19 +96,19 @@ internal sealed class PerformanceMigrationConverter : JsonConverter<Root>
             }
 
             // 列表已含 NotificationSettings（如曾运行过更新版本）时直接移除废弃键，避免重命名产生重复项
-            var hasNotificationSettings = list.Any(item => item is JsonValue v && v.TryGetValue<string>(out var s) && s == "NotificationSettings");
+            var hasNotificationSettings = list.Any(item => (string?)item == "NotificationSettings");
             for (var i = list.Count - 1; i >= 0; i--)
             {
-                if (list[i] is JsonValue item && item.TryGetValue<string>(out var keyName) && keyName == "ExternalNotificationSettings")
+                var entry = (string?)list[i];
+                if (entry == RemovedExternalNotificationSettingsKey && listName == nameof(Gui.SettingOrders))
                 {
-                    if (hasNotificationSettings)
-                    {
-                        list.RemoveAt(i);
-                    }
-                    else
-                    {
-                        list[i] = "NotificationSettings";
-                    }
+                    list[i] = hasNotificationSettings ? null : "NotificationSettings";
+                }
+
+                if ((string?)list[i] is not string key || !Enum.TryParse<SettingKey>(key, out var settingKey) ||
+                    !Enum.IsDefined(settingKey))
+                {
+                    list.RemoveAt(i);
                 }
             }
         }
@@ -112,12 +119,12 @@ internal sealed class PerformanceMigrationConverter : JsonConverter<Root>
     public override void Write(Utf8JsonWriter writer, Root value, JsonSerializerOptions options) =>
         JsonSerializer.Serialize(writer, value, WithoutThisConverter(options));
 
-    private static JsonSerializerOptions WithoutThisConverter(JsonSerializerOptions options)
+    private JsonSerializerOptions WithoutThisConverter(JsonSerializerOptions options)
     {
         var copy = new JsonSerializerOptions(options);
         for (var index = copy.Converters.Count - 1; index >= 0; --index)
         {
-            if (copy.Converters[index] is PerformanceMigrationConverter)
+            if (copy.Converters[index] is SettingsPageReorgMigrationConverter)
             {
                 copy.Converters.RemoveAt(index);
             }
