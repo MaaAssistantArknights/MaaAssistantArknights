@@ -330,9 +330,9 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             ("PR-C-2", ["3212", "3272"], 32),  // 先锋芯片组、辅助芯片组
             ("PR-D-2", ["3222", "3282"], 32),  // 近卫芯片组、特种芯片组
         ],
-        ["CE6"] = [("CE-6", ["4001"], 2000000)],    // 龙门币
+        ["CE6"] = [("CE-6", ["4001"], 5000000)],    // 龙门币
         ["AP5"] = [("AP-5", ["4006"], 8000)],       // 采购凭证（红票）
-        ["CA5"] = [("CA-5", ["3303"], 200)],        // 技巧概要·卷3
+        ["CA5"] = [("CA-5", ["3303"], 400)],        // 技巧概要·卷3
     };
 
     public void AddPresetPlan(string presetValue)

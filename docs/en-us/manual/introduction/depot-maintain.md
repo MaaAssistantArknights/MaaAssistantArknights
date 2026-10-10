@@ -49,11 +49,11 @@ Items in the plan list can be **dragged to reorder**. Plans are executed in orde
 
 Built-in presets for quick plan population:
 
-- **Low-tier Chips (all classes)**: PR-A/B/C/D-1, target 20 each
-- **High-tier Chip Packs (all classes)**: PR-A/B/C/D-2, target 32 each
-- **LMD**: CE-6, target 2,000,000
-- **Purchase Certificates (Red Tickets)**: AP-5, target 8,000
-- **Skill Summary SP3**: CA-5, target 200
+- **Low-tier Chips (all classes)**: PR-A/B/C/D-1, target 20 each (4x the development cost of a six-star operator)
+- **High-tier Chip Packs (all classes)**: PR-A/B/C/D-2, target 32 each (4x the development cost of a six-star operator)
+- **LMD**: CE-6, target 5,000,000 (4x the development cost of a six-star operator)
+- **Purchase Certificates (Red Tickets)**: AP-5, target 8,000 (8 six-star tokens + 8 five-star tokens + monthly module data blocks)
+- **Skill Summary SP3**: CA-5, target 400 (4x the development cost of a six-star operator)
 
 ## Advanced Settings
 
