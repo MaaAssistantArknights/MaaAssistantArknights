@@ -886,10 +886,7 @@ public partial class CopilotViewModel : Screen
         }
     }
 
-    public bool Loop {
-        get => field;
-        set => SetAndNotify(ref field, value);
-    }
+    public bool Loop { get; set => SetAndNotify(ref field, value); }
 
     public int LoopTimes
     {
