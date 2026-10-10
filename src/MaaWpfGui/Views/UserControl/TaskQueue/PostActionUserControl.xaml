@@ -19,16 +19,24 @@
     mc:Ignorable="d">
     <StackPanel>
         <StackPanel Visibility="{c:Binding !EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
-            <StackPanel
-                Margin="0,8"
-                HorizontalAlignment="Left"
-                Orientation="Horizontal">
-                <CheckBox IsChecked="{Binding Once}">
-                    <controls:TextBlock Text="{DynamicResource Once}" TextWrapping="Wrap" />
-                </CheckBox>
-                <controls:TooltipBlock TooltipText="{DynamicResource PostActionOnceTip}" />
-            </StackPanel>
-            <hc:Divider Margin="0,3" />
+            <Grid>
+                <StackPanel
+                    Margin="0,8"
+                    HorizontalAlignment="Left"
+                    Orientation="Horizontal">
+                    <CheckBox IsChecked="{Binding Once}">
+                        <controls:TextBlock Text="{DynamicResource Once}" TextWrapping="Wrap" />
+                    </CheckBox>
+                    <controls:TooltipBlock TooltipText="{DynamicResource PostActionOnceTip}" />
+                </StackPanel>
+                <Button
+                    HorizontalAlignment="Right"
+                    Command="{s:Action PostActionsClear}"
+                    Content="{DynamicResource Clear}"
+                    MouseRightButtonUp="{s:Action PostActionsClearOnce}" />
+            </Grid>
+
+            <hc:Divider />
             <CheckBox
                 Margin="0,8"
                 IsChecked="{Binding BackToAndroidHome}"
@@ -57,7 +65,7 @@
                 MouseRightButtonUp="{s:Action PostActionsAndOnce}">
                 <controls:TextBlock Text="{DynamicResource ExitSelf}" TextWrapping="Wrap" />
             </CheckBox>
-            <hc:Divider Margin="0,3" />
+            <hc:Divider />
             <StackPanel Margin="0,8" Orientation="Horizontal">
                 <CheckBox IsChecked="{Binding IfNoOtherMaa}" IsEnabled="{c:Binding 'LockScreen || Hibernate || Shutdown || Sleep'}">
                     <controls:TextBlock Text="{DynamicResource IfNoOtherMaa}" TextWrapping="Wrap" />
@@ -95,7 +103,7 @@
                 <controls:TextBlock Text="{DynamicResource Shutdown}" TextWrapping="Wrap" />
             </CheckBox>
 
-            <hc:Divider Margin="0,3" />
+            <hc:Divider />
             <StackPanel
                 Margin="0,8"
                 HorizontalAlignment="Left"
@@ -106,12 +114,6 @@
                 <controls:TooltipBlock TooltipText="{DynamicResource SkipPostActionOnErrorTip}" />
             </StackPanel>
 
-            <Button
-                Height="30"
-                Margin="20,8,20,0"
-                Command="{s:Action PostActionsClear}"
-                Content="{DynamicResource Clear}"
-                MouseRightButtonUp="{s:Action PostActionsClearOnce}" />
         </StackPanel>
     </StackPanel>
 </UserControl>
