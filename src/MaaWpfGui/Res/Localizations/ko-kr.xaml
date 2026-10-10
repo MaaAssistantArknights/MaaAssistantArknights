@@ -952,6 +952,10 @@ C:\leidian\LDPlayer9
     <system:String x:Key="OperProgressSkillNumber">스킬 {0}</system:String>
     <system:String x:Key="OperProgressOnlineEditor">명일방주 공구 상자에서 온라인 편집</system:String>
     <system:String x:Key="OperProgress.Detail">{key=OperProgress} {0}:{1} {2}</system:String>
+    <system:String x:Key="OperProgress.ParseUnknownOperator">{key=ParseFailed}\n알 수 없는 오퍼레이터: {0}-{1}</system:String>
+    <system:String x:Key="OperProgress.ParseNoTargetForOperator">{key=ParseFailed}\n오퍼레이터 {0}-{1}에 육성 목표가 설정되지 않았습니다</system:String>
+    <system:String x:Key="OperProgress.PlanNotFound">OperProgressDetail에 해당하는 육성 계획을 찾을 수 없습니다</system:String>
+    <system:String x:Key="OperProgress.PlanHasBothIdAndName">육성 계획에 id와 오퍼레이터 이름을 동시에 지정할 수 없습니다</system:String>
     <system:String x:Key="Visiting">친구 방문</system:String>
     <system:String x:Key="Mall">크레딧 수급 및 상점</system:String>
     <system:String x:Key="Mission">보상 수령</system:String>
