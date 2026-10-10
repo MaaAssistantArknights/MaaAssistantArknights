@@ -82,7 +82,7 @@
                     IsChecked="{Binding NotifyBeforeScheduledStart}" />
                 <hc:NumericUpDown
                     Height="30"
-                    Margin="10,-10"
+                    Margin="10,-10,0,-10"
                     VerticalAlignment="Center"
                     hc:InfoElement.Title="{DynamicResource ScheduledStartNotificationMinutes}"
                     hc:TitleElement.TitlePlacement="Left"
