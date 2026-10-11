@@ -359,6 +359,9 @@ bool asst::Controller::attach_window(
     // 连接时只需要获取画面，识别前的输入操作由任务截图执行。
     if (!screencap_for_preview()) {
         Log.error("Cannot screencap!");
+        if (!win32_controller->restore_window_position()) {
+            Log.error("Cannot restore Win32 window after screencap failure!");
+        }
         return false;
     }
 
@@ -381,11 +384,17 @@ bool asst::Controller::attach_window(
     }
     catch (const std::exception& e) {
         Log.error("Cannot create controller proxy: {}", e.what());
+        if (!win32_controller->restore_window_position()) {
+            Log.error("Cannot restore Win32 window after controller proxy failure!");
+        }
         return false;
     }
 
     if (!m_scale_proxy) {
         Log.error("Cannot create controller proxy!");
+        if (!win32_controller->restore_window_position()) {
+            Log.error("Cannot restore Win32 window after controller proxy failure!");
+        }
         return false;
     }
 

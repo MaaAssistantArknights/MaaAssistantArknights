@@ -38,6 +38,24 @@ static const char* get_win32_screencap_method_name(Win32ScreencapMethod method)
     }
 }
 
+static bool is_borderless_fullscreen(HWND hwnd)
+{
+    if ((GetWindowLongPtr(hwnd, GWL_STYLE) & WS_POPUP) == 0) {
+        return false;
+    }
+
+    RECT window_rect = {};
+    MONITORINFO monitor_info = { sizeof(MONITORINFO) };
+    const HMONITOR monitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
+    if (!GetWindowRect(hwnd, &window_rect) || !monitor || !GetMonitorInfo(monitor, &monitor_info)) {
+        return false;
+    }
+
+    const RECT& monitor_rect = monitor_info.rcMonitor;
+    return window_rect.left <= monitor_rect.left && window_rect.top <= monitor_rect.top &&
+           window_rect.right >= monitor_rect.right && window_rect.bottom >= monitor_rect.bottom;
+}
+
 Win32Controller::Win32Controller(const AsstCallback& callback, Assistant* inst) :
     InstHelper(inst),
     m_callback(callback),
@@ -50,7 +68,7 @@ Win32Controller::~Win32Controller()
 {
     LogTraceFunction;
 
-    restore_window_position(true);
+    restore_window_position();
 
     if (m_unit_handle && m_loader) {
         m_loader->destroy(m_unit_handle);
@@ -66,7 +84,10 @@ bool Win32Controller::attach(
 {
     LogTraceFunction;
 
-    restore_window_position(true);
+    if (!restore_window_position()) {
+        LogError << "Failed to restore the previous Win32 window before attaching a new one";
+        return false;
+    }
     m_inited = false;
     m_hwnd = hwnd;
     m_screencap_method = screencap_method;
@@ -75,7 +96,7 @@ bool Win32Controller::attach(
     m_screencap_cost.clear();
     m_screencap_times = 0;
     m_resize_target = { 0, 0 };
-    m_task_screencap_seen = false;
+    m_window_size_checked = false;
 
     // 销毁旧的控制单元
     if (m_unit_handle && m_loader) {
@@ -120,7 +141,6 @@ bool Win32Controller::attach(
     if (unit_screencap(image)) {
         if (m_auto_resize_window && !resize_window_for_capture(image)) {
             Log.error("Failed to adjust Win32 window to a supported resolution");
-            const auto style = m_hwnd ? GetWindowLongPtr(static_cast<HWND>(m_hwnd), GWL_STYLE) : 0;
             callback(
                 AsstMsg::ConnectionInfo,
                 json::object {
@@ -131,7 +151,7 @@ bool Win32Controller::attach(
                           { "width", image.cols },
                           { "height", image.rows },
                           { "auto_resize_failed", true },
-                          { "borderless", (style & WS_POPUP) != 0 },
+                          { "borderless", m_hwnd && is_borderless_fullscreen(static_cast<HWND>(m_hwnd)) },
                       } },
                 });
             return false;
@@ -180,10 +200,6 @@ bool Win32Controller::screencap_impl(cv::Mat& image_payload, bool move_cursor)
     if (move_cursor && m_auto_resize_window && !ensure_window_size()) {
         return false;
     }
-    if (move_cursor && m_auto_resize_window) {
-        m_task_screencap_seen = true;
-    }
-
     // 截图前把鼠标移走，避免光标出现在截图中影响识别
     // AnchoredTouch 注入合成触控，全程不移动真实光标，游戏自绘光标也不随合成触控移动，
     // 挪光标逻辑对其无意义，且底层 touch_move 在无活动接触点时会直接失败，整体跳过
@@ -315,7 +331,7 @@ void Win32Controller::set_auto_resize_window(bool enable) noexcept
 
 bool Win32Controller::ensure_window_size()
 {
-    if (!m_auto_resize_window || m_window_resized) {
+    if (!m_auto_resize_window || m_window_size_checked) {
         return true;
     }
 
@@ -339,6 +355,7 @@ bool Win32Controller::resize_window_for_capture(cv::Mat& image)
 
     if (m_resize_target == std::pair<int, int> { 0, 0 } && is_supported(image.cols, image.rows)) {
         m_screen_size = { image.cols, image.rows };
+        m_window_size_checked = true;
         return true;
     }
 
@@ -351,7 +368,7 @@ bool Win32Controller::resize_window_for_capture(cv::Mat& image)
     }
 
     const auto style = static_cast<DWORD>(GetWindowLongPtr(hwnd, GWL_STYLE));
-    if ((style & WS_POPUP) != 0) {
+    if (is_borderless_fullscreen(hwnd)) {
         LogError << "Cannot resize a borderless Win32 window; switch the game to windowed mode first"
                  << " hwnd:" << m_hwnd << " capture:" << image.cols << "x" << image.rows;
         return false;
@@ -455,6 +472,7 @@ bool Win32Controller::resize_window_for_capture(cv::Mat& image)
     RECT adjusted_rect = { 0, 0, m_resize_target.first, m_resize_target.second };
     if (!AdjustWindowRectExForDpi(&adjusted_rect, style, has_menu, ex_style, dpi)) {
         LogError << "Failed to calculate Win32 window size, last_error: " << GetLastError();
+        restore_window_position();
         return false;
     }
 
@@ -467,6 +485,7 @@ bool Win32Controller::resize_window_for_capture(cv::Mat& image)
             adjusted_rect.bottom - adjusted_rect.top,
             SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED | SWP_ASYNCWINDOWPOS | SWP_NOSENDCHANGING)) {
         LogError << "Failed to resize Win32 window, last_error: " << GetLastError();
+        restore_window_position();
         return false;
     }
     UpdateWindow(hwnd);
@@ -475,6 +494,7 @@ bool Win32Controller::resize_window_for_capture(cv::Mat& image)
         const bool captured = unit_screencap(image);
         if (captured && image.cols == m_resize_target.first && image.rows == m_resize_target.second) {
             m_screen_size = { image.cols, image.rows };
+            m_window_size_checked = true;
             RECT resized_window_rect = {};
             RECT resized_client_rect = {};
             GetWindowRect(hwnd, &resized_window_rect);
@@ -522,7 +542,7 @@ bool Win32Controller::resize_window_for_capture(cv::Mat& image)
 
     LogError << "Win32 window capture size did not become " << m_resize_target.first << "x" << m_resize_target.second
              << ", actual: " << image.cols << "x" << image.rows;
-    restore_window_position(true);
+    restore_window_position();
     return false;
 }
 
@@ -808,19 +828,11 @@ void Win32Controller::save_window_position()
     m_window_rect_saved = true;
 }
 
-void Win32Controller::restore_window_position()
-{
-    restore_window_position(false);
-}
-
-void Win32Controller::restore_window_position(bool force)
+bool Win32Controller::restore_window_position()
 {
     LogTraceFunction;
     if (!m_hwnd) {
-        return;
-    }
-    if (!force && m_window_resized && !m_task_screencap_seen) {
-        return;
+        return true;
     }
 
     HWND hwnd = static_cast<HWND>(m_hwnd);
@@ -850,42 +862,53 @@ void Win32Controller::restore_window_position(bool force)
     if (auto* unit = static_cast<MaaFwControlUnitAPI*>(m_unit_handle); unit != nullptr) {
         unit->inactive();
     }
-    if (IsWindow(hwnd)) {
+    bool restored = !m_window_rect_saved;
+    const bool window_valid = IsWindow(hwnd) != 0;
+    if (m_window_rect_saved && !window_valid) {
+        restored = false;
+    }
+    else if (window_valid) {
         if (m_window_rect_saved) {
             if (m_window_resized) {
-                if (!SetWindowPlacement(hwnd, &m_original_window_placement)) {
+                restored = SetWindowPlacement(hwnd, &m_original_window_placement) != 0;
+                if (!restored) {
                     LogError << "Failed to restore window placement, last_error: " << GetLastError();
                 }
                 if (m_original_window_placement.showCmd != SW_SHOWMAXIMIZED &&
                     m_original_window_placement.showCmd != SW_SHOWMINIMIZED &&
                     m_original_window_placement.showCmd != SW_SHOWMINNOACTIVE) {
-                    if (!SetWindowPos(
-                            hwnd,
-                            nullptr,
-                            m_original_window_rect.left,
-                            m_original_window_rect.top,
-                            m_original_window_rect.right - m_original_window_rect.left,
-                            m_original_window_rect.bottom - m_original_window_rect.top,
-                            SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED)) {
+                    const bool bounds_restored = SetWindowPos(
+                                                     hwnd,
+                                                     nullptr,
+                                                     m_original_window_rect.left,
+                                                     m_original_window_rect.top,
+                                                     m_original_window_rect.right - m_original_window_rect.left,
+                                                     m_original_window_rect.bottom - m_original_window_rect.top,
+                                                     SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED) != 0;
+                    if (!bounds_restored) {
                         LogError << "Failed to restore window bounds, last_error: " << GetLastError();
                     }
+                    restored = restored && bounds_restored;
                 }
             }
-            else if (!SetWindowPos(
-                         hwnd,
-                         nullptr,
-                         m_original_window_rect.left,
-                         m_original_window_rect.top,
-                         0,
-                         0,
-                         SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE)) {
-                LogError << "Failed to restore window position, last_error: " << GetLastError();
+            else {
+                restored = SetWindowPos(
+                               hwnd,
+                               nullptr,
+                               m_original_window_rect.left,
+                               m_original_window_rect.top,
+                               0,
+                               0,
+                               SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE) != 0;
+                if (!restored) {
+                    LogError << "Failed to restore window position, last_error: " << GetLastError();
+                }
             }
         }
         if (minimize_on_restore) {
             ShowWindow(hwnd, SW_SHOWMINNOACTIVE);
         }
-        if (m_window_rect_saved && m_window_resized) {
+        if (restored && m_window_rect_saved && m_window_resized) {
             RECT restored_rect = {};
             RECT restored_client_rect = {};
             WINDOWPLACEMENT restored_placement = { sizeof(WINDOWPLACEMENT) };
@@ -895,25 +918,28 @@ void Win32Controller::restore_window_position(bool force)
             LogInfo << "Restored Win32 window"
                     << " window_rect:" << restored_rect.left << "," << restored_rect.top << "," << restored_rect.right
                     << "," << restored_rect.bottom << " show_cmd:" << restored_placement.showCmd;
-            if (m_window_resized) {
-                callback(
-                    AsstMsg::ConnectionInfo,
-                    json::object {
-                        { "uuid", m_uuid },
-                        { "what", "Win32WindowResizeRestored" },
-                        { "details",
-                          json::object {
-                              { "width", restored_client_rect.right - restored_client_rect.left },
-                              { "height", restored_client_rect.bottom - restored_client_rect.top },
-                          } },
-                    });
-            }
+            callback(
+                AsstMsg::ConnectionInfo,
+                json::object {
+                    { "uuid", m_uuid },
+                    { "what", "Win32WindowResizeRestored" },
+                    { "details",
+                      json::object {
+                          { "width", restored_client_rect.right - restored_client_rect.left },
+                          { "height", restored_client_rect.bottom - restored_client_rect.top },
+                      } },
+                });
         }
     }
-    m_window_rect_saved = false;
-    m_window_resized = false;
-    m_task_screencap_seen = false;
-    m_resize_target = { 0, 0 };
+    if (restored) {
+        if (m_window_resized) {
+            m_window_size_checked = false;
+        }
+        m_window_rect_saved = false;
+        m_window_resized = false;
+        m_resize_target = { 0, 0 };
+    }
+    return restored;
 }
 
 ControlFeat::Feat Win32Controller::support_features() const noexcept
