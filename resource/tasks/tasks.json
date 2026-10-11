@@ -2044,7 +2044,7 @@
             "SignInEventReturnHome@ReturnButtons#next",
             "SignInEventEnter",
             "SignInEventEnterByIcon",
-            "SignInEvent@OfflineConfirm"
+            "OfflineConfirm"
         ]
     },
     "SignInEventReturnHome": {
@@ -5163,7 +5163,7 @@
     },
     "OperParadoxBegin": {
         "algorithm": "JustReturn",
-        "next": ["OperOpenInformationMenu", "OperParadox@OfflineConfirm"],
+        "next": ["OperOpenInformationMenu", "OfflineConfirm"],
         "preDelay": 500,
         "postDelay": 500
     },
