@@ -4688,6 +4688,16 @@
         ],
         "templThreshold": [0.8, 0.95, 0.8]
     },
+    "BattleSkillReadyOnClick-TopView-Auto": {
+        "baseTask": "BattleSkillReadyOnClick-TopView",
+        "Doc": "Prefer STOP over READY to avoid cancelling an active skill during automatic skill use.",
+        "template": [
+            "BattleSkillStopOnClick-TopView.png",
+            "BattleSkillReadyOnClick-TopView.png",
+            "BattleSkillReadyOnClick-TopView2.png"
+        ],
+        "templThreshold": [0.8, 0.8, 0.95]
+    },
     "BattleUseOper": {
         "algorithm": "JustReturn",
         "preDelay": 150,
