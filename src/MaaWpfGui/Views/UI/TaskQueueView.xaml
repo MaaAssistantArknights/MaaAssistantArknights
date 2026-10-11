@@ -379,9 +379,13 @@
                                                         </Setter>
                                                         <Style.Triggers>
                                                             <!--  调试专属任务（如自定义）仅调试模式显示  -->
-                                                            <DataTrigger Binding="{Binding IsDebugOnly}" Value="True">
-                                                                <Setter Property="Visibility" Value="{c:Binding ShowDebugTask, Source={x:Static helper:Instances.TaskQueueViewModel}}" />
-                                                            </DataTrigger>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding IsDebugOnly}" Value="True" />
+                                                                    <Condition Binding="{Binding ShowDebugTask, Source={x:Static helper:Instances.TaskQueueViewModel}}" Value="False" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </MultiDataTrigger>
                                                             <!--  开始唤醒至多一个，已有则禁用  -->
                                                             <DataTrigger Binding="{Binding Value}" Value="{x:Type singleTask:StartUpTask}">
                                                                 <Setter Property="IsEnabled" Value="{c:Binding 'StartUpTaskCount less 1', Source={x:Static helper:Instances.TaskQueueViewModel}}" />
