@@ -150,20 +150,29 @@
                         Source="{Binding RoguelikeCoreChar, Converter={StaticResource OperAvatarConverter}}" />
                 </Grid>
             </StackPanel>
-            <Grid>
+            <Grid Margin="0,3" Visibility="{c:Binding RoguelikeEnableAdditionalCoreChars}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <controls:TextBlock
+                    Margin="8,0,0,5"
+                    HorizontalAlignment="Left"
+                    hc:TextBlockAttach.AutoTooltip="True"
+                    Text="{DynamicResource StartingCoreChar2}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap" />
                 <hc:ComboBox
                     Name="StartingCoreChar2ComboBox"
-                    Margin="0,3"
+                    Grid.Row="1"
                     Padding="28,5,10,5"
-                    hc:InfoElement.Title="{DynamicResource StartingCoreChar2}"
                     DropDownClosed="CoreCharComboBox_DropDownClosed"
                     IsEditable="True"
                     IsEnabled="{c:Binding 'RoguelikeCoreChar != &quot;&quot;'}"
                     IsTextSearchEnabled="False"
                     ItemsSource="{Binding RoguelikeCoreCharList}"
                     Loaded="{s:Action MakeComboBoxSearchable,
-                                      Target={x:Type ui_vms:SettingsViewModel}}"
-                    Visibility="{c:Binding RoguelikeEnableAdditionalCoreChars}">
+                                      Target={x:Type ui_vms:SettingsViewModel}}">
                     <hc:ComboBox.ItemTemplate>
                         <DataTemplate>
                             <ContentControl Content="{Binding Converter={StaticResource OperNameBadgeConverter}}" />
@@ -179,6 +188,7 @@
                 </hc:ComboBox>
                 <!--  选中干员头像：IsEditable ComboBox 收起态显示区是纯文本 TextBox 无法内嵌图片，以不命中浮层贴在框内左侧，ComboBox 用 Padding 为其让出文本起点  -->
                 <Image
+                    Grid.Row="1"
                     Width="16"
                     Height="16"
                     Margin="6,0,0,0"
@@ -187,20 +197,29 @@
                     IsHitTestVisible="False"
                     Source="{Binding RoguelikeCoreChar2, Converter={StaticResource OperAvatarConverter}}" />
             </Grid>
-            <Grid>
+            <Grid Margin="0,3" Visibility="{c:Binding RoguelikeEnableAdditionalCoreChars}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <controls:TextBlock
+                    Margin="8,0,0,5"
+                    HorizontalAlignment="Left"
+                    hc:TextBlockAttach.AutoTooltip="True"
+                    Text="{DynamicResource StartingCoreChar3}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap" />
                 <hc:ComboBox
                     Name="StartingCoreChar3ComboBox"
-                    Margin="0,3"
+                    Grid.Row="1"
                     Padding="28,5,10,5"
-                    hc:InfoElement.Title="{DynamicResource StartingCoreChar3}"
                     DropDownClosed="CoreCharComboBox_DropDownClosed"
                     IsEditable="True"
                     IsEnabled="{c:Binding 'RoguelikeCoreChar != &quot;&quot; and RoguelikeCoreChar2 != &quot;&quot;'}"
                     IsTextSearchEnabled="False"
                     ItemsSource="{Binding RoguelikeCoreCharList}"
                     Loaded="{s:Action MakeComboBoxSearchable,
-                                      Target={x:Type ui_vms:SettingsViewModel}}"
-                    Visibility="{c:Binding RoguelikeEnableAdditionalCoreChars}">
+                                      Target={x:Type ui_vms:SettingsViewModel}}">
                     <hc:ComboBox.ItemTemplate>
                         <DataTemplate>
                             <ContentControl Content="{Binding Converter={StaticResource OperNameBadgeConverter}}" />
@@ -216,6 +235,7 @@
                 </hc:ComboBox>
                 <!--  选中干员头像：IsEditable ComboBox 收起态显示区是纯文本 TextBox 无法内嵌图片，以不命中浮层贴在框内左侧，ComboBox 用 Padding 为其让出文本起点  -->
                 <Image
+                    Grid.Row="1"
                     Width="16"
                     Height="16"
                     Margin="6,0,0,0"
