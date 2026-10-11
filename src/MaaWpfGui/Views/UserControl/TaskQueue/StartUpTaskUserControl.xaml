@@ -346,6 +346,12 @@
                                 ItemsSource="{Binding KeyboardMethodList}"
                                 SelectedValue="{Binding KeyboardMethod}"
                                 SelectedValuePath="Value" />
+
+                            <CheckBox
+                                Margin="0,5"
+                                Content="{DynamicResource AutoResizeWin32Window}"
+                                IsChecked="{Binding AutoResizeWindow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="{DynamicResource AutoResizeWin32WindowTip}" />
                         </StackPanel>
                     </DataTemplate>
                 </ContentControl.Resources>

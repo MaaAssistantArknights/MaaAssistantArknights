@@ -1964,6 +1964,12 @@ C:\leidian\LDPlayer9
 6. 遊戲解析度需為 16:9，推薦設定 1280x720 或 1920x1080</system:String>
     <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. 推薦滑鼠輸入方式使用 PostMsg-WindowPos，使用此方式可以很大程度解決 PC 端辨識錯誤和卡住的問題</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">截圖方式</system:String>
+    <system:String x:Key="AutoResizeWin32Window">自動調整遊戲視窗為 16:9</system:String>
+    <system:String x:Key="AutoResizeWin32WindowTip">連線時若實際截圖不是 16:9，自動調整普通遊戲視窗的用戶區，任務結束後還原原始大小與顯示狀態；無邊框全螢幕不支援自動調整。</system:String>
+    <system:String x:Key="Win32BorderlessResizeNotSupported">偵測到無邊框全螢幕模式，無法自動調整遊戲視窗解析度，請先在遊戲設定中切換為普通視窗模式。</system:String>
+    <system:String x:Key="Win32WindowResizeStart">正在調整遊戲視窗解析度：{0}x{1} → {2}x{3}</system:String>
+    <system:String x:Key="Win32WindowResizeSuccess">遊戲視窗解析度已調整為 {0}x{1}</system:String>
+    <system:String x:Key="Win32WindowResizeRestored">遊戲視窗解析度已還原為 {0}x{1}</system:String>
     <system:String x:Key="AttachWindowMouseMethod">滑鼠輸入</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">鍵盤輸入</system:String>
     <system:String x:Key="AttachWindowScreencapFramePool">FramePool（背景，高效，不可最小化）</system:String>

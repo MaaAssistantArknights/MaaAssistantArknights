@@ -1774,4 +1774,9 @@ AsstBool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey 
 @optional
 客户端类型（游戏渠道）。大多数连接配置不需要设置。仅当传给 `AsstConnect` / `AsstAsyncConnect` 的 `config` 在连接阶段命令里使用 `[PackageName]` 时，才需要在连接前调用 `AsstSetInstanceOption(..., ClientType, ...)`。当前内置配置仅 `Androws` 和 `WSA` 的 `displayId` 查询依赖该值。该选项不替代 StartUp / CloseDown 等任务参数里的 `client_type`。枚举值：6。  
 :::  
+::: field Win32AutoResizeWindow  
+@type boolean
+@optional
+Win32 窗口连接时，若实际截图不是 16:9，是否自动调整普通游戏窗口的客户区，任务结束后恢复原始大小和显示状态；无边框全屏不支持自动调整，连接时会提示先切换为普通窗口模式。可用值：`0` 或 `1`，默认为 `0`。枚举值：7。  
+:::  
 ::::

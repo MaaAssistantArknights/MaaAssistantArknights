@@ -1967,6 +1967,12 @@ C:\leidian\LDPlayer9
 6. 游戏分辨率需为 16:9，推荐设置 1280x720 或 1920x1080</system:String>
     <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. 推荐鼠标输入方式使用 PostMsg-WindowPos，使用此方式可以很大程度解决 PC 端识别错误和卡住的问题</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">截图方式</system:String>
+    <system:String x:Key="AutoResizeWin32Window">自动调整游戏窗口为 16:9</system:String>
+    <system:String x:Key="AutoResizeWin32WindowTip">连接时若实际截图不是 16:9，自动调整普通游戏窗口的客户区，任务结束后恢复原始大小和显示状态；无边框全屏不支持自动调整。</system:String>
+    <system:String x:Key="Win32BorderlessResizeNotSupported">检测到无边框全屏模式，无法自动调整游戏窗口分辨率，请先在游戏设置中切换为普通窗口模式。</system:String>
+    <system:String x:Key="Win32WindowResizeStart">正在调整游戏窗口分辨率：{0}x{1} → {2}x{3}</system:String>
+    <system:String x:Key="Win32WindowResizeSuccess">游戏窗口分辨率已调整为 {0}x{1}</system:String>
+    <system:String x:Key="Win32WindowResizeRestored">游戏窗口分辨率已恢复为 {0}x{1}</system:String>
     <system:String x:Key="AttachWindowMouseMethod">鼠标输入</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">键盘输入</system:String>
     <system:String x:Key="AttachWindowScreencapFramePool">WGC（后台，高效，不可最小化）</system:String>

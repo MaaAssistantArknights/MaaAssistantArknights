@@ -346,6 +346,7 @@ bool asst::Controller::attach_window(
     clear_info();
 
     auto win32_controller = std::make_shared<Win32Controller>(m_callback, m_inst);
+    win32_controller->set_auto_resize_window(m_win32_auto_resize_window);
     if (!win32_controller->attach(hwnd, screencap_method, mouse_method, keyboard_method)) {
         Log.error("attach_window failed");
         return false;
@@ -462,6 +463,11 @@ void asst::Controller::set_kill_adb_on_exit(bool enable) noexcept
 void asst::Controller::set_client_type(const std::string& client_type) noexcept
 {
     m_client_type = client_type;
+}
+
+void asst::Controller::set_win32_auto_resize_window(bool enable) noexcept
+{
+    m_win32_auto_resize_window = enable;
 }
 
 const std::string& asst::Controller::get_client_type() const noexcept

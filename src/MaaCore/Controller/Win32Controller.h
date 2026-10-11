@@ -35,6 +35,7 @@ public:
         Win32InputMethod mouse_method,
         Win32InputMethod keyboard_method);
 
+    void set_auto_resize_window(bool enable) noexcept;
     void restore_window_position();
 
 public: // ControllerAPI 接口
@@ -74,6 +75,9 @@ public: // ControllerAPI 接口
 
 private:
     bool screencap_impl(cv::Mat& image_payload, bool move_cursor);
+    bool ensure_window_size();
+    bool resize_window_for_capture(cv::Mat& image);
+    void restore_window_position(bool force);
     void callback(AsstMsg msg, const json::value& details);
     // 记录窗口当前位置，任务结束时恢复
     void save_window_position();
@@ -111,7 +115,12 @@ private:
 
     bool m_main_screen_recognition = false;
     RECT m_original_window_rect = { 0, 0, 0, 0 };
+    WINDOWPLACEMENT m_original_window_placement = { sizeof(WINDOWPLACEMENT) };
     bool m_window_rect_saved = false;
+    bool m_auto_resize_window = false;
+    bool m_window_resized = false;
+    bool m_task_screencap_seen = false;
+    std::pair<int, int> m_resize_target = { 0, 0 };
 };
 } // namespace asst
 

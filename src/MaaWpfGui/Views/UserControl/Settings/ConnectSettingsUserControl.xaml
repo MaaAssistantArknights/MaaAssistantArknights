@@ -341,6 +341,13 @@
                                 <CheckBox
                                     Margin="5"
                                     HorizontalAlignment="Center"
+                                    Content="{DynamicResource AutoResizeWin32Window}"
+                                    IsChecked="{Binding AutoResizeWindow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ToolTip="{DynamicResource AutoResizeWin32WindowTip}" />
+
+                                <CheckBox
+                                    Margin="5"
+                                    HorizontalAlignment="Center"
                                     Content="{DynamicResource MuteGameWhileRunning}"
                                     IsChecked="{Binding MuteWhileRunning, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>

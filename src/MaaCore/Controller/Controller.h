@@ -55,6 +55,7 @@ public:
     void set_adb_lite_enabled(bool enable) noexcept;
     void set_kill_adb_on_exit(bool enable) noexcept;
     void set_client_type(const std::string& client_type) noexcept;
+    void set_win32_auto_resize_window(bool enable) noexcept;
     const std::string& get_client_type() const noexcept;
 
     const std::string& get_uuid() const;
@@ -138,6 +139,7 @@ private:
 
     std::atomic_bool m_swipe_with_pause = false;
     bool m_kill_adb_on_exit = false;
+    bool m_win32_auto_resize_window = false;
     std::string m_client_type;
 
     mutable std::shared_mutex m_image_mutex;

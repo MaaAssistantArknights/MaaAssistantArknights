@@ -144,6 +144,16 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   运行中分辨率被修改，连接已断开并中断当前任务，`details` 结构如下：
   - `width` (number, required): 当前宽度。
   - `height` (number, required): 当前高度。
+- `Win32WindowResizeStart`  
+  开始自动调整 Win32 游戏窗口，`details` 结构如下：
+  - `width` (number, required): 调整前的客户区宽度。
+  - `height` (number, required): 调整前的客户区高度。
+  - `target_width` (number, required): 目标客户区宽度。
+  - `target_height` (number, required): 目标客户区高度。
+- `Win32WindowResizeSuccess`  
+  Win32 游戏窗口自动调整成功，`details` 包含调整后的 `width` 与 `height`。
+- `Win32WindowResizeRestored`  
+  Win32 游戏窗口已恢复，`details` 包含恢复后的 `width` 与 `height`。
 - `FastestWayToScreencap`  
   已找到最快的截图方式，`details` 结构如下：
   - `method` (string, required): 最快的截图方式。

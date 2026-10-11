@@ -120,6 +120,16 @@ Todo
   Resolution changed while running; the connection is invalidated and the current task is interrupted, `details` structure:
   - `width` (number, required): The current width.
   - `height` (number, required): The current height.
+- `Win32WindowResizeStart`  
+  Automatic Win32 game window resizing started, `details` structure:
+  - `width` (number, required): Client-area width before resizing.
+  - `height` (number, required): Client-area height before resizing.
+  - `target_width` (number, required): Target client-area width.
+  - `target_height` (number, required): Target client-area height.
+- `Win32WindowResizeSuccess`  
+  Automatic Win32 game window resizing succeeded. `details` contains the resulting `width` and `height`.
+- `Win32WindowResizeRestored`  
+  The Win32 game window was restored. `details` contains the restored `width` and `height`.
 - `FastestWayToScreencap`  
   Fastest screenshot method found, `details` structure:
   - `method` (string, required): Fastest screenshot method.

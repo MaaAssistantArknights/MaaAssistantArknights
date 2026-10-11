@@ -1965,6 +1965,12 @@ C:\leidian\LDPlayer9
 6. 게임 해상도는 16:9이어야 하며, 권장 설정: 1280x720 또는 1920x1080</system:String>
     <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. 마우스 입력 방식으로 PostMsg-WindowPos 사용을 권장합니다. 이 방식을 사용하면 PC 클라이언트의 인식 오류 및 멈춤 문제를 크게 줄일 수 있습니다</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">스크린샷 방식</system:String>
+    <system:String x:Key="AutoResizeWin32Window">게임 창을 16:9로 자동 조정</system:String>
+    <system:String x:Key="AutoResizeWin32WindowTip">연결 시 캡처 이미지가 16:9가 아니면 일반 게임 창의 클라이언트 영역을 자동으로 조정하고, 작업이 끝나면 원래 크기와 표시 상태로 복원합니다. 테두리 없는 전체 화면은 자동으로 조정할 수 없습니다.</system:String>
+    <system:String x:Key="Win32BorderlessResizeNotSupported">테두리 없는 전체 화면 모드가 감지되었습니다. 게임 창 해상도를 자동으로 조정할 수 없습니다. 먼저 게임 설정에서 창 모드로 전환하세요.</system:String>
+    <system:String x:Key="Win32WindowResizeStart">게임 창 해상도 조정 중: {0}x{1} → {2}x{3}</system:String>
+    <system:String x:Key="Win32WindowResizeSuccess">게임 창 해상도를 {0}x{1}(으)로 조정했습니다</system:String>
+    <system:String x:Key="Win32WindowResizeRestored">게임 창 해상도를 {0}x{1}(으)로 복원했습니다</system:String>
     <system:String x:Key="AttachWindowMouseMethod">마우스 입력 방식</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">키보드 입력 방식</system:String>
     <system:String x:Key="AttachWindowScreencapFramePool">FramePool (백그라운드, 효율적, 최소화 불가)</system:String>
