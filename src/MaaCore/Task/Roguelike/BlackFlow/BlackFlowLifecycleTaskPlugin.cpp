@@ -47,7 +47,7 @@ bool BlackFlowLifecycleTaskPlugin::load_params(const json::value& params)
             return false;
         }
         m_session->set_cultivation_target(*target);
-        // 界面只传「刷襁褓动物」这一个模式，收工条件随目标动物变化，所以在这里分流到对应策略。
+        // 界面只传 ｢刷襁褓动物｣ 这一个模式，收工条件随目标动物变化，所以在这里分流到对应策略。
         profile = baby_animal_profile_for(*target);
     }
     const std::string selected_profile = profile;

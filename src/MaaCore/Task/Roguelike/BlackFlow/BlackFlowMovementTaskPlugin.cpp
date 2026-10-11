@@ -37,7 +37,7 @@ constexpr int MaxOpenAttempts = 3;
 constexpr int MaxFrameRecognitionAttempts = 2;
 constexpr int MaxForwardSwipes = 3;
 constexpr int LoadedMarkerMaximumDistance = 60;
-// 「剩余N次」在卡片左上、名字在卡片右下，实测两者相距约 69px，下一张卡片的名字则在 200px 开外。
+// ｢剩余N次｣ 在卡片左上、名字在卡片右下，实测两者相距约 69px，下一张卡片的名字则在 200px 开外。
 constexpr int RemainingMarkerMaximumGap = 120;
 constexpr int SelectionSettleDelay = 500;
 constexpr int RecognitionRetryDelay = 200;
@@ -113,7 +113,7 @@ bool BlackFlowMovementTaskPlugin::_run()
             target_spec == nullptr ? std::string_view("unknown") : target_spec->id);
     }
     else {
-        // 不写结果的话，外层只会报「终止时没有策略结果」，真实原因就丢了。
+        // 不写结果的话，外层只会报 ｢终止时没有策略结果｣ ，真实原因就丢了。
         m_session->fail(
             "movement_selection_failed",
             error.empty() ? "movement selection failed" : error,
@@ -466,8 +466,8 @@ bool BlackFlowMovementTaskPlugin::analyze_frame(const cv::Mat& image, PanelFrame
         return left_center == right_center ? left.name_rect.x < right.name_rect.x : left_center < right_center;
     });
 
-    // 「装载中」就贴在它那张卡片的名字上方，取垂直距离最近的名字即可；两者相距约 20px，
-    // 邻卡在 120px 开外。上限只用来挡「名字被 roi 下边界切掉、标记却还在」这一种情况。
+    // ｢装载中｣ 就贴在它那张卡片的名字上方，取垂直距离最近的名字即可；两者相距约 20px，
+    // 邻卡在 120px 开外。上限只用来挡 ｢名字被 roi 下边界切掉、标记却还在｣ 这一种情况。
     // frame.items 按移动类型合并后只保留最高分框；用原始 OCR 结果判断装载归属，避免丢失实际贴近标记的低分框。
     PanelItem* loaded_item = nullptr;
     int loaded_distance = std::numeric_limits<int>::max();
@@ -498,7 +498,7 @@ bool BlackFlowMovementTaskPlugin::analyze_frame(const cv::Mat& image, PanelFrame
         frame.loaded_movement = loaded_item->movement;
     }
 
-    // 一张卡片里「剩余N次」在上、名字在下，所以标记归属它下方最近的那个名字；
+    // 一张卡片里 ｢剩余N次｣ 在上、名字在下，所以标记归属它下方最近的那个名字；
     // 卡片只露出上半截时下方没有名字，丢掉，不能算到别人头上。
     for (const auto& [marker, remaining] : remaining_markers) {
         const int marker_bottom = marker.y + marker.height;

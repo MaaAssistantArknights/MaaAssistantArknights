@@ -426,6 +426,6 @@ public class IssueReportUserControlModel : PropertyChangedBase
             IconKey = "HangoverGeometry",
             IconBrushKey = "PallasBrush",
         };
-        Growl.Info(growlInfo);
+        GrowlHelper.Info(growlInfo);
     }
 }

@@ -6,7 +6,7 @@ icon: hugeicons:brain-02
 # Sanity Farming
 
 ::: info UI-Only Feature
-Some features on this page are implemented by the UI layer (such as Target Inventory, Weekly Schedule, and multi-task ordering). See [Getting Started](../newbie.md#about-this-documentation) for details.
+Some features on this page are implemented by the UI layer (such as Target Inventory, Weekly Schedule, and multi-task ordering). See [Getting Started](../newbie.md) for details.
 :::
 
 ## General Settings

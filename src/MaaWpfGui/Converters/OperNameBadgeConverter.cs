@@ -21,7 +21,7 @@ using MaaWpfGui.Helper;
 namespace MaaWpfGui.Converters;
 
 /// <summary>
-/// 将干员名转换为「头像 + 干员名」一体的展示元素（<see cref="OperAvatarHelper.CreateOperBadgeByName"/>），
+/// 将干员名转换为 ｢头像 + 干员名｣ 一体的展示元素（<see cref="OperAvatarHelper.CreateOperBadgeByName"/>），
 /// 用于下拉列表等需要按条目调用方法生成元素的绑定场景。
 /// </summary>
 public class OperNameBadgeConverter : IValueConverter

@@ -828,7 +828,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     } = ConfigFactory.CurrentConfig.Gui.ConnectSettings.TouchMode;
 
     /// <summary>
-    /// 根据 MuMu 截图增强的开关状态，动态增删触控模式下拉列表中的「MuMu 触控」选项。
+    /// 根据 MuMu 截图增强的开关状态，动态增删触控模式下拉列表中的 ｢MuMu 触控｣ 选项。
     /// 仅增删下拉项，不自动切换当前触控模式——切换由触控增强勾选框负责。
     /// </summary>
     /// <param name="mumuExtrasEnabled">MuMu 截图增强是否已启用。</param>

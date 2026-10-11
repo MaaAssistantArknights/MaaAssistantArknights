@@ -1452,8 +1452,8 @@ public class VersionUpdateDialogViewModel : Screen
 
     private async Task AskToRestartCore(string description, string title)
     {
-        // 自动安装，或用户点「立即更新/确定」：按启动设置决定是否写入 --skip-startup-auto-run。
-        // 选「稍后」不会走到这里，之后手动启动是正常流程，不会带 skip 参数。
+        // 自动安装，或用户点 ｢立即更新/确定｣ ：按启动设置决定是否写入 --skip-startup-auto-run。
+        // 选 ｢稍后｣ 不会走到这里，之后手动启动是正常流程，不会带 skip 参数。
         string[] updateRestartArgs = Bootstrapper.GetUpdateRestartArgsIfEnabled();
 
         if (SettingsViewModel.VersionUpdateSettings.AutoInstallUpdatePackage)

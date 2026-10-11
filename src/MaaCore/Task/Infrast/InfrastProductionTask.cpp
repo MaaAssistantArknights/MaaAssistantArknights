@@ -305,8 +305,8 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
 
         /* 产物识别紧靠换产物/换人：`ProductOfFacility` 与 Replenish / Shamare（仅贸易）监听该时点，早于 Pre。
-           可信度：须达到对应 InfrastFlag* 模板的 templThreshold，避免出现「最高分仍不可靠」却仍选
-           all_products.at(0)」。 */
+           可信度：须达到对应 InfrastFlag* 模板的 templThreshold，避免出现 ｢最高分仍不可靠｣ 却仍选
+           all_products.at(0)｣ 。 */
         // 识别产物时添加守卫，对后续逻辑没有本质影响
         const auto image_facility_products = ctrler()->get_image();
         Matcher product_analyzer(image_facility_products);

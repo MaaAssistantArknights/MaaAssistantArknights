@@ -6,7 +6,7 @@ icon: icon-park-solid:other
 # Others
 
 ::: info UI-Only Feature
-Most features on this page are implemented by the UI layer. See [Getting Started](../newbie.md#about-this-documentation) for details.
+Most features on this page are implemented by the UI layer. See [Getting Started](../newbie.md) for details.
 :::
 
 ## GPU-Accelerated Inference

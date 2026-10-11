@@ -25,7 +25,7 @@ const fullySupport = [
         {
             name: 'MuMu 模擬器',
             link: 'https://mumu.163.com/',
-            note: '完美支援，且額外支援[截圖增強模式](../connection.html#mumu-截圖增強模式)。已知相容 Hyper-V。\n\n- 「完成後退出模擬器」功能可能偶爾出現異常，若遇到請向 MuMu 官方回饋。\n- 請勿將 `顯示記憶體使用策略` 設定為 `資源佔用更小`。',
+            note: '完美支援，且額外支援[截圖增強模式](../connection.html#mumu-截圖增強模式)。已知相容 Hyper-V。\n\n- ｢完成後退出模擬器｣ 功能可能偶爾出現異常，若遇到請向 MuMu 官方回饋。\n- 請勿將 `顯示記憶體使用策略` 設定為 `資源佔用更小`。',
         },
         {
             name: '雷電模擬器',
@@ -67,7 +67,7 @@ const partiallySupport = shuffleArray([
     {
         name: 'MuMu 模擬器 6',
         link: 'https://mumu.163.com/update/win/',
-        note: '自 MAA v5.1.0 起放棄支援，網易已於 2023.8.15 停止維護。\n\n- 不再支援自動偵測連線，需使用通用連線配置，並手動設定 ADB 路徑與連線位址。\n- 需要在 `設定` - `連線設定` 中執行 `強制替換 ADB`，才能使用 Minitouch, MaaTouch 等高效觸控模式。\n- 需要使用管理員權限執行 MAA 才能使用「完成後退出模擬器」相關功能。\n- 不支援使用 MuMu 6 預設的幾個特殊解析度，需要改為 `1280x720`、`1920x1080` 等 16:9 比例。\n- MuMu 6 分身多開使用的是同一個 ADB 連接埠，因此無法支援多開的 MuMu 6。',
+        note: '自 MAA v5.1.0 起放棄支援，網易已於 2023.8.15 停止維護。\n\n- 不再支援自動偵測連線，需使用通用連線配置，並手動設定 ADB 路徑與連線位址。\n- 需要在 `設定` - `連線設定` 中執行 `強制替換 ADB`，才能使用 Minitouch, MaaTouch 等高效觸控模式。\n- 需要使用管理員權限執行 MAA 才能使用 ｢完成後退出模擬器｣ 相關功能。\n- 不支援使用 MuMu 6 預設的幾個特殊解析度，需要改為 `1280x720`、`1920x1080` 等 16:9 比例。\n- MuMu 6 分身多開使用的是同一個 ADB 連接埠，因此無法支援多開的 MuMu 6。',
     },
     {
         name: 'Windows Subsystem for Android™ (WSA)',

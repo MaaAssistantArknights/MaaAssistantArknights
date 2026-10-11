@@ -413,7 +413,7 @@ public:
     }
 
     // 安全层关闭时没有可证的命题，证明深度与见证动作都不存在。求解器对这两问会按
-    // 「未求解」报错，因此在这里一并短路。
+    // ｢未求解｣ 报错，因此在这里一并短路。
     std::optional<std::size_t> cached_depth(SafetyStateId state, int action_points)
     {
         if (m_graph.exhaustion_terminates()) {
@@ -472,12 +472,12 @@ private:
     int exact_action_requirement(const OnDemandSafetyAction& action, int maximum_action_points)
     {
         const int first_budget = std::max(action.minimum_action_points_to_start, action.action_point_cost);
-        // 下面的扫描在预算不足时一次都不进循环，因而「付不起」与「不可达」共用同一个返回值，
+        // 下面的扫描在预算不足时一次都不进循环，因而 ｢付不起｣ 与 ｢不可达｣ 共用同一个返回值，
         // 调用方只检查这一个。短路必须保持同一约定，否则付不起的动作会被当成可行。
         //
         // 这条短路同时跳过了对全部结果的遍历，随机落点的动作（目前只有 M07 小八界）因此
         // 不再按最坏落点定价。襁褓动物在最后一层可以接受——落到哪里都算收工，而 M07 本层
-        // 不用就作废。换到「走不出去有代价」的层或策略上复用时，这一条必须重新评估。
+        // 不用就作废。换到 ｢走不出去有代价｣ 的层或策略上复用时，这一条必须重新评估。
         if (m_graph.exhaustion_terminates()) {
             return first_budget <= maximum_action_points ? first_budget : UnreachableActionPointRequirement;
         }
@@ -1531,7 +1531,7 @@ struct BindingResolution
     std::string error;
 };
 
-// 可行性阶梯。候选按优先级从高到低给出，这里从全体开始，每次证不出「加上这些约束仍有安全解」
+// 可行性阶梯。候选按优先级从高到低给出，这里从全体开始，每次证不出 ｢加上这些约束仍有安全解｣
 // 就把优先级最低的一个降级，直到证得出为止。
 //
 // 关键在于约束只在证明通过之后才施加：被拒绝的路线一定有一条已经证明存在的合规路线可以替代，
@@ -1575,7 +1575,7 @@ BindingResolution resolve_binding_milestones(const BlackFlowPlanRequest& request
             resolution.error = "binding feasibility calculation failed: " + oracle.error();
             return resolution;
         }
-        // N_bounded 以当前行动力为上界，取到有限值就等于「现在的行动力够」。
+        // N_bounded 以当前行动力为上界，取到有限值就等于 ｢现在的行动力够｣ 。
         if (requirement < UnreachableActionPointRequirement) {
             return resolution;
         }
@@ -1642,7 +1642,7 @@ PreviewSafetyVerification BlackFlowPlanner::verify_previewed_move_impl(
     result.action_points_after = projected->run.resources.action_points;
 
     // 预览验证沿用规划当轮已经定下的锁定集合，不再重跑可行性阶梯：这一步只回答
-    // 「这一步落地之后还走得完」，锁定集合改变属于下一次规划的事。
+    // ｢这一步落地之后还走得完｣ ，锁定集合改变属于下一次规划的事。
     const std::unordered_set<std::string> binding_ids(
         request.binding_milestone_candidates.begin(),
         request.binding_milestone_candidates.end());
@@ -1747,8 +1747,8 @@ BlackFlowPlan BlackFlowPlanner::plan_impl(const BlackFlowPlanRequest& request) c
     result.binding_milestone_ids.insert(binding.locked.begin(), binding.locked.end());
     result.demoted_milestone_ids = binding.demoted;
 
-    // 已锁定目标的匹配节点。策略规则靠 candidate.strategy_end 区分「这个商店是本轮的硬目标」
-    // 和「只是顺路的商店」，例如没资源时不进秘境行商的那条禁止规则就要放行硬目标。
+    // 已锁定目标的匹配节点。策略规则靠 candidate.strategy_end 区分 ｢这个商店是本轮的硬目标｣
+    // 和 ｢只是顺路的商店｣ ，例如没资源时不进秘境行商的那条禁止规则就要放行硬目标。
     std::unordered_set<NodeId> binding_goal_nodes;
     for (const std::string& id : binding.locked) {
         const auto definition = std::ranges::find(request.policy->milestones, id, &Milestone::id);

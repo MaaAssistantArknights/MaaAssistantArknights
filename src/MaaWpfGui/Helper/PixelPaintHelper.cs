@@ -111,7 +111,7 @@ public static class PixelPaintHelper
         public double SaturationPercent { get; init; } = 100;
 
         /// <summary>
-        /// 取景区：相对「去边后内容图」的归一化矩形（0~1）。
+        /// 取景区：相对 ｢去边后内容图｣ 的归一化矩形（0~1）。
         /// null 表示用完整去边结果再按 Fit 适配。
         /// </summary>
         public Rect? ContentViewNormalized { get; init; }

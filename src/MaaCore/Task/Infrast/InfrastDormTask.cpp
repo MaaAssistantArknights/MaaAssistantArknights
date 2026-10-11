@@ -642,9 +642,9 @@ bool asst::InfrastDormTask::set_notstationed_filter(bool enabled)
     // 导致误点两次返回、退出到主界面后再重新进入基建，游戏会丢失筛选状态，
     // 此时内存标志仍为旧值，跳过 UI 操作会导致筛选实际未生效，从而把训练室
     // 等已进驻干员选进宿舍。
-    // 底层 click_filter_menu_not_stationed_button() 已能幂等处理「已选中」
+    // 底层 click_filter_menu_not_stationed_button() 已能幂等处理 ｢已选中｣
     // 状态（识别 InfrastFilterMenuNotStationedSelected 后直接 Stop），所以
-    // 每次都真正执行是安全的，不会对已选中的「未进驻」二次点击。
+    // 每次都真正执行是安全的，不会对已选中的 ｢未进驻｣ 二次点击。
     bool success = false;
     if (enabled) {
         Log.trace("click_filter_menu_not_stationed_button");

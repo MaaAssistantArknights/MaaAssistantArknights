@@ -143,13 +143,13 @@ icon: game-icons:prisoner
                     "direction": "Left"
                 }
             ],
-            "draw_as_possible": true, // 「調配幹員」按鈕，是否好了就用，必選
+            "draw_as_possible": true, // ｢調配幹員｣ 按鈕，是否好了就用，必選
             "actions": [
                 // 選填
                 // 基本複用抄作業的邏輯，可參考 protocol/copilot-schema.md
                 // 符合 action 的條件就執行 action，否則執行上面的 strategies 邏輯
                 {
-                    "type": "調配幹員" // 新 type，「調配幹員」按鈕，點一下，在 "draw_as_possible" 為 true 時無效
+                    "type": "調配幹員" // 新 type， ｢調配幹員｣ 按鈕，點一下，在 "draw_as_possible" 為 true 時無效
                 },
                 {
                     "type": "CheckIfStartOver", // 新 type，檢查幹員在不在，不在就結束重開

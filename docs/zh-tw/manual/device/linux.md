@@ -78,7 +78,7 @@ MAA WPF GUI 當前可以透過 Wine 執行。MAA 已採用自包含部署方式�
 
    以下安裝方式任選其一：
    - 在 [MAA 官網](https://maa.plus/) 下載預編譯的 Linux 動態函式庫壓縮檔，解壓縮後編輯 `Python/sample.py` 檔案
-   - AUR：[maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)，按照安裝後「Alternative usage」的提示編輯檔案
+   - AUR：[maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)，按照安裝後 ｢Alternative usage｣ 的提示編輯檔案
    - Nixpkgs: [maa-assistant-arknights](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
 
    ::: tip

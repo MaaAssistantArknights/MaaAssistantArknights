@@ -130,7 +130,7 @@ icon: iconoir:developer
     4. 重複上述 8, 9, 10, 11 中的操作
 
 ::: tip
-開啟 Visual Studio 之後，和 Git 有關的操作可以不用命令列工具，直接使用 Visual Studio 內建的「Git 變更」功能即可。
+開啟 Visual Studio 之後，和 Git 有關的操作可以不用命令列工具，直接使用 Visual Studio 內建的 ｢Git 變更｣ 功能即可。
 :::
 
 ## 使用 VS Code 進行開發（可選）

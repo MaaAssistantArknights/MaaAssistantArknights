@@ -44,8 +44,8 @@ icon: material-symbols:view-quilt-rounded
             ],
             "duration": 360, // 工作持續時長（分鐘），保留欄位，目前無作用。以後可能到時間了彈窗提醒該換班了，或者直接自動換了
             "Fiammetta": {
-                // 「菲亞梅塔」為哪位幹員使用，可選，不填寫則不使用
-                "enable": true, // 是否使用「菲亞梅塔」，可選，預設 true
+                // ｢菲亞梅塔｣ 為哪位幹員使用，可選，不填寫則不使用
+                "enable": true, // 是否使用 ｢菲亞梅塔｣ ，可選，預設 true
                 "target": "巫戀", // 目標幹員，使用 OCR 進行，需要傳入對應用戶端語言的幹員名稱
                 "order": "pre" // 在整個換班前使用，還是換完班才用，可選，取值範圍 "pre" / "post"，預設 "pre"
             },
@@ -73,7 +73,7 @@ icon: material-symbols:view-quilt-rounded
                 // 取值範圍 "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing" / "training" / "recycle"
                 // training / recycle 的 A/B 分組為草案，目前 MAA 自訂排班尚未支援
                 // 缺少某個則該設施使用預設演算法進行換班。
-                // 若想不對某個房間換班請使用 skip 欄位，或直接在 MAA 「任務設定 - 基建換班 - 進階設定」中取消該設施的勾選
+                // 若想不對某個房間換班請使用 skip 欄位，或直接在 MAA ｢任務設定 - 基建換班 - 進階設定｣ 中取消該設施的勾選
                 "control": [
                 {
                     "operators": [
@@ -121,7 +121,7 @@ icon: material-symbols:view-quilt-rounded
                     "operators": [
                         // 啟用後，operators 中的名稱將被解釋為編組名稱
                         "古+銀", // 將按照心情門檻值以及設定順序選擇編組
-                        "清流" // 如「古+銀」組中有幹員心情低於門檻值，將使用「清流」組
+                        "清流" // 如 ｢古+銀｣ 組中有幹員心情低於門檻值，將使用 ｢清流｣ 組
                     ]
                 }
                 ],

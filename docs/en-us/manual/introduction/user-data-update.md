@@ -6,7 +6,7 @@ icon: mdi:account-sync
 # Update Doctor Data
 
 ::: info UI-Only Feature
-This page covers UI-layer features. See [Getting Started](../newbie.md#about-this-documentation) for details.
+This page covers UI-layer features. See [Getting Started](../newbie.md) for details.
 :::
 
 The Update Doctor Data task is used to **sync operator roster and depot inventory** cache data, providing accurate inventory baselines for features like [Depot Maintain](./depot-maintain.md).

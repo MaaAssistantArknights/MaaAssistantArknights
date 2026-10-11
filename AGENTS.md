@@ -2,6 +2,8 @@
 
 格式由 `.pre-commit-config.yaml` 钩子机器强制，各钩子有 files 范围；本地不处理好的话 GitHub CI 会定时代跑并生成额外的机器修复 commit，为避免此副作用，改完文件后须本地跑对应格式化（如 C++ 的 clang-formatter）。
 
+界面文案、代码注释、文档正文（含代码块内注释）的角引号统一用半角 ｢｣，左括号前、右括号后各加一个空格（紧贴 Markdown 语法边界如链接方括号、加粗星号时不加），禁止全角「」；代码块内字符串值保留游戏原文，名称自带全角引号的（如召唤物「逍遥」）维持全角不动。
+
 ## C++（MaaCore）
 
 - 格式化用 `python tools/ClangFormatter/clang-formatter.py --input=<改动文件或其所在子目录>`（`--input` 收目录递归或单个文件），只传本次改动的范围，确需全仓库批量时才传 `src/MaaCore`（全量幂等但白扫全仓库）；版本需求：clang-format 23.1.1（对齐 `.pre-commit-config.yaml` 锁定版本）；5 位以上整数字面量加千分位撇（`65'535`，存量尚有漏改，勿照抄）。
@@ -31,6 +33,7 @@
 - 格式化统一走 XAML Styler 默认设置（VS 插件与命令行 `xstyler` 同引擎同默认设置），命令行 `xstyler -f <文件>`（多文件逗号分隔）或 `xstyler -d <目录> -r`，安装 `dotnet tool install -g xamlstyler.console`；勿传 `-c` 或另行引入 `.xamlstyler` 配置文件，格式规范以默认设置为准。
 - 界面文本一律用 `controls:TextBlock` 而非原版 `TextBlock`；例外是文本样式需跟随宿主控件模板的场景（超链接、下拉选中项、按钮 Content、DataTemplate 内部等），这些用原版 `TextBlock`，不要套统一样式，保持原生表现。
 - 本地化 key 与主题 Brush 一律 `{DynamicResource ...}`，StaticResource 在语言或主题热切换后不刷新；引用本仓库自定义样式等不随主题/语言热切换的资源时用 StaticResource。
+- `Setter.Value` 里禁用不含运算符的 `c:Binding` 单路径表达式绑 `Visibility` 等类型不符的属性，含运算符的表达式会挂转换器不受此限——CalcBinding 在 Setter 上下文拿不到目标属性类型，不挂转换器的裸绑定转换失败后静默保持默认值（该 Setter 从未生效）；条件显隐改用 `DataTrigger`/`MultiDataTrigger` 直接设 `Collapsed`，或裸 `Binding` 显式挂 `Converter`。
 - 提示文案 key 加 `Tip` 后缀（`ForceScheduledStart` 与 `ForceScheduledStartTip`），句内复用其他 key 写 `{key=Xxx}` 内联。
 - `TooltipBlock` 长文案按句界显式换行，一句一行即可；无句界的长句不必强行拆，由 TooltipText 默认 MaxWidth 500 的软换行兜底。资源串内写 `&#10;` 或字面换行均可，且必须声明 `xml:space="preserve"`，否则换行符被 XAML 归一化；各语言在自己句界处换行，行数不要求一致。
 - 固定选项的下拉框用 `LocalizedObservableList<T>`（`src/MaaWpfGui/Utilities/ValueType/LocalizedObservableList.cs`），构造给 (值, 本地化 key)，勿手动 GetString 固化 Display（热切换语言后该项停留旧语言）；ViewModel 订阅 `LocalizationHelper.LanguageChanged` 并在回调里 `RefreshLocalization()`；增删用自带 Add/Remove/Insert/Clear，勿直接操作 Items。

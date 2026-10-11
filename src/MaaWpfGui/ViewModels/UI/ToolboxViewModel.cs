@@ -957,7 +957,7 @@ public class ToolboxViewModel : Screen
     {
         Clipboard.Clear();
         Clipboard.SetDataObject(ArkPlannerResult);
-        Growl.Info(LocalizationHelper.GetString("CopiedToClipboard"));
+        GrowlHelper.Info(LocalizationHelper.GetString("CopiedToClipboard"));
     }
 
     /// <summary>
@@ -969,7 +969,7 @@ public class ToolboxViewModel : Screen
     {
         Clipboard.Clear();
         Clipboard.SetDataObject(LoliconResult);
-        Growl.Info(LocalizationHelper.GetString("CopiedToClipboard"));
+        GrowlHelper.Info(LocalizationHelper.GetString("CopiedToClipboard"));
     }
 
     /// <summary>
@@ -1014,7 +1014,7 @@ public class ToolboxViewModel : Screen
         }
 
         File.WriteAllText(dialog.FileName, content);
-        Growl.Info(LocalizationHelper.GetString("ExportedToFile"));
+        GrowlHelper.Info(LocalizationHelper.GetString("ExportedToFile"));
     }
 
     private static IEnumerable<string> BuildMarkdownExportLines(IReadOnlyList<DepotResultDate> items)
@@ -2199,7 +2199,7 @@ public class ToolboxViewModel : Screen
 
         Clipboard.Clear();
         Clipboard.SetDataObject(JsonConvert.SerializeObject(exportList, Formatting.Indented));
-        Growl.Info(LocalizationHelper.GetString("CopiedToClipboard"));
+        GrowlHelper.Info(LocalizationHelper.GetString("CopiedToClipboard"));
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.OperatorRoster);
     }
 
@@ -2225,7 +2225,7 @@ public class ToolboxViewModel : Screen
         }
 
         File.WriteAllText(dialog.FileName, content, new UTF8Encoding(true));
-        Growl.Info(LocalizationHelper.GetString("ExportedToFile"));
+        GrowlHelper.Info(LocalizationHelper.GetString("ExportedToFile"));
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.OperatorRoster);
     }
 
@@ -2591,7 +2591,7 @@ public class ToolboxViewModel : Screen
             _logger.Warning("Screenshot Semaphore Full, Reduce Target FPS count to {PeepTargetFps}", --PeepTargetFps);
             _ = Execute.OnUIThreadAsync(() => {
                 Growl.Clear();
-                Growl.Warning(LocalizationHelper.GetStringFormat("PeepScreenshotTooLong", PeepTargetFps));
+                GrowlHelper.Warning(LocalizationHelper.GetStringFormat("PeepScreenshotTooLong", PeepTargetFps));
             });
             return;
         }

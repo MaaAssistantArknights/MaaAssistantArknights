@@ -102,7 +102,7 @@ MAA 藉由 GitHub Actions 完成了大量的自動化工作，包括網站建置
 
 `issue-review.yml`
 
-透過正規表達式自動關閉勾選「我未仔細閱讀」的 Issue；若該項未被勾選，則將所有勾選框（Checkbox）折疊。未被攔截的新 Issue 會自動進行 AI 分析，也可在 Issue 留言中 @MaaArknightsBot 手動觸發分析。
+透過正規表達式自動關閉勾選 ｢我未仔細閱讀｣ 的 Issue；若該項未被勾選，則將所有勾選框（Checkbox）折疊。未被攔截的新 Issue 會自動進行 AI 分析，也可在 Issue 留言中 @MaaArknightsBot 手動觸發分析。
 
 `stale.yml`
 

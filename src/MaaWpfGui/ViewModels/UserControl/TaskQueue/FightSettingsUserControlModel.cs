@@ -138,7 +138,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         if (status == TaskItemStatus.Completed)
         {
             // 有次数限制的目标库存任务可能打满次数而未达标，结束原因不唯一，不构成耗尽证明；
-            // 无次数限制时该模式下「未达库存目标的正常结束」只能是理智不足
+            // 无次数限制时该模式下 ｢未达库存目标的正常结束｣ 只能是理智不足
             if (GetFightTaskByTaskId(taskId) is { } completedFight &&
                 IsInventoryTargetDropEnabled(completedFight) &&
                 !string.IsNullOrEmpty(completedFight.DropId) &&
@@ -267,7 +267,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel, FightSetting
         }
 
         // 备选三行 StagePlan 不受 UseAlternateStage 控制可见性，必须先切备选模式，
-        // 否则「关卡指定」标签/添加关卡按钮/复选框勾选停留在主关卡模式，与渲染出的三行叠加错乱
+        // 否则 ｢关卡指定｣ 标签/添加关卡按钮/复选框勾选停留在主关卡模式，与渲染出的三行叠加错乱
         UseAlternateStage = true;
 
         StageListSource = [.. stages.Select(s => {

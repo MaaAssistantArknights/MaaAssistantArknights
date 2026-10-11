@@ -29,7 +29,7 @@ using Serilog;
 namespace MaaWpfGui.Helper;
 
 /// <summary>
-/// 干员头像（<c>resource/template/avatar/&lt;干员id&gt;.png</c>，由 tools/ResourceUpdater 随资源更新生成）的加载与「头像 + 干员名」组合元素的构建。
+/// 干员头像（<c>resource/template/avatar/&lt;干员id&gt;.png</c>，由 tools/ResourceUpdater 随资源更新生成）的加载与 ｢头像 + 干员名｣ 组合元素的构建。
 /// </summary>
 public static class OperAvatarHelper
 {
@@ -161,7 +161,7 @@ public static class OperAvatarHelper
     }
 
     /// <summary>
-    /// 生成「头像 + 干员名」一体的展示元素：头像与名字作为一个整体参与排版，不会被换行拆开。
+    /// 生成 ｢头像 + 干员名｣ 一体的展示元素：头像与名字作为一个整体参与排版，不会被换行拆开。
     /// 无头像（资源缺失或干员无法识别）时退化为仅名字的元素。
     /// 生成参数同时写入 <see cref="FrameworkElement.Tag"/>，ToolTipHelper 等场景可据此重建克隆。
     /// </summary>
@@ -209,7 +209,7 @@ public static class OperAvatarHelper
     }
 
     /// <summary>
-    /// 按干员名（含别名解析）生成「头像 + 干员名」一体的展示元素，规则同 <see cref="CreateOperBadge(string,string,double,string?)"/>。
+    /// 按干员名（含别名解析）生成 ｢头像 + 干员名｣ 一体的展示元素，规则同 <see cref="CreateOperBadge(string,string,double,string?)"/>。
     /// </summary>
     /// <param name="operName">干员名</param>
     /// <param name="avatarSize">头像边长</param>
