@@ -202,3 +202,91 @@ TEST_CASE("Group with empty candidate list returns no solution")
     REQUIRE(result.status == asst::algorithm::CharAllocationStatus::NoSolution);
     REQUIRE_FALSE(result.has_value());
 }
+
+namespace
+{
+using EquivalenceClasses = std::vector<std::vector<std::string>>;
+}
+
+TEST_CASE("inject_equivalence_classes leaves patterns unchanged when there are no classes")
+{
+    const EquivalenceClasses eq_classes;
+    REQUIRE(asst::algorithm::inject_equivalence_classes("[Oo]", eq_classes) == "[Oo]");
+    REQUIRE(asst::algorithm::inject_equivalence_classes("abc", eq_classes) == "abc");
+}
+
+TEST_CASE("inject_equivalence_classes ignores single-member classes")
+{
+    const EquivalenceClasses eq_classes { { "o" } };
+    REQUIRE(asst::algorithm::inject_equivalence_classes("o", eq_classes) == "o");
+}
+
+TEST_CASE("inject_equivalence_classes expands members outside a character class")
+{
+    const EquivalenceClasses eq_classes { { "o", "0" } };
+    REQUIRE(asst::algorithm::inject_equivalence_classes("o", eq_classes) == "(?:o|0)");
+    REQUIRE(asst::algorithm::inject_equivalence_classes("xoy", eq_classes) == "x(?:o|0)y");
+}
+
+TEST_CASE("inject_equivalence_classes keeps character classes valid")
+{
+    // Regression test for issue #15084: injecting into "[Oo]" must not produce
+    // "[O(?:o|0)]", which would also match '(', '?', ':', '|' and ')' and therefore
+    // turn a time string like "12:34:56" into "12034056".
+    const EquivalenceClasses eq_classes { { "o", "0" } };
+    REQUIRE(asst::algorithm::inject_equivalence_classes("[Oo]", eq_classes) == "[Oo0]");
+}
+
+TEST_CASE("inject_equivalence_classes preserves backslash escapes")
+{
+    const EquivalenceClasses eq_classes { { "o", "0" } };
+    // An escaped ']' must not close the character class, and the escaped character is
+    // copied verbatim instead of being expanded.
+    REQUIRE(asst::algorithm::inject_equivalence_classes("[\\]o]", eq_classes) == "[\\]o0]");
+}
+
+TEST_CASE("inject_equivalence_classes handles multi-codepoint space classes")
+{
+    // Mirrors the KR/JP resources, whose equivalence class holds two space variants
+    // (U+0020 and the ideographic space U+3000, encoded as \xe3\x80\x80 in UTF-8).
+    const EquivalenceClasses eq_classes { { " ", "\xe3\x80\x80" } };
+    REQUIRE(asst::algorithm::inject_equivalence_classes(" ", eq_classes) == "(?: |\xe3\x80\x80)");
+    REQUIRE(asst::algorithm::inject_equivalence_classes("[ a]", eq_classes) == "[ \xe3\x80\x80""a]");
+}
+
+TEST_CASE("inject_equivalence_classes handles negated character classes")
+{
+    // '^' right after '[' is the negation marker and must be preserved, while the
+    // members are still inserted as plain class atoms.
+    const EquivalenceClasses eq_classes { { "o", "0" } };
+    REQUIRE(asst::algorithm::inject_equivalence_classes("[^o]", eq_classes) == "[^o0]");
+}
+
+TEST_CASE("inject_equivalence_classes handles multiple equivalence classes")
+{
+    const EquivalenceClasses eq_classes { { "o", "0" }, { "l", "1" } };
+    REQUIRE(asst::algorithm::inject_equivalence_classes("lol", eq_classes) == "(?:l|1)(?:o|0)(?:l|1)");
+    REQUIRE(asst::algorithm::inject_equivalence_classes("[ol]", eq_classes) == "[o0l1]");
+}
+
+TEST_CASE("inject_equivalence_classes escapes regex-special members")
+{
+    // Members are treated as literal characters even when they are regex metacharacters,
+    // both outside and inside a character class.
+    const EquivalenceClasses eq_classes { { ".", "x" } };
+    REQUIRE(asst::algorithm::inject_equivalence_classes(".", eq_classes) == "(?:\\.|x)");
+    REQUIRE(asst::algorithm::inject_equivalence_classes("[.]", eq_classes) == "[.x]");
+}
+
+TEST_CASE("inject_equivalence_classes handles escaped brackets in keys")
+{
+    // ocrReplace keys may contain escaped brackets; the escape must be consumed before the
+    // character-class handlers, so an escaped '[' never (re)opens a class.
+    // Inside a class: "[\[IO]" stays a valid class, with O expanded to also match o/0.
+    const EquivalenceClasses with_o { { "O", "o", "0" } };
+    REQUIRE(asst::algorithm::inject_equivalence_classes("[\\[IO]", with_o) == "[\\[IOo0]");
+
+    // Outside a class: the escaped '[' in "(\[|I)" does not open a class, and I expands.
+    const EquivalenceClasses with_i { { "I", "l", "1" } };
+    REQUIRE(asst::algorithm::inject_equivalence_classes("(\\[|I)", with_i) == "(\\[|(?:I|l|1))");
+}
