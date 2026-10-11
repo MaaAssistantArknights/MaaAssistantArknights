@@ -68,4 +68,8 @@ ScoreResult select_best_opers(const std::vector<ScoreOper>& opers, const ScoreCo
 // 训练室导师评分。心情低于 16 的干员不参与选择，除非调用方明确关闭心情限制。
 double training_score(const ScoreOper& oper, battle::Role trainee_role, int target_level);
 ScoreResult select_training(const std::vector<ScoreOper>& opers, const ScoreContext& context);
+
+// 回收站评分：优先捡海人（bskill_recycle_spd&cost2），其次拾荒者（bskill_recycle_spd&cost1），
+// 其余干员按识别顺序补位。默认不启用，需要时取消 select_best_opers 中的对应注释。
+ScoreResult select_recycle(const std::vector<ScoreOper>& opers, const ScoreContext& context);
 } // namespace asst::infrast

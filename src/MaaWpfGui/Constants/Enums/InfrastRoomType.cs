@@ -61,6 +61,11 @@ public enum InfrastRoomType
     Training,
 
     /// <summary>
+    /// 回收站
+    /// </summary>
+    Recycle,
+
+    /// <summary>
     /// 基建副手换人
     /// </summary>
     AssistantChange,

@@ -18,6 +18,7 @@ class InfrastTrainingTask;
 class InfrastDormTask;
 class ReplenishOriginiumShardTaskPlugin;
 class InfrastProcessingTask;
+class InfrastRecycleTask;
 class InfrastAssistantChangeTask;
 
 class InfrastTask final : public InterfaceTask
@@ -52,6 +53,7 @@ private:
     std::shared_ptr<InfrastOfficeTask> m_office_task_ptr = nullptr;
     std::shared_ptr<InfrastProcessingTask> m_processing_task_ptr = nullptr;
     std::shared_ptr<InfrastTrainingTask> m_training_task_ptr = nullptr;
+    std::shared_ptr<InfrastRecycleTask> m_recycle_task_ptr = nullptr;
     std::shared_ptr<InfrastDormTask> m_dorm_task_ptr = nullptr;
     std::shared_ptr<InfrastDormTask> m_dorm_task_ptr_post = nullptr;
     std::shared_ptr<InfrastAssistantChangeTask> m_assistant_change_task_ptr = nullptr;

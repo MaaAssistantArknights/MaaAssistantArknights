@@ -12,6 +12,7 @@
 #include "Task/Infrast/InfrastPowerTask.h"
 #include "Task/Infrast/InfrastProcessingTask.h"
 #include "Task/Infrast/InfrastReceptionTask.h"
+#include "Task/Infrast/InfrastRecycleTask.h"
 #include "Task/Infrast/InfrastTradeTask.h"
 #include "Task/Infrast/InfrastTrainingTask.h"
 #include "Task/Infrast/ReplenishOriginiumShardTaskPlugin.h"
@@ -32,6 +33,7 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst) :
     m_office_task_ptr(std::make_shared<InfrastOfficeTask>(callback, inst, TaskType)),
     m_processing_task_ptr(std::make_shared<InfrastProcessingTask>(callback, inst, TaskType)),
     m_training_task_ptr(std::make_shared<InfrastTrainingTask>(callback, inst, TaskType)),
+    m_recycle_task_ptr(std::make_shared<InfrastRecycleTask>(callback, inst, TaskType)),
     m_dorm_task_ptr(std::make_shared<InfrastDormTask>(callback, inst, TaskType)),
     m_dorm_task_ptr_post(std::make_shared<InfrastDormTask>(callback, inst, TaskType)),
     m_assistant_change_task_ptr(std::make_shared<InfrastAssistantChangeTask>(callback, inst, TaskType))
@@ -55,6 +57,7 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst) :
     m_office_task_ptr->set_ignore_error(true);
     m_training_task_ptr->set_ignore_error(true);
     m_processing_task_ptr->set_ignore_error(true);
+    m_recycle_task_ptr->set_ignore_error(true);
     m_dorm_task_ptr->set_ignore_error(true);
     m_dorm_task_ptr_post->set_ignore_error(true);
     m_dorm_task_ptr->set_prepare_phase(true);
@@ -108,6 +111,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
             m_office_task_ptr,
             m_processing_task_ptr,
             m_training_task_ptr,
+            m_recycle_task_ptr,
             m_dorm_task_ptr,
             m_dorm_task_ptr_post,
             m_assistant_change_task_ptr,
@@ -158,6 +162,8 @@ bool asst::InfrastTask::set_params(const json::value& params)
                 return m_processing_task_ptr;
             case infrast::FacilityStep::Training:
                 return m_training_task_ptr;
+            case infrast::FacilityStep::Recycle:
+                return m_recycle_task_ptr;
             case infrast::FacilityStep::AssistantChange:
                 return m_assistant_change_task_ptr;
             }
@@ -216,6 +222,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
     m_reception_task_ptr->set_mood_threshold(threshold);
     m_office_task_ptr->set_mood_threshold(threshold);
     m_processing_task_ptr->set_mood_threshold(threshold);
+    m_recycle_task_ptr->set_mood_threshold(threshold);
     m_dorm_task_ptr->set_mood_threshold(threshold);
     m_dorm_task_ptr_post->set_mood_threshold(threshold);
 

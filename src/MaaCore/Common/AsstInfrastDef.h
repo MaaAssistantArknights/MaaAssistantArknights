@@ -35,6 +35,7 @@ enum class FacilityStep
     Reception,
     Processing,
     Training,
+    Recycle,
     AssistantChange,
 };
 
@@ -68,6 +69,9 @@ inline std::optional<std::vector<FacilityStep>>
         }
         if (facility == "Training") {
             return FacilityStep::Training;
+        }
+        if (facility == "Recycle") {
+            return FacilityStep::Recycle;
         }
         if (facility == "AssistantChange") {
             return FacilityStep::AssistantChange;
@@ -129,6 +133,9 @@ inline std::optional<std::vector<FacilityStep>>
     }
     if (enabled.contains("Training")) {
         result.emplace_back(FacilityStep::Training);
+    }
+    if (enabled.contains("Recycle")) {
+        result.emplace_back(FacilityStep::Recycle);
     }
     if (enabled.contains("AssistantChange")) {
         result.emplace_back(FacilityStep::AssistantChange);

@@ -77,6 +77,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
         InfrastRoomType.Dorm,
         InfrastRoomType.Processing,
         InfrastRoomType.Training,
+        InfrastRoomType.Recycle,
         InfrastRoomType.AssistantChange,
     ];
 
