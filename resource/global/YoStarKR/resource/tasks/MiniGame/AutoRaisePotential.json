@@ -2,5 +2,8 @@
     "MiniGame@AutoRaisePotential@PotentialAvailable": {
         "doc": "The notification dot is positioned further left in KR than in CN",
         "roi": [1207, 235, 48, 28]
+    },
+    "MiniGame@AutoRaisePotential@TokenNotEnough": {
+        "text": ["부족"]
     }
 }
