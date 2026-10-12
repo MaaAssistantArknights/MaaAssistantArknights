@@ -1136,7 +1136,7 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 
 </details>
 
-パラダイムロスト稼ぎ機能の詳細は [統合戦略補助プロトコル](./integrated-strategy-schema.md#サーミテーマ--パラダイムロスト)を参照してください。
+パラダイムロスト稼ぎ機能の詳細は [統合戦略補助プロトコル](./integrated-strategy-schema.md#サーミテーマ-パラダイムロスト)を参照してください。
 
 - `Copilot`  
   自動戦闘
