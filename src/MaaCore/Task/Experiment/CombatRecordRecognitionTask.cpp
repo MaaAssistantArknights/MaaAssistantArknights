@@ -154,7 +154,7 @@ bool asst::CombatRecordRecognitionTask::analyze_formation()
         m_copilot_json["opers"].emplace(std::move(oper_json));
 
         cb_formation.emplace(name);
-        MAA_NS::imwrite(utils::path("debug/video_export/formation/") / utils::path(name + ".png"), avatar);
+        MAA_NS::imwrite(UserDir.get() / "debug" / "video_export" / "formation" / utils::path(name + ".png"), avatar);
     }
     callback(AsstMsg::SubTaskCompleted, cb_info);
 

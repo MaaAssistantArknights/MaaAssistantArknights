@@ -8,7 +8,6 @@
 #include <stdexcept>
 
 #include <nlohmann/json.hpp>
-#include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
 
 #if __has_include(<onnxruntime_cxx_api.h>)
@@ -20,6 +19,7 @@
 #endif
 
 #include "Config/OnnxSessions.h"
+#include "MaaUtils/ImageIo.h"
 
 namespace asst::blackflow::perception
 {
@@ -585,7 +585,7 @@ void EdgeDetector::write_diagnostics(
             m_impl->input_height);
         const std::string name = "edge_" + std::to_string(index) + "_n" + std::to_string(candidate.node_a) + "_n" +
                                  std::to_string(candidate.node_b) + ".png";
-        cv::imwrite((directory / name).string(), crop);
+        MAA_NS::imwrite(directory / name, crop);
     }
 }
 
