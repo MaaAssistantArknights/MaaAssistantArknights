@@ -4246,17 +4246,17 @@
     },
     "Recycle": {
         "skills": {
-            "bskill_recycle_spd&cost1": {
+            "bskill_recycle_spd1": {
                 "desc": ["进驻回收站时，材料转化效率+20%"],
                 "name": ["拾荒者"],
                 "operatorIds": ["char_4232_hbound"],
-                "template": "Bskill_recycle_spd&cost1.png"
+                "template": "Bskill_recycle_spd1.png"
             },
-            "bskill_recycle_spd&cost2": {
+            "bskill_recycle_spd2": {
                 "desc": ["进驻回收站时，材料转化效率+30%"],
                 "name": ["捡海人"],
                 "operatorIds": ["char_4232_hbound"],
-                "template": "Bskill_recycle_spd&cost2.png"
+                "template": "Bskill_recycle_spd2.png"
             }
         }
     },
