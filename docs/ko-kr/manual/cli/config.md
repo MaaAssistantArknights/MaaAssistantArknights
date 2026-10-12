@@ -465,9 +465,9 @@ passphrase = "password"       # ssh 키의 암호
 - MaaCore 설정의 JSON Schema 파일은 [`asst.schema.json`][asst-schema]입니다.
 - CLI 설정의 JSON Schema 파일은 [`cli.schema.json`][cli-schema]입니다.
 
-[task-types]: ../../protocol/integration.md#작업-유형-목록
-[emulator-ports]: ../../manual/connection.md#포트-번호-입력
-[playcover-doc]: ../../manual/device/macos.md#✅-playcover-제일-부드럽습니다-🚀
+[task-types]: ../../protocol/integration.md#작업-유형-목록
+[emulator-ports]: ../../manual/connection.md#포트-번호-입력
+[playcover-doc]: ../../manual/device/macos.md#✅-playcover-제일-부드럽습니다-🚀
 [waydroid-doc]: ../../manual/device/linux.md#✅-waydroid
 [example-config]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/crates/maa-cli/config_examples
 [wangl-cc-dotfiles]: https://github.com/wangl-cc/dotfiles/tree/main/home/dot_config/maa
