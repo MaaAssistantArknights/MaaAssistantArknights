@@ -4245,6 +4245,7 @@
         "skillsGroup": []
     },
     "Recycle": {
+        "maxNumOfOpers": 2,
         "skills": {
             "bskill_recycle_spd&cost1": {
                 "desc": ["进驻回收站时，材料转化效率+20%"],

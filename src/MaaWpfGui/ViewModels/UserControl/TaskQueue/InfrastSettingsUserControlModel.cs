@@ -74,6 +74,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
         InfrastRoomType.Mfg,
         InfrastRoomType.Trade,
         InfrastRoomType.Reception,
+        InfrastRoomType.Recycle,
         InfrastRoomType.Dorm,
         InfrastRoomType.Processing,
         InfrastRoomType.Training,

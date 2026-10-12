@@ -35,6 +35,7 @@ enum class FacilityStep
     Reception,
     Processing,
     Training,
+    Recycle,
     AssistantChange,
 };
 
@@ -69,6 +70,9 @@ inline std::optional<std::vector<FacilityStep>>
         if (facility == "Training") {
             return FacilityStep::Training;
         }
+        if (facility == "Recycle") {
+            return FacilityStep::Recycle;
+        }
         if (facility == "AssistantChange") {
             return FacilityStep::AssistantChange;
         }
@@ -82,7 +86,7 @@ inline std::optional<std::vector<FacilityStep>>
     }
 
     if (mode != FacilityPlanMode::Default) {
-        const std::unordered_set<std::string> rotation_skips = { "Dorm", "Power", "Office", "Control" };
+        const std::unordered_set<std::string> rotation_skips = { "Dorm", "Power", "Office", "Control", "Recycle" };
         std::vector<FacilityStep> result;
         result.reserve(facilities.size());
         for (const auto& facility : facilities) {
@@ -120,6 +124,9 @@ inline std::optional<std::vector<FacilityStep>>
     }
     if (enabled.contains("Reception")) {
         result.emplace_back(FacilityStep::Reception);
+    }
+    if (enabled.contains("Recycle")) {
+        result.emplace_back(FacilityStep::Recycle);
     }
     if (enabled.contains("Dorm")) {
         result.emplace_back(FacilityStep::DormRearrange);

@@ -2868,6 +2868,21 @@
         "roi": [74, 11, 5, 12],
         "roi_Doc": "最小视图训练室第3级标记区域（相对于设施匹配区域）"
     },
+    "InfrastInfoMiniRecycleLevel1": {
+        "algorithm": "JustReturn",
+        "roi": [63, 11, 5, 12],
+        "roi_Doc": "最小视图回收站第1级标记区域（相对于设施匹配区域，与训练室布局一致）"
+    },
+    "InfrastInfoMiniRecycleLevel2": {
+        "algorithm": "JustReturn",
+        "roi": [68, 11, 5, 12],
+        "roi_Doc": "最小视图回收站第2级标记区域（相对于设施匹配区域）"
+    },
+    "InfrastInfoMiniRecycleLevel3": {
+        "algorithm": "JustReturn",
+        "roi": [74, 11, 5, 12],
+        "roi_Doc": "最小视图回收站第3级标记区域（相对于设施匹配区域）"
+    },
     "InfrastInfoZoomOutPointer0": {
         "algorithm": "JustReturn",
         "action": "Swipe",
@@ -3326,6 +3341,19 @@
     },
     "InfrastTrainingMini": {
         "template": "TrainingMini.png",
+        "maskRange": [1, 255],
+        "roi": [627, 160, 653, 404],
+        "templThreshold": 0.95
+    },
+    "InfrastRecycle": {
+        "template": "Recycle.png",
+        "maskRange": [1, 255],
+        "roi_Doc": "回收站位于右列最下方，模板需要更深的检索区域",
+        "roi": [378, 94, 900, 586],
+        "templThreshold": 0.95
+    },
+    "InfrastRecycleMini": {
+        "template": "RecycleMini.png",
         "maskRange": [1, 255],
         "roi": [627, 160, 653, 404],
         "templThreshold": 0.95
