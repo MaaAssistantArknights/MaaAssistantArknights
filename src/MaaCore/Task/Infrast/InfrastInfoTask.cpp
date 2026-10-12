@@ -322,7 +322,8 @@ struct FacilityLayoutCounts
     bool operator==(const FacilityLayoutCounts&) const = default;
 
     size_t production_count() const noexcept { return mfg + trade + power; }
-    // 右侧固定设施。回收站是后期新增建筑，老账号可能尚未建造，不计入完整性校验。
+
+    // 右侧固定设施，用于等级估算；回收站为后期新增建筑，老账号可能未建造，计数为 0 不影响估算
     size_t right_facility_count() const noexcept { return reception + office + processing + training + recycle; }
 };
 

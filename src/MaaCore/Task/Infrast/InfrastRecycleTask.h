@@ -3,8 +3,8 @@
 
 namespace asst
 {
-// 回收站换班：当前仅旅骨拥有回收站技能，按技能评分挑选意义有限，
-// 清空后直接按位置补满进驻位，不做技能挑选。
+// 回收站换班：清空后按位置补满进驻位，跳过工作中与心情不足的干员；
+// 不做技能挑选（当前仅旅骨拥有回收站技能，按评分挑选意义有限）。
 class InfrastRecycleTask final : public InfrastProductionTask
 {
 public:
