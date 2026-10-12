@@ -125,6 +125,9 @@ inline std::optional<std::vector<FacilityStep>>
     if (enabled.contains("Reception")) {
         result.emplace_back(FacilityStep::Reception);
     }
+    if (enabled.contains("Recycle")) {
+        result.emplace_back(FacilityStep::Recycle);
+    }
     if (enabled.contains("Dorm")) {
         result.emplace_back(FacilityStep::DormRearrange);
     }
@@ -133,9 +136,6 @@ inline std::optional<std::vector<FacilityStep>>
     }
     if (enabled.contains("Training")) {
         result.emplace_back(FacilityStep::Training);
-    }
-    if (enabled.contains("Recycle")) {
-        result.emplace_back(FacilityStep::Recycle);
     }
     if (enabled.contains("AssistantChange")) {
         result.emplace_back(FacilityStep::AssistantChange);
