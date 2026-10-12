@@ -46,6 +46,11 @@ public enum InfrastRoomType
     Office,
 
     /// <summary>
+    /// 回收站
+    /// </summary>
+    Recycle,
+
+    /// <summary>
     /// 宿舍
     /// </summary>
     Dorm,
@@ -59,11 +64,6 @@ public enum InfrastRoomType
     /// 训练室
     /// </summary>
     Training,
-
-    /// <summary>
-    /// 回收站
-    /// </summary>
-    Recycle,
 
     /// <summary>
     /// 基建副手换人
