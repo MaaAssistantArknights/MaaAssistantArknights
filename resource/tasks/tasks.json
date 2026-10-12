@@ -4329,7 +4329,7 @@
         "baseTask": "BattleQuickFormationRole-All",
         "algorithm": "OcrDetect",
         "text": ["ALL"],
-        "ocrReplace": [["^A[LlI1]{2}$", "ALL"]]
+        "ocrReplace": [["^A[LlI1\\[]{2}$", "ALL"]]
     },
     "BattleQuickFormationRole-Pioneer": {
         "baseTask": "BattleQuickFormationRole"
