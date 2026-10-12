@@ -86,7 +86,7 @@ inline std::optional<std::vector<FacilityStep>>
     }
 
     if (mode != FacilityPlanMode::Default) {
-        const std::unordered_set<std::string> rotation_skips = { "Dorm", "Power", "Office", "Control" };
+        const std::unordered_set<std::string> rotation_skips = { "Dorm", "Power", "Office", "Control", "Recycle" };
         std::vector<FacilityStep> result;
         result.reserve(facilities.size());
         for (const auto& facility : facilities) {
