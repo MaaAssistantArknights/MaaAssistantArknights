@@ -4269,7 +4269,8 @@
         "action": "ClickSelf",
         "roi": [1155, 41, 125, 679],
         "method": "RGBCount",
-        "templThreshold": 0.7,
+        "pureColor": true,
+        "templThreshold": 0.85,
         "colorScales": [[90, 150]],
         "colorWithClose": false,
         "next": ["Stop"]
@@ -4349,9 +4350,7 @@
         "baseTask": "BattleQuickFormationRole"
     },
     "BattleQuickFormationRole-Special": {
-        "baseTask": "BattleQuickFormationRole",
-        "method": "Ccoeff",
-        "colorScales": []
+        "baseTask": "BattleQuickFormationRole"
     },
     "BattleQuickFormationRole-Support": {
         "baseTask": "BattleQuickFormationRole"
