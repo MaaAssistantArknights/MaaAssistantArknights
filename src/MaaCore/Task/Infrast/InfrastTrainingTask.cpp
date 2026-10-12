@@ -245,8 +245,8 @@ bool asst::InfrastTrainingTask::custom_shift()
 
     if (m_continue_training && *status == TrainingStatus::Completed && m_level != 3) {
         // Completed 的领取点击已由 analyze_status 内的 training_completed 完成，训练位上仍是刚练完
-        // 的干员。优先沿用默认模式的继续训练：主界面截取的技能图标在专精页匹配出槽位，接着练同一
-        // 技能的下一阶段。缺料等点不动时自然回落到按配置换人
+        // 的干员。继续训练与 _run 默认分支同源、独立复刻（保持默认流程不动），
+        // 材料不足等原因导致点不动时，自然回落到按配置换人
         click_bottom_left_tab();
         FeatureMatcher choose_skill_analyzer(ctrler()->get_image());
         choose_skill_analyzer.set_task_info("InfrastTrainingChooseSkillRec");
@@ -261,7 +261,7 @@ bool asst::InfrastTrainingTask::custom_shift()
         LogInfo << "continue training not available, fall back to custom shift";
     }
 
-    // 空闲或未开启继续训练：按配置进驻训练位干员，只换人不开新训，与默认模式的空闲行为一致
+    // 空闲或未开启继续训练：按配置进驻训练位干员，只换人不开新训
     change_trainee();
     change_assistant();
     return true;
@@ -322,7 +322,7 @@ void asst::InfrastTrainingTask::change_trainee()
         ProcessTask(*this, { "BattleFormationOperListSlowlySwipeToTheRight" }).run();
     }
 
-    // 复位 ｢全部｣ 并收起职业栏，确认选择回到训练室设施页；未命中时空选确认同样用于关闭面板
+    // 未命中时空选确认同样用于关闭面板
     ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).set_retry_times(0).run();
     ProcessTask(*this, { "InfrastCloseQuickFormationExpandRole", "Stop" }).run();
     if (!ProcessTask(*this, { "BattleQuickFormationConfirm" }).set_retry_times(0).run() && found) {
@@ -339,7 +339,6 @@ bool asst::InfrastTrainingTask::select_assistant()
     LogTraceFunction;
 
     if (current_room_config().assistant_names.empty()) {
-        // 未配置协助者，保持现状
         return true;
     }
 
