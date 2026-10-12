@@ -318,7 +318,8 @@
         "roi": [996, 443, 222, 125]
     },
     "BattleQuickFormationRole-All-OCR": {
-        "text": ["All"]
+        "text": ["All"],
+        "ocrReplace": []
     },
     "BattleQuickFormationOCR": {
         "rectMove": [0, 234, 116, 22],
