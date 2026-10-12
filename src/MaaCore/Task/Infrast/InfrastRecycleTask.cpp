@@ -1,7 +1,7 @@
 #include "InfrastRecycleTask.h"
 
-#include "Task/ProcessTask.h"
 #include "Controller/Controller.h"
+#include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 
