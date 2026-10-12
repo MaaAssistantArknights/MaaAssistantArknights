@@ -55,6 +55,7 @@ MaaMeow 仍在开发中，功能可能不稳定。使用中遇到的问题请前
 ### 运行要求
 
 - 设备架构为 `arm64-v8a`。
+- Android 9（API 28）及以上。MAA 的 Android 组件以 `android-28` 为目标，更低版本无法启动。
 - 已安装 Magisk 或 KernelSU（需要 `/data/adb/modules` 与开机自启脚本）。
 - 设备能访问 GitHub Releases 以下载官方组件（国内网络可能需要代理）。
 
