@@ -162,18 +162,23 @@ public static class ComboBoxExtensions
             ApplySearchFilter(targetComboBox);
         };
 
-        // 标记输入法组字区间：TSF 回放组字时先发 PreviewTextInputStart 再把组字串写入文本框，
-        // 上屏时先发 PreviewTextInput 再写入最终文本，二者之间的 TextChanged 均为组字中间态；
-        // 普通按键输入两者紧接触发，标记不会跨越文本变更。失焦兜底复位，避免组字异常中断后标记残留
-        targetTextBox.AddHandler(
-            TextCompositionManager.PreviewTextInputStartEvent,
-            new TextCompositionEventHandler((_, _) => targetComboBox.SetValue(IsImeComposingProperty, true)),
-            handledEventsToo: true);
+        // 标记组字串写入：TSF 每轮编辑回放时先发 PreviewTextInputStart / PreviewTextInputUpdate 再同步写入组字串，
+        // 上屏时先发 PreviewTextInput 再写入最终文本；普通按键输入 Start 与 PreviewTextInput 紧接触发，不受影响。
+        // 标记只覆盖当前这轮同步回放，派发结束即复位，不依赖组字结束事件成对到达
+        // （组字被强制结束时 TextStore 不发 PreviewTextInput），不会残留拦截后续退格、粘贴等文本变更
+        var onCompositionUpdating = new TextCompositionEventHandler((_, _) =>
+        {
+            targetComboBox.SetValue(IsImeCompositionUpdatingProperty, true);
+            targetComboBox.Dispatcher.BeginInvoke(
+                new Action(() => targetComboBox.SetValue(IsImeCompositionUpdatingProperty, false)),
+                System.Windows.Threading.DispatcherPriority.Send);
+        });
+        targetTextBox.AddHandler(TextCompositionManager.PreviewTextInputStartEvent, onCompositionUpdating, handledEventsToo: true);
+        targetTextBox.AddHandler(TextCompositionManager.PreviewTextInputUpdateEvent, onCompositionUpdating, handledEventsToo: true);
         targetTextBox.AddHandler(
             TextCompositionManager.PreviewTextInputEvent,
-            new TextCompositionEventHandler((_, _) => targetComboBox.SetValue(IsImeComposingProperty, false)),
+            new TextCompositionEventHandler((_, _) => targetComboBox.SetValue(IsImeCompositionUpdatingProperty, false)),
             handledEventsToo: true);
-        targetTextBox.LostKeyboardFocus += (_, _) => targetComboBox.SetValue(IsImeComposingProperty, false);
 
         targetComboBox.SelectionChanged += (_, _) =>
         {
@@ -258,13 +263,13 @@ public static class ComboBoxExtensions
             typeof(ComboBoxExtensions),
             new PropertyMetadata(null));
 
-    // 输入法组字中标记。微软拼音等内联组字的输入法会先把拼音字母作为组字串写入文本框、选词后再替换，
+    // 输入法组字串写入中标记。微软拼音等内联组字的输入法会先把拼音字母作为组字串写入文本框、选词后再替换，
     // 组字期间若按中间文本过滤，完全匹配会选中某项（如 "w" 忽略大小写命中干员 W），选中引发的文本改写
     // 被 TextStore 视为应用修改了组字区而强制结束组字，表现为锁定到该项并关闭输入法；
-    // 未命中时也会按拼音字母过滤出空列表。组字期间跳过过滤，上屏触发的 TextChanged 再按最终文本过滤
-    private static readonly DependencyProperty IsImeComposingProperty =
+    // 未命中时也会按拼音字母过滤出空列表。组字串写入时跳过过滤，上屏触发的 TextChanged 再按最终文本过滤
+    private static readonly DependencyProperty IsImeCompositionUpdatingProperty =
         DependencyProperty.RegisterAttached(
-            "IsImeComposing",
+            "IsImeCompositionUpdating",
             typeof(bool),
             typeof(ComboBoxExtensions),
             new PropertyMetadata(false));
@@ -305,7 +310,7 @@ public static class ComboBoxExtensions
         }
 
         // 组字中间态不过滤；换源路径（如肉鸽开局干员按中间文本校验失败切换全干员列表）同样经此拦截
-        if ((bool)targetComboBox.GetValue(IsImeComposingProperty))
+        if ((bool)targetComboBox.GetValue(IsImeCompositionUpdatingProperty))
         {
             return;
         }
