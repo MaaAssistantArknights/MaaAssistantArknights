@@ -63,6 +63,7 @@ if __name__ == "__main__":
                         for ignore_dir in ignore_dirs
                     ]
                 ):
+                    dirs.clear()
                     continue
                 for f in files:
                     file = os.path.join(root, f)

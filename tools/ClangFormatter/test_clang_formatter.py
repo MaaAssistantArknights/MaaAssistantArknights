@@ -1,6 +1,7 @@
 import contextlib
 import io
 import json
+import os
 from pathlib import Path
 import runpy
 import sys
@@ -72,6 +73,25 @@ class FormatterIgnoreTests(unittest.TestCase):
 
     def test_single_file_input(self):
         self.formatted(["a.cpp"], [], ["a.cpp"], "a.cpp")
+
+    def test_ignored_descendants_are_not_traversed(self):
+        walk = os.walk
+        visited = []
+
+        def record_walk(path):
+            for root, dirs, files in walk(path):
+                visited.append(Path(root).name)
+                yield root, dirs, files
+
+        with patch("os.walk", side_effect=record_walk):
+            self.formatted(
+                ["skip/deep/a.cpp", "skip-extra/b.cpp"],
+                ["skip"],
+                ["skip-extra/b.cpp"],
+            )
+        self.assertIn("skip", visited)
+        self.assertIn("skip-extra", visited)
+        self.assertNotIn("deep", visited)
 
 
 if __name__ == "__main__":
