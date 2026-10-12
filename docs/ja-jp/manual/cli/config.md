@@ -481,8 +481,8 @@ check_interval = 600
 - MaaCore 設定の JSON Schema ファイルは [`asst.schema.json`][asst-schema]
 - CLI 設定の JSON Schema ファイルは [`cli.schema.json`][cli-schema]
 
-[task-types]: ../../protocol/integration.md#タスク-タイプ一覧
-[emulator-ports]: ../../manual/connection.md#ポート番号の取得
+[task-types]: ../../protocol/integration.md#タスク-タイプ一覧
+[emulator-ports]: ../../manual/connection.md#ポート番号の取得
 [playcover-doc]: ../../manual/device/macos.md
 [waydroid-doc]: ../../manual/device/linux.md#✅-waydroid
 [example-config]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/crates/maa-cli/config_examples
