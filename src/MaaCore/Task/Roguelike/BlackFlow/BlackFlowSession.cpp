@@ -781,29 +781,7 @@ void BlackFlowSession::queue_decision()
                                                                         : m_run.resources.action_points - requirement;
     m_decision_id = "BF-D" + std::to_string(m_run_revision) + "-" + std::to_string(++m_decision_sequence);
 
-    std::string reason_detail;
     const PolicyDecision& decision = m_last_plan->decision;
-    if (!decision.decisive_rule_id.empty() && m_policy.has_value()) {
-        const auto found = std::ranges::find(m_policy->rules, decision.decisive_rule_id, &PolicyRule::id);
-        if (found != m_policy->rules.end()) {
-            reason_detail = found->description;
-        }
-    }
-    if (!decision.decisive_milestone_ids.empty() && m_policy.has_value()) {
-        for (const std::string& milestone_id : decision.decisive_milestone_ids) {
-            const auto found = std::ranges::find(m_policy->milestones, milestone_id, &Milestone::id);
-            if (found == m_policy->milestones.end()) {
-                continue;
-            }
-            if (!reason_detail.empty()) {
-                reason_detail += "; ";
-            }
-            reason_detail += found->description;
-        }
-    }
-    if (reason_detail.empty()) {
-        reason_detail = decision.reason;
-    }
 
     std::vector<json::value> runners_up;
     for (const MoveCandidate& runner : decision.runners_up) {
@@ -825,16 +803,9 @@ void BlackFlowSession::queue_decision()
     for (const auto& [category, count] : decision.rejection_counts) {
         rejected[category] = count;
     }
-    std::vector<json::value> decisive_milestones;
-    decisive_milestones.reserve(decision.decisive_milestone_ids.size());
-    for (const std::string& milestone_id : decision.decisive_milestone_ids) {
-        decisive_milestones.emplace_back(milestone_id);
-    }
-    std::vector<json::value> released_reserves;
-    released_reserves.reserve(decision.released_reserve_ids.size());
-    for (const std::string& reserve_id : decision.released_reserve_ids) {
-        released_reserves.emplace_back(reserve_id);
-    }
+    const auto string_array = [](const std::vector<std::string>& values) {
+        return json::array(std::vector<json::value>(values.begin(), values.end()));
+    };
 
     json::object details {
         { "run_revision", m_run_revision },
@@ -858,14 +829,14 @@ void BlackFlowSession::queue_decision()
         { "safe_requirement", requirement },
         { "safety_margin", margin },
         { "reason_category", std::string(to_string(decision.reason_category)) },
-        { "reason_detail", reason_detail },
         { "decisive_rule_id", decision.decisive_rule_id },
-        { "decisive_milestone_id", decision.decisive_milestone_id },
-        { "decisive_milestone_ids", json::array(std::move(decisive_milestones)) },
+        { "decisive_metric", decision.decisive_metric },
+        { "decisive_milestone_ids", string_array(decision.decisive_milestone_ids) },
+        { "forgone_milestone_ids", string_array(decision.forgone_milestone_ids) },
         { "total_candidates", decision.total_candidates },
         { "eligible_candidates", decision.eligible_candidates },
         { "rejection_counts", std::move(rejected) },
-        { "released_reserve_ids", json::array(std::move(released_reserves)) },
+        { "released_reserve_ids", string_array(decision.released_reserve_ids) },
         { "runners_up", json::array(std::move(runners_up)) },
         { "planned_milestone_progress", std::move(planned_progress) },
         { "uses_inferred_edge", move.uses_inferred_edge },
@@ -921,10 +892,6 @@ void BlackFlowSession::queue_decision()
         m_decision_id,
         "profile",
         m_profile,
-        "rule",
-        decision.decisive_rule_id,
-        "milestone",
-        decision.decisive_milestone_id,
         "floor",
         m_run.floor,
         "target",
@@ -935,6 +902,14 @@ void BlackFlowSession::queue_decision()
         margin,
         "reason",
         to_string(decision.reason_category),
+        "rule",
+        decision.decisive_rule_id,
+        "metric",
+        decision.decisive_metric,
+        "goals",
+        decision.decisive_milestone_ids,
+        "forgone",
+        decision.forgone_milestone_ids,
         "confirmed states",
         m_last_plan->confirmed_state_count,
         "relaxed states",

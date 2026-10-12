@@ -81,8 +81,12 @@ bool prerequisites_satisfied(const Milestone& milestone, const MissionState& mis
 struct ScoreOrigin
 {
     DecisionReasonCategory category = DecisionReasonCategory::TieBreak;
-    std::string id;
-    std::vector<std::string> milestone_ids;
+    // 每一维只来自一处：策略规则、路线指标或一组目标。
+    std::string rule_id;
+    std::string_view metric;
+    std::vector<const Milestone*> milestones;
+    // 软目标组的首维是路线代价减去目标收益，胜负可能只由代价决定。
+    bool net_of_route_cost = false;
 };
 
 struct RankedCandidate
@@ -744,12 +748,17 @@ PolicyDecision PolicyExecutor::choose(
     for (const PolicyCandidate* candidate : eligible) {
         RankedCandidate entry;
         entry.candidate = candidate;
-        auto add_score = [&](int value,
-                             DecisionReasonCategory category,
-                             std::string id,
-                             std::vector<std::string> milestone_ids = {}) {
+        auto add_score = [&](int value, ScoreOrigin origin) {
             entry.score.emplace_back(value);
-            entry.origins.emplace_back(ScoreOrigin { category, std::move(id), std::move(milestone_ids) });
+            entry.origins.emplace_back(std::move(origin));
+        };
+        auto add_rule = [&](const PolicyRule& rule, DecisionReasonCategory category) {
+            add_score(
+                rule_matches_candidate(rule, facts, candidate->facts) ? 0 : 1,
+                { .category = category, .rule_id = rule.id });
+        };
+        auto add_metric = [&](int value, DecisionReasonCategory category, std::string_view metric) {
+            add_score(value, { .category = category, .metric = metric });
         };
         // 已锁定的目标占字典序最高位。可行性阶梯已经证明过“锁定之后仍然有安全解”，
         // 所以这里可以放心地让它压过一切顺路收益。
@@ -774,13 +783,9 @@ PolicyDecision PolicyExecutor::choose(
                     progress_sum += milestone.weight * value;
                     ++end;
                 }
-                std::vector<std::string> group_milestone_ids;
-                group_milestone_ids.reserve(end - begin);
-                for (std::size_t index = begin; index < end; ++index) {
-                    group_milestone_ids.emplace_back(bindings[index]->id);
-                }
-                add_score(-completed, DecisionReasonCategory::StrategyEnd, {}, group_milestone_ids);
-                add_score(-progress_sum, DecisionReasonCategory::StrategyEnd, {}, group_milestone_ids);
+                const std::vector<const Milestone*> group(bindings.begin() + begin, bindings.begin() + end);
+                add_score(-completed, { .category = DecisionReasonCategory::StrategyEnd, .milestones = group });
+                add_score(-progress_sum, { .category = DecisionReasonCategory::StrategyEnd, .milestones = group });
                 begin = end;
             }
         };
@@ -818,19 +823,15 @@ PolicyDecision PolicyExecutor::choose(
                     return group_reward(*other) != reference;
                 });
                 if (varies) {
-                    std::vector<std::string> group_milestone_ids;
-                    group_milestone_ids.reserve(end - begin);
-                    for (std::size_t index = begin; index < end; ++index) {
-                        group_milestone_ids.emplace_back(active_milestones[index]->id);
-                    }
+                    const std::vector<const Milestone*> group(
+                        active_milestones.begin() + begin,
+                        active_milestones.begin() + end);
                     add_score(
                         candidate->estimated_duration + candidate->battle_count + candidate->processing_move_count +
                             (minimize_intermediate_interactions ? candidate->intermediate_interaction_count : 0) -
                             progress_sum,
-                        category,
-                        {},
-                        group_milestone_ids);
-                    add_score(-progress_sum, category, {}, group_milestone_ids);
+                        { .category = category, .milestones = group, .net_of_route_cost = true });
+                    add_score(-progress_sum, { .category = category, .milestones = group });
                 }
                 begin = end;
             }
@@ -839,10 +840,7 @@ PolicyDecision PolicyExecutor::choose(
         append_binding_groups();
         for (const PolicyRule* rule : active_rules) {
             if (rule->kind == RuleKind::Prefer && rule->tier == PolicyTier::ResourceReserve) {
-                add_score(
-                    rule_matches_candidate(*rule, facts, candidate->facts) ? 0 : 1,
-                    DecisionReasonCategory::ResourceReserve,
-                    rule->id);
+                add_rule(*rule, DecisionReasonCategory::ResourceReserve);
             }
         }
         append_milestone_groups(MilestoneKind::Preferred, DecisionReasonCategory::PreferredGoal);
@@ -850,39 +848,33 @@ PolicyDecision PolicyExecutor::choose(
         for (const PolicyTier tier : { PolicyTier::Development, PolicyTier::Risk }) {
             for (const PolicyRule* rule : active_rules) {
                 if ((rule->kind == RuleKind::Prefer || rule->kind == RuleKind::TieBreak) && rule->tier == tier) {
-                    add_score(
-                        rule_matches_candidate(*rule, facts, candidate->facts) ? 0 : 1,
-                        category_for_tier(tier),
-                        rule->id);
+                    add_rule(*rule, category_for_tier(tier));
                 }
             }
             if (tier == PolicyTier::Development) {
-                add_score(candidate->development_score, DecisionReasonCategory::Development, "development_score");
+                add_metric(candidate->development_score, DecisionReasonCategory::Development, "development_score");
             }
         }
-        add_score(candidate->battle_count, DecisionReasonCategory::RiskAvoidance, "battle_count");
+        add_metric(candidate->battle_count, DecisionReasonCategory::RiskAvoidance, "battle_count");
         if (minimize_intermediate_interactions) {
-            add_score(
+            add_metric(
                 candidate->intermediate_interaction_count,
                 DecisionReasonCategory::TieBreak,
                 "intermediate_interaction_count");
         }
         // 行动力本层用不完就作废，残值为零；跨层保留的加工品省下来下一层还能用，残值为正。
         // 所以收益打平时先比加工品，再比步数，不能反过来。
-        add_score(
+        add_metric(
             candidate->persistent_processing_move_count,
             DecisionReasonCategory::ResourceReserve,
             "persistent_processing_move_count");
-        add_score(candidate->estimated_duration, DecisionReasonCategory::TieBreak, "estimated_duration");
-        add_score(candidate->processing_move_count, DecisionReasonCategory::ResourceReserve, "processing_move_count");
-        add_score(candidate->risk_score, DecisionReasonCategory::RiskAvoidance, "risk_score");
+        add_metric(candidate->estimated_duration, DecisionReasonCategory::TieBreak, "estimated_duration");
+        add_metric(candidate->processing_move_count, DecisionReasonCategory::ResourceReserve, "processing_move_count");
+        add_metric(candidate->risk_score, DecisionReasonCategory::RiskAvoidance, "risk_score");
         for (const PolicyRule* rule : active_rules) {
             if ((rule->kind == RuleKind::Prefer || rule->kind == RuleKind::TieBreak) &&
                 rule->tier == PolicyTier::TieBreak) {
-                add_score(
-                    rule_matches_candidate(*rule, facts, candidate->facts) ? 0 : 1,
-                    DecisionReasonCategory::TieBreak,
-                    rule->id);
+                add_rule(*rule, DecisionReasonCategory::TieBreak);
             }
         }
         ranked.emplace_back(std::move(entry));
@@ -915,23 +907,26 @@ PolicyDecision PolicyExecutor::choose(
             }
             const ScoreOrigin& origin = ranked[0].origins[index];
             decision.reason_category = origin.category;
-            if (!origin.milestone_ids.empty()) {
-                for (const std::string& milestone_id : origin.milestone_ids) {
-                    const auto milestone = std::ranges::find_if(active_milestones, [&](const Milestone* value) {
-                        return value->id == milestone_id;
-                    });
-                    if (milestone != active_milestones.end() &&
-                        milestone_value(*ranked[0].candidate, **milestone) !=
-                            milestone_value(*ranked[1].candidate, **milestone)) {
-                        decision.decisive_milestone_ids.emplace_back(milestone_id);
-                    }
+            decision.decisive_rule_id = origin.rule_id;
+            decision.decisive_metric = origin.metric;
+            int chosen_reward = 0;
+            int runner_up_reward = 0;
+            for (const Milestone* milestone : origin.milestones) {
+                const int chosen = milestone_value(*ranked[0].candidate, *milestone);
+                const int runner_up = milestone_value(*ranked[1].candidate, *milestone);
+                chosen_reward += milestone->weight * chosen;
+                runner_up_reward += milestone->weight * runner_up;
+                if (chosen > runner_up) {
+                    decision.decisive_milestone_ids.emplace_back(milestone->id);
                 }
-                if (decision.decisive_milestone_ids.size() == 1) {
-                    decision.decisive_milestone_id = decision.decisive_milestone_ids.front();
+                else if (chosen < runner_up) {
+                    decision.forgone_milestone_ids.emplace_back(milestone->id);
                 }
             }
-            else {
-                decision.decisive_rule_id = origin.id;
+            // 目标收益不比第二名多却仍然胜出，靠的是路线代价：第二名多拿的目标抵不上它多付的代价。
+            if (origin.net_of_route_cost && chosen_reward <= runner_up_reward) {
+                decision.reason_category = DecisionReasonCategory::RouteCost;
+                decision.decisive_milestone_ids.clear();
             }
             break;
         }
@@ -1016,6 +1011,8 @@ std::string_view to_string(DecisionReasonCategory category) noexcept
         return "resource_reserve";
     case DecisionReasonCategory::PreferredGoal:
         return "preferred_goal";
+    case DecisionReasonCategory::RouteCost:
+        return "route_cost";
     case DecisionReasonCategory::Development:
         return "development";
     case DecisionReasonCategory::RiskAvoidance:
