@@ -150,7 +150,7 @@
                         Source="{Binding RoguelikeCoreChar, Converter={StaticResource OperAvatarConverter}}" />
                 </Grid>
             </StackPanel>
-            <Grid>
+            <Grid Visibility="{c:Binding RoguelikeEnableAdditionalCoreChars}">
                 <hc:ComboBox
                     Name="StartingCoreChar2ComboBox"
                     Margin="0,3"
@@ -162,8 +162,7 @@
                     IsTextSearchEnabled="False"
                     ItemsSource="{Binding RoguelikeCoreCharList}"
                     Loaded="{s:Action MakeComboBoxSearchable,
-                                      Target={x:Type ui_vms:SettingsViewModel}}"
-                    Visibility="{c:Binding RoguelikeEnableAdditionalCoreChars}">
+                                      Target={x:Type ui_vms:SettingsViewModel}}">
                     <hc:ComboBox.ItemTemplate>
                         <DataTemplate>
                             <ContentControl Content="{Binding Converter={StaticResource OperNameBadgeConverter}}" />
@@ -181,13 +180,13 @@
                 <Image
                     Width="16"
                     Height="16"
-                    Margin="6,0,0,0"
+                    Margin="6,20,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     IsHitTestVisible="False"
                     Source="{Binding RoguelikeCoreChar2, Converter={StaticResource OperAvatarConverter}}" />
             </Grid>
-            <Grid>
+            <Grid Visibility="{c:Binding RoguelikeEnableAdditionalCoreChars}">
                 <hc:ComboBox
                     Name="StartingCoreChar3ComboBox"
                     Margin="0,3"
@@ -199,8 +198,7 @@
                     IsTextSearchEnabled="False"
                     ItemsSource="{Binding RoguelikeCoreCharList}"
                     Loaded="{s:Action MakeComboBoxSearchable,
-                                      Target={x:Type ui_vms:SettingsViewModel}}"
-                    Visibility="{c:Binding RoguelikeEnableAdditionalCoreChars}">
+                                      Target={x:Type ui_vms:SettingsViewModel}}">
                     <hc:ComboBox.ItemTemplate>
                         <DataTemplate>
                             <ContentControl Content="{Binding Converter={StaticResource OperNameBadgeConverter}}" />
@@ -218,7 +216,7 @@
                 <Image
                     Width="16"
                     Height="16"
-                    Margin="6,0,0,0"
+                    Margin="6,20,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     IsHitTestVisible="False"
