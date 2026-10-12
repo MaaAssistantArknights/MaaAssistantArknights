@@ -70,9 +70,8 @@ Please note that JSON files do not support comments. The comments in this docume
             ],
             "rooms": {
                 // Room information, required
-                // Values: "control"/"manufacture"/"trading"/"power"/"meeting"/"hire"/"dormitory"/"processing" / "training" / "recycle"
-                // A/B groups for training / recycle are a draft, not yet supported by MAA custom scheduling
-                // Missing rooms use default algorithm for shift change.
+            // Values: "control"/"manufacture"/"trading"/"power"/"meeting"/"hire"/"dormitory"/"processing" / "training" / "recycle"
+            // Missing rooms use default algorithm for shift change.
                 // To skip a room, use skip field or uncheck the facility in software Task Settings - Base Management - General Settings
                 "control": [
                 {
@@ -130,17 +129,22 @@ Please note that JSON files do not support comments. The comments in this docume
                         "autofill": true // Completely autofill this room
                     }
                 ],
-                "training": [ // Training Room
+                "training": [ // Training Room, configures the trainee slot and the assistant slot
                     {
-                        // Capacities, omitted/empty fields and interactions with existing room fields and operator groups are undecided
-                        "operatorsA": ["Amiya"], // Training assistant names (slot A), optional array; naming requirements as in operators
-                        "operatorsB": ["Dobermann"] // Trainee names (slot B), optional array; naming requirements as in operators
+                        // Trainee slot candidates; the first one present in the in-game selection list is
+                        // staffed (operators with all masteries maxed never appear in the list and are
+                        // effectively skipped). While training is in progress the trainee slot stays
+                        // locked and only the assistant is changed; right after a finished training is
+                        // collected, the current operator's mastery continues first when "continue
+                        // training" is enabled. Naming requirements as in operators
+                        "operatorsA": ["SilverAsh"],
+                        // Assistant candidates, optional; no assistant is selected when omitted; naming requirements as in operators
+                        "operatorsB": ["Dobermann"]
                     }
                 ],
-                "recycle": [ // 回收站, a planned facility with A/B slots; key provisional
+                "recycle": [ // 回收站, two slots without role distinction, same format as manufacture
                     {
-                        "operatorsA": ["Fang"], // Operator names in the first unlocked position (slot A), optional array; naming requirements as in operators
-                        "operatorsB": ["Kroos"] // Operator names in the second unlocked position (slot B), optional array; naming requirements as in operators
+                        "operators": ["Fang", "Kroos"]
                     }
                 ]
             }

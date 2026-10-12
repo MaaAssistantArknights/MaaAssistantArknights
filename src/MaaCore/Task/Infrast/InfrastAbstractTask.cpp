@@ -270,13 +270,13 @@ bool asst::InfrastAbstractTask::is_use_custom_opers()
 
 /// @brief 按技能排序->清空干员->选择定制干员->按指定顺序排序
 /// @param is_dorm_order 当前房间是不是宿舍
-bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order)
+bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order, bool is_assistant_select)
 {
     LogTraceFunction;
 
     auto& room_config = current_room_config();
     auto origin_room_config = room_config;
-    {
+    if (!is_assistant_select) {
         json::value cb_info = basic_info_with_what("CustomInfrastRoomOperators");
         auto& details = cb_info["details"];
         details["names"] = json::array(room_config.names);

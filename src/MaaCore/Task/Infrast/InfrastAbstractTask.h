@@ -58,7 +58,10 @@ protected:
     std::set<std::string> get_available_oper_for_group();
     void set_available_oper_for_group(std::set<std::string> opers);
 
-    bool swipe_and_select_custom_opers(bool is_dorm_order = false);
+    /// @brief 按技能排序->清空干员->选择定制干员->按指定顺序排序
+    /// @param is_dorm_order 当前房间是不是宿舍
+    /// @param is_assistant_select 干训练室协助者选择，名单是调用前临时改写的，不代表房间换班配置，不发换班回调
+    bool swipe_and_select_custom_opers(bool is_dorm_order = false, bool is_assistant_select = false);
     bool select_custom_opers(std::vector<std::string>& partial_result);
     // 扫描当前页满足心情条件的所有干员名
     bool get_opers(std::vector<std::string>& result, double mood = 1);

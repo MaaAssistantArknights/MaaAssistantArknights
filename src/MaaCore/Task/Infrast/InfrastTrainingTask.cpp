@@ -1,7 +1,11 @@
 #include "InfrastTrainingTask.h"
 
+#include <algorithm>
+#include <ranges>
+
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "Task/OperProgress/OperProgressFormation.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/BestMatcher.h"
@@ -15,6 +19,11 @@ bool asst::InfrastTrainingTask::_run()
 
     set_product("SkillLevel");
 
+    if (m_is_custom && current_room_config().skip) {
+        LogInfo << "skip this room";
+        return true;
+    }
+
     swipe_to_the_left_of_main_ui();
 
     if (!enter_facility()) {
@@ -22,6 +31,10 @@ bool asst::InfrastTrainingTask::_run()
         if (!enter_facility()) {
             return false;
         }
+    }
+
+    if (m_is_custom) {
+        return custom_shift();
     }
 
     auto status = analyze_status();
@@ -205,4 +218,160 @@ int asst::InfrastTrainingTask::skill_index_from_rect(const Rect& r)
         return 2;
     }
     return 3;
+}
+
+bool asst::InfrastTrainingTask::custom_shift()
+{
+    LogTraceFunction;
+
+    auto status = analyze_status();
+    if (!status) {
+        return false;
+    }
+
+    // 协助者是增益项，选择失败只告警，不阻断训练室处理
+    const auto change_assistant = [this]() {
+        if (!select_assistant()) {
+            LogWarn << "assistant selection failed";
+        }
+    };
+
+    if (*status == TrainingStatus::Processing) {
+        // 专精训练期间训练位干员锁定，只按配置更换协助者
+        LogInfo << "training in progress, only change the assistant";
+        change_assistant();
+        return true;
+    }
+
+    if (m_continue_training && *status == TrainingStatus::Completed && m_level != 3) {
+        // Completed 的领取点击已由 analyze_status 内的 training_completed 完成，训练位上仍是刚练完
+        // 的干员。优先沿用默认模式的继续训练：主界面截取的技能图标在专精页匹配出槽位，接着练同一
+        // 技能的下一阶段。缺料等点不动时自然回落到按配置换人
+        click_bottom_left_tab();
+        FeatureMatcher choose_skill_analyzer(ctrler()->get_image());
+        choose_skill_analyzer.set_task_info("InfrastTrainingChooseSkillRec");
+        choose_skill_analyzer.set_templ(m_skill_img);
+        const bool continued = choose_skill_analyzer.analyze() &&
+                               continue_train(skill_index_from_rect(choose_skill_analyzer.get_result().front().rect));
+        if (continued) {
+            // 继续专精开训后训练位同样锁定
+            change_assistant();
+            return true;
+        }
+        LogInfo << "continue training not available, fall back to custom shift";
+    }
+
+    // 空闲或未开启继续训练：按配置进驻训练位干员，只换人不开新训，与默认模式的空闲行为一致
+    change_trainee();
+    change_assistant();
+    return true;
+}
+
+void asst::InfrastTrainingTask::change_trainee()
+{
+    LogTraceFunction;
+
+    if (current_room_config().trainee_names.empty()) {
+        LogInfo << "no trainee configured";
+        return;
+    }
+
+    // 无论训练位当前有没有干员都点击进入选择
+    ProcessTask(*this, { "InfrastTrainingSelectTrainee" }).run();
+
+    // 训练位选择面板与快速编队同一套 UI：展开职业栏后回到 ｢全部｣，不做职业筛选，从第一页按列表顺序扫描
+    if (ProcessTask(*this, { "BattleQuickFormationExpandRole" }).set_retry_times(3).run()) {
+        sleep(500); // 等待职业栏展开动画结束
+    }
+    ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).set_retry_times(0).run();
+
+    // trainee_names 是候选池：按选择列表顺序取第一个出现的干员（专精全满的不在列表中，等效跳过）
+    const auto& trainee_names = current_room_config().trainee_names;
+    const int delay = Task.get("BattleQuickFormationOCR")->post_delay;
+    std::string last_oper_name;
+    int unchanged_pages = 0;
+    bool found = false;
+    while (!need_exit()) {
+        const auto opers_result = oper_progress::analyze_formation_opers(ctrler()->get_image());
+        // 页面有效 = 能识别到干员，且末位干员与上一页不同（相同说明列表已滑到底未移动）
+        const bool page_moved =
+            !opers_result.empty() && (last_oper_name.empty() || last_oper_name != opers_result.back().name);
+        if (!page_moved) {
+            // 连续两轮识别无位移判定已到列表末尾；等待滑动动画结束后再认一次，排除回弹误判
+            if (++unchanged_pages >= 2) {
+                break;
+            }
+            sleep(500);
+            continue;
+        }
+        unchanged_pages = 0;
+        last_oper_name = opers_result.back().name;
+
+        const auto target =
+            std::ranges::find_if(opers_result, [&trainee_names](const oper_progress::QuickFormationOperInfo& oper) {
+                return std::ranges::find(trainee_names, oper.name) != trainee_names.cend();
+            });
+        if (target != opers_result.cend()) {
+            if (!target->selected) {
+                ctrler()->click(target->flag_rect);
+                sleep(delay);
+            }
+            found = true;
+            break;
+        }
+        ProcessTask(*this, { "BattleFormationOperListSlowlySwipeToTheRight" }).run();
+    }
+
+    // 复位 ｢全部｣ 并收起职业栏，确认选择回到训练室设施页；未命中时空选确认同样用于关闭面板
+    ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).set_retry_times(0).run();
+    ProcessTask(*this, { "InfrastCloseQuickFormationExpandRole", "Stop" }).run();
+    if (!ProcessTask(*this, { "BattleQuickFormationConfirm" }).set_retry_times(0).run() && found) {
+        LogWarn << "failed to confirm trainee selection";
+    }
+
+    if (!found) {
+        LogWarn << "no candidate in the trainee selection list";
+    }
+}
+
+bool asst::InfrastTrainingTask::select_assistant()
+{
+    LogTraceFunction;
+
+    if (current_room_config().assistant_names.empty()) {
+        // 未配置协助者，保持现状
+        return true;
+    }
+
+    if (!ProcessTask(*this, { "OperProgress@MasterySelectTrainer" }).run()) {
+        return false;
+    }
+
+    // 协助者面板与其他基建设施共用干员列表页，复用自定义选人机制：
+    // 临时把协助者名单作为备选干员，选中一位即停止（max_num_of_opers 为 1）
+    auto& room_config = current_room_config();
+    const auto origin_config = room_config;
+    room_config.names.clear();
+    room_config.candidates = origin_config.assistant_names;
+    room_config.selected = 0;
+    const bool selected = swipe_and_select_custom_opers(false, true);
+    // 全员未命中（拼写错误、未拥有等）时复核对空名单直接放行，选出 0 人却报成功，记录日志便于排查配置
+    const bool no_candidate_matched = selected && room_config.selected == 0;
+    room_config = origin_config;
+
+    if (!selected) {
+        // 复核失败（如名单干员正在其他设施工作）：退出面板不确认，避免把错误选择固化
+        click_return_button();
+        return false;
+    }
+    if (no_candidate_matched) {
+        LogWarn << "no candidate in the assistant selection list";
+    }
+
+    if (!ProcessTask(*this, { "InfrastDormConfirmButton" }).run() ||
+        !ProcessTask(*this, { "InfrastTrainingMasteryPage" }).run()) {
+        LogWarn << "failed to confirm assistant selection";
+        return false;
+    }
+    return true;
 }

@@ -71,7 +71,6 @@ icon: material-symbols:view-quilt-rounded
             "rooms": {
                 // 房间信息，必选
                 // 取值范围 "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing" / "training" / "recycle"
-                // training / recycle 的 A/B 分组为草案，当前 MAA 自定义排班尚未支持
                 // 缺少某个则该设施使用默认算法进行换班。
                 // 若想不对某个房间换班请使用 skip 字段，或直接在软件 任务设置 - 基建换班 - 常规设置 中取消改设施的勾选
                 "control": [
@@ -130,17 +129,19 @@ icon: material-symbols:view-quilt-rounded
                         "autofill": true // 这个房间内整个 autofill
                     }
                 ],
-                "training": [ // 训练室
+                "training": [ // 训练室，配置训练位干员与协助者
                     {
-                        // 人数上限、缺省与空数组含义及与原有房间字段、干员编组的关系待定
-                        "operatorsA": ["阿米娅"], // 协助训练的干员名称数组（A 位），可选；名称要求同 operators
-                        "operatorsB": ["杜宾"] // 接受训练的干员名称数组（B 位），可选；名称要求同 operators
+                        // 训练位干员候选，取选择列表中第一个出现的（专精已满的干员不出现在选择列表，等效跳过）；
+                        // 训练进行中训练位锁定不变，仅更换协助者；训练完成领取后，开启继续专精时优先继续当前干员；
+                        // 名称要求同 operators
+                        "operatorsA": ["银灰"],
+                        // 协助者候选，可选，缺省时不选择协助者；名称要求同 operators
+                        "operatorsB": ["杜宾"]
                     }
                 ],
-                "recycle": [ // 回收站，键名暂定
+                "recycle": [ // 回收站，两个进驻位无角色区分，写法同制造站
                     {
-                        "operatorsA": ["芬"], // 首个解锁位置的干员名称数组（A 位），可选；名称要求同 operators
-                        "operatorsB": ["克洛丝"] // 第二个解锁位置的干员名称数组（B 位），可选；名称要求同 operators
+                        "operators": ["芬", "克洛丝"]
                     }
                 ]
             }

@@ -32,6 +32,11 @@ private:
     bool continue_train(int index);
     static int skill_index_from_rect(const Rect& r);
 
+    // 自定义排班：训练决策沿用默认模式（训练完成领取后，勾选继续训练时接着练当前干员），plan 只负责进驻安排
+    bool custom_shift();
+    void change_trainee();
+    bool select_assistant();
+
     int m_level;
     std::string m_operator_name;
     std::string m_skill_name;

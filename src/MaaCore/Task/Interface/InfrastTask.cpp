@@ -389,6 +389,28 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
                     room_config.candidates.emplace_back(std::move(name));
                 }
             }
+
+            // 训练室的双槽位字段：operatorsA 为训练位干员候选池，operatorsB 为协助者候选池，其余设施不消费
+            if (auto trainees_opt = room_info.find<json::array>("operatorsA")) {
+                for (const auto& trainee_name : trainees_opt.value()) {
+                    std::string name = trainee_name.as_string();
+                    if (name.empty()) {
+                        Log.warn("operatorsA.name is empty");
+                        continue;
+                    }
+                    room_config.trainee_names.emplace_back(std::move(name));
+                }
+            }
+            if (auto assistants_opt = room_info.find<json::array>("operatorsB")) {
+                for (const auto& assistant_name : assistants_opt.value()) {
+                    std::string name = assistant_name.as_string();
+                    if (name.empty()) {
+                        Log.warn("operatorsB.name is empty");
+                        continue;
+                    }
+                    room_config.assistant_names.emplace_back(std::move(name));
+                }
+            }
             facility_config.emplace_back(std::move(room_config));
         }
 
@@ -416,6 +438,9 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         }
         else if (facility == "dormitory") {
             m_dorm_task_ptr->set_custom_config(facility_config);
+        }
+        else if (facility == "training") {
+            m_training_task_ptr->set_custom_config(facility_config);
         }
         else {
             // 兼容游戏新增设施、配置表先于 MAA 适配的场景，不认识的设施类型直接跳过，不影响已知设施
