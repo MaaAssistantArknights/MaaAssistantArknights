@@ -101,20 +101,13 @@ bool asst::InfrastTask::set_params(const json::value& params)
 
         m_task_data = std::make_shared<infrast::TaskData>();
         const std::initializer_list<std::shared_ptr<InfrastAbstractTask>> data_tasks = {
-            m_info_task_ptr,
-            m_mfg_task_ptr,
-            m_mfg_info_task_ptr,
-            m_trade_task_ptr,
-            m_power_task_ptr,
-            m_control_task_ptr,
-            m_reception_task_ptr,
-            m_office_task_ptr,
-            m_processing_task_ptr,
-            m_training_task_ptr,
-            m_recycle_task_ptr,
-            m_dorm_task_ptr,
-            m_dorm_task_ptr_post,
-            m_assistant_change_task_ptr,
+            m_info_task_ptr,       m_mfg_task_ptr,
+            m_mfg_info_task_ptr,   m_trade_task_ptr,
+            m_power_task_ptr,      m_control_task_ptr,
+            m_reception_task_ptr,  m_office_task_ptr,
+            m_processing_task_ptr, m_training_task_ptr,
+            m_recycle_task_ptr,    m_dorm_task_ptr,
+            m_dorm_task_ptr_post,  m_assistant_change_task_ptr,
         };
         for (const auto& task : data_tasks) {
             task->set_task_data(m_task_data);
@@ -441,6 +434,9 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         }
         else if (facility == "training") {
             m_training_task_ptr->set_custom_config(facility_config);
+        }
+        else if (facility == "recycle") {
+            m_recycle_task_ptr->set_custom_config(facility_config);
         }
         else {
             // 兼容游戏新增设施、配置表先于 MAA 适配的场景，不认识的设施类型直接跳过，不影响已知设施
