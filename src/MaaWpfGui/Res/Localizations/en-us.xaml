@@ -153,7 +153,7 @@
     <system:String x:Key="Mfg">Factory</system:String>
     <system:String x:Key="Processing">Workshop</system:String>
     <system:String x:Key="Training">Training Room</system:String>
-    <system:String x:Key="Recycle">Recycling Station</system:String>
+    <system:String x:Key="Recycle">Recycling Station (speculative translation, not yet released)</system:String>
     <system:String x:Key="AssistantChange">Assistant change</system:String>
     <system:String x:Key="Trade">Trading Post</system:String>
     <system:String x:Key="Power">Power Plant</system:String>
