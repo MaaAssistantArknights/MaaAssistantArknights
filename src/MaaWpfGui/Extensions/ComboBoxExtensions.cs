@@ -162,6 +162,19 @@ public static class ComboBoxExtensions
             ApplySearchFilter(targetComboBox);
         };
 
+        // 标记输入法组字区间：TSF 回放组字时先发 PreviewTextInputStart 再把组字串写入文本框，
+        // 上屏时先发 PreviewTextInput 再写入最终文本，二者之间的 TextChanged 均为组字中间态；
+        // 普通按键输入两者紧接触发，标记不会跨越文本变更。失焦兜底复位，避免组字异常中断后标记残留
+        targetTextBox.AddHandler(
+            TextCompositionManager.PreviewTextInputStartEvent,
+            new TextCompositionEventHandler((_, _) => targetComboBox.SetValue(IsImeComposingProperty, true)),
+            handledEventsToo: true);
+        targetTextBox.AddHandler(
+            TextCompositionManager.PreviewTextInputEvent,
+            new TextCompositionEventHandler((_, _) => targetComboBox.SetValue(IsImeComposingProperty, false)),
+            handledEventsToo: true);
+        targetTextBox.LostKeyboardFocus += (_, _) => targetComboBox.SetValue(IsImeComposingProperty, false);
+
         targetComboBox.SelectionChanged += (_, _) =>
         {
             if (targetComboBox.SelectedItem != null)
@@ -245,6 +258,17 @@ public static class ComboBoxExtensions
             typeof(ComboBoxExtensions),
             new PropertyMetadata(null));
 
+    // 输入法组字中标记。微软拼音等内联组字的输入法会先把拼音字母作为组字串写入文本框、选词后再替换，
+    // 组字期间若按中间文本过滤，完全匹配会选中某项（如 "w" 忽略大小写命中干员 W），选中引发的文本改写
+    // 被 TextStore 视为应用修改了组字区而强制结束组字，表现为锁定到该项并关闭输入法；
+    // 未命中时也会按拼音字母过滤出空列表。组字期间跳过过滤，上屏触发的 TextChanged 再按最终文本过滤
+    private static readonly DependencyProperty IsImeComposingProperty =
+        DependencyProperty.RegisterAttached(
+            "IsImeComposing",
+            typeof(bool),
+            typeof(ComboBoxExtensions),
+            new PropertyMetadata(false));
+
     // 数据源统一回填入口：override 优先，其次绑定的源；始终以独立 CollectionView 呈现
     private static void UpdateItemsSource(ComboBox comboBox)
     {
@@ -276,6 +300,12 @@ public static class ComboBoxExtensions
     private static void ApplySearchFilter(ComboBox targetComboBox)
     {
         if (targetComboBox.ItemsSource is not { } itemsSource)
+        {
+            return;
+        }
+
+        // 组字中间态不过滤；换源路径（如肉鸽开局干员按中间文本校验失败切换全干员列表）同样经此拦截
+        if ((bool)targetComboBox.GetValue(IsImeComposingProperty))
         {
             return;
         }
