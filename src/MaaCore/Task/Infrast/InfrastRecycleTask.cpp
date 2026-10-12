@@ -1,14 +1,12 @@
 #include "InfrastRecycleTask.h"
 
+#include "Task/ProcessTask.h"
 #include "Controller/Controller.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 
-namespace
-{
 // 防御滑动上限，避免识别异常时在干员列表里无限翻页
-constexpr int MaxSwipeTimes = 5;
-} // namespace
+static constexpr int MaxSwipeTimes = 5;
 
 bool asst::InfrastRecycleTask::_run()
 {
@@ -44,8 +42,12 @@ bool asst::InfrastRecycleTask::fill_slots()
 {
     LogTraceFunction;
 
-    // 清空后没有已选干员，直接按位置取列表前 max_num_of_opers() 个补位。
-    // 正在其他设施工作的干员（卡片带"工作中"标记）不拉取，避免拆散已换班的其他设施。
+    // 固定按工作状态排序：工作中的干员排前面，跳过后紧跟可用干员，
+    // 也避免沿用上一设施或用户手动残留的排序导致选人不可预测
+    ProcessTask(*this, { "InfrastOperListTabWorkStatusUnClicked", "Stop" }).run();
+
+    // 正在其他设施工作的干员（卡片带 ｢工作中｣ 标记）不拉取，避免拆散已换班的其他设施；
+    // 心情低于阈值的干员跳过，避免打断宿舍休息循环
     size_t num_of_selected = 0;
     int swipe_times = 0;
     while (num_of_selected < max_num_of_opers()) {
@@ -54,10 +56,11 @@ bool asst::InfrastRecycleTask::fill_slots()
         }
         const auto image = ctrler()->get_image();
         InfrastOperImageAnalyzer oper_analyzer(image);
-        constexpr int without_skill = InfrastOperImageAnalyzer::All ^ InfrastOperImageAnalyzer::Skill;
-        oper_analyzer.set_to_be_calced(without_skill);
+        constexpr int calced =
+            InfrastOperImageAnalyzer::Selected | InfrastOperImageAnalyzer::Doing | InfrastOperImageAnalyzer::Mood;
+        oper_analyzer.set_to_be_calced(calced);
         if (!oper_analyzer.analyze()) {
-            Log.error("recycle oper analyze failed");
+            LogError << "recycle oper analyze failed";
             return false;
         }
         oper_analyzer.sort_by_loc();
@@ -66,7 +69,7 @@ bool asst::InfrastRecycleTask::fill_slots()
             if (num_of_selected >= max_num_of_opers()) {
                 break;
             }
-            if (oper.selected || oper.doing == infrast::Doing::Working) {
+            if (oper.selected || oper.doing == infrast::Doing::Working || oper.mood_ratio < m_mood_threshold) {
                 continue;
             }
             ctrler()->click(oper.rect);
@@ -76,7 +79,7 @@ bool asst::InfrastRecycleTask::fill_slots()
             break;
         }
         if (++swipe_times > MaxSwipeTimes) {
-            Log.warn("recycle fill slots swiped too many times, give up", num_of_selected);
+            LogWarn << "recycle fill slots swiped too many times, give up" << num_of_selected;
             break;
         }
         // 识别完了还要点击，所以这里不能异步滑动
