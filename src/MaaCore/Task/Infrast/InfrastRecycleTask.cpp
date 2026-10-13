@@ -31,10 +31,7 @@ bool asst::InfrastRecycleTask::_run()
         }
     }
 
-    // 房间对象存在但没有给出任何选人意图（operators/candidates 为空或缺失、未配置 autofill 与编组引用）时
-    // 保持房间原样，不回落默认算法自动选人
-    if (is_room_config_specified() && !current_room_config().skip && current_room_config().names.empty() &&
-        current_room_config().candidates.empty() && !current_room_config().autofill) {
+    if (is_room_config_without_intent()) {
         LogInfo << "room config exists but no operator selection intent, keep room unchanged";
         json::value info = basic_info_with_what("CustomInfrastRoomKeptUnchanged");
         callback(AsstMsg::SubTaskExtraInfo, info);
@@ -86,6 +83,7 @@ bool asst::InfrastRecycleTask::_run()
     }
 
     LogWarn << "recycle custom shift failed after retries";
+    restore_last_matched_group_opers();
     click_return_button();
     return false;
 }

@@ -16,11 +16,6 @@ bool asst::InfrastReceptionTask::_run()
 {
     m_all_available_opers.clear();
 
-    if (is_facility_config_empty()) {
-        LogInfo << "custom room array is empty, keep facility unchanged";
-        return true;
-    }
-
     swipe_to_the_left_of_main_ui();
 
     if (!enter_facility()) {
@@ -80,7 +75,7 @@ bool asst::InfrastReceptionTask::_run()
         return shift();
     }
 
-    Log.info("skip shift in rotation mode");
+    LogInfo << "skip shift in rotation mode";
     return true;
 }
 
@@ -337,14 +332,18 @@ bool asst::InfrastReceptionTask::shift()
     LogTraceFunction;
 
     if (m_is_custom && current_room_config().skip) {
-        Log.info("skip this room");
+        LogInfo << "skip this room";
         return true;
     }
 
-    // 房间对象存在但没有给出任何选人意图（operators/candidates 为空或缺失、未配置 autofill 与编组引用）时
-    // 保持房间原样，不回落默认算法自动选人；线索的收取与传递等流程已在之前完成，不受本拦截影响
-    if (is_room_config_specified() && !current_room_config().skip && current_room_config().names.empty() &&
-        current_room_config().candidates.empty() && !current_room_config().autofill) {
+    // 空房间数组整设施不换班；留言板/线索收取/线索交流/赠送线索等设施级操作已在 shift 之前完成，不受影响
+    if (is_facility_config_empty()) {
+        LogInfo << "custom room array is empty, keep facility unchanged";
+        return true;
+    }
+
+    // 线索的收取与传递等流程已在之前完成，不受空意图拦截影响
+    if (is_room_config_without_intent()) {
         LogInfo << "room config exists but no operator selection intent, keep room unchanged";
         json::value info = basic_info_with_what("CustomInfrastRoomKeptUnchanged");
         callback(AsstMsg::SubTaskExtraInfo, info);

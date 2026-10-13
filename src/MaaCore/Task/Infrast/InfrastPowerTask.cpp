@@ -11,19 +11,21 @@ bool asst::InfrastPowerTask::_run()
     // 发电站只能造这一个
     set_product("Drone");
 
+    if (is_facility_config_empty()) {
+        LogInfo << "custom room array is empty, keep facility unchanged";
+        return true;
+    }
+
     for (; m_cur_facility_index != static_cast<int>(max_num_of_facilities()); ++m_cur_facility_index) {
         if (need_exit()) {
             return false;
         }
         if (m_is_custom && current_room_config().skip) {
-            Log.info("skip this room");
+            LogInfo << "skip this room";
             continue;
         }
 
-        // 房间对象存在但没有给出任何选人意图（operators/candidates 为空或缺失、未配置 autofill 与编组引用）时
-        // 保持房间原样，不回落默认算法自动选人
-        if (is_room_config_specified() && !current_room_config().skip && current_room_config().names.empty() &&
-            current_room_config().candidates.empty() && !current_room_config().autofill) {
+        if (is_room_config_without_intent()) {
             LogInfo << "room config exists but no operator selection intent, keep room unchanged" << facility_name()
                     << m_cur_facility_index;
             json::value info = basic_info_with_what("CustomInfrastRoomKeptUnchanged");

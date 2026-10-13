@@ -249,7 +249,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
         // rooms 数组短于实际房间数（含空数组）时，从未配置的第一个房间起不再换班，第 0 间同样生效
         if (m_is_custom && static_cast<size_t>(m_cur_facility_index) >= m_custom_config.size()) {
-            Log.warn("index out of range:", m_cur_facility_index, m_custom_config.size());
+            LogWarn << "index out of range:" << m_cur_facility_index << m_custom_config.size();
             break;
         }
         if (m_cur_facility_index != 0) {
@@ -271,7 +271,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         const auto add_task_ptr = Task.get("InfrastAddOperator" + facility_name() + m_work_mode_name);
         add_analyzer.set_task_info(add_task_ptr);
         if (!add_analyzer.analyze()) {
-            Log.error("no add button, just continue");
+            LogError << "no add button, just continue";
             continue;
         }
         Rect add_button = add_analyzer.get_result().rect;
@@ -296,7 +296,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
 
         if (m_is_custom && current_room_config().skip) {
-            Log.info("skip this room");
+            LogInfo << "skip this room";
             continue;
         }
 
@@ -326,7 +326,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         if (!best_product.empty() && best_score > 0) {
             auto templ_ptr = Task.get<MatchTaskInfo>("InfrastFlag" + best_product);
             if (templ_ptr == nullptr) {
-                Log.warn(__FUNCTION__, "| missing product task config:", "InfrastFlag" + best_product);
+                LogWarn << __FUNCTION__ << "| missing product task config:" << "InfrastFlag" + best_product;
             }
             else {
                 const double thresh =
@@ -340,16 +340,9 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
 
         if (!cur_product_detection_valid) {
-            Log.warn(
-                __FUNCTION__,
-                "| product unrecognized or weak match, skip unreliable product:",
-                facility_name(),
-                "| index",
-                m_cur_facility_index,
-                "| best",
-                best_product,
-                "| score",
-                best_score);
+            LogWarn << __FUNCTION__
+                    << "| product unrecognized or weak match, skip unreliable product:" << facility_name() << "| index"
+                    << m_cur_facility_index << "| best" << best_product << "| score" << best_score;
             m_product.clear();
             m_is_product_incorrect = false;
             cur_product_for_non_custom_drone.clear();
@@ -373,10 +366,8 @@ bool asst::InfrastProductionTask::shift_facility_list()
         if (m_is_custom && m_is_product_incorrect) {
             if (!change_product()) {
                 // 产物失败只报错，不阻断换人，尽量保证干员心情和恢复轴按排班推进。
-                Log.warn(
-                    "change_product failed after retries, proceed with staffing",
-                    facility_name(),
-                    m_cur_facility_index);
+                LogWarn << "change_product failed after retries, proceed with staffing" << facility_name()
+                        << m_cur_facility_index;
             }
             else {
                 cur_product_for_non_custom_drone = m_product;
@@ -386,10 +377,8 @@ bool asst::InfrastProductionTask::shift_facility_list()
 
         /* 进入干员选择页面 */
         if (!m_skip_shift) {
-            // 房间对象存在但没有给出任何选人意图（operators/candidates 为空或缺失、未配置 autofill 与编组引用）时
-            // 保持房间原样，不回落默认算法自动选人；产物等其他字段的处理已在上方完成，不受本拦截影响
-            if (is_room_config_specified() && !current_room_config().skip && current_room_config().names.empty() &&
-                current_room_config().candidates.empty() && !current_room_config().autofill) {
+            // 产物等其他字段的处理已在上方完成，空意图拦截不影响它们
+            if (is_room_config_without_intent()) {
                 LogInfo << "room config exists but no operator selection intent, keep room unchanged" << facility_name()
                         << m_cur_facility_index;
                 json::value info = basic_info_with_what("CustomInfrastRoomKeptUnchanged");
@@ -457,6 +446,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
                 break;
             }
             if (!selection_ready) {
+                restore_last_matched_group_opers();
                 discard_pending_selection();
                 return false;
             }
@@ -465,7 +455,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
             }
         }
         else if (m_skip_shift) {
-            Log.info("skip shift in rotation mode");
+            LogInfo << "skip shift in rotation mode";
         }
 
         // 自定义基建 Post 无人机（含空意图/编组失败保持原样的房间）

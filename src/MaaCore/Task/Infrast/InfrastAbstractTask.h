@@ -54,6 +54,9 @@ protected:
     // 当前房间在自定义配置里是否有对应的房间对象（rooms 数组写到了该 index）
     // current_room_config() 越界时返回 static empty，与界内但字段全空的配置同形，需要区分两者时用本方法判定
     bool is_room_config_specified() const;
+    // 房间对象存在但没有给出任何选人意图（operators/candidates 为空或缺失、未配置 autofill 与编组引用）时
+    // 保持房间原样，不回落默认算法自动选人
+    bool is_room_config_without_intent();
     // rooms 显式写了该设施但房间数组为空：整个设施保持原样不换班，与缺失该设施键（走默认算法）的语义区分
     bool is_facility_config_empty() const;
     infrast::CustomRoomConfig& current_room_config();
@@ -62,6 +65,8 @@ protected:
     // 编组匹配用的可用干员列表，每次基建换班任务清空
     std::set<std::string> get_available_oper_for_group();
     void set_available_oper_for_group(std::set<std::string> opers);
+    // 把最近一次编组匹配占用的成员并回可用缓存，供选人未确认失败的整任务重试使用
+    void restore_last_matched_group_opers();
 
     /// @brief 按技能排序->清空干员->选择定制干员->按指定顺序排序
     /// @param is_dorm_order 当前房间是不是宿舍
@@ -98,6 +103,8 @@ protected:
     int m_cur_facility_index = 0;
     bool m_is_custom = false;
     infrast::CustomFacilityConfig m_custom_config;
+    // 最近一次编组匹配成功并从可用缓存移除的成员，选人失败重试前据此回补
+    std::vector<std::string> m_last_matched_group_opers;
     std::shared_ptr<infrast::TaskData> m_task_data;
     std::unordered_set<std::string> m_pending_operator_ids;
 };

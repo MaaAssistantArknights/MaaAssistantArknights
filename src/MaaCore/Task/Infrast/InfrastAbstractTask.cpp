@@ -135,7 +135,7 @@ bool asst::InfrastAbstractTask::match_operator_groups()
 
     auto opers = get_available_oper_for_group();
     if (opers.size() == 0) {
-        Log.info(__FUNCTION__, "available operator for group is empty");
+        LogInfo << __FUNCTION__ << "available operator for group is empty";
         std::vector<std::string> temp, pre_temp;
         while (true) {
             if (need_exit()) {
@@ -147,9 +147,9 @@ bool asst::InfrastAbstractTask::match_operator_groups()
             }
             if (pre_temp == temp) {
                 if (pre_result_no_changes) {
-                    Log.warn("partial result is not changed, reset the page");
+                    LogWarn << "partial result is not changed, reset the page";
                     if (retried) {
-                        Log.error("already retried");
+                        LogError << "already retried";
                         break;
                     }
                     swipe_to_the_left_of_operlist(swipe_times + 1);
@@ -171,13 +171,15 @@ bool asst::InfrastAbstractTask::match_operator_groups()
     }
     swipe_to_the_left_of_operlist(swipe_times + 1);
     swipe_times = 0;
-    Log.info(__FUNCTION__, "available operators for group size:", opers.size());
+    LogInfo << __FUNCTION__ << "available operators for group size:" << opers.size();
     // 筛选第一个满足要求的干员组
     for (const auto& oper_group_pair : current_room_config().operator_groups) {
         if (std::ranges::all_of(oper_group_pair.second, [opers](const std::string& oper) {
                 return opers.contains(oper);
             })) {
             std::ranges::for_each(oper_group_pair.second, [&opers](const std::string& oper) { opers.erase(oper); });
+            // 成员移除发生在写回缓存之前，先记下名单，选人未确认失败的整任务重试靠它回补缓存
+            m_last_matched_group_opers = oper_group_pair.second;
             current_room_config().names.insert(
                 current_room_config().names.end(),
                 oper_group_pair.second.begin(),
@@ -227,6 +229,18 @@ void asst::InfrastAbstractTask::set_available_oper_for_group(std::set<std::strin
     status()->set_str(Status::InfrastAvailableOpersForGroup, value.dumps());
 }
 
+void asst::InfrastAbstractTask::restore_last_matched_group_opers()
+{
+    // 回补后立即清空记录：确认成功后的失败不得再回补，人员可能已生效
+    if (m_last_matched_group_opers.empty()) {
+        return;
+    }
+    auto opers = get_available_oper_for_group();
+    opers.insert(m_last_matched_group_opers.cbegin(), m_last_matched_group_opers.cend());
+    set_available_oper_for_group(std::move(opers));
+    m_last_matched_group_opers.clear();
+}
+
 bool asst::InfrastAbstractTask::on_run_fails()
 {
     LogTraceFunction;
@@ -241,21 +255,23 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
 {
     LogTraceFunction;
 
-    if (m_is_custom && static_cast<size_t>(m_cur_facility_index) >= m_custom_config.size()) {
-        Log.warn("index out of range:", index, m_custom_config.size());
+    // 房间数组为空时放行进设施：整设施不换班由各任务自身的空数组拦截处理，会客室等还需要进设施做线索等设施级操作
+    if (m_is_custom && !m_custom_config.empty() &&
+        static_cast<size_t>(m_cur_facility_index) >= m_custom_config.size()) {
+        LogWarn << "index out of range:" << index << m_custom_config.size();
         return false;
     }
 
     InfrastFacilityImageAnalyzer analyzer(ctrler()->get_image());
     analyzer.set_to_be_analyzed({ facility_name() });
     if (!analyzer.analyze()) {
-        Log.info("result is empty");
+        LogInfo << "result is empty";
         analyzer.save_img(utils::path("debug") / utils::path("infrast") / utils::path("enter_facility"));
         return false;
     }
     Rect rect = analyzer.get_rect(facility_name(), index);
     if (rect.empty()) {
-        Log.info("facility index is out of range");
+        LogInfo << "facility index is out of range";
         analyzer.save_img(utils::path("debug") / utils::path("infrast") / utils::path("enter_facility"));
         return false;
     }
@@ -284,6 +300,12 @@ bool asst::InfrastAbstractTask::is_use_custom_opers()
 bool asst::InfrastAbstractTask::is_room_config_specified() const
 {
     return m_is_custom && static_cast<size_t>(m_cur_facility_index) < m_custom_config.size();
+}
+
+bool asst::InfrastAbstractTask::is_room_config_without_intent()
+{
+    return is_room_config_specified() && !current_room_config().skip && current_room_config().names.empty() &&
+           current_room_config().candidates.empty() && !current_room_config().autofill;
 }
 
 bool asst::InfrastAbstractTask::is_facility_config_empty() const
@@ -342,9 +364,9 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
         }
         if (partial_result == pre_partial_result) {
             if (pre_result_no_changes) {
-                Log.warn("partial result is not changed, reset the page");
+                LogWarn << "partial result is not changed, reset the page";
                 if (retried) {
-                    Log.error("already retring");
+                    LogError << "already retring";
                     break;
                 }
                 swipe_to_the_left_of_operlist(swipe_times + 1);
