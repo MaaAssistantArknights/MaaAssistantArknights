@@ -713,13 +713,15 @@
     },
     "Tales@RA@RIS-RewardAmountOcr": {
         "baseTask": "NumberOcrReplace",
-        "roi": [672, 384, 32, 32],
+        "roi": [544, 384, 176, 32],
+        "binThreshold": [200, 255],
+        "doc": "奖励数量靠右排列，向左预留十位整数的空间；仅保留白色文字，排除物品图标的暗色部分，避免截掉高位数字或读入图标。",
         "withoutDet": true
     },
     "Tales@RA@RIS-SmeltingRewardOcr": {
         "baseTask": "NumberOcrReplace",
         "roi": [656, 384, 64, 32],
-        "doc": "读取350赤金的完整三位奖励数量，避免沿用购买奖励的窄框而丢失首位。",
+        "doc": "读取冶炼所得的350赤金。",
         "withoutDet": true
     },
     "Tales@RA@RIS-PreparedDrinksOcr": {
