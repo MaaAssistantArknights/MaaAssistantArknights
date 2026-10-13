@@ -4124,6 +4124,7 @@
     },
     "InfrastTrainingAssistantDoubleConfirm": {
         "baseTask": "InfrastDormDoubleConfirmButton",
+        "template": "InfrastOperConflictConfirm.png",
         "next": [
             "InfrastTrainingAssistantConfirmWait",
             "InfrastTrainingAssistantDoubleConfirm",
