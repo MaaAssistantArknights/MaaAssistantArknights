@@ -73,7 +73,7 @@ icon: material-symbols:view-quilt-rounded
                 // 取值范围 "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing" / "training" / "recycle"
                 // 缺少某个则该设施使用默认算法进行换班。
                 // 设施数组中的房间对象少于实际房间数时，从未配置的第一个房间起，该设施剩余房间均不换班。
-                // 写了房间对象但未给出选人意图（operators/candidates 为空或缺失、未配置 autofill 与编组）时该房间保持原样不动，行为与 skip 一致，产物等非换人操作不受影响
+                // 写了房间对象但未给出选人意图（operators/candidates 为空或缺失、未配置 autofill 与编组）时该房间仅跳过换人，保持原进驻不动；产物等其他字段的处理不受影响（skip 字段则跳过该房间的全部处理）
                 // 若想不对某个房间换班请使用 skip 字段，或直接在软件 任务设置 - 基建换班 中取消该设施的勾选
                 "control": [
                 {

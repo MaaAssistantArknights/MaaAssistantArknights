@@ -73,7 +73,7 @@ icon: material-symbols:view-quilt-rounded
                 // 取值範圍 "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing" / "training" / "recycle"
                 // 缺少某個則該設施使用預設演算法進行換班。
                 // 設施陣列中的房間物件少於實際房間數時，從未配置的第一個房間起，該設施剩餘房間均不換班。
-                // 寫了房間物件但未給出選人意圖（operators/candidates 為空或缺失、未配置 autofill 與編組）時該房間保持原樣不動，行為與 skip 一致，產物等非換人操作不受影響
+                // 寫了房間物件但未給出選人意圖（operators/candidates 為空或缺失、未配置 autofill 與編組）時該房間僅跳過換人，保持原進駐不動；產物等其他欄位的處理不受影響（skip 欄位則跳過該房間的全部處理）
                 // 若想不對某個房間換班請使用 skip 欄位，或直接在 MAA ｢任務設定 - 基建換班｣ 中取消該設施的勾選
                 "control": [
                 {

@@ -73,7 +73,7 @@ Please note that JSON files do not support comments. The comments in this docume
                 // Values: "control"/"manufacture"/"trading"/"power"/"meeting"/"hire"/"dormitory"/"processing"/"training"/"recycle"
                 // Missing rooms use default algorithm for shift change.
                 // If a facility array holds fewer room entries than actual rooms, shift change stops from the first unconfigured room onward for that facility.
-                // A room entry written without any staffing intent (operators/candidates empty or missing, no autofill or operator groups) keeps that room unchanged, behaving the same as skip; non-staffing operations such as product change are unaffected
+                // A room entry written without any staffing intent (operators/candidates empty or missing, no autofill or operator groups) only skips operator replacement for that room and keeps its current staff unchanged; other fields such as product are still processed (the skip field skips all processing for that room)
                 // To skip a room, use skip field or uncheck the facility in software Task Settings - Base Management
                 "control": [
                 {
