@@ -8,16 +8,8 @@ bool asst::InfrastOfficeTask::_run()
 {
     m_all_available_opers.clear();
 
-    if (is_facility_config_empty()) {
-        LogInfo << "custom room array is empty, keep facility unchanged";
-        return true;
-    }
-    if (m_is_custom && current_room_config().skip) {
-        LogInfo << "skip this room";
-        return true;
-    }
-    if (is_room_config_without_intent()) {
-        notify_room_kept_unchanged();
+    // 拦截统一走基类 check_room_shift_intent，非 Shift 视为本房间处理完成
+    if (check_room_shift_intent() != RoomShiftIntent::Shift) {
         return true;
     }
 

@@ -295,6 +295,8 @@ bool asst::InfrastProductionTask::shift_facility_list()
             use_drone();
         }
 
+        // skip 在此处直接判定而非调用 check_room_shift_intent：该函数会连带判定空意图并发出通知，
+        // 空意图房间须先完成下方产物识别与换产物再拦截（含 mfg_info 巡检轮，巡检轮现状不发该通知）
         if (m_is_custom && current_room_config().skip) {
             LogInfo << "skip this room";
             continue;
@@ -377,9 +379,9 @@ bool asst::InfrastProductionTask::shift_facility_list()
 
         /* 进入干员选择页面 */
         if (!m_skip_shift) {
-            // 产物等其他字段的处理已在上方完成，空意图拦截不影响它们
-            if (is_room_config_without_intent()) {
-                notify_room_kept_unchanged();
+            // 产物等其他字段的处理已在上方完成，空意图拦截不影响它们；
+            // 空数组与 skip 已在先前位置消费，此处结果只可能 Shift 或 KeepUnchanged（空意图）
+            if (check_room_shift_intent() == RoomShiftIntent::KeepUnchanged) {
                 try_use_custom_post_drone();
                 continue;
             }
@@ -392,11 +394,24 @@ bool asst::InfrastProductionTask::shift_facility_list()
             // 如果是使用了编队组来排班
             // 全部编组不可用时，候补名单非空则照常走候补选人，仅无候补且无 autofill 时保持房间原样，
             // 退出选人界面后跳过该房间，不回落默认算法自动选人，避免拆走后续设施点名/编组指定的干员；
+            // 识别失败不是排班计划内的降级，不启用候补，同样保持房间原样并上报原因；
             // need_exit 场景留给选人循环开头的既有检查中止
-            if (current_room_config().use_operator_groups && !match_operator_groups()) {
-                if (current_room_config().candidates.empty() && !current_room_config().autofill && !need_exit()) {
+            if (current_room_config().use_operator_groups) {
+                const GroupMatchResult group_match_result = match_operator_groups();
+                if (group_match_result == GroupMatchResult::AllUnavailable &&
+                    current_room_config().candidates.empty() && !current_room_config().autofill && !need_exit()) {
                     LogInfo << "all operator groups unavailable with no candidates or autofill, keep room unchanged"
                             << facility_name() << m_cur_facility_index;
+                    click_return_button();
+                    try_use_custom_post_drone();
+                    continue;
+                }
+                if (group_match_result == GroupMatchResult::RecogFailed && !need_exit()) {
+                    LogInfo << "failed to recognize operators for group matching, keep room unchanged"
+                            << facility_name() << m_cur_facility_index;
+                    json::value info = basic_info_with_what("CustomInfrastRoomGroupsMatchFailed");
+                    info["details"]["reason"] = "recognition_failed";
+                    callback(AsstMsg::SubTaskExtraInfo, info);
                     click_return_button();
                     try_use_custom_post_drone();
                     continue;

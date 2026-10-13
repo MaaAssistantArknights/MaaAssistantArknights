@@ -97,9 +97,9 @@ void asst::InfrastAbstractTask::clear_custom_config() noexcept
     m_custom_config.clear();
 }
 
-asst::infrast::CustomRoomConfig& asst::InfrastAbstractTask::current_room_config()
+const asst::infrast::CustomRoomConfig& asst::InfrastAbstractTask::current_room_config() const
 {
-    static infrast::CustomRoomConfig empty;
+    static const infrast::CustomRoomConfig empty;
     if (!m_is_custom) [[unlikely]] {
         Log.warn(__FUNCTION__, "custom is not enabled");
         return empty;
@@ -114,24 +114,31 @@ asst::infrast::CustomRoomConfig& asst::InfrastAbstractTask::current_room_config(
     }
 }
 
-bool asst::InfrastAbstractTask::match_operator_groups()
+asst::infrast::CustomRoomConfig& asst::InfrastAbstractTask::current_room_config()
+{
+    return const_cast<infrast::CustomRoomConfig&>(std::as_const(*this).current_room_config());
+}
+
+asst::GroupMatchResult asst::InfrastAbstractTask::match_operator_groups()
 {
     // names 里存的是引用的编组名，须在 clear 前拷出，防御回调靠它展示哪些组名未在 groups 定义
     std::vector<std::string> referenced_group_names = current_room_config().names;
     current_room_config().names.clear();
 
-    // 引用的组名均未在 groups 定义（含 operators 缺失或为空），视同编组匹配失败，
+    // 引用的组名均未在 groups 定义（含 operators 缺失或为空），视同编组不可用，
     // 由调用方按编组不可用处理，不静默回落自动选人
     if (current_room_config().operator_groups.empty()) {
         LogWarn << __FUNCTION__ << " no operator group defined for this room";
         json::value info = basic_info_with_what("CustomInfrastRoomGroupsMatchFailed");
+        info["details"]["reason"] = "group_not_defined";
         info["details"]["groups"] = json::array(std::move(referenced_group_names));
         callback(AsstMsg::SubTaskExtraInfo, info);
-        return false;
+        return GroupMatchResult::AllUnavailable;
     }
 
     int swipe_times = 0;
     bool pre_result_no_changes = false, retried = false;
+    int recog_failed_times = 0;
 
     auto opers = get_available_oper_for_group();
     if (opers.size() == 0) {
@@ -139,11 +146,21 @@ bool asst::InfrastAbstractTask::match_operator_groups()
         std::vector<std::string> temp, pre_temp;
         while (true) {
             if (need_exit()) {
-                return false;
+                // need_exit 中止同走 RecogFailed：调用方以 need_exit 挡住回调与保持原样分支，
+                // 由后续选人循环开头的既有检查接管中止
+                return GroupMatchResult::RecogFailed;
             }
             temp.clear();
             if (!get_opers(temp, m_mood_threshold)) {
-                return false;
+                // 干员收集识别失败在函数内重试，轮数与选人循环一致，耗尽后交由调用方按识别失败处理
+                if (recog_failed_times >= OperSelectRetryTimes) {
+                    LogError << __FUNCTION__ << "failed to collect available operators after retries";
+                    return GroupMatchResult::RecogFailed;
+                }
+                ++recog_failed_times;
+                // 重试节奏对齐选人循环的失败处理：先回滑到列表最左侧再重新识别
+                swipe_to_the_left_of_operlist();
+                continue;
             }
             if (pre_temp == temp) {
                 if (pre_result_no_changes) {
@@ -195,15 +212,16 @@ bool asst::InfrastAbstractTask::match_operator_groups()
     // 匹配失败，无分组可用
     if (current_room_config().names.empty() && !current_room_config().operator_groups.empty()) {
         json::value info = basic_info_with_what("CustomInfrastRoomGroupsMatchFailed");
+        info["details"]["reason"] = "all_unavailable";
         std::vector<std::string> names;
         std::ranges::for_each(
             current_room_config().operator_groups,
             [&names](std::pair<const std::string, std::vector<std::string>>& pair) { names.emplace_back(pair.first); });
         info["details"]["groups"] = json::array(std::move(names));
         callback(AsstMsg::SubTaskExtraInfo, info);
-        return false;
+        return GroupMatchResult::AllUnavailable;
     }
-    return true;
+    return GroupMatchResult::Matched;
 }
 
 std::set<std::string> asst::InfrastAbstractTask::get_available_oper_for_group()
@@ -256,8 +274,7 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
     LogTraceFunction;
 
     // 房间数组为空时放行进设施：整设施不换班由各任务自身的空数组拦截处理，会客室还需要进设施做线索等设施级操作
-    if (m_is_custom && !m_custom_config.empty() &&
-        static_cast<size_t>(m_cur_facility_index) >= m_custom_config.size()) {
+    if (m_is_custom && !m_custom_config.empty() && static_cast<size_t>(index) >= m_custom_config.size()) {
         LogWarn << "index out of range:" << index << m_custom_config.size();
         return false;
     }
@@ -302,10 +319,31 @@ bool asst::InfrastAbstractTask::is_room_config_specified() const
     return m_is_custom && static_cast<size_t>(m_cur_facility_index) < m_custom_config.size();
 }
 
-bool asst::InfrastAbstractTask::is_room_config_without_intent()
+bool asst::InfrastAbstractTask::is_room_config_without_intent() const
 {
     return is_room_config_specified() && !current_room_config().skip && current_room_config().names.empty() &&
            current_room_config().candidates.empty() && !current_room_config().autofill;
+}
+
+asst::RoomShiftIntent asst::InfrastAbstractTask::check_room_shift_intent() const
+{
+    // 判定顺序固定为 空数组 → skip → 空意图
+    // 通知发射只发回调不改任务状态，callback 系列为非 const 签名，此处统一放行 const 调用
+    auto& notifier = const_cast<InfrastAbstractTask&>(*this);
+    if (is_facility_config_empty()) {
+        LogInfo << "custom room array is empty, keep facility unchanged";
+        notifier.notify_room_kept_unchanged();
+        return RoomShiftIntent::KeepUnchanged;
+    }
+    if (m_is_custom && current_room_config().skip) {
+        LogInfo << "skip this room";
+        return RoomShiftIntent::Skip;
+    }
+    if (is_room_config_without_intent()) {
+        notifier.notify_room_kept_unchanged();
+        return RoomShiftIntent::KeepUnchanged;
+    }
+    return RoomShiftIntent::Shift;
 }
 
 void asst::InfrastAbstractTask::notify_room_kept_unchanged()

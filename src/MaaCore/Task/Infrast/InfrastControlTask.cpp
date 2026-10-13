@@ -9,16 +9,8 @@ bool asst::InfrastControlTask::_run()
 {
     m_all_available_opers.clear();
 
-    if (is_facility_config_empty()) {
-        LogInfo << "custom room array is empty, keep facility unchanged";
-        return true;
-    }
-    if (m_is_custom && current_room_config().skip) {
-        LogInfo << "skip this room";
-        return true;
-    }
-    if (is_room_config_without_intent()) {
-        notify_room_kept_unchanged();
+    // 拦截统一走基类 check_room_shift_intent，非 Shift 视为本房间处理完成
+    if (check_room_shift_intent() != RoomShiftIntent::Shift) {
         return true;
     }
 
@@ -42,10 +34,21 @@ bool asst::InfrastControlTask::_run()
     // 如果是使用了编队组来排班
     // 全部编组不可用时，候补名单非空则照常走候补选人，仅无候补且无 autofill 时保持房间原样，
     // 退出选人界面并视为完成，不回落默认算法自动选人，避免拆走后续设施点名/编组指定的干员；
+    // 识别失败不是排班计划内的降级，不启用候补，同样保持房间原样并上报原因；
     // need_exit 场景留给选人循环开头的既有检查中止
-    if (current_room_config().use_operator_groups && !match_operator_groups()) {
-        if (current_room_config().candidates.empty() && !current_room_config().autofill && !need_exit()) {
+    if (current_room_config().use_operator_groups) {
+        const GroupMatchResult group_match_result = match_operator_groups();
+        if (group_match_result == GroupMatchResult::AllUnavailable && current_room_config().candidates.empty() &&
+            !current_room_config().autofill && !need_exit()) {
             LogInfo << "all operator groups unavailable with no candidates or autofill, keep room unchanged";
+            click_return_button();
+            return true;
+        }
+        if (group_match_result == GroupMatchResult::RecogFailed && !need_exit()) {
+            LogInfo << "failed to recognize operators for group matching, keep room unchanged";
+            json::value info = basic_info_with_what("CustomInfrastRoomGroupsMatchFailed");
+            info["details"]["reason"] = "recognition_failed";
+            callback(AsstMsg::SubTaskExtraInfo, info);
             click_return_button();
             return true;
         }

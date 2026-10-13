@@ -144,24 +144,19 @@ bool asst::InfrastDormTask::_run()
     if (m_cur_facility_index == 0) {
         m_fiammetta_checked = false;
     }
-    // 空房间数组时整设施保持原样，不进任何宿舍
-    if (is_facility_config_empty()) {
-        LogInfo << "custom room array is empty, keep facility unchanged";
+    // 空房间数组时整设施保持原样，不进任何宿舍；
+    // skip 与空意图不在设施入口判定，留在循环内进设施前按时序消费
+    if (is_facility_config_empty() && check_room_shift_intent() == RoomShiftIntent::KeepUnchanged) {
         return true;
     }
     for (; m_cur_facility_index < m_max_num_of_dorm; ++m_cur_facility_index) {
         if (need_exit()) {
             return false;
         }
-        if (m_is_custom && current_room_config().skip) {
-            LogInfo << "skip this room";
-            continue;
-        }
-
+        // 空数组已在此前消费，此处结果只可能 Skip、KeepUnchanged（空意图）或 Shift。
         // 常规换班流程会先清空休息位，空意图宿舍因无 autofill 授权不进入补人阶段，而自定义排班
-        // 没有宿舍重排轮兜底，休息位会保持全空，该结果并非设计意图。跳过该宿舍的全部操作，既不清空也不进驻。
-        if (is_room_config_without_intent()) {
-            notify_room_kept_unchanged();
+        // 没有宿舍重排轮兜底，休息位会保持全空，该结果并非设计意图，故空意图同样跳过该宿舍的全部操作
+        if (check_room_shift_intent() != RoomShiftIntent::Shift) {
             continue;
         }
 
