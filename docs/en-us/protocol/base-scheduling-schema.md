@@ -73,7 +73,8 @@ Please note that JSON files do not support comments. The comments in this docume
                 // Values: "control"/"manufacture"/"trading"/"power"/"meeting"/"hire"/"dormitory"/"processing"/"training"/"recycle"
                 // Missing rooms use default algorithm for shift change.
                 // If a facility array holds fewer room entries than actual rooms, shift change stops from the first unconfigured room onward for that facility.
-                // A room entry written without any staffing intent (operators/candidates empty or missing, no autofill or operator groups) only skips operator replacement for that room and keeps its current staff unchanged; other fields such as product are still processed (the skip field skips all processing for that room)
+                // A room entry written without any staffing intent (operators/candidates empty or missing, no autofill or operator groups) only skips operator replacement for that room, keeps its current staff unchanged and emits a "room kept as-is" callback; other fields such as product are still processed
+                // The skip field likewise only skips operator replacement for that room; facility-level actions are unaffected (e.g. the meeting room's clue flow and the training room's continue training still run). The difference is that skip only logs, while empty intent emits the "room kept as-is" callback
                 // To skip a room, use skip field or uncheck the facility in software Task Settings - Base Management
                 "control": [
                 {
@@ -95,7 +96,7 @@ Please note that JSON files do not support comments. The comments in this docume
                 },
                 {
                     "skip": true // Whether to skip current room (by array index), optional, default false
-                    // If true, other fields can be empty. Only skips operator change operation, other actions like drone usage, clue exchange still occur
+                    // If true, other fields can be empty. Only skips operator change operation; facility-level actions are unaffected, e.g. drone usage, clue exchange, and the training room's continue training still occur
                 },
                 {
                     "operators": ["Castle-3"],
@@ -144,6 +145,7 @@ Please note that JSON files do not support comments. The comments in this docume
                         // Assistant candidates, optional; no assistant is selected when omitted; naming requirements as in operators
                         "operatorsB": ["Dobermann"]
                         // Generic roomConfig fields such as operators/candidates have no effect on the training room; only skip and operatorsA/operatorsB take effect
+                        // "Continue training" is a standalone GUI option outside the schedule file and is unaffected by the three room states; with an empty array, skip, or empty intent, continue training still runs and only operator replacement is skipped
                     }
                 ],
                 "recycle": [ // 回收站, two slots without role distinction, same format as manufacture, product field has no effect

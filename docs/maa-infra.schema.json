@@ -155,7 +155,7 @@
         },
         "rooms": {
             "type": "object",
-            "description": "All arknights infrastructure rooms. Missing facility keys use the default algorithm for shift change; if a facility array holds fewer room entries than actual rooms, shift change stops from the first unconfigured room onward for that facility; a room entry written without any staffing intent (operators/candidates empty or missing, no autofill or operator groups) keeps that room unchanged; the skip field skips the room as well.",
+            "description": "All arknights infrastructure rooms. Missing facility keys use the default algorithm for shift change; if a facility array holds fewer room entries than actual rooms, shift change stops from the first unconfigured room onward for that facility; a room entry written without any staffing intent (operators/candidates empty or missing, no autofill or operator groups) keeps that room unchanged; the skip field likewise only skips operator replacement for that room, while facility-level actions such as the meeting room's clue flow and the training room's continue training are unaffected.",
             "properties": {
                 "control": {
                     "type": "array",
@@ -180,7 +180,7 @@
                 },
                 "training": {
                     "type": "array",
-                    "description": "Training rooms. operatorsA are trainee-slot candidates: the first one present in the in-game selection list is staffed, and while training is in progress the trainee slot stays locked so only the assistant is changed. operatorsB are assistant candidates. Among the generic roomConfig fields only skip takes effect; staffing is configured solely via operatorsA/operatorsB.",
+                    "description": "Training rooms. operatorsA are trainee-slot candidates: the first one present in the in-game selection list is staffed, and while training is in progress the trainee slot stays locked so only the assistant is changed. operatorsB are assistant candidates. Among the generic roomConfig fields only skip takes effect; staffing is configured solely via operatorsA/operatorsB. Continue training is a standalone GUI option outside the schedule file and is unaffected by the three room states (empty array / skip / empty staffing intent); it still runs in all of them and only operator replacement is skipped.",
                     "items": {
                         "$ref": "#/definitions/abRoomConfig"
                     },
@@ -271,7 +271,7 @@
                 },
                 "skip": {
                     "type": "boolean",
-                    "description": "Skip this room or not."
+                    "description": "Skip operator replacement for this room or not; facility-level actions such as the meeting room's clue flow are unaffected."
                 },
                 "autofill": {
                     "type": "boolean",

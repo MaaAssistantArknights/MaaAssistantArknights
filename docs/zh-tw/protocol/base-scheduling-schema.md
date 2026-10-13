@@ -73,7 +73,8 @@ icon: material-symbols:view-quilt-rounded
                 // 取值範圍 "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing" / "training" / "recycle"
                 // 缺少某個則該設施使用預設演算法進行換班。
                 // 設施陣列中的房間物件少於實際房間數時，從未配置的第一個房間起，該設施剩餘房間均不換班。
-                // 寫了房間物件但未給出選人意圖（operators/candidates 為空或缺失、未配置 autofill 與編組）時該房間僅跳過換人，保持原進駐不動；產物等其他欄位的處理不受影響（skip 欄位則跳過該房間的全部處理）
+                // 寫了房間物件但未給出選人意圖（operators/candidates 為空或缺失、未配置 autofill 與編組）時該房間僅跳過換人，保持原進駐不動並發出 ｢房間保持原樣｣ 回呼；產物等其他欄位的處理不受影響
+                // skip 同樣僅跳過該房間的換人，設施級操作不受影響（如會客室的線索流程、訓練室的繼續訓練照常執行），只記日誌、不發 ｢房間保持原樣｣ 回呼
                 // 若想不對某個房間換班請使用 skip 欄位，或直接在 MAA ｢任務設定 - 基建換班｣ 中取消該設施的勾選
                 "control": [
                 {
@@ -95,7 +96,7 @@ icon: material-symbols:view-quilt-rounded
                 },
                 {
                     "skip": true // 是否跳過目前房間（陣列序號對應），可選，預設 false
-                    // 若為 true，其他欄位均可為空。僅跳過換幹員操作，其他如使用無人機、線索交流等仍會正常進行
+                    // 若為 true，其他欄位均可為空。僅跳過換幹員操作，設施級操作不受影響，如使用無人機、線索交流、訓練室的繼續訓練等仍會正常進行
                 },
                 {
                     "operators": ["Castle-3"],
@@ -141,6 +142,7 @@ icon: material-symbols:view-quilt-rounded
                         // 協助者候選，可選，缺省時不選擇協助者；名稱要求同 operators
                         "operatorsB": ["杜賓"]
                         // operators/candidates 等通用欄位對訓練室無效，僅 skip 與 operatorsA/operatorsB 生效
+                        // 繼續訓練是獨立於排班表的 GUI 勾選項，不屬於排班表欄位，不受 rooms 三態影響；空陣列 / skip / 空意圖時繼續訓練照常執行，僅換人被跳過
                     }
                 ],
                 "recycle": [ // 回收站，兩個進駐位無角色區分，寫法同製造站；product 欄位無效
