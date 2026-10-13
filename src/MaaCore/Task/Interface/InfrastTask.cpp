@@ -368,6 +368,11 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
                                 room_config.operator_groups[pair.first] = std::move(pair.second);
                             }
                         });
+                    for (const auto& name : name_set) {
+                        if (!room_config.operator_groups.contains(name)) {
+                            LogWarn << __FUNCTION__ << " operator group not defined in groups: " << name;
+                        }
+                    }
                 }
             }
 

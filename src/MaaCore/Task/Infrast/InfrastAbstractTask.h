@@ -51,6 +51,11 @@ protected:
     void swipe_to_right_of_main_ui();
     void swipe_of_operlist();
     bool is_use_custom_opers();
+    // 当前房间在自定义配置里是否有对应的房间对象（rooms 数组写到了该 index）
+    // current_room_config() 越界时返回 static empty，与界内但字段全空的配置同形，需要区分两者时用本方法判定
+    bool is_room_config_specified() const;
+    // rooms 显式写了该设施但房间数组为空：整个设施保持原样不换班，与缺失该设施键（走默认算法）的语义区分
+    bool is_facility_config_empty() const;
     infrast::CustomRoomConfig& current_room_config();
     // 将定义的干员编组解释为具体干员，每次基建换班任务的第一次调用时缓存可用干员列表
     bool match_operator_groups();

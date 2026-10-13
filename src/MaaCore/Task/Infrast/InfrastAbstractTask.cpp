@@ -116,7 +116,20 @@ asst::infrast::CustomRoomConfig& asst::InfrastAbstractTask::current_room_config(
 
 bool asst::InfrastAbstractTask::match_operator_groups()
 {
+    // names 里存的是引用的编组名，须在 clear 前拷出，防御回调靠它展示哪些组名未在 groups 定义
+    std::vector<std::string> referenced_group_names = current_room_config().names;
     current_room_config().names.clear();
+
+    // 引用的组名均未在 groups 定义（含 operators 缺失或为空），视同编组匹配失败，
+    // 由调用方按编组不可用处理，不静默回落自动选人
+    if (current_room_config().operator_groups.empty()) {
+        LogWarn << __FUNCTION__ << " no operator group defined for this room";
+        json::value info = basic_info_with_what("CustomInfrastRoomGroupsMatchFailed");
+        info["details"]["groups"] = json::array(std::move(referenced_group_names));
+        callback(AsstMsg::SubTaskExtraInfo, info);
+        return false;
+    }
+
     int swipe_times = 0;
     bool pre_result_no_changes = false, retried = false;
 
@@ -266,6 +279,16 @@ bool asst::InfrastAbstractTask::enter_oper_list_page()
 bool asst::InfrastAbstractTask::is_use_custom_opers()
 {
     return m_is_custom && (!current_room_config().names.empty() || !current_room_config().candidates.empty());
+}
+
+bool asst::InfrastAbstractTask::is_room_config_specified() const
+{
+    return m_is_custom && static_cast<size_t>(m_cur_facility_index) < m_custom_config.size();
+}
+
+bool asst::InfrastAbstractTask::is_facility_config_empty() const
+{
+    return m_is_custom && m_custom_config.empty();
 }
 
 /// @brief 按技能排序->清空干员->选择定制干员->按指定顺序排序

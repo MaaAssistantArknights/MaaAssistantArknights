@@ -144,12 +144,29 @@ bool asst::InfrastDormTask::_run()
     if (m_cur_facility_index == 0) {
         m_fiammetta_checked = false;
     }
+    // 房间数组为空时每间宿舍都会在 enter_facility 处失败，整设施保持原样
+    if (is_facility_config_empty()) {
+        LogInfo << "custom room array is empty, keep facility unchanged";
+        return true;
+    }
     for (; m_cur_facility_index < m_max_num_of_dorm; ++m_cur_facility_index) {
         if (need_exit()) {
             return false;
         }
         if (m_is_custom && current_room_config().skip) {
             Log.info("skip this room");
+            continue;
+        }
+
+        // 房间对象存在但没有给出任何选人意图（operators/candidates 为空或缺失、未配置 autofill 与编组引用）时
+        // 宿舍保持原样：常规换班流程会先清空休息位，这类宿舍因无 autofill 授权不进入补人阶段，而自定义排班
+        // 没有宿舍重排轮兜底，休息位会保持全空，该结果并非设计意图。跳过该宿舍的全部操作，既不清空也不进驻。
+        if (is_room_config_specified() && !current_room_config().skip && current_room_config().names.empty() &&
+            current_room_config().candidates.empty() && !current_room_config().autofill) {
+            LogInfo << "room config exists but no operator selection intent, keep room unchanged" << facility_name()
+                    << m_cur_facility_index;
+            json::value info = basic_info_with_what("CustomInfrastRoomKeptUnchanged");
+            callback(AsstMsg::SubTaskExtraInfo, info);
             continue;
         }
 

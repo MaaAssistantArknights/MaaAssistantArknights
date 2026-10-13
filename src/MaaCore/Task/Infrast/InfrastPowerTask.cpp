@@ -19,12 +19,25 @@ bool asst::InfrastPowerTask::_run()
             Log.info("skip this room");
             continue;
         }
+
+        // 房间对象存在但没有给出任何选人意图（operators/candidates 为空或缺失、未配置 autofill 与编组引用）时
+        // 保持房间原样，不回落默认算法自动选人
+        if (is_room_config_specified() && !current_room_config().skip && current_room_config().names.empty() &&
+            current_room_config().candidates.empty() && !current_room_config().autofill) {
+            LogInfo << "room config exists but no operator selection intent, keep room unchanged" << facility_name()
+                    << m_cur_facility_index;
+            json::value info = basic_info_with_what("CustomInfrastRoomKeptUnchanged");
+            callback(AsstMsg::SubTaskExtraInfo, info);
+            continue;
+        }
+
         swipe_to_the_left_of_main_ui();
 
         // 进不去说明设施数量不够
         if (!enter_facility(m_cur_facility_index)) {
             break;
         }
+
         if (!enter_oper_list_page()) {
             return false;
         }

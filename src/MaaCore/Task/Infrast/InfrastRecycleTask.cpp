@@ -1,7 +1,7 @@
 #include "InfrastRecycleTask.h"
 
-#include "Task/ProcessTask.h"
 #include "Controller/Controller.h"
+#include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 
@@ -18,6 +18,11 @@ bool asst::InfrastRecycleTask::_run()
         return true;
     }
 
+    if (is_facility_config_empty()) {
+        LogInfo << "custom room array is empty, keep facility unchanged";
+        return true;
+    }
+
     swipe_to_the_left_of_main_ui();
     if (!enter_facility()) {
         swipe_to_right_of_main_ui();
@@ -26,20 +31,38 @@ bool asst::InfrastRecycleTask::_run()
         }
     }
 
+    // 房间对象存在但没有给出任何选人意图（operators/candidates 为空或缺失、未配置 autofill 与编组引用）时
+    // 保持房间原样，不回落默认算法自动选人
+    if (is_room_config_specified() && !current_room_config().skip && current_room_config().names.empty() &&
+        current_room_config().candidates.empty() && !current_room_config().autofill) {
+        LogInfo << "room config exists but no operator selection intent, keep room unchanged";
+        json::value info = basic_info_with_what("CustomInfrastRoomKeptUnchanged");
+        callback(AsstMsg::SubTaskExtraInfo, info);
+        return true;
+    }
+
     if (!enter_oper_list_page()) {
         return false;
     }
 
     close_quick_formation_expand_role();
 
-    if (is_use_custom_opers()) {
-        if (current_room_config().use_operator_groups) {
-            match_operator_groups();
+    // 全部编组不可用且未配置 autofill 时保持房间原样，不回落自动选人，
+    // 避免拆走后续设施点名/编组指定的干员；need_exit 场景留给选人循环开头的既有检查中止。
+    // 下方按位置补满的常规路径仅服务房间对象缺失的房间与 autofill 授权的编组失败回落
+    if (current_room_config().use_operator_groups && !match_operator_groups()) {
+        if (!current_room_config().autofill && !need_exit()) {
+            LogInfo << "all operator groups unavailable and autofill not enabled, keep room unchanged";
+            click_return_button();
+            return true;
         }
-        for (int i = 0; i <= OperSelectRetryTimes; ++i) {
-            if (need_exit()) {
-                return false;
-            }
+    }
+
+    for (int i = 0; i <= OperSelectRetryTimes; ++i) {
+        if (need_exit()) {
+            return false;
+        }
+        if (is_use_custom_opers()) {
             if (swipe_and_select_custom_opers()) {
                 if (!click_confirm_button()) {
                     return false;
@@ -48,22 +71,23 @@ bool asst::InfrastRecycleTask::_run()
                 return true;
             }
             swipe_to_the_left_of_operlist();
+            continue;
         }
-        LogWarn << "recycle custom shift failed after retries";
+
+        // 清空后按位置补满，不挑选技能
+        click_clear_button();
+        if (!fill_slots()) {
+            return false;
+        }
+
+        click_confirm_button();
         click_return_button();
-        return false;
+        return true;
     }
 
-    // 清空后按位置补满，不挑选技能
-    click_clear_button();
-    if (!fill_slots()) {
-        return false;
-    }
-
-    click_confirm_button();
+    LogWarn << "recycle custom shift failed after retries";
     click_return_button();
-
-    return true;
+    return false;
 }
 
 bool asst::InfrastRecycleTask::fill_slots()

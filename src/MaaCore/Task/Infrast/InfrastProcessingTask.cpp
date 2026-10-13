@@ -23,6 +23,11 @@ bool asst::InfrastProcessingTask::_run()
 {
     m_all_available_opers.clear();
 
+    if (is_facility_config_empty()) {
+        LogInfo << "custom room array is empty, keep facility unchanged";
+        return true;
+    }
+
     // 不是自定义的也换不了加工站
     if (!is_use_custom_opers()) {
         Log.info("skip this room");

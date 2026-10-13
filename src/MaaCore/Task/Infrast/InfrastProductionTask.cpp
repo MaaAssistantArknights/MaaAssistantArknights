@@ -247,16 +247,15 @@ bool asst::InfrastProductionTask::shift_facility_list()
         if (need_exit()) {
             return false;
         }
+        // rooms 数组短于实际房间数（含空数组）时，从未配置的第一个房间起不再换班，第 0 间同样生效
+        if (m_is_custom && static_cast<size_t>(m_cur_facility_index) >= m_custom_config.size()) {
+            Log.warn("index out of range:", m_cur_facility_index, m_custom_config.size());
+            break;
+        }
         if (m_cur_facility_index != 0) {
             callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
             if (m_is_custom) {
-                if (static_cast<size_t>(m_cur_facility_index) < m_custom_config.size()) {
-                    current_room_config() = m_custom_config.at(m_cur_facility_index);
-                }
-                else {
-                    Log.warn("index out of range:", m_cur_facility_index, m_custom_config.size());
-                    break;
-                }
+                current_room_config() = m_custom_config.at(m_cur_facility_index);
             }
         }
 
@@ -390,14 +389,34 @@ bool asst::InfrastProductionTask::shift_facility_list()
 
         /* 进入干员选择页面 */
         if (!m_skip_shift) {
+            // 房间对象存在但没有给出任何选人意图（operators/candidates 为空或缺失、未配置 autofill 与编组引用）时
+            // 保持房间原样，不回落默认算法自动选人；产物等其他字段的处理已在上方完成，不受本拦截影响
+            if (is_room_config_specified() && !current_room_config().skip && current_room_config().names.empty() &&
+                current_room_config().candidates.empty() && !current_room_config().autofill) {
+                LogInfo << "room config exists but no operator selection intent, keep room unchanged" << facility_name()
+                        << m_cur_facility_index;
+                json::value info = basic_info_with_what("CustomInfrastRoomKeptUnchanged");
+                callback(AsstMsg::SubTaskExtraInfo, info);
+                try_use_custom_post_drone();
+                continue;
+            }
+
             ctrler()->click(add_button);
             sleep(add_task_ptr->post_delay);
 
             close_quick_formation_expand_role();
 
             // 如果是使用了编队组来排班
-            if (current_room_config().use_operator_groups) {
-                match_operator_groups();
+            // 全部编组不可用且未配置 autofill 时保持房间原样，退出选人界面后跳过该房间，
+            // 避免落入自动选人拆走后续设施点名/编组指定的干员；need_exit 场景留给选人循环开头的既有检查中止
+            if (current_room_config().use_operator_groups && !match_operator_groups()) {
+                if (!current_room_config().autofill && !need_exit()) {
+                    LogInfo << "all operator groups unavailable and autofill not enabled, keep room unchanged"
+                            << facility_name() << m_cur_facility_index;
+                    click_return_button();
+                    try_use_custom_post_drone();
+                    continue;
+                }
             }
 
             bool selection_ready = false;
@@ -454,10 +473,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
 
         // 自定义基建 Post 无人机
         if (m_is_use_drones_from_custom) {
-            if (m_custom_drones_config.order == infrast::CustomDronesConfig::Order::Post &&
-                m_custom_drones_config.index == m_cur_facility_index) {
-                use_drone();
-            }
+            try_use_custom_post_drone();
         }
         else if (
             // 普通 params 无人机只在非自定义模式下使用
@@ -1150,6 +1166,15 @@ bool asst::InfrastProductionTask::use_drone()
     std::string task_name = "DroneAssist" + facility_name();
     ProcessTask task_temp(*this, { task_name });
     return task_temp.run();
+}
+
+bool asst::InfrastProductionTask::try_use_custom_post_drone()
+{
+    if (m_is_use_drones_from_custom && m_custom_drones_config.order == infrast::CustomDronesConfig::Order::Post &&
+        m_custom_drones_config.index == m_cur_facility_index) {
+        return use_drone();
+    }
+    return false;
 }
 
 asst::infrast::SkillsComb

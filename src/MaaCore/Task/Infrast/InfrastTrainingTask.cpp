@@ -13,6 +13,9 @@
 #include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
 
+// 防御滑动上限，正常到底由 unchanged_pages 判定；须覆盖全量干员列表（数百名、数十屏），避免截断正常扫描
+static constexpr int MaxOperatorPages = 100;
+
 bool asst::InfrastTrainingTask::_run()
 {
     m_all_available_opers.clear();
@@ -21,6 +24,11 @@ bool asst::InfrastTrainingTask::_run()
 
     if (m_is_custom && current_room_config().skip) {
         LogInfo << "skip this room";
+        return true;
+    }
+
+    if (is_facility_config_empty()) {
+        LogInfo << "custom room array is empty, keep facility unchanged";
         return true;
     }
 
@@ -290,6 +298,7 @@ void asst::InfrastTrainingTask::change_trainee()
     const int delay = Task.get("BattleQuickFormationOCR")->post_delay;
     std::string last_oper_name;
     int unchanged_pages = 0;
+    int swiped_pages = 0;
     bool found = false;
     while (!need_exit()) {
         const auto opers_result = oper_progress::analyze_formation_opers(ctrler()->get_image());
@@ -317,6 +326,10 @@ void asst::InfrastTrainingTask::change_trainee()
                 sleep(delay);
             }
             found = true;
+            break;
+        }
+        if (++swiped_pages > MaxOperatorPages) {
+            LogWarn << "trainee selection swiped too many pages, give up";
             break;
         }
         ProcessTask(*this, { "BattleFormationOperListSlowlySwipeToTheRight" }).run();
