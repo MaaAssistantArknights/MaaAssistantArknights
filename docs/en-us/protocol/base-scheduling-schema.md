@@ -58,7 +58,7 @@ Please note that JSON files do not support comments. The comments in this docume
                 "order": "pre" // Use before operator changes or after, optional, values "pre"/"post", default "pre"
             },
             "groups": [
-                // For "control"/"manufacture"/"trading", you can set operator groups
+                // For "control"/"manufacture"/"trading"/"recycle", you can set operator groups
                 {
                     "name": "古+银", // ("古+银" = "Gummy+Silver")
                     "operators": ["古米", "银灰", "梅"] // ("古米" = "Gummy", "银灰" = "SilverAsh", "梅" = "Plum")
@@ -70,9 +70,11 @@ Please note that JSON files do not support comments. The comments in this docume
             ],
             "rooms": {
                 // Room information, required
-            // Values: "control"/"manufacture"/"trading"/"power"/"meeting"/"hire"/"dormitory"/"processing" / "training" / "recycle"
-            // Missing rooms use default algorithm for shift change.
-                // To skip a room, use skip field or uncheck the facility in software Task Settings - Base Management - General Settings
+                // Values: "control"/"manufacture"/"trading"/"power"/"meeting"/"hire"/"dormitory"/"processing"/"training"/"recycle"
+                // Missing rooms use default algorithm for shift change.
+                // If a facility array holds fewer room entries than actual rooms, shift change stops from the first unconfigured room onward for that facility.
+                // A room entry written without any staffing intent (operators/candidates empty or missing, no autofill or operator groups) keeps that room unchanged, behaving the same as skip; non-staffing operations such as product change are unaffected
+                // To skip a room, use skip field or uncheck the facility in software Task Settings - Base Management
                 "control": [
                 {
                     "operators": [
@@ -121,6 +123,7 @@ Please note that JSON files do not support comments. The comments in this docume
                         // When enabled, names in operators are interpreted as group names
                         "古+银", // Will select groups by mood threshold and setting order ("古+银" = "Gummy+Silver")
                         "清流" // If Gummy+Silver group has operators below threshold, will use Purestream group ("清流" = "Purestream")
+                        // If all groups are unavailable, the room stays unchanged without auto-selecting operators; auto selection applies only when autofill is enabled
                     ]
                 }
                 ],
@@ -140,9 +143,10 @@ Please note that JSON files do not support comments. The comments in this docume
                         "operatorsA": ["SilverAsh"],
                         // Assistant candidates, optional; no assistant is selected when omitted; naming requirements as in operators
                         "operatorsB": ["Dobermann"]
+                        // Generic roomConfig fields such as operators/candidates have no effect on the training room; only skip and operatorsA/operatorsB take effect
                     }
                 ],
-                "recycle": [ // 回收站, two slots without role distinction, same format as manufacture
+                "recycle": [ // 回收站, two slots without role distinction, same format as manufacture, operators limited to 2, product field has no effect
                     {
                         "operators": ["Fang", "Kroos"]
                     }
@@ -202,7 +206,8 @@ Combine the example with base protocol fields such as `plans`. Progression and v
         { "type": "dormitory", "level": 1, "position": "B104" },
         { "type": "dormitory", "level": 1, "position": "B204" },
         { "type": "dormitory", "level": 1, "position": "B304" },
-        { "type": "dormitory", "level": 1, "position": "B404" }
+        { "type": "dormitory", "level": 1, "position": "B404" },
+        { "type": "recycle", "level": 1, "position": "B405" }
     ],
     "operators": { // Operator progression, optional; keyed by in-game IDs
         // Does not replace room assignments

@@ -58,7 +58,7 @@ icon: material-symbols:view-quilt-rounded
                 "order": "pre" // 在换干员前使用还是在换完才用，可选，取值范围 "pre" / "post"，默认 "pre"
             },
             "groups": [
-                // 对于 "control" / "manufacture" / "trading"，可以设置干员编组
+                // 对于 "control" / "manufacture" / "trading" / "recycle"，可以设置干员编组
                 {
                     "name": "古+银",
                     "operators": ["古米", "银灰", "梅"]
@@ -72,7 +72,9 @@ icon: material-symbols:view-quilt-rounded
                 // 房间信息，必选
                 // 取值范围 "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing" / "training" / "recycle"
                 // 缺少某个则该设施使用默认算法进行换班。
-                // 若想不对某个房间换班请使用 skip 字段，或直接在软件 任务设置 - 基建换班 - 常规设置 中取消改设施的勾选
+                // 设施数组中的房间对象少于实际房间数时，从未配置的第一个房间起，该设施剩余房间均不换班。
+                // 写了房间对象但未给出选人意图（operators/candidates 为空或缺失、未配置 autofill 与编组）时该房间保持原样不动，行为与 skip 一致，产物等非换人操作不受影响
+                // 若想不对某个房间换班请使用 skip 字段，或直接在软件 任务设置 - 基建换班 中取消该设施的勾选
                 "control": [
                 {
                     "operators": [
@@ -121,6 +123,7 @@ icon: material-symbols:view-quilt-rounded
                         // 启用后, operators 中的名字将被解释为编组名
                         "古+银", // 将按照心情阈值以及设置顺序选择编组
                         "清流" // 如 古+银 组中有干员心情低于阈值，将使用 清流 组
+                        // 所有编组均不可用时保持该房间原样不动，不自动选人补位；仅当房间配置 autofill 时才会回落自动选人
                     ]
                 }
                 ],
@@ -137,9 +140,10 @@ icon: material-symbols:view-quilt-rounded
                         "operatorsA": ["银灰"],
                         // 协助者候选，可选，缺省时不选择协助者；名称要求同 operators
                         "operatorsB": ["杜宾"]
+                        // operators/candidates 等通用字段对训练室无效，仅 skip 与 operatorsA/operatorsB 生效
                     }
                 ],
-                "recycle": [ // 回收站，两个进驻位无角色区分，写法同制造站
+                "recycle": [ // 回收站，两个进驻位无角色区分，写法同制造站；operators 最多 2 人；product 字段无效
                     {
                         "operators": ["芬", "克洛丝"]
                     }
@@ -199,7 +203,8 @@ MAA 基础排班协议仅包括干员班次信息，排班表扩充协议在 MAA
         { "type": "dormitory", "level": 1, "position": "B104" },
         { "type": "dormitory", "level": 1, "position": "B204" },
         { "type": "dormitory", "level": 1, "position": "B304" },
-        { "type": "dormitory", "level": 1, "position": "B404" }
+        { "type": "dormitory", "level": 1, "position": "B404" },
+        { "type": "recycle", "level": 1, "position": "B405" }
     ],
     "operators": { // 干员练度，可选；以游戏干员 ID 为键
         // 不替代房间内的人员安排

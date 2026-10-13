@@ -58,7 +58,7 @@ icon: material-symbols:view-quilt-rounded
                 "order": "pre" // 在換幹員前使用還是在換完才用，可選，取值範圍 "pre" / "post"，預設 "pre"
             },
             "groups": [
-                // 對於 "control" / "manufacture" / "trading"，可以設定幹員編組
+                // 對於 "control" / "manufacture" / "trading" / "recycle"，可以設定幹員編組
                 {
                     "name": "古+銀",
                     "operators": ["古米", "銀灰", "梅"]
@@ -72,7 +72,9 @@ icon: material-symbols:view-quilt-rounded
                 // 房間資訊，必選
                 // 取值範圍 "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing" / "training" / "recycle"
                 // 缺少某個則該設施使用預設演算法進行換班。
-                // 若想不對某個房間換班請使用 skip 欄位，或直接在 MAA ｢任務設定 - 基建換班 - 進階設定｣ 中取消該設施的勾選
+                // 設施陣列中的房間物件少於實際房間數時，從未配置的第一個房間起，該設施剩餘房間均不換班。
+                // 寫了房間物件但未給出選人意圖（operators/candidates 為空或缺失、未配置 autofill 與編組）時該房間保持原樣不動，行為與 skip 一致，產物等非換人操作不受影響
+                // 若想不對某個房間換班請使用 skip 欄位，或直接在 MAA ｢任務設定 - 基建換班｣ 中取消該設施的勾選
                 "control": [
                 {
                     "operators": [
@@ -121,6 +123,7 @@ icon: material-symbols:view-quilt-rounded
                         // 啟用後，operators 中的名稱將被解釋為編組名稱
                         "古+銀", // 將按照心情門檻值以及設定順序選擇編組
                         "清流" // 如 ｢古+銀｣ 組中有幹員心情低於門檻值，將使用 ｢清流｣ 組
+                        // 所有編組均不可用時保持該房間原樣不動，不自動選人補位；僅當房間配置 autofill 時才會回落自動選人
                     ]
                 }
                 ],
@@ -137,9 +140,10 @@ icon: material-symbols:view-quilt-rounded
                         "operatorsA": ["銀灰"],
                         // 協助者候選，可選，缺省時不選擇協助者；名稱要求同 operators
                         "operatorsB": ["杜賓"]
+                        // operators/candidates 等通用欄位對訓練室無效，僅 skip 與 operatorsA/operatorsB 生效
                     }
                 ],
-                "recycle": [ // 回收站，兩個進駐位無角色區分，寫法同製造站
+                "recycle": [ // 回收站，兩個進駐位無角色區分，寫法同製造站；operators 最多 2 人；product 欄位無效
                     {
                         "operators": ["芬", "克洛絲"]
                     }
@@ -199,7 +203,8 @@ MAA 基礎排班協定僅包含幹員班次資訊，排班表擴充協定在 MAA
         { "type": "dormitory", "level": 1, "position": "B104" },
         { "type": "dormitory", "level": 1, "position": "B204" },
         { "type": "dormitory", "level": 1, "position": "B304" },
-        { "type": "dormitory", "level": 1, "position": "B404" }
+        { "type": "dormitory", "level": 1, "position": "B404" },
+        { "type": "recycle", "level": 1, "position": "B405" }
     ],
     "operators": { // 幹員練度，可選；以遊戲幹員 ID 為鍵
         // 不取代房間內的人員安排

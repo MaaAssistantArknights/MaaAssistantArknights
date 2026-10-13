@@ -58,7 +58,7 @@ JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 �
                 "order": "pre" // 오퍼레이터 교대 전에 사용할지, 교대 후에 사용할지, 선택 사항, 값 범위 "pre" / "post", 기본값 "pre"
             },
             "groups": [
-                // "control" / "manufacture" / "trading"에 대해 오퍼레이터 편성을 설정할 수 있음
+                // "control" / "manufacture" / "trading" / "recycle"에 대해 오퍼레이터 편성을 설정할 수 있음
                 {
                     "name": "古+银",
                     "operators": ["古米", "银灰", "梅"]
@@ -72,7 +72,9 @@ JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 �
                 // 시설 정보, 필수
                 // 값 범위 "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing" / "training" / "recycle"
                 // 하나라도 빠지면 해당 시설은 기본 알고리즘을 사용하여 교대합니다.
-                // 특정 시설의 교대를 원하지 않으면 skip 필드를 사용하거나, 소프트웨어 '임무 설정 - 기반시설 교대 - 일반 설정'에서 해당 시설의 체크를 해제하세요
+                // 시설 배열의 방 항목 수가 실제 방 수보다 적으면, 설정되지 않은 첫 번째 방부터 해당 시설의 나머지 방은 교대하지 않습니다.
+                // 방 항목을 작성했지만 배치 의도가 없는 경우(operators/candidates가 비어 있거나 생략, autofill 및 오퍼레이터 편성 미설정) 해당 방은 그대로 유지되어 변경되지 않으며, 동작은 skip과 동일하고 산물 변경 등 인원 배치 외의 작업에는 영향을 주지 않습니다
+                // 특정 시설의 교대를 원하지 않으면 skip 필드를 사용하거나, 소프트웨어 '임무 설정 - 기반시설 교대'에서 해당 시설의 체크를 해제하세요
                 "control": [
                 {
                     "operators": [
@@ -121,6 +123,7 @@ JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 �
                         // 활성화 시, operators의 이름은 편성명으로 해석됨
                         "古+银", // 컨디션 임계값 및 설정 순서에 따라 편성 선택
                         "清流" // 만약 古+银 그룹에 컨디션이 임계값보다 낮은 오퍼레이터가 있다면 清流 그룹 사용
+                        // 모든 편성을 사용할 수 없는 경우 해당 방은 그대로 유지되며 자동 선택되지 않음. autofill이 설정된 경우에만 자동 선택으로 대체됨
                     ]
                 }
                 ],
@@ -139,9 +142,10 @@ JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 �
                         "operatorsA": ["银灰"],
                         // 지원자 후보, 선택 사항. 생략 시 지원자를 선택하지 않음. 이름 요구 사항은 operators와 같음
                         "operatorsB": ["杜宾"]
+                        // operators/candidates 같은 일반 필드는 훈련실에 효과가 없으며 skip과 operatorsA/operatorsB만 유효함
                     }
                 ],
-                "recycle": [ // 回收站(두 자리는 역할 구분이 없으며 제조소와 동일한 형식)
+                "recycle": [ // 回收站(두 자리는 역할 구분이 없으며 제조소와 동일한 형식, operators는 최대 2명, product 필드는 효과 없음)
                     {
                         "operators": ["芬", "克洛丝"]
                     }
@@ -201,7 +205,8 @@ MAA 기본 스케줄링 프로토콜에는 오퍼레이터의 근무 교대 정�
         { "type": "dormitory", "level": 1, "position": "B104" },
         { "type": "dormitory", "level": 1, "position": "B204" },
         { "type": "dormitory", "level": 1, "position": "B304" },
-        { "type": "dormitory", "level": 1, "position": "B404" }
+        { "type": "dormitory", "level": 1, "position": "B404" },
+        { "type": "recycle", "level": 1, "position": "B405" }
     ],
     "operators": { // 육성 정보, 선택 사항. 게임 내 ID를 키로 사용
         // 시설 내 오퍼레이터 배치를 대체하지 않음
