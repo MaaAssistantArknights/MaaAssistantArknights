@@ -92,7 +92,7 @@ bool asst::StageDropsTaskPlugin::_run()
     // set_start_button_delay();
 
     if (!recognize_drops()) {
-        if (!check_stage_valid()) {
+        if (!m_drop_guard.allows_next_battle(false) || !check_stage_valid()) {
             stop_task();
         }
         return false;
@@ -101,6 +101,14 @@ bool asst::StageDropsTaskPlugin::_run()
         return false;
     }
     drop_info_callback();
+
+    // The consumer has now accepted or rejected this exact result. Stop at
+    // this result boundary, before any new battle or asynchronous upload.
+    // This changes only the owned ProcessTask's limits, not Assistant::stop.
+    if (!m_drop_guard.allows_next_battle(true)) {
+        stop_task();
+        return false;
+    }
 
     if (!check_stage_valid() || check_specify_quantity()) {
         stop_task();

@@ -3,6 +3,8 @@
 
 namespace asst
 {
+class DepotRecognitionTask;
+
 class DepotTask final : public InterfaceTask
 {
 public:
@@ -10,5 +12,9 @@ public:
 
     DepotTask(const AsstCallback& callback, Assistant* inst);
     virtual ~DepotTask() override = default;
+    void set_strict_scan(bool value);
+
+private:
+    std::shared_ptr<DepotRecognitionTask> m_recognition_task_ptr;
 };
 }

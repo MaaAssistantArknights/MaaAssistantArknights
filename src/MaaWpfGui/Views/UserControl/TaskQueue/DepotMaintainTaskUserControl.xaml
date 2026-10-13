@@ -24,15 +24,12 @@
     </UserControl.Resources>
     <Grid>
         <StackPanel Visibility="{c:Binding !EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
-            <controls:TextBlock
-                Margin="5,0,0,5"
-                HorizontalAlignment="Left"
-                d:Text="1: 当前/上次 - 不选择 x0"
-                Text="{Binding PlanInfo}"
-                TextWrapping="Wrap"
-                Visibility="{c:Binding 'PlanInfo != &quot;&quot;'}" />
-            <!--  固定区：仅操作按钮行；计划摘要随外层面板滚动  -->
+            <!--  固定区：顺序说明和操作按钮  -->
             <StackPanel x:Name="FixedHeaderPanel">
+                <controls:TextBlock
+                    Margin="0,6,0,6"
+                    Text="{DynamicResource DepotListOrderTip}"
+                    TextWrapping="Wrap" />
                 <WrapPanel Margin="0,6,0,6" HorizontalAlignment="Center">
                     <Button
                         MinWidth="50"
@@ -155,16 +152,14 @@
                                 BorderThickness="1,0,1,1"
                                 CornerRadius="0,0,4,4">
                                 <StackPanel Margin="6">
+                                    <CheckBox Content="{DynamicResource DepotPlanEnabled}" IsChecked="{Binding Enabled}" />
                                     <!--  关卡选择  -->
                                     <Grid Height="30">
-                                        <!--  当 IsStageManually 为 false 时显示 ComboBox  -->
                                         <ComboBox
                                             ItemsSource="{Binding StageListSource, Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}"
                                             ScrollViewer.CanContentScroll="False"
                                             SelectedValue="{Binding Stage}"
-                                            SelectedValuePath="Value"
-                                            Visibility="{c:Binding !IsStageManually,
-                                                                   Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}">
+                                            SelectedValuePath="Value">
 
                                             <ComboBox.ItemContainerStyle>
                                                 <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="ComboBoxItem">
@@ -199,16 +194,6 @@
                                             </ComboBox.ItemTemplate>
                                         </ComboBox>
 
-                                        <!--  当 IsStageManually 为 true 时显示 TextBox  -->
-                                        <TextBox
-                                            Height="30"
-                                            hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
-                                            IsEnabled="{c:Binding !IsStageItemDragging,
-                                                                  Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
-                                            Text="{Binding Stage, UpdateSourceTrigger=PropertyChanged}"
-                                            ToolTip="{DynamicResource IsStageManuallyTip}"
-                                            Visibility="{c:Binding IsStageManually,
-                                                                   Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}" />
                                     </Grid>
 
                                     <!--  指定材料 + 目标库存（同一行，独立 Grid）  -->
@@ -287,7 +272,7 @@
                                     </Grid>
 
                                     <!--  使用药剂  -->
-                                    <Grid Margin="0,6,0,0" Visibility="{c:Binding UseMedicine, Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}">
+                                    <Grid Margin="0,6,0,0" Visibility="Collapsed">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
@@ -315,7 +300,7 @@
                                     </Grid>
 
                                     <!--  使用源石  -->
-                                    <Grid Margin="0,6,0,0" Visibility="{c:Binding UseStone, Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}">
+                                    <Grid Margin="0,6,0,0" Visibility="Collapsed">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
@@ -351,47 +336,11 @@
 
         <!--  高级设置  -->
         <StackPanel d:Visibility="Collapsed" Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
-            <hc:Divider Content="{DynamicResource DepotGroupTaskBehavior}" />
-            <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource DepotUpdateBeforeStart}" IsChecked="{Binding UpdateDepot}" />
-                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource DepotUpdateBeforeStartTip}" />
-            </StackPanel>
+            <controls:TextBlock Text="{DynamicResource DepotFreshRequiredTip}" TextWrapping="Wrap" Margin="0,6,0,6" />
             <CheckBox
                 Margin="0,6,0,0"
                 Content="{DynamicResource DepotSkipDuringActivity}"
                 IsChecked="{Binding SkipDuringActivity}" />
-            <CheckBox
-                Margin="0,6,0,0"
-                Content="{DynamicResource DepotSkipDuringResourceCollection}"
-                IsChecked="{Binding SkipDuringResourceCollection}" />
-            <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource DepotOnlyFirstInsufficientPlan}" IsChecked="{Binding OnlyFirstInsufficientPlan}" />
-                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource DepotOnlyFirstInsufficientPlanTip}" />
-            </StackPanel>
-
-            <hc:Divider Margin="0,12,0,0" Content="{DynamicResource DepotGroupStageAndBattle}" />
-            <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource CustomStageCode}" IsChecked="{Binding IsStageManually}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource CustomStageCodeTip}" />
-            </StackPanel>
-            <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource DepotUseAutoSeries}" IsChecked="{Binding UseAutoSeries}" />
-                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource DepotUseAutoSeriesTip}" />
-            </StackPanel>
-
-            <hc:Divider Margin="0,12,0,0" Content="{DynamicResource DepotGroupSanityRecovery}" />
-            <CheckBox
-                Margin="0,6,0,0"
-                Content="{DynamicResource DepotEnableUseMedicine}"
-                IsChecked="{Binding UseMedicine}" />
-            <CheckBox
-                Margin="0,6,0,0"
-                Content="{DynamicResource DepotEnableUseStone}"
-                IsChecked="{Binding UseStone}" />
-            <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource DepotUseExpiringMedicine}" IsChecked="{Binding UseExpiringMedicine}" />
-                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource DepotUseExpiringMedicineTip}" />
-            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

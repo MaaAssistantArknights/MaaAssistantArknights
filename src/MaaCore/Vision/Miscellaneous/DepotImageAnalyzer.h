@@ -1,5 +1,6 @@
 #pragma once
 #include "Vision/VisionHelper.h"
+#include <optional>
 
 namespace asst
 {
@@ -8,6 +9,8 @@ struct ItemInfo
     std::string item_id;
     std::string item_name;
     int quantity = 0;
+    // Legacy display may use rounded quantities; automated quotas must not.
+    bool quantity_verified = false;
     Rect rect;
 };
 
@@ -34,6 +37,8 @@ public:
     const auto& get_result() const noexcept { return m_result; }
 
     const auto& get_invalid_template_ids() const noexcept { return m_invalid_template_ids; }
+
+    const auto& get_unmatched_rect() const noexcept { return m_unmatched_rect; }
 
     static void clear_cached_templates()
     {
@@ -62,7 +67,7 @@ private:
     bool check_roi_empty(const Rect& roi);
     size_t
         match_item(const Rect& roi, /* out */ ItemInfo& item_info, size_t begin_index = 0ULL, bool with_enlarge = true);
-    int match_quantity(const ItemInfo& item);
+    int match_quantity(ItemInfo& item);
     Rect resize_rect_to_raw_size(const Rect& rect);
 
     template <typename F>
@@ -71,6 +76,7 @@ private:
     size_t m_match_begin_pos = 0ULL;
     std::vector<std::string> m_item_ids; // 为空时使用 get_ordered_material_item_id
     bool m_is_basic = false;             // 为 true 时匹配不到不中断
+    std::optional<Rect> m_unmatched_rect;
     Rect m_resized_rect;
     cv::Mat m_image_resized;
 #ifdef ASST_DEBUG

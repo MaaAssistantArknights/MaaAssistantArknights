@@ -16,6 +16,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Services;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Stylet;
 
@@ -44,12 +45,14 @@ public partial class DepotPlanItemViewModel(string stage, string dropId, string?
 
     public bool IsExpanded { get; set => SetAndNotify(ref field, value); }
 
+    public bool Enabled { get; set => SetAndNotify(ref field, value); } = true;
+
     public int Index { get; set; }
 
-    public string Title => $"{Index + 1}: {DepotMaintainTaskUserControlModel.Instance.StageListSource.FirstOrDefault(i => i.Value == Stage)?.Display ?? Stage} - {DropName} x{DropCount.FormatNumber(false)}";
+    public string Title => $"{DropName}: {Instances.ToolboxViewModel?.GetMaintenanceInventoryCount(DropId)?.ToString() ?? "--"}/{DropCount}";
 
     /// <summary>
-    /// 增删 plan 或语言切换后刷新 Title 显示（序号/关卡名/材料名）。
+    /// 库存或语言变化后刷新材料名称、当前数量和目标数量。
     /// </summary>
     public void RefreshTitle() => NotifyOfPropertyChange(nameof(Title));
 

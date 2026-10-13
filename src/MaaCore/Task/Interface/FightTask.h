@@ -1,6 +1,7 @@
 #pragma once
 #include "Task/InterfaceTask.h"
 
+#include <functional>
 #include <memory>
 
 namespace asst
@@ -22,6 +23,10 @@ public:
     virtual ~FightTask() override = default;
 
     virtual bool set_params(const json::value& params) override;
+    void set_drop_guard(std::function<bool()> validate);
+    // Native plugin total after its confirmation flow, not an authorization
+    // limit or a count of attempted clicks. Read only after run() returns.
+    int get_confirmed_medicine_count() const;
 
 protected:
     std::shared_ptr<ProcessTask> m_start_up_task_ptr = nullptr;

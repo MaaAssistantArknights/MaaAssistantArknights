@@ -1,4 +1,5 @@
 #pragma once
+#include "StageDropsGuard.h"
 #include "Task/AbstractTaskPlugin.h"
 
 #include <memory>
@@ -33,6 +34,8 @@ public:
 
     void set_target_stage(std::string stage_code) noexcept { m_target_stage = stage_code; }
 
+    void set_drop_guard(std::function<bool()> validate) { m_drop_guard.set(std::move(validate)); }
+
 private:
     virtual bool _run() override;
 
@@ -54,6 +57,7 @@ private:
     static inline const std::string RecognitionRestrictionsKey = "StageDropsTaskPluginRestrictions";
 
     std::string m_stage_code, m_target_stage;
+    StageDropsGuard m_drop_guard;
     StageDifficulty m_stage_difficulty = StageDifficulty::Normal;
     int m_stars = 0;
     int m_times = -2; // -2 means recognition failed, -1 means not found

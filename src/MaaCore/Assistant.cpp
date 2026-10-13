@@ -16,6 +16,7 @@
 #include "Task/Interface/CloseDownTask.h"
 #include "Task/Interface/CopilotTask.h"
 #include "Task/Interface/CustomTask.h"
+#include "Task/Interface/DepotMaintainTask.h"
 #include "Task/Interface/DepotTask.h"
 #include "Task/Interface/FightTask.h"
 #include "Task/Interface/InfrastTask.h"
@@ -335,6 +336,7 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(SingleStepTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(VideoRecognitionTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DepotTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DepotMaintainTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(OperBoxTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(ReclamationTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(SwitchThemeTask)

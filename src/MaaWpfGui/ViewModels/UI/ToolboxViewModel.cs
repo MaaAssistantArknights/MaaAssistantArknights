@@ -63,6 +63,23 @@ public class ToolboxViewModel : Screen
 
     private readonly RunningState _runningState;
     private static readonly ILogger _logger = Log.ForContext<ToolboxViewModel>();
+    private readonly DepotMaintainInventoryState _maintenanceInventory = new();
+
+    public event Action? MaintenanceInventoryChanged;
+
+    public long? GetMaintenanceInventoryCount(string itemId) => _maintenanceInventory.Count(itemId);
+
+    public void RegisterMaintenanceInventory(int taskId) => _maintenanceInventory.Register(taskId);
+
+    public void RouteMaintenanceInventory(string message, JObject details)
+    {
+        if (!_maintenanceInventory.HandleCallback(message, details))
+        {
+            return;
+        }
+        MaintenanceInventoryChanged?.Invoke();
+        SaveDepotDetails();
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ToolboxViewModel"/> class.
@@ -641,6 +658,9 @@ public class ToolboxViewModel : Screen
             ["data"] = JObject.FromObject(DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count)),
         };
 
+        // Never promote legacy rounded quantities or newly observed gains to exact stock.
+        details["verified_data"] = _maintenanceInventory.Export();
+
         // 保存同步时间为 UTC（如果有）
         if (LastDepotSyncTime.HasValue)
         {
@@ -746,16 +766,45 @@ public class ToolboxViewModel : Screen
     /// <param name="updateSyncTime">是否更新同步时间为当前时间（从 Core 获取新数据时为 true，从本地加载时为 false）</param>
     /// <param name="taskId">传入对应的任务 ID 以便在收到回调后重置识别状态</param>
     /// <returns>是否成功</returns>
-    public bool DepotParse(JObject? details, bool updateSyncTime = false, int taskId = 0)
+    public bool DepotParse(JObject? details, bool updateSyncTime = false, int taskId = 0) =>
+        DepotParse(details, updateSyncTime, taskId, exactMaintenance: false);
+
+    /// <summary>
+    /// Parses Depot while keeping the maintenance exact ledger separate from legacy display data.
+    /// </summary>
+    /// <param name="details">Native or cached Depot payload.</param>
+    /// <param name="updateSyncTime">Whether this is a fresh Core recognition.</param>
+    /// <param name="taskId">Native callback task identity.</param>
+    /// <param name="exactMaintenance">Whether exact data belongs to the current maintenance run.</param>
+    /// <returns>Whether the legacy display payload was accepted.</returns>
+    public bool DepotParse(JObject? details, bool updateSyncTime, int taskId, bool exactMaintenance)
     {
         if (details == null)
         {
             return false;
         }
 
+        // Reject obsolete maintenance callbacks before pending-reset or cache
+        // side effects. Exact stock was already routed by ProcMsg.
+        if (exactMaintenance && !_maintenanceInventory.CanAcceptDepot(taskId))
+        {
+            return false;
+        }
+
         if (_pendingDepotSyncTimeResetTaskIds.Remove(taskId))
         {
-            ResetDepotRecognitionState();
+            LastDepotSyncTime = null;
+        }
+
+        // A language refresh can reload the cache while a fresh run is active.
+        // It must not replace that run's exact ledger with an older saved one.
+        if (!exactMaintenance && !updateSyncTime)
+        {
+            var complete = details["done"]?.Type == JTokenType.Boolean && details["done"]!.Value<bool>();
+            if (_maintenanceInventory.LoadCache(details["verified_data"], complete))
+            {
+                MaintenanceInventoryChanged?.Invoke();
+            }
         }
 
         DepotResult.Clear();
@@ -1166,6 +1215,8 @@ public class ToolboxViewModel : Screen
         // DepotParse 方法已经处理了数据清除和缓存失效，这里不需要重复调用
         // DepotClear();
         LastDepotSyncTime = null;
+        _maintenanceInventory.Clear();
+        MaintenanceInventoryChanged?.Invoke();
     }
 
     /// <summary>

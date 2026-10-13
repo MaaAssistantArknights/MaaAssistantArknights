@@ -48,6 +48,10 @@ public:
 
     const auto& get_ordered_non_chip_formula_item_id() const noexcept { return m_ordered_non_chip_formula_item_id; }
 
+    // Raw native one-output formulas; consumers must validate quantities and
+    // references before planning. This does not authorize in-game synthesis.
+    const json::value& get_item_formulas() const noexcept { return m_item_formulas; }
+
 protected:
     virtual bool parse(const json::value& json) override;
     void clear();
@@ -58,6 +62,7 @@ protected:
     std::unordered_set<std::string> m_all_item_id;
     std::vector<std::string> m_ordered_material_item_id;
     std::vector<std::string> m_ordered_non_chip_formula_item_id;
+    json::value m_item_formulas = json::object {};
 };
 
 inline static auto& ItemData = ItemConfig::get_instance();

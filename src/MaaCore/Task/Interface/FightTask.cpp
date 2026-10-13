@@ -62,6 +62,16 @@ asst::FightTask::FightTask(const AsstCallback& callback, Assistant* inst) :
     m_subtasks.emplace_back(m_sidestory_reopen_task_ptr);
 }
 
+void asst::FightTask::set_drop_guard(std::function<bool()> validate)
+{
+    m_stage_drops_plugin_ptr->set_drop_guard(std::move(validate));
+}
+
+int asst::FightTask::get_confirmed_medicine_count() const
+{
+    return m_medicine_plugin->get_used_count();
+}
+
 bool asst::FightTask::set_params(const json::value& params)
 {
     LogTraceFunction;

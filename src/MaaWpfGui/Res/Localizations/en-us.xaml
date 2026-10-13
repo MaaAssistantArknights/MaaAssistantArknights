@@ -960,6 +960,14 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="Reclamation">Reclamation Algorithm</system:String>
     <system:String x:Key="UserDataUpdate">Update Doctor Data</system:String>
     <system:String x:Key="DepotMaintain">Depot Maintain</system:String>
+    <system:String x:Key="DepotPlanEnabled">Enable this goal (drag to prioritize)</system:String>
+    <system:String x:Key="DepotListOrderTip">Farm in list order. Drag to reorder; stop when all targets are met.</system:String>
+    <system:String x:Key="DepotDependencyPreview">Preview recipe dependencies only; do not farm</system:String>
+    <system:String x:Key="DepotDependencyPreviewTip">Recognize a fresh depot and report ingredient shortages only. No crafting or purchases; a preview does not prove goals met. Leave the stage empty to expand recipes, or choose one for direct acquisition. Each goal is independent stock to retain after crafting.</system:String>
+    <system:String x:Key="DepotFreshRequiredTip">Recognize a fresh depot before evaluating goals in the selected priority order. Unknown counts are neither zero nor complete. Natural sanity only by default; medicine and Originite Prime require explicit authorization.</system:String>
+    <system:String x:Key="DepotFallbackStage">Extra stage after all enabled goals are met (optional)</system:String>
+    <system:String x:Key="DepotUseDefaultPriority">Use default material priority (dragging switches to custom order)</system:String>
+    <system:String x:Key="DepotStopWhenTargetsMet">Stop when all goals are met; skip the extra stage</system:String>
     <system:String x:Key="SwitchTheme">Switch Theme</system:String>
     <system:String x:Key="MiniGame">Useful Tasks</system:String>
     <system:String x:Key="MiniGameCategoryPermanent">Permanent Activities</system:String>
@@ -1069,8 +1077,10 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="DepotPresetChip1">Chips (All Classes)</system:String>
     <system:String x:Key="DepotPresetChip2">Chip Packs (All Classes)</system:String>
     <system:String x:Key="DepotPresetLmd">LMD</system:String>
+    <system:String x:Key="DepotPresetExpRecords">Strategic Battle Records (6-star level reserve)</system:String>
     <system:String x:Key="DepotPresetCertificate">Purchase Certificates</system:String>
     <system:String x:Key="DepotPresetSkillSummary">Skill Summary - III</system:String>
+    <system:String x:Key="DepotPresetT3Materials">Tier 3 Materials (20 each, editable)</system:String>
     <system:String x:Key="CollapseAll">Collapse</system:String>
     <system:String x:Key="ClearPlans">Clear</system:String>
     <system:String x:Key="ClearPlansConfirm">Are you sure you want to clear all plans?</system:String>

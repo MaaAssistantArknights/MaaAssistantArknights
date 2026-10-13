@@ -881,6 +881,9 @@ public class AsstProxy
 
     private void ProcMsg(AsstMsg msg, JObject details)
     {
+        // Route ownership and exact-stock invalidation before legacy handlers
+        // can reset/cache Depot data. The same router is used by offline tests.
+        Instances.ToolboxViewModel.RouteMaintenanceInventory(msg.ToString(), details);
         switch (msg)
         {
             case AsstMsg.InternalError:
@@ -2245,6 +2248,10 @@ public class AsstProxy
                 Instances.ToolboxViewModel.DepotParse((JObject?)subTaskDetails, updateSyncTime: true, taskId);
                 break;
 
+            case "DepotMaintain" when details["what"]?.ToString() == "DepotInfo":
+                Instances.ToolboxViewModel.DepotParse((JObject?)subTaskDetails, updateSyncTime: true, taskId, exactMaintenance: true);
+                break;
+
             case "OperBox":
                 Instances.ToolboxViewModel.OperBoxParse((JObject?)subTaskDetails, updateSyncTime: true, taskId);
                 break;
@@ -2253,6 +2260,11 @@ public class AsstProxy
         string what = details["what"]?.ToString() ?? string.Empty;
         switch (what)
         {
+            case "DepotMaintainInfo":
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetString("DepotMaintain") + ": " + subTaskDetails?.ToString(Formatting.None));
+                break;
+
             case "StageDrops":
                 {
                     string allDrops = string.Empty;

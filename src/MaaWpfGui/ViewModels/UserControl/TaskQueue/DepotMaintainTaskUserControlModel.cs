@@ -35,6 +35,7 @@ using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
+using Newtonsoft.Json.Linq;
 using ObservableCollections;
 using Serilog;
 using Stylet;
@@ -46,13 +47,6 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMaintainTaskUserControlModel.ISerialize
 {
     private readonly ILogger _logger = Log.ForContext<DepotMaintainTaskUserControlModel>();
-
-    /// <summary>
-    /// 本轮已序列化（参与过计划评估）的库存保持任务。
-    /// 任何仓库识别（本任务前置识别或队列中独立的数据更新任务）完成后对其未下发计划复查缓存翻转，每任务只复查一次；
-    /// 新一轮运行重复登记幂等，任务从队列移除后的残留引用因无后续回调无副作用。
-    /// </summary>
-    private static readonly HashSet<DepotMaintainTask> _serializedDepotMaintainTasks = [];
 
     static DepotMaintainTaskUserControlModel()
     {
@@ -67,12 +61,13 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         if (Instances.ToolboxViewModel is { } toolbox)
         {
             toolbox.DepotResult.CollectionChanged += (in NotifyCollectionChangedEventArgs<ToolboxViewModel.DepotResultDate> _) => {
-                NotifyOfPropertyChange(nameof(PlanInfo));
+                RefreshInventoryTitles();
             };
+            toolbox.MaintenanceInventoryChanged += () => RefreshInventoryTitles();
         }
 
-        // 任务开始时用最新库存重算该 plan 的缺口；任务正常结束但未达标时记录临期药耗尽证明
-        Instances.AsstProxy.OnTaskStatusChanged += OnTaskStatusChanged;
+        // Fresh inventory planning is synchronous inside DepotMaintain core.
+        // Never recalculate its running parameters from asynchronous GUI events.
 
         // 语言切换时由 FightSettings.RebuildDropsList 显式调用 OnLanguageChanged
     }
@@ -96,107 +91,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         RefreshStageList();
     }
 
-    private void OnTaskStatusChanged(int taskId, TaskItemStatus status)
-    {
-        if (taskId <= 0)
-        {
-            return;
-        }
-
-        // 任意仓库识别（库存保持自身前置的或独立的数据更新任务）完成后，复查被跳过计划是否出现「预检充足、实际不足」的翻转
-        if (status == TaskItemStatus.Completed &&
-            Instances.AsstProxy.TasksStatus.TryGetValue(taskId, out var taskInfo) && taskInfo.Type == TaskType.Depot)
-        {
-            ReviewSkippedPlansAfterDepotSync();
-        }
-
-        var task = ConfigFactory.CurrentConfig.TaskQueue.OfType<DepotMaintainTask>().FirstOrDefault(t => t.PlanList.Any(p => p.TaskId == taskId));
-        if (task == null || task.PlanList.FirstOrDefault(plan => plan.TaskId == taskId) is not { } plan)
-        {
-            return;
-        }
-
-        if (string.IsNullOrEmpty(plan.DropId) || plan.DropCount <= 0)
-        {
-            return;
-        }
-
-        if (status == TaskItemStatus.Completed)
-        {
-            // 库存任务无次数上限，未达库存目标即正常结束说明理智打不动了，记录其临期药窗口为已耗尽
-            UpdateProvenExhaustedMedicineDays(
-                task.UseExpiringMedicine ? DepotMaintainTask.ExpiringMedicineDays : 0,
-                plan.DropId,
-                plan.DropCount);
-            return;
-        }
-
-        if (status != TaskItemStatus.InProgress)
-        {
-            return;
-        }
-
-        // 复用 FightSettings 的公共方法，用最新库存重算缺口
-        var stage = GetFightStage([plan.Stage]);
-        if (!string.IsNullOrEmpty(stage))
-        {
-            var fight = new AsstFightTask() {
-                Stage = stage,
-                Medicine = task.UseMedicine && plan.UseMedicine ? plan.MedicineCount : 0,
-                Stone = task.UseStone && plan.UseStone ? plan.StoneCount : 0,
-                MedicineExpireDays = task.UseExpiringMedicine ? DepotMaintainTask.ExpiringMedicineDays : 0,
-                Series = task.UseAutoSeries ? 0 : 1,
-                MaxTimes = int.MaxValue,
-                ReportToPenguin = SettingsViewModel.ThirdPartyServiceSettings.EnablePenguin,
-                ReportToYituliu = SettingsViewModel.ThirdPartyServiceSettings.EnableYituliu,
-                PenguinId = SettingsViewModel.ThirdPartyServiceSettings.PenguinId,
-                ServerType = Instances.SettingsViewModel.ServerType,
-                ClientType = SettingsViewModel.GameSettings.ClientType,
-            };
-            RefreshFightTaskDrops(taskId, plan.DropId, plan.DropCount,
-                $"{task.PlanList.IndexOf(plan) + 1}",
-                fight);
-        }
-    }
-
-    /// <summary>
-    /// 仓库识别完成后复查本轮被预检跳过（未下发）的计划：
-    /// 预检基于识别前的缓存，若识别纠正后出现「预检充足、实际不足」的向下翻转，逐条提示，避免静默漏刷一轮。
-    /// 与预检同口径：配置无效或当日不可执行的计划不提示；仅执行第一个不足计划时，只提示第一个翻转的计划。
-    /// 触发源不限于库存保持自身的前置识别，队列中独立数据更新任务的识别同样触发。
-    /// </summary>
-    private static void ReviewSkippedPlansAfterDepotSync()
-    {
-        foreach (var task in _serializedDepotMaintainTasks.ToList())
-        {
-            _serializedDepotMaintainTasks.Remove(task);
-            var depotList = Instances.ToolboxViewModel?.DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count) ?? [];
-            foreach (var (plan, index) in task.PlanList.Select((plan, index) => (plan, index)))
-            {
-                if (plan.TaskId > 0 || string.IsNullOrEmpty(plan.DropId) || plan.DropCount <= 0 ||
-                    !Instances.StageManager.IsStageOpen(plan.Stage, Instances.TaskQueueViewModel.CurDayOfWeek))
-                {
-                    continue;
-                }
-
-                var currentCount = depotList.TryGetValue(plan.DropId, out var value) ? value : 0;
-                if (plan.DropCount - currentCount <= 0)
-                {
-                    continue;
-                }
-
-                var dropName = ItemListHelper.GetItemName(plan.DropId) ?? plan.DropId;
-                Instances.TaskQueueViewModel.AddLog(
-                    LocalizationHelper.GetStringFormat("DepotPlanCacheStaleSkipped", (index + 1).ToString(), dropName, currentCount.ToString("N0"), plan.DropCount.ToString("N0")),
-                    UiLogColor.Warning);
-                if (task.OnlyFirstInsufficientPlan)
-                {
-                    break;
-                }
-            }
-        }
-    }
-
     public static DepotMaintainTaskUserControlModel Instance { get; }
 
     public bool UpdateDepot
@@ -212,24 +106,6 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     {
         get => GetTaskConfig<DepotMaintainTask>().SkipDuringActivity;
         set => SetTaskConfig<DepotMaintainTask>(t => t.SkipDuringActivity == value, t => t.SkipDuringActivity = value);
-    }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether 资源全开放期间跳过整个库存保持任务。
-    /// </summary>
-    public bool SkipDuringResourceCollection
-    {
-        get => GetTaskConfig<DepotMaintainTask>().SkipDuringResourceCollection;
-        set => SetTaskConfig<DepotMaintainTask>(t => t.SkipDuringResourceCollection == value, t => t.SkipDuringResourceCollection = value);
-    }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether 仅下发第一个库存不足且当日可执行的计划，其补满后由下次运行继续后续计划。
-    /// </summary>
-    public bool OnlyFirstInsufficientPlan
-    {
-        get => GetTaskConfig<DepotMaintainTask>().OnlyFirstInsufficientPlan;
-        set => SetTaskConfig<DepotMaintainTask>(t => t.OnlyFirstInsufficientPlan == value, t => t.OnlyFirstInsufficientPlan = value);
     }
 
     /// <summary>
@@ -311,8 +187,10 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         ("Chip1", "DepotPresetChip1"),
         ("Chip2", "DepotPresetChip2"),
         ("CE6", "DepotPresetLmd"),
+        ("LS6", "DepotPresetExpRecords"),
         ("AP5", "DepotPresetCertificate"),
-        ("CA5", "DepotPresetSkillSummary"));
+        ("CA5", "DepotPresetSkillSummary"),
+        ("T3Materials", "DepotPresetT3Materials"));
 
     /// <summary>
     /// 预设数据：关卡 → [(掉落物 itemId, 掉落物名称), ...]。
@@ -331,8 +209,14 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             ("PR-D-2", ["3222", "3282"], 20),  // 近卫芯片组、特种芯片组
         ],
         ["CE6"] = [("CE-6", ["4001"], 2000000)],    // 龙门币
+
+        // 6-star E0Lv1 -> E2Lv90: 1,111,400 EXP / 2,000 per record, rounded up.
+        // Other EXP item qualities are not counted a second time as this item.
+        ["LS6"] = [("LS-6", ["2004"], 556)],        // 高级作战记录
         ["AP5"] = [("AP-5", ["4006"], 5000)],       // 采购凭证（红票）
         ["CA5"] = [("CA-5", ["3303"], 200)],        // 技巧概要·卷3
+
+        ["T3Materials"] = DepotMaintainPresetCatalog.Tier3Materials,
     };
 
     public void AddPresetPlan(string presetValue)
@@ -360,7 +244,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         // new(list) 的 Reset 发生在构造阶段，此时 CollectionChanged 尚未挂载，需手动重排一次
         ReindexPlans();
         SyncPlanListToTaskConfig();
-        NotifyOfPropertyChange(nameof(PlanInfo));
+        RefreshInventoryTitles();
     }
 
     /// <summary>
@@ -377,51 +261,17 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         }
     }
 
-    public bool IsStageManually
-    {
-        get => GetTaskConfig<DepotMaintainTask>().IsStageManually;
-        set {
-            bool ret = SetTaskConfig<DepotMaintainTask>(t => t.IsStageManually == value, t => t.IsStageManually = value);
-            if (ret && !value)
-            {
-                for (int i = 0; i < PlanList.Count; i++)
-                {
-                    var stage = PlanList[i];
-                    if (!Instances.StageManager.GetStageList().Any(p => p.Value == stage.Stage))
-                    {
-                        PlanList[i].Stage = string.Empty;
-                    }
-                }
-            }
-        }
-    }
-
     /// <summary>
     /// Gets or private sets a value indicating whether 关卡列表。
     /// </summary>
     public ObservableCollection<StageSourceItem> StageListSource { get; private set => SetAndNotify(ref field, value); } = [];
 
-    [PropertyDependsOn(typeof(GuiSettingsUserControlModel), nameof(GuiSettingsUserControlModel.Language))]
-    public string PlanInfo => string.Join("\n", PlanList.Select((t, i) => $"{i + 1}: {StageListSource.FirstOrDefault(i => i.Value == t.Stage)?.Display ?? t.Stage} - {t.DropName} {GetCurrentInventoryCount(t.DropId).FormatNumber(false)}/{t.DropCount.FormatNumber(false)}"));
-
-    /// <summary>
-    /// 获取指定掉落物当前库存数量，无数据时返回 "--"。
-    /// </summary>
-    private static string GetCurrentInventoryCount(string dropId)
+    private void RefreshInventoryTitles()
     {
-        if (string.IsNullOrEmpty(dropId))
+        foreach (var plan in PlanList)
         {
-            return "--";
+            plan.RefreshTitle();
         }
-
-        var depot = Instances.ToolboxViewModel?.DepotResult;
-        if (depot == null || depot.Count == 0)
-        {
-            return "--";
-        }
-
-        var item = depot.FirstOrDefault(i => i.Id == dropId);
-        return item?.Count >= 0 ? item.Count.ToString() : "--";
     }
 
     /// <summary>
@@ -498,6 +348,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
             var uiPlan = new DepotPlanItemViewModel(plan.Stage, plan.DropId, dropName, plan.DropCount, plan.UseMedicine, plan.MedicineCount, plan.UseStone, plan.StoneCount, plan.TaskId) {
                 Index = index,
+                Enabled = plan.Enabled,
             };
             list.Add(uiPlan);
             uiPlan.PropertyChanged += PlanItem_PropertyChanged;
@@ -509,7 +360,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         }
         PlanList = [.. list];
         PlanList.CollectionChanged += PlanList_CollectionChanged;
-        NotifyOfPropertyChange(nameof(PlanInfo));
+        RefreshInventoryTitles();
         RefreshStageList();
         Refresh();
     }
@@ -528,20 +379,16 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 }
                 else
                 {
-                    list[plan.Index] = new DepotMaintainTask.Plan(plan.Stage, plan.DropId, plan.DropCount, plan.UseMedicine, plan.MedicineCount, plan.UseStone, plan.StoneCount, plan.TaskId);
+                    list[plan.Index] = new DepotMaintainTask.Plan(plan.Stage, plan.DropId, plan.DropCount, plan.UseMedicine, plan.MedicineCount, plan.UseStone, plan.StoneCount, plan.TaskId, plan.Enabled);
                     SetTaskConfig<DepotMaintainTask>(t => t.PlanList.SequenceEqual(list), t => t.PlanList = list);
                 }
             }
-        }
-        if (e.PropertyName is nameof(DepotPlanItemViewModel.Title))
-        {
-            NotifyOfPropertyChange(nameof(PlanInfo));
         }
     }
 
     private void PlanList_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        NotifyOfPropertyChange(nameof(PlanInfo));
+        RefreshInventoryTitles();
         if (e.Action is NotifyCollectionChangedAction.Remove or NotifyCollectionChangedAction.Replace)
         {
             e.OldItems?.OfType<DepotPlanItemViewModel>().ToList().ForEach(plan => {
@@ -577,7 +424,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     /// </summary>
     private void SyncPlanListToTaskConfig()
     {
-        var list = PlanList.Select(plan => new DepotMaintainTask.Plan(plan.Stage, plan.DropId, plan.DropCount, plan.UseMedicine, plan.MedicineCount, plan.UseStone, plan.StoneCount, plan.TaskId)).ToList();
+        var list = PlanList.Select(plan => new DepotMaintainTask.Plan(plan.Stage, plan.DropId, plan.DropCount, plan.UseMedicine, plan.MedicineCount, plan.UseStone, plan.StoneCount, plan.TaskId, plan.Enabled)).ToList();
         SetTaskConfig<DepotMaintainTask>(t => t.PlanList.SequenceEqual(list), t => t.PlanList = list);
     }
 
@@ -599,119 +446,52 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 return (null, []);
             }
 
-            // 资源全开放期间跳过：当资源全开放活动进行中时跳过整个库存保持任务
-            if (depot.SkipDuringResourceCollection && Instances.StageManager.IsResourceCollectionOpen())
+            // Submit every enabled goal, even if yesterday's cache says full.
+            // Core recognizes Depot synchronously before evaluating any plan.
+            var plans = new JArray();
+            var orderedPlans = depot.PlanList;
+            foreach (var (plan, index) in orderedPlans.Select((plan, index) => (plan, index)))
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DepotPlanSkippedResourceCollection"), UiLogColor.Info);
-                return (null, []);
-            }
-
-            var taskIds = new List<int>();
-
-            // 任务开始前更新库存数据：先追加仓库识别任务，刷新库存后再执行计划
-            // 每个 plan 开始时会通过 OnTaskStatusChanged 用最新库存重算缺口
-            if (depot.UpdateDepot)
-            {
-                var (result, depotTaskId) = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Depot, (AsstTaskType.Depot, null));
-                if (!result)
+                if (plan.Enabled && (string.IsNullOrEmpty(plan.DropId) || plan.DropCount <= 0 ||
+                                     string.IsNullOrEmpty(plan.Stage)))
                 {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DepotPlanUpdateDepotFailed"), UiLogColor.Error);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanInvalidDropItem", index + 1), UiLogColor.Error);
                     return (false, []);
                 }
-                Instances.ToolboxViewModel.MarkDepotRecognitionSyncTimeForReset(depotTaskId);
-                taskIds.Add(depotTaskId);
-            }
 
-            // 空计划且未追加前置仓库识别时整任务没有 core 任务，须说明跳过原因；计划非空时各 plan 已有逐条日志
-            if (depot.PlanList.Count == 0 && !depot.UpdateDepot)
-            {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DepotPlanNoPlan"), UiLogColor.Error);
-                return (null, []);
-            }
-
-            Instances.TaskQueueViewModel.AddLogSection(depot.NameOrTaskType);
-
-            // 登记本轮参与评估，任意识别完成后复查未下发计划的缓存翻转（含 UpdateDepot=false 的场景）
-            _ = _serializedDepotMaintainTasks.Add(depot);
-
-            var depotList = Instances.ToolboxViewModel?.DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count) ?? [];
-            for (int i = 0; i < depot.PlanList.Count; i++)
-            {
-                var plan = depot.PlanList[i];
-                depot.PlanList[i] = plan with { TaskId = 0 }; // 主动重置 TaskId
-                if (string.IsNullOrEmpty(plan.DropId))
-                {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanInvalidDropItem", i + 1), UiLogColor.Error);
-                    continue;
-                }
-                if (plan.DropCount <= 0)
-                {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanZeroDropCount", i + 1), UiLogColor.Error);
-                    continue;
-                }
-
-                var currentCount = depotList.TryGetValue(plan.DropId, out var value) ? value : 0;
-                var need = plan.DropCount - currentCount;
-                var dropName = ItemListHelper.GetItemName(plan.DropId) ?? plan.DropId;
-                if (need <= 0)
-                {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanInventoryEnough", i + 1, dropName, currentCount.ToString("N0"), plan.DropCount.ToString("N0")));
-                    continue;
-                }
-
-                var stage = GetFightStage([plan.Stage]);
-                if (string.IsNullOrEmpty(stage))
-                {
-                    if (string.IsNullOrEmpty(plan.Stage))
-                    {
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanNoStage", i + 1), UiLogColor.Error);
-                    }
-                    else
-                    {
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanStageNotOpen", i + 1, plan.Stage));
-                    }
-
-                    continue;
-                }
-
-                var fight = new AsstFightTask() {
-                    Stage = stage,
-                    Drops = new() { { plan.DropId, need } },
-                    MaxTimes = need > 0 ? int.MaxValue : 0,
-                    Medicine = depot.UseMedicine && plan.UseMedicine ? plan.MedicineCount : 0,
-                    Stone = depot.UseStone && plan.UseStone ? plan.StoneCount : 0,
-                    MedicineExpireDays = depot.UseExpiringMedicine ? DepotMaintainTask.ExpiringMedicineDays : 0,
-                    Series = depot.UseAutoSeries ? 0 : 1,
-                    ReportToPenguin = SettingsViewModel.ThirdPartyServiceSettings.EnablePenguin,
-                    ReportToYituliu = SettingsViewModel.ThirdPartyServiceSettings.EnableYituliu,
-                    PenguinId = SettingsViewModel.ThirdPartyServiceSettings.PenguinId,
-                    ServerType = Instances.SettingsViewModel.ServerType,
-                    ClientType = SettingsViewModel.GameSettings.ClientType,
+                var stage = string.IsNullOrEmpty(plan.Stage) ? string.Empty : GetFightStage([plan.Stage]);
+                var serializedPlan = new JObject {
+                    ["item_id"] = plan.DropId, ["target"] = plan.DropCount,
+                    ["stage"] = string.IsNullOrEmpty(stage) ? plan.Stage : stage,
+                    ["stage_open"] = !string.IsNullOrEmpty(stage), ["enabled"] = plan.Enabled,
                 };
-                var (ret, id) = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Fight, fight);
-                if (!ret)
-                {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanAddTaskFailed", i + 1), UiLogColor.Error);
-                }
-                else
-                {
-                    taskIds.Add(id);
-                    depot.PlanList[i] = plan with { TaskId = id };
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("DepotPlanInventoryInsufficient", i + 1, dropName, currentCount.ToString("N0"), plan.DropCount.ToString("N0"), need.ToString("N0")));
-                    if (depot.OnlyFirstInsufficientPlan)
-                    {
-                        break; // 仅下发第一个库存不足的计划，其后计划本轮不评估也不输出日志
-                    }
-                }
+                serializedPlan.Merge(DepotMaintainRecoveryOptions.Serialize(
+                    false, false, 0, false, false, 0, false, 0));
+                plans.Add(serializedPlan);
             }
-
-            Instances.TaskQueueViewModel.AddLog(string.Empty, splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
-
-            if (taskIds.Any(id => id > 0))
+            var options = new AsstFightTask {
+                ReportToPenguin = SettingsViewModel.ThirdPartyServiceSettings.EnablePenguin,
+                ReportToYituliu = SettingsViewModel.ThirdPartyServiceSettings.EnableYituliu,
+                PenguinId = SettingsViewModel.ThirdPartyServiceSettings.PenguinId,
+                ServerType = Instances.SettingsViewModel.ServerType,
+                ClientType = SettingsViewModel.GameSettings.ClientType,
+            }.Serialize().Params;
+            var parameters = new JObject {
+                ["plans"] = plans, ["fight_options"] = options,
+                ["fallback_stage"] = string.Empty,
+                ["fallback_open"] = false,
+                ["only_first"] = false,
+                ["dependency_preview"] = false,
+            };
+            var (ret, id) = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.DepotMaintain, (AsstTaskType.DepotMaintain, parameters));
+            if (!ret)
             {
-                return (true, taskIds);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DepotPlanUpdateDepotFailed"), UiLogColor.Error);
+                return (false, []);
             }
-            return (null, []);
+            Instances.ToolboxViewModel.MarkDepotRecognitionSyncTimeForReset(id);
+            Instances.ToolboxViewModel.RegisterMaintenanceInventory(id);
+            return (true, [id]);
         }
     }
 

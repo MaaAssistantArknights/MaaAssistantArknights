@@ -12,7 +12,12 @@ asst::DepotTask::DepotTask(const AsstCallback& callback, Assistant* inst) :
     enter_task->register_plugin<ScreenshotTaskPlugin>();
     m_subtasks.emplace_back(enter_task);
 
-    auto recognition_task = std::make_shared<DepotRecognitionTask>(m_callback, m_inst, TaskType);
-    recognition_task->set_retry_times(0);
-    m_subtasks.emplace_back(recognition_task);
+    m_recognition_task_ptr = std::make_shared<DepotRecognitionTask>(m_callback, m_inst, TaskType);
+    m_recognition_task_ptr->set_retry_times(0);
+    m_subtasks.emplace_back(m_recognition_task_ptr);
+}
+
+void asst::DepotTask::set_strict_scan(bool value)
+{
+    m_recognition_task_ptr->set_strict_scan(value);
 }

@@ -1,5 +1,6 @@
 #include "DepotImageAnalyzer.h"
 
+#include "Common/DepotQuantity.h"
 #include "MaaUtils/NoWarningCV.hpp"
 
 #include "Config/Miscellaneous/ItemConfig.h"
@@ -10,6 +11,8 @@
 #include "Vision/RegionOCRer.h"
 
 #include <algorithm>
+#include <cmath>
+#include <limits>
 #include <numbers>
 
 bool asst::DepotImageAnalyzer::analyze()
@@ -19,6 +22,7 @@ bool asst::DepotImageAnalyzer::analyze()
     m_all_items_roi.clear();
     m_result.clear();
     m_invalid_template_ids.clear();
+    m_unmatched_rect.reset();
 
     if (m_cached_templs.empty()) {
         prepare_cached_templates();
@@ -223,6 +227,7 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
             if (m_is_basic) {
                 continue; // 基础物品可能不连续，跳过空槽位
             }
+            m_unmatched_rect = resize_rect_to_raw_size(roi);
             break;
         }
         std::string item_id = info.item_id;
@@ -347,8 +352,9 @@ size_t asst::DepotImageAnalyzer::match_item(
     return matched_index;
 }
 
-int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
+int asst::DepotImageAnalyzer::match_quantity(ItemInfo& item)
 {
+    item.quantity_verified = false;
     auto task_ptr = Task.get<MatchTaskInfo>("DepotQuantity");
     auto item_templ = TemplResource::get_instance().get_templ(item.item_id);
     if (item_templ.empty()) {
@@ -479,7 +485,18 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
         }
     }
 
-    int quantity = static_cast<int>(std::stod(digit_str) * multiple);
+    double numeric = 0;
+    try {
+        numeric = std::stod(digit_str) * multiple;
+    }
+    catch (const std::exception&) {
+        return 0;
+    }
+    if (!std::isfinite(numeric) || numeric < 0 || numeric > std::numeric_limits<int>::max()) {
+        return 0;
+    }
+    int quantity = static_cast<int>(numeric);
+    item.quantity_verified = depot_quantity::exact_ascii(digit_str, multiple).has_value();
     Log.info("Quantity:", quantity);
     return quantity;
 }

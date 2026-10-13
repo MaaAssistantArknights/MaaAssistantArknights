@@ -199,4 +199,7 @@ public enum AsstTaskType : byte
     /// 干员培养
     /// </summary>
     OperProgress,
+
+    /// <summary>Fresh-depot inventory maintenance (requires matching core).</summary>
+    DepotMaintain,
 }
