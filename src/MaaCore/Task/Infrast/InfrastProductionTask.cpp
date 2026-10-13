@@ -254,9 +254,6 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
         if (m_cur_facility_index != 0) {
             callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
-            if (m_is_custom) {
-                current_room_config() = m_custom_config.at(m_cur_facility_index);
-            }
         }
 
         // 最近总是出现设施没选中，导致干员放错房间，多点一次，观察一段时间。最好是改为图像识别是几号。
@@ -471,14 +468,8 @@ bool asst::InfrastProductionTask::shift_facility_list()
             Log.info("skip shift in rotation mode");
         }
 
-        // 自定义基建 Post 无人机
-        if (m_is_use_drones_from_custom) {
-            try_use_custom_post_drone();
-        }
-        else if (
-            // 普通 params 无人机只在非自定义模式下使用
-            // 自定义模式下不使用该分支
-            !m_is_custom && cur_product_detection_valid &&
+        // 自定义基建 Post 无人机（含空意图/编组失败保持原样的房间）
+        if (!try_use_custom_post_drone() && !m_is_custom && cur_product_detection_valid &&
             cur_product_for_non_custom_drone == m_drones_usage_from_params && m_drones_usage_from_params != "_NotUse" &&
             m_drones_usage_from_params != "_Used") {
             if (use_drone()) {

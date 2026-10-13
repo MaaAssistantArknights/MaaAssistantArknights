@@ -22,6 +22,6 @@ struct QuickFormationOperInfo
 // 对旗标下方区域 OCR 干员名,并以旗标上方的高亮色块判断选中态。
 std::vector<QuickFormationOperInfo> analyze_formation_opers(const cv::Mat& image);
 
-// 快速编队界面按职业筛选的 tab 任务名,Unknown 表示 ｢全部｣。
+// 快速编队界面按职业筛选的 tab 任务名,Unknown 表示 ｢全部｣ 。
 std::string role_task_name(asst::battle::Role role);
 }
