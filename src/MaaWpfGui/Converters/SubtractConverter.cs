@@ -20,9 +20,9 @@ using System.Windows.Data;
 namespace MaaWpfGui.Converters;
 
 /// <summary>
-/// 双值减法转换器：返回 max(0, values[0] - values[1])，用于 ｢视口高度 - 固定区实际高度｣ 一类的剩余高度绑定，
+/// 多值递次减法转换器：返回 max(0, values[0] - values[1] - ... - values[n])，用于 ｢视口高度 - 固定区实际高度｣ 一类的剩余高度绑定，
 /// 固定区随语言换行变高时自动收缩；固定区超过视口时结果为 0，由外层面板滚动兜底。
-/// 任一值未就绪时返回 <see cref="double.PositiveInfinity"/>（不限制高度），避免初始化阶段被误压为 0。
+/// 绑定值不足 2 个、或任一值未就绪时返回 <see cref="double.PositiveInfinity"/>（不限制高度），避免初始化阶段被误压为 0。
 /// </summary>
 public class SubtractConverter : IMultiValueConverter
 {
@@ -34,12 +34,18 @@ public class SubtractConverter : IMultiValueConverter
     /// <inheritdoc/>
     public object Convert(object[] values, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (values.Length == 2 && values[0] is double minuend && values[1] is double subtrahend)
+        if (values.Length < 2 || Array.Exists(values, value => value is not double))
         {
-            return Math.Max(0, minuend - subtrahend);
+            return double.PositiveInfinity;
         }
 
-        return double.PositiveInfinity;
+        double result = (double)values[0];
+        for (int i = 1; i < values.Length; i++)
+        {
+            result -= (double)values[i];
+        }
+
+        return Math.Max(0, result);
     }
 
     /// <inheritdoc/>
