@@ -390,6 +390,13 @@ bool asst::InfrastTrainingTask::change_trainee()
         // 专精页上的固定坐标点击，不等返回就点等于盲点
         if (!wait_for_mastery_page()) {
             LogWarn << "failed to return to mastery page after trainee selection";
+            if (!found) {
+                // 此路径提前 return 不会走到循环外的统一发送，先补发未命中回调再退出，
+                // 保证两条退出路径的未命中信息都先送达
+                json::value info = basic_info_with_what("CustomInfrastTraineeNotFound");
+                info["details"]["candidates"] = json::array(trainee_names);
+                callback(AsstMsg::SubTaskExtraInfo, info);
+            }
             return false;
         }
     }
@@ -430,7 +437,8 @@ bool asst::InfrastTrainingTask::select_assistant()
     room_config.candidates = origin_config.assistant_names;
     room_config.selected = 0;
     const bool selected = swipe_and_select_custom_opers(false, true);
-    // 全员未命中（拼写错误、未拥有等）时复核对空名单直接放行，选出 0 人却报成功，记录日志便于排查配置
+    // 全员未命中（拼写错误、未拥有等）时复核对空名单直接放行，选出 0 人仍走空选确认，
+    // 发 CustomInfrastAssistantNotFound 回调与日志便于排查配置，保持现任协助者是设计行为
     const bool no_candidate_matched = selected && room_config.selected == 0;
     room_config = origin_config;
 
@@ -441,6 +449,9 @@ bool asst::InfrastTrainingTask::select_assistant()
     }
     if (no_candidate_matched) {
         LogWarn << "no candidate in the assistant selection list";
+        json::value info = basic_info_with_what("CustomInfrastAssistantNotFound");
+        info["details"]["candidates"] = json::array(origin_config.assistant_names);
+        callback(AsstMsg::SubTaskExtraInfo, info);
     }
 
     if (!ProcessTask(*this, { "InfrastTrainingAssistantConfirm" }).run()) {
