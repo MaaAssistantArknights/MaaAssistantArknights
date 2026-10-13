@@ -155,6 +155,9 @@
     <system:String x:Key="Training">訓練室</system:String>
     <system:String x:Key="Recycle">回收站（推測譯名、未實裝）</system:String>
     <system:String x:Key="AssistantChange">副手換人</system:String>
+    <system:String x:Key="InfrastTraineeNotFound">訓練位候選均未命中，訓練位保持原樣：{0}</system:String>
+    <system:String x:Key="InfrastAssistantNotFound">協助者候選均未命中，協助者保持原樣：{0}</system:String>
+    <system:String x:Key="InfrastRoomKeptUnchanged">房間依設定保持原樣，未換班</system:String>
     <system:String x:Key="Trade">貿易站</system:String>
     <system:String x:Key="Power">發電站</system:String>
     <system:String x:Key="Reception">會客室</system:String>

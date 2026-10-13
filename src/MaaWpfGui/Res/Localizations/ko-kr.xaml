@@ -155,6 +155,9 @@
     <system:String x:Key="Training">훈련실</system:String>
     <system:String x:Key="Recycle">재활용 시설 (추측 번역, 미실장)</system:String>
     <system:String x:Key="AssistantChange">보조 인원 교체</system:String>
+    <system:String x:Key="InfrastTraineeNotFound">훈련 슬롯 후보가 모두 일치하지 않아 훈련 슬롯을 그대로 유지합니다: {0}</system:String>
+    <system:String x:Key="InfrastAssistantNotFound">보조 인원 후보가 모두 일치하지 않아 보조 인원을 그대로 유지합니다: {0}</system:String>
+    <system:String x:Key="InfrastRoomKeptUnchanged">설정에 따라 방을 그대로 유지했으며, 교체는 진행하지 않았습니다</system:String>
     <system:String x:Key="Trade">무역소</system:String>
     <system:String x:Key="Power">발전소</system:String>
     <system:String x:Key="Reception">응접실</system:String>

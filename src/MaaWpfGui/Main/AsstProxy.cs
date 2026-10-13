@@ -2674,6 +2674,31 @@ public class AsstProxy
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomOperators") + nameStr);
                 break;
 
+            case "CustomInfrastTraineeNotFound":
+                {
+                    // 训练位候选名单全部未命中（专精全满或名字写错），训练位保持原样；未匹配到干员信息时回退显示配置原名
+                    var candidates = string.Join(", ", (subTaskDetails!["candidates"] as JArray ?? new JArray())
+                        .Select(name => DataHelper.GetLocalizedCharacterName(name.ToString()) ?? name.ToString()));
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat("InfrastTraineeNotFound", candidates), UiLogColor.Warning);
+                    break;
+                }
+
+            case "CustomInfrastAssistantNotFound":
+                {
+                    // 训练室协助者候选全部未命中，协助者保持原样
+                    var candidates = string.Join(", ", (subTaskDetails!["candidates"] as JArray ?? new JArray())
+                        .Select(name => DataHelper.GetLocalizedCharacterName(name.ToString()) ?? name.ToString()));
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat("InfrastAssistantNotFound", candidates), UiLogColor.Warning);
+                    break;
+                }
+
+            case "CustomInfrastRoomKeptUnchanged":
+                // 房间按配置保持原样（房间数组为空或无换人意图）
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("InfrastRoomKeptUnchanged"));
+                break;
+
             case "InfrastTrainingIdle":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TrainingIdle"));
                 break;
