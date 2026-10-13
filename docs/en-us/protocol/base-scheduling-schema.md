@@ -146,7 +146,7 @@ Please note that JSON files do not support comments. The comments in this docume
                         // Generic roomConfig fields such as operators/candidates have no effect on the training room; only skip and operatorsA/operatorsB take effect
                     }
                 ],
-                "recycle": [ // 回收站, two slots without role distinction, same format as manufacture, operators limited to 2, product field has no effect
+                "recycle": [ // 回收站, two slots without role distinction, same format as manufacture, product field has no effect
                     {
                         "operators": ["Fang", "Kroos"]
                     }

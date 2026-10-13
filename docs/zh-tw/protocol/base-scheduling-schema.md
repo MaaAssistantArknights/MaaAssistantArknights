@@ -143,7 +143,7 @@ icon: material-symbols:view-quilt-rounded
                         // operators/candidates 等通用欄位對訓練室無效，僅 skip 與 operatorsA/operatorsB 生效
                     }
                 ],
-                "recycle": [ // 回收站，兩個進駐位無角色區分，寫法同製造站；operators 最多 2 人；product 欄位無效
+                "recycle": [ // 回收站，兩個進駐位無角色區分，寫法同製造站；product 欄位無效
                     {
                         "operators": ["芬", "克洛絲"]
                     }

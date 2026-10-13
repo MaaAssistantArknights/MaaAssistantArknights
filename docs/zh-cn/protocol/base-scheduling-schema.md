@@ -143,7 +143,7 @@ icon: material-symbols:view-quilt-rounded
                         // operators/candidates 等通用字段对训练室无效，仅 skip 与 operatorsA/operatorsB 生效
                     }
                 ],
-                "recycle": [ // 回收站，两个进驻位无角色区分，写法同制造站；operators 最多 2 人；product 字段无效
+                "recycle": [ // 回收站，两个进驻位无角色区分，写法同制造站；product 字段无效
                     {
                         "operators": ["芬", "克洛丝"]
                     }

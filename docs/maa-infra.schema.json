@@ -188,7 +188,7 @@
                 },
                 "recycle": {
                     "type": "array",
-                    "description": "Recycle station rooms with two undifferentiated staffing slots, configured like manufacture via the operators array, which takes at most 2 operators; the product field has no effect here.",
+                    "description": "Recycle station rooms with two undifferentiated staffing slots, configured like manufacture via the operators array; the product field has no effect here.",
                     "items": {
                         "$ref": "#/definitions/roomConfig"
                     },

@@ -145,7 +145,7 @@ JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 �
                         // operators/candidates 같은 일반 필드는 훈련실에 효과가 없으며 skip과 operatorsA/operatorsB만 유효함
                     }
                 ],
-                "recycle": [ // 回收站(두 자리는 역할 구분이 없으며 제조소와 동일한 형식, operators는 최대 2명, product 필드는 효과 없음)
+                "recycle": [ // 回收站(두 자리는 역할 구분이 없으며 제조소와 동일한 형식, product 필드는 효과 없음)
                     {
                         "operators": ["芬", "克洛丝"]
                     }

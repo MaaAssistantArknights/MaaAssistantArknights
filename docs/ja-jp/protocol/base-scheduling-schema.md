@@ -155,7 +155,7 @@ JSON ファイルはコメントをサポートしていません。テキスト
                         // operators/candidates などの汎用フィールドは訓練室には無効で、skip と operatorsA/operatorsB のみ有効
                     }
                 ],
-                "recycle": [ // 回收站（駐在枠 2 つに役割の区別はなく、製造所と同じ書式、operators は最大 2 人、product フィールドは無効）
+                "recycle": [ // 回收站（駐在枠 2 つに役割の区別はなく、製造所と同じ書式、product フィールドは無効）
                     {
                         "operators": ["フェン", "クルース"]
                     }
