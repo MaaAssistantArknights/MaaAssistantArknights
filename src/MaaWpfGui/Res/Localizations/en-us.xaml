@@ -984,6 +984,22 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="ReclamationModeRA15">RA-15</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">I do not have a save, let's farm prosperity points by repeatedly entering and exiting stages.</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">I do have a save, let's farm prosperity points by crafting tools.</system:String>
+    <system:String x:Key="ReclamationModeResourceInSave">Existing save: farm supplies and points by advancing days</system:String>
+    <system:String x:Key="ReclamationResourceInSaveTip" xml:space="preserve">Notes:
+1. Navigation is available. Select this mode and add Reclamation Algorithm to the task list to run it normally.
+2. This mode relies on existing base production and expedition events. Before running it, complete all main and side quests, finish your base setup, and prepare some ingredients, gold bars, water, iron ore, stone and wood to get started.
+3. Each cycle dispatches four expeditions. Have at least 12 Elite 2 operators available in addition to your stationed operators.
+4. Supply farming continues after the Reclamation points cap. Stop the task manually.</system:String>
+    <system:String x:Key="ReclamationResourceError">Supply farming stopped: {0}</system:String>
+    <system:String x:Key="ReclamationResourceUnknownEvent">Unsupported event found; check the event list</system:String>
+    <system:String x:Key="ReclamationResourceEventList">The event list or count does not match the expected state</system:String>
+    <system:String x:Key="ReclamationResourceDay">The day could not be read or did not advance as expected</system:String>
+    <system:String x:Key="ReclamationResourceOperators">Three available operators could not be selected</system:String>
+    <system:String x:Key="ReclamationResourcePurchase">The 清水 or 澄亮石 purchase could not be confirmed; check gold bars and shop status</system:String>
+    <system:String x:Key="ReclamationResourceSmelting">Could not smelt seven batches of each recipe; check water, materials, batch count and output</system:String>
+    <system:String x:Key="ReclamationResourceIngredients">The first ingredient cannot produce 99 energy drinks, or the quantity could not be read</system:String>
+    <system:String x:Key="ReclamationResourceSupplies">The energy drink quantity or cooking result does not match the expected state</system:String>
+    <system:String x:Key="ReclamationResourceRecognition">The current screen could not be recognized</system:String>
     <system:String x:Key="ReclamationIncrementMode">Increment Mode</system:String>
     <system:String x:Key="ReclamationIncrementModeClick">Click</system:String>
     <system:String x:Key="ReclamationIncrementModeHold">Hold</system:String>

@@ -1418,6 +1418,8 @@ Mode. Supported modes vary by theme:
 <br>
 `1` - With save, farm currency by crafting support items.
 <br>
+`2` - Existing save: farm supplies and points by advancing days. Only the Simplified Chinese game client is supported. Navigate from the game home screen to 沙洲遗闻, confirm 休养模式 (relaxed difficulty), and resume the existing save, or start on the map. Saves are never created or deleted; farming continues after the points cap.
+<br>
 **RelaunchAnchor:**
 <br>
 `16` (`RA1`) - RA-1, automatically execute intensive farming, construction, resource delivery, and settlement loop.

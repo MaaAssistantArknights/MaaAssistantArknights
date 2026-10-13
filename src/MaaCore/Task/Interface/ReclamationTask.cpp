@@ -7,8 +7,9 @@
 // 通用配置及插件
 #include "Task/Reclamation/ReclamationConfig.h"
 
-// TalesMode::ProsperityInSave 专用配置及插件
+// 沙洲遗闻的模式插件
 #include "Task/Reclamation/ReclamationCraftTaskPlugin.h"
+#include "Task/Reclamation/ReclamationResourceTaskPlugin.h"
 
 #include "Utils/Logger.hpp"
 
@@ -19,8 +20,9 @@ asst::ReclamationTask::ReclamationTask(const AsstCallback& callback, Assistant* 
 {
     LogTraceFunction;
 
-    // TalesMode::ProsperityInSave 专用参数
+    // 沙洲遗闻的模式插件
     m_reclamation_task_ptr->register_plugin<ReclamationCraftTaskPlugin>(m_config_ptr);
+    m_reclamation_task_ptr->register_plugin<ReclamationResourceTaskPlugin>(m_config_ptr);
 
     m_subtasks.emplace_back(m_reclamation_task_ptr);
 }
@@ -77,6 +79,10 @@ bool asst::ReclamationTask::set_params(const json::value& params)
         case TalesMode::ProsperityInSave:
             m_reclamation_task_ptr->set_tasks({ theme + "@RA@ProsperityInSave" });
             break;
+        case TalesMode::ResourceInSave:
+            m_reclamation_task_ptr->set_tasks({ theme + "@RA@ResourceInSave" });
+            m_reclamation_task_ptr->set_times_limit("RA@Store@EnterStore", 0);
+            break;
         default:
             break;
         }
@@ -91,4 +97,19 @@ bool asst::ReclamationTask::set_params(const json::value& params)
     }
 
     return true;
+}
+
+bool asst::ReclamationTask::run()
+{
+    if (!get_enable()) {
+        return InterfaceTask::run();
+    }
+    const auto plugin = m_reclamation_task_ptr->find_plugin<ReclamationResourceTaskPlugin>();
+    m_reclamation_task_ptr->set_enable(true);
+    if (plugin->get_enable()) {
+        plugin->reset();
+    }
+    const bool result = InterfaceTask::run();
+    // ProcessTask 的插件回调不传播返回值，必须将插件记录的失败传回整个任务链。
+    return result && !plugin->failed();
 }

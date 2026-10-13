@@ -984,6 +984,22 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ReclamationModeRA15">RA-15</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">无存档，通过进出关卡刷生息点数</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">有存档，通过组装支援道具刷生息点数</system:String>
+    <system:String x:Key="ReclamationModeResourceInSave">有存档，通过推进天数刷物资和点数</system:String>
+    <system:String x:Key="ReclamationResourceInSaveTip" xml:space="preserve">注意事项：
+1. 本模式已有导航，选择本模式时可以在任务列表中加入生息演算并正常运行。
+2. 本模式基于已有的基建产出和派遣事件，在运行之前请务必确保已经完成所有主线和支线任务，已经完成毕业基建，且有一定的食材，赤金，清水，铁矿石，石材和木材用于启动
+3. 由于每个生息周期会进行四次事件派遣，除驻扎干员外，请务必确保有至少12名精二干员
+4. 本模式在生息点数到达上限后仍会继续刷取物资，需要手动停止</system:String>
+    <system:String x:Key="ReclamationResourceError">刷物资任务已停止：{0}</system:String>
+    <system:String x:Key="ReclamationResourceUnknownEvent">发现不支持的事件，请检查事件列表</system:String>
+    <system:String x:Key="ReclamationResourceEventList">事件列表或事件数量与预期不符</system:String>
+    <system:String x:Key="ReclamationResourceDay">无法确认天数，或天数未按预期增加</system:String>
+    <system:String x:Key="ReclamationResourceOperators">无法选中三名可派遣干员</system:String>
+    <system:String x:Key="ReclamationResourcePurchase">无法确认清水或澄亮石购买结果，请检查金条和商店状态</system:String>
+    <system:String x:Key="ReclamationResourceSmelting">无法完成每种配方七份炼金，请检查清水和炼金材料，或冶炼数量及产出</system:String>
+    <system:String x:Key="ReclamationResourceIngredients">第一种食材不足以制作 99 瓶能量饮料，或无法确认制作数量</system:String>
+    <system:String x:Key="ReclamationResourceSupplies">能量饮料数量或烹饪结果与预期不符</system:String>
+    <system:String x:Key="ReclamationResourceRecognition">无法识别当前界面</system:String>
     <system:String x:Key="ReclamationIncrementMode">增加方式</system:String>
     <system:String x:Key="ReclamationIncrementModeClick">连点</system:String>
     <system:String x:Key="ReclamationIncrementModeHold">长按</system:String>
