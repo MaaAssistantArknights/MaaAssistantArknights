@@ -2,6 +2,7 @@
 
 #include "Utils/Logger.hpp"
 
+#include "Status.h"
 #include "Task/Infrast/DronesForShamareTaskPlugin.h"
 #include "Task/Infrast/InfrastAssistantChangeTask.h"
 #include "Task/Infrast/InfrastControlTask.h"
@@ -66,6 +67,15 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst) :
     m_assistant_change_task_ptr->set_retry_times(0);
 
     m_subtasks.emplace_back(m_infrast_begin_task_ptr);
+}
+
+bool asst::InfrastTask::run()
+{
+    // 编组可用集存于跨任务持久的 Status，跨轮基建会继承上一轮的消耗与陈旧心情快照，
+    // 上一轮已进驻的编组本轮将永远匹配不到；写入空集让首个编组房间重新收集。
+    // 默认模式（无编组）不读该键，无条件清空无影响
+    status()->set_str(Status::InfrastAvailableOpersForGroup, json::array().dumps());
+    return InterfaceTask::run();
 }
 
 bool asst::InfrastTask::set_params(const json::value& params)
