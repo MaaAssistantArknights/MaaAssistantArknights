@@ -123,7 +123,7 @@ Please note that JSON files do not support comments. The comments in this docume
                         // When enabled, names in operators are interpreted as group names
                         "古+银", // Will select groups by mood threshold and setting order ("古+银" = "Gummy+Silver")
                         "清流" // If Gummy+Silver group has operators below threshold, will use Purestream group ("清流" = "Purestream")
-                        // If all groups are unavailable, the room stays unchanged without auto-selecting operators; auto selection applies only when autofill is enabled
+                        // If all groups are unavailable, the candidates list still applies; with neither candidates nor autofill configured, the room stays unchanged without falling back to the default algorithm
                     ]
                 }
                 ],
