@@ -16,6 +16,11 @@ bool asst::InfrastReceptionTask::_run()
 {
     m_all_available_opers.clear();
 
+    if (is_facility_config_empty()) {
+        LogInfo << "custom room array is empty, keep facility unchanged";
+        return true;
+    }
+
     swipe_to_the_left_of_main_ui();
 
     if (!enter_facility()) {
@@ -333,11 +338,6 @@ bool asst::InfrastReceptionTask::shift()
 
     if (m_is_custom && current_room_config().skip) {
         Log.info("skip this room");
-        return true;
-    }
-
-    if (is_facility_config_empty()) {
-        LogInfo << "custom room array is empty, keep facility unchanged";
         return true;
     }
 
