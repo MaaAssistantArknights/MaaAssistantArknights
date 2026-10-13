@@ -38,7 +38,7 @@ bool asst::ReclamationConfig::verify_and_load_params(const json::value& params)
         }
     }
     else {
-        // 沙洲遗闻：mode 使用连续值编码，0 = 无存档刷繁荣点数，1 = 有存档刷繁荣点数
+        // 沙洲遗闻：mode 使用连续值编码，0 = 无存档刷点数，1 = 组装刷点数，2 = 推进天数刷物资和点数
         switch (modeInt) {
         case static_cast<int>(TalesMode::ProsperityNoSave):
             m_mode = TalesMode::ProsperityNoSave;
@@ -46,6 +46,10 @@ bool asst::ReclamationConfig::verify_and_load_params(const json::value& params)
 
         case static_cast<int>(TalesMode::ProsperityInSave):
             m_mode = TalesMode::ProsperityInSave;
+            break;
+
+        case static_cast<int>(TalesMode::ResourceInSave):
+            m_mode = TalesMode::ResourceInSave;
             break;
 
         default:

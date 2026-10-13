@@ -1,0 +1,747 @@
+{
+    "Tales@RA@ResourceInSave": {
+        "doc": "有存档，通过推进天数刷物资和点数。支持从游戏主界面导航到沙洲遗闻，选择休养模式后继续已有存档；不会读档、删档或因点数达到上限而停止。",
+        "algorithm": "JustReturn",
+        "next": ["Tales@RA@RIS-Map", "Tales@RA@RIS-Navigation"]
+    },
+    "Tales@RA@RIS-Navigation": {
+        "algorithm": "JustReturn",
+        "doc": "参照通用生息演算导航，复用主界面终端主题适配、长期探索图标、公告关闭及返回任务。",
+        "next": [
+            "Tales@RA@RIS-Map",
+            "Tales@RA@RIS-Navigation-ThemeEntry",
+            "Tales@RA@RIS-Navigation-Modes",
+            "Tales@RA@RIS-Navigation-ThemeSelected",
+            "Tales@RA@RIS-Navigation-SelectTheme",
+            "Tales@RA@RIS-Navigation-AllThemes",
+            "Tales@RA@RIS-Navigation-LongTermExploration",
+            "Tales@RA@RIS-Navigation-FromMainInterface",
+            "Tales@RA@RIS-Navigation@ReturnButtons#next",
+            "Tales@RA@RIS-Navigation@StartUpThemes#next"
+        ]
+    },
+    "Tales@RA@RIS-Navigation@MainThemes": {
+        "next": [
+            "Tales@RA@RIS-Map",
+            "Tales@RA@RIS-Navigation-ThemeEntry",
+            "Tales@RA@RIS-Navigation-Modes",
+            "Tales@RA@RIS-Navigation-ThemeSelected",
+            "Tales@RA@RIS-Navigation-SelectTheme",
+            "Tales@RA@RIS-Navigation-AllThemes",
+            "Tales@RA@RIS-Navigation-LongTermExploration",
+            "Tales@RA@RIS-Navigation-FromMainInterface",
+            "Tales@RA@RIS-Navigation@CloseAnnos#next"
+        ]
+    },
+    "Tales@RA@RIS-Navigation-FromMainInterface": {
+        "baseTask": "RA@Navigation-FromMainInterface",
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "next": ["Tales@RA@RIS-Navigation#next"]
+    },
+    "Tales@RA@RIS-Navigation-LongTermExploration": {
+        "baseTask": "RA@Navigation-LongTermExploration",
+        "template": "Roguelike@IntegratedStrategies.png",
+        "next": ["Tales@RA@RIS-Navigation#next"]
+    },
+    "Tales@RA@RIS-Navigation-AllThemes": {
+        "algorithm": "OcrDetect",
+        "text": ["查看全部主题"],
+        "roi": [1024, 448, 256, 128],
+        "action": "ClickSelf",
+        "postDelay": 700,
+        "next": ["Tales@RA@RIS-Navigation#next"]
+    },
+    "Tales@RA@RIS-Navigation-SelectTheme": {
+        "algorithm": "OcrDetect",
+        "text": ["沙洲遗闻"],
+        "roi": [0, 320, 1280, 128],
+        "action": "ClickSelf",
+        "postDelay": 700,
+        "next": ["Tales@RA@RIS-Navigation-ThemeSelected"]
+    },
+    "Tales@RA@RIS-Navigation-ThemeSelected": {
+        "algorithm": "OcrDetect",
+        "doc": "核对当前选中主题的说明，避免误入默认选中的其他主题。",
+        "text": ["罗德岛将在舒巴特"],
+        "roi": [0, 512, 768, 128],
+        "action": "DoNothing",
+        "next": ["Tales@RA@RIS-Navigation-EnterTheme"]
+    },
+    "Tales@RA@RIS-Navigation-EnterTheme": {
+        "algorithm": "OcrDetect",
+        "text": ["进入主题"],
+        "roi": [1024, 576, 256, 128],
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "next": ["Tales@RA@RIS-Navigation-ThemeEntry"]
+    },
+    "Tales@RA@RIS-Navigation-ThemeEntry": {
+        "algorithm": "OcrDetect",
+        "text": ["沙洲遗闻"],
+        "roi": [896, 192, 256, 128],
+        "action": "DoNothing",
+        "next": ["Tales@RA@RIS-Navigation-OpenModes"]
+    },
+    "Tales@RA@RIS-Navigation-OpenModes": {
+        "baseTask": "Tales@RA@PIS-Resume",
+        "doc": "确认存在继续演算按钮后打开模式菜单，统一通过文字核对休养模式，不依赖入口小图标。",
+        "action": "ClickRect",
+        "specificRect": [872, 632, 16, 16],
+        "postDelay": 700,
+        "next": ["Tales@RA@RIS-Navigation-Modes"]
+    },
+    "Tales@RA@RIS-Navigation-Modes": {
+        "algorithm": "OcrDetect",
+        "text": ["休养模式"],
+        "roi": [192, 128, 256, 128],
+        "action": "DoNothing",
+        "next": ["Tales@RA@RIS-Navigation-RestModeSelected", "Tales@RA@RIS-Navigation-SelectRestMode"]
+    },
+    "Tales@RA@RIS-Navigation-RestModeSelected": {
+        "algorithm": "OcrDetect",
+        "text": ["当前模式"],
+        "roi": [192, 512, 256, 128],
+        "action": "ClickRect",
+        "doc": "休养模式已经选中，点击菜单外侧关闭；返回入口后再继续存档。",
+        "specificRect": [1200, 360, 1, 1],
+        "postDelay": 700,
+        "next": ["Tales@RA@RIS-Navigation-ModeReady"]
+    },
+    "Tales@RA@RIS-Navigation-SelectRestMode": {
+        "algorithm": "OcrDetect",
+        "text": ["选择"],
+        "roi": [192, 512, 256, 128],
+        "action": "ClickSelf",
+        "postDelay": 700,
+        "next": ["Tales@RA@RIS-Navigation-RestModeSelected", "Tales@RA@RIS-Navigation-ModeReady"]
+    },
+    "Tales@RA@RIS-Navigation-ModeReady": {
+        "baseTask": "Tales@RA@RIS-Navigation-ThemeEntry",
+        "doc": "确认模式菜单已关闭并返回沙洲遗闻入口，才允许继续演算。",
+        "next": ["Tales@RA@RIS-Navigation-Resume"]
+    },
+    "Tales@RA@RIS-Navigation-Resume": {
+        "baseTask": "Tales@RA@PIS-Resume",
+        "doc": "仅继续现有存档，不点击开始演算，也不删除或读取历史存档。",
+        "postDelay": 1000,
+        "next": ["Tales@RA@RIS-Map"]
+    },
+    "Tales@RA@RIS-Map": {
+        "template": "Tales@RA@RIS-QuestionMark.png",
+        "roi": [1088, 128, 192, 192],
+        "action": "DoNothing",
+        "next": ["Tales@RA@RIS-ReviewDay"]
+    },
+    "Tales@RA@RIS-ReviewDay": {
+        "algorithm": "JustReturn",
+        "doc": "插件读取天数，仅在 day % 3 == 1 时处理事件和商店。"
+    },
+    "Tales@RA@RIS-BeginEvents": {
+        "algorithm": "JustReturn",
+        "doc": "打开事件列表，保留当前列表位置；不读取事件总数。",
+        "next": ["Tales@RA@RIS-OpenEvents"]
+    },
+    "Tales@RA@RIS-OpenEvents": {
+        "template": "Tales@RA@RIS-QuestionMark.png",
+        "roi": [1088, 128, 192, 192],
+        "action": "ClickSelf",
+        "postDelay": 700,
+        "next": ["Tales@RA@RIS-EventsPanel"]
+    },
+    "Tales@RA@RIS-EventsPanel": {
+        "algorithm": "OcrDetect",
+        "text": ["特殊节点"],
+        "roi": [64, 64, 256, 64],
+        "action": "DoNothing",
+        "next": ["Tales@RA@RIS-ReviewEvents"]
+    },
+    "Tales@RA@RIS-ReviewEvents": {
+        "algorithm": "JustReturn",
+        "doc": "插件仅检查信使邮筒下方第一项；邮筒不可见时检查当前第一项。属于四种派遣事件则处理，否则开始炼金；不滚动列表。"
+    },
+    "Tales@RA@RIS-EventNames": {
+        "algorithm": "OcrDetect",
+        "text": ["狩闻匣", "信使邮筒", "别塔卜-阿帕卡里之疑", "乌胡米什的低语", "漫过布卢塔巴图", "向那穆图巴辛眺望"],
+        "roi": [128, 128, 256, 576],
+        "action": "DoNothing",
+        "binThreshold": [80, 255],
+        "binThreshold_Doc": "插件用此灰度范围检查 OCR 文字框，排除半透明事件面板透出的暗色地图文字；事件名仍在原图上识别。",
+        "ocrReplace": [
+            ["狩闻画", "狩闻匣"],
+            ["^别塔(卜|\\x7c[>\\x60]?)?-阿帕卡里之疑$", "别塔卜-阿帕卡里之疑"]
+        ]
+    },
+    "Tales@RA@RIS-ClickEvent": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [128, 128, 256, 576],
+        "postDelay": 1200,
+        "doc": "点击框由插件设置为已校验的可见事件文字范围。",
+        "next": ["Tales@RA@RIS-MapEvent"]
+    },
+    "Tales@RA@RIS-MapEvent": {
+        "algorithm": "OcrDetect",
+        "text": ["别塔卜-阿帕卡里之疑"],
+        "roi": [128, 128, 256, 576],
+        "action": "DoNothing",
+        "doc": "确认已选中的事件名称；匹配文字由插件设置，随后点击跳转提示打开详情。",
+        "ocrReplace": [
+            ["狩闻画", "狩闻匣"],
+            ["^别塔(卜|\\x7c[>\\x60]?)?-阿帕卡里之疑$", "别塔卜-阿帕卡里之疑"]
+        ],
+        "next": ["Tales@RA@RIS-JumpToEvent"]
+    },
+    "Tales@RA@RIS-JumpToEvent": {
+        "algorithm": "OcrDetect",
+        "text": ["点击跳转"],
+        "roi": [128, 128, 256, 576],
+        "action": "ClickSelf",
+        "postDelay": 2500,
+        "doc": "点击已选事件下方的跳转提示，避免长事件名末尾的点击未触发跳转。",
+        "next": ["Tales@RA@RIS-Experienced"]
+    },
+    "Tales@RA@RIS-Experienced": {
+        "algorithm": "OcrDetect",
+        "text": ["派点经验丰富的人"],
+        "roi": [768, 192, 448, 192],
+        "action": "ClickSelf",
+        "postDelay": 400,
+        "next": ["Tales@RA@RIS-ConfirmDispatch"]
+    },
+    "Tales@RA@RIS-ConfirmDispatch": {
+        "template": "Tales@RA@RIS-ChoiceConfirm.png",
+        "roi": [1088, 256, 128, 256],
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "next": ["Tales@RA@RIS-ReviewOperators"]
+    },
+    "Tales@RA@RIS-ReviewOperators": {
+        "algorithm": "JustReturn",
+        "doc": "插件确认第一列至少存在三张可用干员卡片。",
+        "next": ["Tales@RA@RIS-SelectFirstOperator"]
+    },
+    "Tales@RA@RIS-OperatorCard": {
+        "template": "Tales@RA@RIS-OperatorCard.png",
+        "roi": [640, 64, 128, 448],
+        "action": "DoNothing",
+        "templThreshold": 0.8
+    },
+    "Tales@RA@RIS-SelectFirstOperator": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [448, 128, 192, 64],
+        "postDelay": 500,
+        "next": ["Tales@RA@RIS-SelectSecondOperator"]
+    },
+    "Tales@RA@RIS-SelectSecondOperator": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [448, 256, 192, 64],
+        "postDelay": 500,
+        "next": ["Tales@RA@RIS-SelectThirdOperator"]
+    },
+    "Tales@RA@RIS-SelectThirdOperator": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [448, 384, 192, 64],
+        "postDelay": 500,
+        "next": ["Tales@RA@RIS-ReadyToDispatch"]
+    },
+    "Tales@RA@RIS-ReadyToDispatch": {
+        "algorithm": "JustReturn",
+        "postDelay": 500,
+        "next": ["Tales@RA@RIS-StartExpedition", "Tales@RA@RIS-ErrorOperators"]
+    },
+    "Tales@RA@RIS-StartExpedition": {
+        "template": "Tales@RA@RIS-ExpeditionReady.png",
+        "roi": [1024, 640, 256, 64],
+        "action": "ClickSelf",
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [170, 170, 0],
+                [255, 255, 200]
+            ]
+        ],
+        "templThreshold": 0.8,
+        "postDelay": 1200,
+        "next": ["Tales@RA@RIS-Acknowledgement"]
+    },
+    "Tales@RA@RIS-Acknowledgement": {
+        "algorithm": "OcrDetect",
+        "text": ["知道了"],
+        "roi": [768, 256, 448, 256],
+        "action": "ClickSelf",
+        "postDelay": 400,
+        "next": ["Tales@RA@RIS-ConfirmAcknowledgement"]
+    },
+    "Tales@RA@RIS-ConfirmAcknowledgement": {
+        "template": "Tales@RA@RIS-ChoiceConfirm.png",
+        "roi": [1088, 256, 128, 256],
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "next": ["Tales@RA@RIS-AfterExpedition"]
+    },
+    "Tales@RA@RIS-AfterExpedition": {
+        "algorithm": "JustReturn",
+        "doc": "插件记录已派遣的事件，重新打开列表检查第一项，防止反复派遣同一事件。",
+        "next": ["Tales@RA@RIS-BeginEvents"]
+    },
+    "Tales@RA@RIS-CloseEvents": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1228, 204, 12, 16],
+        "postDelay": 500,
+        "next": ["Tales@RA@RIS-EnterAssembly"]
+    },
+    "Tales@RA@RIS-EnterAssembly": {
+        "baseTask": "Tales@RA@Workbench",
+        "template": "Tales@RA@WorkbenchButton.png",
+        "postDelay": 1000,
+        "next": ["Tales@RA@RIS-Assembly"]
+    },
+    "Tales@RA@RIS-Assembly": {
+        "algorithm": "OcrDetect",
+        "text": ["组装台"],
+        "roi": [64, 0, 256, 64],
+        "action": "DoNothing",
+        "next": ["Tales@RA@RIS-OpenSmelter"]
+    },
+    "Tales@RA@RIS-OpenSmelter": {
+        "algorithm": "OcrDetect",
+        "text": ["冶铸台"],
+        "roi": [64, 384, 192, 64],
+        "action": "ClickSelf",
+        "postDelay": 700,
+        "next": ["Tales@RA@RIS-BeginSmelting"],
+        "ocrReplace": [["治铸台", "冶铸台"]]
+    },
+    "Tales@RA@RIS-BeginSmelting": {
+        "algorithm": "JustReturn",
+        "doc": "插件按铁矿石、石材、木材的顺序各炼金七份。"
+    },
+    "Tales@RA@RIS-SelectIronGold": {
+        "algorithm": "OcrDetect",
+        "text": ["粗制赤金"],
+        "roi": [416, 128, 128, 32],
+        "withoutDet": true,
+        "action": "ClickSelf",
+        "postDelay": 700,
+        "next": ["Tales@RA@RIS-SmeltingDialog"]
+    },
+    "Tales@RA@RIS-SelectStoneGold": {
+        "algorithm": "OcrDetect",
+        "text": ["粗制赤金"],
+        "roi": [896, 128, 320, 64],
+        "action": "ClickSelf",
+        "postDelay": 700,
+        "next": ["Tales@RA@RIS-SmeltingDialog"]
+    },
+    "Tales@RA@RIS-SelectWoodGold": {
+        "algorithm": "OcrDetect",
+        "text": ["粗制赤金"],
+        "roi": [416, 320, 320, 64],
+        "action": "ClickSelf",
+        "postDelay": 700,
+        "next": ["Tales@RA@RIS-SmeltingDialog"]
+    },
+    "Tales@RA@RIS-SmeltingDialog": {
+        "algorithm": "OcrDetect",
+        "text": ["粗制赤金"],
+        "roi": [544, 160, 192, 64],
+        "action": "DoNothing",
+        "next": ["Tales@RA@RIS-ReviewSmelting"]
+    },
+    "Tales@RA@RIS-ReviewSmelting": {
+        "algorithm": "JustReturn",
+        "doc": "插件核对冶炼份数，达到七份且产出为350赤金后才开始炼金。"
+    },
+    "Tales@RA@RIS-AddSmeltingBatch": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [928, 512, 32, 32],
+        "postDelay": 400,
+        "next": ["Tales@RA@RIS-ReviewSmelting"]
+    },
+    "Tales@RA@RIS-SmeltGold": {
+        "algorithm": "OcrDetect",
+        "text": ["开始炼金"],
+        "roi": [1024, 480, 256, 128],
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "next": ["Tales@RA@RIS-SmeltingResult"]
+    },
+    "Tales@RA@RIS-SmeltingResult": {
+        "baseTask": "Tales@RA@RIS-PurchaseResult",
+        "doc": "插件核对实际获得350赤金。",
+        "next": ["Tales@RA@RIS-DismissSmelting"]
+    },
+    "Tales@RA@RIS-DismissSmelting": {
+        "baseTask": "Tales@RA@RIS-DismissPurchase",
+        "next": ["Tales@RA@RIS-AfterSmelting"]
+    },
+    "Tales@RA@RIS-AfterSmelting": {
+        "algorithm": "OcrDetect",
+        "text": ["组装台"],
+        "roi": [64, 0, 256, 64],
+        "action": "DoNothing"
+    },
+    "Tales@RA@RIS-BeginShopping": {
+        "algorithm": "JustReturn",
+        "doc": "插件先购买第一行最后一格清水，再购买第二行最后一格澄亮石；两种商品共用购买任务链。"
+    },
+    "Tales@RA@RIS-WaterGoldPrice": {
+        "baseTask": "Tales@RA@RIS-GoldPrice",
+        "template": "Tales@RA@RIS-GoldPrice.png",
+        "roi": [1024, 256, 256, 64]
+    },
+    "Tales@RA@RIS-WaterSoldOut": {
+        "baseTask": "Tales@RA@RIS-SoldOut",
+        "template": "Tales@RA@RIS-SoldOut.png",
+        "roi": [1024, 256, 256, 64]
+    },
+    "Tales@RA@RIS-SelectWater": {
+        "algorithm": "OcrDetect",
+        "text": ["清水"],
+        "roi": [1024, 96, 256, 64],
+        "action": "ClickSelf",
+        "postDelay": 700,
+        "next": ["Tales@RA@RIS-PurchaseDialog"]
+    },
+    "Tales@RA@RIS-PurchaseDialog": {
+        "algorithm": "OcrDetect",
+        "text": ["澄亮石"],
+        "roi": [160, 128, 256, 64],
+        "action": "DoNothing",
+        "next": ["Tales@RA@RIS-ReviewPurchase"],
+        "doc": "匹配文字由插件设置为本次商品名称，核对已打开正确的购买弹窗。"
+    },
+    "Tales@RA@RIS-SmeltingBatchesOcr": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [816, 512, 64, 32],
+        "binThreshold": [200, 255],
+        "withoutDet": true,
+        "ocrReplace": [
+            ["份", ""],
+            [" ", ""]
+        ]
+    },
+    "Tales@RA@RIS-SmeltingOutputOcr": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [800, 464, 128, 32],
+        "binThreshold": [0, 120],
+        "withoutDet": true,
+        "ocrReplace": [
+            ["^.*数量", ""],
+            [" ", ""]
+        ]
+    },
+    "Tales@RA@RIS-PurchaseUnitOcr": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [960, 224, 128, 32],
+        "binThreshold": [100, 255],
+        "withoutDet": true,
+        "doc": "读取每份商品数量；例如清水每份15个，购买两份应获得30个。",
+        "ocrReplace": [
+            ["^[xX×]", ""],
+            [" ", ""]
+        ]
+    },
+    "Tales@RA@RIS-EnterExchange": {
+        "doc": "兼容组装台中的黑色图标和地图中的浅色图标，直接进入交易所。",
+        "template": ["Tales@RA@RIS-AssemblyExchangeButton.png", "Tales@RA@RIS-ExchangeButton.png"],
+        "roi": [736, 640, 80, 64],
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "next": ["Tales@RA@RIS-Exchange"]
+    },
+    "Tales@RA@RIS-Exchange": {
+        "algorithm": "OcrDetect",
+        "text": ["货品交易所"],
+        "roi": [64, 0, 256, 64],
+        "action": "DoNothing",
+        "next": ["Tales@RA@RIS-BeginShopping"]
+    },
+    "Tales@RA@RIS-ReviewExchange": {
+        "algorithm": "JustReturn",
+        "doc": "插件检查当前商品的售罄状态和金条价格标记，售罄则处理下一种商品。"
+    },
+    "Tales@RA@RIS-GoldPrice": {
+        "template": "Tales@RA@RIS-GoldPrice.png",
+        "roi": [1024, 448, 256, 128],
+        "action": "DoNothing",
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [200, 130, 0],
+                [255, 255, 100]
+            ]
+        ]
+    },
+    "Tales@RA@RIS-SoldOut": {
+        "template": "Tales@RA@RIS-SoldOut.png",
+        "roi": [1024, 448, 256, 128],
+        "action": "DoNothing"
+    },
+    "Tales@RA@RIS-SelectStone": {
+        "algorithm": "OcrDetect",
+        "text": ["澄亮石"],
+        "roi": [1024, 320, 256, 64],
+        "action": "ClickSelf",
+        "postDelay": 700,
+        "next": ["Tales@RA@RIS-PurchaseDialog"]
+    },
+    "Tales@RA@RIS-ReviewPurchase": {
+        "algorithm": "JustReturn",
+        "doc": "插件先读取剩余库存，购买数量达到实际库存后支付。"
+    },
+    "Tales@RA@RIS-AddPurchase": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1024, 368, 32, 32],
+        "postDelay": 400,
+        "next": ["Tales@RA@RIS-ReviewPurchase"]
+    },
+    "Tales@RA@RIS-Pay": {
+        "algorithm": "OcrDetect",
+        "text": ["确认支付"],
+        "roi": [768, 512, 320, 64],
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "onErrorNext": ["Tales@RA@RIS-ErrorPurchase"],
+        "next": ["Tales@RA@RIS-PurchaseResult"]
+    },
+    "Tales@RA@RIS-PurchaseResult": {
+        "algorithm": "OcrDetect",
+        "text": ["获得物资"],
+        "roi": [512, 192, 256, 128],
+        "action": "DoNothing",
+        "doc": "插件核对实际获得的数量等于购买份数乘以每份商品数量。",
+        "next": ["Tales@RA@RIS-DismissPurchase"]
+    },
+    "Tales@RA@RIS-DismissPurchase": {
+        "algorithm": "OcrDetect",
+        "text": ["点击空白处继续"],
+        "roi": [512, 384, 256, 128],
+        "action": "ClickSelf",
+        "postDelay": 700,
+        "next": ["Tales@RA@RIS-VerifySoldOut"]
+    },
+    "Tales@RA@RIS-VerifySoldOut": {
+        "algorithm": "JustReturn",
+        "doc": "插件核对当前商品已售罄；清水购买后继续购买澄亮石，随后退出商店。"
+    },
+    "Tales@RA@RIS-LeaveExchange": {
+        "algorithm": "OcrDetect",
+        "text": ["货品交易所"],
+        "roi": [64, 0, 256, 64],
+        "action": "ClickRect",
+        "specificRect": [16, 16, 16, 32],
+        "postDelay": 700,
+        "next": ["Tales@RA@RIS-SkipActs"]
+    },
+    "Tales@RA@RIS-SkipActs": {
+        "algorithm": "JustReturn",
+        "next": ["Tales@RA@RIS-NextDay", "Tales@RA@RIS-OpenDay"]
+    },
+    "Tales@RA@RIS-OpenDay": {
+        "template": "Tales@RA@RIS-QuestionMark.png",
+        "roi": [1088, 128, 192, 192],
+        "action": "ClickRect",
+        "specificRect": [1120, 80, 128, 32],
+        "postDelay": 500,
+        "next": ["Tales@RA@RIS-SkipTime"]
+    },
+    "Tales@RA@RIS-SkipTime": {
+        "algorithm": "OcrDetect",
+        "text": ["消磨时间"],
+        "roi": [1024, 64, 256, 128],
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "next": ["Tales@RA@RIS-ConfirmSkip"]
+    },
+    "Tales@RA@RIS-ConfirmSkip": {
+        "algorithm": "OcrDetect",
+        "text": ["确认"],
+        "roi": [832, 448, 256, 64],
+        "action": "ClickSelf",
+        "postDelay": 1200,
+        "next": ["Tales@RA@RIS-NextDay"]
+    },
+    "Tales@RA@RIS-NextDay": {
+        "template": "Tales@RA@RIS-NextDay.png",
+        "roi": [1120, 32, 112, 112],
+        "action": "ClickSelf",
+        "postDelay": 2500,
+        "next": ["Tales@RA@RIS-DailySettlement", "Tales@RA@RIS-CycleSettlement"]
+    },
+    "Tales@RA@RIS-DailySettlement": {
+        "template": "Tales@RA@RIS-DailyConfirm.png",
+        "roi": [576, 512, 128, 128],
+        "action": "ClickSelf",
+        "postDelay": 1500,
+        "next": ["Tales@RA@RIS-Map"]
+    },
+    "Tales@RA@RIS-CycleSettlement": {
+        "algorithm": "OcrDetect",
+        "text": ["点击任意处继续"],
+        "roi": [512, 576, 256, 128],
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "next": ["Tales@RA@RIS-ReviewSupplies"]
+    },
+    "Tales@RA@RIS-ReviewSupplies": {
+        "algorithm": "OcrDetect",
+        "text": ["开启今日"],
+        "roi": [448, 512, 384, 128],
+        "action": "DoNothing",
+        "doc": "插件在饮料持有量小于等于99时进入烹饪，否则开启今日。"
+    },
+    "Tales@RA@RIS-OpenCooking": {
+        "algorithm": "OcrDetect",
+        "text": ["开启今日"],
+        "roi": [448, 512, 384, 128],
+        "action": "ClickRect",
+        "specificRect": [912, 448, 16, 16],
+        "postDelay": 700,
+        "next": ["Tales@RA@RIS-Cooking"]
+    },
+    "Tales@RA@RIS-Cooking": {
+        "algorithm": "OcrDetect",
+        "text": ["烹饪台"],
+        "roi": [64, 0, 256, 64],
+        "action": "DoNothing",
+        "next": ["Tales@RA@RIS-ReviewCooking"]
+    },
+    "Tales@RA@RIS-ReviewCooking": {
+        "algorithm": "JustReturn",
+        "doc": "插件核对已准备数量。仅长按第一种食材；无食材或数量不再增加则报错。"
+    },
+    "Tales@RA@RIS-AddIngredient": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [765, 205, 1, 1],
+        "rectMove": [765, 205, 1, 1],
+        "specialParams": [1000, 0, 10, 10],
+        "postDelay": 400,
+        "next": ["Tales@RA@RIS-ReviewCooking"]
+    },
+    "Tales@RA@RIS-Cook": {
+        "algorithm": "OcrDetect",
+        "text": ["开始烹饪"],
+        "roi": [960, 512, 320, 128],
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "next": ["Tales@RA@RIS-CookingResult"]
+    },
+    "Tales@RA@RIS-CookingResult": {
+        "algorithm": "OcrDetect",
+        "text": ["获得物资"],
+        "roi": [512, 192, 256, 128],
+        "action": "DoNothing",
+        "doc": "插件核对实际获得99瓶能量饮料。",
+        "next": ["Tales@RA@RIS-DismissCooking"]
+    },
+    "Tales@RA@RIS-DismissCooking": {
+        "algorithm": "OcrDetect",
+        "text": ["点击空白处继续"],
+        "roi": [512, 384, 256, 128],
+        "action": "ClickSelf",
+        "postDelay": 700,
+        "next": ["Tales@RA@RIS-LeaveCooking"]
+    },
+    "Tales@RA@RIS-LeaveCooking": {
+        "algorithm": "OcrDetect",
+        "text": ["烹饪台"],
+        "roi": [64, 0, 256, 64],
+        "action": "ClickRect",
+        "specificRect": [16, 16, 16, 32],
+        "postDelay": 700,
+        "next": ["Tales@RA@RIS-AfterCooking"]
+    },
+    "Tales@RA@RIS-AfterCooking": {
+        "algorithm": "OcrDetect",
+        "text": ["开启今日"],
+        "roi": [448, 512, 384, 128],
+        "action": "DoNothing",
+        "doc": "插件要求持有量恰好增加99瓶。",
+        "next": ["Tales@RA@RIS-StartToday"]
+    },
+    "Tales@RA@RIS-StartToday": {
+        "algorithm": "OcrDetect",
+        "text": ["开启今日"],
+        "roi": [448, 512, 384, 128],
+        "action": "ClickSelf",
+        "postDelay": 1500,
+        "next": ["Tales@RA@RIS-Map"]
+    },
+    "Tales@RA@RIS-ErrorOperators": {
+        "algorithm": "JustReturn",
+        "doc": "插件记录错误、停用流程任务，并向整个任务链传播失败。"
+    },
+    "Tales@RA@RIS-ErrorPurchase": {
+        "algorithm": "JustReturn",
+        "doc": "插件记录错误、停用流程任务，并向整个任务链传播失败。"
+    },
+    "Tales@RA@RIS-DayOcr": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [1120, 80, 112, 32],
+        "doc": "仅识别天数数字，排除右侧进度圆弧和箭头，避免圆弧被误读成额外数字；保留四位天数的空间。",
+        "withoutDet": true
+    },
+    "Tales@RA@RIS-PurchaseStockOcr": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [800, 432, 192, 32],
+        "binThreshold": [100, 255],
+        "withoutDet": true,
+        "doc": "读取购买弹窗中的灰色剩余库存文字，保留多位数量的空间，去除数量前的剩余文字。",
+        "ocrReplace": [
+            ["^.*剩余", ""],
+            [" ", ""]
+        ]
+    },
+    "Tales@RA@RIS-PurchaseAmountOcr": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [800, 352, 192, 64],
+        "binThreshold": [200, 255],
+        "doc": "在加减按钮之间识别完整的多位数量；仅保留白色文字，排除浅灰色数量框背景，避免数字 1 被识别为 100。",
+        "withoutDet": true
+    },
+    "Tales@RA@RIS-RewardAmountOcr": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [672, 384, 32, 32],
+        "withoutDet": true
+    },
+    "Tales@RA@RIS-SmeltingRewardOcr": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [656, 384, 64, 32],
+        "doc": "读取350赤金的完整三位奖励数量，避免沿用购买奖励的窄框而丢失首位。",
+        "withoutDet": true
+    },
+    "Tales@RA@RIS-PreparedDrinksOcr": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [416, 560, 48, 32],
+        "withoutDet": true
+    },
+    "Tales@RA@RIS-FirstIngredientOcr": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [768, 240, 80, 32],
+        "withoutDet": true
+    },
+    "Tales@RA@RIS-HeldDrinksOcr": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [816, 432, 80, 48],
+        "doc": "识别持有文字和数量，排除右侧加号按钮圆边，避免识别结果带有括号。",
+        "withoutDet": true,
+        "ocrReplace": [
+            ["^.*持有", ""],
+            ["\\+", ""],
+            [" ", ""]
+        ]
+    }
+}

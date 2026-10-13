@@ -17,6 +17,7 @@ enum class TalesMode
 {
     ProsperityNoSave = 0, // 0 - 无存档刷繁荣点数
     ProsperityInSave = 1, // 1 - 有存档刷繁荣点数
+    ResourceInSave = 2,   // 2 - 有存档，通过推进天数刷物资和点数
 };
 
 enum class RelaunchAnchorMode
