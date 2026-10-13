@@ -245,17 +245,21 @@ bool asst::InfrastTrainingTask::custom_shift()
     };
 
     if (*status == TrainingStatus::Processing) {
-        // 专精训练期间训练位干员锁定，只按配置更换协助者
+        // 专精训练期间训练位干员锁定，只按配置更换协助者；
+        // 设施页底部只能读状态，选人等操作都在左下角 tab 切换后的专精页上
         LogInfo << "training in progress, only change the assistant";
+        click_bottom_left_tab();
         change_assistant();
         return true;
     }
 
+    bool on_mastery_page = false;
     if (m_continue_training && *status == TrainingStatus::Completed && m_level != 3) {
         // Completed 的领取点击已由 analyze_status 内的 training_completed 完成，训练位上仍是刚练完
         // 的干员。继续训练与 _run 默认分支同源、独立复刻（保持默认流程不动），
         // 材料不足等原因导致点不动时，自然回落到按配置换人
         click_bottom_left_tab();
+        on_mastery_page = true;
         FeatureMatcher choose_skill_analyzer(ctrler()->get_image());
         choose_skill_analyzer.set_task_info("InfrastTrainingChooseSkillRec");
         choose_skill_analyzer.set_templ(m_skill_img);
@@ -269,7 +273,11 @@ bool asst::InfrastTrainingTask::custom_shift()
         LogInfo << "continue training not available, fall back to custom shift";
     }
 
-    // 空闲或未开启继续训练：按配置进驻训练位干员，只换人不开新训
+    if (!on_mastery_page) {
+        click_bottom_left_tab();
+    }
+
+    // 空闲、未开启继续训练或继续训练失败回落：按配置进驻训练位干员，只换人不开新训
     change_trainee();
     change_assistant();
     return true;
@@ -284,66 +292,76 @@ void asst::InfrastTrainingTask::change_trainee()
         return;
     }
 
-    // 无论训练位当前有没有干员都点击进入选择
-    ProcessTask(*this, { "InfrastTrainingSelectTrainee" }).run();
-
-    // 训练位选择面板与快速编队同一套 UI：展开职业栏后回到 ｢全部｣，不做职业筛选，从第一页按列表顺序扫描
-    if (ProcessTask(*this, { "BattleQuickFormationExpandRole" }).set_retry_times(3).run()) {
-        sleep(500); // 等待职业栏展开动画结束
-    }
-    ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).set_retry_times(0).run();
-
     // trainee_names 是候选池：按选择列表顺序取第一个出现的干员（专精全满的不在列表中，等效跳过）
     const auto& trainee_names = current_room_config().trainee_names;
     const int delay = Task.get("BattleQuickFormationOCR")->post_delay;
-    std::string last_oper_name;
-    int unchanged_pages = 0;
-    int swiped_pages = 0;
     bool found = false;
-    while (!need_exit()) {
-        const auto opers_result = oper_progress::analyze_formation_opers(ctrler()->get_image());
-        // 页面有效 = 能识别到干员，且末位干员与上一页不同（相同说明列表已滑到底未移动）
-        const bool page_moved =
-            !opers_result.empty() && (last_oper_name.empty() || last_oper_name != opers_result.back().name);
-        if (!page_moved) {
-            // 连续两轮识别无位移判定已到列表末尾；等待滑动动画结束后再认一次，排除回弹误判
-            if (++unchanged_pages >= 2) {
+    // 名单确定性缺失（专精全满）扫一遍即知，再试一轮只兜 OCR 偶发漏识别
+    for (int attempt = 0; attempt < 2 && !found && !need_exit(); ++attempt) {
+        // 无论训练位当前有没有干员都点击进入选择
+        ProcessTask(*this, { "InfrastTrainingSelectTrainee" }).run();
+
+        // 训练位选择面板与快速编队同一套 UI：展开职业栏后回到 ｢全部｣ ，不做职业筛选，从第一页按列表顺序扫描
+        if (ProcessTask(*this, { "BattleQuickFormationExpandRole" }).set_retry_times(3).run()) {
+            sleep(500); // 等待职业栏展开动画结束
+        }
+        ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" })
+            .set_retry_times(0)
+            .run();
+
+        std::string last_oper_name;
+        int unchanged_pages = 0;
+        int swiped_pages = 0;
+        while (!need_exit()) {
+            const auto opers_result = oper_progress::analyze_formation_opers(ctrler()->get_image());
+            // 页面有效 = 能识别到干员，且末位干员与上一页不同（相同说明列表已滑到底未移动）
+            const bool page_moved =
+                !opers_result.empty() && (last_oper_name.empty() || last_oper_name != opers_result.back().name);
+            if (!page_moved) {
+                // 连续两轮识别无位移判定已到列表末尾；等待滑动动画结束后再认一次，排除回弹误判
+                if (++unchanged_pages >= 2) {
+                    break;
+                }
+                sleep(500);
+                continue;
+            }
+            unchanged_pages = 0;
+            last_oper_name = opers_result.back().name;
+
+            const auto target =
+                std::ranges::find_if(opers_result, [&trainee_names](const oper_progress::QuickFormationOperInfo& oper) {
+                    return std::ranges::find(trainee_names, oper.name) != trainee_names.cend();
+                });
+            if (target != opers_result.cend()) {
+                if (!target->selected) {
+                    ctrler()->click(target->flag_rect);
+                    sleep(delay);
+                }
+                found = true;
                 break;
             }
-            sleep(500);
-            continue;
-        }
-        unchanged_pages = 0;
-        last_oper_name = opers_result.back().name;
-
-        const auto target =
-            std::ranges::find_if(opers_result, [&trainee_names](const oper_progress::QuickFormationOperInfo& oper) {
-                return std::ranges::find(trainee_names, oper.name) != trainee_names.cend();
-            });
-        if (target != opers_result.cend()) {
-            if (!target->selected) {
-                ctrler()->click(target->flag_rect);
-                sleep(delay);
+            if (++swiped_pages > MaxOperatorPages) {
+                LogWarn << "trainee selection swiped too many pages, give up";
+                break;
             }
-            found = true;
-            break;
+            ProcessTask(*this, { "BattleFormationOperListSlowlySwipeToTheRight" }).run();
         }
-        if (++swiped_pages > MaxOperatorPages) {
-            LogWarn << "trainee selection swiped too many pages, give up";
-            break;
-        }
-        ProcessTask(*this, { "BattleFormationOperListSlowlySwipeToTheRight" }).run();
-    }
 
-    // 未命中时空选确认同样用于关闭面板
-    ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).set_retry_times(0).run();
-    ProcessTask(*this, { "InfrastCloseQuickFormationExpandRole", "Stop" }).run();
-    if (!ProcessTask(*this, { "BattleQuickFormationConfirm" }).set_retry_times(0).run() && found) {
-        LogWarn << "failed to confirm trainee selection";
+        // 未命中时空选确认同样用于关闭面板
+        ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" })
+            .set_retry_times(0)
+            .run();
+        ProcessTask(*this, { "InfrastCloseQuickFormationExpandRole", "Stop" }).run();
+        if (!ProcessTask(*this, { "BattleQuickFormationConfirm" }).set_retry_times(0).run() && found) {
+            LogWarn << "failed to confirm trainee selection";
+        }
     }
 
     if (!found) {
         LogWarn << "no candidate in the trainee selection list";
+        json::value info = basic_info_with_what("CustomInfrastTraineeNotFound");
+        info["details"]["candidates"] = json::array(trainee_names);
+        callback(AsstMsg::SubTaskExtraInfo, info);
     }
 }
 
@@ -380,8 +398,7 @@ bool asst::InfrastTrainingTask::select_assistant()
         LogWarn << "no candidate in the assistant selection list";
     }
 
-    if (!ProcessTask(*this, { "InfrastDormConfirmButton" }).run() ||
-        !ProcessTask(*this, { "InfrastTrainingMasteryPage" }).run()) {
+    if (!ProcessTask(*this, { "InfrastTrainingAssistantConfirm" }).run()) {
         LogWarn << "failed to confirm assistant selection";
         return false;
     }

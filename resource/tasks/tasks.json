@@ -4104,6 +4104,16 @@
         "specificRect": [145, 148, 142, 122],
         "postDelay": 800
     },
+    "InfrastTrainingAssistantConfirm": {
+        "baseTask": "InfrastDormConfirmButton",
+        "next": [
+            "InfrastDormConfirmButtonWait",
+            "InfrastDormDoubleConfirmButton",
+            "InfrastTrainingMasteryPage",
+            "Stop"
+        ],
+        "doc": "训练室协助者确认：复用宿舍确认按钮，确认后等待回至专精页"
+    },
     "InfrastTrainingProcessing": {
         "baseTask": "InfrastTrainingIdle",
         "text": ["进度"]
