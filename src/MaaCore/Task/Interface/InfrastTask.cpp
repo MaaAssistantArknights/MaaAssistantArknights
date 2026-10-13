@@ -398,25 +398,30 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
                 }
             }
 
-            // 训练室的双槽位字段：operatorsA 为训练位干员候选池，operatorsB 为协助者候选池，其余设施不消费
-            if (auto trainees_opt = room_info.find<json::array>("operatorsA")) {
-                for (const auto& trainee_name : trainees_opt.value()) {
-                    std::string name = trainee_name.as_string();
-                    if (name.empty()) {
-                        LogWarn << "operatorsA.name is empty";
-                        continue;
+            // 训练室的双槽位字段：operatorsA 为训练位干员候选池，operatorsB 为协助者候选池，仅训练室解析。
+            // 与 is_room_config_without_intent 的空意图判定联动，必须只在训练室解析：
+            // 其他设施误写这两个字段时不解析、trainee_names/assistant_names 恒空，误写房间仍判空意图保持原样；
+            // 若无条件解析，空意图判定会把误写 operatorsA 的房间翻成 Shift，走默认算法整房换血
+            if (facility == "training") {
+                if (auto trainees_opt = room_info.find<json::array>("operatorsA")) {
+                    for (const auto& trainee_name : trainees_opt.value()) {
+                        std::string name = trainee_name.as_string();
+                        if (name.empty()) {
+                            LogWarn << "operatorsA.name is empty";
+                            continue;
+                        }
+                        room_config.trainee_names.emplace_back(std::move(name));
                     }
-                    room_config.trainee_names.emplace_back(std::move(name));
                 }
-            }
-            if (auto assistants_opt = room_info.find<json::array>("operatorsB")) {
-                for (const auto& assistant_name : assistants_opt.value()) {
-                    std::string name = assistant_name.as_string();
-                    if (name.empty()) {
-                        LogWarn << "operatorsB.name is empty";
-                        continue;
+                if (auto assistants_opt = room_info.find<json::array>("operatorsB")) {
+                    for (const auto& assistant_name : assistants_opt.value()) {
+                        std::string name = assistant_name.as_string();
+                        if (name.empty()) {
+                            LogWarn << "operatorsB.name is empty";
+                            continue;
+                        }
+                        room_config.assistant_names.emplace_back(std::move(name));
                     }
-                    room_config.assistant_names.emplace_back(std::move(name));
                 }
             }
             facility_config.emplace_back(std::move(room_config));

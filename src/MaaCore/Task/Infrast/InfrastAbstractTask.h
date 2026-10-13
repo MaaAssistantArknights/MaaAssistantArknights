@@ -71,7 +71,9 @@ protected:
     // current_room_config() 越界时返回 static empty，与界内但字段全空的配置同形，需要区分两者时用本方法判定
     bool is_room_config_specified() const;
     // 房间对象存在但没有给出任何选人意图（operators/candidates 为空或缺失、未配置 autofill 与编组引用）时
-    // 保持房间原样，不回落默认算法自动选人；编组引用名占位于 names，names 非空即排除，函数本身不查 operator_groups
+    // 保持房间原样，不回落默认算法自动选人；编组引用名占位于 names，names 非空即排除，函数本身不查 operator_groups；
+    // 训练室双槽位字段 operatorsA/operatorsB 解析进 trainee_names/assistant_names（仅训练室解析，其余设施恒空），
+    // 任一非空即视为有换人意图，同样排除空意图
     bool is_room_config_without_intent() const;
     // 判定保持房间原样时的统一通知：发 CustomInfrastRoomKeptUnchanged 回调与日志
     void notify_room_kept_unchanged();

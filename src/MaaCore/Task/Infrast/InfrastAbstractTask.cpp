@@ -321,8 +321,11 @@ bool asst::InfrastAbstractTask::is_room_config_specified() const
 
 bool asst::InfrastAbstractTask::is_room_config_without_intent() const
 {
+    // trainee_names / assistant_names 仅由训练室解析（见 InfrastTask 的配置解析），
+    // 任一非空即视为有换人意图；其余设施这两个字段恒空，不影响判定
     return is_room_config_specified() && !current_room_config().skip && current_room_config().names.empty() &&
-           current_room_config().candidates.empty() && !current_room_config().autofill;
+           current_room_config().candidates.empty() && current_room_config().trainee_names.empty() &&
+           current_room_config().assistant_names.empty() && !current_room_config().autofill;
 }
 
 asst::RoomShiftIntent asst::InfrastAbstractTask::check_room_shift_intent() const
@@ -451,7 +454,14 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
         order_opers_selection(opers_order);
     }
 
-    if (!room_config.names.empty() || (!is_dorm_order && !select_opers_review(origin_room_config))) {
+    // 纯候补配置（names 为空、candidates 非空）选上 0 人时显式判失败：基线在复核层发现选中者工作中而整体失败，
+    // 选人阶段排除工作中后 0 人须判失败，否则复核对空 names 全放行、确认后清空整房换成 0 人。
+    // 训练室协助者场景（is_assistant_select）0 人是设计行为（空选确认关闭面板保持现任协助者），须排除；
+    // 宿舍（is_dorm_order）跳过复核，纯候补 0 人由本判定统一兜底为失败
+    const bool pure_candidates_selected_none = !is_assistant_select && origin_room_config.names.empty() &&
+                                               !origin_room_config.candidates.empty() && room_config.selected == 0;
+    if (!room_config.names.empty() || pure_candidates_selected_none ||
+        (!is_dorm_order && !select_opers_review(origin_room_config))) {
         // 复核失败，说明current_room_config与OCR识别是不符的，current_room_config是无效信息，还原到用户原来的配置，重选
         current_room_config() = std::move(origin_room_config);
         return false;
