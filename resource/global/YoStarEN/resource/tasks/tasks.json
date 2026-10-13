@@ -317,10 +317,6 @@
         "text": ["Deployment Cost"],
         "roi": [996, 443, 222, 125]
     },
-    "BattleQuickFormationRole-All-OCR": {
-        "text": ["All"],
-        "ocrReplace": []
-    },
     "BattleQuickFormationOCR": {
         "rectMove": [0, 234, 116, 22],
         "specialParams": [105, 2, 7, 0, 3, 10]
