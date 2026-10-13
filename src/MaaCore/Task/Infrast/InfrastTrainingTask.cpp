@@ -21,17 +21,7 @@ bool asst::InfrastTrainingTask::_run()
 {
     m_all_available_opers.clear();
 
-    if (is_facility_config_empty()) {
-        LogInfo << "custom room array is empty, keep facility unchanged";
-        return true;
-    }
-
     set_product("SkillLevel");
-
-    if (m_is_custom && current_room_config().skip) {
-        LogInfo << "skip this room";
-        return true;
-    }
 
     swipe_to_the_left_of_main_ui();
 
@@ -233,43 +223,69 @@ bool asst::InfrastTrainingTask::custom_shift()
 {
     LogTraceFunction;
 
+    // 任何环节失败统一返回 false，由 _run 沿 TaskRetryTimes 重跑：重跑从 analyze_status 重新识别状态，
+    // 继续训练已点的房间重入时进入 Processing 分支天然跳过换训练位；协助者选择重入时重做一遍、结果幂等
+
     auto status = analyze_status();
     if (!status) {
         return false;
     }
 
-    // 协助者是增益项，选择失败只告警，不阻断训练室处理
+    // 换班意图一次判定（KeepUnchanged 时基类内部已发通知，Skip 只记日志，本房间不再重复调用）；
+    // 继续训练是独立于排班表的设施级选项，空数组 / skip / 空意图只拦换人，与会客室线索流程同构
+    const bool shift_opers = check_room_shift_intent() == RoomShiftIntent::Shift;
+
+    // 点 tab 后实测确认已到专精页：专精页上的选人入口都是固定坐标点击，未确认就点等于盲点
+    const auto enter_mastery_page = [this]() {
+        click_bottom_left_tab();
+        if (!wait_for_mastery_page()) {
+            LogWarn << "failed to enter the mastery page";
+            return false;
+        }
+        return true;
+    };
+
+    // 协助者选择失败视为房间处理失败，交由 _run 的重跑链重试
     const auto change_assistant = [this]() {
         if (!select_assistant()) {
             LogWarn << "assistant selection failed";
+            return false;
         }
+        return true;
     };
 
     if (*status == TrainingStatus::Processing) {
+        if (!shift_opers) {
+            // 非换班意图：训练中无人可换，专精页与协助者都不动
+            return true;
+        }
         // 专精训练期间训练位干员锁定，只按配置更换协助者；
         // 设施页底部只能读状态，选人等操作都在左下角 tab 切换后的专精页上
         LogInfo << "training in progress, only change the assistant";
-        click_bottom_left_tab();
-        change_assistant();
-        return true;
+        if (!enter_mastery_page()) {
+            return false;
+        }
+        return change_assistant();
     }
 
-    bool on_mastery_page = false;
     if (m_continue_training && *status == TrainingStatus::Completed && m_level != 3) {
         // Completed 的领取点击已由 analyze_status 内的 training_completed 完成，训练位上仍是刚练完
         // 的干员。逻辑独立复刻自 _run 默认分支，保持默认流程不动，
         // 材料不足等原因导致点不动时，自然回落到按配置换人
-        click_bottom_left_tab();
-        on_mastery_page = true;
+        if (!enter_mastery_page()) {
+            return false;
+        }
         FeatureMatcher choose_skill_analyzer(ctrler()->get_image());
         choose_skill_analyzer.set_task_info("InfrastTrainingChooseSkillRec");
         choose_skill_analyzer.set_templ(m_skill_img);
         const bool continued = choose_skill_analyzer.analyze() &&
                                continue_train(skill_index_from_rect(choose_skill_analyzer.get_result().front().rect));
         if (continued) {
-            // 继续专精开训后训练位同样锁定
-            change_assistant();
-            return true;
+            // 继续专精开训后训练位同样锁定；非换班意图不换协助者
+            if (!shift_opers) {
+                return true;
+            }
+            return change_assistant();
         }
         // 点继续训练但确认点不动时界面停在材料消耗面板上，识别到面板先关闭再回落换人；
         // 识别不到（仅按钮未命中、仍在专精页）不点返回，避免误退到设施页
@@ -281,23 +297,29 @@ bool asst::InfrastTrainingTask::custom_shift()
         LogInfo << "continue training not available, fall back to custom shift";
     }
 
-    if (!on_mastery_page) {
-        click_bottom_left_tab();
+    if (!shift_opers) {
+        // 非换班意图到此为止：继续训练已照做（或无训练可继续），人不动
+        return true;
     }
 
-    // 空闲、未开启继续训练或继续训练失败回落：按配置进驻训练位干员，只换人不开新训
-    change_trainee();
-    change_assistant();
-    return true;
+    // 空闲、未开启继续训练或继续训练失败回落：按配置进驻训练位干员，只换人不开新训；
+    // 是否已在专精页不做推断，统一点 tab 后实测验证
+    if (!enter_mastery_page()) {
+        return false;
+    }
+    if (!change_trainee()) {
+        return false;
+    }
+    return change_assistant();
 }
 
-void asst::InfrastTrainingTask::change_trainee()
+bool asst::InfrastTrainingTask::change_trainee()
 {
     LogTraceFunction;
 
     if (current_room_config().trainee_names.empty()) {
         LogInfo << "no trainee configured";
-        return;
+        return true;
     }
 
     // trainee_names 是候选池：按选择列表顺序取第一个出现的干员（专精全满的不在列表中，等效跳过）
@@ -363,11 +385,13 @@ void asst::InfrastTrainingTask::change_trainee()
         if (!ProcessTask(*this, { "BattleQuickFormationConfirm" }).set_retry_times(0).run() && found) {
             LogWarn << "failed to confirm trainee selection";
         }
-    }
 
-    // 空选关闭或确认选择后等待回到专精页，后续协助者选择依赖专精页坐标
-    if (!ProcessTask(*this, { "InfrastTrainingMasteryPage" }).set_retry_times(10).run()) {
-        LogWarn << "failed to return to mastery page after trainee selection";
+        // 每轮关闭/确认面板后实测等待回到专精页：第二轮的打开按钮与后续协助者选择都是
+        // 专精页上的固定坐标点击，不等返回就点等于盲点
+        if (!wait_for_mastery_page()) {
+            LogWarn << "failed to return to mastery page after trainee selection";
+            return false;
+        }
     }
 
     if (!found) {
@@ -376,6 +400,14 @@ void asst::InfrastTrainingTask::change_trainee()
         info["details"]["candidates"] = json::array(trainee_names);
         callback(AsstMsg::SubTaskExtraInfo, info);
     }
+    return true;
+}
+
+bool asst::InfrastTrainingTask::wait_for_mastery_page()
+{
+    LogTraceFunction;
+    // OCR 识别 ｢协助者｣ 文字即视为当前在专精页，作为切 tab、关面板等固定坐标点击后的统一实测依据
+    return ProcessTask(*this, { "InfrastTrainingMasteryPage" }).set_retry_times(10).run();
 }
 
 bool asst::InfrastTrainingTask::select_assistant()
