@@ -28,6 +28,11 @@ bool asst::InfrastProcessingTask::_run()
         return true;
     }
 
+    if (m_is_custom && current_room_config().skip) {
+        LogInfo << "skip this room";
+        return true;
+    }
+
     // 不是自定义的也换不了加工站
     if (!is_use_custom_opers()) {
         Log.info("skip this room");
@@ -35,11 +40,6 @@ bool asst::InfrastProcessingTask::_run()
     }
     // 加工站，啥也造不了，随便写一个
     set_product("Placeholder");
-
-    if (current_room_config().skip) {
-        Log.info("skip this room");
-        return true;
-    }
 
     swipe_to_the_left_of_main_ui();
     if (!enter_facility()) {

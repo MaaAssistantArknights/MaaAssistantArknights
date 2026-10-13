@@ -8,29 +8,28 @@ bool asst::InfrastOfficeTask::_run()
 {
     m_all_available_opers.clear();
 
-    // 办公室只能造这一个
-    set_product("HR");
-    if (m_is_custom && current_room_config().skip) {
-        LogInfo << "skip this room";
-        return true;
-    }
     if (is_facility_config_empty()) {
         LogInfo << "custom room array is empty, keep facility unchanged";
         return true;
     }
+    if (m_is_custom && current_room_config().skip) {
+        LogInfo << "skip this room";
+        return true;
+    }
+    if (is_room_config_without_intent()) {
+        notify_room_kept_unchanged();
+        return true;
+    }
+
+    // 办公室只能造这一个
+    set_product("HR");
+
     swipe_to_the_left_of_main_ui();
     if (!enter_facility()) {
         swipe_to_right_of_main_ui();
         if (!enter_facility()) {
             return false;
         }
-    }
-
-    if (is_room_config_without_intent()) {
-        LogInfo << "room config exists but no operator selection intent, keep room unchanged";
-        json::value info = basic_info_with_what("CustomInfrastRoomKeptUnchanged");
-        callback(AsstMsg::SubTaskExtraInfo, info);
-        return true;
     }
 
     if (!enter_oper_list_page()) {

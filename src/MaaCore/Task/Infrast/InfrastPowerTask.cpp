@@ -26,10 +26,7 @@ bool asst::InfrastPowerTask::_run()
         }
 
         if (is_room_config_without_intent()) {
-            LogInfo << "room config exists but no operator selection intent, keep room unchanged" << facility_name()
-                    << m_cur_facility_index;
-            json::value info = basic_info_with_what("CustomInfrastRoomKeptUnchanged");
-            callback(AsstMsg::SubTaskExtraInfo, info);
+            notify_room_kept_unchanged();
             continue;
         }
 

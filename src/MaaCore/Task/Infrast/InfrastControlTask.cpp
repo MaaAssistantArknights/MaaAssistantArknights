@@ -9,28 +9,28 @@ bool asst::InfrastControlTask::_run()
 {
     m_all_available_opers.clear();
 
-    // 控制中枢只能造这一个
-    set_product("MoodAddition");
-    if (m_is_custom && current_room_config().skip) {
-        LogInfo << "skip this room";
-        return true;
-    }
     if (is_facility_config_empty()) {
         LogInfo << "custom room array is empty, keep facility unchanged";
         return true;
     }
+    if (m_is_custom && current_room_config().skip) {
+        LogInfo << "skip this room";
+        return true;
+    }
+    if (is_room_config_without_intent()) {
+        notify_room_kept_unchanged();
+        return true;
+    }
+
+    // 控制中枢只能造这一个
+    set_product("MoodAddition");
+
     swipe_to_the_left_of_main_ui();
     if (!enter_facility()) {
         swipe_to_right_of_main_ui();
         if (!enter_facility()) {
             return false;
         }
-    }
-    if (is_room_config_without_intent()) {
-        LogInfo << "room config exists but no operator selection intent, keep room unchanged";
-        json::value info = basic_info_with_what("CustomInfrastRoomKeptUnchanged");
-        callback(AsstMsg::SubTaskExtraInfo, info);
-        return true;
     }
 
     if (!enter_oper_list_page()) {
@@ -40,11 +40,12 @@ bool asst::InfrastControlTask::_run()
     close_quick_formation_expand_role();
 
     // 如果是使用了编队组来排班
-    // 全部编组不可用且未配置 autofill 时保持房间原样，退出选人界面并视为完成，
-    // 不回落自动选人，避免拆走后续设施点名/编组指定的干员；need_exit 场景留给选人循环开头的既有检查中止
+    // 全部编组不可用时，候补名单非空则照常走候补选人，仅无候补且无 autofill 时保持房间原样，
+    // 退出选人界面并视为完成，不回落默认算法自动选人，避免拆走后续设施点名/编组指定的干员；
+    // need_exit 场景留给选人循环开头的既有检查中止
     if (current_room_config().use_operator_groups && !match_operator_groups()) {
-        if (!current_room_config().autofill && !need_exit()) {
-            LogInfo << "all operator groups unavailable and autofill not enabled, keep room unchanged";
+        if (current_room_config().candidates.empty() && !current_room_config().autofill && !need_exit()) {
+            LogInfo << "all operator groups unavailable with no candidates or autofill, keep room unchanged";
             click_return_button();
             return true;
         }
@@ -97,6 +98,7 @@ bool asst::InfrastControlTask::_run()
     if (!click_confirm_button()) {
         return false;
     }
+    m_last_matched_group_opers.clear();
     click_return_button();
 
     return true;

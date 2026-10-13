@@ -247,7 +247,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         if (need_exit()) {
             return false;
         }
-        // rooms 数组短于实际房间数（含空数组）时，从未配置的第一个房间起不再换班，第 0 间同样生效
+        // rooms 数组短于实际房间数时，从未配置的第一个房间起不再换班
         if (m_is_custom && static_cast<size_t>(m_cur_facility_index) >= m_custom_config.size()) {
             LogWarn << "index out of range:" << m_cur_facility_index << m_custom_config.size();
             break;
@@ -379,10 +379,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         if (!m_skip_shift) {
             // 产物等其他字段的处理已在上方完成，空意图拦截不影响它们
             if (is_room_config_without_intent()) {
-                LogInfo << "room config exists but no operator selection intent, keep room unchanged" << facility_name()
-                        << m_cur_facility_index;
-                json::value info = basic_info_with_what("CustomInfrastRoomKeptUnchanged");
-                callback(AsstMsg::SubTaskExtraInfo, info);
+                notify_room_kept_unchanged();
                 try_use_custom_post_drone();
                 continue;
             }
@@ -393,11 +390,12 @@ bool asst::InfrastProductionTask::shift_facility_list()
             close_quick_formation_expand_role();
 
             // 如果是使用了编队组来排班
-            // 全部编组不可用且未配置 autofill 时保持房间原样，退出选人界面后跳过该房间，
-            // 避免落入自动选人拆走后续设施点名/编组指定的干员；need_exit 场景留给选人循环开头的既有检查中止
+            // 全部编组不可用时，候补名单非空则照常走候补选人，仅无候补且无 autofill 时保持房间原样，
+            // 退出选人界面后跳过该房间，不回落默认算法自动选人，避免拆走后续设施点名/编组指定的干员；
+            // need_exit 场景留给选人循环开头的既有检查中止
             if (current_room_config().use_operator_groups && !match_operator_groups()) {
-                if (!current_room_config().autofill && !need_exit()) {
-                    LogInfo << "all operator groups unavailable and autofill not enabled, keep room unchanged"
+                if (current_room_config().candidates.empty() && !current_room_config().autofill && !need_exit()) {
+                    LogInfo << "all operator groups unavailable with no candidates or autofill, keep room unchanged"
                             << facility_name() << m_cur_facility_index;
                     click_return_button();
                     try_use_custom_post_drone();
@@ -453,6 +451,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
             if (!click_confirm_button()) {
                 return false;
             }
+            m_last_matched_group_opers.clear();
         }
         else if (m_skip_shift) {
             LogInfo << "skip shift in rotation mode";

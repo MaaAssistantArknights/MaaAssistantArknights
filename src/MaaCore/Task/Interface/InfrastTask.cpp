@@ -286,21 +286,21 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
     LogTraceFunction;
 
     if (!std::filesystem::exists(path) || !std::filesystem::is_regular_file(path)) {
-        Log.error("custom infrast file does not exist:", path);
+        LogError << "custom infrast file does not exist:" << path;
         return false;
     }
 
     auto custom_json_opt = json::open(path, true, true);
     if (!custom_json_opt) {
-        Log.error("failed to open json file:", path);
+        LogError << "failed to open json file:" << path;
         return false;
     }
     auto& custom_json = custom_json_opt.value();
-    Log.trace(__FUNCTION__, "| custom json:", custom_json.to_string());
+    LogTrace << __FUNCTION__ << "| custom json:" << custom_json.to_string();
 
     auto& all_plans = custom_json.at("plans").as_array();
     if (index < 0 || index >= int(all_plans.size())) {
-        Log.error("index is out of range, plans size:", all_plans.size(), ", index:", index);
+        LogError << "index is out of range, plans size:" << all_plans.size() << ", index:" << index;
         return false;
     }
     auto& cur_plan = all_plans.at(index);
@@ -342,7 +342,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
                 }
                 else {
                     // 兼容配置表先于 Core 更新，未知产物保留默认 Unknown，该房间照常换人但不校验、不更换产物
-                    Log.warn(__FUNCTION__, "Unknown product, keep as Unknown:", product);
+                    LogWarn << __FUNCTION__ << "Unknown product, keep as Unknown:" << product;
                 }
             }
 
@@ -351,7 +351,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
                 for (const auto& oper_name : opers_opt.value()) {
                     std::string name = oper_name.as_string();
                     if (name.empty()) {
-                        Log.warn("operators.name is empty");
+                        LogWarn << "operators.name is empty";
                         continue;
                     }
                     room_config.names.emplace_back(std::move(name));
@@ -381,7 +381,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
                 for (const auto& candidate_name : candidates_opt.value()) {
                     std::string name = candidate_name.as_string();
                     if (name.empty()) {
-                        Log.warn("operators.candidates is empty");
+                        LogWarn << "operators.candidates is empty";
                         continue;
                     }
                     room_config.candidates.emplace_back(std::move(name));
@@ -393,7 +393,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
                 for (const auto& trainee_name : trainees_opt.value()) {
                     std::string name = trainee_name.as_string();
                     if (name.empty()) {
-                        Log.warn("operatorsA.name is empty");
+                        LogWarn << "operatorsA.name is empty";
                         continue;
                     }
                     room_config.trainee_names.emplace_back(std::move(name));
@@ -403,7 +403,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
                 for (const auto& assistant_name : assistants_opt.value()) {
                     std::string name = assistant_name.as_string();
                     if (name.empty()) {
-                        Log.warn("operatorsB.name is empty");
+                        LogWarn << "operatorsB.name is empty";
                         continue;
                     }
                     room_config.assistant_names.emplace_back(std::move(name));
@@ -445,7 +445,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         }
         else {
             // 兼容游戏新增设施、配置表先于 MAA 适配的场景，不认识的设施类型直接跳过，不影响已知设施
-            Log.warn(__FUNCTION__, "unknown facility, skip:", facility);
+            LogWarn << __FUNCTION__ << "unknown facility, skip:" << facility;
             continue;
         }
     }
@@ -464,10 +464,10 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         }
         std::string target = Fia_json.get("target", std::string());
         if (target.empty()) {
-            Log.warn("Fiammetta's target is unsetted or empty");
+            LogWarn << "Fiammetta's target is unsetted or empty";
             break;
         }
-        Log.trace("Fiammetta's target:", target);
+        LogTrace << "Fiammetta's target:" << target;
 
         static const std::string FiaName = "菲亚梅塔";
 
@@ -514,11 +514,11 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         bool additional_advance_drones = Fia_is_pre && drones_config.order == infrast::CustomDronesConfig::Order::Pre;
         std::string room = drones_json.get("room", std::string());
         if (room.empty()) {
-            Log.warn("drones room is unsetted or empty");
+            LogWarn << "drones room is unsetted or empty";
             break;
         }
         else if (room != "trading" && room != "manufacture") {
-            Log.error("error drones config, unknown room", room);
+            LogError << "error drones config, unknown room" << room;
             return false;
         }
 

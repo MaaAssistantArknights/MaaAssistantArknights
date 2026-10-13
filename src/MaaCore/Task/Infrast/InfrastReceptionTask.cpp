@@ -331,22 +331,20 @@ bool asst::InfrastReceptionTask::shift()
 {
     LogTraceFunction;
 
-    if (m_is_custom && current_room_config().skip) {
-        LogInfo << "skip this room";
-        return true;
-    }
-
     // 空房间数组整设施不换班；留言板/线索收取/线索交流/赠送线索等设施级操作已在 shift 之前完成，不受影响
     if (is_facility_config_empty()) {
         LogInfo << "custom room array is empty, keep facility unchanged";
         return true;
     }
 
+    if (m_is_custom && current_room_config().skip) {
+        LogInfo << "skip this room";
+        return true;
+    }
+
     // 线索的收取与传递等流程已在之前完成，不受空意图拦截影响
     if (is_room_config_without_intent()) {
-        LogInfo << "room config exists but no operator selection intent, keep room unchanged";
-        json::value info = basic_info_with_what("CustomInfrastRoomKeptUnchanged");
-        callback(AsstMsg::SubTaskExtraInfo, info);
+        notify_room_kept_unchanged();
         return true;
     }
 

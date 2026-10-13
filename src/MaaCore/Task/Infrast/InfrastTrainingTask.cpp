@@ -10,6 +10,7 @@
 #include "Utils/Logger.hpp"
 #include "Vision/BestMatcher.h"
 #include "Vision/FeatureMatcher.h"
+#include "Vision/Matcher.h"
 #include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
 
@@ -20,15 +21,15 @@ bool asst::InfrastTrainingTask::_run()
 {
     m_all_available_opers.clear();
 
+    if (is_facility_config_empty()) {
+        LogInfo << "custom room array is empty, keep facility unchanged";
+        return true;
+    }
+
     set_product("SkillLevel");
 
     if (m_is_custom && current_room_config().skip) {
         LogInfo << "skip this room";
-        return true;
-    }
-
-    if (is_facility_config_empty()) {
-        LogInfo << "custom room array is empty, keep facility unchanged";
         return true;
     }
 
@@ -256,7 +257,7 @@ bool asst::InfrastTrainingTask::custom_shift()
     bool on_mastery_page = false;
     if (m_continue_training && *status == TrainingStatus::Completed && m_level != 3) {
         // Completed 的领取点击已由 analyze_status 内的 training_completed 完成，训练位上仍是刚练完
-        // 的干员。继续训练与 _run 默认分支同源、独立复刻（保持默认流程不动），
+        // 的干员。逻辑独立复刻自 _run 默认分支，保持默认流程不动，
         // 材料不足等原因导致点不动时，自然回落到按配置换人
         click_bottom_left_tab();
         on_mastery_page = true;
@@ -269,6 +270,13 @@ bool asst::InfrastTrainingTask::custom_shift()
             // 继续专精开训后训练位同样锁定
             change_assistant();
             return true;
+        }
+        // 点继续训练但确认点不动时界面停在材料消耗面板上，识别到面板先关闭再回落换人；
+        // 识别不到（仅按钮未命中、仍在专精页）不点返回，避免误退到设施页
+        Matcher confirm_analyzer(ctrler()->get_image());
+        confirm_analyzer.set_task_info("InfrastTrainingConfirm");
+        if (confirm_analyzer.analyze()) {
+            click_return_button();
         }
         LogInfo << "continue training not available, fall back to custom shift";
     }
@@ -314,7 +322,7 @@ void asst::InfrastTrainingTask::change_trainee()
         int swiped_pages = 0;
         while (!need_exit()) {
             const auto opers_result = oper_progress::analyze_formation_opers(ctrler()->get_image());
-            // 页面有效 = 能识别到干员，且末位干员与上一页不同（相同说明列表已滑到底未移动）
+            // 页面有效 = 能识别到干员，且末位干员与上一页不同（相同说明列表已滑到底未移动），首轮无上一页恒视为有效
             const bool page_moved =
                 !opers_result.empty() && (last_oper_name.empty() || last_oper_name != opers_result.back().name);
             if (!page_moved) {
@@ -355,6 +363,11 @@ void asst::InfrastTrainingTask::change_trainee()
         if (!ProcessTask(*this, { "BattleQuickFormationConfirm" }).set_retry_times(0).run() && found) {
             LogWarn << "failed to confirm trainee selection";
         }
+    }
+
+    // 空选关闭或确认选择后等待回到专精页，后续协助者选择依赖专精页坐标
+    if (!ProcessTask(*this, { "InfrastTrainingMasteryPage" }).set_retry_times(10).run()) {
+        LogWarn << "failed to return to mastery page after trainee selection";
     }
 
     if (!found) {

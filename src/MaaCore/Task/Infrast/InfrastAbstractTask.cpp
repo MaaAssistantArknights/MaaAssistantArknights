@@ -231,7 +231,7 @@ void asst::InfrastAbstractTask::set_available_oper_for_group(std::set<std::strin
 
 void asst::InfrastAbstractTask::restore_last_matched_group_opers()
 {
-    // 回补后立即清空记录：确认成功后的失败不得再回补，人员可能已生效
+    // 回补的是最近一次已匹配但未确认的编组消耗；确认成功后记录已在各确认点清空，此处再清一次防止同名记录重复回补
     if (m_last_matched_group_opers.empty()) {
         return;
     }
@@ -255,7 +255,7 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
 {
     LogTraceFunction;
 
-    // 房间数组为空时放行进设施：整设施不换班由各任务自身的空数组拦截处理，会客室等还需要进设施做线索等设施级操作
+    // 房间数组为空时放行进设施：整设施不换班由各任务自身的空数组拦截处理，会客室还需要进设施做线索等设施级操作
     if (m_is_custom && !m_custom_config.empty() &&
         static_cast<size_t>(m_cur_facility_index) >= m_custom_config.size()) {
         LogWarn << "index out of range:" << index << m_custom_config.size();
@@ -306,6 +306,13 @@ bool asst::InfrastAbstractTask::is_room_config_without_intent()
 {
     return is_room_config_specified() && !current_room_config().skip && current_room_config().names.empty() &&
            current_room_config().candidates.empty() && !current_room_config().autofill;
+}
+
+void asst::InfrastAbstractTask::notify_room_kept_unchanged()
+{
+    LogInfo << "room config has no staffing intent, keep room unchanged" << facility_name() << m_cur_facility_index;
+    json::value info = basic_info_with_what("CustomInfrastRoomKeptUnchanged");
+    callback(AsstMsg::SubTaskExtraInfo, info);
 }
 
 bool asst::InfrastAbstractTask::is_facility_config_empty() const
@@ -513,7 +520,8 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
     // 预检查循环
     auto image = ctrler()->get_image();
     InfrastOperImageAnalyzer oper_analyzer(image);
-    oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected);
+    oper_analyzer.set_to_be_calced(
+        InfrastOperImageAnalyzer::ToBeCalced::Selected | InfrastOperImageAnalyzer::ToBeCalced::Doing);
     if (!oper_analyzer.analyze()) {
         Log.warn("No oper");
         return false;
@@ -560,7 +568,8 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
 
     image = ctrler()->get_image();
     InfrastOperImageAnalyzer oper_analyzer2(image);
-    oper_analyzer2.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected);
+    oper_analyzer2.set_to_be_calced(
+        InfrastOperImageAnalyzer::ToBeCalced::Selected | InfrastOperImageAnalyzer::ToBeCalced::Doing);
     if (!oper_analyzer2.analyze()) {
         Log.warn("No oper");
         return false;
@@ -585,6 +594,10 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
             // names中的数量，比剩余的空位多，就可以选备选的
             if (auto candd_iter = std::ranges::find(room_config.candidates, name);
                 candd_iter != room_config.candidates.end()) {
+                // 候补在选人阶段即排除工作中的干员：点选后要等复核才发现并整体失败，重试也不会顺延到下一个候选
+                if (oper.doing == infrast::Doing::Working) {
+                    continue;
+                }
                 room_config.candidates.erase(candd_iter);
             }
             else {

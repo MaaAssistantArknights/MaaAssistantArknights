@@ -55,8 +55,10 @@ protected:
     // current_room_config() 越界时返回 static empty，与界内但字段全空的配置同形，需要区分两者时用本方法判定
     bool is_room_config_specified() const;
     // 房间对象存在但没有给出任何选人意图（operators/candidates 为空或缺失、未配置 autofill 与编组引用）时
-    // 保持房间原样，不回落默认算法自动选人
+    // 保持房间原样，不回落默认算法自动选人；编组引用名占位于 names，names 非空即排除，函数本身不查 operator_groups
     bool is_room_config_without_intent();
+    // 判定保持房间原样时的统一通知：发 CustomInfrastRoomKeptUnchanged 回调与日志
+    void notify_room_kept_unchanged();
     // rooms 显式写了该设施但房间数组为空：整个设施保持原样不换班，与缺失该设施键（走默认算法）的语义区分
     bool is_facility_config_empty() const;
     infrast::CustomRoomConfig& current_room_config();
@@ -70,7 +72,7 @@ protected:
 
     /// @brief 按技能排序->清空干员->选择定制干员->按指定顺序排序
     /// @param is_dorm_order 当前房间是不是宿舍
-    /// @param is_assistant_select 干训练室协助者选择，名单是调用前临时改写的，不代表房间换班配置，不发换班回调
+    /// @param is_assistant_select 用于训练室协助者选择，名单是调用前临时改写的，不代表房间换班配置，不发换班回调
     bool swipe_and_select_custom_opers(bool is_dorm_order = false, bool is_assistant_select = false);
     bool select_custom_opers(std::vector<std::string>& partial_result);
     // 扫描当前页满足心情条件的所有干员名
@@ -103,7 +105,8 @@ protected:
     int m_cur_facility_index = 0;
     bool m_is_custom = false;
     infrast::CustomFacilityConfig m_custom_config;
-    // 最近一次编组匹配成功并从可用缓存移除的成员，选人失败重试前据此回补
+    // 最近一次编组匹配成功并从可用缓存移除的成员；选人未确认失败时据此回补缓存，各选人确认点成功后即清空，
+    // 跨房间重跑时已生效人员不得再回补（否则后续房间重新匹配到该组，选人复核失败再次回补，循环至重试耗尽）
     std::vector<std::string> m_last_matched_group_opers;
     std::shared_ptr<infrast::TaskData> m_task_data;
     std::unordered_set<std::string> m_pending_operator_ids;

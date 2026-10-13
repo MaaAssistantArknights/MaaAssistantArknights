@@ -161,10 +161,7 @@ bool asst::InfrastDormTask::_run()
         // 常规换班流程会先清空休息位，空意图宿舍因无 autofill 授权不进入补人阶段，而自定义排班
         // 没有宿舍重排轮兜底，休息位会保持全空，该结果并非设计意图。跳过该宿舍的全部操作，既不清空也不进驻。
         if (is_room_config_without_intent()) {
-            LogInfo << "room config exists but no operator selection intent, keep room unchanged" << facility_name()
-                    << m_cur_facility_index;
-            json::value info = basic_info_with_what("CustomInfrastRoomKeptUnchanged");
-            callback(AsstMsg::SubTaskExtraInfo, info);
+            notify_room_kept_unchanged();
             continue;
         }
 
