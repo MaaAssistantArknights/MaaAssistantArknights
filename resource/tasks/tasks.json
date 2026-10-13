@@ -4107,12 +4107,28 @@
     "InfrastTrainingAssistantConfirm": {
         "baseTask": "InfrastDormConfirmButton",
         "next": [
-            "InfrastDormConfirmButtonWait",
-            "InfrastDormDoubleConfirmButton",
-            "InfrastTrainingMasteryPage",
-            "Stop"
+            "InfrastTrainingAssistantConfirmWait",
+            "InfrastTrainingAssistantDoubleConfirm",
+            "InfrastTrainingMasteryPage"
         ],
-        "doc": "训练室协助者确认：复用宿舍确认按钮，确认后等待回至专精页"
+        "doc": "训练室协助者确认：复用宿舍确认按钮，确认后沿等待/冲突确认链回到专精页"
+    },
+    "InfrastTrainingAssistantConfirmWait": {
+        "baseTask": "LoadingText",
+        "postDelay": 500,
+        "next": [
+            "InfrastTrainingAssistantConfirmWait",
+            "InfrastTrainingAssistantDoubleConfirm",
+            "InfrastTrainingMasteryPage"
+        ]
+    },
+    "InfrastTrainingAssistantDoubleConfirm": {
+        "baseTask": "InfrastDormDoubleConfirmButton",
+        "next": [
+            "InfrastTrainingAssistantConfirmWait",
+            "InfrastTrainingAssistantDoubleConfirm",
+            "InfrastTrainingMasteryPage"
+        ]
     },
     "InfrastTrainingProcessing": {
         "baseTask": "InfrastTrainingIdle",
