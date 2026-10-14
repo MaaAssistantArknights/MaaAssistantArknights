@@ -15,7 +15,8 @@ asst::AwardTask::AwardTask(const AsstCallback& callback, Assistant* inst) :
     orundum_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
     mining_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
     specialaccess_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
-    signinevent_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType))
+    signinevent_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
+    monthlycard_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType))
 
 {
     LogTraceFunction;
@@ -27,6 +28,7 @@ asst::AwardTask::AwardTask(const AsstCallback& callback, Assistant* inst) :
     mining_task_ptr->set_tasks({ "MiningActivitiesBegin" });
     specialaccess_task_ptr->set_tasks({ "SpecialAccessActivitiesBegin" });
     signinevent_task_ptr->set_tasks({ "SignInEventBegin" });
+    monthlycard_task_ptr->set_tasks({ "MonthlyCardBegin" });
 
     award_task_ptr->register_plugin<ScreenshotTaskPlugin>();
 
@@ -37,6 +39,7 @@ asst::AwardTask::AwardTask(const AsstCallback& callback, Assistant* inst) :
     m_subtasks.emplace_back(mining_task_ptr);
     m_subtasks.emplace_back(specialaccess_task_ptr);
     m_subtasks.emplace_back(signinevent_task_ptr);
+    m_subtasks.emplace_back(monthlycard_task_ptr);
 }
 
 bool asst::AwardTask::set_params(const json::value& params)
@@ -50,6 +53,7 @@ bool asst::AwardTask::set_params(const json::value& params)
     bool mining = params.get("mining", false);
     bool specialaccess = params.get("specialaccess", false);
     bool signinevent = params.get("signinevent", false);
+    bool monthlycard = params.get("monthlycard", false);
 
     award_task_ptr->set_enable(award);
     mail_task_ptr->set_enable(mail);
@@ -58,6 +62,7 @@ bool asst::AwardTask::set_params(const json::value& params)
     mining_task_ptr->set_enable(mining);
     specialaccess_task_ptr->set_enable(specialaccess);
     signinevent_task_ptr->set_enable(signinevent);
+    monthlycard_task_ptr->set_enable(monthlycard);
 
     return true;
 }

@@ -12,6 +12,10 @@
 // </copyright>
 
 #nullable enable
+using System;
+using System.Globalization;
+using MaaWpfGui.Extensions;
+using MaaWpfGui.Helper;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Configuration.Single.MaaTask;
@@ -54,4 +58,36 @@ public class AwardTask : BaseTask
     /// Gets or sets a value indicating whether 限时签到活动领取
     /// </summary>
     public bool SignInEvent { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 检查月卡剩余天数并在临期时提醒
+    /// </summary>
+    public bool MonthlyCard { get; set; }
+
+    /// <summary>
+    /// Gets or sets 月卡剩余天数不高于该值时提醒
+    /// </summary>
+    public int MonthlyCardRemindDays { get; set; } = 7;
+
+    /// <summary>
+    /// Gets or sets 上次月卡到期提醒的时间（同一天不重复提醒）
+    /// </summary>
+    public string MonthlyCardLastRemindTime { get; set; } = DateTime.MinValue.ToFormattedString();
+
+    public bool IsMonthlyCardRemindAvailable(int daysLeft)
+    {
+        if (daysLeft > MonthlyCardRemindDays)
+        {
+            return false;
+        }
+
+        try
+        {
+            return DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(MonthlyCardLastRemindTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
+        }
+        catch
+        {
+            return true;
+        }
+    }
 }

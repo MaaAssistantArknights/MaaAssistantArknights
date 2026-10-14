@@ -1998,6 +1998,11 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.Award.ReceiveOrundum">领取幸运墙的每日合成玉奖励</system:String>
     <system:String x:Key="TaskQueue.Award.ReceiveSignInEvent">领取限时签到活动奖励</system:String>
     <system:String x:Key="TaskQueue.Award.ReceiveSignInEvent.Tip">仅支持常见横向版型；其他版型不支持，可能无法正常运作</system:String>
+    <system:String x:Key="ReceiveMonthlyCard">月卡到期提醒</system:String>
+    <system:String x:Key="ReceiveMonthlyCardTip">领取奖励时顺路进入采购中心组合包页识别月卡剩余天数，临近到期时弹通知提醒（每天最多提醒一次）</system:String>
+    <system:String x:Key="MonthlyCardRemindDaysLabel">剩余天数不高于</system:String>
+    <system:String x:Key="MonthlyCardExpiringTitle">月卡即将到期</system:String>
+    <system:String x:Key="MonthlyCardExpiringContent">月卡剩余 {0} 天，记得及时续费</system:String>
     <system:String x:Key="TaskQueue.Award.ReceiveSpecialAccess">领取周年赠送月卡奖励</system:String>
     <system:String x:Key="TaskQueue.CheckBoxesNotSaved">该选项仅生效一次</system:String>
     <system:String x:Key="TaskQueue.CheckBoxesNotSavedAsNull">该选项右键选中时仅生效一次</system:String>
