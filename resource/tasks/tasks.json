@@ -2933,7 +2933,7 @@
     },
     "InfrastReward": {
         "algorithm": "OcrDetect",
-        "text": ["可收获", "订单交付", "员信赖"],
+        "text": ["可收获", "订单交付", "员信赖", "材料产出"],
         "action": "ClickSelf",
         "roi": [0, 600, 800, 118],
         "postDelay": 1000,
