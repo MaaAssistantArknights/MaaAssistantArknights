@@ -78,7 +78,31 @@ public class AsstProxy
     private static readonly ILogger _logger = Log.ForContext<AsstProxy>();
     private readonly Dictionary<AsstTaskId, long> _taskChainStartTimes = [];
 
+    // 最近一次 EnterFacility 开出的设施卡片标识（facility#序号），供保持原样等
+    // 设施行 + 原因行提示判断是否复用该卡片；core 侧不感知 UI 卡片状态。
+    // 回调处理为静态方法，AsstProxy 单例语义下静态字段与实例字段等价
+    private static string? _lastFacilityCardKey;
+
     public DateTimeOffset StartTaskTime { get; set; }
+
+    /// <summary>
+    /// 输出 ｢当前设施 xxx NN｣ + 原因行的两句形态：同房间已有 EnterFacility 开出的设施卡片时，
+    /// 原因行普通追加到该卡，不再重打设施行另起新卡；进设施前的拦截场景没有设施卡片，维持自起。
+    /// </summary>
+    private static void AddFacilityReasonLog(string facility, int index, string reasonText)
+    {
+        var displayIndex = index + 1;
+        if ($"{facility}#{displayIndex}" == _lastFacilityCardKey)
+        {
+            Instances.TaskQueueViewModel.AddLog(reasonText);
+            return;
+        }
+
+        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ThisFacility") +
+                                            LocalizationHelper.GetString(facility) + " " + displayIndex.ToString("D2"),
+                                            splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+        Instances.TaskQueueViewModel.AddLog(reasonText);
+    }
 
     private static unsafe byte[] EncodeNullTerminatedUtf8(string s)
     {
@@ -2323,6 +2347,7 @@ public class AsstProxy
                                                     LocalizationHelper.GetString($"{subTaskDetails?["facility"]}") + " " +
                                                     ((int)(subTaskDetails?["index"] ?? -2) + 1).ToString("D2"),
                                                     splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+                _lastFacilityCardKey = $"{subTaskDetails?["facility"]}#{(int)(subTaskDetails?["index"] ?? -2) + 1}";
                 break;
 
             case "ProductIncorrect":
@@ -2724,13 +2749,9 @@ public class AsstProxy
                     }
                     else
                     {
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ThisFacility") +
-                                                            LocalizationHelper.GetString($"{subTaskDetails?["facility"]}") + " " +
-                                                            ((int)(subTaskDetails?["index"] ?? -2) + 1).ToString("D2"),
-                                                            splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
-
                         // 候补不可用的三种原因分别提示：全部在班、心情不满足设施要求、名单有误；
-                        // 其余 reason（空意图等）为房间无选人意图的通用保持原样
+                        // 其余 reason（空意图等）为房间无选人意图的通用保持原样；
+                        // 设施卡片已存在时原因行直接追加，不另起新卡
                         var reasonKey = keptReason switch
                         {
                             "candidates_working" => "InfrastCandidatesWorking",
@@ -2738,20 +2759,22 @@ public class AsstProxy
                             "candidates_unavailable" => "InfrastCandidatesUnavailable",
                             _ => "InfrastRoomKeptUnchanged",
                         };
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString(reasonKey));
+                        AddFacilityReasonLog(
+                            $"{subTaskDetails?["facility"]}",
+                            (int)(subTaskDetails?["index"] ?? -2),
+                            LocalizationHelper.GetString(reasonKey));
                     }
 
                     break;
                 }
 
             case "CustomInfrastRoomsNotConfigured":
-                // 自定义排班房间数组短于实际房间数，自该房间起的后续房间保持原样；同上两句形态自起新卡
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ThisFacility") +
-                                                    LocalizationHelper.GetString($"{subTaskDetails?["facility"]}") + " " +
-                                                    ((int)(subTaskDetails?["index"] ?? -2) + 1).ToString("D2"),
-                                                    splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
-                Instances.TaskQueueViewModel.AddLog(((int)(subTaskDetails?["index"] ?? -2) + 1).ToString("D2") + " " +
-                                                    LocalizationHelper.GetString("InfrastRoomsNotConfigured"));
+                // 自定义排班房间数组短于实际房间数，自该房间起的后续房间保持原样；设施卡片已存在时直接追加
+                AddFacilityReasonLog(
+                    $"{subTaskDetails?["facility"]}",
+                    (int)(subTaskDetails?["index"] ?? -2),
+                    ((int)(subTaskDetails?["index"] ?? -2) + 1).ToString("D2") + " " +
+                    LocalizationHelper.GetString("InfrastRoomsNotConfigured"));
                 break;
 
             case "InfrastTrainingIdle":
