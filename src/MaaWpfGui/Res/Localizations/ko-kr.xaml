@@ -158,6 +158,7 @@
     <system:String x:Key="InfrastTraineeNotFound">훈련 슬롯 후보가 모두 일치하지 않아 훈련 슬롯을 그대로 유지합니다: {0}</system:String>
     <system:String x:Key="InfrastAssistantNotFound">보조 인원 후보가 모두 일치하지 않아 보조 인원을 그대로 유지합니다: {0}</system:String>
     <system:String x:Key="InfrastAssistantWorkingExcluded">보조 인원 후보가 다른 시설에서 근무 중이라 건너뛰어, 보조 인원을 그대로 유지합니다: {0}</system:String>
+    <system:String x:Key="InfrastAssistantLowMood">보조 인원 후보의 컨디션이 임계값 미만이라 건너뛰어, 보조 인원을 그대로 유지합니다: {0}</system:String>
     <system:String x:Key="InfrastRoomKeptUnchanged">이 방은 배치 의도가 미구성되어 그대로 유지됩니다</system:String>
     <system:String x:Key="InfrastFacilityKeptUnchanged">은(는) 스케줄에서 방이 미구성되어 시설 전체를 그대로 유지합니다</system:String>
     <system:String x:Key="InfrastCandidatesUnavailable">후보 오퍼레이터를 모두 사용할 수 없어 그대로 유지됩니다</system:String>

@@ -2718,18 +2718,23 @@ public class AsstProxy
 
             case "CustomInfrastAssistantNotFound":
                 {
-                    // 训练室协助者候选全部未命中，协助者保持原样；命中但在班被排除的名单由核心侧单独携带，
-                    // 有该名单时提示计划内的在班排除，避免把配置正确的情况误报成名单错误
-                    var excluded = (subTaskDetails!["working_excluded"] as JArray ?? new JArray())
+                    // 训练室协助者候选全部未命中，协助者保持原样；命中但在班/心情不足被排除的名单由核心侧
+                    // 单独携带，有名单时提示计划内的排除，避免把配置正确的情况误报成名单错误
+                    var workingExcluded = subTaskDetails!["working_excluded"] as JArray;
+                    var lowMoodExcluded = subTaskDetails["low_mood_excluded"] as JArray;
+                    var excludedArray = workingExcluded ?? lowMoodExcluded ?? new JArray();
+                    var excluded = excludedArray
                         .Select(name => DataHelper.GetLocalizedCharacterName(name.ToString()) ?? name.ToString())
                         .ToArray();
                     var names = string.Join(
                         ", ",
                         excluded.Length > 0
                             ? excluded
-                            : (subTaskDetails!["candidates"] as JArray ?? new JArray())
+                            : (subTaskDetails["candidates"] as JArray ?? new JArray())
                                 .Select(name => DataHelper.GetLocalizedCharacterName(name.ToString()) ?? name.ToString()));
-                    var key = excluded.Length > 0 ? "InfrastAssistantWorkingExcluded" : "InfrastAssistantNotFound";
+                    var key = workingExcluded is { Count: > 0 } ? "InfrastAssistantWorkingExcluded"
+                        : lowMoodExcluded is { Count: > 0 } ? "InfrastAssistantLowMood"
+                        : "InfrastAssistantNotFound";
                     Instances.TaskQueueViewModel.AddLog(
                         LocalizationHelper.GetStringFormat(key, names), UiLogColor.Warning);
                     break;

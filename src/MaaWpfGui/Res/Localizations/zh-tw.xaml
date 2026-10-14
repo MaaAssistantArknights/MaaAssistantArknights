@@ -158,6 +158,7 @@
     <system:String x:Key="InfrastTraineeNotFound">訓練位候選均未命中，訓練位保持原樣：{0}</system:String>
     <system:String x:Key="InfrastAssistantNotFound">協助者候選均未命中，協助者保持原樣：{0}</system:String>
     <system:String x:Key="InfrastAssistantWorkingExcluded">協助者候選正在其他設施工作中，已跳過，協助者保持原樣：{0}</system:String>
+    <system:String x:Key="InfrastAssistantLowMood">協助者候選心情低於閾值，已跳過，協助者保持原樣：{0}</system:String>
     <system:String x:Key="InfrastRoomKeptUnchanged">該房間未配置選人名單，保持原樣，未換班</system:String>
     <system:String x:Key="InfrastFacilityKeptUnchanged">排程表該設施未配置房間，整個設施保持原樣，未換班</system:String>
     <system:String x:Key="InfrastCandidatesUnavailable">候選幹員均不可用，保持原樣，未換班</system:String>

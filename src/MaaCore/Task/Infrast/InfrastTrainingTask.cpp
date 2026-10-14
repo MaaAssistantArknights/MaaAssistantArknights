@@ -451,10 +451,13 @@ bool asst::InfrastTrainingTask::select_assistant()
         LogWarn << "no candidate in the assistant selection list";
         json::value info = basic_info_with_what("CustomInfrastAssistantNotFound");
         info["details"]["candidates"] = json::array(origin_config.assistant_names);
-        // 0 人选出的两种原因：名单有误未命中，或命中但正在其他设施工作被选人阶段排除，
-        // 后者带名上报供 GUI 区分提示，避免把计划内排除误报成配置错误
+        // 0 人选出的原因：名单有误未命中，或命中但被选人阶段排除（正在其他设施工作、
+        // 心情低于阈值），后两者带名上报供 GUI 区分提示，避免把计划内排除误报成配置错误
         if (!m_working_excluded_candidates.empty()) {
             info["details"]["working_excluded"] = json::array(m_working_excluded_candidates);
+        }
+        if (!m_low_mood_excluded_candidates.empty()) {
+            info["details"]["low_mood_excluded"] = json::array(m_low_mood_excluded_candidates);
         }
         callback(AsstMsg::SubTaskExtraInfo, info);
     }
