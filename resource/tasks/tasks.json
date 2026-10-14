@@ -2035,7 +2035,7 @@
         "next": ["Stop"]
     },
     "MonthlyCardBegin": {
-        "doc": "月卡到期提醒：跳转采购中心组合包页识别月卡剩余天数，识别文本经 SubTaskStart 回传 GUI(details.result.text)，由 GUI 判断阈值并提醒。所有 roi 为估值待真机校准",
+        "doc": "月卡到期提醒：跳转采购中心组合包页，点开月卡条目识别'当期月卡剩余X天'，识别文本经 SubTaskStart 回传 GUI(details.result.text)，由 GUI 判断阈值并提醒。roi 已按国服截图校准，其它主题/服待验证",
         "algorithm": "JustReturn",
         "next": [
             "MonthlyCard@Mall",
@@ -2054,19 +2054,28 @@
         "next": ["MonthlyCard@BundlesTab"]
     },
     "MonthlyCard@BundlesTab": {
-        "doc": "采购中心顶部页签-组合包，roi 待真机校准",
+        "doc": "采购中心顶部页签-组合包，已按国服 1534x860 截图校准；其它主题/服待验证",
         "algorithm": "OcrDetect",
         "text": ["组合包"],
-        "roi": [520, 0, 480, 300],
+        "roi": [415, 88, 130, 40],
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "next": ["MonthlyCard@MonthlyCardEntry"]
+    },
+    "MonthlyCard@MonthlyCardEntry": {
+        "doc": "组合包页左侧列表-月卡条目，点击进入详情页（倒计时只在详情页显示）。roi 覆盖列表下半区，整列表仅月卡条目含'月卡'字样",
+        "algorithm": "OcrDetect",
+        "text": ["月卡"],
+        "roi": [0, 300, 260, 300],
         "action": "ClickSelf",
         "postDelay": 1000,
         "next": ["MonthlyCard@MonthlyCardDays"]
     },
     "MonthlyCard@MonthlyCardDays": {
-        "doc": "组合包页月卡条目剩余天数，roi 待真机校准；无月卡或识别失败时链路自然结束不报错。多服需在各服 resource 覆写 text 词表",
+        "doc": "月卡详情页右侧'当期月卡剩余X天'胶囊条（整屏唯一'剩余'字样），已按国服截图校准；无月卡或识别失败时链路自然结束不报错。多服需在各服 resource 覆写 text 词表",
         "algorithm": "OcrDetect",
         "text": ["剩余"],
-        "roi": [100, 100, 500, 200],
+        "roi": [1040, 168, 210, 45],
         "action": "DoNothing"
     },
     "SignInEventBegin": {
