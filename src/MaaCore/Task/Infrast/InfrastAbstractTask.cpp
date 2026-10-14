@@ -99,7 +99,8 @@ void asst::InfrastAbstractTask::clear_custom_config() noexcept
 
 const asst::infrast::CustomRoomConfig& asst::InfrastAbstractTask::current_room_config() const
 {
-    static const infrast::CustomRoomConfig empty;
+    // 非 const 以便非常量重载返回可写引用；无配置与越界时的共享占位，禁止写入
+    static infrast::CustomRoomConfig empty;
     if (!m_is_custom) [[unlikely]] {
         Log.warn(__FUNCTION__, "custom is not enabled");
         return empty;
@@ -328,17 +329,15 @@ bool asst::InfrastAbstractTask::is_room_config_without_intent() const
            current_room_config().assistant_names.empty() && !current_room_config().autofill;
 }
 
-asst::RoomShiftIntent asst::InfrastAbstractTask::check_room_shift_intent(bool with_facility_context) const
+asst::RoomShiftIntent asst::InfrastAbstractTask::check_room_shift_intent(bool with_facility_context)
 {
     // 判定顺序固定为 空数组 → skip → 空意图
-    // 通知发射只发回调不改任务状态，callback 系列为非 const 签名，此处统一放行 const 调用
-    auto& notifier = const_cast<InfrastAbstractTask&>(*this);
-    const auto notify_kept = [&notifier, with_facility_context]() {
+    const auto notify_kept = [this, with_facility_context]() {
         if (with_facility_context) {
             // 进设施前的拦截没有真实进入，先补发设施上下文，GUI 另起当前设施卡片承载保持原样提示
-            notifier.callback(AsstMsg::SubTaskExtraInfo, notifier.basic_info_with_what("EnterFacility"));
+            callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
         }
-        notifier.notify_room_kept_unchanged();
+        notify_room_kept_unchanged();
     };
     if (is_facility_config_empty()) {
         LogInfo << "custom room array is empty, keep facility unchanged";

@@ -87,7 +87,7 @@ protected:
     // GUI 另起当前设施卡片承载提示；进入设施后的拦截传 false，避免与真实进入的回调重复拆卡。
     // 循环型设施（mfg/trade/power/dorm）调用时注意：同一房间只应调用一次，
     // 每次调用都会重新全量判定并重复发 KeepUnchanged 通知
-    RoomShiftIntent check_room_shift_intent(bool with_facility_context = false) const;
+    RoomShiftIntent check_room_shift_intent(bool with_facility_context = false);
     // 将定义的干员编组解释为具体干员，可用集仅在为空时收集；识别失败在函数内重试，耗尽返回 RecogFailed
     GroupMatchResult match_operator_groups();
     // 编组匹配用的可用干员列表，每轮基建任务开始时由 InfrastTask 清空，轮内跨设施共享
