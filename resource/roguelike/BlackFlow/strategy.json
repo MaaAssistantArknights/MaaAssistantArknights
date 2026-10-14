@@ -1567,7 +1567,7 @@
                 },
                 {
                     "id": "baby_floor3_shops",
-                    "description": "第三层经过普通商店时卖货、刷新并尽量购买种子",
+                    "description": "第三层经过普通商店时继续优先获取种子",
                     "kind": "preferred",
                     "floor_window": [3, 3],
                     "rank": 0,

@@ -1331,9 +1331,14 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                         subTaskDetails?["milestone_id"]?.ToString(),
                         "BlackFlowMilestoneUnknown");
                     var status = LocalizeBlackFlowMilestoneStatus(statusCode);
+                    var color = statusCode switch {
+                        "satisfied" => UiLogColor.Success,
+                        "missed" or "impossible" => UiLogColor.Warning,
+                        _ => UiLogColor.Info,
+                    };
                     Instances.TaskQueueViewModel.AddLog(
                         LocalizationHelper.GetStringFormat("BlackFlowMilestoneChanged", milestone, status),
-                        UiLogColor.Info);
+                        color);
                     break;
                 }
 

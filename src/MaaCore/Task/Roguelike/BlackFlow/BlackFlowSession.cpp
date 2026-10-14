@@ -325,6 +325,13 @@ void BlackFlowSession::refresh_mission()
         if (status == MilestoneStatus::Inactive || (old != previous.end() && old->second == status)) {
             continue;
         }
+        // 路线偏好的状态只随楼层窗口变化，与地图和实际路线无关；它们留在日志里，回调只报告策略目标。
+        const auto definition = std::ranges::find(m_policy->milestones, id, &Milestone::id);
+        if (definition == m_policy->milestones.end() || !definition->strategy_goal()) {
+            LogInfo << __FUNCTION__ << "route preference" << id << "status" << to_string(status) << "floor"
+                    << m_run.floor << "progress" << m_mission.progress(id);
+            continue;
+        }
         json::object details {
             { "run_revision", m_run_revision },
             { "observation_id", m_observation_id },

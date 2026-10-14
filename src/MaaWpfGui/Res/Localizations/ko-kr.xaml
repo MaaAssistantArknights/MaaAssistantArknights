@@ -1721,7 +1721,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowNodeEmpty">빈 노드</system:String>
     <system:String x:Key="BlackFlowNodeCombat">일반 작전</system:String>
     <system:String x:Key="BlackFlowNodeEmergencyCombat">긴급 작전</system:String>
-    <system:String x:Key="BlackFlowNodeBoss">험로의 난적</system:String>
+    <system:String x:Key="BlackFlowNodeBoss">험난한 길</system:String>
     <system:String x:Key="BlackFlowNodeBattleShop">교활한 상인</system:String>
     <system:String x:Key="BlackFlowNodeScrapShop">신비한 상인</system:String>
     <system:String x:Key="BlackFlowNodeEncounter">우연한 만남</system:String>
@@ -1730,7 +1730,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowNodeScout">앞서 출발</system:String>
     <system:String x:Key="BlackFlowNodeDuel">외나무다리</system:String>
     <system:String x:Key="BlackFlowNodeEmergencyAid">응급 조력</system:String>
-    <system:String x:Key="BlackFlowNodeRest">휴식 노드</system:String>
+    <system:String x:Key="BlackFlowNodeRest">안전가옥</system:String>
     <system:String x:Key="BlackFlowNodeFeatherPoint">깃털 조망점</system:String>
     <system:String x:Key="BlackFlowNodeWindingPassage">굽이진 비밀 통로</system:String>
     <system:String x:Key="BlackFlowNodeSacrifice">봉헌 노드</system:String>
@@ -1785,7 +1785,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowMilestoneBabyExploreHidden">신비한 상인을 발견할 때까지 미지의 괴이를 최대한 개척</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyVisitIncident">가는 길에 우연한 만남 진입</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyFloor2Shops">2구역은 교활한 상인 경유 시 종자 계속 획득</system:String>
-    <system:String x:Key="BlackFlowMilestoneBabyFloor3Shops">3구역은 교활한 상인 경유 시 판매·진열 갱신 후 종자 최대한 구매</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyFloor3Shops">3구역은 교활한 상인 경유 시 종자 계속 획득</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding2SandtableA">사판 A 획득</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding2SandtableB">사판 B 획득</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding2Fate">5구역 운명의 암시 진입 후 제2 엔딩 완료</system:String>
