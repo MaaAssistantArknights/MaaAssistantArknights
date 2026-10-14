@@ -19,6 +19,7 @@
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
+#include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
 
 asst::InfrastProductionTask& asst::InfrastProductionTask::set_drones_usage_from_params(std::string usage) noexcept
@@ -269,9 +270,15 @@ bool asst::InfrastProductionTask::shift_facility_list()
         ctrler()->click(tab);
         sleep(tab_task_ptr->post_delay);
 
-        // 上一个设施留有未执行的制造计划时，切换页签会被「尚未执行新的制造计划」弹窗拦下，确认离开后重新点击页签
-        if (ProcessTask(*this, { "InfrastUnexecutedPlanLeaveConfirm" }).set_retry_times(0).run()) {
+        // 上一个设施留有未执行的制造计划时，切换页签会被 ｢尚未执行新的制造计划｣ 弹窗拦下，确认离开后重新点击页签
+        // 正常切换时没有弹窗，直接用 OCRer 探测，避免 ProcessTask 未命中时上报 SubTaskError
+        OCRer leave_analyzer(ctrler()->get_image());
+        leave_analyzer.set_task_info("InfrastUnexecutedPlanLeaveConfirm");
+        if (leave_analyzer.analyze()) {
             LogWarn << __FUNCTION__ << "left facility with unexecuted production plan, index" << m_cur_facility_index;
+            const auto leave_task_ptr = Task.get("InfrastUnexecutedPlanLeaveConfirm");
+            ctrler()->click(leave_task_ptr->specific_rect);
+            sleep(leave_task_ptr->post_delay);
             sleep(tab_task_ptr->pre_delay);
             ctrler()->click(tab);
             sleep(tab_task_ptr->post_delay);
