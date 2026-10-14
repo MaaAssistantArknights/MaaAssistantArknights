@@ -146,7 +146,7 @@ bool asst::InfrastDormTask::_run()
     }
     // 空房间数组时整设施保持原样，不进任何宿舍；
     // skip 与空意图不在设施入口判定，留在循环内进设施前按时序消费
-    if (is_facility_config_empty() && check_room_shift_intent(true) == RoomShiftIntent::KeepUnchanged) {
+    if (is_facility_config_empty() && check_room_shift_intent() == RoomShiftIntent::KeepUnchanged) {
         return true;
     }
     for (; m_cur_facility_index < m_max_num_of_dorm; ++m_cur_facility_index) {
@@ -161,7 +161,7 @@ bool asst::InfrastDormTask::_run()
         // 空数组已在此前消费，此处结果只可能 Skip、KeepUnchanged（空意图）或 Shift（数组短的越界房间已在上游 break）。
         // 常规换班流程会先清空休息位，空意图宿舍因无 autofill 授权不进入补人阶段，而自定义排班
         // 没有宿舍重排轮兜底，休息位会保持全空，该结果并非设计意图，故空意图同样跳过该宿舍的全部操作
-        if (check_room_shift_intent(true) != RoomShiftIntent::Shift) {
+        if (check_room_shift_intent() != RoomShiftIntent::Shift) {
             continue;
         }
 

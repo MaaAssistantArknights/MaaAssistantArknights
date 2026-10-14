@@ -13,7 +13,7 @@ bool asst::InfrastPowerTask::_run()
 
     // rooms 数组为空时整设施保持原样；
     // skip 与空意图不在设施入口判定，留在循环内进设施前按时序消费
-    if (is_facility_config_empty() && check_room_shift_intent(true) == RoomShiftIntent::KeepUnchanged) {
+    if (is_facility_config_empty() && check_room_shift_intent() == RoomShiftIntent::KeepUnchanged) {
         return true;
     }
 
@@ -27,7 +27,7 @@ bool asst::InfrastPowerTask::_run()
             break;
         }
         // 空数组已在此前消费，此处结果只可能 Skip、KeepUnchanged（空意图）或 Shift（数组短的越界房间已在上游 break）
-        if (check_room_shift_intent(true) != RoomShiftIntent::Shift) {
+        if (check_room_shift_intent() != RoomShiftIntent::Shift) {
             continue;
         }
 

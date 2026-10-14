@@ -84,7 +84,7 @@ protected:
     // candidates_unavailable（纯候补全部在其他设施工作）；后两种 GUI 按回调自带的真实房间序号落设施卡片
     void notify_room_kept_unchanged(std::string_view reason = "room_no_intent");
     // rooms 数组短于实际房间数时的统一通知：剩余房间不换班，整设施只发一条 CustomInfrastRoomsNotConfigured
-    // 回调；发出时 m_cur_facility_index 应停在第一个未配置房间，内部先补发 EnterFacility 供 GUI 另起当前设施卡片；
+    // 回调；发出时 m_cur_facility_index 应停在第一个未配置房间，GUI 按回调自带设施名与序号自行分卡；
     // set_suppress_unconfigured_notice 置 true 的内部子任务不发回调，只保留日志
     void notify_rooms_not_configured();
     // rooms 显式写了该设施但房间数组为空：整个设施保持原样不换班，与缺失该设施键（走默认算法）的语义区分
@@ -93,12 +93,10 @@ protected:
     const infrast::CustomRoomConfig& current_room_config() const;
     // 统一判定当前房间的换班意图，顺序固定为 空数组 → skip → 空意图；
     // KeepUnchanged（空数组或空意图）的通知在函数内部完成，Skip 只记日志不发通知。
-    // with_facility_context 供进设施前的拦截传 true：空意图来源发保持原样提示前先补发 EnterFacility，
-    // GUI 另起当前设施卡片承载提示；空数组来源不补发（房间序号恒为 0 会显示成只保第一间，实为整设施，
-    // GUI 按 reason 字段自行分卡）；进入设施后的拦截传 false，避免与真实进入的回调重复拆卡。
+    // GUI 按回调的 reason 字段自带设施名与序号自行分卡，核心侧不补发 EnterFacility。
     // 循环型设施（mfg/trade/power/dorm）调用时注意：同一房间只应调用一次，
     // 每次调用都会重新全量判定并重复发 KeepUnchanged 通知
-    RoomShiftIntent check_room_shift_intent(bool with_facility_context = false);
+    RoomShiftIntent check_room_shift_intent();
     // 将定义的干员编组解释为具体干员，可用集仅在为空时收集；识别失败在函数内重试，耗尽返回 RecogFailed
     GroupMatchResult match_operator_groups();
     // 编组匹配用的可用干员列表，每轮基建任务开始时由 InfrastTask 清空，轮内跨设施共享

@@ -334,21 +334,12 @@ bool asst::InfrastAbstractTask::is_room_config_without_intent() const
            current_room_config().assistant_names.empty() && !current_room_config().autofill;
 }
 
-asst::RoomShiftIntent asst::InfrastAbstractTask::check_room_shift_intent(bool with_facility_context)
+asst::RoomShiftIntent asst::InfrastAbstractTask::check_room_shift_intent()
 {
-    // 判定顺序固定为 空数组 → skip → 空意图
-    const auto notify_kept = [this, with_facility_context](std::string_view reason) {
-        // 空数组来源不补发设施上下文：房间序号恒为 0，卡片会显示成只保持第一间，实为整设施保持原样，
-        // GUI 按 reason 字段自行分卡；其余来源维持补发，序号真实
-        if (with_facility_context && reason != "facility_empty") {
-            // 进设施前的拦截没有真实进入，先补发设施上下文，GUI 另起当前设施卡片承载保持原样提示
-            callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
-        }
-        notify_room_kept_unchanged(reason);
-    };
+    // 判定顺序固定为 空数组 → skip → 空意图；GUI 按回调 reason 自带设施名与序号自行分卡
     if (is_facility_config_empty()) {
         LogInfo << "custom room array is empty, keep facility unchanged";
-        notify_kept("facility_empty");
+        notify_room_kept_unchanged("facility_empty");
         return RoomShiftIntent::KeepUnchanged;
     }
     if (m_is_custom && current_room_config().skip) {
@@ -356,7 +347,7 @@ asst::RoomShiftIntent asst::InfrastAbstractTask::check_room_shift_intent(bool wi
         return RoomShiftIntent::Skip;
     }
     if (is_room_config_without_intent()) {
-        notify_kept("room_no_intent");
+        notify_room_kept_unchanged("room_no_intent");
         return RoomShiftIntent::KeepUnchanged;
     }
     return RoomShiftIntent::Shift;
@@ -378,8 +369,7 @@ void asst::InfrastAbstractTask::notify_rooms_not_configured()
     if (m_suppress_unconfigured_notice) {
         return;
     }
-    // 未真实进入设施，先补发设施上下文供 GUI 另起当前设施卡片，与 check_room_shift_intent 空意图分支的机制一致
-    callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
+    // GUI 按回调自带设施名与序号自行分卡，核心侧不补发 EnterFacility
     callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("CustomInfrastRoomsNotConfigured"));
 }
 
