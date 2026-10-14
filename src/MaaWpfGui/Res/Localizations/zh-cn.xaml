@@ -157,7 +157,9 @@
     <system:String x:Key="AssistantChange">副手换人</system:String>
     <system:String x:Key="InfrastTraineeNotFound">训练位候选均未命中，训练位保持原样：{0}</system:String>
     <system:String x:Key="InfrastAssistantNotFound">协助者候选均未命中，协助者保持原样：{0}</system:String>
-    <system:String x:Key="InfrastRoomKeptUnchanged">房间按配置保持原样，未换班</system:String>
+    <system:String x:Key="InfrastRoomKeptUnchanged">该房间未配置选人名单，保持原样，未换班</system:String>
+    <system:String x:Key="InfrastFacilityKeptUnchanged">排班表该设施未配置房间，整个设施保持原样，未换班</system:String>
+    <system:String x:Key="InfrastCandidatesUnavailable">候选干员全部在其他设施工作，保持原样，未换班</system:String>
     <system:String x:Key="InfrastRoomsNotConfigured">间起未配置，保持原样</system:String>
     <system:String x:Key="Trade">贸易站</system:String>
     <system:String x:Key="Power">发电站</system:String>
