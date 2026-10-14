@@ -74,7 +74,7 @@ Please note that JSON files do not support comments. The comments in this docume
                 // Missing rooms use default algorithm for shift change.
                 // If a facility array holds fewer room entries than actual rooms, shift change stops from the first unconfigured room onward for that facility.
                 // A room entry written without any staffing intent (operators/candidates empty or missing, no autofill or operator groups) only skips operator replacement for that room, keeps its current staff unchanged and emits a ｢room kept as-is｣ callback; other fields such as product are still processed
-                // The skip field likewise only skips operator replacement for that room; facility-level actions are unaffected (e.g. the meeting room's clue flow and the training room's continue training still run). The difference is that skip only logs, while empty intent emits the ｢room kept as-is｣ callback
+                // The skip field skips both operator replacement and product switching for that room; drones are still used (when the room's operators are not changed, pre/post makes no timing difference); facility-level actions are unaffected (e.g. the meeting room's clue flow and the training room's continue training still run). The difference is that skip only logs, while empty intent emits the ｢room kept as-is｣ callback
                 // To skip a room, use skip field or uncheck the facility in software Task Settings - Base Management
                 "control": [
                 {
@@ -96,7 +96,7 @@ Please note that JSON files do not support comments. The comments in this docume
                 },
                 {
                     "skip": true // Whether to skip current room (by array index), optional, default false
-                    // If true, other fields can be empty. Only skips operator change operation; facility-level actions are unaffected, e.g. drone usage, clue exchange, and the training room's continue training still occur
+                    // If true, other fields can be empty. Skips operator change and product switching; drones are still used, and facility-level actions are unaffected, e.g. the meeting room's clue exchange and the training room's continue training still occur
                 },
                 {
                     "operators": ["Castle-3"],

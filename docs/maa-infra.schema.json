@@ -155,7 +155,7 @@
         },
         "rooms": {
             "type": "object",
-            "description": "All arknights infrastructure rooms. Missing facility keys use the default algorithm for shift change; if a facility array holds fewer room entries than actual rooms, shift change stops from the first unconfigured room onward for that facility; a room entry written without any staffing intent (operators/candidates empty or missing, no autofill or operator groups) keeps that room unchanged; the skip field likewise only skips operator replacement for that room, while facility-level actions such as the meeting room's clue flow and the training room's continue training are unaffected.",
+            "description": "All arknights infrastructure rooms. Missing facility keys use the default algorithm for shift change; if a facility array holds fewer room entries than actual rooms, shift change stops from the first unconfigured room onward for that facility; a room entry written without any staffing intent (operators/candidates empty or missing, no autofill or operator groups) keeps that room unchanged; the skip field skips both operator replacement and product switching for that room, drones are still used, and facility-level actions such as the meeting room's clue flow and the training room's continue training are unaffected.",
             "properties": {
                 "control": {
                     "type": "array",
@@ -271,7 +271,7 @@
                 },
                 "skip": {
                     "type": "boolean",
-                    "description": "Skip operator replacement for this room or not; facility-level actions such as the meeting room's clue flow are unaffected."
+                    "description": "Skip operator replacement and product switching for this room or not; drones are still used, and facility-level actions such as the meeting room's clue flow are unaffected."
                 },
                 "autofill": {
                     "type": "boolean",
