@@ -679,9 +679,12 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
             // names中的数量，比剩余的空位多，就可以选备选的
             if (auto candd_iter = std::ranges::find(room_config.candidates, name);
                 candd_iter != room_config.candidates.end()) {
-                // 候补在选人阶段即排除工作中的干员：点选后要等复核才发现并整体失败，重试也不会顺延到下一个候选
+                // 候补在选人阶段即排除工作中的干员：点选后要等复核才发现并整体失败，重试也不会顺延到下一个候选。
+                // 跳过不删名，翻页与回滑重扫会再次识别到，收名单前查重避免同一干员重复计入
                 if (oper.doing == infrast::Doing::Working) {
-                    m_working_excluded_candidates.emplace_back(name);
+                    if (std::ranges::find(m_working_excluded_candidates, name) == m_working_excluded_candidates.end()) {
+                        m_working_excluded_candidates.emplace_back(name);
+                    }
                     continue;
                 }
                 room_config.candidates.erase(candd_iter);
@@ -866,34 +869,63 @@ bool asst::InfrastAbstractTask::ensure_notstationed_filter_off()
 {
     // 探测顶部筛选按钮的“未进驻”选中态即可判断当前筛选：选中说明列表被过滤为
     // 未进驻干员，点名与常规算法会看不到在班干员，需走取消链纠偏；非选中态即
-    // “全部”，一次匹配直接通过，不点开筛选菜单。筛选状态一律以界面实际状态
-    // 为准，不维护内存镜像：任务中途意外退出再重进基建时游戏会丢失筛选设置，
-    // 跨任务运行也可能继承上一流程或用户手动留下的筛选
-    Matcher analyzer(ctrler()->get_image());
-    analyzer.set_task_info("InfrastFilterMenuNotStationedSelected");
-    if (!analyzer.analyze()) {
-        return true;
+    // “全部”。刚进列表页画面可能还在过场，单帧匹配不到不等于没有筛选，连续
+    // 多帧都没有选中态才按“全部”放行（漏取消会导致点名选不中，多等几帧只是
+    // 延迟，误判代价不对称）。筛选状态一律以界面实际状态为准，不维护内存镜像：
+    // 任务中途意外退出再重进基建时游戏会丢失筛选设置，跨任务运行也可能继承
+    // 上一流程或用户手动留下的筛选
+    for (int attempt = 0; attempt < FilterProbeRetryTimes; ++attempt) {
+        Matcher analyzer(ctrler()->get_image());
+        analyzer.set_task_info("InfrastFilterMenuNotStationedSelected");
+        if (analyzer.analyze()) {
+            return click_filter_menu_cancel_not_stationed_button();
+        }
+        sleep(FilterProbeRetryDelayMs);
     }
-    return click_filter_menu_cancel_not_stationed_button();
+    return true;
+}
+
+void asst::InfrastAbstractTask::detect_current_facility_number()
+{
+    m_current_facility_number.clear();
+    InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
+    analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected);
+    if (!analyzer.analyze()) {
+        return; // 识别失败按无现任处理，编号留空
+    }
+    analyzer.sort_by_loc();
+    for (const auto& oper : analyzer.get_result()) {
+        if (!oper.selected) {
+            continue;
+        }
+        // 置顶机制下首个选中者即本设施现任；编号读取失败同样留空，不阻塞选人
+        m_current_facility_number = read_facility_number(oper);
+        LogTrace << "current facility number:" << m_current_facility_number;
+        break;
+    }
+}
+
+std::string asst::InfrastAbstractTask::read_facility_number(const infrast::Oper& oper)
+{
+    RegionOCRer facility_analyzer(oper.facility_img);
+    facility_analyzer.set_use_char_model(true);
+    if (!facility_analyzer.analyze()) {
+        return {};
+    }
+    std::string facility_name = facility_analyzer.get_result().text;
+    static const boost::regex facility_rule("[^BF0-9]");
+    return boost::regex_replace(facility_name, facility_rule, "");
 }
 
 bool asst::InfrastAbstractTask::stationed_in_production_facility(const infrast::Oper& oper) const
 {
     // 空白驻扎栏的 OCR 噪声剔除后通常为空，按未进驻处理不排除；恰好凑成四位
     // 编号的噪声会误杀单个候选，属可接受的低概率边角
-    RegionOCRer facility_analyzer(oper.facility_img);
-    facility_analyzer.set_use_char_model(true);
-    if (!facility_analyzer.analyze()) {
-        return false;
-    }
-
-    std::string facility_name = facility_analyzer.get_result().text;
-    const boost::regex facility_rule("[^BF0-9]");
-    facility_name = boost::regex_replace(facility_name, facility_rule, "");
+    const std::string facility_name = read_facility_number(oper);
 
     const bool is_dorm =
         facility_name == "B104" || facility_name == "B204" || facility_name == "B304" || facility_name == "B401";
-    const bool stationed = !facility_name.empty() && !is_dorm;
+    const bool stationed = !facility_name.empty() && !is_dorm && facility_name != m_current_facility_number;
     if (stationed) {
         LogTrace << "operator stationed in" << facility_name;
     }

@@ -137,15 +137,23 @@ protected:
     // 取消点击干员选择页面的筛选菜单按钮的“未进驻”按钮
     virtual bool click_filter_menu_cancel_not_stationed_button();
     /// @brief 确保干员选择页面的筛选为“全部”：探测到“未进驻”选中态才走取消链，
-    /// 其余情形一次模板匹配直接通过。点名与常规算法类选人在进入列表页后调用，
-    /// 声明本流程需要看到包括在班干员在内的完整列表
+    /// 连续多帧探测不到选中态才按“全部”放行。点名与常规算法类选人在进入列表页后
+    /// 调用，声明本流程需要看到包括在班干员在内的完整列表
     bool ensure_notstationed_filter_off();
+    /// @brief 采样当前设施的驻扎编号：游戏会把已进驻本设施的干员置顶且选中，
+    /// 识别列表页首个选中态干员的驻扎编号存入 m_current_facility_number，供
+    /// 编号排除判定豁免本设施现任（设施编号随用户基建布局而变，不可写死）；
+    /// 无选中干员（本设施无驻员）时编号为空，本来也没有需要豁免的人
+    void detect_current_facility_number();
     /// @brief 干员驻扎栏是否为生产设施编号：OCR 驻扎栏并剔除非 B/F/数字字符后，
-    /// 剩余编号非空且不属于宿舍编号（B104/B204/B304/B401）时为 true，选人时应跳过；
+    /// 剩余编号非空、不属于宿舍编号（B104/B204/B304/B401）、且不等于本设施编号
+    /// （现任连任候选，见 detect_current_facility_number）时为 true，选人时应跳过；
     /// 识别不出（未进驻）与宿舍编号为 false，宿舍中回满心情的干员保持可选。
     /// 与宿舍信赖补位的 ｢长度 < ActiveFacilityNumberLength｣ 判定不同：信赖补位连
     /// 宿舍编号也按已进驻处理（不拉其他宿舍休息中的干员），此处需保留宿舍候选
     bool stationed_in_production_facility(const infrast::Oper& oper) const;
+    /// @brief 读干员驻扎栏并剔除非 B/F/数字字符，返回剩余编号串（空 = 未进驻或识别失败）
+    static std::string read_facility_number(const infrast::Oper& oper);
     // 点击干员选择页面的“确认”按钮
     virtual bool click_confirm_button();
 
@@ -165,6 +173,11 @@ protected:
     // swipe_and_select_custom_opers 每轮清空，供协助者未命中等上报区分 ｢名单有误未命中｣
     // 与 ｢命中但在班被排除｣ 两种原因
     std::vector<std::string> m_working_excluded_candidates;
+    // 当前设施驻扎编号（detect_current_facility_number 采样），空 = 无现任或未采样
+    std::string m_current_facility_number;
+    // 筛选选中态探测的帧数与帧间隔：连续多帧无选中态才判定为“全部”，吸收刚进列表页的过场画面
+    static constexpr int FilterProbeRetryTimes = 3;
+    static constexpr int FilterProbeRetryDelayMs = 200;
     std::shared_ptr<infrast::TaskData> m_task_data;
     std::unordered_set<std::string> m_pending_operator_ids;
 

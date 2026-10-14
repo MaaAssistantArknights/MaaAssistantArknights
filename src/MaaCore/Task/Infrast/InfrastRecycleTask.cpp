@@ -79,6 +79,9 @@ bool asst::InfrastRecycleTask::_run()
             continue;
         }
 
+        // 清空前现任仍处于选中置顶，先采样本设施编号供补位排除豁免（连任候选）；
+        // 清空后置顶机制失效，采样不再可靠
+        detect_current_facility_number();
         // 清空后按位置补满，不挑选技能
         click_clear_button();
         if (!fill_slots()) {
@@ -127,8 +130,9 @@ bool asst::InfrastRecycleTask::fill_slots()
             if (num_of_selected >= max_num_of_opers()) {
                 break;
             }
-            if (oper.selected || stationed_in_production_facility(oper) || oper.doing == infrast::Doing::Working ||
-                oper.mood_ratio < m_mood_threshold) {
+            // 编号 OCR 每卡一次开销最大，放在内存已算好的判断之后兜底
+            if (oper.selected || oper.doing == infrast::Doing::Working || oper.mood_ratio < m_mood_threshold ||
+                stationed_in_production_facility(oper)) {
                 continue;
             }
             ctrler()->click(oper.rect);

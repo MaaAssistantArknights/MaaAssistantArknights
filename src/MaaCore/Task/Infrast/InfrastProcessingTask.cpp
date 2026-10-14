@@ -93,6 +93,9 @@ bool asst::InfrastProcessingTask::select_operator(
         return false;
     }
     close_quick_formation_expand_role();
+    // 现任加工站干员凭本设施编号豁免排除（心情满时连任，不被次优顶替）；
+    // 每次进列表都重新采样，确认换人后采到的即新任
+    detect_current_facility_number();
     bool selection_changed = false;
     for (int attempt = 0; attempt <= MaxMaterialSynthesisCacheRebuilds; ++attempt) {
         if (need_exit()) {
