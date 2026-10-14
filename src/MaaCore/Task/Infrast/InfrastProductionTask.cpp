@@ -269,6 +269,14 @@ bool asst::InfrastProductionTask::shift_facility_list()
         ctrler()->click(tab);
         sleep(tab_task_ptr->post_delay);
 
+        // 上一个设施留有未执行的制造计划时，切换页签会被「尚未执行新的制造计划」弹窗拦下，确认离开后重新点击页签
+        if (ProcessTask(*this, { "InfrastUnexecutedPlanLeaveConfirm" }).set_retry_times(0).run()) {
+            LogWarn << __FUNCTION__ << "left facility with unexecuted production plan, index" << m_cur_facility_index;
+            sleep(tab_task_ptr->pre_delay);
+            ctrler()->click(tab);
+            sleep(tab_task_ptr->post_delay);
+        }
+
         /* 识别当前制造/贸易站有没有添加干员按钮，没有就不换班 */
         const auto image = ctrler()->get_image();
         Matcher add_analyzer(image);
