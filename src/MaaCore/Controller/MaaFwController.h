@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <optional>
 #include <string>
 #include <utility>
 
@@ -63,7 +64,15 @@ protected:
     bool connect_with_extras(const std::string& adb_path, const std::string& address, const std::string& config, const json::object& extras);
 
 private:
-    bool init_library(const std::string& library_name);
+    enum class ControlUnitType
+    {
+        MaaAdbControlUnit,
+        MaaAndroidNativeControlUnit,
+        MaaLinuxControlUnit,
+        MEOJSON_ENUM_RANGE(MaaAdbControlUnit, MaaLinuxControlUnit)
+    };
+
+    bool init_library(ControlUnitType control_unit_type);
     void destroy_unit();
     void callback(AsstMsg msg, const json::value& details) const;
 
@@ -75,6 +84,7 @@ private:
     std::function<DestroyFunc> m_destroy_func;
 
     bool m_inited = false;
+    std::optional<ControlUnitType> m_control_unit_type;
     std::string m_library_name;
     int m_esc_keycode = 0;
     bool m_target_is_pc = false;

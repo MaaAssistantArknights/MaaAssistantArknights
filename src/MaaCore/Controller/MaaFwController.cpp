@@ -56,15 +56,6 @@ bool MaaFwController::connect_with_extras(
     m_uuid.clear();
     m_screen_size = { 0, 0 };
 
-    const std::string library_name = extras.get("library_name", std::string());
-
-    if (library_name == "MaaLinuxControlUnit") {
-        m_esc_keycode = 1; // KEY_ESC defined in <linux/input-event-codes.h>
-    }
-    else {
-        m_esc_keycode = 111; // KEYCODE_ESCAPE for Android
-    }
-
     m_target_is_pc = config == "PC";
 
     auto get_info_json = [&]() -> json::object {
@@ -80,20 +71,31 @@ bool MaaFwController::connect_with_extras(
         };
     };
 
-    if (library_name.empty()) {
-        LogError << "MaaFw connection extras missing required field: library_name";
+    auto control_unit_type = extras.find<ControlUnitType>("control_unit");
+    if (!control_unit_type) {
+        LogError << "MaaFw connection extras.control_unit must be a supported library name such as \"MaaAdbControlUnit\"";
         callback(
             AsstMsg::ConnectionInfo,
             json::object {
                 { "what", "ConnectFailed" },
-                { "why", "library_name missing in connection extras" },
+                { "why", "control_unit missing or invalid in connection extras" },
             } | get_info_json());
         return false;
+    }
+    LogError << (int)*control_unit_type;
+
+    switch (*control_unit_type) {
+    case ControlUnitType::MaaLinuxControlUnit:
+        m_esc_keycode = 1; // KEY_ESC defined in <linux/input-event-codes.h>
+        break;
+    default:
+        m_esc_keycode = 111; // KEYCODE_ESCAPE for Android
+        break;
     }
 
     destroy_unit();
 
-    if (!init_library(library_name)) {
+    if (!init_library(*control_unit_type)) {
         callback(
             AsstMsg::ConnectionInfo,
             json::object {
@@ -104,7 +106,8 @@ bool MaaFwController::connect_with_extras(
     }
 
     // 创建control unit
-    if (m_library_name == "MaaAdbControlUnit") {
+    switch (*control_unit_type) {
+    case ControlUnitType::MaaAdbControlUnit: {
         auto create_func =
             get_function<MaaFwControlUnitAPI*(const char*, const char*, uint64_t, uint64_t, const char*, const char*)>(
                 m_library_name + "Create");
@@ -124,8 +127,9 @@ bool MaaFwController::connect_with_extras(
             config == "AVD" ? "{\"extras\":{\"avd\":{\"enable\":true}}}" : "{}",
             // MaaAgentBinary目录
             utils::path_to_utf8_string(ResDir.get() / "minitouch").c_str());
-    }
-    else {
+    } break;
+    case ControlUnitType::MaaAndroidNativeControlUnit:
+    case ControlUnitType::MaaLinuxControlUnit: {
         // 创建 MaaAndroidNativeControlUnit/MaaLinuxControlUnit 时使用单个字符串参数
         auto create_func = get_function<MaaFwControlUnitAPI*(const char*)>(m_library_name + "Create");
         if (!create_func) {
@@ -133,6 +137,7 @@ bool MaaFwController::connect_with_extras(
             return false;
         }
         m_unit_handle = create_func(extras.dumps().c_str());
+    } break;
     }
 
     if (!m_unit_handle) {
@@ -221,14 +226,16 @@ bool MaaFwController::connect_with_extras(
     return true;
 }
 
-bool MaaFwController::init_library(const std::string& library_name)
+bool MaaFwController::init_library(ControlUnitType control_unit_type)
 {
-    if (m_library_name == library_name && m_get_version_func && m_destroy_func) {
+    const std::string library_name = json::value(control_unit_type).as_string();
+
+    if (m_control_unit_type.has_value() && *m_control_unit_type == control_unit_type && m_get_version_func && m_destroy_func) {
         LogInfo << "MaaFw control unit library already loaded" << VAR(library_name);
         return true;
     }
 
-    if (!m_library_name.empty() && m_library_name != library_name) {
+    if (m_control_unit_type.has_value() && *m_control_unit_type != control_unit_type) {
         LogError << "Cannot change MaaFw control unit library on the same controller object" << VAR(m_library_name)
                  << VAR(library_name);
         return false;
@@ -239,6 +246,7 @@ bool MaaFwController::init_library(const std::string& library_name)
         return false;
     }
 
+    m_control_unit_type = control_unit_type;
     m_library_name = library_name;
     m_get_version_func = get_function<GetVersionFunc>(library_name + "GetVersion");
     m_destroy_func = get_function<DestroyFunc>(library_name + "Destroy");

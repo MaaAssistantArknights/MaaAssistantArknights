@@ -17,7 +17,7 @@ bool MaaFwAndroidNativeController::connect(
         return false;
     }
     json::object extras = parsed->as_object();
-    extras["library_name"] = "MaaAndroidNativeControlUnit";
+    extras["control_unit"] = "MaaAndroidNativeControlUnit";
     return connect_with_extras(adb_path, address, config, extras);
 }
 } // namespace asst

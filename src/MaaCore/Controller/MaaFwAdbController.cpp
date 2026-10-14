@@ -12,7 +12,7 @@ bool MaaFwAdbController::connect(
         address,
         config,
         json::object {
-            { "library_name", "MaaAdbControlUnit" },
+            { "control_unit", "MaaAdbControlUnit" },
         });
 }
 } // namespace asst
