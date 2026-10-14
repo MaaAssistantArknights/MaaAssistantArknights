@@ -34,6 +34,7 @@ protected:
     virtual void clear() override;
     virtual bool check_in_battle(const cv::Mat& reusable = cv::Mat(), bool weak = true) override;
     virtual bool do_strategic_action(const cv::Mat& reusable = cv::Mat()) override;
+    virtual bool on_wait_until_end(const cv::Mat& reusable) override;
 
     virtual bool
         do_derived_action([[maybe_unused]] const battle::copilot::Action& action, [[maybe_unused]] size_t index)

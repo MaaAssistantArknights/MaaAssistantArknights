@@ -47,6 +47,7 @@ protected:
     bool pause();
     bool speed_up();
     bool abandon();
+    bool abandon(int max_clicks_per_step);
 
     bool update_deployment(bool init = false, const cv::Mat& reusable = cv::Mat(), bool need_oper_cost = false);
     // 更新部署区的干员，仅当存在未识别干员且不处于冷却中return false
@@ -82,6 +83,7 @@ protected:
     virtual bool check_in_battle(const cv::Mat& reusable = cv::Mat(), bool weak = true);
     virtual bool wait_until_start(bool weak = true);
     bool wait_until_end(bool weak = true, bool do_strategy = true);
+    virtual bool on_wait_until_end(const cv::Mat&) { return true; }
     bool use_all_ready_skill(const cv::Mat& reusable = cv::Mat());
     bool check_and_use_skill(const std::string& name, bool& has_error, const cv::Mat& reusable = cv::Mat());
     bool check_and_use_skill(

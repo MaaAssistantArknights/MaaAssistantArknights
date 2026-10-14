@@ -88,6 +88,12 @@ bool asst::BattleProcessTask::do_strategic_action(const cv::Mat& reusable)
     return BattleHelper::do_strategic_action(reusable);
 }
 
+bool asst::BattleProcessTask::on_wait_until_end(const cv::Mat& reusable)
+{
+    // 等待战斗结束时即使不执行策略动作，也要继续检查漏怪。
+    return !m_abort_on_leak || !check_and_abandon_on_leak(reusable);
+}
+
 bool asst::BattleProcessTask::check_and_abandon_on_leak(const cv::Mat& image)
 {
     if (!m_leak_detected) {
@@ -105,6 +111,7 @@ bool asst::BattleProcessTask::check_and_abandon_on_leak(const cv::Mat& image)
     }
 
     constexpr int MaxAbandonAttempts = 3;
+    constexpr int MaxClicksPerAbandonStep = 3;
     cv::Mat current_image = image;
     for (int attempt = 1; attempt <= MaxAbandonAttempts && !need_exit(); ++attempt) {
         if (check_pause_button(current_image) && !pause()) {
@@ -114,7 +121,7 @@ bool asst::BattleProcessTask::check_and_abandon_on_leak(const cv::Mat& image)
             break;
         }
 
-        const bool abandoned = abandon();
+        const bool abandoned = abandon(MaxClicksPerAbandonStep);
         if (need_exit()) {
             break;
         }
