@@ -72,62 +72,63 @@ Please note that JSON files do not support comments. The comments in this docume
                 // Room information, required
                 // Values: "control"/"manufacture"/"trading"/"power"/"meeting"/"hire"/"dormitory"/"processing"/"training"/"recycle"
                 // Missing rooms use default algorithm for shift change.
-                // If a facility array holds fewer room entries than actual rooms, shift change stops from the first unconfigured room onward for that facility.
+                // If a facility array holds fewer room entries than actual rooms, shift change stops from the first unconfigured room onward for that facility and sends one facility-wide unconfigured notice.
+                // An empty facility array (the facility key explicitly written with content []) keeps the entire facility unchanged without shift change, as distinct from a missing facility key (default algorithm shift change); facility-level actions such as the meeting room's clue flow and the training room's continue training still run.
                 // A room entry written without any staffing intent (operators/candidates empty or missing, no autofill or operator groups) only skips operator replacement for that room, keeps its current staff unchanged and emits a ｢room kept as-is｣ callback; other fields such as product are still processed
                 // The skip field skips both operator replacement and product switching for that room; drones are still used (when the room's operators are not changed, pre/post makes no timing difference); facility-level actions are unaffected (e.g. the meeting room's clue flow and the training room's continue training still run). The difference is that skip only logs, while empty intent emits the ｢room kept as-is｣ callback
                 // To skip a room, use skip field or uncheck the facility in software Task Settings - Base Management
                 "control": [
-                {
-                    "operators": [
-                        "夕", // Uses OCR, requires operator name in client language ("夕" = "Dusk")
-                        "令", // ("令" = "Ling")
-                        "凯尔希", // ("凯尔希" = "Kal'tsit")
-                        "阿米娅", // ("阿米娅" = "Amiya")
-                        "玛恩纳" // ("玛恩纳" = "Closure")
-                    ]
-                }
+                    {
+                        "operators": [
+                            "夕", // Uses OCR, requires operator name in client language ("夕" = "Dusk")
+                            "令", // ("令" = "Ling")
+                            "凯尔希", // ("凯尔希" = "Kal'tsit")
+                            "阿米娅", // ("阿米娅" = "Amiya")
+                            "玛恩纳" // ("玛恩纳" = "Closure")
+                        ]
+                    }
                 ],
                 "manufacture": [
-                {
-                    "operators": ["芬", "稀音", "克洛丝"], // ("芬" = "Fang", "稀音" = "Scene", "克洛丝" = "Kroos")
-                    "sort": false // Whether to sort (by operators order above), optional, default false
-                    // Example: When using Scene, Pallas, Shamare, etc. with "sort": false, operator order may be scrambled, losing warm-up effect.
-                    // Using "sort": true can avoid this issue
-                },
-                {
-                    "skip": true // Whether to skip current room (by array index), optional, default false
-                    // If true, other fields can be empty. Skips operator change and product switching; drones are still used, and facility-level actions are unaffected, e.g. the meeting room's clue exchange and the training room's continue training still occur
-                },
-                {
-                    "operators": ["Castle-3"],
-                    "autofill": true, // Use original algorithm to auto-fill remaining positions, optional, default false
-                    // If operators is empty, room uses original algorithm completely
-                    // If operators not empty, considers only single operator efficiency, not combination efficiency
-                    // May conflict with custom operators defined later, e.g., using operators needed later, use cautiously or place autofill rooms last
-                    "product": "Battle Record" // Current manufacturing product, optional.
-                    // If detected facility product doesn't match task setting, UI will show red warning; may have more uses in future
-                    // Values: "Battle Record"|"Pure Gold"|"Dualchip"|"Originium Shard"|"LMD"|"Orundum"
-                },
-                {
-                    "operators": ["多萝西"], // ("多萝西" = "Dorothy")
-                    "candidates": [
-                        // Backup operators, optional. Uses whoever's available until positions filled;
-                        // operators currently working in other facilities are never selected (excluded at selection time)
-                        // Incompatible with autofill=true, i.e., autofill must be false when this array not empty
-                        "星源", // ("星源" = "Astgenne")
-                        "白面鸮", // ("白面鸮" = "Ptilopsis")
-                        "赫默" // ("赫默" = "Silence")
-                    ]
-                },
-                {
-                    "use_operator_groups": true, // Set true to use operator groups from groups field, default false
-                    "operators": [
-                        // When enabled, names in operators are interpreted as group names
-                        "古+银", // Will select groups by mood threshold and setting order ("古+银" = "Gummy+Silver")
-                        "清流" // If Gummy+Silver group has operators below threshold, will use Purestream group ("清流" = "Purestream")
-                        // If all groups are unavailable, the candidates list still applies; with neither candidates nor autofill configured, the room stays unchanged without falling back to the default algorithm
-                    ]
-                }
+                    {
+                        "operators": ["芬", "稀音", "克洛丝"], // ("芬" = "Fang", "稀音" = "Scene", "克洛丝" = "Kroos")
+                        "sort": false // Whether to sort (by operators order above), optional, default false
+                        // Example: When using Scene, Pallas, Shamare, etc. with "sort": false, operator order may be scrambled, losing warm-up effect.
+                        // Using "sort": true can avoid this issue
+                    },
+                    {
+                        "skip": true // Whether to skip current room (by array index), optional, default false
+                        // If true, other fields can be empty. Skips operator change and product switching; drones are still used, and facility-level actions are unaffected, e.g. the meeting room's clue exchange and the training room's continue training still occur
+                    },
+                    {
+                        "operators": ["Castle-3"],
+                        "autofill": true, // Use original algorithm to auto-fill remaining positions, optional, default false
+                        // If operators is empty or missing, the room stays unchanged per the empty-intent rule above
+                        // If operators not empty, considers only single operator efficiency, not combination efficiency
+                        // May conflict with custom operators defined later, e.g., using operators needed later, use cautiously or place autofill rooms last
+                        "product": "Battle Record" // Current manufacturing product, optional.
+                        // If detected facility product doesn't match task setting, UI will show red warning; may have more uses in future
+                        // Values: "Battle Record"|"Pure Gold"|"Dualchip"|"Originium Shard"|"LMD"|"Orundum"
+                    },
+                    {
+                        "operators": ["多萝西"], // ("多萝西" = "Dorothy")
+                        "candidates": [
+                            // Backup operators, optional. Uses whoever's available until positions filled;
+                            // operators currently working in other facilities are never selected (excluded at selection time)
+                            // Incompatible with autofill=true, i.e., autofill must be false when this array not empty
+                            "星源", // ("星源" = "Astgenne")
+                            "白面鸮", // ("白面鸮" = "Ptilopsis")
+                            "赫默" // ("赫默" = "Silence")
+                        ]
+                    },
+                    {
+                        "use_operator_groups": true, // Set true to use operator groups from groups field, default false
+                        "operators": [
+                            // When enabled, names in operators are interpreted as group names
+                            "古+银", // Will select groups by mood threshold and setting order ("古+银" = "Gummy+Silver")
+                            "清流" // If Gummy+Silver group has operators below threshold, will use Purestream group ("清流" = "Purestream")
+                            // If all groups are unavailable, the candidates list still applies; with neither candidates nor autofill configured, the room stays unchanged without falling back to the default algorithm
+                        ]
+                    }
                 ],
                 "meeting": [
                     {
@@ -166,8 +167,8 @@ Please note that JSON files do not support comments. The comments in this docume
             }
         },
         {
-        "name": "晚班" // ("晚班" = "Night Shift")
-        // ...
+            "name": "晚班" // ("晚班" = "Night Shift")
+            // ...
         }
     ]
 }
