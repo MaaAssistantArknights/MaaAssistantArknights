@@ -2703,31 +2703,36 @@ public class AsstProxy
 
             case "CustomInfrastRoomKeptUnchanged":
                 {
-                    // 房间按配置保持原样并附原因；facility_empty（整设施未配置房间）来源核心侧不发 EnterFacility，本条带设施名自行起新卡，
-                    // room_no_intent（房间未给出选人意图）与 candidates_unavailable（纯候补全部在其他设施工作）来源沿用核心侧 EnterFacility 起的卡片
+                    // 房间按配置保持原样并附原因；四类提示统一两句形态——首行 ｢当前设施 xxx NN｣ 以 Before 另起新卡
+                    // （核心侧不补发 EnterFacility），次行为原因文案；facility_empty（整设施未配置房间）无有意义的房间序号，首行不带序号
                     var keptReason = subTaskDetails!["reason"]?.ToString();
                     if (keptReason == "facility_empty")
                     {
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ThisFacility") +
-                                                            LocalizationHelper.GetString($"{subTaskDetails?["facility"]}") + " " +
-                                                            LocalizationHelper.GetString("InfrastFacilityKeptUnchanged"),
+                                                            LocalizationHelper.GetString($"{subTaskDetails?["facility"]}"),
                                                             splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
-                    }
-                    else if (keptReason == "candidates_unavailable")
-                    {
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("InfrastCandidatesUnavailable"));
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("InfrastFacilityKeptUnchanged"));
                     }
                     else
                     {
-                        // room_no_intent
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("InfrastRoomKeptUnchanged"));
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ThisFacility") +
+                                                            LocalizationHelper.GetString($"{subTaskDetails?["facility"]}") + " " +
+                                                            ((int)(subTaskDetails?["index"] ?? -2) + 1).ToString("D2"),
+                                                            splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+                        Instances.TaskQueueViewModel.AddLog(
+                            LocalizationHelper.GetString(
+                                keptReason == "candidates_unavailable" ? "InfrastCandidatesUnavailable" : "InfrastRoomKeptUnchanged"));
                     }
 
                     break;
                 }
 
             case "CustomInfrastRoomsNotConfigured":
-                // 自定义排班房间数组短于实际房间数，自该房间起的后续房间保持原样；核心侧已先发 EnterFacility 起卡片（卡头含设施名），本条沿用当前卡片且不重复设施名
+                // 自定义排班房间数组短于实际房间数，自该房间起的后续房间保持原样；同上两句形态自起新卡
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ThisFacility") +
+                                                    LocalizationHelper.GetString($"{subTaskDetails?["facility"]}") + " " +
+                                                    ((int)(subTaskDetails?["index"] ?? -2) + 1).ToString("D2"),
+                                                    splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
                 Instances.TaskQueueViewModel.AddLog(((int)(subTaskDetails?["index"] ?? -2) + 1).ToString("D2") + " " +
                                                     LocalizationHelper.GetString("InfrastRoomsNotConfigured"));
                 break;
