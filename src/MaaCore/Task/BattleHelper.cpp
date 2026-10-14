@@ -99,6 +99,28 @@ bool asst::BattleHelper::abandon()
     return ProcessTask(this_task(), { "RoguelikeBattleExitBegin" }).run();
 }
 
+bool asst::BattleHelper::abandon(int max_clicks_per_step)
+{
+    ProcessTask task(this_task(), { "RoguelikeBattleExitBegin" });
+    const bool result = task.set_times_limit("RoguelikeBattleExitBegin", max_clicks_per_step)
+                            .set_times_limit("RoguelikeBattleAbandon", max_clicks_per_step)
+                            .set_times_limit("RoguelikeBattleAbandonConfirm", max_clicks_per_step)
+                            .set_times_limit("NormalBattleAbandon", max_clicks_per_step)
+                            .run();
+
+    // ProcessTask 将 exceededNext 为空视为正常结束，须额外确认流程确实执行到了 Stop。
+    if (!result || task.get_last_task_name() != "Stop") {
+        LogWarn << __FUNCTION__ << "Bounded battle abandonment did not reach Stop"
+                << "last task" << task.get_last_task_name() << "process result" << result << "exit clicks"
+                << task.get_exec_times("RoguelikeBattleExitBegin") << "abandon clicks"
+                << task.get_exec_times("RoguelikeBattleAbandon") << "confirm clicks"
+                << task.get_exec_times("RoguelikeBattleAbandonConfirm") << "normal abandon clicks"
+                << task.get_exec_times("NormalBattleAbandon");
+        return false;
+    }
+    return true;
+}
+
 template <typename T>
 requires std::ranges::range<T> && asst::OperAvatarPair<std::ranges::range_value_t<T>>
 std::optional<asst::BestMatcher::Result>
@@ -779,6 +801,9 @@ bool asst::BattleHelper::wait_until_end(bool weak, bool do_strategy)
 
     cv::Mat image = m_inst_helper.ctrler()->get_image();
     while (!m_inst_helper.need_exit() && check_in_battle(image, weak)) {
+        if (!on_wait_until_end(image)) {
+            return false;
+        }
         if (do_strategy) {
             do_strategic_action(image);
         }
