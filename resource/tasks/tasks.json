@@ -2064,10 +2064,10 @@
         "onErrorNext": ["Stop"]
     },
     "MonthlyCard@MonthlyCardEntry": {
-        "doc": "组合包页左侧列表-月卡条目，点击进入详情页（倒计时只在详情页显示）。roi 覆盖列表下半区，整列表仅月卡条目含'月卡'字样",
+        "doc": "组合包页左侧列表-月卡条目，点击进入详情页（倒计时只在详情页显示）。月卡卡片位置随活动礼包数量变化，roi 覆盖整个左侧列表区域靠 OCR '月卡' 定位（'月卡'字样在列表内唯一，且不与顶部页签栏重叠）",
         "algorithm": "OcrDetect",
         "text": ["月卡"],
-        "roi": [0, 300, 260, 300],
+        "roi": [0, 170, 260, 540],
         "action": "ClickSelf",
         "postDelay": 1000,
         "next": ["MonthlyCard@MonthlyCardDays"],
