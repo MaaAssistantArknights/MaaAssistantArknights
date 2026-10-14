@@ -3479,7 +3479,7 @@ public class AsstProxy
         }
         else if (ConnectSettingsUserControlModel.Instance.TouchMode == TouchMode.MaaFw)
         {
-            AsstSetConnectionExtras("MaaFw", """{"library_name":"MaaAdbControlUnit"}""");
+            AsstSetConnectionExtras("MaaFw", """{"control_unit":"MaaAdbControlUnit"}""");
         }
 
         switch (SettingsViewModel.ConnectSettings.ConnectConfig)
