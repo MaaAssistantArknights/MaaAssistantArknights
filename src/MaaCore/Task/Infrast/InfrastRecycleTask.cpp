@@ -11,7 +11,7 @@ static constexpr int MaxSwipeTimes = 5;
 bool asst::InfrastRecycleTask::_run()
 {
     // 拦截统一走基类 check_room_shift_intent，非 Shift 视为本房间处理完成
-    if (check_room_shift_intent() != RoomShiftIntent::Shift) {
+    if (check_room_shift_intent(true) != RoomShiftIntent::Shift) {
         return true;
     }
 

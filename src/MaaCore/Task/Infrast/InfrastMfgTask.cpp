@@ -10,7 +10,7 @@ bool asst::InfrastMfgTask::_run()
 
     // rooms 数组为空时整设施保持原样；
     // skip 与空意图不在设施入口判定，分别留在循环内 Pre 无人机后与产物处理后按时序消费
-    if (is_facility_config_empty() && check_room_shift_intent() == RoomShiftIntent::KeepUnchanged) {
+    if (is_facility_config_empty() && check_room_shift_intent(true) == RoomShiftIntent::KeepUnchanged) {
         return true;
     }
 

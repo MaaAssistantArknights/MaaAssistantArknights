@@ -328,14 +328,21 @@ bool asst::InfrastAbstractTask::is_room_config_without_intent() const
            current_room_config().assistant_names.empty() && !current_room_config().autofill;
 }
 
-asst::RoomShiftIntent asst::InfrastAbstractTask::check_room_shift_intent() const
+asst::RoomShiftIntent asst::InfrastAbstractTask::check_room_shift_intent(bool with_facility_context) const
 {
     // 判定顺序固定为 空数组 → skip → 空意图
     // 通知发射只发回调不改任务状态，callback 系列为非 const 签名，此处统一放行 const 调用
     auto& notifier = const_cast<InfrastAbstractTask&>(*this);
+    const auto notify_kept = [&notifier, with_facility_context]() {
+        if (with_facility_context) {
+            // 进设施前的拦截没有真实进入，先补发设施上下文，GUI 另起当前设施卡片承载保持原样提示
+            notifier.callback(AsstMsg::SubTaskExtraInfo, notifier.basic_info_with_what("EnterFacility"));
+        }
+        notifier.notify_room_kept_unchanged();
+    };
     if (is_facility_config_empty()) {
         LogInfo << "custom room array is empty, keep facility unchanged";
-        notifier.notify_room_kept_unchanged();
+        notify_kept();
         return RoomShiftIntent::KeepUnchanged;
     }
     if (m_is_custom && current_room_config().skip) {
@@ -343,7 +350,7 @@ asst::RoomShiftIntent asst::InfrastAbstractTask::check_room_shift_intent() const
         return RoomShiftIntent::Skip;
     }
     if (is_room_config_without_intent()) {
-        notifier.notify_room_kept_unchanged();
+        notify_kept();
         return RoomShiftIntent::KeepUnchanged;
     }
     return RoomShiftIntent::Shift;
