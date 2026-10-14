@@ -616,6 +616,27 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   :::
   ::::
 
+- `ShiftCompleted`  
+  基建設施換班完成（輪換模式下跳過換班後同樣會發出），產物識別有效時發出。`details` 欄位內容如下：
+
+  :::: field-group
+  ::: field product
+  @type string
+  @required
+  產物名稱。
+  :::
+  ::: field facility
+  @type string
+  @required
+  設施名稱。
+  :::
+  ::: field index
+  @type number
+  @required
+  設施序號。
+  :::
+  ::::
+
 - `StageInfo`  
   自動作戰關卡資訊。`details` 欄位內容如下：
 

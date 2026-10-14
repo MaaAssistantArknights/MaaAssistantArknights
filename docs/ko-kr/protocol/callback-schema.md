@@ -589,6 +589,27 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   :::
   ::::
 
+- `ShiftCompleted`  
+  기반시설 교대 완료 (로테이션 모드에서 교대를 건너뛴 경우에도 전송됨), 생산물 인식이 유효할 때만 전송됩니다. `details` 필드 내용은 다음과 같습니다:
+
+  :::: field-group
+  ::: field product
+  @type string
+  @required
+  생산물명
+  :::
+  ::: field facility
+  @type string
+  @required
+  시설명
+  :::
+  ::: field index
+  @type number
+  @required
+  시설 순서
+  :::
+  ::::
+
 - `StageInfo`  
   자동 작전 노드 정보. `details` 필드 내용은 다음과 같습니다:
 

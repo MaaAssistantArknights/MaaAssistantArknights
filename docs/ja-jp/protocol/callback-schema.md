@@ -566,6 +566,18 @@ Todo
   }
   ```
 
+- `ShiftCompleted`  
+  施設の交代完了（ローテーションモードで交代をスキップした場合も送信）、生産物を認識できた場合のみ送信
+
+  ```json
+  // 対応する詳細フィールドの例
+  {
+    "product": "OriginStone", // 生産物
+    "facility": "Mfg", // 施設名
+    "index": 0 // 施設 ID
+  }
+  ```
+
 - `StageInfo`  
    自動戦闘ステージの情報
 
