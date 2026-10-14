@@ -92,7 +92,8 @@ public class AsstProxy
     private static void AddFacilityReasonLog(string facility, int index, string reasonText)
     {
         var displayIndex = index + 1;
-        if ($"{facility}#{displayIndex}" == _lastFacilityCardKey)
+        var key = $"{facility}#{displayIndex}";
+        if (key == _lastFacilityCardKey)
         {
             Instances.TaskQueueViewModel.AddLog(reasonText);
             return;
@@ -102,6 +103,10 @@ public class AsstProxy
                                             LocalizationHelper.GetString(facility) + " " + displayIndex.ToString("D2"),
                                             splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
         Instances.TaskQueueViewModel.AddLog(reasonText);
+
+        // 自起卡的首行就是该设施行，语义为 ｢最近一张以该设施行为首的卡片｣，
+        // 同房间后续的原因提示据此正确追加
+        _lastFacilityCardKey = key;
     }
 
     private static unsafe byte[] EncodeNullTerminatedUtf8(string s)
@@ -921,6 +926,7 @@ public class AsstProxy
 
             case AsstMsg.TaskChainStart:
                 Instances.TaskQueueViewModel.Running = true;
+                _lastFacilityCardKey = null; // 新任务链开始，上一链的设施卡片标识不再有效
                 goto case AsstMsg.TaskChainExtraInfo; // fallthrough
             case AsstMsg.AllTasksCompleted:
             case AsstMsg.AsyncCallInfo:
