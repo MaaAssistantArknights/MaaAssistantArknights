@@ -11,6 +11,7 @@
 #include "Vision/Hasher.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 #include "Vision/Matcher.h"
+#include "Vision/RegionOCRer.h"
 
 namespace
 {
@@ -252,6 +253,16 @@ std::optional<asst::InfrastProcessingTask::MaterialSynthesisScanResult>
                 return same_material_synthesis_operator(cached, oper, face_hash_threshold);
             });
         if (duplicate != m_material_synthesis_operator_cache.cend()) {
+            continue;
+        }
+
+        // 跳过进驻 B305 或 B402 的干员，避免材料合成把训练室干员调走
+        RegionOCRer facility_analyzer(oper.facility_img);
+        facility_analyzer.set_use_char_model(true);
+        facility_analyzer.set_required({ "B305", "B402" });
+        if (facility_analyzer.analyze()) {
+            LogInfo << __FUNCTION__ << "| skipping synthesis operator stationed in"
+                    << facility_analyzer.get_result().text;
             continue;
         }
 
