@@ -3228,7 +3228,7 @@
     "InfrastOffice": {
         "template": "Office.png",
         "maskRange": [1, 255],
-        "roi": [378, 94, 900, 529],
+        "roi": [378, 94, 900, 586],
         "templThreshold": 0.95
     },
     "InfrastOfficeMini": {
@@ -3239,7 +3239,7 @@
     },
     "InfrastProcessing": {
         "maskRange": [1, 255],
-        "roi": [378, 94, 900, 529],
+        "roi": [378, 94, 900, 586],
         "templThreshold": 0.95
     },
     "InfrastProcessingMini": {
@@ -3257,7 +3257,7 @@
     "InfrastReception": {
         "template": "Reception.png",
         "maskRange": [1, 255],
-        "roi": [378, 94, 900, 529],
+        "roi": [378, 94, 900, 586],
         "templThreshold": 0.95
     },
     "InfrastReceptionMini": {
@@ -3336,7 +3336,7 @@
     "InfrastTraining": {
         "template": "Training.png",
         "maskRange": [1, 255],
-        "roi": [378, 94, 900, 529],
+        "roi": [378, 94, 900, 586],
         "templThreshold": 0.95
     },
     "InfrastTrainingMini": {
@@ -3348,7 +3348,6 @@
     "InfrastRecycle": {
         "template": "Recycle.png",
         "maskRange": [1, 255],
-        "roi_Doc": "回收站位于右列最下方，模板需要更深的检索区域",
         "roi": [378, 94, 900, 586],
         "templThreshold": 0.95
     },
