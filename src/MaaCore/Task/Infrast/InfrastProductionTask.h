@@ -71,5 +71,8 @@ protected:
 protected:
     bool change_product();
     bool m_is_product_incorrect = false;
+    // 换产物重试耗尽仍失败时置位：产物计划可能已改但未确认执行，与补货一样会在
+    // 切页签时留下 ｢尚未执行新的制造计划｣ 弹窗，探测条件据此扩展
+    bool m_plan_may_be_unexecuted = false;
 };
 }

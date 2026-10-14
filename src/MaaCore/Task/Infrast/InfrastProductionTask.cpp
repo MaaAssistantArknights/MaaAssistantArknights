@@ -268,19 +268,19 @@ bool asst::InfrastProductionTask::shift_facility_list()
         sleep(tab_task_ptr->post_delay);
 
         // 上一个设施留有未执行的制造计划时，切换页签会被 ｢尚未执行新的制造计划｣ 弹窗拦下，确认离开后重新点击页签。
-        // 该弹窗只可能由制造站的补货留下（确认按钮未弹或未被点中时），贸易站与未补货的轮次没有此弹窗，
-        // 直接用 OCRer 探测前先按此收紧，避免整块 OCR 白跑；正常切换时没有弹窗，裸探测也避免 ProcessTask 未命中上报
-        // SubTaskError
-        bool replenish_ran = false;
-        if (facility_name() == "Mfg") {
+        // 该弹窗只可能由制造站的补货（确认按钮未弹或未被点中时）或换产物失败留下，贸易站与
+        // 两者都没发生的轮次没有此弹窗，直接用 OCRer 探测前先按此收紧，避免整块 OCR 白跑；
+        // 正常切换时没有弹窗，裸探测也避免 ProcessTask 未命中上报 SubTaskError
+        bool plan_may_be_unexecuted = m_plan_may_be_unexecuted;
+        if (facility_name() == "Mfg" && !plan_may_be_unexecuted) {
             for (const auto& plugin : get_plugins()) {
                 if (auto replenish = std::dynamic_pointer_cast<ReplenishOriginiumShardTaskPlugin>(plugin)) {
-                    replenish_ran = replenish->ran_this_run();
+                    plan_may_be_unexecuted = replenish->ran_this_run();
                     break;
                 }
             }
         }
-        if (replenish_ran) {
+        if (plan_may_be_unexecuted) {
             OCRer leave_analyzer(ctrler()->get_image());
             leave_analyzer.set_task_info("InfrastUnexecutedPlanLeaveConfirm");
             if (leave_analyzer.analyze()) {
@@ -400,6 +400,8 @@ bool asst::InfrastProductionTask::shift_facility_list()
         if (m_is_custom && m_is_product_incorrect) {
             if (!change_product()) {
                 // 产物失败只报错，不阻断换人，尽量保证干员心情和恢复轴按排班推进。
+                // 产物计划可能已改但未确认执行，标记后切页签时仍探测未执行计划弹窗
+                m_plan_may_be_unexecuted = true;
                 LogWarn << "change_product failed after retries, proceed with staffing" << facility_name()
                         << m_cur_facility_index;
             }
