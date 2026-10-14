@@ -635,8 +635,7 @@
         },
         "char_1052_kalts2": {
             "name": "凯尔希·思衡托",
-            "name_en": "凯尔希·思衡托",
-            "name_en_unavailable": true,
+            "name_en": "Kal'tsit Esperanta",
             "name_jp": "ケルシー・エスペランタ",
             "name_kr": "켈시 에스페란타",
             "name_tw": "凯尔希·思衡托",
@@ -4918,8 +4917,7 @@
         },
         "char_4225_tanya": {
             "name": "裂响",
-            "name_en": "裂响",
-            "name_en_unavailable": true,
+            "name_en": "Crackborne",
             "name_jp": "クラックボーン",
             "name_kr": "크랙본",
             "name_tw": "裂响",
@@ -4933,8 +4931,7 @@
         },
         "char_4226_veen": {
             "name": "维伊",
-            "name_en": "维伊",
-            "name_en_unavailable": true,
+            "name_en": "Viy",
             "name_jp": "ヴィイ",
             "name_kr": "비이",
             "name_tw": "维伊",
@@ -4949,7 +4946,6 @@
         "char_4227_gallus": {
             "name": "GALLUS²",
             "name_en": "GALLUS²",
-            "name_en_unavailable": true,
             "name_jp": "GALLUS²",
             "name_kr": "GALLUS²",
             "name_tw": "GALLUS²",
@@ -4963,8 +4959,7 @@
         },
         "char_4228_closur": {
             "name": "可露希尔",
-            "name_en": "可露希尔",
-            "name_en_unavailable": true,
+            "name_en": "Closure",
             "name_jp": "クロージャ",
             "name_kr": "클로저",
             "name_tw": "可露希尔",
@@ -7016,8 +7011,7 @@
         },
         "token_10066_closur_ourbase": {
             "name": "指挥中心",
-            "name_en": "指挥中心",
-            "name_en_unavailable": true,
+            "name_en": "Command Center",
             "name_jp": "指揮センター",
             "name_kr": "지휘 센터",
             "name_tw": "指挥中心",
@@ -7048,8 +7042,7 @@
         },
         "token_10068_kalts2_mtship": {
             "name": "战术锚点",
-            "name_en": "战术锚点",
-            "name_en_unavailable": true,
+            "name_en": "Tactical Anchor Point",
             "name_jp": "戦術アンカー",
             "name_kr": "전술 앵커",
             "name_tw": "战术锚点",
@@ -14083,8 +14076,7 @@
         },
         "trap_329_rift": {
             "name": "泄漏标记",
-            "name_en": "泄漏标记",
-            "name_en_unavailable": true,
+            "name_en": "Leak Marker",
             "name_jp": "漏洩マーカー",
             "name_kr": "누출 표식",
             "name_tw": "泄漏标记",
