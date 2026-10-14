@@ -543,13 +543,6 @@
                             </StackPanel>
                         </StackPanel>
 
-                            <!--  UseSanityPotion  -->
-                            <CheckBox
-                                Margin="2.5,5"
-                                Content="{DynamicResource UseSanityPotion}"
-                                IsChecked="{Binding UseSanityPotion}"
-                                Visibility="{c:Binding 'UseCopilotList and CopilotTabIndex == 0'}" />
-
                             <!--  Loop / LoopTimes  -->
                             <StackPanel Orientation="Horizontal" Visibility="{c:Binding '!UseCopilotList and CopilotTabIndex != 0 and CopilotTabIndex != 2'}">
                                 <CheckBox
