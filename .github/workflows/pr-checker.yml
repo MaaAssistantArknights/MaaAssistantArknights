@@ -4,6 +4,9 @@ on:
   pull_request_target:
     types: [opened, edited, ready_for_review, reopened, synchronize]
 
+permissions:
+  pull-requests: write
+
 jobs:
   check_commit_name_in_pr:
     name: Check Commits in PR
