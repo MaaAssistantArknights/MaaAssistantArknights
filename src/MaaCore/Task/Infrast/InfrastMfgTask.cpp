@@ -1,7 +1,6 @@
 #include "InfrastMfgTask.h"
 
 #include "Controller/Controller.h"
-#include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 
 bool asst::InfrastMfgTask::_run()

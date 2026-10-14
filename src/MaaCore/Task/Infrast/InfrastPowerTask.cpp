@@ -1,7 +1,6 @@
 #include "InfrastPowerTask.h"
 
 #include "Controller/Controller.h"
-#include "Utils/Logger.hpp"
 #include <ranges>
 
 bool asst::InfrastPowerTask::_run()

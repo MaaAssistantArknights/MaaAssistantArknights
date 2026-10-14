@@ -1,7 +1,5 @@
 #include "InfrastTradeTask.h"
 
-#include "Utils/Logger.hpp"
-
 bool asst::InfrastTradeTask::_run()
 {
     m_all_available_opers.clear();
