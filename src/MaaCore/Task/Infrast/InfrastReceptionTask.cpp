@@ -75,7 +75,7 @@ bool asst::InfrastReceptionTask::_run()
         return shift();
     }
 
-    Log.info("skip shift in rotation mode");
+    LogInfo << "skip shift in rotation mode";
     return true;
 }
 
@@ -331,8 +331,8 @@ bool asst::InfrastReceptionTask::shift()
 {
     LogTraceFunction;
 
-    if (m_is_custom && current_room_config().skip) {
-        Log.info("skip this room");
+    // 空数组与空意图均在此处拦截；留言板/线索收取/交流/赠送等设施级操作已在 shift 之前完成，不受影响
+    if (check_room_shift_intent() != RoomShiftIntent::Shift) {
         return true;
     }
 
@@ -368,8 +368,14 @@ bool asst::InfrastReceptionTask::shift()
         }
 
         if (is_use_custom_opers()) {
-            if (swipe_and_select_custom_opers()) {
+            bool room_kept_unchanged = false;
+            if (swipe_and_select_custom_opers(false, false, &room_kept_unchanged)) {
                 break;
+            }
+            if (room_kept_unchanged) {
+                // 保持原样已由选人函数退出选人界面回到设施页，与选人确认完成的界面层级一致，
+                // 无需补返回，跳过确认与剩余重试
+                return true;
             }
             swipe_to_the_left_of_operlist();
             continue;

@@ -472,7 +472,7 @@ Shift mode. Editing in run-time is not supported.
 <br>
 `10000` - `Custom`: Custom shift mode, reads user configuration, see [Base Scheduling Schema](./base-scheduling-schema.md).
 <br>
-`20000` - `Rotation`: One-key rotation mode, skips control center, power station, dormitory and office, other facilities do not change shifts but retain basic operations (such as using drones, reception room logic).  
+`20000` - `Rotation`: One-key rotation mode, skips control center, power station, dormitory, office and recycling station, other facilities do not change shifts but retain basic operations (such as using drones, reception room logic).  
 :::  
 ::: field facility  
 @type array<string>

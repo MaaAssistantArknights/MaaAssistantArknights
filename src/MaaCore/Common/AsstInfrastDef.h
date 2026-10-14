@@ -380,6 +380,10 @@ struct CustomRoomConfig
     std::vector<std::string> candidates;
     int selected = 0;
     bool sort = false;
+    // 训练室专用：训练位干员候选池，取选择列表中第一个出现的（专精全满的干员不出现在列表中，等效跳过）
+    std::vector<std::string> trainee_names;
+    // 训练室专用：协助者候选池，空时不选择协助者
+    std::vector<std::string> assistant_names;
 };
 
 using CustomFacilityConfig = std::vector<CustomRoomConfig>;

@@ -155,6 +155,12 @@
     <system:String x:Key="Training">Training Room</system:String>
     <system:String x:Key="Recycle">Recycling Station (speculative translation, not yet released)</system:String>
     <system:String x:Key="AssistantChange">Assistant change</system:String>
+    <system:String x:Key="InfrastTraineeNotFound">No training slot candidate matched; the training slot has been left unchanged: {0}</system:String>
+    <system:String x:Key="InfrastAssistantNotFound">No assistant candidate matched; the assistant has been left unchanged: {0}</system:String>
+    <system:String x:Key="InfrastRoomKeptUnchanged">This room has no staffing intent configured and is kept unchanged</system:String>
+    <system:String x:Key="InfrastFacilityKeptUnchanged">has no rooms configured in the schedule file; the entire facility is kept unchanged</system:String>
+    <system:String x:Key="InfrastCandidatesUnavailable">All candidate operators are working in other facilities; the room is kept unchanged</system:String>
+    <system:String x:Key="InfrastRoomsNotConfigured">rooms from here on are not configured and left unchanged</system:String>
     <system:String x:Key="Trade">Trading Post</system:String>
     <system:String x:Key="Power">Power Plant</system:String>
     <system:String x:Key="Reception">Reception Room</system:String>
@@ -1865,6 +1871,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">Current Facility:&#160;</system:String>
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">Match Group:&#160;</system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">Failed to match {key=Operator} groups, group list:&#160;</system:String>
+    <system:String x:Key="RoomGroupsMatchRecogFailed">Failed to recognize {key=Operator}s for group matching; the room has been left unchanged</system:String>
     <system:String x:Key="RoomOperators" xml:space="preserve">Preferred {key=Operator}s:&#160;</system:String>
     <system:String x:Key="ProductIncorrect">Product does NOT match the configuration.</system:String>
     <system:String x:Key="ProductUnknown">Unknown Product</system:String>

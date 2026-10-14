@@ -36,6 +36,9 @@ public:
     InfrastTask(const AsstCallback& callback, Assistant* inst);
     virtual ~InfrastTask() override = default;
 
+    // 整轮基建入口：清空编组可用集后再跑各设施子任务
+    virtual bool run() override;
+
     virtual bool set_params(const json::value& params) override;
 
 private:

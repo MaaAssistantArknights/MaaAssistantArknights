@@ -2,6 +2,7 @@
 
 #include "Utils/Logger.hpp"
 
+#include "Status.h"
 #include "Task/Infrast/DronesForShamareTaskPlugin.h"
 #include "Task/Infrast/InfrastAssistantChangeTask.h"
 #include "Task/Infrast/InfrastControlTask.h"
@@ -66,6 +67,15 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst) :
     m_assistant_change_task_ptr->set_retry_times(0);
 
     m_subtasks.emplace_back(m_infrast_begin_task_ptr);
+}
+
+bool asst::InfrastTask::run()
+{
+    // 编组可用集存于跨任务持久的 Status，跨轮基建会继承上一轮的消耗与陈旧心情快照，
+    // 上一轮已进驻的编组本轮将永远匹配不到；写入空集让首个编组房间重新收集。
+    // 默认模式（无编组）不读该键，无条件清空无影响
+    status()->set_str(Status::InfrastAvailableOpersForGroup, json::array().dumps());
+    return InterfaceTask::run();
 }
 
 bool asst::InfrastTask::set_params(const json::value& params)
@@ -286,21 +296,21 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
     LogTraceFunction;
 
     if (!std::filesystem::exists(path) || !std::filesystem::is_regular_file(path)) {
-        Log.error("custom infrast file does not exist:", path);
+        LogError << "custom infrast file does not exist:" << path;
         return false;
     }
 
     auto custom_json_opt = json::open(path, true, true);
     if (!custom_json_opt) {
-        Log.error("failed to open json file:", path);
+        LogError << "failed to open json file:" << path;
         return false;
     }
     auto& custom_json = custom_json_opt.value();
-    Log.trace(__FUNCTION__, "| custom json:", custom_json.to_string());
+    LogTrace << __FUNCTION__ << "| custom json:" << custom_json.to_string();
 
     auto& all_plans = custom_json.at("plans").as_array();
     if (index < 0 || index >= int(all_plans.size())) {
-        Log.error("index is out of range, plans size:", all_plans.size(), ", index:", index);
+        LogError << "index is out of range, plans size:" << all_plans.size() << ", index:" << index;
         return false;
     }
     auto& cur_plan = all_plans.at(index);
@@ -342,7 +352,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
                 }
                 else {
                     // 兼容配置表先于 Core 更新，未知产物保留默认 Unknown，该房间照常换人但不校验、不更换产物
-                    Log.warn(__FUNCTION__, "Unknown product, keep as Unknown:", product);
+                    LogWarn << __FUNCTION__ << "Unknown product, keep as Unknown:" << product;
                 }
             }
 
@@ -351,7 +361,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
                 for (const auto& oper_name : opers_opt.value()) {
                     std::string name = oper_name.as_string();
                     if (name.empty()) {
-                        Log.warn("operators.name is empty");
+                        LogWarn << "operators.name is empty";
                         continue;
                     }
                     room_config.names.emplace_back(std::move(name));
@@ -368,6 +378,11 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
                                 room_config.operator_groups[pair.first] = std::move(pair.second);
                             }
                         });
+                    for (const auto& name : name_set) {
+                        if (!room_config.operator_groups.contains(name)) {
+                            LogWarn << __FUNCTION__ << " operator group not defined in groups: " << name;
+                        }
+                    }
                 }
             }
 
@@ -376,10 +391,37 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
                 for (const auto& candidate_name : candidates_opt.value()) {
                     std::string name = candidate_name.as_string();
                     if (name.empty()) {
-                        Log.warn("operators.candidates is empty");
+                        LogWarn << "operators.candidates is empty";
                         continue;
                     }
                     room_config.candidates.emplace_back(std::move(name));
+                }
+            }
+
+            // 训练室的双槽位字段：operatorsA 为协助者候选池，operatorsB 为训练位干员候选池，仅训练室解析。
+            // 与 is_room_config_without_intent 的空意图判定联动，必须只在训练室解析：
+            // 其他设施误写这两个字段时不解析、trainee_names/assistant_names 恒空，误写房间仍判空意图保持原样；
+            // 若无条件解析，空意图判定会把误写 operatorsA 的房间翻成 Shift，走默认算法整房换血
+            if (facility == "training") {
+                if (auto trainees_opt = room_info.find<json::array>("operatorsB")) {
+                    for (const auto& trainee_name : trainees_opt.value()) {
+                        std::string name = trainee_name.as_string();
+                        if (name.empty()) {
+                            LogWarn << "operatorsB.name is empty";
+                            continue;
+                        }
+                        room_config.trainee_names.emplace_back(std::move(name));
+                    }
+                }
+                if (auto assistants_opt = room_info.find<json::array>("operatorsA")) {
+                    for (const auto& assistant_name : assistants_opt.value()) {
+                        std::string name = assistant_name.as_string();
+                        if (name.empty()) {
+                            LogWarn << "operatorsA.name is empty";
+                            continue;
+                        }
+                        room_config.assistant_names.emplace_back(std::move(name));
+                    }
                 }
             }
             facility_config.emplace_back(std::move(room_config));
@@ -410,9 +452,15 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         else if (facility == "dormitory") {
             m_dorm_task_ptr->set_custom_config(facility_config);
         }
+        else if (facility == "training") {
+            m_training_task_ptr->set_custom_config(facility_config);
+        }
+        else if (facility == "recycle") {
+            m_recycle_task_ptr->set_custom_config(facility_config);
+        }
         else {
             // 兼容游戏新增设施、配置表先于 MAA 适配的场景，不认识的设施类型直接跳过，不影响已知设施
-            Log.warn(__FUNCTION__, "unknown facility, skip:", facility);
+            LogWarn << __FUNCTION__ << "unknown facility, skip:" << facility;
             continue;
         }
     }
@@ -431,10 +479,10 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         }
         std::string target = Fia_json.get("target", std::string());
         if (target.empty()) {
-            Log.warn("Fiammetta's target is unsetted or empty");
+            LogWarn << "Fiammetta's target is unsetted or empty";
             break;
         }
-        Log.trace("Fiammetta's target:", target);
+        LogTrace << "Fiammetta's target:" << target;
 
         static const std::string FiaName = "菲亚梅塔";
 
@@ -445,6 +493,8 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         pre_room_config.names = { target };
         auto pre_task_ptr = std::make_shared<InfrastDormTask>(m_callback, m_inst, TaskType);
         pre_task_ptr->set_custom_config(std::move(pre_facility_config));
+        // 只配 1 间但宿舍循环会跑满全部房间，越界 break 是正常终止，不发面向用户的未配置提示
+        pre_task_ptr->set_suppress_unconfigured_notice(true);
 
         infrast::CustomFacilityConfig facility_config(1);
         auto& room_config = facility_config.front();
@@ -453,6 +503,8 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
 
         auto Fia_task_ptr = std::make_shared<InfrastDormTask>(m_callback, m_inst, TaskType);
         Fia_task_ptr->set_custom_config(std::move(facility_config));
+        // 同上：单间配置跑满宿舍循环，越界为正常终止
+        Fia_task_ptr->set_suppress_unconfigured_notice(true);
 
         if (Fia_json.get("order", "pre") != "post") {
             m_subtasks.insert(m_subtasks.begin(), { m_infrast_begin_task_ptr, pre_task_ptr, Fia_task_ptr });
@@ -481,11 +533,11 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         bool additional_advance_drones = Fia_is_pre && drones_config.order == infrast::CustomDronesConfig::Order::Pre;
         std::string room = drones_json.get("room", std::string());
         if (room.empty()) {
-            Log.warn("drones room is unsetted or empty");
+            LogWarn << "drones room is unsetted or empty";
             break;
         }
         else if (room != "trading" && room != "manufacture") {
-            Log.error("error drones config, unknown room", room);
+            LogError << "error drones config, unknown room" << room;
             return false;
         }
 
@@ -502,6 +554,8 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
             drones_only_task_ptr->set_custom_config(
                 infrast::CustomFacilityConfig(drones_config.index + 1, infrast::CustomRoomConfig { .skip = true }));
             drones_only_task_ptr->set_custom_drones_config(std::move(drones_config));
+            // 只配到无人机目标间数，后续房间越界 break 是正常终止，不发面向用户的未配置提示
+            drones_only_task_ptr->set_suppress_unconfigured_notice(true);
             m_subtasks.insert(m_subtasks.begin(), { m_infrast_begin_task_ptr, drones_only_task_ptr });
         }
         else {

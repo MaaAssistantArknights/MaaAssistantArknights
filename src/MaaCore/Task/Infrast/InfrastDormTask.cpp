@@ -144,12 +144,24 @@ bool asst::InfrastDormTask::_run()
     if (m_cur_facility_index == 0) {
         m_fiammetta_checked = false;
     }
+    // 空房间数组时整设施保持原样，不进任何宿舍；
+    // skip 与空意图不在设施入口判定，留在循环内进设施前按时序消费
+    if (is_facility_config_empty() && check_room_shift_intent() == RoomShiftIntent::KeepUnchanged) {
+        return true;
+    }
     for (; m_cur_facility_index < m_max_num_of_dorm; ++m_cur_facility_index) {
         if (need_exit()) {
             return false;
         }
-        if (m_is_custom && current_room_config().skip) {
-            Log.info("skip this room");
+        // rooms 数组短于实际房间数：剩余房间不换班（与制造站贸易站及文档语义一致），整设施发一条未配置提示
+        if (m_is_custom && static_cast<size_t>(m_cur_facility_index) >= m_custom_config.size()) {
+            notify_rooms_not_configured();
+            break;
+        }
+        // 空数组已在此前消费，此处结果只可能 Skip、KeepUnchanged（空意图）或 Shift（数组短的越界房间已在上游 break）。
+        // 常规换班流程会先清空休息位，空意图宿舍因无 autofill 授权不进入补人阶段，而自定义排班
+        // 没有宿舍重排轮兜底，休息位会保持全空，该结果并非设计意图，故空意图同样跳过该宿舍的全部操作
+        if (check_room_shift_intent() != RoomShiftIntent::Shift) {
             continue;
         }
 
@@ -183,7 +195,7 @@ bool asst::InfrastDormTask::_run()
         const auto room_config = current_room_config();
         const bool room_uses_custom_opers = is_use_custom_opers();
 
-        Log.trace("m_notstationed_filter_enabled:", m_notstationed_filter_enabled);
+        LogTrace << "m_notstationed_filter_enabled:" << m_notstationed_filter_enabled;
         const bool is_default_prepare_phase = m_prepare_phase && m_default_mode;
         // 常规模式第一轮保持游戏默认的“全部”筛选，未进驻仅在第二轮重排启用。
         if (m_notstationed_filter_enabled && !room_uses_custom_opers && !is_default_prepare_phase) {
@@ -210,7 +222,17 @@ bool asst::InfrastDormTask::_run()
                 return false;
             }
 
-            swipe_and_select_custom_opers(true);
+            bool room_kept_unchanged = false;
+            swipe_and_select_custom_opers(true, false, &room_kept_unchanged);
+            if (room_kept_unchanged) {
+                // 纯候补全部在其他设施工作等计划内不可用，选人已在函数内部还原配置并保持原样退出选人界面
+                // （不确认，未确认的清空与选择不生效）；选人函数停在房间页，此处补一次返回回主界面，
+                // 对齐确认路径的退出深度，否则下一间 enter_facility 在房间页找不到宿舍入口；
+                // 跳过筛选恢复与后续确认流程继续下一间，未进驻筛选维持选人前的关闭状态
+                // （内存标志同为关闭），下一间进入时按各自配置重新设置
+                click_return_button();
+                continue;
+            }
 
             if (should_restore_notstationed_filter && !set_notstationed_filter(true)) {
                 return false;

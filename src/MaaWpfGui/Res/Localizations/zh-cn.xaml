@@ -155,6 +155,12 @@
     <system:String x:Key="Training">训练室</system:String>
     <system:String x:Key="Recycle">回收站</system:String>
     <system:String x:Key="AssistantChange">副手换人</system:String>
+    <system:String x:Key="InfrastTraineeNotFound">训练位候选均未命中，训练位保持原样：{0}</system:String>
+    <system:String x:Key="InfrastAssistantNotFound">协助者候选均未命中，协助者保持原样：{0}</system:String>
+    <system:String x:Key="InfrastRoomKeptUnchanged">该房间未配置选人名单，保持原样，未换班</system:String>
+    <system:String x:Key="InfrastFacilityKeptUnchanged">排班表该设施未配置房间，整个设施保持原样，未换班</system:String>
+    <system:String x:Key="InfrastCandidatesUnavailable">候选干员全部在其他设施工作，保持原样，未换班</system:String>
+    <system:String x:Key="InfrastRoomsNotConfigured">间起未配置，保持原样</system:String>
     <system:String x:Key="Trade">贸易站</system:String>
     <system:String x:Key="Power">发电站</system:String>
     <system:String x:Key="Reception">会客室</system:String>
@@ -1867,6 +1873,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ThisFacility" xml:space="preserve">当前设施: </system:String>
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">匹配编组: </system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">匹配{key=Operator}编组失败，编组列表: </system:String>
+    <system:String x:Key="RoomGroupsMatchRecogFailed">编组{key=Operator}识别失败，房间保持原样</system:String>
     <system:String x:Key="RoomOperators" xml:space="preserve">首选{key=Operator}: </system:String>
     <system:String x:Key="ProductIncorrect">产物与配置不相符。</system:String>
     <system:String x:Key="ProductUnknown">无法识别的产物</system:String>

@@ -155,6 +155,12 @@
     <system:String x:Key="Training">훈련실</system:String>
     <system:String x:Key="Recycle">재활용 시설 (추측 번역, 미실장)</system:String>
     <system:String x:Key="AssistantChange">보조 인원 교체</system:String>
+    <system:String x:Key="InfrastTraineeNotFound">훈련 슬롯 후보가 모두 일치하지 않아 훈련 슬롯을 그대로 유지합니다: {0}</system:String>
+    <system:String x:Key="InfrastAssistantNotFound">보조 인원 후보가 모두 일치하지 않아 보조 인원을 그대로 유지합니다: {0}</system:String>
+    <system:String x:Key="InfrastRoomKeptUnchanged">이 방은 배치 의도가 미구성되어 그대로 유지됩니다</system:String>
+    <system:String x:Key="InfrastFacilityKeptUnchanged">은(는) 스케줄에서 방이 미구성되어 시설 전체를 그대로 유지합니다</system:String>
+    <system:String x:Key="InfrastCandidatesUnavailable">후보 오퍼레이터가 모두 다른 시설에서 근무 중이라 그대로 유지됩니다</system:String>
+    <system:String x:Key="InfrastRoomsNotConfigured">번 방부터 미구성되어 그대로 유지됩니다</system:String>
     <system:String x:Key="Trade">무역소</system:String>
     <system:String x:Key="Power">발전소</system:String>
     <system:String x:Key="Reception">응접실</system:String>
@@ -1864,6 +1870,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ThisFacility" xml:space="preserve">현재 시설: </system:String>
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">그룹에 일치: </system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">{key=Operator} 그룹, 그룹 목록을 일치시키지 못했습니다: </system:String>
+    <system:String x:Key="RoomGroupsMatchRecogFailed">그룹 {key=Operator} 인식에 실패하여 방이 변경되지 않았습니다</system:String>
     <system:String x:Key="RoomOperators" xml:space="preserve">선호하는 {key=Operator}: </system:String>
     <system:String x:Key="ProductIncorrect">생산품이 구성과 맞지 않습니다.</system:String>
     <system:String x:Key="ProductUnknown">인식할 수 없는 생산품</system:String>

@@ -32,6 +32,16 @@ private:
     bool continue_train(int index);
     static int skill_index_from_rect(const Rect& r);
 
+    // 自定义排班：训练决策沿用默认模式（训练完成领取后，勾选继续训练时接着练当前干员，不受三态影响），
+    // plan 三态只控制换人（换训练位、换协助者）
+    bool custom_shift();
+    // 换训练位干员：名单未配置返回 true；候选未命中发 CustomInfrastTraineeNotFound 回调，
+    // 循环正常走完与等回专精页失败两条退出路径都保证送达；等回专精页失败返回 false 交重跑链重试
+    bool change_trainee();
+    bool select_assistant();
+    // 等待并实测确认当前处于专精页（OCR 识别 ｢协助者｣ ），专精页相关固定坐标点击之后统一用它验证
+    bool wait_for_mastery_page();
+
     int m_level;
     std::string m_operator_name;
     std::string m_skill_name;

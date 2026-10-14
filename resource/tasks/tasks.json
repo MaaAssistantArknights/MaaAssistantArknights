@@ -2933,7 +2933,7 @@
     },
     "InfrastReward": {
         "algorithm": "OcrDetect",
-        "text": ["可收获", "订单交付", "员信赖"],
+        "text": ["可收获", "订单交付", "员信赖", "材料产出"],
         "action": "ClickSelf",
         "roi": [0, 600, 800, 118],
         "postDelay": 1000,
@@ -3228,7 +3228,7 @@
     "InfrastOffice": {
         "template": "Office.png",
         "maskRange": [1, 255],
-        "roi": [378, 94, 900, 529],
+        "roi": [378, 94, 900, 586],
         "templThreshold": 0.95
     },
     "InfrastOfficeMini": {
@@ -3239,7 +3239,7 @@
     },
     "InfrastProcessing": {
         "maskRange": [1, 255],
-        "roi": [378, 94, 900, 529],
+        "roi": [378, 94, 900, 586],
         "templThreshold": 0.95
     },
     "InfrastProcessingMini": {
@@ -3257,7 +3257,7 @@
     "InfrastReception": {
         "template": "Reception.png",
         "maskRange": [1, 255],
-        "roi": [378, 94, 900, 529],
+        "roi": [378, 94, 900, 586],
         "templThreshold": 0.95
     },
     "InfrastReceptionMini": {
@@ -3336,7 +3336,7 @@
     "InfrastTraining": {
         "template": "Training.png",
         "maskRange": [1, 255],
-        "roi": [378, 94, 900, 529],
+        "roi": [378, 94, 900, 586],
         "templThreshold": 0.95
     },
     "InfrastTrainingMini": {
@@ -3348,7 +3348,6 @@
     "InfrastRecycle": {
         "template": "Recycle.png",
         "maskRange": [1, 255],
-        "roi_Doc": "回收站位于右列最下方，模板需要更深的检索区域",
         "roi": [378, 94, 900, 586],
         "templThreshold": 0.95
     },
@@ -4103,6 +4102,33 @@
         "doc": "无论有没有干员在训练都点击进行选择",
         "specificRect": [145, 148, 142, 122],
         "postDelay": 800
+    },
+    "InfrastTrainingAssistantConfirm": {
+        "baseTask": "InfrastDormConfirmButton",
+        "next": [
+            "InfrastTrainingAssistantConfirmWait",
+            "InfrastTrainingAssistantDoubleConfirm",
+            "InfrastTrainingMasteryPage"
+        ],
+        "doc": "训练室协助者确认：复用宿舍确认按钮，确认后沿等待/冲突确认链回到专精页"
+    },
+    "InfrastTrainingAssistantConfirmWait": {
+        "baseTask": "LoadingText",
+        "postDelay": 500,
+        "next": [
+            "InfrastTrainingAssistantConfirmWait",
+            "InfrastTrainingAssistantDoubleConfirm",
+            "InfrastTrainingMasteryPage"
+        ]
+    },
+    "InfrastTrainingAssistantDoubleConfirm": {
+        "baseTask": "InfrastDormDoubleConfirmButton",
+        "template": "InfrastOperConflictConfirm.png",
+        "next": [
+            "InfrastTrainingAssistantConfirmWait",
+            "InfrastTrainingAssistantDoubleConfirm",
+            "InfrastTrainingMasteryPage"
+        ]
     },
     "InfrastTrainingProcessing": {
         "baseTask": "InfrastTrainingIdle",

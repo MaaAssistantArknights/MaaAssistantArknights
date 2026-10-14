@@ -2653,11 +2653,18 @@ public class AsstProxy
                 break;
 
             case "CustomInfrastRoomGroupsMatchFailed":
-                // 干员编组匹配失败
-                var groups = (JArray?)subTaskDetails!["groups"];
-                if (groups != null)
+                // 干员编组匹配失败，识别失败时无组名列表，其余情况回传组名列表
+                if (subTaskDetails!["reason"]?.ToString() == "recognition_failed")
                 {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomGroupsMatchFailed") + string.Join(", ", groups));
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomGroupsMatchRecogFailed"));
+                }
+                else
+                {
+                    var groups = (JArray?)subTaskDetails["groups"];
+                    if (groups != null)
+                    {
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomGroupsMatchFailed") + string.Join(", ", groups));
+                    }
                 }
 
                 break;
@@ -2672,6 +2679,62 @@ public class AsstProxy
                 }
 
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomOperators") + nameStr);
+                break;
+
+            case "CustomInfrastTraineeNotFound":
+                {
+                    // 训练位候选名单全部未命中（专精全满或名字写错），训练位保持原样；未匹配到干员信息时回退显示配置原名
+                    var candidates = string.Join(", ", (subTaskDetails!["candidates"] as JArray ?? new JArray())
+                        .Select(name => DataHelper.GetLocalizedCharacterName(name.ToString()) ?? name.ToString()));
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat("InfrastTraineeNotFound", candidates), UiLogColor.Warning);
+                    break;
+                }
+
+            case "CustomInfrastAssistantNotFound":
+                {
+                    // 训练室协助者候选全部未命中，协助者保持原样
+                    var candidates = string.Join(", ", (subTaskDetails!["candidates"] as JArray ?? new JArray())
+                        .Select(name => DataHelper.GetLocalizedCharacterName(name.ToString()) ?? name.ToString()));
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat("InfrastAssistantNotFound", candidates), UiLogColor.Warning);
+                    break;
+                }
+
+            case "CustomInfrastRoomKeptUnchanged":
+                {
+                    // 房间按配置保持原样并附原因；四类提示统一两句形态——首行 ｢当前设施 xxx NN｣ 以 Before 另起新卡
+                    // （核心侧不补发 EnterFacility），次行为原因文案；facility_empty（整设施未配置房间）无有意义的房间序号，首行不带序号
+                    var keptReason = subTaskDetails!["reason"]?.ToString();
+                    if (keptReason == "facility_empty")
+                    {
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ThisFacility") +
+                                                            LocalizationHelper.GetString($"{subTaskDetails?["facility"]}"),
+                                                            splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("InfrastFacilityKeptUnchanged"));
+                    }
+                    else
+                    {
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ThisFacility") +
+                                                            LocalizationHelper.GetString($"{subTaskDetails?["facility"]}") + " " +
+                                                            ((int)(subTaskDetails?["index"] ?? -2) + 1).ToString("D2"),
+                                                            splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+                        Instances.TaskQueueViewModel.AddLog(
+                            LocalizationHelper.GetString(
+                                keptReason == "candidates_unavailable" ? "InfrastCandidatesUnavailable" : "InfrastRoomKeptUnchanged"));
+                    }
+
+                    break;
+                }
+
+            case "CustomInfrastRoomsNotConfigured":
+                // 自定义排班房间数组短于实际房间数，自该房间起的后续房间保持原样；同上两句形态自起新卡
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ThisFacility") +
+                                                    LocalizationHelper.GetString($"{subTaskDetails?["facility"]}") + " " +
+                                                    ((int)(subTaskDetails?["index"] ?? -2) + 1).ToString("D2"),
+                                                    splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+                Instances.TaskQueueViewModel.AddLog(((int)(subTaskDetails?["index"] ?? -2) + 1).ToString("D2") + " " +
+                                                    LocalizationHelper.GetString("InfrastRoomsNotConfigured"));
                 break;
 
             case "InfrastTrainingIdle":
