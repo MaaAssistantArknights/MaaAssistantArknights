@@ -387,6 +387,12 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(
 {
     LogTraceFunction;
 
+    // 点名名单里的干员可能正在其他设施工作，先把筛选恢复为“全部”再扫描，
+    // 避免上一流程留下的“未进驻”筛选把点名干员藏掉导致选不中
+    if (!ensure_notstationed_filter_off()) {
+        return false;
+    }
+
     auto& room_config = current_room_config();
     auto origin_room_config = room_config;
     if (!is_assistant_select) {
@@ -852,6 +858,21 @@ bool asst::InfrastAbstractTask::click_filter_menu_cancel_not_stationed_button()
     // 最终必须走到 Stop 才算取消成功。
     ProcessTask task(*this, { "InfrastFilterMenuAllButton", "InfrastFilterMenuCancelNotStationed" });
     return task.run() && task.get_last_task_name() == "Stop";
+}
+
+bool asst::InfrastAbstractTask::ensure_notstationed_filter_off()
+{
+    // 探测顶部筛选按钮的“未进驻”选中态即可判断当前筛选：选中说明列表被过滤为
+    // 未进驻干员，点名与常规算法会看不到在班干员，需走取消链纠偏；非选中态即
+    // “全部”，一次匹配直接通过，不点开筛选菜单。筛选状态一律以界面实际状态
+    // 为准，不维护内存镜像：任务中途意外退出再重进基建时游戏会丢失筛选设置，
+    // 跨任务运行也可能继承上一流程或用户手动留下的筛选
+    Matcher analyzer(ctrler()->get_image());
+    analyzer.set_task_info("InfrastFilterMenuNotStationedSelected");
+    if (!analyzer.analyze()) {
+        return true;
+    }
+    return click_filter_menu_cancel_not_stationed_button();
 }
 
 bool asst::InfrastAbstractTask::click_confirm_button()

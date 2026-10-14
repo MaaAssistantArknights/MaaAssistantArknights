@@ -50,6 +50,10 @@ bool asst::InfrastOfficeTask::_run()
             continue;
         }
 
+        // 常规算法从包括在班干员在内的完整列表里挑人，先把筛选恢复为“全部”
+        if (!ensure_notstationed_filter_off()) {
+            return false;
+        }
         if (!opers_detect_with_swipe()) {
             return false;
         }

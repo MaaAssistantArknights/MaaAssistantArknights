@@ -81,6 +81,10 @@ bool asst::InfrastControlTask::_run()
             // 可能让正在宿舍休息的候选落到无关技能之后，扫描会在中间空页提前结束。
             ProcessTask(*this, { "InfrastOperListTabSkillUnClicked", "Stop" }).run();
         }
+        // 常规算法从包括在班干员在内的完整列表里挑人，先把筛选恢复为“全部”
+        if (!ensure_notstationed_filter_off()) {
+            return false;
+        }
         if (!opers_detect_with_swipe()) {
             return false;
         }

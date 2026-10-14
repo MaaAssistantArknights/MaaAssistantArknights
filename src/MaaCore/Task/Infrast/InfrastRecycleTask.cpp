@@ -100,12 +100,17 @@ bool asst::InfrastRecycleTask::fill_slots()
 {
     LogTraceFunction;
 
-    // 固定按工作状态排序：工作中的干员排前面，跳过后紧跟可用干员，
-    // 也避免沿用上一设施或用户手动残留的排序导致选人不可预测
+    // 只从未进驻的干员里补位，避免拆散已换班的其他设施；每次进入都真设置一遍
+    // （已选中时一次匹配直接通过），不依赖上一设施留下的筛选状态
+    if (!click_filter_menu_not_stationed_button()) {
+        return false;
+    }
+
+    // 固定按工作状态排序，避免沿用上一设施或用户手动残留的排序导致选人不可预测
     ProcessTask(*this, { "InfrastOperListTabWorkStatusUnClicked", "Stop" }).run();
 
-    // 正在其他设施工作的干员（卡片带 ｢工作中｣ 标记）不拉取，避免拆散已换班的其他设施；
-    // 心情低于阈值的干员跳过，避免打断宿舍休息循环
+    // 心情低于阈值的干员跳过，避免打断宿舍休息循环；
+    // 工作中标记的跳过保留为防御（未进驻筛选下列表理论上没有在班干员）
     size_t num_of_selected = 0;
     int swipe_times = 0;
     while (num_of_selected < max_num_of_opers()) {

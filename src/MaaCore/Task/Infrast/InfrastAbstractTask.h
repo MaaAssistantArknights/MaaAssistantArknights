@@ -136,6 +136,10 @@ protected:
     virtual bool click_filter_menu_not_stationed_button();
     // 取消点击干员选择页面的筛选菜单按钮的“未进驻”按钮
     virtual bool click_filter_menu_cancel_not_stationed_button();
+    /// @brief 确保干员选择页面的筛选为“全部”：探测到“未进驻”选中态才走取消链，
+    /// 其余情形一次模板匹配直接通过。点名与常规算法类选人在进入列表页后调用，
+    /// 声明本流程需要看到包括在班干员在内的完整列表
+    bool ensure_notstationed_filter_off();
     // 点击干员选择页面的“确认”按钮
     virtual bool click_confirm_button();
 

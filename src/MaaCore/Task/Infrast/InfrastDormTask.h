@@ -46,9 +46,6 @@ public:
     InfrastDormTask& set_prepare_phase(bool enabled) noexcept;
     InfrastDormTask& set_fiammetta_targets(std::vector<std::string> targets) noexcept;
 
-protected:
-    virtual bool on_run_fails() override;
-
 private:
     enum class FiammettaSelectionResult
     {
@@ -76,7 +73,6 @@ private:
     // 识别当前排序第一页的配对干员；命中者挪到 opers 首位供点选。
     DetectResult detect_fiammetta_target(std::vector<infrast::Oper>& opers);
     DetectResult detect_full_mood_fiammetta(std::vector<infrast::Oper>& opers);
-    bool set_notstationed_filter(bool enabled);
     bool restore_list_sort_for_selection_phase(asst::infrast::CustomRoomConfig const& room_config);
     bool switch_to_mood_sort();
     bool switch_to_skill_sort();
@@ -98,7 +94,6 @@ private:
     };
 
     SelectionPhase m_selection_phase = SelectionPhase::LowMood;
-    bool m_notstationed_filter_active = false;
     bool m_prepare_phase = false;
     bool m_fiammetta_checked = false;
     std::vector<std::string> m_fiammetta_targets;

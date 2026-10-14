@@ -94,6 +94,11 @@ bool asst::InfrastProcessingTask::select_operator(
         return false;
     }
     close_quick_formation_expand_role();
+    // 只从未进驻的干员里选，避免把训练室、回收站等已进驻设施的人员调走；
+    // 已选中时一次匹配直接通过，缓存命中的重复调用幂等
+    if (!click_filter_menu_not_stationed_button()) {
+        return false;
+    }
     bool selection_changed = false;
     for (int attempt = 0; attempt <= MaxMaterialSynthesisCacheRebuilds; ++attempt) {
         if (need_exit()) {
@@ -253,16 +258,6 @@ std::optional<asst::InfrastProcessingTask::MaterialSynthesisScanResult>
                 return same_material_synthesis_operator(cached, oper, face_hash_threshold);
             });
         if (duplicate != m_material_synthesis_operator_cache.cend()) {
-            continue;
-        }
-
-        // 跳过进驻 B305 或 B402 的干员，避免材料合成把训练室干员调走
-        RegionOCRer facility_analyzer(oper.facility_img);
-        facility_analyzer.set_use_char_model(true);
-        facility_analyzer.set_required({ "B305", "B402" });
-        if (facility_analyzer.analyze()) {
-            LogInfo << __FUNCTION__ << "| skipping synthesis operator stationed in"
-                    << facility_analyzer.get_result().text;
             continue;
         }
 
