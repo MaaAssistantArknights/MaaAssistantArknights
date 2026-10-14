@@ -2025,9 +2025,9 @@ public class AsstProxy
                                 var ocrText = details!["details"]!["result"]?["text"]?.ToString() ?? string.Empty;
                                 var daysMatch = Regex.Match(ocrText, @"(\d+)\s*天");
                                 if (daysMatch.Success && int.TryParse(daysMatch.Groups[1].Value, out var daysLeft) && daysLeft is >= 0 and <= 40
-                                    && TaskQueueViewModel.AwardTask.IsMonthlyCardRemindNeeded(daysLeft))
+                                    && TaskQueueViewModel.MallTask.IsMonthlyCardRemindNeeded(daysLeft))
                                 {
-                                    TaskQueueViewModel.AwardTask.MarkMonthlyCardReminded();
+                                    TaskQueueViewModel.MallTask.MarkMonthlyCardReminded();
 
                                     var title = LocalizationHelper.GetString("MonthlyCardExpiringTitle");
                                     var content = LocalizationHelper.GetStringFormat("MonthlyCardExpiringContent", daysLeft);

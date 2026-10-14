@@ -2035,7 +2035,7 @@
         "next": ["Stop"]
     },
     "MonthlyCardBegin": {
-        "doc": "月卡到期提醒：跳转采购中心组合包页，点开月卡条目识别'当期月卡剩余X天'，识别文本经 SubTaskStart 回传 GUI(details.result.text)，由 GUI 判断阈值并提醒。roi 已按国服截图校准，其它主题/服待验证",
+        "doc": "月卡到期提醒：挂在 Mall 任务末尾，购物后人已在采购中心，锚点直接命中切组合包页读'当期月卡剩余X天'；若不在商店则经 ToMall 跳转。识别文本经 SubTaskStart 回传 GUI(details.result.task 已剥前缀为 MonthlyCardDays)，由 GUI 判断阈值并提醒",
         "algorithm": "JustReturn",
         "next": [
             "MonthlyCard@Mall",

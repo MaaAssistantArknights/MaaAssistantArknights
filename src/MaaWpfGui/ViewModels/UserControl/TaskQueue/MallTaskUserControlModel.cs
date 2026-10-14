@@ -19,6 +19,7 @@ using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Utilities.ValueType;
@@ -138,6 +139,30 @@ public class MallTaskUserControlModel : TaskSettingsViewModel, MallTaskUserContr
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether to check monthly card days left.
+    /// </summary>
+    public bool ReceiveMonthlyCard
+    {
+        get => GetTaskConfig<MallTask>().MonthlyCard;
+        set => SetTaskConfig<MallTask>(t => t.MonthlyCard == value, t => t.MonthlyCard = value);
+    }
+
+    /// <summary>
+    /// Gets or sets the days-left threshold below which the monthly card reminder fires.
+    /// </summary>
+    public int MonthlyCardRemindDays
+    {
+        get => GetTaskConfig<MallTask>().MonthlyCardRemindDays;
+        set => SetTaskConfig<MallTask>(t => t.MonthlyCardRemindDays == value, t => t.MonthlyCardRemindDays = value);
+    }
+
+    public static int[] MonthlyCardRemindDaysList { get; } = [7, 5, 3, 1];
+
+    public bool IsMonthlyCardRemindNeeded(int daysLeft) => GetTaskConfig<MallTask>().IsMonthlyCardRemindAvailable(daysLeft);
+
+    public void MarkMonthlyCardReminded() => SetTaskConfig<MallTask>(_ => false, t => t.MonthlyCardLastRemindTime = DateTime.UtcNow.ToYjDate().ToFormattedString());
+
+    /// <summary>
     /// Gets or sets the priority item list of credit shop.
     /// </summary>
     public string CreditFirstList
@@ -246,6 +271,7 @@ public class MallTaskUserControlModel : TaskSettingsViewModel, MallTaskUserContr
                 ForceShoppingIfCreditFull = mall.ShoppingIgnoreBlackListWhenFull,
                 OnlyBuyDiscount = mall.OnlyBuyDiscount,
                 ReserveMaxCredit = mall.ReserveMaxCredit,
+                MonthlyCard = mall.MonthlyCard,
             };
 
             return taskId switch {

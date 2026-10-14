@@ -96,6 +96,39 @@
                 Content="{DynamicResource SocialPtShop}"
                 IsChecked="{Binding CreditShopping}" />
 
+            <StackPanel Margin="0,10,0,5" Orientation="Horizontal">
+                <CheckBox
+                    MaxWidth="203"
+                    Block.TextAlignment="Left"
+                    IsChecked="{Binding ReceiveMonthlyCard}">
+                    <TextBlock
+                        Block.TextAlignment="Left"
+                        Text="{DynamicResource ReceiveMonthlyCard}"
+                        TextWrapping="Wrap" />
+                </CheckBox>
+                <controls:TooltipBlock TooltipText="{DynamicResource ReceiveMonthlyCardTip}" />
+            </StackPanel>
+            <StackPanel
+                Margin="0,0,0,5"
+                Orientation="Horizontal"
+                Visibility="{c:Binding ReceiveMonthlyCard}">
+                <controls:TextBlock
+                    Margin="2.5,0,7.5,0"
+                    Opacity="{c:Binding 'Run.Idle and Run.Inited ? 1 : 0.5',
+                                        Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                    Text="└" />
+                <TextBlock
+                    VerticalAlignment="Center"
+                    Opacity="{c:Binding 'Run.Idle and Run.Inited ? 1 : 0.5',
+                                        Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                    Text="{DynamicResource MonthlyCardRemindDaysLabel}" />
+                <ComboBox
+                    Margin="6,0,0,0"
+                    HorizontalAlignment="Left"
+                    ItemsSource="{Binding MonthlyCardRemindDaysList}"
+                    SelectedItem="{Binding MonthlyCardRemindDays}" />
+            </StackPanel>
+
             <TextBlock
                 Margin="0,0,0,5"
                 Foreground="{DynamicResource ThirdlyTextBrush}"

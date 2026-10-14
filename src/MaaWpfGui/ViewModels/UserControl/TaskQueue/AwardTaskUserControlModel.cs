@@ -12,11 +12,9 @@
 // </copyright>
 
 #nullable enable
-using System;
 using System.Collections.Generic;
 using System.Windows;
 using MaaWpfGui.Configuration.Single.MaaTask;
-using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
 using static MaaWpfGui.Main.AsstProxy;
@@ -113,30 +111,6 @@ public class AwardTaskUserControlModel : TaskSettingsViewModel, AwardTaskUserCon
         set => SetTaskConfig<AwardTask>(t => t.SignInEvent == value, t => t.SignInEvent = value);
     }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether to check monthly card days left.
-    /// </summary>
-    public bool ReceiveMonthlyCard
-    {
-        get => GetTaskConfig<AwardTask>().MonthlyCard;
-        set => SetTaskConfig<AwardTask>(t => t.MonthlyCard == value, t => t.MonthlyCard = value);
-    }
-
-    /// <summary>
-    /// Gets or sets the days-left threshold below which the monthly card reminder fires.
-    /// </summary>
-    public int MonthlyCardRemindDays
-    {
-        get => GetTaskConfig<AwardTask>().MonthlyCardRemindDays;
-        set => SetTaskConfig<AwardTask>(t => t.MonthlyCardRemindDays == value, t => t.MonthlyCardRemindDays = value);
-    }
-
-    public static int[] MonthlyCardRemindDaysList { get; } = [7, 5, 3, 1];
-
-    public bool IsMonthlyCardRemindNeeded(int daysLeft) => GetTaskConfig<AwardTask>().IsMonthlyCardRemindAvailable(daysLeft);
-
-    public void MarkMonthlyCardReminded() => SetTaskConfig<AwardTask>(_ => false, t => t.MonthlyCardLastRemindTime = DateTime.UtcNow.ToYjDate().ToFormattedString());
-
     public override void RefreshUI(BaseTask baseTask)
     {
         if (baseTask is AwardTask)
@@ -164,7 +138,6 @@ public class AwardTaskUserControlModel : TaskSettingsViewModel, AwardTaskUserCon
                 Mining = award.Mining,
                 SpecialAccess = award.SpecialAccess,
                 SignInEvent = award.SignInEvent,
-                MonthlyCard = award.MonthlyCard,
             };
             return taskId switch {
                 int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]),
