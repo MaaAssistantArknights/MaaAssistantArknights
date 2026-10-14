@@ -367,7 +367,7 @@ Todo
   ```
 
 - `CopilotAutoRestart`
-  The Copilot automatic restart state has changed. The `details` field contains:
+  The multi-job Copilot automatic restart state has changed. The `details` field contains:
   - `state` (string, required): Current state. Possible values:
     - `Enabled`: Automatic restart is enabled.
     - `Restarting`: The current job is being restarted.

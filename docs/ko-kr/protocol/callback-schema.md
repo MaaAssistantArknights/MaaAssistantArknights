@@ -438,7 +438,7 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
     - `addQuantity` (number, required): 이번에 추가된 드롭 수량
 
 - `CopilotAutoRestart`
-  자동 전투의 자동 재시작 상태가 변경되었습니다. `details` 필드 구조는 다음과 같습니다:
+  다중 작업 자동 전투의 자동 재시작 상태가 변경되었습니다. `details` 필드 구조는 다음과 같습니다:
   - `state` (string, required): 현재 상태. 가능한 값:
     - `Enabled`: 자동 재시작이 활성화되었습니다.
     - `Restarting`: 현재 작업을 재시작하고 있습니다.

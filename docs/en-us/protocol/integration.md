@@ -1181,13 +1181,13 @@ Each object contains:
   @type boolean
   @default false
   @optional
-  Whether to restart the current stage after detecting an enemy leak or battle failure. Available in both single-job and multi-job modes; a leaked battle is abandoned before settlement.  
+  In single-job mode, whether to abandon the battle before settlement after detecting an enemy leak. In multi-job mode, whether to restart the current job after an enemy leak or battle failure; a leaked battle is abandoned first.
   :::  
   ::: field auto_restart_times  
   @type number
   @default 3
   @optional
-  Maximum number of automatic restarts allowed for each execution, from 1 to 999. Effective only when `auto_restart` is `true`.  
+  Maximum number of automatic restarts allowed for each job in multi-job mode, from 1 to 999. Effective only when `auto_restart` is `true`.
   :::  
   ::: field formation  
   @type boolean

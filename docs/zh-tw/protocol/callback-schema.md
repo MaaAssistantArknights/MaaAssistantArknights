@@ -464,7 +464,7 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   - `annihilation_weekly_process` (array, optional)：剿滅模式的本週獲取進度，格式為 `[已完成數, 上限]`（僅剿滅關卡存在）。
 
 - `CopilotAutoRestart`
-  自動戰鬥的自動重開狀態發生變化。`details` 欄位結構如下：
+  多作業自動戰鬥的自動重開狀態發生變化。`details` 欄位結構如下：
   - `state` (string, required)：目前狀態，可選值為：
     - `Enabled`：已啟用自動重開。
     - `Restarting`：正在重開目前作業。

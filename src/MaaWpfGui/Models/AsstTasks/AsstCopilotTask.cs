@@ -73,7 +73,7 @@ public class AsstCopilotTask : AsstBaseTask
     public string OperBoxDataPath { get; set; } = string.Empty;
 
     /// <summary>
-    /// 获取或设置是否在漏怪或战斗失败后重开当前作业。
+    /// 获取或设置是否在单作业漏怪后取消战斗，或在多作业漏怪、战斗失败后重开当前作业。
     /// </summary>
     public bool AutoRestart { get; set; }
 

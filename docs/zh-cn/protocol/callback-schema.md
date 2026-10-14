@@ -464,7 +464,7 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   - `annihilation_weekly_process` (array, optional): 剿灭模式的本周获取进度，格式为 `[已完成数, 上限]`（仅剿灭关卡存在）。
 
 - `CopilotAutoRestart`
-  自动战斗自动重开状态发生变化。`details` 字段结构如下：
+  多作业自动战斗的自动重开状态发生变化。`details` 字段结构如下：
   - `state` (string, required): 当前状态，可选值为：
     - `Enabled`: 已启用自动重开。
     - `Restarting`: 正在重开当前作业。
