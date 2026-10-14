@@ -82,7 +82,6 @@ bool MaaFwController::connect_with_extras(
             } | get_info_json());
         return false;
     }
-    LogError << (int)*control_unit_type;
 
     switch (*control_unit_type) {
     case ControlUnitType::MaaLinuxControlUnit:
