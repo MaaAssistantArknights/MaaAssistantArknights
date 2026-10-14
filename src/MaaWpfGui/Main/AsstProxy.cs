@@ -26,6 +26,7 @@ using System.Net.Http;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
@@ -2013,6 +2014,26 @@ public class AsstProxy
 
                                 Instances.NotificationService.Notify(NotificationSource.TaskQueue, new(NotificationKind.TaskComplete, title, content),
                                     UiLogColor.Warning, display: () => Instances.TaskQueueViewModel.DisplayLog(content, UiLogColor.Warning, updateCardImage: true));
+
+                                break;
+                            }
+
+                        case "MonthlyCard@MonthlyCardDays":
+                            {
+                                // OCR 文本形如“剩余：12天”，超过 40 天视为误识别（月卡上限 30 天）
+                                var ocrText = details!["details"]!["result"]?["text"]?.ToString() ?? string.Empty;
+                                var daysMatch = Regex.Match(ocrText, @"(\d+)\s*天");
+                                if (daysMatch.Success && int.TryParse(daysMatch.Groups[1].Value, out var daysLeft) && daysLeft is > 0 and <= 40
+                                    && TaskQueueViewModel.AwardTask.IsMonthlyCardRemindNeeded(daysLeft))
+                                {
+                                    TaskQueueViewModel.AwardTask.MarkMonthlyCardReminded();
+
+                                    var title = LocalizationHelper.GetString("MonthlyCardExpiringTitle");
+                                    var content = LocalizationHelper.GetStringFormat("MonthlyCardExpiringContent", daysLeft);
+                                    Instances.NotificationService.Notify(NotificationSource.TaskQueue, new(NotificationKind.TaskComplete, title, content),
+                                        UiLogColor.Warning, display: () => Instances.TaskQueueViewModel.DisplayLog(content, UiLogColor.Warning, updateCardImage: true));
+                                    Instances.TaskQueueViewModel.AddLog(content, UiLogColor.Warning);
+                                }
 
                                 break;
                             }

@@ -861,6 +861,11 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="ReceiveSpecialAccess">Collect Special Access rewards</system:String>
     <system:String x:Key="ReceiveSignInEvent">Collect Sign-In Event rewards</system:String>
     <system:String x:Key="ReceiveSignInEventTip">Only standard horizontal layouts are supported; other layouts are unsupported and may not work correctly</system:String>
+    <system:String x:Key="ReceiveMonthlyCard">Monthly card expiry reminder</system:String>
+    <system:String x:Key="ReceiveMonthlyCardTip">Checks monthly card days left on the store bundles page while collecting awards, and notifies when it is close to expiry (at most once per day)</system:String>
+    <system:String x:Key="MonthlyCardRemindDaysLabel">Remind when days left is no more than</system:String>
+    <system:String x:Key="MonthlyCardExpiringTitle">Monthly card expiring</system:String>
+    <system:String x:Key="MonthlyCardExpiringContent">Monthly card has {0} day(s) left. Remember to renew it.</system:String>
     <system:String x:Key="DroneUsage">Drone Usage</system:String>
     <system:String x:Key="UseTray">Display Tray Icon</system:String>
     <system:String x:Key="HideTray">Disable Tray Icon</system:String>

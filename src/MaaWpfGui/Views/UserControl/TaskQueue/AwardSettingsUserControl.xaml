@@ -47,6 +47,19 @@
                 </CheckBox>
                 <controls:TooltipBlock TooltipText="{DynamicResource ReceiveSignInEventTip}" />
             </StackPanel>
+            <StackPanel Margin="0,10" Orientation="Horizontal">
+                <CheckBox MaxWidth="203" IsChecked="{Binding ReceiveMonthlyCard}">
+                    <controls:TextBlock Text="{DynamicResource ReceiveMonthlyCard}" TextWrapping="Wrap" />
+                </CheckBox>
+                <controls:TooltipBlock TooltipText="{DynamicResource ReceiveMonthlyCardTip}" />
+            </StackPanel>
+            <StackPanel Margin="0,10,0,0" Orientation="Horizontal" Visibility="{c:Binding ReceiveMonthlyCard}">
+                <controls:TextBlock VerticalAlignment="Center" Text="{DynamicResource MonthlyCardRemindDaysLabel}" />
+                <ComboBox
+                    Margin="10,0,0,0"
+                    ItemsSource="{Binding MonthlyCardRemindDaysList}"
+                    SelectedItem="{Binding MonthlyCardRemindDays}" />
+            </StackPanel>
         </StackPanel>
     </StackPanel>
 </UserControl>

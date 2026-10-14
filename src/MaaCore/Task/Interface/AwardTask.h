@@ -23,5 +23,6 @@ private:
     std::shared_ptr<ProcessTask> mining_task_ptr = nullptr;
     std::shared_ptr<ProcessTask> specialaccess_task_ptr = nullptr;
     std::shared_ptr<ProcessTask> signinevent_task_ptr = nullptr;
+    std::shared_ptr<ProcessTask> monthlycard_task_ptr = nullptr;
 };
 }
