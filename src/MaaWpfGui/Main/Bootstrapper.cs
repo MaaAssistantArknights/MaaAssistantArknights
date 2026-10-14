@@ -1482,6 +1482,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     private static void RestartAfterPendingUpdateEarly()
     {
         _logger.Information("Pending update package applied, restarting application");
+        FlushLogAndExit();
         if (Environment.ProcessPath is not null)
         {
             var startInfo = new ProcessStartInfo {
@@ -1496,8 +1497,6 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
             Process.Start(startInfo);
         }
-
-        FlushLogAndExit();
     }
 
     /// <summary>
