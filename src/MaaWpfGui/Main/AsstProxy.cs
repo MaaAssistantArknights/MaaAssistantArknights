@@ -2728,9 +2728,17 @@ public class AsstProxy
                                                             LocalizationHelper.GetString($"{subTaskDetails?["facility"]}") + " " +
                                                             ((int)(subTaskDetails?["index"] ?? -2) + 1).ToString("D2"),
                                                             splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
-                        Instances.TaskQueueViewModel.AddLog(
-                            LocalizationHelper.GetString(
-                                keptReason == "candidates_unavailable" ? "InfrastCandidatesUnavailable" : "InfrastRoomKeptUnchanged"));
+
+                        // 候补不可用的三种原因分别提示：全部在班、心情不满足设施要求、名单有误；
+                        // 其余 reason（空意图等）为房间无选人意图的通用保持原样
+                        var reasonKey = keptReason switch
+                        {
+                            "candidates_working" => "InfrastCandidatesWorking",
+                            "candidates_low_mood" => "InfrastCandidatesLowMood",
+                            "candidates_unavailable" => "InfrastCandidatesUnavailable",
+                            _ => "InfrastRoomKeptUnchanged",
+                        };
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString(reasonKey));
                     }
 
                     break;

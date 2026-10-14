@@ -309,7 +309,7 @@
                 },
                 "candidates": {
                     "type": "array",
-                    "description": "Backup operator candidates; operators currently working in other facilities are never selected (excluded at selection time).",
+                    "description": "Backup operator candidates; operators currently working in other facilities are never selected (excluded at selection time). Candidates below the base shift-change mood threshold are skipped, except in dormitories, which only pull operators below the threshold in to rest.",
                     "items": {
                         "$ref": "#/definitions/operator"
                     }

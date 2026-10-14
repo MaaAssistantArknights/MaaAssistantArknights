@@ -113,7 +113,9 @@ Please note that JSON files do not support comments. The comments in this docume
                         "operators": ["多萝西"], // ("多萝西" = "Dorothy")
                         "candidates": [
                             // Backup operators, optional. Uses whoever's available until positions filled;
-                            // operators currently working in other facilities are never selected (excluded at selection time)
+                            // operators currently working in other facilities are never selected (excluded at selection time);
+                            // those below the base shift-change morale threshold are skipped, dormitories are the opposite
+                            // and only pull operators below the threshold in to rest
                             // Incompatible with autofill=true, i.e., autofill must be false when this array not empty
                             "星源", // ("星源" = "Astgenne")
                             "白面鸮", // ("白面鸮" = "Ptilopsis")

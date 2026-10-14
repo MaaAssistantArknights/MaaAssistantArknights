@@ -116,7 +116,7 @@ protected:
         bool is_dorm_order = false,
         bool is_assistant_select = false,
         bool* room_kept_unchanged = nullptr);
-    bool select_custom_opers(std::vector<std::string>& partial_result);
+    bool select_custom_opers(std::vector<std::string>& partial_result, bool is_dorm_order = false);
     // 扫描当前页满足心情条件的所有干员名
     bool get_opers(std::vector<std::string>& result, double mood = 1);
     // 复核干员选择是否符合期望
@@ -173,6 +173,9 @@ protected:
     // swipe_and_select_custom_opers 每轮清空，供协助者未命中等上报区分 ｢名单有误未命中｣
     // 与 ｢命中但在班被排除｣ 两种原因
     std::vector<std::string> m_working_excluded_candidates;
+    // 最近一轮选人中因心情不满足设施要求而被跳过的候补名（生产类低于阈值、宿舍不低于阈值），
+    // 生命周期同上，供保持原样回调区分 ｢心情不足｣ 与其他不可用原因
+    std::vector<std::string> m_low_mood_excluded_candidates;
     // 当前设施驻扎编号（detect_current_facility_number 采样），空 = 无现任或未采样
     std::string m_current_facility_number;
     // 筛选选中态探测的帧数与帧间隔：连续多帧无选中态才判定为“全部”，吸收刚进列表页的过场画面

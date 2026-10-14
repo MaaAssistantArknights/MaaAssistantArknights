@@ -393,6 +393,7 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(
         return false;
     }
     m_working_excluded_candidates.clear();
+    m_low_mood_excluded_candidates.clear();
 
     auto& room_config = current_room_config();
     auto origin_room_config = room_config;
@@ -428,8 +429,8 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(
             return false;
         }
         std::vector<std::string> partial_result;
-        // 选择自定义干员，同时输出每一页的干员列表
-        if (!select_custom_opers(partial_result)) {
+        // 选择自定义干员，同时输出每一页的干员列表；宿舍候补的心情过滤方向与其余设施相反
+        if (!select_custom_opers(partial_result, is_dorm_order)) {
             return false;
         }
         // 选完人 / 名单已空
@@ -488,11 +489,24 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(
     const bool pure_candidates_selected_none = !is_assistant_select && origin_room_config.names.empty() &&
                                                !origin_room_config.candidates.empty() && room_config.selected == 0;
     if (pure_candidates_selected_none) {
-        LogInfo << "all candidate operators are working in other facilities, keep room unchanged" << facility_name()
-                << m_cur_facility_index;
+        // 0 人选出的原因细分：全部在班、全部心情不满足（生产类不足/宿舍不够低）、
+        // 或名单有误（拼错、未拥有），前两者是计划内不可用，后者提示用户排查配置
+        const auto all_candidates_in = [&origin_room_config](const std::vector<std::string>& excluded) {
+            return std::ranges::all_of(origin_room_config.candidates, [&excluded](const std::string& name) {
+                return std::ranges::find(excluded, name) != excluded.cend();
+            });
+        };
+        std::string_view reason = "candidates_unavailable";
+        if (all_candidates_in(m_working_excluded_candidates)) {
+            reason = "candidates_working";
+        }
+        else if (all_candidates_in(m_low_mood_excluded_candidates)) {
+            reason = "candidates_low_mood";
+        }
+        LogInfo << "all candidates unavailable, reason:" << reason << facility_name() << m_cur_facility_index;
         current_room_config() = std::move(origin_room_config);
         click_return_button();
-        notify_room_kept_unchanged("candidates_unavailable");
+        notify_room_kept_unchanged(reason);
         if (room_kept_unchanged) {
             *room_kept_unchanged = true;
         }
@@ -589,7 +603,7 @@ bool asst::InfrastAbstractTask::select_opers_review(
     return true;
 }
 
-bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& partial_result)
+bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& partial_result, bool is_dorm_order)
 {
     LogTraceFunction;
 
@@ -654,7 +668,8 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
     image = ctrler()->get_image();
     InfrastOperImageAnalyzer oper_analyzer2(image);
     oper_analyzer2.set_to_be_calced(
-        InfrastOperImageAnalyzer::ToBeCalced::Selected | InfrastOperImageAnalyzer::ToBeCalced::Doing);
+        InfrastOperImageAnalyzer::ToBeCalced::Selected | InfrastOperImageAnalyzer::ToBeCalced::Doing |
+        InfrastOperImageAnalyzer::ToBeCalced::Mood);
     if (!oper_analyzer2.analyze()) {
         Log.warn("No oper");
         return false;
@@ -684,6 +699,16 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
                 if (oper.doing == infrast::Doing::Working) {
                     if (std::ranges::find(m_working_excluded_candidates, name) == m_working_excluded_candidates.end()) {
                         m_working_excluded_candidates.emplace_back(name);
+                    }
+                    continue;
+                }
+                // 候补按设施语义过滤心情，方向相反：宿舍是休息设施，仅拉取心情低于阈值的
+                // 干员（够了就不占休息位）；生产类设施跳过低于阈值的（低效乃至停工）。
+                // 跳过同样不删名顺延下一个候选，计入名单供保持原样回调区分原因
+                if (is_dorm_order ? oper.mood_ratio >= m_mood_threshold : oper.mood_ratio < m_mood_threshold) {
+                    if (std::ranges::find(m_low_mood_excluded_candidates, name) ==
+                        m_low_mood_excluded_candidates.end()) {
+                        m_low_mood_excluded_candidates.emplace_back(name);
                     }
                     continue;
                 }

@@ -228,6 +228,8 @@ bool asst::InfrastTask::set_params(const json::value& params)
     m_recycle_task_ptr->set_mood_threshold(threshold);
     m_dorm_task_ptr->set_mood_threshold(threshold);
     m_dorm_task_ptr_post->set_mood_threshold(threshold);
+    // 训练室协助者候补同按生产类语义过滤低心情（低于阈值跳过）
+    m_training_task_ptr->set_mood_threshold(threshold);
 
     bool dorm_notstationed_enabled = params.get("dorm_notstationed_enabled", false);
     m_dorm_task_ptr->set_notstationed_enabled(dorm_notstationed_enabled);

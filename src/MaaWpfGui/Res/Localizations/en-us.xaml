@@ -160,7 +160,9 @@
     <system:String x:Key="InfrastAssistantWorkingExcluded">Assistant candidates are working in other facilities and have been skipped; the assistant has been left unchanged: {0}</system:String>
     <system:String x:Key="InfrastRoomKeptUnchanged">This room has no staffing intent configured and is kept unchanged</system:String>
     <system:String x:Key="InfrastFacilityKeptUnchanged">has no rooms configured in the schedule file; the entire facility is kept unchanged</system:String>
-    <system:String x:Key="InfrastCandidatesUnavailable">All candidate operators are working in other facilities; the room is kept unchanged</system:String>
+    <system:String x:Key="InfrastCandidatesUnavailable">No candidate operator is available; the room is kept unchanged</system:String>
+    <system:String x:Key="InfrastCandidatesWorking">All candidate operators are working in other facilities; the room is kept unchanged</system:String>
+    <system:String x:Key="InfrastCandidatesLowMood">Candidate operators' morale does not meet the requirement; the room is kept unchanged</system:String>
     <system:String x:Key="InfrastRoomsNotConfigured">rooms from here on are not configured and left unchanged</system:String>
     <system:String x:Key="Trade">Trading Post</system:String>
     <system:String x:Key="Power">Power Plant</system:String>

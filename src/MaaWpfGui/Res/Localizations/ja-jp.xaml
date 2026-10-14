@@ -160,7 +160,9 @@
     <system:String x:Key="InfrastAssistantWorkingExcluded">補佐者の候補が他の施設で勤務中のためスキップし、補佐者はそのまま維持されます: {0}</system:String>
     <system:String x:Key="InfrastRoomKeptUnchanged">この部屋は配置意思が未設定のため、そのまま維持されます</system:String>
     <system:String x:Key="InfrastFacilityKeptUnchanged">はスケジュール表で部屋が未設定のため、施設全体をそのまま維持します</system:String>
-    <system:String x:Key="InfrastCandidatesUnavailable">候補オペレーターがすべて他の施設で勤務中のため、そのまま維持されます</system:String>
+    <system:String x:Key="InfrastCandidatesUnavailable">候補オペレーターがいずれも利用できないため、そのまま維持されます</system:String>
+    <system:String x:Key="InfrastCandidatesWorking">候補オペレーターがすべて他の施設で勤務中のため、そのまま維持されます</system:String>
+    <system:String x:Key="InfrastCandidatesLowMood">候補オペレーターの体力が条件を満たさないため、そのまま維持されます</system:String>
     <system:String x:Key="InfrastRoomsNotConfigured">番目から未設定のため、そのまま維持されます</system:String>
     <system:String x:Key="Trade">貿易所</system:String>
     <system:String x:Key="Power">発電所</system:String>
