@@ -114,8 +114,9 @@ Please note that JSON files do not support comments. The comments in this docume
                         "candidates": [
                             // Backup operators, optional. Uses whoever's available until positions filled;
                             // operators currently working in other facilities are never selected (excluded at selection time);
-                            // those below the base shift-change morale threshold are skipped, dormitories are the opposite
-                            // and only pull operators below the threshold in to rest
+                            // those below the base shift-change morale threshold are skipped; dormitories are the
+                            // opposite: operators with full morale are skipped to free the rest slot, and those
+                            // not yet full (including ones resting in this very dormitory) stay selectable
                             // Incompatible with autofill=true, i.e., autofill must be false when this array not empty
                             "星源", // ("星源" = "Astgenne")
                             "白面鸮", // ("白面鸮" = "Ptilopsis")

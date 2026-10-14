@@ -702,10 +702,12 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
                     }
                     continue;
                 }
-                // 候补按设施语义过滤心情，方向相反：宿舍是休息设施，仅拉取心情低于阈值的
-                // 干员（够了就不占休息位）；生产类设施跳过低于阈值的（低效乃至停工）。
-                // 跳过同样不删名顺延下一个候选，计入名单供保持原样回调区分原因
-                if (is_dorm_order ? oper.mood_ratio >= m_mood_threshold : oper.mood_ratio < m_mood_threshold) {
+                // 候补按设施语义过滤心情，方向相反：宿舍是休息设施，只在心情已满时跳过
+                // （回满让位，对齐常规模式休息到满的语义；未满的含正在本宿舍休息的都可选，
+                // 避免清空重选时把还没休息够的候补请出去）；生产类设施跳过低于阈值的
+                // （低效乃至停工）。跳过同样不删名顺延下一个候选，计入名单供保持原样回调区分原因
+                if (is_dorm_order ? oper.mood_ratio >= infrast::FullMoodThreshold
+                                  : oper.mood_ratio < m_mood_threshold) {
                     if (std::ranges::find(m_low_mood_excluded_candidates, name) ==
                         m_low_mood_excluded_candidates.end()) {
                         m_low_mood_excluded_candidates.emplace_back(name);

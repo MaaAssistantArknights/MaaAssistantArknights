@@ -26,7 +26,6 @@ namespace
 constexpr std::array<std::string_view, 6> SupportedFiammettaTargets = { "清流", "可露希尔", "但书",
                                                                         "巫恋", "龙舌兰",   "歌蕾蒂娅" };
 constexpr std::array<std::string_view, 3> DefaultFiammettaTargets = { "清流", "可露希尔", "但书" };
-constexpr double FullMoodThreshold = 0.99;
 constexpr size_t MaxConfiguredTargets = 3;
 
 constexpr int OperFullTrustValue = 200;

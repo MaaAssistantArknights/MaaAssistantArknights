@@ -259,6 +259,10 @@ enum class Doing // 正在做什么
     Working  // 工作中
 };
 
+// 心情视为已满的判定阈值（心情条视觉识别容差）；宿舍候补心情满后让出休息位，
+// 未满的（含正在本宿舍休息的）保持可选，与常规模式 ｢休息到满才让位｣ 的语义一致
+inline constexpr double FullMoodThreshold = 0.99;
+
 struct Skill
 {
     std::string id;
