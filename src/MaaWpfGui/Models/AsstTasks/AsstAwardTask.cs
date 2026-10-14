@@ -67,11 +67,5 @@ public class AsstAwardTask : AsstBaseTask
     [JsonProperty("signinevent")]
     public bool SignInEvent { get; set; }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether 是否检查月卡剩余天数（到期提醒由 GUI 处理）
-    /// </summary>
-    [JsonProperty("monthlycard")]
-    public bool MonthlyCard { get; set; }
-
     public override (AsstTaskType TaskType, JObject Params) Serialize() => (TaskType, JObject.FromObject(this));
 }
