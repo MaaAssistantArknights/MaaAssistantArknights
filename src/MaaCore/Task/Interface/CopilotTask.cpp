@@ -10,7 +10,6 @@
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/Miscellaneous/OperBoxDataConfig.h"
 #include "Config/TaskData.h"
-#include "Controller/Controller.h"
 #include "Task/Fight/MedicineCounterTaskPlugin.h"
 #include "Task/Miscellaneous/BattleFormationTask.h"
 #include "Task/Miscellaneous/BattleProcessTask.h"
@@ -18,7 +17,6 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
-#include "Vision/OCRer.h"
 
 asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst) :
     InterfaceTask(callback, inst, TaskType),
@@ -116,7 +114,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
         MinAutoRestartTimes,
         MaxAutoRestartTimes);                                                  // 将外部参数限制在界面允许的范围内
 
-    m_auto_restart = params.get("auto_restart", false);                        // 是否启用自动重开
+    const bool auto_restart = params.get("auto_restart", false);               // 单作业取消战斗，多作业自动重开
     m_auto_restart_times = static_cast<size_t>(normalized_auto_restart_times); // 每个作业最大重开次数
 
     auto filename_opt = params.find<std::string>("filename");
@@ -128,7 +126,8 @@ bool asst::CopilotTask::set_params(const json::value& params)
 
     if (filename_opt) {
         m_multi_copilot_plugin_ptr->set_enable(false);
-        m_battle_task_ptr->set_wait_until_end(m_auto_restart);
+        m_auto_restart = false;
+        m_battle_task_ptr->set_wait_until_end(auto_restart);
         auto copilot_opt = parse_copilot_filename(*filename_opt);
         if (!copilot_opt) {
             return false;
@@ -145,12 +144,6 @@ bool asst::CopilotTask::set_params(const json::value& params)
             m_formation_task_ptr->set_assigned_groups(std::nullopt);
         }
         m_stage_name = Copilot.get_stage_name();
-        const auto& map_data = Tile.find(m_stage_name);
-        if (!map_data || map_data->first.code.empty()) {
-            LogError << __FUNCTION__ << "Failed to resolve copilot navigation name" << m_stage_name;
-            return false;
-        }
-        m_single_stage_nav_name = map_data->first.code;
         if (!m_battle_task_ptr->set_stage_name(m_stage_name)) {
             Log.error("Not support stage");
             json::value info = basic_info_with_what("CopilotStageNotSupported");
@@ -161,6 +154,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     }
     else if (multi_tasks_opt) {
         m_multi_copilot_plugin_ptr->set_enable(true); // 启用多任务插件, 自动覆盖Copilot中的配置
+        m_auto_restart = auto_restart;
         m_battle_task_ptr->set_wait_until_end(true);
         auto configs = static_cast<std::vector<MultiCopilotConfig>>(*multi_tasks_opt);
         std::vector<MultiCopilotTaskPlugin::MultiCopilotConfig> configs_cvt;
@@ -263,7 +257,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     }
 
     m_battle_task_ptr->set_formation_task_ptr(m_formation_task_ptr->get_opers_in_formation());
-    m_battle_task_ptr->set_abort_on_leak(m_auto_restart);
+    m_battle_task_ptr->set_abort_on_leak(auto_restart);
 
     const size_t loop_times = std::max<size_t>(params.get("loop_times", 1), 1);
     m_stop_task_ptr->set_enable(false); // 清除上一次 set_params 留下的结算任务启用状态
@@ -312,10 +306,6 @@ bool asst::CopilotTask::run_with_auto_restart()
     }
     m_running = true;
 
-    // 单作业从作业地图数据取得导航名，只需缓存当前详情页上的难度状态。
-    if (!m_multi_copilot_plugin_ptr->get_enable()) {
-        cache_single_stage_mode(ctrler()->get_image());
-    }
     notify_auto_restart(AutoRestartState::Enabled, 0);
 
     for (size_t run_index = 0; run_index < m_run_count; ++run_index) {
@@ -357,18 +347,10 @@ bool asst::CopilotTask::run_with_auto_restart()
                 return false;
             }
 
-            if (m_multi_copilot_plugin_ptr->get_enable()) {
-                // 多作业每次加载配置时会先推进游标；重试前回退一次，确保仍加载并导航到当前作业。
-                if (!m_multi_copilot_plugin_ptr->retry_current_config()) {
-                    LogError << __FUNCTION__ << "Failed to rewind multi-copilot config for auto restart";
-                    return false;
-                }
-            }
-            else {
-                if (!m_multi_copilot_plugin_ptr->navigate_to_stage(m_single_stage_nav_name) ||
-                    !restore_single_stage_mode()) {
-                    return false;
-                }
+            // 多作业每次加载配置时会先推进游标；重试前回退一次，确保仍加载并导航到当前作业。
+            if (!m_multi_copilot_plugin_ptr->retry_current_config()) {
+                LogError << __FUNCTION__ << "Failed to rewind multi-copilot config for auto restart";
+                return false;
             }
         }
         if (need_exit()) {
@@ -376,63 +358,6 @@ bool asst::CopilotTask::run_with_auto_restart()
         }
     }
     return true;
-}
-
-void asst::CopilotTask::cache_single_stage_mode(const cv::Mat& image)
-{
-    const auto mode = detect_single_stage_mode(image);
-    if (!mode) {
-        // 地图级难度在失败后仍处于原环境；没有详情页切换控件时无需主动切换。
-        LogInfo << __FUNCTION__ << "No local stage mode switch detected; keep the inherited map mode";
-        m_single_stage_mode.clear();
-        return;
-    }
-
-    m_single_stage_mode = mode->text;
-    LogInfo << __FUNCTION__ << "Cached single copilot stage mode" << m_single_stage_mode;
-}
-
-std::optional<asst::CopilotTask::SingleStageModeSwitch>
-    asst::CopilotTask::detect_single_stage_mode(const cv::Mat& image) const
-{
-    OCRer ocr(image);
-    ocr.set_task_info("Copilot@SingleStageModeOCR");
-    const auto results = ocr.analyze();
-    if (!results) {
-        return std::nullopt;
-    }
-
-    const auto best = std::ranges::max_element(*results, {}, &OcrPack::Result::score);
-    if (best == results->end() || best->text.empty() || best->score < 0.5) {
-        return std::nullopt;
-    }
-    return SingleStageModeSwitch { .text = best->text, .rect = best->rect };
-}
-
-bool asst::CopilotTask::restore_single_stage_mode()
-{
-    if (m_single_stage_mode.empty()) {
-        return true;
-    }
-
-    constexpr int MaxModeSwitches = 4;
-    for (int attempt = 0; attempt <= MaxModeSwitches && !need_exit(); ++attempt) {
-        const auto current = detect_single_stage_mode(ctrler()->get_image());
-        if (current && current->text == m_single_stage_mode) {
-            LogInfo << __FUNCTION__ << "Restored single copilot stage mode" << m_single_stage_mode;
-            return true;
-        }
-        if (!current || attempt == MaxModeSwitches) {
-            break;
-        }
-
-        LogInfo << __FUNCTION__ << "Rotate single copilot stage mode" << current->text << "->" << m_single_stage_mode;
-        ctrler()->click(current->rect);
-        sleep(Config.get_options().task_delay);
-    }
-
-    LogError << __FUNCTION__ << "Failed to restore single copilot stage mode" << m_single_stage_mode;
-    return false;
 }
 
 asst::CopilotTask::StageAttemptResult asst::CopilotTask::run_stage_attempt(size_t run_index, bool skip_stage_navigation)

@@ -527,7 +527,7 @@
                             <StackPanel
                                 Margin="20,0,0,5"
                                 Orientation="Horizontal"
-                                Visibility="{c:Binding AutoRestart}">
+                                Visibility="{c:Binding 'AutoRestart and UseCopilotList'}">
                                 <controls:TextBlock
                                     Margin="0,0,4,0"
                                     VerticalAlignment="Center"
