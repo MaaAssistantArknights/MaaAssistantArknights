@@ -153,7 +153,12 @@ bool asst::InfrastDormTask::_run()
         if (need_exit()) {
             return false;
         }
-        // 空数组已在此前消费，此处结果只可能 Skip、KeepUnchanged（空意图）或 Shift。
+        // rooms 数组短于实际房间数：剩余房间不换班（与制造站贸易站及文档语义一致），整设施发一条未配置提示
+        if (m_is_custom && static_cast<size_t>(m_cur_facility_index) >= m_custom_config.size()) {
+            notify_rooms_not_configured();
+            break;
+        }
+        // 空数组已在此前消费，此处结果只可能 Skip、KeepUnchanged（空意图）或 Shift（数组短的越界房间已在上游 break）。
         // 常规换班流程会先清空休息位，空意图宿舍因无 autofill 授权不进入补人阶段，而自定义排班
         // 没有宿舍重排轮兜底，休息位会保持全空，该结果并非设计意图，故空意图同样跳过该宿舍的全部操作
         if (check_room_shift_intent(true) != RoomShiftIntent::Shift) {

@@ -77,6 +77,9 @@ protected:
     bool is_room_config_without_intent() const;
     // 判定保持房间原样时的统一通知：发 CustomInfrastRoomKeptUnchanged 回调与日志
     void notify_room_kept_unchanged();
+    // rooms 数组短于实际房间数时的统一通知：剩余房间不换班，整设施只发一条 CustomInfrastRoomsNotConfigured
+    // 回调；发出时 m_cur_facility_index 应停在第一个未配置房间，内部先补发 EnterFacility 供 GUI 另起当前设施卡片
+    void notify_rooms_not_configured();
     // rooms 显式写了该设施但房间数组为空：整个设施保持原样不换班，与缺失该设施键（走默认算法）的语义区分
     bool is_facility_config_empty() const;
     infrast::CustomRoomConfig& current_room_config();

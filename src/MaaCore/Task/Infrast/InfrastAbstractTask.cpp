@@ -362,6 +362,15 @@ void asst::InfrastAbstractTask::notify_room_kept_unchanged()
     callback(AsstMsg::SubTaskExtraInfo, info);
 }
 
+void asst::InfrastAbstractTask::notify_rooms_not_configured()
+{
+    LogInfo << "rooms shorter than facility count, remaining rooms from index" << m_cur_facility_index
+            << "left unchanged" << facility_name() << m_custom_config.size();
+    // 未真实进入设施，先补发设施上下文供 GUI 另起当前设施卡片，与 check_room_shift_intent(true) 的机制一致
+    callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
+    callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("CustomInfrastRoomsNotConfigured"));
+}
+
 bool asst::InfrastAbstractTask::is_facility_config_empty() const
 {
     return m_is_custom && m_custom_config.empty();

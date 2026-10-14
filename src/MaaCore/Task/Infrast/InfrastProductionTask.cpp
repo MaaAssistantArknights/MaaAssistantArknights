@@ -247,9 +247,9 @@ bool asst::InfrastProductionTask::shift_facility_list()
         if (need_exit()) {
             return false;
         }
-        // rooms 数组短于实际房间数时，从未配置的第一个房间起不再换班
+        // rooms 数组短于实际房间数时，从未配置的第一个房间起不再换班，整设施发一条未配置提示
         if (m_is_custom && static_cast<size_t>(m_cur_facility_index) >= m_custom_config.size()) {
-            LogWarn << "index out of range:" << m_cur_facility_index << m_custom_config.size();
+            notify_rooms_not_configured();
             break;
         }
         if (m_cur_facility_index != 0) {
