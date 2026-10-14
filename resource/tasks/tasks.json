@@ -967,7 +967,7 @@
     },
     "LoadingText": {
         "algorithm": "OcrDetect",
-        "text": ["正在提交", "反馈至神经"],
+        "text": ["在提交", "至神经"],
         "roi": [700, 600, 300, 120],
         "next": ["LoadingText", "LoadingTextPostDelay"]
     },
