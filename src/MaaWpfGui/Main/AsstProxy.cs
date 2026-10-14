@@ -2018,12 +2018,13 @@ public class AsstProxy
                                 break;
                             }
 
-                        case "MonthlyCard@MonthlyCardDays":
+                        // 注意：回调的 details.task 会剥离任务名全部 @ 前缀（如 MiniGame@...@CheckEncounter-Uncollected → CheckEncounter-Uncollected），case 须用 base 名
+                        case "MonthlyCardDays":
                             {
-                                // OCR 文本形如“剩余：12天”，超过 40 天视为误识别（月卡上限 30 天）
+                                // OCR 文本形如“剩余：12天”，超过 40 天视为误识别（月卡上限 30 天）；0 天（到期当天）有效
                                 var ocrText = details!["details"]!["result"]?["text"]?.ToString() ?? string.Empty;
                                 var daysMatch = Regex.Match(ocrText, @"(\d+)\s*天");
-                                if (daysMatch.Success && int.TryParse(daysMatch.Groups[1].Value, out var daysLeft) && daysLeft is > 0 and <= 40
+                                if (daysMatch.Success && int.TryParse(daysMatch.Groups[1].Value, out var daysLeft) && daysLeft is >= 0 and <= 40
                                     && TaskQueueViewModel.AwardTask.IsMonthlyCardRemindNeeded(daysLeft))
                                 {
                                     TaskQueueViewModel.AwardTask.MarkMonthlyCardReminded();

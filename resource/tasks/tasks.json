@@ -2054,13 +2054,14 @@
         "next": ["MonthlyCard@BundlesTab"]
     },
     "MonthlyCard@BundlesTab": {
-        "doc": "采购中心顶部页签-组合包，已按国服 1534x860 截图校准；其它主题/服待验证",
+        "doc": "采购中心顶部页签-组合包，已按国服 1534x860 截图校准；其它主题/服待验证。识别失败(如多服词表未适配)时经 onErrorNext 静默结束，不影响 Award 任务",
         "algorithm": "OcrDetect",
         "text": ["组合包"],
         "roi": [415, 88, 130, 40],
         "action": "ClickSelf",
         "postDelay": 1000,
-        "next": ["MonthlyCard@MonthlyCardEntry"]
+        "next": ["MonthlyCard@MonthlyCardEntry"],
+        "onErrorNext": ["Stop"]
     },
     "MonthlyCard@MonthlyCardEntry": {
         "doc": "组合包页左侧列表-月卡条目，点击进入详情页（倒计时只在详情页显示）。roi 覆盖列表下半区，整列表仅月卡条目含'月卡'字样",
@@ -2069,14 +2070,16 @@
         "roi": [0, 300, 260, 300],
         "action": "ClickSelf",
         "postDelay": 1000,
-        "next": ["MonthlyCard@MonthlyCardDays"]
+        "next": ["MonthlyCard@MonthlyCardDays"],
+        "onErrorNext": ["Stop"]
     },
     "MonthlyCard@MonthlyCardDays": {
-        "doc": "月卡详情页右侧'当期月卡剩余X天'胶囊条（整屏唯一'剩余'字样），已按国服截图校准；无月卡或识别失败时链路自然结束不报错。多服需在各服 resource 覆写 text 词表",
+        "doc": "月卡详情页右侧'当期月卡剩余X天'胶囊条（整屏唯一'剩余'字样），已按国服截图校准；无月卡或识别失败时经 onErrorNext 静默结束不报错。多服需在各服 resource 覆写 text 词表",
         "algorithm": "OcrDetect",
         "text": ["剩余"],
         "roi": [1040, 168, 210, 45],
-        "action": "DoNothing"
+        "action": "DoNothing",
+        "onErrorNext": ["Stop"]
     },
     "SignInEventBegin": {
         "doc": "限时签到活动领取入口，不支持特殊版型",
