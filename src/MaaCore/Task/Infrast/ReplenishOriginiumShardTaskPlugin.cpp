@@ -19,6 +19,7 @@ bool asst::ReplenishOriginiumShardTaskPlugin::verify(AsstMsg msg, const json::va
 
 bool asst::ReplenishOriginiumShardTaskPlugin::_run()
 {
+    m_ran = true;
     ProcessTask task(*this, { "ReplenishToMax" });
     return task.run();
 }

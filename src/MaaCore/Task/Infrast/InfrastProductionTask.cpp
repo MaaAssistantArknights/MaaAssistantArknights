@@ -1,5 +1,6 @@
 #include "InfrastProductionTask.h"
 #include "InfrastScore.h"
+#include "ReplenishOriginiumShardTaskPlugin.h"
 
 #include <algorithm>
 #include <array>
@@ -266,18 +267,32 @@ bool asst::InfrastProductionTask::shift_facility_list()
         ctrler()->click(tab);
         sleep(tab_task_ptr->post_delay);
 
-        // 上一个设施留有未执行的制造计划时，切换页签会被 ｢尚未执行新的制造计划｣ 弹窗拦下，确认离开后重新点击页签
-        // 正常切换时没有弹窗，直接用 OCRer 探测，避免 ProcessTask 未命中时上报 SubTaskError
-        OCRer leave_analyzer(ctrler()->get_image());
-        leave_analyzer.set_task_info("InfrastUnexecutedPlanLeaveConfirm");
-        if (leave_analyzer.analyze()) {
-            LogWarn << __FUNCTION__ << "left facility with unexecuted production plan, index" << m_cur_facility_index;
-            const auto leave_task_ptr = Task.get("InfrastUnexecutedPlanLeaveConfirm");
-            ctrler()->click(leave_task_ptr->specific_rect);
-            sleep(leave_task_ptr->post_delay);
-            sleep(tab_task_ptr->pre_delay);
-            ctrler()->click(tab);
-            sleep(tab_task_ptr->post_delay);
+        // 上一个设施留有未执行的制造计划时，切换页签会被 ｢尚未执行新的制造计划｣ 弹窗拦下，确认离开后重新点击页签。
+        // 该弹窗只可能由制造站的补货留下（确认按钮未弹或未被点中时），贸易站与未补货的轮次没有此弹窗，
+        // 直接用 OCRer 探测前先按此收紧，避免整块 OCR 白跑；正常切换时没有弹窗，裸探测也避免 ProcessTask 未命中上报
+        // SubTaskError
+        bool replenish_ran = false;
+        if (facility_name() == "Mfg") {
+            for (const auto& plugin : get_plugins()) {
+                if (auto replenish = std::dynamic_pointer_cast<ReplenishOriginiumShardTaskPlugin>(plugin)) {
+                    replenish_ran = replenish->ran_this_run();
+                    break;
+                }
+            }
+        }
+        if (replenish_ran) {
+            OCRer leave_analyzer(ctrler()->get_image());
+            leave_analyzer.set_task_info("InfrastUnexecutedPlanLeaveConfirm");
+            if (leave_analyzer.analyze()) {
+                LogWarn << __FUNCTION__ << "left facility with unexecuted production plan, index"
+                        << m_cur_facility_index;
+                const auto leave_task_ptr = Task.get("InfrastUnexecutedPlanLeaveConfirm");
+                ctrler()->click(leave_task_ptr->specific_rect);
+                sleep(leave_task_ptr->post_delay);
+                sleep(tab_task_ptr->pre_delay);
+                ctrler()->click(tab);
+                sleep(tab_task_ptr->post_delay);
+            }
         }
 
         /* 识别当前制造/贸易站有没有添加干员按钮，没有就不换班 */
