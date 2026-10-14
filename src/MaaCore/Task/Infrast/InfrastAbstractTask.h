@@ -97,7 +97,14 @@ protected:
     /// @brief 按技能排序->清空干员->选择定制干员->按指定顺序排序
     /// @param is_dorm_order 当前房间是不是宿舍
     /// @param is_assistant_select 用于训练室协助者选择，名单是调用前临时改写的，不代表房间换班配置，不发换班回调
-    bool swipe_and_select_custom_opers(bool is_dorm_order = false, bool is_assistant_select = false);
+    /// @param room_kept_unchanged 出参，纯候补配置（names 为空、candidates 非空）的干员全部因正在其他设施
+    /// 工作而被跳过时置 true；属计划内不可用，函数内已还原房间配置、退出选人界面（不确认）并发出
+    /// CustomInfrastRoomKeptUnchanged 回调，调用方应跳过确认与选人重试，保持房间原样继续下一间；
+    /// 此时返回值为 false。无需区分该信号的场景可不传，行为与普通选人失败一致
+    bool swipe_and_select_custom_opers(
+        bool is_dorm_order = false,
+        bool is_assistant_select = false,
+        bool* room_kept_unchanged = nullptr);
     bool select_custom_opers(std::vector<std::string>& partial_result);
     // 扫描当前页满足心情条件的所有干员名
     bool get_opers(std::vector<std::string>& result, double mood = 1);

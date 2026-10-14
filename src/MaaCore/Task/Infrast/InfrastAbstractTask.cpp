@@ -363,7 +363,10 @@ bool asst::InfrastAbstractTask::is_facility_config_empty() const
 
 /// @brief 按技能排序->清空干员->选择定制干员->按指定顺序排序
 /// @param is_dorm_order 当前房间是不是宿舍
-bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order, bool is_assistant_select)
+bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(
+    bool is_dorm_order,
+    bool is_assistant_select,
+    bool* room_kept_unchanged)
 {
     LogTraceFunction;
 
@@ -454,14 +457,24 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
         order_opers_selection(opers_order);
     }
 
-    // 纯候补配置（names 为空、candidates 非空）选上 0 人时显式判失败：基线在复核层发现选中者工作中而整体失败，
-    // 选人阶段排除工作中后 0 人须判失败，否则复核对空 names 全放行、确认后清空整房换成 0 人。
-    // 训练室协助者场景（is_assistant_select）0 人是设计行为（空选确认关闭面板保持现任协助者），须排除；
-    // 宿舍（is_dorm_order）跳过复核，纯候补 0 人由本判定统一兜底为失败
+    // 纯候补配置（names 为空、candidates 非空）选上 0 人，即全部候补正在其他设施工作，属计划内不可用；
+    // 与编组全部不可用一致地保持房间原样，还原配置、退出选人界面（不确认，未确认的选择不生效）、
+    // 发 CustomInfrastRoomKeptUnchanged 回调，不当失败重试，避免反复卡同一间与宿舍确认成空房间。
+    // 训练室协助者场景（is_assistant_select）0 人是设计行为（空选确认关闭面板保持现任协助者），须排除
     const bool pure_candidates_selected_none = !is_assistant_select && origin_room_config.names.empty() &&
                                                !origin_room_config.candidates.empty() && room_config.selected == 0;
-    if (!room_config.names.empty() || pure_candidates_selected_none ||
-        (!is_dorm_order && !select_opers_review(origin_room_config))) {
+    if (pure_candidates_selected_none) {
+        LogInfo << "all candidate operators are working in other facilities, keep room unchanged" << facility_name()
+                << m_cur_facility_index;
+        current_room_config() = std::move(origin_room_config);
+        click_return_button();
+        notify_room_kept_unchanged();
+        if (room_kept_unchanged) {
+            *room_kept_unchanged = true;
+        }
+        return false;
+    }
+    if (!room_config.names.empty() || (!is_dorm_order && !select_opers_review(origin_room_config))) {
         // 复核失败，说明current_room_config与OCR识别是不符的，current_room_config是无效信息，还原到用户原来的配置，重选
         current_room_config() = std::move(origin_room_config);
         return false;

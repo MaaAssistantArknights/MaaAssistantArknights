@@ -298,7 +298,9 @@ bool asst::InfrastProductionTask::shift_facility_list()
         // skip 在此处直接判定而非调用 check_room_shift_intent：该函数会连带判定空意图并发出通知，
         // 空意图房间须先完成下方产物识别与换产物再拦截（含 mfg_info 巡检轮，巡检轮现状不发该通知）
         if (m_is_custom && current_room_config().skip) {
+            // skip 房间不换班，Post 无人机没有相对换班的时序意义，配置命中时照常使用
             LogInfo << "skip this room";
+            try_use_custom_post_drone();
             continue;
         }
 
@@ -419,21 +421,24 @@ bool asst::InfrastProductionTask::shift_facility_list()
             }
 
             bool selection_ready = false;
+            bool room_kept_unchanged = false;
             for (int i = 0; i <= OperSelectRetryTimes; ++i) {
                 if (need_exit()) {
                     return false;
                 }
 
                 if (is_use_custom_opers()) {
-                    bool name_select_ret = swipe_and_select_custom_opers();
-                    if (name_select_ret) {
+                    if (swipe_and_select_custom_opers(false, false, &room_kept_unchanged)) {
                         selection_ready = true;
                         break;
                     }
-                    else {
-                        swipe_to_the_left_of_operlist();
-                        continue;
+                    // 计划内不可用（纯候补全部在其他设施工作）已在函数内保持原样退出选人界面（不确认），
+                    // 不再重试，跳出后跳过确认继续下一间，处置对齐编组全部不可用分支
+                    if (room_kept_unchanged) {
+                        break;
                     }
+                    swipe_to_the_left_of_operlist();
+                    continue;
                 }
 
                 if (m_all_available_opers.empty()) {
@@ -457,6 +462,11 @@ bool asst::InfrastProductionTask::shift_facility_list()
                 }
                 selection_ready = true;
                 break;
+            }
+            if (room_kept_unchanged) {
+                // 保持原样的房间跳过确认，Post 无人机不依赖换班结果，配置命中时照常使用，继续下一间
+                try_use_custom_post_drone();
+                continue;
             }
             if (!selection_ready) {
                 restore_last_matched_group_opers();

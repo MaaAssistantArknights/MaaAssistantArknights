@@ -217,7 +217,14 @@ bool asst::InfrastDormTask::_run()
                 return false;
             }
 
-            swipe_and_select_custom_opers(true);
+            bool room_kept_unchanged = false;
+            swipe_and_select_custom_opers(true, false, &room_kept_unchanged);
+            if (room_kept_unchanged) {
+                // 纯候补全部在其他设施工作等计划内不可用，选人已在函数内部还原配置并保持原样退出选人界面
+                // （不确认，未确认的清空与选择不生效），跳过筛选恢复与后续确认流程继续下一间；
+                // 未进驻筛选维持选人前的关闭状态（内存标志同为关闭），下一间进入时按各自配置重新设置
+                continue;
+            }
 
             if (should_restore_notstationed_filter && !set_notstationed_filter(true)) {
                 return false;
