@@ -11,6 +11,7 @@
 #include "Vision/Hasher.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 #include "Vision/Matcher.h"
+#include "Vision/RegionOCRer.h"
 
 namespace
 {
@@ -73,41 +74,6 @@ bool asst::InfrastProcessingTask::_run()
     click_confirm_button();
     click_return_button();
 
-    return true;
-}
-
-void asst::InfrastProcessingTask::set_excluded_operator_ids(std::unordered_set<std::string> operator_ids)
-{
-    if (m_excluded_operator_ids == operator_ids) {
-        return;
-    }
-    m_excluded_operator_ids = std::move(operator_ids);
-    invalidate_material_synthesis_cache();
-}
-
-bool asst::InfrastProcessingTask::material_synthesis_operator_allowed(infrast::Oper& oper) const
-{
-    if (m_excluded_operator_ids.empty()) {
-        return true;
-    }
-    if (oper.operator_id.empty()) {
-        // 技能可能由多人共享，仅在身份未知或可能包含受保护干员时做姓名 OCR
-        const bool needs_identity =
-            oper.operator_ids.empty() || std::ranges::any_of(oper.operator_ids, [&](const std::string& id) {
-                return m_excluded_operator_ids.contains(id);
-            });
-        if (!needs_identity) {
-            return true;
-        }
-        if (!resolve_operator_identity(oper)) {
-            LogWarn << __FUNCTION__ << "| cannot resolve operator identity, skipping synthesis candidate";
-            return false;
-        }
-    }
-    if (m_excluded_operator_ids.contains(oper.operator_id)) {
-        LogInfo << __FUNCTION__ << "| skipping protected synthesis operator" << oper.operator_id;
-        return false;
-    }
     return true;
 }
 
@@ -277,20 +243,25 @@ std::optional<asst::InfrastProcessingTask::MaterialSynthesisScanResult>
             continue;
         }
 
-        auto candidate = oper;
-        if (!material_synthesis_operator_allowed(candidate)) {
-            continue;
-        }
-
         const auto duplicate =
             std::ranges::find_if(m_material_synthesis_operator_cache, [&](const infrast::Oper& cached) {
-                return same_material_synthesis_operator(cached, candidate, face_hash_threshold);
+                return same_material_synthesis_operator(cached, oper, face_hash_threshold);
             });
         if (duplicate != m_material_synthesis_operator_cache.cend()) {
             continue;
         }
 
-        m_material_synthesis_operator_cache.emplace_back(std::move(candidate));
+        // 跳过进驻 B305 或 B402 的干员，避免材料合成把训练室干员调走
+        RegionOCRer facility_analyzer(oper.facility_img);
+        facility_analyzer.set_use_char_model(true);
+        facility_analyzer.set_required({ "B305", "B402" });
+        if (facility_analyzer.analyze()) {
+            LogInfo << __FUNCTION__ << "| skipping synthesis operator stationed in"
+                    << facility_analyzer.get_result().text;
+            continue;
+        }
+
+        m_material_synthesis_operator_cache.emplace_back(oper);
         ++result.new_candidates;
     }
     return result;

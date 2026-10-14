@@ -53,7 +53,6 @@ bool asst::MaterialSynthesisTaskPlugin::_run()
     // 使用独立任务实例，避免材料合成缓存和页面操作进入常规基建任务对象。
     InfrastProcessingTask processing_task(m_callback, m_inst, m_task_chain);
     processing_task.set_task_id(m_task_id);
-    processing_task.set_excluded_operator_ids(m_excluded_operator_ids);
     std::unordered_set<std::string> material_stack;
     int operation_budget = MaxMaterialOperations;
     bool operator_selection_initialized = false;

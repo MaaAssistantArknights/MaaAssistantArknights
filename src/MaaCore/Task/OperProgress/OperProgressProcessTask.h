@@ -2,7 +2,6 @@
 #include "Task/AbstractTask.h"
 
 #include <optional>
-#include <unordered_set>
 #include <variant>
 
 #include "Common/AsstBattleDef.h"
@@ -76,10 +75,7 @@ private:
     bool run_task(std::vector<std::string> tasks, int retry_times = RetryTimesDefault);
     // task_type 区分精英化、技能升级与技能专精页面；material_index 对应页面上的材料槽 0-2。
     // 返回 FormulaLocked 表示该材料在快速跳转弹窗中的配方尚未解锁,调用方应据此跳过当前任务。
-    ResultDetail synthesize_missing_material(
-        OperProgressAction task_type,
-        int material_index,
-        const std::unordered_set<std::string>& excluded_operator_ids = {});
+    ResultDetail synthesize_missing_material(OperProgressAction task_type, int material_index);
     bool record_factory_state();
     bool manufacture_dual_chip(battle::Role role, const std::string& name);
     bool restore_factory_state();

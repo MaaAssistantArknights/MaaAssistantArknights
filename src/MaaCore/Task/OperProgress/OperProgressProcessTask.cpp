@@ -588,30 +588,20 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
 
     // 选定受训干员与技能后确认面板展示材料行；逐槽检测（同 execute_elite 槽位分派）：
     // 技能书/材料1/材料2 依次跳加工站走自动合成,全部修复后复核仍缺料则不启动专精。
-    // 受训干员没有 ｢工作中｣ 标记，补料时必须按身份保护当前训练位
-    const auto trainee_ids = BattleData.get_ids(role, std::string(name));
-    if (trainee_ids.empty()) {
-        LogError << __FUNCTION__ << "| failed to resolve trainee identity, refusing material synthesis" << name;
-        return ResultDetail::RecognitionFailed;
-    }
-    const std::unordered_set<std::string> excluded_operator_ids(trainee_ids.begin(), trainee_ids.end());
     if (run_task("OperProgress@MasterySkillSummaryRequired", 2)) {
-        const ResultDetail synth_result =
-            synthesize_missing_material(OperProgressAction::Mastery, 0, excluded_operator_ids);
+        const ResultDetail synth_result = synthesize_missing_material(OperProgressAction::Mastery, 0);
         if (synth_result != ResultDetail::Completed) {
             return synth_result;
         }
     }
     if (run_task("OperProgress@MasteryMaterial1Required", 2)) {
-        const ResultDetail synth_result =
-            synthesize_missing_material(OperProgressAction::Mastery, 1, excluded_operator_ids);
+        const ResultDetail synth_result = synthesize_missing_material(OperProgressAction::Mastery, 1);
         if (synth_result != ResultDetail::Completed) {
             return synth_result;
         }
     }
     if (run_task("OperProgress@MasteryMaterial2Required", 2)) {
-        const ResultDetail synth_result =
-            synthesize_missing_material(OperProgressAction::Mastery, 2, excluded_operator_ids);
+        const ResultDetail synth_result = synthesize_missing_material(OperProgressAction::Mastery, 2);
         if (synth_result != ResultDetail::Completed) {
             return synth_result;
         }
@@ -1055,10 +1045,8 @@ bool asst::OperProgressProcessTask::reset_trainer_list_page()
     return false;
 }
 
-asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::synthesize_missing_material(
-    OperProgressAction task_type,
-    int material_index,
-    const std::unordered_set<std::string>& excluded_operator_ids)
+asst::OperProgressProcessTask::ResultDetail
+    asst::OperProgressProcessTask::synthesize_missing_material(OperProgressAction task_type, int material_index)
 {
     if (material_index < 0 || material_index > 2) {
         LogError << __FUNCTION__ << "| invalid material index" << material_index;
@@ -1097,7 +1085,6 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::synth
     }
     // 加工站递归合成复用小游戏自动合成逻辑：插件入口校验加工站标志并驱动当前配方。
     MaterialSynthesisTaskPlugin synthesis(m_callback, m_inst, m_task_chain);
-    synthesis.set_excluded_operator_ids(excluded_operator_ids);
     synthesis.set_task_id(m_task_id).set_retry_times(0);
     if (!synthesis.run()) {
         return ResultDetail::ResourceInsufficient;

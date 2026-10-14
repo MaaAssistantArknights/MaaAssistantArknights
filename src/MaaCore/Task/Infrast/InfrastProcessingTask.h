@@ -3,7 +3,6 @@
 
 #include <optional>
 #include <string>
-#include <unordered_set>
 #include <vector>
 
 namespace asst
@@ -16,7 +15,6 @@ public:
 
     // 材料合成使用独立实例调用此入口，不读写常规基建排班配置和缓存。
     bool select_operator(const std::string& material_id, int material_rarity, bool& operator_changed);
-    void set_excluded_operator_ids(std::unordered_set<std::string> operator_ids);
 
 protected:
     virtual bool _run() override;
@@ -29,7 +27,6 @@ private:
     };
 
     bool rebuild_material_synthesis_cache();
-    bool material_synthesis_operator_allowed(infrast::Oper& oper) const;
     std::optional<MaterialSynthesisScanResult> scan_material_synthesis_page();
     std::optional<size_t>
         find_best_material_synthesis_operator(const std::string& material_id, int material_rarity) const;
@@ -45,7 +42,6 @@ private:
         material_synthesis_avatar_matches(const infrast::Oper& lhs, const infrast::Oper& rhs, int face_hash_threshold);
 
     std::vector<infrast::Oper> m_material_synthesis_operator_cache;
-    std::unordered_set<std::string> m_excluded_operator_ids;
     bool m_material_synthesis_cache_valid = false;
 };
 }
