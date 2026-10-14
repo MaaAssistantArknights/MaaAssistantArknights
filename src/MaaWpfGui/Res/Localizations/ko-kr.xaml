@@ -1762,6 +1762,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Expedition">2구역은 앞서 출발 우선</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2ScrapShop">2구역은 신비한 상인 우선</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Hidden">2구역은 미지의 괴이를 최대한 탐색</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Incident">2구역은 우연한 만남을 최대한 경유</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Informant">2~3구역은 정보원 표시가 있는 우연한 만남 우선</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Employ">2구역은 가는 길에 응급 조력 경유</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Light">2구역은 가는 길에 깃털 조망점 경유</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Wish">2구역은 가는 길에 소원성취 경유</system:String>

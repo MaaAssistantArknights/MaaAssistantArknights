@@ -1760,6 +1760,8 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Expedition">Prioritize expedition on floor 2</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2ScrapShop">Prioritize the scrap shop on floor 2</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Hidden">Explore hide invisible nodes on floor 2</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Incident">Pass through Encounter nodes on floor 2</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Informant">Prefer Encounter nodes with the Informant marker on floors 2-3</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Employ">Visit employ on floor 2 along the way</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Light">Visit light nodes on floor 2 along the way</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Wish">Visit wish nodes on floor 2 along the way</system:String>

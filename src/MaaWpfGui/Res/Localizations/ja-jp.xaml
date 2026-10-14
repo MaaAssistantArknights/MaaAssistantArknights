@@ -1763,6 +1763,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Expedition">第2層は一足先にを優先</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2ScrapShop">第2層は秘境の行商人を優先</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Hidden">第2層は未知の怪奇をできるだけ探索</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Incident">第2層は思わぬ遭遇をできるだけ経由</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Informant">第2〜3層は情報屋マーク付きの思わぬ遭遇を優先</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Employ">第2層は道中で応急支援に立ち寄る</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Light">第2層は道中で羽瞰点に立ち寄る</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Wish">第2層は道中で願いの成就に立ち寄る</system:String>

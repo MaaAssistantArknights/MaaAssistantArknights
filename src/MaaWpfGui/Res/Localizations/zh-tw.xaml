@@ -1761,6 +1761,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Expedition">第二層優先先行一步</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2ScrapShop">第二層優先秘境行商</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Hidden">第二層盡量探索未知的詭秘</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Incident">第二層盡量經過不期而遇</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Informant">第二、三層優先經過帶線人角標的不期而遇</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Employ">第二層順路經過應急助力</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Light">第二層順路經過羽瞰點</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Wish">第二層順路經過得償所願</system:String>

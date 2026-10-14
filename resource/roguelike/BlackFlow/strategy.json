@@ -645,6 +645,31 @@
                     }
                 },
                 {
+                    "id": "ending1_floor2_incident",
+                    "description": "第二层尽量经过不期而遇",
+                    "kind": "preferred",
+                    "floor_window": [2, 2],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 3,
+                    "selector": {
+                        "node_types": ["incident"]
+                    }
+                },
+                {
+                    "id": "ending1_informant",
+                    "description": "第二、三层的不期而遇带线人角标时额外加分，与不期而遇的权重叠加",
+                    "kind": "preferred",
+                    "floor_window": [2, 3],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 1,
+                    "selector": {
+                        "node_types": ["incident"],
+                        "marker_types": ["informant"]
+                    }
+                },
+                {
                     "id": "ending1_floor2_employ",
                     "description": "第二层顺路经过应急助力",
                     "kind": "preferred",
