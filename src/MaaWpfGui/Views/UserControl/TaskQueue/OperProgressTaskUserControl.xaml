@@ -29,7 +29,7 @@
     <StackPanel>
         <!--  常规设置  -->
         <StackPanel Visibility="{c:Binding '!EnableAdvancedSettings', Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
-            <!--  固定区：操作按钮行与干员选择添加行；链接随外层面板滚动  -->
+            <!--  固定区：在线编辑计划链接、操作按钮行与干员选择添加行  -->
             <StackPanel x:Name="FixedHeaderPanel">
                 <!--  在线编辑计划链接  -->
                 <controls:TextBlock>

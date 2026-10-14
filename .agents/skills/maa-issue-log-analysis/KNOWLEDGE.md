@@ -27,8 +27,8 @@
 
 ## Theme Not Switched Back
 
-- 主题被切走类诉求（如 PC 界面偏转导致 ｢循环切换主题｣、任务运行后主题停在切换后的状态）不做专门的适配恢复。
-- 已有独立任务类型 ｢更换主题｣（任务类型枚举 `SwitchTheme`，用户口语常称 ｢切换主题｣）：pipeline 在 `resource/tasks/UiTheme/SwitchThemeByName.json`（入口任务 `SwitchThemeByNameBegin`），Core 实现在 `src/MaaCore/Task/Interface/SwitchThemeTask.cpp`。参数 `themes` 填游戏内主题列表显示的主题名，多个则每次运行随机选一个，只填一个则固定切换。
+- 主题被切走类诉求（如 PC 界面偏转导致 ｢循环切换主题｣ 、任务运行后主题停在切换后的状态）不做专门的适配恢复。
+- 已有独立任务类型 ｢更换主题｣ （任务类型枚举 `SwitchTheme`，用户口语常称 ｢切换主题｣ ）：pipeline 在 `resource/tasks/UiTheme/SwitchThemeByName.json`（入口任务 `SwitchThemeByNameBegin`），Core 实现在 `src/MaaCore/Task/Interface/SwitchThemeTask.cpp`。参数 `themes` 填游戏内主题列表显示的主题名，多个则每次运行随机选一个，只填一个则固定切换。
 - 对这类 issue 统一建议把 ｢更换主题｣ 任务放在任务队列末尾，把主题换回用户指定的主题。
 
 ## Reception Clue Analysis
@@ -111,7 +111,7 @@
 
 ## Connect.TouchMode
 
-- MAA 触控模式现五种：`minitouch`（默认）、`maatouch`（实验性）、`adb input`（不推荐使用）、`MaaFwAdb`（GUI 显示为 ｢MaaFwAdb（实验功能）｣）和 `MumuExtras`（仅 MuMu 截图增强启用时可选）。
+- MAA 触控模式现五种：`minitouch`（默认）、`maatouch`（实验性）、`adb input`（不推荐使用）、`MaaFwAdb`（GUI 显示为 ｢MaaFwAdb（实验功能）｣ ）和 `MumuExtras`（仅 MuMu 截图增强启用时可选）。
 - `maatouch` 是 `minitouch` 的 Java 实现，并额外支持按键输入，可避免 minitouch 走 adb 命令传输按钮带来的较高延迟。
 - `adb input` 仅用于兼容部分系统版本过低、无法运行 `minitouch` 或 `maatouch` 的实体机设备。
 - 能用其他模式时，绝不推荐 `adb input`。
