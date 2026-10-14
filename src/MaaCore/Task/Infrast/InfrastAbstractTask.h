@@ -155,6 +155,10 @@ protected:
     // mfg/trade 重跑轮从失败间接续、已成功房间不再重走，回补仅服务失败间的重新匹配；
     // 已生效人员不得再回补（否则后续房间重新匹配到该组，选人复核失败再次回补，循环至重试耗尽）
     std::vector<std::string> m_last_matched_group_opers;
+    // 最近一轮选人中因正在其他设施工作而被跳过的候补名，由 select_custom_opers 收集、
+    // swipe_and_select_custom_opers 每轮清空，供协助者未命中等上报区分 ｢名单有误未命中｣
+    // 与 ｢命中但在班被排除｣ 两种原因
+    std::vector<std::string> m_working_excluded_candidates;
     std::shared_ptr<infrast::TaskData> m_task_data;
     std::unordered_set<std::string> m_pending_operator_ids;
 

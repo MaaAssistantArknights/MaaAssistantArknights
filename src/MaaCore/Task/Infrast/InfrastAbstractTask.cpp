@@ -392,6 +392,7 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(
     if (!ensure_notstationed_filter_off()) {
         return false;
     }
+    m_working_excluded_candidates.clear();
 
     auto& room_config = current_room_config();
     auto origin_room_config = room_config;
@@ -680,6 +681,7 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
                 candd_iter != room_config.candidates.end()) {
                 // 候补在选人阶段即排除工作中的干员：点选后要等复核才发现并整体失败，重试也不会顺延到下一个候选
                 if (oper.doing == infrast::Doing::Working) {
+                    m_working_excluded_candidates.emplace_back(name);
                     continue;
                 }
                 room_config.candidates.erase(candd_iter);

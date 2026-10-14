@@ -139,7 +139,9 @@ Please note that JSON files do not support comments. The comments in this docume
                     {
                         // Assistant candidates, optional; no assistant is selected when omitted. The
                         // assistant slot has no eligibility restriction like the trainee slot, so any
-                        // operator can be staffed there; this also covers skills of operators working
+                        // operator can be staffed there; consistent with the generic candidates field,
+                        // candidates currently working in other facilities are never selected (excluded
+                        // at selection time); this also covers skills of operators working
                         // in other facilities that need ｢an operator of the same faction staffed in the
                         // base for higher efficiency｣ (put one matching-faction operator in operatorsA).
                         // Naming requirements as in operators

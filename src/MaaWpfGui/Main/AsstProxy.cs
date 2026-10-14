@@ -2693,11 +2693,20 @@ public class AsstProxy
 
             case "CustomInfrastAssistantNotFound":
                 {
-                    // 训练室协助者候选全部未命中，协助者保持原样
-                    var candidates = string.Join(", ", (subTaskDetails!["candidates"] as JArray ?? new JArray())
-                        .Select(name => DataHelper.GetLocalizedCharacterName(name.ToString()) ?? name.ToString()));
+                    // 训练室协助者候选全部未命中，协助者保持原样；命中但在班被排除的名单由核心侧单独携带，
+                    // 有该名单时提示计划内的在班排除，避免把配置正确的情况误报成名单错误
+                    var excluded = (subTaskDetails!["working_excluded"] as JArray ?? new JArray())
+                        .Select(name => DataHelper.GetLocalizedCharacterName(name.ToString()) ?? name.ToString())
+                        .ToArray();
+                    var names = string.Join(
+                        ", ",
+                        excluded.Length > 0
+                            ? excluded
+                            : (subTaskDetails!["candidates"] as JArray ?? new JArray())
+                                .Select(name => DataHelper.GetLocalizedCharacterName(name.ToString()) ?? name.ToString()));
+                    var key = excluded.Length > 0 ? "InfrastAssistantWorkingExcluded" : "InfrastAssistantNotFound";
                     Instances.TaskQueueViewModel.AddLog(
-                        LocalizationHelper.GetStringFormat("InfrastAssistantNotFound", candidates), UiLogColor.Warning);
+                        LocalizationHelper.GetStringFormat(key, names), UiLogColor.Warning);
                     break;
                 }
 

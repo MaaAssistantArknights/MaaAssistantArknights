@@ -157,6 +157,7 @@
     <system:String x:Key="AssistantChange">補佐交代替え</system:String>
     <system:String x:Key="InfrastTraineeNotFound">訓練枠の候補がすべて一致しなかったため、訓練枠はそのまま維持されます: {0}</system:String>
     <system:String x:Key="InfrastAssistantNotFound">補佐者の候補がすべて一致しなかったため、補佐者はそのまま維持されます: {0}</system:String>
+    <system:String x:Key="InfrastAssistantWorkingExcluded">補佐者の候補が他の施設で勤務中のためスキップし、補佐者はそのまま維持されます: {0}</system:String>
     <system:String x:Key="InfrastRoomKeptUnchanged">この部屋は配置意思が未設定のため、そのまま維持されます</system:String>
     <system:String x:Key="InfrastFacilityKeptUnchanged">はスケジュール表で部屋が未設定のため、施設全体をそのまま維持します</system:String>
     <system:String x:Key="InfrastCandidatesUnavailable">候補オペレーターがすべて他の施設で勤務中のため、そのまま維持されます</system:String>
