@@ -29,6 +29,7 @@ constexpr std::string_view OpenPanelTask = "BlackFlow@Roguelike@MovementPanelOpe
 constexpr std::string_view PanelTitleTask = "BlackFlow@Roguelike@MovementPanelTitle";
 constexpr std::string_view PanelItemsTask = "BlackFlow@Roguelike@MovementPanelItems";
 constexpr std::string_view SwipePanelTask = "BlackFlow@Roguelike@MovementPanelSwipe";
+constexpr std::string_view SwipePanelBackTask = "BlackFlow@Roguelike@MovementPanelSwipeBack";
 constexpr std::string_view ClosePanelTask = "BlackFlow@Roguelike@MovementPanelBackClick";
 constexpr std::string_view PanelTitle = "选择移动方式";
 constexpr std::string_view LoadedText = "装载中";
@@ -36,6 +37,8 @@ constexpr std::string_view LoadedText = "装载中";
 constexpr int MaxOpenAttempts = 3;
 constexpr int MaxFrameRecognitionAttempts = 2;
 constexpr int MaxForwardSwipes = 3;
+constexpr int MaxBackwardSwipes = MaxForwardSwipes + 2;
+constexpr int PanelPositionTolerance = 20;
 constexpr int LoadedMarkerMaximumDistance = 60;
 // ｢剩余N次｣ 在卡片左上、名字在卡片右下，实测两者相距约 69px，下一张卡片的名字则在 200px 开外。
 constexpr int RemainingMarkerMaximumGap = 120;
@@ -266,9 +269,14 @@ BlackFlowMovementTaskPlugin::SelectionOutcome
         return SelectionOutcome::Failed;
     }
 
+    PanelFrame frame;
+    if (!rewind_panel(frame, error)) {
+        close_panel(nullptr);
+        return SelectionOutcome::Failed;
+    }
+
     for (int swipe_count = 0; swipe_count <= MaxForwardSwipes; ++swipe_count) {
-        PanelFrame frame;
-        if (!scan_current_frame(frame, error)) {
+        if (swipe_count > 0 && !scan_current_frame(frame, error)) {
             close_panel(nullptr);
             return SelectionOutcome::Failed;
         }
@@ -333,6 +341,38 @@ BlackFlowMovementTaskPlugin::SelectionOutcome
         return SelectionOutcome::Failed;
     }
     return SelectionOutcome::Unavailable;
+}
+
+bool BlackFlowMovementTaskPlugin::rewind_panel(PanelFrame& frame, std::string* error)
+{
+    if (!scan_current_frame(frame, error)) {
+        return false;
+    }
+
+    std::optional<int> previous_walk_y;
+    for (int swipe_count = 0; swipe_count <= MaxBackwardSwipes && !need_exit(); ++swipe_count) {
+        const auto walk = std::find_if(frame.items.begin(), frame.items.end(), [](const PanelItem& item) {
+            return item.movement == MovementKind::Walk;
+        });
+        if (walk != frame.items.end()) {
+            const int walk_y = vertical_center(walk->name_rect);
+            if (previous_walk_y && std::abs(walk_y - *previous_walk_y) < PanelPositionTolerance) {
+                return true;
+            }
+            previous_walk_y = walk_y;
+        }
+        else {
+            previous_walk_y.reset();
+        }
+        if (swipe_count == MaxBackwardSwipes || !run_fixed_task(SwipePanelBackTask)) {
+            break;
+        }
+        if (!scan_current_frame(frame, error)) {
+            return false;
+        }
+    }
+    set_error(error, "movement panel could not return to the top");
+    return false;
 }
 
 bool BlackFlowMovementTaskPlugin::ensure_panel_open(std::string* error)
