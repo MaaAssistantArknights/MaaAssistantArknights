@@ -493,6 +493,8 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         pre_room_config.names = { target };
         auto pre_task_ptr = std::make_shared<InfrastDormTask>(m_callback, m_inst, TaskType);
         pre_task_ptr->set_custom_config(std::move(pre_facility_config));
+        // 只配 1 间但宿舍循环会跑满全部房间，越界 break 是正常终止，不发面向用户的未配置提示
+        pre_task_ptr->set_suppress_unconfigured_notice(true);
 
         infrast::CustomFacilityConfig facility_config(1);
         auto& room_config = facility_config.front();
@@ -501,6 +503,8 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
 
         auto Fia_task_ptr = std::make_shared<InfrastDormTask>(m_callback, m_inst, TaskType);
         Fia_task_ptr->set_custom_config(std::move(facility_config));
+        // 同上：单间配置跑满宿舍循环，越界为正常终止
+        Fia_task_ptr->set_suppress_unconfigured_notice(true);
 
         if (Fia_json.get("order", "pre") != "post") {
             m_subtasks.insert(m_subtasks.begin(), { m_infrast_begin_task_ptr, pre_task_ptr, Fia_task_ptr });
@@ -550,6 +554,8 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
             drones_only_task_ptr->set_custom_config(
                 infrast::CustomFacilityConfig(drones_config.index + 1, infrast::CustomRoomConfig { .skip = true }));
             drones_only_task_ptr->set_custom_drones_config(std::move(drones_config));
+            // 只配到无人机目标间数，后续房间越界 break 是正常终止，不发面向用户的未配置提示
+            drones_only_task_ptr->set_suppress_unconfigured_notice(true);
             m_subtasks.insert(m_subtasks.begin(), { m_infrast_begin_task_ptr, drones_only_task_ptr });
         }
         else {

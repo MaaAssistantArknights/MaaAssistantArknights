@@ -35,14 +35,19 @@ bool asst::InfrastOfficeTask::_run()
             return false;
         }
         if (is_use_custom_opers()) {
-            bool name_select_ret = swipe_and_select_custom_opers();
+            bool room_kept_unchanged = false;
+            bool name_select_ret = swipe_and_select_custom_opers(false, false, &room_kept_unchanged);
             if (name_select_ret) {
                 break;
             }
-            else {
-                swipe_to_the_left_of_operlist();
-                continue;
+            if (room_kept_unchanged) {
+                // 保持原样已由选人函数退出选人界面（停在房间页），此处补齐一次返回到主界面，
+                // 对齐确认路径的退出深度，并跳过确认与剩余重试（循环后的确认是纯坐标点击，不识别界面）
+                click_return_button();
+                return true;
             }
+            swipe_to_the_left_of_operlist();
+            continue;
         }
 
         if (!opers_detect_with_swipe()) {

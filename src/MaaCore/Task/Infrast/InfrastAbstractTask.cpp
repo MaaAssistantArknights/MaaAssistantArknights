@@ -97,6 +97,11 @@ void asst::InfrastAbstractTask::clear_custom_config() noexcept
     m_custom_config.clear();
 }
 
+void asst::InfrastAbstractTask::set_suppress_unconfigured_notice(bool suppress) noexcept
+{
+    m_suppress_unconfigured_notice = suppress;
+}
+
 const asst::infrast::CustomRoomConfig& asst::InfrastAbstractTask::current_room_config() const
 {
     // 非 const 以便非常量重载返回可写引用；无配置与越界时的共享占位，禁止写入
@@ -332,16 +337,18 @@ bool asst::InfrastAbstractTask::is_room_config_without_intent() const
 asst::RoomShiftIntent asst::InfrastAbstractTask::check_room_shift_intent(bool with_facility_context)
 {
     // 判定顺序固定为 空数组 → skip → 空意图
-    const auto notify_kept = [this, with_facility_context]() {
-        if (with_facility_context) {
+    const auto notify_kept = [this, with_facility_context](std::string_view reason) {
+        // 空数组来源不补发设施上下文：房间序号恒为 0，卡片会显示成只保持第一间，实为整设施保持原样，
+        // GUI 按 reason 字段自行分卡；其余来源维持补发，序号真实
+        if (with_facility_context && reason != "facility_empty") {
             // 进设施前的拦截没有真实进入，先补发设施上下文，GUI 另起当前设施卡片承载保持原样提示
             callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
         }
-        notify_room_kept_unchanged();
+        notify_room_kept_unchanged(reason);
     };
     if (is_facility_config_empty()) {
         LogInfo << "custom room array is empty, keep facility unchanged";
-        notify_kept();
+        notify_kept("facility_empty");
         return RoomShiftIntent::KeepUnchanged;
     }
     if (m_is_custom && current_room_config().skip) {
@@ -349,16 +356,17 @@ asst::RoomShiftIntent asst::InfrastAbstractTask::check_room_shift_intent(bool wi
         return RoomShiftIntent::Skip;
     }
     if (is_room_config_without_intent()) {
-        notify_kept();
+        notify_kept("room_no_intent");
         return RoomShiftIntent::KeepUnchanged;
     }
     return RoomShiftIntent::Shift;
 }
 
-void asst::InfrastAbstractTask::notify_room_kept_unchanged()
+void asst::InfrastAbstractTask::notify_room_kept_unchanged(std::string_view reason)
 {
-    LogInfo << "room config has no staffing intent, keep room unchanged" << facility_name() << m_cur_facility_index;
+    LogInfo << "room kept unchanged, reason:" << reason << facility_name() << m_cur_facility_index;
     json::value info = basic_info_with_what("CustomInfrastRoomKeptUnchanged");
+    info["details"]["reason"] = std::string(reason);
     callback(AsstMsg::SubTaskExtraInfo, info);
 }
 
@@ -366,7 +374,11 @@ void asst::InfrastAbstractTask::notify_rooms_not_configured()
 {
     LogInfo << "rooms shorter than facility count, remaining rooms from index" << m_cur_facility_index
             << "left unchanged" << facility_name() << m_custom_config.size();
-    // 未真实进入设施，先补发设施上下文供 GUI 另起当前设施卡片，与 check_room_shift_intent(true) 的机制一致
+    // 内部短配置子任务以越界 break 为正常终止方式，抑制时只保留日志，不发面向用户的未配置提示
+    if (m_suppress_unconfigured_notice) {
+        return;
+    }
+    // 未真实进入设施，先补发设施上下文供 GUI 另起当前设施卡片，与 check_room_shift_intent 空意图分支的机制一致
     callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
     callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("CustomInfrastRoomsNotConfigured"));
 }
@@ -483,7 +495,7 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(
                 << m_cur_facility_index;
         current_room_config() = std::move(origin_room_config);
         click_return_button();
-        notify_room_kept_unchanged();
+        notify_room_kept_unchanged("candidates_unavailable");
         if (room_kept_unchanged) {
             *room_kept_unchanged = true;
         }

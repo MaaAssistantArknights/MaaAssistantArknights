@@ -60,11 +60,18 @@ bool asst::InfrastRecycleTask::_run()
             return false;
         }
         if (is_use_custom_opers()) {
-            if (swipe_and_select_custom_opers()) {
+            bool room_kept_unchanged = false;
+            if (swipe_and_select_custom_opers(false, false, &room_kept_unchanged)) {
                 if (!click_confirm_button()) {
                     return false;
                 }
                 m_last_matched_group_opers.clear();
+                click_return_button();
+                return true;
+            }
+            if (room_kept_unchanged) {
+                // 保持原样已由选人函数退出选人界面（停在房间页），此处补齐一次返回到主界面，
+                // 对齐确认路径的退出深度，并跳过确认与剩余重试
                 click_return_button();
                 return true;
             }

@@ -44,16 +44,21 @@ bool asst::InfrastPowerTask::_run()
 
         close_quick_formation_expand_role();
 
+        bool room_kept_unchanged = false;
         for (int j = 0; j <= OperSelectRetryTimes; ++j) {
             if (is_use_custom_opers()) {
-                bool name_select_ret = swipe_and_select_custom_opers();
-                if (name_select_ret) {
+                if (swipe_and_select_custom_opers(false, false, &room_kept_unchanged)) {
                     break;
                 }
-                else {
-                    swipe_to_the_left_of_operlist();
-                    continue;
+                if (room_kept_unchanged) {
+                    // 保持原样已由选人函数退出选人界面（停在房间页），此处补齐一次返回到主界面，
+                    // 对齐确认路径的退出深度并跳过确认（循环后的确认是纯坐标点击，不识别界面）；
+                    // 下一间开头的滑动与 enter_facility 要求停留在主界面
+                    click_return_button();
+                    break;
                 }
+                swipe_to_the_left_of_operlist();
+                continue;
             }
 
             if (m_all_available_opers.empty()) {
@@ -72,6 +77,9 @@ bool asst::InfrastPowerTask::_run()
                 continue;
             }
             break;
+        }
+        if (room_kept_unchanged) {
+            continue;
         }
         click_confirm_button();
         click_return_button();
