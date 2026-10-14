@@ -2054,17 +2054,17 @@
         "next": ["MonthlyCard@BundlesTab"]
     },
     "MonthlyCard@BundlesTab": {
-        "doc": "采购中心顶部页签-组合包，已按国服 1534x860 截图校准；其它主题/服待验证。识别失败(如多服词表未适配)时经 onErrorNext 静默结束，不影响 Award 任务",
+        "doc": "采购中心顶部页签-组合包，已按国服 1534x860 截图校准；其它主题/服待验证。可视区找不到月卡条目时滚动左侧列表继续找，耗尽后静默结束",
         "algorithm": "OcrDetect",
         "text": ["组合包"],
         "roi": [415, 88, 130, 40],
         "action": "ClickSelf",
         "postDelay": 1000,
-        "next": ["MonthlyCard@MonthlyCardEntry"],
+        "next": ["MonthlyCard@MonthlyCardEntry", "MonthlyCard@ScrollForMonthlyCard"],
         "onErrorNext": ["Stop"]
     },
     "MonthlyCard@MonthlyCardEntry": {
-        "doc": "组合包页左侧列表-月卡条目，点击进入详情页（倒计时只在详情页显示）。月卡卡片位置随活动礼包数量变化，roi 覆盖整个左侧列表区域靠 OCR '月卡' 定位（'月卡'字样在列表内唯一，且不与顶部页签栏重叠）",
+        "doc": "组合包页左侧列表-月卡条目，点击进入详情页（倒计时只在详情页显示）。月卡卡片位置随活动礼包数量变化，roi 覆盖整个左侧列表区域靠 OCR '月卡' 定位（'月卡'字样在列表内唯一，且不与顶部页签栏、右侧'购买月卡'按钮重叠）",
         "algorithm": "OcrDetect",
         "text": ["月卡"],
         "roi": [0, 170, 260, 540],
@@ -2072,6 +2072,17 @@
         "postDelay": 1000,
         "next": ["MonthlyCard@MonthlyCardDays"],
         "onErrorNext": ["Stop"]
+    },
+    "MonthlyCard@ScrollForMonthlyCard": {
+        "doc": "左侧列表可视区未找到月卡条目时向上滚动一屏重找（参照 EpisodeNew/SwipeUpToEpisode 滚动查找模式）；滚尽仍无（如无月卡）则经 exceededNext 静默结束",
+        "baseTask": "SlowlySwipeToTheUp",
+        "specificRect": [130, 500, 60, 60],
+        "rectMove": [130, 200, 60, 60],
+        "specialParams": [1000, 0, 3, 0],
+        "postDelay": 600,
+        "next": ["MonthlyCard@MonthlyCardEntry", "#self"],
+        "maxTimes": 6,
+        "exceededNext": ["Stop"]
     },
     "MonthlyCard@MonthlyCardDays": {
         "doc": "月卡详情页右侧'当期月卡剩余X天'胶囊条（整屏唯一'剩余'字样），已按国服截图校准；无月卡或识别失败时经 onErrorNext 静默结束不报错。多服需在各服 resource 覆写 text 词表",
