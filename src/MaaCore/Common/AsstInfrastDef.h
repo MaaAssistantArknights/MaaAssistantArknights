@@ -371,8 +371,8 @@ struct CustomRoomConfig
     bool skip = false;
     // 是否使用干员编组
     bool use_operator_groups = false;
-    // 干员编组列表
-    std::unordered_map<std::string, std::vector<std::string>> operator_groups;
+    // 干员编组列表；保序容器，匹配按 groups 定义顺序取第一个满足的组
+    std::vector<std::pair<std::string, std::vector<std::string>>> operator_groups;
     // 自定干员
     std::vector<std::string> names;
     bool autofill = false;

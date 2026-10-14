@@ -315,15 +315,15 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
     }
     auto& cur_plan = all_plans.at(index);
 
-    // 录入干员编组
-    std::unordered_map<std::string, std::vector<std::string>> ori_operator_groups;
+    // 录入干员编组；保序容器，匹配顺序即此处的录入顺序
+    std::vector<std::pair<std::string, std::vector<std::string>>> ori_operator_groups;
     if (auto opt = cur_plan.find<json::array>("groups")) {
         for (const auto& group_info : opt.value()) {
             std::vector<std::string> oper_group;
             for (const auto& oper_info : group_info.at("operators").as_array()) {
                 oper_group.emplace_back(oper_info.as_string());
             }
-            ori_operator_groups.emplace(group_info.at("name").as_string(), std::move(oper_group));
+            ori_operator_groups.emplace_back(group_info.at("name").as_string(), std::move(oper_group));
         }
     }
 
@@ -367,19 +367,25 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
                     room_config.names.emplace_back(std::move(name));
                 }
                 if (room_config.use_operator_groups) {
-                    // 将引用了的干员编组，装载到对应房间配置
+                    // 将引用了的干员编组，装载到对应房间配置（按 groups 定义顺序）
                     // name数组此后可以作废
                     std::set<std::string> name_set;
                     name_set.insert(room_config.names.begin(), room_config.names.end());
                     std::ranges::for_each(
                         ori_operator_groups,
-                        [name_set, &room_config](std::pair<std::string, std::vector<std::string>> pair) {
+                        [name_set, &room_config](const std::pair<std::string, std::vector<std::string>>& pair) {
                             if (name_set.contains(pair.first)) {
-                                room_config.operator_groups[pair.first] = std::move(pair.second);
+                                // 拷贝而非移动：ori 是全计划共享的模板，后续房间还会引用同名组
+                                room_config.operator_groups.emplace_back(pair.first, pair.second);
                             }
                         });
                     for (const auto& name : name_set) {
-                        if (!room_config.operator_groups.contains(name)) {
+                        const auto defined = std::ranges::any_of(
+                            room_config.operator_groups,
+                            [&name](const std::pair<std::string, std::vector<std::string>>& pair) {
+                                return pair.first == name;
+                            });
+                        if (!defined) {
                             LogWarn << __FUNCTION__ << " operator group not defined in groups: " << name;
                         }
                     }

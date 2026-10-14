@@ -222,7 +222,7 @@ asst::GroupMatchResult asst::InfrastAbstractTask::match_operator_groups()
         std::vector<std::string> names;
         std::ranges::for_each(
             current_room_config().operator_groups,
-            [&names](std::pair<const std::string, std::vector<std::string>>& pair) { names.emplace_back(pair.first); });
+            [&names](const std::pair<std::string, std::vector<std::string>>& pair) { names.emplace_back(pair.first); });
         info["details"]["groups"] = json::array(std::move(names));
         callback(AsstMsg::SubTaskExtraInfo, info);
         return GroupMatchResult::AllUnavailable;
