@@ -100,17 +100,12 @@ bool asst::InfrastRecycleTask::fill_slots()
 {
     LogTraceFunction;
 
-    // 只从未进驻的干员里补位，避免拆散已换班的其他设施；每次进入都真设置一遍
-    // （已选中时一次匹配直接通过），不依赖上一设施留下的筛选状态
-    if (!click_filter_menu_not_stationed_button()) {
-        return false;
-    }
-
     // 固定按工作状态排序，避免沿用上一设施或用户手动残留的排序导致选人不可预测
     ProcessTask(*this, { "InfrastOperListTabWorkStatusUnClicked", "Stop" }).run();
 
-    // 心情低于阈值的干员跳过，避免打断宿舍休息循环；
-    // 工作中标记的跳过保留为防御（未进驻筛选下列表理论上没有在班干员）
+    // 驻扎生产设施的干员（编号判定）不拉取，避免拆散已换班的其他设施；宿舍编号与
+    // 未进驻不排除。心情低于阈值的干员跳过，避免打断宿舍休息循环；工作中标记的
+    // 跳过保留为防御（编号 OCR 漏读时兜底）
     size_t num_of_selected = 0;
     int swipe_times = 0;
     while (num_of_selected < max_num_of_opers()) {
@@ -132,7 +127,8 @@ bool asst::InfrastRecycleTask::fill_slots()
             if (num_of_selected >= max_num_of_opers()) {
                 break;
             }
-            if (oper.selected || oper.doing == infrast::Doing::Working || oper.mood_ratio < m_mood_threshold) {
+            if (oper.selected || stationed_in_production_facility(oper) || oper.doing == infrast::Doing::Working ||
+                oper.mood_ratio < m_mood_threshold) {
                 continue;
             }
             ctrler()->click(oper.rect);

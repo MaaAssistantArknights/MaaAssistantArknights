@@ -11,7 +11,6 @@
 #include "Vision/Hasher.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 #include "Vision/Matcher.h"
-#include "Vision/RegionOCRer.h"
 
 namespace
 {
@@ -94,11 +93,6 @@ bool asst::InfrastProcessingTask::select_operator(
         return false;
     }
     close_quick_formation_expand_role();
-    // 只从未进驻的干员里选，避免把训练室、回收站等已进驻设施的人员调走；
-    // 已选中时一次匹配直接通过，缓存命中的重复调用幂等
-    if (!click_filter_menu_not_stationed_button()) {
-        return false;
-    }
     bool selection_changed = false;
     for (int attempt = 0; attempt <= MaxMaterialSynthesisCacheRebuilds; ++attempt) {
         if (need_exit()) {
@@ -258,6 +252,12 @@ std::optional<asst::InfrastProcessingTask::MaterialSynthesisScanResult>
                 return same_material_synthesis_operator(cached, oper, face_hash_threshold);
             });
         if (duplicate != m_material_synthesis_operator_cache.cend()) {
+            continue;
+        }
+
+        // 驻扎生产设施（含训练室、回收站）的干员不选，避免拆散已进驻的设施；
+        // 宿舍编号与未进驻不排除，宿舍中回满心情的技能干员仍是候选
+        if (stationed_in_production_facility(oper)) {
             continue;
         }
 

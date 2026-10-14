@@ -877,6 +877,29 @@ bool asst::InfrastAbstractTask::ensure_notstationed_filter_off()
     return click_filter_menu_cancel_not_stationed_button();
 }
 
+bool asst::InfrastAbstractTask::stationed_in_production_facility(const infrast::Oper& oper) const
+{
+    // 空白驻扎栏的 OCR 噪声剔除后通常为空，按未进驻处理不排除；恰好凑成四位
+    // 编号的噪声会误杀单个候选，属可接受的低概率边角
+    RegionOCRer facility_analyzer(oper.facility_img);
+    facility_analyzer.set_use_char_model(true);
+    if (!facility_analyzer.analyze()) {
+        return false;
+    }
+
+    std::string facility_name = facility_analyzer.get_result().text;
+    const boost::regex facility_rule("[^BF0-9]");
+    facility_name = boost::regex_replace(facility_name, facility_rule, "");
+
+    const bool is_dorm =
+        facility_name == "B104" || facility_name == "B204" || facility_name == "B304" || facility_name == "B401";
+    const bool stationed = !facility_name.empty() && !is_dorm;
+    if (stationed) {
+        LogTrace << "operator stationed in" << facility_name;
+    }
+    return stationed;
+}
+
 bool asst::InfrastAbstractTask::click_confirm_button()
 {
     LogTraceFunction;

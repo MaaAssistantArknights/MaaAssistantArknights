@@ -140,6 +140,12 @@ protected:
     /// 其余情形一次模板匹配直接通过。点名与常规算法类选人在进入列表页后调用，
     /// 声明本流程需要看到包括在班干员在内的完整列表
     bool ensure_notstationed_filter_off();
+    /// @brief 干员驻扎栏是否为生产设施编号：OCR 驻扎栏并剔除非 B/F/数字字符后，
+    /// 剩余编号非空且不属于宿舍编号（B104/B204/B304/B401）时为 true，选人时应跳过；
+    /// 识别不出（未进驻）与宿舍编号为 false，宿舍中回满心情的干员保持可选。
+    /// 与宿舍信赖补位的 ｢长度 < ActiveFacilityNumberLength｣ 判定不同：信赖补位连
+    /// 宿舍编号也按已进驻处理（不拉其他宿舍休息中的干员），此处需保留宿舍候选
+    bool stationed_in_production_facility(const infrast::Oper& oper) const;
     // 点击干员选择页面的“确认”按钮
     virtual bool click_confirm_button();
 
