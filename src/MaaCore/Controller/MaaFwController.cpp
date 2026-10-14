@@ -115,6 +115,13 @@ bool MaaFwController::connect_with_extras(
             LogError << "MaaAdbControlUnitCreate function not found?!";
             return false;
         }
+
+        json::object config_arg = extras.get("config", json::object {});
+        if (config == "AVD") {
+            config_arg |= json::object {
+                { "extras", json::object { { "avd", json::object { { "enable", true } } } } },
+            };
+        }
         m_unit_handle = create_func(
             adb_path.c_str(),
             address.c_str(),
@@ -124,7 +131,7 @@ bool MaaFwController::connect_with_extras(
             // 而这里的 click()/swipe() 直接透传给 ControlUnit，从不读 features，会全部失败。
             // MuMu 触控走 MumuController（TouchMode::MumuExtras）。
             extras.get("input_methods", MaaAdbInputMethod::AdbShell),
-            config == "AVD" ? "{\"extras\":{\"avd\":{\"enable\":true}}}" : "{}",
+            config_arg.dumps().c_str(),
             // MaaAgentBinary目录
             utils::path_to_utf8_string(ResDir.get() / "minitouch").c_str());
     } break;
