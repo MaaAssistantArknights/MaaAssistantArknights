@@ -439,6 +439,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             Directory.CreateDirectory("debug");
         }
 
+        LocalizationHelper.Load();
+
         var args = Environment.GetCommandLineArgs();
         InitializeLogger(args);
         ConfigureWineEnvironment();
@@ -446,7 +448,6 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         ParseEarlyLaunchArgs(args, launchDir);
 
         ConfigurationHelper.Load();
-        LocalizationHelper.Load();
 
         ConsumeDelegatedUpdateResult();
 
@@ -567,8 +568,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     /// </summary>
     private static bool IsBuildOutputFolder
     {
-        get
-        {
+        get {
             var folderName = Path.GetFileName(PathsHelper.BaseDir.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
             return string.Equals(folderName, "Release", StringComparison.OrdinalIgnoreCase) ||
                 string.Equals(folderName, "Debug", StringComparison.OrdinalIgnoreCase) ||
@@ -893,8 +893,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
     public static string InstanceKey
     {
-        get
-        {
+        get {
             var normalizedBaseDir = Path.GetFullPath(PathsHelper.BaseDir)
                 .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
                 .ToUpperInvariant();
