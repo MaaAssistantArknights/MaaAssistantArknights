@@ -860,6 +860,11 @@ D:\
     <system:String x:Key="ReceiveSpecialAccess">領取特殊贈送月卡獎勵</system:String>
     <system:String x:Key="ReceiveSignInEvent">領取限時簽到活動獎勵</system:String>
     <system:String x:Key="ReceiveSignInEventTip">僅支援常見橫向版型；其他版型不支援，可能無法正常運作</system:String>
+    <system:String x:Key="ReceiveMonthlyCard">月卡到期提醒</system:String>
+    <system:String x:Key="ReceiveMonthlyCardTip">領取獎勵時順路進入採購中心組合包頁識別月卡剩餘天數，臨近到期時彈通知提醒（每天最多提醒一次）</system:String>
+    <system:String x:Key="MonthlyCardRemindDaysLabel">剩餘天數不高於</system:String>
+    <system:String x:Key="MonthlyCardExpiringTitle">月卡即將到期</system:String>
+    <system:String x:Key="MonthlyCardExpiringContent">月卡剩餘 {0} 天，記得及時續費</system:String>
     <system:String x:Key="DroneUsage">無人機用途</system:String>
     <system:String x:Key="UseTray">顯示工作列圖示</system:String>
     <system:String x:Key="HideTray">隱藏工作列圖示</system:String>

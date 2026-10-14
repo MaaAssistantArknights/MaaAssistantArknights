@@ -2034,6 +2034,41 @@
         "postDelay": 500,
         "next": ["Stop"]
     },
+    "MonthlyCardBegin": {
+        "doc": "月卡到期提醒：跳转采购中心组合包页识别月卡剩余天数，识别文本经 SubTaskStart 回传 GUI(details.result.text)，由 GUI 判断阈值并提醒。所有 roi 为估值待真机校准",
+        "algorithm": "JustReturn",
+        "next": [
+            "MonthlyCard@Mall",
+            "MonthlyCard@QuickSwitch@ToMall#next",
+            "MonthlyCard@ReturnButtons#next",
+            "MonthlyCard@CloseAnnos#next",
+            "MonthlyCard@OfflineConfirm"
+        ]
+    },
+    "MonthlyCard@Mall": {
+        "doc": "确认已进入采购中心（锚点与 Mall 链一致）",
+        "action": "DoNothing",
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
+        "sub": ["Mall-Entry"],
+        "next": ["MonthlyCard@BundlesTab"]
+    },
+    "MonthlyCard@BundlesTab": {
+        "doc": "采购中心顶部页签-组合包，roi 待真机校准",
+        "algorithm": "OcrDetect",
+        "text": ["组合包"],
+        "roi": [520, 0, 480, 300],
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "next": ["MonthlyCard@MonthlyCardDays"]
+    },
+    "MonthlyCard@MonthlyCardDays": {
+        "doc": "组合包页月卡条目剩余天数，roi 待真机校准；无月卡或识别失败时链路自然结束不报错。多服需在各服 resource 覆写 text 词表",
+        "algorithm": "OcrDetect",
+        "text": ["剩余"],
+        "roi": [100, 100, 500, 200],
+        "action": "DoNothing"
+    },
     "SignInEventBegin": {
         "doc": "限时签到活动领取入口，不支持特殊版型",
         "algorithm": "JustReturn",
