@@ -144,8 +144,10 @@ Please note that JSON files do not support comments. The comments in this docume
                         // at selection time); this also covers skills of operators working
                         // in other facilities that need ｢an operator of the same faction staffed in the
                         // base for higher efficiency｣ (put one matching-faction operator in operatorsA).
-                        // Naming requirements as in operators
-                        "operatorsA": ["Dobermann"],
+                        // Naming requirements as in operators (on non-CN clients the simplified Chinese
+                        // name must be used; recognized names are normalized to simplified Chinese
+                        // before matching)
+                        "operatorsA": ["杜宾"],
                         // Trainee slot candidates, optional; when omitted the trainee slot operator is not
                         // changed. The first candidate present in the in-game selection list is staffed.
                         // Staffing is subject to the trainee slot's eligibility restriction: the operator
@@ -155,7 +157,7 @@ Please note that JSON files do not support comments. The comments in this docume
                         // locked and cannot be changed. Staffing alone does not start a new training
                         // session; starting mastery training still requires a manual tap. Naming
                         // requirements as in operators
-                        "operatorsB": ["SilverAsh"]
+                        "operatorsB": ["银灰"]
                         // Generic roomConfig fields such as operators/candidates have no effect on the training room; only skip and operatorsA/operatorsB take effect
                         // ｢Continue training｣ is a standalone GUI option outside the schedule file and is unaffected by the three room states; with an empty array, skip, or empty intent, continue training still runs and only operator replacement is skipped
                         // When ｢continue training｣ is enabled, the shift-change flow first tries to continue the current operator's mastery training; on success the trainee slot stays unchanged and only the assistant is replaced per configuration, otherwise (materials insufficient or mastery already maxed) it falls back to replacing the trainee slot operator per configuration
