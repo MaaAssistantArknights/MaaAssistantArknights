@@ -1870,6 +1870,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ThisFacility" xml:space="preserve">当前设施: </system:String>
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">匹配编组: </system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">匹配{key=Operator}编组失败，编组列表: </system:String>
+    <system:String x:Key="RoomGroupsMatchRecogFailed">编组{key=Operator}识别失败，房间保持原样</system:String>
     <system:String x:Key="RoomOperators" xml:space="preserve">首选{key=Operator}: </system:String>
     <system:String x:Key="ProductIncorrect">产物与配置不相符。</system:String>
     <system:String x:Key="ProductUnknown">无法识别的产物</system:String>

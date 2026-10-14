@@ -1868,6 +1868,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ThisFacility" xml:space="preserve">現在の施設: </system:String>
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">グループに合わせる: </system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">{key=Operator} グループ、グループ リストの一致に失敗しました: </system:String>
+    <system:String x:Key="RoomGroupsMatchRecogFailed">グループ{key=Operator}の認識に失敗したため、部屋は変更されませんでした</system:String>
     <system:String x:Key="RoomOperators" xml:space="preserve">優先{key=Operator}: </system:String>
     <system:String x:Key="ProductIncorrect">製産物が構成と一致しません。</system:String>
     <system:String x:Key="ProductUnknown">認識不能な製産物</system:String>

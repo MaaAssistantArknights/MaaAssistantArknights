@@ -1867,6 +1867,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ThisFacility" xml:space="preserve">현재 시설: </system:String>
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">그룹에 일치: </system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">{key=Operator} 그룹, 그룹 목록을 일치시키지 못했습니다: </system:String>
+    <system:String x:Key="RoomGroupsMatchRecogFailed">그룹 {key=Operator} 인식에 실패하여 방이 변경되지 않았습니다</system:String>
     <system:String x:Key="RoomOperators" xml:space="preserve">선호하는 {key=Operator}: </system:String>
     <system:String x:Key="ProductIncorrect">생산품이 구성과 맞지 않습니다.</system:String>
     <system:String x:Key="ProductUnknown">인식할 수 없는 생산품</system:String>

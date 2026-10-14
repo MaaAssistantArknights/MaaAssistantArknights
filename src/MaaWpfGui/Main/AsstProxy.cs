@@ -2653,11 +2653,18 @@ public class AsstProxy
                 break;
 
             case "CustomInfrastRoomGroupsMatchFailed":
-                // 干员编组匹配失败
-                var groups = (JArray?)subTaskDetails!["groups"];
-                if (groups != null)
+                // 干员编组匹配失败，识别失败时无组名列表，其余情况回传组名列表
+                if (subTaskDetails!["reason"]?.ToString() == "recognition_failed")
                 {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomGroupsMatchFailed") + string.Join(", ", groups));
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomGroupsMatchRecogFailed"));
+                }
+                else
+                {
+                    var groups = (JArray?)subTaskDetails["groups"];
+                    if (groups != null)
+                    {
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomGroupsMatchFailed") + string.Join(", ", groups));
+                    }
                 }
 
                 break;
