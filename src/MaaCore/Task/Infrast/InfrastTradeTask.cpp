@@ -12,8 +12,11 @@ bool asst::InfrastTradeTask::_run()
 
     swipe_to_the_left_of_main_ui();
     // 断点续跑：任务重试轮从失败的房间接着跑（m_cur_facility_index 停在失败间），
-    // 已成功房间不再重走，编组可用集的消耗状态因此天然正确；首轮从第 0 间开始
-    enter_facility(m_cur_retry > 0 ? m_cur_facility_index : 0);
+    // 已成功房间不再重走，编组可用集的消耗状态因此天然正确；首轮从第 0 间开始。
+    // 直达失败间的入口点击失败时整轮重跑，避免在错误界面继续白跑
+    if (!enter_facility(m_cur_retry > 0 ? m_cur_facility_index : 0)) {
+        return false;
+    }
     click_bottom_left_tab();
 
     if (!shift_facility_list()) {

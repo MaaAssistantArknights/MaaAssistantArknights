@@ -108,6 +108,8 @@ bool asst::InfrastControlTask::_run()
         return false;
     }
     if (!click_confirm_button()) {
+        // 选人未生效即失败，编组可用集回补，重试轮该组仍可重新匹配
+        restore_last_matched_group_opers();
         return false;
     }
     m_last_matched_group_opers.clear();
