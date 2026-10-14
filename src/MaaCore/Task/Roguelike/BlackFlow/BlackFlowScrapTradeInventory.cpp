@@ -61,7 +61,6 @@ void BlackFlowScrapTradeInventory::invalidate()
 {
     m_model.reset({});
     m_mode = LocationMode::Unknown;
-    m_observed.clear();
     forget_position();
 }
 
@@ -88,12 +87,12 @@ std::optional<BlackFlowScrapTradeInventory::View> BlackFlowScrapTradeInventory::
     OCRer analyzer(image);
     analyzer.set_task_info(task);
     analyzer.set_required(names);
+    // 空箱或整屏都是未知格时没有名称，返回空画面。
     const auto result = analyzer.analyze();
-    if (!result.has_value() || result->empty()) {
-        set_error(error, "scrap trade inventory recognized no items");
-        return std::nullopt;
-    }
     View view;
+    if (!result.has_value()) {
+        return view;
+    }
     for (const auto& text : *result) {
         // 名称左沿位于各卡片的左侧；首行第一格是园圃，不在零件名称表内。
         const int column = (text.rect.x - task->roi.x) / ColumnPitch;
@@ -108,15 +107,15 @@ std::optional<BlackFlowScrapTradeInventory::View> BlackFlowScrapTradeInventory::
         }
         return left.center_y < right.center_y;
     });
-    if (view.empty()) {
-        set_error(error, "scrap trade inventory recognized no grid items");
-        return std::nullopt;
-    }
     return view;
 }
 
 std::optional<int> BlackFlowScrapTradeInventory::measure_shift(const View& before, const View& after) const
 {
+    // 两帧都没有名称时无从比较，视为没动，空箱也能判断到顶和到底。
+    if (before.empty() && after.empty()) {
+        return 0;
+    }
     const auto task = Task.get<OcrTaskInfo>(std::string(ItemsTask));
     if (task == nullptr) {
         return std::nullopt;
@@ -238,7 +237,7 @@ std::optional<BlackFlowScrapTradeInventory::View> BlackFlowScrapTradeInventory::
     return previous;
 }
 
-std::optional<std::vector<std::string>> BlackFlowScrapTradeInventory::survey(
+std::optional<ScrapTradeSurvey> BlackFlowScrapTradeInventory::survey(
     BlackFlowScrapTradeInventoryContext& context,
     const std::vector<std::string>& names,
     std::string* error)
@@ -252,32 +251,41 @@ std::optional<std::vector<std::string>> BlackFlowScrapTradeInventory::survey(
     }
     std::map<std::pair<int, int>, std::string> cells;
     std::map<std::string, int> observed;
+    int unknown = 0;
     const auto save_segment = [&] {
+        if (cells.empty()) {
+            return;
+        }
         std::map<std::string, int> counts;
+        // 段内跳过的格子是未知格，不同段取最大值。
         int expected = indexed ? 1 : cells.begin()->first.first * Columns + cells.begin()->first.second;
+        int gaps = 0;
         for (const auto& [slot, name] : cells) {
-            if (slot.first * Columns + slot.second != expected++) {
-                set_error(error, "scrap trade inventory contains an unrecognized slot");
-                return false;
-            }
+            const int index = slot.first * Columns + slot.second;
+            gaps += index - expected;
+            expected = index + 1;
             ++counts[name];
         }
+        unknown = std::max(unknown, gaps);
         for (const auto& [name, count] : counts) {
             observed[name] = std::max(observed[name], count);
         }
-        return true;
     };
     const auto use_names = [&] {
-        if (!save_segment()) {
-            return;
-        }
+        save_segment();
+        ScrapTradeSurvey result { .exact_counts = false, .unknown_slots = unknown };
         for (const auto& [name, count] : observed) {
-            m_observed.insert(m_observed.end(), static_cast<std::size_t>(count), name);
+            result.items.insert(result.items.end(), static_cast<std::size_t>(count), name);
         }
         m_mode = LocationMode::ByName;
-        LogWarn << "BlackFlow scrap inventory position ambiguous, using names";
+        LogInfo << "BlackFlow scrap inventory positions unresolved, using names" << "items" << result.items.size()
+                << "unknown" << unknown;
+        return result;
     };
-    int offset = indexed ? 0 : FirstRowY - std::ranges::min(*view, {}, &VisibleItem::center_y).center_y;
+    const auto top_offset = [](const View& visible) {
+        return visible.empty() ? 0 : FirstRowY - std::ranges::min(visible, {}, &VisibleItem::center_y).center_y;
+    };
+    int offset = indexed ? 0 : top_offset(*view);
     int stationary = 0;
     for (int step = 0; step < MaxSurveySteps; ++step) {
         for (const auto& item : *view) {
@@ -303,27 +311,24 @@ std::optional<std::vector<std::string>> BlackFlowScrapTradeInventory::survey(
                 << "indexed" << indexed;
         if (stationary >= 2) {
             if (!indexed) {
-                use_names();
-                return std::nullopt;
+                return use_names();
             }
-            // 首格由园圃占用，其余格子按行连续；有空洞说明完整计数尚未建立。
-            int expected = 1;
-            std::vector<std::string> held;
+            // 首格由园圃占用，列表自动补位，其余格子按行连续；夹在中间没有识别出名称的是未知格，以空名称占位。
+            std::vector<std::string> slots;
+            ScrapTradeSurvey result;
             for (const auto& [slot, name] : cells) {
-                if (slot.first * Columns + slot.second != expected++) {
-                    set_error(error, "scrap trade inventory contains an unrecognized slot");
-                    return std::nullopt;
-                }
-                held.emplace_back(name);
-            }
-            for (const auto& [slot, name] : cells) {
+                slots.resize(static_cast<std::size_t>(slot.first * Columns + slot.second - 1));
+                slots.emplace_back(name);
+                result.items.emplace_back(name);
                 context.on_inventory_item({ name, slot.first, slot.second });
             }
-            m_model.reset(held);
+            result.unknown_slots = static_cast<int>(slots.size() - result.items.size());
+            m_model.reset(std::move(slots));
             m_offset = offset;
             m_mode = LocationMode::Indexed;
-            m_observed = held;
-            return held;
+            LogInfo << "BlackFlow scrap inventory positions resolved" << "items" << result.items.size() << "unknown"
+                    << result.unknown_slots;
+            return result;
         }
         if (step + 1 == MaxSurveySteps) {
             break;
@@ -338,13 +343,11 @@ std::optional<std::vector<std::string>> BlackFlowScrapTradeInventory::survey(
         const auto shift = measure_shift(*view, *next);
         if (!shift) {
             // 继续读后面的加工品；不能确定段间重叠时，不累加同名物品数量。
-            if (!save_segment()) {
-                return std::nullopt;
-            }
+            save_segment();
             cells.clear();
             indexed = false;
             stationary = 0;
-            offset = FirstRowY - std::ranges::min(*next, {}, &VisibleItem::center_y).center_y;
+            offset = top_offset(*next);
         }
         else {
             if (*shift <= -SettledShift) {
@@ -357,11 +360,9 @@ std::optional<std::vector<std::string>> BlackFlowScrapTradeInventory::survey(
         view = std::move(next);
     }
     if (!indexed) {
-        use_names();
+        return use_names();
     }
-    else {
-        set_error(error, "scrap trade inventory survey did not reach the bottom");
-    }
+    set_error(error, "scrap trade inventory survey did not reach the bottom");
     return std::nullopt;
 }
 
@@ -417,15 +418,20 @@ std::optional<ScrapTradeInventoryTarget> BlackFlowScrapTradeInventory::find(
     if (wanted.empty()) {
         return std::nullopt;
     }
-    if (m_mode == LocationMode::Unknown && !survey(context, names, error) && m_mode != LocationMode::ByName) {
+    if (m_mode == LocationMode::Unknown && !survey(context, names, error)) {
         return std::nullopt;
     }
-    if (m_mode == LocationMode::ByName) {
+    // 数量账本仍由交易确认维护；位置不确定时只查当前可见名称。
+    const auto search_by_name = [&]() -> std::optional<ScrapTradeInventoryTarget> {
+        m_mode = LocationMode::ByName;
         const auto target = find_by_name(context, names, wanted, error);
         if (target) {
             return ScrapTradeInventoryTarget { *target, std::nullopt };
         }
         return std::nullopt;
+    };
+    if (m_mode == LocationMode::ByName) {
+        return search_by_name();
     }
     const auto first = std::ranges::find_if(m_model.items(), [&wanted](const std::string& name) {
         return std::ranges::find(wanted, name) != wanted.end();
@@ -436,16 +442,11 @@ std::optional<ScrapTradeInventoryTarget> BlackFlowScrapTradeInventory::find(
     const auto target_index = static_cast<std::size_t>(first - m_model.items().begin());
     auto view = recognize(context, names, error);
     for (int step = 0; view && step <= MaxWalkSteps; ++step) {
+        // 未知格这次识别出名称时也对不上位置，同样改按名称查找。
         const auto offset = resolve_offset(*view);
         if (!offset) {
-            m_mode = LocationMode::ByName;
-            // 数量账本仍由交易确认维护；位置不确定时只查当前可见名称。
-            LogWarn << "BlackFlow scrap inventory position unresolved, searching by name";
-            const auto target = find_by_name(context, names, wanted, error);
-            if (target) {
-                return ScrapTradeInventoryTarget { *target, std::nullopt };
-            }
-            return std::nullopt;
+            LogInfo << "BlackFlow scrap inventory position unresolved, searching by name";
+            return search_by_name();
         }
         m_offset = *offset;
         for (const auto& visible : *view) {
@@ -459,14 +460,16 @@ std::optional<ScrapTradeInventoryTarget> BlackFlowScrapTradeInventory::find(
         if (step == MaxWalkSteps) {
             break;
         }
-        const int top_y = std::ranges::min(*view, {}, &VisibleItem::center_y).center_y;
-        const int bottom_y = std::ranges::max(*view, {}, &VisibleItem::center_y).center_y;
+        // 目标行落在识别区内却没有识别出名称时改按名称查找；同一行可能没有别的名称，因此按识别区范围判断。
+        const auto task = Task.get<OcrTaskInfo>(std::string(ItemsTask));
         const int target_y = FirstRowY + m_model.item(target_index).row * RowPitch - *offset;
-        if (target_y >= top_y - SettledShift && target_y <= bottom_y + SettledShift) {
-            set_error(error, "scrap trade inventory target is missing from its visible slot");
-            return std::nullopt;
+        const bool below = task == nullptr || target_y > task->roi.y + task->roi.height;
+        if (!below && target_y >= task->roi.y) {
+            LogInfo << "BlackFlow scrap inventory target unrecognized in its slot, searching by name"
+                    << m_model.items()[target_index];
+            return search_by_name();
         }
-        if (!advance(context, *view, target_y > bottom_y, error)) {
+        if (!advance(context, *view, below, error)) {
             return std::nullopt;
         }
         auto next = recognize(context, names, error);
@@ -555,7 +558,7 @@ bool BlackFlowScrapTradeInventory::sell(
     LogInfo << "BlackFlow scrap inventory sale completed" << target.text.text << "indexed"
             << (m_mode == LocationMode::Indexed);
     if (m_mode == LocationMode::Indexed) {
-        LogInfo << "BlackFlow scrap inventory remaining" << m_model.items().size();
+        LogInfo << "BlackFlow scrap inventory remaining slots" << m_model.items().size();
     }
     return true;
 }

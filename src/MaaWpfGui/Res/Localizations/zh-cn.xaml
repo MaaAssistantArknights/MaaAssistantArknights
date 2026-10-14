@@ -1707,6 +1707,13 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowInventoryCleanupDiscarded">已丢弃零件：{0}</system:String>
     <system:String x:Key="BlackFlowInventoryCleanupCompleted">零件箱清理完成</system:String>
     <system:String x:Key="BlackFlowInventoryCleanupFailed">零件箱清理失败</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedMarketUnavailable">秘境行商的物品数据不可用，跳过交易并离店</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedInventoryIncomplete">秘境行商持有物清点失败，停止交易并离店</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedPageSwitchFailed">秘境行商买入与出售页面切换失败，停止交易并离店</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedSaleSearchFailed">秘境行商出售列表查找失败，停止交易并离店</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedSellBackSearchFailed">秘境行商未能找到要卖回的「{0}」，停止交易并离店</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedSaleFailed">秘境行商出售「{0}」未得到确认，停止交易并离店</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedUnknown">秘境行商交易出现异常，停止交易并离店</system:String>
     <system:String x:Key="BlackFlowStrategyUnknown">未知策略</system:String>
     <system:String x:Key="BlackFlowDecisionProbeUnknownNode">探测路线前方最近的未分类节点</system:String>
     <system:String x:Key="BlackFlowDecisionPolicyOrder">按照策略设定的优先顺序选择</system:String>
@@ -1760,6 +1767,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowMilestoneEnding1Floor1Battles">第一层优先作战</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor1Hidden">第一层尽量探索未知的诡秘</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Expedition">第二层优先先行一步</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor1ScrapShop">第一层顺路进入秘境行商交易</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2ScrapShop">第二层优先秘境行商</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Hidden">第二层尽量探索未知的诡秘</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Incident">第二层尽量经过不期而遇</system:String>

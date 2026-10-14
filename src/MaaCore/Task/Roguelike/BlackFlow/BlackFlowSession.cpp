@@ -2078,6 +2078,21 @@ std::optional<std::reference_wrapper<const ShoppingRule>> BlackFlowSession::shop
     return resolve_shopping_rule(*m_policy, m_facts.merged(), m_page_context->page_intent);
 }
 
+int BlackFlowSession::reserved_amount(std::string_view resource) const
+{
+    if (!m_policy) {
+        return 0;
+    }
+    const FactStore facts = m_facts.merged();
+    int amount = 0;
+    for (const auto& reserve : m_policy->reserves) {
+        if (reserve.resource == resource && reserve.active_if.evaluate(facts)) {
+            amount = std::max(amount, reserve.minimum);
+        }
+    }
+    return amount;
+}
+
 bool BlackFlowSession::apply_shopping_purchase(std::string_view name, std::string* error)
 {
     if (!m_page_context || m_page_context->stage != PageExecutionStage::Running ||

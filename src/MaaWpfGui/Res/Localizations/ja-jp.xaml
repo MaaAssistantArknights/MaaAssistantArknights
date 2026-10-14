@@ -1708,6 +1708,13 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowInventoryCleanupDiscarded">已丢弃零件：{0}</system:String>
     <system:String x:Key="BlackFlowInventoryCleanupCompleted">零件箱清理完成</system:String>
     <system:String x:Key="BlackFlowInventoryCleanupFailed">零件箱清理失败</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedMarketUnavailable">秘境行商のアイテムデータが利用できないため、取引せずに退店します</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedInventoryIncomplete">秘境行商で所持品の確認に失敗したため、取引を中止して退店します</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedPageSwitchFailed">秘境行商で購入・売却ページを切り替えられなかったため、取引を中止して退店します</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedSaleSearchFailed">秘境行商で売却リストを検索できなかったため、取引を中止して退店します</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedSellBackSearchFailed">秘境行商で買い戻し分の「{0}」が見つからないため、取引を中止して退店します</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedSaleFailed">秘境行商で「{0}」の売却が確認できなかったため、取引を中止して退店します</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedUnknown">秘境行商の取引で異常が発生したため、取引を中止して退店します</system:String>
     <system:String x:Key="BlackFlowStrategyUnknown">不明な戦略</system:String>
     <system:String x:Key="BlackFlowDecisionProbeUnknownNode">経路上で最も近い未分類ノードを調査</system:String>
     <system:String x:Key="BlackFlowDecisionPolicyOrder">戦略で設定された優先順位で選択</system:String>
@@ -1761,6 +1768,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowMilestoneEnding1Floor1Battles">第1層は通常作戦を優先</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor1Hidden">第1層は未知の怪奇をできるだけ探索</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Expedition">第2層は一足先にを優先</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor1ScrapShop">第1層は通りがかりに秘境行商で取引</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2ScrapShop">第2層は秘境の行商人を優先</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Hidden">第2層は未知の怪奇をできるだけ探索</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Incident">第2層は思わぬ遭遇をできるだけ経由</system:String>

@@ -1705,6 +1705,13 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowInventoryCleanupDiscarded">已丢弃零件：{0}</system:String>
     <system:String x:Key="BlackFlowInventoryCleanupCompleted">零件箱清理完成</system:String>
     <system:String x:Key="BlackFlowInventoryCleanupFailed">零件箱清理失败</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedMarketUnavailable">秘境行商 item data is unavailable; skipping the trade and leaving</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedInventoryIncomplete">Could not count holdings at 秘境行商; stopping the trade and leaving</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedPageSwitchFailed">Could not switch between the buy and sell pages at 秘境行商; stopping the trade and leaving</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedSaleSearchFailed">Could not search the sell list at 秘境行商; stopping the trade and leaving</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedSellBackSearchFailed">Could not find "{0}" to sell back at 秘境行商; stopping the trade and leaving</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedSaleFailed">Selling "{0}" at 秘境行商 was not confirmed; stopping the trade and leaving</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedUnknown">The trade at 秘境行商 ran into an error; stopping the trade and leaving</system:String>
     <system:String x:Key="BlackFlowStrategyUnknown">Unknown strategy</system:String>
     <system:String x:Key="BlackFlowDecisionProbeUnknownNode">Probe the nearest unclassified node on the route</system:String>
     <system:String x:Key="BlackFlowDecisionPolicyOrder">Selected by the configured policy order</system:String>
@@ -1758,6 +1765,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor1Battles">Prioritize battle nodes on floor 1</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor1Hidden">Explore hide invisible nodes on floor 1</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Expedition">Prioritize expedition on floor 2</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor1ScrapShop">Trade at 秘境行商 on floor 1 when passing by</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2ScrapShop">Prioritize the scrap shop on floor 2</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Hidden">Explore hide invisible nodes on floor 2</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Incident">Pass through Encounter nodes on floor 2</system:String>

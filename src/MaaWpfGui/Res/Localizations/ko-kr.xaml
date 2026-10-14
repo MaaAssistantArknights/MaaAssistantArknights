@@ -1707,6 +1707,13 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowInventoryCleanupDiscarded">已丢弃零件：{0}</system:String>
     <system:String x:Key="BlackFlowInventoryCleanupCompleted">零件箱清理完成</system:String>
     <system:String x:Key="BlackFlowInventoryCleanupFailed">零件箱清理失败</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedMarketUnavailable">秘境行商의 아이템 데이터를 사용할 수 없어 거래하지 않고 나갑니다</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedInventoryIncomplete">秘境行商에서 보유품 확인에 실패해 거래를 중단하고 나갑니다</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedPageSwitchFailed">秘境行商에서 구매·판매 페이지 전환에 실패해 거래를 중단하고 나갑니다</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedSaleSearchFailed">秘境行商에서 판매 목록 검색에 실패해 거래를 중단하고 나갑니다</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedSellBackSearchFailed">秘境行商에서 되팔 「{0}」을(를) 찾지 못해 거래를 중단하고 나갑니다</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedSaleFailed">秘境行商에서 「{0}」 판매가 확인되지 않아 거래를 중단하고 나갑니다</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedUnknown">秘境行商 거래에 이상이 발생해 거래를 중단하고 나갑니다</system:String>
     <system:String x:Key="BlackFlowStrategyUnknown">알 수 없는 전략</system:String>
     <system:String x:Key="BlackFlowDecisionProbeUnknownNode">경로상 가장 가까운 미분류 노드 탐색</system:String>
     <system:String x:Key="BlackFlowDecisionPolicyOrder">전략에 설정된 우선순위대로 선택</system:String>
@@ -1760,6 +1767,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowMilestoneEnding1Floor1Battles">1구역은 작전 우선</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor1Hidden">1구역은 미지의 괴이를 최대한 탐색</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Expedition">2구역은 앞서 출발 우선</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor1ScrapShop">1구역은 지나가는 길에 秘境行商과 거래</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2ScrapShop">2구역은 신비한 상인 우선</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Hidden">2구역은 미지의 괴이를 최대한 탐색</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Incident">2구역은 우연한 만남을 최대한 경유</system:String>

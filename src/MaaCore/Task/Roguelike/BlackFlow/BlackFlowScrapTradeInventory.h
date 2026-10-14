@@ -22,7 +22,7 @@ struct ScrapTradeInventoryItem
     int column = 0;
 };
 
-// 顺序为从左到右、从上到下；园圃占据首格，不存入物品列表。
+// 顺序为从左到右、从上到下；园圃占据首格，不存入物品列表；未知格以空名称占位。
 class ScrapTradeInventoryModel final
 {
 public:
@@ -35,6 +35,16 @@ public:
 
 private:
     std::vector<std::string> m_items;
+};
+
+struct ScrapTradeSurvey
+{
+    // 识别出名称的物品；没有识别出名称的零件不在其中。
+    std::vector<std::string> items;
+    // 位置从顶到底连贯时同名件数准确；画面分段时同名件数取各段最大值，只是下限。
+    bool exact_counts = true;
+    // 夹在已识别物品之间、没有识别出名称的格子数。
+    int unknown_slots = 0;
 };
 
 struct ScrapTradeInventoryTarget
@@ -63,12 +73,9 @@ public:
 class BlackFlowScrapTradeInventory final
 {
 public:
-    // 完整计数时返回数量并逐格回调；位置歧义返回空值，识别或操作失败另写入 error。
-    [[nodiscard]] std::optional<std::vector<std::string>>
+    // 位置确定时逐格回调，之后按位置查找；位置无法确定时之后按名称查找。识别或操作失败时返回空值并写入 error。
+    [[nodiscard]] std::optional<ScrapTradeSurvey>
         survey(BlackFlowScrapTradeInventoryContext& context, const std::vector<std::string>& names, std::string* error);
-
-    // 位置有歧义时保留各段已经识别的物品；不同段的同名计数取最大值。
-    [[nodiscard]] const std::vector<std::string>& observed_items() const noexcept { return m_observed; }
 
     // 复用位置模型；有歧义后持续按名称查找，新增物品后再尝试重建。
     [[nodiscard]] std::optional<ScrapTradeInventoryTarget> find(
@@ -122,7 +129,6 @@ private:
 
     ScrapTradeInventoryModel m_model;
     LocationMode m_mode = LocationMode::Unknown;
-    std::vector<std::string> m_observed;
     std::optional<int> m_offset;
 };
 } // namespace asst::blackflow

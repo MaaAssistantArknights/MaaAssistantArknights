@@ -1364,6 +1364,22 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                     break;
                 }
 
+            case "BlackFlowScrapTradeAborted":
+                {
+                    var item = subTaskDetails?["item"]?.ToString() ?? string.Empty;
+                    var message = subTaskDetails?["reason"]?.ToString() switch {
+                        "market_unavailable" => LocalizationHelper.GetString("BlackFlowScrapTradeAbortedMarketUnavailable"),
+                        "inventory_incomplete" => LocalizationHelper.GetString("BlackFlowScrapTradeAbortedInventoryIncomplete"),
+                        "page_switch_failed" => LocalizationHelper.GetString("BlackFlowScrapTradeAbortedPageSwitchFailed"),
+                        "sale_search_failed" => LocalizationHelper.GetString("BlackFlowScrapTradeAbortedSaleSearchFailed"),
+                        "sell_back_search_failed" => LocalizationHelper.GetStringFormat("BlackFlowScrapTradeAbortedSellBackSearchFailed", item),
+                        "sale_failed" => LocalizationHelper.GetStringFormat("BlackFlowScrapTradeAbortedSaleFailed", item),
+                        _ => LocalizationHelper.GetString("BlackFlowScrapTradeAbortedUnknown"),
+                    };
+                    Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Warning);
+                    break;
+                }
+
             case "BlackFlowStrategyStarted":
                 {
                     var profile = LocalizeBlackFlowProfile(subTaskDetails?["profile"]?.ToString());

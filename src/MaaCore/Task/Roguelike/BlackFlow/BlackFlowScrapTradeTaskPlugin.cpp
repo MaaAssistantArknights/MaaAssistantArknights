@@ -108,7 +108,6 @@ void BlackFlowScrapTradeTaskPlugin::enter()
 {
     m_phase = Phase::Cultivate;
     m_ledger = {};
-    m_counted = false;
     m_inventory_names.clear();
     for (const auto& item : BlackFlowScrapMarket.items()) {
         m_inventory_names.emplace_back(item.name);
@@ -142,7 +141,7 @@ void BlackFlowScrapTradeTaskPlugin::decide()
 {
     if (!BlackFlowScrapMarket.available()) {
         LogWarn << __FUNCTION__ << "BlackFlow scrap market is unavailable";
-        leave();
+        abort_trade("market_unavailable");
         return;
     }
 
@@ -170,39 +169,22 @@ void BlackFlowScrapTradeTaskPlugin::decide()
                 return;
             }
             std::string error;
-            const auto held = m_inventory.survey(*this, m_inventory_names, &error);
-            if (!held && !error.empty()) {
-                LogWarn << "BlackFlow scrap trade inventory incomplete" << error;
-                leave();
+            const auto survey = m_inventory.survey(*this, m_inventory_names, &error);
+            if (!survey) {
+                LogWarn << "BlackFlow scrap trade inventory survey failed" << error;
+                abort_trade("inventory_incomplete");
                 return;
             }
-            m_counted = held.has_value();
-            if (held) {
-                m_ledger.reset(*held);
-                LogInfo << __FUNCTION__ << "BlackFlow scrap trade holdings" << *held << "growth"
-                        << m_ledger.growth(BlackFlowScrapMarket);
-            }
-            else {
-                // 重复自然物的段间数量不用于倒转；加工品沿已识别的连续段计数并补缺。
-                std::vector<std::string> processing;
-                for (const auto& name : m_inventory.observed_items()) {
-                    const auto item = BlackFlowScrapMarket.find(name);
-                    if (item && item->get().category == ScrapCategory::Processing) {
-                        processing.emplace_back(name);
-                    }
-                }
-                m_ledger.reset(processing);
-                LogInfo << "BlackFlow scrap trade processing holdings" << processing;
-            }
+            m_ledger.reset(survey->items, survey->exact_counts);
+            LogInfo << __FUNCTION__ << "BlackFlow scrap trade survey" << "items" << survey->items << "exact counts"
+                    << survey->exact_counts << "unknown" << survey->unknown_slots << "processing"
+                    << m_ledger.held_in(ScrapCategory::Processing, BlackFlowScrapMarket) << "growth"
+                    << m_ledger.growth(BlackFlowScrapMarket);
             m_phase = Phase::Prepare;
             continue;
         }
         case Phase::Prepare:
-            // 非兑现店卖出闲置自然物只为交易筹钱，没有增长物时不卖。
-            if (!m_counted || (!m_liquidating && m_ledger.growth(BlackFlowScrapMarket) <= 1)) {
-                m_phase = Phase::Trade;
-                continue;
-            }
+            // 交易前先卖出卖表内不随零件增长的自然物换钱。
             if (switch_tab(true, selling) || sell_matching(false)) {
                 return;
             }
@@ -219,11 +201,17 @@ void BlackFlowScrapTradeTaskPlugin::decide()
                 return;
             }
             {
+                // 策略预留的余额不参与店内消费；卖出到账后下一轮按新余额重算，未卖回的估价不计入。
                 RoguelikeParameterAnalyzer analyzer(image);
                 const int wallet = analyzer.get_number(image, std::string(ScrapTradeWalletTask));
-                if (buy(image, wallet) || refresh(wallet)) {
+                const int reserved = m_session->reserved_amount("ingots");
+                const Funds funds { wallet, reserved, std::max(0, wallet - reserved) };
+                std::vector<std::string> skipped;
+                if (buy(image, funds, skipped) || refresh(funds)) {
                     return;
                 }
+                LogInfo << __FUNCTION__ << "BlackFlow scrap trade buying finished" << "budget" << funds.budget
+                        << "wallet" << funds.wallet << "reserved" << funds.reserved << "skipped" << skipped;
             }
             m_phase = Phase::Liquidate;
             continue;
@@ -252,7 +240,7 @@ bool BlackFlowScrapTradeTaskPlugin::switch_tab(bool want_selling, bool selling)
     }
     if (++m_toggle_attempts > ScrapTradeMaxToggleAttempts) {
         LogWarn << __FUNCTION__ << "BlackFlow scrap trade cannot switch page" << "want selling" << want_selling;
-        leave();
+        abort_trade("page_switch_failed");
         return true;
     }
     m_inventory.forget_position();
@@ -267,8 +255,7 @@ bool BlackFlowScrapTradeTaskPlugin::sell_matching(bool liquidating)
     for (const auto& name : m_sell_table) {
         const auto item = BlackFlowScrapMarket.find(name);
         if (item && item->get().category == ScrapCategory::Natural &&
-            (liquidating || item->get().growth_per_acquisition == 0) &&
-            (!m_counted || m_ledger.may_sell(item->get(), m_sell_table))) {
+            (liquidating || item->get().growth_per_acquisition == 0) && m_ledger.may_sell(item->get(), m_sell_table)) {
             names.emplace_back(name);
         }
     }
@@ -277,7 +264,7 @@ bool BlackFlowScrapTradeTaskPlugin::sell_matching(bool liquidating)
     if (!item) {
         if (!error.empty()) {
             LogWarn << "BlackFlow scrap trade sale search failed" << error;
-            leave();
+            abort_trade("sale_search_failed");
             return true;
         }
         return false;
@@ -296,7 +283,7 @@ bool BlackFlowScrapTradeTaskPlugin::sell_back()
     if (!target) {
         if (!error.empty()) {
             LogWarn << "BlackFlow scrap trade sell-back search failed" << name << error;
-            leave();
+            abort_trade("sell_back_search_failed", name);
             return true;
         }
         // 已完整查找仍找不到时，沿用放弃卖回这一件的处理。
@@ -307,7 +294,7 @@ bool BlackFlowScrapTradeTaskPlugin::sell_back()
     return complete_sale(*target, true);
 }
 
-bool BlackFlowScrapTradeTaskPlugin::buy(const cv::Mat& image, int wallet)
+bool BlackFlowScrapTradeTaskPlugin::buy(const cv::Mat& image, const Funds& funds, std::vector<std::string>& skipped)
 {
     std::vector<std::string> names;
     for (const auto& item : BlackFlowScrapMarket.items()) {
@@ -330,27 +317,45 @@ bool BlackFlowScrapTradeTaskPlugin::buy(const cv::Mat& image, int wallet)
 
     // 价格按名称查表，不识别货架价格；已知的价格效果只会降价，因此表价不会让余额不足。
     // 保留购买先于倒转；非兑现店按买表积累玉米和雾滚草，加工品每种每次进店最多补一件。
+    const auto skip_reason = [&](const ScrapItem& item, bool keep_natural) -> std::string_view {
+        if (*item.price > funds.budget) {
+            return "over budget";
+        }
+        if (keep_natural) {
+            return {};
+        }
+        if (m_kept.contains(item.name)) {
+            return "bought this visit";
+        }
+        if (scrap_keep_wanted(item, m_ledger, BlackFlowScrapMarket)) {
+            return {};
+        }
+        if (item.category != ScrapCategory::Processing) {
+            return "not kept here";
+        }
+        return m_ledger.held_in(ScrapCategory::Processing, BlackFlowScrapMarket) >=
+                       BlackFlowScrapMarket.processing_keep_limit()
+                   ? "keep limit reached"
+                   : "shapes covered";
+    };
     const auto& table = m_config->status().shopping_buy_table;
     for (const auto& goods : RoguelikeShopping.get_goods(m_config->get_theme(), table)) {
         const auto offer = std::ranges::find(shelf, goods.name, &TextRect::text);
         const auto item = BlackFlowScrapMarket.find(goods.name);
-        if (offer == shelf.end() || !item || !item->get().price || *item->get().price > wallet) {
+        if (offer == shelf.end() || !item || !item->get().price) {
             continue;
         }
         const bool keep_natural = !m_liquidating && (goods.name == "回声玉米" || goods.name == "雾滚草");
-        if (!keep_natural &&
-            (m_kept.contains(goods.name) || !scrap_keep_wanted(item->get(), m_ledger, BlackFlowScrapMarket))) {
+        if (const auto reason = skip_reason(item->get(), keep_natural); !reason.empty()) {
+            skipped.emplace_back(goods.name + " " + std::string(reason));
             continue;
         }
-        LogInfo << __FUNCTION__ << "BlackFlow scrap trade buys to keep" << goods.name << "wallet" << wallet;
+        LogInfo << __FUNCTION__ << "BlackFlow scrap trade buys to keep" << goods.name << "price" << *item->get().price
+                << "budget" << funds.budget << "wallet" << funds.wallet << "reserved" << funds.reserved;
         ctrler()->click(offer->rect);
         m_pending_purchase = PendingPurchase { offer->text, offer->rect, true };
         set_action(ScrapTradeBuyConfirmEntry);
         return true;
-    }
-
-    if (!m_counted) {
-        return false;
     }
 
     const int growth = m_ledger.growth(BlackFlowScrapMarket);
@@ -358,7 +363,7 @@ bool BlackFlowScrapTradeTaskPlugin::buy(const cv::Mat& image, int wallet)
     int best_net = 0;
     for (const auto& offer : shelf) {
         const auto item = BlackFlowScrapMarket.find(offer.text);
-        if (!item || !item->get().price || *item->get().price > wallet) {
+        if (!item || !item->get().price || *item->get().price > funds.budget) {
             continue;
         }
         const auto net = scrap_trade_net(item->get(), growth, BlackFlowScrapMarket);
@@ -371,18 +376,18 @@ bool BlackFlowScrapTradeTaskPlugin::buy(const cv::Mat& image, int wallet)
         return false;
     }
     LogInfo << __FUNCTION__ << "BlackFlow scrap trade buys" << best->text << "net" << best_net << "growth" << growth
-            << "wallet" << wallet;
+            << "budget" << funds.budget << "wallet" << funds.wallet << "reserved" << funds.reserved;
     ctrler()->click(best->rect);
     m_pending_purchase = PendingPurchase { best->text, best->rect, false };
     set_action(ScrapTradeBuyConfirmEntry);
     return true;
 }
 
-bool BlackFlowScrapTradeTaskPlugin::refresh(int wallet)
+bool BlackFlowScrapTradeTaskPlugin::refresh(const Funds& funds)
 {
     const auto& costs = BlackFlowScrapMarket.refresh_costs();
     // 非兑现店只交易首页，攒下的估价留到兑现店卖出。
-    if (!m_counted || !m_liquidating || !m_shop_type || m_refresh_count >= static_cast<int>(costs.size())) {
+    if (!m_liquidating || !m_shop_type || m_refresh_count >= static_cast<int>(costs.size())) {
         return false;
     }
     const auto& types = BlackFlowScrapMarket.shop_types();
@@ -394,9 +399,10 @@ bool BlackFlowScrapTradeTaskPlugin::refresh(int wallet)
     const int growth = m_ledger.growth(BlackFlowScrapMarket);
     const double expected = expected_scrap_page_profit(*type, growth, BlackFlowScrapMarket);
     const auto cheapest = cheapest_profitable_price(*type, growth, BlackFlowScrapMarket);
-    const bool worth = cheapest && expected > cost && wallet >= cost + *cheapest;
+    const bool worth = cheapest && expected > cost && funds.budget >= cost + *cheapest;
     LogInfo << __FUNCTION__ << "BlackFlow scrap trade refresh" << "worth" << worth << "expected" << expected << "cost"
-            << cost << "wallet" << wallet << "growth" << growth;
+            << cost << "growth" << growth << "budget" << funds.budget << "wallet" << funds.wallet << "reserved"
+            << funds.reserved;
     if (!worth) {
         return false;
     }
@@ -410,6 +416,19 @@ void BlackFlowScrapTradeTaskPlugin::leave()
 {
     m_phase = Phase::Leave;
     set_action(ScrapTradeLeaveEntry);
+}
+
+void BlackFlowScrapTradeTaskPlugin::abort_trade(std::string_view reason, const std::string& item)
+{
+    if (!need_exit()) {
+        auto info = basic_info_with_what("BlackFlowScrapTradeAborted");
+        info["details"] = json::object {
+            { "reason", std::string(reason) },
+            { "item", item },
+        };
+        callback(AsstMsg::SubTaskExtraInfo, info);
+    }
+    leave();
 }
 
 void BlackFlowScrapTradeTaskPlugin::on_purchase_confirmed()
@@ -440,11 +459,8 @@ void BlackFlowScrapTradeTaskPlugin::on_purchase_confirmed()
         }
     }
     LogInfo << __FUNCTION__ << "BlackFlow scrap trade purchase confirmed" << purchase.name << "keep" << purchase.keep
+            << "held" << m_ledger.held(purchase.name) << "growth" << m_ledger.growth(BlackFlowScrapMarket)
             << "pending sell backs" << m_sell_backs.size();
-    if (m_counted) {
-        LogInfo << "BlackFlow scrap trade held" << m_ledger.held(purchase.name) << "growth"
-                << m_ledger.growth(BlackFlowScrapMarket);
-    }
 }
 
 void BlackFlowScrapTradeTaskPlugin::click_at_most()
@@ -464,18 +480,15 @@ bool BlackFlowScrapTradeTaskPlugin::complete_sale(const ScrapTradeInventoryTarge
     std::string error;
     if (!m_inventory.sell(*this, target, &error)) {
         LogWarn << "BlackFlow scrap trade sale failed" << target.text.text << error;
-        leave();
+        abort_trade("sale_failed", target.text.text);
         return true;
     }
     m_ledger.record_sale(target.text.text);
     if (sell_back) {
         m_sell_backs.pop_front();
     }
-    LogInfo << "BlackFlow scrap trade sale confirmed" << target.text.text;
-    if (m_counted) {
-        LogInfo << "BlackFlow scrap trade remaining" << m_ledger.held(target.text.text) << "growth"
-                << m_ledger.growth(BlackFlowScrapMarket);
-    }
+    LogInfo << "BlackFlow scrap trade sale confirmed" << target.text.text << "remaining"
+            << m_ledger.held(target.text.text) << "growth" << m_ledger.growth(BlackFlowScrapMarket);
     set_action(ScrapTradeContinueTask);
     return true;
 }
