@@ -18,6 +18,11 @@ public:
 
     virtual bool verify(AsstMsg msg, const json::value& details) const override;
 
+    void set_excluded_operator_ids(std::unordered_set<std::string> operator_ids)
+    {
+        m_excluded_operator_ids = std::move(operator_ids);
+    }
+
 protected:
     virtual bool _run() override;
 
@@ -54,5 +59,7 @@ private:
     void report_result(Result result);
 
     static std::string_view result_name(Result result);
+
+    std::unordered_set<std::string> m_excluded_operator_ids;
 };
 } // namespace asst
