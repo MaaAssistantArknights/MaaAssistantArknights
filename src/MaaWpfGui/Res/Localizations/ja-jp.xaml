@@ -158,6 +158,7 @@
     <system:String x:Key="InfrastTraineeNotFound">訓練枠の候補がすべて一致しなかったため、訓練枠はそのまま維持されます: {0}</system:String>
     <system:String x:Key="InfrastAssistantNotFound">補佐者の候補がすべて一致しなかったため、補佐者はそのまま維持されます: {0}</system:String>
     <system:String x:Key="InfrastRoomKeptUnchanged">設定に従い、部屋はそのまま維持され、交代は行われませんでした</system:String>
+    <system:String x:Key="InfrastRoomsNotConfigured">番目から未設定のため、そのまま維持されます</system:String>
     <system:String x:Key="Trade">貿易所</system:String>
     <system:String x:Key="Power">発電所</system:String>
     <system:String x:Key="Reception">応接室</system:String>

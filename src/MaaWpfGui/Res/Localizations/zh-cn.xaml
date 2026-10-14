@@ -158,6 +158,7 @@
     <system:String x:Key="InfrastTraineeNotFound">训练位候选均未命中，训练位保持原样：{0}</system:String>
     <system:String x:Key="InfrastAssistantNotFound">协助者候选均未命中，协助者保持原样：{0}</system:String>
     <system:String x:Key="InfrastRoomKeptUnchanged">房间按配置保持原样，未换班</system:String>
+    <system:String x:Key="InfrastRoomsNotConfigured">间起未配置，保持原样</system:String>
     <system:String x:Key="Trade">贸易站</system:String>
     <system:String x:Key="Power">发电站</system:String>
     <system:String x:Key="Reception">会客室</system:String>

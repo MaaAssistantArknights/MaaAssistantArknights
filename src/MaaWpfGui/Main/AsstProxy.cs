@@ -2706,6 +2706,14 @@ public class AsstProxy
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("InfrastRoomKeptUnchanged"));
                 break;
 
+            case "CustomInfrastRoomsNotConfigured":
+                // 自定义排班房间数组短于实际房间数，自该房间起的后续房间保持原样；核心侧已先发 EnterFacility 起卡片，本条沿用当前卡片
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ThisFacility") +
+                                                    LocalizationHelper.GetString($"{subTaskDetails?["facility"]}") + " " +
+                                                    ((int)(subTaskDetails?["index"] ?? -2) + 1).ToString("D2") + " " +
+                                                    LocalizationHelper.GetString("InfrastRoomsNotConfigured"));
+                break;
+
             case "InfrastTrainingIdle":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TrainingIdle"));
                 break;

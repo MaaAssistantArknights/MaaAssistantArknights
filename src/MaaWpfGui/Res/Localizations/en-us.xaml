@@ -158,6 +158,7 @@
     <system:String x:Key="InfrastTraineeNotFound">No training slot candidate matched; the training slot has been left unchanged: {0}</system:String>
     <system:String x:Key="InfrastAssistantNotFound">No assistant candidate matched; the assistant has been left unchanged: {0}</system:String>
     <system:String x:Key="InfrastRoomKeptUnchanged">Room kept as configured; no shift change was made</system:String>
+    <system:String x:Key="InfrastRoomsNotConfigured">rooms from here on are not configured and left unchanged</system:String>
     <system:String x:Key="Trade">Trading Post</system:String>
     <system:String x:Key="Power">Power Plant</system:String>
     <system:String x:Key="Reception">Reception Room</system:String>
