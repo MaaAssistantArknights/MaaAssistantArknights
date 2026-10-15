@@ -1267,9 +1267,10 @@ ScoreResult select_reception(const std::vector<ScoreOper>& opers, const ScoreCon
             continue;                                   // 禁用尤里卡
         }
 
-        // 第一优先级：见行者、跃跃
+        // 第一优先级：见行者、克莱门莎、跃跃
         // 菲亚梅塔已入驻时，信仰搅拌机也进入最高优先级。
-        if ((has_skill(oper, "bskill_meet_spd&cost") && oper.mood_ratio > 22.0 / 24.0) || // 见行者要求高心情
+        if ((has_skill(oper, "bskill_meet_spd&cost") && oper.mood_ratio > 22.0 / 24.0) ||      // 见行者要求高心情
+            (has_skill(oper, "bskill_meet_spd&cost_char") && oper.mood_ratio > 22.0 / 24.0) || // 克莱门莎要求高心情
             has_skill(oper, "bskill_meet_exchange") ||
             (has_skill(oper, "bskill_meet_spd_confes1") && is_selected(context, "char_300_phenxi"))) {
             priority.emplace_back(index);
