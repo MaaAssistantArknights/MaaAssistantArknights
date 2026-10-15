@@ -2356,6 +2356,14 @@ public class AsstProxy
                 _lastFacilityCardKey = $"{subTaskDetails?["facility"]}#{(int)(subTaskDetails?["index"] ?? -2) + 1}";
                 break;
 
+            case "TradeDronesUsageNotUsed":
+                {
+                    var message = LocalizationHelper.GetString("TradeDronesUsageNotUsed");
+                    Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Warning);
+                    ToastNotification.ShowDirect(message);
+                    break;
+                }
+
             case "ProductIncorrect":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ProductIncorrect"), UiLogColor.Error);
                 break;
