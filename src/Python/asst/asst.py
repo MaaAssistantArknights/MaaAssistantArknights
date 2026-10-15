@@ -112,6 +112,7 @@ class Asst:
             self.__ptr, int(option_type), option_value.encode("utf-8")
         )
 
+    @staticmethod
     def set_static_option(option_type: StaticOptionType, option_value: str):
         """
         设置进程级参数
@@ -161,7 +162,8 @@ class Asst:
         else:
             return None
 
-    def set_connection_extras(self, name: str, extras: JSON):
+    @staticmethod
+    def set_connection_extras(name: str, extras: JSON):
         """
         连接模拟器端的Extras
 
