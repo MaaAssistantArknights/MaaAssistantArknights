@@ -2035,18 +2035,18 @@
         "next": ["Stop"]
     },
     "MonthlyCardBegin": {
-        "doc": "月卡到期提醒：挂在 Mall 任务末尾，购物后人已在采购中心，锚点直接命中切组合包页读'当期月卡剩余X天'；若不在商店则经 ToMall 跳转。识别文本经 SubTaskStart 回传 GUI(details.result.task 已剥前缀为 MonthlyCardDays)，由 GUI 判断阈值并提醒",
+        "doc": "月卡到期提醒：挂在 Mall 任务末尾，购物后人已在采购中心，锚点直接命中切组合包页读'当期月卡剩余X天'；若不在商店则经 ToMall 跳转。识别文本经 SubTaskStart 回传 GUI(details.task 已剥前缀为 MonthlyCardDays)，由 GUI 判断阈值并提醒",
         "algorithm": "JustReturn",
         "next": [
-            "MonthlyCard@Mall",
+            "MonthlyCard",
             "MonthlyCard@QuickSwitch@ToMall#next",
             "MonthlyCard@ReturnButtons#next",
             "MonthlyCard@CloseAnnos#next",
             "MonthlyCard@OfflineConfirm"
         ]
     },
-    "MonthlyCard@Mall": {
-        "doc": "确认已进入采购中心（锚点与 Mall 链一致）",
+    "MonthlyCard": {
+        "doc": "月卡链锚点（确认已进入采购中心，与 Mall 链一致）。节点名必须为裸 MonthlyCard：通用组件(ReturnButton/CloseAnno 等)的 next 展开会引用前缀裸名，MallBegin 即采用此模式",
         "action": "DoNothing",
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "roi": [227, 327, 159, 152],
@@ -2085,9 +2085,9 @@
         "exceededNext": ["Stop"]
     },
     "MonthlyCard@MonthlyCardDays": {
-        "doc": "月卡详情页右侧'当期月卡剩余X天'胶囊条（整屏唯一'剩余'字样），已按国服截图校准；无月卡或识别失败时经 onErrorNext 静默结束不报错。多服需在各服 resource 覆写 text 词表",
+        "doc": "月卡详情页右侧'当期月卡剩余X天'胶囊条（整屏唯一'剩余'字样），已按国服截图校准。text 必须留空：非空词表命中后回调文本会被替换为词表项本身（OCRer filter_and_replace_by_required_），GUI 正则拿不到天数；空词表透传整行 OCR 原文，由 GUI 端 (\\d+)\\s*天 + 0~40 范围双重过滤。无月卡或识别失败时经 onErrorNext 静默结束。多服需在各服 resource 覆写 roi/text",
         "algorithm": "OcrDetect",
-        "text": ["剩余"],
+        "text": [],
         "roi": [1040, 168, 210, 45],
         "action": "DoNothing",
         "onErrorNext": ["Stop"]
