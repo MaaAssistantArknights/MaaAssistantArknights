@@ -186,6 +186,16 @@ public class AsstRoguelikeTask : AsstBaseTask
     public RoguelikeBlackFlowCultivationTarget BlackFlowCultivationTarget { get; set; } = RoguelikeBlackFlowCultivationTarget.Cat;
 
     /// <summary>
+    /// Gets or sets 刷等级的目标结局
+    /// </summary>
+    public RoguelikeBlackFlowEnding BlackFlowEnding { get; set; } = RoguelikeBlackFlowEnding.Ending1;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 刷等级时用机械师快速飞三层
+    /// </summary>
+    public bool BlackFlowFastFlight { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 是否在五层BOSS前停下来
     /// </summary>
     public bool StopAtFinalBoss { get; set; }
@@ -210,6 +220,17 @@ public class AsstRoguelikeTask : AsstBaseTask
             ["starts_count"] = Starts,
             ["investment_enabled"] = InvestmentEnabled,
         };
+
+        // 快速飞三层沿用 Core 刷等级的默认策略；不飞时按目标结局打。
+        if (Theme == RoguelikeTheme.BlackFlow && Mode == RoguelikeMode.Exp && !BlackFlowFastFlight)
+        {
+            taskParams["blackflow_strategy"] = BlackFlowEnding switch
+            {
+                RoguelikeBlackFlowEnding.Ending2 => "ending2",
+                RoguelikeBlackFlowEnding.Ending3 => "ending3",
+                _ => "ending1",
+            };
+        }
 
         if (Theme == RoguelikeTheme.BlackFlow && Mode == RoguelikeMode.BlackFlowBabyAnimal)
         {
