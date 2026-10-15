@@ -178,12 +178,14 @@ bool MaaFwController::connect_with_extras(
         return false;
     }
 
-    callback(
-        AsstMsg::ConnectionInfo,
-        json::object {
+    {
+        json::value info = json::object {
             { "what", "UuidGot" },
             { "why", "" },
-        } | get_info_json());
+        } | get_info_json();
+        info["details"]["uuid"] = m_uuid;
+        callback(AsstMsg::ConnectionInfo, info);
+    }
 
     if (auto screen_resolution = extras.find<json::object>("screen_resolution")) {
         const int width = screen_resolution->get("width", 0);
