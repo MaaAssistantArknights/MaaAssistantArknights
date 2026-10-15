@@ -28,10 +28,7 @@ MaaFwController::~MaaFwController()
     destroy_unit();
 }
 
-bool MaaFwController::connect(
-    const std::string& adb_path,
-    const std::string& address,
-    const std::string& config)
+bool MaaFwController::connect(const std::string& adb_path, const std::string& address, const std::string& config)
 {
     LogTraceFunction;
 
@@ -73,7 +70,8 @@ bool MaaFwController::connect_with_extras(
 
     auto control_unit_type = extras.find<ControlUnitType>("control_unit");
     if (!control_unit_type) {
-        LogError << "MaaFw connection extras.control_unit must be a supported library name such as \"MaaAdbControlUnit\"";
+        LogError
+            << "MaaFw connection extras.control_unit must be a supported library name such as \"MaaAdbControlUnit\"";
         callback(
             AsstMsg::ConnectionInfo,
             json::object {
@@ -115,7 +113,7 @@ bool MaaFwController::connect_with_extras(
             return false;
         }
 
-        json::object config_arg = extras.get("config", json::object {});
+        json::object config_arg = extras.get("config", json::object { });
         if (config == "AVD") {
             config_arg |= json::object {
                 { "extras", json::object { { "avd", json::object { { "enable", true } } } } },
@@ -236,7 +234,8 @@ bool MaaFwController::init_library(ControlUnitType control_unit_type)
 {
     const std::string library_name = json::value(control_unit_type).as_string();
 
-    if (m_control_unit_type.has_value() && *m_control_unit_type == control_unit_type && m_get_version_func && m_destroy_func) {
+    if (m_control_unit_type.has_value() && *m_control_unit_type == control_unit_type && m_get_version_func &&
+        m_destroy_func) {
         LogInfo << "MaaFw control unit library already loaded" << VAR(library_name);
         return true;
     }

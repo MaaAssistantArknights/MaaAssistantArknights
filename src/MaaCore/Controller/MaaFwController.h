@@ -32,9 +32,9 @@ public:
 
     const std::string& get_uuid() const override;
 
-    size_t get_pipe_data_size() const noexcept override { return 114514; }
+    size_t get_pipe_data_size() const noexcept override { return 114'514; }
 
-    size_t get_version() const noexcept override { return 114514; }
+    size_t get_version() const noexcept override { return 114'514; }
 
     bool screencap(cv::Mat& image_payload, bool allow_reconnect = false) override;
 
@@ -61,7 +61,11 @@ public:
     std::pair<int, int> get_screen_res() const noexcept override;
 
 protected:
-    bool connect_with_extras(const std::string& adb_path, const std::string& address, const std::string& config, const json::object& extras);
+    bool connect_with_extras(
+        const std::string& adb_path,
+        const std::string& address,
+        const std::string& config,
+        const json::object& extras);
 
 private:
     enum class ControlUnitType
