@@ -2039,11 +2039,20 @@
         "algorithm": "JustReturn",
         "next": [
             "MonthlyCard",
+            "MonthlyCard@ReturnFromDetail",
             "MonthlyCard@QuickSwitch@ToMall#next",
             "MonthlyCard@ReturnButtons#next",
             "MonthlyCard@CloseAnnos#next",
             "MonthlyCard@OfflineConfirm"
         ]
+    },
+    "MonthlyCard@ReturnFromDetail": {
+        "doc": "信用购物可能停在商品详情浮层，其左上角'<'深色条返回按钮与通用 ReturnButton 模板样式不同（上游模板实测不命中），点掉浮层露出商店页后由 MonthlyCard 锚点接手。模板取自国服实测截图并缩放至 720p 尺度",
+        "template": "MonthlyCard/ReturnFromDetail.png",
+        "roi": [0, 40, 180, 60],
+        "action": "ClickSelf",
+        "postDelay": 800,
+        "next": ["MonthlyCard"]
     },
     "MonthlyCard": {
         "doc": "月卡链锚点（确认已进入采购中心，与 Mall 链一致）。节点名必须为裸 MonthlyCard：通用组件(ReturnButton/CloseAnno 等)的 next 展开会引用前缀裸名，MallBegin 即采用此模式",
