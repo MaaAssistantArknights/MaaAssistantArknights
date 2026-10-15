@@ -37,6 +37,7 @@ public:
     size_t get_version() const noexcept override { return 114'514; }
 
     bool screencap(cv::Mat& image_payload, bool allow_reconnect = false) override;
+    bool screencap_for_preview(cv::Mat& image_payload, bool allow_reconnect = false) override;
 
     bool start_game(const std::string& client_type) override;
     bool stop_game(const std::string& client_type) override;
@@ -79,6 +80,7 @@ private:
     bool init_library(ControlUnitType control_unit_type);
     void destroy_unit();
     void callback(AsstMsg msg, const json::value& details) const;
+    bool screencap_impl(cv::Mat& image_payload, bool move_cursor);
 
     MaaFwControlUnitAPI* m_unit_handle = nullptr;
     // MaaFramework/include/MaaControlUnit/ControlUnitAPI.h

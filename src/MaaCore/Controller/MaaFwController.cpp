@@ -291,6 +291,16 @@ const std::string& MaaFwController::get_uuid() const
 
 bool MaaFwController::screencap(cv::Mat& image_payload, bool allow_reconnect [[maybe_unused]])
 {
+    return screencap_impl(image_payload, m_target_is_pc);
+}
+
+bool MaaFwController::screencap_for_preview(cv::Mat& image_payload, bool allow_reconnect [[maybe_unused]])
+{
+    return screencap_impl(image_payload, false);
+}
+
+bool MaaFwController::screencap_impl(cv::Mat& image_payload, bool move_cursor)
+{
     LogTraceFunction;
     if (!m_unit_handle) {
         LogWarn << "MaaFw control unit is not initialized";
@@ -298,7 +308,7 @@ bool MaaFwController::screencap(cv::Mat& image_payload, bool allow_reconnect [[m
     }
 
     // PC 端截图前把鼠标移走，避免光标出现在截图中影响识别
-    if (m_target_is_pc && m_screen_size.second > 0) {
+    if (move_cursor && m_screen_size.second > 0) {
         if (m_main_screen_recognition) {
             // 主界面情况下鼠标移动到窗口中心，等待主界面的视差动画，300ms
             inject_input_event(
