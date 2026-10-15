@@ -253,6 +253,14 @@ struct Milestone
 
     // 参与绑定候选的目标。是否真的绑定还要看可行性阶梯的结论。
     [[nodiscard]] bool binding_candidate() const noexcept { return enforcement != MilestoneEnforcement::Soft; }
+
+    // 策略目标有完成条件、参与绑定或错过即结算。其余按访问次数计分的软目标只是路线偏好，
+    // 换层即到期，本身不代表策略进展。
+    [[nodiscard]] bool strategy_goal() const noexcept
+    {
+        return completion == MilestoneCompletion::Condition || binding_candidate() ||
+               on_miss == MilestoneMissAction::Terminate;
+    }
 };
 
 struct MissionState

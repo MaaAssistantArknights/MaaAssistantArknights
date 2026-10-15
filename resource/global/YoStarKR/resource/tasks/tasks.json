@@ -238,7 +238,7 @@
     },
     "OrundumActivities": {
         "ocrReplace": [[".*(복|권).*", "복권방"]],
-        "text": ["용문", "복권방", "소원"],
+        "text": ["용문", "복권방", "소원", "게시판"],
         "roi": [70, 80, 90, 150]
     },
     "OrundumActivitiesChoose": {
@@ -355,6 +355,11 @@
     "InfrastDormConfirmButtonWait": {
         "roi": [700, 620, 400, 80],
         "text": ["피드백", "전달"]
+    },
+    "InfrastUnexecutedPlanLeaveConfirm": {
+        "ocrReplace": [[" ", ""]],
+        "text": ["아직제조를시작하지", "않았습니다", "시설을떠나시겠습니까"],
+        "roi": [240, 290, 800, 70]
     },
     "InfrastClueSelfFull": {
         "text": ["도달", "불가", "최대치"]

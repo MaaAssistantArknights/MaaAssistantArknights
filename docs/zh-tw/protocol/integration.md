@@ -473,7 +473,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 <br>
 `10000` - `Custom`：自訂換班模式，讀取使用者配置，可參閱 [基建排班協定](./base-scheduling-schema.md)。
 <br>
-`20000` - `Rotation`：一鍵輪換模式，會跳過控制中樞、發電站、宿舍以及辦公室；其餘設施不進行換班，但保留基本操作（如使用無人機、會客室邏輯）。  
+`20000` - `Rotation`：一鍵輪換模式，會跳過控制中樞、發電站、宿舍、辦公室以及回收站；其餘設施不進行換班，但保留基本操作（如使用無人機、會客室邏輯）。  
 :::  
 ::: field facility  
 @type array<string>
@@ -482,7 +482,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 <br>
 `mode = 0` 時該陣列為啟用集合，順序與重複項不參與調度（換班順序由演算法統一安排）；`mode = 10000` / `20000` 時按陣列順序執行。
 <br>
-設施名稱：`Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training` | `AssistantChange`  
+設施名稱：`Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Recycle` | `Dorm` | `Processing` | `Training` | `AssistantChange`  
 :::  
 ::: field drones  
 @type string

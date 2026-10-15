@@ -161,7 +161,8 @@
             "Nurtury",
             "Wish",
             "Board",
-            "Enmusubi"
+            "Enmusubi",
+            "Zelgrad"
         ],
         "roi": [67, 69, 115, 219]
     },
@@ -316,9 +317,6 @@
     "BattleQuickFormationFilter-Cost": {
         "text": ["Deployment Cost"],
         "roi": [996, 443, 222, 125]
-    },
-    "BattleQuickFormationRole-All-OCR": {
-        "text": ["All"]
     },
     "BattleQuickFormationOCR": {
         "rectMove": [0, 234, 116, 22],

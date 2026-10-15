@@ -153,7 +153,18 @@
     <system:String x:Key="Mfg">制造站</system:String>
     <system:String x:Key="Processing">加工站</system:String>
     <system:String x:Key="Training">训练室</system:String>
+    <system:String x:Key="Recycle">回收站</system:String>
     <system:String x:Key="AssistantChange">副手换人</system:String>
+    <system:String x:Key="InfrastTraineeNotFound">训练位候选均未命中，训练位保持原样：{0}</system:String>
+    <system:String x:Key="InfrastAssistantNotFound">协助者候选均未命中，协助者保持原样：{0}</system:String>
+    <system:String x:Key="InfrastAssistantWorkingExcluded">协助者候选正在其他设施工作中，已跳过，协助者保持原样：{0}</system:String>
+    <system:String x:Key="InfrastAssistantLowMood">协助者候选心情低于阈值，已跳过，协助者保持原样：{0}</system:String>
+    <system:String x:Key="InfrastRoomKeptUnchanged">该房间未配置选人名单，保持原样，未换班</system:String>
+    <system:String x:Key="InfrastFacilityKeptUnchanged">排班表该设施未配置房间，整个设施保持原样，未换班</system:String>
+    <system:String x:Key="InfrastCandidatesUnavailable">候选干员均不可用，保持原样，未换班</system:String>
+    <system:String x:Key="InfrastCandidatesWorking">候选干员全部在其他设施工作，保持原样，未换班</system:String>
+    <system:String x:Key="InfrastCandidatesLowMood">候选干员心情不满足要求，保持原样，未换班</system:String>
+    <system:String x:Key="InfrastRoomsNotConfigured">间起未配置，保持原样</system:String>
     <system:String x:Key="Trade">贸易站</system:String>
     <system:String x:Key="Power">发电站</system:String>
     <system:String x:Key="Reception">会客室</system:String>
@@ -1700,6 +1711,13 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowInventoryCleanupDiscarded">已丢弃零件：{0}</system:String>
     <system:String x:Key="BlackFlowInventoryCleanupCompleted">零件箱清理完成</system:String>
     <system:String x:Key="BlackFlowInventoryCleanupFailed">零件箱清理失败</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedMarketUnavailable">秘境行商的物品数据不可用，跳过交易并离店</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedInventoryIncomplete">秘境行商持有物清点失败，停止交易并离店</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedPageSwitchFailed">秘境行商买入与出售页面切换失败，停止交易并离店</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedSaleSearchFailed">秘境行商出售列表查找失败，停止交易并离店</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedSellBackSearchFailed">秘境行商未能找到要卖回的「{0}」，停止交易并离店</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedSaleFailed">秘境行商出售「{0}」未得到确认，停止交易并离店</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedUnknown">秘境行商交易出现异常，停止交易并离店</system:String>
     <system:String x:Key="BlackFlowStrategyUnknown">未知策略</system:String>
     <system:String x:Key="BlackFlowDecisionProbeUnknownNode">探测路线前方最近的未分类节点</system:String>
     <system:String x:Key="BlackFlowDecisionPolicyOrder">按照策略设定的优先顺序选择</system:String>
@@ -1753,8 +1771,11 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowMilestoneEnding1Floor1Battles">第一层优先作战</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor1Hidden">第一层尽量探索未知的诡秘</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Expedition">第二层优先先行一步</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor1ScrapShop">第一层顺路进入秘境行商交易</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2ScrapShop">第二层优先秘境行商</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Hidden">第二层尽量探索未知的诡秘</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Incident">第二层尽量经过不期而遇</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Informant">第二、三层优先经过带线人角标的不期而遇</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Employ">第二层顺路经过应急助力</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Light">第二层顺路经过羽瞰点</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Wish">第二层顺路经过得偿所愿</system:String>
@@ -1778,7 +1799,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowMilestoneBabyExploreHidden">尚未发现秘境行商时尽量多开未知的诡秘</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyVisitIncident">顺路进入不期而遇</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyFloor2Shops">第二层经过普通商店时继续获取种子</system:String>
-    <system:String x:Key="BlackFlowMilestoneBabyFloor3Shops">第三层经过普通商店时卖货、刷新并尽量购买种子</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyFloor3Shops">第三层经过普通商店时继续获取种子</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding2SandtableA">获得沙盘 A</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding2SandtableB">获得沙盘 B</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding2Fate">第五层进入命运所指并完成二结局</system:String>
@@ -1866,6 +1887,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ThisFacility" xml:space="preserve">当前设施: </system:String>
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">匹配编组: </system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">匹配{key=Operator}编组失败，编组列表: </system:String>
+    <system:String x:Key="RoomGroupsMatchRecogFailed">编组{key=Operator}识别失败，房间保持原样</system:String>
     <system:String x:Key="RoomOperators" xml:space="preserve">首选{key=Operator}: </system:String>
     <system:String x:Key="ProductIncorrect">产物与配置不相符。</system:String>
     <system:String x:Key="ProductUnknown">无法识别的产物</system:String>

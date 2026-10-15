@@ -472,7 +472,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 `10000` - `Custom`: 自定义换班模式，读取用户配置，可参考 [基建排班协议](./base-scheduling-schema.md)。
 <br>
-`20000` - `Rotation`: 一键轮换模式，会跳过控制中枢、发电站、宿舍以及办公室，其余设施不进行换班但保留基本操作（如使用无人机、会客室逻辑）。  
+`20000` - `Rotation`: 一键轮换模式，会跳过控制中枢、发电站、宿舍、办公室以及回收站，其余设施不进行换班但保留基本操作（如使用无人机、会客室逻辑）。  
 :::  
 ::: field facility  
 @type array<string>
@@ -481,7 +481,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 `mode = 0` 时该数组为启用集合，顺序与重复项不参与调度（换班顺序由算法统一安排）；`mode = 10000` / `20000` 时按数组顺序执行。
 <br>
-设施名：`Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training` | `AssistantChange`  
+设施名：`Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Recycle` | `Dorm` | `Processing` | `Training` | `AssistantChange`  
 :::  
 ::: field drones  
 @type string

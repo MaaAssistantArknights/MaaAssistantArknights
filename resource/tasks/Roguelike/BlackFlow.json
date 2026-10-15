@@ -271,7 +271,10 @@
     "BlackFlow@Roguelike@CultivateSellItems": {
         "algorithm": "OcrDetect",
         "roi": [395, 159, 857, 290],
-        "ocrReplace": [["^垫底座$", "气垫底座"]],
+        "ocrReplace": [
+            ["^垫底座$", "气垫底座"],
+            ["^.*次性喷气背包$", "一次性喷气背包"]
+        ],
         "text": [],
         "fullMatch": true
     },
@@ -1083,7 +1086,7 @@
         "roi": [348, 132, 930, 495],
         "ocrReplace": [
             ["^垫底座$", "气垫底座"],
-            ["^次性喷气背包$", "一次性喷气背包"]
+            ["^.*次性喷气背包$", "一次性喷气背包"]
         ],
         "text": [
             "报废轮子",
@@ -1185,7 +1188,7 @@
         "roi": [877, 191, 400, 527],
         "ocrReplace": [
             ["^垫底座$", "气垫底座"],
-            ["^次性喷气背包$", "一次性喷气背包"]
+            ["^.*次性喷气背包$", "一次性喷气背包"]
         ],
         "text": [
             "报废轮子",
@@ -1219,8 +1222,13 @@
         "action": "Swipe",
         "specificRect": [1024, 590, 1, 1],
         "rectMove": [1024, 280, 1, 1],
-        "specialParams": [200, 0, 20, 0],
+        "specialParams": [200, 4, 20, 0],
         "postDelay": 500
+    },
+    "BlackFlow@Roguelike@MovementPanelSwipeBack": {
+        "baseTask": "BlackFlow@Roguelike@MovementPanelSwipe",
+        "specificRect": [1024, 280, 1, 1],
+        "rectMove": [1024, 590, 1, 1]
     },
     "BlackFlow@Roguelike@MovementPanelTitle": {
         "algorithm": "OcrDetect",

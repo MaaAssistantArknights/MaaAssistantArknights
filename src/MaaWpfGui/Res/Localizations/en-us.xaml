@@ -153,7 +153,18 @@
     <system:String x:Key="Mfg">Factory</system:String>
     <system:String x:Key="Processing">Workshop</system:String>
     <system:String x:Key="Training">Training Room</system:String>
+    <system:String x:Key="Recycle">Recycling Station (speculative translation, not yet released)</system:String>
     <system:String x:Key="AssistantChange">Assistant change</system:String>
+    <system:String x:Key="InfrastTraineeNotFound">No training slot candidate matched; the training slot has been left unchanged: {0}</system:String>
+    <system:String x:Key="InfrastAssistantNotFound">No assistant candidate matched; the assistant has been left unchanged: {0}</system:String>
+    <system:String x:Key="InfrastAssistantWorkingExcluded">Assistant candidates are working in other facilities and have been skipped; the assistant has been left unchanged: {0}</system:String>
+    <system:String x:Key="InfrastAssistantLowMood">Assistant candidates' morale is below the threshold and has been skipped; the assistant has been left unchanged: {0}</system:String>
+    <system:String x:Key="InfrastRoomKeptUnchanged">This room has no staffing intent configured and is kept unchanged</system:String>
+    <system:String x:Key="InfrastFacilityKeptUnchanged">has no rooms configured in the schedule file; the entire facility is kept unchanged</system:String>
+    <system:String x:Key="InfrastCandidatesUnavailable">No candidate operator is available; the room is kept unchanged</system:String>
+    <system:String x:Key="InfrastCandidatesWorking">All candidate operators are working in other facilities; the room is kept unchanged</system:String>
+    <system:String x:Key="InfrastCandidatesLowMood">Candidate operators' morale does not meet the requirement; the room is kept unchanged</system:String>
+    <system:String x:Key="InfrastRoomsNotConfigured">rooms from here on are not configured and left unchanged</system:String>
     <system:String x:Key="Trade">Trading Post</system:String>
     <system:String x:Key="Power">Power Plant</system:String>
     <system:String x:Key="Reception">Reception Room</system:String>
@@ -1698,6 +1709,13 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowInventoryCleanupDiscarded">已丢弃零件：{0}</system:String>
     <system:String x:Key="BlackFlowInventoryCleanupCompleted">零件箱清理完成</system:String>
     <system:String x:Key="BlackFlowInventoryCleanupFailed">零件箱清理失败</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedMarketUnavailable">秘境行商 item data is unavailable; skipping the trade and leaving</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedInventoryIncomplete">Could not count holdings at 秘境行商; stopping the trade and leaving</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedPageSwitchFailed">Could not switch between the buy and sell pages at 秘境行商; stopping the trade and leaving</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedSaleSearchFailed">Could not search the sell list at 秘境行商; stopping the trade and leaving</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedSellBackSearchFailed">Could not find "{0}" to sell back at 秘境行商; stopping the trade and leaving</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedSaleFailed">Selling "{0}" at 秘境行商 was not confirmed; stopping the trade and leaving</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedUnknown">The trade at 秘境行商 ran into an error; stopping the trade and leaving</system:String>
     <system:String x:Key="BlackFlowStrategyUnknown">Unknown strategy</system:String>
     <system:String x:Key="BlackFlowDecisionProbeUnknownNode">Probe the nearest unclassified node on the route</system:String>
     <system:String x:Key="BlackFlowDecisionPolicyOrder">Selected by the configured policy order</system:String>
@@ -1710,18 +1728,18 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowMilestoneStatusUnknown">Unknown status</system:String>
     <system:String x:Key="BlackFlowNodeUnknown">Unknown node</system:String>
     <system:String x:Key="BlackFlowNodeEmpty">Empty node</system:String>
-    <system:String x:Key="BlackFlowNodeCombat">Battle normal</system:String>
-    <system:String x:Key="BlackFlowNodeEmergencyCombat">Battle elite</system:String>
-    <system:String x:Key="BlackFlowNodeBoss">Battle boss</system:String>
-    <system:String x:Key="BlackFlowNodeBattleShop">Shop</system:String>
+    <system:String x:Key="BlackFlowNodeCombat">Combat Operation</system:String>
+    <system:String x:Key="BlackFlowNodeEmergencyCombat">Emergency Operation</system:String>
+    <system:String x:Key="BlackFlowNodeBoss">Dreadful Foe</system:String>
+    <system:String x:Key="BlackFlowNodeBattleShop">Rogue Trader</system:String>
     <system:String x:Key="BlackFlowNodeScrapShop">Scrap shop</system:String>
-    <system:String x:Key="BlackFlowNodeEncounter">Incident</system:String>
+    <system:String x:Key="BlackFlowNodeEncounter">Encounter</system:String>
     <system:String x:Key="BlackFlowNodeMysteriousPresage">Hide invisible</system:String>
     <system:String x:Key="BlackFlowNodeFerociousPresage">Hide battle</system:String>
     <system:String x:Key="BlackFlowNodeScout">Expedition</system:String>
     <system:String x:Key="BlackFlowNodeDuel">Duel</system:String>
     <system:String x:Key="BlackFlowNodeEmergencyAid">Employ</system:String>
-    <system:String x:Key="BlackFlowNodeRest">Rest</system:String>
+    <system:String x:Key="BlackFlowNodeRest">Safe House</system:String>
     <system:String x:Key="BlackFlowNodeFeatherPoint">Light</system:String>
     <system:String x:Key="BlackFlowNodeWindingPassage">Door</system:String>
     <system:String x:Key="BlackFlowNodeSacrifice">Sacrifice</system:String>
@@ -1738,7 +1756,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowRuleTriggerBossProcessingBonus">Use a processing item to enter the boss node and trigger combat bonuses</system:String>
     <system:String x:Key="BlackFlowRuleExitWhenRequired">Head to the exit when development is exhausted or the safety margin is low</system:String>
     <system:String x:Key="BlackFlowRuleEnding1AvoidLateCombat">Avoid unnecessary combat after forming a basic Elite 2 squad</system:String>
-    <system:String x:Key="BlackFlowRuleBabyUseProcessingItemForFloor1Shop">Use a processing item to reach the normal shop on floor 1</system:String>
+    <system:String x:Key="BlackFlowRuleBabyUseProcessingItemForFloor1Shop">Use a processing item to reach the Rogue Trader on floor 1</system:String>
     <system:String x:Key="BlackFlowRuleBabyWalkAfterFloor1Shop">Explore on foot after checking the floor 1 shop and preserve processing items</system:String>
     <system:String x:Key="BlackFlowRuleBabyDelayExitBeforeFloor3">Delay the exit before floor 3 while development opportunities remain</system:String>
     <system:String x:Key="BlackFlowRuleBabyExitBeforeFloor3WhenRequired">Head to the exit before floor 3 when development is exhausted or the safety margin is low</system:String>
@@ -1751,8 +1769,11 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor1Battles">Prioritize battle nodes on floor 1</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor1Hidden">Explore hide invisible nodes on floor 1</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Expedition">Prioritize expedition on floor 2</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor1ScrapShop">Trade at 秘境行商 on floor 1 when passing by</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2ScrapShop">Prioritize the scrap shop on floor 2</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Hidden">Explore hide invisible nodes on floor 2</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Incident">Pass through Encounter nodes on floor 2</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Informant">Prefer Encounter nodes with the Informant marker on floors 2-3</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Employ">Visit employ on floor 2 along the way</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Light">Visit light nodes on floor 2 along the way</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Wish">Visit wish nodes on floor 2 along the way</system:String>
@@ -1761,7 +1782,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1LateScrapShop">Prioritize the scrap shop on floors 3-5</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1LateEmploy">Prioritize employ on floors 3-5</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1LateHidden">Explore hide invisible nodes on floors 3-5</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding1LateIncident">Pass through incident nodes on floors 3-5</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateIncident">Pass through Encounter nodes on floors 3-5</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1LateCombat">Pass through battle nodes on floors 3-5</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1LateLight">Visit light nodes on floors 3-5 along the way</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1LateWish">Visit wish nodes on floors 3-5 along the way</system:String>
@@ -1774,9 +1795,9 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShopTransit">Enter a scrap trader on floors 1-2 to cultivate seeds, then head for the exit</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShopFinal">Enter the scrap trader on floor 3 to cultivate seeds</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyExploreHidden">Reveal as many unknown nodes as possible until a scrap trader is found</system:String>
-    <system:String x:Key="BlackFlowMilestoneBabyVisitIncident">Visit an encounter along the way</system:String>
-    <system:String x:Key="BlackFlowMilestoneBabyFloor2Shops">Continue collecting seeds when visiting a normal shop on floor 2</system:String>
-    <system:String x:Key="BlackFlowMilestoneBabyFloor3Shops">Sell items, refresh stock, and collect seeds when visiting a normal shop on floor 3</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyVisitIncident">Visit an Encounter along the way</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyFloor2Shops">Continue collecting seeds when visiting a Rogue Trader on floor 2</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyFloor3Shops">Continue collecting seeds when visiting a Rogue Trader on floor 3</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding2SandtableA">Obtain Sandtable A</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding2SandtableB">Obtain Sandtable B</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding2Fate">Enter the fated destination on floor 5 and complete Ending 2</system:String>
@@ -1864,6 +1885,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">Current Facility:&#160;</system:String>
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">Match Group:&#160;</system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">Failed to match {key=Operator} groups, group list:&#160;</system:String>
+    <system:String x:Key="RoomGroupsMatchRecogFailed">Failed to recognize {key=Operator}s for group matching; the room has been left unchanged</system:String>
     <system:String x:Key="RoomOperators" xml:space="preserve">Preferred {key=Operator}s:&#160;</system:String>
     <system:String x:Key="ProductIncorrect">Product does NOT match the configuration.</system:String>
     <system:String x:Key="ProductUnknown">Unknown Product</system:String>

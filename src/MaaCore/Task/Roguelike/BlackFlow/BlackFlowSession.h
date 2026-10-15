@@ -196,6 +196,8 @@ public:
     void set_cultivated_animal_types(std::vector<CultivatedAnimalType> types);
 
     [[nodiscard]] std::optional<std::reference_wrapper<const ShoppingRule>> shopping_rule() const;
+    // 当前生效的资源预留底线，多条预留取最大值。路线在无路可走时放弃预留只对那一步有效，这里不计。
+    [[nodiscard]] int reserved_amount(std::string_view resource) const;
     bool apply_shopping_purchase(std::string_view name, std::string* error = nullptr);
 
     bool mark_page_running(std::string* error = nullptr);

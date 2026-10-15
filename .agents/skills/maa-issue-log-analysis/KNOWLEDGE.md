@@ -18,12 +18,18 @@
 
 ## About Arknights PC Client
 
-- 连接 PC 端为实验性功能
+- 连接 PC 端为社区维护功能
 - 由于 MAA Team 开发人手有限，此功能由社区维护，非 MAA Team 持续支持，功能和稳定性可能不尽如人意，遇到问题时也可能无法第一时间修复。
 - 在使用 PC 端的过程中，如遇到影响使用的问题，建议改用 ADB 连接 Android 模拟器或移动设备，获得更稳定的体验。
 - 我们也始终欢迎有能力的开发者参与贡献提交 Pull Request，共同完善 PC 端支持。
 - PC 的鼠标为客户端独立渲染的，鼠标会挡住需要识别的目标，在需要点击相同位置的图标或重试时极有可能导致下一次识别失败。
 - PC 版存在根据鼠标位置产生界面偏转的效果（类似手机端的陀螺仪视差），而模拟器环境中界面通常保持在正中央，因此不会受到影响。若鼠标未位于客户端窗口正中央，UI 会发生偏转，导致图像识别失败，进而出现无法正常进入界面、循环切换主题等现象。如果使用 PC 客户端运行游戏，请将鼠标移动到游戏窗口正中央附近并保持不动，以避免界面偏转影响识别。
+
+## Theme Not Switched Back
+
+- 主题被切走类诉求（如 PC 界面偏转导致 ｢循环切换主题｣ 、任务运行后主题停在切换后的状态）不做专门的适配恢复。
+- 已有独立任务类型 ｢更换主题｣ （任务类型枚举 `SwitchTheme`，用户口语常称 ｢切换主题｣ ）：pipeline 在 `resource/tasks/UiTheme/SwitchThemeByName.json`（入口任务 `SwitchThemeByNameBegin`），Core 实现在 `src/MaaCore/Task/Interface/SwitchThemeTask.cpp`。参数 `themes` 填游戏内主题列表显示的主题名，多个则每次运行随机选一个，只填一个则固定切换。
+- 对这类 issue 统一建议把 ｢更换主题｣ 任务放在任务队列末尾，把主题换回用户指定的主题。
 
 ## Reception Clue Analysis
 
@@ -105,11 +111,11 @@
 
 ## Connect.TouchMode
 
-- MAA 触控模式现五种：`minitouch`（默认）、`maatouch`（实验性）、`adb input`（不推荐使用）、`MaaFwAdb`（GUI 显示为 ｢MaaFramework（实验功能）｣）和 `MumuExtras`（仅 MuMu 截图增强启用时可选）。
+- MAA 触控模式现五种：`minitouch`（默认）、`maatouch`（实验性）、`adb input`（不推荐使用）、`MaaFwAdb`（GUI 显示为 ｢MaaFwAdb（实验功能）｣ ）和 `MumuExtras`（仅 MuMu 截图增强启用时可选）。
 - `maatouch` 是 `minitouch` 的 Java 实现，并额外支持按键输入，可避免 minitouch 走 adb 命令传输按钮带来的较高延迟。
 - `adb input` 仅用于兼容部分系统版本过低、无法运行 `minitouch` 或 `maatouch` 的实体机设备。
 - 能用其他模式时，绝不推荐 `adb input`。
 - `adb input` 的滑动容易拖飞，为避免此问题，滑动速度会被设置得非常慢，且滑动距离与其他模式不同；在需要精确控制坐标的场景下无法使用。
 - `MaaFwAdb` 不支持额外滑动：额外滑动是主滑动结束后沿垂直方向追加一小段的 ｢刹车｣ 滑动（轨迹类似拐 90° 的 L 形），用于抵消列表惯性；`MaaFwAdbController::swipe` 的 `extra_swipe` / `slope_in` / `slope_out` 参数均未实现，只做纯直线滑动。依赖额外滑动防拖飞的页面在该模式下会拖飞。
-- 若用户反馈拖飞 / 滑过头 / 触控相关异常，先查触控模式：配置为 `adb input` 或 ｢MaaFramework（实验功能）｣ 时，应优先建议切换为 `minitouch` 或 `maatouch` 再复现，排除模式自身的局限与延迟问题。
+- 若用户反馈拖飞 / 滑过头 / 触控相关异常，先查触控模式：配置为 `adb input` 或 ｢MaaFwAdb（实验功能）｣ 时，应优先建议切换为 `minitouch` 或 `maatouch` 再复现，排除模式自身的局限与延迟问题。
 

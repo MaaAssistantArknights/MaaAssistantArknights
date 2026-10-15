@@ -1331,9 +1331,14 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                         subTaskDetails?["milestone_id"]?.ToString(),
                         "BlackFlowMilestoneUnknown");
                     var status = LocalizeBlackFlowMilestoneStatus(statusCode);
+                    var color = statusCode switch {
+                        "satisfied" => UiLogColor.Success,
+                        "missed" or "impossible" => UiLogColor.Warning,
+                        _ => UiLogColor.Info,
+                    };
                     Instances.TaskQueueViewModel.AddLog(
                         LocalizationHelper.GetStringFormat("BlackFlowMilestoneChanged", milestone, status),
-                        UiLogColor.Info);
+                        color);
                     break;
                 }
 
@@ -1356,6 +1361,22 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                         Instances.TaskQueueViewModel.AddLog(message, color);
                     }
 
+                    break;
+                }
+
+            case "BlackFlowScrapTradeAborted":
+                {
+                    var item = subTaskDetails?["item"]?.ToString() ?? string.Empty;
+                    var message = subTaskDetails?["reason"]?.ToString() switch {
+                        "market_unavailable" => LocalizationHelper.GetString("BlackFlowScrapTradeAbortedMarketUnavailable"),
+                        "inventory_incomplete" => LocalizationHelper.GetString("BlackFlowScrapTradeAbortedInventoryIncomplete"),
+                        "page_switch_failed" => LocalizationHelper.GetString("BlackFlowScrapTradeAbortedPageSwitchFailed"),
+                        "sale_search_failed" => LocalizationHelper.GetString("BlackFlowScrapTradeAbortedSaleSearchFailed"),
+                        "sell_back_search_failed" => LocalizationHelper.GetStringFormat("BlackFlowScrapTradeAbortedSellBackSearchFailed", item),
+                        "sale_failed" => LocalizationHelper.GetStringFormat("BlackFlowScrapTradeAbortedSaleFailed", item),
+                        _ => LocalizationHelper.GetString("BlackFlowScrapTradeAbortedUnknown"),
+                    };
+                    Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Warning);
                     break;
                 }
 

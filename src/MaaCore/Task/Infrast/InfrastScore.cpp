@@ -1267,9 +1267,10 @@ ScoreResult select_reception(const std::vector<ScoreOper>& opers, const ScoreCon
             continue;                                   // 禁用尤里卡
         }
 
-        // 第一优先级：见行者、跃跃
+        // 第一优先级：见行者、克莱门莎、跃跃
         // 菲亚梅塔已入驻时，信仰搅拌机也进入最高优先级。
-        if ((has_skill(oper, "bskill_meet_spd&cost") && oper.mood_ratio > 22.0 / 24.0) || // 见行者要求高心情
+        if ((has_skill(oper, "bskill_meet_spd&cost") && oper.mood_ratio > 22.0 / 24.0) ||      // 见行者要求高心情
+            (has_skill(oper, "bskill_meet_spd&cost_char") && oper.mood_ratio > 22.0 / 24.0) || // 克莱门莎要求高心情
             has_skill(oper, "bskill_meet_exchange") ||
             (has_skill(oper, "bskill_meet_spd_confes1") && is_selected(context, "char_300_phenxi"))) {
             priority.emplace_back(index);
@@ -2054,6 +2055,33 @@ ScoreResult select_training(const std::vector<ScoreOper>& opers, const ScoreCont
     return select_training_impl(opers, context);
 }
 
+// 回收站选择干员，参考会客室选人,使用多优先级数组拼接。
+// 优先捡海人（bskill_recycle_spd&cost2），其次拾荒者（bskill_recycle_spd&cost1），
+// 其余干员保持原识别顺序补位。默认不启用，需要时取消 select_best_opers 中的对应注释。
+ScoreResult select_recycle(const std::vector<ScoreOper>& opers, const ScoreContext& context)
+{
+    std::vector<size_t> priority;
+    std::vector<size_t> preferred;
+    std::vector<size_t> remain;
+    for (const size_t index : eligible_indices(opers, context)) {
+        if (has_skill(opers[index], "bskill_recycle_spd&cost2")) { // 捡海人：旅骨
+            priority.emplace_back(index);
+        }
+        else if (has_skill(opers[index], "bskill_recycle_spd&cost1")) { // 拾荒者：旅骨
+            preferred.emplace_back(index);
+        }
+        else {
+            remain.emplace_back(index);
+        }
+    }
+    priority.insert(priority.end(), preferred.begin(), preferred.end());
+    priority.insert(priority.end(), remain.begin(), remain.end());
+    if (priority.size() > static_cast<size_t>(std::max(0, context.slots))) {
+        priority.resize(std::max(0, context.slots));
+    }
+    return { std::move(priority), 0 };
+}
+
 const std::array<AbyssalHunterCandidate, 4>& get_abyssal_hunter_candidates()
 {
     // 干员数据缺失时保留空 id，空 id 匹配不到任何干员，等效跳过该候选
@@ -2119,6 +2147,10 @@ ScoreResult select_best_opers(const std::vector<ScoreOper>& opers, const ScoreCo
     if (context.facility == "Dorm") {
         return select_dorm(opers, context);
     }
+    // 回收站暂不按评分选人：当前仅旅骨拥有回收站技能，常规换班按位置补位即可。
+    // if (context.facility == "Recycle") {
+    //     return select_recycle(opers, context);
+    // }
     return {};
 }
 

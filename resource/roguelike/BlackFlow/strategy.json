@@ -645,6 +645,31 @@
                     }
                 },
                 {
+                    "id": "ending1_floor2_incident",
+                    "description": "第二层尽量经过不期而遇",
+                    "kind": "preferred",
+                    "floor_window": [2, 2],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 3,
+                    "selector": {
+                        "node_types": ["incident"]
+                    }
+                },
+                {
+                    "id": "ending1_informant",
+                    "description": "第二、三层的不期而遇带线人角标时额外加分，与不期而遇的权重叠加",
+                    "kind": "preferred",
+                    "floor_window": [2, 3],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 1,
+                    "selector": {
+                        "node_types": ["incident"],
+                        "marker_types": ["informant"]
+                    }
+                },
+                {
                     "id": "ending1_floor2_employ",
                     "description": "第二层顺路经过应急助力",
                     "kind": "preferred",
@@ -782,17 +807,37 @@
             "description": "各结局共享的一至五层发育偏好"
         },
         {
-            "id": "ending1_scrap_trade",
-            "description": "秘境行商中持有板藤或多生苔藓时买入卖回让它们增值，第五层兑现自然物",
+            "id": "ending_scrap_trade",
+            "description": "各结局在秘境行商卖出闲置自然物，持有板藤或多生苔藓时买入卖回让它们增值，第五层兑现自然物",
             "shopping_rules": [
                 {
-                    "id": "scrap_trade_accumulate",
-                    "description": "第五层之前优先补喷气背包、玉米和雾滚草，保留可继续增值的自然物",
+                    "id": "scrap_trade_floor1",
+                    "description": "第一层只培育和补货，不卖出自然物，不补重弹簧",
                     "page_intent": "scrap_shop.trade",
                     "when": {
                         "fact": "current_floor",
-                        "op": "lt",
-                        "value": 5
+                        "op": "eq",
+                        "value": 1
+                    },
+                    "buy_table": "scrap_floor1"
+                },
+                {
+                    "id": "scrap_trade_accumulate",
+                    "description": "第二至四层卖出闲置自然物，优先补喷气背包、玉米和雾滚草，保留可继续增值的自然物",
+                    "page_intent": "scrap_shop.trade",
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "current_floor",
+                                "op": "ge",
+                                "value": 2
+                            },
+                            {
+                                "fact": "current_floor",
+                                "op": "lt",
+                                "value": 5
+                            }
+                        ]
                     },
                     "buy_table": "scrap_accumulate",
                     "sell_table": "idle_naturals"
@@ -811,6 +856,19 @@
             ],
             "milestones": [
                 {
+                    "id": "ending1_floor1_scrap_shop",
+                    "description": "第一层顺路经过秘境行商时进店交易",
+                    "kind": "opportunistic",
+                    "floor_window": [1, 1],
+                    "rank": 0,
+                    "count": 99,
+                    "weight": 1,
+                    "selector": {
+                        "node_types": ["scrap_shop"]
+                    },
+                    "page_intent": "scrap_shop.trade"
+                },
+                {
                     "id": "ending1_floor2_scrap_shop",
                     "description": "第二层优先经过秘境行商",
                     "kind": "preferred",
@@ -835,36 +893,6 @@
                         "node_types": ["scrap_shop"]
                     },
                     "page_intent": "scrap_shop.trade"
-                }
-            ]
-        },
-        {
-            "id": "ending_scrap_shop_visit",
-            "description": "二、三结局经过秘境行商的偏好，进店后直接离开",
-            "milestones": [
-                {
-                    "id": "ending1_floor2_scrap_shop",
-                    "description": "第二层优先经过秘境行商",
-                    "kind": "preferred",
-                    "floor_window": [2, 2],
-                    "rank": 0,
-                    "count": 1,
-                    "weight": 6,
-                    "selector": {
-                        "node_types": ["scrap_shop"]
-                    }
-                },
-                {
-                    "id": "ending1_late_scrap_shop",
-                    "description": "第三至第五层优先经过秘境行商",
-                    "kind": "preferred",
-                    "floor_window": [3, 5],
-                    "rank": 0,
-                    "count": 99,
-                    "weight": 6,
-                    "selector": {
-                        "node_types": ["scrap_shop"]
-                    }
                 }
             ]
         },
@@ -1567,7 +1595,7 @@
                 },
                 {
                     "id": "baby_floor3_shops",
-                    "description": "第三层经过普通商店时卖货、刷新并尽量购买种子",
+                    "description": "第三层经过普通商店时继续优先获取种子",
                     "kind": "preferred",
                     "floor_window": [3, 3],
                     "rank": 0,
@@ -1693,6 +1721,48 @@
                     "rank": 0,
                     "option_text": ["我受雇于梅兰德"],
                     "on_selected": { "sandtable_a": true }
+                }
+            ],
+            "reserves": [
+                {
+                    "id": "ending2_single_sandtable_ingots",
+                    "description": "只有一张沙盘时，命运所指要付 50 源石锭，秘境行商交易不动这部分余额",
+                    "resource": "ingots",
+                    "minimum": 50,
+                    "active_if": {
+                        "all": [
+                            {
+                                "any": [
+                                    {
+                                        "fact": "sandtable_a",
+                                        "op": "eq",
+                                        "value": true
+                                    },
+                                    {
+                                        "fact": "sandtable_b",
+                                        "op": "eq",
+                                        "value": true
+                                    }
+                                ]
+                            },
+                            {
+                                "not": {
+                                    "all": [
+                                        {
+                                            "fact": "sandtable_a",
+                                            "op": "eq",
+                                            "value": true
+                                        },
+                                        {
+                                            "fact": "sandtable_b",
+                                            "op": "eq",
+                                            "value": true
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
                 }
             ],
             "milestones": [
@@ -1861,7 +1931,7 @@
         {
             "id": "ending1",
             "description": "一结局保底",
-            "modules": ["common_navigation", "ending_development", "ending1_scrap_trade", "ending1_exit"],
+            "modules": ["common_navigation", "ending_development", "ending_scrap_trade", "ending1_exit"],
             "failure_action": "restart_current_run"
         },
         {
@@ -2100,7 +2170,7 @@
         {
             "id": "ending2",
             "description": "沙盘发育并在第五层进入命运所指",
-            "modules": ["common_navigation", "ending_development", "ending_scrap_shop_visit", "ending2_route"],
+            "modules": ["common_navigation", "ending_development", "ending_scrap_trade", "ending2_route"],
             "terminal_rules": [
                 {
                     "id": "ending2_completed",
@@ -2177,7 +2247,7 @@
         {
             "id": "ending3",
             "description": "先行一步第二选项、减难藏品、第五层首领和第六层结局",
-            "modules": ["common_navigation", "ending_development", "ending_scrap_shop_visit", "ending3_route"],
+            "modules": ["common_navigation", "ending_development", "ending_scrap_trade", "ending3_route"],
             "terminal_rules": [
                 {
                     "id": "ending3_completed",

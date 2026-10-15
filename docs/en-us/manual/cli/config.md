@@ -470,8 +470,8 @@ JSON schemas for configuration files are in the [`schemas` directory][schema-dir
 With these schemas, you can get auto-completion and validation in supported editors with plugins.
 
 [task-types]: ../../protocol/integration.md#list-of-task-types
-[emulator-ports]: ../../manual/connection.md#obtain-port-number
-[playcover-doc]: ../../manual/device/macos.md#%E2%9C%85-playcover-the-software-runs-most-fluently-for-its-nativity-%F0%9F%9A%80
+[emulator-ports]: ../../manual/connection.md#emulator-documentation-and-reference-addresses
+[playcover-doc]: ../../manual/device/macos.md#%E2%9C%85-playcover-runs-most-fluently-as-it-s-native-%F0%9F%9A%80
 [waydroid-doc]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/crates/maa-cli/manual/device/linux.md#✅-waydroid
 [example-config]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/crates/maa-cli/config_examples
 [wangl-cc-dotfiles]: https://github.com/wangl-cc/dotfiles/tree/main/home/dot_config/maa

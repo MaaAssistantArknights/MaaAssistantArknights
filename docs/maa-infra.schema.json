@@ -155,7 +155,7 @@
         },
         "rooms": {
             "type": "object",
-            "description": "All arknights infrastructure rooms.",
+            "description": "All arknights infrastructure rooms. Missing facility keys use the default algorithm for shift change; if a facility array holds fewer room entries than actual rooms, shift change stops from the first unconfigured room onward for that facility and sends one facility-wide unconfigured notice; an empty facility array (the facility key explicitly written as []) keeps the entire facility unchanged without shift change, as distinct from a missing facility key, while facility-level actions such as the meeting room's clue flow and the training room's continue training still run; a room entry written without any staffing intent (operators/candidates empty or missing, no autofill or operator groups) keeps that room unchanged; the skip field skips both operator replacement and product switching for that room, drones are still used, and facility-level actions such as the meeting room's clue flow and the training room's continue training are unaffected.",
             "properties": {
                 "control": {
                     "type": "array",
@@ -180,7 +180,7 @@
                 },
                 "training": {
                     "type": "array",
-                    "description": "Training rooms. Slot A contains operators assisting with training; slot B contains operators receiving training. A/B operator groups are a protocol draft, not yet supported by MAA custom scheduling.",
+                    "description": "Training rooms. operatorsA are assistant candidates with no eligibility restriction, so any operator can be staffed there, but consistent with the generic candidates field, candidates currently working in other facilities are never selected (excluded at selection time). operatorsB are trainee-slot candidates: the first one present in the in-game selection list is staffed, subject to the trainee slot's eligibility restriction (elite 2 with at least one skill below max mastery; all-maxed operators never appear in the list, so configuring them is effectively a skip), and while training is in progress the trainee slot stays locked so only the assistant is changed. Among the generic roomConfig fields only skip takes effect; staffing is configured solely via operatorsA/operatorsB. Continue training is a standalone GUI option outside the schedule file and is unaffected by the three room states (empty array / skip / empty staffing intent); it still runs in all of them and only operator replacement is skipped. When continue training is enabled, the shift-change flow first tries to continue the current operator's mastery training; on success the trainee slot stays unchanged and only the assistant is replaced per configuration, otherwise (materials insufficient or mastery already maxed) it falls back to replacing the trainee slot operator per configuration.",
                     "items": {
                         "$ref": "#/definitions/abRoomConfig"
                     },
@@ -188,10 +188,11 @@
                 },
                 "recycle": {
                     "type": "array",
-                    "description": "Planned facility 回收站 with A/B slots: A is the first unlocked position, B is the second. The recycle key is provisional; MAA custom scheduling does not yet support these groups.",
+                    "description": "Recycle station rooms with two undifferentiated staffing slots, configured like manufacture via the operators array; the product field has no effect here.",
                     "items": {
-                        "$ref": "#/definitions/abRoomConfig"
-                    }
+                        "$ref": "#/definitions/roomConfig"
+                    },
+                    "maxItems": 1
                 },
                 "manufacture": {
                     "type": "array",
@@ -225,7 +226,7 @@
         },
         "abRoomConfig": {
             "type": "object",
-            "description": "Room with A/B operator groups. Capacities, execution semantics and interactions with existing room fields remain undecided.",
+            "description": "Room with A/B operator groups, used by the training facility: operatorsA are assistant candidates and operatorsB are trainee-slot candidates. Among the inherited roomConfig fields only skip takes effect.",
             "allOf": [
                 {
                     "$ref": "#/definitions/roomConfig"
@@ -234,14 +235,14 @@
             "properties": {
                 "operatorsA": {
                     "type": "array",
-                    "description": "Operator names in slot A. Optional; execution semantics remain undecided.",
+                    "description": "Assistant-slot candidates for the training facility; the assistant slot has no eligibility restriction like the trainee slot, so any operator can be staffed there, but consistent with the generic candidates field, candidates currently working in other facilities are never selected (excluded at selection time). This also covers skills of operators working in other facilities that need an operator of the same faction staffed in the base for higher efficiency (put one matching-faction operator in operatorsA). Optional; omitted means no assistant is selected.",
                     "items": {
                         "$ref": "#/definitions/operator"
                     }
                 },
                 "operatorsB": {
                     "type": "array",
-                    "description": "Operator names in slot B. Optional; execution semantics remain undecided.",
+                    "description": "Trainee-slot candidates for the training facility; the first one present in the in-game selection list is staffed. Staffing is subject to the trainee slot's eligibility restriction: the operator must be promoted to elite 2 with at least one skill below max mastery; operators with all masteries maxed never appear in the list, so configuring them is effectively a skip. While training is in progress the trainee slot is locked and cannot be changed. Staffing alone does not start a new training session; starting mastery training still requires a manual tap. Optional; omitted means the trainee slot operator is not changed.",
                     "items": {
                         "$ref": "#/definitions/operator"
                     }
@@ -260,13 +261,17 @@
                     },
                     "maxItems": 5
                 },
+                "use_operator_groups": {
+                    "type": "boolean",
+                    "description": "Interpret names in operators as operator group names. Optional."
+                },
                 "sort": {
                     "type": "boolean",
                     "description": "Sort operators in the same order as listed in operators."
                 },
                 "skip": {
                     "type": "boolean",
-                    "description": "Skip this room or not."
+                    "description": "Skip operator replacement and product switching for this room or not; drones are still used, and facility-level actions such as the meeting room's clue flow are unaffected."
                 },
                 "autofill": {
                     "type": "boolean",
@@ -304,6 +309,7 @@
                 },
                 "candidates": {
                     "type": "array",
+                    "description": "Backup operator candidates; operators currently working in other facilities are never selected (excluded at selection time). Candidates below the base shift-change mood threshold are skipped, except in dormitories, where only candidates with full morale are skipped to free the rest slot and those not yet full (including ones resting in this very dormitory) stay selectable.",
                     "items": {
                         "$ref": "#/definitions/operator"
                     }

@@ -63,13 +63,61 @@
         "sortId": 50107,
         "usage": "A special permit issued by the Rhodes Island HR Department with specific instructions for the headhunting agency. Can be used to headhunt for 10 Operators."
     },
+    "2026recruitment10_new_1": {
+        "classifyType": "CONSUME",
+        "description": "Due to various strategic considerations, Rhodes Island conducted targeted headhunting in addition to batch recruitment in order to seek assistance from individuals with special talents.",
+        "icon": "2026recruitment10_new_1.png",
+        "name": "Type-α Starter Headhunting Permit",
+        "sortId": 50109,
+        "usage": "A special permit issued by the Rhodes Island HR Department with specific instructions for the headhunting agency. Can be used to headhunt for 10 Operators."
+    },
+    "2026recruitment10_new_2": {
+        "classifyType": "CONSUME",
+        "description": "Due to various strategic considerations, Rhodes Island conducted targeted headhunting in addition to batch recruitment in order to seek assistance from individuals with special talents.",
+        "icon": "2026recruitment10_new_2.png",
+        "name": "Type-β Starter Headhunting Permit",
+        "sortId": 50109,
+        "usage": "A special permit issued by the Rhodes Island HR Department with specific instructions for the headhunting agency. Can be used to headhunt for 10 Operators."
+    },
+    "2026recruitment10_new_3": {
+        "classifyType": "CONSUME",
+        "description": "Due to various strategic considerations, Rhodes Island conducted targeted headhunting in addition to batch recruitment in order to seek assistance from individuals with special talents.",
+        "icon": "2026recruitment10_new_3.png",
+        "name": "Type-γ Starter Headhunting Permit",
+        "sortId": 50109,
+        "usage": "A special permit issued by the Rhodes Island HR Department with specific instructions for the headhunting agency. Can be used to headhunt for 10 Operators."
+    },
+    "2026recruitment10_register_1": {
+        "classifyType": "CONSUME",
+        "description": "Due to various strategic considerations, Rhodes Island conducted targeted headhunting in addition to batch recruitment in order to seek assistance from individuals with special talents.",
+        "icon": "2026recruitment10_register_1.png",
+        "name": "Type-α Newcomer Headhunting Permit",
+        "sortId": 50108,
+        "usage": "A special permit issued by the Rhodes Island HR Department with specific instructions for the headhunting agency. Can be used to headhunt for 10 Operators."
+    },
+    "2026recruitment10_register_2": {
+        "classifyType": "CONSUME",
+        "description": "Due to various strategic considerations, Rhodes Island conducted targeted headhunting in addition to batch recruitment in order to seek assistance from individuals with special talents.",
+        "icon": "2026recruitment10_register_2.png",
+        "name": "Type-β Newcomer Headhunting Permit",
+        "sortId": 50108,
+        "usage": "A special permit issued by the Rhodes Island HR Department with specific instructions for the headhunting agency. Can be used to headhunt for 10 Operators."
+    },
+    "2026recruitment10_register_3": {
+        "classifyType": "CONSUME",
+        "description": "Due to various strategic considerations, Rhodes Island conducted targeted headhunting in addition to batch recruitment in order to seek assistance from individuals with special talents.",
+        "icon": "2026recruitment10_register_3.png",
+        "name": "Type-γ Newcomer Headhunting Permit",
+        "sortId": 50108,
+        "usage": "A special permit issued by the Rhodes Island HR Department with specific instructions for the headhunting agency. Can be used to headhunt for 10 Operators."
+    },
     "30011": {
         "classifyType": "MATERIAL",
         "description": "Rich in organics, it is commonly seen in regions where Originium has completely volatilized. Compared to Originium, it is easier to exploit.",
         "icon": "30011.png",
         "name": "Orirock",
         "rarity": 0,
-        "sortId": 100036,
+        "sortId": 100040,
         "usage": "A rock mined from the ground. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30012": {
@@ -81,7 +129,7 @@
         "icon": "30012.png",
         "name": "Orirock Cube",
         "rarity": 1,
-        "sortId": 100035,
+        "sortId": 100039,
         "usage": "A rock cube mined from the ground. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30013": {
@@ -93,7 +141,7 @@
         "icon": "30013.png",
         "name": "Orirock Cluster",
         "rarity": 2,
-        "sortId": 100034,
+        "sortId": 100038,
         "usage": "A conglomerate rock mined from the ground. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30014": {
@@ -105,7 +153,7 @@
         "icon": "30014.png",
         "name": "Orirock Concentration",
         "rarity": 3,
-        "sortId": 100033,
+        "sortId": 100037,
         "usage": "A refined matter produced with Orirock Cluster. Can be used for a variety of upgrades and the synthesis of Polymerization Preparation."
     },
     "30021": {
@@ -114,7 +162,7 @@
         "icon": "30021.png",
         "name": "Sugar Substitute",
         "rarity": 0,
-        "sortId": 100048,
+        "sortId": 100052,
         "usage": "Cheap sugar substitute produced by assembly line. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30022": {
@@ -126,7 +174,7 @@
         "icon": "30022.png",
         "name": "Sugar",
         "rarity": 1,
-        "sortId": 100047,
+        "sortId": 100051,
         "usage": "A small amount of sugar produced by assembly line. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30023": {
@@ -138,7 +186,7 @@
         "icon": "30023.png",
         "name": "Sugar Pack",
         "rarity": 2,
-        "sortId": 100046,
+        "sortId": 100050,
         "usage": "A decent amount of sugar produced by assembly line. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30024": {
@@ -152,7 +200,7 @@
         "icon": "30024.png",
         "name": "Sugar Lump",
         "rarity": 3,
-        "sortId": 100045,
+        "sortId": 100049,
         "usage": "A large amount of sugar produced by assembly line. Can be used for a variety of upgrades and for production in the Factory."
     },
     "3003": {
@@ -169,7 +217,7 @@
         "icon": "30031.png",
         "name": "Ester",
         "rarity": 0,
-        "sortId": 100044,
+        "sortId": 100048,
         "usage": "Ester used in industrial production. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30032": {
@@ -181,7 +229,7 @@
         "icon": "30032.png",
         "name": "Polyester",
         "rarity": 1,
-        "sortId": 100043,
+        "sortId": 100047,
         "usage": "A small amount of polyester used in industrial production. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30033": {
@@ -193,7 +241,7 @@
         "icon": "30033.png",
         "name": "Polyester Pack",
         "rarity": 2,
-        "sortId": 100042,
+        "sortId": 100046,
         "usage": "A pack of polyester used in industrial production. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30034": {
@@ -207,7 +255,7 @@
         "icon": "30034.png",
         "name": "Polyester Lump",
         "rarity": 3,
-        "sortId": 100041,
+        "sortId": 100045,
         "usage": "A lump of polyester used in industrial production. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30041": {
@@ -216,7 +264,7 @@
         "icon": "30041.png",
         "name": "Oriron Shard",
         "rarity": 0,
-        "sortId": 100052,
+        "sortId": 100056,
         "usage": "A common industrial material. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30042": {
@@ -228,7 +276,7 @@
         "icon": "30042.png",
         "name": "Oriron",
         "rarity": 1,
-        "sortId": 100051,
+        "sortId": 100055,
         "usage": "A rare industrial material. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30043": {
@@ -240,7 +288,7 @@
         "icon": "30043.png",
         "name": "Oriron Cluster",
         "rarity": 2,
-        "sortId": 100050,
+        "sortId": 100054,
         "usage": "A precious industrial material. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30044": {
@@ -254,7 +302,7 @@
         "icon": "30044.png",
         "name": "Oriron Block",
         "rarity": 3,
-        "sortId": 100049,
+        "sortId": 100053,
         "usage": "An expensive industrial material. Can be used for a variety of upgrades and the synthesis of Polymerization Preparation."
     },
     "30051": {
@@ -263,7 +311,7 @@
         "icon": "30051.png",
         "name": "Diketon",
         "rarity": 0,
-        "sortId": 100056,
+        "sortId": 100060,
         "usage": "A very small amount of industrial organic compound. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30052": {
@@ -275,7 +323,7 @@
         "icon": "30052.png",
         "name": "Polyketon",
         "rarity": 1,
-        "sortId": 100055,
+        "sortId": 100059,
         "usage": "A small amount of industrial organic compound. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30053": {
@@ -287,7 +335,7 @@
         "icon": "30053.png",
         "name": "Aketon",
         "rarity": 2,
-        "sortId": 100054,
+        "sortId": 100058,
         "usage": "A modest amount of industrial organic compound. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30054": {
@@ -301,7 +349,7 @@
         "icon": "30054.png",
         "name": "Keton Colloid",
         "rarity": 3,
-        "sortId": 100053,
+        "sortId": 100057,
         "usage": "A large amount of industrial organic compound. Can be used for a variety of upgrades and the synthesis of Polymerization Preparation."
     },
     "30061": {
@@ -310,7 +358,7 @@
         "icon": "30061.png",
         "name": "Damaged Device",
         "rarity": 0,
-        "sortId": 100040,
+        "sortId": 100044,
         "usage": "A damaged mechanical device captured from Reunion. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30062": {
@@ -322,7 +370,7 @@
         "icon": "30062.png",
         "name": "Device",
         "rarity": 1,
-        "sortId": 100039,
+        "sortId": 100043,
         "usage": "An ordinary mechanical device captured from Reunion. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30063": {
@@ -334,7 +382,7 @@
         "icon": "30063.png",
         "name": "Integrated Device",
         "rarity": 2,
-        "sortId": 100038,
+        "sortId": 100042,
         "usage": "A brand new mechanical device captured from Reunion. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30064": {
@@ -348,7 +396,7 @@
         "icon": "30064.png",
         "name": "Optimized Device",
         "rarity": 3,
-        "sortId": 100037,
+        "sortId": 100041,
         "usage": "An advanced mechanical device captured from Reunion. Can be used for a variety of upgrades and the synthesis of Bipolar Nanoflake."
     },
     "30073": {
@@ -357,7 +405,7 @@
         "icon": "30073.png",
         "name": "Loxic Kohl",
         "rarity": 2,
-        "sortId": 100026,
+        "sortId": 100030,
         "usage": "A flaky organic compound. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30074": {
@@ -371,7 +419,7 @@
         "icon": "30074.png",
         "name": "White Horse Kohl",
         "rarity": 3,
-        "sortId": 100025,
+        "sortId": 100029,
         "usage": "A flaky organic compound. Can be used for a variety of upgrades and the synthesis of Bipolar Nanoflake."
     },
     "30083": {
@@ -380,7 +428,7 @@
         "icon": "30083.png",
         "name": "Manganese Ore",
         "rarity": 2,
-        "sortId": 100028,
+        "sortId": 100032,
         "usage": "A metal ore used for metallurgy. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30084": {
@@ -394,7 +442,7 @@
         "icon": "30084.png",
         "name": "Manganese Trihydrate",
         "rarity": 3,
-        "sortId": 100027,
+        "sortId": 100031,
         "usage": "A metal ore used for metallurgy. Can be used for a variety of upgrades and the synthesis of D32 Steel."
     },
     "30093": {
@@ -403,7 +451,7 @@
         "icon": "30093.png",
         "name": "Grindstone",
         "rarity": 2,
-        "sortId": 100030,
+        "sortId": 100034,
         "usage": "A grindstone used to process weapon parts. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30094": {
@@ -417,7 +465,7 @@
         "icon": "30094.png",
         "name": "Grindstone Pentahydrate",
         "rarity": 3,
-        "sortId": 100029,
+        "sortId": 100033,
         "usage": "An advanced grindstone used in the finish machining of weapon parts. Can be used for a variety of upgrades and the synthesis of D32 Steel."
     },
     "30103": {
@@ -426,7 +474,7 @@
         "icon": "30103.png",
         "name": "RMA70-12",
         "rarity": 2,
-        "sortId": 100032,
+        "sortId": 100036,
         "usage": "A sensitive mineral with high conductivity. Can be used for a variety of upgrades and for production in the Factory."
     },
     "30104": {
@@ -440,7 +488,7 @@
         "icon": "30104.png",
         "name": "RMA70-24",
         "rarity": 3,
-        "sortId": 100031,
+        "sortId": 100035,
         "usage": "A highly sensitive mineral with outstanding conductivity. Can be used for a variety of upgrades and the synthesis of D32 Steel."
     },
     "30115": {
@@ -532,7 +580,7 @@
         "icon": "31013.png",
         "name": "Coagulating Gel",
         "rarity": 2,
-        "sortId": 100024,
+        "sortId": 100028,
         "usage": "A high-strength plastic material suitable. Can be used for a variety of upgrades and for synthesis projects in Factories."
     },
     "31014": {
@@ -546,7 +594,7 @@
         "icon": "31014.png",
         "name": "Polymerized Gel",
         "rarity": 3,
-        "sortId": 100023,
+        "sortId": 100027,
         "usage": "An extremely high-strength plastic material. Can be used for a variety of upgrades."
     },
     "31023": {
@@ -555,7 +603,7 @@
         "icon": "31023.png",
         "name": "Incandescent Alloy",
         "rarity": 2,
-        "sortId": 100022,
+        "sortId": 100026,
         "usage": "A special alloy with a high melting point, commonly used in the electronics industry. Can be used for a variety of upgrades and for synthesis projects in Factories."
     },
     "31024": {
@@ -569,7 +617,7 @@
         "icon": "31024.png",
         "name": "Incandescent Alloy Block",
         "rarity": 3,
-        "sortId": 100021,
+        "sortId": 100025,
         "usage": "A rarely-produced alloy with a high melting point, commonly used in the electronics industry. Can be used for a variety of upgrades."
     },
     "31033": {
@@ -578,7 +626,7 @@
         "icon": "31033.png",
         "name": "Crystalline Component",
         "rarity": 2,
-        "sortId": 100020,
+        "sortId": 100024,
         "usage": "An important Originium industry material. Can be used for a variety of upgrades. Can be manufactured and assembled into more advanced Originium electric components."
     },
     "31034": {
@@ -592,7 +640,7 @@
         "icon": "31034.png",
         "name": "Crystalline Circuit",
         "rarity": 3,
-        "sortId": 100019,
+        "sortId": 100023,
         "usage": "An important Originium industry material. Can be used for a variety of upgrades. A fundamental part of manufacturing Originium crystal assemblies."
     },
     "31043": {
@@ -601,7 +649,7 @@
         "icon": "31043.png",
         "name": "Semi-Synthetic Solvent",
         "rarity": 2,
-        "sortId": 100018,
+        "sortId": 100022,
         "usage": "An active solvent with excellent physical characteristics, and good resistance to acids and bases. Can be used in a variety of upgrades."
     },
     "31044": {
@@ -615,7 +663,7 @@
         "icon": "31044.png",
         "name": "Refined Solvent",
         "rarity": 3,
-        "sortId": 100017,
+        "sortId": 100021,
         "usage": "A special coating made from a specific formulation process. Can be used for high level upgrades."
     },
     "3105": {
@@ -632,7 +680,7 @@
         "icon": "31053.png",
         "name": "Compound Cutting Fluid",
         "rarity": 2,
-        "sortId": 100016,
+        "sortId": 100020,
         "usage": "An industrial agent necessary for metal processing. Can be used for a variety of upgrades."
     },
     "31054": {
@@ -646,7 +694,7 @@
         "icon": "31054.png",
         "name": "Cutting Fluid Solution",
         "rarity": 3,
-        "sortId": 100015,
+        "sortId": 100019,
         "usage": "A stock solution prepared from a variety of active solvents. Can be used for high level upgrades."
     },
     "31063": {
@@ -655,7 +703,7 @@
         "icon": "31063.png",
         "name": "Transmuted Salt",
         "rarity": 2,
-        "sortId": 100014,
+        "sortId": 100018,
         "usage": "A compound crystallization that has undergone low-tolerance refinement. Can be used in a variety of strengthening projects."
     },
     "31064": {
@@ -669,7 +717,7 @@
         "icon": "31064.png",
         "name": "Transmuted Salt Agglomerate",
         "rarity": 3,
-        "sortId": 100013,
+        "sortId": 100017,
         "usage": "A compound crystal mass that has undergone high-tolerance refinement. Used in a variety of strengthening projects, and is a common material in synthetic items at factories."
     },
     "31073": {
@@ -678,7 +726,7 @@
         "icon": "31073.png",
         "name": "Fuscous Fiber",
         "rarity": 2,
-        "sortId": 100012,
+        "sortId": 100016,
         "usage": "A specialized fiber bundle, possessing high tensile strength and elastic modulus. Used in a variety of strengthening projects."
     },
     "31074": {
@@ -692,7 +740,7 @@
         "icon": "31074.png",
         "name": "Solidified Fiber Board",
         "rarity": 3,
-        "sortId": 100011,
+        "sortId": 100015,
         "usage": "A specialized fiber board, solidified in a mold. Used in a variety of strengthening projects."
     },
     "31083": {
@@ -701,7 +749,7 @@
         "icon": "31083.png",
         "name": "Aggregate Cyclicene",
         "rarity": 2,
-        "sortId": 100010,
+        "sortId": 100014,
         "usage": "A superlatively heat- and chemical-resistant industrial material. Used in a variety of strengthening projects."
     },
     "31084": {
@@ -715,7 +763,7 @@
         "icon": "31084.png",
         "name": "Cyclicene Prefab",
         "rarity": 3,
-        "sortId": 100009,
+        "sortId": 100013,
         "usage": "A prefabricated industrial intermediate composed of multiple first-rate materials. Used in a variety of strengthening projects."
     },
     "31093": {
@@ -724,7 +772,7 @@
         "icon": "31093.png",
         "name": "Coagulative Nodule",
         "rarity": 2,
-        "sortId": 100008,
+        "sortId": 100012,
         "usage": "A lab-made synthetic particle, boasting powerful adsorption properties. Can be used in a variety of strengthening projects."
     },
     "31094": {
@@ -738,8 +786,54 @@
         "icon": "31094.png",
         "name": "Chiral Refractor",
         "rarity": 3,
-        "sortId": 100007,
+        "sortId": 100011,
         "usage": "A specialized material that displays useful optical qualities and other physical traits. Can be used for high level upgrades."
+    },
+    "31103": {
+        "classifyType": "MATERIAL",
+        "description": "A type of highly flammable, highly reactive gas product that burns extremely hot, enough to melt the vast majority of metals. Widely used in industrial settings for welding and catalytic reactions.",
+        "icon": "31103.png",
+        "name": "Liquefied High-Energy Gas",
+        "rarity": 2,
+        "sortId": 100010,
+        "usage": "A liquefied gas stored in a specialized metal canister. Can be used for a variety of upgrades and for production in the Factory."
+    },
+    "31104": {
+        "classifyType": "MATERIAL",
+        "description": "An ether preparation produced by the inerting of a ketone preparation. It is relatively stable and will not react with reactive metals, leading it to be used in all sorts of industrial processes.",
+        "formula": {
+            "30053": 1,
+            "31093": 1,
+            "31103": 1
+        },
+        "icon": "31104.png",
+        "name": "Liquefied Ether Adsorbent",
+        "rarity": 3,
+        "sortId": 100009,
+        "usage": "An organic compound synthesized via a complex process. Can be used for a variety of upgrades."
+    },
+    "31113": {
+        "classifyType": "MATERIAL",
+        "description": "An electrode made from special materials that does not participate in the electrolysis process itself. Extremely useful when smelting or purifying other materials.",
+        "icon": "31113.png",
+        "name": "Electrode Unit",
+        "rarity": 2,
+        "sortId": 100008,
+        "usage": "An industrial material that possesses high electrical stability and anti-corrosive properties. Can be used for a variety of upgrades and for production in the factory."
+    },
+    "31114": {
+        "classifyType": "MATERIAL",
+        "description": "After a comprehensive reworking of the confiscated device, the new hydraulic pressure unit retains its functionality while greatly reducing the rate of malfunctions, leading to a significant increase in productivity.",
+        "formula": {
+            "30063": 1,
+            "31103": 1,
+            "31113": 1
+        },
+        "icon": "31114.png",
+        "name": "Energy Accumulation Motor Unit",
+        "rarity": 3,
+        "sortId": 100007,
+        "usage": "A motor that has undergone a specialized design process and a change in materials. Can be used for a variety of upgrades."
     },
     "3112": {
         "classifyType": "NORMAL",
@@ -1469,6 +1563,14 @@
         "icon": "LMTGS_COIN_7001.png",
         "name": "Headhunting Data Contract",
         "sortId": 10324,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
+    "LMTGS_COIN_7301": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_7301.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10325,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "LMTGS_COIN_903": {
@@ -2663,6 +2765,14 @@
         "sortId": -10000,
         "usage": "A basic unit of the Rhodes Island Intelligence Processing System, used to advance intel-gathering efforts."
     },
+    "act4mainss_token": {
+        "classifyType": "NONE",
+        "description": "Nobody knows why the coins stamped with the Tsar's face suddenly stopped being of any use here, forcing people to start trading using these thin circles of metal. At first, their rough edges cut their hands, even peeling away the thick calluses on their knuckles. Eventually, they noticed it was not only their calluses being sliced away. It was also their dignity.",
+        "icon": "act4mainss_token.png",
+        "name": "'Factory scrip'",
+        "sortId": -10000,
+        "usage": "A substitute currency issued in Zelgrad after the implementation of Anatoliy Svetlanov Buterin's ordinances at the beginning of 1102. Normally only distributed within the residential park, where it is traded for daily necessities, food, medicine, etc."
+    },
     "act51side_token_poem": {
         "classifyType": "NONE",
         "description": "'To all who have held onto their tomorrows, I bestow what life and hope remain in me to every soul who seeks freedom and happiness. I will be dead before morning light... Mama, I call out your name, and you are Ursus, yet who am I?'",
@@ -3119,6 +3229,14 @@
         "sortId": -10000,
         "usage": "Contains an Emergency Sanity Sampler and some Rhodes Island Supplies."
     },
+    "itempack_main_3": {
+        "classifyType": "NONE",
+        "description": "A materials supply crate issued alongside Sanity samplers, giving you a random material as you restore your Sanity.",
+        "icon": "itempack_main_3.png",
+        "name": "Rhodes Island Supply Crate",
+        "sortId": -10000,
+        "usage": "Contains an Emergency Sanity Sampler and some Rhodes Island Supplies."
+    },
     "itempack_mod_10": {
         "classifyType": "CONSUME",
         "description": "Faced with the issue of insufficient training data, the Engineering Department has produced an all-new chip etching apparatus to provide Operators with a self-printing service.",
@@ -3286,6 +3404,14 @@
         "name": "Unexploded Dud",
         "sortId": 10604,
         "usage": "An unexploded dud. It must be handed over to relevant authorities once disarmed and disassembled."
+    },
+    "main17_spitem_1": {
+        "classifyType": "NORMAL",
+        "description": "She still remembers that murmur spanning both time and the boundary between life and death: Search for traces of life. Search for hope and a future. Find yourself.",
+        "icon": "main17_spitem_1.png",
+        "name": "“AMa-10”",
+        "sortId": 10605,
+        "usage": "A hollow crystal shell, once crammed full of an unbroken stream of information. Now it sleeps alongside silent light and shadow."
     },
     "mcardVoucher": {
         "classifyType": "NONE",
@@ -3495,6 +3621,14 @@
         "sortId": 60110,
         "usage": "Filled with an assortment of supplies and materials."
     },
+    "randomMaterial_13": {
+        "classifyType": "CONSUME",
+        "description": "Rhodes Island purchases and stores boxes of supplies from various places. However, due to the lack of an organized storage system, each box contains seemingly random materials.",
+        "icon": "randomMaterial_13.png",
+        "name": "Rhodes Island Supplies X",
+        "sortId": 60110,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
     "randomMaterial_2": {
         "classifyType": "CONSUME",
         "description": "Lanterns hung up during the passing of the old year and the arrival of the new. Within them are recent memories, puzzles and riddles, and even tales from the distant past.",
@@ -3630,6 +3764,14 @@
         "name": "Simple Weiqi Set",
         "sortId": 60121,
         "usage": "A simple-looking weiqi set. Can be exchanged for LMD."
+    },
+    "randomMaterial_message3": {
+        "classifyType": "CONSUME",
+        "description": "A specimen preserved in amber, the leaf within still resembling those from countless years ago, the form this first trace of life took before making its way to you. Kal'tsit has given you this fragment of time, perhaps wishing to share every moving moment of joy from that endless era with you.",
+        "icon": "randomMaterial_message3.png",
+        "name": "Specimen of Life",
+        "sortId": 60122,
+        "usage": "An amber specimen with a leaf inside. Can be exchanged for LMD."
     },
     "randomMaterial_rhine2": {
         "classifyType": "CONSUME",

@@ -472,7 +472,7 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 <br>
 `10000` - `Custom`：カスタム シフト モード。ユーザー構成を読み込みます。[基地スケジューリング プロトコル](./base-scheduling-schema.md)を参照してください。
 <br>
-`20000` - `Rotation`：ワンキー ローテーション モード。制御中枢、発電所、宿舎、および事務室をスキップします。他の施設はシフトを変更しませんが、基本的な操作は保持されます（ドローン使用、応接室ロジックなど）。  
+`20000` - `Rotation`：ワンキー ローテーション モード。制御中枢、発電所、宿舎、事務室、および回収所をスキップします。他の施設はシフトを変更しませんが、基本的な操作は保持されます（ドローン使用、応接室ロジックなど）。  
 :::  
 ::: field facility  
 @type array<string>
@@ -481,7 +481,7 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 <br>
 `mode = 0` の場合、この配列は有効化セットとして扱われ、順序と重複はスケジューリングに影響しません（交代順序はアルゴリズムが自動的に決定します）。`mode = 10000` / `20000` の場合は配列の順序で処理されます。
 <br>
-施設名：`Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training` | `AssistantChange`  
+施設名：`Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Recycle` | `Dorm` | `Processing` | `Training` | `AssistantChange`  
 :::  
 ::: field drones  
 @type string
@@ -1136,7 +1136,7 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 
 </details>
 
-パラダイムロスト稼ぎ機能の詳細は [統合戦略補助プロトコル](./integrated-strategy-schema.md#サーミテーマ--パラダイムロスト)を参照してください。
+パラダイムロスト稼ぎ機能の詳細は [統合戦略補助プロトコル](./integrated-strategy-schema.md#サーミテーマ-パラダイムロスト)を参照してください。
 
 - `Copilot`  
   自動戦闘

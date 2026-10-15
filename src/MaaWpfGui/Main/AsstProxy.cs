@@ -78,7 +78,36 @@ public class AsstProxy
     private static readonly ILogger _logger = Log.ForContext<AsstProxy>();
     private readonly Dictionary<AsstTaskId, long> _taskChainStartTimes = [];
 
+    // 最近一次 EnterFacility 开出的设施卡片标识（facility#序号），供保持原样等
+    // 设施行 + 原因行提示判断是否复用该卡片；core 侧不感知 UI 卡片状态。
+    // 回调处理为静态方法，AsstProxy 单例语义下静态字段与实例字段等价
+    private static string? _lastFacilityCardKey;
+
     public DateTimeOffset StartTaskTime { get; set; }
+
+    /// <summary>
+    /// 输出 ｢当前设施 xxx NN｣ + 原因行的两句形态：同房间已有 EnterFacility 开出的设施卡片时，
+    /// 原因行普通追加到该卡，不再重打设施行另起新卡；进设施前的拦截场景没有设施卡片，维持自起。
+    /// </summary>
+    private static void AddFacilityReasonLog(string facility, int index, string reasonText)
+    {
+        var displayIndex = index + 1;
+        var key = $"{facility}#{displayIndex}";
+        if (key == _lastFacilityCardKey)
+        {
+            Instances.TaskQueueViewModel.AddLog(reasonText);
+            return;
+        }
+
+        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ThisFacility") +
+                                            LocalizationHelper.GetString(facility) + " " + displayIndex.ToString("D2"),
+                                            splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+        Instances.TaskQueueViewModel.AddLog(reasonText);
+
+        // 自起卡的首行就是该设施行，语义为 ｢最近一张以该设施行为首的卡片｣，
+        // 同房间后续的原因提示据此正确追加
+        _lastFacilityCardKey = key;
+    }
 
     private static unsafe byte[] EncodeNullTerminatedUtf8(string s)
     {
@@ -897,6 +926,7 @@ public class AsstProxy
 
             case AsstMsg.TaskChainStart:
                 Instances.TaskQueueViewModel.Running = true;
+                _lastFacilityCardKey = null; // 新任务链开始，上一链的设施卡片标识不再有效
                 goto case AsstMsg.TaskChainExtraInfo; // fallthrough
             case AsstMsg.AllTasksCompleted:
             case AsstMsg.AsyncCallInfo:
@@ -2323,6 +2353,7 @@ public class AsstProxy
                                                     LocalizationHelper.GetString($"{subTaskDetails?["facility"]}") + " " +
                                                     ((int)(subTaskDetails?["index"] ?? -2) + 1).ToString("D2"),
                                                     splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+                _lastFacilityCardKey = $"{subTaskDetails?["facility"]}#{(int)(subTaskDetails?["index"] ?? -2) + 1}";
                 break;
 
             case "ProductIncorrect":
@@ -2653,11 +2684,18 @@ public class AsstProxy
                 break;
 
             case "CustomInfrastRoomGroupsMatchFailed":
-                // 干员编组匹配失败
-                var groups = (JArray?)subTaskDetails!["groups"];
-                if (groups != null)
+                // 干员编组匹配失败，识别失败时无组名列表，其余情况回传组名列表
+                if (subTaskDetails!["reason"]?.ToString() == "recognition_failed")
                 {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomGroupsMatchFailed") + string.Join(", ", groups));
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomGroupsMatchRecogFailed"));
+                }
+                else
+                {
+                    var groups = (JArray?)subTaskDetails["groups"];
+                    if (groups != null)
+                    {
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomGroupsMatchFailed") + string.Join(", ", groups));
+                    }
                 }
 
                 break;
@@ -2672,6 +2710,82 @@ public class AsstProxy
                 }
 
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomOperators") + nameStr);
+                break;
+
+            case "CustomInfrastTraineeNotFound":
+                {
+                    // 训练位候选名单全部未命中（专精全满或名字写错），训练位保持原样；未匹配到干员信息时回退显示配置原名
+                    var candidates = string.Join(", ", (subTaskDetails!["candidates"] as JArray ?? new JArray())
+                        .Select(name => DataHelper.GetLocalizedCharacterName(name.ToString()) ?? name.ToString()));
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat("InfrastTraineeNotFound", candidates), UiLogColor.Warning);
+                    break;
+                }
+
+            case "CustomInfrastAssistantNotFound":
+                {
+                    // 训练室协助者候选全部未命中，协助者保持原样；命中但在班/心情不足被排除的名单由核心侧
+                    // 单独携带，有名单时提示计划内的排除，避免把配置正确的情况误报成名单错误
+                    var workingExcluded = subTaskDetails!["working_excluded"] as JArray;
+                    var lowMoodExcluded = subTaskDetails["low_mood_excluded"] as JArray;
+                    var excludedArray = workingExcluded ?? lowMoodExcluded ?? new JArray();
+                    var excluded = excludedArray
+                        .Select(name => DataHelper.GetLocalizedCharacterName(name.ToString()) ?? name.ToString())
+                        .ToArray();
+                    var names = string.Join(
+                        ", ",
+                        excluded.Length > 0
+                            ? excluded
+                            : (subTaskDetails["candidates"] as JArray ?? new JArray())
+                                .Select(name => DataHelper.GetLocalizedCharacterName(name.ToString()) ?? name.ToString()));
+                    var key = workingExcluded is { Count: > 0 } ? "InfrastAssistantWorkingExcluded"
+                        : lowMoodExcluded is { Count: > 0 } ? "InfrastAssistantLowMood"
+                        : "InfrastAssistantNotFound";
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat(key, names), UiLogColor.Warning);
+                    break;
+                }
+
+            case "CustomInfrastRoomKeptUnchanged":
+                {
+                    // 房间按配置保持原样并附原因；四类提示统一两句形态——首行 ｢当前设施 xxx NN｣ 以 Before 另起新卡
+                    // （核心侧不补发 EnterFacility），次行为原因文案；facility_empty（整设施未配置房间）无有意义的房间序号，首行不带序号
+                    var keptReason = subTaskDetails!["reason"]?.ToString();
+                    if (keptReason == "facility_empty")
+                    {
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ThisFacility") +
+                                                            LocalizationHelper.GetString($"{subTaskDetails?["facility"]}"),
+                                                            splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("InfrastFacilityKeptUnchanged"));
+                    }
+                    else
+                    {
+                        // 候补不可用的三种原因分别提示：全部在班、心情不满足设施要求、名单有误；
+                        // 其余 reason（空意图等）为房间无选人意图的通用保持原样；
+                        // 设施卡片已存在时原因行直接追加，不另起新卡
+                        var reasonKey = keptReason switch
+                        {
+                            "candidates_working" => "InfrastCandidatesWorking",
+                            "candidates_low_mood" => "InfrastCandidatesLowMood",
+                            "candidates_unavailable" => "InfrastCandidatesUnavailable",
+                            _ => "InfrastRoomKeptUnchanged",
+                        };
+                        AddFacilityReasonLog(
+                            $"{subTaskDetails?["facility"]}",
+                            (int)(subTaskDetails?["index"] ?? -2),
+                            LocalizationHelper.GetString(reasonKey));
+                    }
+
+                    break;
+                }
+
+            case "CustomInfrastRoomsNotConfigured":
+                // 自定义排班房间数组短于实际房间数，自该房间起的后续房间保持原样；设施卡片已存在时直接追加
+                AddFacilityReasonLog(
+                    $"{subTaskDetails?["facility"]}",
+                    (int)(subTaskDetails?["index"] ?? -2),
+                    ((int)(subTaskDetails?["index"] ?? -2) + 1).ToString("D2") + " " +
+                    LocalizationHelper.GetString("InfrastRoomsNotConfigured"));
                 break;
 
             case "InfrastTrainingIdle":

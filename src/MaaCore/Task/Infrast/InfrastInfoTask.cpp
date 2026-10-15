@@ -243,7 +243,7 @@ bool recognize_mini_layout(
     }
 
     // 右侧设施的等级 ROI 相对于设施匹配矩形定义，同样从最高等级向左检查。
-    for (const auto& facility_name : { "Reception", "Office", "Processing", "Training" }) {
+    for (const auto& facility_name : { "Reception", "Office", "Processing", "Training", "Recycle" }) {
         const auto iter = analyzer.get_result().find(std::string(facility_name));
         if (iter == analyzer.get_result().end()) {
             continue;
@@ -317,10 +317,14 @@ struct FacilityLayoutCounts
     size_t office = 0;
     size_t processing = 0;
     size_t training = 0;
+    size_t recycle = 0;
 
     bool operator==(const FacilityLayoutCounts&) const = default;
 
     size_t production_count() const noexcept { return mfg + trade + power; }
+
+    // 右侧固定设施，用于等级估算；回收站为后期新增建筑，老账号可能未建造，计数为 0 不影响估算
+    size_t right_facility_count() const noexcept { return reception + office + processing + training + recycle; }
 };
 
 FacilityLayoutCounts
@@ -340,6 +344,7 @@ FacilityLayoutCounts
         .office = count("Office"),
         .processing = count("Processing"),
         .training = count("Training"),
+        .recycle = count("Recycle"),
     };
 }
 
@@ -347,7 +352,7 @@ bool is_usable_layout(const FacilityLayoutCounts& counts)
 {
     const size_t production_count = counts.production_count();
     return production_count > 0 && production_count <= 9 && counts.dorm <= 4 && counts.reception <= 1 &&
-           counts.office <= 1 && counts.processing <= 1 && counts.training <= 1;
+           counts.office <= 1 && counts.processing <= 1 && counts.training <= 1 && counts.recycle <= 1;
 }
 
 bool is_complete_layout(const FacilityLayoutCounts& counts)
@@ -466,7 +471,7 @@ bool asst::InfrastInfoTask::_run()
         const auto image = ctrler()->get_image();
         InfrastFacilityImageAnalyzer analyzer(image);
         analyzer.set_to_be_analyzed(
-            { "Mfg", "Trade", "Power", "Dorm", "Control", "Reception", "Office", "Processing", "Training" });
+            { "Mfg", "Trade", "Power", "Dorm", "Control", "Reception", "Office", "Processing", "Training", "Recycle" });
         if (!analyzer.analyze()) {
             partial_layout_candidate.reset();
             Log.warn("InfrastInfoTask | no facility matched, attempt", attempt);
@@ -480,7 +485,7 @@ bool asst::InfrastInfoTask::_run()
                                        : recognize_normal_layout(image, analyzer, facilities);
 
         if (analyzer.get_view_type() != ViewType::Mini) {
-            for (const auto& name : { "Reception", "Office", "Processing", "Training" }) {
+            for (const auto& name : { "Reception", "Office", "Processing", "Training", "Recycle" }) {
                 if (const auto iter = analyzer.get_result().find(name); iter != analyzer.get_result().end()) {
                     auto& output = facilities[name];
                     std::ranges::transform(iter->second, std::back_inserter(output), [](const MatchRect& match) {
@@ -549,8 +554,7 @@ bool asst::InfrastInfoTask::_run()
         if (analyzer.get_view_type() == ViewType::Normal) {
             const int recognized_max_level = static_cast<int>(
                 layout_counts.production_count() * StationMaxLevel + layout_counts.dorm * DormMaxLevel);
-            const int right_facility_count = static_cast<int>(
-                layout_counts.reception + layout_counts.office + layout_counts.processing + layout_counts.training);
+            const int right_facility_count = static_cast<int>(layout_counts.right_facility_count());
             if (recognized_max_level > 0) {
                 estimated_right_level = static_cast<int>(std::round(
                     recognized_level_sum * static_cast<double>(right_facility_count * StationMaxLevel) /

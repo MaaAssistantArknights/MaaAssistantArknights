@@ -44,6 +44,8 @@ protected:
     bool opers_choose();
     size_t select_abyssal_hunters(const std::vector<std::string>& operator_ids);
     bool use_drone();
+    // 空意图/编组失败保持原样的房间仍执行 Post 无人机，无人机不改变人员配置
+    bool try_use_custom_post_drone();
     void set_product(std::string product_name) noexcept;
 
     infrast::SkillsComb efficient_regex_calc(std::unordered_set<infrast::Skill> skills) const;
@@ -69,5 +71,8 @@ protected:
 protected:
     bool change_product();
     bool m_is_product_incorrect = false;
+    // 换产物重试耗尽仍失败时置位：产物计划可能已改但未确认执行，与补货一样会在
+    // 切页签时留下 ｢尚未执行新的制造计划｣ 弹窗，探测条件据此扩展
+    bool m_plan_may_be_unexecuted = false;
 };
 }

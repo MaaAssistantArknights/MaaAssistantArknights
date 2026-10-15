@@ -26,7 +26,6 @@ namespace
 constexpr std::array<std::string_view, 6> SupportedFiammettaTargets = { "清流", "可露希尔", "但书",
                                                                         "巫恋", "龙舌兰",   "歌蕾蒂娅" };
 constexpr std::array<std::string_view, 3> DefaultFiammettaTargets = { "清流", "可露希尔", "但书" };
-constexpr double FullMoodThreshold = 0.99;
 constexpr size_t MaxConfiguredTargets = 3;
 
 constexpr int OperFullTrustValue = 200;
@@ -133,23 +132,29 @@ asst::InfrastDormTask& asst::InfrastDormTask::set_fiammetta_targets(std::vector<
     return *this;
 }
 
-bool asst::InfrastDormTask::on_run_fails()
-{
-    m_notstationed_filter_active = false;
-    return asst::InfrastAbstractTask::on_run_fails();
-}
-
 bool asst::InfrastDormTask::_run()
 {
     if (m_cur_facility_index == 0) {
         m_fiammetta_checked = false;
     }
+    // 空房间数组时整设施保持原样，不进任何宿舍；
+    // skip 与空意图不在设施入口判定，留在循环内进设施前按时序消费
+    if (is_facility_config_empty() && check_room_shift_intent() == RoomShiftIntent::KeepUnchanged) {
+        return true;
+    }
     for (; m_cur_facility_index < m_max_num_of_dorm; ++m_cur_facility_index) {
         if (need_exit()) {
             return false;
         }
-        if (m_is_custom && current_room_config().skip) {
-            Log.info("skip this room");
+        // rooms 数组短于实际房间数：剩余房间不换班（与制造站贸易站及文档语义一致），整设施发一条未配置提示
+        if (m_is_custom && static_cast<size_t>(m_cur_facility_index) >= m_custom_config.size()) {
+            notify_rooms_not_configured();
+            break;
+        }
+        // 空数组已在此前消费，此处结果只可能 Skip、KeepUnchanged（空意图）或 Shift（数组短的越界房间已在上游 break）。
+        // 常规换班流程会先清空休息位，空意图宿舍因无 autofill 授权不进入补人阶段，而自定义排班
+        // 没有宿舍重排轮兜底，休息位会保持全空，该结果并非设计意图，故空意图同样跳过该宿舍的全部操作
+        if (check_room_shift_intent() != RoomShiftIntent::Shift) {
             continue;
         }
 
@@ -183,11 +188,13 @@ bool asst::InfrastDormTask::_run()
         const auto room_config = current_room_config();
         const bool room_uses_custom_opers = is_use_custom_opers();
 
-        Log.trace("m_notstationed_filter_enabled:", m_notstationed_filter_enabled);
+        LogTrace << "m_notstationed_filter_enabled:" << m_notstationed_filter_enabled;
         const bool is_default_prepare_phase = m_prepare_phase && m_default_mode;
         // 常规模式第一轮保持游戏默认的“全部”筛选，未进驻仅在第二轮重排启用。
+        // 每间宿舍都去界面上真设置一遍（底层已选中时一次匹配直接通过），不依赖
+        // 上一间留下的筛选状态，防止中途意外退出重进基建后游戏丢失筛选设置
         if (m_notstationed_filter_enabled && !room_uses_custom_opers && !is_default_prepare_phase) {
-            if (!set_notstationed_filter(true)) {
+            if (!click_filter_menu_not_stationed_button()) {
                 return false;
             }
         }
@@ -201,19 +208,17 @@ bool asst::InfrastDormTask::_run()
 
         if (room_uses_custom_opers) {
             // Custom dorm operators may already be resting in other dorms.
-            const bool filter_was_active_before_custom_select = m_notstationed_filter_active;
-            // Restore the room's original filter intent after the temporary custom search.
-            const bool should_restore_notstationed_filter =
-                filter_was_active_before_custom_select || m_notstationed_filter_enabled;
-
-            if (filter_was_active_before_custom_select && !set_notstationed_filter(false)) {
-                return false;
-            }
-
-            swipe_and_select_custom_opers(true);
-
-            if (should_restore_notstationed_filter && !set_notstationed_filter(true)) {
-                return false;
+            // 点名干员可能在其他宿舍休息，swipe_and_select_custom_opers 进入时会把筛选恢复为
+            // “全部”；选完不再恢复筛选，后续低心情补位/下一间进入时按各自需要重新声明
+            bool room_kept_unchanged = false;
+            swipe_and_select_custom_opers(true, false, &room_kept_unchanged);
+            if (room_kept_unchanged) {
+                // 纯候补全部在其他设施工作等计划内不可用，选人已在函数内部还原配置并保持原样退出选人界面
+                // （不确认，未确认的清空与选择不生效）；选人函数停在房间页，此处补一次返回回主界面，
+                // 对齐确认路径的退出深度，否则下一间 enter_facility 在房间页找不到宿舍入口；
+                // 跳过筛选恢复与后续确认流程继续下一间，下一间进入时按各自配置重新设置
+                click_return_button();
+                continue;
             }
 
             if (!restore_list_sort_for_selection_phase(room_config)) {
@@ -246,6 +251,14 @@ bool asst::InfrastDormTask::_run()
 
 bool asst::InfrastDormTask::fill_dorm_slots()
 {
+    LogTraceFunction;
+
+    // 低心情与信赖补位都从未进驻干员里选（enabled 时）；autofill 房间前一步点名会把筛选
+    // 恢复为“全部”，这里重新声明，常规房间此调用幂等
+    if (m_notstationed_filter_enabled && !click_filter_menu_not_stationed_button()) {
+        return false;
+    }
+
     size_t num_of_selected = m_is_custom ? current_room_config().selected : 0;
     size_t num_of_fulltrust = 0;
     bool fill_remaining_slots = false;
@@ -327,8 +340,10 @@ bool asst::InfrastDormTask::fill_dorm_slots()
                         Log.trace("num_of_fulltrust:", num_of_fulltrust);
                         m_selection_phase = SelectionPhase::FillRemaining;
                         fill_remaining_slots = true;
-                        if (!m_notstationed_filter_enabled && m_notstationed_filter_active) {
-                            set_notstationed_filter(false);
+                        if (!m_notstationed_filter_enabled) {
+                            // 补满剩余位置从“全部”列表补（在班但未工作的也可以），探测到
+                            // 未进驻选中态才纠偏；enabled 时维持未进驻筛选补位，与既有行为一致
+                            ensure_notstationed_filter_off();
                         }
                         switch_to_mood_sort();
                         break;
@@ -493,6 +508,11 @@ bool asst::InfrastDormTask::run_fiammetta_preparation()
 
 asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_select_fiammetta_pair()
 {
+    // 菲亚梅塔可能在其他设施工作，配对需要从“全部”列表里找到她，先把筛选恢复为“全部”
+    if (!ensure_notstationed_filter_off()) {
+        return FiammettaSelectionResult::Error;
+    }
+
     // 先确认配对二人都在场，任一不在场直接结束；都在场才清空保存重进点选。
     m_fiammetta_checked = true;
     std::vector<infrast::Oper> target_opers;
@@ -635,33 +655,6 @@ asst::InfrastDormTask::DetectResult asst::InfrastDormTask::detect_full_mood_fiam
     return DetectResult::Found;
 }
 
-bool asst::InfrastDormTask::set_notstationed_filter(bool enabled)
-{
-    // 不做 early-return：即使内存标志认为筛选已处于目标状态，也必须每间宿舍
-    // 都去 UI 上复查一遍。正常跨宿舍时游戏会保持筛选设置，但如果模拟器卡顿
-    // 导致误点两次返回、退出到主界面后再重新进入基建，游戏会丢失筛选状态，
-    // 此时内存标志仍为旧值，跳过 UI 操作会导致筛选实际未生效，从而把训练室
-    // 等已进驻干员选进宿舍。
-    // 底层 click_filter_menu_not_stationed_button() 已能幂等处理 ｢已选中｣
-    // 状态（识别 InfrastFilterMenuNotStationedSelected 后直接 Stop），所以
-    // 每次都真正执行是安全的，不会对已选中的 ｢未进驻｣ 二次点击。
-    bool success = false;
-    if (enabled) {
-        Log.trace("click_filter_menu_not_stationed_button");
-        success = click_filter_menu_not_stationed_button();
-    }
-    else {
-        Log.trace("click_filter_menu_cancel_not_stationed_button");
-        success = click_filter_menu_cancel_not_stationed_button();
-    }
-
-    if (success) {
-        m_notstationed_filter_active = enabled;
-    }
-
-    return success;
-}
-
 bool asst::InfrastDormTask::restore_list_sort_for_selection_phase(asst::infrast::CustomRoomConfig const& room_config)
 {
     // Custom dorm selection leaves the list sorted by mood. Restore trust sort
@@ -697,7 +690,8 @@ bool asst::InfrastDormTask::switch_to_low_mood_sort()
 void asst::InfrastDormTask::switch_to_trust_autofill_phase()
 {
     Log.trace("m_trust_autofill_enabled:", m_trust_autofill_enabled);
-    set_notstationed_filter(true);
+    // 信赖补位只从未进驻干员里选低信赖的，与 m_notstationed_filter_enabled 无关，无条件开筛选
+    click_filter_menu_not_stationed_button();
     Log.trace("click_sort_by_trust_button");
     click_sort_by_trust_button();
     m_selection_phase = SelectionPhase::ResortForTrust;

@@ -153,7 +153,18 @@
     <system:String x:Key="Mfg">製造所</system:String>
     <system:String x:Key="Processing">加工所</system:String>
     <system:String x:Key="Training">訓練室</system:String>
+    <system:String x:Key="Recycle">回収所（推測訳名・未実装）</system:String>
     <system:String x:Key="AssistantChange">補佐交代替え</system:String>
+    <system:String x:Key="InfrastTraineeNotFound">訓練枠の候補がすべて一致しなかったため、訓練枠はそのまま維持されます: {0}</system:String>
+    <system:String x:Key="InfrastAssistantNotFound">補佐者の候補がすべて一致しなかったため、補佐者はそのまま維持されます: {0}</system:String>
+    <system:String x:Key="InfrastAssistantWorkingExcluded">補佐者の候補が他の施設で勤務中のためスキップし、補佐者はそのまま維持されます: {0}</system:String>
+    <system:String x:Key="InfrastAssistantLowMood">補佐者の候補の体力がしきい値未満のためスキップし、補佐者はそのまま維持されます: {0}</system:String>
+    <system:String x:Key="InfrastRoomKeptUnchanged">この部屋は配置意思が未設定のため、そのまま維持されます</system:String>
+    <system:String x:Key="InfrastFacilityKeptUnchanged">はスケジュール表で部屋が未設定のため、施設全体をそのまま維持します</system:String>
+    <system:String x:Key="InfrastCandidatesUnavailable">候補オペレーターがいずれも利用できないため、そのまま維持されます</system:String>
+    <system:String x:Key="InfrastCandidatesWorking">候補オペレーターがすべて他の施設で勤務中のため、そのまま維持されます</system:String>
+    <system:String x:Key="InfrastCandidatesLowMood">候補オペレーターの体力が条件を満たさないため、そのまま維持されます</system:String>
+    <system:String x:Key="InfrastRoomsNotConfigured">番目から未設定のため、そのまま維持されます</system:String>
     <system:String x:Key="Trade">貿易所</system:String>
     <system:String x:Key="Power">発電所</system:String>
     <system:String x:Key="Reception">応接室</system:String>
@@ -1701,6 +1712,13 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowInventoryCleanupDiscarded">已丢弃零件：{0}</system:String>
     <system:String x:Key="BlackFlowInventoryCleanupCompleted">零件箱清理完成</system:String>
     <system:String x:Key="BlackFlowInventoryCleanupFailed">零件箱清理失败</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedMarketUnavailable">秘境行商のアイテムデータが利用できないため、取引せずに退店します</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedInventoryIncomplete">秘境行商で所持品の確認に失敗したため、取引を中止して退店します</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedPageSwitchFailed">秘境行商で購入・売却ページを切り替えられなかったため、取引を中止して退店します</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedSaleSearchFailed">秘境行商で売却リストを検索できなかったため、取引を中止して退店します</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedSellBackSearchFailed">秘境行商で買い戻し分の「{0}」が見つからないため、取引を中止して退店します</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedSaleFailed">秘境行商で「{0}」の売却が確認できなかったため、取引を中止して退店します</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedUnknown">秘境行商の取引で異常が発生したため、取引を中止して退店します</system:String>
     <system:String x:Key="BlackFlowStrategyUnknown">不明な戦略</system:String>
     <system:String x:Key="BlackFlowDecisionProbeUnknownNode">経路上で最も近い未分類ノードを調査</system:String>
     <system:String x:Key="BlackFlowDecisionPolicyOrder">戦略で設定された優先順位で選択</system:String>
@@ -1715,16 +1733,16 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowNodeEmpty">空ノード</system:String>
     <system:String x:Key="BlackFlowNodeCombat">通常作戦</system:String>
     <system:String x:Key="BlackFlowNodeEmergencyCombat">緊急作戦</system:String>
-    <system:String x:Key="BlackFlowNodeBoss">険路の悪敵</system:String>
-    <system:String x:Key="BlackFlowNodeBattleShop">通常商店</system:String>
+    <system:String x:Key="BlackFlowNodeBoss">悪路凶敵</system:String>
+    <system:String x:Key="BlackFlowNodeBattleShop">怪しい旅商人</system:String>
     <system:String x:Key="BlackFlowNodeScrapShop">秘境の行商人</system:String>
-    <system:String x:Key="BlackFlowNodeEncounter">不意の遭遇</system:String>
+    <system:String x:Key="BlackFlowNodeEncounter">思わぬ遭遇</system:String>
     <system:String x:Key="BlackFlowNodeMysteriousPresage">未知の怪奇</system:String>
     <system:String x:Key="BlackFlowNodeFerociousPresage">未知の凶悪</system:String>
     <system:String x:Key="BlackFlowNodeScout">一足先に</system:String>
     <system:String x:Key="BlackFlowNodeDuel">狭路の遭遇</system:String>
     <system:String x:Key="BlackFlowNodeEmergencyAid">応急支援</system:String>
-    <system:String x:Key="BlackFlowNodeRest">休息ノード</system:String>
+    <system:String x:Key="BlackFlowNodeRest">安全な片隅</system:String>
     <system:String x:Key="BlackFlowNodeFeatherPoint">羽瞰点</system:String>
     <system:String x:Key="BlackFlowNodeWindingPassage">曲折した隠し道</system:String>
     <system:String x:Key="BlackFlowNodeSacrifice">奉納ノード</system:String>
@@ -1741,8 +1759,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowRuleTriggerBossProcessingBonus">加工品を使ってボスノードに入り、戦闘ボーナスを発動する</system:String>
     <system:String x:Key="BlackFlowRuleExitWhenRequired">育成が完了または安全余裕が不足したため出口へ向かう</system:String>
     <system:String x:Key="BlackFlowRuleEnding1AvoidLateCombat">基本的な昇進編成が整ったため、不要な戦闘を避ける</system:String>
-    <system:String x:Key="BlackFlowRuleBabyUseProcessingItemForFloor1Shop">第1層では加工品を使って通常商店へ向かう</system:String>
-    <system:String x:Key="BlackFlowRuleBabyWalkAfterFloor1Shop">第1層は通常商店を確認した後、徒歩で探索し加工品を温存する</system:String>
+    <system:String x:Key="BlackFlowRuleBabyUseProcessingItemForFloor1Shop">第1層では加工品を使って怪しい旅商人へ向かう</system:String>
+    <system:String x:Key="BlackFlowRuleBabyWalkAfterFloor1Shop">第1層は怪しい旅商人を確認した後、徒歩で探索し加工品を温存する</system:String>
     <system:String x:Key="BlackFlowRuleBabyDelayExitBeforeFloor3">第3層前にまだ育成の余地があるため出口への移動を保留</system:String>
     <system:String x:Key="BlackFlowRuleBabyExitBeforeFloor3WhenRequired">第3層前に育成が完了または安全余裕が不足したため出口へ向かう</system:String>
     <system:String x:Key="BlackFlowRuleBabyAvoidCombat">他に安全な選択肢がある間は戦闘ノードを避ける</system:String>
@@ -1754,8 +1772,11 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowMilestoneEnding1Floor1Battles">第1層は通常作戦を優先</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor1Hidden">第1層は未知の怪奇をできるだけ探索</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Expedition">第2層は一足先にを優先</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor1ScrapShop">第1層は通りがかりに秘境行商で取引</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2ScrapShop">第2層は秘境の行商人を優先</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Hidden">第2層は未知の怪奇をできるだけ探索</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor2Incident">第2層は思わぬ遭遇をできるだけ経由</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Informant">第2〜3層は情報屋マーク付きの思わぬ遭遇を優先</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Employ">第2層は道中で応急支援に立ち寄る</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Light">第2層は道中で羽瞰点に立ち寄る</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Wish">第2層は道中で願いの成就に立ち寄る</system:String>
@@ -1764,7 +1785,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowMilestoneEnding1LateScrapShop">第3〜5層は秘境の行商人を優先</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1LateEmploy">第3〜5層は応急支援を優先</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1LateHidden">第3〜5層は未知の怪奇をできるだけ探索</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding1LateIncident">第3〜5層は不意の遭遇をできるだけ経由</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1LateIncident">第3〜5層は思わぬ遭遇をできるだけ経由</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1LateCombat">第3〜5層は道中で通常作戦を通過</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1LateLight">第3〜5層は道中で羽瞰点に立ち寄る</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1LateWish">第3〜5層は道中で願いの成就に立ち寄る</system:String>
@@ -1777,9 +1798,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShopTransit">第1〜2層で秘境の行商人に入り種子を育成してから層の出口へ</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyCultivateScrapShopFinal">第3層で秘境の行商人に入り種子を育成</system:String>
     <system:String x:Key="BlackFlowMilestoneBabyExploreHidden">秘境の行商人が見つかるまで未知の怪奇をできるだけ開拓</system:String>
-    <system:String x:Key="BlackFlowMilestoneBabyVisitIncident">道中で不意の遭遇に入る</system:String>
-    <system:String x:Key="BlackFlowMilestoneBabyFloor2Shops">第2層は通常商店に立ち寄って種子を入手し続ける</system:String>
-    <system:String x:Key="BlackFlowMilestoneBabyFloor3Shops">第3層は通常商店で売却・品揃え更新を行い種子をできるだけ購入</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyVisitIncident">道中で思わぬ遭遇に入る</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyFloor2Shops">第2層は怪しい旅商人に立ち寄って種子を入手し続ける</system:String>
+    <system:String x:Key="BlackFlowMilestoneBabyFloor3Shops">第3層は怪しい旅商人に立ち寄って種子を入手し続ける</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding2SandtableA">砂盤Aを入手</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding2SandtableB">砂盤Bを入手</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding2Fate">第5層で運命の指す先に入り第二エンディングを完了</system:String>
@@ -1864,6 +1885,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ThisFacility" xml:space="preserve">現在の施設: </system:String>
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">グループに合わせる: </system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">{key=Operator} グループ、グループ リストの一致に失敗しました: </system:String>
+    <system:String x:Key="RoomGroupsMatchRecogFailed">グループ{key=Operator}の認識に失敗したため、部屋は変更されませんでした</system:String>
     <system:String x:Key="RoomOperators" xml:space="preserve">優先{key=Operator}: </system:String>
     <system:String x:Key="ProductIncorrect">製産物が構成と一致しません。</system:String>
     <system:String x:Key="ProductUnknown">認識不能な製産物</system:String>

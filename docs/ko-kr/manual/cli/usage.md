@@ -104,5 +104,5 @@ maa-cli는 기본적으로 표준 오류(stderr)에 로그를 출력합니다. `
 
 더 많은 명령어 사용 방법은 `maa help`를 통해 확인할 수 있으며, 특정 명령어의 사용 방법은 `maa help <command>`를 통해 확인할 수 있습니다.
 
-[config-core]: config.md#maacore-관련-설정
-[custom-task]: config.md#사용자-정의-작업
+[config-core]: config.md#maacore-관련-설정
+[custom-task]: config.md#사용자-정의-작업

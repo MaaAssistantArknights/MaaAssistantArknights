@@ -175,7 +175,7 @@ Windows MAAには `設定` タブの他に `タスク設定` もあります。 
 
 #### adbパスの取得
 
-- [エミュレータの組み込みadb](../../manual/faq.md#adbと接続アドレスが正しいことを確認する) を使用するか、 [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) を自分でダウンロードして解凍します。
+- [エミュレータの組み込みadb](../../manual/faq.md#adbと接続アドレスが正しいことを確認する) を使用するか、 [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) を自分でダウンロードして解凍します。
 - ソフトウェアの `設定` - `接続設定` に進み、`adb.exe`のファイルパスを選択し、adbアドレス（IP +ポートを入力する必要があります。例：`127.0.0.1:5555`）を記入し、エミュレータのタイプを選択します。
 
 #### ポート番号の取得
@@ -211,7 +211,7 @@ Windows MAAには `設定` タブの他に `タスク設定` もあります。 
 ### マルチインスタンスでのエミュレータの自動起動
 
 - 複数のエミュレータを同時に操作する必要がある場合は、MAAフォルダを複製し、**別のMAA**、**同じadb.exe**、**異なる接続アドレス**を使用して接続します。
-- **[BlueStacks International Version](../../manual/device/windows.md#-完全サポート)を例にして**、2つのマルチインスタンスでのエミュレータ起動方法を紹介します。
+- **[BlueStacks International Version](../../manual/device/windows.md#✅-完全サポート)を例にして**、2つのマルチインスタンスでのエミュレータ起動方法を紹介します。
 
 #### エミュレータexeにコマンドを付加することによるマルチインスタンスを実行する方法
 

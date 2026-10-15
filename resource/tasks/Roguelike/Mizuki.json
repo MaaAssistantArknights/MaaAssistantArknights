@@ -12,6 +12,27 @@
     },
     "Mizuki@StartExplore@Roguelike@RecruitWithoutButton": {},
     "Mizuki@Roguelike@Abandon": {},
+    "Mizuki@Roguelike@Begin": {
+        "baseTask": "Roguelike@Begin",
+        "next": [
+            "Mizuki@Roguelike@ChooseDifficulty",
+            "Mizuki@Roguelike@StartExplore",
+            "Mizuki@Roguelike@Stages#next",
+            "Mizuki@Roguelike@GetDrops#next",
+            "Mizuki@Roguelike@NextLevel",
+            "Mizuki@Roguelike@NextLevel#next",
+            "Mizuki@Roguelike@ExitThenAbandon",
+            "Mizuki@Roguelike@Abandon",
+            "Mizuki@Roguelike@TodoEnter",
+            "Mizuki@Roguelike@Continue",
+            "Mizuki@Roguelike@StartExploreCD",
+            "(Mizuki@Roguelike@IntegratedStrategies)@QuickSwitch@ToTerminal#next",
+            "Mizuki@Roguelike@ReturnButtons#next",
+            "Mizuki@Roguelike@ReturnConfirm",
+            "Mizuki@Roguelike@StartUpThemes#next",
+            "Mizuki@Roguelike@DataTraceback"
+        ]
+    },
     "Mizuki@Roguelike@CheckLevel": {
         "text": ["生态谱系"]
     },

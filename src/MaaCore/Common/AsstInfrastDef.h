@@ -35,6 +35,7 @@ enum class FacilityStep
     Reception,
     Processing,
     Training,
+    Recycle,
     AssistantChange,
 };
 
@@ -69,6 +70,9 @@ inline std::optional<std::vector<FacilityStep>>
         if (facility == "Training") {
             return FacilityStep::Training;
         }
+        if (facility == "Recycle") {
+            return FacilityStep::Recycle;
+        }
         if (facility == "AssistantChange") {
             return FacilityStep::AssistantChange;
         }
@@ -82,7 +86,7 @@ inline std::optional<std::vector<FacilityStep>>
     }
 
     if (mode != FacilityPlanMode::Default) {
-        const std::unordered_set<std::string> rotation_skips = { "Dorm", "Power", "Office", "Control" };
+        const std::unordered_set<std::string> rotation_skips = { "Dorm", "Power", "Office", "Control", "Recycle" };
         std::vector<FacilityStep> result;
         result.reserve(facilities.size());
         for (const auto& facility : facilities) {
@@ -120,6 +124,9 @@ inline std::optional<std::vector<FacilityStep>>
     }
     if (enabled.contains("Reception")) {
         result.emplace_back(FacilityStep::Reception);
+    }
+    if (enabled.contains("Recycle")) {
+        result.emplace_back(FacilityStep::Recycle);
     }
     if (enabled.contains("Dorm")) {
         result.emplace_back(FacilityStep::DormRearrange);
@@ -252,6 +259,10 @@ enum class Doing // 正在做什么
     Working  // 工作中
 };
 
+// 心情视为已满的判定阈值（心情条视觉识别容差）；宿舍候补心情满后让出休息位，
+// 未满的（含正在本宿舍休息的）保持可选，与常规模式 ｢休息到满才让位｣ 的语义一致
+inline constexpr double FullMoodThreshold = 0.99;
+
 struct Skill
 {
     std::string id;
@@ -364,8 +375,8 @@ struct CustomRoomConfig
     bool skip = false;
     // 是否使用干员编组
     bool use_operator_groups = false;
-    // 干员编组列表
-    std::unordered_map<std::string, std::vector<std::string>> operator_groups;
+    // 干员编组列表；保序容器，匹配按 groups 定义顺序取第一个满足的组
+    std::vector<std::pair<std::string, std::vector<std::string>>> operator_groups;
     // 自定干员
     std::vector<std::string> names;
     bool autofill = false;
@@ -373,6 +384,10 @@ struct CustomRoomConfig
     std::vector<std::string> candidates;
     int selected = 0;
     bool sort = false;
+    // 训练室专用：训练位干员候选池，取选择列表中第一个出现的（专精全满的干员不出现在列表中，等效跳过）
+    std::vector<std::string> trainee_names;
+    // 训练室专用：协助者候选池，空时不选择协助者
+    std::vector<std::string> assistant_names;
 };
 
 using CustomFacilityConfig = std::vector<CustomRoomConfig>;

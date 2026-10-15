@@ -497,7 +497,7 @@ check_interval = 600
 - CLI 配置的 JSON Schema 文件为 [`cli.schema.json`][cli-schema]。
 
 [task-types]: ../../protocol/integration.md#任务类型一览
-[emulator-ports]: ../../manual/connection.md#获取端口号
+[emulator-ports]: ../../manual/connection.md#模拟器端口相关文档
 [playcover-doc]: ../../manual/device/macos.md#✅-playcover-原生运行最流畅-🚀
 [waydroid-doc]: ../../manual/device/linux.md#✅-waydroid
 [example-config]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/crates/maa-cli/config_examples

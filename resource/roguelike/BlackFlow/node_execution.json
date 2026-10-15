@@ -163,7 +163,7 @@
         {
             "id": "trade_scrap_shop",
             "page_intent": "scrap_shop.trade",
-            "floor_window": [2, 5],
+            "floor_window": [1, 5],
             "node_types": ["scrap_shop"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",

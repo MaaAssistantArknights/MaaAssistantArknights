@@ -8,10 +8,9 @@
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
-#include "MaaUtils/ImageIo.h"
 #include "MaaUtils/NoWarningCV.hpp"
-#include "MaaUtils/Time.hpp"
 #include "Task/ProcessTask.h"
+#include "Utils/DebugImageHelper.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Battle/BattlefieldMatcher.h"
@@ -899,24 +898,6 @@ void asst::BattleHelper::save_map(const cv::Mat& image)
 {
     LogTraceFunction;
 
-    using namespace asst::utils::path_literals;
-    const auto& MapRelativeDir = "debug"_p / "map"_p;
-
-    // 清理旧的 PNG 文件
-    static bool clean_png = true;
-    if (clean_png && std::filesystem::exists(MapRelativeDir)) {
-        for (const auto& entry : std::filesystem::directory_iterator(MapRelativeDir)) {
-            if (entry.path().extension() == ".png") {
-                std::error_code ec;
-                std::filesystem::remove(entry.path(), ec);
-                if (ec) {
-                    LogWarn << "Failed to remove png: " << entry.path() << ", " << ec.message();
-                }
-            }
-        }
-        clean_png = false;
-    }
-
     auto draw = image.clone();
 
     for (const auto& [loc, info] : m_normal_tile_info) {
@@ -929,7 +910,7 @@ void asst::BattleHelper::save_map(const cv::Mat& image)
         suffix = "-" + std::to_string(m_camera_count);
     }
     std::vector<int> jpeg_params = { cv::IMWRITE_JPEG_QUALITY, 50, cv::IMWRITE_JPEG_OPTIMIZE, 1 };
-    MAA_NS::imwrite(MapRelativeDir / asst::utils::path(m_stage_name + suffix + ".jpeg"), draw, jpeg_params);
+    utils::save_debug_image(draw, utils::path("debug") / "map", true, "", m_stage_name + suffix, "jpeg", jpeg_params);
 }
 
 bool asst::BattleHelper::click_oper_on_deployment(const std::string& name)
@@ -1070,10 +1051,8 @@ bool asst::BattleHelper::click_skill(int timeout_ms)
 
 #ifdef ASST_DEBUG
     if (!top_view.empty()) {
-        using namespace asst::utils::path_literals;
-        MAA_NS::imwrite(
-            asst::utils::path(std::format("debug/skill/{}_{}.png", m_stage_name, MAA_NS::format_now_for_filename())),
-            top_view);
+        // false positive 样本用作技能就绪识别的数据集，不做自动清理
+        utils::save_debug_image(top_view, utils::path("debug") / "skill", false, "", m_stage_name);
     }
 #endif
     cancel_oper_selection();

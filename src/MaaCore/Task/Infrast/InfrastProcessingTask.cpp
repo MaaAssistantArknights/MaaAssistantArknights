@@ -23,6 +23,11 @@ bool asst::InfrastProcessingTask::_run()
 {
     m_all_available_opers.clear();
 
+    // 拦截统一走基类 check_room_shift_intent，非 Shift 视为本房间处理完成
+    if (check_room_shift_intent() != RoomShiftIntent::Shift) {
+        return true;
+    }
+
     // 不是自定义的也换不了加工站
     if (!is_use_custom_opers()) {
         Log.info("skip this room");
@@ -30,11 +35,6 @@ bool asst::InfrastProcessingTask::_run()
     }
     // 加工站，啥也造不了，随便写一个
     set_product("Placeholder");
-
-    if (current_room_config().skip) {
-        Log.info("skip this room");
-        return true;
-    }
 
     swipe_to_the_left_of_main_ui();
     if (!enter_facility()) {
@@ -55,14 +55,19 @@ bool asst::InfrastProcessingTask::_run()
             return false;
         }
         if (is_use_custom_opers()) {
-            bool name_select_ret = swipe_and_select_custom_opers();
+            bool room_kept_unchanged = false;
+            bool name_select_ret = swipe_and_select_custom_opers(false, false, &room_kept_unchanged);
             if (name_select_ret) {
                 break;
             }
-            else {
-                swipe_to_the_left_of_operlist();
-                continue;
+            if (room_kept_unchanged) {
+                // 保持原样已由选人函数退出选人界面（停在房间页），此处补齐一次返回到主界面，
+                // 对齐确认路径的退出深度，并跳过确认与剩余重试（循环后的确认是纯坐标点击，不识别界面）
+                click_return_button();
+                return true;
             }
+            swipe_to_the_left_of_operlist();
+            continue;
         }
 
         if (!opers_detect_with_swipe()) {
@@ -88,6 +93,9 @@ bool asst::InfrastProcessingTask::select_operator(
         return false;
     }
     close_quick_formation_expand_role();
+    // 现任加工站干员凭本设施编号豁免排除（心情满时连任，不被次优顶替）；
+    // 每次进列表都重新采样，确认换人后采到的即新任
+    detect_current_facility_number();
     bool selection_changed = false;
     for (int attempt = 0; attempt <= MaxMaterialSynthesisCacheRebuilds; ++attempt) {
         if (need_exit()) {
@@ -247,6 +255,12 @@ std::optional<asst::InfrastProcessingTask::MaterialSynthesisScanResult>
                 return same_material_synthesis_operator(cached, oper, face_hash_threshold);
             });
         if (duplicate != m_material_synthesis_operator_cache.cend()) {
+            continue;
+        }
+
+        // 驻扎生产设施（含训练室、回收站）的干员不选，避免拆散已进驻的设施；
+        // 宿舍编号与未进驻不排除，宿舍中回满心情的技能干员仍是候选
+        if (stationed_in_production_facility(oper)) {
             continue;
         }
 

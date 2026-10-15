@@ -1,5 +1,6 @@
 #include "InfrastProductionTask.h"
 #include "InfrastScore.h"
+#include "ReplenishOriginiumShardTaskPlugin.h"
 
 #include <algorithm>
 #include <array>
@@ -19,6 +20,7 @@
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
+#include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
 
 asst::InfrastProductionTask& asst::InfrastProductionTask::set_drones_usage_from_params(std::string usage) noexcept
@@ -247,17 +249,13 @@ bool asst::InfrastProductionTask::shift_facility_list()
         if (need_exit()) {
             return false;
         }
+        // rooms 数组短于实际房间数时，从未配置的第一个房间起不再换班，整设施发一条未配置提示
+        if (m_is_custom && static_cast<size_t>(m_cur_facility_index) >= m_custom_config.size()) {
+            notify_rooms_not_configured();
+            break;
+        }
         if (m_cur_facility_index != 0) {
             callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EnterFacility"));
-            if (m_is_custom) {
-                if (static_cast<size_t>(m_cur_facility_index) < m_custom_config.size()) {
-                    current_room_config() = m_custom_config.at(m_cur_facility_index);
-                }
-                else {
-                    Log.warn("index out of range:", m_cur_facility_index, m_custom_config.size());
-                    break;
-                }
-            }
         }
 
         // 最近总是出现设施没选中，导致干员放错房间，多点一次，观察一段时间。最好是改为图像识别是几号。
@@ -269,13 +267,41 @@ bool asst::InfrastProductionTask::shift_facility_list()
         ctrler()->click(tab);
         sleep(tab_task_ptr->post_delay);
 
+        // 上一个设施留有未执行的制造计划时，切换页签会被 ｢尚未执行新的制造计划｣ 弹窗拦下，确认离开后重新点击页签。
+        // 该弹窗只可能由制造站的补货（确认按钮未弹或未被点中时）或换产物失败留下，贸易站与
+        // 两者都没发生的轮次没有此弹窗，直接用 OCRer 探测前先按此收紧，避免整块 OCR 白跑；
+        // 正常切换时没有弹窗，裸探测也避免 ProcessTask 未命中上报 SubTaskError
+        bool plan_may_be_unexecuted = m_plan_may_be_unexecuted;
+        if (facility_name() == "Mfg" && !plan_may_be_unexecuted) {
+            for (const auto& plugin : get_plugins()) {
+                if (auto replenish = std::dynamic_pointer_cast<ReplenishOriginiumShardTaskPlugin>(plugin)) {
+                    plan_may_be_unexecuted = replenish->ran_this_run();
+                    break;
+                }
+            }
+        }
+        if (plan_may_be_unexecuted) {
+            OCRer leave_analyzer(ctrler()->get_image());
+            leave_analyzer.set_task_info("InfrastUnexecutedPlanLeaveConfirm");
+            if (leave_analyzer.analyze()) {
+                LogWarn << __FUNCTION__ << "left facility with unexecuted production plan, index"
+                        << m_cur_facility_index;
+                const auto leave_task_ptr = Task.get("InfrastUnexecutedPlanLeaveConfirm");
+                ctrler()->click(leave_task_ptr->specific_rect);
+                sleep(leave_task_ptr->post_delay);
+                sleep(tab_task_ptr->pre_delay);
+                ctrler()->click(tab);
+                sleep(tab_task_ptr->post_delay);
+            }
+        }
+
         /* 识别当前制造/贸易站有没有添加干员按钮，没有就不换班 */
         const auto image = ctrler()->get_image();
         Matcher add_analyzer(image);
         const auto add_task_ptr = Task.get("InfrastAddOperator" + facility_name() + m_work_mode_name);
         add_analyzer.set_task_info(add_task_ptr);
         if (!add_analyzer.analyze()) {
-            Log.error("no add button, just continue");
+            LogError << "no add button, just continue";
             continue;
         }
         Rect add_button = add_analyzer.get_result().rect;
@@ -299,8 +325,12 @@ bool asst::InfrastProductionTask::shift_facility_list()
             use_drone();
         }
 
+        // skip 在此处直接判定而非调用 check_room_shift_intent：该函数会连带判定空意图并发出通知，
+        // 空意图房间须先完成下方产物识别与换产物再拦截（含 mfg_info 巡检轮，巡检轮现状不发该通知）
         if (m_is_custom && current_room_config().skip) {
-            Log.info("skip this room");
+            // skip 房间不换班，Post 无人机没有相对换班的时序意义，配置命中时照常使用
+            LogInfo << "skip this room";
+            try_use_custom_post_drone();
             continue;
         }
 
@@ -330,7 +360,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         if (!best_product.empty() && best_score > 0) {
             auto templ_ptr = Task.get<MatchTaskInfo>("InfrastFlag" + best_product);
             if (templ_ptr == nullptr) {
-                Log.warn(__FUNCTION__, "| missing product task config:", "InfrastFlag" + best_product);
+                LogWarn << __FUNCTION__ << "| missing product task config:" << "InfrastFlag" + best_product;
             }
             else {
                 const double thresh =
@@ -344,16 +374,9 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
 
         if (!cur_product_detection_valid) {
-            Log.warn(
-                __FUNCTION__,
-                "| product unrecognized or weak match, skip unreliable product:",
-                facility_name(),
-                "| index",
-                m_cur_facility_index,
-                "| best",
-                best_product,
-                "| score",
-                best_score);
+            LogWarn << __FUNCTION__
+                    << "| product unrecognized or weak match, skip unreliable product:" << facility_name() << "| index"
+                    << m_cur_facility_index << "| best" << best_product << "| score" << best_score;
             m_product.clear();
             m_is_product_incorrect = false;
             cur_product_for_non_custom_drone.clear();
@@ -377,10 +400,10 @@ bool asst::InfrastProductionTask::shift_facility_list()
         if (m_is_custom && m_is_product_incorrect) {
             if (!change_product()) {
                 // 产物失败只报错，不阻断换人，尽量保证干员心情和恢复轴按排班推进。
-                Log.warn(
-                    "change_product failed after retries, proceed with staffing",
-                    facility_name(),
-                    m_cur_facility_index);
+                // 产物计划可能已改但未确认执行，标记后切页签时仍探测未执行计划弹窗
+                m_plan_may_be_unexecuted = true;
+                LogWarn << "change_product failed after retries, proceed with staffing" << facility_name()
+                        << m_cur_facility_index;
             }
             else {
                 cur_product_for_non_custom_drone = m_product;
@@ -390,34 +413,70 @@ bool asst::InfrastProductionTask::shift_facility_list()
 
         /* 进入干员选择页面 */
         if (!m_skip_shift) {
+            // 产物等其他字段的处理已在上方完成，空意图拦截不影响它们；
+            // 空数组与 skip 已在先前位置消费，此处结果只可能 Shift 或 KeepUnchanged（空意图）
+            if (check_room_shift_intent() == RoomShiftIntent::KeepUnchanged) {
+                try_use_custom_post_drone();
+                continue;
+            }
+
             ctrler()->click(add_button);
             sleep(add_task_ptr->post_delay);
 
             close_quick_formation_expand_role();
 
             // 如果是使用了编队组来排班
+            // 全部编组不可用时，候补名单非空则照常走候补选人，仅无候补且无 autofill 时保持房间原样，
+            // 退出选人界面后跳过该房间，不回落默认算法自动选人，避免拆走后续设施点名/编组指定的干员；
+            // 识别失败不是排班计划内的降级，不启用候补，同样保持房间原样并上报原因；
+            // need_exit 场景留给选人循环开头的既有检查中止
             if (current_room_config().use_operator_groups) {
-                match_operator_groups();
+                const GroupMatchResult group_match_result = match_operator_groups();
+                if (group_match_result == GroupMatchResult::AllUnavailable &&
+                    current_room_config().candidates.empty() && !current_room_config().autofill && !need_exit()) {
+                    LogInfo << "all operator groups unavailable with no candidates or autofill, keep room unchanged"
+                            << facility_name() << m_cur_facility_index;
+                    click_return_button();
+                    try_use_custom_post_drone();
+                    continue;
+                }
+                if (group_match_result == GroupMatchResult::RecogFailed && !need_exit()) {
+                    LogInfo << "failed to recognize operators for group matching, keep room unchanged"
+                            << facility_name() << m_cur_facility_index;
+                    json::value info = basic_info_with_what("CustomInfrastRoomGroupsMatchFailed");
+                    info["details"]["reason"] = "recognition_failed";
+                    callback(AsstMsg::SubTaskExtraInfo, info);
+                    click_return_button();
+                    try_use_custom_post_drone();
+                    continue;
+                }
             }
 
             bool selection_ready = false;
+            bool room_kept_unchanged = false;
             for (int i = 0; i <= OperSelectRetryTimes; ++i) {
                 if (need_exit()) {
                     return false;
                 }
 
                 if (is_use_custom_opers()) {
-                    bool name_select_ret = swipe_and_select_custom_opers();
-                    if (name_select_ret) {
+                    if (swipe_and_select_custom_opers(false, false, &room_kept_unchanged)) {
                         selection_ready = true;
                         break;
                     }
-                    else {
-                        swipe_to_the_left_of_operlist();
-                        continue;
+                    // 计划内不可用（纯候补全部在其他设施工作）已在函数内保持原样退出选人界面（不确认），
+                    // 不再重试，跳出后跳过确认继续下一间，处置对齐编组全部不可用分支
+                    if (room_kept_unchanged) {
+                        break;
                     }
+                    swipe_to_the_left_of_operlist();
+                    continue;
                 }
 
+                // 常规算法从包括在班干员在内的完整列表里挑人，先把筛选恢复为“全部”
+                if (!ensure_notstationed_filter_off()) {
+                    return false;
+                }
                 if (m_all_available_opers.empty()) {
                     if (!opers_detect_with_swipe()) {
                         return false;
@@ -440,29 +499,30 @@ bool asst::InfrastProductionTask::shift_facility_list()
                 selection_ready = true;
                 break;
             }
+            if (room_kept_unchanged) {
+                // 保持原样的房间跳过确认，Post 无人机不依赖换班结果，配置命中时照常使用，继续下一间
+                try_use_custom_post_drone();
+                continue;
+            }
             if (!selection_ready) {
+                restore_last_matched_group_opers();
                 discard_pending_selection();
                 return false;
             }
             if (!click_confirm_button()) {
+                // 选人未生效即失败，编组可用集回补，重试轮该组仍可重新匹配；
+                // 断点续跑从失败间接续，已成功房间不受影响
+                restore_last_matched_group_opers();
                 return false;
             }
+            m_last_matched_group_opers.clear();
         }
         else if (m_skip_shift) {
-            Log.info("skip shift in rotation mode");
+            LogInfo << "skip shift in rotation mode";
         }
 
-        // 自定义基建 Post 无人机
-        if (m_is_use_drones_from_custom) {
-            if (m_custom_drones_config.order == infrast::CustomDronesConfig::Order::Post &&
-                m_custom_drones_config.index == m_cur_facility_index) {
-                use_drone();
-            }
-        }
-        else if (
-            // 普通 params 无人机只在非自定义模式下使用
-            // 自定义模式下不使用该分支
-            !m_is_custom && cur_product_detection_valid &&
+        // 自定义基建 Post 无人机（含空意图/编组失败保持原样的房间）
+        if (!try_use_custom_post_drone() && !m_is_custom && cur_product_detection_valid &&
             cur_product_for_non_custom_drone == m_drones_usage_from_params && m_drones_usage_from_params != "_NotUse" &&
             m_drones_usage_from_params != "_Used") {
             if (use_drone()) {
@@ -1150,6 +1210,15 @@ bool asst::InfrastProductionTask::use_drone()
     std::string task_name = "DroneAssist" + facility_name();
     ProcessTask task_temp(*this, { task_name });
     return task_temp.run();
+}
+
+bool asst::InfrastProductionTask::try_use_custom_post_drone()
+{
+    if (m_is_use_drones_from_custom && m_custom_drones_config.order == infrast::CustomDronesConfig::Order::Post &&
+        m_custom_drones_config.index == m_cur_facility_index) {
+        return use_drone();
+    }
+    return false;
 }
 
 asst::infrast::SkillsComb

@@ -12,6 +12,7 @@
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
     xmlns:taskQueue_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
     xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
     d:Background="White"
@@ -23,26 +24,26 @@
         <converters:OperAvatarConverter x:Key="OperAvatarConverter" />
         <converters:OperBadgeMultiConverter x:Key="OperBadgeMultiConverter" />
         <converters:SubtractConverter x:Key="SubtractConverter" />
+        <sys:Double x:Key="FixedGap">1</sys:Double>
     </UserControl.Resources>
     <StackPanel>
         <!--  常规设置  -->
         <StackPanel Visibility="{c:Binding '!EnableAdvancedSettings', Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
-            <!--  在线编辑计划链接  -->
-            <controls:TextBlock>
-                <Hyperlink
-                    Cursor="Hand"
-                    NavigateUri="{Binding Source={x:Static constants:MaaUrls.ArknightsToolbox}}"
-                    TextDecorations="None">
-                    <TextBlock
-                        Style="{StaticResource HyperlinkTextBlockStyle}"
-                        Text="{DynamicResource OperProgressOnlineEditor}"
-                        TextWrapping="Wrap" />
-                </Hyperlink>
-            </controls:TextBlock>
-
-            <!--  固定区：操作按钮行与干员选择添加行；链接随外层面板滚动  -->
+            <!--  固定区：在线编辑计划链接、操作按钮行与干员选择添加行  -->
             <StackPanel x:Name="FixedHeaderPanel">
-                <WrapPanel Margin="0,5,0,5" HorizontalAlignment="Center">
+                <!--  在线编辑计划链接  -->
+                <controls:TextBlock>
+                    <Hyperlink
+                        Cursor="Hand"
+                        NavigateUri="{Binding Source={x:Static constants:MaaUrls.ArknightsToolbox}}"
+                        TextDecorations="None">
+                        <TextBlock
+                            Style="{StaticResource HyperlinkTextBlockStyle}"
+                            Text="{DynamicResource OperProgressOnlineEditor}"
+                            TextWrapping="Wrap" />
+                    </Hyperlink>
+                </controls:TextBlock>
+                <WrapPanel Margin="0,5,0,3" HorizontalAlignment="Center">
                     <Button
                         MinWidth="50"
                         Margin="0,0,-1,0"
@@ -62,7 +63,7 @@
                         Content="{DynamicResource ParseClipboard}" />
                 </WrapPanel>
                 <!--  干员选择与添加培养目标  -->
-                <Grid Margin="0,5,0,0">
+                <Grid Margin="0,3,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
@@ -147,6 +148,8 @@
                     <MultiBinding Converter="{StaticResource SubtractConverter}">
                         <Binding Path="ViewportHeight" RelativeSource="{RelativeSource AncestorType=ScrollViewer}" />
                         <Binding ElementName="FixedHeaderPanel" Path="ActualHeight" />
+                        <Binding Path="Margin.Top" RelativeSource="{RelativeSource Self}" />
+                        <Binding Source="{StaticResource FixedGap}" />
                     </MultiBinding>
                 </ListBox.MaxHeight>
                 <ListBox.ItemContainerStyle>

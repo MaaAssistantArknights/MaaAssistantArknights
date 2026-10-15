@@ -15,6 +15,7 @@
 #include "Status.h"
 #include "Task/Infrast/InfrastScore.h"
 #include "Task/MiniGame/MaterialSynthesisTaskPlugin.h"
+#include "Task/OperProgress/OperProgressFormation.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
@@ -33,14 +34,6 @@ namespace asst::oper_progress
 constexpr int MaxOperatorPages = 20;
 // 制造站产线当前产品写入 Status 的键,RestoreFactoryState 读取后恢复原产品。
 constexpr std::string_view FactoryProductStatusKey = "OperProgressFactoryProduct";
-
-// 快速编队卡片识别结果,参照 BattleFormationTask::QuickFormationOper 裁剪出选人所需字段。
-struct QuickFormationOperInfo
-{
-    std::string name;
-    asst::Rect flag_rect;
-    bool selected = false;
-};
 
 // 参照 BattleFormationTask::analyzer_opers：以职业旗标模板定位卡片,
 // 对旗标下方区域 OCR 干员名,并以旗标上方的高亮色块判断选中态。

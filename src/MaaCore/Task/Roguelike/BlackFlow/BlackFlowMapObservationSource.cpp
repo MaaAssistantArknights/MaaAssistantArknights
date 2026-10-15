@@ -7,9 +7,8 @@
 #include <fstream>
 #include <string_view>
 
-#include <opencv2/imgcodecs.hpp>
-
 #include "Config/Roguelike/BlackFlow/BlackFlowMapPerceptionResource.h"
+#include "MaaUtils/ImageIo.h"
 #include "Utils/WorkingDir.hpp"
 
 namespace asst::blackflow
@@ -46,7 +45,7 @@ bool write_image_if_present(const std::filesystem::path& path, const cv::Mat& im
     if (image.empty()) {
         return true;
     }
-    if (!cv::imwrite(path.string(), image)) {
+    if (!MAA_NS::imwrite(path, image)) {
         set_error(error, "failed to write BlackFlow diagnostic image: " + path.string());
         return false;
     }

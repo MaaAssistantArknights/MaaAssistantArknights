@@ -53,6 +53,14 @@ private:
         bool keep = false;
     };
 
+    // 店内可花的源石锭：钱包扣除策略预留后的部分。
+    struct Funds
+    {
+        int wallet = 0;
+        int reserved = 0;
+        int budget = 0;
+    };
+
     void enter();
     void decide();
     void on_purchase_confirmed();
@@ -62,11 +70,14 @@ private:
     [[nodiscard]] bool switch_tab(bool want_selling, bool selling);
     [[nodiscard]] bool sell_matching(bool liquidating);
     [[nodiscard]] bool sell_back();
-    [[nodiscard]] bool buy(const cv::Mat& image, int wallet);
+    // skipped 收集买表中在货架上却没有买的商品及原因。
+    [[nodiscard]] bool buy(const cv::Mat& image, const Funds& funds, std::vector<std::string>& skipped);
     bool complete_sale(const ScrapTradeInventoryTarget& target, bool sell_back);
     void click_at_most();
-    [[nodiscard]] bool refresh(int wallet);
+    [[nodiscard]] bool refresh(const Funds& funds);
     void leave();
+    // 交易无法继续时上报原因再离店；用户停止任务时只离店。
+    void abort_trade(std::string_view reason, const std::string& item = {});
 
     [[nodiscard]] bool on_selling_page(const cv::Mat& image) const;
     [[nodiscard]] std::vector<TextRect> recognize(const cv::Mat& image, const std::vector<std::string>& names) const;
@@ -88,7 +99,6 @@ private:
     mutable PendingWork m_pending = PendingWork::None;
     Phase m_phase = Phase::Cultivate;
     ScrapLedger m_ledger;
-    bool m_counted = false;
     std::unordered_set<std::string> m_sell_table;
     bool m_liquidating = false;
     std::deque<std::string> m_sell_backs;

@@ -77,22 +77,27 @@
                         <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource CustomInfrastGenerator}" />
                     </Hyperlink>
                 </controls:TextBlock>
-                <StackPanel Orientation="Horizontal">
+                <Grid Margin="0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
                     <ComboBox
-                        Width="150"
-                        Margin="0,5"
+                        hc:BorderElement.CornerRadius="4,0,0,4"
                         hc:InfoElement.Title="{DynamicResource DefaultInfrast}"
                         DisplayMemberPath="Display"
                         ItemsSource="{Binding DefaultInfrastList}"
                         SelectedValue="{Binding DefaultInfrast}"
                         SelectedValuePath="Value" />
                     <Button
-                        Width="60"
-                        Margin="10,5"
+                        Grid.Column="1"
+                        Margin="-1,0,0,0"
                         VerticalAlignment="Bottom"
+                        hc:BorderElement.CornerRadius="0,4,4,0"
+                        BorderThickness="0,1,1,1"
                         Command="{s:Action SelectCustomInfrastFile}"
                         Content="{DynamicResource Select}" />
-                </StackPanel>
+                </Grid>
                 <TextBox
                     Margin="0,5"
                     IsReadOnly="{Binding IsCustomInfrastFileReadOnly}"
@@ -147,12 +152,16 @@
                     Orientation="Horizontal"
                     Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Normal',
                                            Source={x:Static taskQueue_vms:InfrastSettingsUserControlModel.Instance}}">
-                    <controls:TextBlock Text="{DynamicResource InfrastFacilitySelection}" TextWrapping="Wrap" />
+                    <controls:TextBlock
+                        Margin="8,0,0,0"
+                        Text="{DynamicResource InfrastFacilitySelection}"
+                        TextWrapping="Wrap" />
                     <controls:TooltipBlock TooltipText="{DynamicResource InfrastFacilitySelectionTip}" />
                 </StackPanel>
                 <ListBox
-                    Margin="0,5"
+                    Margin="0,5,0,0"
                     d:ItemsSource="{d:SampleData ItemCount=3}"
+                    hc:BorderElement.CornerRadius="4,4,0,0"
                     ItemsSource="{Binding Path=InfrastRoomModels}"
                     PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
                                                  Target={x:Type helper:MouseWheelHelper}}"
@@ -166,11 +175,12 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
                 <ListBox
-                    Margin="0,5"
+                    Margin="0,5,0,0"
                     d:ItemsSource="{d:SampleData ItemCount=3}"
                     dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
                     dd:DragDrop.IsDragSource="True"
                     dd:DragDrop.IsDropTarget="True"
+                    hc:BorderElement.CornerRadius="4,4,0,0"
                     ItemsSource="{Binding Path=InfrastRoomModels}"
                     PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
                                                  Target={x:Type helper:MouseWheelHelper}}"
@@ -186,7 +196,7 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <Grid>
+                <Grid Margin="0,-1,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
@@ -196,7 +206,8 @@
                         Margin="0,0,-1,0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Top"
-                        hc:BorderElement.CornerRadius="4,0,0,4"
+                        hc:BorderElement.CornerRadius="0,0,0,4"
+                        BorderThickness="1,0,1,1"
                         Command="{s:Action InfrastItemSelectedAll}"
                         Content="{DynamicResource SelectAll}" />
                     <Button
@@ -204,7 +215,8 @@
                         Height="30"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Top"
-                        hc:BorderElement.CornerRadius="0,4,4,0"
+                        hc:BorderElement.CornerRadius="0,0,4,0"
+                        BorderThickness="1,0,1,1"
                         Command="{s:Action InfrastItemUnselectedAll}"
                         Content="{DynamicResource Clear}" />
                 </Grid>

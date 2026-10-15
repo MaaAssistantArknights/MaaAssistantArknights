@@ -56,10 +56,14 @@ if __name__ == "__main__":
             for root, dirs, files in os.walk(input_path):
                 if any(
                     [
-                        os.path.normpath(root).startswith(ignore_dir)
+                        os.path.normpath(root) == ignore_dir
+                        or os.path.normpath(root).startswith(
+                            os.path.join(ignore_dir, "")
+                        )
                         for ignore_dir in ignore_dirs
                     ]
                 ):
+                    dirs.clear()
                     continue
                 for f in files:
                     file = os.path.join(root, f)
