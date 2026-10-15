@@ -34,7 +34,13 @@ bool MaaFwController::connect(const std::string& adb_path, const std::string& ad
 
     auto adb_config = Config.get_adb_cfg("MaaFw");
     if (!adb_config) {
-        LogError << "connection extras for MaaFw is required but not set";
+        callback(
+            AsstMsg::ConnectionInfo,
+            json::object {
+                { "what", "ConnectFailed" },
+                { "why", "connection extras for MaaFw is required but not set" },
+                { "details", json::object { { "adb", adb_path }, { "address", address }, { "config", config } } },
+            });
         return false;
     }
 
@@ -102,7 +108,7 @@ bool MaaFwController::connect_with_extras(
                 "MaaAdbControlUnitCreate");
         if (!create_func) {
             LogError << "MaaAdbControlUnitCreate function not found?!";
-            return false;
+            break;
         }
 
         json::object config_arg = extras.get("config", json::object {});
@@ -127,16 +133,16 @@ bool MaaFwController::connect_with_extras(
     case ControlUnitType::MaaAndroidNativeControlUnit: {
         auto create_func = get_function<MaaFwControlUnitAPI*(const char*)>("MaaAndroidNativeControlUnitCreate");
         if (!create_func) {
-            LogError << m_library_name << "MaaAndroidNativeControlUnitCreate function not found?!";
-            return false;
+            LogError << "MaaAndroidNativeControlUnitCreate function not found?!";
+            break;
         }
         m_unit_handle = create_func(extras.dumps().c_str());
     } break;
     case ControlUnitType::MaaLinuxControlUnit: {
         auto create_func = get_function<MaaFwControlUnitAPI*(const char*)>("MaaLinuxControlUnitCreate");
         if (!create_func) {
-            LogError << m_library_name << "MaaLinuxControlUnitCreate function not found?!";
-            return false;
+            LogError << "MaaLinuxControlUnitCreate function not found?!";
+            break;
         }
         json::object config_json = extras;
         config_json["use_win32_vk_code"] = false;
