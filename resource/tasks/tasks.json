@@ -2038,6 +2038,7 @@
         "doc": "月卡到期提醒：挂在 Mall 任务末尾，购物后人已在采购中心，锚点直接命中切组合包页读'当期月卡剩余X天'；若不在商店则经 ToMall 跳转。识别文本经 SubTaskStart 回传 GUI(details.task 已剥前缀为 MonthlyCardDays)，由 GUI 判断阈值并提醒",
         "algorithm": "JustReturn",
         "next": [
+            "MonthlyCard@BundlesTab",
             "MonthlyCard",
             "MonthlyCard@ReturnFromDetail",
             "MonthlyCard@QuickSwitch@ToMall#next",
@@ -2047,10 +2048,12 @@
         ]
     },
     "MonthlyCard@ReturnFromDetail": {
-        "doc": "信用购物可能停在商品详情浮层，其左上角'<'深色条返回按钮与通用 ReturnButton 模板样式不同（上游模板实测不命中），点掉浮层露出商店页后由 MonthlyCard 锚点接手。模板取自国服实测截图并缩放至 720p 尺度",
-        "template": "MonthlyCard/ReturnFromDetail.png",
-        "roi": [0, 40, 180, 60],
-        "action": "ClickSelf",
+        "doc": "信用购物可能停在商品详情浮层，其左上角'<'返回按钮与通用 ReturnButton 模板样式不同且对截图缩放路径敏感（模板匹配在 1534 宽截图可命中、1920 宽真机失配，实测小房子导航在浮层下也无效）。改用 OCR 浮层右下'购买物品'按钮作为浮层特征（分辨率无关），命中则点左上角固定坐标返回，收起浮层后由 MonthlyCard 锚点接手。各服需覆写 text 词表",
+        "algorithm": "OcrDetect",
+        "text": ["购买物品"],
+        "roi": [790, 548, 260, 75],
+        "action": "ClickRect",
+        "specificRect": [85, 65, 30, 30],
         "postDelay": 800,
         "next": ["MonthlyCard"]
     },
@@ -2063,10 +2066,10 @@
         "next": ["MonthlyCard@BundlesTab"]
     },
     "MonthlyCard@BundlesTab": {
-        "doc": "采购中心顶部页签-组合包，已按国服 1534x860 截图校准；其它主题/服待验证。可视区找不到月卡条目时滚动左侧列表继续找，耗尽后静默结束",
+        "doc": "采购中心顶部页签-组合包，已按国服截图校准并按真机页签位置放宽。置于链首：任何商店子页（如购物结束停留的信用交易所页）页签栏均可见'组合包'，直接命中省去锚点判别；不在商店时经后续 ToMall 跳转。可视区找不到月卡条目时滚动左侧列表继续找，耗尽后静默结束",
         "algorithm": "OcrDetect",
         "text": ["组合包"],
-        "roi": [415, 88, 130, 40],
+        "roi": [410, 85, 140, 60],
         "action": "ClickSelf",
         "postDelay": 1000,
         "next": ["MonthlyCard@MonthlyCardEntry", "MonthlyCard@ScrollForMonthlyCard"],
