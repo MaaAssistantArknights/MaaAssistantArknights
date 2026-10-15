@@ -57,6 +57,12 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
         return true;
     }
     if (m_waiting_to_run == RoguelikeCustomType::CoreChar) {
+        // 点刺投资直接放弃招募，无需按指定干员选择招募券。
+        if (m_config->get_theme() == RoguelikeTheme::Sarkaz &&
+            m_config->get_mode() == RoguelikeMode::Investment && m_config->get_squad() == "点刺成锭分队") {
+            return false;
+        }
+
         // hijack 在招募入口 SubTaskStart 触发，先于招募插件消耗顺位，当前顺位即本次招募的顺位
         return m_config->get_current_start_oper() != nullptr;
     }
