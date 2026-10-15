@@ -2048,9 +2048,9 @@
         ]
     },
     "MonthlyCard@ReturnFromDetail": {
-        "doc": "信用购物可能停在商品详情浮层，其左上角'<'返回按钮与通用 ReturnButton 模板样式不同且对截图缩放路径敏感（模板匹配在 1534 宽截图可命中、1920 宽真机失配，实测小房子导航在浮层下也无效）。改用 OCR 浮层右下'购买物品'按钮作为浮层特征（分辨率无关），命中则点左上角固定坐标返回，收起浮层后由 MonthlyCard 锚点接手。各服需覆写 text 词表",
+        "doc": "商品详情浮层（信用购物结束停留）与月卡详情页共用左上角'<'深色条返回：该按钮与通用 ReturnButton 模板样式不同且对截图缩放路径敏感（1534 宽截图可命中、1920 宽真机失配），小房子导航在浮层下亦无效。故以右下购买按钮文字为浮层特征（'购买物品'=商品详情、'购买月卡'=月卡详情，分辨率无关），命中则点左上角固定坐标返回。各服需覆写 text 词表",
         "algorithm": "OcrDetect",
-        "text": ["购买物品"],
+        "text": ["购买物品", "购买月卡"],
         "roi": [790, 548, 260, 75],
         "action": "ClickRect",
         "specificRect": [85, 65, 30, 30],
@@ -2097,11 +2097,13 @@
         "exceededNext": ["Stop"]
     },
     "MonthlyCard@MonthlyCardDays": {
-        "doc": "月卡详情页右侧'当期月卡剩余X天'胶囊条（整屏唯一'剩余'字样），已按国服截图校准。text 必须留空：非空词表命中后回调文本会被替换为词表项本身（OCRer filter_and_replace_by_required_），GUI 正则拿不到天数；空词表透传整行 OCR 原文，由 GUI 端 (\\d+)\\s*天 + 0~40 范围双重过滤。无月卡或识别失败时经 onErrorNext 静默结束。多服需在各服 resource 覆写 roi/text",
+        "doc": "月卡详情页右侧'当期月卡剩余X天'胶囊条（整屏唯一'剩余'字样），已按国服截图校准。text 必须留空：非空词表命中后回调文本会被替换为词表项本身（OCRer filter_and_replace_by_required_），GUI 正则拿不到天数；空词表透传整行 OCR 原文，由 GUI 端 (\\d+)\\s*天 + 0~40 范围双重过滤。识别后点击左上角返回关闭详情页，避免链尾停留浮层影响后续任务。无月卡或识别失败时经 onErrorNext 静默结束。多服需在各服 resource 覆写 roi/text",
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [1040, 168, 210, 45],
-        "action": "DoNothing",
+        "action": "ClickRect",
+        "specificRect": [85, 65, 30, 30],
+        "postDelay": 500,
         "onErrorNext": ["Stop"]
     },
     "SignInEventBegin": {
