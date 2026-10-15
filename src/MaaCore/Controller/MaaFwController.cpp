@@ -54,6 +54,7 @@ bool MaaFwController::connect_with_extras(
     m_screen_size = { 0, 0 };
 
     m_target_is_pc = config == "PC";
+    m_esc_keycode = 111; // KEYCODE_ESCAPE for Android
 
     auto get_info_json = [&]() -> json::object {
         return json::object {
@@ -81,15 +82,6 @@ bool MaaFwController::connect_with_extras(
         return false;
     }
 
-    switch (*control_unit_type) {
-    case ControlUnitType::MaaLinuxControlUnit:
-        m_esc_keycode = 1; // KEY_ESC defined in <linux/input-event-codes.h>
-        break;
-    default:
-        m_esc_keycode = 111; // KEYCODE_ESCAPE for Android
-        break;
-    }
-
     destroy_unit();
 
     if (!init_library(*control_unit_type)) {
@@ -102,18 +94,18 @@ bool MaaFwController::connect_with_extras(
         return false;
     }
 
-    // 创建control unit
+    // 创建 control unit
     switch (*control_unit_type) {
     case ControlUnitType::MaaAdbControlUnit: {
         auto create_func =
             get_function<MaaFwControlUnitAPI*(const char*, const char*, uint64_t, uint64_t, const char*, const char*)>(
-                m_library_name + "Create");
+                "MaaAdbControlUnitCreate");
         if (!create_func) {
             LogError << "MaaAdbControlUnitCreate function not found?!";
             return false;
         }
 
-        json::object config_arg = extras.get("config", json::object { });
+        json::object config_arg = extras.get("config", json::object {});
         if (config == "AVD") {
             config_arg |= json::object {
                 { "extras", json::object { { "avd", json::object { { "enable", true } } } } },
@@ -132,14 +124,23 @@ bool MaaFwController::connect_with_extras(
             // MaaAgentBinary目录
             utils::path_to_utf8_string(ResDir.get() / "minitouch").c_str());
     } break;
-    case ControlUnitType::MaaAndroidNativeControlUnit:
-    case ControlUnitType::MaaLinuxControlUnit: {
-        // 创建 MaaAndroidNativeControlUnit/MaaLinuxControlUnit 时使用单个字符串参数
-        auto create_func = get_function<MaaFwControlUnitAPI*(const char*)>(m_library_name + "Create");
+    case ControlUnitType::MaaAndroidNativeControlUnit: {
+        auto create_func = get_function<MaaFwControlUnitAPI*(const char*)>("MaaAndroidNativeControlUnitCreate");
         if (!create_func) {
-            LogError << m_library_name << "control unit create function not found?!";
+            LogError << m_library_name << "MaaAndroidNativeControlUnitCreate function not found?!";
             return false;
         }
+        m_unit_handle = create_func(extras.dumps().c_str());
+    } break;
+    case ControlUnitType::MaaLinuxControlUnit: {
+        auto create_func = get_function<MaaFwControlUnitAPI*(const char*)>("MaaLinuxControlUnitCreate");
+        if (!create_func) {
+            LogError << m_library_name << "MaaLinuxControlUnitCreate function not found?!";
+            return false;
+        }
+        json::object config_json = extras;
+        config_json["use_win32_vk_code"] = false;
+        m_esc_keycode = 1; // KEY_ESC defined in <linux/input-event-codes.h>
         m_unit_handle = create_func(extras.dumps().c_str());
     } break;
     }
