@@ -45,7 +45,7 @@ public class PostActionSetting : PropertyChangedBase
         BackToAndroidHome = 1 << 1,
 
         /// <summary>
-        /// 退出模拟器
+        /// 退出模拟器；连接配置为 PC 端（窗口绑定）时无模拟器进程，改为关闭 PC 客户端
         /// </summary>
         ExitEmulator = 1 << 2,
 

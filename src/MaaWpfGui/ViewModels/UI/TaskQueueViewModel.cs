@@ -527,6 +527,9 @@ public class TaskQueueViewModel : Screen
         var actions = PostActionSetting;
         _logger.Information("Post actions: " + actions.ActionDescription);
 
+        // 在任何 await 之前记录本次运行的连接方式，避免等待期间切换连接配置后关错客户端或模拟器
+        var isPcConnect = SettingsViewModel.ConnectSettings.IsPCConnectConfig;
+
         if (actions.SkipOnError && hasErrorTask)
         {
             _logger.Information("Post actions skipped, due to error tasks");
@@ -544,7 +547,6 @@ public class TaskQueueViewModel : Screen
         }
 
         // PC 端无模拟器进程，｢退出模拟器｣ 按关闭 PC 客户端执行
-        var isPcConnect = SettingsViewModel.ConnectSettings.IsPCConnectConfig;
         if (actions.ExitArknights || (actions.ExitEmulator && isPcConnect))
         {
             var clientType = SettingsViewModel.GameSettings.ClientType;
