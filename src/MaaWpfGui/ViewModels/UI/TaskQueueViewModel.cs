@@ -543,7 +543,9 @@ public class TaskQueueViewModel : Screen
             await Task.Delay(1000);
         }
 
-        if (actions.ExitArknights)
+        // PC 端无模拟器进程，｢退出模拟器｣ 按关闭 PC 客户端执行
+        var isPcConnect = SettingsViewModel.ConnectSettings.IsPCConnectConfig;
+        if (actions.ExitArknights || (actions.ExitEmulator && isPcConnect))
         {
             var clientType = SettingsViewModel.GameSettings.ClientType;
             if (!Instances.AsstProxy.AsstStartCloseDown(clientType))
@@ -554,7 +556,7 @@ public class TaskQueueViewModel : Screen
             await Task.Delay(1000);
         }
 
-        if (actions.ExitEmulator && !SettingsViewModel.ConnectSettings.IsPCConnectConfig)
+        if (actions.ExitEmulator && !isPcConnect)
         {
             DoKillEmulator();
             await Task.Delay(1000);

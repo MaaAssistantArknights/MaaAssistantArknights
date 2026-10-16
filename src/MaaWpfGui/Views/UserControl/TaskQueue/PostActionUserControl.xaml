@@ -54,9 +54,8 @@
             <CheckBox
                 Margin="0,8"
                 IsChecked="{Binding ExitEmulator}"
-                IsEnabled="{c:Binding ExitEmulatorOptionEnabled}"
                 MouseRightButtonUp="{s:Action PostActionsAndOnce}">
-                <controls:TextBlock Text="{DynamicResource ExitEmulator}" TextWrapping="Wrap" />
+                <controls:TextBlock Text="{Binding ExitEmulatorText}" TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox
                 Margin="0,8"

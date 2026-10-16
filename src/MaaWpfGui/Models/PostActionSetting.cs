@@ -155,19 +155,16 @@ public class PostActionSetting : PropertyChangedBase
     private bool _exitEmulator;
 
     /// <summary>
-    /// Gets a value indicating whether PC 端（窗口绑定）无模拟器进程，完成后不可选择 ｢退出模拟器｣。
+    /// Gets ｢退出模拟器｣ 选项的显示文本：PC 端无模拟器进程，该选项改为关闭 PC 客户端。
     /// </summary>
-    public bool ExitEmulatorOptionEnabled => !ConnectSettingsUserControlModel.Instance.IsPCConnectConfig;
+    public string ExitEmulatorText => ConnectSettingsUserControlModel.Instance.IsPCConnectConfig
+        ? LocalizationHelper.GetString("ExitPCClient")
+        : LocalizationHelper.GetString("ExitEmulator");
 
     public bool ExitEmulator
     {
         get => _exitEmulator;
         set {
-            if (value && ConnectSettingsUserControlModel.Instance.IsPCConnectConfig)
-            {
-                return;
-            }
-
             if (!SetAndNotify(ref _exitEmulator, value))
             {
                 return;
@@ -215,8 +212,6 @@ public class PostActionSetting : PropertyChangedBase
             {
                 return;
             }
-
-            NotifyOfPropertyChange(nameof(ExitEmulatorOptionEnabled));
 
             if (value)
             {
@@ -427,7 +422,7 @@ public class PostActionSetting : PropertyChangedBase
 
         if (ExitEmulator)
         {
-            actions.Add(LocalizationHelper.GetString("ExitEmulator"));
+            actions.Add(ExitEmulatorText);
         }
 
         if (ExitSelf)
@@ -509,6 +504,7 @@ public class PostActionSetting : PropertyChangedBase
 
     /// <summary>
     /// PC 端（窗口绑定）不支持 ADB 侧后处理动作：移除已保存的相关标志，且不触发额外联动。
+    /// ｢退出模拟器｣ 在 PC 端按关闭 PC 客户端执行，予以保留，切回模拟器后恢复原含义。
     /// </summary>
     private void ClearUnsupportedPostActionsForAttachWindow()
     {
@@ -537,14 +533,6 @@ public class PostActionSetting : PropertyChangedBase
         }
         */
 
-        if (_exitEmulator)
-        {
-            _exitEmulator = false;
-            _postActions &= ~PostActions.ExitEmulator;
-            NotifyOfPropertyChange(nameof(ExitEmulator));
-            changed = true;
-        }
-
         if (!changed)
         {
             return;
@@ -560,14 +548,9 @@ public class PostActionSetting : PropertyChangedBase
         ConnectSettingsUserControlModel.Instance.PropertyChanged += (_, e) => {
             if (e.PropertyName is nameof(ConnectSettingsUserControlModel.ConnectConfig) or nameof(ConnectSettingsUserControlModel.IsPCConnectConfig))
             {
-                if (ConnectSettingsUserControlModel.Instance.IsPCConnectConfig && ExitEmulator)
-                {
-                    ExitEmulator = false;
-                    ExitArknights = true;
-                }
-
                 NotifyOfPropertyChange(nameof(AndroidControlPostActionsEnabled));
-                NotifyOfPropertyChange(nameof(ExitEmulatorOptionEnabled));
+                NotifyOfPropertyChange(nameof(ExitEmulatorText));
+                RefreshDescription();
                 ClearUnsupportedPostActionsForAttachWindow();
             }
         };
@@ -579,6 +562,7 @@ public class PostActionSetting : PropertyChangedBase
             ActionTitle = _once
                 ? $"{LocalizationHelper.GetString("PostActions")} ({LocalizationHelper.GetString("Once")})"
                 : LocalizationHelper.GetString("PostActions");
+            NotifyOfPropertyChange(nameof(ExitEmulatorText));
             RefreshDescription();
         };
     }
