@@ -129,6 +129,7 @@
         "next": [
             "BlackFlow@Roguelike@CloseEvent@(BlackFlow@Roguelike@CloseCollectionContinue)",
             "BlackFlow@Roguelike@CloseEvent@(BlackFlow@Roguelike@CloseCollection)",
+            "BlackFlow@Roguelike@CloseEvent@(Roguelike@CloseTutorialOverlay)",
             "BlackFlow@Roguelike@Stages#next",
             "BlackFlow@Roguelike@DropsFlag",
             "BlackFlow@Roguelike@CloseEvent"
