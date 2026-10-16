@@ -3501,6 +3501,14 @@
         "sortId": -10000,
         "usage": "形艺特辑专用特辑收藏贴，可用于版面编辑。"
     },
+    "itempack_stickers_rog6": {
+        "classifyType": "NONE",
+        "description": "于黑流中窥见万物原初的模样。",
+        "icon": "itempack_stickers_rog6.png",
+        "name": "贴纸包/黑流树海",
+        "sortId": -10000,
+        "usage": "形艺特辑专用特辑收藏贴，可用于版面编辑。"
+    },
     "itempack_stickers_sand1": {
         "classifyType": "NONE",
         "description": "欣赏荒漠与绿洲交织出的艺术。",

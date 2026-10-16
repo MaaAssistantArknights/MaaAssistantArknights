@@ -5101,5 +5101,6 @@
     "resource/template/UiTheme/Act/Task": "6c07f95aef78339cb3ea88963f87e9623ba8d27ecc8f3d1a61388e3284d77ed8",
     "resource/template/InfrastPic/Mfg/MfgCatalystMissing": "12782099794395809c4eb9a26479a0dcaeea08b920f7990963e48c5abfececf8",
     "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@MovePreviewEnterWalk": "4419eea5fb1feb81b4e69a1e02cf66aa6d5ac9afe0268f8a859a352e4588eea1",
-    "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@MovePreviewEnterCrafted": "813d26fa861a080d54fd9a251cbc2b838a9830ebcb6f90c720bb38d2dad247db"
+    "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@MovePreviewEnterCrafted": "813d26fa861a080d54fd9a251cbc2b838a9830ebcb6f90c720bb38d2dad247db",
+    "resource/template/items/itempack_stickers_rog6": "057e6477a7a8af48917fa1d003a0501ea1df89690572ab0394c82d599c6eb266"
 }
