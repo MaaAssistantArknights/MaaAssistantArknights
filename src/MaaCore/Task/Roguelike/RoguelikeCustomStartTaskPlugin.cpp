@@ -62,8 +62,8 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
     }
     if (m_waiting_to_run == RoguelikeCustomType::CoreChar) {
         // 点刺投资直接放弃招募，无需按指定干员选择招募券。
-        if (m_config->get_theme() == RoguelikeTheme::Sarkaz &&
-            m_config->get_mode() == RoguelikeMode::Investment && m_config->get_squad() == "点刺成锭分队") {
+        if (m_config->get_theme() == RoguelikeTheme::Sarkaz && m_config->get_mode() == RoguelikeMode::Investment &&
+            m_config->get_squad() == "点刺成锭分队") {
             return false;
         }
 
