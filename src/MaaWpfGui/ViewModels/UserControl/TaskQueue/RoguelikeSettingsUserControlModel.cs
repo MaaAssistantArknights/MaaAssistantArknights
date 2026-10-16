@@ -101,7 +101,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         Theme.Sami => 15,
         Theme.Sarkaz => 18,
         Theme.JieGarden => 18,
-        Theme.BlackFlow => 15,
+        Theme.BlackFlow => 16,
         _ => 20,
     };
 
@@ -243,6 +243,8 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
             ("IS6NewSquad3", "开拓者分队"),
             ("IS6NewSquad4", "多边贸易分队"),
             ("IS6NewSquad5", "地质调查分队"),
+            ("IS6NewSquad6", "团结阵线分队"),
+            ("IS6NewSquad7", "踏足遍历分队"),
         ],
     };
 

@@ -400,6 +400,8 @@
     <system:String x:Key="IS6NewSquad3">开拓者分队</system:String>
     <system:String x:Key="IS6NewSquad4">多边贸易分队</system:String>
     <system:String x:Key="IS6NewSquad5">地质调查分队</system:String>
+    <system:String x:Key="IS6NewSquad6">团结阵线分队</system:String>
+    <system:String x:Key="IS6NewSquad7">踏足遍历分队</system:String>
     <system:String x:Key="SpecialForceSquad">特勤分队</system:String>
     <system:String x:Key="LeaderSquad">指挥分队</system:String>
     <system:String x:Key="GatheringSquad">集群分队</system:String>
