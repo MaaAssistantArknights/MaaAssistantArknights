@@ -926,6 +926,8 @@ PolicyDecision PolicyExecutor::choose(
             // 目标收益不比第二名多却仍然胜出，靠的是路线代价：第二名多拿的目标抵不上它多付的代价。
             if (origin.net_of_route_cost && chosen_reward <= runner_up_reward) {
                 decision.reason_category = DecisionReasonCategory::RouteCost;
+                // 这一维比的是预计耗时、战斗数、加工步数（及途中交互数）之和减去目标收益，统称路线代价。
+                decision.decisive_metric = "route_cost";
                 decision.decisive_milestone_ids.clear();
             }
             break;
