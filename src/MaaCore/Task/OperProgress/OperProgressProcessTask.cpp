@@ -129,6 +129,10 @@ bool asst::OperProgressProcessTask::_run()
     for (size_t index = 0; index < m_plan.size() && !need_exit(); ++index) {
         const auto& target = m_plan[index];
 
+        if (training_room_busy && !target.elite && !target.skill_level && target.skill_mastery) {
+            continue; // 训练室已占用且无其他目标, 跳过仅专精计划
+        }
+
         const ResultDetail located = find_and_open_operator(target.role, target.name);
         if (located != ResultDetail::Completed) {
             auto info = basic_info_with_what("OperProgressDetail");
