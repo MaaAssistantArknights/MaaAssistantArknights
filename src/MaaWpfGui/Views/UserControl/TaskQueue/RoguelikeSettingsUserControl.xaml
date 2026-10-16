@@ -242,6 +242,24 @@
                 IsChecked="{Binding RoguelikeInvestmentEnabled}"
                 IsEnabled="{c:Binding 'RoguelikeMode != task:RoguelikeMode.Investment',
                                       Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}" />
+            <StackPanel
+                Margin="0,10"
+                d:Visibility="Visible"
+                Orientation="Horizontal"
+                Visibility="{c:Binding 'RoguelikeTheme == task:RoguelikeTheme.BlackFlow and RoguelikeMode == task:RoguelikeMode.BlackFlowStartRun',
+                                       Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}">
+                <CheckBox IsChecked="{Binding RoguelikeBlackFlowStartRunFastFlight}">
+                    <TextBlock
+                        Block.TextAlignment="Left"
+                        Text="{DynamicResource RoguelikeBlackFlowFastFlight}"
+                        TextWrapping="Wrap" />
+                </CheckBox>
+                <controls:TooltipBlock TooltipText="{DynamicResource RoguelikeBlackFlowPrepFlightTip}" />
+                <controls:TextBlock
+                    Margin="4,0,0,0"
+                    Foreground="{DynamicResource InfoBrush}"
+                    Text="{DynamicResource RoguelikeBlackFlowFlightRequirement}" />
+            </StackPanel>
             <CheckBox
                 Margin="0,10"
                 d:Visibility="Visible"
@@ -565,17 +583,93 @@
                         SelectedValuePath="Value" />
                 </StackPanel>
             </StackPanel>
-            <hc:ComboBox
-                Margin="0,3"
-                d:Visibility="Visible"
-                hc:InfoElement.Title="{DynamicResource RoguelikeBlackFlowCultivationTarget}"
-                DisplayMemberPath="Display"
-                IsHitTestVisible="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
-                ItemsSource="{Binding RoguelikeBlackFlowCultivationTargetList}"
-                SelectedValue="{Binding RoguelikeBlackFlowCultivationTarget}"
-                SelectedValuePath="Value"
-                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.BlackFlowBabyAnimal and RoguelikeTheme == task:RoguelikeTheme.BlackFlow',
-                                       Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}" />
+            <StackPanel d:Visibility="Visible" Visibility="{c:Binding 'RoguelikeTheme == task:RoguelikeTheme.BlackFlow and RoguelikeMode == task:RoguelikeMode.BlackFlowStartRun', Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}">
+                <hc:ComboBox
+                    Margin="0,3"
+                    hc:InfoElement.Title="{DynamicResource RoguelikeBlackFlowStartAnimal1}"
+                    DisplayMemberPath="Display"
+                    IsHitTestVisible="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                    ItemsSource="{Binding RoguelikeBlackFlowStartAnimal1List}"
+                    SelectedValue="{Binding RoguelikeBlackFlowStartAnimal1}"
+                    SelectedValuePath="Value">
+                    <hc:ComboBox.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="ComboBoxItem">
+                            <Setter Property="IsEnabled" Value="{Binding IsEnabled}" />
+                            <Setter Property="ToolTip" Value="{Binding Tip}" />
+                            <Setter Property="ToolTipService.InitialShowDelay" Value="200" />
+                            <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+                        </Style>
+                    </hc:ComboBox.ItemContainerStyle>
+                </hc:ComboBox>
+                <hc:ComboBox
+                    Margin="0,3"
+                    hc:InfoElement.Title="{DynamicResource RoguelikeBlackFlowStartAnimal2}"
+                    DisplayMemberPath="Display"
+                    IsHitTestVisible="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                    ItemsSource="{Binding RoguelikeBlackFlowStartAnimal2List}"
+                    SelectedValue="{Binding RoguelikeBlackFlowStartAnimal2}"
+                    SelectedValuePath="Value">
+                    <hc:ComboBox.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="ComboBoxItem">
+                            <Setter Property="IsEnabled" Value="{Binding IsEnabled}" />
+                            <Setter Property="ToolTip" Value="{Binding Tip}" />
+                            <Setter Property="ToolTipService.InitialShowDelay" Value="200" />
+                            <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+                        </Style>
+                    </hc:ComboBox.ItemContainerStyle>
+                </hc:ComboBox>
+                <StackPanel Margin="0,8,0,5" Orientation="Horizontal">
+                    <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource RoguelikeBlackFlowStartRewards}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource RoguelikeBlackFlowStartRewardsTip}" />
+                    <controls:TextBlock
+                        Margin="4,0,0,0"
+                        Foreground="{DynamicResource InfoBrush}"
+                        Text="{DynamicResource RoguelikeBlackFlowStartRewardsAnyHit}" />
+                </StackPanel>
+                <hc:CheckComboBox
+                    hc:ListBoxAttach.SelectedItems="{Binding RoguelikeBlackFlowStartRewardSelectList}"
+                    DisplayMemberPath="Display"
+                    ItemsSource="{Binding RoguelikeBlackFlowStartRewardList}"
+                    SelectedValuePath="Value">
+                    <hc:CheckComboBox.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource CheckComboBoxItemBaseStyle}" TargetType="hc:CheckComboBoxItem">
+                            <Setter Property="ToolTip" Value="{Binding Tip}" />
+                            <Setter Property="ToolTipService.InitialShowDelay" Value="200" />
+                        </Style>
+                    </hc:CheckComboBox.ItemContainerStyle>
+                </hc:CheckComboBox>
+                <StackPanel Margin="0,8,0,5" Orientation="Horizontal">
+                    <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource RoguelikeBlackFlowSerpentRewards}" />
+                    <controls:TextBlock
+                        Margin="4,0,0,0"
+                        d:Visibility="Visible"
+                        Foreground="{DynamicResource InfoBrush}"
+                        Text="{DynamicResource RoguelikeBlackFlowSerpentRewardsInactive}"
+                        Visibility="{c:Binding '!RoguelikeBlackFlowHasSerpent', Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}" />
+                </StackPanel>
+                <hc:CheckComboBox
+                    hc:ListBoxAttach.SelectedItems="{Binding RoguelikeBlackFlowSerpentRewardSelectList}"
+                    DisplayMemberPath="Display"
+                    IsEnabled="{Binding RoguelikeBlackFlowHasSerpent}"
+                    ItemsSource="{Binding RoguelikeBlackFlowSerpentRewardList}"
+                    SelectedValuePath="Value">
+                    <hc:CheckComboBox.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource CheckComboBoxItemBaseStyle}" TargetType="hc:CheckComboBoxItem">
+                            <Setter Property="ToolTip" Value="{Binding Tip}" />
+                            <Setter Property="ToolTipService.InitialShowDelay" Value="200" />
+                        </Style>
+                    </hc:CheckComboBox.ItemContainerStyle>
+                </hc:CheckComboBox>
+                <hc:ComboBox
+                    Margin="0,8,0,3"
+                    hc:InfoElement.Title="{DynamicResource RoguelikeBlackFlowPrepSquad}"
+                    DisplayMemberPath="Display"
+                    IsEnabled="{c:Binding '!RoguelikeBlackFlowStartRunFastFlight'}"
+                    ItemsSource="{Binding RoguelikeSquadList}"
+                    MaxDropDownHeight="800"
+                    SelectedValue="{Binding RoguelikeBlackFlowPrepSquadView}"
+                    SelectedValuePath="Value" />
+            </StackPanel>
             <controls:TextBlock
                 Margin="0,5"
                 HorizontalAlignment="Center"

@@ -34,7 +34,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using static MaaWpfGui.Main.AsstProxy;
 using AsstRoguelikeCoreChar = MaaWpfGui.Models.AsstTasks.AsstRoguelikeTask.AsstRoguelikeCoreChar;
-using CultivationTarget = MaaWpfGui.Configuration.Single.MaaTask.RoguelikeBlackFlowCultivationTarget;
 using Mode = MaaWpfGui.Configuration.Single.MaaTask.RoguelikeMode;
 using RoguelikeBoskySubNodeType = MaaWpfGui.Configuration.Single.MaaTask.RoguelikeBoskySubNodeType;
 using Theme = MaaWpfGui.Configuration.Single.MaaTask.RoguelikeTheme;
@@ -66,6 +65,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         UpdateRoguelikeSquadList();
         UpdateRoguelikeStartWithAllDict();
         UpdateRoguelikeCoreCharList();
+        UpdateBlackFlowSerpentOptions();
     }
 
     private void UpdateRoguelikeDifficultyList()
@@ -116,7 +116,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
             [
                 new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = Mode.Exp },
                 new() { Display = LocalizationHelper.GetString("RoguelikeStrategyBlackFlowInvestment"), Value = Mode.Investment },
-                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyBlackFlowBabyAnimal"), Value = Mode.BlackFlowBabyAnimal },
+                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyBlackFlowStartRun"), Value = Mode.BlackFlowStartRun },
             ];
         }
         else
@@ -949,24 +949,169 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         (RoguelikeBlackFlowEnding.Ending1, "RoguelikeBlackFlowEnding1"));
 
     /// <summary>
-    /// Gets or sets the target animal type for BlackFlow cultivation.
+    /// 刷开局动物下拉框的选项。羽蛇最多一只，另一格已选羽蛇时本格的羽蛇不可选。
     /// </summary>
-    public CultivationTarget RoguelikeBlackFlowCultivationTarget
+    public class BlackFlowStartAnimalOption : Stylet.PropertyChangedBase
     {
-        get => GetTaskConfig<RoguelikeTask>().BlackFlowCultivationTarget;
-        set => SetTaskConfig<RoguelikeTask>(
-            t => t.BlackFlowCultivationTarget == value,
-            t => t.BlackFlowCultivationTarget = value);
+        public string Display { get; init; } = string.Empty;
+
+        public RoguelikeBlackFlowStartAnimal Value { get; init; }
+
+        /// <summary>
+        /// Gets the hover tip shown in the dropdown; null for the "not required" option.
+        /// </summary>
+        public string? Tip { get; init; }
+
+        private bool _isEnabled = true;
+
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set => SetAndNotify(ref _isEnabled, value);
+        }
+    }
+
+    private static BlackFlowStartAnimalOption CreateBlackFlowStartAnimalOption(string key, RoguelikeBlackFlowStartAnimal value) =>
+        new() { Display = LocalizationHelper.GetString(key), Tip = LocalizationHelper.GetString(key + "Tip"), Value = value };
+
+    private static List<BlackFlowStartAnimalOption> CreateBlackFlowStartAnimalOptions() =>
+    [
+        new() { Display = LocalizationHelper.GetString("RoguelikeBlackFlowStartAnimalNone"), Value = RoguelikeBlackFlowStartAnimal.None },
+        CreateBlackFlowStartAnimalOption("RoguelikeBlackFlowCultivationTargetCat", RoguelikeBlackFlowStartAnimal.Cat),
+        CreateBlackFlowStartAnimalOption("RoguelikeBlackFlowCultivationTargetDog", RoguelikeBlackFlowStartAnimal.Dog),
+        CreateBlackFlowStartAnimalOption("RoguelikeBlackFlowCultivationTargetCerberus", RoguelikeBlackFlowStartAnimal.Cerberus),
+        CreateBlackFlowStartAnimalOption("RoguelikeBlackFlowCultivationTargetFeatheredSerpent", RoguelikeBlackFlowStartAnimal.FeatheredSerpent),
+    ];
+
+    public List<BlackFlowStartAnimalOption> RoguelikeBlackFlowStartAnimal1List { get; } = CreateBlackFlowStartAnimalOptions();
+
+    public List<BlackFlowStartAnimalOption> RoguelikeBlackFlowStartAnimal2List { get; } = CreateBlackFlowStartAnimalOptions();
+
+    private void UpdateBlackFlowSerpentOptions()
+    {
+        RoguelikeBlackFlowStartAnimal1List.Last().IsEnabled = RoguelikeBlackFlowStartAnimal2 != RoguelikeBlackFlowStartAnimal.FeatheredSerpent;
+        RoguelikeBlackFlowStartAnimal2List.Last().IsEnabled = RoguelikeBlackFlowStartAnimal1 != RoguelikeBlackFlowStartAnimal.FeatheredSerpent;
+    }
+
+    public RoguelikeBlackFlowStartAnimal RoguelikeBlackFlowStartAnimal1
+    {
+        get => GetTaskConfig<RoguelikeTask>().BlackFlowStartAnimal1;
+        set {
+            SetTaskConfig<RoguelikeTask>(t => t.BlackFlowStartAnimal1 == value, t => t.BlackFlowStartAnimal1 = value);
+            UpdateBlackFlowSerpentOptions();
+            OnPropertyChanged(nameof(RoguelikeBlackFlowHasSerpent));
+        }
+    }
+
+    public RoguelikeBlackFlowStartAnimal RoguelikeBlackFlowStartAnimal2
+    {
+        get => GetTaskConfig<RoguelikeTask>().BlackFlowStartAnimal2;
+        set {
+            SetTaskConfig<RoguelikeTask>(t => t.BlackFlowStartAnimal2 == value, t => t.BlackFlowStartAnimal2 = value);
+            UpdateBlackFlowSerpentOptions();
+            OnPropertyChanged(nameof(RoguelikeBlackFlowHasSerpent));
+        }
     }
 
     /// <summary>
-    /// Gets the available BlackFlow cultivation targets.
+    /// Gets a value indicating whether the start requirement includes a feathered serpent, which enables the serpent rewards.
     /// </summary>
-    public LocalizedObservableList<CultivationTarget> RoguelikeBlackFlowCultivationTargetList { get; } = new(
-        (CultivationTarget.Cat, "RoguelikeBlackFlowCultivationTargetCat"),
-        (CultivationTarget.FeatheredSerpent, "RoguelikeBlackFlowCultivationTargetFeatheredSerpent"),
-        (CultivationTarget.Dog, "RoguelikeBlackFlowCultivationTargetDog"),
-        (CultivationTarget.Cerberus, "RoguelikeBlackFlowCultivationTargetCerberus"));
+    public bool RoguelikeBlackFlowHasSerpent =>
+        RoguelikeBlackFlowStartAnimal1 == RoguelikeBlackFlowStartAnimal.FeatheredSerpent ||
+        RoguelikeBlackFlowStartAnimal2 == RoguelikeBlackFlowStartAnimal.FeatheredSerpent;
+
+    /// <summary>
+    /// 刷开局奖励下拉框的选项。框内标签只显示名字，效果放在下拉项的悬浮提示里。
+    /// </summary>
+    public class BlackFlowStartRewardOption
+    {
+        public string Display { get; init; } = string.Empty;
+
+        public RoguelikeBlackFlowStartReward Value { get; init; }
+
+        public string Tip { get; init; } = string.Empty;
+    }
+
+    private static BlackFlowStartRewardOption CreateBlackFlowStartRewardOption(string key, RoguelikeBlackFlowStartReward value) =>
+        new() { Display = LocalizationHelper.GetString(key), Tip = LocalizationHelper.GetString(key + "Tip"), Value = value };
+
+    public List<BlackFlowStartRewardOption> RoguelikeBlackFlowStartRewardList { get; } =
+    [
+        CreateBlackFlowStartRewardOption("RoguelikeBlackFlowRewardUnnumberedItem", RoguelikeBlackFlowStartReward.UnnumberedItem),
+        CreateBlackFlowStartRewardOption("RoguelikeBlackFlowRewardSurveyAdvance", RoguelikeBlackFlowStartReward.SurveyAdvance),
+        CreateBlackFlowStartRewardOption("RoguelikeBlackFlowRewardSpaceLease", RoguelikeBlackFlowStartReward.SpaceLease),
+        CreateBlackFlowStartRewardOption("RoguelikeBlackFlowRewardRegressionCompensation", RoguelikeBlackFlowStartReward.RegressionCompensation),
+        CreateBlackFlowStartRewardOption("RoguelikeBlackFlowRewardForestRide", RoguelikeBlackFlowStartReward.ForestRide),
+        CreateBlackFlowStartRewardOption("RoguelikeBlackFlowRewardNestParasitism", RoguelikeBlackFlowStartReward.NestParasitism),
+    ];
+
+    public List<BlackFlowStartRewardOption> RoguelikeBlackFlowSerpentRewardList { get; } =
+    [
+        CreateBlackFlowStartRewardOption("RoguelikeBlackFlowRewardPegasus", RoguelikeBlackFlowStartReward.Pegasus),
+        CreateBlackFlowStartRewardOption("RoguelikeBlackFlowRewardHippogriff", RoguelikeBlackFlowStartReward.Hippogriff),
+        CreateBlackFlowStartRewardOption("RoguelikeBlackFlowRewardDragon", RoguelikeBlackFlowStartReward.Dragon),
+        CreateBlackFlowStartRewardOption("RoguelikeBlackFlowRewardHydra", RoguelikeBlackFlowStartReward.Hydra),
+        CreateBlackFlowStartRewardOption("RoguelikeBlackFlowRewardBaiZe", RoguelikeBlackFlowStartReward.BaiZe),
+        CreateBlackFlowStartRewardOption("RoguelikeBlackFlowRewardGoldenCrow", RoguelikeBlackFlowStartReward.GoldenCrow),
+    ];
+
+    private object[] SelectBlackFlowRewards(List<BlackFlowStartRewardOption> options)
+    {
+        var value = GetTaskConfig<RoguelikeTask>().BlackFlowStartRewards;
+        return options.Where(v => value.HasFlag(v.Value)).ToArray();
+    }
+
+    // 两个框各管自己那几位，另一框的勾选原样保留。羽蛇框禁用时勾选也保留，只是不生效。
+    private void StoreBlackFlowRewards(object[] selected, RoguelikeBlackFlowStartReward mask)
+    {
+        var picked = selected.Cast<BlackFlowStartRewardOption>().Aggregate(RoguelikeBlackFlowStartReward.None, (a, b) => a | b.Value);
+        var value = (GetTaskConfig<RoguelikeTask>().BlackFlowStartRewards & ~mask) | (picked & mask);
+        SetTaskConfig<RoguelikeTask>(t => t.BlackFlowStartRewards == value, t => t.BlackFlowStartRewards = value);
+    }
+
+    public object[] RoguelikeBlackFlowStartRewardSelectList
+    {
+        get => SelectBlackFlowRewards(RoguelikeBlackFlowStartRewardList);
+        set => StoreBlackFlowRewards(value, ~RoguelikeBlackFlowStartReward.SerpentRewards);
+    }
+
+    public object[] RoguelikeBlackFlowSerpentRewardSelectList
+    {
+        get => SelectBlackFlowRewards(RoguelikeBlackFlowSerpentRewardList);
+        set => StoreBlackFlowRewards(value, RoguelikeBlackFlowStartReward.SerpentRewards);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the BlackFlow start-run preparation runs fly to the third floor with the Mechanic.
+    /// </summary>
+    public bool RoguelikeBlackFlowStartRunFastFlight
+    {
+        get => GetTaskConfig<RoguelikeTask>().BlackFlowStartRunFastFlight;
+        set => SetTaskConfig<RoguelikeTask>(t => t.BlackFlowStartRunFastFlight == value, t => t.BlackFlowStartRunFastFlight = value);
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether the preparation runs use the fixed Mechanic start.
+    /// 生效时准备局分队显示替换后的值且不可修改，用户原来的设置保留，取消勾选后恢复；常规设置不受影响。
+    /// </summary>
+    [PropertyDependsOn(nameof(RoguelikeTheme), nameof(RoguelikeMode), nameof(RoguelikeBlackFlowStartRunFastFlight))]
+    public bool RoguelikeBlackFlowStartRunFlightActive =>
+        RoguelikeTheme == Theme.BlackFlow && RoguelikeMode == Mode.BlackFlowStartRun && RoguelikeBlackFlowStartRunFastFlight;
+
+    /// <summary>
+    /// Gets or sets the preparation squad shown in the start-run settings.
+    /// </summary>
+    [PropertyDependsOn(nameof(RoguelikeTheme), nameof(RoguelikeMode), nameof(RoguelikeBlackFlowStartRunFastFlight), nameof(RoguelikeCollectibleModeSquad))]
+    public string RoguelikeBlackFlowPrepSquadView
+    {
+        get => RoguelikeBlackFlowStartRunFlightActive ? AsstRoguelikeTask.BlackFlowFlightSquad : RoguelikeCollectibleModeSquad;
+        set {
+            if (!RoguelikeBlackFlowStartRunFlightActive)
+            {
+                RoguelikeCollectibleModeSquad = value;
+            }
+        }
+    }
 
     /// <summary>
     /// Gets a value indicating whether the FindPlaytime target selection should be visible.
@@ -1026,7 +1171,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         "ending3" => LocalizationHelper.GetString("RoguelikeBlackFlowEnding3"),
         "investment" => LocalizationHelper.GetString("RoguelikeStrategyBlackFlowInvestment"),
         "burn" or "burn_with_investment" => LocalizationHelper.GetString("RoguelikeStrategyBlackFlowExp"),
-        "baby_animal" or "baby_animal_floor3" => LocalizationHelper.GetString("RoguelikeStrategyBlackFlowBabyAnimal"),
+        "baby_animal" or "baby_animal_floor3" or "start_run_animals" or "start_run_rewards" or "start_run_rewards_with_investment" => LocalizationHelper.GetString("RoguelikeStrategyBlackFlowStartRun"),
         _ => LocalizationHelper.GetString("BlackFlowStrategyUnknown"),
     };
 
@@ -1084,6 +1229,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     };
 
     private static string LocalizeBlackFlowStrategyOutcome(string? outcome) => outcome switch {
+        "start_run_prepared" => LocalizationHelper.GetString("BlackFlowStartRunPrepared"),
         "investment_completed" => LocalizationHelper.GetString("BlackFlowOutcomeInvestmentCompleted"),
         "investment_missed" => LocalizationHelper.GetString("BlackFlowOutcomeInvestmentMissed"),
         "burn_completed" => LocalizationHelper.GetString("BlackFlowOutcomeFloor3RouteCompleted"),
@@ -1119,6 +1265,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     };
 
     private static string LocalizeBlackFlowTerminationReason(string? reason) => reason switch {
+        "start_run_prepared" => LocalizationHelper.GetString("BlackFlowStartRunPreparedReason"),
         "investment_finished" => LocalizationHelper.GetString("BlackFlowTerminationInvestmentFinished"),
         "investment_shop_window_closed" => LocalizationHelper.GetString("BlackFlowTerminationInvestmentShopWindowClosed"),
         "third_floor_reached" => LocalizationHelper.GetString("BlackFlowTerminationFloor3Reached"),
@@ -1377,6 +1524,35 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                     break;
                 }
 
+            case "BlackFlowStartRun":
+                {
+                    var status = subTaskDetails?["status"]?.ToString();
+                    var (key, color) = status switch {
+                        "preparing" => ("BlackFlowStartRunPreparing", UiLogColor.Info),
+                        "target_run" => ("BlackFlowStartRunTargetRun", UiLogColor.Info),
+                        "reward_missed" => ("BlackFlowStartRunRewardMissed", UiLogColor.Info),
+                        "completed" => ("BlackFlowStartRunCompleted", UiLogColor.Success),
+                        "reward_recognition_failed" => ("BlackFlowStartRunRewardRecognitionFailed", UiLogColor.Error),
+                        "reward_page_missing" => ("BlackFlowStartRunRewardPageMissing", UiLogColor.Error),
+                        "reward_unrecognized" => ("BlackFlowStartRunRewardUnrecognized", UiLogColor.Error),
+                        _ => (string.Empty, UiLogColor.Info),
+                    };
+                    if (key.Length > 0)
+                    {
+                        // 支援页认出的奖励名随状态一起显示，方便看出有没有认错
+                        var message = LocalizationHelper.GetString(key);
+                        var rewards = subTaskDetails?["rewards"]?.Values<string>().ToList();
+                        if (rewards is { Count: > 0 })
+                        {
+                            message += "\n" + LocalizationHelper.GetStringFormat("BlackFlowStartRunRewardsSeen", string.Join("、", rewards));
+                        }
+
+                        Instances.TaskQueueViewModel.AddLog(message, color);
+                    }
+
+                    break;
+                }
+
             case "BlackFlowStrategyStarted":
                 {
                     var profile = LocalizeBlackFlowProfile(subTaskDetails?["profile"]?.ToString());
@@ -1559,6 +1735,10 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 BlackFlowCultivationTarget = roguelike.BlackFlowCultivationTarget,
                 BlackFlowEnding = roguelike.BlackFlowEnding,
                 BlackFlowFastFlight = roguelike.BlackFlowFastFlight,
+                BlackFlowStartAnimal1 = roguelike.BlackFlowStartAnimal1,
+                BlackFlowStartAnimal2 = roguelike.BlackFlowStartAnimal2,
+                BlackFlowStartRewards = roguelike.BlackFlowStartRewards,
+                BlackFlowStartRunFastFlight = roguelike.BlackFlowStartRunFastFlight,
 
                 SamiFirstFloorFoldartal = roguelike.Theme == Theme.Sami && roguelike.Mode == Mode.Collectible && roguelike.SamiFirstFloorFoldartal,
                 SamiStartFloorFoldartal = roguelike.SamiFirstFloorFoldartals,
@@ -1619,7 +1799,6 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     {
         RoguelikeThemeList.RefreshLocalization();
         RoguelikeFindPlaytimeTargetList.RefreshLocalization();
-        RoguelikeBlackFlowCultivationTargetList.RefreshLocalization();
         RoguelikeBlackFlowEndingList.RefreshLocalization();
         UpdateRoguelikeDifficultyList();
         UpdateRoguelikeModeList();

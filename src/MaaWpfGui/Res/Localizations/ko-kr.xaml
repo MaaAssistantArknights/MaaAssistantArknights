@@ -264,8 +264,6 @@
     <system:String x:Key="RoguelikeStrategyGold">오리지늄각뿔 투자, 투자 완료 시 자동 종료</system:String>
     <system:String x:Key="RoguelikeStrategyBlackFlowExp">레벨 우선, 빠르게 3구역으로 이동</system:String>
     <system:String x:Key="RoguelikeStrategyBlackFlowInvestment">오리지늄각뿔 투자, 투자 완료 후 자동 종료</system:String>
-    <system:String x:Key="RoguelikeStrategyBlackFlowBabyAnimal">포대기 동물 육성</system:String>
-    <system:String x:Key="RoguelikeBlackFlowCultivationTarget">목표 포대기 동물</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetCat">포대기의 고양이</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetFeatheredSerpent">포대기의 깃털 뱀</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetDog">포대기의 개</system:String>
@@ -2733,4 +2731,12 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="ExternalNotificationFilterPreviousLogs">첨부 로그 내용 필터링</system:String>
     <system:String x:Key="ExternalNotificationFilterPreviousLogsTip" xml:space="preserve">블랙리스트와 일치하는 로그를 제외한 뒤 개수와 유효 시간 범위 내에서 가장 최근 로그를 선택합니다.&#10;현재 로그는 항상 유지합니다.</system:String>
     <system:String x:Key="ExternalNotificationBlacklist">블랙리스트 (줄마다 정규식 하나)</system:String>
+    <system:String x:Key="BlackFlowStartRunPreparing">준비 탐험 진행 중</system:String>
+    <system:String x:Key="BlackFlowStartRunTargetRun">목표 탐험을 시작하고 시작 보상 확인을 기다리는 중</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardMissed">원하는 시작 보상이 없어 준비 탐험을 다시 진행합니다</system:String>
+    <system:String x:Key="BlackFlowStartRunCompleted">시작 조건을 충족하여 이번 탐험을 유지한 채 나왔습니다</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardRecognitionFailed">시작 보상을 인식하지 못하여 작업을 중지했습니다</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardPageMissing">시작 보상 화면을 찾지 못하여 작업을 중지했습니다</system:String>
+    <system:String x:Key="BlackFlowStartRunPrepared">탐험 준비 완료</system:String>
+    <system:String x:Key="BlackFlowStartRunPreparedReason">3층에 도달했습니다. 다음 탐험은 지정한 난이도와 분대로 시작합니다</system:String>
 </ResourceDictionary>
