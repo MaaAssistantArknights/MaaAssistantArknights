@@ -25,6 +25,11 @@ namespace MaaWpfGui.Models.AsstTasks;
 /// </summary>
 public class AsstRoguelikeTask : AsstBaseTask
 {
+    // 满天赋机械师自带结构性原理的开局组合，与黑流刷等级策略里飞行规则的条件一致
+    public const string BlackFlowFlightSquad = "特勤分队";
+    public const string BlackFlowFlightRoles = "稳扎稳打";
+    public const string BlackFlowFlightCoreChar = "机械师";
+
     public override AsstTaskType TaskType => AsstTaskType.Roguelike;
 
     /// <summary>
@@ -186,6 +191,16 @@ public class AsstRoguelikeTask : AsstBaseTask
     public RoguelikeBlackFlowCultivationTarget BlackFlowCultivationTarget { get; set; } = RoguelikeBlackFlowCultivationTarget.Cat;
 
     /// <summary>
+    /// Gets or sets 刷等级的目标结局
+    /// </summary>
+    public RoguelikeBlackFlowEnding BlackFlowEnding { get; set; } = RoguelikeBlackFlowEnding.Ending1;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 刷等级时用机械师快速飞三层
+    /// </summary>
+    public bool BlackFlowFastFlight { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 是否在五层BOSS前停下来
     /// </summary>
     public bool StopAtFinalBoss { get; set; }
@@ -211,6 +226,19 @@ public class AsstRoguelikeTask : AsstBaseTask
             ["investment_enabled"] = InvestmentEnabled,
         };
 
+        // 快速飞三层：分队、职业组和开局干员换成满天赋机械师的固定开局，沿用 Core 刷等级的默认策略。
+        // 不勾选就按目标结局打，开局配置即使是这套组合也不飞。
+        var expFlight = Theme == RoguelikeTheme.BlackFlow && Mode == RoguelikeMode.Exp && BlackFlowFastFlight;
+        if (Theme == RoguelikeTheme.BlackFlow && Mode == RoguelikeMode.Exp && !BlackFlowFastFlight)
+        {
+            taskParams["blackflow_strategy"] = BlackFlowEnding switch
+            {
+                RoguelikeBlackFlowEnding.Ending2 => "ending2",
+                RoguelikeBlackFlowEnding.Ending3 => "ending3",
+                _ => "ending1",
+            };
+        }
+
         if (Theme == RoguelikeTheme.BlackFlow && Mode == RoguelikeMode.BlackFlowBabyAnimal)
         {
             taskParams["blackflow_strategy"] = "baby_animal";
@@ -231,19 +259,30 @@ public class AsstRoguelikeTask : AsstBaseTask
             taskParams["stop_when_investment_full"] = InvestmentStopWhenFull;
         }
 
-        if (Squad.Length > 0)
+        if (expFlight)
+        {
+            taskParams["squad"] = BlackFlowFlightSquad;
+        }
+        else if (Squad.Length > 0)
         {
             taskParams["squad"] = Squad;
         }
 
-        if (Roles.Length > 0)
+        if (expFlight)
+        {
+            taskParams["roles"] = BlackFlowFlightRoles;
+        }
+        else if (Roles.Length > 0)
         {
             taskParams["roles"] = Roles;
         }
 
-        if (CoreCharList.Count > 0)
+        List<AsstRoguelikeCoreChar> coreCharList = expFlight
+            ? [new() { Name = BlackFlowFlightCoreChar, UseSupport = false }]
+            : CoreCharList;
+        if (coreCharList.Count > 0)
         {
-            taskParams["core_char_list"] = new JArray(CoreCharList.Select(i => new JObject
+            taskParams["core_char_list"] = new JArray(coreCharList.Select(i => new JObject
             {
                 ["name"] = i.Name,
                 ["use_support"] = i.UseSupport,

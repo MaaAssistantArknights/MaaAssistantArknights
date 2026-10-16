@@ -114,7 +114,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         {
             baseList =
             [
-                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyBlackFlowExp"), Value = Mode.Exp },
+                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = Mode.Exp },
                 new() { Display = LocalizationHelper.GetString("RoguelikeStrategyBlackFlowInvestment"), Value = Mode.Investment },
                 new() { Display = LocalizationHelper.GetString("RoguelikeStrategyBlackFlowBabyAnimal"), Value = Mode.BlackFlowBabyAnimal },
             ];
@@ -924,6 +924,31 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         (RoguelikeBoskySubNodeType.Nian, "RoguelikePlaytimeNian"));
 
     /// <summary>
+    /// Gets or sets a value indicating whether the BlackFlow exp mode flies to the third floor with the Mechanic.
+    /// </summary>
+    public bool RoguelikeBlackFlowFastFlight
+    {
+        get => GetTaskConfig<RoguelikeTask>().BlackFlowFastFlight;
+        set => SetTaskConfig<RoguelikeTask>(t => t.BlackFlowFastFlight == value, t => t.BlackFlowFastFlight = value);
+    }
+
+    /// <summary>
+    /// Gets or sets the target ending of the BlackFlow exp mode.
+    /// </summary>
+    public RoguelikeBlackFlowEnding RoguelikeBlackFlowEnding
+    {
+        get => GetTaskConfig<RoguelikeTask>().BlackFlowEnding;
+        set => SetTaskConfig<RoguelikeTask>(t => t.BlackFlowEnding == value, t => t.BlackFlowEnding = value);
+    }
+
+    /// <summary>
+    /// Gets the available BlackFlow endings.
+    /// 二、三结局暂不开放，选项不出现。
+    /// </summary>
+    public LocalizedObservableList<RoguelikeBlackFlowEnding> RoguelikeBlackFlowEndingList { get; } = new(
+        (RoguelikeBlackFlowEnding.Ending1, "RoguelikeBlackFlowEnding1"));
+
+    /// <summary>
     /// Gets or sets the target animal type for BlackFlow cultivation.
     /// </summary>
     public CultivationTarget RoguelikeBlackFlowCultivationTarget
@@ -996,6 +1021,9 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     }
 
     private static string LocalizeBlackFlowProfile(string? profile) => profile switch {
+        "ending1" => LocalizationHelper.GetString("RoguelikeBlackFlowEnding1"),
+        "ending2" => LocalizationHelper.GetString("RoguelikeBlackFlowEnding2"),
+        "ending3" => LocalizationHelper.GetString("RoguelikeBlackFlowEnding3"),
         "investment" => LocalizationHelper.GetString("RoguelikeStrategyBlackFlowInvestment"),
         "burn" or "burn_with_investment" => LocalizationHelper.GetString("RoguelikeStrategyBlackFlowExp"),
         "baby_animal" or "baby_animal_floor3" => LocalizationHelper.GetString("RoguelikeStrategyBlackFlowBabyAnimal"),
@@ -1529,6 +1557,8 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                 FindPlaytimeTarget = roguelike.FindPlaytimeTarget, // 等待添加到 RoguelikeTask
 
                 BlackFlowCultivationTarget = roguelike.BlackFlowCultivationTarget,
+                BlackFlowEnding = roguelike.BlackFlowEnding,
+                BlackFlowFastFlight = roguelike.BlackFlowFastFlight,
 
                 SamiFirstFloorFoldartal = roguelike.Theme == Theme.Sami && roguelike.Mode == Mode.Collectible && roguelike.SamiFirstFloorFoldartal,
                 SamiStartFloorFoldartal = roguelike.SamiFirstFloorFoldartals,
@@ -1590,6 +1620,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         RoguelikeThemeList.RefreshLocalization();
         RoguelikeFindPlaytimeTargetList.RefreshLocalization();
         RoguelikeBlackFlowCultivationTargetList.RefreshLocalization();
+        RoguelikeBlackFlowEndingList.RefreshLocalization();
         UpdateRoguelikeDifficultyList();
         UpdateRoguelikeModeList();
         UpdateRoguelikeRolesList();

@@ -130,6 +130,16 @@ public class RoguelikeTask : BaseTask
     public RoguelikeBlackFlowCultivationTarget BlackFlowCultivationTarget { get; set; } = RoguelikeBlackFlowCultivationTarget.Cat;
 
     /// <summary>
+    /// Gets or sets 刷等级的目标结局
+    /// </summary>
+    public RoguelikeBlackFlowEnding BlackFlowEnding { get; set; } = RoguelikeBlackFlowEnding.Ending1;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 刷等级时用机械师快速飞三层
+    /// </summary>
+    public bool BlackFlowFastFlight { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 使用非好友助战
     /// </summary>
     public bool UseSupportNonFriend { get; set; }
@@ -267,6 +277,16 @@ public enum RoguelikeMode
     /// 30001 - 刷襁褓动物（主题专用 GUI 模式）
     /// </summary>
     BlackFlowBabyAnimal = 30001,
+}
+
+/// <summary>
+/// 黑流树海刷等级的目标结局
+/// </summary>
+public enum RoguelikeBlackFlowEnding
+{
+    Ending1 = 1,
+    Ending2 = 2,
+    Ending3 = 3,
 }
 
 /// <summary>

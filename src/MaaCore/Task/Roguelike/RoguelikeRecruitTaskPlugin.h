@@ -57,5 +57,7 @@ private:
     bool m_starts_complete = false; // 开局干员是否已经招募，阵容中必须有开局干员，没有前仅招募start干员或预备干员
     bool m_team_complete = false;   // 阵容是否完备，阵容完备前，仅招募key干员或预备干员
     std::string m_start_roles;      // 开局职业组，只存在于任务参数里，RoguelikeConfig 拿不到
+    // 指定的黑流策略；刷等级为空时 Core 推断为会飞三层的 burn 系策略
+    std::string m_blackflow_strategy;
 };
 }
