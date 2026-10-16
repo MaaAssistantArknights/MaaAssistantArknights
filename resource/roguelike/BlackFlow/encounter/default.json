@@ -28,7 +28,7 @@
         { "name": "独活", "option_num": 2, "choose": 2 },
         { "name": "原始娱乐", "option_num": 2, "choose": 2 },
         { "name": "掠夺成性", "option_num": 2, "choose": 2 },
-        { "name": "险路尽头", "option_num": 3, "choose": 1 },
+        { "name": "险路尽头", "option_num": 3, "choose": 1, "fallback_choices": [[4, 1]] },
         { "name": "金色凝滞", "option_num": 3, "choose": 3 },
         { "name": "安眠一隅", "continue_single_option": true },
         { "name": "线人", "option_num": 3, "choose": 2 },
