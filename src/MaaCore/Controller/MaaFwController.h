@@ -16,7 +16,7 @@ namespace asst
 {
 class Assistant;
 
-class MaaFwController : public ControllerAPI, private InstHelper, public LibraryHolder<MaaFwController>
+class MaaFwController : public ControllerAPI, private InstHelper, public LibraryHolder
 {
 public:
     MaaFwController(const AsstCallback& callback, Assistant* inst, PlatformType type);

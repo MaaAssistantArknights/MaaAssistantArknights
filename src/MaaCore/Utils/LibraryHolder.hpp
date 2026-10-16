@@ -14,7 +14,6 @@
 
 namespace asst
 {
-template <typename T>
 class LibraryHolder
 {
 public:
@@ -45,14 +44,12 @@ private:
 #endif
 };
 
-template <typename T>
-inline LibraryHolder<T>::~LibraryHolder()
+inline LibraryHolder::~LibraryHolder()
 {
     unload_library();
 }
 
-template <typename T>
-inline bool LibraryHolder<T>::load_library(const std::filesystem::path& libname)
+inline bool LibraryHolder::load_library(const std::filesystem::path& libname)
 {
     LogInfo << VAR(libname);
 
@@ -105,8 +102,7 @@ inline bool LibraryHolder<T>::load_library(const std::filesystem::path& libname)
     return true;
 }
 
-template <typename T>
-inline void LibraryHolder<T>::unload_library()
+inline void LibraryHolder::unload_library()
 {
     LogInfo << VAR(libname_);
 
@@ -129,9 +125,8 @@ inline void LibraryHolder<T>::unload_library()
     libname_.clear();
 }
 
-template <typename T>
 template <typename FuncT>
-inline std::function<FuncT> LibraryHolder<T>::get_function(const std::string& func_name)
+inline std::function<FuncT> LibraryHolder::get_function(const std::string& func_name)
 {
     LogInfo << VAR(func_name);
 

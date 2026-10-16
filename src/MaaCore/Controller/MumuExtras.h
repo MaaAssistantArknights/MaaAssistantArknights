@@ -14,7 +14,7 @@
 
 namespace asst
 {
-class MumuExtras : public LibraryHolder<MumuExtras>
+class MumuExtras : public LibraryHolder
 {
 public:
     MumuExtras() = default;
