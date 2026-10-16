@@ -1828,6 +1828,12 @@ JSON 值
   @required
   控制单元动态库名。可选值：`MaaAdbControlUnit` | `MaaAndroidNativeControlUnit` | `MaaLinuxControlUnit`。
   :::
+  ::: field target_is_pc
+  @type boolean
+  @default false
+  @optional
+  启用 PC 端优化（截图前先移动鼠标到不影响识别的位置）。
+  :::
   ::::
 
   - 仅在 `control_unit = MaaAdbControlUnit` 时生效：
@@ -1874,6 +1880,10 @@ JSON 值
     :::
     ::::
 
+::: info MaaFw 触控模式与 `AsstConnect`
+只有 `MaaAdbControlUnit` 使用 `AsstConnect` 的 `adb_path` 和 `address` 参数。其他控制单元无视传递给 `AsstConnect` 的参数。
+:::
+
 <details>
 <summary>Example</summary>
 
@@ -1898,17 +1908,12 @@ AsstSetInstanceOption(handle, AsstInstanceOptionKey::TouchMode, "MaaFw");
 AsstSetConnectionExtras("MaaFw",
     R"({
         "control_unit": "MaaLinuxControlUnit",
+        "target_is_pc": true,
         "screencap_method": 1,
         "input_method": 1,
         "wlr_socket_path": "/run/user/1000/wayland-1"
     })");
-AsstConnect(handle, "N/A", "N/A", "PC");
+AsstConnect(handle, "N/A", "N/A", "N/A");
 ```
 
 </details>
-
-::: info MaaFw 触控模式与 `AsstConnect`
-非 ADB 控制器不使用 `AsstConnect` 的 `adb_path` 和 `address` 参数。
-
-`AsstConnect` 的 `config` 参数为 `PC` 时启用 PC 端优化（截图前先移动鼠标到不影响识别的位置），为其他值时将目标视作 Android 模拟器窗口。
-:::

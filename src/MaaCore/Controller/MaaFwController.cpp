@@ -59,7 +59,7 @@ bool MaaFwController::connect_with_extras(
     m_uuid.clear();
     m_screen_size = { 0, 0 };
 
-    m_target_is_pc = config == "PC";
+    m_target_is_pc = extras.get("target_is_pc", false);
     m_esc_keycode = 111; // KEYCODE_ESCAPE for Android
 
     auto get_info_json = [&]() -> json::object {
