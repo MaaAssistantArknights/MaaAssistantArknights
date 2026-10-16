@@ -1017,27 +1017,6 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
             : LocalizationHelper.GetString(fallbackKey);
     }
 
-    private static string LocalizeBlackFlowDecisionDetail(JToken? details)
-    {
-        var ruleId = details?["decisive_rule_id"]?.ToString();
-        if (!string.IsNullOrWhiteSpace(ruleId))
-        {
-            return LocalizeBlackFlowIdentifier("BlackFlowRule", ruleId, "BlackFlowDecisionDetailUnknown");
-        }
-
-        var milestoneId = details?["decisive_milestone_id"]?.ToString();
-        if (!string.IsNullOrWhiteSpace(milestoneId))
-        {
-            return LocalizeBlackFlowIdentifier("BlackFlowMilestone", milestoneId, "BlackFlowDecisionDetailUnknown");
-        }
-
-        return details?["reason_detail"]?.ToString() switch {
-            "selected unclassified frontier probe" => LocalizationHelper.GetString("BlackFlowDecisionProbeUnknownNode"),
-            "selected by lexicographic policy order" => LocalizationHelper.GetString("BlackFlowDecisionPolicyOrder"),
-            _ => LocalizationHelper.GetString("BlackFlowDecisionDetailUnknown"),
-        };
-    }
-
     private static string LocalizeBlackFlowNodeType(string? nodeType) => nodeType switch {
         "empty" => LocalizationHelper.GetString("BlackFlowNodeEmpty"),
         "battle_normal" or "combat" => LocalizationHelper.GetString("BlackFlowNodeCombat"),
@@ -1277,26 +1256,16 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
                         nodeName = LocalizeBlackFlowNodeType(subTaskDetails?["node_type"]?.ToString());
                     }
                     var margin = subTaskDetails?["safety_margin"]?.Value<int>() ?? 0;
-                    var category = subTaskDetails?["reason_category"]?.ToString() switch {
-                        "mandatory_goal" => LocalizationHelper.GetString("BlackFlowReasonMandatoryGoal"),
-                        "resource_reserve" => LocalizationHelper.GetString("BlackFlowReasonResourceReserve"),
-                        "preferred_goal" => LocalizationHelper.GetString("BlackFlowReasonPreferredGoal"),
-                        "development" => LocalizationHelper.GetString("BlackFlowReasonDevelopment"),
-                        "risk_avoidance" => LocalizationHelper.GetString("BlackFlowReasonRiskAvoidance"),
-                        "safety_fallback" => LocalizationHelper.GetString("BlackFlowReasonSafetyFallback"),
-                        _ => LocalizationHelper.GetString("BlackFlowReasonTieBreak"),
-                    };
-                    var reasonDetail = LocalizeBlackFlowDecisionDetail(subTaskDetails);
-                    var routeLine = LocalizationHelper.GetStringFormat(
-                        "BlackFlowRoutingDecision",
-                        floor,
-                        before,
-                        after,
-                        movement,
-                        nodeName,
-                        margin);
-                    var reasonLine = LocalizationHelper.GetStringFormat("BlackFlowRoutingReason", category, reasonDetail);
-                    Instances.TaskQueueViewModel.AddLog($"{routeLine}\n{reasonLine}", UiLogColor.EventIS);
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat(
+                            "BlackFlowRoutingDecision",
+                            floor,
+                            before,
+                            after,
+                            movement,
+                            nodeName,
+                            margin),
+                        UiLogColor.EventIS);
                     break;
                 }
 
