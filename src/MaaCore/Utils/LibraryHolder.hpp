@@ -14,31 +14,34 @@
 
 namespace asst
 {
-// template for ref_count
 template <typename T>
 class LibraryHolder
 {
 public:
+    LibraryHolder(const LibraryHolder&) = delete;
+    LibraryHolder& operator=(const LibraryHolder&) = delete;
+    LibraryHolder(LibraryHolder&&) = delete;
+    LibraryHolder& operator=(LibraryHolder&&) = delete;
+
     virtual ~LibraryHolder();
 
-    static bool load_library(const std::filesystem::path& libname);
-    static void unload_library();
+    bool load_library(const std::filesystem::path& libname);
+    void unload_library();
 
     template <typename FuncT>
-    static std::function<FuncT> get_function(const std::string& func_name);
+    std::function<FuncT> get_function(const std::string& func_name);
 
 protected:
     LibraryHolder() = default;
 
 private:
-    inline static std::filesystem::path libname_;
-    inline static int ref_count_ = 0;
-    inline static std::mutex mutex_;
+    std::filesystem::path libname_;
+    std::mutex mutex_;
 
 #ifdef _WIN32
-    inline static HMODULE module_ = nullptr;
+    HMODULE module_ = nullptr;
 #else
-    inline static void* module_ = nullptr;
+    void* module_ = nullptr;
 #endif
 };
 
@@ -61,8 +64,7 @@ inline bool LibraryHolder<T>::load_library(const std::filesystem::path& libname)
             return false;
         }
 
-        ++ref_count_;
-        LogDebug << "Already loaded" << VAR(ref_count_);
+        LogDebug << "Already loaded";
         return true;
     }
 
@@ -100,7 +102,6 @@ inline bool LibraryHolder<T>::load_library(const std::filesystem::path& libname)
 #endif
 
     libname_ = libname;
-    ++ref_count_;
     return true;
 }
 
@@ -116,12 +117,6 @@ inline void LibraryHolder<T>::unload_library()
         return;
     }
 
-    --ref_count_;
-    if (ref_count_ > 0) {
-        LogDebug << "LibraryHolder ref count" << VAR(ref_count_);
-        return;
-    }
-
     LogInfo << "Unloading library" << VAR(libname_);
 
 #ifdef _WIN32
@@ -132,7 +127,6 @@ inline void LibraryHolder<T>::unload_library()
 
     module_ = nullptr;
     libname_.clear();
-    ref_count_ = 0;
 }
 
 template <typename T>
