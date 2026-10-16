@@ -267,7 +267,7 @@
     <system:String x:Key="RoguelikeStrategyBlackFlowBabyAnimal">刷襁褓动物</system:String>
     <system:String x:Key="RoguelikeBlackFlowFlightRequirement">需满天赋机械师</system:String>
     <system:String x:Key="RoguelikeBlackFlowFastFlight">快速飞三层</system:String>
-    <system:String x:Key="RoguelikeBlackFlowFlightTip">第二层用机械师直接飞到第三层，到达后重开。机械师天赋没点满会飞不起来，请不要勾选。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowFlightTip" xml:space="preserve">固定用特勤分队、稳扎稳打和自己的机械师开局，只招机械师，第二层用自带的结构性原理直接飞到第三层，到达后重开。&#10;常规设置里的分队、职业组和开局干员只在开始任务时替换，设置本身不变。不勾选时按目标结局打，开局配置是这套组合也不会飞。&#10;机械师天赋没点满会飞不起来，请不要勾选。</system:String>
     <system:String x:Key="RoguelikeBlackFlowEndingFlightTip">只有取消勾选 ｢{key=RoguelikeBlackFlowFastFlight}｣ 才能选择结局</system:String>
     <system:String x:Key="RoguelikeBlackFlowEnding">目标结局</system:String>
     <system:String x:Key="RoguelikeBlackFlowEnding1">一结局 · 强制重启</system:String>
