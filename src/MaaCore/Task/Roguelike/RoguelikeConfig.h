@@ -41,7 +41,8 @@ enum class RoguelikeMode
     FindPlaytime = 20'001, // 20001 - 刷常乐节点，第一层进洞，找不到需要的节点就重开
 
     // ------------------ 黑流树海主题专用模式 ------------------
-    BlackFlowBabyAnimal = 30'001 // 30001 - 刷襁褓动物
+    BlackFlowBabyAnimal = 30'001, // 30001 - 刷襁褓动物
+    BlackFlowStartRun = 30'003,   // 30003 - 刷动物组合和开局奖励，保留目标局
 };
 
 struct RoguelikeOper
@@ -108,7 +109,7 @@ public:
     {
         if (theme == RoguelikeTheme::BlackFlow) {
             return mode == RoguelikeMode::Exp || mode == RoguelikeMode::Investment ||
-                   mode == RoguelikeMode::BlackFlowBabyAnimal;
+                   mode == RoguelikeMode::BlackFlowBabyAnimal || mode == RoguelikeMode::BlackFlowStartRun;
         }
         return mode == RoguelikeMode::Exp || mode == RoguelikeMode::Investment || mode == RoguelikeMode::Collectible ||
                mode == RoguelikeMode::Squad || mode == RoguelikeMode::Exploration ||
@@ -119,6 +120,10 @@ public:
 
     bool verify_and_load_params(const json::value& params);
     void clear(); // 重置肉鸽局内数据
+
+    const std::vector<std::string>& get_blackflow_start_animals() const { return m_blackflow_start_animals; }
+
+    int get_blackflow_start_rewards() const { return m_blackflow_start_rewards; }
 
     // 解析开局干员顺位：core_char_list 存在且有非空 name 项时用之（逐项读 name/use_support，name 为空的项跳过）
     static std::vector<RoguelikeStartOper> parse_start_opers(const json::value& params);
@@ -185,6 +190,10 @@ private:
 
     // ------------------ 刷开局模式 ------------------
     bool m_collectible_mode_shopping = false; // 刷开局模式下进入商店时购物
+
+    // ------------------ 黑流刷开局 ------------------
+    std::vector<std::string> m_blackflow_start_animals;
+    int m_blackflow_start_rewards = 0;
 
     // ------------------ 刷常乐节点模式 ------------------
     int m_find_playTime_target = 0; // 目标常乐节点子类型 (1=令, 2=黍, 3=年)

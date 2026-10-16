@@ -264,8 +264,6 @@
     <system:String x:Key="RoguelikeStrategyGold">刷源石錠，投資完成後自動退出</system:String>
     <system:String x:Key="RoguelikeStrategyBlackFlowExp">刷等級，快速前往第三層</system:String>
     <system:String x:Key="RoguelikeStrategyBlackFlowInvestment">刷源石錠，投資完成後自動退出</system:String>
-    <system:String x:Key="RoguelikeStrategyBlackFlowBabyAnimal">刷襁褓動物</system:String>
-    <system:String x:Key="RoguelikeBlackFlowCultivationTarget">目標襁褓動物</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetCat">襁褓中的貓</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetFeatheredSerpent">襁褓羽蛇</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetDog">襁褓中的狗</system:String>
@@ -2733,4 +2731,12 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="ExternalNotificationFilterPreviousLogs">篩選附帶日誌內容</system:String>
     <system:String x:Key="ExternalNotificationFilterPreviousLogsTip" xml:space="preserve">先排除符合黑名單的日誌，再依數量及有效時間選取最近的日誌。&#10;目前日誌始終保留。</system:String>
     <system:String x:Key="ExternalNotificationBlacklist">黑名單（每行一條，支援正則）</system:String>
+    <system:String x:Key="BlackFlowStartRunPreparing">正在進行準備局</system:String>
+    <system:String x:Key="BlackFlowStartRunTargetRun">已切換到目標局，等待檢查開局獎勵</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardMissed">開局獎勵未命中，重新進行準備局</system:String>
+    <system:String x:Key="BlackFlowStartRunCompleted">開局目標已滿足，已退出並保留這一局</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardRecognitionFailed">開局獎勵辨識失敗，已停止任務</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardPageMissing">未辨識到開局獎勵頁，已停止任務</system:String>
+    <system:String x:Key="BlackFlowStartRunPrepared">開局準備已完成</system:String>
+    <system:String x:Key="BlackFlowStartRunPreparedReason">已到達第三層，將按目標難度和分隊開啟下一局</system:String>
 </ResourceDictionary>

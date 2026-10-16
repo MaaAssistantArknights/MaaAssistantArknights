@@ -25,7 +25,7 @@ namespace MaaWpfGui.Models.AsstTasks;
 /// </summary>
 public class AsstRoguelikeTask : AsstBaseTask
 {
-    // 满天赋机械师自带结构性原理的开局组合，与黑流刷等级策略里飞行规则的条件一致
+    // 满天赋机械师自带结构性原理的开局组合，与黑流策略 mechanic_flight 模块的条件一致
     public const string BlackFlowFlightSquad = "特勤分队";
     public const string BlackFlowFlightRoles = "稳扎稳打";
     public const string BlackFlowFlightCoreChar = "机械师";
@@ -201,6 +201,23 @@ public class AsstRoguelikeTask : AsstBaseTask
     public bool BlackFlowFastFlight { get; set; }
 
     /// <summary>
+    /// Gets or sets 刷开局要求的两只襁褓动物
+    /// </summary>
+    public RoguelikeBlackFlowStartAnimal BlackFlowStartAnimal1 { get; set; } = RoguelikeBlackFlowStartAnimal.None;
+
+    public RoguelikeBlackFlowStartAnimal BlackFlowStartAnimal2 { get; set; } = RoguelikeBlackFlowStartAnimal.None;
+
+    /// <summary>
+    /// Gets or sets 刷开局的期望奖励
+    /// </summary>
+    public RoguelikeBlackFlowStartReward BlackFlowStartRewards { get; set; } = RoguelikeBlackFlowStartReward.None;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 刷开局的准备局固定用满天赋机械师开局快速飞三层
+    /// </summary>
+    public bool BlackFlowStartRunFastFlight { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 是否在五层BOSS前停下来
     /// </summary>
     public bool StopAtFinalBoss { get; set; }
@@ -239,17 +256,25 @@ public class AsstRoguelikeTask : AsstBaseTask
             };
         }
 
-        if (Theme == RoguelikeTheme.BlackFlow && Mode == RoguelikeMode.BlackFlowBabyAnimal)
+        // 准备局快速飞三层：分队、职业组和开局干员换成满天赋机械师的固定开局，只招机械师，其余开局招募由 Core 放弃。
+        // 目标局在支援页命中后就退出，走不到选职业组，所以职业组和开局干员只作用于准备局，直接替换即可。
+        var startRunFlight = Theme == RoguelikeTheme.BlackFlow && Mode == RoguelikeMode.BlackFlowStartRun && BlackFlowStartRunFastFlight;
+        if (Theme == RoguelikeTheme.BlackFlow && Mode == RoguelikeMode.BlackFlowStartRun)
         {
-            taskParams["blackflow_strategy"] = "baby_animal";
-            taskParams["blackflow_cultivation_target"] = BlackFlowCultivationTarget switch
+            var animals = new[] { BlackFlowStartAnimal1, BlackFlowStartAnimal2 }
+                .Where(animal => animal != RoguelikeBlackFlowStartAnimal.None).ToArray();
+            var hasSerpent = animals.Contains(RoguelikeBlackFlowStartAnimal.FeatheredSerpent);
+            var rewards = hasSerpent ? BlackFlowStartRewards : BlackFlowStartRewards & ~RoguelikeBlackFlowStartReward.SerpentRewards;
+            taskParams["blackflow_start_animals"] = new JArray(animals.Select(animal => animal switch
             {
-                RoguelikeBlackFlowCultivationTarget.Cat => "swaddled_cat",
-                RoguelikeBlackFlowCultivationTarget.FeatheredSerpent => "swaddled_feathered_serpent",
-                RoguelikeBlackFlowCultivationTarget.Dog => "swaddled_dog",
-                RoguelikeBlackFlowCultivationTarget.Cerberus => "swaddled_cerberus",
-                _ => "swaddled_cat",
-            };
+                RoguelikeBlackFlowStartAnimal.Cat => "swaddled_cat",
+                RoguelikeBlackFlowStartAnimal.Dog => "swaddled_dog",
+                RoguelikeBlackFlowStartAnimal.Cerberus => "swaddled_cerberus",
+                RoguelikeBlackFlowStartAnimal.FeatheredSerpent => "swaddled_feathered_serpent",
+                _ => throw new System.ArgumentOutOfRangeException(nameof(animal)),
+            }));
+            taskParams["blackflow_start_rewards"] = (int)rewards;
+            taskParams["collectible_mode_squad"] = startRunFlight ? BlackFlowFlightSquad : CollectibleModeSquad;
         }
 
         if (InvestmentEnabled)
@@ -268,7 +293,7 @@ public class AsstRoguelikeTask : AsstBaseTask
             taskParams["squad"] = Squad;
         }
 
-        if (expFlight)
+        if (expFlight || startRunFlight)
         {
             taskParams["roles"] = BlackFlowFlightRoles;
         }
@@ -277,7 +302,7 @@ public class AsstRoguelikeTask : AsstBaseTask
             taskParams["roles"] = Roles;
         }
 
-        List<AsstRoguelikeCoreChar> coreCharList = expFlight
+        List<AsstRoguelikeCoreChar> coreCharList = expFlight || startRunFlight
             ? [new() { Name = BlackFlowFlightCoreChar, UseSupport = false }]
             : CoreCharList;
         if (coreCharList.Count > 0)

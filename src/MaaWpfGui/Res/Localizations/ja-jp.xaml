@@ -264,8 +264,6 @@
     <system:String x:Key="RoguelikeStrategyGold">源石錐を収集、投資完了後に自動で終了</system:String>
     <system:String x:Key="RoguelikeStrategyBlackFlowExp">レベル稼ぎ、素早く第3層へ</system:String>
     <system:String x:Key="RoguelikeStrategyBlackFlowInvestment">源石錠稼ぎ、投資完了後に自動退出</system:String>
-    <system:String x:Key="RoguelikeStrategyBlackFlowBabyAnimal">襁褓動物を育成</system:String>
-    <system:String x:Key="RoguelikeBlackFlowCultivationTarget">育成する襁褓動物</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetCat">襁褓の猫</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetFeatheredSerpent">襁褓の羽蛇</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetDog">襁褓の犬</system:String>
@@ -2735,4 +2733,12 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="ExternalNotificationFilterPreviousLogs">添付ログの内容をフィルタリング</system:String>
     <system:String x:Key="ExternalNotificationFilterPreviousLogsTip" xml:space="preserve">ブラックリストに一致するログを除外し、残りから件数と有効時間の範囲内で最新のログを選びます。&#10;現在のログは必ず残します。</system:String>
     <system:String x:Key="ExternalNotificationBlacklist">ブラックリスト（1行に1つの正規表現）</system:String>
+    <system:String x:Key="BlackFlowStartRunPreparing">準備用の探索を進行中</system:String>
+    <system:String x:Key="BlackFlowStartRunTargetRun">目標の探索を開始し、初期報酬の確認を待機中</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardMissed">希望する初期報酬がないため、準備用の探索をやり直します</system:String>
+    <system:String x:Key="BlackFlowStartRunCompleted">開始条件を満たしたため、この探索を保持したまま退出しました</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardRecognitionFailed">初期報酬を認識できなかったため、タスクを停止しました</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardPageMissing">初期報酬画面が見つからないため、タスクを停止しました</system:String>
+    <system:String x:Key="BlackFlowStartRunPrepared">探索の準備が完了しました</system:String>
+    <system:String x:Key="BlackFlowStartRunPreparedReason">第3層に到達しました。次の探索では指定の難易度と分隊を使用します</system:String>
 </ResourceDictionary>

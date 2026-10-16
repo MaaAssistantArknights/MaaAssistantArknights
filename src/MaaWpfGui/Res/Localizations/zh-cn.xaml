@@ -264,7 +264,7 @@
     <system:String x:Key="RoguelikeStrategyGold">刷源石锭，投资完成后自动退出</system:String>
     <system:String x:Key="RoguelikeStrategyBlackFlowExp">刷等级，快速飞三层</system:String>
     <system:String x:Key="RoguelikeStrategyBlackFlowInvestment">刷源石锭，投资完成后自动退出</system:String>
-    <system:String x:Key="RoguelikeStrategyBlackFlowBabyAnimal">刷襁褓动物</system:String>
+    <system:String x:Key="RoguelikeStrategyBlackFlowStartRun">刷开局，刷到目标后退出并保留这一局</system:String>
     <system:String x:Key="RoguelikeBlackFlowFlightRequirement">需满天赋机械师</system:String>
     <system:String x:Key="RoguelikeBlackFlowFastFlight">快速飞三层</system:String>
     <system:String x:Key="RoguelikeBlackFlowFlightTip" xml:space="preserve">固定用特勤分队、稳扎稳打和自己的机械师开局，只招机械师，第二层用自带的结构性原理直接飞到第三层，到达后重开。&#10;常规设置里的分队、职业组和开局干员只在开始任务时替换，设置本身不变。不勾选时按目标结局打，开局配置是这套组合也不会飞。&#10;机械师天赋没点满会飞不起来，请不要勾选。</system:String>
@@ -273,11 +273,48 @@
     <system:String x:Key="RoguelikeBlackFlowEnding1">一结局 · 强制重启</system:String>
     <system:String x:Key="RoguelikeBlackFlowEnding2">二结局 · 维度重构</system:String>
     <system:String x:Key="RoguelikeBlackFlowEnding3">三结局 · 纠缠，调和</system:String>
-    <system:String x:Key="RoguelikeBlackFlowCultivationTarget">目标襁褓动物</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartAnimal1">襁褓动物 · 第一只</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartAnimal2">襁褓动物 · 第二只</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartAnimalNone">不要求</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartRewards">期望奖励</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartRewardsAnyHit">任意一项即停</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartRewardsTip" xml:space="preserve">期望奖励和羽蛇奖励里勾选的全部算候选，开局出现任意一项就停下。&#10;鼠标停在选项上可查看效果。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowSerpentRewards">羽蛇奖励</system:String>
+    <system:String x:Key="RoguelikeBlackFlowSerpentRewardsInactive">选了襁褓羽蛇才生效</system:String>
+    <system:String x:Key="RoguelikeBlackFlowPrepSquad">准备局分队</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardUnnumberedItem">未编号物</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardSurveyAdvance">调查预付款</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardSpaceLease">空间租赁</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardRegressionCompensation">退行补偿</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardForestRide">林间代步</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardNestParasitism">巢寄生</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardPegasus">襁褓天马</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardHippogriff">襁褓骏鹰</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardDragon">襁褓巨龙</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardHydra">襁褓九头蛇</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardBaiZe">襁褓白泽</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardGoldenCrow">襁褓金乌</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetCat">襁褓中的猫</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetFeatheredSerpent">襁褓羽蛇</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetDog">襁褓中的狗</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetCerberus">襁褓三头犬</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetCatTip">下一局开局额外获得 5 源石锭。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetDogTip">下一局开局额外获得 1 希望。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetCerberusTip">下一局多一次支援选择机会。培育所在的这一局须至少通过两个区域。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetFeatheredSerpentTip">下一局的支援选项里多一个随机的蓝色襁褓生灵。培育所在的这一局须至少通过两个区域。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardUnnumberedItemTip">获得 1 件普通收藏品。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardSurveyAdvanceTip">获得 8 源石锭。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardSpaceLeaseTip">消耗 6 源石锭，零件箱容量 +2。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardRegressionCompensationTip">消耗 2 目标生命值上限，获得 1 件随机收藏品。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardForestRideTip">获得 1 件加工品。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardNestParasitismTip">零件箱容量 -1，获得 1 件稀有收藏品。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardPegasusTip">每一区域额外获得 1 行动力。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardHippogriffTip">初始额外获得 1 希望，前 2 个区域初始揭露全部视野。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardDragonTip">前 2 个区域中所有敌人的最大生命值 -50%。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardHydraTip">所有敌人的攻击和生命值 +30%；每次进入新的区域，我方单位攻击力和生命值 +10%。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardBaiZeTip">临时招募干员的出现概率提升。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardGoldenCrowTip">进入区域血色空脉时获得 3 个随机收藏品。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowPrepFlightTip" xml:space="preserve">准备局固定用特勤分队、稳扎稳打和自己的机械师开局，只招机械师，第二层用自带的结构性原理直接飞到第三层。&#10;勾选后准备局分队显示为特勤分队且不能修改，取消勾选后恢复原来的设置；常规设置里的职业组和开局干员不受影响。&#10;机械师天赋没点满会飞不起来，请不要勾选。</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">刷开局，刷取热水壶或精二{key=Operator}开局</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">刷坍缩范式，遇到非稀有坍缩范式后直接重开</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">刷开局使用分队</system:String>
@@ -2745,4 +2782,14 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="ExternalNotificationFilterPreviousLogs">过滤附带日志内容</system:String>
     <system:String x:Key="ExternalNotificationFilterPreviousLogsTip" xml:space="preserve">先排除命中黑名单的日志，再按数量和有效时间选取最近的日志。&#10;当前日志始终保留。</system:String>
     <system:String x:Key="ExternalNotificationBlacklist">黑名单（每行一条，支持正则）</system:String>
+    <system:String x:Key="BlackFlowStartRunPreparing">正在进行准备局</system:String>
+    <system:String x:Key="BlackFlowStartRunTargetRun">已切换到目标局，等待检查开局奖励</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardMissed">开局奖励未命中，重新进行准备局</system:String>
+    <system:String x:Key="BlackFlowStartRunCompleted">开局目标已满足，已退出并保留这一局</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardRecognitionFailed">开局奖励识别失败，已停止任务</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardPageMissing">未识别到开局奖励页，已停止任务</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardUnrecognized">选择支援页有奖励没认出来，已停在该页面并停止任务</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardsSeen">本次支援页：{0}</system:String>
+    <system:String x:Key="BlackFlowStartRunPrepared">开局准备已完成</system:String>
+    <system:String x:Key="BlackFlowStartRunPreparedReason">已到达第三层，将按目标难度和分队开启下一局</system:String>
 </ResourceDictionary>

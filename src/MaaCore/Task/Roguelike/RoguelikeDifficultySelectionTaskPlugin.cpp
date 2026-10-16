@@ -17,7 +17,7 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::load_params([[maybe_unused]] 
     }
 
     // 为刷开局模式设置专用难度
-    if (mode == RoguelikeMode::Collectible) {
+    if (mode == RoguelikeMode::Collectible || mode == RoguelikeMode::BlackFlowStartRun) {
         if (m_config->get_difficulty() == -1) {
             m_collectible_difficulty = -1; // 当前难度只能用当前难度烧水
         }
@@ -63,7 +63,8 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::verify(AsstMsg msg, const jso
         m_has_changed = false;
     }
     if (task_view == "Roguelike@StartExplore") { // 烧水时候调来调去的干脆不走
-        return m_config->get_mode() == RoguelikeMode::Collectible || !m_has_changed;
+        return m_config->get_mode() == RoguelikeMode::Collectible ||
+               m_config->get_mode() == RoguelikeMode::BlackFlowStartRun || !m_has_changed;
     }
     else {
         return false;
