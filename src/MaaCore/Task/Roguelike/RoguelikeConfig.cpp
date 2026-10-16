@@ -1,5 +1,8 @@
 #include "RoguelikeConfig.h"
 
+#include <algorithm>
+#include <array>
+
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 
@@ -18,6 +21,45 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
         return false;
     }
 
+    m_blackflow_start_animals.clear();
+    m_blackflow_start_rewards = 0;
+    if (mode == RoguelikeMode::BlackFlowStartRun) {
+        const auto animals = params.find<json::array>("blackflow_start_animals");
+        const auto rewards = params.find<int>("blackflow_start_rewards");
+        if (!animals || animals->size() > 2 || !rewards || *rewards < 0 || *rewards > 0xFFF) {
+            LogError << "Invalid BlackFlow start-run animals or rewards";
+            return false;
+        }
+        constexpr std::array<std::string_view, 4> allowed { "swaddled_cat",
+                                                            "swaddled_dog",
+                                                            "swaddled_cerberus",
+                                                            "swaddled_feathered_serpent" };
+        for (const auto& animal : *animals) {
+            if (!animal.is_string() || std::ranges::find(allowed, animal.as_string()) == allowed.end()) {
+                LogError << "Invalid BlackFlow start-run animal";
+                return false;
+            }
+            m_blackflow_start_animals.emplace_back(animal.as_string());
+        }
+        const auto serpents = std::ranges::count(m_blackflow_start_animals, "swaddled_feathered_serpent");
+        if (serpents > 1) {
+            LogError << "BlackFlow start-run permits at most one feathered serpent";
+            return false;
+        }
+        m_blackflow_start_rewards = serpents == 0 ? *rewards & 0x3F : *rewards;
+        if ((m_blackflow_start_rewards & ~0x3F) != 0 &&
+            Task.get<OcrTaskInfo>("BlackFlow@Roguelike@StartRunSerpentRewardNames") == nullptr) {
+            LogError << "Missing BlackFlow start-run reward recognition resource:"
+                     << "BlackFlow@Roguelike@StartRunSerpentRewardNames";
+            return false;
+        }
+    }
+
+    // 此时 m_mode 仍是上一次设参的模式：同一个未开始的任务从刷开局改设为其他模式时，
+    // 清掉刷开局留下的准备局标记，免得难度插件继续按准备局难度选择
+    if (m_mode == RoguelikeMode::BlackFlowStartRun) {
+        m_run_for_collectible = false;
+    }
     m_theme = theme;
     m_mode = mode;
     m_difficulty = params.get("difficulty", -1);
@@ -101,6 +143,9 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
         m_invest_with_more_score = (investment_with_more_score);
     }
 
+    if (m_mode == RoguelikeMode::BlackFlowStartRun) {
+        m_run_for_collectible = true;
+    }
     if (m_mode == RoguelikeMode::Collectible && !m_only_start_with_elite_two) {
         m_run_for_collectible = true; // 烧开水模式下，如果不是只凹直升，第一轮游戏先烧水
     }

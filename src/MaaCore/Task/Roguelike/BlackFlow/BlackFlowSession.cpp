@@ -242,8 +242,10 @@ void BlackFlowSession::set_cultivated_animal_types(std::vector<CultivatedAnimalT
     m_cultivated_animal_types.clear();
     m_cultivated_animal_types.reserve(types.size());
     for (const CultivatedAnimalType type : types) {
-        if (std::find(m_cultivated_animal_types.begin(), m_cultivated_animal_types.end(), type) ==
-            m_cultivated_animal_types.end()) {
+        // 组合目标保留每只动物；旧的单品种模式继续使用原有的品种列表。
+        if (!m_cultivation_targets.empty() ||
+            std::find(m_cultivated_animal_types.begin(), m_cultivated_animal_types.end(), type) ==
+                m_cultivated_animal_types.end()) {
             m_cultivated_animal_types.emplace_back(type);
         }
     }
@@ -252,8 +254,12 @@ void BlackFlowSession::set_cultivated_animal_types(std::vector<CultivatedAnimalT
     // 在页面结果提交的末尾求值，此刻写入才赶得上同一拍的结算。进店没能下种时收获为空，
     // 事实置假，正好落进 ｢培育已了结但没拿到目标｣ 那一条终止规则。
     const bool obtained =
-        std::find(m_cultivated_animal_types.begin(), m_cultivated_animal_types.end(), m_cultivation_target) !=
-        m_cultivated_animal_types.end();
+        m_cultivation_targets.empty()
+            ? std::ranges::find(m_cultivated_animal_types, m_cultivation_target) != m_cultivated_animal_types.end()
+            : std::ranges::all_of(m_cultivation_targets, [&](CultivatedAnimalType target) {
+                  return std::ranges::count(m_cultivated_animal_types, target) >=
+                         std::ranges::count(m_cultivation_targets, target);
+              });
     std::string error;
     if (!set_fact("cultivation_target_obtained", obtained, &error)) {
         Log.error("BlackFlow cultivation target fact update failed", error);

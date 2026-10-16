@@ -2014,6 +2014,11 @@
         "template": "BlackFlow@Roguelike@StartExplore.png",
         "roi": [958, 530, 322, 189]
     },
+    "BlackFlow@Roguelike@StartRunSerpentRewardNames": {
+        "Doc": "刷开局目标局有羽蛇时的选择支援页，读取第一张蓝色卡的奖励名称；候选名称由生命周期插件传入。",
+        "algorithm": "OcrDetect",
+        "roi": [82, 364, 548, 201]
+    },
     "BlackFlow@Roguelike@StrategyTerminalAction": {
         "baseTask": "BlackFlow@Roguelike@ExitThenAbandon-Enter"
     },

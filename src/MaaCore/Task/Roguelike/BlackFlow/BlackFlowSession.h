@@ -195,6 +195,11 @@ public:
 
     void set_cultivated_animal_types(std::vector<CultivatedAnimalType> types);
 
+    void set_cultivation_targets(std::vector<CultivatedAnimalType> targets)
+    {
+        m_cultivation_targets = std::move(targets);
+    }
+
     [[nodiscard]] std::optional<std::reference_wrapper<const ShoppingRule>> shopping_rule() const;
     // 当前生效的资源预留底线，多条预留取最大值。路线在无路可走时放弃预留只对那一步有效，这里不计。
     [[nodiscard]] int reserved_amount(std::string_view resource) const;
@@ -291,6 +296,7 @@ private:
     std::string m_start_roles;
     CultivatedAnimalType m_cultivation_target = CultivatedAnimalType::Cat;
     std::vector<CultivatedAnimalType> m_cultivated_animal_types;
+    std::vector<CultivatedAnimalType> m_cultivation_targets;
     std::optional<ResolvedPolicy> m_policy;
     FactContext m_facts;
     MissionState m_mission;

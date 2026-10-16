@@ -1923,6 +1923,124 @@
     ],
     "profiles": [
         {
+            "id": "start_run_animals",
+            "description": "准备指定动物组合，进入第三层后开启目标局",
+            "modules": ["common_navigation", "baby_animal_route", "baby_cultivate_gated"],
+            "terminal_rules": [
+                {
+                    "id": "start_run_prepared",
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "cultivation_target_obtained",
+                                "op": "eq",
+                                "value": true
+                            },
+                            {
+                                "fact": "current_floor",
+                                "op": "ge",
+                                "value": 3
+                            }
+                        ]
+                    },
+                    "outcome": "start_run_prepared",
+                    "reason": "start_run_prepared",
+                    "succeeded": true,
+                    "next_action": "restart_current_run"
+                },
+                {
+                    "id": "start_run_animals_missed",
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "cultivation_completed",
+                                "op": "eq",
+                                "value": true
+                            },
+                            {
+                                "fact": "cultivation_target_obtained",
+                                "op": "eq",
+                                "value": false
+                            }
+                        ]
+                    },
+                    "outcome": "baby_cultivation_target_missed",
+                    "reason": "cultivation_target_not_obtained",
+                    "succeeded": false,
+                    "next_action": "restart_current_run"
+                },
+                {
+                    "id": "baby_third_floor_action_points_exhausted",
+                    "when": {
+                        "all": [
+                            {
+                                "fact": "current_floor",
+                                "op": "eq",
+                                "value": 3
+                            },
+                            {
+                                "fact": "action_points",
+                                "op": "le",
+                                "value": 0
+                            },
+                            {
+                                "fact": "cultivation_completed",
+                                "op": "eq",
+                                "value": false
+                            }
+                        ]
+                    },
+                    "outcome": "baby_cultivation_unfinished",
+                    "reason": "third_floor_action_points_exhausted",
+                    "succeeded": false
+                }
+            ],
+            "failure_action": "restart_current_run",
+            "no_AP_is_terminal": {
+                "floors": [3]
+            }
+        },
+        {
+            "id": "start_run_rewards",
+            "description": "尽快走到险路尽头取得开局奖励资格，然后开启目标局；开局是满天赋机械师组合时第二层飞",
+            "modules": ["common_navigation", "mechanic_flight", "burn_route"],
+            "terminal_rules": [
+                {
+                    "id": "start_run_prepared",
+                    "when": {
+                        "fact": "current_floor",
+                        "op": "ge",
+                        "value": 3
+                    },
+                    "outcome": "start_run_prepared",
+                    "reason": "start_run_prepared",
+                    "succeeded": true,
+                    "next_action": "restart_current_run"
+                }
+            ],
+            "failure_action": "restart_current_run"
+        },
+        {
+            "id": "start_run_rewards_with_investment",
+            "description": "第一层完成投资后尽快走到险路尽头，然后开启目标局；开局是满天赋机械师组合时第二层飞",
+            "modules": ["common_navigation", "burn_investment_shop", "mechanic_flight", "burn_route"],
+            "terminal_rules": [
+                {
+                    "id": "start_run_prepared",
+                    "when": {
+                        "fact": "current_floor",
+                        "op": "ge",
+                        "value": 3
+                    },
+                    "outcome": "start_run_prepared",
+                    "reason": "start_run_prepared",
+                    "succeeded": true,
+                    "next_action": "restart_current_run"
+                }
+            ],
+            "failure_action": "restart_current_run"
+        },
+        {
             "id": "ending1",
             "description": "一结局保底",
             "modules": ["common_navigation", "ending_development", "ending_scrap_trade", "ending1_exit"],
