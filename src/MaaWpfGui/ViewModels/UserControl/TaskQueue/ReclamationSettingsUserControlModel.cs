@@ -70,28 +70,31 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
     public void RefreshModeList()
     {
         var mode = ReclamationMode;
-        if (ReclamationTheme == Theme.Tales)
+        (Mode Value, string Key)[] entries = ReclamationTheme switch
         {
-            ModeList = [
-                new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityNoSave"), Value = Mode.ProsperityNoSave },
-                new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityInSave"), Value = Mode.ProsperityInSave },
-            ];
-        }
-        else if (ReclamationTheme == Theme.RelaunchAnchor)
-        {
-            ModeList = [
-                new() { Display = LocalizationHelper.GetString("ReclamationModeRA1"), Value = Mode.RA1 },
-                new() { Display = LocalizationHelper.GetString("ReclamationModeRA4"), Value = Mode.RA4 },
-                new() { Display = LocalizationHelper.GetString("ReclamationModeRA15"), Value = Mode.RA15 },
-            ];
-        }
+            Theme.Tales => [
+                (Mode.ProsperityNoSave, "ReclamationModeProsperityNoSave"),
+                (Mode.ProsperityInSave, "ReclamationModeProsperityInSave"),
+                (Mode.ResourceInSave, "ReclamationModeResourceInSave"),
+            ],
+            Theme.RelaunchAnchor => [
+                (Mode.RA1, "ReclamationModeRA1"),
+                (Mode.RA4, "ReclamationModeRA4"),
+                (Mode.RA15, "ReclamationModeRA15"),
+            ],
+            _ => [],
+        };
+        ModeList = new(entries);
         ReclamationMode = ModeList.Any(x => x.Value == mode) ? mode : ModeList.FirstOrDefault()?.Value ?? default;
     }
 
     /// <summary>
     /// Gets 生息演算模式列表
     /// </summary>
-    public List<GenericCombinedData<Mode>> ModeList { get => field; private set => SetAndNotify(ref field, value); } = [];
+    public LocalizedObservableList<Mode> ModeList { get => field; private set => SetAndNotify(ref field, value); } = new(
+        (Mode.ProsperityNoSave, "ReclamationModeProsperityNoSave"),
+        (Mode.ProsperityInSave, "ReclamationModeProsperityInSave"),
+        (Mode.ResourceInSave, "ReclamationModeResourceInSave"));
 
     /// <summary>
     /// Gets or sets 生息演算模式（含义由主题决定）
@@ -183,7 +186,7 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
                     }
 
                 case Theme.Tales:
-                    return LocalizationHelper.GetString("ReclamationTipTales");
+                    return LocalizationHelper.GetString(mode == Mode.ResourceInSave ? "ReclamationResourceInSaveTip" : "ReclamationTipTales");
                 default:
                     return string.Empty;
             }
@@ -234,7 +237,7 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, Reclam
     private void RefreshLocalization()
     {
         ReclamationThemeList.RefreshLocalization();
-        RefreshModeList();
+        ModeList.RefreshLocalization();
         ReclamationIncrementModeList.RefreshLocalization();
     }
 }

@@ -1045,6 +1045,22 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ReclamationModeRA15">RA-15</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">セーブせずに、出入りを繰り返して生息ポイントを稼ぐ</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">セーブしながら、支援アイテムを組み立てて生息ポイントを稼ぐ</system:String>
+    <system:String x:Key="ReclamationModeResourceInSave">セーブあり：日数を進めて物資とポイントを周回</system:String>
+    <system:String x:Key="ReclamationResourceInSaveTip" xml:space="preserve">注意事項：
+1. このモードはナビゲーションに対応しています。このモードを選択し、タスク一覧に生息演算を追加して通常どおり実行できます。
+2. 既存の拠点生産と派遣イベントを利用するモードです。実行前にすべてのメイン・サブ任務を完了し、拠点設備を完成させ、開始用の食材、金塊、水、鉄鉱石、石材、木材を用意してください。
+3. 各周期に4回のイベント派遣を行うため、駐屯中のオペレーターとは別に、昇進2のオペレーターを最低12名用意してください。
+4. 生息ポイントが上限に達しても物資周回を続けます。手動で停止してください。</system:String>
+    <system:String x:Key="ReclamationResourceError">物資周回を停止しました：{0}</system:String>
+    <system:String x:Key="ReclamationResourceUnknownEvent">未対応のイベントを検出しました。イベント一覧を確認してください</system:String>
+    <system:String x:Key="ReclamationResourceEventList">イベント一覧または件数が想定と一致しません</system:String>
+    <system:String x:Key="ReclamationResourceDay">日数を確認できないか、想定どおりに日数が進んでいません</system:String>
+    <system:String x:Key="ReclamationResourceOperators">派遣可能なオペレーター3名を選択できません</system:String>
+    <system:String x:Key="ReclamationResourcePurchase">清水または澄亮石の購入結果を確認できません。金塊と店舗の状態を確認してください</system:String>
+    <system:String x:Key="ReclamationResourceSmelting">各製法で7口の錬金を完了できません。清水、材料、口数と生産量を確認してください</system:String>
+    <system:String x:Key="ReclamationResourceIngredients">最初の食材ではエナジードリンク99本を作れないか、製作数を確認できません</system:String>
+    <system:String x:Key="ReclamationResourceSupplies">エナジードリンクの数量または調理結果が想定と一致しません</system:String>
+    <system:String x:Key="ReclamationResourceRecognition">現在の画面を認識できません</system:String>
     <system:String x:Key="ReclamationIncrementMode">増加方式</system:String>
     <system:String x:Key="ReclamationIncrementModeClick">連打</system:String>
     <system:String x:Key="ReclamationIncrementModeHold">長押し</system:String>

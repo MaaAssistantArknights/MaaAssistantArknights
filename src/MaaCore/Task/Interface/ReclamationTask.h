@@ -15,6 +15,7 @@ public:
     virtual ~ReclamationTask() override = default;
 
     virtual bool set_params(const json::value& params) override;
+    virtual bool run() override;
 
 private:
     std::shared_ptr<ProcessTask> m_reclamation_task_ptr = nullptr;

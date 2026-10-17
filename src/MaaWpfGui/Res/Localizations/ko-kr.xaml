@@ -1044,6 +1044,22 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ReclamationModeRA15">RA-15</system:String>
     <system:String x:Key="ReclamationModeProsperityNoSave">세이브 X, 스테이지 반복으로 번영의 선물 획득</system:String>
     <system:String x:Key="ReclamationModeProsperityInSave">세이브 O, 도구 제작으로 번영의 선물 획득</system:String>
+    <system:String x:Key="ReclamationModeResourceInSave">저장 있음: 날짜를 진행하여 물자와 포인트 파밍</system:String>
+    <system:String x:Key="ReclamationResourceInSaveTip" xml:space="preserve">주의 사항:
+1. 이 모드는 자동 이동을 지원합니다. 이 모드를 선택하고 작업 목록에 생존 연산을 추가하여 정상적으로 실행할 수 있습니다.
+2. 기존 기지 생산과 파견 이벤트를 이용하는 모드입니다. 실행 전에 모든 메인 및 서브 임무와 기지 건설을 완료하고, 시작에 필요한 식재료, 금괴, 물, 철광석, 석재와 목재를 준비하세요.
+3. 주기마다 이벤트 파견을 네 번 진행하므로 주둔 중인 오퍼레이터 외에 최소 12명의 2차 정예화 오퍼레이터를 확보하세요.
+4. 생존 포인트 상한에 도달해도 물자 파밍을 계속합니다. 직접 중지하세요.</system:String>
+    <system:String x:Key="ReclamationResourceError">물자 파밍 중지: {0}</system:String>
+    <system:String x:Key="ReclamationResourceUnknownEvent">지원하지 않는 이벤트를 발견했습니다. 이벤트 목록을 확인하세요</system:String>
+    <system:String x:Key="ReclamationResourceEventList">이벤트 목록 또는 개수가 예상과 다릅니다</system:String>
+    <system:String x:Key="ReclamationResourceDay">날짜를 읽을 수 없거나 예상대로 진행되지 않았습니다</system:String>
+    <system:String x:Key="ReclamationResourceOperators">파견 가능한 오퍼레이터 3명을 선택할 수 없습니다</system:String>
+    <system:String x:Key="ReclamationResourcePurchase">清水 또는 澄亮石 구매 결과를 확인할 수 없습니다. 금괴와 상점 상태를 확인하세요</system:String>
+    <system:String x:Key="ReclamationResourceSmelting">각 제조법으로 7회 연금을 완료할 수 없습니다. 물, 재료, 횟수와 생산량을 확인하세요</system:String>
+    <system:String x:Key="ReclamationResourceIngredients">첫 번째 식재료로 에너지 드링크 99개를 만들 수 없거나 제작 수량을 읽을 수 없습니다</system:String>
+    <system:String x:Key="ReclamationResourceSupplies">에너지 드링크 수량 또는 요리 결과가 예상과 다릅니다</system:String>
+    <system:String x:Key="ReclamationResourceRecognition">현재 화면을 인식할 수 없습니다</system:String>
     <system:String x:Key="ReclamationIncrementMode">증가 방식</system:String>
     <system:String x:Key="ReclamationIncrementModeClick">연타</system:String>
     <system:String x:Key="ReclamationIncrementModeHold">길게 누르기</system:String>
