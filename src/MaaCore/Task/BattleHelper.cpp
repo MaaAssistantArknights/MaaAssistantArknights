@@ -664,11 +664,14 @@ bool asst::BattleHelper::use_skill(battle::Role role, const std::string& name, i
     return use_skill(oper_iter->second, timeout_ms);
 }
 
-bool asst::BattleHelper::use_skill(const Point& loc, int timeout_ms)
+bool asst::BattleHelper::use_skill(const Point& loc, int timeout_ms, bool* already_active)
 {
     LogTraceFunction;
 
-    return click_oper_on_battlefield(loc) && click_skill(timeout_ms) && m_inst_helper.sleep(200);
+    if (already_active) {
+        *already_active = false;
+    }
+    return click_oper_on_battlefield(loc) && click_skill(timeout_ms, already_active) && m_inst_helper.sleep(200);
 }
 
 bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
@@ -835,7 +838,12 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
         LogInfo << "Skill" << oper_tag.name << "is ready";
 
         // 识别到了，但点进去发现没有。一般来说是识别错了
-        if (!use_skill(loc, 0)) {
+        bool already_active = false;
+        if (!use_skill(loc, 0, &already_active)) {
+            if (already_active) {
+                LogInfo << "Skill" << oper_tag.name << "is already active";
+                continue;
+            }
             LogWarn << "Skill" << oper_tag.name << "is not ready";
             static const bool save_infinitely = std::filesystem::exists("DEBUG_skill_ready.txt");
             if (!save_infinitely) {
@@ -1004,9 +1012,12 @@ bool asst::BattleHelper::click_retreat()
     return ret;
 }
 
-bool asst::BattleHelper::click_skill(int timeout_ms)
+bool asst::BattleHelper::click_skill(int timeout_ms, bool* already_active)
 {
     LogTraceFunction;
+    if (already_active) {
+        *already_active = false;
+    }
     const auto start_time = std::chrono::steady_clock::now();
     bool deploy_with_pause =
         ControlFeat::support(m_inst_helper.ctrler()->support_features(), ControlFeat::SWIPE_WITH_PAUSE);
@@ -1026,9 +1037,19 @@ bool asst::BattleHelper::click_skill(int timeout_ms)
         }
         top_view = get_top_view(image, true, m_has_multi_stages);
         Matcher skill_analyzer { top_view };
-        skill_analyzer.set_task_info("BattleSkillReadyOnClick-TopView");
+        // Prefer STOP for automatic use, even if a READY template also matches this frame.
+        skill_analyzer.set_task_info(
+            already_active ? "BattleSkillReadyOnClick-TopView-Auto" : "BattleSkillReadyOnClick-TopView");
         skill_analyzer.set_roi({ 250, 250, 250, 250 });
-        if (skill_analyzer.analyze()) {
+        if (const auto result = skill_analyzer.analyze()) {
+            if (already_active && result->templ_name == "BattleSkillStopOnClick-TopView.png") {
+                *already_active = true;
+                cancel_oper_selection();
+                if (pausing) {
+                    ProcessTask(this_task(), { "BattlePauseCancel" }).run();
+                }
+                return false;
+            }
             m_inst_helper.ctrler()->click(m_skill_button_pos);
             if (pausing) {
                 ProcessTask(this_task(), { "BattlePauseCancel" }).run();
