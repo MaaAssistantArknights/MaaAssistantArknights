@@ -814,6 +814,7 @@
             "StartUpConnectingFlag",
             "MainThemes#next",
             "CloseAnnos#next",
+            "GameDataUpdateOCR",
             "OfflineConfirm",
             "GameStartCheckResourceOCR",
             "GameStartUpdateOCR"
@@ -874,6 +875,14 @@
         "algorithm": "OcrDetect",
         "text": ["正在释放神经递质", "MB"],
         "roi": [340, 620, 600, 80],
+        "postDelay": 5000,
+        "next": ["#self", "StartUpThemes#next"]
+    },
+    "GameDataUpdateOCR": {
+        "doc": "游戏内数据同步提示的确认按钮与掉线弹窗同款（OfflineConfirm.png），需先用文字区分，否则会被 OfflineConfirm 误判为掉线而停止任务",
+        "algorithm": "OcrDetect",
+        "text": ["数据已更新", "即将进行同步"],
+        "roi": [0, 300, 1280, 300],
         "postDelay": 5000,
         "next": ["#self", "StartUpThemes#next"]
     },
