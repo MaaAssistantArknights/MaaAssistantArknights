@@ -953,46 +953,23 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     /// <summary>
     /// 刷开局动物下拉框的选项。羽蛇最多一只，另一格已选羽蛇时本格的羽蛇不可选。
     /// </summary>
-    public class BlackFlowStartAnimalOption : Stylet.PropertyChangedBase
-    {
-        public string Display { get; init; } = string.Empty;
+    private static LocalizedObservableList<RoguelikeBlackFlowStartAnimal> CreateBlackFlowStartAnimalOptions() => new(
+        (RoguelikeBlackFlowStartAnimal.None, "RoguelikeBlackFlowStartAnimalNone", null, null),
+        (RoguelikeBlackFlowStartAnimal.Cat, "RoguelikeBlackFlowCultivationTargetCat", null, "RoguelikeBlackFlowCultivationTargetCatTip"),
+        (RoguelikeBlackFlowStartAnimal.Dog, "RoguelikeBlackFlowCultivationTargetDog", null, "RoguelikeBlackFlowCultivationTargetDogTip"),
+        (RoguelikeBlackFlowStartAnimal.Cerberus, "RoguelikeBlackFlowCultivationTargetCerberus", null, "RoguelikeBlackFlowCultivationTargetCerberusTip"),
+        (RoguelikeBlackFlowStartAnimal.FeatheredSerpent, "RoguelikeBlackFlowCultivationTargetFeatheredSerpent", null, "RoguelikeBlackFlowCultivationTargetFeatheredSerpentTip"));
 
-        public RoguelikeBlackFlowStartAnimal Value { get; init; }
+    public LocalizedObservableList<RoguelikeBlackFlowStartAnimal> RoguelikeBlackFlowStartAnimal1List { get; } = CreateBlackFlowStartAnimalOptions();
 
-        /// <summary>
-        /// Gets the hover tip shown in the dropdown; null for the "not required" option.
-        /// </summary>
-        public string? Tip { get; init; }
-
-        private bool _isEnabled = true;
-
-        public bool IsEnabled
-        {
-            get => _isEnabled;
-            set => SetAndNotify(ref _isEnabled, value);
-        }
-    }
-
-    private static BlackFlowStartAnimalOption CreateBlackFlowStartAnimalOption(string key, RoguelikeBlackFlowStartAnimal value) =>
-        new() { Display = LocalizationHelper.GetString(key), Tip = LocalizationHelper.GetString(key + "Tip"), Value = value };
-
-    private static List<BlackFlowStartAnimalOption> CreateBlackFlowStartAnimalOptions() =>
-    [
-        new() { Display = LocalizationHelper.GetString("RoguelikeBlackFlowStartAnimalNone"), Value = RoguelikeBlackFlowStartAnimal.None },
-        CreateBlackFlowStartAnimalOption("RoguelikeBlackFlowCultivationTargetCat", RoguelikeBlackFlowStartAnimal.Cat),
-        CreateBlackFlowStartAnimalOption("RoguelikeBlackFlowCultivationTargetDog", RoguelikeBlackFlowStartAnimal.Dog),
-        CreateBlackFlowStartAnimalOption("RoguelikeBlackFlowCultivationTargetCerberus", RoguelikeBlackFlowStartAnimal.Cerberus),
-        CreateBlackFlowStartAnimalOption("RoguelikeBlackFlowCultivationTargetFeatheredSerpent", RoguelikeBlackFlowStartAnimal.FeatheredSerpent),
-    ];
-
-    public List<BlackFlowStartAnimalOption> RoguelikeBlackFlowStartAnimal1List { get; } = CreateBlackFlowStartAnimalOptions();
-
-    public List<BlackFlowStartAnimalOption> RoguelikeBlackFlowStartAnimal2List { get; } = CreateBlackFlowStartAnimalOptions();
+    public LocalizedObservableList<RoguelikeBlackFlowStartAnimal> RoguelikeBlackFlowStartAnimal2List { get; } = CreateBlackFlowStartAnimalOptions();
 
     private void UpdateBlackFlowSerpentOptions()
     {
-        RoguelikeBlackFlowStartAnimal1List.Last().IsEnabled = RoguelikeBlackFlowStartAnimal2 != RoguelikeBlackFlowStartAnimal.FeatheredSerpent;
-        RoguelikeBlackFlowStartAnimal2List.Last().IsEnabled = RoguelikeBlackFlowStartAnimal1 != RoguelikeBlackFlowStartAnimal.FeatheredSerpent;
+        RoguelikeBlackFlowStartAnimal1List.Items.Single(i => i.Value == RoguelikeBlackFlowStartAnimal.FeatheredSerpent).IsEnabled =
+            RoguelikeBlackFlowStartAnimal2 != RoguelikeBlackFlowStartAnimal.FeatheredSerpent;
+        RoguelikeBlackFlowStartAnimal2List.Items.Single(i => i.Value == RoguelikeBlackFlowStartAnimal.FeatheredSerpent).IsEnabled =
+            RoguelikeBlackFlowStartAnimal1 != RoguelikeBlackFlowStartAnimal.FeatheredSerpent;
     }
 
     public RoguelikeBlackFlowStartAnimal RoguelikeBlackFlowStartAnimal1
@@ -1025,39 +1002,23 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     /// <summary>
     /// 刷开局奖励下拉框的选项。框内标签只显示名字，效果放在下拉项的悬浮提示里。
     /// </summary>
-    public class BlackFlowStartRewardOption
-    {
-        public string Display { get; init; } = string.Empty;
+    public LocalizedObservableList<RoguelikeBlackFlowStartReward> RoguelikeBlackFlowStartRewardList { get; } = new(
+        (RoguelikeBlackFlowStartReward.UnnumberedItem, "RoguelikeBlackFlowRewardUnnumberedItem", null, "RoguelikeBlackFlowRewardUnnumberedItemTip"),
+        (RoguelikeBlackFlowStartReward.SurveyAdvance, "RoguelikeBlackFlowRewardSurveyAdvance", null, "RoguelikeBlackFlowRewardSurveyAdvanceTip"),
+        (RoguelikeBlackFlowStartReward.SpaceLease, "RoguelikeBlackFlowRewardSpaceLease", null, "RoguelikeBlackFlowRewardSpaceLeaseTip"),
+        (RoguelikeBlackFlowStartReward.RegressionCompensation, "RoguelikeBlackFlowRewardRegressionCompensation", null, "RoguelikeBlackFlowRewardRegressionCompensationTip"),
+        (RoguelikeBlackFlowStartReward.ForestRide, "RoguelikeBlackFlowRewardForestRide", null, "RoguelikeBlackFlowRewardForestRideTip"),
+        (RoguelikeBlackFlowStartReward.NestParasitism, "RoguelikeBlackFlowRewardNestParasitism", null, "RoguelikeBlackFlowRewardNestParasitismTip"));
 
-        public RoguelikeBlackFlowStartReward Value { get; init; }
+    public LocalizedObservableList<RoguelikeBlackFlowStartReward> RoguelikeBlackFlowSerpentRewardList { get; } = new(
+        (RoguelikeBlackFlowStartReward.Pegasus, "RoguelikeBlackFlowRewardPegasus", null, "RoguelikeBlackFlowRewardPegasusTip"),
+        (RoguelikeBlackFlowStartReward.Hippogriff, "RoguelikeBlackFlowRewardHippogriff", null, "RoguelikeBlackFlowRewardHippogriffTip"),
+        (RoguelikeBlackFlowStartReward.Dragon, "RoguelikeBlackFlowRewardDragon", null, "RoguelikeBlackFlowRewardDragonTip"),
+        (RoguelikeBlackFlowStartReward.Hydra, "RoguelikeBlackFlowRewardHydra", null, "RoguelikeBlackFlowRewardHydraTip"),
+        (RoguelikeBlackFlowStartReward.BaiZe, "RoguelikeBlackFlowRewardBaiZe", null, "RoguelikeBlackFlowRewardBaiZeTip"),
+        (RoguelikeBlackFlowStartReward.GoldenCrow, "RoguelikeBlackFlowRewardGoldenCrow", null, "RoguelikeBlackFlowRewardGoldenCrowTip"));
 
-        public string Tip { get; init; } = string.Empty;
-    }
-
-    private static BlackFlowStartRewardOption CreateBlackFlowStartRewardOption(string key, RoguelikeBlackFlowStartReward value) =>
-        new() { Display = LocalizationHelper.GetString(key), Tip = LocalizationHelper.GetString(key + "Tip"), Value = value };
-
-    public List<BlackFlowStartRewardOption> RoguelikeBlackFlowStartRewardList { get; } =
-    [
-        CreateBlackFlowStartRewardOption("RoguelikeBlackFlowRewardUnnumberedItem", RoguelikeBlackFlowStartReward.UnnumberedItem),
-        CreateBlackFlowStartRewardOption("RoguelikeBlackFlowRewardSurveyAdvance", RoguelikeBlackFlowStartReward.SurveyAdvance),
-        CreateBlackFlowStartRewardOption("RoguelikeBlackFlowRewardSpaceLease", RoguelikeBlackFlowStartReward.SpaceLease),
-        CreateBlackFlowStartRewardOption("RoguelikeBlackFlowRewardRegressionCompensation", RoguelikeBlackFlowStartReward.RegressionCompensation),
-        CreateBlackFlowStartRewardOption("RoguelikeBlackFlowRewardForestRide", RoguelikeBlackFlowStartReward.ForestRide),
-        CreateBlackFlowStartRewardOption("RoguelikeBlackFlowRewardNestParasitism", RoguelikeBlackFlowStartReward.NestParasitism),
-    ];
-
-    public List<BlackFlowStartRewardOption> RoguelikeBlackFlowSerpentRewardList { get; } =
-    [
-        CreateBlackFlowStartRewardOption("RoguelikeBlackFlowRewardPegasus", RoguelikeBlackFlowStartReward.Pegasus),
-        CreateBlackFlowStartRewardOption("RoguelikeBlackFlowRewardHippogriff", RoguelikeBlackFlowStartReward.Hippogriff),
-        CreateBlackFlowStartRewardOption("RoguelikeBlackFlowRewardDragon", RoguelikeBlackFlowStartReward.Dragon),
-        CreateBlackFlowStartRewardOption("RoguelikeBlackFlowRewardHydra", RoguelikeBlackFlowStartReward.Hydra),
-        CreateBlackFlowStartRewardOption("RoguelikeBlackFlowRewardBaiZe", RoguelikeBlackFlowStartReward.BaiZe),
-        CreateBlackFlowStartRewardOption("RoguelikeBlackFlowRewardGoldenCrow", RoguelikeBlackFlowStartReward.GoldenCrow),
-    ];
-
-    private object[] SelectBlackFlowRewards(List<BlackFlowStartRewardOption> options)
+    private object[] SelectBlackFlowRewards(LocalizedObservableList<RoguelikeBlackFlowStartReward> options)
     {
         var value = GetTaskConfig<RoguelikeTask>().BlackFlowStartRewards;
         return options.Where(v => value.HasFlag(v.Value)).ToArray();
@@ -1066,7 +1027,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
     // 两个框各管自己那几位，另一框的勾选原样保留。羽蛇框禁用时勾选也保留，只是不生效。
     private void StoreBlackFlowRewards(object[] selected, RoguelikeBlackFlowStartReward mask)
     {
-        var picked = selected.Cast<BlackFlowStartRewardOption>().Aggregate(RoguelikeBlackFlowStartReward.None, (a, b) => a | b.Value);
+        var picked = selected.Cast<GenericCombinedData<RoguelikeBlackFlowStartReward>>().Aggregate(RoguelikeBlackFlowStartReward.None, (a, b) => a | b.Value);
         var value = (GetTaskConfig<RoguelikeTask>().BlackFlowStartRewards & ~mask) | (picked & mask);
         SetTaskConfig<RoguelikeTask>(t => t.BlackFlowStartRewards == value, t => t.BlackFlowStartRewards = value);
     }
@@ -1810,6 +1771,10 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         RoguelikeThemeList.RefreshLocalization();
         RoguelikeFindPlaytimeTargetList.RefreshLocalization();
         RoguelikeBlackFlowEndingList.RefreshLocalization();
+        RoguelikeBlackFlowStartAnimal1List.RefreshLocalization();
+        RoguelikeBlackFlowStartAnimal2List.RefreshLocalization();
+        RoguelikeBlackFlowStartRewardList.RefreshLocalization();
+        RoguelikeBlackFlowSerpentRewardList.RefreshLocalization();
         UpdateRoguelikeDifficultyList();
         UpdateRoguelikeModeList();
         UpdateRoguelikeRolesList();

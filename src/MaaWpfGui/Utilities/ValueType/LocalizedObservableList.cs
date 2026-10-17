@@ -36,7 +36,7 @@ namespace MaaWpfGui.Utilities.ValueType;
 public class LocalizedObservableList<TValue> : IEnumerable<GenericCombinedData<TValue>>, INotifyCollectionChanged
 {
     // 与 Items 一一对应的本地化 key 表；增删操作必须同步维护两者。
-    private readonly List<(TValue Value, string LocalizationKey, string? SecondaryKey)> _entries;
+    private readonly List<(TValue Value, string LocalizationKey, string? SecondaryKey, string? TipKey)> _entries;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="LocalizedObservableList{TValue}"/> class.
@@ -45,7 +45,7 @@ public class LocalizedObservableList<TValue> : IEnumerable<GenericCombinedData<T
     /// <param name="entries">(值, 本地化key) 数组</param>
     public LocalizedObservableList(params (TValue Value, string LocalizationKey)[] entries)
     {
-        _entries = entries.Select(e => (e.Value, e.LocalizationKey, (string?)null)).ToList();
+        _entries = entries.Select(e => (e.Value, e.LocalizationKey, (string?)null, (string?)null)).ToList();
         Items = new(entries.Select(e => CreateItem(e.Value, e.LocalizationKey, null)));
 
         // 转发内部集合变更，使 WPF ItemsSource 绑定能感知增删
@@ -59,7 +59,7 @@ public class LocalizedObservableList<TValue> : IEnumerable<GenericCombinedData<T
     /// <param name="entries">(值, 主本地化key, 附加本地化key或null) 数组</param>
     public LocalizedObservableList(params (TValue Value, string LocalizationKey, string? SecondaryKey)[] entries)
     {
-        _entries = [.. entries];
+        _entries = [.. entries.Select(e => (e.Value, e.LocalizationKey, e.SecondaryKey, (string?)null))];
         Items = new(entries.Select(e => CreateItem(e.Value, e.LocalizationKey, e.SecondaryKey)));
 
         Items.CollectionChanged += OnItemsCollectionChanged;
@@ -72,8 +72,21 @@ public class LocalizedObservableList<TValue> : IEnumerable<GenericCombinedData<T
     /// <param name="entries">(值, 本地化key, 是否可选) 数组</param>
     public LocalizedObservableList(params (TValue Value, string LocalizationKey, bool IsEnabled)[] entries)
     {
-        _entries = entries.Select(e => (e.Value, e.LocalizationKey, (string?)null)).ToList();
+        _entries = entries.Select(e => (e.Value, e.LocalizationKey, (string?)null, (string?)null)).ToList();
         Items = new(entries.Select(e => CreateItem(e.Value, e.LocalizationKey, null, e.IsEnabled)));
+
+        Items.CollectionChanged += OnItemsCollectionChanged;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="LocalizedObservableList{TValue}"/> class.
+    /// 初始化本地化列表，支持条目带悬浮提示（配合 <see cref="GenericCombinedData{TValue}.Tip"/>）。
+    /// </summary>
+    /// <param name="entries">(值, 本地化key, 附加本地化key或null, 悬浮提示key或null) 数组</param>
+    public LocalizedObservableList(params (TValue Value, string LocalizationKey, string? SecondaryKey, string? TipKey)[] entries)
+    {
+        _entries = [.. entries];
+        Items = new(entries.Select(e => CreateItem(e.Value, e.LocalizationKey, e.SecondaryKey, tipKey: e.TipKey)));
 
         Items.CollectionChanged += OnItemsCollectionChanged;
     }
@@ -86,12 +99,13 @@ public class LocalizedObservableList<TValue> : IEnumerable<GenericCombinedData<T
             : primary;
     }
 
-    private GenericCombinedData<TValue> CreateItem(TValue value, string localizationKey, string? secondaryKey, bool isEnabled = true)
+    private GenericCombinedData<TValue> CreateItem(TValue value, string localizationKey, string? secondaryKey, bool isEnabled = true, string? tipKey = null)
         => new()
         {
             Display = FormatDisplay(localizationKey, secondaryKey),
             Value = value,
             IsEnabled = isEnabled,
+            Tip = tipKey != null ? LocalizationHelper.GetString(tipKey) : null,
         };
 
     /// <summary>
@@ -102,7 +116,7 @@ public class LocalizedObservableList<TValue> : IEnumerable<GenericCombinedData<T
     public ObservableCollection<GenericCombinedData<TValue>> Items { get; }
 
     /// <summary>
-    /// 刷新所有条目的 Display 文本（语言切换时调用）。
+    /// 刷新所有条目的 Display 与 Tip 文本（语言切换时调用）。
     /// <see cref="_entries"/> 与 <see cref="Items"/> 始终一一对应（含运行时动态添加的项），
     /// 因此索引遍历能覆盖全部条目。
     /// </summary>
@@ -112,6 +126,7 @@ public class LocalizedObservableList<TValue> : IEnumerable<GenericCombinedData<T
         {
             var entry = _entries[i];
             Items[i].Display = FormatDisplay(entry.LocalizationKey, entry.SecondaryKey);
+            Items[i].Tip = entry.TipKey != null ? LocalizationHelper.GetString(entry.TipKey) : null;
         }
     }
 
@@ -121,10 +136,11 @@ public class LocalizedObservableList<TValue> : IEnumerable<GenericCombinedData<T
     /// <param name="value">业务值</param>
     /// <param name="localizationKey">本地化 key</param>
     /// <param name="secondaryKey">附加本地化 key（可选），非空时 Display 显示为 "{主key} ({附加key})"</param>
-    public void Add(TValue value, string localizationKey, string? secondaryKey = null)
+    /// <param name="tipKey">悬浮提示本地化 key（可选），非空时填入 <see cref="GenericCombinedData{TValue}.Tip"/></param>
+    public void Add(TValue value, string localizationKey, string? secondaryKey = null, string? tipKey = null)
     {
-        _entries.Add((value, localizationKey, secondaryKey));
-        Items.Add(CreateItem(value, localizationKey, secondaryKey));
+        _entries.Add((value, localizationKey, secondaryKey, tipKey));
+        Items.Add(CreateItem(value, localizationKey, secondaryKey, tipKey: tipKey));
     }
 
     /// <summary>
@@ -161,10 +177,11 @@ public class LocalizedObservableList<TValue> : IEnumerable<GenericCombinedData<T
     /// <param name="value">业务值</param>
     /// <param name="localizationKey">本地化 key</param>
     /// <param name="secondaryKey">附加本地化 key（可选）</param>
-    public void Insert(int index, TValue value, string localizationKey, string? secondaryKey = null)
+    /// <param name="tipKey">悬浮提示本地化 key（可选）</param>
+    public void Insert(int index, TValue value, string localizationKey, string? secondaryKey = null, string? tipKey = null)
     {
-        _entries.Insert(index, (value, localizationKey, secondaryKey));
-        Items.Insert(index, CreateItem(value, localizationKey, secondaryKey));
+        _entries.Insert(index, (value, localizationKey, secondaryKey, tipKey));
+        Items.Insert(index, CreateItem(value, localizationKey, secondaryKey, tipKey: tipKey));
     }
 
     /// <summary>
