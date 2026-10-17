@@ -527,6 +527,9 @@ public class TaskQueueViewModel : Screen
         var actions = PostActionSetting;
         _logger.Information("Post actions: " + actions.ActionDescription);
 
+        // 在任何 await 之前记录本次运行的连接方式，避免等待期间切换连接配置后关错客户端或模拟器
+        var isPcConnect = SettingsViewModel.ConnectSettings.IsPCConnectConfig;
+
         if (actions.SkipOnError && hasErrorTask)
         {
             _logger.Information("Post actions skipped, due to error tasks");
@@ -543,7 +546,8 @@ public class TaskQueueViewModel : Screen
             await Task.Delay(1000);
         }
 
-        if (actions.ExitArknights)
+        // ｢退出 PC 客户端｣ 仅 PC 端执行，｢退出模拟器｣ 仅模拟器执行；另一模式下的勾选只保留不执行
+        if (actions.ExitArknights || (actions.ExitPCClient && isPcConnect))
         {
             var clientType = SettingsViewModel.GameSettings.ClientType;
             if (!Instances.AsstProxy.AsstStartCloseDown(clientType))
@@ -554,7 +558,7 @@ public class TaskQueueViewModel : Screen
             await Task.Delay(1000);
         }
 
-        if (actions.ExitEmulator && !SettingsViewModel.ConnectSettings.IsPCConnectConfig)
+        if (actions.ExitEmulator && !isPcConnect)
         {
             DoKillEmulator();
             await Task.Delay(1000);
