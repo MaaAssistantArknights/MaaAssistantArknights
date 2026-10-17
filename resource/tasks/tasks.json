@@ -1776,6 +1776,13 @@
         "roi": [0, 0, 180, 80],
         "next": ["Stop"]
     },
+    "ActivitiesEarnRewards": {
+        "template": "ActivitiesEarnRewards.png",
+        "action": "ClickRect",
+        "roi": [590, 40, 130, 100],
+        "postDelay": 1500,
+        "specificRect": [605, 605, 70, 70]
+    },
     "MiningActivitiesBegin": {
         "algorithm": "JustReturn",
         "sub": ["AwardExpandCheckFlow"],
@@ -1807,10 +1814,9 @@
         "postDelay": 6000
     },
     "MiningActivitiesEarnRewards": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [600, 600, 70, 70],
-        "next": ["MiningActivitiesReturn"]
+        "baseTask": "ActivitiesEarnRewards",
+        "template": "ActivitiesEarnRewards.png",
+        "next": ["#self", "MiningActivitiesReturn"]
     },
     "MiningActivitiesReturn": {
         "baseTask": "CloseAnno",
@@ -1880,10 +1886,8 @@
         "next": ["OrundumActivitiesEarnRewards"]
     },
     "OrundumActivitiesEarnRewards": {
-        "action": "ClickRect",
-        "roi": [590, 40, 130, 100],
-        "postDelay": 1500,
-        "specificRect": [600, 600, 70, 70],
+        "baseTask": "ActivitiesEarnRewards",
+        "template": "ActivitiesEarnRewards.png",
         "next": ["#self", "OrundumActivitiesReturn"]
     },
     "OrundumActivitiesReturn": {
@@ -2022,11 +2026,9 @@
         "next": ["SpecialAccessActivitiesEarnRewards"]
     },
     "SpecialAccessActivitiesEarnRewards": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [606, 609, 68, 63],
-        "postDelay": 500,
-        "next": ["SpecialAccessActivitiesReturn"]
+        "baseTask": "ActivitiesEarnRewards",
+        "template": "ActivitiesEarnRewards.png",
+        "next": ["#self", "SpecialAccessActivitiesReturn"]
     },
     "SpecialAccessActivitiesReturn": {
         "baseTask": "CloseAnnoSpecialAccess",
