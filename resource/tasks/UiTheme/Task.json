@@ -24,7 +24,8 @@
             "TaskReconstruct",
             "TaskHunting",
             "TaskBlackFlow",
-            "TaskAct"
+            "TaskAct",
+            "TaskFullMoon"
         ],
         "onErrorNext": ["Task-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -106,5 +107,10 @@
     "TaskAct": {
         "baseTask": "TaskDefault",
         "template": "Act/Task.png"
+    },
+    "TaskFullMoon": {
+        "baseTask": "TaskDefault",
+        "template": "FullMoon/Task.png",
+        "roi": [780, 580, 165, 120]
     }
 }

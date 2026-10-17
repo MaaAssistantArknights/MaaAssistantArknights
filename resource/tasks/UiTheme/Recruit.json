@@ -24,7 +24,8 @@
             "RecruitReconstruct",
             "RecruitHunting",
             "RecruitBlackFlow",
-            "RecruitAct"
+            "RecruitAct",
+            "RecruitFullMoon"
         ],
         "onErrorNext": ["Recruit-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -103,5 +104,10 @@
     "RecruitAct": {
         "baseTask": "RecruitDefault",
         "template": "Act/Recruit.png"
+    },
+    "RecruitFullMoon": {
+        "baseTask": "RecruitDefault",
+        "template": "FullMoon/Recruit.png",
+        "roi": [940, 455, 150, 100]
     }
 }
