@@ -45,7 +45,7 @@ public class PostActionSetting : PropertyChangedBase
         BackToAndroidHome = 1 << 1,
 
         /// <summary>
-        /// 退出模拟器；连接配置为 PC 端（窗口绑定）时无模拟器进程，改为关闭 PC 客户端
+        /// 退出模拟器（仅模拟器连接时显示与执行）
         /// </summary>
         ExitEmulator = 1 << 2,
 
@@ -83,6 +83,11 @@ public class PostActionSetting : PropertyChangedBase
         /// 锁屏
         /// </summary>
         LockScreen = 1 << 9,
+
+        /// <summary>
+        /// 退出 PC 客户端（仅 PC 端连接时显示与执行）
+        /// </summary>
+        ExitPCClient = 1 << 10,
     }
 
     private PostActions _postActions;
@@ -152,15 +157,16 @@ public class PostActionSetting : PropertyChangedBase
         }
     }
 
+    /// <summary>
+    /// Gets a value indicating whether 当前为 PC 端（窗口绑定）连接：显示 ｢退出 PC 客户端｣，隐藏 ｢退出模拟器｣。
+    /// </summary>
+    public bool IsPCConnectConfig => ConnectSettingsUserControlModel.Instance.IsPCConnectConfig;
+
     private bool _exitEmulator;
 
     /// <summary>
-    /// Gets ｢退出模拟器｣ 选项的显示文本：PC 端无模拟器进程，该选项改为关闭 PC 客户端。
+    /// Gets or sets a value indicating whether 完成后退出模拟器。PC 端下隐藏且不执行，但保留勾选，切回模拟器后恢复。
     /// </summary>
-    public string ExitEmulatorText => ConnectSettingsUserControlModel.Instance.IsPCConnectConfig
-        ? LocalizationHelper.GetString("ExitPCClient")
-        : LocalizationHelper.GetString("ExitEmulator");
-
     public bool ExitEmulator
     {
         get => _exitEmulator;
@@ -172,13 +178,37 @@ public class PostActionSetting : PropertyChangedBase
 
             NotifyOfPropertyChange(nameof(AndroidControlPostActionsEnabled));
 
-            if (value)
+            // 仅在当前模式下互斥，避免另一模式下的隐藏勾选影响 ｢退出明日方舟｣
+            if (value && !IsPCConnectConfig)
             {
                 ExitArknights = false;
                 BackToAndroidHome = false;
             }
 
             UpdatePostAction(PostActions.ExitEmulator, value);
+        }
+    }
+
+    private bool _exitPCClient;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 完成后退出 PC 客户端。模拟器下隐藏且不执行，但保留勾选，切回 PC 端后恢复。
+    /// </summary>
+    public bool ExitPCClient
+    {
+        get => _exitPCClient;
+        set {
+            if (!SetAndNotify(ref _exitPCClient, value))
+            {
+                return;
+            }
+
+            if (value && IsPCConnectConfig)
+            {
+                ExitArknights = false;
+            }
+
+            UpdatePostAction(PostActions.ExitPCClient, value);
         }
     }
 
@@ -396,6 +426,7 @@ public class PostActionSetting : PropertyChangedBase
         ExitArknights = false;
         BackToAndroidHome = false;
         ExitEmulator = false;
+        ExitPCClient = false;
         ExitSelf = false;
         IfNoOtherMaa = false;
         LockScreen = false;
@@ -420,9 +451,15 @@ public class PostActionSetting : PropertyChangedBase
             actions.Add(LocalizationHelper.GetString("ExitArknights"));
         }
 
-        if (ExitEmulator)
+        // 只描述当前连接方式下会执行的退出动作
+        if (ExitEmulator && !IsPCConnectConfig)
         {
-            actions.Add(ExitEmulatorText);
+            actions.Add(LocalizationHelper.GetString("ExitEmulator"));
+        }
+
+        if (ExitPCClient && IsPCConnectConfig)
+        {
+            actions.Add(LocalizationHelper.GetString("ExitPCClient"));
         }
 
         if (ExitSelf)
@@ -489,6 +526,7 @@ public class PostActionSetting : PropertyChangedBase
         ExitArknights = savedActions.HasFlag(PostActions.ExitArknights);
         BackToAndroidHome = savedActions.HasFlag(PostActions.BackToAndroidHome);
         ExitEmulator = savedActions.HasFlag(PostActions.ExitEmulator);
+        ExitPCClient = savedActions.HasFlag(PostActions.ExitPCClient);
         ExitSelf = savedActions.HasFlag(PostActions.ExitSelf);
         LockScreen = savedActions.HasFlag(PostActions.LockScreen);
         Hibernate = savedActions.HasFlag(PostActions.Hibernate);
@@ -504,7 +542,7 @@ public class PostActionSetting : PropertyChangedBase
 
     /// <summary>
     /// PC 端（窗口绑定）不支持 ADB 侧后处理动作：移除已保存的相关标志，且不触发额外联动。
-    /// ｢退出模拟器｣ 在 PC 端按关闭 PC 客户端执行，予以保留，切回模拟器后恢复原含义。
+    /// ｢退出模拟器｣ 在 PC 端仅隐藏不执行，予以保留，切回模拟器后恢复。
     /// </summary>
     private void ClearUnsupportedPostActionsForAttachWindow()
     {
@@ -549,7 +587,7 @@ public class PostActionSetting : PropertyChangedBase
             if (e.PropertyName is nameof(ConnectSettingsUserControlModel.ConnectConfig) or nameof(ConnectSettingsUserControlModel.IsPCConnectConfig))
             {
                 NotifyOfPropertyChange(nameof(AndroidControlPostActionsEnabled));
-                NotifyOfPropertyChange(nameof(ExitEmulatorText));
+                NotifyOfPropertyChange(nameof(IsPCConnectConfig));
                 RefreshDescription();
                 ClearUnsupportedPostActionsForAttachWindow();
             }
@@ -562,7 +600,6 @@ public class PostActionSetting : PropertyChangedBase
             ActionTitle = _once
                 ? $"{LocalizationHelper.GetString("PostActions")} ({LocalizationHelper.GetString("Once")})"
                 : LocalizationHelper.GetString("PostActions");
-            NotifyOfPropertyChange(nameof(ExitEmulatorText));
             RefreshDescription();
         };
     }

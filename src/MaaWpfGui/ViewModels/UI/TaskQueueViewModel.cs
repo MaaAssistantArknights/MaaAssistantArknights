@@ -546,8 +546,8 @@ public class TaskQueueViewModel : Screen
             await Task.Delay(1000);
         }
 
-        // PC 端无模拟器进程，｢退出模拟器｣ 按关闭 PC 客户端执行
-        if (actions.ExitArknights || (actions.ExitEmulator && isPcConnect))
+        // ｢退出 PC 客户端｣ 仅 PC 端执行，｢退出模拟器｣ 仅模拟器执行；另一模式下的勾选只保留不执行
+        if (actions.ExitArknights || (actions.ExitPCClient && isPcConnect))
         {
             var clientType = SettingsViewModel.GameSettings.ClientType;
             if (!Instances.AsstProxy.AsstStartCloseDown(clientType))
