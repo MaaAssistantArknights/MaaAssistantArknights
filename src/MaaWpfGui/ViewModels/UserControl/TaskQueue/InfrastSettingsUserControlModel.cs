@@ -89,6 +89,12 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
         ("巫恋", "InfrastFiammettaTargetShamare"),
         ("龙舌兰", "InfrastFiammettaTargetTequila"),
         ("歌蕾蒂娅", "InfrastFiammettaTargetGladiia"),
+        ("琴柳", "InfrastFiammettaTargetSaileach"),
+        ("承曦格雷伊", "InfrastFiammettaTargetGreyy2"),
+        ("温蒂", "InfrastFiammettaTargetWeedy"),
+        ("槐琥", "InfrastFiammettaTargetWaaiFu"),
+        ("至简", "InfrastFiammettaTargetMinimalist"),
+        ("旅骨", "InfrastFiammettaTargetHbound"),
     ];
 
     private readonly RunningState _runningState;

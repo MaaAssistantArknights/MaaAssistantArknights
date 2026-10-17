@@ -23,8 +23,9 @@ namespace
 // These are the only operators supported as Fiammetta recovery targets. Their
 // IDs are resolved through BattleData so this list does not duplicate the
 // operator database.
-constexpr std::array<std::string_view, 6> SupportedFiammettaTargets = { "清流", "可露希尔", "但书",
-                                                                        "巫恋", "龙舌兰",   "歌蕾蒂娅" };
+constexpr std::array<std::string_view, 12> SupportedFiammettaTargets = { "清流",   "可露希尔", "但书", "巫恋",
+                                                                         "龙舌兰", "歌蕾蒂娅", "琴柳", "承曦格雷伊",
+                                                                         "温蒂",   "槐琥",     "至简", "旅骨" };
 constexpr std::array<std::string_view, 3> DefaultFiammettaTargets = { "清流", "可露希尔", "但书" };
 constexpr size_t MaxConfiguredTargets = 3;
 
