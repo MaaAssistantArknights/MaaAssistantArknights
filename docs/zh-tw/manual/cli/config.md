@@ -30,6 +30,12 @@ params = { client_type = "Official", start_game_enabled = true } # 對應任務�
 
 具體的任務類型與參數可以參考 [MAA 整合文件][task-types]。請注意，目前 maa-cli 不會驗證參數名稱與數值是否正確，即使出錯也不會產生任何錯誤訊息，除非 MaaCore 在執行時偵測到錯誤。
 
+除了 `tasks` 之外，任務檔案還支援以下頂層欄位：
+
+- `client_type`: 指定客戶端類型，該值將自動填入 `StartUp`、`Fight` 和 `CloseDown` 任務的 `client_type` 參數中；
+- `startup`: 是否自動啟動遊戲，設為 `true` 時，若任務列表中沒有 `StartUp` 任務，將在開頭自動添加一個，若已有 `StartUp` 任務但未開啟 `start_game_enabled`，也會自動開啟；
+- `closedown`: 是否自動關閉遊戲，設為 `true` 時，若任務列表中沒有 `CloseDown` 任務，將在結尾自動添加一個，若已有 `CloseDown` 任務但 `enable` 為 `false`，也會自動開啟。
+
 ### 任務條件
 
 如果您想要根據某些條件執行不同參數的任務，您可以定義多個任務的變體：
@@ -307,6 +313,9 @@ touch_mode = "MaaTouch"
 deployment_with_pause = false
 adb_lite_enabled = false
 kill_adb_on_exit = false
+
+[behavior]
+auto_reconnect = true
 ```
 
 ### 連線配置
@@ -378,11 +387,25 @@ kill_adb_on_exit = false # 是否在退出時殺死 adb
 
 請注意，`touch_mode` 可選項 `MacPlayTools` 和連線方式 `PlayTools` 綁定。當您使用 `PlayTools` 連線時，`touch_mode` 將會被強制設定為 `MacPlayTools`。
 
+### 行為配置
+
+`[behavior]` 相關欄位用於指定 maa-cli 自身的執行時行為：
+
+```toml
+[behavior]
+auto_reconnect = true # 遊戲與伺服器斷開連線時是否自動重新連線，預設為 true
+```
+
+此外，執行任務時也可以透過 `--no-auto-reconnect` 選項在本次執行中停用自動重新連線。
+
 ## CLI 相關配置
 
 CLI 相關的配置需要放在 `$MAA_CONFIG_DIR/cli.toml` 中。目前其包含的配置如下：
 
 ```toml
+# GitHub 代理前綴，配置後 GitHub release 的下載位址將被透明地改寫為經過該代理的位址
+# github_proxy = "https://gh-proxy.org/"
+
 # MaaCore 安裝和更新相關配置
 [core]
 channel = "Stable" # 更新通道，可選值為 "Alpha"、"Beta"、"Stable"，預設為 "Stable"
@@ -441,12 +464,19 @@ passphrase = "password"       # ssh 金鑰的密碼
 # ssh-agent 會將您的金鑰儲存在記憶體中，這樣您就不需要每次輸入密碼
 # 注意，您需要確保 ssh-agent 已經啟動並且已經新增了您的金鑰，同時 SSH_AUTH_SOCK 環境變數已經設定
 # use_ssh_agent = true # 使用 ssh-agent 進行身份驗證，如果設定為 true，將忽略 ssh_key 和 passphrase 欄位
+
+# 活動資訊與熱更新資源檔案下載相關配置
+[hot_update]
+# 查詢活動資訊和下載熱更新資源檔案的 api 位址，留空表示使用預設位址
+api_url = "https://api.maa.plus/MaaAssistantArknights/api"
+# 檢查間隔（秒），超過該時間後檔案將被重新下載，0 表示停用快取，預設為 600
+check_interval = 600
 ```
 
 **注意事項**：
 
 - MaaCore 的更新通道中 `Alpha` 只在 Windows 上可用。
-- 部分預設連結指向 GitHub，因此在連線較慢的地區可能會有一些問題，您可以透過配置 `api_url` 和 `download_url` 來使用鏡像站。
+- 部分預設連結指向 GitHub，因此在連線較慢的地區可能會有一些問題，您可以透過配置 `api_url` 和 `download_url` 來使用鏡像站，也可以配置頂層的 `github_proxy` 來透過代理加速 GitHub release 的下載。
 - 即使啟動了資源熱更新，您依然需要安裝 MaaCore 的資源，因為資源熱更新並不包含所有的資源檔案，只是包含部分可更新的資源檔案，基礎資源檔案仍然需要安裝。
 - 資源熱更新是透過 Git 來拉取遠端倉庫，如果後端設定為 `git` 那麼 `git` 命令列工具必須可用。
 - 如果您想要使用 SSH 協定來拉取遠端倉庫，您必須配置 `ssh_key` 欄位，這個欄位應該是一個路徑，指向您的 SSH 私鑰。

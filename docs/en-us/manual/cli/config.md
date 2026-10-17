@@ -30,6 +30,12 @@ params = { client_type = "Official", start_game_enabled = true } # The parameter
 
 The specific task types and parameters can be found in the [MAA Integration Document][task-types]. Note that maa-cli does not validate parameter names and values, and no error message will be generated even if an error occurs unless MaaCore detects an error at runtime.
 
+Besides `tasks`, task files also support the following top-level fields:
+
+- `client_type`: Specifies the client type, which is automatically filled into the `client_type` parameter of the `StartUp`, `Fight`, and `CloseDown` tasks;
+- `startup`: Whether to automatically start the game. When set to `true`, if there is no `StartUp` task in the task list, one will be added at the beginning; if a `StartUp` task already exists but `start_game_enabled` is not enabled, it will be enabled automatically;
+- `closedown`: Whether to automatically close the game. When set to `true`, if there is no `CloseDown` task in the task list, one will be added at the end; if a `CloseDown` task already exists but `enable` is `false`, it will be enabled automatically.
+
 ### Task variants and conditions
 
 In some cases, you may want to run a task with different parameters in different conditions. You can define multiple variants for a task, and use the `condition` field to determine whether the variant should be used. For example, you may want to use a different infrastructure plan at different periods of the day:
@@ -318,6 +324,9 @@ touch_mode = "MaaTouch"
 deployment_with_pause = false
 adb_lite_enabled = false
 kill_adb_on_exit = false
+
+[behavior]
+auto_reconnect = true
 ```
 
 ### Connection
@@ -389,11 +398,25 @@ kill_adb_on_exit = false # Whether to kill adb on exit
 
 Note: When using `PlayTools` connection, `touch_mode` is forced to `MacPlayTools` regardless of setting.
 
+### Behavior
+
+The `[behavior]` section specifies the runtime behavior of maa-cli itself:
+
+```toml
+[behavior]
+auto_reconnect = true # Whether to automatically reconnect when the game disconnects from the server, default is true
+```
+
+Additionally, the `--no-auto-reconnect` option can be used to disable auto-reconnect for the current run.
+
 ## CLI Related Configurations
 
 CLI-related configurations should be in `$MAA_CONFIG_DIR/cli.toml`. Current configurations include:
 
 ```toml
+# GitHub proxy prefix; when configured, GitHub release download URLs will be transparently rewritten to go through this proxy
+# github_proxy = "https://gh-proxy.org/"
+
 # MaaCore install and update configurations
 [core]
 channel = "Stable" # Update channel: "Alpha", "Beta", or "Stable" (default)
@@ -444,6 +467,13 @@ passphrase = "password" # Passphrase for SSH key
 # passphrase = { env = "MAA_SSH_PASSPHRASE" }
 # 3. Use a command output (useful with password managers)
 # passphrase = { cmd = ["pass", "show", "ssh/id_ed25519"] }
+
+# Event information and hot-update resource file download configurations
+[hot_update]
+# API URL for querying event information and downloading hot-update resource files; leave empty for default
+api_url = "https://api.maa.plus/MaaAssistantArknights/api"
+# Check interval (seconds); files older than this will be re-downloaded, 0 disables caching, default is 600
+check_interval = 600
 ```
 
 **NOTE**:
