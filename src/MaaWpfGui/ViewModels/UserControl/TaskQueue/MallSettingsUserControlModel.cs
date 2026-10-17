@@ -267,7 +267,7 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel, MallSettingsU
                 ForceShoppingIfCreditFull = mall.ShoppingIgnoreBlackListWhenFull,
                 OnlyBuyDiscount = mall.OnlyBuyDiscount,
                 ReserveMaxCredit = mall.ReserveMaxCredit,
-                MonthlyCard = mall.MonthlyCard && mall.IsMonthlyCardCheckDue(),
+                MonthlyCard = mall.MonthlyCard && mall.IsMonthlyCardCheckDue() && SettingsViewModel.GameSettings.ClientType is ClientType.Official or ClientType.Bilibili, // OCR 词表只适配简中客户端；其它客户端勾选后不执行检查（勾选状态保留，切回简中即恢复生效）
             };
 
             return taskId switch {

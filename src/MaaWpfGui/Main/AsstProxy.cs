@@ -2021,10 +2021,11 @@ public class AsstProxy
                         // 注意：回调的 details.task 会剥离任务名全部 @ 前缀（如 MiniGame@...@CheckEncounter-Uncollected → CheckEncounter-Uncollected），case 须用 base 名
                         case "MonthlyCardDays":
                             {
-                                // OCR 文本形如“剩余：12天”，超过 40 天视为误识别（月卡上限 30 天）；0 天（到期当天）有效
+                                // OCR 文本形如“剩余：12天”。月卡单张 30 天（可囤卡叠加，但超过 30 的读数利少弊多：误读成大数会把
+                                // 下次检查推迟过提醒窗口，而囤卡用户读数被拒后仅退化为每次都查、无功能损失），故拒绝 31 天以上；0 天（到期当天）有效
                                 var ocrText = details!["details"]!["result"]?["text"]?.ToString() ?? string.Empty;
                                 var daysMatch = Regex.Match(ocrText, @"(\d+)\s*天");
-                                if (daysMatch.Success && int.TryParse(daysMatch.Groups[1].Value, out var daysLeft) && daysLeft is >= 0 and <= 40)
+                                if (daysMatch.Success && int.TryParse(daysMatch.Groups[1].Value, out var daysLeft) && daysLeft is >= 0 and <= 30)
                                 {
                                     // 无论是否触发提醒都记录读数，供 IsMonthlyCardCheckDue 按剩余天数跳过后续检查。
                                     // 须按 taskid 取本配置的真实 MallTask 直接赋值：SetTaskConfig 绑定 UI 当前选中的设置页，回调线程下会写错目标
