@@ -36,6 +36,12 @@ TEST_CASE("Known activity routes fail closed at time and mode boundaries")
     REQUIRE(check(route, "YW-1", true, "Official", route.opens_at) == Status::WrongCode);
     REQUIRE(check(route, route.code, true, "YoStarEN", route.opens_at) == Status::WrongClient);
     REQUIRE(check(route, route.code, true, "", route.opens_at) == Status::WrongClient);
+    route.normal = false;
+    REQUIRE(check(route, route.code, true, "Official", route.opens_at) == Status::Ready);
+    REQUIRE(reason(check(route, route.code, false, "Official", route.opens_at)) == "UnsupportedMode");
+    REQUIRE(reason(check(route, route.code, true, "YoStarEN", route.opens_at)) == "WrongClient");
+    REQUIRE(reason(check(route, route.code, true, "Official", route.closes_at)) == "Closed");
+    route.normal = true;
     route.raid = false;
     REQUIRE(check(route, route.code, true, "Official", route.opens_at) == Status::UnsupportedMode);
     route.enabled = false;

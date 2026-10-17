@@ -12,3 +12,7 @@ icon: material-symbols:route
 映射位于 `resource/activity_navigation.json`：`schema_version` 为 1，`activities` 按活动保存 `id`、`enabled`、`clients`、`routes`、`stages`，`name` 与 `sources` 记录名称及来源。每个分区含标准任务名 `task`、带时区且精确到秒的 ISO 8601 `opens_at`／`closes_at`；每个内部关卡 ID 对应 `code`、`route` 和 `modes`（normal／raid）。开放区间为左闭右开。ID、显示编号、任务与 Tile-Pos 必须一致；已登记但关闭、禁用、客户端不符或难度不支持时失败，不回退。未知活动保持原有选关行为。有效完整映射替换上一份；空 `activities` 可清空映射，错误配置不替换。
 
 兼容核心的活动任务放入 `resource/tasks/hotfix/activity_navigation/`。MaaResource 需同时放行映射文件和 `template/StageNavigation/`，主仓库同步工作流为这些改动更新资源版本。新增任务字段或核心能力仍需升级核心；图片和标准任务更新不能绕过核心兼容要求。`AsstGetActivityNavigationVersion()` 返回支持的协议版本（本实现为 1）；调用方应检查符号存在再调用，旧核心继续使用外部 Custom 导航。导航回调为 `ActivityNavigationStarted`、`ActivityNavigationCompleted`、`ActivityNavigationFailed`，含关卡、分区或失败原因。
+
+Fight 启用活动导航时可传 `is_raid: true` 选择突袭，默认 false；该参数作用于已登记的活动关卡，在分区校验和选关后的难度切换中使用。
+
+Copilot 接受列表时保存各条目已登记的路由元数据。执行前若该路由被移除或元数据变化，分别报告 `MissingRoute`／`RouteChanged` 并停止，调用方需重新提交列表；接受时未知的活动继续使用原有选关。路由查询复制与整表替换通过读写锁同步。预检失败回调带 `phase: Preflight`，`reason` 为具体的 `Closed`、`Disabled`、`WrongClient`、`StageCodeMismatch` 或 `UnsupportedMode`，与执行期的可用性检查一致。

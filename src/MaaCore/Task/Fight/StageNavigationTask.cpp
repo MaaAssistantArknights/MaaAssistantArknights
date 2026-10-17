@@ -52,6 +52,12 @@ bool asst::StageNavigationTask::set_stage_name(const std::string& stage_name)
         if (const auto route = ActivityNavigation.find_code(stage_name)) {
             m_activity_stage = route->stage_id;
             m_stage_code = route->code;
+            if (route->raid) {
+                m_switch_difficulty_after_stage_selection = true;
+                m_difficulty_tasks = m_activity_raid
+                                         ? std::vector<std::string> { "RaidConfirm", "ChangeToRaidDifficulty" }
+                                         : std::vector<std::string> { "ChangeToNormalDifficulty", "NormalConfirm" };
+            }
             return true;
         }
     }
@@ -155,8 +161,8 @@ bool asst::StageNavigationTask::_run()
     if (!m_activity_stage.empty()) {
         ActivityNavigationTask navigation(*this);
         navigation.set_retry_times(0);
-        return navigation.set_target(m_activity_stage, m_stage_code, false, m_activity_client) && navigation.run() &&
-               swipe_and_find_stage();
+        return navigation.set_target(m_activity_stage, m_stage_code, m_activity_raid, m_activity_client) &&
+               navigation.run() && swipe_and_find_stage() && switch_difficulty_after_stage_selection();
     }
 
     // 上一次作战与目标关一致时直接点击进入（资源关等复刷收益明显）；

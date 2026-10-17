@@ -12,3 +12,7 @@ icon: material-symbols:route
 `resource/activity_navigation.json`은 `schema_version: 1`과 `activities`를 포함합니다. 각 이벤트는 `id`, `enabled`, `clients`, `routes`, `stages`와 설명용 `name`, `sources`를 저장합니다. 각 구역은 표준 작업명 `task`와 시간대 및 초가 포함된 ISO 8601 `opens_at` / `closes_at`을 지정합니다. 내부 스테이지 ID는 `code`, `route`, `modes`(normal / raid)에 대응합니다. 시작 시각은 포함하고 종료 시각은 제외합니다. 작업 및 번호는 Tile-Pos와 일치해야 합니다. 등록된 항목이 종료, 비활성, 클라이언트 불일치 또는 미지원 난이도이면 대체 경로 없이 실패합니다. 미등록 이벤트는 기존 동작을 유지합니다. 유효한 전체 데이터가 이전 설정을 대체하고 빈 `activities`는 초기화하며 잘못된 데이터는 대체하지 않습니다.
 
 호환 작업은 `resource/tasks/hotfix/activity_navigation/`에 배치합니다. MaaResource는 매핑 파일과 `template/StageNavigation/`을 배포 대상으로 허용하고 주 저장소 동기화 작업은 관련 변경 시 리소스 버전을 갱신해야 합니다. 새 작업 필드나 코어 기능은 코어 업그레이드가 필요합니다. `AsstGetActivityNavigationVersion()`은 지원 프로토콜(이 구현은 1)을 반환합니다. 호출 전에 심볼 존재 여부를 확인하고 구형 코어에서는 외부 Custom 탐색을 유지하세요. 콜백은 `ActivityNavigationStarted`, `ActivityNavigationCompleted`, `ActivityNavigationFailed`이며 스테이지, 구역 또는 실패 이유를 포함합니다.
+
+활동 탐색을 활성화한 Fight는 `is_raid: true`로 하드 모드를 선택할 수 있습니다(기본값 false). 등록된 활동 스테이지에 대해 구역 유효성 검사와 스테이지 선택 후 난이도 전환에 모두 적용됩니다.
+
+Copilot은 목록을 수락할 때 각 항목의 등록된 경로 메타데이터를 저장합니다. 실행 전에 경로가 삭제되면 `MissingRoute`, 메타데이터가 변경되면 `RouteChanged`로 중지하므로 목록을 다시 제출해야 합니다. 수락 시 등록되지 않은 활동은 기존 선택 방식을 사용합니다. 경로 복사와 전체 맵 교체는 읽기/쓰기 잠금으로 동기화합니다. 사전 검사 실패 콜백에는 `phase: Preflight`와 실행 시 검사와 동일한 구체적인 `reason`(`Closed`, `Disabled`, `WrongClient`, `StageCodeMismatch`, `UnsupportedMode`)이 포함됩니다.

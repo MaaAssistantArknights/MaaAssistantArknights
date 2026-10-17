@@ -64,6 +64,8 @@ struct Route
     bool raid = false;
     Time opens_at;
     Time closes_at;
+
+    bool operator==(const Route&) const = default;
 };
 
 enum class Status
@@ -75,6 +77,25 @@ enum class Status
     UnsupportedMode,
     Closed
 };
+
+inline std::string reason(Status status)
+{
+    switch (status) {
+    case Status::Ready:
+        return "Ready";
+    case Status::Disabled:
+        return "Disabled";
+    case Status::WrongClient:
+        return "WrongClient";
+    case Status::WrongCode:
+        return "StageCodeMismatch";
+    case Status::UnsupportedMode:
+        return "UnsupportedMode";
+    case Status::Closed:
+        return "Closed";
+    }
+    return "UnknownStatus";
+}
 
 inline Status check(const Route& route, std::string_view code, bool raid, std::string_view client, Time now)
 {

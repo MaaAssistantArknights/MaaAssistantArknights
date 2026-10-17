@@ -54,11 +54,12 @@ bool asst::MultiCopilotTaskPlugin::_run()
     info["details"]["id"] = config.id;
     callback(AsstMsg::SubTaskExtraInfo, info);
 
-    // Unknown activities retain legacy map navigation; a known but invalid route must fail closed.
-    if (m_activity_navigation && ActivityNavigation.find(stage_name)) {
+    // Keep the accepted route identity even if a resource reload removes or changes it.
+    if (m_activity_navigation && config.activity_route) {
         ActivityNavigationTask navigation(*this);
         navigation.set_retry_times(0);
-        if (!navigation.set_target(stage_name, config.nav_name, config.is_raid, m_client) || !navigation.run()) {
+        if (!navigation.set_target(stage_name, config.nav_name, config.is_raid, m_client, config.activity_route) ||
+            !navigation.run()) {
             return false;
         }
     }

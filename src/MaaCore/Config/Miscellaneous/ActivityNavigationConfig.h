@@ -1,6 +1,7 @@
 #pragma once
 
 #include <optional>
+#include <shared_mutex>
 #include <unordered_map>
 
 #include "ActivityNavigationPolicy.h"
@@ -18,6 +19,7 @@ protected:
     bool parse(const json::value& json) override;
 
 private:
+    mutable std::shared_mutex m_routes_mutex;
     std::unordered_map<std::string, activity_navigation::Route> m_routes;
 };
 

@@ -188,10 +188,13 @@ bool asst::CopilotTask::set_params(const json::value& params)
                     if (status != activity_navigation::Status::Ready) {
                         auto info = basic_info_with_what("ActivityNavigationFailed");
                         info["details"]["stage_id"] = stage_name;
-                        info["details"]["reason"] = "PreflightRejected";
+                        info["details"]["stage_code"] = config_cvt.nav_name;
+                        info["details"]["phase"] = "Preflight";
+                        info["details"]["reason"] = activity_navigation::reason(status);
                         callback(AsstMsg::SubTaskError, info);
                         return false;
                     }
+                    config_cvt.activity_route = *route;
                 }
             }
             config_cvt.copilot_file = *copilot_opt;

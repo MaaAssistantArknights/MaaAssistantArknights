@@ -9,6 +9,7 @@
 
 std::optional<asst::activity_navigation::Route> asst::ActivityNavigationConfig::find(const std::string& stage_id) const
 {
+    const std::shared_lock lock(m_routes_mutex);
     const auto it = m_routes.find(stage_id);
     if (it == m_routes.end()) {
         return std::nullopt;
@@ -18,6 +19,7 @@ std::optional<asst::activity_navigation::Route> asst::ActivityNavigationConfig::
 
 std::optional<asst::activity_navigation::Route> asst::ActivityNavigationConfig::find_code(const std::string& code) const
 {
+    const std::shared_lock lock(m_routes_mutex);
     for (const auto& [id, route] : m_routes) {
         if (route.code == code) {
             return route;
@@ -132,6 +134,7 @@ bool asst::ActivityNavigationConfig::parse(const json::value& root)
         }
     }
     // Replace only after validating the complete snapshot. An empty list explicitly disables all routes.
+    const std::unique_lock lock(m_routes_mutex);
     m_routes = std::move(parsed);
     return true;
 }

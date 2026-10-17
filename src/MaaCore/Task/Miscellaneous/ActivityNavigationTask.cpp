@@ -7,15 +7,27 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 
-bool asst::ActivityNavigationTask::set_target(std::string stage_id, std::string code, bool raid, std::string client)
+bool asst::ActivityNavigationTask::set_target(
+    std::string stage_id,
+    std::string code,
+    bool raid,
+    std::string client,
+    std::optional<activity_navigation::Route> expected_route)
 {
     m_stage_id = std::move(stage_id);
     m_code = std::move(code);
     m_raid = raid;
     m_client = std::move(client);
+    m_expected_route = std::move(expected_route);
     const auto route = ActivityNavigation.find(m_stage_id);
-    if (!route || route->code != m_code || !Task.get(route->task)) {
-        return report_failure("MissingRouteOrTask");
+    if (!route) {
+        return report_failure("MissingRoute");
+    }
+    if (route->code != m_code) {
+        return report_failure("StageCodeMismatch");
+    }
+    if (!Task.get(route->task)) {
+        return report_failure("MissingTask");
     }
     auto map = Tile.find(m_stage_id);
     if (!map || map->first.code != m_code) {
@@ -42,16 +54,14 @@ bool asst::ActivityNavigationTask::_run()
     if (!route) {
         return report_failure("MissingRoute");
     }
+    if (m_expected_route && *route != *m_expected_route) {
+        return report_failure("RouteChanged");
+    }
     const auto client = m_client.empty() ? ctrler()->get_client_type() : m_client;
     const auto now = std::chrono::floor<std::chrono::seconds>(std::chrono::system_clock::now());
     const auto status = activity_navigation::check(*route, m_code, m_raid, client, now);
     if (status != Status::Ready) {
-        const std::string reason = status == Status::Disabled          ? "Disabled"
-                                   : status == Status::WrongClient     ? "WrongClient"
-                                   : status == Status::WrongCode       ? "StageCodeMismatch"
-                                   : status == Status::UnsupportedMode ? "UnsupportedMode"
-                                                                       : "Closed";
-        return report_failure(reason);
+        return report_failure(activity_navigation::reason(status));
     }
     auto info = basic_info_with_what("ActivityNavigationStarted");
     info["details"]["stage_id"] = m_stage_id;

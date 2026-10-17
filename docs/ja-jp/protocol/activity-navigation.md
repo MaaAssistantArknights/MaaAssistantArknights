@@ -12,3 +12,7 @@ icon: material-symbols:route
 `resource/activity_navigation.json` は `schema_version: 1` と `activities` を持ちます。活動ごとに `id`、`enabled`、`clients`、`routes`、`stages`、説明用の `name` と `sources` を記録します。各エリアは標準タスク名 `task`、タイムゾーンと秒を含む ISO 8601 の `opens_at` / `closes_at` を持ちます。内部ステージ ID は `code`、`route`、`modes`（normal / raid）へ対応します。開始時刻を含み終了時刻を含みません。タスクと番号は Tile-Pos と一致する必要があります。登録済みの閉鎖、無効、クライアント不一致、非対応難易度は失敗し、フォールバックしません。未登録の活動は従来通りです。有効な完全データで前の設定を置換し、空の `activities` で消去できます。無効なデータでは置換しません。
 
 互換タスクは `resource/tasks/hotfix/activity_navigation/` に置きます。MaaResource は設定ファイルと `template/StageNavigation/` を配信対象に含め、主リポジトリの同期処理で資源バージョンを更新します。新しいタスク項目やコア機能にはコア更新が必要です。`AsstGetActivityNavigationVersion()` は対応プロトコル（本実装は 1）を返します。呼出前にシンボルの存在を確認し、旧コアでは外部 Custom ナビゲーションを維持してください。通知は `ActivityNavigationStarted`、`ActivityNavigationCompleted`、`ActivityNavigationFailed` で、ステージ、エリア、失敗理由を含みます。
+
+活動ナビゲーションを有効にした Fight は `is_raid: true` で強襲モードを指定できます（既定値 false）。登録済みの活動ステージについて、区画の検証とステージ選択後の難易度切り替えの両方に適用されます。
+
+Copilot はリスト受付時に各項目の登録済みルートのメタデータを保存します。実行前にルートが削除された場合は `MissingRoute`、メタデータが変更された場合は `RouteChanged` で停止するため、リストを再送信してください。受付時に未登録だった活動は従来の選択を使用します。ルートのコピー取得とマップ全体の置換は読み書きロックで同期します。事前検証の失敗コールバックには `phase: Preflight` と、実行時と同じ具体的な `reason`（`Closed`、`Disabled`、`WrongClient`、`StageCodeMismatch`、`UnsupportedMode`）が含まれます。
