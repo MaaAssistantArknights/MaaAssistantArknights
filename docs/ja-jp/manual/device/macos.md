@@ -13,7 +13,7 @@ icon: basil:apple-solid
 
 ### ✅ [PlayCover](https://playcover.io)（ネイティブに動作、最も流暢である 🚀）
 
-実験的なサポート、問題が発生した場合は問題を開き、タイトルに iOS について言及してください。
+実験的なサポート、問題が発生した場合は問題を開き、タイトルに `macOS` と明記してください。
 
 注： `macOS` の仕組みにより、ゲームウィンドウを最小化したり、ステージマネージャーで別のウィンドウに切り替えたり、ウィンドウを別のデスクトップ/画面に移動したりすると、スクリーンショットに問題が発生し、正しく実行されなくなります。 👉🏻️ [issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/4371#issuecomment-1527977512) を参照
 

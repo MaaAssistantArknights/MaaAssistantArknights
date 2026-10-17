@@ -833,7 +833,7 @@ Theme.
 <br>
 `JieGarden` - Sui's Garden of Grotesqueries
 <br>
-`BlackFlow` - 黑流树海  
+`BlackFlow` - 黑流树海 (no official English name yet)  
 :::  
 ::: field mode  
 @type number
@@ -862,6 +862,8 @@ Mode.
 `20001` - Playtime node farming; enter the hollow on the first layer and restart if the required node cannot be found; only available in the JieGarden theme, requires `find_playTime_target`.
 <br>
 `30001` - Swaddled baby animal farming; only available in the BlackFlow theme.
+<br>
+`30003` - Starting reward farming: play a preparation run first, then start the target run. The preparation run is abandoned after obtaining the swaddled animals required by `blackflow_start_animals` and entering floor 3; when the target run's support selection page contains any reward in `blackflow_start_rewards`, no choice is made, the task exits to the theme page keeping the run, and the task ends. The preparation run uses `collectible_mode_squad` and is played at difficulty 0 when `difficulty` is not `-1`; the target run uses `squad` and `difficulty` and ends at the support selection page. `roles` and the starting operators only apply to the preparation run. Only available in the BlackFlow theme; requires `blackflow_start_animals` and `blackflow_start_rewards`. (machine-translated)
 :::  
 ::: field squad  
 @type string
@@ -1047,7 +1049,9 @@ Whether to enable shopping in hot water mode.
 ::: field collectible_mode_squad  
 @type string
 @optional
-Squad to use in hot water mode, default synced with squad, when squad is empty and collectible_mode_squad not specified, uses 指挥分队.  
+Squad to use in hot water mode, default synced with squad, when squad is empty and collectible_mode_squad not specified, uses 指挥分队 (Leader Squad).  
+<br>
+In BlackFlow mode 30003, this is the squad used for the preparation run. (machine-translated)  
 :::  
 ::: field start_with_seed  
 @type string
@@ -1061,19 +1065,35 @@ Only effective in Sarkaz theme, Investment mode, with "点刺成锭分队" (Poin
 @optional
 Strategy for the 黑流树海 (BlackFlow) theme; inferred from `mode` and `investment_enabled` when left empty.
 <br>
-`baby_animal` - Check the general store on floor 1, then explore floors 2 and 3 and enter the 秘境行商 (secret-route trader) to cultivate seeds; requires `blackflow_cultivation_target`
+`baby_animal` - Check the general store on floor 1, then explore floors 2 and 3 and enter the 秘境行商 (scrap trader) to cultivate seeds; requires `blackflow_cultivation_target`
 <br>
 `investment` - Reach the fixed general store on floor 1 via the route with the fewest battles and the shortest estimated time
 <br>
 `burn_with_investment` - Complete investment on floor 1, then reach floor 3 as fast as possible and restart upon arrival
 <br>
 `burn` - Reach floor 3 as fast as possible and restart upon arrival  
+<br>
+Mode 30003 does not read this field. With an animal requirement, the preparation run cultivates along the `baby_animal` route; without one, the preparation run reaches floor 3 as fast as possible, investing on floor 1 first when `investment_enabled` is true. When the preparation run's starting operator is the Mechanic, `collectible_mode_squad` is 特勤分队 (Special Squad) or 堡垒战术分队 (Tactical Fortification Squad), and `roles` is 稳扎稳打 (Slow and Steady Wins the Race) or 坚不可摧 (Indestructible), the run is treated as a fully-talented Mechanic start that carries 结构性原理 (Structural Principle): after recruiting the Mechanic, the preparation run skips the remaining opening recruitment and moves with Structural Principle as needed; without an animal requirement, it flies straight to the exit on floor 2. (machine-translated)  
 :::  
 ::: field blackflow_cultivation_target  
 @type string
 @default swaddled_cat
 @optional
 Target of the baby animal farming mode. Options: `swaddled_cat` (Swaddled Cat) | `swaddled_feathered_serpent` (Swaddled Feathered Serpent) | `swaddled_dog` (Swaddled Dog) | `swaddled_cerberus` (Swaddled Cerberus); only used when `blackflow_strategy` is `baby_animal`.  
+:::  
+::: field blackflow_start_animals  
+@type array<string>
+@optional
+Swaddled animals to cultivate in the preparation run of mode 30003; 0 to 2 entries, duplicates allowed, at most one feathered serpent. Options: `swaddled_cat` | `swaddled_dog` | `swaddled_cerberus` | `swaddled_feathered_serpent`. All entries must be satisfied by count at the same time; for example, two `swaddled_cat` entries require at least two cats, and extra animals of other kinds do not matter. If the set is still incomplete when cultivation ends, the run is abandoned and a new preparation run starts. With an empty array, the preparation run only needs to enter floor 3. Required in mode 30003. (machine-translated)  
+:::  
+::: field blackflow_start_rewards  
+@type number
+@optional
+Desired starting rewards for the target run of mode 30003, as a bitmask in the range 0 to 4095. Required in mode 30003. (machine-translated)  
+<br>
+`1` 未编号物 (Unnumbered Item); `2` 调查预付款 (Survey Advance); `4` 空间租赁 (Space Lease); `8` 退行补偿 (Regression Compensation); `16` 林间代步 (Forest Ride); `32` 巢寄生 (Brood Parasitism); `64` 襁褓天马 (Swaddled Pegasus); `128` 襁褓骏鹰 (Swaddled Hippogriff); `256` 襁褓巨龙 (Swaddled Dragon); `512` 襁褓九头蛇 (Swaddled Hydra); `1024` 襁褓白泽 (Swaddled Bai Ze); `2048` 襁褓金乌 (Swaddled Golden Crow). The last six are blue rewards brought by the feathered serpent and only take effect when `blackflow_start_animals` includes the feathered serpent; otherwise they are ignored. These names have no official English translation yet.  
+<br>
+On the support selection page, the target run first recognizes all rewards on the page, then decides: if any desired reward is present, the task completes; if rewards were recognized but none is desired, the run is abandoned and a new preparation run starts; if no reward could be recognized, or feathered serpent rewards were requested but the blue rewards could not be read, the task stops on the support selection page and saves a screenshot to `debug/roguelike`. With 0, the task completes as soon as the support selection page appears. Progress is reported through the `BlackFlowStartRun` callback of `SubTaskExtraInfo`; see [Callback Schema](./callback-schema.md).  
 :::  
 ::: field find_playTime_target
 @type number

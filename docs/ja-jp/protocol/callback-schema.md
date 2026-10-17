@@ -648,6 +648,28 @@ Todo
   }
   ```
 
+- `BlackFlowStartRun`  
+  BlackFlow の初期報酬稼ぎ（ローグライクモード 30003）の進捗。（機械翻訳）
+
+  ```json
+  // 対応する詳細フィールドの例
+  {
+      "status": "reward_missed",       // 現在の進捗、下記参照
+      "rewards": ["空间租赁", "金乌"]   // 任意、目標の探索の支援選択画面で認識した報酬名
+  }
+  ```
+
+  `status` の値：
+  - `preparing`：準備用の探索を開始。
+  - `target_run`：目標の探索を開始。
+  - `reward_missed`：支援選択画面で報酬は認識できたが狙うものがないため、その探索を放棄して準備用の探索をやり直す。
+  - `completed`：狙う報酬が出たため、テーマ画面へ退出してその探索を保持し、タスクを終了。
+  - `reward_unrecognized`：支援選択画面の報酬を認識できないため、その画面に留まってタスクを停止。
+  - `reward_page_missing`：目標の探索で支援選択画面が出なかったため、タスクを停止。
+  - `reward_recognition_failed`：準備用の探索で支援選択画面の報酬選択に失敗したため、タスクを停止。
+
+  `rewards` は `reward_missed`、`completed`、`reward_unrecognized` のときのみ通知され、`blackflow_start_rewards` が 0（報酬を認識しない）の場合や 1 つも認識できなかった場合は省略されます。報酬名は簡体字中国語で出力されます。
+
 ### ReportRequest
 
 このフィールドは、コアモジュールがネットワークリクエスト情報をUI層に渡すために主に使用され、UIは実際のHTTP報告処理を担当します。

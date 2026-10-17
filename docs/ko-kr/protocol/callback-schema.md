@@ -636,6 +636,18 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   :::
   ::::
 
+- `BlackFlowStartRun`  
+  BlackFlow 시작 보상 파밍(로그라이크 모드 30003)의 진행 상황. `details` 필드 구조는 다음과 같습니다 (기계 번역):
+  - `status` (string, required): 현재 진행 상황, 값은 다음과 같습니다:
+    - `preparing`: 준비 탐험 시작.
+    - `target_run`: 목표 탐험 시작.
+    - `reward_missed`: 지원 선택 화면에서 보상은 인식했지만 원하는 것이 없어 해당 탐험을 포기하고 준비 탐험을 다시 진행.
+    - `completed`: 원하는 보상이 나와 테마 화면으로 나가 해당 탐험을 유지하고 작업 종료.
+    - `reward_unrecognized`: 지원 선택 화면의 보상을 인식하지 못해 해당 화면에 머문 채 작업 중지.
+    - `reward_page_missing`: 목표 탐험에서 지원 선택 화면이 나타나지 않아 작업 중지.
+    - `reward_recognition_failed`: 준비 탐험에서 지원 선택 화면의 보상 선택에 실패해 작업 중지.
+  - `rewards` (`array<string>`, optional): 목표 탐험의 지원 선택 화면에서 인식한 보상 이름(중국어 간체), 예: `空间租赁`, `金乌`. `reward_missed`, `completed`, `reward_unrecognized`일 때만 전달되며, `blackflow_start_rewards`가 0(보상을 인식하지 않음)이거나 하나도 인식하지 못하면 생략됩니다.
+
 ### ReportRequest
 
 이 필드는 주로 코어 모듈이 UI 계층에 네트워크 요청 정보를 전달하는 데 사용되며, UI가 구체적인 HTTP 보고(Report) 작업을 수행합니다

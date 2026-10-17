@@ -369,7 +369,7 @@ default:
 
 ### Visual Studio
 
-`MaaCore.vcxporj` で設定されており、すぐに使用できます。ヒント効果はより不明瞭で、いくつかの情報が欠落しています。
+`MaaCore.vcxproj` で設定されており、すぐに使用できます。ヒント効果はより不明瞭で、いくつかの情報が欠落しています。
 
 ### Visual Studio Code
 

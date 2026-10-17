@@ -130,7 +130,7 @@ MAA の起動時に互換性警告が表示されたり、クラッシュやイ�
 - [Nemu](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537) `21503`
 - [NOX](https://support.yeshen.com/zh-CN/qt/ml) `62001`
 
-他のエミュレーターは[@赵青青のブログ](https://www.cnblogs.com/zhaoqingqing/p/15238464.html)を参照してください
+他のエミュレーターは[@趙青青（zhaoqingqing）のブログ](https://www.cnblogs.com/zhaoqingqing/p/15238464.html)を参照してください
 
 ### 既存のadbプロセスを閉じる
 

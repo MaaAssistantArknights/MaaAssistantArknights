@@ -449,7 +449,7 @@ default:
 
 ### Visual Studio
 
-在 `MaaCore.vcxporj` 中已对其进行配置，开箱即用。提示效果较为晦涩，且有部分信息缺失。
+在 `MaaCore.vcxproj` 中已对其进行配置，开箱即用。提示效果较为晦涩，且有部分信息缺失。
 
 ### Visual Studio Code
 

@@ -620,6 +620,28 @@ Todo
 - `UnsupportedLevel`  
   Auto combat, unsupported stage name
 
+- `BlackFlowStartRun`  
+  Progress of BlackFlow starting reward farming (roguelike mode 30003). (machine-translated)
+
+  ```json
+  // Corresponding details field example
+  {
+      "status": "reward_missed",       // Current progress, see below
+      "rewards": ["空间租赁", "金乌"]   // Optional; reward names recognized on the target run's support selection page
+  }
+  ```
+
+  `status` values:
+  - `preparing`: the preparation run started.
+  - `target_run`: the target run started.
+  - `reward_missed`: rewards were recognized on the support selection page but none is desired; the run is abandoned and a new preparation run starts.
+  - `completed`: a desired reward was found; the task exited to the theme page keeping the run, and the task ends.
+  - `reward_unrecognized`: rewards on the support selection page could not be recognized; the task stops on that page.
+  - `reward_page_missing`: the target run did not show the support selection page; the task stops.
+  - `reward_recognition_failed`: the preparation run failed to pick a reward on the support selection page; the task stops.
+
+  `rewards` is only reported with `reward_missed`, `completed` and `reward_unrecognized`, and is omitted when `blackflow_start_rewards` is 0 (rewards are not recognized) or when no reward was recognized. Reward names are reported in Simplified Chinese.
+
 ### ReportRequest
 
 This field is mainly used by the core module to pass network request information to the UI layer, which is responsible for performing the actual HTTP reporting operations.

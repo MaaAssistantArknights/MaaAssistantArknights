@@ -625,6 +625,75 @@ The Encounter options can be modified to guide MAA towards special endings
                 ...
 ```
 
+Events also support the following optional fields:
+
+- `option_text`: string array, the text of each option of the event, used to assist recognition matching
+- `next_event`: string, the name of the next event to jump to after this event is handled
+- `fallback_choices`: an array in the form `[[actual option count, preferred choice], ...]`; when the number of options actually recognized differs from `option_num`, the entry matching the actual option count is used to select the corresponding option
+
+### BlackFlow encounter strategy and selection results
+
+This section is machine-translated. If possible, please read the Chinese document. Any corrections or suggestions would be greatly appreciated.
+
+The BlackFlow strategy module supports `encounter_rules`. A rule matches an event by its title `event_name`, and `when` uses the existing strategy condition syntax.
+For example, the event title for the Expedition node (先行一步) is "未涉足之树". When multiple rules match, `rank` is compared first and the lower value wins;
+rules with the same `rank` are ordered by the lexicographical order of their `id`. When no rule matches, the event's default configuration is used.
+
+Options can be matched by the order of texts in `option_text`, or by specifying both `option_num` and `choose`: when the actual number of options
+equals `option_num`, the option numbered `choose` (starting from 1) is selected. The two forms are mutually exclusive. `allow_fallback` defaults to
+`true`: when the target is unavailable or the selection fails, available options are tried from bottom to top; when set to `false`, a failed target selection ends this selection.
+
+Event decisions can read the following built-in page facts without declaring them again in `facts`:
+
+| Fact                          | Type          | Meaning                                                                                                          |
+| ----------------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `encounter.name`              | `string`      | The currently recognized event title.                                                                            |
+| `encounter.option_count`      | `int`         | The number of options actually recognized.                                                                       |
+| `encounter.available_options` | `string_list` | Option texts available for this decision.                                                                        |
+| `encounter.route_known`       | `bool`        | Whether a valid, complete single remaining route was kept when entering the event.                               |
+| `encounter.remaining_battles` | `int`         | The number of battles after the current event on that route; only provided to decisions when the route is known. |
+| `encounter.selected_option`   | `int`         | The index of the option actually selected, starting from 1.                                                      |
+| `encounter.selected_text`     | `string`      | The text of the option actually selected.                                                                        |
+| `encounter.used_fallback`     | `bool`        | Whether the actual selection used the fallback.                                                                  |
+| `encounter.rule_id`           | `string`      | The rule matched by this selection request; empty when no rule matched.                                          |
+
+`available_options`, `route_known` and `remaining_battles` are provided for event decisions. Concluding that no battle remains requires both
+`route_known` to be `true` and `remaining_battles` to be `0`. An empty route, multiple landing points, or unclear identities of subsequent nodes
+never allow the conclusion that no battle remains. These facts reflect the plan at the time the event was entered and do not constrain later replanning.
+
+After a successful selection, the shared event plugin emits the `RoguelikeEventSelected` callback, which contains `name`, `option_num`,
+`choose_option`, `option_text`, `rule_id`, `rule_description` and `used_fallback`. The UI log shows the text actually selected;
+when a rule matched and no fallback was used, the rule's `description` is appended as the reason, so different strategies can explain
+their own reasons even when they choose the same option. The BlackFlow session writes the actual selection into page facts
+and then refreshes milestones. `rule_id` represents the original selection request; when a fallback was used it does not prove that the target option was selected,
+so milestones should check the actual selection facts. A selection result does not mean an operator has been dispatched; for items that are always
+obtained once a choice is confirmed, the rule's `on_selected` can update the corresponding facts explicitly.
+
+`on_selected` maps run fact names to values. Only declared `run` facts with matching types are allowed, and writing to `milestone.*`
+is not allowed. The assignments are applied only when the text actually selected belongs to the rule's `option_text`; they are not applied when a fallback selects other text.
+These assignments are written together with this selection record before milestones are refreshed, and no partial update is kept on failure. In Ending 2, once the "线人" (Informant) event confirms the choice
+"我受雇于梅兰德", `sandtable_a` is set to `true` immediately; the node still finishes with the usual reward and wrap-up flow.
+
+Page task results are likewise validated as a whole set of facts and page changes before being written together. A page that is already complete cannot receive another completion result, which prevents
+the same collectible result from being counted twice. Milestone changes use the existing callbacks without adding source records; the end check for missed milestones still runs
+during map observation.
+
+The default BlackFlow event configuration supports `option_tasks`, keyed by the full text of the option actually selected, with the name of an existing task as the value.
+After a match, it is forwarded to the corresponding task chain through the `JustReturn` entry, and the target task runs under its own name, keeping its template configuration, task-name callbacks
+and execution count statistics. That task chain handles the following pages, and the event-level `next_event` is not executed this time. Without a matching entry, the original
+reward and event wrap-up flow continues. All configured tasks must be resolvable before the selection; when a task is missing, no option is clicked.
+
+#### Consecutive single-option events
+
+`continue_single_option` in the default BlackFlow event configuration defaults to `false` and is currently enabled only for "安眠一隅".
+When enabled, the options are recognized again on every page, and an option is selected only when exactly one option is available; there is no fallback selection by fixed text, number or reverse order.
+Zero or multiple available options, as well as a failed selection confirmation, are all treated as a selection failure.
+
+Every selection still uses the confirm button and the `LoadingText` wait chain. Rewards and event dialogues are then handled; when options appear, the event title is checked,
+and the next page is recognized only if the title is still the current event. The whole event ends only after the map is clearly recognized. Adjacent pages may use the same option text.
+Loading, recognition failures and user stops never count as event completion. This field is BlackFlow-only and cannot be enabled together with `next_event` or `option_tasks`.
+Each successful selection still reports the actual option separately, and page completion is reported only after the whole event ends.
+
 ### Dynamically prioritise certain options according to the team situation (TODO)
 
 ## Integrated Strategy Step 4: Prioritising Trade Store collection
@@ -734,7 +803,7 @@ The BlackFlow strategy module supports `shopping_rules`. When a page is dispatch
 
 If multiple rules match, the rule with the lowest `rank` is selected; ties are resolved by the lexicographical order of `id`, as with `encounter_rules`. Both tables come from the same rule; fields from different rules are not combined. If no rule matches, the `default` buy table is used and nothing is sold. Tables are selected again for every page dispatch, so the previous page's selection is not carried over.
 
-`when` cannot access candidate route facts. Referenced table names must exist in BlackFlow's `shopping.json`; otherwise, the strategy configuration fails to parse. The shopping plugin uses the selected buy table, while 秘境行商 cultivation uses the selected sell table to filter items for sale.
+`when` cannot access candidate route facts. Referenced table names must exist in BlackFlow's `shopping.json`; otherwise, the strategy configuration fails to parse. The shopping plugin uses the selected buy table, while 秘境行商 (scrap trader) cultivation uses the selected sell table to filter items for sale.
 
 ## Integrated Strategy Special Mechanisms
 

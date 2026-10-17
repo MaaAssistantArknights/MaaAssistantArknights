@@ -67,7 +67,6 @@
     <system:String x:Key="ExternalNotificationServerChanSendKey">Server Chan Send Key</system:String>
     <system:String x:Key="ExternalNotificationBarkSendKey">Bark Send Key</system:String>
     <system:String x:Key="ExternalNotificationBarkServer">Bark Server</system:String>
-    <system:String x:Key="ExternalNotificationSmtpTo">Recipient</system:String>
     <system:String x:Key="ExternalNotificationSmtpServer">SMTP Server</system:String>
     <system:String x:Key="ExternalNotificationSmtpPort">Port</system:String>
     <system:String x:Key="ExternalNotificationSmtpSsl">Use SSL</system:String>
@@ -75,6 +74,7 @@
     <system:String x:Key="ExternalNotificationSmtpUser">Username</system:String>
     <system:String x:Key="ExternalNotificationSmtpPassword">Password</system:String>
     <system:String x:Key="ExternalNotificationSmtpFrom">Sender</system:String>
+    <system:String x:Key="ExternalNotificationSmtpTo">Recipient</system:String>
     <system:String x:Key="ExternalNotificationDiscordBotToken">Bot Token</system:String>
     <system:String x:Key="ExternalNotificationDiscordUserId">User ID</system:String>
     <system:String x:Key="ExternalNotificationDiscordWebhookUrl">Webhook URL</system:String>
@@ -247,8 +247,8 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="MuMuArm">MuMu Player (Windows ARM)</system:String>
     <system:String x:Key="MuMuArmDetectAndTest">Detect and test</system:String>
     <system:String x:Key="MuMuArmConnectionNotReady">Unable to read the MuMu ARM ADB address. Wait for the emulator to finish starting and retry, or disable auto detection and enter the connection address manually.</system:String>
-    <system:String x:Key="LDPlayer">LD Player</system:String>
     <system:String x:Key="AVD">Android Virtual Device (AVD)</system:String>
+    <system:String x:Key="LDPlayer">LD Player</system:String>
     <system:String x:Key="Androws">Androws</system:String>
     <system:String x:Key="Nox">Nox</system:String>
     <system:String x:Key="XYAZ">MEmu</system:String>
@@ -264,10 +264,57 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="RoguelikeStrategyGold">Invests ingots, exits automatically after investment completes</system:String>
     <system:String x:Key="RoguelikeStrategyBlackFlowExp">Farm levels, quickly reach Floor 3</system:String>
     <system:String x:Key="RoguelikeStrategyBlackFlowInvestment">Farm Originium Ingots, exit after investing</system:String>
+    <system:String x:Key="RoguelikeStrategyBlackFlowStartRun">Farm starting rewards, exit and keep the run once a target is met</system:String>
+    <system:String x:Key="RoguelikeBlackFlowFlightRequirement">Requires a Mechanic with talent fully unlocked</system:String>
+    <system:String x:Key="RoguelikeBlackFlowFastFlight">Fly to Floor 3 quickly</system:String>
+    <system:String x:Key="RoguelikeBlackFlowFlightTip" xml:space="preserve">Always starts with Special Squad, Slow and Steady Wins the Race and your own Mechanic, recruits only the Mechanic, flies straight from Floor 2 to Floor 3 with the built-in Structural Principle, and restarts on arrival.&#10;The squad, roles and starting operator in General settings are only replaced when the task starts; the settings themselves stay unchanged. When unchecked, the run plays toward the target ending and does not fly even if the starting setup matches this combination.&#10;Do not check this if your Mechanic's talent is not fully unlocked, as the flight will fail.</system:String>
+    <system:String x:Key="RoguelikeBlackFlowEndingFlightTip">The ending can only be selected when ｢{key=RoguelikeBlackFlowFastFlight}｣ is unchecked</system:String>
+    <system:String x:Key="RoguelikeBlackFlowEnding">Target Ending</system:String>
+    <system:String x:Key="RoguelikeBlackFlowEnding1">Ending 1 · 强制重启 (Forced Restart)</system:String>
+    <system:String x:Key="RoguelikeBlackFlowEnding2">Ending 2 · 维度重构 (Dimensional Reconstruction)</system:String>
+    <system:String x:Key="RoguelikeBlackFlowEnding3">Ending 3 · 纠缠，调和 (Entanglement, Reconciliation)</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartAnimal1">Swaddled Animal · 1st</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartAnimal2">Swaddled Animal · 2nd</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartAnimalNone">No requirement</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartRewards">Desired Rewards</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartRewardsAnyHit">Stops on any match</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartRewardsTip" xml:space="preserve">Everything checked in Desired Rewards and Feathered Serpent Rewards counts as a candidate; the task stops as soon as any one of them appears at the start.&#10;Hover over an option to see its effect.</system:String>
+    <system:String x:Key="RoguelikeBlackFlowSerpentRewards">Feathered Serpent Rewards</system:String>
+    <system:String x:Key="RoguelikeBlackFlowSerpentRewardsInactive">Only applies when Swaddled Feathered Serpent is selected</system:String>
+    <system:String x:Key="RoguelikeBlackFlowPrepSquad">Preparation Run Squad</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardUnnumberedItem">未编号物 (Unnumbered Item)</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardSurveyAdvance">调查预付款 (Survey Advance)</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardSpaceLease">空间租赁 (Space Lease)</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardRegressionCompensation">退行补偿 (Regression Compensation)</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardForestRide">林间代步 (Forest Ride)</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardNestParasitism">巢寄生 (Brood Parasitism)</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardPegasus">襁褓天马 (Swaddled Pegasus)</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardHippogriff">襁褓骏鹰 (Swaddled Hippogriff)</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardDragon">襁褓巨龙 (Swaddled Dragon)</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardHydra">襁褓九头蛇 (Swaddled Hydra)</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardBaiZe">襁褓白泽 (Swaddled Bai Ze)</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardGoldenCrow">襁褓金乌 (Swaddled Golden Crow)</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetCat">Swaddled Cat</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetFeatheredSerpent">Swaddled Feathered Serpent</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetDog">Swaddled Dog</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetCerberus">Swaddled Cerberus</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetCatTip">Gain 5 extra Originium Ingots at the start of the next run.</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetDogTip">Gain 1 extra Hope at the start of the next run.</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetCerberusTip">Grants one extra support selection in the next run. The run in which it is cultivated must pass through at least two floors.</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetFeatheredSerpentTip">Adds a random blue swaddled creature to the support options in the next run. The run in which it is cultivated must pass through at least two floors.</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardUnnumberedItemTip">Gain 1 normal collectible.</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardSurveyAdvanceTip">Gain 8 Originium Ingots.</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardSpaceLeaseTip">Spend 6 Originium Ingots; parts box capacity +2.</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardRegressionCompensationTip">Spend 2 max Life Points; gain 1 random collectible.</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardForestRideTip">Gain 1 processing item.</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardNestParasitismTip">Parts box capacity -1; gain 1 rare collectible.</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardPegasusTip">Gain 1 extra AP on each floor.</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardHippogriffTip">Start with 1 extra Hope; the first 2 floors are fully revealed from the start.</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardDragonTip">All enemies on the first 2 floors have -50% max HP.</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardHydraTip">All enemies gain +30% ATK and HP; each time a new floor is entered, friendly units gain +10% ATK and HP.</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardBaiZeTip">Increases the chance of temporary recruitment operators appearing.</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardGoldenCrowTip">Gain 3 random collectibles upon entering ｢血色空脉｣ (Floor 3).</system:String>
+    <system:String x:Key="RoguelikeBlackFlowPrepFlightTip" xml:space="preserve">The preparation run always starts with Special Squad, Slow and Steady Wins the Race and your own Mechanic, recruits only the Mechanic, and flies straight from Floor 2 to Floor 3 with the built-in Structural Principle.&#10;When checked, the preparation run squad shows Special Squad and cannot be changed; unchecking restores the previous setting. The roles and starting operator in General settings are not affected.&#10;Do not check this if your Mechanic's talent is not fully unlocked, as the flight will fail.</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">Grind to obtain Hot Water Kettle or Elite 2 {key=Operator}s</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">Farm collapse paradigms, restart immediately after encountering a non-rare collapse paradigm</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">Squad to get collectibles</system:String>
@@ -348,11 +395,13 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="IS5NewSquad9">Proxy Squad (Not Supported)</system:String>
     <system:String x:Key="IS5NewSquad10">Knowledge Squad</system:String>
     <system:String x:Key="IS5NewSquad11">Merchant Squad</system:String>
-    <system:String x:Key="IS6NewSquad1">本源研修分队</system:String>
-    <system:String x:Key="IS6NewSquad2">文明开化分队</system:String>
-    <system:String x:Key="IS6NewSquad3">开拓者分队</system:String>
-    <system:String x:Key="IS6NewSquad4">多边贸易分队</system:String>
-    <system:String x:Key="IS6NewSquad5">地质调查分队</system:String>
+    <system:String x:Key="IS6NewSquad1">本源研修分队 (Primal Research Squad)</system:String>
+    <system:String x:Key="IS6NewSquad2">文明开化分队 (Enlightenment Squad)</system:String>
+    <system:String x:Key="IS6NewSquad3">开拓者分队 (Pioneer Squad)</system:String>
+    <system:String x:Key="IS6NewSquad4">多边贸易分队 (Multilateral Trade Squad)</system:String>
+    <system:String x:Key="IS6NewSquad5">地质调查分队 (Geological Survey Squad)</system:String>
+    <system:String x:Key="IS6NewSquad6">团结阵线分队 (United Front Squad)</system:String>
+    <system:String x:Key="IS6NewSquad7">踏足遍历分队 (Traversal Squad)</system:String>
     <system:String x:Key="SpecialForceSquad">Special Squad</system:String>
     <system:String x:Key="LeaderSquad">Leader Squad</system:String>
     <system:String x:Key="GatheringSquad">Gathering Squad</system:String>
@@ -452,7 +501,6 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
 If system notifications are turned off, an in-app notification will be used instead, though it does not provide an interactive download button.</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">Auto Install Update</system:String>
     <system:String x:Key="AutoInstallUpdatePackageTip">No longer shows a confirmation dialog when a new version is detected; MAA will update and restart automatically when tasks are idle</system:String>
-    <system:String x:Key="WindowUpdateInfoTip">Click to update now</system:String>
     <system:String x:Key="ShowUpdaterConsole">Show updater console output during update</system:String>
     <system:String x:Key="ShowUpdaterProgress">Show updater progress window</system:String>
     <system:String x:Key="ShowUpdaterProgressTip" xml:space="preserve">Shows a standalone progress window from the updater during the update, displaying the current status and file processing progress.
@@ -668,7 +716,7 @@ If you choose ｢{key=ManualRestart}｣ and start MAA manually later, ｢{key=Ru
     <system:String x:Key="RoguelikeThemeSami">Sami</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">Sarkaz</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">Sui's Garden</system:String>
-    <system:String x:Key="RoguelikeThemeBlackFlow">黑流树海</system:String>
+    <system:String x:Key="RoguelikeThemeBlackFlow">黑流树海 (BlackFlow)</system:String>
     <system:String x:Key="RoguelikeThemeTipPhantom" xml:space="preserve">{key=RoguelikeThemePhantom} recommended configuration:
 
 {key=StartingSquad}: {key=LeaderSquad} / {key=TacticalAssaultOperative}
@@ -953,6 +1001,7 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="Infrast">{key=Base}</system:String>
     <system:String x:Key="Combat">Combat</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
+    <system:String x:Key="Ignore">Ignore</system:String>
     <system:String x:Key="OperProgress">Operator Progression</system:String>
     <system:String x:Key="OperProgress.SkillLevelTarget">Skill level {0}</system:String>
     <system:String x:Key="OperProgress.MasteryTarget">Skill {0}, mastery {1}</system:String>
@@ -1454,10 +1503,11 @@ When ｢{key=UseCopilotList}｣ is enabled, individual jobs will be automaticall
     <system:String x:Key="CopilotTaskRaidStage">(Challenge)</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">Left-click to add Normal difficulty
 Right click to add challenge difficulty</system:String>
-    <system:String x:Key="CopilotSelectTaskTip" xml:space="preserve">Left-click: view job details
-Right-click: select this job and exit multi-job mode</system:String>
     <system:String x:Key="CopilotClearTask" xml:space="preserve">Left-click to clear all jobs
 Right-click to clear inactive jobs</system:String>
+    <system:String x:Key="CopilotSelectTaskTip" xml:space="preserve">Left-click: view job details
+Right-click: select this job and exit multi-job mode</system:String>
+    <system:String x:Key="WindowUpdateInfoTip">Click to update now</system:String>
     <system:String x:Key="Start">Start</system:String>
     <system:String x:Key="RunTaskOnce">Run Once</system:String>
     <system:String x:Key="RunTasksFromHere">Run from Here</system:String>
@@ -1695,17 +1745,17 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowMilestoneChanged">Objective {0}: {1}</system:String>
     <system:String x:Key="BlackFlowStrategyResult">Roguelike strategy ended: {0} ({1})</system:String>
     <system:String x:Key="BlackFlowStrategyStarted">BlackFlow strategy started: {0}</system:String>
-    <system:String x:Key="BlackFlowInventoryCleanupStarted">零件箱超载，开始清理</system:String>
-    <system:String x:Key="BlackFlowInventoryCleanupDiscarded">已丢弃零件：{0}</system:String>
-    <system:String x:Key="BlackFlowInventoryCleanupCompleted">零件箱清理完成</system:String>
-    <system:String x:Key="BlackFlowInventoryCleanupFailed">零件箱清理失败</system:String>
-    <system:String x:Key="BlackFlowScrapTradeAbortedMarketUnavailable">秘境行商 item data is unavailable; skipping the trade and leaving</system:String>
-    <system:String x:Key="BlackFlowScrapTradeAbortedInventoryIncomplete">Could not count holdings at 秘境行商; stopping the trade and leaving</system:String>
-    <system:String x:Key="BlackFlowScrapTradeAbortedPageSwitchFailed">Could not switch between the buy and sell pages at 秘境行商; stopping the trade and leaving</system:String>
-    <system:String x:Key="BlackFlowScrapTradeAbortedSaleSearchFailed">Could not search the sell list at 秘境行商; stopping the trade and leaving</system:String>
-    <system:String x:Key="BlackFlowScrapTradeAbortedSellBackSearchFailed">Could not find "{0}" to sell back at 秘境行商; stopping the trade and leaving</system:String>
-    <system:String x:Key="BlackFlowScrapTradeAbortedSaleFailed">Selling "{0}" at 秘境行商 was not confirmed; stopping the trade and leaving</system:String>
-    <system:String x:Key="BlackFlowScrapTradeAbortedUnknown">The trade at 秘境行商 ran into an error; stopping the trade and leaving</system:String>
+    <system:String x:Key="BlackFlowInventoryCleanupStarted">Parts box overloaded; starting cleanup</system:String>
+    <system:String x:Key="BlackFlowInventoryCleanupDiscarded">Discarded part: {0}</system:String>
+    <system:String x:Key="BlackFlowInventoryCleanupCompleted">Parts box cleanup completed</system:String>
+    <system:String x:Key="BlackFlowInventoryCleanupFailed">Parts box cleanup failed</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedMarketUnavailable">Item data for 秘境行商 (scrap trader) is unavailable; skipping the trade and leaving</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedInventoryIncomplete">Could not count holdings at 秘境行商 (scrap trader); stopping the trade and leaving</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedPageSwitchFailed">Could not switch between the buy and sell pages at 秘境行商 (scrap trader); stopping the trade and leaving</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedSaleSearchFailed">Could not search the sell list at 秘境行商 (scrap trader); stopping the trade and leaving</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedSellBackSearchFailed">Could not find "{0}" to sell back at 秘境行商 (scrap trader); stopping the trade and leaving</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedSaleFailed">Selling "{0}" at 秘境行商 (scrap trader) was not confirmed; stopping the trade and leaving</system:String>
+    <system:String x:Key="BlackFlowScrapTradeAbortedUnknown">The trade at 秘境行商 (scrap trader) ran into an error; stopping the trade and leaving</system:String>
     <system:String x:Key="BlackFlowStrategyUnknown">Unknown strategy</system:String>
     <system:String x:Key="BlackFlowMilestoneUnknown">Unknown objective</system:String>
     <system:String x:Key="BlackFlowMilestoneStatusAvailable">Available</system:String>
@@ -1741,7 +1791,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor1Battles">Prioritize battle nodes on floor 1</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor1Hidden">Explore hide invisible nodes on floor 1</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Expedition">Prioritize expedition on floor 2</system:String>
-    <system:String x:Key="BlackFlowMilestoneEnding1Floor1ScrapShop">Trade at 秘境行商 on floor 1 when passing by</system:String>
+    <system:String x:Key="BlackFlowMilestoneEnding1Floor1ScrapShop">Trade at 秘境行商 (scrap trader) on floor 1 when passing by</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2ScrapShop">Prioritize the scrap shop on floor 2</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Hidden">Explore hide invisible nodes on floor 2</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Incident">Pass through Encounter nodes on floor 2</system:String>
@@ -2097,11 +2147,11 @@ Recruitment permits are consumed faster than acquired; normally the timer expire
     <system:String x:Key="RemoteControlDeveloperDocLink">Remote Control Developer Documentation</system:String>
     <!--  !Remote Control  -->
     <!--  External Notification  -->
+    <system:String x:Key="ExternalNotificationEmailTemplateHello">Doctor, there's a new notification!</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">You receive this message because you have set up an SMTP server in MAA and have the email notification service turned on.</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineTwo">This email is sent automatically, please do not reply.</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateLinkOfficialSite">Official website</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateLinkCopilotSite">MAA Copilot (Chinese)</system:String>
-    <system:String x:Key="ExternalNotificationEmailTemplateHello">Doctor, there's a new notification!</system:String>
     <!--  !External Notification  -->
     <!--  Announcement  -->
     <system:String x:Key="Announcement">Announcement</system:String>
@@ -2739,6 +2789,8 @@ These directories are not suitable places to keep MAA; files there can be easily
     <system:String x:Key="BlackFlowStartRunCompleted">Starting conditions met; exited and kept this run</system:String>
     <system:String x:Key="BlackFlowStartRunRewardRecognitionFailed">Starting reward recognition failed; task stopped</system:String>
     <system:String x:Key="BlackFlowStartRunRewardPageMissing">Starting reward screen not found; task stopped</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardUnrecognized">Some rewards on the support selection screen were not recognized; stopped on that screen and ended the task</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardsSeen">Rewards on this support screen: {0}</system:String>
     <system:String x:Key="BlackFlowStartRunPrepared">Preparation complete</system:String>
     <system:String x:Key="BlackFlowStartRunPreparedReason">Floor 3 reached; the next run will use the target difficulty and squad</system:String>
 </ResourceDictionary>

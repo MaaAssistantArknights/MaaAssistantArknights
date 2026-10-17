@@ -862,7 +862,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 <br>
 `20001` - 刷常樂節點，第一層進洞，找不到需要的節點就重開；僅適用於 JieGarden 主題，需配合 `find_playTime_target`。
 <br>
-`30001` - 刷襁褓動物；僅適用於 BlackFlow 主題。  
+`30001` - 刷襁褓動物；僅適用於 BlackFlow 主題。
+<br>
+`30003` - 刷開局，先打準備局，再開目標局。準備局取得 `blackflow_start_animals` 要求的襁褓動物並進入第三層後放棄；目標局在選擇支援頁命中 `blackflow_start_rewards` 中任意一項時不做選擇，退出到主題頁並保留該局，任務結束。準備局使用 `collectible_mode_squad`，`difficulty` 不為 `-1` 時在 0 難度下進行；目標局使用 `squad` 與 `difficulty`，到選擇支援頁即結束，`roles` 與開局幹員只用於準備局。僅適用於 BlackFlow 主題，需配合 `blackflow_start_animals` 與 `blackflow_start_rewards`。
 :::  
 ::: field squad  
 @type string
@@ -1049,6 +1051,8 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @type string
 @optional
 燒水時使用的分隊。預設與 `squad` 同步；若 `squad` 為空且未指定 `collectible_mode_squad` 時，則預設為 ｢指揮分隊｣ 。  
+<br>
+黑流樹海模式 30003 中為準備局使用的分隊。  
 :::  
 ::: field start_with_seed  
 @type string
@@ -1069,12 +1073,28 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 `burn_with_investment` - 第一層完成投資後盡快抵達第三層，到達即重開
 <br>
 `burn` - 盡快抵達第三層，到達即重開  
+<br>
+模式 30003 不讀取此項。有動物要求時，準備局按 `baby_animal` 的路線培育；沒有動物要求時，準備局盡快抵達第三層，`investment_enabled` 為 true 時先在第一層投資。準備局的開局幹員為機械師、`collectible_mode_squad` 為特勤分隊或堡壘戰術分隊、`roles` 為穩紮穩打或堅不可摧時，視為滿天賦機械師開局，自帶結構性原理：準備局招到機械師後放棄其餘開局招募，路線按需用結構性原理移動；沒有動物要求時，第二層直接用它飛向出口。  
 :::  
 ::: field blackflow_cultivation_target  
 @type string
 @default swaddled_cat
 @optional
 刷襁褓動物模式的目標。可選值：`swaddled_cat` | `swaddled_feathered_serpent` | `swaddled_dog` | `swaddled_cerberus`；僅在 `blackflow_strategy` 為 `baby_animal` 時使用。  
+:::  
+::: field blackflow_start_animals  
+@type array<string>
+@optional
+模式 30003 準備局要培育的襁褓動物，0 至 2 項，可重複，羽蛇最多一項。可選值：`swaddled_cat` | `swaddled_dog` | `swaddled_cerberus` | `swaddled_feathered_serpent`。各項按數量同時滿足，例如兩項 `swaddled_cat` 要求至少兩隻貓，多出的其他動物不影響；培育結束仍未湊齊時放棄該局，重新進行準備局。為空陣列時準備局只需進入第三層。模式 30003 下必填。  
+:::  
+::: field blackflow_start_rewards  
+@type number
+@optional
+模式 30003 目標局期望的開局獎勵，位元遮罩，範圍 0 至 4095。模式 30003 下必填。  
+<br>
+`1` 未編號物；`2` 調查預付款；`4` 空間租賃；`8` 退行補償；`16` 林間代步；`32` 巢寄生；`64` 襁褓天馬；`128` 襁褓駿鷹；`256` 襁褓巨龍；`512` 襁褓九頭蛇；`1024` 襁褓白澤；`2048` 襁褓金烏。後六項是羽蛇帶來的藍色獎勵，只在 `blackflow_start_animals` 含羽蛇時生效，否則忽略。  
+<br>
+目標局在選擇支援頁先辨識出頁面上的全部獎勵再判斷：命中任意一項時完成；辨識出了獎勵但沒有期望的，放棄該局，重新進行準備局；一項都沒辨識出，或要求了羽蛇獎勵卻讀不出藍色獎勵時，停在選擇支援頁並停止任務，截圖儲存到 `debug/roguelike`。為 0 時進入選擇支援頁即完成。進度透過 `SubTaskExtraInfo` 的 `BlackFlowStartRun` 回呼，見 [回呼訊息協定](./callback-schema.md)。  
 :::  
 ::: field find_playTime_target  
 @type number

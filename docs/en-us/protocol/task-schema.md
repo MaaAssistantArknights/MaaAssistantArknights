@@ -450,7 +450,7 @@ This project configures JSON schema validation for `tasks.json`, schema file is 
 
 ### Visual Studio
 
-Configured in `MaaCore.vcxporj`, works out of the box. Prompts are somewhat cryptic with some missing information.
+Configured in `MaaCore.vcxproj`, works out of the box. Prompts are somewhat cryptic with some missing information.
 
 ### Visual Studio Code
 

@@ -131,7 +131,7 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 </details>
 
 - `Fight`  
-  理智作战
+  作戦
 
 :::: field-group  
 ::: field enable  
@@ -148,7 +148,7 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 
 - すべてのメイン ストーリー ステージ。ステージ末尾に `-NORMAL` または `-HARD` を付けて難易度を切り替えできます（10〜14章は標準/厄難、15章以降は通常/険地）。
 - 龍門幣、作戦記録の 5/6 関。ただし `CE-6` / `LS-6` と入力する必要があります。MAA は 6 関が代理できない場合は自動的に 5 関に切り替わります。
-- スキル本、購買資格証、碳素材の第 5 関。`CA-5` / `AP-5` / `SK-5` と入力する必要があります。
+- スキル本、購買資格証、炭素材の第 5 関。`CA-5` / `AP-5` / `SK-5` と入力する必要があります。
 - すべてのチップ本。完全なステージ番号を入力する必要があります（例：`PR-A-1`）。
 - 殲滅モードは以下の入力値をサポートし、対応する Value を使用する必要があります：
   - 当期殲滅：Annihilation
@@ -198,7 +198,7 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
   <br>
   `-1` は切り替えを無効にします。
   <br>
-  `0` は現在利用可能な最大回数に自動的に切り替わります。現在の理智が最大回数未満の場合は、利用可能な最小回数を選択します。
+  `0` は現在利用可能な最大回数に自動的に切り替わります。現在の理性が最大回数未満の場合は、利用可能な最小回数を選択します。
   <br>
   `1～10` は指定した連戦回数です。
   <br>
@@ -234,12 +234,12 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
   @type boolean
   @default false
   @optional
-  一图流にレポートするかどうか。  
+  一图流（Yituliu）にレポートするかどうか。  
   :::  
   ::: field yituliu_id  
   @type string
   @optional
-  一图流レポート ID。デフォルトは空です。`report_to_yituliu` が true の場合のみ有効です。  
+  一图流（Yituliu）レポート ID。デフォルトは空です。`report_to_yituliu` が true の場合のみ有効です。  
   :::  
   ::: field server  
   @type string
@@ -260,9 +260,9 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
   @type boolean
   @default false
   @optional
-  理智節約源石モード。源石効果が発生する可能性がある場合にのみ有効です。
+  理性節約源石モード。源石効果が発生する可能性がある場合にのみ有効です。
   <br>
-  源石確認画面で待機し、現在の 1 ポイントの理智回復が完了するまで待ってから、すぐに源石を使用します。  
+  源石確認画面で待機し、現在の 1 ポイントの理性回復が完了するまで待ってから、すぐに源石を使用します。  
   :::  
   ::::
 
@@ -404,12 +404,12 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 @type boolean
 @default false
 @optional
-一图流にレポートするかどうか。  
+一图流（Yituliu）にレポートするかどうか。  
 :::  
 ::: field yituliu_id  
 @type string
 @optional
-一图流レポート ID。デフォルトは空です。`report_to_yituliu` が true の場合のみ有効です。  
+一图流（Yituliu）レポート ID。デフォルトは空です。`report_to_yituliu` が true の場合のみ有効です。  
 :::  
 ::: field server  
 @type string
@@ -833,7 +833,7 @@ OF-1 実行時に使用する編成スロットのインデックス。
 <br>
 `JieGarden` - 歳の界園志異
 <br>
-`BlackFlow` - 黒流樹海  
+`BlackFlow` - 黒流樹海（日本語名未定）  
 :::  
 ::: field mode  
 @type number
@@ -862,6 +862,8 @@ OF-1 実行時に使用する編成スロットのインデックス。
 `20001` - 常楽ノードを稼ぎます。第 1 層で洞窟に入り、必要なノードが見つからなければリセット。JieGarden テーマ専用で、`find_playTime_target` との併用が必要です。
 <br>
 `30001` - 襁褓動物の入手。BlackFlow テーマ専用。
+<br>
+`30003` - 初期報酬稼ぎ。まず準備用の探索を行い、その後に目標の探索を開始します。準備用の探索は `blackflow_start_animals` で指定した襁褓動物を入手して第 3 層に入った後に放棄します。目標の探索では支援選択画面に `blackflow_start_rewards` のいずれかが出れば選択せずにテーマ画面へ退出し、その探索を保持したままタスクを終了します。準備用の探索は `collectible_mode_squad` を使用し、`difficulty` が `-1` でない場合は難易度 0 で行います。目標の探索は `squad` と `difficulty` を使用し、支援選択画面で終了します。`roles` と最初のオペレーターは準備用の探索にのみ使用されます。BlackFlow テーマ専用で、`blackflow_start_animals` と `blackflow_start_rewards` との併用が必要です。（機械翻訳）
 :::  
 ::: field squad  
 @type string
@@ -1048,6 +1050,8 @@ OF-1 実行時に使用する編成スロットのインデックス。
 @type string
 @optional
 湯沸かしモードで使用する分隊、デフォルトで squad と同期、squad が空文字列で collectible_mode_squad が指定されていない場合は指揮分隊。  
+<br>
+BlackFlow のモード 30003 では準備用の探索で使用する分隊です。（機械翻訳）  
 :::  
 ::: field start_with_seed  
 @type string
@@ -1061,19 +1065,35 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 @optional
 黒流樹海テーマの戦略。空欄の場合は `mode` と `investment_enabled` から推測されます。
 <br>
-`baby_animal` - 1階層で一般商店を確認し、2・3階層を探索して秘境行商（シークレット商人）で種を育成します。`blackflow_cultivation_target` との併用が必要です
+`baby_animal` - 1階層で一般商店を確認し、2・3階層を探索して秘境行商（秘境の行商人）で種を育成します。`blackflow_cultivation_target` との併用が必要です
 <br>
 `investment` - 1階層を戦闘回数が最も少なく所要時間が最も短いルートで、固定の一般商店に到達します
 <br>
 `burn_with_investment` - 1階層で投資を完了した後、できるだけ早く3階層に到達し、到着次第再開します
 <br>
 `burn` - できるだけ早く3階層に到達し、到着次第再開します  
+<br>
+モード 30003 ではこの項目を読み取りません。動物の指定がある場合、準備用の探索は `baby_animal` のルートで育成します。指定がない場合、準備用の探索はできるだけ早く第 3 層に到達し、`investment_enabled` が true のときは先に第 1 層で投資します。準備用の探索の最初のオペレーターが機械師、`collectible_mode_squad` が特勤分队（特別行動分隊）または堡垒战术分队（要塞戦術分隊）、`roles` が稳扎稳打（攻守一体）または坚不可摧（難攻不落）の場合、素質を全解放した機械師での開局とみなし、構造性原理を持ち込みます。準備用の探索では機械師を招集した後に残りの初期招集を放棄し、必要に応じて構造性原理で移動します。動物の指定がない場合は、第 2 層でそれを使って出口へ直接飛びます。（機械翻訳）  
 :::  
 ::: field blackflow_cultivation_target  
 @type string
 @default swaddled_cat
 @optional
 襁褓動物育成モードの目標。選択可能な値：`swaddled_cat`（襁褓の猫）| `swaddled_feathered_serpent`（襁褓の羽蛇）| `swaddled_dog`（襁褓の犬）| `swaddled_cerberus`（襁褓のケルベロス）。`blackflow_strategy` が `baby_animal` の場合のみ使用されます。  
+:::  
+::: field blackflow_start_animals  
+@type array<string>
+@optional
+モード 30003 の準備用の探索で育成する襁褓動物。0〜2 項目、重複可、羽蛇は 1 項目まで。選択可能な値：`swaddled_cat` | `swaddled_dog` | `swaddled_cerberus` | `swaddled_feathered_serpent`。各項目は数も含めて同時に満たす必要があり、例えば `swaddled_cat` を 2 項目指定すると猫が 2 匹以上必要で、それ以外の動物が多くても影響しません。育成終了時にそろっていない場合はその探索を放棄し、準備用の探索をやり直します。空配列の場合、準備用の探索は第 3 層に入るだけで済みます。モード 30003 では必須。（機械翻訳）  
+:::  
+::: field blackflow_start_rewards  
+@type number
+@optional
+モード 30003 の目標の探索で狙う初期報酬。ビットマスクで、範囲は 0〜4095。モード 30003 では必須。（機械翻訳）  
+<br>
+`1` 未编号物；`2` 调查预付款；`4` 空间租赁；`8` 退行补偿；`16` 林间代步；`32` 巢寄生；`64` 襁褓天马；`128` 襁褓骏鹰；`256` 襁褓巨龙；`512` 襁褓九头蛇；`1024` 襁褓白泽；`2048` 襁褓金乌（日本語名未定）。後ろの 6 項目は羽蛇がもたらす青色の報酬で、`blackflow_start_animals` に羽蛇が含まれる場合のみ有効、それ以外は無視されます。  
+<br>
+目標の探索では支援選択画面の報酬をすべて認識してから判断します。いずれかが一致すれば完了します。報酬は認識できたが狙うものがない場合はその探索を放棄し、準備用の探索をやり直します。1 つも認識できない場合、または羽蛇の報酬を指定したのに青色の報酬を読み取れない場合は、支援選択画面に留まってタスクを停止し、スクリーンショットを `debug/roguelike` に保存します。0 の場合は支援選択画面に入った時点で完了します。進捗は `SubTaskExtraInfo` の `BlackFlowStartRun` コールバックで通知されます。[コールバックスキーマ](./callback-schema.md) を参照してください。  
 :::  
 ::: field find_playTime_target  
 @type number
@@ -1175,7 +1195,7 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
   @type boolean
   @default false
   @optional
-  理智が不足した場合に理智薬を使用するかどうか。  
+  理性が不足した場合に理性剤を使用するかどうか。  
   :::  
   ::: field formation  
   @type boolean
