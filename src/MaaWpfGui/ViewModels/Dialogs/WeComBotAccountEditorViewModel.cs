@@ -33,6 +33,8 @@ public class WeComBotAccountEditorViewModel : Screen
     private readonly WeComBotAccount _account;
     private readonly string _profileName;
     private readonly SpecificConfig _profile;
+    private readonly string _profileStage;
+    private readonly string _originalStage;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="WeComBotAccountEditorViewModel"/> class.
@@ -77,6 +79,8 @@ public class WeComBotAccountEditorViewModel : Screen
 
         var start = _profile.TaskQueue.OfType<StartUpTask>().FirstOrDefault();
         var fight = _profile.TaskQueue.OfType<FightTask>().FirstOrDefault();
+        _profileStage = fight?.StagePlan.FirstOrDefault() ?? string.Empty;
+        _originalStage = account.Stage ?? string.Empty;
         AccountSwitchName = start?.AccountName ?? string.Empty;
         AccountSwitchEnabled = start?.AccountSwitchEnabled ?? true;
         Stage = string.IsNullOrWhiteSpace(account.Stage) ? fight?.StagePlan.FirstOrDefault() ?? string.Empty : account.Stage;
@@ -152,7 +156,9 @@ public class WeComBotAccountEditorViewModel : Screen
         SetEnabled<UserDataUpdateTask>(UserDataUpdateEnabled);
 
         _account.Configuration = _profileName;
-        _account.Stage = Stage.Trim();
+        _account.Stage = string.IsNullOrWhiteSpace(_originalStage) && Stage == _profileStage
+            ? string.Empty
+            : Stage.Trim();
         RequestClose();
     }
 

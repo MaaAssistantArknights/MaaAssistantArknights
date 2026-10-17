@@ -86,12 +86,20 @@ public class WeComBotCommandService
             return await HandleByAiAsync(content).ConfigureAwait(false);
         }
 
+        if (_stopKeywords.Any(keyword => lowered.Contains(keyword, StringComparison.Ordinal)))
+        {
+            var stopped = await Execution.StopAsync().ConfigureAwait(false);
+            return LocalizationHelper.GetString(stopped ? "WeComBotStopping" : "WeComBotNothingRunning");
+        }
+
         if (content.Contains("肉鸽", StringComparison.Ordinal))
         {
             return await StartRoguelikeAsync(account).ConfigureAwait(false);
         }
 
-        if (_dailyKeywords.Any(keyword => lowered.Contains(keyword, StringComparison.Ordinal)))
+        if (_dailyKeywords.Any(keyword => keyword is "maa" or "start"
+                ? lowered == keyword
+                : lowered.Contains(keyword, StringComparison.Ordinal)))
         {
             return StartDaily(account);
         }
@@ -107,12 +115,6 @@ public class WeComBotCommandService
                 ? content["切换".Length..].Trim()
                 : content;
             return SwitchAccount(string.IsNullOrEmpty(name) ? content : name);
-        }
-
-        if (_stopKeywords.Any(keyword => lowered.Contains(keyword, StringComparison.Ordinal)))
-        {
-            var stopped = await Execution.StopAsync().ConfigureAwait(false);
-            return LocalizationHelper.GetString(stopped ? "WeComBotStopping" : "WeComBotNothingRunning");
         }
 
         if (_statusKeywords.Any(keyword => lowered.Contains(keyword, StringComparison.Ordinal)))
@@ -148,7 +150,9 @@ public class WeComBotCommandService
                 return;
             }
 
-            await Execution.StartTaskQueueAsync().ConfigureAwait(false);
+            var entry = ConfigFactory.Root.WeComBot.Accounts.FirstOrDefault(item => item.Configuration == account);
+            Execution.SetFightStage(entry?.Stage ?? string.Empty);
+            await Execution.StartTaskQueueAsync(allowRotation: false).ConfigureAwait(false);
             return;
         }
 
@@ -171,7 +175,9 @@ public class WeComBotCommandService
     {
         foreach (var item in ConfigFactory.Root.WeComBot.Accounts)
         {
-            if (!string.IsNullOrWhiteSpace(item.Name) && text.Contains(item.Name, StringComparison.Ordinal))
+            if (ConfigFactory.ConfigurationExists(item.Configuration)
+                && !string.IsNullOrWhiteSpace(item.Name)
+                && text.Contains(item.Name, StringComparison.Ordinal))
             {
                 return item.Configuration;
             }
@@ -265,6 +271,11 @@ public class WeComBotCommandService
         {
             foreach (var account in accounts)
             {
+                if (!ConfigFactory.ConfigurationExists(account.Configuration))
+                {
+                    continue;
+                }
+
                 builder.Append('\n')
                     .Append(LocalizationHelper.GetStringFormat(
                         "WeComBotAccountListLine",

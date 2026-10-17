@@ -48,6 +48,17 @@ public class TaskExecutionService
     public bool IsSubsetRun { get; private set; }
 
     /// <summary>
+    /// Gets a value indicating whether 当前这一轮不参与账号轮换（例如指定单个账号执行）。
+    /// </summary>
+    public bool SuppressRotation { get; private set; }
+
+    /// <summary>
+    /// 标记下一轮是否为任务子集，供 GUI 的 LinkStartWithTasks 入口调用。
+    /// </summary>
+    /// <param name="value">是否为子集运行。</param>
+    public void SetSubsetRun(bool value) => IsSubsetRun = value;
+
+    /// <summary>
     /// Gets 当前配置档案名。
     /// </summary>
     public string CurrentConfiguration => ConfigFactory.Root.Current;
@@ -60,8 +71,9 @@ public class TaskExecutionService
     /// <summary>
     /// 按当前档案的任务队列跑一轮完整任务（等价于界面上的 LinkStart）。
     /// </summary>
-    /// <returns>成功进入并跑完返回 <c>true</c>；当前非空闲时返回 <c>false</c>。</returns>
-    public async Task<bool> StartTaskQueueAsync()
+    /// <param name="allowRotation">是否允许本轮结束后接力其他账号。</param>
+    /// <returns>成功进入并跑完返回 <c>true</c>；当前非空闲或启动被拒绝时返回 <c>false</c>。</returns>
+    public async Task<bool> StartTaskQueueAsync(bool allowRotation = true)
     {
         if (!_runningState.GetIdle())
         {
@@ -69,12 +81,26 @@ public class TaskExecutionService
             return false;
         }
 
-        await Execute.OnUIThreadAsync(() => {
-            _ = Instances.TaskQueueViewModel.LinkStart();
-        }).ConfigureAwait(false);
+        SuppressRotation = !allowRotation;
+        try
+        {
+            await Execute.OnUIThreadAsync(async () => {
+                await Instances.TaskQueueViewModel.LinkStart();
+            }).ConfigureAwait(false);
 
-        await _runningState.UntilIdleAsync().ConfigureAwait(false);
-        return true;
+            if (_runningState.GetIdle())
+            {
+                _logger.Information("Task queue did not start (rejected or empty)");
+                return false;
+            }
+
+            await _runningState.UntilIdleAsync().ConfigureAwait(false);
+            return true;
+        }
+        finally
+        {
+            SuppressRotation = false;
+        }
     }
 
     /// <summary>
@@ -126,9 +152,15 @@ public class TaskExecutionService
 
         try
         {
-            await Execute.OnUIThreadAsync(() => {
-                _ = Instances.TaskQueueViewModel.LinkStartWithTasks(taskList);
+            await Execute.OnUIThreadAsync(async () => {
+                await Instances.TaskQueueViewModel.LinkStartWithTasks(taskList);
             }).ConfigureAwait(false);
+
+            if (_runningState.GetIdle())
+            {
+                _logger.Information("Task subset did not start (rejected or empty)");
+                return false;
+            }
 
             await _runningState.UntilIdleAsync().ConfigureAwait(false);
             return true;

@@ -216,6 +216,13 @@ public class WeComBotService : IDisposable
             return;
         }
 
+        // 已记录推送目标后不再被其他聊天覆盖，避免陌生人把任务通知改发到自己那里
+        if (!string.IsNullOrEmpty(settings.ChatId) && settings.ChatId != chatId)
+        {
+            _logger.Warning("WeCom bot ignored chat switch from {OldChat} to {NewChat}", settings.ChatId, chatId);
+            return;
+        }
+
         Execute.OnUIThread(() => {
             settings.ChatId = chatId;
             settings.ChatType = chatType;

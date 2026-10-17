@@ -36,7 +36,7 @@ public class WeComBotScheduleService : IDisposable
     private static readonly ILogger _logger = Log.ForContext<WeComBotScheduleService>();
     private readonly HashSet<string> _fired = [];
     private readonly Timer _timer = new(20_000) { AutoReset = true };
-    private int _running;
+    private readonly SemaphoreSlim _runGate = new(1, 1);
     private bool _disposed;
 
     /// <summary>
@@ -107,11 +107,7 @@ public class WeComBotScheduleService : IDisposable
 
     private async Task RunAsync()
     {
-        if (Interlocked.Exchange(ref _running, 1) == 1)
-        {
-            return;
-        }
-
+        await _runGate.WaitAsync().ConfigureAwait(false);
         try
         {
             var execution = Instances.TaskExecutionService;
@@ -135,7 +131,7 @@ public class WeComBotScheduleService : IDisposable
         }
         finally
         {
-            Interlocked.Exchange(ref _running, 0);
+            _runGate.Release();
         }
     }
 }

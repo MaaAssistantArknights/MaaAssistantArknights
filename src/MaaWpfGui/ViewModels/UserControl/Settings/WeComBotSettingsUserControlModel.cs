@@ -351,11 +351,13 @@ public class WeComBotSettingsUserControlModel : PropertyChangedBase
     {
         var index = Settings.Accounts.Count + 1;
         var name = $"{LocalizationHelper.GetString("WeComBotDefaultAccountName")}{index}";
-        if (!ConfigFactory.ConfigurationExists(name))
+        while (ConfigFactory.ConfigurationExists(name)
+            || Settings.Accounts.Any(account => account.Configuration == name))
         {
-            ConfigFactory.AddConfiguration(name);
+            name = $"{LocalizationHelper.GetString("WeComBotDefaultAccountName")}{++index}";
         }
 
+        ConfigFactory.AddConfiguration(name, copyFrom: ConfigFactory.Root.Current);
         EnsureProfileListed(name);
         Settings.Accounts.Add(new WeComBotAccount {
             Name = name,

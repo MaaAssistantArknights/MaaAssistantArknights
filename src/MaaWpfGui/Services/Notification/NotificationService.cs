@@ -13,6 +13,7 @@
 
 #nullable enable
 using System;
+using System.Threading;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
@@ -30,6 +31,7 @@ public sealed class NotificationService
 {
     private readonly NotificationTrigger _externalTrigger = new();
     private readonly NotificationHistory _history = new();
+    private int _suppressErrorLog;
 
     public NotificationService() => RunningState.Instance.StallOccurred += OnStalled;
 
@@ -128,17 +130,41 @@ public sealed class NotificationService
                 ProcessLog(new(DateTimeOffset.Now, source, content, color, message));
             }
 
-            display();
+            var suppress = message is not null;
+            if (suppress)
+            {
+                Interlocked.Increment(ref _suppressErrorLog);
+            }
+
+            try
+            {
+                display();
+            }
+            finally
+            {
+                if (suppress)
+                {
+                    Interlocked.Decrement(ref _suppressErrorLog);
+                }
+            }
 
             if (message is not null)
             {
                 MessagePublished?.Invoke(source, message);
             }
-            else if (color == UiLogColor.Error && !string.IsNullOrWhiteSpace(content))
-            {
-                ErrorLogPublished?.Invoke(source, content);
-            }
         });
+    }
+
+    /// <summary>
+    /// 由共享 UI 日志入口调用，转发直接写入界面的错误日志。
+    /// </summary>
+    /// <param name="content">错误日志正文。</param>
+    public void PublishUiError(string content)
+    {
+        if (Volatile.Read(ref _suppressErrorLog) == 0 && !string.IsNullOrWhiteSpace(content))
+        {
+            ErrorLogPublished?.Invoke(NotificationSource.TaskQueue, content);
+        }
     }
 
     private void ProcessLog(NotificationEvent notification)

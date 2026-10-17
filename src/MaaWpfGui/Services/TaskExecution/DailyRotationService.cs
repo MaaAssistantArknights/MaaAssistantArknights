@@ -80,7 +80,9 @@ public class DailyRotationService : IDisposable
             return;
         }
 
-        if (!Settings.RotateAccounts || Instances.TaskExecutionService?.IsSubsetRun != false)
+        if (!Settings.RotateAccounts
+            || Instances.TaskExecutionService?.IsSubsetRun != false
+            || Instances.TaskExecutionService?.SuppressRotation != false)
         {
             return;
         }

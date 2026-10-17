@@ -1592,6 +1592,11 @@ public class TaskQueueViewModel : Screen
         LogCardSplitMode splitMode = LogCardSplitMode.None)
     {
         bool isEmpty = string.IsNullOrEmpty(content);
+        if (!isEmpty && color == UiLogColor.Error)
+        {
+            Instances.NotificationService.PublishUiError(content!);
+        }
+
         bool needsBeforeSplit = splitMode == LogCardSplitMode.Before || splitMode == LogCardSplitMode.Both;
         bool needsAfterSplit = splitMode == LogCardSplitMode.After || splitMode == LogCardSplitMode.Both;
 
@@ -2468,6 +2473,9 @@ public class TaskQueueViewModel : Screen
             AddLog(reason, UiLogColor.Error);
             return;
         }
+
+        // 让账号轮换器区分完整队列与子集启动（远程控制、单任务入口等）
+        Instances.TaskExecutionService?.SetSubsetRun(!ReferenceEquals(tasks, ConfigFactory.CurrentConfig.TaskQueue));
 
         _taskStartTime = DateTime.Now;
         ClearLog();

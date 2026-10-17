@@ -414,14 +414,17 @@ public sealed class WeComBotClient : IDisposable
         _logger.Debug("WeCom bot received frame: {Command}", command);
         if (MessageReceived is { } handler)
         {
-            try
-            {
-                await handler(frame).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex, "WeCom bot message handler failed");
-            }
+            // 不阻塞接收循环：被动回复需要接收循环继续读取响应帧
+            _ = Task.Run(async () => {
+                try
+                {
+                    await handler(frame).ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex, "WeCom bot message handler failed");
+                }
+            });
         }
     }
 
