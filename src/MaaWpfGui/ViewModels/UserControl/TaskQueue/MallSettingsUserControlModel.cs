@@ -162,6 +162,12 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel, MallSettingsU
 
     public void MarkMonthlyCardReminded() => SetTaskConfig<MallTask>(_ => false, t => t.MonthlyCardLastRemindTime = DateTime.UtcNow.ToYjDate().ToFormattedString());
 
+    public void MarkMonthlyCardChecked(int daysLeft) => SetTaskConfig<MallTask>(_ => false, t =>
+    {
+        t.MonthlyCardLastDaysLeft = daysLeft;
+        t.MonthlyCardLastCheckDate = DateTime.UtcNow.ToYjDate().ToFormattedString();
+    });
+
     /// <summary>
     /// Gets or sets the priority item list of credit shop.
     /// </summary>
@@ -271,7 +277,7 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel, MallSettingsU
                 ForceShoppingIfCreditFull = mall.ShoppingIgnoreBlackListWhenFull,
                 OnlyBuyDiscount = mall.OnlyBuyDiscount,
                 ReserveMaxCredit = mall.ReserveMaxCredit,
-                MonthlyCard = mall.MonthlyCard,
+                MonthlyCard = mall.MonthlyCard && mall.IsMonthlyCardCheckDue(),
             };
 
             return taskId switch {
