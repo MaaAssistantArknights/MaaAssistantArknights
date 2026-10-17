@@ -155,3 +155,26 @@ If the dragged file is not one of the above update packages (e.g., software pack
 - All click operations target random positions within buttons, following a normal distribution (higher probability at the center, decreasing with distance from center).
 - The core algorithms are developed in C++ with multi-level caching to minimize CPU and memory usage.
 - The software supports automatic updates ✿✿ ヽ(°▽°)ノ ✿. We recommend non-critical users try the beta version, which typically updates faster and has fewer bugs. (What MIUI? (╯‵□′)╯︵┻━┻)
+
+## WeCom bot
+
+Individuals can also use a WeCom bot: register and create a personal organization or team. No enterprise verification is required. You can create the bot either in the web admin console or in the WeCom mobile app.
+
+1. Open WeCom (web admin console or mobile app) and go to ｢Workbench / App Management｣.
+2. Create a ｢Smart Bot｣ and choose the API mode (long connection).
+3. After creation, copy the bot's Bot ID and Secret.
+4. In MAA, open ｢Settings - WeCom bot｣, enter the Bot ID and Secret, and enable the bot.
+5. Send the bot a message in WeCom first, then click ｢Send test message｣. MAA records the push chat ID from the received message; for a group chat, change the chat type to ｢Group chat｣.
+
+See the [WeCom help page](https://open.work.weixin.qq.com/help/wap/detail?docid=21663) for details.
+
+### DeepSeek API key (optional)
+
+The bot works without a key using fixed keyword commands. Adding a key also enables natural-language understanding and editing task options from the chat.
+
+| Configuration | Available features |
+| --- | --- |
+| No key | Daily clear, stop, status, account list, switch profile, roguelike, help; task settings can be viewed |
+| With key | Everything above, plus natural-language commands and editing task options from the chat |
+
+Create an API key on the [DeepSeek platform](https://platform.deepseek.com/api_keys) and paste it into ｢DeepSeek API Key｣. The default model is `deepseek-flash`. The key is stored only in the local MAA configuration.

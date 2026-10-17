@@ -40,7 +40,9 @@ using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.Services.RemoteControl;
+using MaaWpfGui.Services.TaskExecution;
 using MaaWpfGui.Services.Web;
+using MaaWpfGui.Services.WeComBot;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.Dialogs;
@@ -1136,6 +1138,12 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         builder.Bind<NotificationService>().ToSelf().InSingletonScope();
 
+        builder.Bind<TaskExecutionService>().ToSelf().InSingletonScope();
+        builder.Bind<TaskSettingsService>().ToSelf().InSingletonScope();
+        builder.Bind<DailyRotationService>().ToSelf().InSingletonScope();
+        builder.Bind<WeComBotService>().ToSelf().InSingletonScope();
+        builder.Bind<WeComBotScheduleService>().ToSelf().InSingletonScope();
+
         builder.Bind<OverlayViewModel>().ToSelf().InSingletonScope();
     }
 
@@ -1143,6 +1151,12 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     {
         base.Configure();
         Instances.Instantiate(Container);
+
+        if (!IsDemoMode)
+        {
+            // 企业微信机器人按设置决定是否建立长连接；演示模式不联网
+            _ = Instances.WeComBotService.ApplySettingsAsync();
+        }
     }
 
     /// <inheritdoc/>

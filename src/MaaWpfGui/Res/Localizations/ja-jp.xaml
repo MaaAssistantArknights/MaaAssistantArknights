@@ -2735,4 +2735,121 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="ExternalNotificationFilterPreviousLogs">添付ログの内容をフィルタリング</system:String>
     <system:String x:Key="ExternalNotificationFilterPreviousLogsTip" xml:space="preserve">ブラックリストに一致するログを除外し、残りから件数と有効時間の範囲内で最新のログを選びます。&#10;現在のログは必ず残します。</system:String>
     <system:String x:Key="ExternalNotificationBlacklist">ブラックリスト（1行に1つの正規表現）</system:String>
+
+    <!--  WeCom ボット  -->
+    <system:String x:Key="WeComBotSettings">WeCom ボット</system:String>
+    <system:String x:Key="WeComBotDescription">WeCom スマートボットの長接続で MAA のタスク状態をチャットへ送信し、チャットから指示も受け付けます。先に WeCom 管理画面でスマートボットを作成してください。</system:String>
+    <system:String x:Key="WeComBotEnable">WeCom ボットを有効にする</system:String>
+    <system:String x:Key="WeComBotEnableTip" xml:space="preserve">ボット ID と Secret を入力してチェックすると長接続を開始し、切断時は自動で再接続します。&#10;ボットから先に送信するには、一度メッセージを受け取っている必要があります。</system:String>
+    <system:String x:Key="WeComBotBotId">ボット ID</system:String>
+    <system:String x:Key="WeComBotSecret">ボット Secret</system:String>
+    <system:String x:Key="WeComBotWebSocketUrl">長接続 URL</system:String>
+    <system:String x:Key="WeComBotHeartbeatSeconds">ハートビート間隔（秒）</system:String>
+    <system:String x:Key="WeComBotNotifyTaskStatus">タスク状態を送信</system:String>
+    <system:String x:Key="WeComBotNotifyTaskStatusTip">タスクの開始・完了・エラー・停滞時にそれぞれ送信します。</system:String>
+    <system:String x:Key="WeComBotChatId">送信先チャット ID</system:String>
+    <system:String x:Key="WeComBotChatIdTip">空のままで構いません。ボットが最初に受け取ったメッセージのチャットを記録します。</system:String>
+    <system:String x:Key="WeComBotChatType">チャット種別</system:String>
+    <system:String x:Key="WeComBotChatTypeSingle">個人チャット</system:String>
+    <system:String x:Key="WeComBotChatTypeGroup">グループチャット</system:String>
+    <system:String x:Key="WeComBotSendTest">テストメッセージを送信</system:String>
+    <system:String x:Key="WeComBotEnableRemoteCommand">チャットからの指示を許可</system:String>
+    <system:String x:Key="WeComBotEnableRemoteCommandTip">チャットから MAA を操作できます（例：｢デイリー｣｢停止｣｢状態｣）。</system:String>
+    <system:String x:Key="WeComBotAllowedUserIds">許可するユーザー ID</system:String>
+    <system:String x:Key="WeComBotAllowedUserIdsTip">複数の ID はカンマ区切り。空の場合は制限しません。</system:String>
+    <system:String x:Key="WeComBotEnableAiIntent">大規模モデルで自然言語を理解する</system:String>
+    <system:String x:Key="WeComBotEnableAiIntentTip">複雑な指示や口語的な指示は DeepSeek が動作に変換します。</system:String>
+    <system:String x:Key="WeComBotDeepSeekApiKey">DeepSeek API Key</system:String>
+    <system:String x:Key="WeComBotDeepSeekModel">DeepSeek モデル</system:String>
+    <system:String x:Key="WeComBotRotateAccounts">1 回のデイリーで全アカウントを順に実行</system:String>
+    <system:String x:Key="WeComBotRotateAccountsTip">有効にすると、デイリーのたびに下のリスト順でプロファイルを切り替えて 1 周ずつ実行し、最後に元のプロファイルへ戻します。</system:String>
+    <system:String x:Key="WeComBotAccounts">アカウント切替リスト</system:String>
+    <system:String x:Key="WeComBotAccountAdd">アカウントを追加</system:String>
+    <system:String x:Key="WeComBotAccountName">チャットで使うアカウント名</system:String>
+    <system:String x:Key="WeComBotAccountConfiguration">対応する設定プロファイル</system:String>
+    <system:String x:Key="WeComBotAccountStage">理性消費のステージ。空ならプロファイルの設定を使用</system:String>
+    <system:String x:Key="WeComBotAccountEnable">切替に含める</system:String>
+    <system:String x:Key="WeComBotAccountRemove">このアカウントを削除</system:String>
+    <system:String x:Key="WeComBotConnected">接続済み</system:String>
+    <system:String x:Key="WeComBotDisconnected">未接続</system:String>
+    <system:String x:Key="WeComBotTestMessage">MAA からのテストメッセージです。受信できれば設定は正常です。</system:String>
+    <system:String x:Key="WeComBotTestMessageSent">テストメッセージを送信しました</system:String>
+    <system:String x:Key="WeComBotTestMessageFailed">テストメッセージの送信に失敗しました。ボット設定とチャット ID を確認してください。</system:String>
+    <system:String x:Key="WeComBotHelp" xml:space="preserve">**MAA ボットのコマンド**
+- デイリー / 一括育成 / start：デイリーを 1 回実行
+- 停止 / 終了：実行中のタスクを停止
+- 状態 / 進捗：現在の進捗を表示
+- アカウント：アカウント一覧を表示
+- 「切替 主号」またはアカウント名だけ：プロファイルを切り替え
+- ローグライク：現在のプロファイルの自動ローグライクを実行
+- ヘルプ：このメニューを表示</system:String>
+    <system:String x:Key="WeComBotDailyStarted">🤖 了解しました。デイリーを開始します</system:String>
+    <system:String x:Key="WeComBotDailyAllAccounts">🧹 了解しました。{0} 個のアカウントを順に実行します</system:String>
+    <system:String x:Key="WeComBotBusy">⏳ すでにタスクが実行中です。停止するか、しばらくしてからお試しください。</system:String>
+    <system:String x:Key="WeComBotStopping">⏹ 了解しました。実行中のタスクを停止します</system:String>
+    <system:String x:Key="WeComBotNothingRunning">現在実行中のタスクはありません</system:String>
+    <system:String x:Key="WeComBotRoguelikeStarted">🎲 了解しました。現在のプロファイルの自動ローグライクを開始します</system:String>
+    <system:String x:Key="WeComBotRoguelikeMissing">現在のプロファイルに自動ローグライクのタスクがありません。先にタスクキューへ追加してください。</system:String>
+    <system:String x:Key="WeComBotAccountNotFound">アカウント｢{0}｣が見つかりません。｢アカウント｣で一覧を確認できます</system:String>
+    <system:String x:Key="WeComBotAccountSwitched">✅ ｢{0}｣ に切り替えました</system:String>
+    <system:String x:Key="WeComBotAccountListTitle">**利用可能なアカウント**</system:String>
+    <system:String x:Key="WeComBotAccountListEmpty">アカウントが未設定です。設定の｢WeCom ボット｣で追加してください</system:String>
+    <system:String x:Key="WeComBotAccountListLine">- {0}（プロファイル：{1}、理性消費ステージ：{2}、{3}）</system:String>
+    <system:String x:Key="WeComBotAccountListCurrent">現在のプロファイル：{0}</system:String>
+    <system:String x:Key="WeComBotAccountStageDefault">プロファイルの設定</system:String>
+    <system:String x:Key="WeComBotAccountEnabled">有効</system:String>
+    <system:String x:Key="WeComBotAccountDisabled">一時停止</system:String>
+    <system:String x:Key="WeComBotStatus" xml:space="preserve">**状態**：{0}
+プロファイル：{1}
+理性消費ステージ：{2}</system:String>
+    <system:String x:Key="WeComBotStatusRunning">タスク実行中</system:String>
+    <system:String x:Key="WeComBotStatusIdle">待機中</system:String>
+    <system:String x:Key="WeComBotTaskStarted">▶️ タスク開始（プロファイル：{0}）</system:String>
+    <system:String x:Key="WeComBotTaskStopping">⏹ タスクを停止しています</system:String>
+    <system:String x:Key="WeComBotTaskFinished" xml:space="preserve">✅ タスク完了（プロファイル：{0}）
+{1}
+{2}</system:String>
+    <system:String x:Key="WeComBotTaskError" xml:space="preserve">❌ タスクエラー（プロファイル：{0}）
+{1}
+{2}</system:String>
+    <system:String x:Key="WeComBotTaskStalled" xml:space="preserve">⚠️ タスク停滞（プロファイル：{0}）
+{1}
+{2}</system:String>
+    <system:String x:Key="WeComBotPermissionDenied">⛔ 指示を送る権限がありません</system:String>
+    <system:String x:Key="WeComBotAiReply">🤖 {0}</system:String>
+    <system:String x:Key="WeComBotAiUnavailable">AI 解析を利用できません：{0}</system:String>
+    <system:String x:Key="WeComBotAiContext">アカウント：{0}；現在のプロファイル：{1}；状態：{2}</system:String>
+    <system:String x:Key="WeComBotAiKeyMissing">DeepSeek API Key が設定されていません</system:String>
+    <system:String x:Key="WeComBotAiEmptyResponse">モデルから有効な結果が返りませんでした</system:String>
+    <system:String x:Key="WeComBotTaskSettingsTitle">**タスク設定**（現在のプロファイル：{0}）</system:String>
+    <system:String x:Key="WeComBotTaskSettingsLine">- [{0}] {1}（{2}）</system:String>
+    <system:String x:Key="WeComBotTaskSettingsNotFound">タスク｢{0}｣が見つかりません</system:String>
+    <system:String x:Key="WeComBotTaskSettingsEmptyPatch">変更するオプションが指定されていません</system:String>
+    <system:String x:Key="WeComBotTaskSettingsApplied">✅ タスク設定を変更しました：{0}</system:String>
+    <system:String x:Key="WeComBotTaskSettingsUnknownKey">{0} にオプション｢{1}｣はありません</system:String>
+    <system:String x:Key="WeComBotTaskSettingsInvalidValue">オプション｢{0}｣の値｢{1}｣が不正です</system:String>
+    <system:String x:Key="WeComBotTaskSettingsNeedAi">（オプションの変更には設定の｢大規模モデルで自然言語を理解する｣を有効にしてください）</system:String>
+    <system:String x:Key="WeComBotChatIdMissing">まだメッセージを受け取っていません。先に WeCom でボットへメッセージを送ってください。</system:String>
+    <system:String x:Key="WeComBotNotConnected">長接続の準備ができていません。数秒おいてから再度お試しください。</system:String>
+    <system:String x:Key="WeComBotAccountColumnsTip">1 行に 1 アカウント：チェックでローテーションに参加、2 列目はチャットでの呼び名、3 列目は MAA プロファイル、4 列目は理性消費ステージ（空ならプロファイル設定）です。</system:String>
+    <system:String x:Key="WeComBotAccountColumnEnable">ローテーション</system:String>
+    <system:String x:Key="WeComBotAccountColumnName">呼び名</system:String>
+    <system:String x:Key="WeComBotAccountColumnConfiguration">プロファイル</system:String>
+    <system:String x:Key="WeComBotAccountColumnStage">理性消費ステージ</system:String>
+    <system:String x:Key="WeComBotSchedule">定期実行</system:String>
+    <system:String x:Key="WeComBotEnableSchedule">ボットの定期デイリーを有効にする</system:String>
+    <system:String x:Key="WeComBotEnableScheduleTip">指定時刻にデイリーを実行します。アカウント切り替えが有効なら全アカウントを順に実行します。MAA 本体の｢定期実行｣と同時刻に有効にしないでください。</system:String>
+    <system:String x:Key="WeComBotScheduleAdd">時刻を追加</system:String>
+    <system:String x:Key="WeComBotScheduleRemove">この時刻を削除</system:String>
+    <system:String x:Key="WeComBotEditAccount">デイリー設定を編集</system:String>
+    <system:String x:Key="WeComBotAccountEditorTip">これらのオプションはこのアカウントに対応するプロファイルに保存され、保存後すぐに反映されます。その他の項目は MAA のタスク設定またはチャットから変更できます。</system:String>
+    <system:String x:Key="WeComBotUseMedicine">理性回復剤を使用</system:String>
+    <system:String x:Key="WeComBotMedicineCount">個数</system:String>
+    <system:String x:Key="WeComBotEdit">編集</system:String>
+    <system:String x:Key="WeComBotAccountSwitchEnabled">アカウント切り替えを有効にする</system:String>
+    <system:String x:Key="WeComBotOpenFullSettings">詳細設定</system:String>
+    <system:String x:Key="WeComBotDefaultAccountName">アカウント</system:String>
+    <system:String x:Key="WeComBotNoError">エラー：なし</system:String>
+    <system:String x:Key="WeComBotErrorLog" xml:space="preserve">❌ エラー（{0}）
+{1}</system:String>
 </ResourceDictionary>

@@ -2733,4 +2733,121 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="ExternalNotificationFilterPreviousLogs">篩選附帶日誌內容</system:String>
     <system:String x:Key="ExternalNotificationFilterPreviousLogsTip" xml:space="preserve">先排除符合黑名單的日誌，再依數量及有效時間選取最近的日誌。&#10;目前日誌始終保留。</system:String>
     <system:String x:Key="ExternalNotificationBlacklist">黑名單（每行一條，支援正則）</system:String>
+
+    <!--  企業微信機器人  -->
+    <system:String x:Key="WeComBotSettings">企業微信機器人</system:String>
+    <system:String x:Key="WeComBotDescription">透過企業微信智慧機器人的長連線，把 MAA 的任務狀態推送到聊天，並可以在聊天裡下達指令。需要先在企業微信管理後台建立智慧機器人。</system:String>
+    <system:String x:Key="WeComBotEnable">啟用企業微信機器人</system:String>
+    <system:String x:Key="WeComBotEnableTip" xml:space="preserve">填寫機器人 ID 與 Secret 並勾選後建立長連線，斷線自動重連。&#10;機器人需要先收到過一條訊息，之後才能主動推送。</system:String>
+    <system:String x:Key="WeComBotBotId">機器人 ID</system:String>
+    <system:String x:Key="WeComBotSecret">機器人 Secret</system:String>
+    <system:String x:Key="WeComBotWebSocketUrl">長連線位址</system:String>
+    <system:String x:Key="WeComBotHeartbeatSeconds">心跳間隔（秒）</system:String>
+    <system:String x:Key="WeComBotNotifyTaskStatus">推送任務狀態</system:String>
+    <system:String x:Key="WeComBotNotifyTaskStatusTip">任務開始、完成、出錯、停滯時各推送一條訊息。</system:String>
+    <system:String x:Key="WeComBotChatId">推送會話 ID</system:String>
+    <system:String x:Key="WeComBotChatIdTip">留空即可，機器人會自動記住收到訊息的會話。</system:String>
+    <system:String x:Key="WeComBotChatType">會話類型</system:String>
+    <system:String x:Key="WeComBotChatTypeSingle">單聊</system:String>
+    <system:String x:Key="WeComBotChatTypeGroup">群聊</system:String>
+    <system:String x:Key="WeComBotSendTest">傳送測試訊息</system:String>
+    <system:String x:Key="WeComBotEnableRemoteCommand">允許聊天指令</system:String>
+    <system:String x:Key="WeComBotEnableRemoteCommandTip">在聊天裡傳送指令控制 MAA，例如｢清日常｣｢停止｣｢狀態｣。</system:String>
+    <system:String x:Key="WeComBotAllowedUserIds">允許的使用者 ID</system:String>
+    <system:String x:Key="WeComBotAllowedUserIdsTip">多個 ID 用逗號分隔；留空表示不限制。</system:String>
+    <system:String x:Key="WeComBotEnableAiIntent">用大模型理解自然語言</system:String>
+    <system:String x:Key="WeComBotEnableAiIntentTip">複雜或口語化的指令交給 DeepSeek 解析成動作。</system:String>
+    <system:String x:Key="WeComBotDeepSeekApiKey">DeepSeek API Key</system:String>
+    <system:String x:Key="WeComBotDeepSeekModel">DeepSeek 模型</system:String>
+    <system:String x:Key="WeComBotRotateAccounts">一次清日常依次跑完所有帳號</system:String>
+    <system:String x:Key="WeComBotRotateAccountsTip">勾選後，每次清日常按下面的清單逐個切換設定並各跑一輪，結束後切回原本的設定。</system:String>
+    <system:String x:Key="WeComBotAccounts">帳號輪換清單</system:String>
+    <system:String x:Key="WeComBotAccountAdd">新增帳號</system:String>
+    <system:String x:Key="WeComBotAccountName">聊天裡使用的帳號稱呼</system:String>
+    <system:String x:Key="WeComBotAccountConfiguration">對應的設定檔</system:String>
+    <system:String x:Key="WeComBotAccountStage">理智作戰關卡，留空沿用設定檔</system:String>
+    <system:String x:Key="WeComBotAccountEnable">參與輪換</system:String>
+    <system:String x:Key="WeComBotAccountRemove">刪除該帳號</system:String>
+    <system:String x:Key="WeComBotConnected">已連線</system:String>
+    <system:String x:Key="WeComBotDisconnected">未連線</system:String>
+    <system:String x:Key="WeComBotTestMessage">來自 MAA 的測試訊息，收到說明機器人設定正常。</system:String>
+    <system:String x:Key="WeComBotTestMessageSent">測試訊息已傳送</system:String>
+    <system:String x:Key="WeComBotTestMessageFailed">測試訊息傳送失敗，請檢查機器人設定與會話 ID</system:String>
+    <system:String x:Key="WeComBotHelp" xml:space="preserve">**MAA 機器人指令**
+- 清日常 / 一鍵長草 / start：執行一次清日常
+- 停止 / 結束：停止目前任務
+- 狀態 / 進度：查看目前進度
+- 帳號：查看帳號清單
+- 切換 主號 或直接傳帳號名：切換設定
+- 肉鴿：執行目前設定檔的自動肉鴿
+- 幫助：顯示本選單</system:String>
+    <system:String x:Key="WeComBotDailyStarted">🤖 收到，開始執行清日常</system:String>
+    <system:String x:Key="WeComBotDailyAllAccounts">🧹 收到，開始依次清理 {0} 個帳號</system:String>
+    <system:String x:Key="WeComBotBusy">⏳ 目前有任務在跑，請先停止或稍後再試</system:String>
+    <system:String x:Key="WeComBotStopping">⏹ 收到，正在停止目前任務</system:String>
+    <system:String x:Key="WeComBotNothingRunning">目前沒有任務在執行</system:String>
+    <system:String x:Key="WeComBotRoguelikeStarted">🎲 收到，開始執行目前設定檔的自動肉鴿</system:String>
+    <system:String x:Key="WeComBotRoguelikeMissing">目前設定檔裡沒有自動肉鴿任務，請先在任務佇列裡新增</system:String>
+    <system:String x:Key="WeComBotAccountNotFound">沒找到帳號｢{0}｣，傳｢帳號｣可以查看清單</system:String>
+    <system:String x:Key="WeComBotAccountSwitched">✅ 已切換到｢{0}｣</system:String>
+    <system:String x:Key="WeComBotAccountListTitle">**可用帳號**</system:String>
+    <system:String x:Key="WeComBotAccountListEmpty">還沒有設定帳號，請到設定的｢企業微信機器人｣裡新增</system:String>
+    <system:String x:Key="WeComBotAccountListLine">- {0}（設定檔：{1}，理智關卡：{2}，{3}）</system:String>
+    <system:String x:Key="WeComBotAccountListCurrent">目前設定檔：{0}</system:String>
+    <system:String x:Key="WeComBotAccountStageDefault">沿用設定檔</system:String>
+    <system:String x:Key="WeComBotAccountEnabled">已啟用</system:String>
+    <system:String x:Key="WeComBotAccountDisabled">已暫停</system:String>
+    <system:String x:Key="WeComBotStatus" xml:space="preserve">**狀態**：{0}
+設定檔：{1}
+理智關卡：{2}</system:String>
+    <system:String x:Key="WeComBotStatusRunning">任務執行中</system:String>
+    <system:String x:Key="WeComBotStatusIdle">閒置</system:String>
+    <system:String x:Key="WeComBotTaskStarted">▶️ 任務開始（設定檔：{0}）</system:String>
+    <system:String x:Key="WeComBotTaskStopping">⏹ 正在停止任務</system:String>
+    <system:String x:Key="WeComBotTaskFinished" xml:space="preserve">✅ 任務完成（設定檔：{0}）
+{1}
+{2}</system:String>
+    <system:String x:Key="WeComBotTaskError" xml:space="preserve">❌ 任務出錯（設定檔：{0}）
+{1}
+{2}</system:String>
+    <system:String x:Key="WeComBotTaskStalled" xml:space="preserve">⚠️ 任務停滯（設定檔：{0}）
+{1}
+{2}</system:String>
+    <system:String x:Key="WeComBotPermissionDenied">⛔ 你沒有權限下達指令</system:String>
+    <system:String x:Key="WeComBotAiReply">🤖 {0}</system:String>
+    <system:String x:Key="WeComBotAiUnavailable">AI 解析無法使用：{0}</system:String>
+    <system:String x:Key="WeComBotAiContext">帳號：{0}；目前設定檔：{1}；狀態：{2}</system:String>
+    <system:String x:Key="WeComBotAiKeyMissing">未設定 DeepSeek API Key</system:String>
+    <system:String x:Key="WeComBotAiEmptyResponse">大模型沒有傳回可用結果</system:String>
+    <system:String x:Key="WeComBotTaskSettingsTitle">**任務設定**（目前設定檔：{0}）</system:String>
+    <system:String x:Key="WeComBotTaskSettingsLine">- [{0}] {1}（{2}）</system:String>
+    <system:String x:Key="WeComBotTaskSettingsNotFound">沒有找到任務｢{0}｣</system:String>
+    <system:String x:Key="WeComBotTaskSettingsEmptyPatch">沒有指定要修改的選項</system:String>
+    <system:String x:Key="WeComBotTaskSettingsApplied">✅ 已修改任務設定：{0}</system:String>
+    <system:String x:Key="WeComBotTaskSettingsUnknownKey">{0} 沒有選項｢{1}｣</system:String>
+    <system:String x:Key="WeComBotTaskSettingsInvalidValue">選項｢{0}｣的值｢{1}｣不合法</system:String>
+    <system:String x:Key="WeComBotTaskSettingsNeedAi">（修改選項需要在設定裡開啟｢用大模型理解自然語言｣）</system:String>
+    <system:String x:Key="WeComBotChatIdMissing">還沒有收到過訊息，請先在微信裡給機器人傳一條訊息</system:String>
+    <system:String x:Key="WeComBotNotConnected">長連線尚未就緒，請稍等幾秒再試</system:String>
+    <system:String x:Key="WeComBotAccountColumnsTip">每行一個帳號：勾選表示參與輪換，第二欄填聊天裡的稱呼，第三欄選擇 MAA 設定檔，第四欄填理智關卡（留空沿用設定檔）。</system:String>
+    <system:String x:Key="WeComBotAccountColumnEnable">輪換</system:String>
+    <system:String x:Key="WeComBotAccountColumnName">稱呼</system:String>
+    <system:String x:Key="WeComBotAccountColumnConfiguration">設定檔</system:String>
+    <system:String x:Key="WeComBotAccountColumnStage">理智關卡</system:String>
+    <system:String x:Key="WeComBotSchedule">定時任務</system:String>
+    <system:String x:Key="WeComBotEnableSchedule">啟用機器人定時清日常</system:String>
+    <system:String x:Key="WeComBotEnableScheduleTip">到點自動執行一次清日常，開啟帳號輪換時會依次跑完全部帳號。請勿與 MAA 內建的｢定時執行｣在同一時間重複啟用。</system:String>
+    <system:String x:Key="WeComBotScheduleAdd">新增時間</system:String>
+    <system:String x:Key="WeComBotScheduleRemove">刪除該時間</system:String>
+    <system:String x:Key="WeComBotEditAccount">編輯一鍵長草</system:String>
+    <system:String x:Key="WeComBotAccountEditorTip">這些選項保存在該帳號對應的設定檔裡，點儲存後立即生效；其餘細項可在 MAA 任務設定或透過聊天修改。</system:String>
+    <system:String x:Key="WeComBotUseMedicine">使用理智藥</system:String>
+    <system:String x:Key="WeComBotMedicineCount">數量</system:String>
+    <system:String x:Key="WeComBotEdit">編輯</system:String>
+    <system:String x:Key="WeComBotAccountSwitchEnabled">啟用帳號切換</system:String>
+    <system:String x:Key="WeComBotOpenFullSettings">完整設定</system:String>
+    <system:String x:Key="WeComBotDefaultAccountName">帳號</system:String>
+    <system:String x:Key="WeComBotNoError">異常：無</system:String>
+    <system:String x:Key="WeComBotErrorLog" xml:space="preserve">❌ 錯誤（{0}）
+{1}</system:String>
 </ResourceDictionary>

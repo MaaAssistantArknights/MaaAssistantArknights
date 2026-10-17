@@ -28,6 +28,7 @@ public class Root : NotifyPropertyChangedWithValue
     public void EventBinding(string prefix)
     {
         Timers.EventBinding($"{prefix}{nameof(Timers)}.");
+        WeComBot.EventBinding($"{prefix}{nameof(WeComBot)}.");
         AnnouncementInfo.PropertyChanged += Handler.OnPropertyChangedFactory($"{prefix}{nameof(AnnouncementInfo)}.");
         Gui.PropertyChanged += Handler.OnPropertyChangedFactory($"{prefix}{nameof(Gui)}.");
         Gui.Background.PropertyChanged += Handler.OnPropertyChangedFactory($"{prefix}{nameof(Gui)}.{nameof(Gui.Background)}.");
@@ -41,6 +42,12 @@ public class Root : NotifyPropertyChangedWithValue
 
     [JsonInclude]
     public TimerSettings Timers { get; private set; } = new();
+
+    /// <summary>
+    /// Gets 企业微信机器人设置。
+    /// </summary>
+    [JsonInclude]
+    public WeComBot WeComBot { get; private set; } = new();
 
     public int ConfigVersion { get; set; } = 1;
 

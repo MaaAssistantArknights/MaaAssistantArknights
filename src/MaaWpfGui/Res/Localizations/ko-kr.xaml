@@ -2733,4 +2733,121 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="ExternalNotificationFilterPreviousLogs">첨부 로그 내용 필터링</system:String>
     <system:String x:Key="ExternalNotificationFilterPreviousLogsTip" xml:space="preserve">블랙리스트와 일치하는 로그를 제외한 뒤 개수와 유효 시간 범위 내에서 가장 최근 로그를 선택합니다.&#10;현재 로그는 항상 유지합니다.</system:String>
     <system:String x:Key="ExternalNotificationBlacklist">블랙리스트 (줄마다 정규식 하나)</system:String>
+
+    <!--  WeCom 봇  -->
+    <system:String x:Key="WeComBotSettings">WeCom 봇</system:String>
+    <system:String x:Key="WeComBotDescription">WeCom 스마트 봇의 장기 연결로 MAA 작업 상태를 채팅으로 보내고, 채팅에서 명령도 받습니다. 먼저 WeCom 관리 콘솔에서 스마트 봇을 만들어야 합니다.</system:String>
+    <system:String x:Key="WeComBotEnable">WeCom 봇 사용</system:String>
+    <system:String x:Key="WeComBotEnableTip" xml:space="preserve">봇 ID와 Secret을 입력하고 체크하면 장기 연결을 시작하며, 끊기면 자동으로 다시 연결합니다.&#10;봇이 먼저 메시지를 보내려면 한 번은 메시지를 받은 적이 있어야 합니다.</system:String>
+    <system:String x:Key="WeComBotBotId">봇 ID</system:String>
+    <system:String x:Key="WeComBotSecret">봇 Secret</system:String>
+    <system:String x:Key="WeComBotWebSocketUrl">장기 연결 주소</system:String>
+    <system:String x:Key="WeComBotHeartbeatSeconds">하트비트 간격(초)</system:String>
+    <system:String x:Key="WeComBotNotifyTaskStatus">작업 상태 보내기</system:String>
+    <system:String x:Key="WeComBotNotifyTaskStatusTip">작업 시작, 완료, 오류, 정체 시 각각 한 건씩 보냅니다.</system:String>
+    <system:String x:Key="WeComBotChatId">보낼 채팅 ID</system:String>
+    <system:String x:Key="WeComBotChatIdTip">비워 두어도 됩니다. 봇이 처음 받은 메시지의 채팅을 기억합니다.</system:String>
+    <system:String x:Key="WeComBotChatType">채팅 종류</system:String>
+    <system:String x:Key="WeComBotChatTypeSingle">개인 채팅</system:String>
+    <system:String x:Key="WeComBotChatTypeGroup">그룹 채팅</system:String>
+    <system:String x:Key="WeComBotSendTest">테스트 메시지 보내기</system:String>
+    <system:String x:Key="WeComBotEnableRemoteCommand">채팅 명령 허용</system:String>
+    <system:String x:Key="WeComBotEnableRemoteCommandTip">채팅에서 MAA를 제어할 수 있습니다. 예: ｢일일｣, ｢중지｣, ｢상태｣.</system:String>
+    <system:String x:Key="WeComBotAllowedUserIds">허용할 사용자 ID</system:String>
+    <system:String x:Key="WeComBotAllowedUserIdsTip">여러 ID는 쉼표로 구분하며, 비워 두면 제한하지 않습니다.</system:String>
+    <system:String x:Key="WeComBotEnableAiIntent">대규모 모델로 자연어 이해</system:String>
+    <system:String x:Key="WeComBotEnableAiIntentTip">복잡하거나 구어체인 명령은 DeepSeek가 동작으로 해석합니다.</system:String>
+    <system:String x:Key="WeComBotDeepSeekApiKey">DeepSeek API Key</system:String>
+    <system:String x:Key="WeComBotDeepSeekModel">DeepSeek 모델</system:String>
+    <system:String x:Key="WeComBotRotateAccounts">일일 실행 시 모든 계정을 순서대로</system:String>
+    <system:String x:Key="WeComBotRotateAccountsTip">켜면 일일 실행마다 아래 목록 순서대로 프로필을 바꾸며 한 바퀴씩 실행하고, 끝나면 원래 프로필로 돌아옵니다.</system:String>
+    <system:String x:Key="WeComBotAccounts">계정 순환 목록</system:String>
+    <system:String x:Key="WeComBotAccountAdd">계정 추가</system:String>
+    <system:String x:Key="WeComBotAccountName">채팅에서 쓸 계정 이름</system:String>
+    <system:String x:Key="WeComBotAccountConfiguration">연결할 설정 프로필</system:String>
+    <system:String x:Key="WeComBotAccountStage">이성 소모 스테이지, 비우면 프로필 설정 사용</system:String>
+    <system:String x:Key="WeComBotAccountEnable">순환에 포함</system:String>
+    <system:String x:Key="WeComBotAccountRemove">이 계정 삭제</system:String>
+    <system:String x:Key="WeComBotConnected">연결됨</system:String>
+    <system:String x:Key="WeComBotDisconnected">연결 안 됨</system:String>
+    <system:String x:Key="WeComBotTestMessage">MAA에서 보낸 테스트 메시지입니다. 받았다면 봇 설정이 정상입니다.</system:String>
+    <system:String x:Key="WeComBotTestMessageSent">테스트 메시지를 보냈습니다</system:String>
+    <system:String x:Key="WeComBotTestMessageFailed">테스트 메시지 전송에 실패했습니다. 봇 설정과 채팅 ID를 확인하세요.</system:String>
+    <system:String x:Key="WeComBotHelp" xml:space="preserve">**MAA 봇 명령**
+- 일일 / 한방 육성 / start: 일일 작업 한 번 실행
+- 중지 / 종료: 실행 중인 작업 중지
+- 상태 / 진행: 현재 진행 상황 확인
+- 계정: 계정 목록 확인
+- ｢전환 주계정｣ 또는 계정 이름만 보내기: 프로필 전환
+- 로그라이크: 현재 프로필의 자동 로그라이크 실행
+- 도움말: 이 메뉴 표시</system:String>
+    <system:String x:Key="WeComBotDailyStarted">🤖 알겠습니다. 일일 작업을 시작합니다</system:String>
+    <system:String x:Key="WeComBotDailyAllAccounts">🧹 알겠습니다. 계정 {0}개를 순서대로 실행합니다</system:String>
+    <system:String x:Key="WeComBotBusy">⏳ 이미 작업이 실행 중입니다. 중지하거나 잠시 후 다시 시도하세요.</system:String>
+    <system:String x:Key="WeComBotStopping">⏹ 알겠습니다. 실행 중인 작업을 중지합니다</system:String>
+    <system:String x:Key="WeComBotNothingRunning">현재 실행 중인 작업이 없습니다</system:String>
+    <system:String x:Key="WeComBotRoguelikeStarted">🎲 알겠습니다. 현재 프로필의 자동 로그라이크를 시작합니다</system:String>
+    <system:String x:Key="WeComBotRoguelikeMissing">현재 프로필에 자동 로그라이크 작업이 없습니다. 먼저 작업 큐에 추가하세요.</system:String>
+    <system:String x:Key="WeComBotAccountNotFound">계정 ｢{0}｣을(를) 찾지 못했습니다. ｢계정｣을 보내면 목록을 볼 수 있습니다</system:String>
+    <system:String x:Key="WeComBotAccountSwitched">✅ ｢{0}｣(으)로 전환했습니다</system:String>
+    <system:String x:Key="WeComBotAccountListTitle">**사용 가능한 계정**</system:String>
+    <system:String x:Key="WeComBotAccountListEmpty">설정된 계정이 없습니다. 설정의 ｢WeCom 봇｣에서 추가하세요</system:String>
+    <system:String x:Key="WeComBotAccountListLine">- {0}(프로필: {1}, 이성 스테이지: {2}, {3})</system:String>
+    <system:String x:Key="WeComBotAccountListCurrent">현재 프로필: {0}</system:String>
+    <system:String x:Key="WeComBotAccountStageDefault">프로필 설정</system:String>
+    <system:String x:Key="WeComBotAccountEnabled">사용 중</system:String>
+    <system:String x:Key="WeComBotAccountDisabled">일시 중지</system:String>
+    <system:String x:Key="WeComBotStatus" xml:space="preserve">**상태**: {0}
+프로필: {1}
+이성 스테이지: {2}</system:String>
+    <system:String x:Key="WeComBotStatusRunning">작업 실행 중</system:String>
+    <system:String x:Key="WeComBotStatusIdle">대기 중</system:String>
+    <system:String x:Key="WeComBotTaskStarted">▶️ 작업 시작(프로필: {0})</system:String>
+    <system:String x:Key="WeComBotTaskStopping">⏹ 작업을 중지합니다</system:String>
+    <system:String x:Key="WeComBotTaskFinished" xml:space="preserve">✅ 작업 완료(프로필: {0})
+{1}
+{2}</system:String>
+    <system:String x:Key="WeComBotTaskError" xml:space="preserve">❌ 작업 오류(프로필: {0})
+{1}
+{2}</system:String>
+    <system:String x:Key="WeComBotTaskStalled" xml:space="preserve">⚠️ 작업 정체(프로필: {0})
+{1}
+{2}</system:String>
+    <system:String x:Key="WeComBotPermissionDenied">⛔ 명령을 보낼 권한이 없습니다</system:String>
+    <system:String x:Key="WeComBotAiReply">🤖 {0}</system:String>
+    <system:String x:Key="WeComBotAiUnavailable">AI 해석을 사용할 수 없습니다: {0}</system:String>
+    <system:String x:Key="WeComBotAiContext">계정: {0}; 현재 프로필: {1}; 상태: {2}</system:String>
+    <system:String x:Key="WeComBotAiKeyMissing">DeepSeek API Key가 설정되지 않았습니다</system:String>
+    <system:String x:Key="WeComBotAiEmptyResponse">모델이 사용할 수 있는 결과를 반환하지 않았습니다</system:String>
+    <system:String x:Key="WeComBotTaskSettingsTitle">**작업 설정**(현재 프로필: {0})</system:String>
+    <system:String x:Key="WeComBotTaskSettingsLine">- [{0}] {1} ({2})</system:String>
+    <system:String x:Key="WeComBotTaskSettingsNotFound">작업 ｢{0}｣을(를) 찾지 못했습니다</system:String>
+    <system:String x:Key="WeComBotTaskSettingsEmptyPatch">변경할 옵션이 지정되지 않았습니다</system:String>
+    <system:String x:Key="WeComBotTaskSettingsApplied">✅ 작업 설정을 변경했습니다: {0}</system:String>
+    <system:String x:Key="WeComBotTaskSettingsUnknownKey">{0}에 옵션 ｢{1}｣이(가) 없습니다</system:String>
+    <system:String x:Key="WeComBotTaskSettingsInvalidValue">옵션 ｢{0}｣의 값 ｢{1}｣이(가) 올바르지 않습니다</system:String>
+    <system:String x:Key="WeComBotTaskSettingsNeedAi">(옵션을 변경하려면 설정에서 ｢대규모 모델로 자연어 이해｣를 켜세요.)</system:String>
+    <system:String x:Key="WeComBotChatIdMissing">아직 메시지를 받은 적이 없습니다. 먼저 WeCom에서 봇에게 메시지를 보내세요.</system:String>
+    <system:String x:Key="WeComBotNotConnected">장기 연결이 아직 준비되지 않았습니다. 몇 초 후 다시 시도하세요.</system:String>
+    <system:String x:Key="WeComBotAccountColumnsTip">행마다 계정 하나: 체크하면 순환에 포함, 두 번째 열은 채팅에서 쓸 이름, 세 번째 열은 MAA 프로필, 네 번째 열은 이성 스테이지(비우면 프로필 설정)입니다.</system:String>
+    <system:String x:Key="WeComBotAccountColumnEnable">순환</system:String>
+    <system:String x:Key="WeComBotAccountColumnName">이름</system:String>
+    <system:String x:Key="WeComBotAccountColumnConfiguration">프로필</system:String>
+    <system:String x:Key="WeComBotAccountColumnStage">이성 스테이지</system:String>
+    <system:String x:Key="WeComBotSchedule">정기 실행</system:String>
+    <system:String x:Key="WeComBotEnableSchedule">봇 정기 일일 실행 사용</system:String>
+    <system:String x:Key="WeComBotEnableScheduleTip">지정한 시각에 일일 작업을 실행합니다. 계정 순환이 켜져 있으면 모든 계정을 차례로 실행합니다. MAA 자체의｢정기 실행｣과 같은 시각에 켜지 마세요.</system:String>
+    <system:String x:Key="WeComBotScheduleAdd">시간 추가</system:String>
+    <system:String x:Key="WeComBotScheduleRemove">이 시간 삭제</system:String>
+    <system:String x:Key="WeComBotEditAccount">일일 작업 설정 편집</system:String>
+    <system:String x:Key="WeComBotAccountEditorTip">이 옵션들은 이 계정에 연결된 프로필에 저장되며 저장 즉시 적용됩니다. 나머지 세부 항목은 MAA 작업 설정이나 채팅에서 변경할 수 있습니다.</system:String>
+    <system:String x:Key="WeComBotUseMedicine">이성 회복제 사용</system:String>
+    <system:String x:Key="WeComBotMedicineCount">개수</system:String>
+    <system:String x:Key="WeComBotEdit">편집</system:String>
+    <system:String x:Key="WeComBotAccountSwitchEnabled">계정 전환 사용</system:String>
+    <system:String x:Key="WeComBotOpenFullSettings">전체 설정</system:String>
+    <system:String x:Key="WeComBotDefaultAccountName">계정</system:String>
+    <system:String x:Key="WeComBotNoError">오류: 없음</system:String>
+    <system:String x:Key="WeComBotErrorLog" xml:space="preserve">❌ 오류 ({0})
+{1}</system:String>
 </ResourceDictionary>

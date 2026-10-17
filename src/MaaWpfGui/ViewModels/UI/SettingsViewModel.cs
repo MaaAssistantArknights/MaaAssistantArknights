@@ -102,6 +102,11 @@ public class SettingsViewModel : Screen
     public static RemoteControlUserControlModel RemoteControlSettings { get; } = RemoteControlUserControlModel.Instance;
 
     /// <summary>
+    /// Gets 企业微信机器人 model
+    /// </summary>
+    public static WeComBotSettingsUserControlModel WeComBotSettings { get; } = WeComBotSettingsUserControlModel.Instance;
+
+    /// <summary>
     /// Gets 软件更新 model
     /// </summary>
     public static VersionUpdateSettingsUserControlModel VersionUpdateSettings { get; } = VersionUpdateSettingsUserControlModel.Instance;
@@ -194,6 +199,8 @@ public class SettingsViewModel : Screen
     public SettingItemViewModel StartupSettingsSetting => GetSettingItemByKey("StartupSettings");
 
     public SettingItemViewModel RemoteControlSettingsSetting => GetSettingItemByKey("RemoteControlSettings");
+
+    public SettingItemViewModel WeComBotSettingsSetting => GetSettingItemByKey("WeComBotSettings");
 
     public SettingItemViewModel UiSettingsSetting => GetSettingItemByKey("UiSettings");
 
@@ -1230,6 +1237,12 @@ public class SettingsViewModel : Screen
     {
         get => GetExpanderState(SettingKey.RemoteControlSettings);
         set => SetExpanderState(SettingKey.RemoteControlSettings, value);
+    }
+
+    public bool IsWeComBotSettingsExpanded
+    {
+        get => GetExpanderState(SettingKey.WeComBotSettings);
+        set => SetExpanderState(SettingKey.WeComBotSettings, value);
     }
 
     public bool IsUiSettingsExpanded

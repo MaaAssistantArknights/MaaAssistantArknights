@@ -33,6 +33,16 @@ public sealed class NotificationService
 
     public NotificationService() => RunningState.Instance.StallOccurred += OnStalled;
 
+    /// <summary>
+    /// 任务通知发布事件。订阅方（如企业微信机器人）自行决定转发策略，不得再次调用本服务。
+    /// </summary>
+    public event Action<NotificationSource, NotificationMessage>? MessagePublished;
+
+    /// <summary>
+    /// 错误级日志发布事件（仅界面日志，不含已经由 <see cref="Notify"/> 发出的任务错误，避免重复）。
+    /// </summary>
+    public event Action<NotificationSource, string>? ErrorLogPublished;
+
     private void OnStalled(RunOwner owner, int initialMinutes, int accumulatedMinutes)
     {
         Execute.OnUIThread(() => {
@@ -119,6 +129,15 @@ public sealed class NotificationService
             }
 
             display();
+
+            if (message is not null)
+            {
+                MessagePublished?.Invoke(source, message);
+            }
+            else if (color == UiLogColor.Error && !string.IsNullOrWhiteSpace(content))
+            {
+                ErrorLogPublished?.Invoke(source, content);
+            }
         });
     }
 

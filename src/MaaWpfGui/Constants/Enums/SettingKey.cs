@@ -55,6 +55,11 @@ public enum SettingKey
     RemoteControlSettings,
 
     /// <summary>
+    /// 企业微信机器人设置。
+    /// </summary>
+    WeComBotSettings,
+
+    /// <summary>
     /// 界面设置。
     /// </summary>
     UiSettings,

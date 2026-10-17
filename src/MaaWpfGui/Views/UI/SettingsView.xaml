@@ -82,6 +82,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Grid
@@ -232,6 +233,28 @@
                                 Margin="0,20"
                                 HorizontalAlignment="Center"
                                 DataContext="{Binding RemoteControlSettings}" />
+                        </Border>
+                    </Expander>
+                </Grid>
+
+                <Grid
+                    Grid.Row="{Binding WeComBotSettingsSetting.Value}"
+                    Margin="0,0,0,5"
+                    d:Grid.Row="15"
+                    Visibility="{c:Binding WeComBotSettingsSetting.IsVisibleInSearch}">
+                    <Expander
+                        d:IsExpanded="True"
+                        Background="Transparent"
+                        Header="{Binding WeComBotSettingsSetting.Display}"
+                        IsExpanded="{Binding IsWeComBotSettingsExpanded}">
+                        <Border
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,4,4">
+                            <settings:WeComBotSettingsUserControl
+                                Margin="0,20"
+                                HorizontalAlignment="Center"
+                                DataContext="{Binding WeComBotSettings}" />
                         </Border>
                     </Expander>
                 </Grid>

@@ -1,0 +1,481 @@
+﻿<UserControl
+    x:Class="MaaWpfGui.Views.UserControl.Settings.WeComBotSettingsUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
+    d:Background="White"
+    d:DataContext="{d:DesignInstance {x:Type settings_vms:WeComBotSettingsUserControlModel}}"
+    d:DesignHeight="600"
+    d:DesignWidth="560"
+    s:View.ActionTarget="{Binding}"
+    mc:Ignorable="d">
+    <Grid Width="520" Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <controls:TextBlock
+            Grid.Row="0"
+            Margin="10"
+            HorizontalAlignment="Center"
+            Block.TextAlignment="Center"
+            Text="{DynamicResource WeComBotDescription}"
+            TextWrapping="Wrap" />
+
+        <!--  机器人凭据与连接  -->
+        <StackPanel Grid.Row="1" Margin="0,5">
+            <StackPanel Margin="10,5" Orientation="Horizontal">
+                <CheckBox
+                    VerticalContentAlignment="Center"
+                    Content="{DynamicResource WeComBotEnable}"
+                    IsChecked="{Binding Enable}" />
+                <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource WeComBotEnableTip}" />
+                <controls:TextBlock
+                    Margin="20,0,0,0"
+                    VerticalAlignment="Center"
+                    FontSize="11"
+                    Foreground="{DynamicResource PrimaryTextBrush}"
+                    Text="{Binding StatusText, StringFormat={}{0}}" />
+            </StackPanel>
+
+            <Grid Margin="10,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <controls:TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="0,0,10,0"
+                    VerticalAlignment="Center"
+                    Text="{DynamicResource WeComBotBotId}" />
+                <TextBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="0,2"
+                    Text="{Binding BotId, UpdateSourceTrigger=PropertyChanged}" />
+
+                <controls:TextBlock
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="0,0,10,0"
+                    VerticalAlignment="Center"
+                    Text="{DynamicResource WeComBotSecret}" />
+                <TextBox
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="0,2"
+                    Text="{Binding Secret, UpdateSourceTrigger=PropertyChanged}" />
+
+                <controls:TextBlock
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="0,0,10,0"
+                    VerticalAlignment="Center"
+                    Text="{DynamicResource WeComBotWebSocketUrl}" />
+                <TextBox
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="0,2"
+                    Text="{Binding WebSocketUrl, UpdateSourceTrigger=PropertyChanged}" />
+
+                <controls:TextBlock
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Margin="0,0,10,0"
+                    VerticalAlignment="Center"
+                    Text="{DynamicResource WeComBotHeartbeatSeconds}" />
+                <hc:NumericUpDown
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Width="120"
+                    Margin="0,2"
+                    HorizontalAlignment="Left"
+                    InputMethod.IsInputMethodEnabled="False"
+                    Maximum="600"
+                    Minimum="5"
+                    Value="{Binding HeartbeatSeconds}" />
+            </Grid>
+        </StackPanel>
+
+        <!--  推送与会话  -->
+        <StackPanel Grid.Row="2" Margin="0,5">
+            <StackPanel Margin="10,5" Orientation="Horizontal">
+                <CheckBox
+                    VerticalContentAlignment="Center"
+                    Content="{DynamicResource WeComBotNotifyTaskStatus}"
+                    IsChecked="{Binding NotifyTaskStatus}" />
+                <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource WeComBotNotifyTaskStatusTip}" />
+            </StackPanel>
+
+            <Grid Margin="10,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <controls:TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="0,0,10,0"
+                    VerticalAlignment="Center"
+                    Text="{DynamicResource WeComBotChatId}" />
+                <TextBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="0,2"
+                    Text="{Binding ChatId, UpdateSourceTrigger=PropertyChanged}" />
+                <controls:TooltipBlock
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    TooltipText="{DynamicResource WeComBotChatIdTip}" />
+
+                <controls:TextBlock
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="0,0,10,0"
+                    VerticalAlignment="Center"
+                    Text="{DynamicResource WeComBotChatType}" />
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Orientation="Horizontal">
+                    <ComboBox
+                        Width="140"
+                        Margin="0,2"
+                        ItemsSource="{Binding ChatTypeList}"
+                        SelectedValue="{Binding ChatType}"
+                        SelectedValuePath="Value" />
+                    <Button
+                        Margin="10,2,0,2"
+                        Command="{s:Action SendTestMessage}"
+                        Content="{DynamicResource WeComBotSendTest}" />
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+        <!--  聊天指令  -->
+        <StackPanel Grid.Row="3" Margin="0,5">
+            <StackPanel Margin="10,5" Orientation="Horizontal">
+                <CheckBox
+                    VerticalContentAlignment="Center"
+                    Content="{DynamicResource WeComBotEnableRemoteCommand}"
+                    IsChecked="{Binding EnableRemoteCommand}" />
+                <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource WeComBotEnableRemoteCommandTip}" />
+            </StackPanel>
+
+            <Grid Margin="10,5" Visibility="{c:Binding EnableRemoteCommand, Source={x:Static settings_vms:WeComBotSettingsUserControlModel.Instance}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <controls:TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="0,0,10,0"
+                    VerticalAlignment="Center"
+                    Text="{DynamicResource WeComBotAllowedUserIds}" />
+                <TextBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="0,2"
+                    Text="{Binding AllowedUserIds, UpdateSourceTrigger=PropertyChanged}" />
+                <controls:TooltipBlock
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    TooltipText="{DynamicResource WeComBotAllowedUserIdsTip}" />
+
+            </Grid>
+
+            <StackPanel Margin="10,5" Orientation="Horizontal">
+                <CheckBox
+                    VerticalContentAlignment="Center"
+                    Content="{DynamicResource WeComBotEnableAiIntent}"
+                    IsChecked="{Binding EnableAiIntent}" />
+                <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource WeComBotEnableAiIntentTip}" />
+            </StackPanel>
+
+            <Grid Margin="10,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <controls:TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="0,0,10,0"
+                    VerticalAlignment="Center"
+                    Text="{DynamicResource WeComBotDeepSeekApiKey}" />
+                <TextBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="0,2"
+                    Text="{Binding DeepSeekApiKey, UpdateSourceTrigger=PropertyChanged}" />
+
+                <controls:TextBlock
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="0,0,10,0"
+                    VerticalAlignment="Center"
+                    Text="{DynamicResource WeComBotDeepSeekModel}" />
+                <TextBox
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="0,2"
+                    Text="{Binding DeepSeekModel, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+        </StackPanel>
+
+        <!--  账号轮换  -->
+        <StackPanel Grid.Row="4" Margin="0,5">
+            <StackPanel Margin="10,5" Orientation="Horizontal">
+                <CheckBox
+                    VerticalContentAlignment="Center"
+                    Content="{DynamicResource WeComBotRotateAccounts}"
+                    IsChecked="{Binding RotateAccounts}" />
+                <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource WeComBotRotateAccountsTip}" />
+            </StackPanel>
+
+            <Grid Margin="10,5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <controls:TextBlock
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="{DynamicResource WeComBotAccounts}" />
+                    <Button
+                        Margin="10,0,0,0"
+                        Command="{s:Action AddAccount}"
+                        Content="{DynamicResource WeComBotAccountAdd}"
+                        IsEnabled="{c:Binding 'Accounts.Count &lt; 10'}" />
+                </StackPanel>
+
+                <controls:TextBlock
+                    Grid.Row="1"
+                    Margin="0,4,0,0"
+                    HorizontalAlignment="Center"
+                    FontSize="11"
+                    Text="{DynamicResource WeComBotAccountColumnsTip}"
+                    TextWrapping="Wrap" />
+
+                <Grid Grid.Row="2" Margin="0,6,0,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <controls:TextBlock
+                        Grid.Column="0"
+                        Margin="2,0,8,0"
+                        FontSize="11"
+                        Text="{DynamicResource WeComBotAccountColumnEnable}" />
+                    <controls:TextBlock
+                        Grid.Column="1"
+                        FontSize="11"
+                        Text="{DynamicResource WeComBotAccountColumnName}" />
+                    <controls:TextBlock
+                        Grid.Column="2"
+                        FontSize="11"
+                        Text="{DynamicResource WeComBotAccountColumnConfiguration}" />
+                    <controls:TextBlock
+                        Grid.Column="3"
+                        FontSize="11"
+                        Text="{DynamicResource WeComBotAccountColumnStage}" />
+                </Grid>
+
+                <ItemsControl
+                    Grid.Row="3"
+                    Margin="0,5,0,0"
+                    ItemsSource="{Binding Accounts}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Margin="0,2"
+                                Padding="6"
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="4">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="150" />
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <CheckBox
+                                        Grid.Column="0"
+                                        Margin="0,0,8,0"
+                                        VerticalAlignment="Center"
+                                        IsChecked="{Binding Enable}"
+                                        ToolTip="{DynamicResource WeComBotAccountEnable}" />
+                                    <TextBox
+                                        Grid.Column="1"
+                                        Margin="0,0,4,0"
+                                        Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                                        ToolTip="{DynamicResource WeComBotAccountName}" />
+                                    <ComboBox
+                                        Grid.Column="2"
+                                        Margin="0,0,4,0"
+                                        ItemsSource="{Binding ConfigurationList, Source={x:Static helper:Instances.SettingsViewModel}}"
+                                        SelectedValue="{Binding Configuration}"
+                                        SelectedValuePath="Value"
+                                        ToolTip="{DynamicResource WeComBotAccountConfiguration}" />
+                                    <TextBox
+                                        Grid.Column="3"
+                                        Margin="0,0,4,0"
+                                        Text="{Binding Stage, UpdateSourceTrigger=PropertyChanged}"
+                                        ToolTip="{DynamicResource WeComBotAccountStage}" />
+                                    <Button
+                                        Grid.Column="4"
+                                        Padding="6,2"
+                                        Command="{s:Action EditAccount}"
+                                        CommandParameter="{Binding}"
+                                        Content="{DynamicResource WeComBotEdit}"
+                                        ToolTip="{DynamicResource WeComBotEditAccount}" />
+                                    <Button
+                                        Grid.Column="5"
+                                        Margin="4,0,0,0"
+                                        Padding="6,2"
+                                        Command="{s:Action RemoveAccount}"
+                                        CommandParameter="{Binding}"
+                                        Content="{DynamicResource Delete}"
+                                        ToolTip="{DynamicResource WeComBotAccountRemove}" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </StackPanel>
+
+        <!--  定时任务  -->
+        <StackPanel Grid.Row="5" Margin="0,5">
+            <StackPanel Margin="10,5" Orientation="Horizontal">
+                <CheckBox
+                    VerticalContentAlignment="Center"
+                    Content="{DynamicResource WeComBotEnableSchedule}"
+                    IsChecked="{Binding EnableSchedule}" />
+                <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource WeComBotEnableScheduleTip}" />
+            </StackPanel>
+
+            <Grid Margin="10,5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <controls:TextBlock
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="{DynamicResource WeComBotSchedule}" />
+                    <Button
+                        Margin="10,0,0,0"
+                        Command="{s:Action AddSchedule}"
+                        Content="{DynamicResource WeComBotScheduleAdd}" />
+                </StackPanel>
+
+                <ItemsControl
+                    Grid.Row="1"
+                    Margin="0,5,0,0"
+                    ItemsSource="{Binding Schedules}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Margin="4"
+                                Padding="6,2"
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="4">
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox
+                                        VerticalAlignment="Center"
+                                        IsChecked="{Binding Enable}"
+                                        ToolTip="{DynamicResource WeComBotAccountEnable}" />
+                                    <hc:NumericUpDown
+                                        Width="55"
+                                        Margin="6,0,0,0"
+                                        InputMethod.IsInputMethodEnabled="False"
+                                        Maximum="23"
+                                        Minimum="0"
+                                        ValueFormat="00"
+                                        Value="{Binding Hour}" />
+                                    <controls:TextBlock
+                                        Margin="2,0"
+                                        VerticalAlignment="Center"
+                                        Text=":" />
+                                    <hc:NumericUpDown
+                                        Width="55"
+                                        InputMethod.IsInputMethodEnabled="False"
+                                        Maximum="59"
+                                        Minimum="0"
+                                        ValueFormat="00"
+                                        Value="{Binding Minute}" />
+                                    <Button
+                                        Margin="6,0,0,0"
+                                        Padding="6,2"
+                                        Command="{s:Action RemoveSchedule}"
+                                        CommandParameter="{Binding}"
+                                        Content="{DynamicResource Delete}"
+                                        ToolTip="{DynamicResource WeComBotScheduleRemove}" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>

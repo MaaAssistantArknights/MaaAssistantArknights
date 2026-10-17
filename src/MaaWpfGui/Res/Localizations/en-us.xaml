@@ -2735,4 +2735,121 @@ These directories are not suitable places to keep MAA; files there can be easily
     <system:String x:Key="ExternalNotificationFilterPreviousLogs">Filter attached log content</system:String>
     <system:String x:Key="ExternalNotificationFilterPreviousLogsTip" xml:space="preserve">Removes logs matching the blacklist, then selects the most recent logs within the count and age limits.&#10;The current log is always kept.</system:String>
     <system:String x:Key="ExternalNotificationBlacklist">Blacklist (one regex per line)</system:String>
+
+    <!--  WeCom bot  -->
+    <system:String x:Key="WeComBotSettings">WeCom bot</system:String>
+    <system:String x:Key="WeComBotDescription">Push MAA task status to a chat and accept commands from it, using the WeCom smart bot long connection. Create a smart bot in the WeCom admin console first.</system:String>
+    <system:String x:Key="WeComBotEnable">Enable the WeCom bot</system:String>
+    <system:String x:Key="WeComBotEnableTip" xml:space="preserve">Fill in the bot ID and secret, then enable this to open the long connection; it reconnects automatically after a drop.&#10;The bot can only push proactively after you have messaged it once.</system:String>
+    <system:String x:Key="WeComBotBotId">Bot ID</system:String>
+    <system:String x:Key="WeComBotSecret">Bot secret</system:String>
+    <system:String x:Key="WeComBotWebSocketUrl">Long connection URL</system:String>
+    <system:String x:Key="WeComBotHeartbeatSeconds">Heartbeat interval (seconds)</system:String>
+    <system:String x:Key="WeComBotNotifyTaskStatus">Push task status</system:String>
+    <system:String x:Key="WeComBotNotifyTaskStatusTip">Send a message when a task starts, completes, fails, or stalls.</system:String>
+    <system:String x:Key="WeComBotChatId">Chat ID for push</system:String>
+    <system:String x:Key="WeComBotChatIdTip">Leave it empty; the bot remembers the chat of the first message it receives.</system:String>
+    <system:String x:Key="WeComBotChatType">Chat type</system:String>
+    <system:String x:Key="WeComBotChatTypeSingle">Direct message</system:String>
+    <system:String x:Key="WeComBotChatTypeGroup">Group chat</system:String>
+    <system:String x:Key="WeComBotSendTest">Send test message</system:String>
+    <system:String x:Key="WeComBotEnableRemoteCommand">Accept chat commands</system:String>
+    <system:String x:Key="WeComBotEnableRemoteCommandTip">Control MAA from the chat, for example ｢daily｣, ｢stop｣ or ｢status｣.</system:String>
+    <system:String x:Key="WeComBotAllowedUserIds">Allowed user IDs</system:String>
+    <system:String x:Key="WeComBotAllowedUserIdsTip">Separate multiple IDs with commas; leave empty for no restriction.</system:String>
+    <system:String x:Key="WeComBotEnableAiIntent">Understand natural language with an LLM</system:String>
+    <system:String x:Key="WeComBotEnableAiIntentTip">Complex or colloquial instructions are parsed into actions by DeepSeek.</system:String>
+    <system:String x:Key="WeComBotDeepSeekApiKey">DeepSeek API key</system:String>
+    <system:String x:Key="WeComBotDeepSeekModel">DeepSeek model</system:String>
+    <system:String x:Key="WeComBotRotateAccounts">Run every account in one daily run</system:String>
+    <system:String x:Key="WeComBotRotateAccountsTip">When enabled, each daily run switches through the list below and runs one round per account, then switches back to the original configuration.</system:String>
+    <system:String x:Key="WeComBotAccounts">Account rotation list</system:String>
+    <system:String x:Key="WeComBotAccountAdd">Add account</system:String>
+    <system:String x:Key="WeComBotAccountName">Account name used in the chat</system:String>
+    <system:String x:Key="WeComBotAccountConfiguration">Linked configuration profile</system:String>
+    <system:String x:Key="WeComBotAccountStage">Sanity stage; empty keeps the profile setting</system:String>
+    <system:String x:Key="WeComBotAccountEnable">Include in rotation</system:String>
+    <system:String x:Key="WeComBotAccountRemove">Remove this account</system:String>
+    <system:String x:Key="WeComBotConnected">Connected</system:String>
+    <system:String x:Key="WeComBotDisconnected">Disconnected</system:String>
+    <system:String x:Key="WeComBotTestMessage">Test message from MAA. If you received it, the bot is configured correctly.</system:String>
+    <system:String x:Key="WeComBotTestMessageSent">Test message sent</system:String>
+    <system:String x:Key="WeComBotTestMessageFailed">Failed to send the test message. Check the bot settings and chat ID.</system:String>
+    <system:String x:Key="WeComBotHelp" xml:space="preserve">**MAA bot commands**
+- daily / link start / start: run one daily clear
+- stop / end: stop the current task
+- status / progress: show the current progress
+- accounts: list the accounts
+- switch 主号, or just send an account name: switch the configuration
+- roguelike: run the auto roguelike task of the current profile
+- help: show this menu</system:String>
+    <system:String x:Key="WeComBotDailyStarted">🤖 Got it, starting the daily clear</system:String>
+    <system:String x:Key="WeComBotDailyAllAccounts">🧹 Got it, clearing {0} accounts one after another</system:String>
+    <system:String x:Key="WeComBotBusy">⏳ A task is already running. Stop it first or try again later.</system:String>
+    <system:String x:Key="WeComBotStopping">⏹ Got it, stopping the current task</system:String>
+    <system:String x:Key="WeComBotNothingRunning">No task is running right now</system:String>
+    <system:String x:Key="WeComBotRoguelikeStarted">🎲 Got it, starting the auto roguelike of the current profile</system:String>
+    <system:String x:Key="WeComBotRoguelikeMissing">The current profile has no auto roguelike task. Add one to the task queue first.</system:String>
+    <system:String x:Key="WeComBotAccountNotFound">Account ｢{0}｣ not found. Send ｢accounts｣ to see the list.</system:String>
+    <system:String x:Key="WeComBotAccountSwitched">✅ Switched to ｢{0}｣</system:String>
+    <system:String x:Key="WeComBotAccountListTitle">**Available accounts**</system:String>
+    <system:String x:Key="WeComBotAccountListEmpty">No account configured yet. Add them under ｢WeCom bot｣ in the settings.</system:String>
+    <system:String x:Key="WeComBotAccountListLine">- {0} (profile: {1}, sanity stage: {2}, {3})</system:String>
+    <system:String x:Key="WeComBotAccountListCurrent">Current profile: {0}</system:String>
+    <system:String x:Key="WeComBotAccountStageDefault">profile setting</system:String>
+    <system:String x:Key="WeComBotAccountEnabled">enabled</system:String>
+    <system:String x:Key="WeComBotAccountDisabled">paused</system:String>
+    <system:String x:Key="WeComBotStatus" xml:space="preserve">**Status**: {0}
+Profile: {1}
+Sanity stage: {2}</system:String>
+    <system:String x:Key="WeComBotStatusRunning">running</system:String>
+    <system:String x:Key="WeComBotStatusIdle">idle</system:String>
+    <system:String x:Key="WeComBotTaskStarted">▶️ Task started (profile: {0})</system:String>
+    <system:String x:Key="WeComBotTaskStopping">⏹ Stopping the task</system:String>
+    <system:String x:Key="WeComBotTaskFinished" xml:space="preserve">✅ Task finished (profile: {0})
+{1}
+{2}</system:String>
+    <system:String x:Key="WeComBotTaskError" xml:space="preserve">❌ Task failed (profile: {0})
+{1}
+{2}</system:String>
+    <system:String x:Key="WeComBotTaskStalled" xml:space="preserve">⚠️ Task stalled (profile: {0})
+{1}
+{2}</system:String>
+    <system:String x:Key="WeComBotPermissionDenied">⛔ You are not allowed to send commands</system:String>
+    <system:String x:Key="WeComBotAiReply">🤖 {0}</system:String>
+    <system:String x:Key="WeComBotAiUnavailable">AI parsing is unavailable: {0}</system:String>
+    <system:String x:Key="WeComBotAiContext">Accounts: {0}; current profile: {1}; status: {2}</system:String>
+    <system:String x:Key="WeComBotAiKeyMissing">DeepSeek API key is not configured</system:String>
+    <system:String x:Key="WeComBotAiEmptyResponse">The model returned no usable result</system:String>
+    <system:String x:Key="WeComBotTaskSettingsTitle">**Task settings** (current profile: {0})</system:String>
+    <system:String x:Key="WeComBotTaskSettingsLine">- [{0}] {1} ({2})</system:String>
+    <system:String x:Key="WeComBotTaskSettingsNotFound">Task ｢{0}｣ not found</system:String>
+    <system:String x:Key="WeComBotTaskSettingsEmptyPatch">No option to change was provided</system:String>
+    <system:String x:Key="WeComBotTaskSettingsApplied">✅ Task settings updated: {0}</system:String>
+    <system:String x:Key="WeComBotTaskSettingsUnknownKey">{0} has no option ｢{1}｣</system:String>
+    <system:String x:Key="WeComBotTaskSettingsInvalidValue">Invalid value ｢{1}｣ for option ｢{0}｣</system:String>
+    <system:String x:Key="WeComBotTaskSettingsNeedAi">(Enable ｢Understand natural language with an LLM｣ in the settings to change options.)</system:String>
+    <system:String x:Key="WeComBotChatIdMissing">No message received yet. Send the bot a message in WeCom first.</system:String>
+    <system:String x:Key="WeComBotNotConnected">The long connection is not ready yet. Try again in a few seconds.</system:String>
+    <system:String x:Key="WeComBotAccountColumnsTip">One account per row: tick to include it in the rotation, enter the name used in chat, choose the MAA profile, and optionally enter a sanity stage to override the profile.</system:String>
+    <system:String x:Key="WeComBotAccountColumnEnable">Rotation</system:String>
+    <system:String x:Key="WeComBotAccountColumnName">Name</system:String>
+    <system:String x:Key="WeComBotAccountColumnConfiguration">Profile</system:String>
+    <system:String x:Key="WeComBotAccountColumnStage">Sanity stage</system:String>
+    <system:String x:Key="WeComBotSchedule">Scheduled runs</system:String>
+    <system:String x:Key="WeComBotEnableSchedule">Enable scheduled daily runs from the bot</system:String>
+    <system:String x:Key="WeComBotEnableScheduleTip">Run a daily clear at the configured times; with account rotation enabled it clears every account in turn. Do not enable MAA's own scheduler at the same time.</system:String>
+    <system:String x:Key="WeComBotScheduleAdd">Add time</system:String>
+    <system:String x:Key="WeComBotScheduleRemove">Remove this time</system:String>
+    <system:String x:Key="WeComBotEditAccount">Edit daily clear</system:String>
+    <system:String x:Key="WeComBotAccountEditorTip">These options are saved in the profile linked to this account and take effect immediately. Other options are available in MAA's task settings or through chat.</system:String>
+    <system:String x:Key="WeComBotUseMedicine">Use sanity potions</system:String>
+    <system:String x:Key="WeComBotMedicineCount">Count</system:String>
+    <system:String x:Key="WeComBotEdit">Edit</system:String>
+    <system:String x:Key="WeComBotAccountSwitchEnabled">Enable account switching</system:String>
+    <system:String x:Key="WeComBotOpenFullSettings">Full settings</system:String>
+    <system:String x:Key="WeComBotDefaultAccountName">Account</system:String>
+    <system:String x:Key="WeComBotNoError">Errors: none</system:String>
+    <system:String x:Key="WeComBotErrorLog" xml:space="preserve">❌ Error ({0})
+{1}</system:String>
 </ResourceDictionary>

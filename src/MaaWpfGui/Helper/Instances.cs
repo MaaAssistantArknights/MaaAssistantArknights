@@ -19,7 +19,9 @@ using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.Services.RemoteControl;
+using MaaWpfGui.Services.TaskExecution;
 using MaaWpfGui.Services.Web;
+using MaaWpfGui.Services.WeComBot;
 using MaaWpfGui.ViewModels.Dialogs;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -98,6 +100,16 @@ public static class Instances
     // 别的地方有用到这个吗？
     public static RemoteControlService RemoteControlService { get; private set; }
 
+    public static TaskExecutionService TaskExecutionService { get; private set; }
+
+    public static TaskSettingsService TaskSettingsService { get; private set; }
+
+    public static DailyRotationService DailyRotationService { get; private set; }
+
+    public static WeComBotService WeComBotService { get; private set; }
+
+    public static WeComBotScheduleService WeComBotScheduleService { get; private set; }
+
     public static IMainWindowManager MainWindowManager { get; private set; }
 
     public static event EventHandler MainWindowManagerInstantiated;
@@ -128,6 +140,12 @@ public static class Instances
         CopilotViewModel = container.Get<CopilotViewModel>();
 
         RemoteControlService = container.Get<RemoteControlService>();
+
+        TaskExecutionService = container.Get<TaskExecutionService>();
+        TaskSettingsService = container.Get<TaskSettingsService>();
+        DailyRotationService = container.Get<DailyRotationService>();
+        WeComBotService = container.Get<WeComBotService>();
+        WeComBotScheduleService = container.Get<WeComBotScheduleService>();
 
         OverlayViewModel = container.Get<OverlayViewModel>();
 

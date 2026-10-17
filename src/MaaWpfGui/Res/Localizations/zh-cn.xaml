@@ -2745,4 +2745,121 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="ExternalNotificationFilterPreviousLogs">过滤附带日志内容</system:String>
     <system:String x:Key="ExternalNotificationFilterPreviousLogsTip" xml:space="preserve">先排除命中黑名单的日志，再按数量和有效时间选取最近的日志。&#10;当前日志始终保留。</system:String>
     <system:String x:Key="ExternalNotificationBlacklist">黑名单（每行一条，支持正则）</system:String>
+
+    <!--  企业微信机器人  -->
+    <system:String x:Key="WeComBotSettings">企业微信机器人</system:String>
+    <system:String x:Key="WeComBotDescription">通过企业微信智能机器人的长连接，把 MAA 的任务状态推送到聊天，并可以在聊天里下发指令。需要先在企业微信管理后台创建智能机器人。</system:String>
+    <system:String x:Key="WeComBotEnable">启用企业微信机器人</system:String>
+    <system:String x:Key="WeComBotEnableTip" xml:space="preserve">填写机器人 ID 与 Secret 并勾选后建立长连接，断线自动重连。&#10;机器人需要先收到过一条消息，之后才能主动推送。</system:String>
+    <system:String x:Key="WeComBotBotId">机器人 ID</system:String>
+    <system:String x:Key="WeComBotSecret">机器人 Secret</system:String>
+    <system:String x:Key="WeComBotWebSocketUrl">长连接地址</system:String>
+    <system:String x:Key="WeComBotHeartbeatSeconds">心跳间隔（秒）</system:String>
+    <system:String x:Key="WeComBotNotifyTaskStatus">推送任务状态</system:String>
+    <system:String x:Key="WeComBotNotifyTaskStatusTip">任务开始、完成、出错、停滞时各推送一条消息。</system:String>
+    <system:String x:Key="WeComBotChatId">推送会话 ID</system:String>
+    <system:String x:Key="WeComBotChatIdTip">留空即可，机器人会自动记住收到消息的会话。</system:String>
+    <system:String x:Key="WeComBotChatType">会话类型</system:String>
+    <system:String x:Key="WeComBotChatTypeSingle">单聊</system:String>
+    <system:String x:Key="WeComBotChatTypeGroup">群聊</system:String>
+    <system:String x:Key="WeComBotSendTest">发送测试消息</system:String>
+    <system:String x:Key="WeComBotEnableRemoteCommand">允许聊天指令</system:String>
+    <system:String x:Key="WeComBotEnableRemoteCommandTip">在聊天里发送指令控制 MAA，例如｢清日常｣｢停止｣｢状态｣。</system:String>
+    <system:String x:Key="WeComBotAllowedUserIds">允许的用户 ID</system:String>
+    <system:String x:Key="WeComBotAllowedUserIdsTip">多个 ID 用逗号分隔；留空表示不限制。</system:String>
+    <system:String x:Key="WeComBotEnableAiIntent">用大模型理解自然语言</system:String>
+    <system:String x:Key="WeComBotEnableAiIntentTip">复杂或口语化的指令交给 DeepSeek 解析成动作。</system:String>
+    <system:String x:Key="WeComBotDeepSeekApiKey">DeepSeek API Key</system:String>
+    <system:String x:Key="WeComBotDeepSeekModel">DeepSeek 模型</system:String>
+    <system:String x:Key="WeComBotRotateAccounts">一次清日常依次跑完所有账号</system:String>
+    <system:String x:Key="WeComBotRotateAccountsTip">勾选后，每次清日常按下面的列表逐个切换配置并各跑一轮，结束后切回原来的配置。</system:String>
+    <system:String x:Key="WeComBotAccounts">账号轮换列表</system:String>
+    <system:String x:Key="WeComBotAccountAdd">添加账号</system:String>
+    <system:String x:Key="WeComBotAccountName">聊天里使用的账号称呼</system:String>
+    <system:String x:Key="WeComBotAccountConfiguration">对应的配置档案</system:String>
+    <system:String x:Key="WeComBotAccountStage">理智作战关卡，留空沿用档案设置</system:String>
+    <system:String x:Key="WeComBotAccountEnable">参与轮换</system:String>
+    <system:String x:Key="WeComBotAccountRemove">删除该账号</system:String>
+    <system:String x:Key="WeComBotConnected">已连接</system:String>
+    <system:String x:Key="WeComBotDisconnected">未连接</system:String>
+    <system:String x:Key="WeComBotTestMessage">来自 MAA 的测试消息，收到说明机器人配置正常。</system:String>
+    <system:String x:Key="WeComBotTestMessageSent">测试消息已发送</system:String>
+    <system:String x:Key="WeComBotTestMessageFailed">测试消息发送失败，请检查机器人配置与会话 ID</system:String>
+    <system:String x:Key="WeComBotHelp" xml:space="preserve">**MAA 机器人指令**
+- 清日常 / 一键长草 / start：执行一次清日常
+- 停止 / 结束：停止当前任务
+- 状态 / 进度：查看当前进度
+- 账号：查看账号列表
+- 切换 主号 或直接发账号名：切换配置
+- 肉鸽：执行当前档案的自动肉鸽
+- 帮助：显示本菜单</system:String>
+    <system:String x:Key="WeComBotDailyStarted">🤖 收到，开始执行清日常</system:String>
+    <system:String x:Key="WeComBotDailyAllAccounts">🧹 收到，开始依次清理 {0} 个账号</system:String>
+    <system:String x:Key="WeComBotBusy">⏳ 当前有任务在跑，请先停止或稍后再试</system:String>
+    <system:String x:Key="WeComBotStopping">⏹ 收到，正在停止当前任务</system:String>
+    <system:String x:Key="WeComBotNothingRunning">当前没有任务在运行</system:String>
+    <system:String x:Key="WeComBotRoguelikeStarted">🎲 收到，开始执行当前档案的自动肉鸽</system:String>
+    <system:String x:Key="WeComBotRoguelikeMissing">当前档案里没有自动肉鸽任务，请先在任务队列里添加</system:String>
+    <system:String x:Key="WeComBotAccountNotFound">没找到账号｢{0}｣，发｢账号｣可以查看列表</system:String>
+    <system:String x:Key="WeComBotAccountSwitched">✅ 已切换到｢{0}｣</system:String>
+    <system:String x:Key="WeComBotAccountListTitle">**可用账号**</system:String>
+    <system:String x:Key="WeComBotAccountListEmpty">还没有配置账号，请到设置的｢企业微信机器人｣里添加</system:String>
+    <system:String x:Key="WeComBotAccountListLine">- {0}（档案：{1}，理智关卡：{2}，{3}）</system:String>
+    <system:String x:Key="WeComBotAccountListCurrent">当前档案：{0}</system:String>
+    <system:String x:Key="WeComBotAccountStageDefault">沿用档案设置</system:String>
+    <system:String x:Key="WeComBotAccountEnabled">已启用</system:String>
+    <system:String x:Key="WeComBotAccountDisabled">已暂停</system:String>
+    <system:String x:Key="WeComBotStatus" xml:space="preserve">**状态**：{0}
+档案：{1}
+理智关卡：{2}</system:String>
+    <system:String x:Key="WeComBotStatusRunning">任务运行中</system:String>
+    <system:String x:Key="WeComBotStatusIdle">空闲</system:String>
+    <system:String x:Key="WeComBotTaskStarted">▶️ 任务开始（档案：{0}）</system:String>
+    <system:String x:Key="WeComBotTaskStopping">⏹ 正在停止任务</system:String>
+    <system:String x:Key="WeComBotTaskFinished" xml:space="preserve">✅ 任务完成（档案：{0}）
+{1}
+{2}</system:String>
+    <system:String x:Key="WeComBotTaskError" xml:space="preserve">❌ 任务出错（档案：{0}）
+{1}
+{2}</system:String>
+    <system:String x:Key="WeComBotTaskStalled" xml:space="preserve">⚠️ 任务停滞（档案：{0}）
+{1}
+{2}</system:String>
+    <system:String x:Key="WeComBotPermissionDenied">⛔ 你没有权限下发指令</system:String>
+    <system:String x:Key="WeComBotAiReply">🤖 {0}</system:String>
+    <system:String x:Key="WeComBotAiUnavailable">AI 解析不可用：{0}</system:String>
+    <system:String x:Key="WeComBotAiContext">账号：{0}；当前档案：{1}；状态：{2}</system:String>
+    <system:String x:Key="WeComBotAiKeyMissing">未配置 DeepSeek API Key</system:String>
+    <system:String x:Key="WeComBotAiEmptyResponse">大模型没有返回可用结果</system:String>
+    <system:String x:Key="WeComBotTaskSettingsTitle">**任务设置**（当前档案：{0}）</system:String>
+    <system:String x:Key="WeComBotTaskSettingsLine">- [{0}] {1}（{2}）</system:String>
+    <system:String x:Key="WeComBotTaskSettingsNotFound">没有找到任务｢{0}｣</system:String>
+    <system:String x:Key="WeComBotTaskSettingsEmptyPatch">没有给出要修改的选项</system:String>
+    <system:String x:Key="WeComBotTaskSettingsApplied">✅ 已修改任务设置：{0}</system:String>
+    <system:String x:Key="WeComBotTaskSettingsUnknownKey">{0} 没有选项｢{1}｣</system:String>
+    <system:String x:Key="WeComBotTaskSettingsInvalidValue">选项｢{0}｣的值｢{1}｣不合法</system:String>
+    <system:String x:Key="WeComBotTaskSettingsNeedAi">（修改选项需要在设置里开启｢用大模型理解自然语言｣）</system:String>
+    <system:String x:Key="WeComBotChatIdMissing">还没有收到过消息，请先在微信里给机器人发一条消息</system:String>
+    <system:String x:Key="WeComBotNotConnected">长连接尚未就绪，请稍等几秒再试</system:String>
+    <system:String x:Key="WeComBotAccountColumnsTip">每行一个账号：勾选表示参与轮换，第二列填聊天里的称呼，第三列选择 MAA 配置档案，第四列填理智关卡（留空沿用档案设置）。</system:String>
+    <system:String x:Key="WeComBotAccountColumnEnable">轮换</system:String>
+    <system:String x:Key="WeComBotAccountColumnName">称呼</system:String>
+    <system:String x:Key="WeComBotAccountColumnConfiguration">配置档案</system:String>
+    <system:String x:Key="WeComBotAccountColumnStage">理智关卡</system:String>
+    <system:String x:Key="WeComBotSchedule">定时任务</system:String>
+    <system:String x:Key="WeComBotEnableSchedule">启用机器人定时清日常</system:String>
+    <system:String x:Key="WeComBotEnableScheduleTip">到点自动执行一次清日常，开启账号轮换时会依次跑完全部账号。请勿与 MAA 自带的｢定时执行｣在同一时间重复启用。</system:String>
+    <system:String x:Key="WeComBotScheduleAdd">添加时间</system:String>
+    <system:String x:Key="WeComBotScheduleRemove">删除该时间</system:String>
+    <system:String x:Key="WeComBotEditAccount">编辑一键长草</system:String>
+    <system:String x:Key="WeComBotAccountEditorTip">这些选项保存在该账号对应的配置档案里，点保存后立即生效；其余细项可在 MAA 任务设置或通过聊天修改。</system:String>
+    <system:String x:Key="WeComBotUseMedicine">使用理智药</system:String>
+    <system:String x:Key="WeComBotMedicineCount">数量</system:String>
+    <system:String x:Key="WeComBotEdit">编辑</system:String>
+    <system:String x:Key="WeComBotAccountSwitchEnabled">启用账号切换</system:String>
+    <system:String x:Key="WeComBotOpenFullSettings">完整设置</system:String>
+    <system:String x:Key="WeComBotDefaultAccountName">账号</system:String>
+    <system:String x:Key="WeComBotNoError">异常：无</system:String>
+    <system:String x:Key="WeComBotErrorLog" xml:space="preserve">❌ 错误（{0}）
+{1}</system:String>
 </ResourceDictionary>
