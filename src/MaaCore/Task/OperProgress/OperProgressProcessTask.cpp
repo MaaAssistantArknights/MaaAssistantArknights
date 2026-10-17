@@ -912,7 +912,7 @@ bool asst::OperProgressProcessTask::select_training_trainer(battle::Role role, i
     }
 
     // 导师评分沿用 InfrastScore::select_training,
-    // 职业匹配、通用加成与目标等级加成叠加,心情低于 16 的干员不参与。
+    // 职业匹配、通用加成与目标等级加成叠加,心情门槛按本次启动的专精等级区分（专一 8、专二 12、专三 16）。
     infrast::ScoreContext context;
     context.facility = "Training";
     context.training_role = role;

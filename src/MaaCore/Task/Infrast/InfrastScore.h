@@ -65,7 +65,7 @@ void append_abyssal_hunter_candidates(std::vector<ScoreOper>& opers, const Score
 
 ScoreResult select_best_opers(const std::vector<ScoreOper>& opers, const ScoreContext& context);
 
-// 训练室导师评分。心情低于 16 的干员不参与选择，除非调用方明确关闭心情限制。
+// 训练室导师评分。心情门槛按本次启动的专精等级区分：专一 8、专二 12、专三 16。
 double training_score(const ScoreOper& oper, battle::Role trainee_role, int target_level);
 ScoreResult select_training(const std::vector<ScoreOper>& opers, const ScoreContext& context);
 
