@@ -3441,7 +3441,7 @@ public class AsstProxy
         AsstSetConnectionExtras("MaaFw", linuxExtra.Config);
 
         // adbPath 参数会被 Wine Bridge 转换，传入空字符串会转出 NULL，最终导致段错误
-        bool ret = AsstConnect(_handle, "unused parameter", string.Empty, linuxExtra.TargetIsPC ? "PC" : "General");
+        bool ret = AsstConnect(_handle, "unused parameter", string.Empty, string.Empty);
         if (!ret)
         {
             // 等待回调完成以获取详细错误信息

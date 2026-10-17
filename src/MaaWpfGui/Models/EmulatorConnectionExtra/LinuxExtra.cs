@@ -128,6 +128,7 @@ public class LinuxExtra : ExtraConfig
         get {
             var config = new JObject {
                 ["control_unit"] = "MaaLinuxControlUnit",
+                ["target_is_pc"] = TargetIsPC,
                 ["screencap_method"] = (ulong)ScreencapMethod,
                 ["input_method"] = (ulong)InputMethod,
                 ["use_win32_vk_code"] = false,
