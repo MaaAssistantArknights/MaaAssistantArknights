@@ -2047,7 +2047,7 @@
         "action": "ClickRect",
         "specificRect": [85, 65, 30, 30],
         "postDelay": 800,
-        "next": ["MonthlyCard"]
+        "next": ["MonthlyCard@BundlesTab"]
     },
     "MonthlyCard": {
         "doc": "月卡链锚点（确认已进入采购中心，与 Mall 链一致）。节点名必须为裸 MonthlyCard：通用组件(ReturnButton/CloseAnno 等)的 next 展开会引用前缀裸名，MallBegin 即采用此模式",
