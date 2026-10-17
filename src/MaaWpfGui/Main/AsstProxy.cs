@@ -2024,16 +2024,21 @@ public class AsstProxy
                                 // OCR 文本形如“剩余：12天”，超过 40 天视为误识别（月卡上限 30 天）；0 天（到期当天）有效
                                 var ocrText = details!["details"]!["result"]?["text"]?.ToString() ?? string.Empty;
                                 var daysMatch = Regex.Match(ocrText, @"(\d+)\s*天");
-                                if (daysMatch.Success && int.TryParse(daysMatch.Groups[1].Value, out var daysLeft) && daysLeft is >= 0 and <= 40
-                                    && TaskQueueViewModel.MallTask.IsMonthlyCardRemindNeeded(daysLeft))
+                                if (daysMatch.Success && int.TryParse(daysMatch.Groups[1].Value, out var daysLeft) && daysLeft is >= 0 and <= 40)
                                 {
-                                    TaskQueueViewModel.MallTask.MarkMonthlyCardReminded();
+                                    // 无论是否触发提醒都记录读数，供 IsMonthlyCardCheckDue 按剩余天数跳过后续检查
+                                    TaskQueueViewModel.MallTask.MarkMonthlyCardChecked(daysLeft);
 
-                                    var title = LocalizationHelper.GetString("MonthlyCardExpiringTitle");
-                                    var content = LocalizationHelper.GetStringFormat("MonthlyCardExpiringContent", daysLeft);
-                                    Instances.NotificationService.Notify(NotificationSource.TaskQueue, new(NotificationKind.TaskComplete, title, content),
-                                        UiLogColor.Warning, display: () => Instances.TaskQueueViewModel.DisplayLog(content, UiLogColor.Warning, updateCardImage: true));
-                                    Instances.TaskQueueViewModel.AddLog(content, UiLogColor.Warning);
+                                    if (TaskQueueViewModel.MallTask.IsMonthlyCardRemindNeeded(daysLeft))
+                                    {
+                                        TaskQueueViewModel.MallTask.MarkMonthlyCardReminded();
+
+                                        var title = LocalizationHelper.GetString("MonthlyCardExpiringTitle");
+                                        var content = LocalizationHelper.GetStringFormat("MonthlyCardExpiringContent", daysLeft);
+                                        Instances.NotificationService.Notify(NotificationSource.TaskQueue, new(NotificationKind.TaskComplete, title, content),
+                                            UiLogColor.Warning, display: () => Instances.TaskQueueViewModel.DisplayLog(content, UiLogColor.Warning, updateCardImage: true));
+                                        Instances.TaskQueueViewModel.AddLog(content, UiLogColor.Warning);
+                                    }
                                 }
 
                                 break;
