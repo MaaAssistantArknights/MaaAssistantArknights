@@ -1,4 +1,4 @@
-## v6.20.0-beta.1
+## v6.20.0-beta.2
 
 ### Highlights
 
@@ -6,12 +6,28 @@
 
 新增基建新设施 ｢回收站｣ 的换班支持，常规模式按技能评分选择进驻干员；自定义基建排班可配置回收站与训练室，训练室分别指定训练位与协助者的候选干员；候选干员或编组不可用时房间保持原样，任务日志附原因提示。
 
+#### 黑流树海 DLC 初步适配
+
+难度选择新增 N16，分队选择新增团结阵线分队与踏足遍历分队两个新分队。
+
+#### 黑流树海完整刷等级模式
+
+黑流树海刷等级新增目标结局选项（现开放一结局），按所选结局推进；快速飞三层为独立勾选项（需满天赋机械师），勾选后临时以特勤分队、稳扎稳打与自己的机械师开局。
+
 <details>
 <summary><b>English</b></summary>
 
 #### Infrast Shift Support for the Training Room and the Recycling Station
 
-Adds shift support for the new facility "Recycling Station", where operators are selected by skill score in Normal Mode; the Custom Base Mode schedule can now configure the Recycling Station and the Training Room, specifying candidates for the training slot and the assistant separately; when candidates or groups are unavailable, the room is kept unchanged, with the reason shown in the task log.
+Add shift support for the new facility "Recycling Station", where operators are selected by skill score in Normal Mode; the Custom Base Mode schedule can now configure the Recycling Station and the Training Room, specifying candidates for the training slot and the assistant separately; when candidates or groups are unavailable, the room is kept unchanged, with the reason shown in the task log.
+
+#### Preliminary DLC Support for BlackFlow
+
+N16 difficulty is added to the difficulty list, and two new squads, 团结阵线分队 and 踏足遍历分队, are added to the squad list.
+
+#### Full Level-Farming Mode for BlackFlow
+
+A target ending can now be selected for BlackFlow level farming (the first ending for now), and the run pushes toward it; quick flight to Floor 3 remains available as a standalone checkbox (requires the maxed Mechanic talent), temporarily overriding the squad, roles and starting operator when checked.
 
 </details>
 
@@ -20,6 +36,41 @@ Adds shift support for the new facility "Recycling Station", where operators are
 以下是详细内容：
 
 <details open>
+<summary><b>v6.20.0-beta.2 (2026-10-17)</b></summary>
+
+### 新增 | New
+
+* 黑流树海初步适配肉鸽 DLC，难度选择新增 N16，分队选择新增团结阵线分队与踏足遍历分队两个新分队；险路尽头出现第四个选项时仍选择说服同伴 ([#18697](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18697)) @ZiyinLin
+* 黑流树海新增刷开局模式，先打准备局取得指定襁褓动物并抵达第三层，目标局开局命中期望奖励后不做选择、退出并保留这一局；第一只与第二只襁褓动物可分别指定（羽蛇至多一只），期望奖励与羽蛇奖励任意一项命中即停，奖励识别失败时停止任务并提示；原刷襁褓动物策略并入其中 ([#18696](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18696)) @ZiyinLin
+* 黑流树海刷等级新增目标结局选项（现开放一结局），不勾选快速飞三层时按所选结局推进；快速飞三层改为独立勾选项（需满天赋机械师），勾选时开局设置不能修改，任务临时以特勤分队、稳扎稳打与自己的机械师开局；狭路相逢暂时按普通事件处理 ([#18681](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18681)) @ZiyinLin @ABA2396
+
+### 改进 | Improved
+
+* 黑流树海任务日志不再附带路线决策原因与规则说明 ([#18680](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18680)) @ZiyinLin
+* 干员培养在训练室被占用且计划仅剩专精目标时跳过干员查找 @status102
+* YostarKR recognize the quick formation role filter All button also displayed as ALL, with OCR misread correction @HX3N
+* YostarEN add missing GALLUS to GALLUS² battle name OCR replacement @Constrat
+
+### 修复 | Fix
+
+* 修复刷理智战斗在代理倍率与战斗次数上限组合下提前结束时，错误触发战斗次数提示日志的问题 @status102
+* 修复自动提升潜能信物不足提示的识别，兼容提示换行显示 ([#18594](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18594)) @Craun718 @HX3N
+* 修复黑流树海选择支援页奖励识别范围未覆盖整排奖励卡片、边缘奖励漏识别的问题 ([#18682](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18682)) @ZiyinLin
+* 修复萨卡兹肉鸽设置开局干员后，点刺投资不直接放弃招募、仍按指定干员选招募券的问题 ([#18684](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18684)) @ZiyinLin
+* YostarJP fix in-battle name recognition for Pramanix when the name is misread by OCR ([#18683](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18683)) @Radekyspec
+
+### 文档 | Docs
+
+* 协议文档新增黑流树海刷开局回调 BlackFlowStartRun 的字段说明，补充集成接口模式 30003 及相关参数说明 ([#18696](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18696)) @ZiyinLin
+* 补齐协议文档 en-us/ja-jp/ko-kr 缺失的段落与字段说明，涉及回调协议、集成文档 Fight 字段与关卡清单、任务流程协议特殊任务类型一节 @ABA2396
+
+### 其他 | Other
+
+* GenericCombinedData 与 LocalizedObservableList 支持条目级悬浮提示并随语言热切换刷新，黑流树海刷开局的动物与奖励选项列表迁移至该组件 @ABA2396
+
+</details>
+
+<details>
 <summary><b>v6.20.0-beta.1 (2026-10-16)</b></summary>
 
 ### 新增 | New
