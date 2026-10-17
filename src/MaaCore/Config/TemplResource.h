@@ -21,6 +21,8 @@ public:
 
     const cv::Mat& get_templ(const std::string& name);
 
+    bool contains(const std::string& name) const noexcept { return m_templ_paths.contains(name); }
+
     uint64_t revision() const noexcept { return m_revision.load(std::memory_order_acquire); }
 
 private:
