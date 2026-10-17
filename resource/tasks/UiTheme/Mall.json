@@ -24,7 +24,8 @@
             "MallReconstruct",
             "MallHunting",
             "MallBlackFlow",
-            "MallAct"
+            "MallAct",
+            "MallFullMoon"
         ],
         "onErrorNext": ["Mall-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -103,5 +104,10 @@
     "MallAct": {
         "baseTask": "MallDefault",
         "template": "Act/Mall.png"
+    },
+    "MallFullMoon": {
+        "baseTask": "MallDefault",
+        "template": "FullMoon/Mall.png",
+        "roi": [775, 440, 170, 125]
     }
 }

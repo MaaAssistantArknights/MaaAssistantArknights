@@ -23,6 +23,7 @@
             "DepotLoneTrail",
             "DepotReconstruct",
             "DepotHunting",
+            "DepotFullMoon",
             "DepotBlackFlow",
             "DepotAct"
         ],
@@ -106,5 +107,10 @@
     "DepotAct": {
         "baseTask": "DepotDefault",
         "template": "Act/DepotEnter.png"
+    },
+    "DepotFullMoon": {
+        "baseTask": "DepotDefault",
+        "template": "FullMoon/DepotEnter.png",
+        "roi": [1110, 610, 150, 110]
     }
 }
