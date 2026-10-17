@@ -109,6 +109,10 @@ bool asst::FightTask::set_params(const json::value& params)
     std::string server = params.get("server", "CN");
     std::string client_type = params.get("client_type", std::string());
     bool is_dr_grandet = params.get("DrGrandet", false);
+    m_stage_navigation_task_ptr->set_activity_navigation(
+        params.get("navigate_to_activity", false),
+        client_type,
+        params.get("is_raid", false));
 
     if (auto opt = params.find<json::object>("drops")) {
         std::unordered_map<std::string, int> drops;

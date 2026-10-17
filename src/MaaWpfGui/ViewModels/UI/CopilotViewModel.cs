@@ -2289,6 +2289,7 @@ public partial class CopilotViewModel : Screen
 
             var task = new AsstCopilotTask() {
                 MultiTasks = [.. t],
+                ClientType = SettingsViewModel.GameSettings.ClientType,
                 Formation = Form,
                 SupportUnitUsage = UseSupportUnitUsage ? (int)SupportUnitUsage : 0,
                 AddTrust = AddTrust,

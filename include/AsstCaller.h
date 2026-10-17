@@ -134,6 +134,7 @@ extern "C"
     AsstSize ASSTAPI AsstGetNullSize();
 
     ASSTAPI_PORT const char* ASST_CALL AsstGetVersion();
+    int32_t ASSTAPI AsstGetActivityNavigationVersion();
     void ASSTAPI AsstLog(const char* level, const char* message);
 
 #ifdef __cplusplus

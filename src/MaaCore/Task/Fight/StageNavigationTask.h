@@ -15,6 +15,13 @@ public:
 
     bool set_stage_name(const std::string& stage_name);
 
+    void set_activity_navigation(bool enabled, std::string client, bool raid = false)
+    {
+        m_activity_navigation = enabled;
+        m_activity_client = std::move(client);
+        m_activity_raid = raid;
+    }
+
     void set_fight_task_ptr(std::shared_ptr<ProcessTask> fight_task_ptr) noexcept
     {
         m_fight_task_ptr = fight_task_ptr;
@@ -40,6 +47,10 @@ protected:
     static constexpr std::string_view AnnihilationSuffix = "Annihilation";
 
 private:
+    bool m_activity_navigation = false;
+    bool m_activity_raid = false;
+    std::string m_activity_client;
+    std::string m_activity_stage;
     bool try_last_battle();
     bool m_last_battle_checked = false;
 };

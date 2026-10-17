@@ -14,6 +14,8 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -36,6 +38,16 @@ public class AsstCopilotTask : AsstBaseTask
     /// Gets or sets 多作业列表, 导航至关卡 (启用自动战斗序列、取消代理), 不得与FileName同时使用
     /// </summary>
     public List<MultiTask> MultiTasks { get; set; } = [];
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 启用活动分区导航。
+    /// </summary>
+    public bool NavigateToActivity { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets 游戏渠道。
+    /// </summary>
+    public ClientType ClientType { get; set; } = ClientType.Official;
 
     /// <summary>
     /// Gets or sets a value indicating whether 自动编队
@@ -101,6 +113,8 @@ public class AsstCopilotTask : AsstBaseTask
         else if (MultiTasks.Count > 0)
         {
             taskParams["copilot_list"] = JArray.FromObject(MultiTasks);
+            taskParams["navigate_to_activity"] = NavigateToActivity;
+            taskParams["client_type"] = ClientType.ToCustomString();
         }
         else if (!string.IsNullOrEmpty(FileName))
         {

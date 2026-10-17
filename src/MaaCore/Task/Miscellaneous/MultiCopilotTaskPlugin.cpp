@@ -3,9 +3,12 @@
 #include <ranges>
 
 #include "Config/GeneralConfig.h"
+#include "Config/Miscellaneous/ActivityNavigationConfig.h"
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "Task/Fight/StageNavigationTask.h"
+#include "Task/Miscellaneous/ActivityNavigationTask.h"
 #include "Task/Miscellaneous/BattleFormationTask.h"
 #include "Task/Miscellaneous/BattleProcessTask.h"
 #include "Task/ProcessTask.h"
@@ -51,6 +54,20 @@ bool asst::MultiCopilotTaskPlugin::_run()
     info["details"]["file_name"] = std::move(file_name);
     info["details"]["id"] = config.id;
     callback(AsstMsg::SubTaskExtraInfo, info);
+
+    // Keep the accepted route identity even if a resource reload removes or changes it.
+    if (m_activity_navigation && config.activity_route) {
+        ActivityNavigationTask navigation(*this);
+        navigation.set_retry_times(0);
+        if (!navigation.set_target(stage_name, config.nav_name, config.is_raid, m_client, config.activity_route) ||
+            !navigation.run()) {
+            return false;
+        }
+    }
+
+    if (m_activity_navigation && config.stage_navigation && !config.stage_navigation->run()) {
+        return false;
+    }
 
     bool ret = true;
     for (int i = 0; i < m_max_retry; ++i) {

@@ -1,5 +1,6 @@
 #pragma once
 #include "Common/AsstBattleDef.h"
+#include "Config/Miscellaneous/ActivityNavigationPolicy.h"
 #include "Task/AbstractTask.h"
 
 #include <optional>
@@ -11,6 +12,7 @@ namespace asst
 {
 class BattleFormationTask;
 class BattleProcessTask;
+class StageNavigationTask;
 
 class MultiCopilotTaskPlugin : public AbstractTask
 {
@@ -19,7 +21,9 @@ public:
     {
         std::filesystem::path copilot_file; // 文件名
         std::string nav_name;               // 关卡名
-        bool is_raid = false;               // 是否是突袭
+        std::optional<activity_navigation::Route> activity_route;
+        std::shared_ptr<StageNavigationTask> stage_navigation;
+        bool is_raid = false; // 是否是突袭
         int id;
         std::shared_ptr<battle::copilot::OperUsageGroups> assigned_groups;
     };
@@ -30,11 +34,19 @@ public:
 
     void set_multi_copilot_config(std::vector<MultiCopilotConfig> config) { m_copilot_configs = std::move(config); }
 
+    void set_activity_navigation(bool enabled, std::string client)
+    {
+        m_activity_navigation = enabled;
+        m_client = std::move(client);
+    }
+
     void set_battle_task_ptr(const std::shared_ptr<BattleProcessTask>& ptr) { m_battle_task_ptr = ptr; }
 
     void set_formation_task_ptr(const std::shared_ptr<BattleFormationTask>& ptr) { m_formation_task_ptr = ptr; }
 
 private:
+    bool m_activity_navigation = false;
+    std::string m_client;
     virtual bool _run() override;
     bool navigate_to_stage(const std::string& stage_name);
     bool enter_stage(const Rect rect, const std::string& stage_name);

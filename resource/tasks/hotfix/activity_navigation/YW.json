@@ -1,0 +1,15 @@
+{
+    "YW-EX-OpenOcr": {
+        "baseTask": "YW-OpenOcr",
+        "next": ["YWChapterToYW-EX"]
+    },
+    "YWChapterToYW-EX": {
+        "algorithm": "OcrDetect",
+        "action": "ClickRect",
+        "text": ["我们的伊比利亚"],
+        "roi": [650, 350, 630, 370],
+        "specificRect": [1120, 400, 100, 100],
+        "postDelay": 2000,
+        "next": ["#self", "SideStoryStage", "ChapterSwipeToTheRight"]
+    }
+}

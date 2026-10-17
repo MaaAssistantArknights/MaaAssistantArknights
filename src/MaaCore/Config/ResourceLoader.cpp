@@ -7,6 +7,7 @@
 
 #include "GeneralConfig.h"
 #include "MaaUtils/Uuid.h"
+#include "Miscellaneous/ActivityNavigationConfig.h"
 #include "Miscellaneous/AvatarCacheManager.h"
 #include "Miscellaneous/BattleDataConfig.h"
 #include "Miscellaneous/CopilotConfig.h"
@@ -189,6 +190,12 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         !load_with_templ.template operator()<ItemConfig>("item_index.json"_p, "template"_p / "items"_p, "ItemConfig") ||
         !load_with_custom.template operator()<StageDropsConfig>("stages.json"_p, "StageDropsConfig") ||
         !load_with_custom.template operator()<TilePack>("Arknights-Tile-Pos"_p / "overview.json"_p, "TilePack")) {
+        return false;
+    }
+
+    // Optional for compatibility with older resource packages and user overlays.
+    if (std::filesystem::exists(path / "activity_navigation.json"_p) &&
+        !load_resource<ActivityNavigationConfig>(path / "activity_navigation.json"_p)) {
         return false;
     }
 

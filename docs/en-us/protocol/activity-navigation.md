@@ -1,0 +1,16 @@
+---
+order: 9
+icon: material-symbols:route
+---
+
+# Activity navigation
+
+Default navigation reuses tasks already loaded by the client. Tile-Pos IDs provide display codes: `YW-1` resolves to `YW-OpenOcr`, and `YW-EX-1` to `YW-EX-OpenOcr`. A shared task returns from a screen with a supported back path to Terminal, runs the existing OCR entry and chapter chain, and hands control back after recognizing the exact stage code. A missing EX entry reports `MissingTask` rather than entering the normal partition.
+
+Entry and chapter tasks use the existing MaaRelease `resource/tasks.json` update channel; MaaCore does not fetch the API. Publish a complete OCR task chain in the same JSON when adding an activity or partition, avoiding new screenshots that must arrive together with it. Terminal recovery uses existing core images. This feature does not extend template distribution or relax required-template validation. Existing template-based selection of individual stages is unchanged.
+
+`ActivityNavigation` enters the map containing the target stage without forming a squad or starting combat. It requires `stage_id`; `client_type` and `is_raid` are optional. Connect and log in first. `Copilot` lists and `Fight` opt in with `navigate_to_activity: true` (API default false; enabled for WPF lists). Copilot requires an explicit `client_type`; use a one-element list for a single job, as enabling it with `filename` is rejected. Main-story and resource stages already supported by navigation can also recover Terminal automatically. Unknown stages retain existing selection on the current map. Fight defaults `is_raid` to false and uses it for activity validation and difficulty selection after locating the stage.
+
+`resource/activity_navigation.json` is an optional user override. Schema 1 retains activity fields `id`, `name`, `enabled`, `clients`, `sources`, `routes`, and `stages`; routes provide `task` and timezone-qualified whole-second `opens_at` / `closes_at`, while stages provide `code`, `route`, and `modes` (normal / raid). Overrides take priority over discovery and validate opening-inclusive, closing-exclusive times, clients, and modes. Default OCR tasks have no such extra metadata; dates or client restrictions are not inferred from their names. Callers continue using the existing StageActivity API for activity times. A valid complete override replaces the previous one; empty `activities` clears overrides and restores discovery, while invalid data leaves them unchanged.
+
+Copilot retains accepted route values and stops if a route disappears or changes; identical reloads remain valid. A reader/writer lock protects user override queries and replacement. Callbacks are `ActivityNavigationStarted`, `ActivityNavigationCompleted`, and `ActivityNavigationFailed`. Preflight failures include `phase: Preflight` with `MissingTask`, `InvalidEntryTask`, or the user policy reasons `Closed`, `Disabled`, `WrongClient`, `StageCodeMismatch`, and `UnsupportedMode`; changed queued routes report `RouteChanged`. `AsstGetActivityNavigationVersion()` returns protocol 2 (including discovery from existing tasks); check symbol availability before calling it. Older cores can retain external Custom navigation.

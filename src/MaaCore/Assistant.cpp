@@ -12,6 +12,7 @@
 #include "Config/ResourceLoader.h"
 #include "Controller/Controller.h"
 #include "Status.h"
+#include "Task/Interface/ActivityNavigationInterfaceTask.h"
 #include "Task/Interface/AwardTask.h"
 #include "Task/Interface/CloseDownTask.h"
 #include "Task/Interface/CopilotTask.h"
@@ -329,6 +330,7 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(OperProgressTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(RecruitTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(RoguelikeTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(ActivityNavigationInterfaceTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CopilotTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(SSSCopilotTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(ParadoxCopilotTask)
