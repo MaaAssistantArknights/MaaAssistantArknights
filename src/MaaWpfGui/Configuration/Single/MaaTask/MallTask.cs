@@ -107,6 +107,42 @@ public class MallTask : BaseTask
     /// </summary>
     public string MonthlyCardLastRemindTime { get; set; } = DateTime.MinValue.ToFormattedString();
 
+    /// <summary>
+    /// Gets or sets 上次月卡检查的日期（鹰角日格式）
+    /// </summary>
+    public string MonthlyCardLastCheckDate { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets 上次月卡检查读到的剩余天数；-1 表示从未读到过
+    /// </summary>
+    public int MonthlyCardLastDaysLeft { get; set; } = -1;
+
+    /// <summary>
+    /// 今天是否需要执行月卡检查：距可能触发提醒尚有富余天数则跳过（月卡 30 天一周期，无需每天检查）
+    /// </summary>
+    /// <returns>需要检查返回 true；按上次读数判定尚未到重查日返回 false。</returns>
+    public bool IsMonthlyCardCheckDue()
+    {
+        if (MonthlyCardLastDaysLeft < 0)
+        {
+            return true; // 尚未读到过读数，先查一次建立基线
+        }
+
+        try
+        {
+            var last = DateTime.ParseExact(MonthlyCardLastCheckDate.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
+            var today = DateTime.UtcNow.ToYjDate();
+
+            // 读到 23 天、阈值 7 → 歇 15 天后重查（查到时恰剩 7 天，再留 1 天余量）；读数进入提醒窗口后钳为每天查
+            var nextCheck = last.AddDays(Math.Max(MonthlyCardLastDaysLeft - MonthlyCardRemindDays - 1, 0));
+            return today >= nextCheck;
+        }
+        catch
+        {
+            return true; // 调度状态损坏时退化为每天查
+        }
+    }
+
     public bool IsMonthlyCardRemindAvailable(int daysLeft)
     {
         if (daysLeft > MonthlyCardRemindDays)
