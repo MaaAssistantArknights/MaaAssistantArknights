@@ -14,7 +14,7 @@
 
 namespace asst
 {
-class LDExtras : public LibraryHolder<LDExtras>
+class LDExtras : public LibraryHolder
 {
 public:
     LDExtras() = default;
