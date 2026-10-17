@@ -2842,26 +2842,6 @@ public class AsstProxy
                     break;
                 }
 
-            case "FightTimes":
-                {
-                    FightSetting.FightReport = null;
-                    if ((subTaskDetails?.Children())?.Any() is true)
-                    {
-                        FightSetting.FightReport = subTaskDetails.ToObject<FightSetting.FightTimes>()!;
-                        if (FightSetting.FightReport.TimesFinished > 0)
-                        {
-                            AchievementTrackerHelper.Instance.SetProgress(AchievementIds.OverLimitAgent, FightSetting.FightReport.TimesFinished);
-                        }
-
-                        if (FightSetting.Instance.HasTimesLimited != false && FightSetting.FightReport.IsFinished && FightSetting.FightReport.TimesFinished < FightSetting.Instance.MaxTimes)
-                        {
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("FightTimesUnused", FightSetting.FightReport.TimesFinished, FightSetting.FightReport.Series, FightSetting.FightReport.TimesFinished + FightSetting.FightReport.Series, FightSetting.Instance.MaxTimes), UiLogColor.Warning);
-                        }
-                    }
-
-                    break;
-                }
-
             case "StageQueueUnableToAgent":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails!["stage_code"]} " + LocalizationHelper.GetString("UnableToAgent"), UiLogColor.Info);
                 break;
