@@ -167,15 +167,25 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                 foreach (var item in json)
                 {
                     var plan = ParsePlan(item as JObject);
-                    var oper = FindOper(plan.Role, plan.Name);
-                    if (plan.Role == OperatorRole.Unknown && oper is { } character)
+                    if (plan is null)
                     {
-                        plan = plan with { Role = oper.Role };
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("ParseFailed"), UiLogColor.Warning);
+                        continue;
                     }
+                    var oper = FindOper(plan.Role, plan.Name);
                     if (oper is null)
                     {
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ParseFailed") + $"\nunknown oper: {plan.Role}-{plan.Name}", UiLogColor.Error);
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("OperProgress.ParseUnknownOperator", plan.Role, plan.Name), UiLogColor.Error);
                         return;
+                    }
+                    if (plan.Role == OperatorRole.Unknown && oper is { } character)
+                    {
+                        plan = plan with { Role = character.Role };
+                    }
+                    if (plan.Elite is null && plan.MainSkillLevel is null && plan.SkillMastery is null)
+                    {
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("OperProgress.ParseNoTargetForOperator", plan.Role, plan.Name), UiLogColor.Warning);
+                        continue;
                     }
                     list.Add(new Plan(plan.Role, plan.Name, plan.Elite ?? 0, plan.MainSkillLevel ?? 0, plan.SkillMastery ?? SkillMastery.Of(0, 0, 0), false));
                 }
@@ -345,10 +355,10 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                     var callback = ParsePlan(msg.Details);
                     var task = GetConfigByTaskId<OperProgressTask>(msg.TaskId);
                     var list = task?.Plans.ToList();
-                    var plan = list?.FirstOrDefault(p => p.Role == callback.Role && p.Name == callback.Name) ?? task?.Plans.FirstOrDefault(p => p.Name == callback.Name);
+                    var plan = list?.FirstOrDefault(p => p.Role == callback?.Role && p.Name == callback?.Name) ?? task?.Plans.FirstOrDefault(p => p.Name == callback?.Name);
                     if (callback is null || task is null || list is null || plan is null)
                     {
-                        Instances.TaskQueueViewModel.AddLog("Could not find matching plan for OperProgressDetail", UiLogColor.Error);
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("OperProgress.PlanNotFound"), UiLogColor.Error);
                         break;
                     }
 
@@ -409,10 +419,25 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         }
     }
 
-    private static ProgressCallback ParsePlan(JObject? json)
+    private static ProgressCallback? ParsePlan(JObject? json)
     {
+        string id = json?["id"]?.ToString() ?? string.Empty;
         OperatorRole role = Enum.TryParse<OperatorRole>(json?.Value<string>("role") ?? string.Empty, out var parsedRole) ? parsedRole : OperatorRole.Unknown;
         string name = json?["name"]?.ToString() ?? string.Empty;
+        if (!string.IsNullOrEmpty(id))
+        {
+            if (json?.ContainsKey("name") == true)
+            {
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("OperProgress.PlanHasBothIdAndName"), UiLogColor.Error);
+                return null;
+            }
+            var oper = DataHelper.Operators.Values.FirstOrDefault(oper => oper.Id == id);
+            if (oper is not null)
+            {
+                role = oper.Role;
+                name = oper.Name ?? string.Empty;
+            }
+        }
         int? elite = json?.Value<int?>("elite");
         int? mainSkillLevel = json?.Value<int?>("skill_level");
         SkillMastery? skillMastery = null;
