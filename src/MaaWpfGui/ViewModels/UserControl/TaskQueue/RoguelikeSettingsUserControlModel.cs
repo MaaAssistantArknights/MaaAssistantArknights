@@ -1101,6 +1101,14 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, Roguelik
         RoguelikeTheme == Theme.BlackFlow && RoguelikeMode == Mode.BlackFlowStartRun && RoguelikeBlackFlowStartRunFastFlight;
 
     /// <summary>
+    /// Gets a value indicating whether the BlackFlow exp mode uses the fast flight start.
+    /// 生效时开始任务传参固定为特勤分队、稳扎稳打与机械师开局，界面常规设置置灰保留，取消勾选后照常生效。
+    /// </summary>
+    [PropertyDependsOn(nameof(RoguelikeTheme), nameof(RoguelikeMode), nameof(RoguelikeBlackFlowFastFlight))]
+    public bool RoguelikeBlackFlowExpFlightActive =>
+        RoguelikeTheme == Theme.BlackFlow && RoguelikeMode == Mode.Exp && RoguelikeBlackFlowFastFlight;
+
+    /// <summary>
     /// Gets or sets the preparation squad shown in the start-run settings.
     /// </summary>
     [PropertyDependsOn(nameof(RoguelikeTheme), nameof(RoguelikeMode), nameof(RoguelikeBlackFlowStartRunFastFlight), nameof(RoguelikeCollectibleModeSquad))]

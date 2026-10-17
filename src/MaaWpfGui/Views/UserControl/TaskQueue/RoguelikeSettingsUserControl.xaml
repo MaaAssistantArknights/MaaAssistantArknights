@@ -76,23 +76,33 @@
                 SelectedValuePath="Value"
                 Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Collectible',
                                        Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}" />
-            <hc:ComboBox
-                Margin="0,3"
-                hc:InfoElement.Title="{DynamicResource StartingSquad}"
-                DisplayMemberPath="Display"
-                IsHitTestVisible="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
-                ItemsSource="{Binding RoguelikeSquadList}"
-                MaxDropDownHeight="800"
-                SelectedValue="{Binding RoguelikeSquad}"
-                SelectedValuePath="Value" />
-            <hc:ComboBox
-                Margin="0,3"
-                hc:InfoElement.Title="{DynamicResource StartingRoles}"
-                DisplayMemberPath="Display"
-                IsHitTestVisible="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
-                ItemsSource="{Binding RoguelikeRolesList}"
-                SelectedValue="{Binding RoguelikeRoles}"
-                SelectedValuePath="Value" />
+            <StackPanel Margin="0,3">
+                <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                    <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource StartingSquad}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource RoguelikeBlackFlowFastFlightLockTip}" Visibility="{c:Binding RoguelikeBlackFlowExpFlightActive}" />
+                </StackPanel>
+                <hc:ComboBox
+                    DisplayMemberPath="Display"
+                    IsEnabled="{c:Binding '!RoguelikeBlackFlowExpFlightActive'}"
+                    IsHitTestVisible="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                    ItemsSource="{Binding RoguelikeSquadList}"
+                    MaxDropDownHeight="800"
+                    SelectedValue="{Binding RoguelikeSquad}"
+                    SelectedValuePath="Value" />
+            </StackPanel>
+            <StackPanel Margin="0,3">
+                <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                    <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource StartingRoles}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource RoguelikeBlackFlowFastFlightLockTip}" Visibility="{c:Binding RoguelikeBlackFlowExpFlightActive}" />
+                </StackPanel>
+                <hc:ComboBox
+                    DisplayMemberPath="Display"
+                    IsEnabled="{c:Binding '!RoguelikeBlackFlowExpFlightActive'}"
+                    IsHitTestVisible="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                    ItemsSource="{Binding RoguelikeRolesList}"
+                    SelectedValue="{Binding RoguelikeRoles}"
+                    SelectedValuePath="Value" />
+            </StackPanel>
             <hc:ComboBox
                 Margin="0,3"
                 d:Visibility="Visible"
@@ -104,16 +114,18 @@
                 SelectedValuePath="Value"
                 Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.FindPlaytime and RoguelikeTheme == task:RoguelikeTheme.JieGarden',
                                        Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}" />
-            <StackPanel Margin="0,3">
+            <StackPanel Margin="0,3" IsEnabled="{c:Binding '!RoguelikeBlackFlowExpFlightActive'}">
                 <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
                     <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource StartingCoreChar}" />
-                    <controls:TooltipBlock TooltipText="{Binding StartingCoreCharTip}" />
+                    <controls:TooltipBlock TooltipText="{Binding StartingCoreCharTip}" Visibility="{c:Binding '!RoguelikeBlackFlowExpFlightActive'}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource RoguelikeBlackFlowFastFlightLockTip}" Visibility="{c:Binding RoguelikeBlackFlowExpFlightActive}" />
                     <controls:TextBlock
                         MaxWidth="100"
                         Margin="4,0,0,0"
                         Foreground="{DynamicResource InfoBrush}"
                         Text="{DynamicResource RoguelikeThemeTipRecommended}"
-                        TextWrapping="Wrap" />
+                        TextWrapping="Wrap"
+                        Visibility="{c:Binding '!RoguelikeBlackFlowExpFlightActive'}" />
                 </StackPanel>
                 <Grid>
                     <hc:ComboBox
@@ -150,78 +162,86 @@
                         Source="{Binding RoguelikeCoreChar, Converter={StaticResource OperAvatarConverter}}" />
                 </Grid>
             </StackPanel>
-            <Grid Visibility="{c:Binding RoguelikeEnableAdditionalCoreChars}">
-                <hc:ComboBox
-                    Name="StartingCoreChar2ComboBox"
-                    Margin="0,3"
-                    Padding="28,5,10,5"
-                    hc:InfoElement.Title="{DynamicResource StartingCoreChar2}"
-                    DropDownClosed="CoreCharComboBox_DropDownClosed"
-                    IsEditable="True"
-                    IsEnabled="{c:Binding 'RoguelikeCoreChar != &quot;&quot;'}"
-                    IsTextSearchEnabled="False"
-                    ItemsSource="{Binding RoguelikeCoreCharList}"
-                    Loaded="{s:Action MakeComboBoxSearchable,
-                                      Target={x:Type ui_vms:SettingsViewModel}}">
-                    <hc:ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <ContentControl Content="{Binding Converter={StaticResource OperNameBadgeConverter}}" />
-                        </DataTemplate>
-                    </hc:ComboBox.ItemTemplate>
-                    <hc:ComboBox.Text>
-                        <Binding Path="RoguelikeCoreChar2" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <local:StartingCoreCharRule />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </hc:ComboBox.Text>
-                </hc:ComboBox>
-                <!--  选中干员头像：IsEditable ComboBox 收起态显示区是纯文本 TextBox 无法内嵌图片，以不命中浮层贴在框内左侧，ComboBox 用 Padding 为其让出文本起点  -->
-                <Image
-                    Width="16"
-                    Height="16"
-                    Margin="6,20,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    IsHitTestVisible="False"
-                    Source="{Binding RoguelikeCoreChar2, Converter={StaticResource OperAvatarConverter}}" />
-            </Grid>
-            <Grid Visibility="{c:Binding RoguelikeEnableAdditionalCoreChars}">
-                <hc:ComboBox
-                    Name="StartingCoreChar3ComboBox"
-                    Margin="0,3"
-                    Padding="28,5,10,5"
-                    hc:InfoElement.Title="{DynamicResource StartingCoreChar3}"
-                    DropDownClosed="CoreCharComboBox_DropDownClosed"
-                    IsEditable="True"
-                    IsEnabled="{c:Binding 'RoguelikeCoreChar != &quot;&quot; and RoguelikeCoreChar2 != &quot;&quot;'}"
-                    IsTextSearchEnabled="False"
-                    ItemsSource="{Binding RoguelikeCoreCharList}"
-                    Loaded="{s:Action MakeComboBoxSearchable,
-                                      Target={x:Type ui_vms:SettingsViewModel}}">
-                    <hc:ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <ContentControl Content="{Binding Converter={StaticResource OperNameBadgeConverter}}" />
-                        </DataTemplate>
-                    </hc:ComboBox.ItemTemplate>
-                    <hc:ComboBox.Text>
-                        <Binding Path="RoguelikeCoreChar3" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <local:StartingCoreCharRule />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </hc:ComboBox.Text>
-                </hc:ComboBox>
-                <!--  选中干员头像：IsEditable ComboBox 收起态显示区是纯文本 TextBox 无法内嵌图片，以不命中浮层贴在框内左侧，ComboBox 用 Padding 为其让出文本起点  -->
-                <Image
-                    Width="16"
-                    Height="16"
-                    Margin="6,20,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    IsHitTestVisible="False"
-                    Source="{Binding RoguelikeCoreChar3, Converter={StaticResource OperAvatarConverter}}" />
-            </Grid>
+            <StackPanel Margin="0,3" Visibility="{c:Binding RoguelikeEnableAdditionalCoreChars}">
+                <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                    <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource StartingCoreChar2}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource RoguelikeBlackFlowFastFlightLockTip}" Visibility="{c:Binding RoguelikeBlackFlowExpFlightActive}" />
+                </StackPanel>
+                <Grid IsEnabled="{c:Binding '!RoguelikeBlackFlowExpFlightActive'}">
+                    <hc:ComboBox
+                        Name="StartingCoreChar2ComboBox"
+                        Padding="28,5,10,5"
+                        DropDownClosed="CoreCharComboBox_DropDownClosed"
+                        IsEditable="True"
+                        IsEnabled="{c:Binding 'RoguelikeCoreChar != &quot;&quot;'}"
+                        IsTextSearchEnabled="False"
+                        ItemsSource="{Binding RoguelikeCoreCharList}"
+                        Loaded="{s:Action MakeComboBoxSearchable,
+                                          Target={x:Type ui_vms:SettingsViewModel}}">
+                        <hc:ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <ContentControl Content="{Binding Converter={StaticResource OperNameBadgeConverter}}" />
+                            </DataTemplate>
+                        </hc:ComboBox.ItemTemplate>
+                        <hc:ComboBox.Text>
+                            <Binding Path="RoguelikeCoreChar2" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <local:StartingCoreCharRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </hc:ComboBox.Text>
+                    </hc:ComboBox>
+                    <!--  选中干员头像：IsEditable ComboBox 收起态显示区是纯文本 TextBox 无法内嵌图片，以不命中浮层贴在框内左侧，ComboBox 用 Padding 为其让出文本起点  -->
+                    <Image
+                        Width="16"
+                        Height="16"
+                        Margin="6,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        IsHitTestVisible="False"
+                        Source="{Binding RoguelikeCoreChar2, Converter={StaticResource OperAvatarConverter}}" />
+                </Grid>
+            </StackPanel>
+            <StackPanel Margin="0,3" Visibility="{c:Binding RoguelikeEnableAdditionalCoreChars}">
+                <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                    <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource StartingCoreChar3}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource RoguelikeBlackFlowFastFlightLockTip}" Visibility="{c:Binding RoguelikeBlackFlowExpFlightActive}" />
+                </StackPanel>
+                <Grid IsEnabled="{c:Binding '!RoguelikeBlackFlowExpFlightActive'}">
+                    <hc:ComboBox
+                        Name="StartingCoreChar3ComboBox"
+                        Padding="28,5,10,5"
+                        DropDownClosed="CoreCharComboBox_DropDownClosed"
+                        IsEditable="True"
+                        IsEnabled="{c:Binding 'RoguelikeCoreChar != &quot;&quot; and RoguelikeCoreChar2 != &quot;&quot;'}"
+                        IsTextSearchEnabled="False"
+                        ItemsSource="{Binding RoguelikeCoreCharList}"
+                        Loaded="{s:Action MakeComboBoxSearchable,
+                                          Target={x:Type ui_vms:SettingsViewModel}}">
+                        <hc:ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <ContentControl Content="{Binding Converter={StaticResource OperNameBadgeConverter}}" />
+                            </DataTemplate>
+                        </hc:ComboBox.ItemTemplate>
+                        <hc:ComboBox.Text>
+                            <Binding Path="RoguelikeCoreChar3" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <local:StartingCoreCharRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </hc:ComboBox.Text>
+                    </hc:ComboBox>
+                    <!--  选中干员头像：IsEditable ComboBox 收起态显示区是纯文本 TextBox 无法内嵌图片，以不命中浮层贴在框内左侧，ComboBox 用 Padding 为其让出文本起点  -->
+                    <Image
+                        Width="16"
+                        Height="16"
+                        Margin="6,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        IsHitTestVisible="False"
+                        Source="{Binding RoguelikeCoreChar3, Converter={StaticResource OperAvatarConverter}}" />
+                </Grid>
+            </StackPanel>
         </StackPanel>
 
         <StackPanel
@@ -645,7 +665,8 @@
                         d:Visibility="Visible"
                         Foreground="{DynamicResource InfoBrush}"
                         Text="{DynamicResource RoguelikeBlackFlowSerpentRewardsInactive}"
-                        Visibility="{c:Binding '!RoguelikeBlackFlowHasSerpent', Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}" />
+                        Visibility="{c:Binding '!RoguelikeBlackFlowHasSerpent',
+                                               Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}" />
                 </StackPanel>
                 <hc:CheckComboBox
                     hc:ListBoxAttach.SelectedItems="{Binding RoguelikeBlackFlowSerpentRewardSelectList}"

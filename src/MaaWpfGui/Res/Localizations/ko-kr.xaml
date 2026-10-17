@@ -267,7 +267,8 @@
     <system:String x:Key="RoguelikeStrategyBlackFlowStartRun">시작 보상 반복, 목표 달성 시 종료하고 이번 탐험 유지</system:String>
     <system:String x:Key="RoguelikeBlackFlowFlightRequirement">재능을 모두 해금한 메커니스트 필요</system:String>
     <system:String x:Key="RoguelikeBlackFlowFastFlight">3구역으로 빠르게 비행</system:String>
-    <system:String x:Key="RoguelikeBlackFlowFlightTip" xml:space="preserve">항상 특근 분대, 차근차근, 본인의 메커니스트로 시작하며 메커니스트만 모집하고, 2구역에서 기본 지참한 구조적 원리로 3구역까지 바로 비행한 뒤 도착하면 재시작합니다.&#10;일반 설정의 분대, 직업 그룹, 시작 오퍼레이터는 작업 시작 시에만 대체되며 설정 자체는 바뀌지 않습니다. 체크하지 않으면 목표 엔딩을 향해 진행하며, 시작 구성이 이 조합이어도 비행하지 않습니다.&#10;메커니스트의 재능을 모두 해금하지 않으면 비행할 수 없으니 체크하지 마세요.</system:String>
+    <system:String x:Key="RoguelikeBlackFlowFlightTip" xml:space="preserve">항상 특근 분대, 차근차근, 본인의 메커니스트로 시작하며 메커니스트만 모집하고, 2구역에서 기본 지참한 구조적 원리로 3구역까지 바로 비행한 뒤 도착하면 재시작합니다.&#10;체크하는 동안 일반 설정의 분대, 직업 그룹, 시작 오퍼레이터는 변경할 수 없으며 체크를 해제하면 다시 수정할 수 있습니다. 체크하지 않으면 목표 엔딩을 향해 진행하며, 시작 구성이 이 조합이어도 비행하지 않습니다.&#10;메커니스트의 재능을 모두 해금하지 않으면 비행할 수 없으니 체크하지 마세요.</system:String>
+    <system:String x:Key="RoguelikeBlackFlowFastFlightLockTip">｢{key=RoguelikeBlackFlowFastFlight}｣ 을 선택한 동안에는 변경할 수 없으며, 선택을 해제하면 수정할 수 있습니다</system:String>
     <system:String x:Key="RoguelikeBlackFlowEndingFlightTip">엔딩을 선택하려면 ｢{key=RoguelikeBlackFlowFastFlight}｣ 체크를 해제해야 합니다</system:String>
     <system:String x:Key="RoguelikeBlackFlowEnding">목표 엔딩</system:String>
     <system:String x:Key="RoguelikeBlackFlowEnding1">제1 엔딩 · 강제 재시작 (强制重启)</system:String>

@@ -267,7 +267,8 @@
     <system:String x:Key="RoguelikeStrategyBlackFlowStartRun">刷開局，刷到目標後退出並保留這一局</system:String>
     <system:String x:Key="RoguelikeBlackFlowFlightRequirement">需滿天賦機械師</system:String>
     <system:String x:Key="RoguelikeBlackFlowFastFlight">快速飛往第三層</system:String>
-    <system:String x:Key="RoguelikeBlackFlowFlightTip" xml:space="preserve">固定用特勤分隊、穩紮穩打和自己的機械師開局，只招機械師，第二層用自帶的結構性原理直接飛到第三層，到達後重開。&#10;一般設定裡的分隊、職業組和開局幹員只在開始任務時替換，設定本身不變。不勾選時按目標結局打，開局配置是這套組合也不會飛。&#10;機械師天賦沒點滿會飛不起來，請不要勾選。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowFlightTip" xml:space="preserve">固定用特勤分隊、穩紮穩打和自己的機械師開局，只招機械師，第二層用自帶的結構性原理直接飛到第三層，到達後重開。&#10;勾選後一般設定裡的分隊、職業組和開局幹員不能修改，取消勾選後恢復。不勾選時按目標結局打，開局配置是這套組合也不會飛。&#10;機械師天賦沒點滿會飛不起來，請不要勾選。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowFastFlightLockTip">勾選 ｢{key=RoguelikeBlackFlowFastFlight}｣ 後此項不能修改，取消勾選後恢復</system:String>
     <system:String x:Key="RoguelikeBlackFlowEndingFlightTip">只有取消勾選 ｢{key=RoguelikeBlackFlowFastFlight}｣ 才能選擇結局</system:String>
     <system:String x:Key="RoguelikeBlackFlowEnding">目標結局</system:String>
     <system:String x:Key="RoguelikeBlackFlowEnding1">一結局 · 強制重啟</system:String>

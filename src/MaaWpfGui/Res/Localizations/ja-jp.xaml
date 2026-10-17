@@ -267,7 +267,8 @@
     <system:String x:Key="RoguelikeStrategyBlackFlowStartRun">初期報酬リセマラ、目標を引いたら退出してこの探索を保持</system:String>
     <system:String x:Key="RoguelikeBlackFlowFlightRequirement">素質を全解放した機械師が必要</system:String>
     <system:String x:Key="RoguelikeBlackFlowFastFlight">第3層まで素早く飛ぶ</system:String>
-    <system:String x:Key="RoguelikeBlackFlowFlightTip" xml:space="preserve">常に特別行動分隊・攻守一体・自分の機械師で開局し、機械師のみを招集して、第2層で初期所持の構造性原理を使い第3層へ直接飛び、到達後にリスタートします。&#10;一般設定の分隊・職業・最初のオペレーターはタスク開始時のみ置き換えられ、設定自体は変わりません。チェックを外すと目標エンディングに向けて進行し、開局構成がこの組み合わせでも飛びません。&#10;機械師の素質を全解放していないと飛べないため、チェックしないでください。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowFlightTip" xml:space="preserve">常に特別行動分隊・攻守一体・自分の機械師で開局し、機械師のみを招集して、第2層で初期所持の構造性原理を使い第3層へ直接飛び、到達後にリスタートします。&#10;チェック中は一般設定の分隊・職業・最初のオペレーターは変更できません。チェックを外すと編集でき、目標エンディングに向けて進行します。開局構成がこの組み合わせでも飛びません。&#10;機械師の素質を全解放していないと飛べないため、チェックしないでください。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowFastFlightLockTip">｢{key=RoguelikeBlackFlowFastFlight}｣ にチェックを入れている間はこの項目は変更できません。チェックを外すと編集できます</system:String>
     <system:String x:Key="RoguelikeBlackFlowEndingFlightTip">エンディングは ｢{key=RoguelikeBlackFlowFastFlight}｣ のチェックを外した場合のみ選択できます</system:String>
     <system:String x:Key="RoguelikeBlackFlowEnding">目標エンディング</system:String>
     <system:String x:Key="RoguelikeBlackFlowEnding1">第一エンディング · 強制再起動（仮）</system:String>
