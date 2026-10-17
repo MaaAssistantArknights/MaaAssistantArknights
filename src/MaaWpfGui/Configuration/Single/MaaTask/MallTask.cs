@@ -97,10 +97,16 @@ public class MallTask : BaseTask
     /// </summary>
     public bool MonthlyCard { get; set; }
 
+    private int _monthlyCardRemindDays = 7;
+
     /// <summary>
-    /// Gets or sets 月卡剩余天数不高于该值时提醒
+    /// Gets or sets 月卡剩余天数不高于该值时提醒。反序列化到手改配置里的越界值（0/负数/超大）时回落到默认 7，避免提醒永不触发或每次运行都触发
     /// </summary>
-    public int MonthlyCardRemindDays { get; set; } = 7;
+    public int MonthlyCardRemindDays
+    {
+        get => _monthlyCardRemindDays;
+        set => _monthlyCardRemindDays = value is >= 1 and <= 30 ? value : 7;
+    }
 
     /// <summary>
     /// Gets or sets 上次月卡到期提醒的时间（同一天不重复提醒）
