@@ -18,11 +18,14 @@
     },
     "BlackFlow@StartExplore@Roguelike@RecruitWithoutButton": {},
     "BlackFlow@Roguelike@Abandon": {
-        "template": "BlackFlow@Roguelike@Abandon.png"
+        "template": "BlackFlow@Roguelike@Abandon.png",
+        "maxTimes": 5,
+        "exceededNext": ["BlackFlow@Roguelike@RecoveryFailed"]
     },
     "BlackFlow@Roguelike@AbandonConfirm": {
         "template": "BlackFlow@Roguelike@AbandonConfirm.png",
         "reduceOtherTimes": [
+            "BlackFlow@Roguelike@Abandon*5",
             "BlackFlow@Roguelike@MapPrepare-ZoomOut*3",
             "BlackFlow@Roguelike@MovePreviewConfirm*4",
             "BlackFlow@Roguelike@MovePreviewWait*3",
