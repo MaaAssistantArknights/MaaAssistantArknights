@@ -2026,18 +2026,23 @@ public class AsstProxy
                                 var daysMatch = Regex.Match(ocrText, @"(\d+)\s*天");
                                 if (daysMatch.Success && int.TryParse(daysMatch.Groups[1].Value, out var daysLeft) && daysLeft is >= 0 and <= 40)
                                 {
-                                    // 无论是否触发提醒都记录读数，供 IsMonthlyCardCheckDue 按剩余天数跳过后续检查
-                                    TaskQueueViewModel.MallTask.MarkMonthlyCardChecked(daysLeft);
-
-                                    if (TaskQueueViewModel.MallTask.IsMonthlyCardRemindNeeded(daysLeft))
+                                    // 无论是否触发提醒都记录读数，供 IsMonthlyCardCheckDue 按剩余天数跳过后续检查。
+                                    // 须按 taskid 取本配置的真实 MallTask 直接赋值：SetTaskConfig 绑定 UI 当前选中的设置页，回调线程下会写错目标
+                                    var index = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains((int)details!["taskid"]!))?.Index ?? -1;
+                                    if (index >= 0 && index < ConfigFactory.CurrentConfig.TaskQueue.Count && ConfigFactory.CurrentConfig.TaskQueue[index] is MallTask mall)
                                     {
-                                        TaskQueueViewModel.MallTask.MarkMonthlyCardReminded();
+                                        mall.MonthlyCardLastDaysLeft = daysLeft;
+                                        mall.MonthlyCardLastCheckDate = DateTime.UtcNow.ToYjDate().ToFormattedString();
 
-                                        var title = LocalizationHelper.GetString("MonthlyCardExpiringTitle");
-                                        var content = LocalizationHelper.GetStringFormat("MonthlyCardExpiringContent", daysLeft);
-                                        Instances.NotificationService.Notify(NotificationSource.TaskQueue, new(NotificationKind.TaskComplete, title, content),
-                                            UiLogColor.Warning, display: () => Instances.TaskQueueViewModel.DisplayLog(content, UiLogColor.Warning, updateCardImage: true));
-                                        Instances.TaskQueueViewModel.AddLog(content, UiLogColor.Warning);
+                                        if (mall.IsMonthlyCardRemindAvailable(daysLeft))
+                                        {
+                                            mall.MonthlyCardLastRemindTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
+                                            var title = LocalizationHelper.GetString("MonthlyCardExpiringTitle");
+                                            var content = LocalizationHelper.GetStringFormat("MonthlyCardExpiringContent", daysLeft);
+                                            Instances.NotificationService.Notify(NotificationSource.TaskQueue, new(NotificationKind.TaskComplete, title, content),
+                                                UiLogColor.Warning, display: () => Instances.TaskQueueViewModel.DisplayLog(content, UiLogColor.Warning, updateCardImage: true));
+                                            Instances.TaskQueueViewModel.AddLog(content, UiLogColor.Warning);
+                                        }
                                     }
                                 }
 
