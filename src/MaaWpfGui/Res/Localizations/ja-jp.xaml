@@ -1960,6 +1960,12 @@ C:\leidian\LDPlayer9
 6. ゲーム解像度は 16:9 である必要があります。推奨設定：1280x720 または 1920x1080</system:String>
     <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. マウス入力方式には PostMsg-WindowPos の使用を推奨します。この方式により、PC クライアントでの認識エラーやフリーズの問題を大幅に軽減できます</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">スクリーンキャプチャ方式</system:String>
+    <system:String x:Key="AutoResizeWin32Window">ゲームウィンドウを 16:9 に自動調整</system:String>
+    <system:String x:Key="AutoResizeWin32WindowTip">接続時のキャプチャ画像が 16:9 でない場合、通常のゲームウィンドウのクライアント領域を自動調整し、タスク終了後に元のサイズと表示状態へ戻します。ボーダーレスフルスクリーンは自動調整できません。</system:String>
+    <system:String x:Key="Win32BorderlessResizeNotSupported">ボーダーレスフルスクリーンを検出しました。ゲームウィンドウの解像度を自動調整できません。先にゲーム設定でウィンドウモードへ切り替えてください。</system:String>
+    <system:String x:Key="Win32WindowResizeStart">ゲームウィンドウの解像度を調整しています：{0}x{1} → {2}x{3}</system:String>
+    <system:String x:Key="Win32WindowResizeSuccess">ゲームウィンドウの解像度を {0}x{1} に調整しました</system:String>
+    <system:String x:Key="Win32WindowResizeRestored">ゲームウィンドウの解像度を {0}x{1} に戻しました</system:String>
     <system:String x:Key="AttachWindowMouseMethod">マウス入力方式</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">キーボード入力方式</system:String>
     <system:String x:Key="AttachWindowScreencapFramePool">FramePool（バックグラウンド、高効率、最小化不可）</system:String>

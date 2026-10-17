@@ -142,6 +142,22 @@ public class Win32Extra : ExtraConfig
     } = ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.Win32Extra.KeyboardMethod;
 
     /// <summary>
+    /// Gets or sets a value indicating whether a non-16:9 attached window is resized while tasks are running.
+    /// </summary>
+    public bool AutoResizeWindow
+    {
+        get; set {
+            if (!SetAndNotify(ref field, value))
+            {
+                return;
+            }
+
+            Instances.AsstProxy.Connected = false;
+            ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.Win32Extra.AutoResizeWindow = value;
+        }
+    } = ConfigFactory.CurrentConfig.Gui.ConnectSettings.Extras.Win32Extra.AutoResizeWindow;
+
+    /// <summary>
     /// Gets or sets a value indicating whether the attached game process is muted while tasks are running.
     /// </summary>
     public bool MuteWhileRunning

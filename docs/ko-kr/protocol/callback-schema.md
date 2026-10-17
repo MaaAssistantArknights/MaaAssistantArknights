@@ -144,6 +144,16 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   실행 중 해상도가 변경되어 연결이 무효화되고 현재 작업이 중단됨, `details` 구조:
   - `width` (number, required): 현재 너비.
   - `height` (number, required): 현재 높이.
+- `Win32WindowResizeStart`  
+  Win32 게임 창 자동 조정을 시작함, `details` 구조:
+  - `width` (number, required): 조정 전 클라이언트 영역 너비.
+  - `height` (number, required): 조정 전 클라이언트 영역 높이.
+  - `target_width` (number, required): 목표 클라이언트 영역 너비.
+  - `target_height` (number, required): 목표 클라이언트 영역 높이.
+- `Win32WindowResizeSuccess`  
+  Win32 게임 창 자동 조정에 성공함. `details`에 조정 후 `width`와 `height`가 포함됨.
+- `Win32WindowResizeRestored`  
+  Win32 게임 창을 복원함. `details`에 복원 후 `width`와 `height`가 포함됨.
 - `FastestWayToScreencap`  
   가장 빠른 스크린샷 방식을 찾음, `details` 구조:
   - `method` (string, required): 가장 빠른 스크린샷 방식.
