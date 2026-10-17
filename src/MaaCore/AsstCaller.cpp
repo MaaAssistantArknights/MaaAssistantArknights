@@ -317,6 +317,11 @@ AsstSize AsstGetNullSize()
     return NullSize;
 }
 
+int32_t AsstGetActivityNavigationVersion()
+{
+    return 1;
+}
+
 const char* AsstGetVersion()
 {
     return MAA_VERSION;

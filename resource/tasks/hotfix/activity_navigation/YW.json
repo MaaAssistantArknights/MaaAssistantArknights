@@ -1,0 +1,89 @@
+{
+    "YW-OpenCopilotNormal": {
+        "algorithm": "JustReturn",
+        "next": ["YW-OpenCopilotNormalOcr"]
+    },
+    "YW-OpenCopilotNormalOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["昨日海", "我们的伊比利亚"],
+        "postDelay": 3000,
+        "next": ["YW-CopilotSelectNormal"],
+        "roi": [500, 60, 450, 260],
+        "ocrReplace": [["^昨海$", "昨日海"]]
+    },
+    "YW-CopilotSelectNormal": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["雷亚"],
+        "roi": [650, 350, 630, 370],
+        "postDelay": 2000,
+        "next": ["YW-CopilotSelectNormalReady"]
+    },
+    "YW-CopilotSelectNormalReady": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": ["YW-1", "YW-2", "YW-3", "YW-4", "YW-5", "YW-6", "YW-7", "YW-8"],
+        "roi": [0, 60, 1280, 550],
+        "next": [],
+        "fullMatch": true,
+        "isAscii": true,
+        "ocrReplace": [
+            [" ", ""],
+            ["—", "-"],
+            ["-I$", "-1"]
+        ]
+    },
+    "YW-OpenCopilotEX": {
+        "algorithm": "JustReturn",
+        "next": ["YW-OpenCopilotEXOcr"]
+    },
+    "YW-OpenCopilotEXOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["昨日海", "我们的伊比利亚"],
+        "postDelay": 3000,
+        "next": ["YW-CopilotSelectEX"],
+        "roi": [500, 60, 450, 260],
+        "ocrReplace": [["^昨海$", "昨日海"]]
+    },
+    "YW-CopilotSelectEX": {
+        "algorithm": "OcrDetect",
+        "action": "ClickRect",
+        "text": ["我们的伊比利亚"],
+        "roi": [650, 350, 630, 370],
+        "postDelay": 2000,
+        "next": ["YW-CopilotSelectEXReady"],
+        "specificRect": [1120, 400, 100, 100]
+    },
+    "YW-CopilotSelectEXReady": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": ["YW-EX-1", "YW-EX-2", "YW-EX-3", "YW-EX-4", "YW-EX-5", "YW-EX-6", "YW-EX-7", "YW-EX-8"],
+        "roi": [0, 60, 1280, 550],
+        "next": [],
+        "fullMatch": true,
+        "isAscii": true,
+        "ocrReplace": [
+            [" ", ""],
+            ["—", "-"],
+            ["-I$", "-1"]
+        ]
+    },
+    "YW-ActivityNormal": {
+        "algorithm": "JustReturn",
+        "next": ["YW-CopilotSelectNormalReady", "YW-ActivityNormalFromElsewhere"]
+    },
+    "YW-ActivityNormalFromElsewhere": {
+        "algorithm": "JustReturn",
+        "sub": ["EventNavigationToTerminal", "YW-OpenCopilotNormal"],
+        "next": []
+    },
+    "YW-ActivityEX": {
+        "algorithm": "JustReturn",
+        "next": ["YW-CopilotSelectEXReady", "YW-ActivityEXFromElsewhere"]
+    },
+    "YW-ActivityEXFromElsewhere": {
+        "algorithm": "JustReturn",
+        "sub": ["EventNavigationToTerminal", "YW-OpenCopilotEX"],
+        "next": []
+    }
+}

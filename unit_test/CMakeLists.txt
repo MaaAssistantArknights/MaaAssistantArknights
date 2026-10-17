@@ -35,3 +35,9 @@ target_link_libraries(maa-algorithm-test PRIVATE Catch2::Catch2WithMain)
 target_include_directories(maa-algorithm-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../src/MaaCore)
 
 catch_discover_tests(maa-algorithm-test TEST_PREFIX "algorithm::")
+
+add_executable(maa-activity-navigation-test MaaCore/ActivityNavigationPolicyTest.cpp)
+target_compile_features(maa-activity-navigation-test PRIVATE cxx_std_20)
+target_link_libraries(maa-activity-navigation-test PRIVATE Catch2::Catch2WithMain)
+target_include_directories(maa-activity-navigation-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../src/MaaCore)
+catch_discover_tests(maa-activity-navigation-test TEST_PREFIX "activity-navigation::")

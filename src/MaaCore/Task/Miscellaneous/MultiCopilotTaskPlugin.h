@@ -30,11 +30,19 @@ public:
 
     void set_multi_copilot_config(std::vector<MultiCopilotConfig> config) { m_copilot_configs = std::move(config); }
 
+    void set_activity_navigation(bool enabled, std::string client)
+    {
+        m_activity_navigation = enabled;
+        m_client = std::move(client);
+    }
+
     void set_battle_task_ptr(const std::shared_ptr<BattleProcessTask>& ptr) { m_battle_task_ptr = ptr; }
 
     void set_formation_task_ptr(const std::shared_ptr<BattleFormationTask>& ptr) { m_formation_task_ptr = ptr; }
 
 private:
+    bool m_activity_navigation = false;
+    std::string m_client;
     virtual bool _run() override;
     bool navigate_to_stage(const std::string& stage_name);
     bool enter_stage(const Rect rect, const std::string& stage_name);

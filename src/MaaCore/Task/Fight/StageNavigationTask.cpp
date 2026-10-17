@@ -4,7 +4,9 @@
 #include <optional>
 #include <ranges>
 
+#include "Config/Miscellaneous/ActivityNavigationConfig.h"
 #include "Config/TaskData.h"
+#include "Task/Miscellaneous/ActivityNavigationTask.h"
 #include "Task/ProcessTask.h"
 #include "Task/StageNavigationHelper.h"
 #include "Utils/Logger.hpp"
@@ -45,6 +47,14 @@ bool asst::StageNavigationTask::set_stage_name(const std::string& stage_name)
     LogTraceFunction;
 
     clear();
+
+    if (m_activity_navigation) {
+        if (const auto route = ActivityNavigation.find_code(stage_name)) {
+            m_activity_stage = route->stage_id;
+            m_stage_code = route->code;
+            return true;
+        }
+    }
 
     // 已有关卡优先使用 tasks.json 中的逻辑
     if (Task.get(stage_name)) {
@@ -142,6 +152,13 @@ bool asst::StageNavigationTask::_run()
 {
     LogTraceFunction;
 
+    if (!m_activity_stage.empty()) {
+        ActivityNavigationTask navigation(*this);
+        navigation.set_retry_times(0);
+        return navigation.set_target(m_activity_stage, m_stage_code, false, m_activity_client) && navigation.run() &&
+               swipe_and_find_stage();
+    }
+
     // 上一次作战与目标关一致时直接点击进入（资源关等复刷收益明显）；
     // 内部标识与显示代号不一致的关卡（剿灭 "Annihilation"、SSReopen 的 "-OpenOpt" 后缀等）
     // fullMatch 永不命中，自然回退直接导航
@@ -199,6 +216,7 @@ void asst::StageNavigationTask::clear() noexcept
     m_chapter_task.clear();
     m_difficulty_tasks.clear();
     m_stage_code.clear();
+    m_activity_stage.clear();
     m_switch_difficulty_after_stage_selection = false;
     m_last_battle_checked = false;
 }

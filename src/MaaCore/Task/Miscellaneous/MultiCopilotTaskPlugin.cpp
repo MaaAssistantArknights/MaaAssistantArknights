@@ -3,9 +3,11 @@
 #include <ranges>
 
 #include "Config/GeneralConfig.h"
+#include "Config/Miscellaneous/ActivityNavigationConfig.h"
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "Task/Miscellaneous/ActivityNavigationTask.h"
 #include "Task/Miscellaneous/BattleFormationTask.h"
 #include "Task/Miscellaneous/BattleProcessTask.h"
 #include "Task/ProcessTask.h"
@@ -51,6 +53,15 @@ bool asst::MultiCopilotTaskPlugin::_run()
     info["details"]["file_name"] = std::move(file_name);
     info["details"]["id"] = config.id;
     callback(AsstMsg::SubTaskExtraInfo, info);
+
+    // Unknown activities retain legacy map navigation; a known but invalid route must fail closed.
+    if (m_activity_navigation && ActivityNavigation.find(stage_name)) {
+        ActivityNavigationTask navigation(*this);
+        navigation.set_retry_times(0);
+        if (!navigation.set_target(stage_name, config.nav_name, config.is_raid, m_client) || !navigation.run()) {
+            return false;
+        }
+    }
 
     bool ret = true;
     for (int i = 0; i < m_max_retry; ++i) {

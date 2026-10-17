@@ -3,6 +3,7 @@
 #include "Arknights-Tile-Pos/TileCalc2.hpp"
 
 #include "Common/AsstBattleDef.h"
+#include "Config/Miscellaneous/ActivityNavigationConfig.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/Miscellaneous/OperBoxDataConfig.h"
@@ -68,6 +69,10 @@ bool asst::CopilotTask::set_params(const json::value& params)
         return false;
     }
 
+    m_multi_copilot_plugin_ptr->set_activity_navigation(
+        params.get("navigate_to_activity", false),
+        params.get("client_type", std::string()));
+
     bool use_sanity_potion = params.get("use_sanity_potion", false);                 // 是否使用理智药
     bool with_formation = params.get("formation", false);                            // 是否使用自动编队
     int formation_index = params.get("formation_index", 0);                          // 选择第几个编队，0为不选择
@@ -96,6 +101,12 @@ bool asst::CopilotTask::set_params(const json::value& params)
     auto multi_tasks_opt = params.find<json::array>("copilot_list"); // 多任务列表
     if (!filename_opt && !multi_tasks_opt) {
         LogError << __FUNCTION__ << "CopilotTask set_params failed, stage_name or filename not found";
+        return false;
+    }
+
+    if (params.get("navigate_to_activity", false) &&
+        (filename_opt || params.get("client_type", std::string()).empty())) {
+        LogError << "Activity navigation requires copilot_list and an explicit client_type";
         return false;
     }
 
@@ -164,6 +175,24 @@ bool asst::CopilotTask::set_params(const json::value& params)
             else {
                 LogInfo << __FUNCTION__ << " | navigation name override: " << *nav_name;
                 config_cvt.nav_name = *nav_name;
+            }
+            if (params.get("navigate_to_activity", false)) {
+                if (const auto route = ActivityNavigation.find(stage_name)) {
+                    const auto now = std::chrono::floor<std::chrono::seconds>(std::chrono::system_clock::now());
+                    const auto status = activity_navigation::check(
+                        *route,
+                        config_cvt.nav_name,
+                        is_raid,
+                        params.get("client_type", std::string()),
+                        now);
+                    if (status != activity_navigation::Status::Ready) {
+                        auto info = basic_info_with_what("ActivityNavigationFailed");
+                        info["details"]["stage_id"] = stage_name;
+                        info["details"]["reason"] = "PreflightRejected";
+                        callback(AsstMsg::SubTaskError, info);
+                        return false;
+                    }
+                }
             }
             config_cvt.copilot_file = *copilot_opt;
             config_cvt.is_raid = is_raid;

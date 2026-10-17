@@ -14,6 +14,16 @@
         "src/MaaCore/Utils/Algorithm.hpp",
         "unit_test/MaaCore/AlgorithmTest.cpp"
       ]
+    },
+    {
+      "id": "maa-activity-navigation-test",
+      "name": "Activity navigation",
+      "buildTarget": "maa-activity-navigation-test",
+      "ctestRegex": "^activity-navigation::",
+      "paths": [
+        "src/MaaCore/Config/Miscellaneous/ActivityNavigationPolicy.h",
+        "unit_test/MaaCore/ActivityNavigationPolicyTest.cpp"
+      ]
     }
   ]
 }

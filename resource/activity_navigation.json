@@ -1,0 +1,110 @@
+{
+    "schema_version": 1,
+    "activities": [
+        {
+            "id": "act52side",
+            "name": "昨日海",
+            "enabled": true,
+            "clients": ["Official", "Bilibili"],
+            "sources": [
+                "https://prts.wiki/w/昨日海",
+                "https://ak.hypergryph.com/news/5101.html",
+                "https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/resource/tasks/Stages/YW.json"
+            ],
+            "routes": {
+                "normal": {
+                    "task": "YW-ActivityNormal",
+                    "opens_at": "2026-10-09T12:00:00+08:00",
+                    "closes_at": "2026-10-23T04:00:00+08:00"
+                },
+                "ex": {
+                    "task": "YW-ActivityEX",
+                    "opens_at": "2026-10-16T16:00:00+08:00",
+                    "closes_at": "2026-10-23T04:00:00+08:00"
+                }
+            },
+            "stages": {
+                "act52side_01": {
+                    "code": "YW-1",
+                    "route": "normal",
+                    "modes": ["normal"]
+                },
+                "act52side_ex01": {
+                    "code": "YW-EX-1",
+                    "route": "ex",
+                    "modes": ["normal", "raid"]
+                },
+                "act52side_02": {
+                    "code": "YW-2",
+                    "route": "normal",
+                    "modes": ["normal"]
+                },
+                "act52side_ex02": {
+                    "code": "YW-EX-2",
+                    "route": "ex",
+                    "modes": ["normal", "raid"]
+                },
+                "act52side_03": {
+                    "code": "YW-3",
+                    "route": "normal",
+                    "modes": ["normal"]
+                },
+                "act52side_ex03": {
+                    "code": "YW-EX-3",
+                    "route": "ex",
+                    "modes": ["normal", "raid"]
+                },
+                "act52side_04": {
+                    "code": "YW-4",
+                    "route": "normal",
+                    "modes": ["normal"]
+                },
+                "act52side_ex04": {
+                    "code": "YW-EX-4",
+                    "route": "ex",
+                    "modes": ["normal", "raid"]
+                },
+                "act52side_05": {
+                    "code": "YW-5",
+                    "route": "normal",
+                    "modes": ["normal"]
+                },
+                "act52side_ex05": {
+                    "code": "YW-EX-5",
+                    "route": "ex",
+                    "modes": ["normal", "raid"]
+                },
+                "act52side_06": {
+                    "code": "YW-6",
+                    "route": "normal",
+                    "modes": ["normal"]
+                },
+                "act52side_ex06": {
+                    "code": "YW-EX-6",
+                    "route": "ex",
+                    "modes": ["normal", "raid"]
+                },
+                "act52side_07": {
+                    "code": "YW-7",
+                    "route": "normal",
+                    "modes": ["normal"]
+                },
+                "act52side_ex07": {
+                    "code": "YW-EX-7",
+                    "route": "ex",
+                    "modes": ["normal", "raid"]
+                },
+                "act52side_08": {
+                    "code": "YW-8",
+                    "route": "normal",
+                    "modes": ["normal"]
+                },
+                "act52side_ex08": {
+                    "code": "YW-EX-8",
+                    "route": "ex",
+                    "modes": ["normal", "raid"]
+                }
+            }
+        }
+    ]
+}
