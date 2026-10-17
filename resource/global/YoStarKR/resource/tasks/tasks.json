@@ -396,7 +396,8 @@
         "text": ["배치코스트"]
     },
     "BattleQuickFormationRole-All-OCR": {
-        "text": ["전체"]
+        "text": ["전체", "ALL"],
+        "ocrReplace": [["^A[LlI1\\[]{2}$", "ALL"]]
     },
     "BattleStartPre": {
         "ocrReplace": [

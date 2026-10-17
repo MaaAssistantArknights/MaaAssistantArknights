@@ -32,6 +32,12 @@ params = { client_type = "Official", start_game_enabled = true } # 対応する�
 
 具体的なタスクタイプとパラメータは [MAA 統合ドキュメント][task-types] で確認できます。なお、現在 maa-cli はパラメータ名やパラメータ値の正しさを検証しません。エラーが発生してもエラーメッセージは生成されず、MaaCore が実行時にエラーを検出した場合にのみ検出されます。
 
+`tasks` のほかに、タスクファイルは以下のトップレベルフィールドもサポートしています：
+
+- `client_type`: クライアントタイプを指定します。この値は `StartUp`、`Fight`、`CloseDown` タスクの `client_type` パラメータに自動的に設定されます。
+- `startup`: ゲームを自動的に起動するかどうか。`true` に設定すると、タスクリストに `StartUp` タスクがない場合は先頭に自動的に追加され、既に `StartUp` タスクが存在する場合は `start_game_enabled` が有効になっていないとき、それも自動的に有効になります。
+- `closedown`: ゲームを自動的に終了するかどうか。`true` に設定すると、タスクリストに `CloseDown` タスクがない場合は末尾に自動的に追加され、既に `CloseDown` タスクが存在する場合は `enable` が `false` のとき、それも自動的に有効になります。
+
 ### タスク条件
 
 いくつかの条件に応じて異なるパラメータのタスクを実行したい場合は、タスクの複数のバリアントを定義できます：
@@ -382,6 +388,17 @@ kill_adb_on_exit = false # 終了時に adb を強制終了するかどうか
 ```
 
 なお、`touch_mode` の選択肢 `MacPlayTools` は接続方式 `PlayTools` と紐付いています。`PlayTools` で接続する場合、`touch_mode` は強制的に `MacPlayTools` に設定されます。
+
+### 動作設定
+
+`[behavior]` 関連フィールドは、maa-cli 自身の実行時の動作を指定するために使用されます：
+
+```toml
+[behavior]
+auto_reconnect = true # ゲームがサーバーから切断されたときに自動的に再接続するかどうか、デフォルトは true
+```
+
+なお、タスクの実行時に `--no-auto-reconnect` オプションを指定することで、その実行中に限り自動再接続を無効化することもできます。
 
 ## CLI 関連設定
 

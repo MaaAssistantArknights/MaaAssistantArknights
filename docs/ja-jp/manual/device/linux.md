@@ -111,7 +111,7 @@ MAA Wine Bridge で生成された `MaaDesktopIntegration.so` を `MAA.exe` と�
       if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "emulator-5554"):
       ```
 
-   4. ここでテストを実行できます：`$ python3 sample.py`。 ｢连接成功｣ と返されれば基本的に準備完了です。
+   4. ここでテストを実行できます：`$ python3 sample.py`。 ｢连接成功｣（接続成功）と返されれば基本的に準備完了です。
 
 3. タスク構成
 

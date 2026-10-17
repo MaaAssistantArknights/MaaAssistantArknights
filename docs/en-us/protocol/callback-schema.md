@@ -187,6 +187,8 @@ Todo
   Auto combat
 - `SSSCopilot`  
   Auto Stationary Security Service
+- `ParadoxCopilot`  
+  Auto Paradox Simulation
 - `Depot`  
   Depot recognition
 - `OperBox`  
@@ -246,9 +248,12 @@ Todo
     "action": "ClickSelf", // Action name, e.g. "ClickSelf" | "DoNothing" | "Swipe"
     "exec_times": 1, // Execution times
     "max_times": 999, // Maximum execution times
-    "algorithm": "MatchTemplate" // Recognition algorithm name, e.g. "MatchTemplate" | "OcrDetect" | "FeatureMatch" | "JustReturn"
+    "algorithm": "MatchTemplate", // Recognition algorithm name, e.g. "MatchTemplate" | "OcrDetect" | "FeatureMatch" | "JustReturn"
+    "result": {} // Recognition result of this run, structure varies by algorithm; empty object when there is none
   }
   ```
+
+  Additionally, when the task execution count reaches its limit, a `SubTaskExtraInfo` message with `what` set to `ExceededLimit` is reported first; its `details` contains `task` (task name), `exec_times` (execution times), and `max_times` (maximum execution times).
 
 - `ReportToPenguinStats` / `ReportToYituliu`  
   Report battle drops to Penguin Statistics / Yituliu big data (a `SubTaskError` is reported back when the upload fails)
@@ -362,7 +367,9 @@ Todo
         "quantity": 4,
         "addQuantity": 2
       }
-    ]
+    ],
+    "cur_times": 2, // Number of consecutive battles recognized on the settlement screen (only present when recognized)
+    "annihilation_weekly_process": [1600, 1800] // Weekly acquisition progress of Annihilation mode, format: [completed count, limit] (only present on Annihilation stages)
   }
   ```
 
@@ -553,7 +560,8 @@ Todo
   ```json
   // Corresponding details field example
   {
-      "name": string  // Stage name
+      "name": string,  // Stage name
+      "size": number   // Number of map grid cells
   }
   ```
 
@@ -579,6 +587,10 @@ Todo
       {
           "id": "char_002_amiya",
           "name": "阿米娅", // "Amiya"
+          "name_en": "Amiya", // Operator English name
+          "name_jp": "アーミヤ", // Operator Japanese name
+          "name_kr": "아미야", // Operator Korean name
+          "name_tw": "阿米婭", // Operator Traditional Chinese name
           "own": true,
           "rarity": 5
       },
@@ -619,6 +631,28 @@ Todo
 
 - `UnsupportedLevel`  
   Auto combat, unsupported stage name
+
+- `BlackFlowStartRun`  
+  Progress of BlackFlow starting reward farming (roguelike mode 30003). (machine-translated)
+
+  ```json
+  // Corresponding details field example
+  {
+      "status": "reward_missed",       // Current progress, see below
+      "rewards": ["空间租赁", "金乌"]   // Optional; reward names recognized on the target run's support selection page
+  }
+  ```
+
+  `status` values:
+  - `preparing`: the preparation run started.
+  - `target_run`: the target run started.
+  - `reward_missed`: rewards were recognized on the support selection page but none is desired; the run is abandoned and a new preparation run starts.
+  - `completed`: a desired reward was found; the task exited to the theme page keeping the run, and the task ends.
+  - `reward_unrecognized`: rewards on the support selection page could not be recognized; the task stops on that page.
+  - `reward_page_missing`: the target run did not show the support selection page; the task stops.
+  - `reward_recognition_failed`: the preparation run failed to pick a reward on the support selection page; the task stops.
+
+  `rewards` is only reported with `reward_missed`, `completed` and `reward_unrecognized`, and is omitted when `blackflow_start_rewards` is 0 (rewards are not recognized) or when no reward was recognized. Reward names are reported in Simplified Chinese.
 
 ### ReportRequest
 

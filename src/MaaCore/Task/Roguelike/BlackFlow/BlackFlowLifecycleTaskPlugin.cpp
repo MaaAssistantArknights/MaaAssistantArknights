@@ -5,6 +5,10 @@
 #include <utility>
 
 #include "Config/TaskData.h"
+#include "Controller/Controller.h"
+#include "Task/ProcessTask.h"
+#include "Vision/Matcher.h"
+#include "Vision/OCRer.h"
 
 #include "Utils/Logger.hpp"
 
@@ -26,11 +30,29 @@ std::pair<std::string, std::string> classify_unreported_termination(const std::s
 
 bool BlackFlowLifecycleTaskPlugin::load_params(const json::value& params)
 {
+    m_start_run =
+        m_config->get_theme() == RoguelikeTheme::BlackFlow && m_config->get_mode() == RoguelikeMode::BlackFlowStartRun;
+    m_prepared_run_finished = false;
     if (!BlackFlowTaskPluginBase::load_params(params)) {
         return false;
     }
-
+    std::vector<CultivatedAnimalType> targets;
+    if (m_start_run) {
+        for (const auto& target : m_config->get_blackflow_start_animals()) {
+            targets.emplace_back(parse_cultivated_animal_type(target).value());
+        }
+    }
+    m_session->set_cultivation_targets(std::move(targets));
     std::string profile = params.get("blackflow_strategy", std::string {});
+    if (m_start_run) {
+        if (!m_config->get_blackflow_start_animals().empty()) {
+            profile = "start_run_animals";
+        }
+        else {
+            profile =
+                params.get("investment_enabled", true) ? "start_run_rewards_with_investment" : "start_run_rewards";
+        }
+    }
     if (profile.empty()) {
         if (m_config->get_mode() == RoguelikeMode::Investment) {
             profile = "investment";
@@ -56,10 +78,14 @@ bool BlackFlowLifecycleTaskPlugin::load_params(const json::value& params)
     // 也由别的插件 load_params 写入、时机不可依赖。黑流策略只消费第 1 顺位。必须先于
     // initialize()，事实是在它末尾写入的。
     const auto start_opers = RoguelikeConfig::parse_start_opers(params);
+    m_start_core_char = start_opers.empty() ? std::string {} : start_opers.front().name;
+    m_target_squad = params.get("squad", std::string());
+    m_preparation_squad = params.get("collectible_mode_squad", m_target_squad);
+    m_start_roles = params.get("roles", std::string());
     m_session->set_start_loadout(
-        start_opers.empty() ? std::string {} : start_opers.front().name,
-        params.get("squad", std::string()),
-        params.get("roles", std::string()));
+        m_start_core_char,
+        m_start_run && m_config->get_run_for_collectible() ? m_preparation_squad : m_target_squad,
+        m_start_roles);
 
     std::string error;
     if (!m_session->initialize(std::move(profile), &error)) {
@@ -97,6 +123,22 @@ bool BlackFlowLifecycleTaskPlugin::verify(AsstMsg msg, const json::value& detail
     }
 
     const std::string task = details.get("details", "task", "");
+    if (m_start_run && msg == AsstMsg::SubTaskStart) {
+        if (task == "BlackFlow@Roguelike@StartExplore") {
+            m_pending = PendingWork::StartRunStarted;
+            return true;
+        }
+        if (task == "BlackFlow@Roguelike@LastReward-EnterPoint") {
+            m_pending = PendingWork::CheckStartRunReward;
+            return true;
+        }
+        if (!m_config->get_run_for_collectible() &&
+            (task == "BlackFlow@Roguelike@RolesDefault" || task == "BlackFlow@Roguelike@RecruitMain" ||
+             task == "BlackFlow@Roguelike@MapPrepare")) {
+            m_pending = PendingWork::StartRunRewardPageMissing;
+            return true;
+        }
+    }
     if (msg == AsstMsg::SubTaskCompleted && task == "BlackFlow@Roguelike@NextLevel") {
         m_pending = PendingWork::RecordCurrentFloor;
         m_pending_details = details;
@@ -130,6 +172,13 @@ void BlackFlowLifecycleTaskPlugin::reset_in_run_variables()
     m_terminal_pre_task.clear();
     m_stop_after_abandon = false;
     Task.set_task_base("BlackFlow@Roguelike@StrategyTerminalAction", "BlackFlow@Roguelike@ExitThenAbandon-Enter");
+    if (m_start_run) {
+        m_prepared_run_finished = false;
+        m_session->set_start_loadout(
+            m_start_core_char,
+            m_config->get_run_for_collectible() ? m_preparation_squad : m_target_squad,
+            m_start_roles);
+    }
     if (m_session != nullptr && !m_session->profile().empty()) {
         m_session->reset_run();
     }
@@ -149,6 +198,17 @@ bool BlackFlowLifecycleTaskPlugin::_run()
     m_terminal_trigger.clear();
     m_terminal_pre_task.clear();
 
+    if (work == PendingWork::StartRunStarted) {
+        report_start_run(m_config->get_run_for_collectible() ? "preparing" : "target_run");
+        return true;
+    }
+    if (work == PendingWork::CheckStartRunReward) {
+        return check_start_run_reward();
+    }
+    if (work == PendingWork::StartRunRewardPageMissing) {
+        stop_start_run("reward_page_missing");
+        return false;
+    }
     if (work == PendingWork::RecordCurrentFloor) {
         if (m_session == nullptr) {
             Log.error("BlackFlow floor recognition has no active session");
@@ -192,6 +252,10 @@ bool BlackFlowLifecycleTaskPlugin::_run()
     }
     if (work == PendingWork::ResetAfterAbandon) {
         const bool stop_after_abandon = m_stop_after_abandon;
+        if (m_start_run) {
+            // 放弃确认后才切换阶段。StartExplore 的重试仍属于同一阶段。
+            m_config->set_run_for_collectible(!m_prepared_run_finished);
+        }
         reset_in_run_variables();
         Log.info("BlackFlow run state reset after abandonment");
         if (stop_after_abandon && m_task_ptr != nullptr) {
@@ -237,6 +301,10 @@ bool BlackFlowLifecycleTaskPlugin::_run()
     // 重开和成功停止仍在主 ProcessTask 上放弃；成功停止在 AbandonConfirm 完成后、
     // StartExplore 之前停用主任务，防止再次开始探索。
     m_stop_after_abandon = next_action != "restart_current_run";
+    if (m_start_run && next_action == "restart_current_run") {
+        m_prepared_run_finished = m_session->result().has_value() && m_session->result()->succeeded &&
+                                  m_session->result()->outcome == "start_run_prepared";
+    }
     const std::string task = "BlackFlow@Roguelike@ExitThenAbandon-Enter";
     Task.set_task_base("BlackFlow@Roguelike@StrategyTerminalAction", task);
     Log.info(
@@ -250,6 +318,120 @@ bool BlackFlowLifecycleTaskPlugin::_run()
         next_action,
         task);
     report_outputs();
+    return true;
+}
+
+void BlackFlowLifecycleTaskPlugin::report_start_run(std::string_view status, const std::vector<std::string>& rewards)
+{
+    auto info = basic_info_with_what("BlackFlowStartRun");
+    info["details"] = json::object { { "status", std::string(status) } };
+    if (!rewards.empty()) {
+        info["details"]["rewards"] = json::array(rewards);
+    }
+    callback(AsstMsg::SubTaskExtraInfo, info);
+    LogInfo << "BlackFlow start-run" << status;
+}
+
+void BlackFlowLifecycleTaskPlugin::stop_start_run(std::string_view status, const std::vector<std::string>& rewards)
+{
+    m_task_ptr->set_enable(false);
+    report_start_run(status, rewards);
+}
+
+void BlackFlowLifecycleTaskPlugin::complete_start_run(const std::vector<std::string>& rewards)
+{
+    // 和旧刷开局一样不做选择，退出到主题页并保留这一局，队列里后面的任务可以接着执行
+    report_start_run("completed", rewards);
+    m_control_ptr->exit_then_stop(false);
+    m_task_ptr->set_enable(false);
+}
+
+bool BlackFlowLifecycleTaskPlugin::check_start_run_reward()
+{
+    if (m_config->get_run_for_collectible()) {
+        if (!ProcessTask(*this, { "BlackFlow@Roguelike@LastReward-Strategy" }).run()) {
+            stop_start_run("reward_recognition_failed");
+            return false;
+        }
+        return true;
+    }
+
+    const int wanted = m_config->get_blackflow_start_rewards();
+    if (wanted == 0) {
+        complete_start_run();
+        return true;
+    }
+
+    // 下标即 blackflow_start_rewards 的位：前六位是普通奖励，按支援页模板匹配
+    static const std::vector<std::pair<std::string, std::string>> RewardCards {
+        { "BlackFlow@Roguelike@LastReward4", "未编号物" }, { "BlackFlow@Roguelike@LastReward5", "调查预付款" },
+        { "BlackFlow@Roguelike@LastReward6", "空间租赁" }, { "BlackFlow@Roguelike@LastReward", "退行补偿" },
+        { "BlackFlow@Roguelike@LastReward2", "林间代步" }, { "BlackFlow@Roguelike@LastReward3", "巢寄生" },
+    };
+    // 后六位是羽蛇带来的蓝色奖励，读第一张卡的名字。｢襁褓｣ 两字常被读错，按后半截包含匹配
+    static const std::vector<std::string> SerpentRewardNames { "天马", "骏鹰", "巨龙", "九头蛇", "白泽", "金乌" };
+
+    // 先认出页面上实际有哪些奖励，再看有没有目标。一张都认不出，或者要羽蛇奖励却读不出蓝色卡，
+    // 只能是识别出了问题，停在支援页留给用户查看，不能当成未命中把这一局放弃掉。
+    const auto image = ctrler()->get_image();
+    std::vector<std::string> seen;
+    bool hit = false;
+    for (size_t i = 0; i != RewardCards.size(); ++i) {
+        const auto& [task_name, reward_name] = RewardCards[i];
+        Matcher matcher(image);
+        matcher.set_task_info(task_name);
+        const auto result = matcher.analyze();
+        if (!result) {
+            LogInfo << __FUNCTION__ << "support card absent:" << reward_name;
+            continue;
+        }
+        const bool target = (wanted & (1 << i)) != 0;
+        LogInfo << __FUNCTION__ << "support card found:" << reward_name << "score:" << result->score
+                << "rect:" << result->rect << "target:" << target;
+        seen.emplace_back(reward_name);
+        hit = hit || target;
+    }
+
+    const auto& animals = m_config->get_blackflow_start_animals();
+    const bool serpent_carried = std::ranges::find(animals, "swaddled_feathered_serpent") != animals.end();
+    const bool serpent_wanted = serpent_carried && (wanted >> RewardCards.size()) != 0;
+    bool serpent_seen = false;
+    if (serpent_carried) {
+        OCRer ocr(image);
+        ocr.set_task_info("BlackFlow@Roguelike@StartRunSerpentRewardNames");
+        for (const auto& text : ocr.analyze().value_or(OCRer::ResultsVec {})) {
+            LogInfo << __FUNCTION__ << "serpent card text:" << text.text;
+            for (size_t i = 0; !serpent_seen && i != SerpentRewardNames.size(); ++i) {
+                if (text.text.find(SerpentRewardNames[i]) == std::string::npos) {
+                    continue;
+                }
+                const bool target = (wanted & (1 << (i + RewardCards.size()))) != 0;
+                LogInfo << __FUNCTION__ << "serpent card found:" << SerpentRewardNames[i] << "target:" << target;
+                seen.emplace_back(SerpentRewardNames[i]);
+                serpent_seen = true;
+                hit = hit || target;
+            }
+        }
+        if (!serpent_seen) {
+            LogInfo << __FUNCTION__ << "serpent card not recognized";
+        }
+    }
+
+    if (hit) {
+        complete_start_run(seen);
+        return true;
+    }
+    if (seen.empty() || (serpent_wanted && !serpent_seen)) {
+        LogError << __FUNCTION__ << "support rewards not recognized, stay on the page";
+        save_img(utils::path("debug") / utils::path("roguelike"));
+        stop_start_run("reward_unrecognized", seen);
+        return false;
+    }
+
+    // 认出了奖励但没有期望的，和旧刷开局一样放弃这一局，回到准备局
+    report_start_run("reward_missed", seen);
+    m_config->set_run_for_collectible(true);
+    m_control_ptr->exit_then_stop(true);
     return true;
 }
 

@@ -862,6 +862,8 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 `20001` - 刷常乐节点，第一层进洞，找不到需要的节点就重开；仅适用于 JieGarden 主题，需配合 `find_playTime_target`。
 <br>
 `30001` - 刷襁褓动物；仅适用于 BlackFlow 主题。
+<br>
+`30003` - 刷开局，先打准备局，再开目标局。准备局取得 `blackflow_start_animals` 要求的襁褓动物并进入第三层后放弃；目标局在选择支援页命中 `blackflow_start_rewards` 中任意一项时不做选择，退出到主题页并保留该局，任务结束。准备局使用 `collectible_mode_squad`，`difficulty` 不为 `-1` 时在 0 难度下进行；目标局使用 `squad` 与 `difficulty`，到选择支援页即结束，`roles` 与开局干员只用于准备局。仅适用于 BlackFlow 主题，需配合 `blackflow_start_animals` 与 `blackflow_start_rewards`。
 :::  
 ::: field squad  
 @type string
@@ -1048,6 +1050,8 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 @type string
 @optional
 烧水时使用的分队, 默认与squad同步, 当squad为空字符串且未指定collectible_mode_squad值时为指挥分队。  
+<br>
+黑流树海模式 30003 中为准备局使用的分队。  
 :::  
 ::: field start_with_seed  
 @type string
@@ -1068,12 +1072,28 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 `burn_with_investment` - 第一层完成投资后尽快抵达第三层，到达即重开
 <br>
 `burn` - 尽快抵达第三层，到达即重开  
+<br>
+模式 30003 不读取此项。有动物要求时，准备局按 `baby_animal` 的路线培育；没有动物要求时，准备局尽快抵达第三层，`investment_enabled` 为 true 时先在第一层投资。准备局的开局干员为机械师、`collectible_mode_squad` 为特勤分队或堡垒战术分队、`roles` 为稳扎稳打或坚不可摧时，视为满天赋机械师开局，自带结构性原理：准备局招到机械师后放弃其余开局招募，路线按需用结构性原理移动；没有动物要求时，第二层直接用它飞向出口。  
 :::  
 ::: field blackflow_cultivation_target  
 @type string
 @default swaddled_cat
 @optional
 刷襁褓动物模式的目标。可选值：`swaddled_cat` | `swaddled_feathered_serpent` | `swaddled_dog` | `swaddled_cerberus`；仅在 `blackflow_strategy` 为 `baby_animal` 时使用。  
+:::  
+::: field blackflow_start_animals  
+@type array<string>
+@optional
+模式 30003 准备局要培育的襁褓动物，0 至 2 项，可重复，羽蛇最多一项。可选值：`swaddled_cat` | `swaddled_dog` | `swaddled_cerberus` | `swaddled_feathered_serpent`。各项按数量同时满足，例如两项 `swaddled_cat` 要求至少两只猫，多出的其他动物不影响；培育结束仍未凑齐时放弃该局，重新进行准备局。为空数组时准备局只需进入第三层。模式 30003 下必填。  
+:::  
+::: field blackflow_start_rewards  
+@type number
+@optional
+模式 30003 目标局期望的开局奖励，位掩码，范围 0 至 4095。模式 30003 下必填。  
+<br>
+`1` 未编号物；`2` 调查预付款；`4` 空间租赁；`8` 退行补偿；`16` 林间代步；`32` 巢寄生；`64` 襁褓天马；`128` 襁褓骏鹰；`256` 襁褓巨龙；`512` 襁褓九头蛇；`1024` 襁褓白泽；`2048` 襁褓金乌。后六项是羽蛇带来的蓝色奖励，只在 `blackflow_start_animals` 含羽蛇时生效，否则忽略。  
+<br>
+目标局在选择支援页先认出页面上的全部奖励再判断：命中任意一项时完成；认出了奖励但没有期望的，放弃该局，重新进行准备局；一项都没认出，或要求了羽蛇奖励却读不出蓝色奖励时，停在选择支援页并停止任务，截图保存到 `debug/roguelike`。为 0 时进入选择支援页即完成。进度通过 `SubTaskExtraInfo` 的 `BlackFlowStartRun` 回调，见 [回调消息协议](./callback-schema.md)。  
 :::  
 ::: field find_playTime_target  
 @type number

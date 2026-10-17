@@ -138,21 +138,6 @@ bool asst::CopilotTask::set_params(const json::value& params)
             if (!copilot_opt) {
                 return false;
             }
-            config_cvt.assigned_groups = nullptr;
-            if (use_operbox) {
-                if (operbox_assignments.find(filename) != operbox_assignments.end()) {
-                    config_cvt.assigned_groups = operbox_assignments[filename];
-                }
-                else {
-                    auto assignment_opt =
-                        OperBoxData.precheck(Copilot.get_data().groups, support_unit_usage != SupportUnitUsage::None);
-                    if (!assignment_opt) {
-                        return false;
-                    }
-                    config_cvt.assigned_groups = std::make_shared<OperUsageGroups>(std::move(*assignment_opt));
-                    operbox_assignments[filename] = config_cvt.assigned_groups;
-                }
-            }
             const auto& stage_name = Copilot.get_stage_name();
             const auto& map_data = Tile.find(stage_name);
             if (!map_data || !json::open(map_data->second)) {
@@ -164,6 +149,25 @@ bool asst::CopilotTask::set_params(const json::value& params)
             else {
                 LogInfo << __FUNCTION__ << " | navigation name override: " << *nav_name;
                 config_cvt.nav_name = *nav_name;
+            }
+            config_cvt.assigned_groups = nullptr;
+            if (use_operbox) {
+                if (operbox_assignments.find(filename) != operbox_assignments.end()) {
+                    config_cvt.assigned_groups = operbox_assignments[filename];
+                }
+                else {
+                    json::value info = basic_info_with_what("CopilotPrecheckFile");
+                    info["details"]["nav_name"] = config_cvt.nav_name;
+                    info["details"]["filename"] = filename;
+                    callback(AsstMsg::SubTaskExtraInfo, info);
+                    auto assignment_opt =
+                        OperBoxData.precheck(Copilot.get_data().groups, support_unit_usage != SupportUnitUsage::None);
+                    if (!assignment_opt) {
+                        return false;
+                    }
+                    config_cvt.assigned_groups = std::make_shared<OperUsageGroups>(std::move(*assignment_opt));
+                    operbox_assignments[filename] = config_cvt.assigned_groups;
+                }
             }
             config_cvt.copilot_file = *copilot_opt;
             config_cvt.is_raid = is_raid;

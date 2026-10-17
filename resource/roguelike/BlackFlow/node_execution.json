@@ -13,7 +13,7 @@
         {
             "id": "combat",
             "page_intent": "default",
-            "node_types": ["battle_normal", "battle_elite", "battle_savage", "duel", "hide_battle", "battle_boss"],
+            "node_types": ["battle_normal", "battle_elite", "battle_savage", "hide_battle", "battle_boss"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
             "task": "BlackFlow@Roguelike@Page-Combat",
@@ -22,7 +22,7 @@
         {
             "id": "encounter",
             "page_intent": "default",
-            "node_types": ["incident", "wish", "rest", "sacrifice", "evacuate"],
+            "node_types": ["incident", "wish", "rest", "sacrifice", "evacuate", "duel"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
             "task": "BlackFlow@Roguelike@Page-Encounter",

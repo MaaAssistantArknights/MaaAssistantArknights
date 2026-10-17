@@ -62,6 +62,20 @@ public class GenericCombinedData<TValueType>() : PropertyChangedBase
         set => SetAndNotify(ref _isEnabled, value);
     }
 
+#nullable enable
+    private string? _tip;
+
+    /// <summary>
+    /// Gets or sets the hover tip of the item.
+    /// 供下拉项悬浮提示绑定；null 时不显示。
+    /// </summary>
+    public string? Tip
+    {
+        get => _tip;
+        set => SetAndNotify(ref _tip, value);
+    }
+
+#nullable disable
     /// <inheritdoc/>
     public override string ToString() => Display;
 }

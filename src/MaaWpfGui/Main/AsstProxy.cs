@@ -2539,6 +2539,12 @@ public class AsstProxy
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageInfoError"), UiLogColor.Error, splitMode: TaskQueueViewModel.LogCardSplitMode.Both, updateCardImage: true);
                 break;
 
+            case "CopilotPrecheckFile":
+                var navName = subTaskDetails!["nav_name"]?.ToString() ?? string.Empty;
+                var filename = subTaskDetails!["filename"]?.ToString() ?? string.Empty;
+                Instances.CopilotViewModel.AddLog(navName + " - " + filename, UiLogColor.Info, showTime: false);
+                break;
+
             case "BattleFormation":
                 Instances.CopilotViewModel.AddLog(
                     LocalizationHelper.GetString("BattleFormation") +
@@ -2715,7 +2721,7 @@ public class AsstProxy
             case "CustomInfrastTraineeNotFound":
                 {
                     // 训练位候选名单全部未命中（专精全满或名字写错），训练位保持原样；未匹配到干员信息时回退显示配置原名
-                    var candidates = string.Join(", ", (subTaskDetails!["candidates"] as JArray ?? new JArray())
+                    var candidates = string.Join(", ", (subTaskDetails!["candidates"] as JArray ?? [])
                         .Select(name => DataHelper.GetLocalizedCharacterName(name.ToString()) ?? name.ToString()));
                     Instances.TaskQueueViewModel.AddLog(
                         LocalizationHelper.GetStringFormat("InfrastTraineeNotFound", candidates), UiLogColor.Warning);
@@ -2728,7 +2734,7 @@ public class AsstProxy
                     // 单独携带，有名单时提示计划内的排除，避免把配置正确的情况误报成名单错误
                     var workingExcluded = subTaskDetails!["working_excluded"] as JArray;
                     var lowMoodExcluded = subTaskDetails["low_mood_excluded"] as JArray;
-                    var excludedArray = workingExcluded ?? lowMoodExcluded ?? new JArray();
+                    var excludedArray = workingExcluded ?? lowMoodExcluded ?? [];
                     var excluded = excludedArray
                         .Select(name => DataHelper.GetLocalizedCharacterName(name.ToString()) ?? name.ToString())
                         .ToArray();
@@ -2736,7 +2742,7 @@ public class AsstProxy
                         ", ",
                         excluded.Length > 0
                             ? excluded
-                            : (subTaskDetails["candidates"] as JArray ?? new JArray())
+                            : (subTaskDetails["candidates"] as JArray ?? [])
                                 .Select(name => DataHelper.GetLocalizedCharacterName(name.ToString()) ?? name.ToString()));
                     var key = workingExcluded is { Count: > 0 } ? "InfrastAssistantWorkingExcluded"
                         : lowMoodExcluded is { Count: > 0 } ? "InfrastAssistantLowMood"
@@ -2763,8 +2769,7 @@ public class AsstProxy
                         // 候补不可用的三种原因分别提示：全部在班、心情不满足设施要求、名单有误；
                         // 其余 reason（空意图等）为房间无选人意图的通用保持原样；
                         // 设施卡片已存在时原因行直接追加，不另起新卡
-                        var reasonKey = keptReason switch
-                        {
+                        var reasonKey = keptReason switch {
                             "candidates_working" => "InfrastCandidatesWorking",
                             "candidates_low_mood" => "InfrastCandidatesLowMood",
                             "candidates_unavailable" => "InfrastCandidatesUnavailable",
@@ -2837,26 +2842,6 @@ public class AsstProxy
                     if (subTaskDetails?.ToObject<FightSettingsUserControlModel.SanityInfo>() is { SanityMax: > 0 } report)
                     {
                         FightSetting.SanityReport = report;
-                    }
-
-                    break;
-                }
-
-            case "FightTimes":
-                {
-                    FightSetting.FightReport = null;
-                    if ((subTaskDetails?.Children())?.Any() is true)
-                    {
-                        FightSetting.FightReport = subTaskDetails.ToObject<FightSetting.FightTimes>()!;
-                        if (FightSetting.FightReport.TimesFinished > 0)
-                        {
-                            AchievementTrackerHelper.Instance.SetProgress(AchievementIds.OverLimitAgent, FightSetting.FightReport.TimesFinished);
-                        }
-
-                        if (FightSetting.Instance.HasTimesLimited != false && FightSetting.FightReport.IsFinished && FightSetting.FightReport.TimesFinished < FightSetting.Instance.MaxTimes)
-                        {
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("FightTimesUnused", FightSetting.FightReport.TimesFinished, FightSetting.FightReport.Series, FightSetting.FightReport.TimesFinished + FightSetting.FightReport.Series, FightSetting.Instance.MaxTimes), UiLogColor.Warning);
-                        }
                     }
 
                     break;

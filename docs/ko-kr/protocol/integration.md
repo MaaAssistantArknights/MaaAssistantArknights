@@ -22,8 +22,8 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 #### 반환 값
 
 - `AsstTaskId`  
-   추가 성공 시 해당 작업 ID 반환, 이후 작업 파라미터 설정에 사용 가능;  
-   추가 실패 시 0 반환
+  추가 성공 시 해당 작업 ID 반환, 이후 작업 파라미터 설정에 사용 가능;  
+  추가 실패 시 0 반환
 
 #### 파라미터 설명
 
@@ -100,7 +100,7 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 </details>
 
 - `CloseDown`  
-   게임 종료
+  게임 종료
 
 :::: field-group  
 ::: field enable  
@@ -131,7 +131,7 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 </details>
 
 - `Fight`  
-   이성 사용 작전
+  이성 사용 작전
 
 :::: field-group  
 ::: field enable  
@@ -143,15 +143,21 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 ::: field stage  
 @type string
 @optional
-스테이지명, 기본값은 비어 있음(현재/지난 스테이지 인식). 실행 중 설정 불가
-<br>
-`"1-7"`, `"S3-2"` 등 모든 메인 스토리 스테이지 지원
-<br>
-스테이지명 끝에 `-NORMAL`/`-HARD`를 추가해 난이도 전환 가능 (10-14장은 표준/재앙, 15장 이후는 일반/험지)
-<br>
-섬멸 작전의 경우 반드시 `"Annihilation"` 입력
-<br>
-현재 진행 중인 SideStory의 뒤쪽 3개 스테이지는 반드시 전체 스테이지 번호를 입력해야 함  
+스테이지명, 기본값은 비어 있음(현재/지난 스테이지 인식). 실행 중 설정 불가  
+현재 내비게이션을 지원하는 스테이지는 다음과 같음:
+
+- 모든 메인 스토리 스테이지. 스테이지명 끝에 `-NORMAL` 또는 `-HARD`를 추가해 난이도 전환 가능 (10-14장은 표준/재앙, 15장 이후는 일반/험지)
+- 용문폐, 작전기록 5/6 스테이지. 단, 반드시 `CE-6` / `LS-6`으로 입력해야 함. 6 스테이지를 대리 지휘할 수 없는 경우 MAA가 자동으로 5 스테이지로 전환함
+- 스킬개론, 구매증명서, 카본 제5 스테이지. 반드시 `CA-5` / `AP-5` / `SK-5`로 입력해야 함
+- 모든 칩 스테이지. 반드시 `PR-A-1`과 같이 전체 스테이지 번호를 입력해야 함
+- 섬멸 모드는 다음 입력값을 지원하며, 반드시 대응하는 Value를 사용해야 함:
+  - 이번 섬멸 작전: Annihilation
+  - 체르노보그: Chernobog@Annihilation
+  - 용문 외곽: LungmenOutskirts@Annihilation
+  - 용문 시내: LungmenDowntown@Annihilation
+- SideStory의 OF-1 / OF-F3
+- 현재 진행 중인 SS 이벤트의 마지막 3개 스테이지. 지원되는 스테이지 목록은 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json)에서 확인 가능. 이벤트 스테이지 내비게이션을 위해 [tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) 파일을 추가로 로드해야 함
+- 복각 SS 이벤트. `SSReopen-<스테이지 접두사>`를 입력하면 XX-1 ~ XX-9 스테이지를 한 번에 클리어할 수 있음 (예: `SSReopen-IC`)
 :::  
 ::: field medicine  
 @type number
@@ -190,6 +196,7 @@ v6.8.0부터 폐기됨. 대신 `medicine_expire_days`를 사용하세요.
 @optional
 연속 전투 횟수, -1~10
 <br>
+
 `-1`: 전환 비활성화
 <br>
 `0`: 현재 사용 가능한 최대 횟수로 자동 전환. 만약 현재 이성이 최대 횟수 미만이면 사용 가능한 최소 횟수 선택
@@ -206,49 +213,60 @@ v6.8.0부터 폐기됨. 대신 `medicine_expire_days`를 사용하세요.
 해외 서버는 약 반년 후 따를 예정이며, 그때 상한은 리소스에 맞춰 10이 됩니다. Windows GUI의 연속 전투 드롭다운은 현재 고정으로 10까지 제공합니다. 해외에서 수동으로 7~10을 선택하면 작업 전달 시 Core에서 거부됩니다.
 :::  
 ::: field drops  
- @type object
+@type object
 @optional
 지정 드랍 수량, 기본값은 지정 안 함. key는 item_id, value는 수량. key는 `resource/item_index.json` 파일 참조
 <br>
 예: `{ "30011": 10, "30062": 5 }`  
- <br>
+<br>
 위 조건들은 OR 관계이므로, 어느 하나라도 도달하면 작업 중지  
- :::  
- ::: field report_to_penguin  
- @type boolean
+:::  
+::: field report_to_penguin  
+@type boolean
 @default false
 @optional
 펭귄 물류(Penguin Stats) 데이터 전송 여부  
- :::  
- ::: field penguin_id  
- @type string
+:::  
+::: field penguin_id  
+@type string
 @optional
 펭귄 물류 전송 ID, 기본값 비어 있음. `report_to_penguin`이 true일 때만 유효  
- :::  
- ::: field server  
- @type string
+:::  
+::: field report_to_yituliu  
+@type boolean
+@default false
+@optional
+Yituliu 데이터 전송 여부  
+:::  
+::: field yituliu_id  
+@type string
+@optional
+Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때만 유효  
+:::  
+::: field server  
+@type string
 @default CN
 @optional
 서버, 드랍 인식 및 업로드에 영향
 <br>
 옵션: `CN` | `US` | `JP` | `KR`  
- :::  
- ::: field client_type  
- @type string
+:::  
+::: field client_type  
+@type string
 @optional
 클라이언트 버전, 기본값 비어 있음. 게임 크래시 시 재시작 후 재접속하여 계속 파밍하는 용도. 비워두면 해당 기능 비활성화
 <br>
 옵션: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
- :::  
- ::: field DrGrandet  
- @type boolean
+:::  
+::: field DrGrandet  
+@type boolean
 @default false
 @optional
 이성 절약 모드, 오리지늄 사용 가능성이 있을 때만 유효
 <br>
 오리지늄 사용 확인 창에서 대기하다가, 현재 1이성이 회복되면 즉시 오리지늄을 사용  
- :::  
- ::::
+:::  
+::::
 
 <details>
 <summary>Example</summary>
@@ -439,7 +457,7 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 </details>
 
 - `Infrast`  
-   기반시설 교대
+  기반시설 교대
 
 :::: field-group  
 ::: field enable  
@@ -607,8 +625,8 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 </details>
 
 - `Mall`  
-   크레딧 수령 및 상점 구매  
-   먼저 `buy_first` 목록 순서대로 구매하고, 그 다음 `blacklist`를 제외하고 왼쪽에서 오른쪽으로 구매하며, 크레딧이 넘칠 경우 블랙리스트를 무시하고 넘치지 않을 때까지 구매
+  크레딧 수령 및 상점 구매  
+  먼저 `buy_first` 목록 순서대로 구매하고, 그 다음 `blacklist`를 제외하고 왼쪽에서 오른쪽으로 구매하며, 크레딧이 넘칠 경우 블랙리스트를 무시하고 넘치지 않을 때까지 구매
 
 :::: field-group  
 ::: field enable  
@@ -671,7 +689,7 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 @optional
 OF-1 플레이 시 사용할 편성 슬롯 번호
 <br>
-0~4의 정수, 0은 현재 편성, 1~4는 제1~4 편성  
+0~~4의 정수, 0은 현재 편성, 1~~4는 제1~4 편성  
 :::  
 ::::
 
@@ -696,7 +714,7 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 </details>
 
 - `Award`  
-   각종 보상 수령
+  각종 보상 수령
 
 :::: field-group  
 ::: field enable  
@@ -765,7 +783,7 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 </details>
 
 - `SwitchTheme`  
-   게임 메인 화면 테마 전환
+  게임 메인 화면 테마 전환
 
 :::: field-group  
 ::: field enable  
@@ -794,7 +812,7 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 </details>
 
 - `Roguelike`  
-   통합 전략 무한 반복
+  통합 전략 무한 반복
 
 :::: field-group  
 ::: field enable  
@@ -847,7 +865,9 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 <br>
 `20001` - 상락(常樂) 노드 파밍. 1층 진입 후 필요한 노드가 없으면 재시작. JieGarden 테마 전용이며 `find_playTime_target` 필요  
 <br>
-`30001` - 포대기 동물 파밍, BlackFlow 테마 전용  
+`30001` - 포대기 동물 파밍, BlackFlow 테마 전용
+<br>
+`30003` - 시작 보상 파밍. 먼저 준비 탐험을 진행한 뒤 목표 탐험을 시작합니다. 준비 탐험은 `blackflow_start_animals`에서 지정한 포대기 동물을 얻고 3층에 진입한 후 포기합니다. 목표 탐험의 지원 선택 화면에 `blackflow_start_rewards`의 항목이 하나라도 나오면 선택하지 않고 테마 화면으로 나가 해당 탐험을 유지한 채 작업을 종료합니다. 준비 탐험은 `collectible_mode_squad`를 사용하며 `difficulty`가 `-1`이 아니면 난이도 0으로 진행합니다. 목표 탐험은 `squad`와 `difficulty`를 사용하며 지원 선택 화면에서 종료합니다. `roles`와 시작 오퍼레이터는 준비 탐험에만 사용됩니다. BlackFlow 테마 전용이며 `blackflow_start_animals`, `blackflow_start_rewards`와 함께 사용해야 합니다. (기계 번역)
 :::  
 ::: field squad  
 @type string
@@ -1034,6 +1054,8 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 @type string
 @optional
 파밍 중 사용할 분대, 기본적으로 squad와 동기화, squad가 비었고 이 값도 없으면 지휘 분대  
+<br>
+BlackFlow 모드 30003에서는 준비 탐험에 사용하는 분대입니다. (기계 번역)  
 :::  
 ::: field start_with_seed  
 @type string
@@ -1047,19 +1069,35 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 @optional
 블랙 플로우 테마의 전략. 비워 두면 `mode`와 `investment_enabled` 값으로부터 추론됩니다.
 <br>
-`baby_animal` - 1층에서 일반 상점을 확인한 뒤, 2·3층을 탐색하여 秘境行商(비밀 상인)에서 씨앗을 육성합니다. `blackflow_cultivation_target`와 함께 사용해야 합니다
+`baby_animal` - 1층에서 일반 상점을 확인한 뒤, 2·3층을 탐색하여 秘境行商(신비한 상인)에서 씨앗을 육성합니다. `blackflow_cultivation_target`와 함께 사용해야 합니다
 <br>
 `investment` - 1층에서 전투 횟수가 가장 적고 예상 시간이 가장 짧은 경로로 고정 일반 상점에 도달합니다
 <br>
 `burn_with_investment` - 1층에서 투자를 완료한 후 최대한 빨리 3층에 도달하여 도착 즉시 재시작합니다
 <br>
 `burn` - 최대한 빨리 3층에 도달하여 도착 즉시 재시작합니다  
+<br>
+모드 30003에서는 이 항목을 읽지 않습니다. 동물 요구가 있으면 준비 탐험은 `baby_animal` 경로로 육성하고, 없으면 최대한 빨리 3층에 도달하며 `investment_enabled`가 true이면 먼저 1층에서 투자합니다. 준비 탐험의 시작 오퍼레이터가 메커니스트이고 `collectible_mode_squad`가 特勤分队(특근 분대) 또는 堡垒战术分队(방어 전술 분대), `roles`가 稳扎稳打(차근차근) 또는 坚不可摧(파괴 불가)이면 재능을 모두 해금한 메커니스트 시작으로 간주하며 구조적 원리를 지참합니다. 준비 탐험은 메커니스트를 모집한 뒤 나머지 시작 모집을 포기하고 필요할 때 구조적 원리로 이동하며, 동물 요구가 없으면 2층에서 이를 사용해 출구로 바로 비행합니다. (기계 번역)  
 :::  
 ::: field blackflow_cultivation_target  
 @type string
 @default swaddled_cat
 @optional
 포대기 동물 파밍 모드의 목표. 선택 가능한 값: `swaddled_cat`(포대기의 고양이) | `swaddled_feathered_serpent`(포대기의 깃털 뱀) | `swaddled_dog`(포대기의 개) | `swaddled_cerberus`(포대기의 케르베로스). `blackflow_strategy`가 `baby_animal`일 때만 사용됩니다.  
+:::  
+::: field blackflow_start_animals  
+@type array<string>
+@optional
+모드 30003 준비 탐험에서 육성할 포대기 동물. 0~~2개 항목, 중복 가능, 깃털 뱀은 최대 1개. 선택 가능한 값: `swaddled_cat` | `swaddled_dog` | `swaddled_cerberus` | `swaddled_feathered_serpent`. 각 항목은 수량까지 동시에 충족해야 하며, 예를 들어 `swaddled_cat` 2개는 고양이가 최소 2마리 필요하고 다른 동물이 더 있어도 상관없습니다. 육성이 끝났는데도 다 모이지 않으면 해당 탐험을 포기하고 준비 탐험을 다시 진행합니다. 빈 배열이면 준비 탐험은 3층에 진입하기만 하면 됩니다. 모드 30003에서는 필수. (기계 번역)  
+:::  
+::: field blackflow_start_rewards  
+@type number
+@optional
+모드 30003 목표 탐험에서 원하는 시작 보상. 비트마스크이며 범위는 0~~4095. 모드 30003에서는 필수. (기계 번역)  
+<br>
+`1` 未编号物; `2` 调查预付款; `4` 空间租赁; `8` 退行补偿; `16` 林间代步; `32` 巢寄生; `64` 襁褓天马; `128` 襁褓骏鹰; `256` 襁褓巨龙; `512` 襁褓九头蛇; `1024` 襁褓白泽; `2048` 襁褓金乌 (한국어명 미정). 뒤의 6개는 깃털 뱀이 가져오는 파란색 보상으로, `blackflow_start_animals`에 깃털 뱀이 포함될 때만 적용되며 그렇지 않으면 무시됩니다.  
+<br>
+목표 탐험은 지원 선택 화면의 보상을 모두 인식한 뒤 판단합니다. 하나라도 일치하면 완료합니다. 보상은 인식했지만 원하는 것이 없으면 해당 탐험을 포기하고 준비 탐험을 다시 진행합니다. 하나도 인식하지 못했거나 깃털 뱀 보상을 요구했는데 파란색 보상을 읽지 못하면 지원 선택 화면에 머문 채 작업을 중지하고 스크린샷을 `debug/roguelike`에 저장합니다. 0이면 지원 선택 화면에 들어가는 즉시 완료합니다. 진행 상황은 `SubTaskExtraInfo`의 `BlackFlowStartRun` 콜백으로 전달됩니다. [콜백 스키마](./callback-schema.md)를 참고하세요.  
 :::  
 ::: field find_playTime_target  
 @type number
@@ -1125,7 +1163,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 붕괴 패러다임 파밍 기능에 대한 자세한 내용은 [통합 전략 보조 프로토콜](./integrated-strategy-schema.md#탐험가의-은빛-서리-끝자락-—-붕괴-패러다임)을 참고하세요.
 
 - `Copilot`  
-   자동지휘
+  자동지휘
 
 :::: field-group  
 ::: field enable  
@@ -1250,7 +1288,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 </details>
 
 - `SSSCopilot`  
-   보안 파견 자동지휘
+  보안 파견 자동지휘
 
 :::: field-group  
 ::: field enable  
@@ -1323,7 +1361,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 </details>
 
 - `Depot`  
-   창고 인식
+  창고 인식
 
 :::: field-group  
 ::: field enable  
@@ -1346,7 +1384,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 </details>
 
 - `OperBox`  
-   오퍼레이터 인식
+  오퍼레이터 인식
 
 :::: field-group  
 ::: field enable  
@@ -1369,7 +1407,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 </details>
 
 - `Reclamation`  
-   생존 연산
+  생존 연산
 
 :::: field-group  
 ::: field enable  
@@ -1457,7 +1495,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 </details>
 
 - `Custom`  
-   사용자 정의 작업
+  사용자 정의 작업
 
 :::: field-group  
 ::: field enable  
@@ -1477,7 +1515,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 @optional
 작업 추가 파라미터. 현재는 픽셀 아트 작업(`MiniGame@PixelPaint@Begin`), 잠재능력 자동 강화 작업(`MiniGame@AutoRaisePotential@Begin`), 이벤트 상점 교환 작업(`SS@Store@Begin`)에서 사용:
 
-- `params.pixel_paint.groups`: 색상별 칸 좌표 목록. `color`는 팔레트 슬롯 번호(0~39, 게임 오른쪽 팔레트 순서와 동일), `points`는 `[x, y]` 칸 좌표 배열(0~23, 왼쪽 위 원점).
+- `params.pixel_paint.groups`: 색상별 칸 좌표 목록. `color`는 팔레트 슬롯 번호(0~~39, 게임 오른쪽 팔레트 순서와 동일), `points`는 `[x, y]` 칸 좌표 배열(0~~23, 왼쪽 위 원점).
 - `params.pixel_paint.swipe`(bool, 선택, 기본 true): 같은 색 연속 칸을 한 번의 드래그로 그려 속도를 높임. 일부 터치 방식에서는 이상 동작이 있을 수 있음.
 - `params.pixel_paint.grid_delay`(int, 선택, 기본 0): 칸당 추가 대기 시간(ms). 클릭 후 대기와 드래그 시간에 모두 가산됩니다. 각 터치 방식에 기본 간격이 있어 보통 조정 불필요. 구 키 `grid_click_delay` 도 호환됩니다.
 - `params.auto_raise_potential.use_normal_token`(bool, 선택, 기본 false): 증표가 부족할 때 확인 팝업은 기본적으로 ×를 눌러 포기함. true로 설정하면 √를 눌러 일반 증표를 소비하여 계속 진행함.
@@ -1513,7 +1551,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 </details>
 
 - `SingleStep`  
-   단일 단계 작업 (현재 전투만 지원)
+  단일 단계 작업 (현재 전투만 지원)
 
 :::: field-group  
 ::: field enable  
@@ -1606,7 +1644,7 @@ AsstBool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char*
 #### 반환 값
 
 - `AsstBool`  
-   설정 성공 여부 반환
+  설정 성공 여부 반환
 
 #### 파라미터 설명
 
@@ -1644,7 +1682,7 @@ AsstBool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value)
 #### 반환 값
 
 - `AsstBool`  
-   설정 성공 여부 반환
+  설정 성공 여부 반환
 
 #### 파라미터 설명
 
@@ -1697,7 +1735,7 @@ AsstBool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey 
 #### 반환 값
 
 - `AsstBool`  
-   설정 성공 여부 반환
+  설정 성공 여부 반환
 
 #### 파라미터 설명
 

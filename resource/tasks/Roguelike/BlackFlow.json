@@ -810,10 +810,13 @@
         "roi": [569, 65, 253, 82]
     },
     "BlackFlow@Roguelike@LastReward": {
+        "Doc": "退行补偿·消耗2目标生命值上限，获得1件随机收藏品",
         "baseTask": "Roguelike@LastReward",
+        "roi": [82, 145, 1116, 310],
         "template": "BlackFlow@Roguelike@LastReward.png"
     },
     "BlackFlow@Roguelike@LastReward-EnterPoint": {
+        "roi": [82, 145, 1116, 310],
         "template": [
             "BlackFlow@Roguelike@LastReward.png",
             "BlackFlow@Roguelike@LastReward2.png",
@@ -834,23 +837,28 @@
         ]
     },
     "BlackFlow@Roguelike@LastReward2": {
-        "baseTask": "Roguelike@LastReward",
+        "Doc": "林间代步·获得1件加工品",
+        "baseTask": "BlackFlow@Roguelike@LastReward",
         "template": "BlackFlow@Roguelike@LastReward2.png"
     },
     "BlackFlow@Roguelike@LastReward3": {
-        "baseTask": "Roguelike@LastReward",
+        "Doc": "巢寄生·零件箱容量-1，获得1件稀有收藏品",
+        "baseTask": "BlackFlow@Roguelike@LastReward",
         "template": "BlackFlow@Roguelike@LastReward3.png"
     },
     "BlackFlow@Roguelike@LastReward4": {
-        "baseTask": "Roguelike@LastReward",
+        "Doc": "未编号物·获得1件普通收藏品",
+        "baseTask": "BlackFlow@Roguelike@LastReward",
         "template": "BlackFlow@Roguelike@LastReward4.png"
     },
     "BlackFlow@Roguelike@LastReward5": {
-        "baseTask": "Roguelike@LastReward",
+        "Doc": "调查预付款·获得8源石锭",
+        "baseTask": "BlackFlow@Roguelike@LastReward",
         "template": "BlackFlow@Roguelike@LastReward5.png"
     },
     "BlackFlow@Roguelike@LastReward6": {
-        "baseTask": "Roguelike@LastReward",
+        "Doc": "空间租赁·消耗6源石锭，零件箱容量+2",
+        "baseTask": "BlackFlow@Roguelike@LastReward",
         "template": "BlackFlow@Roguelike@LastReward6.png"
     },
     "BlackFlow@Roguelike@LastRewardConfirm": {
@@ -2005,6 +2013,11 @@
     "BlackFlow@Roguelike@StartExplore-EnterCheck": {
         "template": "BlackFlow@Roguelike@StartExplore.png",
         "roi": [958, 530, 322, 189]
+    },
+    "BlackFlow@Roguelike@StartRunSerpentRewardNames": {
+        "Doc": "刷开局目标局有羽蛇时的选择支援页，读取第一张蓝色卡的奖励名称；候选名称由生命周期插件传入。",
+        "algorithm": "OcrDetect",
+        "roi": [82, 364, 548, 201]
     },
     "BlackFlow@Roguelike@StrategyTerminalAction": {
         "baseTask": "BlackFlow@Roguelike@ExitThenAbandon-Enter"

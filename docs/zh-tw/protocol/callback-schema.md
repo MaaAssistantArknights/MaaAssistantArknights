@@ -672,6 +672,18 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   :::
   ::::
 
+- `BlackFlowStartRun`  
+  黑流樹海刷開局（肉鴿模式 30003）的進度。`details` 欄位結構如下：
+  - `status` (string, required)：目前進度，取值如下：
+    - `preparing`：準備局開始。
+    - `target_run`：目標局開始。
+    - `reward_missed`：選擇支援頁辨識出了獎勵但沒有期望的，放棄該局，重新進行準備局。
+    - `completed`：命中期望獎勵，已退出到主題頁並保留該局，任務結束。
+    - `reward_unrecognized`：選擇支援頁的獎勵辨識不出，停在該頁並停止任務。
+    - `reward_page_missing`：目標局沒有出現選擇支援頁，停止任務。
+    - `reward_recognition_failed`：準備局在選擇支援頁選擇獎勵失敗，停止任務。
+  - `rewards` (`array<string>`, optional)：目標局在選擇支援頁辨識出的獎勵名稱，如 `空间租赁`、`金乌`；只隨 `reward_missed`、`completed`、`reward_unrecognized` 回報；`blackflow_start_rewards` 為 0（不辨識獎勵）或一項都沒辨識出時省略。
+
 ### ReportRequest
 
 該欄位主要用於核心模組向 UI 層傳遞網路請求資訊，UI 負責執行具體的 HTTP 彙報操作。

@@ -97,7 +97,8 @@
     "MiniGame@AutoRaisePotential@TokenNotEnough": {
         "algorithm": "OcrDetect",
         "roi": [1043, 89, 221, 56],
-        "text": ["信物不足"],
+        "doc": "干员的名字较长时文本会换行，ocr的目标可能会被截断为两个文本块。",
+        "text": ["信物", "不足"],
         "next": ["MiniGame@AutoRaisePotential@ReturnToOperFilesPage"]
     },
     "MiniGame@AutoRaisePotential@TokenConfirmDialog": {

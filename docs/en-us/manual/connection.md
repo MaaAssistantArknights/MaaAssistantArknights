@@ -163,6 +163,10 @@ For `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`:
 
 :::
 
+#### Return to MAA and Test
+
+You can use the `Screenshot Test` function in `Settings` - `Connection Settings` to check that the connected emulator core is the expected one.
+
 ## Connection Configuration
 
 Select the configuration matching your emulator. If not listed, choose General Mode. If that doesn't work, try any other available configuration.

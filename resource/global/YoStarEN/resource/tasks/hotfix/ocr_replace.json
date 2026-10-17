@@ -1094,7 +1094,8 @@
             ["Kal'tsit Esperanta", "凯尔希·思衡托"],
             ["Viy", "维伊"],
             ["Tactical Anchor Point", "战术锚点"],
-            ["Crackborne", "裂响"]
+            ["Crackborne", "裂响"],
+            ["GALLUS.*", "GALLUS²"]
         ]
     },
     "BattleStageNameHotfix": {

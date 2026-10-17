@@ -9,7 +9,7 @@ icon: basil:apple-solid
 
 ### ✅ [PlayCover](https://playcover.io)（제일 부드럽습니다! 🚀）
 
-실험적으로 지원되며 문제가 발생하면 Issue를 바로 보고하고, 제목에 iOS를 명시하세요.
+실험적으로 지원되며 문제가 발생하면 Issue를 바로 보고하고, 제목에 `macOS`를 명시하세요.
 
 참고: macOS 자체적인 문제로 인해 게임 창을 최소화하거나 배경으로 이동한 후 다른 창으로 전환하거나 창을 다른 데스크톱/화면으로 이동하는 경우 스크린샷이 문제가 발생하여 제대로 작동하지 않을 수 있습니다. 관련된 이슈 [#4371](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/4371#issuecomment-1527977512)
 
@@ -67,7 +67,7 @@ Mac 버전 개발에 인력이 부족하여 업데이트 속도가 비교적 느
 
 완벽하게 지원됩니다.
 
-추가로, macOS에서 녹스 에뮬레이터의 adb 이진 파일의 위치는 `/Applications/NoxAppPlayer.app/Contents/macOS/adb`이며 부모 디렉토리 `macOS`에서 `adb devices` 명령을 사용하여 adb 포트를 확인할 수 있습니다.
+추가로, macOS에서 녹스 에뮬레이터의 adb 이진 파일의 위치는 `/Applications/NoxAppPlayer.app/Contents/MacOS/adb`이며 부모 디렉토리 `MacOS`에서 `adb devices` 명령을 사용하여 adb 포트를 확인할 수 있습니다.
 
 ### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 

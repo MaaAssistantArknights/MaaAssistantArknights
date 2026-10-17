@@ -30,6 +30,12 @@ params = { client_type = "Official", start_game_enabled = true } # 해당 작업
 
 구체적인 작업 유형과 매개변수는 [MAA 통합 문서][task-types]에서 찾을 수 있습니다. 주의할 점은 현재 maa-cli는 매개변수 이름과 값이 올바른지 확인하지 않으며, 실행 중 오류가 발생하지 않는 한 MaaCore가 실행 시 오류를 감지하지 않습니다.
 
+`tasks` 외에도 작업 파일은 다음과 같은 최상위 필드를 지원합니다:
+
+- `client_type`: 클라이언트 유형을 지정합니다. 이 값은 `StartUp`, `Fight`, `CloseDown` 작업의 `client_type` 매개변수에 자동으로 채워집니다.
+- `startup`: 게임을 자동으로 시작할지 여부입니다. `true`로 설정하면 작업 목록에 `StartUp` 작업이 없을 경우 시작 부분에 자동으로 추가되며, 기존 `StartUp` 작업에서 `start_game_enabled`가 활성화되어 있지 않은 경우에도 자동으로 활성화됩니다.
+- `closedown`: 게임을 자동으로 종료할지 여부입니다. `true`로 설정하면 작업 목록에 `CloseDown` 작업이 없을 경우 끝 부분에 자동으로 추가되며, 기존 `CloseDown` 작업의 `enable`이 `false`인 경우에도 자동으로 활성화됩니다.
+
 ### 작업 조건
 
 조건에 따라 다른 매개변수로 작업을 실행하려면 여러 작업 변형을 정의할 수 있습니다:
@@ -307,6 +313,9 @@ touch_mode = "MaaTouch"
 deployment_with_pause = false
 adb_lite_enabled = false
 kill_adb_on_exit = false
+
+[behavior]
+auto_reconnect = true
 ```
 
 ### 연결 설정
@@ -378,11 +387,25 @@ kill_adb_on_exit = false # 종료 시 adb를 종료할지 여부
 
 `touch_mode`의 `MacPlayTools` 옵션은 연결 방식 `PlayTools`와 연동됩니다. `PlayTools`로 연결할 때 `touch_mode`는 강제로 `MacPlayTools`로 설정됩니다.
 
+### 동작 설정
+
+`[behavior]` 관련 필드는 maa-cli 자체의 런타임 동작을 지정하는 데 사용됩니다:
+
+```toml
+[behavior]
+auto_reconnect = true # 게임이 서버와의 연결이 끊어졌을 때 자동으로 재연결할지 여부, 기본값은 true
+```
+
+또한, 작업 실행 시 `--no-auto-reconnect` 옵션을 통해 해당 실행에서 자동 재연결을 비활성화할 수도 있습니다.
+
 ## CLI 관련 설정
 
 CLI 관련 설정은 `$MAA_CONFIG_DIR/cli.toml`에 있어야 합니다. 현재 포함된 설정은 다음과 같습니다:
 
 ```toml
+# GitHub 프록시 접두사. 설정하면 GitHub release 다운로드 주소가 해당 프록시를 거치는 주소로 투명하게 재작성됩니다
+# github_proxy = "https://gh-proxy.org/"
+
 # MaaCore 설치 및 업데이트 관련 설정
 [core]
 channel = "Stable" # 업데이트 채널, 가능한 값은 "Alpha", "Beta", "Stable", 기본값은 "Stable"
@@ -441,6 +464,13 @@ passphrase = "password"       # ssh 키의 암호
 # ssh-agent는 키를 메모리에 저장하므로 매번 암호를 입력할 필요가 없습니다.
 # 주의: ssh-agent가 시작되어 있고 키가 추가되어 있어야 하며, SSH_AUTH_SOCK 환경 변수가 설정되어 있어야 합니다.
 # use_ssh_agent = true # ssh-agent를 사용하여 인증, true로 설정하면 ssh_key와 passphrase 필드가 무시됩니다.
+
+# 이벤트 정보 및 핫 업데이트 리소스 파일 다운로드 관련 설정
+[hot_update]
+# 이벤트 정보 조회 및 핫 업데이트 리소스 파일 다운로드용 API 주소, 비워두면 기본 주소를 사용
+api_url = "https://api.maa.plus/MaaAssistantArknights/api"
+# 확인 간격(초), 이 시간을 초과하면 파일이 다시 다운로드됩니다. 0은 캐시 비활성화를 의미하며 기본값은 600
+check_interval = 600
 ```
 
 **주의사항**：

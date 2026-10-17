@@ -13,6 +13,7 @@
 
 #nullable enable
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using MaaWpfGui.Constants.Enums;
 using static MaaWpfGui.Main.AsstProxy;
 
@@ -21,7 +22,7 @@ namespace MaaWpfGui.Configuration.Single.MaaTask;
 /// <summary>
 /// 肉鸽任务
 /// </summary>
-public class RoguelikeTask : BaseTask
+public class RoguelikeTask : BaseTask, IJsonOnDeserialized
 {
     public RoguelikeTask() => TaskType = TaskType.Roguelike;
 
@@ -130,6 +131,36 @@ public class RoguelikeTask : BaseTask
     public RoguelikeBlackFlowCultivationTarget BlackFlowCultivationTarget { get; set; } = RoguelikeBlackFlowCultivationTarget.Cat;
 
     /// <summary>
+    /// Gets or sets 刷等级的目标结局
+    /// </summary>
+    public RoguelikeBlackFlowEnding BlackFlowEnding { get; set; } = RoguelikeBlackFlowEnding.Ending1;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 刷等级时用机械师快速飞三层
+    /// </summary>
+    public bool BlackFlowFastFlight { get; set; }
+
+    /// <summary>
+    /// Gets or sets 刷开局要求的第一只襁褓动物
+    /// </summary>
+    public RoguelikeBlackFlowStartAnimal BlackFlowStartAnimal1 { get; set; } = RoguelikeBlackFlowStartAnimal.None;
+
+    /// <summary>
+    /// Gets or sets 刷开局要求的第二只襁褓动物
+    /// </summary>
+    public RoguelikeBlackFlowStartAnimal BlackFlowStartAnimal2 { get; set; } = RoguelikeBlackFlowStartAnimal.None;
+
+    /// <summary>
+    /// Gets or sets 刷开局的期望奖励，含羽蛇奖励
+    /// </summary>
+    public RoguelikeBlackFlowStartReward BlackFlowStartRewards { get; set; } = RoguelikeBlackFlowStartReward.None;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 刷开局的准备局固定用满天赋机械师开局快速飞三层
+    /// </summary>
+    public bool BlackFlowStartRunFastFlight { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 使用非好友助战
     /// </summary>
     public bool UseSupportNonFriend { get; set; }
@@ -181,6 +212,26 @@ public class RoguelikeTask : BaseTask
     public bool StartWithSeed { get; set; }
 
     public string Seed { get; set; } = string.Empty;
+
+    public void OnDeserialized()
+    {
+        // 刷襁褓动物已并入刷开局：原来的培育目标改为刷开局的第一只动物。
+        // 放在读配置时做，没打开过设置页就直接启动的旧任务也能迁移到。
+        // 迁移只用到本类现有的字段，所以照 StartUpTask 写在 OnDeserialized 里；
+        // RoguelikeStartingOpersConverter 那种 Root 转换器用于旧字段已删除、只能从原始 JSON 读取的情况。
+        if (Theme == RoguelikeTheme.BlackFlow && Mode == RoguelikeMode.BlackFlowBabyAnimal)
+        {
+            BlackFlowStartAnimal1 = BlackFlowCultivationTarget switch
+            {
+                RoguelikeBlackFlowCultivationTarget.Dog => RoguelikeBlackFlowStartAnimal.Dog,
+                RoguelikeBlackFlowCultivationTarget.Cerberus => RoguelikeBlackFlowStartAnimal.Cerberus,
+                RoguelikeBlackFlowCultivationTarget.FeatheredSerpent => RoguelikeBlackFlowStartAnimal.FeatheredSerpent,
+                _ => RoguelikeBlackFlowStartAnimal.Cat,
+            };
+            BlackFlowStartAnimal2 = RoguelikeBlackFlowStartAnimal.None;
+            Mode = RoguelikeMode.BlackFlowStartRun;
+        }
+    }
 
     /// <summary>
     /// 开局干员顺位
@@ -267,6 +318,55 @@ public enum RoguelikeMode
     /// 30001 - 刷襁褓动物（主题专用 GUI 模式）
     /// </summary>
     BlackFlowBabyAnimal = 30001,
+
+    /// <summary>
+    /// 30003 - 刷开局（主题专用 GUI 模式）
+    /// </summary>
+    BlackFlowStartRun = 30003,
+}
+
+/// <summary>
+/// 黑流树海刷等级的目标结局
+/// </summary>
+public enum RoguelikeBlackFlowEnding
+{
+    Ending1 = 1,
+    Ending2 = 2,
+    Ending3 = 3,
+}
+
+/// <summary>
+/// 黑流树海刷开局要求的襁褓动物
+/// </summary>
+public enum RoguelikeBlackFlowStartAnimal
+{
+    None = 0,
+    Cat = 1,
+    Dog = 2,
+    Cerberus = 3,
+    FeatheredSerpent = 4,
+}
+
+/// <summary>
+/// 黑流树海开局行动奖励，后六项由襁褓羽蛇提供
+/// </summary>
+[System.Flags]
+public enum RoguelikeBlackFlowStartReward
+{
+    None = 0,
+    UnnumberedItem = 1 << 0,
+    SurveyAdvance = 1 << 1,
+    SpaceLease = 1 << 2,
+    RegressionCompensation = 1 << 3,
+    ForestRide = 1 << 4,
+    NestParasitism = 1 << 5,
+    Pegasus = 1 << 6,
+    Hippogriff = 1 << 7,
+    Dragon = 1 << 8,
+    Hydra = 1 << 9,
+    BaiZe = 1 << 10,
+    GoldenCrow = 1 << 11,
+    SerpentRewards = Pegasus | Hippogriff | Dragon | Hydra | BaiZe | GoldenCrow,
 }
 
 /// <summary>

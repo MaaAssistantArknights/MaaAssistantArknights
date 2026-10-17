@@ -24,7 +24,7 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 ## 概要
 
 - `AsstMsgId msg`  
-   The message type
+  The message type
 
   ```cpp
   enum class AsstMsg
@@ -56,9 +56,9 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   ```
 
 - `const char* details`  
-   メッセージの詳細, JSON. 詳細: [Field Description](#field-description)
+  メッセージの詳細, JSON. 詳細: [Field Description](#field-description)
 - `void* custom_arg`  
-   呼び出し元のカスタム引数には、 `AsstCreateEx` インターフェースの `custom_arg` 引数が渡される。C ライクな言語では、`this` ポインタを一緒に渡すことができる。
+  呼び出し元のカスタム引数には、 `AsstCreateEx` インターフェースの `custom_arg` 引数が渡される。C ライクな言語では、`this` ポインタを一緒に渡すことができる。
 
 ## Field Description
 
@@ -94,50 +94,50 @@ Todo
 ### 多用される `What` フィルドの値
 
 - `ConnectFailed`  
-   接続失敗
+  接続失敗
 - `Connected`  
-   接続成功。現段階では `uuid` フィールドが空であることに注意してください (次のステップで取得されます)
+  接続成功。現段階では `uuid` フィールドが空であることに注意してください (次のステップで取得されます)
 - `UuidGot`  
-   UUID の取得
+  UUID の取得
 - `UnsupportedResolution`  
-   この解像度はサポートされていません
+  この解像度はサポートされていません
 - `ResolutionError`  
-   解像度を取得できない
+  解像度を取得できない
 - `Reconnecting`  
-   接続切断 (adb/emulator クラッシュ), 再接続開始
+  接続切断 (adb/emulator クラッシュ), 再接続開始
 - `Reconnected`  
-   接続切断 (adb/emulator クラッシュ), 再接続成功
+  接続切断 (adb/emulator クラッシュ), 再接続成功
 - `Disconnect`  
-   接続切断 (adb/emulator クラッシュ), 再接続失敗
+  接続切断 (adb/emulator クラッシュ), 再接続失敗
 - `ScreencapFailed`  
-   画面取得失敗 (adb/emulator クラッシュ), 再接続失敗
+  画面取得失敗 (adb/emulator クラッシュ), 再接続失敗
 - `TouchModeNotAvailable`  
-   サポートされていないタッチモード
+  サポートされていないタッチモード
 - `MuMuExtrasInputStatus`  
-   MuMu タッチ強化の実際の有効状態、`details` 構造：
+  MuMu タッチ強化の実際の有効状態、`details` 構造：
   - `available` (boolean, required): 有効になったかどうか。
   - `deferred` (boolean, required): まだ判定されていないかどうか（接続時にゲームがまだ描画されておらず、描画開始後に自動的に再判定されます）。
 - `ResolutionGot`  
-   解像度を取得しました
+  解像度を取得しました
 - `ResolutionChanged`  
-   実行中に解像度が変更され、接続が無効化され現在のタスクが中断されます、`details` 構造：
+  実行中に解像度が変更され、接続が無効化され現在のタスクが中断されます、`details` 構造：
   - `width` (number, required): 現在の幅。
   - `height` (number, required): 現在の高さ。
 - `FastestWayToScreencap`  
-   最速のスクリーンショット方式が見つかりました、`details` 構造：
+  最速のスクリーンショット方式が見つかりました、`details` 構造：
   - `method` (string, required): 最速のスクリーンショット方式。
   - `cost` (number, required): 所要時間（ミリ秒）。
   - `alternatives` (array`<object>`, required): 全候補方式とその所要時間。
 
 - `ScreencapCost`  
-   スクリーンショット所要時間統計（10回ごとに報告）、`details` 構造：
+  スクリーンショット所要時間統計（10回ごとに報告）、`details` 構造：
   - `min` (number, required): 最小所要時間（ミリ秒）。
   - `max` (number, required): 最大所要時間（ミリ秒）。
   - `avg` (number, required): 平均所要時間（ミリ秒）。
   - `fault_times` (number): 失敗回数（失敗がある場合のみ存在）。
 
 - `EmulatorFPS`  
-   エミュレータリフレッシュレート（1分ごとに検出）、`details` 構造：
+  エミュレータリフレッシュレート（1分ごとに検出）、`details` 構造：
   - `fps` (number, required): エミュレータ/システムのリフレッシュレート（FPS）。
   - `refresh_period_ns` (number, required): フレーム更新周期（ナノ秒）。
 
@@ -173,43 +173,45 @@ Todo
 #### 多用される `taskchain` フィールドの値
 
 - `StartUp`  
-   ゲーム開始
+  ゲーム開始
 - `CloseDown`  
-   ゲームを閉じる
+  ゲームを閉じる
 - `Fight`  
-   作戦
+  作戦
 - `Mall`  
-   FPとFP交換所に買い物
+  FPとFP交換所に買い物
 - `Recruit`  
-   自動公開求人
+  自動公開求人
 - `Infrast`  
-   基地施設
+  基地施設
 - `Award`  
-   デイリー報酬を受け取る
+  デイリー報酬を受け取る
 - `Roguelike`  
-   統合戦略
+  統合戦略
 - `Copilot`  
-   自動作戦
+  自動作戦
 - `SSSCopilot`  
-   自動保全駐在作戦
+  自動保全駐在作戦
 - `ParadoxCopilot`  
-   自動逆理演算作戦
+  自動逆理演算作戦
 - `Depot`  
-   倉庫の識別
+  倉庫の識別
 - `OperBox`  
-   オペレーターボックス識別
+  オペレーターボックス識別
 - `Reclamation`  
-   生息演算
+  生息演算
 - `Custom`  
-   カストム タスク
+  カストム タスク
 - `SingleStep`  
-   サブタスク
+  サブタスク
 - `VideoRecognition`  
-   ビデオ認識タスク
+  ビデオ認識タスク
 - `Debug`  
-   デバッグ
+  デバッグ
 
 ### TaskChain 関連情報
+
+`TaskChainError` / `TaskChainStart` / `TaskChainCompleted` / `TaskChainExtraInfo` / `TaskChainStopped` は以下のフィールドを共有します：
 
 ```json
 {
@@ -225,7 +227,11 @@ Todo
 
 ### TaskChainExtraInfo
 
-Todo
+デフォルトでは上記の共通フィールドのみを伴います。ローグライク（界園テーマ）で経路計画の結果、避けられない戦闘が多すぎると判定されて自ら再開する場合、メッセージに追加で以下が含まれます：
+
+- `what` (string, required): `RoutingRestart` に固定。
+- `why` (string, required): `TooManyBattlesAhead` に固定。
+- `node_cost` (number, required): 計画された次ノードのコスト。
 
 ### SubTask 関連情報
 
@@ -256,52 +262,54 @@ Todo
   }
   ```
 
+  なお、タスクの実行回数が上限に達した場合、まず `what` が `ExceededLimit` である `SubTaskExtraInfo` メッセージが送信され、`details` には `task`（タスク名）、`exec_times`（実行回数）、`max_times`（最大実行回数）が含まれます。
+
 - `ReportToPenguinStats` / `ReportToYituliu`  
-   戦闘ドロップをペンギン急便統計 / Yituliu ビッグデータへ報告します（報告失敗時は `SubTaskError` で通知されます）。
+  戦闘ドロップをペンギン急便統計 / Yituliu ビッグデータへ報告します（報告失敗時は `SubTaskError` で通知されます）。
 - `StartGameTask`  
-   クライアントの起動に失敗（設定ファイルと渡された `client_type` が不一致）。
+  クライアントの起動に失敗（設定ファイルと渡された `client_type` が不一致）。
 - Todo Other
 
 ##### 多用される `task` フィールドの値
 
 - `StartButton2`  
-   開始
+  開始
 - `MedicineConfirm`  
-   理性回復剤使用確認
+  理性回復剤使用確認
 - `StoneConfirm`  
-   純正源石使用確認
+  純正源石使用確認
 - `RecruitRefreshConfirm`  
-   公開求人リストの更新確認
+  公開求人リストの更新確認
 - `RecruitConfirm`  
-   公開求人の確認
+  公開求人の確認
 - `RecruitNowConfirm`  
-   緊急招集票の使用確認
+  緊急招集票の使用確認
 - `InfrastDormDoubleConfirmButton`  
-   基地の二重確認ボタン、配置予定のオペレーターが既に他の施設に配属中の場合にのみ表示されます（MAAが自動でクリックします）
+  基地の二重確認ボタン、配置予定のオペレーターが既に他の施設に配属中の場合にのみ表示されます（MAAが自動でクリックします）
 - `StartExplore`  
-   統合戦略: 開始
+  統合戦略: 開始
 - `StageTraderInvestConfirm`  
-   統合戦略: 源石錐とアイテム交換
+  統合戦略: 源石錐とアイテム交換
 - `StageTraderInvestSystemFull`  
-   統合戦略: 投資満額
+  統合戦略: 投資満額
 - `ExitThenAbandon`  
-   統合戦略: 終了確認
+  統合戦略: 終了確認
 - `MissionCompletedFlag`  
-   統合戦略: ミッション完了
+  統合戦略: ミッション完了
 - `MissionFailedFlag`  
-   統合戦略: ミッション失敗
+  統合戦略: ミッション失敗
 - `StageTraderEnter`  
-   統合戦略: 怪しい旅商人
+  統合戦略: 怪しい旅商人
 - `StageSafeHouseEnter`  
-   統合戦略: 安全な片隅
+  統合戦略: 安全な片隅
 - `StageEncounterEnter`  
-   統合戦略: 思わぬ遭遇
+  統合戦略: 思わぬ遭遇
 - `StageCombatOpsEnter`  
-   統合戦略: 作戦
+  統合戦略: 作戦
 - `StageEmergencyOps`  
-   統合戦略: 緊急作戦
+  統合戦略: 緊急作戦
 - `StageDreadfulFoe`  
-   統合戦略: 悪路凶敵
+  統合戦略: 悪路凶敵
 - Todo Other
 
 ### SubTaskExtraInfo
@@ -319,7 +327,7 @@ Todo
 #### 多用される `what` と `details` フィールドの値
 
 - `StageDrops`  
-   ステージドロップインフォメーション
+  ステージドロップインフォメーション
 
   ```json
   // 対応する詳細フィールドの例
@@ -365,12 +373,14 @@ Todo
               "quantity": 4,
               "addQuantity": 2
           }
-      ]
+      ],
+      "cur_times": 2, // 作戦結果画面で認識された連戦回数（認識された場合のみ存在）
+      "annihilation_weekly_process": [1600, 1800] // 殲滅作戦の今週の獲得進捗、形式: [完了数, 上限]（殲滅作戦のみ存在）
   }
   ```
 
 - `RecruitTagsDetected`  
-   採用タグの検出
+  採用タグの検出
 
   ```json
   // 対応するフィールドの詳細
@@ -386,7 +396,7 @@ Todo
   ```
 
 - `RecruitSpecialTag`  
-   特別な採用タグの検出
+  特別な採用タグの検出
 
   ```json
   // 対応する詳細フィールドの例
@@ -396,7 +406,7 @@ Todo
   ```
 
 - `RecruitPreservedTag`  
-   保留対象の公開求人タグの検出
+  保留対象の公開求人タグの検出
 
   ```json
   // 対応する詳細フィールドの例
@@ -406,7 +416,7 @@ Todo
   ```
 
 - `RecruitResult`  
-   公開求人結果
+  公開求人結果
 
   ```json
   // 対応する詳細フィールドの例
@@ -483,7 +493,7 @@ Todo
   ```
 
 - `RecruitTagsRefreshed`  
-   公開求人タグの更新
+  公開求人タグの更新
 
   ```json
   // 対応する詳細フィールドの例
@@ -494,7 +504,7 @@ Todo
   ```
 
 - `RecruitNoPermit`  
-   求人票が切れた
+  求人票が切れた
 
   ```json
   // 対応する詳細フィールドの例
@@ -517,7 +527,7 @@ Todo
   星3用の求人票保留が有効な状態で求人票数の認識に失敗したため、現在のスロットをスキップします。`details` は空です。
 
 - `RecruitTagsSelected`  
-   公開求人タグの選択
+  公開求人タグの選択
 
   ```json
   // 対応する詳細フィールドの例
@@ -530,10 +540,10 @@ Todo
   ```
 
 - `RecruitError`  
-   公開求人認識時のエラー。`details` は空。現在のスロットの更新回数が上限に達したことが原因の場合は、`refresh_limit`（スロットの更新回数上限）を含みます。
+  公開求人認識時のエラー。`details` は空。現在のスロットの更新回数が上限に達したことが原因の場合は、`refresh_limit`（スロットの更新回数上限）を含みます。
 
 - `EnterFacility`  
-   施設へ入る
+  施設へ入る
 
   ```json
   // 対応する詳細フィールドの例
@@ -544,7 +554,7 @@ Todo
   ```
 
 - `NotEnoughStaff`  
-   オペレーター不足
+  オペレーター不足
 
   ```json
   // 対応する詳細フィールドの例
@@ -555,7 +565,7 @@ Todo
   ```
 
 - `ProductOfFacility`  
-   施設の生産
+  施設の生産
 
   ```json
   // 対応する詳細フィールドの例
@@ -567,7 +577,7 @@ Todo
   ```
 
 - `StageInfo`  
-   自動戦闘ステージの情報
+  自動戦闘ステージの情報
 
   ```json
   // 対応する詳細フィールドの例
@@ -578,10 +588,10 @@ Todo
   ```
 
 - `StageInfoError`  
-   自動戦闘ステージの情報エラー
+  自動戦闘ステージの情報エラー
 
 - `DepotInfo`  
-   倉庫のアイテムの認識結果
+  倉庫のアイテムの認識結果
 
   ```json
   // 対応する詳細フィールドの例
@@ -590,7 +600,7 @@ Todo
   ```
 
 - `OperBoxInfo`  
-   オペレーターボックス識別結果
+  オペレーターボックス識別結果
 
   ```json
   // 対応する詳細フィールドの例
@@ -639,7 +649,7 @@ Todo
   ```
 
 - `UnsupportedLevel`  
-   自動作戦で、サポートされていないレベル名。`details` の内容：
+  自動作戦で、サポートされていないレベル名。`details` の内容：
 
   ```json
   // 対応する詳細フィールドの例
@@ -647,6 +657,28 @@ Todo
       "level": string  // サポートされていないレベル名
   }
   ```
+
+- `BlackFlowStartRun`  
+  BlackFlow の初期報酬稼ぎ（ローグライクモード 30003）の進捗。（機械翻訳）
+
+  ```json
+  // 対応する詳細フィールドの例
+  {
+      "status": "reward_missed",       // 現在の進捗、下記参照
+      "rewards": ["空间租赁", "金乌"]   // 任意、目標の探索の支援選択画面で認識した報酬名
+  }
+  ```
+
+  `status` の値：
+  - `preparing`：準備用の探索を開始。
+  - `target_run`：目標の探索を開始。
+  - `reward_missed`：支援選択画面で報酬は認識できたが狙うものがないため、その探索を放棄して準備用の探索をやり直す。
+  - `completed`：狙う報酬が出たため、テーマ画面へ退出してその探索を保持し、タスクを終了。
+  - `reward_unrecognized`：支援選択画面の報酬を認識できないため、その画面に留まってタスクを停止。
+  - `reward_page_missing`：目標の探索で支援選択画面が出なかったため、タスクを停止。
+  - `reward_recognition_failed`：準備用の探索で支援選択画面の報酬選択に失敗したため、タスクを停止。
+
+  `rewards` は `reward_missed`、`completed`、`reward_unrecognized` のときのみ通知され、`blackflow_start_rewards` が 0（報酬を認識しない）の場合や 1 つも認識できなかった場合は省略されます。報酬名は簡体字中国語で出力されます。
 
 ### ReportRequest
 

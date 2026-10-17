@@ -247,8 +247,8 @@
     <system:String x:Key="MuMuArm">MuMu 模擬器（Windows ARM）</system:String>
     <system:String x:Key="MuMuArmDetectAndTest">自動偵測並測試</system:String>
     <system:String x:Key="MuMuArmConnectionNotReady">無法讀取 MuMu ARM 的 ADB 位址。請等待模擬器啟動完成後重試，或關閉自動偵測並手動填入連線位址。</system:String>
-    <system:String x:Key="LDPlayer">雷電模擬器</system:String>
     <system:String x:Key="AVD">Android 虛擬裝置（AVD）</system:String>
+    <system:String x:Key="LDPlayer">雷電模擬器</system:String>
     <system:String x:Key="Androws">應用寶模擬器</system:String>
     <system:String x:Key="Nox">夜神模擬器</system:String>
     <system:String x:Key="XYAZ">逍遙模擬器</system:String>
@@ -264,12 +264,58 @@
     <system:String x:Key="RoguelikeStrategyGold">刷源石錠，投資完成後自動退出</system:String>
     <system:String x:Key="RoguelikeStrategyBlackFlowExp">刷等級，快速前往第三層</system:String>
     <system:String x:Key="RoguelikeStrategyBlackFlowInvestment">刷源石錠，投資完成後自動退出</system:String>
-    <system:String x:Key="RoguelikeStrategyBlackFlowBabyAnimal">刷襁褓動物</system:String>
-    <system:String x:Key="RoguelikeBlackFlowCultivationTarget">目標襁褓動物</system:String>
+    <system:String x:Key="RoguelikeStrategyBlackFlowStartRun">刷開局，刷到目標後退出並保留這一局</system:String>
+    <system:String x:Key="RoguelikeBlackFlowFlightRequirement">需滿天賦機械師</system:String>
+    <system:String x:Key="RoguelikeBlackFlowFastFlight">快速飛往第三層</system:String>
+    <system:String x:Key="RoguelikeBlackFlowFlightTip" xml:space="preserve">固定用特勤分隊、穩紮穩打和自己的機械師開局，只招機械師，第二層用自帶的結構性原理直接飛到第三層，到達後重開。&#10;勾選後一般設定裡的分隊、職業組和開局幹員不能修改，取消勾選後恢復。不勾選時按目標結局打，開局配置是這套組合也不會飛。&#10;機械師天賦沒點滿會飛不起來，請不要勾選。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowFastFlightLockTip">勾選 ｢{key=RoguelikeBlackFlowFastFlight}｣ 後此項不能修改，取消勾選後恢復</system:String>
+    <system:String x:Key="RoguelikeBlackFlowEndingFlightTip">只有取消勾選 ｢{key=RoguelikeBlackFlowFastFlight}｣ 才能選擇結局</system:String>
+    <system:String x:Key="RoguelikeBlackFlowEnding">目標結局</system:String>
+    <system:String x:Key="RoguelikeBlackFlowEnding1">一結局 · 強制重啟</system:String>
+    <system:String x:Key="RoguelikeBlackFlowEnding2">二結局 · 維度重構</system:String>
+    <system:String x:Key="RoguelikeBlackFlowEnding3">三結局 · 糾纏，調和</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartAnimal1">襁褓動物 · 第一隻</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartAnimal2">襁褓動物 · 第二隻</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartAnimalNone">不要求</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartRewards">期望獎勵</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartRewardsAnyHit">任意一項即停</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartRewardsTip" xml:space="preserve">期望獎勵和羽蛇獎勵裡勾選的全部算候選，開局出現任意一項就停下。&#10;滑鼠停在選項上可查看效果。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowSerpentRewards">羽蛇獎勵</system:String>
+    <system:String x:Key="RoguelikeBlackFlowSerpentRewardsInactive">選了襁褓羽蛇才生效</system:String>
+    <system:String x:Key="RoguelikeBlackFlowPrepSquad">準備局分隊</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardUnnumberedItem">未編號物</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardSurveyAdvance">調查預付款</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardSpaceLease">空間租賃</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardRegressionCompensation">退行補償</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardForestRide">林間代步</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardNestParasitism">巢寄生</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardPegasus">襁褓天馬</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardHippogriff">襁褓駿鷹</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardDragon">襁褓巨龍</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardHydra">襁褓九頭蛇</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardBaiZe">襁褓白澤</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardGoldenCrow">襁褓金烏</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetCat">襁褓中的貓</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetFeatheredSerpent">襁褓羽蛇</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetDog">襁褓中的狗</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetCerberus">襁褓三頭犬</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetCatTip">下一局開局額外獲得 5 源石錠。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetDogTip">下一局開局額外獲得 1 希望。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetCerberusTip">下一局多一次支援選擇機會。培育所在的這一局須至少通過兩個區域。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetFeatheredSerpentTip">下一局的支援選項裡多一個隨機的藍色襁褓生靈。培育所在的這一局須至少通過兩個區域。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardUnnumberedItemTip">獲得 1 件普通收藏品。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardSurveyAdvanceTip">獲得 8 源石錠。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardSpaceLeaseTip">消耗 6 源石錠，零件箱容量 +2。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardRegressionCompensationTip">消耗 2 目標生命值上限，獲得 1 件隨機收藏品。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardForestRideTip">獲得 1 件加工品。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardNestParasitismTip">零件箱容量 -1，獲得 1 件稀有收藏品。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardPegasusTip">每一區域額外獲得 1 行動力。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardHippogriffTip">初始額外獲得 1 希望，前 2 個區域初始揭露全部視野。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardDragonTip">前 2 個區域中所有敵人的最大生命值 -50%。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardHydraTip">所有敵人的攻擊和生命值 +30%；每次進入新的區域，我方單位攻擊力和生命值 +10%。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardBaiZeTip">臨時招募幹員的出現機率提升。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardGoldenCrowTip">進入區域血色空脈時獲得 3 個隨機收藏品。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowPrepFlightTip" xml:space="preserve">準備局固定用特勤分隊、穩紮穩打和自己的機械師開局，只招機械師，第二層用自帶的結構性原理直接飛到第三層。&#10;勾選後準備局分隊顯示為特勤分隊且不能修改，取消勾選後恢復原來的設定；一般設定裡的職業組和開局幹員不受影響。&#10;機械師天賦沒點滿會飛不起來，請不要勾選。</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">刷開局，刷取熱水壺或精二{key=Operator}開局</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">刷坍縮範式，遇到非稀有坍縮範式後直接重開</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">刷開局使用分隊</system:String>
@@ -355,6 +401,8 @@
     <system:String x:Key="IS6NewSquad3">開拓者分隊</system:String>
     <system:String x:Key="IS6NewSquad4">多邊貿易分隊</system:String>
     <system:String x:Key="IS6NewSquad5">地質調查分隊</system:String>
+    <system:String x:Key="IS6NewSquad6">團結陣線分隊</system:String>
+    <system:String x:Key="IS6NewSquad7">踏足遍歷分隊</system:String>
     <system:String x:Key="SpecialForceSquad">特勤分隊</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集群分隊</system:String>
@@ -454,7 +502,6 @@
 若系統通知已關閉，則改為軟體內通知，但軟體內通知不提供可互動的下載按鈕。</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">自動安裝更新檔案</system:String>
     <system:String x:Key="AutoInstallUpdatePackageTip">偵測到新版本後不再彈出視窗詢問，將在任務空閒時自動更新並重新啟動 MAA</system:String>
-    <system:String x:Key="WindowUpdateInfoTip">點擊立即更新</system:String>
     <system:String x:Key="ShowUpdaterConsole">顯示更新程式主控台輸出</system:String>
     <system:String x:Key="ShowUpdaterProgress">顯示更新程式進度視窗</system:String>
     <system:String x:Key="ShowUpdaterProgressTip" xml:space="preserve">更新時由更新程式顯示一個獨立的進度視窗，展示目前更新狀態與檔案處理進度。
@@ -939,11 +986,11 @@ C:\leidian\LDPlayer9
     <system:String x:Key="RetryOnDisconnected">ADB 連線失敗時嘗試啟動模擬器</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">重連失敗後嘗試重新啟動模擬器；使用背景定時任務且設定任務完成後關閉模擬器時，必須勾選此項</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">模擬器路徑為空！請填寫 ｢{key=Settings} - {key=StartupSettings} - {key=EmulatorPath}｣ 後重新勾選。</system:String>
-    <system:String x:Key="AllowAdbRestart">連線失敗後嘗試重新啟動 ADB 服務</system:String>
-    <system:String x:Key="AllowAdbHardRestart">連線失敗後嘗試重新啟動 ADB</system:String>
     <system:String x:Key="RetryOnPcDisconnected">PC 客戶端連線失敗時嘗試啟動客戶端</system:String>
     <system:String x:Key="RetryOnPcDisconnectedTip">視窗連線失敗後啟動 PC 客戶端，並再次嘗試連線</system:String>
     <system:String x:Key="RetryOnPcDisconnectedPathEmptyError">PC 客戶端路徑為空！請填寫 ｢{key=Settings} - {key=StartupSettings} - {key=PcClientPath}｣ 後重新勾選。</system:String>
+    <system:String x:Key="AllowAdbRestart">連線失敗後嘗試重新啟動 ADB 服務</system:String>
+    <system:String x:Key="AllowAdbHardRestart">連線失敗後嘗試重新啟動 ADB</system:String>
     <!--  !設定  -->
     <!--  一鍵長草  -->
     <system:String x:Key="Farming">一鍵長草</system:String>
@@ -955,6 +1002,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Infrast">{key=Base}</system:String>
     <system:String x:Key="Combat">刷理智</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
+    <system:String x:Key="Ignore">忽略</system:String>
     <system:String x:Key="OperProgress">幹員培養</system:String>
     <system:String x:Key="OperProgress.SkillLevelTarget">技能等級 {0}</system:String>
     <system:String x:Key="OperProgress.MasteryTarget">技能 {0} 專精 {1}</system:String>
@@ -1443,6 +1491,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="UserAdditional.Skill">技能</system:String>
     <system:String x:Key="UserAdditional.Action">操作</system:String>
     <system:String x:Key="UserAdditional.Add">新增</system:String>
+    <system:String x:Key="LoopTimes">循環次數</system:String>
     <system:String x:Key="CopilotList">作業列表</system:String>
     <system:String x:Key="UseCopilotList">多作業模式</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">僅支援以下模式：
@@ -1456,11 +1505,11 @@ C:\leidian\LDPlayer9
     <system:String x:Key="CopilotTaskRaidStage">(突襲)</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">左鍵加入普通難度
 右鍵加入突襲難度</system:String>
-    <system:String x:Key="CopilotSelectTaskTip" xml:space="preserve">左鍵：檢視作業資訊
-右鍵：選取該作業並結束多作業模式</system:String>
     <system:String x:Key="CopilotClearTask" xml:space="preserve">左鍵清除所有任務
 右鍵清除未啟用任務</system:String>
-    <system:String x:Key="LoopTimes">循環次數</system:String>
+    <system:String x:Key="CopilotSelectTaskTip" xml:space="preserve">左鍵：檢視作業資訊
+右鍵：選取該作業並結束多作業模式</system:String>
+    <system:String x:Key="WindowUpdateInfoTip">點擊立即更新</system:String>
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="RunTaskOnce">單次執行</system:String>
     <system:String x:Key="RunTasksFromHere">從此處執行</system:String>
@@ -1682,16 +1731,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="RoguelikeCoppersExchange">通寶交換: {0} → {1}</system:String>
     <system:String x:Key="RoguelikeCoppersRecognitionError">通寶辨識失敗: "{0}"</system:String>
     <system:String x:Key="BlackFlowRoutingDecision">第 {0} 層｜行動力 {1}→{2}｜{3}至 {4}｜安全餘量 {5}</system:String>
-    <system:String x:Key="BlackFlowRoutingReason">原因：{0}｜說明：{1}</system:String>
     <system:String x:Key="BlackFlowMovementWalk">徒步移動</system:String>
     <system:String x:Key="BlackFlowMovementProcessing">加工品移動</system:String>
-    <system:String x:Key="BlackFlowReasonMandatoryGoal">強制目標</system:String>
-    <system:String x:Key="BlackFlowReasonResourceReserve">資源保留</system:String>
-    <system:String x:Key="BlackFlowReasonPreferredGoal">偏好目標</system:String>
-    <system:String x:Key="BlackFlowReasonDevelopment">發育</system:String>
-    <system:String x:Key="BlackFlowReasonRiskAvoidance">風險規避</system:String>
-    <system:String x:Key="BlackFlowReasonSafetyFallback">安全退路</system:String>
-    <system:String x:Key="BlackFlowReasonTieBreak">次級比較</system:String>
     <system:String x:Key="BlackFlowWarningMapRebuildFailed">地圖重建失敗</system:String>
     <system:String x:Key="BlackFlowWarningPageRecoveryFailed">無法從節點頁面返回地圖</system:String>
     <system:String x:Key="BlackFlowWarningPreviewCostChanged">移動預覽顯示的行動力消耗發生變化，正在重新規劃</system:String>
@@ -1718,9 +1759,6 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowScrapTradeAbortedSaleFailed">秘境行商出售「{0}」未得到確認，停止交易並離店</system:String>
     <system:String x:Key="BlackFlowScrapTradeAbortedUnknown">秘境行商交易出現異常，停止交易並離店</system:String>
     <system:String x:Key="BlackFlowStrategyUnknown">未知策略</system:String>
-    <system:String x:Key="BlackFlowDecisionProbeUnknownNode">探測路線前方最近的未分類節點</system:String>
-    <system:String x:Key="BlackFlowDecisionPolicyOrder">按照策略設定的優先順序選擇</system:String>
-    <system:String x:Key="BlackFlowDecisionDetailUnknown">決策依據未知</system:String>
     <system:String x:Key="BlackFlowMilestoneUnknown">未知階段目標</system:String>
     <system:String x:Key="BlackFlowMilestoneStatusAvailable">可以執行</system:String>
     <system:String x:Key="BlackFlowMilestoneStatusSatisfied">已經完成</system:String>
@@ -1752,21 +1790,6 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowNodeEvacuate">撤離點</system:String>
     <system:String x:Key="BlackFlowNodeTeleporter">傳送點</system:String>
     <system:String x:Key="BlackFlowNodeOther">其他節點</system:String>
-    <system:String x:Key="BlackFlowRuleAvoidEmptyScrapShop">沒有源石錠、種子及可出售零件時避開秘境行商</system:String>
-    <system:String x:Key="BlackFlowRulePreserveWhiteModelBird">保留白模鳥，避開需要加工品移動的可選戰鬥</system:String>
-    <system:String x:Key="BlackFlowRuleTriggerBossProcessingBonus">使用加工品進入首領節點並觸發戰鬥加成</system:String>
-    <system:String x:Key="BlackFlowRuleExitWhenRequired">發育已經完成或安全餘量不足，前往出口</system:String>
-    <system:String x:Key="BlackFlowRuleEnding1AvoidLateCombat">已經形成基本精二隊伍，避開非必要戰鬥</system:String>
-    <system:String x:Key="BlackFlowRuleBabyUseProcessingItemForFloor1Shop">第一層使用加工品前往普通商店</system:String>
-    <system:String x:Key="BlackFlowRuleBabyWalkAfterFloor1Shop">第一層檢查普通商店後徒步探索並保留加工品</system:String>
-    <system:String x:Key="BlackFlowRuleBabyDelayExitBeforeFloor3">第三層前仍有發育空間，暫緩前往出口</system:String>
-    <system:String x:Key="BlackFlowRuleBabyExitBeforeFloor3WhenRequired">第三層前發育已經完成或安全餘量不足，前往出口</system:String>
-    <system:String x:Key="BlackFlowRuleBabyAvoidCombat">仍有其他安全走法，避開作戰節點</system:String>
-    <system:String x:Key="BlackFlowRuleLightRevealsThree">羽瞰點預計可以揭示至少三個未知大節點</system:String>
-    <system:String x:Key="BlackFlowRuleInvestmentKeepShortWalk">商店距離不超過兩格時保持徒步</system:String>
-    <system:String x:Key="BlackFlowRuleInvestmentUseM11ForDirectShop">沒有短途徒步方案時使用結構性原理直達商店</system:String>
-    <system:String x:Key="BlackFlowRuleBurnRequireShopWhenFlightGuaranteed">開局配置保證精二機械師時，第一層路線必須經過商店</system:String>
-    <system:String x:Key="BlackFlowRuleBurnRequireFlightOnFloor2">該開局配置下第二層直接用結構性原理飛向出口</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor1Battles">第一層優先作戰</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor1Hidden">第一層盡量探索未知的詭秘</system:String>
     <system:String x:Key="BlackFlowMilestoneEnding1Floor2Expedition">第二層優先先行一步</system:String>
@@ -1865,6 +1888,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="RoguelikeEncounterOptions">辨識到 {0} 個選項:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">可選選項: {0}</system:String>
     <system:String x:Key="RoguelikeEncounterDisabledOption">不可選選項: {0}</system:String>
+    <system:String x:Key="RoguelikeEventSelected">已選擇: {0}</system:String>
+    <system:String x:Key="RoguelikeEventSelectedWithReason">已選擇: {0}（{1}）</system:String>
+    <system:String x:Key="RoguelikeEventSelectedFallback">目標選項不可用，改選備用選項: {0}</system:String>
     <system:String x:Key="EncounterOcrError">事件名稱辨識錯誤</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">預見:</system:String>
     <system:String x:Key="RoguelikeInvestment">已投資 {1}(+{0}), 存款: {2}</system:String>
@@ -1900,13 +1926,13 @@ C:\leidian\LDPlayer9
     <system:String x:Key="NoRecruitmentPermit">無招聘許可，已返回</system:String>
     <system:String x:Key="RecruitPermitReserved">招聘許可剩餘 {0}，小於等於保留數量，跳過目前的 3★ 招聘</system:String>
     <system:String x:Key="RecruitPermitCountRecognitionFailed">招聘許可數量辨識失敗，為避免消耗保留許可，已跳過目前的 3★ 招聘</system:String>
-    <system:String x:Key="NotEnoughStaff">可用{key=Operator}不足</system:String>
     <system:String x:Key="AutoRecruitSelectStrategy">公招多選 Tags 的策略</system:String>
     <system:String x:Key="DefaultNoExtraTags">預設不選擇額外的 Tags</system:String>
     <system:String x:Key="SelectExtraTags">選擇高星時總是選擇三個 Tags</system:String>
     <system:String x:Key="SelectExtraOnlyRareTags">盡可能多選且只選高星 Tags</system:String>
     <system:String x:Key="AutoRecruitHighPriority">3★ Tags 時的 Tags 傾向</system:String>
     <system:String x:Key="AutoRecruitHighPriorityTooltip">會盡可能多選傾向的 Tags</system:String>
+    <system:String x:Key="NotEnoughStaff">可用{key=Operator}不足</system:String>
     <system:String x:Key="StageInfoError">關卡辨識錯誤</system:String>
     <system:String x:Key="UseFormation">使用編隊</system:String>
     <system:String x:Key="Current">目前</system:String>
@@ -2759,4 +2785,14 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="ExternalNotificationFilterPreviousLogs">篩選附帶日誌內容</system:String>
     <system:String x:Key="ExternalNotificationFilterPreviousLogsTip" xml:space="preserve">先排除符合黑名單的日誌，再依數量及有效時間選取最近的日誌。&#10;目前日誌始終保留。</system:String>
     <system:String x:Key="ExternalNotificationBlacklist">黑名單（每行一條，支援正則）</system:String>
+    <system:String x:Key="BlackFlowStartRunPreparing">正在進行準備局</system:String>
+    <system:String x:Key="BlackFlowStartRunTargetRun">已切換到目標局，等待檢查開局獎勵</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardMissed">開局獎勵未命中，重新進行準備局</system:String>
+    <system:String x:Key="BlackFlowStartRunCompleted">開局目標已滿足，已退出並保留這一局</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardRecognitionFailed">開局獎勵辨識失敗，已停止任務</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardPageMissing">未辨識到開局獎勵頁，已停止任務</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardUnrecognized">選擇支援頁有獎勵未能辨識，已停在該頁面並停止任務</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardsSeen">本次支援頁：{0}</system:String>
+    <system:String x:Key="BlackFlowStartRunPrepared">開局準備已完成</system:String>
+    <system:String x:Key="BlackFlowStartRunPreparedReason">已到達第三層，將按目標難度和分隊開啟下一局</system:String>
 </ResourceDictionary>

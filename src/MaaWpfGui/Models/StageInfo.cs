@@ -29,9 +29,10 @@ public class StageInfo : CombinedData
     private string _tip = string.Empty;
 
     /// <summary>
-    /// Gets or sets the stage tip
+    /// Gets or sets the stage tip; hides the per-item hover tip on the base class,
+    /// which is reserved for dropdown options and kept null here.
     /// </summary>
-    public string Tip
+    public new string Tip
     {
         get {
             if (!string.IsNullOrEmpty(_tip))
