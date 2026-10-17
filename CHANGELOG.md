@@ -48,6 +48,7 @@ A target ending can now be selected for BlackFlow level farming (the first endin
 
 * 黑流树海任务日志不再附带路线决策原因与规则说明 ([#18680](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18680)) @ZiyinLin
 * 干员培养在训练室被占用且计划仅剩专精目标时跳过干员查找 @status102
+* 多作业模式启用 ｢使用一图流数据辅助编队｣ 时，任务日志在预匹配各作业前显示其关卡与文件名 ([#18691](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18691)) @yali-hzy
 * YostarKR recognize the quick formation role filter All button also displayed as ALL, with OCR misread correction @HX3N
 * YostarEN add missing GALLUS to GALLUS² battle name OCR replacement @Constrat
 
