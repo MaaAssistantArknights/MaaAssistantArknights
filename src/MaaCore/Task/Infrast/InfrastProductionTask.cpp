@@ -334,7 +334,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
             continue;
         }
 
-        /* 产物识别紧靠换产物/换人：`ProductOfFacility` 与 Replenish / Shamare（仅贸易）监听该时点，早于 Pre。
+        /* 产物识别紧靠换产物/换人：`ProductOfFacility` 与 Shamare（仅贸易）监听该时点，早于 Pre。
            可信度：须达到对应 InfrastFlag* 模板的 templThreshold，避免出现 ｢最高分仍不可靠｣ 却仍选
            all_products.at(0)｣ 。 */
         // 识别产物时添加守卫，对后续逻辑没有本质影响
@@ -395,6 +395,16 @@ bool asst::InfrastProductionTask::shift_facility_list()
         if (m_inspect_only) {
             continue;
         }
+
+        // 换班完成后再通知一次产物，Replenish（源石碎片补货）监听该时点：空设施无法执行制造计划，需要先进驻干员
+        auto notify_shift_completed = [&]() {
+            if (!cur_product_detection_valid) {
+                return;
+            }
+            json::value callback_info = basic_info_with_what("ShiftCompleted");
+            callback_info["details"]["product"] = m_product;
+            callback(AsstMsg::SubTaskExtraInfo, callback_info);
+        };
 
         /*启用自定义基建时，如果产物不一致则直接更换产物*/
         if (m_is_custom && m_is_product_incorrect) {
@@ -501,6 +511,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
             }
             if (room_kept_unchanged) {
                 // 保持原样的房间跳过确认，Post 无人机不依赖换班结果，配置命中时照常使用，继续下一间
+                notify_shift_completed();
                 try_use_custom_post_drone();
                 continue;
             }
@@ -520,6 +531,8 @@ bool asst::InfrastProductionTask::shift_facility_list()
         else if (m_skip_shift) {
             LogInfo << "skip shift in rotation mode";
         }
+
+        notify_shift_completed();
 
         // 自定义基建 Post 无人机（含空意图/编组失败保持原样的房间）
         if (!try_use_custom_post_drone() && !m_is_custom && cur_product_detection_valid &&

@@ -554,6 +554,18 @@ Todo
   }
   ```
 
+- `ShiftCompleted`  
+  Base facility shift completed (also sent when the shift is skipped in rotation mode), only when the product was recognized
+
+  ```json
+  // Corresponding details field example
+  {
+    "product": "OriginStone", // Product name
+    "facility": "Mfg", // Facility name
+    "index": 0 // Facility index
+  }
+  ```
+
 - `StageInfo`  
   Auto combat stage information
 
