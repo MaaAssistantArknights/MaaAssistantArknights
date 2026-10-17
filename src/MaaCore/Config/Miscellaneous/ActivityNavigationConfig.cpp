@@ -9,23 +9,54 @@
 
 std::optional<asst::activity_navigation::Route> asst::ActivityNavigationConfig::find(const std::string& stage_id) const
 {
-    const std::shared_lock lock(m_routes_mutex);
-    const auto it = m_routes.find(stage_id);
-    if (it == m_routes.end()) {
-        return std::nullopt;
+    {
+        const std::shared_lock lock(m_routes_mutex);
+        if (const auto it = m_routes.find(stage_id); it != m_routes.end()) {
+            return it->second;
+        }
     }
-    return it->second;
+    const auto map = Tile.find(stage_id);
+    return map ? find_task_route(stage_id, map->first.code) : std::nullopt;
 }
 
 std::optional<asst::activity_navigation::Route> asst::ActivityNavigationConfig::find_code(const std::string& code) const
 {
-    const std::shared_lock lock(m_routes_mutex);
-    for (const auto& [id, route] : m_routes) {
-        if (route.code == code) {
-            return route;
+    {
+        const std::shared_lock lock(m_routes_mutex);
+        for (const auto& [id, route] : m_routes) {
+            if (route.code == code) {
+                return route;
+            }
         }
     }
-    return std::nullopt;
+    const auto map = Tile.find(code);
+    return map ? find_task_route(map->first.stageId, code) : std::nullopt;
+}
+
+std::optional<asst::activity_navigation::Route>
+    asst::ActivityNavigationConfig::find_task_route(const std::string& stage_id, const std::string& code)
+{
+    static const std::regex activity_code("([A-Za-z]{1,8})(-[A-Za-z0-9]+)+");
+    if (!std::regex_match(code, activity_code)) {
+        return std::nullopt;
+    }
+    const auto activity = code.substr(0, code.find('-'));
+    // Recognize the activity even when this partition's task is missing, so EX cannot silently use normal.
+    const auto task_name = activity + "-OpenOcr";
+    if (!Task.contains(task_name)) {
+        return std::nullopt;
+    }
+    if (const auto entry = Task.get(task_name); !entry || entry->algorithm != AlgorithmType::OcrDetect) {
+        return std::nullopt;
+    }
+    activity_navigation::Route route;
+    route.stage_id = stage_id;
+    route.code = code;
+    route.activity = activity;
+    route.partition = code.substr(0, code.rfind('-'));
+    route.task = route.partition + "-OpenOcr";
+    route.from_tasks = true;
+    return route;
 }
 
 bool asst::ActivityNavigationConfig::parse(const json::value& root)

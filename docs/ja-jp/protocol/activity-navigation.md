@@ -3,16 +3,14 @@ order: 9
 icon: material-symbols:route
 ---
 
-# イベントナビゲーション
+# 活動ナビゲーション
 
-`ActivityNavigation` はイベントのエリアに移動するだけのタスクです。ステージ選択、編成、戦闘開始は行いません。必須パラメータは `stage_id`（Tile-Pos の内部 ID）です。`client_type` は省略時に接続中のクライアントを使用し、`is_raid` は既定値 false で難易度の検証のみ行います。実行前にゲームへ接続し、ログインを完了してください。
+既定ではクライアントが読み込んだ既存タスクを再利用します。Tile-Pos の内部 ID から表示コードを取得し、`YW-1` は `YW-OpenOcr`、`YW-EX-1` は `YW-EX-OpenOcr` に対応します。共通タスクは戻る操作に対応した画面からターミナルへ移動し、既存の OCR 入口と章のタスクを実行して、正確なステージコードを認識した後に従来の選択処理へ戻します。EX 入口がない場合は `MissingTask` で停止し、通常区画には入りません。
 
-`Copilot` の `copilot_list` モードと `Fight` は `navigate_to_activity: true` で同じ入口を使用できます（既定値 false）。Copilot は明示的な `client_type` も必要です。単独の作戦も要素 1 個のリストを使ってください。`filename` と同時に有効化すると拒否されます。登録済みステージはタスク受付時と各項目の実行時に検証されます。エリア移動後は既存のステージ選択、番号確認、強襲切替、編成、戦闘を継続します。WPF の作戦リストでは有効化され、単一ファイルの動作は従来通りです。
+入口と章のタスクは既存の MaaRelease `resource/tasks.json` 更新経路を使用し、MaaCore 自体は API を取得しません。活動や区画の追加時は同じ JSON で完全な OCR タスク列を公開し、同時配信が必要な新しい画像への依存を避けてください。ターミナル復帰には既存の基本画像を使用します。テンプレート配信や必須画像の欠落検証は変更せず、個別ステージの既存テンプレート選択も維持します。
 
-`resource/activity_navigation.json` は `schema_version: 1` と `activities` を持ちます。活動ごとに `id`、`enabled`、`clients`、`routes`、`stages`、説明用の `name` と `sources` を記録します。各エリアは標準タスク名 `task`、タイムゾーンと秒を含む ISO 8601 の `opens_at` / `closes_at` を持ちます。内部ステージ ID は `code`、`route`、`modes`（normal / raid）へ対応します。開始時刻を含み終了時刻を含みません。タスクと番号は Tile-Pos と一致する必要があります。登録済みの閉鎖、無効、クライアント不一致、非対応難易度は失敗し、フォールバックしません。未登録の活動は従来通りです。有効な完全データで前の設定を置換し、空の `activities` で消去できます。無効なデータでは置換しません。
+独立タスク `ActivityNavigation` は対象ステージのマップへ入り、編成や戦闘開始は行いません。`stage_id` は必須、`client_type` と `is_raid` は任意です。事前に接続とログインが必要です。Copilot リストと Fight は `navigate_to_activity: true` で有効化します（API 既定値 false、WPF リストでは有効）。Copilot では `client_type` を明示し、単一作業も単一要素のリストにしてください。`filename` との同時有効化は拒否されます。既存ナビゲーションに対応したメインストーリー・資源ステージもターミナルへ自動復帰でき、未対応ステージは現在のマップで従来の選択を行います。Fight の `is_raid` は既定値 false で、活動検証とステージ選択後の難易度切り替えに使用します。
 
-互換タスクは `resource/tasks/hotfix/activity_navigation/` に置きます。MaaResource は設定ファイルと `template/StageNavigation/` を配信対象に含め、主リポジトリの同期処理で資源バージョンを更新します。新しいタスク項目やコア機能にはコア更新が必要です。`AsstGetActivityNavigationVersion()` は対応プロトコル（本実装は 1）を返します。呼出前にシンボルの存在を確認し、旧コアでは外部 Custom ナビゲーションを維持してください。通知は `ActivityNavigationStarted`、`ActivityNavigationCompleted`、`ActivityNavigationFailed` で、ステージ、エリア、失敗理由を含みます。
+`resource/activity_navigation.json` は任意のユーザー上書きです。スキーマ 1 の活動は `id`、`name`、`enabled`、`clients`、`sources`、`routes`、`stages` を保持します。区画は `task`、タイムゾーン付き秒精度の `opens_at`／`closes_at`、ステージは `code`、`route`、`modes`（normal／raid）を指定します。上書きは自動検出より優先し、開始時刻を含み終了時刻を含まない期間、クライアント、モードを検証します。既定の OCR タスクには追加メタデータがなく、名前から日付やクライアント制限を推測しません。活動時間は引き続き呼び出し側が StageActivity API で扱います。有効な全体設定で置換し、空の `activities` は上書きを消して自動検出に戻し、不正な設定は置換しません。
 
-活動ナビゲーションを有効にした Fight は `is_raid: true` で強襲モードを指定できます（既定値 false）。登録済みの活動ステージについて、区画の検証とステージ選択後の難易度切り替えの両方に適用されます。
-
-Copilot はリスト受付時に各項目の登録済みルートのメタデータを保存します。実行前にルートが削除された場合は `MissingRoute`、メタデータが変更された場合は `RouteChanged` で停止するため、リストを再送信してください。受付時に未登録だった活動は従来の選択を使用します。ルートのコピー取得とマップ全体の置換は読み書きロックで同期します。事前検証の失敗コールバックには `phase: Preflight` と、実行時と同じ具体的な `reason`（`Closed`、`Disabled`、`WrongClient`、`StageCodeMismatch`、`UnsupportedMode`）が含まれます。
+Copilot は受付時のルート値を保存し、削除や変更時に停止します。同じ内容の再読み込みは有効です。ユーザー上書きの取得と置換は読み書きロックで同期します。コールバックは `ActivityNavigationStarted`、`ActivityNavigationCompleted`、`ActivityNavigationFailed` です。事前検証には `phase: Preflight` と `MissingTask`、`InvalidEntryTask`、またはユーザー方針の `Closed`、`Disabled`、`WrongClient`、`StageCodeMismatch`、`UnsupportedMode` が含まれ、待機中ルートの変更は `RouteChanged` です。`AsstGetActivityNavigationVersion()` はプロトコル 2（既存タスクからの自動検出を含む）を返し、呼び出す前にシンボルを確認してください。旧コアは外部 Custom ナビゲーションを使用できます。

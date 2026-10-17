@@ -26,8 +26,12 @@ bool asst::ActivityNavigationTask::set_target(
     if (route->code != m_code) {
         return report_failure("StageCodeMismatch");
     }
-    if (!Task.get(route->task)) {
+    const auto entry = Task.get(route->task);
+    if (!entry) {
         return report_failure("MissingTask");
+    }
+    if (route->from_tasks && entry->algorithm != AlgorithmType::OcrDetect) {
+        return report_failure("InvalidEntryTask");
     }
     auto map = Tile.find(m_stage_id);
     if (!map || map->first.code != m_code) {
@@ -57,6 +61,13 @@ bool asst::ActivityNavigationTask::_run()
     if (m_expected_route && *route != *m_expected_route) {
         return report_failure("RouteChanged");
     }
+    const auto entry = Task.get(route->task);
+    if (!entry) {
+        return report_failure("MissingTask");
+    }
+    if (route->from_tasks && entry->algorithm != AlgorithmType::OcrDetect) {
+        return report_failure("InvalidEntryTask");
+    }
     const auto client = m_client.empty() ? ctrler()->get_client_type() : m_client;
     const auto now = std::chrono::floor<std::chrono::seconds>(std::chrono::system_clock::now());
     const auto status = activity_navigation::check(*route, m_code, m_raid, client, now);
@@ -70,7 +81,23 @@ bool asst::ActivityNavigationTask::_run()
     info["details"]["partition"] = route->partition;
     info["details"]["task"] = route->task;
     callback(AsstMsg::SubTaskExtraInfo, info);
-    if (!ProcessTask(*this, { route->task }).set_retry_times(RetryTimesDefault).run()) {
+    ProcessTask process(*this, { route->task });
+    if (route->from_tasks) {
+        const auto prefix = m_code + "@ActivityNavigation@";
+        const auto visible = Task.get<OcrTaskInfo>(prefix + "SideStoryStage");
+        visible->text = { m_code };
+        visible->full_match = true;
+        visible->action = ProcessTaskAction::DoNothing;
+        visible->next.clear();
+        process.set_tasks({ prefix + "ActivityNavigationBegin" });
+        if (!process.override_next(prefix + "ActivityNavigationBegin", { prefix + route->task })) {
+            return report_failure("MissingTask");
+        }
+    }
+    else {
+        process.set_tasks({ route->task });
+    }
+    if (!process.set_retry_times(RetryTimesDefault).run()) {
         return report_failure("EntryNotReached");
     }
     info["what"] = "ActivityNavigationCompleted";

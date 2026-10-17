@@ -52,7 +52,7 @@ bool asst::StageNavigationTask::set_stage_name(const std::string& stage_name)
         if (const auto route = ActivityNavigation.find_code(stage_name)) {
             m_activity_stage = route->stage_id;
             m_stage_code = route->code;
-            if (route->raid) {
+            if (route->raid || m_activity_raid || (route->from_tasks && route->partition.ends_with("-EX"))) {
                 m_switch_difficulty_after_stage_selection = true;
                 m_difficulty_tasks = m_activity_raid
                                          ? std::vector<std::string> { "RaidConfirm", "ChangeToRaidDifficulty" }
@@ -165,10 +165,15 @@ bool asst::StageNavigationTask::_run()
                navigation.run() && swipe_and_find_stage() && switch_difficulty_after_stage_selection();
     }
 
+    if (m_activity_navigation &&
+        !ProcessTask(*this, { "EventNavigationToTerminal" }).set_retry_times(RetryTimesDefault).run()) {
+        return false;
+    }
+
     // 上一次作战与目标关一致时直接点击进入（资源关等复刷收益明显）；
     // 内部标识与显示代号不一致的关卡（剿灭 "Annihilation"、SSReopen 的 "-OpenOpt" 后缀等）
     // fullMatch 永不命中，自然回退直接导航
-    if (try_last_battle()) {
+    if (!m_activity_navigation && try_last_battle()) {
         return true;
     }
 

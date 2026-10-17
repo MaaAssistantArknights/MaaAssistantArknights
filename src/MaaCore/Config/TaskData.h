@@ -110,6 +110,8 @@ public:
     void set_task_base(const std::string& task_name, std::string base_task_name);
     bool lazy_parse(const json::value& json);
 
+    bool contains(const std::string& name) const { return m_json_all_tasks_info.contains(name); }
+
     TaskPtr get(std::string_view name);
 
     template <typename TargetTaskInfoType>

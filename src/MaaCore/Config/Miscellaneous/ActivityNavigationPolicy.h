@@ -59,6 +59,7 @@ struct Route
     std::string partition;
     std::string task;
     std::vector<std::string> clients;
+    bool from_tasks = false;
     bool enabled = false;
     bool normal = false;
     bool raid = false;
@@ -99,6 +100,10 @@ inline std::string reason(Status status)
 
 inline Status check(const Route& route, std::string_view code, bool raid, std::string_view client, Time now)
 {
+    // Existing OCR tasks carry navigation, not the optional user override policy.
+    if (route.from_tasks) {
+        return route.code == code ? Status::Ready : Status::WrongCode;
+    }
     if (!route.enabled) {
         return Status::Disabled;
     }

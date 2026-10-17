@@ -319,7 +319,7 @@ AsstSize AsstGetNullSize()
 
 int32_t AsstGetActivityNavigationVersion()
 {
-    return 1;
+    return 2;
 }
 
 const char* AsstGetVersion()

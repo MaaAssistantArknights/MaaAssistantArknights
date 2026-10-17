@@ -19,6 +19,8 @@ protected:
     bool parse(const json::value& json) override;
 
 private:
+    static std::optional<activity_navigation::Route>
+        find_task_route(const std::string& stage_id, const std::string& code);
     mutable std::shared_mutex m_routes_mutex;
     std::unordered_map<std::string, activity_navigation::Route> m_routes;
 };

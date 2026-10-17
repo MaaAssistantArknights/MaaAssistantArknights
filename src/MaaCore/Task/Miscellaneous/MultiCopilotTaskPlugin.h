@@ -12,6 +12,7 @@ namespace asst
 {
 class BattleFormationTask;
 class BattleProcessTask;
+class StageNavigationTask;
 
 class MultiCopilotTaskPlugin : public AbstractTask
 {
@@ -21,7 +22,8 @@ public:
         std::filesystem::path copilot_file; // 文件名
         std::string nav_name;               // 关卡名
         std::optional<activity_navigation::Route> activity_route;
-        bool is_raid = false;               // 是否是突袭
+        std::shared_ptr<StageNavigationTask> stage_navigation;
+        bool is_raid = false; // 是否是突袭
         int id;
         std::shared_ptr<battle::copilot::OperUsageGroups> assigned_groups;
     };

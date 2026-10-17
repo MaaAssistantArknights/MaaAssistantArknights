@@ -7,6 +7,7 @@
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "Task/Fight/StageNavigationTask.h"
 #include "Task/Miscellaneous/ActivityNavigationTask.h"
 #include "Task/Miscellaneous/BattleFormationTask.h"
 #include "Task/Miscellaneous/BattleProcessTask.h"
@@ -62,6 +63,10 @@ bool asst::MultiCopilotTaskPlugin::_run()
             !navigation.run()) {
             return false;
         }
+    }
+
+    if (m_activity_navigation && config.stage_navigation && !config.stage_navigation->run()) {
+        return false;
     }
 
     bool ret = true;

@@ -6936,5 +6936,31 @@
         "action": "ClickRect",
         "specificRect": [169, 473, 88, 104],
         "postDelay": 1000
+    },
+    "EventNavigationToTerminal": {
+        "algorithm": "JustReturn",
+        "next": ["EventNavigationTerminalReady", "EventNavigationFromHome", "EventNavigationReturn"]
+    },
+    "EventNavigationTerminalReady": {
+        "baseTask": "GoTerminalStopflag",
+        "action": "DoNothing",
+        "next": [],
+        "template": "StageResource.png"
+    },
+    "EventNavigationFromHome": {
+        "baseTask": "Fight",
+        "next": ["EventNavigationTerminalReady"],
+        "template": "SwitchTheme@ToggleSettingsMenu.png"
+    },
+    "EventNavigationReturn": {
+        "baseTask": "ReturnButton",
+        "template": ["Return.png", "Return-White.png"],
+        "next": ["EventNavigationToTerminal"],
+        "onErrorNext": []
+    },
+    "ActivityNavigationBegin": {
+        "algorithm": "JustReturn",
+        "sub": ["EventNavigationToTerminal"],
+        "next": []
     }
 }

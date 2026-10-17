@@ -3,16 +3,14 @@ order: 9
 icon: material-symbols:route
 ---
 
-# 活動導覽
+# 活動導航
 
-`ActivityNavigation` 僅進入活動分區，不選擇具體關卡、不編隊、不開始戰鬥。參數包含必填的 `stage_id`（Tile-Pos 內部關卡 ID）、可選的 `client_type`（省略時使用目前連線的客戶端）與 `is_raid`（預設 false，僅驗證難度）。呼叫前需連線遊戲並完成登入。
+預設導航直接重用客戶端已載入的任務資源：從 Tile-Pos 內部關卡 ID 取得顯示編號，例如 `YW-1` 對應 `YW-OpenOcr`，`YW-EX-1` 對應 `YW-EX-OpenOcr`。公共任務先從可返回的目前畫面恢復到終端，再執行既有 OCR 入口及章節任務，辨識準確關卡編號後交回原選關流程。EX 入口缺失時回報 `MissingTask`，不退入普通區。
 
-`Copilot` 的 `copilot_list` 模式和 `Fight` 可用 `navigate_to_activity: true` 啟用相同入口，預設 false。Copilot 必須明確傳入 `client_type`；單份作業也使用單元素列表，與 `filename` 同時啟用會拒絕。接受列表及執行每項時都會檢查已登錄關卡。進入分區後沿用既有選關、編號複核、突襲切換、編隊與戰鬥。WPF 作業列表預設啟用，單檔模式維持原行為。
+入口和章節任務沿用 MaaRelease 的 `resource/tasks.json` 熱更新管道，核心本身不下載 API。新增活動或分區應在同一 JSON 提供完整 OCR 任務鏈，避免依賴必須同時下載的新截圖。公共終端恢復使用隨核心既有的基礎圖片；此功能不擴充模板分發，也不變更必需模板缺失時的檢查。既有的個別關卡模板選關維持原行為。
 
-`resource/activity_navigation.json` 的 `schema_version` 為 1，`activities` 保存各活動的 `id`、`enabled`、`clients`、`routes`、`stages`，另以 `name` 與 `sources` 記錄名稱和來源。分區含標準任務名 `task` 及帶時區、精確到秒的 ISO 8601 `opens_at`／`closes_at`。每個內部關卡 ID 對應 `code`、`route` 和 `modes`（normal／raid）。開放區間含開始、不含結束；任務、編號需與 Tile-Pos 一致。已登錄但關閉、停用、客戶端不符或難度不支援時失敗，不回退；未知活動維持既有行為。有效完整映射取代上一份；空 `activities` 清空映射，無效資料不取代。
+`ActivityNavigation` 是進入目標關卡所在地圖的獨立任務，不編隊或開始戰鬥。必填 `stage_id`，可選 `client_type`、`is_raid`，呼叫前須先連線並登入。`Copilot` 的 `copilot_list` 和 `Fight` 透過 `navigate_to_activity: true` 啟用，API 預設 false，WPF 作業清單預設開啟。Copilot 須明確提供 `client_type`，單作業使用單元素清單，與 `filename` 同時啟用會拒絕。既有導航支援的主線與資源關也可自動恢復終端入口；未知關卡保留目前地圖選關行為。Fight 的 `is_raid` 預設 false，用於活動校驗及選關後的難度切換。
 
-相容核心的任務放在 `resource/tasks/hotfix/activity_navigation/`。MaaResource 需放行映射和 `template/StageNavigation/`；主倉庫同步流程為相關改動更新資源版本。新增任務欄位或核心能力仍需升級核心。`AsstGetActivityNavigationVersion()` 回傳支援的協定版本（此處為 1），呼叫前需檢查符號存在；舊核心繼續使用外部 Custom 導覽。回呼為 `ActivityNavigationStarted`、`ActivityNavigationCompleted`、`ActivityNavigationFailed`，包含關卡、分區或失敗原因。
+`resource/activity_navigation.json` 為可選的使用者覆寫。版本 1 保留活動的 `id`、`name`、`enabled`、`clients`、`sources`、`routes`、`stages`；分區含 `task` 與附時區、精確到秒的 `opens_at`／`closes_at`，關卡含 `code`、`route`、`modes`（normal／raid）。覆寫優先於自動探索，校驗左閉右開的開放時間、客戶端與模式。預設 OCR 任務沒有這些額外資料，不會由任務名稱推測日期或客戶端限制；呼叫端繼續透過 StageActivity API 處理活動時間。有效完整覆寫替換舊值，空 `activities` 清除覆寫並恢復自動探索，錯誤資料不替換。
 
-Fight 啟用活動導航時可傳 `is_raid: true` 選擇突襲，預設 false；此參數作用於已登記的活動關卡，用於分區校驗與選關後的難度切換。
-
-Copilot 接受清單時保存各項目已登記的路由中繼資料。執行前若該路由遭移除或中繼資料變更，分別回報 `MissingRoute`／`RouteChanged` 並停止，呼叫端需重新提交清單；接受時未知的活動繼續使用原有選關。路由複製查詢與整表替換透過讀寫鎖同步。預檢失敗回呼帶有 `phase: Preflight`，`reason` 為具體的 `Closed`、`Disabled`、`WrongClient`、`StageCodeMismatch` 或 `UnsupportedMode`，與執行期的可用性檢查一致。
+Copilot 保存接受時的路由值，缺失或變更時停止，相同內容重載可繼續。使用者覆寫查詢和替換透過讀寫鎖同步。回呼為 `ActivityNavigationStarted`、`ActivityNavigationCompleted`、`ActivityNavigationFailed`。預檢失敗帶 `phase: Preflight`，原因包含 `MissingTask`、`InvalidEntryTask` 與使用者策略的 `Closed`、`Disabled`、`WrongClient`、`StageCodeMismatch`、`UnsupportedMode`；排隊路由變更為 `RouteChanged`。`AsstGetActivityNavigationVersion()` 回傳協議 2（含既有任務的自動探索），呼叫前須檢查符號；舊核心可繼續使用外部 Custom 導航。

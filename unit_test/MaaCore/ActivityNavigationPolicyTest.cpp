@@ -47,3 +47,14 @@ TEST_CASE("Known activity routes fail closed at time and mode boundaries")
     route.enabled = false;
     REQUIRE(check(route, route.code, false, "Official", route.opens_at) == Status::Disabled);
 }
+
+TEST_CASE("Existing OCR task routes do not synthesize user override policy")
+{
+    Route route;
+    route.from_tasks = true;
+    route.code = "YW-EX-1";
+    const auto now = *parse_time("2026-10-17T00:00:00Z");
+    REQUIRE(check(route, route.code, false, "Official", now) == Status::Ready);
+    REQUIRE(check(route, route.code, true, "YoStarJP", now) == Status::Ready);
+    REQUIRE(check(route, "YW-1", true, "Official", now) == Status::WrongCode);
+}

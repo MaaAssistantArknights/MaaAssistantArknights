@@ -1,10 +1,11 @@
 #pragma once
 
-#include "Config/TemplResource.h"
 #include "Utils/Logger.hpp"
+#include "Utils/WorkingDir.hpp"
 
 #include <algorithm>
 #include <cctype>
+#include <filesystem>
 #include <string>
 
 namespace asst::StageNavigationHelper
@@ -35,7 +36,9 @@ inline std::string get_stage_template_path(const std::string& stage_name)
 
     // 构造模板相对路径：StageNavigation/SideStory/{PREFIX}/{STAGE_NAME}
     std::string templ_rel_path = "StageNavigation/SideStory/" + prefix + "/" + stage_name;
-    if (TemplResource::get_instance().contains(templ_rel_path + ".png")) {
+    std::filesystem::path templ_file = ResDir.get() / "template" / (templ_rel_path + ".png");
+
+    if (std::filesystem::exists(templ_file)) {
         Log.info("Stage template found:", templ_rel_path);
         return templ_rel_path;
     }
