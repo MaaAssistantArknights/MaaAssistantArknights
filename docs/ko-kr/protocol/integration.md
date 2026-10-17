@@ -158,44 +158,44 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 - SideStory의 OF-1 / OF-F3
 - 현재 진행 중인 SS 이벤트의 마지막 3개 스테이지. 지원되는 스테이지 목록은 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json)에서 확인 가능. 이벤트 스테이지 내비게이션을 위해 [tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) 파일을 추가로 로드해야 함
 - 복각 SS 이벤트. `SSReopen-<스테이지 접두사>`를 입력하면 XX-1 ~ XX-9 스테이지를 한 번에 클리어할 수 있음 (예: `SSReopen-IC`)
-:::  
-::: field medicine  
-@type number
-@default 0
-@optional
-이성 회복제 최대 사용 개수  
-:::  
-::: field medicine_expire_days  
-@type number
-@default 0
-@optional
-지정된 일수 이내에 만료되는 이성 회복제를 사용합니다. `0`은 만료 임박 이성 회복제를 사용하지 않음을 의미합니다.  
-:::  
-::: field expiring_medicine  
-@type number
-@default 0
-@optional
-@deprecated
-v6.8.0부터 폐기됨. 대신 `medicine_expire_days`를 사용하세요.  
-:::  
-::: field stone  
-@type number
-@default 0
-@optional
-오리지늄 최대 사용 개수  
-:::  
-::: field times  
-@type number
-@default 2147483647
-@optional
-전투 횟수  
-:::  
-::: field series  
-@type number
-@default 1
-@optional
-연속 전투 횟수, -1~10
-<br>
+  :::  
+  ::: field medicine  
+  @type number
+  @default 0
+  @optional
+  이성 회복제 최대 사용 개수  
+  :::  
+  ::: field medicine_expire_days  
+  @type number
+  @default 0
+  @optional
+  지정된 일수 이내에 만료되는 이성 회복제를 사용합니다. `0`은 만료 임박 이성 회복제를 사용하지 않음을 의미합니다.  
+  :::  
+  ::: field expiring_medicine  
+  @type number
+  @default 0
+  @optional
+  @deprecated
+  v6.8.0부터 폐기됨. 대신 `medicine_expire_days`를 사용하세요.  
+  :::  
+  ::: field stone  
+  @type number
+  @default 0
+  @optional
+  오리지늄 최대 사용 개수  
+  :::  
+  ::: field times  
+  @type number
+  @default 2147483647
+  @optional
+  전투 횟수  
+  :::  
+  ::: field series  
+  @type number
+  @default 1
+  @optional
+  연속 전투 횟수, -1~10
+  <br>
 
 `-1`: 전환 비활성화
 <br>
