@@ -158,16 +158,6 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel, MallSettingsU
 
     public static int[] MonthlyCardRemindDaysList { get; } = [7, 5, 3, 1];
 
-    public bool IsMonthlyCardRemindNeeded(int daysLeft) => GetTaskConfig<MallTask>().IsMonthlyCardRemindAvailable(daysLeft);
-
-    public void MarkMonthlyCardReminded() => SetTaskConfig<MallTask>(_ => false, t => t.MonthlyCardLastRemindTime = DateTime.UtcNow.ToYjDate().ToFormattedString());
-
-    public void MarkMonthlyCardChecked(int daysLeft) => SetTaskConfig<MallTask>(_ => false, t =>
-    {
-        t.MonthlyCardLastDaysLeft = daysLeft;
-        t.MonthlyCardLastCheckDate = DateTime.UtcNow.ToYjDate().ToFormattedString();
-    });
-
     /// <summary>
     /// Gets or sets the priority item list of credit shop.
     /// </summary>
