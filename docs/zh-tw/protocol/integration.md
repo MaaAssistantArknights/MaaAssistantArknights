@@ -1198,6 +1198,18 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
   @optional
   是否允許在理智不足時自動使用理智藥。  
   :::  
+  ::: field auto_restart  
+  @type boolean
+  @default false
+  @optional
+  單一作業模式下，是否在戰鬥中偵測到漏怪時於結算前取消戰鬥。多作業模式下，是否在偵測到漏怪或戰鬥失敗時自動重開目前作業；漏怪時會先主動退出戰鬥。
+  :::  
+  ::: field auto_restart_times  
+  @type number
+  @default 3
+  @optional
+  多作業模式下，每次作業執行允許自動重開的最大次數，範圍為 1 至 999。僅在 `auto_restart` 為 `true` 時有效。
+  :::  
   ::: field formation  
   @type boolean
   @default false

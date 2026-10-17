@@ -52,13 +52,16 @@ bool asst::BattleProcessTask::_run()
     for (size_t i = 0; i < action_size && !need_exit() && m_in_battle; ++i) {
         const auto& action = get_combat_data().actions.at(i);
         do_action(action, i);
+        if (m_leak_detected) {
+            break;
+        }
     }
 
-    if (need_to_wait_until_end()) {
+    if (need_to_wait_until_end() && !m_leak_detected) {
         wait_until_end(true, need_strategy_during_wait());
     }
 
-    return true;
+    return !m_leak_detected;
 }
 
 void asst::BattleProcessTask::clear()
@@ -67,6 +70,81 @@ void asst::BattleProcessTask::clear()
 
     m_oper_in_group.clear();
     m_in_bullet_time = false;
+    m_leak_detected = false;
+    m_leak_abandoned = false;
+}
+
+bool asst::BattleProcessTask::check_in_battle(const cv::Mat& reusable, bool weak)
+{
+    return !m_leak_detected && BattleHelper::check_in_battle(reusable, weak);
+}
+
+bool asst::BattleProcessTask::do_strategic_action(const cv::Mat& reusable)
+{
+    // 等待作业时机或条件期间会反复执行策略动作，在此识别可避免因下一条脚本动作较晚而漏掉漏怪事件。
+    if (m_abort_on_leak && check_and_abandon_on_leak(reusable)) {
+        return true;
+    }
+    return BattleHelper::do_strategic_action(reusable);
+}
+
+bool asst::BattleProcessTask::on_wait_until_end(const cv::Mat& reusable)
+{
+    // 等待战斗结束时即使不执行策略动作，也要继续检查漏怪。
+    return !m_abort_on_leak || !check_and_abandon_on_leak(reusable);
+}
+
+bool asst::BattleProcessTask::check_and_abandon_on_leak(const cv::Mat& image)
+{
+    if (!m_leak_detected) {
+        BattlefieldMatcher analyzer(image);
+        if (!analyzer.leak_flag_analyze()) {
+            return false;
+        }
+
+        m_leak_detected = true;
+        LogWarn << __FUNCTION__ << "Enemy leak detected, abandoning the battle before settlement";
+    }
+
+    if (m_leak_abandoned) {
+        return true;
+    }
+
+    constexpr int MaxAbandonAttempts = 3;
+    constexpr int MaxClicksPerAbandonStep = 3;
+    cv::Mat current_image = image;
+    for (int attempt = 1; attempt <= MaxAbandonAttempts && !need_exit(); ++attempt) {
+        if (check_pause_button(current_image) && !pause()) {
+            LogError << __FUNCTION__ << "Failed to pause the battle after detecting an enemy leak";
+        }
+        if (need_exit()) {
+            break;
+        }
+
+        const bool abandoned = abandon(MaxClicksPerAbandonStep);
+        if (need_exit()) {
+            break;
+        }
+        if (abandoned) {
+            m_leak_abandoned = true;
+            return true;
+        }
+
+        if (attempt == MaxAbandonAttempts) {
+            LogError << __FUNCTION__ << "Failed to abandon the battle after" << MaxAbandonAttempts
+                     << "attempts following enemy leak detection";
+            break;
+        }
+
+        LogWarn << __FUNCTION__ << "Failed to abandon the battle after detecting an enemy leak, retrying" << attempt
+                << "/" << MaxAbandonAttempts;
+        if (!sleep(500)) {
+            break;
+        }
+        current_image = ctrler()->get_image();
+    }
+
+    return true;
 }
 
 bool asst::BattleProcessTask::set_stage_name(const std::string& stage_name)
@@ -217,6 +295,10 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
 {
     LogTraceFunction;
 
+    if (m_abort_on_leak && check_and_abandon_on_leak(ctrler()->get_image())) {
+        return false;
+    }
+
     notify_action(action);
 
     thread_local auto prev_frame_time = std::chrono::steady_clock::time_point {};
@@ -229,7 +311,7 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         std::this_thread::sleep_for(min_frame_interval - (now - prev_frame_time));
     }
 
-    if (!wait_condition(action)) {
+    if (!wait_condition(action) || m_leak_detected) {
         return false;
     }
 
@@ -237,6 +319,9 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
 
     if (action.pre_delay > 0) {
         sleep_and_do_strategy(action.pre_delay);
+        if (m_leak_detected) {
+            return false;
+        }
         if (action.type == ActionType::Deploy) {
             update_deployment(); // 等待之后画面可能会变化, 更新下干员信息, 但若为非部署动作, 则无需更新
         }
@@ -458,10 +543,14 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             check_in_battle(image);
         }
     };
-    auto do_strategy_and_update_image = [&]() {
+    auto do_strategy_and_update_image = [&]() -> bool {
         do_strategic_action(image);
+        if (m_leak_detected) {
+            return false;
+        }
         image_prev = std::move(image);
         image = ctrler()->get_image();
+        return true;
     };
 
     if (action.cost_changes != 0) {
@@ -480,7 +569,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             if (!check_in_battle(image)) {
                 return false;
             }
-            do_strategy_and_update_image();
+            if (!do_strategy_and_update_image()) {
+                return false;
+            }
         }
     }
 
@@ -494,7 +585,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             if (!check_in_battle(image)) {
                 return false;
             }
-            do_strategy_and_update_image();
+            if (!do_strategy_and_update_image()) {
+                return false;
+            }
         }
     }
 
@@ -509,7 +602,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             if (!check_in_battle(image)) {
                 return false;
             }
-            do_strategy_and_update_image();
+            if (!do_strategy_and_update_image()) {
+                return false;
+            }
         }
     }
 
@@ -525,7 +620,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             if (cooling_count == static_cast<size_t>(action.cooling)) {
                 break;
             }
-            do_strategy_and_update_image();
+            if (!do_strategy_and_update_image()) {
+                return false;
+            }
         }
     }
 
@@ -540,7 +637,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
                 if (!check_in_battle(image)) {
                     return false;
                 }
-                do_strategy_and_update_image();
+                if (!do_strategy_and_update_image()) {
+                    return false;
+                }
             }
         }
         else {
@@ -565,7 +664,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
                 iter != m_cur_deployment_opers.end() && iter->available) {
                 break;
             }
-            do_strategy_and_update_image();
+            if (!do_strategy_and_update_image()) {
+                return false;
+            }
         }
     }
 
