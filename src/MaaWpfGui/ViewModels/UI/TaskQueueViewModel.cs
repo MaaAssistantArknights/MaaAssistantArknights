@@ -2271,7 +2271,7 @@ public class TaskQueueViewModel : Screen
         }
 
         // Window attachment does not use ADB recovery.
-        if (!connected && SettingsViewModel.ConnectSettings.IsPCConnectConfig)
+        if (!connected && !SettingsViewModel.ConnectSettings.IsADBConnectConfig)
         {
             AddLog(errMsg, UiLogColor.Error);
             SetStopped();

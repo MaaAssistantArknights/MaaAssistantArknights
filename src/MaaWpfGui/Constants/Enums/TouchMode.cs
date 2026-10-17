@@ -33,7 +33,7 @@ public enum TouchMode
     Adb,
 
     /// <summary>
-    /// MaaFwAdb 触控模式。
+    /// MaaFwAdb 触控模式，现已合并到 MaaFw 触控模式。
     /// </summary>
     MaaFwAdb,
 
@@ -41,4 +41,9 @@ public enum TouchMode
     /// MuMu external renderer IPC 触控，仅截图增强启用时可选。
     /// </summary>
     MumuExtras,
+
+    /// <summary>
+    /// MaaFw 触控模式。
+    /// </summary>
+    MaaFw,
 }
