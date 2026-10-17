@@ -5102,5 +5102,20 @@
     "resource/template/InfrastPic/Mfg/MfgCatalystMissing": "12782099794395809c4eb9a26479a0dcaeea08b920f7990963e48c5abfececf8",
     "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@MovePreviewEnterWalk": "4419eea5fb1feb81b4e69a1e02cf66aa6d5ac9afe0268f8a859a352e4588eea1",
     "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@MovePreviewEnterCrafted": "813d26fa861a080d54fd9a251cbc2b838a9830ebcb6f90c720bb38d2dad247db",
-    "resource/template/items/itempack_stickers_rog6": "057e6477a7a8af48917fa1d003a0501ea1df89690572ab0394c82d599c6eb266"
+    "resource/template/items/itempack_stickers_rog6": "057e6477a7a8af48917fa1d003a0501ea1df89690572ab0394c82d599c6eb266",
+    "resource/global/YoStarEN/resource/template/UiTheme/Reconstruct/DepotEnter": "8c9e53926974064ada6b1ab70614f34cfe6142e98842cabe5e80619a3a40c0b8",
+    "resource/global/YoStarEN/resource/template/UiTheme/Reconstruct/Friends": "08b6fcbf6acabe1210810fa459a09b6fd2cbb38275db36104aefbd8cf87a5bed",
+    "resource/global/YoStarEN/resource/template/UiTheme/Reconstruct/GachaEnter": "23b307fb54fffd826ba98e67e4df5d92f76dde8695ca863811036a3d9950f091",
+    "resource/global/YoStarEN/resource/template/UiTheme/Reconstruct/Mall": "d0d248491f471421548c49c06d373afa95f649c832276570afd06157a5c6b9ff",
+    "resource/global/YoStarEN/resource/template/UiTheme/Reconstruct/Recruit": "2247b2d2c16a2553a2dd6483721e38cda546a14ac3273cc45d73565a4d5db4b1",
+    "resource/global/YoStarEN/resource/template/UiTheme/Reconstruct/Terminal": "5d06d3d1dfb05e9e9c21bc6be029e9f4dd3875a109afa0e82cad72cda1bd5c9a",
+    "resource/global/YoStarJP/resource/template/Battle/Sanity/Stone/NoStone": "3032f8d94ae998e01a3402af917ff60df2c991ad6c9ae5d35dbf2db8bd30938f",
+    "resource/global/YoStarJP/resource/template/UiTheme/Reconstruct/DepotEnter": "a171f3f63691b97ecbf3011af2117ba6a13364158a817b4ae3fc41c1ab90883f",
+    "resource/global/YoStarJP/resource/template/UiTheme/Reconstruct/Friends": "eed2e7bc81a4cf9c502e068208204f403f2e639fa735e468612355952002f200",
+    "resource/global/YoStarJP/resource/template/UiTheme/Reconstruct/GachaEnter": "d30e2daf059e30178fc395ecb192739c217534d8cb019467144d64310a52b351",
+    "resource/global/YoStarJP/resource/template/UiTheme/Reconstruct/Mall": "ab04db4f55b6c93dcc79124804e8e95de81be4353cb9350836ec66d09ed4c3fe",
+    "resource/global/YoStarJP/resource/template/UiTheme/Reconstruct/Recruit": "1b9d6958ccc7c17bab1c25f684c9bd2478aacefb7b53dd2c17aad3e76999de59",
+    "resource/global/YoStarJP/resource/template/UiTheme/Reconstruct/Terminal": "e0ef9a70c7babced6c952a0b6ad2fb94182fc6aa270dc0e9f52d536de2bd83f0",
+    "resource/template/InfrastPic/Facilities/Recycle": "9a4a3473ebed9593ace042b7bc2720a16c9e72e3417e35e2c41f24470019d93c",
+    "resource/template/InfrastPic/Facilities/RecycleMini": "7a518e99c1eff1f9c54ea68d6fd91f31526486358123b3d6a7b521f32415ae6d"
 }
