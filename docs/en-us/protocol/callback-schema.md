@@ -187,6 +187,8 @@ Todo
   Auto combat
 - `SSSCopilot`  
   Auto Stationary Security Service
+- `ParadoxCopilot`  
+  Auto Paradox Simulation
 - `Depot`  
   Depot recognition
 - `OperBox`  
@@ -246,9 +248,12 @@ Todo
     "action": "ClickSelf", // Action name, e.g. "ClickSelf" | "DoNothing" | "Swipe"
     "exec_times": 1, // Execution times
     "max_times": 999, // Maximum execution times
-    "algorithm": "MatchTemplate" // Recognition algorithm name, e.g. "MatchTemplate" | "OcrDetect" | "FeatureMatch" | "JustReturn"
+    "algorithm": "MatchTemplate", // Recognition algorithm name, e.g. "MatchTemplate" | "OcrDetect" | "FeatureMatch" | "JustReturn"
+    "result": {} // Recognition result of this run, structure varies by algorithm; empty object when there is none
   }
   ```
+
+  Additionally, when the task execution count reaches its limit, a `SubTaskExtraInfo` message with `what` set to `ExceededLimit` is reported first; its `details` contains `task` (task name), `exec_times` (execution times), and `max_times` (maximum execution times).
 
 - `ReportToPenguinStats` / `ReportToYituliu`  
   Report battle drops to Penguin Statistics / Yituliu big data (a `SubTaskError` is reported back when the upload fails)
@@ -362,7 +367,9 @@ Todo
         "quantity": 4,
         "addQuantity": 2
       }
-    ]
+    ],
+    "cur_times": 2, // Number of consecutive battles recognized on the settlement screen (only present when recognized)
+    "annihilation_weekly_process": [1600, 1800] // Weekly acquisition progress of Annihilation mode, format: [completed count, limit] (only present on Annihilation stages)
   }
   ```
 
@@ -553,7 +560,8 @@ Todo
   ```json
   // Corresponding details field example
   {
-      "name": string  // Stage name
+      "name": string,  // Stage name
+      "size": number   // Number of map grid cells
   }
   ```
 
@@ -579,6 +587,10 @@ Todo
       {
           "id": "char_002_amiya",
           "name": "阿米娅", // "Amiya"
+          "name_en": "Amiya", // Operator English name
+          "name_jp": "アーミヤ", // Operator Japanese name
+          "name_kr": "아미야", // Operator Korean name
+          "name_tw": "阿米婭", // Operator Traditional Chinese name
           "own": true,
           "rarity": 5
       },
