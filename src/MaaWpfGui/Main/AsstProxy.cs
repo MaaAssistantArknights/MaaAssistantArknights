@@ -2539,6 +2539,12 @@ public class AsstProxy
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageInfoError"), UiLogColor.Error, splitMode: TaskQueueViewModel.LogCardSplitMode.Both, updateCardImage: true);
                 break;
 
+            case "CopilotPrecheckFile":
+                var navName = subTaskDetails!["nav_name"]?.ToString() ?? string.Empty;
+                var filename = subTaskDetails!["filename"]?.ToString() ?? string.Empty;
+                Instances.CopilotViewModel.AddLog(navName + " - " + filename, UiLogColor.Info, showTime: false);
+                break;
+
             case "BattleFormation":
                 Instances.CopilotViewModel.AddLog(
                     LocalizationHelper.GetString("BattleFormation") +
