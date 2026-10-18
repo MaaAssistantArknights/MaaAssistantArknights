@@ -26,6 +26,7 @@ Please note that JSON files do not support comments. Comments are for demonstrat
       - `deposit.json` investing mode
     - `recruitment.json` operators recruitment logic
     - `shopping.json` trade store purchasing logic
+    - `monthly_squad.json` Monthly Squad task logic
 
 - Specifically, in `Sami/`:
   - `foldartal.json` defines the usage logic for Sami's Foldartals
@@ -39,6 +40,40 @@ Please note that JSON files do not support comments. Comments are for demonstrat
 
 - In `JieGarden/`:
   - `coppers.json` basic information and pickup/replacement logic for Coppers
+
+## Monthly Squad tasks
+
+`resource/roguelike/theme_name/monthly_squad.json` describes the task assigned to each Monthly Squad. Top-level keys may be squad indices from `1` to `8`. Use `default` as the fallback when an index has no dedicated entry or cannot be recognized.
+
+```json
+{
+    "1": {
+        "type": "DeployOperator",
+        "operator": "年",
+        "count": 10
+    },
+    "2": {
+        "type": "DeployOperatorSummon",
+        "operator": "令",
+        "skill": 3,
+        "count": 20
+    },
+    "default": {
+        "type": "ReachThirdFloor"
+    }
+}
+```
+
+The following task types are supported:
+
+| `type` | Required fields | Description |
+| --- | --- | --- |
+| `ReachThirdFloor` | None | Follow the existing exploration logic until the third floor |
+| `DeployOperator` | `operator`, `count` | Deploy the specified operator the required number of times |
+| `DeployOperatorSummon` | `operator`, `count` | Deploy the specified operator, then repeatedly deploy their related summons |
+| `UseOperatorSkill` | `operator`, `count`, `skill` | Select and use the specified operator's first, second, or third skill |
+
+`count` must be a positive integer. `skill` must be from `1` to `3`. It is optional for `DeployOperatorSummon`; when omitted, the operator's existing skill-selection logic is preserved.
 
 ## Integrated Strategy Step 1: Operator Recruitment
 

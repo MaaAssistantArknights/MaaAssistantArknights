@@ -76,7 +76,7 @@
                 SelectedValuePath="Value"
                 Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Collectible',
                                        Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}" />
-            <StackPanel Margin="0,3">
+            <StackPanel Margin="0,3" Visibility="{c:Binding 'RoguelikeMode != task:RoguelikeMode.Squad', Source={x:Static taskQueue_vms:RoguelikeSettingsUserControlModel.Instance}}">
                 <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
                     <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource StartingSquad}" />
                     <controls:TooltipBlock TooltipText="{DynamicResource RoguelikeBlackFlowFastFlightLockTip}" Visibility="{c:Binding RoguelikeBlackFlowExpFlightActive}" />
