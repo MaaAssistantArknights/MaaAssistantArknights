@@ -772,7 +772,7 @@ void asst::RoguelikeStageEncounterTaskPlugin::report_analyzed_options()
     Log.info(std::string(40, '-'));
     Log.info(std::format("{:^9} | {}", "Enabled", "Text"));
     Log.info(std::string(40, '-'));
-    for (const auto& [enabled, templ, text] : m_option_list) {
+    for (const auto& [enabled, templ, text, merged_y] : m_option_list) {
         json::value option = json::object {
             { "enabled", enabled },
             { "text", text },
@@ -797,18 +797,61 @@ bool asst::RoguelikeStageEncounterTaskPlugin::update_view(const cv::Mat& image)
         return false;
     }
 
-    for (size_t i = 0; i < m_option_list.size() && !need_exit(); ++i) {
-        if (const auto option_match =
-                RoguelikeEncounterOptionAnalyzer::match_option(m_config->get_theme(), img, m_option_list[i].templ)) {
-            m_view_begin = std::min(m_view_begin, i);
-            m_view_end = std::max(m_view_end, i + 1);
-            m_option_y_in_view[i] = option_match->rect.y;
-            m_option_rect_in_view[i] = option_match->rect;
+    if (anchored_view_enabled(m_config->get_theme())) {
+        update_anchored_view(img);
+    }
+    else {
+        for (size_t i = 0; i < m_option_list.size() && !need_exit(); ++i) {
+            if (const auto option_match = RoguelikeEncounterOptionAnalyzer::match_option(
+                    m_config->get_theme(),
+                    img,
+                    m_option_list[i].templ)) {
+                m_view_begin = std::min(m_view_begin, i);
+                m_view_end = std::max(m_view_end, i + 1);
+                m_option_y_in_view[i] = option_match->rect.y;
+                m_option_rect_in_view[i] = option_match->rect;
+            }
         }
     }
 
     LogInfo << __FUNCTION__ << std::format("| Current view is [{}, {}]", m_view_begin + 1, m_view_end);
     return !need_exit();
+}
+
+// 滑出画面的选项仍会在相似条带上取得过阈值的分数；只信任得分最高的一项，
+// 其余选项按拼接图中的相对位置整体平移，落在搜索范围内才算可见。
+void asst::RoguelikeStageEncounterTaskPlugin::update_anchored_view(const cv::Mat& image)
+{
+    const std::string& theme = m_config->get_theme();
+
+    size_t anchor = m_option_list.size();
+    Matcher::Result anchor_match;
+    for (size_t i = 0; i < m_option_list.size() && !need_exit(); ++i) {
+        const auto option_match = RoguelikeEncounterOptionAnalyzer::match_option(theme, image, m_option_list[i].templ);
+        if (option_match && (anchor == m_option_list.size() || option_match->score > anchor_match.score)) {
+            anchor = i;
+            anchor_match = *option_match;
+        }
+    }
+    if (anchor == m_option_list.size() || need_exit()) {
+        return;
+    }
+
+    const int offset = anchor_match.rect.y - m_option_list[anchor].merged_y;
+    const Rect roi = RoguelikeEncounterOptionAnalyzer::option_roi(theme, image.rows);
+    for (size_t i = 0; i < m_option_list.size(); ++i) {
+        Rect rect = anchor_match.rect;
+        rect.y = m_option_list[i].merged_y + offset;
+        if (rect.y < roi.y || rect.y + rect.height > roi.y + roi.height) {
+            continue;
+        }
+        m_view_begin = std::min(m_view_begin, i);
+        m_view_end = std::max(m_view_end, i + 1);
+        m_option_y_in_view[i] = rect.y;
+        m_option_rect_in_view[i] = rect;
+    }
+
+    LogInfo << __FUNCTION__ << "| Anchor option" << anchor + 1 << "score" << anchor_match.score << "offset" << offset;
 }
 
 void asst::RoguelikeStageEncounterTaskPlugin::reset_view()
