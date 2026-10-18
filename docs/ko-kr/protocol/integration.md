@@ -490,7 +490,7 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 :::  
 ::: field drones  
 @type string
-@default \_NotUse
+@default _NotUse
 @optional
 드론 용도. `mode = 10000`일 때 이 필드는 무효
 <br>
@@ -1178,7 +1178,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 단일 작전 JSON 파일 경로, copilot_list와 택일(필수); 상대/절대 경로 모두 가능  
 :::  
 ::: field copilot_list  
-@type array`<object>`
+@type array<object>
 작전 목록, filename과 택일(필수); filename과 copilot_list 동시 존재 시 copilot_list 무시; 이 파라미터 유효 시 set_params는 1회만 실행 가능
 <br>
 각 객체 포함:
@@ -1217,7 +1217,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 0–4 정수, 0은 현재 편성 선택, 1-4는 제1, 2, 3, 4 편성  
 :::  
 ::: field user_additional  
-@type array`<object>`
+@type array<object>
 @default []
 @optional
 사용자 정의 추가 오퍼레이터 목록. `formation`이 true일 때 유효
@@ -1343,7 +1343,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 단일 작전 JSON 파일 경로, 절대/상대 경로 모두 가능. 실행 중 설정 불가. 필수, list와 택일.  
 :::  
 ::: field list  
-@type array`<object>` | array`<string>`
+@type array<object> | array<string>
 @required
 작전 목록, 실행 중 설정 불가. 필수, filename과 택일.
 <br>
@@ -1664,7 +1664,7 @@ AsstBool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char*
 작업 ID, `AsstAppendTask` 인터페이스 반환 값  
 :::  
 ::: field params  
-@type const char\*
+@type const char*
 @required
 작업 파라미터, json string, `AsstAppendTask` 인터페이스와 동일  
 "실행 중 설정 불가"로 표시되지 않은 필드는 실시간 수정 가능; 표시된 경우 현재 작업이 실행 중이면 해당 필드 무시  
@@ -1697,7 +1697,7 @@ AsstBool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value)
 Key  
 :::  
 ::: field value  
-@type const char\*
+@type const char*
 @required
 Value  
 :::  
@@ -1713,7 +1713,7 @@ Value
 무효 점유. 열거값: 0  
 :::  
 ::: field CpuOCR  
-@type boolean
+@type string
 @optional
 CPU로 OCR 수행. 값은 파싱에 사용되지 않음. 리소스 로드 후 전환 불가. 열거값: 1  
 :::  
@@ -1755,7 +1755,7 @@ AsstBool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey 
 Key  
 :::  
 ::: field value  
-@type const char\*
+@type const char*
 @required
 Value  
 :::  

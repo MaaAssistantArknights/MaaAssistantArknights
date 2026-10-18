@@ -488,7 +488,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 :::  
 ::: field drones  
 @type string
-@default \_NotUse
+@default _NotUse
 @optional
 無人機用途。當 `mode = 10000` 時，此欄位無效。
 <br>
@@ -1176,7 +1176,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 單一作業 json 檔案路徑。與 `copilot_list` 二選一（必填），支援相對路徑與絕對路徑。  
 :::  
 ::: field copilot_list  
-@type array`<object>`
+@type array<object>
 作業列表。與 `filename` 二選一（必填）。若兩者同時存在，將忽略 `copilot_list`。此參數起作用時，僅可執行 `set_params` 一次。
 <br>
 每個物件包含：
@@ -1216,7 +1216,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 範圍為 0–4 的整數，其中 0 表示選擇目前編隊，1-4 分別代表第一、二、三、四編隊。  
 :::  
 ::: field user_additional  
-@type array`<object>`
+@type array<object>
 @default []
 @optional
 自訂追加幹員清單。僅在 `formation` 為 `true` 時有效。
@@ -1342,7 +1342,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 單一作業 json 檔案路徑。支援絕對或相對路徑。不支援在執行中更改設定。與 `list` 二選一（必填）。  
 :::  
 ::: field list  
-@type array`<object>` | array`<string>`
+@type array<object> | array<string>
 @required
 作業列表。不支援在執行中更改設定。與 `filename` 二選一（必填）。
 <br>
@@ -1663,7 +1663,7 @@ AsstBool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char*
 任務 ID，為 `AsstAppendTask` 介面的回傳值。  
 :::  
 ::: field params  
-@type const char\*
+@type const char*
 @required
 任務參數，json 字串，格式與 `AsstAppendTask` 介面相同。  
 未標註 ｢不支援在執行中更改設定｣ 的欄位皆支援即時修改；若該欄位不支援且目前任務正在執行，將忽略該欄位的變更。  
@@ -1696,7 +1696,7 @@ AsstBool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value)
 鍵（Key）。  
 :::  
 ::: field value  
-@type const char\*
+@type const char*
 @required
 值（Value）。  
 :::  
@@ -1712,7 +1712,7 @@ AsstBool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value)
 無效佔位。列舉值：0。  
 :::  
 ::: field CpuOCR  
-@type boolean
+@type string
 @optional
 使用 CPU 進行 OCR。值不參與解析。資源載入後不支援切換。列舉值：1。  
 :::  
@@ -1754,7 +1754,7 @@ AsstBool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey 
 鍵（Key）。  
 :::  
 ::: field value  
-@type const char\*
+@type const char*
 @required
 值（Value）。  
 :::  

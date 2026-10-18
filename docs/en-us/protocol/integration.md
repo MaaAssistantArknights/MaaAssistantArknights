@@ -487,7 +487,7 @@ Facility name: `Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | 
 :::  
 ::: field drones  
 @type string
-@default \_NotUse
+@default _NotUse
 @optional
 Usage of drones. This field is ignored when `mode = 10000`.
 <br>
@@ -1175,7 +1175,7 @@ Whether to enable this task.
 Path to a single job JSON file, mutually exclusive with copilot_list (required, choose one); both relative and absolute paths are supported.  
 :::  
 ::: field copilot_list  
-@type array`<object>`
+@type array<object>
 List of jobs, mutually exclusive with filename (required, choose one); when both filename and copilot_list are present, copilot_list will be ignored; set_params can only be executed once when this parameter is in effect.
 <br>
 Each object contains:
@@ -1215,7 +1215,7 @@ The index of the formation slot to use in auto formation. Only effective when fo
 An integer between 0–4: 0 means the current formation, 1–4 refer to the 1st–4th formations.  
 :::  
 ::: field user_additional  
-@type array`<object>`
+@type array<object>
 @default []
 @optional
 Custom additional operators list. Only effective when formation is true.
@@ -1342,7 +1342,7 @@ Whether to enable this task.
 File path of a single operation JSON, supports absolute/relative paths. Runtime editing not supported. Mutually exclusive with list (required, choose one).  
 :::  
 ::: field list
-@type array`<object>` | array`<string>`
+@type array<object> | array<string>
 @required
 List of jobs. Runtime editing not supported. Mutually exclusive with filename (required, choose one).
 <br>
@@ -1663,7 +1663,7 @@ Instance handle
 Task ID, the return value of `AsstAppendTask`  
 :::  
 ::: field params  
-@type const char\*
+@type const char*
 @required
 Task parameter in JSON, same as `AsstAppendTask`.  
 For those fields that do not mention "Editing in run-time is not supported" can be changed during run-time. Otherwise these changes will be ignored when the task is running.  
@@ -1696,7 +1696,7 @@ Set process-level parameters
 key  
 :::  
 ::: field value  
-@type const char\*
+@type const char*
 @required
 value  
 :::  
@@ -1712,7 +1712,7 @@ value
 Invalid placeholder. Enum value: 0.
 :::
 ::: field CpuOCR
-@type boolean
+@type string
 @optional
 Use the CPU for OCR. The value is not parsed. Switching after resources are loaded is not supported. Enum value: 1.
 :::
@@ -1754,7 +1754,7 @@ handle
 key  
 :::  
 ::: field value  
-@type const char\*
+@type const char*
 @required
 value  
 :::  
