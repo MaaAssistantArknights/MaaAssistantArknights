@@ -22,8 +22,8 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 #### 返回値
 
 - `AsstTaskId`  
-   追加に成功した場合、タスク ID を返します。後続のタスク パラメータ設定に使用できます；  
-   追加に失敗した場合、0 を返します。
+  追加に成功した場合、タスク ID を返します。後続のタスク パラメータ設定に使用できます；  
+  追加に失敗した場合、0 を返します。
 
 #### パラメータ説明
 
@@ -158,113 +158,115 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 - 別伝の OF-1 / OF-F3。
 - 当期 SS イベントの最後の 3 ステージ。[API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json) にアクセスして、サポートされているステージ リストを取得できます。[tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) ファイルのイベント ステージ ナビゲーションを追加でロードする必要があります。
 - 復刻 SS イベント。`SSReopen-<ステージ プレフィックス>` と入力します。例えば `SSReopen-IC` と入力すると、XX-1～XX-9 ステージを一度に完了できます。
-  :::  
-  ::: field medicine  
-  @type number
-  @default 0
-  @optional
-  理性回復剤の最大使用数。  
-  :::  
-  ::: field medicine_expire_days  
-  @type number
-  @default 0
-  @optional
-  指定日数以内に期限切れになる理性回復剤を使用します。`0` は期限切れの理性回復剤を使用しないことを意味します。  
-  :::  
-  ::: field expiring_medicine  
-  @type number
-  @default 0
-  @optional
-  @deprecated
-  v6.8.0 で非推奨になりました。代わりに `medicine_expire_days` を使用してください。  
-  :::  
-  ::: field stone  
-  @type number
-  @default 0
-  @optional
-  純正源石の最大使用数。  
-  :::  
-  ::: field times  
-  @type number
-  @default 2147483647
-  @optional
-  戦闘回数。  
-  :::  
-  ::: field series  
-  @type number
-  @default 1
-  @optional
-  連戦回数。-1～10。
-  <br>
-  `-1` は切り替えを無効にします。
-  <br>
-  `0` は現在利用可能な最大回数に自動的に切り替わります。現在の理性が最大回数未満の場合は、利用可能な最小回数を選択します。
-  <br>
-  `1～10` は指定した連戦回数です。
-  <br>
-  ::: info サーバー差異
-  入力検証はリソースに `FightSeries-OldMethodFlag` が存在するかどうかで決まります：
-  <br>
-  - 新リスト（中国版 2026/8/1 以降の主リソース、当該 flag なし）：`-1～10` を受け付け
-  - 旧リスト（海外リソースに当該 flag あり）：`-1～6` のみ受け付け、それより大きい値は拒否
 
-  海外サーバーは約半年後に追従予定で、その際に上限はリソースに合わせて 10 になります。Windows GUI の連戦回数ドロップダウンは現在固定で 10 まで表示されます。海外で手動で 7～10 を選ぶと、タスク投入時に Core に拒否されます。
-  :::  
-  ::: field drops  
-  @type object
-  @optional
-  ドロップ数を指定します。デフォルトで指定なし。キーは item_id、値は数量です。キーは `resource/item_index.json` ファイルを参照できます。  
-  <br>
-  例：`{ "30011": 10, "30062": 5 }`  
-  <br>
-  上記はすべて OR 関係です。つまり、いずれかに達するとタスクが停止します。  
-  :::  
-  ::: field report_to_penguin  
-  @type boolean
-  @default false
-  @optional
-  ペンギン統計にレポートするかどうか。  
-  :::  
-  ::: field penguin_id  
-  @type string
-  @optional
-  ペンギン統計レポート ID。デフォルトは空です。`report_to_penguin` が true の場合のみ有効です。  
-  :::  
-  ::: field report_to_yituliu  
-  @type boolean
-  @default false
-  @optional
-  一图流（Yituliu）にレポートするかどうか。  
-  :::  
-  ::: field yituliu_id  
-  @type string
-  @optional
-  一图流（Yituliu）レポート ID。デフォルトは空です。`report_to_yituliu` が true の場合のみ有効です。  
-  :::  
-  ::: field server  
-  @type string
-  @default CN
-  @optional
-  サーバー。ドロップ認識とアップロードに影響します。
-  <br>
-  オプション：`CN` | `US` | `JP` | `KR`  
-  :::  
-  ::: field client_type  
-  @type string
-  @optional
-  クライアント バージョン。デフォルトは空です。ゲームがクラッシュした場合にクライアントを再起動して接続し直すために使用されます。空の場合、この機能は有効になりません。
-  <br>
-  オプション：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
-  :::  
-  ::: field DrGrandet  
-  @type boolean
-  @default false
-  @optional
-  理性節約源石モード。源石効果が発生する可能性がある場合にのみ有効です。
-  <br>
-  源石確認画面で待機し、現在の 1 ポイントの理性回復が完了するまで待ってから、すぐに源石を使用します。  
-  :::  
-  ::::
+:::  
+::: field medicine  
+@type number
+@default 0
+@optional
+理性回復剤の最大使用数。  
+:::  
+::: field medicine_expire_days  
+@type number
+@default 0
+@optional
+指定日数以内に期限切れになる理性回復剤を使用します。`0` は期限切れの理性回復剤を使用しないことを意味します。  
+:::  
+::: field expiring_medicine  
+@type number
+@default 0
+@optional
+@deprecated
+v6.8.0 で非推奨になりました。代わりに `medicine_expire_days` を使用してください。  
+:::  
+::: field stone  
+@type number
+@default 0
+@optional
+純正源石の最大使用数。  
+:::  
+::: field times  
+@type number
+@default 2147483647
+@optional
+戦闘回数。  
+:::  
+::: field series  
+@type number
+@default 1
+@optional
+連戦回数。-1～10。
+<br>
+`-1` は切り替えを無効にします。
+<br>
+`0` は現在利用可能な最大回数に自動的に切り替わります。現在の理性が最大回数未満の場合は、利用可能な最小回数を選択します。
+<br>
+`1～10` は指定した連戦回数です。
+<br>
+::: info サーバー差異
+入力検証はリソースに `FightSeries-OldMethodFlag` が存在するかどうかで決まります：
+<br>
+
+- 新リスト（中国版 2026/8/1 以降の主リソース、当該 flag なし）：`-1～10` を受け付け
+- 旧リスト（海外リソースに当該 flag あり）：`-1～6` のみ受け付け、それより大きい値は拒否
+
+海外サーバーは約半年後に追従予定で、その際に上限はリソースに合わせて 10 になります。Windows GUI の連戦回数ドロップダウンは現在固定で 10 まで表示されます。海外で手動で 7～10 を選ぶと、タスク投入時に Core に拒否されます。
+:::  
+::: field drops  
+@type object
+@optional
+ドロップ数を指定します。デフォルトで指定なし。キーは item_id、値は数量です。キーは `resource/item_index.json` ファイルを参照できます。  
+<br>
+例：`{ "30011": 10, "30062": 5 }`  
+<br>
+上記はすべて OR 関係です。つまり、いずれかに達するとタスクが停止します。  
+:::  
+::: field report_to_penguin  
+@type boolean
+@default false
+@optional
+ペンギン統計にレポートするかどうか。  
+:::  
+::: field penguin_id  
+@type string
+@optional
+ペンギン統計レポート ID。デフォルトは空です。`report_to_penguin` が true の場合のみ有効です。  
+:::  
+::: field report_to_yituliu  
+@type boolean
+@default false
+@optional
+一图流（Yituliu）にレポートするかどうか。  
+:::  
+::: field yituliu_id  
+@type string
+@optional
+一图流（Yituliu）レポート ID。デフォルトは空です。`report_to_yituliu` が true の場合のみ有効です。  
+:::  
+::: field server  
+@type string
+@default CN
+@optional
+サーバー。ドロップ認識とアップロードに影響します。
+<br>
+オプション：`CN` | `US` | `JP` | `KR`  
+:::  
+::: field client_type  
+@type string
+@optional
+クライアント バージョン。デフォルトは空です。ゲームがクラッシュした場合にクライアントを再起動して接続し直すために使用されます。空の場合、この機能は有効になりません。
+<br>
+オプション：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
+:::  
+::: field DrGrandet  
+@type boolean
+@default false
+@optional
+理性節約源石モード。源石効果が発生する可能性がある場合にのみ有効です。
+<br>
+源石確認画面で待機し、現在の 1 ポイントの理性回復が完了するまで待ってから、すぐに源石を使用します。  
+:::  
+::::
 
 <details>
 <summary>Example</summary>
@@ -1184,77 +1186,80 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 - `nav_name_override`: ナビゲーション用のステージ名。可選、未指定または `null` の場合は、作業ファイルから自動的に推定されます
   <br>
 - `is_raid`: 強襲作戦モードに切り替えるかどうか。可選、デフォルト false
-  :::  
-  ::: field loop_times  
-  @type number
-  @default 1
-  @optional
-  ループ回数。単一作業モード（filename 指定時）のみ有効。このパラメータが有効な場合、set_params は 1 回のみ実行可能。  
-  :::  
-  ::: field use_sanity_potion  
-  @type boolean
-  @default false
-  @optional
-  理性が不足した場合に理性剤を使用するかどうか。  
-  :::  
-  ::: field formation  
-  @type boolean
-  @default false
-  @optional
-  自動編成を行うかどうか。  
-  :::  
-  ::: field formation_index  
-  @type number
-  @default 0
-  @optional
-  自動編成で使用する編成スロットのインデックス。formation が true の場合のみ有効。
-  <br>
-  0～4 の整数。0 は現在の編成を意味し、1～4 は第 1～第 4 編成を表します。  
-  :::  
-  ::: field user_additional  
-  @type array`<object>`
-  @default []
-  @optional
-  カスタム追加オペレーター リスト。formation が true の場合のみ有効。
-  <br>
-  各オブジェクトには以下を含みます：
-  <br>
+
+:::  
+::: field loop_times  
+@type number
+@default 1
+@optional
+ループ回数。単一作業モード（filename 指定時）のみ有効。このパラメータが有効な場合、set_params は 1 回のみ実行可能。  
+:::  
+::: field use_sanity_potion  
+@type boolean
+@default false
+@optional
+理性が不足した場合に理性剤を使用するかどうか。  
+:::  
+::: field formation  
+@type boolean
+@default false
+@optional
+自動編成を行うかどうか。  
+:::  
+::: field formation_index  
+@type number
+@default 0
+@optional
+自動編成で使用する編成スロットのインデックス。formation が true の場合のみ有効。
+<br>
+0～4 の整数。0 は現在の編成を意味し、1～4 は第 1～第 4 編成を表します。  
+:::  
+::: field user_additional  
+@type array`<object>`
+@default []
+@optional
+カスタム追加オペレーター リスト。formation が true の場合のみ有効。
+<br>
+各オブジェクトには以下を含みます：
+<br>
+
 - `name`: オペレーター名。可選、デフォルト ""。空の場合は無視
   <br>
-- `skill`: 使用スキル。可選、デフォルト 0（ゲーム内デフォルトのスキル選択に従う）。1～3 の整数。範囲外の場合もゲーム内デフォルトを使用  
-  :::  
-  ::: field add_trust  
-  @type boolean
-  @default false
-  @optional
-  自動編成時に信頼度の昇順で空き枠を自動補充するか。formation が true の場合のみ有効。  
-  :::  
-  ::: field ignore_requirements  
-  @type boolean
-  @default false
-  @optional
-  自動編成時にオペレーター属性要件を無視するか。formation が true の場合のみ有効。  
-  :::  
-  ::: field support_unit_usage  
-  @type number
-  @default 0
-  @optional
-  サポートオペレーターの使用モード。0～3 の整数。formation が true の場合のみ有効。
-  <br>
-  `0` - サポートオペレーターを使用しない
-  <br>
-  `1` - 不足が 1 名のみの場合、サポートで補填。不足がなければサポートを使用しない
-  <br>
-  `2` - 不足が 1 名のみの場合、サポートで補填。不足がなければ指定サポートを使用  
-  <br>
-  `3` - 不足が 1 名のみの場合、サポートで補填。不足がなければランダムサポートを使用  
-  :::  
-  ::: field support_unit_name  
-  @type string
-  @optional
-  指定サポートオペレーター名。support_unit_usage が 2 の場合のみ有効。  
-  :::  
-  ::::
+- `skill`: 使用スキル。可選、デフォルト 0（ゲーム内デフォルトのスキル選択に従う）。1～3 の整数。範囲外の場合もゲーム内デフォルトを使用
+
+:::  
+::: field add_trust  
+@type boolean
+@default false
+@optional
+自動編成時に信頼度の昇順で空き枠を自動補充するか。formation が true の場合のみ有効。  
+:::  
+::: field ignore_requirements  
+@type boolean
+@default false
+@optional
+自動編成時にオペレーター属性要件を無視するか。formation が true の場合のみ有効。  
+:::  
+::: field support_unit_usage  
+@type number
+@default 0
+@optional
+サポートオペレーターの使用モード。0～3 の整数。formation が true の場合のみ有効。
+<br>
+`0` - サポートオペレーターを使用しない
+<br>
+`1` - 不足が 1 名のみの場合、サポートで補填。不足がなければサポートを使用しない
+<br>
+`2` - 不足が 1 名のみの場合、サポートで補填。不足がなければ指定サポートを使用  
+<br>
+`3` - 不足が 1 名のみの場合、サポートで補填。不足がなければランダムサポートを使用  
+:::  
+::: field support_unit_name  
+@type string
+@optional
+指定サポートオペレーター名。support_unit_usage が 2 の場合のみ有効。  
+:::  
+::::
 
 作業 JSON は [戦闘流程プロトコル](./copilot-schema.md)を参照
 
@@ -1512,7 +1517,7 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 @optional
 タスクの追加パラメータ。現在はピクセル画タスク（`MiniGame@PixelPaint@Begin`）、潜在能力自動強化タスク（`MiniGame@AutoRaisePotential@Begin`）、イベントショップ交換タスク（`SS@Store@Begin`）で使用：
 
-- `params.pixel_paint.groups`：色ごとのマス座標リスト。`color` はパレットのスロット番号（0~39、ゲーム右側パレットの順序と一致）、`points` は `[x, y]` のマス座標配列（0~23、左上原点）。
+- `params.pixel_paint.groups`：色ごとのマス座標リスト。`color` はパレットのスロット番号（0~~39、ゲーム右側パレットの順序と一致）、`points` は `[x, y]` のマス座標配列（0~~23、左上原点）。
 - `params.pixel_paint.swipe`（bool、任意、デフォルト true）：同じ色の連続マスを1回のドラッグで描画し高速化。一部のタッチ方式では正常に動作しない可能性があります。
 - `params.pixel_paint.grid_delay`（int、任意、デフォルト 0）：マスごとの追加待機時間（ms）。クリック後の待機とドラッグ時間の両方に加算されます。各タッチ方式に基礎間隔があるため、通常は調整不要。旧キー `grid_click_delay` も受け付けます。
 - `params.auto_raise_potential.use_normal_token`（bool、任意、デフォルト false）：トークンが不足している場合の確認ダイアログは、既定では × を押して中断する。true にすると √ を押して通常のトークンを消費して続行する。
@@ -1641,7 +1646,7 @@ AsstBool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char*
 #### 返回値
 
 - `AsstBool`  
-   設定が成功したかどうかを返す
+  設定が成功したかどうかを返す
 
 #### パラメータ説明
 
@@ -1679,7 +1684,7 @@ AsstBool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value)
 #### 返回値
 
 - `AsstBool`  
-   設定が成功したかどうかを返す
+  設定が成功したかどうかを返す
 
 #### パラメータ説明
 
@@ -1732,7 +1737,7 @@ AsstBool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey 
 #### 返回値
 
 - `AsstBool`  
-   設定が成功したかどうかを返す
+  設定が成功したかどうかを返す
 
 #### パラメータ説明
 

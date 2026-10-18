@@ -267,8 +267,7 @@
         "roi": [70, 80, 90, 150]
     },
     "SpecialAccessActivitiesConfirm": {
-        "text": ["수령", "하기"],
-        "postDelay": 500
+        "text": ["수령하기"]
     },
     "SignInEventEnter": {
         "text": ["출석", "로그인"]

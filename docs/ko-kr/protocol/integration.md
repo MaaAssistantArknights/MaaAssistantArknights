@@ -158,6 +158,7 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 - SideStory의 OF-1 / OF-F3
 - 현재 진행 중인 SS 이벤트의 마지막 3개 스테이지. 지원되는 스테이지 목록은 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json)에서 확인 가능. 이벤트 스테이지 내비게이션을 위해 [tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) 파일을 추가로 로드해야 함
 - 복각 SS 이벤트. `SSReopen-<스테이지 접두사>`를 입력하면 XX-1 ~ XX-9 스테이지를 한 번에 클리어할 수 있음 (예: `SSReopen-IC`)
+
 :::  
 ::: field medicine  
 @type number
@@ -1187,77 +1188,80 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
   <br>
 - `nav_name_override`: 내비게이션용 스테이지명, 선택 사항; 제공되지 않았거나 `null`인 경우 작업 파일에서 자동으로 추론합니다
 - `is_raid`: 하드 모드 전환 여부, 선택 사항, 기본값 false
-  :::  
-  ::: field loop_times  
-  @type number
-  @default 1
-  @optional
-  반복 횟수. 단일 작전 모드(filename 지정)에서만 유효; 이 파라미터 유효 시 set_params는 1회만 실행 가능  
-  :::  
-  ::: field use_sanity_potion  
-  @type boolean
-  @default false
-  @optional
-  이성 부족 시 이성 회복제 사용 허용 여부  
-  :::  
-  ::: field formation  
-  @type boolean
-  @default false
-  @optional
-  자동 편성 수행 여부  
-  :::  
-  ::: field formation_index  
-  @type number
-  @default 0
-  @optional
-  자동 편성 시 사용할 편성 슬롯 번호. `formation`이 true일 때 유효
-  <br>
-  0–4 정수, 0은 현재 편성 선택, 1-4는 제1, 2, 3, 4 편성  
-  :::  
-  ::: field user_additional  
-  @type array`<object>`
-  @default []
-  @optional
-  사용자 정의 추가 오퍼레이터 목록. `formation`이 true일 때 유효
-  <br>
-  각 객체 포함:
-  <br>
+
+:::  
+::: field loop_times  
+@type number
+@default 1
+@optional
+반복 횟수. 단일 작전 모드(filename 지정)에서만 유효; 이 파라미터 유효 시 set_params는 1회만 실행 가능  
+:::  
+::: field use_sanity_potion  
+@type boolean
+@default false
+@optional
+이성 부족 시 이성 회복제 사용 허용 여부  
+:::  
+::: field formation  
+@type boolean
+@default false
+@optional
+자동 편성 수행 여부  
+:::  
+::: field formation_index  
+@type number
+@default 0
+@optional
+자동 편성 시 사용할 편성 슬롯 번호. `formation`이 true일 때 유효
+<br>
+0–4 정수, 0은 현재 편성 선택, 1-4는 제1, 2, 3, 4 편성  
+:::  
+::: field user_additional  
+@type array`<object>`
+@default []
+@optional
+사용자 정의 추가 오퍼레이터 목록. `formation`이 true일 때 유효
+<br>
+각 객체 포함:
+<br>
+
 - `name`: 오퍼레이터명, 선택 사항, 기본값 "", 비워두면 무시됨
   <br>
-- `skill`: 휴대 스킬, 선택 사항, 기본값 0 (게임 내 기본 스킬 선택 따름); 1–3 정수, 범위 벗어나면 게임 내 기본 스킬 선택 따름  
-  :::  
-  ::: field add_trust  
-  @type boolean
-  @default false
-  @optional
-  자동 편성 시 남은 자리를 신뢰도 낮은 순으로 채울지 여부. `formation`이 true일 때 유효  
-  :::  
-  ::: field ignore_requirements  
-  @type boolean
-  @default false
-  @optional
-  자동 편성 시 오퍼레이터 육성 요구조건 무시 여부. `formation`이 true일 때 유효  
-  :::  
-  ::: field support_unit_usage  
-  @type number
-  @default 0
-  @optional
-  지원 유닛 사용 모드. 0–3 정수. `formation`이 true일 때 유효
-  <br>
-  `0` - 지원 유닛 사용 안 함
-  <br>
-  `1` - 결원이 딱 1명일 때만 지원 유닛으로 보충, 결원 없으면 안 씀
-  <br>
-  `2` - 결원이 딱 1명일 때 지원 유닛 보충 시도, 결원 없으면 지정된 지원 유닛 사용  
-  <br>
-  `3` - 결원이 딱 1명일 때 지원 유닛 보충 시도, 결원 없으면 랜덤 지원 유닛 사용  
-  :::  
-  ::: field support_unit_name  
-  @type string
-  @optional
-  지정 지원 유닛명. `support_unit_usage`가 2일 때 유효  
-  :::  
-  ::::
+- `skill`: 휴대 스킬, 선택 사항, 기본값 0 (게임 내 기본 스킬 선택 따름); 1–3 정수, 범위 벗어나면 게임 내 기본 스킬 선택 따름
+
+:::  
+::: field add_trust  
+@type boolean
+@default false
+@optional
+자동 편성 시 남은 자리를 신뢰도 낮은 순으로 채울지 여부. `formation`이 true일 때 유효  
+:::  
+::: field ignore_requirements  
+@type boolean
+@default false
+@optional
+자동 편성 시 오퍼레이터 육성 요구조건 무시 여부. `formation`이 true일 때 유효  
+:::  
+::: field support_unit_usage  
+@type number
+@default 0
+@optional
+지원 유닛 사용 모드. 0–3 정수. `formation`이 true일 때 유효
+<br>
+`0` - 지원 유닛 사용 안 함
+<br>
+`1` - 결원이 딱 1명일 때만 지원 유닛으로 보충, 결원 없으면 안 씀
+<br>
+`2` - 결원이 딱 1명일 때 지원 유닛 보충 시도, 결원 없으면 지정된 지원 유닛 사용  
+<br>
+`3` - 결원이 딱 1명일 때 지원 유닛 보충 시도, 결원 없으면 랜덤 지원 유닛 사용  
+:::  
+::: field support_unit_name  
+@type string
+@optional
+지정 지원 유닛명. `support_unit_usage`가 2일 때 유효  
+:::  
+::::
 
 작전 JSON은 [자동지휘 프로토콜](./copilot-schema.md)을 참고하세요.
 
