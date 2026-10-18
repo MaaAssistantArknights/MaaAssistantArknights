@@ -2084,6 +2084,7 @@
     "BlackFlow@RoguelikeEncounterOptionAnalyzer-Option": {
         "Doc": ["匹配事件选项时用于 Matcher。", "specificRect 用于截取单个事件选项。"],
         "template": "empty.png",
+        "templThreshold": 0.95,
         "roi": [835, 50, 420, 585],
         "specificRect": [835, 0, 420, 40],
         "specificRect_Doc": "供 RoguelikeEncounterOptionAnalyzer 截取单个事件选项，y 坐标由分析器按识别结果覆盖。"

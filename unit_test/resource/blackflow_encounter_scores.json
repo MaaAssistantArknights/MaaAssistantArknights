@@ -1,0 +1,171 @@
+{
+  "source": {
+    "description": "MAA asst.log, observed 2026-10-18; only game option matching data retained",
+    "view_count": 318,
+    "note": "Best-position positives are inferred from highest scoring candidates per coordinate. This is numerical score replay, not a game UI test."
+  },
+  "hidden_target": [
+    {
+      "score": 0.802214,
+      "x": 835,
+      "y": 136,
+      "w": 420,
+      "h": 40
+    },
+    {
+      "score": 0.995091,
+      "x": 835,
+      "y": 136,
+      "w": 420,
+      "h": 40
+    },
+    {
+      "score": 0.998027,
+      "x": 835,
+      "y": 300,
+      "w": 420,
+      "h": 40
+    },
+    {
+      "score": 1.0,
+      "x": 835,
+      "y": 465,
+      "w": 420,
+      "h": 40
+    }
+  ],
+  "visible_target": [
+    {
+      "score": 0.973071,
+      "x": 835,
+      "y": 56,
+      "w": 420,
+      "h": 40
+    },
+    {
+      "score": 0.981581,
+      "x": 835,
+      "y": 221,
+      "w": 420,
+      "h": 40
+    },
+    {
+      "score": 0.996667,
+      "x": 835,
+      "y": 385,
+      "w": 420,
+      "h": 40
+    },
+    {
+      "score": 0.9971,
+      "x": 835,
+      "y": 550,
+      "w": 420,
+      "h": 40
+    }
+  ],
+  "best_positions": {
+    "三重身": {
+      "count": 28,
+      "min_score": 0.997945
+    },
+    "回滚文明": {
+      "count": 6,
+      "min_score": 0.995908
+    },
+    "思乡心切": {
+      "count": 16,
+      "min_score": 0.998502
+    },
+    "无人商店": {
+      "count": 30,
+      "min_score": 0.991808
+    },
+    "桑尼的邀请": {
+      "count": 4,
+      "min_score": 0.998527
+    },
+    "沉寂之屋": {
+      "count": 24,
+      "min_score": 0.993086
+    },
+    "沉重的契约": {
+      "count": 6,
+      "min_score": 0.997098
+    },
+    "线人": {
+      "count": 18,
+      "min_score": 0.995506
+    },
+    "色味不同源": {
+      "count": 6,
+      "min_score": 0.994405
+    },
+    "金色凝滞": {
+      "count": 6,
+      "min_score": 0.976599
+    },
+    "险路尽头": {
+      "count": 785,
+      "min_score": 0.97305
+    },
+    "鸭托邦": {
+      "count": 6,
+      "min_score": 0.996421
+    }
+  },
+  "scroll_overlaps": {
+    "三重身": {
+      "count": 7,
+      "min_score": 0.99836
+    },
+    "回滚文明": {
+      "count": 1,
+      "min_score": 0.991633
+    },
+    "思乡心切": {
+      "count": 4,
+      "min_score": 0.99867
+    },
+    "无人商店": {
+      "count": 5,
+      "min_score": 0.993829
+    },
+    "桑尼的邀请": {
+      "count": 1,
+      "min_score": 0.99882
+    },
+    "沉寂之屋": {
+      "count": 4,
+      "min_score": 0.992683
+    },
+    "沉重的契约": {
+      "count": 1,
+      "min_score": 0.995602
+    },
+    "线人": {
+      "count": 3,
+      "min_score": 0.994839
+    },
+    "色味不同源": {
+      "count": 1,
+      "min_score": 0.995663
+    },
+    "金色凝滞": {
+      "count": 1,
+      "min_score": 0.978517
+    },
+    "险路尽头": {
+      "count": 13,
+      "min_score": 0.993426
+    },
+    "鸭托邦": {
+      "count": 1,
+      "min_score": 0.99689
+    }
+  },
+  "duplicate_candidates": {
+    "count": 251,
+    "max_score": 0.802486
+  }
+}
