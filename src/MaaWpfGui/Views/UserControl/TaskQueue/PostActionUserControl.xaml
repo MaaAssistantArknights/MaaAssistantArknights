@@ -47,8 +47,9 @@
             <CheckBox
                 Margin="0,8"
                 IsChecked="{Binding ExitArknights}"
-                IsEnabled="{c:Binding 'IsPCConnectConfig ? !ExitPCClient : !ExitEmulator'}"
-                MouseRightButtonUp="{s:Action PostActionsAndOnce}">
+                IsEnabled="{c:Binding !ExitEmulator}"
+                MouseRightButtonUp="{s:Action PostActionsAndOnce}"
+                Visibility="{c:Binding !IsPCConnectConfig}">
                 <controls:TextBlock Text="{DynamicResource ExitArknights}" TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox

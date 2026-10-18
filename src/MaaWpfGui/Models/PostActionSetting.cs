@@ -35,7 +35,7 @@ public class PostActionSetting : PropertyChangedBase
         None = 0,
 
         /// <summary>
-        /// 退出明日方舟
+        /// 退出明日方舟（仅模拟器连接时显示与执行）
         /// </summary>
         ExitArknights = 1 << 0,
 
@@ -114,9 +114,12 @@ public class PostActionSetting : PropertyChangedBase
 
     private bool _exitArknights;
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 完成后退出明日方舟。仅模拟器下生效，PC 端由 ｢退出 PC 客户端｣ 代替，勾选予以保留。
+    /// </summary>
     public bool ExitArknights
     {
-        get => _exitArknights;
+        get => _exitArknights && !IsPCConnectConfig;
         set {
             if (!SetAndNotify(ref _exitArknights, value))
             {
@@ -158,18 +161,18 @@ public class PostActionSetting : PropertyChangedBase
     }
 
     /// <summary>
-    /// Gets a value indicating whether 当前为 PC 端（窗口绑定）连接：显示 ｢退出 PC 客户端｣，隐藏 ｢退出模拟器｣。
+    /// Gets a value indicating whether 当前为 PC 端（窗口绑定）连接：只显示 ｢退出 PC 客户端｣，隐藏 ｢退出明日方舟｣ 与 ｢退出模拟器｣。
     /// </summary>
     public bool IsPCConnectConfig => ConnectSettingsUserControlModel.Instance.IsPCConnectConfig;
 
     private bool _exitEmulator;
 
     /// <summary>
-    /// Gets or sets a value indicating whether 完成后退出模拟器。PC 端下隐藏且不执行，但保留勾选，切回模拟器后恢复。
+    /// Gets or sets a value indicating whether 完成后退出模拟器。仅模拟器下生效，PC 端下勾选予以保留，切回模拟器后恢复。
     /// </summary>
     public bool ExitEmulator
     {
-        get => _exitEmulator;
+        get => _exitEmulator && !IsPCConnectConfig;
         set {
             if (!SetAndNotify(ref _exitEmulator, value))
             {
@@ -178,8 +181,7 @@ public class PostActionSetting : PropertyChangedBase
 
             NotifyOfPropertyChange(nameof(AndroidControlPostActionsEnabled));
 
-            // 仅在当前模式下互斥，避免另一模式下的隐藏勾选影响 ｢退出明日方舟｣
-            if (value && !IsPCConnectConfig)
+            if (value)
             {
                 ExitArknights = false;
                 BackToAndroidHome = false;
@@ -192,20 +194,15 @@ public class PostActionSetting : PropertyChangedBase
     private bool _exitPCClient;
 
     /// <summary>
-    /// Gets or sets a value indicating whether 完成后退出 PC 客户端。模拟器下隐藏且不执行，但保留勾选，切回 PC 端后恢复。
+    /// Gets or sets a value indicating whether 完成后退出 PC 客户端。仅 PC 端下生效，模拟器下勾选予以保留，切回 PC 端后恢复。
     /// </summary>
     public bool ExitPCClient
     {
-        get => _exitPCClient;
+        get => _exitPCClient && IsPCConnectConfig;
         set {
             if (!SetAndNotify(ref _exitPCClient, value))
             {
                 return;
-            }
-
-            if (value && IsPCConnectConfig)
-            {
-                ExitArknights = false;
             }
 
             UpdatePostAction(PostActions.ExitPCClient, value);
@@ -451,13 +448,12 @@ public class PostActionSetting : PropertyChangedBase
             actions.Add(LocalizationHelper.GetString("ExitArknights"));
         }
 
-        // 只描述当前连接方式下会执行的退出动作
-        if (ExitEmulator && !IsPCConnectConfig)
+        if (ExitEmulator)
         {
             actions.Add(LocalizationHelper.GetString("ExitEmulator"));
         }
 
-        if (ExitPCClient && IsPCConnectConfig)
+        if (ExitPCClient)
         {
             actions.Add(LocalizationHelper.GetString("ExitPCClient"));
         }
@@ -542,7 +538,7 @@ public class PostActionSetting : PropertyChangedBase
 
     /// <summary>
     /// PC 端（窗口绑定）不支持 ADB 侧后处理动作：移除已保存的相关标志，且不触发额外联动。
-    /// ｢退出模拟器｣ 在 PC 端仅隐藏不执行，予以保留，切回模拟器后恢复。
+    /// ｢退出明日方舟｣ ｢退出模拟器｣ 在 PC 端由 getter 过滤为不生效，勾选予以保留，切回模拟器后恢复。
     /// </summary>
     private void ClearUnsupportedPostActionsForAttachWindow()
     {
@@ -588,6 +584,9 @@ public class PostActionSetting : PropertyChangedBase
             {
                 NotifyOfPropertyChange(nameof(AndroidControlPostActionsEnabled));
                 NotifyOfPropertyChange(nameof(IsPCConnectConfig));
+                NotifyOfPropertyChange(nameof(ExitArknights));
+                NotifyOfPropertyChange(nameof(ExitEmulator));
+                NotifyOfPropertyChange(nameof(ExitPCClient));
                 RefreshDescription();
                 ClearUnsupportedPostActionsForAttachWindow();
             }
