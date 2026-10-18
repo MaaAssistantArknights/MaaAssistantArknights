@@ -1985,8 +1985,8 @@
         ]
     },
     "BlackFlow@Roguelike@StageEnterBattleAgain": {
-        "baseTask": "#none",
         "algorithm": "JustReturn",
+        "action": "DoNothing",
         "sub": ["BlackFlow@Roguelike@MovePreviewConfirm"],
         "next": ["BlackFlow@Roguelike@StartAction"],
         "onErrorNext": ["BlackFlow@Roguelike@RecoveryFailed"]
