@@ -5117,5 +5117,6 @@
     "resource/global/YoStarJP/resource/template/UiTheme/Reconstruct/Recruit": "1b9d6958ccc7c17bab1c25f684c9bd2478aacefb7b53dd2c17aad3e76999de59",
     "resource/global/YoStarJP/resource/template/UiTheme/Reconstruct/Terminal": "e0ef9a70c7babced6c952a0b6ad2fb94182fc6aa270dc0e9f52d536de2bd83f0",
     "resource/template/InfrastPic/Facilities/Recycle": "9a4a3473ebed9593ace042b7bc2720a16c9e72e3417e35e2c41f24470019d93c",
-    "resource/template/InfrastPic/Facilities/RecycleMini": "7a518e99c1eff1f9c54ea68d6fd91f31526486358123b3d6a7b521f32415ae6d"
+    "resource/template/InfrastPic/Facilities/RecycleMini": "7a518e99c1eff1f9c54ea68d6fd91f31526486358123b3d6a7b521f32415ae6d",
+    "resource/global/YoStarJP/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@StageEncounterLeaveConfirm720p": "d9bf0c1e763266b9cb54ae3dee7fc1c0b3ab4dd9d8e76dea2f72d19b31f8fb62"
 }
