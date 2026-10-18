@@ -1984,6 +1984,13 @@
             "BlackFlow@Roguelike@Stages-ZoomOut"
         ]
     },
+    "BlackFlow@Roguelike@StageEnterBattleAgain": {
+        "baseTask": "BlackFlow@Roguelike@MovePreviewEnter",
+        "template": ["BlackFlow@Roguelike@MovePreviewEnterWalk.png", "BlackFlow@Roguelike@MovePreviewEnterCrafted.png"],
+        "action": "ClickSelf",
+        "rectMove": [0, 0, 50, 30],
+        "next": ["BlackFlow@Roguelike@StartAction", "#self"]
+    },
     "BlackFlow@Roguelike@StartAction": {
         "template": "Roguelike@StartAction.png",
         "sub": ["BlackFlow@Roguelike@TemporaryOperatorCheck"],
