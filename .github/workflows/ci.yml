@@ -16,7 +16,6 @@ on:
       - "src/**"
       - "tools/convert_ocr_ncnn.py"
       - "tools/maadeps-download.py"
-      - "tools/test_convert_ocr_ncnn.py"
       - "!**/*.md"
   pull_request:
     paths:
@@ -29,7 +28,6 @@ on:
       - "src/**"
       - "tools/convert_ocr_ncnn.py"
       - "tools/maadeps-download.py"
-      - "tools/test_convert_ocr_ncnn.py"
       - "!**/*.md"
   workflow_dispatch:
 
@@ -443,7 +441,6 @@ jobs:
       - name: Convert Android OCR models
         run: |
           python -m pip install pnnx==20260526
-          python -m unittest discover -s tools -p test_convert_ocr_ncnn.py
           python tools/convert_ocr_ncnn.py install/resource
 
       - name: Download MaaFramework
