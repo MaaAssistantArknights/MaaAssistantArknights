@@ -92,6 +92,80 @@ public class MallTask : BaseTask
     /// </summary>
     public bool ReserveMaxCredit { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 检查月卡剩余天数并在临期时提醒
+    /// </summary>
+    public bool MonthlyCard { get; set; }
+
+    private int _monthlyCardRemindDays = 7;
+
+    /// <summary>
+    /// Gets or sets 月卡剩余天数不高于该值时提醒。反序列化到手改配置里的越界值（0/负数/超大）时回落到默认 7，避免提醒永不触发或每次运行都触发
+    /// </summary>
+    public int MonthlyCardRemindDays
+    {
+        get => _monthlyCardRemindDays;
+        set => _monthlyCardRemindDays = value is >= 1 and <= 30 ? value : 7;
+    }
+
+    /// <summary>
+    /// Gets or sets 上次月卡到期提醒的时间（同一天不重复提醒）
+    /// </summary>
+    public string MonthlyCardLastRemindTime { get; set; } = DateTime.MinValue.ToFormattedString();
+
+    /// <summary>
+    /// Gets or sets 上次月卡检查的日期（鹰角日格式）
+    /// </summary>
+    public string MonthlyCardLastCheckDate { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets 上次月卡检查读到的剩余天数；-1 表示从未读到过
+    /// </summary>
+    public int MonthlyCardLastDaysLeft { get; set; } = -1;
+
+    /// <summary>
+    /// 今天是否需要执行月卡检查：距可能触发提醒尚有富余天数则跳过（月卡 30 天一周期，无需每天检查）
+    /// </summary>
+    /// <returns>需要检查返回 true；按上次读数判定尚未到重查日返回 false。</returns>
+    public bool IsMonthlyCardCheckDue()
+    {
+        if (MonthlyCardLastDaysLeft < 0)
+        {
+            return true; // 尚未读到过读数，先查一次建立基线
+        }
+
+        try
+        {
+            var last = DateTime.ParseExact(MonthlyCardLastCheckDate.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
+            var today = DateTime.UtcNow.ToYjDate();
+
+            // 读到 23 天、阈值 7 → 歇 15 天后重查（查到时恰剩 7 天，再留 1 天余量）；读数进入提醒窗口后钳为每天查
+            var nextCheck = last.AddDays(Math.Max(MonthlyCardLastDaysLeft - MonthlyCardRemindDays - 1, 0));
+            return today >= nextCheck;
+        }
+        catch
+        {
+            return true; // 调度状态损坏时退化为每天查
+        }
+    }
+
+    public bool IsMonthlyCardRemindAvailable(int daysLeft)
+    {
+        if (daysLeft > MonthlyCardRemindDays)
+        {
+            return false;
+        }
+
+        try
+        {
+            return DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(MonthlyCardLastRemindTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
+        }
+        catch
+        {
+            return true;
+        }
+    }
+
     public bool IsCreditFightAvailable
     {
         get {
