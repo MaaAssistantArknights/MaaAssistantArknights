@@ -1,5 +1,6 @@
 #include "RoguelikeTask.h"
 
+#include <string_view>
 #include <utility>
 
 #include "Common/AsstBattleDef.h"
@@ -234,6 +235,26 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     const auto& mode = m_config_ptr->get_mode();
 
     m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin" });
+
+    if (theme == RoguelikeTheme::BlackFlow) {
+        // 编队后重进战斗，确认成功后开始行动，失败交给 RecoveryFailed
+        // 正常选点使用 BlackFlowTaskPort 的独立任务，不受这里的覆盖影响
+        if (!m_roguelike_task_ptr->override_next(
+                "BlackFlow@Roguelike@MovePreviewConfirmSucceeded",
+                { "BlackFlow@Roguelike@MovePreviewConfirmCompleted" }) ||
+            !m_roguelike_task_ptr->override_next(
+                "BlackFlow@Roguelike@MovePreviewConfirmCompletedDone",
+                { "BlackFlow@Roguelike@StartAction" })) {
+            return false;
+        }
+        for (const std::string_view task : { "BlackFlow@Roguelike@MovePreviewConfirmExceeded",
+                                             "BlackFlow@Roguelike@InventoryCleanupRequired",
+                                             "BlackFlow@Roguelike@InventoryCleanupFailed" }) {
+            if (!m_roguelike_task_ptr->override_next(task, { "BlackFlow@Roguelike@RecoveryFailed" })) {
+                return false;
+            }
+        }
+    }
 
     if (mode == RoguelikeMode::Investment) {
         // 刷源石锭模式是否进入第二层

@@ -1987,8 +1987,7 @@
     "BlackFlow@Roguelike@StageEnterBattleAgain": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
-        "sub": ["BlackFlow@Roguelike@MovePreviewConfirm"],
-        "next": ["BlackFlow@Roguelike@StartAction"],
+        "next": ["BlackFlow@Roguelike@StartAction", "BlackFlow@Roguelike@MovePreviewConfirm"],
         "onErrorNext": ["BlackFlow@Roguelike@RecoveryFailed"]
     },
     "BlackFlow@Roguelike@StartAction": {
