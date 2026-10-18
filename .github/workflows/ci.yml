@@ -14,7 +14,9 @@ on:
       - "CMakePresets.json"
       - "include/**"
       - "src/**"
+      - "tools/convert_ocr_ncnn.py"
       - "tools/maadeps-download.py"
+      - "tools/test_convert_ocr_ncnn.py"
       - "!**/*.md"
   pull_request:
     paths:
@@ -25,7 +27,9 @@ on:
       - "CMakePresets.json"
       - "include/**"
       - "src/**"
+      - "tools/convert_ocr_ncnn.py"
       - "tools/maadeps-download.py"
+      - "tools/test_convert_ocr_ncnn.py"
       - "!**/*.md"
   workflow_dispatch:
 
@@ -430,6 +434,17 @@ jobs:
             -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}'
           cmake --build build --parallel $(sysctl -n hw.logicalcpu)
           cmake --install build --prefix install
+
+      - name: Setup Python for OCR conversion
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Convert Android OCR models
+        run: |
+          python -m pip install pnnx==20260526
+          python -m unittest discover -s tools -p test_convert_ocr_ncnn.py
+          python tools/convert_ocr_ncnn.py install/resource
 
       - name: Download MaaFramework
         uses: robinraju/release-downloader@v1
