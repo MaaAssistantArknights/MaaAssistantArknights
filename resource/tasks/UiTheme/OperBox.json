@@ -109,6 +109,7 @@
     "OperBoxFullMoon": {
         "baseTask": "OperBoxDefault",
         "template": "FullMoon/OperBoxEnter.png",
-        "roi": [1080, 300, 175, 110]
+        "roi": [1080, 300, 175, 110],
+        "maskRange": [0, 255]
     }
 }

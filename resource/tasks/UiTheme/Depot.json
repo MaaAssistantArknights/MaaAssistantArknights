@@ -110,7 +110,10 @@
     },
     "DepotFullMoon": {
         "baseTask": "DepotDefault",
-        "template": "FullMoon/DepotEnter.png",
-        "roi": [1110, 610, 150, 110]
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [1110, 610, 150, 110],
+        "text": ["仓库"],
+        "fullMatch": true
     }
 }

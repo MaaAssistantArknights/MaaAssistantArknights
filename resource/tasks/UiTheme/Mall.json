@@ -107,7 +107,18 @@
     },
     "MallFullMoon": {
         "baseTask": "MallDefault",
-        "template": "FullMoon/Mall.png",
-        "roi": [775, 440, 170, 125]
+        "algorithm": "OcrDetect",
+        "action": "ClickRect",
+        "roi": [722, 432, 190, 60],
+        "text": ["STORE"],
+        "ocrReplace": [
+            ["^\\s*ST\\s+ORE\\s*:?\\s*$", "STORE"],
+            ["^\\s*STORL\\s*:?\\s*$", "STORE"]
+        ],
+        "fullMatch": false,
+        "isAscii": true,
+        "withoutDet": true,
+        "binThreshold": [0, 255],
+        "specificRect": [822, 490, 78, 28]
     }
 }

@@ -111,6 +111,7 @@
     "TaskFullMoon": {
         "baseTask": "TaskDefault",
         "template": "FullMoon/Task.png",
-        "roi": [780, 580, 165, 120]
+        "roi": [780, 580, 165, 120],
+        "maskRange": [0, 255]
     }
 }

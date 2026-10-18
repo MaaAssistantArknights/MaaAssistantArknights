@@ -110,6 +110,7 @@
         "baseTask": "FriendsDefault",
         "template": "FullMoon/Friends.png",
         "roi": [320, 525, 155, 105],
-        "templThreshold": 0.8
+        "templThreshold": 0.8,
+        "maskRange": [0, 255]
     }
 }

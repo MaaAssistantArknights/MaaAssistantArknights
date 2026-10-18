@@ -107,7 +107,14 @@
     },
     "RecruitFullMoon": {
         "baseTask": "RecruitDefault",
-        "template": "FullMoon/Recruit.png",
-        "roi": [940, 455, 150, 100]
+        "algorithm": "OcrDetect",
+        "action": "ClickRect",
+        "roi": [973, 468, 106, 33],
+        "text": ["RECRUIT"],
+        "fullMatch": false,
+        "isAscii": true,
+        "withoutDet": true,
+        "binThreshold": [0, 255],
+        "specificRect": [987, 502, 82, 31]
     }
 }
