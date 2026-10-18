@@ -174,9 +174,11 @@
         "baseTask": "BlackFlow@Roguelike@RecoveryFailed"
     },
     "BlackFlow@Roguelike@CultivateBuyConfirm": {
+        "Doc": "扣款后右上角源石锭逐个滚到余额，16 锭约 0.7 秒才停，等滚动动画完成再回到决策读余额。",
         "template": "BlackFlow@Roguelike@CultivateBuyConfirm.png",
         "roi": [442, 361, 725, 179],
         "action": "ClickSelf",
+        "postDelay": 500,
         "next": ["#self", "BlackFlow@Roguelike@CultivateBuyDecision"]
     },
     "BlackFlow@Roguelike@CultivateBuyConfirm-Enter": {
@@ -261,9 +263,11 @@
         "next": ["BlackFlow@Roguelike@CultivateBuyDecision"]
     },
     "BlackFlow@Roguelike@CultivateRefreshConfirm": {
+        "Doc": "刷新同样扣款，与 CultivateBuyConfirm 一样等源石锭滚动动画完成。",
         "template": "BlackFlow@Roguelike@CultivateRefreshConfirm.png",
         "roi": [751, 409, 483, 157],
         "action": "ClickSelf",
+        "postDelay": 500,
         "next": ["#self", "BlackFlow@Roguelike@CultivateRefreshCompleted"]
     },
     "BlackFlow@Roguelike@CultivateSellAction": {
