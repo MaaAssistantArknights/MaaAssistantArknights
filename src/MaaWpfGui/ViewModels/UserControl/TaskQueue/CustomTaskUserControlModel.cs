@@ -1,4 +1,4 @@
-// <copyright file="CustomSettingsUserControlModel.cs" company="MaaAssistantArknights">
+// <copyright file="CustomTaskUserControlModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -22,14 +22,14 @@ using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class CustomSettingsUserControlModel : TaskSettingsViewModel, CustomSettingsUserControlModel.ISerialize
+public class CustomTaskUserControlModel : TaskSettingsViewModel, CustomTaskUserControlModel.ISerialize
 {
-    static CustomSettingsUserControlModel()
+    static CustomTaskUserControlModel()
     {
         Instance = new();
     }
 
-    public static CustomSettingsUserControlModel Instance { get; }
+    public static CustomTaskUserControlModel Instance { get; }
 
     private string _taskName = string.Empty;
 

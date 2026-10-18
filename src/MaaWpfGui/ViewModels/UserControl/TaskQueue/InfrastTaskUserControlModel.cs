@@ -1,4 +1,4 @@
-// <copyright file="InfrastSettingsUserControlModel.cs" company="MaaAssistantArknights">
+// <copyright file="InfrastTaskUserControlModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -39,15 +39,15 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 /// <summary>
 /// 基建任务
 /// </summary>
-public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSettingsUserControlModel.ISerialize
+public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUserControlModel.ISerialize
 {
-    static InfrastSettingsUserControlModel()
+    static InfrastTaskUserControlModel()
     {
         Instance = new();
         LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
     }
 
-    public InfrastSettingsUserControlModel()
+    public InfrastTaskUserControlModel()
     {
         _runningState = RunningState.Instance;
         foreach (var item in WeeklyScheduleSource)
@@ -61,9 +61,9 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel, InfrastSet
         }
     }
 
-    public static InfrastSettingsUserControlModel Instance { get; }
+    public static InfrastTaskUserControlModel Instance { get; }
 
-    private static readonly ILogger _logger = Log.ForContext<InfrastSettingsUserControlModel>();
+    private static readonly ILogger _logger = Log.ForContext<InfrastTaskUserControlModel>();
 
     // 默认模式的固定顺序，也是自定义模式未拖拽改序时的执行顺序；宿舍须在换人设施之后，否则换下的干员送不进宿舍
     private static readonly InfrastRoomType[] _normalFacilityOrder =

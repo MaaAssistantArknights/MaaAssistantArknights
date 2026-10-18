@@ -1,4 +1,4 @@
-// <copyright file="RoguelikeSettingsUserControl.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="RoguelikeTaskUserControl.xaml.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -25,14 +25,14 @@ using MaaWpfGui.Helper;
 namespace MaaWpfGui.Views.UserControl.TaskQueue;
 
 /// <summary>
-/// RoguelikeSettingsUserControl.xaml 的交互逻辑
+/// RoguelikeTaskUserControl.xaml 的交互逻辑
 /// </summary>
-public partial class RoguelikeSettingsUserControl : System.Windows.Controls.UserControl
+public partial class RoguelikeTaskUserControl : System.Windows.Controls.UserControl
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="RoguelikeSettingsUserControl"/> class.
+    /// Initializes a new instance of the <see cref="RoguelikeTaskUserControl"/> class.
     /// </summary>
-    public RoguelikeSettingsUserControl()
+    public RoguelikeTaskUserControl()
     {
         InitializeComponent();
         AttachCoreCharRuleOwner(StartingCoreCharComboBox);

@@ -1,4 +1,4 @@
-// <copyright file="InfrastSettingsUserControl.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="MallTaskUserControl.xaml.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -14,14 +14,14 @@
 namespace MaaWpfGui.Views.UserControl.TaskQueue;
 
 /// <summary>
-/// InfrastSettingsUserControl.xaml 的交互逻辑
+/// MallTaskUserControl.xaml 的交互逻辑
 /// </summary>
-public partial class InfrastSettingsUserControl : System.Windows.Controls.UserControl
+public partial class MallTaskUserControl : System.Windows.Controls.UserControl
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="InfrastSettingsUserControl"/> class.
+    /// Initializes a new instance of the <see cref="MallTaskUserControl"/> class.
     /// </summary>
-    public InfrastSettingsUserControl()
+    public MallTaskUserControl()
     {
         InitializeComponent();
     }

@@ -1,4 +1,4 @@
-// <copyright file="AwardSettingsUserControl.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="UserDataUpdateTaskUserControl.xaml.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -14,14 +14,14 @@
 namespace MaaWpfGui.Views.UserControl.TaskQueue;
 
 /// <summary>
-/// AwardSettingsUserControl.xaml 的交互逻辑
+/// UserDataUpdateTaskUserControl.xaml 的交互逻辑
 /// </summary>
-public partial class AwardSettingsUserControl : System.Windows.Controls.UserControl
+public partial class UserDataUpdateTaskUserControl : System.Windows.Controls.UserControl
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="AwardSettingsUserControl"/> class.
+    /// Initializes a new instance of the <see cref="UserDataUpdateTaskUserControl"/> class.
     /// </summary>
-    public AwardSettingsUserControl()
+    public UserDataUpdateTaskUserControl()
     {
         InitializeComponent();
     }

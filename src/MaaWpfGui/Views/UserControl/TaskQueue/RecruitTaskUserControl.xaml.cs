@@ -1,4 +1,4 @@
-// <copyright file="MallSettingsUserControl.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="RecruitTaskUserControl.xaml.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -14,14 +14,14 @@
 namespace MaaWpfGui.Views.UserControl.TaskQueue;
 
 /// <summary>
-/// MallSettingsUserControl.xaml 的交互逻辑
+/// RecruitTaskUserControl.xaml 的交互逻辑
 /// </summary>
-public partial class MallSettingsUserControl : System.Windows.Controls.UserControl
+public partial class RecruitTaskUserControl : System.Windows.Controls.UserControl
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="MallSettingsUserControl"/> class.
+    /// Initializes a new instance of the <see cref="RecruitTaskUserControl"/> class.
     /// </summary>
-    public MallSettingsUserControl()
+    public RecruitTaskUserControl()
     {
         InitializeComponent();
     }

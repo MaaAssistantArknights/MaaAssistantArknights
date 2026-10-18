@@ -64,7 +64,7 @@ using AsstInstanceOptionKey = System.Int32;
 
 using AsstTaskId = System.Int32;
 
-using FightSetting = MaaWpfGui.ViewModels.UserControl.TaskQueue.FightSettingsUserControlModel;
+using FightSetting = MaaWpfGui.ViewModels.UserControl.TaskQueue.FightTaskUserControlModel;
 using ToastNotification = MaaWpfGui.Helper.ToastNotification;
 
 namespace MaaWpfGui.Main;
@@ -1499,7 +1499,7 @@ public class AsstProxy
                             {
                                 if (task is InfrastTask infrastTask)
                                 {
-                                    InfrastSettingsUserControlModel.IncreaseCustomInfrastPlanIndex(infrastTask);
+                                    InfrastTaskUserControlModel.IncreaseCustomInfrastPlanIndex(infrastTask);
                                 }
                                 break;
                             }
@@ -1853,7 +1853,7 @@ public class AsstProxy
                         && Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index is int index and > -1
                         && index <= ConfigFactory.CurrentConfig.TaskQueue.Count
                         && ConfigFactory.CurrentConfig.TaskQueue[index] is Configuration.Single.MaaTask.FightTask fight
-                        && FightSettingsUserControlModel.GetFightStage(fight.StagePlan) == FightSettingsUserControlModel.AnnihilationName)
+                        && FightTaskUserControlModel.GetFightStage(fight.StagePlan) == FightTaskUserControlModel.AnnihilationName)
                     {
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationStage") + ", " + LocalizationHelper.GetString("GiveUpUploadingPenguins"));
                         break;
@@ -2839,7 +2839,7 @@ public class AsstProxy
             case "SanityBeforeStage":
                 {
                     FightSetting.SanityReport = null;
-                    if (subTaskDetails?.ToObject<FightSettingsUserControlModel.SanityInfo>() is { SanityMax: > 0 } report)
+                    if (subTaskDetails?.ToObject<FightTaskUserControlModel.SanityInfo>() is { SanityMax: > 0 } report)
                     {
                         FightSetting.SanityReport = report;
                     }

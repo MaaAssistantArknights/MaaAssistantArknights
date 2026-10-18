@@ -1,4 +1,4 @@
-// <copyright file="CustomUserControl.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="InfrastTaskUserControl.xaml.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -14,14 +14,14 @@
 namespace MaaWpfGui.Views.UserControl.TaskQueue;
 
 /// <summary>
-/// CustomUserControl.xaml 的交互逻辑
+/// InfrastTaskUserControl.xaml 的交互逻辑
 /// </summary>
-public partial class CustomUserControl : System.Windows.Controls.UserControl
+public partial class InfrastTaskUserControl : System.Windows.Controls.UserControl
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="CustomUserControl"/> class.
+    /// Initializes a new instance of the <see cref="InfrastTaskUserControl"/> class.
     /// </summary>
-    public CustomUserControl()
+    public InfrastTaskUserControl()
     {
         InitializeComponent();
     }

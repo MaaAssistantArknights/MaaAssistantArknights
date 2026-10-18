@@ -321,7 +321,7 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
 
 ### 理智药 / 临期药
 
-- `src/MaaWpfGui/ViewModels/UserControl/TaskQueue/FightSettingsUserControlModel.cs`
+- `src/MaaWpfGui/ViewModels/UserControl/TaskQueue/FightTaskUserControlModel.cs`
 - `src/MaaWpfGui/Models/AsstTasks/AsstFightTask.cs`
 - `src/MaaCore/Task/Interface/FightTask.cpp`
 - `src/MaaCore/Task/Fight/MedicineCounterTaskPlugin.cpp`

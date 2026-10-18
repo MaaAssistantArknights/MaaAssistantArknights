@@ -1,4 +1,4 @@
-// <copyright file="StartUpSettingsUserControlModel.cs" company="MaaAssistantArknights">
+// <copyright file="StartUpTaskUserControlModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -26,15 +26,15 @@ using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class StartUpSettingsUserControlModel : TaskSettingsViewModel, StartUpSettingsUserControlModel.ISerialize
+public class StartUpTaskUserControlModel : TaskSettingsViewModel, StartUpTaskUserControlModel.ISerialize
 {
-    static StartUpSettingsUserControlModel()
+    static StartUpTaskUserControlModel()
     {
         Instance = new();
         Instances.AsstProxy.AsstSubTaskMsgEvent += Instance.ProcSubTaskMsg;
     }
 
-    public static StartUpSettingsUserControlModel Instance { get; }
+    public static StartUpTaskUserControlModel Instance { get; }
 
     public string AccountName
     {

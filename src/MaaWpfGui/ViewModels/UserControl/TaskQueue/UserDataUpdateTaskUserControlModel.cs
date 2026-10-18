@@ -1,4 +1,4 @@
-// <copyright file="UserDataUpdateSettingsUserControlModel.cs" company="MaaAssistantArknights">
+// <copyright file="UserDataUpdateTaskUserControlModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -33,17 +33,17 @@ using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class UserDataUpdateSettingsUserControlModel : TaskSettingsViewModel, UserDataUpdateSettingsUserControlModel.ISerialize
+public class UserDataUpdateTaskUserControlModel : TaskSettingsViewModel, UserDataUpdateTaskUserControlModel.ISerialize
 {
-    private static readonly ILogger _logger = Log.ForContext<UserDataUpdateSettingsUserControlModel>();
+    private static readonly ILogger _logger = Log.ForContext<UserDataUpdateTaskUserControlModel>();
 
-    static UserDataUpdateSettingsUserControlModel()
+    static UserDataUpdateTaskUserControlModel()
     {
         Instance = new();
         LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
     }
 
-    public static UserDataUpdateSettingsUserControlModel Instance { get; }
+    public static UserDataUpdateTaskUserControlModel Instance { get; }
 
     public bool UpdateOperBox
     {

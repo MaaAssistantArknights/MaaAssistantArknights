@@ -81,7 +81,7 @@ public partial class DepotPlanItemViewModel(string stage, string dropId, string?
     [UsedImplicitly]
     public void DropsListDropDownClosed()
     {
-        if (FightSettingsUserControlModel.Instance.DropsList.FirstOrDefault(i => i.Display == DropName) is { } item)
+        if (FightTaskUserControlModel.Instance.DropsList.FirstOrDefault(i => i.Display == DropName) is { } item)
         {
             DropId = item.Value;
         }

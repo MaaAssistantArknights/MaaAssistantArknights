@@ -82,7 +82,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
 
             ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ClientType = value;
             VersionUpdateSettings.ResourceInfoUpdate();
-            FightSettingsUserControlModel.Instance.UpdateStageList();
+            FightTaskUserControlModel.Instance.UpdateStageList();
             DepotMaintainTaskUserControlModel.Instance.UpdateStageList();
             Instances.TaskQueueViewModel.UpdateDatePrompt();
 

@@ -1,4 +1,4 @@
-// <copyright file="RecruitSettingsUserControlModel.cs" company="MaaAssistantArknights">
+// <copyright file="RecruitTaskUserControlModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -28,17 +28,17 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 /// <summary>
 /// 自动公招model
 /// </summary>
-public class RecruitSettingsUserControlModel : TaskSettingsViewModel, RecruitSettingsUserControlModel.ISerialize
+public class RecruitTaskUserControlModel : TaskSettingsViewModel, RecruitTaskUserControlModel.ISerialize
 {
     public const string LegacyRobotTag = "支援机械";
 
-    static RecruitSettingsUserControlModel()
+    static RecruitTaskUserControlModel()
     {
         Instance = new();
         LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
     }
 
-    public static RecruitSettingsUserControlModel Instance { get; }
+    public static RecruitTaskUserControlModel Instance { get; }
 
     private static readonly List<string> _autoRecruitTagList = ["近战位", "远程位", "先锋干员", "近卫干员", "狙击干员", "重装干员", "医疗干员", "辅助干员", "术师干员", "治疗", "费用回复", "输出", "生存", "群攻", "防护", "减速",];
 

@@ -59,7 +59,7 @@ public class RecruitTask : BaseTask, IJsonOnDeserialized
     /// <summary>
     /// Gets or sets 需要保留并跳过的Tag。
     /// </summary>
-    public List<string> PreserveTagList { get; set; } = [RecruitSettingsUserControlModel.LegacyRobotTag];
+    public List<string> PreserveTagList { get; set; } = [RecruitTaskUserControlModel.LegacyRobotTag];
 
     /// <summary>
     /// Gets or sets a value indicating whether 是否启用保留指定Tag。

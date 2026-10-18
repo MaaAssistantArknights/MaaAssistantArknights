@@ -189,8 +189,8 @@ public class ConfigConverter
                 fightTask.UseStoneAllowSave = ConfigurationHelper.GetValue(ConfigurationKeys.AllowUseStoneSave, false);
                 fightTask.HideSeries = ConfigurationHelper.GetValue(ConfigurationKeys.HideSeries, false);
                 fightTask.UseExpiringMedicine = ConfigurationHelper.GetValue(ConfigurationKeys.UseExpiringMedicine, false);
-                fightTask.AnnihilationStage = ConfigurationHelper.GetValue(ConfigurationKeys.AnnihilationStage, FightSettingsUserControlModel.AnnihilationName);
-                fightTask.UseCustomAnnihilation = ConfigurationHelper.GetValue(ConfigurationKeys.UseCustomAnnihilation, false) && fightTask.AnnihilationStage != FightSettingsUserControlModel.AnnihilationName;
+                fightTask.AnnihilationStage = ConfigurationHelper.GetValue(ConfigurationKeys.AnnihilationStage, FightTaskUserControlModel.AnnihilationName);
+                fightTask.UseCustomAnnihilation = ConfigurationHelper.GetValue(ConfigurationKeys.UseCustomAnnihilation, false) && fightTask.AnnihilationStage != FightTaskUserControlModel.AnnihilationName;
                 fightTask.HideUnavailableStage = ConfigurationHelper.GetValue(ConfigurationKeys.HideUnavailableStage, true);
                 fightTask.IsStageManually = ConfigurationHelper.GetValue(ConfigurationKeys.CustomStageCode, false);
                 fightTask.UseOptionalStage = ConfigurationHelper.GetValue(ConfigurationKeys.UseAlternateStage, false);
@@ -304,7 +304,7 @@ public class ConfigConverter
                 recruitTask.RefreshLevel3 = ConfigurationHelper.GetValue(ConfigurationKeys.RefreshLevel3, true);
                 recruitTask.ForceRefresh = ConfigurationHelper.GetValue(ConfigurationKeys.ForceRefresh, true);
                 recruitTask.PreserveTagEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.NotChooseLevel1, true);
-                recruitTask.PreserveTagList = recruitTask.PreserveTagEnabled ? [RecruitSettingsUserControlModel.LegacyRobotTag] : [];
+                recruitTask.PreserveTagList = recruitTask.PreserveTagEnabled ? [RecruitTaskUserControlModel.LegacyRobotTag] : [];
                 recruitTask.MaxTimes = ConfigurationHelper.GetValue(ConfigurationKeys.RecruitMaxTimes, 4);
                 recruitTask.Level3Choose = ConfigurationHelper.GetValue(ConfigurationKeys.RecruitChooseLevel3, true);
                 recruitTask.Level3Time = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3Time, 540);
@@ -493,9 +493,9 @@ public class ConfigConverter
                             fightTask2.Name = LocalizationHelper.GetString("RemainingSanityStage", local);
                             fightTask.IsEnable = task.IsEnable;
                             fightTask2.IsEnable = task.IsEnable && ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, true) && fightTask2.StagePlan.FirstOrDefault() != string.Empty;
-                            if (fightTask.UseOptionalStage && fightTask.StagePlan.FirstOrDefault() == FightSettingsUserControlModel.AnnihilationName)
+                            if (fightTask.UseOptionalStage && fightTask.StagePlan.FirstOrDefault() == FightTaskUserControlModel.AnnihilationName)
                             {
-                                ConfigFactory.CurrentConfig.TaskQueue.Add(new FightTask() { Name = LocalizationHelper.GetString("AnnihilationMode"), StagePlan = [FightSettingsUserControlModel.AnnihilationName] });
+                                ConfigFactory.CurrentConfig.TaskQueue.Add(new FightTask() { Name = LocalizationHelper.GetString("AnnihilationMode"), StagePlan = [FightTaskUserControlModel.AnnihilationName] });
                                 fightTask.StagePlan.RemoveAt(0);
                             }
                             ConfigFactory.CurrentConfig.TaskQueue.Add(fightTask);
