@@ -1773,7 +1773,8 @@ Value
 ::: field MinitouchEnabled  
 @type boolean
 @optional
-폐기됨. 원 Minitouch 활성화 여부; "1" 켜기, "0" 끄기. 장치가 지원하지 않을 수 있음. 열거값: 1 (폐기됨)  
+@deprecated
+폐기됨. 대신 `TouchMode`를 사용하세요. 열거값: 1  
 :::  
 ::: field TouchMode  
 @type string

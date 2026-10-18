@@ -1772,7 +1772,8 @@ AsstBool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey 
 ::: field MinitouchEnabled  
 @type boolean
 @optional
-已棄用。原為是否啟用 Minitouch；"1" 開，"0" 關。請注意設備可能不支援。列舉值：1（已棄用）。  
+@deprecated
+已棄用，請使用 `TouchMode` 代替。列舉值：1。  
 :::  
 ::: field TouchMode  
 @type string

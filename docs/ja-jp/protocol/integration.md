@@ -1771,7 +1771,8 @@ AsstBool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey 
 ::: field MinitouchEnabled  
 @type boolean
 @optional
-廃止済み。元は Minitouch を有効にするかどうか。"1" オン、"0" オフ。デバイスがサポートされていない可能性がります。列挙値：1（廃止済み）。  
+@deprecated
+廃止済み。代わりに `TouchMode` を使用してください。列挙値：1。  
 :::  
 ::: field TouchMode  
 @type string

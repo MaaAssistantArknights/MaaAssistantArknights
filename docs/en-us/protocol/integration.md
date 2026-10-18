@@ -1772,7 +1772,8 @@ Invalid placeholder. Enum value: 0.
 ::: field MinitouchEnabled  
 @type boolean
 @optional
-Deprecated. Originally for enabling Minitouch; "1" - on, "0" - off. Note that the device may not support it. Enum value: 1 (deprecated).  
+@deprecated
+Deprecated. Use `TouchMode` instead. Enum value: 1.  
 :::  
 ::: field TouchMode  
 @type string
