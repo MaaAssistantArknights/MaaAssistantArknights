@@ -22,7 +22,7 @@ Appends a task.
 #### Return Value
 
 - `TaskId`  
-   The task ID if the task is successfully appended, for the following configuration;
+  The task ID if the task is successfully appended, for the following configuration;
   0 if the task is not successfully appended.
 
 #### Parameter Description
@@ -48,7 +48,7 @@ Task parameters, json string
 ##### List of Task Types
 
 - `StartUp`  
-   Start-up
+  Start-up
 
 :::: field-group  
 ::: field enable  
@@ -100,7 +100,7 @@ Traditional Chinese server: Email-based, e.g. `ab****01@gmail.com`. Entering the
 </details>
 
 - `CloseDown`  
-   Close Game Client
+  Close Game Client
 
 :::: field-group  
 ::: field enable  
@@ -131,7 +131,7 @@ Options: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`
 </details>
 
 - `Fight`  
-   Operation
+  Operation
 
 :::: field-group  
 ::: field enable  
@@ -158,113 +158,115 @@ Currently supported stages for navigation include:
 - OF-1 / OF-F3 in side stories.
 - Last three stages of current SS events. Visit [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json) for the list of supported stages. Requires additional loading of event stage navigation in [tasks.json](https://api.maa.plus/MaaAssistantArknights/api/resource/tasks.json) file.
 - Rerun SS events. Input `SSReopen-<stage prefix>` to farm XX-1 ~ XX-9 stages at once, e.g. `SSReopen-IC`.
-  :::  
-  ::: field medicine  
-  @type number
-  @default 0
-  @optional
-  Maximum number of Sanity Potions used.  
-  :::  
-  ::: field medicine_expire_days  
-  @type number
-  @default 0
-  @optional
-  Use Sanity Potions that expire within the specified number of days. `0` means no expiring potions will be used.  
-  :::  
-  ::: field expiring_medicine  
-  @type number
-  @default 0
-  @optional
-  @deprecated
-  Deprecated since v6.8.0, please use `medicine_expire_days` instead.  
-  :::  
-  ::: field stone  
-  @type number
-  @default 0
-  @optional
-  Maximum number of Originite Prime used.  
-  :::  
-  ::: field times  
-  @type number
-  @default 2147483647
-  @optional
-  Number of battles.  
-  :::  
-  ::: field series
-  @type number
-  @default 1
-  @optional
-  Number of consecutive battles, -1~10.
-  <br>
-  `-1` to disable switching.
-  <br>
-  `0` to automatically switch to the current maximum available times, if current sanity is not enough for the maximum times, select the minimum available times.
-  <br>
-  `1~10` to specify number of consecutive battles.
-  <br>
-  ::: info Server Difference
-  Input validation depends on whether the resource contains `FightSeries-OldMethodFlag`:
-  <br>
-  - New list (CN main resources after 2026/8/1, without this flag): accepts `-1~10`
-  - Old list (overseas resources with this flag): accepts only `-1~6`; larger values are rejected
 
-  Overseas servers are expected to follow in about six months, after which the limit becomes 10 with the resource update. The Windows GUI series dropdown currently always offers up to 10; on overseas clients, manually selecting 7~10 will be rejected by Core when the task is submitted.
-  :::  
-  ::: field drops  
-  @type object
-  @optional
-  Specifying the number of drops, no specification by default. key is item_id, value is quantity. key can refer to `resource/item_index.json` file.  
-  <br>
-  Example: `{ "30011": 10, "30062": 5 }`  
-  <br>
-  All above are OR relations, i.e. task stops when any one is reached.  
-  :::  
-  ::: field report_to_penguin  
-  @type boolean
-  @default false
-  @optional
-  Whether to upload data to Penguin Statistics.  
-  :::  
-  ::: field penguin_id  
-  @type string
-  @optional
-  Penguin Statistics report id, empty by default. Only effective when `report_to_penguin` is true.  
-  :::  
-  ::: field report_to_yituliu  
-  @type boolean
-  @default false
-  @optional
-  Whether to report to YITULIU.  
-  :::  
-  ::: field yituliu_id  
-  @type string
-  @optional
-  YITULIU report id, empty by default. Only effective when `report_to_yituliu` is true.  
-  :::  
-  ::: field server  
-  @type string
-  @default CN
-  @optional
-  Server, will affect drop recognition and upload.
-  <br>
-  Options: `CN` | `US` | `JP` | `KR`  
-  :::  
-  ::: field client_type  
-  @type string
-  @optional
-  Client version, empty by default. Used to restart and reconnect after game crash, does not enable this feature if empty.
-  <br>
-  Options: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
-  :::  
-  ::: field DrGrandet  
-  @type boolean
-  @default false
-  @optional
-  Sanity-saving Originite usage mode, only effective when Originite usage may occur.
-  <br>
-  Wait at the Originite confirmation screen until the current 1 sanity point is restored, then immediately use Originite.  
-  :::  
-  ::::
+:::  
+::: field medicine  
+@type number
+@default 0
+@optional
+Maximum number of Sanity Potions used.  
+:::  
+::: field medicine_expire_days  
+@type number
+@default 0
+@optional
+Use Sanity Potions that expire within the specified number of days. `0` means no expiring potions will be used.  
+:::  
+::: field expiring_medicine  
+@type number
+@default 0
+@optional
+@deprecated
+Deprecated since v6.8.0, please use `medicine_expire_days` instead.  
+:::  
+::: field stone  
+@type number
+@default 0
+@optional
+Maximum number of Originite Prime used.  
+:::  
+::: field times  
+@type number
+@default 2147483647
+@optional
+Number of battles.  
+:::  
+::: field series
+@type number
+@default 1
+@optional
+Number of consecutive battles, -1~10.
+<br>
+`-1` to disable switching.
+<br>
+`0` to automatically switch to the current maximum available times, if current sanity is not enough for the maximum times, select the minimum available times.
+<br>
+`1~10` to specify number of consecutive battles.
+<br>
+::: info Server Difference
+Input validation depends on whether the resource contains `FightSeries-OldMethodFlag`:
+<br>
+
+- New list (CN main resources after 2026/8/1, without this flag): accepts `-1~10`
+- Old list (overseas resources with this flag): accepts only `-1~6`; larger values are rejected
+
+Overseas servers are expected to follow in about six months, after which the limit becomes 10 with the resource update. The Windows GUI series dropdown currently always offers up to 10; on overseas clients, manually selecting 7~10 will be rejected by Core when the task is submitted.
+:::  
+::: field drops  
+@type object
+@optional
+Specifying the number of drops, no specification by default. key is item_id, value is quantity. key can refer to `resource/item_index.json` file.  
+<br>
+Example: `{ "30011": 10, "30062": 5 }`  
+<br>
+All above are OR relations, i.e. task stops when any one is reached.  
+:::  
+::: field report_to_penguin  
+@type boolean
+@default false
+@optional
+Whether to upload data to Penguin Statistics.  
+:::  
+::: field penguin_id  
+@type string
+@optional
+Penguin Statistics report id, empty by default. Only effective when `report_to_penguin` is true.  
+:::  
+::: field report_to_yituliu  
+@type boolean
+@default false
+@optional
+Whether to report to YITULIU.  
+:::  
+::: field yituliu_id  
+@type string
+@optional
+YITULIU report id, empty by default. Only effective when `report_to_yituliu` is true.  
+:::  
+::: field server  
+@type string
+@default CN
+@optional
+Server, will affect drop recognition and upload.
+<br>
+Options: `CN` | `US` | `JP` | `KR`  
+:::  
+::: field client_type  
+@type string
+@optional
+Client version, empty by default. Used to restart and reconnect after game crash, does not enable this feature if empty.
+<br>
+Options: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
+:::  
+::: field DrGrandet  
+@type boolean
+@default false
+@optional
+Sanity-saving Originite usage mode, only effective when Originite usage may occur.
+<br>
+Wait at the Originite confirmation screen until the current 1 sanity point is restored, then immediately use Originite.  
+:::  
+::::
 
 <details>
 <summary>Example</summary>
@@ -294,7 +296,7 @@ Currently supported stages for navigation include:
 </details>
 
 - `Recruit`  
-   Recruitment
+  Recruitment
 
 :::: field-group  
 ::: field enable  
@@ -453,7 +455,7 @@ Options: `CN` | `US` | `JP` | `KR`
 </details>
 
 - `Infrast`  
-   Infrastructure shifting
+  Infrastructure shifting
 
 :::: field-group  
 ::: field enable  
@@ -621,8 +623,8 @@ Whether to continue unfinished skill training in the Training Room.
 </details>
 
 - `Mall`  
-   Collecting Credits and auto-purchasing.  
-   Will buy items in order following `buy_first` list, buy other items from left to right ignoring items in `blacklist`, and buy other items from left to right ignoring the `blacklist` while credit overflows.
+  Collecting Credits and auto-purchasing.  
+  Will buy items in order following `buy_first` list, buy other items from left to right ignoring items in `blacklist`, and buy other items from left to right ignoring the `blacklist` while credit overflows.
 
 :::: field-group  
 ::: field enable  
@@ -710,7 +712,7 @@ Integer between 0–4, where 0 = current squad, 1–4 = first, second, third, fo
 </details>
 
 - `Award`  
-   Collecting various rewards
+  Collecting various rewards
 
 :::: field-group  
 ::: field enable  
@@ -779,7 +781,7 @@ Collect rewards from limited-time sign-in events (only standard horizontal layou
 </details>
 
 - `SwitchTheme`  
-   Switch the game's main interface theme
+  Switch the game's main interface theme
 
 :::: field-group  
 ::: field enable  
@@ -808,7 +810,7 @@ List of candidate theme names, matching the names shown in the in-game theme lis
 </details>
 
 - `Roguelike`  
-   Integrated Strategies
+  Integrated Strategies
 
 :::: field-group  
 ::: field enable  
@@ -1159,7 +1161,7 @@ Target playtime node of the playtime node farming mode. `1` - Ling (掷地有声
 For specific information about the Collapsal Paradigm farming feature, please refer to [Integrated Strategy Schema](./integrated-strategy-schema.md#sami-integrated-strategy-collapsal-paradigms)
 
 - `Copilot`  
-   Auto combat feature
+  Auto combat feature
 
 :::: field-group  
 ::: field enable  
@@ -1184,77 +1186,80 @@ Each object contains:
 - `nav_name_override`: Navigation stage name, optional; if omitted or `null`, automatically inferred from the task file
   <br>
 - `is_raid`: Whether to switch to Challenge Mode (Raid), optional, default false
-  :::  
-  ::: field loop_times  
-  @type number
-  @default 1
-  @optional
-  Number of loops. Effective only in single job mode (i.e., when filename is specified); set_params can only be executed once when this parameter is in effect.  
-  :::  
-  ::: field use_sanity_potion  
-  @type boolean
-  @default false
-  @optional
-  Whether to use sanity potions when sanity is insufficient.  
-  :::  
-  ::: field formation  
-  @type boolean
-  @default false
-  @optional
-  Whether to enable auto formation.  
-  :::  
-  ::: field formation_index  
-  @type number
-  @default 0
-  @optional
-  The index of the formation slot to use in auto formation. Only effective when formation is true.
-  <br>
-  An integer between 0–4: 0 means the current formation, 1–4 refer to the 1st–4th formations.  
-  :::  
-  ::: field user_additional  
-  @type array`<object>`
-  @default []
-  @optional
-  Custom additional operators list. Only effective when formation is true.
-  <br>
-  Each object contains:
-  <br>
+
+:::  
+::: field loop_times  
+@type number
+@default 1
+@optional
+Number of loops. Effective only in single job mode (i.e., when filename is specified); set_params can only be executed once when this parameter is in effect.  
+:::  
+::: field use_sanity_potion  
+@type boolean
+@default false
+@optional
+Whether to use sanity potions when sanity is insufficient.  
+:::  
+::: field formation  
+@type boolean
+@default false
+@optional
+Whether to enable auto formation.  
+:::  
+::: field formation_index  
+@type number
+@default 0
+@optional
+The index of the formation slot to use in auto formation. Only effective when formation is true.
+<br>
+An integer between 0–4: 0 means the current formation, 1–4 refer to the 1st–4th formations.  
+:::  
+::: field user_additional  
+@type array`<object>`
+@default []
+@optional
+Custom additional operators list. Only effective when formation is true.
+<br>
+Each object contains:
+<br>
+
 - `name`: Operator name, optional, default "", if left empty this operator will be ignored
   <br>
 - `skill`: Skill to bring, optional, default 0 (follows the in-game default skill selection); must be an integer between 1–3; otherwise, also follows the in-game default
-  :::  
-  ::: field add_trust  
-  @type boolean
-  @default false
-  @optional
-  Whether to auto-fill empty slots by ascending trust value during auto formation. Only effective when formation is true.  
-  :::  
-  ::: field ignore_requirements  
-  @type boolean
-  @default false
-  @optional
-  Whether to ignore operator attribute requirements during auto formation. Only effective when formation is true.  
-  :::  
-  ::: field support_unit_usage  
-  @type number
-  @default 0
-  @optional
-  Support operator usage mode. Integer between 0–3. Only effective when formation is true.
-  <br>
-  `0` - Do not use support operators
-  <br>
-  `1` - Use support operator only if exactly one operator is missing; otherwise, do not use support
-  <br>
-  `2` - Use support operator if one is missing; otherwise, use the specified support operator
-  <br>
-  `3` - Use support operator if one is missing; otherwise, use a random support operator
-  :::  
-  ::: field support_unit_name  
-  @type string
-  @optional
-  Specified support operator name. Only effective when support_unit_usage is 2.  
-  :::  
-  ::::
+
+:::  
+::: field add_trust  
+@type boolean
+@default false
+@optional
+Whether to auto-fill empty slots by ascending trust value during auto formation. Only effective when formation is true.  
+:::  
+::: field ignore_requirements  
+@type boolean
+@default false
+@optional
+Whether to ignore operator attribute requirements during auto formation. Only effective when formation is true.  
+:::  
+::: field support_unit_usage  
+@type number
+@default 0
+@optional
+Support operator usage mode. Integer between 0–3. Only effective when formation is true.
+<br>
+`0` - Do not use support operators
+<br>
+`1` - Use support operator only if exactly one operator is missing; otherwise, do not use support
+<br>
+`2` - Use support operator if one is missing; otherwise, use the specified support operator
+<br>
+`3` - Use support operator if one is missing; otherwise, use a random support operator
+:::  
+::: field support_unit_name  
+@type string
+@optional
+Specified support operator name. Only effective when support_unit_usage is 2.  
+:::  
+::::
 
 For more details about auto-combat JSON, please refer to [Combat Operation Protocol](./copilot-schema.md)
 
@@ -1285,7 +1290,7 @@ For more details about auto-combat JSON, please refer to [Combat Operation Proto
 </details>
 
 - `SSSCopilot`  
-   Auto combat feature for Stationary Security Service
+  Auto combat feature for Stationary Security Service
 
 :::: field-group  
 ::: field enable  
@@ -1382,7 +1387,7 @@ Whether to enable this task.
 </details>
 
 - `OperBox`  
-   Operator box recognition
+  Operator box recognition
 
 :::: field-group  
 ::: field enable  
@@ -1405,7 +1410,7 @@ Whether to enable this task.
 </details>
 
 - `Reclamation`  
-   Reclamation Algorithm
+  Reclamation Algorithm
 
 :::: field-group  
 ::: field enable  
@@ -1493,7 +1498,7 @@ Maximum number of craft batches per session. Only effective for Tales theme.
 </details>
 
 - `Custom`  
-   Custom Task
+  Custom Task
 
 :::: field-group  
 ::: field enable  
@@ -1513,7 +1518,7 @@ Supports the Secret Front (`MiniGame@SecretFront`) concatenated form: `MiniGame@
 @optional
 Additional task parameters. Currently used by the pixel paint task (`MiniGame@PixelPaint@Begin`), the auto raise potential task (`MiniGame@AutoRaisePotential@Begin`), and the event shop exchange task (`SS@Store@Begin`):
 
-- `params.pixel_paint.groups`: color-grouped cell list. `color` is the palette slot index (0~39, same order as the in-game right-side palette), `points` is an array of `[x, y]` grid coordinates (0~23, origin at top-left).
+- `params.pixel_paint.groups`: color-grouped cell list. `color` is the palette slot index (0~~39, same order as the in-game right-side palette), `points` is an array of `[x, y]` grid coordinates (0~~23, origin at top-left).
 - `params.pixel_paint.swipe` (bool, optional, default true): consecutive cells of the same color are drawn in a single drag for speed; some touch modes may behave abnormally.
 - `params.pixel_paint.grid_delay` (int, optional, default 0): extra per-cell wait (ms). Applied after clicks and added to drag duration. Each touch mode already has its own base interval; usually no need to adjust. Legacy key `grid_click_delay` is still accepted.
 - `params.auto_raise_potential.use_normal_token` (bool, optional, default false): when tokens are insufficient, the confirmation dialog clicks × to abort by default; set to true to click √ instead and consume normal tokens to continue.
@@ -1549,7 +1554,7 @@ Additional task parameters. Currently used by the pixel paint task (`MiniGame@Pi
 </details>
 
 - `SingleStep`  
-   Single-step task (currently only supports copilot)
+  Single-step task (currently only supports copilot)
 
 :::: field-group  
 ::: field enable  
@@ -1599,7 +1604,7 @@ Detailed parameters for the subtask.
 </details>
 
 - `VideoRecognition`  
-   Video recognition, currently only supports operation (combat) video
+  Video recognition, currently only supports operation (combat) video
 
 :::: field-group  
 ::: field enable  
@@ -1642,7 +1647,7 @@ Set task parameters
 #### Return Value
 
 - `AsstBool`  
-   Whether the parameters are successfully set.
+  Whether the parameters are successfully set.
 
 #### Parameter Description
 
@@ -1680,7 +1685,7 @@ Set process-level parameters
 #### Return Value
 
 - `AsstBool`  
-   Is the setup successful
+  Is the setup successful
 
 #### Parameter Description
 
@@ -1733,7 +1738,7 @@ Set instance-level parameters
 #### Return Value
 
 - `AsstBool`  
-   Is the setup successful
+  Is the setup successful
 
 #### Parameter Description
 
