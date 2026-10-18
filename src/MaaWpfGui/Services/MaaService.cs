@@ -199,4 +199,9 @@ public enum AsstTaskType : byte
     /// 干员培养
     /// </summary>
     OperProgress,
+
+    /// <summary>
+    /// 理智作战战斗辅助
+    /// </summary>
+    BattleAssist,
 }

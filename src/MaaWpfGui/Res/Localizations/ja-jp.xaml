@@ -1005,6 +1005,14 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Combat">作戦</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="Ignore">無視</system:String>
+    <system:String x:Key="BattleAssist">戦闘補助</system:String>
+    <system:String x:Key="BattleAssistTip">有効にして開始すると、任意ステージの個人戦闘を待機し、2 倍速とスキル自動発動を行います。戦闘後も停止するまで次の戦闘を待機します。理性作戦の周回には影響しません。</system:String>
+    <system:String x:Key="AutoUseSkills">スキルを自動発動</system:String>
+    <system:String x:Key="AutoUseSkillsTip">設定した確認間隔で戦場の配置済みオペレーターを走査し、スキルの準備ができるとすぐに発動します。スキル種別は区別しないため、手動でタイミングを合わせるステージには向かない場合があります。</system:String>
+    <system:String x:Key="BattleAssistSkillScanInterval">スキル確認間隔（秒）</system:String>
+    <system:String x:Key="BattleAssistSkillScanIntervalTip">スキル自動発動が有効なとき、設定した秒数ごとに戦場で準備済みスキルを確認します。範囲は 0.5～30 秒、既定値は 1.5 秒です。間隔が短いほど認識とクリックの頻度が高くなります。</system:String>
+    <system:String x:Key="AutoSpeedUp">戦闘開始時に 2 倍速</system:String>
+    <system:String x:Key="AutoSpeedUpTip">戦闘開始後に現在の倍速を確認し、2 倍速でない場合は自動で切り替えます。</system:String>
     <system:String x:Key="OperProgress">オペレーター育成</system:String>
     <system:String x:Key="OperProgress.SkillLevelTarget">スキルランク {0}</system:String>
     <system:String x:Key="OperProgress.MasteryTarget">スキル {0} 特化 {1}</system:String>

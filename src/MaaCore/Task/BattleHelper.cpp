@@ -1,18 +1,26 @@
 #include "BattleHelper.h"
 
+#include <algorithm>
+#include <array>
+#include <cmath>
 #include <future>
+#include <limits>
+#include <string_view>
 #include <thread>
+#include <utility>
 
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/AvatarCacheManager.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
+#include "Config/TemplResource.h"
 #include "Controller/Controller.h"
 #include "MaaUtils/NoWarningCV.hpp"
 #include "Task/ProcessTask.h"
 #include "Utils/DebugImageHelper.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Battle/BattlefieldClassifier.h"
+#include "Vision/Battle/BattlefieldDetector.h"
 #include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
@@ -48,6 +56,10 @@ void asst::BattleHelper::clear()
     m_skill_times.clear();
     m_skill_error_count.clear();
     m_last_use_skill_time.clear();
+    m_last_auto_skill_use.clear();
+    m_battle_assist_ready_scale.reset();
+    m_battle_assist_ready_rect.reset();
+    m_battle_assist_present_markers.clear();
     m_camera_count = 0;
     m_camera_shift = { 0., 0. };
 
@@ -792,6 +804,536 @@ bool asst::BattleHelper::do_strategic_action(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     return use_all_ready_skill(image);
+}
+
+bool asst::BattleHelper::run_battle_assist(
+    bool auto_use_skills,
+    bool auto_speed_up,
+    std::chrono::milliseconds skill_scan_interval)
+{
+    LogTraceFunction;
+
+    auto image = m_inst_helper.ctrler()->get_image();
+    if (!check_in_battle(image, false)) {
+        LogWarn << __FUNCTION__ << "battle is not active";
+        return false;
+    }
+
+    if (auto_speed_up) {
+        m_in_speedup = check_in_speedup(image);
+        if (m_in_speedup) {
+            LogInfo << __FUNCTION__ << "2x battle speed already enabled";
+        }
+        else if (speed_up()) {
+            m_in_speedup = true;
+            LogInfo << __FUNCTION__ << "enabled 2x battle speed";
+        }
+    }
+
+    using clock = std::chrono::steady_clock;
+    auto last_skill_scan = clock::now() - skill_scan_interval;
+
+    while (!m_inst_helper.need_exit()) {
+        image = m_inst_helper.ctrler()->get_image();
+        if (!check_in_battle(image, false)) {
+            break;
+        }
+
+        if (auto_use_skills && clock::now() - last_skill_scan >= skill_scan_interval) {
+            use_all_ready_skills_on_battlefield(image);
+            last_skill_scan = clock::now();
+        }
+        m_inst_helper.sleep(200);
+    }
+    return true;
+}
+
+bool asst::BattleHelper::use_all_ready_skills_on_battlefield(const cv::Mat& reusable)
+{
+    const cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    const double image_scale_x = static_cast<double>(image.cols) / WindowWidthDefault;
+    const double image_scale_y = static_cast<double>(image.rows) / WindowHeightDefault;
+
+    struct SkillMarker
+    {
+        Point center;
+        Rect rect;
+        float score = 0.0f;
+        bool from_fallback = false;
+    };
+
+    cv::Mat hsv;
+    cv::Mat yellow_mask;
+    cv::cvtColor(image, hsv, cv::COLOR_BGR2HSV);
+    cv::inRange(hsv, cv::Scalar(18, 120, 140), cv::Scalar(40, 255, 255), yellow_mask);
+    cv::morphologyEx(
+        yellow_mask,
+        yellow_mask,
+        cv::MORPH_CLOSE,
+        cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3)));
+
+    std::vector<std::vector<cv::Point>> contours;
+    std::vector<cv::Vec4i> hierarchy;
+    cv::findContours(yellow_mask, contours, hierarchy, cv::RETR_CCOMP, cv::CHAIN_APPROX_SIMPLE);
+    std::vector<SkillMarker> markers;
+    const auto skill_roi_move = Task.get<MatchTaskInfo>("BattleSkillReady")->rect_move;
+    const auto scale_x = [image_scale_x](double value) {
+        return std::max(1, static_cast<int>(std::lround(value * image_scale_x)));
+    };
+    const auto scale_y = [image_scale_y](double value) {
+        return std::max(1, static_cast<int>(std::lround(value * image_scale_y)));
+    };
+    const auto marker_ready_score_for_image = [&](const cv::Mat& source, const Point& marker_center) {
+        const Point classifier_base {
+            marker_center.x - (skill_roi_move.x + skill_roi_move.width / 2),
+            marker_center.y - (skill_roi_move.y + skill_roi_move.height / 2),
+        };
+        BattlefieldClassifier classifier(source);
+        classifier.set_object_of_interest({ .skill_ready = true });
+        classifier.set_base_point(classifier_base);
+        const auto classifier_result = classifier.analyze();
+        if (!classifier_result || !classifier_result->skill_ready.ready) {
+            return 0.0f;
+        }
+        return classifier_result->skill_ready.score;
+    };
+    const auto marker_ready_score = [&](const Point& marker_center) {
+        return marker_ready_score_for_image(image, marker_center);
+    };
+    for (size_t contour_index = 0; contour_index < contours.size(); ++contour_index) {
+        // Ignore holes; they are examined through their parent yellow contour below.
+        if (hierarchy[contour_index][3] != -1) {
+            continue;
+        }
+
+        const auto& contour = contours[contour_index];
+        const double area = cv::contourArea(contour);
+        const cv::Rect marker_rect = cv::boundingRect(contour);
+        if (marker_rect.width <= 0 || marker_rect.height <= 0) {
+            continue;
+        }
+
+        const double aspect_ratio = static_cast<double>(marker_rect.width) / marker_rect.height;
+        const double fill_ratio = area / static_cast<double>(marker_rect.width * marker_rect.height);
+        if (area < 55.0 * image_scale_x * image_scale_y || marker_rect.width < scale_x(14) ||
+            marker_rect.height < scale_y(14) || marker_rect.width > scale_x(72) ||
+            marker_rect.height > scale_y(72) || aspect_ratio < 0.58 || aspect_ratio > 1.5 ||
+            fill_ratio < 0.18 || fill_ratio > 0.85) {
+            continue;
+        }
+
+        const Point marker_center {
+            marker_rect.x + marker_rect.width / 2,
+            marker_rect.y + marker_rect.height / 2,
+        };
+        const bool duplicate = std::ranges::any_of(markers, [&](const SkillMarker& marker) {
+            return std::abs(marker.center.x - marker_center.x) < scale_x(30) &&
+                   std::abs(marker.center.y - marker_center.y) < scale_y(30);
+        });
+        if (duplicate) {
+            continue;
+        }
+
+        // Center the classifier ROI on the detected marker itself. This avoids relying on an
+        // operator-relative crop, which fails for top-screen HUD overlap and tightly packed units.
+        const float ready_score = marker_ready_score(marker_center);
+        if (ready_score < 0.75f) {
+            continue;
+        }
+
+        markers.emplace_back(SkillMarker {
+            marker_center,
+            Rect { marker_rect.x, marker_rect.y, marker_rect.width, marker_rect.height },
+            ready_score,
+            false,
+        });
+    }
+
+    struct UnitCandidate
+    {
+        Point center;
+        Rect rect;
+        float score;
+    };
+
+    BattlefieldDetector detector(image);
+    detector.set_object_of_interest({ .operators = true });
+    const auto detector_result = detector.analyze();
+    std::vector<UnitCandidate> units;
+    if (detector_result) {
+        for (const auto& operator_result : detector_result->operators) {
+            if (operator_result.score < 0.3f) {
+                continue;
+            }
+
+            const Rect& oper_rect = operator_result.rect;
+            units.emplace_back(UnitCandidate {
+                Point {
+                    oper_rect.x + oper_rect.width / 2,
+                    oper_rect.y + oper_rect.height / 2,
+                },
+                oper_rect,
+                operator_result.score,
+            });
+        }
+    }
+
+    // The marker's vertical distance from the health bar changes with zoom and unit layout.
+    // Scanning several positions above each detected battlefield unit recovers icons whose
+    // contour was merged or hidden. Reserve-card entries have no battlefield health bar and can
+    // therefore never be added by this fallback.
+    static constexpr std::array<int, 5> marker_scan_offsets { 55, 80, 105, 130, 155 };
+    for (const auto& unit : units) {
+        float best_score = 0.0f;
+        Point best_marker_center;
+        for (const int offset : marker_scan_offsets) {
+            const Point marker_center {
+                unit.center.x,
+                unit.center.y - scale_y(offset),
+            };
+            if (marker_center.y < scale_y(16) || marker_center.y >= image.rows - scale_y(16)) {
+                continue;
+            }
+            const float ready_score = marker_ready_score(marker_center);
+            if (ready_score > best_score) {
+                best_score = ready_score;
+                best_marker_center = marker_center;
+            }
+        }
+        if (best_score < 0.75f) {
+            continue;
+        }
+
+        const bool duplicate = std::ranges::any_of(markers, [&](const SkillMarker& marker) {
+            return std::abs(marker.center.x - best_marker_center.x) < scale_x(30) &&
+                   std::abs(marker.center.y - best_marker_center.y) < scale_y(30);
+        });
+        if (duplicate) {
+            continue;
+        }
+        markers.emplace_back(SkillMarker {
+            best_marker_center,
+            Rect {
+                best_marker_center.x - scale_x(16),
+                best_marker_center.y - scale_y(16),
+                scale_x(32),
+                scale_y(32),
+            },
+            best_score,
+            true,
+        });
+    }
+
+    std::ranges::sort(markers, {}, [](const SkillMarker& marker) {
+        return std::pair { marker.center.y, marker.center.x };
+    });
+    std::ranges::sort(units, {}, [](const UnitCandidate& unit) {
+        return std::pair { unit.center.y, unit.center.x };
+    });
+
+    LogDebug << __FUNCTION__ << "skill markers" << markers.size() << "detected units" << units.size()
+             << VAR(image_scale_x) << VAR(image_scale_y);
+    for (const auto& marker : markers) {
+        LogDebug << __FUNCTION__ << "ready marker" << marker.center << marker.rect << marker.score << "fallback"
+                 << marker.from_fallback;
+    }
+
+    const auto marker_cooldown_key = [](const Point& point) {
+        constexpr int bucket_size = 24;
+        return Point {
+            point.x / bucket_size * bucket_size,
+            point.y / bucket_size * bucket_size,
+        };
+    };
+    std::set<Point> current_markers;
+    for (const auto& marker : markers) {
+        current_markers.insert(marker_cooldown_key(marker.center));
+    }
+    for (const auto& previous : m_battle_assist_present_markers) {
+        if (!current_markers.contains(previous)) {
+            m_last_auto_skill_use.erase(previous);
+        }
+    }
+    m_battle_assist_present_markers = std::move(current_markers);
+
+    bool used = false;
+    const auto now = std::chrono::steady_clock::now();
+    constexpr auto same_tile_cooldown = std::chrono::seconds(8);
+    // Live runs show that +80 is the reliable operator-body offset most often, while +40
+    // remains useful for shorter or higher-positioned sprites. Try the frequent hit first so
+    // the common case no longer requires a wasted click before the detail panel opens.
+    static constexpr std::array<int, 4> click_offsets_y { 80, 40, 110, 140 };
+    struct ReadyMatch
+    {
+        Rect rect;
+        float score = 0.0f;
+        double scale = 1.0;
+        std::string_view templ_name;
+        bool cache_hit = false;
+    };
+    const auto find_ready_row = [&](const cv::Mat& screenshot) -> std::optional<ReadyMatch> {
+        static constexpr std::string_view arrow_name = "BattleSkillReadyOnClick-TopView2.png";
+        static constexpr std::string_view row_name = "BattleSkillReadyOnClick-TopView.png";
+        static constexpr float threshold = 0.78f;
+        static constexpr std::array common_arrow_scales { 0.65, 0.75, 0.85 };
+        static constexpr std::array fallback_scales { 0.55, 0.95, 1.05, 1.15, 1.25, 1.35, 1.45 };
+        const Rect search_roi {
+            scale_x(600),
+            scale_y(250),
+            scale_x(430),
+            scale_y(400),
+        };
+        const cv::Mat arrow_template = TemplResource::get_instance().get_templ(std::string(arrow_name));
+        if (arrow_template.empty()) {
+            return std::nullopt;
+        }
+        const cv::Mat row_template = TemplResource::get_instance().get_templ(std::string(row_name));
+
+        const auto match_scaled =
+            [&](const cv::Mat& templ, std::string_view templ_name, double scale, const Rect& roi)
+            -> std::optional<ReadyMatch> {
+            cv::Mat scaled_templ;
+            cv::resize(
+                templ,
+                scaled_templ,
+                cv::Size(),
+                scale,
+                scale,
+                scale < 1.0 ? cv::INTER_AREA : cv::INTER_CUBIC);
+            Matcher ready_matcher(screenshot);
+            ready_matcher.set_templ(scaled_templ);
+#ifdef ASST_DEBUG
+            ready_matcher.set_threshold(0.0f);
+#else
+            ready_matcher.set_threshold(threshold);
+#endif
+            ready_matcher.set_roi(roi);
+            ready_matcher.set_method(MatchMethod::Ccoeff);
+            const auto result = ready_matcher.analyze();
+            if (!result) {
+                return std::nullopt;
+            }
+            LogDebug << __FUNCTION__ << "READY candidate" << templ_name << "scale" << scale << "score"
+                     << result->score << "rect" << result->rect << "roi" << roi;
+            if (result->score < threshold) {
+                return std::nullopt;
+            }
+            ReadyMatch match {
+                result->rect,
+                static_cast<float>(result->score),
+                scale,
+                templ_name,
+                false,
+            };
+            if (match.templ_name == arrow_name) {
+                const double arrow_scale = static_cast<double>(match.rect.width) / 20.0;
+                match.rect.width = std::lround(95.0 * arrow_scale);
+                match.rect.height = std::lround(22.0 * arrow_scale);
+                match.scale = arrow_scale;
+            }
+            return match;
+        };
+        const auto remember = [&](ReadyMatch match) {
+            m_battle_assist_ready_scale = match.scale;
+            m_battle_assist_ready_rect = match.rect;
+            return match;
+        };
+
+        if (m_battle_assist_ready_scale && m_battle_assist_ready_rect) {
+            const Rect& cached = *m_battle_assist_ready_rect;
+            const Rect fast_roi {
+                std::clamp(cached.x - scale_x(24), 0, screenshot.cols - 1),
+                std::clamp(cached.y - scale_y(24), 0, screenshot.rows - 1),
+                scale_x(110),
+                scale_y(80),
+            };
+            if (auto match =
+                    match_scaled(arrow_template, arrow_name, *m_battle_assist_ready_scale, fast_roi)) {
+                match->cache_hit = true;
+                return remember(*match);
+            }
+        }
+
+        std::optional<ReadyMatch> best_match;
+        for (const double scale : common_arrow_scales) {
+            if (auto match = match_scaled(arrow_template, arrow_name, scale, search_roi);
+                match && (!best_match || match->score > best_match->score)) {
+                best_match = match;
+            }
+        }
+        if (best_match && best_match->score >= 0.9f) {
+            return remember(*best_match);
+        }
+
+        for (const double scale : fallback_scales) {
+            if (auto match = match_scaled(arrow_template, arrow_name, scale, search_roi);
+                match && (!best_match || match->score > best_match->score)) {
+                best_match = match;
+            }
+        }
+        if (!best_match && !row_template.empty()) {
+            for (const double scale : common_arrow_scales) {
+                if (auto match = match_scaled(row_template, row_name, scale, search_roi);
+                    match && (!best_match || match->score > best_match->score)) {
+                    best_match = match;
+                }
+            }
+            for (const double scale : fallback_scales) {
+                if (auto match = match_scaled(row_template, row_name, scale, search_roi);
+                    match && (!best_match || match->score > best_match->score)) {
+                    best_match = match;
+                }
+            }
+        }
+        return best_match ? std::optional<ReadyMatch>(remember(*best_match)) : std::nullopt;
+    };
+#ifdef ASST_DEBUG
+    const auto save_skill_panel_crop = [&](const cv::Mat& screenshot,
+                                           const SkillMarker& marker,
+                                           int click_offset,
+                                           std::string_view phase,
+                                           const std::optional<ReadyMatch>& match) {
+        const Rect panel_roi {
+            scale_x(600),
+            scale_y(250),
+            scale_x(430),
+            scale_y(400),
+        };
+        std::string suffix = std::to_string(marker.center.x) + "_" + std::to_string(marker.center.y) + "_off" +
+                             std::to_string(click_offset);
+        if (match) {
+            suffix += match->cache_hit ? "_cache_hit" : "_search_hit";
+        }
+        else {
+            suffix += "_miss";
+        }
+        utils::save_debug_image(
+            make_roi(screenshot, panel_roi),
+            utils::path("debug") / "battle_assist" / std::string(phase),
+            true,
+            "skill panel",
+            suffix);
+    };
+#endif
+    for (const auto& marker : markers) {
+        if (m_inst_helper.need_exit()) {
+            break;
+        }
+        const Point cooldown_key = marker_cooldown_key(marker.center);
+        if (auto iter = m_last_auto_skill_use.find(cooldown_key);
+            iter != m_last_auto_skill_use.cend() && now - iter->second < same_tile_cooldown) {
+            continue;
+        }
+
+        for (const int click_offset_y : click_offsets_y) {
+            if (m_inst_helper.need_exit()) {
+                break;
+            }
+            const Point click_point {
+                marker.center.x,
+                marker.center.y + scale_y(click_offset_y),
+            };
+            if (click_point.y >= image.rows) {
+                continue;
+            }
+            if (!m_inst_helper.ctrler()->click(click_point)) {
+                continue;
+            }
+            const auto selection_time = std::chrono::steady_clock::now();
+            m_inst_helper.sleep(280);
+
+            cv::Mat detail_image = m_inst_helper.ctrler()->get_image();
+            auto ready_result = find_ready_row(detail_image);
+            if (!ready_result) {
+                // The detail panel can finish animating just after the first screenshot. Check
+                // once more before clearing the selection and retrying at another offset.
+                m_inst_helper.sleep(120);
+                detail_image = m_inst_helper.ctrler()->get_image();
+                ready_result = find_ready_row(detail_image);
+            }
+#ifdef ASST_DEBUG
+            save_skill_panel_crop(detail_image, marker, click_offset_y, "before_click", ready_result);
+#endif
+            bool ready_selected = false;
+            if (ready_result) {
+                ready_selected = true;
+                m_last_auto_skill_use[cooldown_key] = now;
+                const Rect& ready_rect = ready_result->rect;
+                const Point skill_center {
+                    ready_rect.x + ready_rect.width / 2,
+                    ready_rect.y - std::lround(ready_rect.height * 51.5 / 22.0),
+                };
+                if (m_inst_helper.ctrler()->click(skill_center)) {
+                    used = true;
+                    const auto latency_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                                std::chrono::steady_clock::now() - selection_time)
+                                                .count();
+                    LogInfo << __FUNCTION__ << "clicked skill icon above READY" << skill_center << "READY rect"
+                            << ready_rect << "score" << ready_result->score << "template"
+                            << ready_result->templ_name << "scale" << ready_result->scale << "cache"
+                            << ready_result->cache_hit << "marker" << marker.center << "fallback"
+                            << marker.from_fallback << "unit click" << click_point << "selection latency"
+                            << latency_ms << "ms";
+#ifdef ASST_DEBUG
+                    m_inst_helper.sleep(120);
+                    const cv::Mat after_click_image = m_inst_helper.ctrler()->get_image();
+                    const auto after_click_ready = find_ready_row(after_click_image);
+                    save_skill_panel_crop(after_click_image, marker, click_offset_y, "after_click", after_click_ready);
+                    LogDebug << __FUNCTION__ << "after skill click READY present"
+                             << static_cast<bool>(after_click_ready) << "score"
+                             << (after_click_ready ? after_click_ready->score : 0.0f) << "cache"
+                             << (after_click_ready ? after_click_ready->cache_hit : false) << "marker"
+                             << marker.center;
+#endif
+                }
+            }
+            else {
+                LogDebug << __FUNCTION__ << "READY row not found, try deeper click below marker"
+                         << click_point << "marker" << marker.center << "fallback" << marker.from_fallback;
+            }
+
+            m_inst_helper.sleep(250);
+            // BattleCancelSelection clicks this exact position. Do it directly to keep the loop
+            // independent of nested ProcessTask state.
+            m_inst_helper.ctrler()->click({ 640, 10 });
+            m_inst_helper.sleep(500);
+#ifdef ASST_DEBUG
+            if (ready_selected) {
+                const cv::Mat battlefield_after = m_inst_helper.ctrler()->get_image();
+                const Rect marker_crop {
+                    std::clamp(marker.center.x - scale_x(80), 0, battlefield_after.cols - 1),
+                    std::clamp(marker.center.y - scale_y(80), 0, battlefield_after.rows - 1),
+                    scale_x(160),
+                    scale_y(160),
+                };
+                const Rect safe_marker_crop {
+                    marker_crop.x,
+                    marker_crop.y,
+                    std::min(marker_crop.width, battlefield_after.cols - marker_crop.x),
+                    std::min(marker_crop.height, battlefield_after.rows - marker_crop.y),
+                };
+                const float marker_score_after =
+                    marker_ready_score_for_image(battlefield_after, marker.center);
+                const std::string suffix = std::to_string(marker.center.x) + "_" +
+                                           std::to_string(marker.center.y) + "_" +
+                                           std::to_string(std::lround(marker_score_after * 1000));
+                utils::save_debug_image(
+                    make_roi(battlefield_after, safe_marker_crop),
+                    utils::path("debug") / "battle_assist" / "battlefield_after",
+                    true,
+                    "battlefield marker after skill click",
+                    suffix);
+                LogDebug << __FUNCTION__ << "after cancel marker score" << marker_score_after << "marker"
+                         << marker.center << "fallback" << marker.from_fallback << "cooldown key"
+                         << cooldown_key;
+            }
+#endif
+            if (ready_selected) {
+                break;
+            }
+        }
+    }
+    return used;
 }
 
 bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)

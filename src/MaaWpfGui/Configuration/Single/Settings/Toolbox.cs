@@ -66,4 +66,19 @@ public partial class Toolbox : NotifyPropertyChangedWithValue
     public bool EventShopBlackListOther { get; set; }
 
     public string EventShopBlackList { get; set; } = string.Empty;
+
+    /// <summary>
+    /// 牛杂常驻战斗辅助是否自动使用就绪技能
+    /// </summary>
+    public bool BattleAssistAutoUseSkills { get; set; } = true;
+
+    /// <summary>
+    /// 牛杂常驻战斗辅助是否自动开启二倍速
+    /// </summary>
+    public bool BattleAssistAutoSpeedUp { get; set; } = true;
+
+    /// <summary>
+    /// 牛杂常驻战斗辅助的技能检查间隔，单位为秒
+    /// </summary>
+    public double BattleAssistSkillScanInterval { get; set; } = 1.5;
 }

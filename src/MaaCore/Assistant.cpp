@@ -13,6 +13,7 @@
 #include "Controller/Controller.h"
 #include "Status.h"
 #include "Task/Interface/AwardTask.h"
+#include "Task/Interface/BattleAssistTask.h"
 #include "Task/Interface/CloseDownTask.h"
 #include "Task/Interface/CopilotTask.h"
 #include "Task/Interface/CustomTask.h"
@@ -323,6 +324,7 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(FightTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(StartUpTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CloseDownTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(BattleAssistTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(AwardTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(MallTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(InfrastTask)
