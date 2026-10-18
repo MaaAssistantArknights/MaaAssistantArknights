@@ -147,7 +147,7 @@ bool MaaFwController::connect_with_extras(
         json::object config_json = extras;
         config_json["use_win32_vk_code"] = false;
         m_esc_keycode = 1; // KEY_ESC defined in <linux/input-event-codes.h>
-        m_unit_handle = create_func(extras.dumps().c_str());
+        m_unit_handle = create_func(config_json.dumps().c_str());
     } break;
     }
 
