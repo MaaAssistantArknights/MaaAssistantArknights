@@ -1,0 +1,45 @@
+{
+    "1": {
+        "type": "UseOperatorSkill",
+        "operator": "左乐",
+        "skill": 3,
+        "count": 10
+    },
+    "2": {
+        "type": "DeployOperator",
+        "operator": "年",
+        "count": 10
+    },
+    "3": {
+        "type": "DeployOperator",
+        "operator": "夕",
+        "count": 10
+    },
+    "4": {
+        "type": "DeployOperatorSummon",
+        "operator": "令",
+        "count": 20
+    },
+    "5": {
+        "type": "UseOperatorSkill",
+        "operator": "重岳",
+        "skill": 3,
+        "count": 20
+    },
+    "6": {
+        "type": "DeployOperator",
+        "operator": "黍",
+        "count": 10
+    },
+    "7": {
+        "type": "UseOperatorSkill",
+        "operator": "余",
+        "skill": 3,
+        "count": 10
+    },
+    "8": {
+        "type": "DeployOperator",
+        "operator": "陈",
+        "count": 10
+    }
+}

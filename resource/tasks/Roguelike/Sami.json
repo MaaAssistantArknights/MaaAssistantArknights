@@ -556,6 +556,15 @@
     "Sami@Roguelike@MonthlySquad": {
         "template": "Roguelike@MonthlySquad.png"
     },
+    "Sami@Roguelike@MonthlySquadIndex": {
+        "Doc": "识别当前月度小队序号",
+        "algorithm": "OcrDetect",
+        "roi": [155, 373, 39, 51],
+        "text": ["1", "2", "3", "4", "5", "6", "7", "8"],
+        "fullMatch": true,
+        "isAscii": true,
+        "withoutDet": true
+    },
     "Sami@Roguelike@MonthlySquadComms": {
         "template": "Roguelike@MonthlySquadComms.png",
         "roi": [560, 420, 190, 60]

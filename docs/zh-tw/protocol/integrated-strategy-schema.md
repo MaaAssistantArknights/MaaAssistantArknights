@@ -20,6 +20,7 @@ icon: ri:game-fill
       - `deposit.json`：刷源石錠模式。
     - `recruitment.json`：幹員招募邏輯。
     - `shopping.json`：商店購買收藏品邏輯。
+    - `monthly_squad.json`：月度小隊任務邏輯。
 
 - 薩米肉鴿 `Sami/` 下的特殊檔案：
   - `foldartal.json`：密文板的使用邏輯。
@@ -39,6 +40,40 @@ icon: ri:game-fill
   - `strategy.json`：黑流樹海肉鴿的高層路由策略配置。
   - `node_execution.json`：黑流樹海肉鴿的節點類型處理路由配置。
   - `map_perception/`：黑流樹海肉鴿的地圖感知視覺資源。
+
+## 月度小隊任務
+
+`resource/roguelike/主題名/monthly_squad.json` 描述各月度小隊需要完成的任務。頂層鍵為小隊序號 `1`～`8`，也可以使用 `default` 作為未設定對應序號或無法辨識序號時的預設任務。
+
+```json
+{
+    "1": {
+        "type": "DeployOperator",
+        "operator": "年",
+        "count": 10
+    },
+    "2": {
+        "type": "DeployOperatorSummon",
+        "operator": "令",
+        "skill": 3,
+        "count": 20
+    },
+    "default": {
+        "type": "ReachThirdFloor"
+    }
+}
+```
+
+支援以下任務類型：
+
+| `type` | 必填欄位 | 說明 |
+| --- | --- | --- |
+| `ReachThirdFloor` | 無 | 沿用原有邏輯探索至第三層 |
+| `DeployOperator` | `operator`、`count` | 部署指定幹員並累計次數 |
+| `DeployOperatorSummon` | `operator`、`count` | 先部署指定幹員，再持續部署其關聯召喚物 |
+| `UseOperatorSkill` | `operator`、`count`、`skill` | 選擇並使用指定幹員的一、二或三技能 |
+
+`count` 必須是大於零的整數。`skill` 的取值範圍為 `1`～`3`；在 `DeployOperatorSummon` 中可以省略，省略後沿用該幹員原有的技能選擇邏輯。
 
 ## 肉鴿第一步——幹員招募
 
