@@ -1985,11 +1985,11 @@
         ]
     },
     "BlackFlow@Roguelike@StageEnterBattleAgain": {
-        "baseTask": "BlackFlow@Roguelike@MovePreviewEnter",
-        "template": ["BlackFlow@Roguelike@MovePreviewEnterWalk.png", "BlackFlow@Roguelike@MovePreviewEnterCrafted.png"],
-        "action": "ClickSelf",
-        "rectMove": [0, 0, 50, 30],
-        "next": ["BlackFlow@Roguelike@StartAction", "#self"]
+        "baseTask": "#none",
+        "algorithm": "JustReturn",
+        "sub": ["BlackFlow@Roguelike@MovePreviewConfirm"],
+        "next": ["BlackFlow@Roguelike@StartAction"],
+        "onErrorNext": ["BlackFlow@Roguelike@RecoveryFailed"]
     },
     "BlackFlow@Roguelike@StartAction": {
         "template": "Roguelike@StartAction.png",
