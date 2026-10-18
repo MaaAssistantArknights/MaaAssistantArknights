@@ -586,8 +586,12 @@ bool MaaFwController::press_esc()
 
 ControlFeat::Feat MaaFwController::support_features() const noexcept
 {
-    // MaaFwController 支持精确滑动和暂停滑动功能
-    return ControlFeat::PRECISE_SWIPE | ControlFeat::SWIPE_WITH_PAUSE;
+    // 根据控制单元报告支持情况确定是否支持精确滑动和暂停滑动功能
+    auto feat = ControlFeat::PRECISE_SWIPE;
+    if (m_unit_handle && (m_unit_handle->get_features() & MaaFeature::UseMouseDownAndUpInsteadOfClick)) {
+        feat |= ControlFeat::SWIPE_WITH_PAUSE;
+    }
+    return feat;
 }
 
 std::pair<int, int> MaaFwController::get_screen_res() const noexcept
