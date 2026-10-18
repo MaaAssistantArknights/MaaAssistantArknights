@@ -2712,7 +2712,7 @@ public class AsstProxy
 
                 if (nameStr != string.Empty)
                 {
-                    nameStr = nameStr.Remove(nameStr.Length - 2);
+                    nameStr = nameStr[..^2];
                 }
 
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomOperators") + nameStr);
