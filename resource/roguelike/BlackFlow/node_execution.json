@@ -22,7 +22,7 @@
         {
             "id": "encounter",
             "page_intent": "default",
-            "node_types": ["incident", "wish", "rest", "sacrifice", "evacuate", "duel"],
+            "node_types": ["incident", "wish", "rest", "sacrifice", "evacuate", "duel", "portal"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
             "task": "BlackFlow@Roguelike@Page-Encounter",
