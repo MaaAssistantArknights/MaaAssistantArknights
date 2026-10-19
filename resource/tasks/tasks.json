@@ -2171,7 +2171,12 @@
         "action": "ClickSelf",
         "roi": [950, 50, 330, 150],
         "preDelay": 500,
-        "next": ["CloseTaskAward"]
+        "next": ["ReceiveAward-GainItem"]
+    },
+    "ReceiveAward-GainItem": {
+        "baseTask": "GainItem",
+        "template": "GainItem.png",
+        "next": ["#self", "WeeklyTask", "AwardFinished"]
     },
     "CloseTaskAward": {
         "algorithm": "JustReturn",
@@ -2235,21 +2240,18 @@
     "ReceiveMail": {
         "action": "ClickSelf",
         "roi": [980, 580, 300, 140],
-        "next": ["ReceivedAllMail", "ReceiveMail@LoadingText", "CloseTaskMail"]
+        "next": ["ReceivedAllMail", "ReceiveMail@LoadingText", "ReceiveMail-GainItem"]
+    },
+    "ReceiveMail-GainItem": {
+        "baseTask": "GainItem",
+        "template": "GainItem.png",
+        "next": ["#self", "ReceiveMail", "Home@QuickSwitch@ToHome#next", "Home@ReturnButtons#next"]
     },
     "ReceivedAllMail": {
         "roi": [909, 33, 166, 165],
         "method": "HSVCount",
         "colorScales": [[250, 255]],
         "next": ["ReceivedAllMail@LoadingText", "Home@QuickSwitch@ToHome#next", "Home@ReturnButtons#next"]
-    },
-    "CloseTaskMail": {
-        "baseTask": "CloseTaskAward",
-        "next": ["CloseTaskMailDouble"]
-    },
-    "CloseTaskMailDouble": {
-        "baseTask": "CloseTaskAwardDouble",
-        "next": ["ReceiveMail", "Home@QuickSwitch@ToHome#next", "Home@ReturnButtons#next", "CloseTaskMailDouble"]
     },
     "VisitBegin": {
         "algorithm": "JustReturn",
