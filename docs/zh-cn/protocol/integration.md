@@ -371,11 +371,10 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 :::  
 ::: field skip_robot  
 @type boolean
-@default true
+@default false
 @optional
-已废弃，仅用于兼容旧参数。  
-<br>
-当未提供 `preserve_tags` 且该值为 `true` 时，会在识别到 `支援机械` 时跳过；`元素` 不再视为旧版 1 星词条。  
+@deprecated
+已弃用，请使用 `preserve_tags = ["支援机械"]` 代替。
 :::
 ::: field preserve_tags  
 @type array<string>

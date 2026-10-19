@@ -371,11 +371,10 @@ Number of expedites, only effective when `expedite` is true. No longer effective
 :::  
 ::: field skip_robot  
 @type boolean
-@default true
+@default false
 @optional
-Deprecated and kept only for backward compatibility.  
-<br>
-When `preserve_tags` is absent and this value is `true`, MAA skips on `支援机械` only; `元素` is no longer treated as the legacy 1★ tag.  
+@deprecated
+Deprecated. Use `preserve_tags = ["支援机械"]` instead.
 :::
 ::: field preserve_tags  
 @type array<string>

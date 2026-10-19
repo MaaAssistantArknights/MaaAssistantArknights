@@ -372,11 +372,10 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
 :::  
 ::: field skip_robot  
 @type boolean
-@default true
+@default false
 @optional
-已棄用，僅用於相容舊參數。  
-<br>
-當未提供 `preserve_tags` 且其值為 `true` 時，會在辨識到 `支援机械` 時跳過；`元素` 不再視為舊版 1 星 Tag。  
+@deprecated
+已棄用，請使用 `preserve_tags = ["支援机械"]` 代替。
 :::
 ::: field preserve_tags  
 @type array<string>

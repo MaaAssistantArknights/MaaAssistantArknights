@@ -371,11 +371,10 @@ v6.8.0 で非推奨になりました。代わりに `medicine_expire_days` を�
 :::  
 ::: field skip_robot  
 @type boolean
-@default true
+@default false
 @optional
-非推奨です。旧パラメータ互換のためにのみ残されています。  
-<br>
-`preserve_tags` が指定されておらず、この値が `true` の場合は `支援机械` を認識したときのみスキップします。`元素` は旧来の 1★ タグとしては扱われません。  
+@deprecated
+廃止済み。代わりに `preserve_tags = ["支援机械"]` を使用してください。
 :::
 ::: field preserve_tags  
 @type array<string>

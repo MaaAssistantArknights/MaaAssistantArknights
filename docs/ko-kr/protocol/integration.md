@@ -374,11 +374,10 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 :::  
 ::: field skip_robot  
 @type boolean
-@default true
+@default false
 @optional
-폐기 예정이며 구형 파라미터 호환용으로만 유지됩니다.  
-<br>
-`preserve_tags`가 없고 이 값이 `true`이면 `支援机械` 인식 시에만 건너뜁니다. `元素`는 더 이상 구형 1★ 태그로 취급하지 않습니다.  
+@deprecated
+폐기됨. 대신 `preserve_tags = ["支援机械"]`를 사용하세요.
 :::
 ::: field preserve_tags  
 @type array<string>
