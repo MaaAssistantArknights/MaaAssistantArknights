@@ -32,6 +32,21 @@ const std::vector<NodeType> ShopTargetTypes = {
     NodeType::Shop,
 };
 
+const std::vector<NodeType> ExitTargetTypes = {
+    NodeType::Final,
+    NodeType::BattleBoss,
+    NodeType::Evacuate,
+};
+
+// 鸣笛可落到未知的凶戾；狭路相逢不在落点范围内。
+const std::vector<NodeType> BattleTargetTypes = {
+    NodeType::BattleNormal, NodeType::BattleElite, NodeType::BattleBoss, NodeType::BattleSavage, NodeType::HideBattle,
+};
+
+const std::vector<NodeType> IncidentTargetTypes = {
+    NodeType::Incident,
+};
+
 bool same_edge(const Edge& lhs, const Edge& rhs) noexcept
 {
     return lhs.first == rhs.first && lhs.second == rhs.second;
@@ -391,6 +406,9 @@ bool NormalizedMap::merge(const MapObservationBatch& batch, std::string* error)
         if (observed.identity_revealed.has_value() && !preserve_door_identity) {
             node.identity_revealed = *observed.identity_revealed;
         }
+        if (observed.identity_from_template.has_value() && !preserve_door_identity) {
+            node.identity_from_template = *observed.identity_from_template;
+        }
         if (observed.marker_type.has_value()) {
             node.marker_type = *observed.marker_type;
         }
@@ -566,6 +584,7 @@ bool NormalizedMap::accept_preview(NodeId target, const MovePreview& preview, bo
     node.name = preview.displayed_name;
     node.identity_state = NodeIdentityState::Classified;
     node.identity_revealed = true;
+    node.identity_from_template = false;
     changed = node != *current;
     return m_snapshot.upsert_node(std::move(node));
 }
@@ -677,6 +696,11 @@ std::optional<NodeType> node_type_from_string(std::string_view value) noexcept
 bool node_type_allowed(const MovementSpec& movement, NodeType type) noexcept
 {
     return std::ranges::find(movement.target_types, type) != movement.target_types.end();
+}
+
+bool movement_can_land(const MovementSpec& movement, NodeType type, bool identity_from_template) noexcept
+{
+    return node_type_allowed(movement, type) && (movement.kind != MovementKind::M13 || !identity_from_template);
 }
 
 const std::vector<NodeType>& all_target_node_types() noexcept
@@ -808,6 +832,47 @@ const std::vector<MovementSpec>& movement_specs()
           false,
           false,
           { 3, 0, 0 } },
+        { MovementKind::M13,
+          "rogue_6_scrap_M_13",
+          "紧急逃生座椅",
+          MovementRange::FullMap,
+          ExitTargetTypes,
+          1,
+          1,
+          false,
+          false,
+          {} },
+        { MovementKind::M14,
+          "rogue_6_scrap_M_14",
+          "力反馈方向盘",
+          MovementRange::SameRowOrColumn,
+          AllTargetTypes,
+          1,
+          2,
+          false,
+          false,
+          {} },
+        { MovementKind::M15,
+          "rogue_6_scrap_M_15",
+          "鸣笛",
+          MovementRange::ManhattanTwo,
+          BattleTargetTypes,
+          1,
+          1,
+          false,
+          false,
+          {} },
+        { MovementKind::M16,
+          "rogue_6_scrap_M_16",
+          "坎诺特特快",
+          MovementRange::FullMap,
+          IncidentTargetTypes,
+          1,
+          1,
+          false,
+          false,
+          {},
+          NodeType::Shop },
     };
     return Specs;
 }
@@ -912,6 +977,8 @@ bool is_in_geometric_range(
         return (row_delta == 0 || column_delta == 0) && row_delta + column_delta <= 3;
     case MovementRange::FullMap:
         return true;
+    case MovementRange::SameRowOrColumn:
+        return row_delta == 0 || column_delta == 0;
     }
     return false;
 }
@@ -1035,7 +1102,7 @@ std::vector<MoveAction> enumerate_move_actions(const MapSnapshot& map, const Run
     }
 
     for (const auto& movement : movement_specs()) {
-        if (movement.kind == MovementKind::Walk) {
+        if (movement.kind == MovementKind::Walk || movement.landing_type_after_move.has_value()) {
             continue;
         }
         const auto charge = state.resources.movement_charges.find(movement.kind);
@@ -1050,7 +1117,8 @@ std::vector<MoveAction> enumerate_move_actions(const MapSnapshot& map, const Run
             const bool targetable = target_type == NodeType::Empty
                                         ? effective_progress(node, state) != NodeProgress::Removed
                                         : is_targetable(node, state);
-            if (id == state.current_node || !targetable || !node_type_allowed(movement, target_type) ||
+            if (id == state.current_node || !targetable ||
+                !movement_can_land(movement, target_type, node.identity_from_template) ||
                 !is_in_geometric_range(map, state.current_node, id, movement, GraphLayer::Confirmed)) {
                 continue;
             }
