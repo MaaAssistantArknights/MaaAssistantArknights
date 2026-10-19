@@ -1308,6 +1308,7 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 :::  
 ::: field loop_times  
 @type number
+@default 1
 @optional
 ループ実行回数。  
 :::  

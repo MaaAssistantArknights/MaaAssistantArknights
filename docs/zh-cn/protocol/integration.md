@@ -1308,6 +1308,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::: field loop_times  
 @type number
+@default 1
 @optional
 循环执行次数。  
 :::  

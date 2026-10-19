@@ -1308,6 +1308,7 @@ Filename and path of the task JSON, supporting absolute/relative paths. Editing 
 :::  
 ::: field loop_times  
 @type number
+@default 1
 @optional
 Number of times to loop execution.  
 :::  

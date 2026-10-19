@@ -1309,6 +1309,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 :::  
 ::: field loop_times  
 @type number
+@default 1
 @optional
 循環執行次數。  
 :::  
