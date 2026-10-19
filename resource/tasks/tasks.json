@@ -1776,13 +1776,6 @@
         "roi": [0, 0, 180, 80],
         "next": ["Stop"]
     },
-    "ActivitiesEarnRewards": {
-        "template": "ActivitiesEarnRewards.png",
-        "action": "ClickRect",
-        "roi": [590, 40, 130, 100],
-        "postDelay": 1500,
-        "specificRect": [605, 605, 70, 70]
-    },
     "MiningActivitiesBegin": {
         "algorithm": "JustReturn",
         "sub": ["AwardExpandCheckFlow"],
@@ -1814,8 +1807,8 @@
         "postDelay": 6000
     },
     "MiningActivitiesEarnRewards": {
-        "baseTask": "ActivitiesEarnRewards",
-        "template": "ActivitiesEarnRewards.png",
+        "baseTask": "CreditShop-Bought",
+        "template": "CreditShop-Bought.png",
         "next": ["#self", "MiningActivitiesReturn"]
     },
     "MiningActivitiesReturn": {
@@ -1886,8 +1879,8 @@
         "next": ["OrundumActivitiesEarnRewards"]
     },
     "OrundumActivitiesEarnRewards": {
-        "baseTask": "ActivitiesEarnRewards",
-        "template": "ActivitiesEarnRewards.png",
+        "baseTask": "CreditShop-Bought",
+        "template": "CreditShop-Bought.png",
         "next": ["#self", "OrundumActivitiesReturn"]
     },
     "OrundumActivitiesReturn": {
@@ -2026,8 +2019,8 @@
         "next": ["SpecialAccessActivitiesEarnRewards"]
     },
     "SpecialAccessActivitiesEarnRewards": {
-        "baseTask": "ActivitiesEarnRewards",
-        "template": "ActivitiesEarnRewards.png",
+        "baseTask": "CreditShop-Bought",
+        "template": "CreditShop-Bought.png",
         "next": ["#self", "SpecialAccessActivitiesReturn"]
     },
     "SpecialAccessActivitiesReturn": {
