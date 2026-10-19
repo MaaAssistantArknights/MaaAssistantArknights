@@ -14,7 +14,6 @@ namespace asst::blackflow
 {
 namespace
 {
-constexpr std::size_t MovementKindCount = 13;
 constexpr std::size_t NodeTypeCount = 21;
 
 std::size_t movement_index(MovementKind movement) noexcept
@@ -44,6 +43,8 @@ bool geometry_matches(const GridPosition& source, const GridPosition& target, Mo
         return (row_delta == 0 || column_delta == 0) && row_delta + column_delta <= 3;
     case MovementRange::FullMap:
         return true;
+    case MovementRange::SameRowOrColumn:
+        return row_delta == 0 || column_delta == 0;
     }
     return false;
 }
@@ -137,6 +138,7 @@ bool BlackFlowCompactStateSpace::initialize(
                 node->traversal,
                 node->identity_state,
                 std::nullopt,
+                node->identity_from_template,
             });
         const PlannerNodeMask node_mask = PlannerNodeMask { 1 } << index;
         const std::size_t type_index = node_type_index(node->type);
@@ -543,7 +545,7 @@ std::optional<std::vector<CompactMoveAction>>
     }
 
     for (const MovementSpec& movement : movement_specs()) {
-        if (movement.kind == MovementKind::Walk) {
+        if (movement.kind == MovementKind::Walk || movement.landing_type_after_move.has_value()) {
             continue;
         }
         const int charges = source.movement_charges[movement_index(movement.kind)];
@@ -557,7 +559,8 @@ std::optional<std::vector<CompactMoveAction>>
             const bool targetable = target_type == NodeType::Empty
                                         ? effective_progress(source, target) != NodeProgress::Removed
                                         : targetable_for_walk(source, target);
-            if (!targetable || !node_type_allowed(movement, target_type)) {
+            if (!targetable ||
+                !movement_can_land(movement, target_type, m_nodes[target].identity_from_template)) {
                 continue;
             }
             targets.emplace_back(target);

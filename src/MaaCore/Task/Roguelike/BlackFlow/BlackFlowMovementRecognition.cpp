@@ -30,6 +30,10 @@ std::optional<MovementKind> recognize_loaded_movement(const cv::Mat& image)
         LoadedTask { MovementKind::M10, "BlackFlow@Roguelike@MovementLoaded-M10" },
         LoadedTask { MovementKind::M11, "BlackFlow@Roguelike@MovementLoaded-M11" },
         // LoadedTask { MovementKind::M12, "BlackFlow@Roguelike@MovementLoaded-M12" },
+        LoadedTask { MovementKind::M13, "BlackFlow@Roguelike@MovementLoaded-M13" },
+        LoadedTask { MovementKind::M14, "BlackFlow@Roguelike@MovementLoaded-M14" },
+        LoadedTask { MovementKind::M15, "BlackFlow@Roguelike@MovementLoaded-M15" },
+        LoadedTask { MovementKind::M16, "BlackFlow@Roguelike@MovementLoaded-M16" },
     };
 
     std::optional<MovementKind> best;

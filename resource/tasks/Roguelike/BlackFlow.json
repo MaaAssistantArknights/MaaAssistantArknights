@@ -1129,6 +1129,10 @@
             "坎诺特的触须",
             "结构性原理",
             "简易遥控器",
+            "紧急逃生座椅",
+            "力反馈方向盘",
+            "鸣笛",
+            "坎诺特特快",
             "装载中"
         ],
         "fullMatch": true
@@ -1194,6 +1198,22 @@
         "template": "BlackFlow@Roguelike@Movement-M11.png",
         "roi": [1162, 88, 94, 94]
     },
+    "BlackFlow@Roguelike@MovementLoaded-M13": {
+        "template": "BlackFlow@Roguelike@Movement-M13.png",
+        "roi": [1162, 88, 94, 94]
+    },
+    "BlackFlow@Roguelike@MovementLoaded-M14": {
+        "template": "BlackFlow@Roguelike@Movement-M14.png",
+        "roi": [1162, 88, 94, 94]
+    },
+    "BlackFlow@Roguelike@MovementLoaded-M15": {
+        "template": "BlackFlow@Roguelike@Movement-M15.png",
+        "roi": [1162, 88, 94, 94]
+    },
+    "BlackFlow@Roguelike@MovementLoaded-M16": {
+        "template": "BlackFlow@Roguelike@Movement-M16.png",
+        "roi": [1162, 88, 94, 94]
+    },
     "BlackFlow@Roguelike@MovementLoaded-Walk": {
         "template": "BlackFlow@Roguelike@Movement-Walk.png",
         "roi": [1162, 88, 94, 94]
@@ -1238,6 +1258,10 @@
             "坎诺特的触须",
             "结构性原理",
             "简易遥控器",
+            "紧急逃生座椅",
+            "力反馈方向盘",
+            "鸣笛",
+            "坎诺特特快",
             "徒步跋涉",
             "装载中",
             "剩余1次",

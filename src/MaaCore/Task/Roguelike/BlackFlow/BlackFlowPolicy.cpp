@@ -423,9 +423,11 @@ ResourceRegistry::ResourceRegistry()
     register_resource("sellable_scraps", [](const RunState& state) { return state.resources.sellable_scraps; });
     register_resource("white_model_bird", [](const RunState& state) { return state.resources.white_model_birds; });
     register_resource("painted_liberi", [](const RunState& state) { return state.resources.painted_liberi ? 1 : 0; });
-    // 跨层保留的全图移动。它服务的是 ｢留给后面的楼层｣ 这类目标，与落点无关，因此不筛目标类型。
+    // 留给后续楼层的全图移动；紧急逃生座椅仅用于出口，不计入这项通用预留。
+    // 会改变落点类型的加工品（坎诺特特快）不参与规划，也就不算作能留给后面楼层的移动。
     register_movement_group("persistent_full_map_movement", [](const MovementSpec& spec) {
-        return spec.range == MovementRange::FullMap && !spec.expires_on_floor_end;
+        return spec.range == MovementRange::FullMap && !spec.expires_on_floor_end && spec.kind != MovementKind::M13 &&
+               !spec.landing_type_after_move.has_value();
     });
 
     // ｢留一次移动给某类节点｣ 是策略矩阵里反复出现的形状：襁褓动物留给秘境行商、结局策略留给

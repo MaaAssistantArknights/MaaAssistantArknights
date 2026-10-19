@@ -27,7 +27,7 @@ using PlannerNodeMask = std::uint64_t;
 struct PlannerState
 {
     NodeId node = InvalidNodeId;
-    std::array<std::uint8_t, 13> movement_charges {};
+    std::array<std::uint8_t, MovementKindCount> movement_charges {};
     PlannerNodeMask completed_nodes = 0;
     PlannerNodeMask opened_blockers = 0;
     PlannerNodeMask consumed_lights = 0;
