@@ -147,6 +147,14 @@
             "display": "[Adb] -s [AdbSerial] shell \"dumpsys window displays | awk '/Display: mDisplayId=[^0][^ ]*/{getline; print}' | tail -n1 | grep -o -E cur=+[^\\ ]+ | grep -o -E [0-9]+\""
         },
         {
+            "configName": "AndrowsMac",
+            "baseConfig": "Androws",
+            "displayId": "[Adb] -s [AdbSerial] shell \"dumpsys activity activities | sed -n '/^Display #/h; s/$/ /; /packageName=[PackageName][[:space:]]/{g;s/[^0-9]//g;s/^/mDisplayId:/;p;}' | head -n 1\"",
+            "eventId": "",
+            "pressEsc": "[Adb] -s [AdbSerial] shell input -d [DisplayId] keyevent 111",
+            "input": "[Adb] -s [AdbSerial] shell input -d [DisplayId] text [text]"
+        },
+        {
             "configName": "CompatMac",
             "baseConfig": "Compatible",
             "ncAddress": "[Adb] -s [AdbSerial] shell \"cat /proc/net/arp | grep : | sort\"",
