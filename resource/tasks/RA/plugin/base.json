@@ -117,8 +117,8 @@
         "next": ["RA@Store@ClickItem", "RA@Store@Swipe"]
     },
     "RA@Store@PurchasedConfirm": {
-        "baseTask": "CreditShop-Bought",
-        "template": "CreditShop-Bought.png",
+        "baseTask": "GainItem",
+        "template": "GainItem.png",
         "next": ["RA@Store@PurchasedConfirm", "RA@Store@ClickItem", "RA@Store@Swipe"]
     },
     "RA@Store@Swipe": {

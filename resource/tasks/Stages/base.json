@@ -89,8 +89,8 @@
         "next": ["SS@Store@ClickItem", "SS@Store@Swipe"]
     },
     "SS@Store@PurchasedConfirm": {
-        "baseTask": "CreditShop-Bought",
-        "template": "CreditShop-Bought.png",
+        "baseTask": "GainItem",
+        "template": "GainItem.png",
         "next": ["SS@Store@PurchasedConfirm", "SS@Store@ClickItem", "SS@Store@Swipe"]
     },
     "SS@Store@Swipe": {

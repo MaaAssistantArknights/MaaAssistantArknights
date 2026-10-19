@@ -117,7 +117,7 @@ ClueVacancyNo6.png
 ClueVacancyNo7.png
 ClusCanBeSent.png
 CreditPoint.png
-CreditShop-Bought.png
+GainItem.png
 DepotEnterSiege.png
 DialogueLog.png
 DroneAssistMfg.png
@@ -264,7 +264,6 @@ OperSelected.png
 OrundumActivitiesClick.png
 OrundumActivitiesClickBazaar.png
 OrundumActivitiesClickParty.png
-OrundumActivitiesEarnRewards.png
 Phantom@Roguelike@CloseCollection.png
 Phantom@Roguelike@CloseEvent.png
 Phantom@Roguelike@CommsCompleted.png

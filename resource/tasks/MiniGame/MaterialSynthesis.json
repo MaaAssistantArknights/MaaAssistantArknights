@@ -100,8 +100,8 @@
         "next": ["MiniGame@MaterialSynthesis@Obtain"]
     },
     "MiniGame@MaterialSynthesis@Obtain": {
-        "baseTask": "CreditShop-Bought",
-        "template": "CreditShop-Bought.png",
+        "baseTask": "GainItem",
+        "template": "GainItem.png",
         "maxTimes": 20,
         "next": ["MiniGame@MaterialSynthesis@Workshop"],
         "preDelay": 1200,
