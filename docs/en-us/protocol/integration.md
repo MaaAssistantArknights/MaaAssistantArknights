@@ -1568,7 +1568,6 @@ Whether to enable this task.
 :::  
 ::: field type  
 @type string
-@default copilot
 @required
 Currently only supports `"copilot"`.  
 :::  

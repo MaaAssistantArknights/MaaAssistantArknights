@@ -1569,7 +1569,6 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 :::  
 ::: field type  
 @type string
-@default copilot
 @required
 현재 `"copilot"`만 지원  
 :::  

@@ -1567,7 +1567,6 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::: field type  
 @type string
-@default copilot
 @required
 目前仅支持 `"copilot"`。  
 :::  

@@ -1567,7 +1567,6 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 :::  
 ::: field type  
 @type string
-@default copilot
 @required
 現在は `"copilot"` のみ対応。  
 :::  
