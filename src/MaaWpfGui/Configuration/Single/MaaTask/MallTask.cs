@@ -14,6 +14,7 @@
 #nullable enable
 using System;
 using System.Globalization;
+using System.Text.Json.Serialization;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using static MaaWpfGui.Main.AsstProxy;
@@ -23,7 +24,7 @@ namespace MaaWpfGui.Configuration.Single.MaaTask;
 /// <summary>
 /// 信用购物任务
 /// </summary>
-public class MallTask : BaseTask
+public class MallTask : BaseTask, IJsonOnDeserialized
 {
     public MallTask() => TaskType = TaskType.Mall;
 
@@ -97,16 +98,10 @@ public class MallTask : BaseTask
     /// </summary>
     public bool MonthlyCard { get; set; }
 
-    private int _monthlyCardRemindDays = 7;
-
     /// <summary>
-    /// Gets or sets 月卡剩余天数不高于该值时提醒。反序列化到手改配置里的越界值（0/负数/超大）时回落到默认 7，避免提醒永不触发或每次运行都触发
+    /// Gets or sets 月卡剩余天数不高于该值时提醒。仅 7/5/3/1 有意义（与 UI 下拉一致），其它值在反序列化后归一化为默认 7
     /// </summary>
-    public int MonthlyCardRemindDays
-    {
-        get => _monthlyCardRemindDays;
-        set => _monthlyCardRemindDays = value is >= 1 and <= 30 ? value : 7;
-    }
+    public int MonthlyCardRemindDays { get; set; } = 7;
 
     /// <summary>
     /// Gets or sets 上次月卡到期提醒的时间（同一天不重复提醒）
@@ -123,15 +118,21 @@ public class MallTask : BaseTask
     /// </summary>
     public int MonthlyCardLastDaysLeft { get; set; } = -1;
 
+    public void OnDeserialized()
+    {
+        MonthlyCardRemindDays = MonthlyCardRemindDays is 7 or 5 or 3 or 1 ? MonthlyCardRemindDays : 7;
+    }
+
     /// <summary>
     /// 今天是否需要执行月卡检查：距可能触发提醒尚有富余天数则跳过（月卡 30 天一周期，无需每天检查）
     /// </summary>
     /// <returns>需要检查返回 true；按上次读数判定尚未到重查日返回 false。</returns>
     public bool IsMonthlyCardCheckDue()
     {
-        if (MonthlyCardLastDaysLeft < 0)
+        // 越界持久化值（手改配置等）不可信，视为无基线：读数写入侧只接受 0~30，这里防止绕过写入侧的异常值把下次检查推迟到提醒窗口之外
+        if (MonthlyCardLastDaysLeft is < 0 or > 30)
         {
-            return true; // 尚未读到过读数，先查一次建立基线
+            return true;
         }
 
         try

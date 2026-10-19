@@ -100,24 +100,24 @@
                 <CheckBox
                     MaxWidth="203"
                     Block.TextAlignment="Left"
-                    IsChecked="{Binding ReceiveMonthlyCard}">
-                    <TextBlock
+                    IsChecked="{Binding MonthlyCardRemind}">
+                    <controls:TextBlock
                         Block.TextAlignment="Left"
-                        Text="{DynamicResource ReceiveMonthlyCard}"
+                        Text="{DynamicResource MonthlyCardRemind}"
                         TextWrapping="Wrap" />
                 </CheckBox>
-                <controls:TooltipBlock TooltipText="{DynamicResource ReceiveMonthlyCardTip}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource MonthlyCardRemindTip}" />
             </StackPanel>
             <StackPanel
                 Margin="0,0,0,5"
                 Orientation="Horizontal"
-                Visibility="{c:Binding ReceiveMonthlyCard}">
+                Visibility="{c:Binding MonthlyCardRemind}">
                 <controls:TextBlock
                     Margin="2.5,0,7.5,0"
                     Opacity="{c:Binding 'Run.Idle and Run.Inited ? 1 : 0.5',
                                         Source={x:Static helper:Instances.TaskQueueViewModel}}"
                     Text="└" />
-                <TextBlock
+                <controls:TextBlock
                     VerticalAlignment="Center"
                     Opacity="{c:Binding 'Run.Idle and Run.Inited ? 1 : 0.5',
                                         Source={x:Static helper:Instances.TaskQueueViewModel}}"
@@ -125,8 +125,10 @@
                 <ComboBox
                     Margin="6,0,0,0"
                     HorizontalAlignment="Left"
+                    DisplayMemberPath="Display"
                     ItemsSource="{Binding MonthlyCardRemindDaysList}"
-                    SelectedItem="{Binding MonthlyCardRemindDays}" />
+                    SelectedValue="{Binding MonthlyCardRemindDays}"
+                    SelectedValuePath="Value" />
             </StackPanel>
 
             <TextBlock

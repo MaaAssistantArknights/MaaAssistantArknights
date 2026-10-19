@@ -19,7 +19,6 @@ using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
-using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Utilities.ValueType;
@@ -141,7 +140,7 @@ public class MallTaskUserControlModel : TaskSettingsViewModel, MallTaskUserContr
     /// <summary>
     /// Gets or sets a value indicating whether to check monthly card days left.
     /// </summary>
-    public bool ReceiveMonthlyCard
+    public bool MonthlyCardRemind
     {
         get => GetTaskConfig<MallTask>().MonthlyCard;
         set => SetTaskConfig<MallTask>(t => t.MonthlyCard == value, t => t.MonthlyCard = value);
@@ -156,7 +155,8 @@ public class MallTaskUserControlModel : TaskSettingsViewModel, MallTaskUserContr
         set => SetTaskConfig<MallTask>(t => t.MonthlyCardRemindDays == value, t => t.MonthlyCardRemindDays = value);
     }
 
-    public static int[] MonthlyCardRemindDaysList { get; } = [7, 5, 3, 1];
+    public static LocalizedObservableList<int> MonthlyCardRemindDaysList { get; } =
+        new((7, "MonthlyCardRemindDaysOption7"), (5, "MonthlyCardRemindDaysOption5"), (3, "MonthlyCardRemindDaysOption3"), (1, "MonthlyCardRemindDaysOption1"));
 
     /// <summary>
     /// Gets or sets the priority item list of credit shop.
