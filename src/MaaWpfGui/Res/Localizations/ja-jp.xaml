@@ -2004,7 +2004,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="MonthlyCardExpiringTitle">月パスの期限が近づいています</system:String>
     <system:String x:Key="MonthlyCardExpiringContent">月パスの残り日数は {0} 日です。更新をお忘れなく</system:String>
     <system:String x:Key="MonthlyCardRemind">月パス期限リマインダー</system:String>
-    <system:String x:Key="MonthlyCardRemindTip">クレジット購入後に購買センターのパックページで月パスの残り日数を確認し、期限が近づいたら通知します（リマインド期間中は毎日1回チェック・通知し、それ以外は自動スキップ）。簡体字クライアント（公式/B服）のみ有効</system:String>
+    <system:String x:Key="MonthlyCardRemindTip">クレジット購入タスク実行時に購買センターのパックページで月パスの残り日数を確認し、期限が近づいたら通知します（リマインド期間中は毎日1回チェック・通知し、それ以外は自動スキップ）。簡体字クライアント（公式/B服）のみ有効</system:String>
     <system:String x:Key="MonthlyCardRemindDaysOption7">7 日</system:String>
     <system:String x:Key="MonthlyCardRemindDaysOption5">5 日</system:String>
     <system:String x:Key="MonthlyCardRemindDaysOption3">3 日</system:String>
