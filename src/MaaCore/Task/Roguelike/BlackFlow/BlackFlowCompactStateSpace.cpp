@@ -559,8 +559,7 @@ std::optional<std::vector<CompactMoveAction>>
             const bool targetable = target_type == NodeType::Empty
                                         ? effective_progress(source, target) != NodeProgress::Removed
                                         : targetable_for_walk(source, target);
-            if (!targetable ||
-                !movement_can_land(movement, target_type, m_nodes[target].identity_from_template)) {
+            if (!targetable || !movement_can_land(movement, target_type, m_nodes[target].identity_from_template)) {
                 continue;
             }
             targets.emplace_back(target);
