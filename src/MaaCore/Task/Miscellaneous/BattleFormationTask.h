@@ -118,6 +118,8 @@ protected:
     bool add_formation(battle::Role role, const std::vector<OperGroup*>& oper_group);
     // 追加附加干员（按部署费用等小分类）
     bool add_additional();
+    // 仅有助战干员时随机补入一名自有干员
+    bool add_random_operator();
     // 补充刷信赖的干员，从最小的开始
     bool add_trust_operators();
     // 选择当前页中的干员, return 是否继续翻页

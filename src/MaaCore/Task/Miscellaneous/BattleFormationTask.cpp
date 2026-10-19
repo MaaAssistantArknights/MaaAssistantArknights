@@ -1,5 +1,6 @@
 #include "BattleFormationTask.h"
 
+#include <random>
 #include <ranges>
 #include <set>
 
@@ -192,6 +193,11 @@ bool asst::BattleFormationTask::_run()
         }
     }
 
+    // 助战不能单独出战，确认编队前至少补入一名自有干员。
+    if (m_used_support_unit && m_opers_in_formation->size() == 1 && !add_random_operator()) {
+        return false;
+    }
+
     // add_additional();
     if (m_add_trust) {
         add_trust_operators();
@@ -373,6 +379,54 @@ bool asst::BattleFormationTask::add_additional()
     }
 
     return true;
+}
+
+bool asst::BattleFormationTask::add_random_operator()
+{
+    LogTraceFunction;
+
+    if (need_exit() || !click_role_table(battle::Role::Unknown)) {
+        return false;
+    }
+    swipe_to_the_left();
+
+    static std::default_random_engine rand_engine(std::random_device {}());
+    for (int retry = 0; retry < 3 && !need_exit(); ++retry) {
+        auto candidates = analyzer_opers(ctrler()->get_image());
+        std::erase_if(candidates, [&](const QuickFormationOper& oper) {
+            return oper.is_selected || std::ranges::any_of(*m_opers_in_formation, [&](const auto& pair) {
+                       return pair.first.name == oper.text;
+                   });
+        });
+        if (candidates.empty()) {
+            swipe_page();
+            continue;
+        }
+
+        std::uniform_int_distribution<size_t> rand_index(0, candidates.size() - 1);
+        const auto& oper = candidates[rand_index(rand_engine)];
+        ctrler()->click(oper.flag_rect);
+        sleep(Task.get("BattleQuickFormationOCR")->post_delay);
+
+        const auto selected_opers = analyzer_opers(ctrler()->get_image());
+        if (!std::ranges::any_of(selected_opers, [&](const QuickFormationOper& selected) {
+                return selected.is_selected && selected.role == oper.role && selected.text == oper.text;
+            })) {
+            LogError << __FUNCTION__ << "| Failed to select a random owned operator";
+            return false;
+        }
+
+        m_opers_in_formation->emplace(battle::OperNameTag { oper.role, oper.text }, oper.text);
+        auto info = basic_info_with_what("BattleFormationSelected");
+        info["details"]["selected"] = oper.text;
+        info["details"]["group_name"] = oper.text;
+        callback(AsstMsg::SubTaskExtraInfo, info);
+        LogInfo << __FUNCTION__ << "| Added owned operator for support-only formation:" << oper.text;
+        return true;
+    }
+
+    LogError << __FUNCTION__ << "| No owned operator available for support-only formation";
+    return false;
 }
 
 bool asst::BattleFormationTask::add_trust_operators()
