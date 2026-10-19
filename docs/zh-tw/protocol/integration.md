@@ -758,7 +758,10 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @optional
 領取五週年贈送的月卡獎勵。  
 :::  
-::: field name="signinevent" type="boolean" optional default="false"  
+::: field signinevent
+@type boolean
+@optional
+@default false
 領取限時簽到活動獎勵（僅支援常見橫向版型）。  
 :::  
 ::::
