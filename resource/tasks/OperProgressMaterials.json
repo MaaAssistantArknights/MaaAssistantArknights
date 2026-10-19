@@ -537,5 +537,67 @@
         "specificRect": [1054, 618, 131, 47],
         "postDelay": 800,
         "next": ["OperProgress@MfgPage"]
+    },
+    "OperProgress@MfgRoom": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [416, 16, 224, 48],
+        "Doc": "读取制造站页眉，由 C++ 合并检测文本并严格提取唯一 B101 至 B303 房间标识；不替换数字"
+    },
+    "OperProgress@MfgPrepareRestore": {
+        "algorithm": "JustReturn",
+        "next": [
+            "OperProgress@MfgCancelFinalConfirm",
+            "OperProgress@MfgCancelPreview",
+            "OperProgress@MfgRestoreRecipeList",
+            "OperProgress@MfgPage"
+        ],
+        "Doc": "恢复前依次取消全屏确认、小型产品预览，或从已识别的芯片配方列表返回；不执行产品确认，C++ 随后核对原工厂"
+    },
+    "OperProgress@MfgCancelPreview": {
+        "baseTask": "ConfirmProductChange",
+        "template": "ReplenishToMaxConfirm.png",
+        "templThreshold": 0.95,
+        "cache": false,
+        "action": "ClickSelf",
+        "rectMove": [-72, 22, 32, 32],
+        "postDelay": 500,
+        "next": ["OperProgress@MfgPrepareRestore#next"],
+        "Doc": "识别小型执行更改预览的蓝色确认按钮，点击左侧取消按钮；不处理全屏产品确认",
+        "maxTimes": 2,
+        "exceededNext": ["OperProgress@MfgPage"]
+    },
+    "OperProgress@MfgCancelFinalConfirm": {
+        "baseTask": "ProductFinalConfirm",
+        "template": "SSSSettlementConfirm.png",
+        "templThreshold": 0.95,
+        "cache": false,
+        "action": "ClickSelf",
+        "rectMove": [-374, 16, 32, 32],
+        "postDelay": 500,
+        "maxTimes": 2,
+        "next": ["OperProgress@MfgPrepareRestore#next"],
+        "exceededNext": ["OperProgress@MfgPage"],
+        "Doc": "识别全屏更改配方确认框右侧确认图标，只点击左侧取消，不更改产线"
+    },
+    "OperProgress@MfgRestoreRecipeList": {
+        "baseTask": "ChooseChipTabSelected",
+        "template": "ChooseChipTabSelected.png",
+        "cache": false,
+        "action": "DoNothing",
+        "maxTimes": 1,
+        "next": ["OperProgress@MfgRestoreRecipeReturn"],
+        "exceededNext": ["OperProgress@MfgPage"],
+        "Doc": "仅在已识别芯片配方列表时允许返回一次，不泛用全局返回导航"
+    },
+    "OperProgress@MfgRestoreRecipeReturn": {
+        "baseTask": "Return",
+        "template": "Return.png",
+        "cache": false,
+        "action": "ClickSelf",
+        "postDelay": 600,
+        "maxTimes": 1,
+        "next": ["OperProgress@MfgPrepareRestore#next"],
+        "exceededNext": ["OperProgress@MfgPage"]
     }
 }

@@ -369,6 +369,12 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         }
         switch (msg.What)
         {
+            case "OperProgressFactoryRestorePending":
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetStringFormat("OperProgress.FactoryRestorePending", msg.Details?.Value<string>("factory") ?? string.Empty),
+                    UiLogColor.Warning);
+                break;
+
             case "OperProgressMaterial":
                 {
                     var details = msg.Details;

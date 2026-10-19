@@ -7,6 +7,7 @@
 #include "Common/AsstBattleDef.h"
 #include "MaaUtils/NoWarningCVMat.hpp"
 #include "Task/Interface/OperProgressTask.h"
+#include "Task/OperProgress/OperProgressMaterials.h"
 
 namespace asst
 {
@@ -83,13 +84,16 @@ private:
     // task_type 区分精英化、技能升级与技能专精页面；material_index 对应页面上的材料槽 0-2。
     // 返回 FormulaLocked 表示该材料在快速跳转弹窗中的配方尚未解锁,调用方应据此跳过当前任务。
     ResultDetail synthesize_missing_material(OperProgressAction task_type, int material_index);
-    bool record_factory_state();
+    std::optional<oper_progress::FactoryProductionState> record_factory_state();
+    std::optional<std::string> factory_room(const cv::Mat& image);
+    bool restore_pending_factory();
+    bool has_pending_factory() const;
     bool manufacture_dual_chip(battle::Role role, const std::string& name, bool allow_farming = true);
     bool replenish_chip_packs(battle::Role role, int required, bool allow_farming, bool& farmed);
     bool farm_chip_packs(battle::Role role, int required, int owned);
     bool replenish_catalyst(battle::Role role, int required);
     std::optional<int> material_owned(battle::Role role, bool catalyst);
-    bool restore_factory_state();
+    bool restore_factory_state(const oper_progress::FactoryProductionState& factory);
     bool buy_catalyst(int count);
     std::optional<int> ocr_number(const std::string& task_name);
     std::optional<int> ocr_number(const cv::Mat& image, const std::string& task_name);

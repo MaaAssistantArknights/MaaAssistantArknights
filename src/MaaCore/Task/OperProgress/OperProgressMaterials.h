@@ -3,10 +3,57 @@
 #include <algorithm>
 #include <charconv>
 #include <optional>
+#include <string>
 #include <string_view>
 
 namespace asst::oper_progress
 {
+struct FactoryProductionState
+{
+    std::string device;
+    std::string room;
+    std::string product;
+
+    bool matches(std::string_view current_device, std::string_view current_room) const
+    {
+        return !device.empty() && !room.empty() && device == current_device && room == current_room;
+    }
+};
+
+inline std::optional<std::string> parse_factory_room(std::string_view text)
+{
+    std::optional<std::string> room;
+    for (size_t i = 0; i + 4 <= text.size(); ++i) {
+        const auto candidate = text.substr(i, 4);
+        if (candidate[0] != 'B' || candidate[1] < '1' || candidate[1] > '3' || candidate[2] != '0' ||
+            candidate[3] < '1' || candidate[3] > '3') {
+            continue;
+        }
+        // 拒绝多房间号及尾随数字，不把截断或串入其他页面的文字当成制造站编号。
+        if (room || (i + 4 < text.size() && text[i + 4] >= '0' && text[i + 4] <= '9')) {
+            return std::nullopt;
+        }
+        room = std::string(candidate);
+    }
+    return room;
+}
+
+template <typename Produce, typename Restore, typename Cancelled>
+bool manufacture_with_restore(Produce produce, Restore restore, Cancelled cancelled)
+{
+    if (cancelled()) {
+        return false;
+    }
+    const bool produced = produce();
+    // 用户停止时不得继续点击；调用方保留恢复记录，在下一次培养开始前处理。
+    if (cancelled()) {
+        return false;
+    }
+    // 生产/确认/收取失败也必须恢复，不能被 produced 的短路求值跳过。
+    const bool restored = restore();
+    return produced && restored && !cancelled();
+}
+
 inline std::optional<int> parse_material_number(std::string_view text)
 {
     const auto begin = text.find_first_not_of(" \t\r\n");

@@ -26,6 +26,7 @@
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
+#include "Vision/OCRer.h"
 #include "Vision/Oper/OperBoxImageAnalyzer.h"
 #include "Vision/Oper/OperFilesImageAnalyzer.h"
 #include "Vision/Oper/OperNameAnalyzer.h"
@@ -35,8 +36,10 @@
 namespace asst::oper_progress
 {
 constexpr int MaxOperatorPages = 20;
-// 制造站产线当前产品写入 Status 的键,RestoreFactoryState 读取后恢复原产品。
+// properties 在停止清理任务缓存后仍保留，待恢复记录只在确认恢复成功后清除。
 constexpr std::string_view FactoryProductStatusKey = "OperProgressFactoryProduct";
+constexpr std::string_view FactoryRoomStatusKey = "OperProgressFactoryRoom";
+constexpr std::string_view FactoryDeviceStatusKey = "OperProgressFactoryDevice";
 
 std::pair<std::string, std::string> chip_pack_source(battle::Role role)
 {
@@ -152,6 +155,9 @@ std::string role_task_name(asst::battle::Role role)
 
 bool asst::OperProgressProcessTask::_run()
 {
+    if (!restore_pending_factory()) {
+        return false;
+    }
     bool training_room_busy = false;
     for (size_t index = 0; index < m_plan.size() && !need_exit(); ++index) {
         const auto& target = m_plan[index];
@@ -176,6 +182,11 @@ bool asst::OperProgressProcessTask::_run()
         if (target.elite) {
             auto elite_ret = execute_elite(target.role, target.name, *target.elite);
             report_elite_result(target.role, target.name, elite_ret, *target.elite);
+        }
+        // 恢复失败时停留在制造站，不能继续其他培养动作并丢失恢复现场。
+        if (has_pending_factory()) {
+            report_summary();
+            return false;
         }
         if (target.skill_level) {
             auto main_ret = execute_skill(*target.skill_level);
@@ -1118,11 +1129,37 @@ asst::OperProgressProcessTask::ResultDetail
                : ResultDetail::ResourceInsufficient;
 }
 
-bool asst::OperProgressProcessTask::record_factory_state()
+std::optional<std::string> asst::OperProgressProcessTask::factory_room(const cv::Mat& image)
 {
-    // 制造站产线当前产品复用基建产品标志模板识别
-    // 识别结果写入 Status 供 RestoreFactoryState 恢复；识别失败时不得切换产线。
+    Matcher page(image);
+    page.set_task_info("OperProgress@MfgPage");
+    if (!page.analyze()) {
+        return std::nullopt;
+    }
+    OCRer room(image);
+    room.set_task_info("OperProgress@MfgRoom");
+    if (!room.analyze()) {
+        return std::nullopt;
+    }
+    std::string text;
+    for (const auto& result : room.get_result()) {
+        text += result.text + ' ';
+    }
+    return oper_progress::parse_factory_room(text);
+}
+
+std::optional<asst::oper_progress::FactoryProductionState> asst::OperProgressProcessTask::record_factory_state()
+{
+    if (has_pending_factory()) {
+        LogError << __FUNCTION__ << "factory recovery is still pending, refusing to overwrite original product";
+        return std::nullopt;
+    }
     const cv::Mat image = ctrler()->get_image();
+    const auto room = factory_room(image);
+    if (!room || ctrler()->get_uuid().empty()) {
+        LogError << __FUNCTION__ << "factory identity not recognized, refusing to switch production line";
+        return std::nullopt;
+    }
     BestMatcher analyzer(image);
     analyzer.set_task_info("OperProgress@RecordFactoryState");
     static const std::vector<std::pair<std::string, std::string>> product_flags = {
@@ -1137,17 +1174,16 @@ bool asst::OperProgressProcessTask::record_factory_state()
     if (!analyzer.analyze()) {
         LogError << __FUNCTION__ << "| factory product flag not recognized, refusing to switch production line";
         save_img(utils::path("debug") / utils::path("oper_progress"), false);
-        return false;
+        return std::nullopt;
     }
     const std::string& templ_name = analyzer.get_result().templ_info.name;
     for (const auto& [templ, product] : product_flags) {
         if (templ == templ_name) {
-            status()->set_str(std::string(oper_progress::FactoryProductStatusKey), product);
             LogInfo << __FUNCTION__ << "| factory product recorded" << product;
-            return true;
+            return oper_progress::FactoryProductionState { ctrler()->get_uuid(), *room, product };
         }
     }
-    return false;
+    return std::nullopt;
 }
 
 std::optional<int> asst::OperProgressProcessTask::ocr_number(const std::string& task_name)
@@ -1193,7 +1229,11 @@ bool
         return true;
     }
 
-    if (!run_task("OperProgress@Dualchip") || !run_task("OperProgress@DualchipJumpMfg") || !record_factory_state()) {
+    if (!run_task("OperProgress@Dualchip") || !run_task("OperProgress@DualchipJumpMfg") || need_exit()) {
+        return false;
+    }
+    const auto factory = record_factory_state();
+    if (!factory) {
         return false;
     }
     // 先停在芯片配方列表查看整批原料需求，有足够一份原料时点产品会直接离开列表。
@@ -1219,24 +1259,37 @@ bool
         return false;
     }
 
-    if (!run_task(product_task) || !run_task("OperProgress@MfgPage")) {
+    if (need_exit()) {
         return false;
     }
-    // 生产数量设为缺口：默认 1 次 + 制造站加 ×(缺口-1)
-    for (int i = 1; i < shortfall && !need_exit(); ++i) {
-        if (!run_task("ClickProductIncrease")) {
-            return false;
+    // 从首次选择产品开始保护所有退出路径；打开配方列表和补料本身不改变产线。
+    if (factory->product != "Chip") {
+        status()->set_properties(std::string(oper_progress::FactoryRoomStatusKey), factory->room);
+        status()->set_properties(std::string(oper_progress::FactoryDeviceStatusKey), factory->device);
+        status()->set_properties(std::string(oper_progress::FactoryProductStatusKey), factory->product);
+    }
+    const bool manufactured = oper_progress::manufacture_with_restore(
+        [&]() {
+            if (!run_task(product_task) || !run_task("OperProgress@MfgPage") || need_exit()) {
+                return false;
+            }
+            for (int i = 1; i < shortfall; ++i) {
+                if (need_exit() || !run_task("ClickProductIncrease")) {
+                    return false;
+                }
+            }
+            // ProcessTask 在停止时可能返回 true，不能据此认为确认或收取已经执行。
+            return !need_exit() && run_task("ConfirmProductChange") && !need_exit() && sleep(6000) &&
+                   run_task("OperProgress@MfgCollectChip") && !need_exit();
+        },
+        [&]() { return restore_pending_factory(); },
+        [&]() { return need_exit(); });
+    if (!manufactured) {
+        if (need_exit() && has_pending_factory()) {
+            auto info = basic_info_with_what("OperProgressFactoryRestorePending");
+            info["details"]["factory"] = factory->room;
+            callback(AsstMsg::SubTaskExtraInfo, info);
         }
-    }
-    if (!run_task("ConfirmProductChange")) {
-        return false;
-    }
-    sleep(6000); // 双芯片每枚生产一秒，最多四枚，额外等待界面刷新。
-    if (!run_task("OperProgress@MfgCollectChip")) {
-        return false;
-    }
-
-    if (!restore_factory_state()) {
         return false;
     }
 
@@ -1448,35 +1501,95 @@ bool asst::OperProgressProcessTask::replenish_catalyst(battle::Role role, int re
     return replenished && *replenished >= required;
 }
 
-bool asst::OperProgressProcessTask::restore_factory_state()
+bool asst::OperProgressProcessTask::has_pending_factory() const
 {
-    // 读取 record_factory_state 写入的产品名,复用基建换产品链恢复产线；
-    // 无记录或记录为芯片时无需恢复。
-    const auto product = status()->get_str(std::string(oper_progress::FactoryProductStatusKey));
-    if (!product) {
-        LogWarn << __FUNCTION__ << "| no factory product recorded, skip restoring";
+    const auto product = status()->get_properties(std::string(oper_progress::FactoryProductStatusKey));
+    return product && !product->empty();
+}
+
+bool asst::OperProgressProcessTask::restore_pending_factory()
+{
+    if (!has_pending_factory()) {
         return true;
     }
-    if (*product == "Chip") {
+    const oper_progress::FactoryProductionState factory {
+        status()->get_properties(std::string(oper_progress::FactoryDeviceStatusKey)).value_or(""),
+        status()->get_properties(std::string(oper_progress::FactoryRoomStatusKey)).value_or(""),
+        status()->get_properties(std::string(oper_progress::FactoryProductStatusKey)).value_or(""),
+    };
+    if (!need_exit() && restore_factory_state(factory) && !need_exit()) {
+        status()->set_properties(std::string(oper_progress::FactoryProductStatusKey), "");
+        status()->set_properties(std::string(oper_progress::FactoryRoomStatusKey), "");
+        status()->set_properties(std::string(oper_progress::FactoryDeviceStatusKey), "");
         return true;
     }
-    if (!run_task("ChooseProductList")) {
+    LogWarn << __FUNCTION__ << "factory restoration pending" << factory.room << factory.product;
+    auto info = basic_info_with_what("OperProgressFactoryRestorePending");
+    info["details"]["factory"] = factory.room;
+    callback(AsstMsg::SubTaskExtraInfo, info);
+    return false;
+}
+
+bool asst::OperProgressProcessTask::restore_factory_state(const oper_progress::FactoryProductionState& factory)
+{
+    if (factory.device.empty() || factory.device != ctrler()->get_uuid() ||
+        (factory.product != "BattleRecord" && factory.product != "PureGold" && factory.product != "OriginiumShard")) {
+        LogWarn << __FUNCTION__ << "invalid pending factory or device mismatch";
+        return false;
+    }
+    // 这里只取消未提交的确认/预览，不改变实际产线；弹窗关闭后再识别被遮挡的房间号。
+    if (need_exit() || !run_task("OperProgress@MfgPrepareRestore", 2) || need_exit()) {
+        return false;
+    }
+    const auto has_unconfirmed_change = [](const cv::Mat& image) {
+        for (const auto* task_name : { "ConfirmProductChange", "ProductFinalConfirm" }) {
+            Matcher unconfirmed(image);
+            unconfirmed.set_task_info(task_name);
+            if (unconfirmed.analyze()) {
+                return true;
+            }
+        }
+        return false;
+    };
+    const cv::Mat image = ctrler()->get_image();
+    const auto room = factory_room(image);
+    if (!room || !factory.matches(ctrler()->get_uuid(), *room) || has_unconfirmed_change(image)) {
+        LogWarn << __FUNCTION__ << "current factory does not match pending restoration or preview remains"
+                << factory.room;
+        return false;
+    }
+    // 选择产品尚未提交时，取消预览即可恢复，不必重设原生产计划。
+    Matcher current_product(image);
+    current_product.set_task_info("VerifyProductChangedTo" + factory.product);
+    if (current_product.analyze()) {
+        return !need_exit();
+    }
+    if (need_exit() || !run_task("ChooseProductList", 2) || need_exit()) {
         return false;
     }
     // 换产品任务以 next 互链：选分类后依次自动完成 选产品→设最多→确认变更→最终确认,
     // cpp 不得再单独调用链内步骤（面板关闭后模板必失配,会误判恢复失败）。
     bool selected = false;
-    if (*product == "BattleRecord") {
+    if (factory.product == "BattleRecord") {
         selected = run_task("ChooseBattleRecord");
     }
-    else if (*product == "PureGold") {
+    else if (factory.product == "PureGold") {
         selected = run_task("ChoosePureGoldTab");
     }
-    else if (*product == "OriginiumShard") {
+    else if (factory.product == "OriginiumShard") {
         selected = run_task("ChooseOriginiumShardTab");
     }
-    // 恢复完成后以详情页产品标志模板复核。
-    return selected && run_task("VerifyProductChangedTo" + *product);
+    if (!selected || need_exit() || !run_task("OperProgress@MfgPage", 2) || need_exit()) {
+        return false;
+    }
+    // 不能把停止时的 true 或尚未提交的预览图标当作恢复成功。
+    const cv::Mat restored_image = ctrler()->get_image();
+    if (has_unconfirmed_change(restored_image)) {
+        return false;
+    }
+    Matcher product(restored_image);
+    product.set_task_info("VerifyProductChangedTo" + factory.product);
+    return product.analyze() && !need_exit();
 }
 
 bool asst::OperProgressProcessTask::buy_catalyst(int count)
