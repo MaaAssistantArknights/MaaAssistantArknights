@@ -616,6 +616,27 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   :::
   ::::
 
+- `ShiftCompleted`  
+  基建设施换班完成（轮换模式下跳过换班后同样会发出），产物识别有效时发出。`details` 字段内容如下：
+
+  :::: field-group
+  ::: field product
+  @type string
+  @required
+  产物名。
+  :::
+  ::: field facility
+  @type string
+  @required
+  设施名。
+  :::
+  ::: field index
+  @type number
+  @required
+  设施序号。
+  :::
+  ::::
+
 - `StageInfo`  
   自动作战关卡信息。`details` 字段内容如下：
 
