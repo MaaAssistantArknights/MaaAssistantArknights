@@ -118,10 +118,12 @@ protected:
     bool add_formation(battle::Role role, const std::vector<OperGroup*>& oper_group);
     // 追加附加干员（按部署费用等小分类）
     bool add_additional();
+    // 为临时补入的干员生成不与作业或现有编队冲突的组名
+    std::string get_additional_group_name() const;
     // 仅有助战干员时随机补入一名自有干员
     bool add_random_operator();
     // 补充刷信赖的干员，从最小的开始
-    bool add_trust_operators();
+    bool add_trust_operators(bool& has_owned_operator);
     // 选择当前页中的干员, return 是否继续翻页
     bool select_opers_in_cur_page(const std::vector<OperGroup*>& groups);
     // 检查干员等级

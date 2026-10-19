@@ -62,7 +62,7 @@ bool asst::BattleFormationTask::_run()
     if (!parse_formation()) {
         return false;
     }
-    if (compare_formation()) { // 与上一个作业的编队进行对比，相同则跳过
+    if (compare_formation() && !m_formation.empty()) { // 空作业仍需处理指定或随机助战
         Log.info(__FUNCTION__, "| Formation is the same as last time, skip");
         for (auto& [name, _, __, opers] : m_formation | std::views::values | std::views::join) {
             const auto& pair_it =
@@ -193,25 +193,34 @@ bool asst::BattleFormationTask::_run()
         }
     }
 
-    // 助战不能单独出战，确认编队前至少补入一名自有干员。
-    if (m_used_support_unit && m_opers_in_formation->size() == 1 && !add_random_operator()) {
+    // 先完成所有助战选择，再回到快速编队，保留已选的自有干员。
+    if (!m_used_support_unit &&
+        (m_support_unit_usage == SupportUnitUsage::Specific || m_support_unit_usage == SupportUnitUsage::Random)) {
+        if (!confirm_selection()) {
+            return false;
+        }
+        auto support = m_support_unit_usage == SupportUnitUsage::Specific
+                           ? add_support_unit({ m_specific_support_unit })
+                           : add_support_unit();
+        if (support) {
+            m_used_support_unit = true;
+            m_opers_in_formation->emplace(*support, get_additional_group_name());
+        }
+        if (!ProcessTask(*this, { "Formation-EnterQuickFormation" }).set_retry_times(3).run()) {
+            return false;
+        }
+    }
+
+    bool has_owned_operator = m_opers_in_formation->size() > (m_used_support_unit ? 1U : 0U);
+    // 先按用户设置补信赖；随机补员仅兜底，不能占用信赖干员的名额。
+    if (m_add_trust) {
+        add_trust_operators(has_owned_operator);
+    }
+    if (m_used_support_unit && !has_owned_operator && !add_random_operator()) {
         return false;
     }
 
-    // add_additional();
-    if (m_add_trust) {
-        add_trust_operators();
-    }
-    confirm_selection();
-
-    if (m_support_unit_usage == SupportUnitUsage::Specific && !m_used_support_unit) { // 使用指定助战干员
-        m_used_support_unit = add_support_unit({ m_specific_support_unit }).has_value();
-    }
-    else if (m_support_unit_usage == SupportUnitUsage::Random && !m_used_support_unit) { // 使用随机助战干员
-        m_used_support_unit = add_support_unit().has_value();
-    }
-
-    return true;
+    return confirm_selection();
 }
 
 void asst::BattleFormationTask::formation_with_last_opers()
@@ -381,24 +390,63 @@ bool asst::BattleFormationTask::add_additional()
     return true;
 }
 
+std::string asst::BattleFormationTask::get_additional_group_name() const
+{
+    const auto& groups =
+        m_data_resource == DataResource::SSSCopilot ? SSSCopilot.get_data().groups : Copilot.get_data().groups;
+    std::string name = "__maa_additional_operator";
+    auto contains_name = [&](const auto& oper_groups) {
+        return std::ranges::any_of(oper_groups, [&](const OperGroup& group) { return group.name == name; });
+    };
+    // 作业组名可以是任意字符串，因此不能仅依赖固定前缀。
+    while (contains_name(groups) || (m_assigned_groups && contains_name(*m_assigned_groups)) ||
+           std::ranges::any_of(*m_opers_in_formation, [&](const auto& pair) { return pair.second == name; })) {
+        name += '_';
+    }
+    return name;
+}
+
 bool asst::BattleFormationTask::add_random_operator()
 {
     LogTraceFunction;
 
-    if (need_exit() || !click_role_table(battle::Role::Unknown)) {
+    // 切换职业再恢复全部，将列表重置到起点，避免固定次数的回滑遗漏前面的干员。
+    if (need_exit() || !click_role_table(battle::Role::Caster) || !click_role_table(battle::Role::Unknown)) {
         return false;
     }
-    swipe_to_the_left();
 
-    static std::default_random_engine rand_engine(std::random_device {}());
-    for (int retry = 0; retry < 3 && !need_exit(); ++retry) {
-        auto candidates = analyzer_opers(ctrler()->get_image());
+    std::default_random_engine rand_engine(std::random_device {}());
+    const Rect list_roi = Task.get("BattleQuickFormation-OperNameFlagBase")->roi;
+    cv::Mat previous_page;
+    int unchanged_pages = 0;
+    while (!need_exit()) {
+        const auto image = ctrler()->get_image();
+        auto candidates = analyzer_opers(image);
+        if (std::ranges::any_of(candidates, [](const QuickFormationOper& oper) { return oper.is_selected; })) {
+            return true; // 已有自有干员，无需再补员
+        }
         std::erase_if(candidates, [&](const QuickFormationOper& oper) {
             return oper.is_selected || std::ranges::any_of(*m_opers_in_formation, [&](const auto& pair) {
                        return pair.first.name == oper.text;
                    });
         });
         if (candidates.empty()) {
+            // OCR 无结果不代表列表结束；滑动后列表图像连续不变才认为到达末端。
+            if (!previous_page.empty()) {
+                Matcher matcher(image);
+                matcher.set_roi(list_roi);
+                matcher.set_templ(previous_page);
+                matcher.set_threshold(0.99);
+                if (matcher.analyze()) {
+                    if (++unchanged_pages >= 2) {
+                        break;
+                    }
+                }
+                else {
+                    unchanged_pages = 0;
+                }
+            }
+            previous_page = make_roi(image, list_roi).clone();
             swipe_page();
             continue;
         }
@@ -416,10 +464,11 @@ bool asst::BattleFormationTask::add_random_operator()
             return false;
         }
 
-        m_opers_in_formation->emplace(battle::OperNameTag { oper.role, oper.text }, oper.text);
+        const auto group_name = get_additional_group_name();
+        m_opers_in_formation->emplace(battle::OperNameTag { oper.role, oper.text }, group_name);
         auto info = basic_info_with_what("BattleFormationSelected");
         info["details"]["selected"] = oper.text;
-        info["details"]["group_name"] = oper.text;
+        info["details"]["group_name"] = group_name;
         callback(AsstMsg::SubTaskExtraInfo, info);
         LogInfo << __FUNCTION__ << "| Added owned operator for support-only formation:" << oper.text;
         return true;
@@ -429,7 +478,7 @@ bool asst::BattleFormationTask::add_random_operator()
     return false;
 }
 
-bool asst::BattleFormationTask::add_trust_operators()
+bool asst::BattleFormationTask::add_trust_operators(bool& has_owned_operator)
 {
     LogTraceFunction;
 
@@ -472,6 +521,7 @@ bool asst::BattleFormationTask::add_trust_operators()
             for (const auto& trust_icon : result) {
                 // 匹配完干员左下角信赖表，将roi偏移到整个干员标
                 ctrler()->click(trust_icon.rect.move({ 20, -225, 110, 250 }));
+                has_owned_operator = true;
                 --append_count;
                 if (append_count <= 0 || need_exit()) {
                     break;
