@@ -1984,6 +1984,31 @@
             "BlackFlow@Roguelike@Stages-ZoomOut"
         ]
     },
+    "BlackFlow@Roguelike@StageEnterBattleAgain": {
+        "Doc": [
+            "编队后返回地图，再次进入战斗时改用前往按钮的模板匹配，避免基任务的固定坐标点到按钮上方",
+            "BlackFlowReenter 前缀用于复用确认和收尾流程，仅调整成功与失败出口，不影响正常选点"
+        ],
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": ["BlackFlow@Roguelike@StartAction", "BlackFlowReenter@BlackFlow@Roguelike@MovePreviewConfirm"],
+        "onErrorNext": ["BlackFlow@Roguelike@RecoveryFailed"]
+    },
+    "BlackFlowReenter@BlackFlow@Roguelike@InventoryCleanupFailed": {
+        "next": ["BlackFlow@Roguelike@RecoveryFailed"]
+    },
+    "BlackFlowReenter@BlackFlow@Roguelike@InventoryCleanupRequired": {
+        "next": ["BlackFlow@Roguelike@RecoveryFailed"]
+    },
+    "BlackFlowReenter@BlackFlow@Roguelike@MovePreviewConfirmCompletedDone": {
+        "next": ["BlackFlow@Roguelike@StartAction"]
+    },
+    "BlackFlowReenter@BlackFlow@Roguelike@MovePreviewConfirmExceeded": {
+        "next": ["BlackFlow@Roguelike@RecoveryFailed"]
+    },
+    "BlackFlowReenter@BlackFlow@Roguelike@MovePreviewConfirmSucceeded": {
+        "next": ["BlackFlowReenter@BlackFlow@Roguelike@MovePreviewConfirmCompleted"]
+    },
     "BlackFlow@Roguelike@StartAction": {
         "template": "Roguelike@StartAction.png",
         "sub": ["BlackFlow@Roguelike@TemporaryOperatorCheck"],
