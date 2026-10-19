@@ -1,0 +1,26 @@
+{
+    "OperProgress@MfgChipPackJumpStageClick-Pioneer": {
+        "text": ["勢不可擋"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Warrior": {
+        "text": ["身先士卒"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Tank": {
+        "text": ["固若金湯"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Sniper": {
+        "text": ["摧枯拉朽"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Caster": {
+        "text": ["摧枯拉朽"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Medic": {
+        "text": ["固若金湯"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Support": {
+        "text": ["勢不可擋"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Special": {
+        "text": ["身先士卒"]
+    }
+}

@@ -14,6 +14,18 @@
         "src/MaaCore/Utils/Algorithm.hpp",
         "unit_test/MaaCore/AlgorithmTest.cpp"
       ]
+    },
+    {
+      "id": "maa-oper-progress-test",
+      "name": "Operator progress materials",
+      "buildTarget": "maa-oper-progress-test",
+      "ctestRegex": "^oper-progress::",
+      "paths": [
+        "src/MaaCore/Task/OperProgress/OperProgressMaterials.h",
+        "src/MaaCore/Task/OperProgress/OperProgressProcessTask.cpp",
+        "src/MaaCore/Task/Interface/OperProgressTask.cpp",
+        "unit_test/MaaCore/OperProgressMaterialsTest.cpp"
+      ]
     }
   ]
 }

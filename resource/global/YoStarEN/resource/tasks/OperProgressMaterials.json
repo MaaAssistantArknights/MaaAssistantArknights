@@ -1,0 +1,26 @@
+{
+    "OperProgress@MfgChipPackJumpStageClick-Pioneer": {
+        "text": ["Unstoppable Charge"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Warrior": {
+        "text": ["Fearless Protection"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Tank": {
+        "text": ["Solid Defense"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Sniper": {
+        "text": ["Fierce Attack"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Caster": {
+        "text": ["Fierce Attack"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Medic": {
+        "text": ["Solid Defense"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Support": {
+        "text": ["Unstoppable Charge"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Special": {
+        "text": ["Fearless Protection"]
+    }
+}

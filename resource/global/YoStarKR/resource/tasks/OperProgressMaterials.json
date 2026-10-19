@@ -1,0 +1,26 @@
+{
+    "OperProgress@MfgChipPackJumpStageClick-Pioneer": {
+        "text": ["질풍노도"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Warrior": {
+        "text": ["솔선수범"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Tank": {
+        "text": ["난공불락"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Sniper": {
+        "text": ["추풍낙엽"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Caster": {
+        "text": ["추풍낙엽"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Medic": {
+        "text": ["난공불락"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Support": {
+        "text": ["질풍노도"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Special": {
+        "text": ["솔선수범"]
+    }
+}

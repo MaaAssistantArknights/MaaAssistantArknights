@@ -26,6 +26,13 @@ public:
 
     void set_plan(std::vector<OperProgressTask::ProgressPlan> plan) { m_plan = std::move(plan); }
 
+    void set_material_options(bool auto_buy_chip_catalyst, int medicine, int medicine_expire_days)
+    {
+        m_auto_buy_chip_catalyst = auto_buy_chip_catalyst;
+        m_medicine = medicine;
+        m_medicine_expire_days = medicine_expire_days;
+    }
+
 protected:
     virtual bool _run() override;
 
@@ -77,7 +84,11 @@ private:
     // 返回 FormulaLocked 表示该材料在快速跳转弹窗中的配方尚未解锁,调用方应据此跳过当前任务。
     ResultDetail synthesize_missing_material(OperProgressAction task_type, int material_index);
     bool record_factory_state();
-    bool manufacture_dual_chip(battle::Role role, const std::string& name);
+    bool manufacture_dual_chip(battle::Role role, const std::string& name, bool allow_farming = true);
+    bool replenish_chip_packs(battle::Role role, int required, bool allow_farming, bool& farmed);
+    bool farm_chip_packs(battle::Role role, int required, int owned);
+    bool replenish_catalyst(battle::Role role, int required);
+    std::optional<int> material_owned(battle::Role role, bool catalyst);
     bool restore_factory_state();
     bool buy_catalyst(int count);
     std::optional<int> ocr_number(const std::string& task_name);
@@ -87,6 +98,9 @@ private:
 
     std::vector<OperProgressTask::ProgressPlan> m_plan;
     std::vector<OperProgressTask::ProgressPlan> m_plan_finish;
+    bool m_auto_buy_chip_catalyst = false;
+    int m_medicine = 0;
+    int m_medicine_expire_days = 0;
     // 首条目标已定位:任务开始时可能停在主页走完整入口链,之后换干员保证不去主页。
     bool m_entry_completed = false;
     int m_success = 0;

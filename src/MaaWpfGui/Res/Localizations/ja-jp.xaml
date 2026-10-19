@@ -1006,6 +1006,11 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="Ignore">無視</system:String>
     <system:String x:Key="OperProgress">オペレーター育成</system:String>
+    <system:String x:Key="OperProgressAutoBuyChipCatalyst">購買資格証でSoC強化剤を自動購入</system:String>
+    <system:String x:Key="OperProgressAutoBuyChipCatalystTip">購買資格証を消費し、現在の育成目標に不足している分のSoC強化剤だけを購入します。</system:String>
+    <system:String x:Key="OperProgressMedicineTip" xml:space="preserve">今回のオペレーター育成タスク全体で使用する理性回復剤の上限です。&#10;設定 ｢{key=UseExpiringMedicine}｣ で使用する期限間近の回復剤は、この上限に含まれません。&#10;純正源石による理性回復は行いません。</system:String>
+    <system:String x:Key="OperProgress.Material">育成素材：{0}、所持 {1} / 必要 {2}、不足 {3}</system:String>
+    <system:String x:Key="OperProgress.MaterialFarming">{0} を周回し、実際のドロップに応じて不足分を補充します</system:String>
     <system:String x:Key="OperProgress.SkillLevelTarget">スキルランク {0}</system:String>
     <system:String x:Key="OperProgress.MasteryTarget">スキル {0} 特化 {1}</system:String>
     <system:String x:Key="OperProgress.EliteTarget">昇進段階 {0}</system:String>

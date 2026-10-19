@@ -28,6 +28,15 @@ public class AsstOperProgressTask : AsstBaseTask
     [JsonProperty("plans")]
     public List<OperProgressTask.Plan> Plans { get; set; } = [];
 
+    [JsonProperty("auto_buy_chip_catalyst")]
+    public bool AutoBuyChipCatalyst { get; set; }
+
+    [JsonProperty("medicine")]
+    public int Medicine { get; set; }
+
+    [JsonProperty("medicine_expire_days")]
+    public int MedicineExpireDays { get; set; }
+
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
         var list = new JArray();
@@ -53,6 +62,10 @@ public class AsstOperProgressTask : AsstBaseTask
         }
         var jObject = new JObject {
             ["plans"] = list,
+            ["auto_buy_chip_catalyst"] = AutoBuyChipCatalyst,
+            ["medicine"] = Medicine,
+            ["medicine_expire_days"] = MedicineExpireDays,
+            ["stone"] = 0,
         };
         return (TaskType, jObject);
     }

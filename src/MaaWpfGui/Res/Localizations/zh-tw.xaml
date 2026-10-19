@@ -1004,6 +1004,11 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="Ignore">忽略</system:String>
     <system:String x:Key="OperProgress">幹員培養</system:String>
+    <system:String x:Key="OperProgressAutoBuyChipCatalyst">自動用紅票購買晶片助劑</system:String>
+    <system:String x:Key="OperProgressAutoBuyChipCatalystTip">消耗採購憑證（紅票），僅購買目前培養目標缺少的晶片助劑。</system:String>
+    <system:String x:Key="OperProgressMedicineTip" xml:space="preserve">本次幹員培養使用理智藥的總上限，跨關卡和培養目標累計。&#10;透過 ｢{key=UseExpiringMedicine}｣ 使用的即期藥不計入此上限。&#10;不會使用源石恢復理智。</system:String>
+    <system:String x:Key="OperProgress.Material">培養材料：{0}，已有 {1} / 需要 {2}，還缺 {3}</system:String>
+    <system:String x:Key="OperProgress.MaterialFarming">正在刷取 {0}，根據實際掉落補齊材料缺口</system:String>
     <system:String x:Key="OperProgress.SkillLevelTarget">技能等級 {0}</system:String>
     <system:String x:Key="OperProgress.MasteryTarget">技能 {0} 專精 {1}</system:String>
     <system:String x:Key="OperProgress.EliteTarget">精英化 {0}</system:String>

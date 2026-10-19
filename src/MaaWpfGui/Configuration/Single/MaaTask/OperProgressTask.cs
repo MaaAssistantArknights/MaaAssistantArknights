@@ -33,6 +33,16 @@ public class OperProgressTask : BaseTask
 
     public List<Plan> Plans { get; set; } = [];
 
+    public bool AutoBuyChipCatalyst { get; set; }
+
+    public bool UseMedicine { get; set; }
+
+    public int MedicineCount { get; set; }
+
+    public bool UseExpiringMedicine { get; set; }
+
+    public int MedicineExpireDays { get; set; } = 2;
+
     public record Plan(OperatorRole Role, string Name, int Elite, int SkillLevel, SkillMastery SkillMastery, bool ShowRole);
 
     /// <summary>

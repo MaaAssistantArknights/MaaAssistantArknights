@@ -1,0 +1,26 @@
+{
+    "OperProgress@MfgChipPackJumpStageClick-Pioneer": {
+        "text": ["先鋒/補助"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Warrior": {
+        "text": ["前衛/特殊"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Tank": {
+        "text": ["重装/医療"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Sniper": {
+        "text": ["狙撃/術師"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Caster": {
+        "text": ["狙撃/術師"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Medic": {
+        "text": ["重装/医療"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Support": {
+        "text": ["先鋒/補助"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Special": {
+        "text": ["前衛/特殊"]
+    }
+}

@@ -1004,6 +1004,11 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="Ignore">Ignore</system:String>
     <system:String x:Key="OperProgress">Operator Progression</system:String>
+    <system:String x:Key="OperProgressAutoBuyChipCatalyst">Buy Chip Catalysts with Shop Vouchers</system:String>
+    <system:String x:Key="OperProgressAutoBuyChipCatalystTip">Spend Shop Vouchers to buy only the Chip Catalysts missing for the current progression target.</system:String>
+    <system:String x:Key="OperProgressMedicineTip" xml:space="preserve">Maximum Sanity Potions used across all stages and targets in this operator progression task.&#10;Expiring potions used by ｢{key=UseExpiringMedicine}｣ do not count toward this limit.&#10;Originite Prime will not be used to restore Sanity.</system:String>
+    <system:String x:Key="OperProgress.Material">Progression material: {0}, owned {1} / required {2}, missing {3}</system:String>
+    <system:String x:Key="OperProgress.MaterialFarming">Farming {0}, adjusting to actual drops until the material shortage is filled</system:String>
     <system:String x:Key="OperProgress.SkillLevelTarget">Skill level {0}</system:String>
     <system:String x:Key="OperProgress.MasteryTarget">Skill {0}, mastery {1}</system:String>
     <system:String x:Key="OperProgress.EliteTarget">Elite {0}</system:String>

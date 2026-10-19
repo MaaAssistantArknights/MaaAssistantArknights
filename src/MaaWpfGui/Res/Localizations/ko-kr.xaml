@@ -1005,6 +1005,11 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="Ignore">무시</system:String>
     <system:String x:Key="OperProgress">오퍼레이터 육성</system:String>
+    <system:String x:Key="OperProgressAutoBuyChipCatalyst">구매증명서로 칩 첨가제 자동 구매</system:String>
+    <system:String x:Key="OperProgressAutoBuyChipCatalystTip">구매증명서를 사용해 현재 육성 목표에 부족한 수량만큼의 칩 첨가제만 구매합니다.</system:String>
+    <system:String x:Key="OperProgressMedicineTip" xml:space="preserve">이번 오퍼레이터 육성 작업의 모든 스테이지와 목표에 걸쳐 사용할 이성 회복제의 총 한도입니다.&#10;옵션 ｢{key=UseExpiringMedicine}｣ 로 사용하는 만료 임박 회복제는 이 한도에 포함되지 않습니다.&#10;순오리지늄으로 이성을 회복하지 않습니다.</system:String>
+    <system:String x:Key="OperProgress.Material">육성 재료: {0}, 보유 {1} / 필요 {2}, 부족 {3}</system:String>
+    <system:String x:Key="OperProgress.MaterialFarming">{0} 파밍 중, 실제 드롭에 따라 부족한 재료를 보충합니다</system:String>
     <system:String x:Key="OperProgress.SkillLevelTarget">스킬 레벨 {0}</system:String>
     <system:String x:Key="OperProgress.MasteryTarget">스킬 {0}, 마스터리 {1}</system:String>
     <system:String x:Key="OperProgress.EliteTarget">정예화 {0}</system:String>

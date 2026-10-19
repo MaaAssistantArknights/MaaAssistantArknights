@@ -6485,13 +6485,18 @@
     },
     "OperProgress@DualchipBadgeCount": {
         "baseTask": "NumberOcrReplace",
-        "doc": "晋升页面芯片icon下方 x/y 的 x 段",
-        "binThreshold": [120, 255],
-        "roi": [356, 658, 17, 26]
+        "doc": "晋升页面芯片图标下方完整的库存/需求数量 x/y",
+        "binThreshold": [80, 255],
+        "roi": [352, 656, 48, 32],
+        "withoutDet": true
     },
     "OperProgress@MfgCatalystCount": {
         "baseTask": "NumberOcrReplace",
-        "roi": [453, 383, 67, 41]
+        "roi": [544, 656, 64, 32],
+        "rectMove": [285, 112, 64, 32],
+        "binThreshold": [80, 255],
+        "withoutDet": true,
+        "useRaw": false
     },
     "OperProgress@MfgCatalystStock": {
         "baseTask": "NumberOcrReplace",
