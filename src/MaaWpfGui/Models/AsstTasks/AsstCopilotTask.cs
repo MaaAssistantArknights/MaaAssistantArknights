@@ -81,6 +81,7 @@ public class AsstCopilotTask : AsstBaseTask
     /// 获取或设置每次作业执行允许的最大自动重开次数。
     /// </summary>
     public int AutoRestartTimes { get; set; } = 3;
+
     /// <summary>
     /// Gets or sets 自定干员列表
     /// </summary>
