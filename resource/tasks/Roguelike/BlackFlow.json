@@ -789,6 +789,7 @@
     },
     "BlackFlow@Roguelike@InventoryCleanupReady": {
         "template": "BlackFlow@Roguelike@InventoryFullFlag.png",
+        "templThreshold": 0.7,
         "roi": [569, 65, 253, 82],
         "next": ["BlackFlow@Roguelike@InventoryCleanupRequired"]
     },
@@ -826,6 +827,7 @@
         "exceededNext": ["BlackFlow@Roguelike@InventoryCleanupFailed"]
     },
     "BlackFlow@Roguelike@InventoryFullFlag": {
+        "templThreshold": 0.7,
         "roi": [569, 65, 253, 82]
     },
     "BlackFlow@Roguelike@LastReward": {
