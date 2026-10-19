@@ -140,7 +140,13 @@ public class MallTask : BaseTask, IJsonOnDeserialized
             var last = DateTime.ParseExact(MonthlyCardLastCheckDate.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
             var today = DateTime.UtcNow.ToYjDate();
 
-            // 读到 23 天、阈值 7 → 歇 15 天后重查（查到时恰剩 7 天，再留 1 天余量）；读数进入提醒窗口后钳为每天查
+            // 时钟回拨或手改出的未来日期：nextCheck ≥ last > today 会把重查日推到未来，视为需要检查
+            if (last > today)
+            {
+                return true;
+            }
+
+            // 距提醒窗口的富余天数顺延重查并留 1 天余量；读数进入提醒窗口后钳为每天查
             var nextCheck = last.AddDays(Math.Max(MonthlyCardLastDaysLeft - MonthlyCardRemindDays - 1, 0));
             return today >= nextCheck;
         }

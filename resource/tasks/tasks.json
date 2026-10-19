@@ -2037,7 +2037,15 @@
     "MonthlyCardBegin": {
         "doc": "月卡到期提醒：挂在 Mall 任务末尾，购物后人已在采购中心，锚点直接命中切组合包页读'当期月卡剩余X天'；若不在商店则经 ToMall 跳转。识别文本经 SubTaskStart 回传 GUI(details.task 已剥前缀为 MonthlyCardDays)，由 GUI 判断阈值并提醒",
         "algorithm": "JustReturn",
-        "next": ["MonthlyCard@BundlesTab", "MonthlyCard", "MonthlyCard@ReturnFromDetail", "MonthlyCard@QuickSwitch@ToMall#next", "MonthlyCard@ReturnButtons#next", "MonthlyCard@CloseAnnos#next", "MonthlyCard@OfflineConfirm"]
+        "next": [
+            "MonthlyCard@BundlesTab",
+            "MonthlyCard",
+            "MonthlyCard@ReturnFromDetail",
+            "MonthlyCard@QuickSwitch@ToMall#next",
+            "MonthlyCard@ReturnButtons#next",
+            "MonthlyCard@CloseAnnos#next",
+            "MonthlyCard@OfflineConfirm"
+        ]
     },
     "MonthlyCard@ReturnFromDetail": {
         "doc": "商品详情浮层（信用购物结束停留）与月卡详情页共用左上角'<'深色条返回：该按钮与通用 ReturnButton 模板样式不同且对截图缩放路径敏感（1534 宽截图可命中、1920 宽真机失配），小房子导航在浮层下亦无效。故以右下购买按钮文字为浮层特征（'购买物品'=商品详情、'购买月卡'=月卡详情，分辨率无关），命中则点左上角固定坐标返回。各服需覆写 text 词表",

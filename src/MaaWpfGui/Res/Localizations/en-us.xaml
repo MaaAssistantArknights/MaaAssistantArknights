@@ -862,11 +862,11 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="ReceiveSignInEvent">Collect Sign-In Event rewards</system:String>
     <system:String x:Key="ReceiveSignInEventTip">Only standard horizontal layouts are supported; other layouts are unsupported and may not work correctly</system:String>
     <system:String x:Key="MonthlyCardRemind">Monthly card expiry reminder</system:String>
-    <system:String x:Key="MonthlyCardRemindTip">Checks monthly card days left on the store bundles page after credit shopping and notifies when close to expiry (once a day once inside the reminder window; checks are skipped otherwise). Simplified-Chinese clients (Official/Bilibili) only</system:String>
+    <system:String x:Key="MonthlyCardRemindTip">Checks monthly card days left on the store bundles page when the credit shopping task runs and notifies when close to expiry (once a day once inside the reminder window; checks are skipped otherwise). Simplified-Chinese clients (Official/Bilibili) only</system:String>
     <system:String x:Key="MonthlyCardRemindDaysOption7">7 days</system:String>
     <system:String x:Key="MonthlyCardRemindDaysOption5">5 days</system:String>
     <system:String x:Key="MonthlyCardRemindDaysOption3">3 days</system:String>
-    <system:String x:Key="MonthlyCardRemindDaysOption1">1 days</system:String>
+    <system:String x:Key="MonthlyCardRemindDaysOption1">1 day</system:String>
     <system:String x:Key="MonthlyCardRemindDaysLabel">Remind when days left is no more than</system:String>
     <system:String x:Key="MonthlyCardExpiringTitle">Monthly card expiring</system:String>
     <system:String x:Key="MonthlyCardExpiringContent">Monthly card has {0} day(s) left. Remember to renew it.</system:String>
