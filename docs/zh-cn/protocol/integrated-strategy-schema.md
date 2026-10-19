@@ -39,6 +39,8 @@ icon: ri:game-fill
   - `strategy.json` 黑流树海肉鸽的高层路由策略配置
   - `node_execution.json` 黑流树海肉鸽的节点类型处理路由配置
   - `map_perception/` 黑流树海肉鸽的地图感知视觉资源
+  - `scrap_market.json` 黑流树海肉鸽的秘境行商数据（闲置自然物的价目、刷新费用与培育保留上限）
+  - `map_templates.json` 黑流树海肉鸽的地图布局模板
 
 ## 肉鸽第一步——干员招募
 

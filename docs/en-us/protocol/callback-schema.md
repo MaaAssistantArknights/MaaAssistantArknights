@@ -554,6 +554,75 @@ Todo
   }
   ```
 
+- `CustomInfrastRoomKeptUnchanged`  
+  The room is kept unchanged during custom infrastructure scheduling. The `details` field always includes `facility` (facility name) and `index` (facility index), plus:
+
+  ```json
+  // Corresponding details field example
+  {
+    "reason": "candidates_working" // Reason for keeping the room unchanged, see below
+  }
+  ```
+
+  `reason` values:
+  - `facility_empty`: the custom rooms array is empty.
+  - `room_no_intent`: the room is configured but has no operator selection intent.
+  - `candidates_unavailable`: none of the candidate operators is available, usually a misconfigured list (typo or unowned operator).
+  - `candidates_working`: all candidate operators are working in other facilities.
+  - `candidates_low_mood`: all candidate operators are below the mood threshold.
+
+- `CustomInfrastRoomsNotConfigured`  
+  The facility is not covered by the custom rooms array and is kept unchanged. The `details` field contains only the default `facility` (facility name) and `index` (facility index).
+
+- `CustomInfrastTraineeNotFound`  
+  None of the training room candidate operators is matched. The `details` field always includes `facility` (facility name) and `index` (facility index), plus:
+
+  ```json
+  // Corresponding details field example
+  {
+    "candidates": ["艾雅法拉", "焰影苇草"] // List of candidate operators for the training room
+  }
+  ```
+
+- `CustomInfrastAssistantNotFound`  
+  None of the assistant candidate operators is matched. The `details` field always includes `facility` (facility name) and `index` (facility index), plus:
+
+  ```json
+  // Corresponding details field example
+  {
+    "candidates": ["凯尔希"],        // List of candidate operators for the assistant
+    "working_excluded": ["琴柳"],    // Optional; candidates excluded because working in other facilities, only present when non-empty
+    "low_mood_excluded": ["歌蕾蒂娅"] // Optional; candidates excluded because their mood is below the threshold, only present when non-empty
+  }
+  ```
+
+- `CustomInfrastRoomGroupsMatchFailed`  
+  Operator group matching failed during custom infrastructure scheduling. The `details` field always includes `facility` (facility name) and `index` (facility index), plus:
+
+  ```json
+  // Corresponding details field example
+  {
+    "reason": "all_unavailable", // Reason for the failure, see below
+    "groups": ["古+銀"] // Optional; undefined or unavailable group names, only present with `group_not_defined` and `all_unavailable`
+  }
+  ```
+
+  `reason` values:
+  - `group_not_defined`: none of the referenced group names is defined in groups.
+  - `all_unavailable`: operators of all groups are unavailable.
+  - `recognition_failed`: the operator list recognition failed.
+
+- `CopilotPrecheckFile`  
+  Reported before pre-matching each copilot file when "Assist formation with Yituliu data" is enabled in multi-file copilot mode. The `details` field contains:
+
+  ```json
+  // Corresponding details field example
+  {
+    "nav_name": "CV-EX-1", // Stage name
+    "filename": "作业.json" // Copilot file name
+  }
+  ```
+
 - `StageInfo`  
   Auto combat stage information
 
@@ -653,6 +722,17 @@ Todo
   - `reward_recognition_failed`: the preparation run failed to pick a reward on the support selection page; the task stops.
 
   `rewards` is only reported with `reward_missed`, `completed` and `reward_unrecognized`, and is omitted when `blackflow_start_rewards` is 0 (rewards are not recognized) or when no reward was recognized. Reward names are reported in Simplified Chinese.
+
+- `BlackFlowScrapTradeAborted`  
+  The BlackFlow scrap trade is aborted due to an anomaly. The `details` field contains:
+
+  ```json
+  // Corresponding details field example
+  {
+    "reason": "sale_failed", // Reason for aborting the trade
+    "item": "晶体元件" // Name of the item that triggered the abort
+  }
+  ```
 
 ### ReportRequest
 

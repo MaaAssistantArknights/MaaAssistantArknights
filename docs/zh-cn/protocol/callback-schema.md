@@ -616,6 +616,94 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   :::
   ::::
 
+- `CustomInfrastRoomKeptUnchanged`  
+  自定义基建排班中，该房间保持原样。`details` 字段默认附带 `facility`（设施名）与 `index`（设施序号），其余内容如下：
+
+  :::: field-group
+  ::: field reason
+  @type string
+  @required
+  保持原样的原因，取值如下：
+  - `facility_empty`: 自定义排班的 rooms 数组为空。
+  - `room_no_intent`: 房间配置存在但没有选人意图。
+  - `candidates_unavailable`: 候补干员均不可用，通常是名单有误（拼写错误或干员未拥有）。
+  - `candidates_working`: 候补干员均在其他设施工作。
+  - `candidates_low_mood`: 候补干员心情均低于阈值。
+
+  :::
+  ::::
+
+- `CustomInfrastRoomsNotConfigured`  
+  自定义基建排班的 rooms 数组未覆盖到该设施，该设施保持原样。`details` 字段仅包含默认的 `facility`（设施名）与 `index`（设施序号）。
+
+- `CustomInfrastTraineeNotFound`  
+  自定义基建排班中，训练位的候选干员均未命中。`details` 字段默认附带 `facility`（设施名）与 `index`（设施序号），其余内容如下：
+
+  :::: field-group
+  ::: field candidates
+  @type array<string>
+  @required
+  训练位的候选干员名单。
+  :::
+  ::::
+
+- `CustomInfrastAssistantNotFound`  
+  自定义基建排班中，协助者的候选干员均未命中。`details` 字段默认附带 `facility`（设施名）与 `index`（设施序号），其余内容如下：
+
+  :::: field-group
+  ::: field candidates
+  @type array<string>
+  @required
+  协助者的候选干员名单。
+  :::
+  ::: field working_excluded
+  @type array<string>
+  @optional
+  候选中因正在其他设施工作而被排除的干员名单，仅非空时携带。
+  :::
+  ::: field low_mood_excluded
+  @type array<string>
+  @optional
+  候选中因心情低于阈值而被排除的干员名单，仅非空时携带。
+  :::
+  ::::
+
+- `CustomInfrastRoomGroupsMatchFailed`  
+  自定义基建排班中，编组匹配失败。`details` 字段默认附带 `facility`（设施名）与 `index`（设施序号），其余内容如下：
+
+  :::: field-group
+  ::: field reason
+  @type string
+  @required
+  匹配失败原因，取值如下：
+  - `group_not_defined`: 引用的编组名均未在 groups 中定义。
+  - `all_unavailable`: 所有编组的干员均不可用。
+  - `recognition_failed`: 干员列表识别失败。
+
+  :::
+  ::: field groups
+  @type array<string>
+  @optional
+  未定义或不可用的编组名列表，仅在 `group_not_defined`、`all_unavailable` 时携带。
+  :::
+  ::::
+
+- `CopilotPrecheckFile`  
+  自动抄作业多作业模式启用 ｢使用一图流数据辅助编队｣ 时，预匹配各作业前上报。`details` 字段内容如下：
+
+  :::: field-group
+  ::: field nav_name
+  @type string
+  @required
+  关卡名。
+  :::
+  ::: field filename
+  @type string
+  @required
+  作业文件名。
+  :::
+  ::::
+
 - `StageInfo`  
   自动作战关卡信息。`details` 字段内容如下：
 
@@ -683,6 +771,22 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
     - `reward_page_missing`: 目标局没有出现选择支援页，停止任务。
     - `reward_recognition_failed`: 准备局在选择支援页选择奖励失败，停止任务。
   - `rewards` (`array<string>`, optional): 目标局在选择支援页认出的奖励名，如 `空间租赁`、`金乌`；只随 `reward_missed`、`completed`、`reward_unrecognized` 上报；`blackflow_start_rewards` 为 0（不识别奖励）或一项都没认出时省略。
+
+- `BlackFlowScrapTradeAborted`  
+  黑流树海秘境行商交易异常，中止交易。`details` 字段内容如下：
+
+  :::: field-group
+  ::: field reason
+  @type string
+  @required
+  中止交易的原因。
+  :::
+  ::: field item
+  @type string
+  @required
+  触发中止的交易物品名。
+  :::
+  ::::
 
 ### ReportRequest
 

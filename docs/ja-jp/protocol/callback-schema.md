@@ -576,6 +576,75 @@ Todo
   }
   ```
 
+- `CustomInfrastRoomKeptUnchanged`  
+  カスタム基建のシフトで、この部屋が現状維持された際に通知されます。`details` は常に `facility`（施設名）と `index`（施設 ID）を含み、さらに：
+
+  ```json
+  // 対応する詳細フィールドの例
+  {
+      "reason": "candidates_working"  // 部屋を現状維持した理由、下記参照
+  }
+  ```
+
+  `reason` の値：
+  - `facility_empty`：カスタム設定の rooms 配列が空。
+  - `room_no_intent`：部屋の設定はあるが、配置の意思がない。
+  - `candidates_unavailable`：候補オペレーターが全員利用不可。名簿の誤り（表記間違いや未所持）の可能性が高い。
+  - `candidates_working`：候補オペレーターが全員他の施設で勤務中。
+  - `candidates_low_mood`：候補オペレーターの気分が全員閾値未満。
+
+- `CustomInfrastRoomsNotConfigured`  
+  カスタム設定の rooms 配列がカバーしない施設は、現状維持されます。`details` はデフォルトの `facility`（施設名）と `index`（施設 ID）のみを含みます。
+
+- `CustomInfrastTraineeNotFound`  
+  カスタム基建のシフトで、訓練枠の候補オペレーターが誰も一致しませんでした。`details` は常に `facility`（施設名）と `index`（施設 ID）を含み、さらに：
+
+  ```json
+  // 対応する詳細フィールドの例
+  {
+      "candidates": ["エイヤフィヤトラ", "焔影リード"]  // 訓練枠の候補オペレーター一覧
+  }
+  ```
+
+- `CustomInfrastAssistantNotFound`  
+  カスタム基建のシフトで、補助者の候補オペレーターが誰も一致しませんでした。`details` は常に `facility`（施設名）と `index`（施設 ID）を含み、さらに：
+
+  ```json
+  // 対応する詳細フィールドの例
+  {
+      "candidates": ["ケルシー"],          // 補助者の候補オペレーター一覧
+      "working_excluded": ["テキーラ"],    // 任意、他の施設で勤務中のため除外された候補、空でない場合のみ含まれる
+      "low_mood_excluded": ["スルト"]      // 任意、気分が閾値未満のため除外された候補、空でない場合のみ含まれる
+  }
+  ```
+
+- `CustomInfrastRoomGroupsMatchFailed`  
+  カスタム基建のシフトで、オペレーターグループの一致に失敗しました。`details` は常に `facility`（施設名）と `index`（施設 ID）を含み、さらに：
+
+  ```json
+  // 対応する詳細フィールドの例
+  {
+      "reason": "all_unavailable",  // 一致失敗の理由、下記参照
+      "groups": ["古+銀"]           // 任意、未定義または利用不可のグループ名一覧、`group_not_defined` と `all_unavailable` の場合のみ含まれる
+  }
+  ```
+
+  `reason` の値：
+  - `group_not_defined`：参照されたグループ名がいずれも groups で定義されていない。
+  - `all_unavailable`：すべてのグループのオペレーターが利用不可。
+  - `recognition_failed`：オペレーターリストの認識に失敗。
+
+- `CopilotPrecheckFile`  
+  マルチ作業モードで ｢Yituliu のデータで編隊を支援｣ が有効な場合、各作業の事前マッチングの前に通知されます。`details` の内容：
+
+  ```json
+  // 対応する詳細フィールドの例
+  {
+      "nav_name": "CV-EX-1",  // ステージ名
+      "filename": "作業.json" // 作業ファイル名
+  }
+  ```
+
 - `StageInfo`  
   自動戦闘ステージの情報
 
@@ -679,6 +748,17 @@ Todo
   - `reward_recognition_failed`：準備用の探索で支援選択画面の報酬選択に失敗したため、タスクを停止。
 
   `rewards` は `reward_missed`、`completed`、`reward_unrecognized` のときのみ通知され、`blackflow_start_rewards` が 0（報酬を認識しない）の場合や 1 つも認識できなかった場合は省略されます。報酬名は簡体字中国語で出力されます。
+
+- `BlackFlowScrapTradeAborted`  
+  BlackFlow の行商取引で異常が発生し、取引を中止します。`details` の内容：
+
+  ```json
+  // 対応する詳細フィールドの例
+  {
+      "reason": "sale_failed",  // 取引を中止した理由
+      "item": "晶体元件"        // 中止のきっかけとなったアイテム名
+  }
+  ```
 
 ### ReportRequest
 

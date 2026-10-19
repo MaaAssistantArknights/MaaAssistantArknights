@@ -431,7 +431,7 @@ resource = true # Whether to install MaaCore resources
 
 # CLI update configurations
 [cli]
-channel = "Stable" # Update channel: "Alpha", "Beta", or "Stable" (default)
+channel = "Stable" # Update channel: "Nightly", "Beta", or "Stable" (default)
 # API URL to query latest maa-cli version; leave empty for default
 api_url = "https://github.com/MaaAssistantArknights/maa-cli/raw/version/"
 # URL to download prebuilt binaries; leave empty for default

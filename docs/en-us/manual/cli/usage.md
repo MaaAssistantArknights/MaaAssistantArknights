@@ -32,6 +32,12 @@ maa self update
 
 **Note**: Users who installed maa-cli via a package manager should use the package manager to update maa-cli. This command will not work for those users.
 
+By default, maa-cli is only updated when the selected channel has a newer version. To install the version of the selected channel even if it is older than the current one (e.g. to switch from nightly back to stable), add `--force`. Nothing is done if the versions are the same:
+
+```bash
+maa self update stable --force
+```
+
 ## Initialize Configuration
 
 Once MaaCore is installed, you can typically run tasks directly without additional configuration. However, the default configuration may not be suitable for all users, so you can initialize the configuration with:

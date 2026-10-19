@@ -32,6 +32,12 @@ maa self update
 
 **注意**：使用包管理器安装 maa-cli 的用户请使用包管理器更新 maa-cli，此命令在这些用户中无效。
 
+默认只在所选 channel 的版本比当前版本新时才会更新。如果需要安装所选 channel 的版本，即使它比当前版本旧（例如从 nightly 切回 stable），可以加上 `--force`。版本相同时仍会跳过：
+
+```bash
+maa self update stable --force
+```
+
 ## 初始化配置
 
 一旦完成了 MaaCore 的安装，通常情况下，你无需额外配置就可以直接运行任务。默认配置可能不适用于所有用户，因此你可以通过以下命令来初始化配置：

@@ -616,6 +616,94 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   :::
   ::::
 
+- `CustomInfrastRoomKeptUnchanged`  
+  自訂基建排班中，該房間保持原樣。`details` 欄位預設附帶 `facility`（設施名稱）與 `index`（設施序號），其餘內容如下：
+
+  :::: field-group
+  ::: field reason
+  @type string
+  @required
+  保持原樣的原因，取值如下：
+  - `facility_empty`: 自訂排班的 rooms 陣列為空。
+  - `room_no_intent`: 房間配置存在但沒有選人意圖。
+  - `candidates_unavailable`: 候補幹員均不可用，通常是名單有誤（拼字錯誤或幹員未擁有）。
+  - `candidates_working`: 候補幹員均在其他設施工作。
+  - `candidates_low_mood`: 候補幹員心情均低於閾值。
+
+  :::
+  ::::
+
+- `CustomInfrastRoomsNotConfigured`  
+  自訂基建排班的 rooms 陣列未涵蓋到該設施，該設施保持原樣。`details` 欄位僅包含預設的 `facility`（設施名稱）與 `index`（設施序號）。
+
+- `CustomInfrastTraineeNotFound`  
+  自訂基建排班中，訓練位的候補幹員均未命中。`details` 欄位預設附帶 `facility`（設施名稱）與 `index`（設施序號），其餘內容如下：
+
+  :::: field-group
+  ::: field candidates
+  @type array<string>
+  @required
+  訓練位的候補幹員名單。
+  :::
+  ::::
+
+- `CustomInfrastAssistantNotFound`  
+  自訂基建排班中，協助者的候補幹員均未命中。`details` 欄位預設附帶 `facility`（設施名稱）與 `index`（設施序號），其餘內容如下：
+
+  :::: field-group
+  ::: field candidates
+  @type array<string>
+  @required
+  協助者的候補幹員名單。
+  :::
+  ::: field working_excluded
+  @type array<string>
+  @optional
+  候選中因正在其他設施工作而被排除的幹員名單，僅非空時附帶。
+  :::
+  ::: field low_mood_excluded
+  @type array<string>
+  @optional
+  候選中因心情低於閾值而被排除的幹員名單，僅非空時附帶。
+  :::
+  ::::
+
+- `CustomInfrastRoomGroupsMatchFailed`  
+  自訂基建排班中，編組匹配失敗。`details` 欄位預設附帶 `facility`（設施名稱）與 `index`（設施序號），其餘內容如下：
+
+  :::: field-group
+  ::: field reason
+  @type string
+  @required
+  匹配失敗原因，取值如下：
+  - `group_not_defined`: 引用的編組名稱均未在 groups 中定義。
+  - `all_unavailable`: 所有編組的幹員均不可用。
+  - `recognition_failed`: 幹員列表辨識失敗。
+
+  :::
+  ::: field groups
+  @type array<string>
+  @optional
+  未定義或不可用的編組名稱列表，僅在 `group_not_defined`、`all_unavailable` 時附帶。
+  :::
+  ::::
+
+- `CopilotPrecheckFile`  
+  自動抄作業多作業模式啟用 ｢使用一圖流資料輔助編隊｣ 時，預匹配各作業前回報。`details` 欄位內容如下：
+
+  :::: field-group
+  ::: field nav_name
+  @type string
+  @required
+  關卡名稱。
+  :::
+  ::: field filename
+  @type string
+  @required
+  作業檔案名稱。
+  :::
+  ::::
+
 - `StageInfo`  
   自動作戰關卡資訊。`details` 欄位內容如下：
 
@@ -683,6 +771,22 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
     - `reward_page_missing`：目標局沒有出現選擇支援頁，停止任務。
     - `reward_recognition_failed`：準備局在選擇支援頁選擇獎勵失敗，停止任務。
   - `rewards` (`array<string>`, optional)：目標局在選擇支援頁辨識出的獎勵名稱，如 `空间租赁`、`金乌`；只隨 `reward_missed`、`completed`、`reward_unrecognized` 回報；`blackflow_start_rewards` 為 0（不辨識獎勵）或一項都沒辨識出時省略。
+
+- `BlackFlowScrapTradeAborted`  
+  黑流樹海秘境行商交易異常，中止交易。`details` 欄位內容如下：
+
+  :::: field-group
+  ::: field reason
+  @type string
+  @required
+  中止交易的原因。
+  :::
+  ::: field item
+  @type string
+  @required
+  觸發中止的交易物品名稱。
+  :::
+  ::::
 
 ### ReportRequest
 
