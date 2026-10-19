@@ -852,6 +852,15 @@
             "StartUp@PRTS#next"
         ]
     },
+    "StartUp@ReturnButtons": {
+        "next": ["StartUp@ReturnButton", "StartUp@FromStageSN", "StartUp@FromAnnihilation", "StartUp@FromRoguelike"]
+    },
+    "StartUp@FromRoguelike": {
+        "Doc": "开始唤醒时暂离肉鸽，保留探索进度并继续返回主界面",
+        "baseTask": "StartUp@ReturnButton",
+        "template": "Roguelike@ExitThenAbandon.png",
+        "templThreshold": 0.8
+    },
     "GameStart": {
         "action": "ClickSelf",
         "roi": [550, 600, 200, 120],
