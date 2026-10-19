@@ -2118,11 +2118,8 @@
     },
     "SignInEventEarnRewards": {
         "doc": "点击获得物资关闭领取动画",
-        "algorithm": "OcrDetect",
-        "text": ["获得物资"],
-        "roi": [440, 90, 400, 140],
-        "action": "ClickSelf",
-        "postDelay": 800,
+        "baseTask": "GainItem",
+        "template": "GainItem.png",
         "next": ["#self", "SignInEventClaim", "SignInEventReturn"],
         "maxTimes": 50,
         "exceededNext": ["SignInEventReturn"]
@@ -5878,10 +5875,8 @@
         "next": ["GachaBegin#next"]
     },
     "GachaLastTenTimesResult2": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["获得物资"],
-        "roi": [508, 66, 267, 172],
+        "baseTask": "GainItem",
+        "template": "GainItem.png",
         "next": ["GachaBegin#next"]
     },
     "DoGacha": {

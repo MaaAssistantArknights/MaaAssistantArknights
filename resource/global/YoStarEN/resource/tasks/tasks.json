@@ -199,9 +199,6 @@
     "SignInEventInPopup": {
         "text": ["Ends"]
     },
-    "SignInEventEarnRewards": {
-        "text": ["Resource", "Gained"]
-    },
     "NoFriends": {
         "text": ["No friends"]
     },
@@ -450,9 +447,6 @@
     },
     "GachaLastOnceResult": {
         "text": ["Certificate", "Token", "Duplicate"]
-    },
-    "GachaLastTenTimesResult2": {
-        "text": ["Resource", "Gained"]
     },
     "GachaOncePrefix@DoGacha": {
         "fullMatch": true,

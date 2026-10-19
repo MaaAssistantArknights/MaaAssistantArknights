@@ -193,9 +193,6 @@
     "SignInEventInPopup": {
         "text": ["結束時間"]
     },
-    "SignInEventEarnRewards": {
-        "text": ["獲得物資"]
-    },
     "NoFriends": {
         "text": ["暫無好友"]
     },
@@ -363,9 +360,6 @@
     },
     "GachaLastOnceResult": {
         "text": ["憑證", "信物", "獲得"]
-    },
-    "GachaLastTenTimesResult2": {
-        "text": ["獲得物資"]
     },
     "GachaOncePrefix@DoGacha": {
         "text": ["尋訪一次", "訪一次"]
