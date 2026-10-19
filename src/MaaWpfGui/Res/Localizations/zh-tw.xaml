@@ -860,8 +860,12 @@ D:\
     <system:String x:Key="ReceiveSpecialAccess">領取特殊贈送月卡獎勵</system:String>
     <system:String x:Key="ReceiveSignInEvent">領取限時簽到活動獎勵</system:String>
     <system:String x:Key="ReceiveSignInEventTip">僅支援常見橫向版型；其他版型不支援，可能無法正常運作</system:String>
-    <system:String x:Key="ReceiveMonthlyCard">月卡到期提醒</system:String>
-    <system:String x:Key="ReceiveMonthlyCardTip">信用購物結束後順路進入採購中心組合包頁識別月卡剩餘天數，臨近到期時彈通知提醒（每天最多提醒一次；距到期尚有富餘時自動跳過檢查，約每月檢查 2~4 次）</system:String>
+    <system:String x:Key="MonthlyCardRemind">月卡到期提醒</system:String>
+    <system:String x:Key="MonthlyCardRemindTip">信用購物結束後順路進入採購中心組合包頁識別月卡剩餘天數，臨近到期時彈通知提醒（進入提醒窗口後每天檢查並提醒一次，其餘時間自動跳過檢查）。僅簡體中文客戶端（官服/B服）生效</system:String>
+    <system:String x:Key="MonthlyCardRemindDaysOption7">7 天</system:String>
+    <system:String x:Key="MonthlyCardRemindDaysOption5">5 天</system:String>
+    <system:String x:Key="MonthlyCardRemindDaysOption3">3 天</system:String>
+    <system:String x:Key="MonthlyCardRemindDaysOption1">1 天</system:String>
     <system:String x:Key="MonthlyCardRemindDaysLabel">剩餘天數不高於</system:String>
     <system:String x:Key="MonthlyCardExpiringTitle">月卡即將到期</system:String>
     <system:String x:Key="MonthlyCardExpiringContent">月卡剩餘 {0} 天，記得及時續費</system:String>

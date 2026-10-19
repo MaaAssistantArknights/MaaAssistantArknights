@@ -2029,7 +2029,8 @@ public class AsstProxy
                                 {
                                     // 无论是否触发提醒都记录读数，供 IsMonthlyCardCheckDue 按剩余天数跳过后续检查。
                                     // 须按 taskid 取本配置的真实 MallTask 直接赋值：SetTaskConfig 绑定 UI 当前选中的设置页，回调线程下会写错目标
-                                    var index = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains((int)details!["taskid"]!))?.Index ?? -1;
+                                    var taskId = details["taskid"]?.ToObject<AsstTaskId>() ?? 0;
+                                    var index = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index ?? -1;
                                     if (index >= 0 && index < ConfigFactory.CurrentConfig.TaskQueue.Count && ConfigFactory.CurrentConfig.TaskQueue[index] is MallTask mall)
                                     {
                                         mall.MonthlyCardLastDaysLeft = daysLeft;
@@ -2040,9 +2041,10 @@ public class AsstProxy
                                             mall.MonthlyCardLastRemindTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
                                             var title = LocalizationHelper.GetString("MonthlyCardExpiringTitle");
                                             var content = LocalizationHelper.GetStringFormat("MonthlyCardExpiringContent", daysLeft);
+
+                                            // 只经 Notify 发布：display 写任务日志，Publish 内部再弹 toast/外部推送（同 CheckEncounter-Uncollected 模式，勿再 AddLog 重复）
                                             Instances.NotificationService.Notify(NotificationSource.TaskQueue, new(NotificationKind.TaskComplete, title, content),
                                                 UiLogColor.Warning, display: () => Instances.TaskQueueViewModel.DisplayLog(content, UiLogColor.Warning, updateCardImage: true));
-                                            Instances.TaskQueueViewModel.AddLog(content, UiLogColor.Warning);
                                         }
                                     }
                                 }

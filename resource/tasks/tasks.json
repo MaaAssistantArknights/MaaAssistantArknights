@@ -2095,7 +2095,7 @@
         "postDelay": 500
     },
     "MonthlyCard@MonthlyCardDays": {
-        "doc": "月卡详情页右侧'当期月卡剩余X天'胶囊条（整屏唯一'剩余'字样），已按国服截图校准。text 必须留空：非空词表命中后回调文本会被替换为词表项本身（OCRer filter_and_replace_by_required_），GUI 正则拿不到天数；空词表透传整行 OCR 原文，由 GUI 端 (\\d+)\\s*天 + 0~40 范围双重过滤。识别后点击左上角返回关闭详情页，避免链尾停留浮层影响后续任务。识别失败时由 MonthlyCardEntry 的 onErrorNext（CleanupDetail）负责关闭详情页。多服需在各服 resource 覆写 roi/text",
+        "doc": "月卡详情页右侧'当期月卡剩余X天'胶囊条（整屏唯一'剩余'字样），已按国服截图校准。text 必须留空：非空词表命中后回调文本会被替换为词表项本身（OCRer filter_and_replace_by_required_），GUI 正则拿不到天数；空词表透传整行 OCR 原文，由 GUI 端 (\\d+)\\s*天 + 0~30 范围双重过滤。识别后点击左上角返回关闭详情页，避免链尾停留浮层影响后续任务。识别失败时由 MonthlyCardEntry 的 onErrorNext（CleanupDetail）负责关闭详情页。多服需在各服 resource 覆写 roi/text",
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [1040, 168, 210, 45],
