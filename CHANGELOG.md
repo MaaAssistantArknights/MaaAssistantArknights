@@ -38,18 +38,29 @@ A target ending can now be selected for BlackFlow level farming (the first endin
 <details open>
 <summary><b>v6.20.1 (2026-10-20)</b></summary>
 
+### 新增 | New
+
+* 黑流树海加入 DLC1 部分新加工品 ([#18758](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18758)) @ZiyinLin
+
 ### 改进 | Improved
 
+* 黑流树海刷开局模式在准备局第一层商店自动加购种荚等物品 ([#18755](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18755)) @bhdtrrr
 * YostarJP add 龍門 to OrundumActivities, add JieGarden StageEncounter leave confirm 720p template and update the signin event popup texts @Manicsteiner
 
 ### 修复 | Fix
 
+* 修复更新日志窗口在宽度变化触发重排时崩溃的问题 ([#18772](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18772)) @crazysmile-PhD
 * 修复黑流树海编队后重新进入战斗时点击位置错误的问题 ([#18731](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18731)) @youzibigg
+* 修复黑流树海 ｢险路尽头｣ 选项错配的问题 ([#18757](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18757)) @ZiyinLin
 * 修复黑流树海 ｢居民据点｣ 节点识别失败的问题 ([#18754](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18754)) @ZiyinLin
 * 修复黑流树海 ｢误入奇境｣ 节点缺少路由处理的问题 @ZiyinLin
 * 黑流树海扣款后等待源石锭数字滚动结束再读取余额，关闭加工品面板后等待界面加载完成 @ZiyinLin
+* 放宽黑流树海零件箱超载标识的模板匹配阈值 @ZiyinLin
+* 放宽界园放弃探索图标的颜色饱和度匹配范围，修复识别失败的问题 ([#18766](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18766)) @youzibigg
 * 修复调试环境下程序退出时因 .old 目录不存在而报错的问题 @status102
 * YostarJP update the Annihilation entrance template ([#18752](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18752)) @Rememorio
+* YostarKR keep line breaks in the operator OCR replacement @HX3N
+* YostarKR update the Awards templates @HX3N
 
 ### 文档 | Docs
 
