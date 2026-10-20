@@ -1437,10 +1437,20 @@ public class AsstProxy
                     _taskChainStartTimes.Remove(taskId);
                     UpdateTaskStatus(taskId, TaskStatus.Error);
 
-                    // details.error 为 Core 侧 TaskExceptionKind 名（如 OutOfMemory），普通识别错误无此字段
-                    var log = details["error"]?.ToString() == "OutOfMemory"
-                        ? LocalizationHelper.GetStringFormat("OutOfMemoryError", LocalizationHelper.GetString(taskChain))
-                        : LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(taskChain);
+                    // details.details.error 为 Core 侧 TaskExceptionKind 名，普通识别错误无此字段
+                    var exceptionKind = details["details"]?["error"]?.ToString();
+                    var localizedTaskChain = LocalizationHelper.GetString(taskChain);
+                    if (exceptionKind == "GpuDeviceRemoved")
+                    {
+                        Bootstrapper.MarkRequiresRestart();
+                    }
+
+                    var log = exceptionKind switch
+                    {
+                        "OutOfMemory" => LocalizationHelper.GetStringFormat("OutOfMemoryError", localizedTaskChain),
+                        "GpuDeviceRemoved" => LocalizationHelper.GetStringFormat("GpuDeviceRemovedRestartRequired", localizedTaskChain),
+                        _ => LocalizationHelper.GetString("TaskError") + localizedTaskChain,
+                    };
                     void DisplayErrorLog() => Instances.TaskQueueViewModel.DisplayLog(log, UiLogColor.Error,
                         updateCardImage: true, fetchLatestImage: true, useCardImageAsToolTip: true);
 
