@@ -1002,7 +1002,7 @@
         },
         {
             "id": "nocoll_shop_route",
-            "description": "无藏刷开局：第一层直奔诡意行商检查目标藏品，到不了商店就重开",
+            "description": "无藏刷开局：第一层直奔诡意行商检查目标藏品，到不了商店就重开；商店在岔路上时优先开未知的诡秘找主路上的商店",
             "milestones": [
                 {
                     "id": "nocoll_floor1_shop",
@@ -1018,6 +1018,18 @@
                     "weight": 3,
                     "selector": {
                         "node_types": ["shop"]
+                    }
+                },
+                {
+                    "id": "nocoll_explore_hidden_shop",
+                    "description": "第一层已知商店在死路/岔路上走不到时，优先探索未知的诡秘（可能藏着主路上的商店），别按战斗数避战走终点",
+                    "kind": "preferred",
+                    "floor_window": [1, 1],
+                    "rank": 1,
+                    "count": 2,
+                    "weight": 2,
+                    "selector": {
+                        "node_types": ["hide_invisible"]
                     }
                 }
             ]
