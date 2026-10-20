@@ -13,29 +13,12 @@
 
 #nullable enable
 
-using System;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Controls;
-using MaaWpfGui.ViewModels.Dialogs;
-
 namespace MaaWpfGui.Views.Dialogs;
 
-/// <summary>
-/// 更新日志渲染后需要做 inline 级后处理（贡献者头像与用户名合并为原子元素防止拆行），
-/// MdXaml 经绑定生成 Document 的时机在 View 侧可观测，故订阅 Document 变化转发给 VM。
-/// </summary>
 public partial class VersionUpdateDialogView
 {
     public VersionUpdateDialogView()
     {
         InitializeComponent();
-        DependencyPropertyDescriptor.FromProperty(FlowDocumentScrollViewer.DocumentProperty, typeof(FlowDocumentScrollViewer))
-            .AddValueChanged(ChangelogViewer, OnChangelogDocumentChanged);
-    }
-
-    private void OnChangelogDocumentChanged(object? sender, EventArgs e)
-    {
-        (DataContext as VersionUpdateDialogViewModel)?.MergeAvatarUsernameIntoAtoms();
     }
 }
