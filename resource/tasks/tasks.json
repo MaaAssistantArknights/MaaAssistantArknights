@@ -2175,22 +2175,6 @@
         "template": "GainItem.png",
         "next": ["#self", "WeeklyTask", "AwardFinished"]
     },
-    "CloseTaskAward": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [600, 630, 60, 60],
-        "next": ["CloseTaskAwardDouble"],
-        "postDelay": 1000
-    },
-    "CloseTaskAwardDouble": {
-        "Doc": "有时候奖励出的太慢了，所以这里多点一次",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [600, 630, 60, 60],
-        "next": ["WeeklyTask", "AwardFinished", "CloseTaskAwardDouble"],
-        "maxTimes": 10,
-        "postDelay": 500
-    },
     "AwardFinished": {
         "action": "Stop",
         "roi": [400, 0, 880, 100],
@@ -4154,7 +4138,15 @@
         "text": ["训练完成"],
         "action": "ClickSelf",
         "postDelay": 1000,
-        "next": ["CloseTaskAward"]
+        "next": ["InfrastTrainingCompletedClose"]
+    },
+    "InfrastTrainingCompletedClose": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [600, 630, 60, 60],
+        "next": ["#self"],
+        "maxTimes": 10,
+        "postDelay": 500
     },
     "InfrastTrainingCompleted2": {
         "action": "ClickSelf",
