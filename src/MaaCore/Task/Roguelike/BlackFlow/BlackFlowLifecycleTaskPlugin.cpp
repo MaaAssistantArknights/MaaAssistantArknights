@@ -677,8 +677,40 @@ bool BlackFlowLifecycleTaskPlugin::take_no_collect_drops()
         }
         sleep(1500);
         if (clicked_choice) {
-            // ｢抉择｣的｢选择｣会打开零件选择界面，交给任务链里的 GetDropSelectReward 处理。
+            // ｢抉择｣的｢选择｣会打开零件二选一。复用默认链的确认顺序（招募/收下/获得/卡面/选择）拿一个零件，
+            // 拿完再返回；否则直接返回会让 DropsFlag 里的｢直接离开｣先命中，把零件跳过。
             LogInfo << __FUNCTION__ << "choice card opened the part selection";
+            const std::vector<std::string> part_tasks = {
+                "BlackFlow@Roguelike@GetDropSelectRecruit",
+                "BlackFlow@Roguelike@GetDrop",
+                "BlackFlow@Roguelike@GetDropSelectReward",
+                "BlackFlow@Roguelike@GetDropCompleted",
+                "BlackFlow@Roguelike@GetDropSelect",
+            };
+            bool part_taken = false;
+            for (const std::string& task_name : part_tasks) {
+                Matcher matcher(ctrler()->get_image());
+                matcher.set_task_info(task_name);
+                const auto result = matcher.analyze();
+                if (!result) {
+                    continue;
+                }
+                Point target { result->rect.x + result->rect.width / 2, result->rect.y + result->rect.height / 2 };
+                const auto task_info = Task.get(task_name);
+                if (task_info != nullptr && task_info->action == ProcessTaskAction::ClickRect) {
+                    target = Point { task_info->specific_rect.x + task_info->specific_rect.width / 2,
+                                     task_info->specific_rect.y + task_info->specific_rect.height / 2 };
+                }
+                LogInfo << __FUNCTION__ << "take part via" << task_name << "at" << target.x << target.y;
+                ctrler()->click(target);
+                sleep(1000);
+                part_taken = true;
+                break;
+            }
+            if (part_taken) {
+                // 拿完零件回到掉落界面，继续处理剩下的卡（可能还有藏品要跳过）。
+                continue;
+            }
             return true;
         }
         // 招募券的收下会直接进招募界面，别对着切换中的旧画面再点一次。
