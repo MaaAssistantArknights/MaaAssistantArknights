@@ -76,6 +76,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
     public static readonly string UiLogFile = Path.Combine(PathsHelper.DebugDir, "gui.log");
     public static readonly string UiLogBakFile = Path.Combine(PathsHelper.DebugDir, "gui.bak.log");
+    public static readonly string UiLogTmpFile = Path.Combine(PathsHelper.DebugDir, "gui.tmp.log");
     public static readonly string CoreLogFile = Path.Combine(PathsHelper.DebugDir, "asst.log");
     public static readonly string CoreLogBakFile = Path.Combine(PathsHelper.DebugDir, "asst.bak.log");
 
@@ -446,6 +447,16 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         ConfigurationHelper.Load();
         LocalizationHelper.Load();
 
+        // 单实例门禁先于一切会改动安装状态的启动逻辑（待更新包应用、更新结果消费、配置迁移）：
+        // 常驻实例持有互斥锁期间，第二实例须在此处退让唤醒，不得在拿锁前进更新流程
+        if (!HandleMultipleInstances())
+        {
+            FlushLogAndExit();
+            return;
+        }
+
+        _hasMutex = true;
+
         ConsumeDelegatedUpdateResult();
 
         if (!VerifyInstallLocation() || !TryApplyPendingUpdatePackage())
@@ -469,12 +480,6 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             return;
         }
 
-        if (!HandleMultipleInstances())
-        {
-            FlushLogAndExit();
-            return;
-        }
-
         if (!IsWritable(PathsHelper.BaseDir))
         {
             Task.Run(() => MessageBoxHelper.Show(LocalizationHelper.GetString("SoftwareLocationWarning"), LocalizationHelper.GetString("Error"), MessageBoxButton.OK, MessageBoxImage.Error));
@@ -483,7 +488,6 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         Task.Run(ParseCrashLog);
 
         base.OnStart();
-        _hasMutex = true;
 
         // --config <配置名>：启动时切换到指定配置（Config 内部会重启进程）
         if (ParseArgs(args, "--config").TryGetValue("--config", out string configArgs))
@@ -581,12 +585,18 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     {
         if (File.Exists(UiLogFile) && new FileInfo(UiLogFile).Length > 4 * 1024 * 1024)
         {
-            if (File.Exists(UiLogBakFile))
+            try
             {
+                // 先腾开 gui.log 再动 bak：日志句柄被另一实例持有时在此步失败，bak 完好，下次启动再滚动；
+                // overwrite 覆盖上次滚动中途退出残留的 tmp
+                File.Move(UiLogFile, UiLogTmpFile, overwrite: true);
                 File.Delete(UiLogBakFile);
+                File.Move(UiLogTmpFile, UiLogBakFile);
             }
-
-            File.Move(UiLogFile, UiLogBakFile);
+            catch (Exception)
+            {
+                // 滚动失败（多实例占用、权限等）不挡启动，append 现有 gui.log 继续；此时 logger 未建，无法记日志
+            }
         }
 
         // Bootstrap serilog
@@ -886,6 +896,31 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             MessageBoxHelper.Show(LocalizationHelper.GetString("MultiInstanceUnderSamePath") + e.Message, "MAA", MessageBoxButton.OK, MessageBoxImage.Warning);
             return false;
         }
+    }
+
+    /// <summary>
+    /// 释放单实例互斥量并复位持有标志，幂等。除 <see cref="OnExit"/> 外，各 Environment.Exit
+    /// 早退出口不经过 WPF 关闭流程，也须调用本方法显式释放；调用须在持有互斥量的 UI 线程上。
+    /// </summary>
+    internal static void ReleaseInstanceMutex()
+    {
+        if (!_hasMutex)
+        {
+            return;
+        }
+
+        _hasMutex = false;
+        try
+        {
+            _mutex?.ReleaseMutex();
+        }
+        catch (Exception e)
+        {
+            _logger.Warning(e, "Failed to release instance mutex");
+        }
+
+        _mutex?.Dispose();
+        _mutex = null;
     }
 
     public static string InstanceKey
@@ -1306,14 +1341,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         ConfigurationHelper.Release();
         ConfigFactory.Release();
 
-        // 释放互斥量
-        if (!_hasMutex)
-        {
-            return;
-        }
-
-        _mutex?.ReleaseMutex();
-        _mutex?.Dispose();
+        ReleaseInstanceMutex();
     }
 
     /// <summary>
@@ -1496,6 +1524,9 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
             Process.Start(startInfo);
         }
+
+        // 紧邻进程退出再释放互斥量，缩小释放后第三实例抢锁插进来的窗口
+        ReleaseInstanceMutex();
         Environment.Exit(0);
     }
 
@@ -1619,11 +1650,14 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     }
 
     /// <summary>
-    /// 落盘日志后立即结束进程，供启动中止分支使用。
-    /// 仅限 OnStart 早期调用：此时互斥量与主窗口尚未创建，<see cref="OnExit"/> 的清理流程不适用。
+    /// 释放单实例互斥量、落盘日志后立即结束进程，供启动中止分支使用。
+    /// 调用时主窗口尚未创建，<see cref="OnExit"/> 的清理流程不适用；互斥量是否持有因调用分支而异
+    /// （单实例门禁前移后，更新早退等分支在持锁状态下退出），由 <see cref="ReleaseInstanceMutex"/> 内部守卫区分。
     /// </summary>
     private static void FlushLogAndExit()
     {
+        ReleaseInstanceMutex();
+
         // Environment.Exit 不经过 WPF 关闭流程，日志需先显式落盘
         Log.CloseAndFlush();
         Environment.Exit(0);
