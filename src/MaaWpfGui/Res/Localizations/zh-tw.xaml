@@ -265,6 +265,7 @@
     <system:String x:Key="RoguelikeStrategyBlackFlowExp">刷等級，快速前往第三層</system:String>
     <system:String x:Key="RoguelikeStrategyBlackFlowInvestment">刷源石錠，投資完成後自動退出</system:String>
     <system:String x:Key="RoguelikeStrategyBlackFlowStartRun">刷開局，刷到目標後退出並保留這一局</system:String>
+    <system:String x:Key="RoguelikeStrategyBlackFlowNoCollectStartRun">無藏刷開局，第一層商店有悲傷的紅後退出並保留這一局</system:String>
     <system:String x:Key="RoguelikeBlackFlowFlightRequirement">需滿天賦機械師</system:String>
     <system:String x:Key="RoguelikeBlackFlowFastFlight">快速飛往第三層</system:String>
     <system:String x:Key="RoguelikeBlackFlowFlightTip" xml:space="preserve">固定用特勤分隊、穩紮穩打和自己的機械師開局，只招機械師，第二層用自帶的結構性原理直接飛到第三層，到達後重開。&#10;勾選後一般設定裡的分隊、職業組和開局幹員不能修改，取消勾選後恢復。不勾選時按目標結局打，開局配置是這套組合也不會飛。&#10;機械師天賦沒點滿會飛不起來，請不要勾選。</system:String>
@@ -1861,6 +1862,11 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowOutcomeNodeDispatchFailed">節點分派失敗</system:String>
     <system:String x:Key="BlackFlowOutcomeNodeResultFailed">節點結果處理失敗</system:String>
     <system:String x:Key="BlackFlowOutcomeInternalFailure">內部狀態異常</system:String>
+    <system:String x:Key="BlackFlowOutcomeNoCollectShopMissed">第一層商店沒有悲傷的紅，本局重開</system:String>
+    <system:String x:Key="BlackFlowOutcomeNoCollectShopUnreachable">沒有走到第一層商店，本局重開</system:String>
+    <system:String x:Key="BlackFlowShopStockSeen">第一層商店商品：{0}</system:String>
+    <system:String x:Key="BlackFlowShopStockUnrecognized">第一層商店商品沒有辨識出來</system:String>
+    <system:String x:Key="BlackFlowShopStockFound">商店有｢悲傷的紅｣，退出並保留這一局</system:String>
     <system:String x:Key="BlackFlowOutcomeUnknown">肉鴿出現異常</system:String>
     <system:String x:Key="BlackFlowTerminationInvestmentFinished">投資已經完成，本局結束</system:String>
     <system:String x:Key="BlackFlowTerminationInvestmentShopWindowClosed">已經離開第一層且尚未投資，本局重開</system:String>
@@ -1869,6 +1875,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowTerminationCultivationTargetObtained">培育結果包含目標品種，任務結束</system:String>
     <system:String x:Key="BlackFlowTerminationCultivationTargetNotObtained">培育結果未包含目標品種，本局重開</system:String>
     <system:String x:Key="BlackFlowTerminationFloor1ShopNoSeed">第一層商店沒有種子，本局結束</system:String>
+    <system:String x:Key="BlackFlowTerminationNoCollectTargetMissing">第一層商店沒有悲傷的紅，放棄這一局</system:String>
+    <system:String x:Key="BlackFlowTerminationNoCollectShopUnreachable">第一層沒能到達詭意行商，本局重開</system:String>
     <system:String x:Key="BlackFlowTerminationMandatoryPrerequisiteMissed">必須完成的結局前置條件已經錯過</system:String>
     <system:String x:Key="BlackFlowTerminationStrategyTerminalReached">已經抵達策略終點</system:String>
     <system:String x:Key="BlackFlowTerminationNodePageRecoveryFailed">無法從節點頁面返回地圖</system:String>

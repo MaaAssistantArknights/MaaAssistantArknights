@@ -766,6 +766,13 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
     - `reward_recognition_failed`: 준비 탐험에서 지원 선택 화면의 보상 선택에 실패해 작업 중지.
   - `rewards` (`array<string>`, optional): 목표 탐험의 지원 선택 화면에서 인식한 보상 이름(중국어 간체), 예: `空间租赁`, `金乌`. `reward_missed`, `completed`, `reward_unrecognized`일 때만 전달되며, `blackflow_start_rewards`가 0(보상을 인식하지 않음)이거나 하나도 인식하지 못하면 생략됩니다.
 
+- `BlackFlowShopStock`  
+  BlackFlow 수집품 없는 시작 반복(로그라이크 모드 30004)에서 1구역 상점 상품을 인식한 결과. `details` 필드 내용은 다음과 같습니다:
+  - `goods` (`array<string>`, required): 이 화면에서 인식한 모든 텍스트 줄(상품 이름에 국한되지 않으며 인식 누락 진단용). 하나도 인식하지 못하면 빈 배열입니다.
+  - `found` (`boolean`, required): 상품에 목표 수집품이 있는지 여부.
+  - `target` (`string`, required): 목표 수집품 이름. 현재 `悲伤的红`.
+  - `screenshot` (`string`, optional): 이번 인식에 사용한 스크린샷의 상대 경로(`debug/roguelike/...png`). 저장에 실패하면 생략됩니다.
+
 - `BlackFlowScrapTradeAborted`  
   BlackFlow 행상 거래에서 이상이 발생하여 거래를 중단합니다. `details` 필드 내용은 다음과 같습니다:
 

@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <format>
 #include <map>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <system_error>
@@ -98,7 +99,7 @@ inline size_t filenum_ctrl(const std::filesystem::path& absolute_or_relative_dir
     return deleted;
 }
 
-inline bool save_debug_image(
+inline std::optional<std::filesystem::path> save_debug_image_path(
     const cv::Mat& image,
     const std::filesystem::path& relative_dir,
     bool auto_clean,
@@ -108,7 +109,7 @@ inline bool save_debug_image(
     const std::vector<int>& params = {})
 {
     if (image.empty()) {
-        return false;
+        return std::nullopt;
     }
 
     static std::map<std::filesystem::path, size_t> s_save_cnt;
@@ -142,6 +143,21 @@ inline bool save_debug_image(
         LogInfo << "Save" << description << "to" << relative_path;
     }
 
-    return MAA_NS::imwrite(relative_path, image, params);
+    if (!MAA_NS::imwrite(relative_path, image, params)) {
+        return std::nullopt;
+    }
+    return relative_path;
+}
+
+inline bool save_debug_image(
+    const cv::Mat& image,
+    const std::filesystem::path& relative_dir,
+    bool auto_clean,
+    std::string_view description = "",
+    std::string_view suffix = "",
+    const std::string& ext = "png",
+    const std::vector<int>& params = {})
+{
+    return save_debug_image_path(image, relative_dir, auto_clean, description, suffix, ext, params).has_value();
 }
 } // namespace asst::utils

@@ -4,18 +4,29 @@
 #include <iterator>
 #include <utility>
 
+#include "MaaUtils/Platform.h"
+
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Vision/Matcher.h"
 #include "Vision/OCRer.h"
 
+#include "Utils/DebugImageHelper.hpp"
 #include "Utils/Logger.hpp"
 
 namespace asst::blackflow
 {
 namespace
 {
+// 无藏刷开局的收工条件：第一层诡意行商卖这个藏品就保留这一局。
+constexpr std::string_view NoCollectTargetCollectible = "悲伤的红";
+constexpr int ShopStockOcrAttempts = 3;
+// 无藏刷开局：战斗掉落是一排卡片，只拿源石锭和招募券，其余（藏品）点｢直接离开｣。
+constexpr std::string_view DropCardMoneyTitle = "源石锭";
+constexpr std::string_view DropCardVoucherTitle = "招募券";
+constexpr int DropCardTakeAttempts = 4;
+
 std::pair<std::string, std::string> classify_unreported_termination(const std::string& pre_task)
 {
     if (pre_task == "BlackFlow@Roguelike@RecoveryFailed") {
@@ -32,6 +43,16 @@ bool BlackFlowLifecycleTaskPlugin::load_params(const json::value& params)
 {
     m_start_run =
         m_config->get_theme() == RoguelikeTheme::BlackFlow && m_config->get_mode() == RoguelikeMode::BlackFlowStartRun;
+    m_no_collect_start_run = m_config->get_theme() == RoguelikeTheme::BlackFlow &&
+                             m_config->get_mode() == RoguelikeMode::BlackFlowNoCollectStartRun;
+    m_shop_checked = false;
+    m_shop_target_seen = false;
+    m_shop_decision_pending = false;
+    m_investment_enabled = params.get("investment_enabled", true);
+    if (m_config->get_theme() == RoguelikeTheme::BlackFlow) {
+        // 默认直接离店；第一层商店认完商品后再按有没有目标藏品决定要不要先存钱。
+        Task.set_task_base("BlackFlow@Roguelike@Page-ShopAction", "BlackFlow@Roguelike@Page-ShopLeave");
+    }
     m_prepared_run_finished = false;
     if (!BlackFlowTaskPluginBase::load_params(params)) {
         return false;
@@ -52,6 +73,10 @@ bool BlackFlowLifecycleTaskPlugin::load_params(const json::value& params)
             profile =
                 params.get("investment_enabled", true) ? "start_run_rewards_with_investment" : "start_run_rewards";
         }
+    }
+    if (m_no_collect_start_run) {
+        // 不用机械师直飞、也不做两段开局：徒步到第一层商店，查完就走或重开。
+        profile = "nocoll_start";
     }
     if (profile.empty()) {
         if (m_config->get_mode() == RoguelikeMode::Investment) {
@@ -153,6 +178,24 @@ bool BlackFlowLifecycleTaskPlugin::verify(AsstMsg msg, const json::value& detail
         m_terminal_pre_task.clear();
         return true;
     }
+    if (m_no_collect_start_run) {
+        if (msg == AsstMsg::SubTaskStart && (task == "BlackFlow@Roguelike@DropsFlag" || task == "DropsFlag")) {
+            m_pending = PendingWork::TakeNoCollectDrops;
+            return true;
+        }
+        if (msg == AsstMsg::SubTaskStart && task == "BlackFlow@Roguelike@NodeDispatchAction" && !m_shop_checked &&
+            m_session != nullptr && m_session->page_context().has_value() &&
+            m_session->page_context()->node_type == NodeType::Shop && m_session->current_floor() == 1) {
+            m_pending = PendingWork::CheckShopStock;
+            return true;
+        }
+        if (msg == AsstMsg::SubTaskStart && task == "BlackFlow@Roguelike@NodeCompletionAction" &&
+            m_shop_decision_pending) {
+            m_shop_decision_pending = false;
+            m_pending = PendingWork::DecideShopTarget;
+            return true;
+        }
+    }
     if (msg != AsstMsg::SubTaskStart || task != "BlackFlow@Roguelike@StrategyTerminated") {
         return false;
     }
@@ -171,6 +214,12 @@ void BlackFlowLifecycleTaskPlugin::reset_in_run_variables()
     m_terminal_trigger.clear();
     m_terminal_pre_task.clear();
     m_stop_after_abandon = false;
+    m_shop_checked = false;
+    m_shop_target_seen = false;
+    m_shop_decision_pending = false;
+    if (m_config->get_theme() == RoguelikeTheme::BlackFlow) {
+        Task.set_task_base("BlackFlow@Roguelike@Page-ShopAction", "BlackFlow@Roguelike@Page-ShopLeave");
+    }
     Task.set_task_base("BlackFlow@Roguelike@StrategyTerminalAction", "BlackFlow@Roguelike@ExitThenAbandon-Enter");
     if (m_start_run) {
         m_prepared_run_finished = false;
@@ -208,6 +257,15 @@ bool BlackFlowLifecycleTaskPlugin::_run()
     if (work == PendingWork::StartRunRewardPageMissing) {
         stop_start_run("reward_page_missing");
         return false;
+    }
+    if (work == PendingWork::CheckShopStock) {
+        return check_shop_stock();
+    }
+    if (work == PendingWork::DecideShopTarget) {
+        return decide_shop_target();
+    }
+    if (work == PendingWork::TakeNoCollectDrops) {
+        return take_no_collect_drops();
     }
     if (work == PendingWork::RecordCurrentFloor) {
         if (m_session == nullptr) {
@@ -432,6 +490,227 @@ bool BlackFlowLifecycleTaskPlugin::check_start_run_reward()
     report_start_run("reward_missed", seen);
     m_config->set_run_for_collectible(true);
     m_control_ptr->exit_then_stop(true);
+    return true;
+}
+
+bool BlackFlowLifecycleTaskPlugin::check_shop_stock()
+{
+    LogTraceFunction;
+
+    m_shop_target_seen = false;
+    std::vector<std::string> goods;
+    cv::Mat stock_image;
+
+    // 商店界面刚打开时文字可能还在淡入，连续抓几帧合并去重，避免只认到一部分商品。
+    for (int attempt = 1; attempt <= ShopStockOcrAttempts; ++attempt) {
+        stock_image = ctrler()->get_image();
+        OCRer ocr(stock_image);
+        ocr.set_task_info("BlackFlow@Roguelike@ShopStockOcr");
+        const auto results = ocr.analyze().value_or(OCRer::ResultsVec {});
+        const std::size_t before = goods.size();
+        for (const auto& result : results) {
+            LogInfo << __FUNCTION__ << "shop text:" << result.text << "rect:" << result.rect.to_string()
+                    << "score:" << result.score;
+            if (std::ranges::find(goods, result.text) == goods.cend()) {
+                goods.emplace_back(result.text);
+            }
+        }
+        LogInfo << __FUNCTION__ << "shop stock ocr round" << attempt << "lines:" << results.size()
+                << "unique:" << goods.size();
+        // 这一帧没有新内容就认为界面已经稳定，不再空等。
+        if (!goods.empty() && goods.size() == before) {
+            break;
+        }
+        if (attempt < ShopStockOcrAttempts) {
+            sleep(400);
+        }
+    }
+
+    for (const std::string& text : goods) {
+        if (text.find(NoCollectTargetCollectible) != std::string::npos) {
+            m_shop_target_seen = true;
+        }
+    }
+    if (goods.empty()) {
+        LogError << __FUNCTION__ << "shop stock OCR returned nothing";
+    }
+
+    // 截图存到 debug/roguelike，并把相对路径一起回传，界面上能直接去对照 OCR 漏了什么。
+    std::string screenshot;
+    if (auto saved = utils::save_debug_image_path(
+            stock_image,
+            utils::path("debug") / utils::path("roguelike"),
+            true,
+            "shop stock screenshot",
+            "shop_stock")) {
+        screenshot = MAA_NS::path_to_utf8_string(
+            utils::path("debug") / utils::path("roguelike") / saved->filename());
+    }
+
+    m_shop_checked = true;
+    m_shop_decision_pending = true;
+
+    // 把这一屏认到的商品回传界面，侧边日志里能直接对照是不是认错了。
+    auto info = basic_info_with_what("BlackFlowShopStock");
+    info["details"]["target"] = std::string(NoCollectTargetCollectible);
+    info["details"]["found"] = m_shop_target_seen;
+    info["details"]["goods"] = json::array(goods);
+    if (!screenshot.empty()) {
+        info["details"]["screenshot"] = screenshot;
+    }
+    callback(AsstMsg::SubTaskExtraInfo, info);
+
+    // 没刷到目标藏品且开了投资时先存钱再离店，否则直接离店。
+    const bool invest = !m_shop_target_seen && m_investment_enabled;
+    Task.set_task_base(
+        "BlackFlow@Roguelike@Page-ShopAction",
+        invest ? "BlackFlow@Roguelike@Page-ShopInvest" : "BlackFlow@Roguelike@Page-ShopLeave");
+    LogInfo << __FUNCTION__ << "shop stock checked" << "target" << NoCollectTargetCollectible << "seen"
+            << m_shop_target_seen << "invest" << invest;
+    return true;
+}
+
+bool BlackFlowLifecycleTaskPlugin::decide_shop_target()
+{
+    LogTraceFunction;
+
+    if (m_shop_target_seen) {
+        // 和刷开局命中一样：退出到主题页并保留这一局，任务视作完成，队列里后面的任务可以接着跑。
+        LogInfo << __FUNCTION__ << "target collectible found, keep this run and stop the task";
+        m_control_ptr->exit_then_stop(false);
+        m_task_ptr->set_enable(false);
+        return true;
+    }
+
+    LogInfo << __FUNCTION__ << "target collectible not found, abandon this run and restart";
+    if (m_session != nullptr) {
+        m_session->fail("nocoll_shop_missed", "target_collectible_missing", FailureDisposition::RestartRun);
+    }
+    return true;
+}
+
+bool BlackFlowLifecycleTaskPlugin::take_no_collect_drops()
+{
+    LogTraceFunction;
+
+    // DropsFlag 在地图上也会频繁命中，先用掉落界面独有的｢收下｣/｢直接离开｣模板确认一下，
+    // 不是掉落界面就直接交回任务链，省掉整屏 OCR。
+    const auto on_drop_overlay = [&]() {
+        const auto image = ctrler()->get_image();
+        Matcher take(image);
+        take.set_task_info("BlackFlow@Roguelike@GetDrop");
+        if (take.analyze()) {
+            return true;
+        }
+        Matcher leave(image);
+        leave.set_task_info("BlackFlow@Roguelike@GetDropLeave");
+        return leave.analyze().has_value();
+    };
+    bool overlay_ready = on_drop_overlay();
+    // 卡片刚弹出来时可能还没渲染完，最多再等两拍。
+    for (int attempt = 1; attempt < 3 && !overlay_ready; ++attempt) {
+        sleep(300);
+        overlay_ready = on_drop_overlay();
+    }
+    if (!overlay_ready) {
+        LogInfo << __FUNCTION__ << "not on the drop overlay, leave the screen to the task chain";
+        return true;
+    }
+
+    // 战斗掉落是一排卡片，每张卡下面有自己的｢收下｣。只点源石锭和招募券的收下，藏品不碰，
+    // 最后点｢直接离开｣跳过剩下的卡片。
+    bool on_drop_screen = false;
+    // 已经点过的卡：卡片消失有延迟，同一帧里重复读到同一张卡时不再点，
+    // 免得卡片挪位后点到下一位（可能正是藏品）。
+    std::vector<std::pair<std::string, int>> taken;
+    for (int round = 0; round < DropCardTakeAttempts; ++round) {
+        OCRer::ResultsVec title_results;
+        // 卡片是淡入的，第一帧没读到就等半秒再读一次。
+        for (int attempt = 0; attempt < 2 && title_results.empty(); ++attempt) {
+            if (attempt != 0) {
+                sleep(400);
+            }
+            const auto image = ctrler()->get_image();
+            OCRer titles(image);
+            titles.set_task_info("BlackFlow@Roguelike@GetDropCardTitleOcr");
+            title_results = titles.analyze().value_or(OCRer::ResultsVec {});
+        }
+        if (title_results.empty()) {
+            break;
+        }
+        on_drop_screen = true;
+
+        // 每张卡的｢收下｣都在标题正下方，用按钮模板拿 y 坐标，再用标题中心 x 定位到具体卡片。
+        Matcher button(ctrler()->get_image());
+        button.set_task_info("BlackFlow@Roguelike@GetDrop");
+        const auto button_result = button.analyze();
+        const int button_center_y =
+            button_result.has_value() ? button_result->rect.y + button_result->rect.height / 2 : 541;
+
+        bool clicked = false;
+        for (const auto& title : title_results) {
+            if (title.text.find(DropCardMoneyTitle) == std::string::npos &&
+                title.text.find(DropCardVoucherTitle) == std::string::npos) {
+                continue;
+            }
+            const int click_x = title.rect.x + title.rect.width / 2;
+            const bool already_taken = std::ranges::any_of(taken, [&](const auto& item) {
+                const int dx = item.second > click_x ? item.second - click_x : click_x - item.second;
+                return item.first == title.text && dx < 30;
+            });
+            if (already_taken) {
+                continue;
+            }
+            const Point target { click_x, button_center_y };
+            LogInfo << __FUNCTION__ << "take drop card" << title.text << "at" << target.x << target.y;
+            ctrler()->click(target);
+            taken.emplace_back(title.text, click_x);
+            clicked = true;
+            break;
+        }
+        if (!clicked) {
+            break;
+        }
+        sleep(1500);
+        // 招募券的收下会直接进招募界面，别对着切换中的旧画面再点一次。
+        Matcher choose_oper(ctrler()->get_image());
+        choose_oper.set_task_info("BlackFlow@Roguelike@ChooseOperFlag");
+        if (choose_oper.analyze()) {
+            LogInfo << __FUNCTION__ << "voucher opened the recruit screen";
+            return true;
+        }
+    }
+
+    if (!on_drop_screen) {
+        LogInfo << __FUNCTION__ << "no drop card titles, leave the screen to the task chain";
+        return true;
+    }
+
+    // 剩下的卡片都是不想要的（藏品等），点｢直接离开｣。
+    Matcher leave(ctrler()->get_image());
+    leave.set_task_info("BlackFlow@Roguelike@GetDropLeave");
+    const auto leave_result = leave.analyze();
+    if (!leave_result) {
+        LogInfo << __FUNCTION__ << "leave option not found";
+        return true;
+    }
+    LogInfo << __FUNCTION__ << "leave remaining drop cards" << leave_result->rect;
+    const Point leave_point { leave_result->rect.x + leave_result->rect.width / 2,
+                              leave_result->rect.y + leave_result->rect.height / 2 };
+    ctrler()->click(leave_point);
+    sleep(800);
+
+    Matcher confirm(ctrler()->get_image());
+    confirm.set_task_info("Roguelike@GetDropLeaveConfirm");
+    const auto confirm_result = confirm.analyze();
+    if (!confirm_result) {
+        return true;
+    }
+    LogInfo << __FUNCTION__ << "confirm leave" << confirm_result->rect;
+    const Point confirm_point { confirm_result->rect.x + confirm_result->rect.width / 2,
+                                confirm_result->rect.y + confirm_result->rect.height / 2 };
+    ctrler()->click(confirm_point);
+    sleep(600);
     return true;
 }
 

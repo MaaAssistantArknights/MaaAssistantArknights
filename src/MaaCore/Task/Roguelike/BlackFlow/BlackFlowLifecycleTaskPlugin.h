@@ -26,6 +26,9 @@ private:
         StartRunStarted,
         CheckStartRunReward,
         StartRunRewardPageMissing,
+        CheckShopStock,
+        DecideShopTarget,
+        TakeNoCollectDrops,
     };
 
     bool check_start_run_reward();
@@ -34,7 +37,17 @@ private:
     void stop_start_run(std::string_view status, const std::vector<std::string>& rewards = {});
     void complete_start_run(const std::vector<std::string>& rewards = {});
 
+    // 无藏刷开局：第一层诡意行商进货时记下有没有目标藏品，离店回到地图后再决定保留还是重开
+    bool check_shop_stock();
+    bool decide_shop_target();
+
+    // 无藏刷开局：战斗掉落是一排卡片，只拿源石锭和招募券，剩下的藏品点｢直接离开｣
+    bool take_no_collect_drops();
+
     bool m_start_run = false;
+    bool m_no_collect_start_run = false;
+    // 界面上的 ｢投资源石锭｣：无藏刷开局没刷到目标藏品时先存钱再离店
+    bool m_investment_enabled = false;
     bool m_prepared_run_finished = false;
     std::string m_start_core_char;
     std::string m_target_squad;
@@ -46,5 +59,8 @@ private:
     mutable std::string m_terminal_trigger;
     mutable std::string m_terminal_pre_task;
     bool m_stop_after_abandon = false;
+    bool m_shop_checked = false;
+    bool m_shop_target_seen = false;
+    mutable bool m_shop_decision_pending = false;
 };
 } // namespace asst::blackflow

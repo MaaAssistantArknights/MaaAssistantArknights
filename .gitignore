@@ -494,3 +494,9 @@ CMakeUserPresets.json
 
 # mimosa security scan plugin
 /.mimosa
+
+# 本地临时文件（ImageCropper/日志片段等）
+/tmp/
+
+# agent 本地笔记与工具配置；.agents/skills 已被跟踪的文件不受影响
+/.agents/

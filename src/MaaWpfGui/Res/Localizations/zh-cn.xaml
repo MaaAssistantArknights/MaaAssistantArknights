@@ -265,6 +265,7 @@
     <system:String x:Key="RoguelikeStrategyBlackFlowExp">刷等级，快速飞三层</system:String>
     <system:String x:Key="RoguelikeStrategyBlackFlowInvestment">刷源石锭，投资完成后自动退出</system:String>
     <system:String x:Key="RoguelikeStrategyBlackFlowStartRun">刷开局，刷到目标后退出并保留这一局</system:String>
+    <system:String x:Key="RoguelikeStrategyBlackFlowNoCollectStartRun">无藏刷开局，第一层商店有悲伤的红后退出并保留这一局</system:String>
     <system:String x:Key="RoguelikeBlackFlowFlightRequirement">需满天赋机械师</system:String>
     <system:String x:Key="RoguelikeBlackFlowFastFlight">快速飞三层</system:String>
     <system:String x:Key="RoguelikeBlackFlowFlightTip" xml:space="preserve">固定用特勤分队、稳扎稳打和自己的机械师开局，只招机械师，第二层用自带的结构性原理直接飞到第三层，到达后重开。&#10;勾选后常规设置里的分队、职业组和开局干员不能修改，取消勾选后恢复。不勾选时按目标结局打，开局配置是这套组合也不会飞。&#10;机械师天赋没点满会飞不起来，请不要勾选。</system:String>
@@ -1861,6 +1862,11 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowOutcomeNodeDispatchFailed">节点分派失败</system:String>
     <system:String x:Key="BlackFlowOutcomeNodeResultFailed">节点结果处理失败</system:String>
     <system:String x:Key="BlackFlowOutcomeInternalFailure">内部状态异常</system:String>
+    <system:String x:Key="BlackFlowOutcomeNoCollectShopMissed">第一层商店没有悲伤的红，本局重开</system:String>
+    <system:String x:Key="BlackFlowOutcomeNoCollectShopUnreachable">没有走到第一层商店，本局重开</system:String>
+    <system:String x:Key="BlackFlowShopStockSeen">第一层商店商品：{0}</system:String>
+    <system:String x:Key="BlackFlowShopStockUnrecognized">第一层商店商品没有识别出来</system:String>
+    <system:String x:Key="BlackFlowShopStockFound">商店有｢悲伤的红｣，退出并保留这一局</system:String>
     <system:String x:Key="BlackFlowOutcomeUnknown">肉鸽出现异常</system:String>
     <system:String x:Key="BlackFlowTerminationInvestmentFinished">投资已经完成，本局结束</system:String>
     <system:String x:Key="BlackFlowTerminationInvestmentShopWindowClosed">已经离开第一层且尚未投资，本局重开</system:String>
@@ -1869,6 +1875,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowTerminationCultivationTargetObtained">培育结果包含目标品种，任务结束</system:String>
     <system:String x:Key="BlackFlowTerminationCultivationTargetNotObtained">培育结果未包含目标品种，本局重开</system:String>
     <system:String x:Key="BlackFlowTerminationFloor1ShopNoSeed">第一层商店没有种子，本局结束</system:String>
+    <system:String x:Key="BlackFlowTerminationNoCollectTargetMissing">第一层商店没有悲伤的红，放弃这一局</system:String>
+    <system:String x:Key="BlackFlowTerminationNoCollectShopUnreachable">第一层没能到达诡意行商，本局重开</system:String>
     <system:String x:Key="BlackFlowTerminationMandatoryPrerequisiteMissed">必须完成的结局前置条件已经错过</system:String>
     <system:String x:Key="BlackFlowTerminationStrategyTerminalReached">已经抵达策略终点</system:String>
     <system:String x:Key="BlackFlowTerminationNodePageRecoveryFailed">无法从节点页面返回地图</system:String>

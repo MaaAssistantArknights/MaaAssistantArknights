@@ -1001,6 +1001,28 @@
             ]
         },
         {
+            "id": "nocoll_shop_route",
+            "description": "无藏刷开局：第一层直奔诡意行商检查目标藏品，到不了商店就重开",
+            "milestones": [
+                {
+                    "id": "nocoll_floor1_shop",
+                    "description": "第一层在诡意行商检查有没有悲伤的红；到不了商店按错过处理，直接重开",
+                    "kind": "preferred",
+                    "enforcement": "feasible_hard",
+                    "on_miss": "terminate",
+                    "miss_outcome": "nocoll_shop_unreachable",
+                    "miss_reason": "shop_unreachable_on_floor1",
+                    "floor_window": [1, 1],
+                    "rank": 0,
+                    "count": 1,
+                    "weight": 3,
+                    "selector": {
+                        "node_types": ["shop"]
+                    }
+                }
+            ]
+        },
+        {
             "id": "burn_investment_shop",
             "description": "刷等级时先去一层商店：拿得到结构性原理就硬性要求，拿不到则按权重择优",
             "rules": [
@@ -2053,6 +2075,12 @@
                     "next_action": "restart_current_run"
                 }
             ],
+            "failure_action": "restart_current_run"
+        },
+        {
+            "id": "nocoll_start",
+            "description": "无藏刷开局：徒步到第一层诡意行商，有悲伤的红就退出保留这一局，没有就重开",
+            "modules": ["common_navigation", "nocoll_shop_route"],
             "failure_action": "restart_current_run"
         },
         {

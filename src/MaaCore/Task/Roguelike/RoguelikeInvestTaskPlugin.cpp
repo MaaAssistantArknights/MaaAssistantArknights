@@ -150,7 +150,10 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
         auto cb = basic_info_with_what("RoguelikeInvestmentReachLimit");
         cb["details"]["limit"] = m_maximum;
         callback(AsstMsg::SubTaskExtraInfo, cb);
-        stop_roguelike();
+        // 无藏刷开局只是顺路存钱，存到上限也不该把整条刷开局任务停掉。
+        if (m_config->get_mode() != RoguelikeMode::BlackFlowNoCollectStartRun) {
+            stop_roguelike();
+        }
         return true;
     }
     if (deposit.value_or(0) < 999) {

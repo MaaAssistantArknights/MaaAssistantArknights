@@ -262,6 +262,18 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
     }
 
+    if (theme == RoguelikeTheme::BlackFlow) {
+        if (mode == RoguelikeMode::BlackFlowNoCollectStartRun) {
+            // 无藏刷开局只放弃藏品等奖励，源石锭、招募券仍照拿。
+            Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_no_collect");
+            Task.set_task_base(theme + "@Roguelike@GetDropSelect", theme + "@Roguelike@GetDropSelect_no_collect");
+        }
+        else {
+            // 其他刷源石锭分支已经按投资设置过 DropsFlag，这里只复位选择页。
+            Task.set_task_base(theme + "@Roguelike@GetDropSelect", theme + "@Roguelike@GetDropSelect_default");
+        }
+    }
+
     bool stop_at_final_boss = params.get("stop_at_final_boss", false);
     // 傀影肉鸽3层和5层boss图标一样,禁用
     if (stop_at_final_boss && theme != RoguelikeTheme::Phantom) {

@@ -867,6 +867,8 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 `30001` - 刷襁褓動物；僅適用於 BlackFlow 主題。
 <br>
 `30003` - 刷開局，先打準備局，再開目標局。準備局取得 `blackflow_start_animals` 要求的襁褓動物並進入第三層後放棄；目標局在選擇支援頁命中 `blackflow_start_rewards` 中任意一項時不做選擇，退出到主題頁並保留該局，任務結束。準備局使用 `collectible_mode_squad`，`difficulty` 不為 `-1` 時在 0 難度下進行；目標局使用 `squad` 與 `difficulty`，到選擇支援頁即結束，`roles` 與開局幹員只用於準備局。僅適用於 BlackFlow 主題，需配合 `blackflow_start_animals` 與 `blackflow_start_rewards`。
+<br>
+`30004` - 無藏刷開局，開局幹員不必是機械師，徒步走到第一層的詭意行商。戰後的藏品直接離開，源石錠與招募券照拿；商店商品裡有 ｢悲傷的紅｣ 時退出到主題頁並保留該局，任務結束；沒有且勾選了 ｢投資源石錠｣ 時先在商店投資存錢，再放棄這一局並重開。只檢查第一層商店。僅適用於 BlackFlow 主題。
 :::  
 ::: field squad  
 @type string

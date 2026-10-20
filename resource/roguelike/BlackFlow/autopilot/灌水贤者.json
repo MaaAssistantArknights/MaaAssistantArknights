@@ -1,0 +1,25 @@
+{
+    "stage_name": "灌水贤者",
+    "deploy_plan": [
+        {
+            "groups": ["机械师"],
+            "location": [6, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["高台输出", "狙击", "术师", "速狙", "辅助"],
+            "location": [3, 3],
+            "direction": "up"
+        },
+        {
+            "groups": ["近卫"],
+            "location": [2, 3],
+            "direction": "up"
+        },
+        {
+            "groups": ["地面阻挡", "重装", "近卫", "地面远程", "其他地面", "挡人先锋", "处决者"],
+            "location": [5, 1],
+            "direction": "left"
+        }
+    ]
+}

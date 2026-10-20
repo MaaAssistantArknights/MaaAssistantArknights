@@ -772,6 +772,13 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
     - `reward_recognition_failed`：準備局在選擇支援頁選擇獎勵失敗，停止任務。
   - `rewards` (`array<string>`, optional)：目標局在選擇支援頁辨識出的獎勵名稱，如 `空间租赁`、`金乌`；只隨 `reward_missed`、`completed`、`reward_unrecognized` 回報；`blackflow_start_rewards` 為 0（不辨識獎勵）或一項都沒辨識出時省略。
 
+- `BlackFlowShopStock`  
+  黑流樹海無藏刷開局（肉鴿模式 30004）第一層商店的商品辨識結果。`details` 欄位結構如下：
+  - `goods` (`array<string>`, required): 這一屏辨識到的全部文字行（不限於商品名，便於排查漏辨識）；一項都沒辨識出時為空陣列。
+  - `found` (`boolean`, required): 商品裡是否有目標藏品。
+  - `target` (`string`, required): 目標藏品名，目前為 `悲伤的红`。
+  - `screenshot` (`string`, optional): 本次辨識所用截圖的相對路徑（`debug/roguelike/...png`）；儲存失敗時省略。
+
 - `BlackFlowScrapTradeAborted`  
   黑流樹海秘境行商交易異常，中止交易。`details` 欄位內容如下：
 

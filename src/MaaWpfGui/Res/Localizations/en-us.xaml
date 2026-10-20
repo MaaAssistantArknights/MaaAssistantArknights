@@ -265,6 +265,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="RoguelikeStrategyBlackFlowExp">Farm levels, quickly reach Floor 3</system:String>
     <system:String x:Key="RoguelikeStrategyBlackFlowInvestment">Farm Originium Ingots, exit after investing</system:String>
     <system:String x:Key="RoguelikeStrategyBlackFlowStartRun">Farm starting rewards, exit and keep the run once a target is met</system:String>
+    <system:String x:Key="RoguelikeStrategyBlackFlowNoCollectStartRun">Farm a run without collectibles, exit and keep the run once the floor 1 shop sells 悲伤的红</system:String>
     <system:String x:Key="RoguelikeBlackFlowFlightRequirement">Requires a Mechanic with talent fully unlocked</system:String>
     <system:String x:Key="RoguelikeBlackFlowFastFlight">Fly to Floor 3 quickly</system:String>
     <system:String x:Key="RoguelikeBlackFlowFlightTip" xml:space="preserve">Always starts with Special Squad, Slow and Steady Wins the Race and your own Mechanic, recruits only the Mechanic, flies straight from Floor 2 to Floor 3 with the built-in Structural Principle, and restarts on arrival.&#10;The squad, roles and starting operator in General settings cannot be edited while this is checked; unchecking it makes them editable again. When unchecked, the run plays toward the target ending and does not fly even if the starting setup matches this combination.&#10;Do not check this if your Mechanic's talent is not fully unlocked, as the flight will fail.</system:String>
@@ -1860,6 +1861,11 @@ Right-click: select this job and exit multi-job mode</system:String>
     <system:String x:Key="BlackFlowOutcomeNodeDispatchFailed">Node dispatch failed</system:String>
     <system:String x:Key="BlackFlowOutcomeNodeResultFailed">Node result handling failed</system:String>
     <system:String x:Key="BlackFlowOutcomeInternalFailure">Internal state error</system:String>
+    <system:String x:Key="BlackFlowOutcomeNoCollectShopMissed">The floor 1 shop does not sell 悲伤的红; restarting the run</system:String>
+    <system:String x:Key="BlackFlowOutcomeNoCollectShopUnreachable">Did not reach the floor 1 shop; restarting the run</system:String>
+    <system:String x:Key="BlackFlowShopStockSeen">Floor 1 shop goods: {0}</system:String>
+    <system:String x:Key="BlackFlowShopStockUnrecognized">Floor 1 shop goods were not recognized</system:String>
+    <system:String x:Key="BlackFlowShopStockFound">The shop sells 悲伤的红; exiting and keeping this run</system:String>
     <system:String x:Key="BlackFlowOutcomeUnknown">Roguelike encountered an error</system:String>
     <system:String x:Key="BlackFlowTerminationInvestmentFinished">Investment completed; this run has ended</system:String>
     <system:String x:Key="BlackFlowTerminationInvestmentShopWindowClosed">Left the first floor without investing; restarting this run</system:String>
@@ -1868,6 +1874,8 @@ Right-click: select this job and exit multi-job mode</system:String>
     <system:String x:Key="BlackFlowTerminationCultivationTargetObtained">The cultivation result contains the target; stopping the task</system:String>
     <system:String x:Key="BlackFlowTerminationCultivationTargetNotObtained">The cultivation result does not contain the target; restarting this run</system:String>
     <system:String x:Key="BlackFlowTerminationFloor1ShopNoSeed">The floor 1 shop had no seed; this run has ended</system:String>
+    <system:String x:Key="BlackFlowTerminationNoCollectTargetMissing">The floor 1 shop does not sell 悲伤的红; abandoning this run</system:String>
+    <system:String x:Key="BlackFlowTerminationNoCollectShopUnreachable">The floor 1 诡意行商 was unreachable; restarting the run</system:String>
     <system:String x:Key="BlackFlowTerminationMandatoryPrerequisiteMissed">A mandatory ending prerequisite was missed</system:String>
     <system:String x:Key="BlackFlowTerminationStrategyTerminalReached">Reached the strategy destination</system:String>
     <system:String x:Key="BlackFlowTerminationNodePageRecoveryFailed">Unable to return from the node page to the map</system:String>

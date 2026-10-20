@@ -311,6 +311,7 @@
         "roi": [102, 238, 100, 40]
     },
     "RoguelikeSkillSelectionFlag": {
+        "template": ["RoguelikeSkillSelectionFlag.png", "RoguelikeSkillSelectionFlagEmergency.png"],
         "templThreshold": 0.9,
         "maskRange": [1, 255]
     },

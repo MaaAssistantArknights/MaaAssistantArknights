@@ -117,6 +117,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                 new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = Mode.Exp },
                 new() { Display = LocalizationHelper.GetString("RoguelikeStrategyBlackFlowInvestment"), Value = Mode.Investment },
                 new() { Display = LocalizationHelper.GetString("RoguelikeStrategyBlackFlowStartRun"), Value = Mode.BlackFlowStartRun },
+                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyBlackFlowNoCollectStartRun"), Value = Mode.BlackFlowNoCollectStartRun },
             ];
         }
         else
@@ -1143,6 +1144,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
         "investment" => LocalizationHelper.GetString("RoguelikeStrategyBlackFlowInvestment"),
         "burn" or "burn_with_investment" => LocalizationHelper.GetString("RoguelikeStrategyBlackFlowExp"),
         "baby_animal" or "baby_animal_floor3" or "start_run_animals" or "start_run_rewards" or "start_run_rewards_with_investment" => LocalizationHelper.GetString("RoguelikeStrategyBlackFlowStartRun"),
+        "nocoll_start" => LocalizationHelper.GetString("RoguelikeStrategyBlackFlowNoCollectStartRun"),
         _ => LocalizationHelper.GetString("BlackFlowStrategyUnknown"),
     };
 
@@ -1232,6 +1234,8 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
         "node_dispatch_failed" => LocalizationHelper.GetString("BlackFlowOutcomeNodeDispatchFailed"),
         "node_result_failed" => LocalizationHelper.GetString("BlackFlowOutcomeNodeResultFailed"),
         "internal_failure" => LocalizationHelper.GetString("BlackFlowOutcomeInternalFailure"),
+        "nocoll_shop_missed" => LocalizationHelper.GetString("BlackFlowOutcomeNoCollectShopMissed"),
+        "nocoll_shop_unreachable" => LocalizationHelper.GetString("BlackFlowOutcomeNoCollectShopUnreachable"),
         _ => LocalizationHelper.GetString("BlackFlowOutcomeUnknown"),
     };
 
@@ -1258,6 +1262,8 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
         "BlackFlow perception and task port is not attached" => LocalizationHelper.GetString("BlackFlowTerminationPerceptionPortUnavailable"),
         "map rebuild failed twice" => LocalizationHelper.GetString("BlackFlowTerminationMapRebuildFailedTwice"),
         "preview replanning exceeded the finite candidate limit" => LocalizationHelper.GetString("BlackFlowTerminationPlanningRetryExhausted"),
+        "target_collectible_missing" => LocalizationHelper.GetString("BlackFlowTerminationNoCollectTargetMissing"),
+        "shop_unreachable_on_floor1" => LocalizationHelper.GetString("BlackFlowTerminationNoCollectShopUnreachable"),
         _ => LocalizationHelper.GetString("BlackFlowTerminationUnknown"),
     };
 
@@ -1519,6 +1525,51 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                         }
 
                         Instances.TaskQueueViewModel.AddLog(message, color);
+                    }
+
+                    break;
+                }
+
+            case "BlackFlowShopStock":
+                {
+                    var goods = subTaskDetails?["goods"]?.Values<string>().ToList();
+                    string message;
+                    string color;
+                    if (goods is null or { Count: 0 })
+                    {
+                        message = LocalizationHelper.GetString("BlackFlowShopStockUnrecognized");
+                        color = UiLogColor.Warning;
+                    }
+                    else
+                    {
+                        message = LocalizationHelper.GetStringFormat("BlackFlowShopStockSeen", string.Join("、", goods));
+                        color = UiLogColor.Info;
+                    }
+
+                    // core 已经把识别用的截图存到 debug/roguelike，这里直接读出来挂到日志卡片上显示。
+                    string? imagePath = null;
+                    var screenshot = subTaskDetails?["screenshot"]?.ToString();
+                    if (!string.IsNullOrEmpty(screenshot))
+                    {
+                        var fullPath = Path.Combine(PathsHelper.BaseDir, screenshot);
+                        if (File.Exists(fullPath))
+                        {
+                            imagePath = fullPath;
+                        }
+                    }
+
+                    // 每次检查单独一张日志卡片，卡片左侧显示本次识别用的截图缩略图。
+                    Instances.TaskQueueViewModel.AddLog(
+                        message,
+                        color,
+                        splitMode: TaskQueueViewModel.LogCardSplitMode.Before,
+                        imagePath: imagePath);
+
+                    if (subTaskDetails?["found"]?.Value<bool>() == true)
+                    {
+                        Instances.TaskQueueViewModel.AddLog(
+                            LocalizationHelper.GetString("BlackFlowShopStockFound"),
+                            UiLogColor.Success);
                     }
 
                     break;

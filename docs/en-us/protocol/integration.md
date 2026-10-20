@@ -866,6 +866,8 @@ Mode.
 `30001` - Swaddled baby animal farming; only available in the BlackFlow theme.
 <br>
 `30003` - Starting reward farming: play a preparation run first, then start the target run. The preparation run is abandoned after obtaining the swaddled animals required by `blackflow_start_animals` and entering floor 3; when the target run's support selection page contains any reward in `blackflow_start_rewards`, no choice is made, the task exits to the theme page keeping the run, and the task ends. The preparation run uses `collectible_mode_squad` and is played at difficulty 0 when `difficulty` is not `-1`; the target run uses `squad` and `difficulty` and ends at the support selection page. `roles` and the starting operators only apply to the preparation run. Only available in the BlackFlow theme; requires `blackflow_start_animals` and `blackflow_start_rewards`. (machine-translated)
+<br>
+`30004` - No-collectible start farming: the starting operator does not need to be the Mechanic, and MAA walks to the floor 1 诡意行商. Collectibles after battle are declined while Originium Ingots and recruitment vouchers are still taken. If the shop sells 悲伤的红, the task exits to the theme page keeping the run and ends; otherwise, when ｢Invest Originium Ingots｣ is enabled, MAA invests in the shop first, then abandons the run and restarts. Only the floor 1 shop is checked. Only available in the BlackFlow theme. (machine-translated)
 :::  
 ::: field squad  
 @type string

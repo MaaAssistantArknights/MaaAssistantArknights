@@ -723,6 +723,13 @@ Todo
 
   `rewards` is only reported with `reward_missed`, `completed` and `reward_unrecognized`, and is omitted when `blackflow_start_rewards` is 0 (rewards are not recognized) or when no reward was recognized. Reward names are reported in Simplified Chinese.
 
+- `BlackFlowShopStock`  
+  Goods recognized in the floor 1 shop of BlackFlow's no-collectible start farming (roguelike mode 30004). The `details` field contains:
+  - `goods` (`array<string>`, required): All text lines recognized on this screen (not only goods names, for diagnosing missed items); empty when nothing was recognized.
+  - `found` (`boolean`, required): Whether the target collectible is among the goods.
+  - `target` (`string`, required): The target collectible name, currently `悲伤的红`.
+  - `screenshot` (`string`, optional): Relative path of the screenshot used for this recognition (`debug/roguelike/...png`); omitted when saving fails.
+
 - `BlackFlowScrapTradeAborted`  
   The BlackFlow scrap trade is aborted due to an anomaly. The `details` field contains:
 

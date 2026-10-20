@@ -467,6 +467,23 @@
             "BlackFlow@Roguelike@RecruitOther"
         ]
     },
+    "BlackFlow@Roguelike@DropsFlag_no_collect": {
+        "Doc": "无藏刷开局：先把招募券和源石锭收下（_Recruit、收下排在离开之前），只剩藏品等奖励时才点｢直接离开｣。",
+        "template": "Roguelike@DropsFlag.png",
+        "next": [
+            "BlackFlow@Roguelike@GetDropSelectRecruit",
+            "BlackFlow@Roguelike@GetDrop",
+            "BlackFlow@Roguelike@GetDropLeave",
+            "BlackFlow@Roguelike@GetDrops#next",
+            "BlackFlow@Roguelike@ChooseOperFlag",
+            "BlackFlow@Roguelike@GetDropCompleted",
+            "BlackFlow@Roguelike@Stages#next",
+            "BlackFlow@Roguelike@StageEncounterSpecialClose",
+            "BlackFlow@Roguelike@StageTraderLeave",
+            "BlackFlow@Roguelike@CloseEvent",
+            "BlackFlow@Roguelike@RecruitOther"
+        ]
+    },
     "BlackFlow@Roguelike@EmployLeave": {
         "template": "BlackFlow@Roguelike@EmployLeave.png",
         "roi": [1099, 541, 179, 86],
@@ -628,10 +645,28 @@
     "BlackFlow@Roguelike@GetDropLeave": {
         "template": "BlackFlow@Roguelike@GetDropLeave.png"
     },
+    "BlackFlow@Roguelike@GetDropCardTitleOcr": {
+        "Doc": "无藏刷开局：识别战斗掉落那一排卡片的标题（源石锭/藏品名/招募券），只拿源石锭和招募券，藏品跳过。券常被识成秀/卷，这里统一替换。",
+        "algorithm": "OcrDetect",
+        "roi": [0, 334, 1280, 48],
+        "text": [],
+        "ocrReplace": [
+            ["招募秀", "招募券"],
+            ["招募卷", "招募券"],
+            ["招募巻", "招募券"],
+            ["招募劵", "招募券"],
+            ["源石碇", "源石锭"]
+        ]
+    },
     "BlackFlow@Roguelike@GetDropRecruit": {
         "template": "BlackFlow@Roguelike@GetDrop.png"
     },
     "BlackFlow@Roguelike@GetDropSelect": {
+        "Doc": "占位任务：默认走 _default；无藏刷开局由 RoguelikeTask 改基到 _no_collect，藏品二选一直接离开。",
+        "baseTask": "BlackFlow@Roguelike@GetDropSelect_default"
+    },
+    "BlackFlow@Roguelike@GetDropSelect_default": {
+        "baseTask": "Roguelike@GetDropSelect",
         "template": "BlackFlow@Roguelike@GetDropSelect.png",
         "next": [
             "BlackFlow@Roguelike@GetDropSelect@(BlackFlow@Roguelike@CloseCollectionContinue)",
@@ -643,6 +678,23 @@
             "BlackFlow@Roguelike@ChooseOperFlag",
             "BlackFlow@Roguelike@GetDropCompleted",
             "BlackFlow@Roguelike@GetDropSelect"
+        ]
+    },
+    "BlackFlow@Roguelike@GetDropSelect_no_collect": {
+        "Doc": "无藏刷开局：招募券照拿（_Recruit 在前），藏品二选一优先点｢直接离开｣，源石锭仍走收下。",
+        "baseTask": "BlackFlow@Roguelike@GetDropSelect_default",
+        "template": "BlackFlow@Roguelike@GetDropSelect.png",
+        "next": [
+            "BlackFlow@Roguelike@GetDropSelect_no_collect@(BlackFlow@Roguelike@CloseCollectionContinue)",
+            "BlackFlow@Roguelike@GetDropSelect_no_collect@(BlackFlow@Roguelike@CloseCollection)",
+            "BlackFlow@Roguelike@CloseEvent",
+            "BlackFlow@Roguelike@GetDropSelectRecruit",
+            "BlackFlow@Roguelike@GetDropLeave",
+            "BlackFlow@Roguelike@GetDrop",
+            "BlackFlow@Roguelike@GetDropSelectReward",
+            "BlackFlow@Roguelike@ChooseOperFlag",
+            "BlackFlow@Roguelike@GetDropCompleted",
+            "BlackFlow@Roguelike@GetDropSelect_no_collect"
         ]
     },
     "BlackFlow@Roguelike@GetDropSelectRecruit": {
@@ -1453,6 +1505,22 @@
     },
     "BlackFlow@Roguelike@Page-Shop": {
         "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@Page-ShopAction"]
+    },
+    "BlackFlow@Roguelike@Page-ShopAction": {
+        "Doc": [
+            "占位任务：默认走 Page-ShopLeave 直接离店。",
+            "无藏刷开局在第一层商店认完商品后由生命周期插件改基：没刷到目标藏品且开了投资时走 Page-ShopInvest 先存钱。"
+        ],
+        "baseTask": "BlackFlow@Roguelike@Page-ShopLeave"
+    },
+    "BlackFlow@Roguelike@Page-ShopInvest": {
+        "Doc": "先进诡意行商的投资系统存钱，投完由投资链自己离店。",
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@StageTraderInvestSystem"]
+    },
+    "BlackFlow@Roguelike@Page-ShopLeave": {
+        "algorithm": "JustReturn",
         "next": ["BlackFlow@Roguelike@StageTraderLeave"]
     },
     "BlackFlow@Roguelike@RecoverMap": {
@@ -1815,6 +1883,12 @@
     },
     "BlackFlow@Roguelike@SquadDefault": {
         "template": "BlackFlow@Roguelike@SquadDefault.png"
+    },
+    "BlackFlow@Roguelike@ShopStockOcr": {
+        "Doc": "无藏刷开局：识别第一层诡意行商界面中的商品，ROI 覆盖商品列表区域。",
+        "algorithm": "OcrDetect",
+        "roi": [410, 175, 815, 465],
+        "text": []
     },
     "BlackFlow@Roguelike@StageEncounterContinue": {
         "algorithm": "JustReturn",

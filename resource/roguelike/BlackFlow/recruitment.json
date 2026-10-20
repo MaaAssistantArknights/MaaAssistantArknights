@@ -281,6 +281,25 @@
             "name": "近卫",
             "opers": [
                 {
+                    "name": "克莱门莎",
+                    "skill": 2,
+                    "recruit_priority": 712,
+                    "promote_priority": 800,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["凯尔希", "近卫", "召唤", "重装"],
+                            "threshold": 1,
+                            "offset": -300
+                        },
+                        {
+                            "groups": ["元素奶"],
+                            "is_less": true,
+                            "threshold": 1,
+                            "offset": -80
+                        }
+                    ]
+                },
+                {
                     "name": "赤刃明霄陈",
                     "skill": 3,
                     "alternate_skill": 1,

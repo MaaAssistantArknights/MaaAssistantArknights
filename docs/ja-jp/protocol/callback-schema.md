@@ -749,6 +749,13 @@ Todo
 
   `rewards` は `reward_missed`、`completed`、`reward_unrecognized` のときのみ通知され、`blackflow_start_rewards` が 0（報酬を認識しない）の場合や 1 つも認識できなかった場合は省略されます。報酬名は簡体字中国語で出力されます。
 
+- `BlackFlowShopStock`  
+  BlackFlow の収集品なし初期リセマラ（ローグライクモード 30004）で、第 1 層の商店の商品を認識した結果。`details` の内容：
+  - `goods` (`array<string>`, required): この画面で認識したすべてのテキスト行（商品名に限らず、認識漏れの調査用）。1 つも認識できなかった場合は空配列。
+  - `found` (`boolean`, required): 商品に目標の収集品があるかどうか。
+  - `target` (`string`, required): 目標の収集品名。現在は `悲伤的红`。
+  - `screenshot` (`string`, optional): この認識に使ったスクリーンショットの相対パス（`debug/roguelike/...png`）。保存に失敗した場合は省略されます。
+
 - `BlackFlowScrapTradeAborted`  
   BlackFlow の行商取引で異常が発生し、取引を中止します。`details` の内容：
 

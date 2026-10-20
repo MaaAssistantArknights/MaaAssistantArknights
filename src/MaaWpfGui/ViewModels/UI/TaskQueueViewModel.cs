@@ -373,7 +373,7 @@ public class TaskQueueViewModel : Screen
 
     private static int MaxLogItemsWithThumbnails => SettingsViewModel.GuiSettings.MaxNumberOfLogThumbnails;
 
-    private async Task AttachThumbnailToCardAsync(LogCardItemViewModel card, bool forceScreencap, bool setToolTipOnLastLogItem = false)
+    private async Task AttachThumbnailToCardAsync(LogCardItemViewModel card, bool forceScreencap, bool setToolTipOnLastLogItem = false, string? imagePath = null)
     {
         if (card is null)
         {
@@ -383,7 +383,9 @@ public class TaskQueueViewModel : Screen
 
         try
         {
-            var thumbnail = await GetOrCaptureLogThumbnailAsync(forceScreencap).ConfigureAwait(false);
+            var thumbnail = string.IsNullOrEmpty(imagePath)
+                                ? await GetOrCaptureLogThumbnailAsync(forceScreencap).ConfigureAwait(false)
+                                : await LoadLogThumbnailFromFileAsync(imagePath).ConfigureAwait(false);
             if (thumbnail is null)
             {
                 return;
@@ -441,6 +443,33 @@ public class TaskQueueViewModel : Screen
         finally
         {
             _logThumbnailSemaphore.Release();
+        }
+    }
+
+    private async Task<BitmapSource?> LoadLogThumbnailFromFileAsync(string path)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(path) || !File.Exists(path))
+            {
+                return null;
+            }
+
+            var bytes = await File.ReadAllBytesAsync(path).ConfigureAwait(false);
+            using var stream = new MemoryStream(bytes);
+            var bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            bitmap.StreamSource = stream;
+            bitmap.DecodePixelWidth = LogThumbnailWidth;
+            bitmap.EndInit();
+            bitmap.Freeze();
+            return bitmap;
+        }
+        catch (Exception ex)
+        {
+            _logger.Warning(ex, "Failed to load log thumbnail from {Path}", path);
+            return null;
         }
     }
 
@@ -1562,6 +1591,7 @@ public class TaskQueueViewModel : Screen
     /// <param name="useCardImageAsToolTip">Whether to use the current card's image as toolTip.</param>
     /// <param name="splitMode">Whether to split cards before/after this log.</param>
     /// <param name="notifyActivity">Whether this log should notify activity (and reset idle timer).</param>
+    /// <param name="imagePath">Optional image file to show as the card thumbnail instead of a live screenshot.</param>
     public void AddLog(string? content,
         string color = UiLogColor.Trace,
         string weight = "Regular",
@@ -1570,7 +1600,8 @@ public class TaskQueueViewModel : Screen
         bool fetchLatestImage = false,
         bool useCardImageAsToolTip = false,
         LogCardSplitMode splitMode = LogCardSplitMode.None,
-        bool notifyActivity = true)
+        bool notifyActivity = true,
+        string? imagePath = null)
     {
         if (notifyActivity)
         {
@@ -1578,7 +1609,7 @@ public class TaskQueueViewModel : Screen
         }
 
         Instances.NotificationService.PublishLog(NotificationSource.TaskQueue, content,
-            () => DisplayLog(content, color, weight, toolTip, updateCardImage, fetchLatestImage, useCardImageAsToolTip, splitMode), color);
+            () => DisplayLog(content, color, weight, toolTip, updateCardImage, fetchLatestImage, useCardImageAsToolTip, splitMode, imagePath), color);
     }
 
     // Presentation only: mirrors and notification callbacks do not publish another event.
@@ -1589,11 +1620,13 @@ public class TaskQueueViewModel : Screen
         bool updateCardImage = false,
         bool fetchLatestImage = false,
         bool useCardImageAsToolTip = false,
-        LogCardSplitMode splitMode = LogCardSplitMode.None)
+        LogCardSplitMode splitMode = LogCardSplitMode.None,
+        string? imagePath = null)
     {
         bool isEmpty = string.IsNullOrEmpty(content);
         bool needsBeforeSplit = splitMode == LogCardSplitMode.Before || splitMode == LogCardSplitMode.Both;
         bool needsAfterSplit = splitMode == LogCardSplitMode.After || splitMode == LogCardSplitMode.Both;
+        bool attachImage = updateCardImage || !string.IsNullOrEmpty(imagePath);
 
         // 记录日志
         if (!isEmpty)
@@ -1619,7 +1652,7 @@ public class TaskQueueViewModel : Screen
             }
 
             // 确保至少有一个卡片（如果没有内容且不需要切割，也需要确保有卡片才能更新图片）
-            if (LogCardViewModels.Count <= 0 && (!isEmpty || updateCardImage))
+            if (LogCardViewModels.Count <= 0 && (!isEmpty || attachImage))
             {
                 CreateNewCard();
             }
@@ -1631,9 +1664,9 @@ public class TaskQueueViewModel : Screen
                     TryMergeIntoLastCard(content!, color, weight, toolTip);
                 }
 
-                if (updateCardImage)
+                if (attachImage)
                 {
-                    _ = AttachThumbnailToCardAsync(LogCardViewModels[^1], fetchLatestImage, setToolTipOnLastLogItem: useCardImageAsToolTip);
+                    _ = AttachThumbnailToCardAsync(LogCardViewModels[^1], fetchLatestImage, setToolTipOnLastLogItem: useCardImageAsToolTip, imagePath: imagePath);
                 }
             }
 

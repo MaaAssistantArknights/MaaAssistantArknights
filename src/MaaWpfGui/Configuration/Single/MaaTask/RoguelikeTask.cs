@@ -323,6 +323,11 @@ public enum RoguelikeMode
     /// 30003 - 刷开局（主题专用 GUI 模式）
     /// </summary>
     BlackFlowStartRun = 30003,
+
+    /// <summary>
+    /// 30004 - 无藏刷开局，徒步到第一层商店检查目标藏品（主题专用 GUI 模式）
+    /// </summary>
+    BlackFlowNoCollectStartRun = 30004,
 }
 
 /// <summary>
