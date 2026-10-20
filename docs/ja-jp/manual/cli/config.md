@@ -422,7 +422,7 @@ resource = true # MaaCore のリソースをインストールするかどうか
 
 # CLI の更新に関する設定
 [cli]
-channel = "Stable" # 更新チャンネル。"Alpha"、"Beta"、"Stable" から選択、デフォルトは "Stable"
+channel = "Stable" # 更新チャンネル。"Nightly"、"Beta"、"Stable" から選択、デフォルトは "Stable"
 # maa-cli の最新バージョンを照会する API アドレス。空欄でデフォルトアドレスを使用
 api_url = "https://github.com/MaaAssistantArknights/maa-cli/raw/version/"
 # プリコンパイル済みバイナリのダウンロードアドレス。空欄でデフォルトアドレスを使用

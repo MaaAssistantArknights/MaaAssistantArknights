@@ -22,7 +22,7 @@
         {
             "id": "encounter",
             "page_intent": "default",
-            "node_types": ["incident", "wish", "rest", "sacrifice", "evacuate", "duel"],
+            "node_types": ["incident", "wish", "rest", "sacrifice", "evacuate", "duel", "portal"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
             "task": "BlackFlow@Roguelike@Page-Encounter",
@@ -547,7 +547,7 @@
             "node_type": "duel"
         },
         {
-            "text": "\"居民\"据点",
+            "text": "据点",
             "node_type": "battle_savage"
         },
         {

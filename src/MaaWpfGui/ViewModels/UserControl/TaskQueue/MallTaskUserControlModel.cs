@@ -1,4 +1,4 @@
-// <copyright file="MallSettingsUserControlModel.cs" company="MaaAssistantArknights">
+// <copyright file="MallTaskUserControlModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -30,15 +30,15 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 /// <summary>
 /// 信用购物
 /// </summary>
-public class MallSettingsUserControlModel : TaskSettingsViewModel, MallSettingsUserControlModel.ISerialize
+public class MallTaskUserControlModel : TaskSettingsViewModel, MallTaskUserControlModel.ISerialize
 {
-    static MallSettingsUserControlModel()
+    static MallTaskUserControlModel()
     {
         Instance = new();
         LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
     }
 
-    public static MallSettingsUserControlModel Instance { get; }
+    public static MallTaskUserControlModel Instance { get; }
 
     private readonly Dictionary<ClientType, IEnumerable<string>> _blackCharacterListMapping = new()
         {

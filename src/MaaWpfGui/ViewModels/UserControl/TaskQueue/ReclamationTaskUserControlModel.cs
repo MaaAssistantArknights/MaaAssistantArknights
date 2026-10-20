@@ -1,4 +1,4 @@
-// <copyright file="ReclamationSettingsUserControlModel.cs" company="MaaAssistantArknights">
+// <copyright file="ReclamationTaskUserControlModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -28,15 +28,15 @@ using Theme = MaaWpfGui.Configuration.Single.MaaTask.ReclamationTheme;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class ReclamationSettingsUserControlModel : TaskSettingsViewModel, ReclamationSettingsUserControlModel.ISerialize
+public class ReclamationTaskUserControlModel : TaskSettingsViewModel, ReclamationTaskUserControlModel.ISerialize
 {
-    static ReclamationSettingsUserControlModel()
+    static ReclamationTaskUserControlModel()
     {
         Instance = new();
         LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
     }
 
-    public static ReclamationSettingsUserControlModel Instance { get; }
+    public static ReclamationTaskUserControlModel Instance { get; }
 
     /// <summary>
     /// Gets the list of reclamation themes.

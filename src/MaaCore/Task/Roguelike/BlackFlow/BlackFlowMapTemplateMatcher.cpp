@@ -48,6 +48,8 @@ void supplement_map_exits(MapObservationBatch& observation, std::span<const Grid
             // 仅补全已识别节点的身份，避免创建没有点击坐标的移动目标。
             continue;
         }
+        // 识别本来就认出是险路尽头的不算模板补全；其余的在游戏里还没揭开，紧急逃生座椅去不了。
+        node->identity_from_template = !(node->type.has_value() && *node->type == NodeType::Final);
         node->type = NodeType::Final;
         node->name = "险路尽头";
         node->identity_state = NodeIdentityState::Classified;

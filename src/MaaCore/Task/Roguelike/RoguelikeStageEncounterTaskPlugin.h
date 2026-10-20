@@ -74,7 +74,15 @@ private:
     void set_blackflow_result(std::string_view base_task);
     void reset_option_list_and_view_data();
     void report_analyzed_options();
+
+    // 黑流各选项条带相似，以得分最高的一项为锚点推算其余位置；界园仍逐项独立匹配。
+    [[nodiscard]] static bool anchored_view_enabled(std::string_view theme) noexcept
+    {
+        return theme == RoguelikeTheme::BlackFlow;
+    }
+
     bool update_view(const cv::Mat& image = cv::Mat());
+    void update_anchored_view(const cv::Mat& image);
     void reset_view();
     bool move_to_option_list_head();
     bool move_forward();

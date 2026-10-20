@@ -610,6 +610,94 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   :::
   ::::
 
+- `CustomInfrastRoomKeptUnchanged`  
+  사용자 정의 기반시설 스케줄링에서 해당 방이 그대로 유지되었을 때 알립니다. `details` 필드는 기본적으로 `facility`(시설명)와 `index`(시설 순서)를 포함하며, 나머지 내용은 다음과 같습니다:
+
+  :::: field-group
+  ::: field reason
+  @type string
+  @required
+  방을 유지한 이유, 값은 다음과 같습니다:
+  - `facility_empty`: 사용자 정의 설정의 rooms 배열이 비어 있음.
+  - `room_no_intent`: 방 설정은 있지만 배치 의도가 없음.
+  - `candidates_unavailable`: 후보 오퍼레이터가 모두 사용 불가. 일반적으로 후보 명단 오류(철자 오류 또는 미보유)일 가능성이 높음.
+  - `candidates_working`: 후보 오퍼레이터가 모두 다른 시설에서 근무 중.
+  - `candidates_low_mood`: 후보 오퍼레이터의 컨디션이 모두 임계값 미만.
+
+  :::
+  ::::
+
+- `CustomInfrastRoomsNotConfigured`  
+  사용자 정의 설정의 rooms 배열이 해당 시설을 포괄하지 않으면 해당 시설은 그대로 유지됩니다. `details` 필드는 기본 `facility`(시설명)와 `index`(시설 순서)만 포함합니다.
+
+- `CustomInfrastTraineeNotFound`  
+  사용자 정의 기반시설 스케줄링에서 훈련 슬롯의 후보 오퍼레이터가 일치하지 않았습니다. `details` 필드는 기본적으로 `facility`(시설명)와 `index`(시설 순서)를 포함하며, 나머지 내용은 다음과 같습니다:
+
+  :::: field-group
+  ::: field candidates
+  @type array<string>
+  @required
+  훈련 슬롯의 후보 오퍼레이터 목록
+  :::
+  ::::
+
+- `CustomInfrastAssistantNotFound`  
+  사용자 정의 기반시설 스케줄링에서 지원자의 후보 오퍼레이터가 일치하지 않았습니다. `details` 필드는 기본적으로 `facility`(시설명)와 `index`(시설 순서)를 포함하며, 나머지 내용은 다음과 같습니다:
+
+  :::: field-group
+  ::: field candidates
+  @type array<string>
+  @required
+  지원자의 후보 오퍼레이터 목록
+  :::
+  ::: field working_excluded
+  @type array<string>
+  @optional
+  다른 시설에서 근무 중이어서 제외된 후보 목록, 비어 있지 않을 때만 포함
+  :::
+  ::: field low_mood_excluded
+  @type array<string>
+  @optional
+  컨디션이 임계값 미만이어서 제외된 후보 목록, 비어 있지 않을 때만 포함
+  :::
+  ::::
+
+- `CustomInfrastRoomGroupsMatchFailed`  
+  사용자 정의 기반시설 스케줄링에서 편성 그룹 매칭에 실패했습니다. `details` 필드는 기본적으로 `facility`(시설명)와 `index`(시설 순서)를 포함하며, 나머지 내용은 다음과 같습니다:
+
+  :::: field-group
+  ::: field reason
+  @type string
+  @required
+  매칭 실패 이유, 값은 다음과 같습니다:
+  - `group_not_defined`: 참조된 그룹 이름이 모두 groups에 정의되어 있지 않음.
+  - `all_unavailable`: 모든 그룹의 오퍼레이터가 사용 불가.
+  - `recognition_failed`: 오퍼레이터 목록 인식에 실패.
+
+  :::
+  ::: field groups
+  @type array<string>
+  @optional
+  정의되지 않았거나 사용 불가인 그룹 이름 목록, `group_not_defined`와 `all_unavailable`일 때만 포함
+  :::
+  ::::
+
+- `CopilotPrecheckFile`  
+  다중 작업 모드에서 ｢Yituliu 데이터로 편성 지원｣이 활성화된 경우, 각 작업의 사전 매칭 전에 알립니다. `details` 필드 내용은 다음과 같습니다:
+
+  :::: field-group
+  ::: field nav_name
+  @type string
+  @required
+  노드명
+  :::
+  ::: field filename
+  @type string
+  @required
+  작업 파일명
+  :::
+  ::::
+
 - `StageInfo`  
   자동 작전 노드 정보. `details` 필드 내용은 다음과 같습니다:
 
@@ -677,6 +765,22 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
     - `reward_page_missing`: 목표 탐험에서 지원 선택 화면이 나타나지 않아 작업 중지.
     - `reward_recognition_failed`: 준비 탐험에서 지원 선택 화면의 보상 선택에 실패해 작업 중지.
   - `rewards` (`array<string>`, optional): 목표 탐험의 지원 선택 화면에서 인식한 보상 이름(중국어 간체), 예: `空间租赁`, `金乌`. `reward_missed`, `completed`, `reward_unrecognized`일 때만 전달되며, `blackflow_start_rewards`가 0(보상을 인식하지 않음)이거나 하나도 인식하지 못하면 생략됩니다.
+
+- `BlackFlowScrapTradeAborted`  
+  BlackFlow 행상 거래에서 이상이 발생하여 거래를 중단합니다. `details` 필드 내용은 다음과 같습니다:
+
+  :::: field-group
+  ::: field reason
+  @type string
+  @required
+  거래를 중단한 이유
+  :::
+  ::: field item
+  @type string
+  @required
+  중단을 유발한 거래 아이템 이름
+  :::
+  ::::
 
 ### ReportRequest
 

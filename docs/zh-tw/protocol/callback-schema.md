@@ -20,7 +20,7 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 ## 參數總覽
 
 - `AsstMsgId msg`  
-   消息類型
+  消息類型
 
   ```cpp
   enum class AsstMsg
@@ -53,9 +53,9 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   ```
 
 - `const char* details`  
-   消息詳情，json 字串，詳見 [欄位解釋](#欄位解釋)
+  消息詳情，json 字串，詳見 [欄位解釋](#欄位解釋)
 - `void* custom_arg`  
-   呼叫端自訂參數。會原樣傳出 `AsstCreateEx` 介面中的 `custom_arg` 參數，C 系語言可利用此參數傳出 `this` 指標。
+  呼叫端自訂參數。會原樣傳出 `AsstCreateEx` 介面中的 `custom_arg` 參數，C 系語言可利用此參數傳出 `this` 指標。
 
 ## 欄位解釋
 
@@ -115,50 +115,50 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 ### 常見 `What` 欄位
 
 - `ConnectFailed`  
-   連線失敗
+  連線失敗
 - `Connected`  
-   已連接，注意此時的 `uuid` 欄位值為空（下一步才是獲取）
+  已連接，注意此時的 `uuid` 欄位值為空（下一步才是獲取）
 - `UuidGot`  
-   已獲取到設備唯一碼
+  已獲取到設備唯一碼
 - `UnsupportedResolution`  
-   解析度不被支援
+  解析度不被支援
 - `ResolutionError`  
-   解析度獲取錯誤
+  解析度獲取錯誤
 - `Reconnecting`  
-   連線中斷（adb / 模擬器 炸了），正在重連
+  連線中斷（adb / 模擬器 炸了），正在重連
 - `Reconnected`  
-   連線中斷（adb / 模擬器 炸了），重連成功
+  連線中斷（adb / 模擬器 炸了），重連成功
 - `Disconnect`  
-   連線中斷（adb / 模擬器 炸了），並重試失敗
+  連線中斷（adb / 模擬器 炸了），並重試失敗
 - `ScreencapFailed`  
-   截圖失敗（adb / 模擬器 炸了），並重試失敗
+  截圖失敗（adb / 模擬器 炸了），並重試失敗
 - `TouchModeNotAvailable`  
-   不支援的觸控模式
+  不支援的觸控模式
 - `MuMuExtrasInputStatus`  
-   MuMu 觸控增強的實際生效狀態，`details` 結構如下：
+  MuMu 觸控增強的實際生效狀態，`details` 結構如下：
   - `available` (boolean, required): 是否已生效。
   - `deferred` (boolean, required): 是否尚未判定（連線時遊戲尚未開始渲染，會在開始渲染後自動重試）。
 - `ResolutionGot`  
-   已獲取到解析度
+  已獲取到解析度
 - `ResolutionChanged`  
-   執行中解析度被修改，連線已斷開並中斷目前任務，`details` 結構如下：
+  執行中解析度被修改，連線已斷開並中斷目前任務，`details` 結構如下：
   - `width` (number, required): 目前寬度。
   - `height` (number, required): 目前高度。
 - `FastestWayToScreencap`  
-   已找到最快的截圖方式，`details` 結構如下：
+  已找到最快的截圖方式，`details` 結構如下：
   - `method` (string, required): 最快的截圖方式。
   - `cost` (number, required): 耗時，單位毫秒。
   - `alternatives` (array`<object>`, required): 各候選方式及其耗時。
 
 - `ScreencapCost`  
-   截圖耗時統計（每 10 次截圖回傳一次），`details` 結構如下：
+  截圖耗時統計（每 10 次截圖回傳一次），`details` 結構如下：
   - `min` (number, required): 最小耗時，單位毫秒。
   - `max` (number, required): 最大耗時，單位毫秒。
   - `avg` (number, required): 平均耗時，單位毫秒。
   - `fault_times` (number): 失敗次數（僅有失敗時存在）。
 
 - `EmulatorFPS`  
-   模擬器更新率（每 1 分鐘檢測一次），`details` 結構如下：
+  模擬器更新率（每 1 分鐘檢測一次），`details` 結構如下：
   - `fps` (number, required): 模擬器/系統更新率（FPS）。
   - `refresh_period_ns` (number, required): 每幀更新週期，單位奈秒。
 
@@ -220,41 +220,41 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 #### 常見 `taskchain` 欄位
 
 - `StartUp`  
-   開始喚醒
+  開始喚醒
 - `CloseDown`  
-   關閉遊戲
+  關閉遊戲
 - `Fight`  
-   刷理智
+  刷理智
 - `Mall`  
-   信用點及購物
+  信用點及購物
 - `Recruit`  
-   自動公招
+  自動公招
 - `Infrast`  
-   基建換班
+  基建換班
 - `Award`  
-   領取日常獎勵
+  領取日常獎勵
 - `Roguelike`  
-   無限刷肉鴿
+  無限刷肉鴿
 - `Copilot`  
-   自動抄作業
+  自動抄作業
 - `SSSCopilot`  
-   自動抄保全作業
+  自動抄保全作業
 - `ParadoxCopilot`  
-   自動抄悖論模擬作業
+  自動抄悖論模擬作業
 - `Depot`  
-   倉庫辨識
+  倉庫辨識
 - `OperBox`  
-   幹員 Box 辨識
+  幹員 Box 辨識
 - `Reclamation`  
-   生息演算
+  生息演算
 - `Custom`  
-   自訂任務
+  自訂任務
 - `SingleStep`  
-   單步任務
+  單步任務
 - `VideoRecognition`  
-   影片辨識任務
+  影片辨識任務
 - `Debug`  
-   偵錯
+  偵錯
 
 ### TaskChain 相關消息
 
@@ -374,43 +374,43 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 ##### 常見 `task` 欄位
 
 - `StartButton2`  
-   開始戰鬥
+  開始戰鬥
 - `MedicineConfirm`  
-   使用理智藥
+  使用理智藥
 - `StoneConfirm`  
-   碎石
+  碎石
 - `RecruitRefreshConfirm`  
-   公招刷新標籤
+  公招刷新標籤
 - `RecruitConfirm`  
-   公招確認招募
+  公招確認招募
 - `RecruitNowConfirm`  
-   公招使用加急許可
+  公招使用加急許可
 - `InfrastDormDoubleConfirmButton`  
-   基建的二次確認按鈕。僅當待進駐幹員已進駐其他設施時才會出現（MAA 將自動點擊確認），請提示使用者。
+  基建的二次確認按鈕。僅當待進駐幹員已進駐其他設施時才會出現（MAA 將自動點擊確認），請提示使用者。
 - `StartExplore`  
-   肉鴿開始探索
+  肉鴿開始探索
 - `StageTraderInvestConfirm`  
-   肉鴿投資源石錠
+  肉鴿投資源石錠
 - `StageTraderInvestSystemFull`  
-   肉鴿投資達到遊戲上限
+  肉鴿投資達到遊戲上限
 - `ExitThenAbandon`  
-   肉鴿放棄本次探索
+  肉鴿放棄本次探索
 - `MissionCompletedFlag`  
-   肉鴿戰鬥完成
+  肉鴿戰鬥完成
 - `MissionFailedFlag`  
-   肉鴿戰鬥失敗
+  肉鴿戰鬥失敗
 - `StageTraderEnter`  
-   肉鴿關卡：詭異行商
+  肉鴿關卡：詭異行商
 - `StageSafeHouseEnter`  
-   肉鴿關卡：安全的角落
+  肉鴿關卡：安全的角落
 - `StageEncounterEnter`  
-   肉鴿關卡：不期而遇 / 古堡饋贈
+  肉鴿關卡：不期而遇 / 古堡饋贈
 - `StageCombatOpsEnter`  
-   肉鴿關卡：普通作戰
+  肉鴿關卡：普通作戰
 - `StageEmergencyOps`  
-   肉鴿關卡：緊急作戰
+  肉鴿關卡：緊急作戰
 - `StageDreadfulFoe`  
-   肉鴿關卡：險路惡敵
+  肉鴿關卡：險路惡敵
 - Todo 其他
 
 ### SubTaskExtraInfo
@@ -486,7 +486,7 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   ::::
 
 - `RecruitPreservedTag`  
-   公招辨識到了已設定為保留的 Tag。`details` 欄位內容如下：
+  公招辨識到了已設定為保留的 Tag。`details` 欄位內容如下：
 
   :::: field-group
   ::: field tag
@@ -616,6 +616,94 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   :::
   ::::
 
+- `CustomInfrastRoomKeptUnchanged`  
+  自訂基建排班中，該房間保持原樣。`details` 欄位預設附帶 `facility`（設施名稱）與 `index`（設施序號），其餘內容如下：
+
+  :::: field-group
+  ::: field reason
+  @type string
+  @required
+  保持原樣的原因，取值如下：
+  - `facility_empty`: 自訂排班的 rooms 陣列為空。
+  - `room_no_intent`: 房間配置存在但沒有選人意圖。
+  - `candidates_unavailable`: 候補幹員均不可用，通常是名單有誤（拼字錯誤或幹員未擁有）。
+  - `candidates_working`: 候補幹員均在其他設施工作。
+  - `candidates_low_mood`: 候補幹員心情均低於閾值。
+
+  :::
+  ::::
+
+- `CustomInfrastRoomsNotConfigured`  
+  自訂基建排班的 rooms 陣列未涵蓋到該設施，該設施保持原樣。`details` 欄位僅包含預設的 `facility`（設施名稱）與 `index`（設施序號）。
+
+- `CustomInfrastTraineeNotFound`  
+  自訂基建排班中，訓練位的候補幹員均未命中。`details` 欄位預設附帶 `facility`（設施名稱）與 `index`（設施序號），其餘內容如下：
+
+  :::: field-group
+  ::: field candidates
+  @type array<string>
+  @required
+  訓練位的候補幹員名單。
+  :::
+  ::::
+
+- `CustomInfrastAssistantNotFound`  
+  自訂基建排班中，協助者的候補幹員均未命中。`details` 欄位預設附帶 `facility`（設施名稱）與 `index`（設施序號），其餘內容如下：
+
+  :::: field-group
+  ::: field candidates
+  @type array<string>
+  @required
+  協助者的候補幹員名單。
+  :::
+  ::: field working_excluded
+  @type array<string>
+  @optional
+  候選中因正在其他設施工作而被排除的幹員名單，僅非空時附帶。
+  :::
+  ::: field low_mood_excluded
+  @type array<string>
+  @optional
+  候選中因心情低於閾值而被排除的幹員名單，僅非空時附帶。
+  :::
+  ::::
+
+- `CustomInfrastRoomGroupsMatchFailed`  
+  自訂基建排班中，編組匹配失敗。`details` 欄位預設附帶 `facility`（設施名稱）與 `index`（設施序號），其餘內容如下：
+
+  :::: field-group
+  ::: field reason
+  @type string
+  @required
+  匹配失敗原因，取值如下：
+  - `group_not_defined`: 引用的編組名稱均未在 groups 中定義。
+  - `all_unavailable`: 所有編組的幹員均不可用。
+  - `recognition_failed`: 幹員列表辨識失敗。
+
+  :::
+  ::: field groups
+  @type array<string>
+  @optional
+  未定義或不可用的編組名稱列表，僅在 `group_not_defined`、`all_unavailable` 時附帶。
+  :::
+  ::::
+
+- `CopilotPrecheckFile`  
+  自動抄作業多作業模式啟用 ｢使用一圖流資料輔助編隊｣ 時，預匹配各作業前回報。`details` 欄位內容如下：
+
+  :::: field-group
+  ::: field nav_name
+  @type string
+  @required
+  關卡名稱。
+  :::
+  ::: field filename
+  @type string
+  @required
+  作業檔案名稱。
+  :::
+  ::::
+
 - `StageInfo`  
   自動作戰關卡資訊。`details` 欄位內容如下：
 
@@ -683,6 +771,22 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
     - `reward_page_missing`：目標局沒有出現選擇支援頁，停止任務。
     - `reward_recognition_failed`：準備局在選擇支援頁選擇獎勵失敗，停止任務。
   - `rewards` (`array<string>`, optional)：目標局在選擇支援頁辨識出的獎勵名稱，如 `空间租赁`、`金乌`；只隨 `reward_missed`、`completed`、`reward_unrecognized` 回報；`blackflow_start_rewards` 為 0（不辨識獎勵）或一項都沒辨識出時省略。
+
+- `BlackFlowScrapTradeAborted`  
+  黑流樹海秘境行商交易異常，中止交易。`details` 欄位內容如下：
+
+  :::: field-group
+  ::: field reason
+  @type string
+  @required
+  中止交易的原因。
+  :::
+  ::: field item
+  @type string
+  @required
+  觸發中止的交易物品名稱。
+  :::
+  ::::
 
 ### ReportRequest
 

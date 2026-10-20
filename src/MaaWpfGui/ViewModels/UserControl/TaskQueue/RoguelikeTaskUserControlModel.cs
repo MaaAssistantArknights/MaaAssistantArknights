@@ -1,4 +1,4 @@
-// <copyright file="RoguelikeSettingsUserControlModel.cs" company="MaaAssistantArknights">
+// <copyright file="RoguelikeTaskUserControlModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -40,16 +40,16 @@ using Theme = MaaWpfGui.Configuration.Single.MaaTask.RoguelikeTheme;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel, RoguelikeSettingsUserControlModel.ISerialize
+public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTaskUserControlModel.ISerialize
 {
-    static RoguelikeSettingsUserControlModel()
+    static RoguelikeTaskUserControlModel()
     {
         Instance = new();
         Instances.AsstProxy.AsstSubTaskMsgEvent += Instance.ProcSubTaskMsg;
         LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
     }
 
-    public static RoguelikeSettingsUserControlModel Instance { get; }
+    public static RoguelikeTaskUserControlModel Instance { get; }
 
     public void InitRoguelike()
     {

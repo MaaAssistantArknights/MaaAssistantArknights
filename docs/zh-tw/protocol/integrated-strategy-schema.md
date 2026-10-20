@@ -39,6 +39,8 @@ icon: ri:game-fill
   - `strategy.json`：黑流樹海肉鴿的高層路由策略配置。
   - `node_execution.json`：黑流樹海肉鴿的節點類型處理路由配置。
   - `map_perception/`：黑流樹海肉鴿的地圖感知視覺資源。
+  - `scrap_market.json`：黑流樹海肉鴿的秘境行商資料（閒置自然物的價目、重新整理費用與培育保留上限）。
+  - `map_templates.json`：黑流樹海肉鴿的地圖布局範本。
 
 ## 肉鴿第一步——幹員招募
 

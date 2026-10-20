@@ -91,12 +91,12 @@ public class TaskQueueViewModel : Screen
     /// <summary>
     /// Gets 连接任务Model
     /// </summary>
-    public static StartUpSettingsUserControlModel StartUpTask => StartUpSettingsUserControlModel.Instance;
+    public static StartUpTaskUserControlModel StartUpTask => StartUpTaskUserControlModel.Instance;
 
     /// <summary>
     /// Gets 战斗任务Model
     /// </summary>
-    public static FightSettingsUserControlModel FightTask => FightSettingsUserControlModel.Instance;
+    public static FightTaskUserControlModel FightTask => FightTaskUserControlModel.Instance;
 
     /// <summary>
     /// Gets 干员培养任务Model
@@ -106,37 +106,37 @@ public class TaskQueueViewModel : Screen
     /// <summary>
     /// Gets 招募任务Model
     /// </summary>
-    public static RecruitSettingsUserControlModel RecruitTask => RecruitSettingsUserControlModel.Instance;
+    public static RecruitTaskUserControlModel RecruitTask => RecruitTaskUserControlModel.Instance;
 
     /// <summary>
     /// Gets 信用及购物任务Model
     /// </summary>
-    public static MallSettingsUserControlModel MallTask => MallSettingsUserControlModel.Instance;
+    public static MallTaskUserControlModel MallTask => MallTaskUserControlModel.Instance;
 
     /// <summary>
     /// Gets 基建任务Model
     /// </summary>
-    public static InfrastSettingsUserControlModel InfrastTask => InfrastSettingsUserControlModel.Instance;
+    public static InfrastTaskUserControlModel InfrastTask => InfrastTaskUserControlModel.Instance;
 
     /// <summary>
     /// Gets 领取奖励任务
     /// </summary>
-    public static AwardSettingsUserControlModel AwardTask => AwardSettingsUserControlModel.Instance;
+    public static AwardTaskUserControlModel AwardTask => AwardTaskUserControlModel.Instance;
 
     /// <summary>
     /// Gets 肉鸽任务Model
     /// </summary>
-    public static RoguelikeSettingsUserControlModel RoguelikeTask => RoguelikeSettingsUserControlModel.Instance;
+    public static RoguelikeTaskUserControlModel RoguelikeTask => RoguelikeTaskUserControlModel.Instance;
 
     /// <summary>
     /// Gets 生稀盐酸任务Model
     /// </summary>
-    public static ReclamationSettingsUserControlModel ReclamationTask => ReclamationSettingsUserControlModel.Instance;
+    public static ReclamationTaskUserControlModel ReclamationTask => ReclamationTaskUserControlModel.Instance;
 
     /// <summary>
     /// Gets 更新用户数据任务Model
     /// </summary>
-    public static UserDataUpdateSettingsUserControlModel UserDataUpdateTask => UserDataUpdateSettingsUserControlModel.Instance;
+    public static UserDataUpdateTaskUserControlModel UserDataUpdateTask => UserDataUpdateTaskUserControlModel.Instance;
 
     /// <summary>
     /// Gets 库存维持任务Model
@@ -151,7 +151,7 @@ public class TaskQueueViewModel : Screen
     /// <summary>
     /// Gets 生稀盐酸任务Model
     /// </summary>
-    public static CustomSettingsUserControlModel CustomTask => CustomSettingsUserControlModel.Instance;
+    public static CustomTaskUserControlModel CustomTask => CustomTaskUserControlModel.Instance;
 
     #endregion 长草任务Model
 
@@ -2229,7 +2229,7 @@ public class TaskQueueViewModel : Screen
             switch (item)
             {
                 case FightTask fight:
-                    FightSettingsUserControlModel.ResetFightVariables(fight);
+                    FightTaskUserControlModel.ResetFightVariables(fight);
                     if (refreshUI && TaskSettingVisibilityInfo.CurrentTask == fight)
                     {
                         RefreshTaskModel(fight);
@@ -2237,7 +2237,7 @@ public class TaskQueueViewModel : Screen
                     break;
 
                 case RecruitTask recruit:
-                    RecruitSettingsUserControlModel.ResetRecruitVariables(recruit);
+                    RecruitTaskUserControlModel.ResetRecruitVariables(recruit);
                     if (refreshUI && TaskSettingVisibilityInfo.CurrentTask == recruit)
                     {
                         RefreshTaskModel(recruit);

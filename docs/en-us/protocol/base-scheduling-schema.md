@@ -144,7 +144,10 @@ Please note that JSON files do not support comments. The comments in this docume
                         // assistant slot has no eligibility restriction like the trainee slot, so any
                         // operator can be staffed there; consistent with the generic candidates field,
                         // candidates currently working in other facilities are never selected (excluded
-                        // at selection time); this also covers skills of operators working
+                        // at selection time); candidates below the base shift-change morale threshold are
+                        // likewise skipped at selection time with the same semantics as production
+                        // facilities; if no candidate remains, the assistant is kept unchanged; this
+                        // also covers skills of operators working
                         // in other facilities that need ｢an operator of the same faction staffed in the
                         // base for higher efficiency｣ (put one matching-faction operator in operatorsA).
                         // Naming requirements as in operators (on non-CN clients the simplified Chinese

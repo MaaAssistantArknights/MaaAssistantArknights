@@ -39,6 +39,14 @@ Please note that JSON files do not support comments. Comments are for demonstrat
 
 - In `JieGarden/`:
   - `coppers.json` basic information and pickup/replacement logic for Coppers
+  - `map.json` stores template image information for JieGarden's map nodes
+
+- In `BlackFlow/`:
+  - `strategy.json` high-level routing strategy configuration for BlackFlow's I.S.
+  - `node_execution.json` node type handling routing configuration for BlackFlow's I.S.
+  - `map_perception/` map perception visual resources for BlackFlow's I.S.
+  - `scrap_market.json` scrap trader (秘境行商) data for BlackFlow's I.S. (idle natural item prices, refresh costs and processing keep limit)
+  - `map_templates.json` map layout templates for BlackFlow's I.S.
 
 ## Integrated Strategy Step 1: Operator Recruitment
 

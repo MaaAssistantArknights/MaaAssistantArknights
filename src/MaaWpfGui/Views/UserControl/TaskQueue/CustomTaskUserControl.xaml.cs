@@ -1,4 +1,4 @@
-// <copyright file="RecruitSettingsUserControl.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="CustomTaskUserControl.xaml.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -14,14 +14,14 @@
 namespace MaaWpfGui.Views.UserControl.TaskQueue;
 
 /// <summary>
-/// RecruitSettingsUserControl.xaml 的交互逻辑
+/// CustomTaskUserControl.xaml 的交互逻辑
 /// </summary>
-public partial class RecruitSettingsUserControl : System.Windows.Controls.UserControl
+public partial class CustomTaskUserControl : System.Windows.Controls.UserControl
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="RecruitSettingsUserControl"/> class.
+    /// Initializes a new instance of the <see cref="CustomTaskUserControl"/> class.
     /// </summary>
-    public RecruitSettingsUserControl()
+    public CustomTaskUserControl()
     {
         InitializeComponent();
     }

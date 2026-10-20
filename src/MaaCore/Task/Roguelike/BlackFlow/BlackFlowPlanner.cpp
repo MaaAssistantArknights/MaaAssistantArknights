@@ -1077,6 +1077,7 @@ RouteLabel best_route_after_outcome(
                 range_weight = 3;
                 break;
             case MovementRange::OrthogonalThree:
+            case MovementRange::SameRowOrColumn:
                 range_weight = 4;
                 break;
             case MovementRange::FullMap:

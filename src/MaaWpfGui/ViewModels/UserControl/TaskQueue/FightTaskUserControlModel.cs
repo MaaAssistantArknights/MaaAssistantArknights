@@ -1,4 +1,4 @@
-// <copyright file="FightSettingsUserControlModel.cs" company="MaaAssistantArknights">
+// <copyright file="FightTaskUserControlModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -45,10 +45,10 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 /// <summary>
 /// 理智作战
 /// </summary>
-public partial class FightSettingsUserControlModel : TaskSettingsViewModel, FightSettingsUserControlModel.ISerialize
+public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTaskUserControlModel.ISerialize
 {
     public const string AnnihilationName = "Annihilation";
-    private static readonly ILogger _logger = Log.ForContext<FightSettingsUserControlModel>();
+    private static readonly ILogger _logger = Log.ForContext<FightTaskUserControlModel>();
     private readonly RunningState _runningState;
     private readonly Lock _inventoryTargetRuntimeStateLock = new();
     private Dictionary<int, InventoryTargetRuntimeState> _inventoryTargetRuntimeStateByTaskId = [];
@@ -57,12 +57,12 @@ public partial class FightSettingsUserControlModel : TaskSettingsViewModel, Figh
 
     public static SanityInfo? SanityReport { get; set; }
 
-    static FightSettingsUserControlModel()
+    static FightTaskUserControlModel()
     {
         Instance = new();
     }
 
-    public FightSettingsUserControlModel()
+    public FightTaskUserControlModel()
     {
         _runningState = RunningState.Instance;
         _runningState.StateChanged += OnRunningStateChanged;
@@ -209,7 +209,7 @@ public partial class FightSettingsUserControlModel : TaskSettingsViewModel, Figh
         Execute.OnUIThread(NotifySpecifiedDropsStateChanged);
     }
 
-    public static FightSettingsUserControlModel Instance { get; }
+    public static FightTaskUserControlModel Instance { get; }
 
     /// <summary>
     /// Gets or sets a value indicating whether 关卡规划项正在被拖拽。

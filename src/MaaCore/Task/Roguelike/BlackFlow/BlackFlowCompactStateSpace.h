@@ -72,6 +72,7 @@ private:
         NodeTraversal traversal;
         NodeIdentityState identity_state = NodeIdentityState::Unclassified;
         std::optional<std::uint8_t> transfer_landing;
+        bool identity_from_template = false;
     };
 
     [[nodiscard]] std::optional<PlannerNodeMask> bit(NodeId node) const noexcept;
@@ -98,7 +99,7 @@ private:
     std::vector<StaticNode> m_nodes;
     std::vector<std::vector<CompactNeighbor>> m_confirmed_adjacency;
     std::vector<std::vector<CompactNeighbor>> m_relaxed_adjacency;
-    std::array<std::vector<std::vector<std::uint8_t>>, 13> m_geometric_targets;
+    std::array<std::vector<std::vector<std::uint8_t>>, MovementKindCount> m_geometric_targets;
     std::array<PlannerNodeMask, 21> m_type_nodes {};
     PlannerNodeMask m_blocking_nodes = 0;
     PlannerNodeMask m_transfer_nodes = 0;

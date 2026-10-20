@@ -125,7 +125,7 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
     [JsonPredict(nameof(UseWeeklySchedule))]
     public Dictionary<DayOfWeek, bool> WeeklySchedule { get; set; } = Enum.GetValues<DayOfWeek>().ToDictionary(i => i, _ => true);
 
-    public string CustomFileType { get; set; } = InfrastSettingsUserControlModel.UserDefined;
+    public string CustomFileType { get; set; } = InfrastTaskUserControlModel.UserDefined;
 
     /// <summary>
     /// Gets or sets 自定义配置文件路径

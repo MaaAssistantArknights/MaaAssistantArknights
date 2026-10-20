@@ -420,7 +420,7 @@ resource = true # MaaCore 리소스를 설치할지 여부, 기본값은 true
 
 # CLI 업데이트 관련 설정
 [cli]
-channel = "Stable" # 업데이트 채널, 가능한 값은 "Alpha", "Beta", "Stable", 기본값은 "Stable"
+channel = "Stable" # 업데이트 채널, 가능한 값은 "Nightly", "Beta", "Stable", 기본값은 "Stable"
 # maa-cli 최신 버전을 조회하는 API 주소, 비워두면 기본 주소를 사용
 api_url = "https://github.com/MaaAssistantArknights/maa-cli/raw/version/"
 # 사전 컴파일된 바이너리 파일의 다운로드 주소, 비워두면 기본 주소를 사용

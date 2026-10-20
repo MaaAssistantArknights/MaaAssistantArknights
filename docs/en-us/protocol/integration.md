@@ -1075,6 +1075,14 @@ Strategy for the 黑流树海 (BlackFlow) theme; inferred from `mode` and `inves
 <br>
 `burn` - Reach floor 3 as fast as possible and restart upon arrival  
 <br>
+`ending1` - Advance the EXP run toward the first ending
+<br>
+`ending2` - Advance the EXP run toward the second ending
+<br>
+`ending3` - Advance the EXP run toward the third ending
+<br>
+These values apply only to the EXP farming mode (mode 0); whether an ending is available is subject to the in-game state. When an ending is specified, the run recruits operators as usual at the start.
+<br>
 Mode 30003 does not read this field. With an animal requirement, the preparation run cultivates along the `baby_animal` route; without one, the preparation run reaches floor 3 as fast as possible, investing on floor 1 first when `investment_enabled` is true. When the preparation run's starting operator is the Mechanic, `collectible_mode_squad` is 特勤分队 (Special Squad) or 堡垒战术分队 (Tactical Fortification Squad), and `roles` is 稳扎稳打 (Slow and Steady Wins the Race) or 坚不可摧 (Indestructible), the run is treated as a fully-talented Mechanic start that carries 结构性原理 (Structural Principle): after recruiting the Mechanic, the preparation run skips the remaining opening recruitment and moves with Structural Principle as needed; without an animal requirement, it flies straight to the exit on floor 2. (machine-translated)  
 :::  
 ::: field blackflow_cultivation_target  

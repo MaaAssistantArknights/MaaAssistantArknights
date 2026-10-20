@@ -56,7 +56,7 @@ public static class Instances
 
         public static void ClearCache()
         {
-            FightSettingsUserControlModel.SanityReport = null;
+            FightTaskUserControlModel.SanityReport = null;
             MedicineUsedTimes = 0;
             ExpiringMedicineUsedTimes = 0;
             StoneUsedTimes = 0;

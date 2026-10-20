@@ -1,4 +1,4 @@
-// <copyright file="AwardSettingsUserControlModel.cs" company="MaaAssistantArknights">
+// <copyright file="AwardTaskUserControlModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -21,14 +21,14 @@ using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class AwardSettingsUserControlModel : TaskSettingsViewModel, AwardSettingsUserControlModel.ISerialize
+public class AwardTaskUserControlModel : TaskSettingsViewModel, AwardTaskUserControlModel.ISerialize
 {
-    static AwardSettingsUserControlModel()
+    static AwardTaskUserControlModel()
     {
         Instance = new();
     }
 
-    public static AwardSettingsUserControlModel Instance { get; }
+    public static AwardTaskUserControlModel Instance { get; }
 
     /// <summary>
     /// Gets or sets a value indicating whether receive award is enabled.

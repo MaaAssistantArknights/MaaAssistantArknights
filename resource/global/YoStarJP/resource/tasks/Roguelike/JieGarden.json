@@ -150,6 +150,12 @@
     "JieGarden@Roguelike@SelectTheme": {
         "text": ["来園記念", "来園", "記念"]
     },
+    "JieGarden@Roguelike@StageEncounterLeaveConfirm": {
+        "template": [
+            "JieGarden@Roguelike@StageEncounterLeaveConfirm.png",
+            "JieGarden@Roguelike@StageEncounterLeaveConfirm720p.png"
+        ]
+    },
     "JieGarden@Roguelike@StageSafeHouseReuse": {
         "text": ["セーフハウスを利用する"]
     },

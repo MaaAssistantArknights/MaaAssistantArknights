@@ -76,6 +76,7 @@ bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
         Rect templ_rect = templ_task_ptr->specific_rect;
         templ_rect.y = rect.y;
         option.templ = make_roi(m_image, templ_rect);
+        option.merged_y = rect.y;
 
         RegionOCRer ocrer(option.enabled ? option.templ : binarize_for_ocr(option.templ));
         ocrer.set_task_info(text_task_ptr);
@@ -257,12 +258,16 @@ asst::Matcher::ResultOpt asst::RoguelikeEncounterOptionAnalyzer::match_option(
     Matcher option_matcher(image);
     option_matcher.set_task_info(option_match_task);
     option_matcher.set_templ(option_templ);
-
-    Rect option_match_roi = option_match_task->roi;
-    option_match_roi.height = image.rows - (WindowHeightDefault - option_match_roi.height);
-    option_matcher.set_roi(option_match_roi);
+    option_matcher.set_roi(option_roi(theme, image.rows));
 
     return option_matcher.analyze();
+}
+
+asst::Rect asst::RoguelikeEncounterOptionAnalyzer::option_roi(const std::string& theme, int image_rows)
+{
+    Rect roi = Task.get<MatchTaskInfo>(theme + "@RoguelikeEncounterOptionAnalyzer-Option")->roi;
+    roi.height = image_rows - (WindowHeightDefault - roi.height);
+    return roi;
 }
 
 asst::MultiMatcher::ResultsVecOpt asst::RoguelikeEncounterOptionAnalyzer::analyze_options(const cv::Mat& image) const

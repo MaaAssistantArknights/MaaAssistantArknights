@@ -39,7 +39,7 @@ using ObservableCollections;
 using Serilog;
 using Stylet;
 using static MaaWpfGui.Main.AsstProxy;
-using static MaaWpfGui.ViewModels.UserControl.TaskQueue.FightSettingsUserControlModel;
+using static MaaWpfGui.ViewModels.UserControl.TaskQueue.FightTaskUserControlModel;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
@@ -605,7 +605,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         foreach (var plan in task.PlanList)
         {
             // 根据 DropId 从掉落列表恢复 DropName，避免初始化显示为"不选择"
-            var dropName = FightSettingsUserControlModel.Instance.DropsList.FirstOrDefault(i => i.Value == plan.DropId)?.Display ?? LocalizationHelper.GetString("NotSelected");
+            var dropName = FightTaskUserControlModel.Instance.DropsList.FirstOrDefault(i => i.Value == plan.DropId)?.Display ?? LocalizationHelper.GetString("NotSelected");
 
             var uiPlan = new DepotPlanItemViewModel(plan.Stage, plan.DropId, dropName, plan.DropCount, plan.UseMedicine, plan.MedicineCount, plan.UseStone, plan.StoneCount, plan.TaskId) {
                 Index = index,

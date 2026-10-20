@@ -109,6 +109,8 @@ struct Node
     NodeTraversal traversal;
     NodeIdentityState identity_state = NodeIdentityState::Unclassified;
     bool identity_revealed = false;
+    // 身份由地图模板补出（目前只有险路尽头），游戏里这个节点还没揭开。
+    bool identity_from_template = false;
     std::string marker_type;
     std::string marker_display_name;
     double marker_score = 0.0;
@@ -181,6 +183,7 @@ struct ObservedNode
     std::optional<NodeTraversal> traversal;
     std::optional<NodeIdentityState> identity_state;
     std::optional<bool> identity_revealed;
+    std::optional<bool> identity_from_template;
     std::optional<std::string> marker_type;
     std::optional<std::string> marker_display_name;
     std::optional<double> marker_score;
@@ -283,7 +286,14 @@ enum class MovementKind
     M10,
     M11,
     M12,
+    M13,
+    M14,
+    M15,
+    M16,
 };
+
+// 按种类索引的定长数组都用它，新增加工品时不会漏改某一处。
+inline constexpr std::size_t MovementKindCount = static_cast<std::size_t>(MovementKind::M16) + 1;
 
 enum class MovementRange
 {
@@ -293,6 +303,7 @@ enum class MovementRange
     ManhattanTwo,
     OrthogonalThree,
     FullMap,
+    SameRowOrColumn,
 };
 
 struct MovementEffect
@@ -314,9 +325,15 @@ struct MovementSpec
     bool random_target = false;
     bool expires_on_floor_end = false;
     MovementEffect effect;
+    // 落地后节点变成的类型，例如坎诺特特快把不期而遇变成诡意行商。规划器还没有建模节点类型的变化，
+    // 带这一项的加工品暂不参与规划。
+    std::optional<NodeType> landing_type_after_move;
 };
 
 [[nodiscard]] bool node_type_allowed(const MovementSpec& movement, NodeType type) noexcept;
+
+// 紧急逃生座椅不能落到仅由地图模板补出身份的节点；其他加工品按各自的落点类型判断。
+[[nodiscard]] bool movement_can_land(const MovementSpec& movement, NodeType type, bool identity_from_template) noexcept;
 
 // 加工品移动可以作为落点的全部节点类型。按落点能力划分资源时需要逐个遍历，取用同一份表
 // 可以保证资源定义与候选生成用的白名单不会分叉。

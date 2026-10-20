@@ -420,7 +420,7 @@ resource = true # 是否安装 MaaCore 的资源，默认为 true
 
 # CLI 更新相关配置
 [cli]
-channel = "Stable" # 更新通道，可选值为 "Alpha"，"Beta"，"Stable"，默认为 "Stable"
+channel = "Stable" # 更新通道，可选值为 "Nightly"，"Beta"，"Stable"，默认为 "Stable"
 # 查询 maa-cli 最新版本的 api 地址，留空表示使用默认地址
 api_url = "https://github.com/MaaAssistantArknights/maa-cli/raw/version/"
 # 下载预编译二进制文件的地址，留空表示使用默认地址
