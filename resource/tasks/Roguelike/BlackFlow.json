@@ -646,7 +646,7 @@
         "template": "BlackFlow@Roguelike@GetDropLeave.png"
     },
     "BlackFlow@Roguelike@GetDropCardTitleOcr": {
-        "Doc": "无藏刷开局：识别战斗掉落那一排卡片的标题（源石锭/藏品名/招募券），只拿源石锭和招募券，藏品跳过。券常被识成秀/卷，这里统一替换。",
+        "Doc": "无藏刷开局：识别战斗掉落那一排卡片的标题（源石锭/藏品名/招募券/抉择零件），只拿源石锭、招募券和抉择，藏品跳过。券常被识成秀/卷，这里统一替换。",
         "algorithm": "OcrDetect",
         "roi": [0, 334, 1280, 48],
         "text": [],

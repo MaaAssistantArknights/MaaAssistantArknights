@@ -41,7 +41,7 @@ private:
     bool check_shop_stock();
     bool decide_shop_target();
 
-    // 无藏刷开局：战斗掉落是一排卡片，只拿源石锭和招募券，剩下的藏品点｢直接离开｣
+    // 无藏刷开局：战斗掉落是一排卡片，只拿源石锭、招募券和｢抉择｣零件，剩下的藏品点｢直接离开｣
     bool take_no_collect_drops();
 
     bool m_start_run = false;

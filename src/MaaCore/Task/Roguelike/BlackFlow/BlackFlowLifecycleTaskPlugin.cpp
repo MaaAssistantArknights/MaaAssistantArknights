@@ -22,9 +22,10 @@ namespace
 // 无藏刷开局的收工条件：第一层诡意行商卖这个藏品就保留这一局。
 constexpr std::string_view NoCollectTargetCollectible = "悲伤的红";
 constexpr int ShopStockOcrAttempts = 3;
-// 无藏刷开局：战斗掉落是一排卡片，只拿源石锭和招募券，其余（藏品）点｢直接离开｣。
+// 无藏刷开局：战斗掉落是一排卡片，只拿源石锭、招募券和｢抉择｣（零件），其余（藏品）点｢直接离开｣。
 constexpr std::string_view DropCardMoneyTitle = "源石锭";
 constexpr std::string_view DropCardVoucherTitle = "招募券";
+constexpr std::string_view DropCardChoiceTitle = "抉择";
 constexpr int DropCardTakeAttempts = 4;
 
 std::pair<std::string, std::string> classify_unreported_termination(const std::string& pre_task)
@@ -648,9 +649,11 @@ bool BlackFlowLifecycleTaskPlugin::take_no_collect_drops()
             button_result.has_value() ? button_result->rect.y + button_result->rect.height / 2 : 541;
 
         bool clicked = false;
+        bool clicked_choice = false;
         for (const auto& title : title_results) {
+            const bool is_choice = title.text.find(DropCardChoiceTitle) != std::string::npos;
             if (title.text.find(DropCardMoneyTitle) == std::string::npos &&
-                title.text.find(DropCardVoucherTitle) == std::string::npos) {
+                title.text.find(DropCardVoucherTitle) == std::string::npos && !is_choice) {
                 continue;
             }
             const int click_x = title.rect.x + title.rect.width / 2;
@@ -666,12 +669,18 @@ bool BlackFlowLifecycleTaskPlugin::take_no_collect_drops()
             ctrler()->click(target);
             taken.emplace_back(title.text, click_x);
             clicked = true;
+            clicked_choice = is_choice;
             break;
         }
         if (!clicked) {
             break;
         }
         sleep(1500);
+        if (clicked_choice) {
+            // ｢抉择｣的｢选择｣会打开零件选择界面，交给任务链里的 GetDropSelectReward 处理。
+            LogInfo << __FUNCTION__ << "choice card opened the part selection";
+            return true;
+        }
         // 招募券的收下会直接进招募界面，别对着切换中的旧画面再点一次。
         Matcher choose_oper(ctrler()->get_image());
         choose_oper.set_task_info("BlackFlow@Roguelike@ChooseOperFlag");
