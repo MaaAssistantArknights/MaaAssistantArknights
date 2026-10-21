@@ -333,7 +333,13 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::sel
         return Result::NavigationFailed;
     }
     if (processing_task.select_operator(material_id, material_rarity, operator_changed)) {
-        return Result::Completed;
+        // 顶部加工站标志在换人过渡动画中已可见，须等待数量操作区就绪。
+        // 就绪失败须直接结束，不能进入保留原干员的回退分支。
+        const bool ready = run_task("MiniGame@MaterialSynthesis@OperatorSelectionReady", 5);
+        if (need_exit()) {
+            return Result::Cancelled;
+        }
+        return ready ? Result::Completed : Result::NavigationFailed;
     }
     if (need_exit()) {
         return Result::Cancelled;
