@@ -524,20 +524,19 @@
                                                 <controls:OperCardBorder
                                                     x:Name="OperCard"
                                                     MinWidth="{Binding Path=(uiBehaviors:SharedCardWidthBehavior.SharedMinWidth), RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                                    MinHeight="70"
                                                     MaxWidth="{Binding Path=(uiBehaviors:SharedCardWidthBehavior.WidthLimit), RelativeSource={RelativeSource AncestorType=ListBox}}"
                                                     Margin="5"
-                                                    Padding="10,5"
+                                                    Padding="5"
                                                     Background="{DynamicResource RegionBrushOpacity25}"
                                                     BorderBrush="{DynamicResource BorderBrush}"
                                                     BorderThickness="1"
                                                     CornerRadius="4">
                                                     <Grid>
                                                         <!--  稀有度底色 + 居中头像 + 一图流式布局  -->
-                                                        <!--  头像层固定宽度 92：头像 72 居中，右缘约 20 留给竖排模组徽章；头像卡宽度由此层撑起  -->
                                                         <Grid
                                                             x:Name="AvatarLayout"
-                                                            Width="92"
+                                                            Width="82"
+                                                            Height="82"
                                                             ToolTip="{Binding Name}"
                                                             Visibility="Collapsed">
                                                             <Border uiBehaviors:ResourceReferenceHelper.BackgroundResourceKey="{Binding RarityColorResourceKey}" CornerRadius="3" />
@@ -549,21 +548,22 @@
                                                                 Source="{Binding Avatar}"
                                                                 Stretch="Uniform" />
                                                             <!--  顶行：职业 + 星级  -->
-                                                            <Grid Margin="4,3" VerticalAlignment="Top">
+                                                            <Grid Margin="4,4,4,0" VerticalAlignment="Top">
                                                                 <Border
-                                                                    Width="14"
-                                                                    Height="14"
+                                                                    Padding="1"
                                                                     HorizontalAlignment="Left"
                                                                     Background="#AA1F1F1F"
                                                                     CornerRadius="3"
                                                                     ToolTip="{Binding RoleString}">
                                                                     <Image
-                                                                        Margin="1"
+                                                                        Width="11"
+                                                                        Height="11"
                                                                         Source="{Binding RoleIcon}"
                                                                         Stretch="Uniform" />
                                                                 </Border>
                                                                 <controls:TextBlock
-                                                                    HorizontalAlignment="Center"
+                                                                    Margin="0,0,4,0"
+                                                                    HorizontalAlignment="Right"
                                                                     FontSize="{Binding RarityStarsFontSize}"
                                                                     Foreground="White"
                                                                     Text="{Binding RarityStars}">
@@ -593,7 +593,7 @@
                                                                         Source="{Binding PotentialIconPath}" />
                                                                 </Border>
                                                                 <Border
-                                                                    Margin="0,2,0,0"
+                                                                    Margin="0,1,0,0"
                                                                     Padding="1"
                                                                     HorizontalAlignment="Left"
                                                                     Background="#AA1F1F1F"
@@ -605,10 +605,12 @@
                                                                         Source="{Binding EliteIconPath}" />
                                                                 </Border>
                                                                 <Border
-                                                                    Margin="0,2,0,0"
+                                                                    Height="14"
+                                                                    Margin="0,1,0,0"
                                                                     HorizontalAlignment="Left"
                                                                     Background="#AA1F1F1F"
-                                                                    CornerRadius="3">
+                                                                    CornerRadius="3"
+                                                                    ToolTip="{Binding Level}">
                                                                     <controls:TextBlock
                                                                         Margin="2,1"
                                                                         FontSize="8"
@@ -634,11 +636,11 @@
                                                                     <ItemsControl.ItemTemplate>
                                                                         <DataTemplate>
                                                                             <Border
-                                                                                Margin="0,0,1,0"
+                                                                                Margin="0,1,0,0"
+                                                                                Padding="2,1"
                                                                                 Background="#AA1F1F1F"
                                                                                 CornerRadius="3">
                                                                                 <controls:TextBlock
-                                                                                    Margin="2,1"
                                                                                     FontSize="8"
                                                                                     FontWeight="SemiBold"
                                                                                     Foreground="White"
