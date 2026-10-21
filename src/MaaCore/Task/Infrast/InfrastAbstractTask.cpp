@@ -5,6 +5,7 @@
 #include <utility>
 
 #include "Common/AsstMsg.h"
+#include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Status.h"
@@ -457,8 +458,21 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(
             pre_result_no_changes = false;
         }
         pre_partial_result = partial_result;
+        // 阶段一页数上限：技能排序下无基建技能的点名干员集中在列表尾段，逐页扫到底代价高，
+        // 剩余目标交给阶段二按职业分桶定位；宿舍点名依赖心情降序的前排命中，保持扫完全列表
+        if (!is_dorm_order && swipe_times + 1 >= CustomPhaseOneMaxPages) {
+            break;
+        }
         swipe_of_operlist();
         ++swipe_times;
+    }
+
+    // 阶段二：剩余目标按职业分桶定位。结束时已切回 ALL 第一页，swipe_times 归零让收尾跳过物理回正
+    if (!is_dorm_order) {
+        if (!select_custom_opers_by_role()) {
+            return false;
+        }
+        swipe_times = 0;
     }
 
     // 先按任意其他的tab排序，游戏会自动把已经选中的人放到最前面
@@ -730,6 +744,188 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
             break;
         }
     }
+    return true;
+}
+
+bool asst::InfrastAbstractTask::select_custom_opers_by_role()
+{
+    auto& room_config = current_room_config();
+
+    const auto is_excluded = [this](const std::string& name) {
+        return std::ranges::find(m_working_excluded_candidates, name) != m_working_excluded_candidates.cend() ||
+               std::ranges::find(m_low_mood_excluded_candidates, name) != m_low_mood_excluded_candidates.cend();
+    };
+    // 目标处理完毕 = 已从名单删名（必选只有删名一种移除方式），或候补仍在名单但已因在班/心情被排除
+    const auto targets_done = [&](const std::vector<std::string>& targets) {
+        return std::ranges::all_of(targets, [&](const std::string& name) {
+            if (std::ranges::find(room_config.names, name) != room_config.names.cend()) {
+                return false;
+            }
+            const bool in_candidates = std::ranges::find(room_config.candidates, name) != room_config.candidates.cend();
+            return !in_candidates || is_excluded(name);
+        });
+    };
+
+    const auto is_full = [&]() {
+        return static_cast<size_t>(room_config.selected) >= max_num_of_opers();
+    };
+    const auto has_pending_candidates = [&]() {
+        return std::ranges::any_of(room_config.candidates, [&](const std::string& name) { return !is_excluded(name); });
+    };
+    if (is_full() || (room_config.names.empty() && !has_pending_candidates())) {
+        return true; // 满员，或剩余名单全是已排除的候补，无事可做
+    }
+
+    // 必选与备选独立分桶，桶序各取名单中的首现序；查不到职业的（名字拼错、数据未收录）留在 ALL 兜底
+    const auto build_buckets =
+        [&](const std::vector<std::string>& names, bool skip_excluded, auto& buckets, auto& fallback) {
+            for (const auto& name : names) {
+                if (skip_excluded && is_excluded(name)) {
+                    continue; // 阶段一已确认在班/心情不符的候补，不再为其翻页
+                }
+                const battle::Role role = BattleData.get_first_role(name);
+                if (role == battle::Role::Unknown) {
+                    fallback.emplace_back(name);
+                    continue;
+                }
+                auto iter = std::ranges::find_if(buckets, [&](const auto& pair) { return pair.first == role; });
+                if (iter == buckets.end()) {
+                    buckets.emplace_back(role, std::vector<std::string> {});
+                    iter = buckets.end() - 1;
+                }
+                iter->second.emplace_back(name);
+            }
+        };
+    std::vector<std::pair<battle::Role, std::vector<std::string>>> required_buckets;
+    std::vector<std::pair<battle::Role, std::vector<std::string>>> candidate_buckets;
+    std::vector<std::string> all_fallback_targets;
+    build_buckets(room_config.names, false, required_buckets, all_fallback_targets);
+    build_buckets(room_config.candidates, true, candidate_buckets, all_fallback_targets);
+
+    // 兜底目标不切页签，在 ALL 列表从当前位置继续翻页；到底即止不重试（查不到职业属配置异常，
+    // 漏识别由收尾复核与选人重试兜底），避免为罕见路径引入回正复杂度
+    if (!all_fallback_targets.empty()) {
+        std::vector<std::string> pre_partial_result;
+        bool pre_result_no_changes = false;
+        while (true) {
+            if (need_exit()) {
+                return false;
+            }
+            std::vector<std::string> partial_result;
+            if (!select_custom_opers(partial_result, false)) {
+                return false;
+            }
+            if (is_full() || targets_done(all_fallback_targets)) {
+                break;
+            }
+            if (partial_result == pre_partial_result) {
+                if (pre_result_no_changes) {
+                    break; // ALL 列表已到底
+                }
+                pre_result_no_changes = true;
+            }
+            else {
+                pre_result_no_changes = false;
+            }
+            pre_partial_result = partial_result;
+            swipe_of_operlist();
+        }
+    }
+
+    // 切换职业页签。先回 ALL 再点目标职业，重置该职业列表保留的滚动位置
+    const auto switch_role_tab = [&](battle::Role role) {
+        ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).run();
+        ProcessTask(*this, { "BattleQuickFormationRole-" + enum_to_string(role, true) }).run();
+        sleep(CustomRoleSwitchDelayMs);
+    };
+
+    // 单桶扫描：目标找齐/满员/列表到底即结束，到底 = 连续两页识别不变。
+    // immediate_retry 为真时到底先回切页签重置滚动重扫一轮（必选误判缺席会触发整房重选，代价高）；
+    // 为假时直接结束并置 stalled，由调用方决定是否延迟重试
+    const auto scan_bucket =
+        [&](battle::Role role, const std::vector<std::string>& targets, bool immediate_retry, bool& stalled) -> bool {
+        stalled = false;
+        switch_role_tab(role);
+        std::vector<std::string> pre_partial_result;
+        bool pre_result_no_changes = false;
+        bool retried = false;
+        while (true) {
+            if (need_exit()) {
+                return false;
+            }
+            std::vector<std::string> partial_result;
+            if (!select_custom_opers(partial_result, false)) {
+                return false;
+            }
+            if (is_full() || targets_done(targets)) {
+                return true;
+            }
+            if (partial_result == pre_partial_result) {
+                if (pre_result_no_changes) {
+                    if (retried || !immediate_retry) {
+                        stalled = true; // 列表到底仍有目标未处理，确认缺席
+                        return true;
+                    }
+                    switch_role_tab(role); // 回切页签重置滚动，重扫一轮排除偶发漏识别
+                    retried = true;
+                    pre_result_no_changes = false;
+                    pre_partial_result.clear();
+                    continue;
+                }
+                pre_result_no_changes = true;
+            }
+            else {
+                pre_result_no_changes = false;
+            }
+            pre_partial_result = partial_result;
+            swipe_of_operlist();
+        }
+    };
+
+    // 基建选人界面职业栏默认收起，进入职业分桶扫描前展开
+    ProcessTask(*this, { "BattleQuickFormationExpandRole" }).set_retry_times(3).run();
+
+    // 必选层：桶内目标找齐即切下一桶
+    for (const auto& [role, targets] : required_buckets) {
+        if (is_full()) {
+            break;
+        }
+        bool stalled = false;
+        if (!scan_bucket(role, targets, true, stalled)) {
+            return false;
+        }
+    }
+
+    // 备选层：必选落座后按空位补人，补满即停，剩余桶不再扫
+    std::vector<std::pair<battle::Role, std::vector<std::string>>> stalled_buckets;
+    for (const auto& [role, targets] : candidate_buckets) {
+        if (is_full()) {
+            break;
+        }
+        bool stalled = false;
+        if (!scan_bucket(role, targets, false, stalled)) {
+            return false;
+        }
+        if (stalled) {
+            stalled_buckets.emplace_back(role, targets);
+        }
+    }
+    // 席位未满时对到底未命中的备选桶统一重扫一轮，兜住第一遍的偶发漏识别；重试轮内仍到底即确认缺席
+    if (!is_full() && !stalled_buckets.empty()) {
+        for (const auto& [role, targets] : stalled_buckets) {
+            if (is_full()) {
+                break;
+            }
+            bool stalled = false;
+            if (!scan_bucket(role, targets, true, stalled)) {
+                return false;
+            }
+        }
+    }
+
+    // 恢复 ALL 页签并收起职业栏，回到与阶段一结束一致的界面状态供收尾排序与复核
+    ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).run();
+    close_quick_formation_expand_role();
     return true;
 }
 
