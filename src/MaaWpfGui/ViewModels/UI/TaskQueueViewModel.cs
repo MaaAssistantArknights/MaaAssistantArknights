@@ -643,7 +643,8 @@ public class TaskQueueViewModel : Screen
                     LocalizationHelper.GetString("LockScreen"),
                     LocalizationHelper.GetString("LockScreenTip"),
                     LocalizationHelper.GetString("Cancel"),
-                    60))
+                    60,
+                    preventSleep: true))
             {
                 return;
             }
@@ -664,7 +665,8 @@ public class TaskQueueViewModel : Screen
                     LocalizationHelper.GetString("Hibernate"),
                     LocalizationHelper.GetString("HibernatePrompt"),
                     LocalizationHelper.GetString("Cancel"),
-                    60))
+                    60,
+                    preventSleep: true))
             {
                 return;
             }
@@ -682,7 +684,8 @@ public class TaskQueueViewModel : Screen
                     LocalizationHelper.GetString("Shutdown"),
                     LocalizationHelper.GetString("AboutToShutdown"),
                     LocalizationHelper.GetString("Cancel"),
-                    60))
+                    60,
+                    preventSleep: true))
             {
                 PowerManagement.AbortShutdown();
                 return;
@@ -701,7 +704,8 @@ public class TaskQueueViewModel : Screen
                     LocalizationHelper.GetString("Sleep"),
                     LocalizationHelper.GetString("SleepPrompt"),
                     LocalizationHelper.GetString("Cancel"),
-                    60))
+                    60,
+                    preventSleep: true))
             {
                 return;
             }
@@ -1247,7 +1251,12 @@ public class TaskQueueViewModel : Screen
             seconds);
     }
 
-    private static async Task<bool> TimerCanceledAsync(string content = "", string tipContent = "", string buttonContent = "", int seconds = 10)
+    private static async Task<bool> TimerCanceledAsync(
+        string content = "",
+        string tipContent = "",
+        string buttonContent = "",
+        int seconds = 10,
+        bool preventSleep = false)
     {
         if (Application.Current.Dispatcher.CheckAccess())
         {
@@ -1260,6 +1269,12 @@ public class TaskQueueViewModel : Screen
         {
             var canceled = false;
             var delay = TimeSpan.FromSeconds(seconds);
+            if (preventSleep)
+            {
+                // 完成后动作进入倒计时前已回到空闲态，须防止无人值守唤醒再次睡眠并冻结倒计时。
+                SleepManagement.BlockSleep(allowBlockSleep: true, blockSleepWithScreenOn: false);
+            }
+
             RunningState.Instance.LockInterrupt();
             try
             {
@@ -1284,6 +1299,10 @@ public class TaskQueueViewModel : Screen
             finally
             {
                 RunningState.Instance.UnlockInterrupt();
+                if (preventSleep)
+                {
+                    SleepManagement.AllowSleep();
+                }
             }
         }
     }
