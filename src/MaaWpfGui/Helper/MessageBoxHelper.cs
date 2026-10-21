@@ -110,8 +110,20 @@ public static class MessageBoxHelper
         string cancel = "",
         string yes = "",
         string no = "",
-        bool useNativeMethod = false,
-        Window? owner = null) => Show(WindowHandle.None, messageBoxText, caption, buttons, icon, iconKey, iconBrushKey, ok, cancel, yes, no, useNativeMethod, owner);
+        bool useNativeMethod = false) => Show(WindowHandle.None, messageBoxText, caption, buttons, icon, iconKey, iconBrushKey, ok, cancel, yes, no, useNativeMethod);
+
+    public static MessageBoxResult Show(
+        Window? owner,
+        string messageBoxText,
+        string caption = "",
+        MessageBoxButton buttons = MessageBoxButton.OK,
+        MessageBoxImage icon = MessageBoxImage.None,
+        string iconKey = "",
+        string iconBrushKey = "",
+        string ok = "",
+        string cancel = "",
+        string yes = "",
+        string no = "") => ShowCore(WindowHandle.None, owner, messageBoxText, caption, buttons, icon, iconKey, iconBrushKey, ok, cancel, yes, no, false);
 
     public static MessageBoxResult Show(
         WindowHandle ownerWindow,
@@ -125,8 +137,22 @@ public static class MessageBoxHelper
         string cancel = "",
         string yes = "",
         string no = "",
-        bool useNativeMethod = false,
-        Window? owner = null)
+        bool useNativeMethod = false) => ShowCore(ownerWindow, null, messageBoxText, caption, buttons, icon, iconKey, iconBrushKey, ok, cancel, yes, no, useNativeMethod);
+
+    private static MessageBoxResult ShowCore(
+        WindowHandle ownerWindow,
+        Window? owner,
+        string messageBoxText,
+        string caption,
+        MessageBoxButton buttons,
+        MessageBoxImage icon,
+        string iconKey,
+        string iconBrushKey,
+        string ok,
+        string cancel,
+        string yes,
+        string no,
+        bool useNativeMethod)
     {
         caption = string.IsNullOrEmpty(caption) ? LocalizationHelper.GetString("Tip") : caption;
         ok = string.IsNullOrEmpty(ok) ? LocalizationHelper.GetString("Ok") : ok;

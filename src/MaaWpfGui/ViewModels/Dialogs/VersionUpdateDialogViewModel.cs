@@ -1388,13 +1388,13 @@ public class VersionUpdateDialogViewModel : Screen
         await _runningState.UntilIdleAsync();
 
         var result = MessageBoxHelper.Show(
+            Application.Current?.MainWindow,
             description,
             title,
             MessageBoxButton.OKCancel,
             MessageBoxImage.Question,
             ok: LocalizationHelper.GetString("Ok"),
-            cancel: LocalizationHelper.GetString("ManualRestart"),
-            owner: Application.Current?.MainWindow);
+            cancel: LocalizationHelper.GetString("ManualRestart"));
         if (result == MessageBoxResult.OK)
         {
             if (FakeUpdateHelper.HasPendingFakeUpdate)
