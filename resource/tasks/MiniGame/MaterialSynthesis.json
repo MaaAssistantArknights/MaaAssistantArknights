@@ -66,6 +66,7 @@
     },
     "MiniGame@MaterialSynthesis@OperatorSelectionReady": {
         "baseTask": "MiniGame@MaterialSynthesis@Increase",
+        "template": "ProcessingIncrease.png",
         "action": "DoNothing",
         "preDelay": 0,
         "postDelay": 0
