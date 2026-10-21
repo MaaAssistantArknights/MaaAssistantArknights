@@ -224,6 +224,33 @@ public class RecruitTaskUserControlModel : TaskSettingsViewModel, RecruitTaskUse
     }
 
     #region 公招时间
+    [PropertyDependsOn(nameof(ChooseLevel3PreferTime))]
+    public int ChooseLevel3PreferHour
+    {
+        get => ChooseLevel3PreferTime / 60;
+        set => ChooseLevel3PreferTime = (value * 60) + ChooseLevel3PreferMin;
+    }
+
+    [PropertyDependsOn(nameof(ChooseLevel3PreferTime))]
+    public int ChooseLevel3PreferMin
+    {
+        get => (ChooseLevel3PreferTime % 60) / 10 * 10;
+        set => ChooseLevel3PreferTime = (ChooseLevel3PreferHour * 60) + value;
+    }
+
+    public int ChooseLevel3PreferTime
+    {
+        get => GetTaskConfig<RecruitTask>().Level3PreferTime ?? GetTaskConfig<RecruitTask>().Level3Time;
+        set {
+            value = value switch {
+                < 60 => 9 * 60,
+                > 9 * 60 => 60,
+                _ => value / 10 * 10,
+            };
+            SetTaskConfig<RecruitTask>(t => t.Level3PreferTime == value, t => t.Level3PreferTime = value);
+        }
+    }
+
     [PropertyDependsOn(nameof(ChooseLevel3Time))]
     public int ChooseLevel3Hour
     {
@@ -320,6 +347,7 @@ public class RecruitTaskUserControlModel : TaskSettingsViewModel, RecruitTaskUse
                 ExpeditedTimes = recruit.MaxTimes,
                 SelectExtraTags = recruit.ExtraTagMode,
                 Level3FirstList = firstTags,
+                ChooseLevel3FirstTagsTime = recruit.Level3PreferTime ?? recruit.Level3Time,
                 PreserveTags = preserveTags,
                 Level3RecruitmentPermitReserve = recruit.Level3RecruitmentPermitReserveEnabled
                     ? recruit.Level3RecruitmentPermitReserve

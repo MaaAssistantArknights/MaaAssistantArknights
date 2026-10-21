@@ -334,6 +334,11 @@ v6.8.0 で非推奨になりました。代わりに `medicine_expire_days` を�
 <br>
 タグレベルが 3 の場合、ここのタグがあれば可能な限り多くを選択します（存在する場合）。強制選択であり、 ｢3 星タグを選択しない｣ 設定はすべて無視されます。  
 :::  
+::: field first_tags_recruitment_time
+@type number
+@optional
+`first_tags` のいずれかを検出し、タグレベルが 3 の場合に使用する募集時間（分）です。設定範囲は 60～540 で、デフォルトでは `recruitment_time` の星3募集時間を使用します。
+:::
 ::: field extra_tags_mode  
 @type number
 @default 0
@@ -433,7 +438,8 @@ v6.8.0 で非推奨になりました。代わりに `medicine_expire_days` を�
    "select": [5, 4],
    "confirm": [4, 3],
    "level3_recruitment_permit_reserve": 8,
-   "first_tags": ["高级资深干员"],
+   "first_tags": ["辅助干员"],
+   "first_tags_recruitment_time": 230,
    "extra_tags_mode": 1,
    "times": 4,
    "set_time": true,

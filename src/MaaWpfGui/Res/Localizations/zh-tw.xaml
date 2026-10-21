@@ -1932,6 +1932,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="SelectExtraOnlyRareTags">盡可能多選且只選高星 Tags</system:String>
     <system:String x:Key="AutoRecruitHighPriority">3★ Tags 時的 Tags 傾向</system:String>
     <system:String x:Key="AutoRecruitHighPriorityTooltip">會盡可能多選傾向的 Tags</system:String>
+    <system:String x:Key="AutoRecruitHighPriorityTime">命中傾向 Tag 時的招募時限</system:String>
     <system:String x:Key="NotEnoughStaff">可用{key=Operator}不足</system:String>
     <system:String x:Key="StageInfoError">關卡辨識錯誤</system:String>
     <system:String x:Key="UseFormation">使用編隊</system:String>
