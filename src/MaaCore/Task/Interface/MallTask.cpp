@@ -15,15 +15,16 @@ asst::MallTask::MallTask(const AsstCallback& callback, Assistant* inst) :
     m_shopping_first_task_ptr(std::make_shared<CreditShoppingTask>(callback, inst, TaskType)),
     m_shopping_task_ptr(std::make_shared<CreditShoppingTask>(callback, inst, TaskType)),
     m_shopping_force_task_ptr(std::make_shared<CreditShoppingTask>(callback, inst, TaskType)),
-    m_monthlycard_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType))
+    m_monthly_card_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType))
 {
     LogTraceFunction;
 
     m_visit_task_ptr->set_tasks({ "VisitBegin" });
     m_mall_task_ptr->set_tasks({ "MallBegin" });
-    m_monthlycard_task_ptr->set_tasks({ "MonthlyCardBegin" });
+    m_monthly_card_task_ptr->set_tasks({ "MonthlyCardBegin" });
     m_visit_task_ptr->register_plugin<ScreenshotTaskPlugin>();
     m_mall_task_ptr->register_plugin<ScreenshotTaskPlugin>();
+    m_monthly_card_task_ptr->register_plugin<ScreenshotTaskPlugin>();
     m_shopping_first_task_ptr->set_enable(false).set_retry_times(1);
     m_shopping_task_ptr->set_enable(false).set_retry_times(1);
     m_shopping_force_task_ptr->set_enable(false).set_retry_times(1);
@@ -35,7 +36,7 @@ asst::MallTask::MallTask(const AsstCallback& callback, Assistant* inst) :
     m_subtasks.emplace_back(m_shopping_task_ptr)->set_ignore_error(true);
     m_subtasks.emplace_back(m_shopping_force_task_ptr)->set_ignore_error(true);
     // 月卡到期提醒：购物结束后人已在采购中心，顺路切组合包页检查，省一次导航
-    m_subtasks.emplace_back(m_monthlycard_task_ptr)->set_ignore_error(true);
+    m_subtasks.emplace_back(m_monthly_card_task_ptr)->set_ignore_error(true);
 }
 
 bool asst::MallTask::set_params(const json::value& params)
@@ -44,10 +45,10 @@ bool asst::MallTask::set_params(const json::value& params)
 
     bool visit_friends = params.get("visit_friends", true);
     bool shopping = params.get("shopping", true);
-    bool monthlycard = params.get("monthlycard", false);
+    bool monthly_card = params.get("monthly_card", false);
 
     m_visit_task_ptr->set_enable(visit_friends);
-    m_monthlycard_task_ptr->set_enable(monthlycard);
+    m_monthly_card_task_ptr->set_enable(monthly_card);
     if (shopping) {
         if (auto buy_first_opt = params.find<json::array>("buy_first")) {
             std::vector<std::string> buy_first;
