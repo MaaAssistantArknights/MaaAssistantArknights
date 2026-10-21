@@ -354,6 +354,7 @@
     <system:String x:Key="RoguelikeRequireStartingCoreChar">まず ｢{key=StartingCoreChar}｣ を入力してください</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">戦友以外のサポートの使用を許可</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">自動ローグ 戦闘終了まえに ｢{key=Stop}｣ を遅らせる</system:String>
+    <system:String x:Key="RoguelikeExitAfterThirdFloor">通常の秘宝集め：第3層クリア後に再探索</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">第5階層のボスの手前で一時停止する</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">最大レベル達成時に停止</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">シードから始める</system:String>

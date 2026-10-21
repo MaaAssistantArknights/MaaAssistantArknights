@@ -1308,6 +1308,19 @@
         "binThreshold": [200, 255],
         "useRaw": false
     },
+    "JieGarden@Roguelike@StrategyChange_mode0-ExitAfterThirdFloor": {
+        "baseTask": "JieGarden@Roguelike@StrategyChange_mode0",
+        "text": ["_default", "_restart", "_boskyPassageDefault"],
+        "ocrReplace": [
+            ["洪陆楼", "_default"],
+            ["山水阁", "_default"],
+            ["云(瓦)?(亭|亨)", "_default"],
+            ["汝吾(门)?", "_restart"],
+            ["见字祠", "_restart"],
+            ["始末陵", "_restart"],
+            ["是非(境|坍)", "_boskyPassageDefault"]
+        ]
+    },
     "JieGarden@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
         "text": ["_aggressive", "_pragmatic", "_default", "_boskyPassageDefault"],
         "baseTask": "Roguelike@StrategyChange_default",

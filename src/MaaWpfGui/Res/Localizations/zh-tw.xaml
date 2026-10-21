@@ -354,6 +354,7 @@
     <system:String x:Key="RoguelikeRequireStartingCoreChar">需先填寫 ｢{key=StartingCoreChar}｣</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助戰</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">肉鴿在戰鬥結束前延遲 ｢{key=Stop}｣ 動作</system:String>
+    <system:String x:Key="RoguelikeExitAfterThirdFloor">刷一般收藏品：完成第三層後重新探索</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">在第五層 BOSS 前暫停</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">滿級後自動停止</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">使用指定種子開局</system:String>

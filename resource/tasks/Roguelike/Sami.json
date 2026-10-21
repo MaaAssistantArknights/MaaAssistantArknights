@@ -1310,6 +1310,20 @@
             ["深埋迷境", "_SKIP_"]
         ]
     },
+    "Sami@Roguelike@StrategyChange_mode0-ExitAfterThirdFloor": {
+        "baseTask": "Sami@Roguelike@StrategyChange_mode0",
+        "text": ["_aggressive", "_pragmatic", "_restart"],
+        "ocrReplace": [
+            ["初霜湖泽", "_aggressive"],
+            ["密静林地", "_aggressive"],
+            [".*明冻土", "昧明冻土"],
+            ["昧明冻土", "_pragmatic"],
+            ["积冰岩.*", "_restart"],
+            ["无瑕花园", "_restart"],
+            ["远见之构", "_restart"],
+            ["深埋迷境", "_restart"]
+        ]
+    },
     "Sami@Roguelike@StrategyChange_mode1": {
         "text": ["_default", "_exit"],
         "ocrReplace": [

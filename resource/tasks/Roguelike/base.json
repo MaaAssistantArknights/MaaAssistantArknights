@@ -1647,7 +1647,7 @@
         "onErrorNext": ["Roguelike@ExitThenAbandon"]
     },
     "Roguelike@Stages_restart": {
-        "doc": "保持当前难度重开，用于投资进入第二层后退出",
+        "doc": "保持当前难度重开",
         "algorithm": "JustReturn",
         "next": ["Roguelike@ExitThenAbandon"],
         "onErrorNext": ["Roguelike@ExitThenAbandon"]

@@ -916,6 +916,12 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 @optional
 지정 난이도 등급, `-1`는 미지정. 미해금 시 현재 해금된 최고 난이도 선택  
 :::  
+::: field exit_after_third_floor  
+@type boolean
+@default false
+@optional
+일반 소장품 파밍을 활성화할지 여부입니다. 3층을 완료하고 진행 중 및 층 끝 보상을 받은 뒤 현재 탐험을 포기하고 다음 탐험을 시작합니다. 모든 테마의 `mode = 0`에 적용되며, 실제 재시작은 4층에 진입할 때 실행됩니다. 일반 소장품의 해금 조건과 무작위 획득 주기를 단축하기 위한 기능이며, 전체 탐험 완료, 특정 엔딩 또는 특수 이벤트가 필요한 소장품을 개별적으로 노리지는 않습니다.  
+:::  
 ::: field stop_at_final_boss  
 @type boolean
 @default false
@@ -1133,6 +1139,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
    "use_nonfriend_support": false,
    "starts_count": 3,
    "difficulty": 8,
+   "exit_after_third_floor": false,
    "stop_at_final_boss": false,
    "stop_at_max_level": false,
    "investment_enabled": true,

@@ -96,6 +96,11 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
         }
         Task.set_task_base(strategy_task, strategy_task_with_mode);
 
+        if (m_theme != RoguelikeTheme::BlackFlow && m_mode == RoguelikeMode::Exp &&
+            params.get("exit_after_third_floor", false)) {
+            Task.set_task_base(strategy_task, m_theme + "@Roguelike@StrategyChange_mode0-ExitAfterThirdFloor");
+        }
+
         // 萨卡兹点刺成锭分队特殊策略
         if (m_theme == "Sarkaz") {
             if (m_mode == RoguelikeMode::Investment && params.get("squad", "") == "点刺成锭分队") {

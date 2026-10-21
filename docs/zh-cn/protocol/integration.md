@@ -913,6 +913,12 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 @optional
 指定难度等级，`-1` 表示不指定难度。若指定难度未解锁，则会选择当前已解锁的最高难度。  
 :::  
+::: field exit_after_third_floor  
+@type boolean
+@default false
+@optional
+是否启用普通收藏品刷取：完成第三层并领取沿途及层末奖励后，放弃当前探索并开始下一次。适用于所有主题的 `mode = 0`，实际在进入第四层时重开。此功能用于缩短普通收藏品解锁条件和随机获取的循环，不会专门处理需要完整探索、特定结局或特殊事件的收藏品。  
+:::  
 ::: field stop_at_final_boss  
 @type boolean
 @default false
@@ -1130,6 +1136,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
    "use_nonfriend_support": false,
    "starts_count": 3,
    "difficulty": 8,
+   "exit_after_third_floor": false,
    "stop_at_final_boss": false,
    "stop_at_max_level": false,
    "investment_enabled": true,

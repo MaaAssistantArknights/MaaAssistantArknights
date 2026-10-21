@@ -1094,6 +1094,19 @@
             ["诡.*断章", "_SKIP_"]
         ]
     },
+    "Sarkaz@Roguelike@StrategyChange_mode0-ExitAfterThirdFloor": {
+        "baseTask": "Sarkaz@Roguelike@StrategyChange_mode0",
+        "text": ["_default", "_restart"],
+        "ocrReplace": [
+            ["熔魂之始", "_default"],
+            ["锻铁根须", "_default"],
+            ["灰铸迷城", "_default"],
+            ["或然歧域", "_restart"],
+            ["虚实疆界", "_restart"],
+            ["辉光天顶", "_restart"],
+            ["诡.*断章", "_restart"]
+        ]
+    },
     "Sarkaz@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
         "text": ["_aggressive", "_pragmatic", "_default", "_SKIP_"],
         "baseTask": "Roguelike@StrategyChange_default",

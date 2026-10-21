@@ -913,6 +913,12 @@ Number of times to start exploration. Stops automatically upon reaching limit.
 @optional
 Specified difficulty level; `-1` means no preference. Selects the highest unlocked difficulty if the specified one is not unlocked.  
 :::  
+::: field exit_after_third_floor  
+@type boolean
+@default false
+@optional
+Whether to farm regular collectibles by abandoning the current run after clearing Floor 3 and claiming rewards along the way and at the end of the floor, then starting the next run. Applies to `mode = 0` in every theme; the restart is triggered upon entering Floor 4. This shortens the loop for regular collectible unlock conditions and random acquisition, without targeting collectibles that require a full run, a specific ending, or a special event.  
+:::  
 ::: field stop_at_final_boss  
 @type boolean
 @default false
@@ -1130,6 +1136,7 @@ Target playtime node of the playtime node farming mode. `1` - Ling (掷地有声
    "use_nonfriend_support": false,
    "starts_count": 3,
    "difficulty": 8,
+   "exit_after_third_floor": false,
    "stop_at_final_boss": false,
    "stop_at_max_level": false,
    "investment_enabled": true,

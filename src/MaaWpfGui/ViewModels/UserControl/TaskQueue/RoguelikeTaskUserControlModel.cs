@@ -882,6 +882,15 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether to farm regular collectibles by restarting after the third floor.
+    /// </summary>
+    public bool RoguelikeExitAfterThirdFloor
+    {
+        get => GetTaskConfig<RoguelikeTask>().ExitAfterThirdFloor;
+        set => SetTaskConfig<RoguelikeTask>(t => t.ExitAfterThirdFloor == value, t => t.ExitAfterThirdFloor = value);
+    }
+
+    /// <summary>
     /// Gets or sets a value indicating whether to automatically iterate the monthly squad.
     /// </summary>
     public bool RoguelikeMonthlySquadAutoIterate
@@ -1686,6 +1695,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
 
                 StopAtFinalBoss = roguelike.StopAtFinalBoss,
                 StopAtMaxLevel = roguelike.StopWhenLevelMax,
+                ExitAfterThirdFloor = roguelike.ExitAfterThirdFloor,
 
                 // 刷开局
                 CollectibleModeSquad = roguelike.SquadCollectible,

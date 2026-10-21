@@ -913,6 +913,12 @@ OF-1 実行時に使用する編成スロットのインデックス。
 @optional
 難易度を指定。`-1` は指定なし。未解放の場合は、現在解放されている最高難易度を選択。  
 :::  
+::: field exit_after_third_floor  
+@type boolean
+@default false
+@optional
+通常の秘宝集めを有効にするかどうか。第 3 層をクリアして道中と層末の報酬を受け取った後に現在の探索を放棄し、次の探索を開始します。すべてのテーマの `mode = 0` に適用され、実際には第 4 層に入った時点で再開します。通常の秘宝の解放条件とランダム入手の周回を短縮する機能であり、探索完了、特定のエンディング、または特殊イベントが必要な秘宝を個別に狙うものではありません。  
+:::  
 ::: field stop_at_final_boss  
 @type boolean
 @default false
@@ -1130,6 +1136,7 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
    "use_nonfriend_support": false,
    "starts_count": 3,
    "difficulty": 8,
+   "exit_after_third_floor": false,
    "stop_at_final_boss": false,
    "stop_at_max_level": false,
    "investment_enabled": true,

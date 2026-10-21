@@ -205,6 +205,11 @@ public class RoguelikeTask : BaseTask, IJsonOnDeserialized
     public bool StopAtFinalBoss { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether to farm regular collectibles by restarting after the third floor
+    /// </summary>
+    public bool ExitAfterThirdFloor { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 等级满了停
     /// </summary>
     public bool StopWhenLevelMax { get; set; }

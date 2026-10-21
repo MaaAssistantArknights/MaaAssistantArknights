@@ -223,6 +223,11 @@ public class AsstRoguelikeTask : AsstBaseTask
     public bool StopAtFinalBoss { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether to farm regular collectibles by restarting after the third floor
+    /// </summary>
+    public bool ExitAfterThirdFloor { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 是否在满级时停止任务
     /// </summary>
     public bool StopAtMaxLevel { get; set; }
@@ -246,7 +251,7 @@ public class AsstRoguelikeTask : AsstBaseTask
         // 快速飞三层：分队、职业组和开局干员换成满天赋机械师的固定开局，沿用 Core 刷等级的默认策略。
         // 不勾选就按目标结局打，开局配置即使是这套组合也不飞。
         var expFlight = Theme == RoguelikeTheme.BlackFlow && Mode == RoguelikeMode.Exp && BlackFlowFastFlight;
-        if (Theme == RoguelikeTheme.BlackFlow && Mode == RoguelikeMode.Exp && !BlackFlowFastFlight)
+        if (Theme == RoguelikeTheme.BlackFlow && Mode == RoguelikeMode.Exp && !BlackFlowFastFlight && !ExitAfterThirdFloor)
         {
             taskParams["blackflow_strategy"] = BlackFlowEnding switch
             {
@@ -318,6 +323,7 @@ public class AsstRoguelikeTask : AsstBaseTask
         {
             taskParams["stop_at_final_boss"] = StopAtFinalBoss;
             taskParams["stop_at_max_level"] = StopAtMaxLevel;
+            taskParams["exit_after_third_floor"] = ExitAfterThirdFloor;
         }
         else if (Mode == RoguelikeMode.Collectible)
         {

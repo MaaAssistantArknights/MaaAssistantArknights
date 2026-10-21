@@ -2062,6 +2062,32 @@
             "failure_action": "restart_current_run"
         },
         {
+            "id": "collectible_farming",
+            "description": "反复完成前三层刷取普通收藏品，进入第四层后重开",
+            "modules": [
+                "common_navigation",
+                "ending_development",
+                "ending_scrap_trade",
+                "mechanic_flight",
+                "ending1_exit"
+            ],
+            "terminal_rules": [
+                {
+                    "id": "collectible_farming_third_floor_completed",
+                    "when": {
+                        "fact": "current_floor",
+                        "op": "ge",
+                        "value": 4
+                    },
+                    "outcome": "collectible_farming_completed",
+                    "reason": "third_floor_completed",
+                    "succeeded": true,
+                    "next_action": "restart_current_run"
+                }
+            ],
+            "failure_action": "restart_current_run"
+        },
+        {
             "id": "investment",
             "description": "第一层以战斗次数最少、预计时间最短的完整路线抵达固定普通商店",
             "modules": ["common_navigation", "investment_route"],

@@ -914,6 +914,12 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @optional
 指定難度等級，`-1` 表示不指定難度。若指定難度未解鎖，則會選擇目前已解鎖的最高難度。  
 :::  
+::: field exit_after_third_floor  
+@type boolean
+@default false
+@optional
+是否啟用一般收藏品刷取：完成第三層並領取沿途及層末獎勵後，放棄目前探索並開始下一次。適用於所有主題的 `mode = 0`，實際在進入第四層時重開。此功能用於縮短一般收藏品解鎖條件和隨機取得的循環，不會專門處理需要完整探索、特定結局或特殊事件的收藏品。  
+:::  
 ::: field stop_at_final_boss  
 @type boolean
 @default false
@@ -1131,6 +1137,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
    "use_nonfriend_support": false,
    "starts_count": 3,
    "difficulty": 8,
+   "exit_after_third_floor": false,
    "stop_at_final_boss": false,
    "stop_at_max_level": false,
    "investment_enabled": true,

@@ -492,8 +492,19 @@
             <CheckBox
                 Margin="0,10"
                 d:Visibility="Visible"
+                IsChecked="{Binding RoguelikeExitAfterThirdFloor}"
+                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Exp',
+                                       Source={x:Static taskQueue_vms:RoguelikeTaskUserControlModel.Instance}}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource RoguelikeExitAfterThirdFloor}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox
+                Margin="0,10"
+                d:Visibility="Visible"
                 IsChecked="{Binding RoguelikeStopAtFinalBoss}"
-                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Exp and RoguelikeTheme != task:RoguelikeTheme.Phantom',
+                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Exp and RoguelikeTheme != task:RoguelikeTheme.Phantom and !RoguelikeExitAfterThirdFloor',
                                        Source={x:Static taskQueue_vms:RoguelikeTaskUserControlModel.Instance}}">
                 <TextBlock
                     Block.TextAlignment="Left"
@@ -586,7 +597,7 @@
                         Foreground="{DynamicResource InfoBrush}"
                         Text="{DynamicResource RoguelikeBlackFlowFlightRequirement}" />
                 </StackPanel>
-                <StackPanel Margin="0,3">
+                <StackPanel Margin="0,3" Visibility="{c:Binding !RoguelikeExitAfterThirdFloor}">
                     <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
                         <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource RoguelikeBlackFlowEnding}" />
                         <controls:TooltipBlock

@@ -314,6 +314,18 @@
             ["渴欲大厅", "_default"]
         ]
     },
+    "Phantom@Roguelike@StrategyChange_mode0-ExitAfterThirdFloor": {
+        "baseTask": "Phantom@Roguelike@StrategyChange_mode0",
+        "text": ["_aggressive", "_restart"],
+        "ocrReplace": [
+            ["迷雾歧途", "_aggressive"],
+            ["落阳庭院", "_aggressive"],
+            ["故土残躯", "_aggressive"],
+            ["噩梦之始", "_restart"],
+            ["血月长廊", "_restart"],
+            ["渴欲大厅", "_restart"]
+        ]
+    },
     "Phantom@Roguelike@StrategyChange_mode1": {
         "Doc": "一层可能不开门，导致打完二层才退；不再复用mode4",
         "text": ["_default", "_exit"],

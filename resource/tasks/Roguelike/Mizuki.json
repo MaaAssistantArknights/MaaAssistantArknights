@@ -539,6 +539,19 @@
             ["绀碧摇篮", "_SKIP_"]
         ]
     },
+    "Mizuki@Roguelike@StrategyChange_mode0-ExitAfterThirdFloor": {
+        "baseTask": "Mizuki@Roguelike@StrategyChange_mode0",
+        "text": ["_aggressive", "_pragmatic", "_restart"],
+        "ocrReplace": [
+            ["天光海岸", "_aggressive"],
+            ["离岸孤岛", "_aggressive"],
+            ["波涛略地", "_pragmatic"],
+            ["隐秘温床", "_restart"],
+            ["失尘岩洞", "_restart"],
+            ["幽海丛林", "_restart"],
+            ["绀碧摇篮", "_restart"]
+        ]
+    },
     "Mizuki@Roguelike@StrategyChange_mode1": {
         "text": ["_default", "_exit"],
         "ocrReplace": [

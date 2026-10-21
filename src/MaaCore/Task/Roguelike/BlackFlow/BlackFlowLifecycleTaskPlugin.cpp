@@ -53,6 +53,9 @@ bool BlackFlowLifecycleTaskPlugin::load_params(const json::value& params)
                 params.get("investment_enabled", true) ? "start_run_rewards_with_investment" : "start_run_rewards";
         }
     }
+    else if (m_config->get_mode() == RoguelikeMode::Exp && params.get("exit_after_third_floor", false)) {
+        profile = "collectible_farming";
+    }
     if (profile.empty()) {
         if (m_config->get_mode() == RoguelikeMode::Investment) {
             profile = "investment";
