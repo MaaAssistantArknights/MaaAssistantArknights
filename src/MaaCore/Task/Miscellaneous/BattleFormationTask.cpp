@@ -91,7 +91,22 @@ bool asst::BattleFormationTask::_run()
         save_img(utils::path("debug") / utils::path("other"));
         return false;
     }
-    formation_with_last_opers();
+    // 清空不触发重排，刚清掉的干员（上次编队或手动遗留的选中者）因置顶残留仍在第一屏。
+    // 对全部待选组先在当前页跑一遍完整选中链（组匹配、等级、技能、模组），
+    // 命中的干员不必再按职业翻页寻找；未命中的留给下方的职业筛选循环
+    {
+        std::vector<OperGroup*> unchecked_groups;
+        for (auto& [role, oper_groups] : m_formation) {
+            for (auto& oper_group : oper_groups) {
+                if (has_oper_unchecked(oper_group.opers)) {
+                    unchecked_groups.emplace_back(&oper_group);
+                }
+            }
+        }
+        if (!unchecked_groups.empty()) {
+            select_opers_in_cur_page(unchecked_groups);
+        }
+    }
     for (auto& [role, oper_groups] : m_formation) {
         bool need_check =
             std::ranges::any_of(oper_groups, [&](const OperGroup& group) { return has_oper_unchecked(group.opers); });
@@ -206,72 +221,6 @@ bool asst::BattleFormationTask::_run()
     }
 
     return true;
-}
-
-void asst::BattleFormationTask::formation_with_last_opers()
-{
-    if (m_opers_in_formation->empty()) {
-        return;
-    }
-    std::unordered_map<battle::OperNameTag, std::string> last_formation; // 上次作业的干员-组映射
-    m_opers_in_formation->swap(last_formation);
-
-    // 此时的oper_in_formation是根据上次编队结果复用的, 但是task此时已清空, 重新选一下
-    const auto& opers_result = analyzer_opers(ctrler()->get_image());
-    if (opers_result.empty()) {
-        return;
-    }
-
-    // 展平的干员组
-    std::unordered_map<std::string, std::vector<asst::battle::OperUsage>*> formation_view;
-    for (auto& group : m_formation | std::views::values | std::views::join) {
-        formation_view.emplace(group.name, &group.opers);
-    }
-    const int delay = Task.get("BattleQuickFormationOCR")->post_delay;
-    for (auto it = last_formation.begin(); !need_exit() && it != last_formation.end();) {
-        const battle::OperNameTag& oper_tag = it->first;
-        const std::string& group_name = it->second;
-        const auto& oper_in_page_it = std::ranges::find_if(opers_result, [&](const QuickFormationOper& op) {
-            return !op.is_selected && op.role == oper_tag.role && op.text == oper_tag.name;
-        }); // 编队页中的干员
-        if (oper_in_page_it == opers_result.end()) [[unlikely]] {
-            LogWarn << __FUNCTION__ << "| Oper" << oper_tag.name
-                    << "was selected last time, but not found in current page";
-            ++it;
-            continue; // 该干员找不到, 一页只能放下10个干员, 可能被右侧挡住. 打回到正常编队逻辑
-        }
-
-        // 直接通过组名从展平的映射中查找
-        auto group_it = formation_view.find(group_name);
-        if (group_it == formation_view.end()) {
-            LogError << __FUNCTION__ << "| Group" << group_name << " not found in formation";
-            ++it;
-            continue;
-        }
-
-        // 在找到的组中查找具体的干员
-        auto oper_it = std::ranges::find_if(*(group_it->second), [&](battle::OperUsage& op) {
-            return op.name == oper_tag.name && op.role == oper_tag.role;
-        });
-        if (oper_it == group_it->second->end()) {
-            LogError << __FUNCTION__ << "| Group" << group_name << ",Oper" << oper_tag
-                     << "was selected last time, but not found in current pair";
-            ++it;
-            continue; // 很怪, 按理说不会找不到, 有组相同但是找不到干员
-        }
-
-        ctrler()->click(oper_in_page_it->flag_rect);
-        sleep(delay);
-
-        oper_it->status = battle::OperStatus::Selected;
-        json::value info = basic_info_with_what("BattleFormationSelected");
-        auto& details = info["details"];
-        details["selected"] = oper_tag.name;
-        details["group_name"] = group_name;
-        callback(AsstMsg::SubTaskExtraInfo, info);
-        m_opers_in_formation->emplace(oper_tag, group_name);
-        it = last_formation.erase(it);
-    }
 }
 
 bool asst::BattleFormationTask::add_formation(battle::Role role, const std::vector<OperGroup*>& oper_group)
