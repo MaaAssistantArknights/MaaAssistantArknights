@@ -103,6 +103,36 @@ public static class SleepManagement
     }
 
     /// <summary>
+    /// Creates an independently owned system-required power request.
+    /// </summary>
+    /// <param name="reason">The reason shown by Windows for the power request.</param>
+    /// <returns>A lease that clears only this request when disposed; <see langword="null" /> when creation fails.</returns>
+    public static IDisposable? CreateKeepAwakeRequest(string reason)
+    {
+        var context = new PowerRequestContextSimple
+        {
+            Version = 0,
+            Flags = 1,
+            SimpleReasonString = reason,
+        };
+        nint request = PowerCreateRequest(ref context);
+        if (request == 0 || request == -1)
+        {
+            _logger.Warning("PowerCreateRequest failed: {ErrorCode}", Marshal.GetLastWin32Error());
+            return null;
+        }
+
+        if (!PowerSetRequest(request, PowerRequestType.PowerRequestSystemRequired))
+        {
+            _logger.Warning("PowerSetRequest failed: {ErrorCode}", Marshal.GetLastWin32Error());
+            CloseHandle(request);
+            return null;
+        }
+
+        return new PowerRequestLease(request);
+    }
+
+    /// <summary>
     /// Gets the remaining time of the current keep-awake window; <see cref="TimeSpan.Zero"/> when
     /// no window is active. Restart chains forward the remaining time instead of the original
     /// duration so that restarts never extend the window beyond its original deadline.
@@ -180,6 +210,23 @@ public static class SleepManagement
             PowerClearRequest(request, PowerRequestType.PowerRequestSystemRequired);
             CloseHandle(request);
             _logger.Information("Keep-awake window expired");
+        }
+    }
+
+    private sealed class PowerRequestLease(nint request) : IDisposable
+    {
+        private nint _request = request;
+
+        public void Dispose()
+        {
+            nint requestToClear = Interlocked.Exchange(ref _request, 0);
+            if (requestToClear == 0)
+            {
+                return;
+            }
+
+            PowerClearRequest(requestToClear, PowerRequestType.PowerRequestSystemRequired);
+            CloseHandle(requestToClear);
         }
     }
 
