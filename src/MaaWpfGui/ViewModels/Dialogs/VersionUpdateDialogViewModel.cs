@@ -1393,7 +1393,8 @@ public class VersionUpdateDialogViewModel : Screen
             MessageBoxButton.OKCancel,
             MessageBoxImage.Question,
             ok: LocalizationHelper.GetString("Ok"),
-            cancel: LocalizationHelper.GetString("ManualRestart"));
+            cancel: LocalizationHelper.GetString("ManualRestart"),
+            owner: Application.Current?.MainWindow);
         if (result == MessageBoxResult.OK)
         {
             if (FakeUpdateHelper.HasPendingFakeUpdate)

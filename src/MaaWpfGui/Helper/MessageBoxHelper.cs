@@ -110,7 +110,8 @@ public static class MessageBoxHelper
         string cancel = "",
         string yes = "",
         string no = "",
-        bool useNativeMethod = false) => Show(WindowHandle.None, messageBoxText, caption, buttons, icon, iconKey, iconBrushKey, ok, cancel, yes, no, useNativeMethod);
+        bool useNativeMethod = false,
+        Window? owner = null) => Show(WindowHandle.None, messageBoxText, caption, buttons, icon, iconKey, iconBrushKey, ok, cancel, yes, no, useNativeMethod, owner);
 
     public static MessageBoxResult Show(
         WindowHandle ownerWindow,
@@ -124,7 +125,8 @@ public static class MessageBoxHelper
         string cancel = "",
         string yes = "",
         string no = "",
-        bool useNativeMethod = false)
+        bool useNativeMethod = false,
+        Window? owner = null)
     {
         caption = string.IsNullOrEmpty(caption) ? LocalizationHelper.GetString("Tip") : caption;
         ok = string.IsNullOrEmpty(ok) ? LocalizationHelper.GetString("Ok") : ok;
@@ -150,6 +152,7 @@ public static class MessageBoxHelper
                 CancelContent = cancel,
                 YesContent = yes,
                 NoContent = no,
+                Owner = owner,
             };
 
             DateTime startTime = DateTime.Now;
