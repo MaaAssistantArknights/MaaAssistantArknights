@@ -64,6 +64,12 @@
         "preDelay": 1000,
         "postDelay": 100
     },
+    "MiniGame@MaterialSynthesis@OperatorSelectionReady": {
+        "baseTask": "MiniGame@MaterialSynthesis@Increase",
+        "action": "DoNothing",
+        "preDelay": 0,
+        "postDelay": 0
+    },
     "MiniGame@MaterialSynthesis@Decrease": {
         "template": "ProcessingDecrease.png",
         "roi": [1007, 417, 133, 126],

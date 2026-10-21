@@ -229,7 +229,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
             selected_count = 1;
             int increase_clicks_without_low_mood = 0;
             while (selected_count < batch_count && !need_exit()) {
-                if (!run_task("MiniGame@MaterialSynthesis@Increase", 0)) {
+                if (!run_task("MiniGame@MaterialSynthesis@Increase", 2)) {
                     result = Result::NavigationFailed;
                     break;
                 }

@@ -418,8 +418,9 @@ bool asst::InfrastProcessingTask::confirm_material_synthesis_selection()
     if (!ProcessTask(*this, { "InfrastDormConfirmButton" }).run() || need_exit()) {
         return false;
     }
-    ProcessTask verify(*this, { "MiniGame@MaterialSynthesis@Workshop" });
-    verify.set_retry_times(2);
+    // 顶部加工站标志在换人过渡动画中已可见，须等待数量操作区就绪。
+    ProcessTask verify(*this, { "MiniGame@MaterialSynthesis@OperatorSelectionReady" });
+    verify.set_retry_times(5);
     return verify.run();
 }
 
