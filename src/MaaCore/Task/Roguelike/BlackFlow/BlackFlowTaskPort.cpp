@@ -460,7 +460,10 @@ bool BlackFlowTaskPort::classify_entered_page(
     const auto encounter_title = recognize_text(m_task_context->capture(), StageEncounterOcrTask);
     if (encounter_title.has_value()) {
         observation.matched_texts.emplace_back(*encounter_title);
-        observation.classified_type = NodeType::Incident;
+        observation = classify_entered_page_texts(std::move(observation.matched_texts));
+        if (!observation.classified_type.has_value() && !observation.classification_conflict) {
+            observation.classified_type = NodeType::Incident;
+        }
     }
     return true;
 }

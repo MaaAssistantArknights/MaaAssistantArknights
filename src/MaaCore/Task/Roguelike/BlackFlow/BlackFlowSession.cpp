@@ -1827,6 +1827,9 @@ bool BlackFlowSession::commit(EnteredPageObservation entered_page, std::string* 
             DiagnosticTrigger::IdentityConflict);
     }
     PageIdentityResolution identity = resolve_page_identity(map_type, map_name, preview, entered_page);
+    if (!m_transaction->resolve_target_type(identity.type, error)) {
+        return false;
+    }
 
     // 隐藏节点要进来才认得出身份。地图阶段算出的意图是按 hide_invisible 定的，沿用它会把
     // 秘境行商这类节点分流到通用页面。这里按真实身份重新解析一次。
@@ -1906,9 +1909,8 @@ bool BlackFlowSession::completed_page_changes_floor() const noexcept
         return false;
     }
 
-    const NodeType node_type = m_page_context->node_type;
     // Portal returns to the same main-map floor and does not require NextLevel.
-    return node_type == NodeType::Final || node_type == NodeType::Evacuate || node_type == NodeType::BattleBoss;
+    return is_exit_node_type(m_page_context->node_type);
 }
 
 std::optional<int> BlackFlowSession::remaining_route_battles(const MoveCandidate& move) const
@@ -2269,6 +2271,9 @@ bool BlackFlowSession::apply_node_task_result(
         if (update.actual_type.has_value()) {
             merged.actual_type = update.actual_type;
             updated_page.node_type = *update.actual_type;
+            if (!updated_transaction.resolve_target_type(updated_page.node_type, error)) {
+                return false;
+            }
         }
         if (update.actual_name.has_value()) {
             merged.actual_name = update.actual_name;

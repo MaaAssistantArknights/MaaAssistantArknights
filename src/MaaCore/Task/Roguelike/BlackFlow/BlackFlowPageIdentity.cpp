@@ -1,6 +1,7 @@
 #include "BlackFlowSession.h"
 #include "BlackFlowTaskPort.h"
 
+#include <array>
 #include <iterator>
 #include <set>
 #include <utility>
@@ -15,26 +16,21 @@ EnteredPageObservation classify_entered_page_texts(std::vector<std::string> matc
     EnteredPageObservation observation;
     observation.matched_texts.assign(texts.begin(), texts.end());
 
-    const bool final = texts.contains("险路尽头");
-    const bool shop = texts.contains("坎诺特");
-    const bool scrap_shop = texts.contains("机械师");
-    const bool emergency_aid = texts.contains("佩德洛");
-    const int classifications = static_cast<int>(final) + static_cast<int>(shop) + static_cast<int>(scrap_shop) +
-                                static_cast<int>(emergency_aid);
-    if (classifications > 1) {
-        observation.classification_conflict = true;
-    }
-    else if (final) {
-        observation.classified_type = NodeType::Final;
-    }
-    else if (shop) {
-        observation.classified_type = NodeType::Shop;
-    }
-    else if (scrap_shop) {
-        observation.classified_type = NodeType::ScrapShop;
-    }
-    else if (emergency_aid) {
-        observation.classified_type = NodeType::Employ;
+    static constexpr std::array identities {
+        std::pair { "险路尽头", NodeType::Final },   std::pair { "三重身", NodeType::Evacuate },
+        std::pair { "溯源", NodeType::Portal },      std::pair { "坎诺特", NodeType::Shop },
+        std::pair { "机械师", NodeType::ScrapShop }, std::pair { "佩德洛", NodeType::Employ },
+    };
+    for (const auto& [text, type] : identities) {
+        if (!texts.contains(text)) {
+            continue;
+        }
+        if (observation.classified_type.has_value() && observation.classified_type != type) {
+            observation.classified_type.reset();
+            observation.classification_conflict = true;
+            break;
+        }
+        observation.classified_type = type;
     }
     return observation;
 }
