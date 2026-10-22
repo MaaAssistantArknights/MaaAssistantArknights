@@ -1,5 +1,5 @@
 ---
-order: 11
+order: 10
 icon: mdi:theme-light-dark
 ---
 

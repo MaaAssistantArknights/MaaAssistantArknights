@@ -1,5 +1,5 @@
 ---
-order: 12
+order: 11
 icon: ph:sword-bold
 ---
 
