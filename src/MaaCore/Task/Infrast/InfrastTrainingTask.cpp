@@ -190,6 +190,7 @@ std::optional<std::string> asst::InfrastTrainingTask::time_left_analyze(const cv
     }
 
     cv::Mat timer_image = image.clone();
+    const cv::Rect image_bounds(0, 0, timer_image.cols, timer_image.rows);
     for (size_t i = 0; i < mask_params.size(); i += 2) {
         const int x_offset = mask_params[i];
         const int width = mask_params[i + 1];
@@ -199,7 +200,10 @@ std::optional<std::string> asst::InfrastTrainingTask::time_left_analyze(const cv
         }
 
         const Rect mask_rect(task_info->roi.x + x_offset, task_info->roi.y, width, task_info->roi.height);
-        timer_image(make_rect<cv::Rect>(mask_rect)).setTo(cv::Scalar::all(0));
+        const cv::Rect visible_mask = make_rect<cv::Rect>(mask_rect) & image_bounds;
+        if (!visible_mask.empty()) {
+            timer_image(visible_mask).setTo(cv::Scalar::all(0));
+        }
     }
 
     RegionOCRer analyzer(timer_image);
