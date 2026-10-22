@@ -4,7 +4,7 @@
         { "name": "未涉足之树", "option_text": ["休息"] },
         { "name": "回滚文明", "option_text": ["离开", "远离这个疯子"] },
         { "name": "无人商店", "option_text": ["搬一个大桶"] },
-        { "name": "三重身", "option_num": 2, "choose": 1 },
+        { "name": "三重身", "option_num": 2, "choose": 2 },
         { "name": "思乡心切", "option_num": 2, "choose": 2 },
         { "name": "划算买卖", "option_num": 2, "choose": 2 },
         { "name": "鸭托邦", "option_num": 3, "choose": 3 },
