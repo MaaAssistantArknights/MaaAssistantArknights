@@ -34,6 +34,8 @@
 - 界面文本一律用 `controls:TextBlock` 而非原版 `TextBlock`；例外是文本样式需跟随宿主控件模板的场景（超链接、下拉选中项、按钮 Content、DataTemplate 内部等），这些用原版 `TextBlock`，不要套统一样式，保持原生表现。
 - 本地化 key 与主题 Brush 一律 `{DynamicResource ...}`，StaticResource 在语言或主题热切换后不刷新；引用本仓库自定义样式等不随主题/语言热切换的资源时用 StaticResource。
 - `Setter.Value` 里禁用不含运算符的 `c:Binding` 单路径表达式绑 `Visibility` 等类型不符的属性，含运算符的表达式会挂转换器不受此限——CalcBinding 在 Setter 上下文拿不到目标属性类型，不挂转换器的裸绑定转换失败后静默保持默认值（该 Setter 从未生效）；条件显隐改用 `DataTrigger`/`MultiDataTrigger` 直接设 `Collapsed`，或裸 `Binding` 显式挂 `Converter`。
+- `c:Binding` 表达式与枚举类型比较（`Xxx == ns:XxxEnum.Value` 形态）时必须显式指定 `Source`（如 `Source={x:Static vms:XxxModel.Instance}`）——枚举比较在转换器内按绑定首求值传入的值动态编译，相对 DataContext 继承的绑定在加载时序里首求值时值未就绪即编译失败，静默保持目标属性默认值（Visibility 恒 Visible、IsEnabled 恒可用），无任何报错；安全起见凡表达式引用枚举一律加 Source。
+- 滚动容器用 `hc:ScrollViewer` 并设 `IsInertiaEnabled="True"`：平滑滚动由该惯性开关控制，缺了滚轮就是跳格滚动；原生 `ScrollViewer` 无平滑行为，勿在新代码使用（设置页、各弹窗、日志区等既有滚动区均为 hc 版带惯性开关）。
 - 提示文案 key 加 `Tip` 后缀（`ForceScheduledStart` 与 `ForceScheduledStartTip`），句内复用其他 key 写 `{key=Xxx}` 内联。
 - `TooltipBlock` 长文案按句界显式换行，一句一行即可；无句界的长句不必强行拆，由 TooltipText 默认 MaxWidth 500 的软换行兜底。资源串内写 `&#10;` 或字面换行均可，且必须声明 `xml:space="preserve"`，否则换行符被 XAML 归一化；各语言在自己句界处换行，行数不要求一致。
 - 固定选项的下拉框用 `LocalizedObservableList<T>`（`src/MaaWpfGui/Utilities/ValueType/LocalizedObservableList.cs`），构造给 (值, 本地化 key)，勿手动 GetString 固化 Display（热切换语言后该项停留旧语言）；ViewModel 订阅 `LocalizationHelper.LanguageChanged` 并在回调里 `RefreshLocalization()`；增删用自带 Add/Remove/Insert/Clear，勿直接操作 Items。
