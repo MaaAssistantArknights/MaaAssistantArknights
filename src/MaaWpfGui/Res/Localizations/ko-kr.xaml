@@ -2225,17 +2225,13 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
 
 작업 흐름: 지원 오퍼레이터를 사용하여 60킬 미션을 자동 실행</system:String>
     <system:String x:Key="ReclamationTipFire">이 이벤트는 종료되어 사용할 수 없습니다</system:String>
-    <system:String x:Key="ReclamationTipTalesNoSave" xml:space="preserve">현재 생존 연산 기능은 초기 단계이며, 다음 사항에 주의하세요:
-
- 세이브 X: 스테이지 반복 (주의: 기존 세이브 데이터가 삭제될 수 있습니다)
+    <system:String x:Key="ReclamationTipTalesNoSave" xml:space="preserve"> 세이브 X: 스테이지 반복 (주의: 기존 세이브 데이터가 삭제될 수 있습니다)
   1. 점수를 모두 채우면 ｢작업 완료｣가 출력되며 자동으로 임무가 정지됩니다
   2. 생존 연산에 {key=Operator}가 편성된 상태에서 사용하지 마세요
   3. MAA가 귀중한 세이브 데이터를 삭제하지 않도록, 직접 세이브 상태를 확인하고 삭제하세요
   4. 메인 화면 오른쪽 아래에 ｢연산 시작｣ 버튼이 표시된 화면에서 임무를 시작해야 합니다
   5. 임무 과정 중 오류가 발생하거나 점수를 다 채우지 못했는데 임무가 완료될 경우, GitHub에 issue를 제출해 주세요</system:String>
-    <system:String x:Key="ReclamationTipTalesInSave" xml:space="preserve">현재 생존 연산 기능은 초기 단계이며, 다음 사항에 주의하세요:
-
- 세이브 O: 도구 제작
+    <system:String x:Key="ReclamationTipTalesInSave" xml:space="preserve"> 세이브 O: 도구 제작
   1. 결산 후 첫 번째 날이어야 하며, 이후 3일 이내에 적의 침입이 없어야 합니다
   2. 지도 화면에 진입한 상태(주둔지가 보이는 지점)에서 시작해야 합니다
   3. 제조 가능한 수량이 99의 배수일 경우 멈출 수 있습니다. 저장하기 전에 재료를 약간 사용한 후에 다시 시도하세요. 이 문제는 수정될 예정입니다</system:String>

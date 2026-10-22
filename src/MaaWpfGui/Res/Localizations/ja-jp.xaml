@@ -2226,17 +2226,13 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
 
 タスクの流れ： サポートオペレーターを使用して 60 キルミッションを自動実行</system:String>
     <system:String x:Key="ReclamationTipFire">このイベントは終了しており、利用できません</system:String>
-    <system:String x:Key="ReclamationTipTalesNoSave" xml:space="preserve">生息演算のサポートはまだ初期段階にありますので、ご利用の際は以下の点にご注意ください：
-
- 初期設定でポイントを稼ぐ：（既存のセーブデータが削除されることに注意してください）
+    <system:String x:Key="ReclamationTipTalesNoSave" xml:space="preserve"> 初期設定でポイントを稼ぐ：（既存のセーブデータが削除されることに注意してください）
   0.ポイントがいっぱいになると ｢タスク完了｣ が出力され、タスクは自動的に停止します
   1. 理論的には、タスクは、セーブデータの有無に関係なく、ポイント獲得のためのどの時点からでもタスクを開始できる。
   2. 生息演算の編成に{key=Operator}を入れることができるが、テストしていないのでお勧めしない。
   3. メイン画面の右下に ｢演算開始｣ が表示されている画面からタスクを開始する必要があります。
   4. タスク中にエラーが出たり、ポイントが満杯なかたでタスクが完了した場合は、GitHubにissueを提出してください。</system:String>
-    <system:String x:Key="ReclamationTipTalesInSave" xml:space="preserve">生息演算のサポートはまだ初期段階にありますので、ご利用の際は以下の点にご注意ください：
-
- セーブデータあり、支援道具組立でポイントを稼ぐ：
+    <system:String x:Key="ReclamationTipTalesInSave" xml:space="preserve"> セーブデータあり、支援道具組立でポイントを稼ぐ：
   1. 条件は、決算後初日と、その後3日間、敵襲がないこと。
   2. 大地図のインターフェースに入った後に開始する必要があります（駐屯地を見ることができるページ）
   3. 作れる数字がちょうど99の倍数の場合、スタックしてしまうので、セーブする前に少し使い切り、後で修正することができる。</system:String>

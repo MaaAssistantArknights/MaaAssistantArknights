@@ -2224,17 +2224,13 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
 
 任務流程： 自動借助戰執行 60 殺任務</system:String>
     <system:String x:Key="ReclamationTipFire">該活動已關閉，無法使用</system:String>
-    <system:String x:Key="ReclamationTipTalesNoSave" xml:space="preserve">目前生息演算的支援仍處於中期階段，使用時請注意以下幾點：
-
- 透過開局刷點數：（請注意：已有存檔可能會被刪除）
+    <system:String x:Key="ReclamationTipTalesNoSave" xml:space="preserve"> 透過開局刷點數：（請注意：已有存檔可能會被刪除）
   1. 點數刷滿後會輸出 ｢任務完成｣，自動停止任務。
   2. 不要在生息演算的編隊中有{key=Operator}的情況下使用。
   3. 請手動確認存檔情況，以免 MAA 刪除您的珍貴存檔。
   4. 需要在主畫面右下角有開始演算的介面開始任務。
   5. 若任務過程中出錯、點數未刷滿就顯示任務完成，請前往 GitHub 提交 Issue。</system:String>
-    <system:String x:Key="ReclamationTipTalesInSave" xml:space="preserve">目前生息演算的支援仍處於中期階段，使用時請注意以下幾點：
-
- 有存檔時透過製造刷點數：
+    <system:String x:Key="ReclamationTipTalesInSave" xml:space="preserve"> 有存檔時透過製造刷點數：
   1. 要求為結算後的第一天，且後續三天沒有敵襲進入駐紮地。
   2. 必須在進入大地圖後的介面開始（能看到駐紮地的介面）。
   3. 若能製造的數量剛好是 99 的倍數會卡住，在存檔前可以先消耗掉一點，此問題日後會修復。</system:String>
