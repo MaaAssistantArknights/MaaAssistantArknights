@@ -1333,6 +1333,19 @@ bool MoveTransaction::commit(
     return true;
 }
 
+bool MoveTransaction::resolve_target_type(NodeType type, std::string* error)
+{
+    if (m_stage != MoveTransactionStage::Committed) {
+        if (error != nullptr) {
+            *error = "target type can only change on a committed transaction";
+        }
+        return false;
+    }
+    // 隐藏节点进页面后才知道真实类型；开出险路小径时，目标记成出口才能确认走到了下一层。
+    m_target_type = type;
+    return true;
+}
+
 bool MoveTransaction::mark_page_resolved(std::string* error)
 {
     if (m_stage == MoveTransactionStage::PageResolved) {
