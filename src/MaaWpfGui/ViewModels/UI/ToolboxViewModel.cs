@@ -42,6 +42,7 @@ using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.UserControl.Toolbox;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ObservableCollections;
@@ -268,9 +269,9 @@ public class ToolboxViewModel : Screen
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.ChooseLevel3 = value;
+            ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel3 = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.ChooseLevel3;
+    } = ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel3;
 
     /// <summary>
     /// Gets or sets a value indicating whether to choose level 4.
@@ -279,9 +280,9 @@ public class ToolboxViewModel : Screen
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.ChooseLevel4 = value;
+            ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel4 = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.ChooseLevel4;
+    } = ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel4;
 
     /// <summary>
     /// Gets or sets a value indicating whether to choose level 5.
@@ -290,9 +291,9 @@ public class ToolboxViewModel : Screen
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.ChooseLevel5 = value;
+            ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel5 = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.ChooseLevel5;
+    } = ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel5;
 
     /// <summary>
     /// Gets or sets a value indicating whether to choose level 6.
@@ -301,9 +302,9 @@ public class ToolboxViewModel : Screen
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.ChooseLevel6 = value;
+            ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel6 = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.ChooseLevel6;
+    } = ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel6;
 
     [PropertyDependsOn(nameof(ChooseLevel3Time))]
     public int ChooseLevel3Hour
@@ -328,9 +329,9 @@ public class ToolboxViewModel : Screen
                 _ => value / 10 * 10,
             };
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.ChooseLevel3Time = value;
+            ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel3Time = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.ChooseLevel3Time;
+    } = ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel3Time;
 
     [PropertyDependsOn(nameof(ChooseLevel4Time))]
     public int ChooseLevel4Hour
@@ -355,9 +356,9 @@ public class ToolboxViewModel : Screen
                 _ => value / 10 * 10,
             };
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.ChooseLevel4Time = value;
+            ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel4Time = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.ChooseLevel4Time;
+    } = ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel4Time;
 
     /// <summary>
     /// Gets or sets a value indicating whether to set time automatically.
@@ -366,9 +367,9 @@ public class ToolboxViewModel : Screen
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.AutoSetTime = value;
+            ConfigFactory.CurrentConfig.Toolbox.Recruitment.AutoSetTime = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.AutoSetTime;
+    } = ConfigFactory.CurrentConfig.Toolbox.Recruitment.AutoSetTime;
 
     /// <summary>
     /// Starts calculation.
@@ -436,9 +437,9 @@ public class ToolboxViewModel : Screen
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.ShowPotential = value;
+            ConfigFactory.CurrentConfig.Toolbox.Recruitment.ShowPotential = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.ShowPotential;
+    } = ConfigFactory.CurrentConfig.Toolbox.Recruitment.ShowPotential;
 
     public void ProcRecruitMsg(JObject details)
     {
@@ -2095,11 +2096,11 @@ public class ToolboxViewModel : Screen
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.OperBoxAvatarMode = value;
+            ConfigFactory.CurrentConfig.Toolbox.OperBox.OperBoxAvatarMode = value;
             RefreshOperBoxHaveRows();
             RefreshOperBoxNotHaveRows();
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.OperBoxAvatarMode;
+    } = ConfigFactory.CurrentConfig.Toolbox.OperBox.OperBoxAvatarMode;
 
     /// <summary>
     /// Gets 干员识别导出格式选项，文案随语言热切换自动刷新。
@@ -2114,9 +2115,9 @@ public class ToolboxViewModel : Screen
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.OperBoxExportFormat = value;
+            ConfigFactory.CurrentConfig.Toolbox.OperBox.OperBoxExportFormat = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.OperBoxExportFormat;
+    } = ConfigFactory.CurrentConfig.Toolbox.OperBox.OperBoxExportFormat;
 
     // UI 绑定的方法
     [UsedImplicitly]
@@ -2437,9 +2438,9 @@ public class ToolboxViewModel : Screen
 
     public bool GachaShowDisclaimerNoMore
     {
-        get => ConfigFactory.CurrentConfig.Toolbox.GachaShowDisclaimerNoMore;
+        get => ConfigFactory.CurrentConfig.Toolbox.Gacha.GachaShowDisclaimerNoMore;
         set {
-            ConfigFactory.CurrentConfig.Toolbox.GachaShowDisclaimerNoMore = value;
+            ConfigFactory.CurrentConfig.Toolbox.Gacha.GachaShowDisclaimerNoMore = value;
             NotifyOfPropertyChange();
         }
     }
@@ -2536,9 +2537,9 @@ public class ToolboxViewModel : Screen
 
             SetAndNotify(ref field, value);
             _peepImageTimer.Interval = 1000d / field;
-            ConfigFactory.CurrentConfig.Toolbox.PeepTargetFps = value;
+            ConfigFactory.CurrentConfig.Toolbox.Peep.PeepTargetFps = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.PeepTargetFps;
+    } = ConfigFactory.CurrentConfig.Toolbox.Peep.PeepTargetFps;
 
     private DateTime _lastFpsUpdateTime = DateTime.MinValue;
     private int _frameCount;
@@ -2743,6 +2744,8 @@ public class ToolboxViewModel : Screen
         public bool IsMaterialSynthesis => Value == "MiniGame@MaterialSynthesis@Begin";
 
         public bool IsEventShop => Value == "SS@Store@Begin";
+
+        public bool IsReclamation => Value == "Reclamation";
     }
 
     public static string MaterialSynthesisVideoPath => Path.Combine(PathsHelper.BaseDir, "Res", "Video", "MaterialSynthesis.mp4");
@@ -2777,6 +2780,8 @@ public class ToolboxViewModel : Screen
     public bool IsPixelPaintSelected => SelectedMiniGameItem?.IsPixelPaint == true;
 
     public bool IsAutoRaisePotentialSelected => SelectedMiniGameItem?.IsAutoRaisePotential == true;
+
+    public bool IsReclamationSelected => SelectedMiniGameItem?.IsReclamation == true;
 
     public static void UpdateMiniGameTaskList()
     {
@@ -2941,45 +2946,45 @@ public class ToolboxViewModel : Screen
         get;
         set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListDataSupplementInstrument = value;
+            ConfigFactory.CurrentConfig.Toolbox.MiniGame.EventShopBlackListDataSupplementInstrument = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListDataSupplementInstrument;
+    } = ConfigFactory.CurrentConfig.Toolbox.MiniGame.EventShopBlackListDataSupplementInstrument;
 
     public bool EventShopBlackListDataSupplementStick
     {
         get;
         set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListDataSupplementStick = value;
+            ConfigFactory.CurrentConfig.Toolbox.MiniGame.EventShopBlackListDataSupplementStick = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListDataSupplementStick;
+    } = ConfigFactory.CurrentConfig.Toolbox.MiniGame.EventShopBlackListDataSupplementStick;
 
     public bool EventShopBlackListLmd
     {
         get;
         set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListLmd = value;
+            ConfigFactory.CurrentConfig.Toolbox.MiniGame.EventShopBlackListLmd = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListLmd;
+    } = ConfigFactory.CurrentConfig.Toolbox.MiniGame.EventShopBlackListLmd;
 
     public bool EventShopBlackListFurniturePart
     {
         get;
         set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListFurniturePart = value;
+            ConfigFactory.CurrentConfig.Toolbox.MiniGame.EventShopBlackListFurniturePart = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListFurniturePart;
+    } = ConfigFactory.CurrentConfig.Toolbox.MiniGame.EventShopBlackListFurniturePart;
 
     public bool EventShopBlackListOther
     {
         get;
         set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListOther = value;
+            ConfigFactory.CurrentConfig.Toolbox.MiniGame.EventShopBlackListOther = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListOther;
+    } = ConfigFactory.CurrentConfig.Toolbox.MiniGame.EventShopBlackListOther;
 
     public string EventShopBlackList
     {
@@ -2987,9 +2992,9 @@ public class ToolboxViewModel : Screen
         set {
             value = value.Replace("；", ";").Trim();
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackList = value;
+            ConfigFactory.CurrentConfig.Toolbox.MiniGame.EventShopBlackList = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackList;
+    } = ConfigFactory.CurrentConfig.Toolbox.MiniGame.EventShopBlackList;
 
     #region PixelPaint
 
@@ -3559,6 +3564,12 @@ public class ToolboxViewModel : Screen
         if (IsPixelPaintSelected)
         {
             return StartPixelPaint();
+        }
+
+        if (IsReclamationSelected)
+        {
+            // 生息演算不走 CustomTask 任务名通道，按当前配置以 Reclamation 任务类型直接提交
+            return ReclamationUserControlModel.Instance.AppendAndStartReclamationTask();
         }
 
         if (IsAutoRaisePotentialSelected)

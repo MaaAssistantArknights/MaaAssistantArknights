@@ -22,6 +22,7 @@ using MaaWpfGui.Configuration.Converter.Specific;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Configuration.Single.MaaTask;
+using MaaWpfGui.Configuration.Single.Settings;
 using MaaWpfGui.Configuration.Single.Settings.ConnectionExtra;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
@@ -141,7 +142,6 @@ public class ConfigConverter
                 var infrastTask = new InfrastTask();
                 var recruitTask = new RecruitTask(); // √
                 var roguelikeTask = new RoguelikeTask(); // √
-                var reclamationTask = new ReclamationTask(); // √
 
                 startUpTask.AccountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.AccountName);
@@ -442,12 +442,12 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeDeepExplorationAutoIterate);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.RoguelikeStopAtMaxLevel);
 
-                reclamationTask.Theme = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationTheme, ReclamationTheme.Tales);
-                reclamationTask.Mode = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMode, ReclamationMode.ProsperityInSave);
-                reclamationTask.ToolToCraft = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationToolToCraft, string.Empty).Replace('；', ';').Trim();
-                reclamationTask.IncrementMode = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationIncrementMode, 0);
-                reclamationTask.MaxCraftCountPerRound = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, 16);
-                reclamationTask.ClearStore = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationClearStore, true);
+                ConfigFactory.CurrentConfig.Toolbox.MiniGame.Reclamation.Theme = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationTheme, ReclamationTheme.Tales);
+                ConfigFactory.CurrentConfig.Toolbox.MiniGame.Reclamation.Mode = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMode, ReclamationMode.ProsperityInSave);
+                ConfigFactory.CurrentConfig.Toolbox.MiniGame.Reclamation.ToolToCraft = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationToolToCraft, string.Empty).Replace('；', ';').Trim();
+                ConfigFactory.CurrentConfig.Toolbox.MiniGame.Reclamation.IncrementMode = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationIncrementMode, 0);
+                ConfigFactory.CurrentConfig.Toolbox.MiniGame.Reclamation.MaxCraftCountPerRound = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, 16);
+                ConfigFactory.CurrentConfig.Toolbox.MiniGame.Reclamation.ClearStore = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationClearStore, true);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ReclamationTheme);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ReclamationMode);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ReclamationToolToCraft);
@@ -459,10 +459,6 @@ public class ConfigConverter
 
                 // 任务导入排序
                 List<(string OldName, int Index, bool IsEnable)> taskList = [("WakeUp", 0, true), ("Recruiting", 1, true), ("Base", 2, true), ("Combat", 3, true), ("Mall", 4, true), ("Mission", 5, true), ("AutoRoguelike", 6, false)];
-                if (ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty) is not "txwy")
-                {
-                    taskList.Add(("Reclamation", 7, false));
-                }
 
                 for (int i = 0; i != taskList.Count; ++i)
                 {
@@ -526,11 +522,6 @@ public class ConfigConverter
                             // roguelikeTask.Name = LocalizationHelper.GetString(task.OldName, local);
                             roguelikeTask.IsEnable = task.IsEnable;
                             ConfigFactory.CurrentConfig.TaskQueue.Add(roguelikeTask);
-                            break;
-                        case "Reclamation":
-                            // reclamationTask.Name = LocalizationHelper.GetString(task.OldName, local);
-                            reclamationTask.IsEnable = task.IsEnable;
-                            ConfigFactory.CurrentConfig.TaskQueue.Add(reclamationTask);
                             break;
                     }
                 });
@@ -948,27 +939,27 @@ public class ConfigConverter
                     var saved = ConfigurationHelper.GetValue(ConfigurationKeys.OperBoxSelectedExportValue, "0");
                     if (int.TryParse(saved, out var val) && Enum.IsDefined(typeof(OperBoxExportFormat), val))
                     {
-                        ConfigFactory.CurrentConfig.Toolbox.OperBoxExportFormat = (OperBoxExportFormat)val;
+                        ConfigFactory.CurrentConfig.Toolbox.OperBox.OperBoxExportFormat = (OperBoxExportFormat)val;
                     }
                     else if (Enum.TryParse<OperBoxExportFormat>(saved, out var fmt))
                     {
-                        ConfigFactory.CurrentConfig.Toolbox.OperBoxExportFormat = fmt;
+                        ConfigFactory.CurrentConfig.Toolbox.OperBox.OperBoxExportFormat = fmt;
                     }
                 }
-                ConfigFactory.CurrentConfig.Toolbox.GachaShowDisclaimerNoMore = ConfigurationHelper.GetValue(ConfigurationKeys.GachaShowDisclaimerNoMore, false);
-                ConfigFactory.CurrentConfig.Toolbox.PeepTargetFps = ConfigurationHelper.GetValue(ConfigurationKeys.PeepTargetFps, 20);
+                ConfigFactory.CurrentConfig.Toolbox.Gacha.GachaShowDisclaimerNoMore = ConfigurationHelper.GetValue(ConfigurationKeys.GachaShowDisclaimerNoMore, false);
+                ConfigFactory.CurrentConfig.Toolbox.Peep.PeepTargetFps = ConfigurationHelper.GetValue(ConfigurationKeys.PeepTargetFps, 20);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.OperBoxSelectedExportValue);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.GachaShowDisclaimerNoMore);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.PeepTargetFps);
 
-                ConfigFactory.CurrentConfig.Toolbox.ChooseLevel3 = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3, true);
-                ConfigFactory.CurrentConfig.Toolbox.ChooseLevel4 = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel4, true);
-                ConfigFactory.CurrentConfig.Toolbox.ChooseLevel5 = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel5, true);
-                ConfigFactory.CurrentConfig.Toolbox.ChooseLevel6 = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel6, true);
-                ConfigFactory.CurrentConfig.Toolbox.ChooseLevel3Time = ConfigurationHelper.GetValue(ConfigurationKeys.ToolBoxChooseLevel3Time, 540);
-                ConfigFactory.CurrentConfig.Toolbox.ChooseLevel4Time = ConfigurationHelper.GetValue(ConfigurationKeys.ToolBoxChooseLevel4Time, 540);
-                ConfigFactory.CurrentConfig.Toolbox.AutoSetTime = ConfigurationHelper.GetValue(ConfigurationKeys.AutoSetTime, true);
-                ConfigFactory.CurrentConfig.Toolbox.ShowPotential = ConfigurationHelper.GetValue(ConfigurationKeys.RecruitmentShowPotential, true);
+                ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel3 = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3, true);
+                ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel4 = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel4, true);
+                ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel5 = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel5, true);
+                ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel6 = ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel6, true);
+                ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel3Time = ConfigurationHelper.GetValue(ConfigurationKeys.ToolBoxChooseLevel3Time, 540);
+                ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel4Time = ConfigurationHelper.GetValue(ConfigurationKeys.ToolBoxChooseLevel4Time, 540);
+                ConfigFactory.CurrentConfig.Toolbox.Recruitment.AutoSetTime = ConfigurationHelper.GetValue(ConfigurationKeys.AutoSetTime, true);
+                ConfigFactory.CurrentConfig.Toolbox.Recruitment.ShowPotential = ConfigurationHelper.GetValue(ConfigurationKeys.RecruitmentShowPotential, true);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ChooseLevel3);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ChooseLevel4);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ChooseLevel5);
