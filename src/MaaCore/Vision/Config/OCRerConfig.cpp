@@ -17,7 +17,7 @@ void OCRerConfig::set_required(std::vector<std::string> required) noexcept
 
     auto& ocr_config = OcrConfig::get_instance();
     for (auto& str : required) {
-        std::string equ_str = ocr_config.process_equivalence_class(str);
+        std::string equ_str = ocr_config.normalize_for_matching(str);
         m_params.required.emplace_back(std::move(str), std::move(equ_str));
     }
 }
@@ -26,31 +26,9 @@ void OCRerConfig::set_replace(
     const std::vector<std::pair<std::string, std::string>>& replace,
     bool replace_full) noexcept
 {
-    m_params.replace.clear();
-    m_params.replace.reserve(replace.size());
-
-    for (auto&& [key, val] : replace) {
-        auto& ocr_config = OcrConfig::get_instance();
-        std::string new_key = key;
-        for (const auto& eq_class : ocr_config.get_eq_classes()) {
-            if (eq_class.size() <= 1) {
-                continue;
-            }
-
-            // eq_class: [s, S] -> regex: "(?:s|S)"
-            std::string eq_classes_regex = "(?:";
-            for (const auto& elem : eq_class) {
-                (eq_classes_regex += elem) += '|';
-            }
-            eq_classes_regex.pop_back();
-            eq_classes_regex += ')';
-            std::ranges::for_each(eq_class, [&](std::string_view elem) {
-                utils::string_replace_all_in_place(new_key, elem, eq_classes_regex);
-            });
-        }
-        // do not create new_val as val is user-provided, and can avoid issues like 夕 and katakana タ
-        m_params.replace.emplace_back(std::move(new_key), val);
-    }
+    // Equivalence classes normalize OCR output against known candidates. These keys are regular expressions and must
+    // retain their authored semantics.
+    m_params.replace = replace;
     m_params.replace_full = replace_full;
 }
 

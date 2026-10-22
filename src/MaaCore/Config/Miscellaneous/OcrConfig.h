@@ -18,9 +18,7 @@ class OcrConfig final : public MAA_NS::SingletonHolder<OcrConfig>, public Abstra
 public:
     virtual ~OcrConfig() override = default;
 
-    std::string process_equivalence_class(const std::string& str) const;
-
-    auto get_eq_classes() const noexcept { return m_eq_classes; }
+    std::string normalize_for_matching(const std::string& text) const;
 
 protected:
     virtual bool parse(const json::value& json) override;

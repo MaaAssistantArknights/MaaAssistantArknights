@@ -20,10 +20,10 @@ size_t asst::CreditShopImageAnalyzer::match_required_index(
     }
 
     auto& ocr_config = OcrConfig::get_instance();
-    const std::string equ_text = ocr_config.process_equivalence_class(text);
+    const std::string equ_text = ocr_config.normalize_for_matching(text);
 
     for (size_t index = 0; index != required.size(); ++index) {
-        if (equ_text.find(ocr_config.process_equivalence_class(required.at(index))) != std::string::npos) {
+        if (equ_text.find(ocr_config.normalize_for_matching(required.at(index))) != std::string::npos) {
             return index;
         }
     }

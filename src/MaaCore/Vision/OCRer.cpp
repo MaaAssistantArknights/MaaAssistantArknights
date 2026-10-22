@@ -147,7 +147,7 @@ bool OCRer::filter_and_replace_by_required_(Result& res) const
         return true;
     }
     auto& ocr_config = OcrConfig::get_instance();
-    auto equ_text = ocr_config.process_equivalence_class(res.text);
+    auto equ_text = ocr_config.normalize_for_matching(res.text);
 
     if (m_params.full_match) {
         auto required = m_params.required | std::views::transform([&](const auto& str) { return str.second; });

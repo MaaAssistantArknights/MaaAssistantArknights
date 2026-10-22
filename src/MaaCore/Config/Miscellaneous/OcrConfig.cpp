@@ -4,9 +4,9 @@
 
 #include "Utils/Logger.hpp"
 
-std::string asst::OcrConfig::process_equivalence_class(const std::string& str) const
+std::string asst::OcrConfig::normalize_for_matching(const std::string& text) const
 {
-    std::string result = str;
+    std::string result = text;
     for (const auto& eq_class : m_eq_classes) {
         std::ranges::for_each(eq_class.begin() + 1, eq_class.end(), [&](const std::string& elem) {
             utils::string_replace_all_in_place(result, elem, eq_class.front());

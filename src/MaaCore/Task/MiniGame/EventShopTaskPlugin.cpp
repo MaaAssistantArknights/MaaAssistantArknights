@@ -141,9 +141,9 @@ std::optional<std::string>
 bool asst::EventShopTaskPlugin::is_blacklisted(std::string_view commodity_name) const
 {
     const auto& ocr_config = OcrConfig::get_instance();
-    const std::string normalized_name = ocr_config.process_equivalence_class(std::string(commodity_name));
+    const std::string normalized_name = ocr_config.normalize_for_matching(std::string(commodity_name));
     return std::ranges::any_of(m_blacklist, [&](const std::string& item) {
-        return normalized_name.find(ocr_config.process_equivalence_class(item)) != std::string::npos;
+        return normalized_name.find(ocr_config.normalize_for_matching(item)) != std::string::npos;
     });
 }
 
