@@ -1,0 +1,77 @@
+<UserControl
+    x:Class="MaaWpfGui.Views.UserControl.Toolbox.ReclamationUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:settings="clr-namespace:MaaWpfGui.Configuration.Single.Settings"
+    xmlns:vm="clr-namespace:MaaWpfGui.ViewModels.UserControl.Toolbox"
+    d:Background="White"
+    d:DataContext="{d:DesignInstance {x:Type vm:ReclamationUserControlModel}}"
+    d:DesignWidth="220"
+    mc:Ignorable="d">
+    <hc:ScrollViewer IsInertiaEnabled="True" VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <ComboBox
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource ReclamationTheme}"
+                DisplayMemberPath="Display"
+                ItemsSource="{Binding ReclamationThemeList}"
+                SelectedValue="{Binding ReclamationTheme}"
+                SelectedValuePath="Value" />
+            <ComboBox
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource ReclamationMode}"
+                DisplayMemberPath="Display"
+                ItemsSource="{Binding ModeList}"
+                SelectedValue="{Binding ReclamationMode}"
+                SelectedValuePath="Value"
+                Visibility="{c:Binding 'ReclamationTheme != settings:ReclamationTheme.Fire',
+                                       Source={x:Static vm:ReclamationUserControlModel.Instance}}" />
+            <StackPanel Visibility="{c:Binding 'ReclamationTheme == settings:ReclamationTheme.Tales', Source={x:Static vm:ReclamationUserControlModel.Instance}}">
+                <TextBox
+                    Margin="0,5"
+                    VerticalContentAlignment="Center"
+                    hc:InfoElement.Placeholder="{DynamicResource ReclamationToolToCraftPlaceholder}"
+                    hc:InfoElement.Title="{DynamicResource ReclamationToolToCraftTip}"
+                    Text="{Binding ReclamationToolToCraft}"
+                    Visibility="{c:Binding 'ReclamationMode == settings:ReclamationMode.ProsperityInSave',
+                                           Source={x:Static vm:ReclamationUserControlModel.Instance}}" />
+                <ComboBox
+                    Margin="0,5"
+                    hc:InfoElement.Title="{DynamicResource ReclamationIncrementMode}"
+                    DisplayMemberPath="Display"
+                    ItemsSource="{Binding ReclamationIncrementModeList}"
+                    SelectedValue="{Binding ReclamationIncrementMode}"
+                    SelectedValuePath="Value"
+                    Visibility="{c:Binding 'ReclamationMode == settings:ReclamationMode.ProsperityInSave',
+                                           Source={x:Static vm:ReclamationUserControlModel.Instance}}" />
+                <hc:NumericUpDown
+                    Margin="0,5"
+                    hc:InfoElement.Title="{DynamicResource ReclamationMaxCraftCountPerRound}"
+                    Minimum="0"
+                    Visibility="{c:Binding 'ReclamationMode == settings:ReclamationMode.ProsperityInSave',
+                                           Source={x:Static vm:ReclamationUserControlModel.Instance}}"
+                    Value="{Binding ReclamationMaxCraftCountPerRound}" />
+                <CheckBox
+                    Margin="0,5"
+                    IsChecked="{Binding ReclamationClearStore}"
+                    Visibility="{c:Binding 'ReclamationMode == settings:ReclamationMode.ProsperityNoSave',
+                                           Source={x:Static vm:ReclamationUserControlModel.Instance}}">
+                    <TextBlock
+                        Block.TextAlignment="Left"
+                        Text="{DynamicResource ReclamationClearStore}"
+                        TextWrapping="Wrap" />
+                </CheckBox>
+            </StackPanel>
+            <controls:TextBlock
+                Margin="5"
+                Style="{StaticResource TextBlockDefault}"
+                Text="{Binding ReclamationTip}"
+                TextWrapping="Wrap" />
+        </StackPanel>
+    </hc:ScrollViewer>
+</UserControl>

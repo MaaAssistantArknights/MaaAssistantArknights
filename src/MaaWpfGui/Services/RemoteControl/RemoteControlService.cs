@@ -31,6 +31,7 @@ using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
+using MaaWpfGui.ViewModels.UserControl.Toolbox;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -674,14 +675,8 @@ public class RemoteControlService
 
                     case "Reclamation":
                         {
-                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<ReclamationTask>().ToList();
-                            if (tasks.Count == 1)
-                            {
-                                taskRet &= ReclamationTaskUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
-                                break;
-                            }
-
-                            taskRet = false;
+                            // 生息演算已迁至工具箱，直读 Toolbox.MiniGame.Reclamation 配置提交，不再依赖任务队列条目
+                            taskRet &= ReclamationUserControlModel.Instance.AppendAndStartReclamationTask();
                             break;
                         }
 

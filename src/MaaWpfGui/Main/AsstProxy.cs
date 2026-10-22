@@ -3869,6 +3869,17 @@ public class AsstProxy
     }
 
     /// <summary>
+    /// 生息演算（牛杂）。不走 CustomTask 通道，直接以 Reclamation 任务类型提交。
+    /// </summary>
+    /// <param name="task">按当前配置构造的生息演算任务。</param>
+    /// <returns>是否成功启动。</returns>
+    public bool AsstReclamation(AsstReclamationTask task)
+    {
+        var (isSuccess, _) = AsstAppendTaskWithEncoding(TaskType.Reclamation, task);
+        return isSuccess && AsstStart();
+    }
+
+    /// <summary>
     /// 像素画自动填色（牛杂）。短 task 入口 + params.pixel_paint 分组点列。
     /// </summary>
     /// <param name="groups">按色分组后的格子，color 为 0~39。</param>

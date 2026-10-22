@@ -1,4 +1,4 @@
-// <copyright file="ReclamationTaskUserControl.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="ReclamationUserControl.xaml.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -11,17 +11,17 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-namespace MaaWpfGui.Views.UserControl.TaskQueue;
+namespace MaaWpfGui.Views.UserControl.Toolbox;
 
 /// <summary>
-/// ReclamationTaskUserControl.xaml 的交互逻辑
+/// ReclamationUserControl.xaml 的交互逻辑
 /// </summary>
-public partial class ReclamationTaskUserControl : System.Windows.Controls.UserControl
+public partial class ReclamationUserControl : System.Windows.Controls.UserControl
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ReclamationTaskUserControl"/> class.
+    /// Initializes a new instance of the <see cref="ReclamationUserControl"/> class.
     /// </summary>
-    public ReclamationTaskUserControl()
+    public ReclamationUserControl()
     {
         InitializeComponent();
     }
