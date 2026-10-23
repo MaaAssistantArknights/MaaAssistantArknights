@@ -93,6 +93,9 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
             return false;
 #endif
         }
+        else {
+            m_templ_aliases.insert(name);
+        }
     }
 #ifdef ASST_DEBUG
     if (some_file_not_exists || file_dumplicate) {
@@ -101,13 +104,13 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
 #endif
 
     // 将所有图片按完整相对路径注册到索引，支持 C++ 代码动态引用（如活动关卡截图模板）
-    // 仅当该路径尚未被注册时才插入，不影响已有的 m_load_required 匹配逻辑
+    // 保留已解析的任务模板别名，其余完整相对路径允许后加载资源覆盖
     for (const auto& [rel_path, full_path] : relative_path_index) {
         if (!rel_path.ends_with(".png")) {
             continue;
         }
-        if (!m_templ_paths.contains(rel_path)) {
-            m_templ_paths.emplace(rel_path, full_path);
+        if (!m_templ_aliases.contains(rel_path)) {
+            m_templ_paths.insert_or_assign(rel_path, full_path);
         }
     }
 

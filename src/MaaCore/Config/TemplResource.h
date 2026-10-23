@@ -21,12 +21,15 @@ public:
 
     const cv::Mat& get_templ(const std::string& name);
 
+    bool has_templ(const std::string& name) const noexcept { return m_templ_paths.contains(name); }
+
     uint64_t revision() const noexcept { return m_revision.load(std::memory_order_acquire); }
 
 private:
     std::unordered_set<std::string> m_load_required;
     std::unordered_map<std::string, cv::Mat> m_templs;
     std::unordered_map<std::string, std::filesystem::path> m_templ_paths;
+    std::unordered_set<std::string> m_templ_aliases;
     std::atomic<uint64_t> m_revision { 0 };
 };
 }
