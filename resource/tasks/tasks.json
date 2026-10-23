@@ -2196,12 +2196,24 @@
     "MailBegin": {
         "algorithm": "JustReturn",
         "next": [
+            "MailRewardsPopup",
             "MailReturnToHome",
             "MailReturnToHome@QuickSwitch@ToHome#next",
             "MailReturnToHome@ReturnButtons#next",
             "ReceiveMail",
             "Mail@OfflineConfirm"
         ]
+    },
+    "MailRewardsPopup": {
+        "doc": "上一个任务（如领取任务奖励）的「获得物资」弹窗出得太慢，领完奖励后才弹出并盖住界面，收邮件找不到入口。点击关闭后回到 MailBegin 重新判断",
+        "algorithm": "OcrDetect",
+        "text": ["获得物资"],
+        "roi": [440, 90, 400, 140],
+        "action": "ClickRect",
+        "specificRect": [600, 630, 60, 60],
+        "postDelay": 1000,
+        "maxTimes": 5,
+        "next": ["MailBegin"]
     },
     "MailReturnToHome": {
         "baseTask": "Home",
