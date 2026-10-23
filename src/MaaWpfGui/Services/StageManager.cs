@@ -20,6 +20,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Constants.Enums;
@@ -48,6 +49,11 @@ public class StageManager
 
     // data
     private Dictionary<string, StageInfo> _stages = [];
+
+    /// <summary>
+    /// 匹配 Tip 模板中的 {n} 占位符，捕获组使 Split 结果保留占位符段。
+    /// </summary>
+    private static readonly Regex TipPlaceholderRegex = new(@"(\{\d+\})", RegexOptions.Compiled);
 
     /// <summary>
     /// 刷新关卡列表的本地化文本。
@@ -685,7 +691,7 @@ public class StageManager
             // 资源本
             { "CE-6", new("CE-6", "CETip", [DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
             { "AP-5", new("AP-5", "APTip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
-            { "CA-5", new("CA-5", "CATip", [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection, [["3301", "3302", "3303"]]) },
+            { "CA-5", new("CA-5", "CATip", [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection, [["3301", "3302", "3303"]], null, ["StageItemBrush.SkillBook1", "StageItemBrush.SkillBook2", "StageItemBrush.SkillBook3"]) },
             { "LS-6", new("LS-6", "LSTip", [], resourceCollection) },
             { "SK-5", new("SK-5", "SKTip", [DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection) },
 
@@ -693,13 +699,13 @@ public class StageManager
             { "Annihilation", new() { Display = LocalizationHelper.GetString("AnnihilationMode"), DisplayKey = "AnnihilationMode", Value = "Annihilation" } },
 
             // 芯片本 - dropGroups 格式：[[PR-X-1的掉落], [PR-X-2的掉落]]
-            { "PR-A-1", new("PR-A-1", "PR-ATip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection, [["3261", "3231"], ["3262", "3232"]]) },
+            { "PR-A-1", new("PR-A-1", "PR-ATip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection, [["3261", "3231"], ["3262", "3232"]], ["ChipShortMedic", "ChipShortDefender"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
             { "PR-A-2", new("PR-A-2", string.Empty, [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection) },
-            { "PR-B-1", new("PR-B-1", "PR-BTip", [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection, [["3251", "3241"], ["3252", "3242"]]) },
+            { "PR-B-1", new("PR-B-1", "PR-BTip", [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection, [["3251", "3241"], ["3252", "3242"]], ["ChipShortCaster", "ChipShortSniper"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
             { "PR-B-2", new("PR-B-2", string.Empty, [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection) },
-            { "PR-C-1", new("PR-C-1", "PR-CTip", [DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection, [["3211", "3271"], ["3212", "3272"]]) },
+            { "PR-C-1", new("PR-C-1", "PR-CTip", [DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection, [["3211", "3271"], ["3212", "3272"]], ["ChipShortVanguard", "ChipShortSupporter"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
             { "PR-C-2", new("PR-C-2", string.Empty, [DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
-            { "PR-D-1", new("PR-D-1", "PR-DTip", [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection, [["3221", "3281"], ["3222", "3282"]]) },
+            { "PR-D-1", new("PR-D-1", "PR-DTip", [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection, [["3221", "3281"], ["3222", "3282"]], ["ChipShortGuard", "ChipShortSpecialist"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
             { "PR-D-2", new("PR-D-2", string.Empty, [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
 
             // 常驻活动关，隐藏但仍可通过手动输入访问
@@ -770,9 +776,9 @@ public class StageManager
     /// </summary>
     /// <param name="dayOfWeek">Day of week</param>
     /// <returns>Open stages</returns>
-    public string GetStageTips(DayOfWeek dayOfWeek)
+    public IEnumerable<Inline> GetStageTipsInlines(DayOfWeek dayOfWeek)
     {
-        var lines = new List<string>();
+        var inlines = new List<Inline>();
         var shownSideStories = new HashSet<string>();
         bool resourceTipShown = false;
         DateTime now = DateTime.UtcNow;
@@ -784,69 +790,142 @@ public class StageManager
             // Resource collection tip - only show one
             if (!resourceTipShown && activity is { IsResourceCollection: true, BeingOpen: true })
             {
-                // 插入到第一行
-                lines.Insert(0, $"｢{activity.Tip}｣ {LocalizationHelper.GetString("DaysLeftOpen")}{GetDaysLeftText(activity.UtcExpireTime, now)}");
+                if (inlines.Count > 0)
+                {
+                    inlines.Insert(0, new LineBreak());
+                }
+                inlines.Insert(0, new Run($"｢{activity.Tip}｣ {LocalizationHelper.GetString("DaysLeftOpen")}{GetDaysLeftText(activity.UtcExpireTime, now)}"));
                 resourceTipShown = true;
             }
 
             // Side story tips
             if (!string.IsNullOrEmpty(activity?.StageName) && shownSideStories.Add(activity.StageName))
             {
-                lines.Add($"｢{activity.StageName}｣ {LocalizationHelper.GetString("DaysLeftOpen")}{GetDaysLeftText(activity.UtcExpireTime, now)}");
+                if (inlines.Count > 0)
+                {
+                    inlines.Add(new LineBreak());
+                }
+
+                inlines.Add(new Run($"｢{activity.StageName}｣ {LocalizationHelper.GetString("DaysLeftOpen")}{GetDaysLeftText(activity.UtcExpireTime, now)}"));
 
                 var affiliatedGames = _miniGameEntries
                     .Where(g => g.Activity == activity.StageName && g.BeingOpen)
                     .ToList();
                 if (affiliatedGames.Count > 0)
                 {
-                    lines.AddRange(affiliatedGames.Select(game => {
+                    foreach (var game in affiliatedGames)
+                    {
                         var gameName = string.IsNullOrEmpty(game.DisplayKey)
                             ? game.Display
                             : (LocalizationHelper.TryGetString(game.DisplayKey, out var loc) ? loc : game.Display);
-                        return $"{LocalizationHelper.GetString("Toolbox")}→{LocalizationHelper.GetString("MiniGame")}→{gameName}";
-                    }));
+                        inlines.Add(new LineBreak());
+                        inlines.Add(new Run($"{LocalizationHelper.GetString("Toolbox")}→{LocalizationHelper.GetString("MiniGame")}→{gameName}"));
+                    }
                 }
             }
 
             // Side story Drop item tips
             if (!string.IsNullOrEmpty(stage.Drop))
             {
+                if (inlines.Count > 0)
+                {
+                    inlines.Add(new LineBreak());
+                }
+
                 var str = $"{stage.Value}: {ItemListHelper.GetItemName(stage.Drop) ?? stage.Drop}";
                 var count = Instances.ToolboxViewModel?.DepotResult?.FirstOrDefault(d => d.Id == stage.Drop)?.DisplayCount;
                 if (!string.IsNullOrEmpty(count))
                 {
                     str += $" ({LocalizationHelper.GetString("Inventory")} {count})";
                 }
-
-                lines.Add(str);
+                inlines.Add(new Run(str));
             }
 
             // Normal stage tips
             if (!string.IsNullOrEmpty(stage.Tip))
             {
-                lines.Add(stage.Tip);
+                if (inlines.Count > 0)
+                {
+                    inlines.Add(new LineBreak());
+                }
+
+                if (stage.TipArgKeys is { Count: > 0 })
+                {
+                    // Tip 是含 {n} 占位符的模板，占位符序号与 DropGroups 掉落序一致，名称与库存数字按同一序号着色
+                    var tipArgs = stage.TipArgKeys.Select(k => LocalizationHelper.GetString(k)).ToArray();
+                    foreach (var segment in TipPlaceholderRegex.Split(stage.Tip))
+                    {
+                        if (segment.Length == 0)
+                        {
+                            continue;
+                        }
+
+                        if (segment[0] == '{' && segment[^1] == '}' && int.TryParse(segment[1..^1], out var argIndex)
+                            && argIndex < tipArgs.Length)
+                        {
+                            var argRun = new Run(tipArgs[argIndex]);
+                            if (stage.DropBrushKeys != null && argIndex < stage.DropBrushKeys.Count)
+                            {
+                                argRun.SetResourceReference(TextElement.ForegroundProperty, stage.DropBrushKeys[argIndex]);
+                            }
+
+                            inlines.Add(argRun);
+                        }
+                        else
+                        {
+                            inlines.Add(new Run(segment));
+                        }
+                    }
+                }
+                else
+                {
+                    inlines.Add(new Run(stage.Tip));
+                }
             }
 
             // Drop groups tips (for chip stages like PR-A-1/2)
             if (stage.DropGroups != null && stage.DropGroups.Count > 0
                 && stage.DropGroups.SelectMany(i => i).Select(dropId => Instances.ToolboxViewModel?.DepotResult?.FirstOrDefault(d => d.Id == dropId)?.Count).Any(x => x >= 0))
             {
-                var groupTexts = new List<string>();
-                foreach (var dropGroup in stage.DropGroups)
+                if (inlines.Count > 0)
                 {
-                    var itemCounts = dropGroup
-                        .Select(dropId => Instances.ToolboxViewModel?.DepotResult?.FirstOrDefault(d => d.Id == dropId)?.DisplayCount ?? "--")
-                        .ToList();
-                    groupTexts.Add(string.Join(" & ", itemCounts));
+                    inlines.Add(new LineBreak());
                 }
 
-                string inventoryLabel = LocalizationHelper.GetString("Inventory");
-                string inventoryText = $" ({inventoryLabel} {string.Join(" / ", groupTexts)})";
-                lines.Add(inventoryText);
+                inlines.Add(new Run($"({LocalizationHelper.GetString("Inventory")} "));
+
+                for (int g = 0; g < stage.DropGroups.Count; g++)
+                {
+                    var dropGroup = stage.DropGroups[g];
+                    if (g > 0)
+                    {
+                        inlines.Add(new Run(" / "));
+                    }
+
+                    for (int i = 0; i < dropGroup.Count; i++)
+                    {
+                        if (i > 0)
+                        {
+                            inlines.Add(new Run("&"));
+                        }
+
+                        var dropId = dropGroup[i];
+                        string countStr = Instances.ToolboxViewModel?.DepotResult?.FirstOrDefault(d => d.Id == dropId)?.DisplayCount ?? "--";
+
+                        var countRun = new Run(countStr);
+                        if (stage.DropBrushKeys != null && i < stage.DropBrushKeys.Count)
+                        {
+                            countRun.SetResourceReference(TextElement.ForegroundProperty, stage.DropBrushKeys[i]);
+                        }
+
+                        inlines.Add(countRun);
+                    }
+                }
+                inlines.Add(new Run(")"));
             }
         }
 
-        return lines.Count > 0 ? string.Join(Environment.NewLine, lines) : string.Empty;
+        return inlines;
     }
 
     /// <summary>
