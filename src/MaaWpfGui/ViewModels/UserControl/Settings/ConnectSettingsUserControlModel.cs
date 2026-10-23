@@ -104,6 +104,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         (ConnectConfig.Nox, "Nox"),
         (ConnectConfig.XYAZ, "XYAZ"),
         (ConnectConfig.PC, "PC"),
+        (ConnectConfig.Linux, "Linux"),
         (ConnectConfig.WSA, "WSA"),
         (ConnectConfig.Compatible, "Compatible"),
         (ConnectConfig.SecondResolution, "SecondResolution"),
@@ -261,6 +262,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         ConnectConfig.LDPlayer => _extras.LdPlayer,
         ConnectConfig.MuMuEmulator12 => _extras.Mumu12,
         ConnectConfig.PC => _extras.Win32,
+        ConnectConfig.Linux => _extras.Linux,
         _ => null,
     };
 
@@ -273,6 +275,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         public MuMu12Extra Mumu12 { get; set; } = new();
 
         public Models.EmulatorConnectionExtra.Win32Extra Win32 { get; set; } = new();
+
+        public LinuxExtra Linux { get; set; } = new();
 
         public Bluestacks BluestacksExtra { get; set; } = new();
 
@@ -807,7 +811,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         (TouchMode.MiniTouch, "MiniTouchMode"),
         (TouchMode.MaaTouch, "MaaTouchMode"),
         (TouchMode.Adb, "AdbTouchMode"),
-        (TouchMode.MaaFwAdb, "MaaFwAdbTouchMode"));
+        (TouchMode.MaaFw, "MaaFwTouchMode"));
 
     public bool IsAdbTouchMode() => TouchMode == TouchMode.Adb;
 
@@ -974,6 +978,9 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     [PropertyDependsOn(nameof(ConnectConfig))]
     public bool ShowWindowMinimizeButton =>
         IsPCConnectConfig && ExtraConfig is Models.EmulatorConnectionExtra.Win32Extra { MouseMethod: AsstWin32InputMethod.PostMessageWithWindowPos };
+
+    [PropertyDependsOn(nameof(ConnectConfig))]
+    public bool IsADBConnectConfig => ConnectConfig is not (ConnectConfig.PC or ConnectConfig.Linux);
 
     [PropertyDependsOn(nameof(ConnectConfig))]
     public bool IsPCConnectConfig => ConnectConfig == ConnectConfig.PC;
