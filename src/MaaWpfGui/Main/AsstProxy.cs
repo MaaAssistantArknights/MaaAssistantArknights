@@ -2794,7 +2794,7 @@ public class AsstProxy
                 break;
 
             case "InfrastTrainingIdle":
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TrainingIdle"));
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TrainingIdle"), updateCardImage: true);
                 break;
 
             case "InfrastTrainingCompleted":
@@ -2804,7 +2804,8 @@ public class AsstProxy
                     Instances.TaskQueueViewModel.AddLog(
                         $"[{operatorName}] {skillName}\n" +
                         $"{LocalizationHelper.GetString("TrainingLevel")}: {(int)(subTaskDetails["level"] ?? -1)} {LocalizationHelper.GetString("TrainingCompleted")}",
-                        UiLogColor.Info);
+                        UiLogColor.Info,
+                        updateCardImage: true);
                     break;
                 }
 
@@ -2816,7 +2817,8 @@ public class AsstProxy
                         $"[{operatorName}] {skillName}\n" +
                         $"{LocalizationHelper.GetString("TrainingLevel")}: {(int)(subTaskDetails["level"] ?? -1)}\n" +
                         $"{LocalizationHelper.GetString("TrainingTimeLeft")}: {subTaskDetails["time"]}",
-                        UiLogColor.Info);
+                        UiLogColor.Info,
+                        updateCardImage: true);
                     break;
                 }
 
