@@ -1,0 +1,83 @@
+name: Update Help Wanted List
+
+on:
+  issues:
+    types: [opened, edited, labeled, unlabeled, closed, reopened]
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+concurrency:
+  group: update-help-wanted-list
+  cancel-in-progress: false
+
+jobs:
+  update:
+    if: github.repository == 'MaaAssistantArknights/MaaAssistantArknights'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update the generated section of issue 18814
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const issue_number = 18814;
+            const start = '<!-- maa-help-wanted:start -->';
+            const end = '<!-- maa-help-wanted:end -->';
+
+            const { data: index } = await github.rest.issues.get({ owner, repo, issue_number });
+            const body = index.body ?? '';
+            const startAt = body.indexOf(start);
+            const endAt = body.indexOf(end);
+            if (
+              startAt < 0 || endAt < startAt ||
+              body.indexOf(start, startAt + start.length) !== -1 ||
+              body.indexOf(end, endAt + end.length) !== -1
+            ) {
+              throw new Error('Issue #18814 must contain exactly one ordered pair of help-wanted markers.');
+            }
+
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner,
+              repo,
+              state: 'open',
+              labels: 'help wanted',
+              per_page: 100,
+            });
+            const selected = issues
+              .filter(issue => issue.number !== issue_number && !issue.pull_request)
+              .sort((a, b) => b.number - a.number);
+
+            const escapeMarkdown = title => title
+              .replace(/\s+/g, ' ')
+              .replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;')
+              .replace(/([\\`*_{}\[\]()#+\-.!|])/g, '\\$1')
+              .replace(/@/g, '&#64;');
+
+            const sections = [
+              ['修复', issue => issue.labels.some(label => label.name === 'bug')],
+              ['新增与优化', issue => issue.labels.some(label => label.name === 'enhancement')],
+              ['其他', () => true],
+            ];
+            const remaining = new Map(selected.map(issue => [issue.number, issue]));
+            const groups = [];
+            for (const [heading, matches] of sections) {
+              const group = [...remaining.values()].filter(matches);
+              if (group.length === 0) continue;
+              groups.push(`## ${heading}\n\n${group.map(issue =>
+                `- [#${issue.number}](${issue.html_url}) ${escapeMarkdown(issue.title)}`
+              ).join('\n')}`);
+              for (const issue of group) remaining.delete(issue.number);
+            }
+
+            const generated = groups.length ? groups.join('\n\n') : '目前没有标记为 `help wanted` 的开放 Issue。';
+            const replacement = `${start}\n${generated}\n${end}`;
+            const updated = body.slice(0, startAt) + replacement + body.slice(endAt + end.length);
+            if (updated !== body) {
+              await github.rest.issues.update({ owner, repo, issue_number, body: updated });
+            }
