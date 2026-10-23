@@ -458,9 +458,9 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(
             pre_result_no_changes = false;
         }
         pre_partial_result = partial_result;
-        // 阶段一页数上限：技能排序下无基建技能的点名干员集中在列表尾段，逐页扫到底代价高，
-        // 剩余目标交给阶段二按职业分桶定位；宿舍点名依赖心情降序的前排命中，保持扫完全列表
-        if (!is_dorm_order && swipe_times + 1 >= CustomPhaseOneMaxPages) {
+        // 阶段一页数上限：技能排序下无基建技能的点名干员、心情排序下心情常满的宿舍挂件
+        // 都沉在列表尾段，逐页扫到底代价高，剩余目标交给阶段二按职业分桶定位
+        if (swipe_times + 1 >= CustomPhaseOneMaxPages) {
             break;
         }
         swipe_of_operlist();
@@ -468,12 +468,10 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(
     }
 
     // 阶段二：剩余目标按职业分桶定位。结束时已切回 ALL 第一页，swipe_times 归零让收尾跳过物理回正
-    if (!is_dorm_order) {
-        if (!select_custom_opers_by_role()) {
-            return false;
-        }
-        swipe_times = 0;
+    if (!select_custom_opers_by_role(is_dorm_order)) {
+        return false;
     }
+    swipe_times = 0;
 
     // 先按任意其他的tab排序，游戏会自动把已经选中的人放到最前面
     // 因为后面autofill要按工作状态排序，所以直接按工作状态排序好了
@@ -747,7 +745,7 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
     return true;
 }
 
-bool asst::InfrastAbstractTask::select_custom_opers_by_role()
+bool asst::InfrastAbstractTask::select_custom_opers_by_role(bool is_dorm_order)
 {
     auto& room_config = current_room_config();
 
@@ -814,7 +812,7 @@ bool asst::InfrastAbstractTask::select_custom_opers_by_role()
                 return false;
             }
             std::vector<std::string> partial_result;
-            if (!select_custom_opers(partial_result, false)) {
+            if (!select_custom_opers(partial_result, is_dorm_order)) {
                 return false;
             }
             if (is_full() || targets_done(all_fallback_targets)) {
@@ -856,7 +854,7 @@ bool asst::InfrastAbstractTask::select_custom_opers_by_role()
                 return false;
             }
             std::vector<std::string> partial_result;
-            if (!select_custom_opers(partial_result, false)) {
+            if (!select_custom_opers(partial_result, is_dorm_order)) {
                 return false;
             }
             if (is_full() || targets_done(targets)) {

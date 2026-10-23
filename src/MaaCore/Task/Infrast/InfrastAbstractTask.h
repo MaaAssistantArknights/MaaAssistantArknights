@@ -120,8 +120,9 @@ protected:
     /// 阶段二选人：ALL 列表前几页未收尾的剩余目标按职业分桶定位。必选层桶内找齐即切下一桶，
     /// 连续两页识别不变时回切页签重置滚动重试一轮；备选层在必选层之后按空位补人，补满即停，
     /// 第一遍扫完全部桶仍有空位时，对到底未命中的备选桶统一重扫一轮兜住偶发漏识别；
-    /// 查不到职业的干员名留在 ALL 列表从当前位置继续翻页兜底。宿舍选人不走本函数（保持扫完全列表）
-    bool select_custom_opers_by_role();
+    /// 查不到职业的干员名留在 ALL 列表从当前位置继续翻页兜底。is_dorm_order 透传给
+    /// select_custom_opers，保证宿舍候补 ｢心情已满才跳过｣ 的反向过滤方向不变
+    bool select_custom_opers_by_role(bool is_dorm_order);
     // 扫描当前页满足心情条件的所有干员名
     bool get_opers(std::vector<std::string>& result, double mood = 1);
     // 复核干员选择是否符合期望
