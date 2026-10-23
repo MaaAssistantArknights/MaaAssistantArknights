@@ -14,15 +14,19 @@
 #include "MaaUtils/NoWarningCV.hpp"
 #include "Status.h"
 #include "Task/Infrast/InfrastScore.h"
+#include "Task/Interface/FightTask.h"
 #include "Task/MiniGame/MaterialSynthesisTaskPlugin.h"
 #include "Task/OperProgress/OperProgressFormation.h"
+#include "Task/OperProgress/OperProgressMaterials.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 #include "Vision/BestMatcher.h"
 #include "Vision/Hasher.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
+#include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
+#include "Vision/OCRer.h"
 #include "Vision/Oper/OperBoxImageAnalyzer.h"
 #include "Vision/Oper/OperFilesImageAnalyzer.h"
 #include "Vision/Oper/OperNameAnalyzer.h"
@@ -32,8 +36,34 @@
 namespace asst::oper_progress
 {
 constexpr int MaxOperatorPages = 20;
-// 制造站产线当前产品写入 Status 的键,RestoreFactoryState 读取后恢复原产品。
+// properties 在停止清理任务缓存后仍保留，待恢复记录只在确认恢复成功后清除。
 constexpr std::string_view FactoryProductStatusKey = "OperProgressFactoryProduct";
+constexpr std::string_view FactoryRoomStatusKey = "OperProgressFactoryRoom";
+constexpr std::string_view FactoryDeviceStatusKey = "OperProgressFactoryDevice";
+
+std::pair<std::string, std::string> chip_pack_source(battle::Role role)
+{
+    switch (role) {
+    case battle::Role::Pioneer:
+        return { "3212", "PR-C-2" };
+    case battle::Role::Warrior:
+        return { "3222", "PR-D-2" };
+    case battle::Role::Tank:
+        return { "3232", "PR-A-2" };
+    case battle::Role::Sniper:
+        return { "3242", "PR-B-2" };
+    case battle::Role::Caster:
+        return { "3252", "PR-B-2" };
+    case battle::Role::Medic:
+        return { "3262", "PR-A-2" };
+    case battle::Role::Support:
+        return { "3272", "PR-C-2" };
+    case battle::Role::Special:
+        return { "3282", "PR-D-2" };
+    default:
+        return {};
+    }
+}
 
 // 参照 BattleFormationTask::analyzer_opers：以职业旗标模板定位卡片,
 // 对旗标下方区域 OCR 干员名,并以旗标上方的高亮色块判断选中态。
@@ -125,6 +155,9 @@ std::string role_task_name(asst::battle::Role role)
 
 bool asst::OperProgressProcessTask::_run()
 {
+    if (!restore_pending_factory()) {
+        return false;
+    }
     bool training_room_busy = false;
     for (size_t index = 0; index < m_plan.size() && !need_exit(); ++index) {
         const auto& target = m_plan[index];
@@ -149,6 +182,11 @@ bool asst::OperProgressProcessTask::_run()
         if (target.elite) {
             auto elite_ret = execute_elite(target.role, target.name, *target.elite);
             report_elite_result(target.role, target.name, elite_ret, *target.elite);
+        }
+        // 恢复失败时停留在制造站，不能继续其他培养动作并丢失恢复现场。
+        if (has_pending_factory()) {
+            report_summary();
+            return false;
         }
         if (target.skill_level) {
             auto main_ret = execute_skill(*target.skill_level);
@@ -1091,11 +1129,37 @@ asst::OperProgressProcessTask::ResultDetail
                : ResultDetail::ResourceInsufficient;
 }
 
-bool asst::OperProgressProcessTask::record_factory_state()
+std::optional<std::string> asst::OperProgressProcessTask::factory_room(const cv::Mat& image)
 {
-    // 制造站产线当前产品复用基建产品标志模板识别
-    // 识别结果写入 Status 供 RestoreFactoryState 恢复；识别失败时不得切换产线。
+    Matcher page(image);
+    page.set_task_info("OperProgress@MfgPage");
+    if (!page.analyze()) {
+        return std::nullopt;
+    }
+    OCRer room(image);
+    room.set_task_info("OperProgress@MfgRoom");
+    if (!room.analyze()) {
+        return std::nullopt;
+    }
+    std::string text;
+    for (const auto& result : room.get_result()) {
+        text += result.text + ' ';
+    }
+    return oper_progress::parse_factory_room(text);
+}
+
+std::optional<asst::oper_progress::FactoryProductionState> asst::OperProgressProcessTask::record_factory_state()
+{
+    if (has_pending_factory()) {
+        LogError << __FUNCTION__ << "factory recovery is still pending, refusing to overwrite original product";
+        return std::nullopt;
+    }
     const cv::Mat image = ctrler()->get_image();
+    const auto room = factory_room(image);
+    if (!room || ctrler()->get_uuid().empty()) {
+        LogError << __FUNCTION__ << "factory identity not recognized, refusing to switch production line";
+        return std::nullopt;
+    }
     BestMatcher analyzer(image);
     analyzer.set_task_info("OperProgress@RecordFactoryState");
     static const std::vector<std::pair<std::string, std::string>> product_flags = {
@@ -1110,17 +1174,16 @@ bool asst::OperProgressProcessTask::record_factory_state()
     if (!analyzer.analyze()) {
         LogError << __FUNCTION__ << "| factory product flag not recognized, refusing to switch production line";
         save_img(utils::path("debug") / utils::path("oper_progress"), false);
-        return false;
+        return std::nullopt;
     }
     const std::string& templ_name = analyzer.get_result().templ_info.name;
     for (const auto& [templ, product] : product_flags) {
         if (templ == templ_name) {
-            status()->set_str(std::string(oper_progress::FactoryProductStatusKey), product);
             LogInfo << __FUNCTION__ << "| factory product recorded" << product;
-            return true;
+            return oper_progress::FactoryProductionState { ctrler()->get_uuid(), *room, product };
         }
     }
-    return false;
+    return std::nullopt;
 }
 
 std::optional<int> asst::OperProgressProcessTask::ocr_number(const std::string& task_name)
@@ -1145,107 +1208,388 @@ std::optional<int> asst::OperProgressProcessTask::ocr_number(const cv::Mat& imag
     return value;
 }
 
-bool asst::OperProgressProcessTask::manufacture_dual_chip(battle::Role role, const std::string& name)
+bool
+    asst::OperProgressProcessTask::manufacture_dual_chip(battle::Role role, const std::string& name, bool allow_farming)
 {
-    // 弹窗徽标 OCR 已有/所需数量算缺口 → 跳制造站进芯片产线并记录当前产品 →
-    // 选芯片类按职业选双芯片 → 助剂数量/库存不足时经凭证商店补购 → 制造站加 ×(缺口-1) →
-    // 执行更改+右确认 → 等待生产 → 返回前按记录恢复产线 → 返回晋升页面。
-    // 生产为排队制：制造完成后当次晋升仍会因材料未到账而复核失败,由外层计划重试。
-
-    const int rarity = BattleData.get_rarity(role, name);
-    const int need = rarity >= 6 ? 4 : 3; // 所需数量按稀有度取值：6★ 晋升二阶需 4 枚、5★ 需 3 枚。
-    const int owned = ocr_number("OperProgress@DualchipBadgeCount").value_or(0);
-    const int shortfall = std::max(need - owned, 0);
-    LogInfo << __FUNCTION__ << "| Dualchip shortfall" << "owned:" << owned << "need:" << need
-            << "shortfall:" << shortfall;
+    RegionOCRer badge(ctrler()->get_image());
+    badge.set_task_info("OperProgress@DualchipBadgeCount");
+    badge.set_use_raw(true);
+    if (!badge.analyze()) {
+        return false;
+    }
+    const auto requirements = oper_progress::parse_dual_chip_requirements(badge.get_result().text);
+    if (!requirements) {
+        LogError << __FUNCTION__ << "invalid dual chip inventory" << badge.get_result().text;
+        return false;
+    }
+    const int shortfall = requirements->missing();
+    LogInfo << __FUNCTION__ << "dual chip requirements" << name << "owned:" << requirements->owned
+            << "required:" << requirements->required << "missing:" << shortfall;
     if (shortfall == 0) {
         return true;
     }
 
-    if (!run_task("OperProgress@Dualchip") || !run_task("OperProgress@DualchipJumpMfg") || !record_factory_state()) {
+    if (!run_task("OperProgress@Dualchip") || !run_task("OperProgress@DualchipJumpMfg") || need_exit()) {
         return false;
     }
-    // 打开芯片类产品列表,按目标职业选择双芯片产品（ChooseDualchip-{职业}）。
-    const std::string product_task = "ChooseDualchip-" + enum_to_string(role, true);
-    if (!run_task("ChooseProductList") || !run_task("ChooseChipTab") || !run_task(product_task)) {
+    const auto factory = record_factory_state();
+    if (!factory) {
         return false;
     }
-
-    int catalyst_owned = shortfall;
-    int catalyst_stock = shortfall;
-    if (run_task("OperProgress@MfgPage", 2)) {
-        // 因为没有对紫色芯片数量做识别,如果是没有紫色芯片,就会每次都买胶水
-        // 没识别出来的时候就不买芯片(强制识别结果为shortfall)
-        catalyst_owned = ocr_number("OperProgress@MfgCatalystCount").value_or(shortfall);
-        catalyst_stock = ocr_number("OperProgress@MfgCatalystStock").value_or(shortfall);
-    }
-    // 点击芯片后会若没有紫色芯片或者胶水,这时候无法跳转,还停留在配方选择页
-    // 助剂数量与库存识别:出现红色视为0
-    else if (run_task("ChooseChipTabSelected") && run_task("OperProgress@MfgCatalystMissing", 2)) {
-        catalyst_owned = 0;
-        catalyst_stock = 0;
-    }
-    const int catalyst_short = shortfall - catalyst_owned - catalyst_stock;
-    LogInfo << __FUNCTION__ << "| Catalyst shortfall" << "owned:" << catalyst_owned << "stock:" << catalyst_stock
-            << "shortfall:" << catalyst_short;
-    if (catalyst_short > 0 && !buy_catalyst(catalyst_short)) {
+    // 先停在芯片配方列表查看整批原料需求，有足够一份原料时点产品会直接离开列表。
+    const std::string product_task = "OperProgress@MfgChooseProduct-" + enum_to_string(role, true);
+    const std::string prepare_recipe = "OperProgress@MfgPrepareRecipe-" + enum_to_string(role, true);
+    if (!run_task("ChooseProductList") || !run_task("ChooseChipTab") || !run_task(prepare_recipe)) {
         return false;
     }
 
-    if (run_task("ChooseChipTabSelected", 0)) {
-        // 补购后回产品页需重新选中双芯片
-        if (!run_task(product_task) || !run_task("OperProgress@MfgPage")) {
-            return false;
+    // 双芯片每枚需要两个本职业芯片组和一个助剂，芯片组不走加工站三换二。
+    // 配方列表数字为库存/单次用量，整批需求须乘以双芯片缺口。
+    bool farmed = false;
+    if (!replenish_chip_packs(role, requirements->chip_packs(), allow_farming, farmed)) {
+        return false;
+    }
+    if (farmed) {
+        // 关卡快捷跳转不会保留制造站返回栈，重新定位干员并打开晋升材料入口。
+        // 重新读取双芯片和原料库存；若掉落与库存不符则停止，不能盲目再刷一遍。
+        return find_and_open_operator(role, name) == ResultDetail::Completed && run_task("OperProgress@EliteUp") &&
+               manufacture_dual_chip(role, name, false);
+    }
+    if (!replenish_catalyst(role, requirements->catalysts())) {
+        return false;
+    }
+
+    if (need_exit()) {
+        return false;
+    }
+    // 从首次选择产品开始保护所有退出路径；打开配方列表和补料本身不改变产线。
+    if (factory->product != "Chip") {
+        status()->set_properties(std::string(oper_progress::FactoryRoomStatusKey), factory->room);
+        status()->set_properties(std::string(oper_progress::FactoryDeviceStatusKey), factory->device);
+        status()->set_properties(std::string(oper_progress::FactoryProductStatusKey), factory->product);
+    }
+    const bool manufactured = oper_progress::manufacture_with_restore(
+        [&]() {
+            if (!run_task(product_task) || !run_task("OperProgress@MfgPage") || need_exit()) {
+                return false;
+            }
+            for (int i = 1; i < shortfall; ++i) {
+                if (need_exit() || !run_task("ClickProductIncrease")) {
+                    return false;
+                }
+            }
+            // ProcessTask 在停止时可能返回 true，不能据此认为确认或收取已经执行。
+            return !need_exit() && run_task("ConfirmProductChange") && !need_exit() && sleep(6000) &&
+                   run_task("OperProgress@MfgCollectChip") && !need_exit();
+        },
+        [&]() { return restore_pending_factory(); },
+        [&]() { return need_exit(); });
+    if (!manufactured) {
+        if (need_exit() && has_pending_factory()) {
+            auto info = basic_info_with_what("OperProgressFactoryRestorePending");
+            info["details"]["factory"] = factory->room;
+            callback(AsstMsg::SubTaskExtraInfo, info);
         }
-    }
-    // 生产数量设为缺口：默认 1 次 + 制造站加 ×(缺口-1)
-    for (int i = 1; i < shortfall && !need_exit(); ++i) {
-        if (!run_task("ClickProductIncrease")) {
-            return false;
-        }
-    }
-    if (!run_task("ConfirmProductChange")) {
-        return false;
-    }
-    sleep(6000); // 最多4个芯片,休眠6s应该足够
-
-    if (!restore_factory_state()) {
         return false;
     }
 
-    // 返回晋升页面：先退回材料详情,再点击芯片槽关闭详情
-    return run_task("OperProgress@ReturnToEliteUpPage");
+    if (!run_task("OperProgress@ReturnToEliteUpPage")) {
+        return false;
+    }
+    // 实际入库才算补齐，不能把生产排队或等待结束当作制造成功。
+    RegionOCRer completed_badge(ctrler()->get_image());
+    completed_badge.set_task_info("OperProgress@DualchipBadgeCount");
+    completed_badge.set_use_raw(true);
+    if (!completed_badge.analyze()) {
+        return false;
+    }
+    const auto completed = oper_progress::parse_dual_chip_requirements(completed_badge.get_result().text);
+    return completed && completed->missing() == 0;
 }
 
-bool asst::OperProgressProcessTask::restore_factory_state()
+std::optional<int> asst::OperProgressProcessTask::material_owned(battle::Role role, bool catalyst)
 {
-    // 读取 record_factory_state 写入的产品名,复用基建换产品链恢复产线；
-    // 无记录或记录为芯片时无需恢复。
-    const auto product = status()->get_str(std::string(oper_progress::FactoryProductStatusKey));
-    if (!product) {
-        LogWarn << __FUNCTION__ << "| no factory product recorded, skip restoring";
+    const cv::Mat image = ctrler()->get_image();
+    Matcher product(image);
+    product.set_task_info("OperProgress@MfgProduct-" + enum_to_string(role, true));
+    if (!product.analyze()) {
+        return std::nullopt;
+    }
+    const auto count_task =
+        Task.get<OcrTaskInfo>(catalyst ? "OperProgress@MfgCatalystCount" : "OperProgress@MfgChipPackCount");
+    if (!count_task) {
+        return std::nullopt;
+    }
+    const auto count_roi = product.get_result().rect.move(count_task->rect_move);
+    if (count_roi.x < 0 || count_roi.y < 0 || count_roi.x + count_roi.width > image.cols ||
+        count_roi.y + count_roi.height > image.rows) {
+        LogWarn << __FUNCTION__ << "material count is outside the visible recipe list" << count_roi;
+        return std::nullopt;
+    }
+    RegionOCRer analyzer(image);
+    analyzer.set_task_info(count_task);
+    analyzer.set_roi(count_roi);
+    analyzer.set_use_raw(false);
+    if (!analyzer.analyze()) {
+        return std::nullopt;
+    }
+    const auto count = oper_progress::parse_material_count(analyzer.get_result().text);
+    if (!count || count->required != (catalyst ? 1 : 2)) {
+        LogError << __FUNCTION__ << "invalid material inventory" << analyzer.get_result().text;
+        return std::nullopt;
+    }
+    return count->owned;
+}
+
+bool asst::OperProgressProcessTask::replenish_chip_packs(
+    battle::Role role,
+    int required,
+    bool allow_farming,
+    bool& farmed)
+{
+    farmed = false;
+    const auto item_id = oper_progress::chip_pack_source(role).first;
+    const std::string open_material = "OperProgress@MfgChipPack-" + enum_to_string(role, true);
+    if (item_id.empty()) {
+        return false;
+    }
+    const auto owned = material_owned(role, false);
+    if (!owned) {
+        return false;
+    }
+    const int missing = std::max(required - *owned, 0);
+    auto info = basic_info_with_what("OperProgressMaterial");
+    info["details"] |= json::object {
+        { "material", "chip_pack" }, { "item_id", item_id }, { "required", required },
+        { "owned", *owned },         { "missing", missing },
+    };
+    callback(AsstMsg::SubTaskExtraInfo, info);
+    if (missing == 0) {
         return true;
     }
-    if (*product == "Chip") {
+    if (!allow_farming) {
+        LogError << __FUNCTION__ << "chip pack inventory does not match recognized drops" << "missing:" << missing;
+        return false;
+    }
+    if (!run_task(open_material) || !farm_chip_packs(role, required, *owned)) {
+        return false;
+    }
+    farmed = true;
+    return true;
+}
+
+bool asst::OperProgressProcessTask::farm_chip_packs(battle::Role role, int required, int owned)
+{
+    const auto [item_id, stage] = oper_progress::chip_pack_source(role);
+    if (item_id.empty()) {
+        return false;
+    }
+    const int count = std::max(required - owned, 0);
+    int remaining = count;
+    while (remaining > 0 && !need_exit()) {
+        const int batch_size = remaining;
+        oper_progress::ChipPackBatch batch(item_id, batch_size);
+        int recognized_battles = 0;
+        bool recognition_failed = false;
+        FightTask* active_fight = nullptr;
+        const AsstCallback fight_callback = [&](AsstMsg msg, const json::value& detail, Assistant*) {
+            if (msg == AsstMsg::SubTaskError && detail.get("subtask", "") == "RecognizeDrops") {
+                recognition_failed = true;
+            }
+            if (msg == AsstMsg::SubTaskExtraInfo && detail.contains("details")) {
+                const auto& data = detail.at("details");
+                if (detail.get("what", "") == "StageDrops") {
+                    if (data.get("stage", "stageCode", "") != stage || data.get("stars", 0) != 3) {
+                        recognition_failed = true;
+                    }
+                    else if (const auto stats = data.find<json::array>("stats")) {
+                        recognized_battles += data.get("cur_times", 1);
+                        for (const auto& item : *stats) {
+                            batch.observe(item.get("itemId", ""), item.get("quantity", 0));
+                        }
+                    }
+                    else {
+                        recognition_failed = true;
+                    }
+                }
+                else if (detail.get("what", "") == "UseMedicine" && !data.get("is_expiring", false)) {
+                    m_medicine = std::max(m_medicine - std::max(data.get("count", 0), 0), 0);
+                }
+            }
+            if (recognition_failed && active_fight) {
+                // Fight 支持运行时把次数设为零，在当前节点结束后停止，不再为未知掉落继续花理智。
+                active_fight->set_params(json::object { { "times", 0 }, { "stone", 0 } });
+                active_fight = nullptr;
+            }
+            auto forwarded = detail;
+            forwarded["taskchain"] = m_task_chain;
+            callback(msg, forwarded);
+        };
+
+        auto info = basic_info_with_what("OperProgressMaterial");
+        info["details"] |= json::object {
+            { "material", "chip_pack" },
+            { "item_id", item_id },
+            { "stage", stage },
+            { "required", required },
+            { "owned", owned + count - remaining },
+            { "missing", remaining },
+        };
+        callback(AsstMsg::SubTaskExtraInfo, info);
+
+        // 已由材料详情跳转至对应关卡，直接运行当前关卡，无需再次切换终端。
+        // 每批次数为剩余缺口，结果只累计本职业的实际掉落；源石恢复始终禁用。
+        FightTask fight(fight_callback, m_inst);
+        active_fight = &fight;
+        fight.set_task_id(m_task_id);
+        const json::value params = json::object {
+            { "stage", "" },
+            { "times", batch_size },
+            { "series", 1 },
+            { "drops", json::object { { item_id, batch_size } } },
+            { "medicine", m_medicine },
+            { "medicine_expire_days", m_medicine_expire_days },
+            { "stone", 0 },
+        };
+        const bool fight_succeeded = fight.set_params(params) && fight.run();
+        remaining = batch.remaining();
+        auto progress = basic_info_with_what("OperProgressMaterial");
+        progress["details"] |= json::object {
+            { "material", "chip_pack" }, { "item_id", item_id },
+            { "required", required },    { "owned", owned + count - remaining },
+            { "missing", remaining },
+        };
+        callback(AsstMsg::SubTaskExtraInfo, progress);
+        LogInfo << __FUNCTION__ << "chip pack farming batch" << stage << "runs:" << recognized_battles
+                << "obtained:" << batch.obtained() << "remaining:" << remaining;
+        if (!fight_succeeded || recognition_failed || need_exit()) {
+            return false;
+        }
+        // 一整批都掉另一职业芯片仍可继续；理智耗尽、代理失败或未战斗则退出，避免空转。
+        if (remaining > 0 && recognized_battles < batch_size) {
+            return false;
+        }
+    }
+    return remaining == 0;
+}
+
+bool asst::OperProgressProcessTask::replenish_catalyst(battle::Role role, int required)
+{
+    const auto owned = material_owned(role, true);
+    if (!owned) {
+        return false;
+    }
+    const int missing = std::max(required - *owned, 0);
+    auto info = basic_info_with_what("OperProgressMaterial");
+    info["details"] |= json::object {
+        { "material", "chip_catalyst" }, { "item_id", "32001" }, { "required", required }, { "owned", *owned },
+        { "missing", missing },
+    };
+    callback(AsstMsg::SubTaskExtraInfo, info);
+    if (missing == 0) {
         return true;
     }
-    if (!run_task("ChooseProductList")) {
+    if (!m_auto_buy_chip_catalyst) {
+        LogInfo << __FUNCTION__ << "chip catalyst purchase disabled, missing:" << missing;
+        return false;
+    }
+    if (!run_task("OperProgress@MfgCatalyst-" + enum_to_string(role, true)) || !buy_catalyst(missing) ||
+        !run_task("OperProgress@MfgPrepareRecipe-" + enum_to_string(role, true))) {
+        return false;
+    }
+    const auto replenished = material_owned(role, true);
+    return replenished && *replenished >= required;
+}
+
+bool asst::OperProgressProcessTask::has_pending_factory() const
+{
+    const auto product = status()->get_properties(std::string(oper_progress::FactoryProductStatusKey));
+    return product && !product->empty();
+}
+
+bool asst::OperProgressProcessTask::restore_pending_factory()
+{
+    if (!has_pending_factory()) {
+        return true;
+    }
+    const oper_progress::FactoryProductionState factory {
+        status()->get_properties(std::string(oper_progress::FactoryDeviceStatusKey)).value_or(""),
+        status()->get_properties(std::string(oper_progress::FactoryRoomStatusKey)).value_or(""),
+        status()->get_properties(std::string(oper_progress::FactoryProductStatusKey)).value_or(""),
+    };
+    if (!need_exit() && restore_factory_state(factory) && !need_exit()) {
+        status()->set_properties(std::string(oper_progress::FactoryProductStatusKey), "");
+        status()->set_properties(std::string(oper_progress::FactoryRoomStatusKey), "");
+        status()->set_properties(std::string(oper_progress::FactoryDeviceStatusKey), "");
+        return true;
+    }
+    LogWarn << __FUNCTION__ << "factory restoration pending" << factory.room << factory.product;
+    auto info = basic_info_with_what("OperProgressFactoryRestorePending");
+    info["details"]["factory"] = factory.room;
+    callback(AsstMsg::SubTaskExtraInfo, info);
+    return false;
+}
+
+bool asst::OperProgressProcessTask::restore_factory_state(const oper_progress::FactoryProductionState& factory)
+{
+    if (factory.device.empty() || factory.device != ctrler()->get_uuid() ||
+        (factory.product != "BattleRecord" && factory.product != "PureGold" && factory.product != "OriginiumShard")) {
+        LogWarn << __FUNCTION__ << "invalid pending factory or device mismatch";
+        return false;
+    }
+    // 这里只取消未提交的确认/预览，不改变实际产线；弹窗关闭后再识别被遮挡的房间号。
+    if (need_exit() || !run_task("OperProgress@MfgPrepareRestore", 2) || need_exit()) {
+        return false;
+    }
+    const auto has_unconfirmed_change = [](const cv::Mat& image) {
+        for (const auto* task_name : { "ConfirmProductChange", "ProductFinalConfirm" }) {
+            Matcher unconfirmed(image);
+            unconfirmed.set_task_info(task_name);
+            if (unconfirmed.analyze()) {
+                return true;
+            }
+        }
+        return false;
+    };
+    const cv::Mat image = ctrler()->get_image();
+    const auto room = factory_room(image);
+    if (!room || !factory.matches(ctrler()->get_uuid(), *room) || has_unconfirmed_change(image)) {
+        LogWarn << __FUNCTION__ << "current factory does not match pending restoration or preview remains"
+                << factory.room;
+        return false;
+    }
+    // 选择产品尚未提交时，取消预览即可恢复，不必重设原生产计划。
+    Matcher current_product(image);
+    current_product.set_task_info("VerifyProductChangedTo" + factory.product);
+    if (current_product.analyze()) {
+        return !need_exit();
+    }
+    if (need_exit() || !run_task("ChooseProductList", 2) || need_exit()) {
         return false;
     }
     // 换产品任务以 next 互链：选分类后依次自动完成 选产品→设最多→确认变更→最终确认,
     // cpp 不得再单独调用链内步骤（面板关闭后模板必失配,会误判恢复失败）。
     bool selected = false;
-    if (*product == "BattleRecord") {
+    if (factory.product == "BattleRecord") {
         selected = run_task("ChooseBattleRecord");
     }
-    else if (*product == "PureGold") {
+    else if (factory.product == "PureGold") {
         selected = run_task("ChoosePureGoldTab");
     }
-    else if (*product == "OriginiumShard") {
+    else if (factory.product == "OriginiumShard") {
         selected = run_task("ChooseOriginiumShardTab");
     }
-    // 恢复完成后以详情页产品标志模板复核。
-    return selected && run_task("VerifyProductChangedTo" + *product);
+    if (!selected || need_exit() || !run_task("OperProgress@MfgPage", 2) || need_exit()) {
+        return false;
+    }
+    // 不能把停止时的 true 或尚未提交的预览图标当作恢复成功。
+    const cv::Mat restored_image = ctrler()->get_image();
+    if (has_unconfirmed_change(restored_image)) {
+        return false;
+    }
+    Matcher product(restored_image);
+    product.set_task_info("VerifyProductChangedTo" + factory.product);
+    return product.analyze() && !need_exit();
 }
 
 bool asst::OperProgressProcessTask::buy_catalyst(int count)
@@ -1253,7 +1597,7 @@ bool asst::OperProgressProcessTask::buy_catalyst(int count)
     // 凭证交易所导航 → 红票区页签 → 滚动查找芯片助剂（可能不在第一屏）→ 打开购买面板 →
     // 商品加 ×(count-1) → 支付 → 领取获得物资 → 返回制造站芯片产品页。
 
-    if (!run_task("Store@QuickSwitchEnterStore") || !run_task("RedTicket@Store@ChooseTicketType")) {
+    if (!m_auto_buy_chip_catalyst || count <= 0) {
         return false;
     }
 
@@ -1280,12 +1624,24 @@ bool asst::OperProgressProcessTask::buy_catalyst(int count)
             return false;
         }
     }
+    RegionOCRer purchase_count(ctrler()->get_image());
+    purchase_count.set_task_info("OperProgress@CatalystPurchaseCount");
+    purchase_count.set_use_raw(true);
+    if (!purchase_count.analyze()) {
+        return false;
+    }
+    const auto selected_count = oper_progress::parse_material_number(purchase_count.get_result().text);
+    if (!selected_count || *selected_count != count) {
+        LogWarn << __FUNCTION__ << "catalyst purchase quantity does not match the shortfall"
+                << "expected:" << count << "recognized:" << purchase_count.get_result().text;
+        return false;
+    }
     // 购买后如果没有出现获得物资说明没有购买成功,需要点一下返回
     if (!run_task("RedTicket@Store@Purchase")) {
         return false;
     }
     // 购买后返回制造站重新进入芯片产品页或生产详情页
-    return run_task("OperProgress@ReturnToMfgPage");
+    return run_task("OperProgress@ReturnToMfgPage") && run_task("OperProgress@MaterialPopupClose");
 }
 
 bool asst::OperProgressProcessTask::run_task(const std::string& task_name, int retry_times)

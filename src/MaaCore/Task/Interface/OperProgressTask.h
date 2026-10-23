@@ -14,6 +14,16 @@ class OperProgressProcessTask;
 class OperProgressTask final : public InterfaceTask
 {
 public:
+    struct MaterialOptions
+    {
+        bool auto_buy_chip_catalyst = false;
+        int medicine = 0;
+        int medicine_expire_days = 0;
+
+        MEO_TOJSON(MEO_OPT auto_buy_chip_catalyst, MEO_OPT medicine, MEO_OPT medicine_expire_days);
+        MEO_FROMJSON(MEO_OPT auto_buy_chip_catalyst, MEO_OPT medicine, MEO_OPT medicine_expire_days);
+    };
+
     // 对应 params.plans[] 的一项。elite / skills / skill + skill_master 三选一，
     // 用哪个字段出现表示本次执行哪种养成动作；字段名即 JSON key，字段含义变化时必须同步改名。
     struct ProgressPlan

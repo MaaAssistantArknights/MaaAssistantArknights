@@ -102,6 +102,42 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
     public OperItem? OperSelect { get; set => SetAndNotify(ref field, value); }
 
+    public bool AutoBuyChipCatalyst
+    {
+        get => GetTaskConfig<OperProgressTask>().AutoBuyChipCatalyst;
+        set => SetTaskConfig<OperProgressTask>(t => t.AutoBuyChipCatalyst == value, t => t.AutoBuyChipCatalyst = value);
+    }
+
+    public bool UseMedicine
+    {
+        get => GetTaskConfig<OperProgressTask>().UseMedicine;
+        set => SetTaskConfig<OperProgressTask>(t => t.UseMedicine == value, t => t.UseMedicine = value);
+    }
+
+    public int MedicineNumber
+    {
+        get => GetTaskConfig<OperProgressTask>().MedicineCount;
+        set {
+            value = Math.Clamp(value, 0, 999);
+            SetTaskConfig<OperProgressTask>(t => t.MedicineCount == value, t => t.MedicineCount = value);
+        }
+    }
+
+    public bool UseExpiringMedicine
+    {
+        get => GetTaskConfig<OperProgressTask>().UseExpiringMedicine;
+        set => SetTaskConfig<OperProgressTask>(t => t.UseExpiringMedicine == value, t => t.UseExpiringMedicine = value);
+    }
+
+    public int MedicineExpireDays
+    {
+        get => GetTaskConfig<OperProgressTask>().MedicineExpireDays;
+        set {
+            value = Math.Clamp(value, 1, 30);
+            SetTaskConfig<OperProgressTask>(t => t.MedicineExpireDays == value, t => t.MedicineExpireDays = value);
+        }
+    }
+
     public override void RefreshUI(BaseTask? baseTask)
     {
         if (baseTask is not OperProgressTask task)
@@ -311,7 +347,12 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                 return (null, []);
             }
 
-            var task = new AsstOperProgressTask { Plans = operProgress.Plans };
+            var task = new AsstOperProgressTask {
+                Plans = operProgress.Plans,
+                AutoBuyChipCatalyst = operProgress.AutoBuyChipCatalyst,
+                Medicine = operProgress.UseMedicine ? Math.Clamp(operProgress.MedicineCount, 0, 999) : 0,
+                MedicineExpireDays = operProgress.UseExpiringMedicine ? Math.Clamp(operProgress.MedicineExpireDays, 1, 30) : 0,
+            };
             return taskId switch {
                 int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]),
                 null => FromSingle(Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.OperProgress, task)),
@@ -328,6 +369,38 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         }
         switch (msg.What)
         {
+            case "OperProgressFactoryRestorePending":
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetStringFormat("OperProgress.FactoryRestorePending", msg.Details?.Value<string>("factory") ?? string.Empty),
+                    UiLogColor.Warning);
+                break;
+
+            case "OperProgressMaterial":
+                {
+                    var details = msg.Details;
+                    if (details is null)
+                    {
+                        break;
+                    }
+
+                    var itemId = details.Value<string>("item_id") ?? string.Empty;
+                    var itemName = ItemListHelper.GetItemName(itemId) ?? itemId;
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat(
+                            "OperProgress.Material",
+                            itemName,
+                            details.Value<int>("owned"),
+                            details.Value<int>("required"),
+                            details.Value<int>("missing")),
+                        UiLogColor.Info);
+                    var stage = details.Value<string>("stage");
+                    if (!string.IsNullOrEmpty(stage) && details.Value<int>("missing") > 0)
+                    {
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("OperProgress.MaterialFarming", stage), UiLogColor.Info);
+                    }
+                    break;
+                }
+
             case "OperProgressSummary":
                 var summary = msg.Details?.ToObject<ProgressSummary>();
                 Instances.TaskQueueViewModel.AddLog(

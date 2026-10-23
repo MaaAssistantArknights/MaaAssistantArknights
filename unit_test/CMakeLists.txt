@@ -35,3 +35,14 @@ target_link_libraries(maa-algorithm-test PRIVATE Catch2::Catch2WithMain)
 target_include_directories(maa-algorithm-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../src/MaaCore)
 
 catch_discover_tests(maa-algorithm-test TEST_PREFIX "algorithm::")
+
+add_executable(maa-oper-progress-test
+    MaaCore/OperProgressMaterialsTest.cpp
+)
+target_compile_features(maa-oper-progress-test PRIVATE cxx_std_20)
+target_link_libraries(maa-oper-progress-test PRIVATE Catch2::Catch2WithMain)
+target_include_directories(maa-oper-progress-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../src/MaaCore)
+if(MSVC)
+    target_compile_options(maa-oper-progress-test PRIVATE /utf-8)
+endif()
+catch_discover_tests(maa-oper-progress-test TEST_PREFIX "oper-progress::")

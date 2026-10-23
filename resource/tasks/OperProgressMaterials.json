@@ -1,0 +1,603 @@
+{
+    "OperProgress@MfgChipPackCount": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [448, 656, 64, 32],
+        "rectMove": [189, 112, 64, 32],
+        "binThreshold": [80, 255],
+        "withoutDet": true,
+        "useRaw": false,
+        "Doc": "相对双芯片产品图标读取芯片组库存/单次用量，C++ 根据目标产品匹配结果移动 roi"
+    },
+    "OperProgress@MfgRecipeReset": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [700, 200, 5, 5],
+        "rectMove": [700, 660, 5, 5],
+        "specialParams": [500, 1, 2, 0],
+        "postDelay": 700
+    },
+    "OperProgress@MfgRecipeSwipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [700, 630, 5, 5],
+        "rectMove": [700, 350, 5, 5],
+        "specialParams": [500, 1, 2, 0],
+        "postDelay": 700,
+        "maxTimes": 3
+    },
+    "OperProgress@MaterialPopupClose": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1100, 100, 20, 20],
+        "postDelay": 500
+    },
+    "OperProgress@MaterialSourcesSwipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [780, 630, 5, 5],
+        "rectMove": [780, 490, 5, 5],
+        "specialParams": [500, 1, 2, 0],
+        "postDelay": 700,
+        "maxTimes": 3
+    },
+    "OperProgress@ChipStageReady": {
+        "baseTask": "StartButton1",
+        "action": "DoNothing",
+        "next": [],
+        "exceededNext": [],
+        "reduceOtherTimes": [],
+        "postDelay": 300
+    },
+    "OperProgress@MfgProduct-Pioneer": {
+        "template": "ChooseDualchip-Pioneer.png",
+        "roi": [230, 75, 1020, 560],
+        "templThreshold": 0.95,
+        "action": "DoNothing",
+        "cache": false,
+        "Doc": "仅接受完整可读的配方行；提高阈值避免不同职业的相似芯片图标串识别"
+    },
+    "OperProgress@MfgPrepareRecipe-Pioneer": {
+        "baseTask": "OperProgress@MfgRecipeReset",
+        "next": ["OperProgress@MfgProduct-Pioneer", "OperProgress@MfgRecipeSwipe-Pioneer"]
+    },
+    "OperProgress@MfgRecipeSwipe-Pioneer": {
+        "baseTask": "OperProgress@MfgRecipeSwipe",
+        "next": ["OperProgress@MfgProduct-Pioneer", "#self"]
+    },
+    "OperProgress@MfgChooseProduct-Pioneer": {
+        "baseTask": "OperProgress@MfgProduct-Pioneer",
+        "action": "ClickSelf",
+        "postDelay": 800,
+        "template": "ChooseDualchip-Pioneer.png"
+    },
+    "OperProgress@MfgChipPack-Pioneer": {
+        "baseTask": "OperProgress@MfgProduct-Pioneer",
+        "action": "ClickSelf",
+        "rectMove": [189, 64, 64, 32],
+        "postDelay": 600,
+        "next": ["OperProgress@MfgChipPackJumpStage-Pioneer"],
+        "template": "ChooseDualchip-Pioneer.png"
+    },
+    "OperProgress@MfgCatalyst-Pioneer": {
+        "baseTask": "OperProgress@MfgProduct-Pioneer",
+        "action": "ClickSelf",
+        "rectMove": [285, 64, 64, 32],
+        "postDelay": 600,
+        "next": ["OperProgress@MfgCatalystJumpStore"],
+        "template": "ChooseDualchip-Pioneer.png"
+    },
+    "OperProgress@MfgChipPackJumpStage-Pioneer": {
+        "algorithm": "JustReturn",
+        "next": ["OperProgress@MfgChipPackJumpStageClick-Pioneer", "OperProgress@MfgChipPackSourcesSwipe-Pioneer"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Pioneer": {
+        "algorithm": "OcrDetect",
+        "text": ["势不可挡", "勢不可擋"],
+        "action": "ClickSelf",
+        "roi": [300, 340, 950, 360],
+        "rectMove": [300, -8, 100, 40],
+        "postDelay": 1800,
+        "next": ["OperProgress@ChipStage-PR-C-2"]
+    },
+    "OperProgress@MfgChipPackSourcesSwipe-Pioneer": {
+        "baseTask": "OperProgress@MaterialSourcesSwipe",
+        "next": ["OperProgress@MfgChipPackJumpStageClick-Pioneer", "#self"]
+    },
+    "OperProgress@MfgProduct-Warrior": {
+        "template": "ChooseDualchip-Warrior.png",
+        "roi": [230, 75, 1020, 560],
+        "templThreshold": 0.95,
+        "action": "DoNothing",
+        "cache": false,
+        "Doc": "仅接受完整可读的配方行；提高阈值避免不同职业的相似芯片图标串识别"
+    },
+    "OperProgress@MfgPrepareRecipe-Warrior": {
+        "baseTask": "OperProgress@MfgRecipeReset",
+        "next": ["OperProgress@MfgProduct-Warrior", "OperProgress@MfgRecipeSwipe-Warrior"]
+    },
+    "OperProgress@MfgRecipeSwipe-Warrior": {
+        "baseTask": "OperProgress@MfgRecipeSwipe",
+        "next": ["OperProgress@MfgProduct-Warrior", "#self"]
+    },
+    "OperProgress@MfgChooseProduct-Warrior": {
+        "baseTask": "OperProgress@MfgProduct-Warrior",
+        "action": "ClickSelf",
+        "postDelay": 800,
+        "template": "ChooseDualchip-Warrior.png"
+    },
+    "OperProgress@MfgChipPack-Warrior": {
+        "baseTask": "OperProgress@MfgProduct-Warrior",
+        "action": "ClickSelf",
+        "rectMove": [189, 64, 64, 32],
+        "postDelay": 600,
+        "next": ["OperProgress@MfgChipPackJumpStage-Warrior"],
+        "template": "ChooseDualchip-Warrior.png"
+    },
+    "OperProgress@MfgCatalyst-Warrior": {
+        "baseTask": "OperProgress@MfgProduct-Warrior",
+        "action": "ClickSelf",
+        "rectMove": [285, 64, 64, 32],
+        "postDelay": 600,
+        "next": ["OperProgress@MfgCatalystJumpStore"],
+        "template": "ChooseDualchip-Warrior.png"
+    },
+    "OperProgress@MfgChipPackJumpStage-Warrior": {
+        "algorithm": "JustReturn",
+        "next": ["OperProgress@MfgChipPackJumpStageClick-Warrior", "OperProgress@MfgChipPackSourcesSwipe-Warrior"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Warrior": {
+        "algorithm": "OcrDetect",
+        "text": ["身先士卒"],
+        "action": "ClickSelf",
+        "roi": [300, 340, 950, 360],
+        "rectMove": [300, -8, 100, 40],
+        "postDelay": 1800,
+        "next": ["OperProgress@ChipStage-PR-D-2"]
+    },
+    "OperProgress@MfgChipPackSourcesSwipe-Warrior": {
+        "baseTask": "OperProgress@MaterialSourcesSwipe",
+        "next": ["OperProgress@MfgChipPackJumpStageClick-Warrior", "#self"]
+    },
+    "OperProgress@MfgProduct-Tank": {
+        "template": "ChooseDualchip-Tank.png",
+        "roi": [230, 75, 1020, 560],
+        "templThreshold": 0.95,
+        "action": "DoNothing",
+        "cache": false,
+        "Doc": "仅接受完整可读的配方行；提高阈值避免不同职业的相似芯片图标串识别"
+    },
+    "OperProgress@MfgPrepareRecipe-Tank": {
+        "baseTask": "OperProgress@MfgRecipeReset",
+        "next": ["OperProgress@MfgProduct-Tank", "OperProgress@MfgRecipeSwipe-Tank"]
+    },
+    "OperProgress@MfgRecipeSwipe-Tank": {
+        "baseTask": "OperProgress@MfgRecipeSwipe",
+        "next": ["OperProgress@MfgProduct-Tank", "#self"]
+    },
+    "OperProgress@MfgChooseProduct-Tank": {
+        "baseTask": "OperProgress@MfgProduct-Tank",
+        "action": "ClickSelf",
+        "postDelay": 800,
+        "template": "ChooseDualchip-Tank.png"
+    },
+    "OperProgress@MfgChipPack-Tank": {
+        "baseTask": "OperProgress@MfgProduct-Tank",
+        "action": "ClickSelf",
+        "rectMove": [189, 64, 64, 32],
+        "postDelay": 600,
+        "next": ["OperProgress@MfgChipPackJumpStage-Tank"],
+        "template": "ChooseDualchip-Tank.png"
+    },
+    "OperProgress@MfgCatalyst-Tank": {
+        "baseTask": "OperProgress@MfgProduct-Tank",
+        "action": "ClickSelf",
+        "rectMove": [285, 64, 64, 32],
+        "postDelay": 600,
+        "next": ["OperProgress@MfgCatalystJumpStore"],
+        "template": "ChooseDualchip-Tank.png"
+    },
+    "OperProgress@MfgChipPackJumpStage-Tank": {
+        "algorithm": "JustReturn",
+        "next": ["OperProgress@MfgChipPackJumpStageClick-Tank", "OperProgress@MfgChipPackSourcesSwipe-Tank"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Tank": {
+        "algorithm": "OcrDetect",
+        "text": ["固若金汤", "固若金湯"],
+        "action": "ClickSelf",
+        "roi": [300, 340, 950, 360],
+        "rectMove": [300, -8, 100, 40],
+        "postDelay": 1800,
+        "next": ["OperProgress@ChipStage-PR-A-2"]
+    },
+    "OperProgress@MfgChipPackSourcesSwipe-Tank": {
+        "baseTask": "OperProgress@MaterialSourcesSwipe",
+        "next": ["OperProgress@MfgChipPackJumpStageClick-Tank", "#self"]
+    },
+    "OperProgress@MfgProduct-Sniper": {
+        "template": "ChooseDualchip-Sniper.png",
+        "roi": [230, 75, 1020, 560],
+        "templThreshold": 0.95,
+        "action": "DoNothing",
+        "cache": false,
+        "Doc": "仅接受完整可读的配方行；提高阈值避免不同职业的相似芯片图标串识别"
+    },
+    "OperProgress@MfgPrepareRecipe-Sniper": {
+        "baseTask": "OperProgress@MfgRecipeReset",
+        "next": ["OperProgress@MfgProduct-Sniper", "OperProgress@MfgRecipeSwipe-Sniper"]
+    },
+    "OperProgress@MfgRecipeSwipe-Sniper": {
+        "baseTask": "OperProgress@MfgRecipeSwipe",
+        "next": ["OperProgress@MfgProduct-Sniper", "#self"]
+    },
+    "OperProgress@MfgChooseProduct-Sniper": {
+        "baseTask": "OperProgress@MfgProduct-Sniper",
+        "action": "ClickSelf",
+        "postDelay": 800,
+        "template": "ChooseDualchip-Sniper.png"
+    },
+    "OperProgress@MfgChipPack-Sniper": {
+        "baseTask": "OperProgress@MfgProduct-Sniper",
+        "action": "ClickSelf",
+        "rectMove": [189, 64, 64, 32],
+        "postDelay": 600,
+        "next": ["OperProgress@MfgChipPackJumpStage-Sniper"],
+        "template": "ChooseDualchip-Sniper.png"
+    },
+    "OperProgress@MfgCatalyst-Sniper": {
+        "baseTask": "OperProgress@MfgProduct-Sniper",
+        "action": "ClickSelf",
+        "rectMove": [285, 64, 64, 32],
+        "postDelay": 600,
+        "next": ["OperProgress@MfgCatalystJumpStore"],
+        "template": "ChooseDualchip-Sniper.png"
+    },
+    "OperProgress@MfgChipPackJumpStage-Sniper": {
+        "algorithm": "JustReturn",
+        "next": ["OperProgress@MfgChipPackJumpStageClick-Sniper", "OperProgress@MfgChipPackSourcesSwipe-Sniper"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Sniper": {
+        "algorithm": "OcrDetect",
+        "text": ["摧枯拉朽"],
+        "action": "ClickSelf",
+        "roi": [300, 340, 950, 360],
+        "rectMove": [300, -8, 100, 40],
+        "postDelay": 1800,
+        "next": ["OperProgress@ChipStage-PR-B-2"]
+    },
+    "OperProgress@MfgChipPackSourcesSwipe-Sniper": {
+        "baseTask": "OperProgress@MaterialSourcesSwipe",
+        "next": ["OperProgress@MfgChipPackJumpStageClick-Sniper", "#self"]
+    },
+    "OperProgress@MfgProduct-Caster": {
+        "template": "ChooseDualchip-Caster.png",
+        "roi": [230, 75, 1020, 560],
+        "templThreshold": 0.95,
+        "action": "DoNothing",
+        "cache": false,
+        "Doc": "仅接受完整可读的配方行；提高阈值避免不同职业的相似芯片图标串识别"
+    },
+    "OperProgress@MfgPrepareRecipe-Caster": {
+        "baseTask": "OperProgress@MfgRecipeReset",
+        "next": ["OperProgress@MfgProduct-Caster", "OperProgress@MfgRecipeSwipe-Caster"]
+    },
+    "OperProgress@MfgRecipeSwipe-Caster": {
+        "baseTask": "OperProgress@MfgRecipeSwipe",
+        "next": ["OperProgress@MfgProduct-Caster", "#self"]
+    },
+    "OperProgress@MfgChooseProduct-Caster": {
+        "baseTask": "OperProgress@MfgProduct-Caster",
+        "action": "ClickSelf",
+        "postDelay": 800,
+        "template": "ChooseDualchip-Caster.png"
+    },
+    "OperProgress@MfgChipPack-Caster": {
+        "baseTask": "OperProgress@MfgProduct-Caster",
+        "action": "ClickSelf",
+        "rectMove": [189, 64, 64, 32],
+        "postDelay": 600,
+        "next": ["OperProgress@MfgChipPackJumpStage-Caster"],
+        "template": "ChooseDualchip-Caster.png"
+    },
+    "OperProgress@MfgCatalyst-Caster": {
+        "baseTask": "OperProgress@MfgProduct-Caster",
+        "action": "ClickSelf",
+        "rectMove": [285, 64, 64, 32],
+        "postDelay": 600,
+        "next": ["OperProgress@MfgCatalystJumpStore"],
+        "template": "ChooseDualchip-Caster.png"
+    },
+    "OperProgress@MfgChipPackJumpStage-Caster": {
+        "algorithm": "JustReturn",
+        "next": ["OperProgress@MfgChipPackJumpStageClick-Caster", "OperProgress@MfgChipPackSourcesSwipe-Caster"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Caster": {
+        "algorithm": "OcrDetect",
+        "text": ["摧枯拉朽"],
+        "action": "ClickSelf",
+        "roi": [300, 340, 950, 360],
+        "rectMove": [300, -8, 100, 40],
+        "postDelay": 1800,
+        "next": ["OperProgress@ChipStage-PR-B-2"]
+    },
+    "OperProgress@MfgChipPackSourcesSwipe-Caster": {
+        "baseTask": "OperProgress@MaterialSourcesSwipe",
+        "next": ["OperProgress@MfgChipPackJumpStageClick-Caster", "#self"]
+    },
+    "OperProgress@MfgProduct-Medic": {
+        "template": "ChooseDualchip-Medic.png",
+        "roi": [230, 75, 1020, 560],
+        "templThreshold": 0.95,
+        "action": "DoNothing",
+        "cache": false,
+        "Doc": "仅接受完整可读的配方行；提高阈值避免不同职业的相似芯片图标串识别"
+    },
+    "OperProgress@MfgPrepareRecipe-Medic": {
+        "baseTask": "OperProgress@MfgRecipeReset",
+        "next": ["OperProgress@MfgProduct-Medic", "OperProgress@MfgRecipeSwipe-Medic"]
+    },
+    "OperProgress@MfgRecipeSwipe-Medic": {
+        "baseTask": "OperProgress@MfgRecipeSwipe",
+        "next": ["OperProgress@MfgProduct-Medic", "#self"]
+    },
+    "OperProgress@MfgChooseProduct-Medic": {
+        "baseTask": "OperProgress@MfgProduct-Medic",
+        "action": "ClickSelf",
+        "postDelay": 800,
+        "template": "ChooseDualchip-Medic.png"
+    },
+    "OperProgress@MfgChipPack-Medic": {
+        "baseTask": "OperProgress@MfgProduct-Medic",
+        "action": "ClickSelf",
+        "rectMove": [189, 64, 64, 32],
+        "postDelay": 600,
+        "next": ["OperProgress@MfgChipPackJumpStage-Medic"],
+        "template": "ChooseDualchip-Medic.png"
+    },
+    "OperProgress@MfgCatalyst-Medic": {
+        "baseTask": "OperProgress@MfgProduct-Medic",
+        "action": "ClickSelf",
+        "rectMove": [285, 64, 64, 32],
+        "postDelay": 600,
+        "next": ["OperProgress@MfgCatalystJumpStore"],
+        "template": "ChooseDualchip-Medic.png"
+    },
+    "OperProgress@MfgChipPackJumpStage-Medic": {
+        "algorithm": "JustReturn",
+        "next": ["OperProgress@MfgChipPackJumpStageClick-Medic", "OperProgress@MfgChipPackSourcesSwipe-Medic"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Medic": {
+        "algorithm": "OcrDetect",
+        "text": ["固若金汤", "固若金湯"],
+        "action": "ClickSelf",
+        "roi": [300, 340, 950, 360],
+        "rectMove": [300, -8, 100, 40],
+        "postDelay": 1800,
+        "next": ["OperProgress@ChipStage-PR-A-2"]
+    },
+    "OperProgress@MfgChipPackSourcesSwipe-Medic": {
+        "baseTask": "OperProgress@MaterialSourcesSwipe",
+        "next": ["OperProgress@MfgChipPackJumpStageClick-Medic", "#self"]
+    },
+    "OperProgress@MfgProduct-Support": {
+        "template": "ChooseDualchip-Support.png",
+        "roi": [230, 75, 1020, 560],
+        "templThreshold": 0.95,
+        "action": "DoNothing",
+        "cache": false,
+        "Doc": "仅接受完整可读的配方行；提高阈值避免不同职业的相似芯片图标串识别"
+    },
+    "OperProgress@MfgPrepareRecipe-Support": {
+        "baseTask": "OperProgress@MfgRecipeReset",
+        "next": ["OperProgress@MfgProduct-Support", "OperProgress@MfgRecipeSwipe-Support"]
+    },
+    "OperProgress@MfgRecipeSwipe-Support": {
+        "baseTask": "OperProgress@MfgRecipeSwipe",
+        "next": ["OperProgress@MfgProduct-Support", "#self"]
+    },
+    "OperProgress@MfgChooseProduct-Support": {
+        "baseTask": "OperProgress@MfgProduct-Support",
+        "action": "ClickSelf",
+        "postDelay": 800,
+        "template": "ChooseDualchip-Support.png"
+    },
+    "OperProgress@MfgChipPack-Support": {
+        "baseTask": "OperProgress@MfgProduct-Support",
+        "action": "ClickSelf",
+        "rectMove": [189, 64, 64, 32],
+        "postDelay": 600,
+        "next": ["OperProgress@MfgChipPackJumpStage-Support"],
+        "template": "ChooseDualchip-Support.png"
+    },
+    "OperProgress@MfgCatalyst-Support": {
+        "baseTask": "OperProgress@MfgProduct-Support",
+        "action": "ClickSelf",
+        "rectMove": [285, 64, 64, 32],
+        "postDelay": 600,
+        "next": ["OperProgress@MfgCatalystJumpStore"],
+        "template": "ChooseDualchip-Support.png"
+    },
+    "OperProgress@MfgChipPackJumpStage-Support": {
+        "algorithm": "JustReturn",
+        "next": ["OperProgress@MfgChipPackJumpStageClick-Support", "OperProgress@MfgChipPackSourcesSwipe-Support"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Support": {
+        "algorithm": "OcrDetect",
+        "text": ["势不可挡", "勢不可擋"],
+        "action": "ClickSelf",
+        "roi": [300, 340, 950, 360],
+        "rectMove": [300, -8, 100, 40],
+        "postDelay": 1800,
+        "next": ["OperProgress@ChipStage-PR-C-2"]
+    },
+    "OperProgress@MfgChipPackSourcesSwipe-Support": {
+        "baseTask": "OperProgress@MaterialSourcesSwipe",
+        "next": ["OperProgress@MfgChipPackJumpStageClick-Support", "#self"]
+    },
+    "OperProgress@MfgProduct-Special": {
+        "template": "ChooseDualchip-Special.png",
+        "roi": [230, 75, 1020, 560],
+        "templThreshold": 0.95,
+        "action": "DoNothing",
+        "cache": false,
+        "Doc": "仅接受完整可读的配方行；提高阈值避免不同职业的相似芯片图标串识别"
+    },
+    "OperProgress@MfgPrepareRecipe-Special": {
+        "baseTask": "OperProgress@MfgRecipeReset",
+        "next": ["OperProgress@MfgProduct-Special", "OperProgress@MfgRecipeSwipe-Special"]
+    },
+    "OperProgress@MfgRecipeSwipe-Special": {
+        "baseTask": "OperProgress@MfgRecipeSwipe",
+        "next": ["OperProgress@MfgProduct-Special", "#self"]
+    },
+    "OperProgress@MfgChooseProduct-Special": {
+        "baseTask": "OperProgress@MfgProduct-Special",
+        "action": "ClickSelf",
+        "postDelay": 800,
+        "template": "ChooseDualchip-Special.png"
+    },
+    "OperProgress@MfgChipPack-Special": {
+        "baseTask": "OperProgress@MfgProduct-Special",
+        "action": "ClickSelf",
+        "rectMove": [189, 64, 64, 32],
+        "postDelay": 600,
+        "next": ["OperProgress@MfgChipPackJumpStage-Special"],
+        "template": "ChooseDualchip-Special.png"
+    },
+    "OperProgress@MfgCatalyst-Special": {
+        "baseTask": "OperProgress@MfgProduct-Special",
+        "action": "ClickSelf",
+        "rectMove": [285, 64, 64, 32],
+        "postDelay": 600,
+        "next": ["OperProgress@MfgCatalystJumpStore"],
+        "template": "ChooseDualchip-Special.png"
+    },
+    "OperProgress@MfgChipPackJumpStage-Special": {
+        "algorithm": "JustReturn",
+        "next": ["OperProgress@MfgChipPackJumpStageClick-Special", "OperProgress@MfgChipPackSourcesSwipe-Special"]
+    },
+    "OperProgress@MfgChipPackJumpStageClick-Special": {
+        "algorithm": "OcrDetect",
+        "text": ["身先士卒"],
+        "action": "ClickSelf",
+        "roi": [300, 340, 950, 360],
+        "rectMove": [300, -8, 100, 40],
+        "postDelay": 1800,
+        "next": ["OperProgress@ChipStage-PR-D-2"]
+    },
+    "OperProgress@MfgChipPackSourcesSwipe-Special": {
+        "baseTask": "OperProgress@MaterialSourcesSwipe",
+        "next": ["OperProgress@MfgChipPackJumpStageClick-Special", "#self"]
+    },
+    "OperProgress@ChipStage-PR-A-2": {
+        "baseTask": "PR-A-2@Stage",
+        "postDelay": 700,
+        "next": ["OperProgress@ChipStageReady"]
+    },
+    "OperProgress@ChipStage-PR-B-2": {
+        "baseTask": "PR-B-2@Stage",
+        "postDelay": 700,
+        "next": ["OperProgress@ChipStageReady"]
+    },
+    "OperProgress@ChipStage-PR-C-2": {
+        "baseTask": "PR-C-2@Stage",
+        "postDelay": 700,
+        "next": ["OperProgress@ChipStageReady"]
+    },
+    "OperProgress@ChipStage-PR-D-2": {
+        "baseTask": "PR-D-2@Stage",
+        "postDelay": 700,
+        "next": ["OperProgress@ChipStageReady"]
+    },
+    "OperProgress@MfgCatalystJumpStore": {
+        "algorithm": "JustReturn",
+        "next": ["OperProgress@MfgCatalystJumpStoreClick", "OperProgress@MfgCatalystSourcesSwipe"]
+    },
+    "OperProgress@MfgCatalystJumpStoreClick": {
+        "algorithm": "OcrDetect",
+        "roi": [300, 300, 950, 400],
+        "action": "ClickSelf",
+        "rectMove": [300, -8, 100, 40],
+        "postDelay": 1800,
+        "next": ["RedTicket@Store@ChooseTicketTypeSelected"],
+        "baseTask": "RedTicket@Store@ChooseTicketTypeSelected"
+    },
+    "OperProgress@MfgCatalystSourcesSwipe": {
+        "baseTask": "OperProgress@MaterialSourcesSwipe",
+        "next": ["OperProgress@MfgCatalystJumpStoreClick", "#self"]
+    },
+    "OperProgress@CatalystPurchaseCount": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [880, 416, 80, 32],
+        "withoutDet": true
+    },
+    "OperProgress@MfgCollectChip": {
+        "baseTask": "OperProgress@MfgPage",
+        "template": "FacilityListTabMfg.png",
+        "action": "ClickRect",
+        "specificRect": [1054, 618, 131, 47],
+        "postDelay": 800,
+        "next": ["OperProgress@MfgPage"]
+    },
+    "OperProgress@MfgRoom": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [416, 16, 224, 48],
+        "Doc": "读取制造站页眉，由 C++ 合并检测文本并严格提取唯一 B101 至 B303 房间标识；不替换数字"
+    },
+    "OperProgress@MfgPrepareRestore": {
+        "algorithm": "JustReturn",
+        "next": [
+            "OperProgress@MfgCancelFinalConfirm",
+            "OperProgress@MfgCancelPreview",
+            "OperProgress@MfgRestoreRecipeList",
+            "OperProgress@MfgPage"
+        ],
+        "Doc": "恢复前依次取消全屏确认、小型产品预览，或从已识别的芯片配方列表返回；不执行产品确认，C++ 随后核对原工厂"
+    },
+    "OperProgress@MfgCancelPreview": {
+        "baseTask": "ConfirmProductChange",
+        "template": "ReplenishToMaxConfirm.png",
+        "templThreshold": 0.95,
+        "cache": false,
+        "action": "ClickSelf",
+        "rectMove": [-72, 22, 32, 32],
+        "postDelay": 500,
+        "next": ["OperProgress@MfgPrepareRestore#next"],
+        "Doc": "识别小型执行更改预览的蓝色确认按钮，点击左侧取消按钮；不处理全屏产品确认",
+        "maxTimes": 2,
+        "exceededNext": ["OperProgress@MfgPage"]
+    },
+    "OperProgress@MfgCancelFinalConfirm": {
+        "baseTask": "ProductFinalConfirm",
+        "template": "SSSSettlementConfirm.png",
+        "templThreshold": 0.95,
+        "cache": false,
+        "action": "ClickSelf",
+        "rectMove": [-374, 16, 32, 32],
+        "postDelay": 500,
+        "maxTimes": 2,
+        "next": ["OperProgress@MfgPrepareRestore#next"],
+        "exceededNext": ["OperProgress@MfgPage"],
+        "Doc": "识别全屏更改配方确认框右侧确认图标，只点击左侧取消，不更改产线"
+    },
+    "OperProgress@MfgRestoreRecipeList": {
+        "baseTask": "ChooseChipTabSelected",
+        "template": "ChooseChipTabSelected.png",
+        "cache": false,
+        "action": "DoNothing",
+        "maxTimes": 1,
+        "next": ["OperProgress@MfgRestoreRecipeReturn"],
+        "exceededNext": ["OperProgress@MfgPage"],
+        "Doc": "仅在已识别芯片配方列表时允许返回一次，不泛用全局返回导航"
+    },
+    "OperProgress@MfgRestoreRecipeReturn": {
+        "baseTask": "Return",
+        "template": "Return.png",
+        "cache": false,
+        "action": "ClickSelf",
+        "postDelay": 600,
+        "maxTimes": 1,
+        "next": ["OperProgress@MfgPrepareRestore#next"],
+        "exceededNext": ["OperProgress@MfgPage"]
+    }
+}

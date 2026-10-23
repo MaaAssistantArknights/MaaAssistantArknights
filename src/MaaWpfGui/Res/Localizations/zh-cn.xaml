@@ -1004,6 +1004,12 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="Ignore">忽略</system:String>
     <system:String x:Key="OperProgress">干员培养</system:String>
+    <system:String x:Key="OperProgressAutoBuyChipCatalyst">自动用红票购买芯片助剂</system:String>
+    <system:String x:Key="OperProgressAutoBuyChipCatalystTip">消耗采购凭证（红票），仅购买当前培养目标缺少的芯片助剂。</system:String>
+    <system:String x:Key="OperProgressMedicineTip" xml:space="preserve">本次干员培养使用理智药的总上限，跨关卡和培养目标累计。&#10;通过 ｢{key=UseExpiringMedicine}｣ 使用的临期药不计入此上限。&#10;不会使用源石恢复理智。</system:String>
+    <system:String x:Key="OperProgress.Material">培养材料：{0}，已有 {1} / 需要 {2}，还缺 {3}</system:String>
+    <system:String x:Key="OperProgress.MaterialFarming">正在刷取 {0}，根据实际掉落补齐材料缺口</system:String>
+    <system:String x:Key="OperProgress.FactoryRestorePending">制造站 {0} 的原产线尚未恢复。请返回该制造站页面后重新运行干员培养。</system:String>
     <system:String x:Key="OperProgress.SkillLevelTarget">技能等级 {0}</system:String>
     <system:String x:Key="OperProgress.MasteryTarget">技能 {0} 专精 {1}</system:String>
     <system:String x:Key="OperProgress.EliteTarget">精英化 {0}</system:String>

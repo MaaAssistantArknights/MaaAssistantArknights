@@ -17,6 +17,29 @@ asst::OperProgressTask::OperProgressTask(const AsstCallback& callback, Assistant
 namespace json::ext
 {
 template <>
+class jsonization<asst::OperProgressTask::MaterialOptions>
+{
+public:
+    bool check_json(const json::value& json) const
+    {
+        if (!json.is_object()) {
+            return false;
+        }
+        const auto purchase = json.find_value("auto_buy_chip_catalyst");
+        if (purchase && !purchase->is<bool>()) {
+            return false;
+        }
+        for (const auto* key : { "medicine", "medicine_expire_days" }) {
+            const auto count = json.find_value(key);
+            if (count && (!count->is<int>() || count->as<int>() < 0)) {
+                return false;
+            }
+        }
+        return true;
+    }
+};
+
+template <>
 class jsonization<asst::OperProgressTask::ProgressPlan>
 {
 public:
@@ -92,6 +115,11 @@ bool asst::OperProgressTask::set_params(const json::value& params)
         return false;
     }
 
+    if (!params.is<MaterialOptions>()) {
+        LogError << __FUNCTION__ << "invalid material replenishment options";
+        return false;
+    }
+
     const auto& plans = params.find<std::vector<ProgressPlan>>("plans");
     if (!plans) {
         LogError << __FUNCTION__ << "missing plans, or format is error";
@@ -127,6 +155,11 @@ bool asst::OperProgressTask::set_params(const json::value& params)
             });
     }
 
+    const auto options = params.as<MaterialOptions>();
+    m_process_task_ptr->set_material_options(
+        options.auto_buy_chip_catalyst,
+        options.medicine,
+        options.medicine_expire_days);
     m_process_task_ptr->set_plan(std::move(validated_plans));
     return true;
 }

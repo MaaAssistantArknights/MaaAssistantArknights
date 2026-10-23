@@ -67,6 +67,10 @@ public partial class FightTaskUserControlModel
                                     ? daysUntilEndOfWeek : 0);
                             expireOut = $"{expireDays}";
                         }
+                        else if (ConfigFactory.CurrentConfig.TaskQueue[item.Index] is OperProgressTask operProgress)
+                        {
+                            expireOut = $"{operProgress.MedicineExpireDays}";
+                        }
                     }
                     medicineLog = LocalizationHelper.GetStringFormat("ExpiringMedicineUsed", expireOut) + $" {ExpiringMedicineUsedTimes}(+{report.Count})";
                     AchievementTrackerHelper.Instance.SetProgress(AchievementIds.SanityExpire, ExpiringMedicineUsedTimes);
