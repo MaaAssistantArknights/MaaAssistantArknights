@@ -24,13 +24,14 @@
     </UserControl.Resources>
     <Grid>
         <StackPanel Visibility="{c:Binding !EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
-            <controls:TextBlock
-                Margin="5,0,0,5"
+            <Viewbox
+                Margin="0,0,0,5"
                 HorizontalAlignment="Left"
-                d:Text="1: 当前/上次 - 不选择 x0"
-                Text="{Binding PlanInfo}"
-                TextWrapping="Wrap"
-                Visibility="{c:Binding 'PlanInfo != &quot;&quot;'}" />
+                Stretch="Uniform"
+                StretchDirection="DownOnly"
+                Visibility="{c:Binding 'PlanInfo != &quot;&quot;'}">
+                <controls:TextBlock d:Text="1: 当前/上次 - 不选择 x0" Text="{Binding PlanInfo}" />
+            </Viewbox>
             <!--  固定区：仅操作按钮行；计划摘要随外层面板滚动  -->
             <StackPanel x:Name="FixedHeaderPanel">
                 <WrapPanel Margin="0,6,0,6" HorizontalAlignment="Center">
@@ -404,6 +405,10 @@
             <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
                 <CheckBox Content="{DynamicResource DepotSortByProgress}" IsChecked="{Binding SortByProgress}" />
                 <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource DepotSortByProgressTip}" />
+            </StackPanel>
+            <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
+                <CheckBox Content="{DynamicResource DepotCountDualChipAsChipPack}" IsChecked="{Binding CountDualChipAsChipPack}" />
+                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource DepotCountDualChipAsChipPackTip}" />
             </StackPanel>
 
             <hc:Divider Margin="0,12,0,0" Content="{DynamicResource DepotGroupStageAndBattle}" />

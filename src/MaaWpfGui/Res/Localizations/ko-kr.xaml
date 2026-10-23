@@ -1166,6 +1166,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotOnlyFirstInsufficientPlanTip" xml:space="preserve">재고가 부족하고 당일 실행 가능한 첫 번째 계획만 실행합니다.&#10;로그는 해당 계획까지만 표시되며, 이후 계획은 이번 실행에서 생략됩니다.&#10;목표에 도달하면 다음 실행에서 자동으로 이후 계획을 진행합니다.</system:String>
     <system:String x:Key="DepotSortByProgress">재고 달성률 순으로 실행</system:String>
     <system:String x:Key="DepotSortByProgressTip" xml:space="preserve">체크 시 매번 실행에서 재고 달성률 오름차순으로 정렬해 실행하며, 부족 비율이 가장 큰 계획이 우선적으로 이성을 받습니다.&#10;목록 표시 순서는 변하지 않으며, 드래그 정렬은 체크 해제 시에만 적용됩니다.&#10;정렬은 마지막 인식의 캐시 데이터를 사용하며, 각 계획 시작 시 최신 재고로 부족분을 다시 계산합니다.</system:String>
+    <system:String x:Key="DepotCountDualChipAsChipPack">듀얼 칩을 칩 세트로 환산</system:String>
+    <system:String x:Key="DepotCountDualChipAsChipPackTip" xml:space="preserve">칩 세트 재고를 집계할 때 해당 직업의 듀얼 칩을 합성 비율로 환산하여 계산합니다(듀얼 칩 1개 = 칩 세트 2개).&#10;계획 요약은 실수 (+환산분) 형식으로 표시되며, 달성 판정과 부족분 계산에는 환산된 수치가 사용됩니다.&#10;집계 방식만 변경되며 자동 합성은 수행하지 않습니다.</system:String>
     <system:String x:Key="DepotPlanSkippedActivity">이벤트 진행 중</system:String>
     <system:String x:Key="DepotPlanSkippedResourceCollection">｢물자 비축｣ 기간 한정 상시 개방 중</system:String>
     <system:String x:Key="DepotPlanUpdateDepotFailed">재고 데이터 업데이트에 실패했습니다.</system:String>

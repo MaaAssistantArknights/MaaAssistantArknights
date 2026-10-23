@@ -1260,8 +1260,9 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
     /// <param name="dropCount">目标库存</param>
     /// <param name="logLabel">日志标签（如计划序号）</param>
     /// <param name="task">包含全量字段的作战任务参数；本方法仅按库存缺口或理智判定覆盖 Drops/MaxTimes，其余字段原样下发。</param>
+    /// <param name="countDualChipAsChipPack">是否将双芯片按合成配方折算计入当前数量（库存保持任务按其配置传入，理智作战恒为 false）。</param>
     /// <returns>是否成功更新参数。</returns>
-    public static bool RefreshFightTaskDrops(int taskId, string dropId, int dropCount, string? logLabel, AsstFightTask task)
+    public static bool RefreshFightTaskDrops(int taskId, string dropId, int dropCount, string? logLabel, AsstFightTask task, bool countDualChipAsChipPack = false)
     {
         if (taskId <= 0 || string.IsNullOrEmpty(dropId) || dropCount <= 0)
         {
@@ -1270,6 +1271,11 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
 
         var depotList = Instances.ToolboxViewModel?.DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count) ?? [];
         var currentCount = depotList.TryGetValue(dropId, out var value) ? value : 0;
+        if (countDualChipAsChipPack)
+        {
+            currentCount += DepotMaintainTaskUserControlModel.GetDualChipConversion(dropId, depotList);
+        }
+
         var need = dropCount - currentCount;
 
         var dropName = ItemListHelper.GetItemName(dropId) ?? dropId;

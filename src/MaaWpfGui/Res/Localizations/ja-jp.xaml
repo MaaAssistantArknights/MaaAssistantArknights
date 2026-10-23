@@ -1167,6 +1167,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotOnlyFirstInsufficientPlanTip" xml:space="preserve">在庫不足かつ当日実行可能な最初のプランのみ実行します。&#10;ログはそのプランまでの表示で、以降のプランは今回実行されません。&#10;補充完了後は次回実行で後続のプランへ進みます。</system:String>
     <system:String x:Key="DepotSortByProgress">在庫達成率の順で実行</system:String>
     <system:String x:Key="DepotSortByProgressTip" xml:space="preserve">チェック時、各実行で在庫達成率の昇順に並べ替えて実行し、不足割合が最大のプランが優先的に理性を獲得します。&#10;リストの表示順は変わらず、ドラッグによる並べ替えはチェック解除時のみ有効です。&#10;並べ替えは前回識別のキャッシュデータを用い、各プラン開始時に最新在庫で不足数を再計算します。</system:String>
+    <system:String x:Key="DepotCountDualChipAsChipPack">デュアルチップをチップセットとして換算</system:String>
+    <system:String x:Key="DepotCountDualChipAsChipPackTip" xml:space="preserve">チップセットの在庫を数える際、対応職業のデュアルチップを合成レシピの比率で換算して計上します(1 個につきチップセット 2 個分)。&#10;プラン概要は実数 (+換算分) の形式で表示され、達成判定と不足数の計算には換算後の数値が使われます。&#10;集計方法のみ変更し、自動的に合成は行いません。</system:String>
     <system:String x:Key="DepotPlanSkippedActivity">イベント開催中</system:String>
     <system:String x:Key="DepotPlanSkippedResourceCollection">資源収集の期間限定全日開放中</system:String>
     <system:String x:Key="DepotPlanUpdateDepotFailed">在庫データの更新に失敗しました。</system:String>

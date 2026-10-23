@@ -159,7 +159,8 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             };
             RefreshFightTaskDrops(taskId, plan.DropId, plan.DropCount,
                 $"{task.PlanList.IndexOf(plan) + 1}",
-                fight);
+                fight,
+                task.CountDualChipAsChipPack);
         }
     }
 
@@ -180,7 +181,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             var plans = task.PlanList.Select((plan, index) => (plan, index));
             if (task.SortByProgress)
             {
-                plans = plans.OrderBy(p => PlanProgress(p.plan, depotList));
+                plans = plans.OrderBy(p => PlanProgress(p.plan, depotList, task.CountDualChipAsChipPack));
             }
 
             foreach (var (plan, index) in plans)
@@ -192,6 +193,11 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 }
 
                 var currentCount = depotList.TryGetValue(plan.DropId, out var value) ? value : 0;
+                if (task.CountDualChipAsChipPack)
+                {
+                    currentCount += GetDualChipConversion(plan.DropId, depotList);
+                }
+
                 if (plan.DropCount - currentCount <= 0)
                 {
                     continue;
@@ -252,6 +258,16 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     {
         get => GetTaskConfig<DepotMaintainTask>().SortByProgress;
         set => SetTaskConfig<DepotMaintainTask>(t => t.SortByProgress == value, t => t.SortByProgress = value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 统计芯片组库存时把对应双芯片按合成配方折算计入。
+    /// 默认关闭；开启后计划摘要以 ｢原始 (+折算)｣ 形式显示，达标判定与缺口计算使用折算后数量。
+    /// </summary>
+    public bool CountDualChipAsChipPack
+    {
+        get => GetTaskConfig<DepotMaintainTask>().CountDualChipAsChipPack;
+        set => SetTaskConfig<DepotMaintainTask>(t => t.CountDualChipAsChipPack == value, t => t.CountDualChipAsChipPack = value);
     }
 
     /// <summary>
@@ -495,7 +511,8 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     public ObservableCollection<StageSourceItem> StageListSource { get; private set => SetAndNotify(ref field, value); } = [];
 
     [PropertyDependsOn(typeof(GuiSettingsUserControlModel), nameof(GuiSettingsUserControlModel.Language))]
-    public string PlanInfo => string.Join("\n", PlanList.Select((t, i) => $"{i + 1}: {StageListSource.FirstOrDefault(i => i.Value == t.Stage)?.Display ?? t.Stage} - {t.DropName} {GetCurrentInventoryCount(t.DropId).FormatNumber(false)}/{t.DropCount.FormatNumber(false)}"));
+    [PropertyDependsOn(nameof(CountDualChipAsChipPack))]
+    public string PlanInfo => string.Join("\n", PlanList.Select((t, i) => $"{i + 1}: {StageListSource.FirstOrDefault(i => i.Value == t.Stage)?.Display ?? t.Stage} - {t.DropName} {GetInventoryCountDisplay(t.DropId)}/{t.DropCount.FormatNumber(false)}"));
 
     /// <summary>
     /// 获取指定掉落物当前库存数量，无数据时返回 "--"。
@@ -518,13 +535,57 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     }
 
     /// <summary>
+    /// 获取计划摘要行的现有库存显示文本：开启双芯片折算且有折算量时为 ｢原始 (+折算)｣，否则为原始值。
+    /// </summary>
+    private string GetInventoryCountDisplay(string dropId)
+    {
+        var raw = GetCurrentInventoryCount(dropId).FormatNumber(false);
+        if (raw == "--" || !CountDualChipAsChipPack)
+        {
+            return raw;
+        }
+
+        var depot = Instances.ToolboxViewModel?.DepotResult;
+        if (depot == null || depot.Count == 0)
+        {
+            return raw;
+        }
+
+        var depotList = depot.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count);
+        var conversion = GetDualChipConversion(dropId, depotList);
+        return conversion > 0 ? $"{raw} (+{conversion.FormatNumber(false)})" : raw;
+    }
+
+    /// <summary>
+    /// 计算合成材料按配方折算的库存增量：dropId 存在合成产物（如芯片组 → 对应职业双芯片）时，
+    /// 仓库中产物数量 × 配方消耗数之和，当前数据每个双芯片折算为 2 个芯片组。无产物或产物无库存时为 0。
+    /// </summary>
+    /// <param name="dropId">计划目标物品 id。</param>
+    /// <param name="depotList">识别缓存的库存数量表。</param>
+    /// <returns>折算增量。</returns>
+    public static int GetDualChipConversion(string dropId, IReadOnlyDictionary<string, int> depotList)
+    {
+        var conversion = 0;
+        foreach (var (productId, materialCount) in ItemListHelper.GetFormulaProducts(dropId))
+        {
+            if (depotList.TryGetValue(productId, out var count))
+            {
+                conversion += count * materialCount;
+            }
+        }
+
+        return conversion;
+    }
+
+    /// <summary>
     /// 计算计划的库存达成率（当前÷目标），供 <see cref="SortByProgress"/> 排序。
     /// 无效计划（未选材料或目标为 0）排最后；未识别过的材料按 0 计，与预检口径一致，缺口最大优先。
     /// </summary>
     /// <param name="plan">计划。</param>
     /// <param name="depotList">识别缓存的库存数量表。</param>
+    /// <param name="countDualChipAsChipPack">是否将双芯片按合成配方折算计入当前数量。</param>
     /// <returns>达成率，0 起步；无效计划返回 <see cref="double.MaxValue"/>。</returns>
-    private static double PlanProgress(DepotMaintainTask.Plan plan, IReadOnlyDictionary<string, int> depotList)
+    private static double PlanProgress(DepotMaintainTask.Plan plan, IReadOnlyDictionary<string, int> depotList, bool countDualChipAsChipPack)
     {
         if (string.IsNullOrEmpty(plan.DropId) || plan.DropCount <= 0)
         {
@@ -532,6 +593,11 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         }
 
         var currentCount = depotList.TryGetValue(plan.DropId, out var value) ? value : 0;
+        if (countDualChipAsChipPack)
+        {
+            currentCount += GetDualChipConversion(plan.DropId, depotList);
+        }
+
         return (double)currentCount / plan.DropCount;
     }
 
@@ -751,7 +817,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             var order = Enumerable.Range(0, depot.PlanList.Count).ToList();
             if (depot.SortByProgress && depot.PlanList.Count > 1)
             {
-                order = [.. order.OrderBy(i => PlanProgress(depot.PlanList[i], depotList))];
+                order = [.. order.OrderBy(i => PlanProgress(depot.PlanList[i], depotList, depot.CountDualChipAsChipPack))];
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DepotPlanSortedByProgress"), UiLogColor.Info);
             }
 
@@ -771,6 +837,11 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                 }
 
                 var currentCount = depotList.TryGetValue(plan.DropId, out var value) ? value : 0;
+                if (depot.CountDualChipAsChipPack)
+                {
+                    currentCount += GetDualChipConversion(plan.DropId, depotList);
+                }
+
                 var need = plan.DropCount - currentCount;
                 var dropName = ItemListHelper.GetItemName(plan.DropId) ?? plan.DropId;
                 if (need <= 0)
