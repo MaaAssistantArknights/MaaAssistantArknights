@@ -1807,10 +1807,9 @@
         "postDelay": 6000
     },
     "MiningActivitiesEarnRewards": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [600, 600, 70, 70],
-        "next": ["MiningActivitiesReturn"]
+        "baseTask": "CreditShop-Bought",
+        "template": "CreditShop-Bought.png",
+        "next": ["#self", "MiningActivitiesReturn"]
     },
     "MiningActivitiesReturn": {
         "baseTask": "CloseAnno",
@@ -1880,10 +1879,8 @@
         "next": ["OrundumActivitiesEarnRewards"]
     },
     "OrundumActivitiesEarnRewards": {
-        "action": "ClickRect",
-        "roi": [590, 40, 130, 100],
-        "postDelay": 1500,
-        "specificRect": [600, 600, 70, 70],
+        "baseTask": "CreditShop-Bought",
+        "template": "CreditShop-Bought.png",
         "next": ["#self", "OrundumActivitiesReturn"]
     },
     "OrundumActivitiesReturn": {
@@ -2022,11 +2019,9 @@
         "next": ["SpecialAccessActivitiesEarnRewards"]
     },
     "SpecialAccessActivitiesEarnRewards": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [606, 609, 68, 63],
-        "postDelay": 500,
-        "next": ["SpecialAccessActivitiesReturn"]
+        "baseTask": "CreditShop-Bought",
+        "template": "CreditShop-Bought.png",
+        "next": ["#self", "SpecialAccessActivitiesReturn"]
     },
     "SpecialAccessActivitiesReturn": {
         "baseTask": "CloseAnnoSpecialAccess",
