@@ -1,0 +1,9 @@
+#include "Version.h"
+
+namespace asst
+{
+const char* maa_version() noexcept
+{
+    return "@MAA_HASH_VERSION@";
+}
+} // namespace asst

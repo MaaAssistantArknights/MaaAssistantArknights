@@ -11,6 +11,7 @@
 #include "Config/ResourceLoader.h"
 #include "Utils/Logger.hpp"
 #include "Utils/WorkingDir.hpp"
+#include "Version.h"
 
 static constexpr AsstSize NullSize = static_cast<AsstSize>(-1);
 static constexpr AsstId InvalidId = 0;
@@ -319,7 +320,7 @@ AsstSize AsstGetNullSize()
 
 const char* AsstGetVersion()
 {
-    return MAA_VERSION;
+    return asst::maa_version();
 }
 
 void AsstLog(const char* level, const char* message)
