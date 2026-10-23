@@ -54,7 +54,16 @@ bool StartGameTaskPlugin::_run()
     // so no need for limited tries
     bool newer_android = (ctrler()->get_version() > 8);
 
-    return start_game_with_retries(pipe_data_size_limit, newer_android);
+    bool ret = start_game_with_retries(pipe_data_size_limit, newer_android);
+
+    if (!ret && !need_exit() && ctrler()->client_not_found()) {
+        // 设备上没有 MAA 预期的客户端：重试和重连都没用，报确切原因，
+        // 别让上层笼统报成 ｢打开客户端失败，请检查配置文件｣ 这种误导。
+        LogWarn << "Client not found, no need to retry" << VAR(m_client_type);
+        callback(AsstMsg::SubTaskError, basic_info_with_what("ClientNotFound"));
+    }
+
+    return ret;
 }
 
 StartGameTaskPlugin& StartGameTaskPlugin::set_client_type(std::string client_type) noexcept

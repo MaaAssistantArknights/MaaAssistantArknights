@@ -7,6 +7,7 @@
 #include <future>
 #include <optional>
 #include <random>
+#include <string_view>
 
 #include "Platform/PlatformFactory.h"
 
@@ -88,6 +89,9 @@ public:
 
     virtual bool start_game(const std::string& client_type) override;
     virtual bool stop_game(const std::string& client_type) override;
+
+    // 最近一次 start_game 失败时，若能确认设备上没有该客户端（如连错了模拟器实例），返回 true
+    virtual bool client_not_found() const noexcept override;
 
     virtual bool click(const Point& p) override;
 
@@ -248,6 +252,9 @@ protected:
     int m_screencap_times = 0;                                   // 截图次数
     std::chrono::steady_clock::time_point m_last_fps_check_time; // 上次帧率检测时间
     std::future<void> m_fps_future;                              // 异步帧率检测任务
+    std::string m_last_failure_output;                           // 上次失败命令的输出（截断），仅用于判定失败原因
+    bool m_last_failure_device_lost = true; // 上次失败是否属于设备不可达（超时/拉不起进程按不可达处理）
+    bool m_client_not_found = false;        // 上次 start_game 失败时确认设备上没有该客户端
 
 #if ASST_WITH_EMULATOR_EXTRAS
     MumuExtras m_mumu_extras;
