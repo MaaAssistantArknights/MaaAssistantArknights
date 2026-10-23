@@ -770,8 +770,8 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
     - `completed`：命中期望獎勵，已退出到主題頁並保留該局，任務結束；開啟 `blackflow_start_utopia` 時為第一層是實托邦。
     - `reward_unrecognized`：選擇支援頁的獎勵辨識不出，停在該頁並停止任務。
     - `reward_page_missing`：目標局沒有出現選擇支援頁，停止任務。
-    - `reward_recognition_failed`：準備局在選擇支援頁選擇獎勵失敗，停止任務。
-  - `rewards` (`array<string>`, optional)：目標局在選擇支援頁辨識出的獎勵名稱，如 `空间租赁`、`金乌`；只隨 `reward_missed`、`reward_picked`、`completed`、`reward_unrecognized` 回報；`blackflow_start_rewards` 為 0 且未開啟 `blackflow_start_utopia`（不辨識獎勵），或一項都沒辨識出時省略。
+    - `reward_recognition_failed`：準備局或目標局在選擇支援頁選擇獎勵失敗，停止任務。
+  - `rewards` (`array<string>`, optional)：目標局在選擇支援頁辨識出的獎勵名稱，如 `空间租赁`、`金乌`；只隨 `reward_missed`、`reward_picked`、`completed`、`reward_unrecognized`、`reward_recognition_failed` 回報；`blackflow_start_rewards` 為 0 且未開啟 `blackflow_start_utopia`（不辨識獎勵），或一項都沒辨識出時省略。
 
 - `BlackFlowScrapTradeAborted`  
   黑流樹海秘境行商交易異常，中止交易。`details` 欄位內容如下：
