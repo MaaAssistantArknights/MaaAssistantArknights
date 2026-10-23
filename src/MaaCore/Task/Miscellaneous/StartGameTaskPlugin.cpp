@@ -38,6 +38,14 @@ bool StartGameTaskPlugin::_run()
         return false;
     }
 
+    // 设备没连上时 ctrler() 里的 m_controller 为空，直接往下走会解引用空指针崩溃。
+    // 这里提前退出，让上层按 ｢连接失败｣ 处理，而不是崩在 get_version() 上。
+    if (!ctrler() || !ctrler()->inited()) {
+        LogWarn << "Controller is not initialized, skip starting the game client" << VAR(m_client_type);
+        callback(AsstMsg::SubTaskError, basic_info_with_what("ControllerNotInitialized"));
+        return false;
+    }
+
     // check for MAC / iOS
     if (ctrler()->get_controller_type() == ControllerType::MacPlayTools) {
         return ctrler()->start_game(m_client_type);

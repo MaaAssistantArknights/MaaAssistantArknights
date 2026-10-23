@@ -87,11 +87,17 @@ std::shared_ptr<asst::ControllerAPI>
 
 size_t asst::Controller::get_pipe_data_size() const noexcept
 {
+    if (!m_controller) {
+        return 0;
+    }
     return m_controller->get_pipe_data_size();
 }
 
 size_t asst::Controller::get_version() const noexcept
 {
+    if (!m_controller) {
+        return 0;
+    }
     return m_controller->get_version();
 }
 
