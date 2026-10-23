@@ -1147,6 +1147,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="ExternalNotification.Bark.SendKey">Bark 发送密钥</system:String>
     <system:String x:Key="ExternalNotification.Bark.Server">Bark 服务器</system:String>
     <system:String x:Key="ExternalNotification.Blacklist">黑名单（每行一条，支持正则）</system:String>
+    <system:String x:Key="ExternalNotification.ChannelAdvanced">高级发送条件与历史日志</system:String>
     <system:String x:Key="ExternalNotification.Channels">通知渠道</system:String>
     <system:String x:Key="ExternalNotification.ContentMatches">日志中出现特定内容时</system:String>
     <system:String x:Key="ExternalNotification.CustomWebhook">自定义 Webhook</system:String>
@@ -1209,6 +1210,8 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="ExternalNotification.Telegram.BotToken">机器人 Token</system:String>
     <system:String x:Key="ExternalNotification.Telegram.ChatId">聊天 ID</system:String>
     <system:String x:Key="ExternalNotification.Telegram.TopicId">话题ID（可选）</system:String>
+    <system:String x:Key="ExternalNotification.TestAll">测试全部启用渠道</system:String>
+    <system:String x:Key="ExternalNotification.TestChannel">测试此渠道</system:String>
     <system:String x:Key="ExternalNotification.Title">外部通知</system:String>
     <system:String x:Key="ExternalNotification.WhenComplete">当任务完成后</system:String>
     <system:String x:Key="ExternalNotification.WhenError">当任务出错时</system:String>

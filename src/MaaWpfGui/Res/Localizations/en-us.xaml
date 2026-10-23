@@ -1146,6 +1146,7 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="ExternalNotification.Bark.SendKey">Bark Send Key</system:String>
     <system:String x:Key="ExternalNotification.Bark.Server">Bark Server</system:String>
     <system:String x:Key="ExternalNotification.Blacklist">Blacklist (one regex per line)</system:String>
+    <system:String x:Key="ExternalNotification.ChannelAdvanced">Advanced conditions and log history</system:String>
     <system:String x:Key="ExternalNotification.Channels">Notification Channels</system:String>
     <system:String x:Key="ExternalNotification.ContentMatches">Log contains specific content</system:String>
     <system:String x:Key="ExternalNotification.CustomWebhook">Custom Webhook</system:String>
@@ -1208,6 +1209,8 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="ExternalNotification.Telegram.BotToken">Bot Token</system:String>
     <system:String x:Key="ExternalNotification.Telegram.ChatId">Chat ID</system:String>
     <system:String x:Key="ExternalNotification.Telegram.TopicId">Topic ID (Optional)</system:String>
+    <system:String x:Key="ExternalNotification.TestAll">Test all enabled channels</system:String>
+    <system:String x:Key="ExternalNotification.TestChannel">Test this channel</system:String>
     <system:String x:Key="ExternalNotification.Title">External notifications</system:String>
     <system:String x:Key="ExternalNotification.WhenComplete">Tasks complete</system:String>
     <system:String x:Key="ExternalNotification.WhenError">A task fails</system:String>

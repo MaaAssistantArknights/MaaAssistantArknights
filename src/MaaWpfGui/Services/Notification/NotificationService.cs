@@ -13,14 +13,16 @@
 
 #nullable enable
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services.ExternalNotification;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using Stylet;
-using ExternalNotificationDeliverySettings = MaaWpfGui.Configuration.Single.Settings.ExternalNotification.DeliverySettings;
 
 namespace MaaWpfGui.Services.Notification;
 
@@ -28,7 +30,7 @@ namespace MaaWpfGui.Services.Notification;
 // deliver already selected payloads and do not call this service again.
 public sealed class NotificationService
 {
-    private readonly NotificationTrigger _externalTrigger = new();
+    private readonly Dictionary<Guid, NotificationTrigger> _triggers = [];
     private readonly NotificationHistory _history = new();
 
     public NotificationService() => RunningState.Instance.StallOccurred += OnStalled;
@@ -83,31 +85,36 @@ public sealed class NotificationService
         }
     }
 
-    public void TestExternalNotification() => Execute.OnUIThread(() => {
-        if (!CanSendExternal)
+    public void ResetChannel(Guid id) => _triggers.Remove(id);
+
+    public void ResetAllChannels() => _triggers.Clear();
+
+    public void TestExternalNotification(Guid? id = null) => Execute.OnUIThread(() => {
+        if (!SettingsViewModel.ExternalNotificationSettings.Enable)
         {
             return;
         }
-
-        SendExternal(LocalizationHelper.GetString("ExternalNotification.SendTest.Title"),
-            LocalizationHelper.GetString("ExternalNotification.SendTest.Content"), true);
+        foreach (var channel in Channels.Where(item => item.DeliverySettings.Enable && (id is null || item.Id == id)))
+        {
+            SendExternal(channel, LocalizationHelper.GetString("ExternalNotification.SendTest.Title"),
+                LocalizationHelper.GetString("ExternalNotification.SendTest.Content"), true);
+        }
     });
 
     public void NotifyScheduledStart(string title, string content) => Execute.OnUIThread(() => {
-        var policy = ExternalPolicy;
-        if (!CanSendExternal || !policy.SendBeforeScheduledStart)
+        if (!SettingsViewModel.ExternalNotificationSettings.Enable)
         {
             return;
         }
-
-        // A scheduled notification is not a new displayed log entry.
         var notification = new NotificationEvent(DateTimeOffset.Now, NotificationSource.TaskQueue, content, UiLogColor.Trace);
-        SendExternal(title, _history.Bundle(notification, policy));
+        foreach (var channel in Channels.Where(item => item.DeliverySettings.Enable && item.DeliverySettings.SendBeforeScheduledStart))
+        {
+            ResetChannel(channel.Id);
+            SendExternal(channel, title, _history.Bundle(notification, channel.Config.Delivery));
+        }
     });
 
-    private static ExternalNotificationDeliverySettings ExternalPolicy => SettingsViewModel.ExternalNotificationSettings.DeliverySettings.Settings;
-
-    private static bool CanSendExternal => ExternalPolicy.Enable && SettingsViewModel.ExternalNotificationSettings.ConfigCount > 0;
+    private static NotificationChannelViewModel[] Channels => SettingsViewModel.ExternalNotificationSettings.ExternalNotificationConfigs.ToArray();
 
     private void Publish(NotificationSource source, string? content, Action display,
         string color, NotificationMessage? message = null)
@@ -138,19 +145,31 @@ public sealed class NotificationService
             toast.Show();
         }
 
-        var externalPolicy = ExternalPolicy;
-        if (_externalTrigger.ShouldSend(externalPolicy, notification, SettingsViewModel.ExternalNotificationSettings.ConfigCount > 0))
+        if (!SettingsViewModel.ExternalNotificationSettings.Enable)
         {
-            SendExternal(
-                notification.Message?.Title ?? notification.Content,
-                _history.Bundle(notification, externalPolicy));
+            return;
+        }
+        foreach (var channel in Channels)
+        {
+            if (!_triggers.TryGetValue(channel.Id, out var trigger))
+            {
+                trigger = new NotificationTrigger();
+                _triggers.Add(channel.Id, trigger);
+            }
+            if (trigger.ShouldSend(channel.Config.Delivery, notification, true))
+            {
+                trigger.Reset();
+                SendExternal(channel, notification.Message?.Title ?? notification.Content,
+                    _history.Bundle(notification, channel.Config.Delivery));
+            }
         }
     }
 
-    private void SendExternal(string title, string content, bool isTest = false)
+    private static void SendExternal(NotificationChannelViewModel channel, string title, string content, bool isTest = false)
     {
-        _externalTrigger.Reset();
-        ExternalNotificationService.Send(title, content, isTest);
+        var descriptor = ExternalNotificationChannel.ForEditor(channel.Provider)!;
+        var snapshot = descriptor.ReadConfig(channel.Provider.ToConfig());
+        _ = ExternalNotificationService.SendAsync(snapshot, channel.DisplayName, title, content, isTest);
     }
 
     public void Clear(NotificationSource source) => Execute.OnUIThread(() => _history.Clear(source));

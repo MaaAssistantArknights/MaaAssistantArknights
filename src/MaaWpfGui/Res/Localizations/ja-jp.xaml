@@ -1149,6 +1149,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="ExternalNotification.Bark.SendKey">Bark 送信キー</system:String>
     <system:String x:Key="ExternalNotification.Bark.Server">Bark サーバ</system:String>
     <system:String x:Key="ExternalNotification.Blacklist">ブラックリスト（1行に1つの正規表現）</system:String>
+    <system:String x:Key="ExternalNotification.ChannelAdvanced">詳細な送信条件とログ履歴</system:String>
     <system:String x:Key="ExternalNotification.Channels">通知チャネル</system:String>
     <system:String x:Key="ExternalNotification.ContentMatches">ログに特定の内容を含む場合</system:String>
     <system:String x:Key="ExternalNotification.CustomWebhook">カスタム Webhook</system:String>
@@ -1211,6 +1212,8 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="ExternalNotification.Telegram.BotToken">ボットトークン</system:String>
     <system:String x:Key="ExternalNotification.Telegram.ChatId">チャットID</system:String>
     <system:String x:Key="ExternalNotification.Telegram.TopicId">トピックID（任意）</system:String>
+    <system:String x:Key="ExternalNotification.TestAll">有効な通知先をすべてテスト</system:String>
+    <system:String x:Key="ExternalNotification.TestChannel">この通知先をテスト</system:String>
     <system:String x:Key="ExternalNotification.Title">外部通知</system:String>
     <system:String x:Key="ExternalNotification.WhenComplete">タスク完了時</system:String>
     <system:String x:Key="ExternalNotification.WhenError">タスクエラー発生時</system:String>

@@ -13,7 +13,10 @@
 
 #nullable enable
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
 using System.Text.Json.Serialization;
 using MaaWpfGui.Models;
 using static MaaWpfGui.Configuration.Factory.ConfigFactory;
@@ -25,20 +28,37 @@ namespace MaaWpfGui.Configuration.Single.Settings;
 /// </summary>
 public partial class ExternalNotification : NotifyPropertyChangedWithValue, IJsonOnDeserialized
 {
-    [JsonInclude]
-    public ObservableCollection<Base> Configs { get; private set; } = [];
+    public bool Enable { get; set; }
 
     [JsonInclude]
-    public DeliverySettings Delivery { get; private set; } = new();
+    public ObservableCollection<NotificationChannelConfig> Configs { get; private set; } = [];
 
     public void EventBinding(string prefix)
     {
         PropertyChanged += Handler.OnPropertyChangedFactory(prefix);
-        Delivery.PropertyChanged += Handler.OnPropertyChangedFactory(prefix + nameof(Delivery) + ".");
-        Configs.CollectionChanged += Handler.OnCollectionChangedFactory<Base>(prefix);
+        var subscriptions = new Dictionary<NotificationChannelConfig, PropertyChangedEventHandler>();
+        void Synchronize()
+        {
+            foreach (var removed in subscriptions.Keys.Except(Configs).ToArray())
+            {
+                removed.PropertyChanged -= subscriptions[removed];
+                removed.Delivery.PropertyChanged -= subscriptions[removed];
+                subscriptions.Remove(removed);
+            }
+            foreach (var added in Configs.Where(item => !subscriptions.ContainsKey(item)))
+            {
+                var handler = Handler.OnPropertyChangedFactory(prefix + "Configs." + added.Id + ".");
+                subscriptions.Add(added, handler);
+                added.PropertyChanged += handler;
+                added.Delivery.PropertyChanged += handler;
+            }
+        }
+        Synchronize();
+        Configs.CollectionChanged += (_, _) => Synchronize();
+        Configs.CollectionChanged += Handler.OnCollectionChangedFactory<NotificationChannelConfig>(prefix + "Configs.");
     }
 
-    public void OnDeserialized() => Delivery ??= new();
+    public void OnDeserialized() => Configs ??= [];
 
     public class DeliverySettings : NotifyPropertyChangedWithValue, IJsonOnDeserialized
     {
