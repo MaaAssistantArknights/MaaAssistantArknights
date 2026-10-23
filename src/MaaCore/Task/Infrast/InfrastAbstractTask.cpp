@@ -773,6 +773,8 @@ bool asst::InfrastAbstractTask::select_custom_opers_by_role()
         return std::ranges::any_of(room_config.candidates, [&](const std::string& name) { return !is_excluded(name); });
     };
     if (is_full() || (room_config.names.empty() && !has_pending_candidates())) {
+        // 调用方会清零翻页计数，无需职业分桶时也须回到 ALL 首页
+        swipe_to_the_left_of_operlist();
         return true; // 满员，或剩余名单全是已排除的候补，无事可做
     }
 
