@@ -1668,6 +1668,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BackgroundLinkStarted">タスクを開始しました</system:String>
     <system:String x:Key="BackgroundLinkStopped">タスクを停止しました</system:String>
     <system:String x:Key="FailedToOpenClient">クライアントを開くのに失敗しました。構成ファイルを確認してください</system:String>
+    <system:String x:Key="ClientNotFound">接続中のエミュレータにアークナイツのクライアントが見つかりません。クライアントがインストールされているか、正しいエミュレータインスタンスを選択しているか確認してください</system:String>
+    <system:String x:Key="StartGameFailedDisconnected">ゲームを起動できませんでした：エミュレータとの接続が切断されています</system:String>
     <system:String x:Key="ErrorOccurred">エラー発生</system:String>
     <system:String x:Key="HasReturned">戻ります</system:String>
     <system:String x:Key="DropRecognitionError">ドロップ認識エラー</system:String>

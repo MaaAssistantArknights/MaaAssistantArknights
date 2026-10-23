@@ -75,6 +75,7 @@ public:
 
     bool start_game(const std::string& client_type);
     bool stop_game(const std::string& client_type);
+    bool client_not_found() const noexcept;
 
     bool click(const Point& p);
     bool click(const Rect& rect);
