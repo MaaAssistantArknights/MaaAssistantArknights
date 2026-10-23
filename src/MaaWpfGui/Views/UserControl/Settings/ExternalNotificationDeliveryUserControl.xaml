@@ -1,0 +1,134 @@
+﻿<UserControl
+    x:Class="MaaWpfGui.Views.UserControl.Settings.ExternalNotificationDeliveryUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:hc="https://handyorg.github.io/handycontrol">
+    <StackPanel>
+        <hc:Divider Margin="0" Content="{DynamicResource ExternalNotificationSendConditions}" />
+        <WrapPanel HorizontalAlignment="Center">
+            <CheckBox
+                Margin="10"
+                Content="{DynamicResource ExternalNotificationWhenComplete}"
+                IsChecked="{Binding SendWhenComplete}" />
+            <CheckBox
+                Margin="10"
+                Content="{DynamicResource ExternalNotificationWhenError}"
+                IsChecked="{Binding SendWhenError}" />
+            <StackPanel Margin="10" Orientation="Horizontal">
+                <CheckBox Content="{DynamicResource ExternalNotificationWhenStalled}" IsChecked="{Binding SendWhenStalled}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource ExternalNotificationWhenStalledTip}" />
+            </StackPanel>
+            <StackPanel Margin="10" Orientation="Horizontal">
+                <CheckBox Content="{DynamicResource ExternalNotificationSendBeforeScheduledStart}" IsChecked="{Binding SendBeforeScheduledStart}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource ExternalNotificationSendBeforeScheduledStartTip}" />
+            </StackPanel>
+        </WrapPanel>
+        <Expander Header="{DynamicResource ExternalNotificationChannelAdvanced}" IsExpanded="False">
+            <StackPanel>
+                <StackPanel Margin="10" Orientation="Horizontal">
+                    <CheckBox
+                        VerticalAlignment="Center"
+                        Content="{DynamicResource ExternalNotificationNewLogCount}"
+                        IsChecked="{Binding SendAfterLogCount}" />
+                    <hc:NumericUpDown
+                        Height="30"
+                        Margin="5,-10,0,-10"
+                        hc:InfoElement.TitleWidth="0"
+                        Maximum="10000"
+                        Minimum="1"
+                        Visibility="{c:Binding SendAfterLogCount}"
+                        Value="{Binding NewLogCount}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource ExternalNotificationNewLogCountTip}" />
+                </StackPanel>
+                <StackPanel
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+                    <CheckBox Content="{DynamicResource ExternalNotificationContentMatches}" IsChecked="{Binding SendWhenContentMatches}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource ExternalNotificationWhitelistTip}" />
+                </StackPanel>
+                <StackPanel Margin="0,0,0,10" Visibility="{c:Binding SendWhenContentMatches}">
+                    <controls:TextBlock
+                        Margin="0,0,0,5"
+                        HorizontalAlignment="Center"
+                        Text="{DynamicResource ExternalNotificationWhitelist}"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap" />
+                    <TextBox
+                        Height="Auto"
+                        Padding="12,8"
+                        VerticalContentAlignment="Top"
+                        hc:InfoElement.TitleWidth="0"
+                        AcceptsReturn="True"
+                        MinLines="1"
+                        Text="{Binding Whitelist, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                        TextWrapping="Wrap"
+                        VerticalScrollBarVisibility="Disabled" />
+                </StackPanel>
+                <hc:Divider Margin="0" Content="{DynamicResource ExternalNotificationIncludePreviousLogs}" />
+                <StackPanel
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+                    <CheckBox Content="{DynamicResource ExternalNotificationIncludePreviousLogs}" IsChecked="{Binding IncludePreviousLogs}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource ExternalNotificationIncludePreviousLogsTip}" />
+                </StackPanel>
+                <StackPanel Visibility="{c:Binding IncludePreviousLogs}">
+                    <StackPanel
+                        Margin="10"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                        <controls:TextBlock VerticalAlignment="Center" Text="{DynamicResource ExternalNotificationPreviousLogCount}" />
+                        <hc:NumericUpDown
+                            Height="30"
+                            Margin="5,-10,0,-10"
+                            hc:InfoElement.TitleWidth="0"
+                            Maximum="10000"
+                            Minimum="0"
+                            Value="{Binding MaxEntries}" />
+                        <controls:TooltipBlock TooltipText="{DynamicResource ExternalNotificationPreviousLogCountTip}" />
+                        <controls:TextBlock
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="{DynamicResource NotificationSettingsTimeMinutes}" />
+                        <hc:NumericUpDown
+                            Height="30"
+                            Margin="5,-10,0,-10"
+                            hc:InfoElement.TitleWidth="0"
+                            Maximum="10080"
+                            Minimum="0"
+                            Value="{Binding TimeMinutes}" />
+                        <controls:TooltipBlock TooltipText="{DynamicResource NotificationSettingsTimeMinutesTip}" />
+                    </StackPanel>
+                    <StackPanel
+                        Margin="10"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                        <CheckBox Content="{DynamicResource ExternalNotificationFilterPreviousLogs}" IsChecked="{Binding FilterPreviousLogs}" />
+                        <controls:TooltipBlock TooltipText="{DynamicResource ExternalNotificationFilterPreviousLogsTip}" />
+                    </StackPanel>
+                    <StackPanel Margin="0,0,0,10" Visibility="{c:Binding FilterPreviousLogs}">
+                        <controls:TextBlock
+                            Margin="0,0,0,5"
+                            HorizontalAlignment="Center"
+                            Text="{DynamicResource ExternalNotificationBlacklist}"
+                            TextAlignment="Center"
+                            TextWrapping="Wrap" />
+                        <TextBox
+                            Height="Auto"
+                            Padding="12,8"
+                            VerticalContentAlignment="Top"
+                            hc:InfoElement.TitleWidth="0"
+                            AcceptsReturn="True"
+                            MinLines="1"
+                            Text="{Binding Blacklist, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Disabled" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Expander>
+    </StackPanel>
+</UserControl>

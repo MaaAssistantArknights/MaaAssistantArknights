@@ -2784,6 +2784,9 @@ These directories are not suitable places to keep MAA; files there can be easily
     <system:String x:Key="ExternalNotificationFilterPreviousLogs">Filter attached log content</system:String>
     <system:String x:Key="ExternalNotificationFilterPreviousLogsTip" xml:space="preserve">Removes logs matching the blacklist, then selects the most recent logs within the count and age limits.&#10;The current log is always kept.</system:String>
     <system:String x:Key="ExternalNotificationBlacklist">Blacklist (one regex per line)</system:String>
+    <system:String x:Key="ExternalNotificationChannelAdvanced">Advanced conditions and log history</system:String>
+    <system:String x:Key="ExternalNotificationTestChannel">Test this channel</system:String>
+    <system:String x:Key="ExternalNotificationTestAll">Test all enabled channels</system:String>
     <system:String x:Key="BlackFlowStartRunPreparing">Preparation run in progress</system:String>
     <system:String x:Key="BlackFlowStartRunTargetRun">Target run started; waiting to check starting rewards</system:String>
     <system:String x:Key="BlackFlowStartRunRewardMissed">No desired starting reward found; preparing another run</system:String>

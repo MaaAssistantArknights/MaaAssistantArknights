@@ -52,7 +52,7 @@ internal sealed class NotificationSettingsMigrationConverter : JsonConverter<Gui
         }
 
         // Preserve current settings; migrate only the pre-branch boolean options.
-        if (external["Delivery"] is not JsonObject)
+        if (!external.ContainsKey("Enable") && external["Delivery"] is not JsonObject)
         {
             var delivery = new ExternalNotification.DeliverySettings {
                 Enable = external["Configs"] is JsonArray { Count: > 0 },
@@ -67,6 +67,7 @@ internal sealed class NotificationSettingsMigrationConverter : JsonConverter<Gui
             external["Delivery"] = JsonSerializer.SerializeToNode(delivery, options);
         }
 
+        NotificationChannelMigration.Normalize(external);
         return gui.Deserialize<Gui>(WithoutThisConverter(options));
     }
 
