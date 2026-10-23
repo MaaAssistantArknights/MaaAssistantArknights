@@ -4144,7 +4144,7 @@
     "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@GamePass": "79b66c5bc9105a3530eca44f34e64903f355e9f76ac96f9a59e0899b89f8c93f",
     "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@GamePassSkip1": "7921b210ba2e1a46fcf99bdf6c9e4e02c2d2debf66c0a818cd574c8a1ec85cee",
     "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@GamePassSkip1Confirm": "aed4bcaa34b9860136757bc4f80cc10b5ba4396818399291949bdda01af5afd0",
-    "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@GamePassSkip2": "93463ad5a78a8cbd6349fac9b53e3dc82794f753fde89e05a5b5a5071bbd0aeb",
+    "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@GamePassSkip2": "8f1d7539cd1c7030274008f5a586491971bd38f43cefcaf10827b8f77b7600e2",
     "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@GamePassTheEndConfirm": "c1fadafaf17ca502e2d828908d3c6c1e6b45daf36f2f3fc9b61729651c9d4b27",
     "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@hide_battle": "f44313b99f6060965d8e640bfcf67149d909359ddf8b4c94c906d16f0aa7ca93",
     "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@hide_invisible": "1ab0f30f930ced7066d57d3250559882009d109e0f055ae9d03de715e4a4942a",
@@ -5121,5 +5121,6 @@
     "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@Movement-M16": "d8b866234642911a6711d62680a27e45914a9bc9ac9d7a92e076dab380807329",
     "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@Movement-M13": "9e1f8676607647dd3650b90e4d23c194ec0f83a8073acea5c54629339ba889f7",
     "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@Movement-M14": "d14e70c7a0bf3d775a2d0a76ed495e619eb8edcb8608951564b6ac38c2720130",
-    "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@Movement-M15": "89f649cfbe001f685289f9ad3de4a685969535303b7d95518d5ede2e953165bd"
+    "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@Movement-M15": "89f649cfbe001f685289f9ad3de4a685969535303b7d95518d5ede2e953165bd",
+    "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@ChooseOperConfirmWithBuff": "67bcf63883e0cfdba3a1eccf097cfb3008475b8791972c4792341b56acb50620"
 }
