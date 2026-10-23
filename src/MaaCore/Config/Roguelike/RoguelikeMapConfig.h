@@ -2,6 +2,8 @@
 
 #include "Config/AbstractConfig.h"
 
+#include <unordered_map>
+
 namespace asst
 {
 enum class RoguelikeNodeType
