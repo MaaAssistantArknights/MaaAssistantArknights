@@ -698,14 +698,14 @@ public class StageManager
             // 剿灭模式
             { "Annihilation", new() { Display = LocalizationHelper.GetString("AnnihilationMode"), DisplayKey = "AnnihilationMode", Value = "Annihilation" } },
 
-            // 芯片本 - dropGroups 格式：[[PR-X-1的掉落], [PR-X-2的掉落]]
-            { "PR-A-1", new("PR-A-1", "PR-ATip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection, [["3261", "3231"], ["3262", "3232"]], ["ChipShortMedic", "ChipShortDefender"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
+            // 芯片本 - dropGroups 格式：[[PR-X-1的掉落], [PR-X-2的掉落], [PR-X 两职业的双芯片]]
+            { "PR-A-1", new("PR-A-1", "PR-ATip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection, [["3261", "3231"], ["3262", "3232"], ["3263", "3233"]], ["ChipShortMedic", "ChipShortDefender"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
             { "PR-A-2", new("PR-A-2", string.Empty, [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection) },
-            { "PR-B-1", new("PR-B-1", "PR-BTip", [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection, [["3251", "3241"], ["3252", "3242"]], ["ChipShortCaster", "ChipShortSniper"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
+            { "PR-B-1", new("PR-B-1", "PR-BTip", [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection, [["3251", "3241"], ["3252", "3242"], ["3253", "3243"]], ["ChipShortCaster", "ChipShortSniper"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
             { "PR-B-2", new("PR-B-2", string.Empty, [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection) },
-            { "PR-C-1", new("PR-C-1", "PR-CTip", [DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection, [["3211", "3271"], ["3212", "3272"]], ["ChipShortVanguard", "ChipShortSupporter"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
+            { "PR-C-1", new("PR-C-1", "PR-CTip", [DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection, [["3211", "3271"], ["3212", "3272"], ["3213", "3273"]], ["ChipShortVanguard", "ChipShortSupporter"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
             { "PR-C-2", new("PR-C-2", string.Empty, [DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
-            { "PR-D-1", new("PR-D-1", "PR-DTip", [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection, [["3221", "3281"], ["3222", "3282"]], ["ChipShortGuard", "ChipShortSpecialist"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
+            { "PR-D-1", new("PR-D-1", "PR-DTip", [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection, [["3221", "3281"], ["3222", "3282"], ["3223", "3283"]], ["ChipShortGuard", "ChipShortSpecialist"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
             { "PR-D-2", new("PR-D-2", string.Empty, [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
 
             // 常驻活动关，隐藏但仍可通过手动输入访问
