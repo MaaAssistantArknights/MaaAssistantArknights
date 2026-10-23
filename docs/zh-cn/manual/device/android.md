@@ -44,6 +44,53 @@ MaaMeow 仍在开发中，功能可能不稳定。使用中遇到的问题请前
 
 :::
 
+## 使用 Magisk 模块常驻运行 MAA 内核
+
+::: warning
+此方法要求设备已 root 并安装 Magisk / KernelSU，且仅支持 `arm64` 设备。下面提到的模块是社区第三方项目，与 MAA 官方无关，使用中遇到的问题请前往该项目的 Issues 反馈。
+:::
+
+除了 MaaMeow，也可以在已 root 的设备上把 MAA 官方的 Android 组件（`MAAComponent-<版本>-android-arm64.tar.gz`）以 Magisk 模块的形式常驻运行，用浏览器访问控制台，全程不需要电脑，也不需要 Shizuku。
+
+### 运行要求
+
+- 设备架构为 `arm64-v8a`。
+- Android 9（API 28）及以上。MAA 的 Android 组件以 `android-28` 为目标，更低版本无法启动。
+- 已安装 Magisk 或 KernelSU（需要 `/data/adb/modules` 与开机自启脚本）。
+- 设备能访问 GitHub Releases 以下载官方组件（国内网络可能需要代理）。
+
+### 安装与使用
+
+::: steps
+
+1. 从社区项目 [maa-android](https://github.com/masitankitavim-ux/maa-android/releases/latest) 的 Releases 下载 Magisk 模块 zip，刷入后重启设备。
+
+2. 首次开机后模块会自动从 MAA 官方 Releases 下载并解压 arm64 组件到 `/data/adb/maa`，请保持网络畅通。
+
+3. 浏览器访问 `http://<设备 IP>:8790` 打开控制台，配置连接与任务后即可开始运行。
+
+:::
+
+::: tip
+
+- 组件来自 MAA 官方 Releases，模块本身不包含也不分发 MAA 二进制。
+- 控制台通过 MAA 的 Android 原生控制器截图并注入触控，不需要开启 `adb tcpip`。
+- 与电脑端一致，请将游戏内 `异形屏UI适配` 调整为 0，并关闭会改变画面或分辨率的设置。
+
+:::
+
+::: details 手动管理组件
+
+模块提供 `/system/bin/maactl` 用于管理组件：
+
+```bash
+maactl status    # 查看当前组件版本与就绪状态
+maactl ensure    # 下载并安装最新组件（开机自动执行）
+maactl update    # 检查并更新到最新版本
+maactl restart   # 重启控制台
+```
+
+:::
 ## 使用电脑端 MAA 连接
 
 ::: warning
