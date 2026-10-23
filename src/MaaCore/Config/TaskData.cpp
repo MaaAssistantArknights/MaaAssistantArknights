@@ -297,6 +297,8 @@ bool asst::TaskData::parse(const json::value& json)
 {
     LogTraceFunction;
 
+    m_templ_required.clear();
+
     if (!lazy_parse(json)) {
         return false;
     }
