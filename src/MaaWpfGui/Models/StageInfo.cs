@@ -75,6 +75,16 @@ public class StageInfo : CombinedData
     public List<List<string>>? DropGroups { get; set; } = null;
 
     /// <summary>
+    /// 构造时用于 Tip 模板 {0}、{1} 等占位符的本地化 key，序号与 DropGroups 掉落序一致，渲染时名称与库存数字按同一序号着色。
+    /// </summary>
+    public List<string>? TipArgKeys { get; set; } = null;
+
+    /// <summary>
+    /// 构造时用于 DropGroups 各掉落数字与 Tip 模板占位符着色的画刷资源 key，序号与 DropGroups 组内掉落序一致。
+    /// </summary>
+    public List<string>? DropBrushKeys { get; set; } = null;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="StageInfo"/> class.
     /// </summary>
     public StageInfo()
@@ -100,7 +110,9 @@ public class StageInfo : CombinedData
     /// <param name="openDaysOfWeek">Days of week when this stage is available</param>
     /// <param name="activity">Associated activity (typically resource collection activity)</param>
     /// <param name="dropGroups">Grouped drop items (used for chip stages with multiple variants)</param>
-    public StageInfo(string stageName, string tipLocalizationKey, IEnumerable<DayOfWeek> openDaysOfWeek, StageActivityInfo activity, List<List<string>>? dropGroups = null)
+    /// <param name="tipArgKeys">Tip 模板占位符的本地化 key，序号与 dropGroups 掉落序一致</param>
+    /// <param name="dropBrushKeys">DropGroups 各掉落数字与占位符着色的画刷资源 key，序号与 dropGroups 掉落序一致</param>
+    public StageInfo(string stageName, string tipLocalizationKey, IEnumerable<DayOfWeek> openDaysOfWeek, StageActivityInfo activity, List<List<string>>? dropGroups = null, List<string>? tipArgKeys = null, List<string>? dropBrushKeys = null)
     {
         Value = stageName;
         Display = LocalizationHelper.GetString(stageName);
@@ -108,6 +120,8 @@ public class StageInfo : CombinedData
         OpenDaysOfWeek = openDaysOfWeek;
         Activity = activity;
         DropGroups = dropGroups;
+        TipArgKeys = tipArgKeys;
+        DropBrushKeys = dropBrushKeys;
 
         if (!string.IsNullOrEmpty(tipLocalizationKey))
         {

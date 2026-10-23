@@ -51,6 +51,11 @@ public class StageManager
     private Dictionary<string, StageInfo> _stages = [];
 
     /// <summary>
+    /// 匹配 Tip 模板中的 {n} 占位符，捕获组使 Split 结果保留占位符段。
+    /// </summary>
+    private static readonly Regex TipPlaceholderRegex = new(@"(\{\d+\})", RegexOptions.Compiled);
+
+    /// <summary>
     /// 刷新关卡列表的本地化文本。
     /// </summary>
     private void RefreshStageLocalization()
@@ -671,7 +676,7 @@ public class StageManager
             // 资源本
             { "CE-6", new("CE-6", "CETip", [DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
             { "AP-5", new("AP-5", "APTip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
-            { "CA-5", new("CA-5", "CATip", [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection, [["3301", "3302", "3303"]]) },
+            { "CA-5", new("CA-5", "CATip", [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection, [["3301", "3302", "3303"]], null, ["StageItemBrush.SkillBook1", "StageItemBrush.SkillBook2", "StageItemBrush.SkillBook3"]) },
             { "LS-6", new("LS-6", "LSTip", [], resourceCollection) },
             { "SK-5", new("SK-5", "SKTip", [DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection) },
 
@@ -679,13 +684,13 @@ public class StageManager
             { "Annihilation", new() { Display = LocalizationHelper.GetString("AnnihilationMode"), DisplayKey = "AnnihilationMode", Value = "Annihilation" } },
 
             // 芯片本 - dropGroups 格式：[[PR-X-1的掉落], [PR-X-2的掉落]]
-            { "PR-A-1", new("PR-A-1", "PR-ATip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection, [["3261", "3231"], ["3262", "3232"]]) },
+            { "PR-A-1", new("PR-A-1", "PR-ATip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection, [["3261", "3231"], ["3262", "3232"]], ["ChipShortMedic", "ChipShortDefender"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
             { "PR-A-2", new("PR-A-2", string.Empty, [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection) },
-            { "PR-B-1", new("PR-B-1", "PR-BTip", [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection, [["3251", "3241"], ["3252", "3242"]]) },
+            { "PR-B-1", new("PR-B-1", "PR-BTip", [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection, [["3251", "3241"], ["3252", "3242"]], ["ChipShortCaster", "ChipShortSniper"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
             { "PR-B-2", new("PR-B-2", string.Empty, [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection) },
-            { "PR-C-1", new("PR-C-1", "PR-CTip", [DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection, [["3211", "3271"], ["3212", "3272"]]) },
+            { "PR-C-1", new("PR-C-1", "PR-CTip", [DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection, [["3211", "3271"], ["3212", "3272"]], ["ChipShortVanguard", "ChipShortSupporter"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
             { "PR-C-2", new("PR-C-2", string.Empty, [DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
-            { "PR-D-1", new("PR-D-1", "PR-DTip", [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection, [["3221", "3281"], ["3222", "3282"]]) },
+            { "PR-D-1", new("PR-D-1", "PR-DTip", [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection, [["3221", "3281"], ["3222", "3282"]], ["ChipShortGuard", "ChipShortSpecialist"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
             { "PR-D-2", new("PR-D-2", string.Empty, [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
 
             // 常驻活动关，隐藏但仍可通过手动输入访问
@@ -763,8 +768,6 @@ public class StageManager
         bool resourceTipShown = false;
         DateTime now = DateTime.UtcNow;
 
-        string[] colorKeys = ["StageItemBrush.Primary", "StageItemBrush.Secondary", "StageItemBrush.Tertiary", "StageItemBrush.Quaternary"];
-
         foreach (var stage in _stages.Values.Where(s => s.IsStageOpen(dayOfWeek)))
         {
             var activity = stage.Activity;
@@ -831,38 +834,37 @@ public class StageManager
                     inlines.Add(new LineBreak());
                 }
 
-                if (stage.DropGroups != null && stage.DropGroups.Count > 0 && stage.DropGroups[0].Count >= 2 && stage.Tip.Contains('|'))
+                if (stage.TipArgKeys is { Count: > 0 })
                 {
-                    var parts = stage.Tip.Split('|');
-                    if (parts.Length >= 5)
+                    // Tip 是含 {n} 占位符的模板，占位符序号与 DropGroups 掉落序一致，名称与库存数字按同一序号着色
+                    var tipArgs = stage.TipArgKeys.Select(k => LocalizationHelper.GetString(k)).ToArray();
+                    foreach (var segment in TipPlaceholderRegex.Split(stage.Tip))
                     {
-                        inlines.Add(new Run(parts[0]));
-
-                        var run1 = new Run(parts[1]);
-                        string brush1 = colorKeys[0 % colorKeys.Length];
-                        run1.SetResourceReference(TextElement.ForegroundProperty, brush1);
-                        inlines.Add(run1);
-
-                        inlines.Add(new Run(parts[2]));
-
-                        var run2 = new Run(parts[3]);
-                        string brush2 = colorKeys[1 % colorKeys.Length];
-                        run2.SetResourceReference(TextElement.ForegroundProperty, brush2);
-                        inlines.Add(run2);
-
-                        if (!string.IsNullOrEmpty(parts[4]))
+                        if (segment.Length == 0)
                         {
-                            inlines.Add(new Run(parts[4]));
+                            continue;
                         }
-                    }
-                    else
-                    {
-                        inlines.Add(new Run(stage.Tip.Replace("|", String.Empty)));
+
+                        if (segment[0] == '{' && segment[^1] == '}' && int.TryParse(segment[1..^1], out var argIndex)
+                            && argIndex < tipArgs.Length)
+                        {
+                            var argRun = new Run(tipArgs[argIndex]);
+                            if (stage.DropBrushKeys != null && argIndex < stage.DropBrushKeys.Count)
+                            {
+                                argRun.SetResourceReference(TextElement.ForegroundProperty, stage.DropBrushKeys[argIndex]);
+                            }
+
+                            inlines.Add(argRun);
+                        }
+                        else
+                        {
+                            inlines.Add(new Run(segment));
+                        }
                     }
                 }
                 else
                 {
-                    inlines.Add(new Run(stage.Tip.Replace("|", String.Empty)));
+                    inlines.Add(new Run(stage.Tip));
                 }
             }
 
@@ -889,15 +891,18 @@ public class StageManager
                     {
                         if (i > 0)
                         {
-                            inlines.Add(new Run(" & "));
+                            inlines.Add(new Run("&"));
                         }
 
                         var dropId = dropGroup[i];
                         string countStr = Instances.ToolboxViewModel?.DepotResult?.FirstOrDefault(d => d.Id == dropId)?.DisplayCount ?? "--";
 
                         var countRun = new Run(countStr);
-                        string brushKey = colorKeys[i % colorKeys.Length];
-                        countRun.SetResourceReference(TextElement.ForegroundProperty, brushKey);
+                        if (stage.DropBrushKeys != null && i < stage.DropBrushKeys.Count)
+                        {
+                            countRun.SetResourceReference(TextElement.ForegroundProperty, stage.DropBrushKeys[i]);
+                        }
+
                         inlines.Add(countRun);
                     }
                 }

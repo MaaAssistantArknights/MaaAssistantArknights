@@ -68,10 +68,11 @@
     <SolidColorBrush x:Key="HyperlinkHoverBrush" Color="#e45649" />
 
     <!--  StageItemBrush  -->
-    <SolidColorBrush x:Key="StageItemBrush.Primary" Color="#90CAF9" />
-    <SolidColorBrush x:Key="StageItemBrush.Secondary" Color="#F48FB1" />
-    <SolidColorBrush x:Key="StageItemBrush.Tertiary" Color="#A5D6A7" />
-    <SolidColorBrush x:Key="StageItemBrush.Quaternary" Color="#FFCC80" />
+    <SolidColorBrush x:Key="StageItemBrush.Primary" Color="#93a5b8" />
+    <SolidColorBrush x:Key="StageItemBrush.Secondary" Color="#b49aa4" />
+    <SolidColorBrush x:Key="StageItemBrush.SkillBook1" Color="#b0b0b0" />
+    <SolidColorBrush x:Key="StageItemBrush.SkillBook2" Color="#9aa887" />
+    <SolidColorBrush x:Key="StageItemBrush.SkillBook3" Color="#6d9fa9" />
 
     <!--  MdXaml Brush  -->
     <SolidColorBrush x:Key="MdXamlBackground" Color="#2d2d30" />

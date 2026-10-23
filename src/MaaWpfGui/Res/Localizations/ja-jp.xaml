@@ -1071,10 +1071,18 @@ C:\leidian\LDPlayer9
     <system:String x:Key="CATip">CA-5：アーツ学</system:String>
     <system:String x:Key="LSTip">LS-6：作戦記録</system:String>
     <system:String x:Key="SKTip">SK-5：炭素材</system:String>
-    <system:String x:Key="PR-ATip">PR-A-1/2：|医療|&amp;|重装|SoC</system:String>
-    <system:String x:Key="PR-BTip">PR-B：|術師|&amp;|狙撃|SoC</system:String>
-    <system:String x:Key="PR-CTip">PR-C-1/2：|先鋒|&amp;|補助|SoC</system:String>
-    <system:String x:Key="PR-DTip">PR-D-1/2：|前衛|&amp;|特殊|SoC</system:String>
+    <system:String x:Key="PR-ATip">PR-A-1/2：{0}&amp;{1}SoC</system:String>
+    <system:String x:Key="PR-BTip">PR-B：{0}&amp;{1}SoC</system:String>
+    <system:String x:Key="PR-CTip">PR-C-1/2：{0}&amp;{1}SoC</system:String>
+    <system:String x:Key="PR-DTip">PR-D-1/2：{0}&amp;{1}SoC</system:String>
+    <system:String x:Key="ChipShortVanguard">先鋒</system:String>
+    <system:String x:Key="ChipShortGuard">前衛</system:String>
+    <system:String x:Key="ChipShortDefender">重装</system:String>
+    <system:String x:Key="ChipShortSniper">狙撃</system:String>
+    <system:String x:Key="ChipShortCaster">術師</system:String>
+    <system:String x:Key="ChipShortMedic">医療</system:String>
+    <system:String x:Key="ChipShortSupporter">補助</system:String>
+    <system:String x:Key="ChipShortSpecialist">特殊</system:String>
     <system:String x:Key="Pormpt1">月曜です。殲滅作戦がリセットされています〜</system:String>
     <system:String x:Key="Pormpt2">日曜です。殲滅作戦は忘れてないですか〜</system:String>
     <!--  !戦闘設定  -->
