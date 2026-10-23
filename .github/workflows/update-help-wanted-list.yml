@@ -48,7 +48,7 @@ jobs:
               per_page: 100,
             });
             const selected = issues
-              .filter(issue => issue.number !== issue_number && !issue.pull_request)
+              .filter(issue => issue.number !== issue_number && issue.number !== 9853 && !issue.pull_request)
               .sort((a, b) => b.number - a.number);
 
             const escapeMarkdown = title => title
@@ -75,7 +75,10 @@ jobs:
               for (const issue of group) remaining.delete(issue.number);
             }
 
-            const generated = groups.length ? groups.join('\n\n') : '目前没有标记为 `help wanted` 的开放 Issue。';
+            const summary = `> 自动同步：当前收录 ${selected.length} 个开放的 \`help wanted\` Issue。`;
+            const generated = groups.length
+              ? `${summary}\n\n${groups.join('\n\n')}`
+              : `${summary}\n\n目前没有标记为 \`help wanted\` 的开放 Issue。`;
             const replacement = `${start}\n${generated}\n${end}`;
             const updated = body.slice(0, startAt) + replacement + body.slice(endAt + end.length);
             if (updated !== body) {
