@@ -1,5 +1,9 @@
 {
     "schema_version": 15,
+    "last_reward_orders": {
+        "default": ["空间租赁", "林间代步", "未编号物", "退行补偿", "调查预付款", "巢寄生"],
+        "survey_advance_first": ["调查预付款", "空间租赁", "林间代步", "未编号物", "退行补偿", "巢寄生"]
+    },
     "inventory_cleanup_policy": {
         "discard_max_rank": 17,
         "extra_discards_after_clear": 1,
@@ -2011,6 +2015,7 @@
                 }
             ],
             "failure_action": "restart_current_run",
+            "last_reward_order": "survey_advance_first",
             "no_AP_is_terminal": {
                 "floors": [3]
             }
@@ -2033,7 +2038,8 @@
                     "next_action": "restart_current_run"
                 }
             ],
-            "failure_action": "restart_current_run"
+            "failure_action": "restart_current_run",
+            "last_reward_order": "survey_advance_first"
         },
         {
             "id": "start_run_rewards_with_investment",
@@ -2053,7 +2059,8 @@
                     "next_action": "restart_current_run"
                 }
             ],
-            "failure_action": "restart_current_run"
+            "failure_action": "restart_current_run",
+            "last_reward_order": "survey_advance_first"
         },
         {
             "id": "ending1",
@@ -2100,7 +2107,8 @@
                     "next_action": "restart_current_run"
                 }
             ],
-            "failure_action": "restart_current_run"
+            "failure_action": "restart_current_run",
+            "last_reward_order": "survey_advance_first"
         },
         {
             "id": "burn",
@@ -2120,7 +2128,8 @@
                     "next_action": "restart_current_run"
                 }
             ],
-            "failure_action": "restart_current_run"
+            "failure_action": "restart_current_run",
+            "last_reward_order": "survey_advance_first"
         },
         {
             "id": "burn_with_investment",
@@ -2140,7 +2149,8 @@
                     "next_action": "restart_current_run"
                 }
             ],
-            "failure_action": "restart_current_run"
+            "failure_action": "restart_current_run",
+            "last_reward_order": "survey_advance_first"
         },
         {
             "id": "baby_animal",

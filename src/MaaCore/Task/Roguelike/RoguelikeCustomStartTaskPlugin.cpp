@@ -47,7 +47,8 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
         return false;
     }
     if (m_waiting_to_run == RoguelikeCustomType::Reward) {
-        return m_config->get_mode() != RoguelikeMode::BlackFlowStartRun;
+        // 黑流的支援页按策略顺序选，由黑流生命周期插件处理
+        return m_config->get_theme() != RoguelikeTheme::BlackFlow;
     }
     if (m_waiting_to_run == RoguelikeCustomType::Squad) {
         if (m_config->get_run_for_collectible()) { // 烧水分队
