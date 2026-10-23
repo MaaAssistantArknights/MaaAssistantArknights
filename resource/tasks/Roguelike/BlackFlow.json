@@ -1015,6 +1015,7 @@
         "postDelay": 600,
         "reduceOtherTimes": ["BlackFlow@Roguelike@MovePreviewConfirm*4"],
         "next": [
+            "BlackFlow@Roguelike@MovePreviewConfirmCompleted@(BlackFlow@Roguelike@CloseCollectionContinue)",
             "BlackFlow@Roguelike@MovePreviewConfirmCompleted@(BlackFlow@Roguelike@CloseCollection)",
             "BlackFlow@Roguelike@MovePreviewConfirmCompletedDone"
         ]
