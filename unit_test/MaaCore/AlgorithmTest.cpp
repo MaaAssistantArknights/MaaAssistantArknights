@@ -9,25 +9,41 @@
 
 namespace
 {
-using GroupList = std::unordered_map<std::string, std::vector<std::string>>;
-using CharSet = std::unordered_set<std::string>;
+using Tag = asst::battle::OperNameTag;
+using Role = asst::battle::Role;
 
-void require_valid_allocation(const GroupList& group_list, const CharSet& char_set,
-                              const asst::algorithm::CharAllocationResult& result)
+using GroupList = std::unordered_map<Tag, std::vector<Tag>>;
+using CharSet = std::unordered_set<Tag>;
+
+// 组名不带职业，职业未知表示该组不限定干员职业
+Tag group(std::string name)
+{
+    return Tag { Role::Unknown, std::move(name) };
+}
+
+Tag oper(Role role, std::string name)
+{
+    return Tag { role, std::move(name) };
+}
+
+void require_valid_allocation(
+    const GroupList& group_list,
+    const CharSet& char_set,
+    const asst::algorithm::CharAllocationResult& result)
 {
     REQUIRE(result.status == asst::algorithm::CharAllocationStatus::Success);
     REQUIRE(result.has_value());
     REQUIRE(result.allocation.size() == group_list.size());
 
     for (const auto& [group_name, allocated_char] : result.allocation) {
-        INFO("group_name=" << group_name);
+        INFO("group_name=" << group_name.to_string());
         REQUIRE(group_list.contains(group_name));
         REQUIRE(char_set.contains(allocated_char));
     }
 
-    std::unordered_set<std::string> used_chars;
+    std::unordered_set<Tag> used_chars;
     for (const auto& [group_name, candidates] : group_list) {
-        INFO("group_name=" << group_name);
+        INFO("group_name=" << group_name.to_string());
 
         const auto allocation_it = result.allocation.find(group_name);
         REQUIRE(allocation_it != result.allocation.end());
@@ -37,7 +53,7 @@ void require_valid_allocation(const GroupList& group_list, const CharSet& char_s
 
         bool candidate_found = false;
         for (const auto& candidate : candidates) {
-            if (candidate == assigned_char) {
+            if (candidate.name == assigned_char.name) {
                 candidate_found = true;
                 break;
             }
@@ -51,7 +67,7 @@ void require_valid_allocation(const GroupList& group_list, const CharSet& char_s
 TEST_CASE("Empty group list returns empty success result")
 {
     const GroupList groups;
-    const CharSet chars { "Amiya" };
+    const CharSet chars { oper(Role::Pioneer, "Amiya") };
 
     const auto result = asst::algorithm::get_char_allocation_for_each_group(groups, chars);
 
@@ -62,7 +78,7 @@ TEST_CASE("Empty group list returns empty success result")
 
 TEST_CASE("Empty char set returns no solution")
 {
-    const GroupList groups { { "先锋", { "德克萨斯" } } };
+    const GroupList groups { { group("Pioneer"), { oper(Role::Pioneer, "Texas") } } };
     const CharSet chars;
 
     const auto result = asst::algorithm::get_char_allocation_for_each_group(groups, chars);
@@ -74,64 +90,67 @@ TEST_CASE("Empty char set returns no solution")
 TEST_CASE("Exact matching returns expected allocation")
 {
     const GroupList groups {
-        { "先锋", { "德克萨斯" } },
-        { "术师", { "阿米娅" } },
+        { group("Pioneer"), { oper(Role::Pioneer, "Texas") } },
+        { group("Caster"), { oper(Role::Caster, "Amiya") } },
     };
-    const CharSet chars { "德克萨斯", "阿米娅" };
+    const CharSet chars { oper(Role::Pioneer, "Texas"), oper(Role::Caster, "Amiya") };
 
     const auto result = asst::algorithm::get_char_allocation_for_each_group(groups, chars);
 
     REQUIRE(result.status == asst::algorithm::CharAllocationStatus::Success);
     REQUIRE(result.has_value());
-    REQUIRE(result.allocation == std::unordered_map<std::string, std::string> {
-                                   { "先锋", "德克萨斯" },
-                                   { "术师", "阿米娅" },
-                               });
+    REQUIRE(
+        result.allocation == std::unordered_map<Tag, Tag> {
+                                 { group("Pioneer"), oper(Role::Pioneer, "Texas") },
+                                 { group("Caster"), oper(Role::Caster, "Amiya") },
+                             });
 }
 
 TEST_CASE("Duplicate candidates do not break matching")
 {
     const GroupList groups {
-        { "先锋", { "德克萨斯", "德克萨斯" } },
-        { "术师", { "阿米娅", "阿米娅" } },
+        { group("Pioneer"), { oper(Role::Pioneer, "Texas"), oper(Role::Pioneer, "Texas") } },
+        { group("Caster"), { oper(Role::Caster, "Amiya"), oper(Role::Caster, "Amiya") } },
     };
-    const CharSet chars { "德克萨斯", "阿米娅" };
+    const CharSet chars { oper(Role::Pioneer, "Texas"), oper(Role::Caster, "Amiya") };
 
     const auto result = asst::algorithm::get_char_allocation_for_each_group(groups, chars);
 
     REQUIRE(result.status == asst::algorithm::CharAllocationStatus::Success);
     REQUIRE(result.has_value());
-    REQUIRE(result.allocation == std::unordered_map<std::string, std::string> {
-                                   { "先锋", "德克萨斯" },
-                                   { "术师", "阿米娅" },
-                               });
+    REQUIRE(
+        result.allocation == std::unordered_map<Tag, Tag> {
+                                 { group("Pioneer"), oper(Role::Pioneer, "Texas") },
+                                 { group("Caster"), oper(Role::Caster, "Amiya") },
+                             });
 }
 
 TEST_CASE("Unowned candidates are filtered before matching")
 {
     const GroupList groups {
-        { "先锋", { "风笛", "德克萨斯" } },
-        { "术师", { "刻俄柏", "阿米娅" } },
+        { group("Pioneer"), { oper(Role::Pioneer, "Fuldren"), oper(Role::Pioneer, "Texas") } },
+        { group("Caster"), { oper(Role::Caster, "Ceobe"), oper(Role::Caster, "Amiya") } },
     };
-    const CharSet chars { "德克萨斯", "阿米娅" };
+    const CharSet chars { oper(Role::Pioneer, "Texas"), oper(Role::Caster, "Amiya") };
 
     const auto result = asst::algorithm::get_char_allocation_for_each_group(groups, chars);
 
     REQUIRE(result.status == asst::algorithm::CharAllocationStatus::Success);
     REQUIRE(result.has_value());
-    REQUIRE(result.allocation == std::unordered_map<std::string, std::string> {
-                                   { "先锋", "德克萨斯" },
-                                   { "术师", "阿米娅" },
-                               });
+    REQUIRE(
+        result.allocation == std::unordered_map<Tag, Tag> {
+                                 { group("Pioneer"), oper(Role::Pioneer, "Texas") },
+                                 { group("Caster"), oper(Role::Caster, "Amiya") },
+                             });
 }
 
 TEST_CASE("Conflicting groups return no solution")
 {
     const GroupList groups {
-        { "先锋", { "推进之王" } },
-        { "近卫", { "推进之王" } },
+        { group("Pioneer"), { oper(Role::Pioneer, "Ursus") } },
+        { group("Warrior"), { oper(Role::Warrior, "Ursus") } },
     };
-    const CharSet chars { "推进之王" };
+    const CharSet chars { oper(Role::Pioneer, "Ursus") };
 
     const auto result = asst::algorithm::get_char_allocation_for_each_group(groups, chars);
 
@@ -142,11 +161,11 @@ TEST_CASE("Conflicting groups return no solution")
 TEST_CASE("Multiple groups can find a valid allocation")
 {
     const GroupList groups {
-        { "先锋", { "德克萨斯", "桃金娘" } },
-        { "术师", { "阿米娅", "伊芙利特" } },
-        { "医疗", { "闪灵", "夜莺" } },
+        { group("Pioneer"), { oper(Role::Pioneer, "Texas"), oper(Role::Pioneer, "Myrrh") } },
+        { group("Caster"), { oper(Role::Caster, "Amiya"), oper(Role::Caster, "Ifrit") } },
+        { group("Medic"), { oper(Role::Medic, "Shining"), oper(Role::Medic, "Nightmare") } },
     };
-    const CharSet chars { "桃金娘", "阿米娅", "夜莺" };
+    const CharSet chars { oper(Role::Pioneer, "Myrrh"), oper(Role::Caster, "Amiya"), oper(Role::Medic, "Shining") };
 
     const auto result = asst::algorithm::get_char_allocation_for_each_group(groups, chars);
 
@@ -156,18 +175,14 @@ TEST_CASE("Multiple groups can find a valid allocation")
 TEST_CASE("Multiple groups allocation ignores extra owned chars")
 {
     const GroupList groups {
-        { "先锋", { "德克萨斯", "桃金娘" } },
-        { "术师", { "阿米娅", "伊芙利特" } },
-        { "医疗", { "闪灵", "夜莺" } },
+        { group("Pioneer"), { oper(Role::Pioneer, "Texas"), oper(Role::Pioneer, "Myrrh") } },
+        { group("Caster"), { oper(Role::Caster, "Amiya"), oper(Role::Caster, "Ifrit") } },
+        { group("Medic"), { oper(Role::Medic, "Shining"), oper(Role::Medic, "Nightmare") } },
     };
     const CharSet chars {
-        "桃金娘",
-        "阿米娅",
-        "夜莺",
-        "德克萨斯",
-        "伊芙利特",
-        "闪灵",
-        "能天使",
+        oper(Role::Pioneer, "Myrrh"),  oper(Role::Caster, "Amiya"), oper(Role::Medic, "Shining"),
+        oper(Role::Pioneer, "Texas"),  oper(Role::Caster, "Ifrit"), oper(Role::Medic, "Nightmare"),
+        oper(Role::Sniper, "Exusiai"),
     };
 
     const auto result = asst::algorithm::get_char_allocation_for_each_group(groups, chars);
@@ -178,10 +193,10 @@ TEST_CASE("Multiple groups allocation ignores extra owned chars")
 TEST_CASE("Group without any owned candidate returns no solution")
 {
     const GroupList groups {
-        { "先锋", { "德克萨斯" } },
-        { "术师", { "阿米娅" } },
+        { group("Pioneer"), { oper(Role::Pioneer, "Texas") } },
+        { group("Caster"), { oper(Role::Caster, "Amiya") } },
     };
-    const CharSet chars { "德克萨斯" };
+    const CharSet chars { oper(Role::Pioneer, "Texas") };
 
     const auto result = asst::algorithm::get_char_allocation_for_each_group(groups, chars);
 
@@ -192,10 +207,10 @@ TEST_CASE("Group without any owned candidate returns no solution")
 TEST_CASE("Group with empty candidate list returns no solution")
 {
     const GroupList groups {
-        { "先锋", {} },
-        { "术师", { "阿米娅" } },
+        { group("Pioneer"), {} },
+        { group("Caster"), { oper(Role::Caster, "Amiya") } },
     };
-    const CharSet chars { "阿米娅" };
+    const CharSet chars { oper(Role::Caster, "Amiya") };
 
     const auto result = asst::algorithm::get_char_allocation_for_each_group(groups, chars);
 
