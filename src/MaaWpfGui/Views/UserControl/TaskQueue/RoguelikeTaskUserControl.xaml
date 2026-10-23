@@ -8,6 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:local="clr-namespace:MaaWpfGui.Views.UserControl.TaskQueue"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
@@ -681,6 +682,71 @@
                         </Style>
                     </hc:CheckComboBox.ItemContainerStyle>
                 </hc:CheckComboBox>
+                <StackPanel Margin="0,10,0,5" Orientation="Horizontal">
+                    <CheckBox IsChecked="{Binding RoguelikeBlackFlowStartUtopia}" IsEnabled="{Binding RoguelikeBlackFlowStartUtopiaAvailable}">
+                        <TextBlock
+                            Block.TextAlignment="Left"
+                            Text="{DynamicResource RoguelikeBlackFlowStartUtopia}"
+                            TextWrapping="Wrap" />
+                    </CheckBox>
+                    <controls:TooltipBlock TooltipText="{DynamicResource RoguelikeBlackFlowStartUtopiaTip}" />
+                </StackPanel>
+                <StackPanel d:Visibility="Visible" Visibility="{c:Binding 'RoguelikeBlackFlowStartUtopia and RoguelikeBlackFlowStartUtopiaAvailable', Source={x:Static taskQueue_vms:RoguelikeTaskUserControlModel.Instance}}">
+                    <!--  左边距与上方勾选框的文字对齐，和勾选框隔开一点  -->
+                    <StackPanel Margin="0,10,0,5" Orientation="Horizontal">
+                        <controls:TextBlock Margin="22,0,0,0" Text="{DynamicResource RoguelikeBlackFlowStartRewardPriority}" />
+                        <controls:TooltipBlock TooltipText="{DynamicResource RoguelikeBlackFlowStartRewardPriorityTip}" />
+                    </StackPanel>
+                    <!--  十二项不全部展开，正好露出六项，按项滚动；悬浮提示与上方下拉框一样显示奖励效果  -->
+                    <!--  高度：每项 28 加上下边距各 1，六项 180，再加上下边框各 1  -->
+                    <ListBox
+                        Height="182"
+                        Padding="0"
+                        d:ItemsSource="{d:SampleData ItemCount=3}"
+                        dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
+                        dd:DragDrop.DropHandler="{Binding RoguelikeBlackFlowStartRewardPriorityDropHandler}"
+                        dd:DragDrop.DropScrollingMode="None"
+                        dd:DragDrop.IsDragSource="True"
+                        dd:DragDrop.IsDropTarget="True"
+                        BorderThickness="1"
+                        ItemsSource="{Binding RoguelikeBlackFlowStartRewardPriorityItems}"
+                        PreviewMouseWheel="{s:Action RouteMouseWheelToParentExceptScrollable,
+                                                     Target={x:Type helper:MouseWheelHelper}}"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                        Style="{StaticResource NoSelectedHighlightListBoxStyle}"
+                        VirtualizingPanel.ScrollUnit="Item">
+                        <ListBox.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource NoSelectedHighlightListBoxItemStyle}" TargetType="ListBoxItem">
+                                <Setter Property="Height" Value="28" />
+                                <Setter Property="Margin" Value="0,1" />
+                                <Setter Property="ToolTip" Value="{Binding Tip}" />
+                                <Setter Property="ToolTipService.InitialShowDelay" Value="200" />
+                                <Style.Triggers>
+                                    <!--  基础样式选中时把文字换成白色，这里背景不变，文字要保持主题的正文色  -->
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <controls:TextBlock VerticalAlignment="Center" Text="{c:Binding 'Index + 1'}" />
+                                    <controls:TextBlock
+                                        Grid.Column="1"
+                                        Margin="4,0"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Display}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
                 <hc:ComboBox
                     Margin="0,8,0,3"
                     hc:InfoElement.Title="{DynamicResource RoguelikeBlackFlowPrepSquad}"

@@ -288,6 +288,10 @@
     <system:String x:Key="RoguelikeBlackFlowSerpentRewards">羽蛇の報酬</system:String>
     <system:String x:Key="RoguelikeBlackFlowSerpentRewardsInactive">襁褓の羽蛇を選んだ場合のみ有効</system:String>
     <system:String x:Key="RoguelikeBlackFlowPrepSquad">準備用探索の分隊</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartUtopia">第1層の实托邦（第1層の種類）を厳選</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartUtopiaTip" xml:space="preserve">目標の探索で支援画面に狙う報酬が出たら、 ｢{key=RoguelikeBlackFlowStartRewardPriority}｣ の順にカードを選んで第1層に入ります。&#10;第1層が实托邦ならこの探索を保持したまま退出し、そうでなければこの探索を放棄して準備用探索をやり直します。&#10;目標の探索は一般設定の職業と最初のオペレーターで開局します。&#10;難易度6以上が必要です。難易度を切り替えない設定では難易度を確認しません。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartRewardPriority">初期報酬の選択優先順位</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartRewardPriorityTip" xml:space="preserve">ドラッグで順序を変更します。支援画面に出ているカードのうち、上にあるものから選びます。&#10;順序は上の動物や報酬の選択とは関係ありません。 ｢{key=RoguelikeBlackFlowCultivationTargetFeatheredSerpent}｣ を指定していなくても連れていることがあるため、羽蛇の報酬も並べています。</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardUnnumberedItem">番号なしの品（仮）</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardSurveyAdvance">調査前払金（仮）</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardSpaceLease">空間賃貸（仮）</system:String>
@@ -2805,6 +2809,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="BlackFlowStartRunPreparing">準備用の探索を進行中</system:String>
     <system:String x:Key="BlackFlowStartRunTargetRun">目標の探索を開始し、初期報酬の確認を待機中</system:String>
     <system:String x:Key="BlackFlowStartRunRewardMissed">希望する初期報酬がないため、準備用の探索をやり直します</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardPicked">初期報酬を選択しました。第1層が实托邦か確認します</system:String>
     <system:String x:Key="BlackFlowStartRunCompleted">開始条件を満たしたため、この探索を保持したまま退出しました</system:String>
     <system:String x:Key="BlackFlowStartRunRewardRecognitionFailed">初期報酬を認識できなかったため、タスクを停止しました</system:String>
     <system:String x:Key="BlackFlowStartRunRewardPageMissing">初期報酬画面が見つからないため、タスクを停止しました</system:String>
@@ -2812,4 +2817,6 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="BlackFlowStartRunRewardsSeen">今回の支援画面：{0}</system:String>
     <system:String x:Key="BlackFlowStartRunPrepared">探索の準備が完了しました</system:String>
     <system:String x:Key="BlackFlowStartRunPreparedReason">第3層に到達しました。次の探索では指定の難易度と分隊を使用します</system:String>
+    <system:String x:Key="BlackFlowStartRunUtopiaMissed">第1層は实托邦ではありません</system:String>
+    <system:String x:Key="BlackFlowStartRunUtopiaMissedReason">この探索を放棄し、準備用探索をやり直します</system:String>
 </ResourceDictionary>

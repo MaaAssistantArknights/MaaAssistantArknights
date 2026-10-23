@@ -57,8 +57,10 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
         }
         return true;
     }
-    if (m_config->get_mode() == RoguelikeMode::BlackFlowStartRun && !m_config->get_run_for_collectible()) {
-        // 目标局在选择支援页由黑流生命周期插件判断后就结束，不选职业组和开局干员。
+    if (m_config->get_mode() == RoguelikeMode::BlackFlowStartRun && !m_config->get_run_for_collectible() &&
+        !m_config->get_blackflow_start_utopia()) {
+        // 目标局在选择支援页由黑流生命周期插件判断后就结束，不选职业组和开局干员；
+        // 凹第一层实托邦时目标局要开局进第一层，照常选。
         return false;
     }
     if (m_waiting_to_run == RoguelikeCustomType::CoreChar) {
@@ -76,7 +78,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
     if (auto it = m_customs.find(m_waiting_to_run); it == m_customs.cend()) {
         return false;
     }
-    else if (it->second.empty()) {
+    else if (m_config->get_start_roles(it->second).empty()) {
         return false;
     }
 
@@ -209,7 +211,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_reward()
 bool asst::RoguelikeCustomStartTaskPlugin::hijack_roles()
 {
     constexpr size_t SwipeTimes = 7;
-    const std::string& required_role = m_customs[RoguelikeCustomType::Roles];
+    const std::string required_role = m_config->get_start_roles(m_customs[RoguelikeCustomType::Roles]);
 
     for (size_t i = 0; i != SwipeTimes; ++i) {
         if (need_exit()) {

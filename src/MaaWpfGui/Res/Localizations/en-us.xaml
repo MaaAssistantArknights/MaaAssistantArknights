@@ -288,6 +288,10 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="RoguelikeBlackFlowSerpentRewards">Feathered Serpent Rewards</system:String>
     <system:String x:Key="RoguelikeBlackFlowSerpentRewardsInactive">Only applies when Swaddled Feathered Serpent is selected</system:String>
     <system:String x:Key="RoguelikeBlackFlowPrepSquad">Preparation Run Squad</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartUtopia">Reroll until Floor 1 is 实托邦 (a Floor 1 variant)</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartUtopiaTip" xml:space="preserve">Once a desired reward appears on the support screen, the target run picks cards by ｢{key=RoguelikeBlackFlowStartRewardPriority}｣ and enters Floor 1.&#10;If Floor 1 is 实托邦, the task exits and keeps the run; otherwise it abandons the run and starts another preparation run.&#10;The target run starts with the roles and starting operator from General settings.&#10;Requires difficulty 6 or higher; difficulty is not checked when it is set not to switch.</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartRewardPriority">Starting Reward Pick Priority</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartRewardPriorityTip" xml:space="preserve">Drag to reorder. On the support screen, the first card in this list that is present is picked.&#10;The order is independent of the animals and rewards selected above: a ｢{key=RoguelikeBlackFlowCultivationTargetFeatheredSerpent}｣ may come along even when not required, so its rewards are listed too.</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardUnnumberedItem">未编号物 (Unnumbered Item)</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardSurveyAdvance">调查预付款 (Survey Advance)</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardSpaceLease">空间租赁 (Space Lease)</system:String>
@@ -2802,6 +2806,7 @@ These directories are not suitable places to keep MAA; files there can be easily
     <system:String x:Key="BlackFlowStartRunPreparing">Preparation run in progress</system:String>
     <system:String x:Key="BlackFlowStartRunTargetRun">Target run started; waiting to check starting rewards</system:String>
     <system:String x:Key="BlackFlowStartRunRewardMissed">No desired starting reward found; preparing another run</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardPicked">Starting reward picked; entering Floor 1 to check for 实托邦</system:String>
     <system:String x:Key="BlackFlowStartRunCompleted">Starting conditions met; exited and kept this run</system:String>
     <system:String x:Key="BlackFlowStartRunRewardRecognitionFailed">Starting reward recognition failed; task stopped</system:String>
     <system:String x:Key="BlackFlowStartRunRewardPageMissing">Starting reward screen not found; task stopped</system:String>
@@ -2809,4 +2814,6 @@ These directories are not suitable places to keep MAA; files there can be easily
     <system:String x:Key="BlackFlowStartRunRewardsSeen">Rewards on this support screen: {0}</system:String>
     <system:String x:Key="BlackFlowStartRunPrepared">Preparation complete</system:String>
     <system:String x:Key="BlackFlowStartRunPreparedReason">Floor 3 reached; the next run will use the target difficulty and squad</system:String>
+    <system:String x:Key="BlackFlowStartRunUtopiaMissed">Floor 1 is not 实托邦</system:String>
+    <system:String x:Key="BlackFlowStartRunUtopiaMissedReason">This run will be abandoned and another preparation run started</system:String>
 </ResourceDictionary>
