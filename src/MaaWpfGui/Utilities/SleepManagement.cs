@@ -103,6 +103,17 @@ public static class SleepManagement
     }
 
     /// <summary>
+    /// Creates an independently owned system-required power request.
+    /// </summary>
+    /// <param name="reason">The reason shown by Windows for the power request.</param>
+    /// <returns>A lease that clears only this request when disposed; <see langword="null" /> when creation fails.</returns>
+    public static IDisposable? CreateKeepAwakeRequest(string reason)
+    {
+        nint request = CreatePowerRequest(reason);
+        return request == 0 ? null : new PowerRequestLease(request);
+    }
+
+    /// <summary>
     /// Gets the remaining time of the current keep-awake window; <see cref="TimeSpan.Zero"/> when
     /// no window is active. Restart chains forward the remaining time instead of the original
     /// duration so that restarts never extend the window beyond its original deadline.
@@ -132,23 +143,9 @@ public static class SleepManagement
             // 窗口未结束时复用已有句柄顺延，避免释放到重建之间的空档
             if (_keepAwakePowerRequest == 0)
             {
-                var context = new PowerRequestContextSimple
+                nint request = CreatePowerRequest("MAA keep awake after scheduled wake-up");
+                if (request == 0)
                 {
-                    Version = 0,
-                    Flags = 1,
-                    SimpleReasonString = "MAA keep awake after scheduled wake-up",
-                };
-                nint request = PowerCreateRequest(ref context);
-                if (request == 0 || request == -1)
-                {
-                    _logger.Warning("PowerCreateRequest failed: {ErrorCode}", Marshal.GetLastWin32Error());
-                    return;
-                }
-
-                if (!PowerSetRequest(request, PowerRequestType.PowerRequestSystemRequired))
-                {
-                    _logger.Warning("PowerSetRequest failed: {ErrorCode}", Marshal.GetLastWin32Error());
-                    CloseHandle(request);
                     return;
                 }
 
@@ -163,6 +160,31 @@ public static class SleepManagement
 
             _ = Task.Delay(duration).ContinueWith(_ => ClearKeepAwakeRequest(generation), TaskScheduler.Default);
         }
+    }
+
+    private static nint CreatePowerRequest(string reason)
+    {
+        var context = new PowerRequestContextSimple
+        {
+            Version = 0,
+            Flags = 1,
+            SimpleReasonString = reason,
+        };
+        nint request = PowerCreateRequest(ref context);
+        if (request == 0 || request == -1)
+        {
+            _logger.Warning("PowerCreateRequest failed: {ErrorCode}", Marshal.GetLastWin32Error());
+            return 0;
+        }
+
+        if (!PowerSetRequest(request, PowerRequestType.PowerRequestSystemRequired))
+        {
+            _logger.Warning("PowerSetRequest failed: {ErrorCode}", Marshal.GetLastWin32Error());
+            CloseHandle(request);
+            return 0;
+        }
+
+        return request;
     }
 
     private static void ClearKeepAwakeRequest(int generation)
@@ -180,6 +202,23 @@ public static class SleepManagement
             PowerClearRequest(request, PowerRequestType.PowerRequestSystemRequired);
             CloseHandle(request);
             _logger.Information("Keep-awake window expired");
+        }
+    }
+
+    private sealed class PowerRequestLease(nint request) : IDisposable
+    {
+        private nint _request = request;
+
+        public void Dispose()
+        {
+            nint requestToClear = Interlocked.Exchange(ref _request, 0);
+            if (requestToClear == 0)
+            {
+                return;
+            }
+
+            PowerClearRequest(requestToClear, PowerRequestType.PowerRequestSystemRequired);
+            CloseHandle(requestToClear);
         }
     }
 
