@@ -8,6 +8,8 @@
 #include <utility>
 #include <vector>
 
+#include "Common/AsstBattleTag.h"
+
 namespace asst::algorithm
 {
 enum class CharAllocationStatus
