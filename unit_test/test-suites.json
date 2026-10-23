@@ -14,6 +14,17 @@
         "src/MaaCore/Utils/Algorithm.hpp",
         "unit_test/MaaCore/AlgorithmTest.cpp"
       ]
+    },
+    {
+      "id": "maa-adb-failure-test",
+      "name": "AdbFailure",
+      "buildTarget": "maa-adb-failure-test",
+      "ctestRegex": "^adb_failure::",
+      "paths": [
+        "src/MaaCore/Utils/AdbFailure.hpp",
+        "src/MaaCore/Controller/AdbController.cpp",
+        "unit_test/MaaCore/AdbFailureTest.cpp"
+      ]
     }
   ]
 }

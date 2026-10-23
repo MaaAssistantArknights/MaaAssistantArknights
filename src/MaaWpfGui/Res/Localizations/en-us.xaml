@@ -1665,6 +1665,8 @@ Right-click: select this job and exit multi-job mode</system:String>
     <system:String x:Key="BackgroundLinkStarted">Tasks started</system:String>
     <system:String x:Key="BackgroundLinkStopped">Tasks stopped</system:String>
     <system:String x:Key="FailedToOpenClient">Failed to open the client. Please check the configuration file</system:String>
+    <system:String x:Key="ClientNotFound">Arknights client not found on the connected emulator. Please make sure the client is installed and the correct emulator instance is selected</system:String>
+    <system:String x:Key="StartGameFailedDisconnected">Failed to start the game: the connection to the emulator is down</system:String>
     <system:String x:Key="ErrorOccurred">Error occurred</system:String>
     <system:String x:Key="HasReturned">Has returned</system:String>
     <system:String x:Key="DropRecognitionError">Drops recognition error</system:String>
