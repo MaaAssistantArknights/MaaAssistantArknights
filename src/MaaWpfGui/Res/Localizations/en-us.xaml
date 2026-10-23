@@ -2024,6 +2024,12 @@ If you do need to use it, please ensure:
 6. Game resolution must be 16:9; recommended settings: 1280x720 or 1920x1080</system:String>
     <system:String x:Key="UseAttachWindowWarningRecommendation" xml:space="preserve">7. We recommend using PostMsg-WindowPos as the mouse input method; it can greatly reduce recognition errors and freezing issues on the PC client</system:String>
     <system:String x:Key="AttachWindowScreencapMethod">Screencap Method</system:String>
+    <system:String x:Key="AutoResizeWin32Window">Automatically resize the game window to 16:9</system:String>
+    <system:String x:Key="AutoResizeWin32WindowTip">If the captured image is not 16:9 when connecting, resize the client area of a windowed game automatically, then restore its original size and display state after tasks finish. Borderless fullscreen cannot be adjusted automatically.</system:String>
+    <system:String x:Key="Win32BorderlessResizeNotSupported">Borderless fullscreen was detected. The game window resolution cannot be adjusted automatically. Switch to windowed mode in the game settings first.</system:String>
+    <system:String x:Key="Win32WindowResizeStart">Adjusting game window resolution: {0}x{1} → {2}x{3}</system:String>
+    <system:String x:Key="Win32WindowResizeSuccess">Game window resolution adjusted to {0}x{1}</system:String>
+    <system:String x:Key="Win32WindowResizeRestored">Game window resolution restored to {0}x{1}</system:String>
     <system:String x:Key="AttachWindowMouseMethod">Mouse Input Method</system:String>
     <system:String x:Key="AttachWindowKeyboardMethod">Keyboard Input Method</system:String>
     <system:String x:Key="AttachWindowScreencapFramePool">FramePool (Background, Efficient, Cannot Minimize)</system:String>

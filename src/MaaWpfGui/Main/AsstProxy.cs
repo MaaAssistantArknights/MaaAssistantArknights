@@ -1010,12 +1010,48 @@ public class AsstProxy
                 {
                     int width = details["details"]?["width"]?.ToObject<int>() ?? 0;
                     int height = details["details"]?["height"]?.ToObject<int>() ?? 0;
-                    var baseMsg = LocalizationHelper.GetString("ResolutionNotSupported");
+                    bool borderless = details["details"]?["borderless"]?.ToObject<bool>() ?? false;
+                    var baseMsg = LocalizationHelper.GetString(borderless ? "Win32BorderlessResizeNotSupported" : "ResolutionNotSupported");
                     _lastConnectionError = width > 0 && height > 0
                         ? $"{baseMsg} ({LocalizationHelper.GetStringFormat("ResolutionNotSupportedCurrentResolution", width, height)})"
                         : baseMsg;
                     Instances.TaskQueueViewModel.AddLog(_lastConnectionError, UiLogColor.Error);
                 }
+                break;
+
+            case "Win32WindowResizeStart":
+                {
+                    int width = details["details"]?["width"]?.ToObject<int>() ?? 0;
+                    int height = details["details"]?["height"]?.ToObject<int>() ?? 0;
+                    int targetWidth = details["details"]?["target_width"]?.ToObject<int>() ?? 0;
+                    int targetHeight = details["details"]?["target_height"]?.ToObject<int>() ?? 0;
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat("Win32WindowResizeStart", width, height, targetWidth, targetHeight),
+                        UiLogColor.Info);
+                }
+
+                break;
+
+            case "Win32WindowResizeSuccess":
+                {
+                    int width = details["details"]?["width"]?.ToObject<int>() ?? 0;
+                    int height = details["details"]?["height"]?.ToObject<int>() ?? 0;
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat("Win32WindowResizeSuccess", width, height),
+                        UiLogColor.Info);
+                }
+
+                break;
+
+            case "Win32WindowResizeRestored":
+                {
+                    int width = details["details"]?["width"]?.ToObject<int>() ?? 0;
+                    int height = details["details"]?["height"]?.ToObject<int>() ?? 0;
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat("Win32WindowResizeRestored", width, height),
+                        UiLogColor.Info);
+                }
+
                 break;
 
             case "ResolutionChanged":
@@ -3379,6 +3415,8 @@ public class AsstProxy
         var mouseMethod = (ulong)win32Extra.MouseMethod;
         var keyboardMethod = (ulong)win32Extra.KeyboardMethod;
 
+        AsstSetInstanceOption(InstanceOptionKey.Win32AutoResizeWindow, win32Extra.AutoResizeWindow ? "1" : "0");
+
         // Connecting Core takes screenshots that can already move or transparently restore the window.
         GameAudioMuteManager.CaptureWindowPlacement(hwnd);
         bool ret = AsstAttachWindow(GetHandle(), hwnd, screencapMethod, mouseMethod, keyboardMethod);
@@ -4188,4 +4226,9 @@ public enum InstanceOptionKey
     /// Indicates the client type (game channel) used for resolving PackageName on connect.
     /// </summary>
     ClientType = 6,
+
+    /// <summary>
+    /// Indicates whether a non-16:9 Win32 window should be resized while tasks are running.
+    /// </summary>
+    Win32AutoResizeWindow = 7,
 }

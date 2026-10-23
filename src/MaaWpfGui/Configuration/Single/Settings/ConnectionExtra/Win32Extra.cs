@@ -24,6 +24,8 @@ public class Win32Extra : BaseExtra, IJsonOnDeserialized
 
     public AsstWin32KeyboardInputMethod KeyboardMethod { get; set; } = AsstWin32KeyboardInputMethod.SendMessage;
 
+    public bool AutoResizeWindow { get; set; }
+
     public bool MuteWhileRunning { get; set; }
 
     public void OnDeserialized()

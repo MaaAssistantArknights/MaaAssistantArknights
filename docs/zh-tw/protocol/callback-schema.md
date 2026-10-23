@@ -144,6 +144,16 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   執行中解析度被修改，連線已斷開並中斷目前任務，`details` 結構如下：
   - `width` (number, required): 目前寬度。
   - `height` (number, required): 目前高度。
+- `Win32WindowResizeStart`  
+  開始自動調整 Win32 遊戲視窗，`details` 結構如下：
+  - `width` (number, required): 調整前的用戶區寬度。
+  - `height` (number, required): 調整前的用戶區高度。
+  - `target_width` (number, required): 目標用戶區寬度。
+  - `target_height` (number, required): 目標用戶區高度。
+- `Win32WindowResizeSuccess`  
+  Win32 遊戲視窗自動調整成功，`details` 包含調整後的 `width` 與 `height`。
+- `Win32WindowResizeRestored`  
+  Win32 遊戲視窗已還原，`details` 包含還原後的 `width` 與 `height`。
 - `FastestWayToScreencap`  
   已找到最快的截圖方式，`details` 結構如下：
   - `method` (string, required): 最快的截圖方式。

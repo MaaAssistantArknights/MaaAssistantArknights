@@ -123,6 +123,16 @@ Todo
   実行中に解像度が変更され、接続が無効化され現在のタスクが中断されます、`details` 構造：
   - `width` (number, required): 現在の幅。
   - `height` (number, required): 現在の高さ。
+- `Win32WindowResizeStart`  
+  Win32 ゲームウィンドウの自動調整を開始しました。`details` 構造：
+  - `width` (number, required): 調整前のクライアント領域の幅。
+  - `height` (number, required): 調整前のクライアント領域の高さ。
+  - `target_width` (number, required): 目標クライアント領域の幅。
+  - `target_height` (number, required): 目標クライアント領域の高さ。
+- `Win32WindowResizeSuccess`  
+  Win32 ゲームウィンドウの自動調整に成功しました。`details` に調整後の `width` と `height` が含まれます。
+- `Win32WindowResizeRestored`  
+  Win32 ゲームウィンドウを元に戻しました。`details` に復元後の `width` と `height` が含まれます。
 - `FastestWayToScreencap`  
   最速のスクリーンショット方式が見つかりました、`details` 構造：
   - `method` (string, required): 最速のスクリーンショット方式。
