@@ -100,10 +100,14 @@ bool BlackFlowLifecycleTaskPlugin::load_params(const json::value& params)
     m_target_squad = params.get("squad", std::string());
     m_preparation_squad = params.get("collectible_mode_squad", m_target_squad);
     m_start_roles = params.get("roles", std::string());
-    m_session->set_start_loadout(
-        m_start_core_char,
-        m_start_run && m_config->get_run_for_collectible() ? m_preparation_squad : m_target_squad,
-        m_start_roles);
+    // 准备局快速飞三层时准备局另配职业组和开局干员，目标局仍用常规设置
+    m_preparation_roles = params.get("collectible_mode_roles", m_start_roles);
+    m_preparation_core_char = m_start_core_char;
+    if (const auto list = params.find<json::array>("collectible_mode_core_char_list")) {
+        const auto preparation_opers = RoguelikeConfig::parse_start_oper_list(*list);
+        m_preparation_core_char = preparation_opers.empty() ? std::string {} : preparation_opers.front().name;
+    }
+    apply_start_loadout();
 
     std::string error;
     if (!m_session->initialize(std::move(profile), &error)) {
@@ -150,7 +154,7 @@ bool BlackFlowLifecycleTaskPlugin::verify(AsstMsg msg, const json::value& detail
             m_pending = PendingWork::StartRunStarted;
             return true;
         }
-        if (!m_config->get_run_for_collectible() &&
+        if (!m_config->get_run_for_collectible() && !m_target_rewards_picked &&
             (task == "BlackFlow@Roguelike@RolesDefault" || task == "BlackFlow@Roguelike@RecruitMain" ||
              task == "BlackFlow@Roguelike@MapPrepare")) {
             m_pending = PendingWork::StartRunRewardPageMissing;
@@ -192,10 +196,9 @@ void BlackFlowLifecycleTaskPlugin::reset_in_run_variables()
     Task.set_task_base("BlackFlow@Roguelike@StrategyTerminalAction", "BlackFlow@Roguelike@ExitThenAbandon-Enter");
     if (m_start_run) {
         m_prepared_run_finished = false;
-        m_session->set_start_loadout(
-            m_start_core_char,
-            m_config->get_run_for_collectible() ? m_preparation_squad : m_target_squad,
-            m_start_roles);
+        m_target_rewards_picked = false;
+        m_target_rewards_seen.clear();
+        apply_start_loadout();
     }
     if (m_session != nullptr && !m_session->profile().empty()) {
         m_session->reset_run();
@@ -263,6 +266,10 @@ bool BlackFlowLifecycleTaskPlugin::_run()
             return true;
         }
         const int floor = static_cast<int>(std::distance(floor_names.begin(), matched)) + 1;
+        if (m_start_run && !m_config->get_run_for_collectible() && m_config->get_blackflow_start_utopia()) {
+            check_start_run_utopia(floor);
+            return true;
+        }
         std::string error;
         if (!m_session->set_current_floor(floor, &error)) {
             m_session->fail("floor_recognition_failed", error, FailureDisposition::RestartRun);
@@ -345,6 +352,15 @@ bool BlackFlowLifecycleTaskPlugin::_run()
     return true;
 }
 
+void BlackFlowLifecycleTaskPlugin::apply_start_loadout()
+{
+    const bool preparing = m_start_run && m_config->get_run_for_collectible();
+    m_session->set_start_loadout(
+        preparing ? m_preparation_core_char : m_start_core_char,
+        preparing ? m_preparation_squad : m_target_squad,
+        preparing ? m_preparation_roles : m_start_roles);
+}
+
 void BlackFlowLifecycleTaskPlugin::report_start_run(std::string_view status, const std::vector<std::string>& rewards)
 {
     auto info = basic_info_with_what("BlackFlowStartRun");
@@ -386,20 +402,65 @@ bool BlackFlowLifecycleTaskPlugin::check_start_run_reward()
     }
 
     const int wanted = m_config->get_blackflow_start_rewards();
-    if (wanted == 0) {
+    const bool utopia = m_config->get_blackflow_start_utopia();
+    if (wanted == 0 && !utopia) {
         complete_start_run();
         return true;
     }
 
+    // 先认出页面上实际有哪些奖励，再看有没有目标。一张都认不出，或者要羽蛇奖励却读不出蓝色卡，
+    // 只能是识别出了问题，停在支援页留给用户查看，不能当成未命中把这一局放弃掉。
+    const auto cards = recognize_start_run_cards(ctrler()->get_image());
+    if (m_target_rewards_picked) {
+        // 带襁褓三头犬时选完第一张仍停在支援页，按同一顺序再选一张
+        return pick_start_run_card(cards);
+    }
+    std::vector<std::string> seen;
+    bool hit = false;
+    bool serpent_seen = false;
+    for (const auto& card : cards) {
+        seen.emplace_back(card.name);
+        hit = hit || (wanted & (1 << card.index)) != 0;
+        serpent_seen = serpent_seen || card.index >= static_cast<int>(LastRewardTasks.size());
+    }
+    const auto& animals = m_config->get_blackflow_start_animals();
+    const bool serpent_carried = std::ranges::find(animals, "swaddled_feathered_serpent") != animals.end();
+    const bool serpent_wanted = serpent_carried && (wanted >> LastRewardTasks.size()) != 0;
+
+    if (hit && !utopia) {
+        complete_start_run(seen);
+        return true;
+    }
+    if (!hit && (seen.empty() || (serpent_wanted && !serpent_seen))) {
+        LogError << __FUNCTION__ << "support rewards not recognized, stay on the page";
+        save_img(utils::path("debug") / utils::path("roguelike"));
+        stop_start_run("reward_unrecognized", seen);
+        return false;
+    }
+
+    if (utopia && (hit || wanted == 0)) {
+        // 凹第一层实托邦：按优先级选卡，开局进第一层再看
+        m_target_rewards_picked = true;
+        m_target_rewards_seen = seen;
+        report_start_run("reward_picked", seen);
+        return pick_start_run_card(cards);
+    }
+
+    // 认出了奖励但没有期望的，和旧刷开局一样放弃这一局，回到准备局
+    report_start_run("reward_missed", seen);
+    m_config->set_run_for_collectible(true);
+    m_control_ptr->exit_then_stop(true);
+    return true;
+}
+
+std::vector<BlackFlowLifecycleTaskPlugin::StartRunCard>
+    BlackFlowLifecycleTaskPlugin::recognize_start_run_cards(const cv::Mat& image) const
+{
     // 下标即 blackflow_start_rewards 的位：前六位是普通奖励，按支援页模板匹配
     // 后六位是羽蛇带来的蓝色奖励，读第一张卡的名字。｢襁褓｣ 两字常被读错，按后半截包含匹配
     static const std::vector<std::string> SerpentRewardNames { "天马", "骏鹰", "巨龙", "九头蛇", "白泽", "金乌" };
 
-    // 先认出页面上实际有哪些奖励，再看有没有目标。一张都认不出，或者要羽蛇奖励却读不出蓝色卡，
-    // 只能是识别出了问题，停在支援页留给用户查看，不能当成未命中把这一局放弃掉。
-    const auto image = ctrler()->get_image();
-    std::vector<std::string> seen;
-    bool hit = false;
+    std::vector<StartRunCard> cards;
     for (size_t i = 0; i != LastRewardTasks.size(); ++i) {
         const std::string reward_name(LastRewardNames[i]);
         Matcher matcher(image);
@@ -409,54 +470,76 @@ bool BlackFlowLifecycleTaskPlugin::check_start_run_reward()
             LogInfo << __FUNCTION__ << "support card absent:" << reward_name;
             continue;
         }
-        const bool target = (wanted & (1 << i)) != 0;
         LogInfo << __FUNCTION__ << "support card found:" << reward_name << "score:" << result->score
-                << "rect:" << result->rect << "target:" << target;
-        seen.emplace_back(reward_name);
-        hit = hit || target;
+                << "rect:" << result->rect;
+        cards.push_back({ static_cast<int>(i), reward_name, result->rect });
     }
 
+    // 凹第一层实托邦要按优先级选卡，没要求羽蛇也可能带上，蓝色奖励照样要读
     const auto& animals = m_config->get_blackflow_start_animals();
-    const bool serpent_carried = std::ranges::find(animals, "swaddled_feathered_serpent") != animals.end();
-    const bool serpent_wanted = serpent_carried && (wanted >> LastRewardTasks.size()) != 0;
-    bool serpent_seen = false;
-    if (serpent_carried) {
-        OCRer ocr(image);
-        ocr.set_task_info("BlackFlow@Roguelike@StartRunSerpentRewardNames");
-        for (const auto& text : ocr.analyze().value_or(OCRer::ResultsVec {})) {
-            LogInfo << __FUNCTION__ << "serpent card text:" << text.text;
-            for (size_t i = 0; !serpent_seen && i != SerpentRewardNames.size(); ++i) {
-                if (text.text.find(SerpentRewardNames[i]) == std::string::npos) {
-                    continue;
-                }
-                const bool target = (wanted & (1 << (i + LastRewardTasks.size()))) != 0;
-                LogInfo << __FUNCTION__ << "serpent card found:" << SerpentRewardNames[i] << "target:" << target;
-                seen.emplace_back(SerpentRewardNames[i]);
-                serpent_seen = true;
-                hit = hit || target;
-            }
-        }
-        if (!serpent_seen) {
-            LogInfo << __FUNCTION__ << "serpent card not recognized";
+    if (std::ranges::find(animals, "swaddled_feathered_serpent") == animals.end() &&
+        !m_config->get_blackflow_start_utopia()) {
+        return cards;
+    }
+    OCRer ocr(image);
+    ocr.set_task_info("BlackFlow@Roguelike@StartRunSerpentRewardNames");
+    for (const auto& text : ocr.analyze().value_or(OCRer::ResultsVec {})) {
+        LogInfo << __FUNCTION__ << "serpent card text:" << text.text;
+        const auto found = std::ranges::find_if(SerpentRewardNames, [&](const std::string& name) {
+            return text.text.find(name) != std::string::npos;
+        });
+        if (found != SerpentRewardNames.end()) {
+            const auto i = static_cast<int>(std::distance(SerpentRewardNames.begin(), found));
+            LogInfo << __FUNCTION__ << "serpent card found:" << *found << "rect:" << text.rect;
+            cards.push_back({ i + static_cast<int>(LastRewardTasks.size()), *found, text.rect });
+            return cards;
         }
     }
+    LogInfo << __FUNCTION__ << "serpent card not recognized";
+    return cards;
+}
 
-    if (hit) {
-        complete_start_run(seen);
+bool BlackFlowLifecycleTaskPlugin::pick_start_run_card(const std::vector<StartRunCard>& cards)
+{
+    for (const int index : m_config->get_blackflow_start_reward_priority()) {
+        const auto card = std::ranges::find(cards, index, &StartRunCard::index);
+        if (card == cards.end()) {
+            continue;
+        }
+        LogInfo << __FUNCTION__ << "pick support card:" << card->name << "rect:" << card->rect;
+        // 普通奖励走对应的卡片任务；蓝色奖励没有模板任务，点 OCR 认出的位置
+        if (card->index >= static_cast<int>(LastRewardTasks.size())) {
+            ctrler()->click(card->rect);
+            return true;
+        }
+        if (ProcessTask(*this, { std::string(LastRewardTasks[card->index]) }).run()) {
+            return true;
+        }
+    }
+    // 优先级里的卡都不在，按策略顺序随便选一张，开局不能卡在支援页
+    LogWarn << __FUNCTION__ << "no prioritized support card, fall back to the strategy order";
+    if (pick_last_reward()) {
         return true;
     }
-    if (seen.empty() || (serpent_wanted && !serpent_seen)) {
-        LogError << __FUNCTION__ << "support rewards not recognized, stay on the page";
-        save_img(utils::path("debug") / utils::path("roguelike"));
-        stop_start_run("reward_unrecognized", seen);
-        return false;
-    }
+    stop_start_run("reward_recognition_failed", m_target_rewards_seen);
+    return false;
+}
 
-    // 认出了奖励但没有期望的，和旧刷开局一样放弃这一局，回到准备局
-    report_start_run("reward_missed", seen);
-    m_config->set_run_for_collectible(true);
-    m_control_ptr->exit_then_stop(true);
-    return true;
+void BlackFlowLifecycleTaskPlugin::check_start_run_utopia(int floor)
+{
+    // 有实托邦时层名右移，样本：有 [600,7,137,23]、[601,10,137,20]，无 [572,8,133,20]、[573,10,134,19]
+    constexpr int UtopiaFloorNameX = 586;
+    const auto hit = get_hit_detail<TextRect>();
+    const int x = hit != nullptr ? hit->rect.x : -1;
+    const bool utopia = floor == 1 && x >= UtopiaFloorNameX;
+    LogInfo << __FUNCTION__ << "floor:" << floor << "floor name x:" << x << "utopia:" << utopia;
+    if (utopia) {
+        complete_start_run(m_target_rewards_seen);
+        return;
+    }
+    // 没有实托邦就放弃这一局，回到准备局。走策略结束的放弃流程，放弃确认后由 ResetAfterAbandon 切回准备局
+    m_session->conclude_and_restart("start_run_utopia_missed", "first_floor_without_utopia");
+    report_outputs();
 }
 
 } // namespace asst::blackflow

@@ -716,12 +716,13 @@ Todo
   - `preparing`: the preparation run started.
   - `target_run`: the target run started.
   - `reward_missed`: rewards were recognized on the support selection page but none is desired; the run is abandoned and a new preparation run starts.
-  - `completed`: a desired reward was found; the task exited to the theme page keeping the run, and the task ends.
+  - `reward_picked`: with `blackflow_start_utopia` on, a desired reward was found on the support selection page; a reward was picked by `blackflow_start_reward_priority` and the run enters floor 1 to check for 实托邦.
+  - `completed`: a desired reward was found; the task exited to the theme page keeping the run, and the task ends. With `blackflow_start_utopia` on, this means floor 1 is 实托邦.
   - `reward_unrecognized`: rewards on the support selection page could not be recognized; the task stops on that page.
   - `reward_page_missing`: the target run did not show the support selection page; the task stops.
-  - `reward_recognition_failed`: the preparation run failed to pick a reward on the support selection page; the task stops.
+  - `reward_recognition_failed`: the preparation run or the target run failed to pick a reward on the support selection page; the task stops.
 
-  `rewards` is only reported with `reward_missed`, `completed` and `reward_unrecognized`, and is omitted when `blackflow_start_rewards` is 0 (rewards are not recognized) or when no reward was recognized. Reward names are reported in Simplified Chinese.
+  `rewards` is only reported with `reward_missed`, `reward_picked`, `completed`, `reward_unrecognized` and `reward_recognition_failed`, and is omitted when `blackflow_start_rewards` is 0 with `blackflow_start_utopia` off (rewards are not recognized) or when no reward was recognized. Reward names are reported in Simplified Chinese.
 
 - `BlackFlowScrapTradeAborted`  
   The BlackFlow scrap trade is aborted due to an anomaly. The `details` field contains:

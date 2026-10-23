@@ -222,6 +222,8 @@ public:
         std::string* error = nullptr);
 
     void fail(std::string outcome, std::string reason, FailureDisposition disposition = FailureDisposition::StopTask);
+    // 本局按计划结束并重开，不经过策略终局规则，例如刷开局目标局第一层没有实托邦
+    void conclude_and_restart(std::string outcome, std::string reason);
 
     [[nodiscard]] const std::optional<BlackFlowStrategyResult>& result() const noexcept { return m_result; }
 
