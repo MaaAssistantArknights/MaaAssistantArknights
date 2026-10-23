@@ -114,17 +114,11 @@
         "next": ["BlackFlow@Roguelike@ChooseOperConfirm", "BlackFlow@Roguelike@ChooseOperConfirm#next"]
     },
     "BlackFlow@Roguelike@ChooseOperConfirm": {
-        "template": [
-            "BlackFlow@Roguelike@ChooseOperConfirm.png",
-            "BlackFlow@Roguelike@ChooseOperConfirmWithBuff.png"
-        ],
+        "template": ["BlackFlow@Roguelike@ChooseOperConfirm.png", "BlackFlow@Roguelike@ChooseOperConfirmWithBuff.png"],
         "roi": [1016, 602, 264, 118]
     },
     "BlackFlow@Roguelike@ChooseOperFlag": {
-        "template": [
-            "BlackFlow@Roguelike@ChooseOperConfirm.png",
-            "BlackFlow@Roguelike@ChooseOperConfirmWithBuff.png"
-        ],
+        "template": ["BlackFlow@Roguelike@ChooseOperConfirm.png", "BlackFlow@Roguelike@ChooseOperConfirmWithBuff.png"],
         "roi": [1016, 602, 264, 118]
     },
     "BlackFlow@Roguelike@ClickToDrops": {
