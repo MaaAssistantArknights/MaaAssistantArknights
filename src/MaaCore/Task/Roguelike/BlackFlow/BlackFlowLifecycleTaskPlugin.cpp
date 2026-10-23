@@ -1,9 +1,11 @@
 #include "BlackFlowLifecycleTaskPlugin.h"
 
 #include <algorithm>
+#include <array>
 #include <iterator>
 #include <utility>
 
+#include "Config/Roguelike/BlackFlow/BlackFlowStrategyConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
@@ -16,6 +18,12 @@ namespace asst::blackflow
 {
 namespace
 {
+// 与 LastRewardNames 一一对应的支援卡片模板任务
+constexpr std::array<std::string_view, LastRewardNames.size()> LastRewardTasks {
+    "BlackFlow@Roguelike@LastReward4", "BlackFlow@Roguelike@LastReward5", "BlackFlow@Roguelike@LastReward6",
+    "BlackFlow@Roguelike@LastReward",  "BlackFlow@Roguelike@LastReward2", "BlackFlow@Roguelike@LastReward3",
+};
+
 std::pair<std::string, std::string> classify_unreported_termination(const std::string& pre_task)
 {
     if (pre_task == "BlackFlow@Roguelike@RecoveryFailed") {
@@ -73,6 +81,16 @@ bool BlackFlowLifecycleTaskPlugin::load_params(const json::value& params)
         profile = baby_animal_profile_for(*target);
     }
     const std::string selected_profile = profile;
+    const auto* reward_order = BlackFlowStrategy.last_reward_order(selected_profile);
+    if (reward_order == nullptr) {
+        LogError << __FUNCTION__ << "unknown BlackFlow strategy profile:" << selected_profile;
+        return false;
+    }
+    m_last_reward_tasks.clear();
+    for (const auto& name : *reward_order) {
+        const auto index = std::distance(LastRewardNames.begin(), std::ranges::find(LastRewardNames, name));
+        m_last_reward_tasks.emplace_back(LastRewardTasks[static_cast<size_t>(index)]);
+    }
 
     // 三项都直接读 params 而非 RoguelikeConfig：分队要等真正在选择界面点中才会写回 RoguelikeConfig，开局干员顺位
     // 也由别的插件 load_params 写入、时机不可依赖。黑流策略只消费第 1 顺位。必须先于
@@ -123,13 +141,13 @@ bool BlackFlowLifecycleTaskPlugin::verify(AsstMsg msg, const json::value& detail
     }
 
     const std::string task = details.get("details", "task", "");
+    if (msg == AsstMsg::SubTaskStart && task == "BlackFlow@Roguelike@LastReward-EnterPoint") {
+        m_pending = m_start_run ? PendingWork::CheckStartRunReward : PendingWork::PickLastReward;
+        return true;
+    }
     if (m_start_run && msg == AsstMsg::SubTaskStart) {
         if (task == "BlackFlow@Roguelike@StartExplore") {
             m_pending = PendingWork::StartRunStarted;
-            return true;
-        }
-        if (task == "BlackFlow@Roguelike@LastReward-EnterPoint") {
-            m_pending = PendingWork::CheckStartRunReward;
             return true;
         }
         if (!m_config->get_run_for_collectible() &&
@@ -200,6 +218,12 @@ bool BlackFlowLifecycleTaskPlugin::_run()
 
     if (work == PendingWork::StartRunStarted) {
         report_start_run(m_config->get_run_for_collectible() ? "preparing" : "target_run");
+        return true;
+    }
+    if (work == PendingWork::PickLastReward) {
+        if (!pick_last_reward()) {
+            LogError << __FUNCTION__ << "no support reward matched the strategy order";
+        }
         return true;
     }
     if (work == PendingWork::CheckStartRunReward) {
@@ -346,10 +370,15 @@ void BlackFlowLifecycleTaskPlugin::complete_start_run(const std::vector<std::str
     m_task_ptr->set_enable(false);
 }
 
+bool BlackFlowLifecycleTaskPlugin::pick_last_reward()
+{
+    return ProcessTask(*this, m_last_reward_tasks).run();
+}
+
 bool BlackFlowLifecycleTaskPlugin::check_start_run_reward()
 {
     if (m_config->get_run_for_collectible()) {
-        if (!ProcessTask(*this, { "BlackFlow@Roguelike@LastReward-Strategy" }).run()) {
+        if (!pick_last_reward()) {
             stop_start_run("reward_recognition_failed");
             return false;
         }
@@ -363,11 +392,6 @@ bool BlackFlowLifecycleTaskPlugin::check_start_run_reward()
     }
 
     // 下标即 blackflow_start_rewards 的位：前六位是普通奖励，按支援页模板匹配
-    static const std::vector<std::pair<std::string, std::string>> RewardCards {
-        { "BlackFlow@Roguelike@LastReward4", "未编号物" }, { "BlackFlow@Roguelike@LastReward5", "调查预付款" },
-        { "BlackFlow@Roguelike@LastReward6", "空间租赁" }, { "BlackFlow@Roguelike@LastReward", "退行补偿" },
-        { "BlackFlow@Roguelike@LastReward2", "林间代步" }, { "BlackFlow@Roguelike@LastReward3", "巢寄生" },
-    };
     // 后六位是羽蛇带来的蓝色奖励，读第一张卡的名字。｢襁褓｣ 两字常被读错，按后半截包含匹配
     static const std::vector<std::string> SerpentRewardNames { "天马", "骏鹰", "巨龙", "九头蛇", "白泽", "金乌" };
 
@@ -376,10 +400,10 @@ bool BlackFlowLifecycleTaskPlugin::check_start_run_reward()
     const auto image = ctrler()->get_image();
     std::vector<std::string> seen;
     bool hit = false;
-    for (size_t i = 0; i != RewardCards.size(); ++i) {
-        const auto& [task_name, reward_name] = RewardCards[i];
+    for (size_t i = 0; i != LastRewardTasks.size(); ++i) {
+        const std::string reward_name(LastRewardNames[i]);
         Matcher matcher(image);
-        matcher.set_task_info(task_name);
+        matcher.set_task_info(std::string(LastRewardTasks[i]));
         const auto result = matcher.analyze();
         if (!result) {
             LogInfo << __FUNCTION__ << "support card absent:" << reward_name;
@@ -394,7 +418,7 @@ bool BlackFlowLifecycleTaskPlugin::check_start_run_reward()
 
     const auto& animals = m_config->get_blackflow_start_animals();
     const bool serpent_carried = std::ranges::find(animals, "swaddled_feathered_serpent") != animals.end();
-    const bool serpent_wanted = serpent_carried && (wanted >> RewardCards.size()) != 0;
+    const bool serpent_wanted = serpent_carried && (wanted >> LastRewardTasks.size()) != 0;
     bool serpent_seen = false;
     if (serpent_carried) {
         OCRer ocr(image);
@@ -405,7 +429,7 @@ bool BlackFlowLifecycleTaskPlugin::check_start_run_reward()
                 if (text.text.find(SerpentRewardNames[i]) == std::string::npos) {
                     continue;
                 }
-                const bool target = (wanted & (1 << (i + RewardCards.size()))) != 0;
+                const bool target = (wanted & (1 << (i + LastRewardTasks.size()))) != 0;
                 LogInfo << __FUNCTION__ << "serpent card found:" << SerpentRewardNames[i] << "target:" << target;
                 seen.emplace_back(SerpentRewardNames[i]);
                 serpent_seen = true;
