@@ -5122,5 +5122,7 @@
     "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@Movement-M13": "9e1f8676607647dd3650b90e4d23c194ec0f83a8073acea5c54629339ba889f7",
     "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@Movement-M14": "d14e70c7a0bf3d775a2d0a76ed495e619eb8edcb8608951564b6ac38c2720130",
     "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@Movement-M15": "89f649cfbe001f685289f9ad3de4a685969535303b7d95518d5ede2e953165bd",
-    "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@ChooseOperConfirmWithBuff": "67bcf63883e0cfdba3a1eccf097cfb3008475b8791972c4792341b56acb50620"
+    "resource/template/Roguelike/BlackFlow/BlackFlow@Roguelike@ChooseOperConfirmWithBuff": "67bcf63883e0cfdba3a1eccf097cfb3008475b8791972c4792341b56acb50620",
+    "resource/template/items/act1museum_milestone_point": "9b61e602fe61745d5fe8cf35817db50990c86c96aea184d5c99c0deec1f0ae91",
+    "resource/template/items/randomMaterial_7d5": "2ff7b913c4491eb7387de353bcaa9ae98978edbbb029cf614bdce5f39f5043be"
 }
