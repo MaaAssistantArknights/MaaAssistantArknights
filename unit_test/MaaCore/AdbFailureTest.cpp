@@ -22,8 +22,10 @@ constexpr std::string_view ActivityNotStarted =
     "Warning: Activity not started, its current task has been brought to the front.";
 } // namespace
 
-TEST_CASE("asst::adb::is_device_unreachable", "[adb_failure]") {
-    SECTION("adb 报的设备不可达，一律仍走重连阶梯") {
+TEST_CASE("asst::adb::is_device_unreachable", "[adb_failure]")
+{
+    SECTION("adb 报的设备不可达，一律仍走重连阶梯")
+    {
         REQUIRE(asst::adb::is_device_unreachable("adb: device offline"));
         REQUIRE(asst::adb::is_device_unreachable("adb.exe: device 'emulator-5554' not found"));
         REQUIRE(asst::adb::is_device_unreachable("adb: device unauthorized"));
@@ -37,14 +39,16 @@ TEST_CASE("asst::adb::is_device_unreachable", "[adb_failure]") {
         REQUIRE(asst::adb::is_device_unreachable("adb: transport error"));
     }
 
-    SECTION("认不出来的情况按设备不可达处理，保持原有恢复能力") {
+    SECTION("认不出来的情况按设备不可达处理，保持原有恢复能力")
+    {
         REQUIRE(asst::adb::is_device_unreachable(""));
         REQUIRE(asst::adb::is_device_unreachable(" \r\n"));
         REQUIRE(asst::adb::is_device_unreachable("something odd happened"));
         REQUIRE(asst::adb::is_device_unreachable(std::string(asst::adb::MaxFailureOutputSize + 1, 'x')));
     }
 
-    SECTION("命令执行失败不该重连，重连多少次都一样") {
+    SECTION("命令执行失败不该重连，重连多少次都一样")
+    {
         REQUIRE_FALSE(asst::adb::is_device_unreachable(AmStartActivityMissing));
         REQUIRE_FALSE(
             asst::adb::is_device_unreachable("Operation not allowed: java.lang.SecurityException: Permission Denial"));
@@ -52,9 +56,22 @@ TEST_CASE("asst::adb::is_device_unreachable", "[adb_failure]") {
         REQUIRE_FALSE(asst::adb::is_device_unreachable("Unknown command: frobnicate"));
         REQUIRE_FALSE(asst::adb::is_device_unreachable(ActivityNotStarted));
     }
+
+    SECTION("带 not found / closed 字样的命令级失败不能被当成掉线")
+    {
+        // 设备好好的，只是命令本身找不到：设备在不在和它没关系，重连空转 5 轮毫无意义
+        REQUIRE_FALSE(asst::adb::is_device_unreachable("/system/bin/sh: screencap: not found"));
+        REQUIRE_FALSE(
+            asst::adb::is_device_unreachable("java.io.FileNotFoundException: /sdcard/screenshot.png not found"));
+        REQUIRE_FALSE(asst::adb::is_device_unreachable("Error: cannot close, file descriptor already closed"));
+        // adb 自己报的这两句仍然是掉线，不能被上面的收紧规则误伤
+        REQUIRE(asst::adb::is_device_unreachable("adb.exe: device 'emulator-5554' not found"));
+        REQUIRE(asst::adb::is_device_unreachable("adb: error: closed"));
+    }
 }
 
-TEST_CASE("asst::adb::is_client_missing", "[adb_failure]") {
+TEST_CASE("asst::adb::is_client_missing", "[adb_failure]")
+{
     REQUIRE(asst::adb::is_client_missing(AmStartActivityMissing));
     REQUIRE(asst::adb::is_client_missing(ActivityClassMissing));
     REQUIRE(asst::adb::is_client_missing("Error type 3"));

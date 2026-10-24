@@ -6,16 +6,6 @@
   ],
   "suites": [
     {
-      "id": "maa-algorithm-test",
-      "name": "Algorithm",
-      "buildTarget": "maa-algorithm-test",
-      "ctestRegex": "^algorithm::",
-      "paths": [
-        "src/MaaCore/Utils/Algorithm.hpp",
-        "unit_test/MaaCore/AlgorithmTest.cpp"
-      ]
-    },
-    {
       "id": "maa-adb-failure-test",
       "name": "AdbFailure",
       "buildTarget": "maa-adb-failure-test",

@@ -47,12 +47,23 @@ bool asst::AbstractTask::run()
         sleep(delay);
 
         if (!on_run_fails()) {
-            callback(AsstMsg::SubTaskError, basic_info());
+            // 插件已经用 report_error 报过确切原因时不再补通用错误
+            if (!m_error_reported) {
+                callback(AsstMsg::SubTaskError, basic_info());
+            }
             return false;
         }
     }
-    callback(AsstMsg::SubTaskError, basic_info());
+    if (!m_error_reported) {
+        callback(AsstMsg::SubTaskError, basic_info());
+    }
     return false;
+}
+
+void asst::AbstractTask::report_error(std::string what)
+{
+    callback(AsstMsg::SubTaskError, basic_info_with_what(std::move(what)));
+    m_error_reported = true;
 }
 
 AbstractTask& asst::AbstractTask::set_retry_times(int times) noexcept

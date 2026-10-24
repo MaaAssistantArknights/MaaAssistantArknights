@@ -34,12 +34,13 @@ inline constexpr size_t MaxFailureOutputSize = 4096;
         return true;
     }
 
+    // 标记都尽量取 adb 自己会打印的整句片段，而不是 `not found`、`closed` 这种任何输出里
+    // 都可能撞上的通用子串：`/system/bin/sh: screencap: not found` 这类命令级失败里也带 not found，
+    // 按设备掉线处理会把一次正常的命令失败升级成 5 轮重连空转。
     static constexpr std::string_view DeviceLostMarkers[] = {
-        "not found",       "offline",           "unauthorized",
-        "device still",    "no devices",        "no device/emulator",
-        "cannot connect",  "failed to connect", "protocol fault",
-        "transport error", "connection reset",  "more than one device",
-        "closed",
+        "device not found", "' not found",        "offline",           "unauthorized",      "device still",
+        "no devices",       "no device/emulator", "cannot connect",    "failed to connect", "protocol fault",
+        "transport error",  "connection reset",   "connection closed", "error: closed",     "more than one device",
     };
     for (auto marker : DeviceLostMarkers) {
         if (output.find(marker) != std::string_view::npos) {
@@ -47,9 +48,12 @@ inline constexpr size_t MaxFailureOutputSize = 4096;
         }
     }
 
+    // 命令级失败的标记：`Error type 3` / `Error:` / `java.lang.` 等是设备自己回的错，
+    // `: not found` 是 shell 找不到命令（`/system/bin/sh: screencap: not found`），
+    // 同样是命令没跑起来，不是设备掉了
     static constexpr std::string_view CommandFailedMarkers[] = {
-        "Error type",        "Error:",          "error:", "Exception", "java.lang.", "Permission Denial",
-        "SecurityException", "Unknown command", "usage:", "Warning:",
+        "Error type",        "Error:",          "error:", "Exception", "java.lang.",  "Permission Denial",
+        "SecurityException", "Unknown command", "usage:", "Warning:",  ": not found",
     };
     for (auto marker : CommandFailedMarkers) {
         if (output.find(marker) != std::string_view::npos) {
