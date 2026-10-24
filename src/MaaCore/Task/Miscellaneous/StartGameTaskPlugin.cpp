@@ -19,6 +19,11 @@ bool StartGameTaskPlugin::start_game_with_retries(
             return false;
         }
 
+        // adb-lite 等传输层会把 ｢组件不存在｣ 当成启动成功返回，重试到第 30 次纯属空转
+        if (ctrler()->client_not_found()) {
+            return false;
+        }
+
         if (ctrler()->get_pipe_data_size() > pipe_data_size_limit) {
             if (newer_android || ++extra_runs > 3) {
                 return true;
@@ -38,6 +43,14 @@ bool StartGameTaskPlugin::_run()
         return false;
     }
 
+    // 设备没连上时 ctrler() 里的 m_controller 为空，直接往下走会解引用空指针崩溃。
+    // 这里提前退出，让上层按 ｢连接失败｣ 处理，而不是崩在 get_version() 上。
+    if (!ctrler() || !ctrler()->inited()) {
+        LogWarn << "Controller is not initialized, skip starting the game client" << VAR(m_client_type);
+        report_error("ControllerNotInitialized");
+        return false;
+    }
+
     // check for MAC / iOS
     if (ctrler()->get_controller_type() == ControllerType::MacPlayTools) {
         return ctrler()->start_game(m_client_type);
@@ -54,7 +67,16 @@ bool StartGameTaskPlugin::_run()
     // so no need for limited tries
     bool newer_android = (ctrler()->get_version() > 8);
 
-    return start_game_with_retries(pipe_data_size_limit, newer_android);
+    bool ret = start_game_with_retries(pipe_data_size_limit, newer_android);
+
+    if (!ret && !need_exit() && ctrler()->client_not_found()) {
+        // 设备上没有 MAA 预期的客户端：重试和重连都没用，报确切原因，
+        // 别让上层笼统报成 ｢打开客户端失败，请检查配置文件｣ 这种误导。
+        LogWarn << "Client not found, no need to retry" << VAR(m_client_type);
+        report_error("ClientNotFound");
+    }
+
+    return ret;
 }
 
 StartGameTaskPlugin& StartGameTaskPlugin::set_client_type(std::string client_type) noexcept

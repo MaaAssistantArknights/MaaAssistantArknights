@@ -19,6 +19,7 @@
 
 #include "Common/AsstTypes.h"
 #include "Config/GeneralConfig.h"
+#include "Utils/AdbFailure.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
 #include "Utils/StringMisc.hpp"
@@ -87,18 +88,35 @@ std::optional<std::string> asst::AdbController::reconnect(const std::string& cmd
         if (need_exit()) {
             break;
         }
+        // adb connect 成功输出 `connected to <addr>` / `already connected to <addr>`，
+        // 失败输出是 `failed to connect to <addr>` / `cannot connect to <addr>`（也可能直接非零退出）。
+        // 原来只查有没有 "error" 字样，会把 failed to connect 误判成连接成功。
         bool is_reconnect_success = false;
         if (reconnect_ret) {
-            auto& reconnect_str = reconnect_ret.value();
-            is_reconnect_success = reconnect_str.find("error") == std::string::npos;
+            std::string_view reconnect_str = *reconnect_ret;
+            is_reconnect_success = reconnect_str.find("failed to connect") == std::string_view::npos &&
+                                   reconnect_str.find("cannot connect") == std::string_view::npos;
+            LogDebug << "adb connect output" << reconnect_str;
         }
         if (is_reconnect_success) {
-            auto recall_ret = call_command(cmd, timeout, false /* 禁止重连避免无限递归 */, recv_by_socket);
+            CommandFailure recall_failure;
+            auto recall_ret =
+                call_command(cmd, timeout, false /* 禁止重连避免无限递归 */, recv_by_socket, &recall_failure);
+            if (need_exit()) {
+                break;
+            }
             if (recall_ret) {
                 // 重连并成功执行了
                 reconnect_info["what"] = "Reconnected";
                 callback(AsstMsg::ConnectionInfo, reconnect_info);
                 return recall_ret;
+            }
+            if (!recall_failure.device_lost) {
+                // 连接已经恢复，是命令本身执行失败（如 am start 找不到目标组件），
+                // 再空转剩下的几轮没有意义；连接是好的，不清 m_inited 也不报 Disconnect，
+                // 把真实失败原因留给调用方
+                LogWarn << "Reconnected but the command still failed, not a connection problem" << VAR(cmd);
+                return std::nullopt;
             }
         }
     }
@@ -122,7 +140,8 @@ std::optional<std::string> asst::AdbController::call_command(
     const std::string& cmd,
     int64_t timeout,
     bool allow_reconnect,
-    bool recv_by_socket)
+    bool recv_by_socket,
+    CommandFailure* failure)
 {
     using namespace std::chrono_literals;
     using namespace std::chrono;
@@ -142,6 +161,11 @@ std::optional<std::string> asst::AdbController::call_command(
 
     if (!exit_res) {
         Log.warn("Call `", cmd, "` failed");
+        // 拉不起进程 / 超时，都无从判断原因，保守当作掉线
+        if (failure) {
+            failure->device_lost = true;
+            failure->output.clear();
+        }
         return std::nullopt;
     }
     const int exit_ret = exit_res.value();
@@ -174,13 +198,36 @@ std::optional<std::string> asst::AdbController::call_command(
     }
 
     if (!exit_ret) {
+        if (failure) {
+            failure->device_lost = false;
+            failure->output.clear();
+        }
         return recv_by_socket ? sock_data : pipe_data;
     }
-    else if (inited() && allow_reconnect) {
-        // 之前可以运行，突然运行不了了，这种情况多半是 adb 炸了。所以重新连接一下
+
+    // adb 进程非零退出有两类截然不同的含义，走重连阶梯前必须分清：
+    //   - 设备层面的失败，adb 自己报的（device offline / device 'xxx' not found 等），连接确实断了，重连才有意义；
+    //   - 命令自身的失败，命令已经送到设备、执行完返回非零，如 am start 找不到目标组件时的
+    //     `Error type 3` + `Error: Activity class {...} does not exist.`，
+    //     重连多少次结果都一样，只会白等 ReconnectTimes * 10 秒，最后报一句 ｢重连失败｣ 就收工，
+    //     顺带把一条好好的连接判成断连（GUI 侧再补一句 ｢打开客户端失败，请检查配置文件｣）。
+    // 判定规则见 asst::adb::is_device_unreachable。
+    // 诊断只看 pipe：adb 的报错走 stderr（与 stdout 合流进 pipe），socket 里是命令自己要回传的数据
+    // （截图字节等），拿二进制负载去判失败原因只会被误伤。
+    CommandFailure local_failure;
+    local_failure.device_lost = adb::is_device_unreachable(pipe_data);
+    local_failure.output = std::string(std::string_view(pipe_data).substr(0, adb::MaxFailureOutputSize));
+
+    if (failure) {
+        *failure = local_failure;
+    }
+
+    if (local_failure.device_lost && inited() && allow_reconnect) {
+        // 之前可以运行，突然设备就不可达了，这种情况多半是 adb 炸了。所以重新连接一下
         return reconnect(cmd, timeout, recv_by_socket);
     }
 
+    LogWarn << "Call `" << cmd << "` failed but the device is reachable, treat it as a command failure";
     return std::nullopt;
 }
 
@@ -414,6 +461,7 @@ void asst::AdbController::clear_info() noexcept
     m_height = 0;
     m_screen_size = { 0, 0 };
     m_last_fps_check_time = {}; // 重置帧率检测计时，重连后立即检测一次
+    m_client_not_found = false;
 }
 
 bool asst::AdbController::inited() const noexcept
@@ -423,6 +471,7 @@ bool asst::AdbController::inited() const noexcept
 
 bool asst::AdbController::start_game(const std::string& client_type)
 {
+    m_client_not_found = false;
     if (client_type.empty()) {
         return false;
     }
@@ -432,9 +481,25 @@ bool asst::AdbController::start_game(const std::string& client_type)
     }
 
     std::string cur_cmd = utils::string_replace_all(m_adb.start, "[PackageName]", package_name.value());
-    bool ret = call_command(cur_cmd).has_value();
+    CommandFailure start_failure;
+    auto start_ret = call_command(cur_cmd, 20'000, true, false, &start_failure);
+    bool ret = start_ret.has_value();
+
+    // am start 失败绝大多数不是连接问题，而是这台设备上没有 MAA 预期的客户端：
+    // 客户端没装、连错了模拟器实例、或客户端换了 Activity 名。记下来交给上层报确切原因，
+    // 别笼统报成 ｢打开客户端失败，请检查配置文件｣ 这种误导。
+    // adb-lite 走进程内 adb client，传输层把这种命令级失败当成功返回，所以成功时的输出也要一起判。
+    if (adb::is_client_missing(ret ? *start_ret : start_failure.output)) {
+        m_client_not_found = true;
+        LogWarn << "Client not found on the connected device" << VAR(package_name.value());
+    }
 
     return ret;
+}
+
+bool asst::AdbController::client_not_found() const noexcept
+{
+    return m_client_not_found;
 }
 
 bool asst::AdbController::stop_game(const std::string& client_type)

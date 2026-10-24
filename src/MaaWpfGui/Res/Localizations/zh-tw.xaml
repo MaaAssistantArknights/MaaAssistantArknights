@@ -1681,6 +1681,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BackgroundLinkStarted">開始執行任務</system:String>
     <system:String x:Key="BackgroundLinkStopped">任務終止</system:String>
     <system:String x:Key="FailedToOpenClient">開啟用戶端失敗，請檢查設定檔</system:String>
+    <system:String x:Key="ClientNotFound">目前的模擬器上沒有找到明日方舟用戶端，請確認已安裝用戶端，並選擇了正確的模擬器實例</system:String>
+    <system:String x:Key="StartGameFailedDisconnected">啟動遊戲失敗：與模擬器的連線已斷開</system:String>
     <system:String x:Key="ErrorOccurred">出現錯誤</system:String>
     <system:String x:Key="HasReturned">已返回</system:String>
     <system:String x:Key="DropRecognitionError">掉落辨識錯誤</system:String>
