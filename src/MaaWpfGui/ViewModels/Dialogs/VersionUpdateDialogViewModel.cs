@@ -1388,6 +1388,7 @@ public class VersionUpdateDialogViewModel : Screen
         await _runningState.UntilIdleAsync();
 
         var result = MessageBoxHelper.Show(
+            Application.Current?.MainWindow,
             description,
             title,
             MessageBoxButton.OKCancel,
