@@ -534,6 +534,16 @@ public class ToolboxViewModel : Screen
 
     private ObservableCollection<ObservableCollection<DepotResultDate>> _depotRows = [];
 
+    /// <summary>
+    /// 获取当前库存数据快照（过滤无效数量）。
+    /// </summary>
+    /// <returns> itemId 到数量的映射；没有任何库存数据时为 null。</returns>
+    public Dictionary<string, int>? GetDepotSnapshot()
+    {
+        var snapshot = DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count);
+        return snapshot.Count > 0 ? snapshot : null;
+    }
+
     public ObservableCollection<ObservableCollection<DepotResultDate>> DepotRows
     {
         get => _depotRows;
@@ -1103,7 +1113,7 @@ public class ToolboxViewModel : Screen
 
         // 库存基线为空说明从未成功识别过库存，对空基线做增量只会得到残缺数据，
         // 保持空状态以便消费侧按 ｢没有任何库存数据｣ 处理
-        if (!DepotResult.Any(item => item.Count >= 0))
+        if (GetDepotSnapshot() is null)
         {
             return;
         }
