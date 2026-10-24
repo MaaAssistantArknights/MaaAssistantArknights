@@ -1,1 +1,5 @@
 PP-OCRv6_small_rec_infer
+ONNX SHA-256: f9439bc49866e39c5403dd73f6807cf1d19800a0c25ef014b4786d39c6bc34e2
+Dictionary SHA-256: b5f2bfe2bdd9448429e3e82b51c789775d9b42f2403d082b00662eb77e401c5d
+Dictionary source: https://github.com/PaddlePaddle/PaddleOCR/blob/b03f46425e8ff4442b268ce449e3eef758146cd4/ppocr/utils/dict/ppocrv6_dict.txt
+Dictionary labels preserve literal apostrophes and ideographic spaces; no YAML escape conversion.
