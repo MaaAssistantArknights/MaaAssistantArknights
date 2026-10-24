@@ -3869,14 +3869,14 @@ public class AsstProxy
     }
 
     /// <summary>
-    /// 生息演算（牛杂）。不走 CustomTask 通道，直接以 Reclamation 任务类型提交。
+    /// 生息演算（牛杂）。不走 CustomTask 通道，直接以 Reclamation 任务类型提交；只追加不启动，启动由调用方负责。
     /// </summary>
     /// <param name="task">按当前配置构造的生息演算任务。</param>
-    /// <returns>是否成功启动。</returns>
+    /// <returns>是否成功追加。</returns>
     public bool AsstReclamation(AsstReclamationTask task)
     {
         var (isSuccess, _) = AsstAppendTaskWithEncoding(TaskType.Reclamation, task);
-        return isSuccess && AsstStart();
+        return isSuccess;
     }
 
     /// <summary>

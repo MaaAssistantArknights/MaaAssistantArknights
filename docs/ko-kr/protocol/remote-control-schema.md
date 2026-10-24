@@ -55,7 +55,7 @@ MAA는 이 엔드포인트를 고정 간격으로 지속적으로 폴링하여(�
         },
         {
             "id": "b353c469-b902-4357-bd8f-d133199eea31",   // 작업의 고유 ID
-            "type": "Toolbox-GachaOnce",                    // 툴박스의 1회 뽑기 작업. 선택 가능 값: Toolbox-GachaOnce, Toolbox-GachaTenTimes
+            "type": "Toolbox-GachaOnce",                    // 툴박스 작업. 선택 가능 값: Toolbox-GachaOnce, Toolbox-GachaTenTimes, Toolbox-Reclamation (생존 연산)
         },
         {
             "id": "b353c469-b902-4357-bd8f-d133199eea31",   // 작업의 고유 ID
@@ -86,7 +86,7 @@ MAA는 이 엔드포인트를 고정 간격으로 지속적으로 폴링하여(�
 ::: note
 
 - **LinkStart-[TaskName]** 유형의 `type` 선택 가능 값:
-  `LinkStart-Base`, `LinkStart-WakeUp`, `LinkStart-Combat`, `LinkStart-Recruiting`, `LinkStart-Mall`, `LinkStart-Mission`, `LinkStart-AutoRoguelike`, `LinkStart-Reclamation`
+  `LinkStart-Base`, `LinkStart-WakeUp`, `LinkStart-Combat`, `LinkStart-Recruiting`, `LinkStart-Mall`, `LinkStart-Mission`, `LinkStart-AutoRoguelike`; `LinkStart-Reclamation` 은 구버전 호환용 별칭으로 `Toolbox-Reclamation` 과 동등
 - **Settings-[SettingsName]** 유형의 `type` 선택 가능 값:
   `Settings-ConnectAddress`, `Settings-Stage1`
 - **Settings** 시리즈 작업은 순차 실행 작업으로 간주되어, 수신 즉시 실행되지 않고 이전 작업이 끝난 뒤 실행됩니다.

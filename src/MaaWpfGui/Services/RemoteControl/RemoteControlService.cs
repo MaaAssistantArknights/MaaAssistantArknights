@@ -276,6 +276,7 @@ public class RemoteControlService
                     case "LinkStart-Mission":
                     case "LinkStart-AutoRoguelike":
                     case "LinkStart-Reclamation":
+                    case "Toolbox-Reclamation":
                     case "Toolbox-GachaOnce":
                     case "Toolbox-GachaTenTimes":
                     case "CaptureImage":
@@ -334,7 +335,6 @@ public class RemoteControlService
                 case "LinkStart-Mall":
                 case "LinkStart-Mission":
                 case "LinkStart-AutoRoguelike":
-                case "LinkStart-Reclamation":
                     {
                         await LinkStart([type.Split('-')[1]]);
                         break;
@@ -353,6 +353,32 @@ public class RemoteControlService
                     {
                         await _runningState.UntilIdleAsync();
                         await Instances.ToolboxViewModel.GachaTenTimes();
+                        await _runningState.UntilIdleAsync();
+
+                        break;
+                    }
+
+                case "Toolbox-Reclamation":
+                case "LinkStart-Reclamation":
+                    {
+                        // 生息演算无导航、不与其他任务衔接，按工具箱形态完整执行，不进 LinkStart 批处理；
+                        // LinkStart-Reclamation 为兼容旧面板保留的别名
+                        await _runningState.UntilIdleAsync();
+                        await Execute.OnUIThreadAsync(async () => {
+                            Instances.TaskQueueViewModel.ClearLog();
+                            _runningState.BeginRun(RunOwner.MiniGame);
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
+                            if (!await Instances.TaskQueueViewModel.ConnectToConnectionTarget())
+                            {
+                                _runningState.SetIdle(true);
+                                return;
+                            }
+
+                            if (!ReclamationUserControlModel.Instance.AppendAndStartReclamationTask())
+                            {
+                                _runningState.SetIdle(true);
+                            }
+                        });
                         await _runningState.UntilIdleAsync();
 
                         break;
@@ -670,13 +696,6 @@ public class RemoteControlService
                             }
 
                             taskRet = false;
-                            break;
-                        }
-
-                    case "Reclamation":
-                        {
-                            // 生息演算已迁至工具箱，直读 Toolbox.MiniGame.Reclamation 配置提交，不再依赖任务队列条目
-                            taskRet &= ReclamationUserControlModel.Instance.AppendAndStartReclamationTask();
                             break;
                         }
 

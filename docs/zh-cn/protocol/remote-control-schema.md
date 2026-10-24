@@ -54,7 +54,7 @@ MAA 会以固定间隔持续轮询这个端点（默认 1 秒，可在设置中�
         },
         {
             "id": "b353c469-b902-4357-bd8f-d133199eea31",   //任务的唯一id，字符串类型，在汇报任务时会使用
-            "type": "Toolbox-GachaOnce",                    //工具箱中的牛牛抽卡任务，该类Type的可选取值为：Toolbox-GachaOnce, Toolbox-GachaTenTimes
+            "type": "Toolbox-GachaOnce",                    //工具箱中的任务，该类Type的可选取值为：Toolbox-GachaOnce, Toolbox-GachaTenTimes, Toolbox-Reclamation（生息演算）
         },
         {
             "id": "b353c469-b902-4357-bd8f-d133199eea31",   //任务的唯一id，字符串类型，在汇报任务时会使用
@@ -84,7 +84,7 @@ MAA 会以固定间隔持续轮询这个端点（默认 1 秒，可在设置中�
 
 ::: note
 
-- LinkStart-[TaskName] 型的任务 type 的可选值为 LinkStart-Base，LinkStart-WakeUp，LinkStart-Combat，LinkStart-Recruiting，LinkStart-Mall，LinkStart-Mission，LinkStart-AutoRoguelike，LinkStart-Reclamation
+- LinkStart-[TaskName] 型的任务 type 的可选值为 LinkStart-Base，LinkStart-WakeUp，LinkStart-Combat，LinkStart-Recruiting，LinkStart-Mall，LinkStart-Mission，LinkStart-AutoRoguelike；LinkStart-Reclamation 为兼容旧版保留的别名，等价于 Toolbox-Reclamation
 - Settings-[SettingsName] 型的任务的 type 的可选值为 Settings-ConnectAddress, Settings-Stage1
 - Settings 系列任务仍然是要按顺序执行的，并不会在收到任务的时候立刻执行，而是排在上一个任务的后面
 - 多个立即执行的任务也会按下发顺序执行，只不过这些任务的执行速度都很快，通常来说，并不需要关注他们的顺序。
