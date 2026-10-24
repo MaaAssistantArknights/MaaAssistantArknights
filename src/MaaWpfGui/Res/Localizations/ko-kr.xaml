@@ -1669,6 +1669,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="TaskError" xml:space="preserve">작업 오류: </system:String>
     <system:String x:Key="TaskErrorSummaryTitle">이번 실행에서 다음 오류가 발생했습니다:</system:String>
     <system:String x:Key="OutOfMemoryError">메모리 부족으로 {0} 작업이 중지되었습니다. 다른 프로그램을 종료하거나 MAA를 재시작한 후 다시 시도해 주세요</system:String>
+    <system:String x:Key="GpuDeviceRemovedRestartRequired">{0} 작업은 GPU 추론 장치를 사용할 수 없게 되어 중지되었습니다. 그래픽 드라이버 업데이트 또는 GPU 재설정이 원인일 수 있습니다. {key=RestartRecommendation}</system:String>
     <system:String x:Key="CombatError">작전 오류</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">작업 시작: </system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">작업 완료: </system:String>

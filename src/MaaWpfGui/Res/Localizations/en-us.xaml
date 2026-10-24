@@ -1667,6 +1667,7 @@ Right-click: select this job and exit multi-job mode</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">Task error:&#160;</system:String>
     <system:String x:Key="TaskErrorSummaryTitle">Errors occurred in this run:</system:String>
     <system:String x:Key="OutOfMemoryError">The {0} task stopped due to insufficient memory. Close some programs or restart MAA and try again</system:String>
+    <system:String x:Key="GpuDeviceRemovedRestartRequired">The {0} task stopped because the GPU inference device became unavailable, possibly after a graphics driver update or GPU reset. {key=RestartRecommendation}</system:String>
     <system:String x:Key="CombatError">Combat error</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">Start task:&#160;</system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">Complete task:&#160;</system:String>
