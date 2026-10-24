@@ -133,7 +133,7 @@ public:
 
     std::shared_ptr<Status> status() const { return m_status; }
 
-    bool need_exit() const noexcept { return m_lifecycle_state.load() == LifecycleState::Stopping; }
+    bool need_exit() const noexcept { return m_thread_exit || m_lifecycle_state.load() == LifecycleState::Stopping; }
 
 private:
     void append_callback(AsstMsg msg, const json::value& detail);
@@ -198,7 +198,10 @@ private:
     void working_proc();
     void msg_proc();
     void request_stop() noexcept;
-    void complete_stop() noexcept;
+    void complete_run(
+        std::unique_lock<std::mutex>& lock,
+        json::value& callback_json,
+        std::vector<TaskId>& finished_tasks) noexcept;
 
 private:
     void clear_cache();
@@ -227,6 +230,8 @@ private:
     void* m_callback_arg = nullptr;
 
     std::atomic<LifecycleState> m_lifecycle_state = LifecycleState::Idle;
+    // 连接与启动互斥；控制器 I/O 不占用任务状态锁，停止请求才能及时返回。
+    std::mutex m_connection_mutex;
     mutable std::mutex m_mutex;
     std::condition_variable m_condvar;
 
