@@ -18,6 +18,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.States;
 using Serilog;
 using Stylet;
 
@@ -89,6 +90,12 @@ public static class SleepManagement
 
     public static void BlockSleep(bool? allowBlockSleep = null, bool? blockSleepWithScreenOn = null) => Execute.OnUIThreadSync(() =>
     {
+        // A stop may have completed while this request was waiting for the UI thread.
+        if (RunningState.Instance.GetIdle())
+        {
+            return;
+        }
+
         if (!(allowBlockSleep ?? ConfigFactory.CurrentConfig.Gui.RuntimeSettings.BlockSleep))
         {
             return;
