@@ -3502,6 +3502,11 @@ public class ToolboxViewModel : Screen
 
     private async Task StartMiniGameAsync()
     {
+        if (!CheckSelectedMiniGameReady())
+        {
+            return;
+        }
+
         await StartMiniGameAsync(StartSelectedMiniGame);
     }
 
@@ -3522,11 +3527,6 @@ public class ToolboxViewModel : Screen
         if (Bootstrapper.TryGetTaskBlockReason() is { } reason)
         {
             Instances.TaskQueueViewModel.AddLog(reason, UiLogColor.Error);
-            return;
-        }
-
-        if (!CheckSelectedMiniGameReady())
-        {
             return;
         }
 
