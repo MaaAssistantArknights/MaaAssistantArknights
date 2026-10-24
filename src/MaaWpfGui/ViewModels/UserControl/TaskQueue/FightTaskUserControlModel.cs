@@ -1239,6 +1239,11 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
         }
 
         var depotList = Instances.ToolboxViewModel?.DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count) ?? [];
+        if (depotList.Count == 0)
+        {
+            return; // 库存数据为空时无法判定是否达标，不构成耗尽证明
+        }
+
         var currentCount = depotList.TryGetValue(dropId, out var value) ? value : 0;
         if (currentCount >= dropCount)
         {
@@ -1253,6 +1258,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
     /// <summary>
     /// 任务开始时用最新库存重算指定掉落材料的缺口：达标则 times=0 跳过整个任务（核心侧不进终端不导航）；
     /// 否则更新 drops，并在理智不足且无药剂/源石预算、临期药窗口已证明耗尽（或未启用）时同样 times=0 跳过。
+    /// 库存数据为空（从未成功识别过库存）时同样 times=0 跳过并记录错误，按 0 计缺口会把目标量全额下发。
     /// 供理智作战和库存保持任务统一调用。
     /// </summary>
     /// <param name="taskId">core 任务 id</param>
@@ -1270,6 +1276,17 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
         }
 
         var depotList = Instances.ToolboxViewModel?.DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count) ?? [];
+
+        // 库存数据为空说明从未成功识别过库存，缺口无从谈起，times=0 停刷等待重新识别
+        if (depotList.Count == 0)
+        {
+            task.MaxTimes = 0;
+            Instances.TaskQueueViewModel.AddLog(
+                LocalizationHelper.GetStringFormat("DepotPlanInventoryDataEmpty", logLabel ?? string.Empty),
+                UiLogColor.Error);
+            return Instances.AsstProxy.AsstSetTaskParamsEncoded(taskId, task);
+        }
+
         var currentCount = depotList.TryGetValue(dropId, out var value) ? value : 0;
         if (countDualChipAsChipPack)
         {

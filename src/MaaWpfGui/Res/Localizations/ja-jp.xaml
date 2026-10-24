@@ -1129,7 +1129,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">公開日まで: </system:String>
     <system:String x:Key="Inventory">在庫</system:String>
     <system:String x:Key="InventoryUpdateTip">在庫データは ｢{key=Toolbox}-{key=DepotRecognition}｣ で更新できます</system:String>
-    <system:String x:Key="SpecifiedDropsInventoryUnavailable">タスク ｢{0}｣ では {key=TargetInventory} が有効ですが、利用可能な在庫データがないためスキップされました。｢{key=Toolbox}-{key=DepotRecognition}｣ で在庫を更新してください。</system:String>
+    <system:String x:Key="SpecifiedDropsInventoryUnavailable">タスク ｢{0}｣ では {key=TargetInventory} が有効ですが、利用可能な在庫データがないためスキップされました。｢{key=UserDataUpdate}｣ タスクまたは ｢{key=Toolbox}-{key=DepotRecognition}｣ で在庫を更新してください。</system:String>
     <system:String x:Key="SpecifiedDropsInventoryEnough">{0} 十分 {1}/{2}</system:String>
     <system:String x:Key="UserDataUpdateCannotModifyExistingTask">追加済みの ｢{key=UserDataUpdate}｣ タスクのパラメータは変更できません</system:String>
     <system:String x:Key="UserDataUpdateNothingSelected">｢{key=OperBoxRecognition}｣ と ｢{key=DepotRecognition}｣ のどちらも選択されていません</system:String>
@@ -1172,6 +1172,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPlanSkippedActivity">イベント開催中</system:String>
     <system:String x:Key="DepotPlanSkippedResourceCollection">資源収集の期間限定全日開放中</system:String>
     <system:String x:Key="DepotPlanUpdateDepotFailed">在庫データの更新に失敗しました。</system:String>
+    <system:String x:Key="DepotPlanInventoryDataEmpty">#{0}：利用可能な在庫データがないため、周回をスキップしました。｢{key=UserDataUpdate}｣ タスクまたは ｢{key=Toolbox}-{key=DepotRecognition}｣ で在庫を更新してください。</system:String>
     <system:String x:Key="DepotUseAutoSeries">AUTO 連戦回数</system:String>
     <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">未チェック時は 1 倍で代理；チェック後は現在の理性で可能な最大倍率で代理し、1回の周回で目標在庫上限を超える場合があります。</system:String>
     <system:String x:Key="DepotEnableUseMedicine">｢{key=UseSanityPotion}｣ チェックボックスを有効化</system:String>
@@ -1470,6 +1471,7 @@ C:\leidian\LDPlayer9
     <!--  Logs  -->
     <system:String x:Key="Identifying">認識中……</system:String>
     <system:String x:Key="IdentificationCompleted">認識完了</system:String>
+    <system:String x:Key="DepotRecognitionEmptyResult">認識結果が空のため、既存の在庫データを保持しました</system:String>
     <!--  !Logs  -->
     <!--  Copilot  -->
     <system:String x:Key="Operator">オペレーター</system:String>

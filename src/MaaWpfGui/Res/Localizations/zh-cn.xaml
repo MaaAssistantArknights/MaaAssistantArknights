@@ -1128,7 +1128,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">剩余天数: </system:String>
     <system:String x:Key="Inventory">库存</system:String>
     <system:String x:Key="InventoryUpdateTip">可通过 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新库存数据</system:String>
-    <system:String x:Key="SpecifiedDropsInventoryUnavailable">任务 ｢{0}｣ 启用了 {key=TargetInventory}，但当前没有可用的库存数据，已跳过。可通过 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新库存。</system:String>
+    <system:String x:Key="SpecifiedDropsInventoryUnavailable">任务 ｢{0}｣ 启用了 {key=TargetInventory}，但当前没有可用的库存数据，已跳过。可通过 ｢{key=UserDataUpdate}｣ 任务或 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新库存。</system:String>
     <system:String x:Key="SpecifiedDropsInventoryEnough">{0} 已充足 {1}/{2}</system:String>
     <system:String x:Key="UserDataUpdateCannotModifyExistingTask">无法修改已添加的 ｢{key=UserDataUpdate}｣ 任务参数</system:String>
     <system:String x:Key="UserDataUpdateNothingSelected">｢{key=OperBoxRecognition}｣ 和 ｢{key=DepotRecognition}｣ 均未勾选</system:String>
@@ -1171,6 +1171,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPlanSkippedActivity">当前有活动进行中</system:String>
     <system:String x:Key="DepotPlanSkippedResourceCollection">当前处于资源收集限时全天开放期间</system:String>
     <system:String x:Key="DepotPlanUpdateDepotFailed">更新库存数据失败。</system:String>
+    <system:String x:Key="DepotPlanInventoryDataEmpty">#{0}：当前没有可用的库存数据，已跳过刷取。可通过 ｢{key=UserDataUpdate}｣ 任务或 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新库存。</system:String>
     <system:String x:Key="DepotUseAutoSeries">AUTO 代理倍率</system:String>
     <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">未勾选时按单倍代理；勾选后按当前理智可刷的最大倍率代理，单次刷取可能超过目标库存上限。</system:String>
     <system:String x:Key="DepotEnableUseMedicine">启用 ｢{key=UseSanityPotion}｣ 勾选框</system:String>
@@ -1469,6 +1470,7 @@ C:\leidian\LDPlayer9
     <!--  日志  -->
     <system:String x:Key="Identifying">正在识别……</system:String>
     <system:String x:Key="IdentificationCompleted">识别完成</system:String>
+    <system:String x:Key="DepotRecognitionEmptyResult">识别结果为空，已保留原有库存数据</system:String>
     <!--  !日志  -->
     <!--  自动战斗  -->
     <system:String x:Key="Operator">干员</system:String>
