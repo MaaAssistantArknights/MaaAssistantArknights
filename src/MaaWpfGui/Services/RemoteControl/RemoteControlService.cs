@@ -364,21 +364,7 @@ public class RemoteControlService
                         // 生息演算无导航、不与其他任务衔接，按工具箱形态完整执行，不进 LinkStart 批处理；
                         // LinkStart-Reclamation 为兼容旧面板保留的别名
                         await _runningState.UntilIdleAsync();
-                        await Execute.OnUIThreadAsync(async () => {
-                            Instances.TaskQueueViewModel.ClearLog();
-                            _runningState.BeginRun(RunOwner.MiniGame);
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
-                            if (!await Instances.TaskQueueViewModel.ConnectToConnectionTarget())
-                            {
-                                _runningState.SetIdle(true);
-                                return;
-                            }
-
-                            if (!ReclamationUserControlModel.Instance.AppendAndStartReclamationTask())
-                            {
-                                _runningState.SetIdle(true);
-                            }
-                        });
+                        await Instances.ToolboxViewModel.StartReclamation();
                         await _runningState.UntilIdleAsync();
 
                         break;

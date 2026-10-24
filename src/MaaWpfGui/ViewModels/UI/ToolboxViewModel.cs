@@ -3502,6 +3502,23 @@ public class ToolboxViewModel : Screen
 
     private async Task StartMiniGameAsync()
     {
+        await StartMiniGameAsync(StartSelectedMiniGame);
+    }
+
+    /// <summary>
+    /// 启动生息演算任务，含入口前置检查与模拟器连接。
+    /// </summary>
+    /// <returns>Task</returns>
+    public async Task StartReclamation()
+    {
+        await StartMiniGameAsync(ReclamationUserControlModel.Instance.AppendAndStartReclamationTask);
+    }
+
+    /// <summary>小游戏启动骨架：前置检查、连接与提交由各入口复用，submit 为条目提交动作。</summary>
+    /// <param name="submit">条目提交动作，返回任务是否成功提交。</param>
+    /// <returns>Task</returns>
+    private async Task StartMiniGameAsync(Func<bool> submit)
+    {
         if (Bootstrapper.TryGetTaskBlockReason() is { } reason)
         {
             Instances.TaskQueueViewModel.AddLog(reason, UiLogColor.Error);
@@ -3532,7 +3549,7 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        caught = StartSelectedMiniGame();
+        caught = submit();
         if (!caught)
         {
             _runningState.SetIdle(true);
