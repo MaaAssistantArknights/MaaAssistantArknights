@@ -1131,7 +1131,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">剩餘天數: </system:String>
     <system:String x:Key="Inventory">庫存</system:String>
     <system:String x:Key="InventoryUpdateTip">可透過 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新庫存數據</system:String>
-    <system:String x:Key="SpecifiedDropsInventoryUnavailable">任務 ｢{0}｣ 啟用了 {key=TargetInventory}，但目前沒有可用的庫存數據，已跳過。可透過 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新庫存。</system:String>
+    <system:String x:Key="SpecifiedDropsInventoryUnavailable">任務 ｢{0}｣ 啟用了 {key=TargetInventory}，但目前沒有可用的庫存數據，已跳過。可透過 ｢{key=UserDataUpdate}｣ 任務或 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新庫存。</system:String>
     <system:String x:Key="SpecifiedDropsInventoryEnough">{0} 已充足 {1}/{2}</system:String>
     <system:String x:Key="UserDataUpdateCannotModifyExistingTask">無法修改已添加的 ｢{key=UserDataUpdate}｣ 任務參數</system:String>
     <system:String x:Key="UserDataUpdateNothingSelected">｢{key=OperBoxRecognition}｣ 和 ｢{key=DepotRecognition}｣ 均未勾選</system:String>
@@ -1174,6 +1174,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPlanSkippedActivity">目前有活動進行中</system:String>
     <system:String x:Key="DepotPlanSkippedResourceCollection">目前處於資源收集限時全天開放期間</system:String>
     <system:String x:Key="DepotPlanUpdateDepotFailed">更新庫存數據失敗。</system:String>
+    <system:String x:Key="DepotPlanInventoryDataEmpty">#{0}：目前沒有可用的庫存數據，已跳過刷取。可透過 ｢{key=UserDataUpdate}｣ 任務或 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新庫存。</system:String>
     <system:String x:Key="DepotUseAutoSeries">AUTO 代理倍率</system:String>
     <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">未勾選時按單倍代理；勾選後按目前理智可刷的最大倍率代理，單次刷取可能超過目標庫存上限。</system:String>
     <system:String x:Key="DepotEnableUseMedicine">啟用 ｢{key=UseSanityPotion}｣ 勾選框</system:String>
@@ -1472,6 +1473,7 @@ C:\leidian\LDPlayer9
     <!--  日誌  -->
     <system:String x:Key="Identifying">正在辨識……</system:String>
     <system:String x:Key="IdentificationCompleted">辨識完成</system:String>
+    <system:String x:Key="DepotRecognitionEmptyResult">辨識結果為空，已保留原有庫存數據</system:String>
     <!--  !日誌  -->
     <!--  Copilot  -->
     <system:String x:Key="Operator">幹員</system:String>

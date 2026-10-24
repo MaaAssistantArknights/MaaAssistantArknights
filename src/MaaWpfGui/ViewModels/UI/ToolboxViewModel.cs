@@ -535,6 +535,16 @@ public class ToolboxViewModel : Screen
 
     private ObservableCollection<ObservableCollection<DepotResultDate>> _depotRows = [];
 
+    /// <summary>
+    /// 获取当前库存数据快照（过滤无效数量）。
+    /// </summary>
+    /// <returns> itemId 到数量的映射；没有任何库存数据时为 null。</returns>
+    public Dictionary<string, int>? GetDepotSnapshot()
+    {
+        var snapshot = DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count);
+        return snapshot.Count > 0 ? snapshot : null;
+    }
+
     public ObservableCollection<ObservableCollection<DepotResultDate>> DepotRows
     {
         get => _depotRows;
@@ -754,13 +764,6 @@ public class ToolboxViewModel : Screen
             return false;
         }
 
-        if (_pendingDepotSyncTimeResetTaskIds.Remove(taskId))
-        {
-            ResetDepotRecognitionState();
-        }
-
-        DepotResult.Clear();
-
         Dictionary<string, int> depotItems = [];
 
         // 尝试解析新格式
@@ -797,24 +800,37 @@ public class ToolboxViewModel : Screen
         // 如果新格式解析失败，尝试旧格式
         if (depotItems.Count == 0)
         {
-            if (depotItems.Count == 0)
+            var arkplannerItems = details["arkplanner"]?["object"]?["items"]?.Cast<JObject>() ?? [];
+
+            foreach (var item in arkplannerItems)
             {
-                var arkplannerItems = details["arkplanner"]?["object"]?["items"]?.Cast<JObject>() ?? [];
-
-                foreach (var item in arkplannerItems)
+                var id = (string?)item["id"];
+                if (string.IsNullOrEmpty(id))
                 {
-                    var id = (string?)item["id"];
-                    if (string.IsNullOrEmpty(id))
-                    {
-                        continue;
-                    }
+                    continue;
+                }
 
-                    if (item["have"] != null && int.TryParse(item["have"]?.ToString(), out var count))
-                    {
-                        depotItems[id] = count;
-                    }
+                if (item["have"] != null && int.TryParse(item["have"]?.ToString(), out var count))
+                {
+                    depotItems[id] = count;
                 }
             }
+        }
+
+        // 识别回调结果为空说明识别流程出错（如误进其他界面），正常识别必含基础物品；
+        // 保留原有库存数据与同步时间，等同这次识别未发生，等待下次识别纠正，避免空数据清掉缓存后被按 0 库存刷取；
+        // 本地加载与演示回放的空数据不在此列，照常走清空流程
+        if (depotItems.Count == 0 && updateSyncTime)
+        {
+            _pendingDepotSyncTimeResetTaskIds.Remove(taskId);
+            _logger.Warning("Depot recognition returned no items, keep existing depot data");
+            DepotInfo = LocalizationHelper.GetString("DepotRecognitionEmptyResult");
+            return true;
+        }
+
+        if (_pendingDepotSyncTimeResetTaskIds.Remove(taskId))
+        {
+            ResetDepotRecognitionState();
         }
 
         // 构建结果并检查成就，按游戏内置 sortId 排序
@@ -823,7 +839,7 @@ public class ToolboxViewModel : Screen
             Name = ItemListHelper.GetItemName(kvp.Key),
             Image = ItemListHelper.GetItemImage(kvp.Key),
             Count = kvp.Value,
-        }).OrderBy(r => r);
+        }).OrderBy(r => r).ToList();
 
         foreach (var result in results)
         {
@@ -834,6 +850,7 @@ public class ToolboxViewModel : Screen
             }
         }
 
+        DepotResult.Clear();
         DepotResult.AddRange(results);
 
         // 标记缓存失效
@@ -1095,6 +1112,13 @@ public class ToolboxViewModel : Screen
             return;
         }
 
+        // 库存基线为空说明从未成功识别过库存，对空基线做增量只会得到残缺数据，
+        // 保持空状态以便消费侧按 ｢没有任何库存数据｣ 处理
+        if (GetDepotSnapshot() is null)
+        {
+            return;
+        }
+
         bool hasUpdates = false;
 
         foreach (var (itemId, _, total, add) in drops)
@@ -1164,7 +1188,7 @@ public class ToolboxViewModel : Screen
     /// </summary>
     public void ResetDepotRecognitionState()
     {
-        // DepotParse 方法已经处理了数据清除和缓存失效，这里不需要重复调用
+        // DepotParse 方法已在识别结果非空时处理数据清除和缓存失效，这里不需要重复调用
         // DepotClear();
         LastDepotSyncTime = null;
     }
@@ -1210,7 +1234,6 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        ResetDepotRecognitionState();
         StartDepotRecognitionTask();
     }
 
