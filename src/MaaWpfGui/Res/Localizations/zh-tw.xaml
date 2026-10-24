@@ -288,6 +288,10 @@
     <system:String x:Key="RoguelikeBlackFlowSerpentRewards">羽蛇獎勵</system:String>
     <system:String x:Key="RoguelikeBlackFlowSerpentRewardsInactive">選了襁褓羽蛇才生效</system:String>
     <system:String x:Key="RoguelikeBlackFlowPrepSquad">準備局分隊</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartUtopia">凹第一層實托邦</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartUtopiaTip" xml:space="preserve">目標局在支援頁出現期望獎勵後，依 ｢{key=RoguelikeBlackFlowStartRewardPriority}｣ 選卡並進入第一層。&#10;第一層是實托邦就退出並保留這一局，不是就放棄這一局，重新進行準備局。&#10;目標局用一般設定裡的職業組和開局幹員開局。&#10;需難度 6 以上；難度選擇不切換時不檢查難度。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartRewardPriority">開局獎勵選擇優先順序</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartRewardPriorityTip" xml:space="preserve">拖動調整順序。&#10;支援頁依從上到下的順序，選在場的卡。&#10;順序和上面的動物、獎勵勾選無關：沒要求 ｢{key=RoguelikeBlackFlowCultivationTargetFeatheredSerpent}｣ 時也可能帶上牠，所以羽蛇獎勵也排在裡面。</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardUnnumberedItem">未編號物</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardSurveyAdvance">調查預付款</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardSpaceLease">空間租賃</system:String>
@@ -2803,6 +2807,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="BlackFlowStartRunPreparing">正在進行準備局</system:String>
     <system:String x:Key="BlackFlowStartRunTargetRun">已切換到目標局，等待檢查開局獎勵</system:String>
     <system:String x:Key="BlackFlowStartRunRewardMissed">開局獎勵未命中，重新進行準備局</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardPicked">開局獎勵已選取，進入第一層檢查實托邦</system:String>
     <system:String x:Key="BlackFlowStartRunCompleted">開局目標已滿足，已退出並保留這一局</system:String>
     <system:String x:Key="BlackFlowStartRunRewardRecognitionFailed">開局獎勵辨識失敗，已停止任務</system:String>
     <system:String x:Key="BlackFlowStartRunRewardPageMissing">未辨識到開局獎勵頁，已停止任務</system:String>
@@ -2810,4 +2815,6 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="BlackFlowStartRunRewardsSeen">本次支援頁：{0}</system:String>
     <system:String x:Key="BlackFlowStartRunPrepared">開局準備已完成</system:String>
     <system:String x:Key="BlackFlowStartRunPreparedReason">已到達第三層，將按目標難度和分隊開啟下一局</system:String>
+    <system:String x:Key="BlackFlowStartRunUtopiaMissed">第一層不是實托邦</system:String>
+    <system:String x:Key="BlackFlowStartRunUtopiaMissedReason">將放棄這一局，重新進行準備局</system:String>
 </ResourceDictionary>

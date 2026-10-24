@@ -35,7 +35,6 @@ public:
 public:
     virtual bool verify(AsstMsg msg, const json::value& details) const override;
     virtual bool load_params([[maybe_unused]] const json::value& params) override;
-    void set_custom(RoguelikeCustomType type, std::string custom);
 
 protected:
     virtual bool _run() override;
@@ -49,7 +48,6 @@ private:
 
 private:
     RoguelikeStartSelect m_start_select; // 开局选择
-    std::unordered_map<RoguelikeCustomType, std::string> m_customs;
     mutable RoguelikeCustomType m_waiting_to_run = RoguelikeCustomType::None;
 
     std::string m_squad;

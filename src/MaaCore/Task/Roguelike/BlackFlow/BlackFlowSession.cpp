@@ -2344,6 +2344,22 @@ void BlackFlowSession::fail(std::string outcome, std::string reason, FailureDisp
     m_result->next_action = disposition == FailureDisposition::RestartRun ? "restart_current_run" : "stop_run";
 }
 
+void BlackFlowSession::conclude_and_restart(std::string outcome, std::string reason)
+{
+    if (m_result.has_value()) {
+        LogWarn << __FUNCTION__ << "ignore conclusion; strategy result already present" << outcome << reason;
+        return;
+    }
+    m_result = BlackFlowStrategyResult {
+        m_profile,
+        std::move(outcome),
+        std::move(reason),
+        static_cast<int>(std::clamp<std::int64_t>(integer_fact(m_facts.merged(), "cultivated_animals"), 0, 3)),
+        true,
+    };
+    m_result->next_action = "restart_current_run";
+}
+
 bool BlackFlowSession::claim_result_report() noexcept
 {
     if (!m_result.has_value() || m_result_reported) {
