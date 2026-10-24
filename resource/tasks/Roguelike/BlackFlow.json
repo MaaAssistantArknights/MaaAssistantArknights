@@ -1791,15 +1791,17 @@
         "text": ["源流堆栈"]
     },
     "BlackFlow@Roguelike@SquadConfirm": {
-        "Doc": "开局分队确认，之后可能出现藏品弹窗、干员选择或招募界面。",
+        "Doc": "开局分队确认，之后可能出现藏品弹窗、干员选择或招募界面。点击偶发不生效时重试一次。",
         "template": "BlackFlow@Roguelike@LastRewardConfirm.png",
+        "postDelay": 1200,
         "next": [
             "BlackFlow@Roguelike@SquadConfirmRewardPopup",
             "BlackFlow@Roguelike@LastReward-EnterPoint",
             "BlackFlow@Roguelike@RolesDefault",
             "BlackFlow@Roguelike@RecruitMain",
             "BlackFlow@Roguelike@SquadConfirm@(BlackFlow@Roguelike@CloseCollection)",
-            "BlackFlow@Roguelike@Stages#next"
+            "BlackFlow@Roguelike@Stages#next",
+            "#self"
         ]
     },
     "BlackFlow@Roguelike@SquadConfirmRewardPopup": {
