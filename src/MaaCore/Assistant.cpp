@@ -156,7 +156,7 @@ Assistant::~Assistant()
         m_msg_thread.join();
     }
     // 同步连接也可能仍在退出；等待其释放控制器后再销毁实例。
-    std::unique_lock<std::mutex> connection_lock(m_connection_mutex);
+    std::unique_lock<std::mutex> control_lock(m_control_mutex);
     m_ctrler.reset();
     if (m_callback) {
         m_callback(static_cast<AsstMsgId>(AsstMsg::Destroyed), "{}", m_callback_arg);
@@ -241,20 +241,24 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
     return false;
 }
 
-bool asst::Assistant::begin_connection(AsyncCallId call_id)
+bool asst::Assistant::begin_control_call(AsyncCallId call_id, bool allow_running)
 {
     std::unique_lock<std::mutex> lock(m_mutex);
-    if (m_thread_exit || m_lifecycle_state.load() != LifecycleState::Idle || call_id <= m_cancelled_call_id.load()) {
+    const auto state = m_lifecycle_state.load();
+    if (m_thread_exit || call_id <= m_cancelled_call_id.load() ||
+        (state != LifecycleState::Idle && !(allow_running && state == LifecycleState::Running))) {
         return false;
     }
-    m_lifecycle_state.store(LifecycleState::Connecting);
+    if (state == LifecycleState::Idle) {
+        m_lifecycle_state.store(LifecycleState::Controlling);
+    }
     return true;
 }
 
-void asst::Assistant::finish_connection() noexcept
+void asst::Assistant::finish_control_call() noexcept
 {
     std::unique_lock<std::mutex> lock(m_mutex);
-    if (m_lifecycle_state.load() == LifecycleState::Connecting) {
+    if (m_lifecycle_state.load() == LifecycleState::Controlling) {
         m_lifecycle_state.store(LifecycleState::Idle);
     }
     m_condvar.notify_all();
@@ -268,15 +272,15 @@ bool asst::Assistant::ctrl_connect(
 {
     LogTraceFunction;
 
-    std::unique_lock<std::mutex> connection_lock(m_connection_mutex);
-    if (!begin_connection(call_id)) {
+    std::unique_lock<std::mutex> control_lock(m_control_mutex);
+    if (!begin_control_call(call_id)) {
         return false;
     }
-    OnScopeLeave([this]() { finish_connection(); });
+    OnScopeLeave([this]() { finish_control_call(); });
 
 #ifdef ASST_SMOKE_TESTING
     if (config == "LIFECYCLE_TEST") {
-        // 持有真实连接锁模拟在途 I/O，并从连接线程触发内部停止回调。
+        // 持有真实控制器锁模拟在途 I/O，并从连接线程触发内部停止回调。
         DebugTask task(append_callback_for_inst, this);
         task.set_params(json::object { { "mode", "lifecycle_internal_stop" } });
         task.run();
@@ -302,11 +306,11 @@ bool asst::Assistant::ctrl_attach_window(
 {
     LogTraceFunction;
 
-    std::unique_lock<std::mutex> connection_lock(m_connection_mutex);
-    if (!begin_connection(call_id)) {
+    std::unique_lock<std::mutex> control_lock(m_control_mutex);
+    if (!begin_control_call(call_id)) {
         return false;
     }
-    OnScopeLeave([this]() { finish_connection(); });
+    OnScopeLeave([this]() { finish_control_call(); });
 
     bool ret = m_ctrler->attach_window(hwnd, screencap_method, mouse_method, keyboard_method);
     if (ret) {
@@ -317,14 +321,24 @@ bool asst::Assistant::ctrl_attach_window(
 }
 #endif
 
-bool asst::Assistant::ctrl_click(int x, int y)
+bool asst::Assistant::ctrl_click(int x, int y, AsyncCallId call_id)
 {
-    return m_ctrler->click(Point(x, y));
+    std::unique_lock<std::mutex> control_lock(m_control_mutex);
+    if (!begin_control_call(call_id, true)) {
+        return false;
+    }
+    OnScopeLeave([this]() { finish_control_call(); });
+    return m_ctrler->click(Point(x, y)) && !need_exit();
 }
 
-bool asst::Assistant::ctrl_screencap()
+bool asst::Assistant::ctrl_screencap(AsyncCallId call_id)
 {
-    return m_ctrler->screencap_for_preview();
+    std::unique_lock<std::mutex> control_lock(m_control_mutex);
+    if (!begin_control_call(call_id, true)) {
+        return false;
+    }
+    OnScopeLeave([this]() { finish_control_call(); });
+    return m_ctrler->screencap_for_preview() && !need_exit();
 }
 
 asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, const std::string& params)
@@ -547,8 +561,8 @@ bool asst::Assistant::start()
     LogTraceFunction;
     LogInfo << "Start";
 
-    std::unique_lock<std::mutex> connection_lock(m_connection_mutex, std::try_to_lock);
-    if (!connection_lock.owns_lock()) {
+    std::unique_lock<std::mutex> control_lock(m_control_mutex, std::try_to_lock);
+    if (!control_lock.owns_lock()) {
         return false;
     }
     std::unique_lock<std::mutex> lock(m_mutex);
@@ -580,8 +594,8 @@ void Assistant::request_stop() noexcept
 {
     std::unique_lock<std::mutex> lock(m_mutex);
     m_cancelled_call_id.store(m_call_id.load());
-    if (m_lifecycle_state.load() == LifecycleState::Idle) {
-        // 空闲时没有在途任务，可同步清理并保留 Stop -> Append -> Start 的调用方式。
+    if (m_lifecycle_state.load() == LifecycleState::Idle && !m_ctrler->has_pending_io()) {
+        // 空闲且没有后台 I/O 时同步清理，保留 Stop -> Append -> Start 的调用方式。
         m_tasks_list.clear();
         best_effort([this]() { clear_cache(); });
     }
@@ -601,6 +615,7 @@ void Assistant::complete_run(
     const bool stopped = m_lifecycle_state.load() == LifecycleState::Stopping;
     // 连接取消由连接调用返回失败，不伪造任务终止事件让 GUI 提前恢复为空闲。
     const bool notify = !callback_json.empty() || !m_tasks_list.empty() || !finished_tasks.empty();
+    m_cancelled_call_id.store(m_call_id.load());
     m_lifecycle_state.store(LifecycleState::Stopping);
     best_effort([&]() {
         if (callback_json.empty()) {
@@ -618,8 +633,9 @@ void Assistant::complete_run(
     m_tasks_list.clear();
     lock.unlock();
 
-    // 等待已取消的连接回收 I/O 后才能发布 Idle；停止请求本身不等待这把锁。
-    std::unique_lock<std::mutex> connection_lock(m_connection_mutex);
+    // 等待连接、点击和预览截图退出后才能发布 Idle；停止请求本身不等待这把锁。
+    std::unique_lock<std::mutex> control_lock(m_control_mutex);
+    best_effort([this]() { m_ctrler->wait_for_pending_io(); });
     // 收尾期间仍为 Stopping。窗口恢复等控制器操作不能阻塞新的停止请求。
     best_effort([this]() { clear_cache(); });
     best_effort([]() { Log.flush(); });
@@ -627,7 +643,7 @@ void Assistant::complete_run(
     best_effort([this]() { m_ctrler->restore_window_position(); });
 #endif
     lock.lock();
-    connection_lock.unlock();
+    control_lock.unlock();
     m_lifecycle_state.store(LifecycleState::Idle);
     if (notify) {
         best_effort([&]() {
@@ -898,12 +914,12 @@ void asst::Assistant::call_proc()
                 case AsyncCallItem::Type::Click: {
                     what = "Click";
                     const auto& [x, y] = std::get<AsyncCallItem::ClickParams>(call_item.params);
-                    ret = call_item.id > m_cancelled_call_id.load() && ctrl_click(x, y);
+                    ret = ctrl_click(x, y, call_item.id);
                 } break;
                 case AsyncCallItem::Type::Screencap: {
                     what = "Screencap";
                     std::ignore = std::get<AsyncCallItem::ScreencapParams>(call_item.params);
-                    ret = call_item.id > m_cancelled_call_id.load() && ctrl_screencap();
+                    ret = ctrl_screencap(call_item.id);
                 } break;
                 default:
                     what = "Unknown";

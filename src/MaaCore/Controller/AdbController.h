@@ -78,6 +78,9 @@ public:
 
     virtual bool inited() const noexcept override;
 
+    virtual bool has_pending_io() const override;
+    virtual void wait_for_pending_io() override;
+
     virtual const std::string& get_uuid() const override;
 
     virtual size_t get_pipe_data_size() const noexcept override;
