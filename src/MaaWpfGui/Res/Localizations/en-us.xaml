@@ -1029,14 +1029,14 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="OperProgressSupplyEnableTip" xml:space="preserve">Scan inventory after cultivation to show the Elite 2 Chip Pack shortfall confirmed during this run.&#10;This covers verified Elite 2 Chip Pack requirements only, excluding other materials and Chip Catalysts.</system:String>
     <system:String x:Key="OperProgressSupplySet">Set up supplies</system:String>
     <system:String x:Key="OperProgressSupplyUpdate">Update supply list</system:String>
+    <system:String x:Key="OperProgressSupplyReplace">Replace supply list</system:String>
     <system:String x:Key="OperProgressSupplyConfigured">Configured</system:String>
     <system:String x:Key="OperProgressSupplyDismiss">Dismiss this report</system:String>
     <system:String x:Key="OperProgressSupplyMissingCount">Missing {0}</system:String>
     <system:String x:Key="OperProgressSupplyScopeTip" xml:space="preserve">Based on the inventory scan after this cultivation run.&#10;Each matching Dualchip counts as 2 Chip Packs.&#10;Only verified Elite 2 Chip Pack requirements are included; other materials and Chip Catalysts are excluded.</system:String>
     <system:String x:Key="OperProgressSupplySatisfiedTip" xml:space="preserve">All verified Chip Pack requirements are met.&#10;The previous supply list can be cleared while retaining the task and settings.</system:String>
     <system:String x:Key="OperProgressSupplyUnverifiedTip" xml:space="preserve">Elite 2 requirements or inventory could not be fully verified.&#10;This report cannot update the supply list.&#10;Check again after the next cultivation run.</system:String>
-    <system:String x:Key="OperProgressSupplyConfirmTip" xml:space="preserve">Replace the supply list with these total cultivation requirements?&#10;These totals include existing stock.&#10;Inventory will be checked again before farming, and only the shortfall will be farmed.&#10;&#10;{0}&#10;&#10;Medicine settings and the task checkbox will be preserved.</system:String>
-    <system:String x:Key="OperProgressSupplyReplaceSourceTip">This will link the existing supply task to the current cultivation task and replace its previous material list.</system:String>
+    <system:String x:Key="OperProgressSupplyReplaceSourceTip">This replaces the supply list linked to another cultivation task.</system:String>
     <system:String x:Key="OperProgress.SkillLevelTarget">Skill level {0}</system:String>
     <system:String x:Key="OperProgress.MasteryTarget">Skill {0}, mastery {1}</system:String>
     <system:String x:Key="OperProgress.EliteTarget">Elite {0}</system:String>

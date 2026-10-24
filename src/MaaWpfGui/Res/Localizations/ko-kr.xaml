@@ -1030,14 +1030,14 @@ C:\leidian\LDPlayer9
     <system:String x:Key="OperProgressSupplyEnableTip" xml:space="preserve">육성 종료 후 창고를 인식하여 이번에 확인된 2차 정예화 칩셋 부족분을 표시합니다.&#10;확인된 2차 정예화 칩셋만 포함하며 다른 재료와 칩 첨가제는 제외됩니다.</system:String>
     <system:String x:Key="OperProgressSupplySet">재료 보충 설정</system:String>
     <system:String x:Key="OperProgressSupplyUpdate">보충 목록 업데이트</system:String>
+    <system:String x:Key="OperProgressSupplyReplace">보충 목록 교체</system:String>
     <system:String x:Key="OperProgressSupplyConfigured">설정됨</system:String>
     <system:String x:Key="OperProgressSupplyDismiss">이번 보고 무시</system:String>
     <system:String x:Key="OperProgressSupplyMissingCount">{0} 부족</system:String>
     <system:String x:Key="OperProgressSupplyScopeTip" xml:space="preserve">이번 육성 후의 창고 인식을 기준으로 계산합니다.&#10;해당 듀얼 칩 1개는 칩셋 2개로 환산합니다.&#10;확인된 2차 정예화 칩셋만 포함하며 다른 재료와 칩 첨가제는 제외됩니다.</system:String>
     <system:String x:Key="OperProgressSupplySatisfiedTip" xml:space="preserve">확인된 칩셋 필요량이 모두 충족되었습니다.&#10;작업과 설정을 유지한 채 기존 보충 목록을 비울 수 있습니다.</system:String>
     <system:String x:Key="OperProgressSupplyUnverifiedTip" xml:space="preserve">2차 정예화 필요량 또는 창고 재고를 완전히 확인하지 못해 보충 목록을 업데이트할 수 없습니다.&#10;다음 육성 후 다시 확인하세요.</system:String>
-    <system:String x:Key="OperProgressSupplyConfirmTip" xml:space="preserve">아래 육성 총 필요량으로 보충 목록을 교체할까요?&#10;보유 재고가 포함된 수량입니다.&#10;파밍 전에 재고를 다시 확인하고 부족분만 파밍합니다.&#10;&#10;{0}&#10;&#10;회복제 설정과 작업 선택 상태는 유지됩니다.</system:String>
-    <system:String x:Key="OperProgressSupplyReplaceSourceTip">기존 보충 작업을 현재 육성 작업에 연결하고 이전 재료 목록을 교체합니다.</system:String>
+    <system:String x:Key="OperProgressSupplyReplaceSourceTip">다른 육성 작업에 연결된 보충 목록을 교체합니다.</system:String>
     <system:String x:Key="OperProgress.SkillLevelTarget">스킬 레벨 {0}</system:String>
     <system:String x:Key="OperProgress.MasteryTarget">스킬 {0}, 마스터리 {1}</system:String>
     <system:String x:Key="OperProgress.EliteTarget">정예화 {0}</system:String>

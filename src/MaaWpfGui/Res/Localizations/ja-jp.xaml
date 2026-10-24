@@ -1031,14 +1031,14 @@ C:\leidian\LDPlayer9
     <system:String x:Key="OperProgressSupplyEnableTip" xml:space="preserve">育成終了後に倉庫を認識し、今回確認できた昇進2の中級SoC不足を表示します。&#10;確認済みの昇進2の中級SoCのみが対象です。&#10;他の素材やSoC強化剤は含まれません。</system:String>
     <system:String x:Key="OperProgressSupplySet">素材補充を設定</system:String>
     <system:String x:Key="OperProgressSupplyUpdate">補充リストを更新</system:String>
+    <system:String x:Key="OperProgressSupplyReplace">補充リストを置換</system:String>
     <system:String x:Key="OperProgressSupplyConfigured">設定済み</system:String>
     <system:String x:Key="OperProgressSupplyDismiss">今回は非表示</system:String>
     <system:String x:Key="OperProgressSupplyMissingCount">不足 {0}</system:String>
     <system:String x:Key="OperProgressSupplyScopeTip" xml:space="preserve">今回の育成後の倉庫認識に基づきます。&#10;対応する上級SoCは1個につき中級SoC2個に換算します。&#10;確認済みの昇進2の中級SoCのみが対象です。&#10;他の素材やSoC強化剤は含まれません。</system:String>
     <system:String x:Key="OperProgressSupplySatisfiedTip" xml:space="preserve">確認済みの中級SoC必要数はすべて満たされています。&#10;タスクと設定を保持して、以前の補充リストを空にできます。</system:String>
     <system:String x:Key="OperProgressSupplyUnverifiedTip" xml:space="preserve">昇進2の必要数または倉庫の所持数を完全に確認できなかったため、補充リストを更新できません。&#10;次回の育成後に再確認してください。</system:String>
-    <system:String x:Key="OperProgressSupplyConfirmTip" xml:space="preserve">以下の育成必要数の合計で補充リストを置き換えますか？&#10;所持分を含む数です。&#10;周回前に所持数を再確認し、不足分のみを集めます。&#10;&#10;{0}&#10;&#10;理性回復剤の設定とタスクのチェック状態は保持されます。</system:String>
-    <system:String x:Key="OperProgressSupplyReplaceSourceTip">既存の補充タスクを現在の育成タスクに関連付け、以前の素材リストを置き換えます。</system:String>
+    <system:String x:Key="OperProgressSupplyReplaceSourceTip">別の育成タスクの補充リストを置き換えます。</system:String>
     <system:String x:Key="OperProgress.SkillLevelTarget">スキルランク {0}</system:String>
     <system:String x:Key="OperProgress.MasteryTarget">スキル {0} 特化 {1}</system:String>
     <system:String x:Key="OperProgress.EliteTarget">昇進段階 {0}</system:String>

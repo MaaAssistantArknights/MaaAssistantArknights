@@ -1030,14 +1030,14 @@ C:\leidian\LDPlayer9
     <system:String x:Key="OperProgressSupplyEnableTip" xml:space="preserve">培养结束后识别仓库，显示本次可确认的精二芯片组缺口。&#10;仅覆盖已核实的精二芯片组需求，不包含其他材料或芯片助剂。</system:String>
     <system:String x:Key="OperProgressSupplySet">设置补料</system:String>
     <system:String x:Key="OperProgressSupplyUpdate">更新补料清单</system:String>
+    <system:String x:Key="OperProgressSupplyReplace">替换补料清单</system:String>
     <system:String x:Key="OperProgressSupplyConfigured">已设置</system:String>
     <system:String x:Key="OperProgressSupplyDismiss">忽略本次</system:String>
     <system:String x:Key="OperProgressSupplyMissingCount">缺 {0}</system:String>
     <system:String x:Key="OperProgressSupplyScopeTip" xml:space="preserve">依据本次培养后的仓库识别计算，已有对应双芯片按 1:2 折算。&#10;仅包含本次已核实的精二芯片组需求，其他材料和芯片助剂不在此清单内。</system:String>
     <system:String x:Key="OperProgressSupplySatisfiedTip">本次已核实的芯片组需求均已满足，可清空旧补料清单并保留任务和设置。</system:String>
     <system:String x:Key="OperProgressSupplyUnverifiedTip" xml:space="preserve">本次未能完整核对精二需求或仓库库存，不能据此更新补料清单。&#10;请下次培养后重新核对。</system:String>
-    <system:String x:Key="OperProgressSupplyConfirmTip" xml:space="preserve">按以下培养总需求替换补料清单？&#10;数量包含已有库存，刷取前会重新核对库存并只补缺口。&#10;&#10;{0}&#10;&#10;更新会保留用药设置和勾选状态。</system:String>
-    <system:String x:Key="OperProgressSupplyReplaceSourceTip">这会将现有补料任务改为服务当前培养任务，并替换原来的材料清单。</system:String>
+    <system:String x:Key="OperProgressSupplyReplaceSourceTip">将替换其他培养任务的补料清单。</system:String>
     <system:String x:Key="OperProgress.SkillLevelTarget">技能等级 {0}</system:String>
     <system:String x:Key="OperProgress.MasteryTarget">技能 {0} 专精 {1}</system:String>
     <system:String x:Key="OperProgress.EliteTarget">精英化 {0}</system:String>

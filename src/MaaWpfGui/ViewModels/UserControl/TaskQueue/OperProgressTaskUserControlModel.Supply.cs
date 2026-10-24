@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Windows;
 using System.Windows.Media;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
@@ -341,7 +340,13 @@ public partial class OperProgressTaskUserControlModel
         }
         var same = existing is not null && existing.SourceTaskId == source!.SupplySourceId && existing.SourceFingerprint == report.Fingerprint &&
             !existing.IsStale && existing.Plans.OrderBy(plan => plan.ItemId).SequenceEqual(proposed.OrderBy(plan => plan.ItemId));
-        SupplyReportAction = LocalizationHelper.GetString(same ? "OperProgressSupplyConfigured" : existing is null ? "OperProgressSupplySet" : "OperProgressSupplyUpdate");
+        var replaceSource = existing is not null && existing.SourceTaskId != source!.SupplySourceId;
+        if (replaceSource)
+        {
+            SupplyReportMessage += Environment.NewLine + LocalizationHelper.GetString("OperProgressSupplyReplaceSourceTip");
+        }
+        SupplyReportAction = LocalizationHelper.GetString(same ? "OperProgressSupplyConfigured" :
+            existing is null ? "OperProgressSupplySet" : replaceSource ? "OperProgressSupplyReplace" : "OperProgressSupplyUpdate");
         CanUpdateSupply = !same && RunningState.Instance.GetIdle();
     }
 
@@ -363,22 +368,6 @@ public partial class OperProgressTaskUserControlModel
             return;
         }
         var proposed = report.Plans.Where(plan => SupplyMaterialRows.Any(row => row.ItemId == plan.ItemId)).ToList();
-        var existing = ConfigFactory.CurrentConfig.TaskQueue.OfType<CultivationSupplyTask>().FirstOrDefault();
-        var lines = proposed.Select(plan => $"{ItemListHelper.GetItemName(plan.ItemId)} × {plan.TargetCount}");
-        var preview = string.Join(Environment.NewLine, lines);
-        if (proposed.Count == 0)
-        {
-            preview = LocalizationHelper.GetString("CultivationSupplyEmpty");
-        }
-        var text = LocalizationHelper.GetStringFormat("OperProgressSupplyConfirmTip", preview);
-        if (existing is not null && existing.SourceTaskId != source.SupplySourceId)
-        {
-            text = LocalizationHelper.GetString("OperProgressSupplyReplaceSourceTip") + Environment.NewLine + text;
-        }
-        if (MessageBoxHelper.Show(text, LocalizationHelper.GetString("CultivationSupply"), MessageBoxButton.OKCancel, MessageBoxImage.Question) != MessageBoxResult.OK)
-        {
-            return;
-        }
         if (report.Fingerprint != GetSupplySourceFingerprint(source) || !RunningState.Instance.GetIdle())
         {
             RefreshSupplyReport();
