@@ -753,11 +753,6 @@ public class ToolboxViewModel : Screen
             return false;
         }
 
-        if (_pendingDepotSyncTimeResetTaskIds.Remove(taskId))
-        {
-            ResetDepotRecognitionState();
-        }
-
         Dictionary<string, int> depotItems = [];
 
         // 尝试解析新格式
@@ -794,33 +789,37 @@ public class ToolboxViewModel : Screen
         // 如果新格式解析失败，尝试旧格式
         if (depotItems.Count == 0)
         {
-            if (depotItems.Count == 0)
+            var arkplannerItems = details["arkplanner"]?["object"]?["items"]?.Cast<JObject>() ?? [];
+
+            foreach (var item in arkplannerItems)
             {
-                var arkplannerItems = details["arkplanner"]?["object"]?["items"]?.Cast<JObject>() ?? [];
-
-                foreach (var item in arkplannerItems)
+                var id = (string?)item["id"];
+                if (string.IsNullOrEmpty(id))
                 {
-                    var id = (string?)item["id"];
-                    if (string.IsNullOrEmpty(id))
-                    {
-                        continue;
-                    }
+                    continue;
+                }
 
-                    if (item["have"] != null && int.TryParse(item["have"]?.ToString(), out var count))
-                    {
-                        depotItems[id] = count;
-                    }
+                if (item["have"] != null && int.TryParse(item["have"]?.ToString(), out var count))
+                {
+                    depotItems[id] = count;
                 }
             }
         }
 
-        // 识别结果为空说明识别流程出错（如误进其他界面），正常识别必含基础物品；
-        // 保留原有库存数据与同步时间（视为未同步，等待下次识别纠正），避免空数据清掉缓存后被按 0 库存刷取
-        if (depotItems.Count == 0)
+        // 识别回调结果为空说明识别流程出错（如误进其他界面），正常识别必含基础物品；
+        // 保留原有库存数据与同步时间，等同这次识别未发生，等待下次识别纠正，避免空数据清掉缓存后被按 0 库存刷取；
+        // 本地加载与演示回放的空数据不在此列，照常走清空流程
+        if (depotItems.Count == 0 && updateSyncTime)
         {
+            _pendingDepotSyncTimeResetTaskIds.Remove(taskId);
             _logger.Warning("Depot recognition returned no items, keep existing depot data");
             DepotInfo = LocalizationHelper.GetString("DepotRecognitionEmptyResult");
             return true;
+        }
+
+        if (_pendingDepotSyncTimeResetTaskIds.Remove(taskId))
+        {
+            ResetDepotRecognitionState();
         }
 
         // 构建结果并检查成就，按游戏内置 sortId 排序
@@ -829,7 +828,7 @@ public class ToolboxViewModel : Screen
             Name = ItemListHelper.GetItemName(kvp.Key),
             Image = ItemListHelper.GetItemImage(kvp.Key),
             Count = kvp.Value,
-        }).OrderBy(r => r);
+        }).OrderBy(r => r).ToList();
 
         foreach (var result in results)
         {
