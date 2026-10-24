@@ -5,6 +5,7 @@
 #include <ranges>
 #include <tuple>
 #include <unordered_set>
+#include <utility>
 
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
@@ -16,6 +17,7 @@
 #include "Task/Infrast/InfrastScore.h"
 #include "Task/MiniGame/MaterialSynthesisTaskPlugin.h"
 #include "Task/OperProgress/OperProgressFormation.h"
+#include "Task/OperProgress/OperProgressMaterials.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
@@ -34,6 +36,30 @@ namespace asst::oper_progress
 constexpr int MaxOperatorPages = 20;
 // 制造站产线当前产品写入 Status 的键,RestoreFactoryState 读取后恢复原产品。
 constexpr std::string_view FactoryProductStatusKey = "OperProgressFactoryProduct";
+
+std::pair<std::string_view, std::string_view> chip_material_ids(battle::Role role)
+{
+    switch (role) {
+    case battle::Role::Pioneer:
+        return { "3212", "3213" };
+    case battle::Role::Warrior:
+        return { "3222", "3223" };
+    case battle::Role::Tank:
+        return { "3232", "3233" };
+    case battle::Role::Sniper:
+        return { "3242", "3243" };
+    case battle::Role::Caster:
+        return { "3252", "3253" };
+    case battle::Role::Medic:
+        return { "3262", "3263" };
+    case battle::Role::Support:
+        return { "3272", "3273" };
+    case battle::Role::Special:
+        return { "3282", "3283" };
+    default:
+        return {};
+    }
+}
 
 // 参照 BattleFormationTask::analyzer_opers：以职业旗标模板定位卡片,
 // 对旗标下方区域 OCR 干员名,并以旗标上方的高亮色块判断选中态。
@@ -125,6 +151,7 @@ std::string role_task_name(asst::battle::Role role)
 
 bool asst::OperProgressProcessTask::_run()
 {
+    begin_material_report();
     bool training_room_busy = false;
     for (size_t index = 0; index < m_plan.size() && !need_exit(); ++index) {
         const auto& target = m_plan[index];
@@ -135,6 +162,7 @@ bool asst::OperProgressProcessTask::_run()
 
         const ResultDetail located = find_and_open_operator(target.role, target.name);
         if (located != ResultDetail::Completed) {
+            update_elite_chip_result(index, located);
             auto info = basic_info_with_what("OperProgressDetail");
             info["details"] |= json::object {
                 { "role", target.role },
@@ -147,7 +175,8 @@ bool asst::OperProgressProcessTask::_run()
             continue;
         }
         if (target.elite) {
-            auto elite_ret = execute_elite(target.role, target.name, *target.elite);
+            auto elite_ret = execute_elite(target.role, target.name, *target.elite, index);
+            update_elite_chip_result(index, elite_ret);
             report_elite_result(target.role, target.name, elite_ret, *target.elite);
         }
         if (target.skill_level) {
@@ -176,8 +205,122 @@ bool asst::OperProgressProcessTask::_run()
             }
         }
     }
+    report_chip_requirements(true);
     report_summary();
     return true;
+}
+
+void asst::OperProgressProcessTask::begin_material_report()
+{
+    if (!m_material_report_enabled) {
+        return;
+    }
+    ++m_material_report_id;
+    m_material_observation_sequence = 0;
+    m_chip_observations.assign(m_plan.size(), std::nullopt);
+    for (size_t index = 0; index < m_plan.size(); ++index) {
+        const auto& plan = m_plan[index];
+        // 首版只报告五星、六星精二所需的职业双芯片,其他培养动作没有完整的材料观察。
+        const int rarity = BattleData.get_rarity(plan.role, plan.name);
+        if (plan.elite == 2 && (rarity == 5 || rarity == 6) &&
+            !oper_progress::chip_material_ids(plan.role).first.empty()) {
+            m_chip_observations[index].emplace();
+        }
+    }
+    report_chip_requirements(false);
+}
+
+void asst::OperProgressProcessTask::report_chip_requirements(bool finished)
+{
+    if (!m_material_report_enabled) {
+        return;
+    }
+    json::array entries;
+    bool complete = finished && !need_exit();
+    for (size_t index = 0; index < m_chip_observations.size(); ++index) {
+        if (!m_chip_observations[index]) {
+            continue;
+        }
+        const auto& observation = *m_chip_observations[index];
+        const auto& plan = m_plan[index];
+        const bool satisfied = observation.finished && (observation.result == ResultDetail::Completed ||
+                                                        observation.result == ResultDetail::AlreadySatisfied);
+        const bool observed = observation.owned && observation.required;
+        complete = complete && observation.finished && (satisfied || observed);
+        const auto [chip_pack, dual_chip] = oper_progress::chip_material_ids(plan.role);
+        json::value entry = json::object {
+            { "plan_index", index },
+            { "role", plan.role },
+            { "name", plan.name },
+            { "action", "Elite" },
+            { "elite", 2 },
+            { "status",
+              satisfied  ? "satisfied"
+              : observed ? "observed"
+                         : "unknown" },
+            { "result_detail", observation.result },
+            { "source",
+              observed    ? "elite_promotion"
+              : satisfied ? "operator_progress"
+                          : "unobserved" },
+            { "dual_chip_item_id", dual_chip },
+            { "chip_pack_item_id", chip_pack },
+            { "chip_packs_per_dual_chip", 2 },
+        };
+        if (observed) {
+            // 库存是该次观察的共享库存快照,不得按干员分别抵扣或当作执行时的当前库存。
+            entry["dual_chip_owned"] = *observation.owned;
+            entry["dual_chip_required"] = *observation.required;
+            entry["observation_sequence"] = observation.sequence;
+        }
+        entries.emplace_back(std::move(entry));
+    }
+    auto info = basic_info_with_what("OperProgressMaterialReport");
+    info["details"] = json::object {
+        { "phase", finished ? "end" : "begin" },
+        { "report_id", m_material_report_id },
+        { "scope", "elite_chip_pack" },
+        { "target_count", entries.size() },
+        { "complete", complete },
+        { "stopped", need_exit() },
+        { "entries", std::move(entries) },
+    };
+    callback(AsstMsg::SubTaskExtraInfo, info);
+}
+
+void asst::OperProgressProcessTask::observe_elite_chips(size_t plan_index)
+{
+    if (!m_material_report_enabled || !m_chip_observations[plan_index]) {
+        return;
+    }
+    RegionOCRer analyzer(ctrler()->get_image());
+    analyzer.set_task_info("OperProgress@ReportDualchipCount");
+    analyzer.set_use_raw(false);
+    if (!analyzer.analyze()) {
+        LogWarn << __FUNCTION__ << "failed to recognize promotion chip count";
+        return;
+    }
+    const auto count = oper_progress::parse_material_count(analyzer.get_result().text);
+    const auto& plan = m_plan[plan_index];
+    const int expected = BattleData.get_rarity(plan.role, plan.name) == 6 ? 4 : 3;
+    if (!count || count->required != expected) {
+        LogWarn << __FUNCTION__ << "invalid promotion chip count" << analyzer.get_result().text;
+        return;
+    }
+    auto& observation = *m_chip_observations[plan_index];
+    observation.owned = count->owned;
+    observation.required = count->required;
+    observation.sequence = ++m_material_observation_sequence;
+}
+
+void asst::OperProgressProcessTask::update_elite_chip_result(size_t plan_index, ResultDetail result)
+{
+    if (!m_material_report_enabled || !m_chip_observations[plan_index]) {
+        return;
+    }
+    auto& observation = *m_chip_observations[plan_index];
+    observation.result = result;
+    observation.finished = true;
 }
 
 asst::OperProgressProcessTask::ResultDetail
@@ -270,8 +413,11 @@ bool asst::OperProgressProcessTask::select_role(battle::Role role)
            run_task(role_task) && run_task("BattleQuickFormationCollapseRole", 3);
 }
 
-asst::OperProgressProcessTask::ResultDetail
-    asst::OperProgressProcessTask::execute_elite(battle::Role role, const std::string& name, int target)
+asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execute_elite(
+    battle::Role role,
+    const std::string& name,
+    int target,
+    size_t plan_index)
 {
     // 档案页现场识别当前精英阶段,不沿用干员列表页或上一条计划的结果：
     // 前序培养目标可能已改变该干员的精英化等级。识别失败时不猜测,直接判识别失败。
@@ -296,6 +442,9 @@ asst::OperProgressProcessTask::ResultDetail
         // 弹窗链在 EliteUpPage 标志处停止,缺料探测与确认点击由本任务依次驱动。
         if (!run_task("OperProgress@EliteUp")) {
             return ResultDetail::RecognitionFailed;
+        }
+        if (phase + 1 == 2) {
+            observe_elite_chips(plan_index);
         }
         // 存在性探测带少量重试即可：弹窗已由 EliteUpPage 标志确认渲染完成,充足时不必空烧 20 次截图。
         if (run_task("OperProgress@EliteUpMaterialMissing", 2)) {

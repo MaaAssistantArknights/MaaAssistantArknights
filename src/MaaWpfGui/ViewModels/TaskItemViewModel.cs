@@ -70,10 +70,10 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
 
     /// <summary>
     /// Gets a value indicating whether the task can be copied.
-    /// 开始唤醒任务至多一个，开始唤醒行禁止复制，其余行不受限。
+    /// 开始唤醒与培养补料任务至多一个，禁止复制。
     /// </summary>
     [PropertyDependsOn(nameof(Index))]
-    public bool CanCopy => ConfigFactory.CurrentConfig.TaskQueue[Index] is not StartUpTask;
+    public bool CanCopy => ConfigFactory.CurrentConfig.TaskQueue[Index] is not (StartUpTask or CultivationSupplyTask);
 
     /// <summary>
     /// Gets or sets a value indicating whether gets or sets whether the setting enabled.

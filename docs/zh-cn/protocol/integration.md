@@ -160,6 +160,18 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 - 复刻的 SS 活动。输入 `SSReopen-<关卡前缀>` ，可一次性刷完 XX-1 ~ XX-9 关，如 `SSReopen-IC`。
 
 :::  
+::: field wait_for_params  
+@type boolean
+@default false
+@optional
+等待客户端确认本任务的最终参数，默认关闭。开启后，任务开始时发出 `FightAwaitingParameters` 回调；收到确认前不会操作游戏。等待超过 30 秒或任务被停止时失败退出。  
+:::  
+::: field params_ready  
+@type boolean
+@default false
+@optional
+收到 `FightAwaitingParameters` 后，通过 `AsstSetTaskParams` 同时传入完整作战参数和 `params_ready: true`，确认本任务可以执行。仅对正在等待确认的任务有效；可使用 `times: 0` 跳过。  
+:::  
 ::: field medicine  
 @type number
 @default 0
@@ -1390,6 +1402,24 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ```
 
 </details>
+
+- `OperProgress`
+  干员培养的可选材料报告参数如下。
+
+:::: field-group
+::: field report_materials
+@type boolean
+@default false
+@optional
+启用精二芯片需求观察。关闭时不增加材料 OCR 或报告回调；此选项本身不刷取、购买或合成材料。
+:::
+::::
+
+启用后，通过 `SubTaskExtraInfo` 的 `OperProgressMaterialReport` 回调发送报告，按任务 ID 和 `details.report_id` 配对 `phase: begin/end`。`details` 包含 `scope: elite_chip_pack`、`target_count`、`complete`、`stopped` 和 `entries`；当前范围仅为五星、六星干员的精二双芯片需求。
+
+每项通过 `plan_index`、`role`、`name` 标识目标，`status` 为 `satisfied`（精二已完成或原已满足）、`observed`（可靠读取需求）或 `unknown`。可靠观察带有 `source: elite_promotion`、`dual_chip_item_id`、`chip_pack_item_id`、`dual_chip_owned`、`dual_chip_required`、`chip_packs_per_dual_chip: 2` 和 `observation_sequence`。`observed` 不代表一定缺料；未知数量省略，不能视为零。
+
+仅 `end` 的 `complete: true` 且 `stopped: false` 表示本范围全部目标已观察或满足，不代表其他材料齐全。库存是观察时的共享快照，不能按干员重复抵扣。补料前应重新完成 `Depot` 识别，将未完成目标的双芯片总需求折算为芯片组，再统一抵扣同职业芯片组与双芯片库存。
 
 - `Depot`  
   仓库识别

@@ -160,6 +160,18 @@ Currently supported stages for navigation include:
 - Rerun SS events. Input `SSReopen-<stage prefix>` to farm XX-1 ~ XX-9 stages at once, e.g. `SSReopen-IC`.
 
 :::  
+::: field wait_for_params  
+@type boolean
+@default false
+@optional
+Wait for the client to confirm this task’s final parameters. Disabled by default. When enabled, the task emits `FightAwaitingParameters` on start and does not interact with the game until acknowledged. A wait longer than 30 seconds or a stop request fails the task.  
+:::  
+::: field params_ready  
+@type boolean
+@default false
+@optional
+After receiving `FightAwaitingParameters`, call `AsstSetTaskParams` with the complete fight parameters and `params_ready: true` to release this task. Only valid while the task is waiting for acknowledgement. Use `times: 0` to skip it.  
+:::  
 ::: field medicine  
 @type number
 @default 0
@@ -1391,6 +1403,24 @@ Array elements support two forms: an object containing `id` (job identifier, pas
 ```
 
 </details>
+
+- `OperProgress`
+  Optional material reporting for operator progression.
+
+:::: field-group
+::: field report_materials
+@type boolean
+@default false
+@optional
+Observe Elite 2 chip requirements. When disabled, no additional material OCR or report callbacks run. This option does not farm, purchase, or craft materials.
+:::
+::::
+
+When enabled, reports use the `OperProgressMaterialReport` callback of `SubTaskExtraInfo`. Match `phase: begin/end` by task ID and `details.report_id`. `details` contains `scope: elite_chip_pack`, `target_count`, `complete`, `stopped`, and `entries`. The current scope covers only Elite 2 Dualchip requirements for 5-star and 6-star operators.
+
+Each entry identifies a goal using `plan_index`, `role`, and `name`. Its `status` is `satisfied` (promotion completed or already satisfied), `observed` (requirements read reliably), or `unknown`. Reliable observations include `source: elite_promotion`, `dual_chip_item_id`, `chip_pack_item_id`, `dual_chip_owned`, `dual_chip_required`, `chip_packs_per_dual_chip: 2`, and `observation_sequence`. `observed` does not necessarily mean a shortfall. Unknown quantities are omitted and must not be treated as zero.
+
+Only an `end` report with `complete: true` and `stopped: false` confirms that every goal within this scope was observed or satisfied; it says nothing about other materials. Stock is a shared snapshot at observation time and must not be deducted separately for each operator. Before farming, complete a fresh `Depot` scan, convert total Dualchip requirements for unfinished goals into Chip Packs, then deduct the same class's Chip Pack and Dualchip stock once.
 
 - `Depot`
   Depot recognition

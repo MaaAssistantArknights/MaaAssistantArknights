@@ -58,6 +58,8 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
 
     public bool DepotMaintain { get => field; set => SetAndNotify(ref field, value); }
 
+    public bool CultivationSupply { get => field; set => SetAndNotify(ref field, value); }
+
     public bool SwitchTheme { get => field; set => SetAndNotify(ref field, value); }
 
     public bool Custom { get => field; set => SetAndNotify(ref field, value); }
@@ -159,6 +161,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
             RoguelikeTask => Roguelike = enable,
             UserDataUpdateTask => UserDataUpdate = enable,
             DepotMaintainTask => DepotMaintain = enable,
+            CultivationSupplyTask => CultivationSupply = enable,
             SwitchThemeTask => SwitchTheme = enable,
             CustomTask => Custom = enable,
             _ => throw new NotImplementedException(),
@@ -183,7 +186,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
     private void UpdateAdvancedSettingsVisibility(BaseTask task)
     {
         AdvancedSettingsVisibility = task switch {
-            AwardTask or StartUpTask or UserDataUpdateTask or OperProgressTask => false,
+            AwardTask or StartUpTask or UserDataUpdateTask => false,
             _ => true,
         };
     }
@@ -200,6 +203,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         Roguelike = false;
         UserDataUpdate = false;
         DepotMaintain = false;
+        CultivationSupply = false;
         SwitchTheme = false;
         Custom = false;
     }

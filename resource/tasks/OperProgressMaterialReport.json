@@ -1,0 +1,10 @@
+{
+    "OperProgress@ReportDualchipCount": {
+        "baseTask": "NumberOcrReplace",
+        "doc": "仅供精二芯片需求报告读取完整库存/需求，不改变既有制造流程的识别任务",
+        "roi": [352, 656, 48, 32],
+        "binThreshold": [80, 255],
+        "withoutDet": true,
+        "useRaw": false
+    }
+}

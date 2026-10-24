@@ -160,6 +160,18 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 - 복각 SS 이벤트. `SSReopen-<스테이지 접두사>`를 입력하면 XX-1 ~ XX-9 스테이지를 한 번에 클리어할 수 있음 (예: `SSReopen-IC`)
 
 :::  
+::: field wait_for_params  
+@type boolean
+@default false
+@optional
+클라이언트가 이 작업의 최종 매개변수를 확정할 때까지 기다립니다. 기본값은 비활성화입니다. 활성화하면 작업 시작 시 `FightAwaitingParameters` 콜백을 보내며, 확인 전에는 게임을 조작하지 않습니다. 30초를 초과하거나 중지 요청을 받으면 작업이 실패로 종료됩니다.  
+:::  
+::: field params_ready  
+@type boolean
+@default false
+@optional
+`FightAwaitingParameters`를 받은 후 전체 전투 매개변수와 `params_ready: true`를 `AsstSetTaskParams`에 전달하여 실행을 허용합니다. 확인을 기다리는 작업에만 유효하며, `times: 0`으로 건너뛸 수 있습니다.  
+:::  
 ::: field medicine  
 @type number
 @default 0
@@ -1392,6 +1404,24 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 ```
 
 </details>
+
+- `OperProgress`
+  오퍼레이터 육성의 선택적 재료 보고 설정입니다.
+
+:::: field-group
+::: field report_materials
+@type boolean
+@default false
+@optional
+2차 정예화에 필요한 칩 수량을 확인합니다. 비활성화하면 추가 재료 OCR이나 보고 콜백을 실행하지 않습니다. 이 옵션 자체는 재료 파밍, 구매 또는 가공을 수행하지 않습니다.
+:::
+::::
+
+활성화하면 `SubTaskExtraInfo`의 `OperProgressMaterialReport` 콜백으로 보고합니다. 작업 ID와 `details.report_id`로 `phase: begin/end`를 연결합니다. `details`에는 `scope: elite_chip_pack`, `target_count`, `complete`, `stopped`, `entries`가 포함됩니다. 현재 범위는 5성 및 6성 오퍼레이터의 2차 정예화에 필요한 듀얼 칩만 포함합니다.
+
+각 항목은 `plan_index`, `role`, `name`으로 목표를 식별합니다. `status`는 `satisfied`(정예화 완료 또는 이미 충족), `observed`(필요량을 확실히 인식), `unknown` 중 하나입니다. 확실한 관측에는 `source: elite_promotion`, `dual_chip_item_id`, `chip_pack_item_id`, `dual_chip_owned`, `dual_chip_required`, `chip_packs_per_dual_chip: 2`, `observation_sequence`가 포함됩니다. `observed`가 반드시 부족을 의미하지는 않습니다. 알 수 없는 수량은 생략되며 0으로 처리하면 안 됩니다.
+
+`end`의 `complete: true`이면서 `stopped: false`인 경우에만 해당 범위의 모든 목표를 관측했거나 충족했음을 나타냅니다. 다른 재료의 충족 여부는 보장하지 않습니다. 재고는 관측 시점의 공유 스냅샷이므로 오퍼레이터별로 중복 차감하면 안 됩니다. 파밍 전에 새 `Depot` 인식을 완료하고, 미완료 목표의 듀얼 칩 총 필요량을 칩셋으로 환산한 뒤 같은 클래스의 칩셋과 듀얼 칩 재고를 한 번만 차감하세요.
 
 - `Depot`  
   창고 인식

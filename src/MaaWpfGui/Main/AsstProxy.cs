@@ -3670,6 +3670,9 @@ public class AsstProxy
 
         /// <summary>自定义任务s</summary>
         Custom,
+
+        /// <summary>培养补料</summary>
+        CultivationSupply,
     }
 
     private readonly ObservableDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> _tasksStatus = [];
