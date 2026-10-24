@@ -321,7 +321,7 @@ public partial class OperProgressTaskUserControlModel
             CultivationSupplyItemHelper.GetEffectiveCount(plan.ItemId, report.Inventory))))
             .Where(item => item.Missing > 0).ToList();
         SupplyMaterialRows = missing;
-        SupplyReportMessage = LocalizationHelper.GetString(missing.Count > 0 ? "OperProgressSupplyScopeTip" : "OperProgressSupplySatisfiedTip");
+        SupplyReportMessage = missing.Count > 0 ? string.Empty : LocalizationHelper.GetString("OperProgressSupplySatisfiedTip");
         var existing = ConfigFactory.CurrentConfig.TaskQueue.OfType<CultivationSupplyTask>().FirstOrDefault();
         var proposed = report.Plans.Where(plan => missing.Any(item => item.ItemId == plan.ItemId)).ToList();
         if (existing is null && proposed.Count == 0)
@@ -334,7 +334,7 @@ public partial class OperProgressTaskUserControlModel
         var replaceSource = existing is not null && existing.SourceTaskId != source!.SupplySourceId;
         if (replaceSource)
         {
-            SupplyReportMessage += Environment.NewLine + LocalizationHelper.GetString("OperProgressSupplyReplaceSourceTip");
+            SupplyReportMessage += (SupplyReportMessage.Length > 0 ? Environment.NewLine : string.Empty) + LocalizationHelper.GetString("OperProgressSupplyReplaceSourceTip");
         }
         SupplyReportAction = LocalizationHelper.GetString(same ? "OperProgressSupplyConfigured" :
             existing is null ? "OperProgressSupplySet" : replaceSource ? "OperProgressSupplyReplace" : "OperProgressSupplyUpdate");

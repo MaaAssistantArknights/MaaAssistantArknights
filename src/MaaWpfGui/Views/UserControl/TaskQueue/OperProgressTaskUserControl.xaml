@@ -32,9 +32,14 @@
             <Expander
                 Margin="0,0,0,8"
                 HorizontalContentAlignment="Stretch"
-                Header="{DynamicResource OperProgressSupplyReport}"
                 IsExpanded="{Binding IsSupplyReportExpanded}"
                 Visibility="{c:Binding SupplyReportVisible}">
+                <Expander.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource OperProgressSupplyReport}" />
+                        <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource OperProgressSupplyScopeTip}" />
+                    </StackPanel>
+                </Expander.Header>
                 <Border
                     Padding="6"
                     BorderBrush="{DynamicResource BorderBrush}"
@@ -45,7 +50,8 @@
                             Margin="0,0,0,6"
                             FontSize="11"
                             Text="{Binding SupplyReportMessage}"
-                            TextWrapping="Wrap" />
+                            TextWrapping="Wrap"
+                            Visibility="{c:Binding 'SupplyReportMessage.Length > 0'}" />
                         <ItemsControl ItemsSource="{Binding SupplyMaterialRows}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>

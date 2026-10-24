@@ -20,10 +20,10 @@
     </UserControl.Resources>
     <Grid>
         <StackPanel Visibility="{c:Binding !EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
-            <controls:TextBlock
-                Margin="0,0,0,8"
-                Text="{DynamicResource CultivationSupplyManagedTip}"
-                TextWrapping="Wrap" />
+            <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
+                <controls:TextBlock VerticalAlignment="Center" Text="{DynamicResource CultivationSupply}" />
+                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource CultivationSupplyManagedTip}" />
+            </StackPanel>
             <controls:TextBlock
                 Margin="0,0,0,8"
                 Foreground="{DynamicResource WarningBrush}"
