@@ -161,7 +161,6 @@ std::optional<std::string> asst::AdbController::call_command(
         ", socket size:",
         sock_data.size());
     if (!pipe_data.empty() && pipe_data.size() < 4096) {
-        m_pipe_data_size = pipe_data.size();
         Log.trace("stdout output:", Logger::separator::newline, pipe_data);
     }
     if (recv_by_socket && !sock_data.empty() && sock_data.size() < 4096) {
@@ -182,16 +181,6 @@ std::optional<std::string> asst::AdbController::call_command(
     }
 
     return std::nullopt;
-}
-
-size_t asst::AdbController::get_pipe_data_size() const noexcept
-{
-    return m_pipe_data_size;
-}
-
-size_t asst::AdbController::get_version() const noexcept
-{
-    return m_version;
 }
 
 void asst::AdbController::callback(AsstMsg msg, const json::value& details)
@@ -1219,38 +1208,6 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         };
         info["details"]["uuid"] = m_uuid;
         callback(AsstMsg::ConnectionInfo, info);
-    }
-    /* get android version */
-    {
-        auto version_ret = call_command(m_conn_ctx.replace_cmd(adb_cfg.version));
-        if (!version_ret) {
-            json::value info = get_info_json() | json::object {
-                { "what", "ConnectFailed" },
-                { "why", "Android version command failed to exec" },
-            };
-            callback(AsstMsg::ConnectionInfo, info);
-            return false;
-        }
-
-        std::string raw_output = version_ret.value();
-        convert_lf(raw_output);
-
-        std::erase_if(raw_output, [](char c) { return !std::isalnum(static_cast<unsigned char>(c)); });
-        bool all_digit = !raw_output.empty() && std::ranges::all_of(raw_output, [](char c) {
-            return std::isdigit(static_cast<unsigned char>(c));
-        });
-
-        if (!all_digit) {
-            json::value info = get_info_json() | json::object {
-                { "what", "ConnectFailed" },
-                { "why", "Android version invalid or shell command not available" },
-            };
-            info["details"]["raw_output"] = std::move(version_ret.value());
-            callback(AsstMsg::ConnectionInfo, info);
-            return false;
-        }
-
-        m_version = std::stoul(raw_output);
     }
 
     if (need_exit()) {

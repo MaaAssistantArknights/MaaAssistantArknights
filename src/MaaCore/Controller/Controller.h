@@ -59,12 +59,6 @@ public:
 
     const std::string& get_uuid() const;
 
-    size_t get_pipe_data_size() const noexcept;
-
-    size_t get_version() const noexcept;
-
-    ControllerType get_controller_type() const noexcept;
-
     ControllerAPI* get_underlying() const noexcept { return m_controller.get(); }
 
     cv::Mat get_image(bool raw = false);
