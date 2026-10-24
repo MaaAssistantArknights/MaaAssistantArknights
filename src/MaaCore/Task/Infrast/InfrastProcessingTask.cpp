@@ -415,12 +415,7 @@ bool asst::InfrastProcessingTask::confirm_material_synthesis_selection()
     }
 
     // 仅执行页面确认，不提交常规基建任务的待确认干员或排班状态。
-    if (!ProcessTask(*this, { "InfrastDormConfirmButton" }).run() || need_exit()) {
-        return false;
-    }
-    ProcessTask verify(*this, { "MiniGame@MaterialSynthesis@Workshop" });
-    verify.set_retry_times(2);
-    return verify.run();
+    return ProcessTask(*this, { "InfrastDormConfirmButton" }).run() && !need_exit();
 }
 
 bool asst::InfrastProcessingTask::is_material_synthesis_operator_list() const
