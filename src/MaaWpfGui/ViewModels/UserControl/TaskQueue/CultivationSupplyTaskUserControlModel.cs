@@ -230,7 +230,22 @@ public class CultivationSupplyTaskUserControlModel : TaskSettingsViewModel
 
     private void OnSubTaskMessage(AsstMsg type, AsstSubTaskMsg? msg)
     {
-        if (type != AsstMsg.SubTaskExtraInfo || msg is null)
+        if (msg is null)
+        {
+            return;
+        }
+        if (type == AsstMsg.SubTaskError)
+        {
+            if (msg.TaskChain == "Fight" && msg.SubTask == "RecognizeDrops" &&
+                _runs.FirstOrDefault(run => run.Fights.ContainsKey(msg.TaskId)) is { } failedRun)
+            {
+                // Unknown drops invalidate later deficits, but already confirmed completion remains valid.
+                failedRun.Inventory = null;
+                RefreshRows();
+            }
+            return;
+        }
+        if (type != AsstMsg.SubTaskExtraInfo)
         {
             return;
         }

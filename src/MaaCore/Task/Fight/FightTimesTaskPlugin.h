@@ -77,6 +77,7 @@ private:
     int m_fight_times_max = INT_MAX;              // 最大战斗次数
     int m_series = -1;                            // 代理倍率
     int m_series_current = 1;                     // 当前代理倍率
+    int m_drop_series_limit = INT_MAX;
     mutable bool m_has_used_medicine = false;     // 是否使用过药品
     mutable bool m_is_medicine_exhausted = false; // 是否药品、石头用完
 };

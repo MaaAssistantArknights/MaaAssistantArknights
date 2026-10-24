@@ -1200,7 +1200,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPlanUpdateDepotFailed">更新庫存數據失敗。</system:String>
     <system:String x:Key="DepotPlanInventoryDataEmpty">#{0}：目前沒有可用的庫存數據，已跳過刷取。可透過 ｢{key=UserDataUpdate}｣ 任務或 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新庫存。</system:String>
     <system:String x:Key="DepotUseAutoSeries">AUTO 代理倍率</system:String>
-    <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">未勾選時按單倍代理；勾選後按目前理智可刷的最大倍率代理，單次刷取可能超過目標庫存上限。</system:String>
+    <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">未勾選時按單倍代理；勾選後根據目前理智和材料缺口自動選擇倍率。&#10;單場掉落多個同種材料時，仍可能超過目標數量。</system:String>
     <system:String x:Key="DepotEnableUseMedicine">啟用 ｢{key=UseSanityPotion}｣ 勾選框</system:String>
     <system:String x:Key="DepotEnableUseStone">啟用 ｢{key=UseOriginitePrime}｣ 勾選框</system:String>
     <system:String x:Key="DepotUseExpiringMedicine">使用 48 小時內過期的理智藥</system:String>

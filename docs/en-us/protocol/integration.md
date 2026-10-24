@@ -213,6 +213,8 @@ Number of consecutive battles, -1~10.
 <br>
 `0` to automatically switch to the current maximum available times, if current sanity is not enough for the maximum times, select the minimum available times.
 <br>
+When `drops` is also specified, each batch is capped by the smallest remaining target quantity, updated after every result using actual cumulative drops. Other items do not reduce a target's remaining quantity. Reaching a target stops the task; failed drop or batch-size recognition prevents the next batch. This avoids exceeding the shortfall on stages that drop at most one target item per battle, such as class chip stages. Stages that can drop multiple target items in one battle may still exceed it. AUTO without drop targets and fixed batch sizes retain their previous behavior.
+<br>
 `1~10` to specify number of consecutive battles.
 <br>
 ::: info Server Difference

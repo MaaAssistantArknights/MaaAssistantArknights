@@ -5,6 +5,8 @@
 #include "Controller/Controller.h"
 #include "MaaUtils/ImageIo.h"
 #include "MaaUtils/NoWarningCV.hpp"
+#include "Task/Fight/FightSeriesLimit.h"
+#include "Task/Fight/StageDropsTaskPlugin.h"
 #include "Task/ProcessTask.h"
 #include "Utils/DebugImageHelper.hpp"
 #include "Vision/Matcher.h"
@@ -45,11 +47,37 @@ bool asst::FightTimesTaskPlugin::_run()
     LogTraceFunction;
     json::value sanity_info = basic_info_with_what("SanityBeforeStage");
     json::value fight = basic_info_with_what("FightTimes");
+    const auto drops = m_task_ptr->find_plugin<StageDropsTaskPlugin>();
+    const bool limit_by_drops = m_series == 0 && drops && drops->has_drop_targets();
+    const auto stop_if_limited = [&]() {
+        if (limit_by_drops) {
+            m_task_ptr->set_enable(false);
+        }
+    };
+    m_drop_series_limit = INT_MAX;
+    if (limit_by_drops) {
+        const auto remaining = drops->remaining_drop_quantity();
+        if (!remaining) {
+            stop_if_limited();
+            LogError << __FUNCTION__ << "Cannot determine remaining drops, stopping before the next batch";
+            return false;
+        }
+        m_drop_series_limit = asst::fight::series_limit(m_fight_times_max - m_fight_times, INT_MAX, *remaining);
+        fight["details"]["remaining_drops"] = *remaining;
+        LogInfo << __FUNCTION__ << "Remaining drop batch limit" << *remaining;
+        if (m_drop_series_limit == 0) {
+            stop_if_limited();
+            fight["details"]["finished"] = true;
+            callback(AsstMsg::SubTaskExtraInfo, fight);
+            return true;
+        }
+    }
     sanity_info["details"]["report_time"] = MAA_NS::format_now();
     // {"sanity_current": 100, "sanity_max": 135, "report_time": "2023-09-01 09:31:53.527"}
     auto image = ctrler()->get_image();
     auto sanity = analyze_sanity_remain(image);
     if (!sanity) {
+        stop_if_limited();
         Log.error(__FUNCTION__, "unable to analyze sanity");
         callback(AsstMsg::SubTaskExtraInfo, sanity_info);
         callback(AsstMsg::SubTaskExtraInfo, fight);
@@ -71,11 +99,17 @@ bool asst::FightTimesTaskPlugin::_run()
     auto sanity_cost = analyze_sanity_cost(image);
     auto series = analyze_stage_series(image);
     if (sanity_cost.value_or(-1) < 0 || (series && (*series < 1 || *series > 10))) [[unlikely]] {
+        stop_if_limited();
         Log.error(__FUNCTION__, "unable to analyze sanity cost or series");
         callback(AsstMsg::SubTaskExtraInfo, fight);
         return false;
     }
     if (!series) { // 默认代理倍率为1, 部分关卡不支持代理倍率
+        if (limit_by_drops) {
+            stop_if_limited();
+            LogError << __FUNCTION__ << "Cannot verify the batch size while limiting by drops";
+            return false;
+        }
         m_series_current = 1;
         fight["details"]["series"] = 1;
         fight["details"]["sanity_cost"] = *sanity_cost;
@@ -86,18 +120,27 @@ bool asst::FightTimesTaskPlugin::_run()
 
     const auto& flag_task = Task.get("FightSeries-OldMethodFlag");
     bool is_new_series_list = flag_task == nullptr;
+    if (limit_by_drops) {
+        m_drop_series_limit = std::min(m_drop_series_limit, is_new_series_list ? 10 : 6);
+    }
 
     if (m_series == -1) { // 禁用切换
     }
     else if (m_series == 0) {
         auto ret = is_new_series_list ? change_series_new(sanity->current, *sanity_cost, *series)
                                       : change_series(sanity->current, *sanity_cost, *series);
+        if (limit_by_drops && (!ret || *ret <= 0)) {
+            stop_if_limited();
+            LogError << __FUNCTION__ << "Cannot select the limited batch size";
+            return false;
+        }
         if (ret) {
             // 调整完代理倍率后，获取当前的理智消耗及代理倍率
             image = ctrler()->get_image();
             sanity_cost = analyze_sanity_cost(image);
             series = analyze_stage_series(image);
             if (sanity_cost.value_or(-1) < 0 || !series || *series < 1 || *series > 10) [[unlikely]] {
+                stop_if_limited();
                 Log.error(__FUNCTION__, "unable to analyze sanity cost or series");
                 callback(AsstMsg::SubTaskExtraInfo, fight);
                 return false;
@@ -111,6 +154,7 @@ bool asst::FightTimesTaskPlugin::_run()
             sanity_cost = analyze_sanity_cost(image);
             series = analyze_stage_series(image);
             if (sanity_cost.value_or(-1) < 0 || !series || *series < 1 || *series > 10) [[unlikely]] {
+                stop_if_limited();
                 Log.error(__FUNCTION__, "unable to analyze sanity cost or series");
                 callback(AsstMsg::SubTaskExtraInfo, fight);
                 return false;
@@ -122,6 +166,13 @@ bool asst::FightTimesTaskPlugin::_run()
     m_series_current = *series;
     fight["details"]["series"] = *series;
     fight["details"]["sanity_cost"] = *sanity_cost;
+
+    if (limit_by_drops && *series > m_drop_series_limit) {
+        stop_if_limited();
+        LogError << __FUNCTION__ << "Selected batch exceeds the remaining fight or drop limit" << *series
+                 << m_drop_series_limit;
+        return false;
+    }
 
     if (m_fight_times + *series > m_fight_times_max) {
         m_task_ptr->set_enable(false); // 战斗次数超过上限
@@ -156,7 +207,7 @@ void asst::FightTimesTaskPlugin::close_series_list(const cv::Mat& image)
 
 std::optional<int> asst::FightTimesTaskPlugin::change_series(int sanity_current, int sanity_cost, int series)
 {
-    int fight_times_remain = std::min(m_fight_times_max - m_fight_times, 6);
+    int fight_times_remain = fight::series_limit(m_fight_times_max - m_fight_times, 6, m_drop_series_limit);
     if (!m_has_used_medicine && !m_is_medicine_exhausted) {
         if (fight_times_remain != series) {
             return select_series(false); // 调整到剩余次数
@@ -164,8 +215,8 @@ std::optional<int> asst::FightTimesTaskPlugin::change_series(int sanity_current,
         return series;
     }
 
-    if (m_has_used_medicine) {               // 用过药品, 认为已选择最大可用次数
-        if (sanity_cost <= sanity_current) { // 吃药前一般选择最大可用次数, 吃完药已经够理智了
+    if (m_has_used_medicine) { // 用过药品, 认为已选择最大可用次数
+        if (sanity_cost <= sanity_current && series <= m_drop_series_limit) {
             return series;
         }
         // 吃药后理智超限, 减少了吃药量, 选择剩余次数
@@ -183,7 +234,7 @@ std::optional<int> asst::FightTimesTaskPlugin::change_series(int sanity_current,
 
 std::optional<int> asst::FightTimesTaskPlugin::change_series_new(int sanity_current, int sanity_cost, int series)
 {
-    int fight_times_remain = std::min(m_fight_times_max - m_fight_times, 10);
+    int fight_times_remain = fight::series_limit(m_fight_times_max - m_fight_times, 10, m_drop_series_limit);
     if (!m_has_used_medicine && !m_is_medicine_exhausted) {
         if (fight_times_remain != series) {
             return select_series_new(fight_times_remain); // 调整到剩余次数
@@ -191,8 +242,8 @@ std::optional<int> asst::FightTimesTaskPlugin::change_series_new(int sanity_curr
         return series;
     }
 
-    if (m_has_used_medicine) {               // 用过药品, 认为已选择最大可用次数
-        if (sanity_cost <= sanity_current) { // 吃药前一般选择最大可用次数, 吃完药已经够理智了
+    if (m_has_used_medicine) { // 用过药品, 认为已选择最大可用次数
+        if (sanity_cost <= sanity_current && series <= m_drop_series_limit) {
             return series;
         }
         // 吃药后理智超限, 减少了吃药量, 选择剩余次数
@@ -204,6 +255,7 @@ std::optional<int> asst::FightTimesTaskPlugin::change_series_new(int sanity_curr
         return std::nullopt;
     }
     auto target_times = std::clamp(sanity_current / cost, 1, 10);
+    target_times = std::min(target_times, m_drop_series_limit);
     LogInfo << __FUNCTION__ << "sanity_current:" << sanity_current << ", sanity_cost:" << sanity_cost
             << ", series:" << series << ", stage sanity cost per time:" << cost << ", target_times:" << target_times;
     if (target_times == series) {
@@ -224,7 +276,7 @@ std::optional<int> asst::FightTimesTaskPlugin::select_series(bool available_only
     if (!open_series_list()) {
         return std::nullopt;
     }
-    int fight_times_remain = std::min(m_fight_times_max - m_fight_times, 6);
+    int fight_times_remain = fight::series_limit(m_fight_times_max - m_fight_times, 6, m_drop_series_limit);
     auto image = ctrler()->get_image();
     auto list = analyze_series_list(image);
     if (list.empty()) {
@@ -253,7 +305,7 @@ std::optional<int> asst::FightTimesTaskPlugin::select_series_new(bool available_
     if (!open_series_list()) {
         return std::nullopt;
     }
-    int fight_times_remain = std::min(m_fight_times_max - m_fight_times, 10);
+    int fight_times_remain = fight::series_limit(m_fight_times_max - m_fight_times, 10, m_drop_series_limit);
     auto image = ctrler()->get_image();
     auto list = analyze_series_list_new(image);
     if (list.empty()) {

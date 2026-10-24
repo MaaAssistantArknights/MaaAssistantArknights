@@ -2,6 +2,7 @@
 #include "Task/AbstractTaskPlugin.h"
 
 #include <memory>
+#include <optional>
 #include <vector>
 
 #include <meojson/json.hpp>
@@ -31,6 +32,10 @@ public:
     bool set_server(std::string server);
     bool set_specify_quantity(std::unordered_map<std::string, int> quantity);
 
+    bool has_drop_targets() const noexcept { return !m_specify_quantity.empty(); }
+
+    std::optional<int> remaining_drop_quantity() const;
+
     void set_target_stage(std::string stage_code) noexcept { m_target_stage = stage_code; }
 
 private:
@@ -59,6 +64,7 @@ private:
     int m_times = -2; // -2 means recognition failed, -1 means not found
     std::vector<StageDropInfo> m_cur_drops;
     std::unordered_map<std::string, int> m_drop_stats;
+    bool m_drop_count_valid = true;
     std::pair<int, int> m_annihilation_weekly_process; // current, total
     json::value m_cur_info_json;
 

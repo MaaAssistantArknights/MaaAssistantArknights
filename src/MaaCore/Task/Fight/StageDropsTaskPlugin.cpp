@@ -11,6 +11,7 @@
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Status.h"
+#include "Task/Fight/FightSeriesLimit.h"
 #include "Task/ProcessTask.h"
 #include "Task/ReportDataTask.h"
 #include "Utils/Logger.hpp"
@@ -85,12 +86,18 @@ bool asst::StageDropsTaskPlugin::set_specify_quantity(std::unordered_map<std::st
     return true;
 }
 
+std::optional<int> asst::StageDropsTaskPlugin::remaining_drop_quantity() const
+{
+    return fight::remaining_drop_quantity(m_specify_quantity, m_drop_stats, m_drop_count_valid);
+}
+
 bool asst::StageDropsTaskPlugin::_run()
 {
     LogTraceFunction;
 
     // set_start_button_delay();
 
+    m_drop_count_valid = false;
     if (!recognize_drops()) {
         if (!check_stage_valid()) {
             stop_task();
@@ -101,6 +108,7 @@ bool asst::StageDropsTaskPlugin::_run()
         return false;
     }
     drop_info_callback();
+    m_drop_count_valid = true;
 
     if (!check_stage_valid() || check_specify_quantity()) {
         stop_task();

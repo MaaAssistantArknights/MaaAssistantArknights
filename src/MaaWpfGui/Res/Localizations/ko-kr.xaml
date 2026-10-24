@@ -1201,7 +1201,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotPlanUpdateDepotFailed">재고 데이터 업데이트에 실패했습니다.</system:String>
     <system:String x:Key="DepotPlanInventoryDataEmpty">#{0}: 현재 사용할 수 있는 재고 데이터가 없어 파밍을 건너뜁니다. ｢{key=UserDataUpdate}｣ 작업 또는 ｢{key=Toolbox}-{key=DepotRecognition}｣ 에서 재고를 업데이트해 주세요.</system:String>
     <system:String x:Key="DepotUseAutoSeries">AUTO 대리 배수</system:String>
-    <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">체크 해제 시 1배로 대리; 체크 시 현재 이성으로 가능한 최대 배수로 대리 작전하며, 1회 진행 시 목표 재고 상한을 초과할 수 있습니다.</system:String>
+    <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">체크 해제 시 한 번씩 실행하고, 체크하면 현재 이성과 재료 부족량에 맞춰 연속 작전 횟수를 자동 조정합니다.&#10;한 번의 전투에서 같은 재료가 여러 개 드롭되면 목표 수량을 초과할 수 있습니다.</system:String>
     <system:String x:Key="DepotEnableUseMedicine">｢{key=UseSanityPotion}｣ 체크박스 활성화</system:String>
     <system:String x:Key="DepotEnableUseStone">｢{key=UseOriginitePrime}｣ 체크박스 활성화</system:String>
     <system:String x:Key="DepotUseExpiringMedicine">48시간 이내 만료되는 이성 회복제 사용</system:String>
