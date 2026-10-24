@@ -736,7 +736,7 @@
                 </StackPanel>
                 <hc:ComboBox
                     Margin="0,5"
-                    hc:InfoElement.Title="{DynamicResource RoguelikeBlackFlowPrepSquad}"
+                    hc:InfoElement.Title="{DynamicResource RoguelikeCollectibleModeSquad}"
                     DisplayMemberPath="Display"
                     IsEnabled="{c:Binding '!RoguelikeBlackFlowStartRunFastFlight'}"
                     ItemsSource="{Binding RoguelikeSquadList}"
