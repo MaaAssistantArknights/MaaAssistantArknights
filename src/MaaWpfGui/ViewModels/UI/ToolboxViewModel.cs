@@ -2438,12 +2438,11 @@ public class ToolboxViewModel : Screen
 
     public bool GachaShowDisclaimerNoMore
     {
-        get => ConfigFactory.CurrentConfig.Toolbox.Gacha.GachaShowDisclaimerNoMore;
-        set {
+        get; set {
+            SetAndNotify(ref field, value);
             ConfigFactory.CurrentConfig.Toolbox.Gacha.GachaShowDisclaimerNoMore = value;
-            NotifyOfPropertyChange();
         }
-    }
+    } = ConfigFactory.CurrentConfig.Toolbox.Gacha.GachaShowDisclaimerNoMore;
 
     // UI 绑定的方法
     [UsedImplicitly]
@@ -3568,7 +3567,6 @@ public class ToolboxViewModel : Screen
 
         if (IsReclamationSelected)
         {
-            // 生息演算不走 CustomTask 任务名通道，按当前配置以 Reclamation 任务类型直接提交
             return ReclamationUserControlModel.Instance.AppendAndStartReclamationTask();
         }
 

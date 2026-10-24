@@ -46,7 +46,7 @@ public class ReclamationUserControlModel : PropertyChangedBase
 
     private ReclamationUserControlModel()
     {
-        // 打开页面即按配置当前主题填充模式列表，并把不属于该主题的存量模式归一到列表首项
+        // 构造时填充模式列表，避免打开页面时列表为空
         RefreshModeList();
     }
 
@@ -65,22 +65,16 @@ public class ReclamationUserControlModel : PropertyChangedBase
     /// </summary>
     public Theme ReclamationTheme
     {
-        get => ReclamationConfig.Theme;
-        set {
-            if (ReclamationConfig.Theme == value)
-            {
-                return;
-            }
-
+        get; set {
+            SetAndNotify(ref field, value);
             ReclamationConfig.Theme = value;
-            NotifyOfPropertyChange();
             RefreshModeList();
             if (value == Theme.RelaunchAnchor)
             {
                 ReclamationClearStore = false;
             }
         }
-    }
+    } = ReclamationConfig.Theme;
 
     public void RefreshModeList()
     {
@@ -102,7 +96,6 @@ public class ReclamationUserControlModel : PropertyChangedBase
         }
 
         ReclamationMode = ModeList.Any(x => x.Value == mode) ? mode : ModeList.FirstOrDefault()?.Value ?? default;
-        NotifyOfPropertyChange(nameof(ReclamationMode));
     }
 
     /// <summary>
@@ -116,31 +109,23 @@ public class ReclamationUserControlModel : PropertyChangedBase
     [PropertyDependsOn(nameof(ReclamationTheme))]
     public Mode ReclamationMode
     {
-        get => ReclamationConfig.Mode;
-        set {
-            if (ReclamationConfig.Mode != value)
-            {
-                ReclamationConfig.Mode = value;
-                NotifyOfPropertyChange();
-            }
+        get; set {
+            SetAndNotify(ref field, value);
+            ReclamationConfig.Mode = value;
         }
-    }
+    } = ReclamationConfig.Mode;
 
     /// <summary>
     /// Gets or sets 要组装的支援道具
     /// </summary>
     public string ReclamationToolToCraft
     {
-        get => ReclamationConfig.ToolToCraft;
-        set {
+        get; set {
             value = value.Replace('；', ';').Trim();
-            if (ReclamationConfig.ToolToCraft != value)
-            {
-                ReclamationConfig.ToolToCraft = value;
-                NotifyOfPropertyChange();
-            }
+            SetAndNotify(ref field, value);
+            ReclamationConfig.ToolToCraft = value;
         }
-    }
+    } = ReclamationConfig.ToolToCraft;
 
     /// <summary>
     /// Gets the list of reclamation increment modes.
@@ -154,45 +139,33 @@ public class ReclamationUserControlModel : PropertyChangedBase
     /// </summary>
     public int ReclamationIncrementMode
     {
-        get => ReclamationConfig.IncrementMode;
-        set {
-            if (ReclamationConfig.IncrementMode != value)
-            {
-                ReclamationConfig.IncrementMode = value;
-                NotifyOfPropertyChange();
-            }
+        get; set {
+            SetAndNotify(ref field, value);
+            ReclamationConfig.IncrementMode = value;
         }
-    }
+    } = ReclamationConfig.IncrementMode;
 
     /// <summary>
     /// Gets or sets 单次最大制造轮数
     /// </summary>
     public int ReclamationMaxCraftCountPerRound
     {
-        get => ReclamationConfig.MaxCraftCountPerRound;
-        set {
-            if (ReclamationConfig.MaxCraftCountPerRound != value)
-            {
-                ReclamationConfig.MaxCraftCountPerRound = value;
-                NotifyOfPropertyChange();
-            }
+        get; set {
+            SetAndNotify(ref field, value);
+            ReclamationConfig.MaxCraftCountPerRound = value;
         }
-    }
+    } = ReclamationConfig.MaxCraftCountPerRound;
 
     /// <summary>
     /// Gets or sets a value indicating whether 刷完点数后是否清空商店
     /// </summary>
     public bool ReclamationClearStore
     {
-        get => ReclamationConfig.ClearStore;
-        set {
-            if (ReclamationConfig.ClearStore != value)
-            {
-                ReclamationConfig.ClearStore = value;
-                NotifyOfPropertyChange();
-            }
+        get; set {
+            SetAndNotify(ref field, value);
+            ReclamationConfig.ClearStore = value;
         }
-    }
+    } = ReclamationConfig.ClearStore;
 
     /// <summary>
     /// Gets the theme-specific tip text.
@@ -211,7 +184,6 @@ public class ReclamationUserControlModel : PropertyChangedBase
                     return LocalizationHelper.GetString("ReclamationTipFire");
                 case Theme.RelaunchAnchor:
                     {
-                        // mode 0 = RA-1, mode 1 = RA-4, mode 2 = RA-15
                         var stageNum = mode switch
                         {
                             Mode.RA15 => 15,
@@ -237,25 +209,24 @@ public class ReclamationUserControlModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// 以当前配置提交生息演算任务并启动；远程控制 LinkStart-Reclamation 亦走此入口。
+    /// 以当前设置提交并启动生息演算任务。
     /// </summary>
     /// <returns>任务是否成功启动。</returns>
     public bool AppendAndStartReclamationTask()
     {
-        var config = ReclamationConfig;
-        var toolToCraft = !string.IsNullOrEmpty(config.ToolToCraft)
-            ? config.ToolToCraft
+        var toolToCraft = !string.IsNullOrEmpty(ReclamationToolToCraft)
+            ? ReclamationToolToCraft
             : LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType]);
         var task = new AsstReclamationTask {
-            Theme = config.Theme,
-            Mode = (int)config.Mode,
-            IncrementMode = config.IncrementMode,
-            MaxCraftCountPerRound = config.MaxCraftCountPerRound,
+            Theme = ReclamationTheme,
+            Mode = (int)ReclamationMode,
+            IncrementMode = ReclamationIncrementMode,
+            MaxCraftCountPerRound = ReclamationMaxCraftCountPerRound,
             ToolToCraft = [.. toolToCraft.Split(';').Select(s => s.Trim())],
-            ClearStore = config.ClearStore,
+            ClearStore = ReclamationClearStore,
         };
 
-        return Instances.AsstProxy.AsstReclamation(task);
+        return Instances.AsstProxy.AsstReclamation(task) && Instances.AsstProxy.AsstStart();
     }
 
     /// <summary>
