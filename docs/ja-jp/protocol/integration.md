@@ -1124,7 +1124,7 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 ::: field blackflow_start_reward_priority  
 @type array<string>
 @optional
-モード 30003 で第 1 層の实托邦を厳選する場合に、目標の探索で報酬を選ぶ順番。`blackflow_start_utopia` が true の場合は必須で、空と重複は不可。選択可能な値：`unnumbered_item` 未编号物；`survey_advance` 调查预付款；`space_lease` 空间租赁；`regression_compensation` 退行补偿；`forest_ride` 林间代步；`nest_parasitism` 巢寄生；`pegasus` 襁褓天马；`hippogriff` 襁褓骏鹰；`dragon` 襁褓巨龙；`hydra` 襁褓九头蛇；`bai_ze` 襁褓白泽；`golden_crow` 襁褓金乌。实托邦を厳選しない場合、目標の探索は条件を満たすと支援選択画面のまま探索を保持し、報酬を選ばないため、この項目は読みません。厳選する場合、目標の探索は第 1 層に入る必要があり、支援選択画面でカードを選ばなければなりません。`blackflow_start_rewards` を満たした後、画面にある報酬のうちこの順番で最も上のものを選び、襁褓のケルベロスで 2 回選べる場合はもう 1 枚選びます。このとき後ろの 6 項目の羽蛇の報酬も、`blackflow_start_animals` に羽蛇が含まれるかどうかに関係なく順番に加わります。準備用探索で羽蛇を指定していなくても連れていることがあり、その場合も目標の探索に青い報酬が出るためです。これは `blackflow_start_rewards` と異なり、そちらの後ろの 6 項目は条件で、羽蛇を指定した場合のみ有効です。並べた報酬が画面に 1 つもない場合は、戦略の既定の順番で通常の報酬を 1 つ選びます。（機械翻訳）  
+モード 30003 で第 1 層の实托邦を厳選する場合に、目標の探索で報酬を選ぶ順番。`blackflow_start_utopia` が true の場合は必須で、空と重複は不可。選択可能な値：`unnumbered_item` 未编号物；`survey_advance` 调查预付款；`space_lease` 空间租赁；`regression_compensation` 退行补偿；`forest_ride` 林间代步；`nest_parasitism` 巢寄生；`pegasus` 襁褓天马；`hippogriff` 襁褓骏鹰；`dragon` 襁褓巨龙；`hydra` 襁褓九头蛇；`bai_ze` 襁褓白泽；`golden_crow` 襁褓金乌（日本語名未定）。实托邦を厳選しない場合、目標の探索は条件を満たすと支援選択画面のまま探索を保持し、報酬を選ばないため、この項目は読みません。厳選する場合、目標の探索は第 1 層に入る必要があり、支援選択画面でカードを選ばなければなりません。`blackflow_start_rewards` を満たした後、画面にある報酬のうちこの順番で最も上のものを選び、襁褓のケルベロスで 2 回選べる場合はもう 1 枚選びます。このとき後ろの 6 項目の羽蛇の報酬も、`blackflow_start_animals` に羽蛇が含まれるかどうかに関係なく順番に加わります。準備用探索で羽蛇を指定していなくても連れていることがあり、その場合も目標の探索に青い報酬が出るためです。これは `blackflow_start_rewards` と異なり、そちらの後ろの 6 項目は条件で、羽蛇を指定した場合のみ有効です。並べた報酬が画面に 1 つもない場合は、戦略の既定の順番で通常の報酬を 1 つ選びます。（機械翻訳）  
 :::  
 ::: field find_playTime_target  
 @type number

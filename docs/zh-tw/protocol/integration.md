@@ -1125,7 +1125,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 ::: field blackflow_start_reward_priority  
 @type array<string>
 @optional
-模式 30003 凹第一層實托邦時目標局選取獎勵的先後順序，`blackflow_start_utopia` 為 true 時必填，不可為空，不可重複。可選值：`unnumbered_item` 未編號物；`survey_advance` 調查預付款；`space_lease` 空間租賃；`regression_compensation` 退行補償；`forest_ride` 林間代步；`nest_parasitism` 巢寄生；`pegasus` 襁褓天馬；`hippogriff` 襁褓駿鷹；`dragon` 襁褓巨龍；`hydra` 襁褓九頭蛇；`bai_ze` 襁褓白澤；`golden_crow` 襁褓金烏。不凹實托邦時，目標局命中後停在選擇支援頁保留該局，不選取獎勵，不讀取此項。凹實托邦時，目標局要進入第一層，必須在選擇支援頁選卡：命中 `blackflow_start_rewards` 後，依此順序選頁面上排得最前的一張，帶襁褓三頭犬可選兩次時再選一張。此時後六項羽蛇獎勵照樣參與排序，與 `blackflow_start_animals` 是否含羽蛇無關：準備局沒有要求羽蛇也可能帶上，目標局照樣會出藍色獎勵。這和 `blackflow_start_rewards` 不同，那裡的後六項是命中條件，只在要求了羽蛇時生效。列出的獎勵都不在頁面上時，依策略的預設順序選一張普通獎勵。  
+模式 30003 凹第一層實托邦時目標局選取獎勵的先後順序，`blackflow_start_utopia` 為 true 時必填，不可為空，不可重複。可選值：`unnumbered_item` 未編號物；`survey_advance` 調查預付款；`space_lease` 空間租賃；`regression_compensation` 退行補償；`forest_ride` 林間代步；`nest_parasitism` 巢寄生；`pegasus` 襁褓天馬；`hippogriff` 襁褓駿鷹；`dragon` 襁褓巨龍；`hydra` 襁褓九頭蛇；`bai_ze` 襁褓白澤；`golden_crow` 襁褓金烏。不凹實托邦時，目標局命中後停在選擇支援頁保留該局，不選取獎勵，不讀取此項。凹實托邦時，目標局要進入第一層，必須在選擇支援頁選卡：命中 `blackflow_start_rewards` 後，選取優先順序列表中排在最前且頁面上存在的一張，帶襁褓三頭犬可選兩次時再選一張。此時後六項羽蛇獎勵照樣參與排序，與 `blackflow_start_animals` 是否含羽蛇無關：準備局沒有要求羽蛇也可能帶上，目標局照樣會出藍色獎勵。這和 `blackflow_start_rewards` 不同，那裡的後六項是命中條件，只在要求了羽蛇時生效。列出的獎勵都不在頁面上時，依策略的預設順序選一張普通獎勵。  
 :::  
 ::: field find_playTime_target  
 @type number
