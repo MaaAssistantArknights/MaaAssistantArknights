@@ -2185,8 +2185,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="AnnouncementNotFinishedConfirm3">まだ押す</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
-    <system:String x:Key="ReclamationTipRelaunchAnchorRA1" xml:space="preserve">
-報酬目安：1回あたり約159トークン＋統括ポイント、所要時間約2分10秒
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA1" xml:space="preserve">報酬目安：1回あたり約159トークン＋統括ポイント、所要時間約2分10秒
 
 オペレーター要件：なし
 
@@ -2196,10 +2195,8 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
 
 注意：｢初期追加携帯アイテム｣ に関連するテクノロジーをアンロックしている場合、基地内で初期追加携帯アイテムの原因となる施設（食品供給所、飲料供給所、獣舎など）を解体してください
 
-タスクの流れ：精耕細作、建設、資源納入、決済を自動実行
-    </system:String>
-    <system:String x:Key="ReclamationTipRelaunchAnchorRA4" xml:space="preserve">
-報酬目安：1回あたり約417トークン＋統括ポイント、所要時間約1分40秒
+タスクの流れ：精耕細作、建設、資源納入、決済を自動実行</system:String>
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA4" xml:space="preserve">報酬目安：1回あたり約417トークン＋統括ポイント、所要時間約1分40秒
 
 オペレーター要件：ヴィシャデル（サポート借用可）
 
@@ -2213,10 +2210,8 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
 
 注意：｢初期追加携帯アイテム｣ に関連するテクノロジーをアンロックしている場合、基地内で初期追加携帯アイテムの原因となる施設（食品供給所、飲料供給所、獣舎など）を解体してください
 
-タスクの流れ：｢計画経営｣ で得た赤金を使ってエリアを解放し、ヴィシャデルでボス討伐を完了する
-    </system:String>
-    <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">
-報酬目安：1回あたり約 500 トークン＋統括ポイント、所要時間約 3 分
+タスクの流れ：｢計画経営｣ で得た赤金を使ってエリアを解放し、ヴィシャデルでボス討伐を完了する</system:String>
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">報酬目安：1回あたり約 500 トークン＋統括ポイント、所要時間約 3 分
 
 オペレーター要件：聖聆初雪（サポート借用可）
 
@@ -2229,24 +2224,18 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
 
 注意：  ｢初期追加携帯アイテム｣ に関連するテクノロジーをアンロックしている場合、基地内で初期追加携帯アイテムの原因となる施設（食品供給所、飲料供給所、獣舎など）を解体してください
 
-タスクの流れ： サポートオペレーターを使用して 60 キルミッションを自動実行
-    </system:String>
+タスクの流れ： サポートオペレーターを使用して 60 キルミッションを自動実行</system:String>
     <system:String x:Key="ReclamationTipFire">このイベントは終了しており、利用できません</system:String>
-    <system:String x:Key="ReclamationTipTales" xml:space="preserve">
-生息演算のサポートはまだ初期段階にありますので、ご利用の際は以下の点にご注意ください：
-
- 初期設定でポイントを稼ぐ：（既存のセーブデータが削除されることに注意してください）
+    <system:String x:Key="ReclamationTipTalesNoSave" xml:space="preserve">初期設定でポイントを稼ぐ：（既存のセーブデータが削除されることに注意してください）
   0.ポイントがいっぱいになると ｢タスク完了｣ が出力され、タスクは自動的に停止します
   1. 理論的には、タスクは、セーブデータの有無に関係なく、ポイント獲得のためのどの時点からでもタスクを開始できる。
   2. 生息演算の編成に{key=Operator}を入れることができるが、テストしていないのでお勧めしない。
-  3. ナビゲーションがまだ書かれていないので、生息演算の画面以外の場所からタスクを開始することはできない。
-  4. タスク中にエラーが出たり、ポイントが満杯なかたでタスクが完了した場合は、GitHubにissueを提出してください。
-
- セーブデータあり、支援道具組立でポイントを稼ぐ（高度な設定）：
+  3. メイン画面の右下に ｢演算開始｣ が表示されている画面からタスクを開始する必要があります。
+  4. タスク中にエラーが出たり、ポイントが満杯なかたでタスクが完了した場合は、GitHubにissueを提出してください。</system:String>
+    <system:String x:Key="ReclamationTipTalesInSave" xml:space="preserve">セーブデータあり、支援道具組立でポイントを稼ぐ：
   1. 条件は、決算後初日と、その後3日間、敵襲がないこと。
   2. 大地図のインターフェースに入った後に開始する必要があります（駐屯地を見ることができるページ）
-  3. 作れる数字がちょうど99の倍数の場合、スタックしてしまうので、セーブする前に少し使い切り、後で修正することができる。
-    </system:String>
+  3. 作れる数字がちょうど99の倍数の場合、スタックしてしまうので、セーブする前に少し使い切り、後で修正することができる。</system:String>
     <system:String x:Key="ReclamationBePatient">改善するのが待ちきれません！また急いでいます</system:String>
     <system:String x:Key="Reclamation2ExEnable">道具作りでポイントを得る</system:String>
     <system:String x:Key="ReclamationToolToCraftTip">支援道具名</system:String>

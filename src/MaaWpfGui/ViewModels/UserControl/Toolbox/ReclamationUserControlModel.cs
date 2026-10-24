@@ -1,4 +1,4 @@
-// <copyright file="ReclamationTaskUserControlModel.cs" company="MaaAssistantArknights">
+// <copyright file="ReclamationUserControlModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -14,7 +14,8 @@
 #nullable enable
 using System.Collections.Generic;
 using System.Linq;
-using MaaWpfGui.Configuration.Single.MaaTask;
+using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Single.Settings;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
@@ -22,21 +23,34 @@ using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
-using static MaaWpfGui.Main.AsstProxy;
-using Mode = MaaWpfGui.Configuration.Single.MaaTask.ReclamationMode;
-using Theme = MaaWpfGui.Configuration.Single.MaaTask.ReclamationTheme;
+using Stylet;
+using DataHelper = MaaWpfGui.Helper.DataHelper;
+using Mode = MaaWpfGui.Configuration.Single.Settings.ReclamationMode;
+using Theme = MaaWpfGui.Configuration.Single.Settings.ReclamationTheme;
 
-namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
+namespace MaaWpfGui.ViewModels.UserControl.Toolbox;
 
-public class ReclamationTaskUserControlModel : TaskSettingsViewModel, ReclamationTaskUserControlModel.ISerialize
+/// <summary>
+/// 生息演算（牛杂条目）设置与启动。
+/// </summary>
+public class ReclamationUserControlModel : PropertyChangedBase
 {
-    static ReclamationTaskUserControlModel()
+    static ReclamationUserControlModel()
     {
         Instance = new();
         LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
+        PropertyDependsOnUtility.InitializePropertyDependencies(Instance);
     }
 
-    public static ReclamationTaskUserControlModel Instance { get; }
+    public static ReclamationUserControlModel Instance { get; }
+
+    private ReclamationUserControlModel()
+    {
+        // 构造时填充模式列表，避免打开页面时列表为空
+        RefreshModeList();
+    }
+
+    private static Reclamation ReclamationConfig => ConfigFactory.CurrentConfig.Toolbox.MiniGame.Reclamation;
 
     /// <summary>
     /// Gets the list of reclamation themes.
@@ -51,21 +65,16 @@ public class ReclamationTaskUserControlModel : TaskSettingsViewModel, Reclamatio
     /// </summary>
     public Theme ReclamationTheme
     {
-        get => GetTaskConfig<ReclamationTask>().Theme;
-        set {
-            if (SetTaskConfig<ReclamationTask>(t => t.Theme == value, t => t.Theme = value))
+        get; set {
+            SetAndNotify(ref field, value);
+            ReclamationConfig.Theme = value;
+            RefreshModeList();
+            if (value == Theme.RelaunchAnchor)
             {
-                RefreshModeList();
-                if (value == Theme.RelaunchAnchor)
-                {
-                    ReclamationClearStore = false;
-                }
-
-                // 主题变更后刷新高级设置可见性
-                TaskSettingVisibilityInfo.Instance.RefreshAdvancedSettingsVisibility();
+                ReclamationClearStore = false;
             }
         }
-    }
+    } = ReclamationConfig.Theme;
 
     public void RefreshModeList()
     {
@@ -85,6 +94,7 @@ public class ReclamationTaskUserControlModel : TaskSettingsViewModel, Reclamatio
                 new() { Display = LocalizationHelper.GetString("ReclamationModeRA15"), Value = Mode.RA15 },
             ];
         }
+
         ReclamationMode = ModeList.Any(x => x.Value == mode) ? mode : ModeList.FirstOrDefault()?.Value ?? default;
     }
 
@@ -99,21 +109,23 @@ public class ReclamationTaskUserControlModel : TaskSettingsViewModel, Reclamatio
     [PropertyDependsOn(nameof(ReclamationTheme))]
     public Mode ReclamationMode
     {
-        get => GetTaskConfig<ReclamationTask>().Mode;
-        set => SetTaskConfig<ReclamationTask>(t => t.Mode == value, t => t.Mode = value);
-    }
+        get; set {
+            SetAndNotify(ref field, value);
+            ReclamationConfig.Mode = value;
+        }
+    } = ReclamationConfig.Mode;
 
     /// <summary>
     /// Gets or sets 要组装的支援道具
     /// </summary>
     public string ReclamationToolToCraft
     {
-        get => GetTaskConfig<ReclamationTask>().ToolToCraft;
-        set {
+        get; set {
             value = value.Replace('；', ';').Trim();
-            SetTaskConfig<ReclamationTask>(t => t.ToolToCraft == value, t => t.ToolToCraft = value);
+            SetAndNotify(ref field, value);
+            ReclamationConfig.ToolToCraft = value;
         }
-    }
+    } = ReclamationConfig.ToolToCraft;
 
     /// <summary>
     /// Gets the list of reclamation increment modes.
@@ -127,27 +139,33 @@ public class ReclamationTaskUserControlModel : TaskSettingsViewModel, Reclamatio
     /// </summary>
     public int ReclamationIncrementMode
     {
-        get => GetTaskConfig<ReclamationTask>().IncrementMode;
-        set => SetTaskConfig<ReclamationTask>(t => t.IncrementMode == value, t => t.IncrementMode = value);
-    }
+        get; set {
+            SetAndNotify(ref field, value);
+            ReclamationConfig.IncrementMode = value;
+        }
+    } = ReclamationConfig.IncrementMode;
 
     /// <summary>
     /// Gets or sets 单次最大制造轮数
     /// </summary>
     public int ReclamationMaxCraftCountPerRound
     {
-        get => GetTaskConfig<ReclamationTask>().MaxCraftCountPerRound;
-        set => SetTaskConfig<ReclamationTask>(t => t.MaxCraftCountPerRound == value, t => t.MaxCraftCountPerRound = value);
-    }
+        get; set {
+            SetAndNotify(ref field, value);
+            ReclamationConfig.MaxCraftCountPerRound = value;
+        }
+    } = ReclamationConfig.MaxCraftCountPerRound;
 
     /// <summary>
     /// Gets or sets a value indicating whether 刷完点数后是否清空商店
     /// </summary>
     public bool ReclamationClearStore
     {
-        get => GetTaskConfig<ReclamationTask>().ClearStore;
-        set => SetTaskConfig<ReclamationTask>(t => t.ClearStore == value, t => t.ClearStore = value);
-    }
+        get; set {
+            SetAndNotify(ref field, value);
+            ReclamationConfig.ClearStore = value;
+        }
+    } = ReclamationConfig.ClearStore;
 
     /// <summary>
     /// Gets the theme-specific tip text.
@@ -166,7 +184,6 @@ public class ReclamationTaskUserControlModel : TaskSettingsViewModel, Reclamatio
                     return LocalizationHelper.GetString("ReclamationTipFire");
                 case Theme.RelaunchAnchor:
                     {
-                        // mode 0 = RA-1, mode 1 = RA-4, mode 2 = RA-15
                         var stageNum = mode switch
                         {
                             Mode.RA15 => 15,
@@ -183,49 +200,33 @@ public class ReclamationTaskUserControlModel : TaskSettingsViewModel, Reclamatio
                     }
 
                 case Theme.Tales:
-                    return LocalizationHelper.GetString("ReclamationTipTales");
+                    return LocalizationHelper.GetString(
+                        ReclamationMode == Mode.ProsperityInSave ? "ReclamationTipTalesInSave" : "ReclamationTipTalesNoSave");
                 default:
                     return string.Empty;
             }
         }
     }
 
-    public override void RefreshUI(BaseTask baseTask)
+    /// <summary>
+    /// 以当前设置提交并启动生息演算任务。
+    /// </summary>
+    /// <returns>任务是否成功启动。</returns>
+    public bool AppendAndStartReclamationTask()
     {
-        if (baseTask is ReclamationTask)
-        {
-            RefreshModeList();
-            Refresh();
-        }
-    }
+        var toolToCraft = !string.IsNullOrEmpty(ReclamationToolToCraft)
+            ? ReclamationToolToCraft
+            : LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType]);
+        var task = new AsstReclamationTask {
+            Theme = ReclamationTheme,
+            Mode = (int)ReclamationMode,
+            IncrementMode = ReclamationIncrementMode,
+            MaxCraftCountPerRound = ReclamationMaxCraftCountPerRound,
+            ToolToCraft = [.. toolToCraft.Split(';').Select(s => s.Trim())],
+            ClearStore = ReclamationClearStore,
+        };
 
-    public override (bool? IsSuccess, IEnumerable<int> TaskId) SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize).Serialize(baseTask, taskId);
-
-    private interface ISerialize : ITaskQueueModelSerialize
-    {
-        (bool? IsSuccess, IEnumerable<int> TaskId) ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
-        {
-            if (baseTask is not ReclamationTask reclamation)
-            {
-                return (null, []);
-            }
-
-            var toolToCraft = !string.IsNullOrEmpty(reclamation.ToolToCraft) ? reclamation.ToolToCraft : LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType]);
-            var task = new AsstReclamationTask() {
-                Theme = reclamation.Theme,
-                Mode = (int)reclamation.Mode,
-                IncrementMode = reclamation.IncrementMode,
-                MaxCraftCountPerRound = reclamation.MaxCraftCountPerRound,
-                ToolToCraft = [.. toolToCraft.Split(';').Select(s => s.Trim())],
-                ClearStore = reclamation.ClearStore,
-            };
-
-            return taskId switch {
-                int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]),
-                null => FromSingle(Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Reclamation, task)),
-                _ => (null, []),
-            };
-        }
+        return Instances.AsstProxy.AsstReclamation(task) && Instances.AsstProxy.AsstStart();
     }
 
     /// <summary>

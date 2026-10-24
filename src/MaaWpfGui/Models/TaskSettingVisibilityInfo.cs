@@ -54,8 +54,6 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
 
     public bool Roguelike { get => field; set => SetAndNotify(ref field, value); }
 
-    public bool Reclamation { get => field; set => SetAndNotify(ref field, value); }
-
     public bool UserDataUpdate { get => field; set => SetAndNotify(ref field, value); }
 
     public bool DepotMaintain { get => field; set => SetAndNotify(ref field, value); }
@@ -159,7 +157,6 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
             AwardTask => Award = enable,
             OperProgressTask => OperProgress = enable,
             RoguelikeTask => Roguelike = enable,
-            ReclamationTask => Reclamation = enable,
             UserDataUpdateTask => UserDataUpdate = enable,
             DepotMaintainTask => DepotMaintain = enable,
             SwitchThemeTask => SwitchTheme = enable,
@@ -187,7 +184,6 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
     {
         AdvancedSettingsVisibility = task switch {
             AwardTask or StartUpTask or UserDataUpdateTask or OperProgressTask => false,
-            ReclamationTask rt => rt.Theme == ReclamationTheme.Tales,
             _ => true,
         };
     }
@@ -202,7 +198,6 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         Award = false;
         OperProgress = false;
         Roguelike = false;
-        Reclamation = false;
         UserDataUpdate = false;
         DepotMaintain = false;
         SwitchTheme = false;

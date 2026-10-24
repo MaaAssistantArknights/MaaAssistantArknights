@@ -1,4 +1,4 @@
-// <copyright file="ReclamationTaskUserControl.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="Gacha.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -11,18 +11,21 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-namespace MaaWpfGui.Views.UserControl.TaskQueue;
+#nullable enable
+using MaaWpfGui.Models;
+using static MaaWpfGui.Configuration.Factory.ConfigFactory;
+
+namespace MaaWpfGui.Configuration.Single.Settings;
 
 /// <summary>
-/// ReclamationTaskUserControl.xaml 的交互逻辑
+/// 干员寻访相关设置
 /// </summary>
-public partial class ReclamationTaskUserControl : System.Windows.Controls.UserControl
+public class Gacha : NotifyPropertyChangedWithValue
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ReclamationTaskUserControl"/> class.
-    /// </summary>
-    public ReclamationTaskUserControl()
+    public void EventBinding(string prefix)
     {
-        InitializeComponent();
+        PropertyChanged += Handler.OnPropertyChangedFactory(prefix);
     }
+
+    public bool GachaShowDisclaimerNoMore { get; set; }
 }

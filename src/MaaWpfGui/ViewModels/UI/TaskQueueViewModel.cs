@@ -130,11 +130,6 @@ public class TaskQueueViewModel : Screen
     public static RoguelikeTaskUserControlModel RoguelikeTask => RoguelikeTaskUserControlModel.Instance;
 
     /// <summary>
-    /// Gets 生稀盐酸任务Model
-    /// </summary>
-    public static ReclamationTaskUserControlModel ReclamationTask => ReclamationTaskUserControlModel.Instance;
-
-    /// <summary>
     /// Gets 更新用户数据任务Model
     /// </summary>
     public static UserDataUpdateTaskUserControlModel UserDataUpdateTask => UserDataUpdateTaskUserControlModel.Instance;
@@ -1321,7 +1316,6 @@ public class TaskQueueViewModel : Screen
 
             // ConfigFactory.CurrentConfig.TaskQueue.Add(new OperProgressTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new RoguelikeTask());
-            ConfigFactory.CurrentConfig.TaskQueue.Add(new ReclamationTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new UserDataUpdateTask());
         }
 
@@ -1734,7 +1728,6 @@ public class TaskQueueViewModel : Screen
             switch (ConfigFactory.CurrentConfig.TaskQueue[item.Index].TaskType)
             {
                 case TaskType.Roguelike:
-                case TaskType.Reclamation:
                 case TaskType.Custom:
                     continue;
             }
@@ -1759,7 +1752,6 @@ public class TaskQueueViewModel : Screen
             new TaskTypeItem(LocalizationHelper.GetString("Award"), typeof(AwardTask)),
             new TaskTypeItem(LocalizationHelper.GetString("OperProgress"), typeof(OperProgressTask), introducedVersion: "6.19.0-beta.2"),
             new TaskTypeItem(LocalizationHelper.GetString("Roguelike"), typeof(RoguelikeTask)),
-            new TaskTypeItem(LocalizationHelper.GetString("Reclamation"), typeof(ReclamationTask)),
             new TaskTypeItem(LocalizationHelper.GetString("UserDataUpdate"), typeof(UserDataUpdateTask)),
             new TaskTypeItem(LocalizationHelper.GetString("DepotMaintain"), typeof(DepotMaintainTask)),
             new TaskTypeItem(LocalizationHelper.GetString("SwitchTheme"), typeof(SwitchThemeTask), introducedVersion: "6.19.0-beta.2"),
@@ -1779,7 +1771,6 @@ public class TaskQueueViewModel : Screen
                 nameof(AwardTask) => LocalizationHelper.GetString("Award"),
                 nameof(OperProgressTask) => LocalizationHelper.GetString("OperProgress"),
                 nameof(RoguelikeTask) => LocalizationHelper.GetString("Roguelike"),
-                nameof(ReclamationTask) => LocalizationHelper.GetString("Reclamation"),
                 nameof(UserDataUpdateTask) => LocalizationHelper.GetString("UserDataUpdate"),
                 nameof(DepotMaintainTask) => LocalizationHelper.GetString("DepotMaintain"),
                 nameof(SwitchThemeTask) => LocalizationHelper.GetString("SwitchTheme"),
@@ -2176,7 +2167,6 @@ public class TaskQueueViewModel : Screen
                 switch (ConfigFactory.CurrentConfig.TaskQueue[item.Index].TaskType)
                 {
                     case TaskType.Roguelike:
-                    case TaskType.Reclamation:
                     case TaskType.Custom:
                         continue;
                 }

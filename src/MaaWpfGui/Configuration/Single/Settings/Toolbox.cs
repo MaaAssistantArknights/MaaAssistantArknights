@@ -12,9 +12,9 @@
 // </copyright>
 
 #nullable enable
+using System.Text.Json.Serialization;
 using MaaWpfGui.Models;
 using static MaaWpfGui.Configuration.Factory.ConfigFactory;
-using static MaaWpfGui.ViewModels.UI.ToolboxViewModel;
 
 namespace MaaWpfGui.Configuration.Single.Settings;
 
@@ -26,44 +26,25 @@ public partial class Toolbox : NotifyPropertyChangedWithValue
     public void EventBinding(string prefix)
     {
         PropertyChanged += Handler.OnPropertyChangedFactory(prefix);
+        Recruitment.EventBinding(prefix + nameof(Recruitment) + ".");
+        OperBox.EventBinding(prefix + nameof(OperBox) + ".");
+        Gacha.EventBinding(prefix + nameof(Gacha) + ".");
+        Peep.EventBinding(prefix + nameof(Peep) + ".");
+        MiniGame.EventBinding(prefix + nameof(MiniGame) + ".");
     }
 
-    public OperBoxExportFormat OperBoxExportFormat { get; set; } = OperBoxExportFormat.Clipboard;
+    [JsonInclude]
+    public Recruitment Recruitment { get; private set; } = new();
 
-    public bool GachaShowDisclaimerNoMore { get; set; }
+    [JsonInclude]
+    public OperBox OperBox { get; private set; } = new();
 
-    public int PeepTargetFps { get; set; } = 20;
+    [JsonInclude]
+    public Gacha Gacha { get; private set; } = new();
 
-    public bool ChooseLevel3 { get; set; } = true;
+    [JsonInclude]
+    public Peep Peep { get; private set; } = new();
 
-    public int ChooseLevel3Time { get; set; } = 540;
-
-    public bool ChooseLevel4 { get; set; } = true;
-
-    public int ChooseLevel4Time { get; set; } = 540;
-
-    public bool ChooseLevel5 { get; set; } = true;
-
-    public bool ChooseLevel6 { get; set; } = true;
-
-    public bool AutoSetTime { get; set; } = true;
-
-    public bool ShowPotential { get; set; } = true;
-
-    /// <summary>
-    /// 干员识别卡片是否以干员头像为底板展示
-    /// </summary>
-    public bool OperBoxAvatarMode { get; set; }
-
-    public bool EventShopBlackListDataSupplementInstrument { get; set; }
-
-    public bool EventShopBlackListDataSupplementStick { get; set; }
-
-    public bool EventShopBlackListLmd { get; set; }
-
-    public bool EventShopBlackListFurniturePart { get; set; }
-
-    public bool EventShopBlackListOther { get; set; }
-
-    public string EventShopBlackList { get; set; } = string.Empty;
+    [JsonInclude]
+    public MiniGame MiniGame { get; private set; } = new();
 }

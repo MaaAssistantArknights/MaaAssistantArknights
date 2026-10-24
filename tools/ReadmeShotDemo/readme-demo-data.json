@@ -85,10 +85,6 @@
             {
                 "type": "Roguelike",
                 "enabled": false
-            },
-            {
-                "type": "Reclamation",
-                "enabled": false
             }
         ],
         "stages": ["PA-8", "CE-6", "1-7"],

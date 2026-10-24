@@ -253,7 +253,6 @@ public static class DemoShotService
             ["DepotMaintain"] = () => new DepotMaintainTask(),
             ["SwitchTheme"] = () => new SwitchThemeTask(),
             ["Roguelike"] = () => new RoguelikeTask(),
-            ["Reclamation"] = () => new ReclamationTask(),
         };
 
     /// <summary>

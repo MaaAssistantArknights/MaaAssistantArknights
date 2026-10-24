@@ -2183,8 +2183,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="AnnouncementNotFinishedConfirm3">还点</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
-    <system:String x:Key="ReclamationTipRelaunchAnchorRA1" xml:space="preserve">
-收益参考：每把约 159 代币 + 统筹点数，单轮耗时约 2 分 10 秒
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA1" xml:space="preserve">收益参考：每把约 159 代币 + 统筹点数，单轮耗时约 2 分 10 秒
 
 干员要求：无
 
@@ -2194,10 +2193,8 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 
 注意：如果已解锁开局额外携带物品的相关科技，请将基地内会导致开局额外携带物品的设施拆除，如食品供给站、饮品供给站、兽栏等
 
-任务流程：自动执行精耕细作、建设、交付资源、结算循环
-    </system:String>
-    <system:String x:Key="ReclamationTipRelaunchAnchorRA4" xml:space="preserve">
-收益参考：每把约 417 代币 + 统筹点数，单轮耗时约 1 分 40 秒
+任务流程：自动执行精耕细作、建设、交付资源、结算循环</system:String>
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA4" xml:space="preserve">收益参考：每把约 417 代币 + 统筹点数，单轮耗时约 1 分 40 秒
 
 干员要求：维什戴尔（可以借助战）
 
@@ -2211,10 +2208,8 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 
 注意：如果已解锁开局额外携带物品的相关科技，请将基地内会导致开局额外携带物品的设施拆除，如食品供给站、饮品供给站、兽栏等
 
-任务流程：使用筹划经营策略给予的赤金解锁区域，使用维什戴尔完成击杀 boss 任务
-    </system:String>
-    <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">
-收益参考：每把约 500 代币 + 统筹点数，单轮耗时约 3 分钟
+任务流程：使用筹划经营策略给予的赤金解锁区域，使用维什戴尔完成击杀 boss 任务</system:String>
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">收益参考：每把约 500 代币 + 统筹点数，单轮耗时约 3 分钟
 
 干员要求：圣聆初雪（可以借助战）
 
@@ -2227,24 +2222,18 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 
 注意：如果已解锁开局额外携带物品的相关科技，请将基地内会导致开局额外携带物品的设施拆除，如食品供给站、饮品供给站、兽栏等
 
-任务流程：用圣聆初雪完成 60 杀任务
-    </system:String>
+任务流程：用圣聆初雪完成 60 杀任务</system:String>
     <system:String x:Key="ReclamationTipFire">该活动已关闭，无法使用</system:String>
-    <system:String x:Key="ReclamationTipTales" xml:space="preserve">
-目前生息演算的支持仍处于中期阶段，使用时请注意以下几点：
-
- 通过开局刷点数：(小心已有存档被删除)
+    <system:String x:Key="ReclamationTipTalesNoSave" xml:space="preserve">通过开局刷点数：(小心已有存档被删除)
   1. 点数刷满后会输出 ｢任务完成｣，自动停止任务
   2. 不要在生息演算的编队中有{key=Operator}的情况下使用
   3. 手动确认存档情况并删除，以免 MAA 删除你的珍贵存档
-  4. 导航还没写，不能从生息演算以外的位置开始任务
-  5. 如果任务过程中报错、点数没刷满就任务完成，请前往 GitHub 提交 issue
-
- 有存档通过制造刷点数（高级设置）：
+  4. 需要在主界面右下角有开始演算的界面开始任务
+  5. 如果任务过程中报错、点数没刷满就任务完成，请前往 GitHub 提交 issue</system:String>
+    <system:String x:Key="ReclamationTipTalesInSave" xml:space="preserve">有存档通过制造刷点数：
   1. 要求是结算后的第一天，且后续三天没有敌袭进入驻扎地
   2. 必须在进入大地图后的界面开始（能看到驻扎地的界面）
-  3. 如果能制造的数量刚好是 99 的倍数会卡住，在存档前可以先用掉一点，这个之后再修
-    </system:String>
+  3. 如果能制造的数量刚好是 99 的倍数会卡住，在存档前可以先用掉一点，这个之后再修</system:String>
     <system:String x:Key="ReclamationBePatient">牛牛，我太想进步了！你看，又急</system:String>
     <system:String x:Key="Reclamation2ExEnable">通过制造刷点数</system:String>
     <system:String x:Key="ReclamationToolToCraftTip">支援道具名称</system:String>

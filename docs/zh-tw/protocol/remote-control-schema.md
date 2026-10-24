@@ -54,7 +54,7 @@ MAA 會以固定間隔持續輪詢此端點（預設 1 秒，可在設定中調�
         },
         {
             "id": "b353c469-b902-4357-bd8f-d133199eea31",   // 任務唯一 ID（字串），彙報任務時會使用。
-            "type": "Toolbox-GachaOnce"                     // 工具箱抽卡任務。可選值：Toolbox-GachaOnce, Toolbox-GachaTenTimes。
+            "type": "Toolbox-GachaOnce"                     // 工具箱任務。可選值：Toolbox-GachaOnce, Toolbox-GachaTenTimes, Toolbox-Reclamation（生息演算）。
         },
         {
             "id": "b353c469-b902-4357-bd8f-d133199eea31",   // 任務唯一 ID（字串），彙報任務時會使用。
@@ -84,7 +84,7 @@ MAA 會以固定間隔持續輪詢此端點（預設 1 秒，可在設定中調�
 
 ::: note
 
-- `LinkStart-[TaskName]` 型任務的 type 可選值為：LinkStart-Base, LinkStart-WakeUp, LinkStart-Combat, LinkStart-Recruiting, LinkStart-Mall, LinkStart-Mission, LinkStart-AutoRoguelike, LinkStart-Reclamation。
+- `LinkStart-[TaskName]` 型任務的 type 可選值為：LinkStart-Base, LinkStart-WakeUp, LinkStart-Combat, LinkStart-Recruiting, LinkStart-Mall, LinkStart-Mission, LinkStart-AutoRoguelike；LinkStart-Reclamation 為相容舊版保留的別名，等價於 Toolbox-Reclamation。
 - `Settings-[SettingsName]` 型任務的 type 可選值為：Settings-ConnectAddress, Settings-Stage1。
 - Settings 系列任務仍須依序執行，收到任務時不會立刻執行，而是排在上一項任務之後。
 - 多個立即執行任務亦會按部就班執行，但因執行速度極快，通常無需關注其順序。
