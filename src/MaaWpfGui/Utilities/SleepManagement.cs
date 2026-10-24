@@ -19,6 +19,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MaaWpfGui.Configuration.Factory;
 using Serilog;
+using Stylet;
 
 namespace MaaWpfGui.Utilities;
 
@@ -73,7 +74,7 @@ public static class SleepManagement
         Continuous = 0x80000000,
     }
 
-    public static void AllowSleep()
+    public static void AllowSleep() => Execute.OnUIThreadSync(() =>
     {
         if (!_isBlockingSleep)
         {
@@ -84,9 +85,9 @@ public static class SleepManagement
 
         _logger.Information("Allowing system to sleep");
         SetThreadExecutionState(ExecutionState.Continuous);
-    }
+    });
 
-    public static void BlockSleep(bool? allowBlockSleep = null, bool? blockSleepWithScreenOn = null)
+    public static void BlockSleep(bool? allowBlockSleep = null, bool? blockSleepWithScreenOn = null) => Execute.OnUIThreadSync(() =>
     {
         if (!(allowBlockSleep ?? ConfigFactory.CurrentConfig.Gui.RuntimeSettings.BlockSleep))
         {
@@ -100,7 +101,7 @@ public static class SleepManagement
         ExecutionState state = ExecutionState.Continuous | ExecutionState.SystemRequired |
             (keepDisplayOn ? ExecutionState.DisplayRequired : 0);
         SetThreadExecutionState(state);
-    }
+    });
 
     /// <summary>
     /// Creates an independently owned system-required power request.
