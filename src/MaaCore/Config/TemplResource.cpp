@@ -93,15 +93,14 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
             return false;
 #endif
         }
-        else {
-            m_templ_aliases.insert(name);
-        }
     }
 #ifdef ASST_DEBUG
     if (some_file_not_exists || file_dumplicate) {
         return false;
     }
 #endif
+
+    m_templ_aliases.insert(m_load_required.begin(), m_load_required.end());
 
     // 将所有图片按完整相对路径注册到索引，支持 C++ 代码动态引用（如活动关卡截图模板）
     // 保留已解析的任务模板别名，其余完整相对路径允许后加载资源覆盖

@@ -21,7 +21,12 @@ public:
 
     const cv::Mat& get_templ(const std::string& name);
 
-    bool has_templ(const std::string& name) const noexcept { return m_templ_paths.contains(name); }
+    bool has_templ(const std::string& name) const noexcept
+    {
+        auto iter = m_templ_paths.find(name);
+        std::error_code ec;
+        return iter != m_templ_paths.end() && std::filesystem::is_regular_file(iter->second, ec);
+    }
 
     uint64_t revision() const noexcept { return m_revision.load(std::memory_order_acquire); }
 
