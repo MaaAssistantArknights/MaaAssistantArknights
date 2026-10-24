@@ -502,6 +502,31 @@
                                     IsChecked="{Binding UseSanityPotion}"
                                     Visibility="{c:Binding 'UseCopilotList and CopilotTabIndex == 0'}" />
 
+                                <!--  AutoRestart  -->
+                                <StackPanel Visibility="{c:Binding 'CopilotTabIndex == 0 or CopilotTabIndex == 3'}">
+                                    <StackPanel Margin="2.5,5" Orientation="Horizontal">
+                                        <CheckBox Content="{DynamicResource AutoRestart}" IsChecked="{Binding AutoRestart}" />
+                                        <controls:TooltipBlock TooltipText="{DynamicResource AutoRestartTip}" />
+                                    </StackPanel>
+                                    <StackPanel
+                                        Margin="20,0,0,5"
+                                        Orientation="Horizontal"
+                                        Visibility="{c:Binding 'AutoRestart and UseCopilotList'}">
+                                        <controls:TextBlock
+                                            Margin="0,0,4,0"
+                                            VerticalAlignment="Center"
+                                            Text="{DynamicResource AutoRestartTimes}" />
+                                        <hc:NumericUpDown
+                                            Width="55"
+                                            Height="20"
+                                            VerticalAlignment="Center"
+                                            InputMethod.IsInputMethodEnabled="False"
+                                            Maximum="999"
+                                            Minimum="1"
+                                            Value="{Binding AutoRestartTimes}" />
+                                    </StackPanel>
+                                </StackPanel>
+
                                 <!--  Loop / LoopTimes  -->
                                 <StackPanel Orientation="Horizontal" Visibility="{c:Binding '!UseCopilotList and CopilotTabIndex != 0 and CopilotTabIndex != 2'}">
                                     <CheckBox
@@ -517,7 +542,6 @@
                                 </StackPanel>
                             </StackPanel>
                         </hc:ScrollViewer>
-
                     </Grid>
 
                     <Grid

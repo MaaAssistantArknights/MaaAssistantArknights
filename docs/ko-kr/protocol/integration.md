@@ -1210,6 +1210,18 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 @optional
 이성 부족 시 이성 회복제 사용 허용 여부  
 :::  
+::: field auto_restart  
+@type boolean
+@default false
+@optional
+단일 작업 모드에서는 적 통과가 감지되면 정산 전에 전투를 포기할지 여부입니다. 다중 작업 모드에서는 적 통과 또는 전투 실패 후 현재 작업을 자동으로 다시 시작할지 여부이며, 적 통과 시 먼저 전투를 포기합니다.
+:::  
+::: field auto_restart_times  
+@type number
+@default 3
+@optional
+다중 작업 모드에서 작업별로 허용할 자동 재시작 최대 횟수(1~999). `auto_restart`가 `true`일 때만 유효
+:::  
 ::: field formation  
 @type boolean
 @default false

@@ -1208,6 +1208,18 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 @optional
 理性が不足した場合に理性剤を使用するかどうか。  
 :::  
+::: field auto_restart  
+@type boolean
+@default false
+@optional
+単一作業モードでは、敵の通過を検出した場合にリザルト前に戦闘を中止するかどうか。マルチジョブモードでは、敵の通過または戦闘失敗後に現在の作業を自動で再開するかどうか。敵を通した場合は先に戦闘を中止します。
+:::  
+::: field auto_restart_times  
+@type number
+@default 3
+@optional
+マルチジョブモードで、作業ごとに許可する自動再開の最大回数（1～999）。`auto_restart` が `true` の場合のみ有効。
+:::  
 ::: field formation  
 @type boolean
 @default false
