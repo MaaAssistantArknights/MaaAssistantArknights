@@ -270,9 +270,14 @@ void run_lifecycle_tests(AsstHandle handle, LifecycleTestState& state)
     require(AsstAsyncConnect(handle, "", "", "LIFECYCLE_TEST", false) > 0, "test connect was not queued");
     wait_for(state, [&]() { return state.ready_count == ready + 1; }, "test connect did not reach its gate");
     stop_promptly(handle);
+    require(AsstRunning(handle), "in-flight connection reported idle before cleanup");
+    require(AsstAppendTask(handle, "Debug", "{}") == 0, "append overlapped connection cleanup");
     require(!AsstStart(handle), "Start overlapped an in-flight connection");
     AsstReleaseLifecycleTest();
-    wait_for(state, [&]() { return state.async_completed_count == 1; }, "connect callback deadlocked during stop");
+    wait_for(
+        state,
+        [&]() { return state.async_completed_count == 1 && !AsstRunning(handle); },
+        "connect callback or cleanup deadlocked during stop");
     require(!AsstRunning(handle), "test connect left a stale stop request");
     require(AsstAppendTask(handle, "Debug", "{}") > 0 && AsstStart(handle), "Start after test connect failed");
     wait_for(

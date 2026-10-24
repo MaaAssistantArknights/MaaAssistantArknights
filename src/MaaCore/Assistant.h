@@ -78,6 +78,7 @@ private:
     enum class LifecycleState
     {
         Idle,
+        Connecting,
         Running,
         Stopping,
     };
@@ -207,13 +208,20 @@ private:
     void clear_cache();
     bool inited() const noexcept;
 
-    bool ctrl_connect(const std::string& adb_path, const std::string& address, const std::string& config);
+    bool begin_connection(AsyncCallId call_id);
+    void finish_connection() noexcept;
+    bool ctrl_connect(
+        const std::string& adb_path,
+        const std::string& address,
+        const std::string& config,
+        AsyncCallId call_id);
 #ifdef _WIN32
     bool ctrl_attach_window(
         void* hwnd,
         Win32ScreencapMethod screencap_method,
         Win32InputMethod mouse_method,
-        Win32InputMethod keyboard_method);
+        Win32InputMethod keyboard_method,
+        AsyncCallId call_id);
 #endif
     bool ctrl_click(int x, int y);
     bool ctrl_screencap();
@@ -240,6 +248,7 @@ private:
     std::condition_variable m_msg_condvar;
 
     inline static std::atomic<AsyncCallId> m_call_id = 0; // 进程级唯一
+    std::atomic<AsyncCallId> m_cancelled_call_id = 0;
     std::queue<AsyncCallItem> m_call_queue;
     std::mutex m_call_mutex;
     std::condition_variable m_call_condvar;
