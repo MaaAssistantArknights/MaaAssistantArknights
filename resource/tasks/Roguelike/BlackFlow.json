@@ -1781,30 +1781,57 @@
     "BlackFlow@Roguelike@SelectTheme": {
         "text": ["源流堆栈"]
     },
+    "BlackFlow@Roguelike@Squad-EnterPoint": {
+        "Doc": "整个肉鸽共用一个 ProcessTask，执行次数会跨局累积；每局进分队页时把分队确认与观察的计数清零。",
+        "reduceOtherTimes": ["BlackFlow@Roguelike@SquadConfirm*4", "BlackFlow@Roguelike@SquadConfirmObserve*2"]
+    },
     "BlackFlow@Roguelike@SquadConfirm": {
-        "Doc": "开局分队确认，之后可能出现藏品弹窗、干员选择或招募界面。",
+        "Doc": [
+            "开局分队确认，之后可能出现藏品弹窗、干员选择或招募界面。",
+            "点击后每隔一个 taskDelay=500ms 观察确认栏是否依旧存在；任一观察点未识别到即离开分队页，确认栏持续存在四次=2000ms 才允许再次点击。",
+            "确认栏要先点选卡片才出现，支援页、职业页刚进入时没有，所以观察沿用同一模板不会把后续页面当成分队页。",
+            "Confirm 的 maxTimes 只统计真实点击；每次点击将 Observe 的两次执行计数恢复为零。四次点击仍未离开分队页时进入 RecoveryFailed，按黑流状态机死路停在当前画面。"
+        ],
         "template": "BlackFlow@Roguelike@LastRewardConfirm.png",
+        "postDelay": 0,
+        "maxTimes": 4,
+        "next": [
+            "BlackFlow@Roguelike@SquadConfirmRewardPopup",
+            "BlackFlow@Roguelike@SquadConfirmObserve",
+            "BlackFlow@Roguelike@SquadConfirmLeave#next"
+        ],
+        "exceededNext": ["BlackFlow@Roguelike@RecoveryFailed"],
+        "reduceOtherTimes": ["BlackFlow@Roguelike@SquadConfirmObserve*2"]
+    },
+    "BlackFlow@Roguelike@SquadConfirmLeave": {
+        "Doc": "离开分队页后的候选列表，供分队确认、观察与弹窗以 #next 共用。",
+        "algorithm": "JustReturn",
         "next": [
             "BlackFlow@Roguelike@SquadConfirmRewardPopup",
             "BlackFlow@Roguelike@LastReward-EnterPoint",
             "BlackFlow@Roguelike@RolesDefault",
             "BlackFlow@Roguelike@RecruitMain",
-            "BlackFlow@Roguelike@SquadConfirm@(BlackFlow@Roguelike@CloseCollection)",
+            "BlackFlow@Roguelike@SquadConfirmLeave@(BlackFlow@Roguelike@CloseCollection)",
             "BlackFlow@Roguelike@Stages#next"
+        ]
+    },
+    "BlackFlow@Roguelike@SquadConfirmObserve": {
+        "Doc": "maxTimes 为 2 时，第三次匹配会进入 exceededNext；随后经过一个 taskDelay 在第四个观察点识别 Confirm，默认配置下两次点击间隔约为两秒。",
+        "template": "BlackFlow@Roguelike@LastRewardConfirm.png",
+        "roi": [0, 483, 1280, 200],
+        "maxTimes": 2,
+        "next": ["BlackFlow@Roguelike@SquadConfirmRewardPopup", "#self", "BlackFlow@Roguelike@SquadConfirmLeave#next"],
+        "exceededNext": [
+            "BlackFlow@Roguelike@SquadConfirmRewardPopup",
+            "BlackFlow@Roguelike@SquadConfirm",
+            "BlackFlow@Roguelike@SquadConfirmLeave#next"
         ]
     },
     "BlackFlow@Roguelike@SquadConfirmRewardPopup": {
         "template": "BlackFlow@Roguelike@Confirm.png",
         "roi": [581, 555, 118, 76],
         "action": "ClickSelf",
-        "next": [
-            "#self",
-            "BlackFlow@Roguelike@LastReward-EnterPoint",
-            "BlackFlow@Roguelike@RolesDefault",
-            "BlackFlow@Roguelike@RecruitMain",
-            "BlackFlow@Roguelike@SquadConfirm@(BlackFlow@Roguelike@CloseCollection)",
-            "BlackFlow@Roguelike@Stages#next"
-        ]
+        "next": ["BlackFlow@Roguelike@SquadConfirmLeave#next"]
     },
     "BlackFlow@Roguelike@SquadDefault": {
         "template": "BlackFlow@Roguelike@SquadDefault.png"
