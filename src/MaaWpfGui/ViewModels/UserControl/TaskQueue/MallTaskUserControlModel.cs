@@ -138,6 +138,27 @@ public class MallTaskUserControlModel : TaskSettingsViewModel, MallTaskUserContr
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether to check monthly card days left.
+    /// </summary>
+    public bool MonthlyCardRemind
+    {
+        get => GetTaskConfig<MallTask>().MonthlyCard;
+        set => SetTaskConfig<MallTask>(t => t.MonthlyCard == value, t => t.MonthlyCard = value);
+    }
+
+    /// <summary>
+    /// Gets or sets the days-left threshold below which the monthly card reminder fires.
+    /// </summary>
+    public int MonthlyCardRemindDays
+    {
+        get => GetTaskConfig<MallTask>().MonthlyCardRemindDays;
+        set => SetTaskConfig<MallTask>(t => t.MonthlyCardRemindDays == value, t => t.MonthlyCardRemindDays = value);
+    }
+
+    public static LocalizedObservableList<int> MonthlyCardRemindDaysList { get; } =
+        new((7, "MonthlyCardRemindDaysOption7"), (5, "MonthlyCardRemindDaysOption5"), (3, "MonthlyCardRemindDaysOption3"), (1, "MonthlyCardRemindDaysOption1"));
+
+    /// <summary>
     /// Gets or sets the priority item list of credit shop.
     /// </summary>
     public string CreditFirstList
@@ -246,6 +267,7 @@ public class MallTaskUserControlModel : TaskSettingsViewModel, MallTaskUserContr
                 ForceShoppingIfCreditFull = mall.ShoppingIgnoreBlackListWhenFull,
                 OnlyBuyDiscount = mall.OnlyBuyDiscount,
                 ReserveMaxCredit = mall.ReserveMaxCredit,
+                MonthlyCard = mall.MonthlyCard && mall.IsMonthlyCardCheckDue() && SettingsViewModel.GameSettings.ClientType is ClientType.Official or ClientType.Bilibili, // OCR 词表只适配简中客户端；其它客户端勾选后不执行检查（勾选状态保留，切回简中即恢复生效）
             };
 
             return taskId switch {

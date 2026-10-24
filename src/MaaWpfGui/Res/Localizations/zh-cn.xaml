@@ -866,6 +866,15 @@ D:\
     <system:String x:Key="ReceiveSpecialAccess">领取周年赠送月卡奖励</system:String>
     <system:String x:Key="ReceiveSignInEvent">领取限时签到活动奖励</system:String>
     <system:String x:Key="ReceiveSignInEventTip">仅支持常见横向版型；其他版型不支持，可能无法正常运作</system:String>
+    <system:String x:Key="MonthlyCardRemind">月卡到期提醒</system:String>
+    <system:String x:Key="MonthlyCardRemindTip">运行信用购物任务时顺路进入采购中心组合包页识别月卡剩余天数，临近到期时弹通知提醒（进入提醒窗口后每天检查并提醒一次，其余时间自动跳过检查）。仅简中客户端（官服/B服）生效</system:String>
+    <system:String x:Key="MonthlyCardRemindDaysOption7">7 天</system:String>
+    <system:String x:Key="MonthlyCardRemindDaysOption5">5 天</system:String>
+    <system:String x:Key="MonthlyCardRemindDaysOption3">3 天</system:String>
+    <system:String x:Key="MonthlyCardRemindDaysOption1">1 天</system:String>
+    <system:String x:Key="MonthlyCardRemindDaysLabel">剩余天数不高于</system:String>
+    <system:String x:Key="MonthlyCardExpiringTitle">月卡即将到期</system:String>
+    <system:String x:Key="MonthlyCardExpiringContent">月卡剩余 {0} 天，记得及时续费</system:String>
     <system:String x:Key="DroneUsage">无人机用途</system:String>
     <system:String x:Key="UseTray">显示托盘图标</system:String>
     <system:String x:Key="HideTray">隐藏托盘图标</system:String>

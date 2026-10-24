@@ -26,6 +26,7 @@ using System.Net.Http;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
@@ -2013,6 +2014,40 @@ public class AsstProxy
 
                                 Instances.NotificationService.Notify(NotificationSource.TaskQueue, new(NotificationKind.TaskComplete, title, content),
                                     UiLogColor.Warning, display: () => Instances.TaskQueueViewModel.DisplayLog(content, UiLogColor.Warning, updateCardImage: true));
+
+                                break;
+                            }
+
+                        // 注意：回调的 details.task 会剥离任务名全部 @ 前缀（如 MiniGame@...@CheckEncounter-Uncollected → CheckEncounter-Uncollected），case 须用 base 名
+                        case "MonthlyCardDays":
+                            {
+                                // OCR 文本形如“剩余：12天”。月卡单张 30 天（可囤卡叠加，但超过 30 的读数利少弊多：误读成大数会把
+                                // 下次检查推迟过提醒窗口，而囤卡用户读数被拒后仅退化为每次都查、无功能损失），故拒绝 31 天以上；0 天（到期当天）有效
+                                var ocrText = details!["details"]!["result"]?["text"]?.ToString() ?? string.Empty;
+                                var daysMatch = Regex.Match(ocrText, @"(\d+)\s*天");
+                                if (daysMatch.Success && int.TryParse(daysMatch.Groups[1].Value, out var daysLeft) && daysLeft is >= 0 and <= 30)
+                                {
+                                    // 无论是否触发提醒都记录读数，供 IsMonthlyCardCheckDue 按剩余天数跳过后续检查。
+                                    // 须按 taskid 取本配置的真实 MallTask 直接赋值：SetTaskConfig 绑定 UI 当前选中的设置页，回调线程下会写错目标
+                                    var taskId = details["taskid"]?.ToObject<AsstTaskId>() ?? 0;
+                                    var index = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(i => i.TaskIds.Contains(taskId))?.Index ?? -1;
+                                    if (index >= 0 && index < ConfigFactory.CurrentConfig.TaskQueue.Count && ConfigFactory.CurrentConfig.TaskQueue[index] is MallTask mall)
+                                    {
+                                        mall.MonthlyCardLastDaysLeft = daysLeft;
+                                        mall.MonthlyCardLastCheckDate = DateTime.UtcNow.ToYjDate().ToFormattedString();
+
+                                        if (mall.IsMonthlyCardRemindAvailable(daysLeft))
+                                        {
+                                            mall.MonthlyCardLastRemindTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
+                                            var title = LocalizationHelper.GetString("MonthlyCardExpiringTitle");
+                                            var content = LocalizationHelper.GetStringFormat("MonthlyCardExpiringContent", daysLeft);
+
+                                            // 只经 Notify 发布：display 写任务日志，Publish 内部再弹 toast/外部推送（同 CheckEncounter-Uncollected 模式，勿再 AddLog 重复）
+                                            Instances.NotificationService.Notify(NotificationSource.TaskQueue, new(NotificationKind.TaskComplete, title, content),
+                                                UiLogColor.Warning, display: () => Instances.TaskQueueViewModel.DisplayLog(content, UiLogColor.Warning, updateCardImage: true));
+                                        }
+                                    }
+                                }
 
                                 break;
                             }

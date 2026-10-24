@@ -866,6 +866,15 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="ReceiveSpecialAccess">스페셜 액세스 보상 수령</system:String>
     <system:String x:Key="ReceiveSignInEvent">기간 한정 출석 이벤트 보상 수령</system:String>
     <system:String x:Key="ReceiveSignInEventTip">가로형 레이아웃만 지원합니다. 다른 레이아웃은 지원되지 않으며 정상 동작하지 않을 수 있습니다</system:String>
+    <system:String x:Key="MonthlyCardRemind">월패스 만료 알림</system:String>
+    <system:String x:Key="MonthlyCardRemindTip">크레딧 구매 작업 실행 시 구매 센터의 패키지 페이지에서 월패스 잔여 일수를 확인하고 만료가 가까우면 알림을 표시합니다 (알림 기간에는 매일 한 번 확인·알림, 그 외에는 자동으로 건너뜁니다). 간체 중국어 클라이언트(공식/B서버)에서만 작동</system:String>
+    <system:String x:Key="MonthlyCardRemindDaysOption7">7일</system:String>
+    <system:String x:Key="MonthlyCardRemindDaysOption5">5일</system:String>
+    <system:String x:Key="MonthlyCardRemindDaysOption3">3일</system:String>
+    <system:String x:Key="MonthlyCardRemindDaysOption1">1일</system:String>
+    <system:String x:Key="MonthlyCardRemindDaysLabel">잔여 일수가 다음 이하면 알림</system:String>
+    <system:String x:Key="MonthlyCardExpiringTitle">월패스가 곧 만료됩니다</system:String>
+    <system:String x:Key="MonthlyCardExpiringContent">월패스 잔여 일수: {0}일. 갱신을 잊지 마세요</system:String>
     <system:String x:Key="DroneUsage">드론 사용처</system:String>
     <system:String x:Key="UseTray">트레이 아이콘 표시</system:String>
     <system:String x:Key="HideTray">트레이 아이콘 숨기기</system:String>
