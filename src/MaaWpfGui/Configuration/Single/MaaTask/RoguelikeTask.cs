@@ -261,6 +261,7 @@ public class RoguelikeTask : BaseTask, IJsonOnDeserialized
         }
 
         // 手改或缺项的顺序整理成十二种奖励各一次，缺的按默认顺序补在后面
+        BlackFlowStartRewardPriority ??= [.. _defaultBlackFlowStartRewardPriority];
         var priority = BlackFlowStartRewardPriority.Where(_defaultBlackFlowStartRewardPriority.Contains).Distinct().ToList();
         priority.AddRange(_defaultBlackFlowStartRewardPriority.Except(priority));
         BlackFlowStartRewardPriority = priority;
