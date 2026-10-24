@@ -13,7 +13,7 @@
     d:DesignWidth="800"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
-    <!--  像素画：预览区（Auto）+ 参数区（*），DataContext 为 ToolboxViewModel  -->
+    <!--  DataContext 继承宿主 ToolboxViewModel  -->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -22,7 +22,7 @@
         <StackPanel
             Grid.Row="0"
             HorizontalAlignment="Stretch"
-            IsEnabled="{c:Binding '!Run.Idle'}">
+            IsEnabled="{c:Binding Run.Idle}">
             <Grid HorizontalAlignment="Stretch">
                 <Border
                     Width="218"
@@ -62,12 +62,13 @@
                 Visibility="{c:Binding 'PixelPaintStatusText.Length > 0'}" />
         </StackPanel>
 
-        <ScrollViewer
+        <hc:ScrollViewer
             Grid.Row="1"
             Margin="0,8,0,0"
             HorizontalScrollBarVisibility="Disabled"
+            IsInertiaEnabled="True"
             VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="8,0" IsEnabled="{c:Binding '!Run.Idle'}">
+            <StackPanel Margin="8,0" IsEnabled="{c:Binding Run.Idle}">
                 <Grid HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -192,6 +193,6 @@
                     Text="{Binding MiniGameTip}"
                     TextWrapping="Wrap" />
             </StackPanel>
-        </ScrollViewer>
+        </hc:ScrollViewer>
     </Grid>
 </UserControl>
