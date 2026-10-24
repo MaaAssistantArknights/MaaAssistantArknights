@@ -25,7 +25,8 @@
             "TerminalReconstruct",
             "TerminalHunting",
             "TerminalBlackFlow",
-            "TerminalAct"
+            "TerminalAct",
+            "TerminalFullMoon"
         ],
         "onErrorNext": ["Terminal-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -105,5 +106,11 @@
     "TerminalAct": {
         "baseTask": "TerminalDefault",
         "template": "Act/Terminal.png"
+    },
+    "TerminalFullMoon": {
+        "baseTask": "TerminalDefault",
+        "template": "FullMoon/Terminal.png",
+        "roi": [870, 105, 165, 160],
+        "maskRange": [0, 255]
     }
 }

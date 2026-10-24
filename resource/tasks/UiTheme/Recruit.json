@@ -24,7 +24,8 @@
             "RecruitReconstruct",
             "RecruitHunting",
             "RecruitBlackFlow",
-            "RecruitAct"
+            "RecruitAct",
+            "RecruitFullMoon"
         ],
         "onErrorNext": ["Recruit-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -103,5 +104,17 @@
     "RecruitAct": {
         "baseTask": "RecruitDefault",
         "template": "Act/Recruit.png"
+    },
+    "RecruitFullMoon": {
+        "baseTask": "RecruitDefault",
+        "algorithm": "OcrDetect",
+        "action": "ClickRect",
+        "roi": [973, 468, 106, 33],
+        "text": ["RECRUIT"],
+        "fullMatch": false,
+        "isAscii": true,
+        "withoutDet": true,
+        "binThreshold": [0, 255],
+        "specificRect": [987, 502, 82, 31]
     }
 }
