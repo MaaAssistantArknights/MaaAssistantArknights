@@ -2259,6 +2259,7 @@ public class TaskQueueViewModel : Screen
         bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
 
         if (!connected
+            && !_runningState.GetStopping()
             && SettingsViewModel.ConnectSettings.IsPCConnectConfig
             && SettingsViewModel.ConnectSettings.RetryPcClientOnDisconnected)
         {
@@ -2276,7 +2277,7 @@ public class TaskQueueViewModel : Screen
         }
 
         // Window attachment does not use ADB recovery.
-        if (!connected && SettingsViewModel.ConnectSettings.IsPCConnectConfig)
+        if (!connected && !_runningState.GetStopping() && SettingsViewModel.ConnectSettings.IsPCConnectConfig)
         {
             AddLog(errMsg, UiLogColor.Error);
             SetStopped();
@@ -2284,7 +2285,7 @@ public class TaskQueueViewModel : Screen
         }
 
         // 尝试启动模拟器
-        if (!connected && SettingsViewModel.ConnectSettings.RetryOnDisconnected)
+        if (!connected && !_runningState.GetStopping() && SettingsViewModel.ConnectSettings.RetryOnDisconnected)
         {
             AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToStartEmulator"));
 
@@ -2300,7 +2301,7 @@ public class TaskQueueViewModel : Screen
         }
 
         // 尝试断开连接, 然后重新连接
-        if (!connected)
+        if (!connected && !_runningState.GetStopping())
         {
             AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToReconnectByAdb"));
             await Task.Run(() => SettingsViewModel.StartSettings.ReconnectByAdb());
@@ -2316,7 +2317,7 @@ public class TaskQueueViewModel : Screen
         }
 
         // 尝试重启 ADB
-        if (!connected && SettingsViewModel.ConnectSettings.AllowAdbRestart)
+        if (!connected && !_runningState.GetStopping() && SettingsViewModel.ConnectSettings.AllowAdbRestart)
         {
             AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("RestartAdb"));
 
@@ -2332,7 +2333,7 @@ public class TaskQueueViewModel : Screen
         }
 
         // 尝试杀掉 ADB 进程
-        if (!connected && SettingsViewModel.ConnectSettings.AllowAdbHardRestart)
+        if (!connected && !_runningState.GetStopping() && SettingsViewModel.ConnectSettings.AllowAdbHardRestart)
         {
             AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("HardRestartAdb"));
 
@@ -2345,6 +2346,12 @@ public class TaskQueueViewModel : Screen
             }
 
             connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+        }
+
+        if (_runningState.GetStopping())
+        {
+            SetStopped();
+            return false;
         }
 
         if (connected)

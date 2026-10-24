@@ -135,6 +135,9 @@ std::optional<std::string> asst::AdbController::call_command(
 
     auto start_time = steady_clock::now();
     std::unique_lock<std::mutex> callcmd_lock(m_callcmd_mutex);
+    if (need_exit()) {
+        return std::nullopt;
+    }
 
     std::optional<int> exit_res;
 

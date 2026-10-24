@@ -1,5 +1,7 @@
 #include "Assistant.h"
 
+#include "MaaUtils/ScopeLeave.hpp"
+
 #include "MaaUtils/NoWarningCV.hpp"
 #include <meojson/json.hpp>
 #include <new>
@@ -153,6 +155,9 @@ Assistant::~Assistant()
     if (m_msg_thread.joinable()) {
         m_msg_thread.join();
     }
+    // 同步连接也可能仍在退出；等待其释放控制器后再销毁实例。
+    std::unique_lock<std::mutex> connection_lock(m_connection_mutex);
+    m_ctrler.reset();
     if (m_callback) {
         m_callback(static_cast<AsstMsgId>(AsstMsg::Destroyed), "{}", m_callback_arg);
     }
@@ -236,17 +241,38 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
     return false;
 }
 
-bool asst::Assistant::ctrl_connect(const std::string& adb_path, const std::string& address, const std::string& config)
+bool asst::Assistant::begin_connection(AsyncCallId call_id)
+{
+    std::unique_lock<std::mutex> lock(m_mutex);
+    if (m_thread_exit || m_lifecycle_state.load() != LifecycleState::Idle || call_id <= m_cancelled_call_id.load()) {
+        return false;
+    }
+    m_lifecycle_state.store(LifecycleState::Connecting);
+    return true;
+}
+
+void asst::Assistant::finish_connection() noexcept
+{
+    std::unique_lock<std::mutex> lock(m_mutex);
+    if (m_lifecycle_state.load() == LifecycleState::Connecting) {
+        m_lifecycle_state.store(LifecycleState::Idle);
+    }
+    m_condvar.notify_all();
+}
+
+bool asst::Assistant::ctrl_connect(
+    const std::string& adb_path,
+    const std::string& address,
+    const std::string& config,
+    AsyncCallId call_id)
 {
     LogTraceFunction;
 
     std::unique_lock<std::mutex> connection_lock(m_connection_mutex);
-    {
-        std::unique_lock<std::mutex> lock(m_mutex);
-        if (m_lifecycle_state.load() != LifecycleState::Idle) {
-            return false;
-        }
+    if (!begin_connection(call_id)) {
+        return false;
     }
+    OnScopeLeave([this]() { finish_connection(); });
 
 #ifdef ASST_SMOKE_TESTING
     if (config == "LIFECYCLE_TEST") {
@@ -263,7 +289,7 @@ bool asst::Assistant::ctrl_connect(const std::string& adb_path, const std::strin
         m_uuid = m_ctrler->get_uuid();
     }
 
-    return ret;
+    return ret && !need_exit();
 }
 
 #ifdef _WIN32
@@ -271,24 +297,23 @@ bool asst::Assistant::ctrl_attach_window(
     void* hwnd,
     Win32ScreencapMethod screencap_method,
     Win32InputMethod mouse_method,
-    Win32InputMethod keyboard_method)
+    Win32InputMethod keyboard_method,
+    AsyncCallId call_id)
 {
     LogTraceFunction;
 
     std::unique_lock<std::mutex> connection_lock(m_connection_mutex);
-    {
-        std::unique_lock<std::mutex> lock(m_mutex);
-        if (m_lifecycle_state.load() != LifecycleState::Idle) {
-            return false;
-        }
+    if (!begin_connection(call_id)) {
+        return false;
     }
+    OnScopeLeave([this]() { finish_connection(); });
 
     bool ret = m_ctrler->attach_window(hwnd, screencap_method, mouse_method, keyboard_method);
     if (ret) {
         m_uuid = m_ctrler->get_uuid();
     }
 
-    return ret;
+    return ret && !need_exit();
 }
 #endif
 
@@ -437,7 +462,7 @@ bool asst::Assistant::connect(const std::string& adb_path, const std::string& ad
 {
     LogTraceFunction;
 
-    return ctrl_connect(adb_path, address, config);
+    return ctrl_connect(adb_path, address, config, ++m_call_id);
 }
 
 asst::Assistant::AsyncCallId asst::Assistant::async_connect(
@@ -463,7 +488,7 @@ bool asst::Assistant::attach_window(
 {
     LogTraceFunction;
 
-    return ctrl_attach_window(hwnd, screencap_method, mouse_method, keyboard_method);
+    return ctrl_attach_window(hwnd, screencap_method, mouse_method, keyboard_method, ++m_call_id);
 }
 
 asst::Assistant::AsyncCallId asst::Assistant::async_attach_window(
@@ -548,12 +573,13 @@ bool Assistant::stop()
 bool asst::Assistant::running() const
 {
     const auto state = m_lifecycle_state.load();
-    return state == LifecycleState::Running || state == LifecycleState::Stopping;
+    return state != LifecycleState::Idle;
 }
 
 void Assistant::request_stop() noexcept
 {
     std::unique_lock<std::mutex> lock(m_mutex);
+    m_cancelled_call_id.store(m_call_id.load());
     if (m_lifecycle_state.load() == LifecycleState::Idle) {
         // 空闲时没有在途任务，可同步清理并保留 Stop -> Append -> Start 的调用方式。
         m_tasks_list.clear();
@@ -573,7 +599,8 @@ void Assistant::complete_run(
 {
     // 调用方持有任务锁：完成与停止在这里决定先后，之后的重复停止不改变本轮结果。
     const bool stopped = m_lifecycle_state.load() == LifecycleState::Stopping;
-    const bool notify = stopped || !finished_tasks.empty();
+    // 连接取消由连接调用返回失败，不伪造任务终止事件让 GUI 提前恢复为空闲。
+    const bool notify = !callback_json.empty() || !m_tasks_list.empty() || !finished_tasks.empty();
     m_lifecycle_state.store(LifecycleState::Stopping);
     best_effort([&]() {
         if (callback_json.empty()) {
@@ -591,6 +618,8 @@ void Assistant::complete_run(
     m_tasks_list.clear();
     lock.unlock();
 
+    // 等待已取消的连接回收 I/O 后才能发布 Idle；停止请求本身不等待这把锁。
+    std::unique_lock<std::mutex> connection_lock(m_connection_mutex);
     // 收尾期间仍为 Stopping。窗口恢复等控制器操作不能阻塞新的停止请求。
     best_effort([this]() { clear_cache(); });
     best_effort([]() { Log.flush(); });
@@ -598,6 +627,7 @@ void Assistant::complete_run(
     best_effort([this]() { m_ctrler->restore_window_position(); });
 #endif
     lock.lock();
+    connection_lock.unlock();
     m_lifecycle_state.store(LifecycleState::Idle);
     if (notify) {
         best_effort([&]() {
@@ -855,25 +885,25 @@ void asst::Assistant::call_proc()
                 case AsyncCallItem::Type::Connect: {
                     what = "Connect";
                     const auto& [adb_path, address, config] = std::get<AsyncCallItem::ConnectParams>(call_item.params);
-                    ret = ctrl_connect(adb_path, address, config);
+                    ret = ctrl_connect(adb_path, address, config, call_item.id);
                 } break;
 #ifdef _WIN32
                 case AsyncCallItem::Type::AttachWindow: {
                     what = "AttachWindow";
                     const auto& [hwnd, screencap_method, mouse_method, keyboard_method] =
                         std::get<AsyncCallItem::AttachWindowParams>(call_item.params);
-                    ret = ctrl_attach_window(hwnd, screencap_method, mouse_method, keyboard_method);
+                    ret = ctrl_attach_window(hwnd, screencap_method, mouse_method, keyboard_method, call_item.id);
                 } break;
 #endif
                 case AsyncCallItem::Type::Click: {
                     what = "Click";
                     const auto& [x, y] = std::get<AsyncCallItem::ClickParams>(call_item.params);
-                    ret = ctrl_click(x, y);
+                    ret = call_item.id > m_cancelled_call_id.load() && ctrl_click(x, y);
                 } break;
                 case AsyncCallItem::Type::Screencap: {
                     what = "Screencap";
                     std::ignore = std::get<AsyncCallItem::ScreencapParams>(call_item.params);
-                    ret = ctrl_screencap();
+                    ret = call_item.id > m_cancelled_call_id.load() && ctrl_screencap();
                 } break;
                 default:
                     what = "Unknown";
