@@ -1022,7 +1022,6 @@ C:\leidian\LDPlayer9
     <system:String x:Key="CultivationSupplyExpiringMedicine">한도 소진 후 48시간 이내 만료되는 이성 회복제 추가 사용</system:String>
     <system:String x:Key="CultivationSupplyNoStoneTip">재료 보충은 이성 회복에 순오리지늄을 사용하지 않습니다.</system:String>
     <system:String x:Key="CultivationSupplyInventoryUnavailable">이번 창고 인식이 완료되지 않아 파밍을 건너뜁니다. 재료와 설정은 유지됩니다.</system:String>
-    <system:String x:Key="CultivationSupplyPlanCompleted">{0} 보충 완료</system:String>
     <system:String x:Key="CultivationSupplyTargetInventory">보유 {0} / 필요 {1}</system:String>
     <system:String x:Key="CultivationSupplyTargetInventoryTip">같은 직군의 듀얼 칩 1개를 칩셋 2개로 환산해 보유 수량에 포함합니다.</system:String>
     <system:String x:Key="OperProgressSupplyReport">이번 칩셋 부족분</system:String>

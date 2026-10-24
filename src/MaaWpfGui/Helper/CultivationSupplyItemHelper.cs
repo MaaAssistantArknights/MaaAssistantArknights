@@ -15,6 +15,8 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using MaaWpfGui.Constants.Enums;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -25,16 +27,17 @@ public static class CultivationSupplyItemHelper
 {
     private static readonly ILogger _logger = Log.ForContext(typeof(CultivationSupplyItemHelper));
 
-    // Restrict equivalence to the same class's dual chip. General crafting recipes are not reversible.
-    private static readonly Dictionary<string, (string DualChipId, string Stage)> _chipPacks = new() {
-        ["3212"] = ("3213", "PR-C-2"),
-        ["3222"] = ("3223", "PR-D-2"),
-        ["3232"] = ("3233", "PR-A-2"),
-        ["3242"] = ("3243", "PR-B-2"),
-        ["3252"] = ("3253", "PR-B-2"),
-        ["3262"] = ("3263", "PR-A-2"),
-        ["3272"] = ("3273", "PR-C-2"),
-        ["3282"] = ("3283", "PR-D-2"),
+    // Share the eight-class whitelist across report validation and inventory accounting.
+    // General crafting recipes are not reversible.
+    private static readonly Dictionary<string, (OperatorRole Role, string DualChipId, string Stage)> _chipPacks = new() {
+        ["3212"] = (OperatorRole.Pioneer, "3213", "PR-C-2"),
+        ["3222"] = (OperatorRole.Warrior, "3223", "PR-D-2"),
+        ["3232"] = (OperatorRole.Tank, "3233", "PR-A-2"),
+        ["3242"] = (OperatorRole.Sniper, "3243", "PR-B-2"),
+        ["3252"] = (OperatorRole.Caster, "3253", "PR-B-2"),
+        ["3262"] = (OperatorRole.Medic, "3263", "PR-A-2"),
+        ["3272"] = (OperatorRole.Support, "3273", "PR-C-2"),
+        ["3282"] = (OperatorRole.Special, "3283", "PR-D-2"),
     };
 
     public static Dictionary<string, int>? ReadInventory(JObject details)
@@ -73,6 +76,9 @@ public static class CultivationSupplyItemHelper
             return null;
         }
     }
+
+    public static string? GetChipPackId(OperatorRole role) =>
+        _chipPacks.FirstOrDefault(item => item.Value.Role == role).Key;
 
     public static string? GetStage(string itemId) =>
         _chipPacks.TryGetValue(itemId, out var item) ? item.Stage : null;

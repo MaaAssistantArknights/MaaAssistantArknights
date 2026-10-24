@@ -1021,7 +1021,6 @@ C:\leidian\LDPlayer9
     <system:String x:Key="CultivationSupplyExpiringMedicine">額度用盡後額外使用 48 小時內到期的理智藥</system:String>
     <system:String x:Key="CultivationSupplyNoStoneTip">補料不會使用源石恢復理智。</system:String>
     <system:String x:Key="CultivationSupplyInventoryUnavailable">本次倉庫辨識未完成，暫不刷取；保留材料和設定。</system:String>
-    <system:String x:Key="CultivationSupplyPlanCompleted">{0} 已補齊</system:String>
     <system:String x:Key="CultivationSupplyTargetInventory">已備 {0} / 需要 {1}</system:String>
     <system:String x:Key="CultivationSupplyTargetInventoryTip">同職業的每個雙晶片按 2 個晶片組計入已備數量。</system:String>
     <system:String x:Key="OperProgressSupplyReport">本次晶片組缺口</system:String>

@@ -1021,7 +1021,6 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="CultivationSupplyExpiringMedicine">Use additional medicine expiring within 48 hours after the allowance is exhausted</system:String>
     <system:String x:Key="CultivationSupplyNoStoneTip">Supply tasks never use Originite Prime to restore Sanity.</system:String>
     <system:String x:Key="CultivationSupplyInventoryUnavailable">Inventory recognition did not finish. Farming is skipped; materials and settings are retained.</system:String>
-    <system:String x:Key="CultivationSupplyPlanCompleted">{0} replenished</system:String>
     <system:String x:Key="CultivationSupplyTargetInventory">Have {0} / Need {1}</system:String>
     <system:String x:Key="CultivationSupplyTargetInventoryTip">Each dual chip of the same class counts as 2 chip packs in the available amount.</system:String>
     <system:String x:Key="OperProgressSupplyReport">Chip Pack shortfall from this run</system:String>

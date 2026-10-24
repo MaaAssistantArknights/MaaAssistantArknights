@@ -19,7 +19,6 @@ using System.Linq;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
-using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
@@ -27,7 +26,6 @@ using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.Items;
-using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
@@ -212,21 +210,19 @@ public class CultivationSupplyTaskUserControlModel : TaskSettingsViewModel
             stage == plan.Stage && ids.Add(plan.ItemId));
     }
 
-    private static AsstFightTask CreateFight(SupplyRun run, CultivationSupplyTask.Plan plan, bool ready) => new() {
-        Stage = plan.Stage,
-        MaxTimes = 0,
-        Medicine = ready ? run.RemainingMedicine : 0,
-        MedicineExpireDays = ready && run.UseExpiringMedicine ? DepotMaintainTask.ExpiringMedicineDays : 0,
-        Stone = 0,
-        Series = run.UseAutoSeries ? 0 : 1,
-        WaitForParams = true,
-        ParamsReady = ready,
-        ReportToPenguin = SettingsViewModel.ThirdPartyServiceSettings.EnablePenguin,
-        ReportToYituliu = SettingsViewModel.ThirdPartyServiceSettings.EnableYituliu,
-        PenguinId = SettingsViewModel.ThirdPartyServiceSettings.PenguinId,
-        ServerType = Instances.SettingsViewModel.ServerType,
-        ClientType = SettingsViewModel.GameSettings.ClientType,
-    };
+    private static AsstFightTask CreateFight(SupplyRun run, CultivationSupplyTask.Plan plan, bool ready)
+    {
+        var fight = CreateMaterialFightTask(
+            stage: plan.Stage,
+            maxTimes: 0,
+            medicine: ready ? run.RemainingMedicine : 0,
+            stone: 0,
+            medicineExpireDays: ready && run.UseExpiringMedicine ? DepotMaintainTask.ExpiringMedicineDays : 0,
+            useAutoSeries: run.UseAutoSeries);
+        fight.WaitForParams = true;
+        fight.ParamsReady = ready;
+        return fight;
+    }
 
     private void OnSubTaskMessage(AsstMsg type, AsstSubTaskMsg? msg)
     {

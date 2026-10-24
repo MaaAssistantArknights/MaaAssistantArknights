@@ -241,18 +241,9 @@ public partial class OperProgressTaskUserControlModel
                 return null;
             }
             var itemId = entry.Value<string>("chip_pack_item_id") ?? string.Empty;
-            var expectedItemId = role switch {
-                OperatorRole.Pioneer => "3212",
-                OperatorRole.Warrior => "3222",
-                OperatorRole.Tank => "3232",
-                OperatorRole.Sniper => "3242",
-                OperatorRole.Caster => "3252",
-                OperatorRole.Medic => "3262",
-                OperatorRole.Support => "3272",
-                OperatorRole.Special => "3282",
-                _ => string.Empty,
-            };
-            if (expectedItemId.Length == 0 || itemId != expectedItemId || entry.Value<string>("dual_chip_item_id") != itemId[..^1] + "3" ||
+            var expectedItemId = CultivationSupplyItemHelper.GetChipPackId(role);
+            if (expectedItemId is null || itemId != expectedItemId ||
+                entry.Value<string>("dual_chip_item_id") != CultivationSupplyItemHelper.GetDualChipId(itemId) ||
                 entry.Value<int?>("dual_chip_owned") is not >= 0)
             {
                 return null;

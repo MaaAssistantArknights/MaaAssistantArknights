@@ -1325,6 +1325,27 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
         return Instances.AsstProxy.AsstSetTaskParamsEncoded(taskId, task);
     }
 
+    // 库存保持和培养补料共用参数构造；各自决定资源预算、次数、掉落目标与参数确认时机。
+    public static AsstFightTask CreateMaterialFightTask(
+        string stage,
+        int maxTimes,
+        int medicine,
+        int stone,
+        int medicineExpireDays,
+        bool useAutoSeries) => new() {
+            Stage = stage,
+            MaxTimes = maxTimes,
+            Medicine = medicine,
+            Stone = stone,
+            MedicineExpireDays = medicineExpireDays,
+            Series = useAutoSeries ? 0 : 1,
+            ReportToPenguin = SettingsViewModel.ThirdPartyServiceSettings.EnablePenguin,
+            ReportToYituliu = SettingsViewModel.ThirdPartyServiceSettings.EnableYituliu,
+            PenguinId = SettingsViewModel.ThirdPartyServiceSettings.PenguinId,
+            ServerType = Instances.SettingsViewModel.ServerType,
+            ClientType = SettingsViewModel.GameSettings.ClientType,
+        };
+
     /// <summary>
     /// 按理智作战配置构建核心 Fight 任务参数，append 序列化与任务开始时的重算共用，保证两处参数一致。
     /// 含活动临期药窗口扩展（把窗口拉长到本周结束）与剿灭自定义关卡替换；次数上限由调用方决定，掉落目标由调用方追加。

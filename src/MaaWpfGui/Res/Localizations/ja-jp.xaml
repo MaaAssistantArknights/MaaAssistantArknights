@@ -1023,7 +1023,6 @@ C:\leidian\LDPlayer9
     <system:String x:Key="CultivationSupplyExpiringMedicine">上限に達した後、48時間以内に期限が切れる理性回復剤を追加使用</system:String>
     <system:String x:Key="CultivationSupplyNoStoneTip">素材補充では理性回復に純正源石を使用しません。</system:String>
     <system:String x:Key="CultivationSupplyInventoryUnavailable">今回の倉庫認識が完了していないため、周回をスキップします。素材と設定は保持されます。</system:String>
-    <system:String x:Key="CultivationSupplyPlanCompleted">{0} の補充完了</system:String>
     <system:String x:Key="CultivationSupplyTargetInventory">所持 {0} / 必要 {1}</system:String>
     <system:String x:Key="CultivationSupplyTargetInventoryTip">同じ職業の上級SoC 1個を中級SoC 2個分として所持数に加算します。</system:String>
     <system:String x:Key="OperProgressSupplyReport">今回の中級SoC不足</system:String>

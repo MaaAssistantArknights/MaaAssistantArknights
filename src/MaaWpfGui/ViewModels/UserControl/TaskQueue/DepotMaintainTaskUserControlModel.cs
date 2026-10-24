@@ -28,7 +28,6 @@ using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
-using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
@@ -144,19 +143,13 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         var stage = GetFightStage([plan.Stage]);
         if (!string.IsNullOrEmpty(stage))
         {
-            var fight = new AsstFightTask() {
-                Stage = stage,
-                Medicine = task.UseMedicine && plan.UseMedicine ? plan.MedicineCount : 0,
-                Stone = task.UseStone && plan.UseStone ? plan.StoneCount : 0,
-                MedicineExpireDays = task.UseExpiringMedicine ? DepotMaintainTask.ExpiringMedicineDays : 0,
-                Series = task.UseAutoSeries ? 0 : 1,
-                MaxTimes = int.MaxValue,
-                ReportToPenguin = SettingsViewModel.ThirdPartyServiceSettings.EnablePenguin,
-                ReportToYituliu = SettingsViewModel.ThirdPartyServiceSettings.EnableYituliu,
-                PenguinId = SettingsViewModel.ThirdPartyServiceSettings.PenguinId,
-                ServerType = Instances.SettingsViewModel.ServerType,
-                ClientType = SettingsViewModel.GameSettings.ClientType,
-            };
+            var fight = CreateMaterialFightTask(
+                stage: stage,
+                maxTimes: int.MaxValue,
+                medicine: task.UseMedicine && plan.UseMedicine ? plan.MedicineCount : 0,
+                stone: task.UseStone && plan.UseStone ? plan.StoneCount : 0,
+                medicineExpireDays: task.UseExpiringMedicine ? DepotMaintainTask.ExpiringMedicineDays : 0,
+                useAutoSeries: task.UseAutoSeries);
             RefreshFightTaskDrops(taskId, plan.DropId, plan.DropCount,
                 $"{task.PlanList.IndexOf(plan) + 1}",
                 fight,
@@ -872,20 +865,14 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
                     continue;
                 }
 
-                var fight = new AsstFightTask() {
-                    Stage = stage,
-                    Drops = new() { { plan.DropId, need } },
-                    MaxTimes = need > 0 ? int.MaxValue : 0,
-                    Medicine = depot.UseMedicine && plan.UseMedicine ? plan.MedicineCount : 0,
-                    Stone = depot.UseStone && plan.UseStone ? plan.StoneCount : 0,
-                    MedicineExpireDays = depot.UseExpiringMedicine ? DepotMaintainTask.ExpiringMedicineDays : 0,
-                    Series = depot.UseAutoSeries ? 0 : 1,
-                    ReportToPenguin = SettingsViewModel.ThirdPartyServiceSettings.EnablePenguin,
-                    ReportToYituliu = SettingsViewModel.ThirdPartyServiceSettings.EnableYituliu,
-                    PenguinId = SettingsViewModel.ThirdPartyServiceSettings.PenguinId,
-                    ServerType = Instances.SettingsViewModel.ServerType,
-                    ClientType = SettingsViewModel.GameSettings.ClientType,
-                };
+                var fight = CreateMaterialFightTask(
+                    stage: stage,
+                    maxTimes: need > 0 ? int.MaxValue : 0,
+                    medicine: depot.UseMedicine && plan.UseMedicine ? plan.MedicineCount : 0,
+                    stone: depot.UseStone && plan.UseStone ? plan.StoneCount : 0,
+                    medicineExpireDays: depot.UseExpiringMedicine ? DepotMaintainTask.ExpiringMedicineDays : 0,
+                    useAutoSeries: depot.UseAutoSeries);
+                fight.Drops = new() { { plan.DropId, need } };
                 var (ret, id) = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Fight, fight);
                 if (!ret)
                 {
