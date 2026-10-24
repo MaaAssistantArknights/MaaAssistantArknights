@@ -14,6 +14,7 @@
 #nullable enable
 using System;
 using MaaWpfGui.Models;
+using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 
 namespace MaaWpfGui.Configuration.Single.Settings;
 
@@ -22,6 +23,11 @@ namespace MaaWpfGui.Configuration.Single.Settings;
 /// </summary>
 public class Reclamation : NotifyPropertyChangedWithValue
 {
+    public void EventBinding(string prefix)
+    {
+        PropertyChanged += Handler.OnPropertyChangedFactory(prefix);
+    }
+
     public ReclamationTheme Theme { get; set; } = ReclamationTheme.Tales;
 
     /// <summary>

@@ -88,7 +88,9 @@ internal sealed class ToolboxSectionMigrationConverter : JsonConverter<Root>
             return;
         }
 
+        // 倒序遍历持续覆盖，循环结束后留下的是正序首个条目
         JsonObject? migrated = null;
+        var selectedIndex = config[nameof(Single.SpecificConfig.TaskSelectedIndex)]?.GetValue<int>() ?? -1;
         for (var i = taskQueue.Count - 1; i >= 0; i--)
         {
             if (taskQueue[i] is not JsonObject entry || entry["$type"]?.GetValue<string>() != "ReclamationTask")
@@ -96,14 +98,26 @@ internal sealed class ToolboxSectionMigrationConverter : JsonConverter<Root>
                 continue;
             }
 
-            migrated ??= entry;
+            migrated = entry;
             taskQueue.RemoveAt(i);
+
+            // 选中下标随删除位置调整：指向被删条目则清空选中，指向其后则前移一位
+            if (i == selectedIndex)
+            {
+                selectedIndex = -1;
+            }
+            else if (i < selectedIndex)
+            {
+                selectedIndex--;
+            }
         }
 
         if (migrated is null)
         {
             return;
         }
+
+        config[nameof(Single.SpecificConfig.TaskSelectedIndex)] = selectedIndex;
 
         var toolbox = config[nameof(Toolbox)] as JsonObject ?? [];
         var miniGame = toolbox[nameof(Toolbox.MiniGame)] as JsonObject ?? [];

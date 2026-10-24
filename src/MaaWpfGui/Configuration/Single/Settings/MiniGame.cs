@@ -26,6 +26,7 @@ public class MiniGame : NotifyPropertyChangedWithValue
     public void EventBinding(string prefix)
     {
         PropertyChanged += Handler.OnPropertyChangedFactory(prefix);
+        Reclamation.EventBinding(prefix + nameof(Reclamation) + ".");
     }
 
     public string EventShopBlackList { get; set; } = string.Empty;
