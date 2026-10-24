@@ -29,7 +29,22 @@ std::optional<int> asst::Win32IO::call_command(
     int64_t timeout,
     std::chrono::steady_clock::time_point start_time)
 {
+    return call_command_impl(cmd, recv_by_socket, pipe_data, sock_data, timeout, start_time, true);
+}
+
+std::optional<int> asst::Win32IO::call_command_impl(
+    const std::string& cmd,
+    bool recv_by_socket,
+    std::string& pipe_data,
+    std::string& sock_data,
+    int64_t timeout,
+    std::chrono::steady_clock::time_point start_time,
+    bool cancellable)
+{
     using namespace std::chrono;
+    if (cancellable && need_exit()) {
+        return std::nullopt;
+    }
 
     asst::platform::single_page_buffer<char> pipe_buffer;
     asst::platform::single_page_buffer<char> sock_buffer;
@@ -111,6 +126,7 @@ std::optional<int> asst::Win32IO::call_command(
     std::vector<HANDLE> wait_handles;
     wait_handles.reserve(3);
     bool process_running = true;
+    bool failed = false;
     bool pipe_eof = false;
     bool accept_pending = false;
     bool socket_eof = false;
@@ -165,7 +181,7 @@ std::optional<int> asst::Win32IO::call_command(
         }
     }
 
-    while (!need_exit()) {
+    while (!cancellable || !need_exit()) {
         wait_handles.clear();
         if (process_running) {
             wait_handles.push_back(process_info.hProcess);
@@ -180,8 +196,9 @@ std::optional<int> asst::Win32IO::call_command(
             break;
         }
         auto elapsed = steady_clock::now() - start_time;
-        // TODO: 这里目前是隔 5000ms 判断一次，应该可以加一个 wait_handle 来判断外部中断（need_exit）
-        auto wait_time = (std::min)(timeout - duration_cast<milliseconds>(elapsed).count(), 5LL * 1000);
+        // 停止和析构共用 need_exit；及时退出等待，让子进程回收赶在 GUI 退出前完成。
+        constexpr int64_t CancelPollMs = 100;
+        auto wait_time = (std::min)(timeout - duration_cast<milliseconds>(elapsed).count(), CancelPollMs);
         if (wait_time < 0) {
             wait_time = 0;
         }
@@ -189,9 +206,7 @@ std::optional<int> asst::Win32IO::call_command(
         // 给一个短 drain 窗口把残余输出收完即可（对齐 PlatformWin32.cpp 的 kPostExitDrainMs）。
         if (!process_running) {
             constexpr int64_t kPostExitDrainMs = 1000;
-            if (wait_time > kPostExitDrainMs) {
-                wait_time = kPostExitDrainMs;
-            }
+            wait_time = (std::clamp)(timeout - duration_cast<milliseconds>(elapsed).count(), 0LL, kPostExitDrainMs);
         }
         auto wait_result =
             WaitForMultipleObjectsEx((DWORD)wait_handles.size(), wait_handles.data(), FALSE, (DWORD)wait_time, TRUE);
@@ -221,33 +236,8 @@ std::optional<int> asst::Win32IO::call_command(
                     }
                 }
                 Log.warn("Wait handles:", handle_string, " after", timeout, "ms.");
-                if (process_running) {
-                    TerminateProcess(process_info.hProcess, 0);
-                }
-                // 取消挂起的 pipe 读并同步等待取消完成，避免内核在 OVERLAPPED/缓冲区失效后写入
-                if (!pipe_eof && CancelIoEx(pipe_parent_read, &pipeov)) {
-                    DWORD cancelled_len = 0;
-                    GetOverlappedResult(pipe_parent_read, &pipeov, &cancelled_len, TRUE);
-                }
-                // 处理超时后返回 std::nullopt
-                CloseHandle(pipe_parent_read);
-                CloseHandle(pipeov.hEvent);
-                CloseHandle(process_info.hProcess);
-                CloseHandle(process_info.hThread);
-                if (recv_by_socket) {
-                    if (accept_pending) {
-                        CancelIoEx(reinterpret_cast<HANDLE>(m_server_sock), &sockov);
-                    }
-                    else if (!socket_eof) {
-                        CancelIoEx(reinterpret_cast<HANDLE>(client_socket), &sockov);
-                    }
-                    if (client_socket != INVALID_SOCKET) {
-                        closesocket(client_socket);
-                    }
-                    CloseHandle(sockov.hEvent);
-                }
-                return std::nullopt;
-                // break;
+                failed = true;
+                break;
             }
             continue;
         }
@@ -256,6 +246,7 @@ std::optional<int> asst::Win32IO::call_command(
             DWORD err = GetLastError();
             // throw std::system_error(std::error_code(err, std::system_category()));
             Log.error(__FUNCTION__, "A fatal error occurred", err);
+            failed = true;
             break;
         }
 
@@ -343,22 +334,34 @@ std::optional<int> asst::Win32IO::call_command(
         }
     }
 
+    failed = failed || (cancellable && need_exit());
     if (recv_by_socket) {
         if (accept_pending) {
             Log.warn("cancel AcceptEx");
             CancelIoEx(reinterpret_cast<HANDLE>(m_server_sock), &sockov);
+            DWORD cancelled_len = 0;
+            GetOverlappedResult(reinterpret_cast<HANDLE>(m_server_sock), &sockov, &cancelled_len, TRUE);
             closesocket(client_socket);
         }
         else if (!socket_eof) {
             Log.warn("cancel ReadFile");
             CancelIoEx(reinterpret_cast<HANDLE>(client_socket), &sockov);
+            DWORD cancelled_len = 0;
+            GetOverlappedResult(reinterpret_cast<HANDLE>(client_socket), &sockov, &cancelled_len, TRUE);
             closesocket(client_socket);
         }
         CloseHandle(sockov.hEvent);
     }
 
     if (process_running) {
-        TerminateProcess(process_info.hProcess, 0);
+        if (TerminateProcess(process_info.hProcess, 0)) {
+            // 等待本机进程被回收，不再等待模拟器回复。
+            WaitForSingleObject(process_info.hProcess, INFINITE);
+        }
+        else {
+            LogError << __FUNCTION__ << "TerminateProcess failed" << GetLastError();
+            failed = true;
+        }
     }
 
     DWORD exit_ret = 0;
@@ -372,6 +375,9 @@ std::optional<int> asst::Win32IO::call_command(
     }
     CloseHandle(pipe_parent_read);
     CloseHandle(pipeov.hEvent);
+    if (failed) {
+        return std::nullopt;
+    }
     return static_cast<int>(exit_ret);
 }
 
@@ -564,12 +570,25 @@ void asst::Win32IO::release_adb(const std::string& adb_release, int64_t timeout)
     std::string sock_data;
     auto start_time = std::chrono::steady_clock::now();
 
-    call_command(adb_release, false, pipe_data, sock_data, timeout, start_time);
+    // 用户要求的关机清理仍须执行，但不让无响应的 ADB server 拖住 GUI 退出。
+    constexpr int64_t ReleaseTimeoutMs = 1000;
+    call_command_impl(
+        adb_release,
+        false,
+        pipe_data,
+        sock_data,
+        (std::min)(timeout, ReleaseTimeoutMs),
+        start_time,
+        false);
 }
 
 asst::IOHandlerWin32::~IOHandlerWin32()
 {
     if (m_process_info.hProcess != INVALID_HANDLE_VALUE) {
+        if (WaitForSingleObject(m_process_info.hProcess, 0) == WAIT_TIMEOUT &&
+            TerminateProcess(m_process_info.hProcess, 0)) {
+            WaitForSingleObject(m_process_info.hProcess, INFINITE);
+        }
         CloseHandle(m_process_info.hProcess);
         m_process_info.hProcess = INVALID_HANDLE_VALUE;
     }

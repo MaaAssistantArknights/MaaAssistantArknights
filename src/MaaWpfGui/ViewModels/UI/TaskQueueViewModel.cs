@@ -2259,6 +2259,7 @@ public class TaskQueueViewModel : Screen
         bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
 
         if (!connected
+            && !Instances.AsstProxy.IsStoppingOrDestroying
             && SettingsViewModel.ConnectSettings.IsPCConnectConfig
             && SettingsViewModel.ConnectSettings.RetryPcClientOnDisconnected)
         {
@@ -2266,7 +2267,7 @@ public class TaskQueueViewModel : Screen
 
             await Task.Run(() => SettingsViewModel.StartSettings.TryToStartPcClient());
 
-            if (_runningState.GetStopping())
+            if (Instances.AsstProxy.IsStoppingOrDestroying)
             {
                 SetStopped();
                 return false;
@@ -2276,7 +2277,7 @@ public class TaskQueueViewModel : Screen
         }
 
         // Window attachment does not use ADB recovery.
-        if (!connected && SettingsViewModel.ConnectSettings.IsPCConnectConfig)
+        if (!connected && !Instances.AsstProxy.IsStoppingOrDestroying && SettingsViewModel.ConnectSettings.IsPCConnectConfig)
         {
             AddLog(errMsg, UiLogColor.Error);
             SetStopped();
@@ -2284,13 +2285,13 @@ public class TaskQueueViewModel : Screen
         }
 
         // 尝试启动模拟器
-        if (!connected && SettingsViewModel.ConnectSettings.RetryOnDisconnected)
+        if (!connected && !Instances.AsstProxy.IsStoppingOrDestroying && SettingsViewModel.ConnectSettings.RetryOnDisconnected)
         {
             AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToStartEmulator"));
 
             await Task.Run(() => SettingsViewModel.StartSettings.TryToStartEmulator());
 
-            if (_runningState.GetStopping())
+            if (Instances.AsstProxy.IsStoppingOrDestroying)
             {
                 SetStopped();
                 return false;
@@ -2300,12 +2301,12 @@ public class TaskQueueViewModel : Screen
         }
 
         // 尝试断开连接, 然后重新连接
-        if (!connected)
+        if (!connected && !Instances.AsstProxy.IsStoppingOrDestroying)
         {
             AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToReconnectByAdb"));
             await Task.Run(() => SettingsViewModel.StartSettings.ReconnectByAdb());
 
-            if (_runningState.GetStopping())
+            if (Instances.AsstProxy.IsStoppingOrDestroying)
             {
                 SetStopped();
                 return false;
@@ -2316,13 +2317,13 @@ public class TaskQueueViewModel : Screen
         }
 
         // 尝试重启 ADB
-        if (!connected && SettingsViewModel.ConnectSettings.AllowAdbRestart)
+        if (!connected && !Instances.AsstProxy.IsStoppingOrDestroying && SettingsViewModel.ConnectSettings.AllowAdbRestart)
         {
             AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("RestartAdb"));
 
             await Task.Run(() => SettingsViewModel.StartSettings.RestartAdb());
 
-            if (_runningState.GetStopping())
+            if (Instances.AsstProxy.IsStoppingOrDestroying)
             {
                 SetStopped();
                 return false;
@@ -2332,19 +2333,25 @@ public class TaskQueueViewModel : Screen
         }
 
         // 尝试杀掉 ADB 进程
-        if (!connected && SettingsViewModel.ConnectSettings.AllowAdbHardRestart)
+        if (!connected && !Instances.AsstProxy.IsStoppingOrDestroying && SettingsViewModel.ConnectSettings.AllowAdbHardRestart)
         {
             AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("HardRestartAdb"));
 
             await Task.Run(() => SettingsViewModel.StartSettings.HardRestartAdb());
 
-            if (_runningState.GetStopping())
+            if (Instances.AsstProxy.IsStoppingOrDestroying)
             {
                 SetStopped();
                 return false;
             }
 
             connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+        }
+
+        if (Instances.AsstProxy.IsStoppingOrDestroying)
+        {
+            SetStopped();
+            return false;
         }
 
         if (connected)

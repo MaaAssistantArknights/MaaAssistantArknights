@@ -896,6 +896,8 @@ public class AsstProxy
     // 销毁开始（锁内置位）后 Core 回调一律丢弃
     private volatile bool _destroying;
 
+    internal bool IsStoppingOrDestroying => _destroying || _runningState.GetStopping();
+
     private AsstHandle GetHandle()
     {
         lock (_handleLock)
@@ -3173,6 +3175,11 @@ public class AsstProxy
     /// <returns>是否成功。</returns>
     public bool AsstConnect(ref string error)
     {
+        if (IsStoppingOrDestroying)
+        {
+            return false;
+        }
+
         // 如果启用了 AttachWindow 模式，则使用窗口绑定而非 ADB 连接
         if (SettingsViewModel.ConnectSettings.IsPCConnectConfig)
         {
@@ -3475,6 +3482,11 @@ public class AsstProxy
 
         bool ret = AsstConnect(GetHandle(), SettingsViewModel.ConnectSettings.AdbPath, SettingsViewModel.ConnectSettings.ConnectAddress, SettingsViewModel.ConnectSettings.ConnectConfig.ToString());
 
+        if (IsStoppingOrDestroying)
+        {
+            return false;
+        }
+
         // 如果连接失败，等待回调完成以获取详细错误信息
         if (!ret)
         {
@@ -3487,7 +3499,7 @@ public class AsstProxy
             if (SettingsViewModel.ConnectSettings.DefaultAddress.TryGetValue(SettingsViewModel.ConnectSettings.ConnectConfig.ToString(), out var value))
             {
                 foreach (var address in value
-                             .TakeWhile(_ => !_runningState.GetIdle()))
+                             .TakeWhile(_ => !IsStoppingOrDestroying && !_runningState.GetIdle()))
                 {
                     // 每轮现取句柄：循环跨越秒级等待，期间退出销毁会使快照句柄悬垂；
                     // 得 Zero 即实例已销毁（进程退出中），放弃重试
@@ -3498,6 +3510,10 @@ public class AsstProxy
                     }
 
                     ret = AsstConnect(handle, SettingsViewModel.ConnectSettings.AdbPath, address, SettingsViewModel.ConnectSettings.ConnectConfig.ToString());
+                    if (IsStoppingOrDestroying)
+                    {
+                        return false;
+                    }
                     if (!ret)
                     {
                         continue;
@@ -3990,7 +4006,9 @@ public class AsstProxy
     /// <returns>是否成功。</returns>
     public bool AsstStop()
     {
-        return MaaService.AsstStop(GetHandle());
+        bool stopped = MaaService.AsstStop(GetHandle());
+        SettingsViewModel.StartSettings.CancelAdbRecovery();
+        return stopped;
     }
 
     /// <summary>
@@ -4014,6 +4032,7 @@ public class AsstProxy
             Connected = false;
         }
 
+        SettingsViewModel.StartSettings.CancelAdbRecovery();
         MaaService.AsstDestroy(handle);
         GameAudioMuteManager.Restore();
     }

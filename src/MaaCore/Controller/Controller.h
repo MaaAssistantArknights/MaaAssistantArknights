@@ -50,6 +50,16 @@ public:
     void restore_window_position();
 #endif
     bool inited() noexcept;
+
+    bool has_pending_io() const { return m_controller && m_controller->has_pending_io(); }
+
+    void wait_for_pending_io()
+    {
+        if (m_controller) {
+            m_controller->wait_for_pending_io();
+        }
+    }
+
     void set_touch_mode(const TouchMode& mode) noexcept;
     void set_swipe_with_pause(bool enable) noexcept;
     void set_adb_lite_enabled(bool enable) noexcept;
