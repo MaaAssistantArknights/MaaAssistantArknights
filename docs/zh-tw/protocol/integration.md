@@ -335,6 +335,11 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
 <br>
 當 Tag 等級為 3 時，會盡可能多選擇此處設定的 Tags（若有出現），且為強制選擇，會忽略所有 "讓 3 星 Tag 不被選擇" 的設定。  
 :::  
+::: field first_tags_recruitment_time
+@type number
+@optional
+命中任一 `first_tags` 且 Tag 等級為 3 時使用的招募時限，單位為分鐘。取值範圍為 60 至 540，預設使用 `recruitment_time` 中的 3 星時限。
+:::
 ::: field extra_tags_mode  
 @type number
 @default 0
@@ -434,7 +439,8 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
    "select": [5, 4],
    "confirm": [4, 3],
    "level3_recruitment_permit_reserve": 8,
-   "first_tags": ["高级资深干员"],
+   "first_tags": ["辅助干员"],
+   "first_tags_recruitment_time": 230,
    "extra_tags_mode": 1,
    "times": 4,
    "set_time": true,

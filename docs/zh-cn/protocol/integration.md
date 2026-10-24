@@ -334,6 +334,11 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 <br>
 当 Tag 等级为 3 时，会尽可能多地选择这里的 Tags（如果有），而且是强制选择，也就是会忽略所有“让 3 星 Tag 不被选择”的设置。  
 :::  
+::: field first_tags_recruitment_time
+@type number
+@optional
+命中任一 `first_tags` 且 Tag 等级为 3 时使用的招募时限，单位为分钟。取值范围为 60 至 540，默认使用 `recruitment_time` 中的 3 星时限。
+:::
 ::: field extra_tags_mode  
 @type number
 @default 0
@@ -433,7 +438,8 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
    "select": [5, 4],
    "confirm": [4, 3],
    "level3_recruitment_permit_reserve": 8,
-   "first_tags": ["高级资深干员"],
+   "first_tags": ["辅助干员"],
+   "first_tags_recruitment_time": 230,
    "extra_tags_mode": 1,
    "times": 4,
    "set_time": true,

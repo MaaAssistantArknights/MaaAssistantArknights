@@ -337,6 +337,11 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 <br>
 태그 등급이 3일 때, 여기에 있는 태그(존재하는 경우)를 가능한 많이 선택하며, 강제 선택이므로 "3성 태그 선택 안 함" 설정을 무시함
 :::  
+::: field first_tags_recruitment_time
+@type number
+@optional
+`first_tags` 중 하나가 감지되고 태그 등급이 3일 때 사용할 모집 시간(분)입니다. 설정 범위는 60~540이며, 기본값은 `recruitment_time`의 ★3 모집 시간입니다.
+:::
 ::: field extra_tags_mode  
 @type number
 @default 0
@@ -436,7 +441,8 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
    "select": [5, 4],
    "confirm": [4, 3],
    "level3_recruitment_permit_reserve": 8,
-   "first_tags": ["高级资深干员"],
+   "first_tags": ["辅助干员"],
+   "first_tags_recruitment_time": 230,
    "extra_tags_mode": 1,
    "times": 4,
    "set_time": true,

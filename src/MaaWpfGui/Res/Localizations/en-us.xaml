@@ -1946,6 +1946,7 @@ Right-click: select this job and exit multi-job mode</system:String>
     <system:String x:Key="SelectExtraOnlyRareTags">Pick as many high-star Tags as possible</system:String>
     <system:String x:Key="AutoRecruitHighPriority">Preference for 3★ Tags</system:String>
     <system:String x:Key="AutoRecruitHighPriorityTooltip">Will select as many Tag preferences as possible</system:String>
+    <system:String x:Key="AutoRecruitHighPriorityTime">Recruitment time when a preferred Tag is found</system:String>
     <system:String x:Key="NotEnoughStaff">Insufficient {key=Operator}s</system:String>
     <system:String x:Key="StageInfoError">Stage recognition error</system:String>
     <system:String x:Key="UseFormation">Use formation</system:String>

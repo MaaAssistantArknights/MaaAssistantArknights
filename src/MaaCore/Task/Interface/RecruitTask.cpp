@@ -72,6 +72,8 @@ bool asst::RecruitTask::set_params(const json::value& params)
     recruitment_time_map[4] = std::clamp(params.get("recruitment_time", "4", 9 * 60), 1 * 60, 9 * 60);
     recruitment_time_map[5] = std::clamp(params.get("recruitment_time", "5", 9 * 60), 1 * 60, 9 * 60);
     recruitment_time_map[6] = std::clamp(params.get("recruitment_time", "6", 9 * 60), 1 * 60, 9 * 60);
+    int first_tags_recruitment_time =
+        std::clamp(params.get("first_tags_recruitment_time", recruitment_time_map[3]), 1 * 60, 9 * 60);
 
     bool penguin_enabled = params.get("report_to_penguin", false);
     std::string penguin_id = params.get("penguin_id", "");
@@ -91,6 +93,7 @@ bool asst::RecruitTask::set_params(const json::value& params)
         .set_confirm_level(std::move(confirm))
         .set_level3_recruitment_permit_reserve(level3_recruitment_permit_reserve)
         .set_recruitment_time(recruitment_time_map)
+        .set_first_tags_recruitment_time(first_tags_recruitment_time)
         .set_penguin_enabled(penguin_enabled, penguin_id)
         .set_yituliu_enabled(yituliu_enabled, yituliu_id)
         .set_server(server)

@@ -57,6 +57,11 @@ public class RecruitTask : BaseTask, IJsonOnDeserialized
     public bool PreferTagEnabled { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets 3 星首选 Tag 命中时的招募时间。
+    /// </summary>
+    public int? Level3PreferTime { get; set; }
+
+    /// <summary>
     /// Gets or sets 需要保留并跳过的Tag。
     /// </summary>
     public List<string> PreserveTagList { get; set; } = [RecruitTaskUserControlModel.LegacyRobotTag];

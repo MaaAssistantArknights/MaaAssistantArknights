@@ -1948,6 +1948,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="SelectExtraOnlyRareTags">尽可能多地选且只选高星 Tag</system:String>
     <system:String x:Key="AutoRecruitHighPriority">3 星 Tag 时的 Tag 倾向</system:String>
     <system:String x:Key="AutoRecruitHighPriorityTooltip">会尽可能多的选择倾向的 Tag</system:String>
+    <system:String x:Key="AutoRecruitHighPriorityTime">命中倾向 Tag 时的招募时限</system:String>
     <system:String x:Key="NotEnoughStaff">可用{key=Operator}不足</system:String>
     <system:String x:Key="StageInfoError">关卡识别错误</system:String>
     <system:String x:Key="UseFormation">使用编队</system:String>
