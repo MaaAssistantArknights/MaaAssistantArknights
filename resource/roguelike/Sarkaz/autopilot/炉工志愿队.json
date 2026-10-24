@@ -54,7 +54,7 @@
         {
             "groups": ["炮灰", "地刺", "处决者", "投锋"],
             "location": [8, 2],
-            "direction": "dowm"
+            "direction": "down"
         },
         {
             "groups": ["奶盾", "其他地面"],

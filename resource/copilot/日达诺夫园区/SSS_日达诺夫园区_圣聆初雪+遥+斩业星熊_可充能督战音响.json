@@ -579,7 +579,7 @@
                         "vanguard": 1
                     },
                     "location": [4, 4],
-                    "direction": "Dowm"
+                    "direction": "Down"
                 },
                 {
                     "tool_men": {
@@ -854,7 +854,7 @@
                     "type": "Deploy",
                     "name": "可充能督战音响",
                     "location": [4, 3],
-                    "direction": "Dowm",
+                    "direction": "Down",
                     "costs": 48
                 },
                 {
