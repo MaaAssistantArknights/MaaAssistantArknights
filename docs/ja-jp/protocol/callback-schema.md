@@ -267,7 +267,7 @@ Todo
 - `ReportToPenguinStats` / `ReportToYituliu`  
   戦闘ドロップをペンギン急便統計 / Yituliu ビッグデータへ報告します（報告失敗時は `SubTaskError` で通知されます）。
 - `StartGameTask`  
-  クライアントの起動に失敗（設定ファイルと渡された `client_type` が不一致）。
+  クライアントの起動に失敗（設定ファイルと渡された `client_type` が不一致）。`what` が `ClientNotFound` の場合、接続したデバイスに MAA が期待するクライアントが無いことを示す（未インストール、またはエミュレータインスタンスの選択誤り）。
 - Todo Other
 
 ##### 多用される `task` フィールドの値

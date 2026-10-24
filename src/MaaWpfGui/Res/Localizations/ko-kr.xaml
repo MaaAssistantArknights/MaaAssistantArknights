@@ -1682,6 +1682,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BackgroundLinkStarted">작업 시작됨</system:String>
     <system:String x:Key="BackgroundLinkStopped">작업 중지됨</system:String>
     <system:String x:Key="FailedToOpenClient">클라이언트를 시작하지 못했습니다. 설정 파일을 확인하세요</system:String>
+    <system:String x:Key="ClientNotFound">연결된 에뮬레이터에서 아크나이츠 클라이언트를 찾을 수 없습니다. 클라이언트가 설치되어 있는지, 올바른 에뮬레이터 인스턴스를 선택했는지 확인하세요</system:String>
+    <system:String x:Key="StartGameFailedDisconnected">게임을 시작하지 못했습니다: 에뮬레이터와의 연결이 끊어졌습니다</system:String>
     <system:String x:Key="ErrorOccurred">오류 발생</system:String>
     <system:String x:Key="HasReturned">복귀</system:String>
     <system:String x:Key="DropRecognitionError">드롭 인식 오류</system:String>

@@ -91,6 +91,14 @@ protected:
     virtual bool on_run_fails() { return true; }
 
     virtual void callback(AsstMsg msg, const json::value& detail);
+
+    /// 上报一条带确切原因的失败（如 ｢设备上没有客户端｣），并标记已上报：
+    /// run() 随后就不再补那条没有 why 的通用 SubTaskError，
+    /// 否则同一个任务会先收到具体原因、再收到一条说不清所以然的失败，调用方只能自己挑一条信。
+    void report_error(std::string what);
+
+    /// run() 重试到头后是否还上报通用 SubTaskError
+    bool m_error_reported = false;
     virtual void click_return_button();
     bool save_img(
         const std::filesystem::path& relative_dir = utils::path("debug"),

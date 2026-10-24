@@ -62,6 +62,10 @@ public:
     virtual bool start_game(const std::string& client_type) = 0;
     virtual bool stop_game(const std::string& client_type) = 0;
 
+    // start_game 失败时若能确认设备上没有该客户端（如连错了模拟器实例），返回 true，
+    // 由上层报确切原因；不区分失败原因的控制器沿用 false
+    virtual bool client_not_found() const noexcept { return false; }
+
     virtual bool click(const Point& p) = 0;
 
     virtual bool input(const std::string& text) = 0;

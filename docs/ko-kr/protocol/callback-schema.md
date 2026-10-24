@@ -363,7 +363,7 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 - `ReportToPenguinStats` / `ReportToYituliu`  
   전투 드롭을 펭귄 물류 통계 / 일도류 빅데이터에 보고 (보고 실패 시 `SubTaskError`로 전달됨).
 - `StartGameTask`  
-  클라이언트 실행 실패 (설정 파일과 전달된 `client_type` 불일치).
+  클라이언트 실행 실패 (설정 파일과 전달된 `client_type` 불일치). `what` 가 `ClientNotFound` 이면 연결된 기기에 MAA 가 기대하는 클라이언트가 없다는 뜻이다 (클라이언트 미설치 또는 잘못된 에뮬레이터 인스턴스 선택).
 - Todo 기타
 
 ##### 자주 사용되는 `task` 필드

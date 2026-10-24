@@ -174,6 +174,11 @@ bool asst::Controller::stop_game(const std::string& client_type)
     return m_controller->stop_game(client_type);
 }
 
+bool asst::Controller::client_not_found() const noexcept
+{
+    return m_controller && m_controller->client_not_found();
+}
+
 bool asst::Controller::click(const Point& p)
 {
     CHECK_EXIST(m_controller, false);
