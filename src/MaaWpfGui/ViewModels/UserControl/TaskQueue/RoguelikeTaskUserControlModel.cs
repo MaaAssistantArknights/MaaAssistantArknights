@@ -1112,7 +1112,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
 
     /// <summary>
     /// Gets a value indicating whether the preparation runs use the fixed Mechanic start.
-    /// 生效时准备局分队显示替换后的值且不可修改，用户原来的设置保留，取消勾选后恢复；常规设置不受影响。
+    /// 生效时刷开局使用分队显示替换后的值且不可修改，用户原来的设置保留，取消勾选后恢复；常规设置不受影响。
     /// </summary>
     [PropertyDependsOn(nameof(RoguelikeTheme), nameof(RoguelikeMode), nameof(RoguelikeBlackFlowStartRunFastFlight))]
     public bool RoguelikeBlackFlowStartRunFlightActive =>
