@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
@@ -22,6 +23,7 @@ using MaaWpfGui.Services.ExternalNotification;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
+using Serilog;
 using Stylet;
 
 namespace MaaWpfGui.Services.Notification;
@@ -30,7 +32,9 @@ namespace MaaWpfGui.Services.Notification;
 // deliver already selected payloads and do not call this service again.
 public sealed class NotificationService
 {
+    private static readonly ILogger _logger = Log.ForContext<NotificationService>();
     private readonly Dictionary<Guid, NotificationTrigger> _triggers = [];
+    private readonly Dictionary<Guid, Queue<Func<Task>>> _deliveries = [];
     private readonly NotificationHistory _history = new();
 
     public NotificationService() => RunningState.Instance.StallOccurred += OnStalled;
@@ -165,11 +169,38 @@ public sealed class NotificationService
         }
     }
 
-    private static void SendExternal(NotificationChannelViewModel channel, string title, string content, bool isTest = false)
+    private void SendExternal(NotificationChannelViewModel channel, string title, string content, bool isTest = false)
     {
         var descriptor = ExternalNotificationChannel.ForEditor(channel.Provider)!;
         var snapshot = descriptor.ReadConfig(channel.Provider.ToConfig());
-        _ = ExternalNotificationService.SendAsync(snapshot, channel.DisplayName, title, content, isTest);
+        var displayName = channel.DisplayName;
+        var isSending = _deliveries.TryGetValue(channel.Id, out var queue);
+        if (!isSending)
+        {
+            queue = new Queue<Func<Task>>();
+            _deliveries.Add(channel.Id, queue);
+        }
+        queue!.Enqueue(() => ExternalNotificationService.SendAsync(snapshot, displayName, title, content, isTest));
+        if (!isSending)
+        {
+            _ = DrainDeliveriesAsync(channel.Id, queue);
+        }
+    }
+
+    private async Task DrainDeliveriesAsync(Guid id, Queue<Func<Task>> queue)
+    {
+        while (queue.TryDequeue(out var send))
+        {
+            try
+            {
+                await send();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Failed to dispatch external notification for channel {ChannelId}", id);
+            }
+        }
+        _deliveries.Remove(id);
     }
 
     public void Clear(NotificationSource source) => Execute.OnUIThread(() => _history.Clear(source));
