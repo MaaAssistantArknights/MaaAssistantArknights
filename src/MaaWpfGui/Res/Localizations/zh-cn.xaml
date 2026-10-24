@@ -2801,6 +2801,9 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="ExternalNotificationFilterPreviousLogs">过滤附带日志内容</system:String>
     <system:String x:Key="ExternalNotificationFilterPreviousLogsTip" xml:space="preserve">先排除命中黑名单的日志，再按数量和有效时间选取最近的日志。&#10;当前日志始终保留。</system:String>
     <system:String x:Key="ExternalNotificationBlacklist">黑名单（每行一条，支持正则）</system:String>
+    <system:String x:Key="ExternalNotificationChannelAdvanced">高级发送条件与历史日志</system:String>
+    <system:String x:Key="ExternalNotificationTestChannel">测试此渠道</system:String>
+    <system:String x:Key="ExternalNotificationTestAll">测试全部启用渠道</system:String>
     <system:String x:Key="BlackFlowStartRunPreparing">正在进行准备局</system:String>
     <system:String x:Key="BlackFlowStartRunTargetRun">已切换到目标局，等待检查开局奖励</system:String>
     <system:String x:Key="BlackFlowStartRunRewardMissed">开局奖励未命中，重新进行准备局</system:String>

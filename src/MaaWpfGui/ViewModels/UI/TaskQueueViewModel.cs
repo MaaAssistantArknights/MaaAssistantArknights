@@ -1111,8 +1111,8 @@ public class TaskQueueViewModel : Screen
     {
         var settings = SettingsViewModel.TimerSettings;
         var notifyDesktop = settings.NotifyBeforeScheduledStart;
-        var delivery = SettingsViewModel.ExternalNotificationSettings.DeliverySettings;
-        var notifyExternal = delivery.Enable && delivery.SendBeforeScheduledStart;
+        var delivery = SettingsViewModel.ExternalNotificationSettings;
+        var notifyExternal = delivery.HasScheduledNotifications;
         if (!notifyDesktop && !notifyExternal)
         {
             return;

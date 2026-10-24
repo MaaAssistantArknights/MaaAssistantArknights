@@ -2802,6 +2802,9 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="ExternalNotificationFilterPreviousLogs">添付ログの内容をフィルタリング</system:String>
     <system:String x:Key="ExternalNotificationFilterPreviousLogsTip" xml:space="preserve">ブラックリストに一致するログを除外し、残りから件数と有効時間の範囲内で最新のログを選びます。&#10;現在のログは必ず残します。</system:String>
     <system:String x:Key="ExternalNotificationBlacklist">ブラックリスト（1行に1つの正規表現）</system:String>
+    <system:String x:Key="ExternalNotificationChannelAdvanced">詳細な送信条件とログ履歴</system:String>
+    <system:String x:Key="ExternalNotificationTestChannel">この通知先をテスト</system:String>
+    <system:String x:Key="ExternalNotificationTestAll">有効な通知先をすべてテスト</system:String>
     <system:String x:Key="BlackFlowStartRunPreparing">準備用の探索を進行中</system:String>
     <system:String x:Key="BlackFlowStartRunTargetRun">目標の探索を開始し、初期報酬の確認を待機中</system:String>
     <system:String x:Key="BlackFlowStartRunRewardMissed">希望する初期報酬がないため、準備用の探索をやり直します</system:String>

@@ -50,6 +50,7 @@ public class DiscordWebhookFixConverter : JsonConverter<ExternalNotification>
                             continue;
                         }
 
+                        configObject = configObject["Provider"] as JsonObject ?? configObject;
                         if (configObject["$type"]?.GetValue<string>() != "CustomWebhook")
                         {
                             continue;
