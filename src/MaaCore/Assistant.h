@@ -78,7 +78,7 @@ private:
     enum class LifecycleState
     {
         Idle,
-        Connecting,
+        Controlling,
         Running,
         Stopping,
     };
@@ -208,8 +208,8 @@ private:
     void clear_cache();
     bool inited() const noexcept;
 
-    bool begin_connection(AsyncCallId call_id);
-    void finish_connection() noexcept;
+    bool begin_control_call(AsyncCallId call_id, bool allow_running = false);
+    void finish_control_call() noexcept;
     bool ctrl_connect(
         const std::string& adb_path,
         const std::string& address,
@@ -223,8 +223,8 @@ private:
         Win32InputMethod keyboard_method,
         AsyncCallId call_id);
 #endif
-    bool ctrl_click(int x, int y);
-    bool ctrl_screencap();
+    bool ctrl_click(int x, int y, AsyncCallId call_id);
+    bool ctrl_screencap(AsyncCallId call_id);
 
     std::string m_uuid;
 
@@ -238,8 +238,8 @@ private:
     void* m_callback_arg = nullptr;
 
     std::atomic<LifecycleState> m_lifecycle_state = LifecycleState::Idle;
-    // 连接与启动互斥；控制器 I/O 不占用任务状态锁，停止请求才能及时返回。
-    std::mutex m_connection_mutex;
+    // 外部控制器调用与启动、收尾互斥；I/O 不占用任务状态锁，停止请求才能及时返回。
+    std::mutex m_control_mutex;
     mutable std::mutex m_mutex;
     std::condition_variable m_condvar;
 

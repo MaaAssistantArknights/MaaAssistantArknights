@@ -41,6 +41,15 @@ public:
     LPFN_ACCEPTEX m_server_accept_ex = nullptr;
 
 private:
+    std::optional<int> call_command_impl(
+        const std::string& cmd,
+        bool recv_by_socket,
+        std::string& pipe_data,
+        std::string& sock_data,
+        int64_t timeout,
+        std::chrono::steady_clock::time_point start_time,
+        bool cancellable);
+
     // for Windows socket
     class WsaHelper : public MAA_NS::SingletonHolder<WsaHelper>
     {

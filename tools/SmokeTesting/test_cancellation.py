@@ -45,6 +45,9 @@ def main():
             C.c_int32,
             [C.c_void_p, C.c_char_p, C.c_char_p, C.c_char_p, C.c_uint8],
         ),
+        "AsstAsyncScreencap": (C.c_int32, [C.c_void_p, C.c_uint8]),
+        "AsstAsyncClick": (C.c_int32, [C.c_void_p, C.c_int32, C.c_int32, C.c_uint8]),
+        "AsstReleaseLifecycleTest": (None, []),
         "AsstAppendTask": (C.c_int32, [C.c_void_p, C.c_char_p, C.c_char_p]),
         "AsstStop": (C.c_uint8, [C.c_void_p]),
         "AsstStart": (C.c_uint8, [C.c_void_p]),
@@ -105,6 +108,7 @@ def main():
     def mode(value):
         (root / "fake-mode.txt").write_text(value)
         (root / "fake-task-started").unlink(missing_ok=True)
+        (root / "fake-recovered").unlink(missing_ok=True)
         (root / "fake-adb.log").write_text("")
 
     def calls():
@@ -209,7 +213,133 @@ def main():
         restart(handle)
     lib.AsstDestroy(handle)
 
-    for stage in ("connect", "work"):
+    # In-flight calls must keep cancellation active even when there is no task.
+    for operation in ("preview", "click"):
+        handle = create()
+        for _ in range(args.iterations):
+            mode("healthy")
+            assert connect(handle)
+            mode("work_hang" if operation == "preview" else "click_hang")
+            (root / "fake-task-started").touch()
+            call_id = (
+                lib.AsstAsyncScreencap(handle, 0)
+                if operation == "preview"
+                else lib.AsstAsyncClick(handle, 10, 10, 0)
+            )
+            assert call_id > 0
+            process = blocked_child()
+            assert lib.AsstRunning(handle), "in-flight call was reported idle"
+            assert not lib.AsstStart(handle), "start overlapped an idle control call"
+            queued = lib.AsstAsyncScreencap(handle, 0)
+            stop(handle, process, operation + "-stop")
+            wait_until(
+                lambda: any(
+                    msg == 4 and data["async_call_id"] == queued for msg, data in events
+                ),
+                "queued preview did not settle",
+            )
+            assert not next(
+                data["details"]["ret"]
+                for msg, data in events
+                if msg == 4 and data["async_call_id"] == call_id
+            )
+            assert len([line for line in calls() if "\tCALL\t" in line]) == 1
+            restart(handle)
+        lib.AsstDestroy(handle)
+
+    # Task completion may race a separate preview call. Idle must wait for both.
+    for _ in range(args.iterations):
+        handle = create()
+        mode("healthy")
+        assert connect(handle)
+        ready = len(events)
+        assert lib.AsstAppendTask(handle, b"Debug", b'{"mode":"lifecycle"}') > 0
+        assert lib.AsstStart(handle)
+        wait_until(
+            lambda: any(
+                data.get("what") == "LifecycleReady" for _, data in events[ready:]
+            ),
+            "task was not ready",
+        )
+        mode("work_hang")
+        (root / "fake-task-started").touch()
+        assert lib.AsstAsyncScreencap(handle, 0) > 0
+        process = blocked_child()
+        queued = lib.AsstAsyncScreencap(handle, 0)
+        before = calls()
+        started = time.monotonic()
+        lib.AsstReleaseLifecycleTest()
+        wait_until(
+            lambda: not lib.AsstRunning(handle), "completion left old preview running"
+        )
+        assert kernel.WaitForSingleObject(process, 0) == 0, (
+            "completion published Idle before preview exited"
+        )
+        assert calls() == before
+        wait_until(
+            lambda: any(
+                msg == 4 and data["async_call_id"] == queued for msg, data in events
+            ),
+            "completion did not discard queued preview",
+        )
+        assert not next(
+            data["details"]["ret"]
+            for msg, data in events
+            if msg == 4 and data["async_call_id"] == queued
+        )
+        results.append(
+            {
+                "case": "completion-with-preview",
+                "milliseconds": round((time.monotonic() - started) * 1000, 2),
+            }
+        )
+        restart(handle)
+        lib.AsstDestroy(handle)
+
+    # A completed screenshot may have left an asynchronous FPS command behind.
+    handle = create()
+    for _ in range(args.iterations):
+        mode("healthy")
+        assert connect(handle)
+        mode("fps_hang")
+        call_id = lib.AsstAsyncScreencap(handle, 0)
+        process = blocked_child()
+        wait_until(
+            lambda: any(
+                msg == 4 and data["async_call_id"] == call_id for msg, data in events
+            ),
+            "preview did not finish before FPS check",
+        )
+        stop(handle, process, "background-fps-stop")
+        restart(handle)
+    lib.AsstDestroy(handle)
+
+    # KillAdbOnExit still runs during destruction, but a stuck release is bounded.
+    for release_mode in ("healthy", "release_hang"):
+        handle = create()
+        assert lib.AsstSetInstanceOption(handle, 5, b"1")
+        mode("healthy")
+        assert connect(handle)
+        mode(release_mode)
+        started = time.monotonic()
+        worker = threading.Thread(target=lib.AsstDestroy, args=(handle,), daemon=True)
+        worker.start()
+        process = blocked_child() if release_mode == "release_hang" else None
+        worker.join(3)
+        assert not worker.is_alive(), "release blocked destruction"
+        assert len([line for line in calls() if "\tCALL\tkill-server" in line]) == 1
+        if process:
+            assert kernel.WaitForSingleObject(process, 0) == 0, (
+                "release child survived destruction"
+            )
+        results.append(
+            {
+                "case": release_mode + "-release",
+                "milliseconds": round((time.monotonic() - started) * 1000, 2),
+            }
+        )
+
+    for stage in ("connect", "work", "preview", "click", "fps"):
         handle = create()
         mode("healthy")
         if stage == "work":
@@ -224,9 +354,21 @@ def main():
                 > 0
             )
             assert lib.AsstStart(handle)
-        else:
+        elif stage == "connect":
             mode("connect_hang")
             assert connect(handle, True) > 0
+        else:
+            assert connect(handle)
+            mode(
+                {"preview": "work_hang", "click": "click_hang", "fps": "fps_hang"}[
+                    stage
+                ]
+            )
+            (root / "fake-task-started").touch()
+            if stage == "click":
+                assert lib.AsstAsyncClick(handle, 10, 10, 0) > 0
+            else:
+                assert lib.AsstAsyncScreencap(handle, 0) > 0
         process = blocked_child()
         destroy(handle, process, stage + "-destroy")
 

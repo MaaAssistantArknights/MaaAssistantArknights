@@ -29,8 +29,20 @@ std::optional<int> asst::Win32IO::call_command(
     int64_t timeout,
     std::chrono::steady_clock::time_point start_time)
 {
+    return call_command_impl(cmd, recv_by_socket, pipe_data, sock_data, timeout, start_time, true);
+}
+
+std::optional<int> asst::Win32IO::call_command_impl(
+    const std::string& cmd,
+    bool recv_by_socket,
+    std::string& pipe_data,
+    std::string& sock_data,
+    int64_t timeout,
+    std::chrono::steady_clock::time_point start_time,
+    bool cancellable)
+{
     using namespace std::chrono;
-    if (need_exit()) {
+    if (cancellable && need_exit()) {
         return std::nullopt;
     }
 
@@ -169,7 +181,7 @@ std::optional<int> asst::Win32IO::call_command(
         }
     }
 
-    while (!need_exit()) {
+    while (!cancellable || !need_exit()) {
         wait_handles.clear();
         if (process_running) {
             wait_handles.push_back(process_info.hProcess);
@@ -322,7 +334,7 @@ std::optional<int> asst::Win32IO::call_command(
         }
     }
 
-    failed = failed || need_exit();
+    failed = failed || (cancellable && need_exit());
     if (recv_by_socket) {
         if (accept_pending) {
             Log.warn("cancel AcceptEx");
@@ -558,7 +570,16 @@ void asst::Win32IO::release_adb(const std::string& adb_release, int64_t timeout)
     std::string sock_data;
     auto start_time = std::chrono::steady_clock::now();
 
-    call_command(adb_release, false, pipe_data, sock_data, timeout, start_time);
+    // 用户要求的关机清理仍须执行，但不让无响应的 ADB server 拖住 GUI 退出。
+    constexpr int64_t ReleaseTimeoutMs = 1000;
+    call_command_impl(
+        adb_release,
+        false,
+        pipe_data,
+        sock_data,
+        (std::min)(timeout, ReleaseTimeoutMs),
+        start_time,
+        false);
 }
 
 asst::IOHandlerWin32::~IOHandlerWin32()

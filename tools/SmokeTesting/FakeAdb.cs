@@ -35,8 +35,18 @@ class FakeEmulatorAdb
         string command = string.Join(" ", args);
         Record("CALL", command);
         string mode = File.ReadAllText(Path.Combine(Root, "fake-mode.txt")).Trim();
+        bool recovered = mode == "recovery_once" && File.Exists(Path.Combine(Root, "fake-recovered"));
+        if (mode.StartsWith("recovery_") && !recovered && (command == "devices" || command.StartsWith("connect ")))
+        {
+            Record("FAIL", command);
+            Environment.Exit(1);
+        }
         if ((mode == "connect_hang" && command == "devices") ||
-            (mode == "work_hang" && command.Contains("screencap") && File.Exists(Path.Combine(Root, "fake-task-started"))))
+            (mode == "work_hang" && command.Contains("screencap") && File.Exists(Path.Combine(Root, "fake-task-started"))) ||
+            (mode == "click_hang" && command.Contains("input tap")) ||
+            (mode == "fps_hang" && command.Contains("SurfaceFlinger")) ||
+            (mode == "recovery_disconnect_hang" && command.StartsWith("disconnect ")) ||
+            ((mode == "release_hang" || mode == "recovery_restart_hang") && command == "kill-server"))
         {
             Record("BLOCKED", command);
             Thread.Sleep(Timeout.Infinite);
@@ -68,6 +78,7 @@ class FakeEmulatorAdb
             Console.Write("Starting: Intent { fake device }\n" + new string(' ', 200) + "\n");
         }
         else if (command.Contains("SurfaceFlinger")) Console.Write("16666666\n");
+        else if (mode == "recovery_once" && command.StartsWith("disconnect ")) File.WriteAllText(Path.Combine(Root, "fake-recovered"), "ready");
         Record("RETURN", command);
     }
 }

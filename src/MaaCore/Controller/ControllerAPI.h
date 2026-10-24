@@ -41,6 +41,11 @@ public:
     virtual bool connect(const std::string& adb_path, const std::string& address, const std::string& config) = 0;
     virtual bool inited() const noexcept = 0;
 
+    // 生命周期收尾在前台调用退出后检查并等待控制器自行启动的后台 I/O。
+    virtual bool has_pending_io() const { return false; }
+
+    virtual void wait_for_pending_io() {}
+
     virtual void set_swipe_with_pause([[maybe_unused]] bool enable) noexcept {}
 
     virtual void set_kill_adb_on_exit([[maybe_unused]] bool enable) noexcept {}
