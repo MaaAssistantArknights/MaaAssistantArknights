@@ -18,7 +18,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
-using GongSolutions.Wpf.DragDrop;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
@@ -1071,11 +1070,6 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     /// </summary>
     public ObservableCollection<BlackFlowStartRewardPriorityItemViewModel> RoguelikeBlackFlowStartRewardPriorityItems { get; private set => SetAndNotify(ref field, value); } = [];
 
-    /// <summary>
-    /// Gets the drop handler of <see cref="RoguelikeBlackFlowStartRewardPriorityItems"/>.
-    /// </summary>
-    public IDropTarget RoguelikeBlackFlowStartRewardPriorityDropHandler { get; } = new BlackFlowStartRewardPriorityDropHandler();
-
     private void UpdateBlackFlowStartRewardPriorityItems()
     {
         var rewards = RoguelikeBlackFlowStartRewardList.Concat(RoguelikeBlackFlowSerpentRewardList).ToList();
@@ -1091,7 +1085,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     }
 
     /// <summary>
-    /// 刷新Index
+    /// 拖动排序后重新计算并写入各项的列表序号
     /// </summary>
     private void ReindexBlackFlowStartRewardPriorityItems()
     {
@@ -1105,45 +1099,6 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     {
         var order = RoguelikeBlackFlowStartRewardPriorityItems.Select(i => i.Reward.Value).ToList();
         SetTaskConfig<RoguelikeTask>(t => t.BlackFlowStartRewardPriority.SequenceEqual(order), t => t.BlackFlowStartRewardPriority = order);
-    }
-
-    private sealed class BlackFlowStartRewardPriorityDropHandler : DefaultDropHandler
-    {
-        // 库自带的边缘滚动在列表上关掉了：它每次拖动经过都滚一项，太快。这里在上下边缘每隔一段时间才滚一项
-        private const double EdgeScrollZone = 15;
-        private static readonly TimeSpan _edgeScrollInterval = TimeSpan.FromMilliseconds(300);
-        private DateTime _lastEdgeScroll;
-
-        public override void DragOver(IDropInfo dropInfo)
-        {
-            base.DragOver(dropInfo);
-            ScrollNearEdge(dropInfo);
-        }
-
-        private void ScrollNearEdge(IDropInfo dropInfo)
-        {
-            if (dropInfo.TargetScrollViewer is not { } viewer || dropInfo.VisualTarget is not System.Windows.FrameworkElement target ||
-                DateTime.UtcNow - _lastEdgeScroll < _edgeScrollInterval)
-            {
-                return;
-            }
-
-            var y = dropInfo.DropPosition.Y;
-            if (y < EdgeScrollZone)
-            {
-                viewer.LineUp();
-            }
-            else if (y > target.ActualHeight - EdgeScrollZone)
-            {
-                viewer.LineDown();
-            }
-            else
-            {
-                return;
-            }
-
-            _lastEdgeScroll = DateTime.UtcNow;
-        }
     }
 
     /// <summary>
