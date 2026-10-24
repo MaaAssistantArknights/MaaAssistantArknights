@@ -1233,7 +1233,6 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        ResetDepotRecognitionState();
         StartDepotRecognitionTask();
     }
 

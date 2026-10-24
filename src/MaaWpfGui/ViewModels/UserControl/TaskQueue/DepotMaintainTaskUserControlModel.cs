@@ -175,7 +175,12 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         foreach (var task in _serializedDepotMaintainTasks.ToList())
         {
             _serializedDepotMaintainTasks.Remove(task);
-            var depotList = Instances.ToolboxViewModel?.DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count) ?? [];
+
+            // 没有任何库存数据时无从判断翻转，按 0 计会误报计划不足
+            if (Instances.ToolboxViewModel?.GetDepotSnapshot() is not { } depotList)
+            {
+                continue;
+            }
 
             // SortByProgress 开启时按下发口径（达成率升序）挑选提示对象，与实际执行顺序一致
             var plans = task.PlanList.Select((plan, index) => (plan, index));
@@ -811,7 +816,9 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             // 登记本轮参与评估，任意识别完成后复查未下发计划的缓存翻转（含 UpdateDepot=false 的场景）
             _ = _serializedDepotMaintainTasks.Add(depot);
 
-            var depotList = Instances.ToolboxViewModel?.DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count) ?? [];
+            // 预检空缓存按 0 计（各计划开始时会用最新库存重算缺口并拦截无数据场景），
+            // UpdateDepot 开启时的首轮识别正是靠这个行为把计划照常下发后由重算纠正
+            var depotList = Instances.ToolboxViewModel?.GetDepotSnapshot() ?? [];
 
             // 按达成率排序时仅调整下发顺序（升序，缺口比例最大优先），配置中的列表顺序不变；写回 TaskId 与日志序号仍用原列表索引，与 UI 列表对应
             var order = Enumerable.Range(0, depot.PlanList.Count).ToList();
