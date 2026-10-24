@@ -33,7 +33,7 @@
 #include "Task/Interface/SwitchThemeTask.h"
 #include "Task/Interface/VideoRecognitionTask.h"
 #include "Utils/Logger.hpp"
-#ifdef ASST_DEBUG
+#if defined(ASST_DEBUG) || defined(ASST_SMOKE_TESTING)
 #include "Task/Interface/DebugTask.h"
 #endif
 
@@ -143,7 +143,7 @@ Assistant::~Assistant()
     ResourceLoader::get_instance().cancel();
 
     m_thread_exit = true;
-    m_thread_idle = true;
+    request_stop();
 
     {
         std::unique_lock<std::mutex> lock(m_call_mutex);
@@ -256,19 +256,15 @@ bool asst::Assistant::ctrl_connect(const std::string& adb_path, const std::strin
 
     std::unique_lock<std::mutex> lock(m_mutex);
 
-    // 仍有任务进行，connect 前需要 stop
-    if (!m_thread_idle) {
+    if (m_lifecycle_state.load() != LifecycleState::Idle) {
         return false;
     }
-
-    m_thread_idle = false;
 
     bool ret = m_ctrler->connect(adb_path, address, config.empty() ? "General" : config);
     if (ret) {
         m_uuid = m_ctrler->get_uuid();
     }
 
-    m_thread_idle = true;
     return ret;
 }
 
@@ -283,19 +279,15 @@ bool asst::Assistant::ctrl_attach_window(
 
     std::unique_lock<std::mutex> lock(m_mutex);
 
-    // 仍有任务进行，attach 前需要 stop
-    if (!m_thread_idle) {
+    if (m_lifecycle_state.load() != LifecycleState::Idle) {
         return false;
     }
-
-    m_thread_idle = false;
 
     bool ret = m_ctrler->attach_window(hwnd, screencap_method, mouse_method, keyboard_method);
     if (ret) {
         m_uuid = m_ctrler->get_uuid();
     }
 
-    m_thread_idle = true;
     return ret;
 }
 #endif
@@ -349,7 +341,7 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(ReclamationTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(SwitchThemeTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CustomTask)
-#ifdef ASST_DEBUG
+#if defined(ASST_DEBUG) || defined(ASST_SMOKE_TESTING)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DebugTask)
 #endif
     else
@@ -370,6 +362,10 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     }
 
     std::unique_lock<std::mutex> lock(m_mutex);
+    if (m_lifecycle_state.load() == LifecycleState::Stopping) {
+        LogError << __FUNCTION__ << "assistant is stopping";
+        return 0;
+    }
     int task_id = ++m_task_id;
     ptr->set_task_id(task_id);
     m_tasks_list.emplace_back(task_id, ptr);
@@ -394,6 +390,9 @@ bool asst::Assistant::set_task_params(TaskId task_id, const std::string& params)
 
     bool is_set = false;
     std::unique_lock<std::mutex> lock(m_mutex);
+    if (m_lifecycle_state.load() == LifecycleState::Stopping) {
+        return false;
+    }
     for (auto&& [id, ptr] : m_tasks_list) {
         if (id != task_id) {
             continue;
@@ -518,45 +517,59 @@ std::vector<Assistant::TaskId> asst::Assistant::get_tasks_list() const
     return result;
 }
 
-bool asst::Assistant::start(bool block)
+bool asst::Assistant::start()
 {
     LogTraceFunction;
-    Log.info("Start |", block ? "block" : "non block");
+    LogInfo << "Start";
 
-    if (!m_thread_idle) {
+    std::unique_lock<std::mutex> lock(m_mutex);
+    auto expected_state = LifecycleState::Idle;
+    if (!m_lifecycle_state.compare_exchange_strong(expected_state, LifecycleState::Running)) {
         return false;
     }
-    std::unique_lock<std::mutex> lock;
-    if (block) { // 外部调用
-        lock = std::unique_lock<std::mutex>(m_mutex);
-    }
-    m_thread_idle = false;
-    m_running = true;
     m_condvar.notify_one();
 
     return true;
 }
 
-bool Assistant::stop(bool block)
+bool Assistant::stop()
 {
     LogTraceFunction;
-    Log.info("Stop |", block ? "block" : "non block");
+    LogInfo << "Stop";
 
-    m_thread_idle = true;
+    request_stop();
 
-    std::unique_lock<std::mutex> lock;
-    if (block) { // 外部调用
-        lock = std::unique_lock<std::mutex>(m_mutex);
-    }
-    m_tasks_list.clear();
-
-    clear_cache();
+    std::unique_lock<std::mutex> lock(m_mutex);
+    m_condvar.wait(lock, [this]() -> bool {
+        return m_thread_exit || m_lifecycle_state.load() != LifecycleState::Stopping;
+    });
     return true;
 }
 
 bool asst::Assistant::running() const
 {
-    return m_running;
+    const auto state = m_lifecycle_state.load();
+    return state == LifecycleState::Running || state == LifecycleState::Stopping;
+}
+
+void Assistant::request_stop() noexcept
+{
+    m_lifecycle_state.store(LifecycleState::Stopping);
+    m_condvar.notify_all();
+}
+
+void Assistant::complete_stop() noexcept
+{
+    std::unique_lock<std::mutex> lock(m_mutex);
+    m_tasks_list.clear();
+    best_effort([this]() { clear_cache(); });
+    best_effort([]() { Log.flush(); });
+#ifdef _WIN32
+    best_effort([this]() { m_ctrler->restore_window_position(); });
+#endif
+    m_lifecycle_state.store(LifecycleState::Idle);
+    lock.unlock();
+    m_condvar.notify_all();
 }
 
 void Assistant::working_proc()
@@ -567,27 +580,41 @@ void Assistant::working_proc()
     while (true) {
         try {
             std::unique_lock<std::mutex> lock(m_mutex);
+            m_condvar.wait(lock, [this]() -> bool {
+                const auto state = m_lifecycle_state.load();
+                return m_thread_exit || state == LifecycleState::Running || state == LifecycleState::Stopping;
+            });
+
             if (m_thread_exit) {
-                m_running = false;
+                m_lifecycle_state.store(LifecycleState::Idle);
+                lock.unlock();
+                m_condvar.notify_all();
                 return;
             }
 
-            if (m_thread_idle || m_tasks_list.empty()) {
+            if (m_lifecycle_state.load() == LifecycleState::Stopping) {
                 finished_tasks.clear();
-                m_thread_idle = true;
-                m_running = false;
+                lock.unlock();
+                complete_stop();
+                continue;
+            }
+
+            if (m_tasks_list.empty()) {
+                finished_tasks.clear();
+                m_lifecycle_state.store(LifecycleState::Idle);
                 Log.flush();
 #ifdef _WIN32
                 m_ctrler->restore_window_position();
 #endif
-                m_condvar.wait(lock);
+                lock.unlock();
+                m_condvar.notify_all();
                 continue;
             }
 
-            m_running = true;
             const auto [id, task_ptr] = m_tasks_list.front();
             lock.unlock();
-            // only one instance of working_proc running, unlock here to allow set_task_param to the running task
+            // Only one instance of working_proc runs. The task executes without the queue lock so stop requests and
+            // explicitly supported live parameter updates can still be submitted.
 
             json::value callback_json = json::object {
                 { "taskchain", std::string(task_ptr->get_task_chain()) },
@@ -656,9 +683,10 @@ void Assistant::working_proc()
             };
 
             lock.lock();
-            if (!m_tasks_list.empty()) {
+            if (!m_tasks_list.empty() && m_tasks_list.front().first == id && m_tasks_list.front().second == task_ptr) {
                 m_tasks_list.pop_front();
             }
+            const bool queue_empty = m_tasks_list.empty();
             lock.unlock();
 
             if (exception_kind != TaskExceptionKind::OutOfMemory) {
@@ -670,10 +698,7 @@ void Assistant::working_proc()
                 const bool stop_remaining_tasks = exception_kind == TaskExceptionKind::OutOfMemory ||
                                                   exception_kind == TaskExceptionKind::GpuDeviceRemoved;
                 if (stop_remaining_tasks) {
-                    lock.lock();
-                    m_thread_idle = true;
-                    m_tasks_list.clear();
-                    lock.unlock();
+                    request_stop();
                     if (exception_kind == TaskExceptionKind::OutOfMemory) {
                         best_effort([&] { Log.error("Unhandled out of memory in task thread"); });
                     }
@@ -694,30 +719,29 @@ void Assistant::working_proc()
                 }
             }
             else {
-                auto msg = m_thread_idle ? AsstMsg::TaskChainStopped
-                                         : (ret ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError);
+                auto msg = m_lifecycle_state.load() == LifecycleState::Stopping
+                               ? AsstMsg::TaskChainStopped
+                               : (ret ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError);
                 if (msg == AsstMsg::TaskChainError) {
                     save_fail_img();
                 }
                 append_callback(msg, callback_json);
             }
 
-            if (m_thread_idle) {
+            if (m_lifecycle_state.load() == LifecycleState::Stopping) {
                 finished_tasks.clear();
                 if (exception_kind != TaskExceptionKind::None) {
                     if (exception_kind == TaskExceptionKind::OutOfMemory) {
-                        best_effort([&] { clear_cache(); });
                         best_effort([&] { append_callback(AsstMsg::TaskChainStopped, callback_json); });
                     }
                     else {
-                        clear_cache();
                         append_callback(AsstMsg::TaskChainStopped, callback_json);
                     }
                 }
                 continue;
             }
 
-            if (m_tasks_list.empty()) {
+            if (queue_empty) {
                 callback_json["finished_tasks"] = json::array(finished_tasks);
                 append_callback(AsstMsg::AllTasksCompleted, callback_json);
                 finished_tasks.clear();
@@ -726,19 +750,19 @@ void Assistant::working_proc()
 
             const int delay = Config.get_options().task_delay;
             lock.lock();
-            m_condvar.wait_for(lock, std::chrono::milliseconds(delay), [&]() -> bool { return m_thread_idle; });
+            m_condvar.wait_for(lock, std::chrono::milliseconds(delay), [this]() -> bool {
+                return m_thread_exit || m_lifecycle_state.load() == LifecycleState::Stopping;
+            });
+            const bool stopping = m_lifecycle_state.load() == LifecycleState::Stopping;
+            lock.unlock();
 
-            if (m_thread_idle) {
+            if (stopping) {
                 append_callback(AsstMsg::TaskChainStopped, callback_json);
             }
         }
         catch (...) {
-            m_thread_idle = true;
-            m_running = false;
-            best_effort([&] {
-                std::unique_lock<std::mutex> recovery_lock(m_mutex);
-                m_tasks_list.clear();
-            });
+            request_stop();
+            complete_stop();
             // 任务链可能在 TaskChainStart 后中断于此，补发停止消息，避免上层等待链终结回调悬挂
             best_effort([&] { append_callback(AsstMsg::TaskChainStopped, json::object {}); });
         }
@@ -923,11 +947,7 @@ void asst::Assistant::call_proc()
             }
 
             if (exception_kind == TaskExceptionKind::OutOfMemory) {
-                {
-                    std::unique_lock<std::mutex> task_lock(m_mutex);
-                    m_thread_idle = true;
-                    m_tasks_list.clear();
-                }
+                request_stop();
                 best_effort([&] { Log.error("Unhandled out of memory in async call thread"); });
             }
 
@@ -959,11 +979,7 @@ void asst::Assistant::call_proc()
             }
         }
         catch (...) {
-            m_thread_idle = true;
-            best_effort([&] {
-                std::unique_lock<std::mutex> recovery_lock(m_mutex);
-                m_tasks_list.clear();
-            });
+            request_stop();
             AsyncCallId discarded_max_id = current_call_id;
             best_effort([&] {
                 std::unique_lock<std::mutex> recovery_lock(m_call_mutex);
@@ -997,13 +1013,13 @@ void Assistant::append_callback(AsstMsg msg, const json::value& detail)
     switch (msg) {
     case AsstMsg::InternalError:
     case AsstMsg::InitFailed:
-        stop(false);
+        request_stop();
         break;
     case AsstMsg::ConnectionInfo:
         // 分辨率被外部修改后连接已失效（invalidate_connection），
         // 自动停止当前任务，待上层整体重连后再重新开始
         if (more_detail["what"] == "ResolutionChanged") {
-            stop(false);
+            request_stop();
         }
         break;
     default:

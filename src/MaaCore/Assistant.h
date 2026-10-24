@@ -1,5 +1,6 @@
 #pragma once
 
+#include <atomic>
 #include <condition_variable>
 #include <future>
 #include <list>
@@ -47,9 +48,9 @@ public:
     virtual bool set_task_params(TaskId task_id, const std::string& params) = 0;
 
     // 开始执行任务队列
-    virtual bool start(bool block = true) = 0;
+    virtual bool start() = 0;
     // 停止任务队列并清空
-    virtual bool stop(bool block = true) = 0;
+    virtual bool stop() = 0;
     // 是否正在运行
     virtual bool running() const = 0;
 
@@ -73,6 +74,14 @@ class Status;
 
 class Assistant : public AsstExtAPI
 {
+private:
+    enum class LifecycleState
+    {
+        Idle,
+        Running,
+        Stopping,
+    };
+
 public:
     Assistant(ApiCallback callback = nullptr, void* callback_arg = nullptr);
     virtual ~Assistant() override;
@@ -108,8 +117,8 @@ public:
     virtual TaskId append_task(const std::string& type, const std::string& params) override;
     virtual bool set_task_params(TaskId task_id, const std::string& params) override;
 
-    virtual bool start(bool block = true) override;
-    virtual bool stop(bool block = true) override;
+    virtual bool start() override;
+    virtual bool stop() override;
     virtual bool running() const override;
 
     virtual std::vector<unsigned char> get_image() const override;
@@ -124,7 +133,7 @@ public:
 
     std::shared_ptr<Status> status() const { return m_status; }
 
-    bool need_exit() const { return m_thread_idle && m_running; }
+    bool need_exit() const noexcept { return m_lifecycle_state.load() == LifecycleState::Stopping; }
 
 private:
     void append_callback(AsstMsg msg, const json::value& detail);
@@ -188,6 +197,8 @@ private:
     void call_proc();
     void working_proc();
     void msg_proc();
+    void request_stop() noexcept;
+    void complete_stop() noexcept;
 
 private:
     void clear_cache();
@@ -215,8 +226,7 @@ private:
     ApiCallback m_callback = nullptr;
     void* m_callback_arg = nullptr;
 
-    std::atomic_bool m_thread_idle = true;
-    std::atomic_bool m_running = false;
+    std::atomic<LifecycleState> m_lifecycle_state = LifecycleState::Idle;
     mutable std::mutex m_mutex;
     std::condition_variable m_condvar;
 
