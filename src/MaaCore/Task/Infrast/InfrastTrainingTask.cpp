@@ -1,6 +1,7 @@
 #include "InfrastTrainingTask.h"
 
 #include <algorithm>
+#include <format>
 #include <ranges>
 
 #include "Config/TaskData.h"
@@ -179,18 +180,52 @@ bool asst::InfrastTrainingTask::training_completed()
 std::optional<std::string> asst::InfrastTrainingTask::time_left_analyze(const cv::Mat& image)
 {
     LogTraceFunction;
-    RegionOCRer analyzer(image);
-    analyzer.set_task_info("InfrastTrainingTime");
+
+    static const std::string TaskName = "InfrastTrainingTime";
+    const auto task_info = Task.get<OcrTaskInfo>(TaskName);
+    const auto& mask_params = task_info->special_params;
+    if (mask_params.size() != 4) {
+        LogError << __FUNCTION__ << "unexpected timer separator mask parameters" << mask_params.size();
+        return std::nullopt;
+    }
+
+    cv::Mat timer_image = image.clone();
+    const cv::Rect image_bounds(0, 0, timer_image.cols, timer_image.rows);
+    for (size_t i = 0; i < mask_params.size(); i += 2) {
+        const int x_offset = mask_params[i];
+        const int width = mask_params[i + 1];
+        if (x_offset < 0 || width <= 0 || x_offset + width > task_info->roi.width) {
+            LogError << __FUNCTION__ << "invalid timer separator mask" << x_offset << width;
+            return std::nullopt;
+        }
+
+        const Rect mask_rect(task_info->roi.x + x_offset, task_info->roi.y, width, task_info->roi.height);
+        const cv::Rect visible_mask = make_rect<cv::Rect>(mask_rect) & image_bounds;
+        if (!visible_mask.empty()) {
+            timer_image(visible_mask).setTo(cv::Scalar::all(0));
+        }
+    }
+
+    RegionOCRer analyzer(timer_image);
+    analyzer.set_task_info(TaskName);
     analyzer.set_use_raw(true);
     if (!analyzer.analyze()) {
         return std::nullopt;
     }
     const auto& text = analyzer.get_result().text;
-    if (text.empty() || text.find(":") == std::string::npos) {
-        Log.error(__FUNCTION__, "time left analyze failed");
+    if (text.size() != 6 || !std::ranges::all_of(text, [](char ch) { return ch >= '0' && ch <= '9'; })) {
+        LogError << __FUNCTION__ << "timer OCR did not return six digits" << text;
         return std::nullopt;
     }
-    return text;
+
+    const int minute = (text[2] - '0') * 10 + text[3] - '0';
+    const int second = (text[4] - '0') * 10 + text[5] - '0';
+    if (minute >= 60 || second >= 60) {
+        LogError << __FUNCTION__ << "timer OCR returned an invalid time" << text;
+        return std::nullopt;
+    }
+
+    return std::format("{}{}:{}{}:{}{}", text[0], text[1], text[2], text[3], text[4], text[5]);
 }
 
 asst::InfrastTrainingTask& asst::InfrastTrainingTask::set_continue_training(bool continue_training) noexcept
