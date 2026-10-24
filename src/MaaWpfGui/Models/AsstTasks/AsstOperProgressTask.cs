@@ -28,6 +28,8 @@ public class AsstOperProgressTask : AsstBaseTask
     [JsonProperty("plans")]
     public List<OperProgressTask.Plan> Plans { get; set; } = [];
 
+    public bool ReportMaterials { get; set; }
+
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
         var list = new JArray();
@@ -53,6 +55,7 @@ public class AsstOperProgressTask : AsstBaseTask
         }
         var jObject = new JObject {
             ["plans"] = list,
+            ["report_materials"] = ReportMaterials,
         };
         return (TaskType, jObject);
     }

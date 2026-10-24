@@ -107,6 +107,12 @@ public class AsstFightTask : AsstBaseTask
     /// </summary>
     public ClientType ClientType { get; set; } = ClientType.Official;
 
+    [JsonProperty("wait_for_params", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool WaitForParams { get; set; }
+
+    [JsonProperty("params_ready", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool ParamsReady { get; set; }
+
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
         var param = JObject.FromObject(this);

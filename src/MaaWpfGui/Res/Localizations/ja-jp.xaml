@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="GeneralSettings">一般設定</system:String>
@@ -1015,6 +1015,30 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="Ignore">無視</system:String>
     <system:String x:Key="OperProgress">オペレーター育成</system:String>
+    <system:String x:Key="CultivationSupply">育成素材補充</system:String>
+    <system:String x:Key="CultivationSupplyEmpty">補充が必要な中級SoCはありません。タスクと理性回復剤の設定は保持されます。</system:String>
+    <system:String x:Key="CultivationSupplyManagedTip" xml:space="preserve">素材は関連する育成目標から作成され、手動では編集できません。&#10;リストを更新しても理性回復剤の設定とタスクのチェック状態は保持されます。</system:String>
+    <system:String x:Key="CultivationSupplyStale">育成目標が変更されました。関連するオペレーター育成を再実行し、補充リストの更新を確認してください。</system:String>
+    <system:String x:Key="CultivationSupplySharedMedicineTip" xml:space="preserve">1回の補充実行で、すべての素材がこの回復剤の上限を共有します。&#10;上限内で使用した期限付き回復剤も数えます。&#10;期限間近の回復剤の追加使用を有効にすると、上限に達した後も対象の回復剤を使用できます。</system:String>
+    <system:String x:Key="CultivationSupplyExpiringMedicine">上限に達した後、48時間以内に期限が切れる理性回復剤を追加使用</system:String>
+    <system:String x:Key="CultivationSupplyNoStoneTip">素材補充では理性回復に純正源石を使用しません。</system:String>
+    <system:String x:Key="CultivationSupplyInventoryUnavailable">今回の倉庫認識が完了していないため、周回をスキップします。素材と設定は保持されます。</system:String>
+    <system:String x:Key="CultivationSupplyPlanCompleted">{0} の補充完了</system:String>
+    <system:String x:Key="CultivationSupplyTargetInventory">所持 {0} / 必要 {1}</system:String>
+    <system:String x:Key="CultivationSupplyTargetInventoryTip">同じ職業の上級SoC 1個を中級SoC 2個分として所持数に加算します。</system:String>
+    <system:String x:Key="OperProgressSupplyReport">今回の中級SoC不足</system:String>
+    <system:String x:Key="OperProgressSupplyEnable">育成素材の不足を表示</system:String>
+    <system:String x:Key="OperProgressSupplyEnableTip" xml:space="preserve">育成終了後に倉庫を認識し、今回確認できた昇進2の中級SoC不足を表示します。&#10;確認済みの昇進2の中級SoCのみが対象です。&#10;他の素材やSoC強化剤は含まれません。</system:String>
+    <system:String x:Key="OperProgressSupplySet">素材補充を設定</system:String>
+    <system:String x:Key="OperProgressSupplyUpdate">補充リストを更新</system:String>
+    <system:String x:Key="OperProgressSupplyConfigured">設定済み</system:String>
+    <system:String x:Key="OperProgressSupplyDismiss">今回は非表示</system:String>
+    <system:String x:Key="OperProgressSupplyMissingCount">不足 {0}</system:String>
+    <system:String x:Key="OperProgressSupplyScopeTip" xml:space="preserve">今回の育成後の倉庫認識に基づきます。&#10;対応する上級SoCは1個につき中級SoC2個に換算します。&#10;確認済みの昇進2の中級SoCのみが対象です。&#10;他の素材やSoC強化剤は含まれません。</system:String>
+    <system:String x:Key="OperProgressSupplySatisfiedTip" xml:space="preserve">確認済みの中級SoC必要数はすべて満たされています。&#10;タスクと設定を保持して、以前の補充リストを空にできます。</system:String>
+    <system:String x:Key="OperProgressSupplyUnverifiedTip" xml:space="preserve">昇進2の必要数または倉庫の所持数を完全に確認できなかったため、補充リストを更新できません。&#10;次回の育成後に再確認してください。</system:String>
+    <system:String x:Key="OperProgressSupplyConfirmTip" xml:space="preserve">以下の育成必要数の合計で補充リストを置き換えますか？&#10;所持分を含む数です。&#10;周回前に所持数を再確認し、不足分のみを集めます。&#10;&#10;{0}&#10;&#10;理性回復剤の設定とタスクのチェック状態は保持されます。</system:String>
+    <system:String x:Key="OperProgressSupplyReplaceSourceTip">既存の補充タスクを現在の育成タスクに関連付け、以前の素材リストを置き換えます。</system:String>
     <system:String x:Key="OperProgress.SkillLevelTarget">スキルランク {0}</system:String>
     <system:String x:Key="OperProgress.MasteryTarget">スキル {0} 特化 {1}</system:String>
     <system:String x:Key="OperProgress.EliteTarget">昇進段階 {0}</system:String>

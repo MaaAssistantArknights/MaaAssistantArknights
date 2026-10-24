@@ -31,6 +31,10 @@ public class OperProgressTask : BaseTask
 {
     public OperProgressTask() => TaskType = TaskType.OperProgress;
 
+    public string SupplySourceId { get; set; } = Guid.NewGuid().ToString("N");
+
+    public bool EnableSupplyReport { get; set; }
+
     public List<Plan> Plans { get; set; } = [];
 
     public record Plan(OperatorRole Role, string Name, int Elite, int SkillLevel, SkillMastery SkillMastery, bool ShowRole);

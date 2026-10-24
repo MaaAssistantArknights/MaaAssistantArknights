@@ -92,6 +92,12 @@ bool asst::OperProgressTask::set_params(const json::value& params)
         return false;
     }
 
+    const auto& report_materials = params.find_value("report_materials");
+    if (report_materials && !report_materials->is<bool>()) {
+        LogError << __FUNCTION__ << "report_materials must be a boolean";
+        return false;
+    }
+
     const auto& plans = params.find<std::vector<ProgressPlan>>("plans");
     if (!plans) {
         LogError << __FUNCTION__ << "missing plans, or format is error";
@@ -128,5 +134,6 @@ bool asst::OperProgressTask::set_params(const json::value& params)
     }
 
     m_process_task_ptr->set_plan(std::move(validated_plans));
+    m_process_task_ptr->set_material_report_enabled(report_materials && report_materials->as<bool>());
     return true;
 }

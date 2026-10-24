@@ -1,5 +1,6 @@
 #include "FightTask.h"
 
+#include <chrono>
 #include <utility>
 
 #include "Config/TaskData.h"
@@ -62,9 +63,65 @@ asst::FightTask::FightTask(const AsstCallback& callback, Assistant* inst) :
     m_subtasks.emplace_back(m_sidestory_reopen_task_ptr);
 }
 
+bool asst::FightTask::run()
+{
+    if (!get_enable()) {
+        return true;
+    }
+
+    bool wait_for_params = false;
+    {
+        std::lock_guard lock(m_parameter_mutex);
+        wait_for_params = m_parameter_state == ParameterState::Pending;
+        if (wait_for_params) {
+            m_parameter_state = ParameterState::Waiting;
+        }
+    }
+
+    if (wait_for_params) {
+        // The callback is asynchronous. Do not navigate or consume resources until the client acknowledges it.
+        callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("FightAwaitingParameters"));
+        const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(30);
+        while (true) {
+            {
+                std::lock_guard lock(m_parameter_mutex);
+                if (!get_enable()) {
+                    m_parameter_state = ParameterState::Expired;
+                    return true;
+                }
+                if (need_exit() || std::chrono::steady_clock::now() >= deadline) {
+                    m_parameter_state = ParameterState::Expired;
+                    LogWarn << __FUNCTION__ << "Fight parameter preparation cancelled or timed out";
+                    return false;
+                }
+                if (m_parameter_state == ParameterState::Ready) {
+                    break;
+                }
+            }
+            sleep(50);
+        }
+    }
+    return InterfaceTask::run();
+}
+
 bool asst::FightTask::set_params(const json::value& params)
 {
     LogTraceFunction;
+
+    std::lock_guard lock(m_parameter_mutex);
+    const bool params_ready = params.get("params_ready", false);
+    if (m_parameter_state == ParameterState::Expired ||
+        (params_ready && m_parameter_state != ParameterState::Waiting)) {
+        LogWarn << __FUNCTION__ << "Fight parameter acknowledgement is no longer valid";
+        return false;
+    }
+    if (params.get("wait_for_params", false) && m_parameter_state == ParameterState::Ready) {
+        if (m_running) {
+            LogError << __FUNCTION__ << "Cannot prepare parameters after a fight has started";
+            return false;
+        }
+        m_parameter_state = ParameterState::Pending;
+    }
 
     const std::string stage = params.get("stage", "");
     const int medicine = params.get("medicine", 0);
@@ -190,5 +247,8 @@ bool asst::FightTask::set_params(const json::value& params)
     m_sidestory_reopen_task_ptr->set_enable_yituliu(enable_yituliu);
     m_sidestory_reopen_task_ptr->set_server(server);
 
+    if (params_ready) {
+        m_parameter_state = ParameterState::Ready;
+    }
     return true;
 }

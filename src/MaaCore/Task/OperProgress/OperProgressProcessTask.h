@@ -26,6 +26,8 @@ public:
 
     void set_plan(std::vector<OperProgressTask::ProgressPlan> plan) { m_plan = std::move(plan); }
 
+    void set_material_report_enabled(bool enabled) { m_material_report_enabled = enabled; }
+
 protected:
     virtual bool _run() override;
 
@@ -53,7 +55,20 @@ private:
         Skipped, // 跳过本条; 训练室被占用
     };
 
-    ResultDetail execute_elite(battle::Role role, const std::string& name, int target);
+    struct EliteChipObservation
+    {
+        std::optional<int> owned;
+        std::optional<int> required;
+        ResultDetail result = ResultDetail::RecognitionFailed;
+        int sequence = 0;
+        bool finished = false;
+    };
+
+    ResultDetail execute_elite(battle::Role role, const std::string& name, int target, size_t plan_index);
+    void begin_material_report();
+    void report_chip_requirements(bool finished);
+    void observe_elite_chips(size_t plan_index);
+    void update_elite_chip_result(size_t plan_index, ResultDetail result);
     void report_elite_result(battle::Role role, std::string_view name, ResultDetail result, int elite);
     ResultDetail execute_skill(int level);
     void report_skill_result(battle::Role role, std::string_view name, ResultDetail result, int level);
@@ -87,6 +102,10 @@ private:
 
     std::vector<OperProgressTask::ProgressPlan> m_plan;
     std::vector<OperProgressTask::ProgressPlan> m_plan_finish;
+    bool m_material_report_enabled = false;
+    int m_material_report_id = 0;
+    int m_material_observation_sequence = 0;
+    std::vector<std::optional<EliteChipObservation>> m_chip_observations;
     // 首条目标已定位:任务开始时可能停在主页走完整入口链,之后换干员保证不去主页。
     bool m_entry_completed = false;
     int m_success = 0;

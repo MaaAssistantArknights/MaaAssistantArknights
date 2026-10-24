@@ -161,6 +161,18 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
 - **復刻 SideStory 活動**：輸入 `SSReopen-<關卡前綴>` ，可一次性刷完 XX-1 ~ XX-9 關，如 `SSReopen-IC`。
 
 :::  
+::: field wait_for_params  
+@type boolean
+@default false
+@optional
+等待客戶端確認本任務的最終參數，預設關閉。啟用後，任務開始時發出 `FightAwaitingParameters` 回呼；收到確認前不會操作遊戲。等待超過 30 秒或任務被停止時失敗退出。  
+:::  
+::: field params_ready  
+@type boolean
+@default false
+@optional
+收到 `FightAwaitingParameters` 後，透過 `AsstSetTaskParams` 同時傳入完整作戰參數和 `params_ready: true`，確認本任務可以執行。僅對正在等待確認的任務有效；可使用 `times: 0` 跳過。  
+:::  
 ::: field medicine  
 @type number
 @default 0
@@ -1391,6 +1403,24 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 ```
 
 </details>
+
+- `OperProgress`
+  幹員培養的可選材料報告參數如下。
+
+:::: field-group
+::: field report_materials
+@type boolean
+@default false
+@optional
+啟用精二晶片需求觀察。關閉時不增加材料 OCR 或報告回呼；此選項本身不刷取、購買或合成材料。
+:::
+::::
+
+啟用後，透過 `SubTaskExtraInfo` 的 `OperProgressMaterialReport` 回呼傳送報告，依任務 ID 與 `details.report_id` 配對 `phase: begin/end`。`details` 包含 `scope: elite_chip_pack`、`target_count`、`complete`、`stopped` 和 `entries`；目前範圍僅為五星、六星幹員的精二雙晶片需求。
+
+每項透過 `plan_index`、`role`、`name` 識別目標，`status` 為 `satisfied`（精二已完成或原已滿足）、`observed`（可靠讀取需求）或 `unknown`。可靠觀察帶有 `source: elite_promotion`、`dual_chip_item_id`、`chip_pack_item_id`、`dual_chip_owned`、`dual_chip_required`、`chip_packs_per_dual_chip: 2` 和 `observation_sequence`。`observed` 不代表一定缺料；未知數量省略，不能視為零。
+
+僅 `end` 的 `complete: true` 且 `stopped: false` 表示本範圍全部目標已觀察或滿足，不代表其他材料齊全。庫存是觀察時的共享快照，不能按幹員重複抵扣。補料前應重新完成 `Depot` 辨識，將未完成目標的雙晶片總需求換算為晶片組，再統一抵扣同職業晶片組與雙晶片庫存。
 
 - `Depot`  
   倉庫辨識

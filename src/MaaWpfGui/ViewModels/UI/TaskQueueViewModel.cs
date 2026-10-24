@@ -139,6 +139,8 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     public static DepotMaintainTaskUserControlModel DepotMaintainTask => DepotMaintainTaskUserControlModel.Instance;
 
+    public static CultivationSupplyTaskUserControlModel CultivationSupplyTask => CultivationSupplyTaskUserControlModel.Instance;
+
     /// <summary>
     /// Gets 更换主题任务Model
     /// </summary>
@@ -1895,6 +1897,48 @@ public class TaskQueueViewModel : Screen
         return SemVersion.TryParse(seen, SemVersionStyles.Any, out var b) && v.ComparePrecedenceTo(b) > 0;
     }
 
+    public bool UpsertCultivationSupply(OperProgressTask source, IReadOnlyList<CultivationSupplyTask.Plan> plans, string fingerprint)
+    {
+        if (!_runningState.GetIdle())
+        {
+            return false;
+        }
+
+        var queue = ConfigFactory.CurrentConfig.TaskQueue;
+        var sourceIndex = queue.IndexOf(source);
+        var existing = queue.OfType<CultivationSupplyTask>().ToList();
+        if (sourceIndex < 0 || existing.Count > 1 ||
+            queue.OfType<OperProgressTask>().Count(task => task.SupplySourceId == source.SupplySourceId) != 1 ||
+            OperProgressTaskUserControlModel.GetSupplySourceFingerprint(source) != fingerprint)
+        {
+            return false;
+        }
+
+        var task = existing.FirstOrDefault() ?? new CultivationSupplyTask();
+        if (!CultivationSupplyTaskUserControlModel.Instance.ReplacePlans(task, plans, source.SupplySourceId, fingerprint))
+        {
+            return false;
+        }
+
+        if (existing.Count == 0)
+        {
+            queue.Insert(sourceIndex, task);
+            TaskItemViewModels.Insert(sourceIndex, new TaskItemViewModel(task.IsEnable) { Index = sourceIndex });
+        }
+        else
+        {
+            var currentIndex = queue.IndexOf(task);
+            var targetIndex = currentIndex < sourceIndex ? sourceIndex - 1 : sourceIndex;
+            if (currentIndex != targetIndex)
+            {
+                // The existing collection handler synchronizes configuration and selection after the move.
+                TaskItemViewModels.Move(currentIndex, targetIndex);
+            }
+        }
+
+        return true;
+    }
+
     public void AddTaskQueueTask(Type taskName)
     {
         // 开始唤醒任务至多一个，菜单项禁用之外的行为兜底
@@ -2033,7 +2077,7 @@ public class TaskQueueViewModel : Screen
         var oldTask = ConfigFactory.CurrentConfig.TaskQueue[index];
 
         // 开始唤醒任务至多一个，入口按钮禁用之外的行为兜底
-        if (oldTask is StartUpTask && StartUpTaskCount >= 1)
+        if (oldTask is CultivationSupplyTask || (oldTask is StartUpTask && StartUpTaskCount >= 1))
         {
             return;
         }
@@ -2043,6 +2087,10 @@ public class TaskQueueViewModel : Screen
         {
             AddLog(LocalizationHelper.GetString("TaskCopyFailed"), UiLogColor.Error);
             return;
+        }
+        if (newTask is OperProgressTask copiedCultivation)
+        {
+            copiedCultivation.SupplySourceId = Guid.NewGuid().ToString("N");
         }
         newTask.Name = newTask.NameOrTaskType + " (2)";
         ConfigFactory.CurrentConfig.TaskQueue.Insert(index + 1, newTask);

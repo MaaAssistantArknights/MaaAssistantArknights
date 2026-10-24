@@ -29,6 +29,64 @@
     <StackPanel>
         <!--  常规设置  -->
         <StackPanel Visibility="{c:Binding '!EnableAdvancedSettings', Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
+            <Expander
+                Margin="0,0,0,8"
+                HorizontalContentAlignment="Stretch"
+                Header="{DynamicResource OperProgressSupplyReport}"
+                IsExpanded="{Binding IsSupplyReportExpanded}"
+                Visibility="{c:Binding SupplyReportVisible}">
+                <Border
+                    Padding="6"
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    BorderThickness="1,0,1,1"
+                    CornerRadius="0,0,4,4">
+                    <StackPanel>
+                        <controls:TextBlock
+                            Margin="0,0,0,6"
+                            FontSize="11"
+                            Text="{Binding SupplyReportMessage}"
+                            TextWrapping="Wrap" />
+                        <ItemsControl ItemsSource="{Binding SupplyMaterialRows}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="26" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            Width="24"
+                                            Height="24"
+                                            Source="{Binding Image}" />
+                                        <controls:TextBlock
+                                            Grid.Column="1"
+                                            Margin="4,0"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Name}"
+                                            TextWrapping="Wrap" />
+                                        <controls:TextBlock
+                                            Grid.Column="2"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Quantity}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <WrapPanel Margin="0,6,0,0">
+                            <Button
+                                Margin="0,0,4,4"
+                                Command="{s:Action UpdateSupply}"
+                                Content="{Binding SupplyReportAction}"
+                                IsEnabled="{Binding CanUpdateSupply}" />
+                            <Button
+                                Margin="0,0,0,4"
+                                Command="{s:Action DismissSupplyReport}"
+                                Content="{DynamicResource OperProgressSupplyDismiss}" />
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+            </Expander>
             <!--  固定区：在线编辑计划链接、操作按钮行与干员选择添加行  -->
             <StackPanel x:Name="FixedHeaderPanel">
                 <!--  在线编辑计划链接  -->
@@ -480,6 +538,12 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+        </StackPanel>
+        <StackPanel d:Visibility="Collapsed" Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
+            <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
+                <CheckBox Content="{DynamicResource OperProgressSupplyEnable}" IsChecked="{Binding EnableSupplyReport}" />
+                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource OperProgressSupplyEnableTip}" />
+            </StackPanel>
         </StackPanel>
     </StackPanel>
 </UserControl>

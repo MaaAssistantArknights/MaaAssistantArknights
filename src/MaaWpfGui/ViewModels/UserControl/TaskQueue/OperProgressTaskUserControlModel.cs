@@ -37,7 +37,7 @@ using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgressTaskUserControlModel.ISerialize
+public partial class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgressTaskUserControlModel.ISerialize
 {
     private static readonly ILogger _logger = Log.ForContext<OperProgressTaskUserControlModel>();
 
@@ -46,6 +46,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
     public OperProgressTaskUserControlModel()
     {
         Instances.AsstProxy.AsstSubTaskMsgEvent += ProcOperProgressMsg;
+        InitializeSupplyReports();
 
         // 语言与干员名语言切换后刷新卡片上的本地化显示
         LocalizationHelper.LanguageChanged += RefreshPlanItemLocalization;
@@ -84,7 +85,10 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
             var mastery = SkillMastery.Of(item.SpecializationSkillLevel[0], item.SpecializationSkillLevel[1], item.SpecializationSkillLevel[2]);
             return new Plan(item.Role, item.Name, elite, mainSkillLevel, mastery, item.ShowRole);
         }).ToList();
-        SetTaskConfig<OperProgressTask>(t => t.Plans.SequenceEqual(list), t => t.Plans = list);
+        if (SetTaskConfig<OperProgressTask>(t => t.Plans.SequenceEqual(list), t => t.Plans = list))
+        {
+            InvalidateChangedSupplySource(GetTaskConfig<OperProgressTask>());
+        }
     }
 
     public record class OperItem(string Id, OperatorRole Role, string Name, string NameDisplay, int Rarity, bool HasSameRoleOpers);
@@ -112,6 +116,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         _isRefreshing = true;
         RefreshPlanItems(task);
         Refresh();
+        RefreshSupplyReport();
         _isRefreshing = false;
     }
 
@@ -136,7 +141,9 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
             return;
         }
 
-        task.Plans = [.. list.Where(plan => plan.Elite != 0 || plan.SkillLevel != 0 || plan.SkillMastery.ToArray().Any(x => x > 0))];
+        var remaining = list.Where(plan => plan.Elite != 0 || plan.SkillLevel != 0 || plan.SkillMastery.ToArray().Any(x => x > 0)).ToList();
+        AdvanceSupplyReportPlans(task, list, remaining);
+        task.Plans = remaining;
         RefreshUI(TaskSettingVisibilityInfo.CurrentTask);
     }
 
@@ -180,6 +187,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                     list.Add(new Plan(plan.Role, plan.Name, plan.Elite ?? 0, plan.MainSkillLevel ?? 0, plan.SkillMastery ?? SkillMastery.Of(0, 0, 0), false));
                 }
                 SetTaskConfig<OperProgressTask>(t => t.Plans.SequenceEqual(list), t => t.Plans = list);
+                InvalidateChangedSupplySource(GetTaskConfig<OperProgressTask>());
                 RefreshUI(TaskSettingVisibilityInfo.CurrentTask);
             }
             catch (Exception ex)
@@ -284,6 +292,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         {
             item.RefreshLocalizedText();
         }
+        RefreshSupplyReport();
     }
 
     /// <summary>
@@ -311,17 +320,13 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                 return (null, []);
             }
 
-            var task = new AsstOperProgressTask { Plans = operProgress.Plans };
-            return taskId switch {
-                int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]),
-                null => FromSingle(Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.OperProgress, task)),
-                _ => (null, []),
-            };
+            return Instance.SerializeWithSupplyReport(operProgress, taskId);
         }
     }
 
     private void ProcOperProgressMsg(AsstMsg type, AsstSubTaskMsg? msg)
     {
+        ProcSupplyReportMsg(type, msg);
         if (type != AsstMsg.SubTaskExtraInfo || msg?.TaskChain != nameof(TaskType.OperProgress))
         {
             return;
@@ -392,6 +397,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                     if (isModified)
                     {
                         list[index] = plan;
+                        AdvanceSupplyReportPlans(task, task.Plans, list);
                         task.Plans = [.. list];
                     }
                     var status = msg.Details?["result"]?.ToString() ?? string.Empty;

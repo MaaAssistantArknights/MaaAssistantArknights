@@ -160,6 +160,18 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 - 復刻 SS イベント。`SSReopen-<ステージ プレフィックス>` と入力します。例えば `SSReopen-IC` と入力すると、XX-1～XX-9 ステージを一度に完了できます。
 
 :::  
+::: field wait_for_params  
+@type boolean
+@default false
+@optional
+クライアントによるこのタスクの最終パラメータの確定を待機します。デフォルトは無効です。有効にすると、タスク開始時に `FightAwaitingParameters` コールバックを送信し、確定するまでゲームを操作しません。30 秒を超える待機や停止要求でタスクは失敗終了します。  
+:::  
+::: field params_ready  
+@type boolean
+@default false
+@optional
+`FightAwaitingParameters` を受信したら、完全な作戦パラメータと `params_ready: true` を `AsstSetTaskParams` に渡して実行を許可します。確定待ちのタスクにのみ有効です。`times: 0` でスキップできます。  
+:::  
 ::: field medicine  
 @type number
 @default 0
@@ -1390,6 +1402,24 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 ```
 
 </details>
+
+- `OperProgress`
+  オペレーター育成の任意の素材レポート設定です。
+
+:::: field-group
+::: field report_materials
+@type boolean
+@default false
+@optional
+昇進2のSoC必要数を確認します。無効の場合、追加の素材 OCR やレポートのコールバックは実行されません。この設定自体は素材の周回、購入、加工を行いません。
+:::
+::::
+
+有効にすると、`SubTaskExtraInfo` の `OperProgressMaterialReport` コールバックでレポートを送信します。タスク ID と `details.report_id` で `phase: begin/end` を対応付けます。`details` には `scope: elite_chip_pack`、`target_count`、`complete`、`stopped`、`entries` が含まれます。現在の対象は星5・星6オペレーターの昇進2に必要な上級SoCのみです。
+
+各項目は `plan_index`、`role`、`name` で目標を識別します。`status` は `satisfied`（昇進完了または既に達成済み）、`observed`（必要数を確実に読み取った）、`unknown` のいずれかです。確実な観測には `source: elite_promotion`、`dual_chip_item_id`、`chip_pack_item_id`、`dual_chip_owned`、`dual_chip_required`、`chip_packs_per_dual_chip: 2`、`observation_sequence` が含まれます。`observed` は必ずしも不足を意味しません。不明な数量は省略され、0 と見なしてはいけません。
+
+`end` の `complete: true` かつ `stopped: false` の場合のみ、対象範囲の全目標を確認または達成したことを示します。他の素材の充足は保証しません。在庫は観測時点の共有スナップショットであり、オペレーターごとに重複して差し引いてはいけません。周回前に新しく `Depot` 認識を完了し、未達成目標の上級SoC総必要数を中級SoCに換算して、同じ職分の中級SoCと上級SoCの在庫を一度だけ差し引いてください。
 
 - `Depot`  
   倉庫識別

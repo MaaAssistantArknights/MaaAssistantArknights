@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="GeneralSettings">一般設定</system:String>
@@ -1013,6 +1013,30 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="Ignore">忽略</system:String>
     <system:String x:Key="OperProgress">幹員培養</system:String>
+    <system:String x:Key="CultivationSupply">培養補料</system:String>
+    <system:String x:Key="CultivationSupplyEmpty">目前沒有待補充的晶片組，任務和用藥設定會保留。</system:String>
+    <system:String x:Key="CultivationSupplyManagedTip" xml:space="preserve">材料由關聯的培養目標產生，不能手動修改。&#10;更新清單會保留用藥設定和勾選狀態。</system:String>
+    <system:String x:Key="CultivationSupplyStale">培養目標已變更，請重新執行關聯的幹員培養，再確認更新補料清單。</system:String>
+    <system:String x:Key="CultivationSupplySharedMedicineTip" xml:space="preserve">每次補料執行時，所有材料共用此藥量上限。&#10;額度內使用的臨期藥也計數；啟用額外臨期藥後，額度用盡仍可使用符合期限的藥。</system:String>
+    <system:String x:Key="CultivationSupplyExpiringMedicine">額度用盡後額外使用 48 小時內到期的理智藥</system:String>
+    <system:String x:Key="CultivationSupplyNoStoneTip">補料不會使用源石恢復理智。</system:String>
+    <system:String x:Key="CultivationSupplyInventoryUnavailable">本次倉庫辨識未完成，暫不刷取；保留材料和設定。</system:String>
+    <system:String x:Key="CultivationSupplyPlanCompleted">{0} 已補齊</system:String>
+    <system:String x:Key="CultivationSupplyTargetInventory">已備 {0} / 需要 {1}</system:String>
+    <system:String x:Key="CultivationSupplyTargetInventoryTip">同職業的每個雙晶片按 2 個晶片組計入已備數量。</system:String>
+    <system:String x:Key="OperProgressSupplyReport">本次晶片組缺口</system:String>
+    <system:String x:Key="OperProgressSupplyEnable">顯示培養材料缺口提示</system:String>
+    <system:String x:Key="OperProgressSupplyEnableTip" xml:space="preserve">培養結束後辨識倉庫，顯示本次可確認的精二晶片組缺口。&#10;僅涵蓋已核實的精二晶片組需求，不包含其他材料或晶片助劑。</system:String>
+    <system:String x:Key="OperProgressSupplySet">設定補料</system:String>
+    <system:String x:Key="OperProgressSupplyUpdate">更新補料清單</system:String>
+    <system:String x:Key="OperProgressSupplyConfigured">已設定</system:String>
+    <system:String x:Key="OperProgressSupplyDismiss">忽略本次</system:String>
+    <system:String x:Key="OperProgressSupplyMissingCount">缺 {0}</system:String>
+    <system:String x:Key="OperProgressSupplyScopeTip" xml:space="preserve">依據本次培養後的倉庫辨識計算，已有對應雙晶片按 1:2 換算。&#10;僅包含本次已核實的精二晶片組需求，其他材料和晶片助劑不在此清單內。</system:String>
+    <system:String x:Key="OperProgressSupplySatisfiedTip">本次已核實的晶片組需求均已滿足，可清空舊補料清單並保留任務和設定。</system:String>
+    <system:String x:Key="OperProgressSupplyUnverifiedTip" xml:space="preserve">本次未能完整核對精二需求或倉庫庫存，不能據此更新補料清單。&#10;請下次培養後重新核對。</system:String>
+    <system:String x:Key="OperProgressSupplyConfirmTip" xml:space="preserve">依照以下培養總需求取代補料清單？&#10;數量包含已有庫存，刷取前會重新核對庫存並只補缺口。&#10;&#10;{0}&#10;&#10;更新會保留用藥設定和勾選狀態。</system:String>
+    <system:String x:Key="OperProgressSupplyReplaceSourceTip">這會將現有補料任務改為服務目前的培養任務，並取代原本的材料清單。</system:String>
     <system:String x:Key="OperProgress.SkillLevelTarget">技能等級 {0}</system:String>
     <system:String x:Key="OperProgress.MasteryTarget">技能 {0} 專精 {1}</system:String>
     <system:String x:Key="OperProgress.EliteTarget">精英化 {0}</system:String>

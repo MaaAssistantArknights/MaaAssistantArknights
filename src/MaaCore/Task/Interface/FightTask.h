@@ -2,6 +2,7 @@
 #include "Task/InterfaceTask.h"
 
 #include <memory>
+#include <mutex>
 
 namespace asst
 {
@@ -22,6 +23,19 @@ public:
     virtual ~FightTask() override = default;
 
     virtual bool set_params(const json::value& params) override;
+    virtual bool run() override;
+
+private:
+    enum class ParameterState
+    {
+        Ready,
+        Pending,
+        Waiting,
+        Expired,
+    };
+
+    std::mutex m_parameter_mutex;
+    ParameterState m_parameter_state = ParameterState::Ready;
 
 protected:
     std::shared_ptr<ProcessTask> m_start_up_task_ptr = nullptr;
