@@ -7,6 +7,8 @@ else()
     list(FILTER maa_src EXCLUDE REGEX "OcrPackNcnn\\.cpp$")
 endif()
 
+set(ARPS_NATIVE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Controller/ArpsNative")
+
 if(WITH_MAC_SCK)
     if(APPLE)
         list(APPEND maa_src Controller/MacSCKHelper.mm)
@@ -31,7 +33,11 @@ target_compile_definitions(MaaCore PRIVATE ASST_WITH_EMULATOR_EXTRAS=$<BOOL:${WI
 target_compile_definitions(MaaCore PUBLIC ASST_WITH_EXTRA_CALLERS=$<BOOL:${WITH_EXTRA_CALLERS}>)
 target_compile_definitions(MaaCore PRIVATE ASST_WITH_MAC_SCK=$<BOOL:${WITH_MAC_SCK}>)
 
-target_include_directories(MaaCore PUBLIC ${PROJECT_SOURCE_DIR}/include PRIVATE .)
+target_include_directories(MaaCore PUBLIC ${PROJECT_SOURCE_DIR}/include PRIVATE
+                           .
+                           "${ARPS_NATIVE_DIR}/include"
+                           "${ARPS_NATIVE_DIR}/src"
+                           "${ARPS_NATIVE_DIR}/third_party/lz4")
 add_dependencies(MaaCore MaaUtils)
 if(ANDROID)
     find_package(ncnn REQUIRED)
@@ -46,6 +52,7 @@ if(ANDROID)
 else()
     target_link_libraries(MaaCore HeaderOnlyLibraries MaaUtils ${OpenCV_LIBS} fastdeploy_ppocr ONNXRuntime::ONNXRuntime ZLIB::ZLIB Boost::system)
 endif()
+target_sources(MaaCore PRIVATE "${ARPS_NATIVE_DIR}/third_party/lz4/lz4.c")
 
 if(WIN32)
     target_link_libraries(MaaCore ws2_32 dxgi)
