@@ -2823,6 +2823,15 @@ public class AsstProxy
                 }
 
             /* 生息演算 */
+            case "ReclamationResourceError":
+                {
+                    var reason = subTaskDetails?["reason"]?.ToString() ?? "Recognition";
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat("ReclamationResourceError", LocalizationHelper.GetString($"ReclamationResource{reason}")),
+                        UiLogColor.Error);
+                    break;
+                }
+
             case "ReclamationReport":
                 Instances.TaskQueueViewModel.AddLog(
                     LocalizationHelper.GetString("AlgorithmFinish") + "\n" +
