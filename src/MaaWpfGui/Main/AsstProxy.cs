@@ -3615,6 +3615,9 @@ public class AsstProxy
         /// <summary>理智作战</summary>
         Fight,
 
+        /// <summary>理智作战战斗辅助</summary>
+        BattleAssist,
+
         /// <summary>干员培养</summary>
         OperProgress,
 

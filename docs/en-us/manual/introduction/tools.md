@@ -74,3 +74,4 @@ Built-in features include:
   - Reclamation Algorithm shop exchange
   - Automatically Raise Potential
   - Missing Material Synthesis
+  - Battle Assistance (keeps waiting for personal battles, optionally enables 2× speed, configures the skill scan interval, and uses ready skills; not part of one-click daily tasks)

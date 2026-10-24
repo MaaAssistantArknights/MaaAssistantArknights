@@ -2743,6 +2743,8 @@ public class ToolboxViewModel : Screen
         public bool IsMaterialSynthesis => Value == "MiniGame@MaterialSynthesis@Begin";
 
         public bool IsEventShop => Value == "SS@Store@Begin";
+
+        public bool IsBattleAssist => Value == "BattleAssist";
     }
 
     public static string MaterialSynthesisVideoPath => Path.Combine(PathsHelper.BaseDir, "Res", "Video", "MaterialSynthesis.mp4");
@@ -2803,6 +2805,12 @@ public class ToolboxViewModel : Screen
             })
             .ToList();
 
+        categorizedItems.Add(new MiniGameCategoryItem {
+            Display = LocalizationHelper.GetString("BattleAssist"),
+            Value = "BattleAssist",
+            Category = LocalizationHelper.GetString("MiniGameCategoryPermanentFeature"),
+        });
+
         Execute.OnUIThread(() => {
             var toolbox = Instances.ToolboxViewModel;
             if (toolbox == null)
@@ -2853,6 +2861,11 @@ public class ToolboxViewModel : Screen
 
     private static string GetMiniGameTip(string name)
     {
+        if (name == "BattleAssist")
+        {
+            return LocalizationHelper.GetString("BattleAssistTip");
+        }
+
         if (string.IsNullOrEmpty(name))
         {
             return LocalizationHelper.GetString("MiniGameNameEmptyTip");
@@ -3533,7 +3546,7 @@ public class ToolboxViewModel : Screen
         {
             _runningState.SetIdle(true);
         }
-        else
+        else if (SelectedMiniGameItem?.IsBattleAssist != true)
         {
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.SlackingOff);
         }
@@ -3556,6 +3569,19 @@ public class ToolboxViewModel : Screen
     /// <returns>任务是否成功提交。</returns>
     private bool StartSelectedMiniGame()
     {
+        if (SelectedMiniGameItem?.IsBattleAssist == true)
+        {
+            var task = new AsstBattleAssistTask {
+                AutoUseSkills = BattleAssistAutoUseSkills,
+                AutoSpeedUp = BattleAssistAutoSpeedUp,
+                SkillScanIntervalMs = (int)Math.Round(BattleAssistSkillScanInterval * 1000),
+            };
+            var appendResult = Instances.AsstProxy.AsstAppendTaskWithEncoding(
+                AsstProxy.TaskType.BattleAssist,
+                task);
+            return appendResult.IsSuccess && Instances.AsstProxy.AsstStart();
+        }
+
         if (IsPixelPaintSelected)
         {
             return StartPixelPaint();
@@ -3572,6 +3598,55 @@ public class ToolboxViewModel : Screen
         }
 
         return Instances.AsstProxy.AsstMiniGame(GetMiniGameTask());
+    }
+
+    /// <summary>
+    /// Gets or sets 牛杂常驻战斗辅助是否自动使用就绪技能。
+    /// </summary>
+    public bool BattleAssistAutoUseSkills
+    {
+        get => ConfigFactory.CurrentConfig.Toolbox.BattleAssistAutoUseSkills;
+        set {
+            if (ConfigFactory.CurrentConfig.Toolbox.BattleAssistAutoUseSkills == value)
+            {
+                return;
+            }
+            ConfigFactory.CurrentConfig.Toolbox.BattleAssistAutoUseSkills = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets 牛杂常驻战斗辅助是否自动开启二倍速。
+    /// </summary>
+    public bool BattleAssistAutoSpeedUp
+    {
+        get => ConfigFactory.CurrentConfig.Toolbox.BattleAssistAutoSpeedUp;
+        set {
+            if (ConfigFactory.CurrentConfig.Toolbox.BattleAssistAutoSpeedUp == value)
+            {
+                return;
+            }
+            ConfigFactory.CurrentConfig.Toolbox.BattleAssistAutoSpeedUp = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets 牛杂常驻战斗辅助的技能检查间隔，单位为秒。
+    /// </summary>
+    public double BattleAssistSkillScanInterval
+    {
+        get => ConfigFactory.CurrentConfig.Toolbox.BattleAssistSkillScanInterval;
+        set {
+            var normalized = Math.Round(Math.Clamp(value, 0.5, 30.0), 1);
+            if (ConfigFactory.CurrentConfig.Toolbox.BattleAssistSkillScanInterval == normalized)
+            {
+                return;
+            }
+            ConfigFactory.CurrentConfig.Toolbox.BattleAssistSkillScanInterval = normalized;
+            NotifyOfPropertyChange();
+        }
     }
 
     /// <summary>活动商店启动：提交自定义及游戏客户端语言下的预设黑名单关键词。</summary>

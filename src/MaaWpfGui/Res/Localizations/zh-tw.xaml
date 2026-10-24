@@ -1008,6 +1008,14 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Combat">刷理智</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="Ignore">忽略</system:String>
+    <system:String x:Key="BattleAssist">戰鬥輔助</system:String>
+    <system:String x:Key="BattleAssistTip">啟用並啟動後，會持續等待個人進行的任意戰鬥，自動切換二倍速並釋放已就緒技能，戰鬥結束後繼續等待下一場，直到手動停止。理智作戰掃蕩不受影響。</system:String>
+    <system:String x:Key="AutoUseSkills">自動開技能</system:String>
+    <system:String x:Key="AutoUseSkillsTip">按設定的檢查間隔掃描場上所有已部署幹員，技能就緒後立即點擊。不會區分技能類型，可能不適合需要手動對軸的關卡。</system:String>
+    <system:String x:Key="BattleAssistSkillScanInterval">技能檢查間隔（秒）</system:String>
+    <system:String x:Key="BattleAssistSkillScanIntervalTip">自動開技能開啟時，每隔這裡設定的秒數檢查一次場上是否有就緒技能。範圍 0.5–30 秒，預設 1.5 秒；間隔越短，辨識和點擊頻率越高。</system:String>
+    <system:String x:Key="AutoSpeedUp">開局自動二倍速</system:String>
+    <system:String x:Key="AutoSpeedUpTip">戰鬥開始後檢查目前倍速，不是二倍速時自動切換。</system:String>
     <system:String x:Key="OperProgress">幹員培養</system:String>
     <system:String x:Key="OperProgress.SkillLevelTarget">技能等級 {0}</system:String>
     <system:String x:Key="OperProgress.MasteryTarget">技能 {0} 專精 {1}</system:String>

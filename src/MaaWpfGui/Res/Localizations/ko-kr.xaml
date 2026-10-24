@@ -1009,6 +1009,14 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Combat">이성 사용</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="Ignore">무시</system:String>
+    <system:String x:Key="BattleAssist">전투 보조</system:String>
+    <system:String x:Key="BattleAssistTip">사용하고 시작하면 모든 스테이지의 개인 전투를 기다리며 2배속과 스킬 자동 사용을 수행합니다. 전투가 끝나도 중지할 때까지 다음 전투를 계속 기다립니다. 이성 작전 반복에는 영향을 주지 않습니다.</system:String>
+    <system:String x:Key="AutoUseSkills">스킬 자동 사용</system:String>
+    <system:String x:Key="AutoUseSkillsTip">설정한 확인 간격으로 전장의 모든 배치된 오퍼레이터를 스캔하여 스킬이 준비되면 즉시 사용합니다. 스킬 유형을 구분하지 않으므로 수동 타이밍이 필요한 스테이지에는 적합하지 않을 수 있습니다.</system:String>
+    <system:String x:Key="BattleAssistSkillScanInterval">스킬 확인 간격(초)</system:String>
+    <system:String x:Key="BattleAssistSkillScanIntervalTip">스킬 자동 사용이 켜져 있을 때 설정한 초마다 전장에서 준비된 스킬을 확인합니다. 범위는 0.5~30초이며 기본값은 1.5초입니다. 간격이 짧을수록 인식과 클릭 빈도가 높아집니다.</system:String>
+    <system:String x:Key="AutoSpeedUp">전투 시작 시 2배속</system:String>
+    <system:String x:Key="AutoSpeedUpTip">전투 시작 후 현재 배속을 확인하고 2배속이 아니면 자동으로 전환합니다.</system:String>
     <system:String x:Key="OperProgress">오퍼레이터 육성</system:String>
     <system:String x:Key="OperProgress.SkillLevelTarget">스킬 레벨 {0}</system:String>
     <system:String x:Key="OperProgress.MasteryTarget">스킬 {0}, 마스터리 {1}</system:String>

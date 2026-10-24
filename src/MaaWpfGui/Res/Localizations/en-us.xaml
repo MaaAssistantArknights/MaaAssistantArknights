@@ -1008,6 +1008,14 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="Combat">Combat</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="Ignore">Ignore</system:String>
+    <system:String x:Key="BattleAssist">Battle assistance</system:String>
+    <system:String x:Key="BattleAssistTip">After enabling and starting this task, it keeps waiting for personal battles on any stage, switches to 2× speed, and activates ready skills. It continues waiting for the next battle until stopped. Fight-task sweep replay is unaffected.</system:String>
+    <system:String x:Key="AutoUseSkills">Auto-activate skills</system:String>
+    <system:String x:Key="AutoUseSkillsTip">Scans all deployed operators at the configured interval and activates ready skills immediately. Skill types are not distinguished, so stages that require manual skill timing may not work well.</system:String>
+    <system:String x:Key="BattleAssistSkillScanInterval">Skill scan interval (seconds)</system:String>
+    <system:String x:Key="BattleAssistSkillScanIntervalTip">When auto-activating skills is enabled, the battlefield is checked for ready skills at this interval. The range is 0.5–30 seconds and the default is 1.5 seconds. Shorter intervals increase recognition and click frequency.</system:String>
+    <system:String x:Key="AutoSpeedUp">Start battles at 2× speed</system:String>
+    <system:String x:Key="AutoSpeedUpTip">Checks the current battle speed after the battle starts and switches to 2× speed when necessary.</system:String>
     <system:String x:Key="OperProgress">Operator Progression</system:String>
     <system:String x:Key="OperProgress.SkillLevelTarget">Skill level {0}</system:String>
     <system:String x:Key="OperProgress.MasteryTarget">Skill {0}, mastery {1}</system:String>

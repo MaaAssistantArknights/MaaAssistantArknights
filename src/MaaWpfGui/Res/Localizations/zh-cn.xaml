@@ -1008,6 +1008,14 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Infrast">{key=Base}</system:String>
     <system:String x:Key="Combat">理智作战</system:String>
     <system:String x:Key="Fight">{key=Combat}</system:String>
+    <system:String x:Key="BattleAssist">战斗辅助</system:String>
+    <system:String x:Key="BattleAssistTip">启用并启动后，会持续等待个人进行的任意战斗，自动切换二倍速并释放已就绪技能，战斗结束后继续等待下一场，直到手动停止。理智作战扫荡不受影响。</system:String>
+    <system:String x:Key="AutoUseSkills">自动开技能</system:String>
+    <system:String x:Key="AutoUseSkillsTip">按设置的检查间隔扫描场上所有已部署干员，技能就绪后立即点击。不会区分技能类型，可能不适合需要手动对轴的关卡。</system:String>
+    <system:String x:Key="BattleAssistSkillScanInterval">技能检查间隔（秒）</system:String>
+    <system:String x:Key="BattleAssistSkillScanIntervalTip">自动开技能开启时，每隔这里设置的秒数检查一次场上是否有就绪技能。范围 0.5–30 秒，默认 1.5 秒；间隔越短，识别和点击频率越高。</system:String>
+    <system:String x:Key="AutoSpeedUp">开局自动二倍速</system:String>
+    <system:String x:Key="AutoSpeedUpTip">战斗开始后检查当前倍速，不是二倍速时自动切换。</system:String>
     <system:String x:Key="Ignore">忽略</system:String>
     <system:String x:Key="OperProgress">干员培养</system:String>
     <system:String x:Key="OperProgress.SkillLevelTarget">技能等级 {0}</system:String>
