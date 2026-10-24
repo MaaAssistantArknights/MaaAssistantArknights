@@ -9,6 +9,9 @@
 #include "Assistant.h"
 #include "Common/AsstTypes.h"
 #include "Config/ResourceLoader.h"
+#ifdef ASST_SMOKE_TESTING
+#include "Task/Interface/DebugTask.h"
+#endif
 #include "Utils/Logger.hpp"
 #include "Utils/WorkingDir.hpp"
 
@@ -330,3 +333,10 @@ void AsstLog(const char* level, const char* message)
     }
     Log.log(asst::Logger::level(level), message);
 }
+
+#ifdef ASST_SMOKE_TESTING
+extern "C" void ASSTAPI AsstReleaseLifecycleTest()
+{
+    asst::DebugTask::release_lifecycle_test();
+}
+#endif

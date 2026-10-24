@@ -1,10 +1,97 @@
 #include "AsstCaller.h"
 
+#include <array>
+#include <chrono>
+#include <condition_variable>
+#include <cstdlib>
 #include <filesystem>
+#include <future>
 #include <iostream>
+#include <mutex>
 #include <stdio.h>
 #include <string>
 #include <thread>
+
+#ifdef SMOKE_TESTING
+extern "C" void ASSTAPI AsstReleaseLifecycleTest();
+
+namespace
+{
+constexpr AsstMsgId TaskChainStart = 10'001;
+constexpr AsstMsgId SubTaskExtraInfo = 20'003;
+
+struct LifecycleTestState
+{
+    std::mutex mutex;
+    std::condition_variable changed;
+    int start_count = 0;
+    bool stop_observed = false;
+};
+
+void ASST_CALL lifecycle_test_callback(AsstMsgId msg, const char*, void* custom_arg)
+{
+    if (custom_arg == nullptr) {
+        return;
+    }
+
+    auto& state = *static_cast<LifecycleTestState*>(custom_arg);
+    {
+        std::lock_guard<std::mutex> lock(state.mutex);
+        if (msg == TaskChainStart) {
+            ++state.start_count;
+        }
+        else if (msg == SubTaskExtraInfo) {
+            state.stop_observed = true;
+        }
+    }
+    state.changed.notify_one();
+}
+
+bool run_lifecycle_cycle(AsstHandle handle, LifecycleTestState& state, int expected_start_count)
+{
+    {
+        std::lock_guard<std::mutex> lock(state.mutex);
+        state.stop_observed = false;
+    }
+    if (AsstAppendTask(handle, "Debug", R"({"mode":"lifecycle"})") <= 0 ||
+        AsstAppendTask(handle, "Debug", R"({"mode":"lifecycle"})") <= 0 || !AsstStart(handle)) {
+        return false;
+    }
+
+    {
+        std::unique_lock<std::mutex> lock(state.mutex);
+        if (!state.changed.wait_for(lock, std::chrono::seconds(5), [&state, expected_start_count]() {
+                return state.start_count >= expected_start_count;
+            })) {
+            return false;
+        }
+    }
+
+    auto stop_result = std::async(std::launch::async, [handle]() { return AsstStop(handle) != 0; });
+    {
+        std::unique_lock<std::mutex> lock(state.mutex);
+        if (!state.changed.wait_for(lock, std::chrono::seconds(5), [&state]() { return state.stop_observed; })) {
+            std::cerr << "task did not observe stop" << std::endl;
+            std::quick_exit(-1);
+        }
+    }
+
+    const bool stop_returned_before_task_exit =
+        stop_result.wait_for(std::chrono::seconds(0)) == std::future_status::ready;
+    AsstReleaseLifecycleTest();
+    if (stop_result.wait_for(std::chrono::seconds(5)) != std::future_status::ready) {
+        std::cerr << "stop timed out" << std::endl;
+        std::quick_exit(-1);
+    }
+    if (stop_returned_before_task_exit || !stop_result.get() || AsstRunning(handle)) {
+        return false;
+    }
+
+    std::array<AsstTaskId, 1> tasks {};
+    return AsstGetTasksList(handle, tasks.data(), tasks.size()) == 0;
+}
+}
+#endif
 
 int main([[maybe_unused]] int argc, char** argv)
 {
@@ -43,14 +130,24 @@ int main([[maybe_unused]] int argc, char** argv)
     }
 #endif
 
+#ifdef SMOKE_TESTING
+    LifecycleTestState lifecycle_state;
+    auto ptr = AsstCreateEx(lifecycle_test_callback, &lifecycle_state);
+#else
     auto ptr = AsstCreate();
+#endif
     if (ptr == nullptr) {
         std::cerr << "create failed" << std::endl;
         return -1;
     }
 
 #ifdef SMOKE_TESTING
-    std::cout << "Ended early for smoke testing." << std::endl;
+    if (!run_lifecycle_cycle(ptr, lifecycle_state, 1) || !run_lifecycle_cycle(ptr, lifecycle_state, 2)) {
+        std::cerr << "assistant lifecycle smoke test failed" << std::endl;
+        AsstDestroy(ptr);
+        return -1;
+    }
+    std::cout << "Assistant lifecycle smoke test passed." << std::endl;
     AsstDestroy(ptr);
     return 0;
 #endif
