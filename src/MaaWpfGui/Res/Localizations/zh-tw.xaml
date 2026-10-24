@@ -145,7 +145,7 @@
     <system:String x:Key="GuideGitHubIssueDescription">MAA Team 僅受理使用者透過 GitHub 平台依照 Issue 範本規範提交的回饋，並保留對所有回饋的處理決定權。</system:String>
     <system:String x:Key="GuideOpenSourceTitle">💡 參與開源</system:String>
     <system:String x:Key="GuideOpenSourceDescription">作為開源專案，使用者可依據 AGPL-3.0 許可證在 GitHub 平台參與 MAA 的開發。MAA Team 鼓勵使用者透過更有價值的程式碼貢獻代替問題回饋。</system:String>
-    <system:String x:Key="GuideUserAgreement">使用 MAA 即表示您同意遵守 ｢使用者協議｣ ，完整協議內容可在官網底部的連結中查看。</system:String>
+    <system:String x:Key="GuideUserAgreement">使用 MAA 即表示您同意遵守 ｢使用者協議｣，完整協議內容可在官網底部的連結中查看。</system:String>
     <system:String x:Key="RestartGuide">重看設定指引</system:String>
     <system:String x:Key="RestartGuidePrompt">設定指引將在主介面顯示，是否立即重新啟動應用程式？</system:String>
     <!--  !設定指引  -->
@@ -224,7 +224,7 @@
     <system:String x:Key="InfrastModeRotationTip">使用隊列輪換需提前在遊戲中設定好隊列</system:String>
     <system:String x:Key="InfrastModeRotationToolTip" xml:space="preserve"> ｢{key=InfrastModeRotation}｣ 的換班邏輯與遊戲內基建右下角的 ｢{key=InfrastModeRotation}｣ 完全一致：
 當目前班次中任意幹員心情值為 0 時，會整隊替換為下一班幹員。
-若需自訂輪換班次，請使用 ｢{key=InfrastModeCustom}｣ 。</system:String>
+若需自訂輪換班次，請使用 ｢{key=InfrastModeCustom}｣。</system:String>
     <system:String x:Key="InfrastModeCustom">自訂基建排班</system:String>
     <system:String x:Key="DefaultInfrast">內建排班</system:String>
     <system:String x:Key="UserDefined">自訂</system:String>
@@ -770,7 +770,7 @@ D:\
 4. 目前難度 ≥ N15 時，6★ 幹員希望消耗 +1，使用部分分隊時可能無法招募開局 6★ 幹員，導致出錯或失敗</system:String>
     <system:String x:Key="RoguelikeThemeTipBlackFlow" xml:space="preserve">{key=RoguelikeThemeBlackFlow}推薦配置：
 
-{key=StartingCoreChar}: 機械師（必須精二並解鎖 ｢招募精通 II｣ 天賦的 ｢效果提升 II｣ ）
+{key=StartingCoreChar}: 機械師（必須精二並解鎖 ｢招募精通 II｣ 天賦的 ｢效果提升 II｣）
 {key=StartingSquad}: ｢{key=SpecialForceSquad}｣ / ｢{key=TacticalFortificationOperative}｣
 {key=StartingRoles}: ｢{key=SlowAndSteadyWinsTheRace}｣ / ｢{key=Unbreakable}｣
 
@@ -780,7 +780,7 @@ D:\
     招募到機械師後為保證效率不再檢查精英化狀態，直接按精二執行策略，
     所選機械師未精二會卡住甚至死循環，必須使用精二機械師；
     且通關一次前部分事件的選項會不同，遇到可能卡死；先通關一次 N1 即可同時滿足精二與事件選項的前提，相對簡單
-2. 必須解鎖 ｢招募精通 II｣ 天賦的 ｢效果提升 II｣ ，開局才會攜帶 ｢結構性原理｣ 零件（全圖任意飛 3 次）；
+2. 必須解鎖 ｢招募精通 II｣ 天賦的 ｢效果提升 II｣，開局才會攜帶 ｢結構性原理｣ 零件（全圖任意飛 3 次）；
     解鎖很簡單，精二後累計賣出 10 個零件即可
 3. 刷等級時，機械師（必須精二）+ 上述分隊與職業組 + 重裝券，可以快速飛完三層
 4. 沒有精二機械師就不要選機械師，否則會卡住或死循環；不選機械師可以正常刷錢，但戰鬥大概率暴斃，其他策略待後續優化
@@ -840,7 +840,7 @@ D:\
     <system:String x:Key="CreditFightTip" xml:space="preserve">訪問好友後借助戰打一把 OF-1 賺 30 信用。
 關卡選擇為 ｢{key=DefaultStage}｣ 時此功能無效。
 別傳 ｢火藍之心｣ 關卡 OF-1 未解鎖時請勿勾選。</system:String>
-    <system:String x:Key="CreditFightWhenOF-1Warning">當 ｢{key=Fight}｣ 任務關卡列表中已包含 ｢{key=DefaultStage}｣ 時， ｢{key=Mall}｣ 任務將不再借助戰打一把 OF-1。任務名稱: {0} (序號{1}), 關卡序號 {2}</system:String>
+    <system:String x:Key="CreditFightWhenOF-1Warning">當 ｢{key=Fight}｣ 任務關卡列表中已包含 ｢{key=DefaultStage}｣ 時，｢{key=Mall}｣ 任務將不再借助戰打一把 OF-1。任務名稱: {0} (序號{1}), 關卡序號 {2}</system:String>
     <system:String x:Key="HighPriority">優先購買（子字串即可，分號分隔）</system:String>
     <system:String x:Key="Blacklist">黑名單（子字串即可，分號分隔）</system:String>
     <system:String x:Key="MiniGame@EventShop@BlacklistTip">勾選的商品將加入黑名單</system:String>
@@ -1376,9 +1376,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@SPATip" xml:space="preserve">在活動主介面（有 ｢獨立模擬｣ 處）開始任務。
 在有存檔時需要先手動放棄
 最高只測試過 ｢險境模擬｣
-如果已通關更高難度導致看不到 ｢險境模擬｣ 或 ｢標準模擬｣ ，需手動選擇一次 ｢險境模擬｣ 難度
+如果已通關更高難度導致看不到 ｢險境模擬｣ 或 ｢標準模擬｣，需手動選擇一次 ｢險境模擬｣ 難度
 手動通關 ｢標準模擬｣ 可以更快刷分。
-只能刷等級獎勵，拿蝕刻章得打完所有的 ｢關鍵目標｣ 。</system:String>
+只能刷等級獎勵，拿蝕刻章得打完所有的 ｢關鍵目標｣。</system:String>
     <system:String x:Key="MiniGame@OS">OS-喀蘭貿易技術研發部</system:String>
     <system:String x:Key="MiniGame@OSTip">在活動主介面（右下角有 ｢開始重建｣ 處）開始任務。</system:String>
     <system:String x:Key="MiniGame@RM-TR-1">次生方案 RM-TR-1</system:String>
@@ -1399,7 +1399,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@SecretFront@Event2">遊俠</system:String>
     <system:String x:Key="MiniGame@SecretFront@Event3">詭影迷蹤</system:String>
     <system:String x:Key="MiniGame@SecretFront">隱秘戰線</system:String>
-    <system:String x:Key="MiniGame@SecretFrontTip">在選擇小隊介面開始，如有存檔須手動刪除。&#10;第一次打請先看完教學後關閉。&#10;推薦勾選遊戲內 ｢繼承上一支隊伍發回的資料｣ 。</system:String>
+    <system:String x:Key="MiniGame@SecretFrontTip">在選擇小隊介面開始，如有存檔須手動刪除。&#10;第一次打請先看完教學後關閉。&#10;推薦勾選遊戲內 ｢繼承上一支隊伍發回的資料｣。</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis">缺口材料合成</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesisTip" xml:space="preserve">請先手動從培養頁面(如精英化、專精、模組升級)缺少的材料彈窗跳轉到加工站合成頁，再開始任務。&#10;會遞迴合成可加工的下級材料，材料不足時停止。</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@DemoVideo">演示影片</system:String>
@@ -1461,7 +1461,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@CursedRelicTip" xml:space="preserve">請從傀影肉鴿主選單中 ｢探索｣ 按鈕可見的狀態開始。</system:String>
 
     <system:String x:Key="MiniGameNameGreenTicketStore">綠票商店</system:String>
-    <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">第 1 層全買。&#10;第 2 層買 ｢尋訪憑證｣ 和 ｢招聘許可｣ 。</system:String>
+    <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">第 1 層全買。&#10;第 2 層買 ｢尋訪憑證｣ 和 ｢招聘許可｣。</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">黃票商店</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStoreTip" xml:space="preserve">請確保自己至少有 258 張黃票。</system:String>
     <system:String x:Key="MiniGameNameSsStore">活動商店</system:String>
@@ -1618,7 +1618,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ErrorCrashMessageHeader">以上問題導致程式異常關閉。</system:String>
     <system:String x:Key="ErrorCrashMessageOpenLog">您可以前往 ｢{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}｣ 查看日誌，了解錯誤發生的具體原因。</system:String>
     <system:String x:Key="ErrorCrashMessageGenerateReport">請使用 ｢{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}｣ 產生錯誤報告，並點擊藍色的 ｢{key=Issue}｣ 連結提交回報。若程式已關閉無法使用該功能，可手動打包 debug、config、cache 資料夾回報。</system:String>
-    <system:String x:Key="ErrorCrashMessageHelpTip">若要尋求協助，請直接發送產生的  ｢錯誤報告檔案｣ ；請勿發送此視窗的截圖、錄影、螢幕照片、翻拍影片、手繪圖片或抄寫的內容。上傳至 GitHub 時單一附件不能超過 20 MB，超限請分卷壓縮。</system:String>
+    <system:String x:Key="ErrorCrashMessageHelpTip">若要尋求協助，請直接發送產生的  ｢錯誤報告檔案｣；請勿發送此視窗的截圖、錄影、螢幕照片、翻拍影片、手繪圖片或抄寫的內容。上傳至 GitHub 時單一附件不能超過 20 MB，超限請分卷壓縮。</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">上次程式異常關閉的原因</system:String>
     <system:String x:Key="CopyErrorMessage">複製錯誤資訊</system:String>
     <!--  !ErrorView  -->
@@ -1696,7 +1696,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="GiveUpUploadingPenguins">放棄上傳企鵝物流</system:String>
     <system:String x:Key="ReportSkippedForPcClient">PC 端滑鼠為獨立渲染，可能遮擋掉落物及數量辨識。為避免錯誤資料污染資料池，已自動跳過本次回報{0}</system:String>
     <system:String x:Key="TheEx">無獎勵關卡，已停止</system:String>
-    <system:String x:Key="MissingOperators">以下{key=Operator}組內的{key=Operator}均未擁有（每組只需其一）或未達作業要求：\n{0}｢特別關注｣ 可能影響{key=Operator}辨識，若實際已擁有，可移除 ｢特別關注｣ 後重試，或關閉 ｢{key=AutoSquad}｣ 手動補充；若確實未擁有，僅缺一組時可使用 ｢{key=SupportUnitUsage}｣，缺兩組以上請更換作業。</system:String>
+    <system:String x:Key="MissingOperators">以下{key=Operator}組內的{key=Operator}均未擁有（每組只需其一）或未達作業要求：\n{0} ｢特別關注｣ 可能影響{key=Operator}辨識，若實際已擁有，可移除 ｢特別關注｣ 後重試，或關閉 ｢{key=AutoSquad}｣ 手動補充；若確實未擁有，僅缺一組時可使用 ｢{key=SupportUnitUsage}｣，缺兩組以上請更換作業。</system:String>
     <system:String x:Key="RecruitSupportOperator">編入助戰{key=Operator}：{0}</system:String>
     <system:String x:Key="StageQueue">關卡佇列：</system:String>
     <system:String x:Key="UnableToAgent">無法使用代理指揮</system:String>
@@ -1803,7 +1803,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowNodeSacrifice">奉獻節點</system:String>
     <system:String x:Key="BlackFlowNodeWish">得償所願</system:String>
     <system:String x:Key="BlackFlowNodeBoskyPassage">誤入奇境</system:String>
-    <system:String x:Key="BlackFlowNodeResidentStronghold">｢居民｣據點</system:String>
+    <system:String x:Key="BlackFlowNodeResidentStronghold">｢居民｣ 據點</system:String>
     <system:String x:Key="BlackFlowNodeFinal">險路盡頭</system:String>
     <system:String x:Key="BlackFlowNodeFate">命運所指</system:String>
     <system:String x:Key="BlackFlowNodeEvacuate">撤離點</system:String>
@@ -1971,7 +1971,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BattleFormationOperboxMatched">預匹配的{key=Operator}（組）：</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">追加自訂{key=Operator}名稱無效：{0}，請檢查拼寫</system:String>
     <system:String x:Key="CopilotOperboxDataParseFailed">{key=OperBoxRecognition}資料解析失敗</system:String>
-    <system:String x:Key="CopilotOperboxAssistRequiresYituliuData">目前沒有可用的一圖流幹員資料，無法輔助編隊。請先從一圖流取得幹員資料，或關閉 ｢{key=Copilot.UseOperBoxAssist}｣ 。</system:String>
+    <system:String x:Key="CopilotOperboxAssistRequiresYituliuData">目前沒有可用的一圖流幹員資料，無法輔助編隊。請先從一圖流取得幹員資料，或關閉 ｢{key=Copilot.UseOperBoxAssist}｣。</system:String>
     <system:String x:Key="CurrentSteps">目前步驟：{0} {1}</system:String>
     <system:String x:Key="ElapsedTime">經過時間：{0}ms</system:String>
     <system:String x:Key="Deploy">部署</system:String>
@@ -2390,7 +2390,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
 
     <system:String x:Key="Achievement.SanityExpire.Title">要過期了</system:String>
     <system:String x:Key="Achievement.SanityExpire.Description">趕緊衝哇！！</system:String>
-    <system:String x:Key="Achievement.SanityExpire.Conditions">使用 ｢{key=UseExpiringMedicine}｣ ，單次任務使用 8 瓶及以上即期理智藥</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Conditions">使用 ｢{key=UseExpiringMedicine}｣，單次任務使用 8 瓶及以上即期理智藥</system:String>
 
     <system:String x:Key="Achievement.OverLimitAgent.Title">超限代理</system:String>
     <system:String x:Key="Achievement.OverLimitAgent.Description">你進行了一次能將大道磨滅的代理任務。</system:String>

@@ -105,8 +105,8 @@
     <system:String x:Key="GpuOptionDisable">使用しない</system:String>
     <system:String x:Key="GpuOptionSystemDefault">システムデフォルトGPU</system:String>
     <system:String x:Key="GpuDeprecatedMessage">現在選択されている推論加速 GPU（{0}）には互換性の問題があり、認識ミスやずれ、その他の予期しない不具合が発生する可能性があります。\n ｢{key=Settings} - {key=PerformanceSettings}｣ で別の GPU に変更することをおすすめします。</system:String>
-    <system:String x:Key="GpuDriverOutdatedMessage">現在選択されている推論加速 GPU（{0}）のドライバーバージョン（{1}、リリース日：{2}）は{3}年以上経過しており、互換性の問題が発生する可能性があります。\nグラフィックスドライバーを更新するか、 ｢{key=Settings} - {key=PerformanceSettings}｣ で別の GPU に変更することをおすすめします。</system:String>
-    <system:String x:Key="GpuDriverInfoUnavailableMessage">現在選択されている推論加速 GPU（{0}）のドライバー情報を読み取れません。ドライバーが正しくインストールされていないか異常な状態である可能性があり、互換性の問題が発生する可能性があります。\nグラフィックスドライバーを更新または再インストールするか、 ｢{key=Settings} - {key=PerformanceSettings}｣ で別の GPU に変更することをおすすめします。</system:String>
+    <system:String x:Key="GpuDriverOutdatedMessage">現在選択されている推論加速 GPU（{0}）のドライバーバージョン（{1}、リリース日：{2}）は{3}年以上経過しており、互換性の問題が発生する可能性があります。\nグラフィックスドライバーを更新するか、｢{key=Settings} - {key=PerformanceSettings}｣ で別の GPU に変更することをおすすめします。</system:String>
+    <system:String x:Key="GpuDriverInfoUnavailableMessage">現在選択されている推論加速 GPU（{0}）のドライバー情報を読み取れません。ドライバーが正しくインストールされていないか異常な状態である可能性があり、互換性の問題が発生する可能性があります。\nグラフィックスドライバーを更新または再インストールするか、｢{key=Settings} - {key=PerformanceSettings}｣ で別の GPU に変更することをおすすめします。</system:String>
     <system:String x:Key="GpuAllowDeprecated">非推奨 GPU の使用を許可する</system:String>
     <system:String x:Key="Copy">コピー</system:String>
     <!--  Toast 不可用  -->
@@ -145,7 +145,7 @@
     <system:String x:Key="GuideGitHubIssueDescription">MAA Team は、Issue テンプレートの仕様に従って GitHub プラットフォームを通じてユーザーから提出されたフィードバックのみを受け付け、すべてのフィードバックの処理に関する決定権を留保します。</system:String>
     <system:String x:Key="GuideOpenSourceTitle">💡 オープンソースへの参加</system:String>
     <system:String x:Key="GuideOpenSourceDescription">オープンソースプロジェクトとして、ユーザーは AGPL-3.0 ライセンスの下で GitHub プラットフォーム上で MAA の開発に参加できます。MAA Team は、問題報告の代わりに価値あるコード貢献をすることを推奨しています。</system:String>
-    <system:String x:Key="GuideUserAgreement">MAA を使用することにより、 ｢利用規約｣ に同意したものとみなされます。完全な規約は、公式サイトの下部のリンクからご覧いただけます。</system:String>
+    <system:String x:Key="GuideUserAgreement">MAA を使用することにより、｢利用規約｣ に同意したものとみなされます。完全な規約は、公式サイトの下部のリンクからご覧いただけます。</system:String>
     <system:String x:Key="RestartGuide">設定ガイドを再表示</system:String>
     <system:String x:Key="RestartGuidePrompt">設定ガイドはメイン画面に表示されます。今すぐアプリケーションを再起動しますか？</system:String>
     <!--  !設定ガイド  -->
@@ -242,7 +242,7 @@
     <system:String x:Key="CustomInfrastTitle" xml:space="preserve">基地構成ファイルの設定: </system:String>
     <system:String x:Key="CustomInfrastPlan">基地計画</system:String>
     <system:String x:Key="CustomInfrastPlanToolTip">
-        ｢{key=CustomInfrastPlan}｣に実行時間が設定されている場合、｢{key=Base}｣タスク開始前やタスク実行中には自動で切り替わらず、{key=LinkStart}時点の状態を維持します。切り替えはアイドル時またはタスク完了後のみ行われます。
+        ｢{key=CustomInfrastPlan}｣ に実行時間が設定されている場合、｢{key=Base}｣ タスク開始前やタスク実行中には自動で切り替わらず、{key=LinkStart}時点の状態を維持します。切り替えはアイドル時またはタスク完了後のみ行われます。
     </system:String>
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">次の計画を自動保存</system:String>
     <system:String x:Key="CustomizeInfrastSelectionEmpty">カスタム施設設定が空です。設定を確認するか、カスタマイズ機能をオフにしてください。</system:String>
@@ -289,7 +289,7 @@
     <system:String x:Key="RoguelikeBlackFlowSerpentRewardsInactive">襁褓の羽蛇を選んだ場合のみ有効</system:String>
     <system:String x:Key="RoguelikeBlackFlowPrepSquad">準備用探索の分隊</system:String>
     <system:String x:Key="RoguelikeBlackFlowStartUtopia">第1層の实托邦（第1層の種類）を厳選</system:String>
-    <system:String x:Key="RoguelikeBlackFlowStartUtopiaTip" xml:space="preserve">目標の探索で支援画面に狙う報酬が出たら、 ｢{key=RoguelikeBlackFlowStartRewardPriority}｣ の順にカードを選んで第1層に入ります。&#10;第1層が实托邦ならこの探索を保持したまま退出し、そうでなければこの探索を放棄して準備用探索をやり直します。&#10;目標の探索は一般設定の職業と最初のオペレーターで開局します。&#10;難易度6以上が必要です。&#10;難易度を切り替えない設定では難易度を確認しません。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartUtopiaTip" xml:space="preserve">目標の探索で支援画面に狙う報酬が出たら、｢{key=RoguelikeBlackFlowStartRewardPriority}｣ の順にカードを選んで第1層に入ります。&#10;第1層が实托邦ならこの探索を保持したまま退出し、そうでなければこの探索を放棄して準備用探索をやり直します。&#10;目標の探索は一般設定の職業と最初のオペレーターで開局します。&#10;難易度6以上が必要です。&#10;難易度を切り替えない設定では難易度を確認しません。</system:String>
     <system:String x:Key="RoguelikeBlackFlowStartRewardPriority">初期報酬の選択優先順位</system:String>
     <system:String x:Key="RoguelikeBlackFlowStartRewardPriorityTip" xml:space="preserve">ドラッグで順序を変更します。&#10;支援画面に出ているカードのうち、上にあるものから選びます。&#10;順序は上の動物や報酬の選択とは関係ありません。&#10;｢{key=RoguelikeBlackFlowCultivationTargetFeatheredSerpent}｣ を指定していなくても連れていることがあるため、羽蛇の報酬も並べています。</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardUnnumberedItem">番号なしの品（仮）</system:String>
@@ -568,7 +568,7 @@
     <system:String x:Key="ForceGithubGlobalSourceTip">更新を検出後、Githubから強制的に更新パッケージをダウンロード</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanSelectedButNoCdk">｢{key=Settings} - {key=UpdateSettings}｣ に移動して MirrorChyan CDK を設定するか、グローバル ソースに切り替えてください。</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">リソース更新 {0} が検出されました。 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ に移動して手動で更新するか、MirrorChyan CDK を入力して自動的に更新してください。</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">リソース更新 {0} が検出されました。｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ に移動して手動で更新するか、MirrorChyan CDK を入力して自動的に更新してください。</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateShortTip">リソース更新 {0} が検出されました</system:String>
     <system:String x:Key="MirrorChyanCdkExpired">CDK の有効期限が切れました。新しい CDK を使用して認証してください。</system:String>
     <system:String x:Key="MirrorChyanCdkInvalid">CDK が無効です。入力が正しいか確認してください。</system:String>
@@ -655,7 +655,7 @@ D:\
 MAA は非インストール型のアプリケーションであり、レジストリを自動で削除しません。
 レジストリの残留が気になる場合は、削除前にこのオプションを無効にしてください。</system:String>
     <system:String x:Key="LaunchOnSystemStartupAdminPrompt">
-        管理者権限での起動は、起動時の自動実行をサポートしていません。MAAを長時間管理者権限で実行することはお勧めしません。\n必要な場合は、 ｢コントロールパネル &gt; Windowsツール &gt; タスクスケジューラ｣ に移動してカスタムタスクを作成してください。トリガーを設定する際に、 ｢最も高い特権で実行｣ を必ず選択してください。
+        管理者権限での起動は、起動時の自動実行をサポートしていません。MAAを長時間管理者権限で実行することはお勧めしません。\n必要な場合は、｢コントロールパネル &gt; Windowsツール &gt; タスクスケジューラ｣ に移動してカスタムタスクを作成してください。トリガーを設定する際に、｢最も高い特権で実行｣ を必ず選択してください。
     </system:String>
     <system:String x:Key="RunTaskAfterLaunch">アプリの起動時に自動的に実行</system:String>
     <system:String x:Key="SkipStartupAutoRunAfterUpdate">更新のため直ちに再起動する時は自動実行しない</system:String>
@@ -686,7 +686,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="WaitForEmulatorFinish">待ち時間は終わりました</system:String>
     <system:String x:Key="EmulatorPath">エミュレータパス</system:String>
     <system:String x:Key="PcClientPath">PC クライアントのパス</system:String>
-    <system:String x:Key="SelectShortcutTip" xml:space="preserve">エミュレーター本体を選択（ ｢{key=AdditionCommand}｣ 起動パラメータでインスタンス指定可能）、または直接エミュレーター/ゲームのショートカットを選択できます。&#10; ｢{key=WakeUp}｣ タスクがエミュレーター起動遅延で失敗する場合、ゲームショートカットを使用し ｢{key=WaitForEmulator}｣ を延長することを推奨します。</system:String>
+    <system:String x:Key="SelectShortcutTip" xml:space="preserve">エミュレーター本体を選択（｢{key=AdditionCommand}｣ 起動パラメータでインスタンス指定可能）、または直接エミュレーター/ゲームのショートカットを選択できます。&#10; ｢{key=WakeUp}｣ タスクがエミュレーター起動遅延で失敗する場合、ゲームショートカットを使用し ｢{key=WaitForEmulator}｣ を延長することを推奨します。</system:String>
     <system:String x:Key="SelectPcClientTip">PC クライアント本体またはショートカットを選択できます。｢{key=AdditionCommand}｣ で起動引数を追加できます。</system:String>
     <system:String x:Key="PcClientAddCommandTip" xml:space="preserve">PC クライアント起動時に渡す追加引数です。&#10;対応する引数の形式は、クライアントまたはランチャーのドキュメントを参照してください。&#10;ショートカットを使用する場合は、そのショートカットに保存された引数が使用されます。</system:String>
     <system:String x:Key="PcClientPathEmptyError">PC クライアントのパスが空です。先にクライアントを選択してください。</system:String>
@@ -696,7 +696,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="EmulatorPathSelectionErrorImSure">確かに間違って選択していないと思います</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">はい、もう一度選択します</system:String>
     <system:String x:Key="EmulatorPathNotExist">エミュレータのパスが存在しません</system:String>
-    <system:String x:Key="EmulatorPathEmptyWarning">エミュレータのパスが空です。 ｢{key=RetryOnDisconnected}｣ と ｢{key=OpenEmulatorAfterLaunch}｣ のチェック状態がリセットされました</system:String>
+    <system:String x:Key="EmulatorPathEmptyWarning">エミュレータのパスが空です。｢{key=RetryOnDisconnected}｣ と ｢{key=OpenEmulatorAfterLaunch}｣ のチェック状態がリセットされました</system:String>
     <system:String x:Key="Select">選択</system:String>
     <system:String x:Key="Test">テスト</system:String>
     <system:String x:Key="ForcedReplaceAdb">ADB強制置き換え</system:String>
@@ -707,9 +707,9 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="AdbTouchMode">ADB Input (非推奨)</system:String>
     <system:String x:Key="MaaFwAdbTouchMode">MaaFwAdb (実験機能)</system:String>
     <system:String x:Key="MumuExtrasTouchMode">MuMu タッチ (実験機能)</system:String>
-    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input は、OS バージョンが古い物理デバイスのみに使用します。他のモードが使える場合は、ADB Input を選択しないでください。&#10;ADB Input のスワイプはズレやすいため、スワイプ速度が非常に遅く設定され、スワイプ距離も他のモードと異なります。正確な座標制御が必要な場面では使用できません。&#10;&#10;MaaFwAdb は追加スワイプに非対応のため、追加スワイプでドラッグの暴走を防いでいるページはこのモードで暴走します。&#10;追加スワイプとは、メインスワイプの終了後に垂直方向へ少し追加分の｢ブレーキ｣スワイプを行うもので（軌跡は 90° に曲がる L 字型）、リストの慣性を打ち消すために使用します。</system:String>
+    <system:String x:Key="TouchModeTip" xml:space="preserve">ADB Input は、OS バージョンが古い物理デバイスのみに使用します。他のモードが使える場合は、ADB Input を選択しないでください。&#10;ADB Input のスワイプはズレやすいため、スワイプ速度が非常に遅く設定され、スワイプ距離も他のモードと異なります。正確な座標制御が必要な場面では使用できません。&#10;&#10;MaaFwAdb は追加スワイプに非対応のため、追加スワイプでドラッグの暴走を防いでいるページはこのモードで暴走します。&#10;追加スワイプとは、メインスワイプの終了後に垂直方向へ少し追加分の ｢ブレーキ｣ スワイプを行うもので（軌跡は 90° に曲がる L 字型）、リストの慣性を打ち消すために使用します。</system:String>
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
-    <system:String x:Key="AdditionCommandTip" xml:space="preserve">エミュレーター起動パラメータの追加コマンド（例： ｢--instance 1｣ は 1 番インスタンス）。&#10;コマンド形式はエミュレーターにより異なり、通常はインスタンス番号やウィンドウモードなどを含みます。</system:String>
+    <system:String x:Key="AdditionCommandTip" xml:space="preserve">エミュレーター起動パラメータの追加コマンド（例：｢--instance 1｣ は 1 番インスタンス）。&#10;コマンド形式はエミュレーターにより異なり、通常はインスタンス番号やウィンドウモードなどを含みます。</system:String>
     <system:String x:Key="StartsWithScript">スクリプトを使用して始めます</system:String>
     <system:String x:Key="StartsWithScriptPlaceholder">例: "C:\1.cmd" -minimized</system:String>
     <system:String x:Key="EndsWithScript">終了時にスクリプトを使用します</system:String>
@@ -740,7 +740,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
 {key=StartingRoles}: {key=SlowAndSteadyWinsTheRace}
 {key=StartingCoreChar}: ウィシャデル
 
-1. 強力な6★オペレーターが多い場合は｢{key=IS2NewSquad3}｣を推奨します
+1. 強力な6★オペレーターが多い場合は ｢{key=IS2NewSquad3}｣ を推奨します
 2. 最高難易度がN4以上の場合、6★オペレーターの希望消費が+1になり、一部の分隊では開始時に6★オペレーターを招集できず、エラーや失敗を招く可能性があります</system:String>
     <system:String x:Key="RoguelikeThemeTipSami" xml:space="preserve">{key=RoguelikeThemeSami}推奨構成:
 
@@ -756,7 +756,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
 {key=StartingCoreChar}: ウィシャデル
 
 1. ｢{key=IS4NewSquad3}｣：完全回避戦術を採用し、攻略を狙わない高速レベリングに適します
-2. ｢{key=IS4NewSquad6}｣を使用すると源石錐稼ぎ効率が向上しますが、戦略を ｢源石錐稼ぎ｣ に設定する必要があります
+2. ｢{key=IS4NewSquad6}｣ を使用すると源石錐稼ぎ効率が向上しますが、戦略を ｢源石錐稼ぎ｣ に設定する必要があります
 3. 最高難易度がN15以上の場合、6★オペレーターの希望消費が+1になり、一部の分隊では開始時に6★オペレーターを招集できず、エラーや失敗を招く可能性があります</system:String>
     <system:String x:Key="RoguelikeThemeTipJieGarden" xml:space="preserve">{key=RoguelikeThemeJieGarden}推奨構成:
 
@@ -764,7 +764,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
 {key=StartingRoles}: {key=SlowAndSteadyWinsTheRace}
 {key=StartingCoreChar}: ウィシャデル
 
-1. 戦略を ｢源石錐稼ぎ｣ にし、難易度を N3 以上または ｢MAX｣ に設定し、{key=StartingSquad}を｢{key=LeaderSquad}｣にすると指揮回避戦闘戦術が有効になります
+1. 戦略を ｢源石錐稼ぎ｣ にし、難易度を N3 以上または ｢MAX｣ に設定し、{key=StartingSquad}を ｢{key=LeaderSquad}｣ にすると指揮回避戦闘戦術が有効になります
 2. 指揮回避戦闘戦術を使うと源石錐稼ぎ効率が大幅に向上し、高速レベリング（攻略を狙わない）にも使用できますが、戦略を ｢源石錐稼ぎ｣ に設定する必要があります
 3. 解放済みの最高難易度が N3 未満、または関連知識を解放していない場合は指揮回避戦闘戦術を使用しないでください。エラーの原因になります
 4. 最高難易度が N15 以上の場合、6★オペレーターの希望消費が+1になり、一部の分隊では開始時に6★オペレーターを招集できず、エラーや失敗を招く可能性があります</system:String>
@@ -785,11 +785,11 @@ MAA は非インストール型のアプリケーションであり、レジス�
 3. レベル稼ぎでは、機械師（要昇進済み）+ 上記の分隊・職業グループ + 重装券の組み合わせで 3 層を一気に飛んで駆け抜けられます
 4. 昇進済みの機械師がない場合は選ばないでください。選ぶと停止や無限ループが発生します。
     選ばなければ通常どおり源石錐を稼げますが、戦闘はほぼ敗走します。他の戦略は今後の最適化をお待ちください
-5. レベル稼ぎ + ｢{key=InvestmentEnabled}｣をチェックしないことで商店をスキップできます</system:String>
+5. レベル稼ぎ + ｢{key=InvestmentEnabled}｣ をチェックしないことで商店をスキップできます</system:String>
     <system:String x:Key="RoguelikeDifficulty">難易度</system:String>
-    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">｢{key=RoguelikeThemeJieGarden}｣に関連する知識を解放すると、{key=LeaderSquad}で N3 以上の難易度を探索する際に ｢時の果て｣ を追加で携帯し、 ｢一戦一跳｣ の貯蓄戦術を行えます。
-まだ解放していない場合は、N3 以上の難易度（ ｢MAX｣ を含む）を選択しないでください。
-この機能を有効にするには、難易度を N3 以上に設定してください（ ｢{key=NotSwitch} (-1)｣ を除く）。</system:String>
+    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">｢{key=RoguelikeThemeJieGarden}｣ に関連する知識を解放すると、{key=LeaderSquad}で N3 以上の難易度を探索する際に ｢時の果て｣ を追加で携帯し、｢一戦一跳｣ の貯蓄戦術を行えます。
+まだ解放していない場合は、N3 以上の難易度（｢MAX｣ を含む）を選択しないでください。
+この機能を有効にするには、難易度を N3 以上に設定してください（｢{key=NotSwitch} (-1)｣ を除く）。</system:String>
     <system:String x:Key="Strategy">ストラテジー</system:String>
     <system:String x:Key="StartTimesLimit">冒険をN回始めた後に停止する</system:String>
     <system:String x:Key="GoldTimesLimit">N回投資した後に停止する</system:String>
@@ -824,7 +824,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="YituliuTokenInvalid">トークンが無効または期限切れです。再生成してください</system:String>
     <system:String x:Key="YituliuTokenNetworkError">ネットワークエラーが発生しました。後でもう一度お試しください</system:String>
     <system:String x:Key="EnableOperBoxYituliuApi">{key=OperBoxRecognition}をYituliuから取得</system:String>
-    <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">有効にすると、｢{key=Toolbox}｣と｢{key=UserDataUpdate}｣の{key=OperBoxRecognition}はエミュレーターに接続してスクリーンショット識別を行わず、トークンに対応するYituliuの育成データを直接読み取ります。&#10;｢{key=UserDataUpdate}｣によるトリガーでは、｢{key=LinkStart}｣押下後にエミュレーターへ接続次第、他のタスクと並行して取得を開始します。&#10;Yituliuに保存されるのは育成データのスナップショットのため、事前にYituliuサイトへオペレーターデータをアップロードしている必要があります。&#10;スクリーンショット識別と異なり、スキルレベル・スキル特化・モジュール情報も追加で取得できます。&#10;トークンはYituliuの ｢アカウント｣ ページの ｢サードパーティ API Token｣ で生成できます。アカウントデータを保護するため、読み取り専用のトークンのみ使用してください。</system:String>
+    <system:String x:Key="EnableOperBoxYituliuApiTip" xml:space="preserve">有効にすると、｢{key=Toolbox}｣ と ｢{key=UserDataUpdate}｣ の{key=OperBoxRecognition}はエミュレーターに接続してスクリーンショット識別を行わず、トークンに対応するYituliuの育成データを直接読み取ります。&#10;｢{key=UserDataUpdate}｣ によるトリガーでは、｢{key=LinkStart}｣ 押下後にエミュレーターへ接続次第、他のタスクと並行して取得を開始します。&#10;Yituliuに保存されるのは育成データのスナップショットのため、事前にYituliuサイトへオペレーターデータをアップロードしている必要があります。&#10;スクリーンショット識別と異なり、スキルレベル・スキル特化・モジュール情報も追加で取得できます。&#10;トークンはYituliuの ｢アカウント｣ ページの ｢サードパーティ API Token｣ で生成できます。アカウントデータを保護するため、読み取り専用のトークンのみ使用してください。</system:String>
     <system:String x:Key="OperBoxFetchingFromYituliu">Yituliuからオペレーターデータを取得中…</system:String>
     <system:String x:Key="YituliuFetchFailed">Yituliuからの取得に失敗しました：{0}</system:String>
     <system:String x:Key="YituliuNoOperBoxData">トークンに対応するYituliuアカウントにオペレーターデータがなく、ローカルの識別結果を保持しました</system:String>
@@ -841,7 +841,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="CreditFightTip" xml:space="preserve">基地訪問後、OF-1でサポートを使用すると、30FP獲得できます。
 この機能は、ステージを ｢{key=DefaultStage}｣ に選択している場合は無効です。
 ステージOF-1がアンロックされていない場合は、チェックしないでください。</system:String>
-    <system:String x:Key="CreditFightWhenOF-1Warning">｢{key=Fight}｣ タスクのステージリストに ｢{key=DefaultStage}｣ が存在するし、 ｢{key=Mall}｣ タスクはOF-1での戦友サポート借用の戦闘をスキップします。タスク名: {0} (シーケンス番号 {1})、レベル シーケンス番号 {2}</system:String>
+    <system:String x:Key="CreditFightWhenOF-1Warning">｢{key=Fight}｣ タスクのステージリストに ｢{key=DefaultStage}｣ が存在するし、｢{key=Mall}｣ タスクはOF-1での戦友サポート借用の戦闘をスキップします。タスク名: {0} (シーケンス番号 {1})、レベル シーケンス番号 {2}</system:String>
     <system:String x:Key="HighPriority">優先購入（セミコロンで区切）</system:String>
     <system:String x:Key="Blacklist">ブラックリスト（セミコロンで区切）</system:String>
     <system:String x:Key="MiniGame@EventShop@BlacklistTip">チェックした商品をブラックリストに追加します</system:String>
@@ -897,10 +897,10 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ResolutionInfoYoStarEN">エミュレータが1920x1080に設定されていることを確認してください</system:String>
     <system:String x:Key="AllowUseStoneSave">源石の数を割る保存状態を許可</system:String>
     <system:String x:Key="AllowUseStoneSaveTip">デフォルトでは ｢{key=UseOriginitePrime}｣ は一度だけ有効です。チェックするとその状態が保存され、左クリックで通常どおり切り替えられ、右クリックで選択した場合も一度だけ有効になります</system:String>
-    <system:String x:Key="AllowUseStoneSaveWarning">この機能は危険な機能と見なされます。 ｢{key=Confirm}｣ ボタンを押すと、リスクを理解し、受け入れることに同意したと見なされます。</system:String>
+    <system:String x:Key="AllowUseStoneSaveWarning">この機能は危険な機能と見なされます。｢{key=Confirm}｣ ボタンを押すと、リスクを理解し、受け入れることに同意したと見なされます。</system:String>
     <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
     <system:String x:Key="UseExpiringMedicine">N日未満で期限が切れる回復剤を無制限に使用</system:String>
-    <system:String x:Key="MedicineExpireDaysTip">ゲーム内で ｢N日｣ 未満と表示される回復剤のみ使用し、 ｢N日｣ 以上は使用しません。</system:String>
+    <system:String x:Key="MedicineExpireDaysTip">ゲーム内で ｢N日｣ 未満と表示される回復剤のみ使用し、｢N日｣ 以上は使用しません。</system:String>
     <system:String x:Key="UseExpireMedicineForActivity">今週中に期限切れとなる正気回復ポーションは、アクティビティ終了の48時間以内に使用してください。</system:String>
     <system:String x:Key="NoActivity">活動なし</system:String>
     <system:String x:Key="HideUnavailableStage">リストに当日開放されないステージを隠す</system:String>
@@ -915,7 +915,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AutoDetectConnection">接続自動認識</system:String>
     <system:String x:Key="AutoDetectConnectionNotSupported">この接続構成では自動接続検出はサポートされていません。手動でポート番号を入力してみてください</system:String>
     <system:String x:Key="AutoDetectConnectionTip" xml:space="preserve">このチェックボックスは、検出が完了するたびに自動的にチェックが外れますが、再検出が必要な場合は再度チェックを入れることができます。
-ポートが頻繁に変更される場合にのみ、｢{key=AlwaysAutoDetectConnection}｣オプションにチェックを入れてください。
+ポートが頻繁に変更される場合にのみ、｢{key=AlwaysAutoDetectConnection}｣ オプションにチェックを入れてください。
 検出時には、接続する必要があるエミュレータのみを起動してください。複数のエミュレータを同時に起動すると、誤ったターゲットに接続する可能性があります。</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">毎回再検出する</system:String>
     <system:String x:Key="AlwaysAutoDetectConnectionTip" xml:space="preserve">このオプションはお勧めしません。
@@ -924,8 +924,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AccountSwitch">アカウントの切り替え</system:String>
     <system:String x:Key="AccountSwitchManualRun">今すぐ切り替える</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">切り替える必要があるアカウントを入力し、空白のままにしてアカウントの切り替えを停止します。
-ログインインターフェイスに表示される内容を入力します（ ｢123****4567｣ など）。 ｢123****4567｣ 、 ｢4567｣ または ｢23****45｣ を入力できます。
-繁体字中国語サーバーとYostarKRサーバーのアカウントはEメール形式です（ ｢ab****01@gmail.com｣ など）。アスタリスクを含まない明文部分（ ｢01@gmail｣ など）の入力を推奨します。
+ログインインターフェイスに表示される内容を入力します（｢123****4567｣ など）。｢123****4567｣、｢4567｣ または ｢23****45｣ を入力できます。
+繁体字中国語サーバーとYostarKRサーバーのアカウントはEメール形式です（｢ab****01@gmail.com｣ など）。アスタリスクを含まない明文部分（｢01@gmail｣ など）の入力を推奨します。
 公式(CN)、Bilibili、繁体字中国語、YostarKRサーバーのみをサポートします。サードパーティのログイン方式はサポートされていません。</system:String>
     <system:String x:Key="AdbPath">ADBパス</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">選択されたファイル名にADBが含まれていません。誤ったファイルを選択していないか、エミュレータ自体を選択していないか確認してください。</system:String>
@@ -996,10 +996,10 @@ C:\leidian\LDPlayer9
     <system:String x:Key="LdExtrasNotEnabledMessage">LD スクリーンショットの強化 が有効になっていません。｢{key=Settings} - {key=ConnectionSettings} - {key=ConnectionPreset}｣ の下部に表示される強化設定を確認してください</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB接続が失敗した場合、エミュレータの起動を試みる</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">再接続に失敗した後、エミュレータを再起動してみてください，バックグラウンドのタイムドタスクを使用し、終了時にエミュレータを終了させるタスクを設定する場合は、必ずチェックを入れること</system:String>
-    <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">エミュレータのパスが空です！ ｢{key=Settings} - {key=StartupSettings} - {key=EmulatorPath}｣ を入力してから再度選択してください。</system:String>
+    <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">エミュレータのパスが空です！｢{key=Settings} - {key=StartupSettings} - {key=EmulatorPath}｣ を入力してから再度選択してください。</system:String>
     <system:String x:Key="RetryOnPcDisconnected">PC クライアントの接続失敗時にクライアントを起動</system:String>
     <system:String x:Key="RetryOnPcDisconnectedTip">ウィンドウ接続に失敗した後、PC クライアントを起動して再接続します</system:String>
-    <system:String x:Key="RetryOnPcDisconnectedPathEmptyError">PC クライアントのパスが空です！ ｢{key=Settings} - {key=StartupSettings} - {key=PcClientPath}｣ を入力してから再度選択してください。</system:String>
+    <system:String x:Key="RetryOnPcDisconnectedPathEmptyError">PC クライアントのパスが空です！｢{key=Settings} - {key=StartupSettings} - {key=PcClientPath}｣ を入力してから再度選択してください。</system:String>
     <system:String x:Key="AllowAdbRestart">接続失敗後にADBサーバーの再起動を試みる</system:String>
     <system:String x:Key="AllowAdbHardRestart">接続失敗後にADBプロセスの再起動を試みる</system:String>
     <!--  !設定  -->
@@ -1250,7 +1250,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Running">動作中……</system:String>
     <system:String x:Key="TaskAppend.Skip">{0}: {1} タスクをスキップしました</system:String>
     <system:String x:Key="TaskSerialize.Error">{0}: {1} のシリアライズに失敗しました</system:String>
-    <system:String x:Key="AdbReplacementTips">タスクが応答なしになる場合は、 ｢{key=Settings} - {key=ConnectionSettings} - {key=ForcedReplaceAdb}｣ 、もしくは ADB Input タッチモード をチェックしてください（お勧めしない）。</system:String>
+    <system:String x:Key="AdbReplacementTips">タスクが応答なしになる場合は、｢{key=Settings} - {key=ConnectionSettings} - {key=ForcedReplaceAdb}｣、もしくは ADB Input タッチモード をチェックしてください（お勧めしない）。</system:String>
     <system:String x:Key="LDPlayerMaaTouchWarning">LDPlayer エミュレータと MaaTouch タッチモードの組み合わせを検出しました。この組み合わせではスワイプ操作が異常に遅くなることが知られています（実際のスワイプ時間が設定値を大幅に超過）。スワイプが終了する前に次の操作が実行され、各種異常が発生する可能性があります。他のタッチモードへの切り替えを推奨します。</system:String>
     <system:String x:Key="Waiting">ミッション終了を待っています……</system:String>
     <system:String x:Key="Stopping">動作停止中……</system:String>
@@ -1331,7 +1331,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="VideoRecognition">映像</system:String>
     <system:String x:Key="StartToVideoRecognition">認識を始める</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">ディレクトリを開く</system:String>
-    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">映像認識のために、 ｢{key=Copilot}｣ ページを開き、映像をドラッグしてください。
+    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">映像認識のために、｢{key=Copilot}｣ ページを開き、映像をドラッグしてください。
 映像の解像度は16: 9である必要があり、黒枠、エミュレータ枠、特殊な形状、画面効果などが無いことを確認してください。</system:String>
     <!--  VideoRecognition  -->
     <!--  Gacha Recognition  -->
@@ -1375,12 +1375,12 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@PV">PV-花火実行委員会</system:String>
     <system:String x:Key="MiniGame@PVTip">選択したステージから自動でクリアします。最初のステージを選んだ場合は、イベントページの最左側から開始してください。その他のステージを選んだ場合は、位置を校正するために前のステージに一度入ってから戻ってください。</system:String>
     <system:String x:Key="MiniGame@SPA">堅守協定：盟約</system:String>
-    <system:String x:Key="MiniGame@SPATip" xml:space="preserve">イベントメイン画面（ ｢単独演算｣ がある場所）からタスクを開始
+    <system:String x:Key="MiniGame@SPATip" xml:space="preserve">イベントメイン画面（｢単独演算｣ がある場所）からタスクを開始
 セーブデータがある場合は、まず手動で破棄する必要があります
  ｢逆境シミュレーション｣ までテスト済み
 より高い難易度をクリア済みで ｢逆境シミュレーション｣ または ｢標準シミュレーション｣ が表示されない場合、\n ｢逆境シミュレーション｣ 難易度を手動で一度選択してください
  ｢標準シミュレーション｣ を手動でクリアすると、より早くスコアを稼げます
-レベル報酬のみ取得可能。 ｢功績勲章｣ を入手するには全ての ｢主要目標｣ をクリアする必要があります</system:String>
+レベル報酬のみ取得可能。｢功績勲章｣ を入手するには全ての ｢主要目標｣ をクリアする必要があります</system:String>
     <system:String x:Key="MiniGame@OS">OS-カランド貿易 研究開発部</system:String>
     <system:String x:Key="MiniGame@OSTip">イベントメイン画面（右下に ｢再建開始｣ がある場所）でタスクを開始します。</system:String>
     <system:String x:Key="MiniGame@RM-TR-1">再建画策 RM-TR-1</system:String>
@@ -1565,9 +1565,9 @@ C:\leidian\LDPlayer9
         ヒント: \n\n
         1. この機能を使用前に、攻略ファイルと選択したステージタイプが一致していることを確認してください。\n\n
         2. {key=MainStage}、{key=StoryCollection}、{key=SideStory}: 右下の ｢行動開始｣ ボタン画面で開始してください。\n\n
-        3. {key=SSS}: resource/copilot フォルダー内に複数の課題があります。まず手動で編成を行い、右下の ｢配置開始｣ ボタン画面で開始してください。 ｢{key=LoopTimes}｣ と連携することもできます。\n\n
-        4. {key=ParadoxSimulation}: スキルを選択した後、スキル選択画面に ｢演算開始｣ ボタンが表示され、1/2 星{key=Operator}（スキルなし）が右下に ｢演算開始｣ ボタンを表示されて開始します。 ｢{key=UseCopilotList}｣ を使用する場合、{key=Operator}リストの｢レベル/レアリティ｣タブから開始してください。\n\n
-        5.  ｢戦術要員｣ 機能を有効にすると、 ｢{key=AutoSquad}｣ の{key=Operator}選択に影響を与える可能性があります。 ｢{key=AutoSquad}｣ を 使用する際は ｢戦術要員｣ をオフにするか、不足している{key=Operator}を手動で補充して編成を完成させることをお勧めします。\n\n
+        3. {key=SSS}: resource/copilot フォルダー内に複数の課題があります。まず手動で編成を行い、右下の ｢配置開始｣ ボタン画面で開始してください。｢{key=LoopTimes}｣ と連携することもできます。\n\n
+        4. {key=ParadoxSimulation}: スキルを選択した後、スキル選択画面に ｢演算開始｣ ボタンが表示され、1/2 星{key=Operator}（スキルなし）が右下に ｢演算開始｣ ボタンを表示されて開始します。｢{key=UseCopilotList}｣ を使用する場合、{key=Operator}リストの ｢レベル/レアリティ｣ タブから開始してください。\n\n
+        5.  ｢戦術要員｣ 機能を有効にすると、｢{key=AutoSquad}｣ の{key=Operator}選択に影響を与える可能性があります。｢{key=AutoSquad}｣ を 使用する際は ｢戦術要員｣ をオフにするか、不足している{key=Operator}を手動で補充して編成を完成させることをお勧めします。\n\n
         6. ZOOT 作業ステーションでは、入力欄の右側にある貼り付けボタンをクリックして、コードを貼り付けることができます。形式は自動的に識別されます：\n
         • prts://s = 割り当てセット prts:// = 個別の割り当て\n\n
         7. {key=UseCopilotList}:\n
@@ -1660,7 +1660,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="TryToReconnect">エミュレータが切断、再接続を行います</system:String>
     <system:String x:Key="ReconnectSuccess">再接続に成功、タスクを続行します</system:String>
     <system:String x:Key="ReconnectFailed">再接続に失敗、切断されました！</system:String>
-    <system:String x:Key="TouchModeNotAvailable">タッチモードは利用できません。 ｢{key=Settings} - {key=ConnectionSettings}｣ に入って、他のタッチモードに変更してください。</system:String>
+    <system:String x:Key="TouchModeNotAvailable">タッチモードは利用できません。｢{key=Settings} - {key=ConnectionSettings}｣ に入って、他のタッチモードに変更してください。</system:String>
     <system:String x:Key="ScreencapFailed">スクリーンキャプチャに失敗しました。繰り返し発生する場合は、エミュレータの再起動または変更をお試しください！</system:String>
     <system:String x:Key="FastestWayToScreencap">スクリーンショット テストには: {0}ms ({1})</system:String>
     <system:String x:Key="FastestWayToScreencapInfoTip">スクリーンキャップに {0}ms かかっています。MuMuやLDPlayerを使用している場合は、｢{key=Settings} - {key=ConnectionSettings} - {key=ConnectionPreset}｣ で対応するエミュレータを選択し、下部に表示されるスクリーンショット強化を有効にすると短縮できます。</system:String>
@@ -1698,7 +1698,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="GiveUpUploadingPenguins">Penguin-Statsへのアップロードをあきらめました</system:String>
     <system:String x:Key="ReportSkippedForPcClient">PC クライアントではカーソルがドロップ品や個数の認識を遮る場合があります。誤ったデータでデータプールを汚染しないよう、{0}への今回のレポートは自動的にスキップしました</system:String>
     <system:String x:Key="TheEx">ステージ報酬がないため停止します</system:String>
-    <system:String x:Key="MissingOperators">以下の{key=Operator}グループの{key=Operator}を所有していません（各グループ1体で足ります）または作業要件を満たしていません：\n{0}｢戦術要員｣ マークは{key=Operator}の認識に影響する可能性があります。実際に所有している場合は、マークを解除して再試行するか、｢{key=AutoSquad}｣ をオフにして手動で補充してください。実際に所有していない場合は、不足グループが1つなら ｢{key=SupportUnitUsage}｣ で補えますが、2つ以上の場合は他の作業ファイルを使用してください。</system:String>
+    <system:String x:Key="MissingOperators">以下の{key=Operator}グループの{key=Operator}を所有していません（各グループ1体で足ります）または作業要件を満たしていません：\n{0} ｢戦術要員｣ マークは{key=Operator}の認識に影響する可能性があります。実際に所有している場合は、マークを解除して再試行するか、｢{key=AutoSquad}｣ をオフにして手動で補充してください。実際に所有していない場合は、不足グループが1つなら ｢{key=SupportUnitUsage}｣ で補えますが、2つ以上の場合は他の作業ファイルを使用してください。</system:String>
     <system:String x:Key="RecruitSupportOperator">サポートユニットを追加：{0}</system:String>
     <system:String x:Key="StageQueue">ステージキュー:</system:String>
     <system:String x:Key="UnableToAgent">自動指揮利用不可</system:String>
@@ -1805,7 +1805,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowNodeSacrifice">奉納ノード</system:String>
     <system:String x:Key="BlackFlowNodeWish">願いの成就</system:String>
     <system:String x:Key="BlackFlowNodeBoskyPassage">迷い込んだ奇境</system:String>
-    <system:String x:Key="BlackFlowNodeResidentStronghold">｢住民｣の拠点</system:String>
+    <system:String x:Key="BlackFlowNodeResidentStronghold">｢住民｣ の拠点</system:String>
     <system:String x:Key="BlackFlowNodeFinal">険路の果て</system:String>
     <system:String x:Key="BlackFlowNodeFate">運命の指す先</system:String>
     <system:String x:Key="BlackFlowNodeEvacuate">撤退ノード</system:String>
@@ -1991,7 +1991,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Click">クリック</system:String>
     <system:String x:Key="Swipe">スワイプ</system:String>
     <system:String x:Key="SetUnitLocation">ユニット座標を設定</system:String>
-    <system:String x:Key="UnsupportedLevel">サポートされていないステージです。ステージ名を確認するか、 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ に移動してリソースバージョンを更新してみてください！</system:String>
+    <system:String x:Key="UnsupportedLevel">サポートされていないステージです。ステージ名を確認するか、｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ に移動してリソースバージョンを更新してみてください！</system:String>
     <system:String x:Key="Copilot.UnsupportedSkill">{0} のスキル {1} はサポートされないので、スキルを選択されなくなります。</system:String>
     <system:String x:Key="Copilot.EliteEmpty">{0} エリートレベルの要件は設定されていませんでしたが、他の属性の要件はエリート{1}です。これは自動入力されました。</system:String>
     <system:String x:Key="Copilot.EliteAjust">{0} エリート{1}の要件が設定されていましたが、他の属性の要件はエリート{2}です。これは自動調整されました。</system:String>
@@ -2114,9 +2114,9 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="EasterEggsRules" xml:space="preserve">1. MAA の正式版にはデバッグモードはありません。実行中にデバッグオプションが表示された場合は、すぐにソフトウェアを閉じ、それをクリックせず、最寄りの MAA 開発者に連絡してください。\n
 2. インフラのシフト変更は自動です。{key=Operator}が 72 時間以上連続して働いている場合は、手動でシフトを調整し、システム時間が正しいか確認してください。\n
 3. 公開募集のタグは変更されません。カウントダウンが終了する前にタグが変更された場合は、募集を続けず、MAA を再起動してから操作してください。\n
-4. MAA はフレンドリクエストを送信しません。 ｢MAA_System｣ からフレンドリクエストを受け取った場合は、承認せず、そのアカウントを削除してください。\n
+4. MAA はフレンドリクエストを送信しません。｢MAA_System｣ からフレンドリクエストを受け取った場合は、承認せず、そのアカウントを削除してください。\n
 5. ローグライクの支援は提案のみを提供します。ゲームが存在しないオプションを自動的に選択した場合は、強制終了してクライアントを再起動してください。\n
-6. MAA のログファイルに文字化けが含まれているべきではありません。 ｢ERROR: データ解析に失敗しました｣ 以外のエラー情報がログに表示された場合は、ログを削除してソフトウェアを再インストールしてください。\n
+6. MAA のログファイルに文字化けが含まれているべきではありません。｢ERROR: データ解析に失敗しました｣ 以外のエラー情報がログに表示された場合は、ログを削除してソフトウェアを再インストールしてください。\n
 7. ナイトモードは安全です。ただし、MAA が午前 3 時 33 分に自動的に起動して ｢不明なタスク｣ を実行した場合は、電源を抜き、日の出まで待ってから使用してください。\n
 8. 最後のルールは存在しません。このルールを見た場合は、それを忘れて、通常どおり MAA を使用してください。\n
 9. MAA 内で炒...锟斤拷拷拷拷喜报拷拷拷饭 をクリックしないでください。\n
@@ -2194,7 +2194,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
 
 マップでRA-1を開き、右下に ｢建設開始｣ が表示されたらタスクを開始すると自動でループします
 
-注意： ｢初期追加携帯アイテム｣ に関連するテクノロジーをアンロックしている場合、基地内で初期追加携帯アイテムの原因となる施設（食品供給所、飲料供給所、獣舎など）を解体してください
+注意：｢初期追加携帯アイテム｣ に関連するテクノロジーをアンロックしている場合、基地内で初期追加携帯アイテムの原因となる施設（食品供給所、飲料供給所、獣舎など）を解体してください
 
 タスクの流れ：精耕細作、建設、資源納入、決済を自動実行
     </system:String>
@@ -2211,9 +2211,9 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
 
 マップでRA-4を開き、右下に ｢建設開始｣ が表示されたらタスクを開始すると自動でループします
 
-注意： ｢初期追加携帯アイテム｣ に関連するテクノロジーをアンロックしている場合、基地内で初期追加携帯アイテムの原因となる施設（食品供給所、飲料供給所、獣舎など）を解体してください
+注意：｢初期追加携帯アイテム｣ に関連するテクノロジーをアンロックしている場合、基地内で初期追加携帯アイテムの原因となる施設（食品供給所、飲料供給所、獣舎など）を解体してください
 
-タスクの流れ： ｢計画経営｣ で得た赤金を使ってエリアを解放し、ヴィシャデルでボス討伐を完了する
+タスクの流れ：｢計画経営｣ で得た赤金を使ってエリアを解放し、ヴィシャデルでボス討伐を完了する
     </system:String>
     <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">
 報酬目安：1回あたり約 500 トークン＋統括ポイント、所要時間約 3 分
@@ -2262,7 +2262,7 @@ MAA を新しい独立したフォルダーに解凍するか、MAA に属さな
 • その他のシステム依存関係が不足している
 
 まず、アーカイブが完全に解凍されているかご確認ください。
- ｢{key=Confirm}｣ をクリックすると VC++ ランタイムのインストール/更新を試みて MAA を終了します（他の原因の場合は無効）。 ｢{key=Cancel}｣ をクリックすると直接終了します。
+ ｢{key=Confirm}｣ をクリックすると VC++ ランタイムのインストール/更新を試みて MAA を終了します（他の原因の場合は無効）。｢{key=Cancel}｣ をクリックすると直接終了します。
     </system:String>
     <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">同じパスの下で起動できるのは1つのインスタンスのみ！
 MAA を複数開くには、新しい MAA を他のフォルダにコピーし、異なる MAA、同じ adb、異なるシミュレータアドレスを使用して複数の操作を行うように設定します。
@@ -2763,7 +2763,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="BadModules.Warning.Prolog">以下のサードパーティ製ソフトウェアが MAA に DLL を注入しています。これにより WPF レンダリングと ONNX/DML 推論が破壊され、MAA のクラッシュ、インターフェースのレンダリング異常、または OCR 認識失敗が発生する可能性があります：</system:String>
     <system:String x:Key="BadModules.Warning.Epilog" xml:space="preserve">Windows セキュリティからシステムレベルでインジェクションをブロックすることを推奨します：アプリとブラウザーのコントロール → Exploit Protection → Exploit Protection 設定 → プログラム設定 → MAA.exe を追加 → ｢拡張ポイントの無効化｣ を ｢システム設定の上書き - オン｣ に設定し、有効化してから MAA を再起動してください。&#x0a;&#x0a;また、関連ソフトウェアの除外リストに MAA を追加するか、関連ソフトウェアをアンインストールした後、問題がまだ存在するかどうかを確認することもできます。</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">この警告を再表示しない</system:String>
-    <system:String x:Key="BadModules.Warning.Fallback">さらに、システムのダイアログコンポーネントが破損してクラッシュしており、MAA の後続のダイアログがすべて表示されないだけでなく、他のシステム機能にも影響が出る可能性があります。 ｢はい｣ で次回から表示しない、 ｢いいえ｣ で今回のみ閉じる。</system:String>
+    <system:String x:Key="BadModules.Warning.Fallback">さらに、システムのダイアログコンポーネントが破損してクラッシュしており、MAA の後続のダイアログがすべて表示されないだけでなく、他のシステム機能にも影響が出る可能性があります。｢はい｣ で次回から表示しない、｢いいえ｣ で今回のみ閉じる。</system:String>
     <system:String x:Key="BadModules.Confirmation.Heading">警告：パフォーマンスへの影響</system:String>
     <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">警告を表示しないように選択すると、MAA はハードウェアレンダリングではなくソフトウェアレンダリングを使用します。これによりレンダリング関連の問題は緩和されますが、すべての問題（ダイアログのクラッシュなど）が解決されるわけではありません。また以下の結果も生じます：&#x0a;&#x0a;• パフォーマンスの低下&#x0a;• UI のラグ&#x0a;• CPU 使用率の増加&#x0a;&#x0a;警告を抑制し、これらの影響を受け入れることを確認しますか？</system:String>
     <system:String x:Key="BadModules.UseSoftwareRendering">ソフトウェアレンダリングを使用</system:String>
@@ -2793,7 +2793,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="ExternalNotificationWhenComplete">タスク完了時</system:String>
     <system:String x:Key="ExternalNotificationWhenError">タスクエラー発生時</system:String>
     <system:String x:Key="ExternalNotificationWhenStalled">タスクのログ出力停止時</system:String>
-    <system:String x:Key="ExternalNotificationWhenStalledTip" xml:space="preserve">｢{key=NotificationSettings}｣で｢{key=StallTimeoutEnabled}｣を有効にしてください。&#10;設定した時間内に新しいログが出力されない場合に送信します。</system:String>
+    <system:String x:Key="ExternalNotificationWhenStalledTip" xml:space="preserve">｢{key=NotificationSettings}｣ で ｢{key=StallTimeoutEnabled}｣ を有効にしてください。&#10;設定した時間内に新しいログが出力されない場合に送信します。</system:String>
     <system:String x:Key="ExternalNotificationNewLogCount">新規ログ数</system:String>
     <system:String x:Key="ExternalNotificationNewLogCountTip" xml:space="preserve">前回の外部通知が送信された後、新しいログ項目を数えます。&#10;指定した数に達すると送信します。&#10;タスク完了やエラーなど、他の条件で通知が送信された場合もカウントをリセットします。</system:String>
     <system:String x:Key="ExternalNotificationContentMatches">ログに特定の内容を含む場合</system:String>
