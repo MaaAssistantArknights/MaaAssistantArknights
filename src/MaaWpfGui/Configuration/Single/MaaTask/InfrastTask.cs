@@ -147,6 +147,13 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
     {
         WeeklySchedule ??= Enum.GetValues<DayOfWeek>().ToDictionary(i => i, _ => true);
 
+        // 容错反序列化会删除无效枚举属性并回退默认值，可能产生重复房间
+        if (RoomList.Select(i => i.Room).Distinct().Count() != RoomList.Count)
+        {
+            _logger.Warning("InfrastTask: duplicate rooms in RoomList, deduplicating: {RoomList}", RoomList);
+            RoomList = [.. RoomList.GroupBy(i => i.Room).Select(g => g.First())];
+        }
+
         if (Mode != InfrastMode.Custom || string.IsNullOrWhiteSpace(Filename) || !File.Exists(Filename))
         {
             return;
