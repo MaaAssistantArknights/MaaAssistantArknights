@@ -229,13 +229,13 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
             selected_count = 1;
             int increase_clicks_without_low_mood = 0;
             while (selected_count < batch_count && !need_exit()) {
-                if (!run_task("MiniGame@MaterialSynthesis@Increase", 0)) {
+                if (!run_task("MiniGame@MaterialSynthesis@Increase", 10)) {
                     result = Result::NavigationFailed;
                     break;
                 }
                 ++selected_count;
                 if (detect_task("MiniGame@MaterialSynthesis@LowMood")) {
-                    if (!run_task("MiniGame@MaterialSynthesis@Decrease", 0)) {
+                    if (!run_task("MiniGame@MaterialSynthesis@Decrease", 2)) {
                         result = Result::NavigationFailed;
                     }
                     else {
@@ -261,7 +261,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
 
         // 没有可替换的满心情干员时，保留当前干员并将单批数量降到其心情可承受的范围。
         while (selected_count > 1 && detect_task("MiniGame@MaterialSynthesis@LowMood") && !need_exit()) {
-            if (!run_task("MiniGame@MaterialSynthesis@Decrease", 0)) {
+            if (!run_task("MiniGame@MaterialSynthesis@Decrease", 2)) {
                 result = Result::NavigationFailed;
                 break;
             }
@@ -353,7 +353,7 @@ bool asst::MaterialSynthesisTaskPlugin::run_task(const std::string& task_name, i
 
 bool asst::MaterialSynthesisTaskPlugin::detect_task(const std::string& task_name)
 {
-    return run_task(task_name, 0);
+    return run_task(task_name, 5);
 }
 
 bool asst::MaterialSynthesisTaskPlugin::return_to_workshop()
