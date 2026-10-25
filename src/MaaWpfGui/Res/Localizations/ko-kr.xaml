@@ -203,6 +203,7 @@
     <system:String x:Key="InfrastFiammettaTargetWeedy">위디</system:String>
     <system:String x:Key="InfrastFiammettaTargetWaaiFu">와이후</system:String>
     <system:String x:Key="InfrastFiammettaTargetMinimalist">미니멀리스트</system:String>
+    <system:String x:Key="InfrastFiammettaTargetHbound">旅骨(미실장)</system:String>
     <system:String x:Key="InfrastFiammettaTargetsTips">이론적으로 샤마르와 테킬라를 회복 대상으로 하면 007이 가능하지만, 자동 교대에서는 구현하기 어려우므로 샤마르와 테킬라를 선택하는 것은 권장하지 않습니다.</system:String>
     <system:String x:Key="InfrastUsePinusSylvestris">피누스 실베스트리스 연계 사용</system:String>
     <system:String x:Key="InfrastUsePinusSylvestrisTips" xml:space="preserve">필수 오퍼레이터: 플레임테일(정예화 2), 비비아나(정예화 2), 와일드메인(정예화 2)/애쉬락(정예화 2)/파투스(정예화 2) 중 1명 이상&#10;계산에 참여하는 오퍼레이터: 그라벨</system:String>

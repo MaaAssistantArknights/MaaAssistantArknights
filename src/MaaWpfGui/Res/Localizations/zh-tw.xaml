@@ -203,6 +203,7 @@
     <system:String x:Key="InfrastFiammettaTargetWeedy">溫蒂</system:String>
     <system:String x:Key="InfrastFiammettaTargetWaaiFu">槐琥</system:String>
     <system:String x:Key="InfrastFiammettaTargetMinimalist">至簡</system:String>
+    <system:String x:Key="InfrastFiammettaTargetHbound">旅骨（未實裝）</system:String>
     <system:String x:Key="InfrastFiammettaTargetsTips">雖然理論上恢復巫戀和龍舌蘭可以 007，但自動換班情況下難以實現，因此不推薦選擇恢復巫戀和龍舌蘭</system:String>
     <system:String x:Key="InfrastUsePinusSylvestris">使用紅松騎士團跨設施組合</system:String>
     <system:String x:Key="InfrastUsePinusSylvestrisTips" xml:space="preserve">必要幹員：焰尾（精二）、薇薇安娜（精二）、野鬃（精二）/灰毫（精二）/遠牙（精二）至少一個&#10;參與計算幹員：礫</system:String>

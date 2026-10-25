@@ -203,6 +203,7 @@
     <system:String x:Key="InfrastFiammettaTargetWeedy">ウィーディ</system:String>
     <system:String x:Key="InfrastFiammettaTargetWaaiFu">ワイフー</system:String>
     <system:String x:Key="InfrastFiammettaTargetMinimalist">ミニマリスト</system:String>
+    <system:String x:Key="InfrastFiammettaTargetHbound">旅骨（未実装）</system:String>
     <system:String x:Key="InfrastFiammettaTargetsTips">理論上はシャマレとテキーラを回復対象にすると007が可能ですが、自動交代では実現が難しいため、シャマレとテキーラの選択は推奨しません。</system:String>
     <system:String x:Key="InfrastUsePinusSylvestris">ピヌス・シルベストリス連携を使用</system:String>
     <system:String x:Key="InfrastUsePinusSylvestrisTips" xml:space="preserve">必須オペレーター：フレイムテイル（昇進2）、ヴィヴィアナ（昇進2）、ワイルドメイン（昇進2）/アッシュロック（昇進2）/ファートゥース（昇進2）のうち1名以上&#10;計算対象オペレーター：グラベル</system:String>

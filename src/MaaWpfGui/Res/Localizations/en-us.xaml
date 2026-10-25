@@ -203,6 +203,7 @@
     <system:String x:Key="InfrastFiammettaTargetWeedy">Weedy</system:String>
     <system:String x:Key="InfrastFiammettaTargetWaaiFu">Waai Fu</system:String>
     <system:String x:Key="InfrastFiammettaTargetMinimalist">Minimalist</system:String>
+    <system:String x:Key="InfrastFiammettaTargetHbound">旅骨 (Unreleased)</system:String>
     <system:String x:Key="InfrastFiammettaTargetsTips">Although recovering Shamare and Tequila can theoretically enable 007, it is difficult to achieve with automatic shift changes, so selecting Shamare or Tequila is not recommended.</system:String>
     <system:String x:Key="InfrastUsePinusSylvestris">Use Pinus Sylvestris cross-facility team</system:String>
     <system:String x:Key="InfrastUsePinusSylvestrisTips" xml:space="preserve">Required operators: Flametail (E2), Viviana (E2), and at least one of Wild Mane (E2), Ashlock (E2), or Fartooth (E2)&#10;Operators included in calculation: Gravel</system:String>
