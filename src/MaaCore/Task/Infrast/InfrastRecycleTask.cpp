@@ -138,6 +138,7 @@ bool asst::InfrastRecycleTask::fill_slots()
                 continue;
             }
             ctrler()->click(oper.rect);
+            record_selected_operator(oper);
             ++num_of_selected;
         }
         if (num_of_selected >= max_num_of_opers()) {

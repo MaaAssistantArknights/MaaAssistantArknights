@@ -155,6 +155,8 @@
     <system:String x:Key="Training">訓練室</system:String>
     <system:String x:Key="Recycle">回收站（推測譯名、未實裝）</system:String>
     <system:String x:Key="AssistantChange">副手換人</system:String>
+    <system:String x:Key="InfrastFacilityOperators">設施進駐人員：{0}</system:String>
+    <system:String x:Key="InfrastFacilityNoOperators">無</system:String>
     <system:String x:Key="InfrastTraineeNotFound">訓練位候選均未命中，訓練位保持原樣：{0}</system:String>
     <system:String x:Key="InfrastAssistantNotFound">協助者候選均未命中，協助者保持原樣：{0}</system:String>
     <system:String x:Key="InfrastAssistantWorkingExcluded">協助者候選正在其他設施工作中，已跳過，協助者保持原樣：{0}</system:String>

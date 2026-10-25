@@ -573,6 +573,28 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   :::
   ::::
 
+- `InfrastConfirmButton`\
+  기반시설 오퍼레이터 선택이 성공적으로 확정되었습니다. `details`의 기존 시설 정보는 유지되며, 선택 사항인 `operators`는 실제 선택된 오퍼레이터 목록입니다. 사용자 정의 후보 선택과 자동 충원의 최종 결과를 포함할 수 있습니다. 선택 과정에서 이미 인식한 이름이나 ID를 우선 재사용하며, 식별 정보가 없거나 하나의 대상으로 확정할 수 없을 때만 기존 스크린샷에서 잘라낸 이름 이미지에 OCR을 추가로 수행합니다. 목록 수집을 위해 스크린샷을 추가로 촬영하거나 필터 변경, 페이지 이동, 정렬 등의 화면 조작을 추가하지 않습니다.
+
+  :::: field-group
+  ::: field facility
+  @type string
+  @required
+  시설명
+  :::
+  ::: field index
+  @type number
+  @required
+  0부터 시작하는 시설 순서(인덱스)
+  :::
+  ::: field operators
+  @type array<object>
+  선택 사항인 실제 선택된 오퍼레이터 목록. 각 항목의 `name`은 현재 클라이언트의 OCR 치환 규칙을 적용한 오퍼레이터 이름을 나타내는 필수 문자열입니다. `id`는 선택 사항인 BattleData 오퍼레이터 ID 문자열이며, 하나의 ID로 확정할 수 없으면 생략합니다. 배열 순서가 배치 슬롯 순서와 일치한다고 보장하지 않습니다.
+  :::
+  ::::
+
+  수집 결과가 불완전하거나 이름 인식에 실패하면 `operators` 전체를 생략합니다. 예를 들어 숙소의 신뢰도 보기에서 백분율만 표시되어 이름을 식별할 수 없는 경우입니다. 필드가 없으면 목록을 알 수 없다는 뜻이며, `[]`는 선택된 오퍼레이터가 없다고 인식한 경우에만 사용합니다.
+
 - `NotEnoughStaff`  
   기반시설 가용 오퍼레이터 부족. `details` 필드 내용은 다음과 같습니다:
 

@@ -43,6 +43,9 @@ protected:
     bool optimal_calc();
     bool opers_choose();
     size_t select_abyssal_hunters(const std::vector<std::string>& operator_ids);
+    size_t select_abyssal_hunters(
+        const std::vector<std::string>& operator_ids,
+        std::vector<infrast::Oper>& selected_opers);
     bool use_drone();
     // 空意图/编组失败保持原样的房间仍执行 Post 无人机，无人机不改变人员配置
     bool try_use_custom_post_drone();

@@ -301,6 +301,7 @@ struct Oper
     std::unordered_set<Skill> skills;
     std::unordered_set<std::string> operator_ids;
     std::string operator_id;
+    std::string name; // 原流程已识别的姓名，供后续复用；未识别时留空
     Rect rect;
     // 因为OCR识别名字比较费时间，所以仅在name_filter不为空（有识别名字需求）的时候才识别，否则仅保存图片但不识别
     cv::Mat name_img;

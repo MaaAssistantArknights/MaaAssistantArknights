@@ -1,4 +1,5 @@
 #pragma once
+#include <optional>
 #include <set>
 
 #include "Common/AsstInfrastDef.h"
@@ -127,6 +128,10 @@ protected:
     bool get_opers(std::vector<std::string>& result, double mood = 1);
     // 复核干员选择是否符合期望
     bool select_opers_review(infrast::CustomRoomConfig const& origin_room_config, size_t num_of_opers_expect = 0);
+    bool select_opers_review(
+        infrast::CustomRoomConfig const& origin_room_config,
+        size_t num_of_opers_expect,
+        const std::vector<infrast::Oper>& known_opers);
     void order_opers_selection(const std::vector<std::string>& names);
     // 关闭按职业筛选
     void close_quick_formation_expand_role() const;
@@ -160,6 +165,14 @@ protected:
     bool stationed_in_production_facility(const infrast::Oper& oper) const;
     /// @brief 读干员驻扎栏并剔除非 B/F/数字字符，返回剩余编号串（空 = 未进驻或识别失败）
     static std::string read_facility_number(const infrast::Oper& oper);
+    // 优先复用已有姓名和 ID，缺失时只对原有裁图补做 OCR，不为回调增加界面操作。
+    void reset_selected_operators();
+    void invalidate_selected_operators();
+    void record_selected_operator(const infrast::Oper& oper, const std::string& name = {});
+    void cache_selected_operators(const std::vector<infrast::Oper>& opers);
+    void cache_selected_operators(
+        const std::vector<infrast::Oper>& opers,
+        const std::vector<infrast::Oper>& known_opers);
     // 点击干员选择页面的“确认”按钮
     virtual bool click_confirm_button();
 
@@ -195,6 +208,8 @@ protected:
     std::unordered_set<std::string> m_pending_operator_ids;
 
 private:
+    // nullopt 表示完整名单未知，空数组表示已确认清空；只在换班确认成功后上报。
+    std::optional<json::array> m_selected_operators;
     // 见 set_suppress_unconfigured_notice 的注释
     bool m_suppress_unconfigured_notice = false;
 };

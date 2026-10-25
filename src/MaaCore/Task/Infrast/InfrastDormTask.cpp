@@ -263,6 +263,15 @@ bool asst::InfrastDormTask::fill_dorm_slots()
     size_t num_of_selected = m_is_custom ? current_room_config().selected : 0;
     size_t num_of_fulltrust = 0;
     bool fill_remaining_slots = false;
+    const auto record_selection = [this](const infrast::Oper& oper) {
+        if (is_in_trust_autofill_phase() && oper.operator_id.empty()) {
+            // 信赖排序下姓名栏显示百分比，不能把它作为干员姓名回传。
+            invalidate_selected_operators();
+        }
+        else {
+            record_selected_operator(oper);
+        }
+    };
 
     while (num_of_selected < max_num_of_opers()) {
         if (need_exit()) {
@@ -296,6 +305,7 @@ bool asst::InfrastDormTask::fill_dorm_slots()
                 if (oper.doing != infrast::Doing::Working && !oper.selected) {
                     Log.info("fill remaining slots");
                     ctrler()->click(oper.rect);
+                    record_selection(oper);
                     ++num_of_selected;
                 }
                 continue;
@@ -309,6 +319,7 @@ bool asst::InfrastDormTask::fill_dorm_slots()
                     if (oper.doing != infrast::Doing::Working && !oper.selected) {
                         Log.info("fill remaining slots");
                         ctrler()->click(oper.rect);
+                        record_selection(oper);
                         ++num_of_selected;
                     }
                     continue;
@@ -365,6 +376,7 @@ bool asst::InfrastDormTask::fill_dorm_slots()
 
                     if (has_incomplete_trust && is_not_stationed) {
                         ctrler()->click(oper.rect);
+                        record_selection(oper);
                         ++num_of_selected;
                     }
                     else {
@@ -389,6 +401,7 @@ bool asst::InfrastDormTask::fill_dorm_slots()
             case infrast::SmileyType::Distract:
                 if (!oper.selected && oper.doing != infrast::Doing::Working) {
                     ctrler()->click(oper.rect);
+                    record_selection(oper);
                     ++num_of_selected;
                 }
                 break;
@@ -461,6 +474,7 @@ bool asst::InfrastDormTask::select_dorm_managers()
     m_cur_num_of_locked_opers =
         static_cast<int>(std::ranges::count_if(stationed_analyzer.get_result(), std::mem_fn(&infrast::Oper::selected)));
     if (m_cur_num_of_locked_opers >= static_cast<int>(max_num_of_opers())) {
+        cache_selected_operators(stationed_analyzer.get_result());
         return true;
     }
 
@@ -556,12 +570,14 @@ asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_selec
         return FiammettaSelectionResult::Error;
     }
 
+    reset_selected_operators();
     // 点选顺序决定进驻顺序，菲亚梅塔必须在目标后一位。
     target_opers.clear();
     if (detect_fiammetta_target(target_opers) != DetectResult::Found) {
         return FiammettaSelectionResult::Error;
     }
     ctrler()->click(target_opers.front().rect);
+    record_selected_operator(target_opers.front());
     if (!ProcessTask(*this, { "InfrastOperListTabSkillUnClicked" }).run()) {
         discard_pending_selection();
         return FiammettaSelectionResult::Error;
@@ -572,6 +588,7 @@ asst::InfrastDormTask::FiammettaSelectionResult asst::InfrastDormTask::try_selec
         return FiammettaSelectionResult::Error;
     }
     ctrler()->click(fiammetta_opers.front().rect);
+    record_selected_operator(fiammetta_opers.front(), "菲亚梅塔");
     const auto& id_opt = BattleData.get_first_id(battle::Role::Sniper, "菲亚梅塔");
     if (id_opt) {
         stage_operator_selection(*id_opt);
@@ -593,7 +610,7 @@ asst::InfrastDormTask::DetectResult asst::InfrastDormTask::detect_fiammetta_targ
 
     std::vector<infrast::DormSelectionCandidate> candidates;
     candidates.reserve(opers.size());
-    for (const auto& oper : opers) {
+    for (auto& oper : opers) {
         infrast::DormSelectionCandidate candidate {
             .operator_id = oper.operator_id,
             .mood_ratio = oper.mood_ratio,
@@ -608,6 +625,7 @@ asst::InfrastDormTask::DetectResult asst::InfrastDormTask::detect_fiammetta_targ
                 Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
             if (auto name = name_analyzer.analyze()) {
                 candidate.name = name->text;
+                oper.name = name->text;
             }
         }
         candidates.emplace_back(std::move(candidate));

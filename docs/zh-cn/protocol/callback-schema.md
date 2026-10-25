@@ -579,6 +579,28 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   :::
   ::::
 
+- `InfrastConfirmButton`\
+  基建设施选人确认成功。`details` 保留原有的设施信息，可选的 `operators` 表示实际选中的干员，可包含自定义候补与自动补位的最终结果。优先复用原选人流程已识别的姓名或 ID；身份信息缺失或无法唯一匹配时，仅对原有截图中的姓名裁图补做 OCR。为采集名单，不会额外截图或执行筛选、翻页、排序等界面操作。
+
+  :::: field-group
+  ::: field facility
+  @type string
+  @required
+  设施名。
+  :::
+  ::: field index
+  @type number
+  @required
+  设施序号，从 0 开始。
+  :::
+  ::: field operators
+  @type array<object>
+  可选的实际选中干员列表。每项的 `name` 为必填字符串，表示经过当前客户端 OCR 替换规则处理的干员姓名；`id` 为可选字符串，表示 BattleData 干员 ID，无法唯一解析时省略。列表顺序不保证与进驻槽位顺序一致。
+  :::
+  ::::
+
+  采集不完整或姓名识别失败时，整体省略 `operators`，例如宿舍信赖视图仅显示百分比、无法辨认姓名时。字段缺失表示名单未知；`[]` 仅表示识别到未选人。
+
 - `NotEnoughStaff`  
   基建可用干员不足。`details` 字段内容如下：
 

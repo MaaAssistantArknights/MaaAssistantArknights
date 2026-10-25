@@ -2373,8 +2373,38 @@ public class AsstProxy
                 break;
 
             case "InfrastConfirmButton":
-                Instances.TaskQueueViewModel.AddLog(string.Empty, updateCardImage: true, fetchLatestImage: true);
-                break;
+                {
+                    // 旧版内核或名单不完整时仍只刷新截图；显式空数组才表示无人进驻。
+                    var content = string.Empty;
+                    if (subTaskDetails?["operators"] is JArray operators)
+                    {
+                        var names = operators.OfType<JObject>()
+                            .Select(oper => {
+                                var id = oper["id"]?.ToString();
+                                var name = oper["name"]?.ToString();
+
+                                // 干员名遵循独立语言设置，未命中本地数据时保留识别原名。
+                                return (!string.IsNullOrEmpty(id)
+                                        ? DataHelper.GetLocalizedCharacterName(DataHelper.GetCharacterById(id))
+                                        : null)
+                                    ?? DataHelper.GetLocalizedCharacterName(name)
+                                    ?? name;
+                            })
+                            .Where(name => !string.IsNullOrWhiteSpace(name))
+                            .ToArray();
+                        if (names.Length == operators.Count)
+                        {
+                            content = LocalizationHelper.GetStringFormat(
+                                "InfrastFacilityOperators",
+                                names.Length == 0
+                                    ? LocalizationHelper.GetString("InfrastFacilityNoOperators")
+                                    : string.Join(", ", names));
+                        }
+                    }
+
+                    Instances.TaskQueueViewModel.AddLog(content, updateCardImage: true, fetchLatestImage: true);
+                    break;
+                }
 
             case "RecruitTagsDetected":
                 {

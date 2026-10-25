@@ -11,6 +11,7 @@
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Vision/Hasher.h"
 #include "Vision/Infrast/InfrastFacilityImageAnalyzer.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 #include "Vision/Matcher.h"
@@ -53,6 +54,7 @@ void asst::InfrastAbstractTask::stage_operator_selection(const std::string& oper
 
 void asst::InfrastAbstractTask::discard_pending_selection()
 {
+    invalidate_selected_operators();
     m_pending_operator_ids.clear();
     if (m_task_data) {
         m_task_data->discard_pending();
@@ -279,6 +281,7 @@ bool asst::InfrastAbstractTask::on_run_fails()
 bool asst::InfrastAbstractTask::enter_facility(int index)
 {
     LogTraceFunction;
+    invalidate_selected_operators();
 
     // 房间数组为空时放行进设施：整设施不换班由各任务自身的空数组拦截处理，会客室还需要进设施做线索等设施级操作
     if (m_is_custom && !m_custom_config.empty() && static_cast<size_t>(index) >= m_custom_config.size()) {
@@ -527,30 +530,47 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(
     if (!room_config.names.empty() || (!is_dorm_order && !select_opers_review(origin_room_config))) {
         // 复核失败，说明current_room_config与OCR识别是不符的，current_room_config是无效信息，还原到用户原来的配置，重选
         current_room_config() = std::move(origin_room_config);
+        invalidate_selected_operators();
         return false;
     }
 
+    if (m_selected_operators && m_selected_operators->size() != static_cast<size_t>(room_config.selected)) {
+        invalidate_selected_operators();
+    }
     return true;
+}
+
+bool asst::InfrastAbstractTask::select_opers_review(
+    infrast::CustomRoomConfig const& origin_room_config,
+    size_t num_of_opers_expect)
+{
+    return select_opers_review(origin_room_config, num_of_opers_expect, {});
 }
 
 /// @brief 复核干员选择是否符合期望。如果是自定义的，会检查自定义的人选全了没。
 /// @brief 调用该函数前，需保证停留在干员选择页面第一页，且已选干员排在最前面。
 /// @param origin_room_config 期望的配置
 /// @param num_of_opers_expect 期望选中的人数，空置则按names.size()判断
+/// @param known_opers 本轮已选干员的识别结果，仅用于回调姓名复用，不改变复核条件
 /// @return 是否符合期望
 bool asst::InfrastAbstractTask::select_opers_review(
     infrast::CustomRoomConfig const& origin_room_config,
-    size_t num_of_opers_expect)
+    size_t num_of_opers_expect,
+    const std::vector<infrast::Oper>& known_opers)
 {
     LogTraceFunction;
+    invalidate_selected_operators();
     // save_img("debug/");
     auto room_config = origin_room_config;
 
     sleep(500); // 等待干员选择界面稳定
     const auto image = ctrler()->get_image();
     InfrastOperImageAnalyzer oper_analyzer(image);
-    oper_analyzer.set_to_be_calced(
-        InfrastOperImageAnalyzer::ToBeCalced::Selected | InfrastOperImageAnalyzer::ToBeCalced::Doing);
+    int calced = InfrastOperImageAnalyzer::ToBeCalced::Selected | InfrastOperImageAnalyzer::ToBeCalced::Doing;
+    if (!known_opers.empty()) {
+        calced |= InfrastOperImageAnalyzer::ToBeCalced::FaceHash;
+    }
+    oper_analyzer.set_to_be_calced(calced);
     if (!oper_analyzer.analyze()) {
         Log.warn("No oper");
         return false;
@@ -572,6 +592,8 @@ bool asst::InfrastAbstractTask::select_opers_review(
         return false;
     }
     if (facility_name() != "Dorm" && (!m_is_custom || (room_config.names.empty() && room_config.candidates.empty()))) {
+        // 用本轮复核截图匹配实际选中者，复用选人时的身份；未匹配者补做姓名 OCR。
+        cache_selected_operators(oper_analyzer_res, known_opers);
         return true;
     }
     if (selected_count < room_config.names.size()) {
@@ -579,6 +601,7 @@ bool asst::InfrastAbstractTask::select_opers_review(
         return false;
     }
 
+    reset_selected_operators();
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     for (const auto& oper : oper_analyzer_res) {
         RegionOCRer name_analyzer;
@@ -586,6 +609,9 @@ bool asst::InfrastAbstractTask::select_opers_review(
         name_analyzer.set_image(oper.name_img);
         name_analyzer.set_bin_expansion(0);
         if (!name_analyzer.analyze()) {
+            if (oper.selected) {
+                invalidate_selected_operators();
+            }
             continue;
         }
         if (!oper.selected) {
@@ -593,6 +619,7 @@ bool asst::InfrastAbstractTask::select_opers_review(
         }
 
         const std::string& name = name_analyzer.get_result().text;
+        record_selected_operator(oper, name);
         if (auto iter = std::ranges::find(room_config.names, name); iter != room_config.names.end()) {
             Log.info(name, "is in \"operators\"，and is selected");
             room_config.names.erase(iter);
@@ -601,6 +628,7 @@ bool asst::InfrastAbstractTask::select_opers_review(
             if (oper.doing == infrast::Doing::Working) {
                 Log.warn("selected operators at work:", name);
                 Log.warn("select opers review fail: non-custom configuration, but an operator at work is selected");
+                invalidate_selected_operators();
                 return false;
             }
         }
@@ -608,6 +636,7 @@ bool asst::InfrastAbstractTask::select_opers_review(
 
     if (room_config.names.size()) {
         Log.warn("select opers review fail: part of custom operators unselected.");
+        invalidate_selected_operators();
         return false;
     }
 
@@ -738,6 +767,7 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
         if (!oper.selected) {
             ctrler()->click(oper.rect);
         }
+        record_selected_operator(oper, name);
         if (static_cast<size_t>(++room_config.selected) >= max_num_of_opers()) {
             break;
         }
@@ -996,6 +1026,7 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
         auto iter = std::ranges::find_if(page_result, [&name](const TextRect& tr) { return tr.text == name; });
         if (iter != page_result.cend()) {
             ctrler()->click(iter->rect);
+            record_selected_operator(infrast::Oper {}, name);
         }
         else {
             Log.error("name not in this page", name);
@@ -1013,6 +1044,7 @@ void asst::InfrastAbstractTask::close_quick_formation_expand_role() const
 void asst::InfrastAbstractTask::click_return_button()
 {
     LogTraceFunction;
+    invalidate_selected_operators();
     ProcessTask(*this, { "Infrast@ReturnButton" }).run();
 }
 
@@ -1027,6 +1059,7 @@ bool asst::InfrastAbstractTask::click_bottom_left_tab()
 bool asst::InfrastAbstractTask::click_clear_button()
 {
     LogTraceFunction;
+    invalidate_selected_operators();
 
     for (int i = 0; i != 5; ++i) {
         if (need_exit()) {
@@ -1045,6 +1078,7 @@ bool asst::InfrastAbstractTask::click_clear_button()
                 std::ranges::count_if(analyzer.get_result(), [](const infrast::Oper& info) { return info.selected; });
             Log.info(__FUNCTION__, "after clear, selected_count = ", selected_count);
             if (selected_count == 0) {
+                reset_selected_operators();
                 break;
             }
         }
@@ -1155,10 +1189,116 @@ bool asst::InfrastAbstractTask::stationed_in_production_facility(const infrast::
     return stationed;
 }
 
+void asst::InfrastAbstractTask::reset_selected_operators()
+{
+    m_selected_operators = json::array {};
+}
+
+void asst::InfrastAbstractTask::invalidate_selected_operators()
+{
+    m_selected_operators.reset();
+}
+
+void asst::InfrastAbstractTask::record_selected_operator(const infrast::Oper& oper, const std::string& recognized_name)
+{
+    // 单槽设施选择新干员时会替换原有选择，多槽设施则须从已知的完整名单继续追加。
+    if (max_num_of_opers() == 1) {
+        reset_selected_operators();
+    }
+    if (!m_selected_operators) {
+        return;
+    }
+
+    // 优先复用已识别的姓名或 ID，必要时只对原有姓名裁图做 OCR。
+    std::string name = recognized_name.empty() ? oper.name : recognized_name;
+    if (name.empty() && !oper.operator_id.empty()) {
+        if (const auto props = BattleData.find_oper_by_id(oper.operator_id)) {
+            name = props->name;
+        }
+    }
+    if (name.empty() && !oper.name_img.empty()) {
+        const auto& replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
+        RegionOCRer name_analyzer(oper.name_img);
+        name_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
+        name_analyzer.set_bin_expansion(0);
+        if (name_analyzer.analyze()) {
+            name = name_analyzer.get_result().text;
+        }
+    }
+    if (name.empty()) {
+        LogWarn << __FUNCTION__ << "failed to recognize a selected operator name";
+        invalidate_selected_operators();
+        return;
+    }
+
+    json::value info = json::object { { "name", name } };
+    if (!oper.operator_id.empty()) {
+        info["id"] = oper.operator_id;
+    }
+    else {
+        auto matches = BattleData.find_opers(battle::Role::Unknown, name);
+        std::erase_if(matches, [](const auto& props) { return props->role == battle::Role::Drone; });
+        if (matches.size() == 1) {
+            info["id"] = matches.front()->id;
+        }
+    }
+    if (std::ranges::none_of(*m_selected_operators, [&name](const auto& item) {
+            return item.at("name").as_string() == name;
+        })) {
+        m_selected_operators->emplace_back(std::move(info));
+    }
+}
+
+void asst::InfrastAbstractTask::cache_selected_operators(const std::vector<infrast::Oper>& opers)
+{
+    cache_selected_operators(opers, {});
+}
+
+void asst::InfrastAbstractTask::cache_selected_operators(
+    const std::vector<infrast::Oper>& opers,
+    const std::vector<infrast::Oper>& known_opers)
+{
+    reset_selected_operators();
+    const int face_hash_thres = Task.get("InfrastOperFace")->special_params[0];
+    for (const auto& oper : opers) {
+        if (oper.selected) {
+            auto resolved_oper = oper;
+            const auto matches_face = [&](const infrast::Oper& candidate) {
+                return !oper.face_hash.empty() && !candidate.face_hash.empty() &&
+                       Hasher::hamming(oper.face_hash, candidate.face_hash) < face_hash_thres;
+            };
+            const auto known = std::ranges::find_if(known_opers, [&](const infrast::Oper& candidate) {
+                return (!candidate.name.empty() || !candidate.operator_id.empty()) && matches_face(candidate);
+            });
+            // 头像须双向唯一匹配，避免相似头像或点击未生效时把计划名单当成实际名单。
+            if (known != known_opers.cend() && std::ranges::count_if(known_opers, matches_face) == 1 &&
+                std::ranges::count_if(opers, [&](const infrast::Oper& candidate) {
+                    return candidate.selected && !candidate.face_hash.empty() &&
+                           Hasher::hamming(known->face_hash, candidate.face_hash) < face_hash_thres;
+                }) == 1) {
+                if (resolved_oper.name.empty()) {
+                    resolved_oper.name = known->name;
+                }
+                if (resolved_oper.operator_id.empty()) {
+                    resolved_oper.operator_id = known->operator_id;
+                }
+            }
+            record_selected_operator(resolved_oper);
+        }
+    }
+    const auto selected_count = std::ranges::count_if(opers, std::mem_fn(&infrast::Oper::selected));
+    if (m_selected_operators && m_selected_operators->size() != static_cast<size_t>(selected_count)) {
+        invalidate_selected_operators();
+    }
+}
+
 bool asst::InfrastAbstractTask::click_confirm_button()
 {
     LogTraceFunction;
 
+    // 名单只随本次确认上报，确认失败时也不保留给重试或后续房间。
+    auto selected_operators = std::move(m_selected_operators);
+    invalidate_selected_operators();
     ProcessTask task(*this, { "InfrastDormConfirmButton" });
     bool ret = task.run();
     if (ret) {
@@ -1169,7 +1309,11 @@ bool asst::InfrastAbstractTask::click_confirm_button()
             m_task_data->commit_pending();
         }
         discard_pending_selection();
-        callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("InfrastConfirmButton"));
+        auto info = basic_info_with_what("InfrastConfirmButton");
+        if (selected_operators) {
+            info["details"]["operators"] = std::move(*selected_operators);
+        }
+        callback(AsstMsg::SubTaskExtraInfo, info);
     }
     else {
         discard_pending_selection();

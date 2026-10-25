@@ -155,6 +155,8 @@
     <system:String x:Key="Training">訓練室</system:String>
     <system:String x:Key="Recycle">回収所（推測訳名・未実装）</system:String>
     <system:String x:Key="AssistantChange">補佐交代替え</system:String>
+    <system:String x:Key="InfrastFacilityOperators">施設配属オペレーター：{0}</system:String>
+    <system:String x:Key="InfrastFacilityNoOperators">なし</system:String>
     <system:String x:Key="InfrastTraineeNotFound">訓練枠の候補がすべて一致しなかったため、訓練枠はそのまま維持されます: {0}</system:String>
     <system:String x:Key="InfrastAssistantNotFound">補佐者の候補がすべて一致しなかったため、補佐者はそのまま維持されます: {0}</system:String>
     <system:String x:Key="InfrastAssistantWorkingExcluded">補佐者の候補が他の施設で勤務中のためスキップし、補佐者はそのまま維持されます: {0}</system:String>

@@ -155,6 +155,8 @@
     <system:String x:Key="Training">Training Room</system:String>
     <system:String x:Key="Recycle">Recycling Station (speculative translation, not yet released)</system:String>
     <system:String x:Key="AssistantChange">Assistant change</system:String>
+    <system:String x:Key="InfrastFacilityOperators">Facility operators: {0}</system:String>
+    <system:String x:Key="InfrastFacilityNoOperators">None</system:String>
     <system:String x:Key="InfrastTraineeNotFound">No training slot candidate matched; the training slot has been left unchanged: {0}</system:String>
     <system:String x:Key="InfrastAssistantNotFound">No assistant candidate matched; the assistant has been left unchanged: {0}</system:String>
     <system:String x:Key="InfrastAssistantWorkingExcluded">Assistant candidates are working in other facilities and have been skipped; the assistant has been left unchanged: {0}</system:String>

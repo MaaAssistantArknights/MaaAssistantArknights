@@ -656,6 +656,7 @@ bool asst::InfrastProductionTask::resolve_operator_identity(infrast::Oper& oper)
 
     oper.operator_ids = { operator_id };
     oper.operator_id = operator_id;
+    oper.name = name->text;
     LogTrace << __FUNCTION__ << "infrastructure operator identity" << facility_name() << name->text << operator_id;
     return true;
 }
@@ -968,6 +969,14 @@ bool asst::InfrastProductionTask::optimal_calc()
 
 size_t asst::InfrastProductionTask::select_abyssal_hunters(const std::vector<std::string>& operator_ids)
 {
+    std::vector<infrast::Oper> selected_opers;
+    return select_abyssal_hunters(operator_ids, selected_opers);
+}
+
+size_t asst::InfrastProductionTask::select_abyssal_hunters(
+    const std::vector<std::string>& operator_ids,
+    std::vector<infrast::Oper>& selected_opers)
+{
     LogTraceFunction;
     if (operator_ids.empty()) {
         return 0;
@@ -1003,7 +1012,8 @@ size_t asst::InfrastProductionTask::select_abyssal_hunters(const std::vector<std
             for (int page = 0; page < 18 && !remaining.empty() && !need_exit(); ++page) {
                 const auto image = ctrler()->get_image();
                 InfrastOperImageAnalyzer oper_analyzer(image);
-                oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected);
+                oper_analyzer.set_to_be_calced(
+                    InfrastOperImageAnalyzer::ToBeCalced::Selected | InfrastOperImageAnalyzer::ToBeCalced::FaceHash);
                 if (oper_analyzer.analyze()) {
                     oper_analyzer.sort_by_loc();
                     for (const auto& oper : oper_analyzer.get_result()) {
@@ -1029,6 +1039,10 @@ size_t asst::InfrastProductionTask::select_abyssal_hunters(const std::vector<std
                             sleep(100);
                         }
                         stage_operator_selection(operator_id);
+                        auto selected_oper = oper;
+                        selected_oper.name = name->text;
+                        selected_oper.operator_id = operator_id;
+                        selected_opers.emplace_back(std::move(selected_oper));
                         remaining.erase(operator_id);
                         ++selected;
                     }
@@ -1070,6 +1084,13 @@ bool asst::InfrastProductionTask::opers_choose()
 
     int count = 0;
     int swipe_times = 0;
+    std::vector<infrast::Oper> selected_opers;
+    // 候选会随点选移除，身份歧义须始终按本轮完整候选判断。
+    std::vector<std::string> candidate_face_hashes;
+    candidate_face_hashes.reserve(m_all_available_opers.size());
+    for (const auto& oper : m_all_available_opers) {
+        candidate_face_hashes.emplace_back(oper.face_hash);
+    }
 
     std::vector<std::string> abyssal_hunter_ids;
     std::erase_if(m_optimal_combs, [&](const infrast::SkillsComb& comb) {
@@ -1116,6 +1137,7 @@ bool asst::InfrastProductionTask::opers_choose()
         for (auto opt_iter = m_optimal_combs.begin(); opt_iter != m_optimal_combs.end();) {
             LogTrace << __FUNCTION__ << "to find"
                      << (opt_iter->skills.empty() ? opt_iter->operator_id : opt_iter->skills.begin()->names.front());
+            std::string selected_name;
             auto find_iter = std::ranges::find_if(cur_all_opers, [&](const infrast::Oper& lhs) -> bool {
                 if (lhs.skills != opt_iter->skills) {
                     return false;
@@ -1140,8 +1162,12 @@ bool asst::InfrastProductionTask::opers_choose()
                         return false;
                     }
                     std::string name = name_analyzer.get_result().text;
-                    return std::ranges::find(std::as_const(opt_iter->name_filter), name) !=
-                           opt_iter->name_filter.cend();
+                    const bool matched =
+                        std::ranges::find(std::as_const(opt_iter->name_filter), name) != opt_iter->name_filter.cend();
+                    if (matched) {
+                        selected_name = std::move(name);
+                    }
+                    return matched;
                 }
             });
 
@@ -1163,6 +1189,8 @@ bool asst::InfrastProductionTask::opers_choose()
             else {
                 ctrler()->click(find_iter->rect);
             }
+            auto selected_oper = *find_iter;
+            selected_oper.name = std::move(selected_name);
             {
                 auto avlb_iter = std::ranges::find_if(m_all_available_opers, [&](const infrast::Oper& lhs) -> bool {
                     int dist = Hasher::hamming(lhs.face_hash, find_iter->face_hash);
@@ -1171,12 +1199,24 @@ bool asst::InfrastProductionTask::opers_choose()
                 });
                 if (avlb_iter != m_all_available_opers.cend()) {
                     stage_operator_selection(avlb_iter->operator_id);
+                    // 原选人逻辑不变，回调仅借用唯一头像匹配的身份，歧义时留给复核裁图识别。
+                    if (std::ranges::count_if(candidate_face_hashes, [&](const std::string& face_hash) {
+                            return Hasher::hamming(face_hash, find_iter->face_hash) < face_hash_thres;
+                        }) == 1) {
+                        if (selected_oper.name.empty()) {
+                            selected_oper.name = avlb_iter->name;
+                        }
+                        if (selected_oper.operator_id.empty()) {
+                            selected_oper.operator_id = avlb_iter->operator_id;
+                        }
+                    }
                     m_all_available_opers.erase(avlb_iter);
                 }
                 else {
                     LogError << __FUNCTION__ << "opers_choose | not found oper";
                 }
             }
+            selected_opers.emplace_back(std::move(selected_oper));
             ++count;
             cur_all_opers.erase(find_iter);
             opt_iter = m_optimal_combs.erase(opt_iter);
@@ -1193,7 +1233,7 @@ bool asst::InfrastProductionTask::opers_choose()
     if (swipe_times) {
         swipe_to_the_left_of_operlist(swipe_times + 1);
     }
-    count += static_cast<int>(select_abyssal_hunters(abyssal_hunter_ids));
+    count += static_cast<int>(select_abyssal_hunters(abyssal_hunter_ids, selected_opers));
     LogTrace << __FUNCTION__ << "| count" << count << "cur_max_num_of_opers" << cur_max_num_of_opers;
     if (count < cur_max_num_of_opers) {
         // 这种情况可能是萌新，可用干员人数不足以填满当前设施
@@ -1202,7 +1242,7 @@ bool asst::InfrastProductionTask::opers_choose()
     // 点两次排序，让已选干员排到最前面
     ProcessTask(*this, { "InfrastOperListTabSkillUnClicked" }).run();
     ProcessTask(*this, { "InfrastOperListTabWorkStatusUnClicked" }).run();
-    return select_opers_review(current_room_config(), count);
+    return select_opers_review(current_room_config(), count, selected_opers);
 }
 
 bool asst::InfrastProductionTask::use_drone()

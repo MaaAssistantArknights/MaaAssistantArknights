@@ -531,6 +531,24 @@ Todo
   }
   ```
 
+- `InfrastConfirmButton`\
+  Operator selection in a base facility was confirmed successfully. The existing facility information in `details` is preserved. The optional `operators` array reports the actual selected operators, which may include the final results of custom candidate selection and automatic filling. Names or IDs already recognized during selection are reused first; when identity information is missing or cannot be matched uniquely, name OCR is performed only on crops from existing screenshots. Collecting the roster does not take additional screenshots or perform additional UI operations such as filtering, paging, or sorting.
+
+  ```json
+  // Corresponding details field example
+  {
+    "facility": "Mfg", // Facility name
+    "index": 0, // Zero-based facility index
+    "operators": [ // Optional array of selected operators
+      { "name": "Lancet-2", "id": "char_285_medic2" }
+    ]
+  }
+  ```
+
+  Each entry requires a string `name`, the operator name after applying the current client's OCR replacement rules. The string `id` is an optional BattleData operator ID and is omitted if it cannot be resolved uniquely. Array order does not guarantee facility slot order.
+
+  The entire `operators` field is omitted if collection is incomplete or name recognition fails, for example when the dormitory trust view shows only percentages and names cannot be identified. An absent field means the roster is unknown; `[]` only means that no operators were recognized as selected.
+
 - `NotEnoughStaff`  
   Base available operators insufficient
 
