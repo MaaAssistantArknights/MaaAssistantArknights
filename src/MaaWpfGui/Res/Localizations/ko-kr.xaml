@@ -287,7 +287,6 @@
     <system:String x:Key="RoguelikeBlackFlowStartRewardsAnyHit">하나라도 나오면 중지</system:String>
     <system:String x:Key="RoguelikeBlackFlowStartRewardsTip" xml:space="preserve">원하는 보상과 깃털 뱀 보상에서 체크한 항목은 모두 후보가 되며, 시작 시 하나라도 나오면 중지합니다.&#10;선택지에 마우스를 올리면 효과를 확인할 수 있습니다.</system:String>
     <system:String x:Key="RoguelikeBlackFlowSerpentRewards">깃털 뱀 보상</system:String>
-    <system:String x:Key="RoguelikeBlackFlowSerpentRewardsInactive">포대기의 깃털 뱀을 선택해야 적용됨</system:String>
     <system:String x:Key="RoguelikeBlackFlowStartUtopia">1구역 实托邦(1구역 종류) 노리기</system:String>
     <system:String x:Key="RoguelikeBlackFlowStartUtopiaTip" xml:space="preserve">목표 탐험의 지원 화면에 원하는 보상이 나오면 ｢{key=RoguelikeBlackFlowStartRewardPriority}｣ 순서로 카드를 고르고 1구역에 들어갑니다.&#10;1구역이 实托邦이면 이번 탐험을 유지한 채 나오고, 아니면 이번 탐험을 포기하고 준비 탐험을 다시 진행합니다.&#10;목표 탐험은 일반 설정의 직업 그룹과 시작 오퍼레이터로 시작합니다.&#10;난이도 6 이상이 필요합니다.&#10;난이도를 전환하지 않는 설정에서는 난이도를 확인하지 않습니다.</system:String>
     <system:String x:Key="RoguelikeBlackFlowStartRewardPriority">시작 보상 선택 우선순위</system:String>
@@ -2236,8 +2235,6 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
   1. 결산 후 첫 번째 날이어야 하며, 이후 3일 이내에 적의 침입이 없어야 합니다
   2. 지도 화면에 진입한 상태(주둔지가 보이는 지점)에서 시작해야 합니다
   3. 제조 가능한 수량이 99의 배수일 경우 멈출 수 있습니다. 저장하기 전에 재료를 약간 사용한 후에 다시 시도하세요. 이 문제는 수정될 예정입니다</system:String>
-    <system:String x:Key="ReclamationBePatient">빨리 발전하고 싶어요! 또 급해져버렸네요</system:String>
-    <system:String x:Key="Reclamation2ExEnable">제작 점수 획득 모드</system:String>
     <system:String x:Key="ReclamationToolToCraftTip">제작할 도구 이름</system:String>
     <system:String x:Key="ReclamationToolToCraftPlaceholder">형광봉</system:String>
     <!--  !Reclamation  -->

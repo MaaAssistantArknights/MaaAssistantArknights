@@ -287,7 +287,6 @@
     <system:String x:Key="RoguelikeBlackFlowStartRewardsAnyHit">いずれか1つで停止</system:String>
     <system:String x:Key="RoguelikeBlackFlowStartRewardsTip" xml:space="preserve">狙う報酬と羽蛇の報酬でチェックした項目はすべて候補となり、開局時にいずれか1つが出れば停止します。&#10;選択肢にマウスを重ねると効果を確認できます。</system:String>
     <system:String x:Key="RoguelikeBlackFlowSerpentRewards">羽蛇の報酬</system:String>
-    <system:String x:Key="RoguelikeBlackFlowSerpentRewardsInactive">襁褓の羽蛇を選んだ場合のみ有効</system:String>
     <system:String x:Key="RoguelikeBlackFlowStartUtopia">第1層の实托邦（第1層の種類）を厳選</system:String>
     <system:String x:Key="RoguelikeBlackFlowStartUtopiaTip" xml:space="preserve">目標の探索で支援画面に狙う報酬が出たら、｢{key=RoguelikeBlackFlowStartRewardPriority}｣ の順にカードを選んで第1層に入ります。&#10;第1層が实托邦ならこの探索を保持したまま退出し、そうでなければこの探索を放棄して準備用探索をやり直します。&#10;目標の探索は一般設定の職業と最初のオペレーターで開局します。&#10;難易度6以上が必要です。&#10;難易度を切り替えない設定では難易度を確認しません。</system:String>
     <system:String x:Key="RoguelikeBlackFlowStartRewardPriority">初期報酬の選択優先順位</system:String>
@@ -2237,8 +2236,6 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
   1. 条件は、決算後初日と、その後3日間、敵襲がないこと。
   2. 大地図のインターフェースに入った後に開始する必要があります（駐屯地を見ることができるページ）
   3. 作れる数字がちょうど99の倍数の場合、スタックしてしまうので、セーブする前に少し使い切り、後で修正することができる。</system:String>
-    <system:String x:Key="ReclamationBePatient">改善するのが待ちきれません！また急いでいます</system:String>
-    <system:String x:Key="Reclamation2ExEnable">道具作りでポイントを得る</system:String>
     <system:String x:Key="ReclamationToolToCraftTip">支援道具名</system:String>
     <system:String x:Key="ReclamationToolToCraftPlaceholder">ケミカルライト</system:String>
     <!--  !Reclamation  -->

@@ -287,7 +287,6 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="RoguelikeBlackFlowStartRewardsAnyHit">Stops on any match</system:String>
     <system:String x:Key="RoguelikeBlackFlowStartRewardsTip" xml:space="preserve">Everything checked in Desired Rewards and Feathered Serpent Rewards counts as a candidate; the task stops as soon as any one of them appears at the start.&#10;Hover over an option to see its effect.</system:String>
     <system:String x:Key="RoguelikeBlackFlowSerpentRewards">Feathered Serpent Rewards</system:String>
-    <system:String x:Key="RoguelikeBlackFlowSerpentRewardsInactive">Only applies when Swaddled Feathered Serpent is selected</system:String>
     <system:String x:Key="RoguelikeBlackFlowStartUtopia">Reroll until Floor 1 is 实托邦 (a Floor 1 variant)</system:String>
     <system:String x:Key="RoguelikeBlackFlowStartUtopiaTip" xml:space="preserve">Once a desired reward appears on the support screen, the target run picks cards by ｢{key=RoguelikeBlackFlowStartRewardPriority}｣ and enters Floor 1.&#10;If Floor 1 is 实托邦, the task exits and keeps the run; otherwise it abandons the run and starts another preparation run.&#10;The target run starts with the roles and starting operator from General settings.&#10;Requires difficulty 6 or higher; difficulty is not checked when it is set not to switch.</system:String>
     <system:String x:Key="RoguelikeBlackFlowStartRewardPriority">Starting Reward Pick Priority</system:String>
@@ -2234,8 +2233,6 @@ Task flow: Automatically use support operator to execute 60-kill mission</system
   1. It must be the first day after settlement, and there should be no enemy attacks entering the stationed area for the next three days.
   2. It must start after entering the interface of the large map. (stationed location needs to be visible)
   3. If the quantity that can be manufactured is exactly a multiple of 99, MAA can get confused (stuck). You can use up a little before saving. This might be repaired later.</system:String>
-    <system:String x:Key="ReclamationBePatient">Chill and relax, please be patient</system:String>
-    <system:String x:Key="Reclamation2ExEnable">Farm points through crafting</system:String>
     <system:String x:Key="ReclamationToolToCraftTip">Support prop name</system:String>
     <system:String x:Key="ReclamationToolToCraftPlaceholder">Glow Stick</system:String>
     <!--  !Reclamation  -->
