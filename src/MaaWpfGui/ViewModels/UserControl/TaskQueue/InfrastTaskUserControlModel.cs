@@ -25,7 +25,6 @@ using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
-using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using Microsoft.Win32;
@@ -49,7 +48,6 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
 
     public InfrastTaskUserControlModel()
     {
-        _runningState = RunningState.Instance;
         foreach (var item in WeeklyScheduleSource)
         {
             item.PropertyChanged += (_, args) => {
@@ -96,8 +94,6 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
         ("至简", "InfrastFiammettaTargetMinimalist"),
         ("旅骨", "InfrastFiammettaTargetHbound"),
     ];
-
-    private readonly RunningState _runningState;
 
     /// <summary>
     /// Gets the visibility of task setting views.
