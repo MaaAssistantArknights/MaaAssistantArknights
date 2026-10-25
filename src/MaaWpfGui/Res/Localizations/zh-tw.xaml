@@ -309,20 +309,20 @@
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetCerberus">襁褓三頭犬</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetCatTip">下一局開局額外獲得 5 源石錠。</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetDogTip">下一局開局額外獲得 1 希望。</system:String>
-    <system:String x:Key="RoguelikeBlackFlowCultivationTargetCerberusTip">下一局多一次支援選擇機會。培育所在的這一局須至少通過兩個區域。</system:String>
-    <system:String x:Key="RoguelikeBlackFlowCultivationTargetFeatheredSerpentTip">下一局的支援選項裡多一個隨機的藍色襁褓生靈。培育所在的這一局須至少通過兩個區域。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetCerberusTip">下一局多一次支援選擇機會。培育所在的這一局須至少通過兩層。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetFeatheredSerpentTip">下一局的支援選項裡多一個隨機的藍色襁褓生靈。培育所在的這一局須至少通過兩層。</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardUnnumberedItemTip">獲得 1 件普通收藏品。</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardSurveyAdvanceTip">獲得 8 源石錠。</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardSpaceLeaseTip">消耗 6 源石錠，零件箱容量 +2。</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardRegressionCompensationTip">消耗 2 目標生命值上限，獲得 1 件隨機收藏品。</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardForestRideTip">獲得 1 件加工品。</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardNestParasitismTip">零件箱容量 -1，獲得 1 件稀有收藏品。</system:String>
-    <system:String x:Key="RoguelikeBlackFlowRewardPegasusTip">每一區域額外獲得 1 行動力。</system:String>
-    <system:String x:Key="RoguelikeBlackFlowRewardHippogriffTip">初始額外獲得 1 希望，前 2 個區域初始揭露全部視野。</system:String>
-    <system:String x:Key="RoguelikeBlackFlowRewardDragonTip">前 2 個區域中所有敵人的最大生命值 -50%。</system:String>
-    <system:String x:Key="RoguelikeBlackFlowRewardHydraTip">所有敵人的攻擊和生命值 +30%；每次進入新的區域，我方單位攻擊力和生命值 +10%。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardPegasusTip">每一層額外獲得 1 行動力。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardHippogriffTip">初始額外獲得 1 希望，前 2 層初始揭露全部視野。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardDragonTip">前 2 層中所有敵人的最大生命值 -50%。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardHydraTip">所有敵人的攻擊和生命值 +30%；每次進入新層，我方單位攻擊力和生命值 +10%。</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardBaiZeTip">臨時招募幹員的出現機率提升。</system:String>
-    <system:String x:Key="RoguelikeBlackFlowRewardGoldenCrowTip">進入區域血色空脈時獲得 3 個隨機收藏品。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardGoldenCrowTip">進入第三層血色空脈時獲得 3 個隨機收藏品。</system:String>
     <system:String x:Key="RoguelikeBlackFlowPrepFlightTip" xml:space="preserve">準備局固定用特勤分隊、穩紮穩打和自己的機械師開局，只招機械師，第二層用自帶的結構性原理直接飛到第三層。&#10;勾選後 ｢{key=RoguelikeCollectibleModeSquad}｣ 顯示為特勤分隊且不能修改，取消勾選後恢復原來的設定；一般設定裡的職業組和開局幹員不受影響。&#10;機械師天賦沒點滿會飛不起來，請不要勾選。</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">刷開局，刷取熱水壺或精二{key=Operator}開局</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">刷坍縮範式，遇到非稀有坍縮範式後直接重開</system:String>
