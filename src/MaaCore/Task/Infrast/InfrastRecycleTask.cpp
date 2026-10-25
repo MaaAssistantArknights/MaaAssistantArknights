@@ -153,8 +153,10 @@ bool asst::InfrastRecycleTask::fill_slots()
     if (num_of_selected < max_num_of_opers()) {
         callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("NotEnoughStaff"));
     }
-    if (swipe_times > 0) {
-        swipe_to_the_left_of_operlist(swipe_times + 1);
+    // 跨页选人后重新排序置顶已选干员，确认前只需识别首页姓名。
+    if (!ProcessTask(*this, { "InfrastOperListTabSkillUnClicked", "InfrastOperListTabWorkStatusUnClicked" }).run()) {
+        return false;
     }
+    swipe_to_the_left_of_operlist(swipe_times + 1);
     return true;
 }
