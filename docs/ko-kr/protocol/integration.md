@@ -1830,4 +1830,9 @@ AdbLite 사용 여부. 옵션: "0" 끄기, "1" 켜기. 열거값: 4
 @optional
 클라이언트 종류(게임 채널). 대부분의 연결 설정에서는 필요하지 않습니다. `AsstConnect` / `AsstAsyncConnect` 에 전달하는 `config` 가 연결 단계에서 실행되는 명령에 `[PackageName]` 을 사용할 때만, 연결 전에 `AsstSetInstanceOption(..., ClientType, ...)` 를 호출해 설정해야 합니다. 현재 내장 설정 중에서는 `Androws` 와 `WSA` 의 `displayId` 조회만 이 값에 의존합니다. 이 옵션은 StartUp / CloseDown 등의 작업 파라미터 `client_type` 를 대체하지 않습니다. 열거값: 6  
 :::  
+::: field Win32AutoResizeWindow  
+@type boolean
+@optional
+Win32 창에 연결할 때 캡처 이미지가 16:9가 아니면 일반 게임 창의 클라이언트 영역을 자동으로 조정하고, 작업이 끝나면 원래 크기와 표시 상태로 복원할지 여부. 테두리 없는 전체 화면은 자동으로 조정할 수 없으며, 연결할 때 먼저 창 모드로 전환하라는 안내를 표시합니다. 사용 가능한 값: `0` 또는 `1`. 기본값: `0`. 열거값: 7  
+:::  
 ::::

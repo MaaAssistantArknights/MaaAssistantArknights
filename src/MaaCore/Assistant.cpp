@@ -243,6 +243,16 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
     case InstanceOptionKey::ClientType:
         m_ctrler->set_client_type(value);
         return true;
+    case InstanceOptionKey::Win32AutoResizeWindow:
+        if (constexpr std::string_view Enable = "1"; value == Enable) {
+            m_ctrler->set_win32_auto_resize_window(true);
+            return true;
+        }
+        else if (constexpr std::string_view Disable = "0"; value == Disable) {
+            m_ctrler->set_win32_auto_resize_window(false);
+            return true;
+        }
+        break;
     default:
         break;
     }

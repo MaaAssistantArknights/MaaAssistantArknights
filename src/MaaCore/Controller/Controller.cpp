@@ -346,6 +346,7 @@ bool asst::Controller::attach_window(
     clear_info();
 
     auto win32_controller = std::make_shared<Win32Controller>(m_callback, m_inst);
+    win32_controller->set_auto_resize_window(m_win32_auto_resize_window);
     if (!win32_controller->attach(hwnd, screencap_method, mouse_method, keyboard_method)) {
         Log.error("attach_window failed");
         return false;
@@ -358,6 +359,9 @@ bool asst::Controller::attach_window(
     // 连接时只需要获取画面，识别前的输入操作由任务截图执行。
     if (!screencap_for_preview()) {
         Log.error("Cannot screencap!");
+        if (!win32_controller->restore_window_position()) {
+            Log.error("Cannot restore Win32 window after screencap failure!");
+        }
         return false;
     }
 
@@ -380,11 +384,17 @@ bool asst::Controller::attach_window(
     }
     catch (const std::exception& e) {
         Log.error("Cannot create controller proxy: {}", e.what());
+        if (!win32_controller->restore_window_position()) {
+            Log.error("Cannot restore Win32 window after controller proxy failure!");
+        }
         return false;
     }
 
     if (!m_scale_proxy) {
         Log.error("Cannot create controller proxy!");
+        if (!win32_controller->restore_window_position()) {
+            Log.error("Cannot restore Win32 window after controller proxy failure!");
+        }
         return false;
     }
 
@@ -462,6 +472,11 @@ void asst::Controller::set_kill_adb_on_exit(bool enable) noexcept
 void asst::Controller::set_client_type(const std::string& client_type) noexcept
 {
     m_client_type = client_type;
+}
+
+void asst::Controller::set_win32_auto_resize_window(bool enable) noexcept
+{
+    m_win32_auto_resize_window = enable;
 }
 
 const std::string& asst::Controller::get_client_type() const noexcept

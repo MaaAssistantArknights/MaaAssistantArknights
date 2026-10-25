@@ -1828,4 +1828,9 @@ AdbLite を使用するかどうか。可能な値："0" または "1"。列挙�
 @optional
 クライアント種別（ゲームチャネル）。ほとんどの接続設定では不要です。`AsstConnect` / `AsstAsyncConnect` に渡す `config` が、接続時に実行するコマンド内で `[PackageName]` を使用する場合にのみ、接続前に `AsstSetInstanceOption(..., ClientType, ...)` を設定してください。現在の組み込み設定では、`Androws` と `WSA` の `displayId` 取得のみがこの値に依存します。このオプションは StartUp / CloseDown などのタスクパラメータ `client_type` を置き換えるものではありません。列挙値：6。  
 :::  
+::: field Win32AutoResizeWindow  
+@type boolean
+@optional
+Win32 ウィンドウへの接続時、キャプチャ画像が 16:9 でない場合に通常のゲームウィンドウのクライアント領域を自動調整し、タスク終了後に元のサイズと表示状態へ戻すかどうか。ボーダーレスフルスクリーンは自動調整できず、接続時に先にウィンドウモードへ切り替えるよう通知します。可能な値：`0` または `1`。デフォルト：`0`。列挙値：7。  
+:::  
 ::::

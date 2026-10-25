@@ -1829,4 +1829,9 @@ Release Adb on exit. Options: "0" | "1". Enum value: 5.
 @optional
 Client channel. Most connection configs do not need this option. Set it before `AsstConnect` / `AsstAsyncConnect` only when the selected `config` uses `[PackageName]` in commands executed during connect. In the built-in configs, only `Androws` and `WSA` currently require it for `displayId` lookup. This does not replace the `client_type` task parameter used by StartUp / CloseDown tasks. Enum value: 6.  
 :::  
+::: field Win32AutoResizeWindow  
+@type boolean
+@optional
+When attaching to a Win32 window, automatically resize the client area of a windowed game if the captured image is not 16:9, then restore its original size and display state after tasks finish. Borderless fullscreen cannot be adjusted automatically; the connection reports that the game must be switched to windowed mode first. Options: `0` or `1`. Default: `0`. Enum value: 7.  
+:::  
 ::::
