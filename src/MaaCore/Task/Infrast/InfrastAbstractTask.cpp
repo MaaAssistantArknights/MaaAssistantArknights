@@ -467,11 +467,10 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(
         ++swipe_times;
     }
 
-    // 阶段二：剩余目标按职业分桶定位。结束时已切回 ALL 第一页，swipe_times 归零让收尾跳过物理回正
+    // 阶段二：剩余目标按职业分桶定位。结束时已切回 ALL 第一页
     if (!select_custom_opers_by_role(is_dorm_order)) {
         return false;
     }
-    swipe_times = 0;
 
     // 先按任意其他的tab排序，游戏会自动把已经选中的人放到最前面
     // 因为后面autofill要按工作状态排序，所以直接按工作状态排序好了
@@ -484,10 +483,6 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(
         ProcessTask(*this, { "InfrastOperListTabWorkStatusUnClicked" }).run();
     }
 
-    if (swipe_times) {
-        swipe_to_the_left_of_operlist(swipe_times + 1);
-        swipe_times = 0;
-    }
     // 如果只选了一个人没必要排序
     if (room_config.sort && room_config.selected > 1) {
         click_clear_button();
@@ -921,6 +916,11 @@ bool asst::InfrastAbstractTask::select_custom_opers_by_role(bool is_dorm_order)
                 return false;
             }
         }
+    }
+
+    // 全程只走 ALL 兜底时未发生过页签切换，收尾点的 ALL 页签已是选中态、不重置滚动，须显式回正
+    if (required_buckets.empty() && candidate_buckets.empty()) {
+        swipe_to_the_left_of_operlist();
     }
 
     // 恢复 ALL 页签并收起职业栏，回到与阶段一结束一致的界面状态供收尾排序与复核
