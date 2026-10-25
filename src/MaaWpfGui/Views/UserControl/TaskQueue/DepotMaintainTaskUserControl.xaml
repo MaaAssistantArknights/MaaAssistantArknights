@@ -240,7 +240,7 @@
                                             IsEnabled="{c:Binding !IsStageItemDragging,
                                                                   Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
                                             Text="{Binding Stage, UpdateSourceTrigger=PropertyChanged}"
-                                            ToolTip="{DynamicResource IsStageManuallyTip}"
+                                            ToolTip="{DynamicResource CustomStageCodeTip}"
                                             Visibility="{c:Binding IsStageManually,
                                                                    Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}" />
                                     </Grid>
