@@ -1673,6 +1673,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="TaskError" xml:space="preserve">任務出錯: </system:String>
     <system:String x:Key="TaskErrorSummaryTitle">本輪任務出現以下錯誤：</system:String>
     <system:String x:Key="OutOfMemoryError">{0}任務因記憶體不足停止，請關閉部分程式或重新啟動 MAA 後再試</system:String>
+    <system:String x:Key="GpuDeviceRemovedRestartRequired">{0}任務因 GPU 推論裝置失效而停止，可能是顯示卡驅動程式更新或 GPU 重設所致。{key=RestartRecommendation}</system:String>
     <system:String x:Key="CombatError">戰鬥出錯</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">開始任務: </system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">完成任務: </system:String>
