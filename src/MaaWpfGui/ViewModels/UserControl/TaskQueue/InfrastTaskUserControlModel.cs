@@ -196,24 +196,37 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
     /// <returns>The infrast order list.</returns>
     public List<string> GetInfrastOrderList() => [.. InfrastRoomModels.Where(i => i.IsEnabled).Select(i => i.Name)];
 
-    // UI 绑定的方法
-    [UsedImplicitly]
-    public void InfrastItemSelectedAll()
-    {
-        foreach (var item in InfrastRoomModels)
-        {
-            item.IsEnabled = true;
-        }
-    }
+    // 批量设置房间启用状态期间抑制逐项回写，收尾统一写一次配置
+    private bool _isBatchUpdatingInfrastItems;
 
     // UI 绑定的方法
     [UsedImplicitly]
-    public void InfrastItemUnselectedAll()
+    public void InfrastItemSelectedAll() => SetAllInfrastItemsEnabled(true);
+
+    // UI 绑定的方法
+    [UsedImplicitly]
+    public void InfrastItemUnselectedAll() => SetAllInfrastItemsEnabled(false);
+
+    /// <summary>
+    /// 批量设置全部房间的启用状态；逐项属性通知照常发出，配置写入合并为收尾一次。
+    /// </summary>
+    /// <param name="isEnabled">目标启用状态。</param>
+    private void SetAllInfrastItemsEnabled(bool isEnabled)
     {
-        foreach (var item in InfrastRoomModels)
+        _isBatchUpdatingInfrastItems = true;
+        try
         {
-            item.IsEnabled = false;
+            foreach (var item in InfrastRoomModels)
+            {
+                item.IsEnabled = isEnabled;
+            }
         }
+        finally
+        {
+            _isBatchUpdatingInfrastItems = false;
+        }
+
+        InfrastOrderSelectionChanged(null, null);
     }
 
     /// <summary>
@@ -223,6 +236,11 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
     /// <param name="e">ignored NotifyCollectionChangedEventArgs</param>
     private void InfrastOrderSelectionChanged(object? sender, NotifyCollectionChangedEventArgs? e)
     {
+        if (_isBatchUpdatingInfrastItems)
+        {
+            return;
+        }
+
         var list = InfrastRoomModels.Select<InfrastRoomItemViewModel, InfrastTask.RoomInfo>(i => new(i.RoomType, i.IsEnabled)).ToList();
         SetTaskConfig<InfrastTask>(t => t.RoomList.SequenceEqual(list), t => t.RoomList = list);
     }
