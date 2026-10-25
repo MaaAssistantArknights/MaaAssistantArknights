@@ -458,8 +458,9 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(
             pre_result_no_changes = false;
         }
         pre_partial_result = partial_result;
-        // 阶段一页数上限：技能排序下无基建技能的点名干员、心情排序下心情常满的宿舍挂件
-        // 都沉在列表尾段，逐页扫到底代价高，剩余目标交给阶段二按职业分桶定位
+        // 阶段一页数上限：名单全命中时已提前退出，本上限只决定还要为未命中目标翻几页。
+        // 头部高效率点名干员聚集在前两页；扫过仍未命中的，位于技能段中后部时翻页与切职业页签耗时相近，
+        // 无技能沉底时（体系干员、宿舍挂件）切页签必省，故不再继续翻页
         if (swipe_times + 1 >= CustomPhaseOneMaxPages) {
             break;
         }

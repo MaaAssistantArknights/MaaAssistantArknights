@@ -187,8 +187,10 @@ protected:
     // 筛选选中态探测的帧数与帧间隔：连续多帧无选中态才判定为“全部”，吸收刚进列表页的过场画面
     static constexpr int FilterProbeRetryTimes = 3;
     static constexpr int FilterProbeRetryDelayMs = 200;
-    // 阶段一（ALL 列表）最多扫描的页数，超出后剩余目标交给 select_custom_opers_by_role 按职业分桶定位
-    static constexpr int CustomPhaseOneMaxPages = 5;
+    // 阶段一（ALL 列表）最多扫描的页数（含首屏页，滑动次数比其少一），超出后剩余目标交给
+    // select_custom_opers_by_role 按职业分桶定位；头部高效率点名干员聚集在前两页，扫过仍未命中的
+    // 目标走职业分桶定位不慢于继续翻页，无技能沉底的名单（体系干员、宿舍挂件）则免于整段无效翻页
+    static constexpr int CustomPhaseOneMaxPages = 2;
     // 阶段二切换职业页签后等待列表刷新动画的时间
     static constexpr int CustomRoleSwitchDelayMs = 500;
     std::shared_ptr<infrast::TaskData> m_task_data;
