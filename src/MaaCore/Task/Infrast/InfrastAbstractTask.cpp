@@ -766,7 +766,7 @@ bool asst::InfrastAbstractTask::select_custom_opers_by_role(bool is_dorm_order)
         return std::ranges::any_of(room_config.candidates, [&](const std::string& name) { return !is_excluded(name); });
     };
     if (is_full() || (room_config.names.empty() && !has_pending_candidates())) {
-        // 调用方会清零翻页计数，无需职业分桶时也须回到 ALL 首页
+        // 无需职业分桶时也须回到 ALL 首页
         swipe_to_the_left_of_operlist();
         return true; // 满员，或剩余名单全是已排除的候补，无事可做
     }
@@ -918,14 +918,8 @@ bool asst::InfrastAbstractTask::select_custom_opers_by_role(bool is_dorm_order)
         }
     }
 
-    // 全程只走 ALL 兜底时未发生过页签切换，收尾点的 ALL 页签已是选中态、不重置滚动，须显式回正
-    if (required_buckets.empty() && candidate_buckets.empty()) {
-        swipe_to_the_left_of_operlist();
-    }
-
-    // 恢复 ALL 页签并收起职业栏，回到与阶段一结束一致的界面状态供收尾排序与复核
-    ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).run();
-    close_quick_formation_expand_role();
+    // 回正函数切页签重置列表滚动后回到 ALL 并收起职业栏，回到与阶段一结束一致的界面状态供收尾排序与复核
+    swipe_to_the_left_of_operlist();
     return true;
 }
 
@@ -1185,7 +1179,9 @@ void asst::InfrastAbstractTask::swipe_of_operlist()
 void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist(int loop_times)
 {
     // 通过切换职业栏来实现回正
-    bool ret = ProcessTask(*this, { "BattleQuickFormationExpandRole" }).set_retry_times(3).run();
+    bool ret = ProcessTask(*this, { "BattleQuickFormationRoleExpanded", "BattleQuickFormationExpandRole" })
+                   .set_retry_times(3)
+                   .run();
     if (ret) {
         ProcessTask(
             *this,
