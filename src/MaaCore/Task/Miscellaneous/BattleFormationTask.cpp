@@ -82,6 +82,8 @@ bool asst::BattleFormationTask::_run()
         }
         return true; // 编队未变更，跳过
     }
+    // 对比阶段预填的条目未经界面核实，且后面会清空重选，留着会让缺员组被误判已编入
+    m_opers_in_formation->clear();
 
     if (m_select_formation_index > 0 && !select_formation(m_select_formation_index, img)) {
         return false;
