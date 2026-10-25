@@ -2225,7 +2225,7 @@ Task flow: Automatically use support operator to execute 60-kill mission</system
     <system:String x:Key="ReclamationTipFire">This event has been closed and is no longer available.</system:String>
     <system:String x:Key="ReclamationTipTalesNoSave" xml:space="preserve">Farm points through initial setup: (Be careful that existing save files might be deleted)
   1. After reaching the maximum points, it will output ｢Task Completed｣ and automatically stop the task.
-  2. Cannot be used when squads are not empty (simply clear the current squad).
+  2. Do not use this task when {key=Operator} is in the Reclamation squad.
   3. Manually check and delete save files to prevent MAA from deleting your valuable saves.
   4. The task must be started from the main screen where ｢Start Reclamation｣ appears at the bottom-right.
   5. If an error occurs during the task or the task completes without reaching the maximum points, please submit an issue on GitHub.</system:String>
