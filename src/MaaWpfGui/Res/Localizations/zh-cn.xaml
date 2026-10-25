@@ -1637,6 +1637,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ResourceIntegrityRepairNo">暂不处理，继续启动</system:String>
     <system:String x:Key="CoreLoadingTip">MAA 内核尚未加载完成，请稍后再试。</system:String>
     <system:String x:Key="ResourceBrokenTaskBlocked">资源损坏，无法开始任务。请按启动时的提示修复资源，或重新下载完整安装包后重启 MAA。</system:String>
+    <system:String x:Key="UnknownTaskInChain">任务链引用了未定义的任务（{0}），资源可能损坏或与程序版本不匹配，已停止任务。</system:String>
     <system:String x:Key="ResourceIntegrityRepairDownloading">正在下载完整包以修复安装…</system:String>
     <system:String x:Key="ResourceIntegrityRepairFailed">自动修复失败，请按提示手动处理。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityRepairCanceled">已取消自动修复，下次启动时仍会提醒</system:String>

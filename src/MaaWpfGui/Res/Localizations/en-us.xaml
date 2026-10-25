@@ -1635,6 +1635,7 @@ Right-click: select this job and exit multi-job mode</system:String>
     <system:String x:Key="ResourceIntegrityRepairNo">Not now, continue starting</system:String>
     <system:String x:Key="CoreLoadingTip">The MAA core is still loading. Please try again shortly.</system:String>
     <system:String x:Key="ResourceBrokenTaskBlocked">The resources are damaged, tasks cannot be started. Repair the resources as prompted at startup, or download the full package again and restart MAA.</system:String>
+    <system:String x:Key="UnknownTaskInChain">The task chain references an undefined task ({0}). The resource may be corrupted or mismatched with the application version. Tasks have been stopped.</system:String>
     <system:String x:Key="ResourceIntegrityRepairDownloading">Downloading the full package to repair the installation…</system:String>
     <system:String x:Key="ResourceIntegrityRepairFailed">Automatic repair failed. Please follow the instructions below to fix it manually.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityRepairCanceled">Automatic repair canceled. You will be reminded again on the next startup.</system:String>

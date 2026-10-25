@@ -1637,6 +1637,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ResourceIntegrityRepairNo">나중에 처리</system:String>
     <system:String x:Key="CoreLoadingTip">MAA 코어를 아직 불러오는 중입니다. 잠시 후 다시 시도해 주세요.</system:String>
     <system:String x:Key="ResourceBrokenTaskBlocked">리소스가 손상되어 작업을 시작할 수 없습니다. 시작 시 안내에 따라 리소스를 복구하거나, 전체 패키지를 다시 다운로드한 후 MAA를 재시작하세요.</system:String>
+    <system:String x:Key="UnknownTaskInChain">작업 체인이 정의되지 않은 작업을 참조합니다({0}). 리소스가 손상되었거나 프로그램 버전과 일치하지 않을 수 있습니다. 작업을 중단했습니다.</system:String>
     <system:String x:Key="ResourceIntegrityRepairDownloading">설치를 복구하기 위해 전체 패키지를 다운로드하는 중…</system:String>
     <system:String x:Key="ResourceIntegrityRepairFailed">자동 복구에 실패했습니다. 안내에 따라 수동으로 처리해 주세요.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityRepairCanceled">자동 복구가 취소되었습니다. 다음 시작 시 다시 알림이 표시됩니다.</system:String>

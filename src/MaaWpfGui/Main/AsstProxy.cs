@@ -832,7 +832,7 @@ public class AsstProxy
 
             // 修复流程需要 UI 上下文；期间应用保持运行（任务启动已被标志拦截），
             // 另一入口已在修复时由防重入兜底直接返回
-            _ = Execute.OnUIThreadAsync(() => _ = Instances.VersionUpdateDialogViewModel.RunIntegrityRepairAsync());
+            Execute.OnUIThread(() => _ = Instances.VersionUpdateDialogViewModel.RunIntegrityRepairAsync());
         }
         else
         {
@@ -1806,6 +1806,14 @@ public class AsstProxy
         }
     }
 
+    // 停止任务队列并恢复等待状态；仅应在 UI 线程调用（ProcSubTaskError 由回调统一投递至 UI 线程）。
+    // fire-and-forget：Stop 内部自行处理停止失败，异常不打断回调链
+    private static async Task StopTaskQueueAsync()
+    {
+        await Instances.TaskQueueViewModel.Stop();
+        Instances.TaskQueueViewModel.SetStopped();
+    }
+
     private static void ProcSubTaskError(JObject details)
     {
         string subTask = details["subtask"]?.ToString() ?? string.Empty;
@@ -1847,8 +1855,35 @@ public class AsstProxy
                     if (!Bootstrapper.IsResourceBroken)
                     {
                         Bootstrapper.MarkResourceBroken();
-                        _ = Task.Run(ShowResourceBrokenPrompt);
+                        Task.Run(ShowResourceBrokenPrompt);
                     }
+
+                    _ = StopTaskQueueAsync();
+
+                    break;
+                }
+
+            case "ProcessTask":
+                {
+                    if (details["what"]?.ToString() != "UnknownTask")
+                    {
+                        break;
+                    }
+
+                    var tasks = details["details"]?["tasks"]?.Values<string>().Where(t => !string.IsNullOrEmpty(t)) ?? [];
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat("UnknownTaskInChain", string.Join(", ", tasks)),
+                        UiLogColor.Error);
+
+                    // 匹配列表引用未定义任务名说明资源与代码不匹配，按资源损坏处理：
+                    // 置标志拦截弹窗期间新触发的任务，停止当前队列剩余任务，再弹修复引导
+                    if (!Bootstrapper.IsResourceBroken)
+                    {
+                        Bootstrapper.MarkResourceBroken();
+                        Task.Run(ShowResourceBrokenPrompt);
+                    }
+
+                    _ = StopTaskQueueAsync();
 
                     break;
                 }

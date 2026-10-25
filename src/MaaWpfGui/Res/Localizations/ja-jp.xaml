@@ -1638,6 +1638,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ResourceIntegrityRepairNo">後で行う</system:String>
     <system:String x:Key="CoreLoadingTip">MAA のコアは読み込み中です。少し待ってから再度お試しください。</system:String>
     <system:String x:Key="ResourceBrokenTaskBlocked">リソースが破損しているためタスクを開始できません。起動時の案内に従ってリソースを修復するか、完全なパッケージを再ダウンロードして MAA を再起動してください。</system:String>
+    <system:String x:Key="UnknownTaskInChain">タスクチェーンが未定義のタスクを参照しています（{0}）。リソースが破損しているか、アプリのバージョンと一致していない可能性があります。タスクを中止しました。</system:String>
     <system:String x:Key="ResourceIntegrityRepairDownloading">インストールを修復するため、完全パッケージをダウンロードしています…</system:String>
     <system:String x:Key="ResourceIntegrityRepairFailed">自動修復に失敗しました。表示された手順に従って手動で処理してください。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityRepairCanceled">自動修復をキャンセルしました。次回起動時に再度通知されます。</system:String>
