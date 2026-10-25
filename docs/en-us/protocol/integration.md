@@ -527,7 +527,7 @@ Whether to fill dormitory with operators not at max trust.
 @optional
 Fiammetta recovery target list. At the start of a shift change, the target operator with the lowest morale in the list is placed in a dormitory together with Fiammetta to swap moods. Only effective when `mode = 0` and `fiammetta_recovery_enabled` is true.
 <br>
-Options: `清流` | `可露希尔` | `但书` | `巫恋` | `龙舌兰` | `歌蕾蒂娅` (entries outside the options or duplicates are ignored)  
+Options: `清流` | `可露希尔` | `但书` | `巫恋` | `龙舌兰` | `歌蕾蒂娅` | `琴柳` | `承曦格雷伊` | `温蒂` | `槐琥` | `至简` | `旅骨` (entries outside the options or duplicates are ignored)  
 :::  
 ::: field fiammetta_recovery_enabled  
 @type boolean
