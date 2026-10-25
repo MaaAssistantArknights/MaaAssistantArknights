@@ -875,8 +875,12 @@ bool asst::BattleFormationTask::compare_formation()
         }
     }
 
-    return static_cast<size_t>(std::ranges::distance(m_formation | std::views::values | std::views::join)) ==
-           m_opers_in_formation->size();
+    auto formation_size =
+        static_cast<size_t>(std::ranges::distance(m_formation | std::views::values | std::views::join));
+
+    return formation_size == m_opers_in_formation->size() &&
+           formation_size ==
+               static_cast<size_t>(std::ranges::distance(m_formation_last | std::views::values | std::views::join));
 }
 
 bool asst::BattleFormationTask::select_formation(int select_index, const cv::Mat& img)
