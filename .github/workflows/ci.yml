@@ -41,7 +41,7 @@ on:
         default: false
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}${{ github.ref == 'refs/heads/dev-v2' && format('-{0}', github.sha) || '' }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}${{ github.ref == 'refs/heads/dev-v2' && format('-{0}', github.sha) || '' }}-${{ github.event_name }}${{ github.event_name == 'workflow_dispatch' && inputs.windows_signing_test && '-signing-test' || '' }}
   cancel-in-progress: true
 
 jobs:
@@ -54,7 +54,7 @@ jobs:
     steps:
       - name: Show concurrency group
         env:
-          CONCURRENCY_GROUP: ${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}${{ github.ref == 'refs/heads/dev-v2' && format('-{0}', github.sha) || '' }}
+          CONCURRENCY_GROUP: ${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}${{ github.ref == 'refs/heads/dev-v2' && format('-{0}', github.sha) || '' }}-${{ github.event_name }}${{ github.event_name == 'workflow_dispatch' && inputs.windows_signing_test && '-signing-test' || '' }}
         run: |
           echo "Concurrency Group: $CONCURRENCY_GROUP"
 
