@@ -29,7 +29,7 @@
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <PublishDocumentationFile>false</PublishDocumentationFile>
     <BeautyLibsDir>./externals</BeautyLibsDir>
-    <BeautyUsePatch Condition="'$(RuntimeIdentifier)' != ''">true</BeautyUsePatch>
+    <BeautyUsePatch>false</BeautyUsePatch>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <PostBuildEvent Condition="'$(OS)' == 'Windows_NT'">

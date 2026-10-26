@@ -97,11 +97,29 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
                 "hostfxr.dll",
                 "hostpolicy.dll",
                 "libloader.dll",
+
                 "DirectML.dll",
-                "fastdeploy_ppocr.dll",
+                "fastdeploy_ppocr_maa.dll",
                 "MaaCore.dll",
                 "onnxruntime_maa.dll",
                 "opencv_world4_maa.dll",
+
+                // NetBeauty 关闭 patch（loader 模式）时 .NET 运行时核心件保留在安装目录根下
+                "clrjit.dll",
+                "coreclr.dll",
+                "PresentationFramework.dll",
+                "System.Collections.dll",
+                "System.IO.FileSystem.dll",
+                "System.IO.Packaging.dll",
+                "System.Memory.dll",
+                "System.Private.CoreLib.dll",
+                "System.Runtime.dll",
+                "System.Runtime.Extensions.dll",
+                "System.Runtime.InteropServices.dll",
+                "System.Runtime.InteropServices.RuntimeInformation.dll",
+                "System.Runtime.Loader.dll",
+                "System.Xaml.dll",
+                "WindowsBase.dll",
             };
 
             var currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
