@@ -1776,7 +1776,6 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Settings.HotKey.ShowGui">[熱鍵] 顯示/收起 MAA</system:String>
     <system:String x:Key="Settings.HotKey.Title">熱鍵設定</system:String>
     <system:String x:Key="Settings.IssueReport.Title">問題回饋</system:String>
-    <system:String x:Key="Settings.Language">語言</system:String>
     <system:String x:Key="Settings.Language.Changed.Tip">語言設定已變更，部分內容可能需要重新啟動才能完全生效。</system:String>
     <system:String x:Key="Settings.Language.OperName">{key=Game.Operator}名稱顯示語言</system:String>
     <system:String x:Key="Settings.Language.OperName.Client">跟隨遊戲用戶端</system:String>

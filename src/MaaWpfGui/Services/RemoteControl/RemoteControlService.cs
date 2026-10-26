@@ -697,12 +697,10 @@ public class RemoteControlService
                     continue;
                 }
 
-                // 拼接产物中只有 CombatError 是语言文件真实 key（新 key 为 TaskQueue.CombatError），
-                // 其余任务名产物不存在对应译文，TryGetString 失败时回退显示任务名原文
+                // 仅 CombatError 有译文 key（TaskQueue.CombatError），其余任务名拼接产物
+                // 无对应译文，回退显示拼接原文
                 Instances.TaskQueueViewModel.AddLog(
-                    LocalizationHelper.TryGetString(item == "Combat" ? "TaskQueue.CombatError" : item + "Error", out var errorMsg)
-                        ? errorMsg
-                        : item + "Error",
+                    item == "Combat" ? LocalizationHelper.GetString("TaskQueue.CombatError") : item + "Error",
                     UiLogColor.Error);
                 taskRet = true;
                 --count;

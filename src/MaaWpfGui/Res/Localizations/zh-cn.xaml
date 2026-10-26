@@ -1776,7 +1776,6 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Settings.HotKey.ShowGui">[热键] 显示/收起 MAA</system:String>
     <system:String x:Key="Settings.HotKey.Title">热键设置</system:String>
     <system:String x:Key="Settings.IssueReport.Title">问题反馈</system:String>
-    <system:String x:Key="Settings.Language">语言</system:String>
     <system:String x:Key="Settings.Language.Changed.Tip">语言设置已更改，部分内容可能需要重启才能完全生效。</system:String>
     <system:String x:Key="Settings.Language.OperName">{key=Game.Operator}名称显示语言</system:String>
     <system:String x:Key="Settings.Language.OperName.Client">跟随游戏客户端</system:String>

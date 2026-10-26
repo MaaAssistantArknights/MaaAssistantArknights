@@ -1775,7 +1775,6 @@ When difficulty ≥ N6, 6★ Hope cost +1; some squads may be unable to recruit 
     <system:String x:Key="Settings.HotKey.ShowGui">[HotKey] Show/collapse MAA</system:String>
     <system:String x:Key="Settings.HotKey.Title">HotKeys</system:String>
     <system:String x:Key="Settings.IssueReport.Title">Issue Report</system:String>
-    <system:String x:Key="Settings.Language">Language</system:String>
     <system:String x:Key="Settings.Language.Changed.Tip">Language settings have been changed. Some content may require a restart to take full effect.</system:String>
     <system:String x:Key="Settings.Language.OperName">{key=Game.Operator} display language</system:String>
     <system:String x:Key="Settings.Language.OperName.Client">Follow game client</system:String>

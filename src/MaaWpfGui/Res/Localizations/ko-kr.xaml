@@ -1776,7 +1776,6 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="Settings.HotKey.ShowGui">[단축키] MAA 보이기/숨기기</system:String>
     <system:String x:Key="Settings.HotKey.Title">단축키 설정</system:String>
     <system:String x:Key="Settings.IssueReport.Title">문제 보고</system:String>
-    <system:String x:Key="Settings.Language">언어</system:String>
     <system:String x:Key="Settings.Language.Changed.Tip">언어 설정이 변경되었습니다. 일부 콘텐츠는 재시작 후 완전히 적용됩니다.</system:String>
     <system:String x:Key="Settings.Language.OperName">{key=Game.Operator} 이름 표시 언어</system:String>
     <system:String x:Key="Settings.Language.OperName.Client">게임 클라이언트 따라가기</system:String>

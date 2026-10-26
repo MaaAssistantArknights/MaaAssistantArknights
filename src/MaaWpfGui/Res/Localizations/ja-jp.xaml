@@ -1778,7 +1778,6 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Settings.HotKey.ShowGui">[ホットキー] MAAの表示/最小化</system:String>
     <system:String x:Key="Settings.HotKey.Title">ホットキー設定</system:String>
     <system:String x:Key="Settings.IssueReport.Title">問題報告</system:String>
-    <system:String x:Key="Settings.Language">言語</system:String>
     <system:String x:Key="Settings.Language.Changed.Tip">言語設定が変更されました。一部のコンテンツは再起動後に完全に反映されます。</system:String>
     <system:String x:Key="Settings.Language.OperName">{key=Game.Operator}名の表示言語</system:String>
     <system:String x:Key="Settings.Language.OperName.Client">ゲームクライアントをフォローする</system:String>

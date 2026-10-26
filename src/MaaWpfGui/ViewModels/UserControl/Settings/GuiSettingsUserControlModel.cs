@@ -432,7 +432,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     public string LanguageInfo
     {
         get {
-            var language = (string?)Application.Current.Resources["Settings.Language"];
+            var language = (string?)Application.Current.Resources["Settings.Language.Title"];
             return language == "Language" ? language : language + " / Language";
         }
     }
