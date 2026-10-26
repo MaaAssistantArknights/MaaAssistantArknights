@@ -186,6 +186,12 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_recruitment_time(std::unordere
     return *this;
 }
 
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_first_tags_recruitment_time(int minutes) noexcept
+{
+    m_first_tags_recruitment_time = minutes;
+    return *this;
+}
+
 asst::AutoRecruitTask& asst::AutoRecruitTask::set_penguin_enabled(bool enable, std::string penguin_id) noexcept
 {
     m_upload_to_penguin = enable;
@@ -741,6 +747,9 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         }
 
         int recruitment_time = m_desired_time_map[(std::max)(final_combination.min_level, 3)];
+        if (final_combination.min_level == 3 && has_preferred_tag) {
+            recruitment_time = m_first_tags_recruitment_time;
+        }
         if (recruitment_time == 0) {
             recruitment_time = 9 * 60;
         }

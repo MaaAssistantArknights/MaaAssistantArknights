@@ -334,6 +334,11 @@ Preferred Tags, valid only when selecting 3★ tags. Default is empty.
 <br>
 For 3★ recruits, MAA will try to include as many of the listed tags as possible. This is treated as a hard requirement and will override any "don't select 3★ Tags" settings.  
 :::  
+::: field first_tags_recruitment_time
+@type number
+@optional
+Recruitment time in minutes when any `first_tags` entry is found and the Tag rarity is 3★. The allowed range is 60 to 540. By default, MAA uses the 3★ value from `recruitment_time`.
+:::
 ::: field extra_tags_mode  
 @type number
 @default 0
@@ -433,7 +438,8 @@ Options: `CN` | `US` | `JP` | `KR`
    "select": [5, 4],
    "confirm": [4, 3],
    "level3_recruitment_permit_reserve": 8,
-   "first_tags": ["高级资深干员"],
+   "first_tags": ["辅助干员"],
+   "first_tags_recruitment_time": 230,
    "extra_tags_mode": 1,
    "times": 4,
    "set_time": true,

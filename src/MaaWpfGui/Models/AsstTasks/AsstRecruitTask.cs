@@ -96,6 +96,11 @@ public class AsstRecruitTask : AsstBaseTask
     public List<string> Level3FirstList { get; set; } = [];
 
     /// <summary>
+    /// Gets or sets 3 星首选 Tag 命中时的招募时间。
+    /// </summary>
+    public int? ChooseLevel3FirstTagsTime { get; set; }
+
+    /// <summary>
     /// Gets or sets 识别到后需要保留并跳过的 Tag。
     /// </summary>
     public List<string> PreserveTags { get; set; } = [];
@@ -162,6 +167,7 @@ public class AsstRecruitTask : AsstBaseTask
             ["preserve_tags"] = JArray.FromObject(preserveTags),
             ["extra_tags_mode"] = SelectExtraTags,
             ["first_tags"] = JArray.FromObject(firstTags),
+            ["first_tags_recruitment_time"] = ChooseLevel3FirstTagsTime ?? ChooseLevel3Time,
             ["recruitment_time"] = new JObject {
                 ["3"] = ChooseLevel3Time,
                 ["4"] = ChooseLevel4Time,
