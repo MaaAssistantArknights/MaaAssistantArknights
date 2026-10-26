@@ -1,4 +1,7 @@
 #pragma once
+
+#include <unordered_set>
+
 #include "Task/AbstractTask.h"
 #include "Task/BattleHelper.h"
 
@@ -57,5 +60,10 @@ protected:
     bool m_in_bullet_time = false;
     bool m_need_to_wait_until_end = false;
     std::shared_ptr<std::unordered_map<battle::OperNameTag, std::string>> m_formation_ptr = nullptr;
+
+private:
+    std::unordered_map<battle::OperNameTag, battle::OperNameTag> allocate_opers(
+        const battle::copilot::OperUsageGroups& combat_groups,
+        const std::unordered_set<battle::OperNameTag>& char_set);
 };
 }
