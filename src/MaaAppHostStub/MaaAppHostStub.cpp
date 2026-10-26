@@ -1,4 +1,4 @@
-﻿// MAA.exe 的原生替代入口，打包时用它覆盖 .NET SDK 生成的 apphost。
+// MAA.exe 的原生替代入口，打包时用它覆盖 .NET SDK 生成的 apphost。
 //
 // MAA.exe 本体是自包含发布生成的 apphost 启动器：若用户把 MAA.exe 单独拖出文件夹，
 // 它会在托管代码运行前就退出，报错只写 stderr（双击时无人接收），
