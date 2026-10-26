@@ -29,7 +29,7 @@
                     Cursor="Hand"
                     NavigateUri="{Binding Source={x:Static constants:MaaUrls.MaaPlus}}"
                     TextDecorations="None">
-                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Website}" />
+                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource About.Website}" />
                 </Hyperlink>
             </controls:TextBlock>
 
@@ -53,14 +53,14 @@
                     Cursor="Hand"
                     NavigateUri="{Binding Source={x:Static constants:MaaUrls.GitHub}}"
                     TextDecorations="None">
-                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Github}" />
+                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource About.Github}" />
                 </Hyperlink>
             </controls:TextBlock>
             <Button
                 Width="Auto"
                 Margin="5"
                 Command="{s:Action CheckAndDownloadAnnouncement}"
-                Content="{DynamicResource CheckAndDownloadAnnouncement}"
+                Content="{DynamicResource Announcement.CheckAndDownload}"
                 IsEnabled="{c:Binding !IsCheckingAnnouncement}" />
         </StackPanel>
         <StackPanel Grid.Column="1">
@@ -72,7 +72,7 @@
                     Cursor="Hand"
                     NavigateUri="{Binding Source={x:Static constants:MaaUrls.QqGroups}}"
                     TextDecorations="None">
-                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource QqGroup}" />
+                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource About.QqGroup}" />
                 </Hyperlink>
             </controls:TextBlock>
 
@@ -84,7 +84,7 @@
                     Cursor="Hand"
                     NavigateUri="{Binding Source={x:Static constants:MaaUrls.QqChannel}}"
                     TextDecorations="None">
-                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource QqChannel}" />
+                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource About.QqChannel}" />
                 </Hyperlink>
             </controls:TextBlock>
             <controls:TextBlock
@@ -95,7 +95,7 @@
                     Cursor="Hand"
                     NavigateUri="{Binding Source={x:Static constants:MaaUrls.Telegram}}"
                     TextDecorations="None">
-                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Telegram}" />
+                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="Telegram" />
                 </Hyperlink>
             </controls:TextBlock>
 
@@ -107,7 +107,7 @@
                     Cursor="Hand"
                     NavigateUri="{Binding Source={x:Static constants:MaaUrls.Discord}}"
                     TextDecorations="None">
-                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Discord}" />
+                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="Discord" />
                 </Hyperlink>
             </controls:TextBlock>
 

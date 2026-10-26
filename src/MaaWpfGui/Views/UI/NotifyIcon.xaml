@@ -16,14 +16,14 @@
         <hc:NotifyIcon.ContextMenu>
             <!--  Header 经 MaaMenuItemDefaultStyle 的 HeaderTemplate 统一渲染为左对齐 TextBlock  -->
             <ContextMenu ItemContainerStyle="{StaticResource MaaMenuItemDefaultStyle}">
-                <MenuItem Name="startMenu" Header="{DynamicResource Farming}" />
-                <MenuItem Name="stopMenu" Header="{DynamicResource Stop}" />
-                <MenuItem Name="switchLangMenu" Header="{DynamicResource SwitchLanguage}" />
-                <MenuItem Name="forceShowMenu" Header="{DynamicResource ForceShow}" />
-                <MenuItem Name="hideTrayMenu" Header="{DynamicResource HideTray}" />
-                <MenuItem Name="toggleOverlayMenu" Header="{DynamicResource ToggleOverlay}" />
-                <MenuItem Name="restartMenu" Header="{DynamicResource Restart}" />
-                <MenuItem Name="exitMenu" Header="{DynamicResource Exit}" />
+                <MenuItem Name="startMenu" Header="{DynamicResource TaskQueue.Farming}" />
+                <MenuItem Name="stopMenu" Header="{DynamicResource Common.Stop}" />
+                <MenuItem Name="switchLangMenu" Header="{DynamicResource Tray.SwitchLanguage}" />
+                <MenuItem Name="forceShowMenu" Header="{DynamicResource Tray.ForceShow}" />
+                <MenuItem Name="hideTrayMenu" Header="{DynamicResource Tray.Hide}" />
+                <MenuItem Name="toggleOverlayMenu" Header="{DynamicResource Logging.Overlay.Toggle}" />
+                <MenuItem Name="restartMenu" Header="{DynamicResource Tray.Restart}" />
+                <MenuItem Name="exitMenu" Header="{DynamicResource Tray.Exit}" />
             </ContextMenu>
         </hc:NotifyIcon.ContextMenu>
     </hc:NotifyIcon>

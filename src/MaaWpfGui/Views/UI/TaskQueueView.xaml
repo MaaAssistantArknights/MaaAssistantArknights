@@ -70,7 +70,7 @@
                             BorderThickness="0"
                             ItemsSource="{Binding TaskItemViewModels}"
                             Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
-                            ToolTip="{DynamicResource LabelSequenceTip}">
+                            ToolTip="{DynamicResource Common.LabelSequence.Tip}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Border x:Name="TaskItemBorder" CornerRadius="4">
@@ -150,12 +150,12 @@
                                                     <RadioButton.ToolTip>
                                                         <ToolTip>
                                                             <StackPanel>
-                                                                <TextBlock FontWeight="SemiBold" Text="{DynamicResource LeftClick}" />
-                                                                <TextBlock Text="{DynamicResource TaskSettings}" />
+                                                                <TextBlock FontWeight="SemiBold" Text="{DynamicResource TaskQueue.LeftClick}" />
+                                                                <TextBlock Text="{DynamicResource TaskQueue.TaskSettings}" />
 
-                                                                <TextBlock FontWeight="SemiBold" Text="{DynamicResource RightClick}" />
+                                                                <TextBlock FontWeight="SemiBold" Text="{DynamicResource TaskQueue.RightClick}" />
                                                                 <TextBlock>
-                                                                    <Run Text="{DynamicResource RunTaskOnce}" /><Run Text="/" /><Run Text="{DynamicResource RunTasksFromHere}" /><Run Text="/" /><Run Text="{DynamicResource Copy}" /><Run Text="/" /><Run Text="{DynamicResource Rename}" /><Run Text="/" /><Run Text="{DynamicResource Delete}" />
+                                                                    <Run Text="{DynamicResource TaskQueue.RunOnce}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.RunFromHere}" /><Run Text="/" /><Run Text="{DynamicResource Common.Copy}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.Rename}" /><Run Text="/" /><Run Text="{DynamicResource Common.Delete}" />
                                                                 </TextBlock>
                                                             </StackPanel>
                                                         </ToolTip>
@@ -166,28 +166,28 @@
                                                                 Command="{s:Action RunTaskOnce,
                                                                                    Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                                 CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                                Header="{DynamicResource RunTaskOnce}" />
+                                                                Header="{DynamicResource TaskQueue.RunOnce}" />
                                                             <MenuItem
                                                                 Command="{s:Action RunTasksFromHere,
                                                                                    Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                                 CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                                Header="{DynamicResource RunTasksFromHere}" />
+                                                                Header="{DynamicResource TaskQueue.RunFromHere}" />
                                                             <MenuItem
                                                                 Command="{s:Action CopyTask,
                                                                                    Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                                 CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                                Header="{DynamicResource Copy}"
+                                                                Header="{DynamicResource Common.Copy}"
                                                                 IsEnabled="{Binding PlacementTarget.DataContext.CanCopy, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                                                             <MenuItem
                                                                 Command="{s:Action RenameTask,
                                                                                    Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                                 CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                                Header="{DynamicResource Rename}" />
+                                                                Header="{DynamicResource TaskQueue.Rename}" />
                                                             <MenuItem
                                                                 Command="{s:Action RemoveTask,
                                                                                    Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                                 CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                                Header="{DynamicResource Delete}" />
+                                                                Header="{DynamicResource Common.Delete}" />
                                                         </ContextMenu>
                                                     </RadioButton.ContextMenu>
                                                 </RadioButton>
@@ -209,16 +209,16 @@
                                                             <TextBlock HorizontalAlignment="Left">
                                                                 <TextBlock.Style>
                                                                     <Style BasedOn="{StaticResource TextBlockBaseStyle}" TargetType="TextBlock">
-                                                                        <Setter Property="Text" Value="{DynamicResource CheckBoxesNotSavedAsNull}" />
+                                                                        <Setter Property="Text" Value="{DynamicResource TaskQueue.CheckBoxesNotSavedAsNull}" />
                                                                         <Style.Triggers>
                                                                             <DataTrigger Binding="{Binding Source={x:Static ui_vms:SettingsViewModel.GuiSettings}, Path=MainTasksInvertNullFunction}" Value="True">
-                                                                                <Setter Property="Text" Value="{DynamicResource CheckBoxesNotSavedAsNullInvert}" />
+                                                                                <Setter Property="Text" Value="{DynamicResource TaskQueue.CheckBoxesNotSavedAsNullInvert}" />
                                                                             </DataTrigger>
                                                                         </Style.Triggers>
                                                                     </Style>
                                                                 </TextBlock.Style>
                                                             </TextBlock>
-                                                            <TextBlock HorizontalAlignment="Left" Text="{DynamicResource MainTasksNullFunctionalitySwitch}" />
+                                                            <TextBlock HorizontalAlignment="Left" Text="{DynamicResource TaskQueue.MainTasksNullFunctionality.Switch}" />
                                                         </StackPanel>
                                                     </ToolTip>
                                                 </CheckBox.ToolTip>
@@ -278,21 +278,21 @@
                                                     CommandParameter="{Binding}"
                                                     IsEnabled="{c:Binding CanCopy}"
                                                     Style="{StaticResource TaskActionButtonStyle}"
-                                                    ToolTip="{DynamicResource Copy}" />
+                                                    ToolTip="{DynamicResource Common.Copy}" />
                                                 <Button
                                                     hc:IconElement.Geometry="{StaticResource RenameTaskGeometry}"
                                                     Command="{s:Action RenameTask,
                                                                        Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                     CommandParameter="{Binding}"
                                                     Style="{StaticResource TaskActionButtonStyle}"
-                                                    ToolTip="{DynamicResource Rename}" />
+                                                    ToolTip="{DynamicResource TaskQueue.Rename}" />
                                                 <Button
                                                     hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
                                                     Command="{s:Action RemoveTask,
                                                                        Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                     CommandParameter="{Binding}"
                                                     Style="{StaticResource TaskActionButtonStyle}"
-                                                    ToolTip="{DynamicResource Delete}" />
+                                                    ToolTip="{DynamicResource Common.Delete}" />
                                             </StackPanel>
                                         </Grid>
                                     </Border>
@@ -333,7 +333,7 @@
                                     IsEnabled="{c:Binding 'Run.Idle or !Run.Inited'}"
                                     IsPopupOpen="{Binding IsAddTaskMenuOpen}"
                                     Style="{StaticResource MaaButtonDefaultStyle}"
-                                    ToolTip="{DynamicResource AddTaskQueueTask}">
+                                    ToolTip="{DynamicResource TaskQueue.AddTask}">
                                     <controls:MenuButton.PopupContent>
                                         <Border
                                             Width="190"
@@ -421,7 +421,7 @@
                                 VerticalAlignment="Top"
                                 hc:BorderElement.CornerRadius="0"
                                 Command="{s:Action SelectedAll}"
-                                Content="{DynamicResource SelectAll}"
+                                Content="{DynamicResource TaskQueue.SelectAll}"
                                 IsEnabled="{c:Binding 'Run.Idle or !Run.Inited'}" />
                             <hc:SplitButton
                                 Grid.Column="2"
@@ -504,7 +504,7 @@
                             GroupName="TaskSettings"
                             IsChecked="{Binding EnableAfterActionSetting}"
                             Style="{DynamicResource RadioGroupItemSingle}"
-                            ToolTip="{DynamicResource PostActionsSettings}" />
+                            ToolTip="{DynamicResource TaskQueue.PostAction.Settings}" />
                     </hc:ButtonGroup>
                 </StackPanel>
 
@@ -535,7 +535,7 @@
                                 </Style.Triggers>
                             </Style>
                         </Button.Style>
-                        <controls:TextBlock Text="{DynamicResource LinkStart}">
+                        <controls:TextBlock Text="{DynamicResource TaskQueue.LinkStart}">
                             <controls:TextBlock.Style>
                                 <Style BasedOn="{StaticResource MaaTextBlockDefaultStyle}" TargetType="{x:Type controls:TextBlock}">
                                     <Setter Property="Visibility" Value="Visible" />
@@ -553,7 +553,7 @@
                         Height="50"
                         Margin="5"
                         Command="{s:Action ManualStop}"
-                        Content="{DynamicResource Stop}"
+                        Content="{DynamicResource Common.Stop}"
                         IsEnabled="{c:Binding '!Run.Stopping'}"
                         ToolTip="{Binding Run.StopToolTip}"
                         Visibility="{c:Binding 'Run.Inited and (!Run.Idle or Run.Stopping) and !(RoguelikeInCombatAndShowWait and !Waiting)'}" />
@@ -562,12 +562,12 @@
                         Height="50"
                         Margin="5"
                         Command="{s:Action WaitAndStop}"
-                        Content="{DynamicResource WaitAndStop}"
+                        Content="{DynamicResource TaskQueue.WaitAndStop}"
                         Visibility="{c:Binding 'Run.Inited and !Run.Idle and (RoguelikeInCombatAndShowWait and !Waiting)'}" />
                     <CheckBox
                         Grid.Row="1"
                         VerticalAlignment="Center"
-                        Content="{DynamicResource AutoReloadResource}"
+                        Content="{DynamicResource TaskQueue.AutoReloadResource}"
                         IsChecked="{Binding EnableAutoReload}"
                         Visibility="{c:Binding CanShowAutoReload}" />
                 </Grid>
@@ -687,13 +687,13 @@
                         hc:BorderElement.CornerRadius="4,0,0,4"
                         hc:VisualElement.HighlightBackground="{DynamicResource RegionBrushOpacity25}"
                         Background="{DynamicResource RegionBrushOpacity25}"
-                        Content="{DynamicResource GeneralSettings}"
+                        Content="{DynamicResource TaskQueue.GeneralSettings}"
                         IsChecked="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}"
                         IsEnabled="True" />
                     <RadioButton
                         hc:VisualElement.HighlightBackground="{DynamicResource RegionBrushOpacity25}"
                         Background="{DynamicResource RegionBrushOpacity25}"
-                        Content="{DynamicResource AdvancedSettings}"
+                        Content="{DynamicResource TaskQueue.AdvancedSettings}"
                         IsChecked="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}"
                         IsEnabled="{c:Binding TaskSettingVisibilities.AdvancedSettingsVisibility}" />
                 </hc:ButtonGroup>
@@ -707,7 +707,7 @@
                         Margin="0,10,10,10"
                         PanningMode="Both">
                         <controls:TextBlock
-                            d:Text="{DynamicResource TodaysStageTip}"
+                            d:Text="{DynamicResource TaskQueue.Stage.TodaysStage.Tip}"
                             controls:TextBlock.BindableInlines="{Binding StagesOfTodayInlines}"
                             TextWrapping="Wrap" />
                     </hc:ScrollViewer>
@@ -718,9 +718,9 @@
                             NormalOpacity="0.5">
                             <controls:TooltipBlock.CustomToolTip>
                                 <StackPanel>
-                                    <controls:TextBlock Text="{DynamicResource InventoryUpdateTip}" />
+                                    <controls:TextBlock Text="{DynamicResource TaskQueue.Fight.InventoryUpdate.Tip}" />
                                     <StackPanel Orientation="Horizontal">
-                                        <controls:TextBlock Text="{DynamicResource LastSyncTime}" />
+                                        <controls:TextBlock Text="{DynamicResource TaskQueue.UserDataUpdate.LastSyncTime}" />
                                         <controls:TextBlock Text=": " />
                                         <controls:TextBlock Text="{Binding LastDepotSyncTimeText, Mode=OneWay, Source={x:Static helper:Instances.ToolboxViewModel}}" />
                                     </StackPanel>
@@ -1081,7 +1081,7 @@
                             MouseRightButtonDown="{s:Action ChooseOverlayTarget,
                                                             Target={x:Type ui_vms:TaskQueueViewModel}}"
                             NormalOpacity="0.25"
-                            TooltipText="{DynamicResource ProcessPickerToolTip}" />
+                            TooltipText="{DynamicResource Logging.Overlay.Tip}" />
                     </Grid>
                 </Grid>
             </Grid>

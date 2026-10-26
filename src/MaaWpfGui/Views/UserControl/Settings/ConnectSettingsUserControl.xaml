@@ -44,19 +44,19 @@
                 <CheckBox
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Content="{DynamicResource AutoDetectConnection}"
+                    Content="{DynamicResource Connection.AutoDetectConnection}"
                     IsChecked="{Binding AutoDetectConnection}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource AutoDetectConnectionTip}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Connection.AutoDetectConnection.Tip}" />
             </StackPanel>
             <StackPanel
                 Margin="5"
                 Orientation="Horizontal"
                 Visibility="{c:Binding AutoDetectConnection}">
                 <CheckBox
-                    Content="{DynamicResource AlwaysAutoDetectConnection}"
+                    Content="{DynamicResource Connection.AlwaysAutoDetectConnection}"
                     IsChecked="{Binding AlwaysAutoDetectConnection}"
                     Style="{StaticResource ErrorHighlightCheckBoxStyle}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource AlwaysAutoDetectConnectionTip}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Connection.AlwaysAutoDetectConnection.Tip}" />
             </StackPanel>
         </StackPanel>
 
@@ -69,7 +69,7 @@
                 Height="30"
                 Margin="5"
                 HorizontalAlignment="Center"
-                hc:TitleElement.Title="{DynamicResource ConnectionPreset}"
+                hc:TitleElement.Title="{DynamicResource Connection.Config}"
                 hc:TitleElement.TitlePlacement="Left"
                 DisplayMemberPath="Display"
                 ItemsSource="{Binding ConnectConfigList}"
@@ -85,14 +85,14 @@
                     Margin="5,0"
                     HorizontalAlignment="Left"
                     Foreground="{DynamicResource ErrorLogBrush}"
-                    Text="{DynamicResource UseAttachWindowWarning}"
+                    Text="{DynamicResource Connection.AttachWindow.Warning}"
                     TextWrapping="Wrap" />
                 <TextBlock
                     Margin="5,0"
                     HorizontalAlignment="Left"
                     properties:RainbowAnimationBehavior.IsActive="True"
                     Foreground="{DynamicResource RainbowFlowBrush}"
-                    Text="{DynamicResource UseAttachWindowWarningRecommendation}"
+                    Text="{DynamicResource Connection.AttachWindow.WarningRecommendation}"
                     TextWrapping="Wrap" />
             </StackPanel>
 
@@ -106,7 +106,7 @@
                     <hc:ComboBox
                         Width="300"
                         HorizontalContentAlignment="Stretch"
-                        hc:TitleElement.Title="{DynamicResource ConnectionAddress}"
+                        hc:TitleElement.Title="{DynamicResource Connection.Address}"
                         hc:TitleElement.TitlePlacement="Left"
                         IsEditable="True"
                         IsEnabled="{c:Binding !AutoDetectConnection}"
@@ -140,7 +140,7 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </hc:ComboBox>
-                    <controls:TooltipBlock TooltipText="{DynamicResource ConnectionAddressTip}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource Connection.Address.Tip}" />
                 </StackPanel>
                 <StackPanel
                     Margin="5"
@@ -156,7 +156,7 @@
                         <hc:TextBox
                             Height="30"
                             hc:BorderElement.CornerRadius="4,0,0,4"
-                            hc:TitleElement.Title="{DynamicResource AdbPath}"
+                            hc:TitleElement.Title="{DynamicResource Connection.AdbPath}"
                             hc:TitleElement.TitlePlacement="Left"
                             Text="{Binding AdbPath}" />
                         <Button
@@ -167,7 +167,7 @@
                             hc:BorderElement.CornerRadius="0,4,4,0"
                             BorderThickness="0,1,1,1"
                             Command="{s:Action SelectFile}"
-                            Content="{DynamicResource Select}" />
+                            Content="{DynamicResource Common.Select}" />
                     </Grid>
                     <controls:TooltipBlock Visibility="Hidden" />
                 </StackPanel>
@@ -185,8 +185,8 @@
                                     Margin="5"
                                     HorizontalAlignment="Center"
                                     Orientation="Horizontal">
-                                    <CheckBox Content="{DynamicResource MuMu12ExtrasEnabled}" IsChecked="{Binding Enable}" />
-                                    <controls:TooltipBlock TooltipText="{DynamicResource MuMu12ExtrasEnabledTip}" />
+                                    <CheckBox Content="{DynamicResource Connection.MuMu.ExtrasEnabled}" IsChecked="{Binding Enable}" />
+                                    <controls:TooltipBlock TooltipText="{DynamicResource Connection.MuMu.ExtrasEnabled.Tip}" />
                                 </StackPanel>
                                 <StackPanel
                                     HorizontalAlignment="Center"
@@ -197,14 +197,14 @@
                                         Margin="5"
                                         HorizontalAlignment="Center"
                                         IsChecked="{Binding EnableTouch}">
-                                        <TextBlock Text="{DynamicResource MuMuExtrasTouchEnabled}" TextWrapping="Wrap" />
+                                        <TextBlock Text="{DynamicResource Connection.MuMu.ExtrasTouchEnabled}" TextWrapping="Wrap" />
                                     </CheckBox>
                                     <hc:TextBox
                                         Width="420"
                                         Height="30"
                                         Margin="5"
-                                        hc:InfoElement.Placeholder="{DynamicResource MuMu12EmulatorPathPlaceholder}"
-                                        hc:TitleElement.Title="{DynamicResource MuMu12EmulatorPath}"
+                                        hc:InfoElement.Placeholder="{DynamicResource Connection.MuMu.EmulatorPath.Placeholder}"
+                                        hc:TitleElement.Title="{DynamicResource Connection.MuMu.EmulatorPath}"
                                         hc:TitleElement.TitlePlacement="Left"
                                         Text="{Binding EmulatorPath}" />
                                     <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
@@ -214,16 +214,16 @@
                                             Orientation="Horizontal">
                                             <CheckBox
                                                 VerticalAlignment="Center"
-                                                Content="{DynamicResource MuMuBridgeConnection}"
+                                                Content="{DynamicResource Connection.MuMu.BridgeConnection}"
                                                 IsChecked="{Binding EnableBridgeConnection}" />
-                                            <controls:TooltipBlock TooltipText="{DynamicResource MuMuBridgeConnectionTip}" />
+                                            <controls:TooltipBlock TooltipText="{DynamicResource Connection.MuMu.BridgeConnection.Tip}" />
                                         </StackPanel>
                                         <hc:TextBox
                                             Height="30"
                                             Margin="5"
                                             HorizontalContentAlignment="Center"
                                             d:Visibility="Visible"
-                                            hc:TitleElement.Title="{DynamicResource MuMu12Index}"
+                                            hc:TitleElement.Title="{DynamicResource Connection.MuMu.Index}"
                                             hc:TitleElement.TitlePlacement="Left"
                                             Text="{Binding InstanceIndex}"
                                             Visibility="{c:Binding EnableBridgeConnection}" />
@@ -237,23 +237,23 @@
                                     Margin="5"
                                     HorizontalAlignment="Center"
                                     Orientation="Horizontal">
-                                    <CheckBox Content="{DynamicResource LdExtrasEnabled}" IsChecked="{Binding Enable}" />
-                                    <controls:TooltipBlock TooltipText="{DynamicResource LdExtrasEnabledTip}" />
+                                    <CheckBox Content="{DynamicResource Connection.LdPlayer.ExtrasEnabled}" IsChecked="{Binding Enable}" />
+                                    <controls:TooltipBlock TooltipText="{DynamicResource Connection.LdPlayer.ExtrasEnabled.Tip}" />
                                 </StackPanel>
                                 <StackPanel d:Visibility="Visible" Visibility="{c:Binding Enable}">
                                     <hc:TextBox
                                         Width="420"
                                         Height="30"
                                         Margin="5"
-                                        hc:InfoElement.Placeholder="{DynamicResource LdEmulatorPathPlaceholder}"
-                                        hc:TitleElement.Title="{DynamicResource LdEmulatorPath}"
+                                        hc:InfoElement.Placeholder="{DynamicResource Connection.LdPlayer.EmulatorPath.Placeholder}"
+                                        hc:TitleElement.Title="{DynamicResource Connection.LdPlayer.EmulatorPath}"
                                         hc:TitleElement.TitlePlacement="Left"
                                         Text="{Binding EmulatorPath}" />
                                     <StackPanel>
                                         <CheckBox
                                             HorizontalAlignment="Center"
                                             VerticalContentAlignment="Center"
-                                            Content="{DynamicResource LdManualSetIndex}"
+                                            Content="{DynamicResource Connection.LdPlayer.ManualSetIndex}"
                                             IsChecked="{Binding ManualSetIndex}" />
                                         <hc:TextBox
                                             Width="130"
@@ -261,7 +261,7 @@
                                             Margin="5"
                                             d:Visibility="Visible"
                                             hc:InfoElement.Placeholder="0"
-                                            hc:TitleElement.Title="{DynamicResource LdIndex}"
+                                            hc:TitleElement.Title="{DynamicResource Connection.LdPlayer.Index}"
                                             hc:TitleElement.TitlePlacement="Left"
                                             Text="{Binding InstanceIndex}"
                                             Visibility="{c:Binding ManualSetIndex}" />
@@ -278,7 +278,7 @@
                                     <hc:ComboBox
                                         Width="300"
                                         Height="30"
-                                        hc:TitleElement.Title="{DynamicResource AttachWindowScreencapMethod}"
+                                        hc:TitleElement.Title="{DynamicResource Connection.AttachWindow.ScreencapMethod}"
                                         hc:TitleElement.TitlePlacement="Left"
                                         DisplayMemberPath="Display"
                                         ItemsSource="{Binding ScreencapMethodList}"
@@ -304,7 +304,7 @@
                                     <hc:ComboBox
                                         Width="300"
                                         Height="30"
-                                        hc:TitleElement.Title="{DynamicResource AttachWindowMouseMethod}"
+                                        hc:TitleElement.Title="{DynamicResource Connection.AttachWindow.MouseMethod}"
                                         hc:TitleElement.TitlePlacement="Left"
                                         DisplayMemberPath="Display"
                                         ItemsSource="{Binding MouseMethodList}"
@@ -330,7 +330,7 @@
                                     <hc:ComboBox
                                         Width="300"
                                         Height="30"
-                                        hc:TitleElement.Title="{DynamicResource AttachWindowKeyboardMethod}"
+                                        hc:TitleElement.Title="{DynamicResource Connection.AttachWindow.KeyboardMethod}"
                                         hc:TitleElement.TitlePlacement="Left"
                                         DisplayMemberPath="Display"
                                         ItemsSource="{Binding KeyboardMethodList}"
@@ -341,7 +341,7 @@
                                 <CheckBox
                                     Margin="5"
                                     HorizontalAlignment="Center"
-                                    Content="{DynamicResource MuteGameWhileRunning}"
+                                    Content="{DynamicResource Connection.MuteGameWhileRunning}"
                                     IsChecked="{Binding MuteWhileRunning, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>
                         </DataTemplate>
@@ -360,13 +360,13 @@
                     Margin="5"
                     HorizontalAlignment="Center"
                     Command="{s:Action TestLinkAndGetImage}"
-                    Content="{DynamicResource ScreenshotTest}"
+                    Content="{DynamicResource Connection.ScreenshotTest}"
                     IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}" />
                 <Button
                     Height="30"
                     Margin="5"
                     Command="{s:Action DetectMuMuArmConnection}"
-                    Content="{DynamicResource MuMuArmDetectAndTest}"
+                    Content="{DynamicResource Connection.MuMuArm.DetectAndTest}"
                     Visibility="{c:Binding 'ConnectConfig == enums:ConnectConfig.MuMuArm',
                                            Source={x:Static ui_vms:SettingsViewModel.ConnectSettings}}" />
                 <Button
@@ -375,7 +375,7 @@
                     HorizontalAlignment="Center"
                     Command="{s:Action RestoreGameWindowPosition,
                                        Target={x:Static helper:Instances.AsstProxy}}"
-                    Content="{DynamicResource WindowRestore}"
+                    Content="{DynamicResource Connection.WindowRestore}"
                     Visibility="{c:Binding ShowAdvancedConnectSettings and DataContext.ShowWindowRestoreButton,
                                            ElementName=Root}" />
                 <Button
@@ -384,7 +384,7 @@
                     HorizontalAlignment="Center"
                     Command="{s:Action MinimizeGameWindow,
                                        Target={x:Static helper:Instances.AsstProxy}}"
-                    Content="{DynamicResource WindowMinimize}"
+                    Content="{DynamicResource Connection.WindowMinimize}"
                     Visibility="{c:Binding ShowAdvancedConnectSettings and DataContext.ShowWindowMinimizeButton,
                                            ElementName=Root}" />
             </StackPanel>
@@ -414,19 +414,19 @@
             <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                 <CheckBox
                     Margin="5"
-                    Content="{DynamicResource RetryOnDisconnected}"
+                    Content="{DynamicResource Connection.RetryOnDisconnected}"
                     IsChecked="{Binding RetryOnDisconnected}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource RetryOnDisconnectedTip}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Connection.RetryOnDisconnected.Tip}" />
             </StackPanel>
             <CheckBox
                 Margin="5"
                 HorizontalAlignment="Left"
-                Content="{DynamicResource AllowAdbRestart}"
+                Content="{DynamicResource Connection.AllowAdbRestart}"
                 IsChecked="{Binding AllowAdbRestart}" />
             <CheckBox
                 Margin="5"
                 HorizontalAlignment="Left"
-                Content="{DynamicResource AllowAdbHardRestart}"
+                Content="{DynamicResource Connection.AllowAdbHardRestart}"
                 IsChecked="{Binding AllowAdbHardRestart}" />
         </StackPanel>
 
@@ -440,7 +440,7 @@
             <hc:ComboBox
                 Height="30"
                 Margin="5,5,0,5"
-                hc:TitleElement.Title="{DynamicResource TouchMode}"
+                hc:TitleElement.Title="{DynamicResource Connection.TouchMode}"
                 hc:TitleElement.TitlePlacement="Left"
                 DisplayMemberPath="Display"
                 IsHitTestVisible="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
@@ -460,7 +460,7 @@
                             Margin="0,8,0,0"
                             FontSize="12"
                             Foreground="{DynamicResource PrimaryTextBrush}"
-                            Text="{DynamicResource TouchModeTip}"
+                            Text="{DynamicResource Connection.TouchMode.Tip}"
                             TextWrapping="Wrap" />
                     </StackPanel>
                 </controls:TooltipBlock.CustomToolTip>
@@ -471,9 +471,9 @@
                     Margin="5,5,0,5"
                     HorizontalAlignment="Left"
                     Command="{s:Action ReplaceAdb}"
-                    Content="{DynamicResource ForcedReplaceAdb}"
+                    Content="{DynamicResource Connection.ForcedReplaceAdb}"
                     IsEnabled="{Binding CanReplaceAdb}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource ForcedReplaceAdbTip}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Connection.ForcedReplaceAdb.Tip}" />
             </StackPanel>
         </StackPanel>
 
@@ -488,15 +488,15 @@
                     Margin="5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Content="{DynamicResource KillAdbOnExit}"
+                    Content="{DynamicResource Connection.KillAdbOnExit}"
                     IsChecked="{Binding KillAdbOnExit}" />
                 <CheckBox
                     Margin="5,5,0,5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Content="{DynamicResource AdbLiteEnabled}"
+                    Content="{DynamicResource Connection.AdbLiteEnabled}"
                     IsChecked="{Binding AdbLiteEnabled}" />
-                <controls:TooltipBlock Margin="0,5" TooltipText="{DynamicResource AdbLiteEnabledTip}" />
+                <controls:TooltipBlock Margin="0,5" TooltipText="{DynamicResource Connection.AdbLiteEnabled.Tip}" />
             </StackPanel>
         </StackPanel>
     </Grid>

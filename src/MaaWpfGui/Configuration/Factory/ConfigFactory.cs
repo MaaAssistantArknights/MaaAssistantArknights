@@ -224,7 +224,7 @@ public static class ConfigFactory
             return null;
         }
 
-        var messages = LocalizationHelper.GetStringFormat("ConfigurationRecoveredNotification", string.Join(", ", _brokenConfigs));
+        var messages = LocalizationHelper.GetStringFormat("Error.ConfigurationRecoveredNotification", string.Join(", ", _brokenConfigs));
         _brokenConfigs.Clear();
         return messages;
     }

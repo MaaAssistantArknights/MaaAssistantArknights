@@ -23,6 +23,7 @@ using System.Windows;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
@@ -98,7 +99,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         .SelectMany(group => group.Select(oper => new OperItem(oper.Id, oper.Role, oper.Name!, DataHelper.GetLocalizedCharacterName(oper) ?? oper.Name!, oper.Rarity, group.Count() > 1)).Distinct())
         .OrderByDescending(entry => entry.Rarity)
         .ThenBy(entry => entry.NameDisplay, StringComparer.CurrentCultureIgnoreCase)
-        .Select(oper => new GenericCombinedData<OperItem>($"{oper.NameDisplay}{(oper.HasSameRoleOpers ? "-" + LocalizationHelper.GetString(oper.Role.ToString()) : string.Empty)}",  oper))];
+        .Select(oper => new GenericCombinedData<OperItem>($"{oper.NameDisplay}{(oper.HasSameRoleOpers ? "-" + LocalizationHelper.GetString(oper.Role.LocalizationKey()) : string.Empty)}",  oper))];
 
     public OperItem? OperSelect { get; set => SetAndNotify(ref field, value); }
 
@@ -174,7 +175,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                     }
                     if (oper is null)
                     {
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ParseFailed") + $"\nunknown oper: {plan.Role}-{plan.Name}", UiLogColor.Error);
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.OperProgress.ParseFailed") + $"\nunknown oper: {plan.Role}-{plan.Name}", UiLogColor.Error);
                         return;
                     }
                     list.Add(new Plan(plan.Role, plan.Name, plan.Elite ?? 0, plan.MainSkillLevel ?? 0, plan.SkillMastery ?? SkillMastery.Of(0, 0, 0), false));
@@ -184,7 +185,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
             }
             catch (Exception ex)
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ParseFailed") + $"\n{ex.Message}", UiLogColor.Error);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.OperProgress.ParseFailed") + $"\n{ex.Message}", UiLogColor.Error);
                 return;
             }
         }
@@ -332,7 +333,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                 var summary = msg.Details?.ToObject<ProgressSummary>();
                 Instances.TaskQueueViewModel.AddLog(
                     LocalizationHelper.GetStringFormat(
-                        "OperProgress.Summary",
+                        "TaskQueue.OperProgress.Summary",
                         summary?.Success ?? -1,
                         summary?.Failed ?? -1,
                         summary?.Skipped ?? -1),
@@ -398,10 +399,16 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                     var operName = DataHelper.GetLocalizedCharacterName(callback.Name) ?? callback.Name;
                     Instances.TaskQueueViewModel.AddLog(
                         LocalizationHelper.GetStringFormat(
-                            "OperProgress.Detail",
+                            "TaskQueue.OperProgress.Detail",
                             list.IndexOf(plan) + 1,
                             operName,
-                            LocalizationHelper.GetStringFormat(status)) + BuildTargetCallbackDescription(callback),
+                            LocalizationHelper.GetString(status switch
+                            {
+                                "Success" => "Common.Success",
+                                "Failed" => "Common.Failed",
+                                "Skipped" => "Common.Skipped",
+                                _ => status,
+                            })) + BuildTargetCallbackDescription(callback),
                         UiLogColor.Info);
 
                     break;
@@ -440,12 +447,12 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         if (callback.Elite is int elite)
         {
             str.AppendLine();
-            str.Append(LocalizationHelper.GetStringFormat("OperProgress.EliteTarget", elite));
+            str.Append(LocalizationHelper.GetStringFormat("TaskQueue.OperProgress.EliteTarget", elite));
         }
         if (callback.MainSkillLevel is int mainSkill)
         {
             str.AppendLine();
-            str.Append(LocalizationHelper.GetStringFormat("OperProgress.SkillLevelTarget", mainSkill));
+            str.Append(LocalizationHelper.GetStringFormat("TaskQueue.OperProgress.SkillLevelTarget", mainSkill));
         }
         if (callback.SkillMastery is SkillMastery mastery)
         {
@@ -454,7 +461,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                 if (level > 0)
                 {
                     str.AppendLine();
-                    str.Append(LocalizationHelper.GetStringFormat("OperProgress.MasteryTarget", index + 1, level));
+                    str.Append(LocalizationHelper.GetStringFormat("TaskQueue.OperProgress.MasteryTarget", index + 1, level));
                 }
             }
         }
@@ -478,8 +485,8 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
     ];
 
     public static LocalizedObservableList<int> SpecializationSkillLevelList { get; } = new(
-        (0, "OperProgressNotSet"),
-        (1, "OperProgressMastery1"),
-        (2, "OperProgressMastery2"),
-        (3, "OperProgressMastery3"));
+        (0, "TaskQueue.OperProgress.NotSet"),
+        (1, "TaskQueue.OperProgress.Mastery1"),
+        (2, "TaskQueue.OperProgress.Mastery2"),
+        (3, "TaskQueue.OperProgress.Mastery3"));
 }

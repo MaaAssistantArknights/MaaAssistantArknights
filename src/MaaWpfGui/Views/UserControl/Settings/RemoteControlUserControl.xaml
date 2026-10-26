@@ -38,7 +38,7 @@
             Margin="10"
             HorizontalAlignment="Center"
             Block.TextAlignment="Center"
-            Text="{DynamicResource RemoteControlTooltips}"
+            Text="{DynamicResource RemoteControl.Tip}"
             TextWrapping="Wrap" />
         <!--  Control Endpoint Input  -->
         <controls:TextBlock
@@ -46,7 +46,7 @@
             Grid.Column="0"
             Margin="10"
             Block.TextAlignment="Center"
-            Text="{DynamicResource RemoteControlGetTaskEndpointLabel}"
+            Text="{DynamicResource RemoteControl.GetTaskEndpointLabel}"
             TextWrapping="Wrap" />
         <TextBox
             Grid.Row="1"
@@ -61,7 +61,7 @@
             Grid.Column="0"
             Margin="10"
             Block.TextAlignment="Center"
-            Text="{DynamicResource RemoteControlReportStatusEndpointLabel}"
+            Text="{DynamicResource RemoteControl.ReportStatusEndpointLabel}"
             TextWrapping="Wrap" />
         <TextBox
             Grid.Row="2"
@@ -75,7 +75,7 @@
             Grid.Column="0"
             Margin="10"
             Block.TextAlignment="Center"
-            Text="{DynamicResource RemoteControlPollIntervalMsLabel}"
+            Text="{DynamicResource RemoteControl.PollIntervalMsLabel}"
             TextWrapping="Wrap" />
         <TextBox
             Grid.Row="3"
@@ -90,7 +90,7 @@
             Grid.Column="0"
             Margin="10"
             Block.TextAlignment="Center"
-            Text="{DynamicResource RemoteControlUserIdentityLabel}"
+            Text="{DynamicResource RemoteControl.UserIdentityLabel}"
             TextWrapping="Wrap" />
         <TextBox
             Grid.Row="4"
@@ -105,7 +105,7 @@
             BorderThickness="0,1,1,1"
             Command="{s:Action ConnectionTest,
                                Target={x:Type remoteControl:RemoteControlService}}"
-            Content="{DynamicResource RemoteControlConnectionTest}" />
+            Content="{DynamicResource RemoteControl.ConnectionTest}" />
 
         <!--  Remote ID (Read-only & Copyable)  -->
         <controls:TextBlock
@@ -113,7 +113,7 @@
             Grid.Column="0"
             Margin="10"
             Block.TextAlignment="Center"
-            Text="{DynamicResource RemoteControlDeviceIdentityLabel}"
+            Text="{DynamicResource RemoteControl.DeviceIdentityLabel}"
             TextWrapping="Wrap" />
         <TextBox
             Grid.Row="5"
@@ -130,7 +130,7 @@
             BorderThickness="0,1,1,1"
             Command="{s:Action RegenerateDeviceIdentity,
                                Target={x:Type remoteControl:RemoteControlService}}"
-            Content="{DynamicResource RemoteControlRegenerateDeviceIdentity}" />
+            Content="{DynamicResource RemoteControl.RegenerateDeviceIdentity}" />
 
         <StackPanel
             Grid.Row="6"
@@ -141,7 +141,7 @@
                 Margin="10"
                 Block.TextAlignment="Center"
                 FontSize="11"
-                Text="{DynamicResource RemoteControlDeveloperTooltips}"
+                Text="{DynamicResource RemoteControl.Developer.Tip}"
                 TextWrapping="Wrap" />
             <controls:TextBlock
                 HorizontalAlignment="Center"
@@ -151,7 +151,7 @@
                     Cursor="Hand"
                     NavigateUri="{Binding Source={x:Static constants:MaaUrls.RemoteControlDocument}}"
                     TextDecorations="None">
-                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource RemoteControlDeveloperDocLink}" />
+                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource RemoteControl.DeveloperDocLink}" />
                 </Hyperlink>
             </controls:TextBlock>
         </StackPanel>

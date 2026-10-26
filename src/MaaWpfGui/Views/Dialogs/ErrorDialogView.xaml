@@ -59,7 +59,7 @@
             <FlowDocument>
                 <Section>
                     <Paragraph>
-                        <Run FontWeight="Bold" Text="{DynamicResource ErrorProlog}" />
+                        <Run FontWeight="Bold" Text="{DynamicResource Error.Prolog}" />
                     </Paragraph>
                     <Paragraph Margin="8,0,0,0">
                         <Run x:Name="Error" Text="{Binding ExceptionMessage, ElementName=ErrorDialogViewWindow, Mode=OneWay}" />
@@ -67,7 +67,7 @@
                 </Section>
                 <Section>
                     <Paragraph>
-                        <Run FontWeight="Bold" Text="{DynamicResource ErrorSolution}" />
+                        <Run FontWeight="Bold" Text="{DynamicResource Error.Solution}" />
                     </Paragraph>
                     <Paragraph Margin="8,0,0,0">
                         <Run
@@ -78,7 +78,7 @@
                 </Section>
                 <Section>
                     <Paragraph>
-                        <Run FontWeight="Bold" Text="{DynamicResource ErrorDetails}" />
+                        <Run FontWeight="Bold" Text="{DynamicResource Error.Details}" />
                     </Paragraph>
                     <Paragraph Margin="8,0,0,0">
                         <Run x:Name="ErrorDetails" Text="{Binding ExceptionDetails, ElementName=ErrorDialogViewWindow, Mode=OneWay}" />
@@ -129,7 +129,7 @@
                             Stroke="#FFFF00"
                             StrokePosition="Outside"
                             StrokeThickness="1"
-                            Text="{DynamicResource ErrorProlog}" />
+                            Text="{DynamicResource Error.Prolog}" />
                     </Paragraph>
                     <Paragraph Margin="8,0,0,0">
                         <hc:OutlineText
@@ -152,7 +152,7 @@
                             Stroke="#FFFF00"
                             StrokePosition="Outside"
                             StrokeThickness="1"
-                            Text="{DynamicResource ErrorSolution}" />
+                            Text="{DynamicResource Error.Solution}" />
                     </Paragraph>
                     <Paragraph Margin="8,0,0,0">
                         <controls:TextBlock
@@ -184,7 +184,7 @@
                             Stroke="#FFFF00"
                             StrokePosition="Outside"
                             StrokeThickness="1"
-                            Text="{DynamicResource ErrorDetails}" />
+                            Text="{DynamicResource Error.Details}" />
                     </Paragraph>
                     <Paragraph Margin="8,0,0,0">
                         <Run x:Name="CongratulationErrorDetails" Text="{Binding ExceptionDetails, ElementName=ErrorDialogViewWindow, Mode=OneWay}" />
@@ -205,19 +205,19 @@
                 </Grid.ColumnDefinitions>
                 <controls:TextBlock>
                     <Hyperlink Name="CopyErrorMessage" Click="CopyErrorMessage_Click">
-                        <Run Text="{DynamicResource CopyErrorMessage}" />
+                        <Run Text="{DynamicResource Error.CopyMessage}" />
                     </Hyperlink>
                     <hc:Poptip.Instance>
                         <hc:Poptip
                             x:Name="CopiedTip"
                             hc:Poptip.HitMode="None"
-                            Content="{DynamicResource CopiedToClipboard}" />
+                            Content="{DynamicResource Recognition.CopiedToClipboard}" />
                     </hc:Poptip.Instance>
                 </controls:TextBlock>
                 <CheckBox
                     Grid.Column="1"
                     Margin="10"
-                    Content="{DynamicResource ErrorCongratulations}"
+                    Content="{DynamicResource Error.Congratulations}"
                     IsChecked="{Binding CongratulationsOnError, ElementName=ErrorDialogViewWindow}" />
                 <WrapPanel
                     Grid.Column="2"
@@ -233,7 +233,7 @@
                             Name="LinkToFAQ"
                             Click="Hyperlink_OnClick"
                             NavigateUri="{Binding Source={x:Static constants:MaaUrls.HelpUri}}">
-                            <Run Text="{DynamicResource Help}" />
+                            <Run Text="{DynamicResource Error.Help}" />
                         </Hyperlink>
                     </controls:TextBlock>
 
@@ -242,7 +242,7 @@
                             Name="LinkToCreateGitHubIssue"
                             Click="Hyperlink_OnClick"
                             NavigateUri="{Binding Source={x:Static constants:MaaUrls.NewIssueUri}}">
-                            <Run Text="{DynamicResource ErrorFeedbackLinkText}" />
+                            <Run Text="{DynamicResource Error.FeedbackLinkText}" />
                         </Hyperlink>
                     </controls:TextBlock>
 
@@ -251,7 +251,7 @@
                             Name="LinkToJoinQqGroup"
                             Click="Hyperlink_OnClick"
                             NavigateUri="{Binding Source={x:Static constants:MaaUrls.QqGroups}}">
-                            <Run Text="{DynamicResource ErrorQqGroupLinkText}" />
+                            <Run Text="{DynamicResource Error.QqGroupLinkText}" />
                         </Hyperlink>
                     </controls:TextBlock>
                 </WrapPanel>

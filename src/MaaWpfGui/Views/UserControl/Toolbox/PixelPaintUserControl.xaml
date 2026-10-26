@@ -47,7 +47,7 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Opacity="0.65"
-                            Text="{DynamicResource MiniGame@PixelPaint@DropHint}"
+                            Text="{DynamicResource Toolbox.MiniGame.PixelPaint.DropHint}"
                             TextAlignment="Center"
                             TextWrapping="Wrap"
                             Visibility="{c:Binding 'PixelPaintPreview == null'}" />
@@ -85,7 +85,7 @@
                         Command="{s:Action PixelPaintPickImage}">
                         <TextBlock
                             MaxWidth="50"
-                            Text="{DynamicResource MiniGame@PixelPaint@PickImage}"
+                            Text="{DynamicResource Toolbox.MiniGame.PixelPaint.PickImage}"
                             TextWrapping="Wrap" />
                     </Button>
                     <Button
@@ -98,7 +98,7 @@
                         Command="{s:Action PixelPaintResetView}">
                         <TextBlock
                             MaxWidth="50"
-                            Text="{DynamicResource MiniGame@PixelPaint@ResetView}"
+                            Text="{DynamicResource Toolbox.MiniGame.PixelPaint.ResetView}"
                             TextWrapping="Wrap" />
                     </Button>
                     <Button
@@ -110,21 +110,21 @@
                         Command="{s:Action PixelPaintResetParameters}">
                         <TextBlock
                             MaxWidth="50"
-                            Text="{DynamicResource MiniGame@PixelPaint@ResetParams}"
+                            Text="{DynamicResource Toolbox.MiniGame.PixelPaint.ResetParams}"
                             TextWrapping="Wrap" />
                     </Button>
                 </Grid>
 
                 <ComboBox
                     Margin="0,10,0,0"
-                    hc:TitleElement.Title="{DynamicResource MiniGame@PixelPaint@Fit}"
+                    hc:TitleElement.Title="{DynamicResource Toolbox.MiniGame.PixelPaint.Fit}"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding PixelPaintFitModeList}"
                     SelectedValue="{Binding PixelPaintFitMode}"
                     SelectedValuePath="Value" />
                 <ComboBox
                     Margin="0,10,0,0"
-                    hc:TitleElement.Title="{DynamicResource MiniGame@PixelPaint@Dither}"
+                    hc:TitleElement.Title="{DynamicResource Toolbox.MiniGame.PixelPaint.Dither}"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding PixelPaintDitherModeList}"
                     SelectedValue="{Binding PixelPaintDitherMode}"
@@ -133,7 +133,7 @@
                     <controls:TextBlock
                         Margin="8,0,0,5"
                         HorizontalAlignment="Left"
-                        Text="{DynamicResource MiniGame@PixelPaint@Contrast}" />
+                        Text="{DynamicResource Toolbox.MiniGame.PixelPaint.Contrast}" />
                     <Slider
                         IsSnapToTickEnabled="True"
                         Maximum="200"
@@ -145,7 +145,7 @@
                     <controls:TextBlock
                         Margin="8,0,0,5"
                         HorizontalAlignment="Left"
-                        Text="{DynamicResource MiniGame@PixelPaint@Brightness}" />
+                        Text="{DynamicResource Toolbox.MiniGame.PixelPaint.Brightness}" />
                     <Slider
                         IsSnapToTickEnabled="True"
                         Maximum="200"
@@ -157,7 +157,7 @@
                     <controls:TextBlock
                         Margin="8,0,0,5"
                         HorizontalAlignment="Left"
-                        Text="{DynamicResource MiniGame@PixelPaint@Saturation}" />
+                        Text="{DynamicResource Toolbox.MiniGame.PixelPaint.Saturation}" />
                     <Slider
                         IsSnapToTickEnabled="True"
                         Maximum="200"
@@ -167,17 +167,17 @@
                 </StackPanel>
                 <CheckBox
                     Margin="0,10,0,0"
-                    Content="{DynamicResource MiniGame@PixelPaint@PaintWhite}"
+                    Content="{DynamicResource Toolbox.MiniGame.PixelPaint.PaintWhite}"
                     IsChecked="{Binding PixelPaintPaintWhite}" />
                 <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                    <CheckBox Content="{DynamicResource MiniGame@PixelPaint@Swipe}" IsChecked="{Binding PixelPaintSwipeEnabled}" />
+                    <CheckBox Content="{DynamicResource Toolbox.MiniGame.PixelPaint.Swipe}" IsChecked="{Binding PixelPaintSwipeEnabled}" />
                     <controls:TooltipBlock
                         Margin="6,0,0,0"
                         VerticalAlignment="Center"
-                        TooltipText="{DynamicResource MiniGame@PixelPaint@SwipeTip}" />
+                        TooltipText="{DynamicResource Toolbox.MiniGame.PixelPaint.Swipe.Tip}" />
                 </StackPanel>
                 <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                    <controls:TextBlock VerticalAlignment="Center" Text="{DynamicResource MiniGame@PixelPaint@GridDelay}" />
+                    <controls:TextBlock VerticalAlignment="Center" Text="{DynamicResource Toolbox.MiniGame.PixelPaint.GridDelay}" />
                     <hc:NumericUpDown
                         Width="60"
                         Margin="6,0,0,0"
@@ -185,7 +185,7 @@
                         Maximum="500"
                         Minimum="0"
                         Value="{Binding PixelPaintGridDelay}" />
-                    <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource MiniGame@PixelPaint@GridDelayTip}" />
+                    <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource Toolbox.MiniGame.PixelPaint.GridDelay.Tip}" />
                 </StackPanel>
                 <controls:TextBlock
                     Margin="0,12,0,0"

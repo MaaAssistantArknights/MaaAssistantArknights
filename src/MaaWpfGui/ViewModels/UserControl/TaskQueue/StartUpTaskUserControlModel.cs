@@ -68,7 +68,7 @@ public class StartUpTaskUserControlModel : TaskSettingsViewModel, StartUpTaskUse
     {
         if (msg == AsstMsg.SubTaskExtraInfo && details?.What == "AccountSwitch")
         {
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AccountSwitch") + $" -->> {details?.Details?["account_name"]}", UiLogColor.Info); // subTaskDetails!["current_account"]
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Connection.AccountSwitch") + $" -->> {details?.Details?["account_name"]}", UiLogColor.Info); // subTaskDetails!["current_account"]
         }
     }
 

@@ -278,7 +278,7 @@
                                     Margin="0,10"
                                     HorizontalAlignment="Center"
                                     DataContext="{Binding NotificationSettings}" />
-                                <hc:Divider Margin="10,0" Content="{DynamicResource ExternalNotificationSettings}" />
+                                <hc:Divider Margin="10,0" Content="{DynamicResource ExternalNotification.Title}" />
                                 <settings:ExternalNotificationSettingsUserControl
                                     Margin="0,10"
                                     HorizontalAlignment="Center"

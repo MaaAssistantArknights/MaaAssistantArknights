@@ -138,11 +138,11 @@ public partial class VersionUpdateSettingsUserControl : System.Windows.Controls.
         }
 
         MessageBoxInfo info = new() {
-            Message = LocalizationHelper.GetString("EasterEggsRules"),
-            Caption = LocalizationHelper.GetString("EmployeeGuidelines"),
+            Message = LocalizationHelper.GetString("EasterEgg.Rules"),
+            Caption = LocalizationHelper.GetString("EasterEgg.EmployeeGuidelines"),
             IconKey = "EasterEggsRulesIcon",
             IconBrushKey = "PrimaryTextBrush",
-            ConfirmContent = LocalizationHelper.GetString("ConfirmExitText"),
+            ConfirmContent = LocalizationHelper.GetString("TaskQueue.ConfirmExit.Text"),
         };
         MessageBoxHelper.Show(info);
 
@@ -152,7 +152,7 @@ public partial class VersionUpdateSettingsUserControl : System.Windows.Controls.
         var growlInfo = new GrowlInfo
         {
             IsCustom = true,
-            Message = LocalizationHelper.GetString("BuyWineOnAprilFoolsDay"),
+            Message = LocalizationHelper.GetString("EasterEgg.BuyWineOnAprilFoolsDay"),
             IconKey = "EasterEggsRulesIcon",
             IconBrushKey = "TextIconBrush",
         };

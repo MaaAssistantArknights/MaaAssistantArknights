@@ -27,7 +27,7 @@
             Margin="10,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Text="{DynamicResource ClientType}" />
+            Text="{DynamicResource Settings.Game.ClientType}" />
         <ComboBox
             Width="200"
             Margin="10"
@@ -43,7 +43,7 @@
                 Cursor="Hand"
                 NavigateUri="{Binding Source={x:Static constants:MaaUrls.YostarENResolution}}"
                 TextDecorations="None">
-                <TextBlock Text="{DynamicResource ResolutionInfoYoStarEN}">
+                <TextBlock Text="{DynamicResource Settings.Game.ResolutionInfoYoStarEN}">
                     <TextBlock.Foreground>
                         <LinearGradientBrush SpreadMethod="Repeat">
                             <LinearGradientBrush.Transform>
@@ -89,7 +89,7 @@
                 Cursor="Hand"
                 NavigateUri="{Binding Source={x:Static constants:MaaUrls.OverseasAdaptation}}"
                 TextDecorations="None">
-                <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource HelpUsWithOverseasServersTip}" />
+                <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Settings.Game.HelpUsWithOverseasServers.Tip}" />
             </Hyperlink>
         </controls:TextBlock>
 
@@ -103,10 +103,10 @@
                 IsChecked="{Binding DeploymentWithPause}">
                 <controls:TextBlock
                     Block.TextAlignment="Center"
-                    Text="{DynamicResource DeploymentWithPause}"
+                    Text="{DynamicResource Settings.Game.DeploymentWithPause}"
                     TextWrapping="Wrap" />
             </CheckBox>
-            <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource DeploymentWithPauseTip}" />
+            <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource Settings.Game.DeploymentWithPause.Tip}" />
         </StackPanel>
 
         <hc:TextBox
@@ -114,8 +114,8 @@
             Width="300"
             Height="30"
             Margin="10"
-            hc:InfoElement.Placeholder="{DynamicResource StartsWithScriptPlaceholder}"
-            hc:TitleElement.Title="{DynamicResource StartsWithScript}"
+            hc:InfoElement.Placeholder="{DynamicResource Settings.Game.StartsWithScript.Placeholder}"
+            hc:TitleElement.Title="{DynamicResource Settings.Game.StartsWithScript}"
             hc:TitleElement.TitlePlacement="Left"
             AllowDrop="True"
             Drop="StartsWithScript_Drop"
@@ -126,8 +126,8 @@
             Width="300"
             Height="30"
             Margin="10"
-            hc:InfoElement.Placeholder="{DynamicResource EndsWithScriptPlaceholder}"
-            hc:TitleElement.Title="{DynamicResource EndsWithScript}"
+            hc:InfoElement.Placeholder="{DynamicResource Settings.Game.EndsWithScript.Placeholder}"
+            hc:TitleElement.Title="{DynamicResource Settings.Game.EndsWithScript}"
             hc:TitleElement.TitlePlacement="Left"
             AllowDrop="True"
             Drop="EndsWithScript_Drop"
@@ -145,7 +145,7 @@
                 IsChecked="{Binding CopilotWithScript}">
                 <TextBlock
                     MaxWidth="200"
-                    Text="{DynamicResource CopilotWithScript}"
+                    Text="{DynamicResource Settings.Game.CopilotWithScript}"
                     TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox
@@ -155,7 +155,7 @@
                 IsChecked="{Binding ManualStopWithScript}">
                 <TextBlock
                     MaxWidth="200"
-                    Text="{DynamicResource ManualStopWithScript}"
+                    Text="{DynamicResource Settings.Game.ManualStopWithScript}"
                     TextWrapping="Wrap" />
             </CheckBox>
         </StackPanel>
@@ -170,7 +170,7 @@
                 IsChecked="{Binding BlockSleep}">
                 <TextBlock
                     MaxWidth="200"
-                    Text="{DynamicResource BlockSleep}"
+                    Text="{DynamicResource Settings.Game.BlockSleep}"
                     TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox
@@ -180,7 +180,7 @@
                 Visibility="{c:Binding BlockSleep}">
                 <TextBlock
                     MaxWidth="200"
-                    Text="{DynamicResource BlockSleepWithScreenOn}"
+                    Text="{DynamicResource Settings.Game.BlockSleepWithScreenOn}"
                     TextWrapping="Wrap" />
             </CheckBox>
         </StackPanel>
@@ -192,7 +192,7 @@
             <CheckBox
                 Margin="20,10,0,10"
                 VerticalAlignment="Center"
-                Content="{DynamicResource RunDurationLimitEnabled}"
+                Content="{DynamicResource TaskQueue.RunDurationLimit.Enabled}"
                 IsChecked="{Binding EnableRunDurationLimit}"
                 IsEnabled="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
                 MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
@@ -200,7 +200,7 @@
             <controls:TooltipBlock
                 Margin="0,10"
                 VerticalAlignment="Center"
-                TooltipText="{DynamicResource RunDurationLimitTip}" />
+                TooltipText="{DynamicResource TaskQueue.RunDurationLimit.Tip}" />
         </StackPanel>
         <StackPanel
             HorizontalAlignment="Center"
@@ -208,7 +208,7 @@
             Visibility="{c:Binding RunDurationLimitActive}">
             <hc:NumericUpDown
                 Margin="5"
-                hc:InfoElement.Title="{DynamicResource RunDurationLimitMinutes}"
+                hc:InfoElement.Title="{DynamicResource TaskQueue.RunDurationLimit.Minutes}"
                 hc:TitleElement.TitlePlacement="Left"
                 InputMethod.IsInputMethodEnabled="False"
                 IsEnabled="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
@@ -219,7 +219,7 @@
         <CheckBox
             Margin="10"
             HorizontalAlignment="Center"
-            Content="{DynamicResource RunDurationLimitExecutePostActions}"
+            Content="{DynamicResource TaskQueue.RunDurationLimit.ExecutePostActions}"
             IsChecked="{Binding RunDurationLimitExecutePostActions}"
             IsEnabled="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
             Visibility="{c:Binding RunDurationLimitActive}" />

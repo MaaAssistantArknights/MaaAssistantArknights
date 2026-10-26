@@ -43,7 +43,7 @@ public sealed class NotificationService
                 return;
             }
 
-            var message = LocalizationHelper.GetStringFormat("TaskStallWarning", initialMinutes, accumulatedMinutes);
+            var message = LocalizationHelper.GetStringFormat("TaskQueue.Stall.Warning", initialMinutes, accumulatedMinutes);
             Notify(owner == RunOwner.Copilot ? NotificationSource.Copilot : NotificationSource.TaskQueue,
                 new(NotificationKind.Stalled, message, message), UiLogColor.Warning);
         });
@@ -75,11 +75,11 @@ public sealed class NotificationService
 
     public void TestSystemNotification()
     {
-        ToastNotification.ShowDirect(LocalizationHelper.GetString("ToastNotificationTest"));
+        ToastNotification.ShowDirect(LocalizationHelper.GetString("Toast.Test"));
         var (available, detail) = ToastNotification.ToastNotificationCheck();
         if (!available)
         {
-            GrowlHelper.Error(LocalizationHelper.GetStringFormat("ToastNotificationUnavailable", detail));
+            GrowlHelper.Error(LocalizationHelper.GetStringFormat("Toast.Unavailable", detail));
         }
     }
 
@@ -89,8 +89,8 @@ public sealed class NotificationService
             return;
         }
 
-        SendExternal(LocalizationHelper.GetString("ExternalNotificationSendTestTitle"),
-            LocalizationHelper.GetString("ExternalNotificationSendTestContent"), true);
+        SendExternal(LocalizationHelper.GetString("ExternalNotification.SendTest.Title"),
+            LocalizationHelper.GetString("ExternalNotification.SendTest.Content"), true);
     });
 
     public void NotifyScheduledStart(string title, string content) => Execute.OnUIThread(() => {

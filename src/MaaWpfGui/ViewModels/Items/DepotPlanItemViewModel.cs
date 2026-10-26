@@ -63,7 +63,7 @@ public partial class DepotPlanItemViewModel(string stage, string dropId, string?
     /// <summary>
     /// Gets or sets 指定掉落材料名称。
     /// </summary>
-    public string DropName { get; set => SetAndNotify(ref field, value); } = dropName ?? LocalizationHelper.GetString("NotSelected");
+    public string DropName { get; set => SetAndNotify(ref field, value); } = dropName ?? LocalizationHelper.GetString("Common.NotSelected");
 
     public int DropCount { get; set => SetAndNotify(ref field, value); } = dropCount;
 
@@ -88,7 +88,7 @@ public partial class DepotPlanItemViewModel(string stage, string dropId, string?
         else
         {
             DropId = string.Empty;
-            DropName = LocalizationHelper.GetString("NotSelected");
+            DropName = LocalizationHelper.GetString("Common.NotSelected");
             NotifyOfPropertyChange(nameof(DropName));
         }
     }

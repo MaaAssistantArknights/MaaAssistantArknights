@@ -18,7 +18,7 @@
         <CheckBox
             Margin="5"
             HorizontalAlignment="Center"
-            Content="{DynamicResource StallTimeoutEnabled}"
+            Content="{DynamicResource TaskQueue.Stall.TimeoutEnabled}"
             IsChecked="{Binding StallTimeoutEnabled}" />
         <StackPanel
             HorizontalAlignment="Center"
@@ -26,7 +26,7 @@
             Visibility="{c:Binding StallTimeoutEnabled}">
             <hc:NumericUpDown
                 Margin="5"
-                hc:InfoElement.Title="{DynamicResource StallTimeoutMinutes}"
+                hc:InfoElement.Title="{DynamicResource TaskQueue.Stall.TimeoutMinutes}"
                 hc:TitleElement.TitlePlacement="Left"
                 InputMethod.IsInputMethodEnabled="False"
                 Maximum="11451"
@@ -34,7 +34,7 @@
                 Value="{Binding StallTimeoutMinutes}" />
             <hc:NumericUpDown
                 Margin="5"
-                hc:InfoElement.Title="{DynamicResource ReminderIntervalMinutes}"
+                hc:InfoElement.Title="{DynamicResource TaskQueue.Schedule.ReminderIntervalMinutes}"
                 hc:TitleElement.TitlePlacement="Left"
                 InputMethod.IsInputMethodEnabled="False"
                 Maximum="11451"
@@ -48,24 +48,24 @@
                 Margin="10,10,10,0"
                 HorizontalAlignment="Center"
                 Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource SystemNotification}" IsChecked="{Binding UseNotify}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource SystemNotificationInfo}" />
+                <CheckBox Content="{DynamicResource Toast.SystemNotification}" IsChecked="{Binding UseNotify}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Toast.SystemNotification.Info}" />
             </StackPanel>
             <StackPanel
                 Margin="10,10,10,0"
                 HorizontalAlignment="Center"
                 Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource NotifyBeforeScheduledStart}" IsChecked="{Binding NotifyBeforeScheduledStart, Source={x:Static ui_vms:SettingsViewModel.TimerSettings}}" />
+                <CheckBox Content="{DynamicResource TaskQueue.Schedule.NotifyBeforeScheduledStart}" IsChecked="{Binding NotifyBeforeScheduledStart, Source={x:Static ui_vms:SettingsViewModel.TimerSettings}}" />
                 <hc:NumericUpDown
                     Height="30"
                     Margin="10,-10,0,-10"
-                    hc:InfoElement.Title="{DynamicResource ScheduledStartNotificationMinutes}"
+                    hc:InfoElement.Title="{DynamicResource TaskQueue.Schedule.NotificationMinutes}"
                     hc:TitleElement.TitlePlacement="Left"
                     InputMethod.IsInputMethodEnabled="False"
                     Maximum="1439"
                     Minimum="1"
                     Value="{Binding ScheduledStartNotificationMinutes, Source={x:Static ui_vms:SettingsViewModel.TimerSettings}}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource NotifyBeforeScheduledStartSharedTimeTip}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.Schedule.NotifySharedTime.Tip}" />
             </StackPanel>
         </StackPanel>
 

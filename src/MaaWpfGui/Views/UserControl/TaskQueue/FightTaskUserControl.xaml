@@ -40,12 +40,12 @@
                         Height="30"
                         Margin="6"
                         VerticalContentAlignment="Center"
-                        Content="{DynamicResource UseSanityPotion}"
+                        Content="{DynamicResource TaskQueue.Fight.UseSanityPotion}"
                         IsChecked="{Binding UseMedicine}"
                         IsEnabled="{c:Binding !UseStoneDisplay}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
+                        ToolTip="{DynamicResource TaskQueue.CheckBoxesNotSavedAsNull}" />
                     <CheckBox
                         Height="30"
                         Margin="6"
@@ -53,20 +53,20 @@
                         IsChecked="{Binding UseStone}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSaved}">
+                        ToolTip="{DynamicResource TaskQueue.CheckBoxesNotSaved}">
                         <TextBlock>
-                            <Run Text="{DynamicResource UseOriginitePrime}" /><Run Text="{c:Binding '(AllowUseStoneSave ? &quot;&quot; : &quot;*&quot;)'}" />
+                            <Run Text="{DynamicResource TaskQueue.Fight.UseOriginitePrime}" /><Run Text="{c:Binding '(AllowUseStoneSave ? &quot;&quot; : &quot;*&quot;)'}" />
                         </TextBlock>
                     </CheckBox>
                     <CheckBox
                         Height="30"
                         Margin="6"
                         VerticalContentAlignment="Center"
-                        Content="{DynamicResource PerformBattles}"
+                        Content="{DynamicResource TaskQueue.Fight.PerformBattles}"
                         IsChecked="{Binding HasTimesLimited}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
+                        ToolTip="{DynamicResource TaskQueue.CheckBoxesNotSavedAsNull}" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Vertical">
                     <hc:NumericUpDown
@@ -115,17 +115,17 @@
                     <CheckBox
                         Height="30"
                         VerticalContentAlignment="Center"
-                        Content="{DynamicResource AssignedMaterial}"
+                        Content="{DynamicResource TaskQueue.Fight.AssignedMaterial}"
                         IsChecked="{Binding IsSpecifiedDrops}"
                         IsEnabled="{c:Binding !IsSpecifiedInventoryLocked}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
+                        ToolTip="{DynamicResource TaskQueue.CheckBoxesNotSavedAsNull}" />
                     <controls:TooltipBlock
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
                         NormalOpacity="0.25"
-                        TooltipText="{DynamicResource SpecifiedDropsTip}" />
+                        TooltipText="{DynamicResource TaskQueue.Fight.SpecifiedDrops.Tip}" />
                 </Grid>
                 <hc:ButtonGroup
                     Grid.Row="1"
@@ -139,12 +139,12 @@
                     <RadioButton
                         hc:VisualElement.HighlightBackground="{DynamicResource RegionBrushOpacity25}"
                         Background="{DynamicResource RegionBrushOpacity25}"
-                        Content="{DynamicResource Quantity}"
+                        Content="{DynamicResource TaskQueue.Fight.Quantity}"
                         IsChecked="{Binding UseDropQuantityMode}" />
                     <RadioButton
                         hc:VisualElement.HighlightBackground="{DynamicResource RegionBrushOpacity25}"
                         Background="{DynamicResource RegionBrushOpacity25}"
-                        Content="{DynamicResource TargetInventory}"
+                        Content="{DynamicResource TaskQueue.Fight.TargetInventory}"
                         IsChecked="{Binding UseTargetInventoryMode}" />
                 </hc:ButtonGroup>
                 <Grid Grid.Column="1">
@@ -224,13 +224,13 @@
                         Value="{Binding DropsQuantity, UpdateSourceTrigger=PropertyChanged}" />
                     <StackPanel Margin="6,2,6,0" Visibility="{c:Binding 'IsSpecifiedDrops and UseInventoryTarget'}">
                         <StackPanel Orientation="Horizontal">
-                            <controls:TextBlock Text="{DynamicResource Inventory}" />
+                            <controls:TextBlock Text="{DynamicResource TaskQueue.Stage.Label.Inventory}" />
                             <controls:TextBlock Margin="4,0,0,0" Text=":" />
                             <controls:TextBlock Margin="4,0,0,0" Text="{Binding CurrentDropsInventoryText}" />
-                            <controls:TooltipBlock Margin="4,0,0,0" TooltipText="{DynamicResource InventoryUpdateTip}" />
+                            <controls:TooltipBlock Margin="4,0,0,0" TooltipText="{DynamicResource TaskQueue.Fight.InventoryUpdate.Tip}" />
                         </StackPanel>
                         <StackPanel Margin="0,2,0,0" Orientation="Horizontal">
-                            <controls:TextBlock Text="{DynamicResource Quantity}" />
+                            <controls:TextBlock Text="{DynamicResource TaskQueue.Fight.Quantity}" />
                             <controls:TextBlock Margin="4,0,0,0" Text=":" />
                             <controls:TextBlock Margin="4,0,0,0" Text="{Binding EffectiveDropsQuantityText}" />
                         </StackPanel>
@@ -249,7 +249,7 @@
                             Margin="0,6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{DynamicResource Series}"
+                            Text="{DynamicResource TaskQueue.Fight.Series}"
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
                         <controls:TooltipBlock
@@ -257,7 +257,7 @@
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top"
                             NormalOpacity="0.25"
-                            TooltipText="{DynamicResource SeriesTip}" />
+                            TooltipText="{DynamicResource TaskQueue.Fight.Series.Tip}" />
                     </Grid>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Vertical">
@@ -288,7 +288,7 @@
                         Margin="6,11"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Top"
-                        Text="{DynamicResource StageSelect}"
+                        Text="{DynamicResource TaskQueue.Fight.StageSelect}"
                         TextAlignment="Center"
                         TextWrapping="Wrap"
                         Visibility="{c:Binding !UseAlternateStage}" />
@@ -296,7 +296,7 @@
                         Margin="6,11"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Top"
-                        Text="{DynamicResource StageSelect2}"
+                        Text="{DynamicResource TaskQueue.Fight.CandidateStages}"
                         TextAlignment="Center"
                         TextWrapping="Wrap"
                         Visibility="{c:Binding UseAlternateStage}" />
@@ -313,7 +313,7 @@
                         VerticalAlignment="Bottom"
                         d:IsHitTestVisible="True"
                         Command="{s:Action AddStageToPlan}"
-                        Content="{DynamicResource AddStage}"
+                        Content="{DynamicResource TaskQueue.Fight.AddCandidateStage}"
                         IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                      Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
                         Visibility="{c:Binding UseAlternateStage}" />
@@ -394,12 +394,12 @@
                                     <!--  当 CustomStageCode 为 true 时显示 TextBox  -->
                                     <TextBox
                                         Height="30"
-                                        hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
+                                        hc:InfoElement.Placeholder="{DynamicResource TaskQueue.Stage.Label.Default}"
                                         IsEnabled="{c:Binding !IsStageItemDragging,
                                                               Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
                                         Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
                                         Text="{Binding Stage, UpdateSourceTrigger=PropertyChanged}"
-                                        ToolTip="{DynamicResource CustomStageCodeTip}"
+                                        ToolTip="{DynamicResource TaskQueue.CustomStageCode.Tip}"
                                         Visibility="{c:Binding CustomStageCode,
                                                                Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}" />
                                 </Grid>
@@ -468,7 +468,7 @@
             <StackPanel>
                 <CheckBox
                     Margin="0,10"
-                    Content="{DynamicResource UseCustomAnnihilation}"
+                    Content="{DynamicResource TaskQueue.Annihilation.UseCustom}"
                     IsChecked="{Binding UseCustomAnnihilation}" />
                 <ComboBox
                     Height="30"
@@ -482,13 +482,13 @@
                     Visibility="{c:Binding UseCustomAnnihilation}" />
             </StackPanel>
             <StackPanel Margin="0,10" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource DrGrandet}" IsChecked="{Binding IsDrGrandet}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource DrGrandetTip}" />
+                <CheckBox Content="{DynamicResource TaskQueue.Fight.DrGrandet}" IsChecked="{Binding IsDrGrandet}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.Fight.DrGrandet.Tip}" />
             </StackPanel>
             <CheckBox Margin="0,10" IsChecked="{Binding UseExpiringMedicine}">
                 <TextBlock
                     Block.TextAlignment="Left"
-                    Text="{DynamicResource UseExpiringMedicine}"
+                    Text="{DynamicResource TaskQueue.Fight.InfiniteExpiringMedicine}"
                     TextWrapping="Wrap" />
             </CheckBox>
             <StackPanel
@@ -505,12 +505,12 @@
                     Maximum="30"
                     Minimum="1"
                     Value="{Binding MedicineExpireDays, UpdateSourceTrigger=PropertyChanged}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource MedicineExpireDaysTip}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.Fight.MedicineExpireDays.Tip}" />
             </StackPanel>
             <CheckBox Margin="0,10" IsChecked="{Binding UseExpireMedicineForActivity}">
                 <TextBlock
                     Block.TextAlignment="Left"
-                    Text="{DynamicResource UseExpireMedicineForActivity}"
+                    Text="{DynamicResource TaskQueue.Fight.UseExpireMedicineForActivity}"
                     TextWrapping="Wrap" />
             </CheckBox>
             <StackPanel
@@ -525,34 +525,34 @@
             </StackPanel>
             <CheckBox
                 Margin="0,10"
-                Content="{DynamicResource HideSeries}"
+                Content="{DynamicResource TaskQueue.Fight.HideSeries}"
                 IsChecked="{Binding HideSeries}" />
             <StackPanel Margin="0,10" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource AllowUseStoneSave}" IsChecked="{Binding AllowUseStoneSave}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource AllowUseStoneSaveTip}" />
+                <CheckBox Content="{DynamicResource TaskQueue.Fight.AllowUseStoneSave}" IsChecked="{Binding AllowUseStoneSave}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.Fight.AllowUseStoneSave.Tip}" />
             </StackPanel>
             <StackPanel Margin="0,10" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource CustomStageCode}" IsChecked="{Binding CustomStageCode}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource CustomStageCodeTip}" />
+                <CheckBox Content="{DynamicResource TaskQueue.CustomStageCode}" IsChecked="{Binding CustomStageCode}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.CustomStageCode.Tip}" />
             </StackPanel>
             <ComboBox
-                hc:InfoElement.Title="{DynamicResource FightStageResetMode}"
+                hc:InfoElement.Title="{DynamicResource TaskQueue.Fight.StageResetMode}"
                 DisplayMemberPath="Display"
                 ItemsSource="{Binding StageResetModeList}"
                 SelectedValue="{Binding StageResetMode}"
                 SelectedValuePath="Value" />
             <CheckBox
                 Margin="0,10"
-                Content="{DynamicResource UseAlternateStage}"
+                Content="{DynamicResource TaskQueue.Fight.UseAlternateStage}"
                 IsChecked="{Binding UseAlternateStage}" />
             <CheckBox
                 Margin="0,10"
-                Content="{DynamicResource HideUnavailableStage}"
+                Content="{DynamicResource TaskQueue.Fight.HideUnavailableStage}"
                 IsChecked="{Binding HideUnavailableStage}"
                 IsEnabled="{c:Binding !UseWeeklySchedule}" />
             <StackPanel Margin="0,10" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource UseWeeklySchedule}" IsChecked="{Binding UseWeeklySchedule}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource UseWeeklyScheduleTip}" />
+                <CheckBox Content="{DynamicResource TaskQueue.UseWeeklySchedule}" IsChecked="{Binding UseWeeklySchedule}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.UseWeeklySchedule.Tip}" />
             </StackPanel>
             <ListBox
                 MaxHeight="300"

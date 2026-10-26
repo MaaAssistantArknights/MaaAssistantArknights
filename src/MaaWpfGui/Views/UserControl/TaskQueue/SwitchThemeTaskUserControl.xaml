@@ -42,7 +42,7 @@
                         </Grid.ColumnDefinitions>
                         <TextBox
                             Height="30"
-                            hc:InfoElement.Placeholder="{DynamicResource SwitchThemePlaceholder}"
+                            hc:InfoElement.Placeholder="{DynamicResource TaskQueue.SwitchTheme.Placeholder}"
                             Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
                         <Button
                             Grid.Column="1"
@@ -57,7 +57,7 @@
                             Command="{s:Action RemoveTheme,
                                                Target={x:Static taskQueue_vms:SwitchThemeTaskUserControlModel.Instance}}"
                             CommandParameter="{Binding}"
-                            ToolTip="{DynamicResource Delete}">
+                            ToolTip="{DynamicResource Common.Delete}">
                             <Button.Style>
                                 <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
                                     <Setter Property="Visibility" Value="Collapsed" />
@@ -80,11 +80,11 @@
             <Button
                 MinWidth="50"
                 Command="{s:Action AddTheme}"
-                Content="{DynamicResource SwitchThemeAdd}" />
+                Content="{DynamicResource TaskQueue.SwitchTheme.Add}" />
             <controls:TooltipBlock
                 Margin="3,0,0,0"
                 VerticalAlignment="Center"
-                TooltipText="{DynamicResource SwitchThemeTip}" />
+                TooltipText="{DynamicResource TaskQueue.SwitchTheme.ThemeName.Tip}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

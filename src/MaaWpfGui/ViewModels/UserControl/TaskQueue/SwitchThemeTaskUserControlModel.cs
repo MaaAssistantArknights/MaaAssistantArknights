@@ -128,7 +128,7 @@ public class SwitchThemeTaskUserControlModel : TaskSettingsViewModel, SwitchThem
             // 未填写主题名时跳过任务
             if (theme.Themes.Count == 0)
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("SwitchThemeSkipped"), UiLogColor.Info);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.SwitchTheme.Skipped"), UiLogColor.Info);
                 return (null, []);
             }
 

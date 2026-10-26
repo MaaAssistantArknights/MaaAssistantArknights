@@ -75,7 +75,7 @@ public partial class HotKeyEditorUserControl : System.Windows.Controls.UserContr
             {
                 Source = this,
                 Mode = BindingMode.OneWay,
-                TargetNullValue = LocalizationHelper.GetString("HotKeyNotSet"),
+                TargetNullValue = LocalizationHelper.GetString("Settings.HotKey.NotSet"),
             });
     }
 

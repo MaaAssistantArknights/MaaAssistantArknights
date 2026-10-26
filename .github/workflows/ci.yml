@@ -14,7 +14,7 @@ on:
       - "CMakePresets.json"
       - "include/**"
       - "src/**"
-      - "tools/maadeps-download.py"
+      - "tools/**"
       - "!**/*.md"
   pull_request:
     paths:
@@ -25,7 +25,7 @@ on:
       - "CMakePresets.json"
       - "include/**"
       - "src/**"
-      - "tools/maadeps-download.py"
+      - "tools/**"
       - "!**/*.md"
   workflow_dispatch:
 
@@ -55,6 +55,12 @@ jobs:
 
       - name: Check stub localization
         run: python3 tools/CheckStubLocalization.py
+
+      - name: Check localization references
+        run: python3 tools/CheckLocalizationReferences.py
+
+      - name: Check localization key order
+        run: python3 tools/SortLocalizationKeys.py --check
 
       - name: Set tag
         id: set_tag

@@ -68,7 +68,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
             if (!AutoStart.SetStart(value, out var error))
             {
                 _logger.Error("Failed to set startup: {Error}", error);
-                MessageBoxHelper.Show(error, LocalizationHelper.GetString("Warning"), icon: MessageBoxImage.Warning);
+                MessageBoxHelper.Show(error, LocalizationHelper.GetString("Common.Warning"), icon: MessageBoxImage.Warning);
                 return;
             }
 
@@ -120,8 +120,8 @@ public class StartSettingsUserControlModel : PropertyChangedBase
             if (string.IsNullOrEmpty(SettingsViewModel.StartSettings.EmulatorPath))
             {
                 MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("RetryOnDisconnectedEmulatorPathEmptyError"),
-                    LocalizationHelper.GetString("Tip"),
+                    LocalizationHelper.GetString("Connection.RetryOnDisconnectedEmulatorPathEmptyError"),
+                    LocalizationHelper.GetString("Common.Tip"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
                 value = false;
@@ -141,8 +141,8 @@ public class StartSettingsUserControlModel : PropertyChangedBase
             if (value && string.IsNullOrEmpty(PcClientPath))
             {
                 MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("PcClientPathEmptyError"),
-                    LocalizationHelper.GetString("Tip"),
+                    LocalizationHelper.GetString("Settings.Startup.PcClientPathEmptyError"),
+                    LocalizationHelper.GetString("Common.Tip"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
                 value = false;
@@ -173,12 +173,12 @@ public class StartSettingsUserControlModel : PropertyChangedBase
                 while (count-- > 0)
                 {
                     var result = MessageBoxHelper.Show(
-                        LocalizationHelper.GetString("EmulatorPathSelectionErrorPrompt"),
-                        LocalizationHelper.GetString("Tip"),
+                        LocalizationHelper.GetString("Settings.Startup.EmulatorPathSelectionErrorPrompt"),
+                        LocalizationHelper.GetString("Common.Tip"),
                         MessageBoxButton.OKCancel,
                         MessageBoxImage.Warning,
-                        ok: LocalizationHelper.GetString("EmulatorPathSelectionErrorImSure") + $"({count + 1})",
-                        cancel: LocalizationHelper.GetString("EmulatorPathSelectionErrorSelectAgain"));
+                        ok: LocalizationHelper.GetString("Settings.Startup.EmulatorPathSelectionErrorImSure") + $"({count + 1})",
+                        cancel: LocalizationHelper.GetString("Settings.Startup.EmulatorPathSelectionErrorSelectAgain"));
                     if (result == MessageBoxResult.Cancel)
                     {
                         return;
@@ -192,12 +192,12 @@ public class StartSettingsUserControlModel : PropertyChangedBase
                 {
                     ConnectSettings.RetryOnDisconnected = false;
                     OpenEmulatorAfterLaunch = false;
-                    GrowlHelper.Warning(LocalizationHelper.GetString("EmulatorPathEmptyWarning"));
+                    GrowlHelper.Warning(LocalizationHelper.GetString("Settings.Startup.EmulatorPathEmptyWarning"));
                 }
             }
             else if (!File.Exists(value))
             {
-                GrowlHelper.Warning(LocalizationHelper.GetString("EmulatorPathNotExist"));
+                GrowlHelper.Warning(LocalizationHelper.GetString("Settings.Startup.EmulatorPathNotExist"));
             }
 
             SetAndNotify(ref field, value);
@@ -246,12 +246,12 @@ public class StartSettingsUserControlModel : PropertyChangedBase
                 while (count-- > 0)
                 {
                     var result = MessageBoxHelper.Show(
-                        LocalizationHelper.GetString("EmulatorPathSelectionErrorPrompt"),
-                        LocalizationHelper.GetString("Tip"),
+                        LocalizationHelper.GetString("Settings.Startup.EmulatorPathSelectionErrorPrompt"),
+                        LocalizationHelper.GetString("Common.Tip"),
                         MessageBoxButton.OKCancel,
                         MessageBoxImage.Warning,
-                        ok: LocalizationHelper.GetString("EmulatorPathSelectionErrorImSure") + $"({count + 1})",
-                        cancel: LocalizationHelper.GetString("EmulatorPathSelectionErrorSelectAgain"));
+                        ok: LocalizationHelper.GetString("Settings.Startup.EmulatorPathSelectionErrorImSure") + $"({count + 1})",
+                        cancel: LocalizationHelper.GetString("Settings.Startup.EmulatorPathSelectionErrorSelectAgain"));
                     if (result == MessageBoxResult.Cancel)
                     {
                         return;
@@ -265,12 +265,12 @@ public class StartSettingsUserControlModel : PropertyChangedBase
                 {
                     ConnectSettings.RetryPcClientOnDisconnected = false;
                     OpenPcClientAfterLaunch = false;
-                    GrowlHelper.Warning(LocalizationHelper.GetString("PcClientPathEmptyWarning"));
+                    GrowlHelper.Warning(LocalizationHelper.GetString("Settings.Startup.PcClientPathEmptyWarning"));
                 }
             }
             else if (!File.Exists(value))
             {
-                GrowlHelper.Warning(LocalizationHelper.GetString("PcClientPathNotExist"));
+                GrowlHelper.Warning(LocalizationHelper.GetString("Settings.Startup.PcClientPathNotExist"));
             }
 
             SetAndNotify(ref field, value);
@@ -316,8 +316,8 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         EmulatorWaitSeconds,
         OpenEmulatorAfterLaunch,
         "emulator",
-        "WaitForEmulator",
-        "EmulatorStartFailed");
+        "Settings.Startup.WaitForEmulator",
+        "Settings.Startup.EmulatorStartFailed");
 
     private ConnectionTargetLaunchSettings GetPcClientLaunchSettings() => new(
         PcClientPath,
@@ -325,8 +325,8 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         PcClientWaitSeconds,
         OpenPcClientAfterLaunch,
         "PC client",
-        "WaitForPcClient",
-        "PcClientStartFailed");
+        "Settings.Startup.WaitForPcClient",
+        "Settings.Startup.PcClientStartFailed");
 
     private ConnectionTargetLaunchSettings GetCurrentConnectionTargetLaunchSettings() =>
         ConnectSettings.IsPCConnectConfig ? GetPcClientLaunchSettings() : GetEmulatorLaunchSettings();
@@ -395,7 +395,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
                 Thread.Sleep(1000);
             }
 
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("WaitForEmulatorFinish"));
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Settings.Startup.WaitForEmulatorFinish"));
             _logger.Information("Waiting for the {TargetName} is over", settings.LogName);
         }
         finally
@@ -621,7 +621,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
     public void SelectEmulatorExec()
     {
         var dialog = new OpenFileDialog {
-            Filter = LocalizationHelper.GetString("Executable") + "|*.exe;*.bat;*.lnk",
+            Filter = LocalizationHelper.GetString("Settings.Startup.Executable") + "|*.exe;*.bat;*.lnk",
         };
 
         if (dialog.ShowDialog() == true)
@@ -637,7 +637,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
     public void SelectPcClientExec()
     {
         var dialog = new OpenFileDialog {
-            Filter = LocalizationHelper.GetString("Executable") + "|*.exe;*.bat;*.lnk",
+            Filter = LocalizationHelper.GetString("Settings.Startup.Executable") + "|*.exe;*.bat;*.lnk",
         };
 
         if (dialog.ShowDialog() == true)
@@ -655,13 +655,13 @@ public class StartSettingsUserControlModel : PropertyChangedBase
     {
         if (EmulatorPath.Length == 0)
         {
-            MessageBoxHelper.Show(LocalizationHelper.GetString("EmulatorPathEmptyWarning"), LocalizationHelper.GetString("Warning"), icon: MessageBoxImage.Warning);
+            MessageBoxHelper.Show(LocalizationHelper.GetString("Settings.Startup.EmulatorPathEmptyWarning"), LocalizationHelper.GetString("Common.Warning"), icon: MessageBoxImage.Warning);
             return;
         }
 
         if (!File.Exists(EmulatorPath))
         {
-            MessageBoxHelper.Show(LocalizationHelper.GetString("EmulatorPathNotExist"), LocalizationHelper.GetString("Warning"), icon: MessageBoxImage.Warning);
+            MessageBoxHelper.Show(LocalizationHelper.GetString("Settings.Startup.EmulatorPathNotExist"), LocalizationHelper.GetString("Common.Warning"), icon: MessageBoxImage.Warning);
             return;
         }
 
@@ -676,13 +676,13 @@ public class StartSettingsUserControlModel : PropertyChangedBase
     {
         if (PcClientPath.Length == 0)
         {
-            MessageBoxHelper.Show(LocalizationHelper.GetString("PcClientPathEmptyError"), LocalizationHelper.GetString("Warning"), icon: MessageBoxImage.Warning);
+            MessageBoxHelper.Show(LocalizationHelper.GetString("Settings.Startup.PcClientPathEmptyError"), LocalizationHelper.GetString("Common.Warning"), icon: MessageBoxImage.Warning);
             return;
         }
 
         if (!File.Exists(PcClientPath))
         {
-            MessageBoxHelper.Show(LocalizationHelper.GetString("PcClientPathNotExist"), LocalizationHelper.GetString("Warning"), icon: MessageBoxImage.Warning);
+            MessageBoxHelper.Show(LocalizationHelper.GetString("Settings.Startup.PcClientPathNotExist"), LocalizationHelper.GetString("Common.Warning"), icon: MessageBoxImage.Warning);
             return;
         }
 

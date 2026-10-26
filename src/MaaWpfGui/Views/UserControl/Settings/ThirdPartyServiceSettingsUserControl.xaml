@@ -19,35 +19,35 @@
         HorizontalAlignment="Center"
         VerticalAlignment="Center"
         Orientation="Vertical">
-        <hc:Divider Margin="0" Content="{DynamicResource ThirdPartyGroupPenguin}" />
+        <hc:Divider Margin="0" Content="{DynamicResource Settings.ThirdParty.Group.Penguin}" />
         <CheckBox
             Margin="10"
             HorizontalAlignment="Center"
-            Content="{DynamicResource EnablePenguin}"
+            Content="{DynamicResource Settings.ThirdParty.EnablePenguin}"
             IsChecked="{Binding EnablePenguin}" />
         <StackPanel
             Margin="5"
             HorizontalAlignment="Center"
             Orientation="Horizontal"
             Visibility="{c:Binding EnablePenguin}">
-            <controls:TextBlock Text="{DynamicResource PenguinId}" />
+            <controls:TextBlock Text="{DynamicResource Settings.ThirdParty.PenguinId}" />
             <TextBox
                 MinWidth="80"
                 Margin="5,0,0,0"
                 InputMethod.IsInputMethodEnabled="False"
                 Text="{Binding PenguinId}" />
         </StackPanel>
-        <hc:Divider Margin="0" Content="{DynamicResource ThirdPartyGroupYituliu}" />
+        <hc:Divider Margin="0" Content="{DynamicResource Settings.ThirdParty.Group.Yituliu}" />
         <CheckBox
             Margin="10"
             HorizontalAlignment="Center"
-            Content="{DynamicResource EnableYituliu}"
+            Content="{DynamicResource Settings.ThirdParty.EnableYituliu}"
             IsChecked="{Binding EnableYituliu}" />
         <StackPanel
             Margin="5"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
-            <controls:TextBlock Text="{DynamicResource YituliuOpenApiToken}" />
+            <controls:TextBlock Text="{DynamicResource Settings.ThirdParty.Yituliu.OpenApiToken}" />
             <Grid Margin="5,0,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -65,7 +65,7 @@
                     hc:BorderElement.CornerRadius="0,4,4,0"
                     BorderThickness="0,1,1,1"
                     Command="{s:Action VerifyYituliuToken}"
-                    Content="{DynamicResource YituliuTokenVerify}"
+                    Content="{DynamicResource Settings.ThirdParty.Yituliu.TokenVerify}"
                     IsEnabled="{Binding CanVerifyYituliuToken}" />
             </Grid>
         </StackPanel>
@@ -74,7 +74,7 @@
                 Cursor="Hand"
                 NavigateUri="{Binding Source={x:Static constants:MaaUrls.YituliuAccountHome}}"
                 TextDecorations="None">
-                <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource YituliuTokenLink}" />
+                <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Settings.ThirdParty.Yituliu.TokenLink}" />
             </Hyperlink>
         </controls:TextBlock>
         <controls:TextBlock
@@ -90,8 +90,8 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource EnableOperBoxYituliuApi}" IsChecked="{Binding EnableOperBoxYituliuApi}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource EnableOperBoxYituliuApiTip}" />
+                <CheckBox Content="{DynamicResource Settings.ThirdParty.EnableOperBoxYituliuApi}" IsChecked="{Binding EnableOperBoxYituliuApi}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Settings.ThirdParty.EnableOperBoxYituliuApi.Tip}" />
             </StackPanel>
             <StackPanel
                 Margin="10,5"

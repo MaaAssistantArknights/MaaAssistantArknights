@@ -19,33 +19,33 @@
     <StackPanel>
         <StackPanel Visibility="{c:Binding !EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
             <CheckBox Margin="0,10" IsChecked="{Binding ReceiveAward}">
-                <controls:TextBlock Text="{DynamicResource ReceiveDailyAndWeeklyAward}" TextWrapping="Wrap" />
+                <controls:TextBlock Text="{DynamicResource TaskQueue.Award.ReceiveDailyAndWeeklyAward}" TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox
                 Margin="0,10"
-                Content="{DynamicResource ReceiveMail}"
+                Content="{DynamicResource TaskQueue.Award.ReceiveMail}"
                 IsChecked="{Binding ReceiveMail}" />
             <StackPanel Margin="0,10" Orientation="Horizontal">
                 <CheckBox MaxWidth="203" IsChecked="{Binding ReceiveFreeGacha}">
-                    <controls:TextBlock Text="{DynamicResource ReceiveFreeGacha}" TextWrapping="Wrap" />
+                    <controls:TextBlock Text="{DynamicResource Gacha.ReceiveFreeGacha}" TextWrapping="Wrap" />
                 </CheckBox>
-                <controls:TooltipBlock TooltipText="{DynamicResource ReceiveFreeGachaTip}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Gacha.ReceiveFreeGacha.Tip}" />
             </StackPanel>
             <CheckBox Margin="0,10" IsChecked="{Binding ReceiveOrundum}">
-                <controls:TextBlock Text="{DynamicResource ReceiveOrundum}" TextWrapping="Wrap" />
+                <controls:TextBlock Text="{DynamicResource TaskQueue.Award.ReceiveOrundum}" TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox Margin="0,10" IsChecked="{Binding ReceiveMining}">
-                <controls:TextBlock Text="{DynamicResource ReceiveMining}" TextWrapping="Wrap" />
+                <controls:TextBlock Text="{DynamicResource TaskQueue.Award.ReceiveMining}" TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox
                 Margin="0,10"
-                Content="{DynamicResource ReceiveSpecialAccess}"
+                Content="{DynamicResource TaskQueue.Award.ReceiveSpecialAccess}"
                 IsChecked="{Binding ReceiveSpecialAccess}" />
             <StackPanel Margin="0,10" Orientation="Horizontal">
                 <CheckBox MaxWidth="203" IsChecked="{Binding ReceiveSignInEvent}">
-                    <controls:TextBlock Text="{DynamicResource ReceiveSignInEvent}" TextWrapping="Wrap" />
+                    <controls:TextBlock Text="{DynamicResource TaskQueue.Award.ReceiveSignInEvent}" TextWrapping="Wrap" />
                 </CheckBox>
-                <controls:TooltipBlock TooltipText="{DynamicResource ReceiveSignInEventTip}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.Award.ReceiveSignInEvent.Tip}" />
             </StackPanel>
         </StackPanel>
     </StackPanel>

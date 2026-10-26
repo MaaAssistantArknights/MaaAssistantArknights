@@ -70,12 +70,12 @@ public class MallTask : BaseTask
     /// <summary>
     /// Gets or sets 优先列表
     /// </summary>
-    public string FirstList { get; set; } = LocalizationHelper.GetString("HighPriorityDefault");
+    public string FirstList { get; set; } = LocalizationHelper.GetString("Mall.HighPriorityDefault");
 
     /// <summary>
     /// Gets or sets 黑名单
     /// </summary>
-    public string BlackList { get; set; } = LocalizationHelper.GetString("BlacklistDefault");
+    public string BlackList { get; set; } = LocalizationHelper.GetString("Mall.BlacklistDefault");
 
     /// <summary>
     /// Gets or sets a value indicating whether 信用溢出时无视黑名单

@@ -43,12 +43,12 @@
                 Width="80"
                 Margin="0,0,10,0"
                 Click="OnConfirmClick"
-                Content="{DynamicResource Confirm}"
+                Content="{DynamicResource Common.Confirm}"
                 IsDefault="True" />
             <Button
                 Width="80"
                 Click="OnCancelClick"
-                Content="{DynamicResource Cancel}"
+                Content="{DynamicResource Common.Cancel}"
                 IsCancel="True" />
         </StackPanel>
     </Grid>
