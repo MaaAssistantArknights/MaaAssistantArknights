@@ -713,6 +713,8 @@ Click "{key=Common.Confirm}" to attempt installing/updating VC++ runtime and exi
     </system:String>
     <system:String x:Key="Common.Add">Add</system:String>
     <system:String x:Key="Common.Cancel">Cancel</system:String>
+    <system:String x:Key="Common.Clear">Clear</system:String>
+    <system:String x:Key="Common.CollapseAll">Collapse</system:String>
     <system:String x:Key="Common.Confirm">Confirm</system:String>
     <system:String x:Key="Common.Copy">Copy</system:String>
     <system:String x:Key="Common.Delete">Delete</system:String>
@@ -1447,9 +1449,9 @@ Recruitment permits are consumed faster than acquired; normally the timer expire
     <system:String x:Key="Recruit.SelectStrategy.ExtraTags">If higher ★ tags appear, always select 3 tags</system:String>
     <system:String x:Key="RemoteControl.CompletedTask">Completed remote task {0}, Task Id:{1}.</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest">Test Connection</system:String>
-    <system:String x:Key="RemoteControl.ConnectionTest.FailEmpty">Connection Test Failed, Endpoint is empty.</system:String>
-    <system:String x:Key="RemoteControl.ConnectionTest.FailNotHttpOrHttps">Connection test failed, connection endpoint is not a http(s) address.</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.Failed">Connection Test Failed, reason: {0}.</system:String>
+    <system:String x:Key="RemoteControl.ConnectionTest.Failed.Empty">Connection Test Failed, Endpoint is empty.</system:String>
+    <system:String x:Key="RemoteControl.ConnectionTest.Failed.NotHttpOrHttps">Connection test failed, connection endpoint is not a http(s) address.</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.Success">Connection Test Successful!</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.WarningHttpUnsafe">Endpoint is using http, might be unsafe.</system:String>
     <system:String x:Key="RemoteControl.DeveloperDocLink">Remote Control Developer Documentation</system:String>
@@ -1960,8 +1962,6 @@ Are you sure you want to disable the update progress window?</system:String>
     <system:String x:Key="TaskQueue.CheckBoxesNotSaved">This option is effective once</system:String>
     <system:String x:Key="TaskQueue.CheckBoxesNotSavedAsNull">This option only takes effect once when right-clicked</system:String>
     <system:String x:Key="TaskQueue.CheckBoxesNotSavedAsNullInvert">This option only skips once when right-clicked</system:String>
-    <system:String x:Key="TaskQueue.Clear">Clear</system:String>
-    <system:String x:Key="TaskQueue.CollapseAll">Collapse</system:String>
     <system:String x:Key="TaskQueue.CombatError">Combat error</system:String>
     <system:String x:Key="TaskQueue.ConfirmDeleteTask">Confirm Delete</system:String>
     <system:String x:Key="TaskQueue.ConfirmDeleteTaskMessage">Are you sure you want to delete {0} task "{1}"?</system:String>

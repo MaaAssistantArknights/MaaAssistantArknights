@@ -2098,8 +2098,8 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     private void RefreshInverseModeText()
     {
-        InverseShowText = InverseMode ? LocalizationHelper.GetString("TaskQueue.InverseClear.Inverse") : LocalizationHelper.GetString("TaskQueue.Clear");
-        InverseMenuText = InverseMode ? LocalizationHelper.GetString("TaskQueue.Clear") : LocalizationHelper.GetString("TaskQueue.InverseClear.Inverse");
+        InverseShowText = InverseMode ? LocalizationHelper.GetString("TaskQueue.InverseClear.Inverse") : LocalizationHelper.GetString("Common.Clear");
+        InverseMenuText = InverseMode ? LocalizationHelper.GetString("Common.Clear") : LocalizationHelper.GetString("TaskQueue.InverseClear.Inverse");
     }
 
     /// <summary>
@@ -2119,7 +2119,7 @@ public class TaskQueueViewModel : Screen
 
     private string _inverseShowText = ConfigFactory.Root.Gui.TaskQueueInverseMode
         ? LocalizationHelper.GetString("TaskQueue.InverseClear.Inverse")
-        : LocalizationHelper.GetString("TaskQueue.Clear");
+        : LocalizationHelper.GetString("Common.Clear");
 
     /// <summary>
     /// Gets or private Sets the text to be displayed for "Select inversely".
@@ -2131,7 +2131,7 @@ public class TaskQueueViewModel : Screen
     }
 
     private string _inverseMenuText = ConfigFactory.Root.Gui.TaskQueueInverseMode
-        ? LocalizationHelper.GetString("TaskQueue.Clear")
+        ? LocalizationHelper.GetString("Common.Clear")
         : LocalizationHelper.GetString("TaskQueue.InverseClear.Inverse");
 
     /// <summary>

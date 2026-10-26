@@ -70,7 +70,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     /// Gets the list of inverse clear modes.
     /// </summary>
     public LocalizedObservableList<InverseClearType> InverseClearModeList { get; } = new(
-        (InverseClearType.Clear, "TaskQueue.Clear"),
+        (InverseClearType.Clear, "Common.Clear"),
         (InverseClearType.Inverse, "TaskQueue.InverseClear.Inverse"),
         (InverseClearType.ClearInverse, "TaskQueue.InverseClear.Switchable"));
 

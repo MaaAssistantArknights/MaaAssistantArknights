@@ -465,7 +465,7 @@
                                                 hc:BorderElement.CornerRadius="0,4,4,0"
                                                 Command="{s:Action ClearGuideDemoTasks,
                                                                    Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                Content="{DynamicResource TaskQueue.Clear}" />
+                                                Content="{DynamicResource Common.Clear}" />
                                         </Grid>
                                     </Grid>
                                 </Border>

@@ -713,6 +713,8 @@
     </system:String>
     <system:String x:Key="Common.Add">新增</system:String>
     <system:String x:Key="Common.Cancel">取消</system:String>
+    <system:String x:Key="Common.Clear">清空</system:String>
+    <system:String x:Key="Common.CollapseAll">折疊</system:String>
     <system:String x:Key="Common.Confirm">確認</system:String>
     <system:String x:Key="Common.Copy">複製</system:String>
     <system:String x:Key="Common.Delete">刪除</system:String>
@@ -1448,9 +1450,9 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Recruit.SelectStrategy.ExtraTags">選擇高星時總是選擇三個 Tags</system:String>
     <system:String x:Key="RemoteControl.CompletedTask">完成遠端任務 {0}，任務 ID：{1}。</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest">測試連線</system:String>
-    <system:String x:Key="RemoteControl.ConnectionTest.FailEmpty">連線測試失敗，連線端點為空。</system:String>
-    <system:String x:Key="RemoteControl.ConnectionTest.FailNotHttpOrHttps">連線測試失敗，連線端點非 HTTP(S) 位址。</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.Failed">連線測試失敗，原因：{0}。</system:String>
+    <system:String x:Key="RemoteControl.ConnectionTest.Failed.Empty">連線測試失敗，連線端點為空。</system:String>
+    <system:String x:Key="RemoteControl.ConnectionTest.Failed.NotHttpOrHttps">連線測試失敗，連線端點非 HTTP(S) 位址。</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.Success">連線測試成功！</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.WarningHttpUnsafe">連線端點未啟用 HTTPS，可能不安全。</system:String>
     <system:String x:Key="RemoteControl.DeveloperDocLink">遠端控制功能開發者說明文件</system:String>
@@ -1961,8 +1963,6 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskQueue.CheckBoxesNotSaved">該選項僅生效一次</system:String>
     <system:String x:Key="TaskQueue.CheckBoxesNotSavedAsNull">該選項點擊右鍵選取時僅生效一次</system:String>
     <system:String x:Key="TaskQueue.CheckBoxesNotSavedAsNullInvert">該選項點擊右鍵選取時僅跳過一次</system:String>
-    <system:String x:Key="TaskQueue.Clear">清空</system:String>
-    <system:String x:Key="TaskQueue.CollapseAll">折疊</system:String>
     <system:String x:Key="TaskQueue.CombatError">戰鬥出錯</system:String>
     <system:String x:Key="TaskQueue.ConfirmDeleteTask">確認刪除</system:String>
     <system:String x:Key="TaskQueue.ConfirmDeleteTaskMessage">確定要刪除 {0} 任務 "{1}" 嗎？</system:String>

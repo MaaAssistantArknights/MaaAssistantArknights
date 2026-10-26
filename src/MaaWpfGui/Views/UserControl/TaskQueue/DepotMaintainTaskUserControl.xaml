@@ -40,7 +40,7 @@
                         Margin="0,0,-1,0"
                         hc:BorderElement.CornerRadius="4,0,0,4"
                         Command="{s:Action CollapseAll}"
-                        Content="{DynamicResource TaskQueue.CollapseAll}" />
+                        Content="{DynamicResource Common.CollapseAll}" />
                     <Button
                         MinWidth="50"
                         Margin="0,0,-1,0"

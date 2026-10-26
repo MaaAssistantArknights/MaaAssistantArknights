@@ -714,6 +714,8 @@
     </system:String>
     <system:String x:Key="Common.Add">添加</system:String>
     <system:String x:Key="Common.Cancel">取消</system:String>
+    <system:String x:Key="Common.Clear">清空</system:String>
+    <system:String x:Key="Common.CollapseAll">折叠</system:String>
     <system:String x:Key="Common.Confirm">确认</system:String>
     <system:String x:Key="Common.Copy">复制</system:String>
     <system:String x:Key="Common.Delete">删除</system:String>
@@ -1448,9 +1450,9 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Recruit.SelectStrategy.ExtraTags">选择高星时总是选择三个 Tag</system:String>
     <system:String x:Key="RemoteControl.CompletedTask">完成远端任务{0}，任务Id:{1}。</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest">测试连接</system:String>
-    <system:String x:Key="RemoteControl.ConnectionTest.FailEmpty">连接测试失败，连接端点为空。</system:String>
-    <system:String x:Key="RemoteControl.ConnectionTest.FailNotHttpOrHttps">连接测试失败，连接端点不为 http(s) 地址。</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.Failed">连接测试失败，原因: {0}。</system:String>
+    <system:String x:Key="RemoteControl.ConnectionTest.Failed.Empty">连接测试失败，连接端点为空。</system:String>
+    <system:String x:Key="RemoteControl.ConnectionTest.Failed.NotHttpOrHttps">连接测试失败，连接端点不为 http(s) 地址。</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.Success">连接测试成功！</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.WarningHttpUnsafe">连接端点未启用 https，可能不安全。</system:String>
     <system:String x:Key="RemoteControl.DeveloperDocLink">远程控制功能开发者文档</system:String>
@@ -1961,8 +1963,6 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.CheckBoxesNotSaved">该选项仅生效一次</system:String>
     <system:String x:Key="TaskQueue.CheckBoxesNotSavedAsNull">该选项右键选中时仅生效一次</system:String>
     <system:String x:Key="TaskQueue.CheckBoxesNotSavedAsNullInvert">该选项右键选中时仅跳过一次</system:String>
-    <system:String x:Key="TaskQueue.Clear">清空</system:String>
-    <system:String x:Key="TaskQueue.CollapseAll">折叠</system:String>
     <system:String x:Key="TaskQueue.CombatError">战斗出错</system:String>
     <system:String x:Key="TaskQueue.ConfirmDeleteTask">确认删除</system:String>
     <system:String x:Key="TaskQueue.ConfirmDeleteTaskMessage">确定要删除 {0} 任务 "{1}" 吗？</system:String>

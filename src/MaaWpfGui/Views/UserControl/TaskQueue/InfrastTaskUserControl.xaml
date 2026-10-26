@@ -218,7 +218,7 @@
                         hc:BorderElement.CornerRadius="0,0,4,0"
                         BorderThickness="1,0,1,1"
                         Command="{s:Action InfrastItemUnselectedAll}"
-                        Content="{DynamicResource TaskQueue.Clear}" />
+                        Content="{DynamicResource Common.Clear}" />
                 </Grid>
             </StackPanel>
         </StackPanel>

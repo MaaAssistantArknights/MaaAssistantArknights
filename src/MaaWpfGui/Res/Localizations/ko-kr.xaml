@@ -713,6 +713,8 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     </system:String>
     <system:String x:Key="Common.Add">육성</system:String>
     <system:String x:Key="Common.Cancel">취소</system:String>
+    <system:String x:Key="Common.Clear">모두 해제</system:String>
+    <system:String x:Key="Common.CollapseAll">접기</system:String>
     <system:String x:Key="Common.Confirm">확인</system:String>
     <system:String x:Key="Common.Copy">복사</system:String>
     <system:String x:Key="Common.Delete">삭제</system:String>
@@ -1448,9 +1450,9 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="Recruit.SelectStrategy.ExtraTags">항상 3개의 태그를 선택</system:String>
     <system:String x:Key="RemoteControl.CompletedTask">원격 작업 완료: {0}, 작업 ID: {1}</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest">연결 테스트</system:String>
-    <system:String x:Key="RemoteControl.ConnectionTest.FailEmpty">연결 테스트 실패: 엔드포인트가 비어 있습니다</system:String>
-    <system:String x:Key="RemoteControl.ConnectionTest.FailNotHttpOrHttps">연결 테스트 실패, 연결 엔드포인트가 http(s) 주소가 아닙니다.</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.Failed">연결 테스트 실패, 원인: {0}.</system:String>
+    <system:String x:Key="RemoteControl.ConnectionTest.Failed.Empty">연결 테스트 실패: 엔드포인트가 비어 있습니다</system:String>
+    <system:String x:Key="RemoteControl.ConnectionTest.Failed.NotHttpOrHttps">연결 테스트 실패, 연결 엔드포인트가 http(s) 주소가 아닙니다.</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.Success">연결 테스트 성공!</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.WarningHttpUnsafe">엔드포인트가 https를 사용하지 않아 보안에 취약할 수 있습니다.</system:String>
     <system:String x:Key="RemoteControl.DeveloperDocLink">원격 제어 기능 개발자 문서</system:String>
@@ -1961,8 +1963,6 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.CheckBoxesNotSaved">이 옵션은 한 번만 유효합니다</system:String>
     <system:String x:Key="TaskQueue.CheckBoxesNotSavedAsNull">이 옵션은 우클릭 시 한 번만 적용됩니다</system:String>
     <system:String x:Key="TaskQueue.CheckBoxesNotSavedAsNullInvert">이 옵션은 우클릭 시 한 번만 건너뜁니다</system:String>
-    <system:String x:Key="TaskQueue.Clear">모두 해제</system:String>
-    <system:String x:Key="TaskQueue.CollapseAll">접기</system:String>
     <system:String x:Key="TaskQueue.CombatError">작전 오류</system:String>
     <system:String x:Key="TaskQueue.ConfirmDeleteTask">삭제 확인</system:String>
     <system:String x:Key="TaskQueue.ConfirmDeleteTaskMessage">정말로 {0} 번째 작업 "{1}"을 삭제하시겠습니까?</system:String>

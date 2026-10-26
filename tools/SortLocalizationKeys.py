@@ -97,6 +97,8 @@ def parse_file(path: Path):
             tail_candidates.append(line)
 
     # 文件尾：ResourceDictionary 闭合标签前可能残留注释/空行
+    if pending_entry is not None:
+        raise ValueError(f"条目 {pending_entry['key']!r} 未闭合（缺少 </system:String>），拒绝重排以免静默丢失")
     return head, entries, tail_candidates
 
 
@@ -119,7 +121,11 @@ def render(path: Path, head, entries, tail) -> str:
 
 
 def process(path: Path, check: bool) -> bool:
-    head, entries, tail = parse_file(path)
+    try:
+        head, entries, tail = parse_file(path)
+    except ValueError as e:
+        print(f"::error::{path.name}: {e}")
+        return False
     new_text = render(path, head, entries, tail)
     old_text = path.read_text(encoding="utf-8")
     if new_text == old_text:

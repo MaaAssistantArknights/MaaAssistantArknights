@@ -14,7 +14,7 @@ on:
       - "CMakePresets.json"
       - "include/**"
       - "src/**"
-      - "tools/maadeps-download.py"
+      - "tools/**"
       - "!**/*.md"
   pull_request:
     paths:
@@ -25,7 +25,7 @@ on:
       - "CMakePresets.json"
       - "include/**"
       - "src/**"
-      - "tools/maadeps-download.py"
+      - "tools/**"
       - "!**/*.md"
   workflow_dispatch:
 

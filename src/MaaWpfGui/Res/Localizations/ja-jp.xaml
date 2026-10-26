@@ -713,6 +713,8 @@ MAA を新しい独立したフォルダーに解凍するか、MAA に属さな
     </system:String>
     <system:String x:Key="Common.Add">追加</system:String>
     <system:String x:Key="Common.Cancel">キャンセル</system:String>
+    <system:String x:Key="Common.Clear">解除</system:String>
+    <system:String x:Key="Common.CollapseAll">折りたたむ</system:String>
     <system:String x:Key="Common.Confirm">認識する</system:String>
     <system:String x:Key="Common.Copy">コピー</system:String>
     <system:String x:Key="Common.Delete">削除</system:String>
@@ -1450,9 +1452,9 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Recruit.SelectStrategy.ExtraTags">常に 3 つのタグを選択する</system:String>
     <system:String x:Key="RemoteControl.CompletedTask">リモートタスク{0}を完了、タスクId:{1}。</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest">接続テスト</system:String>
-    <system:String x:Key="RemoteControl.ConnectionTest.FailEmpty">接続テスト失敗、エンドポイントが空です。</system:String>
-    <system:String x:Key="RemoteControl.ConnectionTest.FailNotHttpOrHttps">接続テストに失敗しました。接続エンドポイントが http または https アドレスではありませんでした。</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.Failed">接続テスト失敗、理由: {0}。</system:String>
+    <system:String x:Key="RemoteControl.ConnectionTest.Failed.Empty">接続テスト失敗、エンドポイントが空です。</system:String>
+    <system:String x:Key="RemoteControl.ConnectionTest.Failed.NotHttpOrHttps">接続テストに失敗しました。接続エンドポイントが http または https アドレスではありませんでした。</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.Success">接続テスト成功！</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.WarningHttpUnsafe">接続エンドポイントがhttpsに対応しておらず、安全でない可能性があります。</system:String>
     <system:String x:Key="RemoteControl.DeveloperDocLink">リモートコントロール機能開発者ドキュメント</system:String>
@@ -1963,8 +1965,6 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.CheckBoxesNotSaved">このオプションは一度有効です</system:String>
     <system:String x:Key="TaskQueue.CheckBoxesNotSavedAsNull">このオプションは、右クリックで選択した時のみ一度だけ有効です</system:String>
     <system:String x:Key="TaskQueue.CheckBoxesNotSavedAsNullInvert">このオプションは、右クリックで選択した時のみ一度だけスキップします</system:String>
-    <system:String x:Key="TaskQueue.Clear">解除</system:String>
-    <system:String x:Key="TaskQueue.CollapseAll">折りたたむ</system:String>
     <system:String x:Key="TaskQueue.CombatError">戦闘エラー</system:String>
     <system:String x:Key="TaskQueue.ConfirmDeleteTask">削除の確認</system:String>
     <system:String x:Key="TaskQueue.ConfirmDeleteTaskMessage">タスク "{1}" ({0}) を削除してもよろしいですか？</system:String>
