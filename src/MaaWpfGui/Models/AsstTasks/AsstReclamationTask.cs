@@ -13,7 +13,7 @@
 
 #nullable enable
 using System.Collections.Generic;
-using MaaWpfGui.Configuration.Single.MaaTask;
+using MaaWpfGui.Configuration.Single.Settings;
 using MaaWpfGui.Services;
 using Newtonsoft.Json.Linq;
 

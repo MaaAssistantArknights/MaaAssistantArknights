@@ -528,7 +528,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @optional
 菲亞梅塔恢復目標名單，換班開始時會將名單中當前心情最低的幹員與菲亞梅塔一同進駐宿舍互換心情。僅 `mode = 0` 且 `fiammetta_recovery_enabled` 為 true 時生效。
 <br>
-選項：`清流` | `可露希尔` | `但书` | `巫恋` | `龙舌兰` | `歌蕾蒂娅`（不在選項內或重複的條目會被忽略）  
+選項：`清流` | `可露希尔` | `但书` | `巫恋` | `龙舌兰` | `歌蕾蒂娅` | `琴柳` | `承曦格雷伊` | `温蒂` | `槐琥` | `至简` | `旅骨`（不在選項內或重複的條目會被忽略）  
 :::  
 ::: field fiammetta_recovery_enabled  
 @type boolean
@@ -866,7 +866,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 <br>
 `30001` - 刷襁褓動物；僅適用於 BlackFlow 主題。
 <br>
-`30003` - 刷開局，先打準備局，再開目標局。準備局取得 `blackflow_start_animals` 要求的襁褓動物並進入第三層後放棄；目標局在選擇支援頁命中 `blackflow_start_rewards` 中任意一項時不做選擇，退出到主題頁並保留該局，任務結束。準備局使用 `collectible_mode_squad`，`difficulty` 不為 `-1` 時在 0 難度下進行；目標局使用 `squad` 與 `difficulty`，到選擇支援頁即結束，`roles` 與開局幹員只用於準備局。僅適用於 BlackFlow 主題，需配合 `blackflow_start_animals` 與 `blackflow_start_rewards`。
+`30003` - 刷開局，先打準備局，再開目標局。準備局取得 `blackflow_start_animals` 要求的襁褓動物並進入第三層後放棄；目標局在選擇支援頁命中 `blackflow_start_rewards` 中任意一項時不做選擇，退出到主題頁並保留該局，任務結束。準備局使用 `collectible_mode_squad`，`difficulty` 不為 `-1` 時在 0 難度下進行；目標局使用 `squad` 與 `difficulty`，到選擇支援頁即結束；`roles` 與開局幹員用於準備局，提供 `collectible_mode_roles`、`collectible_mode_core_char_list` 時準備局改用這兩項。開啟 `blackflow_start_utopia` 時目標局選取獎勵後進入第一層，見該欄位。僅適用於 BlackFlow 主題，需配合 `blackflow_start_animals` 與 `blackflow_start_rewards`。
 :::  
 ::: field squad  
 @type string
@@ -1084,7 +1084,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 <br>
 以上取值僅適用於刷等級模式（mode 0），對應結局是否開放以遊戲內為準；指定結局後，開局照常招募幹員。
 <br>
-模式 30003 不讀取此項。有動物要求時，準備局按 `baby_animal` 的路線培育；沒有動物要求時，準備局盡快抵達第三層，`investment_enabled` 為 true 時先在第一層投資。準備局的開局幹員為機械師、`collectible_mode_squad` 為特勤分隊或堡壘戰術分隊、`roles` 為穩紮穩打或堅不可摧時，視為滿天賦機械師開局，自帶結構性原理：準備局招到機械師後放棄其餘開局招募，路線按需用結構性原理移動；沒有動物要求時，第二層直接用它飛向出口。  
+模式 30003 不讀取此項。有動物要求時，準備局按 `baby_animal` 的路線培育；沒有動物要求時，準備局盡快抵達第三層，`investment_enabled` 為 true 時先在第一層投資。準備局的開局幹員為機械師、`collectible_mode_squad` 為特勤分隊或堡壘戰術分隊、準備局的職業組為穩紮穩打或堅不可摧時，視為滿天賦機械師開局，自帶結構性原理：準備局招到機械師後放棄其餘開局招募，路線按需用結構性原理移動；沒有動物要求時，第二層直接用它飛向出口。  
 :::  
 ::: field blackflow_cultivation_target  
 @type string
@@ -1104,7 +1104,28 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 <br>
 `1` 未編號物；`2` 調查預付款；`4` 空間租賃；`8` 退行補償；`16` 林間代步；`32` 巢寄生；`64` 襁褓天馬；`128` 襁褓駿鷹；`256` 襁褓巨龍；`512` 襁褓九頭蛇；`1024` 襁褓白澤；`2048` 襁褓金烏。後六項是羽蛇帶來的藍色獎勵，只在 `blackflow_start_animals` 含羽蛇時生效，否則忽略。  
 <br>
-目標局在選擇支援頁先辨識出頁面上的全部獎勵再判斷：命中任意一項時完成；辨識出了獎勵但沒有期望的，放棄該局，重新進行準備局；一項都沒辨識出，或要求了羽蛇獎勵卻讀不出藍色獎勵時，停在選擇支援頁並停止任務，截圖儲存到 `debug/roguelike`。為 0 時進入選擇支援頁即完成。進度透過 `SubTaskExtraInfo` 的 `BlackFlowStartRun` 回呼，見 [回呼訊息協定](./callback-schema.md)。  
+目標局在選擇支援頁先辨識出頁面上的全部獎勵再判斷：命中任意一項時完成；辨識出了獎勵但沒有期望的，放棄該局，重新進行準備局；一項都沒辨識出，或要求了羽蛇獎勵卻讀不出藍色獎勵時，停在選擇支援頁並停止任務，截圖儲存到 `debug/roguelike`。為 0 且未開啟 `blackflow_start_utopia` 時，進入選擇支援頁即完成。進度透過 `SubTaskExtraInfo` 的 `BlackFlowStartRun` 回呼，見 [回呼訊息協定](./callback-schema.md)。  
+:::  
+::: field collectible_mode_roles  
+@type string
+@optional
+模式 30003 準備局的職業組，不提供時準備局用 `roles`。  
+:::  
+::: field collectible_mode_core_char_list  
+@type array<object>
+@optional
+模式 30003 準備局的開局幹員順位，格式同 `core_char_list`，不提供時準備局用 `core_char_list`。  
+:::  
+::: field blackflow_start_utopia  
+@type boolean
+@default false
+@optional
+模式 30003 目標局凹第一層實托邦。為 true 時，目標局在選擇支援頁命中 `blackflow_start_rewards`（為 0 時不要求）後，依 `blackflow_start_reward_priority` 選取獎勵，帶襁褓三頭犬可選兩次時再選一張；之後用 `roles` 與開局幹員開局並進入第一層，第一層是實托邦時退出到主題頁並保留該局，任務結束，否則放棄該局，重新進行準備局。實托邦依第一層層名的位置判斷，難度 6 以上才會出現，`difficulty` 由呼叫方選擇。  
+:::  
+::: field blackflow_start_reward_priority  
+@type array<string>
+@optional
+模式 30003 凹第一層實托邦時目標局選取獎勵的先後順序，`blackflow_start_utopia` 為 true 時必填，不可為空，不可重複。可選值：`unnumbered_item` 未編號物；`survey_advance` 調查預付款；`space_lease` 空間租賃；`regression_compensation` 退行補償；`forest_ride` 林間代步；`nest_parasitism` 巢寄生；`pegasus` 襁褓天馬；`hippogriff` 襁褓駿鷹；`dragon` 襁褓巨龍；`hydra` 襁褓九頭蛇；`bai_ze` 襁褓白澤；`golden_crow` 襁褓金烏。不凹實托邦時，目標局命中後停在選擇支援頁保留該局，不選取獎勵，不讀取此項。凹實托邦時，目標局要進入第一層，必須在選擇支援頁選卡：命中 `blackflow_start_rewards` 後，選取優先順序列表中排在最前且頁面上存在的一張，帶襁褓三頭犬可選兩次時再選一張。此時後六項羽蛇獎勵照樣參與排序，與 `blackflow_start_animals` 是否含羽蛇無關：準備局沒有要求羽蛇也可能帶上，目標局照樣會出藍色獎勵。這和 `blackflow_start_rewards` 不同，那裡的後六項是命中條件，只在要求了羽蛇時生效。列出的獎勵都不在頁面上時，依策略的預設順序選一張普通獎勵。  
 :::  
 ::: field find_playTime_target  
 @type number

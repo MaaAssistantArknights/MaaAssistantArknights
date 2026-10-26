@@ -808,11 +808,41 @@ InventoryCleanupPolicy parse_inventory_cleanup_policy(const json::value& value)
     return result;
 }
 
+std::unordered_map<std::string, std::vector<std::string>> parse_last_reward_orders(const json::value& value)
+{
+    if (!value.is_object()) {
+        invalid_config("last_reward_orders must be an object");
+    }
+    std::unordered_map<std::string, std::vector<std::string>> result;
+    for (const auto& entry : value.as_object()) {
+        const std::string& name = entry.first;
+        std::vector<std::string> names = parse_string_array(value, name);
+        const bool permutation = names.size() == LastRewardNames.size() &&
+                                 std::ranges::all_of(LastRewardNames, [&](std::string_view reward) {
+                                     return std::ranges::count(names, reward) == 1;
+                                 });
+        if (!permutation) {
+            invalid_config("last_reward_orders " + name + " must list each support reward exactly once");
+        }
+        result.emplace(name, std::move(names));
+    }
+    if (!result.contains("default")) {
+        invalid_config("last_reward_orders must define default");
+    }
+    return result;
+}
+
 PolicyProfile parse_profile(const json::value& value)
 {
     check_keys(
         value,
-        { "id", "description", "modules", "terminal_rules", "failure_action", "no_AP_is_terminal" },
+        { "id",
+          "description",
+          "modules",
+          "terminal_rules",
+          "failure_action",
+          "no_AP_is_terminal",
+          "last_reward_order" },
         { "id", "modules" },
         "profile");
     PolicyProfile result;
@@ -849,6 +879,12 @@ PolicyProfile parse_profile(const json::value& value)
             }
             result.no_AP_is_terminal_floors.emplace(value_floor);
         }
+    }
+    if (const auto order = value.find("last_reward_order"); order) {
+        if (!order->is_string()) {
+            invalid_config("profile last_reward_order must name an entry of last_reward_orders");
+        }
+        result.last_reward_order = order->as_string();
     }
     if (result.id.empty() || result.modules.empty() || result.failure_action.empty()) {
         invalid_config("profile id, module list, and failure action must be present");
@@ -1125,6 +1161,16 @@ const blackflow::PolicyProfile* BlackFlowStrategyConfig::get_profile(const std::
     return found == m_profiles.end() ? nullptr : &found->second;
 }
 
+const std::vector<std::string>* BlackFlowStrategyConfig::last_reward_order(const std::string& profile_id) const noexcept
+{
+    const blackflow::PolicyProfile* profile = get_profile(profile_id);
+    if (profile == nullptr) {
+        return nullptr;
+    }
+    const auto found = m_last_reward_orders.find(profile->last_reward_order);
+    return found == m_last_reward_orders.end() ? nullptr : &found->second;
+}
+
 std::vector<BlackFlowStrategyConfig::PageIntentWindow> BlackFlowStrategyConfig::page_intent_windows() const
 {
     std::vector<PageIntentWindow> result;
@@ -1209,8 +1255,20 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
 {
     check_keys(
         json,
-        { "schema_version", "resources", "facts", "modules", "inventory_cleanup_policy", "profiles" },
-        { "schema_version", "resources", "facts", "modules", "inventory_cleanup_policy", "profiles" },
+        { "schema_version",
+          "last_reward_orders",
+          "resources",
+          "facts",
+          "modules",
+          "inventory_cleanup_policy",
+          "profiles" },
+        { "schema_version",
+          "last_reward_orders",
+          "resources",
+          "facts",
+          "modules",
+          "inventory_cleanup_policy",
+          "profiles" },
         "root");
     const int schema_version = json.at("schema_version").as_integer();
     if (schema_version != 15) {
@@ -1300,6 +1358,7 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
 
     blackflow::InventoryCleanupPolicy inventory_cleanup_policy =
         parse_inventory_cleanup_policy(json.at("inventory_cleanup_policy"));
+    auto last_reward_orders = parse_last_reward_orders(json.at("last_reward_orders"));
     std::unordered_map<std::string, blackflow::PolicyProfile> profiles;
     for (const auto& value : json.at("profiles").as_array()) {
         auto profile = parse_profile(value);
@@ -1312,8 +1371,10 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
         invalid_config("resources, facts, modules, and profiles must not be empty");
     }
     for (const auto& [id, profile] : profiles) {
-        (void)id;
         validate_profile_definition(profile, modules, facts);
+        if (!last_reward_orders.contains(profile.last_reward_order)) {
+            invalid_config("profile " + id + " references unknown last_reward_order: " + profile.last_reward_order);
+        }
     }
 
     m_schema_version = schema_version;
@@ -1321,6 +1382,7 @@ bool BlackFlowStrategyConfig::parse(const json::value& json)
     m_facts = std::move(facts);
     m_modules = std::move(modules);
     m_inventory_cleanup_policy = std::move(inventory_cleanup_policy);
+    m_last_reward_orders = std::move(last_reward_orders);
     m_profiles = std::move(profiles);
     return true;
 }

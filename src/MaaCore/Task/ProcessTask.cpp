@@ -167,6 +167,22 @@ bool ProcessTask::run()
     TaskConstPtr cur_task_ptr = nullptr;           // 当前任务，仅用于计算 on_error_next
     TaskList to_be_recognized = m_begin_task_list; // 待匹配任务列表
     while (true) {
+        // 匹配列表里存在未定义任务说明资源与代码不匹配（任务名写错或版本错配），
+        // 静默跳过会导致任务链缺步执行，按资源错误停止整条链
+        TaskList undefined_tasks;
+        for (const std::string& task_name : to_be_recognized) {
+            if (Task.get(task_name) == nullptr) {
+                undefined_tasks.emplace_back(task_name);
+            }
+        }
+        if (!undefined_tasks.empty()) {
+            LogError << "Undefined task(s) in recognition list, stop task chain:" << undefined_tasks;
+            json::value info = basic_info_with_what("UnknownTask");
+            info["details"] = json::object { { "tasks", json::array(undefined_tasks) } };
+            callback(AsstMsg::SubTaskError, info);
+            return false;
+        }
+
         auto [status /*识别成功与否*/, next_task_ptr /*匹配到的任务*/] = find_and_run_task(to_be_recognized);
         switch (status) {
         case NodeStatus::RetryFailed:

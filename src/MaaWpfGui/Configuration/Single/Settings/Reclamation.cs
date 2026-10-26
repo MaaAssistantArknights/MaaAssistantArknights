@@ -1,4 +1,4 @@
-// <copyright file="ReclamationTask.cs" company="MaaAssistantArknights">
+// <copyright file="Reclamation.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -13,16 +13,20 @@
 
 #nullable enable
 using System;
-using static MaaWpfGui.Main.AsstProxy;
+using MaaWpfGui.Models;
+using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 
-namespace MaaWpfGui.Configuration.Single.MaaTask;
+namespace MaaWpfGui.Configuration.Single.Settings;
 
 /// <summary>
-/// 生息演算任务
+/// 生息演算设置
 /// </summary>
-public class ReclamationTask : BaseTask
+public class Reclamation : NotifyPropertyChangedWithValue
 {
-    public ReclamationTask() => TaskType = TaskType.Reclamation;
+    public void EventBinding(string prefix)
+    {
+        PropertyChanged += Handler.OnPropertyChangedFactory(prefix);
+    }
 
     public ReclamationTheme Theme { get; set; } = ReclamationTheme.Tales;
 

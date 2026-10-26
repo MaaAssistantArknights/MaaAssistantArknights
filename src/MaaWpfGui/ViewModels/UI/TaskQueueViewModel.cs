@@ -27,6 +27,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
@@ -127,11 +128,6 @@ public class TaskQueueViewModel : Screen
     /// Gets 肉鸽任务Model
     /// </summary>
     public static RoguelikeTaskUserControlModel RoguelikeTask => RoguelikeTaskUserControlModel.Instance;
-
-    /// <summary>
-    /// Gets 生稀盐酸任务Model
-    /// </summary>
-    public static ReclamationTaskUserControlModel ReclamationTask => ReclamationTaskUserControlModel.Instance;
 
     /// <summary>
     /// Gets 更新用户数据任务Model
@@ -643,7 +639,8 @@ public class TaskQueueViewModel : Screen
                     LocalizationHelper.GetString("LockScreen"),
                     LocalizationHelper.GetString("LockScreenTip"),
                     LocalizationHelper.GetString("Cancel"),
-                    60))
+                    60,
+                    preventSleep: true))
             {
                 return;
             }
@@ -664,7 +661,8 @@ public class TaskQueueViewModel : Screen
                     LocalizationHelper.GetString("Hibernate"),
                     LocalizationHelper.GetString("HibernatePrompt"),
                     LocalizationHelper.GetString("Cancel"),
-                    60))
+                    60,
+                    preventSleep: true))
             {
                 return;
             }
@@ -682,7 +680,8 @@ public class TaskQueueViewModel : Screen
                     LocalizationHelper.GetString("Shutdown"),
                     LocalizationHelper.GetString("AboutToShutdown"),
                     LocalizationHelper.GetString("Cancel"),
-                    60))
+                    60,
+                    preventSleep: true))
             {
                 PowerManagement.AbortShutdown();
                 return;
@@ -701,7 +700,8 @@ public class TaskQueueViewModel : Screen
                     LocalizationHelper.GetString("Sleep"),
                     LocalizationHelper.GetString("SleepPrompt"),
                     LocalizationHelper.GetString("Cancel"),
-                    60))
+                    60,
+                    preventSleep: true))
             {
                 return;
             }
@@ -1247,7 +1247,12 @@ public class TaskQueueViewModel : Screen
             seconds);
     }
 
-    private static async Task<bool> TimerCanceledAsync(string content = "", string tipContent = "", string buttonContent = "", int seconds = 10)
+    private static async Task<bool> TimerCanceledAsync(
+        string content = "",
+        string tipContent = "",
+        string buttonContent = "",
+        int seconds = 10,
+        bool preventSleep = false)
     {
         if (Application.Current.Dispatcher.CheckAccess())
         {
@@ -1260,6 +1265,13 @@ public class TaskQueueViewModel : Screen
         {
             var canceled = false;
             var delay = TimeSpan.FromSeconds(seconds);
+
+            // 完成后动作进入倒计时前已回到空闲态，须防止无人值守唤醒再次睡眠并冻结倒计时。
+            // 独立 Power Request 只释放本倒计时的保护，不会清除其间启动任务所持有的休眠阻止状态。
+            using var keepAwakeRequest = preventSleep
+                ? SleepManagement.CreateKeepAwakeRequest("MAA post-action countdown")
+                : null;
+
             RunningState.Instance.LockInterrupt();
             try
             {
@@ -1304,7 +1316,6 @@ public class TaskQueueViewModel : Screen
 
             // ConfigFactory.CurrentConfig.TaskQueue.Add(new OperProgressTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new RoguelikeTask());
-            ConfigFactory.CurrentConfig.TaskQueue.Add(new ReclamationTask());
             ConfigFactory.CurrentConfig.TaskQueue.Add(new UserDataUpdateTask());
         }
 
@@ -1486,45 +1497,33 @@ public class TaskQueueViewModel : Screen
     // 这个函数被列为public可见，意味着他注入对象前被调用
     public void UpdateDatePrompt()
     {
-        var builder = new StringBuilder(LocalizationHelper.GetString("TodaysStageTip") + "\n");
-
-        // Closed activity stages
-        /*
-        foreach (var stage in FightTask.Stages)
+        Execute.OnUIThread(() =>
         {
-            if (stage == null || Instances.StageManager.GetStageInfo(stage).IsActivityClosed() != true)
+            // 复用既有集合以 CollectionChanged 增量更新，避免整表重建导致绑定闪烁
+            var inlines = StagesOfTodayInlines ?? new ObservableCollection<Inline>();
+            inlines.Clear();
+            inlines.Add(new Run(LocalizationHelper.GetString("TodaysStageTip") + "\n"));
+
+            // Open stages today
+            var openStages = Instances.StageManager.GetStageTipsInlines(CurDayOfWeek);
+            if (openStages != null)
             {
-                continue;
+                foreach (var inline in openStages)
+                {
+                    inlines.Add(inline);
+                }
             }
 
-            builder.Append(stage).Append(": ").AppendLine(LocalizationHelper.GetString("ClosedStage"));
-        }*/
-
-        // Open stages today
-        var openStages = Instances.StageManager.GetStageTips(CurDayOfWeek);
-        if (!string.IsNullOrEmpty(openStages))
-        {
-            builder.Append(openStages);
-        }
-
-        var prompt = builder.ToString();
-        if (StagesOfToday == prompt)
-        {
-            return;
-        }
-
-        StagesOfToday = prompt;
+            StagesOfTodayInlines = inlines;
+        });
     }
 
-    private string _stagesOfToday = string.Empty;
+    private ObservableCollection<Inline>? _stagesOfTodayInlines;
 
-    /// <summary>
-    /// Gets or private sets the stages of today.
-    /// </summary>
-    public string StagesOfToday
+    public ObservableCollection<Inline>? StagesOfTodayInlines
     {
-        get => _stagesOfToday;
-        private set => SetAndNotify(ref _stagesOfToday, value);
+        get => _stagesOfTodayInlines;
+        private set => SetAndNotify(ref _stagesOfTodayInlines, value);
     }
 
     public enum LogCardSplitMode
@@ -1729,7 +1728,6 @@ public class TaskQueueViewModel : Screen
             switch (ConfigFactory.CurrentConfig.TaskQueue[item.Index].TaskType)
             {
                 case TaskType.Roguelike:
-                case TaskType.Reclamation:
                 case TaskType.Custom:
                     continue;
             }
@@ -1754,7 +1752,6 @@ public class TaskQueueViewModel : Screen
             new TaskTypeItem(LocalizationHelper.GetString("Award"), typeof(AwardTask)),
             new TaskTypeItem(LocalizationHelper.GetString("OperProgress"), typeof(OperProgressTask), introducedVersion: "6.19.0-beta.2"),
             new TaskTypeItem(LocalizationHelper.GetString("Roguelike"), typeof(RoguelikeTask)),
-            new TaskTypeItem(LocalizationHelper.GetString("Reclamation"), typeof(ReclamationTask)),
             new TaskTypeItem(LocalizationHelper.GetString("UserDataUpdate"), typeof(UserDataUpdateTask)),
             new TaskTypeItem(LocalizationHelper.GetString("DepotMaintain"), typeof(DepotMaintainTask)),
             new TaskTypeItem(LocalizationHelper.GetString("SwitchTheme"), typeof(SwitchThemeTask), introducedVersion: "6.19.0-beta.2"),
@@ -1774,7 +1771,6 @@ public class TaskQueueViewModel : Screen
                 nameof(AwardTask) => LocalizationHelper.GetString("Award"),
                 nameof(OperProgressTask) => LocalizationHelper.GetString("OperProgress"),
                 nameof(RoguelikeTask) => LocalizationHelper.GetString("Roguelike"),
-                nameof(ReclamationTask) => LocalizationHelper.GetString("Reclamation"),
                 nameof(UserDataUpdateTask) => LocalizationHelper.GetString("UserDataUpdate"),
                 nameof(DepotMaintainTask) => LocalizationHelper.GetString("DepotMaintain"),
                 nameof(SwitchThemeTask) => LocalizationHelper.GetString("SwitchTheme"),
@@ -2171,7 +2167,6 @@ public class TaskQueueViewModel : Screen
                 switch (ConfigFactory.CurrentConfig.TaskQueue[item.Index].TaskType)
                 {
                     case TaskType.Roguelike:
-                    case TaskType.Reclamation:
                     case TaskType.Custom:
                         continue;
                 }

@@ -54,7 +54,7 @@ MAA は、固定間隔でこのエンドポイントを継続的にポーリン�
         },
         {
             "id": "b353c469-b902-4357-bd8f-d133199eea31",   //タスクの一意の ID である文字列型、タスクがデブリーフィングされるのときに使用されます
-            "type": "Toolbox-GachaOnce",                    //ツールボックス内の本物のガチャタスク、種類の選択可能な値は次のとおりです：Toolbox-GachaOnce, Toolbox-GachaTenTimes
+            "type": "Toolbox-GachaOnce",                    //ツールボックス内のタスク、種類の選択可能な値は次のとおりです：Toolbox-GachaOnce, Toolbox-GachaTenTimes, Toolbox-Reclamation（生息演算）
         },
         {
             "id": "b353c469-b902-4357-bd8f-d133199eea31",   //タスクの一意の ID である文字列型、タスクがデブリーフィングされるのときに使用されます
@@ -84,7 +84,7 @@ MAA は、固定間隔でこのエンドポイントを継続的にポーリン�
 
 ::: note
 
-- LinkStart-[TaskName] タイプのタスクtypeのオプション値は LinkStart-Base，LinkStart-WakeUp，LinkStart-Combat，LinkStart-Recruiting，LinkStart-Mall，LinkStart-Mission，LinkStart-AutoRoguelike，LinkStart-Reclamation
+- LinkStart-[TaskName] タイプのタスクtypeのオプション値は LinkStart-Base，LinkStart-WakeUp，LinkStart-Combat，LinkStart-Recruiting，LinkStart-Mall，LinkStart-Mission，LinkStart-AutoRoguelike；LinkStart-Reclamation は旧バージョン互換の別名で、Toolbox-Reclamation と等価
 - Settings-[SettingsName] タイプのタスクtypeのオプション値は Settings-ConnectAddress, Settings-Stage1
 - Settings シリーズのタスクは、タスクを受け取ったときにすぐに実行するのではなく、前のタスクの後ろに配置されています。
 - すぐに実行される複数のタスクも送信順序で実行されますが、これらのタスクの実行速度は速いため、通常、彼らの順序に注目する必要はありません。

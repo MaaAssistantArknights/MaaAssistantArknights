@@ -486,6 +486,7 @@ public:
         std::uint64_t current_map_revision,
         std::uint64_t current_viewport_revision,
         std::string* error = nullptr);
+    [[nodiscard]] bool resolve_target_type(NodeType type, std::string* error = nullptr);
     [[nodiscard]] bool mark_page_resolved(std::string* error = nullptr);
     [[nodiscard]] bool observe(MoveObservation observation, std::string* error = nullptr);
     [[nodiscard]] bool apply(RunState& state, std::string* error = nullptr);

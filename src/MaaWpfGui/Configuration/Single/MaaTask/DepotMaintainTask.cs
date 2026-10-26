@@ -53,6 +53,12 @@ public class DepotMaintainTask : BaseTask
     public bool SortByProgress { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 统计芯片组库存时把对应双芯片按合成配方折算计入（每个双芯片折算为 2 个芯片组）。
+    /// 默认关闭；开启后达标判定与缺口计算使用折算后数量，计划摘要以 ｢原始 (+折算)｣ 形式显示，不会自动合成。
+    /// </summary>
+    public bool CountDualChipAsChipPack { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 使用 AUTO 代理倍率（Series = 0）。
     /// 默认关闭（按 1 倍刷取）；开启后单次进入可能因高倍率超过目标库存上限。
     /// </summary>

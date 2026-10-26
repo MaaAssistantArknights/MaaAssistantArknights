@@ -7388,6 +7388,114 @@
         "stageId": "act1multi_tr03",
         "width": 20
     },
+    "act1museum_m1_01-activities/act1museum/level_act1museum_m1_01": {
+        "code": "PM-1",
+        "filename": "act1museum_m1_01-activities-act1museum-level_act1museum_m1_01.json",
+        "height": 9,
+        "levelId": "activities/act1museum/level_act1museum_m1_01",
+        "name": "大快朵颐",
+        "stageId": "act1museum_m1_01",
+        "width": 13
+    },
+    "act1museum_m1_02-activities/act1museum/level_act1museum_m1_02": {
+        "code": "PM-2",
+        "filename": "act1museum_m1_02-activities-act1museum-level_act1museum_m1_02.json",
+        "height": 9,
+        "levelId": "activities/act1museum/level_act1museum_m1_02",
+        "name": "一饱口福",
+        "stageId": "act1museum_m1_02",
+        "width": 13
+    },
+    "act1museum_m1_03-activities/act1museum/level_act1museum_m1_03": {
+        "code": "PM-3",
+        "filename": "act1museum_m1_03-activities-act1museum-level_act1museum_m1_03.json",
+        "height": 9,
+        "levelId": "activities/act1museum/level_act1museum_m1_03",
+        "name": "饕餮盛宴",
+        "stageId": "act1museum_m1_03",
+        "width": 13
+    },
+    "act1museum_m2_01-activities/act1museum/level_act1museum_m2_01": {
+        "code": "PM-4",
+        "filename": "act1museum_m2_01-activities-act1museum-level_act1museum_m2_01.json",
+        "height": 9,
+        "levelId": "activities/act1museum/level_act1museum_m2_01",
+        "name": "疾速红羽",
+        "stageId": "act1museum_m2_01",
+        "width": 11
+    },
+    "act1museum_m2_02-activities/act1museum/level_act1museum_m2_02": {
+        "code": "PM-5",
+        "filename": "act1museum_m2_02-activities-act1museum-level_act1museum_m2_02.json",
+        "height": 9,
+        "levelId": "activities/act1museum/level_act1museum_m2_02",
+        "name": "水边狂欢",
+        "stageId": "act1museum_m2_02",
+        "width": 11
+    },
+    "act1museum_m2_03-activities/act1museum/level_act1museum_m2_03": {
+        "code": "PM-6",
+        "filename": "act1museum_m2_03-activities-act1museum-level_act1museum_m2_03.json",
+        "height": 9,
+        "levelId": "activities/act1museum/level_act1museum_m2_03",
+        "name": "硬壳游行",
+        "stageId": "act1museum_m2_03",
+        "width": 13
+    },
+    "act1museum_m3_01-activities/act1museum/level_act1museum_m3_01": {
+        "code": "PM-7",
+        "filename": "act1museum_m3_01-activities-act1museum-level_act1museum_m3_01.json",
+        "height": 8,
+        "levelId": "activities/act1museum/level_act1museum_m3_01",
+        "name": "条条大路",
+        "stageId": "act1museum_m3_01",
+        "width": 10
+    },
+    "act1museum_m3_02-activities/act1museum/level_act1museum_m3_02": {
+        "code": "PM-8",
+        "filename": "act1museum_m3_02-activities-act1museum-level_act1museum_m3_02.json",
+        "height": 8,
+        "levelId": "activities/act1museum/level_act1museum_m3_02",
+        "name": "蜿蜒队列",
+        "stageId": "act1museum_m3_02",
+        "width": 13
+    },
+    "act1museum_m3_03-activities/act1museum/level_act1museum_m3_03": {
+        "code": "PM-9",
+        "filename": "act1museum_m3_03-activities-act1museum-level_act1museum_m3_03.json",
+        "height": 8,
+        "levelId": "activities/act1museum/level_act1museum_m3_03",
+        "name": "幽深洞穴",
+        "stageId": "act1museum_m3_03",
+        "width": 12
+    },
+    "act1museum_m4_01-activities/act1museum/level_act1museum_m4_01": {
+        "code": "PM-10",
+        "filename": "act1museum_m4_01-activities-act1museum-level_act1museum_m4_01.json",
+        "height": 7,
+        "levelId": "activities/act1museum/level_act1museum_m4_01",
+        "name": "甜蜜冲锋",
+        "stageId": "act1museum_m4_01",
+        "width": 9
+    },
+    "act1museum_m4_02-activities/act1museum/level_act1museum_m4_02": {
+        "code": "PM-11",
+        "filename": "act1museum_m4_02-activities-act1museum-level_act1museum_m4_02.json",
+        "height": 8,
+        "levelId": "activities/act1museum/level_act1museum_m4_02",
+        "name": "汽水节庆",
+        "stageId": "act1museum_m4_02",
+        "width": 11
+    },
+    "act1museum_m4_03-activities/act1museum/level_act1museum_m4_03": {
+        "code": "PM-12",
+        "filename": "act1museum_m4_03-activities-act1museum-level_act1museum_m4_03.json",
+        "height": 8,
+        "levelId": "activities/act1museum/level_act1museum_m4_03",
+        "name": "绒绒快跑",
+        "stageId": "act1museum_m4_03",
+        "width": 11
+    },
     "act1vautochess_m01-activities/act1vautochess/level_act1vautochess_m01": {
         "code": "新手模式",
         "filename": "act1vautochess_m01-activities-act1vautochess-level_act1vautochess_m01.json",
@@ -19914,6 +20022,15 @@
         "levelId": "obt/campaign/level_camp_r_33",
         "name": "默祷圣祠",
         "stageId": "camp_r_33",
+        "width": 13
+    },
+    "camp_r_34-obt/campaign/level_camp_r_34": {
+        "code": "米诺斯",
+        "filename": "camp_r_34-obt-campaign-level_camp_r_34.json",
+        "height": 9,
+        "levelId": "obt/campaign/level_camp_r_34",
+        "name": "灰石剧场",
+        "stageId": "camp_r_34",
         "width": 13
     },
     "easy_09-01-obt/main/level_easy_09-01": {

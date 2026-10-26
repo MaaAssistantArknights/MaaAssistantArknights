@@ -13,6 +13,7 @@
 
 #nullable enable
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 using MaaWpfGui.Constants.Enums;
 using static MaaWpfGui.Main.AsstProxy;
@@ -24,6 +25,23 @@ namespace MaaWpfGui.Configuration.Single.MaaTask;
 /// </summary>
 public class RoguelikeTask : BaseTask, IJsonOnDeserialized
 {
+    // 支援选取的默认顺序：襁褓天马在最前，其余普通奖励按日常顺序
+    private static readonly RoguelikeBlackFlowStartReward[] _defaultBlackFlowStartRewardPriority =
+    [
+        RoguelikeBlackFlowStartReward.Pegasus,
+        RoguelikeBlackFlowStartReward.SpaceLease,
+        RoguelikeBlackFlowStartReward.ForestRide,
+        RoguelikeBlackFlowStartReward.UnnumberedItem,
+        RoguelikeBlackFlowStartReward.RegressionCompensation,
+        RoguelikeBlackFlowStartReward.SurveyAdvance,
+        RoguelikeBlackFlowStartReward.NestParasitism,
+        RoguelikeBlackFlowStartReward.Hippogriff,
+        RoguelikeBlackFlowStartReward.Dragon,
+        RoguelikeBlackFlowStartReward.Hydra,
+        RoguelikeBlackFlowStartReward.BaiZe,
+        RoguelikeBlackFlowStartReward.GoldenCrow,
+    ];
+
     public RoguelikeTask() => TaskType = TaskType.Roguelike;
 
     /// <summary>
@@ -161,6 +179,16 @@ public class RoguelikeTask : BaseTask, IJsonOnDeserialized
     public bool BlackFlowStartRunFastFlight { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 刷开局的目标局凹第一层实托邦
+    /// </summary>
+    public bool BlackFlowStartUtopia { get; set; }
+
+    /// <summary>
+    /// Gets or sets 凹第一层实托邦时目标局的支援选取顺序，含全部十二种奖励，和开局动物、期望奖励的勾选无关
+    /// </summary>
+    public List<RoguelikeBlackFlowStartReward> BlackFlowStartRewardPriority { get; set; } = [.. _defaultBlackFlowStartRewardPriority];
+
+    /// <summary>
     /// Gets or sets a value indicating whether 使用非好友助战
     /// </summary>
     public bool UseSupportNonFriend { get; set; }
@@ -231,6 +259,12 @@ public class RoguelikeTask : BaseTask, IJsonOnDeserialized
             BlackFlowStartAnimal2 = RoguelikeBlackFlowStartAnimal.None;
             Mode = RoguelikeMode.BlackFlowStartRun;
         }
+
+        // 手改或缺项的顺序整理成十二种奖励各一次，缺的按默认顺序补在后面
+        BlackFlowStartRewardPriority ??= [.. _defaultBlackFlowStartRewardPriority];
+        var priority = BlackFlowStartRewardPriority.Where(_defaultBlackFlowStartRewardPriority.Contains).Distinct().ToList();
+        priority.AddRange(_defaultBlackFlowStartRewardPriority.Except(priority));
+        BlackFlowStartRewardPriority = priority;
     }
 
     /// <summary>

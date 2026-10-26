@@ -31,6 +31,7 @@ using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
+using MaaWpfGui.ViewModels.UserControl.Toolbox;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -275,6 +276,7 @@ public class RemoteControlService
                     case "LinkStart-Mission":
                     case "LinkStart-AutoRoguelike":
                     case "LinkStart-Reclamation":
+                    case "Toolbox-Reclamation":
                     case "Toolbox-GachaOnce":
                     case "Toolbox-GachaTenTimes":
                     case "CaptureImage":
@@ -333,7 +335,6 @@ public class RemoteControlService
                 case "LinkStart-Mall":
                 case "LinkStart-Mission":
                 case "LinkStart-AutoRoguelike":
-                case "LinkStart-Reclamation":
                     {
                         await LinkStart([type.Split('-')[1]]);
                         break;
@@ -352,6 +353,18 @@ public class RemoteControlService
                     {
                         await _runningState.UntilIdleAsync();
                         await Instances.ToolboxViewModel.GachaTenTimes();
+                        await _runningState.UntilIdleAsync();
+
+                        break;
+                    }
+
+                case "Toolbox-Reclamation":
+                case "LinkStart-Reclamation":
+                    {
+                        // 生息演算无导航、不与其他任务衔接，按工具箱形态完整执行，不进 LinkStart 批处理；
+                        // LinkStart-Reclamation 为兼容旧面板保留的别名
+                        await _runningState.UntilIdleAsync();
+                        await Instances.ToolboxViewModel.StartReclamation();
                         await _runningState.UntilIdleAsync();
 
                         break;
@@ -665,19 +678,6 @@ public class RemoteControlService
                             if (tasks.Count == 1)
                             {
                                 taskRet &= RoguelikeTaskUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
-                                break;
-                            }
-
-                            taskRet = false;
-                            break;
-                        }
-
-                    case "Reclamation":
-                        {
-                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<ReclamationTask>().ToList();
-                            if (tasks.Count == 1)
-                            {
-                                taskRet &= ReclamationTaskUserControlModel.Instance.SerializeTask(tasks[0]).IsSuccess ?? false;
                                 break;
                             }
 

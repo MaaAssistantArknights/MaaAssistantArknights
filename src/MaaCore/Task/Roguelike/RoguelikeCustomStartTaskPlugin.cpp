@@ -47,7 +47,8 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
         return false;
     }
     if (m_waiting_to_run == RoguelikeCustomType::Reward) {
-        return m_config->get_mode() != RoguelikeMode::BlackFlowStartRun;
+        // 黑流的支援页按策略顺序选，由黑流生命周期插件处理
+        return m_config->get_theme() != RoguelikeTheme::BlackFlow;
     }
     if (m_waiting_to_run == RoguelikeCustomType::Squad) {
         if (m_config->get_run_for_collectible()) { // 烧水分队
@@ -56,8 +57,10 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
         }
         return true;
     }
-    if (m_config->get_mode() == RoguelikeMode::BlackFlowStartRun && !m_config->get_run_for_collectible()) {
-        // 目标局在选择支援页由黑流生命周期插件判断后就结束，不选职业组和开局干员。
+    if (m_config->get_mode() == RoguelikeMode::BlackFlowStartRun && !m_config->get_run_for_collectible() &&
+        !m_config->get_blackflow_start_utopia()) {
+        // 目标局在选择支援页由黑流生命周期插件判断后就结束，不选职业组和开局干员；
+        // 凹第一层实托邦时目标局要开局进第一层，照常选。
         return false;
     }
     if (m_waiting_to_run == RoguelikeCustomType::CoreChar) {
@@ -71,15 +74,8 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
         return m_config->get_current_start_oper() != nullptr;
     }
 
-    // Roles CoreChar
-    if (auto it = m_customs.find(m_waiting_to_run); it == m_customs.cend()) {
-        return false;
-    }
-    else if (it->second.empty()) {
-        return false;
-    }
-
-    return true;
+    // Roles
+    return !m_config->get_start_roles().empty();
 }
 
 bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params)
@@ -91,7 +87,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params
     }
 
     m_config->set_start_opers(RoguelikeConfig::parse_start_opers(params));           // 开局干员顺位列表
-    set_custom(RoguelikeCustomType::Roles, params.get("roles", ""));                 // 开局职业组
+    m_config->set_start_roles(params.get("roles", ""));                              // 开局职业组
     m_config->set_use_nonfriend_support(params.get("use_nonfriend_support", false)); // 是否可以是非好友助战干员
 
     if (auto select_list = params.find<json::object>("collectible_mode_start_list"); select_list) {
@@ -115,11 +111,6 @@ bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params
     }
 
     return true;
-}
-
-void asst::RoguelikeCustomStartTaskPlugin::set_custom(RoguelikeCustomType type, std::string custom)
-{
-    m_customs.insert_or_assign(type, std::move(custom));
 }
 
 bool asst::RoguelikeCustomStartTaskPlugin::_run()
@@ -208,7 +199,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_reward()
 bool asst::RoguelikeCustomStartTaskPlugin::hijack_roles()
 {
     constexpr size_t SwipeTimes = 7;
-    const std::string& required_role = m_customs[RoguelikeCustomType::Roles];
+    const std::string& required_role = m_config->get_start_roles();
 
     for (size_t i = 0; i != SwipeTimes; ++i) {
         if (need_exit()) {

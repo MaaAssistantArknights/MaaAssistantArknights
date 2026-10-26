@@ -44,6 +44,9 @@ public:
     [[nodiscard]] std::optional<blackflow::ResolvedPolicy>
         resolve_profile(const std::string& id, std::string* error = nullptr) const;
 
+    // 该策略在选择支援页的选取顺序，策略没写就用 default。未知策略返回 nullptr。
+    [[nodiscard]] const std::vector<std::string>* last_reward_order(const std::string& profile_id) const noexcept;
+
     [[nodiscard]] int schema_version() const noexcept { return m_schema_version; }
 
     // 一条里程碑声明的页面意图及其生效层段。层段同时写在 node_execution.json 的路由里，
@@ -67,6 +70,7 @@ private:
     std::unordered_map<std::string, blackflow::FactDefinition> m_facts;
     std::unordered_map<std::string, blackflow::PolicyModule> m_modules;
     blackflow::InventoryCleanupPolicy m_inventory_cleanup_policy;
+    std::unordered_map<std::string, std::vector<std::string>> m_last_reward_orders;
     std::unordered_map<std::string, blackflow::PolicyProfile> m_profiles;
 };
 

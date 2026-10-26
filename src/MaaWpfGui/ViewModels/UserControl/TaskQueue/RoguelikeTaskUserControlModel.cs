@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using MaaWpfGui.Configuration.Factory;
@@ -28,6 +29,7 @@ using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
@@ -66,6 +68,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
         UpdateRoguelikeStartWithAllDict();
         UpdateRoguelikeCoreCharList();
         UpdateBlackFlowSerpentOptions();
+        UpdateBlackFlowStartRewardPriorityItems();
     }
 
     private void UpdateRoguelikeDifficultyList()
@@ -1045,6 +1048,60 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the BlackFlow start-run target runs keep only a first floor with Utopia.
+    /// </summary>
+    public bool RoguelikeBlackFlowStartUtopia
+    {
+        get => GetTaskConfig<RoguelikeTask>().BlackFlowStartUtopia;
+        set => SetTaskConfig<RoguelikeTask>(t => t.BlackFlowStartUtopia == value, t => t.BlackFlowStartUtopia = value);
+    }
+
+    // 实托邦从难度 6 开始出现；难度不切换时按游戏里当前的难度来，不做检查
+    private static bool IsBlackFlowStartUtopiaDifficulty(int difficulty) => difficulty is -1 or >= 6;
+
+    /// <summary>
+    /// Gets a value indicating whether the selected difficulty allows the Utopia check.
+    /// </summary>
+    [PropertyDependsOn(nameof(RoguelikeDifficulty))]
+    public bool RoguelikeBlackFlowStartUtopiaAvailable => IsBlackFlowStartUtopiaDifficulty(RoguelikeDifficulty);
+
+    /// <summary>
+    /// Gets 凹第一层实托邦时目标局的支援选取顺序，十二种奖励全列，拖动改序。和开局动物、期望奖励的勾选无关。
+    /// </summary>
+    public ObservableCollection<BlackFlowStartRewardPriorityItemViewModel> RoguelikeBlackFlowStartRewardPriorityItems { get; private set => SetAndNotify(ref field, value); } = [];
+
+    private void UpdateBlackFlowStartRewardPriorityItems()
+    {
+        var rewards = RoguelikeBlackFlowStartRewardList.Concat(RoguelikeBlackFlowSerpentRewardList).ToList();
+        RoguelikeBlackFlowStartRewardPriorityItems.CollectionChanged -= BlackFlowStartRewardPriorityItems_CollectionChanged;
+        RoguelikeBlackFlowStartRewardPriorityItems = [.. GetTaskConfig<RoguelikeTask>().BlackFlowStartRewardPriority.Select((reward, index) => new BlackFlowStartRewardPriorityItemViewModel(index, rewards.First(i => i.Value == reward)))];
+        RoguelikeBlackFlowStartRewardPriorityItems.CollectionChanged += BlackFlowStartRewardPriorityItems_CollectionChanged;
+    }
+
+    private void BlackFlowStartRewardPriorityItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        ReindexBlackFlowStartRewardPriorityItems();
+        StoreBlackFlowStartRewardPriority();
+    }
+
+    /// <summary>
+    /// 拖动排序后重新计算并写入各项的列表序号
+    /// </summary>
+    private void ReindexBlackFlowStartRewardPriorityItems()
+    {
+        for (int index = 0; index < RoguelikeBlackFlowStartRewardPriorityItems.Count; ++index)
+        {
+            RoguelikeBlackFlowStartRewardPriorityItems[index].Index = index;
+        }
+    }
+
+    private void StoreBlackFlowStartRewardPriority()
+    {
+        var order = RoguelikeBlackFlowStartRewardPriorityItems.Select(i => i.Reward.Value).ToList();
+        SetTaskConfig<RoguelikeTask>(t => t.BlackFlowStartRewardPriority.SequenceEqual(order), t => t.BlackFlowStartRewardPriority = order);
+    }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the BlackFlow start-run preparation runs fly to the third floor with the Mechanic.
     /// </summary>
     public bool RoguelikeBlackFlowStartRunFastFlight
@@ -1055,7 +1112,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
 
     /// <summary>
     /// Gets a value indicating whether the preparation runs use the fixed Mechanic start.
-    /// 生效时准备局分队显示替换后的值且不可修改，用户原来的设置保留，取消勾选后恢复；常规设置不受影响。
+    /// 生效时刷开局使用分队显示替换后的值且不可修改，用户原来的设置保留，取消勾选后恢复；常规设置不受影响。
     /// </summary>
     [PropertyDependsOn(nameof(RoguelikeTheme), nameof(RoguelikeMode), nameof(RoguelikeBlackFlowStartRunFastFlight))]
     public bool RoguelikeBlackFlowStartRunFlightActive =>
@@ -1201,6 +1258,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
 
     private static string LocalizeBlackFlowStrategyOutcome(string? outcome) => outcome switch {
         "start_run_prepared" => LocalizationHelper.GetString("BlackFlowStartRunPrepared"),
+        "start_run_utopia_missed" => LocalizationHelper.GetString("BlackFlowStartRunUtopiaMissed"),
         "investment_completed" => LocalizationHelper.GetString("BlackFlowOutcomeInvestmentCompleted"),
         "investment_missed" => LocalizationHelper.GetString("BlackFlowOutcomeInvestmentMissed"),
         "burn_completed" => LocalizationHelper.GetString("BlackFlowOutcomeFloor3RouteCompleted"),
@@ -1237,6 +1295,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
 
     private static string LocalizeBlackFlowTerminationReason(string? reason) => reason switch {
         "start_run_prepared" => LocalizationHelper.GetString("BlackFlowStartRunPreparedReason"),
+        "first_floor_without_utopia" => LocalizationHelper.GetString("BlackFlowStartRunUtopiaMissedReason"),
         "investment_finished" => LocalizationHelper.GetString("BlackFlowTerminationInvestmentFinished"),
         "investment_shop_window_closed" => LocalizationHelper.GetString("BlackFlowTerminationInvestmentShopWindowClosed"),
         "third_floor_reached" => LocalizationHelper.GetString("BlackFlowTerminationFloor3Reached"),
@@ -1502,6 +1561,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                         "preparing" => ("BlackFlowStartRunPreparing", UiLogColor.Info),
                         "target_run" => ("BlackFlowStartRunTargetRun", UiLogColor.Info),
                         "reward_missed" => ("BlackFlowStartRunRewardMissed", UiLogColor.Info),
+                        "reward_picked" => ("BlackFlowStartRunRewardPicked", UiLogColor.Info),
                         "completed" => ("BlackFlowStartRunCompleted", UiLogColor.Success),
                         "reward_recognition_failed" => ("BlackFlowStartRunRewardRecognitionFailed", UiLogColor.Error),
                         "reward_page_missing" => ("BlackFlowStartRunRewardPageMissing", UiLogColor.Error),
@@ -1710,6 +1770,8 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                 BlackFlowStartAnimal2 = roguelike.BlackFlowStartAnimal2,
                 BlackFlowStartRewards = roguelike.BlackFlowStartRewards,
                 BlackFlowStartRunFastFlight = roguelike.BlackFlowStartRunFastFlight,
+                BlackFlowStartUtopia = roguelike.BlackFlowStartUtopia && IsBlackFlowStartUtopiaDifficulty(roguelike.Difficulty),
+                BlackFlowStartRewardPriority = roguelike.BlackFlowStartRewardPriority,
 
                 SamiFirstFloorFoldartal = roguelike.Theme == Theme.Sami && roguelike.Mode == Mode.Collectible && roguelike.SamiFirstFloorFoldartal,
                 SamiStartFloorFoldartal = roguelike.SamiFirstFloorFoldartals,

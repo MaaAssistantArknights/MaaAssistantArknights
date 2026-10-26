@@ -223,7 +223,8 @@ asst::OperProgressProcessTask::ResultDetail
         if (target_iter != operators.cend()) {
             // OperBoxImageAnalyzer 同时使用八职业标志、OperBoxNameOCR 和精英标志；卡片点击锚定于识别结果。
             // 精英化等级不取此处的识别值,由 execute_xxx 在档案页现场识别。
-            if (!ctrler()->click(target_iter->rect)) {
+            // 卡片顶部不响应点击，向右下偏移 50px。
+            if (!ctrler()->click(target_iter->rect.move({ 50, 50, 50, 50 }))) {
                 return ResultDetail::RecognitionFailed;
             }
             if (!run_task("OperProgress@OperFiles")) {

@@ -13,7 +13,7 @@
 #include <onnxruntime/dml_provider_factory.h>
 #endif
 
-#if __has_include(<onnxruntime/coreml_provider_factory.h>)
+#if defined(__APPLE__) && __has_include(<onnxruntime/coreml_provider_factory.h>)
 #define WITH_COREML
 #include <onnxruntime/coreml_provider_factory.h>
 #endif

@@ -114,11 +114,11 @@
         "next": ["BlackFlow@Roguelike@ChooseOperConfirm", "BlackFlow@Roguelike@ChooseOperConfirm#next"]
     },
     "BlackFlow@Roguelike@ChooseOperConfirm": {
-        "template": "BlackFlow@Roguelike@ChooseOperConfirm.png",
+        "template": ["BlackFlow@Roguelike@ChooseOperConfirm.png", "BlackFlow@Roguelike@ChooseOperConfirmWithBuff.png"],
         "roi": [1016, 602, 264, 118]
     },
     "BlackFlow@Roguelike@ChooseOperFlag": {
-        "template": "BlackFlow@Roguelike@ChooseOperConfirm.png",
+        "template": ["BlackFlow@Roguelike@ChooseOperConfirm.png", "BlackFlow@Roguelike@ChooseOperConfirmWithBuff.png"],
         "roi": [1016, 602, 264, 118]
     },
     "BlackFlow@Roguelike@ClickToDrops": {
@@ -497,7 +497,7 @@
     "BlackFlow@Roguelike@EnteredPageClassification": {
         "algorithm": "OcrDetect",
         "roi": [0, 420, 500, 115],
-        "text": ["险路尽头", "坎诺特", "机械师", "佩德洛"],
+        "text": ["险路尽头", "三重身", "溯源", "坎诺特", "机械师", "佩德洛"],
         "ocrReplace": [["^古怪商人\\s*坎诺特$", "坎诺特"]],
         "fullMatch": true
     },
@@ -847,16 +847,6 @@
             "BlackFlow@Roguelike@LastReward6.png"
         ]
     },
-    "BlackFlow@Roguelike@LastReward-Strategy": {
-        "next": [
-            "BlackFlow@Roguelike@LastReward",
-            "BlackFlow@Roguelike@LastReward2",
-            "BlackFlow@Roguelike@LastReward3",
-            "BlackFlow@Roguelike@LastReward4",
-            "BlackFlow@Roguelike@LastReward5",
-            "BlackFlow@Roguelike@LastReward6"
-        ]
-    },
     "BlackFlow@Roguelike@LastReward2": {
         "Doc": "林间代步·获得1件加工品",
         "baseTask": "BlackFlow@Roguelike@LastReward",
@@ -883,11 +873,13 @@
         "template": "BlackFlow@Roguelike@LastReward6.png"
     },
     "BlackFlow@Roguelike@LastRewardConfirm": {
-        "Doc": "base 的 next 里裸引用了 CloseCollection，黑流那个是 #next 型的，必须换成 A@(B) 形式。",
+        "Doc": "base 的 next 里裸引用了 CloseCollection，黑流那个是 #next 型的，必须换成 A@(B) 形式。带襁褓三头犬时支援可选两次，确认后仍停在支援页，回到入口再选一张。",
         "template": "BlackFlow@Roguelike@LastRewardConfirm.png",
+        "roi": [0, 474, 1280, 205],
         "next": [
             "BlackFlow@Roguelike@RolesDefault",
             "BlackFlow@Roguelike@LastRewardConfirm@(BlackFlow@Roguelike@CloseCollection)",
+            "BlackFlow@Roguelike@LastReward-EnterPoint",
             "BlackFlow@Roguelike@RecruitMain",
             "BlackFlow@Roguelike@Stages#next"
         ]
@@ -1014,6 +1006,7 @@
         "postDelay": 600,
         "reduceOtherTimes": ["BlackFlow@Roguelike@MovePreviewConfirm*4"],
         "next": [
+            "BlackFlow@Roguelike@MovePreviewConfirmCompleted@(BlackFlow@Roguelike@CloseCollectionContinue)",
             "BlackFlow@Roguelike@MovePreviewConfirmCompleted@(BlackFlow@Roguelike@CloseCollection)",
             "BlackFlow@Roguelike@MovePreviewConfirmCompletedDone"
         ]
@@ -1788,30 +1781,57 @@
     "BlackFlow@Roguelike@SelectTheme": {
         "text": ["源流堆栈"]
     },
+    "BlackFlow@Roguelike@Squad-EnterPoint": {
+        "Doc": "整个肉鸽共用一个 ProcessTask，执行次数会跨局累积；每局进分队页时把分队确认与观察的计数清零。",
+        "reduceOtherTimes": ["BlackFlow@Roguelike@SquadConfirm*4", "BlackFlow@Roguelike@SquadConfirmObserve*2"]
+    },
     "BlackFlow@Roguelike@SquadConfirm": {
-        "Doc": "开局分队确认，之后可能出现藏品弹窗、干员选择或招募界面。",
+        "Doc": [
+            "开局分队确认，之后可能出现藏品弹窗、干员选择或招募界面。",
+            "点击后每隔一个 taskDelay=500ms 观察确认栏是否依旧存在；任一观察点未识别到即离开分队页，确认栏持续存在四次=2000ms 才允许再次点击。",
+            "确认栏要先点选卡片才出现，支援页、职业页刚进入时没有，所以观察沿用同一模板不会把后续页面当成分队页。",
+            "Confirm 的 maxTimes 只统计真实点击；每次点击将 Observe 的两次执行计数恢复为零。四次点击仍未离开分队页时进入 RecoveryFailed，按黑流状态机死路停在当前画面。"
+        ],
         "template": "BlackFlow@Roguelike@LastRewardConfirm.png",
+        "postDelay": 0,
+        "maxTimes": 4,
+        "next": [
+            "BlackFlow@Roguelike@SquadConfirmRewardPopup",
+            "BlackFlow@Roguelike@SquadConfirmObserve",
+            "BlackFlow@Roguelike@SquadConfirmLeave#next"
+        ],
+        "exceededNext": ["BlackFlow@Roguelike@RecoveryFailed"],
+        "reduceOtherTimes": ["BlackFlow@Roguelike@SquadConfirmObserve*2"]
+    },
+    "BlackFlow@Roguelike@SquadConfirmLeave": {
+        "Doc": "离开分队页后的候选列表，供分队确认、观察与弹窗以 #next 共用。",
+        "algorithm": "JustReturn",
         "next": [
             "BlackFlow@Roguelike@SquadConfirmRewardPopup",
             "BlackFlow@Roguelike@LastReward-EnterPoint",
             "BlackFlow@Roguelike@RolesDefault",
             "BlackFlow@Roguelike@RecruitMain",
-            "BlackFlow@Roguelike@SquadConfirm@(BlackFlow@Roguelike@CloseCollection)",
+            "BlackFlow@Roguelike@SquadConfirmLeave@(BlackFlow@Roguelike@CloseCollection)",
             "BlackFlow@Roguelike@Stages#next"
+        ]
+    },
+    "BlackFlow@Roguelike@SquadConfirmObserve": {
+        "Doc": "maxTimes 为 2 时，第三次匹配会进入 exceededNext；随后经过一个 taskDelay 在第四个观察点识别 Confirm，默认配置下两次点击间隔约为两秒。",
+        "template": "BlackFlow@Roguelike@LastRewardConfirm.png",
+        "roi": [0, 483, 1280, 200],
+        "maxTimes": 2,
+        "next": ["BlackFlow@Roguelike@SquadConfirmRewardPopup", "#self", "BlackFlow@Roguelike@SquadConfirmLeave#next"],
+        "exceededNext": [
+            "BlackFlow@Roguelike@SquadConfirmRewardPopup",
+            "BlackFlow@Roguelike@SquadConfirm",
+            "BlackFlow@Roguelike@SquadConfirmLeave#next"
         ]
     },
     "BlackFlow@Roguelike@SquadConfirmRewardPopup": {
         "template": "BlackFlow@Roguelike@Confirm.png",
         "roi": [581, 555, 118, 76],
         "action": "ClickSelf",
-        "next": [
-            "#self",
-            "BlackFlow@Roguelike@LastReward-EnterPoint",
-            "BlackFlow@Roguelike@RolesDefault",
-            "BlackFlow@Roguelike@RecruitMain",
-            "BlackFlow@Roguelike@SquadConfirm@(BlackFlow@Roguelike@CloseCollection)",
-            "BlackFlow@Roguelike@Stages#next"
-        ]
+        "next": ["BlackFlow@Roguelike@SquadConfirmLeave#next"]
     },
     "BlackFlow@Roguelike@SquadDefault": {
         "template": "BlackFlow@Roguelike@SquadDefault.png"

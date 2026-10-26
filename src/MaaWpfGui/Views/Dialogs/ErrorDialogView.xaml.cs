@@ -23,6 +23,7 @@ using System.Windows.Documents;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 
 namespace MaaWpfGui.Views.Dialogs;
 
@@ -167,7 +168,9 @@ public partial class ErrorDialogView : INotifyPropertyChanged
     {
         if (ShouldExit)
         {
-            Environment.Exit(0);
+            // Environment.Exit 不经过 WPF 关闭流程，须显式释放单实例互斥量
+            Bootstrapper.ReleaseInstanceMutex();
+            Environment.Exit(1);
         }
 
         base.OnClosed(e);

@@ -198,6 +198,12 @@
     <system:String x:Key="InfrastFiammettaTargetShamare">Shamare</system:String>
     <system:String x:Key="InfrastFiammettaTargetTequila">Tequila</system:String>
     <system:String x:Key="InfrastFiammettaTargetGladiia">Gladiia</system:String>
+    <system:String x:Key="InfrastFiammettaTargetSaileach">Saileach</system:String>
+    <system:String x:Key="InfrastFiammettaTargetGreyy2">Greyy the Lightningbearer</system:String>
+    <system:String x:Key="InfrastFiammettaTargetWeedy">Weedy</system:String>
+    <system:String x:Key="InfrastFiammettaTargetWaaiFu">Waai Fu</system:String>
+    <system:String x:Key="InfrastFiammettaTargetMinimalist">Minimalist</system:String>
+    <system:String x:Key="InfrastFiammettaTargetHbound">旅骨 (Unreleased)</system:String>
     <system:String x:Key="InfrastFiammettaTargetsTips">Although recovering Shamare and Tequila can theoretically enable 007, it is difficult to achieve with automatic shift changes, so selecting Shamare or Tequila is not recommended.</system:String>
     <system:String x:Key="InfrastUsePinusSylvestris">Use Pinus Sylvestris cross-facility team</system:String>
     <system:String x:Key="InfrastUsePinusSylvestrisTips" xml:space="preserve">Required operators: Flametail (E2), Viviana (E2), and at least one of Wild Mane (E2), Ashlock (E2), or Fartooth (E2)&#10;Operators included in calculation: Gravel</system:String>
@@ -281,8 +287,10 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="RoguelikeBlackFlowStartRewardsAnyHit">Stops on any match</system:String>
     <system:String x:Key="RoguelikeBlackFlowStartRewardsTip" xml:space="preserve">Everything checked in Desired Rewards and Feathered Serpent Rewards counts as a candidate; the task stops as soon as any one of them appears at the start.&#10;Hover over an option to see its effect.</system:String>
     <system:String x:Key="RoguelikeBlackFlowSerpentRewards">Feathered Serpent Rewards</system:String>
-    <system:String x:Key="RoguelikeBlackFlowSerpentRewardsInactive">Only applies when Swaddled Feathered Serpent is selected</system:String>
-    <system:String x:Key="RoguelikeBlackFlowPrepSquad">Preparation Run Squad</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartUtopia">Reroll until Floor 1 is 实托邦 (a Floor 1 variant)</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartUtopiaTip" xml:space="preserve">Once a desired reward appears on the support screen, the target run picks cards by ｢{key=RoguelikeBlackFlowStartRewardPriority}｣ and enters Floor 1.&#10;If Floor 1 is 实托邦, the task exits and keeps the run; otherwise it abandons the run and starts another preparation run.&#10;The target run starts with the roles and starting operator from General settings.&#10;Requires difficulty 6 or higher; difficulty is not checked when it is set not to switch.</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartRewardPriority">Starting Reward Pick Priority</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartRewardPriorityTip" xml:space="preserve">Drag to reorder.&#10;On the support screen, the first card in this list that is present is picked.&#10;The order is independent of the animals and rewards selected above: a ｢{key=RoguelikeBlackFlowCultivationTargetFeatheredSerpent}｣ may come along even when not required, so its rewards are listed too.</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardUnnumberedItem">未编号物 (Unnumbered Item)</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardSurveyAdvance">调查预付款 (Survey Advance)</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardSpaceLease">空间租赁 (Space Lease)</system:String>
@@ -315,7 +323,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="RoguelikeBlackFlowRewardHydraTip">All enemies gain +30% ATK and HP; each time a new floor is entered, friendly units gain +10% ATK and HP.</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardBaiZeTip">Increases the chance of temporary recruitment operators appearing.</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardGoldenCrowTip">Gain 3 random collectibles upon entering ｢血色空脉｣ (Floor 3).</system:String>
-    <system:String x:Key="RoguelikeBlackFlowPrepFlightTip" xml:space="preserve">The preparation run always starts with Special Squad, Slow and Steady Wins the Race and your own Mechanic, recruits only the Mechanic, and flies straight from Floor 2 to Floor 3 with the built-in Structural Principle.&#10;When checked, the preparation run squad shows Special Squad and cannot be changed; unchecking restores the previous setting. The roles and starting operator in General settings are not affected.&#10;Do not check this if your Mechanic's talent is not fully unlocked, as the flight will fail.</system:String>
+    <system:String x:Key="RoguelikeBlackFlowPrepFlightTip" xml:space="preserve">The preparation run always starts with Special Squad, Slow and Steady Wins the Race and your own Mechanic, recruits only the Mechanic, and flies straight from Floor 2 to Floor 3 with the built-in Structural Principle.&#10;When checked, ｢{key=RoguelikeCollectibleModeSquad}｣ shows Special Squad and cannot be changed; unchecking restores the previous setting. The roles and starting operator in General settings are not affected.&#10;Do not check this if your Mechanic's talent is not fully unlocked, as the flight will fail.</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">Grind to obtain Hot Water Kettle or Elite 2 {key=Operator}s</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">Farm collapse paradigms, restart immediately after encountering a non-rare collapse paradigm</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">Squad to get collectibles</system:String>
@@ -624,7 +632,7 @@ Continue only after you have verified the directory layout and finished a manual
     <system:String x:Key="ShowWindowBeforeForceScheduledStart">Show window before force scheduled start</system:String>
     <system:String x:Key="ShowWindowBeforeForceScheduledStartTip">Show the main window before the scheduled start so the countdown isn't missed while minimized</system:String>
     <system:String x:Key="TimerCustomConfig">Custom config</system:String>
-    <system:String x:Key="TimerCustomConfigTip">Restart the game and switch the configuration two minutes before the scheduled start</system:String>
+    <system:String x:Key="TimerCustomConfigTip">Restart MAA and switch the configuration two minutes before the scheduled start</system:String>
     <system:String x:Key="NotifyBeforeScheduledStart">Send system notification before scheduled start</system:String>
     <system:String x:Key="NotifyBeforeScheduledStartTip" xml:space="preserve">Send a system notification at the configured advance notice time.&#10;External notifications can be enabled separately in ｢{key=Settings} - {key=NotificationSettings} - {key=ExternalNotificationSettings}｣ and use the same advance notice time.</system:String>
     <system:String x:Key="NotifyBeforeScheduledStartSharedTimeTip">External notifications share this advance notice time.</system:String>
@@ -766,17 +774,16 @@ When difficulty ≥ N6, 6★ Hope cost +1; some squads may be unable to recruit 
 {key=StartingRoles}: ｢{key=SlowAndSteadyWinsTheRace}｣ / ｢{key=Unbreakable}｣
 
 1. There is no dedicated battle strategy yet; combat is decided automatically by the recruitment scoring system.
-    Ingot farming, level farming and swaddled-animal farming all currently revolve around the Elite 2 Mechanic's flight.
-    This roguelike is full of special mechanics — without the setup above you are stuck with the default pathfinding and combat, which will most likely fail.
-    Once the Mechanic is recruited, the promotion check is skipped and the strategy runs as if it were Elite 2 for efficiency;
-    a non-Elite 2 Mechanic will get stuck or loop forever, so an Elite 2 Mechanic is required.
+    Ingot farming and the fast flight to Floor 3 currently revolve around the Elite 2 Mechanic's flight.
+    When starting with the setup above, once the Mechanic is recruited, the promotion check is skipped and the strategy runs as if it were Elite 2 for efficiency;
+    when flying to Floor 3 quickly, a Mechanic without the full talent cannot fly, so an Elite 2 Mechanic with the full talent is required.
     Some events also have different options before the first clear and may get stuck; clearing N1 once satisfies both the Elite 2 requirement and the event options, and is fairly easy
 2. You must unlock the ｢Effect Improvement II｣ of the ｢Recruitment Mastery II｣ talent, so that a ｢Structural Principle｣ part (fly anywhere on the map 3 times) is carried from the start.
     The unlock is easy — just sell 10 parts in total after Elite 2
-3. When farming levels, the Mechanic (Elite 2 required) + the squads and roles above + a Defender voucher let you fly through the three floors quickly
-4. Do not pick the Mechanic without Elite 2 — the run will get stuck or loop forever; without it you can farm money normally, but battles will most likely end in defeat.
-    Other strategies await future optimization
-5. Farming levels with ｢{key=InvestmentEnabled}｣ unchecked skips shops entirely</system:String>
+3. Level farming only flies when ｢{key=RoguelikeBlackFlowFastFlight}｣ is checked; the squad, roles and starting operator then switch to the setup above automatically.
+    When unchecked, the run plays toward the target ending and does not fly even if it starts with the setup above. When farming starting rewards, the preparation run can also check ｢{key=RoguelikeBlackFlowFastFlight}｣
+4. Without an Elite 2 Mechanic with the full talent, you can still farm money normally, but battles will most likely end in defeat
+5. Farming levels with ｢{key=RoguelikeBlackFlowFastFlight}｣ checked and ｢{key=InvestmentEnabled}｣ unchecked skips shops entirely</system:String>
     <system:String x:Key="RoguelikeDifficulty">Difficulty</system:String>
     <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">After unlocking the ｢Structural Classics｣ tech, related to ｢{key=RoguelikeThemeJieGarden}｣, using {key=LeaderSquad} to explore at difficulty N3 or higher will carry an additional ｢End of Time｣, enabling a ｢one-battle-one-skip｣ saving strategy.
 If this tech is not unlocked, do not select difficulty N3 or above (including ｢MAX｣);
@@ -1122,7 +1129,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">Days left open:&#160;</system:String>
     <system:String x:Key="Inventory">Inv:</system:String>
     <system:String x:Key="InventoryUpdateTip">Inventory data can be updated via  ｢{key=Toolbox}-{key=DepotRecognition}｣</system:String>
-    <system:String x:Key="SpecifiedDropsInventoryUnavailable">Task "{0}" uses {key=TargetInventory}, but no inventory data is currently available, so it was skipped. Update it via ｢{key=Toolbox}-{key=DepotRecognition}｣.</system:String>
+    <system:String x:Key="SpecifiedDropsInventoryUnavailable">Task "{0}" uses {key=TargetInventory}, but no inventory data is currently available, so it was skipped. Update it via the ｢{key=UserDataUpdate}｣ task or ｢{key=Toolbox}-{key=DepotRecognition}｣.</system:String>
     <system:String x:Key="SpecifiedDropsInventoryEnough">{0} sufficient {1}/{2}</system:String>
     <system:String x:Key="UserDataUpdateCannotModifyExistingTask">Cannot modify the parameters of an already added "{key=UserDataUpdate}" task</system:String>
     <system:String x:Key="UserDataUpdateNothingSelected">Neither ｢{key=OperBoxRecognition}｣ nor ｢{key=DepotRecognition}｣ is selected</system:String>
@@ -1160,9 +1167,12 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="DepotOnlyFirstInsufficientPlanTip" xml:space="preserve">Only the first insufficient plan that is open today will be queued.&#10;The log stops there; plans after it are not evaluated this run.&#10;Once it is stocked up, the next run continues with the rest.</system:String>
     <system:String x:Key="DepotSortByProgress">Execute in inventory progress order</system:String>
     <system:String x:Key="DepotSortByProgressTip" xml:space="preserve">When checked, plans are queued each run in ascending inventory progress order, so the plan with the largest shortfall ratio gets sanity first.&#10;The display order of the list is unchanged; drag-and-drop ordering only takes effect when unchecked.&#10;Ordering uses the cached inventory from the last scan; each plan still recalculates its shortfall from the latest inventory when it starts.</system:String>
+    <system:String x:Key="DepotCountDualChipAsChipPack">Count dual chips as chip packs</system:String>
+    <system:String x:Key="DepotCountDualChipAsChipPackTip" xml:space="preserve">When counting chip pack inventory, dual chips of the matching class are converted at the synthesis ratio (each dual chip counts as 2 chip packs).&#10;The plan summary shows raw (+converted), and completion checks use the converted count.&#10;This only changes the counting method; no synthesis is performed automatically.</system:String>
     <system:String x:Key="DepotPlanSkippedActivity">An event is in progress</system:String>
     <system:String x:Key="DepotPlanSkippedResourceCollection">Resource collection limited-time all-day open is in progress</system:String>
     <system:String x:Key="DepotPlanUpdateDepotFailed">Failed to update inventory data.</system:String>
+    <system:String x:Key="DepotPlanInventoryDataEmpty">#{0}: No inventory data is currently available, so farming was skipped. Update it via the ｢{key=UserDataUpdate}｣ task or ｢{key=Toolbox}-{key=DepotRecognition}｣.</system:String>
     <system:String x:Key="DepotUseAutoSeries">Auto Series</system:String>
     <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">When unchecked, runs at 1×; when checked, runs at the highest series multiplier allowed by current sanity, so drops from a single run may exceed the target inventory limit.</system:String>
     <system:String x:Key="DepotEnableUseMedicine">Enable "{key=UseSanityPotion}" checkbox</system:String>
@@ -1211,10 +1221,18 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="CATip">CA-5: Skill Summary</system:String>
     <system:String x:Key="LSTip">LS-6: Battle Record</system:String>
     <system:String x:Key="SKTip">SK-5: Carbon</system:String>
-    <system:String x:Key="PR-ATip">PR-A-1/2: Med&amp;Def Chip</system:String>
-    <system:String x:Key="PR-BTip">PR-B-1/2: Cst&amp;Sni Chip</system:String>
-    <system:String x:Key="PR-CTip">PR-C-1/2: Pio&amp;Sup Chip</system:String>
-    <system:String x:Key="PR-DTip">PR-D-1/2: Grd&amp;Spc Chip</system:String>
+    <system:String x:Key="PR-ATip">PR-A-1/2: {0}&amp;{1} Chip</system:String>
+    <system:String x:Key="PR-BTip">PR-B-1/2: {0}&amp;{1} Chip</system:String>
+    <system:String x:Key="PR-CTip">PR-C-1/2: {0}&amp;{1} Chip</system:String>
+    <system:String x:Key="PR-DTip">PR-D-1/2: {0}&amp;{1} Chip</system:String>
+    <system:String x:Key="ChipShortVanguard">Pio</system:String>
+    <system:String x:Key="ChipShortGuard">Grd</system:String>
+    <system:String x:Key="ChipShortDefender">Def</system:String>
+    <system:String x:Key="ChipShortSniper">Sni</system:String>
+    <system:String x:Key="ChipShortCaster">Cst</system:String>
+    <system:String x:Key="ChipShortMedic">Med</system:String>
+    <system:String x:Key="ChipShortSupporter">Sup</system:String>
+    <system:String x:Key="ChipShortSpecialist">Spc</system:String>
     <system:String x:Key="Pormpt1">It's Monday: time to clear the Annihilation</system:String>
     <system:String x:Key="Pormpt2">It's Sunday: don't forget about Annihilation</system:String>
     <!--  !FightSettings  -->
@@ -1452,6 +1470,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <!--  Logs  -->
     <system:String x:Key="Identifying">Identifying……</system:String>
     <system:String x:Key="IdentificationCompleted">Identification completed</system:String>
+    <system:String x:Key="DepotRecognitionEmptyResult">Recognition returned no items; existing inventory data was kept.</system:String>
     <!--  !Logs  -->
     <!--  Copilot  -->
     <system:String x:Key="Operator">Operator</system:String>
@@ -1616,6 +1635,7 @@ Right-click: select this job and exit multi-job mode</system:String>
     <system:String x:Key="ResourceIntegrityRepairNo">Not now, continue starting</system:String>
     <system:String x:Key="CoreLoadingTip">The MAA core is still loading. Please try again shortly.</system:String>
     <system:String x:Key="ResourceBrokenTaskBlocked">The resources are damaged, tasks cannot be started. Repair the resources as prompted at startup, or download the full package again and restart MAA.</system:String>
+    <system:String x:Key="UnknownTaskInChain">The task chain references an undefined task ({0}). The resource may be corrupted or mismatched with the application version. Tasks have been stopped.</system:String>
     <system:String x:Key="ResourceIntegrityRepairDownloading">Downloading the full package to repair the installation…</system:String>
     <system:String x:Key="ResourceIntegrityRepairFailed">Automatic repair failed. Please follow the instructions below to fix it manually.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityRepairCanceled">Automatic repair canceled. You will be reminded again on the next startup.</system:String>
@@ -1652,6 +1672,7 @@ Right-click: select this job and exit multi-job mode</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">Task error:&#160;</system:String>
     <system:String x:Key="TaskErrorSummaryTitle">Errors occurred in this run:</system:String>
     <system:String x:Key="OutOfMemoryError">The {0} task stopped due to insufficient memory. Close some programs or restart MAA and try again</system:String>
+    <system:String x:Key="GpuDeviceRemovedRestartRequired">The {0} task stopped because the GPU inference device became unavailable, possibly after a graphics driver update or GPU reset. {key=RestartRecommendation}</system:String>
     <system:String x:Key="CombatError">Combat error</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">Start task:&#160;</system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">Complete task:&#160;</system:String>
@@ -2163,8 +2184,7 @@ Recruitment permits are consumed faster than acquired; normally the timer expire
     <system:String x:Key="AnnouncementNotFinishedConfirm3">Still clicking</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
-    <system:String x:Key="ReclamationTipRelaunchAnchorRA1" xml:space="preserve">
-Reward estimate: ~159 tokens + coordination points per run, ~2 min 10 sec per round
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA1" xml:space="preserve">Reward estimate: ~159 tokens + coordination points per run, ~2 min 10 sec per round
 
 Operator requirement: None
 
@@ -2174,10 +2194,8 @@ Open RA-1 on the map and start the task when &quot;Start Construction&quot; appe
 
 Note: If you have unlocked technologies related to starting with extra items, please dismantle the facilities in the base that cause starting with extra items, such as Food Supply Stations, Drink Supply Stations, Animal Pens, etc.
 
-Task flow: Automatically executes farming, construction, resource delivery, and settlement loop
-    </system:String>
-    <system:String x:Key="ReclamationTipRelaunchAnchorRA4" xml:space="preserve">
-Reward estimate: ~417 tokens + coordination points per run, ~1 min 40 sec per round
+Task flow: Automatically executes farming, construction, resource delivery, and settlement loop</system:String>
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA4" xml:space="preserve">Reward estimate: ~417 tokens + coordination points per run, ~1 min 40 sec per round
 
 Operator requirement: Wis'adel (support unit allowed)
 
@@ -2191,10 +2209,8 @@ Open RA-4 on the map and start the task when &quot;Start Construction&quot; appe
 
 Note: If you have unlocked technologies related to starting with extra items, please dismantle the facilities in the base that cause starting with extra items, such as Food Supply Stations, Drink Supply Stations, Animal Pens, etc.
 
-Task flow: Use the Gold from Strategy Planning Management to unlock areas, and use Wis'adel to complete the boss elimination mission.
-    </system:String>
-    <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">
-Reward estimate: ~500 tokens + coordination points per run, ~3 min per round
+Task flow: Use the Gold from Strategy Planning Management to unlock areas, and use Wis'adel to complete the boss elimination mission.</system:String>
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">Reward estimate: ~500 tokens + coordination points per run, ~3 min per round
 
 Operator requirement: Saintly First Snow (support unit allowed)
 
@@ -2207,26 +2223,18 @@ Open RA-15 on the map and start the task when &quot;Start Construction&quot; app
 
 Note: If you have unlocked technologies related to starting with extra items, please dismantle the facilities in the base that cause starting with extra items, such as Food Supply Stations, Drink Supply Stations, Animal Pens, etc.
 
-Task flow: Automatically use support operator to execute 60-kill mission
-    </system:String>
+Task flow: Automatically use support operator to execute 60-kill mission</system:String>
     <system:String x:Key="ReclamationTipFire">This event has been closed and is no longer available.</system:String>
-    <system:String x:Key="ReclamationTipTales" xml:space="preserve">
-The support for reclamation algorithm is still under development at present. Please mind the following:
-
-Farm points through initial setup: (Be careful that existing save files might be deleted)
+    <system:String x:Key="ReclamationTipTalesNoSave" xml:space="preserve">Farm points through initial setup: (Be careful that existing save files might be deleted)
   1. After reaching the maximum points, it will output ｢Task Completed｣ and automatically stop the task.
-  2. Cannot be used when squads are not empty (simply clear the current squad).
+  2. Do not use this task when {key=Operator} is in the Reclamation squad.
   3. Manually check and delete save files to prevent MAA from deleting your valuable saves.
-  4. Navigation is not yet implemented, so the task cannot be started from locations outside the Reclamation mode.
-  5. If an error occurs during the task or the task completes without reaching the maximum points, please submit an issue on GitHub.
-
-With save file: farm points through crafting (advanced).
+  4. The task must be started from the main screen where ｢Start Reclamation｣ appears at the bottom-right.
+  5. If an error occurs during the task or the task completes without reaching the maximum points, please submit an issue on GitHub.</system:String>
+    <system:String x:Key="ReclamationTipTalesInSave" xml:space="preserve">With save file: farm points through crafting:
   1. It must be the first day after settlement, and there should be no enemy attacks entering the stationed area for the next three days.
   2. It must start after entering the interface of the large map. (stationed location needs to be visible)
-  3. If the quantity that can be manufactured is exactly a multiple of 99, MAA can get confused (stuck). You can use up a little before saving. This might be repaired later.
-    </system:String>
-    <system:String x:Key="ReclamationBePatient">Chill and relax, please be patient</system:String>
-    <system:String x:Key="Reclamation2ExEnable">Farm points through crafting</system:String>
+  3. If the quantity that can be manufactured is exactly a multiple of 99, MAA can get confused (stuck). You can use up a little before saving. This might be repaired later.</system:String>
     <system:String x:Key="ReclamationToolToCraftTip">Support prop name</system:String>
     <system:String x:Key="ReclamationToolToCraftPlaceholder">Glow Stick</system:String>
     <!--  !Reclamation  -->
@@ -2787,6 +2795,7 @@ These directories are not suitable places to keep MAA; files there can be easily
     <system:String x:Key="BlackFlowStartRunPreparing">Preparation run in progress</system:String>
     <system:String x:Key="BlackFlowStartRunTargetRun">Target run started; waiting to check starting rewards</system:String>
     <system:String x:Key="BlackFlowStartRunRewardMissed">No desired starting reward found; preparing another run</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardPicked">Starting reward picked; entering Floor 1 to check for 实托邦</system:String>
     <system:String x:Key="BlackFlowStartRunCompleted">Starting conditions met; exited and kept this run</system:String>
     <system:String x:Key="BlackFlowStartRunRewardRecognitionFailed">Starting reward recognition failed; task stopped</system:String>
     <system:String x:Key="BlackFlowStartRunRewardPageMissing">Starting reward screen not found; task stopped</system:String>
@@ -2794,4 +2803,6 @@ These directories are not suitable places to keep MAA; files there can be easily
     <system:String x:Key="BlackFlowStartRunRewardsSeen">Rewards on this support screen: {0}</system:String>
     <system:String x:Key="BlackFlowStartRunPrepared">Preparation complete</system:String>
     <system:String x:Key="BlackFlowStartRunPreparedReason">Floor 3 reached; the next run will use the target difficulty and squad</system:String>
+    <system:String x:Key="BlackFlowStartRunUtopiaMissed">Floor 1 is not 实托邦</system:String>
+    <system:String x:Key="BlackFlowStartRunUtopiaMissedReason">This run will be abandoned and another preparation run started</system:String>
 </ResourceDictionary>

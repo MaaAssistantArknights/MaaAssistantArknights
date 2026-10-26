@@ -23,6 +23,10 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
 
     m_blackflow_start_animals.clear();
     m_blackflow_start_rewards = 0;
+    m_blackflow_start_utopia = false;
+    m_blackflow_start_reward_priority.clear();
+    m_blackflow_preparation_roles.reset();
+    m_blackflow_preparation_opers.reset();
     if (mode == RoguelikeMode::BlackFlowStartRun) {
         const auto animals = params.find<json::array>("blackflow_start_animals");
         const auto rewards = params.find<int>("blackflow_start_rewards");
@@ -52,6 +56,44 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
             LogError << "Missing BlackFlow start-run reward recognition resource:"
                      << "BlackFlow@Roguelike@StartRunSerpentRewardNames";
             return false;
+        }
+
+        m_blackflow_start_utopia = params.get("blackflow_start_utopia", false);
+        if (m_blackflow_start_utopia) {
+            // 下标与 blackflow_start_rewards 的位一致。顺序和开局动物无关：准备局没要求羽蛇也可能带上，
+            // 目标局照样会出蓝色奖励
+            constexpr std::array<std::string_view, 12> reward_ids {
+                "unnumbered_item", "survey_advance",  "space_lease", "regression_compensation",
+                "forest_ride",     "nest_parasitism", "pegasus",     "hippogriff",
+                "dragon",          "hydra",           "bai_ze",      "golden_crow",
+            };
+            const auto priority = params.find<json::array>("blackflow_start_reward_priority");
+            if (!priority) {
+                LogError << "Missing BlackFlow start-run reward priority";
+                return false;
+            }
+            for (const auto& reward : *priority) {
+                const auto found =
+                    reward.is_string() ? std::ranges::find(reward_ids, reward.as_string()) : reward_ids.end();
+                const int index = static_cast<int>(std::distance(reward_ids.begin(), found));
+                if (found == reward_ids.end() || std::ranges::count(m_blackflow_start_reward_priority, index) != 0) {
+                    LogError << "Invalid BlackFlow start-run reward priority";
+                    return false;
+                }
+                m_blackflow_start_reward_priority.emplace_back(index);
+            }
+            if (m_blackflow_start_reward_priority.empty()) {
+                LogError << "BlackFlow start-run reward priority is empty";
+                return false;
+            }
+        }
+
+        // 准备局另配的职业组和开局干员（准备局快速飞三层），只在准备局生效
+        if (params.contains("collectible_mode_roles")) {
+            m_blackflow_preparation_roles = params.get("collectible_mode_roles", std::string());
+        }
+        if (const auto list = params.find<json::array>("collectible_mode_core_char_list")) {
+            m_blackflow_preparation_opers = parse_start_oper_list(*list);
         }
     }
 
@@ -172,23 +214,29 @@ void asst::RoguelikeConfig::clear()
 
 std::vector<asst::RoguelikeStartOper> asst::RoguelikeConfig::parse_start_opers(const json::value& params)
 {
-    std::vector<RoguelikeStartOper> opers;
     if (auto list_opt = params.find<json::array>("core_char_list")) {
         // 字段存在即以本字段为准：空列表表示无自选干员，不回落旧参数
-        for (const auto& item : list_opt.value()) {
-            RoguelikeStartOper oper;
-            oper.name = item.get("name", std::string {});
-            oper.use_support = item.get("use_support", false);
-            if (!oper.name.empty()) {
-                opers.emplace_back(std::move(oper));
-            }
-        }
-        return opers;
+        return parse_start_oper_list(list_opt.value());
     }
+    std::vector<RoguelikeStartOper> opers;
     // 旧版单干员参数，等价于第 1 顺位
     std::string core_char = params.get("core_char", std::string {});
     if (!core_char.empty()) {
         opers.push_back({ .name = std::move(core_char), .use_support = params.get("use_support", false) });
+    }
+    return opers;
+}
+
+std::vector<asst::RoguelikeStartOper> asst::RoguelikeConfig::parse_start_oper_list(const json::array& list)
+{
+    std::vector<RoguelikeStartOper> opers;
+    for (const auto& item : list) {
+        RoguelikeStartOper oper;
+        oper.name = item.get("name", std::string {});
+        oper.use_support = item.get("use_support", false);
+        if (!oper.name.empty()) {
+            opers.emplace_back(std::move(oper));
+        }
     }
     return opers;
 }

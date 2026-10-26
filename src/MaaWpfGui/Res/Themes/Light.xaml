@@ -50,6 +50,13 @@
     <SolidColorBrush x:Key="HyperlinkBrush" Color="#326cf3" />
     <SolidColorBrush x:Key="HyperlinkHoverBrush" Color="#ff0000" />
 
+    <!--  StageItemBrush  -->
+    <SolidColorBrush x:Key="StageItemBrush.Primary" Color="#77879b" />
+    <SolidColorBrush x:Key="StageItemBrush.Secondary" Color="#9d858c" />
+    <SolidColorBrush x:Key="StageItemBrush.SkillBook1" Color="#828282" />
+    <SolidColorBrush x:Key="StageItemBrush.SkillBook2" Color="#858a60" />
+    <SolidColorBrush x:Key="StageItemBrush.SkillBook3" Color="#4a8496" />
+
     <!--  MdXaml Brush  -->
     <SolidColorBrush x:Key="MdXamlBackground" Color="#ffffff" />
     <SolidColorBrush x:Key="MdXamlCodeBackground" Color="#f6f8fa" />
@@ -86,7 +93,7 @@
 
     <!--  OperBox 技能练度：品字点亮圆与熄灭圆/RANK/模组文字的灰，浅色主题取适配浅底的深浅  -->
     <SolidColorBrush x:Key="OperBox.MasteryOnBrush" Color="#FFFFFF" />
-    <SolidColorBrush x:Key="OperBox.MasteryOffBrush" Color="#555555" />
+    <SolidColorBrush x:Key="OperBox.MasteryOffBrush" Color="#777777" />
     <SolidColorBrush x:Key="OperBox.MasteryTextBrush" Color="Gray" />
 
     <SolidColorBrush x:Key="DownloadLogBrush" Color="BlueViolet" />

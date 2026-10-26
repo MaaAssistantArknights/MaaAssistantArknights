@@ -527,7 +527,7 @@ Whether to fill dormitory with operators not at max trust.
 @optional
 Fiammetta recovery target list. At the start of a shift change, the target operator with the lowest morale in the list is placed in a dormitory together with Fiammetta to swap moods. Only effective when `mode = 0` and `fiammetta_recovery_enabled` is true.
 <br>
-Options: `清流` | `可露希尔` | `但书` | `巫恋` | `龙舌兰` | `歌蕾蒂娅` (entries outside the options or duplicates are ignored)  
+Options: `清流` | `可露希尔` | `但书` | `巫恋` | `龙舌兰` | `歌蕾蒂娅` | `琴柳` | `承曦格雷伊` | `温蒂` | `槐琥` | `至简` | `旅骨` (entries outside the options or duplicates are ignored)  
 :::  
 ::: field fiammetta_recovery_enabled  
 @type boolean
@@ -865,7 +865,7 @@ Mode.
 <br>
 `30001` - Swaddled baby animal farming; only available in the BlackFlow theme.
 <br>
-`30003` - Starting reward farming: play a preparation run first, then start the target run. The preparation run is abandoned after obtaining the swaddled animals required by `blackflow_start_animals` and entering floor 3; when the target run's support selection page contains any reward in `blackflow_start_rewards`, no choice is made, the task exits to the theme page keeping the run, and the task ends. The preparation run uses `collectible_mode_squad` and is played at difficulty 0 when `difficulty` is not `-1`; the target run uses `squad` and `difficulty` and ends at the support selection page. `roles` and the starting operators only apply to the preparation run. Only available in the BlackFlow theme; requires `blackflow_start_animals` and `blackflow_start_rewards`. (machine-translated)
+`30003` - Starting reward farming: play a preparation run first, then start the target run. The preparation run is abandoned after obtaining the swaddled animals required by `blackflow_start_animals` and entering floor 3; when the target run's support selection page contains any reward in `blackflow_start_rewards`, no choice is made, the task exits to the theme page keeping the run, and the task ends. The preparation run uses `collectible_mode_squad` and is played at difficulty 0 when `difficulty` is not `-1`; the target run uses `squad` and `difficulty` and ends at the support selection page. `roles` and the starting operators apply to the preparation run; when `collectible_mode_roles` and `collectible_mode_core_char_list` are provided, the preparation run uses them instead. With `blackflow_start_utopia` on, the target run picks a reward and enters floor 1; see that field. Only available in the BlackFlow theme; requires `blackflow_start_animals` and `blackflow_start_rewards`. (machine-translated)
 :::  
 ::: field squad  
 @type string
@@ -1083,7 +1083,7 @@ Strategy for the 黑流树海 (BlackFlow) theme; inferred from `mode` and `inves
 <br>
 These values apply only to the EXP farming mode (mode 0); whether an ending is available is subject to the in-game state. When an ending is specified, the run recruits operators as usual at the start.
 <br>
-Mode 30003 does not read this field. With an animal requirement, the preparation run cultivates along the `baby_animal` route; without one, the preparation run reaches floor 3 as fast as possible, investing on floor 1 first when `investment_enabled` is true. When the preparation run's starting operator is the Mechanic, `collectible_mode_squad` is 特勤分队 (Special Squad) or 堡垒战术分队 (Tactical Fortification Squad), and `roles` is 稳扎稳打 (Slow and Steady Wins the Race) or 坚不可摧 (Indestructible), the run is treated as a fully-talented Mechanic start that carries 结构性原理 (Structural Principle): after recruiting the Mechanic, the preparation run skips the remaining opening recruitment and moves with Structural Principle as needed; without an animal requirement, it flies straight to the exit on floor 2. (machine-translated)  
+Mode 30003 does not read this field. With an animal requirement, the preparation run cultivates along the `baby_animal` route; without one, the preparation run reaches floor 3 as fast as possible, investing on floor 1 first when `investment_enabled` is true. When the preparation run's starting operator is the Mechanic, `collectible_mode_squad` is 特勤分队 (Special Squad) or 堡垒战术分队 (Tactical Fortification Squad), and the preparation run's roles are 稳扎稳打 (Slow and Steady Wins the Race) or 坚不可摧 (Indestructible), the run is treated as a fully-talented Mechanic start that carries 结构性原理 (Structural Principle): after recruiting the Mechanic, the preparation run skips the remaining opening recruitment and moves with Structural Principle as needed; without an animal requirement, it flies straight to the exit on floor 2. (machine-translated)  
 :::  
 ::: field blackflow_cultivation_target  
 @type string
@@ -1103,7 +1103,28 @@ Desired starting rewards for the target run of mode 30003, as a bitmask in the r
 <br>
 `1` 未编号物 (Unnumbered Item); `2` 调查预付款 (Survey Advance); `4` 空间租赁 (Space Lease); `8` 退行补偿 (Regression Compensation); `16` 林间代步 (Forest Ride); `32` 巢寄生 (Brood Parasitism); `64` 襁褓天马 (Swaddled Pegasus); `128` 襁褓骏鹰 (Swaddled Hippogriff); `256` 襁褓巨龙 (Swaddled Dragon); `512` 襁褓九头蛇 (Swaddled Hydra); `1024` 襁褓白泽 (Swaddled Bai Ze); `2048` 襁褓金乌 (Swaddled Golden Crow). The last six are blue rewards brought by the feathered serpent and only take effect when `blackflow_start_animals` includes the feathered serpent; otherwise they are ignored. These names have no official English translation yet.  
 <br>
-On the support selection page, the target run first recognizes all rewards on the page, then decides: if any desired reward is present, the task completes; if rewards were recognized but none is desired, the run is abandoned and a new preparation run starts; if no reward could be recognized, or feathered serpent rewards were requested but the blue rewards could not be read, the task stops on the support selection page and saves a screenshot to `debug/roguelike`. With 0, the task completes as soon as the support selection page appears. Progress is reported through the `BlackFlowStartRun` callback of `SubTaskExtraInfo`; see [Callback Schema](./callback-schema.md).  
+On the support selection page, the target run first recognizes all rewards on the page, then decides: if any desired reward is present, the task completes; if rewards were recognized but none is desired, the run is abandoned and a new preparation run starts; if no reward could be recognized, or feathered serpent rewards were requested but the blue rewards could not be read, the task stops on the support selection page and saves a screenshot to `debug/roguelike`. With 0 and `blackflow_start_utopia` off, the task completes as soon as the support selection page appears. Progress is reported through the `BlackFlowStartRun` callback of `SubTaskExtraInfo`; see [Callback Schema](./callback-schema.md).  
+:::  
+::: field collectible_mode_roles  
+@type string
+@optional
+Roles for the preparation run of mode 30003. When omitted, the preparation run uses `roles`. (machine-translated)  
+:::  
+::: field collectible_mode_core_char_list  
+@type array<object>
+@optional
+Starting operator order for the preparation run of mode 30003, in the same format as `core_char_list`. When omitted, the preparation run uses `core_char_list`. (machine-translated)  
+:::  
+::: field blackflow_start_utopia  
+@type boolean
+@default false
+@optional
+Keeps rerolling the target run of mode 30003 until floor 1 is 实托邦 (a floor 1 variant). When true, once the support selection page contains a reward in `blackflow_start_rewards` (no requirement when it is 0), the target run picks a reward by `blackflow_start_reward_priority`, and picks one more when Swaddled Cerberus allows two picks; it then starts with `roles` and the starting operators and enters floor 1. If floor 1 is 实托邦, the task exits to the theme page keeping the run, and the task ends; otherwise the run is abandoned and a new preparation run starts. 实托邦 is detected by the position of the floor 1 name and only appears at difficulty 6 or higher; choosing `difficulty` is up to the caller. (machine-translated)  
+:::  
+::: field blackflow_start_reward_priority  
+@type array<string>
+@optional
+Order in which the target run of mode 30003 picks rewards when rerolling for a floor 1 实托邦. Required when `blackflow_start_utopia` is true; must not be empty and entries must not repeat. Options: `unnumbered_item` 未编号物; `survey_advance` 调查预付款; `space_lease` 空间租赁; `regression_compensation` 退行补偿; `forest_ride` 林间代步; `nest_parasitism` 巢寄生; `pegasus` 襁褓天马; `hippogriff` 襁褓骏鹰; `dragon` 襁褓巨龙; `hydra` 襁褓九头蛇; `bai_ze` 襁褓白泽; `golden_crow` 襁褓金乌. Without the 实托邦 check, the target run stays on the support selection page after a hit and keeps the run without picking, so this field is not read. With it, the target run has to enter floor 1 and must pick a card on the support selection page: after `blackflow_start_rewards` is hit, it picks the highest-ranked reward present on the page, and picks one more when Swaddled Cerberus allows two picks. Here the last six feathered serpent rewards are ranked as well, whether or not `blackflow_start_animals` includes the feathered serpent: the preparation run may bring one along even when it is not required, and the blue rewards then still appear in the target run. This differs from `blackflow_start_rewards`, where the last six are hit conditions and only take effect when the feathered serpent is required. When none of the listed rewards is on the page, a normal reward is picked by the strategy's default order. (machine-translated)  
 :::  
 ::: field find_playTime_target
 @type number

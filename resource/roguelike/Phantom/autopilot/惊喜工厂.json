@@ -3,15 +3,15 @@
     "replacement_home": [
         {
             "location": [2, 3],
-            "direction": "rtght"
+            "direction": "right"
         },
         {
             "location": [8, 2],
-            "direction": "rtght"
+            "direction": "right"
         },
         {
             "location": [8, 5],
-            "direction": "rtght"
+            "direction": "right"
         }
     ],
     "blacklist_location": [

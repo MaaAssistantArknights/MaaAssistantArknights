@@ -832,7 +832,7 @@ public class AsstProxy
 
             // 修复流程需要 UI 上下文；期间应用保持运行（任务启动已被标志拦截），
             // 另一入口已在修复时由防重入兜底直接返回
-            _ = Execute.OnUIThreadAsync(() => _ = Instances.VersionUpdateDialogViewModel.RunIntegrityRepairAsync());
+            Execute.OnUIThread(() => _ = Instances.VersionUpdateDialogViewModel.RunIntegrityRepairAsync());
         }
         else
         {
@@ -1437,10 +1437,20 @@ public class AsstProxy
                     _taskChainStartTimes.Remove(taskId);
                     UpdateTaskStatus(taskId, TaskStatus.Error);
 
-                    // details.error 为 Core 侧 TaskExceptionKind 名（如 OutOfMemory），普通识别错误无此字段
-                    var log = details["error"]?.ToString() == "OutOfMemory"
-                        ? LocalizationHelper.GetStringFormat("OutOfMemoryError", LocalizationHelper.GetString(taskChain))
-                        : LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(taskChain);
+                    // details.details.error 为 Core 侧 TaskExceptionKind 名，普通识别错误无此字段
+                    var exceptionKind = details["details"]?["error"]?.ToString();
+                    var localizedTaskChain = LocalizationHelper.GetString(taskChain);
+                    if (exceptionKind == "GpuDeviceRemoved")
+                    {
+                        Bootstrapper.MarkRequiresRestart();
+                    }
+
+                    var log = exceptionKind switch
+                    {
+                        "OutOfMemory" => LocalizationHelper.GetStringFormat("OutOfMemoryError", localizedTaskChain),
+                        "GpuDeviceRemoved" => LocalizationHelper.GetStringFormat("GpuDeviceRemovedRestartRequired", localizedTaskChain),
+                        _ => LocalizationHelper.GetString("TaskError") + localizedTaskChain,
+                    };
                     void DisplayErrorLog() => Instances.TaskQueueViewModel.DisplayLog(log, UiLogColor.Error,
                         updateCardImage: true, fetchLatestImage: true, useCardImageAsToolTip: true);
 
@@ -1796,6 +1806,14 @@ public class AsstProxy
         }
     }
 
+    // 停止任务队列并恢复等待状态；仅应在 UI 线程调用（ProcSubTaskError 由回调统一投递至 UI 线程）。
+    // fire-and-forget：Stop 内部自行处理停止失败，异常不打断回调链
+    private static async Task StopTaskQueueAsync()
+    {
+        await Instances.TaskQueueViewModel.Stop();
+        Instances.TaskQueueViewModel.SetStopped();
+    }
+
     private static void ProcSubTaskError(JObject details)
     {
         string subTask = details["subtask"]?.ToString() ?? string.Empty;
@@ -1837,8 +1855,35 @@ public class AsstProxy
                     if (!Bootstrapper.IsResourceBroken)
                     {
                         Bootstrapper.MarkResourceBroken();
-                        _ = Task.Run(ShowResourceBrokenPrompt);
+                        Task.Run(ShowResourceBrokenPrompt);
                     }
+
+                    _ = StopTaskQueueAsync();
+
+                    break;
+                }
+
+            case "ProcessTask":
+                {
+                    if (details["what"]?.ToString() != "UnknownTask")
+                    {
+                        break;
+                    }
+
+                    var tasks = details["details"]?["tasks"]?.Values<string>().Where(t => !string.IsNullOrEmpty(t)) ?? [];
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat("UnknownTaskInChain", string.Join(", ", tasks)),
+                        UiLogColor.Error);
+
+                    // 匹配列表引用未定义任务名说明资源与代码不匹配，按资源损坏处理：
+                    // 置标志拦截弹窗期间新触发的任务，停止当前队列剩余任务，再弹修复引导
+                    if (!Bootstrapper.IsResourceBroken)
+                    {
+                        Bootstrapper.MarkResourceBroken();
+                        Task.Run(ShowResourceBrokenPrompt);
+                    }
+
+                    _ = StopTaskQueueAsync();
 
                     break;
                 }
@@ -2794,7 +2839,7 @@ public class AsstProxy
                 break;
 
             case "InfrastTrainingIdle":
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TrainingIdle"));
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TrainingIdle"), updateCardImage: true);
                 break;
 
             case "InfrastTrainingCompleted":
@@ -2804,7 +2849,8 @@ public class AsstProxy
                     Instances.TaskQueueViewModel.AddLog(
                         $"[{operatorName}] {skillName}\n" +
                         $"{LocalizationHelper.GetString("TrainingLevel")}: {(int)(subTaskDetails["level"] ?? -1)} {LocalizationHelper.GetString("TrainingCompleted")}",
-                        UiLogColor.Info);
+                        UiLogColor.Info,
+                        updateCardImage: true);
                     break;
                 }
 
@@ -2816,7 +2862,8 @@ public class AsstProxy
                         $"[{operatorName}] {skillName}\n" +
                         $"{LocalizationHelper.GetString("TrainingLevel")}: {(int)(subTaskDetails["level"] ?? -1)}\n" +
                         $"{LocalizationHelper.GetString("TrainingTimeLeft")}: {subTaskDetails["time"]}",
-                        UiLogColor.Info);
+                        UiLogColor.Info,
+                        updateCardImage: true);
                     break;
                 }
 
@@ -3864,6 +3911,17 @@ public class AsstProxy
 
         var (type, param) = task.Serialize();
         return AsstAppendTaskWithEncoding(TaskType.MiniGame, type, param) && AsstStart();
+    }
+
+    /// <summary>
+    /// 生息演算（牛杂）。不走 CustomTask 通道，直接以 Reclamation 任务类型提交；只追加不启动，启动由调用方负责。
+    /// </summary>
+    /// <param name="task">按当前配置构造的生息演算任务。</param>
+    /// <returns>是否成功追加。</returns>
+    public bool AsstReclamation(AsstReclamationTask task)
+    {
+        var (isSuccess, _) = AsstAppendTaskWithEncoding(TaskType.Reclamation, task);
+        return isSuccess;
     }
 
     /// <summary>

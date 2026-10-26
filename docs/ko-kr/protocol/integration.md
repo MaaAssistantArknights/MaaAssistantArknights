@@ -530,7 +530,7 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 @optional
 피아메타 회복 대상 목록. 교대 시작 시 목록에서 현재 컨디션이 가장 낮은 대상 오퍼레이터가 피아메타와 함께 숙소에 배치되어 컨디션을 교환합니다. `mode = 0`이면서 `fiammetta_recovery_enabled`가 true일 때만 유효합니다.
 <br>
-옵션: `清流` | `可露希尔` | `但书` | `巫恋` | `龙舌兰` | `歌蕾蒂娅` (옵션 외 또는 중복 항목은 무시됨)  
+옵션: `清流` | `可露希尔` | `但书` | `巫恋` | `龙舌兰` | `歌蕾蒂娅` | `琴柳` | `承曦格雷伊` | `温蒂` | `槐琥` | `至简` | `旅骨` (옵션 외 또는 중복 항목은 무시됨)  
 :::  
 ::: field fiammetta_recovery_enabled  
 @type boolean
@@ -868,7 +868,7 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 <br>
 `30001` - 포대기 동물 파밍, BlackFlow 테마 전용
 <br>
-`30003` - 시작 보상 파밍. 먼저 준비 탐험을 진행한 뒤 목표 탐험을 시작합니다. 준비 탐험은 `blackflow_start_animals`에서 지정한 포대기 동물을 얻고 3층에 진입한 후 포기합니다. 목표 탐험의 지원 선택 화면에 `blackflow_start_rewards`의 항목이 하나라도 나오면 선택하지 않고 테마 화면으로 나가 해당 탐험을 유지한 채 작업을 종료합니다. 준비 탐험은 `collectible_mode_squad`를 사용하며 `difficulty`가 `-1`이 아니면 난이도 0으로 진행합니다. 목표 탐험은 `squad`와 `difficulty`를 사용하며 지원 선택 화면에서 종료합니다. `roles`와 시작 오퍼레이터는 준비 탐험에만 사용됩니다. BlackFlow 테마 전용이며 `blackflow_start_animals`, `blackflow_start_rewards`와 함께 사용해야 합니다. (기계 번역)
+`30003` - 시작 보상 파밍. 먼저 준비 탐험을 진행한 뒤 목표 탐험을 시작합니다. 준비 탐험은 `blackflow_start_animals`에서 지정한 포대기 동물을 얻고 3층에 진입한 후 포기합니다. 목표 탐험의 지원 선택 화면에 `blackflow_start_rewards`의 항목이 하나라도 나오면 선택하지 않고 테마 화면으로 나가 해당 탐험을 유지한 채 작업을 종료합니다. 준비 탐험은 `collectible_mode_squad`를 사용하며 `difficulty`가 `-1`이 아니면 난이도 0으로 진행합니다. 목표 탐험은 `squad`와 `difficulty`를 사용하며 지원 선택 화면에서 종료합니다. `roles`와 시작 오퍼레이터는 준비 탐험에 사용되며, `collectible_mode_roles`와 `collectible_mode_core_char_list`를 지정하면 준비 탐험은 그것을 사용합니다. `blackflow_start_utopia`가 켜져 있으면 목표 탐험은 보상을 고른 뒤 1층에 들어갑니다. 해당 항목을 참고하세요. BlackFlow 테마 전용이며 `blackflow_start_animals`, `blackflow_start_rewards`와 함께 사용해야 합니다. (기계 번역)
 :::  
 ::: field squad  
 @type string
@@ -1086,7 +1086,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 <br>
 이 값들은 레벨 파밍 모드(mode 0)에서만 사용되며, 엔딩 개방 여부는 게임 내 기준을 따릅니다. 엔딩을 지정하면 시작 시 오퍼레이터를 평소와 같이 모집합니다.
 <br>
-모드 30003에서는 이 항목을 읽지 않습니다. 동물 요구가 있으면 준비 탐험은 `baby_animal` 경로로 육성하고, 없으면 최대한 빨리 3층에 도달하며 `investment_enabled`가 true이면 먼저 1층에서 투자합니다. 준비 탐험의 시작 오퍼레이터가 메커니스트이고 `collectible_mode_squad`가 特勤分队(특근 분대) 또는 堡垒战术分队(방어 전술 분대), `roles`가 稳扎稳打(차근차근) 또는 坚不可摧(파괴 불가)이면 재능을 모두 해금한 메커니스트 시작으로 간주하며 구조적 원리를 지참합니다. 준비 탐험은 메커니스트를 모집한 뒤 나머지 시작 모집을 포기하고 필요할 때 구조적 원리로 이동하며, 동물 요구가 없으면 2층에서 이를 사용해 출구로 바로 비행합니다. (기계 번역)  
+모드 30003에서는 이 항목을 읽지 않습니다. 동물 요구가 있으면 준비 탐험은 `baby_animal` 경로로 육성하고, 없으면 최대한 빨리 3층에 도달하며 `investment_enabled`가 true이면 먼저 1층에서 투자합니다. 준비 탐험의 시작 오퍼레이터가 메커니스트이고 `collectible_mode_squad`가 特勤分队(특근 분대) 또는 堡垒战术分队(방어 전술 분대), 준비 탐험의 직업 그룹이 稳扎稳打(차근차근) 또는 坚不可摧(파괴 불가)이면 재능을 모두 해금한 메커니스트 시작으로 간주하며 구조적 원리를 지참합니다. 준비 탐험은 메커니스트를 모집한 뒤 나머지 시작 모집을 포기하고 필요할 때 구조적 원리로 이동하며, 동물 요구가 없으면 2층에서 이를 사용해 출구로 바로 비행합니다. (기계 번역)  
 :::  
 ::: field blackflow_cultivation_target  
 @type string
@@ -1106,7 +1106,28 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 <br>
 `1` 未编号物; `2` 调查预付款; `4` 空间租赁; `8` 退行补偿; `16` 林间代步; `32` 巢寄生; `64` 襁褓天马; `128` 襁褓骏鹰; `256` 襁褓巨龙; `512` 襁褓九头蛇; `1024` 襁褓白泽; `2048` 襁褓金乌 (한국어명 미정). 뒤의 6개는 깃털 뱀이 가져오는 파란색 보상으로, `blackflow_start_animals`에 깃털 뱀이 포함될 때만 적용되며 그렇지 않으면 무시됩니다.  
 <br>
-목표 탐험은 지원 선택 화면의 보상을 모두 인식한 뒤 판단합니다. 하나라도 일치하면 완료합니다. 보상은 인식했지만 원하는 것이 없으면 해당 탐험을 포기하고 준비 탐험을 다시 진행합니다. 하나도 인식하지 못했거나 깃털 뱀 보상을 요구했는데 파란색 보상을 읽지 못하면 지원 선택 화면에 머문 채 작업을 중지하고 스크린샷을 `debug/roguelike`에 저장합니다. 0이면 지원 선택 화면에 들어가는 즉시 완료합니다. 진행 상황은 `SubTaskExtraInfo`의 `BlackFlowStartRun` 콜백으로 전달됩니다. [콜백 스키마](./callback-schema.md)를 참고하세요.  
+목표 탐험은 지원 선택 화면의 보상을 모두 인식한 뒤 판단합니다. 하나라도 일치하면 완료합니다. 보상은 인식했지만 원하는 것이 없으면 해당 탐험을 포기하고 준비 탐험을 다시 진행합니다. 하나도 인식하지 못했거나 깃털 뱀 보상을 요구했는데 파란색 보상을 읽지 못하면 지원 선택 화면에 머문 채 작업을 중지하고 스크린샷을 `debug/roguelike`에 저장합니다. 0이고 `blackflow_start_utopia`가 꺼져 있으면 지원 선택 화면에 들어가는 즉시 완료합니다. 진행 상황은 `SubTaskExtraInfo`의 `BlackFlowStartRun` 콜백으로 전달됩니다. [콜백 스키마](./callback-schema.md)를 참고하세요.  
+:::  
+::: field collectible_mode_roles  
+@type string
+@optional
+모드 30003 준비 탐험의 직업 그룹. 지정하지 않으면 준비 탐험은 `roles`를 사용합니다. (기계 번역)  
+:::  
+::: field collectible_mode_core_char_list  
+@type array<object>
+@optional
+모드 30003 준비 탐험의 시작 오퍼레이터 순위. 형식은 `core_char_list`와 같으며, 지정하지 않으면 준비 탐험은 `core_char_list`를 사용합니다. (기계 번역)  
+:::  
+::: field blackflow_start_utopia  
+@type boolean
+@default false
+@optional
+모드 30003 목표 탐험에서 1층 实托邦(1층 종류)을 노립니다. true이면 목표 탐험의 지원 선택 화면에 `blackflow_start_rewards`의 항목이 나온 뒤(0이면 조건 없음) `blackflow_start_reward_priority` 순서로 보상을 고르고, 포대기의 케르베로스로 두 번 고를 수 있으면 한 장 더 고릅니다. 그 뒤 `roles`와 시작 오퍼레이터로 시작해 1층에 들어가며, 1층이 实托邦이면 테마 화면으로 나가 해당 탐험을 유지한 채 작업을 종료하고, 아니면 해당 탐험을 포기하고 준비 탐험을 다시 진행합니다. 实托邦은 1층 층 이름의 위치로 판단하며 난이도 6 이상에서만 나타납니다. `difficulty`는 호출하는 쪽에서 고릅니다. (기계 번역)  
+:::  
+::: field blackflow_start_reward_priority  
+@type array<string>
+@optional
+모드 30003에서 1층 实托邦을 노릴 때 목표 탐험에서 보상을 고르는 순서. `blackflow_start_utopia`가 true이면 필수이며 비어 있거나 중복될 수 없습니다. 선택 가능한 값: `unnumbered_item` 未编号物; `survey_advance` 调查预付款; `space_lease` 空间租赁; `regression_compensation` 退行补偿; `forest_ride` 林间代步; `nest_parasitism` 巢寄生; `pegasus` 襁褓天马; `hippogriff` 襁褓骏鹰; `dragon` 襁褓巨龙; `hydra` 襁褓九头蛇; `bai_ze` 襁褓白泽; `golden_crow` 襁褓金乌 (한국어명 미정). 实托邦을 노리지 않으면 목표 탐험은 조건을 만족하면 지원 선택 화면에서 탐험을 유지한 채 끝나고 보상을 고르지 않으므로 이 항목을 읽지 않습니다. 노리면 목표 탐험은 1층에 들어가야 하므로 지원 선택 화면에서 카드를 골라야 합니다. `blackflow_start_rewards`를 만족한 뒤 화면에 있는 보상 중 이 순서에서 가장 앞선 것을 고르고, 포대기의 케르베로스로 두 번 고를 수 있으면 한 장 더 고릅니다. 이때 뒤의 6개 깃털 뱀 보상도 `blackflow_start_animals`에 깃털 뱀이 포함되는지와 관계없이 순서에 들어갑니다. 준비 탐험에서 깃털 뱀을 지정하지 않아도 데려갈 수 있고, 그러면 목표 탐험에도 파란 보상이 나오기 때문입니다. 이는 `blackflow_start_rewards`와 다르며, 그쪽의 뒤 6개는 조건이고 깃털 뱀을 지정했을 때만 적용됩니다. 나열한 보상이 화면에 하나도 없으면 전략의 기본 순서로 일반 보상을 하나 고릅니다. (기계 번역)  
 :::  
 ::: field find_playTime_target  
 @type number

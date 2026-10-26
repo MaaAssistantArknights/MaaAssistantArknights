@@ -25,7 +25,6 @@ using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
-using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using Microsoft.Win32;
@@ -49,7 +48,6 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
 
     public InfrastTaskUserControlModel()
     {
-        _runningState = RunningState.Instance;
         foreach (var item in WeeklyScheduleSource)
         {
             item.PropertyChanged += (_, args) => {
@@ -89,9 +87,13 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
         ("巫恋", "InfrastFiammettaTargetShamare"),
         ("龙舌兰", "InfrastFiammettaTargetTequila"),
         ("歌蕾蒂娅", "InfrastFiammettaTargetGladiia"),
+        ("琴柳", "InfrastFiammettaTargetSaileach"),
+        ("承曦格雷伊", "InfrastFiammettaTargetGreyy2"),
+        ("温蒂", "InfrastFiammettaTargetWeedy"),
+        ("槐琥", "InfrastFiammettaTargetWaaiFu"),
+        ("至简", "InfrastFiammettaTargetMinimalist"),
+        ("旅骨", "InfrastFiammettaTargetHbound"),
     ];
-
-    private readonly RunningState _runningState;
 
     /// <summary>
     /// Gets the visibility of task setting views.
@@ -194,24 +196,37 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
     /// <returns>The infrast order list.</returns>
     public List<string> GetInfrastOrderList() => [.. InfrastRoomModels.Where(i => i.IsEnabled).Select(i => i.Name)];
 
-    // UI 绑定的方法
-    [UsedImplicitly]
-    public void InfrastItemSelectedAll()
-    {
-        foreach (var item in InfrastRoomModels)
-        {
-            item.IsEnabled = true;
-        }
-    }
+    // 批量设置房间启用状态期间抑制逐项回写，收尾统一写一次配置
+    private bool _isBatchUpdatingInfrastItems;
 
     // UI 绑定的方法
     [UsedImplicitly]
-    public void InfrastItemUnselectedAll()
+    public void InfrastItemSelectedAll() => SetAllInfrastItemsEnabled(true);
+
+    // UI 绑定的方法
+    [UsedImplicitly]
+    public void InfrastItemUnselectedAll() => SetAllInfrastItemsEnabled(false);
+
+    /// <summary>
+    /// 批量设置全部房间的启用状态；逐项属性通知照常发出，配置写入合并为收尾一次。
+    /// </summary>
+    /// <param name="isEnabled">目标启用状态。</param>
+    private void SetAllInfrastItemsEnabled(bool isEnabled)
     {
-        foreach (var item in InfrastRoomModels)
+        _isBatchUpdatingInfrastItems = true;
+        try
         {
-            item.IsEnabled = false;
+            foreach (var item in InfrastRoomModels)
+            {
+                item.IsEnabled = isEnabled;
+            }
         }
+        finally
+        {
+            _isBatchUpdatingInfrastItems = false;
+        }
+
+        InfrastOrderSelectionChanged(null, null);
     }
 
     /// <summary>
@@ -221,6 +236,11 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
     /// <param name="e">ignored NotifyCollectionChangedEventArgs</param>
     private void InfrastOrderSelectionChanged(object? sender, NotifyCollectionChangedEventArgs? e)
     {
+        if (_isBatchUpdatingInfrastItems)
+        {
+            return;
+        }
+
         var list = InfrastRoomModels.Select<InfrastRoomItemViewModel, InfrastTask.RoomInfo>(i => new(i.RoomType, i.IsEnabled)).ToList();
         SetTaskConfig<InfrastTask>(t => t.RoomList.SequenceEqual(list), t => t.RoomList = list);
     }

@@ -99,6 +99,25 @@ public static class ItemListHelper
             : itemId;
     }
 
+    /// <summary>
+    /// 反查将指定物品作为合成材料的产物及其配方消耗数，如芯片组 → 对应职业双芯片（每个消耗 2 个芯片组）。
+    /// </summary>
+    /// <param name="materialId">材料物品 id。</param>
+    /// <returns>产物 id 与配方中消耗该材料数量的列表，无合成产物时为空。</returns>
+    public static List<KeyValuePair<string, int>> GetFormulaProducts(string materialId)
+    {
+        List<KeyValuePair<string, int>> products = [];
+        foreach (var (itemId, item) in ArkItems)
+        {
+            if (item.Formula is { } formula && formula.TryGetValue(materialId, out var count) && count > 0)
+            {
+                products.Add(new(itemId, count));
+            }
+        }
+
+        return products;
+    }
+
     private static readonly ConcurrentDictionary<string, BitmapSource?> _imageCache = new();
 
     /// <summary>

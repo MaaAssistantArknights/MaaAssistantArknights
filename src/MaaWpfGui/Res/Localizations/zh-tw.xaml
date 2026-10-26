@@ -145,7 +145,7 @@
     <system:String x:Key="GuideGitHubIssueDescription">MAA Team 僅受理使用者透過 GitHub 平台依照 Issue 範本規範提交的回饋，並保留對所有回饋的處理決定權。</system:String>
     <system:String x:Key="GuideOpenSourceTitle">💡 參與開源</system:String>
     <system:String x:Key="GuideOpenSourceDescription">作為開源專案，使用者可依據 AGPL-3.0 許可證在 GitHub 平台參與 MAA 的開發。MAA Team 鼓勵使用者透過更有價值的程式碼貢獻代替問題回饋。</system:String>
-    <system:String x:Key="GuideUserAgreement">使用 MAA 即表示您同意遵守 ｢使用者協議｣ ，完整協議內容可在官網底部的連結中查看。</system:String>
+    <system:String x:Key="GuideUserAgreement">使用 MAA 即表示您同意遵守 ｢使用者協議｣，完整協議內容可在官網底部的連結中查看。</system:String>
     <system:String x:Key="RestartGuide">重看設定指引</system:String>
     <system:String x:Key="RestartGuidePrompt">設定指引將在主介面顯示，是否立即重新啟動應用程式？</system:String>
     <!--  !設定指引  -->
@@ -198,6 +198,12 @@
     <system:String x:Key="InfrastFiammettaTargetShamare">巫戀</system:String>
     <system:String x:Key="InfrastFiammettaTargetTequila">龍舌蘭</system:String>
     <system:String x:Key="InfrastFiammettaTargetGladiia">歌蕾蒂婭</system:String>
+    <system:String x:Key="InfrastFiammettaTargetSaileach">琴柳</system:String>
+    <system:String x:Key="InfrastFiammettaTargetGreyy2">承曦格雷伊</system:String>
+    <system:String x:Key="InfrastFiammettaTargetWeedy">溫蒂</system:String>
+    <system:String x:Key="InfrastFiammettaTargetWaaiFu">槐琥</system:String>
+    <system:String x:Key="InfrastFiammettaTargetMinimalist">至簡</system:String>
+    <system:String x:Key="InfrastFiammettaTargetHbound">旅骨（未實裝）</system:String>
     <system:String x:Key="InfrastFiammettaTargetsTips">雖然理論上恢復巫戀和龍舌蘭可以 007，但自動換班情況下難以實現，因此不推薦選擇恢復巫戀和龍舌蘭</system:String>
     <system:String x:Key="InfrastUsePinusSylvestris">使用紅松騎士團跨設施組合</system:String>
     <system:String x:Key="InfrastUsePinusSylvestrisTips" xml:space="preserve">必要幹員：焰尾（精二）、薇薇安娜（精二）、野鬃（精二）/灰毫（精二）/遠牙（精二）至少一個&#10;參與計算幹員：礫</system:String>
@@ -219,7 +225,7 @@
     <system:String x:Key="InfrastModeRotationTip">使用隊列輪換需提前在遊戲中設定好隊列</system:String>
     <system:String x:Key="InfrastModeRotationToolTip" xml:space="preserve"> ｢{key=InfrastModeRotation}｣ 的換班邏輯與遊戲內基建右下角的 ｢{key=InfrastModeRotation}｣ 完全一致：
 當目前班次中任意幹員心情值為 0 時，會整隊替換為下一班幹員。
-若需自訂輪換班次，請使用 ｢{key=InfrastModeCustom}｣ 。</system:String>
+若需自訂輪換班次，請使用 ｢{key=InfrastModeCustom}｣。</system:String>
     <system:String x:Key="InfrastModeCustom">自訂基建排班</system:String>
     <system:String x:Key="DefaultInfrast">內建排班</system:String>
     <system:String x:Key="UserDefined">自訂</system:String>
@@ -281,8 +287,10 @@
     <system:String x:Key="RoguelikeBlackFlowStartRewardsAnyHit">任意一項即停</system:String>
     <system:String x:Key="RoguelikeBlackFlowStartRewardsTip" xml:space="preserve">期望獎勵和羽蛇獎勵裡勾選的全部算候選，開局出現任意一項就停下。&#10;滑鼠停在選項上可查看效果。</system:String>
     <system:String x:Key="RoguelikeBlackFlowSerpentRewards">羽蛇獎勵</system:String>
-    <system:String x:Key="RoguelikeBlackFlowSerpentRewardsInactive">選了襁褓羽蛇才生效</system:String>
-    <system:String x:Key="RoguelikeBlackFlowPrepSquad">準備局分隊</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartUtopia">凹第一層實托邦</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartUtopiaTip" xml:space="preserve">目標局在支援頁出現期望獎勵後，依 ｢{key=RoguelikeBlackFlowStartRewardPriority}｣ 選卡並進入第一層。&#10;第一層是實托邦就退出並保留這一局，不是就放棄這一局，重新進行準備局。&#10;目標局用一般設定裡的職業組和開局幹員開局。&#10;需難度 6 以上；難度選擇不切換時不檢查難度。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartRewardPriority">開局獎勵選擇優先順序</system:String>
+    <system:String x:Key="RoguelikeBlackFlowStartRewardPriorityTip" xml:space="preserve">拖動調整順序。&#10;支援頁依從上到下的順序，選在場的卡。&#10;順序和上面的動物、獎勵勾選無關：沒要求 ｢{key=RoguelikeBlackFlowCultivationTargetFeatheredSerpent}｣ 時也可能帶上牠，所以羽蛇獎勵也排在裡面。</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardUnnumberedItem">未編號物</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardSurveyAdvance">調查預付款</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardSpaceLease">空間租賃</system:String>
@@ -301,21 +309,21 @@
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetCerberus">襁褓三頭犬</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetCatTip">下一局開局額外獲得 5 源石錠。</system:String>
     <system:String x:Key="RoguelikeBlackFlowCultivationTargetDogTip">下一局開局額外獲得 1 希望。</system:String>
-    <system:String x:Key="RoguelikeBlackFlowCultivationTargetCerberusTip">下一局多一次支援選擇機會。培育所在的這一局須至少通過兩個區域。</system:String>
-    <system:String x:Key="RoguelikeBlackFlowCultivationTargetFeatheredSerpentTip">下一局的支援選項裡多一個隨機的藍色襁褓生靈。培育所在的這一局須至少通過兩個區域。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetCerberusTip">下一局多一次支援選擇機會。培育所在的這一局須至少通過兩層。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowCultivationTargetFeatheredSerpentTip">下一局的支援選項裡多一個隨機的藍色襁褓生靈。培育所在的這一局須至少通過兩層。</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardUnnumberedItemTip">獲得 1 件普通收藏品。</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardSurveyAdvanceTip">獲得 8 源石錠。</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardSpaceLeaseTip">消耗 6 源石錠，零件箱容量 +2。</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardRegressionCompensationTip">消耗 2 目標生命值上限，獲得 1 件隨機收藏品。</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardForestRideTip">獲得 1 件加工品。</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardNestParasitismTip">零件箱容量 -1，獲得 1 件稀有收藏品。</system:String>
-    <system:String x:Key="RoguelikeBlackFlowRewardPegasusTip">每一區域額外獲得 1 行動力。</system:String>
-    <system:String x:Key="RoguelikeBlackFlowRewardHippogriffTip">初始額外獲得 1 希望，前 2 個區域初始揭露全部視野。</system:String>
-    <system:String x:Key="RoguelikeBlackFlowRewardDragonTip">前 2 個區域中所有敵人的最大生命值 -50%。</system:String>
-    <system:String x:Key="RoguelikeBlackFlowRewardHydraTip">所有敵人的攻擊和生命值 +30%；每次進入新的區域，我方單位攻擊力和生命值 +10%。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardPegasusTip">每一層額外獲得 1 行動力。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardHippogriffTip">初始額外獲得 1 希望，前 2 層初始揭露全部視野。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardDragonTip">前 2 層中所有敵人的最大生命值 -50%。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardHydraTip">所有敵人的攻擊和生命值 +30%；每次進入新層，我方單位攻擊力和生命值 +10%。</system:String>
     <system:String x:Key="RoguelikeBlackFlowRewardBaiZeTip">臨時招募幹員的出現機率提升。</system:String>
-    <system:String x:Key="RoguelikeBlackFlowRewardGoldenCrowTip">進入區域血色空脈時獲得 3 個隨機收藏品。</system:String>
-    <system:String x:Key="RoguelikeBlackFlowPrepFlightTip" xml:space="preserve">準備局固定用特勤分隊、穩紮穩打和自己的機械師開局，只招機械師，第二層用自帶的結構性原理直接飛到第三層。&#10;勾選後準備局分隊顯示為特勤分隊且不能修改，取消勾選後恢復原來的設定；一般設定裡的職業組和開局幹員不受影響。&#10;機械師天賦沒點滿會飛不起來，請不要勾選。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowRewardGoldenCrowTip">進入第三層血色空脈時獲得 3 個隨機收藏品。</system:String>
+    <system:String x:Key="RoguelikeBlackFlowPrepFlightTip" xml:space="preserve">準備局固定用特勤分隊、穩紮穩打和自己的機械師開局，只招機械師，第二層用自帶的結構性原理直接飛到第三層。&#10;勾選後 ｢{key=RoguelikeCollectibleModeSquad}｣ 顯示為特勤分隊且不能修改，取消勾選後恢復原來的設定；一般設定裡的職業組和開局幹員不受影響。&#10;機械師天賦沒點滿會飛不起來，請不要勾選。</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">刷開局，刷取熱水壺或精二{key=Operator}開局</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">刷坍縮範式，遇到非稀有坍縮範式後直接重開</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">刷開局使用分隊</system:String>
@@ -624,7 +632,7 @@ D:\
     <system:String x:Key="ShowWindowBeforeForceScheduledStart">強制定時啟動前顯示視窗</system:String>
     <system:String x:Key="ShowWindowBeforeForceScheduledStartTip">定時啟動前顯示主視窗，避免最小化時看不到倒數</system:String>
     <system:String x:Key="TimerCustomConfig">自訂設定檔選擇</system:String>
-    <system:String x:Key="TimerCustomConfigTip">定時啟動前兩分鐘重新啟動遊戲並切換設定檔</system:String>
+    <system:String x:Key="TimerCustomConfigTip">定時啟動前兩分鐘重新啟動 MAA 並切換設定檔</system:String>
     <system:String x:Key="NotifyBeforeScheduledStart">定時執行前傳送系統通知</system:String>
     <system:String x:Key="NotifyBeforeScheduledStartTip" xml:space="preserve">依提前時間傳送系統通知。&#10;外部推播可在 ｢{key=Settings} - {key=NotificationSettings} - {key=ExternalNotificationSettings}｣ 中單獨開啟，兩者共用提前時間。</system:String>
     <system:String x:Key="NotifyBeforeScheduledStartSharedTimeTip">外部推播與系統通知共用此提前時間。</system:String>
@@ -761,21 +769,21 @@ D:\
 4. 目前難度 ≥ N15 時，6★ 幹員希望消耗 +1，使用部分分隊時可能無法招募開局 6★ 幹員，導致出錯或失敗</system:String>
     <system:String x:Key="RoguelikeThemeTipBlackFlow" xml:space="preserve">{key=RoguelikeThemeBlackFlow}推薦配置：
 
-{key=StartingCoreChar}: 機械師（必須精二並解鎖 ｢招募精通 II｣ 天賦的 ｢效果提升 II｣ ）
+{key=StartingCoreChar}: 機械師（必須精二並解鎖 ｢招募精通 II｣ 天賦的 ｢效果提升 II｣）
 {key=StartingSquad}: ｢{key=SpecialForceSquad}｣ / ｢{key=TacticalFortificationOperative}｣
 {key=StartingRoles}: ｢{key=SlowAndSteadyWinsTheRace}｣ / ｢{key=Unbreakable}｣
 
 1. 目前沒有專用戰鬥策略，作戰由招募評分自動決策；
-    刷源石錠、刷等級、刷襁褓動物目前全部圍繞精二機械師的飛展開。
-    本次肉鴿機制繁多，不按上述配置開局就只能使用預設尋路與戰鬥，大概率失敗，
-    招募到機械師後為保證效率不再檢查精英化狀態，直接按精二執行策略，
-    所選機械師未精二會卡住甚至死循環，必須使用精二機械師；
+    刷源石錠和快速飛往第三層目前圍繞精二機械師的飛展開，
+    按上述配置開局時，招募到機械師後為保證效率不再檢查精英化狀態，直接按精二執行策略，
+    快速飛往第三層時機械師未滿天賦會飛不起來，必須使用滿天賦精二機械師；
     且通關一次前部分事件的選項會不同，遇到可能卡死；先通關一次 N1 即可同時滿足精二與事件選項的前提，相對簡單
-2. 必須解鎖 ｢招募精通 II｣ 天賦的 ｢效果提升 II｣ ，開局才會攜帶 ｢結構性原理｣ 零件（全圖任意飛 3 次）；
+2. 必須解鎖 ｢招募精通 II｣ 天賦的 ｢效果提升 II｣，開局才會攜帶 ｢結構性原理｣ 零件（全圖任意飛 3 次）；
     解鎖很簡單，精二後累計賣出 10 個零件即可
-3. 刷等級時，機械師（必須精二）+ 上述分隊與職業組 + 重裝券，可以快速飛完三層
-4. 沒有精二機械師就不要選機械師，否則會卡住或死循環；不選機械師可以正常刷錢，但戰鬥大概率暴斃，其他策略待後續優化
-5. 刷等級 + 不勾選 ｢{key=InvestmentEnabled}｣，即可跳過商店</system:String>
+3. 刷等級只有勾選 ｢{key=RoguelikeBlackFlowFastFlight}｣ 才會飛，勾選後分隊、職業組和開局幹員自動換成上述配置；
+    不勾選時按目標結局打，按上述配置開局也不會飛。刷開局時，準備局也可以勾選 ｢{key=RoguelikeBlackFlowFastFlight}｣
+4. 沒有滿天賦精二機械師可以正常刷錢，但戰鬥大概率暴斃
+5. 刷等級勾選 ｢{key=RoguelikeBlackFlowFastFlight}｣ + 不勾選 ｢{key=InvestmentEnabled}｣，即可跳過商店</system:String>
     <system:String x:Key="RoguelikeDifficulty">難度</system:String>
     <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">解鎖 ｢{key=RoguelikeThemeJieGarden}｣ 相關科技後，{key=LeaderSquad}在進行 N3 及以上難度的探索時，會額外攜帶一個 ｢時光之末｣，可以利用其進行 ｢一戰一跳｣ 的存錢策略。
 若尚未解鎖該科技，請不要選擇 N3 及以上難度（包括 ｢MAX｣）進行探索；
@@ -831,7 +839,7 @@ D:\
     <system:String x:Key="CreditFightTip" xml:space="preserve">訪問好友後借助戰打一把 OF-1 賺 30 信用。
 關卡選擇為 ｢{key=DefaultStage}｣ 時此功能無效。
 別傳 ｢火藍之心｣ 關卡 OF-1 未解鎖時請勿勾選。</system:String>
-    <system:String x:Key="CreditFightWhenOF-1Warning">當 ｢{key=Fight}｣ 任務關卡列表中已包含 ｢{key=DefaultStage}｣ 時， ｢{key=Mall}｣ 任務將不再借助戰打一把 OF-1。任務名稱: {0} (序號{1}), 關卡序號 {2}</system:String>
+    <system:String x:Key="CreditFightWhenOF-1Warning">當 ｢{key=Fight}｣ 任務關卡列表中已包含 ｢{key=DefaultStage}｣ 時，｢{key=Mall}｣ 任務將不再借助戰打一把 OF-1。任務名稱: {0} (序號{1}), 關卡序號 {2}</system:String>
     <system:String x:Key="HighPriority">優先購買（子字串即可，分號分隔）</system:String>
     <system:String x:Key="Blacklist">黑名單（子字串即可，分號分隔）</system:String>
     <system:String x:Key="MiniGame@EventShop@BlacklistTip">勾選的商品將加入黑名單</system:String>
@@ -1122,7 +1130,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">剩餘天數: </system:String>
     <system:String x:Key="Inventory">庫存</system:String>
     <system:String x:Key="InventoryUpdateTip">可透過 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新庫存數據</system:String>
-    <system:String x:Key="SpecifiedDropsInventoryUnavailable">任務 ｢{0}｣ 啟用了 {key=TargetInventory}，但目前沒有可用的庫存數據，已跳過。可透過 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新庫存。</system:String>
+    <system:String x:Key="SpecifiedDropsInventoryUnavailable">任務 ｢{0}｣ 啟用了 {key=TargetInventory}，但目前沒有可用的庫存數據，已跳過。可透過 ｢{key=UserDataUpdate}｣ 任務或 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新庫存。</system:String>
     <system:String x:Key="SpecifiedDropsInventoryEnough">{0} 已充足 {1}/{2}</system:String>
     <system:String x:Key="UserDataUpdateCannotModifyExistingTask">無法修改已添加的 ｢{key=UserDataUpdate}｣ 任務參數</system:String>
     <system:String x:Key="UserDataUpdateNothingSelected">｢{key=OperBoxRecognition}｣ 和 ｢{key=DepotRecognition}｣ 均未勾選</system:String>
@@ -1160,9 +1168,12 @@ C:\leidian\LDPlayer9
     <system:String x:Key="DepotOnlyFirstInsufficientPlanTip" xml:space="preserve">僅執行第一個庫存不足且當日可執行的計劃，日誌也只顯示到該計劃為止。&#10;該計劃補滿後，下次執行會自動接續後續計劃，當日無法執行的會被跳過。</system:String>
     <system:String x:Key="DepotSortByProgress">按庫存達成率排序執行</system:String>
     <system:String x:Key="DepotSortByProgressTip" xml:space="preserve">開啟後，每次執行按庫存達成率從低到高排序執行，缺口比例最大的計劃優先獲得理智。&#10;列表顯示順序不變，拖曳排序僅在關閉時生效。&#10;排序使用上次識別的快取資料，每條計劃開始時仍會按最新庫存重算缺口。</system:String>
+    <system:String x:Key="DepotCountDualChipAsChipPack">晶片組計入雙晶片折算</system:String>
+    <system:String x:Key="DepotCountDualChipAsChipPackTip" xml:space="preserve">統計晶片組庫存時，對應職業的雙晶片按合成配方折算計入，每個雙晶片折算為 2 個晶片組。&#10;計劃摘要以 原始 (+折算) 形式顯示，達標判定與缺口計算使用折算後數量。&#10;僅改變計數口徑，不會自動合成。</system:String>
     <system:String x:Key="DepotPlanSkippedActivity">目前有活動進行中</system:String>
     <system:String x:Key="DepotPlanSkippedResourceCollection">目前處於資源收集限時全天開放期間</system:String>
     <system:String x:Key="DepotPlanUpdateDepotFailed">更新庫存數據失敗。</system:String>
+    <system:String x:Key="DepotPlanInventoryDataEmpty">#{0}：目前沒有可用的庫存數據，已跳過刷取。可透過 ｢{key=UserDataUpdate}｣ 任務或 ｢{key=Toolbox}-{key=DepotRecognition}｣ 更新庫存。</system:String>
     <system:String x:Key="DepotUseAutoSeries">AUTO 代理倍率</system:String>
     <system:String x:Key="DepotUseAutoSeriesTip" xml:space="preserve">未勾選時按單倍代理；勾選後按目前理智可刷的最大倍率代理，單次刷取可能超過目標庫存上限。</system:String>
     <system:String x:Key="DepotEnableUseMedicine">啟用 ｢{key=UseSanityPotion}｣ 勾選框</system:String>
@@ -1211,10 +1222,18 @@ C:\leidian\LDPlayer9
     <system:String x:Key="CATip">CA-5: 技能書</system:String>
     <system:String x:Key="LSTip">LS-6: 經驗</system:String>
     <system:String x:Key="SKTip">SK-5: 碳</system:String>
-    <system:String x:Key="PR-ATip">PR-A-1/2: 奶&amp;盾晶片</system:String>
-    <system:String x:Key="PR-BTip">PR-B-1/2: 術&amp;狙晶片</system:String>
-    <system:String x:Key="PR-CTip">PR-C-1/2: 先&amp;輔晶片</system:String>
-    <system:String x:Key="PR-DTip">PR-D-1/2: 近&amp;特晶片</system:String>
+    <system:String x:Key="PR-ATip">PR-A-1/2: {0}&amp;{1}晶片</system:String>
+    <system:String x:Key="PR-BTip">PR-B-1/2: {0}&amp;{1}晶片</system:String>
+    <system:String x:Key="PR-CTip">PR-C-1/2: {0}&amp;{1}晶片</system:String>
+    <system:String x:Key="PR-DTip">PR-D-1/2: {0}&amp;{1}晶片</system:String>
+    <system:String x:Key="ChipShortVanguard">先</system:String>
+    <system:String x:Key="ChipShortGuard">近</system:String>
+    <system:String x:Key="ChipShortDefender">盾</system:String>
+    <system:String x:Key="ChipShortSniper">狙</system:String>
+    <system:String x:Key="ChipShortCaster">術</system:String>
+    <system:String x:Key="ChipShortMedic">奶</system:String>
+    <system:String x:Key="ChipShortSupporter">輔</system:String>
+    <system:String x:Key="ChipShortSpecialist">特</system:String>
     <system:String x:Key="Pormpt1">週一了，可以打剿滅了 ~</system:String>
     <system:String x:Key="Pormpt2">週日了，記得打剿滅喔 ~</system:String>
     <!--  !戰鬥設定  -->
@@ -1357,9 +1376,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@SPATip" xml:space="preserve">在活動主介面（有 ｢獨立模擬｣ 處）開始任務。
 在有存檔時需要先手動放棄
 最高只測試過 ｢險境模擬｣
-如果已通關更高難度導致看不到 ｢險境模擬｣ 或 ｢標準模擬｣ ，需手動選擇一次 ｢險境模擬｣ 難度
+如果已通關更高難度導致看不到 ｢險境模擬｣ 或 ｢標準模擬｣，需手動選擇一次 ｢險境模擬｣ 難度
 手動通關 ｢標準模擬｣ 可以更快刷分。
-只能刷等級獎勵，拿蝕刻章得打完所有的 ｢關鍵目標｣ 。</system:String>
+只能刷等級獎勵，拿蝕刻章得打完所有的 ｢關鍵目標｣。</system:String>
     <system:String x:Key="MiniGame@OS">OS-喀蘭貿易技術研發部</system:String>
     <system:String x:Key="MiniGame@OSTip">在活動主介面（右下角有 ｢開始重建｣ 處）開始任務。</system:String>
     <system:String x:Key="MiniGame@RM-TR-1">次生方案 RM-TR-1</system:String>
@@ -1380,7 +1399,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@SecretFront@Event2">遊俠</system:String>
     <system:String x:Key="MiniGame@SecretFront@Event3">詭影迷蹤</system:String>
     <system:String x:Key="MiniGame@SecretFront">隱秘戰線</system:String>
-    <system:String x:Key="MiniGame@SecretFrontTip">在選擇小隊介面開始，如有存檔須手動刪除。&#10;第一次打請先看完教學後關閉。&#10;推薦勾選遊戲內 ｢繼承上一支隊伍發回的資料｣ 。</system:String>
+    <system:String x:Key="MiniGame@SecretFrontTip">在選擇小隊介面開始，如有存檔須手動刪除。&#10;第一次打請先看完教學後關閉。&#10;推薦勾選遊戲內 ｢繼承上一支隊伍發回的資料｣。</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis">缺口材料合成</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesisTip" xml:space="preserve">請先手動從培養頁面(如精英化、專精、模組升級)缺少的材料彈窗跳轉到加工站合成頁，再開始任務。&#10;會遞迴合成可加工的下級材料，材料不足時停止。</system:String>
     <system:String x:Key="MiniGame@MaterialSynthesis@DemoVideo">演示影片</system:String>
@@ -1426,7 +1445,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@PixelPaint@PaintWhite">也畫白色</system:String>
     <system:String x:Key="MiniGame@PixelPaint@Swipe">啟用滑動繪製</system:String>
     <system:String x:Key="MiniGame@PixelPaint@SwipeTip">同色同行的連續格用拖曳一次畫完，可顯著加快畫圖速度。部分觸控模式下可能異常，如遇問題請關閉。</system:String>
-    <system:String x:Key="MiniGame@PixelPaint@GridDelay">繪製間隔(ms)</system:String>
+    <system:String x:Key="MiniGame@PixelPaint@GridDelay">繪製間隔 (ms)</system:String>
     <system:String x:Key="MiniGame@PixelPaint@GridDelayTip">每格額外等待時長：點擊後 sleep，拖曳時長按格累加。各觸控方式內建基礎間隔，預設 0 即可；某些低效能裝置可能出現問題，可按需調整。</system:String>
     <system:String x:Key="MiniGame@PixelPaint@LoadFailed">圖片載入失敗</system:String>
     <system:String x:Key="MiniGame@PixelPaint@ConvertFailed">轉換失敗</system:String>
@@ -1442,7 +1461,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="MiniGame@CursedRelicTip" xml:space="preserve">請從傀影肉鴿主選單中 ｢探索｣ 按鈕可見的狀態開始。</system:String>
 
     <system:String x:Key="MiniGameNameGreenTicketStore">綠票商店</system:String>
-    <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">第 1 層全買。&#10;第 2 層買 ｢尋訪憑證｣ 和 ｢招聘許可｣ 。</system:String>
+    <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">第 1 層全買。&#10;第 2 層買 ｢尋訪憑證｣ 和 ｢招聘許可｣。</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">黃票商店</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStoreTip" xml:space="preserve">請確保自己至少有 258 張黃票。</system:String>
     <system:String x:Key="MiniGameNameSsStore">活動商店</system:String>
@@ -1453,6 +1472,7 @@ C:\leidian\LDPlayer9
     <!--  日誌  -->
     <system:String x:Key="Identifying">正在辨識……</system:String>
     <system:String x:Key="IdentificationCompleted">辨識完成</system:String>
+    <system:String x:Key="DepotRecognitionEmptyResult">辨識結果為空，已保留原有庫存數據</system:String>
     <!--  !日誌  -->
     <!--  Copilot  -->
     <system:String x:Key="Operator">幹員</system:String>
@@ -1599,7 +1619,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ErrorCrashMessageHeader">以上問題導致程式異常關閉。</system:String>
     <system:String x:Key="ErrorCrashMessageOpenLog">您可以前往 ｢{key=Settings} - {key=IssueReport} - {key=OpenDebugFolder}｣ 查看日誌，了解錯誤發生的具體原因。</system:String>
     <system:String x:Key="ErrorCrashMessageGenerateReport">請使用 ｢{key=Settings} - {key=IssueReport} - {key=GenerateSupportPayload}｣ 產生錯誤報告，並點擊藍色的 ｢{key=Issue}｣ 連結提交回報。若程式已關閉無法使用該功能，可手動打包 debug、config、cache 資料夾回報。</system:String>
-    <system:String x:Key="ErrorCrashMessageHelpTip">若要尋求協助，請直接發送產生的  ｢錯誤報告檔案｣ ；請勿發送此視窗的截圖、錄影、螢幕照片、翻拍影片、手繪圖片或抄寫的內容。上傳至 GitHub 時單一附件不能超過 20 MB，超限請分卷壓縮。</system:String>
+    <system:String x:Key="ErrorCrashMessageHelpTip">若要尋求協助，請直接發送產生的  ｢錯誤報告檔案｣；請勿發送此視窗的截圖、錄影、螢幕照片、翻拍影片、手繪圖片或抄寫的內容。上傳至 GitHub 時單一附件不能超過 20 MB，超限請分卷壓縮。</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">上次程式異常關閉的原因</system:String>
     <system:String x:Key="CopyErrorMessage">複製錯誤資訊</system:String>
     <!--  !ErrorView  -->
@@ -1617,6 +1637,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="ResourceIntegrityRepairNo">暫不處理，繼續啟動</system:String>
     <system:String x:Key="CoreLoadingTip">MAA 核心尚未載入完成，請稍後再試。</system:String>
     <system:String x:Key="ResourceBrokenTaskBlocked">檔案損毀，無法開始任務。請依啟動時的提示修復檔案，或重新下載完整安裝檔後重新啟動 MAA。</system:String>
+    <system:String x:Key="UnknownTaskInChain">任務鏈引用了未定義的任務（{0}），資源可能損壞或與程式版本不相符，已停止任務。</system:String>
     <system:String x:Key="ResourceIntegrityRepairDownloading">正在下載完整安裝檔以修復安裝…</system:String>
     <system:String x:Key="ResourceIntegrityRepairFailed">自動修復失敗，請按提示手動處理。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ResourceIntegrityRepairCanceled">已取消自動修復，下次啟動時仍會提醒</system:String>
@@ -1653,6 +1674,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="TaskError" xml:space="preserve">任務出錯: </system:String>
     <system:String x:Key="TaskErrorSummaryTitle">本輪任務出現以下錯誤：</system:String>
     <system:String x:Key="OutOfMemoryError">{0}任務因記憶體不足停止，請關閉部分程式或重新啟動 MAA 後再試</system:String>
+    <system:String x:Key="GpuDeviceRemovedRestartRequired">{0}任務因 GPU 推論裝置失效而停止，可能是顯示卡驅動程式更新或 GPU 重設所致。{key=RestartRecommendation}</system:String>
     <system:String x:Key="CombatError">戰鬥出錯</system:String>
     <system:String x:Key="StartTask" xml:space="preserve">開始任務: </system:String>
     <system:String x:Key="CompleteTask" xml:space="preserve">完成任務: </system:String>
@@ -1677,7 +1699,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="GiveUpUploadingPenguins">放棄上傳企鵝物流</system:String>
     <system:String x:Key="ReportSkippedForPcClient">PC 端滑鼠為獨立渲染，可能遮擋掉落物及數量辨識。為避免錯誤資料污染資料池，已自動跳過本次回報{0}</system:String>
     <system:String x:Key="TheEx">無獎勵關卡，已停止</system:String>
-    <system:String x:Key="MissingOperators">以下{key=Operator}組內的{key=Operator}均未擁有（每組只需其一）或未達作業要求：\n{0}｢特別關注｣ 可能影響{key=Operator}辨識，若實際已擁有，可移除 ｢特別關注｣ 後重試，或關閉 ｢{key=AutoSquad}｣ 手動補充；若確實未擁有，僅缺一組時可使用 ｢{key=SupportUnitUsage}｣，缺兩組以上請更換作業。</system:String>
+    <system:String x:Key="MissingOperators">以下{key=Operator}組內的{key=Operator}均未擁有（每組只需其一）或未達作業要求：\n{0} ｢特別關注｣ 可能影響{key=Operator}辨識，若實際已擁有，可移除 ｢特別關注｣ 後重試，或關閉 ｢{key=AutoSquad}｣ 手動補充；若確實未擁有，僅缺一組時可使用 ｢{key=SupportUnitUsage}｣，缺兩組以上請更換作業。</system:String>
     <system:String x:Key="RecruitSupportOperator">編入助戰{key=Operator}：{0}</system:String>
     <system:String x:Key="StageQueue">關卡佇列：</system:String>
     <system:String x:Key="UnableToAgent">無法使用代理指揮</system:String>
@@ -1784,7 +1806,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BlackFlowNodeSacrifice">奉獻節點</system:String>
     <system:String x:Key="BlackFlowNodeWish">得償所願</system:String>
     <system:String x:Key="BlackFlowNodeBoskyPassage">誤入奇境</system:String>
-    <system:String x:Key="BlackFlowNodeResidentStronghold">｢居民｣據點</system:String>
+    <system:String x:Key="BlackFlowNodeResidentStronghold">｢居民｣ 據點</system:String>
     <system:String x:Key="BlackFlowNodeFinal">險路盡頭</system:String>
     <system:String x:Key="BlackFlowNodeFate">命運所指</system:String>
     <system:String x:Key="BlackFlowNodeEvacuate">撤離點</system:String>
@@ -1952,7 +1974,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BattleFormationOperboxMatched">預匹配的{key=Operator}（組）：</system:String>
     <system:String x:Key="CopilotUserAdditionalNameInvalid">追加自訂{key=Operator}名稱無效：{0}，請檢查拼寫</system:String>
     <system:String x:Key="CopilotOperboxDataParseFailed">{key=OperBoxRecognition}資料解析失敗</system:String>
-    <system:String x:Key="CopilotOperboxAssistRequiresYituliuData">目前沒有可用的一圖流幹員資料，無法輔助編隊。請先從一圖流取得幹員資料，或關閉 ｢{key=Copilot.UseOperBoxAssist}｣ 。</system:String>
+    <system:String x:Key="CopilotOperboxAssistRequiresYituliuData">目前沒有可用的一圖流幹員資料，無法輔助編隊。請先從一圖流取得幹員資料，或關閉 ｢{key=Copilot.UseOperBoxAssist}｣。</system:String>
     <system:String x:Key="CurrentSteps">目前步驟：{0} {1}</system:String>
     <system:String x:Key="ElapsedTime">經過時間：{0}ms</system:String>
     <system:String x:Key="Deploy">部署</system:String>
@@ -2164,8 +2186,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="AnnouncementNotFinishedConfirm3">還點</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
-    <system:String x:Key="ReclamationTipRelaunchAnchorRA1" xml:space="preserve">
-收益參考：每把約 159 代幣 + 統籌點數，單輪耗時約 2 分 10 秒
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA1" xml:space="preserve">收益參考：每把約 159 代幣 + 統籌點數，單輪耗時約 2 分 10 秒
 
 幹員要求：無
 
@@ -2175,10 +2196,8 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
 
 注意：如果已解鎖開局額外攜帶物品的相關科技，請將基地內會導致開局額外攜帶物品的設施拆除，如食品供給站、飲品供給站、獸欄等
 
-任務流程：自動執行精耕細作、建設、交付資源、結算循環
-    </system:String>
-    <system:String x:Key="ReclamationTipRelaunchAnchorRA4" xml:space="preserve">
-收益參考：每把約 417 代幣 + 統籌點數，單輪耗時約 1 分 40 秒
+任務流程：自動執行精耕細作、建設、交付資源、結算循環</system:String>
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA4" xml:space="preserve">收益參考：每把約 417 代幣 + 統籌點數，單輪耗時約 1 分 40 秒
 
 幹員要求：維什戴爾（可借助戰）
 
@@ -2192,10 +2211,8 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
 
 注意：如果已解鎖開局額外攜帶物品的相關科技，請將基地內會導致開局額外攜帶物品的設施拆除，如食品供給站、飲品供給站、獸欄等
 
-任務流程：使用籌劃經營策略給予的赤金解鎖區域，使用維什戴爾完成擊殺 boss 任務
-    </system:String>
-    <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">
-收益參考：每把約 500 代幣 + 統籌點數，單輪耗時約 3 分鐘
+任務流程：使用籌劃經營策略給予的赤金解鎖區域，使用維什戴爾完成擊殺 boss 任務</system:String>
+    <system:String x:Key="ReclamationTipRelaunchAnchorRA15" xml:space="preserve">收益參考：每把約 500 代幣 + 統籌點數，單輪耗時約 3 分鐘
 
 幹員要求：聖聆初雪（可借助戰）
 
@@ -2208,26 +2225,18 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
 
 注意： 如果已解鎖開局額外攜帶物品的相關科技，請將基地內會導致開局額外攜帶物品的設施拆除，如食品供給站、飲品供給站、獸欄等
 
-任務流程： 自動借助戰執行 60 殺任務
-    </system:String>
+任務流程： 自動借助戰執行 60 殺任務</system:String>
     <system:String x:Key="ReclamationTipFire">該活動已關閉，無法使用</system:String>
-    <system:String x:Key="ReclamationTipTales" xml:space="preserve">
-目前生息演算的支援仍處於中期階段，使用時請注意以下幾點：
-
- 透過開局刷點數：（請注意：已有存檔可能會被刪除）
+    <system:String x:Key="ReclamationTipTalesNoSave" xml:space="preserve">透過開局刷點數：（請注意：已有存檔可能會被刪除）
   1. 點數刷滿後會輸出 ｢任務完成｣，自動停止任務。
   2. 不要在生息演算的編隊中有{key=Operator}的情況下使用。
   3. 請手動確認存檔情況，以免 MAA 刪除您的珍貴存檔。
-  4. 導航功能尚未完成，無法從生息演算以外的位置開始任務。
-  5. 若任務過程中出錯、點數未刷滿就顯示任務完成，請前往 GitHub 提交 Issue。
-
- 有存檔時透過製造刷點數（進階設定）：
+  4. 需要在主畫面右下角有開始演算的介面開始任務。
+  5. 若任務過程中出錯、點數未刷滿就顯示任務完成，請前往 GitHub 提交 Issue。</system:String>
+    <system:String x:Key="ReclamationTipTalesInSave" xml:space="preserve">有存檔時透過製造刷點數：
   1. 要求為結算後的第一天，且後續三天沒有敵襲進入駐紮地。
   2. 必須在進入大地圖後的介面開始（能看到駐紮地的介面）。
-  3. 若能製造的數量剛好是 99 的倍數會卡住，在存檔前可以先消耗掉一點，此問題日後會修復。
-    </system:String>
-    <system:String x:Key="ReclamationBePatient">牛牛，我太想進步了！你看，又急</system:String>
-    <system:String x:Key="Reclamation2ExEnable">透過製造刷點數</system:String>
+  3. 若能製造的數量剛好是 99 的倍數會卡住，在存檔前可以先消耗掉一點，此問題日後會修復。</system:String>
     <system:String x:Key="ReclamationToolToCraftTip">支援道具名稱</system:String>
     <system:String x:Key="ReclamationToolToCraftPlaceholder">螢光棒</system:String>
     <!--  !Reclamation  -->
@@ -2371,7 +2380,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
 
     <system:String x:Key="Achievement.SanityExpire.Title">要過期了</system:String>
     <system:String x:Key="Achievement.SanityExpire.Description">趕緊衝哇！！</system:String>
-    <system:String x:Key="Achievement.SanityExpire.Conditions">使用 ｢{key=UseExpiringMedicine}｣ ，單次任務使用 8 瓶及以上即期理智藥</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Conditions">使用 ｢{key=UseExpiringMedicine}｣，單次任務使用 8 瓶及以上即期理智藥</system:String>
 
     <system:String x:Key="Achievement.OverLimitAgent.Title">超限代理</system:String>
     <system:String x:Key="Achievement.OverLimitAgent.Description">你進行了一次能將大道磨滅的代理任務。</system:String>
@@ -2788,6 +2797,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="BlackFlowStartRunPreparing">正在進行準備局</system:String>
     <system:String x:Key="BlackFlowStartRunTargetRun">已切換到目標局，等待檢查開局獎勵</system:String>
     <system:String x:Key="BlackFlowStartRunRewardMissed">開局獎勵未命中，重新進行準備局</system:String>
+    <system:String x:Key="BlackFlowStartRunRewardPicked">開局獎勵已選取，進入第一層檢查實托邦</system:String>
     <system:String x:Key="BlackFlowStartRunCompleted">開局目標已滿足，已退出並保留這一局</system:String>
     <system:String x:Key="BlackFlowStartRunRewardRecognitionFailed">開局獎勵辨識失敗，已停止任務</system:String>
     <system:String x:Key="BlackFlowStartRunRewardPageMissing">未辨識到開局獎勵頁，已停止任務</system:String>
@@ -2795,4 +2805,6 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="BlackFlowStartRunRewardsSeen">本次支援頁：{0}</system:String>
     <system:String x:Key="BlackFlowStartRunPrepared">開局準備已完成</system:String>
     <system:String x:Key="BlackFlowStartRunPreparedReason">已到達第三層，將按目標難度和分隊開啟下一局</system:String>
+    <system:String x:Key="BlackFlowStartRunUtopiaMissed">第一層不是實托邦</system:String>
+    <system:String x:Key="BlackFlowStartRunUtopiaMissedReason">將放棄這一局，重新進行準備局</system:String>
 </ResourceDictionary>

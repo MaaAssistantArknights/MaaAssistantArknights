@@ -113,6 +113,9 @@ public static class DemoShotService
         {
             _logger.Fatal(e, "Demo shot service failed");
             Log.CloseAndFlush();
+
+            // Environment.Exit 不经过 WPF 关闭流程，须显式释放单实例互斥量
+            Bootstrapper.ReleaseInstanceMutex();
             Environment.Exit(1);
         }
     }
@@ -250,7 +253,6 @@ public static class DemoShotService
             ["DepotMaintain"] = () => new DepotMaintainTask(),
             ["SwitchTheme"] = () => new SwitchThemeTask(),
             ["Roguelike"] = () => new RoguelikeTask(),
-            ["Reclamation"] = () => new ReclamationTask(),
         };
 
     /// <summary>

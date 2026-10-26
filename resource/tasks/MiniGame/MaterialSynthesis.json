@@ -7,7 +7,8 @@
     },
     "MiniGame@MaterialSynthesis@Workshop": {
         "template": "ProcessingFlag.png",
-        "roi": [329, 0, 225, 113]
+        "roi": [329, 0, 225, 113],
+        "postDelay": 1200
     },
     "MiniGame@MaterialSynthesis@RequiredCount": {
         "baseTask": "NumberOcrReplace",
@@ -61,7 +62,7 @@
         "template": "ProcessingIncrease.png",
         "roi": [1008, 224, 133, 127],
         "action": "ClickSelf",
-        "preDelay": 1000,
+        "preDelay": 400,
         "postDelay": 100
     },
     "MiniGame@MaterialSynthesis@Decrease": {

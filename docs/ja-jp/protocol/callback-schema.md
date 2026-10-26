@@ -742,12 +742,13 @@ Todo
   - `preparing`：準備用の探索を開始。
   - `target_run`：目標の探索を開始。
   - `reward_missed`：支援選択画面で報酬は認識できたが狙うものがないため、その探索を放棄して準備用の探索をやり直す。
-  - `completed`：狙う報酬が出たため、テーマ画面へ退出してその探索を保持し、タスクを終了。
+  - `reward_picked`：`blackflow_start_utopia` が有効で、支援選択画面に狙う報酬が出たため、`blackflow_start_reward_priority` の順に報酬を選び、第 1 層に入って实托邦か確認する。
+  - `completed`：狙う報酬が出たため、テーマ画面へ退出してその探索を保持し、タスクを終了。`blackflow_start_utopia` が有効な場合は第 1 層が实托邦だったことを示す。
   - `reward_unrecognized`：支援選択画面の報酬を認識できないため、その画面に留まってタスクを停止。
   - `reward_page_missing`：目標の探索で支援選択画面が出なかったため、タスクを停止。
-  - `reward_recognition_failed`：準備用の探索で支援選択画面の報酬選択に失敗したため、タスクを停止。
+  - `reward_recognition_failed`：準備用または目標の探索で支援選択画面の報酬選択に失敗したため、タスクを停止。
 
-  `rewards` は `reward_missed`、`completed`、`reward_unrecognized` のときのみ通知され、`blackflow_start_rewards` が 0（報酬を認識しない）の場合や 1 つも認識できなかった場合は省略されます。報酬名は簡体字中国語で出力されます。
+  `rewards` は `reward_missed`、`reward_picked`、`completed`、`reward_unrecognized`、`reward_recognition_failed` のときのみ通知され、`blackflow_start_rewards` が 0 で `blackflow_start_utopia` が無効（報酬を認識しない）の場合や 1 つも認識できなかった場合は省略されます。報酬名は簡体字中国語で出力されます。
 
 - `BlackFlowScrapTradeAborted`  
   BlackFlow の行商取引で異常が発生し、取引を中止します。`details` の内容：

@@ -11,6 +11,9 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
+
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace MaaWpfGui.Models;
@@ -18,20 +21,27 @@ namespace MaaWpfGui.Models;
 public class ArkItem
 {
     [JsonPropertyName("classifyType")]
-    public string ClassifyType { get; set; }
+    public string ClassifyType { get; set; } = string.Empty;
 
     [JsonPropertyName("description")]
-    public string Description { get; set; }
+    public string Description { get; set; } = string.Empty;
 
     [JsonPropertyName("icon")]
-    public string Icon { get; set; }
+    public string Icon { get; set; } = string.Empty;
 
     [JsonPropertyName("name")]
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     [JsonPropertyName("sortId")]
     public int SortId { get; set; }
 
     [JsonPropertyName("usage")]
-    public string Usage { get; set; }
+    public string Usage { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets the synthesis formula as a map of material id to required count, e.g. dual chips (1 catalyst + 2 chip packs).
+    /// Absent for items that are not craftable.
+    /// </summary>
+    [JsonPropertyName("formula")]
+    public Dictionary<string, int>? Formula { get; set; }
 }

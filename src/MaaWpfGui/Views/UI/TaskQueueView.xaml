@@ -653,7 +653,6 @@
                                                        RelativeSource={RelativeSource Mode=FindAncestor,
                                                                                       AncestorType={x:Type UserControl}}}" />
                             <taskQueue:RoguelikeTaskUserControl DataContext="{Binding RoguelikeTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Roguelike, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
-                            <taskQueue:ReclamationTaskUserControl DataContext="{Binding ReclamationTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Reclamation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
                             <taskQueue:UserDataUpdateTaskUserControl
                                 DataContext="{Binding UserDataUpdateTask}"
                                 IsEnabled="{Binding DataContext.Run.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
@@ -709,7 +708,7 @@
                         PanningMode="Both">
                         <controls:TextBlock
                             d:Text="{DynamicResource TodaysStageTip}"
-                            Text="{Binding StagesOfToday}"
+                            controls:TextBlock.BindableInlines="{Binding StagesOfTodayInlines}"
                             TextWrapping="Wrap" />
                     </hc:ScrollViewer>
                     <Border Width="200" Margin="0,10,30,10">

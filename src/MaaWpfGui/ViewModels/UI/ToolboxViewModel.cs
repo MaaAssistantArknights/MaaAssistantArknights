@@ -42,6 +42,7 @@ using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.UserControl.Toolbox;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ObservableCollections;
@@ -268,9 +269,9 @@ public class ToolboxViewModel : Screen
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.ChooseLevel3 = value;
+            ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel3 = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.ChooseLevel3;
+    } = ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel3;
 
     /// <summary>
     /// Gets or sets a value indicating whether to choose level 4.
@@ -279,9 +280,9 @@ public class ToolboxViewModel : Screen
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.ChooseLevel4 = value;
+            ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel4 = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.ChooseLevel4;
+    } = ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel4;
 
     /// <summary>
     /// Gets or sets a value indicating whether to choose level 5.
@@ -290,9 +291,9 @@ public class ToolboxViewModel : Screen
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.ChooseLevel5 = value;
+            ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel5 = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.ChooseLevel5;
+    } = ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel5;
 
     /// <summary>
     /// Gets or sets a value indicating whether to choose level 6.
@@ -301,9 +302,9 @@ public class ToolboxViewModel : Screen
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.ChooseLevel6 = value;
+            ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel6 = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.ChooseLevel6;
+    } = ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel6;
 
     [PropertyDependsOn(nameof(ChooseLevel3Time))]
     public int ChooseLevel3Hour
@@ -328,9 +329,9 @@ public class ToolboxViewModel : Screen
                 _ => value / 10 * 10,
             };
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.ChooseLevel3Time = value;
+            ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel3Time = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.ChooseLevel3Time;
+    } = ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel3Time;
 
     [PropertyDependsOn(nameof(ChooseLevel4Time))]
     public int ChooseLevel4Hour
@@ -355,9 +356,9 @@ public class ToolboxViewModel : Screen
                 _ => value / 10 * 10,
             };
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.ChooseLevel4Time = value;
+            ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel4Time = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.ChooseLevel4Time;
+    } = ConfigFactory.CurrentConfig.Toolbox.Recruitment.ChooseLevel4Time;
 
     /// <summary>
     /// Gets or sets a value indicating whether to set time automatically.
@@ -366,9 +367,9 @@ public class ToolboxViewModel : Screen
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.AutoSetTime = value;
+            ConfigFactory.CurrentConfig.Toolbox.Recruitment.AutoSetTime = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.AutoSetTime;
+    } = ConfigFactory.CurrentConfig.Toolbox.Recruitment.AutoSetTime;
 
     /// <summary>
     /// Starts calculation.
@@ -436,9 +437,9 @@ public class ToolboxViewModel : Screen
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.ShowPotential = value;
+            ConfigFactory.CurrentConfig.Toolbox.Recruitment.ShowPotential = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.ShowPotential;
+    } = ConfigFactory.CurrentConfig.Toolbox.Recruitment.ShowPotential;
 
     public void ProcRecruitMsg(JObject details)
     {
@@ -533,6 +534,16 @@ public class ToolboxViewModel : Screen
     }
 
     private ObservableCollection<ObservableCollection<DepotResultDate>> _depotRows = [];
+
+    /// <summary>
+    /// 获取当前库存数据快照（过滤无效数量）。
+    /// </summary>
+    /// <returns> itemId 到数量的映射；没有任何库存数据时为 null。</returns>
+    public Dictionary<string, int>? GetDepotSnapshot()
+    {
+        var snapshot = DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count);
+        return snapshot.Count > 0 ? snapshot : null;
+    }
 
     public ObservableCollection<ObservableCollection<DepotResultDate>> DepotRows
     {
@@ -753,13 +764,6 @@ public class ToolboxViewModel : Screen
             return false;
         }
 
-        if (_pendingDepotSyncTimeResetTaskIds.Remove(taskId))
-        {
-            ResetDepotRecognitionState();
-        }
-
-        DepotResult.Clear();
-
         Dictionary<string, int> depotItems = [];
 
         // 尝试解析新格式
@@ -796,24 +800,37 @@ public class ToolboxViewModel : Screen
         // 如果新格式解析失败，尝试旧格式
         if (depotItems.Count == 0)
         {
-            if (depotItems.Count == 0)
+            var arkplannerItems = details["arkplanner"]?["object"]?["items"]?.Cast<JObject>() ?? [];
+
+            foreach (var item in arkplannerItems)
             {
-                var arkplannerItems = details["arkplanner"]?["object"]?["items"]?.Cast<JObject>() ?? [];
-
-                foreach (var item in arkplannerItems)
+                var id = (string?)item["id"];
+                if (string.IsNullOrEmpty(id))
                 {
-                    var id = (string?)item["id"];
-                    if (string.IsNullOrEmpty(id))
-                    {
-                        continue;
-                    }
+                    continue;
+                }
 
-                    if (item["have"] != null && int.TryParse(item["have"]?.ToString(), out var count))
-                    {
-                        depotItems[id] = count;
-                    }
+                if (item["have"] != null && int.TryParse(item["have"]?.ToString(), out var count))
+                {
+                    depotItems[id] = count;
                 }
             }
+        }
+
+        // 识别回调结果为空说明识别流程出错（如误进其他界面），正常识别必含基础物品；
+        // 保留原有库存数据与同步时间，等同这次识别未发生，等待下次识别纠正，避免空数据清掉缓存后被按 0 库存刷取；
+        // 本地加载与演示回放的空数据不在此列，照常走清空流程
+        if (depotItems.Count == 0 && updateSyncTime)
+        {
+            _pendingDepotSyncTimeResetTaskIds.Remove(taskId);
+            _logger.Warning("Depot recognition returned no items, keep existing depot data");
+            DepotInfo = LocalizationHelper.GetString("DepotRecognitionEmptyResult");
+            return true;
+        }
+
+        if (_pendingDepotSyncTimeResetTaskIds.Remove(taskId))
+        {
+            ResetDepotRecognitionState();
         }
 
         // 构建结果并检查成就，按游戏内置 sortId 排序
@@ -822,7 +839,7 @@ public class ToolboxViewModel : Screen
             Name = ItemListHelper.GetItemName(kvp.Key),
             Image = ItemListHelper.GetItemImage(kvp.Key),
             Count = kvp.Value,
-        }).OrderBy(r => r);
+        }).OrderBy(r => r).ToList();
 
         foreach (var result in results)
         {
@@ -833,6 +850,7 @@ public class ToolboxViewModel : Screen
             }
         }
 
+        DepotResult.Clear();
         DepotResult.AddRange(results);
 
         // 标记缓存失效
@@ -1094,6 +1112,13 @@ public class ToolboxViewModel : Screen
             return;
         }
 
+        // 库存基线为空说明从未成功识别过库存，对空基线做增量只会得到残缺数据，
+        // 保持空状态以便消费侧按 ｢没有任何库存数据｣ 处理
+        if (GetDepotSnapshot() is null)
+        {
+            return;
+        }
+
         bool hasUpdates = false;
 
         foreach (var (itemId, _, total, add) in drops)
@@ -1163,7 +1188,7 @@ public class ToolboxViewModel : Screen
     /// </summary>
     public void ResetDepotRecognitionState()
     {
-        // DepotParse 方法已经处理了数据清除和缓存失效，这里不需要重复调用
+        // DepotParse 方法已在识别结果非空时处理数据清除和缓存失效，这里不需要重复调用
         // DepotClear();
         LastDepotSyncTime = null;
     }
@@ -1209,7 +1234,6 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        ResetDepotRecognitionState();
         StartDepotRecognitionTask();
     }
 
@@ -2095,11 +2119,11 @@ public class ToolboxViewModel : Screen
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.OperBoxAvatarMode = value;
+            ConfigFactory.CurrentConfig.Toolbox.OperBox.OperBoxAvatarMode = value;
             RefreshOperBoxHaveRows();
             RefreshOperBoxNotHaveRows();
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.OperBoxAvatarMode;
+    } = ConfigFactory.CurrentConfig.Toolbox.OperBox.OperBoxAvatarMode;
 
     /// <summary>
     /// Gets 干员识别导出格式选项，文案随语言热切换自动刷新。
@@ -2114,9 +2138,9 @@ public class ToolboxViewModel : Screen
     {
         get; set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.OperBoxExportFormat = value;
+            ConfigFactory.CurrentConfig.Toolbox.OperBox.OperBoxExportFormat = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.OperBoxExportFormat;
+    } = ConfigFactory.CurrentConfig.Toolbox.OperBox.OperBoxExportFormat;
 
     // UI 绑定的方法
     [UsedImplicitly]
@@ -2437,12 +2461,11 @@ public class ToolboxViewModel : Screen
 
     public bool GachaShowDisclaimerNoMore
     {
-        get => ConfigFactory.CurrentConfig.Toolbox.GachaShowDisclaimerNoMore;
-        set {
-            ConfigFactory.CurrentConfig.Toolbox.GachaShowDisclaimerNoMore = value;
-            NotifyOfPropertyChange();
+        get; set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.Gacha.GachaShowDisclaimerNoMore = value;
         }
-    }
+    } = ConfigFactory.CurrentConfig.Toolbox.Gacha.GachaShowDisclaimerNoMore;
 
     // UI 绑定的方法
     [UsedImplicitly]
@@ -2536,9 +2559,9 @@ public class ToolboxViewModel : Screen
 
             SetAndNotify(ref field, value);
             _peepImageTimer.Interval = 1000d / field;
-            ConfigFactory.CurrentConfig.Toolbox.PeepTargetFps = value;
+            ConfigFactory.CurrentConfig.Toolbox.Peep.PeepTargetFps = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.PeepTargetFps;
+    } = ConfigFactory.CurrentConfig.Toolbox.Peep.PeepTargetFps;
 
     private DateTime _lastFpsUpdateTime = DateTime.MinValue;
     private int _frameCount;
@@ -2743,6 +2766,8 @@ public class ToolboxViewModel : Screen
         public bool IsMaterialSynthesis => Value == "MiniGame@MaterialSynthesis@Begin";
 
         public bool IsEventShop => Value == "SS@Store@Begin";
+
+        public bool IsReclamation => Value == "Reclamation";
     }
 
     public static string MaterialSynthesisVideoPath => Path.Combine(PathsHelper.BaseDir, "Res", "Video", "MaterialSynthesis.mp4");
@@ -2777,6 +2802,8 @@ public class ToolboxViewModel : Screen
     public bool IsPixelPaintSelected => SelectedMiniGameItem?.IsPixelPaint == true;
 
     public bool IsAutoRaisePotentialSelected => SelectedMiniGameItem?.IsAutoRaisePotential == true;
+
+    public bool IsReclamationSelected => SelectedMiniGameItem?.IsReclamation == true;
 
     public static void UpdateMiniGameTaskList()
     {
@@ -2941,45 +2968,45 @@ public class ToolboxViewModel : Screen
         get;
         set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListDataSupplementInstrument = value;
+            ConfigFactory.CurrentConfig.Toolbox.MiniGame.EventShopBlackListDataSupplementInstrument = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListDataSupplementInstrument;
+    } = ConfigFactory.CurrentConfig.Toolbox.MiniGame.EventShopBlackListDataSupplementInstrument;
 
     public bool EventShopBlackListDataSupplementStick
     {
         get;
         set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListDataSupplementStick = value;
+            ConfigFactory.CurrentConfig.Toolbox.MiniGame.EventShopBlackListDataSupplementStick = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListDataSupplementStick;
+    } = ConfigFactory.CurrentConfig.Toolbox.MiniGame.EventShopBlackListDataSupplementStick;
 
     public bool EventShopBlackListLmd
     {
         get;
         set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListLmd = value;
+            ConfigFactory.CurrentConfig.Toolbox.MiniGame.EventShopBlackListLmd = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListLmd;
+    } = ConfigFactory.CurrentConfig.Toolbox.MiniGame.EventShopBlackListLmd;
 
     public bool EventShopBlackListFurniturePart
     {
         get;
         set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListFurniturePart = value;
+            ConfigFactory.CurrentConfig.Toolbox.MiniGame.EventShopBlackListFurniturePart = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListFurniturePart;
+    } = ConfigFactory.CurrentConfig.Toolbox.MiniGame.EventShopBlackListFurniturePart;
 
     public bool EventShopBlackListOther
     {
         get;
         set {
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListOther = value;
+            ConfigFactory.CurrentConfig.Toolbox.MiniGame.EventShopBlackListOther = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackListOther;
+    } = ConfigFactory.CurrentConfig.Toolbox.MiniGame.EventShopBlackListOther;
 
     public string EventShopBlackList
     {
@@ -2987,9 +3014,9 @@ public class ToolboxViewModel : Screen
         set {
             value = value.Replace("；", ";").Trim();
             SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.EventShopBlackList = value;
+            ConfigFactory.CurrentConfig.Toolbox.MiniGame.EventShopBlackList = value;
         }
-    } = ConfigFactory.CurrentConfig.Toolbox.EventShopBlackList;
+    } = ConfigFactory.CurrentConfig.Toolbox.MiniGame.EventShopBlackList;
 
     #region PixelPaint
 
@@ -3498,14 +3525,31 @@ public class ToolboxViewModel : Screen
 
     private async Task StartMiniGameAsync()
     {
-        if (Bootstrapper.TryGetTaskBlockReason() is { } reason)
+        if (!CheckSelectedMiniGameReady())
         {
-            Instances.TaskQueueViewModel.AddLog(reason, UiLogColor.Error);
             return;
         }
 
-        if (!CheckSelectedMiniGameReady())
+        await StartMiniGameAsync(StartSelectedMiniGame);
+    }
+
+    /// <summary>
+    /// 启动生息演算任务，含入口前置检查与模拟器连接。
+    /// </summary>
+    /// <returns>Task</returns>
+    public async Task StartReclamation()
+    {
+        await StartMiniGameAsync(ReclamationUserControlModel.Instance.AppendAndStartReclamationTask);
+    }
+
+    /// <summary>小游戏启动骨架：前置检查、连接与提交由各入口复用，submit 为条目提交动作。</summary>
+    /// <param name="submit">条目提交动作，返回任务是否成功提交。</param>
+    /// <returns>Task</returns>
+    private async Task StartMiniGameAsync(Func<bool> submit)
+    {
+        if (Bootstrapper.TryGetTaskBlockReason() is { } reason)
         {
+            Instances.TaskQueueViewModel.AddLog(reason, UiLogColor.Error);
             return;
         }
 
@@ -3528,7 +3572,7 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        caught = StartSelectedMiniGame();
+        caught = submit();
         if (!caught)
         {
             _runningState.SetIdle(true);
@@ -3559,6 +3603,11 @@ public class ToolboxViewModel : Screen
         if (IsPixelPaintSelected)
         {
             return StartPixelPaint();
+        }
+
+        if (IsReclamationSelected)
+        {
+            return ReclamationUserControlModel.Instance.AppendAndStartReclamationTask();
         }
 
         if (IsAutoRaisePotentialSelected)

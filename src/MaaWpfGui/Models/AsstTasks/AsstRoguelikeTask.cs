@@ -218,6 +218,16 @@ public class AsstRoguelikeTask : AsstBaseTask
     public bool BlackFlowStartRunFastFlight { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 刷开局的目标局凹第一层实托邦
+    /// </summary>
+    public bool BlackFlowStartUtopia { get; set; }
+
+    /// <summary>
+    /// Gets or sets 凹第一层实托邦时目标局的支援选取顺序
+    /// </summary>
+    public List<RoguelikeBlackFlowStartReward> BlackFlowStartRewardPriority { get; set; } = [];
+
+    /// <summary>
     /// Gets or sets a value indicating whether 是否在五层BOSS前停下来
     /// </summary>
     public bool StopAtFinalBoss { get; set; }
@@ -256,8 +266,8 @@ public class AsstRoguelikeTask : AsstBaseTask
             };
         }
 
-        // 准备局快速飞三层：分队、职业组和开局干员换成满天赋机械师的固定开局，只招机械师，其余开局招募由 Core 放弃。
-        // 目标局在支援页命中后就退出，走不到选职业组，所以职业组和开局干员只作用于准备局，直接替换即可。
+        // 准备局快速飞三层：准备局的分队、职业组和开局干员换成满天赋机械师的固定开局，只招机械师，其余开局招募由 Core 放弃。
+        // 凹第一层实托邦的目标局要开局进第一层，用常规设置的职业组和开局干员，所以准备局的另外传。
         var startRunFlight = Theme == RoguelikeTheme.BlackFlow && Mode == RoguelikeMode.BlackFlowStartRun && BlackFlowStartRunFastFlight;
         if (Theme == RoguelikeTheme.BlackFlow && Mode == RoguelikeMode.BlackFlowStartRun)
         {
@@ -275,6 +285,37 @@ public class AsstRoguelikeTask : AsstBaseTask
             }));
             taskParams["blackflow_start_rewards"] = (int)rewards;
             taskParams["collectible_mode_squad"] = startRunFlight ? BlackFlowFlightSquad : CollectibleModeSquad;
+            if (startRunFlight)
+            {
+                taskParams["collectible_mode_roles"] = BlackFlowFlightRoles;
+                taskParams["collectible_mode_core_char_list"] = new JArray(new JObject
+                {
+                    ["name"] = BlackFlowFlightCoreChar,
+                    ["use_support"] = false,
+                });
+            }
+
+            if (BlackFlowStartUtopia)
+            {
+                taskParams["blackflow_start_utopia"] = true;
+                taskParams["blackflow_start_reward_priority"] = new JArray(BlackFlowStartRewardPriority
+                    .Select(reward => reward switch
+                    {
+                        RoguelikeBlackFlowStartReward.UnnumberedItem => "unnumbered_item",
+                        RoguelikeBlackFlowStartReward.SurveyAdvance => "survey_advance",
+                        RoguelikeBlackFlowStartReward.SpaceLease => "space_lease",
+                        RoguelikeBlackFlowStartReward.RegressionCompensation => "regression_compensation",
+                        RoguelikeBlackFlowStartReward.ForestRide => "forest_ride",
+                        RoguelikeBlackFlowStartReward.NestParasitism => "nest_parasitism",
+                        RoguelikeBlackFlowStartReward.Pegasus => "pegasus",
+                        RoguelikeBlackFlowStartReward.Hippogriff => "hippogriff",
+                        RoguelikeBlackFlowStartReward.Dragon => "dragon",
+                        RoguelikeBlackFlowStartReward.Hydra => "hydra",
+                        RoguelikeBlackFlowStartReward.BaiZe => "bai_ze",
+                        RoguelikeBlackFlowStartReward.GoldenCrow => "golden_crow",
+                        _ => throw new System.ArgumentOutOfRangeException(nameof(reward)),
+                    }));
+            }
         }
 
         if (InvestmentEnabled)
@@ -293,7 +334,7 @@ public class AsstRoguelikeTask : AsstBaseTask
             taskParams["squad"] = Squad;
         }
 
-        if (expFlight || startRunFlight)
+        if (expFlight)
         {
             taskParams["roles"] = BlackFlowFlightRoles;
         }
@@ -302,7 +343,7 @@ public class AsstRoguelikeTask : AsstBaseTask
             taskParams["roles"] = Roles;
         }
 
-        List<AsstRoguelikeCoreChar> coreCharList = expFlight || startRunFlight
+        List<AsstRoguelikeCoreChar> coreCharList = expFlight
             ? [new() { Name = BlackFlowFlightCoreChar, UseSupport = false }]
             : CoreCharList;
         if (coreCharList.Count > 0)
