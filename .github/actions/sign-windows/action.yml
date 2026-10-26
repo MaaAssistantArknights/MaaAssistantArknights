@@ -13,6 +13,9 @@ inputs:
   signing-policy:
     description: SignPath signing policy; test-signing is for unpublished smoke tests only
     default: release-signing
+  release-certificate-sha256:
+    description: SHA-256 fingerprint of the issued release certificate; required for release-signing
+    default: ""
   install-directory:
     description: Directory to receive the verified signed files
     default: install
@@ -26,9 +29,14 @@ runs:
         SIGNING_VERSION: ${{ inputs.version }}
         INSTALL_DIRECTORY: ${{ inputs.install-directory }}
         SIGNING_ARCH: ${{ inputs.arch }}
+        SIGNING_POLICY: ${{ inputs.signing-policy }}
+        RELEASE_CERTIFICATE_SHA256: ${{ inputs.release-certificate-sha256 }}
       run: |
         if ([string]::IsNullOrWhiteSpace($env:SIGNPATH_API_TOKEN)) {
           throw 'SIGNPATH_API_TOKEN is required for Windows release signing.'
+        }
+        if ($env:SIGNING_POLICY -eq 'release-signing' -and $env:RELEASE_CERTIFICATE_SHA256 -notmatch '^[0-9a-fA-F]{64}$') {
+          throw 'Configure SIGNPATH_RELEASE_CERTIFICATE_SHA256 with the issued release certificate fingerprint before release signing.'
         }
         $sourceRevision = git rev-parse HEAD
         if ($LASTEXITCODE -ne 0 -or $sourceRevision -cne $env:GITHUB_SHA) {
@@ -67,5 +75,6 @@ runs:
         INSTALL_DIRECTORY: ${{ inputs.install-directory }}
         SIGNING_ARCH: ${{ inputs.arch }}
         SIGNING_POLICY: ${{ inputs.signing-policy }}
+        RELEASE_CERTIFICATE_SHA256: ${{ inputs.release-certificate-sha256 }}
       run: |
-        & "$env:GITHUB_ACTION_PATH/../../scripts/windows-signing.ps1" -Operation Verify -InstallDirectory $env:INSTALL_DIRECTORY -ArtifactDirectory "$env:RUNNER_TEMP/signpath-signed-$env:SIGNING_ARCH" -Version $env:SIGNING_VERSION -SigningPolicy $env:SIGNING_POLICY
+        & "$env:GITHUB_ACTION_PATH/../../scripts/windows-signing.ps1" -Operation Verify -InstallDirectory $env:INSTALL_DIRECTORY -ArtifactDirectory "$env:RUNNER_TEMP/signpath-signed-$env:SIGNING_ARCH" -Version $env:SIGNING_VERSION -SigningPolicy $env:SIGNING_POLICY -ReleaseCertificateSha256 $env:RELEASE_CERTIFICATE_SHA256

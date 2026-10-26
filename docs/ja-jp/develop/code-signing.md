@@ -1,6 +1,6 @@
 ---
 icon: mdi:certificate-outline
-order: 8
+order: 9
 ---
 
 # Code signing policy
@@ -9,7 +9,7 @@ Free code signing provided by [SignPath.io](https://signpath.io/), certificate b
 
 ## 署名対象とリリース手順
 
-Windows の正式版とベータ版は GitHub Actions から SignPath に署名を申請します。正式証明書が利用できない場合、承認されない場合、または署名の検証に失敗した場合、公開処理を停止します。過去のリリースには署名がない場合があるため、各ファイルのデジタル署名を確認してください。
+Windows の安定版とベータ版は GitHub Actions から SignPath に署名を申請します。正式証明書が利用できない場合、承認されない場合、または署名の検証に失敗した場合、公開処理を停止します。過去のリリースには署名がない場合があるため、各ファイルのデジタル署名を確認してください。
 
 署名対象は、このリポジトリと固定されたバージョンの MaaUtils ソースサブモジュールからビルドした次のファイルのみです。
 
@@ -19,9 +19,13 @@ Windows の正式版とベータ版は GitHub Actions から SignPath に署名�
 - `MaaCore.dll`
 - `MaaUtils.dll`
 
-サードパーティーの依存ファイルと署名は、上流から提供された状態を保持します。署名対象の製品バージョンを統一し、ファイル名と製品名も検証します。秘密鍵は SignPath の HSM 内に保管され、Windows には署名の発行元として SignPath Foundation が表示されます。
+既存の有効な上流の署名は保持します。一部の依存ファイル（NetBeauty が提供する変更版 `hostfxr.dll` など）は署名されていない場合があり、現在の署名許可リストには含まれません。CI はすべての EXE と DLL の署名状態を記録した `MAA-signpath-audit-<arch>` 成果物をアップロードします。未署名であることだけを理由に、本プロジェクトの証明書で依存ファイルを再署名することはありません。
 
-正式版とベータ版は `.github/workflows/ci.yml` を使用し、GitHub ホスト型ランナーでビルドして、パッケージ化する前に署名を検証します。すべてのリリース署名には手動承認が必要です。ナイトリー版は `.github/workflows/release-nightly-ota.yml` を使用し、現在は SignPath による署名を行わず、署名承認なしで従来どおり自動ビルドと公開を継続します。
+署名対象の製品バージョンを統一し、すべての Windows CI ビルドでファイル名、製品名、製品バージョンを検証します。秘密鍵は SignPath の HSM 内に保管され、Windows には署名の発行元として SignPath Foundation が表示されます。
+
+安定版とベータ版は `.github/workflows/ci.yml` を使用し、GitHub ホスト型ランナーでビルドして、パッケージ化する前に署名を検証します。署名済みのネイティブランタイムファイルは下流のパッケージにも使用します。すべてのリリース署名には手動承認が必要です。内部テスト版（Nightly）は `.github/workflows/release-nightly-ota.yml` を使用し、現在は SignPath による署名を行わず、署名承認なしで従来どおり自動ビルドと公開を継続します。
+
+初回の署名付きリリース前に、リポジトリの Actions 変数 `SIGNPATH_RELEASE_CERTIFICATE_SHA256` に発行済み正式証明書の SHA-256 フィンガープリントを設定してください。空白やコロンを含まない 64 桁の十六進数を使用し、証明書を交換するときも更新します。CI は証明書の信頼、発行元、タイムスタンプに加え、このフィンガープリントを検証します。
 
 `test-signing` は信頼されないテスト証明書を使用し、手動実行し、リリースしない CI 検証専用です。リリース証明書の代わりには使用しません。
 

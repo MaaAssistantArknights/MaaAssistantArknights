@@ -1,15 +1,15 @@
 param(
     [Parameter(Mandatory = $true)]
-    [ValidateSet('Prepare', 'Verify')]
+    [ValidateSet('CheckMetadata', 'Prepare', 'Verify')]
     [string]$Operation,
     [Parameter(Mandatory = $true)]
     [string]$InstallDirectory,
-    [Parameter(Mandatory = $true)]
     [string]$ArtifactDirectory,
     [Parameter(Mandatory = $true)]
     [string]$Version,
     [ValidateSet('release-signing', 'test-signing')]
-    [string]$SigningPolicy = 'release-signing'
+    [string]$SigningPolicy = 'release-signing',
+    [string]$ReleaseCertificateSha256
 )
 
 $ErrorActionPreference = 'Stop'
@@ -19,10 +19,16 @@ $files = @($configuration.SelectNodes("//*[local-name()='include']") | ForEach-O
 if ($files.Count -eq 0) {
     throw 'The signing configuration does not contain any files.'
 }
+if ($Operation -ne 'CheckMetadata' -and [string]::IsNullOrWhiteSpace($ArtifactDirectory)) {
+    throw 'An artifact directory is required for signing preparation and verification.'
+}
+if ($Operation -eq 'Verify' -and $SigningPolicy -eq 'release-signing' -and $ReleaseCertificateSha256 -notmatch '^[0-9a-fA-F]{64}$') {
+    throw 'SIGNPATH_RELEASE_CERTIFICATE_SHA256 must contain the SHA-256 fingerprint of the issued release certificate.'
+}
 
 if ($Operation -eq 'Prepare') {
     New-Item -ItemType Directory -Path $ArtifactDirectory -ErrorAction Stop | Out-Null
-} else {
+} elseif ($Operation -eq 'Verify') {
     $actualFiles = @(Get-ChildItem -LiteralPath $ArtifactDirectory -Recurse -File)
     if ($actualFiles.Count -ne $files.Count -or @($actualFiles | Where-Object { $_.Name -notin $files -or $_.DirectoryName -ne (Resolve-Path $ArtifactDirectory).Path }).Count -ne 0) {
         throw 'The signed artifact does not match the expected file list.'
@@ -54,14 +60,16 @@ try {
     }
 
     foreach ($name in $files) {
-        $sourceDirectory = if ($Operation -eq 'Prepare') { $InstallDirectory } else { $ArtifactDirectory }
+        $sourceDirectory = if ($Operation -eq 'Verify') { $ArtifactDirectory } else { $InstallDirectory }
         $file = Get-Item -LiteralPath (Join-Path $sourceDirectory $name)
         $metadata = $file.VersionInfo
         if ($metadata.ProductName -cne 'MAA' -or $metadata.ProductVersion -cne $Version -or $metadata.OriginalFilename -cne $name) {
             throw "Unexpected PE metadata in ${name}: product=$($metadata.ProductName), version=$($metadata.ProductVersion), original=$($metadata.OriginalFilename)"
         }
 
-        if ($Operation -eq 'Prepare') {
+        if ($Operation -eq 'CheckMetadata') {
+            continue
+        } elseif ($Operation -eq 'Prepare') {
             Copy-Item -LiteralPath $file.FullName -Destination (Join-Path $ArtifactDirectory $name)
             continue
         }
@@ -71,7 +79,7 @@ try {
             throw "Missing Authenticode signature: $name"
         }
         if ($SigningPolicy -eq 'release-signing') {
-            if ($signature.Status -ne 'Valid' -or $null -eq $signature.TimeStamperCertificate -or $signature.SignerCertificate.GetNameInfo('SimpleName', $false) -cne 'SignPath Foundation') {
+            if ($signature.Status -ne 'Valid' -or $null -eq $signature.TimeStamperCertificate -or $signature.SignerCertificate.GetNameInfo('SimpleName', $false) -cne 'SignPath Foundation' -or $signature.SignerCertificate.GetCertHashString('SHA256') -ine $ReleaseCertificateSha256) {
                 throw "Invalid release signature in ${name}: $($signature.Status)"
             }
         } else {

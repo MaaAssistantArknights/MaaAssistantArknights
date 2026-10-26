@@ -1,6 +1,6 @@
 ---
 icon: mdi:certificate-outline
-order: 8
+order: 9
 ---
 
 # Code signing policy
@@ -9,7 +9,7 @@ Free code signing provided by [SignPath.io](https://signpath.io/), certificate b
 
 ## Scope and release process
 
-GitHub Actions submits Windows stable and beta builds to SignPath. Publication stops if the release certificate is unavailable, approval is missing, or signature verification fails. Older releases may be unsigned; check each file's digital signature properties.
+GitHub Actions submits Windows Stable Release and Beta Release builds to SignPath. Publication stops if the release certificate is unavailable, approval is missing, or signature verification fails. Older releases may be unsigned; check each file's digital signature properties.
 
 We sign only the following binaries built from this repository and its pinned MaaUtils source submodule:
 
@@ -19,9 +19,13 @@ We sign only the following binaries built from this repository and its pinned Ma
 - `MaaCore.dll`
 - `MaaUtils.dll`
 
-Third-party dependencies retain the files and signatures supplied by upstream. All signed files share a product version, with file names and product names checked before signing. Private keys remain in SignPath's HSM. Windows identifies the signing publisher as SignPath Foundation.
+Existing valid upstream signatures are retained. Some dependencies, including the patched `hostfxr.dll` supplied by NetBeauty, may be unsigned and are outside the current signing allowlist. CI publishes a `MAA-signpath-audit-<arch>` artifact listing the signature status of every EXE and DLL; unsigned status alone does not make a dependency eligible for signing with this project's certificate.
 
-Stable and beta releases use `.github/workflows/ci.yml`, build on GitHub-hosted runners, and verify signatures before packaging. Every release signing request requires manual approval. Nightly builds use `.github/workflows/release-nightly-ota.yml` and currently skip SignPath signing, so they continue to build and publish automatically without signing approval.
+All signed files share a product version, with file names and product names checked in every Windows CI build. Private keys remain in SignPath's HSM. Windows identifies the signing publisher as SignPath Foundation.
+
+Stable Release and Beta Release builds use `.github/workflows/ci.yml`, build on GitHub-hosted runners, and verify signatures before packaging. Signed native runtime files are also used by downstream packages. Every release signing request requires manual approval. Nightly Release builds use `.github/workflows/release-nightly-ota.yml` and currently skip SignPath signing, so they continue to build and publish automatically without signing approval.
+
+Before the first signed release, set the repository Actions variable `SIGNPATH_RELEASE_CERTIFICATE_SHA256` to the issued release certificate's SHA-256 fingerprint: 64 hexadecimal digits without spaces or colons. Update it when replacing the certificate. CI checks this fingerprint in addition to certificate trust, publisher, and timestamp.
 
 The `test-signing` policy uses an untrusted test certificate only for manually triggered CI checks that are never published. It cannot replace the release certificate.
 

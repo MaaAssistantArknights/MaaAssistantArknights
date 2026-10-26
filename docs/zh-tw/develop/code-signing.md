@@ -1,6 +1,6 @@
 ---
 icon: mdi:certificate-outline
-order: 8
+order: 9
 ---
 
 # Code signing policy
@@ -9,7 +9,7 @@ Free code signing provided by [SignPath.io](https://signpath.io/), certificate b
 
 ## 簽章範圍與發佈流程
 
-Windows 正式版和 Beta 測試版的簽章由 GitHub Actions 提交至 SignPath；正式憑證尚未就緒、審批未通過或簽章驗證失敗時，發佈流程停止。歷史版本可能未簽章，請以檔案的數位簽章內容為準。
+Windows 穩定版和公測版（Beta）的簽章由 GitHub Actions 提交至 SignPath；正式憑證尚未就緒、審批未通過或簽章驗證失敗時，發佈流程停止。歷史版本可能未簽章，請以檔案的數位簽章內容為準。
 
 簽章僅涵蓋從本專案原始碼及固定版本的 MaaUtils 子模組建置的下列檔案：
 
@@ -19,9 +19,13 @@ Windows 正式版和 Beta 測試版的簽章由 GitHub Actions 提交至 SignPat
 - `MaaCore.dll`
 - `MaaUtils.dll`
 
-第三方相依項目保留上游提供的檔案及簽章。簽章使用相同的產品版本，並驗證檔名及產品名稱。私密金鑰保留於 SignPath 的 HSM，Windows 顯示的簽章發行者為 SignPath Foundation。
+既有的有效上游簽章會保留。部分相依項目（包括 NetBeauty 提供的修改版 `hostfxr.dll`）可能未簽章，不屬於目前的簽章白名單。CI 會上傳 `MAA-signpath-audit-<arch>` 產物，列出所有 EXE 和 DLL 的簽章狀態；相依項目未簽章不代表可以使用本專案的憑證重新簽章。
 
-正式版和 Beta 測試版使用 `.github/workflows/ci.yml`，於 GitHub 託管執行器建置，並於封裝前完成簽章驗證。每次發佈簽章都需要核准者手動審批。Nightly（內測版）使用 `.github/workflows/release-nightly-ota.yml`，暫不進行 SignPath 簽章，依原流程自動建置和發佈，無需簽章審批。
+簽章使用相同的產品版本，每次 Windows CI 建置皆驗證檔名、產品名稱及產品版本。私密金鑰保留於 SignPath 的 HSM，Windows 顯示的簽章發行者為 SignPath Foundation。
+
+穩定版和公測版（Beta）使用 `.github/workflows/ci.yml`，於 GitHub 託管執行器建置，並於封裝前完成簽章驗證。簽章後的原生執行階段檔案也供下游套件使用。每次發佈簽章都需要核准者手動審批。內測版（Nightly）使用 `.github/workflows/release-nightly-ota.yml`，暫不進行 SignPath 簽章，依原流程自動建置和發佈，無需簽章審批。
+
+首次簽章發佈前，須將儲存庫 Actions 變數 `SIGNPATH_RELEASE_CERTIFICATE_SHA256` 設為已簽發正式憑證的 SHA-256 指紋，格式為 64 位十六進位，不含空格或冒號。更換憑證時同步更新此變數。CI 除了驗證憑證信任、發行者及時間戳記，也會比對此指紋。
 
 `test-signing` 使用不受使用者系統信任的測試憑證，僅供手動觸發且不發佈的 CI 驗證，不能替代發佈憑證。
 
