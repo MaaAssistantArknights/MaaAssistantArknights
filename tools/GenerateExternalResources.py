@@ -34,14 +34,21 @@ XKEY_RE = re.compile(r'x:Key="([^"]+)"')
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("version", help="HandyControls 版本号，如 3.6.0")
-    parser.add_argument("--proxy", help="HTTP 代理地址（访问 GitHub 受阻的环境使用），缺省直连")
+    parser.add_argument(
+        "--proxy", help="HTTP 代理地址（访问 GitHub 受阻的环境使用），缺省直连"
+    )
     args = parser.parse_args()
     version = args.version.lstrip("v")
 
     with tempfile.TemporaryDirectory() as tmp:
         tar_path = Path(tmp) / "src.tar.gz"
-        cmd = ["curl", "-fsSL", f"https://github.com/{REPO}/archive/refs/tags/v{version}.tar.gz",
-               "-o", str(tar_path)]
+        cmd = [
+            "curl",
+            "-fsSL",
+            f"https://github.com/{REPO}/archive/refs/tags/v{version}.tar.gz",
+            "-o",
+            str(tar_path),
+        ]
         if args.proxy:
             cmd += ["-x", args.proxy]
         subprocess.run(cmd, check=True)

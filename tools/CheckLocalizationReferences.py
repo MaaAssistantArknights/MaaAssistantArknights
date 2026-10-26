@@ -38,7 +38,9 @@ XAML_NS_KEY = "{http://schemas.microsoft.com/winfx/2006/xaml}Key"
 INLINE_KEY_RE = re.compile(r"\{key=([^}]+)\}")
 # 标记扩展形式 {DynamicResource X} / {StaticResource X}；排除 <StaticResource ResourceKey=
 # 属性形式里的属性名（ResourceKey 本身不是 key）
-XAML_RES_RE = re.compile(r"(?:Dynamic|Static)Resource\s+(?!ResourceKey[=\s])([A-Za-z0-9._@-]+)")
+XAML_RES_RE = re.compile(
+    r"(?:Dynamic|Static)Resource\s+(?!ResourceKey[=\s])([A-Za-z0-9._@-]+)"
+)
 # 元素属性形式 <StaticResource ResourceKey="X" />；只收静态字面量值，
 # {Binding ...} 等运行时表达式（ResourceReferenceHelper 附加属性的值由 VM 提供）跳过
 XAML_RES_ATTR_RE = re.compile(r'ResourceKey="([^"{]+)"')
@@ -46,9 +48,13 @@ XKEY_RE = re.compile(r'x:Key="([^"]+)"')
 # 其他第三方库资源（HandyControls 清单之外）：MdXaml（Markdown 渲染）包内字典
 EXTRA_EXTERNAL_RESOURCES = frozenset({"MdXamlStyle", "MdXamlPlugin"})
 # 末尾负向前瞻排除 "前缀" + N 之类拼接形态（家族成员无法静态判定，不校验）
-CS_CALL_RE = re.compile(r'(?:GetString|TryGetString|GetRawString|GetStringFormat)\(\s*@?"([^"]+)"(?!\s*\+)')
+CS_CALL_RE = re.compile(
+    r'(?:GetString|TryGetString|GetRawString|GetStringFormat)\(\s*@?"([^"]+)"(?!\s*\+)'
+)
 # 首参换行的调用：上一行以调用名加左括号结尾，下一行以字符串字面量开头
-CS_CALL_OPEN_RE = re.compile(r'(?:GetString|TryGetString|GetRawString|GetStringFormat)\($')
+CS_CALL_OPEN_RE = re.compile(
+    r"(?:GetString|TryGetString|GetRawString|GetStringFormat)\($"
+)
 CS_CALL_CONT_RE = re.compile(r'^\s*@?"([^"]+)"(?!\s*\+)')
 # Resources["X"] 索引读取（排除赋值形态，赋值是写入不是引用）
 RES_INDEX_RE = re.compile(r'Resources\["([^"]+)"\](?!\s*=)')
@@ -62,7 +68,9 @@ def lang_keys() -> dict[str, set[str]]:
     result = {}
     for lang in LANGS:
         tree = ET.parse(LOC / f"{lang}.xaml")
-        result[lang] = {el.get(XAML_NS_KEY) for el in tree.iter() if el.get(XAML_NS_KEY)}
+        result[lang] = {
+            el.get(XAML_NS_KEY) for el in tree.iter() if el.get(XAML_NS_KEY)
+        }
     return result
 
 
@@ -93,8 +101,11 @@ def collect_local_xaml_keys() -> set[str]:
 
 def load_external_resources() -> set[str]:
     path = ROOT / "tools/ExternalWpfResources.txt"
-    return {line.strip() for line in path.read_text(encoding="utf-8").splitlines()
-            if line.strip() and not line.startswith("#")}
+    return {
+        line.strip()
+        for line in path.read_text(encoding="utf-8").splitlines()
+        if line.strip() and not line.startswith("#")
+    }
 
 
 def scan_code_refs() -> list[tuple[str, int, str, str]]:
@@ -120,7 +131,11 @@ def scan_code_refs() -> list[tuple[str, int, str, str]]:
                     stripped = line.strip()
                 else:
                     continue
-            if stripped.startswith("//") or stripped.startswith("*") or stripped.startswith("<!--"):
+            if (
+                stripped.startswith("//")
+                or stripped.startswith("*")
+                or stripped.startswith("<!--")
+            ):
                 pending_call_open = False
                 continue
             # 剥掉单行块注释段 /* ... */，跨行块注释由状态机跟踪
@@ -143,7 +158,9 @@ def scan_code_refs() -> list[tuple[str, int, str, str]]:
                     pending_call_open = False
                 for m in CS_CALL_RE.finditer(line):
                     refs.append((rel, lineno, m.group(1), stripped))
-                pending_call_open = pending_call_open or bool(CS_CALL_OPEN_RE.search(stripped))
+                pending_call_open = pending_call_open or bool(
+                    CS_CALL_OPEN_RE.search(stripped)
+                )
                 for m in RES_INDEX_RE.finditer(line):
                     refs.append((rel, lineno, m.group(1), stripped))
     return refs
@@ -161,7 +178,9 @@ def scan_observable_list_keys() -> list[tuple[str, int, str, str]]:
     """
     refs = []
     ctor_re = re.compile(r"new\s+LocalizedObservableList")
-    tuple_re = re.compile(r'\(\s*[A-Za-z_][A-Za-z0-9_.]*\s*,\s*"([A-Za-z][A-Za-z0-9.]*)"')
+    tuple_re = re.compile(
+        r'\(\s*[A-Za-z_][A-Za-z0-9_.]*\s*,\s*"([A-Za-z][A-Za-z0-9.]*)"'
+    )
     dotted_str_re = re.compile(r'"([A-Za-z][A-Za-z0-9.]*)"')
     # 本地化 key 形态：至少两段、每段以大写字母或数字开头；
     # 排除 gui.json / NoxConsole.exe 这类路径与文件名（含小写段）
@@ -174,7 +193,9 @@ def scan_observable_list_keys() -> list[tuple[str, int, str, str]]:
         in_block_comment = False
         tracking = False
         depth = 0
-        for lineno, line in enumerate(p.read_text(encoding="utf-8-sig").splitlines(), 1):
+        for lineno, line in enumerate(
+            p.read_text(encoding="utf-8-sig").splitlines(), 1
+        ):
             stripped = line.strip()
             if in_block_comment:
                 if "*/" in line:
@@ -203,7 +224,7 @@ def scan_observable_list_keys() -> list[tuple[str, int, str, str]]:
 
             m = ctor_re.search(line)
             if m:
-                seg = line[m.end():]
+                seg = line[m.end() :]
                 depth = seg.count("{") - seg.count("}")
                 for sm in dotted_str_re.finditer(seg):
                     k = sm.group(1)
@@ -231,32 +252,50 @@ def main() -> int:
     for lang in LANGS[1:]:
         missing_keys = base - keys[lang]
         extra_keys = keys[lang] - base
-        consistency.append(f"{lang}.xaml: 缺少 {len(missing_keys)} 个 zh-cn 存在的 key，多出 {len(extra_keys)} 个")
+        consistency.append(
+            f"{lang}.xaml: 缺少 {len(missing_keys)} 个 zh-cn 存在的 key，多出 {len(extra_keys)} 个"
+        )
 
     # 2. 代码引用存在。XAML 资源引用的三层有效集合：语言 key ∪ 本仓 xaml
     #    自身 x:Key 定义 ∪ HandyControls 外部清单（tools/ExternalWpfResources.txt）。
     #    不在任何一层即硬失败——视图内部资源被本地收集天然放行，HandyControl
     #    库资源由清单覆盖，剩下未命中的就是真断链或清单缺项。
-    valid_resources = base | collect_local_xaml_keys() | load_external_resources() | EXTRA_EXTERNAL_RESOURCES
+    valid_resources = (
+        base
+        | collect_local_xaml_keys()
+        | load_external_resources()
+        | EXTRA_EXTERNAL_RESOURCES
+    )
     for rel, lineno, key, line in scan_code_refs():
         if key in valid_resources:
             continue
-        missing.append(f"{rel}:{lineno}: 引用的 key {key!r} 不在语言文件或资源集合中: {line[:120]}")
+        missing.append(
+            f"{rel}:{lineno}: 引用的 key {key!r} 不在语言文件或资源集合中: {line[:120]}"
+        )
 
     # 3. 值内 {key=} 内联引用存在
     for lang in LANGS:
-        for lineno, line in enumerate((LOC / f"{lang}.xaml").read_text(encoding="utf-8").splitlines(), 1):
+        for lineno, line in enumerate(
+            (LOC / f"{lang}.xaml").read_text(encoding="utf-8").splitlines(), 1
+        ):
             for m in INLINE_KEY_RE.finditer(line):
                 if m.group(1) not in base:
-                    inline_missing.append(f"{lang}.xaml:{lineno}: 内联引用的 key {m.group(1)!r} 不存在")
+                    inline_missing.append(
+                        f"{lang}.xaml:{lineno}: 内联引用的 key {m.group(1)!r} 不存在"
+                    )
 
     # 4. 代码内静态映射值（枚举/协议转换函数的 switch 右侧 key）必须存在；
     #    这类值不经过 GetString("字面量") 调用形态，扫描器天然覆盖不到
     map_value_re = re.compile(r'=>\s*"([A-Za-z][A-Za-z0-9.]*)"')
-    ext_files = [GUI / "Extensions/LocalizationKeyExtensions.cs", GUI / "Main/AsstProxy.cs"]
+    ext_files = [
+        GUI / "Extensions/LocalizationKeyExtensions.cs",
+        GUI / "Main/AsstProxy.cs",
+    ]
     for p in ext_files:
         rel = str(p.relative_to(ROOT)).replace("\\", "/")
-        for lineno, line in enumerate(p.read_text(encoding="utf-8-sig").splitlines(), 1):
+        for lineno, line in enumerate(
+            p.read_text(encoding="utf-8-sig").splitlines(), 1
+        ):
             for m in map_value_re.finditer(line):
                 v = m.group(1)
                 if v not in base and "." in v:
@@ -266,7 +305,9 @@ def main() -> int:
     list_missing = []
     for rel, lineno, key, line in scan_observable_list_keys():
         if key not in base:
-            list_missing.append(f"{rel}:{lineno}: 列表条目 key {key!r} 不在语言文件中: {line[:120]}")
+            list_missing.append(
+                f"{rel}:{lineno}: 列表条目 key {key!r} 不在语言文件中: {line[:120]}"
+            )
 
     # 6. 单语言文件内 x:Key 不得重复
     duplicates = duplicate_keys()
@@ -277,8 +318,16 @@ def main() -> int:
         if not c.endswith("缺少 0 个 zh-cn 存在的 key，多出 0 个"):
             print(f"::error::[五语言一致性] {c}")
 
-    if missing or inline_missing or map_values or list_missing or duplicates or any(
-            not c.endswith("缺少 0 个 zh-cn 存在的 key，多出 0 个") for c in consistency):
+    if (
+        missing
+        or inline_missing
+        or map_values
+        or list_missing
+        or duplicates
+        or any(
+            not c.endswith("缺少 0 个 zh-cn 存在的 key，多出 0 个") for c in consistency
+        )
+    ):
         return 1
     print(f"localization references ok ({len(base)} keys, 5 langs consistent)")
     return 0

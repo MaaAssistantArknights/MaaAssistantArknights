@@ -66,7 +66,11 @@ def parse_file(path: Path):
 
         m = ENTRY_RE.match(line)
         if m:
-            entry = {"key": m.group(2), "lines": [line], "leading_comments": pending_comments}
+            entry = {
+                "key": m.group(2),
+                "lines": [line],
+                "leading_comments": pending_comments,
+            }
             pending_comments = []
             if "</system:String>" not in line:
                 pending_entry = entry
@@ -98,7 +102,9 @@ def parse_file(path: Path):
 
     # 文件尾：ResourceDictionary 闭合标签前可能残留注释/空行
     if pending_entry is not None:
-        raise ValueError(f"条目 {pending_entry['key']!r} 未闭合（缺少 </system:String>），拒绝重排以免静默丢失")
+        raise ValueError(
+            f"条目 {pending_entry['key']!r} 未闭合（缺少 </system:String>），拒绝重排以免静默丢失"
+        )
     return head, entries, tail_candidates
 
 
@@ -131,7 +137,9 @@ def process(path: Path, check: bool) -> bool:
     if new_text == old_text:
         return True
     if check:
-        print(f"::error::{path.name} 条目顺序不符合 key 字节序（跑 tools/SortLocalizationKeys.py 归位）")
+        print(
+            f"::error::{path.name} 条目顺序不符合 key 字节序（跑 tools/SortLocalizationKeys.py 归位）"
+        )
         return False
     path.write_text(new_text, encoding="utf-8")
     print(f"{path.name}: 重排 {len(entries)} 个条目")
@@ -140,8 +148,12 @@ def process(path: Path, check: bool) -> bool:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("langs", nargs="*", help="语言代码（如 zh-cn），缺省为全部五语言")
-    parser.add_argument("--check", action="store_true", help="校验模式：不写文件，乱序时退出码 1")
+    parser.add_argument(
+        "langs", nargs="*", help="语言代码（如 zh-cn），缺省为全部五语言"
+    )
+    parser.add_argument(
+        "--check", action="store_true", help="校验模式：不写文件，乱序时退出码 1"
+    )
     args = parser.parse_args()
 
     langs = args.langs or LANGS

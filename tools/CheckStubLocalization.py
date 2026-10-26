@@ -23,7 +23,9 @@ def xaml_value(lang: str, key: str) -> str | None:
     path = ROOT / "src/MaaWpfGui/Res/Localizations" / f"{lang}.xaml"
     text = path.read_text(encoding="utf-8")
     # xaml 实体（&amp; 等）还原后再与 cpp 字面量比对；key 含点，需 escape 防正则通配
-    match = re.search(rf'x:Key="{re.escape(key)}"[^>]*>(.*?)</system:String>', text, re.S)
+    match = re.search(
+        rf'x:Key="{re.escape(key)}"[^>]*>(.*?)</system:String>', text, re.S
+    )
     return html.unescape(match.group(1)) if match else None
 
 
