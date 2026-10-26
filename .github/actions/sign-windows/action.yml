@@ -55,7 +55,7 @@ runs:
         artifact-configuration-slug: windows-binaries
         github-artifact-id: ${{ steps.unsigned.outputs.artifact-id }}
         wait-for-completion: true
-        wait-for-completion-timeout-in-seconds: 14400
+        wait-for-completion-timeout-in-seconds: ${{ inputs.signing-policy == 'test-signing' && 600 || 14400 }}
         output-artifact-directory: ${{ runner.temp }}/signpath-signed-${{ inputs.arch }}
         parameters: |
           version: ${{ toJSON(inputs.version) }}

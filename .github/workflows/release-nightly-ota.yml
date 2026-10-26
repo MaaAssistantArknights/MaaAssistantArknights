@@ -289,6 +289,7 @@ jobs:
           cp tools/DependencySetup_依赖库安装.bat install
 
       - name: Sign Windows binaries
+        timeout-minutes: 250
         uses: ./.github/actions/sign-windows
         with:
           api-token: ${{ secrets.SIGNPATH_API_TOKEN }}

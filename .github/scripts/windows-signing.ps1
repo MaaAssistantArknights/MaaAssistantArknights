@@ -34,7 +34,7 @@ $temporaryTestCertificate = $null
 $testThumbprint = '3F14001D72B92689CA179B100A67BDA7124F3F6F'
 try {
     if ($Operation -eq 'Verify' -and $SigningPolicy -eq 'test-signing') {
-        if ($env:GITHUB_ACTIONS -ne 'true') {
+        if ($env:GITHUB_ACTIONS -ne 'true' -or $env:RUNNER_ENVIRONMENT -ne 'github-hosted') {
             throw 'Test-certificate trust setup is restricted to disposable GitHub Actions runners.'
         }
         $testCertificate = (Get-AuthenticodeSignature -LiteralPath (Join-Path $ArtifactDirectory $files[0])).SignerCertificate
@@ -43,9 +43,11 @@ try {
         }
         # Trust only the pinned public test certificate for the duration of verification.
         # This avoids treating PowerShell's generic UnknownError as a valid signature.
-        $testStore = [System.Security.Cryptography.X509Certificates.X509Store]::new('Root', 'CurrentUser')
+        # CurrentUser Root can show a confirmation dialog and block unattended runners.
+        $testStore = [System.Security.Cryptography.X509Certificates.X509Store]::new('Root', 'LocalMachine')
         $testStore.Open('ReadWrite')
         if ($testStore.Certificates.Find('FindByThumbprint', $testThumbprint, $false).Count -eq 0) {
+            Write-Host 'Temporarily trusting the pinned test certificate on this disposable runner.'
             $testStore.Add($testCertificate)
             $temporaryTestCertificate = $testCertificate
         }

@@ -260,6 +260,7 @@ jobs:
           cp tools/DependencySetup_依赖库安装.bat install
 
       - name: Sign Windows binaries
+        timeout-minutes: ${{ github.event_name == 'workflow_dispatch' && inputs.windows_signing_test && 15 || 250 }}
         if: github.repository == 'MaaAssistantArknights/MaaAssistantArknights' && (startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && inputs.windows_signing_test))
         uses: ./.github/actions/sign-windows
         with:
