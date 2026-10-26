@@ -1762,6 +1762,7 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="Settings.Game.StartsWithScript.Placeholder">예: "C:\1.cmd" -minimized</system:String>
     <system:String x:Key="Settings.Game.SwitchResolution.Tip">에뮬레이터 해상도를 1920x1080으로 변경!</system:String>
     <system:String x:Key="Settings.Game.Title">실행 설정</system:String>
+    <system:String x:Key="Settings.GlobalConfigTip">이 페이지는 전역(Global) 구성 설정입니다</system:String>
     <system:String x:Key="Settings.HotKey.Changing.Tip">Backspace/Esc/Delete 키를 누르면 현재 값이 지워집니다</system:String>
     <system:String x:Key="Settings.HotKey.LinkStart">[단축키] Link 시작/중지</system:String>
     <system:String x:Key="Settings.HotKey.NotSet">&lt; 미설정 &gt;</system:String>
@@ -2071,7 +2072,6 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.Fight.UseSanityPotion">이성 회복제 사용</system:String>
     <system:String x:Key="TaskQueue.FightTimesMayNotExhausted">작전 횟수({0}회)가 {key=TaskQueue.Fight.Series}({1}회)로 나누어떨어지지 않아, 모두 사용하지 못할 수 있습니다.</system:String>
     <system:String x:Key="TaskQueue.GeneralSettings">일반 설정</system:String>
-    <system:String x:Key="TaskQueue.GlobalConfigTip">이 페이지는 전역(Global) 구성 설정입니다</system:String>
     <system:String x:Key="TaskQueue.HideHoverActionButtons">메인 작업에 마우스를 올릴 때 버튼 숨기기</system:String>
     <system:String x:Key="TaskQueue.HideHoverActionButtons.Tip">해당 기능은 기어 우클릭 메뉴에서 계속 사용할 수 있습니다</system:String>
     <system:String x:Key="TaskQueue.Inverse">선택 반전</system:String>

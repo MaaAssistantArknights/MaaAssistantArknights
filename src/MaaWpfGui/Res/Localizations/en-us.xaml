@@ -1761,6 +1761,7 @@ When difficulty ≥ N6, 6★ Hope cost +1; some squads may be unable to recruit 
     <system:String x:Key="Settings.Game.StartsWithScript.Placeholder">Example: "C:\1.cmd" -minimized</system:String>
     <system:String x:Key="Settings.Game.SwitchResolution.Tip">Change the emulator resolution to 1920x1080!</system:String>
     <system:String x:Key="Settings.Game.Title">Game Settings</system:String>
+    <system:String x:Key="Settings.GlobalConfigTip">This option page is for global config</system:String>
     <system:String x:Key="Settings.HotKey.Changing.Tip">Press Backspace / Esc / Delete to clear the current value</system:String>
     <system:String x:Key="Settings.HotKey.LinkStart">[HotKey] Link start/stop</system:String>
     <system:String x:Key="Settings.HotKey.NotSet">&lt; not set &gt;</system:String>
@@ -2070,7 +2071,6 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="TaskQueue.Fight.UseSanityPotion">Use Sanity Potion</system:String>
     <system:String x:Key="TaskQueue.FightTimesMayNotExhausted">Battle count ({0} times) may not be exhausted, {key=TaskQueue.Fight.Series}: {1}</system:String>
     <system:String x:Key="TaskQueue.GeneralSettings">General</system:String>
-    <system:String x:Key="TaskQueue.GlobalConfigTip">This option page is for global config</system:String>
     <system:String x:Key="TaskQueue.HideHoverActionButtons">Hide action buttons when hovering over a main task</system:String>
     <system:String x:Key="TaskQueue.HideHoverActionButtons.Tip">The actions are still available from the gear icon's right-click menu</system:String>
     <system:String x:Key="TaskQueue.Inverse">Invert</system:String>

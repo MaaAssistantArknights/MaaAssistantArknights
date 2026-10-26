@@ -1764,6 +1764,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Settings.Game.StartsWithScript.Placeholder">例: "C:\1.cmd" -minimized</system:String>
     <system:String x:Key="Settings.Game.SwitchResolution.Tip">エミュレータの解像度を1920x1080に変更!</system:String>
     <system:String x:Key="Settings.Game.Title">実行設定</system:String>
+    <system:String x:Key="Settings.GlobalConfigTip">このオプション ページはグローバル設定用です</system:String>
     <system:String x:Key="Settings.HotKey.Changing.Tip">バックスペース/Esc/デリート キーを押すことで初期化できます</system:String>
     <system:String x:Key="Settings.HotKey.LinkStart">[ホットキー] Link 開始/停止</system:String>
     <system:String x:Key="Settings.HotKey.NotSet">&lt; 未設定 &gt;</system:String>
@@ -2072,7 +2073,6 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.Fight.UseSanityPotion">理性剤使用数</system:String>
     <system:String x:Key="TaskQueue.FightTimesMayNotExhausted">戦闘回数 ({0}) は {key=TaskQueue.Fight.Series} ({1}) で割り切れないため、使い切られない可能性があります。</system:String>
     <system:String x:Key="TaskQueue.GeneralSettings">一般設定</system:String>
-    <system:String x:Key="TaskQueue.GlobalConfigTip">このオプション ページはグローバル設定用です</system:String>
     <system:String x:Key="TaskQueue.HideHoverActionButtons">メインタスク ホバー時に操作ボタンを隠す</system:String>
     <system:String x:Key="TaskQueue.HideHoverActionButtons.Tip">各操作は歯車の右クリックメニューから引き続き利用できます</system:String>
     <system:String x:Key="TaskQueue.Inverse">逆選択</system:String>

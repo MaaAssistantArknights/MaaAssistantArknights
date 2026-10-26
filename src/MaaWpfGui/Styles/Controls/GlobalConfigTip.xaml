@@ -11,7 +11,7 @@
     <controls:TextBlock
         HorizontalAlignment="Center"
         FontWeight="Bold"
-        Text="{DynamicResource TaskQueue.GlobalConfigTip}"
+        Text="{DynamicResource Settings.GlobalConfigTip}"
         TextAlignment="Center"
         Visibility="{c:Binding 'ConfigurationList.Count > 1',
                                Source={x:Static helper:Instances.SettingsViewModel}}" />

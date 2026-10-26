@@ -1762,6 +1762,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Settings.Game.StartsWithScript.Placeholder">示例："C:\1.cmd" -minimized</system:String>
     <system:String x:Key="Settings.Game.SwitchResolution.Tip">将模拟器分辨率更改为 1920x1080！</system:String>
     <system:String x:Key="Settings.Game.Title">运行设置</system:String>
+    <system:String x:Key="Settings.GlobalConfigTip">此选项页为全局配置</system:String>
     <system:String x:Key="Settings.HotKey.Changing.Tip">键入 退格/Esc/Delete 清除当前热键</system:String>
     <system:String x:Key="Settings.HotKey.LinkStart">[热键] Link start/stop</system:String>
     <system:String x:Key="Settings.HotKey.NotSet">&lt; 未设置 &gt;</system:String>
@@ -2071,7 +2072,6 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.Fight.UseSanityPotion">使用药剂</system:String>
     <system:String x:Key="TaskQueue.FightTimesMayNotExhausted">战斗次数 ({0}) 无法被 {key=TaskQueue.Fight.Series} ({1}) 整除, 可能无法用尽</system:String>
     <system:String x:Key="TaskQueue.GeneralSettings">常规设置</system:String>
-    <system:String x:Key="TaskQueue.GlobalConfigTip">此选项页为全局配置</system:String>
     <system:String x:Key="TaskQueue.HideHoverActionButtons">隐藏主任务悬停操作按钮</system:String>
     <system:String x:Key="TaskQueue.HideHoverActionButtons.Tip">相应功能仍可通过右键齿轮菜单使用</system:String>
     <system:String x:Key="TaskQueue.Inverse">反选</system:String>
