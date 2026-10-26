@@ -58,7 +58,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
         }
         catch (Exception ex)
         {
-            ToastNotification.ShowDirect(LocalizationHelper.GetStringFormat("FailedToOpenFolder", ex.Message));
+            ToastNotification.ShowDirect(LocalizationHelper.GetStringFormat("IssueReport.FailedToOpenFolder", ex.Message));
             _logger.Error(ex, "Failed to open debug folder");
         }
     }
@@ -76,7 +76,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
         }
         catch (Exception ex)
         {
-            ToastNotification.ShowDirect(LocalizationHelper.GetStringFormat("FailedToOpenFolder", ex.Message));
+            ToastNotification.ShowDirect(LocalizationHelper.GetStringFormat("IssueReport.FailedToOpenFolder", ex.Message));
             _logger.Error(ex, "Failed to open reports folder");
         }
     }
@@ -106,12 +106,12 @@ public class IssueReportUserControlModel : PropertyChangedBase
     public async Task ClearImageCache()
     {
         var result = MessageBoxHelper.Show(
-            LocalizationHelper.GetString("ClearImageCacheTip"),
-            LocalizationHelper.GetString("Warning"),
+            LocalizationHelper.GetString("IssueReport.ClearImageCache.Tip"),
+            LocalizationHelper.GetString("Settings.Warning"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Error,
-            no: LocalizationHelper.GetString("Confirm"),
-            yes: LocalizationHelper.GetString("Cancel"));
+            no: LocalizationHelper.GetString("Settings.Confirm"),
+            yes: LocalizationHelper.GetString("Settings.Cancel"));
         if (result == MessageBoxResult.Yes)
         {
             return;
@@ -145,16 +145,16 @@ public class IssueReportUserControlModel : PropertyChangedBase
 
             if (deletedCount > 0)
             {
-                ShowGrowl(LocalizationHelper.GetString("ClearImageCacheSuccessful"));
+                ShowGrowl(LocalizationHelper.GetString("IssueReport.ClearImageCacheSuccessful"));
             }
             else
             {
-                ShowGrowl(LocalizationHelper.GetString("ClearImageCacheAlreadyEmpty"));
+                ShowGrowl(LocalizationHelper.GetString("IssueReport.ClearImageCacheAlreadyEmpty"));
             }
         }
         catch (Exception ex)
         {
-            ShowGrowl($"{LocalizationHelper.GetString("ClearImageCacheException")}\n{ex.Message}");
+            ShowGrowl($"{LocalizationHelper.GetString("IssueReport.ClearImageCacheException")}\n{ex.Message}");
             _logger.Error(ex, "Failed to clear image cache");
         }
         finally
@@ -336,12 +336,12 @@ public class IssueReportUserControlModel : PropertyChangedBase
                 Directory.Delete(tempPath, recursive: true);
             });
 
-            ShowGrowl($"{LocalizationHelper.GetString("GenerateSupportPayloadSuccessful")}\n{fullZipPath}");
+            ShowGrowl($"{LocalizationHelper.GetString("IssueReport.GenerateSupportPayloadSuccessful")}\n{fullZipPath}");
             OpenReportsFolder();
         }
         catch (Exception ex)
         {
-            ShowGrowl($"{LocalizationHelper.GetString("GenerateSupportPayloadException")}\n{ex.Message}");
+            ShowGrowl($"{LocalizationHelper.GetString("IssueReport.GenerateSupportPayloadException")}\n{ex.Message}");
             _logger.Error(ex, "Failed to create support payload");
         }
         finally

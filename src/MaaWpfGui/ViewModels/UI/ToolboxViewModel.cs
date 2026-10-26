@@ -71,7 +71,7 @@ public class ToolboxViewModel : Screen
     public ToolboxViewModel()
     {
         PropertyDependsOnUtility.InitializePropertyDependencies(this);
-        DisplayName = LocalizationHelper.GetString("Toolbox");
+        DisplayName = LocalizationHelper.GetString("Toolbox.Title");
         _runningState = RunningState.Instance;
         _runningState.StateChanged += (__, e) => {
             if (e.NewState.Stopping && Peeping && !IsPeepTransitioning)
@@ -83,8 +83,8 @@ public class ToolboxViewModel : Screen
 
         // 本类型由 Stylet IoC 容器管理，全应用生命周期唯一实例，订阅后无需取消订阅
         LocalizationHelper.LanguageChanged += () => {
-            DisplayName = LocalizationHelper.GetString("Toolbox");
-            RecruitInfo = LocalizationHelper.GetString("RecruitmentRecognitionTip");
+            DisplayName = LocalizationHelper.GetString("Toolbox.Title");
+            RecruitInfo = LocalizationHelper.GetString("Recruitment.Recognition.Tip");
             PixelPaintFitModeList.RefreshLocalization();
             PixelPaintDitherModeList.RefreshLocalization();
             SecretFrontEventList.RefreshLocalization();
@@ -158,7 +158,7 @@ public class ToolboxViewModel : Screen
     /// <summary>
     /// Gets or sets the recruit info.
     /// </summary>
-    public string RecruitInfo { get => field; set => SetAndNotify(ref field, value); } = LocalizationHelper.GetString("RecruitmentRecognitionTip");
+    public string RecruitInfo { get => field; set => SetAndNotify(ref field, value); } = LocalizationHelper.GetString("Recruitment.Recognition.Tip");
 
     public ObservableCollection<Inline> RecruitResultInlines { get => field; set => SetAndNotify(ref field, value); } = [];
 
@@ -386,7 +386,7 @@ public class ToolboxViewModel : Screen
         }
 
         string errMsg = string.Empty;
-        RecruitInfo = LocalizationHelper.GetString("ConnectingToEmulator");
+        RecruitInfo = LocalizationHelper.GetString("TaskQueue.Log.ConnectingToEmulator");
         _runningState.BeginRun(RunOwner.Toolbox);
         var recruitCaught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
         if (!recruitCaught)
@@ -396,7 +396,7 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        RecruitInfo = LocalizationHelper.GetString("Identifying");
+        RecruitInfo = LocalizationHelper.GetString("TaskQueue.Log.Identifying");
 
         var levelList = new List<int>();
 
@@ -451,7 +451,7 @@ public class ToolboxViewModel : Screen
             case "RecruitTagsDetected":
                 {
                     JArray? tags = (JArray?)subTaskDetails?["tags"];
-                    string infoContent = LocalizationHelper.GetString("RecruitTagsDetected");
+                    string infoContent = LocalizationHelper.GetString("Recruitment.TagsDetected");
                     tags ??= [];
                     infoContent = tags.Select(tagName => tagName.ToString()).Aggregate(infoContent, (current, tagStr) => current + (tagStr + "    "));
 
@@ -824,7 +824,7 @@ public class ToolboxViewModel : Screen
         {
             _pendingDepotSyncTimeResetTaskIds.Remove(taskId);
             _logger.Warning("Depot recognition returned no items, keep existing depot data");
-            DepotInfo = LocalizationHelper.GetString("DepotRecognitionEmptyResult");
+            DepotInfo = LocalizationHelper.GetString("Depot.RecognitionEmptyResult");
             return true;
         }
 
@@ -878,7 +878,7 @@ public class ToolboxViewModel : Screen
             }
         }
 
-        DepotInfo = LocalizationHelper.GetString("IdentificationCompleted");
+        DepotInfo = LocalizationHelper.GetString("TaskQueue.Log.IdentificationCompleted");
         SaveDepotDetails();
         Instances.TaskQueueViewModel.UpdateDatePrompt();
 
@@ -975,7 +975,7 @@ public class ToolboxViewModel : Screen
     {
         Clipboard.Clear();
         Clipboard.SetDataObject(ArkPlannerResult);
-        GrowlHelper.Info(LocalizationHelper.GetString("CopiedToClipboard"));
+        GrowlHelper.Info(LocalizationHelper.GetString("Depot.CopiedToClipboard"));
     }
 
     /// <summary>
@@ -987,7 +987,7 @@ public class ToolboxViewModel : Screen
     {
         Clipboard.Clear();
         Clipboard.SetDataObject(LoliconResult);
-        GrowlHelper.Info(LocalizationHelper.GetString("CopiedToClipboard"));
+        GrowlHelper.Info(LocalizationHelper.GetString("Depot.CopiedToClipboard"));
     }
 
     /// <summary>
@@ -1032,7 +1032,7 @@ public class ToolboxViewModel : Screen
         }
 
         File.WriteAllText(dialog.FileName, content);
-        GrowlHelper.Info(LocalizationHelper.GetString("ExportedToFile"));
+        GrowlHelper.Info(LocalizationHelper.GetString("Depot.ExportedToFile"));
     }
 
     private static IEnumerable<string> BuildMarkdownExportLines(IReadOnlyList<DepotResultDate> items)
@@ -1203,7 +1203,7 @@ public class ToolboxViewModel : Screen
         bool ret = Instances.AsstProxy.AsstStartDepot(startImmediately);
         if (ret && startImmediately)
         {
-            DepotInfo = LocalizationHelper.GetString("Identifying");
+            DepotInfo = LocalizationHelper.GetString("TaskQueue.Log.Identifying");
         }
 
         return ret;
@@ -1225,7 +1225,7 @@ public class ToolboxViewModel : Screen
 
         _runningState.BeginRun(RunOwner.Toolbox);
         string errMsg = string.Empty;
-        DepotInfo = LocalizationHelper.GetString("ConnectingToEmulator");
+        DepotInfo = LocalizationHelper.GetString("TaskQueue.Log.ConnectingToEmulator");
         bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
         if (!caught)
         {
@@ -1270,7 +1270,7 @@ public class ToolboxViewModel : Screen
         set => SetAndNotify(ref _operBoxSelectedIndex, value);
     }
 
-    private string _operBoxInfo = LocalizationHelper.GetString("OperBoxRecognitionTip");
+    private string _operBoxInfo = LocalizationHelper.GetString("Operator.Recognition.Tip");
 
     public string OperBoxInfo
     {
@@ -1885,7 +1885,7 @@ public class ToolboxViewModel : Screen
             }
         }
 
-        OperBoxInfo = $"{LocalizationHelper.GetString("IdentificationCompleted")}  {LocalizationHelper.GetString("OperBoxRecognitionTip")}";
+        OperBoxInfo = $"{LocalizationHelper.GetString("TaskQueue.Log.IdentificationCompleted")}  {LocalizationHelper.GetString("Operator.Recognition.Tip")}";
         SaveOperBoxDetails(ownOpers, _operBoxDataSource);
         _tempOperHaveSet = [];
         _tempOperHaveNames = [];
@@ -1911,7 +1911,7 @@ public class ToolboxViewModel : Screen
         bool ret = Instances.AsstProxy.AsstStartOperBox(startImmediately);
         if (ret && startImmediately)
         {
-            OperBoxInfo = LocalizationHelper.GetString("Identifying");
+            OperBoxInfo = LocalizationHelper.GetString("TaskQueue.Log.Identifying");
         }
 
         return ret;
@@ -1997,7 +1997,7 @@ public class ToolboxViewModel : Screen
     /// <returns>是否成功。</returns>
     public async Task<bool> StartOperBoxFromYituliuApiAsync()
     {
-        OperBoxInfo = LocalizationHelper.GetString("OperBoxFetchingFromYituliu");
+        OperBoxInfo = LocalizationHelper.GetString("Operator.FetchingFromYituliu");
 
         var (result, _) = await FetchAndSaveYituliuOperBoxAsync();
         if (result == YituliuFetchResult.Success)
@@ -2006,11 +2006,11 @@ public class ToolboxViewModel : Screen
         }
 
         OperBoxInfo = result switch {
-            YituliuFetchResult.TokenEmpty => LocalizationHelper.GetString("YituliuTokenEmpty"),
-            YituliuFetchResult.WriteOnly => LocalizationHelper.GetStringFormat("YituliuFetchFailed", LocalizationHelper.GetString("YituliuTokenWriteOnly")),
-            YituliuFetchResult.Invalid => LocalizationHelper.GetStringFormat("YituliuFetchFailed", LocalizationHelper.GetString("YituliuTokenInvalid")),
-            YituliuFetchResult.NoData => LocalizationHelper.GetString("YituliuNoOperBoxData"),
-            _ => LocalizationHelper.GetString("YituliuTokenNetworkError"),
+            YituliuFetchResult.TokenEmpty => LocalizationHelper.GetString("Settings.YituliuTokenEmpty"),
+            YituliuFetchResult.WriteOnly => LocalizationHelper.GetStringFormat("Settings.YituliuFetchFailed", LocalizationHelper.GetString("Settings.YituliuTokenWriteOnly")),
+            YituliuFetchResult.Invalid => LocalizationHelper.GetStringFormat("Settings.YituliuFetchFailed", LocalizationHelper.GetString("Settings.YituliuTokenInvalid")),
+            YituliuFetchResult.NoData => LocalizationHelper.GetString("Settings.YituliuNoOperBoxData"),
+            _ => LocalizationHelper.GetString("Settings.YituliuTokenNetworkError"),
         };
         Instances.TaskQueueViewModel.AddLog(OperBoxInfo, UiLogColor.Error);
         return false;
@@ -2100,7 +2100,7 @@ public class ToolboxViewModel : Screen
     {
         ResetOperBoxRecognitionState();
         string errMsg = string.Empty;
-        OperBoxInfo = LocalizationHelper.GetString("ConnectingToEmulator");
+        OperBoxInfo = LocalizationHelper.GetString("TaskQueue.Log.ConnectingToEmulator");
         bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
         if (!caught)
         {
@@ -2223,7 +2223,7 @@ public class ToolboxViewModel : Screen
 
         Clipboard.Clear();
         Clipboard.SetDataObject(JsonConvert.SerializeObject(exportList, Formatting.Indented));
-        GrowlHelper.Info(LocalizationHelper.GetString("CopiedToClipboard"));
+        GrowlHelper.Info(LocalizationHelper.GetString("Depot.CopiedToClipboard"));
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.OperatorRoster);
     }
 
@@ -2249,7 +2249,7 @@ public class ToolboxViewModel : Screen
         }
 
         File.WriteAllText(dialog.FileName, content, new UTF8Encoding(true));
-        GrowlHelper.Info(LocalizationHelper.GetString("ExportedToFile"));
+        GrowlHelper.Info(LocalizationHelper.GetString("Depot.ExportedToFile"));
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.OperatorRoster);
     }
 
@@ -2282,19 +2282,19 @@ public class ToolboxViewModel : Screen
 
     private static IEnumerable<string> BuildOperBoxMarkdownExportLines(IReadOnlyList<OperBoxData.OperData> items, bool includeYituliuFields)
     {
-        var nameHeader = LocalizationHelper.GetString("OperBoxExportHeaderName");
-        var idHeader = LocalizationHelper.GetString("OperBoxExportHeaderId");
-        var rarityHeader = LocalizationHelper.GetString("OperBoxExportHeaderRarity");
-        var eliteHeader = LocalizationHelper.GetString("OperBoxExportHeaderElite");
-        var levelHeader = LocalizationHelper.GetString("OperBoxExportHeaderLevel");
-        var ownHeader = LocalizationHelper.GetString("OperBoxExportHeaderOwn");
-        var potentialHeader = LocalizationHelper.GetString("OperBoxExportHeaderPotential");
-        var yes = LocalizationHelper.GetString("OperBoxExportYes");
-        var no = LocalizationHelper.GetString("OperBoxExportNo");
+        var nameHeader = LocalizationHelper.GetString("Operator.ExportHeaderName");
+        var idHeader = LocalizationHelper.GetString("Operator.ExportHeaderId");
+        var rarityHeader = LocalizationHelper.GetString("Operator.ExportHeaderRarity");
+        var eliteHeader = LocalizationHelper.GetString("Operator.ExportHeaderElite");
+        var levelHeader = LocalizationHelper.GetString("Operator.ExportHeaderLevel");
+        var ownHeader = LocalizationHelper.GetString("Operator.ExportHeaderOwn");
+        var potentialHeader = LocalizationHelper.GetString("Operator.ExportHeaderPotential");
+        var yes = LocalizationHelper.GetString("Operator.ExportYes");
+        var no = LocalizationHelper.GetString("Operator.ExportNo");
 
-        var mainSkillHeader = LocalizationHelper.GetString("OperBoxExportHeaderMainSkillLevel");
-        var skillsHeader = LocalizationHelper.GetString("OperBoxExportHeaderSkills");
-        var equipsHeader = LocalizationHelper.GetString("OperBoxExportHeaderEquips");
+        var mainSkillHeader = LocalizationHelper.GetString("Operator.ExportHeaderMainSkillLevel");
+        var skillsHeader = LocalizationHelper.GetString("Operator.ExportHeaderSkills");
+        var equipsHeader = LocalizationHelper.GetString("Operator.ExportHeaderEquips");
 
         yield return includeYituliuFields
             ? $"| {nameHeader} | {idHeader} | {rarityHeader} | {eliteHeader} | {levelHeader} | {ownHeader} | {potentialHeader} | {mainSkillHeader} | {skillsHeader} | {equipsHeader} |"
@@ -2337,19 +2337,19 @@ public class ToolboxViewModel : Screen
 
     private static IEnumerable<string> BuildOperBoxCsvExportLines(IReadOnlyList<OperBoxData.OperData> items, bool includeYituliuFields)
     {
-        var nameHeader = LocalizationHelper.GetString("OperBoxExportHeaderName");
-        var idHeader = LocalizationHelper.GetString("OperBoxExportHeaderId");
-        var rarityHeader = LocalizationHelper.GetString("OperBoxExportHeaderRarity");
-        var eliteHeader = LocalizationHelper.GetString("OperBoxExportHeaderElite");
-        var levelHeader = LocalizationHelper.GetString("OperBoxExportHeaderLevel");
-        var ownHeader = LocalizationHelper.GetString("OperBoxExportHeaderOwn");
-        var potentialHeader = LocalizationHelper.GetString("OperBoxExportHeaderPotential");
-        var yes = LocalizationHelper.GetString("OperBoxExportYes");
-        var no = LocalizationHelper.GetString("OperBoxExportNo");
+        var nameHeader = LocalizationHelper.GetString("Operator.ExportHeaderName");
+        var idHeader = LocalizationHelper.GetString("Operator.ExportHeaderId");
+        var rarityHeader = LocalizationHelper.GetString("Operator.ExportHeaderRarity");
+        var eliteHeader = LocalizationHelper.GetString("Operator.ExportHeaderElite");
+        var levelHeader = LocalizationHelper.GetString("Operator.ExportHeaderLevel");
+        var ownHeader = LocalizationHelper.GetString("Operator.ExportHeaderOwn");
+        var potentialHeader = LocalizationHelper.GetString("Operator.ExportHeaderPotential");
+        var yes = LocalizationHelper.GetString("Operator.ExportYes");
+        var no = LocalizationHelper.GetString("Operator.ExportNo");
 
-        var mainSkillHeader = LocalizationHelper.GetString("OperBoxExportHeaderMainSkillLevel");
-        var skillsHeader = LocalizationHelper.GetString("OperBoxExportHeaderSkills");
-        var equipsHeader = LocalizationHelper.GetString("OperBoxExportHeaderEquips");
+        var mainSkillHeader = LocalizationHelper.GetString("Operator.ExportHeaderMainSkillLevel");
+        var skillsHeader = LocalizationHelper.GetString("Operator.ExportHeaderSkills");
+        var equipsHeader = LocalizationHelper.GetString("Operator.ExportHeaderEquips");
 
         yield return includeYituliuFields
             ? $"{nameHeader},{idHeader},{rarityHeader},{eliteHeader},{levelHeader},{ownHeader},{potentialHeader},{mainSkillHeader},{skillsHeader},{equipsHeader}"
@@ -2371,7 +2371,7 @@ public class ToolboxViewModel : Screen
 
     #region Gacha
 
-    private string _gachaInfo = LocalizationHelper.GetString("GachaInitTip");
+    private string _gachaInfo = LocalizationHelper.GetString("Gacha.Init.Tip");
 
     public string GachaInfo
     {
@@ -2405,7 +2405,7 @@ public class ToolboxViewModel : Screen
             if (!value)
             {
                 _gachaTimer.Stop();
-                GachaInfo = LocalizationHelper.GetString("GachaInitTip");
+                GachaInfo = LocalizationHelper.GetString("Gacha.Init.Tip");
             }
         }
     }
@@ -2421,7 +2421,7 @@ public class ToolboxViewModel : Screen
         _runningState.BeginRun(RunOwner.Toolbox);
 
         string errMsg = string.Empty;
-        GachaInfo = LocalizationHelper.GetString("ConnectingToEmulator");
+        GachaInfo = LocalizationHelper.GetString("TaskQueue.Log.ConnectingToEmulator");
         bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg) && Instances.AsstProxy.AsstStartGacha(once));
         if (!caught)
         {
@@ -2441,7 +2441,7 @@ public class ToolboxViewModel : Screen
     private void RefreshGachaTip(object? sender, EventArgs? e)
     {
         var rd = new Random();
-        GachaInfo = LocalizationHelper.GetString("GachaTip" + rd.Next(1, 18));
+        GachaInfo = LocalizationHelper.GetString($"Gacha.Tip{rd.Next(1, 18)}");
     }
 
     // DO NOT CHANGE
@@ -2472,12 +2472,12 @@ public class ToolboxViewModel : Screen
     public void GachaAgreeDisclaimer()
     {
         var result = MessageBoxHelper.Show(
-            LocalizationHelper.GetString("GachaWarning"),
-            LocalizationHelper.GetString("Warning"),
+            LocalizationHelper.GetString("Gacha.Warning"),
+            LocalizationHelper.GetString("Settings.Warning"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Warning,
-            no: LocalizationHelper.GetString("Confirm"),
-            yes: LocalizationHelper.GetString("Cancel"),
+            no: LocalizationHelper.GetString("Settings.Confirm"),
+            yes: LocalizationHelper.GetString("Settings.Cancel"),
             iconBrushKey: "DangerBrush");
         if (result != MessageBoxResult.No)
         {
@@ -2614,7 +2614,7 @@ public class ToolboxViewModel : Screen
             _logger.Warning("Screenshot Semaphore Full, Reduce Target FPS count to {PeepTargetFps}", --PeepTargetFps);
             _ = Execute.OnUIThreadAsync(() => {
                 Growl.Clear();
-                GrowlHelper.Warning(LocalizationHelper.GetStringFormat("PeepScreenshotTooLong", PeepTargetFps));
+                GrowlHelper.Warning(LocalizationHelper.GetStringFormat("Peep.ScreenshotTooLong", PeepTargetFps));
             });
             return;
         }
@@ -2882,13 +2882,13 @@ public class ToolboxViewModel : Screen
     {
         if (string.IsNullOrEmpty(name))
         {
-            return LocalizationHelper.GetString("MiniGameNameEmptyTip");
+            return LocalizationHelper.GetString("Toolbox.MiniGame.NameEmpty.Tip");
         }
 
         var entry = Instances.StageManager.MiniGameEntries.FirstOrDefault(e => e.Value == name);
         if (entry == null)
         {
-            return LocalizationHelper.GetString("MiniGameNameEmptyTip");
+            return LocalizationHelper.GetString("Toolbox.MiniGame.NameEmpty.Tip");
         }
 
         // 优先使用 TipKey 的本地化
@@ -3224,7 +3224,7 @@ public class ToolboxViewModel : Screen
         {
             // 剪贴板位图加载异常（如格式不被 Prepare 支持），与文件加载一致地提示
             _logger.Warning(ex, "Paste pixel paint image failed");
-            PixelPaintStatusText = LocalizationHelper.GetString("MiniGame@PixelPaint@LoadFailed");
+            PixelPaintStatusText = LocalizationHelper.GetString("Toolbox.MiniGame.PixelPaint.LoadFailed");
         }
     }
 
@@ -3426,7 +3426,7 @@ public class ToolboxViewModel : Screen
         catch (Exception ex)
         {
             _logger.Warning(ex, "Load pixel paint image failed: {Path}", path);
-            PixelPaintStatusText = LocalizationHelper.GetString("MiniGame@PixelPaint@LoadFailed");
+            PixelPaintStatusText = LocalizationHelper.GetString("Toolbox.MiniGame.PixelPaint.LoadFailed");
         }
     }
 
@@ -3483,7 +3483,7 @@ public class ToolboxViewModel : Screen
             _pixelPaintResult = result;
             PixelPaintPreview = result.Preview;
             PixelPaintStatusText = string.Format(
-                LocalizationHelper.GetString("MiniGame@PixelPaint@ReadyStatus"),
+                LocalizationHelper.GetString("Toolbox.MiniGame.PixelPaint.ReadyStatus"),
                 result.PaintedCellCount,
                 result.Groups.Count);
         }
@@ -3492,7 +3492,7 @@ public class ToolboxViewModel : Screen
             _logger.Warning(ex, "Pixel paint convert failed");
             _pixelPaintResult = null;
             PixelPaintPreview = null;
-            PixelPaintStatusText = LocalizationHelper.GetString("MiniGame@PixelPaint@ConvertFailed");
+            PixelPaintStatusText = LocalizationHelper.GetString("Toolbox.MiniGame.PixelPaint.ConvertFailed");
         }
     }
 
@@ -3589,7 +3589,7 @@ public class ToolboxViewModel : Screen
     {
         if (IsPixelPaintSelected && (_pixelPaintResult == null || _pixelPaintResult.Groups.Count == 0))
         {
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MiniGame@PixelPaint@NeedImage"), UiLogColor.Warning);
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Toolbox.MiniGame.PixelPaint.NeedImage"), UiLogColor.Warning);
             return false;
         }
 
@@ -3677,7 +3677,7 @@ public class ToolboxViewModel : Screen
         {
             Instances.TaskQueueViewModel.AddLog(
                 string.Format(
-                    LocalizationHelper.GetString("MiniGame@PixelPaint@StartLog"),
+                    LocalizationHelper.GetString("Toolbox.MiniGame.PixelPaint.StartLog"),
                     groups.Sum(g => g.Points.Count),
                     groups.Count),
                 UiLogColor.Info);

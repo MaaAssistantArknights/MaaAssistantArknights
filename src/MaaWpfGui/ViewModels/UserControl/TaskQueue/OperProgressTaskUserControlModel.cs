@@ -174,7 +174,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                     }
                     if (oper is null)
                     {
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ParseFailed") + $"\nunknown oper: {plan.Role}-{plan.Name}", UiLogColor.Error);
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Settings.ParseFailed") + $"\nunknown oper: {plan.Role}-{plan.Name}", UiLogColor.Error);
                         return;
                     }
                     list.Add(new Plan(plan.Role, plan.Name, plan.Elite ?? 0, plan.MainSkillLevel ?? 0, plan.SkillMastery ?? SkillMastery.Of(0, 0, 0), false));
@@ -184,7 +184,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
             }
             catch (Exception ex)
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ParseFailed") + $"\n{ex.Message}", UiLogColor.Error);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Settings.ParseFailed") + $"\n{ex.Message}", UiLogColor.Error);
                 return;
             }
         }
@@ -332,7 +332,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                 var summary = msg.Details?.ToObject<ProgressSummary>();
                 Instances.TaskQueueViewModel.AddLog(
                     LocalizationHelper.GetStringFormat(
-                        "OperProgress.Summary",
+                        "Operator.Progress.Summary",
                         summary?.Success ?? -1,
                         summary?.Failed ?? -1,
                         summary?.Skipped ?? -1),
@@ -398,7 +398,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                     var operName = DataHelper.GetLocalizedCharacterName(callback.Name) ?? callback.Name;
                     Instances.TaskQueueViewModel.AddLog(
                         LocalizationHelper.GetStringFormat(
-                            "OperProgress.Detail",
+                            "Operator.Progress.Detail",
                             list.IndexOf(plan) + 1,
                             operName,
                             LocalizationHelper.GetStringFormat(status)) + BuildTargetCallbackDescription(callback),
@@ -440,12 +440,12 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         if (callback.Elite is int elite)
         {
             str.AppendLine();
-            str.Append(LocalizationHelper.GetStringFormat("OperProgress.EliteTarget", elite));
+            str.Append(LocalizationHelper.GetStringFormat("Operator.Progress.EliteTarget", elite));
         }
         if (callback.MainSkillLevel is int mainSkill)
         {
             str.AppendLine();
-            str.Append(LocalizationHelper.GetStringFormat("OperProgress.SkillLevelTarget", mainSkill));
+            str.Append(LocalizationHelper.GetStringFormat("Operator.Progress.SkillLevelTarget", mainSkill));
         }
         if (callback.SkillMastery is SkillMastery mastery)
         {
@@ -454,7 +454,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                 if (level > 0)
                 {
                     str.AppendLine();
-                    str.Append(LocalizationHelper.GetStringFormat("OperProgress.MasteryTarget", index + 1, level));
+                    str.Append(LocalizationHelper.GetStringFormat("Operator.Progress.MasteryTarget", index + 1, level));
                 }
             }
         }

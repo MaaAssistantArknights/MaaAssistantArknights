@@ -124,7 +124,7 @@ public class RunControlState : PropertyChangedBase
 
             return ownerKey is null
                 ? null
-                : LocalizationHelper.GetStringFormat("StopCurrentTaskFormat", LocalizationHelper.GetString(ownerKey));
+                : LocalizationHelper.GetStringFormat("TaskQueue.StopCurrentTaskFormat", LocalizationHelper.GetString(ownerKey));
         }
     }
 }

@@ -488,7 +488,7 @@ public abstract class GpuOption
 
         public override int GetHashCode() => typeof(DisableOption).GetHashCode();
 
-        public override string ToString() => LocalizationHelper.GetString("GpuOptionDisable");
+        public override string ToString() => LocalizationHelper.GetString("Performance.Gpu.OptionDisable");
     }
 
     public abstract class EnableOption : GpuOption
@@ -513,7 +513,7 @@ public abstract class GpuOption
 
         public override int GetHashCode() => typeof(SystemDefaultOption).GetHashCode();
 
-        public override string ToString() => LocalizationHelper.GetString("GpuOptionSystemDefault") + $" ({GpuInfo.Description})";
+        public override string ToString() => LocalizationHelper.GetString("Performance.Gpu.OptionSystemDefault") + $" ({GpuInfo.Description})";
     }
 
     public class SpecificGpuOption : EnableOption

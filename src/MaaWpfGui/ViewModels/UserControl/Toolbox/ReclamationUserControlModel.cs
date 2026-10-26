@@ -82,16 +82,16 @@ public class ReclamationUserControlModel : PropertyChangedBase
         if (ReclamationTheme == Theme.Tales)
         {
             ModeList = [
-                new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityNoSave"), Value = Mode.ProsperityNoSave },
-                new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityInSave"), Value = Mode.ProsperityInSave },
+                new() { Display = LocalizationHelper.GetString("Reclamation.ModeProsperityNoSave"), Value = Mode.ProsperityNoSave },
+                new() { Display = LocalizationHelper.GetString("Reclamation.ModeProsperityInSave"), Value = Mode.ProsperityInSave },
             ];
         }
         else if (ReclamationTheme == Theme.RelaunchAnchor)
         {
             ModeList = [
-                new() { Display = LocalizationHelper.GetString("ReclamationModeRA1"), Value = Mode.RA1 },
-                new() { Display = LocalizationHelper.GetString("ReclamationModeRA4"), Value = Mode.RA4 },
-                new() { Display = LocalizationHelper.GetString("ReclamationModeRA15"), Value = Mode.RA15 },
+                new() { Display = LocalizationHelper.GetString("Reclamation.ModeRA1"), Value = Mode.RA1 },
+                new() { Display = LocalizationHelper.GetString("Reclamation.ModeRA4"), Value = Mode.RA4 },
+                new() { Display = LocalizationHelper.GetString("Reclamation.ModeRA15"), Value = Mode.RA15 },
             ];
         }
 
@@ -181,7 +181,7 @@ public class ReclamationUserControlModel : PropertyChangedBase
             switch (theme)
             {
                 case Theme.Fire:
-                    return LocalizationHelper.GetString("ReclamationTipFire");
+                    return LocalizationHelper.GetString("Reclamation.TipFire");
                 case Theme.RelaunchAnchor:
                     {
                         var stageNum = mode switch
@@ -196,7 +196,7 @@ public class ReclamationUserControlModel : PropertyChangedBase
                             return stageTip;
                         }
 
-                        return LocalizationHelper.GetString("ReclamationTipRelaunchAnchorRA1");
+                        return LocalizationHelper.GetString("Reclamation.TipRelaunchAnchorRA1");
                     }
 
                 case Theme.Tales:
@@ -216,7 +216,7 @@ public class ReclamationUserControlModel : PropertyChangedBase
     {
         var toolToCraft = !string.IsNullOrEmpty(ReclamationToolToCraft)
             ? ReclamationToolToCraft
-            : LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType]);
+            : LocalizationHelper.GetString("Reclamation.ToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType]);
         var task = new AsstReclamationTask {
             Theme = ReclamationTheme,
             Mode = (int)ReclamationMode,

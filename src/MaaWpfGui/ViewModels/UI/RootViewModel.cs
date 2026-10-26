@@ -75,7 +75,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         if (SettingsViewModel.VersionUpdateSettings.VersionType == VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly &&
             !SettingsViewModel.VersionUpdateSettings.HasAcknowledgedNightlyWarning)
         {
-            MessageBoxHelper.Show(LocalizationHelper.GetString("NightlyWarning"));
+            MessageBoxHelper.Show(LocalizationHelper.GetString("Settings.NightlyWarning"));
         }
 
         Task.Run(async () => {
@@ -138,12 +138,12 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
             }
 
             var repairChoice = MessageBoxHelper.Show(
-                LocalizationHelper.GetStringFormat("ResourceIntegrityCheckDesc", missingFiles.Count, shownFiles),
-                LocalizationHelper.GetString("ResourceIntegrityCheckTitle"),
+                LocalizationHelper.GetStringFormat("Resource.IntegrityCheckDesc", missingFiles.Count, shownFiles),
+                LocalizationHelper.GetString("Resource.IntegrityCheck.Title"),
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Error,
-                yes: LocalizationHelper.GetString("ResourceIntegrityRepairYes"),
-                no: LocalizationHelper.GetString("ResourceIntegrityRepairNo"));
+                yes: LocalizationHelper.GetString("Resource.IntegrityRepairYes"),
+                no: LocalizationHelper.GetString("Resource.IntegrityRepairNo"));
             if (repairChoice == MessageBoxResult.Yes)
             {
                 // 修复优先于常规更新检查，注册完成后会提示重启
@@ -190,7 +190,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         var recoveryMessage = ConfigFactory.ConsumePendingRecoveryMessage();
         if (recoveryMessage is not null)
         {
-            MessageBoxHelper.Show(recoveryMessage, LocalizationHelper.GetString("ConfigurationBrokenCaption"), MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBoxHelper.Show(recoveryMessage, LocalizationHelper.GetString("Achievement.ConfigurationBrokenCaption"), MessageBoxButton.OK, MessageBoxImage.Warning);
         }
     }
 
@@ -204,8 +204,8 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         var (isAvailable, detail) = ToastNotification.ToastNotificationCheck();
         if (!isAvailable)
         {
-            GrowlHelper.Error(LocalizationHelper.GetStringFormat("ToastNotificationUnavailable", detail));
-            _logger.Error(LocalizationHelper.GetStringFormat("ToastNotificationUnavailable", detail));
+            GrowlHelper.Error(LocalizationHelper.GetStringFormat("Notification.Toast.NotificationUnavailable", detail));
+            _logger.Error(LocalizationHelper.GetStringFormat("Notification.Toast.NotificationUnavailable", detail));
         }
     }
 
@@ -216,8 +216,8 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         if (!Instances.VersionUpdateDialogViewModel.IsDebugVersion() && uiVersion != coreVersion)
         {
             MessageBoxHelper.Show(
-                LocalizationHelper.GetStringFormat("VersionMismatch", uiVersion, coreVersion),
-                LocalizationHelper.GetString("Error"),
+                LocalizationHelper.GetStringFormat("Version.Mismatch", uiVersion, coreVersion),
+                LocalizationHelper.GetString("Common.Error"),
                 iconKey: ResourceToken.FatalGeometry,
                 iconBrushKey: ResourceToken.DangerBrush);
         }
@@ -259,7 +259,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
     }
 
     private string _windowVersionUpdateInfo = FakeUpdateHelper.HasPendingFakeUpdate
-        ? $"{LocalizationHelper.GetString("NewVersionFoundTitle")}: {FakeUpdateHelper.TargetVersion}"
+        ? $"{LocalizationHelper.GetString("Update.NewVersion.Found.Title")}: {FakeUpdateHelper.TargetVersion}"
         : string.Empty;
 
     /// <summary>
@@ -468,8 +468,8 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
             {
                 _logger.Information("Dropped OTA package rejected while installation is broken: {PackagePath}", packagePath);
                 MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("OtaPackageRejectedByBrokenInstall"),
-                    LocalizationHelper.GetString("Warning"),
+                    LocalizationHelper.GetString("TaskQueue.OtaPackageRejectedByBrokenInstall"),
+                    LocalizationHelper.GetString("Settings.Warning"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
                 return;
@@ -535,11 +535,11 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
     {
         _logger.Warning("Showing unsupported package warning for dropped package: {PackagePath}", packagePath);
         MessageBoxHelper.Show(
-            LocalizationHelper.GetStringFormat("LocalUpdatePackageUnsupported", Path.GetFileName(packagePath), currentVersion, normalizedArchitecture),
-            LocalizationHelper.GetString("Warning"),
+            LocalizationHelper.GetStringFormat("Update.LocalPackage.Unsupported", Path.GetFileName(packagePath), currentVersion, normalizedArchitecture),
+            LocalizationHelper.GetString("Settings.Warning"),
             MessageBoxButton.OK,
             MessageBoxImage.Warning,
-            ok: LocalizationHelper.GetString("Ok"));
+            ok: LocalizationHelper.GetString("Settings.Ok"));
     }
 
 #if DEBUG

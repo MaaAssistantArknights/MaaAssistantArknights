@@ -144,13 +144,13 @@ public partial class SmtpNotificationProvider(SmtpConfig smtp) : IExternalNotifi
 
     private static string BuildEmailBody(string title, string content) =>
         _emailTemplate
-            .Replace("{greeting}", LocalizationHelper.GetString("ExternalNotificationEmailTemplateHello"))
+            .Replace("{greeting}", LocalizationHelper.GetString("ExternalNotification.EmailTemplateHello"))
             .Replace("{title}", title)
             .Replace("{content}", content)
-            .Replace("{footerLineOne}", LocalizationHelper.GetString("ExternalNotificationEmailTemplateFooterLineOne"))
-            .Replace("{footerLineTwo}", LocalizationHelper.GetString("ExternalNotificationEmailTemplateFooterLineTwo"))
-            .Replace("{officialSite}", LocalizationHelper.GetString("ExternalNotificationEmailTemplateLinkOfficialSite"))
-            .Replace("{copilotSite}", LocalizationHelper.GetString("ExternalNotificationEmailTemplateLinkCopilotSite"));
+            .Replace("{footerLineOne}", LocalizationHelper.GetString("ExternalNotification.EmailTemplateFooterLineOne"))
+            .Replace("{footerLineTwo}", LocalizationHelper.GetString("ExternalNotification.EmailTemplateFooterLineTwo"))
+            .Replace("{officialSite}", LocalizationHelper.GetString("ExternalNotification.EmailTemplateLinkOfficialSite"))
+            .Replace("{copilotSite}", LocalizationHelper.GetString("ExternalNotification.EmailTemplateLinkCopilotSite"));
 
     private static readonly string _emailTemplate =
     $$"""

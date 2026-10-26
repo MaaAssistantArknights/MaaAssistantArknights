@@ -456,7 +456,7 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
     public void SelectCustomInfrastFile()
     {
         var dialog = new OpenFileDialog {
-            Filter = LocalizationHelper.GetString("CustomInfrastFile") + "|*.json",
+            Filter = LocalizationHelper.GetString("Infrastructure.Custom.File") + "|*.json",
         };
 
         if (dialog.ShowDialog() == true)
@@ -510,7 +510,7 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
         }
     }
 
-    private readonly GenericCombinedData<int> _defaultItem = new() { Display = LocalizationHelper.GetStringFormat("CustomInfrastTimeSchedule", string.Empty), Value = -1 };
+    private readonly GenericCombinedData<int> _defaultItem = new() { Display = LocalizationHelper.GetStringFormat("Infrastructure.Custom.TimeSchedule", string.Empty), Value = -1 };
 
     public List<CustomInfrastConfig.Plan> CustomInfrastPlanList
     {
@@ -546,7 +546,7 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
 
             if (output)
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastTitle"), UiLogColor.Message, splitMode: UI.TaskQueueViewModel.LogCardSplitMode.Before);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Infrastructure.Custom.Title"), UiLogColor.Message, splitMode: UI.TaskQueueViewModel.LogCardSplitMode.Before);
                 Instances.TaskQueueViewModel.AddLog($"title: {root.Title}", UiLogColor.Info);
                 Instances.TaskQueueViewModel.AddLog($"description: {root.Description}", UiLogColor.Info);
             }
@@ -578,7 +578,7 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
 
             if (list.Any(i => i.Period.Count > 0) && list.Any(p => p.Period.Count == 0))
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastFileHasPlanNoPeriod"), UiLogColor.Warning);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Infrastructure.Custom.FileHasPlanNoPeriod"), UiLogColor.Warning);
             }
 
             Instances.TaskQueueViewModel.AddLog(string.Empty, splitMode: UI.TaskQueueViewModel.LogCardSplitMode.After);
@@ -592,7 +592,7 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
         catch (Exception)
         {
             CustomInfrastPlanList = [];
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastFileParseFailed"), UiLogColor.Error);
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Infrastructure.Custom.FileParseFailed"), UiLogColor.Error);
         }
     }
 
@@ -605,7 +605,7 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
             var plan = CustomInfrastPlanList.FirstOrDefault(i => i.Period.Any(p => p[0] <= now && now <= p[1]));
             plan ??= CustomInfrastPlanList.FirstOrDefault();
             plan ??= new();
-            _defaultItem.Display = LocalizationHelper.GetStringFormat("CustomInfrastTimeSchedule", plan.Name ?? "???");
+            _defaultItem.Display = LocalizationHelper.GetStringFormat("Infrastructure.Custom.TimeSchedule", plan.Name ?? "???");
             _customInfrastPlanListDisplay.Add(_defaultItem);
         }
 
@@ -641,7 +641,7 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
         var plan = CustomInfrastPlanList.FirstOrDefault(i => i.Period.Any(p => p[0] <= now && now <= p[1]));
         plan ??= CustomInfrastPlanList.FirstOrDefault();
         plan ??= new();
-        _defaultItem.Display = LocalizationHelper.GetStringFormat("CustomInfrastTimeSchedule", plan.Name ?? "???");
+        _defaultItem.Display = LocalizationHelper.GetStringFormat("Infrastructure.Custom.TimeSchedule", plan.Name ?? "???");
     }
 
     /// <summary>
@@ -655,7 +655,7 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
             return;
         }
 
-        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastPlanIndexAutoSwitch"), UiLogColor.Message);
+        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Infrastructure.Custom.PlanIndexAutoSwitch"), UiLogColor.Message);
         Instances.TaskQueueViewModel.AddLog(infrast.InfrastPlan[infrast.PlanSelect].DescriptionPost);
 
         ++infrast.PlanSelect;
@@ -741,7 +741,7 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
 
             if (infrast.UseWeeklySchedule && infrast.WeeklySchedule.TryGetValue(Instances.TaskQueueViewModel.CurDayOfWeek, out var isEnabled) && !isEnabled)
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("InfrastSkippedWeeklySchedule"), UiLogColor.Info);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Infrastructure.SkippedWeeklySchedule"), UiLogColor.Info);
                 return (null, []);
             }
 
@@ -773,7 +773,7 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
             }
             else if (infrast.PlanSelect != -1 && infrast.InfrastPlan.Count <= infrast.PlanSelect)
             {
-                throw new InvalidOperationException(LocalizationHelper.GetString("CustomInfrastPlanSelectOutOfIndex"));
+                throw new InvalidOperationException(LocalizationHelper.GetString("Infrastructure.Custom.PlanSelectOutOfIndex"));
             }
             else if (infrast.PlanSelect >= 0)
             {
@@ -790,7 +790,7 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
                 {
                     task.PlanIndex = 0;
                     _logger.Warning("No valid plan found for current time, use PlanIndex 0");
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastFileHasPlanNoPeriod"), UiLogColor.Error);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Infrastructure.Custom.FileHasPlanNoPeriod"), UiLogColor.Error);
                 }
             }
 

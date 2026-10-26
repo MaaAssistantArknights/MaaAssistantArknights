@@ -40,9 +40,9 @@
                 Orientation="Horizontal">
                 <CheckBox
                     VerticalContentAlignment="Center"
-                    Content="{DynamicResource ScheduledWakeUp}"
+                    Content="{DynamicResource Schedule.WakeUp}"
                     IsChecked="{Binding ScheduledWakeUp}" />
-                <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource ScheduledWakeUpTip}" />
+                <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource Schedule.WakeUp.Tip}" />
             </StackPanel>
 
             <StackPanel
@@ -52,20 +52,20 @@
                 <StackPanel Margin="10,5" Orientation="Horizontal">
                     <CheckBox
                         VerticalContentAlignment="Center"
-                        Content="{DynamicResource ForceScheduledStart}"
+                        Content="{DynamicResource Settings.ForceScheduledStart}"
                         IsChecked="{Binding ForceScheduledStart}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource ForceScheduledStartTip}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource Settings.ForceScheduledStart.Tip}" />
                 </StackPanel>
 
                 <StackPanel Margin="10,5" Orientation="Horizontal">
                     <CheckBox
                         VerticalContentAlignment="Center"
-                        Content="{DynamicResource ShowWindowBeforeForceScheduledStart}"
+                        Content="{DynamicResource Settings.ShowWindowBeforeForceScheduledStart}"
                         IsChecked="{Binding ShowWindowBeforeForceScheduledStart}"
                         Visibility="{c:Binding ForceScheduledStart}" />
                     <controls:TooltipBlock
                         VerticalAlignment="Center"
-                        TooltipText="{DynamicResource ShowWindowBeforeForceScheduledStartTip}"
+                        TooltipText="{DynamicResource Settings.ShowWindowBeforeForceScheduledStart.Tip}"
                         Visibility="{c:Binding ForceScheduledStart}" />
                 </StackPanel>
             </StackPanel>
@@ -78,20 +78,20 @@
                 <controls:TooltipBlock Visibility="Hidden" />
                 <CheckBox
                     VerticalContentAlignment="Center"
-                    Content="{DynamicResource NotifyBeforeScheduledStart}"
+                    Content="{DynamicResource Settings.NotifyBeforeScheduledStart}"
                     IsChecked="{Binding NotifyBeforeScheduledStart}" />
                 <hc:NumericUpDown
                     Height="30"
                     Margin="10,-10,0,-10"
                     VerticalAlignment="Center"
-                    hc:InfoElement.Title="{DynamicResource ScheduledStartNotificationMinutes}"
+                    hc:InfoElement.Title="{DynamicResource Schedule.StartNotificationMinutes}"
                     hc:TitleElement.TitlePlacement="Left"
                     InputMethod.IsInputMethodEnabled="False"
                     Maximum="1439"
                     Minimum="1"
                     Visibility="{c:Binding 'NotifyBeforeScheduledStart || (ExternalNotificationSettings.DeliverySettings.Enable &amp;&amp; ExternalNotificationSettings.DeliverySettings.SendBeforeScheduledStart &amp;&amp; ExternalNotificationSettings.ConfigCount > 0)'}"
                     Value="{Binding ScheduledStartNotificationMinutes}" />
-                <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource NotifyBeforeScheduledStartTip}" />
+                <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource Settings.NotifyBeforeScheduledStart.Tip}" />
             </StackPanel>
 
             <StackPanel
@@ -101,9 +101,9 @@
                 Orientation="Horizontal">
                 <CheckBox
                     VerticalContentAlignment="Center"
-                    Content="{DynamicResource TimerCustomConfig}"
+                    Content="{DynamicResource Settings.TimerCustomConfig}"
                     IsChecked="{Binding CustomConfig}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource TimerCustomConfigTip}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Settings.TimerCustomConfig.Tip}" />
             </StackPanel>
         </Grid>
 
@@ -130,8 +130,8 @@
                                 IsChecked="{Binding IsEnabled}"
                                 MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                               Target={x:Type helper:CheckBoxHelper}}"
-                                ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}">
-                                <TextBlock><Run Text="{DynamicResource Timer}" /><Run xml:space="preserve" Text=" " /><Run Text="{c:Binding 'Id + 1'}" /></TextBlock>
+                                ToolTip="{DynamicResource Settings.CheckBoxesNotSavedAsNull}">
+                                <TextBlock><Run Text="{DynamicResource Settings.Timer}" /><Run xml:space="preserve" Text=" " /><Run Text="{c:Binding 'Id + 1'}" /></TextBlock>
                             </CheckBox>
                             <StackPanel Orientation="Horizontal">
                                 <hc:NumericUpDown

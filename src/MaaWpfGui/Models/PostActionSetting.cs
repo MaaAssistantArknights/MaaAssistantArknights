@@ -103,7 +103,7 @@ public class PostActionSetting : PropertyChangedBase
                 SaveActions();
             }
 
-            ActionTitle = value ? $"{LocalizationHelper.GetString("PostActions")} ({LocalizationHelper.GetString("Once")})" : LocalizationHelper.GetString("PostActions");
+            ActionTitle = value ? $"{LocalizationHelper.GetString("TaskQueue.PostActions")} ({LocalizationHelper.GetString("TaskQueue.Once")})" : LocalizationHelper.GetString("TaskQueue.PostActions");
         }
     }
 
@@ -353,7 +353,7 @@ public class PostActionSetting : PropertyChangedBase
 
     public static PostActionSetting Instance { get; } = new();
 
-    private string _actionTitle = LocalizationHelper.GetString("PostActions");
+    private string _actionTitle = LocalizationHelper.GetString("TaskQueue.PostActions");
 
     public string ActionTitle
     {
@@ -417,50 +417,50 @@ public class PostActionSetting : PropertyChangedBase
 
         if (BackToAndroidHome)
         {
-            actions.Add(LocalizationHelper.GetString("BackToAndroidHome"));
+            actions.Add(LocalizationHelper.GetString("TaskQueue.BackToAndroidHome"));
         }
 
         if (ExitArknights)
         {
-            actions.Add(LocalizationHelper.GetString("ExitArknights"));
+            actions.Add(LocalizationHelper.GetString("TaskQueue.ExitArknights"));
         }
 
         if (ExitEmulator)
         {
-            actions.Add(LocalizationHelper.GetString("ExitEmulator"));
+            actions.Add(LocalizationHelper.GetString("TaskQueue.ExitEmulator"));
         }
 
         if (ExitSelf)
         {
-            actions.Add(LocalizationHelper.GetString("ExitSelf"));
+            actions.Add(LocalizationHelper.GetString("TaskQueue.ExitSelf"));
         }
 
-        var prefix = IfNoOtherMaa ? LocalizationHelper.GetString("IfNoOtherMaa") : string.Empty;
+        var prefix = IfNoOtherMaa ? LocalizationHelper.GetString("TaskQueue.IfNoOtherMaa") : string.Empty;
         if (LockScreen)
         {
-            actions.Add(prefix + LocalizationHelper.GetString("LockScreen"));
+            actions.Add(prefix + LocalizationHelper.GetString("TaskQueue.LockScreen"));
         }
 
         if (Hibernate)
         {
-            actions.Add(prefix + LocalizationHelper.GetString("Hibernate"));
+            actions.Add(prefix + LocalizationHelper.GetString("TaskQueue.Hibernate"));
         }
 
         if (Shutdown)
         {
-            actions.Add(prefix + LocalizationHelper.GetString("Shutdown"));
+            actions.Add(prefix + LocalizationHelper.GetString("TaskQueue.Shutdown"));
         }
 
         if (Sleep)
         {
-            actions.Add(prefix + LocalizationHelper.GetString("Sleep"));
+            actions.Add(prefix + LocalizationHelper.GetString("TaskQueue.Sleep"));
         }
 
-        ActionDescription = actions.Count == 0 ? LocalizationHelper.GetString("DoNothing") : string.Join(" -> ", actions);
+        ActionDescription = actions.Count == 0 ? LocalizationHelper.GetString("TaskQueue.DoNothing") : string.Join(" -> ", actions);
 
         if (SkipOnError && actions.Count != 0)
         {
-            ActionDescription += Environment.NewLine + LocalizationHelper.GetString("SkipPostActionOnError");
+            ActionDescription += Environment.NewLine + LocalizationHelper.GetString("TaskQueue.SkipPostActionOnError");
         }
     }
 
@@ -577,8 +577,8 @@ public class PostActionSetting : PropertyChangedBase
 
         LocalizationHelper.LanguageChanged += () => {
             ActionTitle = _once
-                ? $"{LocalizationHelper.GetString("PostActions")} ({LocalizationHelper.GetString("Once")})"
-                : LocalizationHelper.GetString("PostActions");
+                ? $"{LocalizationHelper.GetString("TaskQueue.PostActions")} ({LocalizationHelper.GetString("TaskQueue.Once")})"
+                : LocalizationHelper.GetString("TaskQueue.PostActions");
             RefreshDescription();
         };
     }

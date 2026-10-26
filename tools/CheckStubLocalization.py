@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """校验 MaaAppHostStub 内嵌文案与 Res/Localizations/*.xaml 同步。
 
-MaaAppHostStub.cpp 硬编码了 ErrorCongratulations / ErrorSolutionMoveMaaExeOutOfFolder
+MaaAppHostStub.cpp 硬编码了 ErrorDialog.Congratulations / ErrorDialog.SolutionMoveMaaExeOutOfFolder
 的五种语言文案（stub 启动时 .NET 尚未加载，无法读取 xaml 资源），本脚本比对两者，
 防止改动 xaml 后忘记同步 stub。在 ci.yml / release-nightly-ota.yml 中调用。
 """
@@ -16,7 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 CPP_PATH = ROOT / "src/MaaAppHostStub/MaaAppHostStub.cpp"
 LANGS = ["zh-cn", "zh-tw", "en-us", "ja-jp", "ko-kr"]
-KEYS = ["ErrorCongratulations", "ErrorSolutionMoveMaaExeOutOfFolder"]
+KEYS = ["ErrorDialog.Congratulations", "ErrorDialog.SolutionMoveMaaExeOutOfFolder"]
 
 
 def xaml_value(lang: str, key: str) -> str | None:

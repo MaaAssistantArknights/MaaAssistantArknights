@@ -21,7 +21,7 @@
     <!--  背景设置整块并入界面设置聚合展示，分区标题由各 Divider 提供  -->
     <StackPanel>
         <controls:GlobalConfigTip />
-        <hc:Divider Margin="0" Content="{DynamicResource ThemeAndAnimationSettings}" />
+        <hc:Divider Margin="0" Content="{DynamicResource Appearance.Theme.AndAnimationSettings}" />
         <Grid
             Margin="10"
             HorizontalAlignment="Center"
@@ -33,7 +33,7 @@
             <StackPanel Grid.Column="0" VerticalAlignment="Top">
                 <ComboBox
                     Margin="8"
-                    hc:InfoElement.Title="{DynamicResource UiTheme}"
+                    hc:InfoElement.Title="{DynamicResource Appearance.Theme}"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding DarkModeList}"
                     SelectedValue="{Binding DarkMode}"
@@ -42,14 +42,14 @@
             <StackPanel Grid.Column="1" VerticalAlignment="Top">
                 <ComboBox
                     Margin="8"
-                    hc:InfoElement.Title="{DynamicResource TransitionSpeed}"
+                    hc:InfoElement.Title="{DynamicResource Appearance.Animation.Speed}"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding TransitionSpeedList}"
                     SelectedValue="{Binding TransitionSpeed}"
                     SelectedValuePath="Value" />
             </StackPanel>
         </Grid>
-        <hc:Divider Margin="0" Content="{DynamicResource LanguageSettings}" />
+        <hc:Divider Margin="0" Content="{DynamicResource Settings.Language.Settings}" />
         <Grid
             Margin="10"
             HorizontalAlignment="Center"
@@ -71,14 +71,14 @@
             <StackPanel Grid.Column="1" VerticalAlignment="Top">
                 <ComboBox
                     Margin="8"
-                    hc:InfoElement.Title="{DynamicResource OperNameLanguage}"
+                    hc:InfoElement.Title="{DynamicResource TaskQueue.OperNameLanguage}"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding OperNameLanguageModeList}"
                     SelectedValue="{Binding OperNameLanguage}"
                     SelectedValuePath="Value" />
             </StackPanel>
         </Grid>
-        <hc:Divider Margin="0" Content="{DynamicResource TitleBarSettings}" />
+        <hc:Divider Margin="0" Content="{DynamicResource Settings.TitleBarSettings}" />
         <Grid
             Margin="10"
             HorizontalAlignment="Center"
@@ -92,7 +92,7 @@
                     <controls:TextBlock
                         Margin="8,0,0,5"
                         HorizontalAlignment="Left"
-                        Text="{DynamicResource TitleBarDisplayContent}"
+                        Text="{DynamicResource Settings.TitleBarDisplay.Content}"
                         TextWrapping="Wrap" />
                     <hc:CheckComboBox
                         Width="180"
@@ -104,15 +104,15 @@
             </StackPanel>
             <StackPanel Grid.Column="1" VerticalAlignment="Top">
                 <CheckBox Margin="8" IsChecked="{Binding WindowTitleScrollable}">
-                    <controls:TextBlock Text="{DynamicResource WindowTitleScrollable}" TextWrapping="Wrap" />
+                    <controls:TextBlock Text="{DynamicResource Settings.WindowTitleScrollable}" TextWrapping="Wrap" />
                 </CheckBox>
                 <CheckBox
                     Margin="8"
-                    Content="{DynamicResource HideCloseButton}"
+                    Content="{DynamicResource Settings.HideCloseButton}"
                     IsChecked="{Binding HideCloseButton}" />
             </StackPanel>
         </Grid>
-        <hc:Divider Margin="0" Content="{DynamicResource TraySettings}" />
+        <hc:Divider Margin="0" Content="{DynamicResource Settings.TraySettings}" />
         <Grid
             Margin="10"
             HorizontalAlignment="Center"
@@ -124,7 +124,7 @@
             <StackPanel Grid.Column="0" VerticalAlignment="Top">
                 <CheckBox
                     Margin="8"
-                    Content="{DynamicResource UseTray}"
+                    Content="{DynamicResource Settings.UseTray}"
                     IsChecked="{Binding UseTray}" />
             </StackPanel>
             <StackPanel Grid.Column="1" VerticalAlignment="Top">
@@ -133,11 +133,11 @@
                     IsChecked="{Binding MinimizeToTray}"
                     Visibility="{c:Binding UseTray,
                                            FalseToVisibility=Collapsed}">
-                    <controls:TextBlock Text="{DynamicResource MinimizeToTray}" TextWrapping="Wrap" />
+                    <controls:TextBlock Text="{DynamicResource Settings.MinimizeToTray}" TextWrapping="Wrap" />
                 </CheckBox>
             </StackPanel>
         </Grid>
-        <hc:Divider Margin="0" Content="{DynamicResource LogDisplaySettings}" />
+        <hc:Divider Margin="0" Content="{DynamicResource Settings.Log.Settings}" />
         <Grid
             Margin="10"
             HorizontalAlignment="Center"
@@ -149,7 +149,7 @@
             <StackPanel Grid.Column="0" VerticalAlignment="Top">
                 <CheckBox
                     Margin="8"
-                    Content="{DynamicResource UseCardLog}"
+                    Content="{DynamicResource Settings.UseCardLog}"
                     IsChecked="{Binding UseCardLog}" />
                 <StackPanel
                     Margin="8"
@@ -159,7 +159,7 @@
                         MaxWidth="200"
                         Margin="8,0,0,5"
                         HorizontalAlignment="Left"
-                        Text="{DynamicResource MaxNumberOfLogThumbnails}"
+                        Text="{DynamicResource Settings.MaxNumberOfLogThumbnails}"
                         TextWrapping="Wrap" />
                     <hc:NumericUpDown
                         Width="180"
@@ -174,12 +174,12 @@
                     Width="180"
                     Margin="8"
                     HorizontalAlignment="Left"
-                    hc:InfoElement.Title="{DynamicResource LogItemDateFormatString}"
+                    hc:InfoElement.Title="{DynamicResource Settings.LogItemDateFormatString}"
                     ItemsSource="{Binding LogItemDateFormatStringList}"
                     SelectedValue="{Binding LogItemDateFormatString}" />
             </StackPanel>
         </Grid>
-        <hc:Divider Margin="0" Content="{DynamicResource OperationGuideSettings}" />
+        <hc:Divider Margin="0" Content="{DynamicResource Settings.OperationGuideSettings}" />
         <Grid
             Margin="10"
             HorizontalAlignment="Center"
@@ -195,21 +195,21 @@
             <StackPanel Grid.Column="0" VerticalAlignment="Top">
                 <StackPanel Margin="8" Orientation="Horizontal">
                     <CheckBox MaxWidth="167" IsChecked="{Binding MainTasksInvertNullFunction}">
-                        <controls:TextBlock Text="{DynamicResource MainTasksNullFunctionality}" TextWrapping="Wrap" />
+                        <controls:TextBlock Text="{DynamicResource Settings.MainTasksNullFunctionality}" TextWrapping="Wrap" />
                     </CheckBox>
-                    <controls:TooltipBlock TooltipText="{DynamicResource MainTasksNullFunctionalityTip}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource Settings.MainTasksNullFunctionality.Tip}" />
                 </StackPanel>
                 <StackPanel Margin="8" Orientation="Horizontal">
                     <CheckBox MaxWidth="167" IsChecked="{Binding HideHoverActionButtons}">
-                        <controls:TextBlock Text="{DynamicResource HideHoverActionButtons}" TextWrapping="Wrap" />
+                        <controls:TextBlock Text="{DynamicResource Settings.HideHoverActionButtons}" TextWrapping="Wrap" />
                     </CheckBox>
-                    <controls:TooltipBlock TooltipText="{DynamicResource HideHoverActionButtonsTip}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource Settings.HideHoverActionButtons.Tip}" />
                 </StackPanel>
             </StackPanel>
             <StackPanel Grid.Column="1" VerticalAlignment="Top">
                 <ComboBox
                     Margin="8"
-                    hc:InfoElement.Title="{DynamicResource MainViewButtonFeature}"
+                    hc:InfoElement.Title="{DynamicResource Settings.MainViewButtonFeature}"
                     DisplayMemberPath="Display"
                     IsHitTestVisible="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
                     ItemsSource="{Binding InverseClearModeList}"
@@ -225,10 +225,10 @@
                 HorizontalAlignment="Center"
                 Command="{s:Action RestartGuide,
                                    Target={x:Static helper:Instances.SettingsViewModel}}"
-                Content="{DynamicResource RestartGuide}"
+                Content="{DynamicResource Settings.Guide.RestartGuide}"
                 Style="{StaticResource ButtonPrimary}" />
         </Grid>
-        <hc:Divider Margin="0" Content="{DynamicResource BackgroundSettings}" />
+        <hc:Divider Margin="0" Content="{DynamicResource Appearance.Background.Settings}" />
         <settings:BackgroundSettingsUserControl Margin="0,20" DataContext="{Binding Source={x:Static ui_vms:SettingsViewModel.BackgroundSettings}}" />
     </StackPanel>
 </UserControl>

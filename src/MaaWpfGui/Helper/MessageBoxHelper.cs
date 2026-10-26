@@ -126,11 +126,11 @@ public static class MessageBoxHelper
         string no = "",
         bool useNativeMethod = false)
     {
-        caption = string.IsNullOrEmpty(caption) ? LocalizationHelper.GetString("Tip") : caption;
-        ok = string.IsNullOrEmpty(ok) ? LocalizationHelper.GetString("Ok") : ok;
-        cancel = string.IsNullOrEmpty(cancel) ? LocalizationHelper.GetString("ManualRestart") : cancel;
-        yes = string.IsNullOrEmpty(yes) ? LocalizationHelper.GetString("Yes") : yes;
-        no = string.IsNullOrEmpty(no) ? LocalizationHelper.GetString("No") : no;
+        caption = string.IsNullOrEmpty(caption) ? LocalizationHelper.GetString("Settings.Tip") : caption;
+        ok = string.IsNullOrEmpty(ok) ? LocalizationHelper.GetString("Settings.Ok") : ok;
+        cancel = string.IsNullOrEmpty(cancel) ? LocalizationHelper.GetString("Settings.ManualRestart") : cancel;
+        yes = string.IsNullOrEmpty(yes) ? LocalizationHelper.GetString("Settings.Yes") : yes;
+        no = string.IsNullOrEmpty(no) ? LocalizationHelper.GetString("Settings.No") : no;
 
         if (useNativeMethod)
         {

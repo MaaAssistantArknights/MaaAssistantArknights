@@ -43,3 +43,12 @@ repos:
         types:
           - markdown
         args: ["--fix", "--config", "docs/.markdownlint.yaml"]
+
+  - repo: local
+    hooks:
+      - id: check-localization
+        name: Check WPF localization
+        entry: python tools/CheckLocalization.py
+        language: system
+        files: ^(src/MaaWpfGui/.*\.(cs|xaml)|tools/CheckLocalization\.py)$
+        pass_filenames: false

@@ -135,34 +135,34 @@ public class SSSCopilotModel : CopilotBase
         {
             count++;
             var localizedName = DataHelper.GetLocalizedCharacterName(oper.Name) ?? oper.Name;
-            output.Add(new CopilotOutput([new(localizedName, oper.Name), new($", {LocalizationHelper.GetString("CopilotSkill")} {oper.Skill}")], null));
+            output.Add(new CopilotOutput([new(localizedName, oper.Name), new($", {LocalizationHelper.GetString("Copilot.Skill")} {oper.Skill}")], null));
         }
 
-        output.Add((LocalizationHelper.GetStringFormat("TotalOperatorsCount", count), null));
+        output.Add((LocalizationHelper.GetStringFormat("Copilot.TotalOperatorsCount", count), null));
 
         if (ToolMen is not null)
         {
-            var toolMenLog = LocalizationHelper.GetString("OtherOperators");
+            var toolMenLog = LocalizationHelper.GetString("Copilot.OtherOperators");
             var toolMenString = string.Join("\n", ToolMen.Where(kv => kv.Value > 0).Select(kv => $"{GetLocalizedToolmenName(kv.Key)}: {kv.Value}"));
             output.Add((toolMenLog + "\n" + toolMenString, null));
         }
 
         if (Buff is not null)
         {
-            var buffLog = LocalizationHelper.GetString("DirectiveECTerm");
+            var buffLog = LocalizationHelper.GetString("Copilot.DirectiveECTerm");
             var localizedBuffName = DataHelper.GetLocalizedCharacterName(Buff);
             output.Add((buffLog + (string.IsNullOrEmpty(localizedBuffName) ? Buff : localizedBuffName), null));
         }
 
         if (Equipment is not null)
         {
-            var equipmentLog = LocalizationHelper.GetString("InitialEquipmentHorizontal") + '\n';
+            var equipmentLog = LocalizationHelper.GetString("Copilot.InitialEquipmentHorizontal") + '\n';
             output.Add((equipmentLog + string.Join('\n', Equipment.Chunk(4).Select(i => string.Join(",", i))), null));
         }
 
         if (Strategy is not null)
         {
-            var strategyLog = LocalizationHelper.GetString("InitialStrategy");
+            var strategyLog = LocalizationHelper.GetString("Copilot.InitialStrategy");
             output.Add((strategyLog + Strategy, null));
         }
 

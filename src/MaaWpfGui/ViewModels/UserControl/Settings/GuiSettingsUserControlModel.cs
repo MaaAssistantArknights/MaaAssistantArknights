@@ -297,10 +297,10 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
 
     private static ObservableCollection<KeyValuePair<string, string>> _windowTitleAllShowDict = new(new Dictionary<string, string>
     {
-        { "1", LocalizationHelper.GetString("ConfigurationName") },
-        { "2", LocalizationHelper.GetString("ConnectionPreset") },
-        { "3", LocalizationHelper.GetString("ConnectionAddress") },
-        { "4", LocalizationHelper.GetString("ClientType") },
+        { "1", LocalizationHelper.GetString("Settings.ConfigurationName") },
+        { "2", LocalizationHelper.GetString("Connection.Preset") },
+        { "3", LocalizationHelper.GetString("Connection.Address") },
+        { "4", LocalizationHelper.GetString("Settings.ClientType") },
     });
 
     private void RefreshWindowTitleAllShowDict()
@@ -308,10 +308,10 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         // 重建 SelectedItems 数组，保持当前选中的 key
         var config = ConfigFactory.Root.Gui.WindowTitleSelectShowList;
 
-        WindowTitleAllShowDict[0] = new("1", LocalizationHelper.GetString("ConfigurationName"));
-        WindowTitleAllShowDict[1] = new("2", LocalizationHelper.GetString("ConnectionPreset"));
-        WindowTitleAllShowDict[2] = new("3", LocalizationHelper.GetString("ConnectionAddress"));
-        WindowTitleAllShowDict[3] = new("4", LocalizationHelper.GetString("ClientType"));
+        WindowTitleAllShowDict[0] = new("1", LocalizationHelper.GetString("Settings.ConfigurationName"));
+        WindowTitleAllShowDict[1] = new("2", LocalizationHelper.GetString("Connection.Preset"));
+        WindowTitleAllShowDict[2] = new("3", LocalizationHelper.GetString("Connection.Address"));
+        WindowTitleAllShowDict[3] = new("4", LocalizationHelper.GetString("Settings.ClientType"));
         NotifyOfPropertyChange(nameof(WindowTitleAllShowDict));
         WindowTitleSelectShowList = [.. config
             .Split(' ')

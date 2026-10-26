@@ -215,13 +215,13 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
     public int SpecializationSkill3 { get; set => SetSpecializationTarget(3, ref field, value); }
 
     /// <summary>Gets 技能序号 1 的专精行标签，语言切换后由 <see cref="RefreshLocalizedText"/> 刷新。</summary>
-    public string SkillLabel1 { get; } = LocalizationHelper.GetStringFormat("OperProgressSkillNumber", 1);
+    public string SkillLabel1 { get; } = LocalizationHelper.GetStringFormat("Operator.Progress.SkillNumber", 1);
 
     /// <summary>Gets 技能序号 2 的专精行标签。</summary>
-    public string SkillLabel2 { get; } = LocalizationHelper.GetStringFormat("OperProgressSkillNumber", 2);
+    public string SkillLabel2 { get; } = LocalizationHelper.GetStringFormat("Operator.Progress.SkillNumber", 2);
 
     /// <summary>Gets 技能序号 3 的专精行标签。</summary>
-    public string SkillLabel3 { get; } = LocalizationHelper.GetStringFormat("OperProgressSkillNumber", 3);
+    public string SkillLabel3 { get; } = LocalizationHelper.GetStringFormat("Operator.Progress.SkillNumber", 3);
 
     public SkillMastery SpecializationSkillLevel => SkillMastery.Of(IsSpecializationSkill1Selected ? SpecializationSkill1 : 0, IsSpecializationSkill2Selected ? SpecializationSkill2 : 0, IsSpecializationSkill3Selected ? SpecializationSkill3 : 0);
 

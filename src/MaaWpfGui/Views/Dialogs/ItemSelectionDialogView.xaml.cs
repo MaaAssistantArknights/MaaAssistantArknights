@@ -51,8 +51,8 @@ public partial class ItemSelectionDialogView
         else
         {
             MessageBox.Show(
-                Helper.LocalizationHelper.GetString("PleaseSelectItem"),
-                Helper.LocalizationHelper.GetString("Tip"),
+                Helper.LocalizationHelper.GetString("ItemSelection.PleaseSelectItem"),
+                Helper.LocalizationHelper.GetString("Settings.Tip"),
                 MessageBoxButton.OK,
                 MessageBoxImage.Warning);
         }

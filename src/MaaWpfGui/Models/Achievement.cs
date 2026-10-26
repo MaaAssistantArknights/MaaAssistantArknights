@@ -98,9 +98,9 @@ public class Achievement
     {
         get
         {
-            var notice = LocalizationHelper.GetString("AchievementDlcProgressNotice");
+            var notice = LocalizationHelper.GetString("Achievement.DlcProgressNotice");
             var date = ReleasePhase.ReleaseDate();
-            return date != DateOnly.MinValue ? $"{notice}\n{ReleasePhaseTag} {LocalizationHelper.GetString("AchievementDlcReleaseDate")}: {date}" : notice;
+            return date != DateOnly.MinValue ? $"{notice}\n{ReleasePhaseTag} {LocalizationHelper.GetString("Achievement.DlcReleaseDate")}: {date}" : notice;
         }
     }
 

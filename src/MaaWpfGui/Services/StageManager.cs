@@ -69,7 +69,7 @@ public class StageManager
 
             if (string.IsNullOrEmpty(stage.Value))
             {
-                stage.Display = LocalizationHelper.GetString("DefaultStage");
+                stage.Display = LocalizationHelper.GetString("Combat.DefaultStage");
             }
 
             if (!string.IsNullOrEmpty(stage.TipKey))
@@ -181,16 +181,16 @@ public class StageManager
 
             if (!loaded)
             {
-                growlInfo.Message = LocalizationHelper.GetString("ApiUpdateFailed");
+                growlInfo.Message = LocalizationHelper.GetString("ResourceUpdate.ApiUpdateFailed");
             }
             else if (cached)
             {
-                // growlInfo.Message = LocalizationHelper.GetString("ApiCacheLoaded");
+                // growlInfo.Message = LocalizationHelper.GetString("ResourceUpdate.ApiCacheLoaded");
                 return;
             }
             else
             {
-                growlInfo.Message = LocalizationHelper.GetString("ApiUpdateSuccess");
+                growlInfo.Message = LocalizationHelper.GetString("ResourceUpdate.ApiUpdateSuccess");
             }
 
             GrowlHelper.Info(growlInfo);
@@ -318,7 +318,7 @@ public class StageManager
         return new()
         {
             // ｢当前/上次｣ 关卡导航
-            { string.Empty, new() { Display = LocalizationHelper.GetString("DefaultStage"), Value = string.Empty } },
+            { string.Empty, new() { Display = LocalizationHelper.GetString("Combat.DefaultStage"), Value = string.Empty } },
 
             // 周一和周日的关卡提示
             { "Pormpt1", new() { TipKey = "Pormpt1", OpenDaysOfWeek = [DayOfWeek.Monday], IsHidden = true } },
@@ -340,17 +340,17 @@ public class StageManager
         var entries = new List<MiniGameEntry>
         {
             // 常驻活动
-            new() { Display = LocalizationHelper.GetString("MiniGame@SecretFront"), DisplayKey = "MiniGame@SecretFront", Value = "MiniGame@SecretFront", TipKey = "MiniGame@SecretFrontTip" },
-            new() { Display = LocalizationHelper.GetString("Reclamation"), DisplayKey = "Reclamation", Value = "Reclamation", CategoryKey = "MiniGameCategoryPermanent" },
+            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.SecretFront"), DisplayKey = "MiniGame@SecretFront", Value = "MiniGame@SecretFront", TipKey = "MiniGame@SecretFrontTip" },
+            new() { Display = LocalizationHelper.GetString("TaskQueue.Reclamation"), DisplayKey = "Reclamation", Value = "Reclamation", CategoryKey = "MiniGameCategoryPermanent" },
 
             // 撒尿牛丸
-            new() { Display = LocalizationHelper.GetString("MiniGameNameSsStore"), DisplayKey = "MiniGameNameSsStore", Value = "SS@Store@Begin", TipKey = "MiniGameNameSsStoreTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
-            new() { Display = LocalizationHelper.GetString("MiniGameNameGreenTicketStore"), DisplayKey = "MiniGameNameGreenTicketStore", Value = "GreenTicket@Store@Begin", TipKey = "MiniGameNameGreenTicketStoreTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
-            new() { Display = LocalizationHelper.GetString("MiniGameNameYellowTicketStore"), DisplayKey = "MiniGameNameYellowTicketStore", Value = "YellowTicket@Store@Begin", TipKey = "MiniGameNameYellowTicketStoreTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
-            new() { Display = LocalizationHelper.GetString("MiniGameNameRAStore"), DisplayKey = "MiniGameNameRAStore", Value = "RA@Store@Begin", TipKey = "MiniGameNameRAStoreTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
-            new() { Display = LocalizationHelper.GetString("MiniGame@AutoRaisePotential"), DisplayKey = "MiniGame@AutoRaisePotential", Value = "MiniGame@AutoRaisePotential@Begin", TipKey = "MiniGame@AutoRaisePotentialTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
-            new() { Display = LocalizationHelper.GetString("MiniGame@MaterialSynthesis"), DisplayKey = "MiniGame@MaterialSynthesis", Value = "MiniGame@MaterialSynthesis@Begin", TipKey = "MiniGame@MaterialSynthesisTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
-            new() { Display = LocalizationHelper.GetString("MiniGame@CursedRelic"), DisplayKey = "MiniGame@CursedRelic", Value = "MiniGame@CursedRelic@Begin", TipKey = "MiniGame@CursedRelicTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
+            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.NameSsStore"), DisplayKey = "MiniGameNameSsStore", Value = "SS@Store@Begin", TipKey = "MiniGameNameSsStoreTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
+            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.NameGreenTicketStore"), DisplayKey = "MiniGameNameGreenTicketStore", Value = "GreenTicket@Store@Begin", TipKey = "MiniGameNameGreenTicketStoreTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
+            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.NameYellowTicketStore"), DisplayKey = "MiniGameNameYellowTicketStore", Value = "YellowTicket@Store@Begin", TipKey = "MiniGameNameYellowTicketStoreTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
+            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.NameRAStore"), DisplayKey = "MiniGameNameRAStore", Value = "RA@Store@Begin", TipKey = "MiniGameNameRAStoreTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
+            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.AutoRaisePotential"), DisplayKey = "MiniGame@AutoRaisePotential", Value = "MiniGame@AutoRaisePotential@Begin", TipKey = "MiniGame@AutoRaisePotentialTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
+            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.MaterialSynthesis"), DisplayKey = "MiniGame@MaterialSynthesis", Value = "MiniGame@MaterialSynthesis@Begin", TipKey = "MiniGame@MaterialSynthesisTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
+            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.CursedRelic"), DisplayKey = "MiniGame@CursedRelic", Value = "MiniGame@CursedRelic@Begin", TipKey = "MiniGame@CursedRelicTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
         };
 
         return entries;
@@ -570,7 +570,7 @@ public class StageManager
                 {
                     if (!TryParseVersion(minReqStr, out var minReqObj))
                     {
-                        entry.Tip = LocalizationHelper.GetString("LowVersion") + '\n' + LocalizationHelper.GetString("MinimumRequirements") + " " + minReqStr;
+                        entry.Tip = LocalizationHelper.GetString("Combat.LowVersion") + '\n' + LocalizationHelper.GetString("Combat.MinimumRequirements") + " " + minReqStr;
                         entry.TipKey = null;
                     }
                     else
@@ -578,7 +578,7 @@ public class StageManager
                         bool unsupported = !isDebugVersion && curVerParsed && curVersionObj!.CompareSortOrderTo(minReqObj) < 0;
                         if (unsupported)
                         {
-                            entry.Tip = LocalizationHelper.GetString("LowVersion") + '\n' + LocalizationHelper.GetString("MinimumRequirements") + " " + minReqStr;
+                            entry.Tip = LocalizationHelper.GetString("Combat.LowVersion") + '\n' + LocalizationHelper.GetString("Combat.MinimumRequirements") + " " + minReqStr;
                             entry.TipKey = null;
                         }
                     }
@@ -600,7 +600,7 @@ public class StageManager
                 {
                     if (!TryParseVersion(minReqStr, out var minReqObj))
                     {
-                        entry.Tip = LocalizationHelper.GetString("LowVersion") + '\n' + LocalizationHelper.GetString("MinimumRequirements") + " " + minReqStr;
+                        entry.Tip = LocalizationHelper.GetString("Combat.LowVersion") + '\n' + LocalizationHelper.GetString("Combat.MinimumRequirements") + " " + minReqStr;
                         entry.TipKey = null;
                     }
                     else
@@ -608,7 +608,7 @@ public class StageManager
                         bool unsupported = !isDebugVersion && curVerParsed && curVersionObj!.CompareSortOrderTo(minReqObj) < 0;
                         if (unsupported)
                         {
-                            entry.Tip = LocalizationHelper.GetString("LowVersion") + '\n' + LocalizationHelper.GetString("MinimumRequirements") + " " + minReqStr;
+                            entry.Tip = LocalizationHelper.GetString("Combat.LowVersion") + '\n' + LocalizationHelper.GetString("Combat.MinimumRequirements") + " " + minReqStr;
                             entry.TipKey = null;
                         }
                     }
@@ -636,7 +636,7 @@ public class StageManager
         var value = stageObj?["Value"]?.ToString() ?? string.Empty;
 
         var drop = unsupportedStages
-            ? LocalizationHelper.GetString("LowVersion") + '\n' + LocalizationHelper.GetString("MinimumRequirements") + minRequiredObj
+            ? LocalizationHelper.GetString("Combat.LowVersion") + '\n' + LocalizationHelper.GetString("Combat.MinimumRequirements") + minRequiredObj
             : stageObj?["Drop"]?.ToString();
 
         DateTime utcStart = DateTime.MinValue;
@@ -697,7 +697,7 @@ public class StageManager
             { "SK-5", new("SK-5", "SKTip", [DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection) },
 
             // 剿灭模式
-            { "Annihilation", new() { Display = LocalizationHelper.GetString("AnnihilationMode"), DisplayKey = "AnnihilationMode", Value = "Annihilation" } },
+            { "Annihilation", new() { Display = LocalizationHelper.GetString("Combat.AnnihilationMode"), DisplayKey = "AnnihilationMode", Value = "Annihilation" } },
 
             // 芯片本 - dropGroups 格式：[[PR-X-1的掉落], [PR-X-2的掉落], [PR-X 两职业的双芯片]]
             { "PR-A-1", new("PR-A-1", "PR-ATip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection, [["3261", "3231"], ["3262", "3232"], ["3263", "3233"]], ["ChipShortMedic", "ChipShortDefender"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
@@ -795,7 +795,7 @@ public class StageManager
                 {
                     inlines.Insert(0, new LineBreak());
                 }
-                inlines.Insert(0, new Run($"｢{activity.Tip}｣ {LocalizationHelper.GetString("DaysLeftOpen")}{GetDaysLeftText(activity.UtcExpireTime, now)}"));
+                inlines.Insert(0, new Run($"｢{activity.Tip}｣ {LocalizationHelper.GetString("Combat.DaysLeftOpen")}{GetDaysLeftText(activity.UtcExpireTime, now)}"));
                 resourceTipShown = true;
             }
 
@@ -807,7 +807,7 @@ public class StageManager
                     inlines.Add(new LineBreak());
                 }
 
-                inlines.Add(new Run($"｢{activity.StageName}｣ {LocalizationHelper.GetString("DaysLeftOpen")}{GetDaysLeftText(activity.UtcExpireTime, now)}"));
+                inlines.Add(new Run($"｢{activity.StageName}｣ {LocalizationHelper.GetString("Combat.DaysLeftOpen")}{GetDaysLeftText(activity.UtcExpireTime, now)}"));
 
                 var affiliatedGames = _miniGameEntries
                     .Where(g => g.Activity == activity.StageName && g.BeingOpen)
@@ -820,7 +820,7 @@ public class StageManager
                             ? game.Display
                             : (LocalizationHelper.TryGetString(game.DisplayKey, out var loc) ? loc : game.Display);
                         inlines.Add(new LineBreak());
-                        inlines.Add(new Run($"{LocalizationHelper.GetString("Toolbox")}→{LocalizationHelper.GetString("MiniGame")}→{gameName}"));
+                        inlines.Add(new Run($"{LocalizationHelper.GetString("Toolbox.Title")}→{LocalizationHelper.GetString("TaskQueue.MiniGame")}→{gameName}"));
                     }
                 }
             }
@@ -837,7 +837,7 @@ public class StageManager
                 var count = Instances.ToolboxViewModel?.DepotResult?.FirstOrDefault(d => d.Id == stage.Drop)?.DisplayCount;
                 if (!string.IsNullOrEmpty(count))
                 {
-                    str += $" ({LocalizationHelper.GetString("Inventory")} {count})";
+                    str += $" ({LocalizationHelper.GetString("Combat.Inventory")} {count})";
                 }
                 inlines.Add(new Run(str));
             }
@@ -893,7 +893,7 @@ public class StageManager
                     inlines.Add(new LineBreak());
                 }
 
-                inlines.Add(new Run($"({LocalizationHelper.GetString("Inventory")} "));
+                inlines.Add(new Run($"({LocalizationHelper.GetString("Combat.Inventory")} "));
 
                 for (int g = 0; g < stage.DropGroups.Count; g++)
                 {
@@ -938,7 +938,7 @@ public class StageManager
     private static string GetDaysLeftText(DateTime expireTime, DateTime now)
     {
         int daysLeft = (expireTime - now).Days;
-        return daysLeft > 0 ? daysLeft.ToString() : LocalizationHelper.GetString("LessThanOneDay");
+        return daysLeft > 0 ? daysLeft.ToString() : LocalizationHelper.GetString("Combat.LessThanOneDay");
     }
 
     /// <summary>

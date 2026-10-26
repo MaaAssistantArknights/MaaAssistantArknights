@@ -334,8 +334,8 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public string MirrorChyanCdkRemainingText =>
         MirrorChyanCdkExpiredTime != 0
         ? IsMirrorChyanCdkExpired
-            ? LocalizationHelper.GetString("MirrorChyanCdkExpired")
-            : LocalizationHelper.GetStringFormat("MirrorChyanCdkRemainingDays",
+            ? LocalizationHelper.GetString("Update.MirrorChyan.CdkExpired")
+            : LocalizationHelper.GetStringFormat("Update.MirrorChyan.CdkRemainingDays",
                             MirrorChyanCdkRemaining.TotalDays.ToString("F1"))
         : string.Empty;
 
@@ -472,12 +472,12 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             if (!value)
             {
                 var result = MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("ShowUpdaterProgressWarning"),
-                    LocalizationHelper.GetString("Warning"),
+                    LocalizationHelper.GetString("Settings.ShowUpdaterProgressWarning"),
+                    LocalizationHelper.GetString("Settings.Warning"),
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning,
-                    yes: LocalizationHelper.GetString("Confirm"),
-                    no: LocalizationHelper.GetString("Cancel"));
+                    yes: LocalizationHelper.GetString("Settings.Confirm"),
+                    no: LocalizationHelper.GetString("Settings.Cancel"));
                 if (result != MessageBoxResult.Yes)
                 {
                     return;
@@ -503,7 +503,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
         if (SettingsViewModel.VersionUpdateSettings.UpdateSource == UpdateSource.MirrorChyan && string.IsNullOrEmpty(SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk))
         {
-            ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanSelectedButNoCdk"));
+            ToastNotification.ShowDirect(LocalizationHelper.GetString("Update.MirrorChyan.SelectedButNoCdk"));
             return;
         }
 
@@ -511,16 +511,16 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
         var toastMessage = ret switch {
             VersionUpdateDialogViewModel.CheckUpdateRetT.NoNeedToUpdate => string.Empty,
-            VersionUpdateDialogViewModel.CheckUpdateRetT.NoNeedToUpdateDebugVersion => LocalizationHelper.GetString("NoNeedToUpdateDebugVersion"),
-            VersionUpdateDialogViewModel.CheckUpdateRetT.AlreadyLatest => LocalizationHelper.GetString("AlreadyLatest"),
-            VersionUpdateDialogViewModel.CheckUpdateRetT.UnknownError => LocalizationHelper.GetString("NewVersionDetectFailedTitle"),
-            VersionUpdateDialogViewModel.CheckUpdateRetT.NetworkError => LocalizationHelper.GetString("CheckNetworking"),
-            VersionUpdateDialogViewModel.CheckUpdateRetT.FailedToGetInfo => LocalizationHelper.GetString("GetReleaseNoteFailed"),
-            VersionUpdateDialogViewModel.CheckUpdateRetT.UpdatePackageDownloadFailed => LocalizationHelper.GetString("NewVersionDownloadFailedTitle"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.NoNeedToUpdateDebugVersion => LocalizationHelper.GetString("Settings.NoNeedToUpdateDebugVersion"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.AlreadyLatest => LocalizationHelper.GetString("Settings.AlreadyLatest"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.UnknownError => LocalizationHelper.GetString("Update.NewVersion.DetectFailed.Title"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.NetworkError => LocalizationHelper.GetString("Settings.CheckNetworking"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.FailedToGetInfo => LocalizationHelper.GetString("Settings.GetReleaseNoteFailed"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.UpdatePackageDownloadFailed => LocalizationHelper.GetString("Update.NewVersion.DownloadFailed.Title"),
             VersionUpdateDialogViewModel.CheckUpdateRetT.OK => string.Empty,
-            VersionUpdateDialogViewModel.CheckUpdateRetT.NewVersionIsBeingBuilt => LocalizationHelper.GetString("NewVersionIsBeingBuilt"),
-            VersionUpdateDialogViewModel.CheckUpdateRetT.OnlyGameResourceUpdated => LocalizationHelper.GetString("GameResourceUpdated"),
-            VersionUpdateDialogViewModel.CheckUpdateRetT.NoMirrorChyanCdk => LocalizationHelper.GetString("MirrorChyanSelectedButNoCdk"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.NewVersionIsBeingBuilt => LocalizationHelper.GetString("Update.NewVersion.IsBeingBuilt"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.OnlyGameResourceUpdated => LocalizationHelper.GetString("ResourceUpdate.GameResourceUpdated"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.NoMirrorChyanCdk => LocalizationHelper.GetString("Update.MirrorChyan.SelectedButNoCdk"),
             _ => string.Empty,
         };
 
@@ -550,7 +550,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
         if (SettingsViewModel.VersionUpdateSettings.UpdateSource == UpdateSource.MirrorChyan && string.IsNullOrEmpty(SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk))
         {
-            ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanSelectedButNoCdk"));
+            ToastNotification.ShowDirect(LocalizationHelper.GetString("Update.MirrorChyan.SelectedButNoCdk"));
             return;
         }
 
@@ -558,9 +558,9 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
         var (ret, uri, releaseNote) = await ResourceUpdater.CheckFromMirrorChyanAsync();
         var toastMessage = ret switch {
-            VersionUpdateDialogViewModel.CheckUpdateRetT.AlreadyLatest => LocalizationHelper.GetString("AlreadyLatest"),
-            VersionUpdateDialogViewModel.CheckUpdateRetT.UnknownError => LocalizationHelper.GetString("NewVersionDetectFailedTitle"),
-            VersionUpdateDialogViewModel.CheckUpdateRetT.NetworkError => LocalizationHelper.GetString("CheckNetworking"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.AlreadyLatest => LocalizationHelper.GetString("Settings.AlreadyLatest"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.UnknownError => LocalizationHelper.GetString("Update.NewVersion.DetectFailed.Title"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.NetworkError => LocalizationHelper.GetString("Settings.CheckNetworking"),
             _ => string.Empty,
         };
 

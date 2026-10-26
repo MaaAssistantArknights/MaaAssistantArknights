@@ -103,6 +103,7 @@
     <Resource Include="Res\Img\*" />
     <Resource Include="Res\Img\EasterEgg\*" />
     <Resource Include="Res\Img\Operator\*" />
+    <EmbeddedResource Include="Res\Localizations\legacy-key-map.tsv" LogicalName="MaaWpfGui.LegacyLocalizationKeyMap" />
     <Content Include="Res\Video\*" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\README.md" Pack="True" PackagePath="/" />
   </ItemGroup>

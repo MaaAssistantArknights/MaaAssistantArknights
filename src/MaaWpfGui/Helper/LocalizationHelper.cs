@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -71,6 +72,8 @@ public static class LocalizationHelper
     private static string _culture = ConfigFactory.Root.Gui.Localization;
 
     private static string _customCulture = ConfigFactory.Root.Gui.CustomCulture;
+
+    private static readonly Lazy<IReadOnlyDictionary<string, string>> LegacyKeyMap = new(LoadLegacyKeyMap);
 
     /// <summary>
     /// 获取当前语言。
@@ -295,6 +298,44 @@ public static class LocalizationHelper
     }
 
     private static bool TryLookupStringInternal(string key, out string value, string? culture = null, bool unescape = true)
+    {
+        if (TryLookupCatalog(key, out value, culture, unescape))
+        {
+            return true;
+        }
+
+        // Task/core enum names and MaaRelease data can still provide a pre-migration key.
+        return LegacyKeyMap.Value.TryGetValue(key, out var currentKey)
+            && TryLookupCatalog(currentKey, out value, culture, unescape);
+    }
+
+    private static IReadOnlyDictionary<string, string> LoadLegacyKeyMap()
+    {
+        using var stream = typeof(LocalizationHelper).Assembly.GetManifestResourceStream("MaaWpfGui.LegacyLocalizationKeyMap")
+            ?? throw new InvalidOperationException("The legacy localization key map is missing.");
+        using var reader = new StreamReader(stream);
+        var map = new Dictionary<string, string>(StringComparer.Ordinal);
+        string? line;
+        while ((line = reader.ReadLine()) is not null)
+        {
+            if (line.StartsWith('#'))
+            {
+                continue;
+            }
+
+            var separator = line.IndexOf('\t');
+            if (separator < 1 || separator == line.Length - 1)
+            {
+                throw new FormatException("The legacy localization key map contains an invalid row.");
+            }
+
+            map.Add(line[..separator], line[(separator + 1)..]);
+        }
+
+        return map;
+    }
+
+    private static bool TryLookupCatalog(string key, out string value, string? culture, bool unescape)
     {
         value = string.Empty;
 

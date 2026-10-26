@@ -395,18 +395,18 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
             if (message.Length > 0)
             {
-                message.AppendLine(LocalizationHelper.GetString("ErrorCrashMessageHeader"));
+                message.AppendLine(LocalizationHelper.GetString("ErrorDialog.CrashMessageHeader"));
                 message.AppendLine();
-                message.AppendLine(LocalizationHelper.GetString("ErrorCrashMessageOpenLog"));
-                message.AppendLine(LocalizationHelper.GetString("ErrorCrashMessageGenerateReport"));
+                message.AppendLine(LocalizationHelper.GetString("ErrorDialog.CrashMessageOpenLog"));
+                message.AppendLine(LocalizationHelper.GetString("ErrorDialog.CrashMessageGenerateReport"));
                 message.AppendLine();
-                message.AppendLine(LocalizationHelper.GetString("ErrorCrashMessageHelpTip"));
+                message.AppendLine(LocalizationHelper.GetString("ErrorDialog.CrashMessageHelp.Tip"));
 
                 _logger.Warning(message.ToString());
 
                 MessageBoxHelper.Show(
                     message.ToString(),
-                    LocalizationHelper.GetString("ErrorCrashDialogTitle"),
+                    LocalizationHelper.GetString("ErrorDialog.CrashDialog.Title"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
@@ -482,7 +482,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         if (!IsWritable(PathsHelper.BaseDir))
         {
-            Task.Run(() => MessageBoxHelper.Show(LocalizationHelper.GetString("SoftwareLocationWarning"), LocalizationHelper.GetString("Error"), MessageBoxButton.OK, MessageBoxImage.Error));
+            Task.Run(() => MessageBoxHelper.Show(LocalizationHelper.GetString("Startup.SoftwareLocationWarning"), LocalizationHelper.GetString("Common.Error"), MessageBoxButton.OK, MessageBoxImage.Error));
         }
 
         Task.Run(ParseCrashLog);
@@ -692,8 +692,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             currentBaseDirectory,
             unsupportedLocation);
         MessageBoxHelper.Show(
-            LocalizationHelper.GetStringFormat("UnsupportedInstallLocationError", currentBaseDirectory, unsupportedLocation),
-            LocalizationHelper.GetString("Error"),
+            LocalizationHelper.GetStringFormat("Startup.UnsupportedInstallLocationError", currentBaseDirectory, unsupportedLocation),
+            LocalizationHelper.GetString("Common.Error"),
             MessageBoxButton.OK,
             MessageBoxImage.Error);
         FlushLogAndExit();
@@ -799,7 +799,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             if (unknownDlls.Count > 0)
             {
                 MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("UnknownDllDetected") + "\n" + string.Join("\n", unknownDlls),
+                    LocalizationHelper.GetString("Startup.UnknownDllDetected") + "\n" + string.Join("\n", unknownDlls),
                     "MAA",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
@@ -813,12 +813,12 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         if (!IsCoreInitSkipped && !IsVCppInstalled())
         {
             var ret = MessageBoxHelper.Show(
-                LocalizationHelper.GetString("VC++NotInstalled"),
+                LocalizationHelper.GetString("Startup.VC++NotInstalled"),
                 "MAA",
                 MessageBoxButton.OKCancel,
                 MessageBoxImage.Information,
-                ok: LocalizationHelper.GetString("Confirm"),
-                cancel: LocalizationHelper.GetString("Cancel"));
+                ok: LocalizationHelper.GetString("Settings.Confirm"),
+                cancel: LocalizationHelper.GetString("Settings.Cancel"));
             if (ret == MessageBoxResult.OK)
             {
                 var startInfo = new ProcessStartInfo {
@@ -880,7 +880,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
                 return false;
             }
 
-            MessageBoxHelper.Show(LocalizationHelper.GetString("MultiInstanceUnderSamePath"), "MAA", MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBoxHelper.Show(LocalizationHelper.GetString("Startup.MultiInstanceUnderSamePath"), "MAA", MessageBoxButton.OK, MessageBoxImage.Warning);
             return false;
         }
         catch (AbandonedMutexException)
@@ -893,7 +893,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         }
         catch (Exception e)
         {
-            MessageBoxHelper.Show(LocalizationHelper.GetString("MultiInstanceUnderSamePath") + e.Message, "MAA", MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBoxHelper.Show(LocalizationHelper.GetString("Startup.MultiInstanceUnderSamePath") + e.Message, "MAA", MessageBoxButton.OK, MessageBoxImage.Warning);
             return false;
         }
     }
@@ -1211,7 +1211,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         var maxTimeInterval = Math.Max(buildTimeInterval, resourceTimeInterval);
         if (maxTimeInterval > 90)
         {
-            Instances.TaskQueueViewModel.LogItemViewModels.Add(new(LocalizationHelper.GetStringFormat("Achievement.Martian.ConditionsTip", (maxTimeInterval / 30.436875).ToString("F2")), UiLogColor.Error));
+            Instances.TaskQueueViewModel.LogItemViewModels.Add(new(LocalizationHelper.GetStringFormat("Achievement.Martian.Conditions.Tip", (maxTimeInterval / 30.436875).ToString("F2")), UiLogColor.Error));
         }
     }
 
@@ -1481,19 +1481,19 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         if (IsResourceBroken)
         {
             _logger.Warning("Task blocked: resource broken");
-            return LocalizationHelper.GetString("ResourceBrokenTaskBlocked");
+            return LocalizationHelper.GetString("Resource.BrokenTaskBlocked");
         }
 
         if (RequiresRestart)
         {
             _logger.Warning("Task blocked: restart required");
-            return LocalizationHelper.GetString("RestartRecommendation");
+            return LocalizationHelper.GetString("TaskQueue.Log.RestartRecommendation");
         }
 
         if (!RunningState.Instance.GetInit())
         {
             _logger.Warning("Task blocked: core is still loading");
-            var reason = LocalizationHelper.GetString("CoreLoadingTip");
+            var reason = LocalizationHelper.GetString("TaskQueue.CoreLoading.Tip");
             Execute.OnUIThread(() => GrowlHelper.Warning(reason));
             return reason;
         }
@@ -1579,8 +1579,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     private static void ShowPendingUpdateMissingUpdaterDialog()
     {
         MessageBoxHelper.Show(
-            LocalizationHelper.GetString("UpdateApplyMissingUpdater"),
-            LocalizationHelper.GetString("Error"),
+            LocalizationHelper.GetString("Update.ApplyMissingUpdater"),
+            LocalizationHelper.GetString("Common.Error"),
             icon: MessageBoxImage.Error);
     }
 

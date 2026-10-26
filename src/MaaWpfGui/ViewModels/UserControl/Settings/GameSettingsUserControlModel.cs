@@ -192,14 +192,14 @@ public class GameSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
-        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(str));
+        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.StartTask") + LocalizationHelper.GetString(str));
         if (func())
         {
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(str));
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.CompleteTask") + LocalizationHelper.GetString(str));
         }
         else
         {
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(str), UiLogColor.Warning);
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.TaskError") + LocalizationHelper.GetString(str), UiLogColor.Warning);
         }
     }
 
