@@ -278,6 +278,7 @@
         "next": ["#self", "Sami@Roguelike@NextLevel", "Sami@Roguelike@FoldartalGainNextLevel"]
     },
     "Sami@Roguelike@ExitThenAbandon": {
+        "maxTimes": 5,
         "template": "Roguelike@ExitThenAbandon.png",
         "next": ["Sami@Roguelike@ExitThenAbandon", "Sami@Roguelike@Abandon"]
     },

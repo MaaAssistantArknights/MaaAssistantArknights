@@ -591,6 +591,7 @@
         "next": ["BlackFlow@Roguelike@NodeResultDispatch"]
     },
     "BlackFlow@Roguelike@ExitThenAbandon": {
+        "maxTimes": 5,
         "template": "Roguelike@ExitThenAbandon.png",
         "next": ["BlackFlow@Roguelike@ExitThenAbandon", "BlackFlow@Roguelike@Abandon"]
     },

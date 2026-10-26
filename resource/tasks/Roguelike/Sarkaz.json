@@ -318,6 +318,7 @@
     },
     "Sarkaz@Roguelike@EnterAfterRecruit": {},
     "Sarkaz@Roguelike@ExitThenAbandon": {
+        "maxTimes": 5,
         "template": "Roguelike@ExitThenAbandon.png",
         "next": ["Sarkaz@Roguelike@ExitThenAbandon", "Sarkaz@Roguelike@Abandon"]
     },

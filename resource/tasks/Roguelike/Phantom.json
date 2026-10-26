@@ -71,6 +71,7 @@
     },
     "Phantom@Roguelike@EnterAfterRecruit": {},
     "Phantom@Roguelike@ExitThenAbandon": {
+        "maxTimes": 5,
         "template": "Roguelike@ExitThenAbandon.png",
         "next": ["Phantom@Roguelike@ExitThenAbandon", "Phantom@Roguelike@Abandon"]
     },
