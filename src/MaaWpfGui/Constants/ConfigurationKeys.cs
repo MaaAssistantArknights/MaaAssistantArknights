@@ -182,12 +182,12 @@ public static class ConfigurationKeys
     public const string RoguelikeMonthlySquadCheckComms = "Roguelike.MonthlySquadCheckComms"; // 已迁移
     public const string RoguelikeDeepExplorationAutoIterate = "Roguelike.DeepExplorationAutoIterate"; // 已迁移
     public const string RoguelikeFindPlaytimeTarget = "Roguelike.FindPlaytimeTarget"; // 已迁移
-    public const string ReclamationTheme = "Toolbox.MiniGame.Reclamation.Theme"; // 已迁移
-    public const string ReclamationMode = "Toolbox.MiniGame.Reclamation.Mode"; // 已迁移
-    public const string ReclamationToolToCraft = "Toolbox.MiniGame.Reclamation.ToolToCraft"; // 已迁移
-    public const string ReclamationIncrementMode = "Toolbox.MiniGame.Reclamation.ReclamationIncrementMode"; // 已迁移
-    public const string ReclamationMaxCraftCountPerRound = "Toolbox.MiniGame.Reclamation.ReclamationMaxCraftCountPerRound"; // 已迁移
-    public const string ReclamationClearStore = "Toolbox.MiniGame.Reclamation.ReclamationClearStore"; // 已迁移
+    public const string ReclamationTheme = "Reclamation.Theme"; // 已迁移
+    public const string ReclamationMode = "Reclamation.Mode"; // 已迁移
+    public const string ReclamationToolToCraft = "Reclamation.ToolToCraft"; // 已迁移
+    public const string ReclamationIncrementMode = "Reclamation.ReclamationIncrementMode"; // 已迁移
+    public const string ReclamationMaxCraftCountPerRound = "Reclamation.ReclamationMaxCraftCountPerRound"; // 已迁移
+    public const string ReclamationClearStore = "Reclamation.ReclamationClearStore"; // 已迁移
 
     public const string RecruitMaxTimes = "AutoRecruit.MaxTimes"; // 已迁移
     public const string AutoRecruitFirstList = "AutoRecruit.AutoRecruitFirstList"; // 已迁移
@@ -358,9 +358,9 @@ public static class ConfigurationKeys
 
     public const string DebugTaskName = "Debug.TaskName"; // √
 
-    public const string MiniGameTaskName = "Toolbox.MiniGame.TaskName"; // 废弃
-    public const string MiniGameSecretFrontEnding = "Toolbox.MiniGame.SecretFrontEnding"; // 废弃
-    public const string MiniGameSecretFrontEvent = "Toolbox.MiniGame.SecretFrontEvent"; // 废弃
+    public const string MiniGameTaskName = "MiniGame.TaskName"; // 废弃
+    public const string MiniGameSecretFrontEnding = "MiniGame.SecretFrontEnding"; // 废弃
+    public const string MiniGameSecretFrontEvent = "MiniGame.SecretFrontEvent"; // 废弃
 
     public const string AchievementPopupDisabled = "Achievement.PopupDisabled";
     public const string AchievementPopupAutoClose = "Achievement.PopupAutoClose";
