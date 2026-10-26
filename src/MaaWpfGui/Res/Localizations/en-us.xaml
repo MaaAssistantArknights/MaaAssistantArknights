@@ -1170,7 +1170,7 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="ExternalNotification.Qmsg.Key">Qmsg Key</system:String>
     <system:String x:Key="ExternalNotification.Qmsg.Server">Qmsg Server</system:String>
     <system:String x:Key="ExternalNotification.Qmsg.User">User QQ</system:String>
-    <system:String x:Key="ExternalNotification.Send.Fail">Send failed</system:String>
+    <system:String x:Key="ExternalNotification.Send.Failed">Send failed</system:String>
     <system:String x:Key="ExternalNotification.Send.Success">Send successfully</system:String>
     <system:String x:Key="ExternalNotification.SendBeforeScheduledStart">Before scheduled start</system:String>
     <system:String x:Key="ExternalNotification.SendBeforeScheduledStart.Tip" xml:space="preserve">Sends an external notification before a scheduled task starts.&#10;Uses the ｢{key=TaskQueue.Schedule.NotificationMinutes}｣ setting in ｢{key=Settings.Schedule.Title}｣.</system:String>
@@ -1199,7 +1199,7 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="ExternalNotification.Whitelist.Tip" xml:space="preserve">Enter one regular expression per line; a match on any line against the current log triggers a notification.&#10;An empty whitelist does not trigger this condition.</system:String>
     <system:String x:Key="Gacha.Disclaimer.Agree">Got it</system:String>
     <system:String x:Key="Gacha.Disclaimer.Emphasize">REAL GACHA!</system:String>
-    <system:String x:Key="Gacha.Disclaimer.Head">Note that this is a</system:String>
+    <system:String x:Key="Gacha.Disclaimer.Heading">Note that this is a</system:String>
     <system:String x:Key="Gacha.Disclaimer.NoMore">Don't show again</system:String>
     <system:String x:Key="Gacha.Init.Tip">To think that there were so many like-minded comrades in Rhodes Island. Yes, poetry! War! Freedom! To gather the people's strength from within the torrent of history, and fight to change this world. How exhilarating! These tragic yet extraordinary stories should be immortalized and passed down forevermore.</system:String>
     <system:String x:Key="Gacha.Once">Gacha Once</system:String>
@@ -1263,7 +1263,7 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="Guide.Restart">Restart Settings Guide</system:String>
     <system:String x:Key="Guide.RestartPrompt">The settings guide will be displayed on the main interface. Restart the application now?</system:String>
     <system:String x:Key="Guide.Settings">Settings Guide</system:String>
-    <system:String x:Key="Guide.ToolTip">Prompt appears when hovered</system:String>
+    <system:String x:Key="Guide.Tip">Prompt appears when hovered</system:String>
     <system:String x:Key="Guide.User">User Guide</system:String>
     <system:String x:Key="Guide.UserAgreement">By using MAA, you agree to comply with the "User Agreement". The complete agreement can be found in the link at the bottom of the official website.</system:String>
     <system:String x:Key="Guide.ViewLog">You can go to "{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}" to view logs and understand the specific cause of the error.</system:String>
@@ -1272,7 +1272,7 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="Infrast.Custom.FileHasPlanNoPeriod">Some rotations in the {key=Infrast.Mode.Custom} configuration have time periods set, which may lead to unexpected behavior. To set shift change time periods, ensure all rotations have time periods configured; otherwise, leave them all blank.</system:String>
     <system:String x:Key="Infrast.Custom.FileParseFailed">Base Configuration Parsing Error!</system:String>
     <system:String x:Key="Infrast.Custom.Plan">Base Plan</system:String>
-    <system:String x:Key="Infrast.Custom.Plan.ToolTip">
+    <system:String x:Key="Infrast.Custom.Plan.Tip">
         If ｢{key=Infrast.Custom.Plan}｣ has execution time, it will not switch automatically before ｢{key=TaskQueue.Task.Base}｣ task starts or during task execution, and will remain in the state at {key=TaskQueue.LinkStart}. Switching only occurs when idle or after the task is completed.
     </system:String>
     <system:String x:Key="Infrast.Custom.PlanIndexAutoSwitch">Auto save for next plan</system:String>
@@ -1317,8 +1317,8 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="Infrast.Mode.Custom">Custom Base Mode</system:String>
     <system:String x:Key="Infrast.Mode.Normal">Normal Mode</system:String>
     <system:String x:Key="Infrast.Mode.Rotation">One-click Rotation Mode</system:String>
-    <system:String x:Key="Infrast.Mode.Rotation.Tip">Please manually set up {key=Game.Operator} queues in game before using One-click Rotation Mode</system:String>
-    <system:String x:Key="Infrast.Mode.Rotation.ToolTip" xml:space="preserve">The shift rotation logic of ｢{key=Infrast.Mode.Rotation}｣ is identical to the ｢{key=Infrast.Mode.Rotation}｣ in the base facility:
+    <system:String x:Key="Infrast.Mode.Rotation.Requirement">Please manually set up {key=Game.Operator} queues in game before using One-click Rotation Mode</system:String>
+    <system:String x:Key="Infrast.Mode.Rotation.Tip" xml:space="preserve">The shift rotation logic of ｢{key=Infrast.Mode.Rotation}｣ is identical to the ｢{key=Infrast.Mode.Rotation}｣ in the base facility:
 If any operator in the current shift has 0 mood, the entire team will be replaced with the next shift.
 To customize rotation schedules, please use ｢{key=Infrast.Mode.Custom}｣.</system:String>
     <system:String x:Key="Infrast.OriginiumShardAutoReplenishment">Originium Shard auto replenishment</system:String>
@@ -1385,18 +1385,18 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="OperBox.AvatarMode">Avatar View</system:String>
     <system:String x:Key="OperBox.Export.Clipboard">Clipboard</system:String>
     <system:String x:Key="OperBox.Export.Header.Elite">Elite</system:String>
+    <system:String x:Key="OperBox.Export.Header.Equips">Modules</system:String>
     <system:String x:Key="OperBox.Export.Header.Id">ID</system:String>
     <system:String x:Key="OperBox.Export.Header.Level">Level</system:String>
+    <system:String x:Key="OperBox.Export.Header.MainSkillLevel">Skill level</system:String>
     <system:String x:Key="OperBox.Export.Header.Name">Operator</system:String>
     <system:String x:Key="OperBox.Export.Header.Own">Owned</system:String>
     <system:String x:Key="OperBox.Export.Header.Potential">Potential</system:String>
     <system:String x:Key="OperBox.Export.Header.Rarity">Rarity</system:String>
+    <system:String x:Key="OperBox.Export.Header.Skills">Skill masteries</system:String>
     <system:String x:Key="OperBox.Export.Json">JSON</system:String>
     <system:String x:Key="OperBox.Export.No">No</system:String>
     <system:String x:Key="OperBox.Export.Yes">Yes</system:String>
-    <system:String x:Key="OperBox.ExportHeader.Equips">Modules</system:String>
-    <system:String x:Key="OperBox.ExportHeader.MainSkillLevel">Skill level</system:String>
-    <system:String x:Key="OperBox.ExportHeader.Skills">Skill masteries</system:String>
     <system:String x:Key="OperBox.FetchingFromYituliu">Fetching operator data from Yituliu...</system:String>
     <system:String x:Key="OperBox.HaveList">Owned: {0}</system:String>
     <system:String x:Key="OperBox.NotHaveList">Not owned: {0}</system:String>
@@ -1447,9 +1447,9 @@ Recruitment permits are consumed faster than acquired; normally the timer expire
     <system:String x:Key="Recruit.SelectStrategy.ExtraTags">If higher ★ tags appear, always select 3 tags</system:String>
     <system:String x:Key="RemoteControl.CompletedTask">Completed remote task {0}, Task Id:{1}.</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest">Test Connection</system:String>
-    <system:String x:Key="RemoteControl.ConnectionTest.Fail">Connection Test Failed, reason: {0}.</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.FailEmpty">Connection Test Failed, Endpoint is empty.</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.FailNotHttpOrHttps">Connection test failed, connection endpoint is not a http(s) address.</system:String>
+    <system:String x:Key="RemoteControl.ConnectionTest.Failed">Connection Test Failed, reason: {0}.</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.Success">Connection Test Successful!</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.WarningHttpUnsafe">Endpoint is using http, might be unsafe.</system:String>
     <system:String x:Key="RemoteControl.DeveloperDocLink">Remote Control Developer Documentation</system:String>
@@ -2466,22 +2466,22 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonFileLocked">Moving files failed during the update. The files may have been scanned, blocked, or locked by security software, or held by another program. If security software is the cause, {key=VersionUpdate.SecurityWhitelistTip} Restarting your computer may also help.</system:String>
     <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonPackageError">The update package or its extracted files may be corrupted or incomplete.</system:String>
     <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonUnknown">Unknown reason. See gui.log in the debug folder for details.</system:String>
-    <system:String x:Key="VersionUpdate.FullPackageUpgradeTips">Please download the full package and extract it into a new folder. Do not overwrite the existing installation folder.\nYou may copy the original config, data, and debug folders into the new folder to retain your existing settings and logs.</system:String>
+    <system:String x:Key="VersionUpdate.FullPackageUpgrade.Tip">Please download the full package and extract it into a new folder. Do not overwrite the existing installation folder.\nYou may copy the original config, data, and debug folders into the new folder to retain your existing settings and logs.</system:String>
     <system:String x:Key="VersionUpdate.GameResource.Failed">Game resources update failed, please try again later.</system:String>
     <system:String x:Key="VersionUpdate.GameResource.Preparing">Indexing in progress</system:String>
     <system:String x:Key="VersionUpdate.GameResource.Updated">Game resources updated.</system:String>
     <system:String x:Key="VersionUpdate.GameResource.Updating">Game resources are being updated.</system:String>
     <system:String x:Key="VersionUpdate.GameResource.UpdatingMirrorChyan">Updating resource {0} from ｢{key=Settings.Update.Source.MirrorChyan}｣...</system:String>
     <system:String x:Key="VersionUpdate.GetReleaseNoteFailed">Failed to get release note.</system:String>
-    <system:String x:Key="VersionUpdate.IntegrityCheck.Description">{0} installation file(s) are missing ({1}), and some features may not work. The files may have been blocked or removed by security software, or deleted manually. If security software caused this, please check its quarantine area, restore the files, and {key=VersionUpdate.SecurityWhitelistTip}\n\nYou can also reinstall manually as described below:\n\n{key=VersionUpdate.FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="VersionUpdate.IntegrityCheck.Description">{0} installation file(s) are missing ({1}), and some features may not work. The files may have been blocked or removed by security software, or deleted manually. If security software caused this, please check its quarantine area, restore the files, and {key=VersionUpdate.SecurityWhitelistTip}\n\nYou can also reinstall manually as described below:\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.IntegrityCheck.Title">Missing installation files</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.Canceled">Automatic repair canceled. You will be reminded again on the next startup.</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.Downloading">Downloading the full package to repair the installation…</system:String>
-    <system:String x:Key="VersionUpdate.IntegrityRepair.Failed">Automatic repair failed. Please follow the instructions below to fix it manually.\n\n{key=VersionUpdate.FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="VersionUpdate.IntegrityRepair.Failed">Automatic repair failed. Please follow the instructions below to fix it manually.\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.FullPackageNotice">To repair the installation, the full package will be downloaded instead of an incremental update package.</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.No">Not now, continue starting</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.Yes">Repair automatically (download the full package and restore after restart)</system:String>
-    <system:String x:Key="VersionUpdate.LocalUpdatePackageImported.Desc">A compatible local update package was detected. Update MAA now? (Restart required)</system:String>
+    <system:String x:Key="VersionUpdate.LocalUpdatePackageImported.Description">A compatible local update package was detected. Update MAA now? (Restart required)</system:String>
     <system:String x:Key="VersionUpdate.LocalUpdatePackageImported.Title">Local update package ready</system:String>
     <system:String x:Key="VersionUpdate.LocalUpdatePackageUnsupported">Cannot recognize archive: {0}\nOnly full packages for the current architecture, or OTA packages from the current version to a newer version, can be imported.\nCurrent version: {1}\nCurrent architecture: {2}\nSupported filename examples: MAA-vTARGET_VERSION-win-{2}.zip\nor MAAComponent-OTA-{1}_vTARGET_VERSION-win-{2}.zip</system:String>
     <system:String x:Key="VersionUpdate.LowVersion">Old Version, Update required</system:String>
@@ -2492,13 +2492,13 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="VersionUpdate.MirrorChyan.CdkInvalid">The CDK is invalid. Please check if the input is correct.</system:String>
     <system:String x:Key="VersionUpdate.MirrorChyan.CdkMismatched">The CDK type does not match the resource to be downloaded. Please check the CDK's applicable scope.</system:String>
     <system:String x:Key="VersionUpdate.MirrorChyan.CdkQuotaExhausted">The CDK has reached the maximum download limit for today. Please try again tomorrow.</system:String>
-    <system:String x:Key="VersionUpdate.MissingUpdater">The update could not continue because MAA.Updater.exe is missing, so the external updater could not be started. This update has been canceled. The file may have been deleted manually, or it may have been blocked or removed by security software. If security software caused this, please check its quarantine area, restore the file, and {key=VersionUpdate.SecurityWhitelistTip}\n\n{key=VersionUpdate.FullPackageUpgradeTips}</system:String>
-    <system:String x:Key="VersionUpdate.NewVersionButNoPackage.Desc">Please manually download the full package to update!</system:String>
+    <system:String x:Key="VersionUpdate.MissingUpdater">The update could not continue because MAA.Updater.exe is missing, so the external updater could not be started. This update has been canceled. The file may have been deleted manually, or it may have been blocked or removed by security software. If security software caused this, please check its quarantine area, restore the file, and {key=VersionUpdate.SecurityWhitelistTip}\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
+    <system:String x:Key="VersionUpdate.NewVersionButNoPackage.Description">Please manually download the full package to update!</system:String>
     <system:String x:Key="VersionUpdate.NewVersionButNoPackage.Title">New version found, but no update package</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDetectFailed.Title">Update Package Detect Failed</system:String>
-    <system:String x:Key="VersionUpdate.NewVersionDownloadCompleted.Desc">Do you want to upgrade MAA immediately? (restart the process)</system:String>
+    <system:String x:Key="VersionUpdate.NewVersionDownloadCompleted.Description">Do you want to upgrade MAA immediately? (restart the process)</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadCompleted.Title">Update Package Download Completed</system:String>
-    <system:String x:Key="VersionUpdate.NewVersionDownloadFailed.Desc">Please download the zip file manually and place it in the directory</system:String>
+    <system:String x:Key="VersionUpdate.NewVersionDownloadFailed.Description">Please download the zip file manually and place it in the directory</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadFailed.Title">Download of Update Package Failed</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadPreparing">Preparing to download update package……</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadRetrying">Update package download failed. Retrying in {0} seconds (download attempt {1}/{2} failed).</system:String>
@@ -2519,7 +2519,7 @@ Please note:
 
 You can cancel this popup by clicking the ｢{key=Settings.Title} - {key=Settings.IssueReport.Title}｣ Report link. Thank you for your understanding and cooperation!</system:String>
     <system:String x:Key="VersionUpdate.OtaRejectedByBrokenInstall">The installation may be incomplete (damaged resources or a previous update failure). OTA incremental packages cannot repair it; please use a full package instead.</system:String>
-    <system:String x:Key="VersionUpdate.PendingFullUpdate.Desc" xml:space="preserve">A full-package update is required.
+    <system:String x:Key="VersionUpdate.PendingFullUpdate.Description" xml:space="preserve">A full-package update is required.
 
 Update flow: if you continue with downloading or importing the full package, the later install step will first clean the top-level files and folders under the current install root, except cache, config, data, debug, achievement (screenshots), and MAA.Updater.exe, and then write the full package into that directory.
 
@@ -2539,11 +2539,11 @@ Continue only after you have verified the directory layout and finished a manual
     <system:String x:Key="VersionUpdate.PendingFullUpdate.No">Not now, start current version</system:String>
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Title">Manual confirmation required for full-package update</system:String>
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Yes">I backed it up, continue update</system:String>
-    <system:String x:Key="VersionUpdate.ResourceBroken">The resources are damaged. Try auto repair (download the full package again), or continue for now and update later by dragging in a local full package.\n\n{key=VersionUpdate.FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="VersionUpdate.ResourceBroken">The resources are damaged. Try auto repair (download the full package again), or continue for now and update later by dragging in a local full package.\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.ResourceVersion">Resource Version</system:String>
     <system:String x:Key="VersionUpdate.SecurityWhitelistTip">add the MAA installation folder to that software's allowlist before trying again.</system:String>
     <system:String x:Key="VersionUpdate.Title">Version Information</system:String>
     <system:String x:Key="VersionUpdate.UpdatedTo" xml:space="preserve">Updated Version:&#160;</system:String>
-    <system:String x:Key="VersionUpdate.VersionMismatch">UI and Core versions mismatch: {0} and {1}, which may cause unpredictable behavior. Please do not manually replace files or occupy files during updates.\n\n{key=VersionUpdate.FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="VersionUpdate.VersionMismatch">UI and Core versions mismatch: {0} and {1}, which may cause unpredictable behavior. Please do not manually replace files or occupy files during updates.\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.WindowUpdateInfo.Tip">Click to update now</system:String>
 </ResourceDictionary>

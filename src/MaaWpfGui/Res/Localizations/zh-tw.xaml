@@ -1171,7 +1171,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="ExternalNotification.Qmsg.Key">Qmsg Key</system:String>
     <system:String x:Key="ExternalNotification.Qmsg.Server">伺服器位址</system:String>
     <system:String x:Key="ExternalNotification.Qmsg.User">使用者 QQ</system:String>
-    <system:String x:Key="ExternalNotification.Send.Fail">發送失敗</system:String>
+    <system:String x:Key="ExternalNotification.Send.Failed">發送失敗</system:String>
     <system:String x:Key="ExternalNotification.Send.Success">發送成功</system:String>
     <system:String x:Key="ExternalNotification.SendBeforeScheduledStart">定時執行前</system:String>
     <system:String x:Key="ExternalNotification.SendBeforeScheduledStart.Tip" xml:space="preserve">在定時任務開始前傳送外部通知。&#10;提前時間使用 ｢{key=Settings.Schedule.Title}｣ 中的 ｢{key=TaskQueue.Schedule.NotificationMinutes}｣ 設定。</system:String>
@@ -1200,7 +1200,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="ExternalNotification.Whitelist.Tip" xml:space="preserve">每行填寫一個正則表達式，任意一行符合目前日誌就觸發傳送。&#10;白名單為空時，此條件不會觸發通知。</system:String>
     <system:String x:Key="Gacha.Disclaimer.Agree">知道了</system:String>
     <system:String x:Key="Gacha.Disclaimer.Emphasize">真正的抽卡</system:String>
-    <system:String x:Key="Gacha.Disclaimer.Head">請注意，這是</system:String>
+    <system:String x:Key="Gacha.Disclaimer.Heading">請注意，這是</system:String>
     <system:String x:Key="Gacha.Disclaimer.NoMore">下次不再提示</system:String>
     <system:String x:Key="Gacha.Init.Tip">在羅德島竟然有這麼多志同道合的志士。是的，詩歌！戰爭！自由！能在歷史的洪流中匯集眾人的力量，為這片大地的改變而奮鬥。真是令人振奮！這些悲壯又非凡的故事，是應當被傳頌下去的。</system:String>
     <system:String x:Key="Gacha.Once">尋訪一次</system:String>
@@ -1264,7 +1264,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Guide.Restart">重看設定指引</system:String>
     <system:String x:Key="Guide.RestartPrompt">設定指引將在主介面顯示，是否立即重新啟動應用程式？</system:String>
     <system:String x:Key="Guide.Settings">設定指引</system:String>
-    <system:String x:Key="Guide.ToolTip">滑鼠移至此處會有提示喔</system:String>
+    <system:String x:Key="Guide.Tip">滑鼠移至此處會有提示喔</system:String>
     <system:String x:Key="Guide.User">使用指引</system:String>
     <system:String x:Key="Guide.UserAgreement">使用 MAA 即表示您同意遵守 ｢使用者協議｣，完整協議內容可在官網底部的連結中查看。</system:String>
     <system:String x:Key="Guide.ViewLog">您可以前往 ｢{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}｣ 查看日誌，了解錯誤發生的具體原因。</system:String>
@@ -1273,7 +1273,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Infrast.Custom.FileHasPlanNoPeriod">自訂基建排班僅有部分計畫設定了時段，可能會產生預期外的行為。若需設定換班時段請確保所有計畫均有設定時段，否則請全部留白。</system:String>
     <system:String x:Key="Infrast.Custom.FileParseFailed">自訂基建排班檔案解析錯誤！</system:String>
     <system:String x:Key="Infrast.Custom.Plan">基建計劃</system:String>
-    <system:String x:Key="Infrast.Custom.Plan.ToolTip">
+    <system:String x:Key="Infrast.Custom.Plan.Tip">
         若 ｢{key=Infrast.Custom.Plan}｣ 存在執行時間，則在 ｢{key=TaskQueue.Task.Base}｣ 任務開始前或任務執行時不會自動切換，將保持 {key=TaskQueue.LinkStart} 狀態，僅於空閒或任務完成後才會切換。
     </system:String>
     <system:String x:Key="Infrast.Custom.PlanIndexAutoSwitch">自動儲存為下個計劃</system:String>
@@ -1318,8 +1318,8 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Infrast.Mode.Custom">自訂基建排班</system:String>
     <system:String x:Key="Infrast.Mode.Normal">一般模式</system:String>
     <system:String x:Key="Infrast.Mode.Rotation">隊列輪換</system:String>
-    <system:String x:Key="Infrast.Mode.Rotation.Tip">使用隊列輪換需提前在遊戲中設定好隊列</system:String>
-    <system:String x:Key="Infrast.Mode.Rotation.ToolTip" xml:space="preserve"> ｢{key=Infrast.Mode.Rotation}｣ 的換班邏輯與遊戲內基建右下角的 ｢{key=Infrast.Mode.Rotation}｣ 完全一致：
+    <system:String x:Key="Infrast.Mode.Rotation.Requirement">使用隊列輪換需提前在遊戲中設定好隊列</system:String>
+    <system:String x:Key="Infrast.Mode.Rotation.Tip" xml:space="preserve"> ｢{key=Infrast.Mode.Rotation}｣ 的換班邏輯與遊戲內基建右下角的 ｢{key=Infrast.Mode.Rotation}｣ 完全一致：
 當目前班次中任意幹員心情值為 0 時，會整隊替換為下一班幹員。
 若需自訂輪換班次，請使用 ｢{key=Infrast.Mode.Custom}｣。</system:String>
     <system:String x:Key="Infrast.OriginiumShardAutoReplenishment">源石碎片自動補貨</system:String>
@@ -1386,18 +1386,18 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="OperBox.AvatarMode">頭像展示</system:String>
     <system:String x:Key="OperBox.Export.Clipboard">剪貼簿</system:String>
     <system:String x:Key="OperBox.Export.Header.Elite">精英化等級</system:String>
+    <system:String x:Key="OperBox.Export.Header.Equips">模組</system:String>
     <system:String x:Key="OperBox.Export.Header.Id">ID</system:String>
     <system:String x:Key="OperBox.Export.Header.Level">等級</system:String>
+    <system:String x:Key="OperBox.Export.Header.MainSkillLevel">技能等級</system:String>
     <system:String x:Key="OperBox.Export.Header.Name">幹員</system:String>
     <system:String x:Key="OperBox.Export.Header.Own">是否擁有</system:String>
     <system:String x:Key="OperBox.Export.Header.Potential">潛能</system:String>
     <system:String x:Key="OperBox.Export.Header.Rarity">星級</system:String>
+    <system:String x:Key="OperBox.Export.Header.Skills">技能專精</system:String>
     <system:String x:Key="OperBox.Export.Json">JSON</system:String>
     <system:String x:Key="OperBox.Export.No">否</system:String>
     <system:String x:Key="OperBox.Export.Yes">是</system:String>
-    <system:String x:Key="OperBox.ExportHeader.Equips">模組</system:String>
-    <system:String x:Key="OperBox.ExportHeader.MainSkillLevel">技能等級</system:String>
-    <system:String x:Key="OperBox.ExportHeader.Skills">技能專精</system:String>
     <system:String x:Key="OperBox.FetchingFromYituliu">正在從一圖流讀取幹員資料…</system:String>
     <system:String x:Key="OperBox.HaveList">已擁有：{0} 名</system:String>
     <system:String x:Key="OperBox.NotHaveList">未擁有：{0} 名</system:String>
@@ -1448,9 +1448,9 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Recruit.SelectStrategy.ExtraTags">選擇高星時總是選擇三個 Tags</system:String>
     <system:String x:Key="RemoteControl.CompletedTask">完成遠端任務 {0}，任務 ID：{1}。</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest">測試連線</system:String>
-    <system:String x:Key="RemoteControl.ConnectionTest.Fail">連線測試失敗，原因：{0}。</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.FailEmpty">連線測試失敗，連線端點為空。</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.FailNotHttpOrHttps">連線測試失敗，連線端點非 HTTP(S) 位址。</system:String>
+    <system:String x:Key="RemoteControl.ConnectionTest.Failed">連線測試失敗，原因：{0}。</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.Success">連線測試成功！</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.WarningHttpUnsafe">連線端點未啟用 HTTPS，可能不安全。</system:String>
     <system:String x:Key="RemoteControl.DeveloperDocLink">遠端控制功能開發者說明文件</system:String>
@@ -2467,22 +2467,22 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonFileLocked">更新過程中移動檔案失敗。檔案可能被安全軟體掃描、攔截或鎖定，也可能被其他程式占用。若是安全軟體所致，{key=VersionUpdate.SecurityWhitelistTip}也可重新開機後再試。</system:String>
     <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonPackageError">更新包或其解壓產物可能已損毀或不完整。</system:String>
     <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonUnknown">未知原因，詳情請查看 debug 資料夾中的 gui.log。</system:String>
-    <system:String x:Key="VersionUpdate.FullPackageUpgradeTips">請下載完整安裝檔並解壓縮至新的資料夾中，切勿直接覆蓋原資料夾。\n可將原有的 config、data 與 debug 資料夾複製到新資料夾中，以保留原有設定與日誌。</system:String>
+    <system:String x:Key="VersionUpdate.FullPackageUpgrade.Tip">請下載完整安裝檔並解壓縮至新的資料夾中，切勿直接覆蓋原資料夾。\n可將原有的 config、data 與 debug 資料夾複製到新資料夾中，以保留原有設定與日誌。</system:String>
     <system:String x:Key="VersionUpdate.GameResource.Failed">遊戲資源更新失敗，請稍後再試。</system:String>
     <system:String x:Key="VersionUpdate.GameResource.Preparing">正在建立索引</system:String>
     <system:String x:Key="VersionUpdate.GameResource.Updated">遊戲資源已更新。</system:String>
     <system:String x:Key="VersionUpdate.GameResource.Updating">遊戲資源正在更新。</system:String>
     <system:String x:Key="VersionUpdate.GameResource.UpdatingMirrorChyan">正在使用 ｢{key=Settings.Update.Source.MirrorChyan}｣ 更新資源 {0}……</system:String>
     <system:String x:Key="VersionUpdate.GetReleaseNoteFailed">取得更新資訊失敗。</system:String>
-    <system:String x:Key="VersionUpdate.IntegrityCheck.Description">偵測到 {0} 個安裝檔案缺失（{1}），部分功能可能無法使用。檔案可能被某些安全軟體攔截或刪除，也可能被手動刪除。若為安全軟體所致，請前往對應軟體的隔離區尋找並還原檔案，並{key=VersionUpdate.SecurityWhitelistTip}\n\n也可按下方說明手動重灌：\n\n{key=VersionUpdate.FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="VersionUpdate.IntegrityCheck.Description">偵測到 {0} 個安裝檔案缺失（{1}），部分功能可能無法使用。檔案可能被某些安全軟體攔截或刪除，也可能被手動刪除。若為安全軟體所致，請前往對應軟體的隔離區尋找並還原檔案，並{key=VersionUpdate.SecurityWhitelistTip}\n\n也可按下方說明手動重灌：\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.IntegrityCheck.Title">安裝檔案缺失</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.Canceled">已取消自動修復，下次啟動時仍會提醒</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.Downloading">正在下載完整安裝檔以修復安裝…</system:String>
-    <system:String x:Key="VersionUpdate.IntegrityRepair.Failed">自動修復失敗，請按提示手動處理。\n\n{key=VersionUpdate.FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="VersionUpdate.IntegrityRepair.Failed">自動修復失敗，請按提示手動處理。\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.FullPackageNotice">為修復安裝，將下載完整安裝檔而非增量更新檔</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.No">暫不處理，繼續啟動</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.Yes">自動修復（下載完整安裝檔並在重新啟動後還原）</system:String>
-    <system:String x:Key="VersionUpdate.LocalUpdatePackageImported.Desc">偵測到可用的本機更新檔案，是否立即更新 MAA？（將重新啟動程式）</system:String>
+    <system:String x:Key="VersionUpdate.LocalUpdatePackageImported.Description">偵測到可用的本機更新檔案，是否立即更新 MAA？（將重新啟動程式）</system:String>
     <system:String x:Key="VersionUpdate.LocalUpdatePackageImported.Title">本機更新檔案已就緒</system:String>
     <system:String x:Key="VersionUpdate.LocalUpdatePackageUnsupported">無法辨識壓縮檔：{0}\n僅支援拖入目前架構的完整檔案，或目前版本到更高版本的 OTA 更新檔案。\n目前版本：{1}\n目前架構：{2}\n支援的檔名範例：MAA-v新版本-win-{2}.zip\n或 MAAComponent-OTA-{1}_v新版本-win-{2}.zip</system:String>
     <system:String x:Key="VersionUpdate.LowVersion">版本過低</system:String>
@@ -2493,13 +2493,13 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="VersionUpdate.MirrorChyan.CdkInvalid">CDK 無效，請檢查輸入是否正確。</system:String>
     <system:String x:Key="VersionUpdate.MirrorChyan.CdkMismatched">CDK 類型與待下載的資源不相符，請檢查 CDK 適用範圍。</system:String>
     <system:String x:Key="VersionUpdate.MirrorChyan.CdkQuotaExhausted">CDK 今日下載次數已達上限，請明日再試。</system:String>
-    <system:String x:Key="VersionUpdate.MissingUpdater">更新無法繼續，因為缺少 MAA.Updater.exe，無法啟動外部更新程式。本次更新已取消。此檔案可能已被手動刪除，也可能被某些安全軟體攔截或刪除。若是安全軟體所致，請前往對應軟體的隔離區尋找並還原該檔案，並{key=VersionUpdate.SecurityWhitelistTip}\n\n{key=VersionUpdate.FullPackageUpgradeTips}</system:String>
-    <system:String x:Key="VersionUpdate.NewVersionButNoPackage.Desc">請手動下載完整檔案更新！</system:String>
+    <system:String x:Key="VersionUpdate.MissingUpdater">更新無法繼續，因為缺少 MAA.Updater.exe，無法啟動外部更新程式。本次更新已取消。此檔案可能已被手動刪除，也可能被某些安全軟體攔截或刪除。若是安全軟體所致，請前往對應軟體的隔離區尋找並還原該檔案，並{key=VersionUpdate.SecurityWhitelistTip}\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
+    <system:String x:Key="VersionUpdate.NewVersionButNoPackage.Description">請手動下載完整檔案更新！</system:String>
     <system:String x:Key="VersionUpdate.NewVersionButNoPackage.Title">偵測到新版本，但未找到更新檔案</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDetectFailed.Title">檢查更新失敗</system:String>
-    <system:String x:Key="VersionUpdate.NewVersionDownloadCompleted.Desc">是否立即更新 MAA？（將重新啟動程式）</system:String>
+    <system:String x:Key="VersionUpdate.NewVersionDownloadCompleted.Description">是否立即更新 MAA？（將重新啟動程式）</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadCompleted.Title">新版本下載完成</system:String>
-    <system:String x:Key="VersionUpdate.NewVersionDownloadFailed.Desc">請嘗試手動下載後，將壓縮檔放到目錄下 _(:з」∠)_</system:String>
+    <system:String x:Key="VersionUpdate.NewVersionDownloadFailed.Description">請嘗試手動下載後，將壓縮檔放到目錄下 _(:з」∠)_</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadFailed.Title">新版本下載失敗</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadPreparing">正在準備下載更新檔案……</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadRetrying">更新檔案下載失敗，將在 {0} 秒後重試（第 {1}/{2} 次下載失敗）。</system:String>
@@ -2520,7 +2520,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
 
 您可透過點擊 ｢{key=Settings.Title} - {key=Settings.IssueReport.Title}｣ 連結來取消該彈出視窗，感謝您的理解與配合！</system:String>
     <system:String x:Key="VersionUpdate.OtaRejectedByBrokenInstall">目前安裝可能處於不完整狀態（資源損毀或上次更新失敗），OTA 增量更新檔無法修復，請改用完整安裝檔</system:String>
-    <system:String x:Key="VersionUpdate.PendingFullUpdate.Desc" xml:space="preserve">偵測到需要使用完整檔案進行更新。
+    <system:String x:Key="VersionUpdate.PendingFullUpdate.Description" xml:space="preserve">偵測到需要使用完整檔案進行更新。
 
 更新邏輯：如果你繼續下載或匯入完整檔案，後續安裝時會先清理目前安裝根目錄下除 cache、config、data、debug、achievement（通關截圖）和 MAA.Updater.exe 外的頂層檔案與資料夾，再把完整檔案內容寫入該目錄。
 
@@ -2540,11 +2540,11 @@ D:\
     <system:String x:Key="VersionUpdate.PendingFullUpdate.No">暫不更新，繼續啟動目前版本</system:String>
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Title">完整檔案更新需要手動確認</system:String>
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Yes">我已手動確認並備份，繼續更新</system:String>
-    <system:String x:Key="VersionUpdate.ResourceBroken">檔案損毀，可嘗試自動修復（重新下載完整安裝檔），或暫不處理、稍後拖入本機完整包更新。\n\n{key=VersionUpdate.FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="VersionUpdate.ResourceBroken">檔案損毀，可嘗試自動修復（重新下載完整安裝檔），或暫不處理、稍後拖入本機完整包更新。\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.ResourceVersion">資源版本</system:String>
     <system:String x:Key="VersionUpdate.SecurityWhitelistTip">建議將 MAA 所在資料夾加入對應軟體白名單後再試一次。</system:String>
     <system:String x:Key="VersionUpdate.Title">版本資訊</system:String>
     <system:String x:Key="VersionUpdate.UpdatedTo" xml:space="preserve">已更新：</system:String>
-    <system:String x:Key="VersionUpdate.VersionMismatch">UI 和 Core 版本不一致: {0} 和 {1}，可能導致不可預測的行為。請勿手動替換檔案，或在更新時讓檔案處於被佔用狀態。\n\n{key=VersionUpdate.FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="VersionUpdate.VersionMismatch">UI 和 Core 版本不一致: {0} 和 {1}，可能導致不可預測的行為。請勿手動替換檔案，或在更新時讓檔案處於被佔用狀態。\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.WindowUpdateInfo.Tip">點擊立即更新</system:String>
 </ResourceDictionary>

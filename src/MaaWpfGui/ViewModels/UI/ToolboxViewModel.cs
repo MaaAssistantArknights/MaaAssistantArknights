@@ -1,4 +1,4 @@
-// <copyright file="ToolboxViewModel.cs" company="MaaAssistantArknights">
+﻿// <copyright file="ToolboxViewModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -2292,9 +2292,9 @@ public class ToolboxViewModel : Screen
         var yes = LocalizationHelper.GetString("OperBox.Export.Yes");
         var no = LocalizationHelper.GetString("OperBox.Export.No");
 
-        var mainSkillHeader = LocalizationHelper.GetString("OperBox.ExportHeader.MainSkillLevel");
-        var skillsHeader = LocalizationHelper.GetString("OperBox.ExportHeader.Skills");
-        var equipsHeader = LocalizationHelper.GetString("OperBox.ExportHeader.Equips");
+        var mainSkillHeader = LocalizationHelper.GetString("OperBox.Export.Header.MainSkillLevel");
+        var skillsHeader = LocalizationHelper.GetString("OperBox.Export.Header.Skills");
+        var equipsHeader = LocalizationHelper.GetString("OperBox.Export.Header.Equips");
 
         yield return includeYituliuFields
             ? $"| {nameHeader} | {idHeader} | {rarityHeader} | {eliteHeader} | {levelHeader} | {ownHeader} | {potentialHeader} | {mainSkillHeader} | {skillsHeader} | {equipsHeader} |"
@@ -2347,9 +2347,9 @@ public class ToolboxViewModel : Screen
         var yes = LocalizationHelper.GetString("OperBox.Export.Yes");
         var no = LocalizationHelper.GetString("OperBox.Export.No");
 
-        var mainSkillHeader = LocalizationHelper.GetString("OperBox.ExportHeader.MainSkillLevel");
-        var skillsHeader = LocalizationHelper.GetString("OperBox.ExportHeader.Skills");
-        var equipsHeader = LocalizationHelper.GetString("OperBox.ExportHeader.Equips");
+        var mainSkillHeader = LocalizationHelper.GetString("OperBox.Export.Header.MainSkillLevel");
+        var skillsHeader = LocalizationHelper.GetString("OperBox.Export.Header.Skills");
+        var equipsHeader = LocalizationHelper.GetString("OperBox.Export.Header.Equips");
 
         yield return includeYituliuFields
             ? $"{nameHeader},{idHeader},{rarityHeader},{eliteHeader},{levelHeader},{ownHeader},{potentialHeader},{mainSkillHeader},{skillsHeader},{equipsHeader}"

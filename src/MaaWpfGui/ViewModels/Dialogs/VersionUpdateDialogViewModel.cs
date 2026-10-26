@@ -1,4 +1,4 @@
-// <copyright file="VersionUpdateDialogViewModel.cs" company="MaaAssistantArknights">
+﻿// <copyright file="VersionUpdateDialogViewModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -893,7 +893,7 @@ public class VersionUpdateDialogViewModel : Screen
             OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("VersionUpdate.NewVersionDownloadFailed.Title"));
             {
                 using var toast = new ToastNotification(LocalizationHelper.GetString("VersionUpdate.NewVersionDownloadFailed.Title"));
-                toast.AppendContentText(LocalizationHelper.GetString("VersionUpdate.NewVersionDownloadFailed.Desc"))
+                toast.AppendContentText(LocalizationHelper.GetString("VersionUpdate.NewVersionDownloadFailed.Description"))
                     .AddButton(LocalizationHelper.GetString("VersionUpdate.NewVersionFound.GoWebpage"), ToastNotification.GetActionTagForOpenWeb(UpdateUrl))
                     .Show();
             }
@@ -943,7 +943,7 @@ public class VersionUpdateDialogViewModel : Screen
 
         if (!otaFound)
         {
-            toast.AppendContentText(LocalizationHelper.GetString("VersionUpdate.NewVersionButNoPackage.Desc"));
+            toast.AppendContentText(LocalizationHelper.GetString("VersionUpdate.NewVersionButNoPackage.Description"));
         }
 
         int count = 0;
@@ -1011,7 +1011,7 @@ public class VersionUpdateDialogViewModel : Screen
             OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("VersionUpdate.NewVersionDownloadFailed.Title"));
             {
                 using var toast = new ToastNotification(LocalizationHelper.GetString("VersionUpdate.NewVersionDownloadFailed.Title"));
-                toast.AppendContentText(LocalizationHelper.GetString("VersionUpdate.NewVersionDownloadFailed.Desc"))
+                toast.AppendContentText(LocalizationHelper.GetString("VersionUpdate.NewVersionDownloadFailed.Description"))
                      .Show();
             }
 
@@ -1025,14 +1025,14 @@ public class VersionUpdateDialogViewModel : Screen
     public async Task AskToRestart()
     {
         await AskToRestartCore(
-            LocalizationHelper.GetString("VersionUpdate.NewVersionDownloadCompleted.Desc"),
+            LocalizationHelper.GetString("VersionUpdate.NewVersionDownloadCompleted.Description"),
             LocalizationHelper.GetString("VersionUpdate.NewVersionDownloadCompleted.Title"));
     }
 
     public async Task AskToRestartForImportedPackage()
     {
         await AskToRestartCore(
-            LocalizationHelper.GetString("VersionUpdate.LocalUpdatePackageImported.Desc"),
+            LocalizationHelper.GetString("VersionUpdate.LocalUpdatePackageImported.Description"),
             LocalizationHelper.GetString("VersionUpdate.LocalUpdatePackageImported.Title"));
     }
 
@@ -1356,7 +1356,7 @@ public class VersionUpdateDialogViewModel : Screen
             : GetPlannedUpdatePackagePath(packagePath);
 
         MessageBoxResult result = MessageBoxHelper.Show(
-            LocalizationHelper.GetStringFormat("VersionUpdate.PendingFullUpdate.Desc", baseDir, normalizedPackagePath),
+            LocalizationHelper.GetStringFormat("VersionUpdate.PendingFullUpdate.Description", baseDir, normalizedPackagePath),
             LocalizationHelper.GetString("VersionUpdate.PendingFullUpdate.Title"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Warning,

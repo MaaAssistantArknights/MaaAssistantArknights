@@ -1,4 +1,4 @@
-// <copyright file="ExternalNotificationService.cs" company="MaaAssistantArknights">
+﻿// <copyright file="ExternalNotificationService.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -64,7 +64,7 @@ public static class ExternalNotificationService
                 var providerName = channel?.DisplayName ?? config.GetType().Name;
                 ToastNotification.ShowDirect(
                     providerName + " " +
-                    LocalizationHelper.GetString(result ? "ExternalNotification.Send.Success" : "ExternalNotification.Send.Fail"));
+                    LocalizationHelper.GetString(result ? "ExternalNotification.Send.Success" : "ExternalNotification.Send.Failed"));
             }).ConfigureAwait(false);
         }
     }

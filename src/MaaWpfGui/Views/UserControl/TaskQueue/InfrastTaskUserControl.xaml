@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
     x:Class="MaaWpfGui.Views.UserControl.TaskQueue.InfrastTaskUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -32,7 +32,7 @@
                     <controls:TooltipBlock
                         VerticalAlignment="Center"
                         d:Visibility="Visible"
-                        TooltipText="{DynamicResource Infrast.Mode.Rotation.ToolTip}"
+                        TooltipText="{DynamicResource Infrast.Mode.Rotation.Tip}"
                         Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Rotation',
                                                Source={x:Static taskQueue_vms:InfrastTaskUserControlModel.Instance}}" />
                 </StackPanel>
@@ -54,7 +54,7 @@
                         <controls:TooltipBlock
                             VerticalAlignment="Center"
                             d:Visibility="Visible"
-                            TooltipText="{DynamicResource Infrast.Custom.Plan.ToolTip}" />
+                            TooltipText="{DynamicResource Infrast.Custom.Plan.Tip}" />
                     </StackPanel>
                     <ComboBox
                         Margin="0,4"
@@ -117,7 +117,7 @@
                 Width="220"
                 Margin="0,4"
                 d:Visibility="Visible"
-                Text="{DynamicResource Infrast.Mode.Rotation.Tip}"
+                Text="{DynamicResource Infrast.Mode.Rotation.Requirement}"
                 TextWrapping="Wrap"
                 Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Rotation',
                                        Source={x:Static taskQueue_vms:InfrastTaskUserControlModel.Instance}}" />

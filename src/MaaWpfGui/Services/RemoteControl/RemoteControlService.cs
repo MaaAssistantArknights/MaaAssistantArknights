@@ -1,4 +1,4 @@
-// <copyright file="RemoteControlService.cs" company="MaaAssistantArknights">
+﻿// <copyright file="RemoteControlService.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -760,7 +760,7 @@ public class RemoteControlService
             {
                 if (!response.IsSuccessStatusCode)
                 {
-                    var errorMsg = LocalizationHelper.GetStringFormat("RemoteControl.ConnectionTest.Fail", response.StatusCode);
+                    var errorMsg = LocalizationHelper.GetStringFormat("RemoteControl.ConnectionTest.Failed", response.StatusCode);
                     ToastNotification.ShowDirect(errorMsg);
                     return;
                 }
@@ -768,7 +768,7 @@ public class RemoteControlService
             else
             {
                 // 一般来说不会走到这里，因为null response一定会报错
-                var errorMsg = LocalizationHelper.GetStringFormat("RemoteControl.ConnectionTest.Fail", "Unknown");
+                var errorMsg = LocalizationHelper.GetStringFormat("RemoteControl.ConnectionTest.Failed", "Unknown");
                 ToastNotification.ShowDirect(errorMsg);
                 return;
             }
@@ -784,7 +784,7 @@ public class RemoteControlService
                 error = e.InnerException.Message;
             }
 
-            var errorMsg = LocalizationHelper.GetStringFormat("RemoteControl.ConnectionTest.Fail", error);
+            var errorMsg = LocalizationHelper.GetStringFormat("RemoteControl.ConnectionTest.Failed", error);
             ToastNotification.ShowDirect(errorMsg);
         }
     }

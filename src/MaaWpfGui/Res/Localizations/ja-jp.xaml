@@ -1173,7 +1173,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="ExternalNotification.Qmsg.Key">Qmsg Key</system:String>
     <system:String x:Key="ExternalNotification.Qmsg.Server">サーバ</system:String>
     <system:String x:Key="ExternalNotification.Qmsg.User">ユーザーQQ</system:String>
-    <system:String x:Key="ExternalNotification.Send.Fail">送信に失敗しました</system:String>
+    <system:String x:Key="ExternalNotification.Send.Failed">送信に失敗しました</system:String>
     <system:String x:Key="ExternalNotification.Send.Success">正常に送信</system:String>
     <system:String x:Key="ExternalNotification.SendBeforeScheduledStart">定時実行前</system:String>
     <system:String x:Key="ExternalNotification.SendBeforeScheduledStart.Tip" xml:space="preserve">定時タスクの開始前に外部通知を送信します。&#10;通知するタイミングは ｢{key=Settings.Schedule.Title}｣ の ｢{key=TaskQueue.Schedule.NotificationMinutes}｣ 設定を使用します。</system:String>
@@ -1202,7 +1202,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="ExternalNotification.Whitelist.Tip" xml:space="preserve">各行に正規表現を入力します。&#10;現在のログがいずれかの行に一致すると通知を送信します。&#10;空のホワイトリストではこの条件は発動しません。</system:String>
     <system:String x:Key="Gacha.Disclaimer.Agree">理解した</system:String>
     <system:String x:Key="Gacha.Disclaimer.Emphasize">本物のガチャです</system:String>
-    <system:String x:Key="Gacha.Disclaimer.Head">これは、</system:String>
+    <system:String x:Key="Gacha.Disclaimer.Heading">これは、</system:String>
     <system:String x:Key="Gacha.Disclaimer.NoMore">再度表示しない</system:String>
     <system:String x:Key="Gacha.Init.Tip">志を同じくする義士の方が、ロドスにこれほどいらっしゃるとは思いませんでした。ええ、詩、戦、自由！歴史の奔流の中で人々の力を集結させ、この大地を変えるために奮闘できるとは……なんと燃えることか！このような悲壮で非凡な物語は、語り継がれてゆくべきものなのです。</system:String>
     <system:String x:Key="Gacha.Once">ガチャを一回引く</system:String>
@@ -1266,7 +1266,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Guide.Restart">設定ガイドを再表示</system:String>
     <system:String x:Key="Guide.RestartPrompt">設定ガイドはメイン画面に表示されます。今すぐアプリケーションを再起動しますか？</system:String>
     <system:String x:Key="Guide.Settings">設定ガイド</system:String>
-    <system:String x:Key="Guide.ToolTip">マウスを乗せるとヒントあり</system:String>
+    <system:String x:Key="Guide.Tip">マウスを乗せるとヒントあり</system:String>
     <system:String x:Key="Guide.User">使用ガイド</system:String>
     <system:String x:Key="Guide.UserAgreement">MAA を使用することにより、｢利用規約｣ に同意したものとみなされます。完全な規約は、公式サイトの下部のリンクからご覧いただけます。</system:String>
     <system:String x:Key="Guide.ViewLog">｢{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}｣ にアクセスしてログを確認し、エラーの具体的な原因を把握できます。</system:String>
@@ -1275,7 +1275,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Infrast.Custom.FileHasPlanNoPeriod">カスタムインフラストラクチャ設定では、一部のプランにのみ時間帯が設定されている場合があり、予期しない動作が発生する可能性があります。シフト交代時間帯を設定する必要がある場合は、すべてのプランに時間帯が設定されていることを確認してください。設定されていない場合は、すべてのプランを空白のままにしてください。</system:String>
     <system:String x:Key="Infrast.Custom.FileParseFailed">基地構成ファイルのパースエラー！</system:String>
     <system:String x:Key="Infrast.Custom.Plan">基地計画</system:String>
-    <system:String x:Key="Infrast.Custom.Plan.ToolTip">
+    <system:String x:Key="Infrast.Custom.Plan.Tip">
         ｢{key=Infrast.Custom.Plan}｣ に実行時間が設定されている場合、｢{key=TaskQueue.Task.Base}｣ タスク開始前やタスク実行中には自動で切り替わらず、{key=TaskQueue.LinkStart}時点の状態を維持します。切り替えはアイドル時またはタスク完了後のみ行われます。
     </system:String>
     <system:String x:Key="Infrast.Custom.PlanIndexAutoSwitch">次の計画を自動保存</system:String>
@@ -1320,8 +1320,8 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Infrast.Mode.Custom">カスタムされた基地構成</system:String>
     <system:String x:Key="Infrast.Mode.Normal">通常モード</system:String>
     <system:String x:Key="Infrast.Mode.Rotation">一括シフト休暇</system:String>
-    <system:String x:Key="Infrast.Mode.Rotation.Tip">一括シフト休暇を使用する前に、ゲーム内で{key=Game.Operator}のシフト編成を手動で設定してください</system:String>
-    <system:String x:Key="Infrast.Mode.Rotation.ToolTip" xml:space="preserve"> ｢{key=Infrast.Mode.Rotation}｣ の交代ロジックは、ゲーム内の基地右下にある ｢{key=Infrast.Mode.Rotation}｣ と全く同じです。
+    <system:String x:Key="Infrast.Mode.Rotation.Requirement">一括シフト休暇を使用する前に、ゲーム内で{key=Game.Operator}のシフト編成を手動で設定してください</system:String>
+    <system:String x:Key="Infrast.Mode.Rotation.Tip" xml:space="preserve"> ｢{key=Infrast.Mode.Rotation}｣ の交代ロジックは、ゲーム内の基地右下にある ｢{key=Infrast.Mode.Rotation}｣ と全く同じです。
 現在の班にいるオペレーターの中で、いずれかの士気が0になると、班全体が次の班に交代します。
 交代スケジュールをカスタマイズする場合は ｢{key=Infrast.Mode.Custom}｣ をご利用ください。</system:String>
     <system:String x:Key="Infrast.OriginiumShardAutoReplenishment">源石の欠片を自動で補充</system:String>
@@ -1388,18 +1388,18 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="OperBox.AvatarMode">アイコン表示</system:String>
     <system:String x:Key="OperBox.Export.Clipboard">クリップボード</system:String>
     <system:String x:Key="OperBox.Export.Header.Elite">昇進段階</system:String>
+    <system:String x:Key="OperBox.Export.Header.Equips">モジュール</system:String>
     <system:String x:Key="OperBox.Export.Header.Id">ID</system:String>
     <system:String x:Key="OperBox.Export.Header.Level">Lv</system:String>
+    <system:String x:Key="OperBox.Export.Header.MainSkillLevel">スキルLv</system:String>
     <system:String x:Key="OperBox.Export.Header.Name">オペレーター</system:String>
     <system:String x:Key="OperBox.Export.Header.Own">所有</system:String>
     <system:String x:Key="OperBox.Export.Header.Potential">潜在</system:String>
     <system:String x:Key="OperBox.Export.Header.Rarity">レア度</system:String>
+    <system:String x:Key="OperBox.Export.Header.Skills">スキル特化</system:String>
     <system:String x:Key="OperBox.Export.Json">JSON</system:String>
     <system:String x:Key="OperBox.Export.No">いいえ</system:String>
     <system:String x:Key="OperBox.Export.Yes">はい</system:String>
-    <system:String x:Key="OperBox.ExportHeader.Equips">モジュール</system:String>
-    <system:String x:Key="OperBox.ExportHeader.MainSkillLevel">スキルLv</system:String>
-    <system:String x:Key="OperBox.ExportHeader.Skills">スキル特化</system:String>
     <system:String x:Key="OperBox.FetchingFromYituliu">Yituliuからオペレーターデータを取得中…</system:String>
     <system:String x:Key="OperBox.HaveList">所有している: {0}</system:String>
     <system:String x:Key="OperBox.NotHaveList">所有していない: {0}</system:String>
@@ -1450,9 +1450,9 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Recruit.SelectStrategy.ExtraTags">常に 3 つのタグを選択する</system:String>
     <system:String x:Key="RemoteControl.CompletedTask">リモートタスク{0}を完了、タスクId:{1}。</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest">接続テスト</system:String>
-    <system:String x:Key="RemoteControl.ConnectionTest.Fail">接続テスト失敗、理由: {0}。</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.FailEmpty">接続テスト失敗、エンドポイントが空です。</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.FailNotHttpOrHttps">接続テストに失敗しました。接続エンドポイントが http または https アドレスではありませんでした。</system:String>
+    <system:String x:Key="RemoteControl.ConnectionTest.Failed">接続テスト失敗、理由: {0}。</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.Success">接続テスト成功！</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.WarningHttpUnsafe">接続エンドポイントがhttpsに対応しておらず、安全でない可能性があります。</system:String>
     <system:String x:Key="RemoteControl.DeveloperDocLink">リモートコントロール機能開発者ドキュメント</system:String>
@@ -2468,22 +2468,22 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonFileLocked">更新中のファイル移動に失敗しました。セキュリティソフトによるスキャン・ブロック・ロック、または他のプログラムによる占有が考えられます。セキュリティソフトが原因の場合は、{key=VersionUpdate.SecurityWhitelistTip} PC を再起動してからもう一度試すこともできます。</system:String>
     <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonPackageError">更新パッケージまたはその展開ファイルが破損・不完全な可能性があります。</system:String>
     <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonUnknown">原因は不明です。詳細は debug フォルダーの gui.log を確認してください。</system:String>
-    <system:String x:Key="VersionUpdate.FullPackageUpgradeTips">完全パッケージをダウンロードし、既存のフォルダーを上書きせずに新しいフォルダーに解凍してください。\n設定とログを保持するには、元の config、data、および debug フォルダーを新しいフォルダーにコピーしてください。</system:String>
+    <system:String x:Key="VersionUpdate.FullPackageUpgrade.Tip">完全パッケージをダウンロードし、既存のフォルダーを上書きせずに新しいフォルダーに解凍してください。\n設定とログを保持するには、元の config、data、および debug フォルダーを新しいフォルダーにコピーしてください。</system:String>
     <system:String x:Key="VersionUpdate.GameResource.Failed">ゲームリソースの更新に失敗しました。後でもう一度お試しください。</system:String>
     <system:String x:Key="VersionUpdate.GameResource.Preparing">索引の作成中</system:String>
     <system:String x:Key="VersionUpdate.GameResource.Updated">ゲームリソースが更新されました。</system:String>
     <system:String x:Key="VersionUpdate.GameResource.Updating">ゲームリソースが更新中です。</system:String>
     <system:String x:Key="VersionUpdate.GameResource.UpdatingMirrorChyan">｢{key=Settings.Update.Source.MirrorChyan}｣ からリソース {0} を更新しています...</system:String>
     <system:String x:Key="VersionUpdate.GetReleaseNoteFailed">リリースノートの取得に失敗しました。</system:String>
-    <system:String x:Key="VersionUpdate.IntegrityCheck.Description">{0} 個のインストールファイルが欠落していることが検出されました（{1}）。一部の機能が使用できない可能性があります。ファイルがセキュリティソフトによってブロックまたは削除されたか、手動で削除された可能性があります。セキュリティソフトが原因の場合は、その隔離領域を確認してファイルを復元し、{key=VersionUpdate.SecurityWhitelistTip}\n\n以下の説明に従って手動で再インストールすることもできます：\n\n{key=VersionUpdate.FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="VersionUpdate.IntegrityCheck.Description">{0} 個のインストールファイルが欠落していることが検出されました（{1}）。一部の機能が使用できない可能性があります。ファイルがセキュリティソフトによってブロックまたは削除されたか、手動で削除された可能性があります。セキュリティソフトが原因の場合は、その隔離領域を確認してファイルを復元し、{key=VersionUpdate.SecurityWhitelistTip}\n\n以下の説明に従って手動で再インストールすることもできます：\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.IntegrityCheck.Title">インストールファイルの欠落</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.Canceled">自動修復をキャンセルしました。次回起動時に再度通知されます。</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.Downloading">インストールを修復するため、完全パッケージをダウンロードしています…</system:String>
-    <system:String x:Key="VersionUpdate.IntegrityRepair.Failed">自動修復に失敗しました。表示された手順に従って手動で処理してください。\n\n{key=VersionUpdate.FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="VersionUpdate.IntegrityRepair.Failed">自動修復に失敗しました。表示された手順に従って手動で処理してください。\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.FullPackageNotice">インストールを修復するため、増分更新パッケージではなく完全パッケージをダウンロードします。</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.No">後で行う</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.Yes">自動修復（完全パッケージをダウンロードし、再起動後に復元）</system:String>
-    <system:String x:Key="VersionUpdate.LocalUpdatePackageImported.Desc">利用可能なローカル更新パッケージを検出しました。今すぐ MAA を更新しますか？（プロセスを再起動します）</system:String>
+    <system:String x:Key="VersionUpdate.LocalUpdatePackageImported.Description">利用可能なローカル更新パッケージを検出しました。今すぐ MAA を更新しますか？（プロセスを再起動します）</system:String>
     <system:String x:Key="VersionUpdate.LocalUpdatePackageImported.Title">ローカル更新パッケージの準備ができました</system:String>
     <system:String x:Key="VersionUpdate.LocalUpdatePackageUnsupported">圧縮ファイルを認識できません: {0}\n現在のアーキテクチャ向けのフルパッケージ、または現在のバージョンからより新しいバージョンへの OTA パッケージのみインポートできます。\n現在のバージョン: {1}\n現在のアーキテクチャ: {2}\n対応するファイル名の例: MAA-vTARGET_VERSION-win-{2}.zip\nまたは MAAComponent-OTA-{1}_vTARGET_VERSION-win-{2}.zip</system:String>
     <system:String x:Key="VersionUpdate.LowVersion">バージョンの更新が必要</system:String>
@@ -2494,13 +2494,13 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="VersionUpdate.MirrorChyan.CdkInvalid">CDK が無効です。入力が正しいか確認してください。</system:String>
     <system:String x:Key="VersionUpdate.MirrorChyan.CdkMismatched">CDK の種類がダウンロード対象のリソースと一致しません。CDK の適用範囲を確認してください。</system:String>
     <system:String x:Key="VersionUpdate.MirrorChyan.CdkQuotaExhausted">CDK の本日のダウンロード回数が上限に達しました。明日もう一度お試しください。</system:String>
-    <system:String x:Key="VersionUpdate.MissingUpdater">MAA.Updater.exe が見つからないため、外部更新プログラムを起動できず、更新を続行できませんでした。今回の更新はキャンセルされました。このファイルは手動で削除されたか、セキュリティソフトによってブロックまたは削除された可能性があります。セキュリティソフトが原因の場合は、その隔離領域を確認してファイルを復元し、{key=VersionUpdate.SecurityWhitelistTip}\n\n{key=VersionUpdate.FullPackageUpgradeTips}</system:String>
-    <system:String x:Key="VersionUpdate.NewVersionButNoPackage.Desc">アップデートするには、手動でフルパッケージをダウンロードしてください！</system:String>
+    <system:String x:Key="VersionUpdate.MissingUpdater">MAA.Updater.exe が見つからないため、外部更新プログラムを起動できず、更新を続行できませんでした。今回の更新はキャンセルされました。このファイルは手動で削除されたか、セキュリティソフトによってブロックまたは削除された可能性があります。セキュリティソフトが原因の場合は、その隔離領域を確認してファイルを復元し、{key=VersionUpdate.SecurityWhitelistTip}\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
+    <system:String x:Key="VersionUpdate.NewVersionButNoPackage.Description">アップデートするには、手動でフルパッケージをダウンロードしてください！</system:String>
     <system:String x:Key="VersionUpdate.NewVersionButNoPackage.Title">新バージョンが見つかりましたが、アップデートパッケージがありません</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDetectFailed.Title">アップデートパッケージを見つけるのに失敗しました</system:String>
-    <system:String x:Key="VersionUpdate.NewVersionDownloadCompleted.Desc">MAAをすぐにアップグレードしますか？（処理を再開）</system:String>
+    <system:String x:Key="VersionUpdate.NewVersionDownloadCompleted.Description">MAAをすぐにアップグレードしますか？（処理を再開）</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadCompleted.Title">アップデートパッケージのダウンロードが完了しました</system:String>
-    <system:String x:Key="VersionUpdate.NewVersionDownloadFailed.Desc">ZIPファイルを手動でダウンロードし、ディレクトリに配置してください</system:String>
+    <system:String x:Key="VersionUpdate.NewVersionDownloadFailed.Description">ZIPファイルを手動でダウンロードし、ディレクトリに配置してください</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadFailed.Title">アップデートパッケージのダウンロードに失敗しました</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadPreparing">アップデートパッケージのダウンロードを準備中です……</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadRetrying">アップデートパッケージのダウンロードに失敗しました。{0} 秒後に再試行します（{1}/{2} 回目のダウンロードに失敗）。</system:String>
@@ -2521,7 +2521,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
 
  ｢{key=Settings.Title} - {key=Settings.IssueReport.Title}｣ のリンクをクリックして、このポップアップをキャンセルできます。ご理解とご協力をお願いいたします！</system:String>
     <system:String x:Key="VersionUpdate.OtaRejectedByBrokenInstall">インストールが不完全な状態（リソース破損または前回の更新失敗）の可能性があるため、OTA 増分パッケージでは修復できません。完全パッケージを使用してください。</system:String>
-    <system:String x:Key="VersionUpdate.PendingFullUpdate.Desc" xml:space="preserve">フルパッケージでの更新が必要です。
+    <system:String x:Key="VersionUpdate.PendingFullUpdate.Description" xml:space="preserve">フルパッケージでの更新が必要です。
 
 更新の流れ: ここからフルパッケージをダウンロードまたは取り込んだ場合、後続のインストール処理では現在のインストール先ルート直下にある top-level のファイルとフォルダーを、cache、config、data、debug、achievement（クリアスクリーンショット）、MAA.Updater.exe を除いて先に整理し、その後でフルパッケージの内容を書き込みます。
 
@@ -2541,11 +2541,11 @@ D:\
     <system:String x:Key="VersionUpdate.PendingFullUpdate.No">今は更新せず、このバージョンを起動します</system:String>
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Title">フルパッケージ更新には手動確認が必要です</system:String>
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Yes">バックアップ済みです。更新を続行します</system:String>
-    <system:String x:Key="VersionUpdate.ResourceBroken">リソースファイルが破損しています。自動修復（完全なパッケージの再ダウンロード）を試すか、今はそのまま続けて、後でローカルの完全パッケージをドラッグして更新してください。\n\n{key=VersionUpdate.FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="VersionUpdate.ResourceBroken">リソースファイルが破損しています。自動修復（完全なパッケージの再ダウンロード）を試すか、今はそのまま続けて、後でローカルの完全パッケージをドラッグして更新してください。\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.ResourceVersion">リソースバーション</system:String>
     <system:String x:Key="VersionUpdate.SecurityWhitelistTip">MAA のフォルダーを当該ソフトの許可リストに追加してから、もう一度お試しください。</system:String>
     <system:String x:Key="VersionUpdate.Title">バージョン情報</system:String>
     <system:String x:Key="VersionUpdate.UpdatedTo" xml:space="preserve">バージョン: </system:String>
-    <system:String x:Key="VersionUpdate.VersionMismatch">UI と Core のバージョンが一致しません: {0} と {1}、予測不可能な動作を引き起こす可能性があります。ファイルを手動で置き換えたり、更新中にファイルを占有しないでください。\n\n{key=VersionUpdate.FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="VersionUpdate.VersionMismatch">UI と Core のバージョンが一致しません: {0} と {1}、予測不可能な動作を引き起こす可能性があります。ファイルを手動で置き換えたり、更新中にファイルを占有しないでください。\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.WindowUpdateInfo.Tip">クリックで今すぐ更新</system:String>
 </ResourceDictionary>
