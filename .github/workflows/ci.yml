@@ -8,6 +8,9 @@ on:
       - "dev-v2"
     paths:
       - ".github/workflows/ci.yml"
+      - ".github/actions/sign-windows/**"
+      - ".github/scripts/windows-signing.ps1"
+      - ".signpath/**"
       - "3rdparty/include/**"
       - "cmake/**"
       - "CMakeLists.txt"
@@ -19,6 +22,9 @@ on:
   pull_request:
     paths:
       - ".github/workflows/ci.yml"
+      - ".github/actions/sign-windows/**"
+      - ".github/scripts/windows-signing.ps1"
+      - ".signpath/**"
       - "3rdparty/include/**"
       - "cmake/**"
       - "CMakeLists.txt"
@@ -28,6 +34,11 @@ on:
       - "tools/maadeps-download.py"
       - "!**/*.md"
   workflow_dispatch:
+    inputs:
+      windows_signing_test:
+        description: "Run an unpublished Windows-only build with the SignPath test certificate"
+        type: boolean
+        default: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}${{ github.ref == 'refs/heads/dev-v2' && format('-{0}', github.sha) || '' }}
@@ -91,6 +102,8 @@ jobs:
           echo "**Full Changelog**: [$last_tag -> $this_tag](https://github.com/MaaAssistantArknights/MaaAssistantArknights/compare/${last_tag}...${this_tag})" >> CHANGELOG.md
           echo >> CHANGELOG.md
           echo "[已有 Mirror酱 CDK？前往 Mirror酱 高速下载](https://mirrorchyan.com/zh/projects?rid=MAA&source=maagh-release)" >> CHANGELOG.md
+          echo >> CHANGELOG.md
+          echo "[Code signing policy](https://docs.maa.plus/en-us/develop/code-signing.html)" >> CHANGELOG.md
 
       - name: Upload changelog to GitHub
         uses: actions/upload-artifact@v7
@@ -101,6 +114,9 @@ jobs:
 
   windows:
     name: Build for Windows
+    permissions:
+      actions: read
+      contents: read
     needs: meta
     strategy:
       matrix:
@@ -243,6 +259,15 @@ jobs:
 
           cp tools/DependencySetup_依赖库安装.bat install
 
+      - name: Sign Windows binaries
+        if: github.repository == 'MaaAssistantArknights/MaaAssistantArknights' && (startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && inputs.windows_signing_test))
+        uses: ./.github/actions/sign-windows
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          version: ${{ needs.meta.outputs.tag }}
+          arch: ${{ matrix.arch }}
+          signing-policy: ${{ github.event_name == 'workflow_dispatch' && inputs.windows_signing_test && 'test-signing' || 'release-signing' }}
+
       - name: Generate file list
         run: pwsh tools/GenerateFileList.ps1 -InstallDir install
 
@@ -259,6 +284,7 @@ jobs:
           compression-level: 0
 
   ubuntu:
+    if: github.event_name != 'workflow_dispatch' || !inputs.windows_signing_test
     name: Build for Ubuntu
     needs: meta
     runs-on: ubuntu-latest
@@ -304,7 +330,7 @@ jobs:
         with:
           repository: MaaXYZ/MaaFramework
           latest: true
-          fileName: '*linux-${{ matrix.arch }}*.zip'
+          fileName: "*linux-${{ matrix.arch }}*.zip"
           extract: true
           out-file-path: MaaFramework-temp
 
@@ -384,6 +410,7 @@ jobs:
           compression-level: 0
 
   android:
+    if: github.event_name != 'workflow_dispatch' || !inputs.windows_signing_test
     name: Build for Android
     needs: meta
     runs-on: macos-26
@@ -457,6 +484,7 @@ jobs:
           compression-level: 0
 
   macOS-Core:
+    if: github.event_name != 'workflow_dispatch' || !inputs.windows_signing_test
     name: Build Core for macOS
     needs: meta
     runs-on: macos-26
@@ -525,6 +553,7 @@ jobs:
           path: install/
 
   macOS-GUI:
+    if: github.event_name != 'workflow_dispatch' || !inputs.windows_signing_test
     name: Build GUI for macOS
     needs: [meta, macOS-Core]
     runs-on: macos-26
@@ -602,7 +631,6 @@ jobs:
           name: MAA-macos-runtime-universal
           path: runtime/MAA-${{ needs.meta.outputs.tag }}-macos-runtime-universal.zip
           compression-level: 0
-
 
       - name: Build XCFramework
         run: |
@@ -687,6 +715,7 @@ jobs:
           path: ${{ startsWith(github.ref, 'refs/tags/v') && 'release/MAA*' || 'src/MaaMacGui/MAA.xcarchive/**' }}
 
   avalonia:
+    if: github.event_name != 'workflow_dispatch' || !inputs.windows_signing_test
     name: Build MAAUnified (Avalonia) ${{ matrix.name }}
     needs: [meta, windows, ubuntu, macOS-Core]
     runs-on: ${{ matrix.os }}
@@ -821,7 +850,7 @@ jobs:
 
   release:
     name: Publish Release
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/v') && !(github.event_name == 'workflow_dispatch' && inputs.windows_signing_test)
     needs: [meta, windows, ubuntu, android, macOS-Core, macOS-GUI]
     runs-on: ubuntu-latest
     steps:

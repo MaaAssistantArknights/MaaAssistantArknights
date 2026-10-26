@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<artifact-configuration xmlns="http://signpath.io/artifact-configuration/v1">
+  <parameters>
+    <parameter name="version" required="true" />
+  </parameters>
+  <zip-file>
+    <pe-file-set product-name="MAA" product-version="${version}" original-filename="${file.name}">
+      <include path="MAA.exe" min-matches="1" max-matches="1" />
+      <include path="MAA.dll" min-matches="1" max-matches="1" />
+      <include path="MAA.Updater.exe" min-matches="1" max-matches="1" />
+      <include path="MaaCore.dll" min-matches="1" max-matches="1" />
+      <include path="MaaUtils.dll" min-matches="1" max-matches="1" />
+      <for-each>
+        <authenticode-sign />
+      </for-each>
+    </pe-file-set>
+  </zip-file>
+</artifact-configuration>

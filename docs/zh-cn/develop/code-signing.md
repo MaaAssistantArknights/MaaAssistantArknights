@@ -1,0 +1,38 @@
+---
+icon: mdi:certificate-outline
+order: 8
+---
+
+# Code signing policy
+
+Free code signing provided by [SignPath.io](https://signpath.io/), certificate by [SignPath Foundation](https://signpath.org/).
+
+## 签名范围与发布流程
+
+Windows 正式版、测试版和内测版的签名由 GitHub Actions 提交至 SignPath；正式证书未就绪、审批未通过或签名校验失败时，发布流程停止。历史版本可能未签名，以文件的数字签名属性为准。
+
+签名仅覆盖从本项目源代码及固定版本的 MaaUtils 子模块构建的以下文件：
+
+- `MAA.exe`
+- `MAA.dll`
+- `MAA.Updater.exe`
+- `MaaCore.dll`
+- `MaaUtils.dll`
+
+第三方依赖保留上游提供的文件及签名。签名使用相同的产品版本，并校验文件名和产品名。私钥保留在 SignPath 的 HSM 中，Windows 显示的签名发布者为 SignPath Foundation。
+
+正式发布使用 `.github/workflows/ci.yml`，内测发布使用 `.github/workflows/release-nightly-ota.yml`，均在 GitHub 托管运行器构建，并在打包前完成签名校验。每次发布签名需要批准人手动审批，包含内测版。
+
+`test-signing` 使用不受用户系统信任的测试证书，仅用于手动触发且不发布的 CI 验证，不能替代发布证书。
+
+## 团队职责
+
+- 提交者与审阅者：具有本仓库写入权限的 MAA 维护者；其他贡献者的改动由维护者审阅后合并。
+- 签名批准人：[uye / ABA2396](https://github.com/ABA2396)。
+- 签名请求由专用的 `CI builds` 用户提交。
+
+维护者必须为 SignPath 与 GitHub 账号启用多因素认证。
+
+## 隐私
+
+详见[用户协议的隐私原则与数据上传说明](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/terms-of-service.md#42-隐私原则)。MAA 默认启用向企鹅物流数据统计和明日方舟一图流提交匿名数据的功能，用户可以关闭上报；填写企鹅物流汇报 ID 后，上报包含该标识符。
