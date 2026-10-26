@@ -1,4 +1,4 @@
-// <copyright file="TaskQueueViewModel.cs" company="MaaAssistantArknights">
+﻿// <copyright file="TaskQueueViewModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -2098,8 +2098,8 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     private void RefreshInverseModeText()
     {
-        InverseShowText = InverseMode ? LocalizationHelper.GetString("TaskQueue.Inverse") : LocalizationHelper.GetString("TaskQueue.Clear");
-        InverseMenuText = InverseMode ? LocalizationHelper.GetString("TaskQueue.Clear") : LocalizationHelper.GetString("TaskQueue.Inverse");
+        InverseShowText = InverseMode ? LocalizationHelper.GetString("TaskQueue.InverseClear.Inverse") : LocalizationHelper.GetString("TaskQueue.Clear");
+        InverseMenuText = InverseMode ? LocalizationHelper.GetString("TaskQueue.Clear") : LocalizationHelper.GetString("TaskQueue.InverseClear.Inverse");
     }
 
     /// <summary>
@@ -2118,7 +2118,7 @@ public class TaskQueueViewModel : Screen
     public bool ShowInverse { get; set => SetAndNotify(ref field, value); } = ConfigFactory.Root.Gui.InverseClearMode == InverseClearType.ClearInverse;
 
     private string _inverseShowText = ConfigFactory.Root.Gui.TaskQueueInverseMode
-        ? LocalizationHelper.GetString("TaskQueue.Inverse")
+        ? LocalizationHelper.GetString("TaskQueue.InverseClear.Inverse")
         : LocalizationHelper.GetString("TaskQueue.Clear");
 
     /// <summary>
@@ -2132,7 +2132,7 @@ public class TaskQueueViewModel : Screen
 
     private string _inverseMenuText = ConfigFactory.Root.Gui.TaskQueueInverseMode
         ? LocalizationHelper.GetString("TaskQueue.Clear")
-        : LocalizationHelper.GetString("TaskQueue.Inverse");
+        : LocalizationHelper.GetString("TaskQueue.InverseClear.Inverse");
 
     /// <summary>
     /// Gets or private sets the text of inversion menu.

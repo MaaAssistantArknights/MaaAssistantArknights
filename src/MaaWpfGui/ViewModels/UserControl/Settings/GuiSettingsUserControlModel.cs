@@ -1,4 +1,4 @@
-// <copyright file="GuiSettingsUserControlModel.cs" company="MaaAssistantArknights">
+﻿// <copyright file="GuiSettingsUserControlModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -71,8 +71,8 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     /// </summary>
     public LocalizedObservableList<InverseClearType> InverseClearModeList { get; } = new(
         (InverseClearType.Clear, "TaskQueue.Clear"),
-        (InverseClearType.Inverse, "TaskQueue.Inverse"),
-        (InverseClearType.ClearInverse, "Settings.Ui.InverseClear.Switchable"));
+        (InverseClearType.Inverse, "TaskQueue.InverseClear.Inverse"),
+        (InverseClearType.ClearInverse, "TaskQueue.InverseClear.Switchable"));
 
     /// <summary>
     /// Gets the list of transition animation speeds.

@@ -1,4 +1,4 @@
-// <copyright file="OperProgressTaskUserControlModel.cs" company="MaaAssistantArknights">
+﻿// <copyright file="OperProgressTaskUserControlModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -175,7 +175,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                     }
                     if (oper is null)
                     {
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("OperBox.ParseFailed") + $"\nunknown oper: {plan.Role}-{plan.Name}", UiLogColor.Error);
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.OperProgress.ParseFailed") + $"\nunknown oper: {plan.Role}-{plan.Name}", UiLogColor.Error);
                         return;
                     }
                     list.Add(new Plan(plan.Role, plan.Name, plan.Elite ?? 0, plan.MainSkillLevel ?? 0, plan.SkillMastery ?? SkillMastery.Of(0, 0, 0), false));
@@ -185,7 +185,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
             }
             catch (Exception ex)
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("OperBox.ParseFailed") + $"\n{ex.Message}", UiLogColor.Error);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.OperProgress.ParseFailed") + $"\n{ex.Message}", UiLogColor.Error);
                 return;
             }
         }

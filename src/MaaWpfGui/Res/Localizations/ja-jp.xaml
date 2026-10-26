@@ -413,6 +413,7 @@
     <system:String x:Key="Asst.Fight.MedicineUsedTimes" xml:space="preserve">薬: {0}  </system:String>
     <system:String x:Key="Asst.Fight.MedicineUsedTimesWithExpiring" xml:space="preserve">薬: {0},{1}(期限切れ)  </system:String>
     <system:String x:Key="Asst.Fight.MissionFailedAndStop">自動指揮の失敗回数が上限に達したため、任務が停止されました</system:String>
+    <system:String x:Key="Asst.Fight.MissionStart">行動開始しました</system:String>
     <system:String x:Key="Asst.Fight.MissionStartSummary">行動開始しました {0} 回 (-{1}理性)</system:String>
     <system:String x:Key="Asst.Fight.SanityReport">({TimeDiff} 後)、{DateTime} に理性が完全回復します。</system:String>
     <system:String x:Key="Asst.Fight.StageQueue">ステージキュー:</system:String>
@@ -448,7 +449,6 @@
     <system:String x:Key="Asst.Infrast.TrainingTimeLeft">残り時間</system:String>
     <system:String x:Key="Asst.InitializationError">初期化エラー！</system:String>
     <system:String x:Key="Asst.Mall.CreditFullOnlyBuyDiscount">ドクター！ \n割引アイテムのみの購入がFPのオーバーフローを引き起こしました！ \nFPの浪費に注意してください！ \n残りのFP：</system:String>
-    <system:String x:Key="Asst.MissionStart">行動開始しました</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmBadge">繁栄のバッジ</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmConstructionPoint">ビルドポイント</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmDoneSmeltGold">鍛造レッドゴールド</system:String>
@@ -1042,7 +1042,7 @@ C:\Program Files\Netease\MuMuPlayer を入力してください。
 
  ｢{key=Copilot.UseList}｣ を有効にすると、個々のジョブが自動的に ｢{key=Copilot.List}｣ に追加されます。</system:String>
     <system:String x:Key="Copilot.UseOperBoxAssist">Yituliu のデータで編隊を支援</system:String>
-    <system:String x:Key="Copilot.UseOperBoxAssist.Tip" xml:space="preserve">自動編隊の前に、Yituliu のオペレーター育成データ（スキル・モジュール情報を含む）で編隊を事前マッチングします&#10;｢{key=Settings.Title} - {key=Settings.ThirdPartyService.Title}｣ で Yituliu トークンを入力し、｢{key=Settings.ThirdParty.EnableOperBoxYituliuApi}｣ を有効化してデータを取得してください</system:String>
+    <system:String x:Key="Copilot.UseOperBoxAssist.Tip" xml:space="preserve">自動編隊の前に、Yituliu のオペレーター育成データ（スキル・モジュール情報を含む）で編隊を事前マッチングします&#10;｢{key=Settings.Title} - {key=Settings.ThirdParty.Title}｣ で Yituliu トークンを入力し、｢{key=Settings.ThirdParty.EnableOperBoxYituliuApi}｣ を有効化してデータを取得してください</system:String>
     <system:String x:Key="Copilot.UserAdditional.Action">操作</system:String>
     <system:String x:Key="Copilot.UserAdditional.Add">追加</system:String>
     <system:String x:Key="Copilot.UserAdditional.OperatorName">{key=Game.Operator}名</system:String>
@@ -1267,6 +1267,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Guide.RestartPrompt">設定ガイドはメイン画面に表示されます。今すぐアプリケーションを再起動しますか？</system:String>
     <system:String x:Key="Guide.Settings">設定ガイド</system:String>
     <system:String x:Key="Guide.Tip">マウスを乗せるとヒントあり</system:String>
+    <system:String x:Key="Guide.Title">操作とガイド</system:String>
     <system:String x:Key="Guide.User">使用ガイド</system:String>
     <system:String x:Key="Guide.UserAgreement">MAA を使用することにより、｢利用規約｣ に同意したものとみなされます。完全な規約は、公式サイトの下部のリンクからご覧いただけます。</system:String>
     <system:String x:Key="Guide.ViewLog">｢{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}｣ にアクセスしてログを確認し、エラーの具体的な原因を把握できます。</system:String>
@@ -1284,8 +1285,8 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Infrast.Custom.Title" xml:space="preserve">基地構成ファイルの設定: </system:String>
     <system:String x:Key="Infrast.CustomInfrastGenerator">カスタム基地Json作成</system:String>
     <system:String x:Key="Infrast.DefaultInfrast">標準設定</system:String>
+    <system:String x:Key="Infrast.Dorm.FilterNotStationed">作業中の{key=Game.Operator}を宿舎に移動しない（例:訓練所でのアイリーニなど）</system:String>
     <system:String x:Key="Infrast.Dorm.FilterNotStationed.Tip">チェックした場合、アイリーニのような{key=Game.Operator}が訓練室から外れなくなり、また、加工所の{key=Game.Operator}が宿舎に送られることを防止します。</system:String>
-    <system:String x:Key="Infrast.Dorm.FilterNotStationedEnabled">作業中の{key=Game.Operator}を宿舎に移動しない（例:訓練所でのアイリーニなど）</system:String>
     <system:String x:Key="Infrast.Dorm.TrustEnabled">宿舎の空き位置で信頼度を上げる</system:String>
     <system:String x:Key="Infrast.DormThreshold">体力が設定した%以下になれば宿舎へ移動する</system:String>
     <system:String x:Key="Infrast.DormThreshold.Tip">カスタム シフトが有効な場合、このフィールドは自動入力と{key=Game.Operator} グループのあるルームに対してのみ有効です</system:String>
@@ -1357,13 +1358,14 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Infrast.UseWorldlyPlight.Tip" xml:space="preserve">必須オペレーター：マルベリー（昇進2）、ステンレス（昇進2）&#10;計算対象オペレーター：チョンユエ、リィン、シー</system:String>
     <system:String x:Key="Logging.LogItemDateFormatString">日付書式文字列</system:String>
     <system:String x:Key="Logging.MaxNumberOfLogThumbnails">ログサムネイルの最大数</system:String>
+    <system:String x:Key="Logging.Overlay.Tip" xml:space="preserve">左クリック：ログフローティングウィンドウの切り替え
+右クリック：ターゲットプロセスの選択</system:String>
     <system:String x:Key="Logging.Overlay.Toggle">ログオーバーレイのオン/オフ</system:String>
     <system:String x:Key="Logging.ProcessPicker.Cancel">キャンセル</system:String>
     <system:String x:Key="Logging.ProcessPicker.Confirm">OK</system:String>
     <system:String x:Key="Logging.ProcessPicker.Refresh">更新</system:String>
-    <system:String x:Key="Logging.ProcessPicker.Tip" xml:space="preserve">左クリック：ログフローティングウィンドウの切り替え
-右クリック：ターゲットプロセスの選択</system:String>
     <system:String x:Key="Logging.ProcessPicker.Title">ウィンドウを選択</system:String>
+    <system:String x:Key="Logging.Title">ログ表示設定</system:String>
     <system:String x:Key="Logging.UseCardLog">カードスタイルのログを使用</system:String>
     <system:String x:Key="Mall.Blacklist">ブラックリスト（セミコロンで区切）</system:String>
     <system:String x:Key="Mall.BlacklistDefault">炭素材;家具;緊急招集票</system:String>
@@ -1403,8 +1405,6 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="OperBox.FetchingFromYituliu">Yituliuからオペレーターデータを取得中…</system:String>
     <system:String x:Key="OperBox.HaveList">所有している: {0}</system:String>
     <system:String x:Key="OperBox.NotHaveList">所有していない: {0}</system:String>
-    <system:String x:Key="OperBox.ParseClipboard">クリップボードから読み取り</system:String>
-    <system:String x:Key="OperBox.ParseFailed">解析に失敗しました</system:String>
     <system:String x:Key="OperBox.Start">認識開始</system:String>
     <system:String x:Key="OperBox.Tip">｢戦術要員｣ は、{key=Game.Operator}識別の正確性に影響します。戦術要員の{key=Game.Operator}の識別が誤っている場合は、自己判断してください。</system:String>
     <system:String x:Key="OperBox.Title">{key=Game.Operator}</system:String>
@@ -1746,6 +1746,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Settings.Configuration.ConfirmDeleteMessage">構成 &lt;{0}&gt; を削除してもよろしいですか？この操作は元に戻せません。</system:String>
     <system:String x:Key="Settings.Configuration.Exists">構成 &lt; {0}&gt; は既に存在します</system:String>
     <system:String x:Key="Settings.Configuration.Name">構成名</system:String>
+    <system:String x:Key="Settings.Configuration.Title">構成を切り替える</system:String>
     <system:String x:Key="Settings.Connection.Title">接続設定</system:String>
     <system:String x:Key="Settings.Game.BlockSleep">タスク実行時の休止状態の防止</system:String>
     <system:String x:Key="Settings.Game.BlockSleepWithScreenOn">休止状態を防ぐときは画面をオンのままにします</system:String>
@@ -1786,14 +1787,12 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Settings.Language.RestartNow">再起動</system:String>
     <system:String x:Key="Settings.Language.SwitchNow">切替</system:String>
     <system:String x:Key="Settings.Language.Title">言語</system:String>
-    <system:String x:Key="Settings.LogDisplay">ログ表示設定</system:String>
     <system:String x:Key="Settings.Notification.Title">通知設定</system:String>
-    <system:String x:Key="Settings.OperationGuide">操作とガイド</system:String>
     <system:String x:Key="Settings.Performance.Gpu.DeprecatedMessage">現在選択されている推論加速 GPU（{0}）には互換性の問題があり、認識ミスやずれ、その他の予期しない不具合が発生する可能性があります。\n ｢{key=Settings.Title} - {key=Settings.Performance.Title}｣ で別の GPU に変更することをおすすめします。</system:String>
+    <system:String x:Key="Settings.Performance.Gpu.Disable">使用しない</system:String>
     <system:String x:Key="Settings.Performance.Gpu.DriverInfoUnavailableMessage">現在選択されている推論加速 GPU（{0}）のドライバー情報を読み取れません。ドライバーが正しくインストールされていないか異常な状態である可能性があり、互換性の問題が発生する可能性があります。\nグラフィックスドライバーを更新または再インストールするか、｢{key=Settings.Title} - {key=Settings.Performance.Title}｣ で別の GPU に変更することをおすすめします。</system:String>
     <system:String x:Key="Settings.Performance.Gpu.DriverOutdatedMessage">現在選択されている推論加速 GPU（{0}）のドライバーバージョン（{1}、リリース日：{2}）は{3}年以上経過しており、互換性の問題が発生する可能性があります。\nグラフィックスドライバーを更新するか、｢{key=Settings.Title} - {key=Settings.Performance.Title}｣ で別の GPU に変更することをおすすめします。</system:String>
-    <system:String x:Key="Settings.Performance.GpuOption.Disable">使用しない</system:String>
-    <system:String x:Key="Settings.Performance.GpuOption.SystemDefault">システムデフォルトGPU</system:String>
+    <system:String x:Key="Settings.Performance.Gpu.SystemDefault">システムデフォルトGPU</system:String>
     <system:String x:Key="Settings.Performance.Title">パフォーマンス設定</system:String>
     <system:String x:Key="Settings.Performance.UseGpuForInference">推論加速のためにGPUを使用する</system:String>
     <system:String x:Key="Settings.Performance.UseGpuForInference.Tip">GPU 推論を利用することで、ごくわずかな GPU 使用率で CPU の負荷を大幅に軽減できます</system:String>
@@ -1845,7 +1844,6 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="Settings.Startup.WaitForEmulator">エミュレータを待つ時間（秒）</system:String>
     <system:String x:Key="Settings.Startup.WaitForEmulatorFinish">待ち時間は終わりました</system:String>
     <system:String x:Key="Settings.Startup.WaitForPcClient">PC クライアントの起動待機時間（秒）</system:String>
-    <system:String x:Key="Settings.Switch.Title">構成を切り替える</system:String>
     <system:String x:Key="Settings.Theme">UI主題</system:String>
     <system:String x:Key="Settings.Theme.Dark">ダークモード</system:String>
     <system:String x:Key="Settings.Theme.Light">ライトモード</system:String>
@@ -1858,6 +1856,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="Settings.ThirdParty.Group.Penguin">Penguin-Stats</system:String>
     <system:String x:Key="Settings.ThirdParty.Group.Yituliu">Yituliu</system:String>
     <system:String x:Key="Settings.ThirdParty.PenguinId">レポートID（デジタル部分のみ）</system:String>
+    <system:String x:Key="Settings.ThirdParty.Title">サードパーティ</system:String>
     <system:String x:Key="Settings.ThirdParty.Yituliu.OpenApiToken">OpenAPIトークン</system:String>
     <system:String x:Key="Settings.ThirdParty.Yituliu.TokenEmpty">先にトークンを入力してください</system:String>
     <system:String x:Key="Settings.ThirdParty.Yituliu.TokenInvalid">トークンが無効または期限切れです。再生成してください</system:String>
@@ -1867,7 +1866,6 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="Settings.ThirdParty.Yituliu.TokenValidNoData">トークンは有効ですが、アカウントにまだオペレーターデータがありません</system:String>
     <system:String x:Key="Settings.ThirdParty.Yituliu.TokenVerify">検証</system:String>
     <system:String x:Key="Settings.ThirdParty.Yituliu.TokenWriteOnly">トークンに読み取り権限がありません。読み取り専用または読み書き可能なトークンを使用してください</system:String>
-    <system:String x:Key="Settings.ThirdPartyService.Title">サードパーティ</system:String>
     <system:String x:Key="Settings.Title">設定</system:String>
     <system:String x:Key="Settings.TitleBar">タイトルバー設定</system:String>
     <system:String x:Key="Settings.TitleBar.DisplayContent">タイトルバー表示コンテンツ</system:String>
@@ -1877,8 +1875,6 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="Settings.TransitionSpeed.Fast">高速</system:String>
     <system:String x:Key="Settings.TransitionSpeed.None">なし</system:String>
     <system:String x:Key="Settings.TransitionSpeed.Normal">標準</system:String>
-    <system:String x:Key="Settings.Tray">トレイ</system:String>
-    <system:String x:Key="Settings.Ui.InverseClear.Switchable">切り替え可能</system:String>
     <system:String x:Key="Settings.Ui.Title">UI設定</system:String>
     <system:String x:Key="Settings.Update.AlreadyLatest">最新版をインストール済みです~</system:String>
     <system:String x:Key="Settings.Update.AutoCheck">定期的な更新チェック</system:String>
@@ -2079,7 +2075,8 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.GeneralSettings">一般設定</system:String>
     <system:String x:Key="TaskQueue.HideHoverActionButtons">メインタスク ホバー時に操作ボタンを隠す</system:String>
     <system:String x:Key="TaskQueue.HideHoverActionButtons.Tip">各操作は歯車の右クリックメニューから引き続き利用できます</system:String>
-    <system:String x:Key="TaskQueue.Inverse">逆選択</system:String>
+    <system:String x:Key="TaskQueue.InverseClear.Inverse">逆選択</system:String>
+    <system:String x:Key="TaskQueue.InverseClear.Switchable">切り替え可能</system:String>
     <system:String x:Key="TaskQueue.LDPlayerMaaTouchWarning">LDPlayer エミュレータと MaaTouch タッチモードの組み合わせを検出しました。この組み合わせではスワイプ操作が異常に遅くなることが知られています（実際のスワイプ時間が設定値を大幅に超過）。スワイプが終了する前に次の操作が実行され、各種異常が発生する可能性があります。他のタッチモードへの切り替えを推奨します。</system:String>
     <system:String x:Key="TaskQueue.LeftClick">左クリック</system:String>
     <system:String x:Key="TaskQueue.LinkStart">Link Start!</system:String>
@@ -2101,6 +2098,8 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">スキル {0} 特化 {1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.NotSet">---</system:String>
     <system:String x:Key="TaskQueue.OperProgress.OnlineEditor">アークナイツツールボックスでオンライン編集</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">クリップボードから読み取り</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ParseFailed">解析に失敗しました</system:String>
     <system:String x:Key="TaskQueue.OperProgress.SkillLevelTarget">スキルランク {0}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.SkillNumber">スキル{0}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.SkillUpgrade">スキルランクアップ</system:String>
@@ -2460,6 +2459,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Tray.MinimizeTo">最小化した際にトレイに表示</system:String>
     <system:String x:Key="Tray.Restart">再起動</system:String>
     <system:String x:Key="Tray.SwitchLanguage">言語を切り替える 🌐</system:String>
+    <system:String x:Key="Tray.Title">トレイ</system:String>
     <system:String x:Key="Tray.Use">トレイアイコンを表示</system:String>
     <system:String x:Key="VersionUpdate.Api.UpdateFailed">ホットアップデートデータの取得に失敗しました</system:String>
     <system:String x:Key="VersionUpdate.Api.UpdateSuccess">ホットアップデートデータの取得に成功しました</system:String>

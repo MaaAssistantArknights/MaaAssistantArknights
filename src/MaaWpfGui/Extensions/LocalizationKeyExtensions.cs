@@ -1,4 +1,4 @@
-// <copyright file="LocalizationKeyExtensions.cs" company="MaaAssistantArknights">
+﻿// <copyright file="LocalizationKeyExtensions.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -116,7 +116,7 @@ public static class LocalizationKeyExtensions
     /// <returns>The localization resource key.</returns>
     public static string LocalizationKey(this SettingKey settingKey) => settingKey switch
     {
-        SettingKey.SwitchConfiguration => "Settings.Switch.Title",
+        SettingKey.SwitchConfiguration => "Settings.Configuration.Title",
         SettingKey.ScheduleSettings => "Settings.Schedule.Title",
         SettingKey.PerformanceSettings => "Settings.Performance.Title",
         SettingKey.GameSettings => "Settings.Game.Title",
@@ -125,7 +125,7 @@ public static class LocalizationKeyExtensions
         SettingKey.RemoteControlSettings => "Settings.RemoteControl.Title",
         SettingKey.UiSettings => "Settings.Ui.Title",
         SettingKey.NotificationSettings => "Settings.Notification.Title",
-        SettingKey.ThirdPartyServiceSettings => "Settings.ThirdPartyService.Title",
+        SettingKey.ThirdPartyServiceSettings => "Settings.ThirdParty.Title",
         SettingKey.HotKeySettings => "Settings.HotKey.Title",
         SettingKey.AchievementSettings => "Settings.Achievement.Title",
         SettingKey.UpdateSettings => "Settings.Update.Title",

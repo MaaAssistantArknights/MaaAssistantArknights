@@ -1,4 +1,4 @@
-// <copyright file="AsstProxy.cs" company="MaaAssistantArknights">
+﻿// <copyright file="AsstProxy.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -2150,7 +2150,7 @@ public class AsstProxy
                             break;
 
                         case "BattleStartAll":
-                            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("Asst.MissionStart"), UiLogColor.Info);
+                            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("Asst.Fight.MissionStart"), UiLogColor.Info);
                             break;
 
                         case "StageDrops-Stars-3":
@@ -2871,7 +2871,7 @@ public class AsstProxy
                 break;
 
             case "ReclamationProcedureStart":
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.MissionStart") + $" {(int)(subTaskDetails!["times"] ?? -1)} " + LocalizationHelper.GetString("Asst.UnitTime"), UiLogColor.Info);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.Fight.MissionStart") + $" {(int)(subTaskDetails!["times"] ?? -1)} " + LocalizationHelper.GetString("Asst.UnitTime"), UiLogColor.Info);
                 break;
 
             case "ReclamationSmeltGold":

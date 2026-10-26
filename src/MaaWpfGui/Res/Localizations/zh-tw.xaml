@@ -413,6 +413,7 @@
     <system:String x:Key="Asst.Fight.MedicineUsedTimes" xml:space="preserve">藥: {0}  </system:String>
     <system:String x:Key="Asst.Fight.MedicineUsedTimesWithExpiring" xml:space="preserve">藥: {0}，{1} (即將過期)  </system:String>
     <system:String x:Key="Asst.Fight.MissionFailedAndStop">代理失敗次數已達上限，任務已停止</system:String>
+    <system:String x:Key="Asst.Fight.MissionStart">已開始行動</system:String>
     <system:String x:Key="Asst.Fight.MissionStartSummary">開始行動 {0} 次，消耗 {1} 理智</system:String>
     <system:String x:Key="Asst.Fight.SanityReport">理智會在 {DateTime} 回滿（{TimeDiff} 後）。</system:String>
     <system:String x:Key="Asst.Fight.StageQueue">關卡佇列：</system:String>
@@ -448,7 +449,6 @@
     <system:String x:Key="Asst.Infrast.TrainingTimeLeft">剩餘時間</system:String>
     <system:String x:Key="Asst.InitializationError">初始化錯誤！</system:String>
     <system:String x:Key="Asst.Mall.CreditFullOnlyBuyDiscount">博士！\n只購買折扣商品讓信用點數溢出了！\n小心信用點數浪費哦！\n剩餘信用點數：</system:String>
-    <system:String x:Key="Asst.MissionStart">已開始行動</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmBadge">繁榮證章</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmConstructionPoint">建造點數</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmDoneSmeltGold">鍛造赤金</system:String>
@@ -1040,7 +1040,7 @@ C:\Program Files\Netease\MuMuPlayer
 
 當 ｢{key=Copilot.UseList}｣ 啟用後，選擇單一作業時會自動新增至 ｢{key=Copilot.List}｣</system:String>
     <system:String x:Key="Copilot.UseOperBoxAssist">使用一圖流資料輔助編隊</system:String>
-    <system:String x:Key="Copilot.UseOperBoxAssist.Tip" xml:space="preserve">自動編隊前，按一圖流幹員練度資料（含技能與模組資訊）預先匹配作業編隊&#10;需先在 ｢{key=Settings.Title} - {key=Settings.ThirdPartyService.Title}｣ 填寫一圖流 token、啟用 ｢{key=Settings.ThirdParty.EnableOperBoxYituliuApi}｣ 並取得資料</system:String>
+    <system:String x:Key="Copilot.UseOperBoxAssist.Tip" xml:space="preserve">自動編隊前，按一圖流幹員練度資料（含技能與模組資訊）預先匹配作業編隊&#10;需先在 ｢{key=Settings.Title} - {key=Settings.ThirdParty.Title}｣ 填寫一圖流 token、啟用 ｢{key=Settings.ThirdParty.EnableOperBoxYituliuApi}｣ 並取得資料</system:String>
     <system:String x:Key="Copilot.UserAdditional.Action">操作</system:String>
     <system:String x:Key="Copilot.UserAdditional.Add">新增</system:String>
     <system:String x:Key="Copilot.UserAdditional.OperatorName">{key=Game.Operator}名稱</system:String>
@@ -1265,6 +1265,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Guide.RestartPrompt">設定指引將在主介面顯示，是否立即重新啟動應用程式？</system:String>
     <system:String x:Key="Guide.Settings">設定指引</system:String>
     <system:String x:Key="Guide.Tip">滑鼠移至此處會有提示喔</system:String>
+    <system:String x:Key="Guide.Title">操作與指引</system:String>
     <system:String x:Key="Guide.User">使用指引</system:String>
     <system:String x:Key="Guide.UserAgreement">使用 MAA 即表示您同意遵守 ｢使用者協議｣，完整協議內容可在官網底部的連結中查看。</system:String>
     <system:String x:Key="Guide.ViewLog">您可以前往 ｢{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}｣ 查看日誌，了解錯誤發生的具體原因。</system:String>
@@ -1282,8 +1283,8 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Infrast.Custom.Title" xml:space="preserve">自訂基建排班: </system:String>
     <system:String x:Key="Infrast.CustomInfrastGenerator">自訂基建排班產生器</system:String>
     <system:String x:Key="Infrast.DefaultInfrast">內建排班</system:String>
+    <system:String x:Key="Infrast.Dorm.FilterNotStationed">不將已進駐的{key=Game.Operator}放入宿舍</system:String>
     <system:String x:Key="Infrast.Dorm.FilterNotStationed.Tip">勾選則不會將艾麗妮等{key=Game.Operator}從訓練室移除，但也會導致加工站{key=Game.Operator}不能進入宿舍。</system:String>
-    <system:String x:Key="Infrast.Dorm.FilterNotStationedEnabled">不將已進駐的{key=Game.Operator}放入宿舍</system:String>
     <system:String x:Key="Infrast.Dorm.TrustEnabled">宿舍空位蹭信賴</system:String>
     <system:String x:Key="Infrast.DormThreshold">基建工作心情閾值</system:String>
     <system:String x:Key="Infrast.DormThreshold.Tip">若啟用自訂換班，該欄位僅針對自動填充 (autofill) 和{key=Game.Operator}編組的房間有效</system:String>
@@ -1355,13 +1356,14 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Infrast.UseWorldlyPlight.Tip" xml:space="preserve">必要幹員：桑葚（精二）、烏有（精二）&#10;參與計算幹員：重岳、令、夕</system:String>
     <system:String x:Key="Logging.LogItemDateFormatString">日期格式字串</system:String>
     <system:String x:Key="Logging.MaxNumberOfLogThumbnails">日誌縮圖最大數量</system:String>
+    <system:String x:Key="Logging.Overlay.Tip" xml:space="preserve">左鍵：開啟 / 關閉日誌浮動視窗
+右鍵：選擇目標程式</system:String>
     <system:String x:Key="Logging.Overlay.Toggle">開啟 / 關閉日誌浮動視窗</system:String>
     <system:String x:Key="Logging.ProcessPicker.Cancel">取消</system:String>
     <system:String x:Key="Logging.ProcessPicker.Confirm">確定</system:String>
     <system:String x:Key="Logging.ProcessPicker.Refresh">重新整理</system:String>
-    <system:String x:Key="Logging.ProcessPicker.Tip" xml:space="preserve">左鍵：開啟 / 關閉日誌浮動視窗
-右鍵：選擇目標程式</system:String>
     <system:String x:Key="Logging.ProcessPicker.Title">選擇視窗</system:String>
+    <system:String x:Key="Logging.Title">日誌顯示設定</system:String>
     <system:String x:Key="Logging.UseCardLog">使用卡片樣式日誌</system:String>
     <system:String x:Key="Mall.Blacklist">黑名單（子字串即可，分號分隔）</system:String>
     <system:String x:Key="Mall.BlacklistDefault">碳;傢俱;加急許可</system:String>
@@ -1401,8 +1403,6 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="OperBox.FetchingFromYituliu">正在從一圖流讀取幹員資料…</system:String>
     <system:String x:Key="OperBox.HaveList">已擁有：{0} 名</system:String>
     <system:String x:Key="OperBox.NotHaveList">未擁有：{0} 名</system:String>
-    <system:String x:Key="OperBox.ParseClipboard">從剪貼簿讀取</system:String>
-    <system:String x:Key="OperBox.ParseFailed">解析失敗</system:String>
     <system:String x:Key="OperBox.Start">開始辨識</system:String>
     <system:String x:Key="OperBox.Tip">特別關注會影響{key=Game.Operator}辨識準確率，如有特別關注的{key=Game.Operator}辨識錯誤請自行判斷。</system:String>
     <system:String x:Key="OperBox.Title">{key=Game.Operator}辨識</system:String>
@@ -1744,6 +1744,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Settings.Configuration.ConfirmDeleteMessage">確定要刪除設定檔 &lt;{0}&gt; 嗎？此操作無法復原。</system:String>
     <system:String x:Key="Settings.Configuration.Exists">設定檔 &lt;{0}&gt; 已存在</system:String>
     <system:String x:Key="Settings.Configuration.Name">設定檔名稱</system:String>
+    <system:String x:Key="Settings.Configuration.Title">切換設定檔</system:String>
     <system:String x:Key="Settings.Connection.Title">連線設定</system:String>
     <system:String x:Key="Settings.Game.BlockSleep">執行任務時阻止休眠</system:String>
     <system:String x:Key="Settings.Game.BlockSleepWithScreenOn">阻止休眠時保持螢幕常亮</system:String>
@@ -1784,14 +1785,12 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Settings.Language.RestartNow">重新啟動</system:String>
     <system:String x:Key="Settings.Language.SwitchNow">切換</system:String>
     <system:String x:Key="Settings.Language.Title">語言</system:String>
-    <system:String x:Key="Settings.LogDisplay">日誌顯示設定</system:String>
     <system:String x:Key="Settings.Notification.Title">通知設定</system:String>
-    <system:String x:Key="Settings.OperationGuide">操作與指引</system:String>
     <system:String x:Key="Settings.Performance.Gpu.DeprecatedMessage">目前選擇的推論加速 GPU（{0}）存在相容性問題，可能導致辨識錯誤、錯位或其他異常結果。\n建議前往 ｢{key=Settings.Title} - {key=Settings.Performance.Title}｣ 更換其他 GPU。</system:String>
+    <system:String x:Key="Settings.Performance.Gpu.Disable">不使用</system:String>
     <system:String x:Key="Settings.Performance.Gpu.DriverInfoUnavailableMessage">目前選擇的推論加速 GPU（{0}）的驅動程式資訊無法讀取，驅動程式可能未正確安裝或狀態異常，可能存在相容性問題。\n建議更新或重新安裝顯示卡驅動程式，或前往 ｢{key=Settings.Title} - {key=Settings.Performance.Title}｣ 更換其他 GPU。</system:String>
     <system:String x:Key="Settings.Performance.Gpu.DriverOutdatedMessage">目前選擇的推論加速 GPU（{0}）的驅動程式版本（{1}，發布日期：{2}）距今已超過約 {3} 年，可能存在相容性問題。\n建議更新顯示卡驅動程式或前往 ｢{key=Settings.Title} - {key=Settings.Performance.Title}｣ 更換其他 GPU。</system:String>
-    <system:String x:Key="Settings.Performance.GpuOption.Disable">不使用</system:String>
-    <system:String x:Key="Settings.Performance.GpuOption.SystemDefault">系統預設 GPU</system:String>
+    <system:String x:Key="Settings.Performance.Gpu.SystemDefault">系統預設 GPU</system:String>
     <system:String x:Key="Settings.Performance.Title">效能設定</system:String>
     <system:String x:Key="Settings.Performance.UseGpuForInference">使用 GPU 加速推論</system:String>
     <system:String x:Key="Settings.Performance.UseGpuForInference.Tip">使用 GPU 推論能以極低的 GPU 佔用顯著降低 CPU 的負擔</system:String>
@@ -1843,7 +1842,6 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Settings.Startup.WaitForEmulator">等待模擬器啟動時間（秒）</system:String>
     <system:String x:Key="Settings.Startup.WaitForEmulatorFinish">等待結束</system:String>
     <system:String x:Key="Settings.Startup.WaitForPcClient">等待 PC 客戶端啟動時間（秒）</system:String>
-    <system:String x:Key="Settings.Switch.Title">切換設定檔</system:String>
     <system:String x:Key="Settings.Theme">介面主題</system:String>
     <system:String x:Key="Settings.Theme.Dark">深色模式</system:String>
     <system:String x:Key="Settings.Theme.Light">淺色模式</system:String>
@@ -1856,6 +1854,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Settings.ThirdParty.Group.Penguin">企鵝物流</system:String>
     <system:String x:Key="Settings.ThirdParty.Group.Yituliu">一圖流</system:String>
     <system:String x:Key="Settings.ThirdParty.PenguinId">回報 ID（僅數字部分）</system:String>
+    <system:String x:Key="Settings.ThirdParty.Title">三方服務</system:String>
     <system:String x:Key="Settings.ThirdParty.Yituliu.OpenApiToken">OpenAPI Token</system:String>
     <system:String x:Key="Settings.ThirdParty.Yituliu.TokenEmpty">請先填寫 Token</system:String>
     <system:String x:Key="Settings.ThirdParty.Yituliu.TokenInvalid">Token 無效或已失效，請重新產生</system:String>
@@ -1865,7 +1864,6 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Settings.ThirdParty.Yituliu.TokenValidNoData">Token 有效，但帳號暫無幹員練度資料</system:String>
     <system:String x:Key="Settings.ThirdParty.Yituliu.TokenVerify">驗證</system:String>
     <system:String x:Key="Settings.ThirdParty.Yituliu.TokenWriteOnly">Token 不具備讀取權限，請使用唯讀或讀寫權限的 Token</system:String>
-    <system:String x:Key="Settings.ThirdPartyService.Title">三方服務</system:String>
     <system:String x:Key="Settings.Title">設定</system:String>
     <system:String x:Key="Settings.TitleBar">標題列設定</system:String>
     <system:String x:Key="Settings.TitleBar.DisplayContent">標題列顯示內容</system:String>
@@ -1875,8 +1873,6 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Settings.TransitionSpeed.Fast">快速</system:String>
     <system:String x:Key="Settings.TransitionSpeed.None">無動畫</system:String>
     <system:String x:Key="Settings.TransitionSpeed.Normal">原速</system:String>
-    <system:String x:Key="Settings.Tray">工作列</system:String>
-    <system:String x:Key="Settings.Ui.InverseClear.Switchable">可切換</system:String>
     <system:String x:Key="Settings.Ui.Title">介面設定</system:String>
     <system:String x:Key="Settings.Update.AlreadyLatest">已是最新版本 ~</system:String>
     <system:String x:Key="Settings.Update.AutoCheck">定時檢查更新</system:String>
@@ -2078,7 +2074,8 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskQueue.GeneralSettings">一般設定</system:String>
     <system:String x:Key="TaskQueue.HideHoverActionButtons">隱藏主任務懸停操作按鈕</system:String>
     <system:String x:Key="TaskQueue.HideHoverActionButtons.Tip">相應功能仍可透過右鍵齒輪選單使用</system:String>
-    <system:String x:Key="TaskQueue.Inverse">反向選取</system:String>
+    <system:String x:Key="TaskQueue.InverseClear.Inverse">反向選取</system:String>
+    <system:String x:Key="TaskQueue.InverseClear.Switchable">可切換</system:String>
     <system:String x:Key="TaskQueue.LDPlayerMaaTouchWarning">偵測到目前使用雷電模擬器 + MaaTouch 觸控模式。已知該組合下滑動操作會異常緩慢（滑動實際持續時間遠大於設定值），可能導致後續操作在滑動尚未結束時提前執行，從而引發各種異常。建議更換其他觸控模式。</system:String>
     <system:String x:Key="TaskQueue.LeftClick">左鍵</system:String>
     <system:String x:Key="TaskQueue.LinkStart">Link Start!</system:String>
@@ -2100,6 +2097,8 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">技能 {0} 專精 {1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.NotSet">---</system:String>
     <system:String x:Key="TaskQueue.OperProgress.OnlineEditor">在明日方舟工具箱中線上編輯計畫</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">從剪貼簿讀取</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ParseFailed">解析失敗</system:String>
     <system:String x:Key="TaskQueue.OperProgress.SkillLevelTarget">技能等級 {0}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.SkillNumber">技能 {0}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.SkillUpgrade">技能升級</system:String>
@@ -2459,6 +2458,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Tray.MinimizeTo">最小化時隱藏至工作列</system:String>
     <system:String x:Key="Tray.Restart">重新啟動</system:String>
     <system:String x:Key="Tray.SwitchLanguage">切換語言 🌐</system:String>
+    <system:String x:Key="Tray.Title">工作列</system:String>
     <system:String x:Key="Tray.Use">顯示工作列圖示</system:String>
     <system:String x:Key="VersionUpdate.Api.UpdateFailed">熱更新資料取得失敗</system:String>
     <system:String x:Key="VersionUpdate.Api.UpdateSuccess">熱更新資料取得成功</system:String>

@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
     x:Class="MaaWpfGui.Views.UserControl.Settings.GuiSettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -112,7 +112,7 @@
                     IsChecked="{Binding HideCloseButton}" />
             </StackPanel>
         </Grid>
-        <hc:Divider Margin="0" Content="{DynamicResource Settings.Tray}" />
+        <hc:Divider Margin="0" Content="{DynamicResource Tray.Title}" />
         <Grid
             Margin="10"
             HorizontalAlignment="Center"
@@ -137,7 +137,7 @@
                 </CheckBox>
             </StackPanel>
         </Grid>
-        <hc:Divider Margin="0" Content="{DynamicResource Settings.LogDisplay}" />
+        <hc:Divider Margin="0" Content="{DynamicResource Logging.Title}" />
         <Grid
             Margin="10"
             HorizontalAlignment="Center"
@@ -179,7 +179,7 @@
                     SelectedValue="{Binding LogItemDateFormatString}" />
             </StackPanel>
         </Grid>
-        <hc:Divider Margin="0" Content="{DynamicResource Settings.OperationGuide}" />
+        <hc:Divider Margin="0" Content="{DynamicResource Guide.Title}" />
         <Grid
             Margin="10"
             HorizontalAlignment="Center"

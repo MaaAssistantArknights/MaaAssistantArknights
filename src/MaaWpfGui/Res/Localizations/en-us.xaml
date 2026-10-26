@@ -413,6 +413,7 @@
     <system:String x:Key="Asst.Fight.MedicineUsedTimes" xml:space="preserve">Medicine: {0}  </system:String>
     <system:String x:Key="Asst.Fight.MedicineUsedTimesWithExpiring" xml:space="preserve">Medicine: {0},{1}(Expiring)  </system:String>
     <system:String x:Key="Asst.Fight.MissionFailedAndStop">Proxy failed too many times, task stopped</system:String>
+    <system:String x:Key="Asst.Fight.MissionStart">Mission started</system:String>
     <system:String x:Key="Asst.Fight.MissionStartSummary">Mission started {0} times (-{1} Sanity)</system:String>
     <system:String x:Key="Asst.Fight.SanityReport">Sanity will be full at {DateTime} (in {TimeDiff})</system:String>
     <system:String x:Key="Asst.Fight.StageQueue">Stage Queue:&#160;</system:String>
@@ -448,7 +449,6 @@
     <system:String x:Key="Asst.Infrast.TrainingTimeLeft">Remaining Time</system:String>
     <system:String x:Key="Asst.InitializationError">Initialization error!</system:String>
     <system:String x:Key="Asst.Mall.CreditFullOnlyBuyDiscount">Doctor! \nPurchasing only discounted items has caused an overflow in credits! \nBe cautious of wasting credits!\nRemaining credits:&#160;</system:String>
-    <system:String x:Key="Asst.MissionStart">Mission started</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmBadge">Algorithm Badge</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmConstructionPoint">Algorithm Construction Point</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmDoneSmeltGold">Forging Red Gold</system:String>
@@ -1039,7 +1039,7 @@ Please start from the corresponding screen. Cross-chapter navigation is not supp
 
 When ｢{key=Copilot.UseList}｣ is enabled, individual jobs will be automatically added to the ｢{key=Copilot.List}｣.</system:String>
     <system:String x:Key="Copilot.UseOperBoxAssist">Assist formation with Yituliu data</system:String>
-    <system:String x:Key="Copilot.UseOperBoxAssist.Tip" xml:space="preserve">Pre-matches the operation squad against Yituliu operator data (including skills and modules) before auto-formation&#10;Requires a Yituliu token: fill it in under ｢{key=Settings.Title} - {key=Settings.ThirdPartyService.Title}｣, enable ｢{key=Settings.ThirdParty.EnableOperBoxYituliuApi}｣, then fetch data</system:String>
+    <system:String x:Key="Copilot.UseOperBoxAssist.Tip" xml:space="preserve">Pre-matches the operation squad against Yituliu operator data (including skills and modules) before auto-formation&#10;Requires a Yituliu token: fill it in under ｢{key=Settings.Title} - {key=Settings.ThirdParty.Title}｣, enable ｢{key=Settings.ThirdParty.EnableOperBoxYituliuApi}｣, then fetch data</system:String>
     <system:String x:Key="Copilot.UserAdditional.Action">Action</system:String>
     <system:String x:Key="Copilot.UserAdditional.Add">Add</system:String>
     <system:String x:Key="Copilot.UserAdditional.OperatorName">{key=Game.Operator} Name</system:String>
@@ -1264,6 +1264,7 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="Guide.RestartPrompt">The settings guide will be displayed on the main interface. Restart the application now?</system:String>
     <system:String x:Key="Guide.Settings">Settings Guide</system:String>
     <system:String x:Key="Guide.Tip">Prompt appears when hovered</system:String>
+    <system:String x:Key="Guide.Title">Operations and Guide</system:String>
     <system:String x:Key="Guide.User">User Guide</system:String>
     <system:String x:Key="Guide.UserAgreement">By using MAA, you agree to comply with the "User Agreement". The complete agreement can be found in the link at the bottom of the official website.</system:String>
     <system:String x:Key="Guide.ViewLog">You can go to "{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}" to view logs and understand the specific cause of the error.</system:String>
@@ -1281,8 +1282,8 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="Infrast.Custom.Title" xml:space="preserve">Base Configuration:&#160;</system:String>
     <system:String x:Key="Infrast.CustomInfrastGenerator">Custom Base JSON Generator</system:String>
     <system:String x:Key="Infrast.DefaultInfrast">Default Base infrastructure</system:String>
+    <system:String x:Key="Infrast.Dorm.FilterNotStationed">Do not put stationed {key=Game.Operator}s in Dormitory</system:String>
     <system:String x:Key="Infrast.Dorm.FilterNotStationed.Tip">Checking this box will not remove {key=Game.Operator}s like Irene from the Training Room; this will also prevent {key=Game.Operator}s from the Workshop from entering the Dormitory.</system:String>
-    <system:String x:Key="Infrast.Dorm.FilterNotStationedEnabled">Do not put stationed {key=Game.Operator}s in Dormitory</system:String>
     <system:String x:Key="Infrast.Dorm.TrustEnabled">Trust farming in Dormitory</system:String>
     <system:String x:Key="Infrast.DormThreshold">Morale Threshold</system:String>
     <system:String x:Key="Infrast.DormThreshold.Tip">If custom shifts are enabled, this field is only valid for rooms with autofill and {key=Game.Operator} groups</system:String>
@@ -1354,13 +1355,14 @@ To customize rotation schedules, please use ｢{key=Infrast.Mode.Custom}｣.</sy
     <system:String x:Key="Infrast.UseWorldlyPlight.Tip" xml:space="preserve">Required operators: Mulberry (E2) and Stainless (E2)&#10;Operators included in calculation: Chongyue, Ling, and Dusk</system:String>
     <system:String x:Key="Logging.LogItemDateFormatString">Date format string</system:String>
     <system:String x:Key="Logging.MaxNumberOfLogThumbnails">Maximum number of log thumbnails</system:String>
+    <system:String x:Key="Logging.Overlay.Tip" xml:space="preserve">Left Click: Toggle Log Floating Window
+Right Click: Select Target Process</system:String>
     <system:String x:Key="Logging.Overlay.Toggle">Toggle Log Overlay</system:String>
     <system:String x:Key="Logging.ProcessPicker.Cancel">Cancel</system:String>
     <system:String x:Key="Logging.ProcessPicker.Confirm">OK</system:String>
     <system:String x:Key="Logging.ProcessPicker.Refresh">Refresh</system:String>
-    <system:String x:Key="Logging.ProcessPicker.Tip" xml:space="preserve">Left Click: Toggle Log Floating Window
-Right Click: Select Target Process</system:String>
     <system:String x:Key="Logging.ProcessPicker.Title">Select Window</system:String>
+    <system:String x:Key="Logging.Title">Log Display Settings</system:String>
     <system:String x:Key="Logging.UseCardLog">Use card style log</system:String>
     <system:String x:Key="Mall.Blacklist">Blacklist (split by semicolon)</system:String>
     <system:String x:Key="Mall.BlacklistDefault">Carbon;Furniture Part;Expedited Plan</system:String>
@@ -1400,8 +1402,6 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="OperBox.FetchingFromYituliu">Fetching operator data from Yituliu...</system:String>
     <system:String x:Key="OperBox.HaveList">Owned: {0}</system:String>
     <system:String x:Key="OperBox.NotHaveList">Not owned: {0}</system:String>
-    <system:String x:Key="OperBox.ParseClipboard">Read from Clipboard</system:String>
-    <system:String x:Key="OperBox.ParseFailed">Parse failed</system:String>
     <system:String x:Key="OperBox.Start">Start to Identify</system:String>
     <system:String x:Key="OperBox.Tip">Favourited (marked) {key=Game.Operator}s can't be recognized. Please remove them from your favourites before starting.</system:String>
     <system:String x:Key="OperBox.Title">{key=Game.Operator}</system:String>
@@ -1743,6 +1743,7 @@ When difficulty ≥ N6, 6★ Hope cost +1; some squads may be unable to recruit 
     <system:String x:Key="Settings.Configuration.ConfirmDeleteMessage">Are you sure you want to delete configuration &lt;{0}&gt;? This action cannot be undone.</system:String>
     <system:String x:Key="Settings.Configuration.Exists">Configuration &lt;{0}&gt; already exists</system:String>
     <system:String x:Key="Settings.Configuration.Name">Config</system:String>
+    <system:String x:Key="Settings.Configuration.Title">Configuration</system:String>
     <system:String x:Key="Settings.Connection.Title">Connection</system:String>
     <system:String x:Key="Settings.Game.BlockSleep">Prevent hibernation when running tasks</system:String>
     <system:String x:Key="Settings.Game.BlockSleepWithScreenOn">Keep screen on when preventing hibernation</system:String>
@@ -1783,14 +1784,12 @@ When difficulty ≥ N6, 6★ Hope cost +1; some squads may be unable to recruit 
     <system:String x:Key="Settings.Language.RestartNow">Restart</system:String>
     <system:String x:Key="Settings.Language.SwitchNow">Switch</system:String>
     <system:String x:Key="Settings.Language.Title">Language</system:String>
-    <system:String x:Key="Settings.LogDisplay">Log Display Settings</system:String>
     <system:String x:Key="Settings.Notification.Title">Notifications</system:String>
-    <system:String x:Key="Settings.OperationGuide">Operations and Guide</system:String>
     <system:String x:Key="Settings.Performance.Gpu.DeprecatedMessage">The selected GPU ({0}) for inference acceleration has known compatibility issues, which may cause recognition errors, misalignment, or other unexpected results.\nIt is recommended to switch to a different GPU in ｢{key=Settings.Title} - {key=Settings.Performance.Title}｣.</system:String>
+    <system:String x:Key="Settings.Performance.Gpu.Disable">Don’t use</system:String>
     <system:String x:Key="Settings.Performance.Gpu.DriverInfoUnavailableMessage">The driver information of the selected GPU ({0}) for inference acceleration cannot be read. The driver may not be installed correctly or may be in an abnormal state, which may cause compatibility issues.\nIt is recommended to update or reinstall the graphics driver, or switch to a different GPU in ｢{key=Settings.Title} - {key=Settings.Performance.Title}｣.</system:String>
     <system:String x:Key="Settings.Performance.Gpu.DriverOutdatedMessage">The driver version ({1}, release date: {2}) of the selected GPU ({0}) for inference acceleration is over {3} years old, which may cause compatibility issues.\nIt is recommended to update the graphics driver or switch to a different GPU in ｢{key=Settings.Title} - {key=Settings.Performance.Title}｣.</system:String>
-    <system:String x:Key="Settings.Performance.GpuOption.Disable">Don’t use</system:String>
-    <system:String x:Key="Settings.Performance.GpuOption.SystemDefault">System default GPU</system:String>
+    <system:String x:Key="Settings.Performance.Gpu.SystemDefault">System default GPU</system:String>
     <system:String x:Key="Settings.Performance.Title">Performance</system:String>
     <system:String x:Key="Settings.Performance.UseGpuForInference">Use GPU for inference acceleration</system:String>
     <system:String x:Key="Settings.Performance.UseGpuForInference.Tip">Using GPU inference can significantly reduce CPU load with minimal GPU usage</system:String>
@@ -1842,7 +1841,6 @@ If you choose ｢{key=Common.ManualRestart}｣ and start MAA manually later, ｢
     <system:String x:Key="Settings.Startup.WaitForEmulator">Delay time (s)</system:String>
     <system:String x:Key="Settings.Startup.WaitForEmulatorFinish">End of wait</system:String>
     <system:String x:Key="Settings.Startup.WaitForPcClient">PC client startup delay (s)</system:String>
-    <system:String x:Key="Settings.Switch.Title">Configuration</system:String>
     <system:String x:Key="Settings.Theme">UI Theme</system:String>
     <system:String x:Key="Settings.Theme.Dark">Dark</system:String>
     <system:String x:Key="Settings.Theme.Light">Light</system:String>
@@ -1855,6 +1853,7 @@ If you choose ｢{key=Common.ManualRestart}｣ and start MAA manually later, ｢
     <system:String x:Key="Settings.ThirdParty.Group.Penguin">Penguin Statistics</system:String>
     <system:String x:Key="Settings.ThirdParty.Group.Yituliu">Yituliu</system:String>
     <system:String x:Key="Settings.ThirdParty.PenguinId">Report ID (Number part)</system:String>
+    <system:String x:Key="Settings.ThirdParty.Title">Third-party services</system:String>
     <system:String x:Key="Settings.ThirdParty.Yituliu.OpenApiToken">OpenAPI token</system:String>
     <system:String x:Key="Settings.ThirdParty.Yituliu.TokenEmpty">Please enter a token first</system:String>
     <system:String x:Key="Settings.ThirdParty.Yituliu.TokenInvalid">Token is invalid or expired. Please generate a new one</system:String>
@@ -1864,7 +1863,6 @@ If you choose ｢{key=Common.ManualRestart}｣ and start MAA manually later, ｢
     <system:String x:Key="Settings.ThirdParty.Yituliu.TokenValidNoData">Token is valid, but the account has no operator data yet</system:String>
     <system:String x:Key="Settings.ThirdParty.Yituliu.TokenVerify">Verify</system:String>
     <system:String x:Key="Settings.ThirdParty.Yituliu.TokenWriteOnly">Token does not have read access. Use a read-only or read-write token</system:String>
-    <system:String x:Key="Settings.ThirdPartyService.Title">Third-party services</system:String>
     <system:String x:Key="Settings.Title">Settings</system:String>
     <system:String x:Key="Settings.TitleBar">Title Bar Settings</system:String>
     <system:String x:Key="Settings.TitleBar.DisplayContent">Title Bar Display Content</system:String>
@@ -1874,8 +1872,6 @@ If you choose ｢{key=Common.ManualRestart}｣ and start MAA manually later, ｢
     <system:String x:Key="Settings.TransitionSpeed.Fast">Fast</system:String>
     <system:String x:Key="Settings.TransitionSpeed.None">None</system:String>
     <system:String x:Key="Settings.TransitionSpeed.Normal">Normal</system:String>
-    <system:String x:Key="Settings.Tray">Tray</system:String>
-    <system:String x:Key="Settings.Ui.InverseClear.Switchable">Switchable</system:String>
     <system:String x:Key="Settings.Ui.Title">GUI</system:String>
     <system:String x:Key="Settings.Update.AlreadyLatest">The latest version has already been installed</system:String>
     <system:String x:Key="Settings.Update.AutoCheck">Scheduled Update Check</system:String>
@@ -2077,7 +2073,8 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="TaskQueue.GeneralSettings">General</system:String>
     <system:String x:Key="TaskQueue.HideHoverActionButtons">Hide action buttons when hovering over a main task</system:String>
     <system:String x:Key="TaskQueue.HideHoverActionButtons.Tip">The actions are still available from the gear icon's right-click menu</system:String>
-    <system:String x:Key="TaskQueue.Inverse">Invert</system:String>
+    <system:String x:Key="TaskQueue.InverseClear.Inverse">Invert</system:String>
+    <system:String x:Key="TaskQueue.InverseClear.Switchable">Switchable</system:String>
     <system:String x:Key="TaskQueue.LDPlayerMaaTouchWarning">LDPlayer emulator with MaaTouch touch mode detected. This combination is known to cause abnormally slow swipe operations (the actual swipe duration far exceeds the configured value), which may cause subsequent actions to execute before a swipe finishes, leading to various issues. Consider switching to a different touch mode.</system:String>
     <system:String x:Key="TaskQueue.LeftClick">Left Click</system:String>
     <system:String x:Key="TaskQueue.LinkStart">Link Start!</system:String>
@@ -2099,6 +2096,8 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">Skill {0}, mastery {1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.NotSet">---</system:String>
     <system:String x:Key="TaskQueue.OperProgress.OnlineEditor">Edit the plan online with Arknights Toolbox</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">Read from Clipboard</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ParseFailed">Parse failed</system:String>
     <system:String x:Key="TaskQueue.OperProgress.SkillLevelTarget">Skill level {0}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.SkillNumber">Skill {0}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.SkillUpgrade">Skill upgrade</system:String>
@@ -2458,6 +2457,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="Tray.MinimizeTo">Hide to tray when minimized</system:String>
     <system:String x:Key="Tray.Restart">Restart</system:String>
     <system:String x:Key="Tray.SwitchLanguage">Switch Language 🌐</system:String>
+    <system:String x:Key="Tray.Title">Tray</system:String>
     <system:String x:Key="Tray.Use">Display Tray Icon</system:String>
     <system:String x:Key="VersionUpdate.Api.UpdateFailed">Hot update data retrieval failed</system:String>
     <system:String x:Key="VersionUpdate.Api.UpdateSuccess">Hot update data retrieval successful</system:String>

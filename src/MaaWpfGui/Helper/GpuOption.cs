@@ -1,4 +1,4 @@
-// <copyright file="GpuOption.cs" company="MaaAssistantArknights">
+﻿// <copyright file="GpuOption.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -488,7 +488,7 @@ public abstract class GpuOption
 
         public override int GetHashCode() => typeof(DisableOption).GetHashCode();
 
-        public override string ToString() => LocalizationHelper.GetString("Settings.Performance.GpuOption.Disable");
+        public override string ToString() => LocalizationHelper.GetString("Settings.Performance.Gpu.Disable");
     }
 
     public abstract class EnableOption : GpuOption
@@ -513,7 +513,7 @@ public abstract class GpuOption
 
         public override int GetHashCode() => typeof(SystemDefaultOption).GetHashCode();
 
-        public override string ToString() => LocalizationHelper.GetString("Settings.Performance.GpuOption.SystemDefault") + $" ({GpuInfo.Description})";
+        public override string ToString() => LocalizationHelper.GetString("Settings.Performance.Gpu.SystemDefault") + $" ({GpuInfo.Description})";
     }
 
     public class SpecificGpuOption : EnableOption

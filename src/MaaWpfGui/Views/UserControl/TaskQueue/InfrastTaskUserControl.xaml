@@ -239,7 +239,7 @@
                 Visibility="{c:Binding 'InfrastMode != taskQueue_vms:InfrastMode.Rotation',
                                        Source={x:Static taskQueue_vms:InfrastTaskUserControlModel.Instance}}">
                 <CheckBox MaxWidth="{c:Binding '220 - ActualWidth', ElementName=DormFilterNotStationedTipsTooltipBlock}" IsChecked="{c:Binding DormFilterNotStationedEnabled}">
-                    <controls:TextBlock Text="{DynamicResource Infrast.Dorm.FilterNotStationedEnabled}" TextWrapping="Wrap" />
+                    <controls:TextBlock Text="{DynamicResource Infrast.Dorm.FilterNotStationed}" TextWrapping="Wrap" />
                 </CheckBox>
                 <controls:TooltipBlock x:Name="DormFilterNotStationedTipsTooltipBlock" TooltipText="{DynamicResource Infrast.Dorm.FilterNotStationed.Tip}" />
             </StackPanel>
