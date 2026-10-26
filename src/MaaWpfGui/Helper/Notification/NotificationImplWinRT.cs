@@ -71,10 +71,10 @@ internal class NotificationImplWinRT : INotificationPoster, IDisposable
                 var setting = ToastNotificationManagerCompat.CreateToastNotifier().Setting;
                 return setting switch {
                     NotificationSetting.Enabled => (true, string.Empty),
-                    NotificationSetting.DisabledForApplication => (false, LocalizationHelper.GetString("ToastNotificationUnavailable.DisabledForApplication")),
-                    NotificationSetting.DisabledForUser => (false, LocalizationHelper.GetString("ToastNotificationUnavailable.DisabledForUser")),
-                    NotificationSetting.DisabledByGroupPolicy => (false, LocalizationHelper.GetString("ToastNotificationUnavailable.DisabledByGroupPolicy")),
-                    NotificationSetting.DisabledByManifest => (false, LocalizationHelper.GetString("ToastNotificationUnavailable.DisabledByManifest")),
+                    NotificationSetting.DisabledForApplication => (false, LocalizationHelper.GetString("Toast.Unavailable.DisabledForApplication")),
+                    NotificationSetting.DisabledForUser => (false, LocalizationHelper.GetString("Toast.Unavailable.DisabledForUser")),
+                    NotificationSetting.DisabledByGroupPolicy => (false, LocalizationHelper.GetString("Toast.Unavailable.DisabledByGroupPolicy")),
+                    NotificationSetting.DisabledByManifest => (false, LocalizationHelper.GetString("Toast.Unavailable.DisabledByManifest")),
                     _ => (false, $"Unknown notification setting: {setting}"),
                 };
             }

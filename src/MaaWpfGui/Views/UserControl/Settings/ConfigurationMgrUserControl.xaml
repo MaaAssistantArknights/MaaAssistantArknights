@@ -23,7 +23,7 @@
             VerticalAlignment="Center"
             HorizontalContentAlignment="Stretch"
             hc:TitleElement.HorizontalAlignment="Center"
-            hc:TitleElement.Title="{DynamicResource ConfigurationName}"
+            hc:TitleElement.Title="{DynamicResource Settings.Configuration.Name}"
             IsEditable="True"
             IsHitTestVisible="{Binding Run.Idle}"
             IsReadOnly="True"
@@ -80,7 +80,7 @@
                 hc:BorderElement.CornerRadius="0,4,4,0"
                 BorderThickness="0,1,1,1"
                 Command="{s:Action AddConfiguration}"
-                Content="{DynamicResource AddConfiguration}" />
+                Content="{DynamicResource Settings.Configuration.Add}" />
         </Grid>
     </StackPanel>
 </UserControl>

@@ -47,7 +47,7 @@ public partial class FightTaskUserControlModel
                 if (!report.IsExpiring)
                 {
                     MedicineUsedTimes += report.Count;
-                    medicineLog = LocalizationHelper.GetString("MedicineUsed") + $" {MedicineUsedTimes}(+{report.Count})";
+                    medicineLog = LocalizationHelper.GetString("Asst.Fight.MedicineUsed") + $" {MedicineUsedTimes}(+{report.Count})";
                 }
                 else
                 {
@@ -68,14 +68,14 @@ public partial class FightTaskUserControlModel
                             expireOut = $"{expireDays}";
                         }
                     }
-                    medicineLog = LocalizationHelper.GetStringFormat("ExpiringMedicineUsed", expireOut) + $" {ExpiringMedicineUsedTimes}(+{report.Count})";
+                    medicineLog = LocalizationHelper.GetStringFormat("Asst.Fight.ExpiringMedicineUsed", expireOut) + $" {ExpiringMedicineUsedTimes}(+{report.Count})";
                     AchievementTrackerHelper.Instance.SetProgress(AchievementIds.SanityExpire, ExpiringMedicineUsedTimes);
                 }
 
                 AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySaverGroup, report.Count);
                 if (report.Medicines?.Count > 0)
                 {
-                    var list = report.Medicines?.Select(i => LocalizationHelper.GetStringFormat("UseMedicine.MedicineInfo", i.Use, i.Inventory)).ToList();
+                    var list = report.Medicines?.Select(i => LocalizationHelper.GetStringFormat("Asst.Fight.MedicineInfo", i.Use, i.Inventory)).ToList();
                     medicineLog += "\n" + string.Join("\n", list ?? []);
                 }
                 Instances.TaskQueueViewModel.AddLog(medicineLog, UiLogColor.Info);
@@ -95,7 +95,7 @@ public partial class FightTaskUserControlModel
                         var task = Instance.GetConfigByTaskId<FightTask>(msg.TaskId);
                         if (task is not null && task.EnableTimesLimit != false && FightReport.IsFinished && FightReport.TimesFinished < task.TimesLimit)
                         {
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("FightTimesUnused", FightReport.TimesFinished, FightReport.Series, FightReport.TimesFinished + FightReport.Series, task.TimesLimit), UiLogColor.Warning);
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("Asst.Fight.TimesUnused", FightReport.TimesFinished, FightReport.Series, FightReport.TimesFinished + FightReport.Series, task.TimesLimit), UiLogColor.Warning);
                         }
                     }
 

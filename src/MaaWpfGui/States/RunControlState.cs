@@ -115,16 +115,16 @@ public class RunControlState : PropertyChangedBase
         get {
             var ownerKey = Owner switch
             {
-                RunOwner.TaskQueue => "Farming",
-                RunOwner.Copilot => "Copilot",
-                RunOwner.MiniGame => "MiniGame",
-                RunOwner.Toolbox => "Toolbox",
+                RunOwner.TaskQueue => "TaskQueue.Farming",
+                RunOwner.Copilot => "Copilot.Title",
+                RunOwner.MiniGame => "Toolbox.MiniGame.Title",
+                RunOwner.Toolbox => "Toolbox.Title",
                 _ => null,
             };
 
             return ownerKey is null
                 ? null
-                : LocalizationHelper.GetStringFormat("StopCurrentTaskFormat", LocalizationHelper.GetString(ownerKey));
+                : LocalizationHelper.GetStringFormat("Common.Stop.CurrentTaskFormat", LocalizationHelper.GetString(ownerKey));
         }
     }
 }

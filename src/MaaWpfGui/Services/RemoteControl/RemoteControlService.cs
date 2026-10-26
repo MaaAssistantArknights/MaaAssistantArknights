@@ -315,7 +315,7 @@ public class RemoteControlService
                     {
                         // 一键长草特殊任务
                         await _runningState.UntilIdleAsync();
-                        var startLogStr = LocalizationHelper.GetStringFormat("RemoteControlReceivedTask", type, id);
+                        var startLogStr = LocalizationHelper.GetStringFormat("RemoteControl.ReceivedTask", type, id);
 
                         Instances.TaskQueueViewModel.AddLog(startLogStr);
                         await Execute.OnUIThreadAsync(() => {
@@ -323,7 +323,7 @@ public class RemoteControlService
                         });
                         await _runningState.UntilIdleAsync();
 
-                        var stopLogStr = LocalizationHelper.GetStringFormat("RemoteControlCompletedTask", type, id);
+                        var stopLogStr = LocalizationHelper.GetStringFormat("RemoteControl.CompletedTask", type, id);
                         Instances.TaskQueueViewModel.AddLog(stopLogStr);
                         break;
                     }
@@ -561,9 +561,9 @@ public class RemoteControlService
             // TaskQueueViewModel.InfrastTask.InfrastOrderSelectionChanged();
             Instances.TaskQueueViewModel.ClearLog();
 
-            /*await Task.Run(() => Instances.SettingsViewModel.RunScript("StartsWithScript"));*/
+            /*await Task.Run(() => Instances.SettingsViewModel.RunScript(GameSettingsUserControlModel.StartWithScriptKey));*/
 
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Connection.Connecting"));
 
             // 一般是点了“停止”按钮了
             if (_runningState.GetStopping())
@@ -697,14 +697,20 @@ public class RemoteControlService
                     continue;
                 }
 
-                Instances.TaskQueueViewModel.AddLog(item + "Error", UiLogColor.Error);
+                // 拼接产物中只有 CombatError 是语言文件真实 key（新 key 为 TaskQueue.CombatError），
+                // 其余任务名产物不存在对应译文，TryGetString 失败时回退显示任务名原文
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.TryGetString(item == "Combat" ? "TaskQueue.CombatError" : item + "Error", out var errorMsg)
+                        ? errorMsg
+                        : item + "Error",
+                    UiLogColor.Error);
                 taskRet = true;
                 --count;
             }
 
             if (count == 0)
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UnselectedTask"));
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.UnselectedTask"));
                 Instances.TaskQueueViewModel.SetStopped();
                 return;
             }
@@ -713,13 +719,13 @@ public class RemoteControlService
 
             if (taskRet)
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Running"));
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.Running"));
                 Instances.AsstProxy.StartTaskTime = DateTimeOffset.Now;
                 Instances.TaskQueueViewModel.SetRunDeadlineFromSettings();
             }
             else
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UnknownErrorOccurs"));
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Error.UnknownErrorOccurs"));
                 await Instances.TaskQueueViewModel.Stop();
                 Instances.TaskQueueViewModel.SetStopped();
             }
@@ -754,7 +760,7 @@ public class RemoteControlService
             {
                 if (!response.IsSuccessStatusCode)
                 {
-                    var errorMsg = LocalizationHelper.GetStringFormat("RemoteControlConnectionTestFail", response.StatusCode);
+                    var errorMsg = LocalizationHelper.GetStringFormat("RemoteControl.ConnectionTest.Fail", response.StatusCode);
                     ToastNotification.ShowDirect(errorMsg);
                     return;
                 }
@@ -762,13 +768,13 @@ public class RemoteControlService
             else
             {
                 // 一般来说不会走到这里，因为null response一定会报错
-                var errorMsg = LocalizationHelper.GetStringFormat("RemoteControlConnectionTestFail", "Unknown");
+                var errorMsg = LocalizationHelper.GetStringFormat("RemoteControl.ConnectionTest.Fail", "Unknown");
                 ToastNotification.ShowDirect(errorMsg);
                 return;
             }
 
             ToastNotification.ShowDirect(
-                LocalizationHelper.GetString("RemoteControlConnectionTestSuccess"));
+                LocalizationHelper.GetString("RemoteControl.ConnectionTest.Success"));
         }
         catch (Exception e)
         {
@@ -778,7 +784,7 @@ public class RemoteControlService
                 error = e.InnerException.Message;
             }
 
-            var errorMsg = LocalizationHelper.GetStringFormat("RemoteControlConnectionTestFail", error);
+            var errorMsg = LocalizationHelper.GetStringFormat("RemoteControl.ConnectionTest.Fail", error);
             ToastNotification.ShowDirect(errorMsg);
         }
     }
@@ -792,7 +798,7 @@ public class RemoteControlService
     {
         if (string.IsNullOrWhiteSpace(endpoint))
         {
-            ShowToast("RemoteControlConnectionTestFailEmpty", alarm);
+            ShowToast("RemoteControl.ConnectionTest.FailEmpty", alarm);
             return false;
         }
 
@@ -804,12 +810,12 @@ public class RemoteControlService
         }
         else if (lowerEndpoint.StartsWith("http://"))
         {
-            ShowToast("RemoteControlConnectionTestWarningHttpUnsafe", alarm);
+            ShowToast("RemoteControl.ConnectionTest.WarningHttpUnsafe", alarm);
             return true;
         }
         else
         {
-            ShowToast("RemoteControlConnectionTestFailNotHttpOrHttps", alarm);
+            ShowToast("RemoteControl.ConnectionTest.FailNotHttpOrHttps", alarm);
             return false;
         }
     }

@@ -16,7 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 CPP_PATH = ROOT / "src/MaaAppHostStub/MaaAppHostStub.cpp"
 LANGS = ["zh-cn", "zh-tw", "en-us", "ja-jp", "ko-kr"]
-KEYS = ["ErrorCongratulations", "ErrorSolutionMoveMaaExeOutOfFolder"]
+KEYS = ["Error.Congratulations", "Error.Solution.MoveMaaExeOutOfFolder"]
 
 
 def xaml_value(lang: str, key: str) -> str | None:

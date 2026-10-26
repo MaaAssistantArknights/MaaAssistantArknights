@@ -11,7 +11,7 @@
     xmlns:mdxam="clr-namespace:MdXaml;assembly=MdXaml"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:styles="clr-namespace:MaaWpfGui.Styles"
-    Title="{DynamicResource Announcement}"
+    Title="{DynamicResource Announcement.Title}"
     Width="750"
     Height="550"
     MinWidth="750"
@@ -134,7 +134,7 @@
                     IsEnabled="{c:Binding 'HasEverScrolledToBottom or DoNotRemindThisAnnouncementAgain'}">
                     <TextBlock
                         MaxWidth="150"
-                        Text="{DynamicResource DoNotRemindThisAnnouncementAgain}"
+                        Text="{DynamicResource Announcement.DoNotRemindAgain}"
                         TextWrapping="Wrap" />
                 </CheckBox>
                 <Button
@@ -146,7 +146,7 @@
                     Command="{s:Action Close}">
                     <TextBlock
                         MaxWidth="150"
-                        d:Text="{DynamicResource Confirm}"
+                        d:Text="{DynamicResource Common.Confirm}"
                         Text="{Binding ButtonContent}"
                         TextWrapping="Wrap" />
                 </Button>

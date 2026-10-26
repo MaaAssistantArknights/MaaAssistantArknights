@@ -34,8 +34,8 @@ public class ItemSelectionDialogViewModel : PropertyChangedBase
     {
         var itemsList = availableItems.ToList();
         Items = itemsList;
-        WindowTitle = windowTitle ?? Helper.LocalizationHelper.GetString("SelectItem");
-        PromptMessage = promptMessage ?? Helper.LocalizationHelper.GetString("PleaseSelectItem");
+        WindowTitle = windowTitle ?? Helper.LocalizationHelper.GetString("Connection.SelectItem");
+        PromptMessage = promptMessage ?? Helper.LocalizationHelper.GetString("Connection.PleaseSelectItem");
         if (itemsList.Count > 0)
         {
             SelectedItem = itemsList.First();

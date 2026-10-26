@@ -18,27 +18,27 @@
     mc:Ignorable="d">
     <StackPanel Visibility="{c:Binding !EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
         <StackPanel Margin="0,10">
-            <CheckBox Content="{DynamicResource OperBoxRecognition}" IsChecked="{Binding UpdateOperBox}" />
+            <CheckBox Content="{DynamicResource OperBox.Title}" IsChecked="{Binding UpdateOperBox}" />
             <controls:TextBlock
                 Margin="0,5,0,0"
                 HorizontalAlignment="Left"
                 TextWrapping="Wrap"
                 Visibility="{c:Binding 'LastOperBoxSyncTimeText.Length > 0',
                                        Source={x:Static helper:Instances.ToolboxViewModel}}">
-                <Run Text="{DynamicResource LastSyncTime}" />
+                <Run Text="{DynamicResource TaskQueue.UserDataUpdate.LastSyncTime}" />
                 <Run Text=": " />
                 <Run Text="{Binding LastOperBoxSyncTimeText, Mode=OneWay, Source={x:Static helper:Instances.ToolboxViewModel}}" />
             </controls:TextBlock>
         </StackPanel>
         <StackPanel Margin="0,10">
-            <CheckBox Content="{DynamicResource DepotRecognition}" IsChecked="{Binding UpdateDepot}" />
+            <CheckBox Content="{DynamicResource Depot.Title}" IsChecked="{Binding UpdateDepot}" />
             <controls:TextBlock
                 Margin="0,5,0,0"
                 HorizontalAlignment="Left"
                 TextWrapping="Wrap"
                 Visibility="{c:Binding 'LastDepotSyncTimeText.Length > 0',
                                        Source={x:Static helper:Instances.ToolboxViewModel}}">
-                <Run Text="{DynamicResource LastSyncTime}" />
+                <Run Text="{DynamicResource TaskQueue.UserDataUpdate.LastSyncTime}" />
                 <Run Text=": " />
                 <Run Text="{Binding LastDepotSyncTimeText, Mode=OneWay, Source={x:Static helper:Instances.ToolboxViewModel}}" />
             </controls:TextBlock>
@@ -46,7 +46,7 @@
         <StackPanel Margin="0,10">
             <hc:ComboBox
                 VerticalContentAlignment="Center"
-                hc:InfoElement.Title="{DynamicResource UserDataUpdateTriggerInterval}"
+                hc:InfoElement.Title="{DynamicResource TaskQueue.UserDataUpdate.TriggerInterval}"
                 hc:TitleElement.HorizontalAlignment="Left"
                 DisplayMemberPath="Display"
                 ItemsSource="{Binding TriggerIntervalList}"

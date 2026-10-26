@@ -39,7 +39,7 @@ public class WebhookPresetTemplate
         new()
         {
             Id = "__custom__",
-            NameResourceKey = "ExternalNotificationCustomWebhook.TemplateCustom",
+            NameResourceKey = "ExternalNotification.CustomWebhook.Template.Custom",
         },
         new()
         {
@@ -66,7 +66,7 @@ public class WebhookPresetTemplate
         new()
         {
             Id = "meow",
-            NameResourceKey = "ExternalNotificationCustomWebhook.TemplateMeoW",
+            NameResourceKey = "ExternalNotification.CustomWebhook.Template.MeoW",
             Url = "https://api.chuckfang.com/<nickname>",
             Body = "{\"title\":\"{title}\",\"msg\":\"{content}\\n{time}\"}",
         },

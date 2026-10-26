@@ -133,7 +133,7 @@ public class AnnouncementDialogViewModel : Screen
         set {
             if (SetAndNotify(ref _hasEverScrolledToBottom, value) && value)
             {
-                ButtonContent = LocalizationHelper.GetString("Confirm");
+                ButtonContent = LocalizationHelper.GetString("Common.Confirm");
             }
         }
     }
@@ -263,12 +263,12 @@ public class AnnouncementDialogViewModel : Screen
 
     private int _notFinishedClick = 0;
     private static readonly string[] _notFinishedMessages = [
-        LocalizationHelper.GetString("AnnouncementNotFinishedConfirm"),
-        LocalizationHelper.GetString("AnnouncementNotFinishedConfirm2"),
-        LocalizationHelper.GetString("AnnouncementNotFinishedConfirm3"),
+        LocalizationHelper.GetString("Announcement.NotFinishedConfirm"),
+        LocalizationHelper.GetString("Announcement.NotFinishedConfirm2"),
+        LocalizationHelper.GetString("Announcement.NotFinishedConfirm3"),
     ];
 
-    private string _buttonContent = LocalizationHelper.GetString("Confirm");
+    private string _buttonContent = LocalizationHelper.GetString("Common.Confirm");
 
     public string ButtonContent
     {

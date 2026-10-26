@@ -118,8 +118,8 @@ public sealed class ExternalNotificationDeliverySettingsModel : PropertyChangedB
     public string Error => string.Empty;
 
     public string this[string columnName] => columnName switch {
-        nameof(Whitelist) when !NotificationFilter.IsValid(Whitelist) => LocalizationHelper.GetString("NotificationSettingsInvalidFilterTip"),
-        nameof(Blacklist) when !NotificationFilter.IsValid(Blacklist) => LocalizationHelper.GetString("NotificationSettingsInvalidFilterTip"),
+        nameof(Whitelist) when !NotificationFilter.IsValid(Whitelist) => LocalizationHelper.GetString("ExternalNotification.InvalidFilter.Tip"),
+        nameof(Blacklist) when !NotificationFilter.IsValid(Blacklist) => LocalizationHelper.GetString("ExternalNotification.InvalidFilter.Tip"),
         _ => string.Empty,
     };
 }

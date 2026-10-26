@@ -17,22 +17,22 @@
     mc:Ignorable="d">
     <StackPanel MinWidth="250">
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-            <controls:TextBlock Text="{DynamicResource AchievementLevel}" />
+            <controls:TextBlock Text="{DynamicResource Achievement.Level}" />
             <controls:TextBlock Text="{Binding UnlockedCount, Source={x:Static helper:AchievementTrackerHelper.Instance}}" />
         </StackPanel>
         <Button
             Margin="5"
             Command="{s:Action OnShowAchievementsClick}"
-            Content="{DynamicResource AchievementView}" />
+            Content="{DynamicResource Achievement.View}" />
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
                 Margin="5"
                 Command="{s:Action BackupAchievements}"
-                Content="{DynamicResource AchievementBackup}" />
+                Content="{DynamicResource Achievement.Backup}" />
             <Button
                 Margin="5"
                 Command="{s:Action RestoreAchievements}"
-                Content="{DynamicResource AchievementRestore}" />
+                Content="{DynamicResource Achievement.Restore}" />
         </StackPanel>
 
         <Border
@@ -68,12 +68,12 @@
         <CheckBox
             Margin="5"
             HorizontalAlignment="Center"
-            Content="{DynamicResource AchievementPopupDisabled}"
+            Content="{DynamicResource Achievement.PopupDisabled}"
             IsChecked="{Binding AchievementPopupDisabled}" />
         <CheckBox
             Margin="5"
             HorizontalAlignment="Center"
-            Content="{DynamicResource AchievementPopupAutoClose}"
+            Content="{DynamicResource Achievement.PopupAutoClose}"
             IsChecked="{Binding AchievementPopupAutoClose}"
             Visibility="{c:Binding !AchievementPopupDisabled}" />
     </StackPanel>

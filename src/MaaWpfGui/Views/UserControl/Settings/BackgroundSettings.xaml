@@ -21,7 +21,7 @@
             <controls:TextBlock
                 Margin="0,0,0,5"
                 HorizontalAlignment="Center"
-                Text="{DynamicResource BackgroundImage}" />
+                Text="{DynamicResource Settings.Background.Image}" />
             <Grid
                 x:Name="BackgroundPathRow"
                 Width="400"
@@ -95,7 +95,7 @@
                     hc:IconElement.Geometry="{StaticResource FolderOpen20Regular}"
                     BorderThickness="0,1,1,1"
                     Command="{s:Action SelectImagePath}"
-                    ToolTip="{DynamicResource Select}" />
+                    ToolTip="{DynamicResource Common.Select}" />
             </Grid>
         </StackPanel>
         <StackPanel
@@ -105,7 +105,7 @@
             <controls:TextBlock
                 Margin="0,0,0,5"
                 HorizontalAlignment="Center"
-                Text="{DynamicResource BackgroundOpacity}" />
+                Text="{DynamicResource Settings.Background.Opacity}" />
             <hc:PreviewSlider
                 Width="400"
                 d:Value="50"
@@ -125,7 +125,7 @@
             <controls:TextBlock
                 Margin="0,0,0,5"
                 HorizontalAlignment="Center"
-                Text="{DynamicResource BackgroundBlurRadius}" />
+                Text="{DynamicResource Settings.Background.BlurRadius}" />
             <hc:PreviewSlider
                 Width="400"
                 d:Value="5"
@@ -145,7 +145,7 @@
             <controls:TextBlock
                 Margin="0,0,0,5"
                 HorizontalAlignment="Center"
-                Text="{DynamicResource BackgroundImageStretchMode}" />
+                Text="{DynamicResource Settings.Background.StretchMode}" />
             <ComboBox
                 Width="200"
                 HorizontalContentAlignment="Stretch"
@@ -160,7 +160,7 @@
                     Margin="10"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Content="{DynamicResource BackgroundMonet}"
+                    Content="{DynamicResource Settings.Background.Monet}"
                     IsChecked="{Binding BackgroundMonetEnabled}" />
                 <!--  保持中性：勾选莫奈后出现在右侧，同行（同官方自动检测/每次重新检测写法）  -->
                 <StackPanel
@@ -171,9 +171,9 @@
                     <CheckBox
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Content="{DynamicResource BackgroundMonetKeepMaskNeutral}"
+                        Content="{DynamicResource Settings.Background.MonetKeepMaskNeutral}"
                         IsChecked="{Binding BackgroundMonetKeepMaskNeutral}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource BackgroundMonetKeepMaskNeutralTip}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource Settings.Background.MonetKeepMaskNeutral.Tip}" />
                 </StackPanel>
             </StackPanel>
             <StackPanel
@@ -184,7 +184,7 @@
                 <controls:TextBlock
                     Margin="0,0,0,5"
                     HorizontalAlignment="Center"
-                    Text="{DynamicResource BackgroundMonetMode}" />
+                    Text="{DynamicResource Settings.Background.MonetMode}" />
                 <hc:ComboBox
                     Width="200"
                     Margin="0,0,0,5"
@@ -199,7 +199,7 @@
                     HorizontalAlignment="Center"
                     FontSize="11"
                     Opacity="0.6"
-                    Text="{DynamicResource BackgroundMonetAutoTip}"
+                    Text="{DynamicResource Settings.Background.MonetAuto.Tip}"
                     TextWrapping="Wrap"
                     Visibility="{c:Binding IsBackgroundMonetAuto}" />
 
@@ -224,7 +224,7 @@
                     <Button
                         hc:BorderElement.CornerRadius="4"
                         Command="{s:Action SelectMonetColor}"
-                        Content="{DynamicResource BackgroundMonetSelectColor}" />
+                        Content="{DynamicResource Settings.Background.MonetSelectColor}" />
                 </StackPanel>
             </StackPanel>
         </StackPanel>

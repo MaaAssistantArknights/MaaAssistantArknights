@@ -88,7 +88,7 @@ internal class BadModules
         }
 
         var sb = new StringBuilder();
-        sb.AppendLine(LocalizationHelper.GetString("BadModules.Warning.Prolog"));
+        sb.AppendLine(LocalizationHelper.GetString("Error.BadModules.Warning.Prolog"));
         sb.AppendLine();
         foreach (var module in allBadModules)
         {
@@ -96,17 +96,17 @@ internal class BadModules
         }
 
         sb.AppendLine();
-        sb.Append(LocalizationHelper.GetString("BadModules.Warning.Epilog"));
+        sb.Append(LocalizationHelper.GetString("Error.BadModules.Warning.Epilog"));
 
         var page = new TaskDialogPage {
             Caption = "MAA",
-            Heading = LocalizationHelper.GetString("BadModules.Warning.Heading"),
+            Heading = LocalizationHelper.GetString("Error.BadModules.Warning.Heading"),
             Text = sb.ToString(),
             Icon = TaskDialogIcon.Warning,
             Buttons = { TaskDialogButton.OK },
             SizeToContent = true,
             Verification = new() {
-                Text = LocalizationHelper.GetString("BadModules.Warning.DoNotShowAgain"),
+                Text = LocalizationHelper.GetString("Error.BadModules.Warning.DoNotShowAgain"),
                 Checked = false,
             },
         };
@@ -123,14 +123,14 @@ internal class BadModules
             // https://github.com/dotnet/winforms/issues/14831
             // TaskDialog 和 WPF MessageBox 在注入环境下都会崩溃，只能用 Win32 原生 MessageBox
             _logger.Warning(e, "TaskDialog failed, falling back to native Win32 MessageBox");
-            sb.AppendLine().AppendLine().Append(LocalizationHelper.GetString("BadModules.Warning.Fallback"));
+            sb.AppendLine().AppendLine().Append(LocalizationHelper.GetString("Error.BadModules.Warning.Fallback"));
             _logger.Warning("Detected bad injected modules:\n{Modules}", sb.ToString());
             var hwnd = System.Windows.Application.Current.MainWindow is null
                 ? IntPtr.Zero
                 : new System.Windows.Interop.WindowInteropHelper(System.Windows.Application.Current.MainWindow).Handle;
             var ret = PInvoke.MessageBox((HWND)hwnd,
-                sb + "\n\n" + LocalizationHelper.GetString("BadModules.Warning.Fallback"),
-                LocalizationHelper.GetString("BadModules.Warning.Heading"),
+                sb + "\n\n" + LocalizationHelper.GetString("Error.BadModules.Warning.Fallback"),
+                LocalizationHelper.GetString("Error.BadModules.Warning.Heading"),
                 MESSAGEBOX_STYLE.MB_ICONERROR | MESSAGEBOX_STYLE.MB_YESNO | MESSAGEBOX_STYLE.MB_DEFBUTTON2);
             doNotShowAgain = ret == MESSAGEBOX_RESULT.IDYES;
         }
@@ -143,8 +143,8 @@ internal class BadModules
             // 弹出第二个确认对话框
             var confirmPage = new TaskDialogPage {
                 Caption = "MAA",
-                Heading = LocalizationHelper.GetString("BadModules.Confirmation.Heading"),
-                Text = LocalizationHelper.GetString("BadModules.Confirmation.Text"),
+                Heading = LocalizationHelper.GetString("Error.BadModules.Confirmation.Heading"),
+                Text = LocalizationHelper.GetString("Error.BadModules.Confirmation.Text"),
                 Icon = TaskDialogIcon.Warning,
                 Buttons = { TaskDialogButton.Yes, TaskDialogButton.No },
                 SizeToContent = true,
@@ -165,8 +165,8 @@ internal class BadModules
                     ? IntPtr.Zero
                     : new System.Windows.Interop.WindowInteropHelper(System.Windows.Application.Current.MainWindow).Handle;
                 var ret = PInvoke.MessageBox((HWND)hwnd,
-                    LocalizationHelper.GetString("BadModules.Confirmation.Text"),
-                    LocalizationHelper.GetString("BadModules.Confirmation.Heading"),
+                    LocalizationHelper.GetString("Error.BadModules.Confirmation.Text"),
+                    LocalizationHelper.GetString("Error.BadModules.Confirmation.Heading"),
                     MESSAGEBOX_STYLE.MB_ICONWARNING | MESSAGEBOX_STYLE.MB_YESNO | MESSAGEBOX_STYLE.MB_DEFBUTTON2);
                 confirmed = ret == MESSAGEBOX_RESULT.IDYES;
             }
