@@ -21,7 +21,7 @@ Windows 안정 버전 및 베타 버전 빌드는 GitHub Actions에서 SignPath�
 
 기존의 유효한 업스트림 서명은 유지합니다. NetBeauty가 제공하는 수정된 `hostfxr.dll` 등 일부 의존성은 서명되지 않았을 수 있으며 현재 서명 허용 목록에 포함되지 않습니다. CI는 모든 EXE 및 DLL의 서명 상태를 기록한 `MAA-signpath-audit-<arch>` 아티팩트를 업로드합니다. 서명되지 않았다는 이유만으로 이 프로젝트의 인증서로 의존성을 다시 서명하지 않습니다.
 
-서명할 파일의 제품 버전을 통일하고 모든 Windows CI 빌드에서 파일명, 제품명 및 제품 버전을 검증합니다. 개인 키는 SignPath의 HSM에 보관되며, Windows에 표시되는 서명 게시자는 SignPath Foundation입니다.
+서명할 파일의 제품 버전을 통일하고 Windows PR 빌드와 서명 빌드에서 파일명, 제품명 및 제품 버전을 검증합니다. 개인 키는 SignPath의 HSM에 보관되며, Windows에 표시되는 서명 게시자는 SignPath Foundation입니다.
 
 안정 버전 및 베타 버전 배포는 `.github/workflows/ci.yml`을 사용하며 GitHub 호스팅 실행기에서 빌드하고 패키징 전에 서명을 검증합니다. 서명된 네이티브 런타임 파일은 하위 패키지에서도 사용합니다. 모든 배포 서명에는 수동 승인이 필요합니다. 개발 버전(Nightly) 빌드는 `.github/workflows/release-nightly-ota.yml`을 사용하며 현재 SignPath 서명을 생략하므로 서명 승인 없이 기존 방식대로 자동 빌드 및 배포를 계속합니다.
 

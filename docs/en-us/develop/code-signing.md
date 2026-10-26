@@ -21,7 +21,7 @@ We sign only the following binaries built from this repository and its pinned Ma
 
 Existing valid upstream signatures are retained. Some dependencies, including the patched `hostfxr.dll` supplied by NetBeauty, may be unsigned and are outside the current signing allowlist. CI publishes a `MAA-signpath-audit-<arch>` artifact listing the signature status of every EXE and DLL; unsigned status alone does not make a dependency eligible for signing with this project's certificate.
 
-All signed files share a product version, with file names and product names checked in every Windows CI build. Private keys remain in SignPath's HSM. Windows identifies the signing publisher as SignPath Foundation.
+All signed files share a product version. File names, product names, and product versions are checked in Windows PR builds as well as signing builds. Private keys remain in SignPath's HSM. Windows identifies the signing publisher as SignPath Foundation.
 
 Stable Release and Beta Release builds use `.github/workflows/ci.yml`, build on GitHub-hosted runners, and verify signatures before packaging. Signed native runtime files are also used by downstream packages. Every release signing request requires manual approval. Nightly Release builds use `.github/workflows/release-nightly-ota.yml` and currently skip SignPath signing, so they continue to build and publish automatically without signing approval.
 

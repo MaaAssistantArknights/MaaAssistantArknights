@@ -21,7 +21,7 @@ Windows 穩定版和公測版（Beta）的簽章由 GitHub Actions 提交至 Sig
 
 既有的有效上游簽章會保留。部分相依項目（包括 NetBeauty 提供的修改版 `hostfxr.dll`）可能未簽章，不屬於目前的簽章白名單。CI 會上傳 `MAA-signpath-audit-<arch>` 產物，列出所有 EXE 和 DLL 的簽章狀態；相依項目未簽章不代表可以使用本專案的憑證重新簽章。
 
-簽章使用相同的產品版本，每次 Windows CI 建置皆驗證檔名、產品名稱及產品版本。私密金鑰保留於 SignPath 的 HSM，Windows 顯示的簽章發行者為 SignPath Foundation。
+簽章使用相同的產品版本，Windows 的 PR 建置與簽章建置皆驗證檔名、產品名稱及產品版本。私密金鑰保留於 SignPath 的 HSM，Windows 顯示的簽章發行者為 SignPath Foundation。
 
 穩定版和公測版（Beta）使用 `.github/workflows/ci.yml`，於 GitHub 託管執行器建置，並於封裝前完成簽章驗證。簽章後的原生執行階段檔案也供下游套件使用。每次發佈簽章都需要核准者手動審批。內測版（Nightly）使用 `.github/workflows/release-nightly-ota.yml`，暫不進行 SignPath 簽章，依原流程自動建置和發佈，無需簽章審批。
 

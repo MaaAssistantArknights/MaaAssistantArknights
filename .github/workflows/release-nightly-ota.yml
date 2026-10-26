@@ -293,6 +293,7 @@ jobs:
           cp tools/DependencySetup_依赖库安装.bat install
 
       - name: Check Windows binary metadata
+        if: inputs.ref == ''
         env:
           SIGNING_VERSION: ${{ steps.set_tag.outputs.tag }}
         run: pwsh .github/scripts/windows-signing.ps1 -Operation CheckMetadata -InstallDirectory install -Version $env:SIGNING_VERSION

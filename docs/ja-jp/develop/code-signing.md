@@ -21,7 +21,7 @@ Windows の安定版とベータ版は GitHub Actions から SignPath に署名�
 
 既存の有効な上流の署名は保持します。一部の依存ファイル（NetBeauty が提供する変更版 `hostfxr.dll` など）は署名されていない場合があり、現在の署名許可リストには含まれません。CI はすべての EXE と DLL の署名状態を記録した `MAA-signpath-audit-<arch>` 成果物をアップロードします。未署名であることだけを理由に、本プロジェクトの証明書で依存ファイルを再署名することはありません。
 
-署名対象の製品バージョンを統一し、すべての Windows CI ビルドでファイル名、製品名、製品バージョンを検証します。秘密鍵は SignPath の HSM 内に保管され、Windows には署名の発行元として SignPath Foundation が表示されます。
+署名対象の製品バージョンを統一し、Windows の PR ビルドと署名ビルドでファイル名、製品名、製品バージョンを検証します。秘密鍵は SignPath の HSM 内に保管され、Windows には署名の発行元として SignPath Foundation が表示されます。
 
 安定版とベータ版は `.github/workflows/ci.yml` を使用し、GitHub ホスト型ランナーでビルドして、パッケージ化する前に署名を検証します。署名済みのネイティブランタイムファイルは下流のパッケージにも使用します。すべてのリリース署名には手動承認が必要です。内部テスト版（Nightly）は `.github/workflows/release-nightly-ota.yml` を使用し、現在は SignPath による署名を行わず、署名承認なしで従来どおり自動ビルドと公開を継続します。
 
