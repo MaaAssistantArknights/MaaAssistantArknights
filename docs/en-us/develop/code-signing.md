@@ -27,6 +27,7 @@ The `test-signing` policy uses an untrusted test certificate only for manually t
 
 ## Team roles
 
+- Repository permission groups: [Cpp Dev](https://github.com/orgs/MaaAssistantArknights/teams/cpp-dev) / [Cs Dev](https://github.com/orgs/MaaAssistantArknights/teams/cs-dev) / [Ci Dev](https://github.com/orgs/MaaAssistantArknights/teams/ci-dev) / [Collaborators](https://github.com/orgs/MaaAssistantArknights/teams/collaborators) / [i18n Dev](https://github.com/orgs/MaaAssistantArknights/teams/i18n-dev) / [Website Dev](https://github.com/orgs/MaaAssistantArknights/teams/website-dev).
 - Committers and reviewers: MAA maintainers with write access to this repository. Changes by other contributors are reviewed by maintainers before merging.
 - Signing approver: [uye / ABA2396](https://github.com/ABA2396).
 - The dedicated `CI builds` user submits signing requests.

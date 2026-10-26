@@ -27,6 +27,7 @@ Windows 正式版、测试版和内测版的签名由 GitHub Actions 提交至 S
 
 ## 团队职责
 
+- 仓库权限组：[Cpp Dev](https://github.com/orgs/MaaAssistantArknights/teams/cpp-dev) / [Cs Dev](https://github.com/orgs/MaaAssistantArknights/teams/cs-dev) / [Ci Dev](https://github.com/orgs/MaaAssistantArknights/teams/ci-dev) / [Collaborators](https://github.com/orgs/MaaAssistantArknights/teams/collaborators) / [i18n Dev](https://github.com/orgs/MaaAssistantArknights/teams/i18n-dev) / [Website Dev](https://github.com/orgs/MaaAssistantArknights/teams/website-dev)。
 - 提交者与审阅者：具有本仓库写入权限的 MAA 维护者；其他贡献者的改动由维护者审阅后合并。
 - 签名批准人：[uye / ABA2396](https://github.com/ABA2396)。
 - 签名请求由专用的 `CI builds` 用户提交。

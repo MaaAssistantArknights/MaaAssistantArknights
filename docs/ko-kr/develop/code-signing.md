@@ -27,6 +27,7 @@ Windows 정식, 베타 및 나이틀리 빌드는 GitHub Actions에서 SignPath�
 
 ## 팀 역할
 
+- 저장소 권한 그룹: [Cpp Dev](https://github.com/orgs/MaaAssistantArknights/teams/cpp-dev) / [Cs Dev](https://github.com/orgs/MaaAssistantArknights/teams/cs-dev) / [Ci Dev](https://github.com/orgs/MaaAssistantArknights/teams/ci-dev) / [Collaborators](https://github.com/orgs/MaaAssistantArknights/teams/collaborators) / [i18n Dev](https://github.com/orgs/MaaAssistantArknights/teams/i18n-dev) / [Website Dev](https://github.com/orgs/MaaAssistantArknights/teams/website-dev).
 - 커미터 및 검토자: 이 저장소에 쓰기 권한이 있는 MAA 유지 관리자입니다. 다른 기여자의 변경 사항은 유지 관리자가 검토한 후 병합합니다.
 - 서명 승인자: [uye / ABA2396](https://github.com/ABA2396).
 - 전용 `CI builds` 사용자가 서명을 요청합니다.

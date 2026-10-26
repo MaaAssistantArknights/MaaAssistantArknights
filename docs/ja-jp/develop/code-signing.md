@@ -27,6 +27,7 @@ Windows の正式版、ベータ版、ナイトリー版は GitHub Actions か�
 
 ## チームの役割
 
+- リポジトリの権限グループ：[Cpp Dev](https://github.com/orgs/MaaAssistantArknights/teams/cpp-dev) / [Cs Dev](https://github.com/orgs/MaaAssistantArknights/teams/cs-dev) / [Ci Dev](https://github.com/orgs/MaaAssistantArknights/teams/ci-dev) / [Collaborators](https://github.com/orgs/MaaAssistantArknights/teams/collaborators) / [i18n Dev](https://github.com/orgs/MaaAssistantArknights/teams/i18n-dev) / [Website Dev](https://github.com/orgs/MaaAssistantArknights/teams/website-dev)。
 - コミッターとレビュアー：このリポジトリへの書き込み権限を持つ MAA メンテナー。その他の貢献者による変更は、メンテナーがレビューしてからマージします。
 - 署名承認者：[uye / ABA2396](https://github.com/ABA2396)。
 - 専用の `CI builds` ユーザーが署名を申請します。

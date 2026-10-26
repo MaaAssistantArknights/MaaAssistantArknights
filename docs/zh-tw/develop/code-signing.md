@@ -27,6 +27,7 @@ Windows 正式版、測試版和內測版的簽章由 GitHub Actions 提交至 S
 
 ## 團隊職責
 
+- 儲存庫權限群組：[Cpp Dev](https://github.com/orgs/MaaAssistantArknights/teams/cpp-dev) / [Cs Dev](https://github.com/orgs/MaaAssistantArknights/teams/cs-dev) / [Ci Dev](https://github.com/orgs/MaaAssistantArknights/teams/ci-dev) / [Collaborators](https://github.com/orgs/MaaAssistantArknights/teams/collaborators) / [i18n Dev](https://github.com/orgs/MaaAssistantArknights/teams/i18n-dev) / [Website Dev](https://github.com/orgs/MaaAssistantArknights/teams/website-dev)。
 - 提交者與審閱者：具有本儲存庫寫入權限的 MAA 維護者；其他貢獻者的變更經維護者審閱後合併。
 - 簽章核准者：[uye / ABA2396](https://github.com/ABA2396)。
 - 簽章請求由專用的 `CI builds` 使用者提交。
