@@ -156,7 +156,7 @@
     <system:String x:Key="Achievement.PallasStarter.Conditions">{key=TaskQueue.Task.AutoRoguelike}에서 팔라스를 ｢{key=Roguelike.StartingCoreChar}｣로 사용</system:String>
     <system:String x:Key="Achievement.PallasStarter.Description">위대한 전사들이여, 나는 그대들 곁에서 함께 용맹히 싸우리라.</system:String>
     <system:String x:Key="Achievement.PallasStarter.Title">팔라스 애호가</system:String>
-    <system:String x:Key="Achievement.PeekScreen.Conditions">MAA {key=Gacha.Peep} 기능 1회 사용</system:String>
+    <system:String x:Key="Achievement.PeekScreen.Conditions">MAA {key=Gacha.Peep.Title} 기능 1회 사용</system:String>
     <system:String x:Key="Achievement.PeekScreen.Description">그렇게 계속 쳐다보시면 부끄러운데요...</system:String>
     <system:String x:Key="Achievement.PeekScreen.Title">엿보기 구멍</system:String>
     <system:String x:Key="Achievement.Pioneer1.Conditions">MAA를 {key=Settings.Update.Channel.Beta}으로 업데이트</system:String>
@@ -236,7 +236,7 @@
     <system:String x:Key="Achievement.Rules.Conditions">MAA 이용 약관</system:String>
     <system:String x:Key="Achievement.Rules.Description">약속한 거예요? 제가 옆에서 지켜볼게요</system:String>
     <system:String x:Key="Achievement.Rules.Title">서약 완료</system:String>
-    <system:String x:Key="Achievement.SanityExpire.Conditions">｢{key=TaskQueue.Fight.UseExpiringMedicine}｣  기능으로 한 번에 8개 이상의 이성 회복제 사용</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Conditions">｢{key=TaskQueue.Fight.InfiniteExpiringMedicine}｣  기능으로 한 번에 8개 이상의 이성 회복제 사용</system:String>
     <system:String x:Key="Achievement.SanityExpire.Description">유통기한이 다 될 때까지 뭐 하셨어요? 너무해요!</system:String>
     <system:String x:Key="Achievement.SanityExpire.Title">배신자!</system:String>
     <system:String x:Key="Achievement.SanityPlanner.Conditions">{key=TaskQueue.Task.Combat} 완료 시 모든 이성을 정확히 소진</system:String>
@@ -831,9 +831,9 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="Connection.ImageIsNull">스크린샷이 비어 있습니다</system:String>
     <system:String x:Key="Connection.KillAdbOnExit">종료 시 ADB 종료</system:String>
     <system:String x:Key="Connection.LaunchClient">시작 시 클라이언트 실행</system:String>
-    <system:String x:Key="Connection.LdEmulatorPath">LD 에뮬레이터 경로</system:String>
-    <system:String x:Key="Connection.LdEmulatorPath.Placeholder">예: C:\leidian\LDPlayer9</system:String>
-    <system:String x:Key="Connection.LdEmulatorPathEmptyError">LDPlayer 설치 경로가 비어 있습니다! 자리표시자는 예시일 뿐이니 ｢{key=Settings.Title} - {key=Settings.Connection.Title}｣에서 실제 경로를 입력하세요</system:String>
+    <system:String x:Key="Connection.LdPlayer.EmulatorPath">LD 에뮬레이터 경로</system:String>
+    <system:String x:Key="Connection.LdPlayer.EmulatorPath.Placeholder">예: C:\leidian\LDPlayer9</system:String>
+    <system:String x:Key="Connection.LdPlayer.EmulatorPathEmptyError">LDPlayer 설치 경로가 비어 있습니다! 자리표시자는 예시일 뿐이니 ｢{key=Settings.Title} - {key=Settings.Connection.Title}｣에서 실제 경로를 입력하세요</system:String>
     <system:String x:Key="Connection.LdPlayer.EmulatorPathNotFound">LDPlayer 에뮬레이터 경로를 찾을 수 없습니다.</system:String>
     <system:String x:Key="Connection.LdPlayer.ExtrasEnabled">LD 스크린샷 강화 기능 활성화</system:String>
     <system:String x:Key="Connection.LdPlayer.ExtrasEnabled.Tip" xml:space="preserve">LDPlayer 9 V9.1.32 이상이 필요합니다.
@@ -949,7 +949,7 @@ C:\Program Files\Netease\MuMuPlayer으로 입력해야 합니다.
     <system:String x:Key="Copilot.CouldNotSaveFile" xml:space="preserve">부조종사 작업을 파일에 저장할 수 없습니다.: </system:String>
     <system:String x:Key="Copilot.DirectiveECTerm">에너지 기어:</system:String>
     <system:String x:Key="Copilot.DoYouLikeThisWebJson">이 작업 파일이 마음에 드셨나요? 평가해 주세요!</system:String>
-    <system:String x:Key="Copilot.EliteAjust">{0} 정예화 {1}을 요구하도록 설정되었지만, 다른 속성에 대한 요구 사항은 정예화 {2}입니다. 이 값은 자동으로 조정되었습니다.</system:String>
+    <system:String x:Key="Copilot.EliteAdjust">{0} 정예화 {1}을 요구하도록 설정되었지만, 다른 속성에 대한 요구 사항은 정예화 {2}입니다. 이 값은 자동으로 조정되었습니다.</system:String>
     <system:String x:Key="Copilot.EliteEmpty">{0} 정예화 등급 요구 사항이 설정되지 않았지만, 다른 속성에 대한 요구 사항은 정예화 {1}입니다. 이 값은 자동으로 채워졌습니다.</system:String>
     <system:String x:Key="Copilot.EmptyError">작업이 비어 있습니다</system:String>
     <system:String x:Key="Copilot.FailedToLikeWebJson">오류로 인해 평가에 실패했습니다: &lt;</system:String>
@@ -1204,10 +1204,10 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="Gacha.Disclaimer.NoMore">다시 보지 않기</system:String>
     <system:String x:Key="Gacha.Init.Tip">같은 뜻을 가진 의로운 분들이 로도스 아일랜드에 이렇게나 많이 계실 줄은 몰랐습니다. 네, 노래, 전투, 자유! 역사의 격류 속에서 사람들의 힘을 집결시켜 이 대지를 바꾸기 위해 분투할 수 있다니…… 이 얼마나 가슴 뜨거운 일인가요! 이런 비장하고도 비범한 이야기는 계속 전승되어야만 합니다.</system:String>
     <system:String x:Key="Gacha.Once">1회 진행</system:String>
-    <system:String x:Key="Gacha.Peep">모니터링</system:String>
     <system:String x:Key="Gacha.Peep.ScreenshotTooLong">스크린샷이 너무 오래 걸립니다. 목표 프레임 속도를 {0}로 낮춰 주세요</system:String>
     <system:String x:Key="Gacha.Peep.TargetFps">목표 프레임 속도</system:String>
     <system:String x:Key="Gacha.Peep.Tip">팔라스의 눈에 비친 세상을 보시겠어요?</system:String>
+    <system:String x:Key="Gacha.Peep.Title">모니터링</system:String>
     <system:String x:Key="Gacha.ReceiveFreeGacha">한정 뽑기 일일 무료 뽑기 진행</system:String>
     <system:String x:Key="Gacha.ReceiveFreeGacha.Tip">무료 뽑기가 없을 시 뽑기를 진행하지 않습니다</system:String>
     <system:String x:Key="Gacha.TenTimes">10회 진행</system:String>
@@ -2032,6 +2032,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.Fight.DrGrandet.Tip">회복제나 순오리지늄 사용 시 이성이 자연 회복될 때까지 기다렸다가 회복되는 즉시 사용합니다.</system:String>
     <system:String x:Key="TaskQueue.Fight.HideSeries">{key=TaskQueue.Fight.Series} 숨기기</system:String>
     <system:String x:Key="TaskQueue.Fight.HideUnavailableStage">미개방 스테이지 숨기기</system:String>
+    <system:String x:Key="TaskQueue.Fight.InfiniteExpiringMedicine">N 일 미만 이성 회복제 사용</system:String>
     <system:String x:Key="TaskQueue.Fight.InventoryUpdate.Tip">재고 데이터는  ｢{key=Toolbox.Title}-{key=Depot.Title}｣ 을 통해 업데이트 가능</system:String>
     <system:String x:Key="TaskQueue.Fight.MedicineExpireDays.Tip">게임 내에서 N일 미만으로 표시되는 이성 회복제만 사용하며, ｢N일｣ 이상은 사용하지 않습니다.</system:String>
     <system:String x:Key="TaskQueue.Fight.NoActivity">활동 없음</system:String>
@@ -2067,7 +2068,6 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.Fight.TargetInventory">목표 재고</system:String>
     <system:String x:Key="TaskQueue.Fight.UseAlternateStage">대체 스테이지 사용</system:String>
     <system:String x:Key="TaskQueue.Fight.UseExpireMedicineForActivity">이벤트 종료 48시간 전, 이번 주 만료되는 이성 회복제 사용</system:String>
-    <system:String x:Key="TaskQueue.Fight.UseExpiringMedicine">N 일 미만 이성 회복제 사용</system:String>
     <system:String x:Key="TaskQueue.Fight.UseOriginitePrime">순오리지늄 사용</system:String>
     <system:String x:Key="TaskQueue.Fight.UseSanityPotion">이성 회복제 사용</system:String>
     <system:String x:Key="TaskQueue.FightTimesMayNotExhausted">작전 횟수({0}회)가 {key=TaskQueue.Fight.Series}({1}회)로 나누어떨어지지 않아, 모두 사용하지 못할 수 있습니다.</system:String>

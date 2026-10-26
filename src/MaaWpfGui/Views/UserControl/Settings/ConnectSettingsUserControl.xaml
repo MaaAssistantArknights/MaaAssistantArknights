@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
     x:Class="MaaWpfGui.Views.UserControl.Settings.ConnectSettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -245,8 +245,8 @@
                                         Width="420"
                                         Height="30"
                                         Margin="5"
-                                        hc:InfoElement.Placeholder="{DynamicResource Connection.LdEmulatorPath.Placeholder}"
-                                        hc:TitleElement.Title="{DynamicResource Connection.LdEmulatorPath}"
+                                        hc:InfoElement.Placeholder="{DynamicResource Connection.LdPlayer.EmulatorPath.Placeholder}"
+                                        hc:TitleElement.Title="{DynamicResource Connection.LdPlayer.EmulatorPath}"
                                         hc:TitleElement.TitlePlacement="Left"
                                         Text="{Binding EmulatorPath}" />
                                     <StackPanel>

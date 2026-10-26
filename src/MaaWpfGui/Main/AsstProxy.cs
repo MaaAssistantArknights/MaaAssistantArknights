@@ -1218,7 +1218,7 @@ public class AsstProxy
                             if (method != "LDExtras")
                             {
                                 var ldExtrasMsg = string.IsNullOrEmpty(ldPlayer.EmulatorPath)
-                                    ? LocalizationHelper.GetString("Connection.LdEmulatorPathEmptyError")
+                                    ? LocalizationHelper.GetString("Connection.LdPlayer.EmulatorPathEmptyError")
                                     : LocalizationHelper.GetString("Connection.LdPlayer.ExtrasNotEnabledMessage");
                                 Instances.TaskQueueViewModel.AddLog(ldExtrasMsg, UiLogColor.Error);
                                 Instances.CopilotViewModel.AddLog(ldExtrasMsg, UiLogColor.Error, showTime: false);

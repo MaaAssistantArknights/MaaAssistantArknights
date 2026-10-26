@@ -156,7 +156,7 @@
     <system:String x:Key="Achievement.PallasStarter.Conditions">ローグライクでパラスを ｢{key=Roguelike.StartingCoreChar}｣ にする</system:String>
     <system:String x:Key="Achievement.PallasStarter.Description">偉大なる戦士たちよ、私はあなたたちのそばにいて、ともに勇んで戦おう。</system:String>
     <system:String x:Key="Achievement.PallasStarter.Title">パラス推し</system:String>
-    <system:String x:Key="Achievement.PeekScreen.Conditions">{key=Gacha.Peep}を1回使用する</system:String>
+    <system:String x:Key="Achievement.PeekScreen.Conditions">{key=Gacha.Peep.Title}を1回使用する</system:String>
     <system:String x:Key="Achievement.PeekScreen.Description">じっと見つめるのが好きですね.jpg</system:String>
     <system:String x:Key="Achievement.PeekScreen.Title">覗き込む</system:String>
     <system:String x:Key="Achievement.Pioneer1.Conditions">MAAを{key=Settings.Update.Channel.Beta}に更新する</system:String>
@@ -236,7 +236,7 @@
     <system:String x:Key="Achievement.Rules.Conditions">MAAのスタッフ規則</system:String>
     <system:String x:Key="Achievement.Rules.Description">私はずっとあなたを見つめています。</system:String>
     <system:String x:Key="Achievement.Rules.Title">重大エラー</system:String>
-    <system:String x:Key="Achievement.SanityExpire.Conditions">｢{key=TaskQueue.Fight.UseExpiringMedicine}｣ を使用し、1回のタスクで 8 本以上の期限切れ理性回復剤を使用する</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Conditions">｢{key=TaskQueue.Fight.InfiniteExpiringMedicine}｣ を使用し、1回のタスクで 8 本以上の期限切れ理性回復剤を使用する</system:String>
     <system:String x:Key="Achievement.SanityExpire.Description">急いで！！！</system:String>
     <system:String x:Key="Achievement.SanityExpire.Title">もうすぐ期限切れ</system:String>
     <system:String x:Key="Achievement.SanityPlanner.Conditions">{key=TaskQueue.Task.Combat}を完了した時、すべての理性をちょうど使い切る</system:String>
@@ -832,9 +832,9 @@ MAA を新しい独立したフォルダーに解凍するか、MAA に属さな
     <system:String x:Key="Connection.ImageIsNull">スクリーンショットが空です</system:String>
     <system:String x:Key="Connection.KillAdbOnExit">終了時にADBを終了する</system:String>
     <system:String x:Key="Connection.LaunchClient">起動時にクライアントを開始する</system:String>
-    <system:String x:Key="Connection.LdEmulatorPath">LD エミュレータパス</system:String>
-    <system:String x:Key="Connection.LdEmulatorPath.Placeholder">例: C:\leidian\LDPlayer9</system:String>
-    <system:String x:Key="Connection.LdEmulatorPathEmptyError">LDPlayer のインストールパスが空です！プレースホルダーはあくまで例です。｢{key=Settings.Title} - {key=Settings.Connection.Title}｣ で実際のパスを入力してください</system:String>
+    <system:String x:Key="Connection.LdPlayer.EmulatorPath">LD エミュレータパス</system:String>
+    <system:String x:Key="Connection.LdPlayer.EmulatorPath.Placeholder">例: C:\leidian\LDPlayer9</system:String>
+    <system:String x:Key="Connection.LdPlayer.EmulatorPathEmptyError">LDPlayer のインストールパスが空です！プレースホルダーはあくまで例です。｢{key=Settings.Title} - {key=Settings.Connection.Title}｣ で実際のパスを入力してください</system:String>
     <system:String x:Key="Connection.LdPlayer.EmulatorPathNotFound">LDPlayer のインストールパスが見つかりません。</system:String>
     <system:String x:Key="Connection.LdPlayer.ExtrasEnabled">LD のスクリーンショット拡張モードを有効にする</system:String>
     <system:String x:Key="Connection.LdPlayer.ExtrasEnabled.Tip" xml:space="preserve">LDPlayer 9 V9.1.32以降が必要です。
@@ -951,7 +951,7 @@ C:\Program Files\Netease\MuMuPlayer を入力してください。
     <system:String x:Key="Copilot.CouldNotSaveFile" xml:space="preserve">コパイロットタスクをファイルに保存できませんでした: </system:String>
     <system:String x:Key="Copilot.DirectiveECTerm">拡張式戦術ユニット：</system:String>
     <system:String x:Key="Copilot.DoYouLikeThisWebJson">この攻略ファイルは好きですか？評価してください！</system:String>
-    <system:String x:Key="Copilot.EliteAjust">{0} エリート{1}の要件が設定されていましたが、他の属性の要件はエリート{2}です。これは自動調整されました。</system:String>
+    <system:String x:Key="Copilot.EliteAdjust">{0} エリート{1}の要件が設定されていましたが、他の属性の要件はエリート{2}です。これは自動調整されました。</system:String>
     <system:String x:Key="Copilot.EliteEmpty">{0} エリートレベルの要件は設定されていませんでしたが、他の属性の要件はエリート{1}です。これは自動入力されました。</system:String>
     <system:String x:Key="Copilot.EmptyError">作業が空です</system:String>
     <system:String x:Key="Copilot.FailedToLikeWebJson">エラーが発生しました、いいねに失敗しました。 : &lt;</system:String>
@@ -1206,10 +1206,10 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Gacha.Disclaimer.NoMore">再度表示しない</system:String>
     <system:String x:Key="Gacha.Init.Tip">志を同じくする義士の方が、ロドスにこれほどいらっしゃるとは思いませんでした。ええ、詩、戦、自由！歴史の奔流の中で人々の力を集結させ、この大地を変えるために奮闘できるとは……なんと燃えることか！このような悲壮で非凡な物語は、語り継がれてゆくべきものなのです。</system:String>
     <system:String x:Key="Gacha.Once">ガチャを一回引く</system:String>
-    <system:String x:Key="Gacha.Peep">パラスモニター</system:String>
     <system:String x:Key="Gacha.Peep.ScreenshotTooLong">スクリーンショットに時間がかかりすぎています。目標フレームレートを {0} に下げてください</system:String>
     <system:String x:Key="Gacha.Peep.TargetFps">目標フレームレート</system:String>
     <system:String x:Key="Gacha.Peep.Tip">パラスの目に映る世界を見てみませんか？</system:String>
+    <system:String x:Key="Gacha.Peep.Title">パラスモニター</system:String>
     <system:String x:Key="Gacha.ReceiveFreeGacha">リミテッドスカウトから毎日無料スカウトを行う</system:String>
     <system:String x:Key="Gacha.ReceiveFreeGacha.Tip">無料スカウトがない場合はスカウトしない</system:String>
     <system:String x:Key="Gacha.TenTimes">10回ガチャ</system:String>
@@ -2033,6 +2033,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.Fight.DrGrandet.Tip">理性の回復画面で、現在の待機中の回復が完了するまで待ってから、理性剤などを使用します。</system:String>
     <system:String x:Key="TaskQueue.Fight.HideSeries">連戦回数を隠します</system:String>
     <system:String x:Key="TaskQueue.Fight.HideUnavailableStage">リストに当日開放されないステージを隠す</system:String>
+    <system:String x:Key="TaskQueue.Fight.InfiniteExpiringMedicine">N日未満で期限が切れる回復剤を無制限に使用</system:String>
     <system:String x:Key="TaskQueue.Fight.InventoryUpdate.Tip">在庫データは ｢{key=Toolbox.Title}-{key=Depot.Title}｣ で更新できます</system:String>
     <system:String x:Key="TaskQueue.Fight.MedicineExpireDays.Tip">ゲーム内で ｢N日｣ 未満と表示される回復剤のみ使用し、｢N日｣ 以上は使用しません。</system:String>
     <system:String x:Key="TaskQueue.Fight.NoActivity">活動なし</system:String>
@@ -2068,7 +2069,6 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.Fight.TargetInventory">目標在庫</system:String>
     <system:String x:Key="TaskQueue.Fight.UseAlternateStage">代替ステージを選択可能にする</system:String>
     <system:String x:Key="TaskQueue.Fight.UseExpireMedicineForActivity">今週中に期限切れとなる正気回復ポーションは、アクティビティ終了の48時間以内に使用してください。</system:String>
-    <system:String x:Key="TaskQueue.Fight.UseExpiringMedicine">N日未満で期限が切れる回復剤を無制限に使用</system:String>
     <system:String x:Key="TaskQueue.Fight.UseOriginitePrime">割る源石の数</system:String>
     <system:String x:Key="TaskQueue.Fight.UseSanityPotion">理性剤使用数</system:String>
     <system:String x:Key="TaskQueue.FightTimesMayNotExhausted">戦闘回数 ({0}) は {key=TaskQueue.Fight.Series} ({1}) で割り切れないため、使い切られない可能性があります。</system:String>

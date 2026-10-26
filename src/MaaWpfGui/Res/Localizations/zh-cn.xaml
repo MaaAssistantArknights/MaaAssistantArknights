@@ -157,7 +157,7 @@
     <system:String x:Key="Achievement.PallasStarter.Conditions">使用帕拉斯作为肉鸽 ｢{key=Roguelike.StartingCoreChar}｣</system:String>
     <system:String x:Key="Achievement.PallasStarter.Description">伟大的战士们啊，我会在你们身边，与你们一同奋勇搏杀。</system:String>
     <system:String x:Key="Achievement.PallasStarter.Title">牛牛厨</system:String>
-    <system:String x:Key="Achievement.PeekScreen.Conditions">使用一次{key=Gacha.Peep}</system:String>
+    <system:String x:Key="Achievement.PeekScreen.Conditions">使用一次{key=Gacha.Peep.Title}</system:String>
     <system:String x:Key="Achievement.PeekScreen.Description">喜欢盯着看是吧.jpg</system:String>
     <system:String x:Key="Achievement.PeekScreen.Title">窥屏</system:String>
     <system:String x:Key="Achievement.Pioneer1.Conditions">将 MAA 更新至{key=Settings.Update.Channel.Beta}</system:String>
@@ -237,7 +237,7 @@
     <system:String x:Key="Achievement.Rules.Conditions">MAA 员工守则</system:String>
     <system:String x:Key="Achievement.Rules.Description">我会一直注视着你。</system:String>
     <system:String x:Key="Achievement.Rules.Title">严重错讠</system:String>
-    <system:String x:Key="Achievement.SanityExpire.Conditions">使用 ｢{key=TaskQueue.Fight.UseExpiringMedicine}｣，单次任务使用 8 瓶及以上临期理智药</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Conditions">使用 ｢{key=TaskQueue.Fight.InfiniteExpiringMedicine}｣，单次任务使用 8 瓶及以上临期理智药</system:String>
     <system:String x:Key="Achievement.SanityExpire.Description">赶紧冲哇！！！</system:String>
     <system:String x:Key="Achievement.SanityExpire.Title">要过期了</system:String>
     <system:String x:Key="Achievement.SanityPlanner.Conditions">完成{key=TaskQueue.Task.Combat}时刚好消耗完所有理智</system:String>
@@ -831,9 +831,9 @@
     <system:String x:Key="Connection.ImageIsNull">截图为空</system:String>
     <system:String x:Key="Connection.KillAdbOnExit">退出时结束 ADB 进程</system:String>
     <system:String x:Key="Connection.LaunchClient">是否启动客户端</system:String>
-    <system:String x:Key="Connection.LdEmulatorPath">LD 安装路径</system:String>
-    <system:String x:Key="Connection.LdEmulatorPath.Placeholder">示例：C:\leidian\LDPlayer9</system:String>
-    <system:String x:Key="Connection.LdEmulatorPathEmptyError">雷电模拟器安装路径为空！占位符仅为示例，请在 ｢{key=Settings.Title} - {key=Settings.Connection.Title}｣ 填写实际路径</system:String>
+    <system:String x:Key="Connection.LdPlayer.EmulatorPath">LD 安装路径</system:String>
+    <system:String x:Key="Connection.LdPlayer.EmulatorPath.Placeholder">示例：C:\leidian\LDPlayer9</system:String>
+    <system:String x:Key="Connection.LdPlayer.EmulatorPathEmptyError">雷电模拟器安装路径为空！占位符仅为示例，请在 ｢{key=Settings.Title} - {key=Settings.Connection.Title}｣ 填写实际路径</system:String>
     <system:String x:Key="Connection.LdPlayer.EmulatorPathNotFound">未找到 LDPlayer 模拟器路径。</system:String>
     <system:String x:Key="Connection.LdPlayer.ExtrasEnabled">启用 LD 截图增强</system:String>
     <system:String x:Key="Connection.LdPlayer.ExtrasEnabled.Tip" xml:space="preserve">需使用官版或国际版雷电模拟器 9 V9.1.32 或更新版本。
@@ -949,7 +949,7 @@ C:\Program Files\Netease\MuMuPlayer。
     <system:String x:Key="Copilot.CouldNotSaveFile" xml:space="preserve">无法保存作业文件到: </system:String>
     <system:String x:Key="Copilot.DirectiveECTerm">导能原件：</system:String>
     <system:String x:Key="Copilot.DoYouLikeThisWebJson">作业怎么样？评价下吧！</system:String>
-    <system:String x:Key="Copilot.EliteAjust">{0} 设置为要求 精{1}, 但是其他属性要求 精{2}, 已自动调整</system:String>
+    <system:String x:Key="Copilot.EliteAdjust">{0} 设置为要求 精{1}, 但是其他属性要求 精{2}, 已自动调整</system:String>
     <system:String x:Key="Copilot.EliteEmpty">{0} 未设置精英等级要求, 但其他属性要求 精{1}, 已自动补全</system:String>
     <system:String x:Key="Copilot.EmptyError">未选择作业</system:String>
     <system:String x:Key="Copilot.FailedToLikeWebJson">出现错误，评价失败 : &lt;</system:String>
@@ -1204,10 +1204,10 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Gacha.Disclaimer.NoMore">下次不再提示</system:String>
     <system:String x:Key="Gacha.Init.Tip">在罗德岛竟然有这么多志同道合的志士。是的，诗歌！战争！自由！能在历史的洪流中汇集众人的力量，为这片大地的改变而奋斗。真是令人振奋！这些悲壮又非凡的故事，是应当被传颂下去的。</system:String>
     <system:String x:Key="Gacha.Once">寻访一次</system:String>
-    <system:String x:Key="Gacha.Peep">牛牛监控</system:String>
     <system:String x:Key="Gacha.Peep.ScreenshotTooLong">截图耗时过长，建议降低目标帧率至 {0}</system:String>
     <system:String x:Key="Gacha.Peep.TargetFps">目标帧率</system:String>
     <system:String x:Key="Gacha.Peep.Tip">看看牛牛眼中的世界？</system:String>
+    <system:String x:Key="Gacha.Peep.Title">牛牛监控</system:String>
     <system:String x:Key="Gacha.ReceiveFreeGacha">进行限定池赠送的每日免费单抽</system:String>
     <system:String x:Key="Gacha.ReceiveFreeGacha.Tip">若不存在免费单抽，则不会抽取</system:String>
     <system:String x:Key="Gacha.TenTimes">寻访十次</system:String>
@@ -2032,6 +2032,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.Fight.DrGrandet.Tip">在恢复理智确认界面等待，直到当前的 1 点理智恢复完成再立即确认。</system:String>
     <system:String x:Key="TaskQueue.Fight.HideSeries">隐藏代理倍率</system:String>
     <system:String x:Key="TaskQueue.Fight.HideUnavailableStage">下拉框中隐藏当日不开放关卡</system:String>
+    <system:String x:Key="TaskQueue.Fight.InfiniteExpiringMedicine">无限吃 N 天内过期的理智药</system:String>
     <system:String x:Key="TaskQueue.Fight.InventoryUpdate.Tip">可通过 ｢{key=Toolbox.Title}-{key=Depot.Title}｣ 更新库存数据</system:String>
     <system:String x:Key="TaskQueue.Fight.MedicineExpireDays.Tip">只吃游戏内显示不足 N 天的理智药，显示 ｢N 天｣ 及以上的不吃。</system:String>
     <system:String x:Key="TaskQueue.Fight.NoActivity">暂无活动</system:String>
@@ -2067,7 +2068,6 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.Fight.TargetInventory">目标库存</system:String>
     <system:String x:Key="TaskQueue.Fight.UseAlternateStage">使用备选关卡</system:String>
     <system:String x:Key="TaskQueue.Fight.UseExpireMedicineForActivity">活动结束前 48H 吃当周过期理智药</system:String>
-    <system:String x:Key="TaskQueue.Fight.UseExpiringMedicine">无限吃 N 天内过期的理智药</system:String>
     <system:String x:Key="TaskQueue.Fight.UseOriginitePrime">使用源石</system:String>
     <system:String x:Key="TaskQueue.Fight.UseSanityPotion">使用药剂</system:String>
     <system:String x:Key="TaskQueue.FightTimesMayNotExhausted">战斗次数 ({0}) 无法被 {key=TaskQueue.Fight.Series} ({1}) 整除, 可能无法用尽</system:String>

@@ -1165,7 +1165,7 @@
                 </StackPanel>
             </Grid>
         </TabItem>
-        <TabItem Header="{DynamicResource Gacha.Peep}">
+        <TabItem Header="{DynamicResource Gacha.Peep.Title}">
             <Grid Margin="20,0,20,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />

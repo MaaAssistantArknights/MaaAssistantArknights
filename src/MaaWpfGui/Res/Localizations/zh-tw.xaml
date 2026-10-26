@@ -156,7 +156,7 @@
     <system:String x:Key="Achievement.PallasStarter.Conditions">使用帕拉斯作為肉鴿 ｢{key=Roguelike.StartingCoreChar}｣</system:String>
     <system:String x:Key="Achievement.PallasStarter.Description">偉大的戰士們啊，我會在你們身邊，與你們一同奮勇搏殺。</system:String>
     <system:String x:Key="Achievement.PallasStarter.Title">牛牛廚</system:String>
-    <system:String x:Key="Achievement.PeekScreen.Conditions">使用一次 {key=Gacha.Peep}</system:String>
+    <system:String x:Key="Achievement.PeekScreen.Conditions">使用一次 {key=Gacha.Peep.Title}</system:String>
     <system:String x:Key="Achievement.PeekScreen.Description">喜歡盯著看是吧.jpg</system:String>
     <system:String x:Key="Achievement.PeekScreen.Title">暗中觀察</system:String>
     <system:String x:Key="Achievement.Pioneer1.Conditions">將 MAA 更新至 {key=Settings.Update.Channel.Beta}</system:String>
@@ -236,7 +236,7 @@
     <system:String x:Key="Achievement.Rules.Conditions">MAA 員工守則</system:String>
     <system:String x:Key="Achievement.Rules.Description">我會一直注視著你。</system:String>
     <system:String x:Key="Achievement.Rules.Title">嚴重錯訁</system:String>
-    <system:String x:Key="Achievement.SanityExpire.Conditions">使用 ｢{key=TaskQueue.Fight.UseExpiringMedicine}｣，單次任務使用 8 瓶及以上即期理智藥</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Conditions">使用 ｢{key=TaskQueue.Fight.InfiniteExpiringMedicine}｣，單次任務使用 8 瓶及以上即期理智藥</system:String>
     <system:String x:Key="Achievement.SanityExpire.Description">趕緊衝哇！！</system:String>
     <system:String x:Key="Achievement.SanityExpire.Title">要過期了</system:String>
     <system:String x:Key="Achievement.SanityPlanner.Conditions">完成 {key=TaskQueue.Task.Combat} 時剛好消耗完所有理智</system:String>
@@ -831,9 +831,9 @@
     <system:String x:Key="Connection.ImageIsNull">截圖為空</system:String>
     <system:String x:Key="Connection.KillAdbOnExit">關閉時結束 ADB 程式</system:String>
     <system:String x:Key="Connection.LaunchClient">是否啟動用戶端</system:String>
-    <system:String x:Key="Connection.LdEmulatorPath">LD 模擬器路徑</system:String>
-    <system:String x:Key="Connection.LdEmulatorPath.Placeholder">範例：C:\leidian\LDPlayer9</system:String>
-    <system:String x:Key="Connection.LdEmulatorPathEmptyError">雷電模擬器安裝路徑為空！佔位符僅為示例，請在 ｢{key=Settings.Title} - {key=Settings.Connection.Title}｣ 填寫實際路徑</system:String>
+    <system:String x:Key="Connection.LdPlayer.EmulatorPath">LD 模擬器路徑</system:String>
+    <system:String x:Key="Connection.LdPlayer.EmulatorPath.Placeholder">範例：C:\leidian\LDPlayer9</system:String>
+    <system:String x:Key="Connection.LdPlayer.EmulatorPathEmptyError">雷電模擬器安裝路徑為空！佔位符僅為示例，請在 ｢{key=Settings.Title} - {key=Settings.Connection.Title}｣ 填寫實際路徑</system:String>
     <system:String x:Key="Connection.LdPlayer.EmulatorPathNotFound">找不到 LDPlayer 模擬器路徑。</system:String>
     <system:String x:Key="Connection.LdPlayer.ExtrasEnabled">啟用 LD 截圖增強</system:String>
     <system:String x:Key="Connection.LdPlayer.ExtrasEnabled.Tip" xml:space="preserve">需使用官版或國際版雷電模擬器 9 V9.1.32 或更新版本。
@@ -949,7 +949,7 @@ C:\Program Files\Netease\MuMuPlayer
     <system:String x:Key="Copilot.CouldNotSaveFile" xml:space="preserve">無法儲存作業檔案至：</system:String>
     <system:String x:Key="Copilot.DirectiveECTerm">導能組件：</system:String>
     <system:String x:Key="Copilot.DoYouLikeThisWebJson">作業怎麼樣？評價一下吧！</system:String>
-    <system:String x:Key="Copilot.EliteAjust">{0} 設定為要求 精{1}, 但是其他屬性需求 精{2}, 已自動調整</system:String>
+    <system:String x:Key="Copilot.EliteAdjust">{0} 設定為要求 精{1}, 但是其他屬性需求 精{2}, 已自動調整</system:String>
     <system:String x:Key="Copilot.EliteEmpty">{0} 未設定精英等級要求, 但其他屬性要求 精{1}, 已自動補全</system:String>
     <system:String x:Key="Copilot.EmptyError">未選擇作業</system:String>
     <system:String x:Key="Copilot.FailedToLikeWebJson">出現錯誤，評價失敗 : &lt;</system:String>
@@ -1204,10 +1204,10 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Gacha.Disclaimer.NoMore">下次不再提示</system:String>
     <system:String x:Key="Gacha.Init.Tip">在羅德島竟然有這麼多志同道合的志士。是的，詩歌！戰爭！自由！能在歷史的洪流中匯集眾人的力量，為這片大地的改變而奮鬥。真是令人振奮！這些悲壯又非凡的故事，是應當被傳頌下去的。</system:String>
     <system:String x:Key="Gacha.Once">尋訪一次</system:String>
-    <system:String x:Key="Gacha.Peep">牛牛監控</system:String>
     <system:String x:Key="Gacha.Peep.ScreenshotTooLong">截圖耗時過長，建議降低目標影格率至 {0}</system:String>
     <system:String x:Key="Gacha.Peep.TargetFps">目標影格率 (FPS)</system:String>
     <system:String x:Key="Gacha.Peep.Tip">看看牛牛眼中的世界？</system:String>
+    <system:String x:Key="Gacha.Peep.Title">牛牛監控</system:String>
     <system:String x:Key="Gacha.ReceiveFreeGacha">進行限定池贈送的每日免費單抽</system:String>
     <system:String x:Key="Gacha.ReceiveFreeGacha.Tip">若不存在免費單抽，則不會抽取</system:String>
     <system:String x:Key="Gacha.TenTimes">尋訪十次</system:String>
@@ -2032,6 +2032,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskQueue.Fight.DrGrandet.Tip">在恢復理智確認介面等待，直到目前的 1 點理智恢復完成再立即確認。</system:String>
     <system:String x:Key="TaskQueue.Fight.HideSeries">隱藏代理倍率</system:String>
     <system:String x:Key="TaskQueue.Fight.HideUnavailableStage">下拉選單中隱藏當日不開放關卡</system:String>
+    <system:String x:Key="TaskQueue.Fight.InfiniteExpiringMedicine">無限吃 N 天內過期的理智藥</system:String>
     <system:String x:Key="TaskQueue.Fight.InventoryUpdate.Tip">可透過 ｢{key=Toolbox.Title}-{key=Depot.Title}｣ 更新庫存數據</system:String>
     <system:String x:Key="TaskQueue.Fight.MedicineExpireDays.Tip">只吃遊戲內顯示不足 N 天的理智藥，顯示 ｢N 天｣ 及以上的不吃。</system:String>
     <system:String x:Key="TaskQueue.Fight.NoActivity">暫無活動</system:String>
@@ -2067,7 +2068,6 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskQueue.Fight.TargetInventory">目標庫存</system:String>
     <system:String x:Key="TaskQueue.Fight.UseAlternateStage">使用備選關卡</system:String>
     <system:String x:Key="TaskQueue.Fight.UseExpireMedicineForActivity">活動結束前 48H 吃當週過期理智藥</system:String>
-    <system:String x:Key="TaskQueue.Fight.UseExpiringMedicine">無限吃 N 天內過期的理智藥</system:String>
     <system:String x:Key="TaskQueue.Fight.UseOriginitePrime">吃源石</system:String>
     <system:String x:Key="TaskQueue.Fight.UseSanityPotion">吃理智藥</system:String>
     <system:String x:Key="TaskQueue.FightTimesMayNotExhausted">戰鬥次數 ({0}) 無法被 {key=TaskQueue.Fight.Series} ({1}) 整除，可能無法耗盡</system:String>

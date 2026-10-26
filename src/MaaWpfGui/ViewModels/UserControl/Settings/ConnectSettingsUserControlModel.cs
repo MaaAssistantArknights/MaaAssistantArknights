@@ -1,4 +1,4 @@
-// <copyright file="ConnectSettingsUserControlModel.cs" company="MaaAssistantArknights">
+﻿// <copyright file="ConnectSettingsUserControlModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -685,7 +685,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 if (ExtraConfig is LDPlayerExtra ldPlayerExtra && ldPlayerExtra.Enable && ScreencapMethod != "LDExtras")
                 {
                     var ldExtrasMsg = string.IsNullOrEmpty(ldPlayerExtra.EmulatorPath)
-                        ? LocalizationHelper.GetString("Connection.LdEmulatorPathEmptyError")
+                        ? LocalizationHelper.GetString("Connection.LdPlayer.EmulatorPathEmptyError")
                         : LocalizationHelper.GetString("Connection.LdPlayer.ExtrasNotEnabledMessage");
                     TestLinkInfo = $"{ldExtrasMsg}\n{ScreencapTestCost}";
                     return;

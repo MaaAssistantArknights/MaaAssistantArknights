@@ -1,4 +1,4 @@
-// <copyright file="CopilotViewModel.cs" company="MaaAssistantArknights">
+﻿// <copyright file="CopilotViewModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -1366,7 +1366,7 @@ public partial class CopilotViewModel : Screen
                 }
                 else if (oper.Requirements.Elite < eliteReq)
                 {
-                    AddLog(LocalizationHelper.GetStringFormat("Copilot.EliteAjust", DataHelper.GetLocalizedCharacterName(oper.Name) ?? oper.Name, oper.Requirements.Elite, eliteReq), UiLogColor.Warning, showTime: false);
+                    AddLog(LocalizationHelper.GetStringFormat("Copilot.EliteAdjust", DataHelper.GetLocalizedCharacterName(oper.Name) ?? oper.Name, oper.Requirements.Elite, eliteReq), UiLogColor.Warning, showTime: false);
                     oper.Requirements.Elite = eliteReq;
                     is_corrected = true;
                 }

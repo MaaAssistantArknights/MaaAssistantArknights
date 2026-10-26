@@ -156,7 +156,7 @@
     <system:String x:Key="Achievement.PallasStarter.Conditions">Use Pallas as the ｢{key=Roguelike.StartingCoreChar}｣ in Integrated Strategies</system:String>
     <system:String x:Key="Achievement.PallasStarter.Description">Great warriors, I will be by your side, fighting bravely with you.</system:String>
     <system:String x:Key="Achievement.PallasStarter.Title">Pallas Fan</system:String>
-    <system:String x:Key="Achievement.PeekScreen.Conditions">Use {key=Gacha.Peep} once</system:String>
+    <system:String x:Key="Achievement.PeekScreen.Conditions">Use {key=Gacha.Peep.Title} once</system:String>
     <system:String x:Key="Achievement.PeekScreen.Description">Love staring at the screen, huh? .jpg</system:String>
     <system:String x:Key="Achievement.PeekScreen.Title">Screen Peeker</system:String>
     <system:String x:Key="Achievement.Pioneer1.Conditions">Update MAA to {key=Settings.Update.Channel.Beta}</system:String>
@@ -236,7 +236,7 @@
     <system:String x:Key="Achievement.Rules.Conditions">MAA Employee Guidelines</system:String>
     <system:String x:Key="Achievement.Rules.Description">I'll be watching you.</system:String>
     <system:String x:Key="Achievement.Rules.Title">Serious Erro-</system:String>
-    <system:String x:Key="Achievement.SanityExpire.Conditions">Use ｢{key=TaskQueue.Fight.UseExpiringMedicine}｣, use 8 or more expiring sanity potions in a single task</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Conditions">Use ｢{key=TaskQueue.Fight.InfiniteExpiringMedicine}｣, use 8 or more expiring sanity potions in a single task</system:String>
     <system:String x:Key="Achievement.SanityExpire.Description">Hurry up and use them!!!</system:String>
     <system:String x:Key="Achievement.SanityExpire.Title">About to Expire</system:String>
     <system:String x:Key="Achievement.SanityPlanner.Conditions">Complete {key=TaskQueue.Task.Combat} with exactly all sanity consumed</system:String>
@@ -831,9 +831,9 @@ Please ensure only the target emulator is running during detection. Running mult
     <system:String x:Key="Connection.ImageIsNull">Image is null</system:String>
     <system:String x:Key="Connection.KillAdbOnExit">Kill ADB On Exit</system:String>
     <system:String x:Key="Connection.LaunchClient">Launch Client on Start</system:String>
-    <system:String x:Key="Connection.LdEmulatorPath">LD Emulator exec path</system:String>
-    <system:String x:Key="Connection.LdEmulatorPath.Placeholder">Example: C:\leidian\LDPlayer9</system:String>
-    <system:String x:Key="Connection.LdEmulatorPathEmptyError">LDPlayer installation path is empty! The placeholder is only an example, please fill in the actual path in ｢{key=Settings.Title} - {key=Settings.Connection.Title}｣</system:String>
+    <system:String x:Key="Connection.LdPlayer.EmulatorPath">LD Emulator exec path</system:String>
+    <system:String x:Key="Connection.LdPlayer.EmulatorPath.Placeholder">Example: C:\leidian\LDPlayer9</system:String>
+    <system:String x:Key="Connection.LdPlayer.EmulatorPathEmptyError">LDPlayer installation path is empty! The placeholder is only an example, please fill in the actual path in ｢{key=Settings.Title} - {key=Settings.Connection.Title}｣</system:String>
     <system:String x:Key="Connection.LdPlayer.EmulatorPathNotFound">LDPlayer emulator path not found.</system:String>
     <system:String x:Key="Connection.LdPlayer.ExtrasEnabled">Enable LD's screenshot enhancement mode</system:String>
     <system:String x:Key="Connection.LdPlayer.ExtrasEnabled.Tip" xml:space="preserve">LDPlayer 9 V9.1.32 or later is required.
@@ -948,7 +948,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="Copilot.CouldNotSaveFile" xml:space="preserve">Could not save copilot task to file: </system:String>
     <system:String x:Key="Copilot.DirectiveECTerm">Directive EC unit:&#160;</system:String>
     <system:String x:Key="Copilot.DoYouLikeThisWebJson">Do you like this task file? Rate it!</system:String>
-    <system:String x:Key="Copilot.EliteAjust">{0} Was set to require Elite {1}, but the requirement for other attributes is Elite {2}; this has been auto-adjusted.</system:String>
+    <system:String x:Key="Copilot.EliteAdjust">{0} Was set to require Elite {1}, but the requirement for other attributes is Elite {2}; this has been auto-adjusted.</system:String>
     <system:String x:Key="Copilot.EliteEmpty">{0} No Elite Level requirement was set, but the requirement for other attributes is Elite {1}; this has been auto-filled.</system:String>
     <system:String x:Key="Copilot.EmptyError">copilot is empty</system:String>
     <system:String x:Key="Copilot.FailedToLikeWebJson">An error occurred, the like failed. : &lt;</system:String>
@@ -1203,10 +1203,10 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="Gacha.Disclaimer.NoMore">Don't show again</system:String>
     <system:String x:Key="Gacha.Init.Tip">To think that there were so many like-minded comrades in Rhodes Island. Yes, poetry! War! Freedom! To gather the people's strength from within the torrent of history, and fight to change this world. How exhilarating! These tragic yet extraordinary stories should be immortalized and passed down forevermore.</system:String>
     <system:String x:Key="Gacha.Once">Gacha Once</system:String>
-    <system:String x:Key="Gacha.Peep">Peep</system:String>
     <system:String x:Key="Gacha.Peep.ScreenshotTooLong">Screenshot taking too long, reduce Target FPS to {0}</system:String>
     <system:String x:Key="Gacha.Peep.TargetFps">Target Frame Rate</system:String>
     <system:String x:Key="Gacha.Peep.Tip">See the world through Pallas?</system:String>
+    <system:String x:Key="Gacha.Peep.Title">Peep</system:String>
     <system:String x:Key="Gacha.ReceiveFreeGacha">Conducting daily free single pull from the limited banner</system:String>
     <system:String x:Key="Gacha.ReceiveFreeGacha.Tip">If there is no free single pull, it will be skipped</system:String>
     <system:String x:Key="Gacha.TenTimes">Gacha Ten Times</system:String>
@@ -2031,6 +2031,7 @@ Enter ｢SSReopen-XX｣ once to clear all normal stages with Auto-Deploy in SS r
     <system:String x:Key="TaskQueue.Fight.DrGrandet.Tip">Wait on the sanity confirmation screen until the current sanity recovers to 1 point, then confirm immediately.</system:String>
     <system:String x:Key="TaskQueue.Fight.HideSeries">Hide series</system:String>
     <system:String x:Key="TaskQueue.Fight.HideUnavailableStage">Hide today's not open stages</system:String>
+    <system:String x:Key="TaskQueue.Fight.InfiniteExpiringMedicine">Unlimited use of sanity potion expiring in &lt;N days</system:String>
     <system:String x:Key="TaskQueue.Fight.InventoryUpdate.Tip">Inventory data can be updated via  ｢{key=Toolbox.Title}-{key=Depot.Title}｣</system:String>
     <system:String x:Key="TaskQueue.Fight.MedicineExpireDays.Tip">Only uses medicine displayed as less than "N days" in-game; anything displayed as "N days" or more will not be used.</system:String>
     <system:String x:Key="TaskQueue.Fight.NoActivity">No activity</system:String>
@@ -2066,7 +2067,6 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="TaskQueue.Fight.TargetInventory">Goal</system:String>
     <system:String x:Key="TaskQueue.Fight.UseAlternateStage">Use alternative stage</system:String>
     <system:String x:Key="TaskQueue.Fight.UseExpireMedicineForActivity">Use sanity potions that expire this week within 48 hours before the activity ends</system:String>
-    <system:String x:Key="TaskQueue.Fight.UseExpiringMedicine">Unlimited use of sanity potion expiring in &lt;N days</system:String>
     <system:String x:Key="TaskQueue.Fight.UseOriginitePrime">Use Originium</system:String>
     <system:String x:Key="TaskQueue.Fight.UseSanityPotion">Use Sanity Potion</system:String>
     <system:String x:Key="TaskQueue.FightTimesMayNotExhausted">Battle count ({0} times) may not be exhausted, {key=TaskQueue.Fight.Series}: {1}</system:String>
