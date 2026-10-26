@@ -664,9 +664,11 @@
         ]
     },
     "Sami@Roguelike@StageCombatOps": {
+        "rectMove": [0, 0, 15, 31],
         "templThreshold": 0.95
     },
     "Sami@Roguelike@StageCombatOpsAI6": {
+        "rectMove": [0, 0, 15, 34],
         "templThreshold": 0.95,
         "baseTask": "Sami@Roguelike@Stage",
         "next": [
@@ -676,9 +678,12 @@
         ]
     },
     "Sami@Roguelike@StageCombatOpsEnter": {},
-    "Sami@Roguelike@StageDreadfulFoe": {},
+    "Sami@Roguelike@StageDreadfulFoe": {
+        "rectMove": [0, 0, 15, 36]
+    },
     "Sami@Roguelike@StageDreadfulFoe-5": {
         "Doc": "第五层的boss关卡",
+        "rectMove": [0, 0, 15, 40],
         "baseTask": "Sami@Roguelike@Stage",
         "templThreshold": 0.85,
         "exceededNext": ["RoguelikeControlTaskPlugin-Stop"],
@@ -695,9 +700,11 @@
     },
     "Sami@Roguelike@StageDreadfulFoeEnter": {},
     "Sami@Roguelike@StageEmergencyOps": {
+        "rectMove": [0, 0, 15, 29],
         "templThreshold": 0.95
     },
     "Sami@Roguelike@StageEmergencyOpsAI6": {
+        "rectMove": [0, 0, 15, 29],
         "templThreshold": 0.95,
         "baseTask": "Sami@Roguelike@Stage",
         "next": [
@@ -750,6 +757,7 @@
     "Sami@Roguelike@StageEncounterSpecialClose": {},
     "Sami@Roguelike@StageFerociousPresage": {
         "Doc": "凶戾的预感",
+        "rectMove": [0, 0, 15, 32],
         "baseTask": "Sami@Roguelike@Stage",
         "templThreshold": 0.9,
         "next": ["Sami@Roguelike@StageFerociousPresageEnter", "Sami@Roguelike@Stages#next"]
@@ -859,6 +867,7 @@
         "next": ["Sami@Roguelike@StageBoskyPassageEnter", "Sami@Roguelike@Stages#next"]
     },
     "Sami@Roguelike@StageVerticalCombatOps": {
+        "rectMove": [0, 0, 15, 35],
         "templThreshold": 0.9,
         "baseTask": "Roguelike@StageVertical",
         "next": [
@@ -868,6 +877,7 @@
         ]
     },
     "Sami@Roguelike@StageVerticalCombatOpsAI6": {
+        "rectMove": [0, 0, 15, 35],
         "templThreshold": 0.9,
         "baseTask": "Roguelike@StageVertical",
         "next": [
@@ -909,6 +919,7 @@
         "next": ["Sami@Roguelike@WaitForStartButtonClicked"]
     },
     "Sami@Roguelike@StageVerticalEmergencyOps": {
+        "rectMove": [0, 0, 15, 31],
         "templThreshold": 0.9,
         "baseTask": "Roguelike@StageVertical",
         "next": [
@@ -918,6 +929,7 @@
         ]
     },
     "Sami@Roguelike@StageVerticalEmergencyOpsAI6": {
+        "rectMove": [0, 0, 15, 31],
         "templThreshold": 0.9,
         "baseTask": "Roguelike@StageVertical",
         "next": [
