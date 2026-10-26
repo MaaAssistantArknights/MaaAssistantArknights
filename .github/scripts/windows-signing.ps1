@@ -29,35 +29,63 @@ if ($Operation -eq 'Prepare') {
     }
 }
 
-foreach ($name in $files) {
-    $sourceDirectory = if ($Operation -eq 'Prepare') { $InstallDirectory } else { $ArtifactDirectory }
-    $file = Get-Item -LiteralPath (Join-Path $sourceDirectory $name)
-    $metadata = $file.VersionInfo
-    if ($metadata.ProductName -cne 'MAA' -or $metadata.ProductVersion -cne $Version -or $metadata.OriginalFilename -cne $name) {
-        throw "Unexpected PE metadata in ${name}: product=$($metadata.ProductName), version=$($metadata.ProductVersion), original=$($metadata.OriginalFilename)"
-    }
-
-    if ($Operation -eq 'Prepare') {
-        Copy-Item -LiteralPath $file.FullName -Destination (Join-Path $ArtifactDirectory $name)
-        continue
-    }
-
-    $signature = Get-AuthenticodeSignature -LiteralPath $file.FullName
-    if ($null -eq $signature.SignerCertificate) {
-        throw "Missing Authenticode signature: $name"
-    }
-    if ($SigningPolicy -eq 'release-signing') {
-        if ($signature.Status -ne 'Valid' -or $null -eq $signature.TimeStamperCertificate -or $signature.SignerCertificate.GetNameInfo('SimpleName', $false) -cne 'SignPath Foundation') {
-            throw "Invalid release signature in ${name}: $($signature.Status)"
+$testStore = $null
+$temporaryTestCertificate = $null
+$testThumbprint = '3F14001D72B92689CA179B100A67BDA7124F3F6F'
+try {
+    if ($Operation -eq 'Verify' -and $SigningPolicy -eq 'test-signing') {
+        if ($env:GITHUB_ACTIONS -ne 'true') {
+            throw 'Test-certificate trust setup is restricted to disposable GitHub Actions runners.'
         }
-    } else {
-        # This self-signed certificate is only accepted in the unpublished CI smoke test.
-        $testThumbprint = '3F14001D72B92689CA179B100A67BDA7124F3F6F'
-        if ($signature.Status -notin 'Valid', 'NotTrusted' -or $signature.SignerCertificate.Thumbprint -ne $testThumbprint) {
-            throw "Invalid test signature in ${name}: $($signature.Status)"
+        $testCertificate = (Get-AuthenticodeSignature -LiteralPath (Join-Path $ArtifactDirectory $files[0])).SignerCertificate
+        if ($null -eq $testCertificate -or $testCertificate.Thumbprint -ne $testThumbprint) {
+            throw 'The signing artifact does not use the pinned SignPath test certificate.'
+        }
+        # Trust only the pinned public test certificate for the duration of verification.
+        # This avoids treating PowerShell's generic UnknownError as a valid signature.
+        $testStore = [System.Security.Cryptography.X509Certificates.X509Store]::new('Root', 'CurrentUser')
+        $testStore.Open('ReadWrite')
+        if ($testStore.Certificates.Find('FindByThumbprint', $testThumbprint, $false).Count -eq 0) {
+            $testStore.Add($testCertificate)
+            $temporaryTestCertificate = $testCertificate
         }
     }
-    Write-Host "$name signature verified: $($signature.SignerCertificate.Subject), $($signature.Status)"
+
+    foreach ($name in $files) {
+        $sourceDirectory = if ($Operation -eq 'Prepare') { $InstallDirectory } else { $ArtifactDirectory }
+        $file = Get-Item -LiteralPath (Join-Path $sourceDirectory $name)
+        $metadata = $file.VersionInfo
+        if ($metadata.ProductName -cne 'MAA' -or $metadata.ProductVersion -cne $Version -or $metadata.OriginalFilename -cne $name) {
+            throw "Unexpected PE metadata in ${name}: product=$($metadata.ProductName), version=$($metadata.ProductVersion), original=$($metadata.OriginalFilename)"
+        }
+
+        if ($Operation -eq 'Prepare') {
+            Copy-Item -LiteralPath $file.FullName -Destination (Join-Path $ArtifactDirectory $name)
+            continue
+        }
+
+        $signature = Get-AuthenticodeSignature -LiteralPath $file.FullName
+        if ($null -eq $signature.SignerCertificate) {
+            throw "Missing Authenticode signature: $name"
+        }
+        if ($SigningPolicy -eq 'release-signing') {
+            if ($signature.Status -ne 'Valid' -or $null -eq $signature.TimeStamperCertificate -or $signature.SignerCertificate.GetNameInfo('SimpleName', $false) -cne 'SignPath Foundation') {
+                throw "Invalid release signature in ${name}: $($signature.Status)"
+            }
+        } else {
+            if ($signature.Status -ne 'Valid' -or $signature.SignerCertificate.Thumbprint -ne $testThumbprint) {
+                throw "Invalid test signature in ${name}: $($signature.Status)"
+            }
+        }
+        Write-Host "$name signature verified: $($signature.SignerCertificate.Subject), $($signature.Status)"
+    }
+} finally {
+    if ($null -ne $testStore) {
+        if ($null -ne $temporaryTestCertificate) {
+            $testStore.Remove($temporaryTestCertificate)
+        }
+        $testStore.Close()
+    }
 }
 
 if ($Operation -eq 'Verify') {
