@@ -1867,7 +1867,7 @@ public class VersionUpdateDialogViewModel : Screen
         string fullText;
         if (downloading)
         {
-            string key = globalSource.Value ? "NewVersionFoundDescDownloadingWithGlobalSource" : "NewVersionFoundDescDownloadingWithMirrorChyan";
+            string key = globalSource.Value ? "Update.NewVersion.Found.DescDownloadingWithGlobalSource" : "Update.NewVersion.Found.DescDownloadingWithMirrorChyan";
             fullText = LocalizationHelper.GetString(key) + "\n" + output;
         }
         else

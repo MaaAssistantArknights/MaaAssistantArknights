@@ -103,7 +103,7 @@ public class SSSCopilotModel : CopilotBase
     private static string GetLocalizedToolmenName(string key)
     {
         return _nameToOperType.TryGetValue(key, out var operType)
-            ? LocalizationHelper.GetString(operType.ToString())
+            ? OperatorRoleLocalization.GetName(operType)
             : key;
     }
 

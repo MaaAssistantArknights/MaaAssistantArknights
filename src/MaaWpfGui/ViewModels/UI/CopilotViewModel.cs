@@ -840,8 +840,8 @@ public partial class CopilotViewModel : Screen
     } = ConfigFactory.CurrentConfig.Copilot.SupportMode;
 
     public LocalizedObservableList<CopilotSupportMode> SupportUnitUsageList { get; } = new(
-        (CopilotSupportMode.WhenNeeded, "SupportUnitUsage.WhenNeeded"),
-        (CopilotSupportMode.Random, "SupportUnitUsage.Random"));
+        (CopilotSupportMode.WhenNeeded, "Copilot.SupportUnitUsage.WhenNeeded"),
+        (CopilotSupportMode.Random, "Copilot.SupportUnitUsage.Random"));
 
     public enum CopilotSupportMode
     {

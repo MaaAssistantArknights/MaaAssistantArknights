@@ -98,7 +98,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         .SelectMany(group => group.Select(oper => new OperItem(oper.Id, oper.Role, oper.Name!, DataHelper.GetLocalizedCharacterName(oper) ?? oper.Name!, oper.Rarity, group.Count() > 1)).Distinct())
         .OrderByDescending(entry => entry.Rarity)
         .ThenBy(entry => entry.NameDisplay, StringComparer.CurrentCultureIgnoreCase)
-        .Select(oper => new GenericCombinedData<OperItem>($"{oper.NameDisplay}{(oper.HasSameRoleOpers ? "-" + LocalizationHelper.GetString(oper.Role.ToString()) : string.Empty)}",  oper))];
+        .Select(oper => new GenericCombinedData<OperItem>($"{oper.NameDisplay}{(oper.HasSameRoleOpers ? "-" + OperatorRoleLocalization.GetName(oper.Role) : string.Empty)}",  oper))];
 
     public OperItem? OperSelect { get; set => SetAndNotify(ref field, value); }
 
@@ -395,13 +395,27 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                         task.Plans = [.. list];
                     }
                     var status = msg.Details?["result"]?.ToString() ?? string.Empty;
+                    var statusKey = status switch
+                    {
+                        "OperProgressElite" => "Operator.Progress.Elite",
+                        "OperProgressSkillUpgrade" => "Operator.Progress.SkillUpgrade",
+                        "OperProgressMastery1" => "Operator.Progress.Mastery1",
+                        "OperProgressMastery2" => "Operator.Progress.Mastery2",
+                        "OperProgressMastery3" => "Operator.Progress.Mastery3",
+                        _ => null,
+                    };
+                    if (statusKey is null)
+                    {
+                        _logger.Error("Unknown operator progress result: {Result}", status);
+                    }
+
                     var operName = DataHelper.GetLocalizedCharacterName(callback.Name) ?? callback.Name;
                     Instances.TaskQueueViewModel.AddLog(
                         LocalizationHelper.GetStringFormat(
                             "Operator.Progress.Detail",
                             list.IndexOf(plan) + 1,
                             operName,
-                            LocalizationHelper.GetStringFormat(status)) + BuildTargetCallbackDescription(callback),
+                            statusKey is null ? status : LocalizationHelper.GetString(statusKey)) + BuildTargetCallbackDescription(callback),
                         UiLogColor.Info);
 
                     break;
@@ -478,8 +492,8 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
     ];
 
     public static LocalizedObservableList<int> SpecializationSkillLevelList { get; } = new(
-        (0, "OperProgressNotSet"),
-        (1, "OperProgressMastery1"),
-        (2, "OperProgressMastery2"),
-        (3, "OperProgressMastery3"));
+        (0, "Operator.Progress.NotSet"),
+        (1, "Operator.Progress.Mastery1"),
+        (2, "Operator.Progress.Mastery2"),
+        (3, "Operator.Progress.Mastery3"));
 }

@@ -21,7 +21,7 @@ public class InfrastRoomItemViewModel(InfrastRoomType roomType, bool isEnabled) 
 {
     public InfrastRoomType RoomType { get; init; } = roomType;
 
-    public string Name => LocalizationHelper.GetString(RoomType.ToString());
+    public string Name => InfrastructureRoomLocalization.GetName(RoomType);
 
     private bool _isEnabled = isEnabled;
 

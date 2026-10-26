@@ -57,12 +57,12 @@ public class GameSettingsUserControlModel : PropertyChangedBase
     /// Gets the list of the client types.
     /// </summary>
     public LocalizedObservableList<ClientType> ClientTypeList { get; } = new(
-        (ClientType.Official, "Official"),
-        (ClientType.Bilibili, "Bilibili"),
-        (ClientType.EN, "YoStarEN"),
-        (ClientType.JP, "YoStarJP"),
-        (ClientType.KR, "YoStarKR"),
-        (ClientType.Txwy, "Txwy"));
+        (ClientType.Official, "Connection.Client.Official"),
+        (ClientType.Bilibili, "Connection.Client.Bilibili"),
+        (ClientType.EN, "Connection.Client.YoStarEN"),
+        (ClientType.JP, "Connection.Client.YoStarJP"),
+        (ClientType.KR, "Connection.Client.YoStarKR"),
+        (ClientType.Txwy, "Connection.Client.Txwy"));
 
     private ClientType _clientType = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ClientType;
 
@@ -192,14 +192,21 @@ public class GameSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
-        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.StartTask") + LocalizationHelper.GetString(str));
+        var scriptKey = str switch
+        {
+            "StartsWithScript" => "TaskQueue.Script.StartsWith",
+            "EndsWithScript" => "TaskQueue.Script.EndsWith",
+            _ => throw new ArgumentOutOfRangeException(nameof(str), str, "Unknown script phase"),
+        };
+
+        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.StartTask") + LocalizationHelper.GetString(scriptKey));
         if (func())
         {
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.CompleteTask") + LocalizationHelper.GetString(str));
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.CompleteTask") + LocalizationHelper.GetString(scriptKey));
         }
         else
         {
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.TaskError") + LocalizationHelper.GetString(str), UiLogColor.Warning);
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.TaskError") + LocalizationHelper.GetString(scriptKey), UiLogColor.Warning);
         }
     }
 

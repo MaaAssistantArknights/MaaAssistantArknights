@@ -231,9 +231,9 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     /// Gets the list of the version type.
     /// </summary>
     public LocalizedObservableList<UpdateVersionType> AllVersionTypeList { get; } = new(
-        (UpdateVersionType.Nightly, "UpdateCheckNightly"),
-        (UpdateVersionType.Beta, "UpdateCheckBeta"),
-        (UpdateVersionType.Stable, "UpdateCheckStable"));
+        (UpdateVersionType.Nightly, "Update.CheckNightly"),
+        (UpdateVersionType.Beta, "Update.CheckBeta"),
+        (UpdateVersionType.Stable, "Update.CheckStable"));
 
     public List<GenericCombinedData<UpdateVersionType>> VersionTypeList
     {
@@ -251,8 +251,8 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     } = ConfigFactory.Root.Update.HasAcknowledgedNightlyWarning;
 
     public LocalizedObservableList<UpdateSource> UpdateSourceList { get; } = new(
-        (UpdateSource.GitHub, "GlobalSource"),
-        (UpdateSource.MirrorChyan, "MirrorChyan"));
+        (UpdateSource.GitHub, "Update.GlobalSource"),
+        (UpdateSource.MirrorChyan, "Update.MirrorChyan"));
 
     /// <summary>
     /// Gets or sets the type of version to update.

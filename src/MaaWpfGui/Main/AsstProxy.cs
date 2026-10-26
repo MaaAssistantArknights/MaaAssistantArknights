@@ -100,7 +100,7 @@ public class AsstProxy
         }
 
         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Infrastructure.ThisFacility") +
-                                            LocalizationHelper.GetString(facility) + " " + displayIndex.ToString("D2"),
+                                            InfrastructureRoomLocalization.GetCoreFacilityName(facility) + " " + displayIndex.ToString("D2"),
                                             splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
         Instances.TaskQueueViewModel.AddLog(reasonText);
 
@@ -773,11 +773,11 @@ public class AsstProxy
                 if (runDirectly || openConnectionTarget)
                 {
                     string tipKey = (runDirectly, openConnectionTarget, isPcConnection) switch {
-                        (true, true, true) => "StartupAutoRunCountdownTaskAndPcClient",
-                        (true, true, false) => "StartupAutoRunCountdownTaskAndEmulator",
-                        (true, false, _) => "StartupAutoRunCountdownTaskOnly",
-                        (_, _, true) => "StartupAutoRunCountdownPcClientOnly",
-                        _ => "StartupAutoRunCountdownEmulatorOnly",
+                        (true, true, true) => "Startup.AutoRunCountdownTaskAndPcClient",
+                        (true, true, false) => "Startup.AutoRunCountdownTaskAndEmulator",
+                        (true, false, _) => "Startup.AutoRunCountdownTaskOnly",
+                        (_, _, true) => "Startup.AutoRunCountdownPcClientOnly",
+                        _ => "Startup.AutoRunCountdownEmulatorOnly",
                     };
 
                     if (await Instances.TaskQueueViewModel.ConfirmStartupAutoRunAsync(
@@ -1439,7 +1439,7 @@ public class AsstProxy
 
                     // details.details.error 为 Core 侧 TaskExceptionKind 名，普通识别错误无此字段
                     var exceptionKind = details["details"]?["error"]?.ToString();
-                    var localizedTaskChain = LocalizationHelper.GetString(taskChain);
+                    var localizedTaskChain = GetTaskChainName(taskChain);
                     if (exceptionKind == "GpuDeviceRemoved")
                     {
                         Bootstrapper.MarkRequiresRestart();
@@ -1477,7 +1477,7 @@ public class AsstProxy
                     var task = taskIndex >= 0 && taskIndex < ConfigFactory.CurrentConfig.TaskQueue.Count
                         ? ConfigFactory.CurrentConfig.TaskQueue[taskIndex]
                         : null;
-                    var taskName = task?.NameOrTaskType ?? $"({LocalizationHelper.GetString(taskChain)})";
+                    var taskName = task?.NameOrTaskType ?? $"({GetTaskChainName(taskChain)})";
                     taskName += GetMultiChainTaskNameSuffix(task, taskChain, taskId);
                     Instances.TaskQueueViewModel.AddLogSection(LocalizationHelper.GetString("TaskQueue.StartTask") + taskName, decoratePlainText: false);
                     _logger.Information("Start Task Chain: {TaskChain}, Task ID: {TaskId}", taskChain, taskId);
@@ -1515,7 +1515,7 @@ public class AsstProxy
                             }
                     }
 
-                    var taskName = task?.NameOrTaskType ?? $"({LocalizationHelper.GetString(taskChain)})";
+                    var taskName = task?.NameOrTaskType ?? $"({GetTaskChainName(taskChain)})";
                     taskName += GetMultiChainTaskNameSuffix(task, taskChain, taskId);
                     completionLog += taskName + taskTimeLog;
                     if (taskChain == "Fight" && FightSetting.SanityReport is not null)
@@ -1670,7 +1670,7 @@ public class AsstProxy
                 }
                 else if (runOwner == RunOwner.Copilot)
                 {
-                    var message = LocalizationHelper.GetString("TaskQueue.CompleteTask") + LocalizationHelper.GetString(taskChain);
+                    var message = LocalizationHelper.GetString("TaskQueue.CompleteTask") + GetTaskChainName(taskChain);
                     Instances.NotificationService.Notify(NotificationSource.Copilot, new(NotificationKind.TaskComplete, message, message));
                 }
 
@@ -1727,11 +1727,58 @@ public class AsstProxy
     /// 库存保持与更新用户数据在一个任务项里拼接多条独立任务链，默认日志任务名全部相同，需按链区分：
     /// 更新用户数据按链型追加半角括号功能名；库存保持 plan 链按 taskId 反查 PlanList 追加 " #N"、识别仓库链追加功能名，其余任务返回空串。
     /// </summary>
+    private static string GetTaskChainName(string taskChain)
+    {
+        if (taskChain == "SSSCopilot")
+        {
+            return LocalizationHelper.GetString("Copilot.SSSCopilot");
+        }
+
+        if (taskChain == "VideoRecognition")
+        {
+            return LocalizationHelper.GetString("Video.Recognition");
+        }
+
+        if (Enum.TryParse<TaskType>(taskChain, out var taskType) && Enum.IsDefined(taskType))
+        {
+            return TaskTypeLocalization.GetName(taskType);
+        }
+
+        _logger.Error("Unknown core task chain localization identifier: {TaskChain}", taskChain);
+        return $"{{{{ {taskChain} }}}}";
+    }
+
+    private static string GetCopilotActionName(string action) => action switch
+    {
+        "BulletTime" => LocalizationHelper.GetString("Copilot.Action.BulletTime"),
+        "Click" => LocalizationHelper.GetString("Copilot.Action.Click"),
+        "Deploy" => LocalizationHelper.GetString("Copilot.Action.Deploy"),
+        "DrawCard" => LocalizationHelper.GetString("Copilot.Action.DrawCard"),
+        "MoveCamera" => LocalizationHelper.GetString("Copilot.Action.MoveCamera"),
+        "Output" => LocalizationHelper.GetString("Copilot.Action.Output"),
+        "ResetStopwatch" => LocalizationHelper.GetString("Copilot.Action.ResetStopwatch"),
+        "Retreat" => LocalizationHelper.GetString("Copilot.Action.Retreat"),
+        "SetUnitLocation" => LocalizationHelper.GetString("Copilot.Action.SetUnitLocation"),
+        "SingleStep" => LocalizationHelper.GetString("Copilot.Action.SingleStep"),
+        "SkillDaemon" => LocalizationHelper.GetString("Copilot.Action.SkillDaemon"),
+        "SkillUsage" => LocalizationHelper.GetString("Copilot.Action.SkillUsage"),
+        "Swipe" => LocalizationHelper.GetString("Copilot.Action.Swipe"),
+        "SwitchSpeed" => LocalizationHelper.GetString("Copilot.Action.SwitchSpeed"),
+        "UseSkill" => LocalizationHelper.GetString("Copilot.Action.UseSkill"),
+        _ => ReportUnknownCopilotAction(action),
+    };
+
+    private static string ReportUnknownCopilotAction(string action)
+    {
+        _logger.Error("Unknown core copilot action localization identifier: {Action}", action);
+        return $"{{{{ {action} }}}}";
+    }
+
     private static string GetMultiChainTaskNameSuffix(BaseTask? task, string taskChain, int taskId)
     {
         if (task is UserDataUpdateTask)
         {
-            return taskChain is "OperBox" or "Depot" ? $" ({LocalizationHelper.GetString(taskChain)})" : string.Empty;
+            return taskChain is "OperBox" or "Depot" ? $" ({GetTaskChainName(taskChain)})" : string.Empty;
         }
 
         if (task is not DepotMaintainTask depot)
@@ -2395,7 +2442,7 @@ public class AsstProxy
 
             case "EnterFacility":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Infrastructure.ThisFacility") +
-                                                    LocalizationHelper.GetString($"{subTaskDetails?["facility"]}") + " " +
+                                                    InfrastructureRoomLocalization.GetCoreFacilityName($"{subTaskDetails?["facility"]}") + " " +
                                                     ((int)(subTaskDetails?["index"] ?? -2) + 1).ToString("D2"),
                                                     splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
                 _lastFacilityCardKey = $"{subTaskDetails?["facility"]}#{(int)(subTaskDetails?["index"] ?? -2) + 1}";
@@ -2543,7 +2590,7 @@ public class AsstProxy
             case "RecruitNoPermit":
                 {
                     bool continueRefresh = (bool)subTaskDetails!["continue"]!;
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString(continueRefresh ? "ContinueRefresh" : "NoRecruitmentPermit"));
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString(continueRefresh ? "Recruitment.ContinueRefresh" : "Recruitment.NoRecruitmentPermit"));
                     break;
                 }
 
@@ -2687,7 +2734,7 @@ public class AsstProxy
                     Instances.CopilotViewModel.AddLog(
                         LocalizationHelper.GetStringFormat(
                             "TaskQueue.CurrentSteps",
-                            LocalizationHelper.GetString(actionString),
+                            GetCopilotActionName(actionString),
                             DataHelper.GetLocalizedCharacterName(target) ?? target));
 
                     var elapsed_time_str = subTaskDetails!["elapsed_time"]?.ToString();
@@ -2789,9 +2836,9 @@ public class AsstProxy
                             ? excluded
                             : (subTaskDetails["candidates"] as JArray ?? [])
                                 .Select(name => DataHelper.GetLocalizedCharacterName(name.ToString()) ?? name.ToString()));
-                    var key = workingExcluded is { Count: > 0 } ? "InfrastAssistantWorkingExcluded"
-                        : lowMoodExcluded is { Count: > 0 } ? "InfrastAssistantLowMood"
-                        : "InfrastAssistantNotFound";
+                    var key = workingExcluded is { Count: > 0 } ? "Infrastructure.AssistantWorkingExcluded"
+                        : lowMoodExcluded is { Count: > 0 } ? "Infrastructure.AssistantLowMood"
+                        : "Infrastructure.AssistantNotFound";
                     Instances.TaskQueueViewModel.AddLog(
                         LocalizationHelper.GetStringFormat(key, names), UiLogColor.Warning);
                     break;
@@ -2805,7 +2852,7 @@ public class AsstProxy
                     if (keptReason == "facility_empty")
                     {
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Infrastructure.ThisFacility") +
-                                                            LocalizationHelper.GetString($"{subTaskDetails?["facility"]}"),
+                                                            InfrastructureRoomLocalization.GetCoreFacilityName($"{subTaskDetails?["facility"]}"),
                                                             splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Infrastructure.FacilityKeptUnchanged"));
                     }
@@ -2815,10 +2862,10 @@ public class AsstProxy
                         // 其余 reason（空意图等）为房间无选人意图的通用保持原样；
                         // 设施卡片已存在时原因行直接追加，不另起新卡
                         var reasonKey = keptReason switch {
-                            "candidates_working" => "InfrastCandidatesWorking",
-                            "candidates_low_mood" => "InfrastCandidatesLowMood",
-                            "candidates_unavailable" => "InfrastCandidatesUnavailable",
-                            _ => "InfrastRoomKeptUnchanged",
+                            "candidates_working" => "Infrastructure.CandidatesWorking",
+                            "candidates_low_mood" => "Infrastructure.CandidatesLowMood",
+                            "candidates_unavailable" => "Infrastructure.CandidatesUnavailable",
+                            _ => "Infrastructure.RoomKeptUnchanged",
                         };
                         AddFacilityReasonLog(
                             $"{subTaskDetails?["facility"]}",
@@ -2950,7 +2997,7 @@ public class AsstProxy
                     bool hasPotential = subTaskDetails?["has_potential"]?.ToObject<bool>() ?? false;
                     Instances.TaskQueueViewModel.AddLog(
                         LocalizationHelper.GetStringFormat(
-                            hasPotential ? "MiniGame@AutoRaisePotential@PotentialFoundLog" : "MiniGame@AutoRaisePotential@NoPotentialLog",
+                            hasPotential ? "Toolbox.MiniGame.AutoRaisePotential.PotentialFoundLog" : "Toolbox.MiniGame.AutoRaisePotential.NoPotentialLog",
                             current,
                             total),
                         hasPotential ? UiLogColor.Success : UiLogColor.Trace);
@@ -2985,8 +3032,8 @@ public class AsstProxy
             case "MaterialSynthesisIngredientUnavailable":
                 {
                     var localizationKey = what == "MaterialSynthesisIngredient"
-                        ? "MiniGame@MaterialSynthesis@IngredientLog"
-                        : "MiniGame@MaterialSynthesis@IngredientUnavailableLog";
+                        ? "Toolbox.MiniGame.MaterialSynthesis.IngredientLog"
+                        : "Toolbox.MiniGame.MaterialSynthesis.IngredientUnavailableLog";
                     Instances.TaskQueueViewModel.AddLog(
                         LocalizationHelper.GetStringFormat(
                             localizationKey,
@@ -3027,11 +3074,11 @@ public class AsstProxy
                 {
                     var result = details?["result"]?.ToString() ?? string.Empty;
                     var reasonKey = result switch {
-                        "insufficient_resources" => "MiniGame@MaterialSynthesis@InsufficientResources",
-                        "operator_unavailable" => "MiniGame@MaterialSynthesis@OperatorUnavailable",
-                        "unsupported" => "MiniGame@MaterialSynthesis@Unsupported",
-                        "navigation_failed" => "MiniGame@MaterialSynthesis@NavigationFailed",
-                        _ => "MiniGame@MaterialSynthesis@UnknownFailure",
+                        "insufficient_resources" => "Toolbox.MiniGame.MaterialSynthesis.InsufficientResources",
+                        "operator_unavailable" => "Toolbox.MiniGame.MaterialSynthesis.OperatorUnavailable",
+                        "unsupported" => "Toolbox.MiniGame.MaterialSynthesis.Unsupported",
+                        "navigation_failed" => "Toolbox.MiniGame.MaterialSynthesis.NavigationFailed",
+                        _ => "Toolbox.MiniGame.MaterialSynthesis.UnknownFailure",
                     };
                     Instances.TaskQueueViewModel.AddLog(
                         LocalizationHelper.GetStringFormat(
@@ -3091,8 +3138,8 @@ public class AsstProxy
         }
 
         string? reportTargetKey = subTask switch {
-            "ReportToPenguinStats" => "ThirdPartyGroupPenguin",
-            "ReportToYituliu" => "ThirdPartyGroupYituliu",
+            "ReportToPenguinStats" => "PenguinStats.ThirdPartyGroupPenguin",
+            "ReportToYituliu" => "Operator.ThirdPartyGroupYituliu",
             _ => null,
         };
         if (SettingsViewModel.ConnectSettings.IsPCConnectConfig && reportTargetKey is not null)

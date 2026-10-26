@@ -32,48 +32,18 @@ EXTERNAL_DYNAMIC_RESOURCES = frozenset(
 CALL = re.compile(
     r'LocalizationHelper\.(?:GetString|GetRawString|TryGetString|GetStringFormat|HasTranslation)\(\s*"([^"\n]+)"'
 )
+CANONICAL_LITERAL = re.compile(r'"([A-Z][A-Za-z0-9]*(?:\.[A-Za-z0-9_+\-]+)+)"')
+LOCALIZED_LIST = re.compile(
+    r"LocalizedObservableList<[^>]+>\s+\w+(?:\s*\{\s*get;\s*\})?\s*=\s*new\((.*?)\);", re.S
+)
+LOCALIZED_LIST_FACTORY = re.compile(
+    r"LocalizedObservableList<[^>]+>\s+\w+\(\)\s*=>\s*new\((.*?)\);", re.S
+)
+LOCALIZED_TUPLE_ARRAY = re.compile(
+    r"\(string\s+\w+,\s*string\s+LocalizationKey\)\[\]\s+\w+\s*=\s*\[(.*?)\];", re.S
+)
 WPF_RESOURCE_CALL = re.compile(
     r'(?:SetResourceReference\(\s*[^,]+,\s*|Application\.Current\.Resources\[\s*|(?:Try)?FindResource\(\s*)"([^"\n]+)"'
-)
-# Families with a single semantic owner. Match the old key because runtime data
-# can still send that key, while the map points to its current catalog entry.
-LEGACY_OWNER_RULES = (
-    (re.compile(r"^AccountSwitch"), "TaskQueue"),
-    (re.compile(r"^AdditionCommand"), "Connection"),
-    (re.compile(r"^Adb"), "Connection"),
-    (re.compile(r"^Algorithm"), "Reclamation"),
-    (re.compile(r"^AutoRecruit"), "Recruitment"),
-    (re.compile(r"^BackgroundLink"), "Hotkey"),
-    (re.compile(r"^BlackFlow"), "Roguelike"),
-    (re.compile(r"^Bosky"), "Roguelike"),
-    (re.compile(r"^Credit"), "Mall"),
-    (re.compile(r"^DeepExploration"), "Roguelike"),
-    (re.compile(r"^EndsWithScript"), "TaskQueue"),
-    (re.compile(r"^Executable$"), "Startup"),
-    (re.compile(r"^ExternalNotification"), "ExternalNotification"),
-    (re.compile(r"^Infrast(?=[A-Z])"), "Infrastructure"),
-    (re.compile(r"^(?:LeftClick|RightClick|TaskSettings)$"), "Guide"),
-    (re.compile(r"^Ld"), "Connection"),
-    (re.compile(r"^MirrorChyan"), "Update"),
-    (re.compile(r"^ManualStopWithScript"), "TaskQueue"),
-    (re.compile(r"^MuMu|^Mumu"), "Connection"),
-    (re.compile(r"^NewVersion"), "Update"),
-    (re.compile(r"^OperBox"), "Operator"),
-    (re.compile(r"^Penguin"), "PenguinStats"),
-    (re.compile(r"^Roguelike(?=[A-Z0-9])"), "Roguelike"),
-    (re.compile(r"^StartsWithScript"), "TaskQueue"),
-    (re.compile(r"^(?:SwitchLanguage|HideTray)$"), "Tray"),
-    (re.compile(r"^Test$"), "Connection"),
-    (re.compile(r"^UserDataUpdate"), "TaskQueue"),
-    (re.compile(r"^HelpUsWithOverseasServersTip$"), "Connection"),
-    (re.compile(r"^WindowUpdateInfo"), "Update"),
-    (re.compile(r"^Yituliu"), "Operator"),
-)
-LEGACY_PAIR_SUFFIXES = ("Tooltip", "ToolTip", "Tips", "Tip", "Desc", "Title", "Warning")
-# These old names are homonyms for a different feature or describe the whole
-# feature rather than the old base key.
-LEGACY_PAIR_EXCEPTIONS = frozenset(
-    {"CopilotTip", "GachaWarning", "PeepTip", "RecruitingTips", "SwitchThemeTip"}
 )
 # Task control files are discovered from these directories. Their file stems
 # define feature boundaries. Common.* is shared UI vocabulary; other
@@ -126,6 +96,13 @@ TASK_CONTROL_SHARED: dict[str, frozenset[str]] = {
     "InfrastTaskUserControl": frozenset(
         {
             "Appearance.LabelSequence.Tip",
+            # Drone output names are shared with the existing inventory labels.
+            "Combat.Record",
+            "Settings.Chip",
+            "Settings.Money",
+            "Settings.OriginStone",
+            "Settings.PureGold",
+            "Settings.SyntheticJade",
             "TaskQueue.WeeklySchedule.Enabled",
             "TaskQueue.WeeklySchedule.Enabled.Tip",
         }
@@ -225,56 +202,9 @@ def check() -> list[str]:
             if nested not in catalog_keys:
                 failures.append(f"{path}: {key} references missing inline key {nested}")
 
-    legacy_path = CATALOG / "legacy-key-map.tsv"
-    old_keys: set[str] = set()
-    old_to_new: dict[str, str] = {}
-    old_lines: dict[str, int] = {}
-    for number, row in enumerate(
-        legacy_path.read_text(encoding="utf-8").splitlines(), 1
-    ):
-        if row.startswith("#"):
-            continue
-        fields = row.split("\t")
-        if len(fields) != 2 or not all(fields):
-            failures.append(f"{legacy_path}:{number}: expected old<TAB>new")
-            continue
-        old, new = fields
-        if old in old_keys:
-            failures.append(f"{legacy_path}:{number}: duplicate legacy key {old}")
-        old_keys.add(old)
-        old_to_new[old] = new
-        old_lines[old] = number
-        if old == new or new not in catalog_keys:
-            failures.append(
-                f"{legacy_path}:{number}: invalid legacy mapping {old} -> {new}"
-            )
-        if old in catalog_keys:
-            failures.append(
-                f"{legacy_path}:{number}: legacy key also exists in the catalog: {old}"
-            )
-        for pattern, owner in LEGACY_OWNER_RULES:
-            if pattern.match(old) and new.split(".", 1)[0] != owner:
-                failures.append(
-                    f"{legacy_path}:{number}: {old} belongs to {owner}, mapped to {new}"
-                )
-                break
-
-    for old, new in old_to_new.items():
-        if old in LEGACY_PAIR_EXCEPTIONS:
-            continue
-        for suffix in LEGACY_PAIR_SUFFIXES:
-            if not old.endswith(suffix):
-                continue
-            base = old[: -len(suffix)]
-            if base in old_to_new and not new.startswith(old_to_new[base] + "."):
-                failures.append(
-                    f"{legacy_path}:{old_lines[old]}: {old} should be grouped under "
-                    f"{old_to_new[base]}, mapped to {new}"
-                )
-            break
-
     # Resource references can also address brushes and styles in other dictionaries.
     other_resources: set[str] = set()
+    domains = {key.split(".", 1)[0] for key in catalog_keys}
     for path in GUI.rglob("*.xaml"):
         if (
             path.parent != CATALOG
@@ -284,7 +214,6 @@ def check() -> list[str]:
             other_resources.update(
                 re.findall(r'x:Key="([^"]+)"', path.read_text(encoding="utf-8-sig"))
             )
-    domains = {key.split(".", 1)[0] for key in catalog_keys}
     for path in GUI.rglob("*.xaml"):
         if path.parent == CATALOG or "obj" in path.parts or "bin" in path.parts:
             continue
@@ -307,9 +236,9 @@ def check() -> list[str]:
                 )
                 continue
             if (
-                (key.split(".", 1)[0] in domains or key in old_keys)
-                and key not in catalog_keys
+                key.split(".", 1)[0] in domains
                 and key not in other_resources
+                and key not in EXTERNAL_DYNAMIC_RESOURCES
             ):
                 failures.append(f"{path}: missing localized {kind} {key}")
 
@@ -319,20 +248,59 @@ def check() -> list[str]:
         source = re.sub(
             r"/\*.*?\*/", "", path.read_text(encoding="utf-8-sig"), flags=re.S
         )
-        for key in CALL.findall(source):
+        call_keys = CALL.findall(source)
+        wpf_keys = WPF_RESOURCE_CALL.findall(source)
+        initializers = (
+            LOCALIZED_LIST.findall(source)
+            + LOCALIZED_LIST_FACTORY.findall(source)
+            + LOCALIZED_TUPLE_ARRAY.findall(source)
+        )
+        for initializer in initializers:
+            for entry in re.findall(r"\(([^()]*)\)", initializer):
+                fields = entry.split(",", 1)
+                if len(fields) < 2:
+                    continue
+                for key in re.findall(r'"([^"\n]+)"', fields[1]):
+                    ownership_failure = check_task_control_owner(path, key, catalog_keys)
+                    if ownership_failure:
+                        failures.append(ownership_failure)
+                    if key not in catalog_keys and (
+                        "." in key
+                        or (
+                            re.fullmatch(r"[A-Z][A-Za-z0-9-]*", key)
+                            and key != "AUTO"
+                        )
+                    ):
+                        failures.append(f"{path}: localized list references missing key {key}")
+        for key in (
+            set(CANONICAL_LITERAL.findall(source)) - set(call_keys) - set(wpf_keys)
+            if "LocalizationHelper." in source
+            else set()
+        ):
+            ownership_failure = check_task_control_owner(path, key, catalog_keys)
+            if ownership_failure:
+                failures.append(ownership_failure)
+            if (
+                key.split(".", 1)[0] in domains
+                and not key.endswith((".cs", ".xaml", ".json", ".tsv"))
+                and key not in catalog_keys
+                and key not in other_resources
+            ):
+                failures.append(f"{path}: missing canonical key literal {key}")
+        for key in call_keys:
             ownership_failure = check_task_control_owner(path, key, catalog_keys)
             if ownership_failure:
                 failures.append(ownership_failure)
             if key not in catalog_keys:
                 failures.append(f"{path}: missing localized call key {key}")
-        for key in WPF_RESOURCE_CALL.findall(source):
+        for key in wpf_keys:
             ownership_failure = check_task_control_owner(path, key, catalog_keys)
             if ownership_failure:
                 failures.append(ownership_failure)
             if (
-                (key.split(".", 1)[0] in domains or key in old_keys)
-                and key not in catalog_keys
+                key not in catalog_keys
                 and key not in other_resources
+                and key not in EXTERNAL_DYNAMIC_RESOURCES
             ):
                 failures.append(f"{path}: missing WPF resource key {key}")
     return failures
@@ -344,7 +312,7 @@ def main() -> int:
         for failure in failures:
             print(f"::error::{failure}")
         return 1
-    print("localization catalog, ordering, mapping and static references valid")
+    print("localization catalog, ordering and static references valid")
     return 0
 
 

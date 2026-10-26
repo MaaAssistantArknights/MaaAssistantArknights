@@ -94,7 +94,7 @@ public class OperProgressPlanItemViewModel : PropertyChangedBase
 
     public OperatorRole Role { get; set => SetAndNotify(ref field, value); }
 
-    public string RoleString => LocalizationHelper.GetString(Role.ToString());
+    public string RoleString => OperatorRoleLocalization.GetName(Role);
 
     public string Name { get; set => SetAndNotify(ref field, value); }
 

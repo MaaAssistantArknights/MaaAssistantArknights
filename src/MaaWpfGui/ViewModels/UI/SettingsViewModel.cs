@@ -233,7 +233,7 @@ public class SettingsViewModel : Screen
 
         foreach (var (i, key) in orderList.Select((key, index) => (index, key)))
         {
-            var item = new SettingItemViewModel(key.ToString(), LocalizationHelper.GetString(key.ToString()), i);
+            var item = new SettingItemViewModel(key.ToString(), GetSettingDisplayName(key), i);
             tempOrderList.Add(item);
         }
 
@@ -248,9 +248,29 @@ public class SettingsViewModel : Screen
     {
         foreach (var item in Settings)
         {
-            item.Display = LocalizationHelper.GetString(item.Key);
+            item.Display = GetSettingDisplayName(Enum.Parse<SettingKey>(item.Key));
         }
     }
+
+    private static string GetSettingDisplayName(SettingKey key) => key switch
+    {
+        SettingKey.SwitchConfiguration => LocalizationHelper.GetString("Settings.SwitchConfiguration"),
+        SettingKey.ScheduleSettings => LocalizationHelper.GetString("Schedule.Settings"),
+        SettingKey.PerformanceSettings => LocalizationHelper.GetString("Settings.Performance"),
+        SettingKey.GameSettings => LocalizationHelper.GetString("Settings.Game"),
+        SettingKey.ConnectionSettings => LocalizationHelper.GetString("Settings.Connection"),
+        SettingKey.StartupSettings => LocalizationHelper.GetString("Startup.Settings"),
+        SettingKey.RemoteControlSettings => LocalizationHelper.GetString("RemoteControl.Settings"),
+        SettingKey.UiSettings => LocalizationHelper.GetString("Appearance.Settings"),
+        SettingKey.NotificationSettings => LocalizationHelper.GetString("Notification.Settings"),
+        SettingKey.ThirdPartyServiceSettings => LocalizationHelper.GetString("Settings.ThirdPartyServiceSettings"),
+        SettingKey.HotKeySettings => LocalizationHelper.GetString("Hotkey.Settings"),
+        SettingKey.AchievementSettings => LocalizationHelper.GetString("Achievement.Settings"),
+        SettingKey.UpdateSettings => LocalizationHelper.GetString("Update.Settings"),
+        SettingKey.IssueReport => LocalizationHelper.GetString("IssueReport.Title"),
+        SettingKey.AboutUs => LocalizationHelper.GetString("About.Title"),
+        _ => throw new ArgumentOutOfRangeException(nameof(key), key, "Unknown settings page"),
+    };
 
     private void Settings_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs? e)
     {
@@ -863,7 +883,7 @@ public class SettingsViewModel : Screen
         }
 
         GuideDemoTasks.Clear();
-        foreach (var key in new[] { "Fight", "Infrast", "Award" })
+        foreach (var key in new[] { "TaskQueue.Fight", "TaskQueue.Infrast", "TaskQueue.Award" })
         {
             GuideDemoTasks.Add(new GuideDemoTaskItem { LocalizationKey = key });
         }
@@ -893,9 +913,8 @@ public class SettingsViewModel : Screen
             return;
         }
 
-        // 任务类型资源 key 与类型名同构（XxxTask → Xxx）
-        var key = taskType.Name.EndsWith("Task", StringComparison.Ordinal) ? taskType.Name[..^"Task".Length] : taskType.Name;
-        GuideDemoTasks.Add(new GuideDemoTaskItem { LocalizationKey = key });
+        var task = TaskQueueViewModel.TaskTypeList.First(item => item.Value == taskType);
+        GuideDemoTasks.Add(new GuideDemoTaskItem { LocalizationKey = task.LocalizationKey });
         GuideDemoTaskAdded = true;
     }
 

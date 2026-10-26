@@ -81,18 +81,18 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
 
     private static readonly (string Value, string LocalizationKey)[] _fiammettaTargetEntries =
     [
-        ("清流", "InfrastFiammettaTargetPurestream"),
-        ("可露希尔", "InfrastFiammettaTargetClosure"),
-        ("但书", "InfrastFiammettaTargetProviso"),
-        ("巫恋", "InfrastFiammettaTargetShamare"),
-        ("龙舌兰", "InfrastFiammettaTargetTequila"),
-        ("歌蕾蒂娅", "InfrastFiammettaTargetGladiia"),
-        ("琴柳", "InfrastFiammettaTargetSaileach"),
-        ("承曦格雷伊", "InfrastFiammettaTargetGreyy2"),
-        ("温蒂", "InfrastFiammettaTargetWeedy"),
-        ("槐琥", "InfrastFiammettaTargetWaaiFu"),
-        ("至简", "InfrastFiammettaTargetMinimalist"),
-        ("旅骨", "InfrastFiammettaTargetHbound"),
+        ("清流", "Infrastructure.FiammettaTargetPurestream"),
+        ("可露希尔", "Infrastructure.FiammettaTargetClosure"),
+        ("但书", "Infrastructure.FiammettaTargetProviso"),
+        ("巫恋", "Infrastructure.FiammettaTargetShamare"),
+        ("龙舌兰", "Infrastructure.FiammettaTargetTequila"),
+        ("歌蕾蒂娅", "Infrastructure.FiammettaTargetGladiia"),
+        ("琴柳", "Infrastructure.FiammettaTargetSaileach"),
+        ("承曦格雷伊", "Infrastructure.FiammettaTargetGreyy2"),
+        ("温蒂", "Infrastructure.FiammettaTargetWeedy"),
+        ("槐琥", "Infrastructure.FiammettaTargetWaaiFu"),
+        ("至简", "Infrastructure.FiammettaTargetMinimalist"),
+        ("旅骨", "Infrastructure.FiammettaTargetHbound"),
     ];
 
     /// <summary>
@@ -155,29 +155,29 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
     /// Gets the list of uses of drones.
     /// </summary>
     public LocalizedObservableList<string> UsesOfDronesList { get; } = new(
-        ("_NotUse", "DronesNotUse"),
-        ("Money", "Money"),
-        ("SyntheticJade", "SyntheticJade"),
-        ("CombatRecord", "CombatRecord"),
-        ("PureGold", "PureGold"),
-        ("OriginStone", "OriginStone"),
-        ("Chip", "Chip"));
+        ("_NotUse", "Infrastructure.Drone.NotUse"),
+        ("Money", "Settings.Money"),
+        ("SyntheticJade", "Settings.SyntheticJade"),
+        ("CombatRecord", "Combat.Record"),
+        ("PureGold", "Settings.PureGold"),
+        ("OriginStone", "Settings.OriginStone"),
+        ("Chip", "Settings.Chip"));
 
     /// <summary>
     /// Gets the list of uses of default infrast.
     /// </summary>
     public LocalizedObservableList<string> DefaultInfrastList { get; } = new(
-        (UserDefined, "UserDefined"),
-        ("153_layout_3_times_a_day.json", "153Time3"),
-        ("153_layout_4_times_a_day.json", "153Time4"),
-        ("243_layout_3_times_a_day.json", "243Time3"),
-        ("243_layout_4_times_a_day.json", "243Time4"),
-        ("333_layout_for_Orundum_3_times_a_day.json", "333Time3"));
+        (UserDefined, "Common.UserDefined"),
+        ("153_layout_3_times_a_day.json", "Infrastructure.153Time3"),
+        ("153_layout_4_times_a_day.json", "Infrastructure.153Time4"),
+        ("243_layout_3_times_a_day.json", "Infrastructure.243Time3"),
+        ("243_layout_4_times_a_day.json", "Infrastructure.243Time4"),
+        ("333_layout_for_Orundum_3_times_a_day.json", "Infrastructure.333Time3"));
 
     public LocalizedObservableList<string> FiammettaTargetList { get; } = new(_fiammettaTargetEntries);
 
     public LocalizedObservableList<string> OptionalFiammettaTargetList { get; } = new([
-        (string.Empty, "InfrastFiammettaTargetNone"),
+        (string.Empty, "Infrastructure.FiammettaTargetNone"),
         .. _fiammettaTargetEntries,
     ]);
 
@@ -249,9 +249,9 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
     /// Gets the list of uses of infrast mode.
     /// </summary>
     public LocalizedObservableList<Mode> InfrastModeList { get; } = new(
-        (Mode.Normal, "InfrastModeNormal"),
-        (Mode.Rotation, "InfrastModeRotation"),
-        (Mode.Custom, "InfrastModeCustom"));
+        (Mode.Normal, "Infrastructure.ModeNormal"),
+        (Mode.Rotation, "Infrastructure.ModeRotation"),
+        (Mode.Custom, "Infrastructure.ModeCustom"));
 
     /// <summary>
     /// Gets or sets the infrast mode.

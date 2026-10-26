@@ -792,7 +792,7 @@ public class RemoteControlService
     {
         if (string.IsNullOrWhiteSpace(endpoint))
         {
-            ShowToast("RemoteControlConnectionTestFailEmpty", alarm);
+            ShowToast("RemoteControl.ConnectionTestFailEmpty", alarm);
             return false;
         }
 
@@ -804,12 +804,12 @@ public class RemoteControlService
         }
         else if (lowerEndpoint.StartsWith("http://"))
         {
-            ShowToast("RemoteControlConnectionTestWarningHttpUnsafe", alarm);
+            ShowToast("RemoteControl.ConnectionTestWarningHttpUnsafe", alarm);
             return true;
         }
         else
         {
-            ShowToast("RemoteControlConnectionTestFailNotHttpOrHttps", alarm);
+            ShowToast("RemoteControl.ConnectionTestFailNotHttpOrHttps", alarm);
             return false;
         }
     }

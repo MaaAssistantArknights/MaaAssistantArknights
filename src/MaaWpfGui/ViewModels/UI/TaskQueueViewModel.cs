@@ -1744,39 +1744,25 @@ public class TaskQueueViewModel : Screen
 
     public static ReadOnlyCollection<TaskTypeItem> TaskTypeList { get; } = Array.AsReadOnly(
         [
-            new TaskTypeItem(LocalizationHelper.GetString("TaskQueue.StartUp"), typeof(StartUpTask)),
-            new TaskTypeItem(LocalizationHelper.GetString("TaskQueue.Fight"), typeof(FightTask)),
-            new TaskTypeItem(LocalizationHelper.GetString("TaskQueue.Infrast"), typeof(InfrastTask)),
-            new TaskTypeItem(LocalizationHelper.GetString("TaskQueue.Recruit"), typeof(RecruitTask)),
-            new TaskTypeItem(LocalizationHelper.GetString("TaskQueue.Mall"), typeof(MallTask)),
-            new TaskTypeItem(LocalizationHelper.GetString("TaskQueue.Award"), typeof(AwardTask)),
-            new TaskTypeItem(LocalizationHelper.GetString("TaskQueue.OperProgress"), typeof(OperProgressTask), introducedVersion: "6.19.0-beta.2"),
-            new TaskTypeItem(LocalizationHelper.GetString("TaskQueue.Roguelike"), typeof(RoguelikeTask)),
-            new TaskTypeItem(LocalizationHelper.GetString("TaskQueue.UserDataUpdate"), typeof(UserDataUpdateTask)),
-            new TaskTypeItem(LocalizationHelper.GetString("Depot.Maintain"), typeof(DepotMaintainTask)),
-            new TaskTypeItem(LocalizationHelper.GetString("Appearance.SwitchTheme"), typeof(SwitchThemeTask), introducedVersion: "6.19.0-beta.2"),
-            new TaskTypeItem(LocalizationHelper.GetString("TaskQueue.Custom"), typeof(CustomTask), isDebugOnly: true),
+            new TaskTypeItem("TaskQueue.StartUp", typeof(StartUpTask)),
+            new TaskTypeItem("TaskQueue.Fight", typeof(FightTask)),
+            new TaskTypeItem("TaskQueue.Infrast", typeof(InfrastTask)),
+            new TaskTypeItem("TaskQueue.Recruit", typeof(RecruitTask)),
+            new TaskTypeItem("TaskQueue.Mall", typeof(MallTask)),
+            new TaskTypeItem("TaskQueue.Award", typeof(AwardTask)),
+            new TaskTypeItem("TaskQueue.OperProgress", typeof(OperProgressTask), introducedVersion: "6.19.0-beta.2"),
+            new TaskTypeItem("TaskQueue.Roguelike", typeof(RoguelikeTask)),
+            new TaskTypeItem("TaskQueue.UserDataUpdate", typeof(UserDataUpdateTask)),
+            new TaskTypeItem("Depot.Maintain", typeof(DepotMaintainTask)),
+            new TaskTypeItem("Appearance.SwitchTheme", typeof(SwitchThemeTask), introducedVersion: "6.19.0-beta.2"),
+            new TaskTypeItem("TaskQueue.Custom", typeof(CustomTask), isDebugOnly: true),
         ]);
 
     private void RefreshTaskTypeListLocalization()
     {
         foreach (var item in TaskTypeList)
         {
-            item.Display = item.Value.Name switch {
-                nameof(StartUpTask) => LocalizationHelper.GetString("TaskQueue.StartUp"),
-                nameof(FightTask) => LocalizationHelper.GetString("TaskQueue.Fight"),
-                nameof(InfrastTask) => LocalizationHelper.GetString("TaskQueue.Infrast"),
-                nameof(RecruitTask) => LocalizationHelper.GetString("TaskQueue.Recruit"),
-                nameof(MallTask) => LocalizationHelper.GetString("TaskQueue.Mall"),
-                nameof(AwardTask) => LocalizationHelper.GetString("TaskQueue.Award"),
-                nameof(OperProgressTask) => LocalizationHelper.GetString("TaskQueue.OperProgress"),
-                nameof(RoguelikeTask) => LocalizationHelper.GetString("TaskQueue.Roguelike"),
-                nameof(UserDataUpdateTask) => LocalizationHelper.GetString("TaskQueue.UserDataUpdate"),
-                nameof(DepotMaintainTask) => LocalizationHelper.GetString("Depot.Maintain"),
-                nameof(SwitchThemeTask) => LocalizationHelper.GetString("Appearance.SwitchTheme"),
-                nameof(CustomTask) => LocalizationHelper.GetString("TaskQueue.Custom"),
-                _ => item.Display,
-            };
+            item.Display = LocalizationHelper.GetString(item.LocalizationKey);
         }
     }
 
@@ -1933,7 +1919,7 @@ public class TaskQueueViewModel : Screen
         var taskType = ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index].TaskType;
         var currentName = taskItem.Name.Replace("\r", string.Empty).Replace("\n", string.Empty);
         var dialog = new Views.Dialogs.TextDialogView(
-            LocalizationHelper.GetString("TaskQueue.RenameTask") + $" {taskItem.Index + 1}-{LocalizationHelper.GetString(taskType.ToString())}",
+            LocalizationHelper.GetString("TaskQueue.RenameTask") + $" {taskItem.Index + 1}-{TaskTypeLocalization.GetName(taskType)}",
             LocalizationHelper.GetString("TaskQueue.RenameTaskPrompt"),
             currentName) {
             Owner = Application.Current.MainWindow,
@@ -2064,7 +2050,7 @@ public class TaskQueueViewModel : Screen
 
         var taskType = ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index].TaskType;
         var result = MessageBoxHelper.Show(
-            LocalizationHelper.GetStringFormat("TaskQueue.ConfirmDeleteTaskMessage", $"{taskItem.Index + 1}-{LocalizationHelper.GetString(taskType.ToString())}", taskItem.Name),
+            LocalizationHelper.GetStringFormat("TaskQueue.ConfirmDeleteTaskMessage", $"{taskItem.Index + 1}-{TaskTypeLocalization.GetName(taskType)}", taskItem.Name),
             LocalizationHelper.GetString("TaskQueue.ConfirmDeleteTask"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Question);
@@ -2587,11 +2573,11 @@ public class TaskQueueViewModel : Screen
                         break;
                     case false:
                         serializeFailed = true;
-                        AddLog(LocalizationHelper.GetStringFormat("TaskQueue.Log.TaskSerialize.Error", LocalizationHelper.GetString(item.TaskType.ToString()), item.NameOrTaskType), UiLogColor.Error);
+                        AddLog(LocalizationHelper.GetStringFormat("TaskQueue.Log.TaskSerialize.Error", TaskTypeLocalization.GetName(item.TaskType), item.NameOrTaskType), UiLogColor.Error);
                         SetTaskStatus(index, TaskItemStatus.Error);
                         break;
                     case null:
-                        AddLog(LocalizationHelper.GetStringFormat("TaskQueue.Log.TaskAppend.Skip", LocalizationHelper.GetString(item.TaskType.ToString()), item.NameOrTaskType), UiLogColor.Info);
+                        AddLog(LocalizationHelper.GetStringFormat("TaskQueue.Log.TaskAppend.Skip", TaskTypeLocalization.GetName(item.TaskType), item.NameOrTaskType), UiLogColor.Info);
                         SetTaskStatus(index, TaskItemStatus.Skipped);
                         break;
                 }
@@ -2599,7 +2585,7 @@ public class TaskQueueViewModel : Screen
             catch (Exception ex)
             {
                 serializeFailed = true;
-                AddLog(LocalizationHelper.GetStringFormat("TaskQueue.Log.TaskSerialize.Error", LocalizationHelper.GetString(item.TaskType.ToString()), item.NameOrTaskType) + "\n" + ex.Message, UiLogColor.Error);
+                AddLog(LocalizationHelper.GetStringFormat("TaskQueue.Log.TaskSerialize.Error", TaskTypeLocalization.GetName(item.TaskType), item.NameOrTaskType) + "\n" + ex.Message, UiLogColor.Error);
             }
         }
 

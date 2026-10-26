@@ -506,7 +506,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
         (3, "3"),
         (2, "2"),
         (1, "1"),
-        (-1, "NotSwitch"));
+        (-1, "Common.NotSwitch"));
 
     /// <summary>
     /// Gets or sets 连战次数。
@@ -982,10 +982,10 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
     }
 
     public LocalizedObservableList<string> AnnihilationModeList { get; } = new(
-        (AnnihilationName, "Annihilation.Current"),
-        ("Chernobog@Annihilation", "Chernobog"),
-        ("LungmenOutskirts@Annihilation", "LungmenOutskirts"),
-        ("LungmenDowntown@Annihilation", "LungmenDowntown"));
+        (AnnihilationName, "Combat.Stage.Annihilation.Current"),
+        ("Chernobog@Annihilation", "Combat.Chernobog"),
+        ("LungmenOutskirts@Annihilation", "Combat.LungmenOutskirts"),
+        ("LungmenDowntown@Annihilation", "Combat.LungmenDowntown"));
 
     public bool UseCustomAnnihilation
     {
@@ -1135,8 +1135,8 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
     }
 
     public LocalizedObservableList<FightStageResetMode> StageResetModeList { get; } = new(
-        (FightStageResetMode.Current, "DefaultStage"),
-        (FightStageResetMode.Ignore, "NotSwitch"));
+        (FightStageResetMode.Current, "Combat.DefaultStage"),
+        (FightStageResetMode.Ignore, "Common.NotSwitch"));
 
     public FightStageResetMode StageResetMode
     {

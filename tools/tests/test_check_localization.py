@@ -33,20 +33,15 @@ class LocalizationCheckerTests(unittest.TestCase):
             patcher.start()
             self.addCleanup(patcher.stop)
 
-    def write_catalog(self, keys: dict[str, str], aliases: dict[str, str]) -> None:
+    def write_catalog(self, keys: dict[str, str]) -> None:
         source = HEADER
         for key, value in sorted(keys.items()):
             source += f'    <system:String x:Key="{key}">{value}</system:String>\n'
         source += "</ResourceDictionary>\n"
         for lang in checker.LANGS:
             (self.catalog / f"{lang}.xaml").write_text(source, encoding="utf-8")
-        rows = ["# frozen", *(f"{old}\t{new}" for old, new in aliases.items())]
-        (self.catalog / "legacy-key-map.tsv").write_text(
-            "\n".join(rows) + "\n", encoding="utf-8"
-        )
-
     def test_reports_every_static_reference_breakage(self) -> None:
-        self.write_catalog({"Common.One": "one"}, {})
+        self.write_catalog({"Common.One": "one"})
         (self.gui / "Broken.xaml").write_text(
             '<TextBlock Text="{StaticResource Common.One}" '
             'ToolTip="{DynamicResource Common.Missing}" />\n',
@@ -70,6 +65,64 @@ class LocalizationCheckerTests(unittest.TestCase):
             any("missing localized call" in message for message in messages)
         )
 
+    def test_missing_old_key_fails_without_a_compatibility_map(self) -> None:
+        self.write_catalog({"TaskQueue.Fight": "fight"})
+        (self.gui / "OldReference.cs").write_text(
+            'LocalizationHelper.GetString("Fight");\n', encoding="utf-8"
+        )
+        messages = checker.check()
+        self.assertEqual(1, len(messages), messages)
+        self.assertIn("missing localized call key Fight", messages[0])
+
+    def test_missing_canonical_key_in_dynamic_selection_fails(self) -> None:
+        self.write_catalog({"TaskQueue.Fight": "fight"})
+        (self.gui / "SelectedKey.cs").write_text(
+            'var key = useFight ? "TaskQueue.Fight" : "TaskQueue.Missing";\n'
+            'LocalizationHelper.GetString(key);\n',
+            encoding="utf-8",
+        )
+        messages = checker.check()
+        self.assertEqual(1, len(messages), messages)
+        self.assertIn("TaskQueue.Missing", messages[0])
+
+    def test_localized_list_rejects_old_key_but_allows_plain_labels(self) -> None:
+        self.write_catalog({"TaskQueue.Fight": "fight"})
+        (self.gui / "Items.cs").write_text(
+            'LocalizedObservableList<int> Items = new((0, "TaskQueue.Fight"), '
+            '(1, "OldKey"), (2, "AUTO"), (3, "10"));\n',
+            encoding="utf-8",
+        )
+        messages = checker.check()
+        self.assertEqual(1, len(messages), messages)
+        self.assertIn("OldKey", messages[0])
+
+    def test_localized_list_property_factory_and_source_array_are_checked(self) -> None:
+        self.write_catalog({"TaskQueue.Fight": "fight"})
+        (self.gui / "Items.cs").write_text(
+            'LocalizedObservableList<int> Items { get; } = new((0, "OldProperty"));\n'
+            'LocalizedObservableList<int> Make() => new((0, "OldFactory"));\n'
+            '(string Value, string LocalizationKey)[] Entries = [("protocol", "OldArray")];\n',
+            encoding="utf-8",
+        )
+        messages = checker.check()
+        self.assertEqual(3, len(messages), messages)
+        for key in ("OldProperty", "OldFactory", "OldArray"):
+            self.assertTrue(any(key in message for message in messages), messages)
+
+    def test_task_control_dynamic_literals_and_lists_obey_ownership(self) -> None:
+        self.write_catalog({"Mall.Good": "good", "Roguelike.Wrong": "wrong"})
+        task_dir = self.gui / "ViewModels/UserControl/TaskQueue"
+        task_dir.mkdir(parents=True)
+        (task_dir / "MallTaskUserControlModel.cs").write_text(
+            'LocalizedObservableList<int> Items = new((0, "Roguelike.Wrong"));\n'
+            'var key = condition ? "Roguelike.Wrong" : "Mall.Good";\n'
+            'LocalizationHelper.GetString(key);\n',
+            encoding="utf-8",
+        )
+        messages = checker.check()
+        self.assertEqual(2, len(messages), messages)
+        self.assertTrue(all("Roguelike.Wrong" in message for message in messages))
+
     def test_task_controls_can_only_reference_whitelisted_domains(self) -> None:
         self.write_catalog(
             {
@@ -77,8 +130,7 @@ class LocalizationCheckerTests(unittest.TestCase):
                 "Combat.UseFormation": "formation",
                 "Mall.Good": "shop task option",
                 "Roguelike.Wrong": "other task option",
-            },
-            {},
+            }
         )
         task_view = self.gui / "Views/UserControl/TaskQueue/MallTaskUserControl.xaml"
         task_view.parent.mkdir(parents=True)
@@ -94,7 +146,7 @@ class LocalizationCheckerTests(unittest.TestCase):
         self.assertIn("Roguelike.Wrong", messages[0])
 
     def test_new_task_control_needs_an_explicit_policy(self) -> None:
-        self.write_catalog({"Mall.Good": "shop task option"}, {})
+        self.write_catalog({"Mall.Good": "shop task option"})
         task_view = (
             self.gui / "Views/UserControl/TaskQueue/NewFeatureTaskUserControl.xaml"
         )
@@ -114,8 +166,7 @@ class LocalizationCheckerTests(unittest.TestCase):
             {
                 "Mall.Good": "shop task option",
                 "Roguelike.Wrong": "other task option",
-            },
-            {},
+            }
         )
         task_views = self.gui / "Views/UserControl/TaskQueue"
         task_views.mkdir(parents=True)
@@ -140,7 +191,7 @@ class LocalizationCheckerTests(unittest.TestCase):
         )
 
     def test_only_task_control_directories_are_auto_enrolled(self) -> None:
-        self.write_catalog({"Mall.Good": "shop task option"}, {})
+        self.write_catalog({"Mall.Good": "shop task option"})
         task_models = self.gui / "ViewModels/UserControl/TaskQueue"
         task_models.mkdir(parents=True)
         (task_models / "NewFeatureTaskUserControlModel.cs").write_text(
@@ -154,49 +205,6 @@ class LocalizationCheckerTests(unittest.TestCase):
         messages = checker.check()
         self.assertEqual(1, len(messages), messages)
         self.assertIn("NewFeatureTaskUserControlModel.cs", messages[0])
-
-    def test_reports_every_reviewed_ownership_and_pair_breakage(self) -> None:
-        self.write_catalog(
-            {
-                "Roguelike.AccountSwitch": "switch account",
-                "Roguelike.Algorithm.Badge": "badge",
-                "Settings.CreditFight": "credit fight",
-                "Settings.SwitchLanguage": "switch language",
-                "Mall.CreditFightAlt.Tip": "tip",
-            },
-            {
-                "AccountSwitch": "Roguelike.AccountSwitch",
-                "AlgorithmBadge": "Roguelike.Algorithm.Badge",
-                "CreditFight": "Settings.CreditFight",
-                "CreditFightTip": "Mall.CreditFightAlt.Tip",
-                "SwitchLanguage": "Settings.SwitchLanguage",
-            },
-        )
-        messages = checker.check()
-        for old in (
-            "AccountSwitch",
-            "AlgorithmBadge",
-            "CreditFight",
-            "CreditFightTip",
-            "SwitchLanguage",
-        ):
-            self.assertTrue(
-                any(old in message for message in messages), (old, messages)
-            )
-
-    def test_allows_distinct_switch_theme_meanings(self) -> None:
-        self.write_catalog(
-            {
-                "Appearance.SwitchTheme": "switch app theme",
-                "GameTheme.Switch.Tip": "switch game theme",
-            },
-            {
-                "SwitchTheme": "Appearance.SwitchTheme",
-                "SwitchThemeTip": "GameTheme.Switch.Tip",
-            },
-        )
-        self.assertEqual([], checker.check())
-
 
 if __name__ == "__main__":
     unittest.main()

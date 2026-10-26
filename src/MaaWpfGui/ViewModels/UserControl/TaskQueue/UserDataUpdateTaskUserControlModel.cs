@@ -64,9 +64,9 @@ public class UserDataUpdateTaskUserControlModel : TaskSettingsViewModel, UserDat
     }
 
     public LocalizedObservableList<UserDataUpdateTriggerInterval> TriggerIntervalList { get; } = new(
-        (UserDataUpdateTriggerInterval.EveryTime, "EveryTime"),
-        (UserDataUpdateTriggerInterval.Daily, "Daily"),
-        (UserDataUpdateTriggerInterval.Weekly, "Weekly"));
+        (UserDataUpdateTriggerInterval.EveryTime, "TaskQueue.UserDataUpdate.EveryTime"),
+        (UserDataUpdateTriggerInterval.Daily, "Common.Daily"),
+        (UserDataUpdateTriggerInterval.Weekly, "Common.Weekly"));
 
     public override void RefreshUI(BaseTask baseTask)
     {
@@ -104,7 +104,7 @@ public class UserDataUpdateTaskUserControlModel : TaskSettingsViewModel, UserDat
 
             if (!operBoxTriggerDue && !depotTriggerDue)
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("TaskQueue.UserDataUpdate.IntervalNotReached", LocalizationHelper.GetString(updateTask.TriggerInterval.ToString())), UiLogColor.Info);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("TaskQueue.UserDataUpdate.IntervalNotReached", GetTriggerIntervalName(updateTask.TriggerInterval)), UiLogColor.Info);
                 return (null, []);
             }
 
@@ -159,6 +159,14 @@ public class UserDataUpdateTaskUserControlModel : TaskSettingsViewModel, UserDat
 
             return ids.Count > 0 || operBoxSyncedWithoutTask ? (true, ids) : (null, []);
         }
+
+        private static string GetTriggerIntervalName(UserDataUpdateTriggerInterval interval) => interval switch
+        {
+            UserDataUpdateTriggerInterval.EveryTime => LocalizationHelper.GetString("TaskQueue.UserDataUpdate.EveryTime"),
+            UserDataUpdateTriggerInterval.Daily => LocalizationHelper.GetString("Common.Daily"),
+            UserDataUpdateTriggerInterval.Weekly => LocalizationHelper.GetString("Common.Weekly"),
+            _ => throw new ArgumentOutOfRangeException(nameof(interval), interval, "Unknown update interval"),
+        };
 
         private static bool IsTriggerDue(DateTimeOffset? lastSyncTime, UserDataUpdateTriggerInterval triggerInterval)
         {

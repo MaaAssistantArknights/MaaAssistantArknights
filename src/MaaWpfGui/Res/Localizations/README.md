@@ -33,9 +33,10 @@ Add a new key to all five catalogs at its sorted position. Use the canonical
 key directly in XAML `DynamicResource`, C# `LocalizationHelper` calls, and
 inline `{key=...}` references. Run `python tools/CheckLocalization.py` from
 the repository root. The checker validates XML, unique keys, ordering, language
-parity, inline references, and literal C#/XAML references. References assembled
-at runtime cannot be checked statically; review their source and target range
-when changing them.
+parity, inline references, literal C#/XAML references, and localization keys
+stored in `LocalizedObservableList` entries. References assembled at runtime
+cannot be checked statically; review their source and target range when
+changing them.
 
 Task controls in `Views/UserControl/TaskQueue` and their view models have a
 localization ownership policy in `tools/CheckLocalization.py`. Each control
@@ -48,8 +49,8 @@ reference fails. The CI checker reports every reference outside that policy.
 Run its regression tests with
 `python -m unittest discover -s tools/tests -p 'test_check_localization.py'`.
 
-`legacy-key-map.tsv` is a frozen bridge for enum names, task/core callbacks,
-saved configuration, and MaaRelease data that can still supply old keys.
-`LocalizationHelper` first tries the canonical key and consults this map only
-on a miss. Do not add entries for new messages. Remove the bridge after all
-external producers and persisted data have migrated to canonical keys.
+`LocalizationHelper` looks up canonical keys only. A missing key stays missing:
+do not add a global alias or fallback for an old name. Convert fixed enum and
+protocol identifiers to canonical localization keys at their owning source.
+For external data, validate each referenced key when it enters the GUI and
+report an unknown identifier at that boundary.

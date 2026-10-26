@@ -321,8 +321,8 @@ public class StageManager
             { string.Empty, new() { Display = LocalizationHelper.GetString("Combat.DefaultStage"), Value = string.Empty } },
 
             // 周一和周日的关卡提示
-            { "Pormpt1", new() { TipKey = "Pormpt1", OpenDaysOfWeek = [DayOfWeek.Monday], IsHidden = true } },
-            { "Pormpt2", new() { TipKey = "Pormpt2", OpenDaysOfWeek = [DayOfWeek.Sunday], IsHidden = true } },
+            { "Pormpt1", new() { TipKey = "Combat.Pormpt1", OpenDaysOfWeek = [DayOfWeek.Monday], IsHidden = true } },
+            { "Pormpt2", new() { TipKey = "Combat.Pormpt2", OpenDaysOfWeek = [DayOfWeek.Sunday], IsHidden = true } },
         };
     }
 
@@ -340,17 +340,17 @@ public class StageManager
         var entries = new List<MiniGameEntry>
         {
             // 常驻活动
-            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.SecretFront"), DisplayKey = "MiniGame@SecretFront", Value = "MiniGame@SecretFront", TipKey = "MiniGame@SecretFrontTip" },
-            new() { Display = LocalizationHelper.GetString("TaskQueue.Reclamation"), DisplayKey = "Reclamation", Value = "Reclamation", CategoryKey = "MiniGameCategoryPermanent" },
+            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.SecretFront"), DisplayKey = "Toolbox.MiniGame.SecretFront", Value = "MiniGame@SecretFront", TipKey = "Toolbox.MiniGame.SecretFront.Tip" },
+            new() { Display = LocalizationHelper.GetString("TaskQueue.Reclamation"), DisplayKey = "TaskQueue.Reclamation", Value = "Reclamation", CategoryKey = "Toolbox.MiniGame.CategoryPermanent" },
 
             // 撒尿牛丸
-            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.NameSsStore"), DisplayKey = "MiniGameNameSsStore", Value = "SS@Store@Begin", TipKey = "MiniGameNameSsStoreTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
-            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.NameGreenTicketStore"), DisplayKey = "MiniGameNameGreenTicketStore", Value = "GreenTicket@Store@Begin", TipKey = "MiniGameNameGreenTicketStoreTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
-            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.NameYellowTicketStore"), DisplayKey = "MiniGameNameYellowTicketStore", Value = "YellowTicket@Store@Begin", TipKey = "MiniGameNameYellowTicketStoreTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
-            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.NameRAStore"), DisplayKey = "MiniGameNameRAStore", Value = "RA@Store@Begin", TipKey = "MiniGameNameRAStoreTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
-            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.AutoRaisePotential"), DisplayKey = "MiniGame@AutoRaisePotential", Value = "MiniGame@AutoRaisePotential@Begin", TipKey = "MiniGame@AutoRaisePotentialTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
-            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.MaterialSynthesis"), DisplayKey = "MiniGame@MaterialSynthesis", Value = "MiniGame@MaterialSynthesis@Begin", TipKey = "MiniGame@MaterialSynthesisTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
-            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.CursedRelic"), DisplayKey = "MiniGame@CursedRelic", Value = "MiniGame@CursedRelic@Begin", TipKey = "MiniGame@CursedRelicTip", CategoryKey = "MiniGameCategoryPermanentFeature" },
+            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.NameSsStore"), DisplayKey = "Toolbox.MiniGame.NameSsStore", Value = "SS@Store@Begin", TipKey = "Toolbox.MiniGame.NameSsStore.Tip", CategoryKey = "Toolbox.MiniGame.CategoryPermanentFeature" },
+            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.NameGreenTicketStore"), DisplayKey = "Toolbox.MiniGame.NameGreenTicketStore", Value = "GreenTicket@Store@Begin", TipKey = "Toolbox.MiniGame.NameGreenTicketStore.Tip", CategoryKey = "Toolbox.MiniGame.CategoryPermanentFeature" },
+            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.NameYellowTicketStore"), DisplayKey = "Toolbox.MiniGame.NameYellowTicketStore", Value = "YellowTicket@Store@Begin", TipKey = "Toolbox.MiniGame.NameYellowTicketStore.Tip", CategoryKey = "Toolbox.MiniGame.CategoryPermanentFeature" },
+            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.NameRAStore"), DisplayKey = "Toolbox.MiniGame.NameRAStore", Value = "RA@Store@Begin", TipKey = "Toolbox.MiniGame.NameRAStore.Tip", CategoryKey = "Toolbox.MiniGame.CategoryPermanentFeature" },
+            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.AutoRaisePotential"), DisplayKey = "Toolbox.MiniGame.AutoRaisePotential", Value = "MiniGame@AutoRaisePotential@Begin", TipKey = "Toolbox.MiniGame.AutoRaisePotential.Tip", CategoryKey = "Toolbox.MiniGame.CategoryPermanentFeature" },
+            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.MaterialSynthesis"), DisplayKey = "Toolbox.MiniGame.MaterialSynthesis", Value = "MiniGame@MaterialSynthesis@Begin", TipKey = "Toolbox.MiniGame.MaterialSynthesis.Tip", CategoryKey = "Toolbox.MiniGame.CategoryPermanentFeature" },
+            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.CursedRelic"), DisplayKey = "Toolbox.MiniGame.CursedRelic", Value = "MiniGame@CursedRelic@Begin", TipKey = "Toolbox.MiniGame.CursedRelic.Tip", CategoryKey = "Toolbox.MiniGame.CategoryPermanentFeature" },
         };
 
         return entries;
@@ -372,12 +372,12 @@ public class StageManager
             }
 
             var display = token["Display"]?.ToString();
-            var displayKey = token["DisplayKey"]?.ToString();
+            var displayKey = ResolveApiLocalizationKey(token["DisplayKey"]?.ToString(), "DisplayKey");
             var value = token["Value"]?.ToString() ?? token["value"]?.ToString();
             var tip = token["Tip"]?.ToString();
-            var tipKey = token["TipKey"]?.ToString();
+            var tipKey = ResolveApiLocalizationKey(token["TipKey"]?.ToString(), "TipKey");
             var category = token["Category"]?.ToString();
-            var categoryKey = token["CategoryKey"]?.ToString();
+            var categoryKey = ResolveApiLocalizationKey(token["CategoryKey"]?.ToString(), "CategoryKey");
             var minimumRequired = token["MinimumRequired"]?.ToString();
             var activity = token["Activity"]?.ToString();
 
@@ -462,6 +462,32 @@ public class StageManager
         {
             return null;
         }
+    }
+
+    private static string? ResolveApiLocalizationKey(string? sourceKey, string field)
+    {
+        if (string.IsNullOrWhiteSpace(sourceKey))
+        {
+            return null;
+        }
+
+        var key = sourceKey switch
+        {
+            "MiniGame@ALL@HoneyFruit" => "Toolbox.MiniGame.ALL.HoneyFruit",
+            "MiniGame@AT@ConversationRoom" => "Toolbox.MiniGame.AT.ConversationRoom",
+            "MiniGame@SPA" => "Toolbox.MiniGame.SPA",
+            "MiniGame@ALL@GreenGrassTip" => "Toolbox.MiniGame.ALL.GreenGrass.Tip",
+            "MiniGame@AT@ConversationRoomTip" => "Toolbox.MiniGame.AT.ConversationRoom.Tip",
+            "MiniGame@SPATip" => "Toolbox.MiniGame.SPA.Tip",
+            _ => sourceKey,
+        };
+        if (LocalizationHelper.HasCatalogKey(key))
+        {
+            return key;
+        }
+
+        _logger.Error("Unknown StageActivity {Field} localization key: {Key}", field, sourceKey);
+        return null;
     }
 
     private static bool TryParseVersion(string? version, out SemVersion? versionObj)
@@ -690,24 +716,24 @@ public class StageManager
             { "12-17-HARD", new() { Display = "12-17-HARD", Value = "12-17-HARD" } },
 
             // 资源本
-            { "CE-6", new("CE-6", "CETip", [DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
-            { "AP-5", new("AP-5", "APTip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
-            { "CA-5", new("CA-5", "CATip", [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection, [["3301", "3302", "3303"]], null, ["StageItemBrush.SkillBook1", "StageItemBrush.SkillBook2", "StageItemBrush.SkillBook3"]) },
-            { "LS-6", new("LS-6", "LSTip", [], resourceCollection) },
-            { "SK-5", new("SK-5", "SKTip", [DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection) },
+            { "CE-6", new("CE-6", "Combat.Stage.CE-6", "Combat.CE.Tip", [DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
+            { "AP-5", new("AP-5", "Combat.Stage.AP-5", "Combat.AP.Tip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
+            { "CA-5", new("CA-5", "Combat.Stage.CA-5", "Combat.CA.Tip", [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection, [["3301", "3302", "3303"]], null, ["StageItemBrush.SkillBook1", "StageItemBrush.SkillBook2", "StageItemBrush.SkillBook3"]) },
+            { "LS-6", new("LS-6", "Combat.Stage.LS-6", "Combat.LS.Tip", [], resourceCollection) },
+            { "SK-5", new("SK-5", "Combat.Stage.SK-5", "Combat.SK.Tip", [DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection) },
 
             // 剿灭模式
-            { "Annihilation", new() { Display = LocalizationHelper.GetString("Combat.AnnihilationMode"), DisplayKey = "AnnihilationMode", Value = "Annihilation" } },
+            { "Annihilation", new() { Display = LocalizationHelper.GetString("Combat.AnnihilationMode"), DisplayKey = "Combat.AnnihilationMode", Value = "Annihilation" } },
 
             // 芯片本 - dropGroups 格式：[[PR-X-1的掉落], [PR-X-2的掉落], [PR-X 两职业的双芯片]]
-            { "PR-A-1", new("PR-A-1", "PR-ATip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection, [["3261", "3231"], ["3262", "3232"], ["3263", "3233"]], ["ChipShortMedic", "ChipShortDefender"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
-            { "PR-A-2", new("PR-A-2", string.Empty, [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection) },
-            { "PR-B-1", new("PR-B-1", "PR-BTip", [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection, [["3251", "3241"], ["3252", "3242"], ["3253", "3243"]], ["ChipShortCaster", "ChipShortSniper"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
-            { "PR-B-2", new("PR-B-2", string.Empty, [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection) },
-            { "PR-C-1", new("PR-C-1", "PR-CTip", [DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection, [["3211", "3271"], ["3212", "3272"], ["3213", "3273"]], ["ChipShortVanguard", "ChipShortSupporter"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
-            { "PR-C-2", new("PR-C-2", string.Empty, [DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
-            { "PR-D-1", new("PR-D-1", "PR-DTip", [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection, [["3221", "3281"], ["3222", "3282"], ["3223", "3283"]], ["ChipShortGuard", "ChipShortSpecialist"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
-            { "PR-D-2", new("PR-D-2", string.Empty, [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
+            { "PR-A-1", new("PR-A-1", "Combat.Stage.PR-A-1", "Combat.PR-A.Tip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection, [["3261", "3231"], ["3262", "3232"], ["3263", "3233"]], ["Combat.ChipShortMedic", "Combat.ChipShortDefender"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
+            { "PR-A-2", new("PR-A-2", "Combat.Stage.PR-A-2", string.Empty, [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection) },
+            { "PR-B-1", new("PR-B-1", "Combat.Stage.PR-B-1", "Combat.PR-B.Tip", [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection, [["3251", "3241"], ["3252", "3242"], ["3253", "3243"]], ["Combat.ChipShortCaster", "Combat.ChipShortSniper"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
+            { "PR-B-2", new("PR-B-2", "Combat.Stage.PR-B-2", string.Empty, [DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection) },
+            { "PR-C-1", new("PR-C-1", "Combat.Stage.PR-C-1", "Combat.PR-C.Tip", [DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection, [["3211", "3271"], ["3212", "3272"], ["3213", "3273"]], ["Combat.ChipShortVanguard", "Combat.ChipShortSupporter"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
+            { "PR-C-2", new("PR-C-2", "Combat.Stage.PR-C-2", string.Empty, [DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
+            { "PR-D-1", new("PR-D-1", "Combat.Stage.PR-D-1", "Combat.PR-D.Tip", [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection, [["3221", "3281"], ["3222", "3282"], ["3223", "3283"]], ["Combat.ChipShortGuard", "Combat.ChipShortSpecialist"], ["StageItemBrush.Primary", "StageItemBrush.Secondary"]) },
+            { "PR-D-2", new("PR-D-2", "Combat.Stage.PR-D-2", string.Empty, [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
 
             // 常驻活动关，隐藏但仍可通过手动输入访问
             { "OF-1", new() { Display = "OF-1", Value = "OF-1", IsHidden = true } },

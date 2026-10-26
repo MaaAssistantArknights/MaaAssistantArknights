@@ -55,32 +55,32 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     /// Gets or sets the list of operator name language settings
     /// </summary>
     public LocalizedObservableList<string> OperNameLanguageModeList { get; } = new(
-        ("OperNameLanguageMAA", "OperNameLanguageMAA"),
-        ("OperNameLanguageClient", "OperNameLanguageClient"));
+        ("OperNameLanguageMAA", "Appearance.OperNameLanguageMAA"),
+        ("OperNameLanguageClient", "Appearance.OperNameLanguageClient"));
 
     /// <summary>
     /// Gets the list of dark mode.
     /// </summary>
     public LocalizedObservableList<DarkModeType> DarkModeList { get; } = new(
-        (DarkModeType.Light, "Light"),
-        (DarkModeType.Dark, "Dark"),
-        (DarkModeType.SyncWithOs, "SyncWithOs"));
+        (DarkModeType.Light, "Appearance.Light"),
+        (DarkModeType.Dark, "Appearance.Dark"),
+        (DarkModeType.SyncWithOs, "Appearance.SyncWithOs"));
 
     /// <summary>
     /// Gets the list of inverse clear modes.
     /// </summary>
     public LocalizedObservableList<InverseClearType> InverseClearModeList { get; } = new(
-        (InverseClearType.Clear, "Clear"),
-        (InverseClearType.Inverse, "Inverse"),
-        (InverseClearType.ClearInverse, "Switchable"));
+        (InverseClearType.Clear, "Common.Clear"),
+        (InverseClearType.Inverse, "TaskQueue.Inverse"),
+        (InverseClearType.ClearInverse, "Settings.Switchable"));
 
     /// <summary>
     /// Gets the list of transition animation speeds.
     /// </summary>
     public LocalizedObservableList<TransitionSpeedType> TransitionSpeedList { get; } = new(
-        (TransitionSpeedType.Normal, "TransitionSpeedNormal"),
-        (TransitionSpeedType.Fast, "TransitionSpeedFast"),
-        (TransitionSpeedType.None, "TransitionSpeedNone"));
+        (TransitionSpeedType.Normal, "Appearance.Animation.SpeedNormal"),
+        (TransitionSpeedType.Fast, "Appearance.Animation.SpeedFast"),
+        (TransitionSpeedType.None, "Appearance.Animation.SpeedNone"));
 
     /// <summary>
     /// Gets or sets a value indicating whether to use tray icon.
@@ -373,13 +373,13 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             }
 
             var result = MessageBoxHelper.Show(
-                FormatText("{0}\n{1}", "LanguageChangedTip"),
-                FormatText("{0}({1})", "Tip"),
+                FormatText("{0}\n{1}", "Settings.Language.Changed.Tip"),
+                FormatText("{0}({1})", "Common.Tip"),
                 MessageBoxButton.YesNoCancel,
                 MessageBoxImage.Question,
-                yes: FormatText("{0}/{1}", "LanguageSwitchNow"),
-                no: FormatText("{0}/{1}", "LanguageRestartNow"),
-                cancel: FormatText("{0}/{1}", "ManualRestart"));
+                yes: FormatText("{0}/{1}", "Settings.Language.SwitchNow"),
+                no: FormatText("{0}/{1}", "Settings.Language.RestartNow"),
+                cancel: FormatText("{0}/{1}", "Common.ManualRestart"));
             if (result == MessageBoxResult.Yes)
             {
                 // 时序要求：先静默更新 _language，使 Reload 触发 LanguageChanged 时，

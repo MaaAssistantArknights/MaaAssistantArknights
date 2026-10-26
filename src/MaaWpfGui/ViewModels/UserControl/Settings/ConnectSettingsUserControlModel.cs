@@ -94,20 +94,20 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     /// Gets the list of the configuration of connection.
     /// </summary>
     public LocalizedObservableList<ConnectConfig> ConnectConfigList { get; } = new(
-        (ConnectConfig.General, "General"),
-        (ConnectConfig.BlueStacks, "BlueStacks"),
-        (ConnectConfig.MuMuEmulator12, "MuMuEmulator12"),
-        (ConnectConfig.MuMuArm, "MuMuArm"),
-        (ConnectConfig.LDPlayer, "LDPlayer"),
-        (ConnectConfig.Androws, "Androws"),
-        (ConnectConfig.AVD, "AVD"),
-        (ConnectConfig.Nox, "Nox"),
-        (ConnectConfig.XYAZ, "XYAZ"),
-        (ConnectConfig.PC, "PC"),
-        (ConnectConfig.WSA, "WSA"),
-        (ConnectConfig.Compatible, "Compatible"),
-        (ConnectConfig.SecondResolution, "SecondResolution"),
-        (ConnectConfig.GeneralWithoutScreencapErr, "GeneralWithoutScreencapErr"));
+        (ConnectConfig.General, "Roguelike.GeneralMode"),
+        (ConnectConfig.BlueStacks, "Connection.BlueStacks"),
+        (ConnectConfig.MuMuEmulator12, "Connection.Emulator.MuMu12.Name"),
+        (ConnectConfig.MuMuArm, "Connection.Emulator.MuMu.Arm"),
+        (ConnectConfig.LDPlayer, "Connection.LDPlayer"),
+        (ConnectConfig.Androws, "Connection.Androws"),
+        (ConnectConfig.AVD, "Connection.AVD"),
+        (ConnectConfig.Nox, "Connection.Nox"),
+        (ConnectConfig.XYAZ, "Connection.XYAZ"),
+        (ConnectConfig.PC, "Connection.Client.PC"),
+        (ConnectConfig.WSA, "Connection.WSA"),
+        (ConnectConfig.Compatible, "Connection.Compatible"),
+        (ConnectConfig.SecondResolution, "Connection.SecondResolution"),
+        (ConnectConfig.GeneralWithoutScreencapErr, "Roguelike.GeneralWithoutScreencapErr"));
 
     public static string TouchModeVideoPath => Path.Combine(PathsHelper.BaseDir, "Res", "Video", "TouchMode.mp4");
 
@@ -804,10 +804,10 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     /// MuMu 触控选项仅在 MuMu 截图增强启用时动态加入列表。
     /// </summary>
     public LocalizedObservableList<TouchMode> TouchModeList { get; } = new(
-        (TouchMode.MiniTouch, "MiniTouchMode"),
-        (TouchMode.MaaTouch, "MaaTouchMode"),
-        (TouchMode.Adb, "AdbTouchMode"),
-        (TouchMode.MaaFwAdb, "MaaFwAdbTouchMode"));
+        (TouchMode.MiniTouch, "Connection.Touch.Mini.Mode"),
+        (TouchMode.MaaTouch, "Connection.Touch.Maa.Mode"),
+        (TouchMode.Adb, "Connection.Touch.AdbMode"),
+        (TouchMode.MaaFwAdb, "Connection.MaaFwAdbTouchMode"));
 
     public bool IsAdbTouchMode() => TouchMode == TouchMode.Adb;
 

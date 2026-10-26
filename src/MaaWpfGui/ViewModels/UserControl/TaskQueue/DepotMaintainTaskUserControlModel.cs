@@ -351,11 +351,11 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     /// 预设列表。
     /// </summary>
     public static LocalizedObservableList<string> PresetList { get; } = new(
-        ("Chip1", "DepotPresetChip1"),
-        ("Chip2", "DepotPresetChip2"),
-        ("CE6", "DepotPresetLmd"),
-        ("AP5", "DepotPresetCertificate"),
-        ("CA5", "DepotPresetSkillSummary"));
+        ("Chip1", "Depot.PresetChip1"),
+        ("Chip2", "Depot.PresetChip2"),
+        ("CE6", "Depot.PresetLmd"),
+        ("AP5", "Depot.PresetCertificate"),
+        ("CA5", "Depot.PresetSkillSummary"));
 
     /// <summary>
     /// 预设数据：关卡 → [(掉落物 itemId, 掉落物名称), ...]。

@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -23,6 +22,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Markup;
 using MaaWpfGui.Configuration.Factory;
+using Serilog;
 using Stylet;
 
 namespace MaaWpfGui.Helper;
@@ -73,7 +73,7 @@ public static class LocalizationHelper
 
     private static string _customCulture = ConfigFactory.Root.Gui.CustomCulture;
 
-    private static readonly Lazy<IReadOnlyDictionary<string, string>> LegacyKeyMap = new(LoadLegacyKeyMap);
+    private static readonly Lazy<HashSet<string>> CatalogKeys = new(LoadCatalogKeys);
 
     /// <summary>
     /// 获取当前语言。
@@ -246,10 +246,10 @@ public static class LocalizationHelper
     {
         if (_culture == "pallas")
         {
-            return GetPallasString();
+            return HasCatalogKey(key) ? GetPallasString() : $"{{{{ {key} }}}}";
         }
 
-        if (TryLookupStringInternal(key, out var value, culture))
+        if (TryLookupCatalog(key, out var value, culture, unescape: true))
         {
             return value;
         }
@@ -268,10 +268,10 @@ public static class LocalizationHelper
     {
         if (_culture == "pallas")
         {
-            return GetPallasString();
+            return HasCatalogKey(key) ? GetPallasString() : $"{{{{ {key} }}}}";
         }
 
-        if (TryLookupStringInternal(key, out var value, culture, unescape: false))
+        if (TryLookupCatalog(key, out var value, culture, unescape: false))
         {
             return value;
         }
@@ -290,49 +290,41 @@ public static class LocalizationHelper
     {
         if (_culture == "pallas")
         {
+            if (!HasCatalogKey(key))
+            {
+                value = string.Empty;
+                return false;
+            }
+
             value = GetPallasString();
             return true;
         }
 
-        return TryLookupStringInternal(key, out value, culture);
+        return TryLookupCatalog(key, out value, culture, unescape: true);
     }
 
-    private static bool TryLookupStringInternal(string key, out string value, string? culture = null, bool unescape = true)
+    /// <summary>
+    /// Checks the real catalog even when the current culture uses a special display mode.
+    /// Use this when validating keys supplied by external data.
+    /// </summary>
+    /// <param name="key">The canonical localization key to check.</param>
+    /// <returns>Whether the key exists in the catalog.</returns>
+    public static bool HasCatalogKey(string key) => CatalogKeys.Value.Contains(key);
+
+    private static HashSet<string> LoadCatalogKeys()
     {
-        if (TryLookupCatalog(key, out value, culture, unescape))
+        try
         {
-            return true;
+            var catalog = new ResourceDictionary {
+                Source = new(@"Res\Localizations\en-us.xaml", UriKind.Relative),
+            };
+            return catalog.Keys.OfType<string>().ToHashSet(StringComparer.Ordinal);
         }
-
-        // Task/core enum names and MaaRelease data can still provide a pre-migration key.
-        return LegacyKeyMap.Value.TryGetValue(key, out var currentKey)
-            && TryLookupCatalog(currentKey, out value, culture, unescape);
-    }
-
-    private static IReadOnlyDictionary<string, string> LoadLegacyKeyMap()
-    {
-        using var stream = typeof(LocalizationHelper).Assembly.GetManifestResourceStream("MaaWpfGui.LegacyLocalizationKeyMap")
-            ?? throw new InvalidOperationException("The legacy localization key map is missing.");
-        using var reader = new StreamReader(stream);
-        var map = new Dictionary<string, string>(StringComparer.Ordinal);
-        string? line;
-        while ((line = reader.ReadLine()) is not null)
+        catch (Exception ex)
         {
-            if (line.StartsWith('#'))
-            {
-                continue;
-            }
-
-            var separator = line.IndexOf('\t');
-            if (separator < 1 || separator == line.Length - 1)
-            {
-                throw new FormatException("The legacy localization key map contains an invalid row.");
-            }
-
-            map.Add(line[..separator], line[(separator + 1)..]);
+            Log.Error(ex, "Failed to load the localization catalog for key validation");
+            return [];
         }
-
-        return map;
     }
 
     private static bool TryLookupCatalog(string key, out string value, string? culture, bool unescape)
@@ -402,7 +394,7 @@ public static class LocalizationHelper
     {
         if (_culture == "pallas")
         {
-            return GetPallasString();
+            return GetString(key);
         }
 
         var rawString = GetString(key);

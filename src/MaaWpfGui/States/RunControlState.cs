@@ -115,10 +115,10 @@ public class RunControlState : PropertyChangedBase
         get {
             var ownerKey = Owner switch
             {
-                RunOwner.TaskQueue => "Farming",
-                RunOwner.Copilot => "Copilot",
-                RunOwner.MiniGame => "MiniGame",
-                RunOwner.Toolbox => "Toolbox",
+                RunOwner.TaskQueue => "TaskQueue.Farming",
+                RunOwner.Copilot => "Copilot.Title",
+                RunOwner.MiniGame => "TaskQueue.MiniGame",
+                RunOwner.Toolbox => "Toolbox.Title",
                 _ => null,
             };
 

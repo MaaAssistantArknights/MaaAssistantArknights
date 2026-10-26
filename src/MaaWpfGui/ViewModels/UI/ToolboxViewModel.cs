@@ -1391,7 +1391,7 @@ public class ToolboxViewModel : Screen
         /// <summary>
         /// Gets 职业的本地化名称（供职业图标 tooltip 等展示），职业无法识别（Unknown）时为 <c>null</c>（不显示 tooltip）
         /// </summary>
-        public string? RoleString => Role == OperatorRole.Unknown ? null : LocalizationHelper.GetString(Role.ToString());
+        public string? RoleString => Role == OperatorRole.Unknown ? null : OperatorRoleLocalization.GetName(Role);
 
         /// <summary>
         /// Gets 职业图标（复用识别用职业旗标模板，无图标时为 null）
@@ -2129,10 +2129,10 @@ public class ToolboxViewModel : Screen
     /// Gets 干员识别导出格式选项，文案随语言热切换自动刷新。
     /// </summary>
     public LocalizedObservableList<OperBoxExportFormat> OperBoxExportOptionList { get; } = new(
-        (OperBoxExportFormat.Clipboard, "OperBoxExportToClipboard"),
-        (OperBoxExportFormat.Json, "OperBoxExportToJson"),
-        (OperBoxExportFormat.Markdown, "ExportToMarkdown"),
-        (OperBoxExportFormat.Csv, "ExportToCsv"));
+        (OperBoxExportFormat.Clipboard, "Operator.ExportToClipboard"),
+        (OperBoxExportFormat.Json, "Operator.ExportToJson"),
+        (OperBoxExportFormat.Markdown, "Depot.ExportToMarkdown"),
+        (OperBoxExportFormat.Csv, "Depot.ExportToCsv"));
 
     public OperBoxExportFormat SelectedOperBoxExportValue
     {
@@ -2810,7 +2810,7 @@ public class ToolboxViewModel : Screen
         var categorizedItems = Instances.StageManager.MiniGameEntries
             .Select(t => {
                 var isCurrentEvent = t.UtcStartTime != DateTime.MinValue || t.UtcExpireTime != DateTime.MinValue;
-                var defaultCategoryKey = isCurrentEvent ? "MiniGameCategoryCurrentEvent" : "MiniGameCategoryPermanent";
+                var defaultCategoryKey = isCurrentEvent ? "Toolbox.MiniGame.CategoryCurrentEvent" : "Toolbox.MiniGame.CategoryPermanent";
                 var category = !string.IsNullOrEmpty(t.CategoryKey)
                     && LocalizationHelper.TryGetString(t.CategoryKey, out var localizedCategory)
                     ? localizedCategory
@@ -2903,10 +2903,10 @@ public class ToolboxViewModel : Screen
             return entry.Tip;
         }
 
-        // 若不存在 Tip，再尝试使用 DisplayKey + "Tip" 的约定键
+        // 若不存在 Tip，再尝试使用 DisplayKey + ".Tip" 的约定键
         if (!string.IsNullOrEmpty(entry.DisplayKey))
         {
-            var displayTipKey = entry.DisplayKey + "Tip";
+            var displayTipKey = entry.DisplayKey + ".Tip";
             if (LocalizationHelper.TryGetString(displayTipKey, out var displayTip))
             {
                 return displayTip;
@@ -2932,10 +2932,10 @@ public class ToolboxViewModel : Screen
     public string SecretFrontEnding { get; set => SetAndNotify(ref field, value); } = "A";
 
     public LocalizedObservableList<string> SecretFrontEventList { get; } = new(
-        (string.Empty, "NotSelected"),
-        ("支援作战平台", "MiniGame@SecretFront@Event1"),
-        ("游侠", "MiniGame@SecretFront@Event2"),
-        ("诡影迷踪", "MiniGame@SecretFront@Event3"));
+        (string.Empty, "Common.NotSelected"),
+        ("支援作战平台", "Toolbox.MiniGame.SecretFront.Event1"),
+        ("游侠", "Toolbox.MiniGame.SecretFront.Event2"),
+        ("诡影迷踪", "Toolbox.MiniGame.SecretFront.Event3"));
 
     public string SecretFrontEvent { get; set => SetAndNotify(ref field, value); } = string.Empty;
 
@@ -2945,10 +2945,10 @@ public class ToolboxViewModel : Screen
     public bool MiniGameUseNormalToken { get; set => SetAndNotify(ref field, value); }
 
     public LocalizedObservableList<string> EventShopBlackListItems { get; } = new(
-        (DataSupplementInstrumentItemId, "MiniGame@EventShop@DataSupplementInstrument"),
-        (DataSupplementStickItemId, "MiniGame@EventShop@DataSupplementStick"),
-        (LmdItemId, "MiniGame@EventShop@Lmd"),
-        (FurniturePartItemId, "MiniGame@EventShop@FurniturePart"));
+        (DataSupplementInstrumentItemId, "Toolbox.MiniGame.EventShop.DataSupplementInstrument"),
+        (DataSupplementStickItemId, "Toolbox.MiniGame.EventShop.DataSupplementStick"),
+        (LmdItemId, "Toolbox.MiniGame.EventShop.Lmd"),
+        (FurniturePartItemId, "Toolbox.MiniGame.EventShop.FurniturePart"));
 
     public object[] EventShopBlackListSelectedItems
     {
@@ -3053,9 +3053,9 @@ public class ToolboxViewModel : Screen
     private System.Windows.Rect _pixelPaintDragOriginView;
 
     public LocalizedObservableList<string> PixelPaintFitModeList { get; } = new(
-        ("Crop", "MiniGame@PixelPaint@FitCrop"),
-        ("Contain", "MiniGame@PixelPaint@FitContain"),
-        ("Stretch", "MiniGame@PixelPaint@FitStretch"));
+        ("Crop", "Toolbox.MiniGame.PixelPaint.FitCrop"),
+        ("Contain", "Toolbox.MiniGame.PixelPaint.FitContain"),
+        ("Stretch", "Toolbox.MiniGame.PixelPaint.FitStretch"));
 
     public string PixelPaintFitMode
     {
@@ -3068,10 +3068,10 @@ public class ToolboxViewModel : Screen
     } = "Crop";
 
     public LocalizedObservableList<string> PixelPaintDitherModeList { get; } = new(
-        ("Illustration", "MiniGame@PixelPaint@DitherIllustration"),
-        ("None", "MiniGame@PixelPaint@DitherNone"),
-        ("FloydSteinberg", "MiniGame@PixelPaint@DitherFS"),
-        ("Atkinson", "MiniGame@PixelPaint@DitherAtkinson"));
+        ("Illustration", "Toolbox.MiniGame.PixelPaint.DitherIllustration"),
+        ("None", "Toolbox.MiniGame.PixelPaint.DitherNone"),
+        ("FloydSteinberg", "Toolbox.MiniGame.PixelPaint.DitherFS"),
+        ("Atkinson", "Toolbox.MiniGame.PixelPaint.DitherAtkinson"));
 
     public string PixelPaintDitherMode
     {

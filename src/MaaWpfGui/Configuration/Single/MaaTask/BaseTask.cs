@@ -42,7 +42,7 @@ public class BaseTask : NotifyPropertyChangedWithValue
     public string Name { get; set; } = string.Empty;
 
     [JsonIgnore]
-    public string NameOrTaskType => string.IsNullOrEmpty(Name) ? LocalizationHelper.GetString(TaskType.ToString()) : Name;
+    public string NameOrTaskType => string.IsNullOrEmpty(Name) ? TaskTypeLocalization.GetName(TaskType) : Name;
 
     public bool? IsEnable { get; set; } = true;
 

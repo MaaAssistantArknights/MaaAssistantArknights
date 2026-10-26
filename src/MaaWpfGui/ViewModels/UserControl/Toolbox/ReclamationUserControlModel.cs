@@ -56,9 +56,9 @@ public class ReclamationUserControlModel : PropertyChangedBase
     /// Gets the list of reclamation themes.
     /// </summary>
     public LocalizedObservableList<Theme> ReclamationThemeList { get; } = new(
-        (Theme.Fire, "ReclamationThemeFire", "ClosedStage"),
-        (Theme.Tales, "ReclamationThemeTales", null),
-        (Theme.RelaunchAnchor, "ReclamationThemeRelaunchAnchor", null));
+        (Theme.Fire, "Reclamation.ThemeFire", "Combat.ClosedStage"),
+        (Theme.Tales, "Reclamation.ThemeTales", null),
+        (Theme.RelaunchAnchor, "Reclamation.ThemeRelaunchAnchor", null));
 
     /// <summary>
     /// Gets or sets 生息演算主题["Tales"].
@@ -131,8 +131,8 @@ public class ReclamationUserControlModel : PropertyChangedBase
     /// Gets the list of reclamation increment modes.
     /// </summary>
     public LocalizedObservableList<int> ReclamationIncrementModeList { get; } = new(
-        (0, "ReclamationIncrementModeClick"),
-        (1, "ReclamationIncrementModeHold"));
+        (0, "Reclamation.IncrementModeClick"),
+        (1, "Reclamation.IncrementModeHold"));
 
     /// <summary>
     /// Gets or sets 点击类型：0 连点；1 长按
@@ -190,7 +190,7 @@ public class ReclamationUserControlModel : PropertyChangedBase
                             Mode.RA4 => 4,
                             _ => 1,
                         };
-                        var stageTipKey = $"ReclamationTipRelaunchAnchorRA{stageNum}";
+                        var stageTipKey = $"Reclamation.TipRelaunchAnchorRA{stageNum}";
                         if (LocalizationHelper.TryGetString(stageTipKey, out var stageTip))
                         {
                             return stageTip;
@@ -201,7 +201,7 @@ public class ReclamationUserControlModel : PropertyChangedBase
 
                 case Theme.Tales:
                     return LocalizationHelper.GetString(
-                        ReclamationMode == Mode.ProsperityInSave ? "ReclamationTipTalesInSave" : "ReclamationTipTalesNoSave");
+                        ReclamationMode == Mode.ProsperityInSave ? "Reclamation.TipTalesInSave" : "Reclamation.TipTalesNoSave");
                 default:
                     return string.Empty;
             }

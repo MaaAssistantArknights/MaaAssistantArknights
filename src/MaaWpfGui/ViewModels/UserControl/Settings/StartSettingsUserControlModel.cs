@@ -316,8 +316,8 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         EmulatorWaitSeconds,
         OpenEmulatorAfterLaunch,
         "emulator",
-        "WaitForEmulator",
-        "EmulatorStartFailed");
+        "Startup.WaitForEmulator",
+        "Connection.Emulator.StartFailed");
 
     private ConnectionTargetLaunchSettings GetPcClientLaunchSettings() => new(
         PcClientPath,
@@ -325,8 +325,8 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         PcClientWaitSeconds,
         OpenPcClientAfterLaunch,
         "PC client",
-        "WaitForPcClient",
-        "PcClientStartFailed");
+        "Startup.WaitForPcClient",
+        "Connection.PcClient.StartFailed");
 
     private ConnectionTargetLaunchSettings GetCurrentConnectionTargetLaunchSettings() =>
         ConnectSettings.IsPCConnectConfig ? GetPcClientLaunchSettings() : GetEmulatorLaunchSettings();

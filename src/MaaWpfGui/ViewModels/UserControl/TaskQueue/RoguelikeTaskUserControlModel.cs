@@ -34,6 +34,7 @@ using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Serilog;
 using static MaaWpfGui.Main.AsstProxy;
 using AsstRoguelikeCoreChar = MaaWpfGui.Models.AsstTasks.AsstRoguelikeTask.AsstRoguelikeCoreChar;
 using Mode = MaaWpfGui.Configuration.Single.MaaTask.RoguelikeMode;
@@ -176,90 +177,90 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     private readonly Dictionary<string, List<(string Key, string Value)>> _squadDictionary = new() {
         ["Phantom_Default"] =
         [
-            ("GatheringSquad", "集群分队"),
-            ("SpearheadSquad", "矛头分队"),
-            ("ResearchSquad", "研究分队"),
+            ("Roguelike.GatheringSquad", "集群分队"),
+            ("Roguelike.SpearheadSquad", "矛头分队"),
+            ("Roguelike.ResearchSquad", "研究分队"),
         ],
         ["Mizuki_Default"] =
         [
-            ("GatheringSquad", "集群分队"),
-            ("SpearheadSquad", "矛头分队"),
-            ("IS2NewSquad1", "心胜于物分队"),
-            ("IS2NewSquad2", "物尽其用分队"),
-            ("IS2NewSquad3", "以人为本分队"),
-            ("ResearchSquad", "研究分队"),
+            ("Roguelike.GatheringSquad", "集群分队"),
+            ("Roguelike.SpearheadSquad", "矛头分队"),
+            ("Roguelike.IS2.NewSquad1", "心胜于物分队"),
+            ("Roguelike.IS2.NewSquad2", "物尽其用分队"),
+            ("Roguelike.IS2.NewSquad3", "以人为本分队"),
+            ("Roguelike.ResearchSquad", "研究分队"),
         ],
         ["Sami_Default"] =
         [
-            ("GatheringSquad", "集群分队"),
-            ("SpearheadSquad", "矛头分队"),
-            ("IS3NewSquad1", "永恒狩猎分队"),
-            ("IS3NewSquad2", "生活至上分队"),
-            ("IS3NewSquad3", "科学主义分队"),
-            ("IS3NewSquad4", "特训分队"),
+            ("Roguelike.GatheringSquad", "集群分队"),
+            ("Roguelike.SpearheadSquad", "矛头分队"),
+            ("Roguelike.IS3.NewSquad1", "永恒狩猎分队"),
+            ("Roguelike.IS3.NewSquad2", "生活至上分队"),
+            ("Roguelike.IS3.NewSquad3", "科学主义分队"),
+            ("Roguelike.IS3.NewSquad4", "特训分队"),
         ],
         ["Sarkaz_1"] =
         [
-            ("GatheringSquad", "集群分队"),
-            ("SpearheadSquad", "矛头分队"),
-            ("IS4NewSquad2", "博闻广记分队"),
-            ("IS4NewSquad3", "蓝图测绘分队"),
-            ("IS4NewSquad6", "点刺成锭分队"),
-            ("IS4NewSquad7", "拟态学者分队"),
+            ("Roguelike.GatheringSquad", "集群分队"),
+            ("Roguelike.SpearheadSquad", "矛头分队"),
+            ("Roguelike.IS4.NewSquad2", "博闻广记分队"),
+            ("Roguelike.IS4.NewSquad3", "蓝图测绘分队"),
+            ("Roguelike.IS4.NewSquad6", "点刺成锭分队"),
+            ("Roguelike.IS4.NewSquad7", "拟态学者分队"),
         ],
         ["Sarkaz_Default"] =
         [
-            ("GatheringSquad", "集群分队"),
-            ("SpearheadSquad", "矛头分队"),
-            ("IS4NewSquad1", "魂灵护送分队"),
-            ("IS4NewSquad2", "博闻广记分队"),
-            ("IS4NewSquad3", "蓝图测绘分队"),
-            ("IS4NewSquad4", "因地制宜分队"),
-            ("IS4NewSquad5", "异想天开分队"),
-            ("IS4NewSquad6", "点刺成锭分队"),
-            ("IS4NewSquad7", "拟态学者分队"),
-            ("IS4NewSquad8", "专业人士分队"),
+            ("Roguelike.GatheringSquad", "集群分队"),
+            ("Roguelike.SpearheadSquad", "矛头分队"),
+            ("Roguelike.IS4.NewSquad1", "魂灵护送分队"),
+            ("Roguelike.IS4.NewSquad2", "博闻广记分队"),
+            ("Roguelike.IS4.NewSquad3", "蓝图测绘分队"),
+            ("Roguelike.IS4.NewSquad4", "因地制宜分队"),
+            ("Roguelike.IS4.NewSquad5", "异想天开分队"),
+            ("Roguelike.IS4.NewSquad6", "点刺成锭分队"),
+            ("Roguelike.IS4.NewSquad7", "拟态学者分队"),
+            ("Roguelike.IS4.NewSquad8", "专业人士分队"),
         ],
         ["JieGarden_Default"] =
         [
-            ("SpecialForceSquad", "特勤分队"),
-            ("IS5NewSquad1", "高台突破分队"),
-            ("IS5NewSquad2", "地面突破分队"),
-            ("IS5NewSquad3", "游客分队"),
-            ("IS5NewSquad4", "司岁台分队"),
-            ("IS5NewSquad5", "天师府分队"),
-            ("IS5NewSquad6", "花团锦簇分队"),
-            ("IS5NewSquad7", "棋行险着分队"),
-            ("IS5NewSquad8", "岁影回音分队"),
-            ("IS5NewSquad9", "代理人分队"),
-            ("IS5NewSquad10", "知学分队"),
-            ("IS5NewSquad11", "商贾分队"),
+            ("Roguelike.SpecialForceSquad", "特勤分队"),
+            ("Roguelike.IS5.NewSquad1", "高台突破分队"),
+            ("Roguelike.IS5.NewSquad2", "地面突破分队"),
+            ("Roguelike.IS5.NewSquad3", "游客分队"),
+            ("Roguelike.IS5.NewSquad4", "司岁台分队"),
+            ("Roguelike.IS5.NewSquad5", "天师府分队"),
+            ("Roguelike.IS5.NewSquad6", "花团锦簇分队"),
+            ("Roguelike.IS5.NewSquad7", "棋行险着分队"),
+            ("Roguelike.IS5.NewSquad8", "岁影回音分队"),
+            ("Roguelike.IS5.NewSquad9", "代理人分队"),
+            ("Roguelike.IS5.NewSquad10", "知学分队"),
+            ("Roguelike.IS5.NewSquad11", "商贾分队"),
         ],
         ["BlackFlow_Default"] =
         [
-            ("SpecialForceSquad", "特勤分队"),
-            ("SpearheadSquad", "矛头分队"),
-            ("IS5NewSquad1", "高台突破分队"),
-            ("IS5NewSquad2", "地面突破分队"),
-            ("IS6NewSquad1", "本源研修分队"),
-            ("IS6NewSquad2", "文明开化分队"),
-            ("IS6NewSquad3", "开拓者分队"),
-            ("IS6NewSquad4", "多边贸易分队"),
-            ("IS6NewSquad5", "地质调查分队"),
-            ("IS6NewSquad6", "团结阵线分队"),
-            ("IS6NewSquad7", "踏足遍历分队"),
+            ("Roguelike.SpecialForceSquad", "特勤分队"),
+            ("Roguelike.SpearheadSquad", "矛头分队"),
+            ("Roguelike.IS5.NewSquad1", "高台突破分队"),
+            ("Roguelike.IS5.NewSquad2", "地面突破分队"),
+            ("Roguelike.IS6.NewSquad1", "本源研修分队"),
+            ("Roguelike.IS6.NewSquad2", "文明开化分队"),
+            ("Roguelike.IS6.NewSquad3", "开拓者分队"),
+            ("Roguelike.IS6.NewSquad4", "多边贸易分队"),
+            ("Roguelike.IS6.NewSquad5", "地质调查分队"),
+            ("Roguelike.IS6.NewSquad6", "团结阵线分队"),
+            ("Roguelike.IS6.NewSquad7", "踏足遍历分队"),
         ],
     };
 
     // 通用分队
     private readonly List<(string Key, string Value)> _commonSquads =
     [
-        ("LeaderSquad", "指挥分队"),
-        ("SupportSquad", "后勤分队"),
-        ("TacticalAssaultOperative", "突击战术分队"),
-        ("TacticalFortificationOperative", "堡垒战术分队"),
-        ("TacticalRangedOperative", "远程战术分队"),
-        ("TacticalDestructionOperative", "破坏战术分队"),
+        ("Roguelike.LeaderSquad", "指挥分队"),
+        ("Roguelike.SupportSquad", "后勤分队"),
+        ("Roguelike.TacticalAssaultOperative", "突击战术分队"),
+        ("Roguelike.TacticalFortificationOperative", "堡垒战术分队"),
+        ("Roguelike.TacticalRangedOperative", "远程战术分队"),
+        ("Roguelike.TacticalDestructionOperative", "破坏战术分队"),
     ];
 
     private void UpdateRoguelikeSquadList()
@@ -287,10 +288,6 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
         // 添加通用分队
         foreach (var (key, value) in _commonSquads)
         {
-            if (RoguelikeTheme == Theme.BlackFlow && key == "First-ClassSquad")
-            {
-                continue;
-            }
             RoguelikeSquadList.Add(new() { Display = LocalizationHelper.GetString(key), Value = value });
         }
 
@@ -403,12 +400,12 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     /// Gets the list of roguelike lists.
     /// </summary>
     public LocalizedObservableList<Theme> RoguelikeThemeList { get; } = new(
-        (Theme.Phantom, "RoguelikeThemePhantom"),
-        (Theme.Mizuki, "RoguelikeThemeMizuki"),
-        (Theme.Sami, "RoguelikeThemeSami"),
-        (Theme.Sarkaz, "RoguelikeThemeSarkaz"),
-        (Theme.JieGarden, "RoguelikeThemeJieGarden"),
-        (Theme.BlackFlow, "RoguelikeThemeBlackFlow"));
+        (Theme.Phantom, "Roguelike.ThemePhantom"),
+        (Theme.Mizuki, "Roguelike.ThemeMizuki"),
+        (Theme.Sami, "Roguelike.ThemeSami"),
+        (Theme.Sarkaz, "Roguelike.ThemeSarkaz"),
+        (Theme.JieGarden, "Roguelike.ThemeJieGarden"),
+        (Theme.BlackFlow, "Roguelike.ThemeBlackFlow"));
 
     /// <summary>
     /// Gets or sets the Roguelike theme.
@@ -624,13 +621,13 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     {
         get {
             var key = RoguelikeTheme switch {
-                Theme.Phantom => "RoguelikeThemeTipPhantom",
-                Theme.Mizuki => "RoguelikeThemeTipMizuki",
-                Theme.Sami => "RoguelikeThemeTipSami",
-                Theme.Sarkaz => "RoguelikeThemeTipSarkaz",
-                Theme.JieGarden => "RoguelikeThemeTipJieGarden",
-                Theme.BlackFlow => "RoguelikeThemeTipBlackFlow",
-                _ => "RoguelikeThemeTipPhantom",
+                Theme.Phantom => "Roguelike.ThemeTipPhantom",
+                Theme.Mizuki => "Roguelike.ThemeTipMizuki",
+                Theme.Sami => "Roguelike.ThemeTipSami",
+                Theme.Sarkaz => "Roguelike.ThemeTipSarkaz",
+                Theme.JieGarden => "Roguelike.ThemeTipJieGarden",
+                Theme.BlackFlow => "Roguelike.ThemeTipBlackFlow",
+                _ => "Roguelike.ThemeTipPhantom",
             };
 
             var tip = LocalizationHelper.GetString(key);
@@ -799,7 +796,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     private static string GetUseSupportText(string operName, int position)
         => LocalizationHelper.GetStringFormat(
             "Roguelike.UseSupportUnitFormat",
-            string.IsNullOrEmpty(operName) ? LocalizationHelper.GetString($"StartingCoreCharPosition{position}") : operName);
+            string.IsNullOrEmpty(operName) ? LocalizationHelper.GetString($"Roguelike.StartingCoreCharPosition{position}") : operName);
 
     /// <summary>
     /// Gets or sets a value indicating whether can roguelike support unit belong to nonfriend.
@@ -924,9 +921,9 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     /// Gets the list of available playtime target options for FindPlaytime mode.
     /// </summary>
     public LocalizedObservableList<RoguelikeBoskySubNodeType> RoguelikeFindPlaytimeTargetList { get; } = new(
-        (RoguelikeBoskySubNodeType.Ling, "RoguelikePlaytimeLing"),
-        (RoguelikeBoskySubNodeType.Shu, "RoguelikePlaytimeShu"),
-        (RoguelikeBoskySubNodeType.Nian, "RoguelikePlaytimeNian"));
+        (RoguelikeBoskySubNodeType.Ling, "Roguelike.PlaytimeLing"),
+        (RoguelikeBoskySubNodeType.Shu, "Roguelike.PlaytimeShu"),
+        (RoguelikeBoskySubNodeType.Nian, "Roguelike.PlaytimeNian"));
 
     /// <summary>
     /// Gets or sets a value indicating whether the BlackFlow exp mode flies to the third floor with the Mechanic.
@@ -951,17 +948,17 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     /// 二、三结局暂不开放，选项不出现。
     /// </summary>
     public LocalizedObservableList<RoguelikeBlackFlowEnding> RoguelikeBlackFlowEndingList { get; } = new(
-        (RoguelikeBlackFlowEnding.Ending1, "RoguelikeBlackFlowEnding1"));
+        (RoguelikeBlackFlowEnding.Ending1, "Roguelike.BlackFlow.Ending1"));
 
     /// <summary>
     /// 刷开局动物下拉框的选项。羽蛇最多一只，另一格已选羽蛇时本格的羽蛇不可选。
     /// </summary>
     private static LocalizedObservableList<RoguelikeBlackFlowStartAnimal> CreateBlackFlowStartAnimalOptions() => new(
-        (RoguelikeBlackFlowStartAnimal.None, "RoguelikeBlackFlowStartAnimalNone", null, null),
-        (RoguelikeBlackFlowStartAnimal.Cat, "RoguelikeBlackFlowCultivationTargetCat", null, "RoguelikeBlackFlowCultivationTargetCatTip"),
-        (RoguelikeBlackFlowStartAnimal.Dog, "RoguelikeBlackFlowCultivationTargetDog", null, "RoguelikeBlackFlowCultivationTargetDogTip"),
-        (RoguelikeBlackFlowStartAnimal.Cerberus, "RoguelikeBlackFlowCultivationTargetCerberus", null, "RoguelikeBlackFlowCultivationTargetCerberusTip"),
-        (RoguelikeBlackFlowStartAnimal.FeatheredSerpent, "RoguelikeBlackFlowCultivationTargetFeatheredSerpent", null, "RoguelikeBlackFlowCultivationTargetFeatheredSerpentTip"));
+        (RoguelikeBlackFlowStartAnimal.None, "Roguelike.BlackFlow.StartAnimalNone", null, null),
+        (RoguelikeBlackFlowStartAnimal.Cat, "Roguelike.BlackFlow.CultivationTargetCat", null, "Roguelike.BlackFlow.CultivationTargetCat.Tip"),
+        (RoguelikeBlackFlowStartAnimal.Dog, "Roguelike.BlackFlow.CultivationTargetDog", null, "Roguelike.BlackFlow.CultivationTargetDog.Tip"),
+        (RoguelikeBlackFlowStartAnimal.Cerberus, "Roguelike.BlackFlow.CultivationTargetCerberus", null, "Roguelike.BlackFlow.CultivationTargetCerberus.Tip"),
+        (RoguelikeBlackFlowStartAnimal.FeatheredSerpent, "Roguelike.BlackFlow.CultivationTargetFeatheredSerpent", null, "Roguelike.BlackFlow.CultivationTargetFeatheredSerpent.Tip"));
 
     public LocalizedObservableList<RoguelikeBlackFlowStartAnimal> RoguelikeBlackFlowStartAnimal1List { get; } = CreateBlackFlowStartAnimalOptions();
 
@@ -1006,20 +1003,20 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     /// 刷开局奖励下拉框的选项。框内标签只显示名字，效果放在下拉项的悬浮提示里。
     /// </summary>
     public LocalizedObservableList<RoguelikeBlackFlowStartReward> RoguelikeBlackFlowStartRewardList { get; } = new(
-        (RoguelikeBlackFlowStartReward.UnnumberedItem, "RoguelikeBlackFlowRewardUnnumberedItem", null, "RoguelikeBlackFlowRewardUnnumberedItemTip"),
-        (RoguelikeBlackFlowStartReward.SurveyAdvance, "RoguelikeBlackFlowRewardSurveyAdvance", null, "RoguelikeBlackFlowRewardSurveyAdvanceTip"),
-        (RoguelikeBlackFlowStartReward.SpaceLease, "RoguelikeBlackFlowRewardSpaceLease", null, "RoguelikeBlackFlowRewardSpaceLeaseTip"),
-        (RoguelikeBlackFlowStartReward.RegressionCompensation, "RoguelikeBlackFlowRewardRegressionCompensation", null, "RoguelikeBlackFlowRewardRegressionCompensationTip"),
-        (RoguelikeBlackFlowStartReward.ForestRide, "RoguelikeBlackFlowRewardForestRide", null, "RoguelikeBlackFlowRewardForestRideTip"),
-        (RoguelikeBlackFlowStartReward.NestParasitism, "RoguelikeBlackFlowRewardNestParasitism", null, "RoguelikeBlackFlowRewardNestParasitismTip"));
+        (RoguelikeBlackFlowStartReward.UnnumberedItem, "Roguelike.BlackFlow.RewardUnnumberedItem", null, "Roguelike.BlackFlow.RewardUnnumberedItem.Tip"),
+        (RoguelikeBlackFlowStartReward.SurveyAdvance, "Roguelike.BlackFlow.RewardSurveyAdvance", null, "Roguelike.BlackFlow.RewardSurveyAdvance.Tip"),
+        (RoguelikeBlackFlowStartReward.SpaceLease, "Roguelike.BlackFlow.RewardSpaceLease", null, "Roguelike.BlackFlow.RewardSpaceLease.Tip"),
+        (RoguelikeBlackFlowStartReward.RegressionCompensation, "Roguelike.BlackFlow.RewardRegressionCompensation", null, "Roguelike.BlackFlow.RewardRegressionCompensation.Tip"),
+        (RoguelikeBlackFlowStartReward.ForestRide, "Roguelike.BlackFlow.RewardForestRide", null, "Roguelike.BlackFlow.RewardForestRide.Tip"),
+        (RoguelikeBlackFlowStartReward.NestParasitism, "Roguelike.BlackFlow.RewardNestParasitism", null, "Roguelike.BlackFlow.RewardNestParasitism.Tip"));
 
     public LocalizedObservableList<RoguelikeBlackFlowStartReward> RoguelikeBlackFlowSerpentRewardList { get; } = new(
-        (RoguelikeBlackFlowStartReward.Pegasus, "RoguelikeBlackFlowRewardPegasus", null, "RoguelikeBlackFlowRewardPegasusTip"),
-        (RoguelikeBlackFlowStartReward.Hippogriff, "RoguelikeBlackFlowRewardHippogriff", null, "RoguelikeBlackFlowRewardHippogriffTip"),
-        (RoguelikeBlackFlowStartReward.Dragon, "RoguelikeBlackFlowRewardDragon", null, "RoguelikeBlackFlowRewardDragonTip"),
-        (RoguelikeBlackFlowStartReward.Hydra, "RoguelikeBlackFlowRewardHydra", null, "RoguelikeBlackFlowRewardHydraTip"),
-        (RoguelikeBlackFlowStartReward.BaiZe, "RoguelikeBlackFlowRewardBaiZe", null, "RoguelikeBlackFlowRewardBaiZeTip"),
-        (RoguelikeBlackFlowStartReward.GoldenCrow, "RoguelikeBlackFlowRewardGoldenCrow", null, "RoguelikeBlackFlowRewardGoldenCrowTip"));
+        (RoguelikeBlackFlowStartReward.Pegasus, "Roguelike.BlackFlow.RewardPegasus", null, "Roguelike.BlackFlow.RewardPegasus.Tip"),
+        (RoguelikeBlackFlowStartReward.Hippogriff, "Roguelike.BlackFlow.RewardHippogriff", null, "Roguelike.BlackFlow.RewardHippogriff.Tip"),
+        (RoguelikeBlackFlowStartReward.Dragon, "Roguelike.BlackFlow.RewardDragon", null, "Roguelike.BlackFlow.RewardDragon.Tip"),
+        (RoguelikeBlackFlowStartReward.Hydra, "Roguelike.BlackFlow.RewardHydra", null, "Roguelike.BlackFlow.RewardHydra.Tip"),
+        (RoguelikeBlackFlowStartReward.BaiZe, "Roguelike.BlackFlow.RewardBaiZe", null, "Roguelike.BlackFlow.RewardBaiZe.Tip"),
+        (RoguelikeBlackFlowStartReward.GoldenCrow, "Roguelike.BlackFlow.RewardGoldenCrow", null, "Roguelike.BlackFlow.RewardGoldenCrow.Tip"));
 
     private object[] SelectBlackFlowRewards(LocalizedObservableList<RoguelikeBlackFlowStartReward> options)
     {
@@ -1203,7 +1200,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
         _ => LocalizationHelper.GetString("Roguelike.BlackFlow.StrategyUnknown"),
     };
 
-    private static string LocalizeBlackFlowIdentifier(string prefix, string? identifier, string fallbackKey)
+    private static string LocalizeBlackFlowIdentifier(string? identifier, string fallbackKey)
     {
         if (string.IsNullOrWhiteSpace(identifier))
         {
@@ -1213,9 +1210,14 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
         var suffix = string.Concat(
             identifier.Split('_', StringSplitOptions.RemoveEmptyEntries)
                 .Select(part => $"{char.ToUpperInvariant(part[0])}{part[1..]}"));
-        return LocalizationHelper.TryGetString(prefix + suffix, out var localized)
-            ? localized
-            : LocalizationHelper.GetString(fallbackKey);
+        var key = $"Roguelike.BlackFlow.Milestone{suffix}";
+        if (LocalizationHelper.HasCatalogKey(key))
+        {
+            return LocalizationHelper.GetString(key);
+        }
+
+        Log.Error("Unknown core roguelike milestone localization key: {Key}", key);
+        return LocalizationHelper.GetString(fallbackKey);
     }
 
     private static string LocalizeBlackFlowNodeType(string? nodeType) => nodeType switch {
@@ -1423,7 +1425,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
 
                 foreach (var option in options)
                 {
-                    string messageKey = option["enabled"]!.Value<bool>() ? "RoguelikeEncounterEnabledOption" : "RoguelikeEncounterDisabledOption";
+                    string messageKey = option["enabled"]!.Value<bool>() ? "Roguelike.EncounterEnabledOption" : "Roguelike.EncounterDisabledOption";
                     var text = option["text"]!.ToString();
                     logLines.Add(LocalizationHelper.GetStringFormat(messageKey, text));
                 }
@@ -1501,9 +1503,8 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                         break;
                     }
                     var milestone = LocalizeBlackFlowIdentifier(
-                        "BlackFlowMilestone",
                         subTaskDetails?["milestone_id"]?.ToString(),
-                        "BlackFlowMilestoneUnknown");
+                        "Roguelike.BlackFlow.MilestoneUnknown");
                     var status = LocalizeBlackFlowMilestoneStatus(statusCode);
                     var color = statusCode switch {
                         "satisfied" => UiLogColor.Success,
@@ -1558,14 +1559,14 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                 {
                     var status = subTaskDetails?["status"]?.ToString();
                     var (key, color) = status switch {
-                        "preparing" => ("BlackFlowStartRunPreparing", UiLogColor.Info),
-                        "target_run" => ("BlackFlowStartRunTargetRun", UiLogColor.Info),
-                        "reward_missed" => ("BlackFlowStartRunRewardMissed", UiLogColor.Info),
-                        "reward_picked" => ("BlackFlowStartRunRewardPicked", UiLogColor.Info),
-                        "completed" => ("BlackFlowStartRunCompleted", UiLogColor.Success),
-                        "reward_recognition_failed" => ("BlackFlowStartRunRewardRecognitionFailed", UiLogColor.Error),
-                        "reward_page_missing" => ("BlackFlowStartRunRewardPageMissing", UiLogColor.Error),
-                        "reward_unrecognized" => ("BlackFlowStartRunRewardUnrecognized", UiLogColor.Error),
+                        "preparing" => ("Roguelike.BlackFlow.StartRun.Preparing", UiLogColor.Info),
+                        "target_run" => ("Roguelike.BlackFlow.StartRun.TargetRun", UiLogColor.Info),
+                        "reward_missed" => ("Roguelike.BlackFlow.StartRun.RewardMissed", UiLogColor.Info),
+                        "reward_picked" => ("Roguelike.BlackFlow.StartRun.RewardPicked", UiLogColor.Info),
+                        "completed" => ("Roguelike.BlackFlow.StartRun.Completed", UiLogColor.Success),
+                        "reward_recognition_failed" => ("Roguelike.BlackFlow.StartRun.RewardRecognitionFailed", UiLogColor.Error),
+                        "reward_page_missing" => ("Roguelike.BlackFlow.StartRun.RewardPageMissing", UiLogColor.Error),
+                        "reward_unrecognized" => ("Roguelike.BlackFlow.StartRun.RewardUnrecognized", UiLogColor.Error),
                         _ => (string.Empty, UiLogColor.Info),
                     };
                     if (key.Length > 0)

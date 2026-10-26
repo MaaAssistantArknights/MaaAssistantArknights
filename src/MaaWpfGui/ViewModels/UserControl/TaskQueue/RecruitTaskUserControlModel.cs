@@ -148,9 +148,9 @@ public class RecruitTaskUserControlModel : TaskSettingsViewModel, RecruitTaskUse
     /// Gets the list of auto recruit selecting extra tags.
     /// </summary>
     public LocalizedObservableList<int> AutoRecruitSelectExtraTagsList { get; } = new(
-        (0, "DefaultNoExtraTags"),
-        (1, "SelectExtraTags"),
-        (2, "SelectExtraOnlyRareTags"));
+        (0, "Recruitment.DefaultNoExtraTags"),
+        (1, "Recruitment.SelectExtraTags"),
+        (2, "Recruitment.SelectExtraOnlyRareTags"));
 
     /// <summary>
     /// Gets or sets a value indicating three tags are always selected or select only rare tags as many as possible .

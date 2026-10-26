@@ -32,18 +32,18 @@ public sealed record ExternalNotificationChannel(
     Func<BaseConfig, IExternalNotificationProvider> CreateProvider)
 {
     public static IReadOnlyList<ExternalNotificationChannel> All { get; } = Array.AsReadOnly<ExternalNotificationChannel>([
-        Define<ServerChan, ServerChanConfig>("ServerChan", config => new(config), config => new ServerChanNotificationProvider(Instances.HttpService, config), "Server Chan"),
-        Define<Telegram, TelegramConfig>("Telegram", config => new(config), config => new TelegramNotificationProvider(Instances.HttpService, config)),
-        Define<Discord, DiscordConfig>("Discord", config => new(config), config => new DiscordNotificationProvider(Instances.HttpService, config)),
-        Define<DingTalk, DingTalkConfig>("DingTalk", config => new(config), config => new DingTalkNotificationProvider(Instances.HttpService, config)),
-        Define<Smtp, SmtpConfig>("SMTP", config => new(config), config => new SmtpNotificationProvider(config)),
-        Define<Bark, BarkConfig>("Bark", config => new(config), config => new BarkNotificationProvider(Instances.HttpService, config)),
-        Define<Qmsg, QmsgConfig>("Qmsg", config => new(config), config => new QmsgNotificationProvider(Instances.HttpService, config)),
-        Define<Gotify, GotifyConfig>("Gotify", config => new(config), config => new GotifyNotificationProvider(Instances.HttpService, config)),
-        Define<CustomWebhook, CustomWebhookConfig>("ExternalNotificationCustomWebhook", config => new(config), config => new CustomWebhookNotificationProvider(Instances.HttpService, config)),
+        Define<ServerChan, ServerChanConfig>(null, config => new(config), config => new ServerChanNotificationProvider(Instances.HttpService, config), "Server Chan"),
+        Define<Telegram, TelegramConfig>("About.Telegram", config => new(config), config => new TelegramNotificationProvider(Instances.HttpService, config)),
+        Define<Discord, DiscordConfig>("About.Discord", config => new(config), config => new DiscordNotificationProvider(Instances.HttpService, config)),
+        Define<DingTalk, DingTalkConfig>(null, config => new(config), config => new DingTalkNotificationProvider(Instances.HttpService, config)),
+        Define<Smtp, SmtpConfig>(null, config => new(config), config => new SmtpNotificationProvider(config), "SMTP"),
+        Define<Bark, BarkConfig>(null, config => new(config), config => new BarkNotificationProvider(Instances.HttpService, config)),
+        Define<Qmsg, QmsgConfig>(null, config => new(config), config => new QmsgNotificationProvider(Instances.HttpService, config)),
+        Define<Gotify, GotifyConfig>(null, config => new(config), config => new GotifyNotificationProvider(Instances.HttpService, config)),
+        Define<CustomWebhook, CustomWebhookConfig>("ExternalNotification.CustomWebhook", config => new(config), config => new CustomWebhookNotificationProvider(Instances.HttpService, config)),
     ]);
 
-    public string DisplayName => LocalizationHelper.TryGetString(LocalizationKey, out var name) ? name : FallbackName;
+    public string DisplayName => LocalizationKey.Length > 0 && LocalizationHelper.TryGetString(LocalizationKey, out var name) ? name : FallbackName;
 
     public static ExternalNotificationChannel ForConfig(Base config) =>
         All.FirstOrDefault(channel => channel.ConfigType == config.GetType())
@@ -52,10 +52,10 @@ public sealed record ExternalNotificationChannel(
     public static ExternalNotificationChannel? ForEditor(BaseConfig config) =>
         All.FirstOrDefault(channel => channel.EditorType == config.GetType());
 
-    private static ExternalNotificationChannel Define<TConfig, TEditor>(string key,
+    private static ExternalNotificationChannel Define<TConfig, TEditor>(string? key,
         Func<TConfig, TEditor> readConfig, Func<TEditor, IExternalNotificationProvider> createProvider, string? displayName = null)
         where TConfig : Base
         where TEditor : BaseConfig, new() =>
-        new(typeof(TConfig), typeof(TEditor), key, displayName ?? key,
+        new(typeof(TConfig), typeof(TEditor), key ?? string.Empty, displayName ?? typeof(TConfig).Name,
             () => new TEditor(), config => readConfig((TConfig)config), config => createProvider((TEditor)config));
 }
