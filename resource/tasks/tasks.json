@@ -2029,6 +2029,83 @@
         "postDelay": 500,
         "next": ["Stop"]
     },
+    "MonthlyCardBegin": {
+        "doc": "月卡到期提醒：挂在 Mall 任务末尾，购物后人已在采购中心，锚点直接命中切组合包页读'当期月卡剩余X天'；若不在商店则经 ToMall 跳转。识别文本经 SubTaskStart 回传 GUI(details.task 已剥前缀为 MonthlyCardDays)，由 GUI 判断阈值并提醒",
+        "algorithm": "JustReturn",
+        "next": [
+            "MonthlyCard@BundlesTab",
+            "MonthlyCard",
+            "MonthlyCard@ReturnFromDetail",
+            "MonthlyCard@QuickSwitch@ToMall#next",
+            "MonthlyCard@ReturnButtons#next",
+            "MonthlyCard@CloseAnnos#next",
+            "MonthlyCard@OfflineConfirm"
+        ]
+    },
+    "MonthlyCard@ReturnFromDetail": {
+        "doc": "商品详情浮层（信用购物结束停留）与月卡详情页共用左上角'<'深色条返回：该按钮与通用 ReturnButton 模板样式不同且对截图缩放路径敏感（1534 宽截图可命中、1920 宽真机失配），小房子导航在浮层下亦无效。故以右下购买按钮文字为浮层特征（'购买物品'=商品详情、'购买月卡'=月卡详情，分辨率无关），命中则点左上角固定坐标返回。各服需覆写 text 词表",
+        "algorithm": "OcrDetect",
+        "text": ["购买物品", "购买月卡"],
+        "roi": [790, 548, 260, 75],
+        "action": "ClickRect",
+        "specificRect": [85, 65, 30, 30],
+        "postDelay": 800,
+        "next": ["MonthlyCard@BundlesTab"]
+    },
+    "MonthlyCard": {
+        "doc": "月卡链锚点（确认已进入采购中心，与 Mall 链一致）。节点名必须为裸 MonthlyCard：通用组件(ReturnButton/CloseAnno 等)的 next 展开会引用前缀裸名，MallBegin 即采用此模式",
+        "action": "DoNothing",
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
+        "sub": ["Mall-Entry"],
+        "next": ["MonthlyCard@BundlesTab"]
+    },
+    "MonthlyCard@BundlesTab": {
+        "doc": "采购中心顶部页签-组合包，已按国服截图校准并按真机页签位置放宽。置于链首：任何商店子页（如购物结束停留的信用交易所页）页签栏均可见'组合包'，直接命中省去锚点判别；不在商店时经后续 ToMall 跳转（列表级兜底由 find_first 逐项尝试，无需 onErrorNext 介入）。可视区找不到月卡条目时滚动左侧列表继续找，耗尽后静默结束",
+        "algorithm": "OcrDetect",
+        "text": ["组合包"],
+        "roi": [410, 85, 140, 60],
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "next": ["MonthlyCard@MonthlyCardEntry", "MonthlyCard@ScrollForMonthlyCard"]
+    },
+    "MonthlyCard@MonthlyCardEntry": {
+        "doc": "组合包页左侧列表-月卡条目，点击进入详情页（倒计时只在详情页显示）。月卡卡片位置随活动礼包数量变化，roi 覆盖整个左侧列表区域靠 OCR '月卡' 定位（'月卡'字样在列表内唯一，且不与顶部页签栏、右侧'购买月卡'按钮重叠）。onErrorNext 指向清理节点：点击条目后若剩余天数 OCR 失败，先关详情页再结束，避免链尾停留详情页",
+        "algorithm": "OcrDetect",
+        "text": ["月卡"],
+        "roi": [0, 170, 260, 540],
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "next": ["MonthlyCard@MonthlyCardDays"],
+        "onErrorNext": ["MonthlyCard@CleanupDetail"]
+    },
+    "MonthlyCard@ScrollForMonthlyCard": {
+        "doc": "左侧列表可视区未找到月卡条目时向上滚动一屏重找（参照 EpisodeNew/SwipeUpToEpisode 滚动查找模式）；滚尽仍无（如无月卡）则经 exceededNext 静默结束",
+        "baseTask": "SlowlySwipeToTheUp",
+        "specificRect": [130, 500, 60, 60],
+        "rectMove": [130, 200, 60, 60],
+        "specialParams": [1000, 0, 3, 0],
+        "postDelay": 600,
+        "next": ["MonthlyCard@MonthlyCardEntry", "#self"],
+        "maxTimes": 6,
+        "exceededNext": ["Stop"]
+    },
+    "MonthlyCard@CleanupDetail": {
+        "doc": "月卡详情页清理：点左上角返回关闭详情页后结束。供 MonthlyCardEntry 的 onErrorNext 使用（详情页已打开但剩余天数识别失败的场景），与 MonthlyCardDays 成功路径的收尾点击一致",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [85, 65, 30, 30],
+        "postDelay": 500
+    },
+    "MonthlyCard@MonthlyCardDays": {
+        "doc": "月卡详情页右侧'当期月卡剩余X天'胶囊条（整屏唯一'剩余'字样），已按国服截图校准。text 必须留空：非空词表命中后回调文本会被替换为词表项本身（OCRer filter_and_replace_by_required_），GUI 正则拿不到天数；空词表透传整行 OCR 原文，由 GUI 端 (\\d+)\\s*天 + 0~30 范围双重过滤。识别后点击左上角返回关闭详情页，避免链尾停留浮层影响后续任务。识别失败时由 MonthlyCardEntry 的 onErrorNext（CleanupDetail）负责关闭详情页。多服需在各服 resource 覆写 roi/text",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [1040, 168, 210, 45],
+        "action": "ClickRect",
+        "specificRect": [85, 65, 30, 30],
+        "postDelay": 500
+    },
     "SignInEventBegin": {
         "doc": "限时签到活动领取入口，不支持特殊版型",
         "algorithm": "JustReturn",
