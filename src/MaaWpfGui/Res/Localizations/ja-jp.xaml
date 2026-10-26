@@ -358,6 +358,10 @@
     <system:String x:Key="Announcement.NotFinishedConfirm2">そう、あなたですね、まだ押す</system:String>
     <system:String x:Key="Announcement.NotFinishedConfirm3">まだ押す</system:String>
     <system:String x:Key="Announcement.Title">アナウンス</system:String>
+    <system:String x:Key="Asst.Connection.AttachWindow.Failed">AttachWindow の接続に失敗しました。スクリーンキャプチャ/入力方法の設定を確認してください</system:String>
+    <system:String x:Key="Asst.Connection.AttachWindow.Found">ウィンドウ "{0}" が見つかりました</system:String>
+    <system:String x:Key="Asst.Connection.AttachWindow.MultipleFound">{0} 個の "{1}" ウィンドウが見つかりました。最初のものを使用します</system:String>
+    <system:String x:Key="Asst.Connection.AttachWindow.NotFound">ウィンドウ "{0}" が見つかりません。ゲームが起動していることを確認してください</system:String>
     <system:String x:Key="Asst.Connection.CurrentResolution">現在の解像度: {0}x{1}</system:String>
     <system:String x:Key="Asst.Connection.EmulatorFps.ErrorTip">エミュレータの設定フレームレートが低すぎます（{0} FPS）。タスクが異常になる可能性があります。エミュレータの設定でバックグラウンドのフレームレート低下をオフにし、フレームレートを 60 FPS に設定してください</system:String>
     <system:String x:Key="Asst.Connection.EmulatorFps.HighTip">エミュレータの設定フレームレートが {0} FPS で、ゲームのネイティブフレームレート上限（60 FPS）を上回っています。これはエミュレータのフレーム補間機能の可能性があり、画面の異常や認識の不安定化を招くことがあります。フレーム補間を無効にし、フレームレートを 60 FPS に設定することを推奨します</system:String>
@@ -366,11 +370,14 @@
     <system:String x:Key="Asst.Connection.FastestWayToScreencap.ErrorTip">スクリーンキャップに時間がかかりすぎるため(平均: {0}ms)、自動戦闘機能 (Auto I.S. など) が適切に動作しない可能性があります、シミュレータの再起動や交換をお勧めします！MuMuやLDPlayerを使用している場合は、｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣ で対応するエミュレータを選択し、下部に表示されるスクリーンショット強化を有効にしてください。</system:String>
     <system:String x:Key="Asst.Connection.FastestWayToScreencap.InfoTip">スクリーンキャップに {0}ms かかっています。MuMuやLDPlayerを使用している場合は、｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣ で対応するエミュレータを選択し、下部に表示されるスクリーンショット強化を有効にすると短縮できます。</system:String>
     <system:String x:Key="Asst.Connection.FastestWayToScreencap.WarningTip">スクリーンキャップには時間がかかるため(平均: {0}ms)、自動戦闘機能 (Auto I.S. など) を使用すると異常な動作が発生する可能性があります。MuMuやLDPlayerを使用している場合は、｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣ で対応するエミュレータを選択し、下部に表示されるスクリーンショット強化を有効にしてください。</system:String>
+    <system:String x:Key="Asst.Connection.MuMu.FullExtrasReady">完全 MuMu 強化が起動——スクリーンショットとタッチの双核直結が貫通、バックグラウンド常駐も我らが掌中に！</system:String>
+    <system:String x:Key="Asst.Connection.MuMu.KeepAliveOn">MuMu エミュレータで ｢アプリ保活｣ が有効になっていますが、MAA のタッチ強化が機能していません。アプリ保活下では操作できません。MAA の ｢{key=Settings.Connection.Title}｣ で ｢{key=Connection.MuMu.ExtrasEnabled}｣ とその下の ｢{key=Connection.MuMu.ExtrasTouchEnabled}｣ を両方有効にしてください。強化を使わない場合は、MuMu 設定で ｢アプリ保活｣ を無効にしてください（一部バージョンでは ｢バックグラウンド常駐｣ ｢バックグラウンド放置時の常駐実行｣ などと呼ばれていました）。</system:String>
     <system:String x:Key="Asst.Connection.ReconnectFailed">再接続に失敗、切断されました！</system:String>
     <system:String x:Key="Asst.Connection.ReconnectSuccess">再接続に成功、タスクを続行します</system:String>
     <system:String x:Key="Asst.Connection.ResolutionAcquisitionFailure">エミュレータの解像度を取得できませんでした。エミュレータとADBを再起動するか、コンピュータを再起動することをお勧めします、エミュレータを変更してから再試行することをお勧めします</system:String>
     <system:String x:Key="Asst.Connection.ResolutionChanged">エミュレーターの解像度が変更されたため、接続を切断しました。タスクを再起動して新しい解像度を適用してください</system:String>
     <system:String x:Key="Asst.Connection.ResolutionNotSupported">エミュレータの解像度はサポートされていません。アスペクト比16:9で、720p以上に設定してください。1280x720 または 1920x1080 の使用を推奨します</system:String>
+    <system:String x:Key="Asst.Connection.ScreencapCost">スクリーンショットの撮影には時間がかかります min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
     <system:String x:Key="Asst.Connection.ScreencapFailed">スクリーンキャプチャに失敗しました。繰り返し発生する場合は、エミュレータの再起動または変更をお試しください！</system:String>
     <system:String x:Key="Asst.Connection.TouchModeNotAvailable">タッチモードは利用できません。｢{key=Settings.Title} - {key=Settings.Connection.Title}｣ に入って、他のタッチモードに変更してください。</system:String>
     <system:String x:Key="Asst.Connection.TryToReconnect">エミュレータが切断、再接続を行います</system:String>
@@ -392,6 +399,7 @@
     <system:String x:Key="Asst.Copilot.OperboxMatched">事前マッチした{key=Game.Operator}（グループ）：</system:String>
     <system:String x:Key="Asst.Copilot.SSSGamePass">ゲームクリア、おめでとうございます！</system:String>
     <system:String x:Key="Asst.Copilot.UnsupportedLevel">サポートされていないステージです。ステージ名を確認するか、｢{key=Settings.Title} - {key=Settings.Update.Title} - {key=Settings.Update.ResourceUpdate}｣ に移動してリソースバージョンを更新してみてください！</system:String>
+    <system:String x:Key="Asst.Copilot.UnsupportedStages">未サポートステージ {0}。新イベントのステージの場合は、マップリソースの更新を待ってから自動戦闘を使用してください</system:String>
     <system:String x:Key="Asst.Copilot.UserAdditionalNameInvalid">追加のカスタム{key=Game.Operator}名が無効です: {0}、スペルを確認してください</system:String>
     <system:String x:Key="Asst.Drop.CurTimes">現在の回数</system:String>
     <system:String x:Key="Asst.Drop.Furniture">家具</system:String>
@@ -590,6 +598,19 @@
     <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSaleSearchFailed">秘境行商で売却リストを検索できなかったため、取引を中止して退店します</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSellBackSearchFailed">秘境行商で買い戻し分の「{0}」が見つからないため、取引を中止して退店します</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedUnknown">秘境行商の取引で異常が発生したため、取引を中止して退店します</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunCompleted">開始条件を満たしたため、この探索を保持したまま退出しました</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPrepared">探索の準備が完了しました</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPreparedReason">第3層に到達しました。次の探索では指定の難易度と分隊を使用します</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPreparing">準備用の探索を進行中</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunRewardMissed">希望する初期報酬がないため、準備用の探索をやり直します</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunRewardPageMissing">初期報酬画面が見つからないため、タスクを停止しました</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunRewardPicked">初期報酬を選択しました。第1層が实托邦か確認します</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunRewardRecognitionFailed">初期報酬を認識できなかったため、タスクを停止しました</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunRewardUnrecognized">支援選択画面に認識できない報酬があるため、その画面に留まってタスクを停止しました</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunRewardsSeen">今回の支援画面：{0}</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunTargetRun">目標の探索を開始し、初期報酬の確認を待機中</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunUtopiaMissed">第1層は实托邦ではありません</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunUtopiaMissedReason">この探索を放棄し、準備用探索をやり直します</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StrategyResult">ローグライク戦略終了：{0}（{1}）</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StrategyStarted">ローグライク戦略を開始：{0}</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StrategyUnknown">不明な戦略</system:String>
@@ -660,6 +681,7 @@
     <system:String x:Key="Asst.Roguelike.Investment">投資しました: {1}(+{0})、貯蓄: {2}</system:String>
     <system:String x:Key="Asst.Roguelike.InvestmentReachFull">源石錐の投資数が上限に達していた、探索を中止する</system:String>
     <system:String x:Key="Asst.Roguelike.InvestmentReachLimit">源石錐の投資数が設定数（{0}）に達していた、探索を中止する</system:String>
+    <system:String x:Key="Asst.Roguelike.JieGarden.TargetFound">ターゲット常楽スポット {0} を見つけた</system:String>
     <system:String x:Key="Asst.Roguelike.LoseParadigm">パラダイムロストの消退: {1}</system:String>
     <system:String x:Key="Asst.Roguelike.MonthlySquadCompleted">月間チーム全てクリアしました！おめでとうございます！</system:String>
     <system:String x:Key="Asst.Roguelike.RoutingRestartTooManyBattles">前方の戦闘数：{0}、ルートを再計画します</system:String>
@@ -761,8 +783,6 @@ MAA を新しい独立したフォルダーに解凍するか、MAA に属さな
     <system:String x:Key="Connection.AlwaysAutoDetectConnection.Tip" xml:space="preserve">このオプションはお勧めしません。
 検出時には、接続する必要があるエミュレータのみを起動してください。複数のエミュレータを同時に起動すると、誤ったターゲットに接続する可能性があります。
 ポートが頻繁に変更され、かつ単一のエミュレータのみが実行されていることを確認できる場合にのみ、このオプションを有効にしてください。</system:String>
-    <system:String x:Key="Connection.AttachWindow.Failed">AttachWindow の接続に失敗しました。スクリーンキャプチャ/入力方法の設定を確認してください</system:String>
-    <system:String x:Key="Connection.AttachWindow.Found">ウィンドウ "{0}" が見つかりました</system:String>
     <system:String x:Key="Connection.AttachWindow.InputSeize">Seize（フォアグラウンド、マウスを完全に取得）</system:String>
     <system:String x:Key="Connection.AttachWindow.Keyboard.PostMsg">PostMsg（高効率）</system:String>
     <system:String x:Key="Connection.AttachWindow.Keyboard.SendMsg">SendMsg（安定）</system:String>
@@ -775,9 +795,7 @@ MAA を新しい独立したフォルダーに解凍するか、MAA に属さな
     <system:String x:Key="Connection.AttachWindow.Mouse.SendMsgDisabled">SendMsg（フルバックグラウンド、アークナイツは実マウス位置のみ参照、無効）</system:String>
     <system:String x:Key="Connection.AttachWindow.Mouse.SendMsgWindowPosDisabled">SendMsg-WindowPos（遅延過大、無効）</system:String>
     <system:String x:Key="Connection.AttachWindow.MouseMethod">マウス入力方式</system:String>
-    <system:String x:Key="Connection.AttachWindow.MultipleFound">{0} 個の "{1}" ウィンドウが見つかりました。最初のものを使用します</system:String>
     <system:String x:Key="Connection.AttachWindow.NeedAdmin">PC 接続には管理者権限が必要です。\n管理者として MAA を再起動しますか？</system:String>
-    <system:String x:Key="Connection.AttachWindow.NotFound">ウィンドウ "{0}" が見つかりません。ゲームが起動していることを確認してください</system:String>
     <system:String x:Key="Connection.AttachWindow.RestartAsAdminFailed">手動で管理者として MAA を実行してください。</system:String>
     <system:String x:Key="Connection.AttachWindow.Screencap.DesktopDupWindow">DesktopWindow（フォアグラウンド、遮蔽不可）</system:String>
     <system:String x:Key="Connection.AttachWindow.Screencap.FramePool">FramePool（バックグラウンド、高効率、最小化不可）</system:String>
@@ -888,9 +906,7 @@ C:\Program Files\Netease\MuMuPlayer を入力してください。
     </system:String>
     <system:String x:Key="Connection.MuMu.ExtrasNotEnabledMessage">MuMu スクリーンショットの強化 が有効になっていません。｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣ の下部に表示される強化設定を確認してください</system:String>
     <system:String x:Key="Connection.MuMu.ExtrasTouchEnabled">MuMu タッチ強化を有効化（実験的、MuMu エミュレータ 6.3.2+、バックグラウンド常駐対応）</system:String>
-    <system:String x:Key="Connection.MuMu.FullExtrasReady">完全 MuMu 強化が起動——スクリーンショットとタッチの双核直結が貫通、バックグラウンド常駐も我らが掌中に！</system:String>
     <system:String x:Key="Connection.MuMu.Index">インスタンス番号</system:String>
-    <system:String x:Key="Connection.MuMu.KeepAliveOn">MuMu エミュレータで ｢アプリ保活｣ が有効になっていますが、MAA のタッチ強化が機能していません。アプリ保活下では操作できません。MAA の ｢{key=Settings.Connection.Title}｣ で ｢{key=Connection.MuMu.ExtrasEnabled}｣ とその下の ｢{key=Connection.MuMu.ExtrasTouchEnabled}｣ を両方有効にしてください。強化を使わない場合は、MuMu 設定で ｢アプリ保活｣ を無効にしてください（一部バージョンでは ｢バックグラウンド常駐｣ ｢バックグラウンド放置時の常駐実行｣ などと呼ばれていました）。</system:String>
     <system:String x:Key="Connection.MuMuArm.ConnectionNotReady">MuMu ARM の ADB アドレスを読み取れません。エミュレータの起動完了後に再試行するか、自動検出を無効にして接続アドレスを手動で入力してください。</system:String>
     <system:String x:Key="Connection.MuMuArm.DetectAndTest">自動検出してテスト</system:String>
     <system:String x:Key="Connection.MultipleAddressesDetected">複数の接続アドレスが検出されました。使用するアドレスを選択してください：</system:String>
@@ -905,7 +921,6 @@ C:\Program Files\Netease\MuMuPlayer を入力してください。
     <system:String x:Key="Connection.RetryOnPcDisconnected">PC クライアントの接続失敗時にクライアントを起動</system:String>
     <system:String x:Key="Connection.RetryOnPcDisconnected.Tip">ウィンドウ接続に失敗した後、PC クライアントを起動して再接続します</system:String>
     <system:String x:Key="Connection.RetryOnPcDisconnectedPathEmptyError">PC クライアントのパスが空です！｢{key=Settings.Title} - {key=Settings.Startup.Title} - {key=Settings.Startup.PcClientPath}｣ を入力してから再度選択してください。</system:String>
-    <system:String x:Key="Connection.ScreencapCost">スクリーンショットの撮影には時間がかかります min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
     <system:String x:Key="Connection.ScreenshotTest">スクリーンショットテスト</system:String>
     <system:String x:Key="Connection.SelectAddress">接続アドレスを選択</system:String>
     <system:String x:Key="Connection.SelectEmulator">エミュレータを選択</system:String>
@@ -1016,7 +1031,6 @@ C:\Program Files\Netease\MuMuPlayer を入力してください。
     <system:String x:Key="Copilot.Title">自動戦闘</system:String>
     <system:String x:Key="Copilot.TotalOperatorsCount">合計 {0} 名の{key=Game.Operator}</system:String>
     <system:String x:Key="Copilot.UnsupportedSkill">{0} のスキル {1} はサポートされないので、スキルを選択されなくなります。</system:String>
-    <system:String x:Key="Copilot.UnsupportedStages">未サポートステージ {0}。新イベントのステージの場合は、マップリソースの更新を待ってから自動戦闘を使用してください</system:String>
     <system:String x:Key="Copilot.Usage.Tip">
         ヒント: \n\n
         1. この機能を使用前に、攻略ファイルと選択したステージタイプが一致していることを確認してください。\n\n
@@ -1518,19 +1532,6 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Roguelike.BlackFlow.StartRewards">狙う報酬</system:String>
     <system:String x:Key="Roguelike.BlackFlow.StartRewards.AnyHit">いずれか1つで停止</system:String>
     <system:String x:Key="Roguelike.BlackFlow.StartRewards.Tip" xml:space="preserve">狙う報酬と羽蛇の報酬でチェックした項目はすべて候補となり、開局時にいずれか1つが出れば停止します。&#10;選択肢にマウスを重ねると効果を確認できます。</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunCompleted">開始条件を満たしたため、この探索を保持したまま退出しました</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunPrepared">探索の準備が完了しました</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunPreparedReason">第3層に到達しました。次の探索では指定の難易度と分隊を使用します</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunPreparing">準備用の探索を進行中</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunRewardMissed">希望する初期報酬がないため、準備用の探索をやり直します</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunRewardPageMissing">初期報酬画面が見つからないため、タスクを停止しました</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunRewardPicked">初期報酬を選択しました。第1層が实托邦か確認します</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunRewardRecognitionFailed">初期報酬を認識できなかったため、タスクを停止しました</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunRewardUnrecognized">支援選択画面に認識できない報酬があるため、その画面に留まってタスクを停止しました</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunRewardsSeen">今回の支援画面：{0}</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunTargetRun">目標の探索を開始し、初期報酬の確認を待機中</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunUtopiaMissed">第1層は实托邦ではありません</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunUtopiaMissedReason">この探索を放棄し、準備用探索をやり直します</system:String>
     <system:String x:Key="Roguelike.BlackFlow.StartUtopia">第1層の实托邦（第1層の種類）を厳選</system:String>
     <system:String x:Key="Roguelike.BlackFlow.StartUtopia.Tip" xml:space="preserve">目標の探索で支援画面に狙う報酬が出たら、｢{key=Roguelike.BlackFlow.StartRewardPriority}｣ の順にカードを選んで第1層に入ります。&#10;第1層が实托邦ならこの探索を保持したまま退出し、そうでなければこの探索を放棄して準備用探索をやり直します。&#10;目標の探索は一般設定の職業と最初のオペレーターで開局します。&#10;難易度6以上が必要です。&#10;難易度を切り替えない設定では難易度を確認しません。</system:String>
     <system:String x:Key="Roguelike.BlackFlow.Strategy.Exp">レベル稼ぎ、素早く第3層へ</system:String>
@@ -1555,7 +1556,6 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Roguelike.JieGarden.DifficultyTip" xml:space="preserve">｢{key=Roguelike.Theme.JieGarden}｣ に関連する知識を解放すると、{key=Roguelike.Squad.Leader}で N3 以上の難易度を探索する際に ｢時の果て｣ を追加で携帯し、｢一戦一跳｣ の貯蓄戦術を行えます。
 まだ解放していない場合は、N3 以上の難易度（｢MAX｣ を含む）を選択しないでください。
 この機能を有効にするには、難易度を N3 以上に設定してください（｢{key=TaskQueue.NotSwitch} (-1)｣ を除く）。</system:String>
-    <system:String x:Key="Roguelike.JieGarden.TargetFound">ターゲット常楽スポット {0} を見つけた</system:String>
     <system:String x:Key="Roguelike.MonthlySquad.AutoIterate">月次小隊自動切替</system:String>
     <system:String x:Key="Roguelike.MonthlySquad.CheckComms">月次小隊通信</system:String>
     <system:String x:Key="Roguelike.MonthlySquad.CheckComms.Tip" xml:space="preserve">有効にすると、MAAは現在の小隊の通信がすべて解放されているかを確認し、すべて解放されてから次の月次小隊に切り替えます。&#10;報酬の獲得のみが目的の場合は、この設定を無効にすると探索の繰り返しを減らせます。&#10;この設定を無効にしたからといって、MAAが進行中の探索を早めに終了することはありません。</system:String>

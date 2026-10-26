@@ -358,6 +358,10 @@
     <system:String x:Key="Announcement.NotFinishedConfirm2">就是在說你，還點！</system:String>
     <system:String x:Key="Announcement.NotFinishedConfirm3">還點</system:String>
     <system:String x:Key="Announcement.Title">公告</system:String>
+    <system:String x:Key="Asst.Connection.AttachWindow.Failed">AttachWindow 綁定視窗失敗，請檢查截圖/輸入方式設定</system:String>
+    <system:String x:Key="Asst.Connection.AttachWindow.Found">找到視窗 "{0}"</system:String>
+    <system:String x:Key="Asst.Connection.AttachWindow.MultipleFound">找到 {0} 個 "{1}" 視窗，將使用第一個</system:String>
+    <system:String x:Key="Asst.Connection.AttachWindow.NotFound">未找到視窗 "{0}"，請確保遊戲已啟動</system:String>
     <system:String x:Key="Asst.Connection.CurrentResolution">目前解析度：{0}x{1}</system:String>
     <system:String x:Key="Asst.Connection.EmulatorFps.ErrorTip">偵測到模擬器設定影格率過低（{0} FPS），可能導致任務異常，請關閉模擬器背景降幀並將影格率設定為 60 FPS</system:String>
     <system:String x:Key="Asst.Connection.EmulatorFps.HighTip">偵測到模擬器設定影格率為 {0} FPS，高於遊戲原生影格率上限（60 FPS），可能是模擬器插幀功能，可能導致畫面異常或辨識不穩定，建議關閉插幀並將影格率設定為 60 FPS</system:String>
@@ -366,11 +370,14 @@
     <system:String x:Key="Asst.Connection.FastestWayToScreencap.ErrorTip">截圖耗時過長 (平均: {0}ms)，自動戰鬥類功能（如自動肉鴿）很可能無法正常執行，建議嘗試重新啟動或更換模擬器！若使用 MuMu、雷電模擬器，請在 ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣ 選擇對應模擬器，並開啟下方顯示的截圖增強</system:String>
     <system:String x:Key="Asst.Connection.FastestWayToScreencap.InfoTip">截圖耗時 {0}ms。若使用 MuMu、雷電模擬器，可在 ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣ 選擇對應模擬器，並開啟下方顯示的截圖增強以降低耗時</system:String>
     <system:String x:Key="Asst.Connection.FastestWayToScreencap.WarningTip">截圖耗時較長 (平均: {0}ms)，執行自動戰鬥類功能（如自動肉鴿）時可能表現異常。若使用 MuMu、雷電模擬器，請在 ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣ 選擇對應模擬器，並開啟下方顯示的截圖增強</system:String>
+    <system:String x:Key="Asst.Connection.MuMu.FullExtrasReady">完整 MuMu 增強已就位——截圖與觸控雙核直連貫通，背景保活亦為我所用！</system:String>
+    <system:String x:Key="Asst.Connection.MuMu.KeepAliveOn">偵測到 MuMu 模擬器開啟了 ｢應用程式執行｣（背景保活），但 MAA 的觸控增強未生效，此狀態下無法操作。請在 MAA ｢{key=Settings.Connection.Title}｣ 中同時勾選 ｢{key=Connection.MuMu.ExtrasEnabled}｣ 及其下的 ｢{key=Connection.MuMu.ExtrasTouchEnabled}｣；或不想使用增強時，請在 MuMu ｢裝置設定 - 其他｣ 中關閉 ｢應用程式執行｣（部分版本曾稱 ｢應用保活｣ ｢背景保活｣ ｢背景掛機時保活運行｣ 等）。</system:String>
     <system:String x:Key="Asst.Connection.ReconnectFailed">重連失敗，連線已斷開！</system:String>
     <system:String x:Key="Asst.Connection.ReconnectSuccess">重連成功，繼續任務</system:String>
     <system:String x:Key="Asst.Connection.ResolutionAcquisitionFailure">模擬器解析度取得失敗，建議重新啟動模擬器與 ADB 或重新啟動電腦，或更換模擬器後再次嘗試</system:String>
     <system:String x:Key="Asst.Connection.ResolutionChanged">模擬器解析度已變更，連線已中斷。請重新開始任務以套用新解析度</system:String>
     <system:String x:Key="Asst.Connection.ResolutionNotSupported">模擬器解析度不支援，請設定為 720p 或更高，且比例為 16:9（建議使用 1280x720 或 1920x1080）</system:String>
+    <system:String x:Key="Asst.Connection.ScreencapCost">截圖耗時 min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
     <system:String x:Key="Asst.Connection.ScreencapFailed">截圖失敗，如反覆出現請嘗試重新啟動或更換模擬器！</system:String>
     <system:String x:Key="Asst.Connection.TouchModeNotAvailable">觸控模式不可用。請進入 ｢{key=Settings.Title} - {key=Settings.Connection.Title}｣ 切換其他觸控模式。</system:String>
     <system:String x:Key="Asst.Connection.TryToReconnect">模擬器斷開連線，正在嘗試重連</system:String>
@@ -392,6 +399,7 @@
     <system:String x:Key="Asst.Copilot.OperboxMatched">預匹配的{key=Game.Operator}（組）：</system:String>
     <system:String x:Key="Asst.Copilot.SSSGamePass">保全通關啦！</system:String>
     <system:String x:Key="Asst.Copilot.UnsupportedLevel">不支援的關卡，請檢查關卡名稱或前往 ｢{key=Settings.Title} - {key=Settings.Update.Title} - {key=Settings.Update.ResourceUpdate}｣ 嘗試更新資源版本！</system:String>
+    <system:String x:Key="Asst.Copilot.UnsupportedStages">不支援的關卡 {0}，如果是新活動的關卡，請等待地圖資源更新後再使用自動戰鬥</system:String>
     <system:String x:Key="Asst.Copilot.UserAdditionalNameInvalid">追加自訂{key=Game.Operator}名稱無效：{0}，請檢查拼寫</system:String>
     <system:String x:Key="Asst.Drop.CurTimes">目前次數</system:String>
     <system:String x:Key="Asst.Drop.Furniture">傢俱</system:String>
@@ -590,6 +598,19 @@
     <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSaleSearchFailed">秘境行商出售列表查找失敗，停止交易並離店</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSellBackSearchFailed">秘境行商未能找到要賣回的「{0}」，停止交易並離店</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedUnknown">秘境行商交易出現異常，停止交易並離店</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunCompleted">開局目標已滿足，已退出並保留這一局</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPrepared">開局準備已完成</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPreparedReason">已到達第三層，將按目標難度和分隊開啟下一局</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPreparing">正在進行準備局</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunRewardMissed">開局獎勵未命中，重新進行準備局</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunRewardPageMissing">未辨識到開局獎勵頁，已停止任務</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunRewardPicked">開局獎勵已選取，進入第一層檢查實托邦</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunRewardRecognitionFailed">開局獎勵辨識失敗，已停止任務</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunRewardUnrecognized">選擇支援頁有獎勵未能辨識，已停在該頁面並停止任務</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunRewardsSeen">本次支援頁：{0}</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunTargetRun">已切換到目標局，等待檢查開局獎勵</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunUtopiaMissed">第一層不是實托邦</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunUtopiaMissedReason">將放棄這一局，重新進行準備局</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StrategyResult">肉鴿策略結束：{0}（{1}）</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StrategyStarted">黑流策略已啟動：{0}</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StrategyUnknown">未知策略</system:String>
@@ -660,6 +681,7 @@
     <system:String x:Key="Asst.Roguelike.Investment">已投資 {1}(+{0}), 存款: {2}</system:String>
     <system:String x:Key="Asst.Roguelike.InvestmentReachFull">投資源石錠存滿, 停止探索</system:String>
     <system:String x:Key="Asst.Roguelike.InvestmentReachLimit">投資源石錠達到設定次數({0}), 停止探索</system:String>
+    <system:String x:Key="Asst.Roguelike.JieGarden.TargetFound">發現目標常樂節點 {0}</system:String>
     <system:String x:Key="Asst.Roguelike.LoseParadigm">坍縮範式消退: {1}</system:String>
     <system:String x:Key="Asst.Roguelike.MonthlySquadCompleted">月度小隊清完啦！</system:String>
     <system:String x:Key="Asst.Roguelike.RoutingRestartTooManyBattles">前方戰鬥數：{0}，重新規劃路線</system:String>
@@ -761,8 +783,6 @@
     <system:String x:Key="Connection.AlwaysAutoDetectConnection.Tip" xml:space="preserve">不推薦勾選此選項。
 偵測時請確保只開啟需要連線的模擬器，同時開啟多個模擬器可能會導致連線到錯誤的目標。
 僅當通訊埠經常發生變化且確認只執行單個模擬器時才建議勾選。</system:String>
-    <system:String x:Key="Connection.AttachWindow.Failed">AttachWindow 綁定視窗失敗，請檢查截圖/輸入方式設定</system:String>
-    <system:String x:Key="Connection.AttachWindow.Found">找到視窗 "{0}"</system:String>
     <system:String x:Key="Connection.AttachWindow.InputSeize">Seize（前景，完全搶滑鼠）</system:String>
     <system:String x:Key="Connection.AttachWindow.Keyboard.PostMsg">PostMsg（高效）</system:String>
     <system:String x:Key="Connection.AttachWindow.Keyboard.SendMsg">SendMsg（穩定）</system:String>
@@ -775,9 +795,7 @@
     <system:String x:Key="Connection.AttachWindow.Mouse.SendMsgDisabled">SendMsg（全背景，明日方舟僅以真實滑鼠定位，無效）</system:String>
     <system:String x:Key="Connection.AttachWindow.Mouse.SendMsgWindowPosDisabled">SendMsg-WindowPos（延遲過高，已停用）</system:String>
     <system:String x:Key="Connection.AttachWindow.MouseMethod">滑鼠輸入</system:String>
-    <system:String x:Key="Connection.AttachWindow.MultipleFound">找到 {0} 個 "{1}" 視窗，將使用第一個</system:String>
     <system:String x:Key="Connection.AttachWindow.NeedAdmin">PC 端連線需要系統管理員權限。\n是否以系統管理員身分重新啟動 MAA？</system:String>
-    <system:String x:Key="Connection.AttachWindow.NotFound">未找到視窗 "{0}"，請確保遊戲已啟動</system:String>
     <system:String x:Key="Connection.AttachWindow.RestartAsAdminFailed">請手動以系統管理員身分執行 MAA</system:String>
     <system:String x:Key="Connection.AttachWindow.Screencap.DesktopDupWindow">DesktopWindow（前景，不可遮擋）</system:String>
     <system:String x:Key="Connection.AttachWindow.Screencap.FramePool">FramePool（背景，高效，不可最小化）</system:String>
@@ -886,9 +904,7 @@ C:\Program Files\Netease\MuMuPlayer
 2. 若正在使用網路橋接，則需勾選 MuMu 網路橋接模式並手動填寫裝置編號（MuMu 裝置清單左上角的 # 數字，主裝置為 0）。</system:String>
     <system:String x:Key="Connection.MuMu.ExtrasNotEnabledMessage">MuMu 截圖增強未生效，請在 ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣ 檢查下方顯示的截圖增強設定</system:String>
     <system:String x:Key="Connection.MuMu.ExtrasTouchEnabled">啟用 MuMu 觸控增強（實驗性，需 MuMu 模擬器 6.3.2+，支援背景保活）</system:String>
-    <system:String x:Key="Connection.MuMu.FullExtrasReady">完整 MuMu 增強已就位——截圖與觸控雙核直連貫通，背景保活亦為我所用！</system:String>
     <system:String x:Key="Connection.MuMu.Index">裝置編號</system:String>
-    <system:String x:Key="Connection.MuMu.KeepAliveOn">偵測到 MuMu 模擬器開啟了 ｢應用程式執行｣（背景保活），但 MAA 的觸控增強未生效，此狀態下無法操作。請在 MAA ｢{key=Settings.Connection.Title}｣ 中同時勾選 ｢{key=Connection.MuMu.ExtrasEnabled}｣ 及其下的 ｢{key=Connection.MuMu.ExtrasTouchEnabled}｣；或不想使用增強時，請在 MuMu ｢裝置設定 - 其他｣ 中關閉 ｢應用程式執行｣（部分版本曾稱 ｢應用保活｣ ｢背景保活｣ ｢背景掛機時保活運行｣ 等）。</system:String>
     <system:String x:Key="Connection.MuMuArm.ConnectionNotReady">無法讀取 MuMu ARM 的 ADB 位址。請等待模擬器啟動完成後重試，或關閉自動偵測並手動填入連線位址。</system:String>
     <system:String x:Key="Connection.MuMuArm.DetectAndTest">自動偵測並測試</system:String>
     <system:String x:Key="Connection.MultipleAddressesDetected">偵測到多個連線位址，請選擇您要使用的位址：</system:String>
@@ -903,7 +919,6 @@ C:\Program Files\Netease\MuMuPlayer
     <system:String x:Key="Connection.RetryOnPcDisconnected">PC 客戶端連線失敗時嘗試啟動客戶端</system:String>
     <system:String x:Key="Connection.RetryOnPcDisconnected.Tip">視窗連線失敗後啟動 PC 客戶端，並再次嘗試連線</system:String>
     <system:String x:Key="Connection.RetryOnPcDisconnectedPathEmptyError">PC 客戶端路徑為空！請填寫 ｢{key=Settings.Title} - {key=Settings.Startup.Title} - {key=Settings.Startup.PcClientPath}｣ 後重新勾選。</system:String>
-    <system:String x:Key="Connection.ScreencapCost">截圖耗時 min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
     <system:String x:Key="Connection.ScreenshotTest">截圖測試</system:String>
     <system:String x:Key="Connection.SelectAddress">選擇連線位址</system:String>
     <system:String x:Key="Connection.SelectEmulator">選擇模擬器</system:String>
@@ -1014,7 +1029,6 @@ C:\Program Files\Netease\MuMuPlayer
     <system:String x:Key="Copilot.Title">自動戰鬥</system:String>
     <system:String x:Key="Copilot.TotalOperatorsCount">共 {0} 名{key=Game.Operator}</system:String>
     <system:String x:Key="Copilot.UnsupportedSkill">{0} 不支援技能 {1}, 不再選擇技能</system:String>
-    <system:String x:Key="Copilot.UnsupportedStages">不支援的關卡 {0}，如果是新活動的關卡，請等待地圖資源更新後再使用自動戰鬥</system:String>
     <system:String x:Key="Copilot.Usage.Tip">
         小提示：\n\n
         1. 使用前請確認作業與所選擇的關卡類型一致。\n\n
@@ -1516,19 +1530,6 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Roguelike.BlackFlow.StartRewards">期望獎勵</system:String>
     <system:String x:Key="Roguelike.BlackFlow.StartRewards.AnyHit">任意一項即停</system:String>
     <system:String x:Key="Roguelike.BlackFlow.StartRewards.Tip" xml:space="preserve">期望獎勵和羽蛇獎勵裡勾選的全部算候選，開局出現任意一項就停下。&#10;滑鼠停在選項上可查看效果。</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunCompleted">開局目標已滿足，已退出並保留這一局</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunPrepared">開局準備已完成</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunPreparedReason">已到達第三層，將按目標難度和分隊開啟下一局</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunPreparing">正在進行準備局</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunRewardMissed">開局獎勵未命中，重新進行準備局</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunRewardPageMissing">未辨識到開局獎勵頁，已停止任務</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunRewardPicked">開局獎勵已選取，進入第一層檢查實托邦</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunRewardRecognitionFailed">開局獎勵辨識失敗，已停止任務</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunRewardUnrecognized">選擇支援頁有獎勵未能辨識，已停在該頁面並停止任務</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunRewardsSeen">本次支援頁：{0}</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunTargetRun">已切換到目標局，等待檢查開局獎勵</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunUtopiaMissed">第一層不是實托邦</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunUtopiaMissedReason">將放棄這一局，重新進行準備局</system:String>
     <system:String x:Key="Roguelike.BlackFlow.StartUtopia">凹第一層實托邦</system:String>
     <system:String x:Key="Roguelike.BlackFlow.StartUtopia.Tip" xml:space="preserve">目標局在支援頁出現期望獎勵後，依 ｢{key=Roguelike.BlackFlow.StartRewardPriority}｣ 選卡並進入第一層。&#10;第一層是實托邦就退出並保留這一局，不是就放棄這一局，重新進行準備局。&#10;目標局用一般設定裡的職業組和開局幹員開局。&#10;需難度 6 以上；難度選擇不切換時不檢查難度。</system:String>
     <system:String x:Key="Roguelike.BlackFlow.Strategy.Exp">刷等級，快速前往第三層</system:String>
@@ -1553,7 +1554,6 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Roguelike.JieGarden.DifficultyTip" xml:space="preserve">解鎖 ｢{key=Roguelike.Theme.JieGarden}｣ 相關科技後，{key=Roguelike.Squad.Leader}在進行 N3 及以上難度的探索時，會額外攜帶一個 ｢時光之末｣，可以利用其進行 ｢一戰一跳｣ 的存錢策略。
 若尚未解鎖該科技，請不要選擇 N3 及以上難度（包括 ｢MAX｣）進行探索；
 若希望啟用此機制，請確保選擇的難度為 N3 及以上（不包括 ｢{key=TaskQueue.NotSwitch} (-1)｣）。</system:String>
-    <system:String x:Key="Roguelike.JieGarden.TargetFound">發現目標常樂節點 {0}</system:String>
     <system:String x:Key="Roguelike.MonthlySquad.AutoIterate">月度小隊自動切換</system:String>
     <system:String x:Key="Roguelike.MonthlySquad.CheckComms">月度小隊通訊</system:String>
     <system:String x:Key="Roguelike.MonthlySquad.CheckComms.Tip" xml:space="preserve">勾選後，MAA會檢查是否已解鎖目前小隊的全部通訊，全部解鎖後才會切換至下一個月度小隊&#10;若只需取得獎勵，可取消勾選以減少重複探索&#10;MAA不會因為取消勾選此選項而提前在局內結束探索</system:String>

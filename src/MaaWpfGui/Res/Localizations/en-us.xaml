@@ -358,6 +358,10 @@
     <system:String x:Key="Announcement.NotFinishedConfirm2">Yes, you — still clicking</system:String>
     <system:String x:Key="Announcement.NotFinishedConfirm3">Still clicking</system:String>
     <system:String x:Key="Announcement.Title">Announcement</system:String>
+    <system:String x:Key="Asst.Connection.AttachWindow.Failed">AttachWindow failed, please check screencap/input method settings</system:String>
+    <system:String x:Key="Asst.Connection.AttachWindow.Found">Found window "{0}"</system:String>
+    <system:String x:Key="Asst.Connection.AttachWindow.MultipleFound">Found {0} "{1}" windows, using the first one</system:String>
+    <system:String x:Key="Asst.Connection.AttachWindow.NotFound">Window "{0}" not found, please ensure the game is running</system:String>
     <system:String x:Key="Asst.Connection.CurrentResolution">Current resolution: {0}x{1}</system:String>
     <system:String x:Key="Asst.Connection.EmulatorFps.ErrorTip">Emulator refresh rate is set too low ({0} FPS), which may cause tasks to malfunction. Please turn off background frame rate reduction and set the frame rate to 60 FPS</system:String>
     <system:String x:Key="Asst.Connection.EmulatorFps.HighTip">Emulator refresh rate is set to {0} FPS, above the game's native frame rate cap (60 FPS). This may be the emulator's frame interpolation feature, which can cause visual artifacts or unstable recognition. It is recommended to disable frame interpolation and set the frame rate to 60 FPS</system:String>
@@ -366,11 +370,14 @@
     <system:String x:Key="Asst.Connection.FastestWayToScreencap.ErrorTip">Screencap takes too long (avg: {0}ms), so automatic combat functions (e.g. Auto I. S.) may not run properly. It is recommended to try restarting or changing the emulator! For MuMu or LDPlayer, select your emulator in ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣ and enable the screenshot enhancement shown below</system:String>
     <system:String x:Key="Asst.Connection.FastestWayToScreencap.InfoTip">Screencap takes {0}ms. For MuMu or LDPlayer, you can select your emulator in ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣ and enable the screenshot enhancement shown below to reduce it</system:String>
     <system:String x:Key="Asst.Connection.FastestWayToScreencap.WarningTip">Screencap takes a long time (avg: {0}ms) which may cause some abnormal behaviors using automatic combat functions (e.g. Auto I. S.). For MuMu or LDPlayer, select your emulator in ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣ and enable the screenshot enhancement shown below</system:String>
+    <system:String x:Key="Asst.Connection.MuMu.FullExtrasReady">Full MuMu enhancement online — screenshot &amp; touch dual-link engaged. Background keep-alive bows to our will!</system:String>
+    <system:String x:Key="Asst.Connection.MuMu.KeepAliveOn">MuMu emulator has ｢App Keep-Alive｣ enabled, but MAA touch enhancement is not working. Operations are not possible under app keep-alive. Please enable both ｢{key=Connection.MuMu.ExtrasEnabled}｣ and its sub-option ｢{key=Connection.MuMu.ExtrasTouchEnabled}｣ in MAA ｢{key=Settings.Connection.Title}｣; or if you don't want to use enhancement, disable ｢App Keep-Alive｣ in MuMu settings (some versions previously called it ｢Keep Alive in Background｣, ｢Keep running while AFK in background｣, etc.).</system:String>
     <system:String x:Key="Asst.Connection.ReconnectFailed">Reconnection failed. The connection is down!</system:String>
     <system:String x:Key="Asst.Connection.ReconnectSuccess">Reconnection succeeded. Continuing the task</system:String>
     <system:String x:Key="Asst.Connection.ResolutionAcquisitionFailure">Failed to obtain emulator resolution. It is recommended to restart the emulator and ADB, or restart the computer, or consider switching to another emulator</system:String>
     <system:String x:Key="Asst.Connection.ResolutionChanged">Emulator resolution has changed, connection closed. Please restart the task to apply the new resolution</system:String>
     <system:String x:Key="Asst.Connection.ResolutionNotSupported">Emulator resolution not supported, please set a resolution of at least 1280x720 with a 16:9 aspect ratio; 1280x720 or 1920x1080 is recommended</system:String>
+    <system:String x:Key="Asst.Connection.ScreencapCost">Screencap Cost min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
     <system:String x:Key="Asst.Connection.ScreencapFailed">Screencap failed. If it happens repeatedly, try to restart or change the emulator!</system:String>
     <system:String x:Key="Asst.Connection.TouchModeNotAvailable">Touch mode is not available, please go to ｢{key=Settings.Title} - {key=Settings.Connection.Title}｣ to switch to a different touch mode.</system:String>
     <system:String x:Key="Asst.Connection.TryToReconnect">Emulator disconnected, trying to reconnect</system:String>
@@ -392,6 +399,7 @@
     <system:String x:Key="Asst.Copilot.OperboxMatched">Pre-matched {key=Game.Operator} (groups):</system:String>
     <system:String x:Key="Asst.Copilot.SSSGamePass">Game cleared! congratulations!</system:String>
     <system:String x:Key="Asst.Copilot.UnsupportedLevel">Unsupported stage, please check the stage name or go to ｢{key=Settings.Title} - {key=Settings.Update.Title} - {key=Settings.Update.ResourceUpdate}｣ and try updating the resource version!</system:String>
+    <system:String x:Key="Asst.Copilot.UnsupportedStages">Unsupported stage {0}. If this is a stage from a new event, please wait for the map resource update before using auto-combat</system:String>
     <system:String x:Key="Asst.Copilot.UserAdditionalNameInvalid">Additional custom {key=Game.Operator} name invalid: {0}, please check spelling</system:String>
     <system:String x:Key="Asst.Drop.CurTimes">Current times</system:String>
     <system:String x:Key="Asst.Drop.Furniture">Furniture</system:String>
@@ -590,6 +598,19 @@
     <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSaleSearchFailed">Could not search the sell list at 秘境行商 (scrap trader); stopping the trade and leaving</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSellBackSearchFailed">Could not find "{0}" to sell back at 秘境行商 (scrap trader); stopping the trade and leaving</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedUnknown">The trade at 秘境行商 (scrap trader) ran into an error; stopping the trade and leaving</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunCompleted">Starting conditions met; exited and kept this run</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPrepared">Preparation complete</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPreparedReason">Floor 3 reached; the next run will use the target difficulty and squad</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPreparing">Preparation run in progress</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunRewardMissed">No desired starting reward found; preparing another run</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunRewardPageMissing">Starting reward screen not found; task stopped</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunRewardPicked">Starting reward picked; entering Floor 1 to check for 实托邦</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunRewardRecognitionFailed">Starting reward recognition failed; task stopped</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunRewardUnrecognized">Some rewards on the support selection screen were not recognized; stopped on that screen and ended the task</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunRewardsSeen">Rewards on this support screen: {0}</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunTargetRun">Target run started; waiting to check starting rewards</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunUtopiaMissed">Floor 1 is not 实托邦</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunUtopiaMissedReason">This run will be abandoned and another preparation run started</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StrategyResult">Roguelike strategy ended: {0} ({1})</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StrategyStarted">BlackFlow strategy started: {0}</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StrategyUnknown">Unknown strategy</system:String>
@@ -660,6 +681,7 @@
     <system:String x:Key="Asst.Roguelike.Investment">Invested {1}(+{0}), deposit: {2}</system:String>
     <system:String x:Key="Asst.Roguelike.InvestmentReachFull">Ingots reach full, Stop exploring</system:String>
     <system:String x:Key="Asst.Roguelike.InvestmentReachLimit">Ingots reach limit({0}), Stop exploring</system:String>
+    <system:String x:Key="Asst.Roguelike.JieGarden.TargetFound">Target playtime node found {0}</system:String>
     <system:String x:Key="Asst.Roguelike.LoseParadigm">Collapsal Paradigm Regression: {1}</system:String>
     <system:String x:Key="Asst.Roguelike.MonthlySquadCompleted">Monthly squad all clear! Congratulations!</system:String>
     <system:String x:Key="Asst.Roguelike.RoutingRestartTooManyBattles">Too many battles ahead: {0}, restarting route</system:String>
@@ -761,8 +783,6 @@ Only supports Official(CN), Bilibili, Traditional Chinese and YostarKR servers. 
     <system:String x:Key="Connection.AlwaysAutoDetectConnection.Tip" xml:space="preserve">This option is not recommended.
 Please ensure only the target emulator is running during detection. Running multiple emulators simultaneously may result in connecting to the wrong target.
 Only enable this option when the port changes frequently and you are certain only one emulator is running.</system:String>
-    <system:String x:Key="Connection.AttachWindow.Failed">AttachWindow failed, please check screencap/input method settings</system:String>
-    <system:String x:Key="Connection.AttachWindow.Found">Found window "{0}"</system:String>
     <system:String x:Key="Connection.AttachWindow.InputSeize">Seize (Foreground, Fully Captures Mouse)</system:String>
     <system:String x:Key="Connection.AttachWindow.Keyboard.PostMsg">PostMsg (Efficient)</system:String>
     <system:String x:Key="Connection.AttachWindow.Keyboard.SendMsg">SendMsg (Stable)</system:String>
@@ -775,9 +795,7 @@ Only enable this option when the port changes frequently and you are certain onl
     <system:String x:Key="Connection.AttachWindow.Mouse.SendMsgDisabled">SendMsg (Full Background, Arknights Uses Real Mouse Position Only, Ineffective)</system:String>
     <system:String x:Key="Connection.AttachWindow.Mouse.SendMsgWindowPosDisabled">SendMsg-WindowPos (Excessive Latency, Disabled)</system:String>
     <system:String x:Key="Connection.AttachWindow.MouseMethod">Mouse Input Method</system:String>
-    <system:String x:Key="Connection.AttachWindow.MultipleFound">Found {0} "{1}" windows, using the first one</system:String>
     <system:String x:Key="Connection.AttachWindow.NeedAdmin">PC connection requires administrator privileges.\nRestart MAA as administrator?</system:String>
-    <system:String x:Key="Connection.AttachWindow.NotFound">Window "{0}" not found, please ensure the game is running</system:String>
     <system:String x:Key="Connection.AttachWindow.RestartAsAdminFailed">Please run MAA as administrator manually.</system:String>
     <system:String x:Key="Connection.AttachWindow.Screencap.DesktopDupWindow">DesktopWindow (Foreground, No Occlusion)</system:String>
     <system:String x:Key="Connection.AttachWindow.Screencap.FramePool">FramePool (Background, Efficient, Cannot Minimize)</system:String>
@@ -885,9 +903,7 @@ Note:
 2. If using network bridging, check the MuMu network bridging mode and manually enter the serial number.</system:String>
     <system:String x:Key="Connection.MuMu.ExtrasNotEnabledMessage">MuMu screenshot enhancement is not working. Check the enhancement settings shown below in ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣</system:String>
     <system:String x:Key="Connection.MuMu.ExtrasTouchEnabled">Enable MuMu touch enhancement (experimental, requires MuMu Emulator 6.3.2+, supports background keep-alive)</system:String>
-    <system:String x:Key="Connection.MuMu.FullExtrasReady">Full MuMu enhancement online — screenshot &amp; touch dual-link engaged. Background keep-alive bows to our will!</system:String>
     <system:String x:Key="Connection.MuMu.Index">Instance Number</system:String>
-    <system:String x:Key="Connection.MuMu.KeepAliveOn">MuMu emulator has ｢App Keep-Alive｣ enabled, but MAA touch enhancement is not working. Operations are not possible under app keep-alive. Please enable both ｢{key=Connection.MuMu.ExtrasEnabled}｣ and its sub-option ｢{key=Connection.MuMu.ExtrasTouchEnabled}｣ in MAA ｢{key=Settings.Connection.Title}｣; or if you don't want to use enhancement, disable ｢App Keep-Alive｣ in MuMu settings (some versions previously called it ｢Keep Alive in Background｣, ｢Keep running while AFK in background｣, etc.).</system:String>
     <system:String x:Key="Connection.MuMuArm.ConnectionNotReady">Unable to read the MuMu ARM ADB address. Wait for the emulator to finish starting and retry, or disable auto detection and enter the connection address manually.</system:String>
     <system:String x:Key="Connection.MuMuArm.DetectAndTest">Detect and test</system:String>
     <system:String x:Key="Connection.MultipleAddressesDetected">Multiple connection addresses detected, please select the address you want to use:</system:String>
@@ -902,7 +918,6 @@ Note:
     <system:String x:Key="Connection.RetryOnPcDisconnected">Start the PC client when its connection fails</system:String>
     <system:String x:Key="Connection.RetryOnPcDisconnected.Tip">Start the PC client after a window connection failure, then try connecting again</system:String>
     <system:String x:Key="Connection.RetryOnPcDisconnectedPathEmptyError">PC client path is empty! Please fill in ｢{key=Settings.Title} - {key=Settings.Startup.Title} - {key=Settings.Startup.PcClientPath}｣ and reselect.</system:String>
-    <system:String x:Key="Connection.ScreencapCost">Screencap Cost min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
     <system:String x:Key="Connection.ScreenshotTest">Screenshot test</system:String>
     <system:String x:Key="Connection.SelectAddress">Select Connection Address</system:String>
     <system:String x:Key="Connection.SelectEmulator">Select Emulator</system:String>
@@ -1013,7 +1028,6 @@ Right-click: select this job and exit multi-job mode</system:String>
     <system:String x:Key="Copilot.Title">Copilot</system:String>
     <system:String x:Key="Copilot.TotalOperatorsCount">Total {0} {key=Game.Operator}(s)</system:String>
     <system:String x:Key="Copilot.UnsupportedSkill">{0} does not support Skill {1}, so the Skill will no longer be selected.</system:String>
-    <system:String x:Key="Copilot.UnsupportedStages">Unsupported stage {0}. If this is a stage from a new event, please wait for the map resource update before using auto-combat</system:String>
     <system:String x:Key="Copilot.Usage.Tip">
         Tips: \n\n
         1. Before using, please confirm the job file matches your selected stage type.\n\n
@@ -1515,19 +1529,6 @@ Recruitment permits are consumed faster than acquired; normally the timer expire
     <system:String x:Key="Roguelike.BlackFlow.StartRewards">Desired Rewards</system:String>
     <system:String x:Key="Roguelike.BlackFlow.StartRewards.AnyHit">Stops on any match</system:String>
     <system:String x:Key="Roguelike.BlackFlow.StartRewards.Tip" xml:space="preserve">Everything checked in Desired Rewards and Feathered Serpent Rewards counts as a candidate; the task stops as soon as any one of them appears at the start.&#10;Hover over an option to see its effect.</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunCompleted">Starting conditions met; exited and kept this run</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunPrepared">Preparation complete</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunPreparedReason">Floor 3 reached; the next run will use the target difficulty and squad</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunPreparing">Preparation run in progress</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunRewardMissed">No desired starting reward found; preparing another run</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunRewardPageMissing">Starting reward screen not found; task stopped</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunRewardPicked">Starting reward picked; entering Floor 1 to check for 实托邦</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunRewardRecognitionFailed">Starting reward recognition failed; task stopped</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunRewardUnrecognized">Some rewards on the support selection screen were not recognized; stopped on that screen and ended the task</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunRewardsSeen">Rewards on this support screen: {0}</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunTargetRun">Target run started; waiting to check starting rewards</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunUtopiaMissed">Floor 1 is not 实托邦</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.StartRunUtopiaMissedReason">This run will be abandoned and another preparation run started</system:String>
     <system:String x:Key="Roguelike.BlackFlow.StartUtopia">Reroll until Floor 1 is 实托邦 (a Floor 1 variant)</system:String>
     <system:String x:Key="Roguelike.BlackFlow.StartUtopia.Tip" xml:space="preserve">Once a desired reward appears on the support screen, the target run picks cards by ｢{key=Roguelike.BlackFlow.StartRewardPriority}｣ and enters Floor 1.&#10;If Floor 1 is 实托邦, the task exits and keeps the run; otherwise it abandons the run and starts another preparation run.&#10;The target run starts with the roles and starting operator from General settings.&#10;Requires difficulty 6 or higher; difficulty is not checked when it is set not to switch.</system:String>
     <system:String x:Key="Roguelike.BlackFlow.Strategy.Exp">Farm levels, quickly reach Floor 3</system:String>
@@ -1552,7 +1553,6 @@ Recruitment permits are consumed faster than acquired; normally the timer expire
     <system:String x:Key="Roguelike.JieGarden.DifficultyTip" xml:space="preserve">After unlocking the ｢Structural Classics｣ tech, related to ｢{key=Roguelike.Theme.JieGarden}｣, using {key=Roguelike.Squad.Leader} to explore at difficulty N3 or higher will carry an additional ｢End of Time｣, enabling a ｢one-battle-one-skip｣ saving strategy.
 If this tech is not unlocked, do not select difficulty N3 or above (including ｢MAX｣);
 To enable this mechanism, make sure the selected difficulty is N3 or higher (excluding ｢{key=TaskQueue.NotSwitch} (-1)｣).</system:String>
-    <system:String x:Key="Roguelike.JieGarden.TargetFound">Target playtime node found {0}</system:String>
     <system:String x:Key="Roguelike.MonthlySquad.AutoIterate">Monthly Squad Auto-Switch</system:String>
     <system:String x:Key="Roguelike.MonthlySquad.CheckComms">Monthly Squad Communication</system:String>
     <system:String x:Key="Roguelike.MonthlySquad.CheckComms.Tip" xml:space="preserve">When enabled, MAA checks whether all communications for the current squad have been unlocked and only switches to the next Monthly Squad once they are all unlocked.&#10;If you only want the rewards, disable this option to reduce repeated exploration.&#10;MAA will not end the current exploration early just because this option is disabled.</system:String>

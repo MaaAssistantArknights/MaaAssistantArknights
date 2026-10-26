@@ -288,7 +288,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
     public string ScreencapTestCost { get; set; } = string.Empty;
 
-    private string _screencapCost = LocalizationHelper.GetStringFormat("Connection.ScreencapCost", "---", "---", "---", "---");
+    private string _screencapCost = LocalizationHelper.GetStringFormat("Asst.Connection.ScreencapCost", "---", "---", "---", "---");
 
     public string ScreencapCost
     {

@@ -1056,10 +1056,10 @@ public class AsstProxy
                 if (_mumuExtrasInputAvailable && wasDeferred)
                 {
                     Instances.TaskQueueViewModel.AddLog(
-                        LocalizationHelper.GetString("Connection.MuMu.FullExtrasReady"),
+                        LocalizationHelper.GetString("Asst.Connection.MuMu.FullExtrasReady"),
                         UiLogColor.Rainbow);
                     Instances.CopilotViewModel.AddLog(
-                        LocalizationHelper.GetString("Connection.MuMu.FullExtrasReady"),
+                        LocalizationHelper.GetString("Asst.Connection.MuMu.FullExtrasReady"),
                         UiLogColor.Rainbow,
                         showTime: false);
                 }
@@ -1071,10 +1071,10 @@ public class AsstProxy
                     && EmulatorHelper.CheckMuMuKeepAlive())
                 {
                     Instances.TaskQueueViewModel.AddLog(
-                        LocalizationHelper.GetString("Connection.MuMu.KeepAliveOn"),
+                        LocalizationHelper.GetString("Asst.Connection.MuMu.KeepAliveOn"),
                         UiLogColor.Error);
                     Instances.CopilotViewModel.AddLog(
-                        LocalizationHelper.GetString("Connection.MuMu.KeepAliveOn"),
+                        LocalizationHelper.GetString("Asst.Connection.MuMu.KeepAliveOn"),
                         UiLogColor.Error, showTime: false);
                     Execute.OnUIThreadAsync(async () => {
                         Connected = false;
@@ -1172,10 +1172,10 @@ public class AsstProxy
                                 && EmulatorHelper.CheckMuMuKeepAlive())
                             {
                                 Instances.TaskQueueViewModel.AddLog(
-                                    LocalizationHelper.GetString("Connection.MuMu.KeepAliveOn"),
+                                    LocalizationHelper.GetString("Asst.Connection.MuMu.KeepAliveOn"),
                                     UiLogColor.Error);
                                 Instances.CopilotViewModel.AddLog(
-                                    LocalizationHelper.GetString("Connection.MuMu.KeepAliveOn"),
+                                    LocalizationHelper.GetString("Asst.Connection.MuMu.KeepAliveOn"),
                                     UiLogColor.Error, showTime: false);
                                 needToStop = true;
                             }
@@ -1202,7 +1202,7 @@ public class AsstProxy
                                 if (_mumuExtrasInputAvailable)
                                 {
                                     Instances.TaskQueueViewModel.AddLog(
-                                        LocalizationHelper.GetString("Connection.MuMu.FullExtrasReady"),
+                                        LocalizationHelper.GetString("Asst.Connection.MuMu.FullExtrasReady"),
                                         UiLogColor.Rainbow);
                                 }
                             }
@@ -1326,7 +1326,7 @@ public class AsstProxy
     private void HandleScreencapCost(string min, string avg, string max)
     {
         var currentTime = DateTimeOffset.Now.ToString("HH:mm:ss");
-        SettingsViewModel.ConnectSettings.ScreencapCost = LocalizationHelper.GetStringFormat("Connection.ScreencapCost", min, avg, max, currentTime);
+        SettingsViewModel.ConnectSettings.ScreencapCost = LocalizationHelper.GetStringFormat("Asst.Connection.ScreencapCost", min, avg, max, currentTime);
 
         if (!int.TryParse(avg, out var avgInt))
         {
@@ -1961,7 +1961,7 @@ public class AsstProxy
                     if (what == "CopilotStageNotSupported")
                     {
                         var stageName = details["details"]?["stage_name"]?.ToString();
-                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("Copilot.UnsupportedStages", stageName ?? string.Empty), UiLogColor.Error, showTime: false);
+                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetStringFormat("Asst.Copilot.UnsupportedStages", stageName ?? string.Empty), UiLogColor.Error, showTime: false);
                     }
                     if (what == "OperboxDataParseFailed")
                     {
@@ -3367,7 +3367,7 @@ public class AsstProxy
 
         if (foundWindows.Count == 0)
         {
-            error = LocalizationHelper.GetStringFormat("Connection.AttachWindow.NotFound", targetWindowName);
+            error = LocalizationHelper.GetStringFormat("Asst.Connection.AttachWindow.NotFound", targetWindowName);
             Instances.TaskQueueViewModel.AddLog(error, UiLogColor.Error);
             _logger.Warning("AttachWindow: No window found with name {WindowName}", targetWindowName);
             return false;
@@ -3379,13 +3379,13 @@ public class AsstProxy
         if (foundWindows.Count > 1)
         {
             // 找到多个窗口，使用第一个并记录日志
-            var multipleMsg = LocalizationHelper.GetStringFormat("Connection.AttachWindow.MultipleFound", foundWindows.Count, targetWindowName);
+            var multipleMsg = LocalizationHelper.GetStringFormat("Asst.Connection.AttachWindow.MultipleFound", foundWindows.Count, targetWindowName);
             Instances.TaskQueueViewModel.AddLog(multipleMsg, UiLogColor.Info);
             _logger.Warning("AttachWindow: Multiple windows found with name {WindowName}, count: {Count}, using first one: {Hwnd}", targetWindowName, foundWindows.Count, hwnd);
         }
         else
         {
-            var foundMsg = LocalizationHelper.GetStringFormat("Connection.AttachWindow.Found", targetWindowName);
+            var foundMsg = LocalizationHelper.GetStringFormat("Asst.Connection.AttachWindow.Found", targetWindowName);
             Instances.TaskQueueViewModel.AddLog(foundMsg, UiLogColor.Info);
             _logger.Information("AttachWindow: Found window \"{WindowName}\" with HWND: {Hwnd}", targetWindowName, hwnd);
         }
@@ -3415,7 +3415,7 @@ public class AsstProxy
             }
             else
             {
-                error = LocalizationHelper.GetString("Connection.AttachWindow.Failed");
+                error = LocalizationHelper.GetString("Asst.Connection.AttachWindow.Failed");
             }
 
             Instances.TaskQueueViewModel.AddLog(error, UiLogColor.Error);

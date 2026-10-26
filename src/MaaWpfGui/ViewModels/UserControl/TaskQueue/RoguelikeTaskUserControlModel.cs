@@ -1257,8 +1257,8 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     };
 
     private static string LocalizeBlackFlowStrategyOutcome(string? outcome) => outcome switch {
-        "start_run_prepared" => LocalizationHelper.GetString("Roguelike.BlackFlow.StartRunPrepared"),
-        "start_run_utopia_missed" => LocalizationHelper.GetString("Roguelike.BlackFlow.StartRunUtopiaMissed"),
+        "start_run_prepared" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.StartRunPrepared"),
+        "start_run_utopia_missed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.StartRunUtopiaMissed"),
         "investment_completed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeInvestmentCompleted"),
         "investment_missed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeInvestmentMissed"),
         "burn_completed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeFloor3RouteCompleted"),
@@ -1294,8 +1294,8 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     };
 
     private static string LocalizeBlackFlowTerminationReason(string? reason) => reason switch {
-        "start_run_prepared" => LocalizationHelper.GetString("Roguelike.BlackFlow.StartRunPreparedReason"),
-        "first_floor_without_utopia" => LocalizationHelper.GetString("Roguelike.BlackFlow.StartRunUtopiaMissedReason"),
+        "start_run_prepared" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.StartRunPreparedReason"),
+        "first_floor_without_utopia" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.StartRunUtopiaMissedReason"),
         "investment_finished" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationInvestmentFinished"),
         "investment_shop_window_closed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationInvestmentShopWindowClosed"),
         "third_floor_reached" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationFloor3Reached"),
@@ -1558,14 +1558,14 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                 {
                     var status = subTaskDetails?["status"]?.ToString();
                     var (key, color) = status switch {
-                        "preparing" => ("Roguelike.BlackFlow.StartRunPreparing", UiLogColor.Info),
-                        "target_run" => ("Roguelike.BlackFlow.StartRunTargetRun", UiLogColor.Info),
-                        "reward_missed" => ("Roguelike.BlackFlow.StartRunRewardMissed", UiLogColor.Info),
-                        "reward_picked" => ("Roguelike.BlackFlow.StartRunRewardPicked", UiLogColor.Info),
-                        "completed" => ("Roguelike.BlackFlow.StartRunCompleted", UiLogColor.Success),
-                        "reward_recognition_failed" => ("Roguelike.BlackFlow.StartRunRewardRecognitionFailed", UiLogColor.Error),
-                        "reward_page_missing" => ("Roguelike.BlackFlow.StartRunRewardPageMissing", UiLogColor.Error),
-                        "reward_unrecognized" => ("Roguelike.BlackFlow.StartRunRewardUnrecognized", UiLogColor.Error),
+                        "preparing" => ("Asst.Roguelike.BlackFlow.StartRunPreparing", UiLogColor.Info),
+                        "target_run" => ("Asst.Roguelike.BlackFlow.StartRunTargetRun", UiLogColor.Info),
+                        "reward_missed" => ("Asst.Roguelike.BlackFlow.StartRunRewardMissed", UiLogColor.Info),
+                        "reward_picked" => ("Asst.Roguelike.BlackFlow.StartRunRewardPicked", UiLogColor.Info),
+                        "completed" => ("Asst.Roguelike.BlackFlow.StartRunCompleted", UiLogColor.Success),
+                        "reward_recognition_failed" => ("Asst.Roguelike.BlackFlow.StartRunRewardRecognitionFailed", UiLogColor.Error),
+                        "reward_page_missing" => ("Asst.Roguelike.BlackFlow.StartRunRewardPageMissing", UiLogColor.Error),
+                        "reward_unrecognized" => ("Asst.Roguelike.BlackFlow.StartRunRewardUnrecognized", UiLogColor.Error),
                         _ => (string.Empty, UiLogColor.Info),
                     };
                     if (key.Length > 0)
@@ -1575,7 +1575,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                         var rewards = subTaskDetails?["rewards"]?.Values<string>().ToList();
                         if (rewards is { Count: > 0 })
                         {
-                            message += "\n" + LocalizationHelper.GetStringFormat("Roguelike.BlackFlow.StartRunRewardsSeen", string.Join("、", rewards));
+                            message += "\n" + LocalizationHelper.GetStringFormat("Asst.Roguelike.BlackFlow.StartRunRewardsSeen", string.Join("、", rewards));
                         }
 
                         Instances.TaskQueueViewModel.AddLog(message, color);
@@ -1651,7 +1651,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                         "Nian" => LocalizationHelper.GetString("Roguelike.Playtime.Nian"),
                         _ => targetSubtype ?? "Unknown",
                     };
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("Roguelike.JieGarden.TargetFound", localizedTarget), UiLogColor.Success);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("Asst.Roguelike.JieGarden.TargetFound", localizedTarget), UiLogColor.Success);
                     break;
                 }
 
