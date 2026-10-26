@@ -635,6 +635,13 @@ public class StageManager
     /// <returns>显示名与其本地化 key；未命中本地化时 key 为 null。</returns>
     private static (string Display, string? DisplayKey) ResolveStageDisplay(string stage)
     {
+        // 帕拉斯语言下 TryGetString 恒真，会把语言文件中不存在的 key 写入 DisplayKey，
+        // 切回正常语言后按 DisplayKey 刷新即显示占位符，因此跳过解析直接显示代号原文
+        if (LocalizationHelper.CurrentCulture == "pallas")
+        {
+            return (stage, null);
+        }
+
         var key = $"TaskQueue.Stage.{stage.Replace("-", string.Empty)}";
         return LocalizationHelper.TryGetString(key, out var display) ? (display, key) : (stage, null);
     }

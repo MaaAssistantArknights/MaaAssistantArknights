@@ -163,13 +163,6 @@ public enum AsstTaskType : byte
     /// </summary>
     SingleStep,
 
-    /*
-    /// <summary>
-    /// 视频识别
-    /// </summary>
-    VideoRecognition,
-    */
-
     /// <summary>
     /// 仓库识别
     /// </summary>

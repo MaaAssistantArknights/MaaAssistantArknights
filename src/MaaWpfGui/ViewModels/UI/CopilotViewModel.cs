@@ -2093,12 +2093,6 @@ public partial class CopilotViewModel : Screen
 
         Instances.OverlayViewModel.LogItemsSource = LogItemViewModels;
 
-        // if (_taskType == AsstTaskType.VideoRecognition)
-        // {
-        //     _ = StartVideoTask();
-        //     return;
-        // }
-
         // 统一前置校验：先按 CopilotTabIndex 分发，再判断对应选项（UseCopilotList 等）
         if (!await ValidateStartAsync())
         {
@@ -2361,11 +2355,6 @@ public partial class CopilotViewModel : Screen
 
         return appended && Instances.AsstProxy.AsstStart();
     }
-
-    // private bool StartVideoTask()
-    // {
-    //     return Instances.AsstProxy.AsstStartVideoRec(Filename);
-    // }
 
     /// <summary>
     /// 手动停止 copilot。

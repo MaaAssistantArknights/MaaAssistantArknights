@@ -717,6 +717,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="Common.Copy">복사</system:String>
     <system:String x:Key="Common.Delete">삭제</system:String>
     <system:String x:Key="Common.Error">오류</system:String>
+    <system:String x:Key="Common.Failed">실패</system:String>
     <system:String x:Key="Common.Ignore">무시</system:String>
     <system:String x:Key="Common.LabelSequence.Tip">드래그하여 작업 순서를 변경할 수 있습니다</system:String>
     <system:String x:Key="Common.ManualRestart">나중에</system:String>
@@ -724,8 +725,10 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="Common.NotSelected">미선택</system:String>
     <system:String x:Key="Common.Ok">확인</system:String>
     <system:String x:Key="Common.Select">선택</system:String>
+    <system:String x:Key="Common.Skipped">스킵</system:String>
     <system:String x:Key="Common.Stop">중지</system:String>
     <system:String x:Key="Common.Stop.CurrentTaskFormat">실행 중인 {0} 중지</system:String>
+    <system:String x:Key="Common.Success">성공</system:String>
     <system:String x:Key="Common.Tip">도움말</system:String>
     <system:String x:Key="Common.Warning">경고</system:String>
     <system:String x:Key="Common.Yes">네</system:String>
@@ -983,6 +986,7 @@ C:\Program Files\Netease\MuMuPlayer으로 입력해야 합니다.
     <system:String x:Key="Copilot.SelectTask.Tip" xml:space="preserve">좌클릭: 해당 작업 정보 보기
 우클릭: 해당 작업을 선택하고 다중 작업 모드 종료</system:String>
     <system:String x:Key="Copilot.SideStory">사이드</system:String>
+    <system:String x:Key="Copilot.SingleStep">단일 단계 작업</system:String>
     <system:String x:Key="Copilot.SingleTaskWarning">｢{key=Copilot.UseList}｣를 사용하여 단일 작업을 실행하는 것은 권장되지 않습니다. 단일 작업은 직접 실행해 주세요.</system:String>
     <system:String x:Key="Copilot.Skill">스킬</system:String>
     <system:String x:Key="Copilot.StageNameNotEqualWithNavigateName">스테이지 이름과 탐색 이름이 일치하지 않아 탐색 이름을 사용합니다</system:String>
@@ -1266,7 +1270,7 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="Guide.ViewLog">"{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}"로 이동하여 로그를 확인하고 오류의 구체적인 원인을 파악할 수 있습니다.</system:String>
     <system:String x:Key="Infrast.ContinueTraining">마스터리 훈련 완료 시 이어서 시도</system:String>
     <system:String x:Key="Infrast.Custom.File">기반시설 구성</system:String>
-    <system:String x:Key="Infrast.Custom.FileHasPlanNoPeriod">{Key=InfrastModeCustom} 설정 중 일부 계획에만 시간대가 설정되어 있어, 예기치 않은 동작이 발생할 수 있습니다. 교대 시간대를 설정하려면 모든 계획에 시간대를 설정하거나, 그렇지 않으면 모두 비워 두세요.</system:String>
+    <system:String x:Key="Infrast.Custom.FileHasPlanNoPeriod">{key=Infrast.Mode.Custom} 설정 중 일부 계획에만 시간대가 설정되어 있어, 예기치 않은 동작이 발생할 수 있습니다. 교대 시간대를 설정하려면 모든 계획에 시간대를 설정하거나, 그렇지 않으면 모두 비워 두세요.</system:String>
     <system:String x:Key="Infrast.Custom.FileParseFailed">기반시설 구성 인식 실패!</system:String>
     <system:String x:Key="Infrast.Custom.Plan">기반시설 계획</system:String>
     <system:String x:Key="Infrast.Custom.Plan.ToolTip">
@@ -2543,7 +2547,4 @@ D:\
     <system:String x:Key="VersionUpdate.UpdatedTo" xml:space="preserve">새 버전: </system:String>
     <system:String x:Key="VersionUpdate.VersionMismatch">UI와 Core 버전이 일치하지 않습니다: {0} 및 {1}, 예측할 수 없는 동작을 유발할 수 있습니다. 파일을 수동으로 교체하거나 업데이트 중에 파일을 점유하지 마세요.\n\n{key=VersionUpdate.FullPackageUpgradeTips}</system:String>
     <system:String x:Key="VersionUpdate.WindowUpdateInfo.Tip">클릭하면 즉시 업데이트</system:String>
-    <system:String x:Key="VideoRecognition.Tip" xml:space="preserve">｢{key=Copilot.Title}｣ 화면에서 영상 파일을 드래그하여 시작하세요.
-동영상의 해상도 비율은 16:9에 게임화면만 나와야 하며, 화면 보정 등의 방해 요소가 없어야 합니다.</system:String>
-    <system:String x:Key="VideoRecognition.Title">영상 인식</system:String>
 </ResourceDictionary>

@@ -1419,7 +1419,7 @@ public class AsstProxy
                 }
         }
 
-        bool isCopilotTaskChain = taskChain is "Copilot" or "SSSCopilot"; /* or "VideoRecognition"; */
+        bool isCopilotTaskChain = taskChain is "Copilot" or "SSSCopilot";
 
         switch (msg)
         {
@@ -1485,7 +1485,7 @@ public class AsstProxy
                     UpdateTaskStatus(taskId, TaskStatus.InProgress);
 
                     // LinkStart 按钮也会修改，但小工具中的日志源需要在这里修改
-                    Instances.OverlayViewModel.LogItemsSource = (taskChain is "Copilot" or "SSSCopilot") /* or "VideoRecognition") */
+                    Instances.OverlayViewModel.LogItemsSource = (taskChain is "Copilot" or "SSSCopilot")
                         ? Instances.CopilotViewModel.LogItemViewModels
                         : Instances.TaskQueueViewModel.LogItemViewModels;
 
@@ -2305,12 +2305,6 @@ public class AsstProxy
             case "Recruit":
                 ProcRecruitCalcMsg(details);
                 break;
-
-                /*
-                case "VideoRecognition":
-                    ProcVideoRecMsg(details);
-                    break;
-                */
         }
 
         var subTaskDetails = details["details"];
@@ -3052,27 +3046,6 @@ public class AsstProxy
         Instances.ToolboxViewModel.ProcRecruitMsg(details);
     }
 
-    private static void ProcVideoRecMsg(JObject details)
-    {
-        string what = details["what"]?.ToString() ?? string.Empty;
-        switch (what)
-        {
-            case "Finished":
-                var filename = details["details"]?["filename"];
-                Instances.CopilotViewModel.AddLog("Save to: " + filename, UiLogColor.Info, showTime: false);
-
-                // string p = @"C:\tmp\this path contains spaces, and,commas\target.txt";
-                string args = $"/e, /select, \"{filename}\"";
-
-                ProcessStartInfo info = new() {
-                    FileName = "explorer",
-                    Arguments = args,
-                };
-                Process.Start(info);
-                break;
-        }
-    }
-
     private static async Task ProcReportRequest(JObject details)
     {
         string? url = (string?)details["url"];
@@ -3685,11 +3658,6 @@ public class AsstProxy
         /// <summary>自动战斗</summary>
         Copilot,
 
-        /*
-        /// <summary>视频识别（真有人用吗）</summary>
-        VideoRec,
-        */
-
         /// <summary>仓库识别</summary>
         Depot,
 
@@ -3950,23 +3918,6 @@ public class AsstProxy
         var (type, param) = task.Serialize();
         return AsstAppendTaskWithEncoding(TaskType.MiniGame, type, param) && AsstStart();
     }
-
-    /*
-    /// <summary>
-    /// 视频识别。
-    /// </summary>
-    /// <param name="filename">文件路径</param>
-    /// <returns>是否成功。</returns>
-    public bool AsstStartVideoRec(string filename)
-    {
-        var taskParams = new JObject {
-            ["filename"] = filename,
-        };
-        AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.VideoRecognition, taskParams);
-        _tasksStatus.Add(id, (TaskType.Copilot, TaskStatus.Idle));
-        return id != 0 && AsstStart();
-    }
-    */
 
     public (bool IsSuccess, int TaskId) AsstAppendTaskWithEncoding(TaskType wpfTasktype, AsstBaseTask task)
     {

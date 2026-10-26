@@ -47,7 +47,7 @@ public static class LocalizationKeyExtensions
 
     /// <summary>
     /// Gets the localization resource key of the task type.
-    /// CloseDown 与 RecruitCalc 无对应资源 key，返回成员名原值。
+    /// CloseDown 复用完成后动作的退出文案，RecruitCalc 复用工具箱公招识别页签名。
     /// </summary>
     /// <param name="taskType">The WPF task type.</param>
     /// <returns>The localization resource key.</returns>
@@ -62,6 +62,7 @@ public static class LocalizationKeyExtensions
         TaskType.Award => "TaskQueue.Task.Award",
         TaskType.Roguelike => "TaskQueue.Task.Roguelike",
         TaskType.Copilot => "Copilot.Title",
+        TaskType.CloseDown => "TaskQueue.PostAction.ExitArknights",
         TaskType.Depot => "TaskQueue.Task.Depot",
         TaskType.OperBox => "TaskQueue.Task.OperBox",
         TaskType.Gacha => "TaskQueue.Task.Gacha",
@@ -71,6 +72,7 @@ public static class LocalizationKeyExtensions
         TaskType.SwitchTheme => "TaskQueue.Task.SwitchTheme",
         TaskType.MiniGame => "Toolbox.MiniGame.Title",
         TaskType.Custom => "TaskQueue.Task.Custom",
+        TaskType.RecruitCalc => "Recruit.Recognition.Title",
         _ => taskType.ToString(),
     };
 
@@ -162,30 +164,18 @@ public static class LocalizationKeyExtensions
 
     /// <summary>
     /// Maps a core task chain name to its localization resource key. 仅用于回调链名的显示查找，
-    /// 发给内核的协议值不经此转换。未知链名（如 SSSCopilot）返回原值，由资源 key 直接命中或回退显示原名。
+    /// 发给内核的协议值不经此转换。与 <see cref="TaskType"/> 成员一致的链名经
+    /// <see cref="LocalizationKey(TaskType)"/> 映射；仅 Copilot 页直启的合成链名在此显式列出。
+    /// 未收录的链名返回原值，GetString 落空时显示占位符，便于发现遗漏。
     /// </summary>
-    /// <param name="taskChain">The core task chain name, same member set as <see cref="TaskType"/>.</param>
+    /// <param name="taskChain">The core task chain name.</param>
     /// <returns>The localization resource key.</returns>
     public static string TaskChainLocalizationKey(string taskChain) => taskChain switch
     {
-        "StartUp" => "TaskQueue.Task.StartUp",
-        "Fight" => "TaskQueue.Task.Fight",
-        "OperProgress" => "TaskQueue.Task.OperProgress",
-        "Recruit" => "TaskQueue.Task.Recruit",
-        "Infrast" => "TaskQueue.Task.Infrast",
-        "Mall" => "TaskQueue.Task.Mall",
-        "Award" => "TaskQueue.Task.Award",
-        "Roguelike" => "TaskQueue.Task.Roguelike",
-        "Copilot" => "Copilot.Title",
-        "Depot" => "TaskQueue.Task.Depot",
-        "OperBox" => "TaskQueue.Task.OperBox",
-        "Gacha" => "TaskQueue.Task.Gacha",
-        "Reclamation" => "Toolbox.MiniGame.Reclamation.Title",
-        "UserDataUpdate" => "TaskQueue.Task.UserDataUpdate",
-        "DepotMaintain" => "TaskQueue.Task.DepotMaintain",
-        "SwitchTheme" => "TaskQueue.Task.SwitchTheme",
-        "MiniGame" => "Toolbox.MiniGame.Title",
-        "Custom" => "TaskQueue.Task.Custom",
+        "SSSCopilot" => "Copilot.SSS",
+        "ParadoxCopilot" => "Copilot.ParadoxSimulation",
+        "SingleStep" => "Copilot.SingleStep",
+        _ when Enum.TryParse<TaskType>(taskChain, out var type) => type.LocalizationKey(),
         _ => taskChain,
     };
 

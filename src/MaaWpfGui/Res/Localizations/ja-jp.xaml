@@ -717,6 +717,7 @@ MAA を新しい独立したフォルダーに解凍するか、MAA に属さな
     <system:String x:Key="Common.Copy">コピー</system:String>
     <system:String x:Key="Common.Delete">削除</system:String>
     <system:String x:Key="Common.Error">エラー</system:String>
+    <system:String x:Key="Common.Failed">失敗</system:String>
     <system:String x:Key="Common.Ignore">無視</system:String>
     <system:String x:Key="Common.LabelSequence.Tip">タブの順番はドラッグ可能です</system:String>
     <system:String x:Key="Common.ManualRestart">後で</system:String>
@@ -724,8 +725,10 @@ MAA を新しい独立したフォルダーに解凍するか、MAA に属さな
     <system:String x:Key="Common.NotSelected">選ばない</system:String>
     <system:String x:Key="Common.Ok">はい</system:String>
     <system:String x:Key="Common.Select">選択</system:String>
+    <system:String x:Key="Common.Skipped">スキップ</system:String>
     <system:String x:Key="Common.Stop">停止</system:String>
     <system:String x:Key="Common.Stop.CurrentTaskFormat">実行中の{0}を停止</system:String>
+    <system:String x:Key="Common.Success">成功</system:String>
     <system:String x:Key="Common.Tip">ヒント</system:String>
     <system:String x:Key="Common.Warning">警告</system:String>
     <system:String x:Key="Common.Yes">はい</system:String>
@@ -985,6 +988,7 @@ C:\Program Files\Netease\MuMuPlayer を入力してください。
     <system:String x:Key="Copilot.SelectTask.Tip" xml:space="preserve">左クリック：ジョブ情報を表示
 右クリック：このジョブを選択してマルチジョブモードを終了</system:String>
     <system:String x:Key="Copilot.SideStory">サイドストーリー</system:String>
+    <system:String x:Key="Copilot.SingleStep">単一ステップタスク</system:String>
     <system:String x:Key="Copilot.SingleTaskWarning">｢{key=Copilot.UseList}｣ を使用して単一ジョブを実行しています。これは推奨されません。単一ジョブを直接実行してください。</system:String>
     <system:String x:Key="Copilot.Skill">スキル</system:String>
     <system:String x:Key="Copilot.StageNameNotEqualWithNavigateName">ステージ名とナビゲート名が一致しません。ナビゲート名を使用します</system:String>
@@ -2544,7 +2548,4 @@ D:\
     <system:String x:Key="VersionUpdate.UpdatedTo" xml:space="preserve">バージョン: </system:String>
     <system:String x:Key="VersionUpdate.VersionMismatch">UI と Core のバージョンが一致しません: {0} と {1}、予測不可能な動作を引き起こす可能性があります。ファイルを手動で置き換えたり、更新中にファイルを占有しないでください。\n\n{key=VersionUpdate.FullPackageUpgradeTips}</system:String>
     <system:String x:Key="VersionUpdate.WindowUpdateInfo.Tip">クリックで今すぐ更新</system:String>
-    <system:String x:Key="VideoRecognition.Tip" xml:space="preserve">映像認識のために、｢{key=Copilot.Title}｣ ページを開き、映像をドラッグしてください。
-映像の解像度は16: 9である必要があり、黒枠、エミュレータ枠、特殊な形状、画面効果などが無いことを確認してください。</system:String>
-    <system:String x:Key="VideoRecognition.Title">映像</system:String>
 </ResourceDictionary>

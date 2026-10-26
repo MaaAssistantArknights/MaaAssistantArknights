@@ -374,7 +374,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
 
             var result = MessageBoxHelper.Show(
                 FormatText("{0}\n{1}", "Settings.Language.Changed.Tip"),
-                FormatText("{0}({1})", "Tip"),
+                FormatText("{0}({1})", "Common.Tip"),
                 MessageBoxButton.YesNoCancel,
                 MessageBoxImage.Question,
                 yes: FormatText("{0}/{1}", "Settings.Language.SwitchNow"),

@@ -1037,20 +1037,6 @@
                 </StackPanel>
             </Grid>
         </TabItem>
-        <!--
-        <TabItem Header="{DynamicResource VideoRecognition.Title}" Visibility="Collapsed">
-            <controls:TextBlock
-                Height="80"
-                Margin="10"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Focusable="True"
-                FontSize="14"
-                Style="{StaticResource TextBlockDefaultBold}"
-                Text="{DynamicResource VideoRecognition.Tip}"
-                TextWrapping="Wrap" />
-        </TabItem>
-        -->
         <TabItem Header="{DynamicResource TaskQueue.Task.Gacha}">
             <Grid Margin="20,0,20,0">
                 <Grid.RowDefinitions>

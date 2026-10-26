@@ -718,6 +718,7 @@
     <system:String x:Key="Common.Copy">复制</system:String>
     <system:String x:Key="Common.Delete">删除</system:String>
     <system:String x:Key="Common.Error">错误</system:String>
+    <system:String x:Key="Common.Failed">失败</system:String>
     <system:String x:Key="Common.Ignore">忽略</system:String>
     <system:String x:Key="Common.LabelSequence.Tip">标签顺序可拖动</system:String>
     <system:String x:Key="Common.ManualRestart">稍后</system:String>
@@ -725,8 +726,10 @@
     <system:String x:Key="Common.NotSelected">不选择</system:String>
     <system:String x:Key="Common.Ok">好的</system:String>
     <system:String x:Key="Common.Select">选择</system:String>
+    <system:String x:Key="Common.Skipped">跳过</system:String>
     <system:String x:Key="Common.Stop">停止</system:String>
     <system:String x:Key="Common.Stop.CurrentTaskFormat">停止当前运行的 {0}</system:String>
+    <system:String x:Key="Common.Success">成功</system:String>
     <system:String x:Key="Common.Tip">提示</system:String>
     <system:String x:Key="Common.Warning">警告</system:String>
     <system:String x:Key="Common.Yes">是</system:String>
@@ -983,6 +986,7 @@ C:\Program Files\Netease\MuMuPlayer。
     <system:String x:Key="Copilot.SelectTask.Tip" xml:space="preserve">左键：查看作业信息
 右键：选中该作业并退出多作业模式</system:String>
     <system:String x:Key="Copilot.SideStory">SideStory</system:String>
+    <system:String x:Key="Copilot.SingleStep">单步任务</system:String>
     <system:String x:Key="Copilot.SingleTaskWarning">正在使用 ｢{key=Copilot.UseList}｣ 执行单个作业, 不推荐此行为。 单个作业请直接运行</system:String>
     <system:String x:Key="Copilot.Skill">技能</system:String>
     <system:String x:Key="Copilot.StageNameNotEqualWithNavigateName">关卡名与导航名不一致，已使用导航名</system:String>
@@ -2543,7 +2547,4 @@ D:\
     <system:String x:Key="VersionUpdate.UpdatedTo" xml:space="preserve">已更新: </system:String>
     <system:String x:Key="VersionUpdate.VersionMismatch">UI 和 Core 版本不一致: {0} 和 {1}，可能导致不可预测的行为，请勿手动替换文件或者在更新时占用文件。\n\n{key=VersionUpdate.FullPackageUpgradeTips}</system:String>
     <system:String x:Key="VersionUpdate.WindowUpdateInfo.Tip">点击立即更新</system:String>
-    <system:String x:Key="VideoRecognition.Tip" xml:space="preserve">请打开 ｢{key=Copilot.Title}｣ 页，将攻略视频文件拖入后开始即可。
-需要视频分辨率为 16:9，且无黑边、模拟器边框、异形屏矫正等干扰因素。</system:String>
-    <system:String x:Key="VideoRecognition.Title">视频识别</system:String>
 </ResourceDictionary>

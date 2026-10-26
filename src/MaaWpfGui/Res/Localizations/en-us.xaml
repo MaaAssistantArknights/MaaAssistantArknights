@@ -717,6 +717,7 @@ Click "{key=Common.Confirm}" to attempt installing/updating VC++ runtime and exi
     <system:String x:Key="Common.Copy">Copy</system:String>
     <system:String x:Key="Common.Delete">Delete</system:String>
     <system:String x:Key="Common.Error">Error</system:String>
+    <system:String x:Key="Common.Failed">Failed</system:String>
     <system:String x:Key="Common.Ignore">Ignore</system:String>
     <system:String x:Key="Common.LabelSequence.Tip">The label sequence can be dragged</system:String>
     <system:String x:Key="Common.ManualRestart">Later</system:String>
@@ -724,8 +725,10 @@ Click "{key=Common.Confirm}" to attempt installing/updating VC++ runtime and exi
     <system:String x:Key="Common.NotSelected">Not selected</system:String>
     <system:String x:Key="Common.Ok">OK</system:String>
     <system:String x:Key="Common.Select">Select</system:String>
+    <system:String x:Key="Common.Skipped">Skipped</system:String>
     <system:String x:Key="Common.Stop">Stop</system:String>
     <system:String x:Key="Common.Stop.CurrentTaskFormat">Stop the running {0}</system:String>
+    <system:String x:Key="Common.Success">Success</system:String>
     <system:String x:Key="Common.Tip">Tip</system:String>
     <system:String x:Key="Common.Warning">Warning</system:String>
     <system:String x:Key="Common.Yes">Yes</system:String>
@@ -982,6 +985,7 @@ Operators' Elite level CANNOT be ignored. If any requirements are ignored, the o
     <system:String x:Key="Copilot.SelectTask.Tip" xml:space="preserve">Left-click: view job details
 Right-click: select this job and exit multi-job mode</system:String>
     <system:String x:Key="Copilot.SideStory">Side Story</system:String>
+    <system:String x:Key="Copilot.SingleStep">Single-Step Task</system:String>
     <system:String x:Key="Copilot.SingleTaskWarning">You're using ｢{key=Copilot.UseList}｣ to execute a single task, which is not recommended. For single tasks, please run them directly instead.</system:String>
     <system:String x:Key="Copilot.Skill">Skill</system:String>
     <system:String x:Key="Copilot.StageNameNotEqualWithNavigateName">stageName NOT equal with navigateName, using navigateName</system:String>
@@ -1265,7 +1269,7 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="Guide.ViewLog">You can go to "{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}" to view logs and understand the specific cause of the error.</system:String>
     <system:String x:Key="Infrast.ContinueTraining">After training is complete, try to continue mastering the current Skill</system:String>
     <system:String x:Key="Infrast.Custom.File">Base Configuration</system:String>
-    <system:String x:Key="Infrast.Custom.FileHasPlanNoPeriod">Some rotations in the {Key=InfrastModeCustom} configuration have time periods set, which may lead to unexpected behavior. To set shift change time periods, ensure all rotations have time periods configured; otherwise, leave them all blank.</system:String>
+    <system:String x:Key="Infrast.Custom.FileHasPlanNoPeriod">Some rotations in the {key=Infrast.Mode.Custom} configuration have time periods set, which may lead to unexpected behavior. To set shift change time periods, ensure all rotations have time periods configured; otherwise, leave them all blank.</system:String>
     <system:String x:Key="Infrast.Custom.FileParseFailed">Base Configuration Parsing Error!</system:String>
     <system:String x:Key="Infrast.Custom.Plan">Base Plan</system:String>
     <system:String x:Key="Infrast.Custom.Plan.ToolTip">
@@ -2542,7 +2546,4 @@ Continue only after you have verified the directory layout and finished a manual
     <system:String x:Key="VersionUpdate.UpdatedTo" xml:space="preserve">Updated Version:&#160;</system:String>
     <system:String x:Key="VersionUpdate.VersionMismatch">UI and Core versions mismatch: {0} and {1}, which may cause unpredictable behavior. Please do not manually replace files or occupy files during updates.\n\n{key=VersionUpdate.FullPackageUpgradeTips}</system:String>
     <system:String x:Key="VersionUpdate.WindowUpdateInfo.Tip">Click to update now</system:String>
-    <system:String x:Key="VideoRecognition.Tip" xml:space="preserve">For video recognition, please open the ｢{key=Copilot.Title}｣ tab and drag the strategy video into it.
-The video aspect ratio needs to be 16:9 without interference factors such as black borders, emulator borders, special shapes and screen corrections.</system:String>
-    <system:String x:Key="VideoRecognition.Title">Video</system:String>
 </ResourceDictionary>

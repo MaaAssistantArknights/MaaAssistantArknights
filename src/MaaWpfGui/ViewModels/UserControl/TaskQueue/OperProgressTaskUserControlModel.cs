@@ -402,7 +402,13 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                             "TaskQueue.OperProgress.Detail",
                             list.IndexOf(plan) + 1,
                             operName,
-                            LocalizationHelper.GetStringFormat(status)) + BuildTargetCallbackDescription(callback),
+                            LocalizationHelper.GetString(status switch
+                            {
+                                "Success" => "Common.Success",
+                                "Failed" => "Common.Failed",
+                                "Skipped" => "Common.Skipped",
+                                _ => status,
+                            })) + BuildTargetCallbackDescription(callback),
                         UiLogColor.Info);
 
                     break;
