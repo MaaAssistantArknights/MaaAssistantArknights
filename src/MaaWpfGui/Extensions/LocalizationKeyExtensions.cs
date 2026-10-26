@@ -136,7 +136,7 @@ public static class LocalizationKeyExtensions
 
     /// <summary>
     /// 将 Core 侧 CopilotAction 上报的动作名映射为本地化 key；未收录的动作名原样返回，
-    /// 由 GetString 回退显示原文，Core 新增动作时不至于显示空白。
+    /// GetString 落空时显示占位符，便于发现 Core 新增动作的遗漏。
     /// </summary>
     /// <param name="action">Core 侧 BattleProcessTask 上报的动作名（Deploy/UseSkill 等）</param>
     /// <returns>动作名对应的本地化 key；未收录时返回动作名原文</returns>

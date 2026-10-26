@@ -20,7 +20,7 @@ namespace
 
 // 标题取 Error.Congratulations（与 GUI 喜报窗口同名），
 // 正文取 src/MaaWpfGui/Res/Localizations/*.xaml 的 Error.Solution.MoveMaaExeOutOfFolder，
-// 临时目录场景的正文为 stub 自带文案（对应 GUI 侧 UnsupportedInstallLocationError 的场景）。
+// 临时目录场景的正文为 stub 自带文案（对应 GUI 侧 Boot.UnsupportedInstallLocationError 的场景）。
 // 以上文案与 xaml 逐字同步，由 tools/CheckStubLocalization.py 在 CI 校验。
 struct FatalMessage
 {
@@ -372,7 +372,7 @@ int WINAPI wWinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PWSTR, _In_ int)
     if (missing != nullptr)
     {
         // 文件缺失时才判断是否处于临时目录（如直接双击压缩包内的文件），以选择对应文案；
-        // 安装完整时的位置检查交给 GUI（UnsupportedInstallLocationError 的提示更详细）。
+        // 安装完整时的位置检查交给 GUI（Boot.UnsupportedInstallLocationError 的提示更详细）。
         // 仅当目录看起来像安装目录（至少命中一个哨兵）时才落日志，
         // 避免在桌面等位置凭空创建 debug 目录
         ShowFatalError(
