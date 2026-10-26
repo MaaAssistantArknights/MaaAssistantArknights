@@ -133,6 +133,34 @@ public static class LocalizationKeyExtensions
     };
 
     /// <summary>
+    /// 将 Core 侧 CopilotAction 上报的动作名映射为本地化 key；未收录的动作名原样返回，
+    /// 由 GetString 回退显示原文，Core 新增动作时不至于显示空白。
+    /// </summary>
+    /// <param name="action">Core 侧 BattleProcessTask 上报的动作名（Deploy/UseSkill 等）</param>
+    /// <returns>动作名对应的本地化 key；未收录时返回动作名原文</returns>
+    public static string ActionLocalizationKey(string action)
+    {
+        return action switch {
+            "Deploy" => "Copilot.Action.Deploy",
+            "UseSkill" => "Copilot.Action.UseSkill",
+            "Retreat" => "Copilot.Action.Retreat",
+            "SkillDaemon" => "Copilot.Action.SkillDaemon",
+            "SwitchSpeed" => "Copilot.Action.SwitchSpeed",
+            "SkillUsage" => "Copilot.Action.SkillUsage",
+            "BulletTime" => "Copilot.Action.BulletTime",
+            "Output" => "Copilot.Action.Output",
+            "MoveCamera" => "Copilot.Action.MoveCamera",
+            "DrawCard" => "Copilot.Action.DrawCard",
+            "CheckIfStartOver" => "Copilot.Action.CheckIfStartOver",
+            "ResetStopwatch" => "Copilot.Action.ResetStopwatch",
+            "Click" => "Copilot.Action.Click",
+            "Swipe" => "Copilot.Action.Swipe",
+            "SetUnitLocation" => "Copilot.Action.SetUnitLocation",
+            _ => action,
+        };
+    }
+
+    /// <summary>
     /// Maps a core task chain name to its localization resource key. 仅用于回调链名的显示查找，
     /// 发给内核的协议值不经此转换。未知链名（如 SSSCopilot）返回原值，由资源 key 直接命中或回退显示原名。
     /// </summary>
