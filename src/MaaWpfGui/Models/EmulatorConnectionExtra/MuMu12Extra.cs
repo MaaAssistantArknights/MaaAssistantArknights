@@ -189,10 +189,11 @@ public class MuMu12Extra() : ExtraConfig
                 var result = MessageBoxHelper.Show(
                     LocalizationHelper.GetString("Connection.MuMu.BridgeConnection.Tip"),
                     icon: MessageBoxImage.Warning,
-                    buttons: MessageBoxButton.YesNo,
-                    no: LocalizationHelper.GetString("Common.Confirm"),
-                    yes: LocalizationHelper.GetString("Common.Cancel"));
-                if (result != MessageBoxResult.No)
+                    buttons: MessageBoxButton.OKCancel,
+                    ok: LocalizationHelper.GetString("Common.Confirm"),
+                    cancel: LocalizationHelper.GetString("Common.Cancel"),
+                    defaultResult: MessageBoxResult.Cancel);
+                if (result != MessageBoxResult.OK)
                 {
                     return;
                 }

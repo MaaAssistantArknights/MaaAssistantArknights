@@ -813,7 +813,8 @@ public class SettingsViewModel : Screen
             LocalizationHelper.GetString("Guide.RestartPrompt"),
             LocalizationHelper.GetString("Common.Tip"),
             MessageBoxButton.OKCancel,
-            MessageBoxImage.Question);
+            MessageBoxImage.Question,
+            ok: LocalizationHelper.GetString("Common.Confirm"));
         if (result == MessageBoxResult.OK)
         {
             Bootstrapper.ShutdownAndRestartWithoutArgs();
@@ -1295,7 +1296,8 @@ public class SettingsViewModel : Screen
             LocalizationHelper.GetString("Settings.PromptRestartForSettingsChange") + resolutionTip,
             LocalizationHelper.GetString("Common.Tip"),
             MessageBoxButton.OKCancel,
-            MessageBoxImage.Question);
+            MessageBoxImage.Question,
+            ok: LocalizationHelper.GetString("Common.Confirm"));
 
         if (result == MessageBoxResult.OK)
         {

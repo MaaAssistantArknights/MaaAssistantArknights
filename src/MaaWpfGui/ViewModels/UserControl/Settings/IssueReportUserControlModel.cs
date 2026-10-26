@@ -108,11 +108,12 @@ public class IssueReportUserControlModel : PropertyChangedBase
         var result = MessageBoxHelper.Show(
             LocalizationHelper.GetString("Error.ClearImageCache.Tip"),
             LocalizationHelper.GetString("Common.Warning"),
-            MessageBoxButton.YesNo,
+            MessageBoxButton.OKCancel,
             MessageBoxImage.Error,
-            no: LocalizationHelper.GetString("Common.Confirm"),
-            yes: LocalizationHelper.GetString("Common.Cancel"));
-        if (result == MessageBoxResult.Yes)
+            ok: LocalizationHelper.GetString("Common.Confirm"),
+            cancel: LocalizationHelper.GetString("Common.Cancel"),
+            defaultResult: MessageBoxResult.Cancel);
+        if (result != MessageBoxResult.OK)
         {
             return;
         }

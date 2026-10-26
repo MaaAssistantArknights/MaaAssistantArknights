@@ -110,7 +110,7 @@ public class PerformanceUserControlModel : PropertyChangedBase
                     LocalizationHelper.GetString("Common.Tip"),
                     MessageBoxButton.OKCancel,
                     MessageBoxImage.Information,
-                    ok: LocalizationHelper.GetString("Common.Ok"),
+                    ok: LocalizationHelper.GetString("Common.Confirm"),
                     cancel: LocalizationHelper.GetString("Common.ManualRestart"));
                 if (result == MessageBoxResult.OK)
                 {

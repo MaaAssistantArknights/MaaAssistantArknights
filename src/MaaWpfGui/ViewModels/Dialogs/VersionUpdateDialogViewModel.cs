@@ -1392,7 +1392,7 @@ public class VersionUpdateDialogViewModel : Screen
             title,
             MessageBoxButton.OKCancel,
             MessageBoxImage.Question,
-            ok: LocalizationHelper.GetString("Common.Ok"),
+            ok: LocalizationHelper.GetString("Common.Confirm"),
             cancel: LocalizationHelper.GetString("Common.ManualRestart"));
         if (result == MessageBoxResult.OK)
         {
