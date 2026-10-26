@@ -1,10 +1,8 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
 
-    <system:String x:Key="About.Discord">Discord</system:String>
     <system:String x:Key="About.Github">GitHub</system:String>
     <system:String x:Key="About.QqChannel">QQ channel</system:String>
     <system:String x:Key="About.QqGroup">QQ group</system:String>
-    <system:String x:Key="About.Telegram">Telegram</system:String>
     <system:String x:Key="About.Website">MAA Website</system:String>
     <system:String x:Key="Achievement.AchievementObserver.Conditions">Open ｢{key=Achievement.List}｣ once</system:String>
     <system:String x:Key="Achievement.AchievementObserver.Description">Take a look at what you've been up to.</system:String>

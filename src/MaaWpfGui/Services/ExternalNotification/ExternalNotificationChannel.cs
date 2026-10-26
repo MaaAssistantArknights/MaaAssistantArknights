@@ -33,8 +33,8 @@ public sealed record ExternalNotificationChannel(
 {
     public static IReadOnlyList<ExternalNotificationChannel> All { get; } = Array.AsReadOnly<ExternalNotificationChannel>([
         Define<ServerChan, ServerChanConfig>("ServerChan", config => new(config), config => new ServerChanNotificationProvider(Instances.HttpService, config), "Server Chan"),
-        Define<Telegram, TelegramConfig>("About.Telegram", config => new(config), config => new TelegramNotificationProvider(Instances.HttpService, config)),
-        Define<Discord, DiscordConfig>("About.Discord", config => new(config), config => new DiscordNotificationProvider(Instances.HttpService, config)),
+        Define<Telegram, TelegramConfig>("Telegram", config => new(config), config => new TelegramNotificationProvider(Instances.HttpService, config)),
+        Define<Discord, DiscordConfig>("Discord", config => new(config), config => new DiscordNotificationProvider(Instances.HttpService, config)),
         Define<DingTalk, DingTalkConfig>("DingTalk", config => new(config), config => new DingTalkNotificationProvider(Instances.HttpService, config)),
         Define<Smtp, SmtpConfig>("SMTP", config => new(config), config => new SmtpNotificationProvider(config)),
         Define<Bark, BarkConfig>("Bark", config => new(config), config => new BarkNotificationProvider(Instances.HttpService, config)),

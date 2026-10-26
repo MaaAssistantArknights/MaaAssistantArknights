@@ -95,7 +95,7 @@
                     Cursor="Hand"
                     NavigateUri="{Binding Source={x:Static constants:MaaUrls.Telegram}}"
                     TextDecorations="None">
-                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource About.Telegram}" />
+                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="Telegram" />
                 </Hyperlink>
             </controls:TextBlock>
 
@@ -107,7 +107,7 @@
                     Cursor="Hand"
                     NavigateUri="{Binding Source={x:Static constants:MaaUrls.Discord}}"
                     TextDecorations="None">
-                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource About.Discord}" />
+                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="Discord" />
                 </Hyperlink>
             </controls:TextBlock>
 
