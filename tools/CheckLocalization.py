@@ -75,9 +75,15 @@ LEGACY_PAIR_SUFFIXES = ("Tooltip", "ToolTip", "Tips", "Tip", "Desc", "Title", "W
 LEGACY_PAIR_EXCEPTIONS = frozenset(
     {"CopilotTip", "GachaWarning", "PeepTip", "RecruitingTips", "SwitchThemeTip"}
 )
-# Task controls live in one flat directory, so the file stem acts as the
-# feature boundary. Common.* is shared UI vocabulary; other cross-feature
-# references must be listed by exact key below after review.
+# Task control files are discovered from these directories. Their file stems
+# define feature boundaries. Common.* is shared UI vocabulary; other
+# cross-feature references must be listed by exact key below after review.
+TASK_CONTROL_DIRECTORIES = frozenset(
+    {
+        ("Views", "UserControl", "TaskQueue"),
+        ("ViewModels", "UserControl", "TaskQueue"),
+    }
+)
 TASK_CONTROL_PRIMARY = {
     "AwardTaskUserControl": ("TaskQueue.Award",),
     "CustomTaskUserControl": ("TaskQueue.Custom",),
@@ -161,7 +167,10 @@ TASK_CONTROL_SHARED: dict[str, frozenset[str]] = {
 def check_task_control_owner(
     path: Path, key: str, catalog_keys: set[str]
 ) -> str | None:
-    if key not in catalog_keys or "TaskQueue" not in path.parts:
+    if (
+        key not in catalog_keys
+        or path.relative_to(GUI).parts[:3] not in TASK_CONTROL_DIRECTORIES
+    ):
         return None
     for stem, prefixes in TASK_CONTROL_PRIMARY.items():
         if not path.name.startswith(stem):
@@ -317,6 +326,9 @@ def check() -> list[str]:
             if key not in catalog_keys:
                 failures.append(f"{path}: missing localized call key {key}")
         for key in WPF_RESOURCE_CALL.findall(source):
+            ownership_failure = check_task_control_owner(path, key, catalog_keys)
+            if ownership_failure:
+                failures.append(ownership_failure)
             if (
                 (key.split(".", 1)[0] in domains or key in old_keys)
                 and key not in catalog_keys

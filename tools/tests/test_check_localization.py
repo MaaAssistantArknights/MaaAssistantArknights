@@ -109,6 +109,52 @@ class LocalizationCheckerTests(unittest.TestCase):
             )
         )
 
+    def test_task_control_wpf_resource_calls_follow_the_same_policy(self) -> None:
+        self.write_catalog(
+            {
+                "Mall.Good": "shop task option",
+                "Roguelike.Wrong": "other task option",
+            },
+            {},
+        )
+        task_views = self.gui / "Views/UserControl/TaskQueue"
+        task_views.mkdir(parents=True)
+        (task_views / "MallTaskUserControl.xaml.cs").write_text(
+            'FindResource("Mall.Good");\n'
+            'FindResource("Roguelike.Wrong");\n'
+            'Application.Current.Resources["Roguelike.Wrong"];\n'
+            'SetResourceReference(Property, "Roguelike.Wrong");\n',
+            encoding="utf-8",
+        )
+        (task_views / "NewFeatureTaskUserControl.xaml.cs").write_text(
+            'FindResource("Mall.Good");\n', encoding="utf-8"
+        )
+        messages = checker.check()
+        self.assertEqual(4, len(messages), messages)
+        self.assertEqual(
+            3,
+            sum("outside the MallTaskUserControl" in message for message in messages),
+        )
+        self.assertEqual(
+            1, sum("no localization ownership policy" in message for message in messages)
+        )
+
+    def test_only_task_control_directories_are_auto_enrolled(self) -> None:
+        self.write_catalog({"Mall.Good": "shop task option"}, {})
+        task_models = self.gui / "ViewModels/UserControl/TaskQueue"
+        task_models.mkdir(parents=True)
+        (task_models / "NewFeatureTaskUserControlModel.cs").write_text(
+            'LocalizationHelper.GetString("Mall.Good");\n', encoding="utf-8"
+        )
+        unrelated = self.gui / "Services/TaskQueue"
+        unrelated.mkdir(parents=True)
+        (unrelated / "NewFeatureTaskUserControl.cs").write_text(
+            'LocalizationHelper.GetString("Mall.Good");\n', encoding="utf-8"
+        )
+        messages = checker.check()
+        self.assertEqual(1, len(messages), messages)
+        self.assertIn("NewFeatureTaskUserControlModel.cs", messages[0])
+
     def test_reports_every_reviewed_ownership_and_pair_breakage(self) -> None:
         self.write_catalog(
             {

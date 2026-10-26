@@ -41,8 +41,11 @@ Task controls in `Views/UserControl/TaskQueue` and their view models have a
 localization ownership policy in `tools/CheckLocalization.py`. Each control
 may use its own feature prefix and shared `Common` words. A cross-feature
 reference must be listed by its exact key in `TASK_CONTROL_SHARED`; a new
-task control needs a `TASK_CONTROL_PRIMARY` entry. The CI checker reports
-every reference outside that policy. Run its regression tests with
+task control needs a `TASK_CONTROL_PRIMARY` entry. Files under these
+directories are discovered automatically: the entry defines what a new
+control may use, not whether CI checks it. Without an entry, any localization
+reference fails. The CI checker reports every reference outside that policy.
+Run its regression tests with
 `python -m unittest discover -s tools/tests -p 'test_check_localization.py'`.
 
 `legacy-key-map.tsv` is a frozen bridge for enum names, task/core callbacks,
