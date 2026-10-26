@@ -1688,6 +1688,8 @@ C:\leidian\LDPlayer9
     <system:String x:Key="BackgroundLinkStarted">开始执行任务</system:String>
     <system:String x:Key="BackgroundLinkStopped">任务终止</system:String>
     <system:String x:Key="FailedToOpenClient">打开客户端失败，请检查配置文件</system:String>
+    <system:String x:Key="ClientNotFound">当前模拟器上没有找到明日方舟客户端，请确认已安装客户端，并选择了正确的模拟器实例</system:String>
+    <system:String x:Key="StartGameFailedDisconnected">启动游戏失败：与模拟器的连接已断开</system:String>
     <system:String x:Key="ErrorOccurred">出现错误</system:String>
     <system:String x:Key="HasReturned">已返回</system:String>
     <system:String x:Key="DropRecognitionError">掉落识别错误</system:String>

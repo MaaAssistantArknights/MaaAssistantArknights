@@ -258,7 +258,7 @@ Todo
 - `ReportToPenguinStats` / `ReportToYituliu`  
   Report battle drops to Penguin Statistics / Yituliu big data (a `SubTaskError` is reported back when the upload fails)
 - `StartGameTask`  
-  Failed to open client (config file does not match passed client_type)
+  Failed to open client (config file does not match passed client_type). `what` is `ClientNotFound` when the connected device does not have the client MAA expects (client not installed, or the wrong emulator instance selected).
 - Todo others
 
 ##### Common `task` Field Values

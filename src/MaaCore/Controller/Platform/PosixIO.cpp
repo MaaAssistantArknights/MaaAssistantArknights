@@ -177,11 +177,14 @@ std::optional<int> asst::PosixIO::call_command(
 
     // whether we recv_by_socket or not, we have to
     // drain the output pipe so that it doesn't block I/O.
+    // socket 模式下 pipe 里剩的是 adb 自己的报错（stderr），判定命令级失败要靠它，
+    // 所以照收，只是限量：命令真正的返回值走 socket，pipe 通常只有几行诊断。
+    constexpr size_t SocketDiagnosticLimit = 4096;
     // std::array<::pollfd, 1> events { ::pollfd { .fd = pipe_out[PIPE_READ], .events = POLLIN } };
     while (true) {
         ssize_t read_num = ::read(pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
         while (read_num > 0) {
-            if (!recv_by_socket) {
+            if (!recv_by_socket || pipe_data.size() < SocketDiagnosticLimit) {
                 pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + read_num);
             }
             read_num = ::read(pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());

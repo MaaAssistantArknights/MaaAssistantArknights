@@ -368,7 +368,7 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 - `ReportToPenguinStats` / `ReportToYituliu`  
   汇报战斗掉落到企鹅数据统计 / 一图流大数据（上报失败时以 `SubTaskError` 回传）。
 - `StartGameTask`  
-  打开客户端失败（配置文件与传入 `client_type` 不匹配）。
+  打开客户端失败（配置文件与传入 `client_type` 不匹配）。`what` 为 `ClientNotFound` 时表示该设备上没有 MAA 预期的客户端（客户端未安装，或模拟器实例选错）。
 - Todo 其他
 
 ##### 常见 `task` 字段

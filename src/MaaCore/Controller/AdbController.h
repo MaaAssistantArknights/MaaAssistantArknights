@@ -7,6 +7,7 @@
 #include <future>
 #include <optional>
 #include <random>
+#include <string_view>
 
 #include "Platform/PlatformFactory.h"
 
@@ -89,6 +90,9 @@ public:
     virtual bool start_game(const std::string& client_type) override;
     virtual bool stop_game(const std::string& client_type) override;
 
+    // 最近一次 start_game 失败时，若能确认设备上没有该客户端（如连错了模拟器实例），返回 true
+    virtual bool client_not_found() const noexcept override;
+
     virtual bool click(const Point& p) override;
 
     virtual bool input(const std::string& text) override;
@@ -127,11 +131,21 @@ protected:
     // 显示方向旋转（截图宽高互换）时回调，方向相关的输入子类重写以重建映射
     virtual void on_display_rotated() {}
 
+    // 一次 adb 命令失败的判定结果，按调用传递而不是存在成员上：
+    // 异步帧率检测会和任务链并发地跑 call_command，挂在成员上的 ｢上次失败｣ 会被互相覆盖，
+    // start_game / reconnect 就会拿到别人的判定结果。
+    struct CommandFailure
+    {
+        std::string output;      // 失败输出（截断），仅用于判定失败原因
+        bool device_lost = true; // 是否属于设备不可达；超时 / 拉不起进程无从判断，按不可达处理
+    };
+
     std::optional<std::string> call_command(
         const std::string& cmd,
         int64_t timeout = 20'000,
         bool allow_reconnect = true,
-        bool recv_by_socket = false);
+        bool recv_by_socket = false,
+        CommandFailure* failure = nullptr);
 
     virtual std::optional<std::string> reconnect(const std::string& cmd, int64_t timeout, bool recv_by_socket);
 
@@ -248,6 +262,7 @@ protected:
     int m_screencap_times = 0;                                   // 截图次数
     std::chrono::steady_clock::time_point m_last_fps_check_time; // 上次帧率检测时间
     std::future<void> m_fps_future;                              // 异步帧率检测任务
+    bool m_client_not_found = false;                             // 上次 start_game 失败时确认设备上没有该客户端
 
 #if ASST_WITH_EMULATOR_EXTRAS
     MumuExtras m_mumu_extras;

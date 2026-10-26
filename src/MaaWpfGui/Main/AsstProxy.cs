@@ -1821,7 +1821,7 @@ public class AsstProxy
         switch (subTask)
         {
             case "StartGameTask":
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FailedToOpenClient"), UiLogColor.Error);
+                ProcStartGameFailed(details);
                 break;
 
             case "StopGameTask":
@@ -1969,6 +1969,40 @@ public class AsstProxy
                     break;
                 }
         }
+    }
+
+    /// <summary>
+    /// StartGameTask 失败的原因不止一种（设备上没有客户端、连错模拟器实例、连接中途断开、客户端版本不匹配），
+    /// 原先无论哪种都报 ｢打开客户端失败，请检查配置文件｣ 这种笼统提示。前几种原因下配置文件毫无问题，
+    /// 这句提示会把人引到完全错误的方向上，因此按 Core 给出的原因分别提示。
+    /// </summary>
+    /// <param name="details">SubTaskError 回调详情，<c>what</c> 为 Core 判定的具体原因</param>
+    private static void ProcStartGameFailed(JObject details)
+    {
+        string? what = details["what"]?.ToString();
+
+        // Core 确认这台设备上没有 MAA 预期的客户端（最常见：连错了模拟器实例，或客户端根本没装）
+        if (what == "ClientNotFound")
+        {
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ClientNotFound"), UiLogColor.Error);
+
+            // 设备上没有客户端，队列里剩下的任务链只会一路识别失败，同 Disconnect 一样直接收掉
+            if (!RunningState.Instance.GetIdle() && !Instances.AsstProxy.AsstStop())
+            {
+                _logger.Warning("Failed to stop Asst");
+            }
+
+            return;
+        }
+
+        // 连接已经断开时，真实原因（重连失败等）在前面报过了，别再让人去检查配置文件
+        if (!Instances.AsstProxy.Connected)
+        {
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartGameFailedDisconnected"), UiLogColor.Error);
+            return;
+        }
+
+        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FailedToOpenClient"), UiLogColor.Error);
     }
 
     /// <summary>

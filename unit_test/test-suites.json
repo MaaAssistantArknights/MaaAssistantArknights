@@ -1,0 +1,20 @@
+{
+  "runAllOnChanges": [
+    "unit_test/CMakeLists.txt",
+    "unit_test/test-suites.json",
+    ".github/workflows/unit-tests.yml"
+  ],
+  "suites": [
+    {
+      "id": "maa-adb-failure-test",
+      "name": "AdbFailure",
+      "buildTarget": "maa-adb-failure-test",
+      "ctestRegex": "^adb_failure::",
+      "paths": [
+        "src/MaaCore/Utils/AdbFailure.hpp",
+        "src/MaaCore/Controller/AdbController.cpp",
+        "unit_test/MaaCore/AdbFailureTest.cpp"
+      ]
+    }
+  ]
+}

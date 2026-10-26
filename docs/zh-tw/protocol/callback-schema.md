@@ -368,7 +368,7 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 - `ReportToPenguinStats` / `ReportToYituliu`  
   彙報戰鬥掉落到企鵝數據統計 / 一圖流大數據（上報失敗時以 `SubTaskError` 回傳）。
 - `StartGameTask`  
-  打開用戶端失敗（設定檔與傳入 `client_type` 不匹配）。
+  打開用戶端失敗（設定檔與傳入 `client_type` 不匹配）。`what` 為 `ClientNotFound` 時表示該裝置上沒有 MAA 預期的用戶端（用戶端未安裝，或模擬器實例選錯）。
 - Todo 其他
 
 ##### 常見 `task` 欄位
