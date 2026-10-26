@@ -1,7 +1,7 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """校验 MaaAppHostStub 内嵌文案与 Res/Localizations/*.xaml 同步。
 
-MaaAppHostStub.cpp 硬编码了 ErrorCongratulations / ErrorSolutionMoveMaaExeOutOfFolder
+MaaAppHostStub.cpp 硬编码了 Error.Congratulations / Error.Solution.MoveMaaExeOutOfFolder
 的五种语言文案（stub 启动时 .NET 尚未加载，无法读取 xaml 资源），本脚本比对两者，
 防止改动 xaml 后忘记同步 stub。在 ci.yml / release-nightly-ota.yml 中调用。
 """

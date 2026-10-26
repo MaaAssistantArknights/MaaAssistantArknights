@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <system:String x:Key="About.Github">ソースコード: GitHub</system:String>
     <system:String x:Key="About.QqChannel">QQチャンネル</system:String>
@@ -1099,7 +1099,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Error.ClearImageCacheSuccessful">画像キャッシュをクリアしました</system:String>
     <system:String x:Key="Error.ConfigurationBrokenCaption">設定破損</system:String>
     <system:String x:Key="Error.ConfigurationRecoveredNotification">対象の設定 ｢{0}｣ が見つからないため、現在の設定から複製しました。すべての設定をご確認ください</system:String>
-    <!--  ErrorCongratulations 与下方 ErrorSolutionMoveMaaExeOutOfFolder 修改时需同步 src/MaaAppHostStub/MaaAppHostStub.cpp，由 tools/CheckStubLocalization.py 校验  -->
+    <!--  Error.Congratulations 与下方 Error.Solution.MoveMaaExeOutOfFolder 修改时需同步 src/MaaAppHostStub/MaaAppHostStub.cpp，由 tools/CheckStubLocalization.py 校验  -->
     <system:String x:Key="Error.Congratulations">おめでとうございます</system:String>
     <system:String x:Key="Error.CopyMessage">エラー情報をコピーする</system:String>
     <system:String x:Key="Error.CrashDialog.Title">前回のクラッシュ原因</system:String>

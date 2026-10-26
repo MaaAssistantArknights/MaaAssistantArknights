@@ -1,4 +1,4 @@
-// <copyright file="LocalizationHelper.cs" company="MaaAssistantArknights">
+﻿// <copyright file="LocalizationHelper.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -388,7 +388,7 @@ public static class LocalizationHelper
 
         visited.Push(currentKey);
 
-        // key 取到右花括号为止，不限定字符集：既有引用含 . 与 @（如 UserAdditional.Add、MiniGame@ALL@xxx），\w 无法覆盖
+        // key 取到右花括号为止，不限定字符集：既有引用含 . 与 @（如 Copilot.UserAdditional.Add、MiniGame@ALL@xxx），\w 无法覆盖
         var result = Regex.Replace(input, @"\{key=([^}]+)\}", match => {
             var innerKey = match.Groups[1].Value;
             var innerValue = GetString(innerKey, culture);

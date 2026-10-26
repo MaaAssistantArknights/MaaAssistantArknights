@@ -2903,7 +2903,7 @@ public class ToolboxViewModel : Screen
             return entry.Tip;
         }
 
-        // 若不存在 Tip，再尝试使用 DisplayKey + "Tip" 的约定键
+        // 若不存在 Tip，再尝试使用 DisplayKey + ".Tip" 的约定键
         if (!string.IsNullOrEmpty(entry.DisplayKey))
         {
             var displayTipKey = entry.DisplayKey + ".Tip";

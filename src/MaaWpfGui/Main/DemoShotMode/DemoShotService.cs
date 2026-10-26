@@ -1,4 +1,4 @@
-// <copyright file="DemoShotService.cs" company="MaaAssistantArknights">
+﻿// <copyright file="DemoShotService.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -532,7 +532,7 @@ public static class DemoShotService
     {
         var vm = Instances.CopilotViewModel;
 
-        // CopilotViewModel.ClearLog 为 private 且会追加 CopilotTip，这里直接清空公开集合后按演示数据重建
+        // CopilotViewModel.ClearLog 为 private 且会追加 Copilot.Usage.Tip，这里直接清空公开集合后按演示数据重建
         vm.LogItemViewModels.Clear();
 
         foreach (var line in copilot.HeaderLines)

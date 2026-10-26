@@ -2,7 +2,7 @@
 //
 // MAA.exe 本体是自包含发布生成的 apphost 启动器：若用户把 MAA.exe 单独拖出文件夹，
 // 它会在托管代码运行前就退出，报错只写 stderr（双击时无人接收），
-// GUI 里 MaaCore.dll / resource 的检查（ErrorSolutionMoveMaaExeOutOfFolder）执行不到。
+// GUI 里 MaaCore.dll / resource 的检查（Error.Solution.MoveMaaExeOutOfFolder）执行不到。
 // 这里在进入 .NET 之前检查安装是否完整：缺失时（或处于临时目录，如直接双击压缩包内
 // 文件）弹提示；完整则加载同目录 hostfxr.dll，经 hostfxr_main_startupinfo 转发启动，
 // 与 SDK apphost 的调用方式一致，托管侧 Main/GetCommandLineArgs 不会多收参数。
@@ -18,8 +18,8 @@
 namespace
 {
 
-// 标题取 ErrorCongratulations（与 GUI 喜报窗口同名），
-// 正文取 src/MaaWpfGui/Res/Localizations/*.xaml 的 ErrorSolutionMoveMaaExeOutOfFolder，
+// 标题取 Error.Congratulations（与 GUI 喜报窗口同名），
+// 正文取 src/MaaWpfGui/Res/Localizations/*.xaml 的 Error.Solution.MoveMaaExeOutOfFolder，
 // 临时目录场景的正文为 stub 自带文案（对应 GUI 侧 UnsupportedInstallLocationError 的场景）。
 // 以上文案与 xaml 逐字同步，由 tools/CheckStubLocalization.py 在 CI 校验。
 struct FatalMessage

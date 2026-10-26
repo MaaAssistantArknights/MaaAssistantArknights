@@ -185,7 +185,6 @@ public class StageManager
             }
             else if (cached)
             {
-                // growlInfo.Message = LocalizationHelper.GetString("ApiCacheLoaded");
                 return;
             }
             else
@@ -291,7 +290,7 @@ public class StageManager
         bool curVerParsed = TryParseVersion(VersionUpdateSettingsUserControlModel.CoreVersion, out var curVersionObj);
 
         // bool curResourceVerParsed = SemVersion.TryParse(
-        //    tasksJsonClient?["VersionUpdate.ResourceVersion"]?.ToString() ?? tasksJson?["VersionUpdate.ResourceVersion"]?.ToString() ?? string.Empty,
+        //    tasksJsonClient?["ResourceVersion"]?.ToString() ?? tasksJson?["ResourceVersion"]?.ToString() ?? string.Empty,
         //    SemVersionStyles.AllowLowerV, out var curResourceVersionObj);
         var resourceCollection = InitializeResourceCollection(activity?[clientType]?["resourceCollection"]);
 
