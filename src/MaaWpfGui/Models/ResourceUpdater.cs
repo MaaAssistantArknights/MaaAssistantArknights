@@ -223,7 +223,7 @@ public static class ResourceUpdater
 
         releaseNote = LocalizationHelper.FormatVersion(releaseNote, versionTime);
 
-        SettingsViewModel.VersionUpdateSettings.NewResourceFoundInfo = LocalizationHelper.GetStringFormat("Settings.Update.MirrorChyan.ResourceUpdateShortTip", releaseNote);
+        SettingsViewModel.VersionUpdateSettings.NewResourceFoundInfo = LocalizationHelper.GetStringFormat("Settings.Update.MirrorChyan.ResourceUpdate.Brief.Tip", releaseNote);
 
         if (string.IsNullOrEmpty(cdk))
         {
@@ -337,7 +337,7 @@ public static class ResourceUpdater
             var (ret, uri, releaseNote) = await CheckFromMirrorChyanAsync();
             if (ret == CheckUpdateRetT.NoMirrorChyanCdk)
             {
-                ToastNotification.ShowDirect(LocalizationHelper.GetStringFormat("Settings.Update.MirrorChyan.ResourceUpdateTip", releaseNote));
+                ToastNotification.ShowDirect(LocalizationHelper.GetStringFormat("Settings.Update.MirrorChyan.ResourceUpdate.Tip", releaseNote));
             }
 
             if (ret != CheckUpdateRetT.OK)

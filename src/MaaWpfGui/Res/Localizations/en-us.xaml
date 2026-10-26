@@ -1468,8 +1468,8 @@ Recruitment permits are consumed faster than acquired; normally the timer expire
     <system:String x:Key="RemoteControl.ConnectionTest.Failed.NotHttpOrHttps">Connection test failed, connection endpoint is not a http(s) address.</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.Success">Connection Test Successful!</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.WarningHttpUnsafe">Endpoint is using http, might be unsafe.</system:String>
+    <system:String x:Key="RemoteControl.Developer.Tip">Learn how to develop these features here</system:String>
     <system:String x:Key="RemoteControl.DeveloperDocLink">Remote Control Developer Documentation</system:String>
-    <system:String x:Key="RemoteControl.DeveloperTip">Learn how to develop these features here</system:String>
     <system:String x:Key="RemoteControl.DeviceIdentityLabel">Device Identifier (Read-only)</system:String>
     <system:String x:Key="RemoteControl.GetTaskEndpointLabel">Get Task Endpoint</system:String>
     <system:String x:Key="RemoteControl.PollIntervalMsLabel">Polling Interval (ms)</system:String>
@@ -1492,7 +1492,7 @@ Recruitment permits are consumed faster than acquired; normally the timer expire
     <system:String x:Key="Roguelike.BlackFlow.Ending3">Ending 3 · 纠缠，调和 (Entanglement, Reconciliation)</system:String>
     <system:String x:Key="Roguelike.BlackFlow.EndingFlight.Tip">The ending can only be selected when ｢{key=Roguelike.BlackFlow.FastFlight}｣ is unchecked</system:String>
     <system:String x:Key="Roguelike.BlackFlow.FastFlight">Fly to Floor 3 quickly</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.FastFlight.LockTip">This option can only be edited when ｢{key=Roguelike.BlackFlow.FastFlight}｣ is unchecked</system:String>
+    <system:String x:Key="Roguelike.BlackFlow.FastFlight.Lock.Tip">This option can only be edited when ｢{key=Roguelike.BlackFlow.FastFlight}｣ is unchecked</system:String>
     <system:String x:Key="Roguelike.BlackFlow.Flight.Tip" xml:space="preserve">Always starts with Special Squad, Slow and Steady Wins the Race and your own Mechanic, recruits only the Mechanic, flies straight from Floor 2 to Floor 3 with the built-in Structural Principle, and restarts on arrival.&#10;The squad, roles and starting operator in General settings cannot be edited while this is checked; unchecking it makes them editable again. When unchecked, the run plays toward the target ending and does not fly even if the starting setup matches this combination.&#10;Do not check this if your Mechanic's talent is not fully unlocked, as the flight will fail.</system:String>
     <system:String x:Key="Roguelike.BlackFlow.FlightRequirement">Requires a Mechanic with talent fully unlocked</system:String>
     <system:String x:Key="Roguelike.BlackFlow.PrepFlight.Tip" xml:space="preserve">The preparation run always starts with Special Squad, Slow and Steady Wins the Race and your own Mechanic, recruits only the Mechanic, and flies straight from Floor 2 to Floor 3 with the built-in Structural Principle.&#10;When checked, ｢{key=Roguelike.CollectibleMode.Squad}｣ shows Special Squad and cannot be changed; unchecking restores the previous setting. The roles and starting operator in General settings are not affected.&#10;Do not check this if your Mechanic's talent is not fully unlocked, as the flight will fail.</system:String>
@@ -1550,7 +1550,7 @@ Recruitment permits are consumed faster than acquired; normally the timer expire
     <system:String x:Key="Roguelike.GoldTimesLimit">Stops after investing N times</system:String>
     <system:String x:Key="Roguelike.InvestmentEnabled">Invest ingots</system:String>
     <system:String x:Key="Roguelike.InvestmentWithMoreScore">Investment mode enables shopping, recruitment, and entering the second floor</system:String>
-    <system:String x:Key="Roguelike.JieGarden.DifficultyTip" xml:space="preserve">After unlocking the ｢Structural Classics｣ tech, related to ｢{key=Roguelike.Theme.JieGarden}｣, using {key=Roguelike.Squad.Leader} to explore at difficulty N3 or higher will carry an additional ｢End of Time｣, enabling a ｢one-battle-one-skip｣ saving strategy.
+    <system:String x:Key="Roguelike.JieGarden.Difficulty.Tip" xml:space="preserve">After unlocking the ｢Structural Classics｣ tech, related to ｢{key=Roguelike.Theme.JieGarden}｣, using {key=Roguelike.Squad.Leader} to explore at difficulty N3 or higher will carry an additional ｢End of Time｣, enabling a ｢one-battle-one-skip｣ saving strategy.
 If this tech is not unlocked, do not select difficulty N3 or above (including ｢MAX｣);
 To enable this mechanism, make sure the selected difficulty is N3 or higher (excluding ｢{key=TaskQueue.NotSwitch} (-1)｣).</system:String>
     <system:String x:Key="Roguelike.MonthlySquad.AutoIterate">Monthly Squad Auto-Switch</system:String>
@@ -1698,7 +1698,7 @@ To enable this mechanism, make sure the selected difficulty is N3 or higher (exc
 {key=Roguelike.StartingCoreChar}: Togawa Sakiko / Thorns
 
 When difficulty ≥ N3, you may be unable to recruit a 6★ operator at the start, which can cause errors or failures</system:String>
-    <system:String x:Key="Roguelike.Theme.RecommendedTip">← Highly recommended reading</system:String>
+    <system:String x:Key="Roguelike.Theme.Recommended.Tip">← Highly recommended reading</system:String>
     <system:String x:Key="Roguelike.Theme.Sami">Sami</system:String>
     <system:String x:Key="Roguelike.Theme.Sami.Tip" xml:space="preserve">{key=Roguelike.Theme.Sami} recommended configuration:
 
@@ -1761,14 +1761,14 @@ When difficulty ≥ N6, 6★ Hope cost +1; some squads may be unable to recruit 
     <system:String x:Key="Settings.Game.DeploymentWithPause.Tip">Pauses the game when deploying {key=Game.Operator} in auto combat, then deploys the next {key=Game.Operator}</system:String>
     <system:String x:Key="Settings.Game.EndsWithScript">Ends with Script</system:String>
     <system:String x:Key="Settings.Game.EndsWithScript.Placeholder">Example: "C:\1.cmd" -noWindow</system:String>
-    <system:String x:Key="Settings.Game.HelpUsWithOverseasServersTip">The adaptation for Overseas clients is very difficult and we need your help! No programming knowledge is required.</system:String>
+    <system:String x:Key="Settings.Game.HelpUsWithOverseasServers.Tip">The adaptation for Overseas clients is very difficult and we need your help! No programming knowledge is required.</system:String>
     <system:String x:Key="Settings.Game.ManualStopWithScript">Enable the above script during manual stop</system:String>
     <system:String x:Key="Settings.Game.ResolutionInfoYoStarEN">For YoStarEN, make sure the emulator is set to 1920x1080</system:String>
     <system:String x:Key="Settings.Game.StartsWithScript">Starts with Script</system:String>
     <system:String x:Key="Settings.Game.StartsWithScript.Placeholder">Example: "C:\1.cmd" -minimized</system:String>
     <system:String x:Key="Settings.Game.SwitchResolution.Tip">Change the emulator resolution to 1920x1080!</system:String>
     <system:String x:Key="Settings.Game.Title">Game Settings</system:String>
-    <system:String x:Key="Settings.GlobalConfigTip">This option page is for global config</system:String>
+    <system:String x:Key="Settings.GlobalConfig.Tip">This option page is for global config</system:String>
     <system:String x:Key="Settings.HotKey.Changing.Tip">Press Backspace / Esc / Delete to clear the current value</system:String>
     <system:String x:Key="Settings.HotKey.LinkStart">[HotKey] Link start/stop</system:String>
     <system:String x:Key="Settings.HotKey.NotSet">&lt; not set &gt;</system:String>
@@ -1825,15 +1825,15 @@ If you are concerned about leftover entries, please disable this option before d
     <system:String x:Key="Settings.Startup.OpenEmulatorAfterLaunch.Tip">The emulator is only started once when MAA launches, not every time you click ｢{key=TaskQueue.LinkStart}｣.\nIf you need that, check ｢{key=Connection.RetryOnDisconnected}｣ instead</system:String>
     <system:String x:Key="Settings.Startup.OpenPcClientAfterLaunch">Start PC client after MAA launches</system:String>
     <system:String x:Key="Settings.Startup.OpenPcClientAfterLaunch.Tip">The PC client is only started once when MAA launches, not every time you click ｢{key=TaskQueue.LinkStart}｣.\nIf you need that, check ｢{key=Connection.RetryOnPcDisconnected}｣ instead</system:String>
-    <system:String x:Key="Settings.Startup.PcClientAddCommandTip" xml:space="preserve">Additional arguments are passed when starting the PC client.&#10;Refer to the client's or launcher's documentation for supported arguments.&#10;When using a shortcut, the arguments saved in that shortcut are used.</system:String>
+    <system:String x:Key="Settings.Startup.PcClientAddCommand.Tip" xml:space="preserve">Additional arguments are passed when starting the PC client.&#10;Refer to the client's or launcher's documentation for supported arguments.&#10;When using a shortcut, the arguments saved in that shortcut are used.</system:String>
     <system:String x:Key="Settings.Startup.PcClientPath">PC client path</system:String>
     <system:String x:Key="Settings.Startup.PcClientPathEmptyError">The PC client path is empty. Select the client executable first.</system:String>
     <system:String x:Key="Settings.Startup.PcClientPathEmptyWarning">The PC client path is empty, ｢{key=Connection.RetryOnPcDisconnected}｣ and ｢{key=Settings.Startup.OpenPcClientAfterLaunch}｣ check states have been reset</system:String>
     <system:String x:Key="Settings.Startup.PcClientPathNotExist">The PC client path does not exist</system:String>
     <system:String x:Key="Settings.Startup.PcClientStartFailed">Failed to start the PC client\nPlease open this software with administrator privileges\nor start the client manually.</system:String>
     <system:String x:Key="Settings.Startup.RunTaskAfterLaunch">Auto Run task after launched</system:String>
-    <system:String x:Key="Settings.Startup.SelectPcClientTip">Select the PC client executable or shortcut. Extra launch parameters can be supplied through ｢{key=Settings.Startup.AdditionCommand}｣.</system:String>
-    <system:String x:Key="Settings.Startup.SelectShortcutTip" xml:space="preserve">You may select the emulator executable (with ｢{key=Settings.Startup.AdditionCommand}｣ launch parameters to specify the instance), or directly choose the emulator/game shortcut.&#10;If the ｢{key=TaskQueue.Task.WakeUp}｣ task fails due to prolonged emulator startup, it's recommended to use the game shortcut and increase ｢{key=Settings.Startup.WaitForEmulator}｣.</system:String>
+    <system:String x:Key="Settings.Startup.SelectPcClient.Tip">Select the PC client executable or shortcut. Extra launch parameters can be supplied through ｢{key=Settings.Startup.AdditionCommand}｣.</system:String>
+    <system:String x:Key="Settings.Startup.SelectShortcut.Tip" xml:space="preserve">You may select the emulator executable (with ｢{key=Settings.Startup.AdditionCommand}｣ launch parameters to specify the instance), or directly choose the emulator/game shortcut.&#10;If the ｢{key=TaskQueue.Task.WakeUp}｣ task fails due to prolonged emulator startup, it's recommended to use the game shortcut and increase ｢{key=Settings.Startup.WaitForEmulator}｣.</system:String>
     <system:String x:Key="Settings.Startup.SkipStartupAutoRunAfterUpdate">Do not auto-run when restarting immediately for update</system:String>
     <system:String x:Key="Settings.Startup.SkipStartupAutoRunAfterUpdate.Tip" xml:space="preserve">Only applies when ｢{key=Settings.Update.AutoInstall}｣ is on, or when you choose to restart immediately in the update prompt.
 If you choose ｢{key=Common.ManualRestart}｣ and start MAA manually later, ｢{key=Settings.Startup.RunTaskAfterLaunch}｣ / ｢{key=Settings.Startup.OpenEmulatorAfterLaunch}｣ still run as usual.</system:String>
@@ -1897,8 +1897,8 @@ If system notifications are turned off, an in-app notification will be used inst
     <system:String x:Key="Settings.Update.MaaVersion">Software Version</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.CdkFetchFailed">Failed to retrieve CDK information. Showing the result from the last successful query.</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.CdkRemainingDays">CDK expires in {0} days.</system:String>
-    <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdateShortTip">Resource update {0} detected</system:String>
-    <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdateTip">Resource update {0} detected. Please go to ｢{key=Settings.Title} - {key=Settings.Update.Title} - {key=Settings.Update.ResourceUpdate}｣ to update manually, or fill in MirrorChyan CDK to update automatically.</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Brief.Tip">Resource update {0} detected</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Tip">Resource update {0} detected. Please go to ｢{key=Settings.Title} - {key=Settings.Update.Title} - {key=Settings.Update.ResourceUpdate}｣ to update manually, or fill in MirrorChyan CDK to update automatically.</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.SelectedButNoCdk">Please go to ｢{key=Settings.Title} - {key=Settings.Update.Title}｣ to configure MirrorChyan CDK or switch to Global Source.</system:String>
     <system:String x:Key="Settings.Update.NoNeedToUpdateDebugVersion">Now using debug version, no need to update</system:String>
     <system:String x:Key="Settings.Update.ResourceDateTime">Resource Date</system:String>
@@ -2053,13 +2053,13 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="TaskQueue.Fight.SkippedEmptyStagePlan">Stage plan is empty</system:String>
     <system:String x:Key="TaskQueue.Fight.SkippedNoOpenStage">No stage in the plan is open today</system:String>
     <system:String x:Key="TaskQueue.Fight.SkippedWeeklySchedule">Weekly schedule is not enabled for today</system:String>
-    <system:String x:Key="TaskQueue.Fight.SpecifiedDropsInventoryEnough">{0} sufficient {1}/{2}</system:String>
-    <system:String x:Key="TaskQueue.Fight.SpecifiedDropsInventoryUnavailable">Task "{0}" uses {key=TaskQueue.Fight.TargetInventory}, but no inventory data is currently available, so it was skipped. Update it via the ｢{key=TaskQueue.Task.UserDataUpdate}｣ task or ｢{key=Toolbox.Title}-{key=Depot.Title}｣.</system:String>
-    <system:String x:Key="TaskQueue.Fight.SpecifiedDropsTip" xml:space="preserve">The stage entered is still determined by the options below: ｢{key=TaskQueue.Fight.StageSelect}｣ / ｢{key=TaskQueue.Fight.CandidateStages}｣.
+    <system:String x:Key="TaskQueue.Fight.SpecifiedDrops.Tip" xml:space="preserve">The stage entered is still determined by the options below: ｢{key=TaskQueue.Fight.StageSelect}｣ / ｢{key=TaskQueue.Fight.CandidateStages}｣.
 • {key=TaskQueue.Fight.Quantity}: uses the selected material's drop count in this combat task as the target, and stops when the set amount is reached.
 • {key=TaskQueue.Fight.TargetInventory}: uses the saved inventory data from ｢{key=Toolbox.Title}-{key=Depot.Title}｣ and only farms until the target stock is reached.
   • Inventory data is cached and may differ from your real stock after manual farming, crafting, or material use. Sync it with ｢{key=TaskQueue.Task.UserDataUpdate}｣ or ｢{key=Toolbox.Title}-{key=Depot.Title}｣.
   • Inventory is updated in real time based on drops during a run; materials farmed by earlier tasks will reduce the deficit of subsequent tasks.</system:String>
+    <system:String x:Key="TaskQueue.Fight.SpecifiedDropsInventoryEnough">{0} sufficient {1}/{2}</system:String>
+    <system:String x:Key="TaskQueue.Fight.SpecifiedDropsInventoryUnavailable">Task "{0}" uses {key=TaskQueue.Fight.TargetInventory}, but no inventory data is currently available, so it was skipped. Update it via the ｢{key=TaskQueue.Task.UserDataUpdate}｣ task or ｢{key=Toolbox.Title}-{key=Depot.Title}｣.</system:String>
     <system:String x:Key="TaskQueue.Fight.StagePlan.Tip">Executes the first open stage. If all stages are closed, skips the current task.\nCurrent execution: {0}</system:String>
     <system:String x:Key="TaskQueue.Fight.StageResetMode">Closed stage is reset to</system:String>
     <system:String x:Key="TaskQueue.Fight.StageSelect">Stage</system:String>
@@ -2149,7 +2149,7 @@ Right-clicking other options will check/uncheck this option simultaneously</syst
     <system:String x:Key="TaskQueue.Schedule.NotificationMinutes">Advance notice (minutes)</system:String>
     <system:String x:Key="TaskQueue.Schedule.NotifyBeforeScheduledStart">Send system notification before scheduled start</system:String>
     <system:String x:Key="TaskQueue.Schedule.NotifyBeforeScheduledStart.Tip" xml:space="preserve">Send a system notification at the configured advance notice time.&#10;External notifications can be enabled separately in ｢{key=Settings.Title} - {key=Settings.Notification.Title} - {key=ExternalNotification.Title}｣ and use the same advance notice time.</system:String>
-    <system:String x:Key="TaskQueue.Schedule.NotifySharedTimeTip">External notifications share this advance notice time.</system:String>
+    <system:String x:Key="TaskQueue.Schedule.NotifySharedTime.Tip">External notifications share this advance notice time.</system:String>
     <system:String x:Key="TaskQueue.Schedule.ReminderIntervalMinutes">Reminder interval (minutes)</system:String>
     <system:String x:Key="TaskQueue.Schedule.ScheduledWakeUp">Try to wake the computer and launch MAA before scheduled starts</system:String>
     <system:String x:Key="TaskQueue.Schedule.ScheduledWakeUp.Tip" xml:space="preserve">This feature registers scheduled tasks in Windows Task Scheduler to try to wake the computer and launch MAA 5 minutes before each enabled timer, after which the in-app scheduled start logic takes over.&#10;Auto-run items in ｢{key=Settings.Startup.Title}｣ (e.g. {key=Settings.Startup.RunTaskAfterLaunch}, {key=Settings.Startup.OpenEmulatorAfterLaunch}) are skipped when launched by wake-up.&#10;The scheduled tasks remain after MAA exits and are removed when this switch is turned off.&#10;The keep-awake window only covers the wait before the task starts; for long-running tasks, enable ｢{key=Settings.Game.BlockSleep}｣ in ｢{key=Settings.Game.Title}｣ to prevent the system from sleeping during execution.&#10;Waking from hibernate depends on device firmware support; some devices only support waking from sleep.</system:String>
@@ -2462,7 +2462,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="VersionUpdate.Api.UpdateSuccess">Hot update data retrieval successful</system:String>
     <system:String x:Key="VersionUpdate.CheckNetworking">Please check your network connection or proxy.</system:String>
     <system:String x:Key="VersionUpdate.DelegatedFailure.Detected">The last automatic update failed and the current installation may be incomplete, so resource loading was skipped for this launch. Please choose how to proceed in the next dialog.\n\nFailure reason: {0}</system:String>
-    <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonFileLocked">Moving files failed during the update. The files may have been scanned, blocked, or locked by security software, or held by another program. If security software is the cause, {key=VersionUpdate.SecurityWhitelistTip} Restarting your computer may also help.</system:String>
+    <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonFileLocked">Moving files failed during the update. The files may have been scanned, blocked, or locked by security software, or held by another program. If security software is the cause, {key=VersionUpdate.SecurityWhitelist.Tip} Restarting your computer may also help.</system:String>
     <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonPackageError">The update package or its extracted files may be corrupted or incomplete.</system:String>
     <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonUnknown">Unknown reason. See gui.log in the debug folder for details.</system:String>
     <system:String x:Key="VersionUpdate.FullPackageUpgrade.Tip">Please download the full package and extract it into a new folder. Do not overwrite the existing installation folder.\nYou may copy the original config, data, and debug folders into the new folder to retain your existing settings and logs.</system:String>
@@ -2472,7 +2472,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="VersionUpdate.GameResource.Updating">Game resources are being updated.</system:String>
     <system:String x:Key="VersionUpdate.GameResource.UpdatingMirrorChyan">Updating resource {0} from ｢{key=Settings.Update.Source.MirrorChyan}｣...</system:String>
     <system:String x:Key="VersionUpdate.GetReleaseNoteFailed">Failed to get release note.</system:String>
-    <system:String x:Key="VersionUpdate.IntegrityCheck.Description">{0} installation file(s) are missing ({1}), and some features may not work. The files may have been blocked or removed by security software, or deleted manually. If security software caused this, please check its quarantine area, restore the files, and {key=VersionUpdate.SecurityWhitelistTip}\n\nYou can also reinstall manually as described below:\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
+    <system:String x:Key="VersionUpdate.IntegrityCheck.Description">{0} installation file(s) are missing ({1}), and some features may not work. The files may have been blocked or removed by security software, or deleted manually. If security software caused this, please check its quarantine area, restore the files, and {key=VersionUpdate.SecurityWhitelist.Tip}\n\nYou can also reinstall manually as described below:\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.IntegrityCheck.Title">Missing installation files</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.Canceled">Automatic repair canceled. You will be reminded again on the next startup.</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.Downloading">Downloading the full package to repair the installation…</system:String>
@@ -2491,7 +2491,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="VersionUpdate.MirrorChyan.CdkInvalid">The CDK is invalid. Please check if the input is correct.</system:String>
     <system:String x:Key="VersionUpdate.MirrorChyan.CdkMismatched">The CDK type does not match the resource to be downloaded. Please check the CDK's applicable scope.</system:String>
     <system:String x:Key="VersionUpdate.MirrorChyan.CdkQuotaExhausted">The CDK has reached the maximum download limit for today. Please try again tomorrow.</system:String>
-    <system:String x:Key="VersionUpdate.MissingUpdater">The update could not continue because MAA.Updater.exe is missing, so the external updater could not be started. This update has been canceled. The file may have been deleted manually, or it may have been blocked or removed by security software. If security software caused this, please check its quarantine area, restore the file, and {key=VersionUpdate.SecurityWhitelistTip}\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
+    <system:String x:Key="VersionUpdate.MissingUpdater">The update could not continue because MAA.Updater.exe is missing, so the external updater could not be started. This update has been canceled. The file may have been deleted manually, or it may have been blocked or removed by security software. If security software caused this, please check its quarantine area, restore the file, and {key=VersionUpdate.SecurityWhitelist.Tip}\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.NewVersionButNoPackage.Description">Please manually download the full package to update!</system:String>
     <system:String x:Key="VersionUpdate.NewVersionButNoPackage.Title">New version found, but no update package</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDetectFailed.Title">Update Package Detect Failed</system:String>
@@ -2540,7 +2540,7 @@ Continue only after you have verified the directory layout and finished a manual
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Yes">I backed it up, continue update</system:String>
     <system:String x:Key="VersionUpdate.ResourceBroken">The resources are damaged. Try auto repair (download the full package again), or continue for now and update later by dragging in a local full package.\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.ResourceVersion">Resource Version</system:String>
-    <system:String x:Key="VersionUpdate.SecurityWhitelistTip">add the MAA installation folder to that software's allowlist before trying again.</system:String>
+    <system:String x:Key="VersionUpdate.SecurityWhitelist.Tip">add the MAA installation folder to that software's allowlist before trying again.</system:String>
     <system:String x:Key="VersionUpdate.Title">Version Information</system:String>
     <system:String x:Key="VersionUpdate.UpdatedTo" xml:space="preserve">Updated Version:&#160;</system:String>
     <system:String x:Key="VersionUpdate.VersionMismatch">UI and Core versions mismatch: {0} and {1}, which may cause unpredictable behavior. Please do not manually replace files or occupy files during updates.\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>

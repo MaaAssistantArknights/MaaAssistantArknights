@@ -1471,8 +1471,8 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="RemoteControl.ConnectionTest.Failed.NotHttpOrHttps">接続テストに失敗しました。接続エンドポイントが http または https アドレスではありませんでした。</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.Success">接続テスト成功！</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.WarningHttpUnsafe">接続エンドポイントがhttpsに対応しておらず、安全でない可能性があります。</system:String>
+    <system:String x:Key="RemoteControl.Developer.Tip">関連機能の開発方法については、訪問してください</system:String>
     <system:String x:Key="RemoteControl.DeveloperDocLink">リモートコントロール機能開発者ドキュメント</system:String>
-    <system:String x:Key="RemoteControl.DeveloperTip">関連機能の開発方法については、訪問してください</system:String>
     <system:String x:Key="RemoteControl.DeviceIdentityLabel">デバイス識別子（読み取り専用）</system:String>
     <system:String x:Key="RemoteControl.GetTaskEndpointLabel">タスクエンドポイントの取得</system:String>
     <system:String x:Key="RemoteControl.PollIntervalMsLabel">ポーリング間隔 (ms)</system:String>
@@ -1495,7 +1495,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Roguelike.BlackFlow.Ending3">第三エンディング · 絡み合い、調和（仮）</system:String>
     <system:String x:Key="Roguelike.BlackFlow.EndingFlight.Tip">エンディングは ｢{key=Roguelike.BlackFlow.FastFlight}｣ のチェックを外した場合のみ選択できます</system:String>
     <system:String x:Key="Roguelike.BlackFlow.FastFlight">第3層まで素早く飛ぶ</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.FastFlight.LockTip">｢{key=Roguelike.BlackFlow.FastFlight}｣ にチェックを入れている間はこの項目は変更できません。チェックを外すと編集できます</system:String>
+    <system:String x:Key="Roguelike.BlackFlow.FastFlight.Lock.Tip">｢{key=Roguelike.BlackFlow.FastFlight}｣ にチェックを入れている間はこの項目は変更できません。チェックを外すと編集できます</system:String>
     <system:String x:Key="Roguelike.BlackFlow.Flight.Tip" xml:space="preserve">常に特別行動分隊・攻守一体・自分の機械師で開局し、機械師のみを招集して、第2層で初期所持の構造性原理を使い第3層へ直接飛び、到達後にリスタートします。&#10;チェック中は一般設定の分隊・職業・最初のオペレーターは変更できません。チェックを外すと編集でき、目標エンディングに向けて進行します。開局構成がこの組み合わせでも飛びません。&#10;機械師の素質を全解放していないと飛べないため、チェックしないでください。</system:String>
     <system:String x:Key="Roguelike.BlackFlow.FlightRequirement">素質を全解放した機械師が必要</system:String>
     <system:String x:Key="Roguelike.BlackFlow.PrepFlight.Tip" xml:space="preserve">準備用探索は常に特別行動分隊・攻守一体・自分の機械師で開局し、機械師のみを招集して、第2層で初期所持の構造性原理を使い第3層へ直接飛びます。&#10;チェックすると ｢{key=Roguelike.CollectibleMode.Squad}｣ は特別行動分隊と表示されて変更できなくなり、チェックを外すと元の設定に戻ります。一般設定の職業と最初のオペレーターには影響しません。&#10;機械師の素質を全解放していないと飛べないため、チェックしないでください。</system:String>
@@ -1553,7 +1553,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Roguelike.GoldTimesLimit">N回投資した後に停止する</system:String>
     <system:String x:Key="Roguelike.InvestmentEnabled">源石錐を投資する</system:String>
     <system:String x:Key="Roguelike.InvestmentWithMoreScore">投資モードでは買い物、採用、2階への入場が可能</system:String>
-    <system:String x:Key="Roguelike.JieGarden.DifficultyTip" xml:space="preserve">｢{key=Roguelike.Theme.JieGarden}｣ に関連する知識を解放すると、{key=Roguelike.Squad.Leader}で N3 以上の難易度を探索する際に ｢時の果て｣ を追加で携帯し、｢一戦一跳｣ の貯蓄戦術を行えます。
+    <system:String x:Key="Roguelike.JieGarden.Difficulty.Tip" xml:space="preserve">｢{key=Roguelike.Theme.JieGarden}｣ に関連する知識を解放すると、{key=Roguelike.Squad.Leader}で N3 以上の難易度を探索する際に ｢時の果て｣ を追加で携帯し、｢一戦一跳｣ の貯蓄戦術を行えます。
 まだ解放していない場合は、N3 以上の難易度（｢MAX｣ を含む）を選択しないでください。
 この機能を有効にするには、難易度を N3 以上に設定してください（｢{key=TaskQueue.NotSwitch} (-1)｣ を除く）。</system:String>
     <system:String x:Key="Roguelike.MonthlySquad.AutoIterate">月次小隊自動切替</system:String>
@@ -1701,7 +1701,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
 {key=Roguelike.StartingCoreChar}: 豊川祥子 / ソーンズ
 
 最高難易度がN3以上の場合、開始時に6★オペレーターを招集できず、エラーや失敗につながる可能性があります</system:String>
-    <system:String x:Key="Roguelike.Theme.RecommendedTip">←必読推奨</system:String>
+    <system:String x:Key="Roguelike.Theme.Recommended.Tip">←必読推奨</system:String>
     <system:String x:Key="Roguelike.Theme.Sami">サーミ</system:String>
     <system:String x:Key="Roguelike.Theme.Sami.Tip" xml:space="preserve">{key=Roguelike.Theme.Sami}推奨構成:
 
@@ -1764,14 +1764,14 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Settings.Game.DeploymentWithPause.Tip">自動戦闘で{key=Game.Operator}を配置する際にゲームを一時停止し、次の{key=Game.Operator}を配置します</system:String>
     <system:String x:Key="Settings.Game.EndsWithScript">終了時にスクリプトを使用します</system:String>
     <system:String x:Key="Settings.Game.EndsWithScript.Placeholder">例: "C:\1.cmd" -noWindow</system:String>
-    <system:String x:Key="Settings.Game.HelpUsWithOverseasServersTip">グローバルサーバーの対応は非常に大変で、皆様の協力が必要です！プログラミングの知識は必要ありません。</system:String>
+    <system:String x:Key="Settings.Game.HelpUsWithOverseasServers.Tip">グローバルサーバーの対応は非常に大変で、皆様の協力が必要です！プログラミングの知識は必要ありません。</system:String>
     <system:String x:Key="Settings.Game.ManualStopWithScript">手動停止時に上記のスクリプトを有効にする</system:String>
     <system:String x:Key="Settings.Game.ResolutionInfoYoStarEN">エミュレータが1920x1080に設定されていることを確認してください</system:String>
     <system:String x:Key="Settings.Game.StartsWithScript">スクリプトを使用して始めます</system:String>
     <system:String x:Key="Settings.Game.StartsWithScript.Placeholder">例: "C:\1.cmd" -minimized</system:String>
     <system:String x:Key="Settings.Game.SwitchResolution.Tip">エミュレータの解像度を1920x1080に変更!</system:String>
     <system:String x:Key="Settings.Game.Title">実行設定</system:String>
-    <system:String x:Key="Settings.GlobalConfigTip">このオプション ページはグローバル設定用です</system:String>
+    <system:String x:Key="Settings.GlobalConfig.Tip">このオプション ページはグローバル設定用です</system:String>
     <system:String x:Key="Settings.HotKey.Changing.Tip">バックスペース/Esc/デリート キーを押すことで初期化できます</system:String>
     <system:String x:Key="Settings.HotKey.LinkStart">[ホットキー] Link 開始/停止</system:String>
     <system:String x:Key="Settings.HotKey.NotSet">&lt; 未設定 &gt;</system:String>
@@ -1828,15 +1828,15 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="Settings.Startup.OpenEmulatorAfterLaunch.Tip">エミュレータは MAA 起動時に一度だけ起動され、｢{key=TaskQueue.LinkStart}｣ をクリックするたびに起動されるわけではありません。\nそのような動作が必要な場合は ｢{key=Connection.RetryOnDisconnected}｣ を有効にしてください</system:String>
     <system:String x:Key="Settings.Startup.OpenPcClientAfterLaunch">MAA 起動後に PC クライアントを起動</system:String>
     <system:String x:Key="Settings.Startup.OpenPcClientAfterLaunch.Tip">PC クライアントは MAA 起動時に一度だけ起動されます。｢{key=TaskQueue.LinkStart}｣ のたびに起動する場合は ｢{key=Connection.RetryOnPcDisconnected}｣ を有効にしてください</system:String>
-    <system:String x:Key="Settings.Startup.PcClientAddCommandTip" xml:space="preserve">PC クライアント起動時に渡す追加引数です。&#10;対応する引数の形式は、クライアントまたはランチャーのドキュメントを参照してください。&#10;ショートカットを使用する場合は、そのショートカットに保存された引数が使用されます。</system:String>
+    <system:String x:Key="Settings.Startup.PcClientAddCommand.Tip" xml:space="preserve">PC クライアント起動時に渡す追加引数です。&#10;対応する引数の形式は、クライアントまたはランチャーのドキュメントを参照してください。&#10;ショートカットを使用する場合は、そのショートカットに保存された引数が使用されます。</system:String>
     <system:String x:Key="Settings.Startup.PcClientPath">PC クライアントのパス</system:String>
     <system:String x:Key="Settings.Startup.PcClientPathEmptyError">PC クライアントのパスが空です。先にクライアントを選択してください。</system:String>
     <system:String x:Key="Settings.Startup.PcClientPathEmptyWarning">PC クライアントのパスが空です。｢{key=Connection.RetryOnPcDisconnected}｣ と ｢{key=Settings.Startup.OpenPcClientAfterLaunch}｣ のチェック状態がリセットされました</system:String>
     <system:String x:Key="Settings.Startup.PcClientPathNotExist">PC クライアントのパスが存在しません</system:String>
     <system:String x:Key="Settings.Startup.PcClientStartFailed">PC クライアントの起動に失敗しました\n管理者権限でこのソフトウェアを開くか\n手動でクライアントを起動してください。</system:String>
     <system:String x:Key="Settings.Startup.RunTaskAfterLaunch">アプリの起動時に自動的に実行</system:String>
-    <system:String x:Key="Settings.Startup.SelectPcClientTip">PC クライアント本体またはショートカットを選択できます。｢{key=Settings.Startup.AdditionCommand}｣ で起動引数を追加できます。</system:String>
-    <system:String x:Key="Settings.Startup.SelectShortcutTip" xml:space="preserve">エミュレーター本体を選択（｢{key=Settings.Startup.AdditionCommand}｣ 起動パラメータでインスタンス指定可能）、または直接エミュレーター/ゲームのショートカットを選択できます。&#10; ｢{key=TaskQueue.Task.WakeUp}｣ タスクがエミュレーター起動遅延で失敗する場合、ゲームショートカットを使用し ｢{key=Settings.Startup.WaitForEmulator}｣ を延長することを推奨します。</system:String>
+    <system:String x:Key="Settings.Startup.SelectPcClient.Tip">PC クライアント本体またはショートカットを選択できます。｢{key=Settings.Startup.AdditionCommand}｣ で起動引数を追加できます。</system:String>
+    <system:String x:Key="Settings.Startup.SelectShortcut.Tip" xml:space="preserve">エミュレーター本体を選択（｢{key=Settings.Startup.AdditionCommand}｣ 起動パラメータでインスタンス指定可能）、または直接エミュレーター/ゲームのショートカットを選択できます。&#10; ｢{key=TaskQueue.Task.WakeUp}｣ タスクがエミュレーター起動遅延で失敗する場合、ゲームショートカットを使用し ｢{key=Settings.Startup.WaitForEmulator}｣ を延長することを推奨します。</system:String>
     <system:String x:Key="Settings.Startup.SkipStartupAutoRunAfterUpdate">更新のため直ちに再起動する時は自動実行しない</system:String>
     <system:String x:Key="Settings.Startup.SkipStartupAutoRunAfterUpdate.Tip" xml:space="preserve">｢{key=Settings.Update.AutoInstall}｣ が有効な場合、または更新確認で直ちに再起動を選んだ場合のみ適用されます。
 ｢{key=Common.ManualRestart}｣ を選んで後から手動起動した場合は、｢{key=Settings.Startup.RunTaskAfterLaunch}｣ / ｢{key=Settings.Startup.OpenEmulatorAfterLaunch}｣ は通常どおり実行されます。</system:String>
@@ -1900,8 +1900,8 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="Settings.Update.MaaVersion">Software バージョン</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.CdkFetchFailed">CDK 情報の取得に失敗しました。前回正常に取得した結果を表示しています。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.CdkRemainingDays">CDK の有効期限は残り {0} 日です。</system:String>
-    <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdateShortTip">リソース更新 {0} が検出されました</system:String>
-    <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdateTip">リソース更新 {0} が検出されました。｢{key=Settings.Title} - {key=Settings.Update.Title} - {key=Settings.Update.ResourceUpdate}｣ に移動して手動で更新するか、MirrorChyan CDK を入力して自動的に更新してください。</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Brief.Tip">リソース更新 {0} が検出されました</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Tip">リソース更新 {0} が検出されました。｢{key=Settings.Title} - {key=Settings.Update.Title} - {key=Settings.Update.ResourceUpdate}｣ に移動して手動で更新するか、MirrorChyan CDK を入力して自動的に更新してください。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.SelectedButNoCdk">｢{key=Settings.Title} - {key=Settings.Update.Title}｣ に移動して MirrorChyan CDK を設定するか、グローバル ソースに切り替えてください。</system:String>
     <system:String x:Key="Settings.Update.NoNeedToUpdateDebugVersion">現在はデバッグバージョンであり、更新は必要ありません</system:String>
     <system:String x:Key="Settings.Update.ResourceDateTime">リソース日付</system:String>
@@ -2055,13 +2055,13 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.Fight.SkippedEmptyStagePlan">ステージ計画が空です</system:String>
     <system:String x:Key="TaskQueue.Fight.SkippedNoOpenStage">計画内に本日開放中のステージがありません</system:String>
     <system:String x:Key="TaskQueue.Fight.SkippedWeeklySchedule">週次スケジュールで今日が未選択</system:String>
-    <system:String x:Key="TaskQueue.Fight.SpecifiedDropsInventoryEnough">{0} 十分 {1}/{2}</system:String>
-    <system:String x:Key="TaskQueue.Fight.SpecifiedDropsInventoryUnavailable">タスク ｢{0}｣ では {key=TaskQueue.Fight.TargetInventory} が有効ですが、利用可能な在庫データがないためスキップされました。｢{key=TaskQueue.Task.UserDataUpdate}｣ タスクまたは ｢{key=Toolbox.Title}-{key=Depot.Title}｣ で在庫を更新してください。</system:String>
-    <system:String x:Key="TaskQueue.Fight.SpecifiedDropsTip" xml:space="preserve">実際に入るステージは、引き続き下の ｢{key=TaskQueue.Fight.StageSelect}｣ / ｢{key=TaskQueue.Fight.CandidateStages}｣ で決まります。
+    <system:String x:Key="TaskQueue.Fight.SpecifiedDrops.Tip" xml:space="preserve">実際に入るステージは、引き続き下の ｢{key=TaskQueue.Fight.StageSelect}｣ / ｢{key=TaskQueue.Fight.CandidateStages}｣ で決まります。
 • {key=TaskQueue.Fight.Quantity}: この理性作戦タスク中で、その素材のドロップ数が設定値に達するまで周回します。
 • {key=TaskQueue.Fight.TargetInventory}: ｢{key=Toolbox.Title}-{key=Depot.Title}｣ に保存された在庫データを参照し、設定した在庫数になるまで補充します。
   • 在庫データはキャッシュのため、手動周回や素材の使用後は実際とずれる場合があります。｢{key=TaskQueue.Task.UserDataUpdate}｣ または ｢{key=Toolbox.Title}-{key=Depot.Title}｣ で同期してください。
   • 実行中はドロップに応じて在庫がリアルタイム更新され、前のタスクでドロップした素材が後続タスクの不足数に反映されます。</system:String>
+    <system:String x:Key="TaskQueue.Fight.SpecifiedDropsInventoryEnough">{0} 十分 {1}/{2}</system:String>
+    <system:String x:Key="TaskQueue.Fight.SpecifiedDropsInventoryUnavailable">タスク ｢{0}｣ では {key=TaskQueue.Fight.TargetInventory} が有効ですが、利用可能な在庫データがないためスキップされました。｢{key=TaskQueue.Task.UserDataUpdate}｣ タスクまたは ｢{key=Toolbox.Title}-{key=Depot.Title}｣ で在庫を更新してください。</system:String>
     <system:String x:Key="TaskQueue.Fight.StagePlan.Tip">最初の開放したステージを実行します。すべてのステージが未開放の場合は、現在のタスクはスキップされます。\n現在実行中: {0}</system:String>
     <system:String x:Key="TaskQueue.Fight.StageResetMode">期限切れのステージをこれにリセットする</system:String>
     <system:String x:Key="TaskQueue.Fight.StageSelect">ステージ</system:String>
@@ -2151,7 +2151,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.Schedule.NotificationMinutes">通知するタイミング（分前）</system:String>
     <system:String x:Key="TaskQueue.Schedule.NotifyBeforeScheduledStart">定時実行前にシステム通知を送信</system:String>
     <system:String x:Key="TaskQueue.Schedule.NotifyBeforeScheduledStart.Tip" xml:space="preserve">設定したタイミングでシステム通知を送信します。&#10;外部通知は ｢{key=Settings.Title} - {key=Settings.Notification.Title} - {key=ExternalNotification.Title}｣ で個別に有効にでき、通知するタイミングは共通です。</system:String>
-    <system:String x:Key="TaskQueue.Schedule.NotifySharedTimeTip">外部通知はこの事前通知時間を共有します。</system:String>
+    <system:String x:Key="TaskQueue.Schedule.NotifySharedTime.Tip">外部通知はこの事前通知時間を共有します。</system:String>
     <system:String x:Key="TaskQueue.Schedule.ReminderIntervalMinutes">リマインダー間隔時間（分）</system:String>
     <system:String x:Key="TaskQueue.Schedule.ScheduledWakeUp">スケジュール起動前にコンピュータのスリープ解除と MAA の起動を試みる</system:String>
     <system:String x:Key="TaskQueue.Schedule.ScheduledWakeUp.Tip" xml:space="preserve">この機能は Windows タスクスケジューラにタスクを登録し、有効化された各タイマーの 5 分前にコンピュータのスリープ解除と MAA の起動を試みます。その後はアプリ内の定時起動ロジックに引き継がれます。&#10;スリープ解除による起動時は、｢{key=Settings.Startup.Title}｣ の起動時自動実行項目（{key=Settings.Startup.RunTaskAfterLaunch}、{key=Settings.Startup.OpenEmulatorAfterLaunch}など）はスキップされます。&#10;MAA 終了後もタスクは保持され、このスイッチをオフにすると削除されます。&#10;タスク開始後の長時間実行はこの機能では保持されないため、実行時間が長いタスクでは、タスク実行中にシステムがスリープしないよう ｢{key=Settings.Game.Title}｣ の ｢{key=Settings.Game.BlockSleep}｣ を有効にすることをおすすめします。&#10;休止状態からのスリープ解除はデバイスのファームウェア対応に依存し、一部のデバイスはスリープからの解除のみに対応しています。</system:String>
@@ -2464,7 +2464,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="VersionUpdate.Api.UpdateSuccess">ホットアップデートデータの取得に成功しました</system:String>
     <system:String x:Key="VersionUpdate.CheckNetworking">ネットワークの接続状況とプロクシの設定を確認してください。</system:String>
     <system:String x:Key="VersionUpdate.DelegatedFailure.Detected">前回の自動更新に失敗したため、現在のインストールが不完全な可能性があり、今回の起動ではリソースの読み込みをスキップしました。次のダイアログで修復方法を選択してください。\n\n失敗理由：{0}</system:String>
-    <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonFileLocked">更新中のファイル移動に失敗しました。セキュリティソフトによるスキャン・ブロック・ロック、または他のプログラムによる占有が考えられます。セキュリティソフトが原因の場合は、{key=VersionUpdate.SecurityWhitelistTip} PC を再起動してからもう一度試すこともできます。</system:String>
+    <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonFileLocked">更新中のファイル移動に失敗しました。セキュリティソフトによるスキャン・ブロック・ロック、または他のプログラムによる占有が考えられます。セキュリティソフトが原因の場合は、{key=VersionUpdate.SecurityWhitelist.Tip} PC を再起動してからもう一度試すこともできます。</system:String>
     <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonPackageError">更新パッケージまたはその展開ファイルが破損・不完全な可能性があります。</system:String>
     <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonUnknown">原因は不明です。詳細は debug フォルダーの gui.log を確認してください。</system:String>
     <system:String x:Key="VersionUpdate.FullPackageUpgrade.Tip">完全パッケージをダウンロードし、既存のフォルダーを上書きせずに新しいフォルダーに解凍してください。\n設定とログを保持するには、元の config、data、および debug フォルダーを新しいフォルダーにコピーしてください。</system:String>
@@ -2474,7 +2474,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="VersionUpdate.GameResource.Updating">ゲームリソースが更新中です。</system:String>
     <system:String x:Key="VersionUpdate.GameResource.UpdatingMirrorChyan">｢{key=Settings.Update.Source.MirrorChyan}｣ からリソース {0} を更新しています...</system:String>
     <system:String x:Key="VersionUpdate.GetReleaseNoteFailed">リリースノートの取得に失敗しました。</system:String>
-    <system:String x:Key="VersionUpdate.IntegrityCheck.Description">{0} 個のインストールファイルが欠落していることが検出されました（{1}）。一部の機能が使用できない可能性があります。ファイルがセキュリティソフトによってブロックまたは削除されたか、手動で削除された可能性があります。セキュリティソフトが原因の場合は、その隔離領域を確認してファイルを復元し、{key=VersionUpdate.SecurityWhitelistTip}\n\n以下の説明に従って手動で再インストールすることもできます：\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
+    <system:String x:Key="VersionUpdate.IntegrityCheck.Description">{0} 個のインストールファイルが欠落していることが検出されました（{1}）。一部の機能が使用できない可能性があります。ファイルがセキュリティソフトによってブロックまたは削除されたか、手動で削除された可能性があります。セキュリティソフトが原因の場合は、その隔離領域を確認してファイルを復元し、{key=VersionUpdate.SecurityWhitelist.Tip}\n\n以下の説明に従って手動で再インストールすることもできます：\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.IntegrityCheck.Title">インストールファイルの欠落</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.Canceled">自動修復をキャンセルしました。次回起動時に再度通知されます。</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.Downloading">インストールを修復するため、完全パッケージをダウンロードしています…</system:String>
@@ -2493,7 +2493,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="VersionUpdate.MirrorChyan.CdkInvalid">CDK が無効です。入力が正しいか確認してください。</system:String>
     <system:String x:Key="VersionUpdate.MirrorChyan.CdkMismatched">CDK の種類がダウンロード対象のリソースと一致しません。CDK の適用範囲を確認してください。</system:String>
     <system:String x:Key="VersionUpdate.MirrorChyan.CdkQuotaExhausted">CDK の本日のダウンロード回数が上限に達しました。明日もう一度お試しください。</system:String>
-    <system:String x:Key="VersionUpdate.MissingUpdater">MAA.Updater.exe が見つからないため、外部更新プログラムを起動できず、更新を続行できませんでした。今回の更新はキャンセルされました。このファイルは手動で削除されたか、セキュリティソフトによってブロックまたは削除された可能性があります。セキュリティソフトが原因の場合は、その隔離領域を確認してファイルを復元し、{key=VersionUpdate.SecurityWhitelistTip}\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
+    <system:String x:Key="VersionUpdate.MissingUpdater">MAA.Updater.exe が見つからないため、外部更新プログラムを起動できず、更新を続行できませんでした。今回の更新はキャンセルされました。このファイルは手動で削除されたか、セキュリティソフトによってブロックまたは削除された可能性があります。セキュリティソフトが原因の場合は、その隔離領域を確認してファイルを復元し、{key=VersionUpdate.SecurityWhitelist.Tip}\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.NewVersionButNoPackage.Description">アップデートするには、手動でフルパッケージをダウンロードしてください！</system:String>
     <system:String x:Key="VersionUpdate.NewVersionButNoPackage.Title">新バージョンが見つかりましたが、アップデートパッケージがありません</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDetectFailed.Title">アップデートパッケージを見つけるのに失敗しました</system:String>
@@ -2542,7 +2542,7 @@ D:\
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Yes">バックアップ済みです。更新を続行します</system:String>
     <system:String x:Key="VersionUpdate.ResourceBroken">リソースファイルが破損しています。自動修復（完全なパッケージの再ダウンロード）を試すか、今はそのまま続けて、後でローカルの完全パッケージをドラッグして更新してください。\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.ResourceVersion">リソースバーション</system:String>
-    <system:String x:Key="VersionUpdate.SecurityWhitelistTip">MAA のフォルダーを当該ソフトの許可リストに追加してから、もう一度お試しください。</system:String>
+    <system:String x:Key="VersionUpdate.SecurityWhitelist.Tip">MAA のフォルダーを当該ソフトの許可リストに追加してから、もう一度お試しください。</system:String>
     <system:String x:Key="VersionUpdate.Title">バージョン情報</system:String>
     <system:String x:Key="VersionUpdate.UpdatedTo" xml:space="preserve">バージョン: </system:String>
     <system:String x:Key="VersionUpdate.VersionMismatch">UI と Core のバージョンが一致しません: {0} と {1}、予測不可能な動作を引き起こす可能性があります。ファイルを手動で置き換えたり、更新中にファイルを占有しないでください。\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>

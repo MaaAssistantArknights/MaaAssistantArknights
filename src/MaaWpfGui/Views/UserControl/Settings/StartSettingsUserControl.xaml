@@ -117,7 +117,7 @@
                         VerticalAlignment="Center"
                         Block.TextAlignment="Center"
                         Text="{DynamicResource Settings.Startup.EmulatorPath}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource Settings.Startup.SelectShortcutTip}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource Settings.Startup.SelectShortcut.Tip}" />
                     <Button
                         Margin="10,0,0,0"
                         hc:BorderElement.CornerRadius="4,0,0,4"
@@ -174,7 +174,7 @@
                         VerticalAlignment="Center"
                         Block.TextAlignment="Center"
                         Text="{DynamicResource Settings.Startup.PcClientPath}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource Settings.Startup.SelectPcClientTip}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource Settings.Startup.SelectPcClient.Tip}" />
                     <Button
                         Margin="10,0,0,0"
                         hc:BorderElement.CornerRadius="4,0,0,4"
@@ -195,7 +195,7 @@
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
                     <controls:TextBlock Block.TextAlignment="Center" Text="{DynamicResource Settings.Startup.AdditionCommand}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource Settings.Startup.PcClientAddCommandTip}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource Settings.Startup.PcClientAddCommand.Tip}" />
                 </StackPanel>
                 <TextBox IsEnabled="{Binding PcClientPath.Length}" Text="{Binding PcClientAddCommand}" />
             </StackPanel>

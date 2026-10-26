@@ -1469,8 +1469,8 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="RemoteControl.ConnectionTest.Failed.NotHttpOrHttps">连接测试失败，连接端点不为 http(s) 地址。</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.Success">连接测试成功！</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.WarningHttpUnsafe">连接端点未启用 https，可能不安全。</system:String>
+    <system:String x:Key="RemoteControl.Developer.Tip">了解如何开发相关功能，可以访问</system:String>
     <system:String x:Key="RemoteControl.DeveloperDocLink">远程控制功能开发者文档</system:String>
-    <system:String x:Key="RemoteControl.DeveloperTip">了解如何开发相关功能，可以访问</system:String>
     <system:String x:Key="RemoteControl.DeviceIdentityLabel">设备标识符（只读）</system:String>
     <system:String x:Key="RemoteControl.GetTaskEndpointLabel">获取任务端点</system:String>
     <system:String x:Key="RemoteControl.PollIntervalMsLabel">轮询间隔 (ms)</system:String>
@@ -1493,7 +1493,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Roguelike.BlackFlow.Ending3">三结局 · 纠缠，调和</system:String>
     <system:String x:Key="Roguelike.BlackFlow.EndingFlight.Tip">只有取消勾选 ｢{key=Roguelike.BlackFlow.FastFlight}｣ 才能选择结局</system:String>
     <system:String x:Key="Roguelike.BlackFlow.FastFlight">快速飞三层</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.FastFlight.LockTip">勾选 ｢{key=Roguelike.BlackFlow.FastFlight}｣ 后此项不能修改，取消勾选后恢复</system:String>
+    <system:String x:Key="Roguelike.BlackFlow.FastFlight.Lock.Tip">勾选 ｢{key=Roguelike.BlackFlow.FastFlight}｣ 后此项不能修改，取消勾选后恢复</system:String>
     <system:String x:Key="Roguelike.BlackFlow.Flight.Tip" xml:space="preserve">固定用特勤分队、稳扎稳打和自己的机械师开局，只招机械师，第二层用自带的结构性原理直接飞到第三层，到达后重开。&#10;勾选后常规设置里的分队、职业组和开局干员不能修改，取消勾选后恢复。不勾选时按目标结局打，开局配置是这套组合也不会飞。&#10;机械师天赋没点满会飞不起来，请不要勾选。</system:String>
     <system:String x:Key="Roguelike.BlackFlow.FlightRequirement">需满天赋机械师</system:String>
     <system:String x:Key="Roguelike.BlackFlow.PrepFlight.Tip" xml:space="preserve">准备局固定用特勤分队、稳扎稳打和自己的机械师开局，只招机械师，第二层用自带的结构性原理直接飞到第三层。&#10;勾选后 ｢{key=Roguelike.CollectibleMode.Squad}｣ 显示为特勤分队且不能修改，取消勾选后恢复原来的设置；常规设置里的职业组和开局干员不受影响。&#10;机械师天赋没点满会飞不起来，请不要勾选。</system:String>
@@ -1551,7 +1551,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Roguelike.GoldTimesLimit">投资 N 个源石锭后停止任务</system:String>
     <system:String x:Key="Roguelike.InvestmentEnabled">投资源石锭</system:String>
     <system:String x:Key="Roguelike.InvestmentWithMoreScore">投资模式启用购物、招募、进2层</system:String>
-    <system:String x:Key="Roguelike.JieGarden.DifficultyTip" xml:space="preserve">解锁 ｢{key=Roguelike.Theme.JieGarden}｣ 相关科技后，{key=Roguelike.Squad.Leader}在进行 N3 及以上难度的探索时，会额外携带一个 ｢时光之末｣，可以利用其进行 ｢一战一跳｣ 的存钱策略。
+    <system:String x:Key="Roguelike.JieGarden.Difficulty.Tip" xml:space="preserve">解锁 ｢{key=Roguelike.Theme.JieGarden}｣ 相关科技后，{key=Roguelike.Squad.Leader}在进行 N3 及以上难度的探索时，会额外携带一个 ｢时光之末｣，可以利用其进行 ｢一战一跳｣ 的存钱策略。
 若尚未解锁该科技，请不要选择 N3 及以上难度（包括 ｢MAX｣）进行探索；
 若希望启用此机制，请确保选择的难度为 N3 及以上（不包括 ｢{key=TaskQueue.NotSwitch} (-1)｣）。</system:String>
     <system:String x:Key="Roguelike.MonthlySquad.AutoIterate">月度小队自动切换</system:String>
@@ -1699,7 +1699,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 {key=Roguelike.StartingCoreChar}: 丰川祥子 / 棘刺
 
 当前难度 ≥3 时，可能无法在开局招募 6★ 干员，导致出错或失败</system:String>
-    <system:String x:Key="Roguelike.Theme.RecommendedTip">←强烈推荐看</system:String>
+    <system:String x:Key="Roguelike.Theme.Recommended.Tip">←强烈推荐看</system:String>
     <system:String x:Key="Roguelike.Theme.Sami">萨米</system:String>
     <system:String x:Key="Roguelike.Theme.Sami.Tip" xml:space="preserve">{key=Roguelike.Theme.Sami}推荐配置：
 
@@ -1762,14 +1762,14 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Settings.Game.DeploymentWithPause.Tip">自动战斗部署{key=Game.Operator}时暂停游戏，再下{key=Game.Operator}</system:String>
     <system:String x:Key="Settings.Game.EndsWithScript">结束后脚本</system:String>
     <system:String x:Key="Settings.Game.EndsWithScript.Placeholder">示例："C:\1.cmd" -noWindow</system:String>
-    <system:String x:Key="Settings.Game.HelpUsWithOverseasServersTip">外服适配滞销，帮帮我们！不会编程也可以。</system:String>
+    <system:String x:Key="Settings.Game.HelpUsWithOverseasServers.Tip">外服适配滞销，帮帮我们！不会编程也可以。</system:String>
     <system:String x:Key="Settings.Game.ManualStopWithScript">手动停止时启用上述脚本</system:String>
     <system:String x:Key="Settings.Game.ResolutionInfoYoStarEN">确保模拟器设置为 1920x1080</system:String>
     <system:String x:Key="Settings.Game.StartsWithScript">开始前脚本</system:String>
     <system:String x:Key="Settings.Game.StartsWithScript.Placeholder">示例："C:\1.cmd" -minimized</system:String>
     <system:String x:Key="Settings.Game.SwitchResolution.Tip">将模拟器分辨率更改为 1920x1080！</system:String>
     <system:String x:Key="Settings.Game.Title">运行设置</system:String>
-    <system:String x:Key="Settings.GlobalConfigTip">此选项页为全局配置</system:String>
+    <system:String x:Key="Settings.GlobalConfig.Tip">此选项页为全局配置</system:String>
     <system:String x:Key="Settings.HotKey.Changing.Tip">键入 退格/Esc/Delete 清除当前热键</system:String>
     <system:String x:Key="Settings.HotKey.LinkStart">[热键] Link start/stop</system:String>
     <system:String x:Key="Settings.HotKey.NotSet">&lt; 未设置 &gt;</system:String>
@@ -1826,15 +1826,15 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Settings.Startup.OpenEmulatorAfterLaunch.Tip">仅在启动 MAA 时开启一次模拟器，点击 ｢{key=TaskQueue.LinkStart}｣ 时不会自动开启；\n如有此需求，请勾选 ｢{key=Connection.RetryOnDisconnected}｣</system:String>
     <system:String x:Key="Settings.Startup.OpenPcClientAfterLaunch">启动 MAA 后自动开启 PC 客户端</system:String>
     <system:String x:Key="Settings.Startup.OpenPcClientAfterLaunch.Tip">仅在启动 MAA 时开启一次 PC 客户端，点击 ｢{key=TaskQueue.LinkStart}｣ 时不会自动开启；\n如有此需求，请勾选 ｢{key=Connection.RetryOnPcDisconnected}｣</system:String>
-    <system:String x:Key="Settings.Startup.PcClientAddCommandTip" xml:space="preserve">附加命令用于指定 PC 客户端的启动参数，具体格式请参考客户端或启动器文档。&#10;使用快捷方式时，将使用快捷方式中保存的参数。</system:String>
+    <system:String x:Key="Settings.Startup.PcClientAddCommand.Tip" xml:space="preserve">附加命令用于指定 PC 客户端的启动参数，具体格式请参考客户端或启动器文档。&#10;使用快捷方式时，将使用快捷方式中保存的参数。</system:String>
     <system:String x:Key="Settings.Startup.PcClientPath">PC 客户端路径</system:String>
     <system:String x:Key="Settings.Startup.PcClientPathEmptyError">PC 客户端路径为空，请先选择客户端程序。</system:String>
     <system:String x:Key="Settings.Startup.PcClientPathEmptyWarning">PC 客户端路径为空，｢{key=Connection.RetryOnPcDisconnected}｣ 与 ｢{key=Settings.Startup.OpenPcClientAfterLaunch}｣ 勾选状态已被还原</system:String>
     <system:String x:Key="Settings.Startup.PcClientPathNotExist">PC 客户端路径不存在</system:String>
     <system:String x:Key="Settings.Startup.PcClientStartFailed">未能成功启动 PC 客户端\n请使用管理员权限打开本软件\n或手动启动客户端。</system:String>
     <system:String x:Key="Settings.Startup.RunTaskAfterLaunch">启动 MAA 后直接运行</system:String>
-    <system:String x:Key="Settings.Startup.SelectPcClientTip">可选择 PC 客户端本体或其快捷方式，并可通过 ｢{key=Settings.Startup.AdditionCommand}｣ 补充启动参数。</system:String>
-    <system:String x:Key="Settings.Startup.SelectShortcutTip" xml:space="preserve">可选择模拟器本体（配合 ｢{key=Settings.Startup.AdditionCommand}｣ 启动参数可指定启动模拟器实例），也可直接选择模拟器或游戏的快捷方式。&#10;如因模拟器启动时间过长导致 ｢{key=TaskQueue.Task.WakeUp}｣ 任务失败，推荐填写游戏快捷方式并延长 ｢{key=Settings.Startup.WaitForEmulator}｣。</system:String>
+    <system:String x:Key="Settings.Startup.SelectPcClient.Tip">可选择 PC 客户端本体或其快捷方式，并可通过 ｢{key=Settings.Startup.AdditionCommand}｣ 补充启动参数。</system:String>
+    <system:String x:Key="Settings.Startup.SelectShortcut.Tip" xml:space="preserve">可选择模拟器本体（配合 ｢{key=Settings.Startup.AdditionCommand}｣ 启动参数可指定启动模拟器实例），也可直接选择模拟器或游戏的快捷方式。&#10;如因模拟器启动时间过长导致 ｢{key=TaskQueue.Task.WakeUp}｣ 任务失败，推荐填写游戏快捷方式并延长 ｢{key=Settings.Startup.WaitForEmulator}｣。</system:String>
     <system:String x:Key="Settings.Startup.SkipStartupAutoRunAfterUpdate">更新后立即重启时不自动运行</system:String>
     <system:String x:Key="Settings.Startup.SkipStartupAutoRunAfterUpdate.Tip" xml:space="preserve">仅在 ｢{key=Settings.Update.AutoInstall}｣ 或更新提示中选择立即重启时生效。
 若选择 ｢{key=Common.ManualRestart}｣ 再手动启动 MAA，仍会按 ｢{key=Settings.Startup.RunTaskAfterLaunch}｣ / ｢{key=Settings.Startup.OpenEmulatorAfterLaunch}｣ 正常执行。</system:String>
@@ -1898,8 +1898,8 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Settings.Update.MaaVersion">软件版本</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.CdkFetchFailed">获取 CDK 信息失败，已显示上次成功查询的结果。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.CdkRemainingDays">CDK 还剩 {0} 天到期。</system:String>
-    <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdateShortTip">检测到资源更新: {0}</system:String>
-    <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdateTip">检测到资源更新: {0}。请前往 ｢{key=Settings.Title} - {key=Settings.Update.Title} - {key=Settings.Update.ResourceUpdate}｣ 手动更新，或配置 Mirror酱 CDK 以自动更新。</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Brief.Tip">检测到资源更新: {0}</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Tip">检测到资源更新: {0}。请前往 ｢{key=Settings.Title} - {key=Settings.Update.Title} - {key=Settings.Update.ResourceUpdate}｣ 手动更新，或配置 Mirror酱 CDK 以自动更新。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.SelectedButNoCdk">请前往 ｢{key=Settings.Title} - {key=Settings.Update.Title}｣ 配置 Mirror酱 CDK 或切换海外源。</system:String>
     <system:String x:Key="Settings.Update.NoNeedToUpdateDebugVersion">当前为调试版本，无需更新</system:String>
     <system:String x:Key="Settings.Update.ResourceDateTime">资源日期</system:String>
@@ -2054,13 +2054,13 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.Fight.SkippedEmptyStagePlan">关卡计划为空</system:String>
     <system:String x:Key="TaskQueue.Fight.SkippedNoOpenStage">关卡计划内没有当日开放的关卡</system:String>
     <system:String x:Key="TaskQueue.Fight.SkippedWeeklySchedule">周计划今日未勾选</system:String>
-    <system:String x:Key="TaskQueue.Fight.SpecifiedDropsInventoryEnough">{0} 已充足 {1}/{2}</system:String>
-    <system:String x:Key="TaskQueue.Fight.SpecifiedDropsInventoryUnavailable">任务 ｢{0}｣ 启用了 {key=TaskQueue.Fight.TargetInventory}，但当前没有可用的库存数据，已跳过。可通过 ｢{key=TaskQueue.Task.UserDataUpdate}｣ 任务或 ｢{key=Toolbox.Title}-{key=Depot.Title}｣ 更新库存。</system:String>
-    <system:String x:Key="TaskQueue.Fight.SpecifiedDropsTip" xml:space="preserve">进入的关卡仍由下方 ｢{key=TaskQueue.Fight.StageSelect}｣ / ｢{key=TaskQueue.Fight.CandidateStages}｣ 决定。
+    <system:String x:Key="TaskQueue.Fight.SpecifiedDrops.Tip" xml:space="preserve">进入的关卡仍由下方 ｢{key=TaskQueue.Fight.StageSelect}｣ / ｢{key=TaskQueue.Fight.CandidateStages}｣ 决定。
 • {key=TaskQueue.Fight.Quantity}：以当前理智作战任务中该材料的掉落数量为目标，达到设定数量后停止。
 • {key=TaskQueue.Fight.TargetInventory}：会参考 ｢{key=Toolbox.Title}-{key=Depot.Title}｣ 中保存的库存数据，只补到设定库存为止。
   • 库存数据是缓存值，手动刷关、合成或消耗材料后可能与实际不一致；可通过 ｢{key=TaskQueue.Task.UserDataUpdate}｣ 或 ｢{key=Toolbox.Title}-{key=Depot.Title}｣ 同步。
   • 运行时会根据掉落实时更新库存，前序任务刷出的材料会影响后续任务的缺口计算。</system:String>
+    <system:String x:Key="TaskQueue.Fight.SpecifiedDropsInventoryEnough">{0} 已充足 {1}/{2}</system:String>
+    <system:String x:Key="TaskQueue.Fight.SpecifiedDropsInventoryUnavailable">任务 ｢{0}｣ 启用了 {key=TaskQueue.Fight.TargetInventory}，但当前没有可用的库存数据，已跳过。可通过 ｢{key=TaskQueue.Task.UserDataUpdate}｣ 任务或 ｢{key=Toolbox.Title}-{key=Depot.Title}｣ 更新库存。</system:String>
     <system:String x:Key="TaskQueue.Fight.StagePlan.Tip">将执行第一个开放的关卡, 如所有关卡均未开放则跳过当前任务\n当前执行: {0}</system:String>
     <system:String x:Key="TaskQueue.Fight.StageResetMode">过期活动关卡重置为</system:String>
     <system:String x:Key="TaskQueue.Fight.StageSelect">关卡指定</system:String>
@@ -2150,7 +2150,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.Schedule.NotificationMinutes">提前时间（分钟）</system:String>
     <system:String x:Key="TaskQueue.Schedule.NotifyBeforeScheduledStart">定时执行前发送系统通知</system:String>
     <system:String x:Key="TaskQueue.Schedule.NotifyBeforeScheduledStart.Tip" xml:space="preserve">按提前时间发送系统通知。&#10;外部推送可在 ｢{key=Settings.Title} - {key=Settings.Notification.Title} - {key=ExternalNotification.Title}｣ 中单独开启，两者共用提前时间。</system:String>
-    <system:String x:Key="TaskQueue.Schedule.NotifySharedTimeTip">外部推送与系统通知共用此提前时间。</system:String>
+    <system:String x:Key="TaskQueue.Schedule.NotifySharedTime.Tip">外部推送与系统通知共用此提前时间。</system:String>
     <system:String x:Key="TaskQueue.Schedule.ReminderIntervalMinutes">通知间隔时间（分钟）</system:String>
     <system:String x:Key="TaskQueue.Schedule.ScheduledWakeUp">定时启动前尝试唤醒计算机并启动 MAA</system:String>
     <system:String x:Key="TaskQueue.Schedule.ScheduledWakeUp.Tip" xml:space="preserve">该功能通过在 Windows 任务计划程序中注册计划任务实现，在每个启用的定时项前 5 分钟尝试唤醒计算机并启动 MAA，由定时启动逻辑接管。&#10;唤醒启动时将跳过 ｢{key=Settings.Startup.Title}｣ 中的启动自动运行项（如{key=Settings.Startup.RunTaskAfterLaunch}、{key=Settings.Startup.OpenEmulatorAfterLaunch}）。&#10;MAA 退出后计划任务仍会保留，关闭本开关时删除。&#10;任务开始后的长时间运行不再由本功能保持唤醒，若任务耗时较长，建议在 ｢{key=Settings.Game.Title}｣ 中开启 ｢{key=Settings.Game.BlockSleep}｣，避免任务执行期间系统睡眠。&#10;休眠状态的定时唤醒依赖设备固件支持，部分设备仅支持从睡眠唤醒。</system:String>
@@ -2463,7 +2463,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="VersionUpdate.Api.UpdateSuccess">热更数据获取成功</system:String>
     <system:String x:Key="VersionUpdate.CheckNetworking">请检查网络连接或代理。</system:String>
     <system:String x:Key="VersionUpdate.DelegatedFailure.Detected">上次自动更新失败，当前安装可能不完整，本次启动已跳过资源加载。请在接下来的对话框中选择修复方式。\n\n失败原因：{0}</system:String>
-    <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonFileLocked">更新过程中移动文件失败。文件可能被安全软件扫描、拦截或锁定，也可能被其他程序占用。若为安全软件导致，{key=VersionUpdate.SecurityWhitelistTip}也可重启电脑后重试。</system:String>
+    <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonFileLocked">更新过程中移动文件失败。文件可能被安全软件扫描、拦截或锁定，也可能被其他程序占用。若为安全软件导致，{key=VersionUpdate.SecurityWhitelist.Tip}也可重启电脑后重试。</system:String>
     <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonPackageError">更新包或其解压产物可能已损坏或不完整。</system:String>
     <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonUnknown">未知原因，详情请查看 debug 文件夹中的 gui.log。</system:String>
     <system:String x:Key="VersionUpdate.FullPackageUpgrade.Tip">请下载完整包并解压到新的文件夹，切勿直接覆盖原文件夹。\n可将原有的 config、data 与 debug 文件夹复制到新文件夹中，以保留原有配置和日志。</system:String>
@@ -2473,7 +2473,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="VersionUpdate.GameResource.Updating">游戏资源正在更新。</system:String>
     <system:String x:Key="VersionUpdate.GameResource.UpdatingMirrorChyan">正在使用 ｢{key=Settings.Update.Source.MirrorChyan}｣ 更新资源{0}……</system:String>
     <system:String x:Key="VersionUpdate.GetReleaseNoteFailed">获取更新信息失败。</system:String>
-    <system:String x:Key="VersionUpdate.IntegrityCheck.Description">检测到 {0} 个安装文件缺失（{1}），部分功能可能无法使用。文件可能被某些安全软件拦截或删除，也可能被手动删除。若为安全软件导致，请前往对应软件的隔离区寻找并恢复文件，并{key=VersionUpdate.SecurityWhitelistTip}\n\n也可按下方说明手动重装：\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
+    <system:String x:Key="VersionUpdate.IntegrityCheck.Description">检测到 {0} 个安装文件缺失（{1}），部分功能可能无法使用。文件可能被某些安全软件拦截或删除，也可能被手动删除。若为安全软件导致，请前往对应软件的隔离区寻找并恢复文件，并{key=VersionUpdate.SecurityWhitelist.Tip}\n\n也可按下方说明手动重装：\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.IntegrityCheck.Title">安装文件缺失</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.Canceled">已取消自动修复，下次启动时仍会提醒</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.Downloading">正在下载完整包以修复安装…</system:String>
@@ -2492,7 +2492,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="VersionUpdate.MirrorChyan.CdkInvalid">CDK 无效，请检查输入是否正确。</system:String>
     <system:String x:Key="VersionUpdate.MirrorChyan.CdkMismatched">CDK 类型与待下载的资源不匹配，请检查 CDK 适用范围。</system:String>
     <system:String x:Key="VersionUpdate.MirrorChyan.CdkQuotaExhausted">CDK 今日下载次数已达上限，请明日再试。</system:String>
-    <system:String x:Key="VersionUpdate.MissingUpdater">更新失败，缺少 MAA.Updater.exe，无法启动外部更新程序。本次更新已取消。该文件可能被手动删除，也可能被某些安全软件拦截或删除。若为安全软件导致，请前往对应软件的隔离区寻找并恢复该文件，并{key=VersionUpdate.SecurityWhitelistTip}\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
+    <system:String x:Key="VersionUpdate.MissingUpdater">更新失败，缺少 MAA.Updater.exe，无法启动外部更新程序。本次更新已取消。该文件可能被手动删除，也可能被某些安全软件拦截或删除。若为安全软件导致，请前往对应软件的隔离区寻找并恢复该文件，并{key=VersionUpdate.SecurityWhitelist.Tip}\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.NewVersionButNoPackage.Description">请手动下载完整包更新！</system:String>
     <system:String x:Key="VersionUpdate.NewVersionButNoPackage.Title">检测到新版本，但未找到增量包</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDetectFailed.Title">检查更新失败</system:String>
@@ -2541,7 +2541,7 @@ D:\
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Yes">我已手动确认并备份，继续更新</system:String>
     <system:String x:Key="VersionUpdate.ResourceBroken">资源损坏，可尝试自动修复（重新下载完整安装包），或暂不处理、稍后拖入本地完整包更新。\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.ResourceVersion">资源版本</system:String>
-    <system:String x:Key="VersionUpdate.SecurityWhitelistTip">建议将 MAA 所在文件夹加入对应软件白名单后再试。</system:String>
+    <system:String x:Key="VersionUpdate.SecurityWhitelist.Tip">建议将 MAA 所在文件夹加入对应软件白名单后再试。</system:String>
     <system:String x:Key="VersionUpdate.Title">版本信息</system:String>
     <system:String x:Key="VersionUpdate.UpdatedTo" xml:space="preserve">已更新: </system:String>
     <system:String x:Key="VersionUpdate.VersionMismatch">UI 和 Core 版本不一致: {0} 和 {1}，可能导致不可预测的行为，请勿手动替换文件或者在更新时占用文件。\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>

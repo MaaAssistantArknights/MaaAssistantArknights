@@ -65,7 +65,7 @@
                     Maximum="1439"
                     Minimum="1"
                     Value="{Binding ScheduledStartNotificationMinutes, Source={x:Static ui_vms:SettingsViewModel.TimerSettings}}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.Schedule.NotifySharedTimeTip}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.Schedule.NotifySharedTime.Tip}" />
             </StackPanel>
         </StackPanel>
 

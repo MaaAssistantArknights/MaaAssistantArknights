@@ -43,7 +43,7 @@
                     <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource Roguelike.Difficulty}" />
                     <controls:TooltipBlock
                         d:Visibility="Visible"
-                        TooltipText="{DynamicResource Roguelike.JieGarden.DifficultyTip}"
+                        TooltipText="{DynamicResource Roguelike.JieGarden.Difficulty.Tip}"
                         Visibility="{c:Binding '(RoguelikeMode == task:RoguelikeMode.Investment) and (RoguelikeTheme == task:RoguelikeTheme.JieGarden)',
                                                Source={x:Static taskQueue_vms:RoguelikeTaskUserControlModel.Instance}}" />
                 </StackPanel>
@@ -80,7 +80,7 @@
             <StackPanel Margin="0,3">
                 <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
                     <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource Roguelike.StartingSquad}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource Roguelike.BlackFlow.FastFlight.LockTip}" Visibility="{c:Binding RoguelikeBlackFlowExpFlightActive}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource Roguelike.BlackFlow.FastFlight.Lock.Tip}" Visibility="{c:Binding RoguelikeBlackFlowExpFlightActive}" />
                 </StackPanel>
                 <hc:ComboBox
                     DisplayMemberPath="Display"
@@ -94,7 +94,7 @@
             <StackPanel Margin="0,3">
                 <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
                     <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource Roguelike.StartingRoles}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource Roguelike.BlackFlow.FastFlight.LockTip}" Visibility="{c:Binding RoguelikeBlackFlowExpFlightActive}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource Roguelike.BlackFlow.FastFlight.Lock.Tip}" Visibility="{c:Binding RoguelikeBlackFlowExpFlightActive}" />
                 </StackPanel>
                 <hc:ComboBox
                     DisplayMemberPath="Display"
@@ -119,12 +119,12 @@
                 <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
                     <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource Roguelike.StartingCoreChar}" />
                     <controls:TooltipBlock TooltipText="{Binding StartingCoreCharTip}" Visibility="{c:Binding '!RoguelikeBlackFlowExpFlightActive'}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource Roguelike.BlackFlow.FastFlight.LockTip}" Visibility="{c:Binding RoguelikeBlackFlowExpFlightActive}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource Roguelike.BlackFlow.FastFlight.Lock.Tip}" Visibility="{c:Binding RoguelikeBlackFlowExpFlightActive}" />
                     <controls:TextBlock
                         MaxWidth="100"
                         Margin="4,0,0,0"
                         Foreground="{DynamicResource InfoBrush}"
-                        Text="{DynamicResource Roguelike.Theme.RecommendedTip}"
+                        Text="{DynamicResource Roguelike.Theme.Recommended.Tip}"
                         TextWrapping="Wrap"
                         Visibility="{c:Binding '!RoguelikeBlackFlowExpFlightActive'}" />
                 </StackPanel>
@@ -166,7 +166,7 @@
             <StackPanel Margin="0,3" Visibility="{c:Binding RoguelikeEnableAdditionalCoreChars}">
                 <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
                     <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource Roguelike.StartingCoreChar2}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource Roguelike.BlackFlow.FastFlight.LockTip}" Visibility="{c:Binding RoguelikeBlackFlowExpFlightActive}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource Roguelike.BlackFlow.FastFlight.Lock.Tip}" Visibility="{c:Binding RoguelikeBlackFlowExpFlightActive}" />
                 </StackPanel>
                 <Grid IsEnabled="{c:Binding '!RoguelikeBlackFlowExpFlightActive'}">
                     <hc:ComboBox
@@ -206,7 +206,7 @@
             <StackPanel Margin="0,3" Visibility="{c:Binding RoguelikeEnableAdditionalCoreChars}">
                 <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
                     <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource Roguelike.StartingCoreChar3}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource Roguelike.BlackFlow.FastFlight.LockTip}" Visibility="{c:Binding RoguelikeBlackFlowExpFlightActive}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource Roguelike.BlackFlow.FastFlight.Lock.Tip}" Visibility="{c:Binding RoguelikeBlackFlowExpFlightActive}" />
                 </StackPanel>
                 <Grid IsEnabled="{c:Binding '!RoguelikeBlackFlowExpFlightActive'}">
                     <hc:ComboBox

@@ -89,7 +89,7 @@
                 Cursor="Hand"
                 NavigateUri="{Binding Source={x:Static constants:MaaUrls.OverseasAdaptation}}"
                 TextDecorations="None">
-                <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Settings.Game.HelpUsWithOverseasServersTip}" />
+                <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Settings.Game.HelpUsWithOverseasServers.Tip}" />
             </Hyperlink>
         </controls:TextBlock>
 

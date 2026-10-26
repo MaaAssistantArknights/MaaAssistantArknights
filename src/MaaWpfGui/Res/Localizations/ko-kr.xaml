@@ -1469,8 +1469,8 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="RemoteControl.ConnectionTest.Failed.NotHttpOrHttps">연결 테스트 실패, 연결 엔드포인트가 http(s) 주소가 아닙니다.</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.Success">연결 테스트 성공!</system:String>
     <system:String x:Key="RemoteControl.ConnectionTest.WarningHttpUnsafe">엔드포인트가 https를 사용하지 않아 보안에 취약할 수 있습니다.</system:String>
+    <system:String x:Key="RemoteControl.Developer.Tip">관련 기능 개발 방법은 다음을 참고하세요:</system:String>
     <system:String x:Key="RemoteControl.DeveloperDocLink">원격 제어 기능 개발자 문서</system:String>
-    <system:String x:Key="RemoteControl.DeveloperTip">관련 기능 개발 방법은 다음을 참고하세요:</system:String>
     <system:String x:Key="RemoteControl.DeviceIdentityLabel">기기 ID (읽기 전용)</system:String>
     <system:String x:Key="RemoteControl.GetTaskEndpointLabel">작업 획득 엔드포인트 (GET)</system:String>
     <system:String x:Key="RemoteControl.PollIntervalMsLabel">폴링 간격 (ms)</system:String>
@@ -1493,7 +1493,7 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="Roguelike.BlackFlow.Ending3">제3 엔딩 · 얽힘, 조화 (纠缠，调和)</system:String>
     <system:String x:Key="Roguelike.BlackFlow.EndingFlight.Tip">엔딩을 선택하려면 ｢{key=Roguelike.BlackFlow.FastFlight}｣ 체크를 해제해야 합니다</system:String>
     <system:String x:Key="Roguelike.BlackFlow.FastFlight">3층으로 빠르게 비행</system:String>
-    <system:String x:Key="Roguelike.BlackFlow.FastFlight.LockTip">｢{key=Roguelike.BlackFlow.FastFlight}｣ 을 선택한 동안에는 변경할 수 없으며, 선택을 해제하면 수정할 수 있습니다</system:String>
+    <system:String x:Key="Roguelike.BlackFlow.FastFlight.Lock.Tip">｢{key=Roguelike.BlackFlow.FastFlight}｣ 을 선택한 동안에는 변경할 수 없으며, 선택을 해제하면 수정할 수 있습니다</system:String>
     <system:String x:Key="Roguelike.BlackFlow.Flight.Tip" xml:space="preserve">항상 특근 분대, 차근차근, 본인의 메커니스트로 시작하며 메커니스트만 모집하고, 2층에서 기본 지참한 구조적 원리로 3층까지 바로 비행한 뒤 도착하면 재시작합니다.&#10;체크하는 동안 일반 설정의 분대, 직업 그룹, 시작 오퍼레이터는 변경할 수 없으며 체크를 해제하면 다시 수정할 수 있습니다. 체크하지 않으면 목표 엔딩을 향해 진행하며, 시작 구성이 이 조합이어도 비행하지 않습니다.&#10;메커니스트의 재능을 모두 해금하지 않으면 비행할 수 없으니 체크하지 마세요.</system:String>
     <system:String x:Key="Roguelike.BlackFlow.FlightRequirement">재능을 모두 해금한 메커니스트 필요</system:String>
     <system:String x:Key="Roguelike.BlackFlow.PrepFlight.Tip" xml:space="preserve">준비 탐험은 항상 특근 분대, 차근차근, 본인의 메커니스트로 시작하며 메커니스트만 모집하고, 2층에서 기본 지참한 구조적 원리로 3층까지 바로 비행합니다.&#10;체크하면 ｢{key=Roguelike.CollectibleMode.Squad}｣ 가 특근 분대로 표시되며 변경할 수 없고, 체크를 해제하면 원래 설정으로 돌아갑니다. 일반 설정의 직업 그룹과 시작 오퍼레이터는 영향을 받지 않습니다.&#10;메커니스트의 재능을 모두 해금하지 않으면 비행할 수 없으니 체크하지 마세요.</system:String>
@@ -1551,7 +1551,7 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="Roguelike.GoldTimesLimit">N번 투자 후 작업 중지</system:String>
     <system:String x:Key="Roguelike.InvestmentEnabled">오리지늄각뿔 투자 진행</system:String>
     <system:String x:Key="Roguelike.InvestmentWithMoreScore">투자 도중 모집/2층 진입/쇼핑 진행</system:String>
-    <system:String x:Key="Roguelike.JieGarden.DifficultyTip" xml:space="preserve">｢{key=Roguelike.Theme.JieGarden}｣ 관련 기술을 해금하면 난이도 3 이상에서 {key=Roguelike.Squad.Leader}로 탐색할 때 추가로 ｢시간의 끝｣을 소지해 ｢한 번 싸우고 한 번 포기｣하는 저축 전략을 쓸 수 있어요.
+    <system:String x:Key="Roguelike.JieGarden.Difficulty.Tip" xml:space="preserve">｢{key=Roguelike.Theme.JieGarden}｣ 관련 기술을 해금하면 난이도 3 이상에서 {key=Roguelike.Squad.Leader}로 탐색할 때 추가로 ｢시간의 끝｣을 소지해 ｢한 번 싸우고 한 번 포기｣하는 저축 전략을 쓸 수 있어요.
 아직 해금하지 않았다면 난이도 3 이상(｢MAX｣ 포함)을 선택하지 마세요.
 이 기능을 사용하려면 난이도를 3 이상으로 설정하세요(｢{key=TaskQueue.NotSwitch} (-1)｣ 제외).</system:String>
     <system:String x:Key="Roguelike.MonthlySquad.AutoIterate">월간 스쿼드 자동 전환</system:String>
@@ -1699,7 +1699,7 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
 {key=Roguelike.StartingCoreChar}: 토가와 사키코 / 쏜즈
 
 난이도 3 이상일 경우, 시작 시 6성 오퍼레이터를 모집하지 못해 오류나 실패로 이어질 수 있어요</system:String>
-    <system:String x:Key="Roguelike.Theme.RecommendedTip">←필독 추천</system:String>
+    <system:String x:Key="Roguelike.Theme.Recommended.Tip">←필독 추천</system:String>
     <system:String x:Key="Roguelike.Theme.Sami">사미</system:String>
     <system:String x:Key="Roguelike.Theme.Sami.Tip" xml:space="preserve">{key=Roguelike.Theme.Sami}추천 구성:
 
@@ -1762,14 +1762,14 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="Settings.Game.DeploymentWithPause.Tip">자동 전투에서 {key=Game.Operator} 배치 시 게임을 일시정지한 후 다음 {key=Game.Operator}를 배치합니다</system:String>
     <system:String x:Key="Settings.Game.EndsWithScript">종료 시 추가 스크립트</system:String>
     <system:String x:Key="Settings.Game.EndsWithScript.Placeholder">예: "C:\1.cmd" -noWindow</system:String>
-    <system:String x:Key="Settings.Game.HelpUsWithOverseasServersTip">해외 서버의 현지화는 어려운 작업입니다! 저희를 도와주세요! 전문 지식이 없어도 됩니다</system:String>
+    <system:String x:Key="Settings.Game.HelpUsWithOverseasServers.Tip">해외 서버의 현지화는 어려운 작업입니다! 저희를 도와주세요! 전문 지식이 없어도 됩니다</system:String>
     <system:String x:Key="Settings.Game.ManualStopWithScript">수동 종료 시 스크립트 사용</system:String>
     <system:String x:Key="Settings.Game.ResolutionInfoYoStarEN">에뮬레이터가 1920x1080으로 설정되어 있는지 확인하세요</system:String>
     <system:String x:Key="Settings.Game.StartsWithScript">시작 시 추가 스크립트</system:String>
     <system:String x:Key="Settings.Game.StartsWithScript.Placeholder">예: "C:\1.cmd" -minimized</system:String>
     <system:String x:Key="Settings.Game.SwitchResolution.Tip">에뮬레이터 해상도를 1920x1080으로 변경!</system:String>
     <system:String x:Key="Settings.Game.Title">실행 설정</system:String>
-    <system:String x:Key="Settings.GlobalConfigTip">이 페이지는 전역(Global) 구성 설정입니다</system:String>
+    <system:String x:Key="Settings.GlobalConfig.Tip">이 페이지는 전역(Global) 구성 설정입니다</system:String>
     <system:String x:Key="Settings.HotKey.Changing.Tip">Backspace/Esc/Delete 키를 누르면 현재 값이 지워집니다</system:String>
     <system:String x:Key="Settings.HotKey.LinkStart">[단축키] Link 시작/중지</system:String>
     <system:String x:Key="Settings.HotKey.NotSet">&lt; 미설정 &gt;</system:String>
@@ -1826,15 +1826,15 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="Settings.Startup.OpenEmulatorAfterLaunch.Tip">에뮬레이터는 MAA 시작 시 한 번만 실행되며, ｢{key=TaskQueue.LinkStart}｣를 클릭할 때마다 자동으로 실행되지 않습니다.\n이 동작이 필요하다면 ｢{key=Connection.RetryOnDisconnected}｣를 선택하세요</system:String>
     <system:String x:Key="Settings.Startup.OpenPcClientAfterLaunch">MAA 실행 후 PC 클라이언트 실행</system:String>
     <system:String x:Key="Settings.Startup.OpenPcClientAfterLaunch.Tip">PC 클라이언트는 MAA 시작 시 한 번만 실행됩니다. ｢{key=TaskQueue.LinkStart}｣ 때마다 실행하려면 ｢{key=Connection.RetryOnPcDisconnected}｣를 선택하세요</system:String>
-    <system:String x:Key="Settings.Startup.PcClientAddCommandTip" xml:space="preserve">PC 클라이언트를 실행할 때 전달할 추가 인수입니다.&#10;지원되는 인수 형식은 클라이언트 또는 실행 프로그램의 문서를 참고하세요.&#10;바로 가기를 사용하면 해당 바로 가기에 저장된 인수가 사용됩니다.</system:String>
+    <system:String x:Key="Settings.Startup.PcClientAddCommand.Tip" xml:space="preserve">PC 클라이언트를 실행할 때 전달할 추가 인수입니다.&#10;지원되는 인수 형식은 클라이언트 또는 실행 프로그램의 문서를 참고하세요.&#10;바로 가기를 사용하면 해당 바로 가기에 저장된 인수가 사용됩니다.</system:String>
     <system:String x:Key="Settings.Startup.PcClientPath">PC 클라이언트 경로</system:String>
     <system:String x:Key="Settings.Startup.PcClientPathEmptyError">PC 클라이언트 경로가 비어 있습니다. 먼저 클라이언트를 선택하세요.</system:String>
     <system:String x:Key="Settings.Startup.PcClientPathEmptyWarning">PC 클라이언트 경로가 비어 있습니다. ｢{key=Connection.RetryOnPcDisconnected}｣ 및 ｢{key=Settings.Startup.OpenPcClientAfterLaunch}｣ 선택 상태가 초기화되었습니다</system:String>
     <system:String x:Key="Settings.Startup.PcClientPathNotExist">PC 클라이언트 경로가 존재하지 않습니다</system:String>
     <system:String x:Key="Settings.Startup.PcClientStartFailed">PC 클라이언트를 시작하지 못했습니다.\n관리자 권한으로 이 프로그램을 실행하거나\n클라이언트를 수동으로 시작하세요.</system:String>
     <system:String x:Key="Settings.Startup.RunTaskAfterLaunch">MAA 실행 후 작업 자동 시작</system:String>
-    <system:String x:Key="Settings.Startup.SelectPcClientTip">PC 클라이언트 실행 파일이나 바로 가기를 선택하고 ｢{key=Settings.Startup.AdditionCommand}｣에서 실행 매개변수를 추가할 수 있습니다.</system:String>
-    <system:String x:Key="Settings.Startup.SelectShortcutTip" xml:space="preserve">에뮬레이터 실행 파일 선택 (｢{key=Settings.Startup.AdditionCommand}｣ 매개변수로 인스턴스 지정 가능) 또는 직접 에뮬레이터/게임 바로 가기 선택 가능합니다.&#10;｢{key=TaskQueue.Task.WakeUp}｣ 작업이 에뮬레이터 시작 지연으로 실패할 경우, 게임 바로 가기 사용 후 ｢{key=Settings.Startup.WaitForEmulator}｣ 시간 연장을 권장합니다.</system:String>
+    <system:String x:Key="Settings.Startup.SelectPcClient.Tip">PC 클라이언트 실행 파일이나 바로 가기를 선택하고 ｢{key=Settings.Startup.AdditionCommand}｣에서 실행 매개변수를 추가할 수 있습니다.</system:String>
+    <system:String x:Key="Settings.Startup.SelectShortcut.Tip" xml:space="preserve">에뮬레이터 실행 파일 선택 (｢{key=Settings.Startup.AdditionCommand}｣ 매개변수로 인스턴스 지정 가능) 또는 직접 에뮬레이터/게임 바로 가기 선택 가능합니다.&#10;｢{key=TaskQueue.Task.WakeUp}｣ 작업이 에뮬레이터 시작 지연으로 실패할 경우, 게임 바로 가기 사용 후 ｢{key=Settings.Startup.WaitForEmulator}｣ 시간 연장을 권장합니다.</system:String>
     <system:String x:Key="Settings.Startup.SkipStartupAutoRunAfterUpdate">업데이트 후 즉시 재시작할 때 자동 실행 안 함</system:String>
     <system:String x:Key="Settings.Startup.SkipStartupAutoRunAfterUpdate.Tip" xml:space="preserve">｢{key=Settings.Update.AutoInstall}｣ 이 켜져 있거나, 업데이트 안내에서 즉시 재시작을 선택한 경우에만 적용됩니다.
 ｢{key=Common.ManualRestart}｣ 를 선택한 뒤 나중에 수동으로 MAA를 실행하면 ｢{key=Settings.Startup.RunTaskAfterLaunch}｣ / ｢{key=Settings.Startup.OpenEmulatorAfterLaunch}｣ 는 평소처럼 동작합니다.</system:String>
@@ -1898,8 +1898,8 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="Settings.Update.MaaVersion">소프트웨어 버전</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.CdkFetchFailed">CDK 정보를 가져오지 못했습니다. 마지막으로 성공적으로 조회한 결과를 표시합니다.</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.CdkRemainingDays">CDK 만료까지 {0}일 남았습니다.</system:String>
-    <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdateShortTip">리소스 업데이트 {0}이 감지되었습니다</system:String>
-    <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdateTip">리소스 업데이트 {0}이 감지되었습니다. ｢{key=Settings.Title} - {key=Settings.Update.Title} - {key=Settings.Update.ResourceUpdate}｣ 로 이동하여 수동으로 업데이트하거나, MirrorChyan CDK를 입력하여 자동으로 업데이트하세요.</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Brief.Tip">리소스 업데이트 {0}이 감지되었습니다</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Tip">리소스 업데이트 {0}이 감지되었습니다. ｢{key=Settings.Title} - {key=Settings.Update.Title} - {key=Settings.Update.ResourceUpdate}｣ 로 이동하여 수동으로 업데이트하거나, MirrorChyan CDK를 입력하여 자동으로 업데이트하세요.</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.SelectedButNoCdk">｢{key=Settings.Title} - {key=Settings.Update.Title}｣ 으로 이동하여 MirrorChyan CDK를 구성하거나 글로벌 소스로 전환하세요.</system:String>
     <system:String x:Key="Settings.Update.NoNeedToUpdateDebugVersion">Debug 버전이므로 업데이트할 필요가 없습니다</system:String>
     <system:String x:Key="Settings.Update.ResourceDateTime">리소스 날짜</system:String>
@@ -2054,13 +2054,13 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.Fight.SkippedEmptyStagePlan">스테이지 계획이 비어 있습니다</system:String>
     <system:String x:Key="TaskQueue.Fight.SkippedNoOpenStage">계획에 오늘 개방된 스테이지가 없습니다</system:String>
     <system:String x:Key="TaskQueue.Fight.SkippedWeeklySchedule">주간 일정에서 오늘이 선택되지 않음</system:String>
-    <system:String x:Key="TaskQueue.Fight.SpecifiedDropsInventoryEnough">{0} 충분 {1}/{2}</system:String>
-    <system:String x:Key="TaskQueue.Fight.SpecifiedDropsInventoryUnavailable">작업 "{0}" 에서 {key=TaskQueue.Fight.TargetInventory} 가 켜져 있지만 현재 사용할 수 있는 재고 데이터가 없어 건너뜁니다. ｢{key=TaskQueue.Task.UserDataUpdate}｣ 작업 또는 ｢{key=Toolbox.Title}-{key=Depot.Title}｣ 에서 재고를 업데이트해 주세요.</system:String>
-    <system:String x:Key="TaskQueue.Fight.SpecifiedDropsTip" xml:space="preserve">실제로 진입하는 스테이지는 아래의 ｢{key=TaskQueue.Fight.StageSelect}｣ / ｢{key=TaskQueue.Fight.CandidateStages}｣ 설정으로 계속 결정됩니다.
+    <system:String x:Key="TaskQueue.Fight.SpecifiedDrops.Tip" xml:space="preserve">실제로 진입하는 스테이지는 아래의 ｢{key=TaskQueue.Fight.StageSelect}｣ / ｢{key=TaskQueue.Fight.CandidateStages}｣ 설정으로 계속 결정됩니다.
 • {key=TaskQueue.Fight.Quantity}: 현재 전투 작업에서 해당 재료의 드롭 수를 목표로 삼아, 설정한 수량에 도달하면 멈춥니다.
 • {key=TaskQueue.Fight.TargetInventory}: ｢{key=Toolbox.Title}-{key=Depot.Title}｣ 에 저장된 재고 데이터를 참고하여 설정한 재고 수량까지만 보충합니다.
   • 재고 데이터는 캐시이므로 수동 파밍, 제작, 재료 사용 후 실제 수량과 달라질 수 있습니다. ｢{key=TaskQueue.Task.UserDataUpdate}｣ 또는 ｢{key=Toolbox.Title}-{key=Depot.Title}｣ 에서 동기화해 주세요.
   • 실행 중에는 드롭에 따라 재고가 실시간 업데이트되며, 이전 작업에서 드롭된 재료가 후속 작업의 부족 수량에 반영됩니다.</system:String>
+    <system:String x:Key="TaskQueue.Fight.SpecifiedDropsInventoryEnough">{0} 충분 {1}/{2}</system:String>
+    <system:String x:Key="TaskQueue.Fight.SpecifiedDropsInventoryUnavailable">작업 "{0}" 에서 {key=TaskQueue.Fight.TargetInventory} 가 켜져 있지만 현재 사용할 수 있는 재고 데이터가 없어 건너뜁니다. ｢{key=TaskQueue.Task.UserDataUpdate}｣ 작업 또는 ｢{key=Toolbox.Title}-{key=Depot.Title}｣ 에서 재고를 업데이트해 주세요.</system:String>
     <system:String x:Key="TaskQueue.Fight.StagePlan.Tip">열려 있는 첫 번째 스테이지로 진입합니다. 모든 스테이지가 열려 있지 않으면 현재 작업은 건너뜁니다.\n현재 실행 중: {0}</system:String>
     <system:String x:Key="TaskQueue.Fight.StageResetMode">만료된 스테이지 재설정</system:String>
     <system:String x:Key="TaskQueue.Fight.StageSelect">스테이지 선택</system:String>
@@ -2150,7 +2150,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.Schedule.NotificationMinutes">사전 알림 시간(분)</system:String>
     <system:String x:Key="TaskQueue.Schedule.NotifyBeforeScheduledStart">예약 실행 전 시스템 알림 전송</system:String>
     <system:String x:Key="TaskQueue.Schedule.NotifyBeforeScheduledStart.Tip" xml:space="preserve">설정된 사전 알림 시간에 시스템 알림을 보냅니다.&#10;외부 알림은 ｢{key=Settings.Title} - {key=Settings.Notification.Title} - {key=ExternalNotification.Title}｣에서 별도로 활성화할 수 있으며 사전 알림 시간을 공유합니다.</system:String>
-    <system:String x:Key="TaskQueue.Schedule.NotifySharedTimeTip">외부 알림은 이 사전 알림 시간을 공유합니다.</system:String>
+    <system:String x:Key="TaskQueue.Schedule.NotifySharedTime.Tip">외부 알림은 이 사전 알림 시간을 공유합니다.</system:String>
     <system:String x:Key="TaskQueue.Schedule.ReminderIntervalMinutes">알림 간격 (분)</system:String>
     <system:String x:Key="TaskQueue.Schedule.ScheduledWakeUp">예약 시작 전 컴퓨터를 깨우고 MAA 실행 시도</system:String>
     <system:String x:Key="TaskQueue.Schedule.ScheduledWakeUp.Tip" xml:space="preserve">이 기능은 Windows 작업 스케줄러에 예약된 작업을 등록하여, 활성화된 각 타이머 5분 전에 컴퓨터를 깨우고 MAA 실행을 시도합니다. 이후 앱 내 예약 시작 로직이 이어받습니다.&#10;절전 모드 해제로 실행될 때는 ｢{key=Settings.Startup.Title}｣의 자동 실행 항목({key=Settings.Startup.RunTaskAfterLaunch}, {key=Settings.Startup.OpenEmulatorAfterLaunch} 등)을 건너뜁니다.&#10;MAA 종료 후에도 예약된 작업은 유지되며, 이 스위치를 끄면 삭제됩니다.&#10;작업 시작 후의 장시간 실행은 이 기능이 유지하지 않으므로, 오래 걸리는 작업은 작업 실행 중 시스템이 절전 모드에 들어가지 않도록 ｢{key=Settings.Game.Title}｣ 에서 ｢{key=Settings.Game.BlockSleep}｣ 를 활성화하는 것이 좋습니다.&#10;최대 절전 모드에서의 해제는 장치 펌웨어 지원에 따라 다르며, 일부 장치는 절전 모드에서만 해제를 지원합니다.</system:String>
@@ -2463,7 +2463,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="VersionUpdate.Api.UpdateSuccess">핫 업데이트 데이터를 성공적으로 가져왔습니다</system:String>
     <system:String x:Key="VersionUpdate.CheckNetworking">네트워크 연결이나 프록시를 확인해 주세요.</system:String>
     <system:String x:Key="VersionUpdate.DelegatedFailure.Detected">지난번 자동 업데이트가 실패하여 현재 설치가 불완전할 수 있으므로, 이번 시작에서는 리소스 로드를 건너뛰었습니다. 다음 대화상자에서 복구 방법을 선택해 주세요.\n\n실패 사유: {0}</system:String>
-    <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonFileLocked">업데이트 중 파일 이동에 실패했습니다. 보안 소프트웨어가 파일을 검사·차단·잠그었거나, 다른 프로그램이 파일을 점유하고 있을 수 있습니다. 보안 소프트웨어가 원인이라면 {key=VersionUpdate.SecurityWhitelistTip} 컴퓨터를 다시 시작한 후 다시 시도해 볼 수도 있습니다.</system:String>
+    <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonFileLocked">업데이트 중 파일 이동에 실패했습니다. 보안 소프트웨어가 파일을 검사·차단·잠그었거나, 다른 프로그램이 파일을 점유하고 있을 수 있습니다. 보안 소프트웨어가 원인이라면 {key=VersionUpdate.SecurityWhitelist.Tip} 컴퓨터를 다시 시작한 후 다시 시도해 볼 수도 있습니다.</system:String>
     <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonPackageError">업데이트 패키지 또는 압축 해제된 파일이 손상되었거나 불완전할 수 있습니다.</system:String>
     <system:String x:Key="VersionUpdate.DelegatedFailure.ReasonUnknown">원인을 알 수 없습니다. 자세한 내용은 debug 폴더의 gui.log를 확인해 주세요.</system:String>
     <system:String x:Key="VersionUpdate.FullPackageUpgrade.Tip">전체 패키지를 다운로드하여 기존 폴더를 덮어쓰지 말고 새 폴더에 압축을 푸세요.\n기존 설정과 로그를 유지하려면 기존 config, data 및 debug 폴더를 새 폴더로 복사하세요.</system:String>
@@ -2473,7 +2473,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="VersionUpdate.GameResource.Updating">게임 리소스가 업데이트 중입니다.</system:String>
     <system:String x:Key="VersionUpdate.GameResource.UpdatingMirrorChyan">｢{key=Settings.Update.Source.MirrorChyan}｣에서 {0} 리소스를 업데이트하는 중...</system:String>
     <system:String x:Key="VersionUpdate.GetReleaseNoteFailed">릴리즈 노트를 받아오지 못했습니다.</system:String>
-    <system:String x:Key="VersionUpdate.IntegrityCheck.Description">설치 파일 {0}개가 누락된 것으로 확인되었습니다({1}). 일부 기능을 사용할 수 없을 수 있습니다. 파일이 보안 소프트웨어에 의해 차단 또는 삭제되었거나, 수동으로 삭제되었을 수 있습니다. 보안 소프트웨어가 원인이라면 해당 소프트웨어의 격리소를 확인해 파일을 복원하고, {key=VersionUpdate.SecurityWhitelistTip}\n\n아래 안내에 따라 수동으로 재설치할 수도 있습니다:\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
+    <system:String x:Key="VersionUpdate.IntegrityCheck.Description">설치 파일 {0}개가 누락된 것으로 확인되었습니다({1}). 일부 기능을 사용할 수 없을 수 있습니다. 파일이 보안 소프트웨어에 의해 차단 또는 삭제되었거나, 수동으로 삭제되었을 수 있습니다. 보안 소프트웨어가 원인이라면 해당 소프트웨어의 격리소를 확인해 파일을 복원하고, {key=VersionUpdate.SecurityWhitelist.Tip}\n\n아래 안내에 따라 수동으로 재설치할 수도 있습니다:\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.IntegrityCheck.Title">설치 파일 누락</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.Canceled">자동 복구가 취소되었습니다. 다음 시작 시 다시 알림이 표시됩니다.</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.Downloading">설치를 복구하기 위해 전체 패키지를 다운로드하는 중…</system:String>
@@ -2492,7 +2492,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="VersionUpdate.MirrorChyan.CdkInvalid">CDK가 유효하지 않습니다. 입력값이 올바른지 확인해 주세요.</system:String>
     <system:String x:Key="VersionUpdate.MirrorChyan.CdkMismatched">CDK 유형이 다운로드할 리소스와 일치하지 않습니다. CDK의 적용 범위를 확인해 주세요.</system:String>
     <system:String x:Key="VersionUpdate.MirrorChyan.CdkQuotaExhausted">해당 CDK의 일일 다운로드 횟수가 제한에 도달했습니다. 내일 다시 시도해 주세요.</system:String>
-    <system:String x:Key="VersionUpdate.MissingUpdater">MAA.Updater.exe가 없어 외부 업데이트 프로그램을 시작할 수 없어 업데이트를 계속할 수 없습니다. 이번 업데이트는 취소되었습니다. 이 파일은 수동으로 삭제되었거나 보안 소프트웨어에 의해 차단 또는 삭제되었을 수 있습니다. 보안 소프트웨어가 원인이라면 해당 소프트웨어의 격리소를 확인해 파일을 복원하고, {key=VersionUpdate.SecurityWhitelistTip}\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
+    <system:String x:Key="VersionUpdate.MissingUpdater">MAA.Updater.exe가 없어 외부 업데이트 프로그램을 시작할 수 없어 업데이트를 계속할 수 없습니다. 이번 업데이트는 취소되었습니다. 이 파일은 수동으로 삭제되었거나 보안 소프트웨어에 의해 차단 또는 삭제되었을 수 있습니다. 보안 소프트웨어가 원인이라면 해당 소프트웨어의 격리소를 확인해 파일을 복원하고, {key=VersionUpdate.SecurityWhitelist.Tip}\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.NewVersionButNoPackage.Description">전체 패키지를 수동으로 다운로드해 업데이트해 주세요!</system:String>
     <system:String x:Key="VersionUpdate.NewVersionButNoPackage.Title">새로운 버전이 확인되지만 업데이트 패키지가 없음</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDetectFailed.Title">업데이트 패키지 확인 실패</system:String>
@@ -2541,7 +2541,7 @@ D:\
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Yes">백업했으니 업데이트를 하겠습니다</system:String>
     <system:String x:Key="VersionUpdate.ResourceBroken">리소스 파일이 손상되었습니다. 자동 복구(전체 패키지 다운로드)를 시도하거나, 지금은 계속 진행한 뒤 나중에 로컬 전체 패키지를 끌어다 놓아 업데이트하세요.\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.ResourceVersion">리소스 버전</system:String>
-    <system:String x:Key="VersionUpdate.SecurityWhitelistTip">MAA가 있는 폴더를 해당 소프트웨어의 허용 목록에 추가한 뒤 다시 시도해 주세요.</system:String>
+    <system:String x:Key="VersionUpdate.SecurityWhitelist.Tip">MAA가 있는 폴더를 해당 소프트웨어의 허용 목록에 추가한 뒤 다시 시도해 주세요.</system:String>
     <system:String x:Key="VersionUpdate.Title">버전 정보</system:String>
     <system:String x:Key="VersionUpdate.UpdatedTo" xml:space="preserve">새 버전: </system:String>
     <system:String x:Key="VersionUpdate.VersionMismatch">UI와 Core 버전이 일치하지 않습니다: {0} 및 {1}, 예측할 수 없는 동작을 유발할 수 있습니다. 파일을 수동으로 교체하거나 업데이트 중에 파일을 점유하지 마세요.\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>

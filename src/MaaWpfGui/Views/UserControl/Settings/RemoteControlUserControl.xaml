@@ -141,7 +141,7 @@
                 Margin="10"
                 Block.TextAlignment="Center"
                 FontSize="11"
-                Text="{DynamicResource RemoteControl.DeveloperTip}"
+                Text="{DynamicResource RemoteControl.Developer.Tip}"
                 TextWrapping="Wrap" />
             <controls:TextBlock
                 HorizontalAlignment="Center"

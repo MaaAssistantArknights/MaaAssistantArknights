@@ -125,7 +125,7 @@
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
                         NormalOpacity="0.25"
-                        TooltipText="{DynamicResource TaskQueue.Fight.SpecifiedDropsTip}" />
+                        TooltipText="{DynamicResource TaskQueue.Fight.SpecifiedDrops.Tip}" />
                 </Grid>
                 <hc:ButtonGroup
                     Grid.Row="1"
