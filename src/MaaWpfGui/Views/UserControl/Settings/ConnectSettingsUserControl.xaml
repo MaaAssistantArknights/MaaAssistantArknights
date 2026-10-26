@@ -237,8 +237,8 @@
                                     Margin="5"
                                     HorizontalAlignment="Center"
                                     Orientation="Horizontal">
-                                    <CheckBox Content="{DynamicResource Connection.LdExtrasEnabled}" IsChecked="{Binding Enable}" />
-                                    <controls:TooltipBlock TooltipText="{DynamicResource Connection.LdExtrasEnabled.Tip}" />
+                                    <CheckBox Content="{DynamicResource Connection.LdPlayer.ExtrasEnabled}" IsChecked="{Binding Enable}" />
+                                    <controls:TooltipBlock TooltipText="{DynamicResource Connection.LdPlayer.ExtrasEnabled.Tip}" />
                                 </StackPanel>
                                 <StackPanel d:Visibility="Visible" Visibility="{c:Binding Enable}">
                                     <hc:TextBox
@@ -253,7 +253,7 @@
                                         <CheckBox
                                             HorizontalAlignment="Center"
                                             VerticalContentAlignment="Center"
-                                            Content="{DynamicResource Connection.LdManualSetIndex}"
+                                            Content="{DynamicResource Connection.LdPlayer.ManualSetIndex}"
                                             IsChecked="{Binding ManualSetIndex}" />
                                         <hc:TextBox
                                             Width="130"
@@ -261,7 +261,7 @@
                                             Margin="5"
                                             d:Visibility="Visible"
                                             hc:InfoElement.Placeholder="0"
-                                            hc:TitleElement.Title="{DynamicResource Connection.LdIndex}"
+                                            hc:TitleElement.Title="{DynamicResource Connection.LdPlayer.Index}"
                                             hc:TitleElement.TitlePlacement="Left"
                                             Text="{Binding InstanceIndex}"
                                             Visibility="{c:Binding ManualSetIndex}" />

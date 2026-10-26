@@ -833,8 +833,9 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="Connection.LdEmulatorPath">LD 에뮬레이터 경로</system:String>
     <system:String x:Key="Connection.LdEmulatorPath.Placeholder">예: C:\leidian\LDPlayer9</system:String>
     <system:String x:Key="Connection.LdEmulatorPathEmptyError">LDPlayer 설치 경로가 비어 있습니다! 자리표시자는 예시일 뿐이니 ｢{key=Settings.Title} - {key=Settings.Connection.Title}｣에서 실제 경로를 입력하세요</system:String>
-    <system:String x:Key="Connection.LdExtrasEnabled">LD 스크린샷 강화 기능 활성화</system:String>
-    <system:String x:Key="Connection.LdExtrasEnabled.Tip" xml:space="preserve">LDPlayer 9 V9.1.32 이상이 필요합니다.
+    <system:String x:Key="Connection.LdPlayer.EmulatorPathNotFound">LDPlayer 에뮬레이터 경로를 찾을 수 없습니다.</system:String>
+    <system:String x:Key="Connection.LdPlayer.ExtrasEnabled">LD 스크린샷 강화 기능 활성화</system:String>
+    <system:String x:Key="Connection.LdPlayer.ExtrasEnabled.Tip" xml:space="preserve">LDPlayer 9 V9.1.32 이상이 필요합니다.
 이 기능을 활성화한 후 즉시 스크린샷 테스트를 실행하는 것을 강력히 권장합니다.
 MAA는 레지스트리를 통해 설치 경로를 자동으로 가져옵니다. 가져오지 못한 경우 수동으로 입력해 주세요.
 
@@ -849,11 +850,10 @@ C:\leidian\LDPlayer9
 
 스크린샷 향상 기능은 에뮬레이터 해상도를 가로 모드로 설정해야 하며, 연결 과정에서 화면을 회전시키지 마세요.
 세로 화면 상태에서 게임을 실행한 후 가로 화면으로 전환하면 화면 찢어짐 등의 문제가 발생할 수 있습니다.</system:String>
-    <system:String x:Key="Connection.LdExtrasNotEnabledMessage">LD 스크린샷 강화 기능이 활성화되지 않았습니다. ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣의 아래에 표시되는 강화 설정을 확인하세요</system:String>
-    <system:String x:Key="Connection.LdIndex">인스턴스 번호</system:String>
-    <system:String x:Key="Connection.LdManualSetIndex">｢{key=Connection.LdIndex}｣ 수동 입력</system:String>
-    <system:String x:Key="Connection.LdPlayerEmulatorPathNotFound">LDPlayer 에뮬레이터 경로를 찾을 수 없습니다.</system:String>
-    <system:String x:Key="Connection.LdPlayerOpenglMissing">선택한 LDPlayer 경로에서 ldopengl64.dll을 찾을 수 없습니다. 설치 디렉터리를 확인하세요.</system:String>
+    <system:String x:Key="Connection.LdPlayer.ExtrasNotEnabledMessage">LD 스크린샷 강화 기능이 활성화되지 않았습니다. ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣의 아래에 표시되는 강화 설정을 확인하세요</system:String>
+    <system:String x:Key="Connection.LdPlayer.Index">인스턴스 번호</system:String>
+    <system:String x:Key="Connection.LdPlayer.ManualSetIndex">｢{key=Connection.LdPlayer.Index}｣ 수동 입력</system:String>
+    <system:String x:Key="Connection.LdPlayer.OpenglMissing">선택한 LDPlayer 경로에서 ldopengl64.dll을 찾을 수 없습니다. 설치 디렉터리를 확인하세요.</system:String>
     <system:String x:Key="Connection.Lost">연결이 끊어졌습니다</system:String>
     <system:String x:Key="Connection.MuMu.BridgeConnection">MuMu 네트워크 브리지 모드</system:String>
     <system:String x:Key="Connection.MuMu.BridgeConnection.Tip">무슨 역할을 하는지 잘 모른다면 이 옵션을 활성화하지 마세요</system:String>

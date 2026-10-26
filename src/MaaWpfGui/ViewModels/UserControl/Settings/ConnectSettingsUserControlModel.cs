@@ -686,7 +686,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 {
                     var ldExtrasMsg = string.IsNullOrEmpty(ldPlayerExtra.EmulatorPath)
                         ? LocalizationHelper.GetString("Connection.LdEmulatorPathEmptyError")
-                        : LocalizationHelper.GetString("Connection.LdExtrasNotEnabledMessage");
+                        : LocalizationHelper.GetString("Connection.LdPlayer.ExtrasNotEnabledMessage");
                     TestLinkInfo = $"{ldExtrasMsg}\n{ScreencapTestCost}";
                     return;
                 }

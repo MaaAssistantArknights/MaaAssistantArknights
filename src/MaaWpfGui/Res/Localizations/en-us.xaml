@@ -833,8 +833,9 @@ Please ensure only the target emulator is running during detection. Running mult
     <system:String x:Key="Connection.LdEmulatorPath">LD Emulator exec path</system:String>
     <system:String x:Key="Connection.LdEmulatorPath.Placeholder">Example: C:\leidian\LDPlayer9</system:String>
     <system:String x:Key="Connection.LdEmulatorPathEmptyError">LDPlayer installation path is empty! The placeholder is only an example, please fill in the actual path in ｢{key=Settings.Title} - {key=Settings.Connection.Title}｣</system:String>
-    <system:String x:Key="Connection.LdExtrasEnabled">Enable LD's screenshot enhancement mode</system:String>
-    <system:String x:Key="Connection.LdExtrasEnabled.Tip" xml:space="preserve">LDPlayer 9 V9.1.32 or later is required.
+    <system:String x:Key="Connection.LdPlayer.EmulatorPathNotFound">LDPlayer emulator path not found.</system:String>
+    <system:String x:Key="Connection.LdPlayer.ExtrasEnabled">Enable LD's screenshot enhancement mode</system:String>
+    <system:String x:Key="Connection.LdPlayer.ExtrasEnabled.Tip" xml:space="preserve">LDPlayer 9 V9.1.32 or later is required.
 It's strongly recommended to run a screenshot test immediately after enabling this feature.
 MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.
 
@@ -848,11 +849,10 @@ The primary instance is 0, and other instances are the numbers after the version
 
 The screenshot enhancement feature requires the emulator resolution to be set to landscape mode and the screen orientation not to be changed during connection.
 If the game is launched in portrait mode and then switched to landscape, it may cause screen tearing or other issues.</system:String>
-    <system:String x:Key="Connection.LdExtrasNotEnabledMessage">LD screenshot enhancement is not working. Check the enhancement settings shown below in ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣</system:String>
-    <system:String x:Key="Connection.LdIndex">Instance Index</system:String>
-    <system:String x:Key="Connection.LdManualSetIndex">Manually enter ｢{key=Connection.LdIndex}｣</system:String>
-    <system:String x:Key="Connection.LdPlayerEmulatorPathNotFound">LDPlayer emulator path not found.</system:String>
-    <system:String x:Key="Connection.LdPlayerOpenglMissing">ldopengl64.dll was not found in the selected LDPlayer path. Please verify the installation directory.</system:String>
+    <system:String x:Key="Connection.LdPlayer.ExtrasNotEnabledMessage">LD screenshot enhancement is not working. Check the enhancement settings shown below in ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣</system:String>
+    <system:String x:Key="Connection.LdPlayer.Index">Instance Index</system:String>
+    <system:String x:Key="Connection.LdPlayer.ManualSetIndex">Manually enter ｢{key=Connection.LdPlayer.Index}｣</system:String>
+    <system:String x:Key="Connection.LdPlayer.OpenglMissing">ldopengl64.dll was not found in the selected LDPlayer path. Please verify the installation directory.</system:String>
     <system:String x:Key="Connection.Lost">Connection lost</system:String>
     <system:String x:Key="Connection.MuMu.BridgeConnection">MuMu Network Bridge Connection</system:String>
     <system:String x:Key="Connection.MuMu.BridgeConnection.Tip">Unless you know what you are doing, do not enable this option</system:String>
