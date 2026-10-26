@@ -27,6 +27,9 @@ on:
 jobs:
   build-win-nightly:
     name: Build Nightly for Windows
+    permissions:
+      actions: read
+      contents: write
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: windows-2025-vs2026
     strategy:
