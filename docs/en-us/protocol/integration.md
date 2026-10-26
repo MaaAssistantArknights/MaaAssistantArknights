@@ -1229,6 +1229,18 @@ Number of loops. Effective only in single job mode (i.e., when filename is speci
 @optional
 Whether to use sanity potions when sanity is insufficient.  
 :::  
+::: field auto_restart  
+@type boolean
+@default false
+@optional
+  In single-job mode, whether to abandon the battle before settlement after detecting an enemy leak. In multi-job mode, whether to restart the current job after an enemy leak or battle failure; a leaked battle is abandoned first.
+:::  
+::: field auto_restart_times  
+@type number
+@default 3
+@optional
+Maximum number of automatic restarts allowed for each job in multi-job mode, from 1 to 999. Effective only when `auto_restart` is `true`.  
+::: 
 ::: field formation  
 @type boolean
 @default false
