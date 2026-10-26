@@ -223,7 +223,7 @@ Todo
 
 なお、`TaskChainError` はタスクチェーンが未処理の例外によって中断された場合、追加で `details` フィールドを伴います：
 
-- `error` (string, required): 例外の種類。`OpenCVException` | `OutOfMemory` | `UnhandledException` | `UnknownException` のいずれか。
+- `error` (string, required): 例外の種類。`OpenCVException` | `OutOfMemory` | `GpuDeviceRemoved` | `UnhandledException` | `UnknownException` のいずれか。このうち `OutOfMemory` と `GpuDeviceRemoved`（GPU 推論デバイスのロスト、グラフィックドライバーの更新や GPU のリセットなど）が発生した場合、残りのタスクは破棄され、続行するにはプログラムの再起動が必要です。
 
 ### TaskChainExtraInfo
 
@@ -263,6 +263,8 @@ Todo
   ```
 
   なお、タスクの実行回数が上限に達した場合、まず `what` が `ExceededLimit` である `SubTaskExtraInfo` メッセージが送信され、`details` には `task`（タスク名）、`exec_times`（実行回数）、`max_times`（最大実行回数）が含まれます。
+
+  認識対象のタスクリストに未定義のタスク名が存在する場合（タスクリソースとプログラムのバージョン不一致など）、認識開始前に `SubTaskError` として送信され、タスクチェーン全体が停止されます。`what` は `UnknownTask`、`details` には `tasks`（文字列配列、未定義のタスク名のリスト）が含まれます。
 
 - `ReportToPenguinStats` / `ReportToYituliu`  
   戦闘ドロップをペンギン急便統計 / Yituliu ビッグデータへ報告します（報告失敗時は `SubTaskError` で通知されます）。

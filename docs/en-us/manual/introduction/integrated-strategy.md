@@ -26,7 +26,7 @@ All features involving Copilot require the following prerequisites, including bu
 
 ## Recommended Starts
 
-::: details _Last updated on 2026/8/18_
+::: details _Last updated on 2026/10/26_
 
 <!-- prettier-ignore -->
 | Theme | Difficulty | Squad | Strategy | Operator |
@@ -36,7 +36,7 @@ All features involving Copilot require the following prerequisites, including bu
 | Sami | Braving Nature·4~10 | Special Training Squad / Tactical Ranged Squad | Slow and Steady Wins the Race | Wiš'adel |
 | Sarkaz | Facing Souls·4~10 | Blueprint Mapping Squad / Tactical Ranged Squad | Slow and Steady Wins the Race | Wiš'adel |
 | Garden | Guided Tour·3~10 | Leader Squad / Tactical Ranged Squad | Slow and Steady Wins the Race | Wiš'adel |
-| 黑流树海 (BlackFlow) | _None yet_ <!-- 保密等级·0~15 --> | Special Squad / Tactical Fortification Squad | Slow and Steady Wins the Race / Indestructible | `Mechanic` (Elite 2 and `Effect Improvement II` of `Recruitment Mastery II` required) |
+| 黑流树海 (BlackFlow) | _None yet_ <!-- 保密等级·0~15 --> | Special Squad / Tactical Fortification Squad | Slow and Steady Wins the Race / Indestructible | `Mechanic` (Elite 2 with talent fully unlocked and `Effect Improvement II` of `Recruitment Mastery II` required) |
 
 The recommended difficulties consider factors like `enemy difficulty`, `hope consumption`, and `score multiplier`, and have been tested to be stable with high-level operators. Feel free to adjust based on your situation and needs.
 
@@ -48,9 +48,18 @@ The recommended difficulties consider factors like `enemy difficulty`, `hope con
 | Sami | `Braving Nature·6` and higher difficulties increase six-star operator hope cost by +1, making it potentially impossible to recruit them with `Special Training Squad`. |
 | Sarkaz | `Facing Souls·15` and higher difficulties increase six-star operator hope cost by +1, making it potentially impossible to recruit them with `Blueprint Mapping Squad` unless `Blueprint Mapping Squad Enhancement Ⅱ` has been activated in `Historical Reconstruction`.<br>When `Blueprint Mapping Squad` is selected, MAA will use a combat-avoidance strategy to quickly collect `Soul Bookmarks`, though it typically makes it impossible to witness an ending.<br>When the Originium Ingot farming strategy and the `Ingots Squad` are selected, MAA will use the shop refreshing strategy to speed up the process. |
 | Garden | `Guided Tour·15` and higher difficulties increase six-star operator hope cost by +1, making it potentially impossible to recruit them with `Leader Squad`.<br>When `Guided Tour·3` difficulty is selected, with the Originium Ingot farming strategy and `Leader Squad` selected, MAA will use the `End of Time` stage-skip strategy to speed up the process. |
-| 黑流树海 (BlackFlow) | Dedicated combat strategies are still being written; decisions are currently made by the generic strategy. ~~Here comes the AI you all love.~~<br>The current strategy requires the `Mechanic` at Elite 2 with the `Effect Improvement II` of the `Recruitment Mastery II` talent unlocked, so that a `Structural Principle` part (fly anywhere on the map 3 times) is carried from the start; the talent is easy to unlock (just sell 10 parts in total after Elite 2) and recommended to prioritize. Once the Mechanic is recruited, the promotion check is skipped and the strategy runs as if it were Elite 2 for efficiency; a non-Elite 2 Mechanic will get stuck or loop forever. Some events also have different options before the first clear and may get stuck; clearing N1 once satisfies both the Elite 2 requirement and the event options.<br>If these requirements are not met, you must start with another strong operator **without summons**, and **only the Originium Ingot farming strategy is recommended** (battles will most likely fail; other strategies await future optimization).<br>When using the level farming strategy with `Invest ingots` unchecked, shops will be skipped. |
+| 黑流树海 (BlackFlow) | There are currently no dedicated combat strategies; battles are decided automatically by recruitment scores.<br>Both Originium Ingot farming and the fast flight to floor 3 revolve around the `Mechanic`'s flight: the run only starts with a `Structural Principle` part (fly anywhere on the map 3 times) if the Mechanic is at Elite 2 with the `Effect Improvement II` of the `Recruitment Mastery II` talent unlocked, and that talent is easy to unlock (just sell 10 parts in total after Elite 2). With the recommended setup, once the Mechanic is recruited, the promotion check is skipped and the strategy runs as if it were Elite 2 for efficiency; the fast flight to floor 3 requires the Mechanic's talents to be fully unlocked, and the flight fails otherwise. Some events have different options before the first clear and may get stuck; clearing N1 once satisfies both the Elite 2 requirement and the event options.<br>With the level farming strategy, the fast flight only happens when `Fly to Floor 3 quickly` is checked; when checked, the squad, roles and starting operators are automatically switched to the setup above, and when unchecked, the run plays toward the target ending. Originium Ingot farming still works without an Elite 2 Mechanic with talents fully unlocked, but battles will most likely fail.<br>With the level farming strategy, when `Fly to Floor 3 quickly` is checked and `Invest ingots` is unchecked, shops are skipped. |
 
 :::
+
+## BlackFlow Starting Reward Farming
+
+When the 黑流树海 (BlackFlow) theme is set to the starting reward farming strategy, MAA plays preparation runs and target runs repeatedly to obtain a satisfying start. The following options are available:
+
+- `Desired Rewards` / `Feathered Serpent Rewards` (the latter requires selecting `Swaddled Feathered Serpent` as the cultivation target): all entries checked in the two lists count as candidates, and the target run is satisfied once any of them appears at the start.
+- `Reroll until Floor 1 is 实托邦 (a Floor 1 variant)`: after a desired reward appears on the support selection page of the target run, a card is picked by `Starting Reward Pick Priority` and floor 1 is entered; if floor 1 is 实托邦, the task exits keeping this run; if not, the run is abandoned and a new preparation run starts. Requires difficulty 6 or higher.
+- `Starting Reward Pick Priority`: drag to adjust the order; on the support selection page, cards present on the page are picked from top to bottom by this order.
+- `Fly to Floor 3 quickly`: the preparation run always starts with the `Special Squad`, `Slow and Steady Wins the Race`, and your own Mechanic, and recruits only the Mechanic; on floor 2, it flies straight to floor 3 with the carried Structural Principle. The flight fails if the Mechanic's talents are not fully unlocked, so please do not check this option.
 
 ## Combat Strategy
 

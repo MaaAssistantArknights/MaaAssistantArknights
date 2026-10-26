@@ -280,7 +280,7 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
 其中 `TaskChainError` 在任務鏈因未處理異常中斷時會額外攜帶 `details` 欄位：
 
-- `error` (string, required): 異常類型，取值為 `OpenCVException` | `OutOfMemory` | `UnhandledException` | `UnknownException`。
+- `error` (string, required): 異常類型，取值為 `OpenCVException` | `OutOfMemory` | `GpuDeviceRemoved` | `UnhandledException` | `UnknownException`。其中 `OutOfMemory` 與 `GpuDeviceRemoved`（GPU 推論裝置失效，如顯示卡驅動程式更新或 GPU 重置）出現時剩餘任務會被清空，需重新啟動程式後才能繼續執行。
 
 ### TaskChainExtraInfo
 
@@ -364,6 +364,8 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   ::::
 
   此外，當任務執行次數達到上限時，會先回傳一條 `SubTaskExtraInfo` 訊息，`what` 為 `ExceededLimit`，`details` 包含 `task`（任務名稱）、`exec_times`（已執行次數）、`max_times`（最大執行次數）。
+
+  若待辨識任務列表中存在未定義的任務名（任務資源與程式版本不匹配等），會在辨識開始前以 `SubTaskError` 回傳並停止整條任務鏈，`what` 為 `UnknownTask`，`details` 包含 `tasks`（string 陣列，未定義的任務名列表）。
 
 - `ReportToPenguinStats` / `ReportToYituliu`  
   彙報戰鬥掉落到企鵝數據統計 / 一圖流大數據（上報失敗時以 `SubTaskError` 回傳）。
